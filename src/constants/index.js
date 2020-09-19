@@ -1,5 +1,6 @@
 export const HOSTNAME = {
   LINKVERTISE: "linkvertise.com",
+  BONSAI: "lustesthd.com",
 };
 
 export const LINKVERTISE_BASE_URL =

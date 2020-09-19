@@ -1,4 +1,5 @@
 import { HOSTNAME } from "../constants";
+import { bypassBonsai } from "./bypassBonsai";
 import { bypassLinkvertise } from "./bypassLinkvertise";
 
 const handleTargetUrl = async (tab, targetUrl) => {
@@ -15,6 +16,9 @@ export const bypassLink = async () => {
     switch (currentTabUrl.hostname) {
       case HOSTNAME.LINKVERTISE:
         targetUrl = await bypassLinkvertise(currentTabUrl);
+        break;
+      case HOSTNAME.BONSAI:
+        targetUrl = await bypassBonsai(currentTabUrl);
         break;
       default:
         targetUrl = null;
