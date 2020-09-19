@@ -1,24 +1,24 @@
-import { LINKVERTISE } from "../constants";
+import { HOSTNAME } from "../constants";
 import { bypassLinkvertise } from "./bypassLinkvertise";
 
-const handleTargetUrl = (tab, targetUrl) => {
+const handleTargetUrl = async (tab, targetUrl) => {
   //eslint-disable-next-line no-undef
   targetUrl && chrome.tabs.update(tab.id, { url: targetUrl });
 };
 
-export const bypassLink = () => {
+export const bypassLink = async () => {
   let currentTabUrl;
   let targetUrl;
   //eslint-disable-next-line no-undef
-  chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
+  chrome.tabs.query({ active: true, lastFocusedWindow: true }, async (tabs) => {
     currentTabUrl = new URL(tabs[0].url);
     switch (currentTabUrl.hostname) {
-      case LINKVERTISE:
-        targetUrl = bypassLinkvertise(currentTabUrl);
+      case HOSTNAME.LINKVERTISE:
+        targetUrl = await bypassLinkvertise(currentTabUrl);
         break;
       default:
         targetUrl = null;
     }
-    handleTargetUrl(tabs, targetUrl);
+    await handleTargetUrl(tabs, targetUrl);
   });
 };

@@ -12,5 +12,5 @@
     "default_popup": "index.html",
     "default_title": "Bypass Links"
   },
-  "permissions": ["tabs"]
+  "permissions": ["tabs", "https://publisher.linkvertise.com"]
 }
