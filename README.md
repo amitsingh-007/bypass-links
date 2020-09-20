@@ -2,4 +2,5 @@ This is an easy-to-use `Chrome Extension` which bypasses links on various websit
 
 ## Currently supported websites
 
-* linkvertise.com
+    * linkvertise.com
+    * bonsaihd
