@@ -8,7 +8,7 @@
     "@material-ui/core": "4.11.0",
     "@material-ui/icons": "4.9.1",
     "cross-env": "7.0.2",
-    "npm-run-all": "^4.1.5",
+    "npm-run-all": "4.1.5",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-scripts": "3.4.3",
