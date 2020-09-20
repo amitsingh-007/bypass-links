@@ -10,13 +10,12 @@
     "cross-env": "7.0.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "react-scripts": "3.4.3"
+    "react-scripts": "3.4.3",
+    "webpack-cli": "3.3.12"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "build": "react-scripts build && webpack --mode production ./src/scripts/background.js --output ./build/background.js"
   },
   "eslintConfig": {
     "extends": "react-app"
