@@ -36,7 +36,12 @@ export const ChromeExtension = () => {
           <Typography color="textSecondary">
             3. Drag and drop the extension to install.
           </Typography>
-          <Typography color="textSecondary">4. Enjoy freely.😃</Typography>
+          <Typography color="textSecondary">
+            4. Enjoy freely.
+            <span role="img" aria-label="enjoy">
+              😃
+            </span>
+          </Typography>
         </CardContent>
         <Box display="flex" justifyContent="center" pb="16px" pt="8px">
           <Fab variant="extended" href="">
