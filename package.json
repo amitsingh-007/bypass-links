@@ -2,6 +2,7 @@
   "name": "bypass-links",
   "version": "1.0.0",
   "private": true,
+  "homepage": "https://amitsingh-007.github.io/bypass-links/",
   "dependencies": {
     "@babel/register": "7.11.5",
     "@material-ui/core": "4.11.0",
