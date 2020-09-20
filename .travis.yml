@@ -3,7 +3,7 @@ node_js:
   - "12"
 script:
   - npm ci
-  - npm run build
+  - npm run release
 
 deploy:
   provider: pages
