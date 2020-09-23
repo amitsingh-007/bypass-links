@@ -2,11 +2,7 @@ import { HOSTNAME } from "../constants";
 import { bypassBonsai } from "./bypassBonsai";
 import { bypassJustPasteIt } from "./bypassJustPasteIt";
 import { bypassLinkvertise } from "./bypassLinkvertise";
-
-const handleTargetUrl = async (tabId, targetUrl) => {
-  //eslint-disable-next-line no-undef
-  targetUrl && chrome.tabs.update(tabId, { url: targetUrl });
-};
+import { changeTabUrl } from "./changeTabUrl";
 
 export const bypassLink = async (tabId, url) => {
   const currentTabUrl = new URL(url);
@@ -20,10 +16,10 @@ export const bypassLink = async (tabId, url) => {
       targetUrl = await bypassBonsai(currentTabUrl);
       break;
     case HOSTNAME.JUST_PASTE_IT:
-      targetUrl = await bypassJustPasteIt(currentTabUrl);
+      bypassJustPasteIt(tabId);
       break;
     default:
       targetUrl = null;
   }
-  await handleTargetUrl(tabId, targetUrl);
+  await changeTabUrl(tabId, targetUrl);
 };

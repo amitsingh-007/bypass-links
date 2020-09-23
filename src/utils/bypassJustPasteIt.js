@@ -1,19 +1,30 @@
-import { JSDOM } from "jsdom";
-import validUrl from "valid-url";
-import { getJustPasteItPage } from "../apis/justPasteIt";
-import { HOSTNAME } from "../constants";
+import { changeTabUrl } from "./changeTabUrl";
 
-const getTargetPageUrl = (html) => {
-  const { document } = new JSDOM(html).window;
-  const selectedAnchors = document.getElementsByTagName("A");
-  return [...selectedAnchors]
-    .filter((anchor) => validUrl.isUri(anchor.textContent))
-    .map((anchor) => new URL(anchor.textContent))
-    .filter((anchor) => anchor.hostname === HOSTNAME.MEGA_NZ);
+const findMegaLinks = () => {
+  const selectedAnchors = document.getElementsByTagName("a");
+  const links = [...selectedAnchors]
+    .map((anchor) => anchor.innerText)
+    .filter(
+      (url) =>
+        /(http(s?)):\/\//i.test(url) && new URL(url).hostname === "mega.nz"
+    );
+  return { links };
 };
 
-export const bypassJustPasteIt = async (url) => {
-  const responseHTML = await getJustPasteItPage();
-  const targetLinks = getTargetPageUrl(responseHTML);
-  return targetLinks && targetLinks.length === 1 ? targetLinks[1].href : null;
+export const bypassJustPasteIt = (tabId) => {
+  chrome.tabs.executeScript(
+    {
+      code: `(${findMegaLinks})()`,
+    },
+    ([result] = []) => {
+      // shown in devtools of the popup window
+      if (!chrome.runtime.lastError) {
+        const targetUrl =
+          result && result.links && result.links.length === 1
+            ? result.links[0]
+            : null;
+        changeTabUrl(tabId, targetUrl);
+      }
+    }
+  );
 };
