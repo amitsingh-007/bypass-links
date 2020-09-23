@@ -2,8 +2,9 @@ This is an easy-to-use `Browser Extension` which bypasses links on various websi
 
 ## Currently supported websites
 
-    * linkvertise.com
+    * linkvertise
     * bonsaihd
+    * justpasteit
 
 ## Download link
 

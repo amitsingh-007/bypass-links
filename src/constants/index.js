@@ -5,5 +5,5 @@ export const HOSTNAME = {
   MEGA_NZ: "mega.nz",
 };
 
-export const LINKVERTISE_BASE_URL =
+export const LINKVERTISE_API_BASE_URL =
   "https://publisher.linkvertise.com/api/v1/redirect/link";
