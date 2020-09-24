@@ -1,12 +1,14 @@
 import { changeTabUrl } from "./changeTabUrl";
 
 const findMegaLinks = () => {
+  const supportedLinks = ["mega.nz", "drive.google.com"];
   const selectedAnchors = document.getElementsByTagName("a");
   const links = [...selectedAnchors]
     .map((anchor) => anchor.innerText)
     .filter(
       (url) =>
-        /(http(s?)):\/\//i.test(url) && new URL(url).hostname === "mega.nz"
+        /(http(s?)):\/\//i.test(url) &&
+        supportedLinks.includes(new URL(url).hostname)
     );
   return { links };
 };
@@ -24,6 +26,11 @@ export const bypassJustPasteIt = (tabId) => {
             ? result.links[0]
             : null;
         changeTabUrl(tabId, targetUrl);
+      } else {
+        console.log("Error", chrome.runtime.lastError);
+        setTimeout(() => {
+          bypassJustPasteIt(tabId);
+        }, 1000);
       }
     }
   );

@@ -44,7 +44,7 @@ export const ChromeExtension = () => {
           </Typography>
         </CardContent>
         <Box display="flex" justifyContent="center" pb="16px" pt="8px">
-          <Fab variant="extended" href="/bypass-links/bypass-links_1.1.0.zip">
+          <Fab variant="extended" href="/bypass-links/bypass-links_1.0.0.zip">
             <CloudDownloadIcon />
             <Box component="span" ml="8px">
               Download Bypass Links
