@@ -9,7 +9,7 @@
     "128": "bypass_128.png"
   },
   "browser_action": {},
-  "permissions": ["tabs", "https://justpaste.it/*"],
+  "permissions": ["tabs", "<all_urls>"],
   "background": {
     "scripts": ["background.js"],
     "persistent": false

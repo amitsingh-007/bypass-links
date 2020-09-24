@@ -1,6 +1,6 @@
 import { HOSTNAME } from "../constants";
 import { bypassBonsai } from "./bypassBonsai";
-import { bypassJustPasteIt } from "./bypassJustPasteIt";
+import { bypassPageLinks } from "./bypassPageLinks";
 import { bypassLinkvertise } from "./bypassLinkvertise";
 import { changeTabUrl } from "./changeTabUrl";
 
@@ -15,8 +15,9 @@ export const bypassLink = async (tabId, url) => {
     case HOSTNAME.BONSAI:
       targetUrl = await bypassBonsai(currentTabUrl);
       break;
-    case HOSTNAME.JUST_PASTE_IT:
-      bypassJustPasteIt(tabId);
+    case HOSTNAME.JUSTPASTEIT:
+    case HOSTNAME.PASTELINK:
+      bypassPageLinks(tabId);
       break;
     default:
       targetUrl = null;
