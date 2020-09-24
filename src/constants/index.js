@@ -1,7 +1,8 @@
 export const HOSTNAME = {
   LINKVERTISE: "linkvertise.com",
   BONSAI: "lustesthd.com",
-  JUST_PASTE_IT: "justpaste.it",
+  JUSTPASTEIT: "justpaste.it",
+  PASTELINK: "pastelink.net",
 };
 
 export const LINKVERTISE_API_BASE_URL =

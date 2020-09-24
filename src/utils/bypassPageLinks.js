@@ -1,19 +1,19 @@
 import { changeTabUrl } from "./changeTabUrl";
 
 const findMegaLinks = () => {
-  const supportedLinks = ["mega.nz", "drive.google.com"];
+  const LINKS_TO_BYPASS = ["mega.nz", "drive.google.com"];
   const selectedAnchors = document.getElementsByTagName("a");
   const links = [...selectedAnchors]
     .map((anchor) => anchor.innerText)
     .filter(
       (url) =>
         /(http(s?)):\/\//i.test(url) &&
-        supportedLinks.includes(new URL(url).hostname)
+        LINKS_TO_BYPASS.includes(new URL(url).hostname)
     );
   return { links };
 };
 
-export const bypassJustPasteIt = (tabId) => {
+export const bypassPageLinks = (tabId) => {
   chrome.tabs.executeScript(
     {
       code: `(${findMegaLinks})()`,
@@ -29,7 +29,7 @@ export const bypassJustPasteIt = (tabId) => {
       } else {
         console.log("Error", chrome.runtime.lastError);
         setTimeout(() => {
-          bypassJustPasteIt(tabId);
+          bypassPageLinks(tabId);
         }, 1000);
       }
     }
