@@ -18,15 +18,15 @@
     "webpack-cli": "3.3.12"
   },
   "devDependencies": {
-    "copy-webpack-plugin": "^6.1.1",
-    "npm-build-zip": "1.0.2"
+    "archiver": "^5.0.2",
+    "copy-webpack-plugin": "^6.1.1"
   },
   "scripts": {
     "background": "node webpack.js",
     "build": "react-scripts build",
     "release": "npm-run-all build background zip",
     "start": "react-scripts start",
-    "zip": "npm-build-zip --source=./extension --destination=./build"
+    "zip": "node archiver.js"
   },
   "eslintConfig": {
     "extends": "react-app"
