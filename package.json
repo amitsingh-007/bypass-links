@@ -17,12 +17,16 @@
     "valid-url": "^1.0.9",
     "webpack-cli": "3.3.12"
   },
+  "devDependencies": {
+    "copy-webpack-plugin": "^6.1.1",
+    "npm-build-zip": "1.0.2"
+  },
   "scripts": {
-    "background": "webpack --mode production ./src/scripts/background.js --output ./build/background.js",
-    "start": "react-scripts start",
+    "background": "node webpack.js",
     "build": "react-scripts build",
     "release": "npm-run-all build background zip",
-    "zip": "npm-build-zip --source=./build --destination=./build"
+    "start": "react-scripts start",
+    "zip": "npm-build-zip --source=./extension --destination=./build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -38,8 +42,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "npm-build-zip": "1.0.2"
   }
 }
