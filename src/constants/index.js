@@ -3,7 +3,10 @@ export const HOSTNAME = {
   BONSAI: "lustesthd.com",
   JUSTPASTEIT: "justpaste.it",
   PASTELINK: "pastelink.net",
+  MEDIUM: "medium.com",
 };
 
 export const LINKVERTISE_API_BASE_URL =
   "https://publisher.linkvertise.com/api/v1/redirect/link";
+
+  export const MEDIUM_HOMEPAGE = "https://medium.com/"
