@@ -5,6 +5,7 @@ This is an easy-to-use `Browser Extension` which bypasses links on various websi
     * linkvertise
     * bonsaihd
     * justpasteit
+    * pastelink
 
 ## Download link
 
