@@ -1,11 +1,14 @@
-import { HOSTNAME } from "../constants";
+import { EXTENSION_STATE, HOSTNAME } from "../constants";
 import { bypassBonsai } from "./bypassBonsai";
 import { bypassPageLinks } from "./bypassPageLinks";
 import { bypassLinkvertise } from "./bypassLinkvertise";
 import { changeTabUrl } from "./changeTabUrl";
 import { bypassMedium } from "./bypassMedium";
 
-export const bypass = async (tabId, url) => {
+export const bypass = async (tabId, url, extensionState) => {
+  if (extensionState === EXTENSION_STATE.INACTIVE) {
+    return;
+  }
   const currentTabUrl = new URL(url);
   const hostName = currentTabUrl.hostname;
   let targetUrl;
