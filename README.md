@@ -2,11 +2,12 @@ This is an easy-to-use `Browser Extension` which bypasses links on various websi
 
 ## Currently supported websites
 
+    * medium
     * linkvertise
     * bonsaihd
     * justpasteit
     * pastelink
-    * medium
+    * rentry
 
 ## Download link
 
