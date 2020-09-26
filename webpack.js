@@ -18,6 +18,10 @@ const config = {
           from: "public-extension",
           to: path.resolve(__dirname, "extension"),
         },
+        {
+          from: "src/css",
+          to: path.resolve(__dirname, "extension"),
+        },
       ],
     }),
   ],
