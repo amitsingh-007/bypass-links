@@ -1,5 +1,6 @@
 import { EXTENSION_STATE } from "../constants";
 import { bypass } from "../utils/bypass";
+import { showToast } from "../utils/showToast";
 
 let extensionState = EXTENSION_STATE.ACTIVE;
 
@@ -16,7 +17,6 @@ const handleExtensionToggle = (command) => {
     extensionState = isCurrentlyActive
       ? EXTENSION_STATE.INACTIVE
       : EXTENSION_STATE.ACTIVE;
-    //show popup here
   }
 };
 
