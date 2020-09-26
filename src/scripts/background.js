@@ -1,9 +1,9 @@
-import { bypassLink } from "../utils/bypassLinks";
+import { bypass } from "../utils/bypass";
 
 const onUpdateCallback = (tabId, changeInfo) => {
   const { url } = changeInfo;
   if (url) {
-    bypassLink(tabId, url);
+    bypass(tabId, url);
   }
 };
 
