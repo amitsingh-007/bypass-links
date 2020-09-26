@@ -2,15 +2,21 @@ import { changeTabUrl } from "./changeTabUrl";
 
 const findMegaLinks = () => {
   const LINKS_TO_BYPASS = ["mega.nz", "drive.google.com"];
-  const selectedAnchors = document.getElementsByTagName("a");
-  const links = [...selectedAnchors]
-    .map((anchor) => anchor.innerText)
-    .filter(
-      (url) =>
-        /(http(s?)):\/\//i.test(url) &&
-        LINKS_TO_BYPASS.includes(new URL(url).hostname)
-    );
-  return { links };
+
+  const anchorTagsOnPage = document.getElementsByTagName("a");
+  const links = [...anchorTagsOnPage]
+    .map((anchor) => [anchor.innerText.trim(), anchor.href.trim()])
+    .flat(Infinity);
+  const uniqueLinks = Array.from(new Set(links));
+  const validLinks = uniqueLinks.filter(
+    (url) =>
+      /(http(s?)):\/\//i.test(url) &&
+      LINKS_TO_BYPASS.includes(new URL(url).hostname)
+  );
+
+  return {
+    links: validLinks,
+  };
 };
 
 export const bypassPageLinks = (tabId) => {
