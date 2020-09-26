@@ -16,7 +16,6 @@ const handleExtensionToggle = (command) => {
     extensionState = isCurrentlyActive
       ? EXTENSION_STATE.INACTIVE
       : EXTENSION_STATE.ACTIVE;
-    console.log(`New value of extensionState is set to ${extensionState}`);
     //show popup here
   }
 };
