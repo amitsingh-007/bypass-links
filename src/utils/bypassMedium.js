@@ -1,22 +1,50 @@
-import { MEDIUM_HOMEPAGE } from "../constants";
+import { MEDIUM_HOMEPAGE, MEDIUM_WHITELISTED } from "../constants";
 
-const manipulateHistory = () => {
-  window.history.back();
+const shouldSkipBypassingMedium = (url, searchParams) =>
+  url === MEDIUM_HOMEPAGE ||
+  MEDIUM_WHITELISTED.find((link) => url.includes(link)) ||
+  searchParams.get("source");
+
+const shouldBypass = () => {
+  return {
+    hasPaywall: !!document.getElementById("paywall-background-color"),
+  };
 };
 
 export const bypassMedium = (url, tabId) => {
-  console.log("Url is : ", url);
-  if (url.href === MEDIUM_HOMEPAGE || url.searchParams.get("source")) {
+  const onIncognitoOpenCallback = () => {
+    chrome.tabs.goBack(tabId);
+  };
+
+  if (shouldSkipBypassingMedium(url.href, url.searchParams)) {
     return;
   }
-  chrome.windows.create(
+
+  chrome.tabs.executeScript(
+    tabId,
     {
-      url: url.href,
-      state: "maximized",
-      incognito: true,
+      code: `(${shouldBypass})()`,
+      runAt: "document_end",
     },
-    () => {
-      chrome.tabs.goBack(tabId);
+    ([result] = []) => {
+      // shown in devtools of the popup window
+      if (!chrome.runtime.lastError) {
+        if (result && result.hasPaywall) {
+          chrome.windows.create(
+            {
+              url: url.href,
+              state: "maximized",
+              incognito: true,
+            },
+            onIncognitoOpenCallback
+          );
+        }
+      } else {
+        console.log(
+          "Error in bypassing medium, not retrying.",
+          chrome.runtime.lastError
+        );
+      }
     }
   );
 };

@@ -6,6 +6,7 @@ This is an easy-to-use `Browser Extension` which bypasses links on various websi
     * bonsaihd
     * justpasteit
     * pastelink
+    * medium
 
 ## Download link
 
