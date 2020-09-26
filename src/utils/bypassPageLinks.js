@@ -15,8 +15,10 @@ const findMegaLinks = () => {
 
 export const bypassPageLinks = (tabId) => {
   chrome.tabs.executeScript(
+    tabId,
     {
       code: `(${findMegaLinks})()`,
+      runAt: "document_end",
     },
     ([result] = []) => {
       // shown in devtools of the popup window

@@ -9,7 +9,6 @@ export const bypassLink = async (tabId, url) => {
   const currentTabUrl = new URL(url);
   const hostName = currentTabUrl.hostname;
   let targetUrl;
-  //eslint-disable-next-line no-undef
   if (hostName === HOSTNAME.LINKVERTISE) {
     /* bypass linkvertise */
     targetUrl = await bypassLinkvertise(currentTabUrl);

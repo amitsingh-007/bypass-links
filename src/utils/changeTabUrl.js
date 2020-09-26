@@ -1,5 +1,6 @@
 export const changeTabUrl = async (tabId, targetUrl) => {
-  console.log(`Changing tab url to ${targetUrl}`);
-  //eslint-disable-next-line no-undef
-  targetUrl && chrome.tabs.update(tabId, { url: targetUrl });
+  if (targetUrl) {
+    console.log(`Changing tab url to ${targetUrl}`);
+    targetUrl && chrome.tabs.update(tabId, { url: targetUrl });
+  }
 };
