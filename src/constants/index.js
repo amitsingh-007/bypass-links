@@ -4,6 +4,7 @@ export const HOSTNAME = {
   JUSTPASTEIT: "justpaste.it",
   PASTELINK: "pastelink.net",
   MEDIUM: "medium.com",
+  RENTRY: "rentry.co",
 };
 
 export const LINKVERTISE_API_BASE_URL =

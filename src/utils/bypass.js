@@ -5,7 +5,7 @@ import { bypassLinkvertise } from "./bypassLinkvertise";
 import { changeTabUrl } from "./changeTabUrl";
 import { bypassMedium } from "./bypassMedium";
 
-export const bypassLink = async (tabId, url) => {
+export const bypass = async (tabId, url) => {
   const currentTabUrl = new URL(url);
   const hostName = currentTabUrl.hostname;
   let targetUrl;
@@ -17,7 +17,8 @@ export const bypassLink = async (tabId, url) => {
     targetUrl = await bypassBonsai(currentTabUrl);
   } else if (
     hostName === HOSTNAME.PASTELINK ||
-    hostName === HOSTNAME.JUSTPASTEIT
+    hostName === HOSTNAME.JUSTPASTEIT ||
+    hostName === HOSTNAME.RENTRY
   ) {
     /* bypass pages */
     bypassPageLinks(tabId);
