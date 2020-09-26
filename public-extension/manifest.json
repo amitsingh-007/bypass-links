@@ -14,5 +14,14 @@
     "scripts": ["background.js"],
     "persistent": false
   },
+  "commands": {
+    "toggle_bypass_links_extension": {
+      "suggested_key": {
+        "default": "Ctrl+M",
+        "mac": "Command+M"
+      },
+      "description": "Toggle the extension"
+    }
+  },
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }

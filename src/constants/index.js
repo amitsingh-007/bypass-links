@@ -16,3 +16,8 @@ export const MEDIUM_WHITELISTED = [
   "https://medium.com/@suncommander",
   "https://medium.com/me/",
 ];
+
+export const EXTENSION_STATE = {
+  ACTIVE: "active",
+  INACTIVE: "inactive",
+};
