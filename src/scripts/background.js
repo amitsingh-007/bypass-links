@@ -17,6 +17,7 @@ const handleExtensionToggle = (command) => {
     extensionState = isCurrentlyActive
       ? EXTENSION_STATE.INACTIVE
       : EXTENSION_STATE.ACTIVE;
+    showToast(extensionState);
   }
 };
 

@@ -1,4 +1,4 @@
-#snackbar {
+#bypass-links-snackbar {
   visibility: hidden;
   background-color: #4caf50;
   color: #fff;
@@ -15,7 +15,7 @@
   transform: translate(-50%, -50%);
 }
 
-#snackbar.show {
+#bypass-links-snackbar.show {
   visibility: visible;
   -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
   animation: fadein 0.5s, fadeout 0.5s 2.5s;
