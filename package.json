@@ -28,7 +28,9 @@
     "build": "react-scripts build",
     "dev": "npm-run-all -p build dev:ext",
     "dev:ext": "cross-env NODE_ENV=development npm-run-all background",
-    "release": "npm-run-all build background zip",
+    "dev:ext:watch": "npm-run-all dev:ext serve",
+    "release": "cross-env NODE_ENV=production npm-run-all build background zip",
+    "serve": "serve extension",
     "start": "react-scripts start",
     "zip": "node archiver.js"
   },

@@ -1,4 +1,10 @@
 import React, { StrictMode } from "react";
 import ReactDOM from "react-dom";
+import { PopupContent } from "./components/PopupContent";
 
-ReactDOM.render(<div>{"Test Popup"}</div>, document.getElementById("root"));
+ReactDOM.render(
+  <StrictMode>
+    <PopupContent />
+  </StrictMode>,
+  document.getElementById("root")
+);

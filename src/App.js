@@ -1,6 +1,5 @@
 import { Box, Link, Typography } from "@material-ui/core";
 import React from "react";
-import "./App.css";
 import { ChromeExtension } from "./components/ChromeExtension";
 
 function App() {

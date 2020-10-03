@@ -2,7 +2,14 @@ import { EXTENSION_STATE } from "../constants";
 import { bypass } from "../utils/bypass";
 import { showToast } from "../utils/showToast";
 
+const setExtStateInStorage = (extState) => {
+  chrome.storage.sync.set({ extState }, () => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+};
+
 let extensionState = EXTENSION_STATE.ACTIVE;
+setExtStateInStorage(extensionState);
 
 const onUpdateCallback = (tabId, changeInfo) => {
   const { url } = changeInfo;
@@ -18,6 +25,7 @@ const handleExtensionToggle = (command) => {
       ? EXTENSION_STATE.INACTIVE
       : EXTENSION_STATE.ACTIVE;
     showToast(extensionState);
+    setExtStateInStorage(extensionState);
   }
 };
 
