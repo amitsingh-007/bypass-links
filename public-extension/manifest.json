@@ -5,10 +5,13 @@
   "author": "Amit Singh",
   "version": "1.4.0",
   "description": "Bypass links from various sites to required links.",
+  "browser_action": {
+    "default_popup": "index.html",
+    "default_title": "Bypass Links"
+  },
   "icons": {
     "128": "bypass_128.png"
   },
-  "browser_action": {},
   "permissions": ["tabs", "<all_urls>"],
   "background": {
     "scripts": ["background.js"],
