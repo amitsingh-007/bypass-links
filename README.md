@@ -1,4 +1,6 @@
-This is an easy-to-use `Browser Extension` which bypasses links on various websites and lets you use the direct url for your resource.
+# Summary
+
+This is an easy-to-use Open-Source `Browser Extension` which bypasses links on various websites and lets you use the direct url for your resource. This will help you to bypass recaptchas, unnecessary timers, countdowns, ads, popups, surveys, avoid unnecessary third party installs.
 
 ## Currently supported websites
 
@@ -16,4 +18,4 @@ Head over to [My Github Page](https://amitsingh-007.github.io/bypass-links/) and
 
 ## Features
 
-* Use `Ctrl+M` to toggle the extension on any page.
+- Use `Ctrl+M` to toggle the extension on any page.
