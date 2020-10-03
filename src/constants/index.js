@@ -5,6 +5,7 @@ export const HOSTNAME = {
   PASTELINK: "pastelink.net",
   MEDIUM: "medium.com",
   RENTRY: "rentry.co",
+  FORUMS: "forums.socialmedia",
 };
 
 export const LINKVERTISE_API_BASE_URL =

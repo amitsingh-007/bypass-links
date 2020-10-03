@@ -4,6 +4,7 @@ import { bypassPageLinks } from "./bypassPageLinks";
 import { bypassLinkvertise } from "./bypassLinkvertise";
 import { changeTabUrl } from "./changeTabUrl";
 import { bypassMedium } from "./bypassMedium";
+import { bypassForums } from "./bypassForums";
 
 export const bypass = async (tabId, url, extensionState) => {
   if (extensionState === EXTENSION_STATE.INACTIVE) {
@@ -13,20 +14,23 @@ export const bypass = async (tabId, url, extensionState) => {
   const hostName = currentTabUrl.hostname;
   let targetUrl;
   if (hostName === HOSTNAME.LINKVERTISE) {
-    /* bypass linkvertise */
+    /* BYPASS LINKVERTISE */
     targetUrl = await bypassLinkvertise(currentTabUrl);
   } else if (hostName === HOSTNAME.BONSAI) {
-    /* bypass bonsai */
+    /* BYPASS BONSAI */
     targetUrl = await bypassBonsai(currentTabUrl);
+  } else if (hostName.startsWith(HOSTNAME.FORUMS)) {
+    /* BYPASS FORUMS */
+    bypassForums(currentTabUrl, tabId);
   } else if (
     hostName === HOSTNAME.PASTELINK ||
     hostName === HOSTNAME.JUSTPASTEIT ||
     hostName === HOSTNAME.RENTRY
   ) {
-    /* bypass pages */
+    /* BYPASS PAGE LINKS */
     bypassPageLinks(tabId);
   } else if (hostName.includes(HOSTNAME.MEDIUM)) {
-    /* bypass medium */
+    /* BYPASS MEDIUM */
     bypassMedium(currentTabUrl, tabId);
   } else {
     targetUrl = null;
