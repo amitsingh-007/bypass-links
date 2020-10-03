@@ -11,7 +11,11 @@
     "react-scripts": "3.4.3"
   },
   "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@babel/preset-env": "^7.11.5",
+    "@babel/preset-react": "^7.10.4",
     "archiver": "^5.0.2",
+    "babel-loader": "^8.1.0",
     "copy-webpack-plugin": "^6.1.1",
     "cross-env": "^7.0.2",
     "jsdom": "16.4.0",
@@ -24,7 +28,9 @@
     "build": "react-scripts build",
     "dev": "npm-run-all -p build dev:ext",
     "dev:ext": "cross-env NODE_ENV=development npm-run-all background",
-    "release": "npm-run-all build background zip",
+    "dev:ext:watch": "npm-run-all dev:ext serve",
+    "release": "cross-env NODE_ENV=production npm-run-all build background zip",
+    "serve": "serve extension",
     "start": "react-scripts start",
     "zip": "node archiver.js"
   },

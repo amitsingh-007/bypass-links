@@ -1,10 +1,11 @@
 const webpack = require("webpack");
 const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const ENV = process.env.NODE_ENV || "production";
 
-const config = {
+const scriptsConfig = {
   entry: "./src/scripts/background.js",
   output: {
     path: path.resolve(__dirname, "extension"),
@@ -24,6 +25,29 @@ const config = {
         },
       ],
     }),
+  ],
+};
+
+const popupConfig = {
+  entry: "./src/PopupApp.js",
+  output: {
+    path: path.resolve(__dirname, "extension"),
+    filename: "popup.js",
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+        },
+      },
+    ],
+  },
+  mode: ENV,
+  plugins: [
+    new HtmlWebpackPlugin({ template: "./public-extension/index.html" }),
   ],
 };
 
@@ -49,4 +73,4 @@ const onComplete = (err, stats) => {
   //do something else
 };
 
-webpack(config, onComplete);
+webpack([scriptsConfig, popupConfig], onComplete);
