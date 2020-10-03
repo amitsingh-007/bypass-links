@@ -8,6 +8,7 @@ This is an easy-to-use `Browser Extension` which bypasses links on various websi
     * justpasteit
     * pastelink
     * rentry
+    * forums.*
 
 ## Download link
 
