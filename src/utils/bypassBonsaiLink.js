@@ -1,4 +1,4 @@
-import { bypassSingleLinkOnPage } from ".";
+import { bypassSingleLinkOnPage } from "./popupIndex";
 
 const findLinksOnPage = () => {
   const LINKS_TO_EXCLUDE = ["t.me"];

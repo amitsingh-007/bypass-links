@@ -1,11 +1,4 @@
-import { DATE_OPTIONS, TIME_OPTIONS } from "../constants";
 import { changeTabUrl } from "./changeTabUrl";
-
-export const getCurFormattedDateTime = (date) =>
-  `${date.toLocaleString("en-GB", DATE_OPTIONS)} ${date.toLocaleTimeString(
-    "en-US",
-    TIME_OPTIONS
-  )}`;
 
 export const bypassSingleLinkOnPage = (selectorFn, tabId) => {
   chrome.tabs.executeScript(

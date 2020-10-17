@@ -1,4 +1,4 @@
-import { bypassSingleLinkOnPage } from ".";
+import { bypassSingleLinkOnPage } from "./popupIndex";
 
 const findMegaLinks = () => {
   const LINKS_TO_BYPASS = ["mega.nz", "drive.google.com"];
