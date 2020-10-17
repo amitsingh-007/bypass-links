@@ -1,4 +1,5 @@
-import { bypassSingleLinkOnPage } from "./popupIndex";
+import { HOSTNAME } from "../constants";
+import { bypassSingleLinkOnPage } from "./extensionIndex";
 
 const findLinksOnPage = () => {
   const LINKS_TO_EXCLUDE = ["t.me"];
@@ -17,6 +18,9 @@ const findLinksOnPage = () => {
   return { links: validLinks };
 };
 
-export const bypassBonsaiLink = (tabId) => {
+export const bypassBonsaiLink = async (url, tabId) => {
+  if (url.hostname !== HOSTNAME.BONSAILINK) {
+    return;
+  }
   bypassSingleLinkOnPage(findLinksOnPage, tabId);
 };

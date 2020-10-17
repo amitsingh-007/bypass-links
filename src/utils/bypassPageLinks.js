@@ -1,4 +1,5 @@
-import { bypassSingleLinkOnPage } from "./popupIndex";
+import { HOSTNAME } from "../constants";
+import { bypassSingleLinkOnPage } from "./extensionIndex";
 
 const findMegaLinks = () => {
   const LINKS_TO_BYPASS = ["mega.nz", "drive.google.com"];
@@ -17,6 +18,13 @@ const findMegaLinks = () => {
   return { links: validLinks };
 };
 
-export const bypassPageLinks = (tabId) => {
+export const bypassPageLinks = async (url, tabId) => {
+  if (
+    url.hostname !== HOSTNAME.PASTELINK &&
+    url.hostname !== HOSTNAME.JUSTPASTEIT &&
+    url.hostname !== HOSTNAME.RENTRY
+  ) {
+    return;
+  }
   bypassSingleLinkOnPage(findMegaLinks, tabId);
 };
