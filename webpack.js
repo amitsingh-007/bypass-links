@@ -2,6 +2,7 @@ const webpack = require("webpack");
 const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const WebpackShellPlugin = require("webpack-shell-plugin");
 
 const ENV = process.env.NODE_ENV || "production";
 
@@ -24,6 +25,9 @@ const scriptsConfig = {
           to: path.resolve(__dirname, "extension"),
         },
       ],
+    }),
+    new WebpackShellPlugin({
+      onBuildEnd: ["node generate-release-config.js"],
     }),
   ],
 };
