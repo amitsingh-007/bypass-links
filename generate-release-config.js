@@ -7,6 +7,7 @@ const DATE_OPTIONS = {
 };
 const TIME_OPTIONS = {
   timeStyle: "short",
+  timeZone: "Asia/Kolkata",
 };
 
 const getCurFormattedDateTime = (date) =>
