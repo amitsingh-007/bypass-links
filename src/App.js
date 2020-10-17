@@ -1,7 +1,7 @@
 import { Box, Link, Typography } from "@material-ui/core";
 import React from "react";
 import { ChromeExtension } from "./components/ChromeExtension";
-import { getCurFormattedDateTime } from "./utils/popupIndex";
+import releaseConfig from "./release-config.json";
 
 function App() {
   return (
@@ -31,9 +31,7 @@ function App() {
         </Box>
       </Box>
       <Box position="fixed" bottom="0" padding="12px">
-        <Typography>{`Last Updated: ${getCurFormattedDateTime(
-          new Date()
-        )}`}</Typography>
+        <Typography>{`Last Updated: ${releaseConfig.date}`}</Typography>
       </Box>
     </>
   );

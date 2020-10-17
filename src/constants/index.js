@@ -23,13 +23,3 @@ export const EXTENSION_STATE = {
   ACTIVE: "active",
   INACTIVE: "inactive",
 };
-
-export const DATE_OPTIONS = {
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-};
-
-export const TIME_OPTIONS = {
-  timeStyle: "short",
-};
