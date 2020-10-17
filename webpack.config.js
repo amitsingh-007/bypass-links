@@ -2,6 +2,7 @@ const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WebpackShellPlugin = require("webpack-shell-plugin");
+const BundleAnalyzerPlugin = require("@bundle-analyzer/webpack-plugin");
 
 const ENV = process.env.NODE_ENV || "production";
 
@@ -36,6 +37,9 @@ const scriptsConfig = {
     new WebpackShellPlugin({
       onBuildEnd: ["node generate-release-config.js"],
     }),
+    new BundleAnalyzerPlugin({
+      token: "9bc57954116cf0bd136f7718b24d79c4383ff15f",
+    }),
   ],
 };
 
@@ -60,6 +64,9 @@ const popupConfig = {
   resolve: preactConfig,
   plugins: [
     new HtmlWebpackPlugin({ template: "./public-extension/index.html" }),
+    new BundleAnalyzerPlugin({
+      token: "9bc57954116cf0bd136f7718b24d79c4383ff15f",
+    }),
   ],
 };
 
