@@ -10,10 +10,12 @@ import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
 import React from "react";
 import chromeLogo from "./chrome.svg";
 
+const cardStyles = { backgroundColor: "#323638" };
+
 export const ChromeExtension = () => {
   return (
     <Box width="360px" textAlign="left">
-      <Card>
+      <Card style={cardStyles}>
         <CardContent>
           <Box textAlign="center">
             <Typography variant="h5" component="h2">
