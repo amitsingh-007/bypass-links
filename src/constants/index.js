@@ -6,7 +6,7 @@ export const HOSTNAME = {
   MEDIUM: "medium.com",
   RENTRY: "rentry.co",
   FORUMS: "forums.socialmedia",
-  BONSAILINKS: "bonsailink.xyz",
+  BONSAILINK: "bonsailink.xyz",
 };
 
 export const LINKVERTISE_API_BASE_URL =

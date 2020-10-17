@@ -7,6 +7,7 @@ This is an easy-to-use Open-Source `Browser Extension` which bypasses links on v
     * medium
     * linkvertise
     * bonsaihd
+    * bonsailink
     * justpasteit
     * pastelink
     * rentry

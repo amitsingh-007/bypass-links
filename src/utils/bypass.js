@@ -5,6 +5,7 @@ import { bypassLinkvertise } from "./bypassLinkvertise";
 import { changeTabUrl } from "./changeTabUrl";
 import { bypassMedium } from "./bypassMedium";
 import { bypassForums } from "./bypassForums";
+import { bypassBonsaiLink } from "./bypassBonsaiLink";
 
 export const bypass = async (tabId, url, extensionState) => {
   if (extensionState === EXTENSION_STATE.INACTIVE) {
@@ -14,24 +15,20 @@ export const bypass = async (tabId, url, extensionState) => {
   const hostName = currentTabUrl.hostname;
   let targetUrl;
   if (hostName === HOSTNAME.LINKVERTISE) {
-    /* BYPASS LINKVERTISE */
     targetUrl = await bypassLinkvertise(currentTabUrl);
   } else if (hostName === HOSTNAME.BONSAI) {
-    /* BYPASS BONSAI */
     targetUrl = await bypassBonsai(currentTabUrl);
-  } else if (hostName === HOSTNAME.BONSAILINKS) {
+  } else if (hostName === HOSTNAME.BONSAILINK) {
+    targetUrl = await bypassBonsaiLink(tabId);
   } else if (hostName.startsWith(HOSTNAME.FORUMS)) {
-    /* BYPASS FORUMS */
     bypassForums(currentTabUrl, tabId);
   } else if (
     hostName === HOSTNAME.PASTELINK ||
     hostName === HOSTNAME.JUSTPASTEIT ||
     hostName === HOSTNAME.RENTRY
   ) {
-    /* BYPASS PAGE LINKS */
     bypassPageLinks(tabId);
   } else if (hostName.includes(HOSTNAME.MEDIUM)) {
-    /* BYPASS MEDIUM */
     bypassMedium(currentTabUrl, tabId);
   } else {
     targetUrl = null;
