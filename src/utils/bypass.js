@@ -19,6 +19,7 @@ export const bypass = async (tabId, url, extensionState) => {
   } else if (hostName === HOSTNAME.BONSAI) {
     /* BYPASS BONSAI */
     targetUrl = await bypassBonsai(currentTabUrl);
+  } else if (hostName === HOSTNAME.BONSAILINKS) {
   } else if (hostName.startsWith(HOSTNAME.FORUMS)) {
     /* BYPASS FORUMS */
     bypassForums(currentTabUrl, tabId);
