@@ -1,4 +1,5 @@
 const fs = require("fs");
+const manifest = require("./public-extension/manifest.json");
 
 const DATE_OPTIONS = {
   year: "numeric",
@@ -19,6 +20,7 @@ const getCurFormattedDateTime = (date) =>
 const generateReleaseConfig = () => {
   const config = {
     date: getCurFormattedDateTime(new Date()),
+    version: manifest.version,
   };
 
   fs.writeFileSync("./src/release-config.json", JSON.stringify(config));
