@@ -6,6 +6,13 @@ const WebpackShellPlugin = require("webpack-shell-plugin");
 
 const ENV = process.env.NODE_ENV || "production";
 
+const preactConfig = {
+  alias: {
+    react: "preact/compat",
+    "react-dom": "preact/compat",
+  },
+};
+
 const scriptsConfig = {
   entry: "./src/scripts/background.js",
   output: {
@@ -13,6 +20,7 @@ const scriptsConfig = {
     filename: "background.js",
   },
   mode: ENV,
+  resolve: preactConfig,
   plugins: [
     new CopyPlugin({
       patterns: [
@@ -50,6 +58,7 @@ const popupConfig = {
     ],
   },
   mode: ENV,
+  resolve: preactConfig,
   plugins: [
     new HtmlWebpackPlugin({ template: "./public-extension/index.html" }),
   ],
