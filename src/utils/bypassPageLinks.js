@@ -1,4 +1,4 @@
-import { changeTabUrl } from "./changeTabUrl";
+import { bypassSingleLinkOnPage } from "./popupIndex";
 
 const findMegaLinks = () => {
   const LINKS_TO_BYPASS = ["mega.nz", "drive.google.com"];
@@ -14,32 +14,9 @@ const findMegaLinks = () => {
       LINKS_TO_BYPASS.includes(new URL(url).hostname)
   );
 
-  return {
-    links: validLinks,
-  };
+  return { links: validLinks };
 };
 
 export const bypassPageLinks = (tabId) => {
-  chrome.tabs.executeScript(
-    tabId,
-    {
-      code: `(${findMegaLinks})()`,
-      runAt: "document_end",
-    },
-    ([result] = []) => {
-      // shown in devtools of the popup window
-      if (!chrome.runtime.lastError) {
-        const targetUrl =
-          result && result.links && result.links.length === 1
-            ? result.links[0]
-            : null;
-        changeTabUrl(tabId, targetUrl);
-      } else {
-        console.log("Error", chrome.runtime.lastError);
-        setTimeout(() => {
-          bypassPageLinks(tabId);
-        }, 1000);
-      }
-    }
-  );
+  bypassSingleLinkOnPage(findMegaLinks, tabId);
 };

@@ -1,7 +1,7 @@
 import { Box, Link, Typography } from "@material-ui/core";
 import React from "react";
 import { ChromeExtension } from "./components/ChromeExtension";
-import { getCurFormattedDateTime } from "./utils";
+import { getCurFormattedDateTime } from "./utils/popupIndex";
 
 function App() {
   return (
