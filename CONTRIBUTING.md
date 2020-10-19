@@ -11,6 +11,6 @@
 # Guidelines for development
 
 - Install [prettier]("https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode") and enable for this workplace, with default settings.
-- We follow `pascalCase` for this project.
+- Follow `pascalCase` for this project.
 - Create new file for bypassing a new site named `bypass<file_name>`.
 - Attach comments to complex logic, if required.
