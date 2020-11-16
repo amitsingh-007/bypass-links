@@ -23,3 +23,10 @@ export const EXTENSION_STATE = {
   ACTIVE: "active",
   INACTIVE: "inactive",
 };
+
+export const REDIRECTIONS = {
+  "http://f.com/": "aHR0cHM6Ly9mb3J1bXMuc29jaWFsbWVkaWFnaXJscy5jb20v",
+  "http://l.com/": "aHR0cHM6Ly9sdXN0ZXN0aGQuY29tLw==",
+  "http://p.com/": "aHR0cDovL3Bvcm54OTkueHl6Lw==",
+  "http://t.com/": "aHR0cDovL3d3dy50ZWxseXBsYXkuY29tLw==",
+};
