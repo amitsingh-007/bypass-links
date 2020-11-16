@@ -1,5 +1,6 @@
 import { EXTENSION_STATE } from "../constants";
-import { bypass } from "../utils/bypass";
+import { bypass, redirect } from "../utils/bypass";
+import { isExtensionActive } from "../utils/extensionIndex";
 import { showToast } from "../utils/showToast";
 
 const setExtStateInStorage = (extState) => {
@@ -13,8 +14,10 @@ setExtStateInStorage(extensionState);
 
 const onUpdateCallback = (tabId, changeInfo) => {
   const { url } = changeInfo;
-  if (url) {
-    bypass(tabId, url, extensionState);
+  if (url && isExtensionActive(extensionState)) {
+    const currentTabUrl = new URL(url);
+    bypass(tabId, currentTabUrl);
+    redirect(tabId, currentTabUrl);
   }
 };
 
