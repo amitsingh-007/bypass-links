@@ -12,8 +12,8 @@ const TIME_OPTIONS = {
 };
 
 const getCurFormattedDateTime = (date) =>
-  `${date.toLocaleString("en-GB", DATE_OPTIONS)} ${date.toLocaleTimeString(
-    "en-US",
+  `${date.toLocaleString("en-IN", DATE_OPTIONS)} ${date.toLocaleTimeString(
+    "en-IN",
     TIME_OPTIONS
   )}`;
 
@@ -24,6 +24,7 @@ const generateReleaseConfig = () => {
   };
 
   fs.writeFileSync("./src/release-config.json", JSON.stringify(config));
+  console.log("Finished generating Release Config");
 };
 
 generateReleaseConfig();

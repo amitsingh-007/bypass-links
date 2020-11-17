@@ -3,14 +3,37 @@ const CopyPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WebpackShellPlugin = require("webpack-shell-plugin");
 const BundleAnalyzerPlugin = require("@bundle-analyzer/webpack-plugin");
+const webpack = require("webpack");
 
 const ENV = process.env.NODE_ENV || "production";
+const isProduction = ENV === "production";
+const IS_BROWSER = process.env.IS_BROWSER === "true";
 
 const preactConfig = {
   alias: {
     react: "preact/compat",
     "react-dom": "preact/compat",
   },
+};
+
+const getPopupConfigPlugins = (isProduction) => {
+  const plugins = [
+    new HtmlWebpackPlugin({ template: "./public-extension/index.html" }),
+    new BundleAnalyzerPlugin({
+      token: "9bc57954116cf0bd136f7718b24d79c4383ff15f",
+    }),
+    new webpack.DefinePlugin({
+      __IS_BROWSER__: JSON.stringify(IS_BROWSER),
+    }),
+  ];
+  if (!isProduction) {
+    plugins.push(
+      new WebpackShellPlugin({
+        onBuildEnd: ["nodemon server/index.js --watch extension"],
+      })
+    );
+  }
+  return plugins;
 };
 
 const scriptsConfig = {
@@ -40,7 +63,11 @@ const scriptsConfig = {
     new BundleAnalyzerPlugin({
       token: "9bc57954116cf0bd136f7718b24d79c4383ff15f",
     }),
+    new webpack.DefinePlugin({
+      __IS_BROWSER__: JSON.stringify(IS_BROWSER),
+    }),
   ],
+  devtool: isProduction ? undefined : "eval-cheap-module-source-map",
 };
 
 const popupConfig = {
@@ -62,12 +89,8 @@ const popupConfig = {
   },
   mode: ENV,
   resolve: preactConfig,
-  plugins: [
-    new HtmlWebpackPlugin({ template: "./public-extension/index.html" }),
-    new BundleAnalyzerPlugin({
-      token: "9bc57954116cf0bd136f7718b24d79c4383ff15f",
-    }),
-  ],
+  plugins: getPopupConfigPlugins(isProduction),
+  devtool: isProduction ? undefined : "eval-cheap-module-source-map",
 };
 
 module.exports = [scriptsConfig, popupConfig];

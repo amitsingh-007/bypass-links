@@ -1,0 +1,12 @@
+{
+  "extends": "react-app",
+  "env": {
+    "webextensions": true,
+    "browser": true,
+    "es6": true
+  },
+  "globals": {
+    "chrome": false,
+    "__IS_BROWSER__": false
+  }
+}
