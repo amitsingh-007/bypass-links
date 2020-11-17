@@ -24,6 +24,7 @@ const generateReleaseConfig = () => {
   };
 
   fs.writeFileSync("./src/release-config.json", JSON.stringify(config));
+  console.log("Finished generating Release Config");
 };
 
 generateReleaseConfig();

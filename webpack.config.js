@@ -16,6 +16,26 @@ const preactConfig = {
   },
 };
 
+const getPopupConfigPlugins = (isProduction) => {
+  const plugins = [
+    new HtmlWebpackPlugin({ template: "./public-extension/index.html" }),
+    new BundleAnalyzerPlugin({
+      token: "9bc57954116cf0bd136f7718b24d79c4383ff15f",
+    }),
+    new webpack.DefinePlugin({
+      __IS_BROWSER__: JSON.stringify(IS_BROWSER),
+    }),
+  ];
+  if (!isProduction) {
+    plugins.push(
+      new WebpackShellPlugin({
+        onBuildEnd: ["nodemon server/index.js --watch extension"],
+      })
+    );
+  }
+  return plugins;
+};
+
 const scriptsConfig = {
   entry: "./src/scripts/background.js",
   output: {
@@ -69,20 +89,7 @@ const popupConfig = {
   },
   mode: ENV,
   resolve: preactConfig,
-  plugins: [
-    new HtmlWebpackPlugin({ template: "./public-extension/index.html" }),
-    new BundleAnalyzerPlugin({
-      token: "9bc57954116cf0bd136f7718b24d79c4383ff15f",
-    }),
-    new WebpackShellPlugin({
-      onBuildEnd: isProduction
-        ? []
-        : ["nodemon server/index.js --watch extension"],
-    }),
-    new webpack.DefinePlugin({
-      __IS_BROWSER__: JSON.stringify(IS_BROWSER),
-    }),
-  ],
+  plugins: getPopupConfigPlugins(isProduction),
   devtool: isProduction ? undefined : "eval-cheap-module-source-map",
 };
 
