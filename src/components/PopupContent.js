@@ -13,9 +13,38 @@ const switchTextStyles = {
   paddingRight: "12px",
 };
 
+const handleHistoryStart = () => {
+  const historyStartTime = Date.now();
+  chrome.storage.sync.set({ historyStartTime }, () => {
+    console.log(`historyStartTime is set to ${historyStartTime}.`);
+  });
+};
+
+const handleHistoryClear = (setIsHistoryActive) => {
+  chrome.storage.sync.get(["historyStartTime"], ({ historyStartTime }) => {
+    if (!historyStartTime) {
+      console.error("No start date/time to clear the history.");
+    }
+    const historyEndTime = Date.now();
+    console.log(`Start DateTime is: ${new Date(historyStartTime)}`);
+    console.log(`End DateTime is: ${new Date(historyEndTime)}`);
+    chrome.history.deleteRange(
+      {
+        startTime: historyStartTime,
+        endTime: historyEndTime,
+      },
+      () => {
+        setIsHistoryActive(false);
+        chrome.storage.sync.remove("historyStartTime");
+        console.log("History cleared.");
+      }
+    );
+  });
+};
+
 export const PopupContent = () => {
   const [extState, setExtState] = useState("...");
-  const [isHistoryWatchActive, setIsHistoryWatchActive] = useState(false);
+  const [isHistoryActive, setIsHistoryActive] = useState(false);
 
   useEffect(() => {
     if (!__IS_BROWSER__) {
@@ -24,7 +53,7 @@ export const PopupContent = () => {
         ({ extState, historyStartTime }) => {
           console.log(`Extension currently is ${extState}.`);
           setExtState(extState);
-          setIsHistoryWatchActive(!!historyStartTime);
+          setIsHistoryActive(!!historyStartTime);
         }
       );
     }
@@ -33,35 +62,14 @@ export const PopupContent = () => {
   const handleHistorySwitchChange = (event) => {
     const isActive = event.target.checked;
     console.log(isActive);
-    setIsHistoryWatchActive(isActive);
+    setIsHistoryActive(isActive);
     if (__IS_BROWSER__) {
       return;
     }
     if (isActive) {
-      const historyStartTime = Date.now();
-      chrome.storage.sync.set({ historyStartTime }, () => {
-        console.log(`historyStartTime is set to ${historyStartTime}.`);
-      });
+      handleHistoryStart();
     } else {
-      chrome.storage.sync.get(["historyStartTime"], ({ historyStartTime }) => {
-        if (!historyStartTime) {
-          console.error("No start date time to clear history.");
-        }
-        const historyEndTime = Date.now();
-        console.log(`Start DateTime is: ${new Date(historyStartTime)}`);
-        console.log(`End DateTime is: ${new Date(historyEndTime)}`);
-        chrome.history.deleteRange(
-          {
-            startTime: historyStartTime,
-            endTime: historyEndTime,
-          },
-          () => {
-            console.log("History cleared.");
-            setIsHistoryWatchActive(false);
-            chrome.storage.sync.remove("historyStartTime");
-          }
-        );
-      });
+      handleHistoryClear(setIsHistoryActive);
     }
   };
 
@@ -88,7 +96,7 @@ export const PopupContent = () => {
       )}
       <Box marginTop="8.4px">
         <Switch
-          checked={isHistoryWatchActive}
+          checked={isHistoryActive}
           onChange={handleHistorySwitchChange}
           color="primary"
           name="historyWatch"
@@ -96,7 +104,7 @@ export const PopupContent = () => {
         />
         <Box component="span" display="inline-block">
           <Typography variant="h5" component="h5" style={switchTextStyles}>
-            {isHistoryWatchActive ? "Watching" : "Inactive"}
+            {isHistoryActive ? "Watching" : "Inactive"}
           </Typography>
         </Box>
       </Box>
