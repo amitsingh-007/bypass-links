@@ -30,11 +30,12 @@
   },
   "scripts": {
     "background": "webpack --watch",
+    "background:prod": "webpack",
     "build": "react-scripts build",
     "dev": "npm-run-all -p build dev:ext:test",
     "dev:ext": "cross-env NODE_ENV=development IS_BROWSER=true npm-run-all background",
     "dev:ext:test": "cross-env NODE_ENV=development npm-run-all background",
-    "release": "cross-env NODE_ENV=production npm-run-all background build zip",
+    "release": "cross-env NODE_ENV=production npm-run-all background:prod build zip",
     "start": "react-scripts start",
     "zip": "node archiver.js"
   },

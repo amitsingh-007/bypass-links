@@ -75,7 +75,9 @@ const popupConfig = {
       token: "9bc57954116cf0bd136f7718b24d79c4383ff15f",
     }),
     new WebpackShellPlugin({
-      onBuildEnd: ["nodemon server/index.js --watch extension"],
+      onBuildEnd: isProduction
+        ? []
+        : ["nodemon server/index.js --watch extension"],
     }),
     new webpack.DefinePlugin({
       __IS_BROWSER__: JSON.stringify(IS_BROWSER),
