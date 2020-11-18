@@ -13,6 +13,10 @@ This is an easy-to-use Open-Source `Browser Extension` which bypasses links on v
     * rentry
     * forums.*
 
+## Shortcut URLs for some websites
+
+## Manipulate browser history
+
 ## Download link
 
 Head over to [My Github Page](https://amitsingh-007.github.io/bypass-links/) and download for your browser.

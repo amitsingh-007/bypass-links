@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core";
 import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
 import React from "react";
+import { getExtensionFile } from "../utils";
 import chromeLogo from "./chrome.svg";
 
 const cardStyles = { backgroundColor: "#323638" };
@@ -46,7 +47,7 @@ export const ChromeExtension = () => {
           </Typography>
         </CardContent>
         <Box display="flex" justifyContent="center" pb="16px" pt="8px">
-          <Fab variant="extended" href="/bypass-links/bypass-links.zip">
+          <Fab variant="extended" href={`/bypass-links/${getExtensionFile()}`}>
             <CloudDownloadIcon />
             <Box component="span" ml="8px">
               Download Bypass Links
