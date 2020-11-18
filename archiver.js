@@ -1,8 +1,9 @@
 var file_system = require("fs");
 var archiver = require("archiver");
 const path = require("path");
+const { getExtensionFile } = require("./src/utils");
 
-var output = file_system.createWriteStream("./build/bypass-links.zip");
+var output = file_system.createWriteStream(`./build/${getExtensionFile()}`);
 var archive = archiver("zip");
 
 output.on("close", function () {
