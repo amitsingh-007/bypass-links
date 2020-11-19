@@ -1,8 +1,5 @@
 name: Github Action
-on:
-  push:
-    branches:
-      - "!gh-pages"
+on: push
 
 jobs:
   Deploy:
