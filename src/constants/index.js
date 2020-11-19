@@ -29,4 +29,10 @@ export const REDIRECTIONS = {
   "http://l.com/": "aHR0cHM6Ly9sdXN0ZXN0aGQuY29tLw==",
   "http://p.com/": "aHR0cDovL3Bvcm54OTkueHl6Lw==",
   "http://t.com/": "aHR0cDovL3d3dy50ZWxseXBsYXkuY29tLw==",
+  "http://m.com/": "aHR0cHM6Ly93d3cucmVkZGl0LmNvbS9yL21hc2FsYWRlc2k=",
+  "http://ppf.com/":
+    "aHR0cHM6Ly93d3cucmVkZGl0LmNvbS9yL1Bvb25hbVBhbmRleUZhbmF0aWNzLw==",
+  "http://w.com/":
+    "aHR0cHM6Ly93d3cucmVkZGl0LmNvbS9yL1dhdGNoSXRGb3JUaGVQbG90Lw==",
+  "http://e.com/": "aHR0cHM6Ly9lbmdvcmdlZHRpdHMuY29tLw==",
 };
