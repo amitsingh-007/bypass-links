@@ -1,24 +1,38 @@
-name: Github Action 
+name: Github Action
 on:
   push:
     branches:
-      - "*"
-      - "!master"
+      - "!gh-pages"
 
 jobs:
-  Build:
+  Deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout branch
+      - name: Checkout branch 🛎️
         uses: actions/checkout@v2
 
-      - name: Use Node.js
+      - name: Setting up Node.js 🔧
         uses: actions/setup-node@v1
         with:
           node-version: "12.x"
 
-      - name: Clean install dependencies
-        run: npm ci
+      - name: Cache 💾
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
-      - name: Building
+      - name: Clean install dependencies 🧼
+        run: npm install
+
+      - name: Building 🛠
         run: npm run release
+
+      - name: Deploying to gh-pages 🚀
+        if: ${{ github.ref == 'refs/heads/master' }}
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          publish_dir: ./build
