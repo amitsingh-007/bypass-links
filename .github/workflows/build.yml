@@ -1,11 +1,11 @@
 name: Github Action
-on: push
+on: [push, pull_request]
 
 jobs:
   Deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout branch 🛎️
+      - name: Checkout repo 🛎️
         uses: actions/checkout@v2
 
       - name: Setting up Node.js 🔧
