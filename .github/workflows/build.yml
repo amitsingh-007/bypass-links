@@ -1,3 +1,4 @@
+name: Github Action 
 on:
   push:
     branches:
@@ -5,7 +6,7 @@ on:
       - "!master"
 
 jobs:
-  Github Action - Build:
+  Build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout branch
