@@ -2,6 +2,7 @@ import { EXTENSION_STATE } from "../constants";
 import { bypass, redirect } from "../utils/bypass";
 import { isExtensionActive } from "../utils/extensionIndex";
 import { showToast } from "../utils/showToast";
+import { syncFirebaseToStorage } from "../utils/syncFirebaseToStorage";
 
 const setExtStateInStorage = (extState) => {
   chrome.storage.sync.set({ extState }, () => {
@@ -32,8 +33,15 @@ const handleExtensionToggle = (command) => {
   }
 };
 
+const handleFirstTimeInstall = () => {
+  syncFirebaseToStorage();
+};
+
 //Listen tab url change
 chrome.tabs.onUpdated.addListener(onUpdateCallback);
 
 //Listen key press for toggle
 chrome.commands.onCommand.addListener(handleExtensionToggle);
+
+//First time extension install
+chrome.runtime.onInstalled.addListener(handleFirstTimeInstall);
