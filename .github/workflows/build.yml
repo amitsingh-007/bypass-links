@@ -1,5 +1,5 @@
 name: Github Action
-on: [push, pull_request]
+on: push
 
 jobs:
   Deploy:
