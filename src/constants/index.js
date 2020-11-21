@@ -23,3 +23,7 @@ export const EXTENSION_STATE = {
   ACTIVE: "active",
   INACTIVE: "inactive",
 };
+
+export const FIREBASE_DB_REF = {
+  redirections: "redirections",
+};

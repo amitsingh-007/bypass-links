@@ -73,6 +73,12 @@ export const PopupContent = () => {
     }
   };
 
+  const handleSignIn = () => {
+    chrome.runtime.sendMessage({ triggerSignIn: true }, (response) => {
+      console.log("Response of message is ", response);
+    });
+  };
+
   return (
     <Box
       display="flex"
@@ -82,7 +88,7 @@ export const PopupContent = () => {
       padding="14px"
     >
       <Typography variant="h5" component="h5" gutterBottom>
-        <Box color="firebrick" fontWeight="700">
+        <Box color="firebrick" fontWeight="700" onClick={handleSignIn}>
           BYPASS LINKS
         </Box>
       </Typography>

@@ -1,4 +1,5 @@
 import { EXTENSION_STATE } from "../constants";
+import { signIn } from "../utils/authentication";
 import { bypass, redirect } from "../utils/bypass";
 import { isExtensionActive } from "../utils/extensionIndex";
 import { showToast } from "../utils/showToast";
@@ -37,6 +38,16 @@ const handleFirstTimeInstall = () => {
   syncFirebaseToStorage();
 };
 
+const onMessageReceive = (message, sender, sendResponse) => {
+  console.log(message);
+  const response = {};
+  if (message.triggerSignIn) {
+    const isSignInSuccess = signIn();
+    response.isSignInSuccess = isSignInSuccess;
+  }
+  sendResponse(response);
+};
+
 //Listen tab url change
 chrome.tabs.onUpdated.addListener(onUpdateCallback);
 
@@ -45,3 +56,6 @@ chrome.commands.onCommand.addListener(handleExtensionToggle);
 
 //First time extension install
 chrome.runtime.onInstalled.addListener(handleFirstTimeInstall);
+
+//Listen to dispatched messages
+chrome.runtime.onMessage.addListener(onMessageReceive);

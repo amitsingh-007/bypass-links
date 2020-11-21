@@ -23,7 +23,7 @@ const getRedirections = async () => {
     const { redirections } = await storage.get(["redirections"]);
     REDIRECTIONS = redirections;
   }
-  return REDIRECTIONS;
+  return REDIRECTIONS || {};
 };
 
 export const bypass = async (tabId, url) => {

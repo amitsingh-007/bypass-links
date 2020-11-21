@@ -1,7 +1,5 @@
-import firebase from "./firebase";
-
-const getFromFirebase = () =>
-  firebase.database().ref("redirections").once("value");
+import { FIREBASE_DB_REF } from "../constants";
+import { getFromFirebase } from "./firebase";
 
 const syncToStorage = (snapshot) => {
   const redirections = snapshot.val();
@@ -11,5 +9,9 @@ const syncToStorage = (snapshot) => {
 };
 
 export const syncFirebaseToStorage = () => {
-  getFromFirebase().then(syncToStorage);
+  getFromFirebase(FIREBASE_DB_REF.redirections)
+    .then(syncToStorage)
+    .catch((err) => {
+      console.log("Error occured while fetching redirections from Firebae DB");
+    });
 };

@@ -1,5 +1,6 @@
 import firebase from "firebase/app";
 import "firebase/database";
+import "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDiMRlBhW36sLjEADoQj9T5L1H-hIDUAso",
@@ -12,5 +13,10 @@ const firebaseConfig = {
   measurementId: "G-ZGKPZFJ01Z",
 };
 
-const fire = firebase.initializeApp(firebaseConfig);
-export default fire;
+firebase.initializeApp(firebaseConfig);
+
+export const googleSignIn = () =>
+  firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
+
+export const getFromFirebase = (ref) =>
+  firebase.database().ref(ref).once("value");
