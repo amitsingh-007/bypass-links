@@ -6,7 +6,7 @@ const getFromFirebase = () =>
 const syncToStorage = (snapshot) => {
   const redirections = snapshot.val();
   chrome.storage.sync.set({ redirections }, () => {
-    console.log(`redirections is set to `, redirections);
+    console.log(`Redirections is set to `, redirections);
   });
 };
 
