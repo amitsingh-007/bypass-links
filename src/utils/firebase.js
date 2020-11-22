@@ -22,3 +22,6 @@ export const googleSignOut = () => firebase.auth().signOut();
 
 export const getFromFirebase = (ref) =>
   firebase.database().ref(ref).once("value");
+
+export const saveToFirebase = (ref, data) =>
+  firebase.database().ref(ref).set(data);
