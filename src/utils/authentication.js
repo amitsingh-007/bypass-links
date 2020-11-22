@@ -1,4 +1,4 @@
-import { googleSignIn } from "./firebase";
+import { googleSignIn, googleSignOut } from "./firebase";
 import { syncFirebaseToStorage } from "./syncFirebaseToStorage";
 import storage from "../scripts/chrome/storage";
 
@@ -11,6 +11,18 @@ export const signIn = async () => {
     return true;
   } catch (err) {
     console.error("Error occured while signing in. ", err);
+    return false;
+  }
+};
+
+export const signOut = async () => {
+  try {
+    const response = await googleSignOut();
+    console.log("Logout Success ", response);
+    storage.set({ isAuthenticated: false, redirections: {} });
+    return true;
+  } catch (err) {
+    console.error("Error occured while signing out. ", err);
     return false;
   }
 };

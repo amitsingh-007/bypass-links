@@ -5,7 +5,7 @@ import CheckCircleTwoToneIcon from "@material-ui/icons/CheckCircleTwoTone";
 import React, { useEffect, useState } from "react";
 import { EXTENSION_STATE } from "../constants";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import ThumbUpIcon from "@material-ui/icons/ThumbUp";
+import TransitEnterexitIcon from "@material-ui/icons/TransitEnterexit";
 
 const SWITCH_INPUT_PROPS = {
   "aria-label": "primary checkbox",
@@ -88,6 +88,14 @@ export const PopupContent = () => {
     );
   };
 
+  const handleSignOut = () => {
+    chrome.runtime.sendMessage({ triggerSignOut: true }, ({ isSignedOut }) => {
+      if (isSignedOut) {
+        setIsAuthenticated(false);
+      }
+    });
+  };
+
   return (
     <Box
       display="flex"
@@ -128,11 +136,11 @@ export const PopupContent = () => {
           <Button
             variant="contained"
             color="secondary"
-            startIcon={<ThumbUpIcon />}
-            disabled
+            startIcon={<TransitEnterexitIcon />}
+            onClick={handleSignOut}
           >
             <Box component="span" fontWeight="bold">
-              Signed In
+              Sign Out
             </Box>
           </Button>
         ) : (

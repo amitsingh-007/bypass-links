@@ -1,5 +1,5 @@
 import { EXTENSION_STATE } from "../constants";
-import { signIn } from "../utils/authentication";
+import { signIn, signOut } from "../utils/authentication";
 import { bypass, redirect } from "../utils/bypass";
 import { isExtensionActive } from "../utils/extensionIndex";
 import { showToast } from "../utils/showToast";
@@ -42,6 +42,10 @@ const onMessageReceive = (message, sender, sendResponse) => {
   if (message.triggerSignIn) {
     signIn().then((isAuthenticated) => {
       sendResponse({ isAuthenticated });
+    });
+  } else if (message.triggerSignOut) {
+    signOut().then((isSignedOut) => {
+      sendResponse({ isSignedOut });
     });
   }
   return true;
