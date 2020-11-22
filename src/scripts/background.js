@@ -1,7 +1,8 @@
-import { EXTENSION_STATE } from "../constants";
+import { EXTENSION_STATE, FIREBASE_DB_REF } from "../constants";
 import { signIn, signOut } from "../utils/authentication";
 import { bypass, redirect } from "../utils/bypass";
 import { isExtensionActive } from "../utils/extensionIndex";
+import { getFromFirebase, saveToFirebase } from "../utils/firebase";
 import { showToast } from "../utils/showToast";
 import { syncFirebaseToStorage } from "../utils/syncFirebaseToStorage";
 
@@ -38,6 +39,21 @@ const handleFirstTimeInstall = () => {
   syncFirebaseToStorage();
 };
 
+const saveDataToFirebase = (data, sendResponse) => {
+  let isRuleSaveSuccess = false;
+  saveToFirebase(FIREBASE_DB_REF.redirections, data)
+    .then(() => {
+      isRuleSaveSuccess = true;
+      syncFirebaseToStorage();
+    })
+    .catch((err) => {
+      console.log("Error while saving data to Firebase", err);
+    })
+    .finally(() => {
+      sendResponse({ isRuleSaveSuccess });
+    });
+};
+
 const onMessageReceive = (message, sender, sendResponse) => {
   if (message.triggerSignIn) {
     signIn().then((isAuthenticated) => {
@@ -47,6 +63,12 @@ const onMessageReceive = (message, sender, sendResponse) => {
     signOut().then((isSignedOut) => {
       sendResponse({ isSignedOut });
     });
+  } else if (message.getRedirections) {
+    getFromFirebase(FIREBASE_DB_REF.redirections).then((snapshot) => {
+      sendResponse({ redirections: snapshot.val() });
+    });
+  } else if (message.saveRedirectionRules) {
+    saveDataToFirebase(message.saveRedirectionRules, sendResponse);
   }
   return true;
 };

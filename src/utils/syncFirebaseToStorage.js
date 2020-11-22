@@ -1,10 +1,12 @@
 import { FIREBASE_DB_REF } from "../constants";
+import { resetRedirections } from "./bypass";
 import { getFromFirebase } from "./firebase";
 
 const syncToStorage = (snapshot) => {
   const redirections = snapshot.val();
   chrome.storage.sync.set({ redirections }, () => {
     console.log(`Redirections is set to `, redirections);
+    resetRedirections();
   });
 };
 
