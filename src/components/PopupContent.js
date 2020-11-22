@@ -6,6 +6,8 @@ import React, { useEffect, useState } from "react";
 import { EXTENSION_STATE } from "../constants";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import TransitEnterexitIcon from "@material-ui/icons/TransitEnterexit";
+import { EditPanel } from "./EditPanel";
+import EditIcon from "@material-ui/icons/Edit";
 
 const SWITCH_INPUT_PROPS = {
   "aria-label": "primary checkbox",
@@ -48,6 +50,7 @@ export const PopupContent = () => {
   const [extState, setExtState] = useState("...");
   const [isHistoryActive, setIsHistoryActive] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [showEditPanel, setShowEditPanel] = useState(false);
 
   useEffect(() => {
     if (!__IS_BROWSER__) {
@@ -95,6 +98,14 @@ export const PopupContent = () => {
       }
     });
   };
+
+  const handleRedirectionEdit = () => {
+    setShowEditPanel(true);
+  };
+
+  if (showEditPanel) {
+    return <EditPanel setShowEditPanel={setShowEditPanel} />;
+  }
 
   return (
     <Box
@@ -155,6 +166,20 @@ export const PopupContent = () => {
             </Box>
           </Button>
         )}
+      </Box>
+      <Box marginTop="8.4px">
+        {isAuthenticated ? (
+          <Button
+            variant="contained"
+            color="secondary"
+            startIcon={<EditIcon />}
+            onClick={handleRedirectionEdit}
+          >
+            <Box component="span" fontWeight="bold">
+              Redirections
+            </Box>
+          </Button>
+        ) : null}
       </Box>
     </Box>
   );
