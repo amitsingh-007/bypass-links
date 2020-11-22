@@ -1,9 +1,11 @@
-import { Box, Switch, Typography } from "@material-ui/core";
+import { Box, Button, Switch, Typography } from "@material-ui/core";
 import { green } from "@material-ui/core/colors";
 import CancelTwoToneIcon from "@material-ui/icons/CancelTwoTone";
 import CheckCircleTwoToneIcon from "@material-ui/icons/CheckCircleTwoTone";
 import React, { useEffect, useState } from "react";
 import { EXTENSION_STATE } from "../constants";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 
 const SWITCH_INPUT_PROPS = {
   "aria-label": "primary checkbox",
@@ -45,15 +47,17 @@ const handleHistoryClear = (setIsHistoryActive) => {
 export const PopupContent = () => {
   const [extState, setExtState] = useState("...");
   const [isHistoryActive, setIsHistoryActive] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     if (!__IS_BROWSER__) {
       chrome.storage.sync.get(
-        ["extState", "historyStartTime"],
-        ({ extState, historyStartTime }) => {
+        ["extState", "historyStartTime", "isAuthenticated"],
+        ({ extState, historyStartTime, isAuthenticated }) => {
           console.log(`Extension currently is ${extState}.`);
           setExtState(extState);
           setIsHistoryActive(!!historyStartTime);
+          setIsAuthenticated(isAuthenticated);
         }
       );
     }
@@ -74,9 +78,14 @@ export const PopupContent = () => {
   };
 
   const handleSignIn = () => {
-    chrome.runtime.sendMessage({ triggerSignIn: true }, (response) => {
-      console.log("Response of message is ", response);
-    });
+    chrome.runtime.sendMessage(
+      { triggerSignIn: true },
+      ({ isAuthenticated }) => {
+        if (isAuthenticated) {
+          setIsAuthenticated(true);
+        }
+      }
+    );
   };
 
   return (
@@ -88,7 +97,7 @@ export const PopupContent = () => {
       padding="14px"
     >
       <Typography variant="h5" component="h5" gutterBottom>
-        <Box color="firebrick" fontWeight="700" onClick={handleSignIn}>
+        <Box color="firebrick" fontWeight="700">
           BYPASS LINKS
         </Box>
       </Typography>
@@ -113,6 +122,31 @@ export const PopupContent = () => {
             {isHistoryActive ? "Watching" : "Inactive"}
           </Typography>
         </Box>
+      </Box>
+      <Box marginTop="8.4px">
+        {isAuthenticated ? (
+          <Button
+            variant="contained"
+            color="secondary"
+            startIcon={<ThumbUpIcon />}
+            disabled
+          >
+            <Box component="span" fontWeight="bold">
+              Signed In
+            </Box>
+          </Button>
+        ) : (
+          <Button
+            variant="contained"
+            color="secondary"
+            startIcon={<ExitToAppIcon />}
+            onClick={handleSignIn}
+          >
+            <Box component="span" fontWeight="bold">
+              Sign In
+            </Box>
+          </Button>
+        )}
       </Box>
     </Box>
   );

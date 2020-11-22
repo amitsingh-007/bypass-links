@@ -39,13 +39,12 @@ const handleFirstTimeInstall = () => {
 };
 
 const onMessageReceive = (message, sender, sendResponse) => {
-  console.log(message);
-  const response = {};
   if (message.triggerSignIn) {
-    const isSignInSuccess = signIn();
-    response.isSignInSuccess = isSignInSuccess;
+    signIn().then((isAuthenticated) => {
+      sendResponse({ isAuthenticated });
+    });
   }
-  sendResponse(response);
+  return true;
 };
 
 //Listen tab url change

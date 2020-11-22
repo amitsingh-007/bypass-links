@@ -17,6 +17,7 @@
     "@babel/preset-env": "^7.11.5",
     "@babel/preset-react": "^7.10.4",
     "@bundle-analyzer/webpack-plugin": "^0.5.1",
+    "@types/chrome": "0.0.126",
     "archiver": "^5.0.2",
     "babel-loader": "^8.1.0",
     "copy-webpack-plugin": "^6.1.1",
@@ -31,7 +32,7 @@
     "webpack-shell-plugin": "^0.5.0"
   },
   "scripts": {
-    "analyzer":"cross-env NODE_ENV=production ENABLE_BUNDLE_ANLYZER=true npm-run-all background:prod",
+    "analyzer": "cross-env NODE_ENV=production ENABLE_BUNDLE_ANLYZER=true npm-run-all background:prod",
     "background": "webpack --watch",
     "background:prod": "webpack",
     "build": "react-scripts build",
