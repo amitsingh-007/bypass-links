@@ -39,3 +39,7 @@ export const redirect = async (tabId, url) => {
     await changeTabUrl(tabId, atob(redirectUrl));
   }
 };
+
+export const resetRedirections = () => {
+  REDIRECTIONS = null;
+};
