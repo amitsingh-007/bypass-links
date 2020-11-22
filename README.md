@@ -1,4 +1,4 @@
-# Summary
+# Summary ![Github Action](https://github.com/amitsingh-007/bypass-links/workflows/Github%20Action/badge.svg)
 
 This is an easy-to-use Open-Source `Browser Extension` which bypasses links on various websites and lets you use the direct url for your resource. This will help you to bypass recaptchas, unnecessary timers, countdowns, ads, popups, surveys, avoid unnecessary third party installs.
 
