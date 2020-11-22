@@ -1,5 +1,5 @@
 name: Github Action
-on: [push, pull_request]
+on: push
 
 jobs:
   Deploy:
@@ -21,7 +21,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: Clean install dependencies 🧼
+      - name: Install dependencies 🧼
         run: npm install
 
       - name: Building 🛠

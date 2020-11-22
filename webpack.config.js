@@ -3,11 +3,14 @@ const CopyPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WebpackShellPlugin = require("webpack-shell-plugin");
 const BundleAnalyzerPlugin = require("@bundle-analyzer/webpack-plugin");
+const WebpackBundleAnalyzerPlugin = require("webpack-bundle-analyzer")
+  .BundleAnalyzerPlugin;
 const webpack = require("webpack");
 
 const ENV = process.env.NODE_ENV || "production";
 const isProduction = ENV === "production";
 const IS_BROWSER = process.env.IS_BROWSER === "true";
+const ENABLE_BUNDLE_ANLYZER = process.env.ENABLE_BUNDLE_ANLYZER === "true";
 
 const preactConfig = {
   alias: {
@@ -36,15 +39,8 @@ const getPopupConfigPlugins = (isProduction) => {
   return plugins;
 };
 
-const scriptsConfig = {
-  entry: "./src/scripts/background.js",
-  output: {
-    path: path.resolve(__dirname, "extension"),
-    filename: "background.js",
-  },
-  mode: ENV,
-  resolve: preactConfig,
-  plugins: [
+const getScriptsConfigPlugins = (enableBundleAnalyzer) => {
+  const plugins = [
     new CopyPlugin({
       patterns: [
         {
@@ -66,7 +62,29 @@ const scriptsConfig = {
     new webpack.DefinePlugin({
       __IS_BROWSER__: JSON.stringify(IS_BROWSER),
     }),
-  ],
+  ];
+  if (enableBundleAnalyzer) {
+    plugins.push(
+      new WebpackBundleAnalyzerPlugin({
+        openAnalyzer: true,
+        generateStatsFile: true,
+        statsFilename: "stats.json",
+        defaultSizes: "gzip",
+      })
+    );
+  }
+  return plugins;
+};
+
+const scriptsConfig = {
+  entry: "./src/scripts/background.js",
+  output: {
+    path: path.resolve(__dirname, "extension"),
+    filename: "background.js",
+  },
+  mode: ENV,
+  resolve: preactConfig,
+  plugins: getScriptsConfigPlugins(ENABLE_BUNDLE_ANLYZER),
   devtool: isProduction ? undefined : "eval-cheap-module-source-map",
 };
 

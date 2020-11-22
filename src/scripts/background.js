@@ -1,7 +1,9 @@
 import { EXTENSION_STATE } from "../constants";
+import { signIn } from "../utils/authentication";
 import { bypass, redirect } from "../utils/bypass";
 import { isExtensionActive } from "../utils/extensionIndex";
 import { showToast } from "../utils/showToast";
+import { syncFirebaseToStorage } from "../utils/syncFirebaseToStorage";
 
 const setExtStateInStorage = (extState) => {
   chrome.storage.sync.set({ extState }, () => {
@@ -32,8 +34,27 @@ const handleExtensionToggle = (command) => {
   }
 };
 
+const handleFirstTimeInstall = () => {
+  syncFirebaseToStorage();
+};
+
+const onMessageReceive = (message, sender, sendResponse) => {
+  if (message.triggerSignIn) {
+    signIn().then((isAuthenticated) => {
+      sendResponse({ isAuthenticated });
+    });
+  }
+  return true;
+};
+
 //Listen tab url change
 chrome.tabs.onUpdated.addListener(onUpdateCallback);
 
 //Listen key press for toggle
 chrome.commands.onCommand.addListener(handleExtensionToggle);
+
+//First time extension install
+chrome.runtime.onInstalled.addListener(handleFirstTimeInstall);
+
+//Listen to dispatched messages
+chrome.runtime.onMessage.addListener(onMessageReceive);

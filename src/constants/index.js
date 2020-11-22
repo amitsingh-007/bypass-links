@@ -24,15 +24,6 @@ export const EXTENSION_STATE = {
   INACTIVE: "inactive",
 };
 
-export const REDIRECTIONS = {
-  "http://f.com/": "aHR0cHM6Ly9mb3J1bXMuc29jaWFsbWVkaWFnaXJscy5jb20v",
-  "http://l.com/": "aHR0cHM6Ly9sdXN0ZXN0aGQuY29tLw==",
-  "http://p.com/": "aHR0cDovL3Bvcm54OTkueHl6Lw==",
-  "http://t.com/": "aHR0cDovL3d3dy50ZWxseXBsYXkuY29tLw==",
-  "http://m.com/": "aHR0cHM6Ly93d3cucmVkZGl0LmNvbS9yL21hc2FsYWRlc2k=",
-  "http://ppf.com/":
-    "aHR0cHM6Ly93d3cucmVkZGl0LmNvbS9yL1Bvb25hbVBhbmRleUZhbmF0aWNzLw==",
-  "http://w.com/":
-    "aHR0cHM6Ly93d3cucmVkZGl0LmNvbS9yL1dhdGNoSXRGb3JUaGVQbG90Lw==",
-  "http://e.com/": "aHR0cHM6Ly9lbmdvcmdlZHRpdHMuY29tLw==",
+export const FIREBASE_DB_REF = {
+  redirections: "redirections",
 };

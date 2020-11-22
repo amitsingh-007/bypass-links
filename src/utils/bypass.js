@@ -1,4 +1,4 @@
-import { REDIRECTIONS } from "../constants";
+import storage from "../scripts/chrome/storage";
 import { bypassBonsai } from "./bypassBonsai";
 import { bypassBonsaiLink } from "./bypassBonsaiLink";
 import { bypassForums } from "./bypassForums";
@@ -16,6 +16,16 @@ const BYPASS_EXECUTORS = [
   bypassMedium,
 ];
 
+let REDIRECTIONS = null;
+
+const getRedirections = async () => {
+  if (!REDIRECTIONS) {
+    const { redirections } = await storage.get(["redirections"]);
+    REDIRECTIONS = redirections;
+  }
+  return REDIRECTIONS || {};
+};
+
 export const bypass = async (tabId, url) => {
   BYPASS_EXECUTORS.forEach(async (executor) => {
     await executor(url, tabId);
@@ -23,7 +33,8 @@ export const bypass = async (tabId, url) => {
 };
 
 export const redirect = async (tabId, url) => {
-  const redirectUrl = REDIRECTIONS[url.href];
+  const redirections = await getRedirections();
+  const redirectUrl = redirections[btoa(url.href)];
   if (redirectUrl) {
     await changeTabUrl(tabId, atob(redirectUrl));
   }
