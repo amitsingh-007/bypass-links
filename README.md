@@ -15,13 +15,13 @@ This is an easy-to-use Open-Source `Browser Extension` which bypasses links on v
 
 ## Salient features
 
-- Set custom short URLs for some websites that you frequently visit.
+- Set **custom short URLs** for any websites that you frequently visit.
 
-- Manipulate browser history.
+- **Manipulate** browser history.
 
-- Set custom redirections for your websites in the firebase realtime database.
+- Set **custom redirections** for your websites in the Firebase Realtime Database.
 
-- A fully customised edit panel to add/edit/delete custom redirection rule stored in firebase.
+- A fully customised edit panel to add/edit/delete custom redirection rules stored in **Firebase**.
 
 ## Download link
 
