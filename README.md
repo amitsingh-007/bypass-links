@@ -21,7 +21,7 @@ This is an easy-to-use Open-Source `Browser Extension` which bypasses links on v
 
 - Set **custom redirections** for your websites in the Firebase Realtime Database.
 
-- A fully customised edit panel to add/edit/delete custom redirection rules stored in **Firebase**.
+- A **fully customised edit panel** to add/edit/delete custom redirection rules stored in **Firebase**.
 
 ## Download link
 
