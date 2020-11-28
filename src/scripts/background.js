@@ -4,15 +4,16 @@ import {
   isExtensionActive,
   toggleExtension,
   setExtStateInStorage,
+  getExtensionState,
 } from "../utils/toggleExtension";
 import { bypass, redirect } from "../utils/bypass";
 import { getFromFirebase, saveToFirebase } from "../utils/firebase";
 import { showToast } from "../utils/showToast";
 import { syncFirebaseToStorage } from "../utils/syncFirebaseToStorage";
 
-const onUpdateCallback = (tabId, changeInfo) => {
+const onUpdateCallback = async (tabId, changeInfo) => {
   const { url } = changeInfo;
-  if (url && isExtensionActive()) {
+  if (url && (await isExtensionActive())) {
     const currentTabUrl = new URL(url);
     bypass(tabId, currentTabUrl);
     redirect(tabId, currentTabUrl);
@@ -21,8 +22,8 @@ const onUpdateCallback = (tabId, changeInfo) => {
 
 const handleKeyPress = async (command) => {
   if (command === "toggle_bypass_links_extension") {
-    const newExtensionState = await toggleExtension();
-    showToast(newExtensionState);
+    await toggleExtension();
+    showToast(await getExtensionState());
   }
 };
 
@@ -71,6 +72,16 @@ const onMessageReceive = (message, sender, sendResponse) => {
     });
   } else if (message.saveRedirectionRules) {
     saveDataToFirebase(message.saveRedirectionRules, sendResponse);
+  } else if (message.getExtState) {
+    getExtensionState().then((extState) => {
+      sendResponse({ extState });
+    });
+  } else if (message.toggleExtension) {
+    toggleExtension().then(() => {
+      getExtensionState().then((extState) => {
+        sendResponse({ extState });
+      });
+    });
   }
   return true;
 };

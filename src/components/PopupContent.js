@@ -1,13 +1,10 @@
 import { Box, Button, Switch, Typography } from "@material-ui/core";
-import { green } from "@material-ui/core/colors";
-import CancelTwoToneIcon from "@material-ui/icons/CancelTwoTone";
-import CheckCircleTwoToneIcon from "@material-ui/icons/CheckCircleTwoTone";
-import React, { useEffect, useState } from "react";
-import { EXTENSION_STATE } from "../constants";
+import EditIcon from "@material-ui/icons/Edit";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import TransitEnterexitIcon from "@material-ui/icons/TransitEnterexit";
+import React, { useEffect, useState } from "react";
 import { EditPanel } from "./EditPanel";
-import EditIcon from "@material-ui/icons/Edit";
+import { ToggleExtension } from "./ToggleExtension";
 
 const SWITCH_INPUT_PROPS = {
   "aria-label": "primary checkbox",
@@ -120,14 +117,7 @@ export const PopupContent = () => {
           BYPASS LINKS
         </Box>
       </Typography>
-      {extState === EXTENSION_STATE.ACTIVE ? (
-        <CheckCircleTwoToneIcon
-          style={{ color: green[500] }}
-          fontSize="large"
-        />
-      ) : (
-        <CancelTwoToneIcon color="secondary" fontSize="large" />
-      )}
+      <ToggleExtension />
       <Box marginTop="8.4px">
         <Switch
           checked={isHistoryActive}

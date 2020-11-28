@@ -7,7 +7,7 @@ export const setExtStateInStorage = (extState) => {
   });
 };
 
-const getExtensionState = async () => {
+export const getExtensionState = async () => {
   const { extState } = await storage.get(["extState"]);
   return extState;
 };
@@ -20,5 +20,4 @@ export const toggleExtension = async () => {
     ? EXTENSION_STATE.INACTIVE
     : EXTENSION_STATE.ACTIVE;
   setExtStateInStorage(newExtensionState);
-  return newExtensionState;
 };
