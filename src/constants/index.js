@@ -26,4 +26,5 @@ export const EXTENSION_STATE = {
 
 export const FIREBASE_DB_REF = {
   redirections: "redirections",
+  redirectionsFallback: "redirections-fallback",
 };

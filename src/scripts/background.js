@@ -41,17 +41,24 @@ const handleFirstTimeInstall = () => {
 
 const saveDataToFirebase = (data, sendResponse) => {
   let isRuleSaveSuccess = false;
-  saveToFirebase(FIREBASE_DB_REF.redirections, data)
-    .then(() => {
-      isRuleSaveSuccess = true;
-      syncFirebaseToStorage();
-    })
-    .catch((err) => {
-      console.log("Error while saving data to Firebase", err);
-    })
-    .finally(() => {
-      sendResponse({ isRuleSaveSuccess });
-    });
+  getFromFirebase(FIREBASE_DB_REF.redirections).then((snapshot) => {
+    saveToFirebase(FIREBASE_DB_REF.redirectionsFallback, snapshot.val()).then(
+      () => {
+        console.log("Fallback DB updated.");
+        saveToFirebase(FIREBASE_DB_REF.redirections, data)
+          .then(() => {
+            isRuleSaveSuccess = true;
+            syncFirebaseToStorage();
+          })
+          .catch((err) => {
+            console.log("Error while saving data to Firebase", err);
+          })
+          .finally(() => {
+            sendResponse({ isRuleSaveSuccess });
+          });
+      }
+    );
+  });
 };
 
 const onMessageReceive = (message, sender, sendResponse) => {
