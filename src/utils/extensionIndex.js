@@ -1,4 +1,3 @@
-import { EXTENSION_STATE } from "../constants";
 import { changeTabUrl } from "./changeTabUrl";
 
 export const bypassSingleLinkOnPage = (selectorFn, tabId) => {
@@ -26,6 +25,3 @@ export const bypassSingleLinkOnPage = (selectorFn, tabId) => {
     }
   );
 };
-
-export const isExtensionActive = (extensionState) =>
-  extensionState === EXTENSION_STATE.ACTIVE;

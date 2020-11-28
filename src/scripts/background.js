@@ -1,44 +1,40 @@
 import { EXTENSION_STATE, FIREBASE_DB_REF } from "../constants";
 import { signIn, signOut } from "../utils/authentication";
+import {
+  isExtensionActive,
+  toggleExtension,
+  setExtStateInStorage,
+  getExtensionState,
+} from "../utils/toggleExtension";
 import { bypass, redirect } from "../utils/bypass";
-import { isExtensionActive } from "../utils/extensionIndex";
 import { getFromFirebase, saveToFirebase } from "../utils/firebase";
 import { showToast } from "../utils/showToast";
 import { syncFirebaseToStorage } from "../utils/syncFirebaseToStorage";
 
-const setExtStateInStorage = (extState) => {
-  chrome.storage.sync.set({ extState }, () => {
-    console.log(`ExtensionState in storage is set to ${extState}.`);
-  });
-};
-
-let extensionState = EXTENSION_STATE.ACTIVE;
-setExtStateInStorage(extensionState);
-
-const onUpdateCallback = (tabId, changeInfo) => {
+const onUpdateCallback = async (tabId, changeInfo) => {
   const { url } = changeInfo;
-  if (url && isExtensionActive(extensionState)) {
+  if (url && (await isExtensionActive())) {
     const currentTabUrl = new URL(url);
     bypass(tabId, currentTabUrl);
     redirect(tabId, currentTabUrl);
   }
 };
 
-const handleExtensionToggle = (command) => {
+const handleKeyPress = async (command) => {
   if (command === "toggle_bypass_links_extension") {
-    const isCurrentlyActive = extensionState === EXTENSION_STATE.ACTIVE;
-    extensionState = isCurrentlyActive
-      ? EXTENSION_STATE.INACTIVE
-      : EXTENSION_STATE.ACTIVE;
-    showToast(extensionState);
-    setExtStateInStorage(extensionState);
+    await toggleExtension();
+    showToast(await getExtensionState());
   }
 };
 
 const handleFirstTimeInstall = () => {
+  setExtStateInStorage(EXTENSION_STATE.ACTIVE);
   syncFirebaseToStorage();
 };
 
+/**
+ * We first update the fallback db with current data and then update the current db
+ */
 const saveDataToFirebase = (data, sendResponse) => {
   let isRuleSaveSuccess = false;
   getFromFirebase(FIREBASE_DB_REF.redirections).then((snapshot) => {
@@ -76,6 +72,16 @@ const onMessageReceive = (message, sender, sendResponse) => {
     });
   } else if (message.saveRedirectionRules) {
     saveDataToFirebase(message.saveRedirectionRules, sendResponse);
+  } else if (message.getExtState) {
+    getExtensionState().then((extState) => {
+      sendResponse({ extState });
+    });
+  } else if (message.toggleExtension) {
+    toggleExtension().then(() => {
+      getExtensionState().then((extState) => {
+        sendResponse({ extState });
+      });
+    });
   }
   return true;
 };
@@ -84,7 +90,7 @@ const onMessageReceive = (message, sender, sendResponse) => {
 chrome.tabs.onUpdated.addListener(onUpdateCallback);
 
 //Listen key press for toggle
-chrome.commands.onCommand.addListener(handleExtensionToggle);
+chrome.commands.onCommand.addListener(handleKeyPress);
 
 //First time extension install
 chrome.runtime.onInstalled.addListener(handleFirstTimeInstall);
