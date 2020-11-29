@@ -1,9 +1,9 @@
 import { Box, Switch } from "@material-ui/core";
+import PowerOffTwoToneIcon from "@material-ui/icons/PowerOffTwoTone";
+import PowerTwoToneIcon from "@material-ui/icons/PowerTwoTone";
 import React, { memo, useEffect, useState } from "react";
 import { EXTENSION_STATE } from "../constants";
 import runtime from "../scripts/chrome/runtime";
-import PowerTwoToneIcon from "@material-ui/icons/PowerTwoTone";
-import PowerOffTwoToneIcon from "@material-ui/icons/PowerOffTwoTone";
 
 const isExtActive = (extState) => extState === EXTENSION_STATE.ACTIVE;
 

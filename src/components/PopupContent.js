@@ -1,18 +1,17 @@
-import { Box, Button, Typography } from "@material-ui/core";
-import EditIcon from "@material-ui/icons/Edit";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import TransitEnterexitIcon from "@material-ui/icons/TransitEnterexit";
-import React, { useEffect, useState } from "react";
-import { EditPanel } from "./EditPanel";
+import { Box, Typography } from "@material-ui/core";
+import React from "react";
+import { useSelector } from "react-redux";
 import { Authenticate } from "./Authenticate";
+import { EditPanel } from "./EditPanel";
+import { EditPanelButton } from "./EditPanelButton";
 import { ToggleExtension } from "./ToggleExtension";
 import { ToggleHistory } from "./ToggleHistory";
 
 export const PopupContent = () => {
-  const [showEditPanel, setShowEditPanel] = useState(false);
+  const showEditPanel = useSelector((state) => state.showEditPanel);
 
   if (showEditPanel) {
-    return <EditPanel setShowEditPanel={setShowEditPanel} />;
+    return <EditPanel />;
   }
 
   return (
@@ -32,21 +31,8 @@ export const PopupContent = () => {
       <ToggleHistory />
       <Box marginTop="8.4px">
         <Authenticate />
+        <EditPanelButton />
       </Box>
-      {/* <Box marginTop="8.4px">
-        {isAuthenticated ? (
-          <Button
-            variant="contained"
-            color="secondary"
-            startIcon={<EditIcon />}
-            onClick={handleRedirectionEdit}
-          >
-            <Box component="span" fontWeight="bold">
-              Redirections
-            </Box>
-          </Button>
-        ) : null}
-      </Box> */}
     </Box>
   );
 };

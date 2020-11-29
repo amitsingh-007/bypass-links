@@ -12,6 +12,8 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import DoneIcon from "@material-ui/icons/Done";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { hideEditPanel } from "../actionCreator";
 
 const Redirection = ({
   redirection,
@@ -79,7 +81,8 @@ const Redirection = ({
   );
 };
 
-export const EditPanel = ({ setShowEditPanel }) => {
+export const EditPanel = () => {
+  const dispatch = useDispatch();
   const [redirections, setRedirections] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
 
@@ -97,7 +100,7 @@ export const EditPanel = ({ setShowEditPanel }) => {
   }, []);
 
   const handleClose = () => {
-    setShowEditPanel(false);
+    dispatch(hideEditPanel());
   };
 
   const handleSave = () => {
