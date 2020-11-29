@@ -65,8 +65,8 @@ const saveDataToFirebase = (data, sendResponse) => {
 
 const onMessageReceive = (message, sender, sendResponse) => {
   if (message.triggerSignIn) {
-    signIn().then((isAuthenticated) => {
-      sendResponse({ isAuthenticated });
+    signIn().then((isSignedIn) => {
+      sendResponse({ isSignedIn });
     });
   } else if (message.triggerSignOut) {
     signOut().then((isSignedOut) => {

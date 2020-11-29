@@ -4,41 +4,12 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import TransitEnterexitIcon from "@material-ui/icons/TransitEnterexit";
 import React, { useEffect, useState } from "react";
 import { EditPanel } from "./EditPanel";
+import { Authenticate } from "./Authenticate";
 import { ToggleExtension } from "./ToggleExtension";
 import { ToggleHistory } from "./ToggleHistory";
 
 export const PopupContent = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showEditPanel, setShowEditPanel] = useState(false);
-
-  useEffect(() => {
-    chrome.storage.sync.get(["isAuthenticated"], ({ isAuthenticated }) => {
-      setIsAuthenticated(isAuthenticated);
-    });
-  }, []);
-
-  const handleSignIn = () => {
-    chrome.runtime.sendMessage(
-      { triggerSignIn: true },
-      ({ isAuthenticated }) => {
-        if (isAuthenticated) {
-          setIsAuthenticated(true);
-        }
-      }
-    );
-  };
-
-  const handleSignOut = () => {
-    chrome.runtime.sendMessage({ triggerSignOut: true }, ({ isSignedOut }) => {
-      if (isSignedOut) {
-        setIsAuthenticated(false);
-      }
-    });
-  };
-
-  const handleRedirectionEdit = () => {
-    setShowEditPanel(true);
-  };
 
   if (showEditPanel) {
     return <EditPanel setShowEditPanel={setShowEditPanel} />;
@@ -60,31 +31,9 @@ export const PopupContent = () => {
       <ToggleExtension />
       <ToggleHistory />
       <Box marginTop="8.4px">
-        {isAuthenticated ? (
-          <Button
-            variant="contained"
-            color="secondary"
-            startIcon={<TransitEnterexitIcon />}
-            onClick={handleSignOut}
-          >
-            <Box component="span" fontWeight="bold">
-              Sign Out
-            </Box>
-          </Button>
-        ) : (
-          <Button
-            variant="contained"
-            color="secondary"
-            startIcon={<ExitToAppIcon />}
-            onClick={handleSignIn}
-          >
-            <Box component="span" fontWeight="bold">
-              Sign In
-            </Box>
-          </Button>
-        )}
+        <Authenticate />
       </Box>
-      <Box marginTop="8.4px">
+      {/* <Box marginTop="8.4px">
         {isAuthenticated ? (
           <Button
             variant="contained"
@@ -97,7 +46,7 @@ export const PopupContent = () => {
             </Box>
           </Button>
         ) : null}
-      </Box>
+      </Box> */}
     </Box>
   );
 };
