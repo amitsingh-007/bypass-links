@@ -44,32 +44,24 @@ const handleHistoryClear = (setIsHistoryActive) => {
 };
 
 export const PopupContent = () => {
-  const [extState, setExtState] = useState("...");
   const [isHistoryActive, setIsHistoryActive] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showEditPanel, setShowEditPanel] = useState(false);
 
   useEffect(() => {
-    if (!__IS_BROWSER__) {
-      chrome.storage.sync.get(
-        ["extState", "historyStartTime", "isAuthenticated"],
-        ({ extState, historyStartTime, isAuthenticated }) => {
-          console.log(`Extension currently is ${extState}.`);
-          setExtState(extState);
-          setIsHistoryActive(!!historyStartTime);
-          setIsAuthenticated(isAuthenticated);
-        }
-      );
-    }
+    chrome.storage.sync.get(
+      ["historyStartTime", "isAuthenticated"],
+      ({ historyStartTime, isAuthenticated }) => {
+        setIsHistoryActive(!!historyStartTime);
+        setIsAuthenticated(isAuthenticated);
+      }
+    );
   }, []);
 
   const handleHistorySwitchChange = (event) => {
     const isActive = event.target.checked;
     console.log(isActive);
     setIsHistoryActive(isActive);
-    if (__IS_BROWSER__) {
-      return;
-    }
     if (isActive) {
       handleHistoryStart();
     } else {

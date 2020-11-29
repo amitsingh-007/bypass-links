@@ -1,15 +1,15 @@
 const path = require("path");
-const CopyPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WebpackShellPlugin = require("webpack-shell-plugin");
 const BundleAnalyzerPlugin = require("@bundle-analyzer/webpack-plugin");
 const WebpackBundleAnalyzerPlugin = require("webpack-bundle-analyzer")
   .BundleAnalyzerPlugin;
-const webpack = require("webpack");
+const FileManagerPlugin = require("filemanager-webpack-plugin");
+const { getExtensionFile } = require("./src/utils");
+const manifest = require("./public-extension/manifest.json");
 
 const ENV = process.env.NODE_ENV || "production";
 const isProduction = ENV === "production";
-const IS_BROWSER = process.env.IS_BROWSER === "true";
 const ENABLE_BUNDLE_ANLYZER = process.env.ENABLE_BUNDLE_ANLYZER === "true";
 
 const preactConfig = {
@@ -21,12 +21,32 @@ const preactConfig = {
 
 const getPopupConfigPlugins = (isProduction) => {
   const plugins = [
-    new HtmlWebpackPlugin({ template: "./public-extension/index.html" }),
+    new HtmlWebpackPlugin({
+      template: "./public-extension/index.html",
+      cache: false,
+    }),
     new BundleAnalyzerPlugin({
       token: "9bc57954116cf0bd136f7718b24d79c4383ff15f",
     }),
-    new webpack.DefinePlugin({
-      __IS_BROWSER__: JSON.stringify(IS_BROWSER),
+    new FileManagerPlugin({
+      events: {
+        onStart: {
+          copy: [
+            {
+              source: "./public-extension/*",
+              destination: path.resolve(__dirname, "extension"),
+            },
+          ],
+        },
+        onEnd: {
+          archive: [
+            {
+              source: path.resolve(__dirname, "extension"),
+              destination: `./build/${getExtensionFile(manifest.version)}`,
+            },
+          ],
+        },
+      },
     }),
   ];
   if (!isProduction) {
@@ -39,28 +59,25 @@ const getPopupConfigPlugins = (isProduction) => {
   return plugins;
 };
 
-const getScriptsConfigPlugins = (enableBundleAnalyzer) => {
+const getBackgroundConfigPlugins = (enableBundleAnalyzer) => {
   const plugins = [
-    new CopyPlugin({
-      patterns: [
-        {
-          from: "public-extension",
-          to: path.resolve(__dirname, "extension"),
+    new FileManagerPlugin({
+      events: {
+        onStart: {
+          copy: [
+            {
+              source: "./src/css/*",
+              destination: path.resolve(__dirname, "extension"),
+            },
+          ],
         },
-        {
-          from: "src/css",
-          to: path.resolve(__dirname, "extension"),
-        },
-      ],
+      },
     }),
     new WebpackShellPlugin({
-      onBuildEnd: ["node generate-release-config.js"],
+      onBuildStart: ["node generate-release-config.js"],
     }),
     new BundleAnalyzerPlugin({
       token: "9bc57954116cf0bd136f7718b24d79c4383ff15f",
-    }),
-    new webpack.DefinePlugin({
-      __IS_BROWSER__: JSON.stringify(IS_BROWSER),
     }),
   ];
   if (enableBundleAnalyzer) {
@@ -76,7 +93,7 @@ const getScriptsConfigPlugins = (enableBundleAnalyzer) => {
   return plugins;
 };
 
-const scriptsConfig = {
+const backgroundConfig = {
   entry: "./src/scripts/background.js",
   output: {
     path: path.resolve(__dirname, "extension"),
@@ -84,7 +101,7 @@ const scriptsConfig = {
   },
   mode: ENV,
   resolve: preactConfig,
-  plugins: getScriptsConfigPlugins(ENABLE_BUNDLE_ANLYZER),
+  plugins: getBackgroundConfigPlugins(ENABLE_BUNDLE_ANLYZER),
   devtool: isProduction ? undefined : "eval-cheap-module-source-map",
 };
 
@@ -111,4 +128,4 @@ const popupConfig = {
   devtool: isProduction ? undefined : "eval-cheap-module-source-map",
 };
 
-module.exports = [scriptsConfig, popupConfig];
+module.exports = [backgroundConfig, popupConfig];
