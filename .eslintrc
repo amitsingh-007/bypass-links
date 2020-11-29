@@ -6,7 +6,6 @@
     "es6": true
   },
   "globals": {
-    "chrome": false,
-    "__IS_BROWSER__": false
+    "chrome": false
   }
 }
