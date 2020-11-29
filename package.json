@@ -30,12 +30,13 @@
   },
   "scripts": {
     "analyzer": "cross-env NODE_ENV=production ENABLE_BUNDLE_ANLYZER=true npm-run-all extension:prod",
+    "config": "node ./generate-release-config.js",
     "extension": "webpack --watch",
     "extension:prod": "webpack",
     "build": "react-scripts build",
-    "dev": "npm-run-all -p build dev:ext",
+    "dev": "npm-run-all config build dev:ext",
     "dev:ext": "cross-env NODE_ENV=development npm-run-all extension",
-    "release": "cross-env NODE_ENV=production npm-run-all build extension:prod",
+    "release": "cross-env NODE_ENV=production npm-run-all config build extension:prod",
     "start": "react-scripts start"
   },
   "eslintConfig": {
