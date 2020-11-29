@@ -49,13 +49,14 @@ const getPopupConfigPlugins = (isProduction) => {
       },
     }),
   ];
-  if (!isProduction) {
-    plugins.push(
-      new WebpackShellPlugin({
-        onBuildEnd: ["nodemon server/index.js --watch extension"],
-      })
-    );
-  }
+  /* UNCOMMENT THIS TO SEE THE EXTENSION POPUP IN THE BROWSER */
+  // if (!isProduction) {
+  //   plugins.push(
+  //     new WebpackShellPlugin({
+  //       onBuildEnd: ["nodemon server/index.js --watch extension"],
+  //     })
+  //   );
+  // }
   return plugins;
 };
 

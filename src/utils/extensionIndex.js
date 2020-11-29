@@ -1,4 +1,6 @@
+import storage from "../scripts/chrome/storage";
 import { changeTabUrl } from "./changeTabUrl";
+import history from "../scripts/chrome/history";
 
 export const bypassSingleLinkOnPage = (selectorFn, tabId) => {
   chrome.tabs.executeScript(
@@ -25,3 +27,28 @@ export const bypassSingleLinkOnPage = (selectorFn, tabId) => {
     }
   );
 };
+
+export const startHistoryWatch = () =>
+  storage.set({ historyStartTime: Date.now() });
+
+export const endHistoryWatch = () =>
+  new Promise((resolve, reject) => {
+    storage.get(["historyStartTime"]).then(({ historyStartTime }) => {
+      const historyEndTime = Date.now();
+      console.log(`Start DateTime is: ${new Date(historyStartTime)}`);
+      console.log(`End DateTime is: ${new Date(historyEndTime)}`);
+      history
+        .deleteRange({
+          startTime: historyStartTime,
+          endTime: historyEndTime,
+        })
+        .then(() => {
+          storage.remove("historyStartTime");
+          console.log("History clear succesful.");
+          resolve();
+        })
+        .catch(() => {
+          reject();
+        });
+    });
+  });

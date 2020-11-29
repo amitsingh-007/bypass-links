@@ -10,6 +10,12 @@ import { bypass, redirect } from "../utils/bypass";
 import { getFromFirebase, saveToFirebase } from "../utils/firebase";
 import { showToast } from "../utils/showToast";
 import { syncFirebaseToStorage } from "../utils/syncFirebaseToStorage";
+import {
+  endHistoryWatch,
+  isHistoryActive,
+  startHistoryWatch,
+} from "../utils/extensionIndex";
+import storage from "./chrome/storage";
 
 const onUpdateCallback = async (tabId, changeInfo) => {
   const { url } = changeInfo;
@@ -82,6 +88,22 @@ const onMessageReceive = (message, sender, sendResponse) => {
         sendResponse({ extState });
       });
     });
+  } else if (message.isHistoryActive) {
+    storage.get(["historyStartTime"]).then(({ historyStartTime }) => {
+      sendResponse({ isHistoryActive: !!historyStartTime });
+    });
+  } else if (message.startHistoryWatch || message.endHistoryWatch) {
+    const historyFn = message.startHistoryWatch
+      ? startHistoryWatch
+      : endHistoryWatch;
+    historyFn()
+      .then(() => {
+        sendResponse({ isHistoryActionSuccess: true });
+      })
+      .catch((err) => {
+        console.log("Error occured while manipulating history.", err);
+        sendResponse({ isHistoryActionSuccess: false });
+      });
   }
   return true;
 };
