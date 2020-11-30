@@ -33,4 +33,4 @@ Head over to [My Github Page](https://amitsingh-007.github.io/bypass-links/) and
 
 ## For Development
 
-[Click Here]("https://github.com/amitsingh-007/bypass-links/blob/master/CONTRIBUTING.md") to get started.
+[Click Here](https://github.com/amitsingh-007/bypass-links/blob/master/CONTRIBUTING.md) to get started.
