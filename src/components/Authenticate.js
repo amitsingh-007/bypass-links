@@ -1,14 +1,14 @@
 import { IconButton } from "@material-ui/core";
 import CloudDoneTwoToneIcon from "@material-ui/icons/CloudDoneTwoTone";
 import CloudOffTwoTone from "@material-ui/icons/CloudOffTwoTone";
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setSignedInStatus } from "../actionCreator";
 import { COLOR } from "../constants/color";
 import runtime from "../scripts/chrome/runtime";
 import storage from "../scripts/chrome/storage";
 
-export const Authenticate = () => {
+export const Authenticate = memo(() => {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const dispatch = useDispatch();
 
@@ -55,4 +55,4 @@ export const Authenticate = () => {
       <CloudOffTwoTone fontSize="large" />
     </IconButton>
   );
-};
+});

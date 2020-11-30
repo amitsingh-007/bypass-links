@@ -1,7 +1,7 @@
 # Setup on local
 
 - Fork this repository.
-- Run `npm i` or `npm install`.
+- Run `npm install`.
 - For local development:
   - Run `npm run dev:ext` to build only extension
   - Run `npm run dev` to build extenion as well as download page.

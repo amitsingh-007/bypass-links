@@ -1,10 +1,10 @@
 import { IconButton } from "@material-ui/core";
 import TuneTwoToneIcon from "@material-ui/icons/TuneTwoTone";
-import React from "react";
+import React, { memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { showEditPanel } from "../actionCreator";
 
-export const EditPanelButton = () => {
+export const EditPanelButton = memo(() => {
   const dispatch = useDispatch();
   const isSignedIn = useSelector((state) => state.isSignedIn);
 
@@ -24,4 +24,4 @@ export const EditPanelButton = () => {
       <TuneTwoToneIcon fontSize="large" />
     </IconButton>
   );
-};
+});

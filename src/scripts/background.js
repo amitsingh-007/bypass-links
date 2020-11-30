@@ -1,20 +1,16 @@
 import { EXTENSION_STATE, FIREBASE_DB_REF } from "../constants";
 import { signIn, signOut } from "../utils/authentication";
-import {
-  isExtensionActive,
-  toggleExtension,
-  setExtStateInStorage,
-  getExtensionState,
-} from "../utils/toggleExtension";
 import { bypass, redirect } from "../utils/bypass";
+import { endHistoryWatch, startHistoryWatch } from "../utils/extensionIndex";
 import { getFromFirebase, saveToFirebase } from "../utils/firebase";
 import { showToast } from "../utils/showToast";
 import { syncFirebaseToStorage } from "../utils/syncFirebaseToStorage";
 import {
-  endHistoryWatch,
-  isHistoryActive,
-  startHistoryWatch,
-} from "../utils/extensionIndex";
+  getExtensionState,
+  isExtensionActive,
+  setExtStateInStorage,
+  toggleExtension,
+} from "../utils/toggleExtension";
 import storage from "./chrome/storage";
 
 const onUpdateCallback = async (tabId, changeInfo) => {

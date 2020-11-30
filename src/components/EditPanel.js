@@ -1,14 +1,26 @@
-import { Box, CircularProgress, IconButton } from "@material-ui/core";
+import {
+  Box,
+  CircularProgress,
+  IconButton,
+  Typography,
+} from "@material-ui/core";
 import BackspaceTwoToneIcon from "@material-ui/icons/BackspaceTwoTone";
 import PlaylistAddTwoToneIcon from "@material-ui/icons/PlaylistAddTwoTone";
 import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { hideEditPanel } from "../actionCreator";
 import { COLOR } from "../constants/color";
 import { RedirectionRule } from "./RedirectionRule";
 
-export const EditPanel = () => {
+const titleStyles = {
+  fontSize: "21px",
+  marginRight: "18px",
+  fontWeight: "700",
+  color: "firebrick",
+};
+
+export const EditPanel = memo(() => {
   const dispatch = useDispatch();
   const [redirections, setRedirections] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
@@ -20,7 +32,6 @@ export const EditPanel = () => {
         const modifiedRedirections = Object.entries(
           redirections
         ).map(([key, value]) => [atob(key), atob(value)]);
-        // ).map(([key, value]) => [key, value]);
         setRedirections(modifiedRedirections);
         setIsFetching(false);
       }
@@ -67,40 +78,50 @@ export const EditPanel = () => {
 
   return (
     <Box width="max-content" display="flex" flexDirection="column">
-      <Box>
-        <IconButton
-          aria-label="Discard"
+      <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Box>
+          <IconButton
+            aria-label="Discard"
+            component="span"
+            style={COLOR.red}
+            onClick={handleClose}
+            title="Discard and Close"
+          >
+            <BackspaceTwoToneIcon fontSize="large" />
+          </IconButton>
+          <IconButton
+            aria-label="Save"
+            component="span"
+            style={COLOR.green}
+            onClick={handleSave}
+            title="Save and Close"
+          >
+            <SaveTwoToneIcon fontSize="large" />
+          </IconButton>
+          <IconButton
+            aria-label="Add"
+            component="span"
+            color="primary"
+            onClick={handleAddRule}
+            title="Add Rule"
+          >
+            <PlaylistAddTwoToneIcon fontSize="large" />
+          </IconButton>
+        </Box>
+        <Typography
           component="span"
-          style={COLOR.red}
-          onClick={handleClose}
-          title="Discard and Close"
+          variant="h1"
+          display="inline"
+          style={titleStyles}
         >
-          <BackspaceTwoToneIcon fontSize="large" />
-        </IconButton>
-        <IconButton
-          aria-label="Save"
-          component="span"
-          style={COLOR.green}
-          onClick={handleSave}
-          title="Save and Close"
-        >
-          <SaveTwoToneIcon fontSize="large" />
-        </IconButton>
-        <IconButton
-          aria-label="Add"
-          component="span"
-          color="primary"
-          onClick={handleAddRule}
-          title="Add Rule"
-        >
-          <PlaylistAddTwoToneIcon fontSize="large" />
-        </IconButton>
+          REDIRECTION PANEL
+        </Typography>
       </Box>
       {isFetching ? (
         <Box
           display="flex"
           justifyContent="center"
-          width="540px"
+          width="494px"
           marginBottom="12px"
         >
           <CircularProgress color="secondary" size={55} />
@@ -121,4 +142,4 @@ export const EditPanel = () => {
       ) : null}
     </Box>
   );
-};
+});

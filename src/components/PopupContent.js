@@ -20,7 +20,7 @@ export const PopupContent = () => {
       flexDirection="column"
       alignItems="center"
       width="200px"
-      padding="14px"
+      padding="12px"
     >
       <Typography variant="h5" component="h5" gutterBottom>
         <Box color="firebrick" fontWeight="700">

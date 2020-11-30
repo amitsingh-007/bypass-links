@@ -2,7 +2,9 @@ import { Box, Switch } from "@material-ui/core";
 import VisibilityOffTwoToneIcon from "@material-ui/icons/VisibilityOffTwoTone";
 import VisibilityTwoToneIcon from "@material-ui/icons/VisibilityTwoTone";
 import React, { memo, useEffect, useState } from "react";
+import { COLOR } from "../constants/color";
 import runtime from "../scripts/chrome/runtime";
+import { getOffIconColor, getOnIconColor } from "../utils/color";
 
 export const ToggleHistory = memo(() => {
   const [isHistoryActive, setIsHistoryActive] = useState(false);
@@ -28,15 +30,15 @@ export const ToggleHistory = memo(() => {
   };
 
   return (
-    <Box display="flex" alignItems="items">
-      <VisibilityOffTwoToneIcon fontSize="large" />
+    <Box display="flex" alignItems="center">
+      <VisibilityOffTwoToneIcon htmlColor={getOffIconColor(isHistoryActive)} />
       <Switch
         checked={isHistoryActive}
         onChange={handleToggle}
         color="primary"
         name="historyWatch"
       />
-      <VisibilityTwoToneIcon fontSize="large" />
+      <VisibilityTwoToneIcon htmlColor={getOnIconColor(isHistoryActive)} />
     </Box>
   );
 });

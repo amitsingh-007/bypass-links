@@ -1,5 +1,5 @@
 import storage from "../scripts/chrome/storage";
-import { changeTabUrl } from "./changeTabUrl";
+import { changeTabUrl } from "./bypass/changeTabUrl";
 import history from "../scripts/chrome/history";
 
 export const bypassSingleLinkOnPage = (selectorFn, tabId) => {
