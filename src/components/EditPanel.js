@@ -1,85 +1,27 @@
 import {
   Box,
-  Button,
   CircularProgress,
   IconButton,
-  TextField,
+  Typography,
 } from "@material-ui/core";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
-import CancelIcon from "@material-ui/icons/Cancel";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import DeleteIcon from "@material-ui/icons/Delete";
-import DoneIcon from "@material-ui/icons/Done";
-import RotateLeftIcon from "@material-ui/icons/RotateLeft";
-import React, { useEffect, useState } from "react";
+import BackspaceTwoToneIcon from "@material-ui/icons/BackspaceTwoTone";
+import PlaylistAddTwoToneIcon from "@material-ui/icons/PlaylistAddTwoTone";
+import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
+import React, { memo, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { hideEditPanel } from "../actionCreator";
+import { COLOR } from "../constants/color";
+import { RedirectionRule } from "./RedirectionRule";
 
-const Redirection = ({
-  redirection,
-  pos,
-  handleRemoveRule,
-  handleSaveRule,
-}) => {
-  const [website, setWebsite] = useState(redirection[0]);
-  const [redirectionValue, setRedirectionValue] = useState(redirection[1]);
-
-  const handleResetClick = () => {
-    setWebsite(redirection[0]);
-    setRedirectionValue(redirection[1]);
-  };
-
-  const handleRemoveClick = () => {
-    handleRemoveRule(pos);
-  };
-
-  const handleSaveClick = () => {
-    handleSaveRule([website, redirectionValue], pos);
-  };
-
-  return (
-    <Box marginTop="8px">
-      <Box
-        marginRight="8px"
-        display="inline-block"
-        bgcolor={redirection[0] !== website ? "antiquewhite" : undefined}
-      >
-        <TextField
-          id="alias"
-          value={website}
-          onChange={(e) => {
-            setWebsite(e.target.value.trim());
-          }}
-        />
-      </Box>
-      <Box
-        display="inline-block"
-        bgcolor={
-          redirection[1] !== redirectionValue ? "antiquewhite" : undefined
-        }
-      >
-        <TextField
-          id="redirectionValue"
-          value={redirectionValue}
-          onChange={(e) => {
-            setRedirectionValue(e.target.value.trim());
-          }}
-        />
-      </Box>
-      <Box display="inline-block">
-        <IconButton color="primary" aria-label="Reset">
-          <RotateLeftIcon onClick={handleResetClick} />
-        </IconButton>
-        <IconButton aria-label="Save">
-          <DoneIcon htmlColor="green" onClick={handleSaveClick} />
-        </IconButton>
-        <IconButton aria-label="Remove">
-          <DeleteIcon htmlColor="red" onClick={handleRemoveClick} />
-        </IconButton>
-      </Box>
-    </Box>
-  );
+const titleStyles = {
+  fontSize: "21px",
+  marginRight: "18px",
+  fontWeight: "700",
+  color: "firebrick",
 };
 
-export const EditPanel = ({ setShowEditPanel }) => {
+export const EditPanel = memo(() => {
+  const dispatch = useDispatch();
   const [redirections, setRedirections] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
 
@@ -97,7 +39,7 @@ export const EditPanel = ({ setShowEditPanel }) => {
   }, []);
 
   const handleClose = () => {
-    setShowEditPanel(false);
+    dispatch(hideEditPanel());
   };
 
   const handleSave = () => {
@@ -135,59 +77,60 @@ export const EditPanel = ({ setShowEditPanel }) => {
   };
 
   return (
-    <Box
-      width="max-content"
-      display="flex"
-      flexDirection="column"
-      paddingTop="20px"
-      paddingLeft="12px"
-      paddingBottom="12px"
-    >
-      <Box marginBottom="12px">
-        <Box display="inline-block" marginRight="8px">
-          <Button
-            variant="contained"
-            color="secondary"
-            startIcon={<CancelIcon />}
+    <Box width="max-content" display="flex" flexDirection="column">
+      <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Box>
+          <IconButton
+            aria-label="Discard"
+            component="span"
+            style={COLOR.red}
             onClick={handleClose}
+            title="Discard and Close"
           >
-            <Box component="span" fontWeight="bold">
-              Discard
-            </Box>
-          </Button>
-        </Box>
-        <Box display="inline-block" marginRight="8px">
-          <Button
-            variant="contained"
-            color="secondary"
-            startIcon={<CheckCircleIcon />}
+            <BackspaceTwoToneIcon fontSize="large" />
+          </IconButton>
+          <IconButton
+            aria-label="Save"
+            component="span"
+            style={COLOR.green}
             onClick={handleSave}
+            title="Save and Close"
           >
-            <Box component="span" fontWeight="bold">
-              Save
-            </Box>
-          </Button>
+            <SaveTwoToneIcon fontSize="large" />
+          </IconButton>
+          <IconButton
+            aria-label="Add"
+            component="span"
+            color="primary"
+            onClick={handleAddRule}
+            title="Add Rule"
+          >
+            <PlaylistAddTwoToneIcon fontSize="large" />
+          </IconButton>
         </Box>
-        <Button
-          variant="contained"
-          color="secondary"
-          startIcon={<AddCircleIcon />}
-          onClick={handleAddRule}
+        <Typography
+          component="span"
+          variant="h1"
+          display="inline"
+          style={titleStyles}
         >
-          <Box component="span" fontWeight="bold">
-            Add Rule
-          </Box>
-        </Button>
+          REDIRECTION PANEL
+        </Typography>
       </Box>
       {isFetching ? (
-        <Box display="flex" justifyContent="center">
+        <Box
+          display="flex"
+          justifyContent="center"
+          width="494px"
+          marginBottom="12px"
+        >
           <CircularProgress color="secondary" size={55} />
         </Box>
       ) : null}
       {!isFetching && redirections && redirections.length > 0 ? (
-        <form noValidate autoComplete="off">
+        <form noValidate autoComplete="off" style={{ paddingLeft: "12px" }}>
           {redirections.map((redirection, index) => (
-            <Redirection
+            <RedirectionRule
               key={`${redirection[0]}_${redirection[1]}`}
               redirection={redirection}
               pos={index}
@@ -199,4 +142,4 @@ export const EditPanel = ({ setShowEditPanel }) => {
       ) : null}
     </Box>
   );
-};
+});

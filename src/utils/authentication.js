@@ -8,7 +8,7 @@ export const signIn = async () => {
     const response = await googleSignIn();
     console.log("Login Success ", response);
     syncFirebaseToStorage();
-    storage.set({ isAuthenticated: true });
+    storage.set({ isSignedIn: true });
     return true;
   } catch (err) {
     console.error("Error occured while signing in. ", err);
@@ -20,7 +20,7 @@ export const signOut = async () => {
   try {
     const response = await googleSignOut();
     console.log("Logout Success ", response);
-    storage.set({ isAuthenticated: false, redirections: null });
+    storage.set({ isSignedIn: false, redirections: null });
     resetRedirections();
     return true;
   } catch (err) {

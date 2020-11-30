@@ -7,14 +7,14 @@ import {
   Typography,
 } from "@material-ui/core";
 import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
-import React from "react";
+import React, { memo } from "react";
 import { getExtensionFile } from "../utils";
 import chromeLogo from "./chrome.svg";
 import releaseConfig from "../../src/release-config.json";
 
 const cardStyles = { backgroundColor: "#323638" };
 
-export const ChromeExtension = () => {
+export const ChromeExtension = memo(() => {
   return (
     <Box width="360px" textAlign="left">
       <Card style={cardStyles}>
@@ -61,4 +61,4 @@ export const ChromeExtension = () => {
       </Card>
     </Box>
   );
-};
+});
