@@ -1,13 +1,12 @@
 import { IconButton } from "@material-ui/core";
-import green from "@material-ui/core/colors/green";
-import red from "@material-ui/core/colors/red";
 import CloudDoneTwoToneIcon from "@material-ui/icons/CloudDoneTwoTone";
 import CloudOffTwoTone from "@material-ui/icons/CloudOffTwoTone";
 import React, { useEffect, useState } from "react";
-import runtime from "../scripts/chrome/runtime";
-import storage from "../scripts/chrome/storage";
 import { useDispatch } from "react-redux";
 import { setSignedInStatus } from "../actionCreator";
+import { COLOR } from "../constants/color";
+import runtime from "../scripts/chrome/runtime";
+import storage from "../scripts/chrome/storage";
 
 export const Authenticate = () => {
   const [isSignedIn, setIsSignedIn] = useState(false);
@@ -39,7 +38,7 @@ export const Authenticate = () => {
     <IconButton
       aria-label="SignOut"
       component="span"
-      style={{ color: green[500] }}
+      style={COLOR.green}
       onClick={handleSignOut}
       title="Click to SignOut"
     >
@@ -49,7 +48,7 @@ export const Authenticate = () => {
     <IconButton
       aria-label="SignIn"
       component="span"
-      style={{ color: red[500] }}
+      style={COLOR.red}
       onClick={handleSignIn}
       title="Click to SignIn"
     >
