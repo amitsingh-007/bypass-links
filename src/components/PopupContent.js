@@ -1,4 +1,5 @@
 import { Box, Typography } from "@material-ui/core";
+import red from "@material-ui/core/colors/red";
 import React from "react";
 import { useSelector } from "react-redux";
 import { Authenticate } from "./Authenticate";
@@ -23,7 +24,7 @@ export const PopupContent = () => {
       padding="12px"
     >
       <Typography variant="h5" component="h5" gutterBottom>
-        <Box color="firebrick" fontWeight="700">
+        <Box color={red[300]} fontWeight="700">
           BYPASS LINKS
         </Box>
       </Typography>
