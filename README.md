@@ -23,6 +23,8 @@ This is an easy-to-use Open-Source `Browser Extension` which bypasses links on v
 
 - A **fully customised edit panel** to add/edit/delete custom redirection rules stored in **Firebase**.
 
+- Full **dark theme** support
+
 ## Download link
 
 Head over to [My Github Page](https://amitsingh-007.github.io/bypass-links/) and download for your browser.
