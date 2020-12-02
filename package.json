@@ -11,8 +11,8 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-redux": "^7.2.2",
-    "react-scripts": "3.4.3",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "webpack": "^4.44.2"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
@@ -21,11 +21,14 @@
     "@bundle-analyzer/webpack-plugin": "^0.5.1",
     "@types/chrome": "0.0.126",
     "babel-loader": "^8.1.0",
+    "babel-preset-react-app": "^10.0.0",
     "cross-env": "^7.0.2",
     "express": "^4.17.1",
     "filemanager-webpack-plugin": "^3.0.0-beta.0",
+    "html-webpack-plugin": "^4.5.0",
     "nodemon": "^2.0.6",
     "npm-run-all": "4.1.5",
+    "svg-url-loader": "^7.1.1",
     "webpack-bundle-analyzer": "^4.1.0",
     "webpack-cli": "^4.2.0",
     "webpack-shell-plugin": "^0.5.0"
@@ -35,14 +38,8 @@
     "config": "node ./generate-release-config.js",
     "extension": "webpack --watch",
     "extension:prod": "webpack",
-    "build": "react-scripts build",
-    "dev": "npm-run-all config build dev:ext",
-    "dev:ext": "cross-env NODE_ENV=development npm-run-all extension",
-    "release": "cross-env NODE_ENV=production npm-run-all config build extension:prod",
-    "start": "react-scripts start"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
+    "dev": "cross-env NODE_ENV=development npm-run-all config extension",
+    "release": "cross-env NODE_ENV=production npm-run-all config extension:prod"
   },
   "browserslist": {
     "production": [
