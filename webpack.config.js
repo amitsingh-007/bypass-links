@@ -112,7 +112,10 @@ const downloadPageConfig = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.m?js$/,
+        resolve: {
+          fullySpecified: false,
+        },
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
@@ -153,7 +156,7 @@ const popupConfig = {
   module: {
     rules: [
       {
-        test: /\.m?js/,
+        test: /\.m?js$/,
         resolve: {
           fullySpecified: false,
         },
