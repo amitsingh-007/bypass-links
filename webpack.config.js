@@ -112,7 +112,10 @@ const popupConfig = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.m?js/,
+        resolve: {
+          fullySpecified: false,
+        },
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
@@ -126,4 +129,7 @@ const popupConfig = {
   devtool: isProduction ? undefined : "eval-cheap-module-source-map",
 };
 
-module.exports = [backgroundConfig, popupConfig];
+module.exports = [
+  // backgroundConfig,
+  popupConfig,
+];
