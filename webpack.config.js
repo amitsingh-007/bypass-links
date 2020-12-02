@@ -130,7 +130,7 @@ const downloadPageConfig = {
     ],
   },
   mode: ENV,
-  // resolve: preactConfig,
+  resolve: preactConfig,
   plugins: getDownloadPageConfigPlugins(isProduction),
   devtool: isProduction ? undefined : "eval-cheap-module-source-map",
 };
