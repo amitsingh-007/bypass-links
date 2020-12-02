@@ -1,6 +1,5 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const WebpackShellPlugin = require("webpack-shell-plugin");
 const BundleAnalyzerPlugin = require("@bundle-analyzer/webpack-plugin");
 const WebpackBundleAnalyzerPlugin = require("webpack-bundle-analyzer")
   .BundleAnalyzerPlugin;
@@ -50,13 +49,14 @@ const getPopupConfigPlugins = (isProduction) => {
     }),
   ];
   /* UNCOMMENT THIS TO SEE THE EXTENSION POPUP IN THE BROWSER */
-  // if (!isProduction) {
-  //   plugins.push(
-  //     new WebpackShellPlugin({
-  //       onBuildEnd: ["nodemon server/index.js --watch extension"],
-  //     })
-  //   );
-  // }
+  //   const WebpackShellPluginNext = require("webpack-shell-plugin-next");
+  //   if (!isProduction) {
+  //     plugins.push(
+  //       new WebpackShellPluginNext({
+  //         onBuildEnd: ["nodemon server/index.js --watch extension"],
+  //       })
+  //     );
+  //   }
   return plugins;
 };
 
@@ -73,9 +73,6 @@ const getBackgroundConfigPlugins = (enableBundleAnalyzer) => {
           ],
         },
       },
-    }),
-    new WebpackShellPlugin({
-      onBuildStart: ["node generate-release-config.js"],
     }),
     new BundleAnalyzerPlugin({
       token: "9bc57954116cf0bd136f7718b24d79c4383ff15f",
