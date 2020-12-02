@@ -4,6 +4,7 @@ const BundleAnalyzerPlugin = require("@bundle-analyzer/webpack-plugin");
 const WebpackBundleAnalyzerPlugin = require("webpack-bundle-analyzer")
   .BundleAnalyzerPlugin;
 const FileManagerPlugin = require("filemanager-webpack-plugin");
+const WebpackShellPluginNext = require("webpack-shell-plugin-next");
 const { getExtensionFile } = require("./src/utils");
 const manifest = require("./public-extension/manifest.json");
 
@@ -48,15 +49,26 @@ const getPopupConfigPlugins = (isProduction) => {
       },
     }),
   ];
-  /* UNCOMMENT THIS TO SEE THE EXTENSION POPUP IN THE BROWSER */
-  //   const WebpackShellPluginNext = require("webpack-shell-plugin-next");
-  //   if (!isProduction) {
-  //     plugins.push(
-  //       new WebpackShellPluginNext({
-  //         onBuildEnd: ["nodemon server/index.js --watch extension"],
-  //       })
-  //     );
-  //   }
+  return plugins;
+};
+
+const getDownloadPageConfigPlugins = (isProduction) => {
+  const plugins = [
+    new HtmlWebpackPlugin({
+      template: "./public/index.html",
+      cache: false,
+    }),
+    new BundleAnalyzerPlugin({
+      token: "9bc57954116cf0bd136f7718b24d79c4383ff15f",
+    }),
+  ];
+  if (!isProduction) {
+    plugins.push(
+      new WebpackShellPluginNext({
+        onBuildEnd: ["nodemon server/index.js --watch extension"],
+      })
+    );
+  }
   return plugins;
 };
 
@@ -89,6 +101,35 @@ const getBackgroundConfigPlugins = (enableBundleAnalyzer) => {
     );
   }
   return plugins;
+};
+
+const downloadPageConfig = {
+  entry: "./src/index.js",
+  output: {
+    path: path.resolve(__dirname, "build"),
+    filename: "gh-pages.js",
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+        },
+      },
+      {
+        test: /\.svg/,
+        use: {
+          loader: "svg-url-loader",
+        },
+      },
+    ],
+  },
+  mode: ENV,
+  resolve: preactConfig,
+  plugins: getDownloadPageConfigPlugins(isProduction),
+  devtool: isProduction ? undefined : "eval-cheap-module-source-map",
 };
 
 const backgroundConfig = {
@@ -129,7 +170,4 @@ const popupConfig = {
   devtool: isProduction ? undefined : "eval-cheap-module-source-map",
 };
 
-module.exports = [
-  // backgroundConfig,
-  popupConfig,
-];
+module.exports = [downloadPageConfig, backgroundConfig, popupConfig];
