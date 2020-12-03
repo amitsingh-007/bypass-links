@@ -6,6 +6,7 @@ const WebpackBundleAnalyzerPlugin = require("webpack-bundle-analyzer")
 const FileManagerPlugin = require("filemanager-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const WebpackShellPluginNext = require("webpack-shell-plugin-next");
+const TerserPlugin = require("terser-webpack-plugin");
 const webpack = require("webpack");
 const { getExtensionFile } = require("./src/utils");
 const { releaseDate, extVersion } = require("./release-config");
@@ -26,6 +27,19 @@ const devToolsConfig = isProduction
   : "eval-cheap-module-source-map";
 
 const statsConfig = isProduction ? "normal" : "errors-warnings";
+
+const terserConfig = {
+  extractComments: true,
+  parallel: true,
+  terserOptions: {
+    compress: {
+      hoist_funs: true,
+    },
+    keep_classnames: true,
+    keep_fnames: true,
+    ecma: 6,
+  },
+};
 
 const fileManagerPluginConfig = new FileManagerPlugin({
   events: {
@@ -136,6 +150,8 @@ const downloadPageConfig = {
   },
   optimization: {
     nodeEnv: ENV,
+    minimize: isProduction,
+    minimizer: [new TerserPlugin(terserConfig)],
     chunkIds: "named",
     splitChunks: {
       automaticNameDelimiter: "~",
@@ -171,7 +187,7 @@ const downloadPageConfig = {
   mode: ENV,
   resolve: preactConfig,
   plugins: getDownloadPageConfigPlugins(),
-  devtool: devToolsConfig,
+  devtool: "source-map",
   stats: statsConfig,
 };
 
@@ -188,6 +204,11 @@ const backgroundConfig = {
   performance: {
     maxEntrypointSize: 500000,
     maxAssetSize: 500000,
+  },
+  optimization: {
+    nodeEnv: ENV,
+    minimize: isProduction,
+    minimizer: [new TerserPlugin(terserConfig)],
   },
   stats: statsConfig,
 };
@@ -213,6 +234,11 @@ const popupConfig = {
   resolve: preactConfig,
   plugins: getPopupConfigPlugins(),
   devtool: devToolsConfig,
+  optimization: {
+    nodeEnv: ENV,
+    minimize: isProduction,
+    minimizer: [new TerserPlugin(terserConfig)],
+  },
   stats: statsConfig,
 };
 
