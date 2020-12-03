@@ -60,6 +60,7 @@ const getPopupConfigPlugins = () => {
       token: "9bc57954116cf0bd136f7718b24d79c4383ff15f",
     }),
     fileManagerPluginConfig,
+    new webpack.ProgressPlugin(),
   ];
   return plugins;
 };
@@ -75,6 +76,7 @@ const getDownloadPageConfigPlugins = () => {
     }),
     new CleanWebpackPlugin(),
     new webpack.DefinePlugin({ ...releaseConfig }),
+    new webpack.ProgressPlugin(),
   ];
   if (!isProduction) {
     plugins.push(
@@ -104,6 +106,7 @@ const getBackgroundConfigPlugins = () => {
       token: "9bc57954116cf0bd136f7718b24d79c4383ff15f",
     }),
     fileManagerPluginConfig,
+    new webpack.ProgressPlugin(),
   ];
   if (enableBundleAnalyzer) {
     plugins.push(
