@@ -11,5 +11,5 @@ app.use((req, res, next) => {
 });
 
 app.listen(5000, () => {
-  console.log("server started at http://localhost:5000/");
+  console.log("Express server started at: http://localhost:5000/");
 });

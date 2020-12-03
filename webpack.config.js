@@ -25,6 +25,8 @@ const devToolsConfig = isProduction
   ? undefined
   : "eval-cheap-module-source-map";
 
+const statsConfig = isProduction ? "normal" : "errors-warnings";
+
 const fileManagerPluginConfig = new FileManagerPlugin({
   events: {
     onStart: {
@@ -80,7 +82,11 @@ const getDownloadPageConfigPlugins = () => {
   if (!isProduction) {
     plugins.push(
       new WebpackShellPluginNext({
-        onBuildEnd: ["nodemon server/index.js --watch extension"],
+        onBuildEnd: {
+          scripts: ["nodemon server/index.js --watch build"],
+          blocking: false,
+          parallel: true,
+        },
       })
     );
   }
@@ -124,7 +130,26 @@ const downloadPageConfig = {
   entry: "./src/index.js",
   output: {
     path: path.resolve(__dirname, "build"),
-    filename: "gh-pages.js",
+    filename: "js/[name].[chunkhash:9].js",
+    chunkFilename: "js/[name].[chunkhash:9].js",
+    pathinfo: false,
+  },
+  optimization: {
+    nodeEnv: ENV,
+    chunkIds: "named",
+    splitChunks: {
+      automaticNameDelimiter: "~",
+      chunks: "all",
+      minSize: 50000,
+      maxSize: 70000,
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]@material-ui[\\/]/,
+          name: "material-ui",
+          chunks: "all",
+        },
+      },
+    },
   },
   module: {
     rules: [
@@ -147,6 +172,7 @@ const downloadPageConfig = {
   resolve: preactConfig,
   plugins: getDownloadPageConfigPlugins(),
   devtool: devToolsConfig,
+  stats: statsConfig,
 };
 
 const backgroundConfig = {
@@ -159,6 +185,11 @@ const backgroundConfig = {
   resolve: preactConfig,
   plugins: getBackgroundConfigPlugins(),
   devtool: devToolsConfig,
+  performance: {
+    maxEntrypointSize: 500000,
+    maxAssetSize: 500000,
+  },
+  stats: statsConfig,
 };
 
 const popupConfig = {
@@ -182,6 +213,7 @@ const popupConfig = {
   resolve: preactConfig,
   plugins: getPopupConfigPlugins(),
   devtool: devToolsConfig,
+  stats: statsConfig,
 };
 
 module.exports = [downloadPageConfig, backgroundConfig, popupConfig];
