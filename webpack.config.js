@@ -6,12 +6,15 @@ const WebpackBundleAnalyzerPlugin = require("webpack-bundle-analyzer")
 const FileManagerPlugin = require("filemanager-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const WebpackShellPluginNext = require("webpack-shell-plugin-next");
+const webpack = require("webpack");
 const { getExtensionFile } = require("./src/utils");
-const manifest = require("./public-extension/manifest.json");
+const { getReleaseConfig } = require("./release-config");
 
 const ENV = process.env.NODE_ENV || "production";
 const isProduction = ENV === "production";
 const enableBundleAnalyzer = process.env.ENABLE_BUNDLE_ANLYZER === "true";
+
+const releaseConfig = getReleaseConfig();
 
 const preactConfig = {
   alias: {
@@ -38,7 +41,9 @@ const fileManagerPluginConfig = new FileManagerPlugin({
       archive: [
         {
           source: path.resolve(__dirname, "extension"),
-          destination: `./build/${getExtensionFile(manifest.version)}`,
+          destination: `./build/${getExtensionFile(
+            releaseConfig.__EXT_VERSION__
+          )}`,
         },
       ],
     },
@@ -69,6 +74,7 @@ const getDownloadPageConfigPlugins = () => {
       token: "9bc57954116cf0bd136f7718b24d79c4383ff15f",
     }),
     new CleanWebpackPlugin(),
+    new webpack.DefinePlugin({ ...releaseConfig }),
   ];
   if (!isProduction) {
     plugins.push(

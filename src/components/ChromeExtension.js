@@ -10,7 +10,6 @@ import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
 import React, { memo } from "react";
 import { getExtensionFile } from "../utils";
 import chromeLogo from "./chrome.svg";
-import releaseConfig from "../../src/release-config.json";
 
 const cardStyles = { backgroundColor: "#323638" };
 
@@ -50,7 +49,7 @@ export const ChromeExtension = memo(() => {
         <Box display="flex" justifyContent="center" pb="16px" pt="8px">
           <Fab
             variant="extended"
-            href={`/bypass-links/${getExtensionFile(releaseConfig.version)}`}
+            href={`/bypass-links/${getExtensionFile(__EXT_VERSION__)}`}
           >
             <CloudDownloadIcon />
             <Box component="span" ml="8px">

@@ -1,4 +1,3 @@
-const fs = require("fs");
 const manifest = require("./public-extension/manifest.json");
 
 const DATE_OPTIONS = {
@@ -17,14 +16,7 @@ const getCurFormattedDateTime = (date) =>
     TIME_OPTIONS
   )}`;
 
-const generateReleaseConfig = () => {
-  const config = {
-    date: getCurFormattedDateTime(new Date()),
-    version: manifest.version,
-  };
-
-  fs.writeFileSync("./src/release-config.json", JSON.stringify(config));
-  console.log("Finished generating Release Config");
-};
-
-generateReleaseConfig();
+exports.getReleaseConfig = () => ({
+  __RELEASE_DATE__: getCurFormattedDateTime(new Date()),
+  __EXT_VERSION__: manifest.version,
+});

@@ -1,7 +1,6 @@
 import { Box, Link, Typography } from "@material-ui/core";
 import React from "react";
 import { ChromeExtension } from "./components/ChromeExtension";
-import releaseConfig from "./release-config.json";
 
 const App = () => (
   <>
@@ -37,8 +36,8 @@ const App = () => (
       bottom="0"
       padding="12px"
     >
-      <Typography>{`Latest Version: ${releaseConfig.version}`}</Typography>
-      <Typography>{`Last Update: ${releaseConfig.date}`}</Typography>
+      <Typography>{`Latest Version: ${__EXT_VERSION__}`}</Typography>
+      <Typography>{`Last Update: ${__RELEASE_DATE__}`}</Typography>
     </Box>
   </>
 );
