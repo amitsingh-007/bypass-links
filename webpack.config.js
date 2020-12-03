@@ -8,13 +8,11 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const WebpackShellPluginNext = require("webpack-shell-plugin-next");
 const webpack = require("webpack");
 const { getExtensionFile } = require("./src/utils");
-const { getReleaseConfig } = require("./release-config");
+const { releaseDate, extVersion } = require("./release-config");
 
 const ENV = process.env.NODE_ENV || "production";
 const isProduction = ENV === "production";
 const enableBundleAnalyzer = process.env.ENABLE_BUNDLE_ANLYZER === "true";
-
-const releaseConfig = getReleaseConfig();
 
 const preactConfig = {
   alias: {
@@ -41,9 +39,7 @@ const fileManagerPluginConfig = new FileManagerPlugin({
       archive: [
         {
           source: path.resolve(__dirname, "extension"),
-          destination: `./build/${getExtensionFile(
-            releaseConfig.__EXT_VERSION__
-          )}`,
+          destination: `./build/${getExtensionFile(extVersion)}`,
         },
       ],
     },
@@ -75,7 +71,10 @@ const getDownloadPageConfigPlugins = () => {
       token: "9bc57954116cf0bd136f7718b24d79c4383ff15f",
     }),
     new CleanWebpackPlugin(),
-    new webpack.DefinePlugin({ ...releaseConfig }),
+    new webpack.DefinePlugin({
+      __EXT_VERSION__: JSON.stringify(extVersion),
+      __RELEASE_DATE__: JSON.stringify(releaseDate),
+    }),
     new webpack.ProgressPlugin(),
   ];
   if (!isProduction) {

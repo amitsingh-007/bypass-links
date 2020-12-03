@@ -16,7 +16,7 @@ const getCurFormattedDateTime = (date) =>
     TIME_OPTIONS
   )}`;
 
-exports.getReleaseConfig = () => ({
-  __RELEASE_DATE__: getCurFormattedDateTime(new Date()),
-  __EXT_VERSION__: manifest.version,
-});
+module.exports = {
+  releaseDate: getCurFormattedDateTime(new Date()),
+  extVersion: manifest.version,
+};
