@@ -4,13 +4,14 @@ const BundleAnalyzerPlugin = require("@bundle-analyzer/webpack-plugin");
 const WebpackBundleAnalyzerPlugin = require("webpack-bundle-analyzer")
   .BundleAnalyzerPlugin;
 const FileManagerPlugin = require("filemanager-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const WebpackShellPluginNext = require("webpack-shell-plugin-next");
 const { getExtensionFile } = require("./src/utils");
 const manifest = require("./public-extension/manifest.json");
 
 const ENV = process.env.NODE_ENV || "production";
 const isProduction = ENV === "production";
-const ENABLE_BUNDLE_ANLYZER = process.env.ENABLE_BUNDLE_ANLYZER === "true";
+const enableBundleAnalyzer = process.env.ENABLE_BUNDLE_ANLYZER === "true";
 
 const preactConfig = {
   alias: {
@@ -19,7 +20,32 @@ const preactConfig = {
   },
 };
 
-const getPopupConfigPlugins = (isProduction) => {
+const devToolsConfig = isProduction
+  ? undefined
+  : "eval-cheap-module-source-map";
+
+const fileManagerPluginConfig = new FileManagerPlugin({
+  events: {
+    onStart: {
+      copy: [
+        {
+          source: "./public-extension/*",
+          destination: path.resolve(__dirname, "extension"),
+        },
+      ],
+    },
+    onEnd: {
+      archive: [
+        {
+          source: path.resolve(__dirname, "extension"),
+          destination: `./build/${getExtensionFile(manifest.version)}`,
+        },
+      ],
+    },
+  },
+});
+
+const getPopupConfigPlugins = () => {
   const plugins = [
     new HtmlWebpackPlugin({
       template: "./public-extension/index.html",
@@ -28,31 +54,12 @@ const getPopupConfigPlugins = (isProduction) => {
     new BundleAnalyzerPlugin({
       token: "9bc57954116cf0bd136f7718b24d79c4383ff15f",
     }),
-    new FileManagerPlugin({
-      events: {
-        onStart: {
-          copy: [
-            {
-              source: "./public-extension/*",
-              destination: path.resolve(__dirname, "extension"),
-            },
-          ],
-        },
-        onEnd: {
-          archive: [
-            {
-              source: path.resolve(__dirname, "extension"),
-              destination: `./build/${getExtensionFile(manifest.version)}`,
-            },
-          ],
-        },
-      },
-    }),
+    fileManagerPluginConfig,
   ];
   return plugins;
 };
 
-const getDownloadPageConfigPlugins = (isProduction) => {
+const getDownloadPageConfigPlugins = () => {
   const plugins = [
     new HtmlWebpackPlugin({
       template: "./public/index.html",
@@ -61,6 +68,7 @@ const getDownloadPageConfigPlugins = (isProduction) => {
     new BundleAnalyzerPlugin({
       token: "9bc57954116cf0bd136f7718b24d79c4383ff15f",
     }),
+    new CleanWebpackPlugin(),
   ];
   if (!isProduction) {
     plugins.push(
@@ -72,7 +80,7 @@ const getDownloadPageConfigPlugins = (isProduction) => {
   return plugins;
 };
 
-const getBackgroundConfigPlugins = (enableBundleAnalyzer) => {
+const getBackgroundConfigPlugins = () => {
   const plugins = [
     new FileManagerPlugin({
       events: {
@@ -89,6 +97,7 @@ const getBackgroundConfigPlugins = (enableBundleAnalyzer) => {
     new BundleAnalyzerPlugin({
       token: "9bc57954116cf0bd136f7718b24d79c4383ff15f",
     }),
+    fileManagerPluginConfig,
   ];
   if (enableBundleAnalyzer) {
     plugins.push(
@@ -128,8 +137,8 @@ const downloadPageConfig = {
   },
   mode: ENV,
   resolve: preactConfig,
-  plugins: getDownloadPageConfigPlugins(isProduction),
-  devtool: isProduction ? undefined : "eval-cheap-module-source-map",
+  plugins: getDownloadPageConfigPlugins(),
+  devtool: devToolsConfig,
 };
 
 const backgroundConfig = {
@@ -140,8 +149,8 @@ const backgroundConfig = {
   },
   mode: ENV,
   resolve: preactConfig,
-  plugins: getBackgroundConfigPlugins(ENABLE_BUNDLE_ANLYZER),
-  devtool: isProduction ? undefined : "eval-cheap-module-source-map",
+  plugins: getBackgroundConfigPlugins(),
+  devtool: devToolsConfig,
 };
 
 const popupConfig = {
@@ -163,8 +172,8 @@ const popupConfig = {
   },
   mode: ENV,
   resolve: preactConfig,
-  plugins: getPopupConfigPlugins(isProduction),
-  devtool: isProduction ? undefined : "eval-cheap-module-source-map",
+  plugins: getPopupConfigPlugins(),
+  devtool: devToolsConfig,
 };
 
 module.exports = [downloadPageConfig, backgroundConfig, popupConfig];
