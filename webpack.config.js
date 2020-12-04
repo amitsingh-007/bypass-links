@@ -5,7 +5,6 @@ const WebpackBundleAnalyzerPlugin = require("webpack-bundle-analyzer")
   .BundleAnalyzerPlugin;
 const FileManagerPlugin = require("filemanager-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const WebpackShellPluginNext = require("webpack-shell-plugin-next");
 const webpack = require("webpack");
 const { getExtensionFile } = require("./src/utils");
 const { releaseDate, extVersion } = require("./release-config");
@@ -13,6 +12,7 @@ const { releaseDate, extVersion } = require("./release-config");
 const ENV = process.env.NODE_ENV || "production";
 const isProduction = ENV === "production";
 const enableBundleAnalyzer = process.env.ENABLE_BUNDLE_ANLYZER === "true";
+const isDevServer = process.env.DEV_SERVER === "true";
 
 const preactConfig = {
   alias: {
@@ -93,17 +93,6 @@ const getDownloadPageConfigPlugins = () => {
     }),
     new webpack.ProgressPlugin(),
   ];
-  if (!isProduction) {
-    plugins.push(
-      new WebpackShellPluginNext({
-        onBuildEnd: {
-          scripts: ["nodemon server/index.js --watch build"],
-          blocking: false,
-          parallel: true,
-        },
-      })
-    );
-  }
   return plugins;
 };
 
@@ -136,6 +125,15 @@ const downloadPageConfig = {
     filename: "js/[name].[chunkhash:9].js",
     chunkFilename: "js/[name].[chunkhash:9].js",
     pathinfo: false,
+  },
+  devServer: {
+    contentBase: "./build",
+    compress: true,
+    port: 5000,
+    publicPath: "/bypass-links/",
+    open: true,
+    openPage: "bypass-links/",
+    stats: statsConfig,
   },
   optimization: {
     nodeEnv: ENV,
@@ -228,4 +226,13 @@ const popupConfig = {
   stats: statsConfig,
 };
 
-module.exports = [downloadPageConfig, backgroundConfig, popupConfig];
+const configs = [];
+if (isProduction) {
+  configs.push(downloadPageConfig, backgroundConfig, popupConfig);
+} else {
+  configs.push(
+    isDevServer ? downloadPageConfig : (backgroundConfig, popupConfig)
+  );
+}
+
+module.exports = configs;
