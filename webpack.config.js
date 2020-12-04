@@ -29,24 +29,26 @@ const devToolsConfig = isProduction
 const statsConfig = isProduction ? "normal" : "errors-warnings";
 
 const terserConfig = {
-  extractComments: true,
+  extractComments: false,
   parallel: true,
   terserOptions: {
     compress: {
       hoist_funs: true,
     },
-    keep_classnames: true,
-    keep_fnames: true,
     ecma: 6,
   },
 };
 
-const fileManagerPluginConfig = new FileManagerPlugin({
+const fileManagerPlugin = new FileManagerPlugin({
   events: {
     onStart: {
       copy: [
         {
           source: "./public-extension/*",
+          destination: path.resolve(__dirname, "extension"),
+        },
+        {
+          source: "./src/css/*",
           destination: path.resolve(__dirname, "extension"),
         },
       ],
@@ -71,9 +73,20 @@ const getPopupConfigPlugins = () => {
     new BundleAnalyzerPlugin({
       token: "9bc57954116cf0bd136f7718b24d79c4383ff15f",
     }),
-    fileManagerPluginConfig,
+    fileManagerPlugin,
     new webpack.ProgressPlugin(),
   ];
+  if (enableBundleAnalyzer) {
+    plugins.push(
+      new WebpackBundleAnalyzerPlugin({
+        openAnalyzer: true,
+        generateStatsFile: true,
+        statsFilename: "stats.json",
+        defaultSizes: "gzip",
+        analyzerPort: 8888,
+      })
+    );
+  }
   return plugins;
 };
 
@@ -109,22 +122,10 @@ const getDownloadPageConfigPlugins = () => {
 
 const getBackgroundConfigPlugins = () => {
   const plugins = [
-    new FileManagerPlugin({
-      events: {
-        onStart: {
-          copy: [
-            {
-              source: "./src/css/*",
-              destination: path.resolve(__dirname, "extension"),
-            },
-          ],
-        },
-      },
-    }),
     new BundleAnalyzerPlugin({
       token: "9bc57954116cf0bd136f7718b24d79c4383ff15f",
     }),
-    fileManagerPluginConfig,
+    fileManagerPlugin,
     new webpack.ProgressPlugin(),
   ];
   if (enableBundleAnalyzer) {
@@ -134,6 +135,7 @@ const getBackgroundConfigPlugins = () => {
         generateStatsFile: true,
         statsFilename: "stats.json",
         defaultSizes: "gzip",
+        analyzerPort: 8889,
       })
     );
   }
