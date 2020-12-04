@@ -226,6 +226,11 @@ const popupConfig = {
   stats: statsConfig,
 };
 
+/**
+ * For production, build all 3 configs
+ * For dev-server, only build downloadPageConfig
+ * Else, build extension related configs
+ */
 const configs = [];
 if (isProduction) {
   configs.push(downloadPageConfig, backgroundConfig, popupConfig);
