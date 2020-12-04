@@ -38,7 +38,9 @@ const fileManagerPlugin = new FileManagerPlugin({
       ],
     },
     onEnd: {
-      delete: ["./extension/*.txt"],
+      delete: [
+        `./extension/{${enableBundleAnalyzer ? "" : "stats.json,"}*.txt}`,
+      ],
       archive: [
         {
           source: path.resolve(__dirname, "extension"),
