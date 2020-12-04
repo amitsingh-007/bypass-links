@@ -3,7 +3,6 @@ import { signIn, signOut } from "../utils/authentication";
 import { bypass, redirect } from "../utils/bypass";
 import { endHistoryWatch, startHistoryWatch } from "../utils/extensionIndex";
 import { getFromFirebase, saveToFirebase } from "../utils/firebase";
-import { showToast } from "../utils/showToast";
 import { syncFirebaseToStorage } from "../utils/syncFirebaseToStorage";
 import {
   getExtensionState,
@@ -19,13 +18,6 @@ const onUpdateCallback = async (tabId, changeInfo) => {
     const currentTabUrl = new URL(url);
     bypass(tabId, currentTabUrl);
     redirect(tabId, currentTabUrl);
-  }
-};
-
-const handleKeyPress = async (command) => {
-  if (command === "toggle_bypass_links_extension") {
-    await toggleExtension();
-    showToast(await getExtensionState());
   }
 };
 
@@ -106,9 +98,6 @@ const onMessageReceive = (message, sender, sendResponse) => {
 
 //Listen tab url change
 chrome.tabs.onUpdated.addListener(onUpdateCallback);
-
-//Listen key press for toggle
-chrome.commands.onCommand.addListener(handleKeyPress);
 
 //First time extension install
 chrome.runtime.onInstalled.addListener(handleFirstTimeInstall);

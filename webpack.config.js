@@ -6,7 +6,6 @@ const WebpackBundleAnalyzerPlugin = require("webpack-bundle-analyzer")
 const FileManagerPlugin = require("filemanager-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const WebpackShellPluginNext = require("webpack-shell-plugin-next");
-const TerserPlugin = require("terser-webpack-plugin");
 const webpack = require("webpack");
 const { getExtensionFile } = require("./src/utils");
 const { releaseDate, extVersion } = require("./release-config");
@@ -28,17 +27,6 @@ const devToolsConfig = isProduction
 
 const statsConfig = isProduction ? "normal" : "errors-warnings";
 
-const terserConfig = {
-  extractComments: false,
-  parallel: true,
-  terserOptions: {
-    compress: {
-      hoist_funs: true,
-    },
-    ecma: 6,
-  },
-};
-
 const fileManagerPlugin = new FileManagerPlugin({
   events: {
     onStart: {
@@ -47,13 +35,10 @@ const fileManagerPlugin = new FileManagerPlugin({
           source: "./public-extension/*",
           destination: path.resolve(__dirname, "extension"),
         },
-        {
-          source: "./src/css/*",
-          destination: path.resolve(__dirname, "extension"),
-        },
       ],
     },
     onEnd: {
+      delete: ["./extension/*.txt"],
       archive: [
         {
           source: path.resolve(__dirname, "extension"),
@@ -153,7 +138,6 @@ const downloadPageConfig = {
   optimization: {
     nodeEnv: ENV,
     minimize: isProduction,
-    minimizer: [new TerserPlugin(terserConfig)],
     chunkIds: "named",
     splitChunks: {
       automaticNameDelimiter: "~",
@@ -210,7 +194,6 @@ const backgroundConfig = {
   optimization: {
     nodeEnv: ENV,
     minimize: isProduction,
-    minimizer: [new TerserPlugin(terserConfig)],
   },
   stats: statsConfig,
 };
@@ -239,7 +222,6 @@ const popupConfig = {
   optimization: {
     nodeEnv: ENV,
     minimize: isProduction,
-    minimizer: [new TerserPlugin(terserConfig)],
   },
   stats: statsConfig,
 };
