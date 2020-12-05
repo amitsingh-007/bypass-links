@@ -51,6 +51,15 @@ const fileManagerPlugin = new FileManagerPlugin({
   },
 });
 
+const getWebpackBundleAnalyzerPlugin = (port) =>
+  new WebpackBundleAnalyzerPlugin({
+    openAnalyzer: true,
+    generateStatsFile: true,
+    statsFilename: "stats.json",
+    defaultSizes: "gzip",
+    analyzerPort: port,
+  });
+
 const getPopupConfigPlugins = () => {
   const plugins = [
     new HtmlWebpackPlugin({
@@ -64,15 +73,7 @@ const getPopupConfigPlugins = () => {
     new webpack.ProgressPlugin(),
   ];
   if (enableBundleAnalyzer) {
-    plugins.push(
-      new WebpackBundleAnalyzerPlugin({
-        openAnalyzer: true,
-        generateStatsFile: true,
-        statsFilename: "stats.json",
-        defaultSizes: "gzip",
-        analyzerPort: 8888,
-      })
-    );
+    plugins.push(getWebpackBundleAnalyzerPlugin(8888));
   }
   return plugins;
 };
@@ -105,15 +106,7 @@ const getBackgroundConfigPlugins = () => {
     new webpack.ProgressPlugin(),
   ];
   if (enableBundleAnalyzer) {
-    plugins.push(
-      new WebpackBundleAnalyzerPlugin({
-        openAnalyzer: true,
-        generateStatsFile: true,
-        statsFilename: "stats.json",
-        defaultSizes: "gzip",
-        analyzerPort: 8889,
-      })
-    );
+    plugins.push(getWebpackBundleAnalyzerPlugin(8889));
   }
   return plugins;
 };
@@ -126,6 +119,8 @@ const downloadPageConfig = {
     chunkFilename: "js/[name].[chunkhash:9].js",
     pathinfo: false,
   },
+  //Due to bug in WebpackV5: https://github.com/webpack/webpack-dev-server/issues/2758
+  target: isProduction ? "browserslist" : "web",
   devServer: {
     contentBase: "./build",
     compress: true,
@@ -134,6 +129,7 @@ const downloadPageConfig = {
     open: true,
     openPage: "bypass-links/",
     stats: statsConfig,
+    watchContentBase: true,
   },
   optimization: {
     nodeEnv: ENV,
@@ -183,6 +179,7 @@ const backgroundConfig = {
     path: path.resolve(__dirname, "extension"),
     filename: "background.js",
   },
+  target: "browserslist",
   mode: ENV,
   resolve: preactConfig,
   plugins: getBackgroundConfigPlugins(),
@@ -204,6 +201,7 @@ const popupConfig = {
     path: path.resolve(__dirname, "extension"),
     filename: "popup.js",
   },
+  target: "browserslist",
   module: {
     rules: [
       {
