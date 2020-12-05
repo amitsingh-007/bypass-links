@@ -31,7 +31,7 @@ jobs:
 
       - name: Create Release Tag 🧿
         if: (env.IS_MASTER)
-        run: echo "inside master"
+        run: echo "inside master" + env.IS_MASTER
 
       # - name: Deploying to gh-pages 🚀
       #   if: ${{ github.ref == 'refs/heads/master' }}
