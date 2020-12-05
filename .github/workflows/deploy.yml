@@ -1,7 +1,7 @@
 name: Github Action
 on: push
 env:
-  IS_MASTER: ${{ github.ref == 'refs/heads/f-automate-release-tags' }}
+  IS_MASTER: ${{ github.ref == 'refs/heads/master' }}
 
 jobs:
   Deploy:
@@ -23,11 +23,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: Install dependencies 🧼
-        run: npm install
+      # - name: Install dependencies 🧼
+      #   run: npm install
 
-      - name: Building 🛠
-        run: npm run release
+      # - name: Building 🛠
+      #   run: npm run release
 
       - name: Create Release Tag 🧿
         if: ${{ env.IS_MASTER }}
