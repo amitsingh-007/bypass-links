@@ -4,49 +4,48 @@
   "private": true,
   "homepage": "https://amitsingh-007.github.io/bypass-links/",
   "dependencies": {
-    "@material-ui/core": "4.11.0",
+    "@material-ui/core": "4.11.1",
     "@material-ui/icons": "4.9.1",
-    "firebase": "^8.1.1",
-    "preact": "^10.5.4",
+    "firebase": "8.1.1",
+    "preact": "10.5.7",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "react-redux": "^7.2.2",
-    "redux": "^4.0.5"
+    "react-redux": "7.2.2",
+    "redux": "4.0.5"
   },
   "devDependencies": {
-    "@babel/core": "^7.11.6",
-    "@babel/preset-env": "^7.11.5",
-    "@babel/preset-react": "^7.10.4",
-    "@bundle-analyzer/webpack-plugin": "^0.5.1",
+    "@babel/core": "7.12.9",
+    "@babel/preset-env": "7.12.7",
+    "@babel/preset-react": "7.12.7",
+    "@babel/runtime": "7.12.5",
+    "@bundle-analyzer/webpack-plugin": "0.5.1",
     "@types/chrome": "0.0.126",
-    "babel-loader": "^8.1.0",
-    "babel-preset-react-app": "^10.0.0",
-    "cross-env": "^7.0.2",
-    "express": "^4.17.1",
-    "filemanager-webpack-plugin": "^3.0.0-beta.0",
-    "html-webpack-plugin": "^4.5.0",
-    "nodemon": "^2.0.6",
-    "npm-run-all": "4.1.5",
-    "svg-url-loader": "^7.1.1",
-    "webpack": "^4.44.2",
-    "webpack-bundle-analyzer": "^4.1.0",
-    "webpack-cli": "^4.2.0",
-    "webpack-shell-plugin": "^0.5.0"
+    "@typescript-eslint/eslint-plugin": "4.0.0",
+    "@typescript-eslint/parser": "4.0.0",
+    "babel-eslint": "10.0.0",
+    "babel-loader": "8.2.2",
+    "babel-preset-react-app": "10.0.0",
+    "clean-webpack-plugin": "3.0.0",
+    "cross-env": "7.0.3",
+    "eslint": "7.5.0",
+    "eslint-config-react-app": "6.0.0",
+    "eslint-plugin-flowtype": "5.2.0",
+    "eslint-plugin-import": "2.22.0",
+    "eslint-plugin-jsx-a11y": "6.3.1",
+    "eslint-plugin-react": "7.20.3",
+    "eslint-plugin-react-hooks": "4.0.8",
+    "filemanager-webpack-plugin": "3.0.0-beta.0",
+    "html-webpack-plugin": "5.0.0-alpha.15",
+    "svg-url-loader": "7.1.1",
+    "webpack": "5.10.0",
+    "webpack-bundle-analyzer": "4.2.0",
+    "webpack-cli": "4.2.0",
+    "webpack-dev-server": "3.11.0"
   },
   "scripts": {
-    "analyzer": "cross-env NODE_ENV=production ENABLE_BUNDLE_ANLYZER=true npm-run-all extension:prod",
-    "config": "node ./generate-release-config.js",
-    "dev": "cross-env NODE_ENV=development npm-run-all config extension",
-    "extension": "webpack --watch",
-    "extension:prod": "webpack",
-    "release": "cross-env NODE_ENV=production npm-run-all config extension:prod"
-  },
-  "browserslist": {
-    "production": [
-      "last 3 chrome version"
-    ],
-    "development": [
-      "last 3 chrome version"
-    ]
+    "analyzer": "cross-env ENABLE_BUNDLE_ANLYZER=true npm run release",
+    "dev": "cross-env NODE_ENV=development webpack --watch",
+    "start": "cross-env NODE_ENV=development DEV_SERVER=true webpack serve --progress",
+    "release": "cross-env NODE_ENV=production webpack"
   }
 }

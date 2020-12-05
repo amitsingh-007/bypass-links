@@ -1,6 +1,6 @@
 {
   "key": "fdnekjijeofacghkammknogmiapepano",
-  "version": "5.2.0",
+  "version": "6.0.0",
   "manifest_version": 2,
   "short_name": "Bypass Links",
   "name": "Bypass Links",
@@ -17,15 +17,6 @@
   "background": {
     "scripts": ["background.js"],
     "persistent": false
-  },
-  "commands": {
-    "toggle_bypass_links_extension": {
-      "suggested_key": {
-        "default": "Ctrl+M",
-        "mac": "Command+M"
-      },
-      "description": "Toggle the extension"
-    }
   },
   "content_security_policy": "script-src 'self' https://apis.google.com/ 'unsafe-eval'; object-src 'self'"
 }

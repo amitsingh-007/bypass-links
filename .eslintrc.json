@@ -6,6 +6,8 @@
     "es6": true
   },
   "globals": {
-    "chrome": false
+    "chrome": false,
+    "__EXT_VERSION__": false,
+    "__RELEASE_DATE__": false
   }
 }

@@ -1,16 +1,18 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const WebpackShellPlugin = require("webpack-shell-plugin");
 const BundleAnalyzerPlugin = require("@bundle-analyzer/webpack-plugin");
 const WebpackBundleAnalyzerPlugin = require("webpack-bundle-analyzer")
   .BundleAnalyzerPlugin;
 const FileManagerPlugin = require("filemanager-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const webpack = require("webpack");
 const { getExtensionFile } = require("./src/utils");
-const manifest = require("./public-extension/manifest.json");
+const { releaseDate, extVersion } = require("./release-config");
 
 const ENV = process.env.NODE_ENV || "production";
 const isProduction = ENV === "production";
-const ENABLE_BUNDLE_ANLYZER = process.env.ENABLE_BUNDLE_ANLYZER === "true";
+const enableBundleAnalyzer = process.env.ENABLE_BUNDLE_ANLYZER === "true";
+const isDevServer = process.env.DEV_SERVER === "true";
 
 const preactConfig = {
   alias: {
@@ -19,7 +21,46 @@ const preactConfig = {
   },
 };
 
-const getPopupConfigPlugins = (isProduction) => {
+const devToolsConfig = isProduction
+  ? undefined
+  : "eval-cheap-module-source-map";
+
+const statsConfig = isProduction ? "normal" : "errors-warnings";
+
+const fileManagerPlugin = new FileManagerPlugin({
+  events: {
+    onStart: {
+      copy: [
+        {
+          source: "./public-extension/*",
+          destination: path.resolve(__dirname, "extension"),
+        },
+      ],
+    },
+    onEnd: {
+      delete: [
+        `./extension/{${enableBundleAnalyzer ? "" : "stats.json,"}*.txt}`,
+      ],
+      archive: [
+        {
+          source: path.resolve(__dirname, "extension"),
+          destination: `./build/${getExtensionFile(extVersion)}`,
+        },
+      ],
+    },
+  },
+});
+
+const getWebpackBundleAnalyzerPlugin = (port) =>
+  new WebpackBundleAnalyzerPlugin({
+    openAnalyzer: true,
+    generateStatsFile: true,
+    statsFilename: "stats.json",
+    defaultSizes: "gzip",
+    analyzerPort: port,
+  });
+
+const getPopupConfigPlugins = () => {
   const plugins = [
     new HtmlWebpackPlugin({
       template: "./public-extension/index.html",
@@ -28,31 +69,16 @@ const getPopupConfigPlugins = (isProduction) => {
     new BundleAnalyzerPlugin({
       token: "9bc57954116cf0bd136f7718b24d79c4383ff15f",
     }),
-    new FileManagerPlugin({
-      events: {
-        onStart: {
-          copy: [
-            {
-              source: "./public-extension/*",
-              destination: path.resolve(__dirname, "extension"),
-            },
-          ],
-        },
-        onEnd: {
-          archive: [
-            {
-              source: path.resolve(__dirname, "extension"),
-              destination: `./build/${getExtensionFile(manifest.version)}`,
-            },
-          ],
-        },
-      },
-    }),
+    fileManagerPlugin,
+    new webpack.ProgressPlugin(),
   ];
+  if (enableBundleAnalyzer) {
+    plugins.push(getWebpackBundleAnalyzerPlugin(8888));
+  }
   return plugins;
 };
 
-const getDownloadPageConfigPlugins = (isProduction) => {
+const getDownloadPageConfigPlugins = () => {
   const plugins = [
     new HtmlWebpackPlugin({
       template: "./public/index.html",
@@ -61,47 +87,26 @@ const getDownloadPageConfigPlugins = (isProduction) => {
     new BundleAnalyzerPlugin({
       token: "9bc57954116cf0bd136f7718b24d79c4383ff15f",
     }),
+    new CleanWebpackPlugin(),
+    new webpack.DefinePlugin({
+      __EXT_VERSION__: JSON.stringify(extVersion),
+      __RELEASE_DATE__: JSON.stringify(releaseDate),
+    }),
+    new webpack.ProgressPlugin(),
   ];
-  if (!isProduction) {
-    plugins.push(
-      new WebpackShellPlugin({
-        onBuildEnd: ["nodemon server/index.js --watch extension"],
-      })
-    );
-  }
   return plugins;
 };
 
-const getBackgroundConfigPlugins = (enableBundleAnalyzer) => {
+const getBackgroundConfigPlugins = () => {
   const plugins = [
-    new FileManagerPlugin({
-      events: {
-        onStart: {
-          copy: [
-            {
-              source: "./src/css/*",
-              destination: path.resolve(__dirname, "extension"),
-            },
-          ],
-        },
-      },
-    }),
-    new WebpackShellPlugin({
-      onBuildStart: ["node generate-release-config.js"],
-    }),
     new BundleAnalyzerPlugin({
       token: "9bc57954116cf0bd136f7718b24d79c4383ff15f",
     }),
+    fileManagerPlugin,
+    new webpack.ProgressPlugin(),
   ];
   if (enableBundleAnalyzer) {
-    plugins.push(
-      new WebpackBundleAnalyzerPlugin({
-        openAnalyzer: true,
-        generateStatsFile: true,
-        statsFilename: "stats.json",
-        defaultSizes: "gzip",
-      })
-    );
+    plugins.push(getWebpackBundleAnalyzerPlugin(8889));
   }
   return plugins;
 };
@@ -110,12 +115,44 @@ const downloadPageConfig = {
   entry: "./src/index.js",
   output: {
     path: path.resolve(__dirname, "build"),
-    filename: "gh-pages.js",
+    filename: "js/[name].[chunkhash:9].js",
+    chunkFilename: "js/[name].[chunkhash:9].js",
+    pathinfo: false,
+  },
+  //Due to bug in WebpackV5: https://github.com/webpack/webpack-dev-server/issues/2758
+  target: isProduction ? "browserslist" : "web",
+  devServer: {
+    contentBase: "./build",
+    compress: true,
+    port: 5000,
+    publicPath: "/bypass-links/",
+    open: true,
+    openPage: "bypass-links/",
+    stats: statsConfig,
+    watchContentBase: true,
+  },
+  optimization: {
+    nodeEnv: ENV,
+    minimize: isProduction,
+    chunkIds: "named",
+    splitChunks: {
+      automaticNameDelimiter: "~",
+      chunks: "all",
+      minSize: 50000,
+      maxSize: 70000,
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]@material-ui[\\/]/,
+          name: "material-ui",
+          chunks: "all",
+        },
+      },
+    },
   },
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.m?js$/,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
@@ -131,8 +168,9 @@ const downloadPageConfig = {
   },
   mode: ENV,
   resolve: preactConfig,
-  plugins: getDownloadPageConfigPlugins(isProduction),
-  devtool: isProduction ? undefined : "eval-cheap-module-source-map",
+  plugins: getDownloadPageConfigPlugins(),
+  devtool: "source-map",
+  stats: statsConfig,
 };
 
 const backgroundConfig = {
@@ -141,10 +179,20 @@ const backgroundConfig = {
     path: path.resolve(__dirname, "extension"),
     filename: "background.js",
   },
+  target: "browserslist",
   mode: ENV,
   resolve: preactConfig,
-  plugins: getBackgroundConfigPlugins(ENABLE_BUNDLE_ANLYZER),
-  devtool: isProduction ? undefined : "eval-cheap-module-source-map",
+  plugins: getBackgroundConfigPlugins(),
+  devtool: devToolsConfig,
+  performance: {
+    maxEntrypointSize: 500000,
+    maxAssetSize: 500000,
+  },
+  optimization: {
+    nodeEnv: ENV,
+    minimize: isProduction,
+  },
+  stats: statsConfig,
 };
 
 const popupConfig = {
@@ -153,10 +201,11 @@ const popupConfig = {
     path: path.resolve(__dirname, "extension"),
     filename: "popup.js",
   },
+  target: "browserslist",
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.m?js$/,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
@@ -166,8 +215,27 @@ const popupConfig = {
   },
   mode: ENV,
   resolve: preactConfig,
-  plugins: getPopupConfigPlugins(isProduction),
-  devtool: isProduction ? undefined : "eval-cheap-module-source-map",
+  plugins: getPopupConfigPlugins(),
+  devtool: devToolsConfig,
+  optimization: {
+    nodeEnv: ENV,
+    minimize: isProduction,
+  },
+  stats: statsConfig,
 };
 
-module.exports = [downloadPageConfig, backgroundConfig, popupConfig];
+/**
+ * For production, build all 3 configs
+ * For dev-server, only build downloadPageConfig
+ * Else, build extension related configs
+ */
+const configs = [];
+if (isProduction) {
+  configs.push(downloadPageConfig, backgroundConfig, popupConfig);
+} else {
+  configs.push(
+    isDevServer ? downloadPageConfig : (backgroundConfig, popupConfig)
+  );
+}
+
+module.exports = configs;

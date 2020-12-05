@@ -3,7 +3,6 @@ import PowerOffTwoToneIcon from "@material-ui/icons/PowerOffTwoTone";
 import PowerTwoToneIcon from "@material-ui/icons/PowerTwoTone";
 import React, { memo, useEffect, useState } from "react";
 import { EXTENSION_STATE } from "../constants";
-import { COLOR } from "../constants/color";
 import runtime from "../scripts/chrome/runtime";
 import { getOffIconColor, getOnIconColor } from "../utils/color";
 
