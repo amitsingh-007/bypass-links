@@ -30,7 +30,7 @@ jobs:
       #   run: npm run release
 
       - name: Create Release Tag 🧿
-        if: env.IS_MASTER
+        if: !env.IS_MASTER
         run: echo "inside master"
 
       # - name: Deploying to gh-pages 🚀
