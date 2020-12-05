@@ -46,7 +46,7 @@ export const ChromeExtension = memo(() => {
             </span>
           </Typography>
         </CardContent>
-        <Box display="flex" justifyContent="center" pb="16px" pt="8px">
+        <ox display="flex" justifyContent="center" pb="16px" pt="8px">
           <Fab
             variant="extended"
             href={`/bypass-links/${getExtensionFile(__EXT_VERSION__)}`}

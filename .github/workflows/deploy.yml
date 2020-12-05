@@ -21,15 +21,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      # - name: Install dependencies 🧼
-      #   run: npm install
+      - name: Install dependencies 🧼
+        run: npm install
 
-      # - name: Building 🛠
-      #   run: npm run release
+      - name: Building 🛠
+        run: npm run release
 
       - name: Create Release Tag 🧿
-        if: ${{ github.ref == 'refs/heads/master' }}
-        run: echo "inside master"
+        if: ${{ github.ref == 'refs/heads/f-automate-release-tags' }}
+        run: echo "inside f-automate-release-tags"
 
       # - name: Deploying to gh-pages 🚀
       #   if: ${{ github.ref == 'refs/heads/master' }}
