@@ -27,6 +27,12 @@ const devToolsConfig = isProduction
 
 const statsConfig = isProduction ? "normal" : "errors-warnings";
 
+const setProgressPlugin = (plugins) => {
+  if (!isProduction) {
+    plugins.push(new webpack.ProgressPlugin());
+  }
+};
+
 const fileManagerPlugin = new FileManagerPlugin({
   events: {
     onStart: {
@@ -70,11 +76,11 @@ const getPopupConfigPlugins = () => {
       token: "9bc57954116cf0bd136f7718b24d79c4383ff15f",
     }),
     fileManagerPlugin,
-    new webpack.ProgressPlugin(),
   ];
   if (enableBundleAnalyzer) {
     plugins.push(getWebpackBundleAnalyzerPlugin(8888));
   }
+  setProgressPlugin(plugins);
   return plugins;
 };
 
@@ -92,8 +98,8 @@ const getDownloadPageConfigPlugins = () => {
       __EXT_VERSION__: JSON.stringify(extVersion),
       __RELEASE_DATE__: JSON.stringify(releaseDate),
     }),
-    new webpack.ProgressPlugin(),
   ];
+  setProgressPlugin(plugins);
   return plugins;
 };
 
@@ -103,11 +109,11 @@ const getBackgroundConfigPlugins = () => {
       token: "9bc57954116cf0bd136f7718b24d79c4383ff15f",
     }),
     fileManagerPlugin,
-    new webpack.ProgressPlugin(),
   ];
   if (enableBundleAnalyzer) {
     plugins.push(getWebpackBundleAnalyzerPlugin(8889));
   }
+  setProgressPlugin(plugins);
   return plugins;
 };
 
