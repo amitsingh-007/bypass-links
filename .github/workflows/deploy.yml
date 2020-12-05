@@ -29,7 +29,7 @@ jobs:
 
       - name: Generate Release Tag 🏷
         if: ${{ github.ref == 'refs/heads/f-automate-release-tags' }}
-        uses: amitsingh-007/next-release-tag@v1.0.0
+        uses: amitsingh-007/next-release-tag@v1.0.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
