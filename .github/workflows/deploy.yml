@@ -27,13 +27,24 @@ jobs:
       - name: Building 🛠
         run: npm run release
 
-      - name: Create Release Tag 🧿
+      - name: Generate Release Tag 🏷
         if: ${{ github.ref == 'refs/heads/f-automate-release-tags' }}
-        run: echo "inside f-automate-release-tags"
+        uses: amitsingh-007/next-release-tag@v1.0.0
 
-      # - name: Deploying to gh-pages 🚀
-      #   if: ${{ github.ref == 'refs/heads/master' }}
-      #   uses: peaceiris/actions-gh-pages@v3
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     publish_dir: ./build
+      - name: Create Release ✒
+        if: ${{ github.ref == 'refs/heads/f-automate-release-tags' }}
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.release_tag }}
+          release_name: Release ${{ env.release_tag }}
+          draft: false
+          prerelease: false
+
+      - name: Deploying to gh-pages 🚀
+        if: ${{ github.ref == 'refs/heads/master' }}
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
