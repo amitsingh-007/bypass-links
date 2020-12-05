@@ -35,7 +35,7 @@
     "eslint-plugin-react": "7.20.3",
     "eslint-plugin-react-hooks": "4.0.8",
     "filemanager-webpack-plugin": "3.0.0-beta.0",
-    "html-webpack-plugin": "4.5.0",
+    "html-webpack-plugin": "5.0.0-alpha.15",
     "svg-url-loader": "7.1.1",
     "webpack": "5.10.0",
     "webpack-bundle-analyzer": "4.2.0",
@@ -47,13 +47,5 @@
     "dev": "cross-env NODE_ENV=development webpack --watch",
     "start": "cross-env NODE_ENV=development DEV_SERVER=true webpack serve --progress",
     "release": "cross-env NODE_ENV=production webpack"
-  },
-  "browserslist": {
-    "production": [
-      "last 3 chrome version"
-    ],
-    "development": [
-      "last 3 chrome version"
-    ]
   }
 }
