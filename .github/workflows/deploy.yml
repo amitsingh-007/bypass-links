@@ -21,15 +21,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: Install dependencies 🧼
-        run: npm install
+      # - name: Install dependencies 🧼
+      #   run: npm install
 
-      - name: Building 🛠
-        run: npm run release
+      # - name: Building 🛠
+      #   run: npm run release
 
       - name: Generate Release Tag 🏷
         if: ${{ github.ref == 'refs/heads/f-automate-release-tags' }}
-        uses: amitsingh-007/next-release-tag@v1.0.1
+        uses: amitsingh-007/next-release-tag@v1.0.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
