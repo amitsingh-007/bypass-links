@@ -1,7 +1,5 @@
 name: Github Action
 on: push
-env:
-  IS_MASTER: ${{ github.ref == 'refs/heads/master' }}
 
 jobs:
   Deploy:
@@ -30,8 +28,8 @@ jobs:
       #   run: npm run release
 
       - name: Create Release Tag 🧿
-        if: (env.IS_MASTER)
-        run: echo "inside master" + ${{env.IS_MASTER}}
+        if: ${{ github.ref == 'refs/heads/master' }}
+        run: echo "inside master"
 
       # - name: Deploying to gh-pages 🚀
       #   if: ${{ github.ref == 'refs/heads/master' }}
