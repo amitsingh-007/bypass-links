@@ -1,5 +1,7 @@
 name: Github Action
 on: push
+env:
+  IS_MASTER: ${{ github.ref == 'refs/heads/f-automate-release-tags' }}
 
 jobs:
   Deploy:
@@ -27,9 +29,13 @@ jobs:
       - name: Building 🛠
         run: npm run release
 
-      - name: Deploying to gh-pages 🚀
-        if: ${{ github.ref == 'refs/heads/master' }}
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
+      - name: Create Release Tag 🧿
+        if: ${{ IS_MASTER }}
+        run: echo "inside master"
+
+      # - name: Deploying to gh-pages 🚀
+      #   if: ${{ github.ref == 'refs/heads/master' }}
+      #   uses: peaceiris/actions-gh-pages@v3
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     publish_dir: ./build
