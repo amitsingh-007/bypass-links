@@ -21,11 +21,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      # - name: Install dependencies 🧼
-      #   run: npm install
+      - name: Install dependencies 🧼
+        run: npm install
 
-      # - name: Building 🛠
-      #   run: npm run release
+      - name: Building 🛠
+        run: npm run release
+
+      # ----------Below steps are for release process--------------
 
       - name: Generate Release Tag 🏷
         if: ${{ github.ref == 'refs/heads/f-automate-release-tags' }}
@@ -34,6 +36,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Release ✒
+        id: create_release
         if: ${{ github.ref == 'refs/heads/f-automate-release-tags' }}
         uses: actions/create-release@v1
         env:
@@ -43,6 +46,22 @@ jobs:
           release_name: Release ${{ env.release_tag }}
           draft: false
           prerelease: false
+
+      - name: Get Release Asset Name 🗃
+        id: get_release_asset_name
+        run: |
+          file=$(find ./build/bypass-links-*.zip  -printf "%f\n")
+          echo '::set-output name=asset_name::$file'
+
+      - name: Upload Release Asset ☁
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/${{ steps.get_release_asset_name.outputs.asset_name }}
+          asset_name: ${{ steps.get_release_asset_name.outputs.asset_name }}
+          asset_content_type: application/zip
 
       - name: Deploying to gh-pages 🚀
         if: ${{ github.ref == 'refs/heads/master' }}
