@@ -10,6 +10,6 @@ export const COLOR = {
     color: red[500],
   },
   yellow: {
-    color: yellow[600],
+    color: yellow[300],
   },
 };

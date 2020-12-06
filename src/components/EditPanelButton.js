@@ -16,7 +16,7 @@ export const EditPanelButton = memo(() => {
     <IconButton
       aria-label="SignOut"
       component="span"
-      // color="primary"
+      color="primary"
       onClick={handleShowEditPanel}
       disabled={!isSignedIn}
       title={isSignedIn ? "Open Redirection Edit Panel" : undefined}

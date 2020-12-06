@@ -1,10 +1,4 @@
-import {
-  Box,
-  CircularProgress,
-  IconButton,
-  Typography,
-} from "@material-ui/core";
-import red from "@material-ui/core/colors/red";
+import { Box, CircularProgress, IconButton } from "@material-ui/core";
 import BackspaceTwoToneIcon from "@material-ui/icons/BackspaceTwoTone";
 import PlaylistAddTwoToneIcon from "@material-ui/icons/PlaylistAddTwoTone";
 import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
@@ -12,14 +6,8 @@ import React, { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { hideEditPanel } from "../actionCreator";
 import { COLOR } from "../constants/color";
+import PanelHeading from "./PanelHeading";
 import { RedirectionRule } from "./RedirectionRule";
-
-const titleStyles = {
-  fontSize: "21px",
-  marginRight: "18px",
-  fontWeight: "700",
-  color: red[300],
-};
 
 export const EditPanel = memo(() => {
   const dispatch = useDispatch();
@@ -109,14 +97,7 @@ export const EditPanel = memo(() => {
             <PlaylistAddTwoToneIcon fontSize="large" />
           </IconButton>
         </Box>
-        <Typography
-          component="span"
-          variant="h1"
-          display="inline"
-          style={titleStyles}
-        >
-          REDIRECTION PANEL
-        </Typography>
+        <PanelHeading heading="REDIRECTION PANEL" />
       </Box>
       {isFetching ? (
         <Box
