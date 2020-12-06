@@ -1,7 +1,9 @@
 import {
   HIDE_EDIT_PANEL,
+  HIDE_MANUAL_HISTORY_PANEL,
   SET_SIGNED_IN_STATUS,
   SHOW_EDIT_PANEL,
+  SHOW_MANUAL_HISTORY_PANEL,
 } from "../actionType";
 
 const defaultState = {
@@ -25,6 +27,16 @@ const reducer = (state = defaultState, action) => {
       return {
         ...state,
         showEditPanel: false,
+      };
+    case SHOW_MANUAL_HISTORY_PANEL:
+      return {
+        ...state,
+        showManualHistoryPanel: true,
+      };
+    case HIDE_MANUAL_HISTORY_PANEL:
+      return {
+        ...state,
+        showManualHistoryPanel: false,
       };
     default:
       return defaultState;
