@@ -27,6 +27,11 @@ jobs:
       - name: Building 🛠
         run: npm run release
 
+      - name: Lighthouse CI 🩺
+        uses: treosh/lighthouse-ci-action@v3
+        with:
+          configPath: "./lighthouserc.json"
+
       # ----------Below steps are for release process(only executes for master)--------------
 
       - name: Generate Release Tag 🏷
@@ -34,6 +39,13 @@ jobs:
         uses: amitsingh-007/next-release-tag@v1.0.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate changelog 🧾
+        if: ${{ github.ref == 'refs/heads/master' }}
+        id: changelog
+        uses: metcalfc/changelog-generator@v0.4.4
+        with:
+          myToken: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Release ✒
         id: create_release
@@ -44,6 +56,7 @@ jobs:
         with:
           tag_name: ${{ env.release_tag }}
           release_name: Release ${{ env.release_tag }}
+          body: ${{ steps.changelog.outputs.changelog }}
           draft: false
           prerelease: false
 
