@@ -27,6 +27,11 @@ const devToolsConfig = isProduction
 
 const statsConfig = isProduction ? "normal" : "errors-warnings";
 
+const performanceConfig = {
+  maxEntrypointSize: 500000,
+  maxAssetSize: 500000,
+};
+
 const setProgressPlugin = (plugins) => {
   if (!isProduction) {
     plugins.push(new webpack.ProgressPlugin());
@@ -89,6 +94,8 @@ const getDownloadPageConfigPlugins = () => {
     new HtmlWebpackPlugin({
       template: "./public/index.html",
       cache: false,
+      favicon: "./public/bypass_128.png",
+      publicPath: "/bypass-links/",
     }),
     new BundleAnalyzerPlugin({
       token: "9bc57954116cf0bd136f7718b24d79c4383ff15f",
@@ -190,10 +197,7 @@ const backgroundConfig = {
   resolve: preactConfig,
   plugins: getBackgroundConfigPlugins(),
   devtool: devToolsConfig,
-  performance: {
-    maxEntrypointSize: 500000,
-    maxAssetSize: 500000,
-  },
+  performance: performanceConfig,
   optimization: {
     nodeEnv: ENV,
     minimize: isProduction,
@@ -223,6 +227,7 @@ const popupConfig = {
   resolve: preactConfig,
   plugins: getPopupConfigPlugins(),
   devtool: devToolsConfig,
+  performance: performanceConfig,
   optimization: {
     nodeEnv: ENV,
     minimize: isProduction,
