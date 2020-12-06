@@ -27,10 +27,10 @@ jobs:
       - name: Building 🛠
         run: npm run release
 
-      - name: Lighthouse CI 🩺
-        uses: treosh/lighthouse-ci-action@v3
-        with:
-          configPath: "./lighthouserc.json"
+      # - name: Lighthouse CI 🩺
+      #   uses: treosh/lighthouse-ci-action@v3
+      #   with:
+      #     configPath: "./lighthouserc.json"
 
       # ----------Below steps are for release process(only executes for master)--------------
 
