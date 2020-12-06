@@ -1,16 +1,9 @@
 import { EXTENSION_STATE, FIREBASE_DB_REF } from "../constants";
 import { signIn, signOut } from "../utils/authentication";
 import { bypass, redirect } from "../utils/bypass";
-import { endHistoryWatch, startHistoryWatch } from "../utils/extensionIndex";
+import { isExtensionActive, setExtStateInStorage } from "../utils/common";
 import { getFromFirebase, saveToFirebase } from "../utils/firebase";
 import { syncFirebaseToStorage } from "../utils/syncFirebaseToStorage";
-import {
-  getExtensionState,
-  isExtensionActive,
-  setExtStateInStorage,
-  toggleExtension,
-} from "../utils/toggleExtension";
-import storage from "./chrome/storage";
 
 const onUpdateCallback = async (tabId, changeInfo) => {
   const { url } = changeInfo;
@@ -66,32 +59,6 @@ const onMessageReceive = (message, sender, sendResponse) => {
     });
   } else if (message.saveRedirectionRules) {
     saveDataToFirebase(message.saveRedirectionRules, sendResponse);
-  } else if (message.getExtState) {
-    getExtensionState().then((extState) => {
-      sendResponse({ extState });
-    });
-  } else if (message.toggleExtension) {
-    toggleExtension().then(() => {
-      getExtensionState().then((extState) => {
-        sendResponse({ extState });
-      });
-    });
-  } else if (message.isHistoryActive) {
-    storage.get(["historyStartTime"]).then(({ historyStartTime }) => {
-      sendResponse({ isHistoryActive: !!historyStartTime });
-    });
-  } else if (message.startHistoryWatch || message.endHistoryWatch) {
-    const historyFn = message.startHistoryWatch
-      ? startHistoryWatch
-      : endHistoryWatch;
-    historyFn()
-      .then(() => {
-        sendResponse({ isHistoryActionSuccess: true });
-      })
-      .catch((err) => {
-        console.log("Error occured while manipulating history.", err);
-        sendResponse({ isHistoryActionSuccess: false });
-      });
   }
   return true;
 };

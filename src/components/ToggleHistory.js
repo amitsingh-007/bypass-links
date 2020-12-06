@@ -2,30 +2,40 @@ import { Box, Switch } from "@material-ui/core";
 import VisibilityOffTwoToneIcon from "@material-ui/icons/VisibilityOffTwoTone";
 import VisibilityTwoToneIcon from "@material-ui/icons/VisibilityTwoTone";
 import React, { memo, useEffect, useState } from "react";
-import runtime from "../scripts/chrome/runtime";
+import history from "../scripts/chrome/history";
+import storage from "../scripts/chrome/storage";
 import { getOffIconColor, getOnIconColor } from "../utils/color";
+
+const startHistoryWatch = async () =>
+  storage.set({ historyStartTime: Date.now() });
+
+export const endHistoryWatch = async () => {
+  const { historyStartTime } = await storage.get(["historyStartTime"]);
+  const historyEndTime = Date.now();
+  console.log(`Start DateTime is: ${new Date(historyStartTime)}`);
+  console.log(`End DateTime is: ${new Date(historyEndTime)}`);
+  await history.deleteRange({
+    startTime: historyStartTime,
+    endTime: historyEndTime,
+  });
+  storage.remove("historyStartTime");
+  console.log("History clear succesful.");
+};
 
 export const ToggleHistory = memo(() => {
   const [isHistoryActive, setIsHistoryActive] = useState(false);
 
   useEffect(() => {
-    runtime
-      .sendMessage({ isHistoryActive: true })
-      .then(({ isHistoryActive }) => {
-        setIsHistoryActive(isHistoryActive);
-      });
+    storage.get(["historyStartTime"]).then(({ historyStartTime }) => {
+      setIsHistoryActive(!!historyStartTime);
+    });
   }, []);
 
-  const handleToggle = (event) => {
+  const handleToggle = async (event) => {
     const isActive = event.target.checked;
-    const action = isActive ? "startHistoryWatch" : "endHistoryWatch";
-    runtime
-      .sendMessage({ [action]: true })
-      .then(({ isHistoryActionSuccess }) => {
-        if (isHistoryActionSuccess) {
-          setIsHistoryActive(isActive);
-        }
-      });
+    const historyFn = isActive ? startHistoryWatch : endHistoryWatch;
+    await historyFn();
+    setIsHistoryActive(isActive);
   };
 
   return (

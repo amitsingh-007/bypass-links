@@ -3,8 +3,8 @@ import PowerOffTwoToneIcon from "@material-ui/icons/PowerOffTwoTone";
 import PowerTwoToneIcon from "@material-ui/icons/PowerTwoTone";
 import React, { memo, useEffect, useState } from "react";
 import { EXTENSION_STATE } from "../constants";
-import runtime from "../scripts/chrome/runtime";
 import { getOffIconColor, getOnIconColor } from "../utils/color";
+import { getExtensionState, setExtStateInStorage } from "../utils/common";
 
 const isExtActive = (extState) => extState === EXTENSION_STATE.ACTIVE;
 
@@ -12,17 +12,18 @@ export const ToggleExtension = memo(() => {
   const [extState, setExtState] = useState(EXTENSION_STATE.INACTIVE);
 
   useEffect(() => {
-    runtime.sendMessage({ getExtState: true }).then(({ extState }) => {
+    getExtensionState().then((extState) => {
       setExtState(extState);
     });
   }, []);
 
   const handleToggle = () => {
-    runtime
-      .sendMessage({ toggleExtension: true })
-      .then(({ extState: toggledExtState }) => {
-        setExtState(toggledExtState);
-      });
+    const newExtensionState =
+      extState === EXTENSION_STATE.ACTIVE
+        ? EXTENSION_STATE.INACTIVE
+        : EXTENSION_STATE.ACTIVE;
+    setExtStateInStorage(newExtensionState);
+    setExtState(newExtensionState);
   };
 
   const isActive = isExtActive(extState);

@@ -240,13 +240,11 @@ const popupConfig = {
  * For dev-server, only build downloadPageConfig
  * Else, build extension related configs
  */
-const configs = [];
+let configs = [backgroundConfig, popupConfig];
 if (isProduction) {
-  configs.push(downloadPageConfig, backgroundConfig, popupConfig);
-} else {
-  configs.push(
-    isDevServer ? downloadPageConfig : (backgroundConfig, popupConfig)
-  );
+  configs = [downloadPageConfig, backgroundConfig, popupConfig];
+} else if (isDevServer) {
+  configs = [downloadPageConfig];
 }
 
 module.exports = configs;
