@@ -29,9 +29,9 @@ jobs:
 
       - name: Generate Release Tag 🏷
         if: ${{ github.ref == 'refs/heads/f-automate-release-tags' }}
-        uses: amitsingh-007/next-release-tag@v1.0.5
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: amitsingh-007/next-release-tag@v1.0.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Release ✒
         if: ${{ github.ref == 'refs/heads/f-automate-release-tags' }}
