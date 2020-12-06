@@ -66,6 +66,7 @@ export const ManualHistoryPanel = memo(() => {
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <DateTimePicker
             disableToolbar
+            ampm={false}
             inputVariant="filled"
             margin="normal"
             label="Start Date Time"
@@ -74,6 +75,7 @@ export const ManualHistoryPanel = memo(() => {
           />
           <DateTimePicker
             disableToolbar
+            ampm={false}
             inputVariant="filled"
             margin="normal"
             label="End Date Time"
