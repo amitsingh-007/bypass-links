@@ -89,6 +89,7 @@ const getDownloadPageConfigPlugins = () => {
     new HtmlWebpackPlugin({
       template: "./public/index.html",
       cache: false,
+      favicon: "./public/bypass_128.png",
     }),
     new BundleAnalyzerPlugin({
       token: "9bc57954116cf0bd136f7718b24d79c4383ff15f",
