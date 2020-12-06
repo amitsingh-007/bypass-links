@@ -27,6 +27,44 @@ jobs:
       - name: Building 🛠
         run: npm run release
 
+      # ----------Below steps are for release process(only executes for master)--------------
+
+      - name: Generate Release Tag 🏷
+        if: ${{ github.ref == 'refs/heads/master' }}
+        uses: amitsingh-007/next-release-tag@v1.0.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Release ✒
+        id: create_release
+        if: ${{ github.ref == 'refs/heads/master' }}
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.release_tag }}
+          release_name: Release ${{ env.release_tag }}
+          draft: false
+          prerelease: false
+
+      - name: Get Release Asset Name 🗃
+        if: ${{ github.ref == 'refs/heads/master' }}
+        id: get_release_asset_name
+        run: |
+          file=$(find ./build/bypass-links-*.zip  -printf "%f\n")
+          echo "::set-output name=asset_name::$file"
+
+      - name: Upload Release Asset ☁
+        if: ${{ github.ref == 'refs/heads/master' }}
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/${{ steps.get_release_asset_name.outputs.asset_name }}
+          asset_name: ${{ steps.get_release_asset_name.outputs.asset_name }}
+          asset_content_type: application/zip
+
       - name: Deploying to gh-pages 🚀
         if: ${{ github.ref == 'refs/heads/master' }}
         uses: peaceiris/actions-gh-pages@v3
