@@ -1,7 +1,9 @@
 import {
   HIDE_EDIT_PANEL,
+  HIDE_MANUAL_HISTORY_PANEL,
   SET_SIGNED_IN_STATUS,
   SHOW_EDIT_PANEL,
+  SHOW_MANUAL_HISTORY_PANEL,
 } from "../actionType";
 
 export const setSignedInStatus = (isSignedIn) => ({
@@ -15,4 +17,12 @@ export const showEditPanel = () => ({
 
 export const hideEditPanel = () => ({
   type: HIDE_EDIT_PANEL,
+});
+
+export const showManualHistoryPanel = () => ({
+  type: SHOW_MANUAL_HISTORY_PANEL,
+});
+
+export const hideManualHistoryPanel = () => ({
+  type: HIDE_MANUAL_HISTORY_PANEL,
 });

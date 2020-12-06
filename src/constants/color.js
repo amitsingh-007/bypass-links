@@ -1,3 +1,4 @@
+import yellow from "@material-ui/core/colors/yellow";
 import green from "@material-ui/core/colors/green";
 import red from "@material-ui/core/colors/red";
 
@@ -7,5 +8,8 @@ export const COLOR = {
   },
   red: {
     color: red[500],
+  },
+  yellow: {
+    color: yellow[300],
   },
 };

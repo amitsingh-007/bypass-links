@@ -2,7 +2,6 @@ import { Box, Switch } from "@material-ui/core";
 import VisibilityOffTwoToneIcon from "@material-ui/icons/VisibilityOffTwoTone";
 import VisibilityTwoToneIcon from "@material-ui/icons/VisibilityTwoTone";
 import React, { memo, useEffect, useState } from "react";
-import { COLOR } from "../constants/color";
 import runtime from "../scripts/chrome/runtime";
 import { getOffIconColor, getOnIconColor } from "../utils/color";
 
