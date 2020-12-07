@@ -18,10 +18,9 @@ export const ToggleExtension = memo(() => {
   }, []);
 
   const handleToggle = () => {
-    const newExtensionState =
-      extState === EXTENSION_STATE.ACTIVE
-        ? EXTENSION_STATE.INACTIVE
-        : EXTENSION_STATE.ACTIVE;
+    const newExtensionState = isExtActive(extState)
+      ? EXTENSION_STATE.INACTIVE
+      : EXTENSION_STATE.ACTIVE;
     setExtStateInStorage(newExtensionState);
     setExtState(newExtensionState);
   };

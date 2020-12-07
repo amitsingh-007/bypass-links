@@ -1,4 +1,7 @@
+import { FIREBASE_DB_REF } from "../constants";
 import { changeTabUrl } from "./bypass/changeTabUrl";
+import { getFromFirebase, saveToFirebase } from "./firebase";
+import { syncFirebaseToStorage } from "./syncFirebaseToStorage";
 
 export const bypassSingleLinkOnPage = (selectorFn, tabId) => {
   chrome.tabs.executeScript(
@@ -24,4 +27,29 @@ export const bypassSingleLinkOnPage = (selectorFn, tabId) => {
       }
     }
   );
+};
+
+/**
+ * We first update the fallback db with current data and then update the current db
+ */
+export const saveDataToFirebase = (data, sendResponse) => {
+  let isRuleSaveSuccess = false;
+  getFromFirebase(FIREBASE_DB_REF.redirections).then((snapshot) => {
+    saveToFirebase(FIREBASE_DB_REF.redirectionsFallback, snapshot.val()).then(
+      () => {
+        console.log("Fallback DB updated.");
+        saveToFirebase(FIREBASE_DB_REF.redirections, data)
+          .then(() => {
+            isRuleSaveSuccess = true;
+            syncFirebaseToStorage();
+          })
+          .catch((err) => {
+            console.log("Error while saving data to Firebase", err);
+          })
+          .finally(() => {
+            sendResponse({ isRuleSaveSuccess });
+          });
+      }
+    );
+  });
 };

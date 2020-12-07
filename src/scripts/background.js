@@ -2,7 +2,8 @@ import { EXTENSION_STATE, FIREBASE_DB_REF } from "../constants";
 import { signIn, signOut } from "../utils/authentication";
 import { bypass, redirect } from "../utils/bypass";
 import { isExtensionActive, setExtStateInStorage } from "../utils/common";
-import { getFromFirebase, saveToFirebase } from "../utils/firebase";
+import { saveDataToFirebase } from "../utils/extensionIndex";
+import { getFromFirebase } from "../utils/firebase";
 import { syncFirebaseToStorage } from "../utils/syncFirebaseToStorage";
 
 const onUpdateCallback = async (tabId, changeInfo) => {
@@ -14,34 +15,9 @@ const onUpdateCallback = async (tabId, changeInfo) => {
   }
 };
 
-const handleFirstTimeInstall = () => {
+const onFirstTimeInstall = () => {
   setExtStateInStorage(EXTENSION_STATE.ACTIVE);
   syncFirebaseToStorage();
-};
-
-/**
- * We first update the fallback db with current data and then update the current db
- */
-const saveDataToFirebase = (data, sendResponse) => {
-  let isRuleSaveSuccess = false;
-  getFromFirebase(FIREBASE_DB_REF.redirections).then((snapshot) => {
-    saveToFirebase(FIREBASE_DB_REF.redirectionsFallback, snapshot.val()).then(
-      () => {
-        console.log("Fallback DB updated.");
-        saveToFirebase(FIREBASE_DB_REF.redirections, data)
-          .then(() => {
-            isRuleSaveSuccess = true;
-            syncFirebaseToStorage();
-          })
-          .catch((err) => {
-            console.log("Error while saving data to Firebase", err);
-          })
-          .finally(() => {
-            sendResponse({ isRuleSaveSuccess });
-          });
-      }
-    );
-  });
 };
 
 const onMessageReceive = (message, sender, sendResponse) => {
@@ -63,11 +39,16 @@ const onMessageReceive = (message, sender, sendResponse) => {
   return true;
 };
 
+const onStorageChange = (changedObj, storageType) => {};
+
 //Listen tab url change
 chrome.tabs.onUpdated.addListener(onUpdateCallback);
 
 //First time extension install
-chrome.runtime.onInstalled.addListener(handleFirstTimeInstall);
+chrome.runtime.onInstalled.addListener(onFirstTimeInstall);
 
 //Listen to dispatched messages
 chrome.runtime.onMessage.addListener(onMessageReceive);
+
+//Listen to chrome storage changes
+chrome.storage.onChanged.addListener(onStorageChange);

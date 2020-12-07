@@ -1,6 +1,6 @@
 import { Box, Typography } from "@material-ui/core";
 import red from "@material-ui/core/colors/red";
-import React from "react";
+import React, { memo } from "react";
 import { useSelector } from "react-redux";
 import { Authenticate } from "../components/Authenticate";
 import { EditPanel } from "../components/EditPanel";
@@ -10,7 +10,7 @@ import { ManualHistoryPanelButton } from "../components/ManualHistoryPanelButton
 import { ToggleExtension } from "../components/ToggleExtension";
 import { ToggleHistory } from "../components/ToggleHistory";
 
-export const PopupContent = () => {
+export const Popup = memo(() => {
   const showEditPanel = useSelector((state) => state.showEditPanel);
   const showManualHistoryPanel = useSelector(
     (state) => state.showManualHistoryPanel
@@ -46,4 +46,4 @@ export const PopupContent = () => {
       </Box>
     </Box>
   );
-};
+});
