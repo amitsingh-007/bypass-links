@@ -9,7 +9,7 @@ import {
 import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
 import React, { memo } from "react";
 import { getExtensionFile } from "../utils";
-import chromeLogo from "./chrome.svg";
+import chromeLogo from "../icons/chrome.svg";
 
 const cardStyles = { backgroundColor: "#323638" };
 

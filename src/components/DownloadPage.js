@@ -1,8 +1,8 @@
 import { Box, Link, Typography } from "@material-ui/core";
 import React from "react";
-import { ChromeExtension } from "./components/ChromeExtension";
+import { ChromeExtension } from "./ChromeExtension";
 
-const App = () => (
+const DownloadPage = () => (
   <>
     <Box textAlign="center" mt="20px" pl="150px" pr="150px">
       <Typography component="h1" variant="h2" gutterBottom>
@@ -42,4 +42,4 @@ const App = () => (
   </>
 );
 
-export default App;
+export default DownloadPage;

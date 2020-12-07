@@ -1,4 +1,4 @@
-const manifest = require("./public-extension/manifest.json");
+const manifest = require("./assets/manifest.json");
 
 const DATE_OPTIONS = {
   year: "numeric",

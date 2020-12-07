@@ -1,6 +1,6 @@
 import React, { StrictMode } from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
+import DownloadPage from "./components/DownloadPage";
 import { createMuiTheme, ThemeProvider, CssBaseline } from "@material-ui/core";
 
 const theme = createMuiTheme({
@@ -13,7 +13,7 @@ ReactDOM.render(
   <ThemeProvider theme={theme}>
     <StrictMode>
       <CssBaseline />
-      <App />
+      <DownloadPage />
     </StrictMode>
   </ThemeProvider>,
   document.getElementById("root")

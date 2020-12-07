@@ -1,17 +1,18 @@
 {
   "key": "fdnekjijeofacghkammknogmiapepano",
-  "version": "6.3.1",
+  "version": "6.4.0",
   "manifest_version": 2,
   "short_name": "Bypass Links",
   "name": "Bypass Links",
   "author": "Amit Singh",
   "description": "Bypass links from various sites to required links.",
   "browser_action": {
+    "default_icon": "bypass_link_on_128.png",
     "default_popup": "index.html",
     "default_title": "Bypass Links"
   },
   "icons": {
-    "128": "bypass_128.png"
+    "128": "bypass_link_on_128.png"
   },
   "permissions": ["storage", "tabs", "history", "<all_urls>"],
   "background": {
