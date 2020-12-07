@@ -6,8 +6,8 @@ export const getExtensionState = async () => {
   return extState;
 };
 
-export const isExtensionActive = async () =>
-  (await getExtensionState()) === EXTENSION_STATE.ACTIVE;
+export const isExtensionActive = (extState) =>
+  extState === EXTENSION_STATE.ACTIVE;
 
 export const setExtStateInStorage = (extState) => {
   storage.set({ extState }).then(() => {

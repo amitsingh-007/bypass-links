@@ -1,14 +1,19 @@
 import { EXTENSION_STATE, FIREBASE_DB_REF } from "../constants";
 import { signIn, signOut } from "../utils/authentication";
 import { bypass, redirect } from "../utils/bypass";
-import { isExtensionActive, setExtStateInStorage } from "../utils/common";
+import {
+  getExtensionState,
+  isExtensionActive,
+  setExtStateInStorage,
+} from "../utils/common";
 import { saveDataToFirebase } from "../utils/extensionIndex";
 import { getFromFirebase } from "../utils/firebase";
 import { syncFirebaseToStorage } from "../utils/syncFirebaseToStorage";
 
 const onUpdateCallback = async (tabId, changeInfo) => {
   const { url } = changeInfo;
-  if (url && (await isExtensionActive())) {
+  const extState = await getExtensionState();
+  if (url && isExtensionActive(extState)) {
     const currentTabUrl = new URL(url);
     bypass(tabId, currentTabUrl);
     redirect(tabId, currentTabUrl);
@@ -39,7 +44,18 @@ const onMessageReceive = (message, sender, sendResponse) => {
   return true;
 };
 
-const onStorageChange = (changedObj, storageType) => {};
+const onStorageChange = (changedObj, storageType) => {
+  if (storageType !== "sync") {
+    return;
+  }
+  const { extState } = changedObj;
+  if (extState) {
+    const icon = isExtensionActive(extState.newValue)
+      ? "bypass_link_on_128.png"
+      : "bypass_link_off_128.png";
+    chrome.browserAction.setIcon({ path: icon });
+  }
+};
 
 //Listen tab url change
 chrome.tabs.onUpdated.addListener(onUpdateCallback);
