@@ -1,5 +1,5 @@
 {
-  "extends": "react-app",
+  "extends": ["eslint:recommended", "react-app"],
   "env": {
     "webextensions": true,
     "browser": true,
