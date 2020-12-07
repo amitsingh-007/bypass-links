@@ -1,3 +1,4 @@
+import "preact/devtools";
 import React, { StrictMode } from "react";
 import ReactDOM from "react-dom";
 import DownloadPage from "./components/DownloadPage";
