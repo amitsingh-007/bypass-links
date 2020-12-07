@@ -4,9 +4,11 @@ import PowerTwoToneIcon from "@material-ui/icons/PowerTwoTone";
 import React, { memo, useEffect, useState } from "react";
 import { EXTENSION_STATE } from "../constants";
 import { getOffIconColor, getOnIconColor } from "../utils/color";
-import { getExtensionState, setExtStateInStorage } from "../utils/common";
-
-const isExtActive = (extState) => extState === EXTENSION_STATE.ACTIVE;
+import {
+  getExtensionState,
+  isExtensionActive,
+  setExtStateInStorage,
+} from "../utils/common";
 
 export const ToggleExtension = memo(() => {
   const [extState, setExtState] = useState(EXTENSION_STATE.INACTIVE);
@@ -18,20 +20,19 @@ export const ToggleExtension = memo(() => {
   }, []);
 
   const handleToggle = () => {
-    const newExtensionState =
-      extState === EXTENSION_STATE.ACTIVE
-        ? EXTENSION_STATE.INACTIVE
-        : EXTENSION_STATE.ACTIVE;
+    const newExtensionState = isExtensionActive(extState)
+      ? EXTENSION_STATE.INACTIVE
+      : EXTENSION_STATE.ACTIVE;
     setExtStateInStorage(newExtensionState);
     setExtState(newExtensionState);
   };
 
-  const isActive = isExtActive(extState);
+  const isActive = isExtensionActive(extState);
   return (
     <Box display="flex" alignItems="center">
       <PowerOffTwoToneIcon htmlColor={getOffIconColor(isActive)} />
       <Switch
-        checked={isExtActive(extState)}
+        checked={isExtensionActive(extState)}
         onChange={handleToggle}
         color="primary"
         name="extState"

@@ -4,7 +4,6 @@ const BundleAnalyzerPlugin = require("@bundle-analyzer/webpack-plugin");
 const WebpackBundleAnalyzerPlugin = require("webpack-bundle-analyzer")
   .BundleAnalyzerPlugin;
 const FileManagerPlugin = require("filemanager-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const webpack = require("webpack");
 const { getExtensionFile } = require("./src/utils");
 const { releaseDate, extVersion } = require("./release-config");
@@ -60,7 +59,7 @@ const getWebpackBundleAnalyzerPlugin = (port) =>
 const getPopupConfigPlugins = () => {
   const plugins = [
     new HtmlWebpackPlugin({
-      template: "./public-extension/index.html",
+      template: "./assets/index.html",
       cache: false,
     }),
     new BundleAnalyzerPlugin({
@@ -71,7 +70,7 @@ const getPopupConfigPlugins = () => {
         onStart: {
           copy: [
             {
-              source: "./public-extension/*",
+              source: "./assets/*",
               destination: path.resolve(__dirname, "extension"),
             },
           ],
@@ -92,13 +91,19 @@ const getDownloadPageConfigPlugins = () => {
     new HtmlWebpackPlugin({
       template: "./public/index.html",
       cache: false,
-      favicon: "./public/bypass_128.png",
+      favicon: "./assets/bypass_link_on_128.png",
       publicPath: "/bypass-links/",
     }),
     new BundleAnalyzerPlugin({
       token: "9bc57954116cf0bd136f7718b24d79c4383ff15f",
     }),
-    new CleanWebpackPlugin(),
+    new FileManagerPlugin({
+      events: {
+        onStart: {
+          delete: ["./build/*"],
+        },
+      },
+    }),
     new webpack.DefinePlugin({
       __EXT_VERSION__: JSON.stringify(extVersion),
       __RELEASE_DATE__: JSON.stringify(releaseDate),
@@ -208,7 +213,7 @@ const backgroundConfig = {
 };
 
 const popupConfig = {
-  entry: "./src/PopupApp.js",
+  entry: "./src/popupIndex.js",
   output: {
     path: path.resolve(__dirname, "extension"),
     filename: "popup.js",

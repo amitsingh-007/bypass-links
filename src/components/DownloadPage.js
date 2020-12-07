@@ -1,8 +1,8 @@
 import { Box, Link, Typography } from "@material-ui/core";
-import React from "react";
-import { ChromeExtension } from "./components/ChromeExtension";
+import React, { memo } from "react";
+import { ChromeExtension } from "./ChromeExtension";
 
-const App = () => (
+const DownloadPage = memo(() => (
   <>
     <Box textAlign="center" mt="20px" pl="150px" pr="150px">
       <Typography component="h1" variant="h2" gutterBottom>
@@ -40,6 +40,6 @@ const App = () => (
       <Typography>{`Last Update: ${__RELEASE_DATE__}`}</Typography>
     </Box>
   </>
-);
+));
 
-export default App;
+export default DownloadPage;
