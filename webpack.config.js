@@ -38,29 +38,15 @@ const setProgressPlugin = (plugins) => {
   }
 };
 
-const fileManagerPlugin = new FileManagerPlugin({
-  events: {
-    onStart: {
-      copy: [
-        {
-          source: "./public-extension/*",
-          destination: path.resolve(__dirname, "extension"),
-        },
-      ],
+const fileManagerPluginCommonConfig = {
+  delete: [`./extension/{${enableBundleAnalyzer ? "" : "stats.json,"}*.txt}`],
+  archive: [
+    {
+      source: path.resolve(__dirname, "extension"),
+      destination: `./build/${getExtensionFile(extVersion)}`,
     },
-    onEnd: {
-      delete: [
-        `./extension/{${enableBundleAnalyzer ? "" : "stats.json,"}*.txt}`,
-      ],
-      archive: [
-        {
-          source: path.resolve(__dirname, "extension"),
-          destination: `./build/${getExtensionFile(extVersion)}`,
-        },
-      ],
-    },
-  },
-});
+  ],
+};
 
 const getWebpackBundleAnalyzerPlugin = (port) =>
   new WebpackBundleAnalyzerPlugin({
@@ -80,7 +66,19 @@ const getPopupConfigPlugins = () => {
     new BundleAnalyzerPlugin({
       token: "9bc57954116cf0bd136f7718b24d79c4383ff15f",
     }),
-    fileManagerPlugin,
+    new FileManagerPlugin({
+      events: {
+        onStart: {
+          copy: [
+            {
+              source: "./public-extension/*",
+              destination: path.resolve(__dirname, "extension"),
+            },
+          ],
+        },
+        onEnd: fileManagerPluginCommonConfig,
+      },
+    }),
   ];
   if (enableBundleAnalyzer) {
     plugins.push(getWebpackBundleAnalyzerPlugin(8888));
@@ -115,7 +113,11 @@ const getBackgroundConfigPlugins = () => {
     new BundleAnalyzerPlugin({
       token: "9bc57954116cf0bd136f7718b24d79c4383ff15f",
     }),
-    fileManagerPlugin,
+    new FileManagerPlugin({
+      events: {
+        onEnd: fileManagerPluginCommonConfig,
+      },
+    }),
   ];
   if (enableBundleAnalyzer) {
     plugins.push(getWebpackBundleAnalyzerPlugin(8889));
