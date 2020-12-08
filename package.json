@@ -2,7 +2,6 @@
   "name": "bypass-links",
   "version": "1.0.0",
   "private": true,
-  "homepage": "https://amitsingh-007.github.io/bypass-links/",
   "dependencies": {
     "@date-io/date-fns": "1.3.13",
     "@material-ui/core": "4.11.1",

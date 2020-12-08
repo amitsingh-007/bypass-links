@@ -92,7 +92,6 @@ const getDownloadPageConfigPlugins = () => {
       template: "./public/index.html",
       cache: false,
       favicon: "./assets/bypass_link_on_128.png",
-      publicPath: "/bypass-links/",
     }),
     new BundleAnalyzerPlugin({
       token: "9bc57954116cf0bd136f7718b24d79c4383ff15f",
@@ -145,9 +144,7 @@ const downloadPageConfig = {
     contentBase: "./build",
     compress: true,
     port: 5000,
-    publicPath: "/bypass-links/",
     open: true,
-    openPage: "bypass-links/",
     stats: statsConfig,
     watchContentBase: true,
   },
