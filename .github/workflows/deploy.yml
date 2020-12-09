@@ -60,12 +60,13 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: build
+          path: ./build/
 
       - name: Display structure of downloaded files
         run: ls -R
 
-      # - name: Deploying to surge.sh 🐙
-      #   run: npm run surge -- --token ${{ secrets.SURGE_TOKEN }}
+      - name: Deploying to surge.sh 🐙
+        run: npm run surge -- --token ${{ secrets.SURGE_TOKEN }}
 
       # - name: Generate Release Tag 🏷
       #   uses: amitsingh-007/next-release-tag@v1.0.0
