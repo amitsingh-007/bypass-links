@@ -99,7 +99,7 @@ jobs:
           path: ./build/
 
       - name: Deploying to surge.sh 🐙
-        run: npx surge -- --token ${{ secrets.SURGE_TOKEN }}
+        run: npx surge ./build ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
 
       - name: Deploying to gh-pages 🚀
         uses: peaceiris/actions-gh-pages@v3

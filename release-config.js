@@ -10,13 +10,16 @@ const TIME_OPTIONS = {
   timeZone: "Asia/Kolkata",
 };
 
-const getCurFormattedDateTime = (date) =>
-  `${date.toLocaleString("en-IN", DATE_OPTIONS)} ${date.toLocaleTimeString(
+const getCurFormattedDateTime = () => {
+  const date = new Date();
+  date.setMinutes(date.getMinutes() + 8);
+  return `${date.toLocaleString(
     "en-IN",
-    TIME_OPTIONS
-  )}`;
+    DATE_OPTIONS
+  )} ${date.toLocaleTimeString("en-IN", TIME_OPTIONS)}`;
+};
 
 module.exports = {
-  releaseDate: getCurFormattedDateTime(new Date()),
+  releaseDate: getCurFormattedDateTime(),
   extVersion: manifest.version,
 };
