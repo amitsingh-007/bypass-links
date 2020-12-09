@@ -92,25 +92,6 @@ jobs:
     needs: [Release]
     if: ${{ github.ref == 'refs/heads/master' }}
     steps:
-      - name: Checkout repo 🛎️
-        uses: actions/checkout@v2
-
-      - name: Setting up Node.js 🔧
-        uses: actions/setup-node@v1
-        with:
-          node-version: "12.x"
-
-      - name: Cache 💾
-        uses: actions/cache@v2
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
-      - name: Install dependencies 🧼
-        run: npm install
-
       - name: Download artifacts 🎨
         uses: actions/download-artifact@v2
         with:
@@ -118,7 +99,7 @@ jobs:
           path: ./build/
 
       - name: Deploying to surge.sh 🐙
-        run: npm run surge -- --token ${{ secrets.SURGE_TOKEN }}
+        run: npx surge -- --token ${{ secrets.SURGE_TOKEN }}
 
       - name: Deploying to gh-pages 🚀
         uses: peaceiris/actions-gh-pages@v3
