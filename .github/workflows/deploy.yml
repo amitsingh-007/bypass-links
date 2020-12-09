@@ -30,6 +30,7 @@ jobs:
       # ----------Below steps are for release process(only executes for master)------------
 
       - name: Deploying to surge.sh 🐙
+        if: ${{ github.ref == 'refs/heads/master' }}
         run: surge ./build ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
 
       - name: Generate Release Tag 🏷
