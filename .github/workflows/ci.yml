@@ -1,8 +1,8 @@
-name: Github Action
+name: CI
 on: push
 
 jobs:
-  Deploy:
+  Build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo 🛎️
@@ -27,16 +27,33 @@ jobs:
       - name: Building 🛠
         run: npm run release
 
-      # ----------Below steps are for release process(only executes for master)--------------
+      - name: Upload artfacts 🎨
+        if: ${{ github.ref == 'refs/heads/master' }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: ./build/
+
+  Release:
+    runs-on: ubuntu-latest
+    needs: [Build]
+    if: ${{ github.ref == 'refs/heads/master' }}
+    steps:
+      - name: Checkout repo 🛎️
+        uses: actions/checkout@v2
+
+      - name: Download artifacts 🎨
+        uses: actions/download-artifact@v2
+        with:
+          name: build
+          path: ./build/
 
       - name: Generate Release Tag 🏷
-        if: ${{ github.ref == 'refs/heads/master' }}
         uses: amitsingh-007/next-release-tag@v1.0.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Generate changelog 🧾
-        if: ${{ github.ref == 'refs/heads/master' }}
         id: changelog
         uses: metcalfc/changelog-generator@v0.4.4
         with:
@@ -44,7 +61,6 @@ jobs:
 
       - name: Create Release ✒
         id: create_release
-        if: ${{ github.ref == 'refs/heads/master' }}
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -56,14 +72,12 @@ jobs:
           prerelease: false
 
       - name: Get Release Asset Name 🗃
-        if: ${{ github.ref == 'refs/heads/master' }}
         id: get_release_asset_name
         run: |
           file=$(find ./build/bypass-links-*.zip  -printf "%f\n")
           echo "::set-output name=asset_name::$file"
 
       - name: Upload Release Asset ☁
-        if: ${{ github.ref == 'refs/heads/master' }}
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -73,8 +87,40 @@ jobs:
           asset_name: ${{ steps.get_release_asset_name.outputs.asset_name }}
           asset_content_type: application/zip
 
+  Deploy:
+    runs-on: ubuntu-latest
+    needs: [Release]
+    if: ${{ github.ref == 'refs/heads/master' }}
+    steps:
+      - name: Checkout repo 🛎️
+        uses: actions/checkout@v2
+
+      - name: Setting up Node.js 🔧
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+
+      - name: Cache 💾
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies 🧼
+        run: npm install
+
+      - name: Download artifacts 🎨
+        uses: actions/download-artifact@v2
+        with:
+          name: build
+          path: ./build/
+
+      - name: Deploying to surge.sh 🐙
+        run: npm run surge -- --token ${{ secrets.SURGE_TOKEN }}
+
       - name: Deploying to gh-pages 🚀
-        if: ${{ github.ref == 'refs/heads/master' }}
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
