@@ -24,8 +24,8 @@ jobs:
       - name: Install dependencies 🧼
         run: npm install
 
-      - name: Building 🛠
-        run: npm run release
+      # - name: Building 🛠
+      #   run: npm run release
 
       # ----------Below steps are for release process(only executes for master)------------
 
