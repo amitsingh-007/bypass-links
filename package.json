@@ -2,7 +2,6 @@
   "name": "bypass-links",
   "version": "1.0.0",
   "private": true,
-  "homepage": "https://amitsingh-007.github.io/bypass-links/",
   "dependencies": {
     "@date-io/date-fns": "1.3.13",
     "@material-ui/core": "4.11.1",
@@ -21,7 +20,6 @@
     "@babel/preset-env": "7.12.7",
     "@babel/preset-react": "7.12.7",
     "@babel/runtime": "7.12.5",
-    "@bundle-analyzer/webpack-plugin": "0.5.1",
     "@types/chrome": "0.0.126",
     "@typescript-eslint/eslint-plugin": "4.0.0",
     "@typescript-eslint/parser": "4.0.0",
@@ -39,6 +37,7 @@
     "eslint-plugin-react-hooks": "4.0.8",
     "filemanager-webpack-plugin": "3.0.0-beta.0",
     "html-webpack-plugin": "5.0.0-alpha.15",
+    "surge": "0.21.7",
     "svg-url-loader": "7.1.1",
     "webpack": "5.10.0",
     "webpack-bundle-analyzer": "4.2.0",
@@ -49,6 +48,7 @@
     "analyzer": "cross-env ENABLE_BUNDLE_ANLYZER=true npm run release",
     "dev": "cross-env NODE_ENV=development webpack --watch",
     "start": "cross-env NODE_ENV=development DEV_SERVER=true webpack serve --progress",
+    "surge": "surge ./build http://bypass-links.surge.sh",
     "release": "cross-env NODE_ENV=production webpack"
   }
 }

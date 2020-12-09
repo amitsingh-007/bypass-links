@@ -1,6 +1,5 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const BundleAnalyzerPlugin = require("@bundle-analyzer/webpack-plugin");
 const WebpackBundleAnalyzerPlugin = require("webpack-bundle-analyzer")
   .BundleAnalyzerPlugin;
 const FileManagerPlugin = require("filemanager-webpack-plugin");
@@ -62,9 +61,6 @@ const getPopupConfigPlugins = () => {
       template: "./assets/index.html",
       cache: false,
     }),
-    new BundleAnalyzerPlugin({
-      token: "9bc57954116cf0bd136f7718b24d79c4383ff15f",
-    }),
     new FileManagerPlugin({
       events: {
         onStart: {
@@ -92,10 +88,6 @@ const getDownloadPageConfigPlugins = () => {
       template: "./public/index.html",
       cache: false,
       favicon: "./assets/bypass_link_on_128.png",
-      publicPath: "/bypass-links/",
-    }),
-    new BundleAnalyzerPlugin({
-      token: "9bc57954116cf0bd136f7718b24d79c4383ff15f",
     }),
     new FileManagerPlugin({
       events: {
@@ -115,9 +107,6 @@ const getDownloadPageConfigPlugins = () => {
 
 const getBackgroundConfigPlugins = () => {
   const plugins = [
-    new BundleAnalyzerPlugin({
-      token: "9bc57954116cf0bd136f7718b24d79c4383ff15f",
-    }),
     new FileManagerPlugin({
       events: {
         onEnd: fileManagerPluginCommonConfig,
@@ -145,9 +134,7 @@ const downloadPageConfig = {
     contentBase: "./build",
     compress: true,
     port: 5000,
-    publicPath: "/bypass-links/",
     open: true,
-    openPage: "bypass-links/",
     stats: statsConfig,
     watchContentBase: true,
   },
