@@ -48,6 +48,7 @@
   "scripts": {
     "analyzer": "cross-env ENABLE_BUNDLE_ANLYZER=true npm run release",
     "dev": "cross-env NODE_ENV=development webpack --watch",
+    "dev:deploy": "surge ./build http://bypass-links-dev.surge.sh",
     "start": "cross-env NODE_ENV=development DEV_SERVER=true webpack serve --progress",
     "release": "cross-env NODE_ENV=production webpack"
   }
