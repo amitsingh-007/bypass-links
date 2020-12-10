@@ -1,4 +1,4 @@
-import { COLOR } from "../constants/color";
+import { COLOR } from "GlobalConstants/color";
 
 export const getOnIconColor = (isActive) =>
   isActive ? COLOR.green.color : undefined;

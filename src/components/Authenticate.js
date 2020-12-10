@@ -1,12 +1,12 @@
 import { IconButton } from "@material-ui/core";
 import CloudDoneTwoToneIcon from "@material-ui/icons/CloudDoneTwoTone";
 import CloudOffTwoTone from "@material-ui/icons/CloudOffTwoTone";
+import runtime from "ChromeApi/runtime";
+import storage from "ChromeApi/storage";
+import { setSignedInStatus } from "GlobalActionCreators/";
+import { COLOR } from "GlobalConstants/color";
 import React, { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { setSignedInStatus } from "../actionCreators";
-import { COLOR } from "../constants/color";
-import runtime from "../scripts/chrome/runtime";
-import storage from "../scripts/chrome/storage";
 
 export const Authenticate = memo(() => {
   const [isSignedIn, setIsSignedIn] = useState(false);

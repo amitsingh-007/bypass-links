@@ -1,14 +1,14 @@
-import { EXTENSION_STATE, FIREBASE_DB_REF } from "../constants";
-import { signIn, signOut } from "../utils/authentication";
-import { bypass, redirect } from "../utils/bypass";
+import { EXTENSION_STATE, FIREBASE_DB_REF } from "GlobalConstants/";
+import { signIn, signOut } from "GlobalUtils/authentication";
+import { bypass, redirect } from "GlobalUtils/bypass";
 import {
   getExtensionState,
   isExtensionActive,
   setExtStateInStorage,
-} from "../utils/common";
-import { saveDataToFirebase } from "../utils/extensionIndex";
-import { getFromFirebase } from "../utils/firebase";
-import { syncFirebaseToStorage } from "../utils/syncFirebaseToStorage";
+} from "GlobalUtils/common";
+import { saveDataToFirebase } from "GlobalUtils/extensionIndex";
+import { getFromFirebase } from "GlobalUtils/firebase";
+import { syncFirebaseToStorage } from "GlobalUtils/syncFirebaseToStorage";
 
 const onUpdateCallback = async (tabId, changeInfo) => {
   const { url } = changeInfo;

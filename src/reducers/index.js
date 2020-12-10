@@ -4,7 +4,7 @@ import {
   SET_SIGNED_IN_STATUS,
   SHOW_EDIT_PANEL,
   SHOW_MANUAL_HISTORY_PANEL,
-} from "../actionTypes";
+} from "GlobalActionTypes/";
 
 const defaultState = {
   isSignedIn: false,

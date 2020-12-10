@@ -1,14 +1,14 @@
 import { Box, Switch } from "@material-ui/core";
 import PowerOffTwoToneIcon from "@material-ui/icons/PowerOffTwoTone";
 import PowerTwoToneIcon from "@material-ui/icons/PowerTwoTone";
-import React, { memo, useEffect, useState } from "react";
-import { EXTENSION_STATE } from "../constants";
-import { getOffIconColor, getOnIconColor } from "../utils/color";
+import { EXTENSION_STATE } from "GlobalConstants/";
+import { getOffIconColor, getOnIconColor } from "GlobalUtils/color";
 import {
   getExtensionState,
   isExtensionActive,
   setExtStateInStorage,
-} from "../utils/common";
+} from "GlobalUtils/common";
+import React, { memo, useEffect, useState } from "react";
 
 export const ToggleExtension = memo(() => {
   const [extState, setExtState] = useState(EXTENSION_STATE.INACTIVE);

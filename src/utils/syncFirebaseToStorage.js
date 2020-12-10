@@ -1,4 +1,4 @@
-import { FIREBASE_DB_REF } from "../constants";
+import { FIREBASE_DB_REF } from "GlobalConstants/";
 import { resetRedirections } from "./bypass";
 import { getFromFirebase } from "./firebase";
 

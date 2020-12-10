@@ -3,11 +3,11 @@ import { Box, IconButton } from "@material-ui/core";
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import DeleteSweepTwoToneIcon from "@material-ui/icons/DeleteSweepTwoTone";
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import history from "ChromeApi/history";
+import storage from "ChromeApi/storage";
+import { hideManualHistoryPanel } from "GlobalActionCreators/";
 import React, { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { hideManualHistoryPanel } from "../actionCreators";
-import history from "../scripts/chrome/history";
-import storage from "../scripts/chrome/storage";
 import PanelHeading from "./PanelHeading";
 
 export const ManualHistoryPanel = memo(() => {

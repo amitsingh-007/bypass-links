@@ -8,8 +8,8 @@ import {
 } from "@material-ui/core";
 import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
 import React, { memo } from "react";
-import { getExtensionFile } from "../utils";
-import chromeLogo from "../icons/chrome.svg";
+import chromeLogo from "GlobalIcons/chrome.svg";
+import { getExtensionFile } from "GlobalUtils/";
 
 const cardStyles = { backgroundColor: "#323638" };
 
