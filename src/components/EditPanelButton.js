@@ -2,7 +2,7 @@ import { IconButton } from "@material-ui/core";
 import TuneTwoToneIcon from "@material-ui/icons/TuneTwoTone";
 import React, { memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { showEditPanel } from "../actionCreator";
+import { showEditPanel } from "../actionCreators";
 
 export const EditPanelButton = memo(() => {
   const dispatch = useDispatch();

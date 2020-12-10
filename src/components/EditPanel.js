@@ -4,7 +4,7 @@ import PlaylistAddTwoToneIcon from "@material-ui/icons/PlaylistAddTwoTone";
 import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
 import React, { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { hideEditPanel } from "../actionCreator";
+import { hideEditPanel } from "../actionCreators";
 import { COLOR } from "../constants/color";
 import PanelHeading from "./PanelHeading";
 import { RedirectionRule } from "./RedirectionRule";

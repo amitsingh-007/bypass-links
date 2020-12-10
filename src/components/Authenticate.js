@@ -3,7 +3,7 @@ import CloudDoneTwoToneIcon from "@material-ui/icons/CloudDoneTwoTone";
 import CloudOffTwoTone from "@material-ui/icons/CloudOffTwoTone";
 import React, { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { setSignedInStatus } from "../actionCreator";
+import { setSignedInStatus } from "../actionCreators";
 import { COLOR } from "../constants/color";
 import runtime from "../scripts/chrome/runtime";
 import storage from "../scripts/chrome/storage";
