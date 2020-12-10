@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "ChromeApi/*": ["./src/scripts/chrome/*"],
+      "GlobalActionCreators/*": ["./src/actionCreators/*"],
+      "GlobalActionTypes/*": ["./src/actionTypes/*"],
+      "GlobalApis/*": ["./src/apis/*"],
+      "GlobalComponents/*": ["./src/components/*"],
+      "GlobalConstants/*": ["./src/constants/*"],
+      "GlobalContainers/*": ["./src/containers/*"],
+      "GlobalIcons/*": ["./src/icons/*"],
+      "GlobalReducers/*": ["./src/reducers/*"],
+      "GlobalScripts/*": ["./src/scripts/*"],
+      "GlobalUtils/*": ["./src/utils/*"],
+      "SrcPath/*": ["./src/*"]
+    }
+  },
+  "exclude": ["build", "extension"]
+}
