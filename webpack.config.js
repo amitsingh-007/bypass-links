@@ -14,16 +14,6 @@ const isDevServer = process.env.DEV_SERVER === "true";
 
 const commonConfig = {
   mode: ENV,
-  stats: isProduction ? "normal" : "errors-warnings",
-  devtool: isProduction ? undefined : "eval-cheap-module-source-map",
-  performance: {
-    maxEntrypointSize: 500000,
-    maxAssetSize: 500000,
-  },
-  optimization: {
-    nodeEnv: ENV,
-    minimize: isProduction,
-  },
   resolve: {
     extensions: [".js"],
     alias: {
@@ -43,6 +33,19 @@ const commonConfig = {
       "react-dom": "preact/compat",
     },
     modules: [path.resolve(__dirname, "..", "src"), "node_modules"],
+  },
+  stats: isProduction ? "normal" : "errors-warnings",
+  devtool: isProduction ? undefined : "eval-cheap-module-source-map",
+  performance: {
+    maxEntrypointSize: 500000,
+    maxAssetSize: 500000,
+  },
+  optimization: {
+    nodeEnv: ENV,
+    minimize: isProduction,
+  },
+  watchOptions: {
+    ignored: "node_modules/**",
   },
 };
 
