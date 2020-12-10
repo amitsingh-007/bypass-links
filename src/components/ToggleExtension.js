@@ -6,7 +6,7 @@ import { getOffIconColor, getOnIconColor } from "GlobalUtils/color";
 import {
   getExtensionState,
   isExtensionActive,
-  setExtStateInStorage,
+  setExtStateInStorage
 } from "GlobalUtils/common";
 import React, { memo, useEffect, useState } from "react";
 

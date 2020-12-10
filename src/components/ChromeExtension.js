@@ -4,12 +4,12 @@ import {
   CardContent,
   Fab,
   Link,
-  Typography,
+  Typography
 } from "@material-ui/core";
 import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
-import React, { memo } from "react";
 import chromeLogo from "GlobalIcons/chrome.svg";
 import { getExtensionFile } from "GlobalUtils/";
+import React, { memo } from "react";
 
 const cardStyles = { backgroundColor: "#323638" };
 

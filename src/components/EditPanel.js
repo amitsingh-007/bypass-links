@@ -2,12 +2,12 @@ import { Box, CircularProgress, IconButton } from "@material-ui/core";
 import BackspaceTwoToneIcon from "@material-ui/icons/BackspaceTwoTone";
 import PlaylistAddTwoToneIcon from "@material-ui/icons/PlaylistAddTwoTone";
 import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
+import { hideEditPanel } from "GlobalActionCreators/";
+import { COLOR } from "GlobalConstants/color";
 import React, { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { hideEditPanel } from "GlobalActionCreators/";
 import PanelHeading from "./PanelHeading";
 import { RedirectionRule } from "./RedirectionRule";
-import { COLOR } from "GlobalConstants/color";
 
 export const EditPanel = memo(() => {
   const dispatch = useDispatch();

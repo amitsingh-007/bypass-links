@@ -3,8 +3,8 @@ import VisibilityOffTwoToneIcon from "@material-ui/icons/VisibilityOffTwoTone";
 import VisibilityTwoToneIcon from "@material-ui/icons/VisibilityTwoTone";
 import history from "ChromeApi/history";
 import storage from "ChromeApi/storage";
-import React, { memo, useEffect, useState } from "react";
 import { getOffIconColor, getOnIconColor } from "GlobalUtils/color";
+import React, { memo, useEffect, useState } from "react";
 
 const startHistoryWatch = async () =>
   storage.set({ historyStartTime: Date.now() });

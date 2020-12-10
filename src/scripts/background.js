@@ -4,7 +4,7 @@ import { bypass, redirect } from "GlobalUtils/bypass";
 import {
   getExtensionState,
   isExtensionActive,
-  setExtStateInStorage,
+  setExtStateInStorage
 } from "GlobalUtils/common";
 import { saveDataToFirebase } from "GlobalUtils/extensionIndex";
 import { getFromFirebase } from "GlobalUtils/firebase";
