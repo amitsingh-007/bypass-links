@@ -1,7 +1,7 @@
+import storage from "ChromeApi/storage";
+import { resetRedirections } from "./bypass";
 import { googleSignIn, googleSignOut } from "./firebase";
 import { syncFirebaseToStorage } from "./syncFirebaseToStorage";
-import storage from "../scripts/chrome/storage";
-import { resetRedirections } from "./bypass";
 
 export const signIn = async () => {
   try {

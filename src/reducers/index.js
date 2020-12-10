@@ -3,8 +3,8 @@ import {
   HIDE_MANUAL_HISTORY_PANEL,
   SET_SIGNED_IN_STATUS,
   SHOW_EDIT_PANEL,
-  SHOW_MANUAL_HISTORY_PANEL,
-} from "../actionType";
+  SHOW_MANUAL_HISTORY_PANEL
+} from "GlobalActionTypes/";
 
 const defaultState = {
   isSignedIn: false,

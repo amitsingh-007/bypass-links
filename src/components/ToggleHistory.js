@@ -1,10 +1,10 @@
 import { Box, Switch } from "@material-ui/core";
 import VisibilityOffTwoToneIcon from "@material-ui/icons/VisibilityOffTwoTone";
 import VisibilityTwoToneIcon from "@material-ui/icons/VisibilityTwoTone";
+import history from "ChromeApi/history";
+import storage from "ChromeApi/storage";
+import { getOffIconColor, getOnIconColor } from "GlobalUtils/color";
 import React, { memo, useEffect, useState } from "react";
-import history from "../scripts/chrome/history";
-import storage from "../scripts/chrome/storage";
-import { getOffIconColor, getOnIconColor } from "../utils/color";
 
 const startHistoryWatch = async () =>
   storage.set({ historyStartTime: Date.now() });

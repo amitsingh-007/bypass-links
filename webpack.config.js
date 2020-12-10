@@ -12,22 +12,41 @@ const isProduction = ENV === "production";
 const enableBundleAnalyzer = process.env.ENABLE_BUNDLE_ANLYZER === "true";
 const isDevServer = process.env.DEV_SERVER === "true";
 
-const preactConfig = {
-  alias: {
-    react: "preact/compat",
-    "react-dom": "preact/compat",
+const commonConfig = {
+  mode: ENV,
+  resolve: {
+    extensions: [".js"],
+    alias: {
+      ChromeApi: path.resolve(__dirname, "src/scripts/chrome/"),
+      GlobalActionCreators: path.resolve(__dirname, "src/actionCreators/"),
+      GlobalActionTypes: path.resolve(__dirname, "src/actionTypes/"),
+      GlobalApis: path.resolve(__dirname, "src/apis/"),
+      GlobalComponents: path.resolve(__dirname, "src/components/"),
+      GlobalConstants: path.resolve(__dirname, "src/constants/"),
+      GlobalContainers: path.resolve(__dirname, "src/containers/"),
+      GlobalIcons: path.resolve(__dirname, "src/icons/"),
+      GlobalReducers: path.resolve(__dirname, "src/reducers/"),
+      GlobalScripts: path.resolve(__dirname, "src/scripts/"),
+      GlobalUtils: path.resolve(__dirname, "src/utils/"),
+      SrcPath: path.resolve(__dirname, "src/"),
+      react: "preact/compat",
+      "react-dom": "preact/compat",
+    },
+    modules: [path.resolve(__dirname, "..", "src"), "node_modules"],
   },
-};
-
-const devToolsConfig = isProduction
-  ? undefined
-  : "eval-cheap-module-source-map";
-
-const statsConfig = isProduction ? "normal" : "errors-warnings";
-
-const performanceConfig = {
-  maxEntrypointSize: 500000,
-  maxAssetSize: 500000,
+  stats: isProduction ? "normal" : "errors-warnings",
+  devtool: isProduction ? undefined : "eval-cheap-module-source-map",
+  performance: {
+    maxEntrypointSize: 500000,
+    maxAssetSize: 500000,
+  },
+  optimization: {
+    nodeEnv: ENV,
+    minimize: isProduction,
+  },
+  watchOptions: {
+    ignored: "node_modules/**",
+  },
 };
 
 const setProgressPlugin = (plugins) => {
@@ -54,6 +73,29 @@ const getWebpackBundleAnalyzerPlugin = (port) =>
     defaultSizes: "gzip",
     analyzerPort: port,
   });
+
+const getDownloadPageConfigPlugins = () => {
+  const plugins = [
+    new HtmlWebpackPlugin({
+      template: "./public/index.html",
+      cache: false,
+      favicon: "./assets/bypass_link_on_128.png",
+    }),
+    new FileManagerPlugin({
+      events: {
+        onStart: {
+          delete: ["./build/*"],
+        },
+      },
+    }),
+    new webpack.DefinePlugin({
+      __EXT_VERSION__: JSON.stringify(extVersion),
+      __RELEASE_DATE__: JSON.stringify(releaseDate),
+    }),
+  ];
+  setProgressPlugin(plugins);
+  return plugins;
+};
 
 const getPopupConfigPlugins = () => {
   const plugins = [
@@ -82,29 +124,6 @@ const getPopupConfigPlugins = () => {
   return plugins;
 };
 
-const getDownloadPageConfigPlugins = () => {
-  const plugins = [
-    new HtmlWebpackPlugin({
-      template: "./public/index.html",
-      cache: false,
-      favicon: "./assets/bypass_link_on_128.png",
-    }),
-    new FileManagerPlugin({
-      events: {
-        onStart: {
-          delete: ["./build/*"],
-        },
-      },
-    }),
-    new webpack.DefinePlugin({
-      __EXT_VERSION__: JSON.stringify(extVersion),
-      __RELEASE_DATE__: JSON.stringify(releaseDate),
-    }),
-  ];
-  setProgressPlugin(plugins);
-  return plugins;
-};
-
 const getBackgroundConfigPlugins = () => {
   const plugins = [
     new FileManagerPlugin({
@@ -121,6 +140,7 @@ const getBackgroundConfigPlugins = () => {
 };
 
 const downloadPageConfig = {
+  ...commonConfig,
   entry: "./src/index.js",
   output: {
     path: path.resolve(__dirname, "build"),
@@ -135,7 +155,7 @@ const downloadPageConfig = {
     compress: true,
     port: 5000,
     open: true,
-    stats: statsConfig,
+    stats: "errors-warnings",
     watchContentBase: true,
   },
   optimization: {
@@ -173,33 +193,23 @@ const downloadPageConfig = {
       },
     ],
   },
-  mode: ENV,
-  resolve: preactConfig,
   plugins: getDownloadPageConfigPlugins(),
   devtool: "source-map",
-  stats: statsConfig,
 };
 
 const backgroundConfig = {
+  ...commonConfig,
   entry: "./src/scripts/background.js",
   output: {
     path: path.resolve(__dirname, "extension"),
     filename: "background.js",
   },
   target: "browserslist",
-  mode: ENV,
-  resolve: preactConfig,
   plugins: getBackgroundConfigPlugins(),
-  devtool: devToolsConfig,
-  performance: performanceConfig,
-  optimization: {
-    nodeEnv: ENV,
-    minimize: isProduction,
-  },
-  stats: statsConfig,
 };
 
 const popupConfig = {
+  ...commonConfig,
   entry: "./src/popupIndex.js",
   output: {
     path: path.resolve(__dirname, "extension"),
@@ -217,16 +227,7 @@ const popupConfig = {
       },
     ],
   },
-  mode: ENV,
-  resolve: preactConfig,
   plugins: getPopupConfigPlugins(),
-  devtool: devToolsConfig,
-  performance: performanceConfig,
-  optimization: {
-    nodeEnv: ENV,
-    minimize: isProduction,
-  },
-  stats: statsConfig,
 };
 
 /**

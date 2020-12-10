@@ -1,4 +1,4 @@
-import { HOSTNAME } from "../../constants";
+import { HOSTNAME } from "GlobalConstants/";
 import { changeTabUrl } from "./changeTabUrl";
 
 export const bypassBonsai = async (url, tabId) => {

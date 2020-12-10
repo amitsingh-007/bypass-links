@@ -1,9 +1,9 @@
 import { IconButton } from "@material-ui/core";
 import HistoryTwoToneIcon from "@material-ui/icons/HistoryTwoTone";
+import { showManualHistoryPanel } from "GlobalActionCreators/";
+import { COLOR } from "GlobalConstants/color";
 import React, { memo } from "react";
 import { useDispatch } from "react-redux";
-import { showManualHistoryPanel } from "../actionCreator";
-import { COLOR } from "../constants/color";
 
 export const ManualHistoryPanelButton = memo(() => {
   const dispatch = useDispatch();

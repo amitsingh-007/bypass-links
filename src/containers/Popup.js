@@ -1,14 +1,14 @@
 import { Box, Typography } from "@material-ui/core";
 import red from "@material-ui/core/colors/red";
+import { Authenticate } from "GlobalComponents/Authenticate";
+import { EditPanel } from "GlobalComponents/EditPanel";
+import { EditPanelButton } from "GlobalComponents/EditPanelButton";
+import { ManualHistoryPanel } from "GlobalComponents/ManualHistoryPanel";
+import { ManualHistoryPanelButton } from "GlobalComponents/ManualHistoryPanelButton";
+import { ToggleExtension } from "GlobalComponents/ToggleExtension";
+import { ToggleHistory } from "GlobalComponents/ToggleHistory";
 import React, { memo } from "react";
 import { useSelector } from "react-redux";
-import { Authenticate } from "../components/Authenticate";
-import { EditPanel } from "../components/EditPanel";
-import { EditPanelButton } from "../components/EditPanelButton";
-import { ManualHistoryPanel } from "../components/ManualHistoryPanel";
-import { ManualHistoryPanelButton } from "../components/ManualHistoryPanelButton";
-import { ToggleExtension } from "../components/ToggleExtension";
-import { ToggleHistory } from "../components/ToggleHistory";
 
 export const Popup = memo(() => {
   const showEditPanel = useSelector((state) => state.showEditPanel);

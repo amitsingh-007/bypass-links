@@ -1,5 +1,5 @@
-import { EXTENSION_STATE } from "../constants";
-import storage from "../scripts/chrome/storage";
+import storage from "ChromeApi/storage";
+import { EXTENSION_STATE } from "GlobalConstants/";
 
 export const getExtensionState = async () => {
   const { extState } = await storage.get(["extState"]);

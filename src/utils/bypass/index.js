@@ -1,4 +1,4 @@
-import storage from "../../scripts/chrome/storage";
+import storage from "ChromeApi/storage";
 import { bypassBonsai } from "./bypassBonsai";
 import { bypassBonsaiLink } from "./bypassBonsaiLink";
 import { bypassForums } from "./bypassForums";

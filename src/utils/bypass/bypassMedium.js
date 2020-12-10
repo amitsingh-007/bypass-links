@@ -1,4 +1,4 @@
-import { HOSTNAME, MEDIUM_HOMEPAGE, MEDIUM_WHITELISTED } from "../../constants";
+import { HOSTNAME, MEDIUM_HOMEPAGE, MEDIUM_WHITELISTED } from "GlobalConstants/";
 
 const shouldSkipBypassingMedium = (url, searchParams) =>
   url === MEDIUM_HOMEPAGE ||

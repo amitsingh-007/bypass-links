@@ -2,8 +2,8 @@ import { Box, IconButton, Input, makeStyles } from "@material-ui/core";
 import DeleteTwoToneIcon from "@material-ui/icons/DeleteTwoTone";
 import DoneAllTwoToneIcon from "@material-ui/icons/DoneAllTwoTone";
 import RestoreTwoToneIcon from "@material-ui/icons/RestoreTwoTone";
+import { COLOR } from "GlobalConstants/color";
 import React, { memo, useState } from "react";
-import { COLOR } from "../constants/color";
 
 const useStyles = makeStyles({
   input: { fontSize: "15px" },
