@@ -28,6 +28,7 @@ const commonConfig = {
       GlobalIcons: path.resolve(__dirname, "src/icons/"),
       GlobalReducers: path.resolve(__dirname, "src/reducers/"),
       GlobalScripts: path.resolve(__dirname, "src/scripts/"),
+      GlobalStyles: path.resolve(__dirname, "src/styles/"),
       GlobalUtils: path.resolve(__dirname, "src/utils/"),
       SrcPath: path.resolve(__dirname, "src/"),
       react: "preact/compat",
@@ -230,6 +231,19 @@ const popupConfig = {
         use: {
           loader: "babel-loader",
         },
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          "style-loader",
+          "css-loader",
+          {
+            loader: "sass-loader",
+            options: {
+              sourceMap: !isProduction,
+            },
+          },
+        ],
       },
     ],
   },

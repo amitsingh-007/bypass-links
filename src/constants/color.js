@@ -12,4 +12,5 @@ export const COLOR = {
   yellow: {
     color: yellow[300],
   },
+  heading: red[300],
 };
