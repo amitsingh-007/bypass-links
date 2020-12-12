@@ -5,11 +5,11 @@ const WebpackBundleAnalyzerPlugin = require("webpack-bundle-analyzer")
 const FileManagerPlugin = require("filemanager-webpack-plugin");
 const { InjectManifest } = require("workbox-webpack-plugin");
 const webpack = require("webpack");
-const { getExtensionFile } = require("./src/utils");
+const { getExtensionFile, isProd } = require("./src/utils");
 const { releaseDate, extVersion } = require("./release-config");
 
-const ENV = process.env.NODE_ENV || "production";
-const isProduction = ENV === "production";
+const ENV = process.env.NODE_ENV;
+const isProduction = isProd();
 const enableBundleAnalyzer = process.env.ENABLE_BUNDLE_ANLYZER === "true";
 const isDevServer = process.env.DEV_SERVER === "true";
 

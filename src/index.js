@@ -3,6 +3,7 @@ import DownloadPage from "GlobalComponents/DownloadPage";
 import "preact/devtools";
 import React, { StrictMode } from "react";
 import ReactDOM from "react-dom";
+import { isProd } from "./utils/index";
 
 const theme = createMuiTheme({
   palette: {
@@ -23,7 +24,7 @@ ReactDOM.render(
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
-      .register("/sw.js")
+      .register(`/${isProd() ? "bypass-links/" : ""}sw.js`)
       .then((res) => {
         console.log("service worker registered", res);
       })
