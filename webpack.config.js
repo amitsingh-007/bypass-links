@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WebpackBundleAnalyzerPlugin = require("webpack-bundle-analyzer")
   .BundleAnalyzerPlugin;
 const FileManagerPlugin = require("filemanager-webpack-plugin");
+const { InjectManifest } = require("workbox-webpack-plugin");
 const webpack = require("webpack");
 const { getExtensionFile } = require("./src/utils");
 const { releaseDate, extVersion } = require("./release-config");
@@ -91,6 +92,10 @@ const getDownloadPageConfigPlugins = () => {
     new webpack.DefinePlugin({
       __EXT_VERSION__: JSON.stringify(extVersion),
       __RELEASE_DATE__: JSON.stringify(releaseDate),
+    }),
+    new InjectManifest({
+      swSrc: "./src/sw.js",
+      swDest: "sw.js",
     }),
   ];
   setProgressPlugin(plugins);
@@ -186,9 +191,10 @@ const downloadPageConfig = {
         },
       },
       {
-        test: /\.svg/,
-        use: {
-          loader: "svg-url-loader",
+        test: /\.(svg)$/i,
+        loader: "file-loader",
+        options: {
+          name: "[name]-[contenthash].[ext]",
         },
       },
     ],

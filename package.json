@@ -42,7 +42,8 @@
     "webpack": "5.10.0",
     "webpack-bundle-analyzer": "4.2.0",
     "webpack-cli": "4.2.0",
-    "webpack-dev-server": "3.11.0"
+    "webpack-dev-server": "3.11.0",
+    "workbox-webpack-plugin": "6.0.2"
   },
   "scripts": {
     "analyzer": "cross-env ENABLE_BUNDLE_ANLYZER=true npm run release",

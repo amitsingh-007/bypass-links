@@ -12,7 +12,7 @@ const TIME_OPTIONS = {
 
 const getCurFormattedDateTime = () => {
   const date = new Date();
-  date.setMinutes(date.getMinutes() + 8);
+  date.setMinutes(date.getMinutes() + 2);
   return `${date.toLocaleString(
     "en-IN",
     DATE_OPTIONS
