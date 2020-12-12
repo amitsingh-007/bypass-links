@@ -1,9 +1,10 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const WebpackBundleAnalyzerPlugin = require("webpack-bundle-analyzer")
-  .BundleAnalyzerPlugin;
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const FileManagerPlugin = require("filemanager-webpack-plugin");
 const { InjectManifest } = require("workbox-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const webpack = require("webpack");
 const { getExtensionFile, isProd } = require("./src/utils");
 const { releaseDate, extVersion } = require("./release-config");
@@ -16,7 +17,7 @@ const isDevServer = process.env.DEV_SERVER === "true";
 const commonConfig = {
   mode: ENV,
   resolve: {
-    extensions: [".js"],
+    extensions: [".js", ".scss"],
     alias: {
       ChromeApi: path.resolve(__dirname, "src/scripts/chrome/"),
       GlobalActionCreators: path.resolve(__dirname, "src/actionCreators/"),
@@ -68,7 +69,7 @@ const fileManagerPluginCommonConfig = {
 };
 
 const getWebpackBundleAnalyzerPlugin = (port) =>
-  new WebpackBundleAnalyzerPlugin({
+  new BundleAnalyzerPlugin({
     openAnalyzer: true,
     generateStatsFile: true,
     statsFilename: "stats.json",
@@ -122,9 +123,16 @@ const getPopupConfigPlugins = () => {
         onEnd: fileManagerPluginCommonConfig,
       },
     }),
+    new MiniCssExtractPlugin({
+      filename: `[name]${isProduction ? ".[contenthash]" : ""}.css`,
+      chunkFilename: `[id]${isProduction ? ".[contenthash]" : ""}.css`,
+    }),
   ];
   if (enableBundleAnalyzer) {
     plugins.push(getWebpackBundleAnalyzerPlugin(8888));
+  }
+  if (isProduction) {
+    plugins.push(new OptimizeCssAssetsPlugin({}));
   }
   setProgressPlugin(plugins);
   return plugins;
@@ -235,7 +243,7 @@ const popupConfig = {
       {
         test: /\.scss$/,
         use: [
-          "style-loader",
+          MiniCssExtractPlugin.loader,
           "css-loader",
           {
             loader: "sass-loader",
