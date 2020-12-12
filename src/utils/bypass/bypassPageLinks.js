@@ -1,5 +1,5 @@
 import { HOSTNAME } from "GlobalConstants/";
-import { bypassSingleLinkOnPage } from "GlobalUtils/extensionIndex";
+import { bypassSingleLinkOnPage } from "GlobalUtils/background";
 
 const findMegaLinks = () => {
   const LINKS_TO_BYPASS = ["mega.nz", "drive.google.com"];

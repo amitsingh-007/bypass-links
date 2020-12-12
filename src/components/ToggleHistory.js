@@ -6,11 +6,15 @@ import storage from "ChromeApi/storage";
 import { getOffIconColor, getOnIconColor } from "GlobalUtils/color";
 import React, { memo, useEffect, useState } from "react";
 
-const startHistoryWatch = async () =>
+export const startHistoryWatch = async () =>
   storage.set({ historyStartTime: Date.now() });
 
 export const endHistoryWatch = async () => {
   const { historyStartTime } = await storage.get(["historyStartTime"]);
+  if (!historyStartTime) {
+    console.log("Nothing to clear.");
+    return;
+  }
   const historyEndTime = Date.now();
   console.log(`Start DateTime is: ${new Date(historyStartTime)}`);
   console.log(`End DateTime is: ${new Date(historyEndTime)}`);

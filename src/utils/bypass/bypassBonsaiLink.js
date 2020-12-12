@@ -1,5 +1,5 @@
 import { HOSTNAME } from "GlobalConstants/";
-import { bypassSingleLinkOnPage } from "GlobalUtils/extensionIndex";
+import { bypassSingleLinkOnPage } from "GlobalUtils/background";
 
 const findLinksOnPage = () => {
   const LINKS_TO_EXCLUDE = ["t.me"];

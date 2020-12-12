@@ -6,7 +6,7 @@ import {
   isExtensionActive,
   setExtStateInStorage,
 } from "GlobalUtils/common";
-import { saveDataToFirebase } from "GlobalUtils/extensionIndex";
+import { saveDataToFirebase } from "GlobalUtils/background";
 import { getFromFirebase } from "GlobalUtils/firebase";
 import { syncFirebaseToStorage } from "GlobalUtils/syncFirebaseToStorage";
 
