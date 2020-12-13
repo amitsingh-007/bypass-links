@@ -26,27 +26,6 @@ export const EditPanel = memo(() => {
       );
       setRedirections(modifiedRedirections);
       setIsFetching(false);
-      // const redirectionsObj = Object.entries(redirections).reduce(
-      //   (obj, [k, v], index) => {
-      //     if (k && v) {
-      //       obj[index] = {
-      //         alias: k,
-      //         website: v,
-      //         isDefault: false,
-      //       };
-      //     }
-      //     return obj;
-      //   },
-      //   {}
-      // );
-      // console.log("New obj", redirectionsObj);
-      // runtime
-      //   .sendMessage({ saveRedirectionRules: redirectionsObj })
-      //   .then(({ isRuleSaveSuccess }) => {
-      //     if (isRuleSaveSuccess) {
-      //       handleClose();
-      //     }
-      //   });
     });
   }, []);
 

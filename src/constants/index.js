@@ -1,3 +1,5 @@
+import { isProd } from "GlobalUtils/";
+
 export const HOSTNAME = {
   LINKVERTISE: "linkvertise.com",
   BONSAI: "lustesthd.com",
@@ -24,7 +26,8 @@ export const EXTENSION_STATE = {
   INACTIVE: "inactive",
 };
 
+const firebaseDBPrefix = isProd() ? "prod" : "dev";
 export const FIREBASE_DB_REF = {
-  redirections: "redirections",
-  redirectionsFallback: "redirections-fallback",
+  redirections: `${firebaseDBPrefix}/redirections`,
+  redirectionsFallback: `${firebaseDBPrefix}/redirections-fallback`,
 };

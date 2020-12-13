@@ -5,12 +5,12 @@ const FileManagerPlugin = require("filemanager-webpack-plugin");
 const { InjectManifest } = require("workbox-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const webpack = require("webpack");
-const { getExtensionFile, isProd } = require("./src/utils");
+const { DefinePlugin, ProgressPlugin } = require("webpack");
+const { getExtensionFile } = require("./src/utils");
 const { releaseDate, extVersion } = require("./release-config");
 
 const ENV = process.env.NODE_ENV;
-const isProduction = isProd();
+const isProduction = ENV === "production";
 const enableBundleAnalyzer = process.env.ENABLE_BUNDLE_ANLYZER === "true";
 const isDevServer = process.env.DEV_SERVER === "true";
 
@@ -54,7 +54,7 @@ const commonConfig = {
 
 const setProgressPlugin = (plugins) => {
   if (!isProduction) {
-    plugins.push(new webpack.ProgressPlugin());
+    plugins.push(new ProgressPlugin());
   }
 };
 
@@ -77,6 +77,10 @@ const getWebpackBundleAnalyzerPlugin = (port) =>
     analyzerPort: port,
   });
 
+const definePlugin = new DefinePlugin({
+  __PROD__: JSON.stringify(isProduction),
+});
+
 const getDownloadPageConfigPlugins = () => {
   const plugins = [
     new HtmlWebpackPlugin({
@@ -91,7 +95,7 @@ const getDownloadPageConfigPlugins = () => {
         },
       },
     }),
-    new webpack.DefinePlugin({
+    new DefinePlugin({
       __EXT_VERSION__: JSON.stringify(extVersion),
       __RELEASE_DATE__: JSON.stringify(releaseDate),
     }),
@@ -127,6 +131,7 @@ const getPopupConfigPlugins = () => {
       filename: `[name]${isProduction ? ".[contenthash]" : ""}.css`,
       chunkFilename: `[id]${isProduction ? ".[contenthash]" : ""}.css`,
     }),
+    definePlugin,
   ];
   if (enableBundleAnalyzer) {
     plugins.push(getWebpackBundleAnalyzerPlugin(8888));
@@ -145,6 +150,7 @@ const getBackgroundConfigPlugins = () => {
         onEnd: fileManagerPluginCommonConfig,
       },
     }),
+    definePlugin,
   ];
   if (enableBundleAnalyzer) {
     plugins.push(getWebpackBundleAnalyzerPlugin(8889));
