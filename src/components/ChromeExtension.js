@@ -4,16 +4,33 @@ import {
   CardContent,
   Fab,
   Link,
-  Typography
+  Typography,
 } from "@material-ui/core";
 import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
 import chromeLogo from "GlobalIcons/chrome.svg";
-import { getExtensionFile } from "GlobalUtils/";
+import { getExtensionFile } from "GlobalUtils/index";
 import React, { memo } from "react";
 
 const cardStyles = { backgroundColor: "#323638" };
 
 export const ChromeExtension = memo(() => {
+  const handleExtensionDownload = () => {
+    fetch(
+      `${__PROD__ ? "/bypass-links" : ""}/${getExtensionFile(__EXT_VERSION__)}`
+    )
+      .then((transfer) => transfer.blob())
+      .then((bytes) => {
+        const downloadLink = document.createElement("a");
+        downloadLink.href = URL.createObjectURL(bytes);
+        downloadLink.setAttribute(
+          "download",
+          getExtensionFile(__EXT_VERSION__)
+        );
+        downloadLink.click();
+        document.removeChild(downloadLink);
+      });
+  };
+
   return (
     <Box width="360px" textAlign="left">
       <Card style={cardStyles}>
@@ -47,10 +64,7 @@ export const ChromeExtension = memo(() => {
           </Typography>
         </CardContent>
         <Box display="flex" justifyContent="center" pb="16px" pt="8px">
-          <Fab
-            variant="extended"
-            href={`/bypass-links/${getExtensionFile(__EXT_VERSION__)}`}
-          >
+          <Fab variant="extended" onClick={handleExtensionDownload}>
             <CloudDownloadIcon />
             <Box component="span" ml="8px">
               Download Bypass Links

@@ -21,6 +21,7 @@
     "@babel/preset-react": "7.12.7",
     "@babel/runtime": "7.12.5",
     "@types/chrome": "0.0.126",
+    "@types/workbox-strategies": "^4.3.0",
     "@typescript-eslint/eslint-plugin": "4.0.0",
     "@typescript-eslint/parser": "4.0.0",
     "babel-eslint": "10.0.0",
