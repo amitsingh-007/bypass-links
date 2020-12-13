@@ -10,6 +10,29 @@ import { useDispatch } from "react-redux";
 import PanelHeading from "./PanelHeading";
 import { RedirectionRule } from "./RedirectionRule";
 
+//Filter valid rules
+const validRules = (obj) => !!(obj && obj.alias && obj.website);
+
+//To store defaults at the top
+const customComparator = (a, b) => {
+  if (a.isDefault) {
+    return -1;
+  } else if (b.isDefault) {
+    return 1;
+  }
+  return 0;
+};
+
+//Map array into object so as to store in firebase
+const reducer = (obj, { alias, website, isDefault }, index) => {
+  obj[index++] = {
+    alias: btoa(alias),
+    website: btoa(website),
+    isDefault,
+  };
+  return obj;
+};
+
 export const EditPanel = memo(() => {
   const dispatch = useDispatch();
   const [redirections, setRedirections] = useState(null);
@@ -35,20 +58,10 @@ export const EditPanel = memo(() => {
 
   const handleSave = () => {
     console.log("Saving these redirection rules to Firebase", redirections);
-    let index = 0;
-    const redirectionsObj = redirections.reduce(
-      (obj, { alias, website, isDefault }) => {
-        if (!!alias && !!website) {
-          obj[index++] = {
-            alias: btoa(alias),
-            website: btoa(website),
-            isDefault,
-          };
-        }
-        return obj;
-      },
-      {}
-    );
+    const redirectionsObj = redirections
+      .filter(validRules)
+      .sort(customComparator)
+      .reduce(reducer, {});
     runtime
       .sendMessage({ saveRedirectionRules: redirectionsObj })
       .then(({ isRuleSaveSuccess }) => {
