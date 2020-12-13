@@ -2,6 +2,7 @@ import { Box, CircularProgress, IconButton } from "@material-ui/core";
 import BackspaceTwoToneIcon from "@material-ui/icons/BackspaceTwoTone";
 import PlaylistAddTwoToneIcon from "@material-ui/icons/PlaylistAddTwoTone";
 import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
+import runtime from "ChromeApi/runtime";
 import { hideEditPanel } from "GlobalActionCreators/";
 import { COLOR } from "GlobalConstants/color";
 import React, { memo, useEffect, useState } from "react";
@@ -15,16 +16,38 @@ export const EditPanel = memo(() => {
   const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
-    chrome.runtime.sendMessage(
-      { getRedirections: true },
-      ({ redirections }) => {
-        const modifiedRedirections = Object.entries(
-          redirections
-        ).map(([key, value]) => [atob(key), atob(value)]);
-        setRedirections(modifiedRedirections);
-        setIsFetching(false);
-      }
-    );
+    runtime.sendMessage({ getRedirections: true }).then(({ redirections }) => {
+      const modifiedRedirections = Object.entries(redirections).map(
+        ([key, { alias, website, isDefault }]) => ({
+          alias: atob(alias),
+          website: atob(website),
+          isDefault,
+        })
+      );
+      setRedirections(modifiedRedirections);
+      setIsFetching(false);
+      // const redirectionsObj = Object.entries(redirections).reduce(
+      //   (obj, [k, v], index) => {
+      //     if (k && v) {
+      //       obj[index] = {
+      //         alias: k,
+      //         website: v,
+      //         isDefault: false,
+      //       };
+      //     }
+      //     return obj;
+      //   },
+      //   {}
+      // );
+      // console.log("New obj", redirectionsObj);
+      // runtime
+      //   .sendMessage({ saveRedirectionRules: redirectionsObj })
+      //   .then(({ isRuleSaveSuccess }) => {
+      //     if (isRuleSaveSuccess) {
+      //       handleClose();
+      //     }
+      //   });
+    });
   }, []);
 
   const handleClose = () => {
@@ -33,24 +56,35 @@ export const EditPanel = memo(() => {
 
   const handleSave = () => {
     console.log("Saving these redirection rules to Firebase", redirections);
-    const redirectionsObj = redirections.reduce((obj, [k, v]) => {
-      if (k && v) {
-        obj[btoa(k)] = btoa(v);
-      }
-      return obj;
-    }, {});
-    chrome.runtime.sendMessage(
-      { saveRedirectionRules: redirectionsObj },
-      ({ isRuleSaveSuccess }) => {
+    let index = 0;
+    const redirectionsObj = redirections.reduce(
+      (obj, { alias, website, isDefault }) => {
+        if (!!alias && !!website) {
+          obj[index++] = {
+            alias: btoa(alias),
+            website: btoa(website),
+            isDefault,
+          };
+        }
+        return obj;
+      },
+      {}
+    );
+    runtime
+      .sendMessage({ saveRedirectionRules: redirectionsObj })
+      .then(({ isRuleSaveSuccess }) => {
         if (isRuleSaveSuccess) {
           handleClose();
         }
-      }
-    );
+      });
   };
 
   const handleAddRule = () => {
-    redirections.unshift(["", ""]);
+    redirections.unshift({
+      alias: "",
+      website: "",
+      isDefault: false,
+    });
     setRedirections([...redirections]);
   };
 
@@ -60,8 +94,12 @@ export const EditPanel = memo(() => {
     setRedirections(newRedirections);
   };
 
-  const handleSaveRule = (newRedirection, pos) => {
-    redirections[pos] = newRedirection;
+  const handleSaveRule = (alias, website, isDefault, pos) => {
+    redirections[pos] = {
+      alias,
+      website,
+      isDefault,
+    };
     setRedirections([...redirections]);
   };
 
@@ -103,7 +141,7 @@ export const EditPanel = memo(() => {
         <Box
           display="flex"
           justifyContent="center"
-          width="494px"
+          width="536px"
           marginBottom="12px"
         >
           <CircularProgress color="secondary" size={55} />
@@ -111,10 +149,12 @@ export const EditPanel = memo(() => {
       ) : null}
       {!isFetching && redirections && redirections.length > 0 ? (
         <form noValidate autoComplete="off" style={{ paddingLeft: "12px" }}>
-          {redirections.map((redirection, index) => (
+          {redirections.map(({ alias, website, isDefault }, index) => (
             <RedirectionRule
-              key={`${redirection[0]}_${redirection[1]}`}
-              redirection={redirection}
+              alias={alias}
+              website={website}
+              isDefault={isDefault}
+              key={`${alias}_${website}`}
               pos={index}
               handleRemoveRule={handleRemoveRule}
               handleSaveRule={handleSaveRule}
