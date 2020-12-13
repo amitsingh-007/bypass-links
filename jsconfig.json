@@ -12,6 +12,7 @@
       "GlobalIcons/*": ["./src/icons/*"],
       "GlobalReducers/*": ["./src/reducers/*"],
       "GlobalScripts/*": ["./src/scripts/*"],
+      "GlobalStyles/*": ["./src/styles/*"],
       "GlobalUtils/*": ["./src/utils/*"],
       "SrcPath/*": ["./src/*"]
     }

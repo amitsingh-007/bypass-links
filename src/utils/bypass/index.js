@@ -1,4 +1,5 @@
 import storage from "ChromeApi/storage";
+import { getMappedRedirections } from "GlobalUtils/background";
 import { bypassBonsai } from "./bypassBonsai";
 import { bypassBonsaiLink } from "./bypassBonsaiLink";
 import { bypassForums } from "./bypassForums";
@@ -21,7 +22,7 @@ let REDIRECTIONS = null;
 const getRedirections = async () => {
   if (!REDIRECTIONS) {
     const { redirections } = await storage.get(["redirections"]);
-    REDIRECTIONS = redirections;
+    REDIRECTIONS = getMappedRedirections(redirections);
   }
   return REDIRECTIONS || {};
 };

@@ -6,8 +6,8 @@ import {
   isExtensionActive,
   setExtStateInStorage,
 } from "GlobalUtils/common";
-import { saveDataToFirebase } from "GlobalUtils/extensionIndex";
-import { getFromFirebase } from "GlobalUtils/firebase";
+import { saveDataToFirebase } from "GlobalUtils/background";
+import { getDefaultsFromFirebase, getFromFirebase } from "GlobalUtils/firebase";
 import { syncFirebaseToStorage } from "GlobalUtils/syncFirebaseToStorage";
 
 const onUpdateCallback = async (tabId, changeInfo) => {
@@ -40,6 +40,10 @@ const onMessageReceive = (message, sender, sendResponse) => {
     });
   } else if (message.saveRedirectionRules) {
     saveDataToFirebase(message.saveRedirectionRules, sendResponse);
+  } else if (message.getDefaults) {
+    getDefaultsFromFirebase(FIREBASE_DB_REF.redirections).then((snapshot) => {
+      sendResponse({ defaults: snapshot.val() });
+    });
   }
   return true;
 };

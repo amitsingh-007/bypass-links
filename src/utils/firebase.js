@@ -5,7 +5,7 @@ import "firebase/database";
 const firebaseConfig = {
   apiKey: "AIzaSyDiMRlBhW36sLjEADoQj9T5L1H-hIDUAso",
   authDomain: "bypass-links.firebaseapp.com",
-  databaseURL: "https://bypass-links.firebaseio.com",
+  databaseURL: `https://bypass-links.firebaseio.com/`,
   projectId: "bypass-links",
   storageBucket: "bypass-links.appspot.com",
   messagingSenderId: "603462573180",
@@ -25,3 +25,11 @@ export const getFromFirebase = (ref) =>
 
 export const saveToFirebase = (ref, data) =>
   firebase.database().ref(ref).set(data);
+
+export const getDefaultsFromFirebase = (ref) =>
+  firebase
+    .database()
+    .ref(ref)
+    .orderByChild("isDefault")
+    .equalTo(true)
+    .once("value");

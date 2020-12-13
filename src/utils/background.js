@@ -53,3 +53,11 @@ export const saveDataToFirebase = (data, sendResponse) => {
     );
   });
 };
+
+export const getMappedRedirections = (redirections) =>
+  redirections
+    ? redirections.reduce((obj, { alias, website }) => {
+        obj[alias] = website;
+        return obj;
+      }, {})
+    : null;

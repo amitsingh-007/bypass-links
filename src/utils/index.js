@@ -1,6 +1,6 @@
 const getExtensionFile = (version) => `bypass-links-${version}.zip`;
 
-const isProd = () => process.env.NODE_ENV === "production";
+const isProd = () => __PROD__ === "true";
 
 module.exports = {
   getExtensionFile,

@@ -1,22 +1,23 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const WebpackBundleAnalyzerPlugin = require("webpack-bundle-analyzer")
-  .BundleAnalyzerPlugin;
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const FileManagerPlugin = require("filemanager-webpack-plugin");
 const { InjectManifest } = require("workbox-webpack-plugin");
-const webpack = require("webpack");
-const { getExtensionFile, isProd } = require("./src/utils");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const { DefinePlugin, ProgressPlugin } = require("webpack");
+const { getExtensionFile } = require("./src/utils");
 const { releaseDate, extVersion } = require("./release-config");
 
 const ENV = process.env.NODE_ENV;
-const isProduction = isProd();
+const isProduction = ENV === "production";
 const enableBundleAnalyzer = process.env.ENABLE_BUNDLE_ANLYZER === "true";
 const isDevServer = process.env.DEV_SERVER === "true";
 
 const commonConfig = {
   mode: ENV,
   resolve: {
-    extensions: [".js"],
+    extensions: [".js", ".scss"],
     alias: {
       ChromeApi: path.resolve(__dirname, "src/scripts/chrome/"),
       GlobalActionCreators: path.resolve(__dirname, "src/actionCreators/"),
@@ -28,6 +29,7 @@ const commonConfig = {
       GlobalIcons: path.resolve(__dirname, "src/icons/"),
       GlobalReducers: path.resolve(__dirname, "src/reducers/"),
       GlobalScripts: path.resolve(__dirname, "src/scripts/"),
+      GlobalStyles: path.resolve(__dirname, "src/styles/"),
       GlobalUtils: path.resolve(__dirname, "src/utils/"),
       SrcPath: path.resolve(__dirname, "src/"),
       react: "preact/compat",
@@ -52,7 +54,7 @@ const commonConfig = {
 
 const setProgressPlugin = (plugins) => {
   if (!isProduction) {
-    plugins.push(new webpack.ProgressPlugin());
+    plugins.push(new ProgressPlugin());
   }
 };
 
@@ -67,13 +69,17 @@ const fileManagerPluginCommonConfig = {
 };
 
 const getWebpackBundleAnalyzerPlugin = (port) =>
-  new WebpackBundleAnalyzerPlugin({
+  new BundleAnalyzerPlugin({
     openAnalyzer: true,
     generateStatsFile: true,
     statsFilename: "stats.json",
     defaultSizes: "gzip",
     analyzerPort: port,
   });
+
+const definePlugin = new DefinePlugin({
+  __PROD__: JSON.stringify(isProduction),
+});
 
 const getDownloadPageConfigPlugins = () => {
   const plugins = [
@@ -89,7 +95,7 @@ const getDownloadPageConfigPlugins = () => {
         },
       },
     }),
-    new webpack.DefinePlugin({
+    new DefinePlugin({
       __EXT_VERSION__: JSON.stringify(extVersion),
       __RELEASE_DATE__: JSON.stringify(releaseDate),
     }),
@@ -121,9 +127,17 @@ const getPopupConfigPlugins = () => {
         onEnd: fileManagerPluginCommonConfig,
       },
     }),
+    new MiniCssExtractPlugin({
+      filename: `[name]${isProduction ? ".[contenthash]" : ""}.css`,
+      chunkFilename: `[id]${isProduction ? ".[contenthash]" : ""}.css`,
+    }),
+    definePlugin,
   ];
   if (enableBundleAnalyzer) {
     plugins.push(getWebpackBundleAnalyzerPlugin(8888));
+  }
+  if (isProduction) {
+    plugins.push(new OptimizeCssAssetsPlugin({}));
   }
   setProgressPlugin(plugins);
   return plugins;
@@ -136,6 +150,7 @@ const getBackgroundConfigPlugins = () => {
         onEnd: fileManagerPluginCommonConfig,
       },
     }),
+    definePlugin,
   ];
   if (enableBundleAnalyzer) {
     plugins.push(getWebpackBundleAnalyzerPlugin(8889));
@@ -230,6 +245,19 @@ const popupConfig = {
         use: {
           loader: "babel-loader",
         },
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader",
+          {
+            loader: "sass-loader",
+            options: {
+              sourceMap: !isProduction,
+            },
+          },
+        ],
       },
     ],
   },

@@ -1,4 +1,10 @@
-import { Box, IconButton, Input, makeStyles } from "@material-ui/core";
+import {
+  Box,
+  Checkbox,
+  IconButton,
+  Input,
+  makeStyles,
+} from "@material-ui/core";
 import DeleteTwoToneIcon from "@material-ui/icons/DeleteTwoTone";
 import DoneAllTwoToneIcon from "@material-ui/icons/DoneAllTwoTone";
 import RestoreTwoToneIcon from "@material-ui/icons/RestoreTwoTone";
@@ -9,25 +15,27 @@ const useStyles = makeStyles({
   input: { fontSize: "15px" },
 });
 
-const getBgColor = (newValue, oldValue) =>
-  newValue !== oldValue ? "antiquewhite" : undefined;
-
 export const RedirectionRule = memo(
-  ({ redirection, pos, handleRemoveRule, handleSaveRule }) => {
-    const [websiteAlias, setWebsiteAlias] = useState(redirection[0]);
-    const [website, setWebsite] = useState(redirection[1]);
+  ({ alias, website, isDefault, pos, handleRemoveRule, handleSaveRule }) => {
+    const [ruleAlias, setRuleAlias] = useState(alias);
+    const [ruleWebsite, setRuleWebsite] = useState(website);
+    const [isDefaultRule, setIsDefaultRule] = useState(isDefault);
 
     const onWebsiteAliasInput = (event) => {
-      setWebsiteAlias(event.target.value.trim());
+      setRuleAlias(event.target.value.trim());
     };
 
     const onWebsiteInput = (event) => {
-      setWebsite(event.target.value.trim());
+      setRuleWebsite(event.target.value.trim());
+    };
+
+    const handleDefaultRuleChange = (event) => {
+      setIsDefaultRule(event.target.checked);
     };
 
     const handleResetClick = () => {
-      setWebsiteAlias(redirection[0]);
-      setWebsite(redirection[1]);
+      setRuleAlias(alias);
+      setRuleWebsite(website);
     };
 
     const handleRemoveClick = () => {
@@ -35,23 +43,26 @@ export const RedirectionRule = memo(
     };
 
     const handleSaveClick = () => {
-      handleSaveRule([websiteAlias, website], pos);
+      handleSaveRule(ruleAlias, ruleWebsite, isDefaultRule, pos);
     };
 
     const classes = useStyles();
+    const isRuleSame =
+      alias === ruleAlias &&
+      website === ruleWebsite &&
+      isDefault === isDefaultRule;
 
     return (
       <Box display="flex" alignItems="center">
-        <Box display="flex">
-          <Box
-            marginRight="8px"
-            display="inline-block"
-            bgcolor={getBgColor(redirection[0], websiteAlias)}
-            width="30%"
-          >
+        <Box display="flex" alignItems="center">
+          <Checkbox
+            checked={isDefaultRule}
+            onChange={handleDefaultRuleChange}
+          />
+          <Box marginRight="8px" display="inline-block" width="30%">
             <Input
               id="alias"
-              value={websiteAlias}
+              value={ruleAlias}
               onChange={onWebsiteAliasInput}
               size="small"
               fullWidth
@@ -59,14 +70,10 @@ export const RedirectionRule = memo(
               classes={{ input: classes.input }}
             />
           </Box>
-          <Box
-            display="inline-block"
-            bgcolor={getBgColor(redirection[1], website)}
-            flexGrow={1}
-          >
+          <Box display="inline-block" flexGrow={1}>
             <Input
               id="redirectionValue"
-              value={website}
+              value={ruleWebsite}
               onChange={onWebsiteInput}
               size="small"
               fullWidth
@@ -87,8 +94,9 @@ export const RedirectionRule = memo(
           <IconButton
             aria-label="Save"
             title="Save"
-            style={COLOR.green}
+            style={isRuleSame ? null : COLOR.green}
             edge="end"
+            disabled={isRuleSame}
           >
             <DoneAllTwoToneIcon onClick={handleSaveClick} />
           </IconButton>
