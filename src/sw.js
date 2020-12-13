@@ -19,3 +19,15 @@ registerRoute(
     ],
   })
 );
+
+registerRoute(
+  /.*(bypass-links-.*).*\.zip$/,
+  new NetworkFirst({
+    cacheName: "extension-file-cache",
+    plugins: [
+      new ExpirationPlugin({
+        maxEntries: 1,
+      }),
+    ],
+  })
+);
