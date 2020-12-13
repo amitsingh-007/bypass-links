@@ -1,14 +1,15 @@
+/* eslint-disable no-restricted-globals */
 import { ExpirationPlugin } from "workbox-expiration";
 import { precacheAndRoute } from "workbox-precaching";
 import { registerRoute } from "workbox-routing";
-import { StaleWhileRevalidate } from "workbox-strategies";
+import { NetworkFirst } from "workbox-strategies";
 
 self.skipWaiting();
 precacheAndRoute(self.__WB_MANIFEST);
 
 registerRoute(
   /.*/,
-  new StaleWhileRevalidate({
+  new NetworkFirst({
     cacheName: "bypass-links-cache",
     plugins: [
       new ExpirationPlugin({

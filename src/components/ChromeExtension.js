@@ -4,7 +4,7 @@ import {
   CardContent,
   Fab,
   Link,
-  Typography
+  Typography,
 } from "@material-ui/core";
 import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
 import chromeLogo from "GlobalIcons/chrome.svg";
@@ -49,7 +49,9 @@ export const ChromeExtension = memo(() => {
         <Box display="flex" justifyContent="center" pb="16px" pt="8px">
           <Fab
             variant="extended"
-            href={`/bypass-links/${getExtensionFile(__EXT_VERSION__)}`}
+            href={`${__PROD__ ? "/bypass-links" : ""}/${getExtensionFile(
+              __EXT_VERSION__
+            )}`}
           >
             <CloudDownloadIcon />
             <Box component="span" ml="8px">
