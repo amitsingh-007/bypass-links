@@ -98,6 +98,7 @@ const getDownloadPageConfigPlugins = () => {
     new DefinePlugin({
       __EXT_VERSION__: JSON.stringify(extVersion),
       __RELEASE_DATE__: JSON.stringify(releaseDate),
+      __PROD__: JSON.stringify(isProduction),
     }),
     new InjectManifest({
       swSrc: "./src/sw.js",
