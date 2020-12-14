@@ -3,6 +3,7 @@ import OpenInNewTwoToneIcon from "@material-ui/icons/OpenInNewTwoTone";
 import runtime from "ChromeApi/runtime";
 import tabs from "ChromeApi/tabs";
 import { COLOR } from "GlobalConstants/color";
+import { getActiveDisabledColor } from "GlobalUtils/color";
 import React, { memo } from "react";
 import { useSelector } from "react-redux";
 
@@ -23,7 +24,7 @@ export const OpenDefaultsButton = memo(() => {
     <IconButton
       aria-label="OpenDefaults"
       component="span"
-      style={isSignedIn ? COLOR.teal : null}
+      style={getActiveDisabledColor(isSignedIn, COLOR.teal)}
       onClick={handleOpenDefaults}
       disabled={!isSignedIn}
       title={isSignedIn ? "Open Defaults" : undefined}

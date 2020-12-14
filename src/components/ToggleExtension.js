@@ -1,30 +1,42 @@
 import { Box, Switch } from "@material-ui/core";
 import PowerOffTwoToneIcon from "@material-ui/icons/PowerOffTwoTone";
 import PowerTwoToneIcon from "@material-ui/icons/PowerTwoTone";
+import { turnOnExtension } from "GlobalActionCreators/";
+import { turnOffExtension } from "GlobalActionCreators/";
 import { EXTENSION_STATE } from "GlobalConstants/";
 import { getOffIconColor, getOnIconColor } from "GlobalUtils/color";
 import {
   getExtensionState,
   isExtensionActive,
-  setExtStateInStorage
+  setExtStateInStorage,
 } from "GlobalUtils/common";
 import React, { memo, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 export const ToggleExtension = memo(() => {
+  const dispatch = useDispatch();
   const [extState, setExtState] = useState(EXTENSION_STATE.INACTIVE);
+
+  const dispatchActionAndSetState = (extState, isActive) => {
+    setExtState(extState);
+    const action = isActive ? turnOnExtension : turnOffExtension;
+    dispatch(action());
+  };
 
   useEffect(() => {
     getExtensionState().then((extState) => {
-      setExtState(extState);
+      const isActive = isExtensionActive(extState);
+      dispatchActionAndSetState(extState, isActive);
     });
   }, []);
 
-  const handleToggle = () => {
-    const newExtensionState = isExtensionActive(extState)
-      ? EXTENSION_STATE.INACTIVE
-      : EXTENSION_STATE.ACTIVE;
-    setExtStateInStorage(newExtensionState);
-    setExtState(newExtensionState);
+  const handleToggle = (event) => {
+    const isActive = event.target.checked;
+    const extState = isActive
+      ? EXTENSION_STATE.ACTIVE
+      : EXTENSION_STATE.INACTIVE;
+    setExtStateInStorage(extState);
+    dispatchActionAndSetState(extState, isActive);
   };
 
   const isActive = isExtensionActive(extState);
@@ -32,7 +44,7 @@ export const ToggleExtension = memo(() => {
     <Box display="flex" alignItems="center">
       <PowerOffTwoToneIcon htmlColor={getOffIconColor(isActive)} />
       <Switch
-        checked={isExtensionActive(extState)}
+        checked={isActive}
         onChange={handleToggle}
         color="primary"
         name="extState"
