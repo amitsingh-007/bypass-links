@@ -6,22 +6,13 @@ import runtime from "ChromeApi/runtime";
 import { hideEditPanel } from "GlobalActionCreators/";
 import { COLOR } from "GlobalConstants/color";
 import React, { memo, useEffect, useState } from "react";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
 import PanelHeading from "./PanelHeading";
 import { RedirectionRule } from "./RedirectionRule";
 
 //Filter valid rules
 const validRules = (obj) => !!(obj && obj.alias && obj.website);
-
-//To store defaults at the top
-const customComparator = (a, b) => {
-  if (a.isDefault) {
-    return -1;
-  } else if (b.isDefault) {
-    return 1;
-  }
-  return 0;
-};
 
 //Map array into object so as to store in firebase
 const reducer = (obj, { alias, website, isDefault }, index) => {
@@ -58,10 +49,7 @@ export const EditPanel = memo(() => {
 
   const handleSave = () => {
     console.log("Saving these redirection rules to Firebase", redirections);
-    const redirectionsObj = redirections
-      .filter(validRules)
-      .sort(customComparator)
-      .reduce(reducer, {});
+    const redirectionsObj = redirections.filter(validRules).reduce(reducer, {});
     runtime
       .sendMessage({ saveRedirectionRules: redirectionsObj })
       .then(({ isRuleSaveSuccess }) => {
@@ -95,65 +83,94 @@ export const EditPanel = memo(() => {
     setRedirections([...redirections]);
   };
 
+  /*
+   * This assumes that we have only one column.
+   * Refer: https://egghead.io/lessons/react-persist-list-reordering-with-react-beautiful-dnd-using-the-ondragend-callback
+   */
+  const onDragEnd = ({ destination, source }) => {
+    if (!source || !destination || destination.index === source.index) {
+      return;
+    }
+    const newRedirections = Array.from(redirections);
+    const draggedRedirection = redirections[source.index];
+    newRedirections.splice(source.index, 1);
+    newRedirections.splice(destination.index, 0, draggedRedirection);
+    setRedirections(newRedirections);
+  };
+
   return (
-    <Box width="max-content" display="flex" flexDirection="column">
-      <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Box>
-          <IconButton
-            aria-label="Discard"
-            component="span"
-            style={COLOR.red}
-            onClick={handleClose}
-            title="Discard and Close"
-          >
-            <BackspaceTwoToneIcon fontSize="large" />
-          </IconButton>
-          <IconButton
-            aria-label="Save"
-            component="span"
-            style={COLOR.green}
-            onClick={handleSave}
-            title="Save and Close"
-          >
-            <SaveTwoToneIcon fontSize="large" />
-          </IconButton>
-          <IconButton
-            aria-label="Add"
-            component="span"
-            color="primary"
-            onClick={handleAddRule}
-            title="Add Rule"
-          >
-            <PlaylistAddTwoToneIcon fontSize="large" />
-          </IconButton>
+    <DragDropContext onDragEnd={onDragEnd}>
+      <Box width="max-content" display="flex" flexDirection="column">
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          <Box>
+            <IconButton
+              aria-label="Discard"
+              component="span"
+              style={COLOR.red}
+              onClick={handleClose}
+              title="Discard and Close"
+            >
+              <BackspaceTwoToneIcon fontSize="large" />
+            </IconButton>
+            <IconButton
+              aria-label="Save"
+              component="span"
+              style={COLOR.green}
+              onClick={handleSave}
+              title="Save and Close"
+            >
+              <SaveTwoToneIcon fontSize="large" />
+            </IconButton>
+            <IconButton
+              aria-label="Add"
+              component="span"
+              color="primary"
+              onClick={handleAddRule}
+              title="Add Rule"
+            >
+              <PlaylistAddTwoToneIcon fontSize="large" />
+            </IconButton>
+          </Box>
+          <PanelHeading heading="REDIRECTION PANEL" />
         </Box>
-        <PanelHeading heading="REDIRECTION PANEL" />
+        {isFetching ? (
+          <Box
+            display="flex"
+            justifyContent="center"
+            width="572px"
+            marginBottom="12px"
+          >
+            <CircularProgress color="secondary" size={55} />
+          </Box>
+        ) : null}
+        {!isFetching && redirections && redirections.length > 0 ? (
+          <Droppable droppableId="redirections-list">
+            {(provided) => (
+              <form
+                noValidate
+                autoComplete="off"
+                style={{ paddingLeft: "12px" }}
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+              >
+                {redirections.map(({ alias, website, isDefault }, index) => (
+                  <RedirectionRule
+                    alias={alias}
+                    website={website}
+                    isDefault={isDefault}
+                    key={`${alias}_${website}`}
+                    pos={index}
+                    handleRemoveRule={handleRemoveRule}
+                    handleSaveRule={handleSaveRule}
+                    index={index}
+                  />
+                ))}
+                {provided.placeholder}
+              </form>
+            )}
+          </Droppable>
+        ) : null}
       </Box>
-      {isFetching ? (
-        <Box
-          display="flex"
-          justifyContent="center"
-          width="536px"
-          marginBottom="12px"
-        >
-          <CircularProgress color="secondary" size={55} />
-        </Box>
-      ) : null}
-      {!isFetching && redirections && redirections.length > 0 ? (
-        <form noValidate autoComplete="off" style={{ paddingLeft: "12px" }}>
-          {redirections.map(({ alias, website, isDefault }, index) => (
-            <RedirectionRule
-              alias={alias}
-              website={website}
-              isDefault={isDefault}
-              key={`${alias}_${website}`}
-              pos={index}
-              handleRemoveRule={handleRemoveRule}
-              handleSaveRule={handleSaveRule}
-            />
-          ))}
-        </form>
-      ) : null}
-    </Box>
+    </DragDropContext>
   );
 });
