@@ -18,7 +18,7 @@ export const ManualHistoryPanelButton = memo(() => {
     <IconButton
       aria-label="ManualHistoryPanel"
       component="span"
-      style={getActiveDisabledColor(isExtensionActive, COLOR.yellow)}
+      style={getActiveDisabledColor(isExtensionActive, COLOR.orange)}
       onClick={handleShowManualHistoryPanel}
       title="Manual History Control"
       disabled={!isExtensionActive}

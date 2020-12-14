@@ -24,7 +24,7 @@ export const OpenDefaultsButton = memo(() => {
     <IconButton
       aria-label="OpenDefaults"
       component="span"
-      style={getActiveDisabledColor(isSignedIn, COLOR.teal)}
+      style={getActiveDisabledColor(isSignedIn, COLOR.deepPurple)}
       onClick={handleOpenDefaults}
       disabled={!isSignedIn}
       title={isSignedIn ? "Open Defaults" : undefined}

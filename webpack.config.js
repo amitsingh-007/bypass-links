@@ -256,7 +256,16 @@ const popupConfig = {
       {
         test: /\.scss$/,
         use: [
-          MiniCssExtractPlugin.loader,
+          /* Used style-loader instead of MiniCssExtractPlugin.loader,
+           * to inline css in html instead of a separate css file
+           */
+          {
+            loader: "style-loader",
+            options: {
+              insert: "head",
+              injectType: "singletonStyleTag",
+            },
+          },
           "css-loader",
           {
             loader: "sass-loader",
