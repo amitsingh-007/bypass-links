@@ -5,3 +5,6 @@ export const getOnIconColor = (isActive) =>
 
 export const getOffIconColor = (isActive) =>
   !isActive ? COLOR.red.color : undefined;
+
+export const getActiveDisabledColor = (isActive, activeColor) =>
+  isActive ? activeColor : null;

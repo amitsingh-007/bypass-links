@@ -2,11 +2,13 @@ import { IconButton } from "@material-ui/core";
 import HistoryTwoToneIcon from "@material-ui/icons/HistoryTwoTone";
 import { showManualHistoryPanel } from "GlobalActionCreators/";
 import { COLOR } from "GlobalConstants/color";
+import { getActiveDisabledColor } from "GlobalUtils/color";
 import React, { memo } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export const ManualHistoryPanelButton = memo(() => {
   const dispatch = useDispatch();
+  const isExtensionActive = useSelector((state) => state.isExtensionActive);
 
   const handleShowManualHistoryPanel = () => {
     dispatch(showManualHistoryPanel());
@@ -16,9 +18,10 @@ export const ManualHistoryPanelButton = memo(() => {
     <IconButton
       aria-label="ManualHistoryPanel"
       component="span"
-      style={COLOR.yellow}
+      style={getActiveDisabledColor(isExtensionActive, COLOR.yellow)}
       onClick={handleShowManualHistoryPanel}
       title="Manual History Control"
+      disabled={!isExtensionActive}
     >
       <HistoryTwoToneIcon fontSize="large" />
     </IconButton>

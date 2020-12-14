@@ -1,14 +1,17 @@
+import { TURN_ON_EXTENSION } from "GlobalActionTypes/";
+import { TURN_OFF_EXTENSION } from "GlobalActionTypes/";
 import {
   HIDE_EDIT_PANEL,
   HIDE_MANUAL_HISTORY_PANEL,
   SET_SIGNED_IN_STATUS,
   SHOW_EDIT_PANEL,
-  SHOW_MANUAL_HISTORY_PANEL
+  SHOW_MANUAL_HISTORY_PANEL,
 } from "GlobalActionTypes/";
 
 const defaultState = {
   isSignedIn: false,
   showEditPanel: false,
+  isExtensionActive: true,
 };
 
 const reducer = (state = defaultState, action) => {
@@ -37,6 +40,16 @@ const reducer = (state = defaultState, action) => {
       return {
         ...state,
         showManualHistoryPanel: false,
+      };
+    case TURN_OFF_EXTENSION:
+      return {
+        ...state,
+        isExtensionActive: false,
+      };
+    case TURN_ON_EXTENSION:
+      return {
+        ...state,
+        isExtensionActive: true,
       };
     default:
       return defaultState;
