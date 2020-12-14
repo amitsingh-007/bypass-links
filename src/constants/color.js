@@ -1,3 +1,4 @@
+import blueGrey from "@material-ui/core/colors/blueGrey";
 import green from "@material-ui/core/colors/green";
 import red from "@material-ui/core/colors/red";
 import teal from "@material-ui/core/colors/teal";
@@ -15,6 +16,9 @@ export const COLOR = {
   },
   teal: {
     color: teal[300],
+  },
+  blueGrey: {
+    color: blueGrey[300],
   },
   heading: red[300],
 };

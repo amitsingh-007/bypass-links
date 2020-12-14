@@ -8,15 +8,25 @@ import {
 import DeleteTwoToneIcon from "@material-ui/icons/DeleteTwoTone";
 import DoneAllTwoToneIcon from "@material-ui/icons/DoneAllTwoTone";
 import RestoreTwoToneIcon from "@material-ui/icons/RestoreTwoTone";
+import DragHandleTwoToneIcon from "@material-ui/icons/DragHandleTwoTone";
 import { COLOR } from "GlobalConstants/color";
 import React, { memo, useState } from "react";
+import { Draggable } from "react-beautiful-dnd";
 
 const useStyles = makeStyles({
   input: { fontSize: "15px" },
 });
 
 export const RedirectionRule = memo(
-  ({ alias, website, isDefault, pos, handleRemoveRule, handleSaveRule }) => {
+  ({
+    alias,
+    website,
+    isDefault,
+    pos,
+    handleRemoveRule,
+    handleSaveRule,
+    index,
+  }) => {
     const [ruleAlias, setRuleAlias] = useState(alias);
     const [ruleWebsite, setRuleWebsite] = useState(website);
     const [isDefaultRule, setIsDefaultRule] = useState(isDefault);
@@ -53,58 +63,70 @@ export const RedirectionRule = memo(
       isDefault === isDefaultRule;
 
     return (
-      <Box display="flex" alignItems="center">
-        <Box display="flex" alignItems="center">
-          <Checkbox
-            checked={isDefaultRule}
-            onChange={handleDefaultRuleChange}
-          />
-          <Box marginRight="8px" display="inline-block" width="30%">
-            <Input
-              id="alias"
-              value={ruleAlias}
-              onChange={onWebsiteAliasInput}
-              size="small"
-              fullWidth
-              placeholder="Enter Alias"
-              classes={{ input: classes.input }}
+      <Draggable draggableId={`${alias}_${website}`} index={index}>
+        {(provided) => (
+          <Box display="flex" alignItems="center" {...provided.draggableProps}>
+            <IconButton
+              ref={provided.innerRef}
+              {...provided.dragHandleProps}
+              aria-label="Drag"
+              title="Drag"
+              style={COLOR.blueGrey}
+              edge="start"
+            >
+              <DragHandleTwoToneIcon />
+            </IconButton>
+            <Checkbox
+              checked={isDefaultRule}
+              onChange={handleDefaultRuleChange}
             />
+            <Box display="flex" alignItems="center">
+              <Box marginRight="8px" display="inline-block" width="30%">
+                <Input
+                  id="alias"
+                  value={ruleAlias}
+                  onChange={onWebsiteAliasInput}
+                  size="small"
+                  fullWidth
+                  placeholder="Enter Alias"
+                  classes={{ input: classes.input }}
+                />
+              </Box>
+              <Box display="inline-block" flexGrow={1}>
+                <Input
+                  id="redirectionValue"
+                  value={ruleWebsite}
+                  onChange={onWebsiteInput}
+                  size="small"
+                  fullWidth
+                  placeholder="Enter Website"
+                  classes={{ input: classes.input }}
+                />
+              </Box>
+            </Box>
+            <IconButton
+              color="primary"
+              aria-label="Reset"
+              title="Reset"
+              edge="end"
+            >
+              <RestoreTwoToneIcon onClick={handleResetClick} />
+            </IconButton>
+            <IconButton
+              aria-label="Save"
+              title="Save"
+              style={isRuleSame ? null : COLOR.green}
+              edge="end"
+              disabled={isRuleSame}
+            >
+              <DoneAllTwoToneIcon onClick={handleSaveClick} />
+            </IconButton>
+            <IconButton aria-label="Remove" title="Delete" style={COLOR.red}>
+              <DeleteTwoToneIcon onClick={handleRemoveClick} />
+            </IconButton>
           </Box>
-          <Box display="inline-block" flexGrow={1}>
-            <Input
-              id="redirectionValue"
-              value={ruleWebsite}
-              onChange={onWebsiteInput}
-              size="small"
-              fullWidth
-              placeholder="Enter Website"
-              classes={{ input: classes.input }}
-            />
-          </Box>
-        </Box>
-        <Box display="inline-block">
-          <IconButton
-            color="primary"
-            aria-label="Reset"
-            title="Reset"
-            edge="end"
-          >
-            <RestoreTwoToneIcon onClick={handleResetClick} />
-          </IconButton>
-          <IconButton
-            aria-label="Save"
-            title="Save"
-            style={isRuleSame ? null : COLOR.green}
-            edge="end"
-            disabled={isRuleSame}
-          >
-            <DoneAllTwoToneIcon onClick={handleSaveClick} />
-          </IconButton>
-          <IconButton aria-label="Remove" title="Delete" style={COLOR.red}>
-            <DeleteTwoToneIcon htmlColor="red" onClick={handleRemoveClick} />
-          </IconButton>
-        </Box>
-      </Box>
+        )}
+      </Draggable>
     );
   }
 );

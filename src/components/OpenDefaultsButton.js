@@ -11,9 +11,11 @@ export const OpenDefaultsButton = memo(() => {
 
   const handleOpenDefaults = () => {
     runtime.sendMessage({ getDefaults: true }).then(({ defaults }) => {
-      defaults.forEach(({ website }) => {
-        tabs.create({ url: atob(website), selected: false });
-      });
+      defaults
+        .filter((data) => data && data.alias && data.website)
+        .forEach(({ website }) => {
+          tabs.create({ url: atob(website), selected: false });
+        });
     });
   };
 
