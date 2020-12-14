@@ -14,6 +14,12 @@ const isProduction = ENV === "production";
 const enableBundleAnalyzer = process.env.ENABLE_BUNDLE_ANLYZER === "true";
 const isDevServer = process.env.DEV_SERVER === "true";
 
+const PATHS = {
+  BUILD: path.resolve(__dirname, "build"),
+  EXTENSION: path.resolve(__dirname, "extension"),
+  SRC: path.resolve(__dirname, "src"),
+};
+
 const commonConfig = {
   mode: ENV,
   resolve: {
@@ -35,7 +41,7 @@ const commonConfig = {
       react: "preact/compat",
       "react-dom": "preact/compat",
     },
-    modules: [path.resolve(__dirname, "..", "src"), "node_modules"],
+    modules: [PATHS.SRC, "node_modules"],
   },
   stats: isProduction ? "normal" : "errors-warnings",
   devtool: isProduction ? undefined : "eval-cheap-module-source-map",
@@ -62,7 +68,7 @@ const fileManagerPluginCommonConfig = {
   delete: [`./extension/{${enableBundleAnalyzer ? "" : "stats.json,"}*.txt}`],
   archive: [
     {
-      source: path.resolve(__dirname, "extension"),
+      source: PATHS.EXTENSION,
       destination: `./build/${getExtensionFile(extVersion)}`,
     },
   ],
@@ -121,7 +127,7 @@ const getPopupConfigPlugins = () => {
           copy: [
             {
               source: "./assets/*",
-              destination: path.resolve(__dirname, "extension"),
+              destination: PATHS.EXTENSION,
             },
           ],
         },
@@ -164,7 +170,7 @@ const downloadPageConfig = {
   ...commonConfig,
   entry: "./src/index.js",
   output: {
-    path: path.resolve(__dirname, "build"),
+    path: PATHS.BUILD,
     filename: "js/[name].[chunkhash:9].js",
     chunkFilename: "js/[name].[chunkhash:9].js",
     pathinfo: false,
@@ -223,7 +229,7 @@ const backgroundConfig = {
   ...commonConfig,
   entry: "./src/scripts/background.js",
   output: {
-    path: path.resolve(__dirname, "extension"),
+    path: PATHS.EXTENSION,
     filename: "background.js",
   },
   target: "browserslist",
@@ -234,7 +240,7 @@ const popupConfig = {
   ...commonConfig,
   entry: "./src/popupIndex.js",
   output: {
-    path: path.resolve(__dirname, "extension"),
+    path: PATHS.EXTENSION,
     filename: "popup.js",
   },
   target: "browserslist",
