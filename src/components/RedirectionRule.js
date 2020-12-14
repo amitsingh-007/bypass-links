@@ -79,6 +79,7 @@ export const RedirectionRule = memo(
             <Checkbox
               checked={isDefaultRule}
               onChange={handleDefaultRuleChange}
+              style={COLOR.pink}
             />
             <Box display="flex" alignItems="center">
               <Box marginRight="8px" display="inline-block" width="30%">
@@ -105,7 +106,7 @@ export const RedirectionRule = memo(
               </Box>
             </Box>
             <IconButton
-              color="primary"
+              style={COLOR.blue}
               aria-label="Reset"
               title="Reset"
               edge="end"

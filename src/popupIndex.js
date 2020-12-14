@@ -15,6 +15,9 @@ const theme = createMuiTheme({
       default: "#272c34",
     },
   },
+  typography: {
+    fontFamily: `"Inter"`,
+  },
 });
 
 ReactDOM.render(

@@ -6,6 +6,7 @@ import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import history from "ChromeApi/history";
 import storage from "ChromeApi/storage";
 import { hideManualHistoryPanel } from "GlobalActionCreators/";
+import { COLOR } from "GlobalConstants/color";
 import React, { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import PanelHeading from "./PanelHeading";
@@ -54,7 +55,7 @@ export const ManualHistoryPanel = memo(() => {
         <IconButton
           aria-label="Back"
           component="span"
-          color="primary"
+          style={COLOR.blue}
           onClick={handleClose}
           title="Back"
         >
@@ -88,7 +89,7 @@ export const ManualHistoryPanel = memo(() => {
         <IconButton
           aria-label="Clear"
           component="span"
-          color="secondary"
+          style={COLOR.red}
           onClick={handleClear}
           title="Clear"
         >

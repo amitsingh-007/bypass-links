@@ -1,5 +1,5 @@
 import { Box, CircularProgress, IconButton } from "@material-ui/core";
-import BackspaceTwoToneIcon from "@material-ui/icons/BackspaceTwoTone";
+import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import PlaylistAddTwoToneIcon from "@material-ui/icons/PlaylistAddTwoTone";
 import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
 import runtime from "ChromeApi/runtime";
@@ -110,7 +110,7 @@ export const EditPanel = memo(() => {
               onClick={handleClose}
               title="Discard and Close"
             >
-              <BackspaceTwoToneIcon fontSize="large" />
+              <ArrowBackTwoToneIcon fontSize="large" />
             </IconButton>
             <IconButton
               aria-label="Save"
@@ -124,7 +124,7 @@ export const EditPanel = memo(() => {
             <IconButton
               aria-label="Add"
               component="span"
-              color="primary"
+              style={COLOR.blue}
               onClick={handleAddRule}
               title="Add Rule"
             >
@@ -137,10 +137,10 @@ export const EditPanel = memo(() => {
           <Box
             display="flex"
             justifyContent="center"
-            width="572px"
+            width="621px"
             marginBottom="12px"
           >
-            <CircularProgress color="secondary" size={55} />
+            <CircularProgress color={COLOR.pink.color} size={55} />
           </Box>
         ) : null}
         {!isFetching && redirections && redirections.length > 0 ? (

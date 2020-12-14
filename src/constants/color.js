@@ -1,24 +1,20 @@
-import blueGrey from "@material-ui/core/colors/blueGrey";
-import green from "@material-ui/core/colors/green";
-import red from "@material-ui/core/colors/red";
-import teal from "@material-ui/core/colors/teal";
-import yellow from "@material-ui/core/colors/yellow";
+import {
+  blue,
+  blueGrey,
+  deepPurple,
+  green,
+  orange,
+  pink,
+  red,
+} from "@material-ui/core/colors";
 
 export const COLOR = {
-  green: {
-    color: green[500],
-  },
-  red: {
-    color: red[500],
-  },
-  yellow: {
-    color: yellow[800],
-  },
-  teal: {
-    color: teal[300],
-  },
-  blueGrey: {
-    color: blueGrey[300],
-  },
-  heading: red[300],
+  blue: { color: blue[400] },
+  blueGrey: { color: blueGrey[300] },
+  deepPurple: { color: deepPurple[300] },
+  green: { color: green[400] },
+  orange: { color: orange["A200"] },
+  pink: { color: pink[300] },
+  red: { color: red[400] },
+  heading: "azure",
 };
