@@ -9,17 +9,18 @@ const { DefinePlugin, ProgressPlugin } = require("webpack");
 const { getExtensionFile } = require("./src/utils");
 const { releaseDate, extVersion } = require("./release-config");
 
+/* Constants */
 const ENV = process.env.NODE_ENV;
 const isProduction = ENV === "production";
 const enableBundleAnalyzer = process.env.ENABLE_BUNDLE_ANLYZER === "true";
 const isDevServer = process.env.DEV_SERVER === "true";
-
 const PATHS = {
   BUILD: path.resolve(__dirname, "build"),
   EXTENSION: path.resolve(__dirname, "extension"),
   SRC: path.resolve(__dirname, "src"),
 };
 
+/* Common config */
 const commonConfig = {
   mode: ENV,
   resolve: {
@@ -58,6 +59,7 @@ const commonConfig = {
   },
 };
 
+/* Plugins config */
 const setProgressPlugin = (plugins) => {
   if (!isProduction) {
     plugins.push(new ProgressPlugin());
@@ -87,6 +89,7 @@ const definePlugin = new DefinePlugin({
   __PROD__: JSON.stringify(isProduction),
 });
 
+/* Plugins */
 const getDownloadPageConfigPlugins = () => {
   const plugins = [
     new HtmlWebpackPlugin({
@@ -166,6 +169,7 @@ const getBackgroundConfigPlugins = () => {
   return plugins;
 };
 
+/* Webpack configs */
 const downloadPageConfig = {
   ...commonConfig,
   entry: "./src/index.js",
@@ -225,17 +229,6 @@ const downloadPageConfig = {
   devtool: "source-map",
 };
 
-const backgroundConfig = {
-  ...commonConfig,
-  entry: "./src/scripts/background.js",
-  output: {
-    path: PATHS.EXTENSION,
-    filename: "background.js",
-  },
-  target: "browserslist",
-  plugins: getBackgroundConfigPlugins(),
-};
-
 const popupConfig = {
   ...commonConfig,
   entry: "./src/popupIndex.js",
@@ -269,6 +262,17 @@ const popupConfig = {
     ],
   },
   plugins: getPopupConfigPlugins(),
+};
+
+const backgroundConfig = {
+  ...commonConfig,
+  entry: "./src/scripts/background.js",
+  output: {
+    path: PATHS.EXTENSION,
+    filename: "background.js",
+  },
+  target: "browserslist",
+  plugins: getBackgroundConfigPlugins(),
 };
 
 /**
