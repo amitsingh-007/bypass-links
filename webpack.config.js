@@ -118,6 +118,14 @@ const getDownloadPageConfigPlugins = () => {
         onStart: {
           delete: ["./build/*"],
         },
+        onEnd: {
+          copy: [
+            {
+              source: "./public/!(index.html)", //copy everything except index.html
+              destination: PATHS.BUILD,
+            },
+          ],
+        },
       },
     }),
     new DefinePlugin({
