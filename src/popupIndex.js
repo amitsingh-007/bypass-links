@@ -5,6 +5,7 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import reducer from "./reducers";
+import "GlobalStyles/popup.scss";
 
 const store = createStore(reducer);
 
@@ -16,7 +17,7 @@ const theme = createMuiTheme({
     },
   },
   typography: {
-    fontFamily: `"Inter"`,
+    fontFamily: `"Inter", sans-serif`,
   },
 });
 

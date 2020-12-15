@@ -58,11 +58,30 @@ const commonConfig = {
   },
 };
 
+const scssLoaders = {
+  test: /\.scss$/,
+  use: [
+    MiniCssExtractPlugin.loader,
+    "css-loader",
+    {
+      loader: "sass-loader",
+      options: {
+        sourceMap: !isProduction,
+      },
+    },
+  ],
+};
+
 const setProgressPlugin = (plugins) => {
   if (!isProduction) {
     plugins.push(new ProgressPlugin());
   }
 };
+
+const miniCssExtractPluginConfig = new MiniCssExtractPlugin({
+  filename: `[name]${isProduction ? ".[contenthash]" : ""}.css`,
+  chunkFilename: `[id]${isProduction ? ".[contenthash]" : ""}.css`,
+});
 
 const fileManagerPluginCommonConfig = {
   delete: [`./extension/{${enableBundleAnalyzer ? "" : "stats.json,"}*.txt}`],
@@ -110,6 +129,7 @@ const getDownloadPageConfigPlugins = () => {
       swSrc: "./src/sw.js",
       swDest: "sw.js",
     }),
+    miniCssExtractPluginConfig,
   ];
   setProgressPlugin(plugins);
   return plugins;
@@ -134,10 +154,7 @@ const getPopupConfigPlugins = () => {
         onEnd: fileManagerPluginCommonConfig,
       },
     }),
-    new MiniCssExtractPlugin({
-      filename: `[name]${isProduction ? ".[contenthash]" : ""}.css`,
-      chunkFilename: `[id]${isProduction ? ".[contenthash]" : ""}.css`,
-    }),
+    miniCssExtractPluginConfig,
     definePlugin,
   ];
   if (enableBundleAnalyzer) {
@@ -219,6 +236,7 @@ const downloadPageConfig = {
           name: "[name]-[contenthash].[ext]",
         },
       },
+      scssLoaders,
     ],
   },
   plugins: getDownloadPageConfigPlugins(),
@@ -253,28 +271,7 @@ const popupConfig = {
           loader: "babel-loader",
         },
       },
-      {
-        test: /\.scss$/,
-        use: [
-          /* Used style-loader instead of MiniCssExtractPlugin.loader,
-           * to inline css in html instead of a separate css file
-           */
-          {
-            loader: "style-loader",
-            options: {
-              insert: "head",
-              injectType: "singletonStyleTag",
-            },
-          },
-          "css-loader",
-          {
-            loader: "sass-loader",
-            options: {
-              sourceMap: !isProduction,
-            },
-          },
-        ],
-      },
+      scssLoaders,
     ],
   },
   plugins: getPopupConfigPlugins(),
