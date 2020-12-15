@@ -24,6 +24,12 @@ const reducer = (obj, { alias, website, isDefault }, index) => {
   return obj;
 };
 
+const Loader = () => (
+  <Box display="flex" justifyContent="center" width="621px" marginBottom="12px">
+    <CircularProgress style={COLOR.pink} size={55} />
+  </Box>
+);
+
 export const EditPanel = memo(() => {
   const dispatch = useDispatch();
   const [redirections, setRedirections] = useState(null);
@@ -133,16 +139,7 @@ export const EditPanel = memo(() => {
           </Box>
           <PanelHeading heading="REDIRECTION PANEL" />
         </Box>
-        {isFetching ? (
-          <Box
-            display="flex"
-            justifyContent="center"
-            width="621px"
-            marginBottom="12px"
-          >
-            <CircularProgress color={COLOR.pink.color} size={55} />
-          </Box>
-        ) : null}
+        {isFetching ? <Loader /> : null}
         {!isFetching && redirections && redirections.length > 0 ? (
           <Droppable droppableId="redirections-list">
             {(provided) => (
