@@ -1,4 +1,5 @@
 import { TURN_ON_EXTENSION } from "GlobalActionTypes/";
+import { START_HISTORY_MONITOR } from "GlobalActionTypes/";
 import { TURN_OFF_EXTENSION } from "GlobalActionTypes/";
 import {
   HIDE_EDIT_PANEL,
@@ -12,6 +13,7 @@ const defaultState = {
   isSignedIn: false,
   showEditPanel: false,
   isExtensionActive: true,
+  startHistoryMonitor: false,
 };
 
 const reducer = (state = defaultState, action) => {
@@ -50,6 +52,11 @@ const reducer = (state = defaultState, action) => {
       return {
         ...state,
         isExtensionActive: true,
+      };
+    case START_HISTORY_MONITOR:
+      return {
+        ...state,
+        startHistoryMonitor: true,
       };
     default:
       return defaultState;

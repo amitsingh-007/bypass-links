@@ -1,4 +1,5 @@
 import { TURN_ON_EXTENSION } from "GlobalActionTypes/";
+import { START_HISTORY_MONITOR } from "GlobalActionTypes/";
 import { TURN_OFF_EXTENSION } from "GlobalActionTypes/";
 import {
   HIDE_EDIT_PANEL,
@@ -35,4 +36,8 @@ export const turnOffExtension = () => ({
 
 export const turnOnExtension = () => ({
   type: TURN_ON_EXTENSION,
+});
+
+export const startHistoryMonitor = () => ({
+  type: START_HISTORY_MONITOR,
 });
