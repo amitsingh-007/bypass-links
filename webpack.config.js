@@ -139,6 +139,9 @@ const getDownloadPageConfigPlugins = () => {
     }),
     miniCssExtractPluginConfig,
   ];
+  if (enableBundleAnalyzer) {
+    plugins.push(getWebpackBundleAnalyzerPlugin(8888));
+  }
   setProgressPlugin(plugins);
   return plugins;
 };
@@ -166,7 +169,7 @@ const getPopupConfigPlugins = () => {
     definePlugin,
   ];
   if (enableBundleAnalyzer) {
-    plugins.push(getWebpackBundleAnalyzerPlugin(8888));
+    plugins.push(getWebpackBundleAnalyzerPlugin(8889));
   }
   if (isProduction) {
     plugins.push(new OptimizeCssAssetsPlugin({}));
@@ -185,7 +188,7 @@ const getBackgroundConfigPlugins = () => {
     definePlugin,
   ];
   if (enableBundleAnalyzer) {
-    plugins.push(getWebpackBundleAnalyzerPlugin(8889));
+    plugins.push(getWebpackBundleAnalyzerPlugin(8890));
   }
   setProgressPlugin(plugins);
   return plugins;
