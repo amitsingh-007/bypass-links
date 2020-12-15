@@ -16,10 +16,10 @@
       "purpose": "any maskable"
     }
   ],
-  "start_url": "/",
+  "start_url": "/bypass-links/",
   "background_color": "#FFFFFF",
   "display": "standalone",
-  "scope": "/",
+  "scope": "/bypass-links/",
   "theme_color": "#0e3a50",
   "orientation": "portrait"
 }
