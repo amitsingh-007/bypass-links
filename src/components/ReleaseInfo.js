@@ -1,4 +1,5 @@
 import { Box, Typography } from "@material-ui/core";
+import { isMobile } from "GlobalUtils/screen";
 import React, { memo } from "react";
 
 const infoStyles = {
@@ -6,6 +7,17 @@ const infoStyles = {
   paddingLeft: "4px",
   paddingRight: "4px",
 };
+
+const containerProps = isMobile()
+  ? {
+      textAlign: "center",
+    }
+  : {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "flex-end",
+      height: "100px",
+    };
 
 const Info = ({ info }) => (
   <Typography
@@ -16,16 +28,9 @@ const Info = ({ info }) => (
   >{`Last Update: ${info}`}</Typography>
 );
 
-export const ReleaseInfo = memo(() => {
-  return (
-    <Box
-      display="flex"
-      justifyContent="space-between"
-      alignItems="flex-end"
-      height="100px"
-    >
-      <Info info={__RELEASE_DATE__} />
-      <Info info={__EXT_VERSION__} />
-    </Box>
-  );
-});
+export const ReleaseInfo = memo(() => (
+  <Box {...containerProps}>
+    <Info info={__RELEASE_DATE__} />
+    <Info info={__EXT_VERSION__} />
+  </Box>
+));
