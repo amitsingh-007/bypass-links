@@ -4,7 +4,7 @@ import VisibilityTwoToneIcon from "@material-ui/icons/VisibilityTwoTone";
 import history from "ChromeApi/history";
 import storage from "ChromeApi/storage";
 import { getOffIconColor, getOnIconColor } from "GlobalUtils/color";
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 export const startHistoryWatch = async () =>
@@ -29,17 +29,23 @@ export const endHistoryWatch = async () => {
 
 export const ToggleHistory = memo(() => {
   const [isHistoryActive, setIsHistoryActive] = useState(false);
-  const isExtensionActive = useSelector((state) => state.isExtensionActive);
+  const { isExtensionActive, startHistoryMonitor } = useSelector(
+    (state) => state
+  );
 
-  const turnOffHistory = () => {
-    endHistoryWatch();
-    setIsHistoryActive(false);
-  };
+  const turnOffHistory = useCallback(() => {
+    if (isHistoryActive) {
+      endHistoryWatch();
+      setIsHistoryActive(false);
+    }
+  }, [isHistoryActive]);
 
-  const turnOnHistory = () => {
-    startHistoryWatch();
-    setIsHistoryActive(true);
-  };
+  const turnOnHistory = useCallback(() => {
+    if (!isHistoryActive) {
+      startHistoryWatch();
+      setIsHistoryActive(true);
+    }
+  }, [isHistoryActive]);
 
   useEffect(() => {
     storage.get(["historyStartTime"]).then(({ historyStartTime }) => {
@@ -51,7 +57,13 @@ export const ToggleHistory = memo(() => {
     if (!isExtensionActive) {
       turnOffHistory();
     }
-  }, [isExtensionActive]);
+  }, [isExtensionActive, turnOffHistory]);
+
+  useEffect(() => {
+    if (startHistoryMonitor) {
+      turnOnHistory();
+    }
+  }, [startHistoryMonitor, turnOnHistory]);
 
   const handleToggle = async (event) => {
     const isActive = event.target.checked;

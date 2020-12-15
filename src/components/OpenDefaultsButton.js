@@ -2,16 +2,19 @@ import { IconButton } from "@material-ui/core";
 import OpenInNewTwoToneIcon from "@material-ui/icons/OpenInNewTwoTone";
 import runtime from "ChromeApi/runtime";
 import tabs from "ChromeApi/tabs";
+import { startHistoryMonitor } from "GlobalActionCreators/index";
 import { COLOR } from "GlobalConstants/color";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import React, { memo } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export const OpenDefaultsButton = memo(() => {
+  const dispatch = useDispatch();
   const isSignedIn = useSelector((state) => state.isSignedIn);
 
   const handleOpenDefaults = () => {
     runtime.sendMessage({ getDefaults: true }).then(({ defaults }) => {
+      dispatch(startHistoryMonitor());
       defaults
         .filter((data) => data && data.alias && data.website)
         .forEach(({ website }) => {
