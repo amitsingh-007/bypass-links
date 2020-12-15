@@ -3,10 +3,14 @@ import DownloadPage from "GlobalComponents/DownloadPage";
 import "preact/devtools";
 import React, { StrictMode } from "react";
 import ReactDOM from "react-dom";
+import "GlobalStyles/download-page.scss";
 
 const theme = createMuiTheme({
-  palette: {
-    type: "dark",
+  typography: {
+    fontFamily: `"Inter", sans-serif`,
+    h2: {
+      fontWeight: "400",
+    },
   },
 });
 
@@ -25,10 +29,10 @@ if ("serviceWorker" in navigator) {
     navigator.serviceWorker
       .register(`/${__PROD__ ? "bypass-links/" : ""}sw.js`)
       .then((res) => {
-        console.log("service worker registered", res);
+        console.log("Service worker registered", res);
       })
       .catch((err) => {
-        console.log("service worker not registered", err);
+        console.log("Service worker registration failed", err);
       });
   });
 }

@@ -1,0 +1,16 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Work+Sans&display=swap");
+
+html {
+  background: url(https://images.unsplash.com/photo-1458682625221-3a45f8a844c7?q=50)
+    no-repeat center center fixed;
+  background-size: cover;
+}
+
+body {
+  background-color: transparent !important;
+}
+
+.customBgColor {
+  background-color: rgba(207, 216, 220, 0.4);
+  border-radius: 6px;
+}

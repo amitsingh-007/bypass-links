@@ -11,8 +11,6 @@ import chromeLogo from "GlobalIcons/chrome.svg";
 import { getExtensionFile } from "GlobalUtils/index";
 import React, { memo } from "react";
 
-const cardStyles = { backgroundColor: "#323638" };
-
 export const ChromeExtension = memo(() => {
   const handleExtensionDownload = () => {
     fetch(
@@ -33,7 +31,7 @@ export const ChromeExtension = memo(() => {
 
   return (
     <Box width="360px" textAlign="left">
-      <Card style={cardStyles}>
+      <Card>
         <CardContent>
           <Box textAlign="center">
             <Typography variant="h5" component="h2">
@@ -46,17 +44,17 @@ export const ChromeExtension = memo(() => {
               Chrome
             </Typography>
           </Box>
-          <Typography color="textSecondary">
+          <Typography color="textPrimary">
             1. Download this extension.
           </Typography>
-          <Typography color="textSecondary">
+          <Typography color="textPrimary">
             2. Open{" "}
             <Link href="chrome://extensions/">chrome://extensions/</Link>
           </Typography>
-          <Typography color="textSecondary">
+          <Typography color="textPrimary">
             3. Drag and drop the extension to install.
           </Typography>
-          <Typography color="textSecondary">
+          <Typography color="textPrimary">
             4. Enjoy freely.
             <span role="img" aria-label="enjoy">
               😃
