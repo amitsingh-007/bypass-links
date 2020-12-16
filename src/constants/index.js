@@ -28,4 +28,6 @@ const firebaseDBPrefix = __PROD__ ? "prod" : "dev";
 export const FIREBASE_DB_REF = {
   redirections: `${firebaseDBPrefix}/redirections`,
   redirectionsFallback: `${firebaseDBPrefix}/redirections-fallback`,
+  bookmarks: `${firebaseDBPrefix}/bookmarks`,
+  bookmarksFallback: `${firebaseDBPrefix}/bookmarks-fallback`,
 };

@@ -1,4 +1,6 @@
 import { TURN_ON_EXTENSION } from "GlobalActionTypes/";
+import { HIDE_BOOKMARKS_PANEL } from "GlobalActionTypes/";
+import { SHOW_BOOKMARKS_PANEL } from "GlobalActionTypes/";
 import { START_HISTORY_MONITOR } from "GlobalActionTypes/";
 import { TURN_OFF_EXTENSION } from "GlobalActionTypes/";
 import {
@@ -40,4 +42,12 @@ export const turnOnExtension = () => ({
 
 export const startHistoryMonitor = () => ({
   type: START_HISTORY_MONITOR,
+});
+
+export const showBookmarksPanel = () => ({
+  type: SHOW_BOOKMARKS_PANEL,
+});
+
+export const hideBookmarksPanel = () => ({
+  type: HIDE_BOOKMARKS_PANEL,
 });

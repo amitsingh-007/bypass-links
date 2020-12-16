@@ -1,6 +1,13 @@
-import { FIREBASE_DB_REF } from "GlobalConstants/";
+import { getCurrentTab } from "ChromeApi/tabs";
+import { FIREBASE_DB_REF } from "GlobalConstants/index";
 import { changeTabUrl } from "./bypass/changeTabUrl";
-import { getFromFirebase, saveToFirebase } from "./firebase";
+import {
+  copyToFallbackDB,
+  removeFromFirebase,
+  saveToFirebase,
+  searchByKey,
+  upateValueInFirebase,
+} from "./firebase";
 import { syncFirebaseToStorage } from "./syncFirebaseToStorage";
 
 export const bypassSingleLinkOnPage = (selectorFn, tabId) => {
@@ -32,25 +39,25 @@ export const bypassSingleLinkOnPage = (selectorFn, tabId) => {
 /**
  * We first update the fallback db with current data and then update the current db
  */
-export const saveDataToFirebase = (data, sendResponse) => {
-  let isRuleSaveSuccess = false;
-  getFromFirebase(FIREBASE_DB_REF.redirections).then((snapshot) => {
-    saveToFirebase(FIREBASE_DB_REF.redirectionsFallback, snapshot.val()).then(
-      () => {
-        console.log("Fallback DB updated.");
-        saveToFirebase(FIREBASE_DB_REF.redirections, data)
-          .then(() => {
-            isRuleSaveSuccess = true;
-            syncFirebaseToStorage();
-          })
-          .catch((err) => {
-            console.log("Error while saving data to Firebase", err);
-          })
-          .finally(() => {
-            sendResponse({ isRuleSaveSuccess });
-          });
-      }
-    );
+export const saveDataToFirebase = async (
+  data,
+  ref,
+  fallbackDbRef,
+  successCallback
+) => {
+  await copyToFallbackDB(ref, fallbackDbRef);
+  return new Promise((resolve, reject) => {
+    saveToFirebase(ref, data)
+      .then(() => {
+        if (syncFirebaseToStorage) {
+          successCallback();
+        }
+        resolve(true);
+      })
+      .catch((err) => {
+        console.log(`Error while saving data to Firebase db: ${ref}`, err);
+        resolve(false);
+      });
   });
 };
 
@@ -61,3 +68,30 @@ export const getMappedRedirections = (redirections) =>
         return obj;
       }, {})
     : null;
+
+export const isBookmarked = async () => {
+  const [currentTab] = await getCurrentTab();
+  const currentUrl = btoa(currentTab.url);
+  return searchByKey(FIREBASE_DB_REF.bookmarks, currentUrl);
+};
+
+export const addBookmark = async () => {
+  const [currentTab] = await getCurrentTab();
+  const currentUrl = btoa(currentTab.url);
+  const value = { url: currentUrl };
+  await copyToFallbackDB(
+    FIREBASE_DB_REF.bookmarks,
+    FIREBASE_DB_REF.bookmarksFallback
+  );
+  return upateValueInFirebase(FIREBASE_DB_REF.bookmarks, currentUrl, value);
+};
+
+export const removeBookmark = async () => {
+  const [currentTab] = await getCurrentTab();
+  const currentUrl = btoa(currentTab.url);
+  await copyToFallbackDB(
+    FIREBASE_DB_REF.bookmarks,
+    FIREBASE_DB_REF.bookmarksFallback
+  );
+  return removeFromFirebase(FIREBASE_DB_REF.bookmarks, currentUrl);
+};
