@@ -1,12 +1,17 @@
-import { EXTENSION_STATE, FIREBASE_DB_REF } from "GlobalConstants/";
+import { EXTENSION_STATE, FIREBASE_DB_REF } from "GlobalConstants/index";
 import { signIn, signOut } from "GlobalUtils/authentication";
+import {
+  addBookmark,
+  isBookmarked,
+  removeBookmark,
+  saveDataToFirebase,
+} from "GlobalUtils/background";
 import { bypass, redirect } from "GlobalUtils/bypass";
 import {
   getExtensionState,
   isExtensionActive,
   setExtStateInStorage,
 } from "GlobalUtils/common";
-import { saveDataToFirebase } from "GlobalUtils/background";
 import { getDefaultsFromFirebase, getFromFirebase } from "GlobalUtils/firebase";
 import { syncFirebaseToStorage } from "GlobalUtils/syncFirebaseToStorage";
 
@@ -43,6 +48,18 @@ const onMessageReceive = (message, sender, sendResponse) => {
   } else if (message.getDefaults) {
     getDefaultsFromFirebase(FIREBASE_DB_REF.redirections).then((snapshot) => {
       sendResponse({ defaults: snapshot.val() });
+    });
+  } else if (message.isBookmarked) {
+    isBookmarked().then((snapshot) => {
+      sendResponse({ isBookmarked: snapshot.exists() });
+    });
+  } else if (message.addBookmark) {
+    addBookmark().then(() => {
+      sendResponse({ isBookmarkAdded: true });
+    });
+  } else if (message.removeBookmark) {
+    removeBookmark().then(() => {
+      sendResponse({ isBookmarkRemoved: true });
     });
   }
   return true;

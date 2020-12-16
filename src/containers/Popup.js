@@ -1,5 +1,6 @@
 import { Box, Typography } from "@material-ui/core/";
 import { Authenticate } from "GlobalComponents/Authenticate";
+import QuickBookmark from "GlobalComponents/QuickBookmark";
 import { EditPanel } from "GlobalComponents/EditPanel";
 import { EditPanelButton } from "GlobalComponents/EditPanelButton";
 import { ManualHistoryPanel } from "GlobalComponents/ManualHistoryPanel";
@@ -43,11 +44,12 @@ export const Popup = memo(() => {
       <ToggleHistory />
       <Row>
         <Authenticate />
-        <ManualHistoryPanelButton />
+        <EditPanelButton />
       </Row>
       <Box>
-        <EditPanelButton />
+        <ManualHistoryPanelButton />
         <OpenDefaultsButton />
+        <QuickBookmark />
       </Box>
     </Box>
   );

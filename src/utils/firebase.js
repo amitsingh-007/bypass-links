@@ -33,3 +33,18 @@ export const getDefaultsFromFirebase = (ref) =>
     .orderByChild("isDefault")
     .equalTo(true)
     .once("value");
+
+export const upateValueInFirebase = (ref, key, value) =>
+  firebase.database().ref(ref).child(key).set(value);
+
+export const removeFromFirebase = (ref, key) =>
+  firebase.database().ref(ref).child(key).remove();
+
+export const searchByKey = (ref, key) =>
+  firebase.database().ref(ref).orderByKey().equalTo(key).once("value");
+
+export const copyToFallbackDB = async (dbRef, fallbackDbRef) => {
+  const snapshot = await getFromFirebase(dbRef);
+  await saveToFirebase(fallbackDbRef, snapshot.val());
+  console.log(`Updated ${fallbackDbRef} with ${dbRef}`);
+};
