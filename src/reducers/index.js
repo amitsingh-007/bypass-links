@@ -1,4 +1,6 @@
 import { TURN_ON_EXTENSION } from "GlobalActionTypes/";
+import { HIDE_BOOKMARKS_PANEL } from "GlobalActionTypes/";
+import { SHOW_BOOKMARKS_PANEL } from "GlobalActionTypes/";
 import { START_HISTORY_MONITOR } from "GlobalActionTypes/";
 import { TURN_OFF_EXTENSION } from "GlobalActionTypes/";
 import {
@@ -14,6 +16,7 @@ const defaultState = {
   showEditPanel: false,
   isExtensionActive: true,
   startHistoryMonitor: false,
+  showBookmarksPanel: false,
 };
 
 const reducer = (state = defaultState, action) => {
@@ -57,6 +60,16 @@ const reducer = (state = defaultState, action) => {
       return {
         ...state,
         startHistoryMonitor: true,
+      };
+    case SHOW_BOOKMARKS_PANEL:
+      return {
+        ...state,
+        showBookmarksPanel: true,
+      };
+    case HIDE_BOOKMARKS_PANEL:
+      return {
+        ...state,
+        showBookmarksPanel: false,
       };
     default:
       return defaultState;

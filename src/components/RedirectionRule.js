@@ -84,7 +84,7 @@ export const RedirectionRule = memo(
             <Box display="flex" alignItems="center">
               <Box marginRight="8px" display="inline-block" width="30%">
                 <Input
-                  id="alias"
+                  id={alias}
                   value={ruleAlias}
                   onChange={onWebsiteAliasInput}
                   size="small"
@@ -95,7 +95,7 @@ export const RedirectionRule = memo(
               </Box>
               <Box display="inline-block" flexGrow={1}>
                 <Input
-                  id="redirectionValue"
+                  id={ruleWebsite}
                   value={ruleWebsite}
                   onChange={onWebsiteInput}
                   size="small"

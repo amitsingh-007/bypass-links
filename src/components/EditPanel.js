@@ -1,4 +1,4 @@
-import { Box, CircularProgress, IconButton } from "@material-ui/core";
+import { Box, IconButton } from "@material-ui/core";
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import PlaylistAddTwoToneIcon from "@material-ui/icons/PlaylistAddTwoTone";
 import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
@@ -8,6 +8,7 @@ import { COLOR } from "GlobalConstants/color";
 import React, { memo, useEffect, useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
+import Loader from "./Loader";
 import PanelHeading from "./PanelHeading";
 import { RedirectionRule } from "./RedirectionRule";
 
@@ -23,12 +24,6 @@ const reducer = (obj, { alias, website, isDefault }, index) => {
   };
   return obj;
 };
-
-const Loader = () => (
-  <Box display="flex" justifyContent="center" width="621px" marginBottom="12px">
-    <CircularProgress style={COLOR.pink} size={55} />
-  </Box>
-);
 
 export const EditPanel = memo(() => {
   const dispatch = useDispatch();
@@ -139,7 +134,7 @@ export const EditPanel = memo(() => {
           </Box>
           <PanelHeading heading="REDIRECTION PANEL" />
         </Box>
-        {isFetching ? <Loader /> : null}
+        {isFetching ? <Loader width="621px" /> : null}
         {!isFetching && redirections && redirections.length > 0 ? (
           <Droppable droppableId="redirections-list">
             {(provided) => (

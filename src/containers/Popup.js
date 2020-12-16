@@ -12,12 +12,15 @@ import { ToggleHistory } from "GlobalComponents/ToggleHistory";
 import { COLOR } from "GlobalConstants/color";
 import React, { memo } from "react";
 import { useSelector } from "react-redux";
+import BookmarksPanelButton from "GlobalComponents/BookmarksPanelButton";
+import BookmarksPanel from "GlobalComponents/BookmarksPanel";
 
 export const Popup = memo(() => {
-  const showEditPanel = useSelector((state) => state.showEditPanel);
-  const showManualHistoryPanel = useSelector(
-    (state) => state.showManualHistoryPanel
-  );
+  const {
+    showEditPanel,
+    showManualHistoryPanel,
+    showBookmarksPanel,
+  } = useSelector((state) => state);
 
   if (showEditPanel) {
     return <EditPanel />;
@@ -25,6 +28,10 @@ export const Popup = memo(() => {
 
   if (showManualHistoryPanel) {
     return <ManualHistoryPanel />;
+  }
+
+  if (showBookmarksPanel) {
+    return <BookmarksPanel />;
   }
 
   return (
@@ -45,6 +52,7 @@ export const Popup = memo(() => {
       <Row>
         <Authenticate />
         <EditPanelButton />
+        <BookmarksPanelButton />
       </Row>
       <Box>
         <ManualHistoryPanelButton />

@@ -20,10 +20,10 @@ export const googleSignIn = () =>
 
 export const googleSignOut = () => firebase.auth().signOut();
 
-export const getFromFirebase = (ref) =>
+export const getFromFirebase = async (ref) =>
   firebase.database().ref(ref).once("value");
 
-export const saveToFirebase = (ref, data) =>
+export const saveToFirebase = async (ref, data) =>
   firebase.database().ref(ref).set(data);
 
 export const getDefaultsFromFirebase = (ref) =>

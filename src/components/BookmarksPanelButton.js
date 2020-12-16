@@ -1,29 +1,31 @@
 import { IconButton } from "@material-ui/core";
-import TuneTwoToneIcon from "@material-ui/icons/TuneTwoTone";
-import { showEditPanel } from "GlobalActionCreators/";
+import CollectionsBookmarkTwoToneIcon from "@material-ui/icons/CollectionsBookmarkTwoTone";
+import { showBookmarksPanel } from "GlobalActionCreators/";
 import { COLOR } from "GlobalConstants/color";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import React, { memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-export const EditPanelButton = memo(() => {
+const BookmarksPanelButton = memo(() => {
   const dispatch = useDispatch();
   const isSignedIn = useSelector((state) => state.isSignedIn);
 
   const handleShowEditPanel = () => {
-    dispatch(showEditPanel());
+    dispatch(showBookmarksPanel());
   };
 
   return (
     <IconButton
-      aria-label="OpenRedirectionsPanel"
+      aria-label="OpenBookmarsPanel"
       component="span"
-      style={getActiveDisabledColor(isSignedIn, COLOR.cyan)}
+      style={getActiveDisabledColor(isSignedIn, COLOR.blue)}
       onClick={handleShowEditPanel}
       disabled={!isSignedIn}
-      title={isSignedIn ? "Open Redirection Edit Panel" : undefined}
+      title={isSignedIn ? "Open Bookmarks Panel" : undefined}
     >
-      <TuneTwoToneIcon fontSize="large" />
+      <CollectionsBookmarkTwoToneIcon fontSize="large" />
     </IconButton>
   );
 });
+
+export default BookmarksPanelButton;

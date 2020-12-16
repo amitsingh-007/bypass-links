@@ -1,6 +1,7 @@
 import {
   blue,
   blueGrey,
+  cyan,
   deepPurple,
   green,
   orange,
@@ -11,6 +12,7 @@ import {
 export const COLOR = {
   blue: { color: blue[400] },
   blueGrey: { color: blueGrey[300] },
+  cyan: { color: cyan[400] },
   deepPurple: { color: deepPurple[300] },
   green: { color: green[400] },
   orange: { color: orange["A200"] },

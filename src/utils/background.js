@@ -1,9 +1,8 @@
-import tabs, { getCurrentTab } from "ChromeApi/tabs";
+import { getCurrentTab } from "ChromeApi/tabs";
 import { FIREBASE_DB_REF } from "GlobalConstants/index";
 import { changeTabUrl } from "./bypass/changeTabUrl";
 import {
   copyToFallbackDB,
-  getFromFirebase,
   removeFromFirebase,
   saveToFirebase,
   searchByKey,
@@ -40,25 +39,25 @@ export const bypassSingleLinkOnPage = (selectorFn, tabId) => {
 /**
  * We first update the fallback db with current data and then update the current db
  */
-export const saveDataToFirebase = (data, sendResponse) => {
-  let isRuleSaveSuccess = false;
-  getFromFirebase(FIREBASE_DB_REF.redirections).then((snapshot) => {
-    saveToFirebase(FIREBASE_DB_REF.redirectionsFallback, snapshot.val()).then(
-      () => {
-        console.log("Fallback DB updated.");
-        saveToFirebase(FIREBASE_DB_REF.redirections, data)
-          .then(() => {
-            isRuleSaveSuccess = true;
-            syncFirebaseToStorage();
-          })
-          .catch((err) => {
-            console.log("Error while saving data to Firebase", err);
-          })
-          .finally(() => {
-            sendResponse({ isRuleSaveSuccess });
-          });
-      }
-    );
+export const saveDataToFirebase = async (
+  data,
+  ref,
+  fallbackDbRef,
+  successCallback
+) => {
+  await copyToFallbackDB(ref, fallbackDbRef);
+  return new Promise((resolve, reject) => {
+    saveToFirebase(ref, data)
+      .then(() => {
+        if (syncFirebaseToStorage) {
+          successCallback();
+        }
+        resolve(true);
+      })
+      .catch((err) => {
+        console.log(`Error while saving data to Firebase db: ${ref}`, err);
+        resolve(false);
+      });
   });
 };
 

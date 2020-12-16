@@ -44,7 +44,14 @@ const onMessageReceive = (message, sender, sendResponse) => {
       sendResponse({ redirections: snapshot.val() });
     });
   } else if (message.saveRedirectionRules) {
-    saveDataToFirebase(message.saveRedirectionRules, sendResponse);
+    saveDataToFirebase(
+      message.saveRedirectionRules,
+      FIREBASE_DB_REF.redirections,
+      FIREBASE_DB_REF.redirectionsFallback,
+      syncFirebaseToStorage
+    ).then((isRuleSaveSuccess) => {
+      sendResponse({ isRuleSaveSuccess });
+    });
   } else if (message.getDefaults) {
     getDefaultsFromFirebase(FIREBASE_DB_REF.redirections).then((snapshot) => {
       sendResponse({ defaults: snapshot.val() });
@@ -60,6 +67,19 @@ const onMessageReceive = (message, sender, sendResponse) => {
   } else if (message.removeBookmark) {
     removeBookmark().then(() => {
       sendResponse({ isBookmarkRemoved: true });
+    });
+  } else if (message.getBookmarks) {
+    getFromFirebase(FIREBASE_DB_REF.bookmarks).then((snapshot) => {
+      sendResponse({ bookmarks: snapshot.val() });
+    });
+  } else if (message.saveBookmarks) {
+    saveDataToFirebase(
+      message.saveBookmarks,
+      FIREBASE_DB_REF.bookmarks,
+      FIREBASE_DB_REF.bookmarksFallback,
+      sendResponse
+    ).then((isBookmarksSaveSuccess) => {
+      sendResponse({ isBookmarksSaveSuccess });
     });
   }
   return true;
