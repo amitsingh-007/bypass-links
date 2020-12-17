@@ -134,7 +134,7 @@ export const EditPanel = memo(() => {
           </Box>
           <PanelHeading heading="REDIRECTION PANEL" />
         </Box>
-        {isFetching ? <Loader width="621px" /> : null}
+        {isFetching ? <Loader width="621px" marginBottom="12px" /> : null}
         {!isFetching && redirections && redirections.length > 0 ? (
           <Droppable droppableId="redirections-list">
             {(provided) => (
