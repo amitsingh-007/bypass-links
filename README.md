@@ -23,6 +23,8 @@ This is an easy-to-use Open-Source `Browser Extension` which bypasses links on v
 
 - A **fully customised edit panel** to add/edit/delete/drag-n-drop custom redirection rules stored in **Firebase**.
 
+- A **bookmarks panel** with **quick bookmark** button.
+
 - Full **dark theme** support
 
 - Modern UI

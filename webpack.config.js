@@ -218,10 +218,7 @@ const downloadPageConfig = {
     minimize: isProduction,
     chunkIds: "named",
     splitChunks: {
-      automaticNameDelimiter: "~",
       chunks: "all",
-      minSize: 50000,
-      maxSize: 70000,
       cacheGroups: {
         vendor: {
           test: /[\\/]node_modules[\\/]@material-ui[\\/]/,
