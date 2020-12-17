@@ -12,7 +12,7 @@ import {
   isExtensionActive,
   setExtStateInStorage,
 } from "GlobalUtils/common";
-import { searchOnValue, getFromFirebase } from "GlobalUtils/firebase";
+import { getFromFirebase, searchOnValue } from "GlobalUtils/firebase";
 import { syncFirebaseToStorage } from "GlobalUtils/syncFirebaseToStorage";
 
 const onUpdateCallback = async (tabId, changeInfo) => {
@@ -78,8 +78,7 @@ const onMessageReceive = (message, sender, sendResponse) => {
     saveDataToFirebase(
       message.saveBookmarks,
       FIREBASE_DB_REF.bookmarks,
-      FIREBASE_DB_REF.bookmarksFallback,
-      sendResponse
+      FIREBASE_DB_REF.bookmarksFallback
     ).then((isBookmarksSaveSuccess) => {
       sendResponse({ isBookmarksSaveSuccess });
     });

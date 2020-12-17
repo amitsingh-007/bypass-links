@@ -1,5 +1,6 @@
 import { getCurrentTab } from "ChromeApi/tabs";
 import { FIREBASE_DB_REF } from "GlobalConstants/index";
+import md5 from "md5";
 import { changeTabUrl } from "./bypass/changeTabUrl";
 import {
   copyToFallbackDB,
@@ -7,11 +8,8 @@ import {
   removeFromFirebase,
   saveToFirebase,
   searchOnKey,
-  searchOnValue,
   upateValueInFirebase,
 } from "./firebase";
-import { syncFirebaseToStorage } from "./syncFirebaseToStorage";
-import md5 from "md5";
 
 export const bypassSingleLinkOnPage = (selectorFn, tabId) => {
   chrome.tabs.executeScript(
