@@ -87,7 +87,7 @@ const BookmarksPanel = memo(() => {
         </Box>
         <PanelHeading heading="BOOKMARKS PANEL" />
       </Box>
-      {isFetching ? <Loader width="596px" /> : null}
+      {isFetching ? <Loader width="596px" marginBottom="12px" /> : null}
       {!isFetching && bookmarks && bookmarks.length > 0 ? (
         <form noValidate autoComplete="off" style={{ paddingLeft: "12px" }}>
           {bookmarks.map(({ url }, index) => (
