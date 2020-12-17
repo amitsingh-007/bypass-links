@@ -12,7 +12,7 @@ import {
   isExtensionActive,
   setExtStateInStorage,
 } from "GlobalUtils/common";
-import { getDefaultsFromFirebase, getFromFirebase } from "GlobalUtils/firebase";
+import { getFromFirebase, searchOnValue } from "GlobalUtils/firebase";
 import { syncFirebaseToStorage } from "GlobalUtils/syncFirebaseToStorage";
 
 const onUpdateCallback = async (tabId, changeInfo) => {
@@ -53,9 +53,11 @@ const onMessageReceive = (message, sender, sendResponse) => {
       sendResponse({ isRuleSaveSuccess });
     });
   } else if (message.getDefaults) {
-    getDefaultsFromFirebase(FIREBASE_DB_REF.redirections).then((snapshot) => {
-      sendResponse({ defaults: snapshot.val() });
-    });
+    searchOnValue(FIREBASE_DB_REF.redirections, "isDefault", true).then(
+      (snapshot) => {
+        sendResponse({ defaults: snapshot.val() });
+      }
+    );
   } else if (message.isBookmarked) {
     isBookmarked().then((snapshot) => {
       sendResponse({ isBookmarked: snapshot.exists() });
@@ -76,8 +78,7 @@ const onMessageReceive = (message, sender, sendResponse) => {
     saveDataToFirebase(
       message.saveBookmarks,
       FIREBASE_DB_REF.bookmarks,
-      FIREBASE_DB_REF.bookmarksFallback,
-      sendResponse
+      FIREBASE_DB_REF.bookmarksFallback
     ).then((isBookmarksSaveSuccess) => {
       sendResponse({ isBookmarksSaveSuccess });
     });

@@ -4,6 +4,7 @@ import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
 import runtime from "ChromeApi/runtime";
 import { hideBookmarksPanel } from "GlobalActionCreators/";
 import { COLOR } from "GlobalConstants/color";
+import md5 from "md5";
 import React, { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import BookmarkRow from "./BookmarkRow";
@@ -11,12 +12,11 @@ import Loader from "./Loader";
 import PanelHeading from "./PanelHeading";
 
 //Filter valid bookmarks
-const validRules = (obj) => !!(obj && obj.url);
+const validBookmarks = (obj) => !!(obj && obj.url);
 
 //Map array into object so as to store in firebase
-const reducer = (obj, { url }, index) => {
-  const encodedUrl = btoa(url);
-  obj[encodedUrl] = { url: encodedUrl };
+const reducer = (obj, { url }) => {
+  obj[md5(url)] = { url: btoa(url) };
   return obj;
 };
 
@@ -47,7 +47,7 @@ const BookmarksPanel = memo(() => {
 
   const handleSave = () => {
     console.log("Saving these bookmarks to Firebase", bookmarks);
-    const bookmarksObj = bookmarks.filter(validRules).reduce(reducer, {});
+    const bookmarksObj = bookmarks.filter(validBookmarks).reduce(reducer, {});
     runtime
       .sendMessage({ saveBookmarks: bookmarksObj })
       .then(({ isBookmarksSaveSuccess }) => {

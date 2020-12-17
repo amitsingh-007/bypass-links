@@ -12,10 +12,12 @@ const QuickBookmark = memo(() => {
   const isSignedIn = useSelector((state) => state.isSignedIn);
 
   useEffect(() => {
-    runtime.sendMessage({ isBookmarked: true }).then(({ isBookmarked }) => {
-      setIsBookmarked(isBookmarked);
-    });
-  }, []);
+    if (isSignedIn) {
+      runtime.sendMessage({ isBookmarked: true }).then(({ isBookmarked }) => {
+        setIsBookmarked(isBookmarked);
+      });
+    }
+  }, [isSignedIn]);
 
   const handleBookmarkAdd = () => {
     runtime.sendMessage({ addBookmark: true }).then(({ isBookmarkAdded }) => {
