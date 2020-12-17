@@ -50,7 +50,7 @@ export const saveDataToFirebase = async (
   return new Promise((resolve, reject) => {
     saveToFirebase(ref, data)
       .then(() => {
-        if (syncFirebaseToStorage) {
+        if (successCallback) {
           successCallback();
         }
         resolve(true);
