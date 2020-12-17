@@ -9,6 +9,7 @@
     "@material-ui/pickers": "3.2.10",
     "date-fns": "2.16.1",
     "firebase": "8.1.1",
+    "md5": "2.3.0",
     "preact": "10.5.7",
     "react": "16.14.0",
     "react-beautiful-dnd": "13.0.0",

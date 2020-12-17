@@ -3,12 +3,15 @@ import { FIREBASE_DB_REF } from "GlobalConstants/index";
 import { changeTabUrl } from "./bypass/changeTabUrl";
 import {
   copyToFallbackDB,
+  getFromFirebase,
   removeFromFirebase,
   saveToFirebase,
-  searchByKey,
+  searchOnKey,
+  searchOnValue,
   upateValueInFirebase,
 } from "./firebase";
 import { syncFirebaseToStorage } from "./syncFirebaseToStorage";
+import md5 from "md5";
 
 export const bypassSingleLinkOnPage = (selectorFn, tabId) => {
   chrome.tabs.executeScript(
@@ -71,27 +74,25 @@ export const getMappedRedirections = (redirections) =>
 
 export const isBookmarked = async () => {
   const [currentTab] = await getCurrentTab();
-  const currentUrl = btoa(currentTab.url);
-  return searchByKey(FIREBASE_DB_REF.bookmarks, currentUrl);
+  return searchOnKey(FIREBASE_DB_REF.bookmarks, md5(currentTab.url));
 };
 
 export const addBookmark = async () => {
   const [currentTab] = await getCurrentTab();
-  const currentUrl = btoa(currentTab.url);
-  const value = { url: currentUrl };
+  const url = currentTab.url;
+  const value = { url: btoa(url) };
   await copyToFallbackDB(
     FIREBASE_DB_REF.bookmarks,
     FIREBASE_DB_REF.bookmarksFallback
   );
-  return upateValueInFirebase(FIREBASE_DB_REF.bookmarks, currentUrl, value);
+  return upateValueInFirebase(FIREBASE_DB_REF.bookmarks, md5(url), value);
 };
 
 export const removeBookmark = async () => {
   const [currentTab] = await getCurrentTab();
-  const currentUrl = btoa(currentTab.url);
   await copyToFallbackDB(
     FIREBASE_DB_REF.bookmarks,
     FIREBASE_DB_REF.bookmarksFallback
   );
-  return removeFromFirebase(FIREBASE_DB_REF.bookmarks, currentUrl);
+  return removeFromFirebase(FIREBASE_DB_REF.bookmarks, md5(currentTab.url));
 };
