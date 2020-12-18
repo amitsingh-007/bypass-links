@@ -4,10 +4,9 @@ import md5 from "md5";
 import { changeTabUrl } from "./bypass/changeTabUrl";
 import {
   copyToFallbackDB,
-  getFromFirebase,
+  getByKey,
   removeFromFirebase,
   saveToFirebase,
-  searchOnKey,
   upateValueInFirebase,
 } from "./firebase";
 
@@ -70,27 +69,28 @@ export const getMappedRedirections = (redirections) =>
       }, {})
     : null;
 
-export const isBookmarked = async () => {
-  const [currentTab] = await getCurrentTab();
-  return searchOnKey(FIREBASE_DB_REF.bookmarks, md5(currentTab.url));
+export const getBookmark = async () => {
+  const [{ url }] = await getCurrentTab();
+  return getByKey(FIREBASE_DB_REF.bookmarks, md5(url));
 };
 
-export const addBookmark = async () => {
-  const [currentTab] = await getCurrentTab();
-  const url = currentTab.url;
-  const value = { url: btoa(url) };
+export const saveBookmark = async (bookmark) => {
   await copyToFallbackDB(
     FIREBASE_DB_REF.bookmarks,
     FIREBASE_DB_REF.bookmarksFallback
   );
-  return upateValueInFirebase(FIREBASE_DB_REF.bookmarks, md5(url), value);
+  return upateValueInFirebase(
+    FIREBASE_DB_REF.bookmarks,
+    md5(atob(bookmark.url)),
+    bookmark
+  );
 };
 
 export const removeBookmark = async () => {
-  const [currentTab] = await getCurrentTab();
+  const [{ url }] = await getCurrentTab();
   await copyToFallbackDB(
     FIREBASE_DB_REF.bookmarks,
     FIREBASE_DB_REF.bookmarksFallback
   );
-  return removeFromFirebase(FIREBASE_DB_REF.bookmarks, md5(currentTab.url));
+  return removeFromFirebase(FIREBASE_DB_REF.bookmarks, md5(url));
 };

@@ -5,57 +5,53 @@ import runtime from "ChromeApi/runtime";
 import { COLOR } from "GlobalConstants/color";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import React, { memo, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Loader from "./Loader";
+import { showQuickBookmarkPanel } from "GlobalActionCreators/index";
+import { getCurrentTab } from "ChromeApi/tabs";
 
-const QuickBookmark = memo(() => {
+const QuickBookmarkButton = memo(() => {
+  const dispatch = useDispatch();
   const isSignedIn = useSelector((state) => state.isSignedIn);
-  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [bookmark, setBookmark] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
     setIsFetching(isSignedIn);
     if (isSignedIn) {
       setIsFetching(true);
-      runtime.sendMessage({ isBookmarked: true }).then(({ isBookmarked }) => {
-        setIsBookmarked(isBookmarked);
+      runtime.sendMessage({ getBookmark: true }).then(({ bookmark }) => {
+        setBookmark(bookmark);
         setIsFetching(false);
       });
     }
   }, [isSignedIn]);
 
-  const handleBookmarkAdd = () => {
-    setIsFetching(true);
-    runtime.sendMessage({ addBookmark: true }).then(({ isBookmarkAdded }) => {
-      if (isBookmarkAdded) {
-        setIsBookmarked(true);
-        setIsFetching(false);
-      }
-    });
-  };
-
-  const handleBookmarkRemove = () => {
-    setIsFetching(true);
-    runtime
-      .sendMessage({ removeBookmark: true })
-      .then(({ isBookmarkRemoved }) => {
-        if (isBookmarkRemoved) {
-          setIsBookmarked(false);
-          setIsFetching(false);
-        }
-      });
+  const handleClick = async () => {
+    const payload = {};
+    if (bookmark) {
+      payload.isBookmarked = true;
+      payload.title = atob(bookmark.title);
+      payload.url = atob(bookmark.url);
+    } else {
+      const [{ url, title }] = await getCurrentTab();
+      payload.isBookmarked = false;
+      payload.title = title;
+      payload.url = url;
+    }
+    dispatch(showQuickBookmarkPanel(payload));
   };
 
   if (isFetching) {
     return <Loader width="59px" loaderSize={28} display="inline-flex" />;
   }
 
-  return isBookmarked ? (
+  return bookmark ? (
     <IconButton
       aria-label="Bookmarked"
       component="span"
       style={getActiveDisabledColor(isSignedIn, COLOR.pink)}
-      onClick={handleBookmarkRemove}
+      onClick={handleClick}
       disabled={!isSignedIn}
       title={isSignedIn ? "Bookmarked" : undefined}
     >
@@ -66,7 +62,7 @@ const QuickBookmark = memo(() => {
       aria-label="NotBookmarked"
       component="span"
       style={getActiveDisabledColor(isSignedIn, COLOR.pink)}
-      onClick={handleBookmarkAdd}
+      onClick={handleClick}
       disabled={!isSignedIn}
       title={isSignedIn ? "Not Bookmarked" : undefined}
     >
@@ -75,4 +71,4 @@ const QuickBookmark = memo(() => {
   );
 });
 
-export default QuickBookmark;
+export default QuickBookmarkButton;
