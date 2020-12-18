@@ -1,5 +1,7 @@
 import { TURN_ON_EXTENSION } from "GlobalActionTypes/";
 import { HIDE_BOOKMARKS_PANEL } from "GlobalActionTypes/";
+import { SHOW_QUICK_BOOKMARK_PANEL } from "GlobalActionTypes/";
+import { HIDE_QUICK_BOOKMARK_PANEL } from "GlobalActionTypes/";
 import { SHOW_BOOKMARKS_PANEL } from "GlobalActionTypes/";
 import { START_HISTORY_MONITOR } from "GlobalActionTypes/";
 import { TURN_OFF_EXTENSION } from "GlobalActionTypes/";
@@ -50,4 +52,15 @@ export const showBookmarksPanel = () => ({
 
 export const hideBookmarksPanel = () => ({
   type: HIDE_BOOKMARKS_PANEL,
+});
+
+export const showQuickBookmarkPanel = (bookmark) => {
+  return {
+    type: SHOW_QUICK_BOOKMARK_PANEL,
+    bookmark,
+  };
+};
+
+export const hideQuickBookmarkPanel = () => ({
+  type: HIDE_QUICK_BOOKMARK_PANEL,
 });

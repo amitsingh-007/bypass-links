@@ -5,7 +5,7 @@ import "firebase/database";
 const firebaseConfig = {
   apiKey: "AIzaSyDiMRlBhW36sLjEADoQj9T5L1H-hIDUAso",
   authDomain: "bypass-links.firebaseapp.com",
-  databaseURL: `https://bypass-links.firebaseio.com/`,
+  databaseURL: "https://bypass-links.firebaseio.com/",
   projectId: "bypass-links",
   storageBucket: "bypass-links.appspot.com",
   messagingSenderId: "603462573180",
@@ -25,6 +25,9 @@ export const getFromFirebase = async (ref) =>
 
 export const saveToFirebase = async (ref, data) =>
   firebase.database().ref(ref).set(data);
+
+export const getByKey = (ref, key) =>
+  firebase.database().ref(ref).child(key).once("value");
 
 export const searchOnKey = (ref, key) =>
   firebase.database().ref(ref).orderByKey().equalTo(key).once("value");

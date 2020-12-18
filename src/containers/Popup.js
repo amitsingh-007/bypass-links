@@ -1,6 +1,6 @@
 import { Box, Typography } from "@material-ui/core/";
 import { Authenticate } from "GlobalComponents/Authenticate";
-import QuickBookmark from "GlobalComponents/QuickBookmark";
+import QuickBookmarkButton from "GlobalComponents/QuickBookmarkButton";
 import { EditPanel } from "GlobalComponents/EditPanel";
 import { EditPanelButton } from "GlobalComponents/EditPanelButton";
 import { ManualHistoryPanel } from "GlobalComponents/ManualHistoryPanel";
@@ -14,26 +14,28 @@ import React, { memo } from "react";
 import { useSelector } from "react-redux";
 import BookmarksPanelButton from "GlobalComponents/BookmarksPanelButton";
 import BookmarksPanel from "GlobalComponents/BookmarksPanel";
+import QuickBookmarkPanel from "GlobalComponents/QuickBookmarkPanel";
 
 export const Popup = memo(() => {
   const {
     showEditPanel,
     showManualHistoryPanel,
     showBookmarksPanel,
+    showQuickBookmarkPanel,
   } = useSelector((state) => state);
 
   if (showEditPanel) {
     return <EditPanel />;
   }
-
   if (showManualHistoryPanel) {
     return <ManualHistoryPanel />;
   }
-
   if (showBookmarksPanel) {
     return <BookmarksPanel />;
   }
-
+  if (showQuickBookmarkPanel.showPanel) {
+    return <QuickBookmarkPanel />;
+  }
   return (
     <Box
       display="flex"
@@ -57,7 +59,7 @@ export const Popup = memo(() => {
       <Box>
         <ManualHistoryPanelButton />
         <OpenDefaultsButton />
-        <QuickBookmark />
+        <QuickBookmarkButton />
       </Box>
     </Box>
   );

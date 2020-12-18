@@ -1,18 +1,34 @@
-import { Box, IconButton, Input, makeStyles } from "@material-ui/core";
+import {
+  Box,
+  IconButton,
+  Tooltip,
+  Typography,
+  withStyles,
+} from "@material-ui/core";
 import DeleteTwoToneIcon from "@material-ui/icons/DeleteTwoTone";
 import OpenInNewTwoToneIcon from "@material-ui/icons/OpenInNewTwoTone";
 import tabs from "ChromeApi/tabs";
 import { COLOR } from "GlobalConstants/color";
 import React, { memo } from "react";
 
-const useStyles = makeStyles({
-  input: {
-    fontSize: "15px",
-    width: "500px",
-  },
-});
+const textStyles = {
+  cursor: "default",
+  flexGrow: "1",
+};
 
-const BookmarkRow = memo(({ url, pos, handleRemoveBookmark }) => {
+const LightTooltip = withStyles((theme) => ({
+  tooltip: {
+    backgroundColor: theme.palette.common.white,
+    color: "rgba(0, 0, 0, 0.87)",
+    boxShadow: theme.shadows[1],
+    fontSize: 11,
+  },
+  arrow: {
+    color: theme.palette.common.white,
+  },
+}))(Tooltip);
+
+const BookmarkRow = memo(({ url, title, pos, handleRemoveBookmark }) => {
   const handleRemoveClick = () => {
     handleRemoveBookmark(pos);
   };
@@ -21,30 +37,51 @@ const BookmarkRow = memo(({ url, pos, handleRemoveBookmark }) => {
     tabs.create({ url, selected: false });
   };
 
-  const classes = useStyles();
   return (
-    <Box display="flex" alignItems="center">
-      <Input
-        value={url}
-        size="small"
-        variant="filled"
-        fullWidth
-        classes={{ input: classes.input }}
-        readOnly
-        multiline
-        rowsMax={2}
-      />
-      <IconButton
-        edge="end"
-        aria-label="Remove"
-        title="Delete"
-        style={COLOR.red}
-      >
-        <DeleteTwoToneIcon onClick={handleRemoveClick} />
-      </IconButton>
-      <IconButton aria-label="Open" title="Open" style={COLOR.deepPurple}>
-        <OpenInNewTwoToneIcon onClick={handleOpenClick} />
-      </IconButton>
+    <Box
+      display="flex"
+      justifyContent="space-between"
+      alignItems="center"
+      paddingLeft="12px"
+      paddingRight="9px"
+      className="bookmarkRowContainer"
+    >
+      <Box display="flex" alignItems="center" flexGrow="1" maxWidth="720px">
+        <Box
+          component="img"
+          width="17px"
+          height="17px"
+          marginRight="8px"
+          src={`https://www.google.com/s2/favicons?sz=64&domain_url=${url}`}
+        />
+        <LightTooltip
+          title={<Typography style={{ fontSize: "12px" }}>{url}</Typography>}
+          arrow
+        >
+          <Typography noWrap style={textStyles}>
+            {title}
+          </Typography>
+        </LightTooltip>
+      </Box>
+      <Box display="flex" alignItems="center">
+        <IconButton
+          edge="end"
+          aria-label="Remove"
+          title="Delete"
+          style={COLOR.red}
+          size="small"
+        >
+          <DeleteTwoToneIcon onClick={handleRemoveClick} />
+        </IconButton>
+        <IconButton
+          aria-label="Open"
+          title="Open"
+          style={COLOR.deepPurple}
+          size="small"
+        >
+          <OpenInNewTwoToneIcon onClick={handleOpenClick} />
+        </IconButton>
+      </Box>
     </Box>
   );
 });

@@ -1,8 +1,8 @@
 import { EXTENSION_STATE, FIREBASE_DB_REF } from "GlobalConstants/index";
 import { signIn, signOut } from "GlobalUtils/authentication";
 import {
-  addBookmark,
-  isBookmarked,
+  saveBookmark,
+  getBookmark,
   removeBookmark,
   saveDataToFirebase,
 } from "GlobalUtils/background";
@@ -58,12 +58,12 @@ const onMessageReceive = (message, sender, sendResponse) => {
         sendResponse({ defaults: snapshot.val() });
       }
     );
-  } else if (message.isBookmarked) {
-    isBookmarked().then((snapshot) => {
-      sendResponse({ isBookmarked: snapshot.exists() });
+  } else if (message.getBookmark) {
+    getBookmark().then((snapshot) => {
+      sendResponse({ bookmark: snapshot.val() });
     });
   } else if (message.addBookmark) {
-    addBookmark().then(() => {
+    saveBookmark(message.addBookmark).then(() => {
       sendResponse({ isBookmarkAdded: true });
     });
   } else if (message.removeBookmark) {
