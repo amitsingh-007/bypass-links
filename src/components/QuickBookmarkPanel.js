@@ -38,7 +38,10 @@ const QuickBookmarkPanel = memo(() => {
   const handleSave = () => {
     runtime
       .sendMessage({
-        addBookmark: { url: btoa(url), title: btoa(title) },
+        addBookmark: {
+          url: btoa(encodeURIComponent(url)),
+          title: btoa(encodeURIComponent(title)),
+        },
       })
       .then(({ isBookmarkAdded }) => {
         if (isBookmarkAdded) {

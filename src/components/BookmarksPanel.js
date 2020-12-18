@@ -12,11 +12,14 @@ import Loader from "./Loader";
 import PanelHeading from "./PanelHeading";
 
 //Filter valid bookmarks
-const validBookmarks = (obj) => !!(obj && obj.url);
+const validBookmarks = (obj) => !!(obj && obj.url && obj.title);
 
 //Map array into object so as to store in firebase
-const reducer = (obj, { url }) => {
-  obj[md5(url)] = { url: btoa(url) };
+const reducer = (obj, { url, title }) => {
+  obj[md5(url)] = {
+    url: btoa(encodeURIComponent(url)),
+    title: btoa(encodeURIComponent(title)),
+  };
   return obj;
 };
 
@@ -27,9 +30,12 @@ const BookmarksPanel = memo(() => {
 
   useEffect(() => {
     runtime.sendMessage({ getBookmarks: true }).then(({ bookmarks }) => {
-      const modifiedBookmarks = Object.entries(
-        bookmarks
-      ).map(([key, { url }]) => ({ url: atob(url) }));
+      const modifiedBookmarks = Object.entries(bookmarks).map(
+        ([key, { url, title }]) => ({
+          url: decodeURIComponent(atob(url)),
+          title: decodeURIComponent(atob(title)),
+        })
+      );
       setBookmarks(modifiedBookmarks);
       setIsFetching(false);
     });
@@ -59,7 +65,7 @@ const BookmarksPanel = memo(() => {
 
   return (
     <Box
-      width="max-content"
+      width="800px"
       display="flex"
       flexDirection="column"
       paddingBottom="8px"
@@ -87,14 +93,15 @@ const BookmarksPanel = memo(() => {
         </Box>
         <PanelHeading heading="BOOKMARKS PANEL" />
       </Box>
-      {isFetching ? <Loader width="596px" marginBottom="12px" /> : null}
+      {isFetching ? <Loader width="800px" marginBottom="12px" /> : null}
       {!isFetching && bookmarks && bookmarks.length > 0 ? (
-        <form noValidate autoComplete="off" style={{ paddingLeft: "12px" }}>
-          {bookmarks.map(({ url }, index) => (
+        <form noValidate autoComplete="off">
+          {bookmarks.map(({ url, title }, index) => (
             <BookmarkRow
               key={url}
               pos={index}
               url={url}
+              title={title}
               handleRemoveBookmark={handleRemoveBookmark}
             />
           ))}

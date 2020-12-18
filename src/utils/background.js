@@ -81,7 +81,7 @@ export const saveBookmark = async (bookmark) => {
   );
   return upateValueInFirebase(
     FIREBASE_DB_REF.bookmarks,
-    md5(atob(bookmark.url)),
+    md5(decodeURIComponent(atob(bookmark.url))),
     bookmark
   );
 };

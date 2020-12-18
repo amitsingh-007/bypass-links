@@ -27,19 +27,15 @@ export const Popup = memo(() => {
   if (showEditPanel) {
     return <EditPanel />;
   }
-
   if (showManualHistoryPanel) {
     return <ManualHistoryPanel />;
   }
-
   if (showBookmarksPanel) {
     return <BookmarksPanel />;
   }
-
   if (showQuickBookmarkPanel.showPanel) {
     return <QuickBookmarkPanel />;
   }
-
   return (
     <Box
       display="flex"

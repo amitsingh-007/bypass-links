@@ -31,8 +31,8 @@ const QuickBookmarkButton = memo(() => {
     const payload = {};
     if (bookmark) {
       payload.isBookmarked = true;
-      payload.title = atob(bookmark.title);
-      payload.url = atob(bookmark.url);
+      payload.title = decodeURIComponent(atob(bookmark.title));
+      payload.url = decodeURIComponent(atob(bookmark.url));
     } else {
       const [{ url, title }] = await getCurrentTab();
       payload.isBookmarked = false;
