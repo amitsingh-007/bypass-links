@@ -1,10 +1,9 @@
 import { EXTENSION_STATE, FIREBASE_DB_REF } from "GlobalConstants/index";
 import { signIn, signOut } from "GlobalUtils/authentication";
 import {
-  saveBookmark,
   getBookmark,
   removeBookmark,
-  saveDataToFirebase,
+  saveBookmark,
 } from "GlobalUtils/background";
 import { bypass, redirect } from "GlobalUtils/bypass";
 import {
@@ -12,7 +11,11 @@ import {
   isExtensionActive,
   setExtStateInStorage,
 } from "GlobalUtils/common";
-import { getFromFirebase, searchOnValue } from "GlobalUtils/firebase";
+import {
+  getFromFirebase,
+  saveDataToFirebase,
+  searchOnValue,
+} from "GlobalUtils/firebase";
 import { syncFirebaseToStorage } from "GlobalUtils/syncFirebaseToStorage";
 
 const onUpdateCallback = async (tabId, changeInfo) => {

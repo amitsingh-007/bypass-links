@@ -6,7 +6,6 @@ import {
   copyToFallbackDB,
   getByKey,
   removeFromFirebase,
-  saveToFirebase,
   upateValueInFirebase,
 } from "./firebase";
 
@@ -34,31 +33,6 @@ export const bypassSingleLinkOnPage = (selectorFn, tabId) => {
       }
     }
   );
-};
-
-/**
- * We first update the fallback db with current data and then update the current db
- */
-export const saveDataToFirebase = async (
-  data,
-  ref,
-  fallbackDbRef,
-  successCallback
-) => {
-  await copyToFallbackDB(ref, fallbackDbRef);
-  return new Promise((resolve, reject) => {
-    saveToFirebase(ref, data)
-      .then(() => {
-        if (successCallback) {
-          successCallback();
-        }
-        resolve(true);
-      })
-      .catch((err) => {
-        console.log(`Error while saving data to Firebase db: ${ref}`, err);
-        resolve(false);
-      });
-  });
 };
 
 export const getMappedRedirections = (redirections) =>
