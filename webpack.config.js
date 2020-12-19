@@ -5,7 +5,12 @@ const FileManagerPlugin = require("filemanager-webpack-plugin");
 const { InjectManifest } = require("workbox-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const { DefinePlugin, ProgressPlugin } = require("webpack");
+const {
+  DefinePlugin,
+  ProgressPlugin,
+  DllPlugin,
+  DllReferencePlugin,
+} = require("webpack");
 const { getExtensionFile } = require("./src/utils");
 const { releaseDate, extVersion } = require("./release-config");
 
@@ -185,6 +190,10 @@ const getBackgroundConfigPlugins = () => {
         onEnd: fileManagerPluginCommonConfig,
       },
     }),
+    new DllReferencePlugin({
+      name: "firebase_lib",
+      manifest: path.resolve(__dirname, "extension", "firebase-manifest.json"),
+    }),
     definePlugin,
   ];
   if (enableBundleAnalyzer) {
@@ -192,6 +201,25 @@ const getBackgroundConfigPlugins = () => {
   }
   setProgressPlugin(plugins);
   return plugins;
+};
+
+/**
+ * Create common chunk for background and content scripts
+ */
+const firebasedDllConfig = {
+  ...commonConfig,
+  entry: ["./src/utils/firebase.js"],
+  output: {
+    filename: "firebase.js",
+    path: path.resolve(__dirname, "extension"),
+    library: "firebase_lib",
+  },
+  plugins: [
+    new DllPlugin({
+      name: "firebase_lib",
+      path: path.resolve(__dirname, "extension", "firebase-manifest.json"),
+    }),
+  ],
 };
 
 const downloadPageConfig = {
@@ -290,9 +318,9 @@ const popupConfig = {
  * For dev-server, only build downloadPageConfig
  * Else, build extension related configs
  */
-let configs = [backgroundConfig, popupConfig];
+let configs = [firebasedDllConfig, backgroundConfig, popupConfig];
 if (isProduction) {
-  configs = [downloadPageConfig, backgroundConfig, popupConfig];
+  configs = [downloadPageConfig, ...configs];
 } else if (isDevServer) {
   configs = [downloadPageConfig];
 }
