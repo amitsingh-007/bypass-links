@@ -1,13 +1,13 @@
 import storage from "ChromeApi/storage";
 import { resetRedirections } from "./redirect";
 import { googleSignIn, googleSignOut } from "./firebase";
-import { syncFirebaseToStorage } from "./syncFirebaseToStorage";
+import { syncRedirectionsToStorage } from "./redirect";
 
 export const signIn = async () => {
   try {
     const response = await googleSignIn();
     console.log("Login Success ", response);
-    syncFirebaseToStorage();
+    await syncRedirectionsToStorage();
     storage.set({ isSignedIn: true });
     return true;
   } catch (err) {

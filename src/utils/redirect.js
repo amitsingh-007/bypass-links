@@ -1,15 +1,18 @@
 import storage from "ChromeApi/storage";
 import tabs from "ChromeApi/tabs";
-import { getMappedRedirections } from "GlobalUtils/background";
+import { FIREBASE_DB_REF } from "GlobalConstants/index";
+import { getFromFirebase } from "./firebase";
 
-let REDIRECTIONS = null;
+const getMappedRedirections = (redirections) =>
+  redirections &&
+  redirections.reduce((obj, { alias, website }) => {
+    obj[alias] = website;
+    return obj;
+  }, {});
 
 const getRedirections = async () => {
-  if (!REDIRECTIONS) {
-    const { redirections } = await storage.get(["redirections"]);
-    REDIRECTIONS = getMappedRedirections(redirections);
-  }
-  return REDIRECTIONS || {};
+  const { mappedRedirections } = await storage.get(["mappedRedirections"]);
+  return mappedRedirections || {};
 };
 
 export const redirect = async (tabId, url) => {
@@ -20,6 +23,15 @@ export const redirect = async (tabId, url) => {
   }
 };
 
+export const syncRedirectionsToStorage = async () => {
+  const snapshot = await getFromFirebase(FIREBASE_DB_REF.redirections);
+  const redirections = snapshot.val();
+  await storage.set({ redirections });
+  const mappedRedirections = getMappedRedirections(redirections);
+  await storage.set({ mappedRedirections });
+  console.log(`Redirections is set to`, redirections);
+};
+
 export const resetRedirections = () => {
-  REDIRECTIONS = null;
+  storage.remove(["redirections", "mappedRedirections"]);
 };

@@ -25,11 +25,3 @@ export const bypassSingleLinkOnPage = (selectorFn, tabId) => {
     }
   );
 };
-
-export const getMappedRedirections = (redirections) =>
-  redirections
-    ? redirections.reduce((obj, { alias, website }) => {
-        obj[alias] = website;
-        return obj;
-      }, {})
-    : null;
