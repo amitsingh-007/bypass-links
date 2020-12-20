@@ -13,4 +13,3 @@
 - Install [prettier]("https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode") and enable for this workplace, with default settings.
 - Follow `pascalCase` for this project.
 - Attach comments to complex logic, if required.
-- Extension popup should not access firebase API directly(to avoid code duplication)

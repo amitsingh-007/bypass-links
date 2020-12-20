@@ -8,6 +8,8 @@ const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const { DefinePlugin, ProgressPlugin } = require("webpack");
 const { getExtensionFile } = require("./src/utils");
 const { releaseDate, extVersion } = require("./release-config");
+const commonConfig = require("./webpack.common.config");
+const removeDir = require("./remove-dir");
 
 const ENV = process.env.NODE_ENV;
 const isProduction = ENV === "production";
@@ -18,44 +20,6 @@ const PATHS = {
   BUILD: path.resolve(__dirname, "build"),
   EXTENSION: path.resolve(__dirname, "extension"),
   SRC: path.resolve(__dirname, "src"),
-};
-
-const commonConfig = {
-  mode: ENV,
-  resolve: {
-    extensions: [".js", ".scss"],
-    alias: {
-      ChromeApi: path.resolve(__dirname, "src/scripts/chrome/"),
-      GlobalActionCreators: path.resolve(__dirname, "src/actionCreators/"),
-      GlobalActionTypes: path.resolve(__dirname, "src/actionTypes/"),
-      GlobalApis: path.resolve(__dirname, "src/apis/"),
-      GlobalComponents: path.resolve(__dirname, "src/components/"),
-      GlobalConstants: path.resolve(__dirname, "src/constants/"),
-      GlobalContainers: path.resolve(__dirname, "src/containers/"),
-      GlobalIcons: path.resolve(__dirname, "src/icons/"),
-      GlobalReducers: path.resolve(__dirname, "src/reducers/"),
-      GlobalScripts: path.resolve(__dirname, "src/scripts/"),
-      GlobalStyles: path.resolve(__dirname, "src/styles/"),
-      GlobalUtils: path.resolve(__dirname, "src/utils/"),
-      SrcPath: path.resolve(__dirname, "src/"),
-      react: "preact/compat",
-      "react-dom": "preact/compat",
-    },
-    modules: [PATHS.SRC, "node_modules"],
-  },
-  stats: isProduction ? "normal" : "errors-warnings",
-  devtool: isProduction ? undefined : "eval-cheap-module-source-map",
-  performance: {
-    maxEntrypointSize: 500000,
-    maxAssetSize: 500000,
-  },
-  optimization: {
-    nodeEnv: ENV,
-    minimize: isProduction,
-  },
-  watchOptions: {
-    ignored: "node_modules/**",
-  },
 };
 
 const scssLoaders = {
@@ -185,6 +149,11 @@ const getBackgroundConfigPlugins = () => {
         onEnd: fileManagerPluginCommonConfig,
       },
     }),
+    //To use common code, build `webpack.firebase.config.js` first, then current config in package.json
+    // new DllReferencePlugin({
+    //   name: "firebase_lib",
+    //   manifest: path.resolve(__dirname, "./extension/firebase-manifest.json"),
+    // }),
     definePlugin,
   ];
   if (enableBundleAnalyzer) {
@@ -292,9 +261,11 @@ const popupConfig = {
  */
 let configs = [backgroundConfig, popupConfig];
 if (isProduction) {
-  configs = [downloadPageConfig, backgroundConfig, popupConfig];
+  configs = [downloadPageConfig, ...configs];
 } else if (isDevServer) {
   configs = [downloadPageConfig];
 }
+
+removeDir(PATHS.EXTENSION);
 
 module.exports = configs;

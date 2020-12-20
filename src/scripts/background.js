@@ -1,19 +1,10 @@
-import { EXTENSION_STATE, FIREBASE_DB_REF } from "GlobalConstants/index";
-import { signIn, signOut } from "GlobalUtils/authentication";
-import {
-  saveBookmark,
-  getBookmark,
-  removeBookmark,
-  saveDataToFirebase,
-} from "GlobalUtils/background";
+import { EXTENSION_STATE } from "GlobalConstants/index";
 import { bypass, redirect } from "GlobalUtils/bypass";
 import {
   getExtensionState,
   isExtensionActive,
   setExtStateInStorage,
 } from "GlobalUtils/common";
-import { getFromFirebase, searchOnValue } from "GlobalUtils/firebase";
-import { syncFirebaseToStorage } from "GlobalUtils/syncFirebaseToStorage";
 
 const onUpdateCallback = async (tabId, changeInfo) => {
   const { url } = changeInfo;
@@ -27,61 +18,11 @@ const onUpdateCallback = async (tabId, changeInfo) => {
 
 const onFirstTimeInstall = () => {
   setExtStateInStorage(EXTENSION_STATE.ACTIVE);
-  syncFirebaseToStorage();
 };
 
 const onMessageReceive = (message, sender, sendResponse) => {
-  if (message.triggerSignIn) {
-    signIn().then((isSignedIn) => {
-      sendResponse({ isSignedIn });
-    });
-  } else if (message.triggerSignOut) {
-    signOut().then((isSignedOut) => {
-      sendResponse({ isSignedOut });
-    });
-  } else if (message.getRedirections) {
-    getFromFirebase(FIREBASE_DB_REF.redirections).then((snapshot) => {
-      sendResponse({ redirections: snapshot.val() });
-    });
-  } else if (message.saveRedirectionRules) {
-    saveDataToFirebase(
-      message.saveRedirectionRules,
-      FIREBASE_DB_REF.redirections,
-      FIREBASE_DB_REF.redirectionsFallback,
-      syncFirebaseToStorage
-    ).then((isRuleSaveSuccess) => {
-      sendResponse({ isRuleSaveSuccess });
-    });
-  } else if (message.getDefaults) {
-    searchOnValue(FIREBASE_DB_REF.redirections, "isDefault", true).then(
-      (snapshot) => {
-        sendResponse({ defaults: snapshot.val() });
-      }
-    );
-  } else if (message.getBookmark) {
-    getBookmark().then((snapshot) => {
-      sendResponse({ bookmark: snapshot.val() });
-    });
-  } else if (message.addBookmark) {
-    saveBookmark(message.addBookmark).then(() => {
-      sendResponse({ isBookmarkAdded: true });
-    });
-  } else if (message.removeBookmark) {
-    removeBookmark().then(() => {
-      sendResponse({ isBookmarkRemoved: true });
-    });
-  } else if (message.getBookmarks) {
-    getFromFirebase(FIREBASE_DB_REF.bookmarks).then((snapshot) => {
-      sendResponse({ bookmarks: snapshot.val() });
-    });
-  } else if (message.saveBookmarks) {
-    saveDataToFirebase(
-      message.saveBookmarks,
-      FIREBASE_DB_REF.bookmarks,
-      FIREBASE_DB_REF.bookmarksFallback
-    ).then((isBookmarksSaveSuccess) => {
-      sendResponse({ isBookmarksSaveSuccess });
-    });
+  if (message.dummyMessage) {
+    sendResponse({});
   }
   return true;
 };

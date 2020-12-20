@@ -46,3 +46,28 @@ export const copyToFallbackDB = async (dbRef, fallbackDbRef) => {
   await saveToFirebase(fallbackDbRef, snapshot.val());
   console.log(`Updated ${fallbackDbRef} with ${dbRef}`);
 };
+
+/**
+ * Update the fallback db with current data and then update the current db
+ */
+export const saveDataToFirebase = async (
+  data,
+  ref,
+  fallbackDbRef,
+  successCallback
+) => {
+  await copyToFallbackDB(ref, fallbackDbRef);
+  return new Promise((resolve, reject) => {
+    saveToFirebase(ref, data)
+      .then(() => {
+        if (successCallback) {
+          successCallback();
+        }
+        resolve(true);
+      })
+      .catch((err) => {
+        console.log(`Error while saving data to Firebase db: ${ref}`, err);
+        resolve(false);
+      });
+  });
+};
