@@ -29,8 +29,7 @@ const commonConfig = {
   stats: isProduction ? "normal" : "errors-warnings",
   devtool: isProduction ? undefined : "eval-cheap-module-source-map",
   performance: {
-    maxEntrypointSize: 500000,
-    maxAssetSize: 500000,
+    hints: false,
   },
   optimization: {
     nodeEnv: ENV,

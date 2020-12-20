@@ -7,8 +7,13 @@ import { getOffIconColor, getOnIconColor } from "GlobalUtils/color";
 import React, { memo, useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-export const startHistoryWatch = async () =>
-  storage.set({ historyStartTime: Date.now() });
+const THIRTY_SECONDS = 30 * 1000; //in milliseconds
+
+export const startHistoryWatch = async () => {
+  storage.set({
+    historyStartTime: new Date() - THIRTY_SECONDS, //to compensate for open defaults
+  });
+};
 
 export const endHistoryWatch = async () => {
   const { historyStartTime } = await storage.get(["historyStartTime"]);
@@ -47,18 +52,21 @@ export const ToggleHistory = memo(() => {
     }
   }, [isHistoryActive]);
 
+  //Init toggle on mount
   useEffect(() => {
     storage.get(["historyStartTime"]).then(({ historyStartTime }) => {
       setIsHistoryActive(!!historyStartTime);
     });
   }, []);
 
+  //Turn off history when extension is off
   useEffect(() => {
     if (!isExtensionActive) {
       turnOffHistory();
     }
   }, [isExtensionActive, turnOffHistory]);
 
+  //Turn on history on store change
   useEffect(() => {
     if (startHistoryMonitor) {
       turnOnHistory();

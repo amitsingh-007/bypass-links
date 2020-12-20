@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "module": "commonjs",
+    "target": "ES6",
+    "allowSyntheticDefaultImports": false,
+    "jsx": "react",
     "baseUrl": ".",
     "paths": {
       "ChromeApi/*": ["./src/scripts/chrome/*"],
@@ -17,5 +21,5 @@
       "SrcPath/*": ["./src/*"]
     }
   },
-  "exclude": ["build", "extension"]
+  "exclude": ["build", "extension", "node_modules"]
 }

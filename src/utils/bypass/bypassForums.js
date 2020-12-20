@@ -1,4 +1,4 @@
-import { HOSTNAME } from "GlobalConstants/";
+import { HOSTNAME } from "GlobalConstants/index";
 
 export const bypassForums = async (url, tabId) => {
   if (!url.hostname.startsWith(HOSTNAME.FORUMS)) {
