@@ -41,7 +41,8 @@ export const upateValueInFirebase = (ref, key, value) =>
 export const removeFromFirebase = (ref, key) =>
   firebase.database().ref(ref).child(key).remove();
 
-export const copyToFallbackDB = async (dbRef, fallbackDbRef) => {
+export const copyToFallbackDB = async (dbRef) => {
+  const fallbackDbRef = `${dbRef}-fallback`;
   const snapshot = await getFromFirebase(dbRef);
   await saveToFirebase(fallbackDbRef, snapshot.val());
   console.log(`Updated ${fallbackDbRef} with ${dbRef}`);
@@ -50,13 +51,8 @@ export const copyToFallbackDB = async (dbRef, fallbackDbRef) => {
 /**
  * Update the fallback db with current data and then update the current db
  */
-export const saveDataToFirebase = async (
-  data,
-  ref,
-  fallbackDbRef,
-  successCallback
-) => {
-  await copyToFallbackDB(ref, fallbackDbRef);
+export const saveDataToFirebase = async (data, ref, successCallback) => {
+  await copyToFallbackDB(ref);
   return new Promise((resolve, reject) => {
     saveToFirebase(ref, data)
       .then(() => {

@@ -46,19 +46,13 @@ const QuickBookmarkPanel = memo(() => {
       url: btoa(encodeURIComponent(url)),
       title: btoa(encodeURIComponent(title)),
     };
-    await copyToFallbackDB(
-      FIREBASE_DB_REF.bookmarks,
-      FIREBASE_DB_REF.bookmarksFallback
-    );
+    await copyToFallbackDB(FIREBASE_DB_REF.bookmarks);
     await upateValueInFirebase(FIREBASE_DB_REF.bookmarks, md5(url), bookmark);
     handleClose();
   };
 
   const handleRemove = async () => {
-    await copyToFallbackDB(
-      FIREBASE_DB_REF.bookmarks,
-      FIREBASE_DB_REF.bookmarksFallback
-    );
+    await copyToFallbackDB(FIREBASE_DB_REF.bookmarks);
     await removeFromFirebase(FIREBASE_DB_REF.bookmarks, md5(url));
     handleClose();
   };

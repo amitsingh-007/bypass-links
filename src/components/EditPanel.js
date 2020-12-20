@@ -57,7 +57,6 @@ export const EditPanel = memo(() => {
     const isSaveSuccess = await saveDataToFirebase(
       redirectionsObj,
       FIREBASE_DB_REF.redirections,
-      FIREBASE_DB_REF.redirectionsFallback,
       syncFirebaseToStorage
     );
     if (isSaveSuccess) {

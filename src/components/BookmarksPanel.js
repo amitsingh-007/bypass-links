@@ -61,8 +61,7 @@ const BookmarksPanel = memo(() => {
     const bookmarksObj = bookmarks.filter(validBookmarks).reduce(reducer, {});
     const isSaveSuccess = await saveDataToFirebase(
       bookmarksObj,
-      FIREBASE_DB_REF.bookmarks,
-      FIREBASE_DB_REF.bookmarksFallback
+      FIREBASE_DB_REF.bookmarks
     );
     if (isSaveSuccess) {
       handleClose();
