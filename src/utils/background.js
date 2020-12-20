@@ -1,4 +1,4 @@
-import { changeTabUrl } from "./bypass/changeTabUrl";
+import tabs from "ChromeApi/tabs";
 
 export const bypassSingleLinkOnPage = (selectorFn, tabId) => {
   chrome.tabs.executeScript(
@@ -15,7 +15,7 @@ export const bypassSingleLinkOnPage = (selectorFn, tabId) => {
           result && result.links && result.links.length === 1
             ? result.links[0]
             : null;
-        changeTabUrl(tabId, targetUrl);
+        tabs.update(tabId, { url: targetUrl });
       } else {
         console.log("Error", chrome.runtime.lastError);
         setTimeout(() => {

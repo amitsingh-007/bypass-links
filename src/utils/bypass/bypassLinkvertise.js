@@ -1,6 +1,6 @@
+import tabs from "ChromeApi/tabs";
 import { fetchLinkMetaData, fetchTargetUrl } from "GlobalApis/linkvertise";
 import { HOSTNAME } from "GlobalConstants/index";
-import { changeTabUrl } from "./changeTabUrl";
 
 const getDynamicParams = (url) => ({
   type: "dynamic",
@@ -27,5 +27,5 @@ export const bypassLinkvertise = async (url, tabId) => {
     : getStaticParams(url);
   const { linkId, linkUrl } = await fetchLinkMetaData(type, userId, target);
   const targetUrl = await fetchTargetUrl(userId, linkId, linkUrl);
-  await changeTabUrl(tabId, targetUrl);
+  await tabs.update(tabId, { url: targetUrl });
 };

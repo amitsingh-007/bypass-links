@@ -1,6 +1,6 @@
 import storage from "ChromeApi/storage";
 import { FIREBASE_DB_REF } from "GlobalConstants/index";
-import { resetRedirections } from "./bypass";
+import { resetRedirections } from "./redirect";
 import { getFromFirebase } from "./firebase";
 
 const syncToStorage = (snapshot) => {

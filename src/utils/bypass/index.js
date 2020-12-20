@@ -1,12 +1,9 @@
-import storage from "ChromeApi/storage";
-import { getMappedRedirections } from "GlobalUtils/background";
 import { bypassBonsai } from "./bypassBonsai";
 import { bypassBonsaiLink } from "./bypassBonsaiLink";
 import { bypassForums } from "./bypassForums";
 import { bypassLinkvertise } from "./bypassLinkvertise";
 import { bypassMedium } from "./bypassMedium";
 import { bypassPageLinks } from "./bypassPageLinks";
-import { changeTabUrl } from "./changeTabUrl";
 
 const BYPASS_EXECUTORS = [
   bypassLinkvertise,
@@ -17,30 +14,8 @@ const BYPASS_EXECUTORS = [
   bypassMedium,
 ];
 
-let REDIRECTIONS = null;
-
-const getRedirections = async () => {
-  if (!REDIRECTIONS) {
-    const { redirections } = await storage.get(["redirections"]);
-    REDIRECTIONS = getMappedRedirections(redirections);
-  }
-  return REDIRECTIONS || {};
-};
-
 export const bypass = async (tabId, url) => {
   BYPASS_EXECUTORS.forEach(async (executor) => {
     await executor(url, tabId);
   });
-};
-
-export const redirect = async (tabId, url) => {
-  const redirections = await getRedirections();
-  const redirectUrl = redirections[btoa(url.href)];
-  if (redirectUrl) {
-    await changeTabUrl(tabId, atob(redirectUrl));
-  }
-};
-
-export const resetRedirections = () => {
-  REDIRECTIONS = null;
 };

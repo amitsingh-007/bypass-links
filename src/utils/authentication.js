@@ -1,5 +1,5 @@
 import storage from "ChromeApi/storage";
-import { resetRedirections } from "./bypass";
+import { resetRedirections } from "./redirect";
 import { googleSignIn, googleSignOut } from "./firebase";
 import { syncFirebaseToStorage } from "./syncFirebaseToStorage";
 
