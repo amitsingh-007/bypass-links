@@ -1,6 +1,6 @@
 import { IconButton } from "@material-ui/core";
 import HistoryTwoToneIcon from "@material-ui/icons/HistoryTwoTone";
-import { showManualHistoryPanel } from "GlobalActionCreators/";
+import { showManualHistoryPanel } from "GlobalActionCreators/index";
 import { COLOR } from "GlobalConstants/color";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import React, { memo } from "react";

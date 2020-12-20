@@ -9,7 +9,7 @@ import Loader from "./Loader";
 import { showQuickBookmarkPanel } from "GlobalActionCreators/index";
 import { getCurrentTab } from "ChromeApi/tabs";
 import { getByKey } from "GlobalUtils/firebase";
-import { FIREBASE_DB_REF } from "GlobalConstants/";
+import { FIREBASE_DB_REF } from "GlobalConstants/index";
 import md5 from "md5";
 
 const QuickBookmarkButton = memo(() => {

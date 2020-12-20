@@ -1,6 +1,6 @@
 import { IconButton } from "@material-ui/core";
 import TuneTwoToneIcon from "@material-ui/icons/TuneTwoTone";
-import { showEditPanel } from "GlobalActionCreators/";
+import { showEditPanel } from "GlobalActionCreators/index";
 import { COLOR } from "GlobalConstants/color";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import React, { memo } from "react";

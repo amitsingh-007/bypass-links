@@ -2,8 +2,8 @@ import { Box, IconButton, makeStyles, TextField } from "@material-ui/core";
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import DeleteTwoToneIcon from "@material-ui/icons/DeleteTwoTone";
 import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
-import { hideQuickBookmarkPanel } from "GlobalActionCreators/";
-import { FIREBASE_DB_REF } from "GlobalConstants/";
+import { hideQuickBookmarkPanel } from "GlobalActionCreators/index";
+import { FIREBASE_DB_REF } from "GlobalConstants/index";
 import { COLOR } from "GlobalConstants/color";
 import {
   copyToFallbackDB,

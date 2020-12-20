@@ -1,4 +1,4 @@
-import { HOSTNAME } from "GlobalConstants/";
+import { HOSTNAME } from "GlobalConstants/index";
 import { bypassSingleLinkOnPage } from "GlobalUtils/background";
 
 const findLinksOnPage = () => {
