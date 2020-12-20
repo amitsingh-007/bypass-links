@@ -5,10 +5,11 @@ const FileManagerPlugin = require("filemanager-webpack-plugin");
 const { InjectManifest } = require("workbox-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const { DefinePlugin, ProgressPlugin, DllReferencePlugin } = require("webpack");
+const { DefinePlugin, ProgressPlugin } = require("webpack");
 const { getExtensionFile } = require("./src/utils");
 const { releaseDate, extVersion } = require("./release-config");
 const commonConfig = require("./webpack.common.config");
+const removeDir = require("./remove-dir");
 
 const ENV = process.env.NODE_ENV;
 const isProduction = ENV === "production";
@@ -148,10 +149,11 @@ const getBackgroundConfigPlugins = () => {
         onEnd: fileManagerPluginCommonConfig,
       },
     }),
-    new DllReferencePlugin({
-      name: "firebase_lib",
-      manifest: path.resolve(__dirname, "./extension/firebase-manifest.json"),
-    }),
+    //To use common code, build `webpack.firebase.config.js` first, then current config in package.json
+    // new DllReferencePlugin({
+    //   name: "firebase_lib",
+    //   manifest: path.resolve(__dirname, "./extension/firebase-manifest.json"),
+    // }),
     definePlugin,
   ];
   if (enableBundleAnalyzer) {
@@ -263,5 +265,7 @@ if (isProduction) {
 } else if (isDevServer) {
   configs = [downloadPageConfig];
 }
+
+removeDir(PATHS.EXTENSION);
 
 module.exports = configs;

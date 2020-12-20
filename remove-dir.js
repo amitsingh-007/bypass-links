@@ -25,6 +25,4 @@ const removeDir = (dir) => {
   }
 };
 
-module.exports = {
-  removeDir: removeDir,
-};
+module.exports = removeDir;
