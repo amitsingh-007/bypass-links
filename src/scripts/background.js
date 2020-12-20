@@ -5,7 +5,6 @@ import {
   isExtensionActive,
   setExtStateInStorage,
 } from "GlobalUtils/common";
-import { syncFirebaseToStorage } from "GlobalUtils/syncFirebaseToStorage";
 
 const onUpdateCallback = async (tabId, changeInfo) => {
   const { url } = changeInfo;
@@ -19,7 +18,6 @@ const onUpdateCallback = async (tabId, changeInfo) => {
 
 const onFirstTimeInstall = () => {
   setExtStateInStorage(EXTENSION_STATE.ACTIVE);
-  syncFirebaseToStorage();
 };
 
 const onMessageReceive = (message, sender, sendResponse) => {
