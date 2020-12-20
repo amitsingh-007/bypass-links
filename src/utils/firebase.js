@@ -42,7 +42,7 @@ export const removeFromFirebase = (ref, key) =>
   firebase.database().ref(ref).child(key).remove();
 
 export const copyToFallbackDB = async (dbRef) => {
-  const fallbackDbRef = `${dbRef}-fallback`;
+  const fallbackDbRef = `fallback/${dbRef}`;
   const snapshot = await getFromFirebase(dbRef);
   await saveToFirebase(fallbackDbRef, snapshot.val());
   console.log(`Updated ${fallbackDbRef} with ${dbRef}`);
