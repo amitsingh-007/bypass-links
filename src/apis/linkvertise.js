@@ -1,4 +1,4 @@
-import { LINKVERTISE_API_BASE_URL } from "GlobalConstants/";
+import { LINKVERTISE_API_BASE_URL } from "GlobalConstants/index";
 
 export const fetchLinkMetaData = async (type, userId, target) => {
   const apiUrl = `${LINKVERTISE_API_BASE_URL}/${type}/${userId}/${target}`;

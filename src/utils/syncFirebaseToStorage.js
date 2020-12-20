@@ -1,5 +1,5 @@
 import storage from "ChromeApi/storage";
-import { FIREBASE_DB_REF } from "GlobalConstants/";
+import { FIREBASE_DB_REF } from "GlobalConstants/index";
 import { resetRedirections } from "./bypass";
 import { getFromFirebase } from "./firebase";
 

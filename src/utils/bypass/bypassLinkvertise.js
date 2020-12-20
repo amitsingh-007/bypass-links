@@ -1,5 +1,5 @@
 import { fetchLinkMetaData, fetchTargetUrl } from "GlobalApis/linkvertise";
-import { HOSTNAME } from "GlobalConstants/";
+import { HOSTNAME } from "GlobalConstants/index";
 import { changeTabUrl } from "./changeTabUrl";
 
 const getDynamicParams = (url) => ({

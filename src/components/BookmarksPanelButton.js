@@ -1,6 +1,6 @@
 import { IconButton } from "@material-ui/core";
 import CollectionsBookmarkTwoToneIcon from "@material-ui/icons/CollectionsBookmarkTwoTone";
-import { showBookmarksPanel } from "GlobalActionCreators/";
+import { showBookmarksPanel } from "GlobalActionCreators/index";
 import { COLOR } from "GlobalConstants/color";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import React, { memo } from "react";

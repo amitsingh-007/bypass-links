@@ -2,7 +2,7 @@ import { IconButton } from "@material-ui/core";
 import OpenInNewTwoToneIcon from "@material-ui/icons/OpenInNewTwoTone";
 import tabs from "ChromeApi/tabs";
 import { startHistoryMonitor } from "GlobalActionCreators/index";
-import { FIREBASE_DB_REF } from "GlobalConstants/";
+import { FIREBASE_DB_REF } from "GlobalConstants/index";
 import { COLOR } from "GlobalConstants/color";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import { searchOnValue } from "GlobalUtils/firebase";

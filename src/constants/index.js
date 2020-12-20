@@ -24,10 +24,8 @@ export const EXTENSION_STATE = {
   INACTIVE: "inactive",
 };
 
-const firebaseDBPrefix = __PROD__ ? "prod" : "dev";
+const dbPrefix = __PROD__ ? "prod" : "dev";
 export const FIREBASE_DB_REF = {
-  redirections: `${firebaseDBPrefix}/redirections`,
-  redirectionsFallback: `${firebaseDBPrefix}/redirections-fallback`,
-  bookmarks: `${firebaseDBPrefix}/bookmarks`,
-  bookmarksFallback: `${firebaseDBPrefix}/bookmarks-fallback`,
+  redirections: `${dbPrefix}/redirections`,
+  bookmarks: `${dbPrefix}/bookmarks`,
 };

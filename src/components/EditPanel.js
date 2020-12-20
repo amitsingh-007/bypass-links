@@ -2,8 +2,8 @@ import { Box, IconButton } from "@material-ui/core";
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import PlaylistAddTwoToneIcon from "@material-ui/icons/PlaylistAddTwoTone";
 import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
-import { hideEditPanel } from "GlobalActionCreators/";
-import { FIREBASE_DB_REF } from "GlobalConstants/";
+import { hideEditPanel } from "GlobalActionCreators/index";
+import { FIREBASE_DB_REF } from "GlobalConstants/index";
 import { COLOR } from "GlobalConstants/color";
 import { getFromFirebase, saveDataToFirebase } from "GlobalUtils/firebase";
 import { syncFirebaseToStorage } from "GlobalUtils/syncFirebaseToStorage";
@@ -57,7 +57,6 @@ export const EditPanel = memo(() => {
     const isSaveSuccess = await saveDataToFirebase(
       redirectionsObj,
       FIREBASE_DB_REF.redirections,
-      FIREBASE_DB_REF.redirectionsFallback,
       syncFirebaseToStorage
     );
     if (isSaveSuccess) {

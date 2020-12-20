@@ -1,8 +1,8 @@
 import { Box, IconButton } from "@material-ui/core";
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
-import { hideBookmarksPanel } from "GlobalActionCreators/";
-import { FIREBASE_DB_REF } from "GlobalConstants/";
+import { hideBookmarksPanel } from "GlobalActionCreators/index";
+import { FIREBASE_DB_REF } from "GlobalConstants/index";
 import { COLOR } from "GlobalConstants/color";
 import { getFromFirebase, saveDataToFirebase } from "GlobalUtils/firebase";
 import md5 from "md5";
@@ -61,8 +61,7 @@ const BookmarksPanel = memo(() => {
     const bookmarksObj = bookmarks.filter(validBookmarks).reduce(reducer, {});
     const isSaveSuccess = await saveDataToFirebase(
       bookmarksObj,
-      FIREBASE_DB_REF.bookmarks,
-      FIREBASE_DB_REF.bookmarksFallback
+      FIREBASE_DB_REF.bookmarks
     );
     if (isSaveSuccess) {
       handleClose();

@@ -5,7 +5,7 @@ import DeleteSweepTwoToneIcon from "@material-ui/icons/DeleteSweepTwoTone";
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import history from "ChromeApi/history";
 import storage from "ChromeApi/storage";
-import { hideManualHistoryPanel } from "GlobalActionCreators/";
+import { hideManualHistoryPanel } from "GlobalActionCreators/index";
 import { COLOR } from "GlobalConstants/color";
 import React, { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";

@@ -2,7 +2,7 @@ import { IconButton } from "@material-ui/core";
 import CloudDoneTwoToneIcon from "@material-ui/icons/CloudDoneTwoTone";
 import CloudOffTwoTone from "@material-ui/icons/CloudOffTwoTone";
 import storage from "ChromeApi/storage";
-import { setSignedInStatus } from "GlobalActionCreators/";
+import { setSignedInStatus } from "GlobalActionCreators/index";
 import { COLOR } from "GlobalConstants/color";
 import { signIn, signOut } from "GlobalUtils/authentication";
 import { getActiveDisabledColor } from "GlobalUtils/color";

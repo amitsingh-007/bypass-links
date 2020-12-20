@@ -2,8 +2,8 @@ import { Box, IconButton, makeStyles, TextField } from "@material-ui/core";
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import DeleteTwoToneIcon from "@material-ui/icons/DeleteTwoTone";
 import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
-import { hideQuickBookmarkPanel } from "GlobalActionCreators/";
-import { FIREBASE_DB_REF } from "GlobalConstants/";
+import { hideQuickBookmarkPanel } from "GlobalActionCreators/index";
+import { FIREBASE_DB_REF } from "GlobalConstants/index";
 import { COLOR } from "GlobalConstants/color";
 import {
   copyToFallbackDB,
@@ -46,19 +46,13 @@ const QuickBookmarkPanel = memo(() => {
       url: btoa(encodeURIComponent(url)),
       title: btoa(encodeURIComponent(title)),
     };
-    await copyToFallbackDB(
-      FIREBASE_DB_REF.bookmarks,
-      FIREBASE_DB_REF.bookmarksFallback
-    );
+    await copyToFallbackDB(FIREBASE_DB_REF.bookmarks);
     await upateValueInFirebase(FIREBASE_DB_REF.bookmarks, md5(url), bookmark);
     handleClose();
   };
 
   const handleRemove = async () => {
-    await copyToFallbackDB(
-      FIREBASE_DB_REF.bookmarks,
-      FIREBASE_DB_REF.bookmarksFallback
-    );
+    await copyToFallbackDB(FIREBASE_DB_REF.bookmarks);
     await removeFromFirebase(FIREBASE_DB_REF.bookmarks, md5(url));
     handleClose();
   };
