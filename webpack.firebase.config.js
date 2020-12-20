@@ -3,7 +3,7 @@ const { DllPlugin } = require("webpack");
 const commonConfig = require("./webpack.common.config");
 const { removeDir } = require("./remove-dir");
 
-removeDir("exension");
+removeDir("extension");
 
 const firebasedDllConfig = {
   ...commonConfig,
