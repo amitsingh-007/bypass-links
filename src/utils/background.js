@@ -1,13 +1,4 @@
-import { getCurrentTab } from "ChromeApi/tabs";
-import { FIREBASE_DB_REF } from "GlobalConstants/index";
-import md5 from "md5";
 import { changeTabUrl } from "./bypass/changeTabUrl";
-import {
-  copyToFallbackDB,
-  getByKey,
-  removeFromFirebase,
-  upateValueInFirebase,
-} from "./firebase";
 
 export const bypassSingleLinkOnPage = (selectorFn, tabId) => {
   chrome.tabs.executeScript(
@@ -42,29 +33,3 @@ export const getMappedRedirections = (redirections) =>
         return obj;
       }, {})
     : null;
-
-export const getBookmark = async () => {
-  const [{ url }] = await getCurrentTab();
-  return getByKey(FIREBASE_DB_REF.bookmarks, md5(url));
-};
-
-export const saveBookmark = async (bookmark) => {
-  await copyToFallbackDB(
-    FIREBASE_DB_REF.bookmarks,
-    FIREBASE_DB_REF.bookmarksFallback
-  );
-  return upateValueInFirebase(
-    FIREBASE_DB_REF.bookmarks,
-    md5(decodeURIComponent(atob(bookmark.url))),
-    bookmark
-  );
-};
-
-export const removeBookmark = async () => {
-  const [{ url }] = await getCurrentTab();
-  await copyToFallbackDB(
-    FIREBASE_DB_REF.bookmarks,
-    FIREBASE_DB_REF.bookmarksFallback
-  );
-  return removeFromFirebase(FIREBASE_DB_REF.bookmarks, md5(url));
-};

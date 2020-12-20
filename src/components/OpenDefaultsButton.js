@@ -1,10 +1,11 @@
 import { IconButton } from "@material-ui/core";
 import OpenInNewTwoToneIcon from "@material-ui/icons/OpenInNewTwoTone";
-import runtime from "ChromeApi/runtime";
 import tabs from "ChromeApi/tabs";
 import { startHistoryMonitor } from "GlobalActionCreators/index";
+import { FIREBASE_DB_REF } from "GlobalConstants/";
 import { COLOR } from "GlobalConstants/color";
 import { getActiveDisabledColor } from "GlobalUtils/color";
+import { searchOnValue } from "GlobalUtils/firebase";
 import React, { memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -12,15 +13,19 @@ export const OpenDefaultsButton = memo(() => {
   const dispatch = useDispatch();
   const isSignedIn = useSelector((state) => state.isSignedIn);
 
-  const handleOpenDefaults = () => {
-    runtime.sendMessage({ getDefaults: true }).then(({ defaults }) => {
-      dispatch(startHistoryMonitor());
-      defaults
-        .filter((data) => data && data.alias && data.website)
-        .forEach(({ website }) => {
-          tabs.create({ url: atob(website), selected: false });
-        });
-    });
+  const handleOpenDefaults = async () => {
+    dispatch(startHistoryMonitor());
+    const snapshot = await searchOnValue(
+      FIREBASE_DB_REF.redirections,
+      "isDefault",
+      true
+    );
+    const defaults = snapshot.val();
+    defaults
+      .filter((data) => data && data.alias && data.website)
+      .forEach(({ website }) => {
+        tabs.create({ url: atob(website), selected: false });
+      });
   };
 
   return (

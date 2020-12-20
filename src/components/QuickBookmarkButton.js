@@ -1,7 +1,6 @@
 import { IconButton } from "@material-ui/core";
 import BookmarkBorderTwoToneIcon from "@material-ui/icons/BookmarkBorderTwoTone";
 import BookmarkTwoToneIcon from "@material-ui/icons/BookmarkTwoTone";
-import runtime from "ChromeApi/runtime";
 import { COLOR } from "GlobalConstants/color";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import React, { memo, useEffect, useState } from "react";
@@ -9,6 +8,9 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "./Loader";
 import { showQuickBookmarkPanel } from "GlobalActionCreators/index";
 import { getCurrentTab } from "ChromeApi/tabs";
+import { getByKey } from "GlobalUtils/firebase";
+import { FIREBASE_DB_REF } from "GlobalConstants/";
+import md5 from "md5";
 
 const QuickBookmarkButton = memo(() => {
   const dispatch = useDispatch();
@@ -16,14 +18,19 @@ const QuickBookmarkButton = memo(() => {
   const [bookmark, setBookmark] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
 
+  const initBookmark = async () => {
+    setIsFetching(true);
+    const [{ url }] = await getCurrentTab();
+    const snapshot = await getByKey(FIREBASE_DB_REF.bookmarks, md5(url));
+    const bookmark = snapshot.val();
+    setBookmark(bookmark);
+    setIsFetching(false);
+  };
+
   useEffect(() => {
     setIsFetching(isSignedIn);
     if (isSignedIn) {
-      setIsFetching(true);
-      runtime.sendMessage({ getBookmark: true }).then(({ bookmark }) => {
-        setBookmark(bookmark);
-        setIsFetching(false);
-      });
+      initBookmark();
     }
   }, [isSignedIn]);
 

@@ -2,9 +2,11 @@ import { Box, IconButton } from "@material-ui/core";
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import PlaylistAddTwoToneIcon from "@material-ui/icons/PlaylistAddTwoTone";
 import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
-import runtime from "ChromeApi/runtime";
 import { hideEditPanel } from "GlobalActionCreators/";
+import { FIREBASE_DB_REF } from "GlobalConstants/";
 import { COLOR } from "GlobalConstants/color";
+import { getFromFirebase, saveDataToFirebase } from "GlobalUtils/firebase";
+import { syncFirebaseToStorage } from "GlobalUtils/syncFirebaseToStorage";
 import React, { memo, useEffect, useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
@@ -31,7 +33,8 @@ export const EditPanel = memo(() => {
   const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
-    runtime.sendMessage({ getRedirections: true }).then(({ redirections }) => {
+    getFromFirebase(FIREBASE_DB_REF.redirections).then((snapshot) => {
+      const redirections = snapshot.val();
       const modifiedRedirections = Object.entries(redirections).map(
         ([key, { alias, website, isDefault }]) => ({
           alias: atob(alias),
@@ -48,16 +51,18 @@ export const EditPanel = memo(() => {
     dispatch(hideEditPanel());
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     console.log("Saving these redirection rules to Firebase", redirections);
     const redirectionsObj = redirections.filter(validRules).reduce(reducer, {});
-    runtime
-      .sendMessage({ saveRedirectionRules: redirectionsObj })
-      .then(({ isRuleSaveSuccess }) => {
-        if (isRuleSaveSuccess) {
-          handleClose();
-        }
-      });
+    const isSaveSuccess = await saveDataToFirebase(
+      redirectionsObj,
+      FIREBASE_DB_REF.redirections,
+      FIREBASE_DB_REF.redirectionsFallback,
+      syncFirebaseToStorage
+    );
+    if (isSaveSuccess) {
+      handleClose();
+    }
   };
 
   const handleAddRule = () => {

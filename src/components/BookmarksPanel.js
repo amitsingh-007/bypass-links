@@ -1,9 +1,10 @@
 import { Box, IconButton } from "@material-ui/core";
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
-import runtime from "ChromeApi/runtime";
 import { hideBookmarksPanel } from "GlobalActionCreators/";
+import { FIREBASE_DB_REF } from "GlobalConstants/";
 import { COLOR } from "GlobalConstants/color";
+import { getFromFirebase, saveDataToFirebase } from "GlobalUtils/firebase";
 import md5 from "md5";
 import React, { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -28,17 +29,21 @@ const BookmarksPanel = memo(() => {
   const [bookmarks, setBookmarks] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
 
+  const initBookmarks = async () => {
+    const snapshot = await getFromFirebase(FIREBASE_DB_REF.bookmarks);
+    const bookmarks = snapshot.val();
+    const modifiedBookmarks = Object.entries(bookmarks).map(
+      ([key, { url, title }]) => ({
+        url: decodeURIComponent(atob(url)),
+        title: decodeURIComponent(atob(title)),
+      })
+    );
+    setBookmarks(modifiedBookmarks);
+    setIsFetching(false);
+  };
+
   useEffect(() => {
-    runtime.sendMessage({ getBookmarks: true }).then(({ bookmarks }) => {
-      const modifiedBookmarks = Object.entries(bookmarks).map(
-        ([key, { url, title }]) => ({
-          url: decodeURIComponent(atob(url)),
-          title: decodeURIComponent(atob(title)),
-        })
-      );
-      setBookmarks(modifiedBookmarks);
-      setIsFetching(false);
-    });
+    initBookmarks();
   }, []);
 
   const handleClose = () => {
@@ -51,16 +56,17 @@ const BookmarksPanel = memo(() => {
     setBookmarks(newRedirections);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     console.log("Saving these bookmarks to Firebase", bookmarks);
     const bookmarksObj = bookmarks.filter(validBookmarks).reduce(reducer, {});
-    runtime
-      .sendMessage({ saveBookmarks: bookmarksObj })
-      .then(({ isBookmarksSaveSuccess }) => {
-        if (isBookmarksSaveSuccess) {
-          handleClose();
-        }
-      });
+    const isSaveSuccess = await saveDataToFirebase(
+      bookmarksObj,
+      FIREBASE_DB_REF.bookmarks,
+      FIREBASE_DB_REF.bookmarksFallback
+    );
+    if (isSaveSuccess) {
+      handleClose();
+    }
   };
 
   return (

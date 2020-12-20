@@ -2,9 +2,15 @@ import { Box, IconButton, makeStyles, TextField } from "@material-ui/core";
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import DeleteTwoToneIcon from "@material-ui/icons/DeleteTwoTone";
 import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
-import runtime from "ChromeApi/runtime";
 import { hideQuickBookmarkPanel } from "GlobalActionCreators/";
+import { FIREBASE_DB_REF } from "GlobalConstants/";
 import { COLOR } from "GlobalConstants/color";
+import {
+  copyToFallbackDB,
+  removeFromFirebase,
+  upateValueInFirebase,
+} from "GlobalUtils/firebase";
+import md5 from "md5";
 import React, { memo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PanelHeading from "./PanelHeading";
@@ -35,29 +41,26 @@ const QuickBookmarkPanel = memo(() => {
     dispatch(hideQuickBookmarkPanel());
   };
 
-  const handleSave = () => {
-    runtime
-      .sendMessage({
-        addBookmark: {
-          url: btoa(encodeURIComponent(url)),
-          title: btoa(encodeURIComponent(title)),
-        },
-      })
-      .then(({ isBookmarkAdded }) => {
-        if (isBookmarkAdded) {
-          handleClose();
-        }
-      });
+  const handleSave = async () => {
+    const bookmark = {
+      url: btoa(encodeURIComponent(url)),
+      title: btoa(encodeURIComponent(title)),
+    };
+    await copyToFallbackDB(
+      FIREBASE_DB_REF.bookmarks,
+      FIREBASE_DB_REF.bookmarksFallback
+    );
+    await upateValueInFirebase(FIREBASE_DB_REF.bookmarks, md5(url), bookmark);
+    handleClose();
   };
 
-  const handleRemove = () => {
-    runtime
-      .sendMessage({ removeBookmark: true })
-      .then(({ isBookmarkRemoved }) => {
-        if (isBookmarkRemoved) {
-          handleClose();
-        }
-      });
+  const handleRemove = async () => {
+    await copyToFallbackDB(
+      FIREBASE_DB_REF.bookmarks,
+      FIREBASE_DB_REF.bookmarksFallback
+    );
+    await removeFromFirebase(FIREBASE_DB_REF.bookmarks, md5(url));
+    handleClose();
   };
 
   const classes = useStyles();
