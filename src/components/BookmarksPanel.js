@@ -57,12 +57,14 @@ const BookmarksPanel = memo(() => {
   };
 
   const handleSave = async () => {
+    setIsFetching(true);
     console.log("Saving these bookmarks to Firebase", bookmarks);
     const bookmarksObj = bookmarks.filter(validBookmarks).reduce(reducer, {});
     const isSaveSuccess = await saveDataToFirebase(
       bookmarksObj,
       FIREBASE_DB_REF.bookmarks
     );
+    setIsFetching(false);
     if (isSaveSuccess) {
       handleClose();
     }

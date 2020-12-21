@@ -52,6 +52,7 @@ export const EditPanel = memo(() => {
   };
 
   const handleSave = async () => {
+    setIsFetching(true);
     console.log("Saving these redirection rules to Firebase", redirections);
     const redirectionsObj = redirections.filter(validRules).reduce(reducer, {});
     const isSaveSuccess = await saveDataToFirebase(
@@ -59,6 +60,7 @@ export const EditPanel = memo(() => {
       FIREBASE_DB_REF.redirections,
       syncRedirectionsToStorage
     );
+    setIsFetching(false);
     if (isSaveSuccess) {
       handleClose();
     }
