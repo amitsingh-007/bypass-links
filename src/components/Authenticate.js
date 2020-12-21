@@ -8,7 +8,7 @@ import { signIn, signOut } from "GlobalUtils/authentication";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import React, { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Loader from "./Loader";
+import { IconButtonLoader } from "./Loader";
 
 export const Authenticate = memo(() => {
   const dispatch = useDispatch();
@@ -47,7 +47,7 @@ export const Authenticate = memo(() => {
   }, [handleSignOut, isExtensionActive, isSignedIn]);
 
   if (isFetching) {
-    return <Loader width="59px" loaderSize={28} display="inline-flex" />;
+    return <IconButtonLoader />;
   }
 
   return isSignedIn ? (

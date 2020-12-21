@@ -15,5 +15,8 @@ const Loader = memo(({ width, loaderSize = 55, ...otherProps }) => {
     </Box>
   );
 });
-
 export default Loader;
+
+export const IconButtonLoader = memo(() => (
+  <Loader width="59px" loaderSize={28} display="inline-flex" />
+));
