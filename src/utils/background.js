@@ -1,10 +1,10 @@
 import tabs from "ChromeApi/tabs";
 
 export const bypassSingleLinkOnPage = (selectorFn, tabId) => {
-  chrome.tabs.executeScript(
+  chrome.scripting.executeScript(
     tabId,
     {
-      code: `(${selectorFn})()`,
+      function: selectorFn,
       runAt: "document_end",
     },
     ([result] = []) => {

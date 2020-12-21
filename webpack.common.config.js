@@ -27,7 +27,7 @@ const commonConfig = {
     modules: [path.resolve(__dirname, "src"), "node_modules"],
   },
   stats: isProduction ? "normal" : "errors-warnings",
-  devtool: isProduction ? undefined : "eval-cheap-module-source-map",
+  devtool: isProduction ? undefined : "inline-source-map",
   performance: {
     hints: false,
   },

@@ -37,7 +37,7 @@ const onStorageChange = (changedObj, storageType) => {
     const icon = isExtensionActive(extState.newValue)
       ? "bypass_link_on_128.png"
       : "bypass_link_off_128.png";
-    chrome.browserAction.setIcon({ path: icon });
+    chrome.action.setIcon({ path: icon });
   }
 };
 

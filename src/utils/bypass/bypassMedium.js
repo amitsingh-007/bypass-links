@@ -20,10 +20,10 @@ export const bypassMedium = async (url, tabId) => {
     return;
   }
 
-  chrome.tabs.executeScript(
+  chrome.scripting.executeScript(
     tabId,
     {
-      code: `(${shouldBypass})()`,
+      function: shouldBypass,
       runAt: "document_end",
     },
     ([result] = []) => {
