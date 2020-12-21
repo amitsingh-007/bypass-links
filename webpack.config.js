@@ -114,6 +114,7 @@ const getPopupConfigPlugins = () => {
   const plugins = [
     new HtmlWebpackPlugin({
       template: "./assets/index.html",
+      inject: false,
       cache: false,
     }),
     new FileManagerPlugin({

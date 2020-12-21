@@ -1,4 +1,4 @@
-import { HOSTNAME, MEDIUM_HOMEPAGE, MEDIUM_WHITELISTED } from "GlobalConstants/index";
+import { MEDIUM_HOMEPAGE, MEDIUM_WHITELISTED } from "GlobalConstants/index";
 
 const shouldSkipBypassingMedium = (url, searchParams) =>
   url === MEDIUM_HOMEPAGE ||
@@ -12,9 +12,6 @@ const shouldBypass = () => {
 };
 
 export const bypassMedium = async (url, tabId) => {
-  if (!url.hostname.includes(HOSTNAME.MEDIUM)) {
-    return;
-  }
   const onIncognitoOpenCallback = () => {
     chrome.tabs.goBack(tabId);
   };

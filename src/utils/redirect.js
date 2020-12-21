@@ -32,6 +32,6 @@ export const syncRedirectionsToStorage = async () => {
   console.log(`Redirections is set to`, redirections);
 };
 
-export const resetRedirections = () => {
-  storage.remove(["redirections", "mappedRedirections"]);
+export const resetRedirections = async () => {
+  await storage.remove(["redirections", "mappedRedirections"]);
 };

@@ -1,6 +1,5 @@
 import tabs from "ChromeApi/tabs";
 import { fetchLinkMetaData, fetchTargetUrl } from "GlobalApis/linkvertise";
-import { HOSTNAME } from "GlobalConstants/index";
 
 const getDynamicParams = (url) => ({
   type: "dynamic",
@@ -18,9 +17,6 @@ const getStaticParams = (url) => {
 };
 
 export const bypassLinkvertise = async (url, tabId) => {
-  if (url.hostname !== HOSTNAME.LINKVERTISE) {
-    return;
-  }
   const isDynamicType = url.pathname.includes("dynamic");
   const { type, userId, target } = isDynamicType
     ? getDynamicParams(url)

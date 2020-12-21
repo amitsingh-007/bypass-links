@@ -1,14 +1,3 @@
-export const HOSTNAME = {
-  LINKVERTISE: "linkvertise.com",
-  BONSAI: "lustesthd.com",
-  JUSTPASTEIT: "justpaste.it",
-  PASTELINK: "pastelink.net",
-  MEDIUM: "medium.com",
-  RENTRY: "rentry.co",
-  FORUMS: "forums.socialmedia",
-  BONSAILINK: "bonsailink.xyz",
-};
-
 export const LINKVERTISE_API_BASE_URL =
   "https://publisher.linkvertise.com/api/v1/redirect/link";
 
@@ -25,7 +14,9 @@ export const EXTENSION_STATE = {
 };
 
 const dbPrefix = __PROD__ ? "prod" : "dev";
+
 export const FIREBASE_DB_REF = {
   redirections: `${dbPrefix}/redirections`,
   bookmarks: `${dbPrefix}/bookmarks`,
+  bypass: `${dbPrefix}/bypass`,
 };
