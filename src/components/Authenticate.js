@@ -8,23 +8,29 @@ import { signIn, signOut } from "GlobalUtils/authentication";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import React, { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Loader from "./Loader";
 
 export const Authenticate = memo(() => {
   const dispatch = useDispatch();
+  const [isFetching, setIsFetching] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
   const isExtensionActive = useSelector((state) => state.isExtensionActive);
 
   const handleSignIn = async () => {
+    setIsFetching(true);
     const isSignedIn = await signIn();
     setIsSignedIn(isSignedIn);
     dispatch(setSignedInStatus(isSignedIn));
+    setIsFetching(false);
   };
 
   const handleSignOut = useCallback(async () => {
+    setIsFetching(true);
     const isSignedOut = await signOut();
     const isSignedIn = !isSignedOut;
     setIsSignedIn(isSignedIn);
     dispatch(setSignedInStatus(isSignedIn));
+    setIsFetching(false);
   }, [dispatch]);
 
   useEffect(() => {
@@ -32,13 +38,17 @@ export const Authenticate = memo(() => {
       setIsSignedIn(isSignedIn);
       dispatch(setSignedInStatus(isSignedIn));
     });
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     if (isSignedIn && !isExtensionActive) {
       handleSignOut();
     }
   }, [handleSignOut, isExtensionActive, isSignedIn]);
+
+  if (isFetching) {
+    return <Loader width="59px" loaderSize={28} display="inline-flex" />;
+  }
 
   return isSignedIn ? (
     <IconButton
