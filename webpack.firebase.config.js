@@ -3,8 +3,6 @@ const { DllPlugin } = require("webpack");
 const commonConfig = require("./webpack.common.config");
 const removeDir = require("./remove-dir");
 
-removeDir("extension");
-
 const firebasedDllConfig = {
   ...commonConfig,
   target: "browserslist",
@@ -27,4 +25,5 @@ const firebasedDllConfig = {
  * This will be referenced usinf DllReferencePlugin
  */
 
-module.exports = [firebasedDllConfig];
+// removeDir("extension");
+module.exports = firebasedDllConfig;

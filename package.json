@@ -28,6 +28,7 @@
     "babel-eslint": "10.1.0",
     "babel-loader": "8.2.2",
     "babel-preset-react-app": "10.0.0",
+    "better-npm-run": "0.1.1",
     "clean-webpack-plugin": "3.0.0",
     "cross-env": "7.0.3",
     "css-loader": "5.0.1",
@@ -55,9 +56,30 @@
   },
   "scripts": {
     "analyzer": "cross-env ENABLE_BUNDLE_ANLYZER=true npm run release",
-    "dev": "cross-env NODE_ENV=development webpack --watch",
-    "start": "cross-env NODE_ENV=development DEV_SERVER=true webpack serve --progress",
+    "dev": "better-npm-run dev",
+    "start": "better-npm-run start",
     "surge": "surge ./build http://bypass-links-dev.surge.sh",
-    "release": "cross-env NODE_ENV=production webpack"
+    "release": "better-npm-run release"
+  },
+  "betterScripts": {
+    "dev": {
+      "command": "webpack --config webpack.firebase.config.js && webpack --watch",
+      "env": {
+        "NODE_ENV": "development"
+      }
+    },
+    "release": {
+      "command": "webpack --config webpack.firebase.config.js && webpack",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    },
+    "start": {
+      "command": "webpack serve --progress",
+      "env": {
+        "NODE_ENV": "development",
+        "DEV_SERVER": true
+      }
+    }
   }
 }
