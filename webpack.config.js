@@ -42,12 +42,17 @@ const setProgressPlugin = (plugins) => {
   }
 };
 
-const miniCssExtractPluginConfig = new MiniCssExtractPlugin({
+const miniCssExtractPlugin = new MiniCssExtractPlugin({
   filename: `[name]${isProduction ? ".[contenthash]" : ""}.css`,
   chunkFilename: `[id]${isProduction ? ".[contenthash]" : ""}.css`,
 });
 
-const fileManagerPluginCommonConfig = () => {
+const dllReferencePlugin = new DllReferencePlugin({
+  name: "firebase_lib",
+  manifest: path.resolve(__dirname, "./extension/firebase-manifest.json"),
+});
+
+const getFileManagerPluginCommon = () => {
   const plugin = {
     delete: [`./extension/{${enableBundleAnalyzer ? "" : "stats.json,"}*.txt}`],
   };
@@ -106,7 +111,7 @@ const getDownloadPageConfigPlugins = () => {
       swSrc: "./src/sw.js",
       swDest: "sw.js",
     }),
-    miniCssExtractPluginConfig,
+    miniCssExtractPlugin,
   ];
   if (enableBundleAnalyzer) {
     plugins.push(getWebpackBundleAnalyzerPlugin(8888));
@@ -132,14 +137,11 @@ const getPopupConfigPlugins = () => {
             },
           ],
         },
-        onEnd: fileManagerPluginCommonConfig(),
+        onEnd: getFileManagerPluginCommon(),
       },
     }),
-    new DllReferencePlugin({
-      name: "firebase_lib",
-      manifest: path.resolve(__dirname, "./extension/firebase-manifest.json"),
-    }),
-    miniCssExtractPluginConfig,
+    dllReferencePlugin,
+    miniCssExtractPlugin,
     definePlugin,
   ];
   if (enableBundleAnalyzer) {
@@ -156,14 +158,10 @@ const getBackgroundConfigPlugins = () => {
   const plugins = [
     new FileManagerPlugin({
       events: {
-        onEnd: fileManagerPluginCommonConfig(),
+        onEnd: getFileManagerPluginCommon(),
       },
     }),
-    // To use common code, build `webpack.firebase.config.js` first, then current config in package.json
-    new DllReferencePlugin({
-      name: "firebase_lib",
-      manifest: path.resolve(__dirname, "./extension/firebase-manifest.json"),
-    }),
+    dllReferencePlugin,
     definePlugin,
   ];
   if (enableBundleAnalyzer) {
