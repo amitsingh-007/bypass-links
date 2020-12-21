@@ -1,4 +1,3 @@
-import { HOSTNAME } from "GlobalConstants/index";
 import { bypassSingleLinkOnPage } from "GlobalUtils/background";
 
 const findLinksOnPage = () => {
@@ -19,8 +18,5 @@ const findLinksOnPage = () => {
 };
 
 export const bypassBonsaiLink = async (url, tabId) => {
-  if (url.hostname !== HOSTNAME.BONSAILINK) {
-    return;
-  }
   bypassSingleLinkOnPage(findLinksOnPage, tabId);
 };

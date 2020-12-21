@@ -5,11 +5,11 @@ const FileManagerPlugin = require("filemanager-webpack-plugin");
 const { InjectManifest } = require("workbox-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const { DefinePlugin, ProgressPlugin } = require("webpack");
+const { DefinePlugin, ProgressPlugin, DllReferencePlugin } = require("webpack");
 const { getExtensionFile } = require("./src/utils");
 const { releaseDate, extVersion } = require("./release-config");
 const commonConfig = require("./webpack.common.config");
-const removeDir = require("./remove-dir");
+const firebasedDllConfig = require("./webpack.firebase.config");
 
 const ENV = process.env.NODE_ENV;
 const isProduction = ENV === "production";
@@ -47,14 +47,19 @@ const miniCssExtractPluginConfig = new MiniCssExtractPlugin({
   chunkFilename: `[id]${isProduction ? ".[contenthash]" : ""}.css`,
 });
 
-const fileManagerPluginCommonConfig = {
-  delete: [`./extension/{${enableBundleAnalyzer ? "" : "stats.json,"}*.txt}`],
-  archive: [
-    {
-      source: PATHS.EXTENSION,
-      destination: `./build/${getExtensionFile(extVersion)}`,
-    },
-  ],
+const fileManagerPluginCommonConfig = () => {
+  const plugin = {
+    delete: [`./extension/{${enableBundleAnalyzer ? "" : "stats.json,"}*.txt}`],
+  };
+  if (isProduction) {
+    plugin.archive = [
+      {
+        source: PATHS.EXTENSION,
+        destination: `./build/${getExtensionFile(extVersion)}`,
+      },
+    ];
+  }
+  return plugin;
 };
 
 const getWebpackBundleAnalyzerPlugin = (port) =>
@@ -114,6 +119,7 @@ const getPopupConfigPlugins = () => {
   const plugins = [
     new HtmlWebpackPlugin({
       template: "./assets/index.html",
+      inject: false,
       cache: false,
     }),
     new FileManagerPlugin({
@@ -126,8 +132,12 @@ const getPopupConfigPlugins = () => {
             },
           ],
         },
-        onEnd: fileManagerPluginCommonConfig,
+        onEnd: fileManagerPluginCommonConfig(),
       },
+    }),
+    new DllReferencePlugin({
+      name: "firebase_lib",
+      manifest: path.resolve(__dirname, "./extension/firebase-manifest.json"),
     }),
     miniCssExtractPluginConfig,
     definePlugin,
@@ -146,14 +156,14 @@ const getBackgroundConfigPlugins = () => {
   const plugins = [
     new FileManagerPlugin({
       events: {
-        onEnd: fileManagerPluginCommonConfig,
+        onEnd: fileManagerPluginCommonConfig(),
       },
     }),
-    //To use common code, build `webpack.firebase.config.js` first, then current config in package.json
-    // new DllReferencePlugin({
-    //   name: "firebase_lib",
-    //   manifest: path.resolve(__dirname, "./extension/firebase-manifest.json"),
-    // }),
+    // To use common code, build `webpack.firebase.config.js` first, then current config in package.json
+    new DllReferencePlugin({
+      name: "firebase_lib",
+      manifest: path.resolve(__dirname, "./extension/firebase-manifest.json"),
+    }),
     definePlugin,
   ];
   if (enableBundleAnalyzer) {
@@ -259,13 +269,11 @@ const popupConfig = {
  * For dev-server, only build downloadPageConfig
  * Else, build extension related configs
  */
-let configs = [backgroundConfig, popupConfig];
+let configs = [firebasedDllConfig, backgroundConfig, popupConfig];
 if (isProduction) {
   configs = [downloadPageConfig, ...configs];
 } else if (isDevServer) {
   configs = [downloadPageConfig];
 }
-
-removeDir(PATHS.EXTENSION);
 
 module.exports = configs;

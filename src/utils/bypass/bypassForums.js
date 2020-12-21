@@ -1,9 +1,4 @@
-import { HOSTNAME } from "GlobalConstants/index";
-
 export const bypassForums = async (url, tabId) => {
-  if (!url.hostname.startsWith(HOSTNAME.FORUMS)) {
-    return;
-  }
   const encodedRedirectUrl = url.searchParams.get("to");
   const redirectUrl = encodedRedirectUrl && atob(encodedRedirectUrl);
   if (redirectUrl) {

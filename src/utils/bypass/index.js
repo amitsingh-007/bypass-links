@@ -1,46 +1,62 @@
 import storage from "ChromeApi/storage";
-import { getMappedRedirections } from "GlobalUtils/background";
+import { getFromFirebase } from "GlobalUtils/firebase";
 import { bypassBonsai } from "./bypassBonsai";
 import { bypassBonsaiLink } from "./bypassBonsaiLink";
 import { bypassForums } from "./bypassForums";
 import { bypassLinkvertise } from "./bypassLinkvertise";
 import { bypassMedium } from "./bypassMedium";
 import { bypassPageLinks } from "./bypassPageLinks";
-import { changeTabUrl } from "./changeTabUrl";
+import { FIREBASE_DB_REF } from "GlobalConstants/index";
 
-const BYPASS_EXECUTORS = [
-  bypassLinkvertise,
-  bypassBonsai,
-  bypassBonsaiLink,
-  bypassForums,
-  bypassPageLinks,
-  bypassMedium,
-];
+const getMappedBypass = (bypass) =>
+  bypass &&
+  Object.entries(bypass).reduce((obj, [key, value]) => {
+    obj[decodeURIComponent(atob(key))] = value;
+    return obj;
+  }, {});
 
-let REDIRECTIONS = null;
+const getHostnames = async () => {
+  const { bypass } = await storage.get(["bypass"]);
+  return bypass || {};
+};
 
-const getRedirections = async () => {
-  if (!REDIRECTIONS) {
-    const { redirections } = await storage.get(["redirections"]);
-    REDIRECTIONS = getMappedRedirections(redirections);
+const bypassAndHostnameMapping = {
+  LINKVERTISE: bypassLinkvertise,
+  BONSAI: bypassBonsai,
+  BONSAILINK: bypassBonsaiLink,
+  FORUMS: bypassForums,
+  JUSTPASTEIT: bypassPageLinks,
+  PASTELINK: bypassPageLinks,
+  RENTRY: bypassPageLinks,
+  MEDIUM: bypassMedium,
+};
+
+const getBypassExecutor = async (url) => {
+  const hostnames = await getHostnames();
+  const hostnameAlias = hostnames[url.hostname];
+  if (bypassAndHostnameMapping[hostnameAlias]) {
+    return bypassAndHostnameMapping[hostnameAlias];
   }
-  return REDIRECTIONS || {};
+  if (url.hostname.includes("medium.com")) {
+    return bypassAndHostnameMapping.MEDIUM;
+  }
+  return null;
 };
 
 export const bypass = async (tabId, url) => {
-  BYPASS_EXECUTORS.forEach(async (executor) => {
-    await executor(url, tabId);
-  });
-};
-
-export const redirect = async (tabId, url) => {
-  const redirections = await getRedirections();
-  const redirectUrl = redirections[btoa(url.href)];
-  if (redirectUrl) {
-    await changeTabUrl(tabId, atob(redirectUrl));
+  const bypassExecutor = await getBypassExecutor(url);
+  if (bypassExecutor) {
+    await bypassExecutor(url, tabId);
   }
 };
 
-export const resetRedirections = () => {
-  REDIRECTIONS = null;
+export const syncBypassToStorage = async () => {
+  const snapshot = await getFromFirebase(FIREBASE_DB_REF.bypass);
+  const bypass = getMappedBypass(snapshot.val());
+  await storage.set({ bypass });
+  console.log(`Bypass is set to`, bypass);
+};
+
+export const resetBypass = async () => {
+  await storage.remove("bypass");
 };

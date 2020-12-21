@@ -1,10 +1,11 @@
 import { EXTENSION_STATE } from "GlobalConstants/index";
-import { bypass, redirect } from "GlobalUtils/bypass";
+import { bypass } from "GlobalUtils/bypass/index";
 import {
   getExtensionState,
   isExtensionActive,
   setExtStateInStorage,
 } from "GlobalUtils/common";
+import { redirect } from "GlobalUtils/redirect";
 
 const onUpdateCallback = async (tabId, changeInfo) => {
   const { url } = changeInfo;

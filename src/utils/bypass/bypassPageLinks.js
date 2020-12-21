@@ -1,4 +1,3 @@
-import { HOSTNAME } from "GlobalConstants/index";
 import { bypassSingleLinkOnPage } from "GlobalUtils/background";
 
 const findMegaLinks = () => {
@@ -19,12 +18,5 @@ const findMegaLinks = () => {
 };
 
 export const bypassPageLinks = async (url, tabId) => {
-  if (
-    url.hostname !== HOSTNAME.PASTELINK &&
-    url.hostname !== HOSTNAME.JUSTPASTEIT &&
-    url.hostname !== HOSTNAME.RENTRY
-  ) {
-    return;
-  }
   bypassSingleLinkOnPage(findMegaLinks, tabId);
 };

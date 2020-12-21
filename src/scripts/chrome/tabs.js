@@ -6,6 +6,11 @@ const tabs = {
       chrome.tabs.create(options, callback);
     }),
 
+  update: (tabId, options) =>
+    promisify((callback) => {
+      chrome.tabs.update(tabId, options, callback);
+    }),
+
   query: (options) =>
     promisify((callback) => {
       chrome.tabs.query(options, callback);

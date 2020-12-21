@@ -55,9 +55,9 @@ export const saveDataToFirebase = async (data, ref, successCallback) => {
   await copyToFallbackDB(ref);
   return new Promise((resolve, reject) => {
     saveToFirebase(ref, data)
-      .then(() => {
+      .then(async () => {
         if (successCallback) {
-          successCallback();
+          await successCallback();
         }
         resolve(true);
       })

@@ -6,7 +6,7 @@ import { hideEditPanel } from "GlobalActionCreators/index";
 import { FIREBASE_DB_REF } from "GlobalConstants/index";
 import { COLOR } from "GlobalConstants/color";
 import { getFromFirebase, saveDataToFirebase } from "GlobalUtils/firebase";
-import { syncFirebaseToStorage } from "GlobalUtils/syncFirebaseToStorage";
+import { syncRedirectionsToStorage } from "GlobalUtils/redirect";
 import React, { memo, useEffect, useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
@@ -57,7 +57,7 @@ export const EditPanel = memo(() => {
     const isSaveSuccess = await saveDataToFirebase(
       redirectionsObj,
       FIREBASE_DB_REF.redirections,
-      syncFirebaseToStorage
+      syncRedirectionsToStorage
     );
     if (isSaveSuccess) {
       handleClose();
