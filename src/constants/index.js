@@ -13,10 +13,16 @@ export const EXTENSION_STATE = {
   INACTIVE: "inactive",
 };
 
-const dbPrefix = __PROD__ ? "prod" : "dev";
+export const STORAGE_KEYS = {
+  bookmarks: "bookmarks",
+  bypass: "bypass",
+  mappedRedirections: "mappedRedirections",
+  redirections: "redirections",
+};
 
+const dbPrefix = __PROD__ ? "prod" : "dev";
 export const FIREBASE_DB_REF = {
-  redirections: `${dbPrefix}/redirections`,
-  bookmarks: `${dbPrefix}/bookmarks`,
-  bypass: `${dbPrefix}/bypass`,
+  bookmarks: `${dbPrefix}/${STORAGE_KEYS.bookmarks}`,
+  bypass: `${dbPrefix}/${STORAGE_KEYS.bypass}`,
+  redirections: `${dbPrefix}/${STORAGE_KEYS.redirections}`,
 };

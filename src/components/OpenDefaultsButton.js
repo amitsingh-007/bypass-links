@@ -1,11 +1,11 @@
 import { IconButton } from "@material-ui/core";
 import OpenInNewTwoToneIcon from "@material-ui/icons/OpenInNewTwoTone";
+import storage from "ChromeApi/storage";
 import tabs from "ChromeApi/tabs";
 import { startHistoryMonitor } from "GlobalActionCreators/index";
-import { FIREBASE_DB_REF } from "GlobalConstants/index";
 import { COLOR } from "GlobalConstants/color";
+import { STORAGE_KEYS } from "GlobalConstants/index";
 import { getActiveDisabledColor } from "GlobalUtils/color";
-import { searchOnValue } from "GlobalUtils/firebase";
 import React, { memo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IconButtonLoader } from "./Loader";
@@ -18,12 +18,10 @@ export const OpenDefaultsButton = memo(() => {
   const handleOpenDefaults = async () => {
     setIsFetching(true);
     dispatch(startHistoryMonitor());
-    const snapshot = await searchOnValue(
-      FIREBASE_DB_REF.redirections,
-      "isDefault",
-      true
-    );
-    const defaults = snapshot.val();
+    const { [STORAGE_KEYS.redirections]: redirections } = await storage.get([
+      STORAGE_KEYS.redirections,
+    ]);
+    const defaults = redirections.filter(({ isDefault }) => isDefault);
     defaults
       .filter((data) => data && data.alias && data.website)
       .forEach(({ website }) => {

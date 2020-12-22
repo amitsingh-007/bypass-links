@@ -2,10 +2,11 @@ import { Box, IconButton } from "@material-ui/core";
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import PlaylistAddTwoToneIcon from "@material-ui/icons/PlaylistAddTwoTone";
 import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
+import storage from "ChromeApi/storage";
 import { hideEditPanel } from "GlobalActionCreators/index";
-import { FIREBASE_DB_REF } from "GlobalConstants/index";
 import { COLOR } from "GlobalConstants/color";
-import { getFromFirebase, saveDataToFirebase } from "GlobalUtils/firebase";
+import { FIREBASE_DB_REF, STORAGE_KEYS } from "GlobalConstants/index";
+import { saveDataToFirebase } from "GlobalUtils/firebase";
 import { syncRedirectionsToStorage } from "GlobalUtils/redirect";
 import React, { memo, useEffect, useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
@@ -33,18 +34,19 @@ const EditPanel = memo(() => {
   const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
-    getFromFirebase(FIREBASE_DB_REF.redirections).then((snapshot) => {
-      const redirections = snapshot.val();
-      const modifiedRedirections = Object.entries(redirections).map(
-        ([key, { alias, website, isDefault }]) => ({
-          alias: atob(alias),
-          website: atob(website),
-          isDefault,
-        })
-      );
-      setRedirections(modifiedRedirections);
-      setIsFetching(false);
-    });
+    storage
+      .get([STORAGE_KEYS.redirections])
+      .then(({ [STORAGE_KEYS.redirections]: redirections }) => {
+        const modifiedRedirections = Object.entries(redirections).map(
+          ([key, { alias, website, isDefault }]) => ({
+            alias: atob(alias),
+            website: atob(website),
+            isDefault,
+          })
+        );
+        setRedirections(modifiedRedirections);
+        setIsFetching(false);
+      });
   }, []);
 
   const handleClose = () => {
