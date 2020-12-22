@@ -21,5 +21,5 @@
       "SrcPath/*": ["./src/*"]
     }
   },
-  "exclude": ["build", "extension", "node_modules"]
+  "exclude": ["build", "extension", "firebase-build", "node_modules"]
 }

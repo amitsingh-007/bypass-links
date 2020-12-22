@@ -11,7 +11,7 @@ import React, { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import PanelHeading from "./PanelHeading";
 
-export const ManualHistoryPanel = memo(() => {
+const ManualHistoryPanel = memo(() => {
   const dispatch = useDispatch();
   const [startDateTime, setStartDateTime] = useState(new Date());
   const [endDateTime, setEndDateTime] = useState(new Date());
@@ -105,3 +105,5 @@ export const ManualHistoryPanel = memo(() => {
     </Box>
   );
 });
+
+export default ManualHistoryPanel;

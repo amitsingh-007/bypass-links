@@ -63,7 +63,7 @@
   },
   "betterScripts": {
     "dev": {
-      "command": "webpack --config webpack.firebase.config.js && webpack --watch",
+      "command": "webpack --progress --config webpack.firebase.config.js && webpack --watch --progress",
       "env": {
         "NODE_ENV": "development"
       }

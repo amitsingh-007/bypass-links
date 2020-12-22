@@ -1,7 +1,15 @@
 const path = require("path");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const ENV = process.env.NODE_ENV;
 const isProduction = ENV === "production";
+
+const PATHS = {
+  BUILD: path.resolve(__dirname, "build"),
+  EXTENSION: path.resolve(__dirname, "extension"),
+  FIREBASE_BUILD: path.resolve(__dirname, "firebase-build"),
+  SRC: path.resolve(__dirname, "src"),
+};
 
 const commonConfig = {
   mode: ENV,
@@ -24,10 +32,10 @@ const commonConfig = {
       react: "preact/compat",
       "react-dom": "preact/compat",
     },
-    modules: [path.resolve(__dirname, "src"), "node_modules"],
+    modules: [PATHS.SRC, "node_modules"],
   },
   stats: isProduction ? "normal" : "errors-warnings",
-  devtool: isProduction ? undefined : "eval-cheap-module-source-map",
+  devtool: isProduction ? undefined : "inline-source-map",
   performance: {
     hints: false,
   },
@@ -35,9 +43,43 @@ const commonConfig = {
     nodeEnv: ENV,
     minimize: isProduction,
   },
+  module: {
+    rules: [
+      {
+        test: /\.m?js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+        },
+      },
+      {
+        test: /\.(svg)$/i,
+        loader: "file-loader",
+        options: {
+          name: "[name]-[contenthash].[ext]",
+        },
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader",
+          {
+            loader: "sass-loader",
+            options: {
+              sourceMap: !isProduction,
+            },
+          },
+        ],
+      },
+    ],
+  },
   watchOptions: {
     ignored: "node_modules/**",
   },
 };
 
-module.exports = commonConfig;
+module.exports = {
+  commonConfig: commonConfig,
+  PATHS: PATHS,
+};
