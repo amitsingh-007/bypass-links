@@ -1,12 +1,15 @@
+import { resetBookmarks, syncBookmarksToStorage } from "./bookmark";
 import { resetBypass, syncBypassToStorage } from "./bypass";
 import { resetRedirections, syncRedirectionsToStorage } from "./redirect";
 
 export const syncFirebaseToStorage = async () => {
-  await syncRedirectionsToStorage();
-  await syncBypassToStorage();
+  await Promise.all([
+    syncRedirectionsToStorage(),
+    syncBypassToStorage(),
+    syncBookmarksToStorage(),
+  ]);
 };
 
 export const resetStorage = async () => {
-  await resetRedirections();
-  await resetBypass();
+  await Promise.all([resetRedirections(), resetBypass(), resetBookmarks()]);
 };

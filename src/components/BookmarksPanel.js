@@ -1,10 +1,12 @@
 import { Box, IconButton } from "@material-ui/core";
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
+import storage from "ChromeApi/storage";
 import { hideBookmarksPanel } from "GlobalActionCreators/index";
-import { FIREBASE_DB_REF } from "GlobalConstants/index";
 import { COLOR } from "GlobalConstants/color";
-import { getFromFirebase, saveDataToFirebase } from "GlobalUtils/firebase";
+import { FIREBASE_DB_REF, STORAGE_KEYS } from "GlobalConstants/index";
+import { syncBookmarksToStorage } from "GlobalUtils/bookmark";
+import { saveDataToFirebase } from "GlobalUtils/firebase";
 import md5 from "md5";
 import React, { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -30,8 +32,9 @@ const BookmarksPanel = memo(() => {
   const [isFetching, setIsFetching] = useState(true);
 
   const initBookmarks = async () => {
-    const snapshot = await getFromFirebase(FIREBASE_DB_REF.bookmarks);
-    const bookmarks = snapshot.val();
+    const { [STORAGE_KEYS.bookmarks]: bookmarks } = await storage.get([
+      STORAGE_KEYS.bookmarks,
+    ]);
     const modifiedBookmarks = Object.entries(bookmarks).map(
       ([key, { url, title }]) => ({
         url: decodeURIComponent(atob(url)),
@@ -62,7 +65,8 @@ const BookmarksPanel = memo(() => {
     const bookmarksObj = bookmarks.filter(validBookmarks).reduce(reducer, {});
     const isSaveSuccess = await saveDataToFirebase(
       bookmarksObj,
-      FIREBASE_DB_REF.bookmarks
+      FIREBASE_DB_REF.bookmarks,
+      syncBookmarksToStorage
     );
     setIsFetching(false);
     if (isSaveSuccess) {
