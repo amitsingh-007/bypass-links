@@ -27,7 +27,7 @@ const reducer = (obj, { alias, website, isDefault }, index) => {
   return obj;
 };
 
-export const EditPanel = memo(() => {
+const EditPanel = memo(() => {
   const dispatch = useDispatch();
   const [redirections, setRedirections] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
@@ -172,3 +172,5 @@ export const EditPanel = memo(() => {
     </DragDropContext>
   );
 });
+
+export default EditPanel;

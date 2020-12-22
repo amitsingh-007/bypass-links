@@ -1,14 +1,13 @@
-const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const FileManagerPlugin = require("filemanager-webpack-plugin");
 const { InjectManifest } = require("workbox-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const { DefinePlugin, ProgressPlugin, DllReferencePlugin } = require("webpack");
+const { DefinePlugin, DllReferencePlugin } = require("webpack");
 const { getExtensionFile } = require("./src/utils");
 const { releaseDate, extVersion } = require("./release-config");
-const commonConfig = require("./webpack.common.config");
+const { commonConfig, PATHS } = require("./webpack.common.config");
 const firebasedDllConfig = require("./webpack.firebase.config");
 
 const ENV = process.env.NODE_ENV;
@@ -16,55 +15,56 @@ const isProduction = ENV === "production";
 const enableBundleAnalyzer = process.env.ENABLE_BUNDLE_ANLYZER === "true";
 const isDevServer = process.env.DEV_SERVER === "true";
 
-const PATHS = {
-  BUILD: path.resolve(__dirname, "build"),
-  EXTENSION: path.resolve(__dirname, "extension"),
-  SRC: path.resolve(__dirname, "src"),
-};
-
-const scssLoaders = {
-  test: /\.scss$/,
-  use: [
-    MiniCssExtractPlugin.loader,
-    "css-loader",
-    {
-      loader: "sass-loader",
-      options: {
-        sourceMap: !isProduction,
+const optimizationOptions = {
+  nodeEnv: ENV,
+  minimize: isProduction,
+  chunkIds: "named",
+  splitChunks: {
+    chunks: "all",
+    cacheGroups: {
+      vendor: {
+        test: /[\\/]node_modules[\\/]@material-ui[\\/]/,
+        name: "material-ui",
+        chunks: "all",
       },
     },
-  ],
-};
-
-const setProgressPlugin = (plugins) => {
-  if (!isProduction) {
-    plugins.push(new ProgressPlugin());
-  }
+  },
 };
 
 const miniCssExtractPlugin = new MiniCssExtractPlugin({
-  filename: `[name]${isProduction ? ".[contenthash]" : ""}.css`,
-  chunkFilename: `[id]${isProduction ? ".[contenthash]" : ""}.css`,
+  filename: "[name].[contenthash].css",
+  chunkFilename: "[id].[contenthash].css",
 });
 
 const dllReferencePlugin = new DllReferencePlugin({
   name: "firebase_lib",
-  manifest: path.resolve(__dirname, "./extension/firebase-manifest.json"),
+  manifest: `${PATHS.FIREBASE_BUILD}/firebase-manifest.json`,
 });
 
-const getFileManagerPluginCommon = () => {
-  const plugin = {
-    delete: [`./extension/{${enableBundleAnalyzer ? "" : "stats.json,"}*.txt}`],
+const getFileManagerPlugin = () => {
+  const config = {
+    events: {
+      onStart: {
+        copy: [
+          {
+            source: "./assets/*",
+            destination: PATHS.EXTENSION,
+          },
+        ],
+      },
+    },
   };
   if (isProduction) {
-    plugin.archive = [
-      {
-        source: PATHS.EXTENSION,
-        destination: `./build/${getExtensionFile(extVersion)}`,
-      },
-    ];
+    config.events.onEnd = {
+      archive: [
+        {
+          source: PATHS.EXTENSION,
+          destination: `${PATHS.BUILD}/${getExtensionFile(extVersion)}`,
+        },
+      ],
+    };
   }
-  return plugin;
+  return new FileManagerPlugin(config);
 };
 
 const getWebpackBundleAnalyzerPlugin = (port) =>
@@ -116,7 +116,6 @@ const getDownloadPageConfigPlugins = () => {
   if (enableBundleAnalyzer) {
     plugins.push(getWebpackBundleAnalyzerPlugin(8888));
   }
-  setProgressPlugin(plugins);
   return plugins;
 };
 
@@ -127,19 +126,7 @@ const getPopupConfigPlugins = () => {
       inject: false,
       cache: false,
     }),
-    new FileManagerPlugin({
-      events: {
-        onStart: {
-          copy: [
-            {
-              source: "./assets/*",
-              destination: PATHS.EXTENSION,
-            },
-          ],
-        },
-        onEnd: getFileManagerPluginCommon(),
-      },
-    }),
+    getFileManagerPlugin(),
     dllReferencePlugin,
     miniCssExtractPlugin,
     definePlugin,
@@ -150,7 +137,6 @@ const getPopupConfigPlugins = () => {
   if (isProduction) {
     plugins.push(new OptimizeCssAssetsPlugin({}));
   }
-  setProgressPlugin(plugins);
   return plugins;
 };
 
@@ -158,7 +144,14 @@ const getBackgroundConfigPlugins = () => {
   const plugins = [
     new FileManagerPlugin({
       events: {
-        onEnd: getFileManagerPluginCommon(),
+        onStart: {
+          copy: [
+            {
+              source: `${PATHS.FIREBASE_BUILD}/firebase.js`,
+              destination: `${PATHS.EXTENSION}/`,
+            },
+          ],
+        },
       },
     }),
     dllReferencePlugin,
@@ -167,7 +160,6 @@ const getBackgroundConfigPlugins = () => {
   if (enableBundleAnalyzer) {
     plugins.push(getWebpackBundleAnalyzerPlugin(8890));
   }
-  setProgressPlugin(plugins);
   return plugins;
 };
 
@@ -183,47 +175,14 @@ const downloadPageConfig = {
   //Due to bug in WebpackV5: https://github.com/webpack/webpack-dev-server/issues/2758
   target: isProduction ? "browserslist" : "web",
   devServer: {
-    contentBase: "./build",
+    contentBase: PATHS.BUILD,
     compress: true,
     port: 5000,
     open: true,
     stats: "errors-warnings",
     watchContentBase: true,
   },
-  optimization: {
-    nodeEnv: ENV,
-    minimize: isProduction,
-    chunkIds: "named",
-    splitChunks: {
-      chunks: "all",
-      cacheGroups: {
-        vendor: {
-          test: /[\\/]node_modules[\\/]@material-ui[\\/]/,
-          name: "material-ui",
-          chunks: "all",
-        },
-      },
-    },
-  },
-  module: {
-    rules: [
-      {
-        test: /\.m?js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: "babel-loader",
-        },
-      },
-      {
-        test: /\.(svg)$/i,
-        loader: "file-loader",
-        options: {
-          name: "[name]-[contenthash].[ext]",
-        },
-      },
-      scssLoaders,
-    ],
-  },
+  optimization: optimizationOptions,
   plugins: getDownloadPageConfigPlugins(),
   devtool: "source-map",
 };
@@ -244,21 +203,12 @@ const popupConfig = {
   entry: "./src/popupIndex.js",
   output: {
     path: PATHS.EXTENSION,
-    filename: "popup.js",
+    filename: "js/[name].[chunkhash:9].js",
+    chunkFilename: "js/[name].[chunkhash:9].js",
+    pathinfo: false,
   },
   target: "browserslist",
-  module: {
-    rules: [
-      {
-        test: /\.m?js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: "babel-loader",
-        },
-      },
-      scssLoaders,
-    ],
-  },
+  optimization: optimizationOptions,
   plugins: getPopupConfigPlugins(),
 };
 
@@ -266,6 +216,7 @@ const popupConfig = {
  * For production, build all 3 configs
  * For dev-server, only build downloadPageConfig
  * Else, build extension related configs
+ * NOTE: Following order matters
  */
 let configs = [firebasedDllConfig, backgroundConfig, popupConfig];
 if (isProduction) {

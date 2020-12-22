@@ -1,20 +1,26 @@
 import { Box, Typography } from "@material-ui/core/";
 import { Authenticate } from "GlobalComponents/Authenticate";
-import QuickBookmarkButton from "GlobalComponents/QuickBookmarkButton";
-import { EditPanel } from "GlobalComponents/EditPanel";
+import BookmarksPanelButton from "GlobalComponents/BookmarksPanelButton";
 import { EditPanelButton } from "GlobalComponents/EditPanelButton";
-import { ManualHistoryPanel } from "GlobalComponents/ManualHistoryPanel";
+import { IconButtonLoader } from "GlobalComponents/Loader";
 import { ManualHistoryPanelButton } from "GlobalComponents/ManualHistoryPanelButton";
 import { OpenDefaultsButton } from "GlobalComponents/OpenDefaultsButton";
+import QuickBookmarkButton from "GlobalComponents/QuickBookmarkButton";
 import { Row } from "GlobalComponents/Row";
 import { ToggleExtension } from "GlobalComponents/ToggleExtension";
 import { ToggleHistory } from "GlobalComponents/ToggleHistory";
 import { COLOR } from "GlobalConstants/color";
-import React, { memo } from "react";
+import React, { lazy, memo, Suspense } from "react";
 import { useSelector } from "react-redux";
-import BookmarksPanelButton from "GlobalComponents/BookmarksPanelButton";
-import BookmarksPanel from "GlobalComponents/BookmarksPanel";
-import QuickBookmarkPanel from "GlobalComponents/QuickBookmarkPanel";
+
+const EditPanel = lazy(() => import("GlobalComponents/EditPanel"));
+const BookmarksPanel = lazy(() => import("GlobalComponents/BookmarksPanel"));
+const ManualHistoryPanel = lazy(() =>
+  import("GlobalComponents/ManualHistoryPanel")
+);
+const QuickBookmarkPanel = lazy(() =>
+  import("GlobalComponents/QuickBookmarkPanel")
+);
 
 export const Popup = memo(() => {
   const {
@@ -25,16 +31,32 @@ export const Popup = memo(() => {
   } = useSelector((state) => state);
 
   if (showEditPanel) {
-    return <EditPanel />;
+    return (
+      <Suspense fallback={<IconButtonLoader />}>
+        <EditPanel />
+      </Suspense>
+    );
   }
   if (showManualHistoryPanel) {
-    return <ManualHistoryPanel />;
+    return (
+      <Suspense fallback={<IconButtonLoader />}>
+        <ManualHistoryPanel />
+      </Suspense>
+    );
   }
   if (showBookmarksPanel) {
-    return <BookmarksPanel />;
+    return (
+      <Suspense fallback={<IconButtonLoader />}>
+        <BookmarksPanel />
+      </Suspense>
+    );
   }
   if (showQuickBookmarkPanel.showPanel) {
-    return <QuickBookmarkPanel />;
+    return (
+      <Suspense fallback={<IconButtonLoader />}>
+        <QuickBookmarkPanel />
+      </Suspense>
+    );
   }
   return (
     <Box
