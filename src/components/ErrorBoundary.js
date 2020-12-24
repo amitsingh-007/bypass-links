@@ -1,4 +1,4 @@
-import { Typography } from "@material-ui/core";
+import { Box } from "@material-ui/core";
 import React, { Component } from "react";
 
 class ErrorBoundary extends Component {
@@ -25,9 +25,9 @@ class ErrorBoundary extends Component {
     const { hasError, error } = this.state;
     if (hasError) {
       return (
-        <Typography component="div" variant="h6">
+        <Box padding="12px" fontSize="17px" width="200px">
           {error.toString()}
-        </Typography>
+        </Box>
       );
     }
     return this.props.children;
