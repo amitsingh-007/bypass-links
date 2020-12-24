@@ -1,4 +1,5 @@
 import { EXTENSION_STATE } from "GlobalConstants/index";
+import { getForumPageLinks } from "GlobalUtils/background";
 import { bypass } from "GlobalUtils/bypass/index";
 import {
   getExtensionState,
@@ -22,8 +23,10 @@ const onFirstTimeInstall = () => {
 };
 
 const onMessageReceive = (message, sender, sendResponse) => {
-  if (message.dummyMessage) {
-    sendResponse({});
+  if (message.getForumPageLinks) {
+    getForumPageLinks(message.getForumPageLinks).then((forumPageLinks) => {
+      sendResponse({ forumPageLinks });
+    });
   }
   return true;
 };

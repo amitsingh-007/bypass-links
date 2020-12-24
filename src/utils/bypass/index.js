@@ -1,4 +1,10 @@
 import storage from "ChromeApi/storage";
+import {
+  BYPASS_KEYS,
+  FIREBASE_DB_REF,
+  STORAGE_KEYS,
+} from "GlobalConstants/index";
+import { getHostnameAlias } from "GlobalUtils/common";
 import { getFromFirebase } from "GlobalUtils/firebase";
 import { bypassBonsai } from "./bypassBonsai";
 import { bypassBonsaiLink } from "./bypassBonsaiLink";
@@ -6,7 +12,6 @@ import { bypassForums } from "./bypassForums";
 import { bypassLinkvertise } from "./bypassLinkvertise";
 import { bypassMedium } from "./bypassMedium";
 import { bypassPageLinks } from "./bypassPageLinks";
-import { FIREBASE_DB_REF, STORAGE_KEYS } from "GlobalConstants/index";
 
 const getMappedBypass = (bypass) =>
   bypass &&
@@ -15,27 +20,19 @@ const getMappedBypass = (bypass) =>
     return obj;
   }, {});
 
-const getHostnames = async () => {
-  const { [STORAGE_KEYS.bypass]: bypass } = await storage.get([
-    STORAGE_KEYS.bypass,
-  ]);
-  return bypass || {};
-};
-
 const bypassAndHostnameMapping = {
-  LINKVERTISE: bypassLinkvertise,
-  BONSAI: bypassBonsai,
-  BONSAILINK: bypassBonsaiLink,
-  FORUMS: bypassForums,
-  JUSTPASTEIT: bypassPageLinks,
-  PASTELINK: bypassPageLinks,
-  RENTRY: bypassPageLinks,
-  MEDIUM: bypassMedium,
+  [BYPASS_KEYS.LINKVERTISE]: bypassLinkvertise,
+  [BYPASS_KEYS.BONSAI]: bypassBonsai,
+  [BYPASS_KEYS.BONSAILINK]: bypassBonsaiLink,
+  [BYPASS_KEYS.FORUMS]: bypassForums,
+  [BYPASS_KEYS.JUSTPASTEIT]: bypassPageLinks,
+  [BYPASS_KEYS.PASTELINK]: bypassPageLinks,
+  [BYPASS_KEYS.RENTRY]: bypassPageLinks,
+  [BYPASS_KEYS.MEDIUM]: bypassMedium,
 };
 
 const getBypassExecutor = async (url) => {
-  const hostnames = await getHostnames();
-  const hostnameAlias = hostnames[url.hostname];
+  const hostnameAlias = await getHostnameAlias(url.hostname);
   if (bypassAndHostnameMapping[hostnameAlias]) {
     return bypassAndHostnameMapping[hostnameAlias];
   }
