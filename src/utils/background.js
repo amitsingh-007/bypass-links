@@ -1,13 +1,12 @@
 import tabs from "ChromeApi/tabs";
 
 export const bypassSingleLinkOnPage = (selectorFn, tabId) => {
-  chrome.tabs.executeScript(
-    tabId,
-    {
+  tabs
+    .executeScript(tabId, {
       code: `(${selectorFn})()`,
       runAt: "document_end",
-    },
-    ([result] = []) => {
+    })
+    .then(([result] = []) => {
       console.log("inside bypassSingleLinkOnPage", result);
       // shown in devtools of the popup window
       if (!chrome.runtime.lastError) {
@@ -22,6 +21,23 @@ export const bypassSingleLinkOnPage = (selectorFn, tabId) => {
           bypassSingleLinkOnPage(tabId);
         }, 1000);
       }
-    }
+    });
+};
+
+const getForumPageLinksFunc = () => {
+  const unreadRows = document.querySelectorAll(
+    ".block-row.block-row--separated:not(.block-row--alt)"
   );
+  return [...unreadRows].map(
+    (row) => row.querySelector("a.fauxBlockLink-blockLink").href
+  );
+};
+
+export const getForumPageLinks = async (tabId) => {
+  const [results] = await tabs.executeScript(tabId, {
+    code: `(${getForumPageLinksFunc})()`,
+  });
+  return new Promise((resolve, reject) => {
+    resolve(results);
+  });
 };

@@ -15,6 +15,11 @@ const tabs = {
     promisify((callback) => {
       chrome.tabs.query(options, callback);
     }),
+
+  executeScript: (tabId, options) =>
+    promisify((callback) => {
+      chrome.tabs.executeScript(tabId, options, callback);
+    }),
 };
 
 export const getCurrentTab = () =>

@@ -20,6 +20,17 @@ export const STORAGE_KEYS = {
   redirections: "redirections",
 };
 
+export const BYPASS_KEYS = {
+  LINKVERTISE: "LINKVERTISE",
+  BONSAI: "BONSAI",
+  BONSAILINK: "BONSAILINK",
+  FORUMS: "FORUMS",
+  JUSTPASTEIT: "JUSTPASTEIT",
+  PASTELINK: "PASTELINK",
+  RENTRY: "RENTRY",
+  MEDIUM: "MEDIUM",
+};
+
 const dbPrefix = __PROD__ ? "prod" : "dev";
 export const FIREBASE_DB_REF = {
   bookmarks: `${dbPrefix}/${STORAGE_KEYS.bookmarks}`,

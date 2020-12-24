@@ -5,6 +5,7 @@ import { EditPanelButton } from "GlobalComponents/EditPanelButton";
 import { IconButtonLoader } from "GlobalComponents/Loader";
 import { ManualHistoryPanelButton } from "GlobalComponents/ManualHistoryPanelButton";
 import { OpenDefaultsButton } from "GlobalComponents/OpenDefaultsButton";
+import OpenForumLinks from "GlobalComponents/OpenForumLinks";
 import QuickBookmarkButton from "GlobalComponents/QuickBookmarkButton";
 import { Row } from "GlobalComponents/Row";
 import { ToggleExtension } from "GlobalComponents/ToggleExtension";
@@ -82,6 +83,9 @@ export const Popup = memo(() => {
         <ManualHistoryPanelButton />
         <OpenDefaultsButton />
         <QuickBookmarkButton />
+      </Box>
+      <Box>
+        <OpenForumLinks />
       </Box>
     </Box>
   );
