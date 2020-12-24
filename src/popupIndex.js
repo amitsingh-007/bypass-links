@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import { createStore } from "redux";
 import reducer from "./reducers";
 import "GlobalStyles/popup.scss";
+import ErrorBoundary from "GlobalComponents/ErrorBoundary";
 
 const store = createStore(reducer);
 
@@ -23,12 +24,14 @@ const theme = createMuiTheme({
 
 ReactDOM.render(
   <StrictMode>
-    <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Popup />
-      </ThemeProvider>
-    </Provider>
+    <ErrorBoundary>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Popup />
+        </ThemeProvider>
+      </Provider>
+    </ErrorBoundary>
   </StrictMode>,
   document.getElementById("root")
 );

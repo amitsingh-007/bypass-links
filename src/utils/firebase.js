@@ -15,11 +15,17 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
+/**
+ * AUTHORIZATION
+ */
 export const googleSignIn = () =>
   firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
 
 export const googleSignOut = () => firebase.auth().signOut();
 
+/**
+ * REALTIME DATABASE
+ */
 export const getFromFirebase = async (ref) =>
   firebase.database().ref(ref).once("value");
 
@@ -48,9 +54,6 @@ export const copyToFallbackDB = async (dbRef) => {
   console.log(`Updated ${fallbackDbRef} with ${dbRef}`);
 };
 
-/**
- * Update the fallback db with current data and then update the current db
- */
 export const saveDataToFirebase = async (data, ref, successCallback) => {
   await copyToFallbackDB(ref);
   return new Promise((resolve, reject) => {
