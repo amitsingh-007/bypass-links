@@ -3,14 +3,13 @@ import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import PlaylistAddTwoToneIcon from "@material-ui/icons/PlaylistAddTwoTone";
 import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
 import storage from "ChromeApi/storage";
-import { hideEditPanel } from "GlobalActionCreators/index";
 import { COLOR } from "GlobalConstants/color";
 import { FIREBASE_DB_REF, STORAGE_KEYS } from "GlobalConstants/index";
 import { saveDataToFirebase } from "GlobalUtils/firebase";
 import { syncRedirectionsToStorage } from "GlobalUtils/redirect";
 import React, { memo, useEffect, useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import Loader from "./Loader";
 import PanelHeading from "./PanelHeading";
 import { RedirectionRule } from "./RedirectionRule";
@@ -29,9 +28,9 @@ const reducer = (obj, { alias, website, isDefault }, index) => {
 };
 
 const EditPanel = memo(() => {
-  const dispatch = useDispatch();
   const [redirections, setRedirections] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
+  const history = useHistory();
 
   useEffect(() => {
     storage
@@ -50,7 +49,7 @@ const EditPanel = memo(() => {
   }, []);
 
   const handleClose = () => {
-    dispatch(hideEditPanel());
+    history.goBack();
   };
 
   const handleSave = async () => {

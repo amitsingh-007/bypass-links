@@ -1,29 +1,19 @@
-import { TURN_ON_EXTENSION } from "GlobalActionTypes/index";
-import { HIDE_BOOKMARKS_PANEL } from "GlobalActionTypes/index";
-import { SHOW_QUICK_BOOKMARK_PANEL } from "GlobalActionTypes/index";
-import { HIDE_QUICK_BOOKMARK_PANEL } from "GlobalActionTypes/index";
-import { SHOW_BOOKMARKS_PANEL } from "GlobalActionTypes/index";
-import { START_HISTORY_MONITOR } from "GlobalActionTypes/index";
-import { TURN_OFF_EXTENSION } from "GlobalActionTypes/index";
 import {
-  HIDE_EDIT_PANEL,
+  HIDE_BOOKMARKS_PANEL,
   HIDE_MANUAL_HISTORY_PANEL,
+  HIDE_QUICK_BOOKMARK_PANEL,
   SET_SIGNED_IN_STATUS,
-  SHOW_EDIT_PANEL,
+  SHOW_BOOKMARKS_PANEL,
   SHOW_MANUAL_HISTORY_PANEL,
+  SHOW_QUICK_BOOKMARK_PANEL,
+  START_HISTORY_MONITOR,
+  TURN_OFF_EXTENSION,
+  TURN_ON_EXTENSION,
 } from "GlobalActionTypes/index";
 
 export const setSignedInStatus = (isSignedIn) => ({
   type: SET_SIGNED_IN_STATUS,
   isSignedIn,
-});
-
-export const showEditPanel = () => ({
-  type: SHOW_EDIT_PANEL,
-});
-
-export const hideEditPanel = () => ({
-  type: HIDE_EDIT_PANEL,
 });
 
 export const showManualHistoryPanel = () => ({

@@ -1,12 +1,13 @@
 import { createMuiTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
-import { Popup } from "GlobalContainers/Popup";
+import ErrorBoundary from "GlobalComponents/ErrorBoundary";
+import PopupRoutes from "GlobalContainers/PopupRoutes";
+import "GlobalStyles/popup.scss";
 import React, { StrictMode } from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
 import { createStore } from "redux";
 import reducer from "./reducers";
-import "GlobalStyles/popup.scss";
-import ErrorBoundary from "GlobalComponents/ErrorBoundary";
 
 const store = createStore(reducer);
 
@@ -26,10 +27,12 @@ ReactDOM.render(
   <StrictMode>
     <ErrorBoundary>
       <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Popup />
-        </ThemeProvider>
+        <BrowserRouter>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <PopupRoutes />
+          </ThemeProvider>
+        </BrowserRouter>
       </Provider>
     </ErrorBoundary>
   </StrictMode>,

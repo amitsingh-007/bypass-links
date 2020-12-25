@@ -14,7 +14,6 @@ import { COLOR } from "GlobalConstants/color";
 import React, { lazy, memo, Suspense } from "react";
 import { useSelector } from "react-redux";
 
-const EditPanel = lazy(() => import("GlobalComponents/EditPanel"));
 const BookmarksPanel = lazy(() => import("GlobalComponents/BookmarksPanel"));
 const ManualHistoryPanel = lazy(() =>
   import("GlobalComponents/ManualHistoryPanel")
@@ -25,19 +24,11 @@ const QuickBookmarkPanel = lazy(() =>
 
 export const Popup = memo(() => {
   const {
-    showEditPanel,
     showManualHistoryPanel,
     showBookmarksPanel,
     showQuickBookmarkPanel,
   } = useSelector((state) => state);
 
-  if (showEditPanel) {
-    return (
-      <Suspense fallback={<IconButtonLoader />}>
-        <EditPanel />
-      </Suspense>
-    );
-  }
   if (showManualHistoryPanel) {
     return (
       <Suspense fallback={<IconButtonLoader />}>
