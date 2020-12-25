@@ -1,7 +1,5 @@
 import {
-  HIDE_QUICK_BOOKMARK_PANEL,
   SET_SIGNED_IN_STATUS,
-  SHOW_QUICK_BOOKMARK_PANEL,
   START_HISTORY_MONITOR,
   TURN_OFF_EXTENSION,
   TURN_ON_EXTENSION,
@@ -22,15 +20,4 @@ export const turnOnExtension = () => ({
 
 export const startHistoryMonitor = () => ({
   type: START_HISTORY_MONITOR,
-});
-
-export const showQuickBookmarkPanel = (bookmark) => {
-  return {
-    type: SHOW_QUICK_BOOKMARK_PANEL,
-    bookmark,
-  };
-};
-
-export const hideQuickBookmarkPanel = () => ({
-  type: HIDE_QUICK_BOOKMARK_PANEL,
 });

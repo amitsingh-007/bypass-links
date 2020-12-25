@@ -2,7 +2,6 @@ import { Box, IconButton } from "@material-ui/core";
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
 import storage from "ChromeApi/storage";
-import { hideBookmarksPanel } from "GlobalActionCreators/index";
 import { COLOR } from "GlobalConstants/color";
 import { FIREBASE_DB_REF, STORAGE_KEYS } from "GlobalConstants/index";
 import { ROUTES } from "GlobalConstants/routes";

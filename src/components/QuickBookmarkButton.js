@@ -3,19 +3,17 @@ import BookmarkBorderTwoToneIcon from "@material-ui/icons/BookmarkBorderTwoTone"
 import BookmarkTwoToneIcon from "@material-ui/icons/BookmarkTwoTone";
 import storage from "ChromeApi/storage";
 import { getCurrentTab } from "ChromeApi/tabs";
-import { showQuickBookmarkPanel } from "GlobalActionCreators/index";
 import { COLOR } from "GlobalConstants/color";
 import { STORAGE_KEYS } from "GlobalConstants/index";
 import { ROUTES } from "GlobalConstants/routes";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import md5 from "md5";
 import React, { memo, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { IconButtonLoader } from "./Loader";
 
 const QuickBookmarkButton = memo(() => {
-  const dispatch = useDispatch();
   const isSignedIn = useSelector((state) => state.isSignedIn);
   const [bookmark, setBookmark] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
@@ -51,8 +49,10 @@ const QuickBookmarkButton = memo(() => {
       payload.title = title;
       payload.url = url;
     }
-    dispatch(showQuickBookmarkPanel(payload));
-    history.push(ROUTES.QUICK_BOOKMARK_PANEL);
+    const url = `${ROUTES.QUICK_BOOKMARK_PANEL}?${new URLSearchParams(
+      payload
+    ).toString()}`;
+    history.push(url);
   };
 
   if (isFetching) {

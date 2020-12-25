@@ -1,38 +1,22 @@
 import { IconButtonLoader } from "GlobalComponents/Loader";
-import { ROUTES } from "GlobalConstants/routes";
-import React, { lazy, Suspense } from "react";
-import { Route, Switch } from "react-router-dom";
-import { Popup } from "./Popup";
-
-const EditPanel = lazy(() => import("GlobalComponents/EditPanel"));
-const BookmarksPanel = lazy(() => import("GlobalComponents/BookmarksPanel"));
-const ManualHistoryPanel = lazy(() =>
-  import("GlobalComponents/ManualHistoryPanel")
-);
-const QuickBookmarkPanel = lazy(() =>
-  import("GlobalComponents/QuickBookmarkPanel")
-);
+import React, { Suspense } from "react";
+import { Switch } from "react-router-dom";
+import {
+  BookmarksPanelRoute,
+  EditPanelRoute,
+  HomePageRoute,
+  ManualHistoryPanelRoute,
+  QuickBookmarkPanelRoute,
+} from "SrcPath/routes";
 
 const PopupRoutes = () => (
   <Suspense fallback={<IconButtonLoader />}>
     <Switch>
-      <Route exact path={ROUTES.HOMEPAGE} render={() => <Popup />} />
-      <Route exact path={ROUTES.EDIT_PANEL} render={() => <EditPanel />} />
-      <Route
-        exact
-        path={ROUTES.MANUAL_HISTORY_PANEL}
-        render={() => <ManualHistoryPanel />}
-      />
-      <Route
-        exact
-        path={ROUTES.BOOKMARK_PANEL}
-        render={() => <BookmarksPanel />}
-      />
-      <Route
-        exact
-        path={ROUTES.QUICK_BOOKMARK_PANEL}
-        render={() => <QuickBookmarkPanel />}
-      />
+      {HomePageRoute}
+      {EditPanelRoute}
+      {BookmarksPanelRoute}
+      {ManualHistoryPanelRoute}
+      {QuickBookmarkPanelRoute}
     </Switch>
   </Suspense>
 );
