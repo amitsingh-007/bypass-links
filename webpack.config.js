@@ -56,6 +56,7 @@ const getFileManagerPlugin = () => {
   };
   if (isProduction) {
     config.events.onEnd = {
+      delete: ["./extension/js/*.txt"],
       archive: [
         {
           source: PATHS.EXTENSION,
