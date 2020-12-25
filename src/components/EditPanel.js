@@ -5,6 +5,7 @@ import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
 import storage from "ChromeApi/storage";
 import { COLOR } from "GlobalConstants/color";
 import { FIREBASE_DB_REF, STORAGE_KEYS } from "GlobalConstants/index";
+import { ROUTES } from "GlobalConstants/routes";
 import { saveDataToFirebase } from "GlobalUtils/firebase";
 import { syncRedirectionsToStorage } from "GlobalUtils/redirect";
 import React, { memo, useEffect, useState } from "react";
@@ -49,7 +50,7 @@ const EditPanel = memo(() => {
   }, []);
 
   const handleClose = () => {
-    history.goBack();
+    history.push(ROUTES.HOMEPAGE);
   };
 
   const handleSave = async () => {

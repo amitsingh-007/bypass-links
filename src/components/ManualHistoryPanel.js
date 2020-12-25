@@ -3,18 +3,17 @@ import { Box, IconButton } from "@material-ui/core";
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import DeleteSweepTwoToneIcon from "@material-ui/icons/DeleteSweepTwoTone";
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
-import history from "ChromeApi/history";
 import storage from "ChromeApi/storage";
-import { hideManualHistoryPanel } from "GlobalActionCreators/index";
 import { COLOR } from "GlobalConstants/color";
+import { ROUTES } from "GlobalConstants/routes";
 import React, { memo, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import PanelHeading from "./PanelHeading";
 
 const ManualHistoryPanel = memo(() => {
-  const dispatch = useDispatch();
   const [startDateTime, setStartDateTime] = useState(new Date());
   const [endDateTime, setEndDateTime] = useState(new Date());
+  const history = useHistory();
 
   useEffect(() => {
     storage.get(["historyStartTime"]).then(({ historyStartTime }) => {
@@ -33,7 +32,7 @@ const ManualHistoryPanel = memo(() => {
   };
 
   const handleClose = () => {
-    dispatch(hideManualHistoryPanel());
+    history.push(ROUTES.HOMEPAGE);
   };
 
   const handleClear = () => {

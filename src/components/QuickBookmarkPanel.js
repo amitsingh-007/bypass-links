@@ -5,6 +5,7 @@ import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
 import { hideQuickBookmarkPanel } from "GlobalActionCreators/index";
 import { COLOR } from "GlobalConstants/color";
 import { FIREBASE_DB_REF } from "GlobalConstants/index";
+import { ROUTES } from "GlobalConstants/routes";
 import { syncBookmarksToStorage } from "GlobalUtils/bookmark";
 import {
   copyToFallbackDB,
@@ -14,6 +15,7 @@ import {
 import md5 from "md5";
 import React, { memo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import Loader from "./Loader";
 import PanelHeading from "./PanelHeading";
 
@@ -31,6 +33,7 @@ const QuickBookmarkPanel = memo(() => {
   const [isFetching, setIsFetching] = useState(false);
   const [title, setTitle] = useState(bookmark.title);
   const [url, setUrl] = useState(bookmark.url);
+  const history = useHistory();
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
@@ -42,6 +45,7 @@ const QuickBookmarkPanel = memo(() => {
 
   const handleClose = () => {
     dispatch(hideQuickBookmarkPanel());
+    history.push(ROUTES.HOMEPAGE);
   };
 
   const handleSave = async () => {

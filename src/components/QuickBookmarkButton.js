@@ -6,10 +6,12 @@ import { getCurrentTab } from "ChromeApi/tabs";
 import { showQuickBookmarkPanel } from "GlobalActionCreators/index";
 import { COLOR } from "GlobalConstants/color";
 import { STORAGE_KEYS } from "GlobalConstants/index";
+import { ROUTES } from "GlobalConstants/routes";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import md5 from "md5";
 import React, { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { IconButtonLoader } from "./Loader";
 
 const QuickBookmarkButton = memo(() => {
@@ -17,6 +19,7 @@ const QuickBookmarkButton = memo(() => {
   const isSignedIn = useSelector((state) => state.isSignedIn);
   const [bookmark, setBookmark] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
+  const history = useHistory();
 
   const initBookmark = async () => {
     setIsFetching(true);
@@ -49,6 +52,7 @@ const QuickBookmarkButton = memo(() => {
       payload.url = url;
     }
     dispatch(showQuickBookmarkPanel(payload));
+    history.push(ROUTES.QUICK_BOOKMARK_PANEL);
   };
 
   if (isFetching) {

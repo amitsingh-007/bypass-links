@@ -1,10 +1,6 @@
 import {
-  HIDE_BOOKMARKS_PANEL,
-  HIDE_MANUAL_HISTORY_PANEL,
   HIDE_QUICK_BOOKMARK_PANEL,
   SET_SIGNED_IN_STATUS,
-  SHOW_BOOKMARKS_PANEL,
-  SHOW_MANUAL_HISTORY_PANEL,
   SHOW_QUICK_BOOKMARK_PANEL,
   START_HISTORY_MONITOR,
   TURN_OFF_EXTENSION,
@@ -15,7 +11,6 @@ const defaultState = {
   isSignedIn: false,
   isExtensionActive: true,
   startHistoryMonitor: false,
-  showBookmarksPanel: false,
   showQuickBookmarkPanel: {
     showPanel: false,
     bookmark: {},
@@ -28,16 +23,6 @@ const reducer = (state = defaultState, action) => {
       return {
         ...state,
         isSignedIn: action.isSignedIn,
-      };
-    case SHOW_MANUAL_HISTORY_PANEL:
-      return {
-        ...state,
-        showManualHistoryPanel: true,
-      };
-    case HIDE_MANUAL_HISTORY_PANEL:
-      return {
-        ...state,
-        showManualHistoryPanel: false,
       };
     case TURN_OFF_EXTENSION:
       return {
@@ -53,16 +38,6 @@ const reducer = (state = defaultState, action) => {
       return {
         ...state,
         startHistoryMonitor: true,
-      };
-    case SHOW_BOOKMARKS_PANEL:
-      return {
-        ...state,
-        showBookmarksPanel: true,
-      };
-    case HIDE_BOOKMARKS_PANEL:
-      return {
-        ...state,
-        showBookmarksPanel: false,
       };
     case SHOW_QUICK_BOOKMARK_PANEL:
       return {
