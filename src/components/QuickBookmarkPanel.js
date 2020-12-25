@@ -2,9 +2,9 @@ import { Box, IconButton, makeStyles, TextField } from "@material-ui/core";
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import DeleteTwoToneIcon from "@material-ui/icons/DeleteTwoTone";
 import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
-import { hideQuickBookmarkPanel } from "GlobalActionCreators/index";
 import { COLOR } from "GlobalConstants/color";
 import { FIREBASE_DB_REF } from "GlobalConstants/index";
+import { ROUTES } from "GlobalConstants/routes";
 import { syncBookmarksToStorage } from "GlobalUtils/bookmark";
 import {
   copyToFallbackDB,
@@ -13,7 +13,7 @@ import {
 } from "GlobalUtils/firebase";
 import md5 from "md5";
 import React, { memo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import Loader from "./Loader";
 import PanelHeading from "./PanelHeading";
 
@@ -25,120 +25,121 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const QuickBookmarkPanel = memo(() => {
-  const dispatch = useDispatch();
-  const { bookmark } = useSelector((state) => state.showQuickBookmarkPanel);
-  const [isFetching, setIsFetching] = useState(false);
-  const [title, setTitle] = useState(bookmark.title);
-  const [url, setUrl] = useState(bookmark.url);
+const QuickBookmarkPanel = memo(
+  ({ url: inputUrl, title: inputTitle, isBookmarked }) => {
+    const [isFetching, setIsFetching] = useState(false);
+    const [title, setTitle] = useState(inputTitle);
+    const [url, setUrl] = useState(inputUrl);
+    const history = useHistory();
 
-  const handleTitleChange = (event) => {
-    setTitle(event.target.value);
-  };
-
-  const handleUrlChange = (event) => {
-    setUrl(event.target.value);
-  };
-
-  const handleClose = () => {
-    dispatch(hideQuickBookmarkPanel());
-  };
-
-  const handleSave = async () => {
-    setIsFetching(true);
-    const bookmark = {
-      url: btoa(encodeURIComponent(url)),
-      title: btoa(encodeURIComponent(title)),
+    const handleTitleChange = (event) => {
+      setTitle(event.target.value);
     };
-    await copyToFallbackDB(FIREBASE_DB_REF.bookmarks);
-    await upateValueInFirebase(FIREBASE_DB_REF.bookmarks, md5(url), bookmark);
-    await syncBookmarksToStorage();
-    setIsFetching(false);
-    handleClose();
-  };
 
-  const handleRemove = async () => {
-    setIsFetching(true);
-    await copyToFallbackDB(FIREBASE_DB_REF.bookmarks);
-    await removeFromFirebase(FIREBASE_DB_REF.bookmarks, md5(url));
-    await syncBookmarksToStorage();
-    setIsFetching(false);
-    handleClose();
-  };
+    const handleUrlChange = (event) => {
+      setUrl(event.target.value);
+    };
 
-  const classes = useStyles();
-  return (
-    <Box width="600px">
-      <Box display="flex" justifyContent="space-between" alignItems="center">
-        <IconButton
-          aria-label="Back"
-          component="span"
-          style={COLOR.blue}
-          onClick={handleClose}
-          title="Back"
-        >
-          <ArrowBackTwoToneIcon fontSize="large" />
-        </IconButton>
-        <PanelHeading heading="QUICK BOOKMARK PANEL" />
-      </Box>
-      {isFetching ? <Loader width="621px" marginBottom="12px" /> : null}
-      {!isFetching ? (
-        <>
-          <Box
-            component="form"
-            noValidate
-            autoComplete="off"
-            className={classes.root}
-            display="flex"
-            flexDirection="column"
-            paddingX="12px"
+    const handleClose = () => {
+      history.push(ROUTES.HOMEPAGE);
+    };
+
+    const handleSave = async () => {
+      setIsFetching(true);
+      const bookmark = {
+        url: btoa(encodeURIComponent(url)),
+        title: btoa(encodeURIComponent(title)),
+      };
+      await copyToFallbackDB(FIREBASE_DB_REF.bookmarks);
+      await upateValueInFirebase(FIREBASE_DB_REF.bookmarks, md5(url), bookmark);
+      await syncBookmarksToStorage();
+      setIsFetching(false);
+      handleClose();
+    };
+
+    const handleRemove = async () => {
+      setIsFetching(true);
+      await copyToFallbackDB(FIREBASE_DB_REF.bookmarks);
+      await removeFromFirebase(FIREBASE_DB_REF.bookmarks, md5(url));
+      await syncBookmarksToStorage();
+      setIsFetching(false);
+      handleClose();
+    };
+
+    const classes = useStyles();
+    return (
+      <Box width="600px">
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          <IconButton
+            aria-label="Back"
+            component="span"
+            style={COLOR.blue}
+            onClick={handleClose}
+            title="Back"
           >
-            <TextField
-              label="Title"
-              variant="filled"
-              value={title}
-              onChange={handleTitleChange}
-              size="small"
-              color="secondary"
-              title={title}
-            />
-            <TextField
-              label="Url"
-              variant="filled"
-              value={url}
-              onChange={handleUrlChange}
-              size="small"
-              color="secondary"
-              title={url}
-              InputProps={{ readOnly: true }}
-            />
-          </Box>
-          <Box display="flex" justifyContent="center" paddingX="12px">
-            <IconButton
-              aria-label="Save"
-              component="span"
-              style={COLOR.green}
-              onClick={handleSave}
-              title="Save"
+            <ArrowBackTwoToneIcon fontSize="large" />
+          </IconButton>
+          <PanelHeading heading="QUICK BOOKMARK PANEL" />
+        </Box>
+        {isFetching ? <Loader width="621px" marginBottom="12px" /> : null}
+        {!isFetching ? (
+          <>
+            <Box
+              component="form"
+              noValidate
+              autoComplete="off"
+              className={classes.root}
+              display="flex"
+              flexDirection="column"
+              paddingX="12px"
             >
-              <SaveTwoToneIcon fontSize="large" />
-            </IconButton>
-            {bookmark.isBookmarked ? (
+              <TextField
+                label="Title"
+                variant="filled"
+                value={title}
+                onChange={handleTitleChange}
+                size="small"
+                color="secondary"
+                title={title}
+              />
+              <TextField
+                label="Url"
+                variant="filled"
+                value={url}
+                onChange={handleUrlChange}
+                size="small"
+                color="secondary"
+                title={url}
+                InputProps={{ readOnly: true }}
+              />
+            </Box>
+            <Box display="flex" justifyContent="center" paddingX="12px">
               <IconButton
-                aria-label="Remove"
+                aria-label="Save"
                 component="span"
-                style={COLOR.red}
-                onClick={handleRemove}
-                title="Clear"
+                style={COLOR.green}
+                onClick={handleSave}
+                title="Save"
               >
-                <DeleteTwoToneIcon fontSize="large" />
+                <SaveTwoToneIcon fontSize="large" />
               </IconButton>
-            ) : null}
-          </Box>
-        </>
-      ) : null}
-    </Box>
-  );
-});
+              {isBookmarked ? (
+                <IconButton
+                  aria-label="Remove"
+                  component="span"
+                  style={COLOR.red}
+                  onClick={handleRemove}
+                  title="Clear"
+                >
+                  <DeleteTwoToneIcon fontSize="large" />
+                </IconButton>
+              ) : null}
+            </Box>
+          </>
+        ) : null}
+      </Box>
+    );
+  }
+);
 
 export default QuickBookmarkPanel;

@@ -1,17 +1,18 @@
 import { IconButton } from "@material-ui/core";
 import HistoryTwoToneIcon from "@material-ui/icons/HistoryTwoTone";
-import { showManualHistoryPanel } from "GlobalActionCreators/index";
 import { COLOR } from "GlobalConstants/color";
+import { ROUTES } from "GlobalConstants/routes";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import React, { memo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 export const ManualHistoryPanelButton = memo(() => {
-  const dispatch = useDispatch();
   const isExtensionActive = useSelector((state) => state.isExtensionActive);
+  const history = useHistory();
 
   const handleShowManualHistoryPanel = () => {
-    dispatch(showManualHistoryPanel());
+    history.push(ROUTES.MANUAL_HISTORY_PANEL);
   };
 
   return (

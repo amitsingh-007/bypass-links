@@ -2,14 +2,15 @@ import { Box, IconButton } from "@material-ui/core";
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
 import storage from "ChromeApi/storage";
-import { hideBookmarksPanel } from "GlobalActionCreators/index";
 import { COLOR } from "GlobalConstants/color";
 import { FIREBASE_DB_REF, STORAGE_KEYS } from "GlobalConstants/index";
+import { ROUTES } from "GlobalConstants/routes";
 import { syncBookmarksToStorage } from "GlobalUtils/bookmark";
 import { saveDataToFirebase } from "GlobalUtils/firebase";
 import md5 from "md5";
 import React, { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import BookmarkRow from "./BookmarkRow";
 import Loader from "./Loader";
 import PanelHeading from "./PanelHeading";
@@ -30,6 +31,7 @@ const BookmarksPanel = memo(() => {
   const dispatch = useDispatch();
   const [bookmarks, setBookmarks] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
+  const history = useHistory();
 
   const initBookmarks = async () => {
     const { [STORAGE_KEYS.bookmarks]: bookmarks } = await storage.get([
@@ -50,7 +52,7 @@ const BookmarksPanel = memo(() => {
   }, []);
 
   const handleClose = () => {
-    dispatch(hideBookmarksPanel());
+    history.push(ROUTES.HOMEPAGE);
   };
 
   const handleRemoveBookmark = (pos) => {
