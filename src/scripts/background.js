@@ -1,5 +1,5 @@
 import { EXTENSION_STATE } from "GlobalConstants/index";
-import { getForumPageLinks } from "GlobalUtils/background";
+import { fetchPageH1, getForumPageLinks } from "GlobalUtils/background";
 import { bypass } from "GlobalUtils/bypass/index";
 import {
   getExtensionState,
@@ -26,6 +26,10 @@ const onMessageReceive = (message, sender, sendResponse) => {
   if (message.getForumPageLinks) {
     getForumPageLinks(message.getForumPageLinks).then((forumPageLinks) => {
       sendResponse({ forumPageLinks });
+    });
+  } else if (message.fetchPageH1) {
+    fetchPageH1().then((pageH1) => {
+      sendResponse({ pageH1 });
     });
   }
   return true;

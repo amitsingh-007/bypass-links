@@ -1,7 +1,9 @@
 import { Box, IconButton, makeStyles, TextField } from "@material-ui/core";
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import DeleteTwoToneIcon from "@material-ui/icons/DeleteTwoTone";
+import FormatColorTextTwoToneIcon from "@material-ui/icons/FormatColorTextTwoTone";
 import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
+import runtime from "ChromeApi/runtime";
 import { COLOR } from "GlobalConstants/color";
 import { FIREBASE_DB_REF } from "GlobalConstants/index";
 import { ROUTES } from "GlobalConstants/routes";
@@ -9,7 +11,7 @@ import { syncBookmarksToStorage } from "GlobalUtils/bookmark";
 import {
   copyToFallbackDB,
   removeFromFirebase,
-  upateValueInFirebase
+  upateValueInFirebase,
 } from "GlobalUtils/firebase";
 import md5 from "md5";
 import React, { memo, useState } from "react";
@@ -38,6 +40,11 @@ const QuickBookmarkPanel = memo(
 
     const handleUrlChange = (event) => {
       setUrl(event.target.value);
+    };
+
+    const handleH1Click = async () => {
+      const { pageH1 } = await runtime.sendMessage({ fetchPageH1: true });
+      setTitle(pageH1);
     };
 
     const handleClose = () => {
@@ -114,6 +121,15 @@ const QuickBookmarkPanel = memo(
               />
             </Box>
             <Box display="flex" justifyContent="center" paddingX="12px">
+              <IconButton
+                aria-label="MakeH1asTitle"
+                component="span"
+                style={COLOR.blue}
+                onClick={handleH1Click}
+                title="Make H1 as Title"
+              >
+                <FormatColorTextTwoToneIcon fontSize="large" />
+              </IconButton>
               <IconButton
                 aria-label="Save"
                 component="span"
