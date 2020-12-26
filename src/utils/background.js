@@ -1,4 +1,4 @@
-import tabs from "ChromeApi/tabs";
+import tabs, { getCurrentTab } from "ChromeApi/tabs";
 
 export const bypassSingleLinkOnPage = (selectorFn, tabId) => {
   tabs
@@ -32,10 +32,23 @@ const getForumPageLinksFunc = () => {
     (row) => row.querySelector("a.fauxBlockLink-blockLink").href
   );
 };
-
 export const getForumPageLinks = async (tabId) => {
   const [results] = await tabs.executeScript(tabId, {
     code: `(${getForumPageLinksFunc})()`,
+  });
+  return new Promise((resolve, reject) => {
+    resolve(results);
+  });
+};
+
+const getPageH1 = () => {
+  const h1s = document.getElementsByTagName("h1");
+  return h1s.length > 0 ? h1s[0].innerText : "";
+};
+export const fetchPageH1 = async () => {
+  const [{ id: tabId }] = await getCurrentTab();
+  const [results] = await tabs.executeScript(tabId, {
+    code: `(${getPageH1})()`,
   });
   return new Promise((resolve, reject) => {
     resolve(results);
