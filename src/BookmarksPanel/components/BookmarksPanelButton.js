@@ -1,8 +1,8 @@
 import { IconButton } from "@material-ui/core";
 import CollectionsBookmarkTwoToneIcon from "@material-ui/icons/CollectionsBookmarkTwoTone";
 import { COLOR } from "GlobalConstants/color";
-import { ROUTES } from "GlobalConstants/routes";
 import { getActiveDisabledColor } from "GlobalUtils/color";
+import { getBookmarksPanelUrl } from "SrcPath/BookmarksPanel/utils";
 import React, { memo } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -12,7 +12,7 @@ const BookmarksPanelButton = memo(() => {
   const history = useHistory();
 
   const handleShowEditPanel = () => {
-    history.push(ROUTES.BOOKMARK_PANEL);
+    history.push(getBookmarksPanelUrl({}));
   };
 
   return (

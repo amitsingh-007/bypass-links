@@ -1,4 +1,4 @@
-import { resetBookmarks, syncBookmarksToStorage } from "./bookmark";
+import { resetBookmarks, syncBookmarksToStorage } from "../BookmarksPanel/utils/bookmark";
 import { resetBypass, syncBypassToStorage } from "./bypass";
 import { resetRedirections, syncRedirectionsToStorage } from "./redirect";
 

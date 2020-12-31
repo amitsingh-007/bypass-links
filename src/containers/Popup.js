@@ -1,6 +1,5 @@
 import { Box, Typography } from "@material-ui/core/";
 import { Authenticate } from "GlobalComponents/Authenticate";
-import BookmarksPanelButton from "GlobalComponents/BookmarksPanelButton";
 import { EditPanelButton } from "GlobalComponents/EditPanelButton";
 import { ManualHistoryPanelButton } from "GlobalComponents/ManualHistoryPanelButton";
 import { OpenDefaultsButton } from "GlobalComponents/OpenDefaultsButton";
@@ -11,6 +10,7 @@ import { ToggleExtension } from "GlobalComponents/ToggleExtension";
 import { ToggleHistory } from "GlobalComponents/ToggleHistory";
 import { COLOR } from "GlobalConstants/color";
 import React, { memo } from "react";
+import BookmarksPanelButton from "SrcPath/BookmarksPanel/components/BookmarksPanelButton";
 
 export const Popup = memo(() => (
   <Box

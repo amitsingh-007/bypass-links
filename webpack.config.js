@@ -27,6 +27,11 @@ const optimizationOptions = {
         name: "material-ui",
         chunks: "all",
       },
+      react: {
+        test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+        name: "react",
+        chunks: "all",
+      },
     },
   },
 };

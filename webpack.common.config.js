@@ -29,8 +29,13 @@ const commonConfig = {
       GlobalStyles: path.resolve(__dirname, "src/styles/"),
       GlobalUtils: path.resolve(__dirname, "src/utils/"),
       SrcPath: path.resolve(__dirname, "src/"),
-      react: "preact/compat",
-      "react-dom": "preact/compat",
+      /**
+       * preact caused issue with material-ui makeStyles hook(not in our code, instead in the internal code of mui)
+       * Refer: https://github.com/mui-org/material-ui/issues/20182#issuecomment-700800996
+       * Issue happended inside `FolderDropdown` component
+       */
+      // react: "preact/compat",
+      // "react-dom": "preact/compat",
     },
     modules: [PATHS.SRC, "node_modules"],
   },

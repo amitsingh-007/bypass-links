@@ -6,9 +6,9 @@ const storage = {
       chrome.storage.local.set(items, callback);
     }),
 
-  get: (keys) =>
+  get: (array_of_keys) =>
     promisify((callback) => {
-      chrome.storage.local.get(keys, callback);
+      chrome.storage.local.get(array_of_keys, callback);
     }),
 
   remove: (key) =>
