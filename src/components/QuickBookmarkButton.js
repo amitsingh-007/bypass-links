@@ -3,9 +3,8 @@ import BookmarkBorderTwoToneIcon from "@material-ui/icons/BookmarkBorderTwoTone"
 import BookmarkTwoToneIcon from "@material-ui/icons/BookmarkTwoTone";
 import { getCurrentTab } from "ChromeApi/tabs";
 import { COLOR } from "GlobalConstants/color";
-import { defaultBookmarkFolder, FIREBASE_DB_REF } from "GlobalConstants/index";
+import { defaultBookmarkFolder } from "GlobalConstants/index";
 import { getActiveDisabledColor } from "GlobalUtils/color";
-import { saveDataToFirebase } from "GlobalUtils/firebase";
 import md5 from "md5";
 import React, { memo, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -14,7 +13,6 @@ import { getBookmarksPanelUrl } from "SrcPath/BookmarksPanel/utils";
 import {
   getBookmarksObj,
   getFromHash,
-  syncBookmarksToStorage,
 } from "SrcPath/BookmarksPanel/utils/bookmark";
 import { IconButtonLoader } from "./Loader";
 
@@ -24,41 +22,13 @@ const QuickBookmarkButton = memo(() => {
   const [isFetching, setIsFetching] = useState(false);
   const history = useHistory();
 
-  const runOnProd = async () => {
-    const bookmarks = await getBookmarksObj();
-    const rootFolderContent = [];
-    const urlList = Object.entries(bookmarks).reduce((obj, [key, value]) => {
-      rootFolderContent.push({ isDir: false, hash: key });
-      obj[key] = { ...value, parentHash: md5("Bookmarks bar") };
-      return obj;
-    }, {});
-    const newBookmarksObj = {
-      folderList: {
-        [md5("Bookmarks bar")]: {
-          name: btoa("Bookmarks bar"),
-          parentHash: null,
-        },
-      },
-      urlList,
-      folders: {
-        [md5("Bookmarks bar")]: rootFolderContent,
-      },
-    };
-    await saveDataToFirebase(
-      newBookmarksObj,
-      FIREBASE_DB_REF.bookmarks,
-      syncBookmarksToStorage
-    );
-  };
-
   const initBookmark = async () => {
-    await runOnProd();
-    // setIsFetching(true);
-    // const [{ url }] = await getCurrentTab();
-    // const bookmarks = await getBookmarksObj();
-    // const bookmark = bookmarks.urlList[md5(url)];
-    // setBookmark(bookmark);
-    // setIsFetching(false);
+    setIsFetching(true);
+    const [{ url }] = await getCurrentTab();
+    const bookmarks = await getBookmarksObj();
+    const bookmark = bookmarks.urlList[md5(url)];
+    setBookmark(bookmark);
+    setIsFetching(false);
   };
 
   useEffect(() => {
