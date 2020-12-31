@@ -27,6 +27,8 @@ This is an easy-to-use Open-Source `Browser Extension` which bypasses links on v
 
 - A **fully customizable and full featured packed bookmarks panel** same as offered by Google chrome.
 
+- **Turn off auto suggestions** for any page.
+
 - Full **dark theme** support
 
 - Modern UI
