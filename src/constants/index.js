@@ -37,3 +37,5 @@ export const FIREBASE_DB_REF = {
   bypass: `${dbPrefix}/${STORAGE_KEYS.bypass}`,
   redirections: `${dbPrefix}/${STORAGE_KEYS.redirections}`,
 };
+
+export const defaultBookmarkFolder = "Bookmarks bar";

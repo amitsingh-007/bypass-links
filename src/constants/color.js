@@ -7,6 +7,7 @@ import {
   orange,
   pink,
   red,
+  yellow,
 } from "@material-ui/core/colors";
 
 export const COLOR = {
@@ -19,5 +20,6 @@ export const COLOR = {
   orange: { color: orange["A200"] },
   pink: { color: pink[300] },
   red: { color: red[400] },
+  yellow: { color: yellow[500] },
   heading: "azure",
 };

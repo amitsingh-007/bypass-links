@@ -1,16 +1,19 @@
 import { IconButton } from "@material-ui/core";
 import BookmarkBorderTwoToneIcon from "@material-ui/icons/BookmarkBorderTwoTone";
 import BookmarkTwoToneIcon from "@material-ui/icons/BookmarkTwoTone";
-import storage from "ChromeApi/storage";
 import { getCurrentTab } from "ChromeApi/tabs";
 import { COLOR } from "GlobalConstants/color";
-import { STORAGE_KEYS } from "GlobalConstants/index";
-import { ROUTES } from "GlobalConstants/routes";
+import { defaultBookmarkFolder } from "GlobalConstants/index";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import md5 from "md5";
 import React, { memo, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { getBookmarksPanelUrl } from "SrcPath/BookmarksPanel/utils";
+import {
+  getBookmarksObj,
+  getFromHash,
+} from "SrcPath/BookmarksPanel/utils/bookmark";
 import { IconButtonLoader } from "./Loader";
 
 const QuickBookmarkButton = memo(() => {
@@ -22,10 +25,8 @@ const QuickBookmarkButton = memo(() => {
   const initBookmark = async () => {
     setIsFetching(true);
     const [{ url }] = await getCurrentTab();
-    const { [STORAGE_KEYS.bookmarks]: bookmarks } = await storage.get([
-      STORAGE_KEYS.bookmarks,
-    ]);
-    const bookmark = bookmarks[md5(url)];
+    const bookmarks = await getBookmarksObj();
+    const bookmark = bookmarks.urlList[md5(url)];
     setBookmark(bookmark);
     setIsFetching(false);
   };
@@ -38,21 +39,21 @@ const QuickBookmarkButton = memo(() => {
   }, [isSignedIn]);
 
   const handleClick = async () => {
-    const payload = {};
+    const urlParams = {};
     if (bookmark) {
-      payload.isBookmarked = true;
-      payload.title = decodeURIComponent(atob(bookmark.title));
-      payload.url = decodeURIComponent(atob(bookmark.url));
+      const parent = await getFromHash(true, bookmark.parentHash);
+      urlParams.editBookmark = true;
+      urlParams.url = decodeURIComponent(atob(bookmark.url));
+      urlParams.title = decodeURIComponent(atob(bookmark.title));
+      urlParams.folder = atob(parent.name);
     } else {
       const [{ url, title }] = await getCurrentTab();
-      payload.isBookmarked = false;
-      payload.title = title;
-      payload.url = url;
+      urlParams.addBookmark = true;
+      urlParams.url = url;
+      urlParams.title = title;
+      urlParams.folder = defaultBookmarkFolder;
     }
-    const url = `${ROUTES.QUICK_BOOKMARK_PANEL}?${new URLSearchParams(
-      payload
-    ).toString()}`;
-    history.push(url);
+    history.push(getBookmarksPanelUrl(urlParams));
   };
 
   if (isFetching) {

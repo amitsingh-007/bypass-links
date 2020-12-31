@@ -1,5 +1,12 @@
-import { createMuiTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
+//https://stackoverflow.com/a/64135466/8694064
+//https://next.material-ui.com/guides/migration-v4/#non-ref-forwarding-class-components
+import {
+  unstable_createMuiStrictModeTheme as createMuiTheme,
+  CssBaseline,
+  ThemeProvider,
+} from "@material-ui/core";
 import ErrorBoundary from "GlobalComponents/ErrorBoundary";
+import Toast from "GlobalComponents/Toast";
 import PopupRoutes from "GlobalContainers/PopupRoutes";
 import "GlobalStyles/popup.scss";
 import React, { StrictMode } from "react";
@@ -31,6 +38,7 @@ ReactDOM.render(
           <ThemeProvider theme={theme}>
             <CssBaseline />
             <PopupRoutes />
+            <Toast />
           </ThemeProvider>
         </BrowserRouter>
       </Provider>

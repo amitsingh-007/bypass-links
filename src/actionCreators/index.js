@@ -1,4 +1,6 @@
 import {
+  DISPLAY_TOAST,
+  HIDE_TOAST,
   SET_SIGNED_IN_STATUS,
   START_HISTORY_MONITOR,
   TURN_OFF_EXTENSION,
@@ -20,4 +22,14 @@ export const turnOnExtension = () => ({
 
 export const startHistoryMonitor = () => ({
   type: START_HISTORY_MONITOR,
+});
+
+export const displayToast = ({ message, severity = "info" }) => ({
+  type: DISPLAY_TOAST,
+  message,
+  severity,
+});
+
+export const hideToast = () => ({
+  type: HIDE_TOAST,
 });

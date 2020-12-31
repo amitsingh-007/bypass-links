@@ -1,12 +1,11 @@
 import { IconButtonLoader } from "GlobalComponents/Loader";
 import React, { Suspense } from "react";
 import { Switch } from "react-router-dom";
+import { BookmarksPanelRoute } from "SrcPath/BookmarksPanel/routes/index";
 import {
-  BookmarksPanelRoute,
   EditPanelRoute,
   HomePageRoute,
   ManualHistoryPanelRoute,
-  QuickBookmarkPanelRoute,
 } from "SrcPath/routes";
 
 const PopupRoutes = () => (
@@ -16,7 +15,6 @@ const PopupRoutes = () => (
       {EditPanelRoute}
       {BookmarksPanelRoute}
       {ManualHistoryPanelRoute}
-      {QuickBookmarkPanelRoute}
     </Switch>
   </Suspense>
 );

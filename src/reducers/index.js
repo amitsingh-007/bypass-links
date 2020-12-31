@@ -1,4 +1,6 @@
 import {
+  DISPLAY_TOAST,
+  HIDE_TOAST,
   SET_SIGNED_IN_STATUS,
   START_HISTORY_MONITOR,
   TURN_OFF_EXTENSION,
@@ -9,6 +11,7 @@ const defaultState = {
   isSignedIn: false,
   isExtensionActive: true,
   startHistoryMonitor: false,
+  toast: null,
 };
 
 const reducer = (state = defaultState, action) => {
@@ -32,6 +35,19 @@ const reducer = (state = defaultState, action) => {
       return {
         ...state,
         startHistoryMonitor: true,
+      };
+    case DISPLAY_TOAST:
+      return {
+        ...state,
+        toast: {
+          message: action.message,
+          severity: action.severity,
+        },
+      };
+    case HIDE_TOAST:
+      return {
+        ...state,
+        toast: null,
       };
     default:
       return defaultState;

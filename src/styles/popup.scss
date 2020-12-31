@@ -3,3 +3,33 @@
 .bookmarkRowContainer:hover {
   background-color: #ffffff29;
 }
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  padding: 0px !important;
+}
+
+// Custom scroll bar styles
+::-webkit-scrollbar {
+  width: 8px;
+  height: 3px;
+}
+::-webkit-scrollbar-button {
+  display: none;
+}
+::-webkit-scrollbar-track {
+  background-color: #646464;
+}
+::-webkit-scrollbar-track-piece {
+  background-color: #272c34;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #666;
+  border-radius: 6px;
+}
+::-webkit-scrollbar-corner {
+  background-color: #646464;
+}

@@ -44,8 +44,8 @@ export const searchOnValue = (ref, field, value) =>
 export const upateValueInFirebase = (ref, key, value) =>
   firebase.database().ref(ref).child(key).set(value);
 
-export const removeFromFirebase = (ref, key) =>
-  firebase.database().ref(ref).child(key).remove();
+export const updateMany = (ref, updates) =>
+  firebase.database().ref(ref).update(updates);
 
 export const copyToFallbackDB = async (dbRef) => {
   const fallbackDbRef = `fallback/${dbRef}`;
