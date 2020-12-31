@@ -54,3 +54,5 @@ export const fetchPageH1 = async () => {
     resolve(results);
   });
 };
+
+export const isValidUrl = (url) => url && !/chrome:\/\/*/.test(url);

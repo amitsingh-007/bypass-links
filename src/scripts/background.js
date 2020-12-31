@@ -1,5 +1,9 @@
 import { EXTENSION_STATE } from "GlobalConstants/index";
-import { fetchPageH1, getForumPageLinks } from "GlobalUtils/background";
+import {
+  fetchPageH1,
+  getForumPageLinks,
+  isValidUrl,
+} from "GlobalUtils/background";
 import { bypass } from "GlobalUtils/bypass/index";
 import {
   getExtensionState,
@@ -7,14 +11,16 @@ import {
   setExtStateInStorage,
 } from "GlobalUtils/common";
 import { redirect } from "GlobalUtils/redirect";
+import turnOffInputSuggestions from "GlobalUtils/turnOffInputSuggestions";
 
 const onUpdateCallback = async (tabId, changeInfo) => {
   const { url } = changeInfo;
   const extState = await getExtensionState();
-  if (url && isExtensionActive(extState)) {
+  if (isValidUrl(url) && isExtensionActive(extState)) {
     const currentTabUrl = new URL(url);
     bypass(tabId, currentTabUrl);
     redirect(tabId, currentTabUrl);
+    turnOffInputSuggestions();
   }
 };
 
