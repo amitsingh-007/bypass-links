@@ -1,11 +1,8 @@
-//https://stackoverflow.com/a/64135466/8694064
-//https://next.material-ui.com/guides/migration-v4/#non-ref-forwarding-class-components
 import {
-  adaptV4Theme,
   CssBaseline,
   StylesProvider,
   ThemeProvider,
-  unstable_createMuiStrictModeTheme as createMuiTheme,
+  createMuiTheme,
 } from "@material-ui/core";
 import ErrorBoundary from "GlobalComponents/ErrorBoundary";
 import Toast from "GlobalComponents/Toast";
@@ -20,19 +17,17 @@ import reducer from "./reducers";
 
 const store = createStore(reducer);
 
-const theme = createMuiTheme(
-  adaptV4Theme({
-    palette: {
-      mode: "dark",
-      background: {
-        default: "#272c34",
-      },
+const theme = createMuiTheme({
+  palette: {
+    mode: "dark",
+    background: {
+      default: "#272c34",
     },
-    typography: {
-      fontFamily: `"Inter", sans-serif`,
-    },
-  })
-);
+  },
+  typography: {
+    fontFamily: `"Inter", sans-serif`,
+  },
+});
 
 ReactDOM.render(
   <StrictMode>

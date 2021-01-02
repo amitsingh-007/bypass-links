@@ -119,8 +119,9 @@ export const RedirectionRule = memo(
               aria-label="Reset"
               title="Reset"
               edge="end"
+              onClick={handleResetClick}
             >
-              <RestoreTwoToneIcon onClick={handleResetClick} />
+              <RestoreTwoToneIcon />
             </IconButton>
             <IconButton
               aria-label="Save"
@@ -128,11 +129,17 @@ export const RedirectionRule = memo(
               style={isRuleSame ? null : COLOR.green}
               edge="end"
               disabled={isRuleSame}
+              onClick={handleSaveClick}
             >
-              <DoneAllTwoToneIcon onClick={handleSaveClick} />
+              <DoneAllTwoToneIcon />
             </IconButton>
-            <IconButton aria-label="Remove" title="Delete" style={COLOR.red}>
-              <DeleteTwoToneIcon onClick={handleRemoveClick} />
+            <IconButton
+              aria-label="Remove"
+              title="Delete"
+              style={COLOR.red}
+              onClick={handleRemoveClick}
+            >
+              <DeleteTwoToneIcon />
             </IconButton>
           </Box>
         )}

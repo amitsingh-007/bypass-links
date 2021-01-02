@@ -3,7 +3,6 @@ import {
   CssBaseline,
   StylesProvider,
   ThemeProvider,
-  adaptV4Theme,
 } from "@material-ui/core";
 import DownloadPage from "GlobalComponents/DownloadPage";
 import "GlobalStyles/download-page.scss";
@@ -11,16 +10,14 @@ import "preact/devtools";
 import React, { StrictMode } from "react";
 import ReactDOM from "react-dom";
 
-const theme = createMuiTheme(
-  adaptV4Theme({
-    typography: {
-      fontFamily: `"Inter", sans-serif`,
-      h2: {
-        fontWeight: "400",
-      },
+const theme = createMuiTheme({
+  typography: {
+    fontFamily: `"Inter", sans-serif`,
+    h2: {
+      fontWeight: "400",
     },
-  })
-);
+  },
+});
 
 ReactDOM.render(
   <StrictMode>
@@ -39,7 +36,7 @@ if ("serviceWorker" in navigator) {
     navigator.serviceWorker
       .register(`/${__PROD__ ? "bypass-links/" : ""}sw.js`)
       .then((res) => {
-        console.log("Service worker registered", res);
+        console.log("Service worker registered");
       })
       .catch((err) => {
         console.log("Service worker registration failed", err);

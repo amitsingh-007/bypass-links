@@ -1,9 +1,10 @@
-import DateFnsUtils from "@date-io/date-fns";
+import DateFnsUtils from "@date-io/dayjs";
 import { Box, IconButton } from "@material-ui/core";
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import DeleteSweepTwoToneIcon from "@material-ui/icons/DeleteSweepTwoTone";
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import storage from "ChromeApi/storage";
+import historyApi from "ChromeApi/history";
 import { COLOR } from "GlobalConstants/color";
 import { ROUTES } from "GlobalConstants/routes";
 import React, { memo, useEffect, useState } from "react";
@@ -11,9 +12,9 @@ import { useHistory } from "react-router-dom";
 import PanelHeading from "./PanelHeading";
 
 const ManualHistoryPanel = memo(() => {
-  const [startDateTime, setStartDateTime] = useState(new Date());
-  const [endDateTime, setEndDateTime] = useState(new Date());
   const history = useHistory();
+  const [startDateTime, setStartDateTime] = useState(Date.now());
+  const [endDateTime, setEndDateTime] = useState(Date.now());
 
   useEffect(() => {
     storage.get(["historyStartTime"]).then(({ historyStartTime }) => {
@@ -24,11 +25,11 @@ const ManualHistoryPanel = memo(() => {
   });
 
   const handleStartDateTimeChange = (date) => {
-    setStartDateTime(date);
+    setStartDateTime(date.valueOf());
   };
 
   const handleEndDateTimeChange = (date) => {
-    setEndDateTime(date);
+    setEndDateTime(date.valueOf());
   };
 
   const handleClose = () => {
@@ -36,13 +37,13 @@ const ManualHistoryPanel = memo(() => {
   };
 
   const handleClear = () => {
-    const startTime = startDateTime.getTime();
-    const endTime = endDateTime.getTime();
+    const startTime = startDateTime;
+    const endTime = endDateTime;
     if (startTime > endTime) {
       console.log("Start DateTim cannot be more than End DateTime.");
       return;
     }
-    history
+    historyApi
       .deleteRange({
         startTime,
         endTime,
