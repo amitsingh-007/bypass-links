@@ -11,6 +11,7 @@ import {
   setExtStateInStorage,
 } from "GlobalUtils/common";
 import { redirect } from "GlobalUtils/redirect";
+import siteSpecificLogic from "GlobalUtils/siteSpecificLogic/index";
 import turnOffInputSuggestions from "GlobalUtils/turnOffInputSuggestions";
 
 const onUpdateCallback = async (tabId, changeInfo) => {
@@ -21,6 +22,7 @@ const onUpdateCallback = async (tabId, changeInfo) => {
     bypass(tabId, currentTabUrl);
     redirect(tabId, currentTabUrl);
     turnOffInputSuggestions();
+    siteSpecificLogic(tabId, currentTabUrl);
   }
 };
 

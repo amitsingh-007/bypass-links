@@ -5,6 +5,11 @@ const history = {
     promisify((callback) => {
       chrome.history.deleteRange(options, callback);
     }),
+
+  search: (options) =>
+    promisify((callback) => {
+      chrome.history.search(options, callback);
+    }),
 };
 
 export default history;
