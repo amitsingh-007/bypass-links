@@ -1,10 +1,10 @@
 //https://stackoverflow.com/a/64135466/8694064
 //https://next.material-ui.com/guides/migration-v4/#non-ref-forwarding-class-components
 import {
+  adaptV4Theme,
   CssBaseline,
   StylesProvider,
   ThemeProvider,
-  adaptV4Theme,
   unstable_createMuiStrictModeTheme as createMuiTheme,
 } from "@material-ui/core";
 import ErrorBoundary from "GlobalComponents/ErrorBoundary";

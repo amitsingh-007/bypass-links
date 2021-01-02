@@ -29,7 +29,7 @@ const Info = ({ info }) => (
 );
 
 export const ReleaseInfo = memo(() => (
-  <Box {...containerProps}>
+  <Box sx={containerProps}>
     <Info info={__RELEASE_DATE__} />
     <Info info={__EXT_VERSION__} />
   </Box>
