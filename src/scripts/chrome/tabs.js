@@ -6,9 +6,19 @@ const tabs = {
       chrome.tabs.create(options, callback);
     }),
 
+  remove: (tabId) =>
+    promisify((callback) => {
+      chrome.tabs.remove(tabId, callback);
+    }),
+
   update: (tabId, options) =>
     promisify((callback) => {
       chrome.tabs.update(tabId, options, callback);
+    }),
+
+  goBack: (tabId) =>
+    promisify((callback) => {
+      chrome.tabs.goBack(tabId, callback);
     }),
 
   query: (options) =>

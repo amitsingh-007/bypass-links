@@ -1,3 +1,5 @@
+import tabs from "ChromeApi/tabs";
+import windows from "ChromeApi/windows";
 import { MEDIUM_HOMEPAGE, MEDIUM_WHITELISTED } from "GlobalConstants/index";
 
 const shouldSkipBypassingMedium = (url, searchParams) =>
@@ -12,39 +14,20 @@ const shouldBypass = () => {
 };
 
 export const bypassMedium = async (url, tabId) => {
-  const onIncognitoOpenCallback = () => {
-    chrome.tabs.goBack(tabId);
-  };
-
   if (shouldSkipBypassingMedium(url.href, url.searchParams)) {
     return;
   }
 
-  chrome.tabs.executeScript(
-    tabId,
-    {
-      code: `(${shouldBypass})()`,
-      runAt: "document_end",
-    },
-    ([result] = []) => {
-      // shown in devtools of the popup window
-      if (!chrome.runtime.lastError) {
-        if (result && result.hasPaywall) {
-          chrome.windows.create(
-            {
-              url: url.href,
-              state: "maximized",
-              incognito: true,
-            },
-            onIncognitoOpenCallback
-          );
-        }
-      } else {
-        console.log(
-          "Error in bypassing medium, not retrying.",
-          chrome.runtime.lastError
-        );
-      }
-    }
-  );
+  const [result] = await tabs.executeScript(tabId, {
+    code: `(${shouldBypass})()`,
+    runAt: "document_end",
+  });
+  if (result && result.hasPaywall) {
+    await windows.create({
+      url: url.href,
+      state: "maximized",
+      incognito: true,
+    });
+    tabs.goBack(tabId);
+  }
 };

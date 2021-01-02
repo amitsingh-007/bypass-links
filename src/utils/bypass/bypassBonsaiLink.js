@@ -18,5 +18,5 @@ const findLinksOnPage = () => {
 };
 
 export const bypassBonsaiLink = async (url, tabId) => {
-  bypassSingleLinkOnPage(findLinksOnPage, tabId);
+  await bypassSingleLinkOnPage(findLinksOnPage, tabId);
 };

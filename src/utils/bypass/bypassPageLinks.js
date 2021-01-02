@@ -18,5 +18,5 @@ const findMegaLinks = () => {
 };
 
 export const bypassPageLinks = async (url, tabId) => {
-  bypassSingleLinkOnPage(findMegaLinks, tabId);
+  await bypassSingleLinkOnPage(findMegaLinks, tabId);
 };

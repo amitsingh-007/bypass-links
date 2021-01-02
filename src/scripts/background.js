@@ -1,3 +1,4 @@
+import browserAction from "ChromeApi/browserAction";
 import { EXTENSION_STATE } from "GlobalConstants/index";
 import {
   fetchPageH1,
@@ -44,7 +45,7 @@ const onMessageReceive = (message, sender, sendResponse) => {
 };
 
 const onStorageChange = (changedObj, storageType) => {
-  if (storageType !== "sync") {
+  if (storageType !== "local") {
     return;
   }
   const { extState } = changedObj;
@@ -52,7 +53,7 @@ const onStorageChange = (changedObj, storageType) => {
     const icon = isExtensionActive(extState.newValue)
       ? "bypass_link_on_128.png"
       : "bypass_link_off_128.png";
-    chrome.browserAction.setIcon({ path: icon });
+    browserAction.setIcon({ path: icon });
   }
 };
 
