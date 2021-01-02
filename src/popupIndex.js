@@ -1,5 +1,7 @@
 import {
   CssBaseline,
+  //Need styles provider until we remove makeStyles,etc
+  //Refer: https://next.material-ui.com/guides/migration-v4/#styled-engine
   StylesProvider,
   ThemeProvider,
   createMuiTheme,
