@@ -1,9 +1,11 @@
 //https://stackoverflow.com/a/64135466/8694064
 //https://next.material-ui.com/guides/migration-v4/#non-ref-forwarding-class-components
 import {
-  unstable_createMuiStrictModeTheme as createMuiTheme,
   CssBaseline,
+  StylesProvider,
   ThemeProvider,
+  adaptV4Theme,
+  unstable_createMuiStrictModeTheme as createMuiTheme,
 } from "@material-ui/core";
 import ErrorBoundary from "GlobalComponents/ErrorBoundary";
 import Toast from "GlobalComponents/Toast";
@@ -18,28 +20,32 @@ import reducer from "./reducers";
 
 const store = createStore(reducer);
 
-const theme = createMuiTheme({
-  palette: {
-    type: "dark",
-    background: {
-      default: "#272c34",
+const theme = createMuiTheme(
+  adaptV4Theme({
+    palette: {
+      mode: "dark",
+      background: {
+        default: "#272c34",
+      },
     },
-  },
-  typography: {
-    fontFamily: `"Inter", sans-serif`,
-  },
-});
+    typography: {
+      fontFamily: `"Inter", sans-serif`,
+    },
+  })
+);
 
 ReactDOM.render(
   <StrictMode>
     <ErrorBoundary>
       <Provider store={store}>
         <BrowserRouter>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <PopupRoutes />
-            <Toast />
-          </ThemeProvider>
+          <StylesProvider injectFirst>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              <PopupRoutes />
+              <Toast />
+            </ThemeProvider>
+          </StylesProvider>
         </BrowserRouter>
       </Provider>
     </ErrorBoundary>

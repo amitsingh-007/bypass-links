@@ -1,6 +1,6 @@
 import { makeStyles, Slide } from "@material-ui/core";
 import Snackbar from "@material-ui/core/Snackbar";
-import Alert from "@material-ui/lab/Alert";
+import Alert from "@material-ui/core/Alert";
 import { hideToast } from "GlobalActionCreators/";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
