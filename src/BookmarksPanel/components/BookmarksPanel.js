@@ -182,6 +182,7 @@ const BookmarksPanel = memo(
       setIsFetching(false);
       if (isSaveSuccess) {
         setIsSaveButtonActive(false);
+        dispatch(displayToast({ message: "Bookmarks saved", duration: 500 }));
       }
     };
 
@@ -201,10 +202,12 @@ const BookmarksPanel = memo(
     return (
       <DragDropContext onDragEnd={onDragEnd}>
         <Box
-          width="768px"
-          display="flex"
-          flexDirection="column"
-          paddingBottom="8px"
+          sx={{
+            width: "768px",
+            display: "flex",
+            flexDirection: "column",
+            paddingBottom: "8px",
+          }}
         >
           <Header
             folderNamesList={folderNamesList}
@@ -222,9 +225,8 @@ const BookmarksPanel = memo(
               <Box
                 component="form"
                 noValidate
-                height={contentHeight}
-                overflow="hidden scroll"
                 autoComplete="off"
+                sx={{ height: contentHeight, overflow: "hidden scroll" }}
                 ref={provided.innerRef}
                 {...provided.droppableProps}
               >

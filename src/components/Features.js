@@ -42,7 +42,7 @@ const Features = memo(() => (
   <Box className="customBgColor">
     <List>
       {features.map((feature) => (
-        <ListItem style={listItemStyles}>
+        <ListItem style={listItemStyles} key={feature}>
           <ListItemIcon>
             <StarRoundedIcon />
           </ListItemIcon>

@@ -1,19 +1,47 @@
-import DateFnsUtils from "@date-io/date-fns";
-import { Box, IconButton } from "@material-ui/core";
+import { Box, IconButton, TextField } from "@material-ui/core";
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import DeleteSweepTwoToneIcon from "@material-ui/icons/DeleteSweepTwoTone";
-import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import AdapterDayjs from "@material-ui/lab/AdapterDayjs";
+import DesktopDateTimePicker from "@material-ui/lab/DesktopDateTimePicker";
+import LocalizationProvider from "@material-ui/lab/LocalizationProvider";
+import historyApi from "ChromeApi/history";
 import storage from "ChromeApi/storage";
+import { displayToast } from "GlobalActionCreators/index";
 import { COLOR } from "GlobalConstants/color";
 import { ROUTES } from "GlobalConstants/routes";
 import React, { memo, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import PanelHeading from "./PanelHeading";
 
+const DateTimeInput = memo(({ dateTime, onChange, label }) => (
+  <DesktopDateTimePicker
+    showToolbar={false}
+    ampm={false}
+    margin="normal"
+    label={label}
+    value={dateTime}
+    onChange={onChange}
+    renderInput={(props) => (
+      <Box sx={{ paddingY: "8px" }}>
+        <TextField
+          {...props}
+          helperText={null}
+          variant="filled"
+          color="secondary"
+          fullWidth
+        />
+      </Box>
+    )}
+    maxDateTime={Date.now()}
+  />
+));
+
 const ManualHistoryPanel = memo(() => {
-  const [startDateTime, setStartDateTime] = useState(new Date());
-  const [endDateTime, setEndDateTime] = useState(new Date());
   const history = useHistory();
+  const dispatch = useDispatch();
+  const [startDateTime, setStartDateTime] = useState(Date.now());
+  const [endDateTime, setEndDateTime] = useState(Date.now());
 
   useEffect(() => {
     storage.get(["historyStartTime"]).then(({ historyStartTime }) => {
@@ -24,39 +52,41 @@ const ManualHistoryPanel = memo(() => {
   });
 
   const handleStartDateTimeChange = (date) => {
-    setStartDateTime(date);
+    setStartDateTime(date.valueOf());
   };
 
   const handleEndDateTimeChange = (date) => {
-    setEndDateTime(date);
+    setEndDateTime(date.valueOf());
   };
 
   const handleClose = () => {
     history.push(ROUTES.HOMEPAGE);
   };
 
-  const handleClear = () => {
-    const startTime = startDateTime.getTime();
-    const endTime = endDateTime.getTime();
+  const handleClear = async () => {
+    const startTime = startDateTime;
+    const endTime = endDateTime;
     if (startTime > endTime) {
       console.log("Start DateTim cannot be more than End DateTime.");
       return;
     }
-    history
-      .deleteRange({
-        startTime,
-        endTime,
-      })
-      .then(() => {
-        storage.remove("historyStartTime");
-        console.log("History clear succesful.");
-        handleClose();
-      });
+    await historyApi.deleteRange({
+      startTime,
+      endTime,
+    });
+    storage.remove("historyStartTime");
+    dispatch(displayToast({ message: "History cleared succesfully" }));
   };
 
   return (
-    <Box width="335px" height="430px">
-      <Box display="flex" justifyContent="space-between" alignItems="center">
+    <Box sx={{ width: "321px", height: "570px" }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
         <IconButton
           aria-label="Back"
           component="span"
@@ -68,29 +98,21 @@ const ManualHistoryPanel = memo(() => {
         </IconButton>
         <PanelHeading heading="HISTORY PANEL" />
       </Box>
-      <Box display="flex" flexDirection="column" paddingX="20px">
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <DateTimePicker
-            disableToolbar
-            ampm={false}
-            inputVariant="filled"
-            margin="normal"
-            label="Start Date Time"
-            value={startDateTime}
+      <Box sx={{ display: "flex", flexDirection: "column", paddingX: "15px" }}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DateTimeInput
+            dateTime={startDateTime}
             onChange={handleStartDateTimeChange}
+            label="Start Date Time"
           />
-          <DateTimePicker
-            disableToolbar
-            ampm={false}
-            inputVariant="filled"
-            margin="normal"
-            label="End Date Time"
-            value={endDateTime}
+          <DateTimeInput
+            dateTime={endDateTime}
             onChange={handleEndDateTimeChange}
+            label="End Date Time"
           />
-        </MuiPickersUtilsProvider>
+        </LocalizationProvider>
       </Box>
-      <Box textAlign="center">
+      <Box sx={{ textAlign: "center" }}>
         <IconButton
           aria-label="Clear"
           component="span"

@@ -109,8 +109,16 @@ const EditPanel = memo(() => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Box width="max-content" display="flex" flexDirection="column">
-        <Box display="flex" justifyContent="space-between" alignItems="center">
+      <Box
+        sx={{ width: "max-content", display: "flex", flexDirection: "column" }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
           <Box>
             <IconButton
               aria-label="Discard"

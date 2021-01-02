@@ -25,7 +25,7 @@ class ErrorBoundary extends Component {
     const { hasError, error } = this.state;
     if (hasError) {
       return (
-        <Box padding="12px" fontSize="17px" width="200px">
+        <Box sx={{ padding: "12px", fontSize: "17px", width: "200px" }}>
           {error.toString()}
         </Box>
       );

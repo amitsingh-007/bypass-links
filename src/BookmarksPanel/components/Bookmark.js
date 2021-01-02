@@ -53,17 +53,19 @@ const Bookmark = memo(
 
     return (
       <>
-        <Box display="flex" width="100%" onDoubleClick={handleOpenLink}>
+        <Box
+          onDoubleClick={handleOpenLink}
+          sx={{ display: "flex", width: "100%" }}
+        >
           <Box
             component="img"
-            width="20px"
-            height="20px"
-            marginRight="8px"
             src={getFaviconUrl(url)}
+            sx={{ width: "20px", height: "20px", marginRight: "8px" }}
           />
           <BlackTooltip
             title={<Typography style={tooltipStyles}>{url}</Typography>}
             arrow
+            disableInteractive
           >
             <Typography noWrap style={titleStyles}>
               {origTitle}

@@ -1,6 +1,6 @@
 import { makeStyles, Slide } from "@material-ui/core";
 import Snackbar from "@material-ui/core/Snackbar";
-import Alert from "@material-ui/lab/Alert";
+import Alert from "@material-ui/core/Alert";
 import { hideToast } from "GlobalActionCreators/";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -42,12 +42,12 @@ const Toast = () => {
     return null;
   }
 
-  const { message, severity = "info" } = toast;
+  const { message, severity = "info", duration = 3000 } = toast;
   return (
     <Snackbar
       key={message}
       open={open}
-      autoHideDuration={3000}
+      autoHideDuration={duration}
       onClose={handleClose}
       anchorOrigin={position}
       TransitionComponent={SlideTransition}

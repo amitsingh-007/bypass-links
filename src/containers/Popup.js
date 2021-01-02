@@ -14,16 +14,16 @@ import BookmarksPanelButton from "SrcPath/BookmarksPanel/components/BookmarksPan
 
 export const Popup = memo(() => (
   <Box
-    display="flex"
-    flexDirection="column"
-    alignItems="center"
-    padding="16px"
-    width="max-content"
+    sx={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      padding: "16px",
+      width: "max-content",
+    }}
   >
     <Typography variant="h5" component="h5" gutterBottom>
-      <Box color={COLOR.heading} fontWeight="700">
-        BYPASS LINKS
-      </Box>
+      <Box sx={{ color: COLOR.heading, fontWeight: "700" }}>BYPASS LINKS</Box>
     </Typography>
     <ToggleExtension />
     <ToggleHistory />

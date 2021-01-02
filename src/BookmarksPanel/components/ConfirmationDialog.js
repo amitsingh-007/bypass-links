@@ -13,18 +13,12 @@ const ConfirmationDialog = memo(({ onClose, onOk, isOpen }) => {
   const handleCancel = () => {
     onClose();
   };
-
   const handleOk = () => {
     onOk();
   };
 
   return (
-    <Dialog
-      disableBackdropClick
-      disableEscapeKeyDown
-      maxWidth="xs"
-      open={isOpen}
-    >
+    <Dialog disableEscapeKeyDown maxWidth="xs" open={isOpen}>
       <DialogTitle>Confirmation</DialogTitle>
       <DialogContent>
         <Box>Do you really want to continue and discard all the changes?</Box>

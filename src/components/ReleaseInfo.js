@@ -6,11 +6,14 @@ const infoStyles = {
   fontSize: "16px",
   paddingLeft: "4px",
   paddingRight: "4px",
+  width: "fit-content",
 };
 
 const containerProps = isMobile()
   ? {
-      textAlign: "center",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
     }
   : {
       display: "flex",
@@ -29,7 +32,7 @@ const Info = ({ info }) => (
 );
 
 export const ReleaseInfo = memo(() => (
-  <Box {...containerProps}>
+  <Box sx={containerProps}>
     <Info info={__RELEASE_DATE__} />
     <Info info={__EXT_VERSION__} />
   </Box>

@@ -41,7 +41,7 @@ export const ToggleExtension = memo(() => {
 
   const isActive = isExtensionActive(extState);
   return (
-    <Box display="flex" alignItems="center">
+    <Box sx={{ display: "flex", alignItems: "center" }}>
       <PowerOffTwoToneIcon htmlColor={getOffIconColor(isActive)} />
       <Switch
         checked={isActive}

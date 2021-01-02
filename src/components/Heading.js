@@ -3,7 +3,7 @@ import React, { memo } from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       fontSize: "40px",
     },
   },

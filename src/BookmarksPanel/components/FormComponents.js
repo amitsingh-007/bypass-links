@@ -120,13 +120,12 @@ export const BookmarkDialog = ({
       handleSave={handleSaveClick}
       isSaveOptionActive={isSaveOptionActive}
     >
-      <Box display="flex" justifyContent="space-between">
+      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <TextField
           size="small"
           label="Name"
           variant="filled"
           color="secondary"
-          margin="dense"
           title={title}
           value={title}
           onChange={handleTitleChange}
@@ -147,7 +146,6 @@ export const BookmarkDialog = ({
         label="Url"
         variant="filled"
         color="secondary"
-        margin="dense"
         title={url}
         value={url}
         InputProps={{ readOnly: true }}
@@ -197,7 +195,6 @@ export const FolderDialog = ({
         label="Name"
         variant="filled"
         color="secondary"
-        margin="dense"
         title={name}
         value={name}
         onChange={handleNameChange}

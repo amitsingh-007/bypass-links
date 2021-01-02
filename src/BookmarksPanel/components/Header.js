@@ -68,7 +68,13 @@ const Header = memo(
 
     return (
       <>
-        <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
           <Box>
             <IconButton
               aria-label="Discard"
