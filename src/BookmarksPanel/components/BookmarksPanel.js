@@ -201,10 +201,12 @@ const BookmarksPanel = memo(
     return (
       <DragDropContext onDragEnd={onDragEnd}>
         <Box
-          width="768px"
-          display="flex"
-          flexDirection="column"
-          paddingBottom="8px"
+          sx={{
+            width: "768px",
+            display: "flex",
+            flexDirection: "column",
+            paddingBottom: "8px",
+          }}
         >
           <Header
             folderNamesList={folderNamesList}
@@ -222,9 +224,8 @@ const BookmarksPanel = memo(
               <Box
                 component="form"
                 noValidate
-                height={contentHeight}
-                overflow="hidden scroll"
                 autoComplete="off"
+                sx={{ height: contentHeight, overflow: "hidden scroll" }}
                 ref={provided.innerRef}
                 {...provided.droppableProps}
               >

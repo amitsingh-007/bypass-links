@@ -65,7 +65,10 @@ export const RedirectionRule = memo(
     return (
       <Draggable draggableId={`${alias}_${website}`} index={index}>
         {(provided) => (
-          <Box display="flex" alignItems="center" {...provided.draggableProps}>
+          <Box
+            {...provided.draggableProps}
+            sx={{ display: "flex", alignItems: "center" }}
+          >
             <IconButton
               ref={provided.innerRef}
               {...provided.dragHandleProps}
@@ -81,8 +84,14 @@ export const RedirectionRule = memo(
               onChange={handleDefaultRuleChange}
               style={COLOR.pink}
             />
-            <Box display="flex" alignItems="center">
-              <Box marginRight="8px" display="inline-block" width="30%">
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Box
+                sx={{
+                  marginRight: "8px",
+                  display: "inline-block",
+                  width: "30%",
+                }}
+              >
                 <Input
                   id={alias}
                   value={ruleAlias}
@@ -93,7 +102,7 @@ export const RedirectionRule = memo(
                   classes={{ input: classes.input }}
                 />
               </Box>
-              <Box display="inline-block" flexGrow={1}>
+              <Box sx={{ display: "inline-block", flexGrow: 1 }}>
                 <Input
                   id={ruleWebsite}
                   value={ruleWebsite}

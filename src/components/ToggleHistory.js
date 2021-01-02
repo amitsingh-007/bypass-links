@@ -83,7 +83,7 @@ export const ToggleHistory = memo(() => {
   };
 
   return (
-    <Box display="flex" alignItems="center">
+    <Box sx={{ display: "flex", alignItems: "center" }}>
       <VisibilityOffTwoToneIcon htmlColor={getOffIconColor(isHistoryActive)} />
       <Switch
         checked={isHistoryActive}

@@ -120,7 +120,7 @@ export const BookmarkDialog = ({
       handleSave={handleSaveClick}
       isSaveOptionActive={isSaveOptionActive}
     >
-      <Box display="flex" justifyContent="space-between">
+      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <TextField
           size="small"
           label="Name"

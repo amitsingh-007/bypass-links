@@ -30,41 +30,48 @@ export const ChromeExtension = memo(() => {
   };
 
   return (
-    <Box width="360px" textAlign="left">
+    <Box sx={{ width: "360px", textAlign: "left" }}>
       <Card>
         <CardContent>
-          <Box textAlign="center">
+          <Box sx={{ textAlign: "center" }}>
             <Typography variant="h5" component="h2">
               <Box
                 component="img"
                 src={chromeLogo}
                 alt="chrome-logo"
-                width="20px"
-              />{" "}
-              Chrome
+                sx={{ width: "20px" }}
+              />
+              {" Chrome"}
             </Typography>
           </Box>
           <Typography color="textPrimary">
-            1. Download this extension.
+            {"1. Download this extension."}
           </Typography>
           <Typography color="textPrimary">
-            2. Open{" "}
+            {"2. Open "}
             <Link href="chrome://extensions/">chrome://extensions/</Link>
           </Typography>
           <Typography color="textPrimary">
-            3. Drag and drop the extension to install.
+            {" 3. Drag and drop the extension to install."}
           </Typography>
           <Typography color="textPrimary">
-            4. Enjoy freely.
+            {"4. Enjoy freely."}
             <span role="img" aria-label="enjoy">
               😃
             </span>
           </Typography>
         </CardContent>
-        <Box display="flex" justifyContent="center" pb="16px" pt="8px">
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            pb: "16px",
+            pt: "8px",
+          }}
+        >
           <Fab variant="extended" onClick={handleExtensionDownload}>
             <CloudDownloadIcon />
-            <Box component="span" ml="8px">
+            <Box component="span" sx={{ ml: "8px" }}>
               Download Bypass Links
             </Box>
           </Fab>

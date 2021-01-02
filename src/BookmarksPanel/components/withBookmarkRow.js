@@ -56,23 +56,27 @@ const withBookmarkRow = (Component) =>
       >
         {(provided) => (
           <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            paddingLeft="12px"
-            paddingRight="9px"
-            paddingY="5px"
             className="bookmarkRowContainer"
             onContextMenu={handleOptionsOpen}
             ref={provided.innerRef}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              paddingLeft: "12px",
+              paddingRight: "9px",
+              paddingY: "5px",
+            }}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
           >
             <Box
-              display="flex"
-              alignItems="center"
-              flexGrow="1"
-              maxWidth="747px"
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                flexGrow: "1",
+                maxWidth: "747px",
+              }}
             >
               <Component {...props} renderMenu={renderMenu} />
             </Box>

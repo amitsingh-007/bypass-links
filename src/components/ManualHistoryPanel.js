@@ -55,8 +55,14 @@ const ManualHistoryPanel = memo(() => {
   };
 
   return (
-    <Box width="335px" height="430px">
-      <Box display="flex" justifyContent="space-between" alignItems="center">
+    <Box sx={{ width: "335px", height: "430px" }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
         <IconButton
           aria-label="Back"
           component="span"
@@ -68,7 +74,7 @@ const ManualHistoryPanel = memo(() => {
         </IconButton>
         <PanelHeading heading="HISTORY PANEL" />
       </Box>
-      <Box display="flex" flexDirection="column" paddingX="20px">
+      <Box sx={{ display: "flex", flexDirection: "column", paddingX: "20px" }}>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <DateTimePicker
             disableToolbar
@@ -90,7 +96,7 @@ const ManualHistoryPanel = memo(() => {
           />
         </MuiPickersUtilsProvider>
       </Box>
-      <Box textAlign="center">
+      <Box sx={{ textAlign: "center" }}>
         <IconButton
           aria-label="Clear"
           component="span"
