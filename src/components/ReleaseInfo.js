@@ -6,11 +6,14 @@ const infoStyles = {
   fontSize: "16px",
   paddingLeft: "4px",
   paddingRight: "4px",
+  width: "fit-content",
 };
 
 const containerProps = isMobile()
   ? {
-      textAlign: "center",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
     }
   : {
       display: "flex",

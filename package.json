@@ -62,7 +62,7 @@
     "analyzer": "cross-env ENABLE_BUNDLE_ANLYZER=true npm run release",
     "dev": "better-npm-run dev",
     "start": "better-npm-run start",
-    "surge": "surge ./build http://bypass-links-dev.surge.sh",
+    "surge": "npm run release && surge ./build http://bypass-links-dev.surge.sh",
     "release": "better-npm-run release"
   },
   "betterScripts": {
