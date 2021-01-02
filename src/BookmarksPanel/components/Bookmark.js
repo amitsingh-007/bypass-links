@@ -65,6 +65,7 @@ const Bookmark = memo(
           <BlackTooltip
             title={<Typography style={tooltipStyles}>{url}</Typography>}
             arrow
+            disableInteractive
           >
             <Typography noWrap style={titleStyles}>
               {origTitle}
