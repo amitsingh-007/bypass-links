@@ -182,6 +182,7 @@ const BookmarksPanel = memo(
       setIsFetching(false);
       if (isSaveSuccess) {
         setIsSaveButtonActive(false);
+        dispatch(displayToast({ message: "Bookmarks saved", duration: 500 }));
       }
     };
 

@@ -42,12 +42,12 @@ const Toast = () => {
     return null;
   }
 
-  const { message, severity = "info" } = toast;
+  const { message, severity = "info", duration = 3000 } = toast;
   return (
     <Snackbar
       key={message}
       open={open}
-      autoHideDuration={3000}
+      autoHideDuration={duration}
       onClose={handleClose}
       anchorOrigin={position}
       TransitionComponent={SlideTransition}
