@@ -6,7 +6,7 @@ import PanelHeading from "GlobalComponents/PanelHeading";
 import { COLOR } from "GlobalConstants/color";
 import { defaultBookmarkFolder } from "GlobalConstants/index";
 import { getActiveDisabledColor } from "GlobalUtils/color";
-import React, { memo, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { getBookmarksPanelUrl } from "../utils";
 import ConfirmationDialog from "./ConfirmationDialog";
@@ -14,7 +14,7 @@ import { BookmarkDialog, FolderDialog, FolderDropdown } from "./FormComponents";
 
 const Header = memo(
   ({
-    addBookmark,
+    showBookmarkDialog,
     url,
     title,
     curFolder,
@@ -27,8 +27,14 @@ const Header = memo(
   }) => {
     const history = useHistory();
     const [openFolderDialog, setOpenFolderDialog] = useState(false);
-    const [openBookmarkDialog, setOpenBookmarkDialog] = useState(addBookmark);
+    const [openBookmarkDialog, setOpenBookmarkDialog] = useState(
+      showBookmarkDialog
+    );
     const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
+
+    useEffect(() => {
+      setOpenBookmarkDialog(showBookmarkDialog);
+    }, [showBookmarkDialog]);
 
     const onFolderChange = (event) => {
       history.push(getBookmarksPanelUrl({ folder: event.target.value }));
@@ -47,7 +53,7 @@ const Header = memo(
     };
     const toggleBookmarkEditDialog = () => {
       //Remove qs before closing
-      if (addBookmark && openBookmarkDialog) {
+      if (showBookmarkDialog && openBookmarkDialog) {
         history.replace(
           getBookmarksPanelUrl({ folder: defaultBookmarkFolder })
         );
