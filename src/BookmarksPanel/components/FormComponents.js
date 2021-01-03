@@ -20,13 +20,19 @@ import { getActiveDisabledColor } from "GlobalUtils/color";
 import React, { useState } from "react";
 import { bookmarkWrapperStyles } from "../constants/styles";
 
-export const FolderDropdown = ({ folder, folderList, handleFolderChange }) => {
+export const FolderDropdown = ({
+  folder,
+  folderList,
+  handleFolderChange,
+  variant = "filled",
+  hideLabel = false,
+}) => {
   if (!folderList || folderList.length < 1) {
     return null;
   }
   return (
-    <FormControl variant="filled" size="small" color="secondary">
-      <InputLabel id="folders">Folder</InputLabel>
+    <FormControl variant={variant} size="small" color="secondary">
+      {!hideLabel ? <InputLabel id="folders">Folder</InputLabel> : null}
       <Select labelId="folders" value={folder} onChange={handleFolderChange}>
         {folderList.map((folder) => (
           <MenuItem key={folder} value={folder}>

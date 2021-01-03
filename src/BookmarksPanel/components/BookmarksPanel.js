@@ -219,6 +219,7 @@ const BookmarksPanel = memo(
             url={bmUrl}
             title={bmTitle}
             isSaveButtonActive={isSaveButtonActive}
+            curFolder={folderContext}
           />
           <Droppable droppableId="bookmarks-list">
             {(provided) => (

@@ -10,13 +10,14 @@ import React, { memo, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { getBookmarksPanelUrl } from "../utils";
 import ConfirmationDialog from "./ConfirmationDialog";
-import { BookmarkDialog, FolderDialog } from "./FormComponents";
+import { BookmarkDialog, FolderDialog, FolderDropdown } from "./FormComponents";
 
 const Header = memo(
   ({
     addBookmark,
     url,
     title,
+    curFolder,
     folderNamesList,
     handleClose,
     handleSave,
@@ -28,6 +29,10 @@ const Header = memo(
     const [openFolderDialog, setOpenFolderDialog] = useState(false);
     const [openBookmarkDialog, setOpenBookmarkDialog] = useState(addBookmark);
     const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
+
+    const onFolderChange = (event) => {
+      history.push(getBookmarksPanelUrl({ folder: event.target.value }));
+    };
 
     const handleDiscardButtonClick = () => {
       if (isSaveButtonActive) {
@@ -75,7 +80,7 @@ const Header = memo(
             alignItems: "center",
           }}
         >
-          <Box>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
             <IconButton
               aria-label="Discard"
               component="span"
@@ -104,6 +109,15 @@ const Header = memo(
             >
               <CreateNewFolderTwoToneIcon fontSize="large" />
             </IconButton>
+            <Box sx={{ marginLeft: "10px" }}>
+              <FolderDropdown
+                folder={curFolder}
+                folderList={folderNamesList}
+                handleFolderChange={onFolderChange}
+                variant="outlined"
+                hideLabel
+              />
+            </Box>
           </Box>
           <PanelHeading heading="BOOKMARKS PANEL" />
         </Box>
