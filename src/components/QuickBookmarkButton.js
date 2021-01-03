@@ -24,7 +24,7 @@ const QuickBookmarkButton = memo(() => {
 
   const initBookmark = async () => {
     setIsFetching(true);
-    const [{ url }] = await getCurrentTab();
+    const { url } = await getCurrentTab();
     const bookmarks = await getBookmarksObj();
     const bookmark = bookmarks.urlList[md5(url)];
     setBookmark(bookmark);
@@ -47,7 +47,7 @@ const QuickBookmarkButton = memo(() => {
       urlParams.title = decodeURIComponent(atob(bookmark.title));
       urlParams.folder = atob(parent.name);
     } else {
-      const [{ url, title }] = await getCurrentTab();
+      const { url, title } = await getCurrentTab();
       urlParams.addBookmark = true;
       urlParams.url = url;
       urlParams.title = title;
