@@ -37,7 +37,7 @@ const OpenForumLinks = memo(() => {
   };
   useEffect(() => {
     initIsActive();
-  }, [isSignedIn]);
+  }, [isSignedIn, currentTab]);
 
   const handleClick = async () => {
     setIsFetching(true);
