@@ -13,6 +13,7 @@ import {
 } from "SrcPath/BookmarksPanel/utils/bookmark";
 import {
   getAllFolderNames,
+  getFaviconUrl,
   isFolderContainsDir,
   isFolderEmpty,
 } from "../utils/index";
@@ -34,6 +35,8 @@ const mapper = ([key, { isDir, hash }], urlList, folderList) => {
   } else {
     obj.url = decodeURIComponent(atob(content.url));
     obj.title = decodeURIComponent(atob(content.title));
+    //To preload images on client side runtime
+    new Image().src = getFaviconUrl(obj.url);
   }
   return obj;
 };
@@ -215,11 +218,12 @@ const BookmarksPanel = memo(
             handleSave={handleSave}
             handleCreateNewFolder={handleCreateNewFolder}
             handleAddNewBookmark={handleAddNewBookmark}
-            addBookmark={addBookmark}
+            showBookmarkDialog={addBookmark && !isFetching}
             url={bmUrl}
             title={bmTitle}
             isSaveButtonActive={isSaveButtonActive}
             curFolder={folderContext}
+            isFetching={isFetching}
           />
           <Droppable droppableId="bookmarks-list">
             {(provided) => (
