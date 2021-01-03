@@ -32,10 +32,12 @@ const tabs = {
     }),
 };
 
-export const getCurrentTab = () =>
-  tabs.query({
+export const getCurrentTab = async () => {
+  const [currentTab] = await tabs.query({
     active: true,
     currentWindow: true,
   });
+  return currentTab;
+};
 
 export default tabs;

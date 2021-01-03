@@ -1,6 +1,7 @@
 import { Box, Typography } from "@material-ui/core/";
 import { Authenticate } from "GlobalComponents/Authenticate";
 import { EditPanelButton } from "GlobalComponents/EditPanelButton";
+import LastVisitedButton from "GlobalComponents/LastVisitedButton";
 import { ManualHistoryPanelButton } from "GlobalComponents/ManualHistoryPanelButton";
 import { OpenDefaultsButton } from "GlobalComponents/OpenDefaultsButton";
 import OpenForumLinks from "GlobalComponents/OpenForumLinks";
@@ -39,6 +40,7 @@ export const Popup = memo(() => (
     </Box>
     <Box>
       <OpenForumLinks />
+      <LastVisitedButton />
     </Box>
   </Box>
 ));

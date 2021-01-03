@@ -18,6 +18,7 @@ export const STORAGE_KEYS = {
   bypass: "bypass",
   mappedRedirections: "mappedRedirections",
   redirections: "redirections",
+  lastVisited: "lastVisited",
 };
 
 export const BYPASS_KEYS = {
@@ -32,10 +33,12 @@ export const BYPASS_KEYS = {
 };
 
 const dbPrefix = __PROD__ ? "prod" : "dev";
+
 export const FIREBASE_DB_REF = {
   bookmarks: `${dbPrefix}/${STORAGE_KEYS.bookmarks}`,
   bypass: `${dbPrefix}/${STORAGE_KEYS.bypass}`,
   redirections: `${dbPrefix}/${STORAGE_KEYS.redirections}`,
+  lastVisited: `${dbPrefix}/${STORAGE_KEYS.lastVisited}`,
 };
 
 export const defaultBookmarkFolder = "Bookmarks bar";

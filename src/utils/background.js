@@ -32,7 +32,7 @@ const getPageH1 = () => {
   return h1s.length > 0 ? h1s[0].innerText : "";
 };
 export const fetchPageH1 = async () => {
-  const [{ id: tabId }] = await getCurrentTab();
+  const { id: tabId } = await getCurrentTab();
   const [results] = await tabs.executeScript(tabId, {
     code: `(${getPageH1})()`,
   });

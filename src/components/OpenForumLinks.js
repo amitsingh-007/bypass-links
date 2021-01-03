@@ -24,7 +24,7 @@ const OpenForumLinks = memo(() => {
   const [isActive, setIsActive] = useState(false);
 
   const initCurrentTab = async () => {
-    const [currentTab] = await getCurrentTab();
+    const currentTab = await getCurrentTab();
     setCurrentTab(currentTab);
   };
   useEffect(() => {
