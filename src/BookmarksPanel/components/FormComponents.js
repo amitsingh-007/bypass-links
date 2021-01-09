@@ -19,6 +19,7 @@ import { COLOR } from "GlobalConstants/color";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import React, { useState } from "react";
 import { bookmarkWrapperStyles } from "../constants/styles";
+import DeleteTwoToneIcon from "@material-ui/icons/DeleteTwoTone";
 
 export const FolderDropdown = ({
   folder,
@@ -50,6 +51,7 @@ const EditDialog = ({
   openDialog,
   closeDialog,
   handleSave,
+  handleDelete,
   isSaveOptionActive,
 }) => {
   const classes = bookmarkWrapperStyles();
@@ -58,23 +60,44 @@ const EditDialog = ({
       <DialogTitle>{headerText}</DialogTitle>
       <DialogContent classes={{ root: classes.root }}>{children}</DialogContent>
       <DialogActions>
-        <IconButton
-          component="span"
-          style={COLOR.red}
-          onClick={closeDialog}
-          title="Cancel"
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: handleDelete ? "space-between" : "flex-end",
+            width: "100%",
+            paddingX: "7px",
+          }}
         >
-          <CloseTwoToneIcon fontSize="large" />
-        </IconButton>
-        <IconButton
-          component="span"
-          disabled={!isSaveOptionActive}
-          style={getActiveDisabledColor(isSaveOptionActive, COLOR.green)}
-          onClick={handleSave}
-          title="Save"
-        >
-          <DoneTwoToneIcon fontSize="large" />
-        </IconButton>
+          {handleDelete ? (
+            <IconButton
+              component="span"
+              style={COLOR.red}
+              onClick={handleDelete}
+              title="Delete"
+            >
+              <DeleteTwoToneIcon fontSize="large" />
+            </IconButton>
+          ) : null}
+          <div>
+            <IconButton
+              component="span"
+              style={COLOR.blue}
+              onClick={closeDialog}
+              title="Cancel"
+            >
+              <CloseTwoToneIcon fontSize="large" />
+            </IconButton>
+            <IconButton
+              component="span"
+              disabled={!isSaveOptionActive}
+              style={getActiveDisabledColor(isSaveOptionActive, COLOR.green)}
+              onClick={handleSave}
+              title="Save"
+            >
+              <DoneTwoToneIcon fontSize="large" />
+            </IconButton>
+          </div>
+        </Box>
       </DialogActions>
     </Dialog>
   );
@@ -87,6 +110,7 @@ export const BookmarkDialog = ({
   headerText,
   folderList,
   handleSave,
+  handleDelete,
   isOpen,
   onClose,
   isSaveActive,
@@ -124,6 +148,7 @@ export const BookmarkDialog = ({
       openDialog={isOpen}
       closeDialog={handleClose}
       handleSave={handleSaveClick}
+      handleDelete={handleDelete}
       isSaveOptionActive={isSaveOptionActive}
     >
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>

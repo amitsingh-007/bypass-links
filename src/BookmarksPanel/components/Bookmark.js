@@ -84,6 +84,7 @@ const Bookmark = memo(
           headerText="Edit bookmark"
           folderList={folderNamesList}
           handleSave={handleBookmarkSave}
+          handleDelete={handleDeleteOptionClick}
           isOpen={openEditDialog}
           onClose={toggleEditDialog}
         />
