@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 const THIRTY_SECONDS = 30 * 1000; //in milliseconds
 export const startHistoryWatch = async () => {
-  storage.set({
+  await storage.set({
     historyStartTime: new Date() - THIRTY_SECONDS, //to compensate for open defaults
   });
 };

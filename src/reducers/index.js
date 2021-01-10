@@ -1,10 +1,11 @@
 import {
   DISPLAY_TOAST,
   HIDE_TOAST,
+  RESET_HISTORY_MONITOR,
   SET_SIGNED_IN_STATUS,
   START_HISTORY_MONITOR,
   TURN_OFF_EXTENSION,
-  TURN_ON_EXTENSION,
+  TURN_ON_EXTENSION
 } from "GlobalActionTypes/index";
 
 const defaultState = {
@@ -35,6 +36,11 @@ const reducer = (state = defaultState, action) => {
       return {
         ...state,
         startHistoryMonitor: true,
+      };
+    case RESET_HISTORY_MONITOR:
+      return {
+        ...state,
+        startHistoryMonitor: false,
       };
     case DISPLAY_TOAST:
       return {
