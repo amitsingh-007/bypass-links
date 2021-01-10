@@ -1,3 +1,4 @@
+import Global from "GlobalContainers/Global";
 import {
   CssBaseline,
   //Need styles provider until we remove makeStyles,etc
@@ -7,7 +8,6 @@ import {
   createMuiTheme,
 } from "@material-ui/core";
 import ErrorBoundary from "GlobalComponents/ErrorBoundary";
-import Toast from "GlobalComponents/Toast";
 import PopupRoutes from "GlobalContainers/PopupRoutes";
 import "GlobalStyles/popup.scss";
 import React, { StrictMode } from "react";
@@ -40,7 +40,7 @@ ReactDOM.render(
             <ThemeProvider theme={theme}>
               <CssBaseline />
               <PopupRoutes />
-              <Toast />
+              <Global />
             </ThemeProvider>
           </StylesProvider>
         </BrowserRouter>
