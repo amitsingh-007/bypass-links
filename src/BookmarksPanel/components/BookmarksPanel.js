@@ -48,6 +48,7 @@ const BookmarksPanel = memo(
     const [urlList, setUrlList] = useState(null);
     const [folderList, setFolderList] = useState([]);
     const [folders, setFolders] = useState(null);
+    const [selectedBookmarks, setSelectedBookmarks] = useState([]);
     const [isFetching, setIsFetching] = useState(true);
     const [isSaveButtonActive, setIsSaveButtonActive] = useState(false);
 
@@ -72,6 +73,11 @@ const BookmarksPanel = memo(
 
     const handleClose = () => {
       props.history.goBack();
+    };
+
+    const handleSelectedChange = (pos) => {
+      selectedBookmarks[pos] = !selectedBookmarks[pos];
+      setSelectedBookmarks([...selectedBookmarks]);
     };
 
     const handleAddNewBookmark = (url, title, folder) => {
@@ -214,6 +220,8 @@ const BookmarksPanel = memo(
         >
           <Header
             folderNamesList={folderNamesList}
+            selectedBookmarks={selectedBookmarks}
+            contextBookmarks={contextBookmarks}
             handleClose={handleClose}
             handleSave={handleSave}
             handleCreateNewFolder={handleCreateNewFolder}
@@ -254,10 +262,12 @@ const BookmarksPanel = memo(
                         isDir={isDir}
                         url={url}
                         title={title}
+                        isSelected={Boolean(selectedBookmarks[index])}
                         folder={folderContext}
                         folderNamesList={folderNamesList}
                         handleSave={handleBookmarkSave}
                         handleRemove={handleUrlRemove}
+                        handleSelectedChange={handleSelectedChange}
                         editBookmark={
                           editBookmark && url === bmUrl && title === bmTitle
                         }

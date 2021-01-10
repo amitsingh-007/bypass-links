@@ -1,12 +1,16 @@
 import { Box, IconButton } from "@material-ui/core";
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import CreateNewFolderTwoToneIcon from "@material-ui/icons/CreateNewFolderTwoTone";
+import OpenInNewTwoToneIcon from "@material-ui/icons/OpenInNewTwoTone";
 import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
+import tabs from "ChromeApi/tabs";
+import { startHistoryMonitor } from "GlobalActionCreators/index";
 import PanelHeading from "GlobalComponents/PanelHeading";
 import { COLOR } from "GlobalConstants/color";
 import { defaultBookmarkFolder } from "GlobalConstants/index";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import React, { memo, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { getBookmarksPanelUrl } from "../utils";
 import ConfirmationDialog from "./ConfirmationDialog";
@@ -19,12 +23,15 @@ const Header = memo(
     title,
     curFolder,
     folderNamesList,
+    selectedBookmarks,
+    contextBookmarks,
     handleClose,
     handleSave,
     handleCreateNewFolder,
     handleAddNewBookmark,
     isSaveButtonActive,
   }) => {
+    const dispatch = useDispatch();
     const history = useHistory();
     const [openFolderDialog, setOpenFolderDialog] = useState(false);
     const [openBookmarkDialog, setOpenBookmarkDialog] = useState(
@@ -48,6 +55,14 @@ const Header = memo(
       }
     };
 
+    const handleOpenSelectedBookmarks = () => {
+      dispatch(startHistoryMonitor());
+      contextBookmarks.forEach(({ url }, index) => {
+        if (selectedBookmarks[index]) {
+          tabs.create({ url, selected: false });
+        }
+      });
+    };
     const toggleNewFolderDialog = () => {
       setOpenFolderDialog(!openFolderDialog);
     };
@@ -77,6 +92,9 @@ const Header = memo(
       toggleBookmarkEditDialog();
     };
 
+    const isOpenSelectedActive = selectedBookmarks.some(
+      (isSelected) => isSelected
+    );
     return (
       <>
         <Box
@@ -114,6 +132,19 @@ const Header = memo(
               title="Add new folder"
             >
               <CreateNewFolderTwoToneIcon fontSize="large" />
+            </IconButton>
+            <IconButton
+              aria-label="OpenSelected"
+              component="span"
+              style={getActiveDisabledColor(
+                isOpenSelectedActive,
+                COLOR.deepPurple
+              )}
+              disabled={!isOpenSelectedActive}
+              onClick={handleOpenSelectedBookmarks}
+              title="Open Selected"
+            >
+              <OpenInNewTwoToneIcon fontSize="large" />
             </IconButton>
             <Box sx={{ marginLeft: "10px" }}>
               <FolderDropdown

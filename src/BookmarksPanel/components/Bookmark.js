@@ -1,7 +1,8 @@
-import { Box, Typography } from "@material-ui/core";
+import { Box, Checkbox, makeStyles, Typography } from "@material-ui/core";
 import tabs from "ChromeApi/tabs";
 import { startHistoryMonitor } from "GlobalActionCreators/";
 import { BlackTooltip } from "GlobalComponents/StyledComponents";
+import { COLOR } from "GlobalConstants/color";
 import React, { memo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -14,6 +15,9 @@ import withBookmarkRow from "./withBookmarkRow";
 
 const titleStyles = { flexGrow: "1" };
 const tooltipStyles = { fontSize: "13px" };
+const useStyles = makeStyles({
+  root: { padding: "unset" },
+});
 
 const Bookmark = memo(
   ({
@@ -21,9 +25,11 @@ const Bookmark = memo(
     title: origTitle,
     folder: origFolder,
     pos,
+    isSelected,
     folderNamesList,
     handleSave,
     handleRemove,
+    handleSelectedChange,
     renderMenu,
     editBookmark,
   }) => {
@@ -50,17 +56,34 @@ const Bookmark = memo(
     const handleDeleteOptionClick = () => {
       handleRemove(pos, url);
     };
+    const handleSelectionChange = () => {
+      handleSelectedChange(pos);
+    };
 
+    const checkboxClasses = useStyles();
     return (
       <>
         <Box
           onDoubleClick={handleOpenLink}
-          sx={{ display: "flex", width: "100%" }}
+          sx={{ display: "flex", alignItems: "center", width: "100%" }}
         >
+          <Checkbox
+            checked={isSelected}
+            onChange={handleSelectionChange}
+            style={COLOR.pink}
+            // size="small"
+            disableRipple
+            classes={{ root: checkboxClasses.root }}
+          />
           <Box
             component="img"
             src={getFaviconUrl(url)}
-            sx={{ width: "20px", height: "20px", marginRight: "8px" }}
+            sx={{
+              width: "20px",
+              height: "20px",
+              marginLeft: "6px",
+              marginRight: "8px",
+            }}
           />
           <BlackTooltip
             title={<Typography style={tooltipStyles}>{url}</Typography>}

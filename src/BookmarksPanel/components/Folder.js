@@ -35,7 +35,7 @@ const Folder = memo(
       <>
         <Box
           onDoubleClick={handleFolderOpen}
-          sx={{ display: "flex", width: "100%" }}
+          sx={{ display: "flex", alignItems: "center", width: "100%" }}
         >
           <FolderTwoToneIcon fontSize="small" htmlColor={COLOR.yellow.color} />
           <Typography noWrap style={getTitleStyles(isEmpty)}>
