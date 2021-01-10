@@ -3,17 +3,10 @@ import VisibilityOffTwoToneIcon from "@material-ui/icons/VisibilityOffTwoTone";
 import VisibilityTwoToneIcon from "@material-ui/icons/VisibilityTwoTone";
 import history from "ChromeApi/history";
 import storage from "ChromeApi/storage";
+import { startHistoryWatch } from "GlobalContainers/StoreListener";
 import { getOffIconColor, getOnIconColor } from "GlobalUtils/color";
 import React, { memo, useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-
-const THIRTY_SECONDS = 30 * 1000; //in milliseconds
-
-export const startHistoryWatch = async () => {
-  storage.set({
-    historyStartTime: new Date() - THIRTY_SECONDS, //to compensate for open defaults
-  });
-};
 
 export const endHistoryWatch = async () => {
   const { historyStartTime } = await storage.get(["historyStartTime"]);
