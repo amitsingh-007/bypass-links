@@ -46,10 +46,7 @@ const SearchInput = memo(({ onUserInput }) => {
   const classes = useStyles();
 
   const onChange = throttle(100, (event) => {
-    //NOTE: Remove below line after React 17
-    //Refer: https://reactjs.org/docs/legacy-event-pooling.html
-    event.persist();
-    onUserInput(event.target?.value?.trim());
+    onUserInput(event.target.value?.trim());
   });
 
   return (

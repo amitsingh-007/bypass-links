@@ -85,7 +85,8 @@ const Header = memo(
       });
     };
 
-    const handleDiscardButtonClick = () => {
+    const handleDiscardButtonClick = (event) => {
+      event.stopPropagation();
       if (isSaveButtonActive) {
         setOpenConfirmationDialog(true);
       } else {
@@ -93,7 +94,12 @@ const Header = memo(
       }
     };
 
-    const handleOpenSelectedBookmarks = () => {
+    const onSaveClick = (event) => {
+      event.stopPropagation();
+      handleSave();
+    };
+    const handleOpenSelectedBookmarks = (event) => {
+      event.stopPropagation();
       dispatch(startHistoryMonitor());
       contextBookmarks.forEach(({ url }, index) => {
         if (selectedBookmarks[index]) {
@@ -101,7 +107,8 @@ const Header = memo(
         }
       });
     };
-    const toggleNewFolderDialog = () => {
+    const toggleNewFolderDialog = (event) => {
+      event && event.stopPropagation();
       setOpenFolderDialog(!openFolderDialog);
     };
     const toggleBookmarkEditDialog = () => {
@@ -172,7 +179,7 @@ const Header = memo(
                     isSaveButtonActive,
                     COLOR.green
                   )}
-                  onClick={handleSave}
+                  onClick={onSaveClick}
                   title="Save and Close"
                   disabled={!isSaveButtonActive}
                 >
