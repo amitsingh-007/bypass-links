@@ -65,10 +65,13 @@ const ManualHistoryPanel = memo(() => {
 
   const handleClear = async () => {
     if (startDateTime > endDateTime) {
-      console.log("Start DateTim cannot be more than End DateTime.");
+      console.log("Start DateTime cannot be more than End DateTime.");
       return;
     }
-    await historyApi.deleteRange({ startDateTime, endDateTime });
+    await historyApi.deleteRange({
+      startTime: startDateTime,
+      endTime: endDateTime,
+    });
     storage.remove("historyStartTime");
     dispatch(displayToast({ message: "History cleared succesfully" }));
   };

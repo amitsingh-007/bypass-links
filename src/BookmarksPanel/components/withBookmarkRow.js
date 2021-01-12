@@ -49,11 +49,11 @@ const withBookmarkRow = (Component) =>
       </BlackMenu>
     );
 
+    const { isDir, name, url, pos, title } = props;
+    const primaryUniqueId = isDir ? name : url;
+    const secondaryUniqueId = isDir ? null : title;
     return (
-      <Draggable
-        draggableId={props.isDir ? props.name : props.url}
-        index={props.pos}
-      >
+      <Draggable draggableId={primaryUniqueId} index={pos}>
         {(provided) => (
           <Box
             className="bookmarkRowContainer"
@@ -67,6 +67,8 @@ const withBookmarkRow = (Component) =>
               paddingRight: "9px",
               paddingY: "5px",
             }}
+            data-text={primaryUniqueId}
+            data-subtext={secondaryUniqueId}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
           >
