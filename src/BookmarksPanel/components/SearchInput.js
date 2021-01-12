@@ -1,7 +1,7 @@
 import { InputBase, makeStyles } from "@material-ui/core";
 import { alpha } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
-import React, { memo } from "react";
+import { memo } from "react";
 import { throttle } from "throttle-debounce";
 
 const useStyles = makeStyles((theme) => ({

@@ -6,7 +6,7 @@ import { startHistoryMonitor } from "GlobalActionCreators/index";
 import { COLOR } from "GlobalConstants/color";
 import { STORAGE_KEYS } from "GlobalConstants/index";
 import { getActiveDisabledColor } from "GlobalUtils/color";
-import React, { memo, useState } from "react";
+import { memo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IconButtonLoader } from "./Loader";
 

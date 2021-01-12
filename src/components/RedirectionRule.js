@@ -10,7 +10,7 @@ import DoneAllTwoToneIcon from "@material-ui/icons/DoneAllTwoTone";
 import RestoreTwoToneIcon from "@material-ui/icons/RestoreTwoTone";
 import DragHandleTwoToneIcon from "@material-ui/icons/DragHandleTwoTone";
 import { COLOR } from "GlobalConstants/color";
-import React, { memo, useState } from "react";
+import { memo, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 
 const useStyles = makeStyles({

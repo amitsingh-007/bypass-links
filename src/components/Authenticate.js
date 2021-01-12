@@ -6,7 +6,7 @@ import { setSignedInStatus } from "GlobalActionCreators/index";
 import { COLOR } from "GlobalConstants/color";
 import { signIn, signOut } from "GlobalUtils/authentication";
 import { getActiveDisabledColor } from "GlobalUtils/color";
-import React, { memo, useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IconButtonLoader } from "./Loader";
 

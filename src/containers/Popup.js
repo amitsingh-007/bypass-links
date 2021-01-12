@@ -10,7 +10,7 @@ import { Row } from "GlobalComponents/Row";
 import { ToggleExtension } from "GlobalComponents/ToggleExtension";
 import { ToggleHistory } from "GlobalComponents/ToggleHistory";
 import { COLOR } from "GlobalConstants/color";
-import React, { memo } from "react";
+import { memo } from "react";
 import BookmarksPanelButton from "SrcPath/BookmarksPanel/components/BookmarksPanelButton";
 
 export const Popup = memo(() => (

@@ -1,6 +1,6 @@
 import { Box, Typography } from "@material-ui/core";
 import { isMobile } from "GlobalUtils/screen";
-import React, { memo } from "react";
+import { memo } from "react";
 
 const infoStyles = {
   fontSize: "16px",

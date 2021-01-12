@@ -6,7 +6,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@material-ui/core";
-import React, { memo } from "react";
+import { memo } from "react";
 import StarRoundedIcon from "@material-ui/icons/StarRounded";
 
 const features = [

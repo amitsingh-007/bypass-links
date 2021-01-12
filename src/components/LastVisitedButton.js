@@ -10,7 +10,7 @@ import {
   syncLastVisitedToStorage,
 } from "GlobalUtils/lastVisited";
 import md5 from "md5";
-import React, { memo, useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { IconButtonLoader } from "./Loader";
 import { BlackTooltip } from "./StyledComponents";

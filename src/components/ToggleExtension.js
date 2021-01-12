@@ -10,7 +10,7 @@ import {
   isExtensionActive,
   setExtStateInStorage,
 } from "GlobalUtils/common";
-import React, { memo, useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 export const ToggleExtension = memo(() => {

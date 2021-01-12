@@ -9,7 +9,7 @@ import {
 import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
 import chromeLogo from "GlobalIcons/chrome.svg";
 import { getExtensionFile } from "GlobalUtils/index";
-import React, { memo } from "react";
+import { memo } from "react";
 
 export const ChromeExtension = memo(() => {
   const handleExtensionDownload = () => {

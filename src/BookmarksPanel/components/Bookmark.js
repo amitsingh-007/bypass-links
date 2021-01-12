@@ -3,7 +3,7 @@ import tabs from "ChromeApi/tabs";
 import { startHistoryMonitor } from "GlobalActionCreators/";
 import { BlackTooltip } from "GlobalComponents/StyledComponents";
 import { COLOR } from "GlobalConstants/color";
-import React, { memo, useState } from "react";
+import { memo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {

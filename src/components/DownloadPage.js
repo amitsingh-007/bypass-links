@@ -1,5 +1,5 @@
 import { Container } from "@material-ui/core";
-import React, { memo } from "react";
+import { memo } from "react";
 import { ChromeExtension } from "./ChromeExtension";
 import Features from "./Features";
 import Heading from "./Heading";

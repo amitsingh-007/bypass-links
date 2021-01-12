@@ -2,7 +2,7 @@ import { Box, Typography } from "@material-ui/core";
 import FolderTwoToneIcon from "@material-ui/icons/FolderTwoTone";
 import { displayToast } from "GlobalActionCreators/";
 import { COLOR } from "GlobalConstants/color";
-import React, { memo } from "react";
+import { memo } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { getBookmarksPanelUrl } from "../utils";

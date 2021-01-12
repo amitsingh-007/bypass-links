@@ -1,6 +1,6 @@
 import { Box, MenuItem } from "@material-ui/core";
 import { BlackMenu } from "GlobalComponents/StyledComponents";
-import React, { memo, useState } from "react";
+import { memo, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 
 const initialMouseState = {

@@ -17,7 +17,7 @@ import PanelHeading from "GlobalComponents/PanelHeading";
 import { BG_COLOR_DARK, COLOR } from "GlobalConstants/color";
 import { defaultBookmarkFolder } from "GlobalConstants/index";
 import { getActiveDisabledColor } from "GlobalUtils/color";
-import React, { memo, useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { getBookmarksPanelUrl } from "../utils";

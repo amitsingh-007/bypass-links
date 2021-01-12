@@ -1,6 +1,6 @@
 import { Box, CircularProgress } from "@material-ui/core";
 import { COLOR } from "GlobalConstants/color";
-import React, { memo } from "react";
+import { memo } from "react";
 
 const Loader = memo(({ loaderSize = 55, ...styleProps }) => (
   <Box
