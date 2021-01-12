@@ -1,6 +1,6 @@
 import { ROUTES } from "GlobalConstants/routes";
 import { Popup } from "GlobalContainers/Popup";
-import React, { lazy } from "react";
+import { lazy } from "react";
 import { Route } from "react-router-dom";
 
 export const HomePageRoute = (

@@ -17,7 +17,7 @@ import FormatColorTextTwoToneIcon from "@material-ui/icons/FormatColorTextTwoTon
 import runtime from "ChromeApi/runtime";
 import { COLOR } from "GlobalConstants/color";
 import { getActiveDisabledColor } from "GlobalUtils/color";
-import React, { useState } from "react";
+import { useState } from "react";
 import { bookmarkWrapperStyles } from "../constants/styles";
 import DeleteTwoToneIcon from "@material-ui/icons/DeleteTwoTone";
 

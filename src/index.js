@@ -7,7 +7,7 @@ import {
 import DownloadPage from "GlobalComponents/DownloadPage";
 import "GlobalStyles/download-page.scss";
 import "preact/devtools";
-import React, { StrictMode } from "react";
+import { StrictMode } from "react";
 import ReactDOM from "react-dom";
 
 const theme = createMuiTheme({

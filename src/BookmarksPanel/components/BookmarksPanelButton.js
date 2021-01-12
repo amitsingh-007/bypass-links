@@ -3,7 +3,7 @@ import CollectionsBookmarkTwoToneIcon from "@material-ui/icons/CollectionsBookma
 import { COLOR } from "GlobalConstants/color";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import { getBookmarksPanelUrl } from "SrcPath/BookmarksPanel/utils";
-import React, { memo } from "react";
+import { memo } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 

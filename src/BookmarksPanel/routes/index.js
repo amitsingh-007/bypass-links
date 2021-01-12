@@ -1,6 +1,6 @@
 import { ROUTES } from "GlobalConstants/routes";
 import { deserialzeQueryStringToObject } from "GlobalUtils/url";
-import React, { lazy } from "react";
+import { lazy } from "react";
 import { Route } from "react-router-dom";
 
 const BookmarksPanel = lazy(() =>

@@ -7,7 +7,7 @@ import { COLOR } from "GlobalConstants/color";
 import { BYPASS_KEYS } from "GlobalConstants/index";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import { getHostnameAlias } from "GlobalUtils/common";
-import React, { memo, useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IconButtonLoader } from "./Loader";
 

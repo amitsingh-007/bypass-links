@@ -6,7 +6,7 @@ import storage from "ChromeApi/storage";
 import { resetHistoryMonitor } from "GlobalActionCreators/";
 import { startHistoryWatch } from "GlobalContainers/StoreListener";
 import { getOffIconColor, getOnIconColor } from "GlobalUtils/color";
-import React, { memo, useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export const endHistoryWatch = async () => {

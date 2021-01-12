@@ -1,5 +1,5 @@
 import { Box } from "@material-ui/core";
-import React, { Component } from "react";
+import { Component } from "react";
 
 class ErrorBoundary extends Component {
   constructor(props) {

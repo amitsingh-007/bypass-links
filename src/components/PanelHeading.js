@@ -1,6 +1,5 @@
 import { Typography } from "@material-ui/core";
 import { COLOR } from "GlobalConstants/color";
-import React from "react";
 
 const titleStyles = {
   fontSize: "21px",

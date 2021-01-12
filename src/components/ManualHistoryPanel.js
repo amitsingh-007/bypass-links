@@ -9,7 +9,7 @@ import storage from "ChromeApi/storage";
 import { displayToast } from "GlobalActionCreators/index";
 import { COLOR } from "GlobalConstants/color";
 import { ROUTES } from "GlobalConstants/routes";
-import React, { memo, useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import PanelHeading from "./PanelHeading";

@@ -4,7 +4,7 @@ import Loader from "GlobalComponents/Loader";
 import { FIREBASE_DB_REF } from "GlobalConstants/";
 import { saveDataToFirebase } from "GlobalUtils/firebase";
 import md5 from "md5";
-import React, { memo, useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
 import {

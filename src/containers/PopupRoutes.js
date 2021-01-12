@@ -1,5 +1,5 @@
 import { IconButtonLoader } from "GlobalComponents/Loader";
-import React, { Suspense } from "react";
+import { Suspense } from "react";
 import { Switch } from "react-router-dom";
 import { BookmarksPanelRoute } from "SrcPath/BookmarksPanel/routes/index";
 import {

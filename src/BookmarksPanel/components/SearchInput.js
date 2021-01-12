@@ -1,7 +1,7 @@
 import { InputBase, makeStyles } from "@material-ui/core";
 import { alpha } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
-import React, { memo } from "react";
+import { memo } from "react";
 import { throttle } from "throttle-debounce";
 
 const useStyles = makeStyles((theme) => ({
@@ -46,10 +46,7 @@ const SearchInput = memo(({ onUserInput }) => {
   const classes = useStyles();
 
   const onChange = throttle(100, (event) => {
-    //NOTE: Remove below line after React 17
-    //Refer: https://reactjs.org/docs/legacy-event-pooling.html
-    event.persist();
-    onUserInput(event.target?.value?.trim());
+    onUserInput(event.target.value?.trim());
   });
 
   return (

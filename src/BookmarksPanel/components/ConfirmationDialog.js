@@ -7,7 +7,7 @@ import {
   DialogTitle,
 } from "@material-ui/core";
 import { COLOR } from "GlobalConstants/color";
-import React, { memo } from "react";
+import { memo } from "react";
 
 const ConfirmationDialog = memo(({ onClose, onOk, isOpen }) => {
   const handleCancel = () => {
