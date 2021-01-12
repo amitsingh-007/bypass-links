@@ -212,7 +212,7 @@ const BookmarksPanel = memo(
       <DragDropContext onDragEnd={onDragEnd}>
         <Box
           sx={{
-            width: "768px",
+            width: "792px",
             display: "flex",
             flexDirection: "column",
             paddingBottom: "8px",

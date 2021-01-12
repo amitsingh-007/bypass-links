@@ -25,3 +25,5 @@ export const COLOR = {
   yellow: { color: yellow[500] },
   heading: "azure",
 };
+
+export const BG_COLOR_DARK = "#272c34";

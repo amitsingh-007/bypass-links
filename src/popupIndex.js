@@ -16,6 +16,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { createStore } from "redux";
 import reducer from "./reducers";
+import { BG_COLOR_DARK } from "GlobalConstants/color";
 
 const store = createStore(reducer);
 
@@ -23,7 +24,7 @@ const theme = createMuiTheme({
   palette: {
     mode: "dark",
     background: {
-      default: "#272c34",
+      default: BG_COLOR_DARK,
     },
   },
   typography: {
