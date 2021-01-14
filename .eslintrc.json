@@ -1,5 +1,6 @@
 {
-  "extends": ["eslint:recommended", "react-app"],
+  "plugins": ["cypress"],
+  "extends": ["eslint:recommended", "react-app", "plugin:cypress/recommended"],
   "env": {
     "webextensions": true,
     "browser": true,
