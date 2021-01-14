@@ -14,6 +14,7 @@ const ENV = process.env.NODE_ENV;
 const isProduction = ENV === "production";
 const enableBundleAnalyzer = process.env.ENABLE_BUNDLE_ANLYZER === "true";
 const isDevServer = process.env.DEV_SERVER === "true";
+const isCypress = process.env.CYPRESS === "true";
 
 const optimizationOptions = {
   nodeEnv: ENV,
@@ -112,6 +113,9 @@ const getDownloadPageConfigPlugins = () => {
       __EXT_VERSION__: JSON.stringify(extVersion),
       __RELEASE_DATE__: JSON.stringify(releaseDate),
       __PROD__: JSON.stringify(isProduction),
+      __ROOTPATH__: JSON.stringify(
+        isProduction && !isCypress ? "/bypass-links" : ""
+      ),
     }),
     new InjectManifest({
       swSrc: "./src/sw.js",

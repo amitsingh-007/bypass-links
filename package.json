@@ -66,7 +66,7 @@
     "cypress:open": "cross-env NODE_ENV=test cypress open",
     "dev": "better-npm-run dev",
     "start": "better-npm-run start",
-    "surge": "npm run release && surge ./build http://bypass-links-dev.surge.sh",
+    "surge": "better-npm-run surge",
     "release": "better-npm-run release"
   },
   "betterScripts": {
@@ -87,6 +87,12 @@
       "env": {
         "NODE_ENV": "development",
         "DEV_SERVER": true
+      }
+    },
+    "surge": {
+      "command": "npm run release && surge ./build http://bypass-links-dev.surge.sh",
+      "env": {
+        "CYPRESS": "true"
       }
     }
   }

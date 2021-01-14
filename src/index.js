@@ -34,7 +34,7 @@ ReactDOM.render(
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
-      .register(`/${__PROD__ ? "bypass-links/" : ""}sw.js`)
+      .register(`${__ROOTPATH__}/sw.js`)
       .then((res) => {
         console.log("Service worker registered");
       })
