@@ -22,7 +22,7 @@ const onUpdateCallback = async (tabId, changeInfo) => {
     const currentTabUrl = new URL(url);
     bypass(tabId, currentTabUrl);
     redirect(tabId, currentTabUrl);
-    turnOffInputSuggestions();
+    turnOffInputSuggestions(tabId);
     siteSpecificLogic(tabId, currentTabUrl);
   }
 };
