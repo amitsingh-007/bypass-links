@@ -90,7 +90,7 @@ jobs:
   Deploy:
     runs-on: ubuntu-latest
     needs: [Release]
-    if: ${{ github.ref == 'refs/heads/master' }}
+    # if: ${{ github.ref == 'refs/heads/master' }}
     steps:
       - name: Download artifacts 🎨
         uses: actions/download-artifact@v2
@@ -106,8 +106,8 @@ jobs:
         with:
           args: deploy --prod --dir=build
 
-      - name: Deploying to gh-pages 🚀
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
+      # - name: Deploying to gh-pages 🚀
+      #   uses: peaceiris/actions-gh-pages@v3
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     publish_dir: ./build
