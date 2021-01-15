@@ -1,1 +1,5 @@
-{}
+{
+  "baseUrl": "http://bypass-links-dev.surge.sh",
+  "chromeWebSecurity": false,
+  "video": false
+}

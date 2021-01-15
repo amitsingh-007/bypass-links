@@ -10,9 +10,18 @@ import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
 import chromeLogo from "GlobalIcons/chrome.svg";
 import { fetchApi } from "GlobalUtils/fetch";
 import { getExtensionFile } from "GlobalUtils/index";
-import { memo } from "react";
+import { memo, useState } from "react";
 
 export const ChromeExtension = memo(() => {
+  const [isDownloadComplete, setisDownloadComplete] = useState(false);
+
+  const showDownloadText = () => {
+    setisDownloadComplete(true);
+    setTimeout(() => {
+      setisDownloadComplete(false);
+    }, 1000);
+  };
+
   const handleExtensionDownload = () => {
     const filename = getExtensionFile(__EXT_VERSION__);
     fetchApi(`${__ROOTPATH__}/${filename}`, {
@@ -22,7 +31,7 @@ export const ChromeExtension = memo(() => {
       downloadLink.href = URL.createObjectURL(bytes);
       downloadLink.setAttribute("download", filename);
       downloadLink.click();
-      document.removeChild(downloadLink);
+      showDownloadText();
     });
   };
 
@@ -72,8 +81,12 @@ export const ChromeExtension = memo(() => {
             onClick={handleExtensionDownload}
           >
             <CloudDownloadIcon />
-            <Box component="span" sx={{ ml: "8px" }}>
-              Download Bypass Links
+            <Box
+              data-test-id={isDownloadComplete ? "downloaded" : "download"}
+              component="span"
+              sx={{ ml: "8px" }}
+            >
+              {isDownloadComplete ? "Downloaded" : "Download Bypass Links"}
             </Box>
           </Fab>
         </Box>
