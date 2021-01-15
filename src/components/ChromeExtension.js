@@ -58,7 +58,7 @@ export const ChromeExtension = memo(() => {
             <Link href="chrome://extensions/">chrome://extensions/</Link>
           </Typography>
           <Typography color="textPrimary">
-            {" 3. Drag and drop the extension to install.hehe"}
+            {" 3. Drag and drop the extension to install."}
           </Typography>
           <Typography color="textPrimary">
             {"4. Enjoy freely."}
