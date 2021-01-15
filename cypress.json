@@ -1,5 +1,5 @@
 {
-  "baseUrl": "http://bypass-links-dev.surge.sh",
+  "baseUrl": "https://bypass-links-dev.netlify.app/",
   "chromeWebSecurity": false,
   "video": false
 }

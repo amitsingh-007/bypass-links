@@ -98,8 +98,13 @@ jobs:
           name: build
           path: ./build/
 
-      - name: Deploying to surge.sh 🐙
-        run: npx surge ./build ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
+      - name: Deploying to netlify 💠
+        uses: netlify/actions/cli@master
+        env:
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        with:
+          args: deploy --prod --dir=build
 
       - name: Deploying to gh-pages 🚀
         uses: peaceiris/actions-gh-pages@v3

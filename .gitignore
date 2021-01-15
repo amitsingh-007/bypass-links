@@ -5,3 +5,6 @@
 
 # cypress file
 debug.log 
+
+#netlify
+/.netlify
