@@ -28,7 +28,6 @@ jobs:
         run: npm run release
 
       - name: Upload artfacts 🎨
-        if: ${{ github.ref == 'refs/heads/master' }}
         uses: actions/upload-artifact@v2
         with:
           name: build
