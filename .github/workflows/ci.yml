@@ -54,7 +54,7 @@ jobs:
         with:
           args: deploy --prod --dir=build
 
-      - name: Run Cypress ©
+      - name: Run Cypress 🧪
         uses: cypress-io/github-action@v2
         with:
           config-file: cypress/cypress.json
@@ -63,6 +63,7 @@ jobs:
           record: true
           parallel: true
         env:
+          NODE_ENV: test
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
