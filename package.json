@@ -63,7 +63,8 @@
   },
   "scripts": {
     "analyzer": "cross-env ENABLE_BUNDLE_ANLYZER=true npm run release",
-    "cypress:open": "cross-env NODE_ENV=test cypress open",
+    "cypress:open": "cross-env NODE_ENV=test cypress open --config-file cypress/cypress.json",
+    "cypress:dashboard": "cypress run --record --key 12bca8f4-4573-4d71-b542-229868261d0c --config-file cypress/cypress.json",
     "dev": "better-npm-run dev",
     "start": "better-npm-run start",
     "netlify": "better-npm-run netlify",
