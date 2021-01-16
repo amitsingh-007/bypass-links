@@ -1,6 +1,5 @@
 {
   "baseUrl": "https://bypass-links-dev.netlify.app/",
   "chromeWebSecurity": false,
-  "video": false,
   "projectId": "drjgmi"
 }
