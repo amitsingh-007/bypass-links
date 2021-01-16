@@ -10,7 +10,6 @@
     "chrome": false,
     "__EXT_VERSION__": false,
     "__RELEASE_DATE__": false,
-    "__PROD__": false,
-    "__ROOTPATH__": false
+    "__PROD__": false
   }
 }

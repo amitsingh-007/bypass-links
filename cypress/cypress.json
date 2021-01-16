@@ -1,5 +1,8 @@
 {
+  "projectId": "drjgmi",
   "baseUrl": "https://bypass-links-dev.netlify.app/",
   "chromeWebSecurity": false,
-  "projectId": "drjgmi"
+  "fixturesFolder": false,
+  "pluginsFile": false,
+  "supportFile": false
 }

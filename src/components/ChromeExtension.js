@@ -8,8 +8,8 @@ import {
 } from "@material-ui/core";
 import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
 import chromeLogo from "GlobalIcons/chrome.svg";
+import { getExtensionFile, getRootPath } from "GlobalUtils/downloadPage";
 import { fetchApi } from "GlobalUtils/fetch";
-import { getExtensionFile } from "GlobalUtils/index";
 import { memo, useState } from "react";
 
 export const ChromeExtension = memo(() => {
@@ -24,7 +24,7 @@ export const ChromeExtension = memo(() => {
 
   const handleExtensionDownload = () => {
     const filename = getExtensionFile(__EXT_VERSION__);
-    fetchApi(`${__ROOTPATH__}/${filename}`, {
+    fetchApi(`${getRootPath()}/${filename}`, {
       responseType: "blob",
     }).then((bytes) => {
       const downloadLink = document.createElement("a");

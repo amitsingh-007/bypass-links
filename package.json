@@ -66,7 +66,7 @@
     "cypress:open": "cross-env NODE_ENV=test cypress open --config-file cypress/cypress.json",
     "dev": "better-npm-run dev",
     "start": "better-npm-run start",
-    "netlify": "better-npm-run netlify",
+    "netlify": "npm run release && netlify deploy --prod --dir=build",
     "release": "better-npm-run release"
   },
   "betterScripts": {
@@ -79,8 +79,7 @@
     "release": {
       "command": "webpack --config webpack.firebase.config.js && webpack",
       "env": {
-        "NODE_ENV": "production",
-        "CYPRESS": "true"
+        "NODE_ENV": "production"
       }
     },
     "start": {
@@ -88,12 +87,6 @@
       "env": {
         "NODE_ENV": "development",
         "DEV_SERVER": true
-      }
-    },
-    "netlify": {
-      "command": "npm run release && netlify deploy --prod --dir=build",
-      "env": {
-        "CYPRESS": "true"
       }
     }
   }

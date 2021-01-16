@@ -29,7 +29,9 @@ This is an easy-to-use Open-Source `Browser Extension` which bypasses links on v
 
 - **Turn off auto suggestions** for any page.
 
-- Full **dark theme** support
+- Full **dark theme** support.
+
+- Built with Cypress E2E testing.
 
 - Modern UI
 

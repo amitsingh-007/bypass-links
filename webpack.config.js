@@ -5,7 +5,7 @@ const { InjectManifest } = require("workbox-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const { DefinePlugin, DllReferencePlugin } = require("webpack");
-const { getExtensionFile } = require("./src/utils");
+const { getExtensionFile } = require("./src/utils/downloadPage");
 const { releaseDate, extVersion } = require("./release-config");
 const { commonConfig, PATHS } = require("./webpack.common.config");
 const firebasedDllConfig = require("./webpack.firebase.config");
@@ -14,7 +14,6 @@ const ENV = process.env.NODE_ENV;
 const isProduction = ENV === "production";
 const enableBundleAnalyzer = process.env.ENABLE_BUNDLE_ANLYZER === "true";
 const isDevServer = process.env.DEV_SERVER === "true";
-const isCypress = process.env.CYPRESS === "true";
 
 const optimizationOptions = {
   nodeEnv: ENV,
@@ -113,9 +112,6 @@ const getDownloadPageConfigPlugins = () => {
       __EXT_VERSION__: JSON.stringify(extVersion),
       __RELEASE_DATE__: JSON.stringify(releaseDate),
       __PROD__: JSON.stringify(isProduction),
-      __ROOTPATH__: JSON.stringify(
-        isProduction && !isCypress ? "/bypass-links" : ""
-      ),
     }),
     new InjectManifest({
       swSrc: "./src/sw.js",
