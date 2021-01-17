@@ -1,6 +1,6 @@
 const FileManagerPlugin = require("filemanager-webpack-plugin");
 const { DllPlugin } = require("webpack");
-const { commonConfig, PATHS } = require("./webpack.common.config");
+const { commonConfig, PATHS } = require("../webpack.common.config");
 
 const firebasedDllConfig = {
   ...commonConfig,

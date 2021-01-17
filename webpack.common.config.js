@@ -5,31 +5,34 @@ const modernBabelConfig = require("./babel/modern.config");
 const ENV = process.env.NODE_ENV;
 const isProduction = ENV === "production";
 
+const resolvePath = (fsPath) => path.resolve(__dirname, fsPath);
+
 const PATHS = {
-  BUILD: path.resolve(__dirname, "build"),
-  EXTENSION: path.resolve(__dirname, "extension"),
-  FIREBASE_BUILD: path.resolve(__dirname, "firebase-build"),
-  SRC: path.resolve(__dirname, "src"),
+  BUILD: resolvePath("build"),
+  EXTENSION: resolvePath("extension"),
+  FIREBASE_BUILD: resolvePath("firebase-build"),
+  SRC: resolvePath("src"),
 };
 
 const commonConfig = {
+  context: resolvePath(""),
   mode: ENV,
   resolve: {
     extensions: [".js", ".scss"],
     alias: {
-      ChromeApi: path.resolve(__dirname, "src/scripts/chrome/"),
-      GlobalActionCreators: path.resolve(__dirname, "src/actionCreators/"),
-      GlobalActionTypes: path.resolve(__dirname, "src/actionTypes/"),
-      GlobalApis: path.resolve(__dirname, "src/apis/"),
-      GlobalComponents: path.resolve(__dirname, "src/components/"),
-      GlobalConstants: path.resolve(__dirname, "src/constants/"),
-      GlobalContainers: path.resolve(__dirname, "src/containers/"),
-      GlobalIcons: path.resolve(__dirname, "src/icons/"),
-      GlobalReducers: path.resolve(__dirname, "src/reducers/"),
-      GlobalScripts: path.resolve(__dirname, "src/scripts/"),
-      GlobalStyles: path.resolve(__dirname, "src/styles/"),
-      GlobalUtils: path.resolve(__dirname, "src/utils/"),
-      SrcPath: path.resolve(__dirname, "src/"),
+      ChromeApi: resolvePath("src/scripts/chrome/"),
+      GlobalActionCreators: resolvePath("src/actionCreators/"),
+      GlobalActionTypes: resolvePath("src/actionTypes/"),
+      GlobalApis: resolvePath("src/apis/"),
+      GlobalComponents: resolvePath("src/components/"),
+      GlobalConstants: resolvePath("src/constants/"),
+      GlobalContainers: resolvePath("src/containers/"),
+      GlobalIcons: resolvePath("src/icons/"),
+      GlobalReducers: resolvePath("src/reducers/"),
+      GlobalScripts: resolvePath("src/scripts/"),
+      GlobalStyles: resolvePath("src/styles/"),
+      GlobalUtils: resolvePath("src/utils/"),
+      SrcPath: resolvePath("src/"),
       /**
        * preact caused issue with material-ui makeStyles hook(not in our code, instead in the internal code of mui)
        * Refer: https://github.com/mui-org/material-ui/issues/20182#issuecomment-700800996
