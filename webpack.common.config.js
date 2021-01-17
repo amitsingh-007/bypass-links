@@ -1,5 +1,6 @@
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const modernBabelConfig = require("./babel/modern.config");
 
 const ENV = process.env.NODE_ENV;
 const isProduction = ENV === "production";
@@ -55,6 +56,10 @@ const commonConfig = {
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
+          options: {
+            ...modernBabelConfig(),
+            cacheDirectory: true,
+          },
         },
       },
       {
