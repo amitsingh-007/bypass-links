@@ -1,4 +1,4 @@
-# Summary ![Github Action / CI](https://github.com/amitsingh-007/bypass-links/workflows/CI/badge.svg)
+# Summary ![Github Action / CI](https://github.com/amitsingh-007/bypass-links/workflows/CI/badge.svg) [![Netlify Status](https://api.netlify.com/api/v1/badges/8ad5c745-a8d8-42b6-8467-6c4b4285cd34/deploy-status)](https://app.netlify.com/sites/bypass-links-dev/deploys) [![Bypass Links](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/drjgmi&style=flat&logo=cypress)](https://dashboard.cypress.io/projects/drjgmi/runs)
 
 This is an easy-to-use Open-Source `Browser Extension` which bypasses links on various websites and lets you use the direct url for your resource. This will help you to bypass recaptchas, unnecessary timers, countdowns, ads, popups, surveys, avoid unnecessary third party installs.
 
@@ -29,7 +29,9 @@ This is an easy-to-use Open-Source `Browser Extension` which bypasses links on v
 
 - **Turn off auto suggestions** for any page.
 
-- Full **dark theme** support
+- Full **dark theme** support.
+
+- Built with Cypress E2E testing.
 
 - Modern UI
 

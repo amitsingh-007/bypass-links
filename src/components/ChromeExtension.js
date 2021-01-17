@@ -8,25 +8,31 @@ import {
 } from "@material-ui/core";
 import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
 import chromeLogo from "GlobalIcons/chrome.svg";
-import { getExtensionFile } from "GlobalUtils/index";
-import { memo } from "react";
+import { getExtensionFile, getRootPath } from "GlobalUtils/downloadPage";
+import { fetchApi } from "GlobalUtils/fetch";
+import { memo, useState } from "react";
 
 export const ChromeExtension = memo(() => {
+  const [isDownloadComplete, setisDownloadComplete] = useState(false);
+
+  const showDownloadText = () => {
+    setisDownloadComplete(true);
+    setTimeout(() => {
+      setisDownloadComplete(false);
+    }, 1000);
+  };
+
   const handleExtensionDownload = () => {
-    fetch(
-      `${__PROD__ ? "/bypass-links" : ""}/${getExtensionFile(__EXT_VERSION__)}`
-    )
-      .then((transfer) => transfer.blob())
-      .then((bytes) => {
-        const downloadLink = document.createElement("a");
-        downloadLink.href = URL.createObjectURL(bytes);
-        downloadLink.setAttribute(
-          "download",
-          getExtensionFile(__EXT_VERSION__)
-        );
-        downloadLink.click();
-        document.removeChild(downloadLink);
-      });
+    const filename = getExtensionFile(__EXT_VERSION__);
+    fetchApi(`${getRootPath()}/${filename}`, {
+      responseType: "blob",
+    }).then((bytes) => {
+      const downloadLink = document.createElement("a");
+      downloadLink.href = URL.createObjectURL(bytes);
+      downloadLink.setAttribute("download", filename);
+      downloadLink.click();
+      showDownloadText();
+    });
   };
 
   return (
@@ -69,10 +75,18 @@ export const ChromeExtension = memo(() => {
             pt: "8px",
           }}
         >
-          <Fab variant="extended" onClick={handleExtensionDownload}>
+          <Fab
+            data-test-id="extension-download-button"
+            variant="extended"
+            onClick={handleExtensionDownload}
+          >
             <CloudDownloadIcon />
-            <Box component="span" sx={{ ml: "8px" }}>
-              Download Bypass Links
+            <Box
+              data-test-id={isDownloadComplete ? "downloaded" : "download"}
+              component="span"
+              sx={{ ml: "8px" }}
+            >
+              {isDownloadComplete ? "Downloaded" : "Download Bypass Links"}
             </Box>
           </Fab>
         </Box>

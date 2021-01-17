@@ -1,4 +1,10 @@
 /node_modules
 /build
-/extension
 /firebase-build
+/extension
+
+# cypress file
+debug.log 
+
+#netlify
+/.netlify

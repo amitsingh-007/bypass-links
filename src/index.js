@@ -6,6 +6,7 @@ import {
 } from "@material-ui/core";
 import DownloadPage from "GlobalComponents/DownloadPage";
 import "GlobalStyles/download-page.scss";
+import { getRootPath } from "GlobalUtils/downloadPage";
 import "preact/devtools";
 import { StrictMode } from "react";
 import ReactDOM from "react-dom";
@@ -34,7 +35,7 @@ ReactDOM.render(
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
-      .register(`/${__PROD__ ? "bypass-links/" : ""}sw.js`)
+      .register(`${getRootPath()}/sw.js`)
       .then((res) => {
         console.log("Service worker registered");
       })

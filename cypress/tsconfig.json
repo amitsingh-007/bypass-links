@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "es6",
+    "baseUrl": "../node_modules",
+    "types": ["cypress"],
+    "allowJs": true,
+    "moduleResolution": "node",
+    "lib": ["es2015", "es2016", "dom"],
+    "skipLibCheck": true,
+    "pretty": true,
+    "outDir": "./build"
+  },
+  "include": ["**/*.*"]
+}

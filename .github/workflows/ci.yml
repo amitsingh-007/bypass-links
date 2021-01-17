@@ -28,15 +28,48 @@ jobs:
         run: npm run release
 
       - name: Upload artfacts 🎨
-        if: ${{ github.ref == 'refs/heads/master' }}
         uses: actions/upload-artifact@v2
         with:
           name: build
           path: ./build/
 
-  Release:
+  E2E:
     runs-on: ubuntu-latest
     needs: [Build]
+    steps:
+      - name: Checkout repo 🛎️
+        uses: actions/checkout@v2
+
+      - name: Download artifacts 🎨
+        uses: actions/download-artifact@v2
+        with:
+          name: build
+          path: ./build/
+
+      - name: Deploy to Netlify Staging 💠
+        uses: netlify/actions/cli@master
+        env:
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_STG_SITE_ID }}
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        with:
+          args: deploy --prod --dir=build
+
+      - name: Run Cypress 🧪
+        uses: cypress-io/github-action@v2
+        with:
+          config-file: cypress/cypress.json
+          browser: chrome
+          headless: true
+          record: true
+          parallel: true
+        env:
+          NODE_ENV: test
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  Release:
+    runs-on: ubuntu-latest
+    needs: [E2E]
     if: ${{ github.ref == 'refs/heads/master' }}
     steps:
       - name: Checkout repo 🛎️
@@ -98,11 +131,16 @@ jobs:
           name: build
           path: ./build/
 
-      - name: Deploying to surge.sh 🐙
-        run: npx surge ./build ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
-
       - name: Deploying to gh-pages 🚀
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build
+
+      - name: Deploy to Netlify Production 💠
+        uses: netlify/actions/cli@master
+        env:
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_PROD_SITE_ID }}
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        with:
+          args: deploy --prod --dir=build
