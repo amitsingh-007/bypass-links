@@ -1,11 +1,11 @@
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const modernBabelConfig = require("./babel/modern.config");
+const modernBabelConfig = require("../babel/modern.config");
 
 const ENV = process.env.NODE_ENV;
 const isProduction = ENV === "production";
 
-const resolvePath = (fsPath) => path.resolve(__dirname, fsPath);
+const resolvePath = (fsPath) => path.resolve(__dirname, "..", fsPath);
 
 const PATHS = {
   BUILD: resolvePath("build"),

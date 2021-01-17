@@ -7,7 +7,7 @@ const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const { DefinePlugin, DllReferencePlugin } = require("webpack");
 const { getExtensionFile } = require("./src/utils/downloadPage");
 const { releaseDate, extVersion } = require("./release-config");
-const { commonConfig, PATHS } = require("./webpack.common.config");
+const { commonConfig, PATHS } = require("./webpack/common.config");
 const firebasedDllConfig = require("./webpack/firebase.config");
 
 const ENV = process.env.NODE_ENV;
