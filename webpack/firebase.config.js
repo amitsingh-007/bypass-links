@@ -2,6 +2,8 @@ const FileManagerPlugin = require("filemanager-webpack-plugin");
 const { DllPlugin } = require("webpack");
 const { commonConfig, PATHS } = require("./common.config");
 
+const ENV = process.env.NODE_ENV;
+
 const firebasedDllConfig = {
   ...commonConfig,
   target: "browserslist",
@@ -10,6 +12,10 @@ const firebasedDllConfig = {
     filename: "firebase.js",
     path: PATHS.FIREBASE_BUILD,
     library: "firebase_lib",
+  },
+  optimization: {
+    nodeEnv: ENV,
+    minimize: false,
   },
   plugins: [
     new DllPlugin({

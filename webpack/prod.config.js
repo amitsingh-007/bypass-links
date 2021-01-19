@@ -11,30 +11,7 @@ const { commonConfig, PATHS } = require("./common.config");
 const firebasedDllConfig = require("./firebase.config");
 
 const ENV = process.env.NODE_ENV;
-const isProduction = ENV === "production";
 const enableBundleAnalyzer = process.env.ENABLE_BUNDLE_ANLYZER === "true";
-const isDevServer = process.env.DEV_SERVER === "true";
-
-const optimizationOptions = {
-  nodeEnv: ENV,
-  minimize: isProduction,
-  chunkIds: "named",
-  splitChunks: {
-    chunks: "all",
-    cacheGroups: {
-      vendor: {
-        test: /[\\/]node_modules[\\/]@material-ui[\\/]/,
-        name: "material-ui",
-        chunks: "all",
-      },
-      react: {
-        test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
-        name: "react",
-        chunks: "all",
-      },
-    },
-  },
-};
 
 const miniCssExtractPlugin = new MiniCssExtractPlugin({
   filename: "[name].[contenthash].css",
@@ -46,33 +23,6 @@ const dllReferencePlugin = new DllReferencePlugin({
   manifest: `${PATHS.FIREBASE_BUILD}/firebase-manifest.json`,
 });
 
-const getFileManagerPlugin = () => {
-  const config = {
-    events: {
-      onStart: {
-        copy: [
-          {
-            source: "./assets/*",
-            destination: PATHS.EXTENSION,
-          },
-        ],
-      },
-    },
-  };
-  if (isProduction) {
-    config.events.onEnd = {
-      delete: ["./extension/js/*.txt"],
-      archive: [
-        {
-          source: PATHS.EXTENSION,
-          destination: `${PATHS.BUILD}/${getExtensionFile(extVersion)}`,
-        },
-      ],
-    };
-  }
-  return new FileManagerPlugin(config);
-};
-
 const getWebpackBundleAnalyzerPlugin = (port) =>
   new BundleAnalyzerPlugin({
     openAnalyzer: true,
@@ -83,7 +33,9 @@ const getWebpackBundleAnalyzerPlugin = (port) =>
   });
 
 const definePlugin = new DefinePlugin({
-  __PROD__: JSON.stringify(isProduction),
+  __EXT_VERSION__: JSON.stringify(extVersion),
+  __RELEASE_DATE__: JSON.stringify(releaseDate),
+  __PROD__: JSON.stringify(true),
 });
 
 const getDownloadPageConfigPlugins = () => {
@@ -108,15 +60,12 @@ const getDownloadPageConfigPlugins = () => {
         },
       },
     }),
-    new DefinePlugin({
-      __EXT_VERSION__: JSON.stringify(extVersion),
-      __RELEASE_DATE__: JSON.stringify(releaseDate),
-      __PROD__: JSON.stringify(isProduction),
-    }),
     new InjectManifest({
       swSrc: "./src/sw.js",
       swDest: "sw.js",
     }),
+    new OptimizeCssAssetsPlugin({}),
+    definePlugin,
     miniCssExtractPlugin,
   ];
   if (enableBundleAnalyzer) {
@@ -132,16 +81,34 @@ const getPopupConfigPlugins = () => {
       inject: false,
       cache: false,
     }),
-    getFileManagerPlugin(),
+    new FileManagerPlugin({
+      events: {
+        onStart: {
+          copy: [
+            {
+              source: "./assets/*",
+              destination: PATHS.EXTENSION,
+            },
+          ],
+        },
+        onEnd: {
+          delete: ["./extension/js/*.txt"],
+          archive: [
+            {
+              source: PATHS.EXTENSION,
+              destination: `${PATHS.BUILD}/${getExtensionFile(extVersion)}`,
+            },
+          ],
+        },
+      },
+    }),
+    new OptimizeCssAssetsPlugin({}),
     dllReferencePlugin,
     miniCssExtractPlugin,
     definePlugin,
   ];
   if (enableBundleAnalyzer) {
     plugins.push(getWebpackBundleAnalyzerPlugin(8889));
-  }
-  if (isProduction) {
-    plugins.push(new OptimizeCssAssetsPlugin({}));
   }
   return plugins;
 };
@@ -179,16 +146,7 @@ const downloadPageConfig = {
     pathinfo: false,
   },
   //Due to bug in WebpackV5: https://github.com/webpack/webpack-dev-server/issues/2758
-  target: isProduction ? "browserslist" : "web",
-  devServer: {
-    contentBase: PATHS.BUILD,
-    compress: true,
-    port: 5000,
-    open: true,
-    stats: "errors-warnings",
-    watchContentBase: true,
-  },
-  optimization: optimizationOptions,
+  target: "browserslist",
   plugins: getDownloadPageConfigPlugins(),
   devtool: "source-map",
 };
@@ -201,6 +159,10 @@ const backgroundConfig = {
     filename: "background.js",
   },
   target: "browserslist",
+  optimization: {
+    nodeEnv: ENV,
+    minimize: false,
+  },
   plugins: getBackgroundConfigPlugins(),
 };
 
@@ -214,21 +176,13 @@ const popupConfig = {
     pathinfo: false,
   },
   target: "browserslist",
-  optimization: optimizationOptions,
   plugins: getPopupConfigPlugins(),
 };
 
-/**
- * For production, build all 3 configs
- * For dev-server, only build downloadPageConfig
- * Else, build extension related configs
- * NOTE: Following order matters
- */
-let configs = [firebasedDllConfig, backgroundConfig, popupConfig];
-if (isProduction) {
-  configs = [downloadPageConfig, ...configs];
-} else if (isDevServer) {
-  configs = [downloadPageConfig];
-}
-
-module.exports = configs;
+//Following order matters
+module.exports = [
+  downloadPageConfig,
+  firebasedDllConfig,
+  backgroundConfig,
+  popupConfig,
+];

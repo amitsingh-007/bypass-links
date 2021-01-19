@@ -72,13 +72,13 @@
   },
   "betterScripts": {
     "dev": {
-      "command": "npm run firebase && webpack --config webpack/config.js -w --progress",
+      "command": "npm run firebase && webpack --config webpack/dev.config.js -w --progress",
       "env": {
         "NODE_ENV": "development"
       }
     },
     "release": {
-      "command": "npm run firebase && webpack --config webpack/config.js",
+      "command": "npm run firebase && webpack --config webpack/prod.config.js",
       "env": {
         "NODE_ENV": "production"
       }

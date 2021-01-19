@@ -51,6 +51,22 @@ const commonConfig = {
   optimization: {
     nodeEnv: ENV,
     minimize: isProduction,
+    chunkIds: "named",
+    splitChunks: {
+      chunks: "all",
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]@material-ui[\\/]/,
+          name: "material-ui",
+          chunks: "all",
+        },
+        react: {
+          test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+          name: "react",
+          chunks: "all",
+        },
+      },
+    },
   },
   module: {
     rules: [
