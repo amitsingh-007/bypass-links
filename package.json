@@ -9,6 +9,7 @@
     "@material-ui/icons": "5.0.0-alpha.21",
     "@material-ui/lab": "5.0.0-alpha.21",
     "@material-ui/pickers": "3.2.10",
+    "core-js": "3.8.3",
     "dayjs": "1.10.3",
     "firebase": "8.2.1",
     "md5": "2.3.0",

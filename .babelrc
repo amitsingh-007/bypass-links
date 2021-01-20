@@ -1,7 +1,20 @@
 {
   "presets": [
     "react-app",
-    "@babel/preset-env",
-    ["@babel/preset-react", { "runtime": "automatic" }]
+    [
+      "@babel/preset-env",
+      {
+        "bugfixes": true, //babel 8 will have this true by default
+        "useBuiltIns": "usage",
+        "corejs": 3,
+        "modules": false
+      }
+    ],
+    [
+      "@babel/preset-react",
+      {
+        "runtime": "automatic"
+      }
+    ]
   ]
 }
