@@ -2,6 +2,7 @@ import { Box, MenuItem } from "@material-ui/core";
 import { BlackMenu } from "GlobalComponents/StyledComponents";
 import { memo, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
+import { useLongPress } from "use-long-press";
 
 const initialMouseState = {
   mouseX: null,
@@ -27,6 +28,11 @@ const withBookmarkRow = (Component) =>
     const handleOptionsClose = () => {
       setMouseState(initialMouseState);
     };
+
+    const bindLongPress = useLongPress(handleOptionsOpen, {
+      captureEvent: true,
+      detect: "touch",
+    });
 
     const renderMenu = (menuItemOptionList) => (
       <BlackMenu
@@ -69,6 +75,7 @@ const withBookmarkRow = (Component) =>
             }}
             data-text={primaryUniqueId}
             data-subtext={secondaryUniqueId}
+            {...bindLongPress}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
           >
