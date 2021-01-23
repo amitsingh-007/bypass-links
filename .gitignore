@@ -1,12 +1,12 @@
 **/node_modules
-/build
-/firebase-build
-/extension
+**/build
+**/firebase-build
+**/extension
 
 # cypress file
 debug.log 
 
 #netlify
-/.netlify
+.netlify
 **/functions
 server/.env

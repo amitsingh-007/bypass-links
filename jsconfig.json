@@ -6,19 +6,19 @@
     "jsx": "react",
     "baseUrl": ".",
     "paths": {
-      "ChromeApi/*": ["./src/scripts/chrome/*"],
-      "GlobalActionCreators/*": ["./src/actionCreators/*"],
-      "GlobalActionTypes/*": ["./src/actionTypes/*"],
-      "GlobalApis/*": ["./src/apis/*"],
-      "GlobalComponents/*": ["./src/components/*"],
-      "GlobalConstants/*": ["./src/constants/*"],
-      "GlobalContainers/*": ["./src/containers/*"],
-      "GlobalIcons/*": ["./src/icons/*"],
-      "GlobalReducers/*": ["./src/reducers/*"],
-      "GlobalScripts/*": ["./src/scripts/*"],
-      "GlobalStyles/*": ["./src/styles/*"],
-      "GlobalUtils/*": ["./src/utils/*"],
-      "SrcPath/*": ["./src/*"]
+      "ChromeApi/*": ["./client/src/scripts/chrome/*"],
+      "GlobalActionCreators/*": ["./client/src/actionCreators/*"],
+      "GlobalActionTypes/*": ["./client/src/actionTypes/*"],
+      "GlobalApis/*": ["./client/src/apis/*"],
+      "GlobalComponents/*": ["./client/src/components/*"],
+      "GlobalConstants/*": ["./client/src/constants/*"],
+      "GlobalContainers/*": ["./client/src/containers/*"],
+      "GlobalIcons/*": ["./client/src/icons/*"],
+      "GlobalReducers/*": ["./client/src/reducers/*"],
+      "GlobalScripts/*": ["./client/src/scripts/*"],
+      "GlobalStyles/*": ["./client/src/styles/*"],
+      "GlobalUtils/*": ["./client/src/utils/*"],
+      "SrcPath/*": ["./client/src/*"]
     }
   },
   "exclude": ["build", "extension", "firebase-build", "node_modules"]
