@@ -1,0 +1,18 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "cross-env NODE_ENV=production netlify-lambda build . --config ./webpack.functions.js",
+    "serve": "cross-env NODE_ENV=development netlify-lambda serve . --config ./webpack.functions.js"
+  },
+  "devDependencies": {
+    "cross-env": "7.0.3",
+    "dotenv-webpack": "6.0.0",
+    "express": "4.17.1",
+    "filemanager-webpack-plugin": "3.1.0",
+    "netlify-lambda": "2.0.3",
+    "serverless-http": "2.7.0",
+    "webpack-node-externals": "2.5.2"
+  }
+}

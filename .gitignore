@@ -1,4 +1,4 @@
-/node_modules
+**/node_modules
 /build
 /firebase-build
 /extension
@@ -8,3 +8,5 @@ debug.log
 
 #netlify
 /.netlify
+**/functions
+server/.env
