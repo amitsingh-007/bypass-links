@@ -13,3 +13,9 @@
 - Install [prettier]("https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode") and enable for this workplace, with default settings.
 - Follow `pascalCase` for this project.
 - Attach comments to complex logic, if required.
+
+# Deploying to Netlify
+
+- Run `netlify login` in the root folder.
+- After succesfully logging in through the web interface, it will create a gitignored folder named `.netlify`.
+- Now, everything should be working fine.
