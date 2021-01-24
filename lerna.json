@@ -1,5 +1,5 @@
 {
-  "packages": ["server/", "client/"],
+  "packages": ["server/", "client/", "E2E/"],
   "version": "0.0.0",
   "command": {
     "bootstrap": {

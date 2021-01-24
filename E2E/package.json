@@ -1,0 +1,12 @@
+{
+  "name": "cypress",
+  "version": "1.0.0",
+  "description": "Cypress tests for the application",
+  "devDependencies": {
+    "cypress": "6.2.1",
+    "eslint-plugin-cypress": "2.11.2"
+  },
+  "scripts": {
+    "cypress:open": "cypress open"
+  }
+}
