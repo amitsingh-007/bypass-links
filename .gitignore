@@ -8,5 +8,4 @@ debug.log
 
 #netlify
 .netlify
-**/functions
 server/.env

@@ -1,0 +1,4 @@
+[build]
+    publish = "client/build"
+    functions = "server/routes/"
+    targetPort = 5000
