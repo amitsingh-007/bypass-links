@@ -2,6 +2,14 @@
 
 This is an easy-to-use Open-Source `Browser Extension` which bypasses links on various websites and lets you use the direct url for your resource. This will help you to bypass recaptchas, unnecessary timers, countdowns, ads, popups, surveys, avoid unnecessary third party installs.
 
+## Download link ![GitHub all releases](https://img.shields.io/github/downloads/amitsingh-007/bypass-links/total?color=success)
+
+Head over to [My Github Page](https://amitsingh-007.github.io/bypass-links/) and download for your browser.
+
+## For Development [![Code of Conduct](https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat)](https://github.com/amitsingh-007/bypass-links/blob/master/CONTRIBUTING.md)
+
+[Click Here](https://github.com/amitsingh-007/bypass-links/blob/master/CONTRIBUTING.md) to get started.
+
 ## Currently supported websites
 
     * medium
@@ -34,11 +42,3 @@ This is an easy-to-use Open-Source `Browser Extension` which bypasses links on v
 - Built with Cypress E2E testing.
 
 - Modern UI
-
-## Download link ![GitHub all releases](https://img.shields.io/github/downloads/amitsingh-007/bypass-links/total?color=success)
-
-Head over to [My Github Page](https://amitsingh-007.github.io/bypass-links/) and download for your browser.
-
-## For Development [![Code of Conduct](https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat)](https://github.com/amitsingh-007/bypass-links/blob/master/CONTRIBUTING.md)
-
-[Click Here](https://github.com/amitsingh-007/bypass-links/blob/master/CONTRIBUTING.md) to get started.

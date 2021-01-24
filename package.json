@@ -18,7 +18,6 @@
     "cypress:open": "lerna run --stream cypress:open",
     "netlify:dev": "netlify dev",
     "netlify:deploy": "npm run client:release && netlify deploy --prod",
-    "server:build": "lerna run --stream build",
     "server:serve": "lerna run --stream serve"
   }
 }
