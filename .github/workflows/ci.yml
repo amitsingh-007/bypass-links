@@ -38,11 +38,12 @@ jobs:
       - name: Run Cypress 🧪
         uses: cypress-io/github-action@v2
         with:
-          config-file: ./E2E/cypress.json
+          # config-file: E2E/cypress.json
           browser: chrome
           headless: true
           record: true
           parallel: true
+          working-directory: E2E
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -73,7 +74,7 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_STG_SITE_ID }}
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         with:
-          args: deploy
+          args: deploy --prod
 
       - name: Run Cypress 🧪
         uses: cypress-io/github-action@v2
@@ -163,4 +164,4 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_PROD_SITE_ID }}
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         with:
-          args: deploy
+          args: deploy --prod
