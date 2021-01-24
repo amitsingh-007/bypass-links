@@ -60,7 +60,6 @@ jobs:
       - name: Run Cypress 🧪
         uses: cypress-io/github-action@v2
         with:
-          config-file: ./E2E/cypress.json
           browser: chrome
           headless: true
           record: true
