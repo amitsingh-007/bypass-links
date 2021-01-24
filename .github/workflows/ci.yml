@@ -22,16 +22,16 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Install dependencies 🧼
-        run: npm install
+        run: lerna run bootstrap
 
       - name: Building 🛠
-        run: npm run release
+        run: npm run client:release
 
       - name: Upload artfacts 🎨
         uses: actions/upload-artifact@v2
         with:
           name: build
-          path: ./build/
+          path: ./client/build/
 
   E2E:
     runs-on: ubuntu-latest
@@ -44,7 +44,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: build
-          path: ./build/
+          path: ./client/build/
 
       - name: Deploy to Netlify Staging 💠
         uses: netlify/actions/cli@master
@@ -52,18 +52,17 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_STG_SITE_ID }}
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         with:
-          args: deploy --prod --dir=build
+          args: deploy
 
       - name: Run Cypress 🧪
         uses: cypress-io/github-action@v2
         with:
-          config-file: cypress/cypress.json
+          config-file: ./E2E/cypress.json
           browser: chrome
           headless: true
           record: true
           parallel: true
         env:
-          NODE_ENV: test
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -79,7 +78,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: build
-          path: ./build/
+          path: ./client/build/
 
       - name: Generate Release Tag 🏷
         uses: amitsingh-007/next-release-tag@v1.0.0
@@ -107,7 +106,7 @@ jobs:
       - name: Get Release Asset Name 🗃
         id: get_release_asset_name
         run: |
-          file=$(find ./build/bypass-links-*.zip  -printf "%f\n")
+          file=$(find ./client/build/bypass-links-*.zip  -printf "%f\n")
           echo "::set-output name=asset_name::$file"
 
       - name: Upload Release Asset ☁
@@ -116,7 +115,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build/${{ steps.get_release_asset_name.outputs.asset_name }}
+          asset_path: ./client/build/${{ steps.get_release_asset_name.outputs.asset_name }}
           asset_name: ${{ steps.get_release_asset_name.outputs.asset_name }}
           asset_content_type: application/zip
 
@@ -129,13 +128,13 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: build
-          path: ./build/
+          path: ./client/build/
 
       - name: Deploying to gh-pages 🚀
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
+          publish_dir: ./client/build
 
       - name: Deploy to Netlify Production 💠
         uses: netlify/actions/cli@master
@@ -143,4 +142,4 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_PROD_SITE_ID }}
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         with:
-          args: deploy --prod --dir=build
+          args: deploy
