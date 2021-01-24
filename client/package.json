@@ -1,5 +1,5 @@
 {
-  "name": "bypass-links",
+  "name": "client",
   "version": "1.0.0",
   "private": true,
   "dependencies": {
@@ -58,22 +58,22 @@
     "style-loader": "2.0.0",
     "webpack": "5.10.0",
     "webpack-bundle-analyzer": "4.3.0",
-    "webpack-cli": "4.2.0",
+    "webpack-cli": "4.4.0",
     "webpack-dev-server": "3.11.0",
     "webpack-node-externals": "2.5.2",
     "workbox-webpack-plugin": "6.0.2"
   },
   "scripts": {
     "analyzer": "cross-env ENABLE_BUNDLE_ANLYZER=true npm run release",
-    "cypress:open": "cross-env NODE_ENV=test cypress open --config-file cypress/cypress.json",
+    "cypress:open": "cross-env NODE_ENV=test cypress open --config-file ../cypress/cypress.json",
     "dev": "better-npm-run dev",
-    "start": "better-npm-run start",
-    "netlify": "npm run release && netlify deploy --prod --dir=build --functions=server/functions",
-    "release": "better-npm-run release"
+    "netlify": "netlify deploy --prod --dir=build --functions=../server/functions",
+    "release": "better-npm-run release",
+    "start": "better-npm-run start"
   },
   "betterScripts": {
     "dev": {
-      "command": "webpack --progress --config webpack.firebase.config.js && webpack --watch --progress",
+      "command": "webpack --config webpack.firebase.config.js && webpack --watch",
       "env": {
         "NODE_ENV": "development"
       }
@@ -85,7 +85,7 @@
       }
     },
     "start": {
-      "command": "webpack serve --progress",
+      "command": "webpack serve",
       "env": {
         "NODE_ENV": "development",
         "DEV_SERVER": true

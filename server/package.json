@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "cross-env NODE_ENV=production netlify-lambda build . --config ./webpack.functions.js",
-    "serve": "cross-env NODE_ENV=development netlify-lambda serve . --config ./webpack.functions.js"
+    "build": "cross-env NODE_ENV=production netlify-lambda build ./routes --config ./webpack.functions.js",
+    "serve": "cross-env NODE_ENV=development netlify dev"
   },
   "devDependencies": {
+    "body-parser": "1.19.0",
     "cross-env": "7.0.3",
     "dotenv-webpack": "6.0.0",
     "express": "4.17.1",
