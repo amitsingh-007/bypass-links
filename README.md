@@ -6,9 +6,9 @@ This is an easy-to-use Open-Source `Browser Extension` which bypasses links on v
 
 Head over to [My Github Page](https://amitsingh-007.github.io/bypass-links/) and download for your browser.
 
-## For Development [![Code of Conduct](https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat)](https://github.com/amitsingh-007/bypass-links/blob/master/CONTRIBUTING.md)
+## For Development [![Code of Conduct](https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat)](https://github.com/amitsingh-007/bypass-links/blob/main/CONTRIBUTING.md)
 
-[Click Here](https://github.com/amitsingh-007/bypass-links/blob/master/CONTRIBUTING.md) to get started.
+[Click Here](https://github.com/amitsingh-007/bypass-links/blob/main/CONTRIBUTING.md) to get started.
 
 ## Currently supported websites
 

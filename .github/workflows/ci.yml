@@ -72,7 +72,7 @@ jobs:
   Release:
     runs-on: ubuntu-latest
     needs: [E2E]
-    if: ${{ github.ref == 'refs/heads/master' }}
+    if: ${{ github.ref == 'refs/heads/main' }}
     steps:
       - name: Checkout repo 🛎️
         uses: actions/checkout@v2
@@ -125,19 +125,13 @@ jobs:
   Deploy:
     runs-on: ubuntu-latest
     needs: [Release]
-    if: ${{ github.ref == 'refs/heads/master' }}
+    if: ${{ github.ref == 'refs/heads/main' }}
     steps:
       - name: Download artifacts 🎨
         uses: actions/download-artifact@v2
         with:
           name: build
           path: ./client/build/
-
-      - name: Deploying to gh-pages 🚀
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./client/build
 
       - name: Deploy to Netlify Production 💠
         uses: netlify/actions/cli@master

@@ -23,13 +23,9 @@ export const ChromeExtension = memo(() => {
   };
 
   const handleExtensionDownload = () => {
-    const filename = getExtensionFile(__EXT_VERSION__);
-    fetchApi(`${getRootPath()}/${filename}`, {
-      responseType: "blob",
-    }).then((bytes) => {
+    fetchApi("/api/extension/").then(({ extension }) => {
       const downloadLink = document.createElement("a");
-      downloadLink.href = URL.createObjectURL(bytes);
-      downloadLink.setAttribute("download", filename);
+      downloadLink.href = extension;
       downloadLink.click();
       showDownloadText();
     });
