@@ -1,6 +1,6 @@
 import { assertExtensionDownload } from "./common";
 
-describe("Homepage UI Tests when Online", () => {
+describe.skip("Homepage UI Tests when Online", () => {
   before(() => {
     cy.visit("/");
   });

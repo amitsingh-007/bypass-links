@@ -171,6 +171,7 @@ const getBackgroundConfigPlugins = () => {
 
 const downloadPageConfig = {
   ...commonConfig,
+  name: "DownloadPage",
   entry: "./src/index.js",
   output: {
     path: PATHS.BUILD,
@@ -195,6 +196,7 @@ const downloadPageConfig = {
 
 const backgroundConfig = {
   ...commonConfig,
+  name: "BackgroundScript",
   entry: "./src/scripts/background.js",
   output: {
     path: PATHS.EXTENSION,
@@ -206,6 +208,7 @@ const backgroundConfig = {
 
 const popupConfig = {
   ...commonConfig,
+  name: "ContentScript",
   entry: "./src/popupIndex.js",
   output: {
     path: PATHS.EXTENSION,

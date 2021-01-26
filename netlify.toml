@@ -1,0 +1,8 @@
+[build]
+    publish = "client/build"
+    functions = "server/routes/"
+    targetPort = 5000
+
+[[redirects]]
+  from = "/api/extension"
+  to = "/.netlify/functions/extension"

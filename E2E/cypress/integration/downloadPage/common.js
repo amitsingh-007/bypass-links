@@ -2,7 +2,7 @@ export const assertExtensionDownload = () => {
   cy.get(`[data-test-id="extension-download-button"]`)
     .eq(0)
     .as("downloadButton");
-  cy.intercept("GET", /\/bypass-links-.*.zip/).as("get");
+  cy.intercept("GET", "/api/extension/").as("get");
   cy.get("@downloadButton").click();
   cy.get(`[data-test-id="downloaded"`, { timeout: 100000 }).should(
     "have.text",

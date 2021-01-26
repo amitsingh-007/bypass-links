@@ -1,5 +1,6 @@
-export const fetchApi = (url, { responseType = "json", ...init }) =>
-  fetch(url, init).then((response) => {
+export const fetchApi = (url, options = {}) => {
+  const { responseType = "json", ...init } = options;
+  return fetch(url, init).then((response) => {
     if (!response.ok) {
       throw response;
     }
@@ -14,3 +15,4 @@ export const fetchApi = (url, { responseType = "json", ...init }) =>
         return response.text();
     }
   });
+};

@@ -1,94 +1,22 @@
 {
   "name": "bypass-links",
   "version": "1.0.0",
+  "description": "This is an easy-to-use Open-Source `Browser Extension` which bypasses links on various websites and lets you use the direct url for your resource. This will help you to bypass recaptchas, unnecessary timers, countdowns, ads, popups, surveys, avoid unnecessary third party installs.",
   "private": true,
-  "dependencies": {
-    "@emotion/react": "11.1.4",
-    "@emotion/styled": "11.0.0",
-    "@material-ui/core": "5.0.0-alpha.21",
-    "@material-ui/icons": "5.0.0-alpha.21",
-    "@material-ui/lab": "5.0.0-alpha.21",
-    "@material-ui/pickers": "3.2.10",
-    "core-js": "3.8.3",
-    "dayjs": "1.10.3",
-    "firebase": "8.2.1",
-    "md5": "2.3.0",
-    "preact": "10.5.7",
-    "react": "17.0.1",
-    "react-beautiful-dnd": "13.0.0",
-    "react-dom": "17.0.1",
-    "react-redux": "7.2.2",
-    "react-router-dom": "5.2.0",
-    "redux": "4.0.5",
-    "throttle-debounce": "3.0.1"
-  },
   "devDependencies": {
-    "@babel/core": "7.12.10",
-    "@babel/preset-env": "7.12.7",
-    "@babel/preset-react": "7.12.7",
-    "@babel/runtime": "7.12.5",
-    "@material-ui/codemod": "5.0.0-alpha.21",
-    "@types/chrome": "0.0.127",
-    "@typescript-eslint/eslint-plugin": "4.11.1",
-    "@typescript-eslint/parser": "4.13.0",
-    "babel-eslint": "10.1.0",
-    "babel-loader": "8.2.2",
-    "babel-preset-react-app": "10.0.0",
-    "better-npm-run": "0.1.1",
-    "clean-webpack-plugin": "3.0.0",
-    "cross-env": "7.0.3",
-    "css-loader": "5.0.1",
-    "cypress": "6.2.1",
-    "eslint": "7.5.0",
-    "eslint-config-react-app": "6.0.0",
-    "eslint-plugin-cypress": "2.11.2",
-    "eslint-plugin-flowtype": "5.2.0",
-    "eslint-plugin-import": "2.22.1",
-    "eslint-plugin-jsx-a11y": "6.3.1",
-    "eslint-plugin-react": "7.22.0",
-    "eslint-plugin-react-hooks": "4.0.8",
-    "file-loader": "6.2.0",
-    "filemanager-webpack-plugin": "3.0.0-beta.0",
-    "html-webpack-plugin": "5.0.0-beta.4",
-    "mini-css-extract-plugin": "1.3.3",
-    "netlify-cli": "3.2.0",
-    "node-sass": "5.0.0",
-    "optimize-css-assets-webpack-plugin": "5.0.4",
-    "sass-loader": "10.1.0",
-    "style-loader": "2.0.0",
-    "webpack": "5.10.0",
-    "webpack-bundle-analyzer": "4.3.0",
-    "webpack-cli": "4.2.0",
-    "webpack-dev-server": "3.11.0",
-    "workbox-webpack-plugin": "6.0.2"
+    "lerna": "3.22.1",
+    "netlify-cli": "3.4.2"
   },
   "scripts": {
-    "analyzer": "cross-env ENABLE_BUNDLE_ANLYZER=true npm run release",
-    "cypress:open": "cross-env NODE_ENV=test cypress open --config-file cypress/cypress.json",
-    "dev": "better-npm-run dev",
-    "start": "better-npm-run start",
-    "netlify": "npm run release && netlify deploy --prod --dir=build",
-    "release": "better-npm-run release"
-  },
-  "betterScripts": {
-    "dev": {
-      "command": "webpack --progress --config webpack.firebase.config.js && webpack --watch --progress",
-      "env": {
-        "NODE_ENV": "development"
-      }
-    },
-    "release": {
-      "command": "webpack --config webpack.firebase.config.js && webpack",
-      "env": {
-        "NODE_ENV": "production"
-      }
-    },
-    "start": {
-      "command": "webpack serve --progress",
-      "env": {
-        "NODE_ENV": "development",
-        "DEV_SERVER": true
-      }
-    }
+    "bootstrap": "lerna bootstrap --hoist",
+    "client:analyzer": "lerna run --stream analyzer",
+    "client:dev": "lerna run --stream dev",
+    "client:release": "lerna run --stream release",
+    "client:start": "lerna run --stream start",
+    "cypress:open": "lerna run --stream cypress:open",
+    "cypress:run": "lerna run --stream cypress:run",
+    "netlify:dev": "netlify dev",
+    "netlify:deploy": "npm run client:release && netlify deploy --prod",
+    "server:serve": "lerna run --stream serve"
   }
 }

@@ -4,6 +4,7 @@ const { commonConfig, PATHS } = require("./webpack.common.config");
 
 const firebasedDllConfig = {
   ...commonConfig,
+  name: "Firebase",
   target: "browserslist",
   entry: ["./src/utils/firebase.js"],
   output: {
@@ -28,6 +29,6 @@ const firebasedDllConfig = {
 
 /**
  * This will generate a common chunk for background and content scripts
- * This will be referenced usinf DllReferencePlugin
+ * This will be referenced using DllReferencePlugin
  */
 module.exports = firebasedDllConfig;

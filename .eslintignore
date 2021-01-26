@@ -1,4 +1,4 @@
-/node_modules
-/build
-/extension
-/firebase-build
+**/node_modules
+client/build
+client/extension
+client/firebase-build
