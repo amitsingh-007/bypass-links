@@ -13,7 +13,7 @@
     "dayjs": "1.10.3",
     "firebase": "8.2.1",
     "md5": "2.3.0",
-    "preact": "10.5.7",
+    "preact": "10.5.11",
     "react": "17.0.1",
     "react-beautiful-dnd": "13.0.0",
     "react-dom": "17.0.1",
