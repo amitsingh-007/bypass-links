@@ -29,7 +29,7 @@
     "@babel/runtime": "7.12.5",
     "@material-ui/codemod": "5.0.0-alpha.21",
     "@types/chrome": "0.0.127",
-    "@typescript-eslint/eslint-plugin": "4.11.1",
+    "@typescript-eslint/eslint-plugin": "4.14.1",
     "@typescript-eslint/parser": "4.13.0",
     "babel-eslint": "10.1.0",
     "babel-loader": "8.2.2",
