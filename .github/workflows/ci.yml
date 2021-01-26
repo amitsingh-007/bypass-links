@@ -36,6 +36,7 @@ jobs:
   E2E:
     runs-on: ubuntu-latest
     needs: [Build]
+    if: ${{ github.ref == 'refs/heads/main' }}
     steps:
       - name: Checkout repo 🛎️
         uses: actions/checkout@v2
