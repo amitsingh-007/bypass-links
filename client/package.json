@@ -27,7 +27,7 @@
     "@babel/preset-env": "7.12.7",
     "@babel/preset-react": "7.12.7",
     "@babel/runtime": "7.12.5",
-    "@material-ui/codemod": "5.0.0-alpha.21",
+    "@material-ui/codemod": "5.0.0-alpha.23",
     "@types/chrome": "0.0.127",
     "@typescript-eslint/eslint-plugin": "4.11.1",
     "@typescript-eslint/parser": "4.13.0",
