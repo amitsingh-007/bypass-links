@@ -3,31 +3,31 @@ updates:
   # Maintain dependencies for GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 100
     schedule:
       interval: "weekly"
 
   # Maintain dependencies for npm
   - package-ecosystem: "npm"
     directory: "/"
-    open-pull-requests-limit: 20
+    open-pull-requests-limit: 100
     schedule:
       interval: "weekly"
 
   - package-ecosystem: "npm"
     directory: "/client/"
-    open-pull-requests-limit: 20
+    open-pull-requests-limit: 100
     schedule:
       interval: "weekly"
 
   - package-ecosystem: "npm"
     directory: "/server/"
-    open-pull-requests-limit: 20
+    open-pull-requests-limit: 100
     schedule:
       interval: "weekly"
 
   - package-ecosystem: "npm"
-    directory: "/cypress/"
-    open-pull-requests-limit: 20
+    directory: "/E2E/"
+    open-pull-requests-limit: 100
     schedule:
       interval: "weekly"
