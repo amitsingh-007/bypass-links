@@ -8,17 +8,16 @@ import {
 } from "@material-ui/core";
 import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
 import chromeLogo from "GlobalIcons/chrome.svg";
-import { getExtensionFile, getRootPath } from "GlobalUtils/downloadPage";
 import { fetchApi } from "GlobalUtils/fetch";
 import { memo, useState } from "react";
 
 export const ChromeExtension = memo(() => {
-  const [isDownloadComplete, setisDownloadComplete] = useState(false);
+  const [isDownloadComplete, setIsDownloadComplete] = useState(false);
 
   const showDownloadText = () => {
-    setisDownloadComplete(true);
+    setIsDownloadComplete(true);
     setTimeout(() => {
-      setisDownloadComplete(false);
+      setIsDownloadComplete(false);
     }, 1000);
   };
 

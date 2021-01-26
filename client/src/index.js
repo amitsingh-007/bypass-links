@@ -35,7 +35,7 @@ ReactDOM.render(
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
-      .register(`${getRootPath()}/sw.js`)
+      .register("/sw.js")
       .then((res) => {
         console.log("Service worker registered");
       })
