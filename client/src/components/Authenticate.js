@@ -2,7 +2,7 @@ import { IconButton } from "@material-ui/core";
 import CloudDoneTwoToneIcon from "@material-ui/icons/CloudDoneTwoTone";
 import CloudOffTwoTone from "@material-ui/icons/CloudOffTwoTone";
 import storage from "ChromeApi/storage";
-import { setSignedInStatus } from "GlobalActionCreators/index";
+import { displayToast, setSignedInStatus } from "GlobalActionCreators/index";
 import { COLOR } from "GlobalConstants/color";
 import { signIn, signOut } from "GlobalUtils/authentication";
 import { getActiveDisabledColor } from "GlobalUtils/color";
@@ -27,9 +27,18 @@ export const Authenticate = memo(() => {
   const handleSignOut = useCallback(async () => {
     setIsFetching(true);
     const isSignedOut = await signOut();
-    const isSignedIn = !isSignedOut;
-    setIsSignedIn(isSignedIn);
-    dispatch(setSignedInStatus(isSignedIn));
+    if (!isSignedOut) {
+      dispatch(
+        displayToast({
+          message: "Error while logging out",
+          severity: "error",
+        })
+      );
+    } else {
+      const isSignedIn = !isSignedOut;
+      setIsSignedIn(isSignedIn);
+      dispatch(setSignedInStatus(isSignedIn));
+    }
     setIsFetching(false);
   }, [dispatch]);
 

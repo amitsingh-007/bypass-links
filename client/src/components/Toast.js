@@ -42,7 +42,8 @@ const Toast = () => {
     return null;
   }
 
-  const { message, severity = "info", duration = 3000 } = toast;
+  const { message, severity, duration } = toast;
+  console.log(duration);
   return (
     <Snackbar
       key={message}

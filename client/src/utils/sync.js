@@ -1,6 +1,7 @@
 import {
   resetBookmarks,
   syncBookmarksToStorage,
+  syncBookmarksFirebaseWithStorage,
 } from "../BookmarksPanel/utils/bookmark";
 import { resetBypass, syncBypassToStorage } from "./bypass";
 import { resetLastVisited, syncLastVisitedToStorage } from "./lastVisited";
@@ -16,6 +17,9 @@ export const syncFirebaseToStorage = async () => {
 };
 
 export const resetStorage = async () => {
+  //First sync storage to firebase
+  await Promise.all([syncBookmarksFirebaseWithStorage()]);
+  //Then reset storage
   await Promise.all([
     resetRedirections(),
     resetBypass(),
