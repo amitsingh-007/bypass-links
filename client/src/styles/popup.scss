@@ -1,7 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
 
-.bookmarkRowContainer:hover {
-  background-color: #ffffff29;
+.bookmarkRowContainer {
+  &:hover {
+    background-color: #ffffff29;
+  }
+  > .react-ripples {
+    width: 100%;
+  }
 }
 
 html {
