@@ -209,7 +209,9 @@ const Header = memo(
                 >
                   <OpenInNewTwoToneIcon fontSize="large" />
                 </IconButton>
-                {isFetching && <Loader loaderSize={30} padding="12px" />}
+                {isFetching && (
+                  <Loader loaderSize={30} padding="12px" disableShrink />
+                )}
               </Box>
               <PanelHeading heading="BOOKMARKS PANEL" />
             </Box>

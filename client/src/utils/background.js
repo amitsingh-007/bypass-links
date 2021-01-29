@@ -1,4 +1,6 @@
+import storage from "ChromeApi/storage";
 import tabs, { getCurrentTab } from "ChromeApi/tabs";
+import { getExtensionState, isExtensionActive } from "./common";
 
 export const bypassSingleLinkOnPage = async (selectorFn, tabId) => {
   const [result] = await tabs.executeScript(tabId, {
@@ -43,3 +45,16 @@ export const fetchPageH1 = async () => {
 
 export const isValidUrl = (url) =>
   url && !/chrome(-extension)?:\/\/*/.test(url);
+
+export const getExtensionIcon = async (extState, hasPendingBookmarks) => {
+  let icon;
+  if (hasPendingBookmarks?.newValue === true) {
+    icon = "bypass_link_pending_128.png";
+  } else {
+    const newExtState = extState?.newValue ?? (await getExtensionState());
+    icon = isExtensionActive(newExtState)
+      ? "bypass_link_on_128.png"
+      : "bypass_link_off_128.png";
+  }
+  return Promise.resolve(icon);
+};
