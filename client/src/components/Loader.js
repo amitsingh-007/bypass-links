@@ -11,7 +11,7 @@ const Loader = memo(({ loaderSize = 55, ...styleProps }) => (
       ...styleProps,
     }}
   >
-    <CircularProgress style={COLOR.pink} size={loaderSize} />
+    <CircularProgress style={COLOR.pink} size={loaderSize} disableShrink />
   </Box>
 ));
 export default Loader;

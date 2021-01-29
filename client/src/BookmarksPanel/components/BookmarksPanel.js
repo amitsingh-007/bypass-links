@@ -1,7 +1,6 @@
 import { Box } from "@material-ui/core";
 import storage from "ChromeApi/storage";
 import { displayToast } from "GlobalActionCreators/index";
-import Loader from "GlobalComponents/Loader";
 import { STORAGE_KEYS } from "GlobalConstants/index";
 import md5 from "md5";
 import { memo, useEffect, useState } from "react";
@@ -242,7 +241,6 @@ const BookmarksPanel = memo(
                 ref={provided.innerRef}
                 {...provided.droppableProps}
               >
-                {isFetching && <Loader marginBottom="12px" />}
                 {shouldRenderBookmarks(folders, contextBookmarks) &&
                   contextBookmarks.map(({ url, title, name, isDir }, index) =>
                     isDir ? (

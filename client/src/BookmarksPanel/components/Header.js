@@ -13,6 +13,7 @@ import OpenInNewTwoToneIcon from "@material-ui/icons/OpenInNewTwoTone";
 import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
 import tabs from "ChromeApi/tabs";
 import { startHistoryMonitor } from "GlobalActionCreators/index";
+import Loader from "GlobalComponents/Loader";
 import PanelHeading from "GlobalComponents/PanelHeading";
 import { BG_COLOR_DARK, COLOR } from "GlobalConstants/color";
 import { defaultBookmarkFolder } from "GlobalConstants/index";
@@ -50,6 +51,7 @@ const Header = memo(
     handleCreateNewFolder,
     handleAddNewBookmark,
     isSaveButtonActive,
+    isFetching,
   }) => {
     const dispatch = useDispatch();
     const history = useHistory();
@@ -207,6 +209,7 @@ const Header = memo(
                 >
                   <OpenInNewTwoToneIcon fontSize="large" />
                 </IconButton>
+                {isFetching && <Loader loaderSize={30} padding="12px" />}
               </Box>
               <PanelHeading heading="BOOKMARKS PANEL" />
             </Box>
