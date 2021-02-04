@@ -2,6 +2,7 @@ import browserAction from "ChromeApi/browserAction";
 import { EXTENSION_STATE } from "GlobalConstants/index";
 import {
   fetchPageH1,
+  getExtensionIcon,
   getForumPageLinks,
   isValidUrl,
 } from "GlobalUtils/background";
@@ -48,12 +49,11 @@ const onStorageChange = (changedObj, storageType) => {
   if (storageType !== "local") {
     return;
   }
-  const { extState } = changedObj;
-  if (extState) {
-    const icon = isExtensionActive(extState.newValue)
-      ? "bypass_link_on_128.png"
-      : "bypass_link_off_128.png";
-    browserAction.setIcon({ path: icon });
+  const { extState, hasPendingBookmarks } = changedObj;
+  if (extState || hasPendingBookmarks) {
+    getExtensionIcon(extState, hasPendingBookmarks).then((icon) => {
+      browserAction.setIcon({ path: icon });
+    });
   }
 };
 

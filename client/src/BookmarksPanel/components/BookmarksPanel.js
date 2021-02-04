@@ -1,16 +1,12 @@
 import { Box } from "@material-ui/core";
-import { displayToast } from "GlobalActionCreators/";
-import Loader from "GlobalComponents/Loader";
-import { FIREBASE_DB_REF } from "GlobalConstants/";
-import { saveDataToFirebase } from "GlobalUtils/firebase";
+import storage from "ChromeApi/storage";
+import { displayToast } from "GlobalActionCreators/index";
+import { STORAGE_KEYS } from "GlobalConstants/index";
 import md5 from "md5";
 import { memo, useEffect, useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
-import {
-  getBookmarksObj,
-  syncBookmarksToStorage,
-} from "SrcPath/BookmarksPanel/utils/bookmark";
+import { getBookmarksObj } from "SrcPath/BookmarksPanel/utils/bookmark";
 import {
   getAllFolderNames,
   getFaviconUrl,
@@ -175,7 +171,7 @@ const BookmarksPanel = memo(
 
     const handleSave = async () => {
       setIsFetching(true);
-      //Form folders obj for current context folder
+      //form folders obj for current context folder
       folders[md5(folderContext)] = contextBookmarks.map(
         ({ isDir, url, name }) => ({
           isDir,
@@ -183,16 +179,18 @@ const BookmarksPanel = memo(
         })
       );
       const bookmarksObj = { folderList, urlList, folders };
-      const isSaveSuccess = await saveDataToFirebase(
-        bookmarksObj,
-        FIREBASE_DB_REF.bookmarks,
-        syncBookmarksToStorage
-      );
+      await storage.set({
+        [STORAGE_KEYS.bookmarks]: bookmarksObj,
+        hasPendingBookmarks: true,
+      });
       setIsFetching(false);
-      if (isSaveSuccess) {
-        setIsSaveButtonActive(false);
-        dispatch(displayToast({ message: "Bookmarks saved", duration: 500 }));
-      }
+      setIsSaveButtonActive(false);
+      dispatch(
+        displayToast({
+          message: "Saved temporarily",
+          duration: 1500,
+        })
+      );
     };
 
     const onDragEnd = ({ destination, source }) => {
@@ -243,7 +241,6 @@ const BookmarksPanel = memo(
                 ref={provided.innerRef}
                 {...provided.droppableProps}
               >
-                {isFetching && <Loader marginBottom="12px" />}
                 {shouldRenderBookmarks(folders, contextBookmarks) &&
                   contextBookmarks.map(({ url, title, name, isDir }, index) =>
                     isDir ? (

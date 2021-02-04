@@ -2,6 +2,7 @@ import { Box, MenuItem } from "@material-ui/core";
 import { BlackMenu } from "GlobalComponents/StyledComponents";
 import { memo, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
+import Ripples from "react-ripples";
 
 const initialMouseState = {
   mouseX: null,
@@ -63,25 +64,32 @@ const withBookmarkRow = (Component) =>
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              paddingLeft: "12px",
-              paddingRight: "9px",
-              paddingY: "5px",
             }}
             data-text={primaryUniqueId}
             data-subtext={secondaryUniqueId}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
           >
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                flexGrow: "1",
-                maxWidth: "747px",
-              }}
-            >
-              <Component {...props} renderMenu={renderMenu} />
-            </Box>
+            <Ripples>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  flexGrow: "1",
+                  maxWidth: "747px",
+                }}
+              >
+                <Component
+                  {...props}
+                  renderMenu={renderMenu}
+                  containerStyles={{
+                    paddingLeft: "12px",
+                    paddingRight: "9px",
+                    paddingY: "5px",
+                  }}
+                />
+              </Box>
+            </Ripples>
           </Box>
         )}
       </Draggable>

@@ -29,10 +29,15 @@ export const resetHistoryMonitor = () => ({
   type: RESET_HISTORY_MONITOR,
 });
 
-export const displayToast = ({ message, severity = "info" }) => ({
+export const displayToast = ({
+  message,
+  severity = "info",
+  duration = 3000,
+}) => ({
   type: DISPLAY_TOAST,
   message,
   severity,
+  duration,
 });
 
 export const hideToast = () => ({

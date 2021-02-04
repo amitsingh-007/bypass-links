@@ -1,0 +1,8 @@
+{
+  "search.exclude": {
+    "node_modules": true,
+    "build/**": true,
+    "extension/**": true,
+    "firebase-build/**": true,
+  }
+}

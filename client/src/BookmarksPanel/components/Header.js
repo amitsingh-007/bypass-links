@@ -12,7 +12,8 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import OpenInNewTwoToneIcon from "@material-ui/icons/OpenInNewTwoTone";
 import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
 import tabs from "ChromeApi/tabs";
-import { startHistoryMonitor } from "GlobalActionCreators/index";
+import { displayToast, startHistoryMonitor } from "GlobalActionCreators/index";
+import Loader from "GlobalComponents/Loader";
 import PanelHeading from "GlobalComponents/PanelHeading";
 import { BG_COLOR_DARK, COLOR } from "GlobalConstants/color";
 import { defaultBookmarkFolder } from "GlobalConstants/index";
@@ -24,6 +25,8 @@ import { getBookmarksPanelUrl } from "../utils";
 import ConfirmationDialog from "./ConfirmationDialog";
 import { BookmarkDialog, FolderDialog, FolderDropdown } from "./FormComponents";
 import SearchInput from "./SearchInput";
+import SyncTwoToneIcon from "@material-ui/icons/SyncTwoTone";
+import { syncBookmarksFirebaseWithStorage } from "../utils/bookmark";
 
 const useAccordionStyles = makeStyles({
   root: { margin: "0px !important", backgroundColor: BG_COLOR_DARK },
@@ -50,6 +53,7 @@ const Header = memo(
     handleCreateNewFolder,
     handleAddNewBookmark,
     isSaveButtonActive,
+    isFetching,
   }) => {
     const dispatch = useDispatch();
     const history = useHistory();
@@ -58,6 +62,7 @@ const Header = memo(
       showBookmarkDialog
     );
     const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
+    const [isSyncing, setIsSyncing] = useState(false);
 
     useEffect(() => {
       setOpenBookmarkDialog(showBookmarkDialog);
@@ -94,6 +99,20 @@ const Header = memo(
       }
     };
 
+    const onSyncClick = async (event) => {
+      event.stopPropagation();
+      if (isSyncing) {
+        return;
+      }
+      setIsSyncing(true);
+      try {
+        await syncBookmarksFirebaseWithStorage();
+        dispatch(displayToast({ message: "Bookmarks synced succesfully" }));
+      } catch (ex) {
+        dispatch(displayToast({ message: ex, severity: "error" }));
+      }
+      setIsSyncing(false);
+    };
     const onSaveClick = (event) => {
       event.stopPropagation();
       handleSave();
@@ -180,10 +199,23 @@ const Header = memo(
                     COLOR.green
                   )}
                   onClick={onSaveClick}
-                  title="Save and Close"
+                  title="Save locally"
                   disabled={!isSaveButtonActive}
                 >
                   <SaveTwoToneIcon fontSize="large" />
+                </IconButton>
+                <IconButton
+                  aria-label="Sync"
+                  component="span"
+                  onClick={onSyncClick}
+                  title="Sync storage to firebase"
+                  disabled={isSyncing}
+                >
+                  <SyncTwoToneIcon
+                    fontSize="large"
+                    className={isSyncing ? "iconLoading" : null}
+                    htmlColor={COLOR.orange.color}
+                  />
                 </IconButton>
                 <IconButton
                   aria-label="NewFolder"
@@ -207,6 +239,9 @@ const Header = memo(
                 >
                   <OpenInNewTwoToneIcon fontSize="large" />
                 </IconButton>
+                {isFetching && (
+                  <Loader loaderSize={30} padding="12px" disableShrink />
+                )}
               </Box>
               <PanelHeading heading="BOOKMARKS PANEL" />
             </Box>

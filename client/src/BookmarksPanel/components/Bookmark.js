@@ -32,6 +32,7 @@ const Bookmark = memo(
     handleSelectedChange,
     renderMenu,
     editBookmark,
+    containerStyles,
   }) => {
     const history = useHistory();
     const dispatch = useDispatch();
@@ -65,7 +66,12 @@ const Bookmark = memo(
       <>
         <Box
           onDoubleClick={handleOpenLink}
-          sx={{ display: "flex", alignItems: "center", width: "100%" }}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            width: "100%",
+            ...containerStyles,
+          }}
         >
           <Checkbox
             checked={isSelected}

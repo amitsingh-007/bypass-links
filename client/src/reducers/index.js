@@ -5,7 +5,7 @@ import {
   SET_SIGNED_IN_STATUS,
   START_HISTORY_MONITOR,
   TURN_OFF_EXTENSION,
-  TURN_ON_EXTENSION
+  TURN_ON_EXTENSION,
 } from "GlobalActionTypes/index";
 
 const defaultState = {
@@ -48,6 +48,7 @@ const reducer = (state = defaultState, action) => {
         toast: {
           message: action.message,
           severity: action.severity,
+          duration: action.duration,
         },
       };
     case HIDE_TOAST:

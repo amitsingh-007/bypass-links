@@ -15,7 +15,14 @@ const getTitleStyles = (isEmpty) => ({
 });
 
 const Folder = memo(
-  ({ name: origName, pos, handleRemove, renderMenu, isEmpty }) => {
+  ({
+    name: origName,
+    pos,
+    handleRemove,
+    renderMenu,
+    isEmpty,
+    containerStyles,
+  }) => {
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -35,7 +42,12 @@ const Folder = memo(
       <>
         <Box
           onDoubleClick={handleFolderOpen}
-          sx={{ display: "flex", alignItems: "center", width: "100%" }}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            width: "100%",
+            ...containerStyles,
+          }}
         >
           <FolderTwoToneIcon fontSize="small" htmlColor={COLOR.yellow.color} />
           <Typography noWrap style={getTitleStyles(isEmpty)}>
