@@ -22,7 +22,9 @@ export const syncBookmarksFirebaseWithStorage = async () => {
     bookmarks,
     FIREBASE_DB_REF.bookmarks
   );
-  if (!isSaveSuccess) {
+  if (isSaveSuccess) {
+    await storage.remove("hasPendingBookmarks");
+  } else {
     throw new Error("Error while syncing bookmarks from storage to firebase");
   }
 };
