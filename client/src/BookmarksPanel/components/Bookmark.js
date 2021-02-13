@@ -77,7 +77,6 @@ const Bookmark = memo(
             checked={isSelected}
             onChange={handleSelectionChange}
             style={COLOR.pink}
-            // size="small"
             disableRipple
             classes={{ root: checkboxClasses.root }}
           />
