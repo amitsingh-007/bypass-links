@@ -128,6 +128,9 @@ jobs:
     needs: [Release]
     if: ${{ github.ref == 'refs/heads/main' }}
     steps:
+      - name: Checkout repo 🛎️
+        uses: actions/checkout@v2
+
       - name: Download artifacts 🎨
         uses: actions/download-artifact@v2
         with:

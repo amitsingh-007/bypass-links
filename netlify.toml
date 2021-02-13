@@ -1,7 +1,7 @@
 [build]
-    publish = "client/build"
-    functions = "server/routes/"
-    targetPort = 5000
+  publish = "client/build"
+  functions = "server/routes/"
+  targetPort = 5000
 
 [[redirects]]
   from = "/api/extension"
