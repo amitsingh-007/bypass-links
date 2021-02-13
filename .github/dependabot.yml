@@ -4,7 +4,6 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     open-pull-requests-limit: 100
-    target_branch: "deps"
     schedule:
       interval: "weekly"
 
@@ -12,6 +11,5 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     open-pull-requests-limit: 200
-    target_branch: "deps"
     schedule:
       interval: "weekly"
