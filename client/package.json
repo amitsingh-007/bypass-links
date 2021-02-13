@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@emotion/react": "11.1.4",
+    "@emotion/react": "11.1.5",
     "@emotion/styled": "11.1.5",
     "@material-ui/core": "5.0.0-alpha.21",
     "@material-ui/icons": "5.0.0-alpha.21",
