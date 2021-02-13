@@ -9,7 +9,7 @@
     "serverless-http": "2.7.0"
   },
   "devDependencies": {
-    "netlify-cli": "3.5.0"
+    "netlify-cli": "3.7.1"
   },
   "scripts": {
     "serve": "netlify dev"
