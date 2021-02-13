@@ -11,28 +11,7 @@ updates:
   # Maintain dependencies for npm
   - package-ecosystem: "npm"
     directory: "/"
-    open-pull-requests-limit: 100
-    target_branch: "deps"
-    schedule:
-      interval: "weekly"
-
-  - package-ecosystem: "npm"
-    directory: "/client/"
-    open-pull-requests-limit: 100
-    target_branch: "deps"
-    schedule:
-      interval: "weekly"
-
-  - package-ecosystem: "npm"
-    directory: "/server/"
-    open-pull-requests-limit: 100
-    target_branch: "deps"
-    schedule:
-      interval: "weekly"
-
-  - package-ecosystem: "npm"
-    directory: "/E2E/"
-    open-pull-requests-limit: 100
+    open-pull-requests-limit: 200
     target_branch: "deps"
     schedule:
       interval: "weekly"
