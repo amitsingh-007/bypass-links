@@ -233,3 +233,43 @@ export const FolderDialog = ({
     </EditDialog>
   );
 };
+
+export const BulkBookmarksMoveDialog = ({
+  origFolder,
+  folderList,
+  handleSave,
+  isOpen,
+  onClose,
+}) => {
+  const [folder, setFolder] = useState(origFolder);
+
+  const handleFolderChange = (event) => {
+    setFolder(event.target.value);
+  };
+
+  const handleSaveClick = () => {
+    handleSave(folder);
+    onClose();
+  };
+  const handleClose = () => {
+    setFolder(origFolder);
+    onClose();
+  };
+
+  const isSaveOptionActive = folder !== origFolder;
+  return (
+    <EditDialog
+      headerText="Move Selected Bookmarks"
+      openDialog={isOpen}
+      closeDialog={handleClose}
+      handleSave={handleSaveClick}
+      isSaveOptionActive={isSaveOptionActive}
+    >
+      <FolderDropdown
+        folder={folder}
+        folderList={folderList}
+        handleFolderChange={handleFolderChange}
+      />
+    </EditDialog>
+  );
+};

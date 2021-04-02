@@ -43,7 +43,6 @@ const Toast = () => {
   }
 
   const { message, severity, duration } = toast;
-  console.log(duration);
   return (
     <Snackbar
       key={message}

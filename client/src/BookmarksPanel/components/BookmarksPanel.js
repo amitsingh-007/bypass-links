@@ -65,6 +65,7 @@ const BookmarksPanel = memo(
     useEffect(() => {
       initBookmarks();
       setIsSaveButtonActive(false);
+      setSelectedBookmarks([]);
     }, [folderContext]);
 
     const handleClose = () => {
@@ -169,6 +170,34 @@ const BookmarksPanel = memo(
       setIsSaveButtonActive(true);
     };
 
+    const handleBulkBookmarksMove = (destFolder) => {
+      const bookmarksToMove = contextBookmarks
+        .filter((_bookmark, index) => Boolean(selectedBookmarks[index]))
+        .map(({ url }) => md5(url));
+      //Change parent folder hash in urlList
+      const destFolderHash = md5(destFolder);
+      bookmarksToMove.forEach(
+        (urlHash) =>
+          (urlList[urlHash] = {
+            ...urlList[urlHash],
+            parentHash: destFolderHash,
+          })
+      );
+      setUrlList({ ...urlList });
+      //Add to destination folder
+      folders[destFolderHash] = (folders[destFolderHash] || []).concat(
+        bookmarksToMove.map((urlHash) => ({ isDir: false, hash: urlHash }))
+      );
+      setFolders({ ...folders });
+      //Remove from old folder, ie, contextBookmarks
+      const updatedBookmarksInOldFolder = contextBookmarks.filter(
+        (_bookmark, index) => !selectedBookmarks[index]
+      );
+      setContextBookmarks(updatedBookmarksInOldFolder);
+      setSelectedBookmarks([]);
+      setIsSaveButtonActive(true);
+    };
+
     const handleSave = async () => {
       setIsFetching(true);
       //form folders obj for current context folder
@@ -225,6 +254,7 @@ const BookmarksPanel = memo(
             handleCreateNewFolder={handleCreateNewFolder}
             handleAddNewBookmark={handleAddNewBookmark}
             showBookmarkDialog={addBookmark && !isFetching}
+            handleBulkBookmarksMove={handleBulkBookmarksMove}
             url={bmUrl}
             title={bmTitle}
             isSaveButtonActive={isSaveButtonActive}

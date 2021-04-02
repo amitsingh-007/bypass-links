@@ -7,10 +7,12 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
+import CollectionsBookmarkIcon from "@material-ui/icons/CollectionsBookmark";
 import CreateNewFolderTwoToneIcon from "@material-ui/icons/CreateNewFolderTwoTone";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import OpenInNewTwoToneIcon from "@material-ui/icons/OpenInNewTwoTone";
 import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
+import SyncTwoToneIcon from "@material-ui/icons/SyncTwoTone";
 import tabs from "ChromeApi/tabs";
 import { displayToast, startHistoryMonitor } from "GlobalActionCreators/index";
 import Loader from "GlobalComponents/Loader";
@@ -22,11 +24,15 @@ import { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { getBookmarksPanelUrl } from "../utils";
-import ConfirmationDialog from "./ConfirmationDialog";
-import { BookmarkDialog, FolderDialog, FolderDropdown } from "./FormComponents";
-import SearchInput from "./SearchInput";
-import SyncTwoToneIcon from "@material-ui/icons/SyncTwoTone";
 import { syncBookmarksFirebaseWithStorage } from "../utils/bookmark";
+import ConfirmationDialog from "./ConfirmationDialog";
+import {
+  BookmarkDialog,
+  BulkBookmarksMoveDialog,
+  FolderDialog,
+  FolderDropdown,
+} from "./FormComponents";
+import SearchInput from "./SearchInput";
 
 const useAccordionStyles = makeStyles({
   root: { margin: "0px !important", backgroundColor: BG_COLOR_DARK },
@@ -52,6 +58,7 @@ const Header = memo(
     handleSave,
     handleCreateNewFolder,
     handleAddNewBookmark,
+    handleBulkBookmarksMove,
     isSaveButtonActive,
     isFetching,
   }) => {
@@ -61,12 +68,22 @@ const Header = memo(
     const [openBookmarkDialog, setOpenBookmarkDialog] = useState(
       showBookmarkDialog
     );
+    const [
+      openBulkBookmarksMoveDialog,
+      setOpenBulkBookmarksMoveDialog,
+    ] = useState(false);
     const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
     const [isSyncing, setIsSyncing] = useState(false);
+    const [isMoveBookmarksActive, setIsMoveBookmarksActive] = useState(false);
 
     useEffect(() => {
       setOpenBookmarkDialog(showBookmarkDialog);
     }, [showBookmarkDialog]);
+
+    useEffect(() => {
+      const isAnyBookmarkSelected = selectedBookmarks.some(Boolean);
+      setIsMoveBookmarksActive(isAnyBookmarkSelected);
+    }, [selectedBookmarks]);
 
     const onFolderChange = (event) => {
       history.push(getBookmarksPanelUrl({ folder: event.target.value }));
@@ -126,6 +143,10 @@ const Header = memo(
         }
       });
     };
+    const onEditBookmarksClick = (event) => {
+      event.stopPropagation();
+      setOpenBulkBookmarksMoveDialog(true);
+    };
     const toggleNewFolderDialog = (event) => {
       event && event.stopPropagation();
       setOpenFolderDialog(!openFolderDialog);
@@ -145,6 +166,12 @@ const Header = memo(
     const handleConfirmationDialogOk = () => {
       handleClose();
       setOpenConfirmationDialog(false);
+    };
+    const handleBulkBookmarksMoveDialogClose = () => {
+      setOpenBulkBookmarksMoveDialog(false);
+    };
+    const handleBulkBookmarksMoveSave = (destFolder) => {
+      handleBulkBookmarksMove(destFolder);
     };
 
     const handleNewFolderSave = (folderName) => {
@@ -239,6 +266,19 @@ const Header = memo(
                 >
                   <OpenInNewTwoToneIcon fontSize="large" />
                 </IconButton>
+                <IconButton
+                  aria-label="Move Bookmarks"
+                  component="span"
+                  style={getActiveDisabledColor(
+                    isMoveBookmarksActive,
+                    COLOR.brown
+                  )}
+                  onClick={onEditBookmarksClick}
+                  title="Move Bookmarks"
+                  disabled={!isMoveBookmarksActive}
+                >
+                  <CollectionsBookmarkIcon fontSize="large" />
+                </IconButton>
                 {isFetching && (
                   <Loader loaderSize={30} padding="12px" disableShrink />
                 )}
@@ -288,6 +328,13 @@ const Header = memo(
           onClose={handleConfirmationDialogClose}
           onOk={handleConfirmationDialogOk}
           isOpen={openConfirmationDialog}
+        />
+        <BulkBookmarksMoveDialog
+          origFolder={curFolder}
+          folderList={folderNamesList}
+          handleSave={handleBulkBookmarksMoveSave}
+          isOpen={openBulkBookmarksMoveDialog}
+          onClose={handleBulkBookmarksMoveDialogClose}
         />
       </>
     );
