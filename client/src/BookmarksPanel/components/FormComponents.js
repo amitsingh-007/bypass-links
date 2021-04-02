@@ -191,7 +191,7 @@ export const BookmarkDialog = ({
 };
 
 export const FolderDialog = ({
-  origName,
+  origName = "",
   headerText,
   handleSave,
   isOpen,

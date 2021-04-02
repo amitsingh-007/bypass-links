@@ -23,7 +23,7 @@ const shouldRenderBookmarks = (folders, contextBookmarks) =>
   folders && contextBookmarks && contextBookmarks.length > 0;
 
 //Resolve and map content into req format
-const mapper = ([key, { isDir, hash }], urlList, folderList) => {
+const mapper = ([_key, { isDir, hash }], urlList, folderList) => {
   const obj = { isDir };
   const content = isDir ? folderList[hash] : urlList[hash];
   if (isDir) {
@@ -60,12 +60,12 @@ const BookmarksPanel = memo(
       setFolderList(folderList);
       setFolders(folders);
       setIsFetching(false);
+      setSelectedBookmarks([]);
     };
 
     useEffect(() => {
       initBookmarks();
       setIsSaveButtonActive(false);
-      setSelectedBookmarks([]);
     }, [folderContext]);
 
     const handleClose = () => {
@@ -96,7 +96,7 @@ const BookmarksPanel = memo(
       //Update data in all folders list
       folderList[nameHash] = {
         name: btoa(name),
-        parentHash: md5(contextBookmarks),
+        parentHash: md5(folderContext),
       };
       setFolderList({ ...folderList });
       setIsSaveButtonActive(true);
@@ -128,6 +128,34 @@ const BookmarksPanel = memo(
       setIsSaveButtonActive(true);
     };
 
+    const handleBulkBookmarksMove = (destFolder) => {
+      const bookmarksToMove = contextBookmarks
+        .filter((_bookmark, index) => Boolean(selectedBookmarks[index]))
+        .map(({ url }) => md5(url));
+      //Change parent folder hash in urlList
+      const destFolderHash = md5(destFolder);
+      bookmarksToMove.forEach(
+        (urlHash) =>
+          (urlList[urlHash] = {
+            ...urlList[urlHash],
+            parentHash: destFolderHash,
+          })
+      );
+      setUrlList({ ...urlList });
+      //Add to destination folder
+      folders[destFolderHash] = (folders[destFolderHash] || []).concat(
+        bookmarksToMove.map((urlHash) => ({ isDir: false, hash: urlHash }))
+      );
+      setFolders({ ...folders });
+      //Remove from old folder, ie, contextBookmarks
+      const updatedBookmarksInOldFolder = contextBookmarks.filter(
+        (_bookmark, index) => !selectedBookmarks[index]
+      );
+      setContextBookmarks(updatedBookmarksInOldFolder);
+      setSelectedBookmarks([]);
+      setIsSaveButtonActive(true);
+    };
+
     const handleUrlRemove = (pos, url) => {
       //Remove from current context folder
       contextBookmarks.splice(pos, 1);
@@ -136,6 +164,36 @@ const BookmarksPanel = memo(
       const newUrlList = { ...urlList };
       delete newUrlList[md5(url)];
       setUrlList(newUrlList);
+      setIsSaveButtonActive(true);
+    };
+
+    const handleFolderEdit = (oldName, newName, pos) => {
+      const oldFolderHash = md5(oldName);
+      const newFolderHash = md5(newName);
+      //Update parentHash in urlList
+      const newUrlList = Object.entries(urlList).reduce((obj, [hash, data]) => {
+        if (data.parentHash === oldFolderHash) {
+          obj[hash] = { ...data, parentHash: newFolderHash };
+        } else {
+          obj[hash] = data;
+        }
+        return obj;
+      }, {});
+      setUrlList(newUrlList);
+      //Update name in folderList
+      folderList[newFolderHash] = {
+        ...folderList[oldFolderHash],
+        name: btoa(newName),
+      };
+      delete folderList[oldFolderHash];
+      setFolderList({ ...folderList });
+      //Update in folders
+      folders[newFolderHash] = folders[oldFolderHash];
+      delete folders[oldFolderHash];
+      setFolders({ ...folders });
+      //Update current folder
+      contextBookmarks[pos] = { ...contextBookmarks[pos], name: newName };
+      setContextBookmarks([...contextBookmarks]);
       setIsSaveButtonActive(true);
     };
 
@@ -167,34 +225,6 @@ const BookmarksPanel = memo(
       //Remove its data from folders
       delete folders[folderHash];
       setFolders({ ...folders });
-      setIsSaveButtonActive(true);
-    };
-
-    const handleBulkBookmarksMove = (destFolder) => {
-      const bookmarksToMove = contextBookmarks
-        .filter((_bookmark, index) => Boolean(selectedBookmarks[index]))
-        .map(({ url }) => md5(url));
-      //Change parent folder hash in urlList
-      const destFolderHash = md5(destFolder);
-      bookmarksToMove.forEach(
-        (urlHash) =>
-          (urlList[urlHash] = {
-            ...urlList[urlHash],
-            parentHash: destFolderHash,
-          })
-      );
-      setUrlList({ ...urlList });
-      //Add to destination folder
-      folders[destFolderHash] = (folders[destFolderHash] || []).concat(
-        bookmarksToMove.map((urlHash) => ({ isDir: false, hash: urlHash }))
-      );
-      setFolders({ ...folders });
-      //Remove from old folder, ie, contextBookmarks
-      const updatedBookmarksInOldFolder = contextBookmarks.filter(
-        (_bookmark, index) => !selectedBookmarks[index]
-      );
-      setContextBookmarks(updatedBookmarksInOldFolder);
-      setSelectedBookmarks([]);
       setIsSaveButtonActive(true);
     };
 
@@ -280,6 +310,7 @@ const BookmarksPanel = memo(
                         isDir={isDir}
                         name={name}
                         handleRemove={handleFolderRemove}
+                        handleEdit={handleFolderEdit}
                         isEmpty={isFolderEmpty(folders, name)}
                       />
                     ) : (
