@@ -1,13 +1,15 @@
-import Global from "GlobalContainers/Global";
 import {
+  createMuiTheme,
   CssBaseline,
   //Need styles provider until we remove makeStyles,etc
   //Refer: https://next.material-ui.com/guides/migration-v4/#styled-engine
   StylesProvider,
   ThemeProvider,
-  createMuiTheme,
 } from "@material-ui/core";
+import darkScrollbar from "@material-ui/core/darkScrollbar";
 import ErrorBoundary from "GlobalComponents/ErrorBoundary";
+import { BG_COLOR_DARK } from "GlobalConstants/color";
+import Global from "GlobalContainers/Global";
 import PopupRoutes from "GlobalContainers/PopupRoutes";
 import "GlobalStyles/popup.scss";
 import { StrictMode } from "react";
@@ -16,7 +18,6 @@ import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { createStore } from "redux";
 import reducer from "./reducers";
-import { BG_COLOR_DARK } from "GlobalConstants/color";
 
 const store = createStore(reducer);
 
@@ -29,6 +30,13 @@ const theme = createMuiTheme({
   },
   typography: {
     fontFamily: `"Inter", sans-serif`,
+  },
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: darkScrollbar(),
+      },
+    },
   },
 });
 
