@@ -4,7 +4,7 @@
   "description": "This is an easy-to-use Open-Source `Browser Extension` which bypasses links on various websites and lets you use the direct url for your resource. This will help you to bypass recaptchas, unnecessary timers, countdowns, ads, popups, surveys, avoid unnecessary third party installs.",
   "private": true,
   "devDependencies": {
-    "lerna": "3.22.1",
+    "lerna": "4.0.0",
     "netlify-cli": "3.5.0"
   },
   "scripts": {
