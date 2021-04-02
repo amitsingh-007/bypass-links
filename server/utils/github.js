@@ -8,13 +8,13 @@ const octokit = new Octokit({
 });
 
 const getLatestRelease = async () =>
-  await octokit.repos.getLatestRelease({
+  await octokit.rest.repos.getLatestRelease({
     owner: REPO.OWNER,
     repo: REPO.NAME,
   });
 
 const getAssetsByReleaseId = async (releaseId) =>
-  await octokit.repos.listReleaseAssets({
+  await octokit.rest.repos.listReleaseAssets({
     owner: REPO.OWNER,
     repo: REPO.NAME,
     release_id: releaseId,
