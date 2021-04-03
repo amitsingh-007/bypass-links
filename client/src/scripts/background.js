@@ -49,11 +49,13 @@ const onStorageChange = (changedObj, storageType) => {
   if (storageType !== "local") {
     return;
   }
-  const { extState, hasPendingBookmarks } = changedObj;
-  if (extState || hasPendingBookmarks) {
-    getExtensionIcon(extState, hasPendingBookmarks).then((icon) => {
-      browserAction.setIcon({ path: icon });
-    });
+  const { extState, hasPendingBookmarks, hasPendingPersons } = changedObj;
+  if (extState || hasPendingBookmarks || hasPendingPersons) {
+    getExtensionIcon(extState, hasPendingBookmarks, hasPendingPersons).then(
+      (icon) => {
+        browserAction.setIcon({ path: icon });
+      }
+    );
   }
 };
 

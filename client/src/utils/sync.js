@@ -1,4 +1,9 @@
 import {
+  resetPersons,
+  syncPersonsFirebaseWithStorage,
+  syncPersonsToStorage,
+} from "SrcPath/TaggingPanel/utils/sync";
+import {
   resetBookmarks,
   syncBookmarksToStorage,
   syncBookmarksFirebaseWithStorage,
@@ -13,11 +18,15 @@ export const syncFirebaseToStorage = async () => {
     syncBypassToStorage(),
     syncBookmarksToStorage(),
     syncLastVisitedToStorage(),
+    syncPersonsToStorage(),
   ]);
 };
 
 export const syncStorageToFirebase = async () => {
-  await Promise.all([syncBookmarksFirebaseWithStorage()]);
+  await Promise.all([
+    syncBookmarksFirebaseWithStorage(),
+    syncPersonsFirebaseWithStorage(),
+  ]);
 };
 
 export const resetStorage = async () => {
@@ -30,5 +39,6 @@ export const resetStorage = async () => {
     resetBypass(),
     resetBookmarks(),
     resetLastVisited(),
+    resetPersons(),
   ]);
 };

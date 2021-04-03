@@ -7,6 +7,7 @@ import {
   HomePageRoute,
   ManualHistoryPanelRoute,
 } from "SrcPath/routes";
+import { TaggingPanelRoute } from "SrcPath/TaggingPanel/routes/index";
 
 const PopupRoutes = () => (
   <Suspense fallback={<IconButtonLoader />}>
@@ -14,6 +15,7 @@ const PopupRoutes = () => (
       {HomePageRoute}
       {EditPanelRoute}
       {BookmarksPanelRoute}
+      {TaggingPanelRoute}
       {ManualHistoryPanelRoute}
     </Switch>
   </Suspense>

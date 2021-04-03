@@ -7,7 +7,7 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
-import CollectionsBookmarkIcon from "@material-ui/icons/CollectionsBookmark";
+import CollectionsBookmarkTwoToneIcon from "@material-ui/icons/CollectionsBookmarkTwoTone";
 import CreateNewFolderTwoToneIcon from "@material-ui/icons/CreateNewFolderTwoTone";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import OpenInNewTwoToneIcon from "@material-ui/icons/OpenInNewTwoTone";
@@ -277,7 +277,7 @@ const Header = memo(
                   title="Move Bookmarks"
                   disabled={!isMoveBookmarksActive}
                 >
-                  <CollectionsBookmarkIcon fontSize="large" />
+                  <CollectionsBookmarkTwoToneIcon fontSize="large" />
                 </IconButton>
                 {isFetching && (
                   <Loader loaderSize={30} padding="12px" disableShrink />

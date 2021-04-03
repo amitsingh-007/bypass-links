@@ -46,9 +46,16 @@ export const fetchPageH1 = async () => {
 export const isValidUrl = (url) =>
   url && !/chrome(-extension)?:\/\/*/.test(url);
 
-export const getExtensionIcon = async (extState, hasPendingBookmarks) => {
+export const getExtensionIcon = async (
+  extState,
+  hasPendingBookmarks,
+  hasPendingPersons
+) => {
   let icon;
-  if (hasPendingBookmarks?.newValue === true) {
+  if (
+    hasPendingBookmarks?.newValue === true ||
+    hasPendingPersons?.newValue === true
+  ) {
     icon = "bypass_link_pending_128.png";
   } else {
     const newExtState = extState?.newValue ?? (await getExtensionState());
