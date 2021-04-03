@@ -3,7 +3,7 @@ import storage from "ChromeApi/storage";
 import Loader from "GlobalComponents/Loader";
 import { STORAGE_KEYS } from "GlobalConstants/index";
 import React, { useEffect, useState } from "react";
-import { decryptionMapper, encryptionMapper } from "../mapper";
+import { decryptionMapper } from "../mapper";
 import Header from "./Header";
 import Persons from "./Persons";
 
@@ -14,18 +14,16 @@ const TaggingPanel = () => {
   useEffect(() => {
     storage
       .get([STORAGE_KEYS.persons])
-      .then(({ [STORAGE_KEYS.persons]: persons = {} }) => {
-        const decryptedPersons = Object.entries(persons).map(decryptionMapper);
+      .then(({ [STORAGE_KEYS.persons]: persons }) => {
+        const decryptedPersons = Object.entries(persons || {}).map(
+          decryptionMapper
+        );
         setPersons(decryptedPersons);
         setIsFetching(false);
       });
   }, []);
 
-  useEffect(() => {
-    handleSave();
-  }, [persons]);
-
-  const handleSave = async () => {
+  const handleSave = async (persons) => {
     setIsFetching(true);
     const encryptedPersons = persons.reduce(
       (obj, { uid, name, imageRef, taggedUrls }) => {
@@ -49,7 +47,7 @@ const TaggingPanel = () => {
   const handleAddPerson = async (person) => {
     const newPersons = [...persons, person];
     setPersons(newPersons);
-    await handleSave();
+    await handleSave(newPersons);
   };
 
   return (

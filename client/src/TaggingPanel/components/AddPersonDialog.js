@@ -10,6 +10,7 @@ const imageStyles = { width: 200, height: 200 };
 const AddPersonDialog = memo(({ isOpen, onClose, handleSaveClick }) => {
   const [uid, setUid] = useState(null);
   const [name, setName] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
   const [imageRef, setImageRef] = useState("");
   const [showImagePicker, setShowImagePicker] = useState(false);
 
@@ -23,7 +24,8 @@ const AddPersonDialog = memo(({ isOpen, onClose, handleSaveClick }) => {
 
   const handleImageCropSave = async (imageFirebaseRef) => {
     const url = await getImageFromFirebase(imageFirebaseRef);
-    setImageRef(url);
+    setImageUrl(url);
+    setImageRef(imageFirebaseRef);
   };
 
   const toggleImagePicker = () => {
@@ -52,8 +54,8 @@ const AddPersonDialog = memo(({ isOpen, onClose, handleSaveClick }) => {
         >
           <Box onClick={toggleImagePicker} sx={{ cursor: "pointer" }}>
             <Avatar
-              alt={imageRef || "No Image"}
-              src={imageRef}
+              alt={imageUrl || "No Image"}
+              src={imageUrl}
               sx={imageStyles}
             />
           </Box>
