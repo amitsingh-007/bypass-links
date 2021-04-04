@@ -24,7 +24,7 @@ export const getBookmarksPanelUrl = ({
 };
 
 export const getAllFolderNames = (folderList) =>
-  Object.entries(folderList).map(([key, value]) => atob(value.name));
+  Object.entries(folderList).map(([_key, value]) => atob(value.name));
 
 export const isFolderEmpty = (folders, name) => {
   const folder = folders[md5(name)];

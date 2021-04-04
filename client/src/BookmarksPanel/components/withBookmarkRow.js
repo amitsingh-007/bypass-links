@@ -3,6 +3,7 @@ import { BlackMenu } from "GlobalComponents/StyledComponents";
 import { memo, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import Ripples from "react-ripples";
+import { bookmarkRowStyles } from "../constants";
 
 const initialMouseState = {
   mouseX: null,
@@ -82,11 +83,7 @@ const withBookmarkRow = (Component) =>
                 <Component
                   {...props}
                   renderMenu={renderMenu}
-                  containerStyles={{
-                    paddingLeft: "12px",
-                    paddingRight: "9px",
-                    paddingY: "5px",
-                  }}
+                  containerStyles={bookmarkRowStyles}
                 />
               </Box>
             </Ripples>

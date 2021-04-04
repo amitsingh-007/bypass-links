@@ -2,10 +2,11 @@ import { Box, Typography } from "@material-ui/core";
 import FolderTwoToneIcon from "@material-ui/icons/FolderTwoTone";
 import { displayToast } from "GlobalActionCreators/";
 import { COLOR } from "GlobalConstants/color";
-import { memo } from "react";
+import { memo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { getBookmarksPanelUrl } from "../utils";
+import { FolderDialog } from "./FormComponents";
 import withBookmarkRow from "./withBookmarkRow";
 
 const getTitleStyles = (isEmpty) => ({
@@ -19,15 +20,26 @@ const Folder = memo(
     name: origName,
     pos,
     handleRemove,
+    handleEdit,
     renderMenu,
     isEmpty,
     containerStyles,
   }) => {
     const dispatch = useDispatch();
     const history = useHistory();
+    const [openEditDialog, setOpenEditDialog] = useState(false);
+
+    const toggleEditDialog = () => {
+      setOpenEditDialog(!openEditDialog);
+    };
 
     const handleDeleteOptionClick = () => {
       handleRemove(pos, origName);
+    };
+
+    const handleFolderSave = (newName) => {
+      handleEdit(origName, newName, pos);
+      toggleEditDialog();
     };
 
     const handleFolderOpen = () => {
@@ -54,7 +66,17 @@ const Folder = memo(
             {origName}
           </Typography>
         </Box>
-        {renderMenu([{ onClick: handleDeleteOptionClick, text: "Delete" }])}
+        {renderMenu([
+          { onClick: toggleEditDialog, text: "Edit" },
+          { onClick: handleDeleteOptionClick, text: "Delete" },
+        ])}
+        <FolderDialog
+          headerText="Edit folder"
+          origName={origName}
+          handleSave={handleFolderSave}
+          isOpen={openEditDialog}
+          onClose={toggleEditDialog}
+        />
       </>
     );
   }

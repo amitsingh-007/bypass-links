@@ -53,7 +53,7 @@ export const syncBypassToStorage = async () => {
   const snapshot = await getFromFirebase(FIREBASE_DB_REF.bypass);
   const bypass = getMappedBypass(snapshot.val());
   await storage.set({ [STORAGE_KEYS.bypass]: bypass });
-  console.log(`Bypass is set to`, bypass);
+  console.log("Bypass is set to", bypass);
 };
 
 export const resetBypass = async () => {

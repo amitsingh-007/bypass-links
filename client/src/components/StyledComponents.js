@@ -10,6 +10,13 @@ export const BlackTooltip = withStyles((theme) => ({
   },
 }))(Tooltip);
 
+export const CircularTooltip = withStyles(() => ({
+  tooltip: {
+    borderRadius: "50%",
+    padding: "4px",
+  },
+}))(BlackTooltip);
+
 export const BlackMenu = withStyles(() => ({
   paper: {
     backgroundColor: "#181a1b",

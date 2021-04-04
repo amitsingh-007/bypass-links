@@ -1,25 +1,25 @@
 import {
+  Avatar,
   Box,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   FormControl,
   IconButton,
   InputLabel,
+  LinearProgress,
   MenuItem,
   Select,
   TextField,
 } from "@material-ui/core";
-import CloseTwoToneIcon from "@material-ui/icons/CloseTwoTone";
-import DoneTwoToneIcon from "@material-ui/icons/DoneTwoTone";
 import FormatColorTextTwoToneIcon from "@material-ui/icons/FormatColorTextTwoTone";
 import runtime from "ChromeApi/runtime";
+import { EditDialog } from "GlobalComponents/Dialogs";
 import { COLOR } from "GlobalConstants/color";
-import { getActiveDisabledColor } from "GlobalUtils/color";
-import { useState } from "react";
-import { bookmarkWrapperStyles } from "../constants/styles";
-import DeleteTwoToneIcon from "@material-ui/icons/DeleteTwoTone";
+import { getImageFromFirebase } from "GlobalUtils/firebase";
+import { useEffect, useState } from "react";
+import { DEFAULT_PERSON_UID } from "SrcPath/TaggingPanel/constants";
+import {
+  getAllPersonNames,
+  getPersonFromUid,
+} from "SrcPath/TaggingPanel/utils";
 
 export const FolderDropdown = ({
   folder,
@@ -45,61 +45,36 @@ export const FolderDropdown = ({
   );
 };
 
-const EditDialog = ({
-  children,
-  headerText,
-  openDialog,
-  closeDialog,
-  handleSave,
-  handleDelete,
-  isSaveOptionActive,
+const PersonDropdown = ({
+  personUid = DEFAULT_PERSON_UID,
+  personList,
+  handlePersonChange,
 }) => {
-  const classes = bookmarkWrapperStyles();
+  if (!personList || personList.length < 1) {
+    return null;
+  }
+  const menuItems = personList.map(({ uid, name }) => (
+    <MenuItem key={uid} value={uid}>
+      {name}
+    </MenuItem>
+  ));
+  menuItems.unshift(
+    <MenuItem key={DEFAULT_PERSON_UID} value={DEFAULT_PERSON_UID}>
+      Select Person
+    </MenuItem>
+  );
   return (
-    <Dialog fullWidth maxWidth="sm" open={openDialog} onClose={closeDialog}>
-      <DialogTitle>{headerText}</DialogTitle>
-      <DialogContent classes={{ root: classes.root }}>{children}</DialogContent>
-      <DialogActions>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: handleDelete ? "space-between" : "flex-end",
-            width: "100%",
-            paddingX: "7px",
-          }}
-        >
-          {handleDelete ? (
-            <IconButton
-              component="span"
-              style={COLOR.red}
-              onClick={handleDelete}
-              title="Delete"
-            >
-              <DeleteTwoToneIcon fontSize="large" />
-            </IconButton>
-          ) : null}
-          <div>
-            <IconButton
-              component="span"
-              style={COLOR.blue}
-              onClick={closeDialog}
-              title="Cancel"
-            >
-              <CloseTwoToneIcon fontSize="large" />
-            </IconButton>
-            <IconButton
-              component="span"
-              disabled={!isSaveOptionActive}
-              style={getActiveDisabledColor(isSaveOptionActive, COLOR.green)}
-              onClick={handleSave}
-              title="Save"
-            >
-              <DoneTwoToneIcon fontSize="large" />
-            </IconButton>
-          </div>
-        </Box>
-      </DialogActions>
-    </Dialog>
+    <FormControl
+      variant="filled"
+      size="small"
+      color="secondary"
+      sx={{ width: "100%" }}
+    >
+      <InputLabel id="persons">Person</InputLabel>
+      <Select labelId="persons" value={personUid} onChange={handlePersonChange}>
+        {menuItems}
+      </Select>
+    </FormControl>
   );
 };
 
@@ -107,6 +82,7 @@ export const BookmarkDialog = ({
   url: origUrl,
   origTitle,
   origFolder,
+  origPersonUid,
   headerText,
   folderList,
   handleSave,
@@ -115,9 +91,34 @@ export const BookmarkDialog = ({
   onClose,
   isSaveActive,
 }) => {
-  const [url] = useState(origUrl);
+  const [imageUrl, setImageUrl] = useState("");
+  const [person, setPerson] = useState({});
   const [title, setTitle] = useState(origTitle);
   const [folder, setFolder] = useState(origFolder);
+  const [personList, setPersonList] = useState([]);
+  const [isFetchingPerson, setIsFetchingPerson] = useState(false);
+
+  const initPerson = async (uid) => {
+    const person = await getPersonFromUid(uid);
+    if (person) {
+      setIsFetchingPerson(true);
+      const url =
+        person.imageRef && (await getImageFromFirebase(person.imageRef));
+      setImageUrl(url);
+      setPerson(person);
+      setIsFetchingPerson(false);
+    }
+  };
+
+  const initPersonList = async () => {
+    const persons = await getAllPersonNames();
+    setPersonList(persons);
+  };
+
+  useEffect(() => {
+    initPersonList();
+    initPerson(origPersonUid);
+  }, []);
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
@@ -125,32 +126,37 @@ export const BookmarkDialog = ({
   const handleFolderChange = (event) => {
     setFolder(event.target.value);
   };
+  const handlePersonChange = (event) => {
+    const uid = event.target.value;
+    initPerson(uid);
+  };
 
   const handleSaveClick = () => {
-    handleSave(url, title, folder);
+    handleSave(origUrl, title, folder, person.uid);
     onClose();
   };
-  const handleClose = () => {
-    setTitle(origTitle);
-    setFolder(origFolder);
-    onClose();
-  };
+
   const handleH1Click = async () => {
     const { pageH1 } = await runtime.sendMessage({ fetchPageH1: true });
     setTitle(pageH1);
   };
 
   const isSaveOptionActive =
-    isSaveActive || (title && (title !== origTitle || folder !== origFolder));
+    isSaveActive ||
+    (title && (title !== origTitle || folder !== origFolder)) ||
+    (!origPersonUid && person.uid) ||
+    (origPersonUid && origPersonUid !== person.uid);
+
   return (
     <EditDialog
       headerText={headerText}
       openDialog={isOpen}
-      closeDialog={handleClose}
+      closeDialog={onClose}
       handleSave={handleSaveClick}
       handleDelete={handleDelete}
       isSaveOptionActive={isSaveOptionActive}
     >
+      {isFetchingPerson && <LinearProgress color="secondary" />}
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <TextField
           size="small"
@@ -177,8 +183,8 @@ export const BookmarkDialog = ({
         label="Url"
         variant="filled"
         color="secondary"
-        title={url}
-        value={url}
+        title={origUrl}
+        value={origUrl}
         InputProps={{ readOnly: true }}
       />
       <FolderDropdown
@@ -186,12 +192,26 @@ export const BookmarkDialog = ({
         folderList={folderList}
         handleFolderChange={handleFolderChange}
       />
+      <Box
+        sx={{ display: "flex", alignItems: "center", margin: "8px 8px 0 0" }}
+      >
+        <PersonDropdown
+          personUid={person.uid}
+          personList={personList}
+          handlePersonChange={handlePersonChange}
+        />
+        <Avatar
+          alt={person.name}
+          src={imageUrl}
+          sx={{ width: "70px", height: "70px" }}
+        />
+      </Box>
     </EditDialog>
   );
 };
 
 export const FolderDialog = ({
-  origName,
+  origName = "",
   headerText,
   handleSave,
   isOpen,
@@ -229,6 +249,46 @@ export const FolderDialog = ({
         title={name}
         value={name}
         onChange={handleNameChange}
+      />
+    </EditDialog>
+  );
+};
+
+export const BulkBookmarksMoveDialog = ({
+  origFolder,
+  folderList,
+  handleSave,
+  isOpen,
+  onClose,
+}) => {
+  const [folder, setFolder] = useState(origFolder);
+
+  const handleFolderChange = (event) => {
+    setFolder(event.target.value);
+  };
+
+  const handleSaveClick = () => {
+    handleSave(folder);
+    onClose();
+  };
+  const handleClose = () => {
+    setFolder(origFolder);
+    onClose();
+  };
+
+  const isSaveOptionActive = folder !== origFolder;
+  return (
+    <EditDialog
+      headerText="Move Selected Bookmarks"
+      openDialog={isOpen}
+      closeDialog={handleClose}
+      handleSave={handleSaveClick}
+      isSaveOptionActive={isSaveOptionActive}
+    >
+      <FolderDropdown
+        folder={folder}
+        folderList={folderList}
+        handleFolderChange={handleFolderChange}
       />
     </EditDialog>
   );

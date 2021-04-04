@@ -19,6 +19,7 @@ export const STORAGE_KEYS = {
   mappedRedirections: "mappedRedirections",
   redirections: "redirections",
   lastVisited: "lastVisited",
+  persons: "persons",
 };
 
 export const BYPASS_KEYS = {
@@ -39,6 +40,11 @@ export const FIREBASE_DB_REF = {
   bypass: `${dbPrefix}/${STORAGE_KEYS.bypass}`,
   redirections: `${dbPrefix}/${STORAGE_KEYS.redirections}`,
   lastVisited: `${dbPrefix}/${STORAGE_KEYS.lastVisited}`,
+  persons: `${dbPrefix}/${STORAGE_KEYS.persons}`,
+};
+
+export const FIREBASE_STORAGE_REF = {
+  persons: STORAGE_KEYS.persons,
 };
 
 export const defaultBookmarkFolder = "Bookmarks bar";

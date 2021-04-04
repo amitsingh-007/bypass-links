@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/database";
+import "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDiMRlBhW36sLjEADoQj9T5L1H-hIDUAso",
@@ -70,3 +71,14 @@ export const saveDataToFirebase = async (data, ref, successCallback) => {
       });
   });
 };
+
+/**
+ * STORAGE
+ */
+export const uploadImageToFirebase = (blob, path) =>
+  firebase.storage().ref().child(path).put(blob, {
+    contentType: blob.type,
+  });
+
+export const getImageFromFirebase = (ref) =>
+  firebase.storage().ref().child(ref).getDownloadURL();

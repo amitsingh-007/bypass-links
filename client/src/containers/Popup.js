@@ -12,6 +12,7 @@ import { ToggleHistory } from "GlobalComponents/ToggleHistory";
 import { COLOR } from "GlobalConstants/color";
 import { memo } from "react";
 import BookmarksPanelButton from "SrcPath/BookmarksPanel/components/BookmarksPanelButton";
+import TaggingPanelButton from "SrcPath/TaggingPanel/components/TaggingPanelButton";
 
 export const Popup = memo(() => (
   <Box
@@ -41,6 +42,7 @@ export const Popup = memo(() => (
     <Box>
       <OpenForumLinks />
       <LastVisitedButton />
+      <TaggingPanelButton />
     </Box>
   </Box>
 ));
