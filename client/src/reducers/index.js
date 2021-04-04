@@ -6,6 +6,7 @@ import {
   START_HISTORY_MONITOR,
   TURN_OFF_EXTENSION,
   TURN_ON_EXTENSION,
+  UPDATE_TAGGED_PERSON_URLS,
 } from "GlobalActionTypes/index";
 
 const defaultState = {
@@ -13,6 +14,7 @@ const defaultState = {
   isExtensionActive: true,
   startHistoryMonitor: false,
   toast: null,
+  updateTaggedUrls: null,
 };
 
 const reducer = (state = defaultState, action) => {
@@ -55,6 +57,11 @@ const reducer = (state = defaultState, action) => {
       return {
         ...state,
         toast: null,
+      };
+    case UPDATE_TAGGED_PERSON_URLS:
+      return {
+        ...state,
+        updateTaggedUrls: action.data,
       };
     default:
       return defaultState;

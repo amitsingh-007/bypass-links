@@ -4,6 +4,6 @@ export const decryptionMapper = ([
 ]) => ({
   uid,
   name: atob(name),
-  imageRef: atob(imageRef),
+  imageRef: decodeURIComponent(atob(imageRef)),
   taggedUrls,
 });

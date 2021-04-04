@@ -6,6 +6,7 @@ import {
   START_HISTORY_MONITOR,
   TURN_OFF_EXTENSION,
   TURN_ON_EXTENSION,
+  UPDATE_TAGGED_PERSON_URLS,
 } from "GlobalActionTypes/index";
 
 export const setSignedInStatus = (isSignedIn) => ({
@@ -27,6 +28,11 @@ export const startHistoryMonitor = () => ({
 
 export const resetHistoryMonitor = () => ({
   type: RESET_HISTORY_MONITOR,
+});
+
+export const updateTaggedPersonUrls = (data) => ({
+  type: UPDATE_TAGGED_PERSON_URLS,
+  data,
 });
 
 export const displayToast = ({

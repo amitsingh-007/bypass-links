@@ -4,6 +4,7 @@ import Loader from "GlobalComponents/Loader";
 import { STORAGE_KEYS } from "GlobalConstants/index";
 import React, { useEffect, useState } from "react";
 import { decryptionMapper } from "../mapper";
+import { setPersonsInStorage } from "../utils/index";
 import Header from "./Header";
 import Persons from "./Persons";
 
@@ -30,17 +31,14 @@ const TaggingPanel = () => {
         obj[uid] = {
           uid,
           name: btoa(name),
-          imageRef: btoa(imageRef),
+          imageRef: btoa(encodeURIComponent(imageRef)),
           taggedUrls,
         };
         return obj;
       },
       {}
     );
-    await storage.set({
-      [STORAGE_KEYS.persons]: encryptedPersons,
-      hasPendingPersons: true,
-    });
+    await setPersonsInStorage(encryptedPersons);
     setIsFetching(false);
   };
 

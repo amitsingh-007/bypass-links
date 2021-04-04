@@ -1,15 +1,26 @@
-import { Box, Checkbox, makeStyles, Typography } from "@material-ui/core";
+import {
+  Avatar,
+  Box,
+  Checkbox,
+  makeStyles,
+  Typography,
+} from "@material-ui/core";
 import tabs from "ChromeApi/tabs";
 import { startHistoryMonitor } from "GlobalActionCreators/";
-import { BlackTooltip } from "GlobalComponents/StyledComponents";
+import {
+  BlackTooltip,
+  CircularTooltip,
+} from "GlobalComponents/StyledComponents";
 import { COLOR } from "GlobalConstants/color";
-import { memo, useState } from "react";
+import { getImageFromFirebase } from "GlobalUtils/firebase";
+import { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {
   getBookmarksPanelUrl,
   getFaviconUrl,
 } from "SrcPath/BookmarksPanel/utils";
+import { getPersonFromUid } from "SrcPath/TaggingPanel/utils";
 import { BookmarkDialog } from "./FormComponents";
 import withBookmarkRow from "./withBookmarkRow";
 
@@ -19,11 +30,39 @@ const useStyles = makeStyles({
   root: { padding: "unset" },
 });
 
+const PersonImage = ({ imageUrl }) => {
+  const avatar = (
+    <Avatar
+      alt={imageUrl}
+      src={imageUrl}
+      sx={{ width: "23px", height: "23px", marginRight: "8px" }}
+    />
+  );
+  return imageUrl ? (
+    <CircularTooltip
+      title={
+        <Avatar
+          alt={imageUrl}
+          src={imageUrl}
+          sx={{ width: "70px", height: "70px" }}
+        />
+      }
+      arrow
+      disableInteractive
+    >
+      {avatar}
+    </CircularTooltip>
+  ) : (
+    avatar
+  );
+};
+
 const Bookmark = memo(
   ({
     url,
     title: origTitle,
     folder: origFolder,
+    personUid: origPersonUid,
     pos,
     isSelected,
     folderNamesList,
@@ -36,14 +75,34 @@ const Bookmark = memo(
   }) => {
     const history = useHistory();
     const dispatch = useDispatch();
+    const [imageUrl, setImageUrl] = useState("");
     const [openEditDialog, setOpenEditDialog] = useState(editBookmark);
+
+    const initImageUrl = async () => {
+      const person = await getPersonFromUid(origPersonUid);
+      const url =
+        person.imageRef && (await getImageFromFirebase(person.imageRef));
+      setImageUrl(url);
+    };
+
+    useEffect(() => {
+      initImageUrl();
+    }, []);
 
     const toggleEditDialog = () => {
       setOpenEditDialog(!openEditDialog);
     };
 
-    const handleBookmarkSave = (url, newTitle, newFolder) => {
-      handleSave(url, newTitle, origFolder, newFolder, pos);
+    const handleBookmarkSave = (url, newTitle, newFolder, newPerson) => {
+      handleSave(
+        url,
+        newTitle,
+        origFolder,
+        newFolder,
+        pos,
+        origPersonUid,
+        newPerson
+      );
       //Remove qs before closing
       if (editBookmark && openEditDialog) {
         history.replace(getBookmarksPanelUrl({ folder: origFolder }));
@@ -90,6 +149,7 @@ const Bookmark = memo(
               marginRight: "8px",
             }}
           />
+          <PersonImage imageUrl={imageUrl} />
           <BlackTooltip
             title={<Typography style={tooltipStyles}>{url}</Typography>}
             arrow
@@ -105,17 +165,20 @@ const Bookmark = memo(
           { onClick: toggleEditDialog, text: "Edit" },
           { onClick: handleDeleteOptionClick, text: "Delete" },
         ])}
-        <BookmarkDialog
-          url={url}
-          origTitle={origTitle}
-          origFolder={origFolder}
-          headerText="Edit bookmark"
-          folderList={folderNamesList}
-          handleSave={handleBookmarkSave}
-          handleDelete={handleDeleteOptionClick}
-          isOpen={openEditDialog}
-          onClose={toggleEditDialog}
-        />
+        {openEditDialog && (
+          <BookmarkDialog
+            url={url}
+            origTitle={origTitle}
+            origFolder={origFolder}
+            origPersonUid={origPersonUid}
+            headerText="Edit bookmark"
+            folderList={folderNamesList}
+            handleSave={handleBookmarkSave}
+            handleDelete={handleDeleteOptionClick}
+            isOpen={openEditDialog}
+            onClose={toggleEditDialog}
+          />
+        )}
       </>
     );
   }

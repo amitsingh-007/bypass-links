@@ -1,4 +1,4 @@
-import { Avatar, Box, IconButton, Typography } from "@material-ui/core";
+import { Avatar, Badge, Box, IconButton, Typography } from "@material-ui/core";
 import { getImageFromFirebase } from "GlobalUtils/firebase";
 import React, { memo, useEffect, useState } from "react";
 
@@ -14,6 +14,9 @@ const Person = memo(({ person }) => {
     });
   }, [imageRef]);
 
+  const taggedUrlsCount =
+    taggedUrls && !!taggedUrls.length ? taggedUrls.length : 0;
+
   return (
     <IconButton>
       <Box
@@ -25,7 +28,13 @@ const Person = memo(({ person }) => {
           cursor: "pointer",
         }}
       >
-        <Avatar alt={name} src={imageUrl} sx={imageStyles} />
+        <Badge
+          badgeContent={taggedUrlsCount}
+          color="primary"
+          overlap="circular"
+        >
+          <Avatar alt={name} src={imageUrl} sx={imageStyles} />
+        </Badge>
         <Typography>{name}</Typography>
       </Box>
     </IconButton>
