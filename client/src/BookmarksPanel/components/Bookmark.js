@@ -13,7 +13,7 @@ import {
 } from "GlobalComponents/StyledComponents";
 import { COLOR } from "GlobalConstants/color";
 import { getImageFromFirebase } from "GlobalUtils/firebase";
-import { memo, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {
@@ -72,22 +72,27 @@ const Bookmark = memo(
     renderMenu,
     editBookmark,
     containerStyles,
+    //Tells whether it is being rendered on page other than BookmarksPanel
+    isExternalPage = false,
   }) => {
     const history = useHistory();
     const dispatch = useDispatch();
     const [imageUrl, setImageUrl] = useState("");
     const [openEditDialog, setOpenEditDialog] = useState(editBookmark);
 
-    const initImageUrl = async () => {
+    const initImageUrl = useCallback(async () => {
       const person = await getPersonFromUid(origPersonUid);
       const url =
         person.imageRef && (await getImageFromFirebase(person.imageRef));
       setImageUrl(url);
-    };
+    }, [origPersonUid]);
 
     useEffect(() => {
+      if (isExternalPage) {
+        return;
+      }
       initImageUrl();
-    }, []);
+    }, [initImageUrl, isExternalPage]);
 
     const toggleEditDialog = () => {
       setOpenEditDialog(!openEditDialog);
@@ -132,13 +137,15 @@ const Bookmark = memo(
             ...containerStyles,
           }}
         >
-          <Checkbox
-            checked={isSelected}
-            onChange={handleSelectionChange}
-            style={COLOR.pink}
-            disableRipple
-            classes={{ root: checkboxClasses.root }}
-          />
+          {!isExternalPage && (
+            <Checkbox
+              checked={isSelected}
+              onChange={handleSelectionChange}
+              style={COLOR.pink}
+              disableRipple
+              classes={{ root: checkboxClasses.root }}
+            />
+          )}
           <Box
             component="img"
             src={getFaviconUrl(url)}
@@ -149,7 +156,7 @@ const Bookmark = memo(
               marginRight: "8px",
             }}
           />
-          <PersonImage imageUrl={imageUrl} />
+          {!isExternalPage && <PersonImage imageUrl={imageUrl} />}
           <BlackTooltip
             title={<Typography style={tooltipStyles}>{url}</Typography>}
             arrow
@@ -160,11 +167,13 @@ const Bookmark = memo(
             </Typography>
           </BlackTooltip>
         </Box>
-        {renderMenu([
-          { onClick: handleOpenLink, text: "Open in new tab" },
-          { onClick: toggleEditDialog, text: "Edit" },
-          { onClick: handleDeleteOptionClick, text: "Delete" },
-        ])}
+        {renderMenu
+          ? renderMenu([
+              { onClick: handleOpenLink, text: "Open in new tab" },
+              { onClick: toggleEditDialog, text: "Edit" },
+              { onClick: handleDeleteOptionClick, text: "Delete" },
+            ])
+          : null}
         {openEditDialog && (
           <BookmarkDialog
             url={url}
@@ -185,3 +194,5 @@ const Bookmark = memo(
 );
 
 export default withBookmarkRow(Bookmark);
+
+export { Bookmark as BookmarkExternal };

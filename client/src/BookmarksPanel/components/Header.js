@@ -199,7 +199,6 @@ const Header = memo(
               content: accordionSummaryStyles.content,
               expanded: accordionSummaryStyles.expanded,
             }}
-            expandIcon={<ExpandMoreIcon />}
           >
             <Box
               sx={{
