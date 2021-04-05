@@ -33,7 +33,7 @@
     "@material-ui/codemod": "5.0.0-alpha.27",
     "@types/chrome": "0.0.133",
     "@typescript-eslint/eslint-plugin": "4.19.0",
-    "@typescript-eslint/parser": "4.19.0",
+    "@typescript-eslint/parser": "4.20.0",
     "babel-eslint": "10.1.0",
     "babel-loader": "8.2.2",
     "babel-preset-react-app": "10.0.0",
