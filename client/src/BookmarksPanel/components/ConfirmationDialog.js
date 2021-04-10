@@ -19,16 +19,15 @@ const ConfirmationDialog = memo(({ onClose, onOk, isOpen }) => {
 
   return (
     <Dialog disableEscapeKeyDown maxWidth="xs" open={isOpen}>
-      <DialogTitle>Confirmation</DialogTitle>
       <DialogContent>
-        <Box>Do you really want to continue and discard all the changes?</Box>
+        <Box>There are some unsaved changes</Box>
       </DialogContent>
       <DialogActions>
         <Button autoFocus onClick={handleCancel} style={COLOR.red}>
-          Cancel
+          <strong>Cancel</strong>
         </Button>
         <Button onClick={handleOk} style={COLOR.green}>
-          Ok
+          <strong>Discard</strong>
         </Button>
       </DialogActions>
     </Dialog>
