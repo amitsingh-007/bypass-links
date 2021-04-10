@@ -36,7 +36,13 @@ import {
 import SearchInput from "./SearchInput";
 
 const useAccordionStyles = makeStyles({
-  root: { margin: "0px !important", backgroundColor: BG_COLOR_DARK },
+  root: {
+    margin: "0px !important",
+    backgroundColor: BG_COLOR_DARK,
+    position: "sticky",
+    top: 0,
+    zIndex: 1,
+  },
 });
 const useAccordionSummaryStyles = makeStyles({
   root: { padding: "0px" },

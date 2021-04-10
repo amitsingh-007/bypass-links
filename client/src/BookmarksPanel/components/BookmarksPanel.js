@@ -344,7 +344,7 @@ const BookmarksPanel = memo(
                 component="form"
                 noValidate
                 autoComplete="off"
-                sx={{ height: contentHeight, overflow: "hidden scroll" }}
+                sx={{ height: contentHeight }}
                 ref={provided.innerRef}
                 {...provided.droppableProps}
               >
