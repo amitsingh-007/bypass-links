@@ -170,6 +170,7 @@ const Bookmark = memo(
             title={<Typography style={tooltipStyles}>{url}</Typography>}
             arrow
             disableInteractive
+            followCursor
           >
             <Typography noWrap style={titleStyles}>
               {origTitle}
