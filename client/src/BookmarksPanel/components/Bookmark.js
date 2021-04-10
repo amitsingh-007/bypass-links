@@ -3,11 +3,13 @@ import {
   Box,
   Checkbox,
   makeStyles,
+  MenuItem,
   Typography,
 } from "@material-ui/core";
 import tabs from "ChromeApi/tabs";
 import { startHistoryMonitor } from "GlobalActionCreators/";
 import {
+  BlackMenu,
   BlackTooltip,
   CircularTooltip,
 } from "GlobalComponents/StyledComponents";
@@ -20,6 +22,7 @@ import {
   getBookmarksPanelUrl,
   getFaviconUrl,
 } from "SrcPath/BookmarksPanel/utils";
+import useMenu from "SrcPath/hooks/useMenu";
 import { getPersonFromUid } from "SrcPath/TaggingPanel/utils";
 import { BookmarkDialog } from "./FormComponents";
 import withBookmarkRow from "./withBookmarkRow";
@@ -69,7 +72,6 @@ const Bookmark = memo(
     handleSave,
     handleRemove,
     handleSelectedChange,
-    renderMenu,
     editBookmark,
     containerStyles,
     //Tells whether it is being rendered on page other than BookmarksPanel
@@ -79,6 +81,7 @@ const Bookmark = memo(
     const dispatch = useDispatch();
     const [imageUrl, setImageUrl] = useState("");
     const [openEditDialog, setOpenEditDialog] = useState(editBookmark);
+    const [isMenuOpen, menuPos, onMenuClose, onMenuOpen] = useMenu();
 
     const initImageUrl = useCallback(async () => {
       const person = await getPersonFromUid(origPersonUid);
@@ -125,17 +128,23 @@ const Bookmark = memo(
       handleSelectedChange(pos);
     };
 
+    const menuOptionsList = [
+      { onClick: toggleEditDialog, text: "Edit" },
+      { onClick: handleDeleteOptionClick, text: "Delete" },
+    ];
+
     const checkboxClasses = useStyles();
     return (
       <>
         <Box
-          onDoubleClick={handleOpenLink}
           sx={{
             display: "flex",
             alignItems: "center",
             width: "100%",
             ...containerStyles,
           }}
+          onDoubleClick={handleOpenLink}
+          onContextMenu={onMenuOpen}
         >
           {!isExternalPage && (
             <Checkbox
@@ -161,19 +170,31 @@ const Bookmark = memo(
             title={<Typography style={tooltipStyles}>{url}</Typography>}
             arrow
             disableInteractive
+            followCursor
           >
             <Typography noWrap style={titleStyles}>
               {origTitle}
             </Typography>
           </BlackTooltip>
         </Box>
-        {renderMenu
-          ? renderMenu([
-              { onClick: handleOpenLink, text: "Open in new tab" },
-              { onClick: toggleEditDialog, text: "Edit" },
-              { onClick: handleDeleteOptionClick, text: "Delete" },
-            ])
-          : null}
+        <BlackMenu
+          open={isMenuOpen}
+          onClose={onMenuClose}
+          anchorReference="anchorPosition"
+          anchorPosition={menuPos}
+        >
+          {menuOptionsList.map(({ text, onClick }) => (
+            <MenuItem
+              key={text}
+              onClick={() => {
+                onClick();
+                onMenuClose();
+              }}
+            >
+              {text}
+            </MenuItem>
+          ))}
+        </BlackMenu>
         {openEditDialog && (
           <BookmarkDialog
             url={url}

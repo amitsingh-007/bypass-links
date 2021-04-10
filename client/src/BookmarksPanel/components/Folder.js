@@ -1,10 +1,12 @@
-import { Box, Typography } from "@material-ui/core";
+import { Box, MenuItem, Typography } from "@material-ui/core";
 import FolderTwoToneIcon from "@material-ui/icons/FolderTwoTone";
 import { displayToast } from "GlobalActionCreators/";
+import { BlackMenu } from "GlobalComponents/StyledComponents";
 import { COLOR } from "GlobalConstants/color";
 import { memo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import useMenu from "SrcPath/hooks/useMenu";
 import { getBookmarksPanelUrl } from "../utils";
 import { FolderDialog } from "./FormComponents";
 import withBookmarkRow from "./withBookmarkRow";
@@ -21,13 +23,13 @@ const Folder = memo(
     pos,
     handleRemove,
     handleEdit,
-    renderMenu,
     isEmpty,
     containerStyles,
   }) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const [openEditDialog, setOpenEditDialog] = useState(false);
+    const [isMenuOpen, menuPos, onMenuClose, onMenuOpen] = useMenu();
 
     const toggleEditDialog = () => {
       setOpenEditDialog(!openEditDialog);
@@ -50,26 +52,28 @@ const Folder = memo(
       history.push(getBookmarksPanelUrl({ folder: origName }));
     };
 
+    const menuOptionsList = [
+      { onClick: toggleEditDialog, text: "Edit" },
+      { onClick: handleDeleteOptionClick, text: "Delete" },
+    ];
+
     return (
       <>
         <Box
-          onDoubleClick={handleFolderOpen}
           sx={{
             display: "flex",
             alignItems: "center",
             width: "100%",
             ...containerStyles,
           }}
+          onDoubleClick={handleFolderOpen}
+          onContextMenu={onMenuOpen}
         >
           <FolderTwoToneIcon fontSize="small" htmlColor={COLOR.yellow.color} />
           <Typography noWrap style={getTitleStyles(isEmpty)}>
             {origName}
           </Typography>
         </Box>
-        {renderMenu([
-          { onClick: toggleEditDialog, text: "Edit" },
-          { onClick: handleDeleteOptionClick, text: "Delete" },
-        ])}
         <FolderDialog
           headerText="Edit folder"
           origName={origName}
@@ -77,6 +81,24 @@ const Folder = memo(
           isOpen={openEditDialog}
           onClose={toggleEditDialog}
         />
+        <BlackMenu
+          open={isMenuOpen}
+          onClose={onMenuClose}
+          anchorReference="anchorPosition"
+          anchorPosition={menuPos}
+        >
+          {menuOptionsList.map(({ text, onClick }) => (
+            <MenuItem
+              key={text}
+              onClick={() => {
+                onClick();
+                onMenuClose();
+              }}
+            >
+              {text}
+            </MenuItem>
+          ))}
+        </BlackMenu>
       </>
     );
   }

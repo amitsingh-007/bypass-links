@@ -1,65 +1,20 @@
-import { Box, MenuItem } from "@material-ui/core";
-import { BlackMenu } from "GlobalComponents/StyledComponents";
-import { memo, useState } from "react";
+import { Box } from "@material-ui/core";
+import { memo } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import Ripples from "react-ripples";
 import { bookmarkRowStyles } from "../constants";
 
-const initialMouseState = {
-  mouseX: null,
-  mouseY: null,
-};
-
-const getAnchorPosition = ({ mouseX, mouseY }) =>
-  mouseY !== null && mouseX !== null
-    ? { top: mouseY, left: mouseX }
-    : undefined;
-
 const withBookmarkRow = (Component) =>
   memo((props) => {
-    const [mouseState, setMouseState] = useState(initialMouseState);
-
-    const handleOptionsOpen = (event) => {
-      event.preventDefault();
-      setMouseState({
-        mouseX: event.clientX - 2,
-        mouseY: event.clientY - 4,
-      });
-    };
-    const handleOptionsClose = () => {
-      setMouseState(initialMouseState);
-    };
-
-    const renderMenu = (menuItemOptionList) => (
-      <BlackMenu
-        open={mouseState.mouseY !== null}
-        onClose={handleOptionsClose}
-        anchorReference="anchorPosition"
-        anchorPosition={getAnchorPosition(mouseState)}
-      >
-        {menuItemOptionList.map(({ text, onClick }) => (
-          <MenuItem
-            key={text}
-            onClick={() => {
-              onClick();
-              handleOptionsClose();
-            }}
-          >
-            {text}
-          </MenuItem>
-        ))}
-      </BlackMenu>
-    );
-
     const { isDir, name, url, pos, title } = props;
     const primaryUniqueId = isDir ? name : url;
     const secondaryUniqueId = isDir ? null : title;
+
     return (
       <Draggable draggableId={primaryUniqueId} index={pos}>
         {(provided) => (
           <Box
             className="bookmarkRowContainer"
-            onContextMenu={handleOptionsOpen}
             ref={provided.innerRef}
             sx={{
               display: "flex",
@@ -80,11 +35,7 @@ const withBookmarkRow = (Component) =>
                   maxWidth: "747px",
                 }}
               >
-                <Component
-                  {...props}
-                  renderMenu={renderMenu}
-                  containerStyles={bookmarkRowStyles}
-                />
+                <Component {...props} containerStyles={bookmarkRowStyles} />
               </Box>
             </Ripples>
           </Box>
