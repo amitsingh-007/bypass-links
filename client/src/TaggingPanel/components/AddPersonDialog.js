@@ -7,24 +7,32 @@ import ImagePicker from "./ImagePicker";
 
 const imageStyles = { width: 200, height: 200 };
 
-const AddPersonDialog = memo(({ isOpen, onClose, handleSaveClick }) => {
-  const [uid, setUid] = useState(null);
-  const [name, setName] = useState("");
+const AddPersonDialog = memo(({ person, isOpen, onClose, handleSaveClick }) => {
+  const [uid, setUid] = useState(person?.uid);
+  const [name, setName] = useState(person?.name ?? "");
+  const [imageRef, setImageRef] = useState(person?.imageRef);
   const [imageUrl, setImageUrl] = useState("");
-  const [imageRef, setImageRef] = useState("");
   const [showImagePicker, setShowImagePicker] = useState(false);
 
   useEffect(() => {
-    setUid(md5(Date.now()));
-  }, []);
+    if (person) {
+      fetchImage(person.imageRef);
+    } else {
+      setUid(md5(Date.now()));
+    }
+  }, [person]);
+
+  const fetchImage = async (ref) => {
+    const url = await getImageFromFirebase(ref);
+    setImageUrl(url);
+  };
 
   const handleNameChange = (event) => {
     setName(event.target.value);
   };
 
   const handleImageCropSave = async (imageFirebaseRef) => {
-    const url = await getImageFromFirebase(imageFirebaseRef);
-    setImageUrl(url);
+    await fetchImage(imageFirebaseRef);
     setImageRef(imageFirebaseRef);
   };
 
@@ -33,13 +41,18 @@ const AddPersonDialog = memo(({ isOpen, onClose, handleSaveClick }) => {
   };
 
   const handlePersonSave = () => {
-    handleSaveClick({ uid, name, imageRef, taggedUrls: [] });
+    handleSaveClick({
+      uid,
+      name,
+      imageRef,
+      taggedUrls: person?.taggedUrls || [],
+    });
   };
 
   return (
     <>
       <EditDialog
-        headerText="Add a Person"
+        headerText={person ? "Edit" : "Add a Person"}
         openDialog={isOpen}
         closeDialog={onClose}
         handleSave={handlePersonSave}

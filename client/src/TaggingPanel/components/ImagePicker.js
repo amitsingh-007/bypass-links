@@ -50,6 +50,9 @@ const ImagePicker = memo(({ uid, isOpen, onDialogClose, handleImageSave }) => {
   }, []);
 
   const showCroppedImage = useCallback(async () => {
+    if (!inputImageUrl) {
+      return;
+    }
     try {
       const imageRef = `${FIREBASE_STORAGE_REF.persons}/${uid}.jpeg`;
       setIsUploadingImage(true);

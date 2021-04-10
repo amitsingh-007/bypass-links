@@ -48,6 +48,14 @@ const TaggingPanel = () => {
     await handleSave(newPersons);
   };
 
+  const handleEditPerson = async (updatedPerson) => {
+    const pos = persons.findIndex(({ uid }) => uid === updatedPerson.uid);
+    const newPersons = [...persons];
+    newPersons[pos] = updatedPerson;
+    setPersons(newPersons);
+    await handleSave(newPersons);
+  };
+
   return (
     <Box
       sx={{ width: "max-content", display: "flex", flexDirection: "column" }}
@@ -62,7 +70,7 @@ const TaggingPanel = () => {
             marginBottom="12px"
           />
         ) : (
-          <Persons persons={persons} />
+          <Persons persons={persons} handleEditPerson={handleEditPerson} />
         )}
       </Box>
     </Box>

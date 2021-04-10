@@ -1,48 +1,28 @@
 import { Box, MenuItem } from "@material-ui/core";
 import { BlackMenu } from "GlobalComponents/StyledComponents";
-import { memo, useState } from "react";
+import { memo } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import Ripples from "react-ripples";
+import useMenu from "SrcPath/hooks/useMenu";
 import { bookmarkRowStyles } from "../constants";
-
-const initialMouseState = {
-  mouseX: null,
-  mouseY: null,
-};
-
-const getAnchorPosition = ({ mouseX, mouseY }) =>
-  mouseY !== null && mouseX !== null
-    ? { top: mouseY, left: mouseX }
-    : undefined;
 
 const withBookmarkRow = (Component) =>
   memo((props) => {
-    const [mouseState, setMouseState] = useState(initialMouseState);
-
-    const handleOptionsOpen = (event) => {
-      event.preventDefault();
-      setMouseState({
-        mouseX: event.clientX - 2,
-        mouseY: event.clientY - 4,
-      });
-    };
-    const handleOptionsClose = () => {
-      setMouseState(initialMouseState);
-    };
+    const [isMenuOpen, menuPos, onMenuClose, onMenuOpen] = useMenu();
 
     const renderMenu = (menuItemOptionList) => (
       <BlackMenu
-        open={mouseState.mouseY !== null}
-        onClose={handleOptionsClose}
+        open={isMenuOpen}
+        onClose={onMenuClose}
         anchorReference="anchorPosition"
-        anchorPosition={getAnchorPosition(mouseState)}
+        anchorPosition={menuPos}
       >
         {menuItemOptionList.map(({ text, onClick }) => (
           <MenuItem
             key={text}
             onClick={() => {
               onClick();
-              handleOptionsClose();
+              onMenuClose();
             }}
           >
             {text}
@@ -59,7 +39,7 @@ const withBookmarkRow = (Component) =>
         {(provided) => (
           <Box
             className="bookmarkRowContainer"
-            onContextMenu={handleOptionsOpen}
+            onContextMenu={onMenuOpen}
             ref={provided.innerRef}
             sx={{
               display: "flex",
