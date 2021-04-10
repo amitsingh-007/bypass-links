@@ -45,7 +45,7 @@ const useAccordionStyles = makeStyles({
   },
 });
 const useAccordionSummaryStyles = makeStyles({
-  root: { padding: "0px" },
+  root: { padding: "0px", minHeight: "50px !important" },
   content: { margin: "0px !important" },
 });
 const useAccordionDetailsStyles = makeStyles({
