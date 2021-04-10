@@ -10,7 +10,7 @@ import React, { memo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { syncPersonsFirebaseWithStorage } from "../utils/sync";
-import AddPersonDialog from "./AddPersonDialog";
+import AddOrEditPersonDialog from "./AddOrEditPersonDialog";
 
 const Header = memo(({ handleAddPerson }) => {
   const dispatch = useDispatch();
@@ -90,7 +90,7 @@ const Header = memo(({ handleAddPerson }) => {
         <PanelHeading heading="TAGGING PANEL" />
       </Box>
       {showAddPersonDialog && (
-        <AddPersonDialog
+        <AddOrEditPersonDialog
           isOpen={showAddPersonDialog}
           onClose={toggleAddPersonDialog}
           handleSaveClick={handlePersonSave}

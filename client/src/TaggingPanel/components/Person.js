@@ -10,7 +10,7 @@ import { BlackMenu } from "GlobalComponents/StyledComponents";
 import { getImageFromFirebase } from "GlobalUtils/firebase";
 import React, { memo, useEffect, useState } from "react";
 import useMenu from "SrcPath/hooks/useMenu";
-import AddPersonDialog from "./AddPersonDialog";
+import AddOrEditPersonDialog from "./AddOrEditPersonDialog";
 import BookmarksList from "./BookmarksList";
 
 const imageStyles = { width: 100, height: 100 };
@@ -108,7 +108,7 @@ const Person = memo(({ person, handleEditPerson }) => {
         />
       )}
       {showEditPersonDialog && (
-        <AddPersonDialog
+        <AddOrEditPersonDialog
           person={person}
           isOpen={showEditPersonDialog}
           onClose={toggleEditPersonDialog}
