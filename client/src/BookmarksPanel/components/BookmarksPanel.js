@@ -5,6 +5,7 @@ import {
   updateTaggedPersonUrls,
 } from "GlobalActionCreators/index";
 import { STORAGE_KEYS } from "GlobalConstants/index";
+import { PANEL_DIMENSIONS } from "GlobalConstants/styles";
 import md5 from "md5";
 import { memo, useEffect, useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
@@ -316,7 +317,7 @@ const BookmarksPanel = memo(
       <DragDropContext onDragEnd={onDragEnd}>
         <Box
           sx={{
-            width: "792px",
+            width: PANEL_DIMENSIONS.width,
             paddingBottom: "8px",
           }}
         >

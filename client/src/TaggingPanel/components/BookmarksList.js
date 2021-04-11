@@ -10,13 +10,7 @@ import {
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import PanelHeading from "GlobalComponents/PanelHeading";
 import { BG_COLOR_DARK, COLOR } from "GlobalConstants/color";
-import React, {
-  forwardRef,
-  memo,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { forwardRef, memo, useCallback, useEffect, useState } from "react";
 import Ripples from "react-ripples";
 import { BookmarkExternal } from "SrcPath/BookmarksPanel/components/Bookmark";
 import { bookmarkRowStyles } from "SrcPath/BookmarksPanel/constants";

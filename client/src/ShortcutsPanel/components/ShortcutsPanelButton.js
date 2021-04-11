@@ -11,18 +11,18 @@ const ShortcutsPanelButton = memo(() => {
   const isSignedIn = useSelector((state) => state.isSignedIn);
   const history = useHistory();
 
-  const handleShowEditPanel = () => {
+  const handleOpenShortcutsPanel = () => {
     history.push(ROUTES.SHORTCUTS_PANEL);
   };
 
   return (
     <IconButton
-      aria-label="OpenRedirectionsPanel"
+      aria-label="OpenShortcutsPanel"
       component="span"
       style={getActiveDisabledColor(isSignedIn, COLOR.cyan)}
-      onClick={handleShowEditPanel}
+      onClick={handleOpenShortcutsPanel}
       disabled={!isSignedIn}
-      title={isSignedIn ? "Open Redirection Edit Panel" : undefined}
+      title={isSignedIn ? "Open Shortcuts Panel" : undefined}
     >
       <TuneTwoToneIcon fontSize="large" />
     </IconButton>

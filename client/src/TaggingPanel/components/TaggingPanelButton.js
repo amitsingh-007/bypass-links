@@ -3,7 +3,7 @@ import TagFacesTwoToneIcon from "@material-ui/icons/TagFacesTwoTone";
 import { COLOR } from "GlobalConstants/color";
 import { ROUTES } from "GlobalConstants/routes";
 import { getActiveDisabledColor } from "GlobalUtils/color";
-import React, { memo } from "react";
+import { memo } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 

@@ -1,8 +1,8 @@
 import { Box } from "@material-ui/core";
 import storage from "ChromeApi/storage";
-import Loader from "GlobalComponents/Loader";
 import { STORAGE_KEYS } from "GlobalConstants/index";
-import React, { useEffect, useState } from "react";
+import { PANEL_DIMENSIONS } from "GlobalConstants/styles";
+import { useEffect, useState } from "react";
 import { decryptionMapper } from "../mapper";
 import { setPersonsInStorage } from "../utils/index";
 import Header from "./Header";
@@ -57,21 +57,12 @@ const TaggingPanel = () => {
   };
 
   return (
-    <Box
-      sx={{ width: "max-content", display: "flex", flexDirection: "column" }}
-    >
-      <Header handleAddPerson={handleAddPerson} />
-      <Box sx={{ width: "792px", height: "540px" }}>
-        {isFetching ? (
-          <Loader
-            display="flex"
-            alignItems="center"
-            height="100%"
-            marginBottom="12px"
-          />
-        ) : (
+    <Box sx={{ width: PANEL_DIMENSIONS.width }}>
+      <Header isFetching={isFetching} handleAddPerson={handleAddPerson} />
+      <Box sx={{ minHeight: PANEL_DIMENSIONS.height }}>
+        {!isFetching ? (
           <Persons persons={persons} handleEditPerson={handleEditPerson} />
-        )}
+        ) : null}
       </Box>
     </Box>
   );

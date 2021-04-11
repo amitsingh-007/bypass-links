@@ -9,7 +9,6 @@ import {
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import CollectionsBookmarkTwoToneIcon from "@material-ui/icons/CollectionsBookmarkTwoTone";
 import CreateNewFolderTwoToneIcon from "@material-ui/icons/CreateNewFolderTwoTone";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import OpenInNewTwoToneIcon from "@material-ui/icons/OpenInNewTwoTone";
 import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
 import SyncTwoToneIcon from "@material-ui/icons/SyncTwoTone";
@@ -17,8 +16,9 @@ import tabs from "ChromeApi/tabs";
 import { displayToast, startHistoryMonitor } from "GlobalActionCreators/index";
 import Loader from "GlobalComponents/Loader";
 import PanelHeading from "GlobalComponents/PanelHeading";
-import { BG_COLOR_DARK, COLOR } from "GlobalConstants/color";
+import { COLOR } from "GlobalConstants/color";
 import { defaultBookmarkFolder } from "GlobalConstants/index";
+import { STICKY_HEADER } from "GlobalConstants/styles";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -38,10 +38,7 @@ import SearchInput from "./SearchInput";
 const useAccordionStyles = makeStyles({
   root: {
     margin: "0px !important",
-    backgroundColor: BG_COLOR_DARK,
-    position: "sticky",
-    top: 0,
-    zIndex: 1,
+    ...STICKY_HEADER,
   },
 });
 const useAccordionSummaryStyles = makeStyles({

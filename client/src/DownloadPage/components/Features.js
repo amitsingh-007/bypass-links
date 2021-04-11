@@ -12,7 +12,7 @@ import StarRoundedIcon from "@material-ui/icons/StarRounded";
 const features = [
   "Use Bypass Links browser extension to bypass timers, ads, captchas, etc on various websites to land directly on the target links.",
   "Manipulate browser history.",
-  "A fully customised edit panel to add/edit/delete/drag-n-drop custom redirection rules stored in Firebase.",
+  "A fully customised shortcuts panel to add/edit/delete/drag-n-drop custom redirection rules stored in Firebase.",
   "Full dark theme support with Modern UI",
   <>
     Visit
