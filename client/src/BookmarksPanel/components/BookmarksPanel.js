@@ -65,8 +65,8 @@ const BookmarksPanel = memo(
       setUrlList(urlList);
       setFolderList(folderList);
       setFolders(folders);
-      setIsFetching(false);
       setSelectedBookmarks([]);
+      setIsFetching(false);
     };
 
     useEffect(() => {
@@ -317,8 +317,6 @@ const BookmarksPanel = memo(
         <Box
           sx={{
             width: "792px",
-            display: "flex",
-            flexDirection: "column",
             paddingBottom: "8px",
           }}
         >
@@ -344,7 +342,7 @@ const BookmarksPanel = memo(
                 component="form"
                 noValidate
                 autoComplete="off"
-                sx={{ height: contentHeight }}
+                sx={{ minHeight: contentHeight }}
                 ref={provided.innerRef}
                 {...provided.droppableProps}
               >
