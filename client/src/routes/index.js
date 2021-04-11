@@ -7,13 +7,6 @@ export const HomePageRoute = (
   <Route exact path={ROUTES.HOMEPAGE} render={() => <Popup />} />
 );
 
-const EditPanel = lazy(() =>
-  import(/*  webpackChunkName: "edit-panel" */ "GlobalComponents/EditPanel")
-);
-export const EditPanelRoute = (
-  <Route exact path={ROUTES.EDIT_PANEL} render={() => <EditPanel />} />
-);
-
 const ManualHistoryPanel = lazy(() =>
   import(
     /*  webpackChunkName: "manual-history-panel" */ "GlobalComponents/ManualHistoryPanel"

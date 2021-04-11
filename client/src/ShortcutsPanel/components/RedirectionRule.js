@@ -17,7 +17,7 @@ const useStyles = makeStyles({
   input: { fontSize: "15px" },
 });
 
-export const RedirectionRule = memo(
+const RedirectionRule = memo(
   ({
     alias,
     website,
@@ -147,3 +147,5 @@ export const RedirectionRule = memo(
     );
   }
 );
+
+export default RedirectionRule;

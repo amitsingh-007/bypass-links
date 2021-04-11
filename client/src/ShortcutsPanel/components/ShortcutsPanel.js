@@ -11,9 +11,9 @@ import { syncRedirectionsToStorage } from "GlobalUtils/redirect";
 import { memo, useEffect, useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useHistory } from "react-router-dom";
-import Loader from "./Loader";
-import PanelHeading from "./PanelHeading";
-import { RedirectionRule } from "./RedirectionRule";
+import Loader from "GlobalComponents/Loader";
+import PanelHeading from "GlobalComponents/PanelHeading";
+import RedirectionRule from "./RedirectionRule";
 
 //Filter valid rules
 const validRules = (obj) => !!(obj && obj.alias && obj.website);

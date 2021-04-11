@@ -3,7 +3,7 @@ import { memo } from "react";
 import { ChromeExtension } from "./ChromeExtension";
 import Features from "./Features";
 import Heading from "./Heading";
-import { ReleaseInfo } from "./ReleaseInfo";
+import ReleaseInfo from "./ReleaseInfo";
 import Section from "./Section";
 
 const DownloadPage = memo(() => (

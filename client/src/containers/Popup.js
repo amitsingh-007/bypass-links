@@ -1,17 +1,17 @@
 import { Box, Typography } from "@material-ui/core/";
 import { Authenticate } from "GlobalComponents/Authenticate";
-import { EditPanelButton } from "GlobalComponents/EditPanelButton";
 import LastVisitedButton from "GlobalComponents/LastVisitedButton";
 import { ManualHistoryPanelButton } from "GlobalComponents/ManualHistoryPanelButton";
 import { OpenDefaultsButton } from "GlobalComponents/OpenDefaultsButton";
 import OpenForumLinks from "GlobalComponents/OpenForumLinks";
-import QuickBookmarkButton from "GlobalComponents/QuickBookmarkButton";
+import QuickBookmarkButton from "SrcPath/BookmarksPanel/components/QuickBookmarkButton";
 import { Row } from "GlobalComponents/Row";
 import { ToggleExtension } from "GlobalComponents/ToggleExtension";
 import { ToggleHistory } from "GlobalComponents/ToggleHistory";
 import { COLOR } from "GlobalConstants/color";
 import { memo } from "react";
 import BookmarksPanelButton from "SrcPath/BookmarksPanel/components/BookmarksPanelButton";
+import ShortcutsPanelButton from "SrcPath/ShortcutsPanel/components/ShortcutsPanelButton";
 import TaggingPanelButton from "SrcPath/TaggingPanel/components/TaggingPanelButton";
 
 export const Popup = memo(() => (
@@ -31,7 +31,7 @@ export const Popup = memo(() => (
     <ToggleHistory />
     <Row>
       <Authenticate />
-      <EditPanelButton />
+      <ShortcutsPanelButton />
       <BookmarksPanelButton />
     </Row>
     <Box>

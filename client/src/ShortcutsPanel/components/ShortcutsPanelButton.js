@@ -7,12 +7,12 @@ import { memo } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-export const EditPanelButton = memo(() => {
+const ShortcutsPanelButton = memo(() => {
   const isSignedIn = useSelector((state) => state.isSignedIn);
   const history = useHistory();
 
   const handleShowEditPanel = () => {
-    history.push(ROUTES.EDIT_PANEL);
+    history.push(ROUTES.SHORTCUTS_PANEL);
   };
 
   return (
@@ -28,3 +28,5 @@ export const EditPanelButton = memo(() => {
     </IconButton>
   );
 });
+
+export default ShortcutsPanelButton;

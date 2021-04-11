@@ -31,9 +31,11 @@ const Info = ({ info }) => (
   >{`Last Update: ${info}`}</Typography>
 );
 
-export const ReleaseInfo = memo(() => (
+const ReleaseInfo = memo(() => (
   <Box sx={containerProps}>
     <Info info={__RELEASE_DATE__} />
     <Info info={__EXT_VERSION__} />
   </Box>
 ));
+
+export default ReleaseInfo;

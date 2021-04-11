@@ -172,7 +172,7 @@ const getBackgroundConfigPlugins = () => {
 const downloadPageConfig = {
   ...commonConfig,
   name: "DownloadPage",
-  entry: "./src/index.js",
+  entry: "./src/downloadPageIndex.js",
   output: {
     path: PATHS.BUILD,
     filename: "js/[name].[chunkhash:9].js",
