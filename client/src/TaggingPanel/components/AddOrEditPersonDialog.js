@@ -2,7 +2,7 @@ import { Avatar, Box, TextField } from "@material-ui/core";
 import { EditDialog } from "GlobalComponents/Dialogs";
 import { getImageFromFirebase } from "GlobalUtils/firebase";
 import md5 from "md5";
-import React, { memo, useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import ImagePicker from "./ImagePicker";
 
 const imageStyles = { width: 200, height: 200 };

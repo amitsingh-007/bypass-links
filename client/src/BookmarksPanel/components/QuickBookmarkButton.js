@@ -14,7 +14,7 @@ import {
   getBookmarksObj,
   getFromHash,
 } from "SrcPath/BookmarksPanel/utils/bookmark";
-import { IconButtonLoader } from "./Loader";
+import { IconButtonLoader } from "../../components/Loader";
 
 const QuickBookmarkButton = memo(() => {
   const isSignedIn = useSelector((state) => state.isSignedIn);

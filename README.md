@@ -29,7 +29,7 @@ Head over to [My Github Page](https://amitsingh-007.github.io/bypass-links/) and
 
 - Set **custom redirections** for your websites in the Firebase Realtime Database.
 
-- A **fully customised edit panel** to add/edit/delete/drag-n-drop custom redirection rules stored in **Firebase**.
+- A **fully customised shortcuts panel** to add/edit/delete/drag-n-drop custom redirection rules stored in **Firebase**.
 
 - A **bookmarks panel** with **quick bookmark** button.
 

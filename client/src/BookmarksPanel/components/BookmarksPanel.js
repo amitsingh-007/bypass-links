@@ -5,6 +5,7 @@ import {
   updateTaggedPersonUrls,
 } from "GlobalActionCreators/index";
 import { STORAGE_KEYS } from "GlobalConstants/index";
+import { PANEL_DIMENSIONS } from "GlobalConstants/styles";
 import md5 from "md5";
 import { memo, useEffect, useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
@@ -65,8 +66,8 @@ const BookmarksPanel = memo(
       setUrlList(urlList);
       setFolderList(folderList);
       setFolders(folders);
-      setIsFetching(false);
       setSelectedBookmarks([]);
+      setIsFetching(false);
     };
 
     useEffect(() => {
@@ -316,9 +317,7 @@ const BookmarksPanel = memo(
       <DragDropContext onDragEnd={onDragEnd}>
         <Box
           sx={{
-            width: "792px",
-            display: "flex",
-            flexDirection: "column",
+            width: PANEL_DIMENSIONS.width,
             paddingBottom: "8px",
           }}
         >
@@ -344,7 +343,7 @@ const BookmarksPanel = memo(
                 component="form"
                 noValidate
                 autoComplete="off"
-                sx={{ height: contentHeight }}
+                sx={{ minHeight: contentHeight }}
                 ref={provided.innerRef}
                 {...provided.droppableProps}
               >

@@ -17,7 +17,7 @@ import PanelHeading from "GlobalComponents/PanelHeading";
 import { BG_COLOR_DARK, COLOR } from "GlobalConstants/color";
 import { FIREBASE_STORAGE_REF } from "GlobalConstants/index";
 import { uploadImageToFirebase } from "GlobalUtils/firebase";
-import React, { forwardRef, memo, useCallback, useRef, useState } from "react";
+import { forwardRef, memo, useCallback, useRef, useState } from "react";
 import Cropper from "react-easy-crop";
 import getCroppedImg from "../utils/cropImage";
 

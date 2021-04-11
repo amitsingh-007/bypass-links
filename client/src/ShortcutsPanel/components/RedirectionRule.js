@@ -1,23 +1,25 @@
-import {
-  Box,
-  Checkbox,
-  IconButton,
-  Input,
-  makeStyles,
-} from "@material-ui/core";
+import { Box, Checkbox, IconButton, TextField } from "@material-ui/core";
 import DeleteTwoToneIcon from "@material-ui/icons/DeleteTwoTone";
 import DoneAllTwoToneIcon from "@material-ui/icons/DoneAllTwoTone";
-import RestoreTwoToneIcon from "@material-ui/icons/RestoreTwoTone";
 import DragHandleTwoToneIcon from "@material-ui/icons/DragHandleTwoTone";
+import OpenInNewTwoToneIcon from "@material-ui/icons/OpenInNewTwoTone";
+import tabs from "ChromeApi/tabs";
+import { startHistoryMonitor } from "GlobalActionCreators/";
 import { COLOR } from "GlobalConstants/color";
+import { getActiveDisabledColor } from "GlobalUtils/color";
 import { memo, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
+import { useDispatch } from "react-redux";
+import { DEFAUT_RULE_ALIAS as DEFAULT_RULE_ALIAS } from "../constants";
 
-const useStyles = makeStyles({
-  input: { fontSize: "15px" },
-});
+const inputProps = {
+  style: {
+    fontSize: "15px",
+    padding: "4px 12px",
+  },
+};
 
-export const RedirectionRule = memo(
+const RedirectionRule = memo(
   ({
     alias,
     website,
@@ -27,6 +29,7 @@ export const RedirectionRule = memo(
     handleSaveRule,
     index,
   }) => {
+    const dispatch = useDispatch();
     const [ruleAlias, setRuleAlias] = useState(alias);
     const [ruleWebsite, setRuleWebsite] = useState(website);
     const [isDefaultRule, setIsDefaultRule] = useState(isDefault);
@@ -34,7 +37,6 @@ export const RedirectionRule = memo(
     const onWebsiteAliasInput = (event) => {
       setRuleAlias(event.target.value.trim());
     };
-
     const onWebsiteInput = (event) => {
       setRuleWebsite(event.target.value.trim());
     };
@@ -42,25 +44,22 @@ export const RedirectionRule = memo(
     const handleDefaultRuleChange = (event) => {
       setIsDefaultRule(event.target.checked);
     };
-
-    const handleResetClick = () => {
-      setRuleAlias(alias);
-      setRuleWebsite(website);
-    };
-
     const handleRemoveClick = () => {
       handleRemoveRule(pos);
     };
-
     const handleSaveClick = () => {
       handleSaveRule(ruleAlias, ruleWebsite, isDefaultRule, pos);
     };
+    const handleLinkOpen = () => {
+      dispatch(startHistoryMonitor());
+      tabs.create({ url: ruleWebsite, selected: false });
+    };
 
-    const classes = useStyles();
-    const isRuleSame =
+    const issameRule =
       alias === ruleAlias &&
       website === ruleWebsite &&
       isDefault === isDefaultRule;
+    const isRuleSaveActive = issameRule || ruleAlias === DEFAULT_RULE_ALIAS;
 
     return (
       <Draggable draggableId={`${alias}_${website}`} index={index}>
@@ -84,51 +83,41 @@ export const RedirectionRule = memo(
               onChange={handleDefaultRuleChange}
               style={COLOR.pink}
             />
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Box
-                sx={{
-                  marginRight: "8px",
-                  display: "inline-block",
-                  width: "30%",
-                }}
-              >
-                <Input
-                  id={alias}
-                  value={ruleAlias}
-                  onChange={onWebsiteAliasInput}
-                  size="small"
-                  fullWidth
-                  placeholder="Enter Alias"
-                  classes={{ input: classes.input }}
-                />
-              </Box>
-              <Box sx={{ display: "inline-block", flexGrow: 1 }}>
-                <Input
-                  id={ruleWebsite}
-                  value={ruleWebsite}
-                  onChange={onWebsiteInput}
-                  size="small"
-                  fullWidth
-                  placeholder="Enter Website"
-                  classes={{ input: classes.input }}
-                />
-              </Box>
-            </Box>
+            <TextField
+              id={alias}
+              value={ruleAlias}
+              onChange={onWebsiteAliasInput}
+              size="small"
+              placeholder="Enter Alias"
+              sx={{ marginRight: "8px" }}
+              inputProps={inputProps}
+              autoFocus={ruleAlias === DEFAULT_RULE_ALIAS}
+            />
+            <TextField
+              id={ruleWebsite}
+              value={ruleWebsite}
+              onChange={onWebsiteInput}
+              fullWidth
+              size="small"
+              placeholder="Enter Website"
+              inputProps={inputProps}
+            />
             <IconButton
-              style={COLOR.blue}
-              aria-label="Reset"
-              title="Reset"
+              aria-label="Open"
+              title="Open"
+              style={getActiveDisabledColor(ruleWebsite, COLOR.deepPurple)}
               edge="end"
-              onClick={handleResetClick}
+              disabled={!ruleWebsite}
+              onClick={handleLinkOpen}
             >
-              <RestoreTwoToneIcon />
+              <OpenInNewTwoToneIcon />
             </IconButton>
             <IconButton
               aria-label="Save"
               title="Save"
-              style={isRuleSame ? null : COLOR.green}
+              style={getActiveDisabledColor(!isRuleSaveActive, COLOR.green)}
               edge="end"
-              disabled={isRuleSame}
+              disabled={isRuleSaveActive}
               onClick={handleSaveClick}
             >
               <DoneAllTwoToneIcon />
@@ -147,3 +136,5 @@ export const RedirectionRule = memo(
     );
   }
 );
+
+export default RedirectionRule;

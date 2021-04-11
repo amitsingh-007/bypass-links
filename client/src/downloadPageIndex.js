@@ -2,14 +2,12 @@ import {
   createMuiTheme,
   CssBaseline,
   StylesProvider,
-  ThemeProvider,
+  ThemeProvider
 } from "@material-ui/core";
-import DownloadPage from "GlobalComponents/DownloadPage";
-import "GlobalStyles/download-page.scss";
-import { getRootPath } from "GlobalUtils/downloadPage";
-import "preact/devtools";
 import { StrictMode } from "react";
 import ReactDOM from "react-dom";
+import DownloadPage from "SrcPath/DownloadPage/components/DownloadPage";
+import "SrcPath/DownloadPage/styles/download-page.scss";
 
 const theme = createMuiTheme({
   typography: {

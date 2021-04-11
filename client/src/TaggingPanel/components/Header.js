@@ -3,16 +3,18 @@ import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import PersonAddTwoToneIcon from "@material-ui/icons/PersonAddTwoTone";
 import SyncTwoToneIcon from "@material-ui/icons/SyncTwoTone";
 import { displayToast } from "GlobalActionCreators/index";
+import Loader from "GlobalComponents/Loader";
 import PanelHeading from "GlobalComponents/PanelHeading";
 import { COLOR } from "GlobalConstants/color";
 import { ROUTES } from "GlobalConstants/routes";
-import React, { memo, useState } from "react";
+import { STICKY_HEADER } from "GlobalConstants/styles";
+import { memo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { syncPersonsFirebaseWithStorage } from "../utils/sync";
 import AddOrEditPersonDialog from "./AddOrEditPersonDialog";
 
-const Header = memo(({ handleAddPerson }) => {
+const Header = memo(({ isFetching, handleAddPerson }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [isSyncing, setIsSyncing] = useState(false);
@@ -52,6 +54,7 @@ const Header = memo(({ handleAddPerson }) => {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+          ...STICKY_HEADER,
         }}
       >
         <Box>
@@ -86,6 +89,14 @@ const Header = memo(({ handleAddPerson }) => {
               htmlColor={COLOR.orange.color}
             />
           </IconButton>
+          {isFetching && (
+            <Loader
+              loaderSize={30}
+              padding="12px"
+              display="inline"
+              disableShrink
+            />
+          )}
         </Box>
         <PanelHeading heading="TAGGING PANEL" />
       </Box>

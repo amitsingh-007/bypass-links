@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import { BlackMenu } from "GlobalComponents/StyledComponents";
 import { getImageFromFirebase } from "GlobalUtils/firebase";
-import React, { memo, useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import useMenu from "SrcPath/hooks/useMenu";
 import AddOrEditPersonDialog from "./AddOrEditPersonDialog";
 import BookmarksList from "./BookmarksList";

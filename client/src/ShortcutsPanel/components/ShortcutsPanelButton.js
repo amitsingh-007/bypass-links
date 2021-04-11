@@ -7,24 +7,26 @@ import { memo } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-export const EditPanelButton = memo(() => {
+const ShortcutsPanelButton = memo(() => {
   const isSignedIn = useSelector((state) => state.isSignedIn);
   const history = useHistory();
 
-  const handleShowEditPanel = () => {
-    history.push(ROUTES.EDIT_PANEL);
+  const handleOpenShortcutsPanel = () => {
+    history.push(ROUTES.SHORTCUTS_PANEL);
   };
 
   return (
     <IconButton
-      aria-label="OpenRedirectionsPanel"
+      aria-label="OpenShortcutsPanel"
       component="span"
       style={getActiveDisabledColor(isSignedIn, COLOR.cyan)}
-      onClick={handleShowEditPanel}
+      onClick={handleOpenShortcutsPanel}
       disabled={!isSignedIn}
-      title={isSignedIn ? "Open Redirection Edit Panel" : undefined}
+      title={isSignedIn ? "Open Shortcuts Panel" : undefined}
     >
       <TuneTwoToneIcon fontSize="large" />
     </IconButton>
   );
 });
+
+export default ShortcutsPanelButton;

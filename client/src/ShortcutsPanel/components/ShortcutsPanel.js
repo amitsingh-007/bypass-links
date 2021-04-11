@@ -1,22 +1,25 @@
-import { Box, IconButton } from "@material-ui/core";
-import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
-import PlaylistAddTwoToneIcon from "@material-ui/icons/PlaylistAddTwoTone";
-import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
+import { Box } from "@material-ui/core";
 import storage from "ChromeApi/storage";
-import { COLOR } from "GlobalConstants/color";
-import { FIREBASE_DB_REF, STORAGE_KEYS } from "GlobalConstants/index";
+import { displayToast } from "GlobalActionCreators/";
+import {
+  FIREBASE_DB_REF,
+  STORAGE_KEYS,
+} from "GlobalConstants/index";
 import { ROUTES } from "GlobalConstants/routes";
+import { PANEL_DIMENSIONS } from "GlobalConstants/styles";
 import { saveDataToFirebase } from "GlobalUtils/firebase";
 import { syncRedirectionsToStorage } from "GlobalUtils/redirect";
 import { memo, useEffect, useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import Loader from "./Loader";
-import PanelHeading from "./PanelHeading";
-import { RedirectionRule } from "./RedirectionRule";
+import { DEFAUT_RULE_ALIAS } from "../constants";
+import Header from "./Header";
+import RedirectionRule from "./RedirectionRule";
 
 //Filter valid rules
-const validRules = (obj) => !!(obj && obj.alias && obj.website);
+const getValidRules = (obj) =>
+  Boolean(obj && obj.alias && obj.alias !== DEFAUT_RULE_ALIAS && obj.website);
 
 //Map array into object so as to store in firebase
 const reducer = (obj, { alias, website, isDefault }, index) => {
@@ -28,17 +31,18 @@ const reducer = (obj, { alias, website, isDefault }, index) => {
   return obj;
 };
 
-const EditPanel = memo(() => {
+const ShortcutsPanel = memo(() => {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const [redirections, setRedirections] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
-  const history = useHistory();
 
   useEffect(() => {
     storage
       .get([STORAGE_KEYS.redirections])
       .then(({ [STORAGE_KEYS.redirections]: redirections }) => {
         const modifiedRedirections = Object.entries(redirections).map(
-          ([key, { alias, website, isDefault }]) => ({
+          ([_key, { alias, website, isDefault }]) => ({
             alias: atob(alias),
             website: atob(website),
             isDefault,
@@ -55,22 +59,29 @@ const EditPanel = memo(() => {
 
   const handleSave = async () => {
     setIsFetching(true);
-    console.log("Saving these redirection rules to Firebase", redirections);
-    const redirectionsObj = redirections.filter(validRules).reduce(reducer, {});
+    const validRules = redirections.filter(getValidRules);
+    console.log("Saving these redirection rules to Firebase", validRules);
+    const shortcutsObj = validRules.reduce(reducer, {});
     const isSaveSuccess = await saveDataToFirebase(
-      redirectionsObj,
+      shortcutsObj,
       FIREBASE_DB_REF.redirections,
       syncRedirectionsToStorage
     );
-    setIsFetching(false);
     if (isSaveSuccess) {
-      handleClose();
+      setRedirections(validRules);
+      dispatch(
+        displayToast({
+          message: "Saved succesfully",
+          duration: 1500,
+        })
+      );
     }
+    setIsFetching(false);
   };
 
   const handleAddRule = () => {
     redirections.unshift({
-      alias: "",
+      alias: DEFAUT_RULE_ALIAS,
       website: "",
       isDefault: false,
     });
@@ -109,78 +120,48 @@ const EditPanel = memo(() => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Box
-        sx={{ width: "max-content", display: "flex", flexDirection: "column" }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <Box>
-            <IconButton
-              aria-label="Discard"
-              component="span"
-              style={COLOR.red}
-              onClick={handleClose}
-              title="Discard and Close"
-            >
-              <ArrowBackTwoToneIcon fontSize="large" />
-            </IconButton>
-            <IconButton
-              aria-label="Save"
-              component="span"
-              style={COLOR.green}
-              onClick={handleSave}
-              title="Save and Close"
-            >
-              <SaveTwoToneIcon fontSize="large" />
-            </IconButton>
-            <IconButton
-              aria-label="Add"
-              component="span"
-              style={COLOR.blue}
-              onClick={handleAddRule}
-              title="Add Rule"
-            >
-              <PlaylistAddTwoToneIcon fontSize="large" />
-            </IconButton>
-          </Box>
-          <PanelHeading heading="REDIRECTION PANEL" />
-        </Box>
-        {isFetching ? <Loader width="621px" marginBottom="12px" /> : null}
-        {!isFetching && redirections && redirections.length > 0 ? (
+      <Box sx={{ width: PANEL_DIMENSIONS.width }}>
+        <Header
+          isFetching={isFetching}
+          handleClose={handleClose}
+          handleSave={handleSave}
+          handleAddRule={handleAddRule}
+        />
+        {
           <Droppable droppableId="redirections-list">
             {(provided) => (
               <form
                 noValidate
                 autoComplete="off"
-                style={{ paddingLeft: "12px" }}
+                style={{
+                  paddingLeft: "12px",
+                  minHeight: PANEL_DIMENSIONS.height,
+                }}
                 ref={provided.innerRef}
                 {...provided.droppableProps}
               >
-                {redirections.map(({ alias, website, isDefault }, index) => (
-                  <RedirectionRule
-                    alias={alias}
-                    website={website}
-                    isDefault={isDefault}
-                    key={`${alias}_${website}`}
-                    pos={index}
-                    handleRemoveRule={handleRemoveRule}
-                    handleSaveRule={handleSaveRule}
-                    index={index}
-                  />
-                ))}
+                {!isFetching && redirections && redirections.length > 0
+                  ? redirections.map(({ alias, website, isDefault }, index) => (
+                      <RedirectionRule
+                        alias={alias}
+                        website={website}
+                        isDefault={isDefault}
+                        key={`${alias}_${website}`}
+                        pos={index}
+                        handleRemoveRule={handleRemoveRule}
+                        handleSaveRule={handleSaveRule}
+                        index={index}
+                      />
+                    ))
+                  : null}
                 {provided.placeholder}
               </form>
             )}
           </Droppable>
-        ) : null}
+        }
       </Box>
     </DragDropContext>
   );
 });
 
-export default EditPanel;
+export default ShortcutsPanel;
