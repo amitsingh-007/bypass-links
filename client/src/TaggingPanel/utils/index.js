@@ -16,12 +16,7 @@ export const setPersonsInStorage = async (persons) => {
   });
 };
 
-export const getPersonFromUid = async (personUid) => {
-  if (!personUid || personUid === DEFAULT_PERSON_UID) {
-    return {};
-  }
-  const persons = await getPersons();
-  const person = persons[personUid];
+const decodePerson = (person) => {
   if (!person) {
     return {};
   }
@@ -33,10 +28,19 @@ export const getPersonFromUid = async (personUid) => {
   };
 };
 
+export const getPersonFromUid = async (personUid) => {
+  if (!personUid || personUid === DEFAULT_PERSON_UID) {
+    return {};
+  }
+  const persons = await getPersons();
+  const person = persons[personUid];
+  return decodePerson(person);
+};
+
 export const getAllPersonNames = async () => {
   const persons = await getPersons();
-  return Object.entries(persons).map(([_key, person]) => ({
-    uid: person.uid,
-    name: atob(person.name),
-  }));
+  return Object.entries(persons).map(([_key, person]) => decodePerson(person));
 };
+
+export const getSortedPersons = (persons) =>
+  persons.sort((a, b) => a.name.localeCompare(b.name));

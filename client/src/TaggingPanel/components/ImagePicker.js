@@ -134,6 +134,7 @@ const ImagePicker = memo(({ uid, isOpen, onDialogClose, handleImageSave }) => {
         <Box sx={{ padding: "0 20px" }}>
           <Box sx={{ display: "flex", marginTop: "18px" }}>
             <TextField
+              autoFocus
               inputRef={inputImageUrlRef}
               fullWidth
               size="small"

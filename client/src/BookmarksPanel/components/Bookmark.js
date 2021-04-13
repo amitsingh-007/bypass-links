@@ -177,24 +177,26 @@ const Bookmark = memo(
             </Typography>
           </BlackTooltip>
         </Box>
-        <BlackMenu
-          open={isMenuOpen}
-          onClose={onMenuClose}
-          anchorReference="anchorPosition"
-          anchorPosition={menuPos}
-        >
-          {menuOptionsList.map(({ text, onClick }) => (
-            <MenuItem
-              key={text}
-              onClick={() => {
-                onClick();
-                onMenuClose();
-              }}
-            >
-              {text}
-            </MenuItem>
-          ))}
-        </BlackMenu>
+        {!isExternalPage && (
+          <BlackMenu
+            open={isMenuOpen}
+            onClose={onMenuClose}
+            anchorReference="anchorPosition"
+            anchorPosition={menuPos}
+          >
+            {menuOptionsList.map(({ text, onClick }) => (
+              <MenuItem
+                key={text}
+                onClick={() => {
+                  onClick();
+                  onMenuClose();
+                }}
+              >
+                {text}
+              </MenuItem>
+            ))}
+          </BlackMenu>
+        )}
         {openEditDialog && (
           <BookmarkDialog
             url={url}

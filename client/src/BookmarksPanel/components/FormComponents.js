@@ -14,12 +14,15 @@ import runtime from "ChromeApi/runtime";
 import { EditDialog } from "GlobalComponents/Dialogs";
 import { COLOR } from "GlobalConstants/color";
 import { getImageFromFirebase } from "GlobalUtils/firebase";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { DEFAULT_PERSON_UID } from "SrcPath/TaggingPanel/constants";
 import {
   getAllPersonNames,
   getPersonFromUid,
+  getSortedPersons,
 } from "SrcPath/TaggingPanel/utils";
+
+const DEFAUT_PERSON_TEXT = "Select Person";
 
 export const FolderDropdown = ({
   folder,
@@ -45,38 +48,72 @@ export const FolderDropdown = ({
   );
 };
 
-const PersonDropdown = ({
-  personUid = DEFAULT_PERSON_UID,
-  personList,
-  handlePersonChange,
-}) => {
-  if (!personList || personList.length < 1) {
-    return null;
-  }
-  const menuItems = personList.map(({ uid, name }) => (
-    <MenuItem key={uid} value={uid}>
-      {name}
+const getPersonSelectValue = (uid, name) => `${uid}|${name}`;
+
+const getPersonsMenuItems = (persons) => {
+  const menuItems = persons.map(({ uid, name, imageUrl }) => (
+    <MenuItem key={uid} value={getPersonSelectValue(uid, name)}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Avatar alt={name} src={imageUrl} />
+        <Box component="span" sx={{ marginLeft: "10px" }}>
+          {name}
+        </Box>
+      </Box>
     </MenuItem>
   ));
   menuItems.unshift(
-    <MenuItem key={DEFAULT_PERSON_UID} value={DEFAULT_PERSON_UID}>
-      Select Person
+    <MenuItem
+      key={DEFAULT_PERSON_UID}
+      value={getPersonSelectValue(DEFAULT_PERSON_UID, DEFAUT_PERSON_TEXT)}
+    >
+      <Avatar alt="None" />
+      <Box component="span" sx={{ marginLeft: "10px" }}>
+        {DEFAUT_PERSON_TEXT}
+      </Box>
     </MenuItem>
   );
-  return (
-    <FormControl
-      variant="filled"
-      size="small"
-      color="secondary"
-      sx={{ width: "100%" }}
-    >
-      <InputLabel id="persons">Person</InputLabel>
-      <Select labelId="persons" value={personUid} onChange={handlePersonChange}>
-        {menuItems}
-      </Select>
-    </FormControl>
-  );
+  return menuItems;
 };
+
+const PersonDropdown = memo(
+  ({ personUid = DEFAULT_PERSON_UID, personList = [], handlePersonChange }) => {
+    const selectedPerson = personList.find(
+      (person) => personUid === person.uid
+    );
+    const sortedPersons = getSortedPersons(personList);
+    const menuItems = getPersonsMenuItems(sortedPersons);
+    return (
+      <FormControl
+        variant="filled"
+        size="small"
+        color="secondary"
+        sx={{ width: "100%" }}
+      >
+        <InputLabel id="persons">Person</InputLabel>
+        <Select
+          labelId="persons"
+          value={getPersonSelectValue(
+            personUid,
+            selectedPerson?.name ?? DEFAUT_PERSON_TEXT
+          )}
+          onChange={handlePersonChange}
+          MenuProps={{ sx: { maxHeight: "270px" } }}
+          renderValue={(selectedValue) => (
+            <Box>{selectedValue.split("|")[1]}</Box>
+          )}
+        >
+          {menuItems}
+        </Select>
+      </FormControl>
+    );
+  }
+);
 
 export const BookmarkDialog = ({
   url: origUrl,
@@ -111,8 +148,18 @@ export const BookmarkDialog = ({
   };
 
   const initPersonList = async () => {
+    setIsFetchingPerson(true);
     const persons = await getAllPersonNames();
-    setPersonList(persons);
+    if (persons) {
+      const personsWithImageUrl = await Promise.all(
+        persons.map(async (person) => {
+          const imageUrl = await getImageFromFirebase(person.imageRef);
+          return { ...person, imageUrl };
+        })
+      );
+      setPersonList(personsWithImageUrl);
+    }
+    setIsFetchingPerson(false);
   };
 
   useEffect(() => {
@@ -127,7 +174,7 @@ export const BookmarkDialog = ({
     setFolder(event.target.value);
   };
   const handlePersonChange = (event) => {
-    const uid = event.target.value;
+    const uid = event.target.value.split("|")[0];
     initPerson(uid);
   };
 
