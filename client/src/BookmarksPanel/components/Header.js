@@ -23,16 +23,12 @@ import { getActiveDisabledColor } from "GlobalUtils/color";
 import { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { DEFAULT_PERSON_UID } from "SrcPath/TaggingPanel/constants";
 import { getBookmarksPanelUrl } from "../utils";
 import { syncBookmarksFirebaseWithStorage } from "../utils/bookmark";
+import { BookmarkDialog, BulkBookmarksMoveDialog } from "./BookmarkDialog";
 import ConfirmationDialog from "./ConfirmationDialog";
-import {
-  BookmarkDialog,
-  BulkBookmarksMoveDialog,
-  FolderDialog,
-  FolderDropdown,
-} from "./FormComponents";
+import { FolderDropdown } from "./Dropdown";
+import { FolderDialog } from "./FolderDialog";
 import SearchInput from "./SearchInput";
 
 const useAccordionStyles = makeStyles({
@@ -182,8 +178,8 @@ const Header = memo(
       handleCreateNewFolder(folderName);
       toggleNewFolderDialog();
     };
-    const handleNewBookmarkSave = (url, title, folder, personUid) => {
-      handleAddNewBookmark(url, title, folder, personUid);
+    const handleNewBookmarkSave = (url, title, folder, taggedPersons) => {
+      handleAddNewBookmark(url, title, folder, taggedPersons);
       toggleBookmarkEditDialog();
     };
 
@@ -302,7 +298,6 @@ const Header = memo(
                   folder={curFolder}
                   folderList={folderNamesList}
                   handleFolderChange={onFolderChange}
-                  variant="outlined"
                   hideLabel
                 />
               </Box>
@@ -320,7 +315,6 @@ const Header = memo(
           url={url}
           origTitle={title}
           origFolder={defaultBookmarkFolder}
-          origPersonUid={DEFAULT_PERSON_UID}
           headerText="Add bookmark"
           folderList={folderNamesList}
           handleSave={handleNewBookmarkSave}

@@ -4,7 +4,7 @@ import { STORAGE_KEYS } from "GlobalConstants/index";
 import { PANEL_DIMENSIONS } from "GlobalConstants/styles";
 import { useEffect, useState } from "react";
 import { decryptionMapper } from "../mapper";
-import { setPersonsInStorage } from "../utils/index";
+import { getSortedPersons, setPersonsInStorage } from "../utils/index";
 import Header from "./Header";
 import Persons from "./Persons";
 
@@ -56,12 +56,16 @@ const TaggingPanel = () => {
     await handleSave(newPersons);
   };
 
+  const sortedPersons = getSortedPersons(persons);
   return (
     <Box sx={{ width: PANEL_DIMENSIONS.width }}>
       <Header isFetching={isFetching} handleAddPerson={handleAddPerson} />
       <Box sx={{ minHeight: PANEL_DIMENSIONS.height }}>
         {!isFetching ? (
-          <Persons persons={persons} handleEditPerson={handleEditPerson} />
+          <Persons
+            persons={sortedPersons}
+            handleEditPerson={handleEditPerson}
+          />
         ) : null}
       </Box>
     </Box>

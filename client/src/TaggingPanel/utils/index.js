@@ -1,6 +1,6 @@
 import storage from "ChromeApi/storage";
 import { STORAGE_KEYS } from "GlobalConstants/index";
-import { DEFAULT_PERSON_UID } from "../constants";
+import { getImageFromFirebase } from "GlobalUtils/firebase";
 
 export const getPersons = async () => {
   const { [STORAGE_KEYS.persons]: persons } = await storage.get(
@@ -16,12 +16,7 @@ export const setPersonsInStorage = async (persons) => {
   });
 };
 
-export const getPersonFromUid = async (personUid) => {
-  if (!personUid || personUid === DEFAULT_PERSON_UID) {
-    return {};
-  }
-  const persons = await getPersons();
-  const person = persons[personUid];
+const decodePerson = (person) => {
   if (!person) {
     return {};
   }
@@ -33,10 +28,30 @@ export const getPersonFromUid = async (personUid) => {
   };
 };
 
-export const getAllPersonNames = async () => {
+export const getPersonsFromUids = async (uids) => {
+  if (!uids) {
+    return [];
+  }
+  const persons = await getAllDecodedPersons();
+  return persons.filter((person) => uids.includes(person.uid));
+};
+
+export const getAllDecodedPersons = async () => {
   const persons = await getPersons();
-  return Object.entries(persons).map(([_key, person]) => ({
-    uid: person.uid,
-    name: atob(person.name),
-  }));
+  return Object.entries(persons).map(([_key, person]) => decodePerson(person));
+};
+
+export const getSortedPersons = (persons) =>
+  persons.sort((a, b) => a.name.localeCompare(b.name));
+
+export const getPersonsWithImageUrl = async (persons) => {
+  if (!persons) {
+    return [];
+  }
+  return await Promise.all(
+    persons.map(async (person) => {
+      const imageUrl = await getImageFromFirebase(person.imageRef);
+      return { ...person, imageUrl };
+    })
+  );
 };

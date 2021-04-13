@@ -17,8 +17,6 @@ export const CircularTooltip = withStyles(() => ({
   },
 }))(BlackTooltip);
 
-export const BlackMenu = withStyles(() => ({
-  paper: {
-    backgroundColor: "#181a1b",
-  },
+export const RightClickMenu = withStyles(() => ({
+  paper: { minWidth: "150px" },
 }))(Menu);

@@ -11,7 +11,6 @@ import { memo, useEffect, useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
 import { getBookmarksObj } from "SrcPath/BookmarksPanel/utils/bookmark";
-import { DEFAULT_PERSON_UID } from "SrcPath/TaggingPanel/constants";
 import {
   getAllFolderNames,
   getFaviconUrl,
@@ -36,7 +35,7 @@ const mapper = ([_key, { isDir, hash }], urlList, folderList) => {
   } else {
     obj.url = decodeURIComponent(atob(content.url));
     obj.title = decodeURIComponent(atob(content.title));
-    obj.personUid = content.personUid;
+    obj.taggedPersons = content.taggedPersons || [];
     //To preload images on client side runtime
     new Image().src = getFaviconUrl(obj.url);
   }
@@ -84,15 +83,15 @@ const BookmarksPanel = memo(
       setSelectedBookmarks([...selectedBookmarks]);
     };
 
-    const handleAddNewBookmark = (url, title, folder, personUid) => {
+    const handleAddNewBookmark = (url, title, folder, taggedPersons) => {
       handleBookmarkSave(
         url,
         title,
         folderContext,
         folder,
         contextBookmarks.length,
-        DEFAULT_PERSON_UID,
-        personUid
+        [],
+        taggedPersons
       );
     };
 
@@ -112,13 +111,13 @@ const BookmarksPanel = memo(
     };
 
     const updatePersonUrls = (
-      prevUid = DEFAULT_PERSON_UID,
-      newUid = DEFAULT_PERSON_UID,
+      prevTaggedPersons = [],
+      newTaggedPersons = [],
       urlHash
     ) => {
       setUpdateTaggedPersons([
         ...updateTaggedPersons,
-        { prevUid, newUid, urlHash },
+        { prevTaggedPersons, newTaggedPersons, urlHash },
       ]);
     };
 
@@ -128,20 +127,20 @@ const BookmarksPanel = memo(
       oldFolder,
       newFolder,
       pos,
-      prevPersonUid,
-      personUid
+      prevTaggedPersons,
+      newTaggedPersons
     ) => {
       const isFolderChange = oldFolder !== newFolder;
       const isDir = false;
       const urlHash = md5(url);
       const newFolderHash = md5(newFolder);
       //Update url in tagged persons
-      updatePersonUrls(prevPersonUid, personUid, urlHash);
+      updatePersonUrls(prevTaggedPersons, newTaggedPersons, urlHash);
       //Update urlList with new values
       urlList[urlHash] = {
         url: btoa(encodeURIComponent(url)),
         title: btoa(encodeURIComponent(title)),
-        personUid,
+        taggedPersons: newTaggedPersons,
         parentHash: newFolderHash,
       };
       setUrlList({ ...urlList });
@@ -153,7 +152,12 @@ const BookmarksPanel = memo(
         setFolders({ ...folders });
         newBookmarks.splice(pos, 1);
       } else {
-        newBookmarks[pos] = { url, title, personUid, isDir };
+        newBookmarks[pos] = {
+          url,
+          title,
+          taggedPersons: newTaggedPersons,
+          isDir,
+        };
       }
       setContextBookmarks([...newBookmarks]);
       setIsSaveButtonActive(true);
@@ -190,11 +194,7 @@ const BookmarksPanel = memo(
     const handleUrlRemove = (pos, url) => {
       const urlHash = md5(url);
       //Update url in tagged persons
-      updatePersonUrls(
-        contextBookmarks[pos].personUid,
-        DEFAULT_PERSON_UID,
-        urlHash
-      );
+      updatePersonUrls(contextBookmarks[pos].taggedPersons, [], urlHash);
       //Remove from current context folder
       contextBookmarks.splice(pos, 1);
       setContextBookmarks([...contextBookmarks]);
@@ -259,8 +259,8 @@ const BookmarksPanel = memo(
           obj[hash] = data;
         } else {
           taggedPersonData.push({
-            prevUid: obj[hash].personUid,
-            newUid: DEFAULT_PERSON_UID,
+            prevTaggedPersons: data.taggedPersons,
+            newTaggedPersons: [],
             urlHash: hash,
           });
         }
@@ -349,7 +349,7 @@ const BookmarksPanel = memo(
               >
                 {shouldRenderBookmarks(folders, contextBookmarks) &&
                   contextBookmarks.map(
-                    ({ url, title, name, personUid, isDir }, index) =>
+                    ({ url, title, name, taggedPersons, isDir }, index) =>
                       isDir ? (
                         <Folder
                           key={name}
@@ -367,7 +367,7 @@ const BookmarksPanel = memo(
                           isDir={isDir}
                           url={url}
                           title={title}
-                          personUid={personUid}
+                          taggedPersons={taggedPersons}
                           isSelected={Boolean(selectedBookmarks[index])}
                           folder={folderContext}
                           folderNamesList={folderNamesList}

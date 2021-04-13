@@ -1,14 +1,14 @@
 import { Box, MenuItem, Typography } from "@material-ui/core";
 import FolderTwoToneIcon from "@material-ui/icons/FolderTwoTone";
 import { displayToast } from "GlobalActionCreators/";
-import { BlackMenu } from "GlobalComponents/StyledComponents";
+import { RightClickMenu } from "GlobalComponents/StyledComponents";
 import { COLOR } from "GlobalConstants/color";
 import { memo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import useMenu from "SrcPath/hooks/useMenu";
 import { getBookmarksPanelUrl } from "../utils";
-import { FolderDialog } from "./FormComponents";
+import { FolderDialog } from "./FolderDialog";
 import withBookmarkRow from "./withBookmarkRow";
 
 const getTitleStyles = (isEmpty) => ({
@@ -81,7 +81,7 @@ const Folder = memo(
           isOpen={openEditDialog}
           onClose={toggleEditDialog}
         />
-        <BlackMenu
+        <RightClickMenu
           open={isMenuOpen}
           onClose={onMenuClose}
           anchorReference="anchorPosition"
@@ -98,7 +98,7 @@ const Folder = memo(
               {text}
             </MenuItem>
           ))}
-        </BlackMenu>
+        </RightClickMenu>
       </>
     );
   }

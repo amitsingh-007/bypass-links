@@ -6,7 +6,7 @@ bookmarks : {
         foldername_hash : { name, parentHash }
      },
     urlList : {
-        url_hash : { url, title, personUid, parentHash }
+        url_hash : { url, title, taggedPersons, parentHash }
     },
     folders : {
         foldername_hash : [

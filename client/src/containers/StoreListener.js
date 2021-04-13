@@ -1,7 +1,6 @@
 import storage from "ChromeApi/storage";
 import { memo, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { DEFAULT_PERSON_UID } from "SrcPath/TaggingPanel/constants";
 import {
   getPersons,
   setPersonsInStorage,
@@ -19,8 +18,27 @@ export const startHistoryWatch = async () => {
     return;
   }
   await storage.set({
-    historyStartTime: new Date() - THIRTY_SECONDS, //to compensate for open defaults
+    historyStartTime: new Date() - THIRTY_SECONDS,
   });
+};
+
+const getSeparatedPersons = (prevPersons, newPersons) => {
+  var prevPersonsSet = new Set(prevPersons);
+  var newPersonsSet = new Set(newPersons);
+  const unchangedPersons = [...prevPersons].filter((uid) =>
+    newPersonsSet.has(uid)
+  );
+  const removedPersons = [...prevPersons].filter(
+    (uid) => !newPersonsSet.has(uid)
+  );
+  const addedPersons = [...newPersons].filter(
+    (uid) => !prevPersonsSet.has(uid)
+  );
+  return {
+    removedPersons,
+    addedPersons,
+    unchangedPersons,
+  };
 };
 
 const updateUrlsInTaggedPersons = async (updates) => {
@@ -28,27 +46,31 @@ const updateUrlsInTaggedPersons = async (updates) => {
     return;
   }
   const persons = await getPersons();
-  updates.forEach(({ prevUid, newUid, urlHash }) => {
+  updates.forEach(({ prevTaggedPersons, newTaggedPersons, urlHash }) => {
+    const { removedPersons, addedPersons } = getSeparatedPersons(
+      prevTaggedPersons,
+      newTaggedPersons
+    );
     //Do nothing if no change
-    if (prevUid === newUid) {
+    if (!removedPersons.length && !addedPersons.length) {
       return;
     }
-    //Remove hash from prevUid
-    if (prevUid !== DEFAULT_PERSON_UID || newUid === DEFAULT_PERSON_UID) {
-      const { taggedUrls } = persons[prevUid];
+    //Remove urlHash for removed persons
+    removedPersons.forEach((personUid) => {
+      const { taggedUrls } = persons[personUid];
       if (!taggedUrls || taggedUrls.length < 1) {
-        throw new Error(`No taggedUrls found against uid: ${prevUid}`);
+        throw new Error(`No taggedUrls found against uid: ${personUid}`);
       }
-      persons[prevUid].taggedUrls = taggedUrls.filter(
+      persons[personUid].taggedUrls = taggedUrls.filter(
         (hash) => hash !== urlHash
       );
-    }
-    //Add hash to newUid
-    if (prevUid === DEFAULT_PERSON_UID || newUid !== DEFAULT_PERSON_UID) {
-      const taggedUrls = persons[newUid].taggedUrls || [];
+    });
+    //Add urlHash to added persons
+    addedPersons.forEach((personUid) => {
+      const taggedUrls = persons[personUid].taggedUrls || [];
       taggedUrls.push(urlHash);
-      persons[newUid].taggedUrls = taggedUrls;
-    }
+      persons[personUid].taggedUrls = taggedUrls;
+    });
   });
   await setPersonsInStorage(persons);
 };

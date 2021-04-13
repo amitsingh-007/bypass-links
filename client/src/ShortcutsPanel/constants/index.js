@@ -1,1 +1,1 @@
-export const DEFAUT_RULE_ALIAS = "http:///";
+export const DEFAULT_RULE_ALIAS = "http:///";

@@ -6,17 +6,15 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const position = {
-  vertical: "top",
-  horizontal: "right",
+  vertical: "bottom",
+  horizontal: "left",
 };
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    padding: "8px",
-  },
+  root: { padding: "0 8px" },
 }));
 
-const SlideTransition = (props) => <Slide {...props} direction="left" />;
+const SlideTransition = (props) => <Slide {...props} direction="right" />;
 
 const Toast = () => {
   const classes = useStyles();

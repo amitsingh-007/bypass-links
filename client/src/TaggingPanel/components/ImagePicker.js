@@ -14,7 +14,7 @@ import {
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import imageCompression from "browser-image-compression";
 import PanelHeading from "GlobalComponents/PanelHeading";
-import { BG_COLOR_DARK, COLOR } from "GlobalConstants/color";
+import { COLOR } from "GlobalConstants/color";
 import { FIREBASE_STORAGE_REF } from "GlobalConstants/index";
 import { uploadImageToFirebase } from "GlobalUtils/firebase";
 import { forwardRef, memo, useCallback, useRef, useState } from "react";
@@ -85,10 +85,9 @@ const ImagePicker = memo(({ uid, isOpen, onDialogClose, handleImageSave }) => {
       open={isOpen}
       onClose={onClose}
       TransitionComponent={Transition}
-      sx={{ bgcolor: BG_COLOR_DARK }}
     >
       {isUploadingImage && <LinearProgress color="secondary" />}
-      <DialogTitle sx={{ padding: "0 6px", bgcolor: BG_COLOR_DARK }}>
+      <DialogTitle sx={{ padding: "0 6px" }}>
         <Box
           sx={{
             display: "flex",
@@ -108,7 +107,7 @@ const ImagePicker = memo(({ uid, isOpen, onDialogClose, handleImageSave }) => {
           <PanelHeading heading="UPLOAD IMAGE" />
         </Box>
       </DialogTitle>
-      <DialogContent sx={{ bgcolor: BG_COLOR_DARK }}>
+      <DialogContent>
         <Box
           sx={{
             position: "relative",
@@ -134,17 +133,18 @@ const ImagePicker = memo(({ uid, isOpen, onDialogClose, handleImageSave }) => {
         <Box sx={{ padding: "0 20px" }}>
           <Box sx={{ display: "flex", marginTop: "18px" }}>
             <TextField
+              autoFocus
               inputRef={inputImageUrlRef}
               fullWidth
               size="small"
               label="Image Url"
-              variant="filled"
-              color="secondary"
+              variant="outlined"
+              color="primary"
               title={inputImageUrl}
               style={{ marginRight: "10px" }}
             />
             <Button
-              variant="contained"
+              variant="filled"
               color="secondary"
               onClick={handleImageLoadClick}
             >
