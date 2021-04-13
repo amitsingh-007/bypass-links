@@ -25,13 +25,10 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { getBookmarksPanelUrl } from "../utils";
 import { syncBookmarksFirebaseWithStorage } from "../utils/bookmark";
+import { BookmarkDialog, BulkBookmarksMoveDialog } from "./BookmarkDialog";
 import ConfirmationDialog from "./ConfirmationDialog";
-import {
-  BookmarkDialog,
-  BulkBookmarksMoveDialog,
-  FolderDialog,
-  FolderDropdown,
-} from "./FormComponents";
+import { FolderDropdown } from "./Dropdown";
+import { FolderDialog } from "./FolderDialog";
 import SearchInput from "./SearchInput";
 
 const useAccordionStyles = makeStyles({

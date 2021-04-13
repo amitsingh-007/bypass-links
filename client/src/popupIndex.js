@@ -8,7 +8,6 @@ import {
 } from "@material-ui/core";
 import darkScrollbar from "@material-ui/core/darkScrollbar";
 import ErrorBoundary from "GlobalComponents/ErrorBoundary";
-import { BG_COLOR_DARK } from "GlobalConstants/color";
 import Global from "GlobalContainers/Global";
 import PopupRoutes from "GlobalContainers/PopupRoutes";
 import "GlobalStyles/popup.scss";
@@ -24,9 +23,6 @@ const store = createStore(reducer);
 const theme = createMuiTheme({
   palette: {
     mode: "dark",
-    background: {
-      default: BG_COLOR_DARK,
-    },
   },
   typography: {
     fontFamily: `"Inter", sans-serif`,

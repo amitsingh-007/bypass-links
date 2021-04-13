@@ -6,7 +6,7 @@ import {
   MenuItem,
   Typography,
 } from "@material-ui/core";
-import { BlackMenu } from "GlobalComponents/StyledComponents";
+import { RightClickMenu } from "GlobalComponents/StyledComponents";
 import { getImageFromFirebase } from "GlobalUtils/firebase";
 import { memo, useEffect, useState } from "react";
 import useMenu from "SrcPath/hooks/useMenu";
@@ -84,7 +84,7 @@ const Person = memo(({ person, handleEditPerson }) => {
           </Typography>
         </Box>
       </IconButton>
-      <BlackMenu
+      <RightClickMenu
         open={isMenuOpen}
         onClose={onMenuClose}
         anchorReference="anchorPosition"
@@ -98,7 +98,7 @@ const Person = memo(({ person, handleEditPerson }) => {
         >
           Edit
         </MenuItem>
-      </BlackMenu>
+      </RightClickMenu>
       {showBookmarksList && (
         <BookmarksList
           name={name}

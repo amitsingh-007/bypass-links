@@ -7,7 +7,7 @@ import {
 } from "@material-ui/core";
 import tabs from "ChromeApi/tabs";
 import { startHistoryMonitor } from "GlobalActionCreators/";
-import { BlackMenu, BlackTooltip } from "GlobalComponents/StyledComponents";
+import { RightClickMenu, BlackTooltip } from "GlobalComponents/StyledComponents";
 import { COLOR } from "GlobalConstants/color";
 import { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -22,7 +22,7 @@ import {
   getPersonsFromUids,
   getPersonsWithImageUrl,
 } from "SrcPath/TaggingPanel/utils";
-import { BookmarkDialog } from "./FormComponents";
+import { BookmarkDialog } from "./BookmarkDialog";
 import withBookmarkRow from "./withBookmarkRow";
 
 const titleStyles = { flexGrow: "1" };
@@ -147,7 +147,7 @@ const Bookmark = memo(
           </BlackTooltip>
         </Box>
         {!isExternalPage && (
-          <BlackMenu
+          <RightClickMenu
             open={isMenuOpen}
             onClose={onMenuClose}
             anchorReference="anchorPosition"
@@ -164,7 +164,7 @@ const Bookmark = memo(
                 {text}
               </MenuItem>
             ))}
-          </BlackMenu>
+          </RightClickMenu>
         )}
         {openEditDialog && (
           <BookmarkDialog

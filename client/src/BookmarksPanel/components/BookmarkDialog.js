@@ -1,131 +1,14 @@
-import {
-  Autocomplete,
-  Avatar,
-  Box,
-  Chip,
-  CircularProgress,
-  FormControl,
-  IconButton,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@material-ui/core";
+import { Box, IconButton, TextField } from "@material-ui/core";
 import FormatColorTextTwoToneIcon from "@material-ui/icons/FormatColorTextTwoTone";
 import runtime from "ChromeApi/runtime";
 import { EditDialog } from "GlobalComponents/Dialogs";
 import { COLOR } from "GlobalConstants/color";
-import { memo, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   getAllDecodedPersons,
   getPersonsWithImageUrl,
-  getSortedPersons,
 } from "SrcPath/TaggingPanel/utils";
-
-export const FolderDropdown = ({
-  folder,
-  folderList,
-  handleFolderChange,
-  hideLabel = false,
-}) => {
-  if (!folderList || folderList.length < 1) {
-    return null;
-  }
-  return (
-    <FormControl variant="outlined" size="small" color="secondary">
-      {!hideLabel ? <InputLabel id="folders">Folder</InputLabel> : null}
-      <Select labelId="folders" value={folder} onChange={handleFolderChange}>
-        {folderList.map((folder) => (
-          <MenuItem key={folder} value={folder}>
-            {folder}
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
-  );
-};
-
-const PersonsDropdown = memo(
-  ({ taggedPersons, personList = [], loading, handlePersonsChange }) => {
-    const [inputText, setInputText] = useState("");
-
-    const onUserInputChange = (_event, newInputValue) => {
-      setInputText(newInputValue);
-    };
-
-    const renderUserInout = (params) => (
-      <TextField
-        {...params}
-        InputProps={{
-          ...params.InputProps,
-          endAdornment: (
-            <>
-              {loading ? (
-                <CircularProgress
-                  color="inherit"
-                  size={20}
-                  sx={{ marginRight: "35px" }}
-                />
-              ) : null}
-              {params.InputProps.endAdornment}
-            </>
-          ),
-        }}
-        placeholder="Select Person"
-      />
-    );
-
-    const renderSelectedOptions = (value, getTagProps) =>
-      value.map((option, index) => (
-        <Chip
-          label={option.name}
-          avatar={<Avatar src={option.imageUrl} alt={option.name} />}
-          {...getTagProps({ index })}
-        />
-      ));
-
-    const renderOptions = (props, option) => (
-      <Box
-        component="li"
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-        {...props}
-      >
-        <Avatar
-          alt={option.name}
-          src={option.imageUrl}
-          sx={{ height: "25px", width: "25px" }}
-        />
-        <Box component="span" sx={{ marginLeft: "10px" }}>
-          {option.name}
-        </Box>
-      </Box>
-    );
-
-    const sortedPersons = getSortedPersons(personList);
-    return (
-      <Autocomplete
-        multiple
-        fullWidth
-        size="small"
-        limitTags={2}
-        loading={loading}
-        options={sortedPersons}
-        value={taggedPersons}
-        onChange={handlePersonsChange}
-        inputValue={inputText}
-        onInputChange={onUserInputChange}
-        getOptionLabel={(option) => option.name}
-        renderInput={renderUserInout}
-        renderOption={renderOptions}
-        renderTags={renderSelectedOptions}
-      />
-    );
-  }
-);
+import { FolderDropdown, PersonsDropdown } from "./Dropdown";
 
 export const BookmarkDialog = ({
   url: origUrl,
@@ -251,50 +134,6 @@ export const BookmarkDialog = ({
           handlePersonsChange={handlePersonsChange}
         />
       </Box>
-    </EditDialog>
-  );
-};
-
-export const FolderDialog = ({
-  origName = "",
-  headerText,
-  handleSave,
-  isOpen,
-  onClose,
-}) => {
-  const [name, setName] = useState(origName);
-
-  const handleNameChange = (event) => {
-    setName(event.target.value);
-  };
-
-  const handleSaveClick = () => {
-    handleSave(name);
-    onClose();
-  };
-  const handleClose = () => {
-    setName(origName);
-    onClose();
-  };
-
-  const isSaveOptionActive = name && name !== origName;
-  return (
-    <EditDialog
-      headerText={headerText}
-      openDialog={isOpen}
-      closeDialog={handleClose}
-      handleSave={handleSaveClick}
-      isSaveOptionActive={isSaveOptionActive}
-    >
-      <TextField
-        size="small"
-        label="Name"
-        variant="filled"
-        color="secondary"
-        title={name}
-        value={name}
-        onChange={handleNameChange}
-      />
     </EditDialog>
   );
 };

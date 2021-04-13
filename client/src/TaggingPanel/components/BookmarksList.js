@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import PanelHeading from "GlobalComponents/PanelHeading";
-import { BG_COLOR_DARK, COLOR } from "GlobalConstants/color";
+import { COLOR } from "GlobalConstants/color";
 import { forwardRef, memo, useCallback, useEffect, useState } from "react";
 import Ripples from "react-ripples";
 import { BookmarkExternal } from "SrcPath/BookmarksPanel/components/Bookmark";
@@ -49,9 +49,8 @@ const BookmarksList = memo(
         open
         onClose={handleClose}
         TransitionComponent={Transition}
-        sx={{ bgcolor: BG_COLOR_DARK }}
       >
-        <DialogTitle sx={{ padding: "0 6px", bgcolor: BG_COLOR_DARK }}>
+        <DialogTitle sx={{ padding: "0 6px" }}>
           <Box
             sx={{
               display: "flex",
@@ -83,7 +82,7 @@ const BookmarksList = memo(
             />
           </Box>
         </DialogTitle>
-        <DialogContent sx={{ bgcolor: BG_COLOR_DARK, padding: 0 }}>
+        <DialogContent sx={{ padding: 0 }}>
           {bookmarks.length > 0 ? (
             bookmarks.map(({ url, title }) => (
               <Box
