@@ -7,7 +7,10 @@ import {
 } from "@material-ui/core";
 import tabs from "ChromeApi/tabs";
 import { startHistoryMonitor } from "GlobalActionCreators/";
-import { RightClickMenu, BlackTooltip } from "GlobalComponents/StyledComponents";
+import {
+  RightClickMenu,
+  BlackTooltip,
+} from "GlobalComponents/StyledComponents";
 import { COLOR } from "GlobalConstants/color";
 import { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
