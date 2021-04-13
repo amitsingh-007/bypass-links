@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Checkbox,
   makeStyles,
@@ -8,13 +7,8 @@ import {
 } from "@material-ui/core";
 import tabs from "ChromeApi/tabs";
 import { startHistoryMonitor } from "GlobalActionCreators/";
-import {
-  BlackMenu,
-  BlackTooltip,
-  CircularTooltip,
-} from "GlobalComponents/StyledComponents";
+import { BlackMenu, BlackTooltip } from "GlobalComponents/StyledComponents";
 import { COLOR } from "GlobalConstants/color";
-import { getImageFromFirebase } from "GlobalUtils/firebase";
 import { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -23,7 +17,11 @@ import {
   getFaviconUrl,
 } from "SrcPath/BookmarksPanel/utils";
 import useMenu from "SrcPath/hooks/useMenu";
-import { getPersonFromUid } from "SrcPath/TaggingPanel/utils";
+import PersonAvatars from "SrcPath/TaggingPanel/components/PersonAvatars";
+import {
+  getPersonsFromUids,
+  getPersonsWithImageUrl,
+} from "SrcPath/TaggingPanel/utils";
 import { BookmarkDialog } from "./FormComponents";
 import withBookmarkRow from "./withBookmarkRow";
 
@@ -33,39 +31,12 @@ const useStyles = makeStyles({
   root: { padding: "unset" },
 });
 
-const PersonImage = ({ imageUrl }) => {
-  const avatar = (
-    <Avatar
-      alt={imageUrl}
-      src={imageUrl}
-      sx={{ width: "23px", height: "23px", marginRight: "8px" }}
-    />
-  );
-  return imageUrl ? (
-    <CircularTooltip
-      title={
-        <Avatar
-          alt={imageUrl}
-          src={imageUrl}
-          sx={{ width: "70px", height: "70px" }}
-        />
-      }
-      arrow
-      disableInteractive
-    >
-      {avatar}
-    </CircularTooltip>
-  ) : (
-    avatar
-  );
-};
-
 const Bookmark = memo(
   ({
     url,
     title: origTitle,
     folder: origFolder,
-    personUid: origPersonUid,
+    taggedPersons: origTaggedPersons,
     pos,
     isSelected,
     folderNamesList,
@@ -79,37 +50,35 @@ const Bookmark = memo(
   }) => {
     const history = useHistory();
     const dispatch = useDispatch();
-    const [imageUrl, setImageUrl] = useState("");
+    const [imageUrls, setImageUrls] = useState("");
     const [openEditDialog, setOpenEditDialog] = useState(editBookmark);
     const [isMenuOpen, menuPos, onMenuClose, onMenuOpen] = useMenu();
 
     const initImageUrl = useCallback(async () => {
-      const person = await getPersonFromUid(origPersonUid);
-      const url =
-        person.imageRef && (await getImageFromFirebase(person.imageRef));
-      setImageUrl(url);
-    }, [origPersonUid]);
+      const persons = await getPersonsFromUids(origTaggedPersons);
+      const personsWithImageUrl = await getPersonsWithImageUrl(persons);
+      setImageUrls(personsWithImageUrl.map((person) => person.imageUrl));
+    }, [origTaggedPersons]);
 
     useEffect(() => {
-      if (isExternalPage) {
-        return;
+      if (!isExternalPage) {
+        initImageUrl();
       }
-      initImageUrl();
     }, [initImageUrl, isExternalPage]);
 
     const toggleEditDialog = () => {
       setOpenEditDialog(!openEditDialog);
     };
 
-    const handleBookmarkSave = (url, newTitle, newFolder, newPerson) => {
+    const handleBookmarkSave = (url, newTitle, newFolder, newTaggedPersons) => {
       handleSave(
         url,
         newTitle,
         origFolder,
         newFolder,
         pos,
-        origPersonUid,
-        newPerson
+        origTaggedPersons,
+        newTaggedPersons
       );
       //Remove qs before closing
       if (editBookmark && openEditDialog) {
@@ -165,7 +134,7 @@ const Bookmark = memo(
               marginRight: "8px",
             }}
           />
-          {!isExternalPage && <PersonImage imageUrl={imageUrl} />}
+          {!isExternalPage && <PersonAvatars imageUrls={imageUrls} />}
           <BlackTooltip
             title={<Typography style={tooltipStyles}>{url}</Typography>}
             arrow
@@ -202,7 +171,7 @@ const Bookmark = memo(
             url={url}
             origTitle={origTitle}
             origFolder={origFolder}
-            origPersonUid={origPersonUid}
+            origTaggedPersons={origTaggedPersons}
             headerText="Edit bookmark"
             folderList={folderNamesList}
             handleSave={handleBookmarkSave}

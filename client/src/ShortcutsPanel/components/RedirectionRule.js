@@ -10,7 +10,7 @@ import { getActiveDisabledColor } from "GlobalUtils/color";
 import { memo, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
-import { DEFAUT_RULE_ALIAS as DEFAULT_RULE_ALIAS } from "../constants";
+import { DEFAULT_RULE_ALIAS } from "../constants";
 
 const inputProps = {
   style: {

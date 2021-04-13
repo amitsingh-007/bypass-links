@@ -13,13 +13,13 @@ import { memo, useEffect, useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { DEFAUT_RULE_ALIAS } from "../constants";
+import { DEFAULT_RULE_ALIAS } from "../constants";
 import Header from "./Header";
 import RedirectionRule from "./RedirectionRule";
 
 //Filter valid rules
 const getValidRules = (obj) =>
-  Boolean(obj && obj.alias && obj.alias !== DEFAUT_RULE_ALIAS && obj.website);
+  Boolean(obj && obj.alias && obj.alias !== DEFAULT_RULE_ALIAS && obj.website);
 
 //Map array into object so as to store in firebase
 const reducer = (obj, { alias, website, isDefault }, index) => {
@@ -81,7 +81,7 @@ const ShortcutsPanel = memo(() => {
 
   const handleAddRule = () => {
     redirections.unshift({
-      alias: DEFAUT_RULE_ALIAS,
+      alias: DEFAULT_RULE_ALIAS,
       website: "",
       isDefault: false,
     });

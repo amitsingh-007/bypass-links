@@ -1,10 +1,12 @@
 import {
+  Autocomplete,
   Avatar,
   Box,
+  Chip,
+  CircularProgress,
   FormControl,
   IconButton,
   InputLabel,
-  LinearProgress,
   MenuItem,
   Select,
   TextField,
@@ -13,29 +15,24 @@ import FormatColorTextTwoToneIcon from "@material-ui/icons/FormatColorTextTwoTon
 import runtime from "ChromeApi/runtime";
 import { EditDialog } from "GlobalComponents/Dialogs";
 import { COLOR } from "GlobalConstants/color";
-import { getImageFromFirebase } from "GlobalUtils/firebase";
 import { memo, useEffect, useState } from "react";
-import { DEFAULT_PERSON_UID } from "SrcPath/TaggingPanel/constants";
 import {
-  getAllPersonNames,
-  getPersonFromUid,
+  getAllDecodedPersons,
+  getPersonsWithImageUrl,
   getSortedPersons,
 } from "SrcPath/TaggingPanel/utils";
-
-const DEFAUT_PERSON_TEXT = "Select Person";
 
 export const FolderDropdown = ({
   folder,
   folderList,
   handleFolderChange,
-  variant = "filled",
   hideLabel = false,
 }) => {
   if (!folderList || folderList.length < 1) {
     return null;
   }
   return (
-    <FormControl variant={variant} size="small" color="secondary">
+    <FormControl variant="outlined" size="small" color="secondary">
       {!hideLabel ? <InputLabel id="folders">Folder</InputLabel> : null}
       <Select labelId="folders" value={folder} onChange={handleFolderChange}>
         {folderList.map((folder) => (
@@ -48,69 +45,84 @@ export const FolderDropdown = ({
   );
 };
 
-const getPersonSelectValue = (uid, name) => `${uid}|${name}`;
+const PersonsDropdown = memo(
+  ({ taggedPersons, personList = [], loading, handlePersonsChange }) => {
+    const [inputText, setInputText] = useState("");
 
-const getPersonsMenuItems = (persons) => {
-  const menuItems = persons.map(({ uid, name, imageUrl }) => (
-    <MenuItem key={uid} value={getPersonSelectValue(uid, name)}>
+    const onUserInputChange = (_event, newInputValue) => {
+      setInputText(newInputValue);
+    };
+
+    const renderUserInout = (params) => (
+      <TextField
+        {...params}
+        InputProps={{
+          ...params.InputProps,
+          endAdornment: (
+            <>
+              {loading ? (
+                <CircularProgress
+                  color="inherit"
+                  size={20}
+                  sx={{ marginRight: "35px" }}
+                />
+              ) : null}
+              {params.InputProps.endAdornment}
+            </>
+          ),
+        }}
+        placeholder="Select Person"
+      />
+    );
+
+    const renderSelectedOptions = (value, getTagProps) =>
+      value.map((option, index) => (
+        <Chip
+          label={option.name}
+          avatar={<Avatar src={option.imageUrl} alt={option.name} />}
+          {...getTagProps({ index })}
+        />
+      ));
+
+    const renderOptions = (props, option) => (
       <Box
+        component="li"
         sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}
+        {...props}
       >
-        <Avatar alt={name} src={imageUrl} />
+        <Avatar
+          alt={option.name}
+          src={option.imageUrl}
+          sx={{ height: "25px", width: "25px" }}
+        />
         <Box component="span" sx={{ marginLeft: "10px" }}>
-          {name}
+          {option.name}
         </Box>
       </Box>
-    </MenuItem>
-  ));
-  menuItems.unshift(
-    <MenuItem
-      key={DEFAULT_PERSON_UID}
-      value={getPersonSelectValue(DEFAULT_PERSON_UID, DEFAUT_PERSON_TEXT)}
-    >
-      <Avatar alt="None" />
-      <Box component="span" sx={{ marginLeft: "10px" }}>
-        {DEFAUT_PERSON_TEXT}
-      </Box>
-    </MenuItem>
-  );
-  return menuItems;
-};
-
-const PersonDropdown = memo(
-  ({ personUid = DEFAULT_PERSON_UID, personList = [], handlePersonChange }) => {
-    const selectedPerson = personList.find(
-      (person) => personUid === person.uid
     );
+
     const sortedPersons = getSortedPersons(personList);
-    const menuItems = getPersonsMenuItems(sortedPersons);
     return (
-      <FormControl
-        variant="filled"
+      <Autocomplete
+        multiple
+        fullWidth
         size="small"
-        color="secondary"
-        sx={{ width: "100%" }}
-      >
-        <InputLabel id="persons">Person</InputLabel>
-        <Select
-          labelId="persons"
-          value={getPersonSelectValue(
-            personUid,
-            selectedPerson?.name ?? DEFAUT_PERSON_TEXT
-          )}
-          onChange={handlePersonChange}
-          MenuProps={{ sx: { maxHeight: "270px" } }}
-          renderValue={(selectedValue) => (
-            <Box>{selectedValue.split("|")[1]}</Box>
-          )}
-        >
-          {menuItems}
-        </Select>
-      </FormControl>
+        limitTags={2}
+        loading={loading}
+        options={sortedPersons}
+        value={taggedPersons}
+        onChange={handlePersonsChange}
+        inputValue={inputText}
+        onInputChange={onUserInputChange}
+        getOptionLabel={(option) => option.name}
+        renderInput={renderUserInout}
+        renderOption={renderOptions}
+        renderTags={renderSelectedOptions}
+      />
     );
   }
 );
@@ -119,7 +131,7 @@ export const BookmarkDialog = ({
   url: origUrl,
   origTitle,
   origFolder,
-  origPersonUid,
+  origTaggedPersons,
   headerText,
   folderList,
   handleSave,
@@ -128,58 +140,53 @@ export const BookmarkDialog = ({
   onClose,
   isSaveActive,
 }) => {
-  const [imageUrl, setImageUrl] = useState("");
-  const [person, setPerson] = useState({});
+  const [taggedPersons, setTaggedPersons] = useState([]);
   const [title, setTitle] = useState(origTitle);
   const [folder, setFolder] = useState(origFolder);
   const [personList, setPersonList] = useState([]);
   const [isFetchingPerson, setIsFetchingPerson] = useState(false);
-
-  const initPerson = async (uid) => {
-    const person = await getPersonFromUid(uid);
-    if (person) {
-      setIsFetchingPerson(true);
-      const url =
-        person.imageRef && (await getImageFromFirebase(person.imageRef));
-      setImageUrl(url);
-      setPerson(person);
-      setIsFetchingPerson(false);
-    }
-  };
+  const [isSaveOptionActive, setIsSaveOptionActive] = useState(isSaveActive);
 
   const initPersonList = async () => {
     setIsFetchingPerson(true);
-    const persons = await getAllPersonNames();
-    if (persons) {
-      const personsWithImageUrl = await Promise.all(
-        persons.map(async (person) => {
-          const imageUrl = await getImageFromFirebase(person.imageRef);
-          return { ...person, imageUrl };
-        })
+    const persons = await getAllDecodedPersons();
+    const personsWithImageUrl = await getPersonsWithImageUrl(persons);
+    setPersonList(personsWithImageUrl);
+    if (origTaggedPersons) {
+      const taggedPersons = personsWithImageUrl.filter((person) =>
+        origTaggedPersons.includes(person.uid)
       );
-      setPersonList(personsWithImageUrl);
+      setTaggedPersons(taggedPersons);
     }
     setIsFetchingPerson(false);
   };
 
   useEffect(() => {
     initPersonList();
-    initPerson(origPersonUid);
   }, []);
 
   const handleTitleChange = (event) => {
-    setTitle(event.target.value);
+    const title = event.target.value;
+    setTitle(title);
+    setIsSaveOptionActive(title !== origTitle);
   };
   const handleFolderChange = (event) => {
-    setFolder(event.target.value);
+    const folder = event.target.value;
+    setFolder(folder);
+    setIsSaveOptionActive(folder !== origFolder);
   };
-  const handlePersonChange = (event) => {
-    const uid = event.target.value.split("|")[0];
-    initPerson(uid);
+  const handlePersonsChange = (_event, newValues) => {
+    setTaggedPersons(newValues);
+    setIsSaveOptionActive(true);
   };
 
   const handleSaveClick = () => {
-    handleSave(origUrl, title, folder, person.uid);
+    handleSave(
+      origUrl,
+      title,
+      folder,
+      taggedPersons.map(({ uid }) => uid)
+    );
     onClose();
   };
 
@@ -187,12 +194,6 @@ export const BookmarkDialog = ({
     const { pageH1 } = await runtime.sendMessage({ fetchPageH1: true });
     setTitle(pageH1);
   };
-
-  const isSaveOptionActive =
-    isSaveActive ||
-    (title && (title !== origTitle || folder !== origFolder)) ||
-    (!origPersonUid && person.uid) ||
-    (origPersonUid && origPersonUid !== person.uid);
 
   return (
     <EditDialog
@@ -203,12 +204,16 @@ export const BookmarkDialog = ({
       handleDelete={handleDelete}
       isSaveOptionActive={isSaveOptionActive}
     >
-      {isFetchingPerson && <LinearProgress color="secondary" />}
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
         <TextField
           size="small"
           label="Name"
-          variant="filled"
           color="secondary"
           title={title}
           value={title}
@@ -228,7 +233,6 @@ export const BookmarkDialog = ({
       <TextField
         size="small"
         label="Url"
-        variant="filled"
         color="secondary"
         title={origUrl}
         value={origUrl}
@@ -239,18 +243,12 @@ export const BookmarkDialog = ({
         folderList={folderList}
         handleFolderChange={handleFolderChange}
       />
-      <Box
-        sx={{ display: "flex", alignItems: "center", margin: "8px 8px 0 0" }}
-      >
-        <PersonDropdown
-          personUid={person.uid}
+      <Box sx={{ paddingRight: "15px" }}>
+        <PersonsDropdown
+          taggedPersons={taggedPersons}
           personList={personList}
-          handlePersonChange={handlePersonChange}
-        />
-        <Avatar
-          alt={person.name}
-          src={imageUrl}
-          sx={{ width: "70px", height: "70px" }}
+          loading={isFetchingPerson}
+          handlePersonsChange={handlePersonsChange}
         />
       </Box>
     </EditDialog>
