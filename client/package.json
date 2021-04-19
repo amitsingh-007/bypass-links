@@ -60,7 +60,7 @@
     "webpack-cli": "4.6.0",
     "webpack-dev-server": "3.11.2",
     "webpack-node-externals": "2.5.2",
-    "workbox-webpack-plugin": "6.1.2"
+    "workbox-webpack-plugin": "6.1.5"
   },
   "scripts": {
     "analyzer": "cross-env ENABLE_BUNDLE_ANLYZER=true npm run release",
