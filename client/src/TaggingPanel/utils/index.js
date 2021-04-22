@@ -49,9 +49,16 @@ export const getPersonsWithImageUrl = async (persons) => {
     return [];
   }
   return await Promise.all(
-    persons.map(async (person) => {
-      const imageUrl = await getImageFromFirebase(person.imageRef);
-      return { ...person, imageUrl };
-    })
+    persons.map(async (person) => ({
+      ...person,
+      imageUrl: await resolvePersonImageFromUid(person.uid),
+    }))
   );
+};
+
+export const resolvePersonImageFromUid = async (uid) => {
+  const { [STORAGE_KEYS.personImages]: personImages } = await storage.get(
+    STORAGE_KEYS.personImages
+  );
+  return personImages[uid];
 };

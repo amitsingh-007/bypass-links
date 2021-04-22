@@ -22,7 +22,7 @@ export const syncFirebaseToStorage = async () => {
   ]);
 };
 
-export const syncStorageToFirebase = async () => {
+const syncStorageToFirebase = async () => {
   await Promise.all([
     syncBookmarksFirebaseWithStorage(),
     syncPersonsFirebaseWithStorage(),
