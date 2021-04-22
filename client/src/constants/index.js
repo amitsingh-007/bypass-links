@@ -20,6 +20,7 @@ export const STORAGE_KEYS = {
   redirections: "redirections",
   lastVisited: "lastVisited",
   persons: "persons",
+  personImages: "personImages", //not synced in firebase
 };
 
 export const BYPASS_KEYS = {

@@ -4,29 +4,29 @@ import {
   Box,
   IconButton,
   MenuItem,
-  Typography,
+  Typography
 } from "@material-ui/core";
 import { RightClickMenu } from "GlobalComponents/StyledComponents";
-import { getImageFromFirebase } from "GlobalUtils/firebase";
 import { memo, useEffect, useState } from "react";
 import useMenu from "SrcPath/hooks/useMenu";
+import { resolvePersonImageFromUid } from "../utils";
 import AddOrEditPersonDialog from "./AddOrEditPersonDialog";
 import BookmarksList from "./BookmarksList";
 
 const imageStyles = { width: 100, height: 100 };
 
 const Person = memo(({ person, handleEditPerson }) => {
-  const { name, imageRef, taggedUrls } = person;
+  const { uid, name, taggedUrls } = person;
   const [imageUrl, setImageUrl] = useState("");
   const [showBookmarksList, setShowBookmarksList] = useState(false);
   const [isMenuOpen, menuPos, onMenuClose, onMenuOpen] = useMenu();
   const [showEditPersonDialog, setShowEditPersonDialog] = useState(false);
 
   useEffect(() => {
-    getImageFromFirebase(imageRef).then((url) => {
+    resolvePersonImageFromUid(uid).then((url) => {
       setImageUrl(url);
     });
-  }, [person, imageRef]);
+  }, [person, uid]);
 
   const toggleEditPersonDialog = () => {
     setShowEditPersonDialog(!showEditPersonDialog);

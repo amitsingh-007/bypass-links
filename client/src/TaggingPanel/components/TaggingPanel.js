@@ -5,6 +5,7 @@ import { PANEL_DIMENSIONS } from "GlobalConstants/styles";
 import { useEffect, useState } from "react";
 import { decryptionMapper } from "../mapper";
 import { getSortedPersons, setPersonsInStorage } from "../utils/index";
+import { cachePersonImagesInStorage } from "../utils/sync";
 import Header from "./Header";
 import Persons from "./Persons";
 
@@ -39,6 +40,7 @@ const TaggingPanel = () => {
       {}
     );
     await setPersonsInStorage(encryptedPersons);
+    await cachePersonImagesInStorage();
     setIsFetching(false);
   };
 
