@@ -7,17 +7,19 @@ import {
 } from "@material-ui/core";
 import tabs from "ChromeApi/tabs";
 import { startHistoryMonitor } from "GlobalActionCreators/";
+import ProgressiveRender from "GlobalComponents/ProgressiveRender";
 import {
-  RightClickMenu,
   BlackTooltip,
+  RightClickMenu,
 } from "GlobalComponents/StyledComponents";
 import { COLOR } from "GlobalConstants/color";
-import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {
   getBookmarksPanelUrl,
   getFaviconUrl,
+  isInInitalView,
 } from "SrcPath/BookmarksPanel/utils";
 import useMenu from "SrcPath/hooks/useMenu";
 import PersonAvatars from "SrcPath/TaggingPanel/components/PersonAvatars";
@@ -25,9 +27,9 @@ import {
   getPersonsFromUids,
   getPersonsWithImageUrl,
 } from "SrcPath/TaggingPanel/utils";
+import { BOOKMARK_ROW_HEIGHT } from "../constants";
 import { BookmarkDialog } from "./BookmarkDialog";
 import withBookmarkRow from "./withBookmarkRow";
-import ProgressiveRender from "GlobalComponents/ProgressiveRender";
 
 const titleStyles = { flexGrow: "1" };
 const tooltipStyles = { fontSize: "13px" };
@@ -136,7 +138,15 @@ const Bookmark = memo(
 
     const checkboxClasses = useStyles();
     return (
-      <ProgressiveRender height="34px">
+      /**
+       * NOTE: Change height when bookmark height changes
+       * Force render the bookmark when we want to edit it or its in the initial view
+       */
+      <ProgressiveRender
+        height={BOOKMARK_ROW_HEIGHT}
+        forceRender={openEditDialog || isInInitalView(pos)}
+        name={origTitle}
+      >
         <Box
           sx={{
             display: "flex",

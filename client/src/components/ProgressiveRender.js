@@ -10,7 +10,7 @@ const ProgressiveRender = memo((props) => {
 
   return (
     <Box sx={{ height: props.height }} ref={ref}>
-      {inView ? props.children : null}
+      {inView || props.forceRender ? props.children : null}
     </Box>
   );
 });

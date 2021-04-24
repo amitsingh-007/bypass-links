@@ -2,6 +2,7 @@ import { defaultBookmarkFolder } from "GlobalConstants/index";
 import { ROUTES } from "GlobalConstants/routes";
 import { serialzeObjectToQueryString } from "GlobalUtils/url";
 import md5 from "md5";
+import { BM_COUNT_IN_INITAL_VIEW } from "../constants";
 
 export const getFaviconUrl = (url) =>
   `https://www.google.com/s2/favicons?sz=64&domain_url=${url}`;
@@ -33,3 +34,5 @@ export const isFolderEmpty = (folders, name) => {
 
 export const isFolderContainsDir = (folders, hash) =>
   folders[hash] && folders[hash].some(({ isDir }) => isDir);
+
+export const isInInitalView = (position) => position < BM_COUNT_IN_INITAL_VIEW;
