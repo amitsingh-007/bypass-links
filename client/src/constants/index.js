@@ -21,6 +21,8 @@ export const STORAGE_KEYS = {
   lastVisited: "lastVisited",
   persons: "persons",
   personImages: "personImages", //not synced in firebase
+  userProfile: "userProfile",
+  isSignedIn: "isSignedIn",
 };
 
 export const BYPASS_KEYS = {

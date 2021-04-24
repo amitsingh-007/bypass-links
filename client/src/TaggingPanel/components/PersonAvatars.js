@@ -1,4 +1,5 @@
 import { Avatar, AvatarGroup } from "@material-ui/core";
+import PersonOffIcon from "@material-ui/icons/PersonOff";
 import { CircularTooltip } from "GlobalComponents/StyledComponents";
 import { memo } from "react";
 
@@ -43,7 +44,9 @@ const PersonAvatars = memo(({ imageUrls }) =>
         height: AVATAR_SIZE.SMALL,
         ...commonStyles,
       }}
-    />
+    >
+      <PersonOffIcon sx={{ fontSize: 17 }} />
+    </Avatar>
   )
 );
 export default PersonAvatars;
