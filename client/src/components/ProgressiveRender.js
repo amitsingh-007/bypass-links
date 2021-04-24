@@ -4,7 +4,7 @@ import { useInView } from "react-intersection-observer";
 
 const ProgressiveRender = memo((props) => {
   const { ref, inView } = useInView({
-    rootMargin: "20px",
+    rootMargin: "100px",
     triggerOnce: true,
   });
 
