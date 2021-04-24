@@ -27,6 +27,7 @@ import {
 } from "SrcPath/TaggingPanel/utils";
 import { BookmarkDialog } from "./BookmarkDialog";
 import withBookmarkRow from "./withBookmarkRow";
+import ProgressiveRender from "GlobalComponents/ProgressiveRender";
 
 const titleStyles = { flexGrow: "1" };
 const tooltipStyles = { fontSize: "13px" };
@@ -107,7 +108,7 @@ const Bookmark = memo(
 
     const checkboxClasses = useStyles();
     return (
-      <>
+      <ProgressiveRender height="34px">
         <Box
           sx={{
             display: "flex",
@@ -183,7 +184,7 @@ const Bookmark = memo(
             onClose={toggleEditDialog}
           />
         )}
-      </>
+      </ProgressiveRender>
     );
   }
 );

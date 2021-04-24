@@ -37,6 +37,8 @@ const mapper = ([_key, { isDir, hash }], urlList, folderList) => {
     obj.title = decodeURIComponent(atob(content.title));
     obj.taggedPersons = content.taggedPersons || [];
   }
+  //To preload images on client side runtime
+  new Image().src = getFaviconUrl(obj.url);
   return obj;
 };
 
