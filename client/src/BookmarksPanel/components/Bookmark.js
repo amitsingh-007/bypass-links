@@ -12,7 +12,7 @@ import {
   BlackTooltip,
 } from "GlobalComponents/StyledComponents";
 import { COLOR } from "GlobalConstants/color";
-import { memo, useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {
@@ -70,41 +70,69 @@ const Bookmark = memo(
       }
     }, [initImageUrl, isExternalPage]);
 
-    const toggleEditDialog = () => {
+    const toggleEditDialog = useCallback(() => {
       setOpenEditDialog(!openEditDialog);
-    };
+    }, [openEditDialog]);
 
-    const handleBookmarkSave = (url, newTitle, newFolder, newTaggedPersons) => {
-      handleSave(
-        url,
-        newTitle,
+    const handleBookmarkSave = useCallback(
+      (url, newTitle, newFolder, newTaggedPersons) => {
+        handleSave(
+          url,
+          newTitle,
+          origFolder,
+          newFolder,
+          pos,
+          origTaggedPersons,
+          newTaggedPersons
+        );
+        //Remove qs before closing
+        if (editBookmark && openEditDialog) {
+          history.replace(getBookmarksPanelUrl({ folder: origFolder }));
+        }
+        toggleEditDialog();
+      },
+      [
+        editBookmark,
+        handleSave,
+        history,
+        openEditDialog,
         origFolder,
-        newFolder,
-        pos,
         origTaggedPersons,
-        newTaggedPersons
-      );
-      //Remove qs before closing
-      if (editBookmark && openEditDialog) {
-        history.replace(getBookmarksPanelUrl({ folder: origFolder }));
-      }
-      toggleEditDialog();
-    };
-    const handleOpenLink = () => {
+        pos,
+        toggleEditDialog,
+      ]
+    );
+
+    const handleOpenLink = useCallback(() => {
       dispatch(startHistoryMonitor());
       tabs.create({ url, selected: false });
-    };
-    const handleDeleteOptionClick = () => {
-      handleRemove(pos, url);
-    };
-    const handleSelectionChange = () => {
-      handleSelectedChange(pos);
-    };
+    }, [dispatch, url]);
 
-    const menuOptionsList = [
-      { onClick: toggleEditDialog, text: "Edit" },
-      { onClick: handleDeleteOptionClick, text: "Delete" },
-    ];
+    const handleDeleteOptionClick = useCallback(() => {
+      handleRemove(pos, url);
+    }, [handleRemove, pos, url]);
+
+    const handleSelectionChange = useCallback(() => {
+      handleSelectedChange(pos);
+    }, [handleSelectedChange, pos]);
+
+    const renderRightMenu = useCallback(() => {
+      const menuOptionsList = [
+        { onClick: toggleEditDialog, text: "Edit" },
+        { onClick: handleDeleteOptionClick, text: "Delete" },
+      ];
+      return menuOptionsList.map(({ text, onClick }) => (
+        <MenuItem
+          key={text}
+          onClick={() => {
+            onClick();
+            onMenuClose();
+          }}
+        >
+          {text}
+        </MenuItem>
+      ));
+    }, [handleDeleteOptionClick, onMenuClose, toggleEditDialog]);
 
     const checkboxClasses = useStyles();
     return (
@@ -157,17 +185,7 @@ const Bookmark = memo(
             anchorReference="anchorPosition"
             anchorPosition={menuPos}
           >
-            {menuOptionsList.map(({ text, onClick }) => (
-              <MenuItem
-                key={text}
-                onClick={() => {
-                  onClick();
-                  onMenuClose();
-                }}
-              >
-                {text}
-              </MenuItem>
-            ))}
+            {renderRightMenu()}
           </RightClickMenu>
         )}
         {openEditDialog && (
