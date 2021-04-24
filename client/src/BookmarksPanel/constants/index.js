@@ -7,3 +7,5 @@ export const bookmarkRowStyles = {
 export const BOOKMARK_ROW_HEIGHT = "34px";
 
 export const BM_COUNT_IN_INITAL_VIEW = 16;
+
+export const BOOKMARK_ROW_WIDTH = "793px";

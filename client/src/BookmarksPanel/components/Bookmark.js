@@ -143,7 +143,7 @@ const Bookmark = memo(
        * Force render the bookmark when we want to edit it or its in the initial view
        */
       <ProgressiveRender
-        height={BOOKMARK_ROW_HEIGHT}
+        containerStyles={{ height: BOOKMARK_ROW_HEIGHT, width: "100%" }}
         forceRender={openEditDialog || isInInitalView(pos)}
         name={origTitle}
       >
