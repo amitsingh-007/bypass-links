@@ -18,12 +18,18 @@ export const FolderDropdown = ({
   folderList,
   handleFolderChange,
   hideLabel = false,
+  fullWidth = false,
 }) => {
   if (!folderList || folderList.length < 1) {
     return null;
   }
   return (
-    <FormControl variant="outlined" size="small" color="secondary">
+    <FormControl
+      variant="outlined"
+      size="small"
+      color="secondary"
+      fullWidth={fullWidth}
+    >
       {!hideLabel ? <InputLabel id="folders">Folder</InputLabel> : null}
       <Select labelId="folders" value={folder} onChange={handleFolderChange}>
         {folderList.map((folder) => (

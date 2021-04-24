@@ -293,12 +293,13 @@ const Header = memo(
                 alignItems: "center",
               }}
             >
-              <Box>
+              <Box sx={{ minWidth: "190px" }}>
                 <FolderDropdown
                   folder={curFolder}
                   folderList={folderNamesList}
                   handleFolderChange={onFolderChange}
                   hideLabel
+                  fullWidth
                 />
               </Box>
               <SearchInput onUserInput={handleSearch} />
