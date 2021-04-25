@@ -1,11 +1,4 @@
-import {
-  createMuiTheme,
-  CssBaseline,
-  //TODO: Need styles provider until we remove makeStyles,etc
-  //Refer: https://next.material-ui.com/guides/migration-v4/#styled-engine
-  StylesProvider,
-  ThemeProvider,
-} from "@material-ui/core";
+import { createMuiTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
 import darkScrollbar from "@material-ui/core/darkScrollbar";
 import ErrorBoundary from "GlobalComponents/ErrorBoundary";
 import { BG_COLOR_BLACK } from "GlobalConstants/color";
@@ -57,13 +50,11 @@ ReactDOM.render(
     <ErrorBoundary>
       <Provider store={store}>
         <BrowserRouter>
-          <StylesProvider injectFirst>
-            <ThemeProvider theme={theme}>
-              <CssBaseline />
-              <PopupRoutes />
-              <Global />
-            </ThemeProvider>
-          </StylesProvider>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <PopupRoutes />
+            <Global />
+          </ThemeProvider>
         </BrowserRouter>
       </Provider>
     </ErrorBoundary>

@@ -1,10 +1,4 @@
-import {
-  Box,
-  Checkbox,
-  makeStyles,
-  MenuItem,
-  Typography,
-} from "@material-ui/core";
+import { Box, Checkbox, MenuItem, Typography } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import tabs from "ChromeApi/tabs";
@@ -35,9 +29,6 @@ import withBookmarkRow from "./withBookmarkRow";
 
 const titleStyles = { flexGrow: "1" };
 const tooltipStyles = { fontSize: "13px" };
-const useStyles = makeStyles({
-  root: { padding: "unset" },
-});
 
 const Bookmark = memo(
   ({
@@ -139,7 +130,6 @@ const Bookmark = memo(
       ));
     }, [handleDeleteOptionClick, onMenuClose, toggleEditDialog]);
 
-    const checkboxClasses = useStyles();
     return (
       /**
        * NOTE: Change height when bookmark height changes
@@ -166,7 +156,7 @@ const Bookmark = memo(
               onChange={handleSelectionChange}
               style={COLOR.pink}
               disableRipple
-              classes={{ root: checkboxClasses.root }}
+              sx={{ padding: "0px" }}
             />
           )}
           <Box

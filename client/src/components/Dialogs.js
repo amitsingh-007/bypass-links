@@ -11,18 +11,6 @@ import DeleteTwoToneIcon from "@material-ui/icons/DeleteTwoTone";
 import DoneTwoToneIcon from "@material-ui/icons/DoneTwoTone";
 import { COLOR } from "GlobalConstants/color";
 import { getActiveDisabledColor } from "GlobalUtils/color";
-import { makeStyles } from "@material-ui/core";
-
-const contentWrapperStyles = makeStyles((theme) => ({
-  root: {
-    "& .MuiTextField-root, .MuiFormControl-root": {
-      margin: theme.spacing(1),
-    },
-    overflow: "hidden",
-    display: "flex",
-    flexDirection: "column",
-  },
-}));
 
 export const EditDialog = ({
   children,
@@ -33,11 +21,21 @@ export const EditDialog = ({
   handleDelete,
   isSaveOptionActive,
 }) => {
-  const classes = contentWrapperStyles();
   return (
     <Dialog fullWidth maxWidth="sm" open={openDialog} onClose={closeDialog}>
       <DialogTitle>{headerText}</DialogTitle>
-      <DialogContent classes={{ root: classes.root }}>{children}</DialogContent>
+      <DialogContent
+        sx={{
+          "& .MuiTextField-root, .MuiFormControl-root": {
+            margin: (theme) => theme.spacing(1),
+          },
+          overflow: "hidden",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        {children}
+      </DialogContent>
       <DialogActions>
         <Box
           sx={{
