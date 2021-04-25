@@ -2,7 +2,7 @@ import { Box } from "@material-ui/core";
 import { memo } from "react";
 import Person from "./Person";
 
-const Persons = memo(({ persons, handleEditPerson }) => {
+const Persons = memo(({ persons, handleEditPerson, handlePersonDelete }) => {
   return (
     <Box sx={{ padding: "0 30px" }}>
       {persons.map((person) => (
@@ -10,6 +10,7 @@ const Persons = memo(({ persons, handleEditPerson }) => {
           key={person.uid}
           person={person}
           handleEditPerson={handleEditPerson}
+          handlePersonDelete={handlePersonDelete}
         />
       ))}
     </Box>

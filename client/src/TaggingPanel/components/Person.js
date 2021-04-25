@@ -4,7 +4,7 @@ import {
   Box,
   IconButton,
   MenuItem,
-  Typography
+  Typography,
 } from "@material-ui/core";
 import { RightClickMenu } from "GlobalComponents/StyledComponents";
 import { memo, useEffect, useState } from "react";
@@ -15,7 +15,7 @@ import BookmarksList from "./BookmarksList";
 
 const imageStyles = { width: 100, height: 100 };
 
-const Person = memo(({ person, handleEditPerson }) => {
+const Person = memo(({ person, handleEditPerson, handlePersonDelete }) => {
   const { uid, name, taggedUrls } = person;
   const [imageUrl, setImageUrl] = useState("");
   const [showBookmarksList, setShowBookmarksList] = useState(false);
@@ -97,6 +97,15 @@ const Person = memo(({ person, handleEditPerson }) => {
           }}
         >
           Edit
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            handlePersonDelete(person);
+            onMenuClose();
+          }}
+          disabled={taggedUrlsCount > 0}
+        >
+          Delete
         </MenuItem>
       </RightClickMenu>
       {showBookmarksList && (

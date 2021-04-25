@@ -62,3 +62,6 @@ export const resolvePersonImageFromUid = async (uid) => {
   );
   return personImages[uid];
 };
+
+export const getPersonPos = (persons, person) =>
+  persons.findIndex(({ uid }) => uid === person.uid);

@@ -82,3 +82,6 @@ export const uploadImageToFirebase = (blob, path) =>
 
 export const getImageFromFirebase = (ref) =>
   firebase.storage().ref().child(ref).getDownloadURL();
+
+export const removeImageFromFirebase = (ref) =>
+  firebase.storage().ref().child(ref).delete();
