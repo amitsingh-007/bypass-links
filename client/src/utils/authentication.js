@@ -6,6 +6,8 @@ import {
   syncStorageToFirebase,
 } from "./sync";
 import { STORAGE_KEYS } from "GlobalConstants/index";
+import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
+import { deleteAllCache } from "./cache";
 
 export const syncAuthenticationToStorage = async (userProfile) => {
   await storage.set({
@@ -34,9 +36,12 @@ export const signOut = async () => {
   try {
     //First sync storage to firebase
     await syncStorageToFirebase();
-    //Then signout and reset storage, if signout successful
+    //Then signout
     await googleSignOut();
+    // Reset storage only if signout successful
     await resetStorage();
+    //Refresh browser cache
+    await deleteAllCache([CACHE_BUCKET_KEYS.favicon]);
     console.log("Logout Success");
     return true;
   } catch (err) {

@@ -4,44 +4,29 @@ import {
   displayToast,
   updateTaggedPersonUrls,
 } from "GlobalActionCreators/index";
+import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
 import { STORAGE_KEYS } from "GlobalConstants/index";
 import { PANEL_DIMENSIONS } from "GlobalConstants/styles";
+import { addToCache } from "GlobalUtils/cache";
 import md5 from "md5";
 import { PureComponent } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { getBookmarksObj } from "SrcPath/BookmarksPanel/utils/bookmark";
+import { bookmarksMapper } from "../mapper";
 import {
   getAllFolderNames,
   getFaviconUrl,
   isFolderContainsDir,
   isFolderEmpty,
+  shouldRenderBookmarks,
 } from "../utils/index";
 import Bookmark from "./Bookmark";
 import Folder from "./Folder";
 import Header from "./Header";
 
 const contentHeight = "532px";
-
-const shouldRenderBookmarks = (folders, contextBookmarks) =>
-  folders && contextBookmarks && contextBookmarks.length > 0;
-
-//Resolve and map content into req format
-const mapper = ([_key, { isDir, hash }], urlList, folderList) => {
-  const obj = { isDir };
-  const content = isDir ? folderList[hash] : urlList[hash];
-  if (isDir) {
-    obj.name = atob(content.name);
-  } else {
-    obj.url = decodeURIComponent(atob(content.url));
-    obj.title = decodeURIComponent(atob(content.title));
-    obj.taggedPersons = content.taggedPersons || [];
-  }
-  //To preload images on client side runtime
-  new Image().src = getFaviconUrl(obj.url);
-  return obj;
-};
 
 class BookmarksPanel extends PureComponent {
   constructor(props) {
@@ -63,9 +48,10 @@ class BookmarksPanel extends PureComponent {
     this.setState({ isSaveButtonActive: false, isFetching: true });
     const { folders, urlList, folderList } = await getBookmarksObj();
     const folderContextHash = md5(folderContext);
+    const cache = await caches.open(CACHE_BUCKET_KEYS.favicon);
     const modifiedBookmarks = Object.entries(
       folders[folderContextHash]
-    ).map((kvp) => mapper(kvp, urlList, folderList));
+    ).map((kvp) => bookmarksMapper(kvp, urlList, folderList, cache));
     this.setState({
       contextBookmarks: modifiedBookmarks,
       urlList,
@@ -164,6 +150,8 @@ class BookmarksPanel extends PureComponent {
         isDir,
       };
     }
+    //Add bookmark favicon in the cache
+    addToCache(getFaviconUrl(url));
     this.setState({
       urlList: { ...urlList },
       contextBookmarks: [...newBookmarks],

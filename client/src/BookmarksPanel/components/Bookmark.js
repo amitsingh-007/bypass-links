@@ -14,7 +14,6 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {
   getBookmarksPanelUrl,
-  getFaviconUrl,
   isInInitalView,
 } from "SrcPath/BookmarksPanel/utils";
 import useMenu from "SrcPath/hooks/useMenu";
@@ -25,6 +24,7 @@ import {
 } from "SrcPath/TaggingPanel/utils";
 import { BOOKMARK_ROW_HEIGHT } from "../constants";
 import { BookmarkDialog } from "./BookmarkDialog";
+import Favicon from "./Favicon";
 import withBookmarkRow from "./withBookmarkRow";
 
 const titleStyles = { flexGrow: "1" };
@@ -159,16 +159,7 @@ const Bookmark = memo(
               sx={{ padding: "0px" }}
             />
           )}
-          <Box
-            component="img"
-            src={getFaviconUrl(url)}
-            sx={{
-              width: "20px",
-              height: "20px",
-              marginLeft: "6px",
-              marginRight: "8px",
-            }}
-          />
+          <Favicon url={url} />
           {!isExternalPage && <PersonAvatars imageUrls={imageUrls} />}
           <BlackTooltip
             title={<Typography style={tooltipStyles}>{url}</Typography>}
