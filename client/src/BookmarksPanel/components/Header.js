@@ -95,10 +95,12 @@ class Header extends PureComponent {
     }
     this.setState({ isSyncing: false });
   };
+
   onSaveClick = (event) => {
     event.stopPropagation();
     this.props.handleSave();
   };
+
   handleOpenSelectedBookmarks = (event) => {
     const { selectedBookmarks, contextBookmarks } = this.props;
     event.stopPropagation();
@@ -109,15 +111,18 @@ class Header extends PureComponent {
       }
     });
   };
+
   onEditBookmarksClick = (event) => {
     event.stopPropagation();
     this.setState({ openBulkBookmarksMoveDialog: true });
   };
+
   toggleNewFolderDialog = (event) => {
     event && event.stopPropagation();
     const { openFolderDialog } = this.state;
     this.setState({ openFolderDialog: !openFolderDialog });
   };
+
   toggleBookmarkEditDialog = () => {
     const { history, showBookmarkDialog } = this.props;
     const { openBookmarkDialog } = this.state;
@@ -127,23 +132,29 @@ class Header extends PureComponent {
     }
     this.setState({ openBookmarkDialog: !openBookmarkDialog });
   };
+
   handleConfirmationDialogClose = () => {
     this.setState({ openConfirmationDialog: false });
   };
+
   handleConfirmationDialogOk = () => {
     this.handleClose();
     this.setState({ openConfirmationDialog: false });
   };
+
   handleBulkBookmarksMoveDialogClose = () => {
     this.setState({ openBulkBookmarksMoveDialog: false });
   };
+
   handleBulkBookmarksMoveSave = (destFolder) => {
     this.props.handleBulkBookmarksMove(destFolder);
   };
+
   handleNewFolderSave = (folderName) => {
     this.props.handleCreateNewFolder(folderName);
     this.toggleNewFolderDialog();
   };
+
   handleNewBookmarkSave = (url, title, folder, taggedPersons) => {
     this.props.handleAddNewBookmark(url, title, folder, taggedPersons);
     this.toggleBookmarkEditDialog();

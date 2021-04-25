@@ -6,7 +6,6 @@ import { displayToast } from "GlobalActionCreators/index";
 import Loader from "GlobalComponents/Loader";
 import PanelHeading from "GlobalComponents/PanelHeading";
 import { COLOR } from "GlobalConstants/color";
-import { ROUTES } from "GlobalConstants/routes";
 import { STICKY_HEADER } from "GlobalConstants/styles";
 import { memo, useState } from "react";
 import { useDispatch } from "react-redux";
