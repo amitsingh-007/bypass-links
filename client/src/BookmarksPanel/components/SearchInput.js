@@ -12,10 +12,7 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       backgroundColor: alpha(theme.palette.common.white, 0.25),
     },
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      width: "auto",
-    },
+    width: "auto",
   },
   searchIcon: {
     padding: theme.spacing(0, 2),
@@ -30,21 +27,39 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1, 1, 1, 0),
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      width: "12ch",
-      "&:focus": {
-        width: "20ch",
-      },
+    width: "12ch",
+    "&:focus": {
+      width: "20ch",
     },
   },
 }));
 
-const SearchInput = memo(({ onUserInput }) => {
+/**
+ * `searchClassName` should be parent of each row and not parent of all rows
+ * `data-text` and `data-subtext` should be applied on same node as of `searchClassName`
+ */
+const SearchInput = memo(({ searchClassName }) => {
   const classes = useStyles();
 
+  const handleSearch = (searchText = "") => {
+    const lowerSearchText = searchText.toLowerCase();
+
+    document.querySelectorAll(`.${searchClassName}`).forEach((node) => {
+      const textsToSearch = [
+        node.getAttribute("data-text")?.toLowerCase(),
+        node.getAttribute("data-subtext")?.toLowerCase(),
+      ];
+
+      const isSearchMatched = textsToSearch.some(
+        (text) => text && text.includes(lowerSearchText)
+      );
+
+      node.style.display = isSearchMatched ? "" : "none";
+    });
+  };
+
   const onChange = throttle(100, (event) => {
-    onUserInput(event.target.value?.trim());
+    handleSearch(event.target.value?.trim());
   });
 
   return (
@@ -56,6 +71,7 @@ const SearchInput = memo(({ onUserInput }) => {
         placeholder="Search…"
         classes={{ input: classes.inputInput }}
         onChange={onChange}
+        autoFocus
       />
     </div>
   );

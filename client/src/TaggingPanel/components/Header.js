@@ -11,6 +11,7 @@ import { STICKY_HEADER } from "GlobalConstants/styles";
 import { memo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
+import SearchInput from "SrcPath/BookmarksPanel/components/SearchInput";
 import { syncPersonsFirebaseWithStorage } from "../utils/sync";
 import AddOrEditPersonDialog from "./AddOrEditPersonDialog";
 
@@ -98,7 +99,19 @@ const Header = memo(({ isFetching, handleAddPerson }) => {
             />
           )}
         </Box>
-        <PanelHeading heading="TAGGING PANEL" />
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <SearchInput searchClassName="personContainer" />
+          <PanelHeading
+            heading="TAGGING PANEL"
+            containerStyles={{ marginLeft: "10px" }}
+          />
+        </Box>
       </Box>
       {showAddPersonDialog && (
         <AddOrEditPersonDialog

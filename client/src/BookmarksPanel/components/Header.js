@@ -89,24 +89,6 @@ const Header = memo(
       history.push(getBookmarksPanelUrl({ folder: event.target.value }));
     };
 
-    const handleSearch = (searchText = "") => {
-      const lowerSearchText = searchText.toLowerCase();
-      //search both url and title
-      document.querySelectorAll(".bookmarkRowContainer").forEach((node) => {
-        const textsToSearch = [
-          node.getAttribute("data-text")?.toLowerCase(),
-          node.getAttribute("data-subtext")?.toLowerCase(),
-        ];
-        if (
-          textsToSearch.some((text) => text && text.includes(lowerSearchText))
-        ) {
-          node.style.display = "";
-        } else {
-          node.style.display = "none";
-        }
-      });
-    };
-
     const handleDiscardButtonClick = (event) => {
       event.stopPropagation();
       if (isSaveButtonActive) {
@@ -302,7 +284,7 @@ const Header = memo(
                   fullWidth
                 />
               </Box>
-              <SearchInput onUserInput={handleSearch} />
+              <SearchInput searchClassName="bookmarkRowContainer" />
             </Box>
           </AccordionDetails>
         </Accordion>

@@ -57,6 +57,8 @@ const Person = memo(({ person, handleEditPerson, handlePersonDelete }) => {
             height: "156px",
             width: "156px",
           }}
+          className="personContainer"
+          data-text={name}
         >
           <Box onContextMenu={onMenuOpen}>
             <Badge
