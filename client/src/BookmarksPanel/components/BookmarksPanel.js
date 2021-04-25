@@ -87,10 +87,6 @@ class BookmarksPanel extends PureComponent {
     }
   }
 
-  handleClose = () => {
-    this.props.history.goBack();
-  };
-
   handleSelectedChange = (pos) => {
     const { selectedBookmarks } = this.state;
     selectedBookmarks[pos] = !selectedBookmarks[pos];
@@ -394,7 +390,6 @@ class BookmarksPanel extends PureComponent {
             folderNamesList={folderNamesList}
             selectedBookmarks={selectedBookmarks}
             contextBookmarks={contextBookmarks}
-            handleClose={this.handleClose}
             handleSave={this.handleSave}
             handleCreateNewFolder={this.handleCreateNewFolder}
             handleAddNewBookmark={this.handleAddNewBookmark}
