@@ -10,7 +10,7 @@ import {
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import EditTwoToneIcon from "@material-ui/icons/EditTwoTone";
 import PanelHeading from "GlobalComponents/PanelHeading";
-import { COLOR } from "GlobalConstants/color";
+import { BG_COLOR_DARK, COLOR } from "GlobalConstants/color";
 import { forwardRef, memo, useCallback, useEffect, useState } from "react";
 import Ripples from "react-ripples";
 import { useHistory } from "react-router";
@@ -66,7 +66,7 @@ const BookmarksList = memo(({ name, imageUrl, taggedUrls, handleClose }) => {
       onClose={handleClose}
       TransitionComponent={Transition}
     >
-      <DialogTitle sx={{ padding: "0 6px" }}>
+      <DialogTitle sx={{ padding: "0 6px", backgroundColor: BG_COLOR_DARK }}>
         <Box
           sx={{
             display: "flex",
@@ -84,6 +84,7 @@ const BookmarksList = memo(({ name, imageUrl, taggedUrls, handleClose }) => {
             <ArrowBackTwoToneIcon fontSize="large" />
           </IconButton>
           <PanelHeading
+            containerStyles={{ display: "inline-flex" }}
             heading={
               <Box sx={{ display: "inline-flex", alignItems: "center" }}>
                 <Avatar alt={name} src={imageUrl} sx={imageStyles} />

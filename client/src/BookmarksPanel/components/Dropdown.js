@@ -54,8 +54,10 @@ export const PersonsDropdown = memo(
       <TextField
         {...params}
         label="Tagged Persons"
+        color="secondary"
         InputProps={{
           ...params.InputProps,
+          color: "secondary",
           endAdornment: (
             <>
               {loading ? (

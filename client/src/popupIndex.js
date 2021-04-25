@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core";
 import darkScrollbar from "@material-ui/core/darkScrollbar";
 import ErrorBoundary from "GlobalComponents/ErrorBoundary";
+import { BG_COLOR_BLACK, BG_COLOR_DARK } from "GlobalConstants/color";
 import Global from "GlobalContainers/Global";
 import PopupRoutes from "GlobalContainers/PopupRoutes";
 import "GlobalStyles/popup.scss";
@@ -31,6 +32,21 @@ const theme = createMuiTheme({
     MuiCssBaseline: {
       styleOverrides: {
         body: darkScrollbar(),
+      },
+    },
+    MuiDialogTitle: {
+      styleOverrides: {
+        root: { backgroundColor: BG_COLOR_BLACK },
+      },
+    },
+    MuiDialogContent: {
+      styleOverrides: {
+        root: { backgroundColor: BG_COLOR_BLACK },
+      },
+    },
+    MuiDialogActions: {
+      styleOverrides: {
+        root: { backgroundColor: BG_COLOR_BLACK },
       },
     },
   },

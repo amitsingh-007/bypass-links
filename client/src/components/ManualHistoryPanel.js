@@ -7,7 +7,7 @@ import LocalizationProvider from "@material-ui/lab/LocalizationProvider";
 import historyApi from "ChromeApi/history";
 import storage from "ChromeApi/storage";
 import { displayToast } from "GlobalActionCreators/index";
-import { COLOR } from "GlobalConstants/color";
+import { BG_COLOR_DARK, COLOR } from "GlobalConstants/color";
 import { ROUTES } from "GlobalConstants/routes";
 import { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -83,6 +83,8 @@ const ManualHistoryPanel = memo(() => {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+          backgroundColor: BG_COLOR_DARK,
+          marginBottom: "10px",
         }}
       >
         <IconButton
