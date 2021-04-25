@@ -49,14 +49,14 @@ const Bookmark = memo(
   }) => {
     const history = useHistory();
     const dispatch = useDispatch();
-    const [imageUrls, setImageUrls] = useState("");
+    const [personWithimageUrls, setPersonWithimageUrls] = useState("");
     const [openEditDialog, setOpenEditDialog] = useState(editBookmark);
     const [isMenuOpen, menuPos, onMenuClose, onMenuOpen] = useMenu();
 
     const initImageUrl = useCallback(async () => {
       const persons = await getPersonsFromUids(origTaggedPersons);
       const personsWithImageUrl = await getPersonsWithImageUrl(persons);
-      setImageUrls(personsWithImageUrl.map((person) => person.imageUrl));
+      setPersonWithimageUrls(personsWithImageUrl);
     }, [origTaggedPersons]);
 
     useEffect(() => {
@@ -160,7 +160,7 @@ const Bookmark = memo(
             />
           )}
           <Favicon url={url} />
-          {!isExternalPage && <PersonAvatars imageUrls={imageUrls} />}
+          {!isExternalPage && <PersonAvatars persons={personWithimageUrls} />}
           <BlackTooltip
             title={<Typography style={tooltipStyles}>{url}</Typography>}
             arrow

@@ -21,7 +21,7 @@ const Toast = () => {
     if (!open && toast) {
       setOpen(true);
     }
-  }, [toast]);
+  }, [open, toast]);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
