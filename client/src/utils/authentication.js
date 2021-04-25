@@ -1,6 +1,10 @@
 import storage from "ChromeApi/storage";
 import { googleSignIn, googleSignOut } from "./firebase";
-import { resetStorage, syncFirebaseToStorage } from "./sync";
+import {
+  resetStorage,
+  syncFirebaseToStorage,
+  syncStorageToFirebase,
+} from "./sync";
 import { STORAGE_KEYS } from "GlobalConstants/index";
 
 export const syncAuthenticationToStorage = async (userProfile) => {
@@ -28,6 +32,9 @@ export const signIn = async () => {
 
 export const signOut = async () => {
   try {
+    //First sync storage to firebase
+    await syncStorageToFirebase();
+    //Then signout and reset storage, if signout successful
     await googleSignOut();
     await resetStorage();
     console.log("Logout Success");

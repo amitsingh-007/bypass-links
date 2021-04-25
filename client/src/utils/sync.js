@@ -27,7 +27,7 @@ export const syncFirebaseToStorage = async (userProfile) => {
   ]);
 };
 
-const syncStorageToFirebase = async () => {
+export const syncStorageToFirebase = async () => {
   await Promise.all([
     syncBookmarksFirebaseWithStorage(),
     syncPersonsFirebaseWithStorage(),
@@ -35,10 +35,6 @@ const syncStorageToFirebase = async () => {
 };
 
 export const resetStorage = async () => {
-  //First sync storage to firebase
-  await syncStorageToFirebase();
-
-  //Then reset storage
   await Promise.all([
     resetAuthentication(),
     resetRedirections(),
