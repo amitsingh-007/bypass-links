@@ -8,13 +8,19 @@ import {
   Slide,
 } from "@material-ui/core";
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
+import EditTwoToneIcon from "@material-ui/icons/EditTwoTone";
 import PanelHeading from "GlobalComponents/PanelHeading";
 import { COLOR } from "GlobalConstants/color";
 import { forwardRef, memo, useCallback, useEffect, useState } from "react";
 import Ripples from "react-ripples";
+import { useHistory } from "react-router";
 import { BookmarkExternal } from "SrcPath/BookmarksPanel/components/Bookmark";
 import { bookmarkRowStyles } from "SrcPath/BookmarksPanel/constants";
-import { getFromHash } from "SrcPath/BookmarksPanel/utils/bookmark";
+import { getBookmarksPanelUrl } from "SrcPath/BookmarksPanel/utils";
+import {
+  getDecodedBookmark,
+  getFromHash,
+} from "SrcPath/BookmarksPanel/utils/bookmark";
 
 const Transition = forwardRef((props, ref) => (
   <Slide direction="up" {...props} ref={ref} />
@@ -23,6 +29,7 @@ const Transition = forwardRef((props, ref) => (
 const imageStyles = { width: 40, height: 40 };
 
 const BookmarksList = memo(({ name, imageUrl, taggedUrls, handleClose }) => {
+  const history = useHistory();
   const [bookmarks, setBookmarks] = useState([]);
 
   const initBookmarks = useCallback(async () => {
@@ -31,15 +38,22 @@ const BookmarksList = memo(({ name, imageUrl, taggedUrls, handleClose }) => {
     }
     const fetchedbookmarks = await Promise.all(
       taggedUrls.map(async (urlHash) => {
-        const { url, title } = await getFromHash(false, urlHash);
-        return {
-          url: decodeURIComponent(atob(url)),
-          title: decodeURIComponent(atob(title)),
-        };
+        const bookmark = await getFromHash(false, urlHash);
+        return getDecodedBookmark(bookmark);
       })
     );
     setBookmarks(fetchedbookmarks);
   }, [taggedUrls]);
+
+  const handleBookmarkEdit = async ({ url, title, parentHash }) => {
+    const urlParams = {};
+    const parent = await getFromHash(true, parentHash);
+    urlParams.editBookmark = true;
+    urlParams.url = url;
+    urlParams.title = title;
+    urlParams.folder = atob(parent.name);
+    history.push(getBookmarksPanelUrl(urlParams));
+  };
 
   useEffect(() => {
     initBookmarks();
@@ -86,18 +100,38 @@ const BookmarksList = memo(({ name, imageUrl, taggedUrls, handleClose }) => {
       </DialogTitle>
       <DialogContent sx={{ padding: 0 }}>
         {bookmarks.length > 0 ? (
-          bookmarks.map(({ url, title }) => (
+          bookmarks.map((bookmark) => (
             <Box
-              sx={{ width: "100%", cursor: "pointer", userSelect: "none" }}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "100%",
+                cursor: "pointer",
+                userSelect: "none",
+                paddingLeft: "8px",
+              }}
               className="bookmarkRowContainer"
-              key={url}
+              key={bookmark.url}
             >
+              <IconButton
+                aria-label="Edit Bookmark"
+                title="Edit Bookmark"
+                style={COLOR.blue}
+                size="small"
+                edge="end"
+                onClick={() => {
+                  handleBookmarkEdit(bookmark);
+                }}
+              >
+                <EditTwoToneIcon />
+              </IconButton>
               <Ripples>
                 <BookmarkExternal
-                  url={url}
-                  title={title}
+                  url={bookmark.url}
+                  title={bookmark.title}
                   isExternalPage
-                  containerStyles={bookmarkRowStyles}
+                  containerStyles={{ ...bookmarkRowStyles, paddingLeft: "0px" }}
                 />
               </Ripples>
             </Box>

@@ -44,3 +44,10 @@ export const getFromHash = async (isDir, hash) => {
   const bookmarks = await getBookmarksObj();
   return isDir ? bookmarks.folderList[hash] : bookmarks.urlList[hash];
 };
+
+export const getDecodedBookmark = (bookmark) => ({
+  url: decodeURIComponent(atob(bookmark.url)),
+  title: decodeURIComponent(atob(bookmark.title)),
+  parentHash: bookmark.parentHash,
+  taggedUrls: bookmark.taggedUrls,
+});
