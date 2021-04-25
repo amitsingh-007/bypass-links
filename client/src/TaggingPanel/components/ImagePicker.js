@@ -144,7 +144,7 @@ const ImagePicker = memo(({ uid, isOpen, onDialogClose, handleImageSave }) => {
               style={{ marginRight: "10px" }}
             />
             <Button
-              variant="filled"
+              variant="outlined"
               color="secondary"
               onClick={handleImageLoadClick}
             >

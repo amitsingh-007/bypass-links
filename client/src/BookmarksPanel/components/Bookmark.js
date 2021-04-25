@@ -5,6 +5,8 @@ import {
   MenuItem,
   Typography,
 } from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
 import tabs from "ChromeApi/tabs";
 import { startHistoryMonitor } from "GlobalActionCreators/";
 import ProgressiveRender from "GlobalComponents/ProgressiveRender";
@@ -120,10 +122,10 @@ const Bookmark = memo(
 
     const renderRightMenu = useCallback(() => {
       const menuOptionsList = [
-        { onClick: toggleEditDialog, text: "Edit" },
-        { onClick: handleDeleteOptionClick, text: "Delete" },
+        { onClick: toggleEditDialog, text: "Edit", icon: EditIcon },
+        { onClick: handleDeleteOptionClick, text: "Delete", icon: DeleteIcon },
       ];
-      return menuOptionsList.map(({ text, onClick }) => (
+      return menuOptionsList.map(({ text, icon: Icon, onClick }) => (
         <MenuItem
           key={text}
           onClick={() => {
@@ -131,6 +133,7 @@ const Bookmark = memo(
             onMenuClose();
           }}
         >
+          <Icon sx={{ marginRight: "12px" }} />
           {text}
         </MenuItem>
       ));

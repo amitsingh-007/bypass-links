@@ -6,6 +6,8 @@ import {
   MenuItem,
   Typography,
 } from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
 import { RightClickMenu } from "GlobalComponents/StyledComponents";
 import { memo, useEffect, useState } from "react";
 import useMenu from "SrcPath/hooks/useMenu";
@@ -98,6 +100,7 @@ const Person = memo(({ person, handleEditPerson, handlePersonDelete }) => {
             onMenuClose();
           }}
         >
+          <EditIcon sx={{ marginRight: "12px" }} />
           Edit
         </MenuItem>
         <MenuItem
@@ -107,6 +110,7 @@ const Person = memo(({ person, handleEditPerson, handlePersonDelete }) => {
           }}
           disabled={taggedUrlsCount > 0}
         >
+          <DeleteIcon sx={{ marginRight: "12px" }} />
           Delete
         </MenuItem>
       </RightClickMenu>

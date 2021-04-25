@@ -27,7 +27,7 @@ const DateTimeInput = memo(({ dateTime, onChange, label }) => (
         <TextField
           {...props}
           helperText={null}
-          variant="filled"
+          variant="outlined"
           color="secondary"
           fullWidth
         />
