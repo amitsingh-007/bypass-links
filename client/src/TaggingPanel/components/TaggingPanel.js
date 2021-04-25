@@ -2,9 +2,14 @@ import { Box } from "@material-ui/core";
 import storage from "ChromeApi/storage";
 import { STORAGE_KEYS } from "GlobalConstants/index";
 import { PANEL_DIMENSIONS } from "GlobalConstants/styles";
+import { removeImageFromFirebase } from "GlobalUtils/firebase";
 import { useEffect, useState } from "react";
 import { decryptionMapper } from "../mapper";
-import { getSortedPersons, setPersonsInStorage } from "../utils/index";
+import {
+  getPersonPos,
+  getSortedPersons,
+  setPersonsInStorage,
+} from "../utils/index";
 import { cachePersonImagesInStorage } from "../utils/sync";
 import Header from "./Header";
 import Persons from "./Persons";
@@ -51,10 +56,23 @@ const TaggingPanel = () => {
   };
 
   const handleEditPerson = async (updatedPerson) => {
-    const pos = persons.findIndex(({ uid }) => uid === updatedPerson.uid);
+    const pos = getPersonPos(persons, updatedPerson);
     const newPersons = [...persons];
     newPersons[pos] = updatedPerson;
     setPersons(newPersons);
+    await handleSave(newPersons);
+  };
+
+  const handlePersonDelete = async (person) => {
+    const pos = getPersonPos(persons, person);
+    if (persons[pos].taggedUrls?.length > 0) {
+      console.error("Cant delete a person with tagged urls");
+      return;
+    }
+    const newPersons = [...persons];
+    newPersons.splice(pos, 1);
+    setPersons(newPersons);
+    await removeImageFromFirebase(person.imageRef);
     await handleSave(newPersons);
   };
 
@@ -67,6 +85,7 @@ const TaggingPanel = () => {
           <Persons
             persons={sortedPersons}
             handleEditPerson={handleEditPerson}
+            handlePersonDelete={handlePersonDelete}
           />
         ) : null}
       </Box>

@@ -1,7 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
 
 .bookmarkRowContainer {
-  &:hover {
+  &:hover,
+  &[data-is-selected="true"] {
     background-color: #ffffff14;
   }
   > .react-ripples {

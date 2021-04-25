@@ -1,4 +1,6 @@
 import { Box, MenuItem, Typography } from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
 import FolderTwoToneIcon from "@material-ui/icons/FolderTwoTone";
 import { displayToast } from "GlobalActionCreators/";
 import { RightClickMenu } from "GlobalComponents/StyledComponents";
@@ -53,8 +55,8 @@ const Folder = memo(
     };
 
     const menuOptionsList = [
-      { onClick: toggleEditDialog, text: "Edit" },
-      { onClick: handleDeleteOptionClick, text: "Delete" },
+      { onClick: toggleEditDialog, text: "Edit", icon: EditIcon },
+      { onClick: handleDeleteOptionClick, text: "Delete", icon: DeleteIcon },
     ];
 
     return (
@@ -87,7 +89,7 @@ const Folder = memo(
           anchorReference="anchorPosition"
           anchorPosition={menuPos}
         >
-          {menuOptionsList.map(({ text, onClick }) => (
+          {menuOptionsList.map(({ text, icon: Icon, onClick }) => (
             <MenuItem
               key={text}
               onClick={() => {
@@ -95,6 +97,7 @@ const Folder = memo(
                 onMenuClose();
               }}
             >
+              <Icon sx={{ marginRight: "12px" }} />
               {text}
             </MenuItem>
           ))}

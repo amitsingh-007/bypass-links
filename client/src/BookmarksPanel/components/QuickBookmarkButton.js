@@ -12,6 +12,7 @@ import { useHistory } from "react-router-dom";
 import { getBookmarksPanelUrl } from "SrcPath/BookmarksPanel/utils";
 import {
   getBookmarksObj,
+  getDecodedBookmark,
   getFromHash,
 } from "SrcPath/BookmarksPanel/utils/bookmark";
 import { IconButtonLoader } from "../../components/Loader";
@@ -41,10 +42,11 @@ const QuickBookmarkButton = memo(() => {
   const handleClick = async () => {
     const urlParams = {};
     if (bookmark) {
-      const parent = await getFromHash(true, bookmark.parentHash);
+      const { url, title, parentHash } = getDecodedBookmark(bookmark);
+      const parent = await getFromHash(true, parentHash);
       urlParams.editBookmark = true;
-      urlParams.url = decodeURIComponent(atob(bookmark.url));
-      urlParams.title = decodeURIComponent(atob(bookmark.title));
+      urlParams.url = url;
+      urlParams.title = title;
       urlParams.folder = atob(parent.name);
     } else {
       const { url, title } = await getCurrentTab();

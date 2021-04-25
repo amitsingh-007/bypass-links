@@ -13,6 +13,7 @@ import { memo } from "react";
 import BookmarksPanelButton from "SrcPath/BookmarksPanel/components/BookmarksPanelButton";
 import ShortcutsPanelButton from "SrcPath/ShortcutsPanel/components/ShortcutsPanelButton";
 import TaggingPanelButton from "SrcPath/TaggingPanel/components/TaggingPanelButton";
+import UserProfile from "SrcPath/BookmarksPanel/components/UserProfile";
 
 export const Popup = memo(() => (
   <Box
@@ -27,8 +28,19 @@ export const Popup = memo(() => (
     <Typography variant="h5" component="h5" gutterBottom>
       <Box sx={{ color: COLOR.heading, fontWeight: "700" }}>BYPASS LINKS</Box>
     </Typography>
-    <ToggleExtension />
-    <ToggleHistory />
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+      }}
+    >
+      <Box sx={{ marginRight: "10px" }}>
+        <ToggleExtension />
+        <ToggleHistory />
+      </Box>
+      <UserProfile />
+    </Box>
     <Row>
       <Authenticate />
       <ShortcutsPanelButton />

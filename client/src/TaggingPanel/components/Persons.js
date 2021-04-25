@@ -1,8 +1,20 @@
 import { Box } from "@material-ui/core";
-import { memo } from "react";
+import { deserialzeQueryStringToObject } from "GlobalUtils/url";
+import { memo, useEffect, useState } from "react";
+import { useHistory } from "react-router";
 import Person from "./Person";
 
-const Persons = memo(({ persons, handleEditPerson }) => {
+const Persons = memo(({ persons, handleEditPerson, handlePersonDelete }) => {
+  const [openBookmarksListUid, setOpenBookmarksListUidUid] = useState("");
+  const history = useHistory();
+
+  useEffect(() => {
+    const { openBookmarksList } = deserialzeQueryStringToObject(
+      history.location.search
+    );
+    setOpenBookmarksListUidUid(openBookmarksList);
+  }, [history.location.search]);
+
   return (
     <Box sx={{ padding: "0 30px" }}>
       {persons.map((person) => (
@@ -10,6 +22,8 @@ const Persons = memo(({ persons, handleEditPerson }) => {
           key={person.uid}
           person={person}
           handleEditPerson={handleEditPerson}
+          handlePersonDelete={handlePersonDelete}
+          openBookmarksListUid={openBookmarksListUid}
         />
       ))}
     </Box>

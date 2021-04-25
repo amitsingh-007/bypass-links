@@ -1,15 +1,12 @@
-import {
-  Box,
-  Checkbox,
-  makeStyles,
-  MenuItem,
-  Typography,
-} from "@material-ui/core";
+import { Box, Checkbox, MenuItem, Typography } from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
 import tabs from "ChromeApi/tabs";
 import { startHistoryMonitor } from "GlobalActionCreators/";
+import ProgressiveRender from "GlobalComponents/ProgressiveRender";
 import {
-  RightClickMenu,
   BlackTooltip,
+  RightClickMenu,
 } from "GlobalComponents/StyledComponents";
 import { COLOR } from "GlobalConstants/color";
 import { memo, useCallback, useEffect, useState } from "react";
@@ -17,7 +14,7 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {
   getBookmarksPanelUrl,
-  getFaviconUrl,
+  isInInitalView,
 } from "SrcPath/BookmarksPanel/utils";
 import useMenu from "SrcPath/hooks/useMenu";
 import PersonAvatars from "SrcPath/TaggingPanel/components/PersonAvatars";
@@ -25,14 +22,13 @@ import {
   getPersonsFromUids,
   getPersonsWithImageUrl,
 } from "SrcPath/TaggingPanel/utils";
+import { BOOKMARK_ROW_HEIGHT } from "../constants";
 import { BookmarkDialog } from "./BookmarkDialog";
+import Favicon from "./Favicon";
 import withBookmarkRow from "./withBookmarkRow";
 
 const titleStyles = { flexGrow: "1" };
 const tooltipStyles = { fontSize: "13px" };
-const useStyles = makeStyles({
-  root: { padding: "unset" },
-});
 
 const Bookmark = memo(
   ({
@@ -53,14 +49,14 @@ const Bookmark = memo(
   }) => {
     const history = useHistory();
     const dispatch = useDispatch();
-    const [imageUrls, setImageUrls] = useState("");
+    const [personWithimageUrls, setPersonWithimageUrls] = useState("");
     const [openEditDialog, setOpenEditDialog] = useState(editBookmark);
     const [isMenuOpen, menuPos, onMenuClose, onMenuOpen] = useMenu();
 
     const initImageUrl = useCallback(async () => {
       const persons = await getPersonsFromUids(origTaggedPersons);
       const personsWithImageUrl = await getPersonsWithImageUrl(persons);
-      setImageUrls(personsWithImageUrl.map((person) => person.imageUrl));
+      setPersonWithimageUrls(personsWithImageUrl);
     }, [origTaggedPersons]);
 
     useEffect(() => {
@@ -69,45 +65,81 @@ const Bookmark = memo(
       }
     }, [initImageUrl, isExternalPage]);
 
-    const toggleEditDialog = () => {
+    const toggleEditDialog = useCallback(() => {
       setOpenEditDialog(!openEditDialog);
-    };
+    }, [openEditDialog]);
 
-    const handleBookmarkSave = (url, newTitle, newFolder, newTaggedPersons) => {
-      handleSave(
-        url,
-        newTitle,
+    const handleBookmarkSave = useCallback(
+      (url, newTitle, newFolder, newTaggedPersons) => {
+        handleSave(
+          url,
+          newTitle,
+          origFolder,
+          newFolder,
+          pos,
+          origTaggedPersons,
+          newTaggedPersons
+        );
+        //Remove qs before closing
+        if (editBookmark && openEditDialog) {
+          history.replace(getBookmarksPanelUrl({ folder: origFolder }));
+        }
+        toggleEditDialog();
+      },
+      [
+        editBookmark,
+        handleSave,
+        history,
+        openEditDialog,
         origFolder,
-        newFolder,
-        pos,
         origTaggedPersons,
-        newTaggedPersons
-      );
-      //Remove qs before closing
-      if (editBookmark && openEditDialog) {
-        history.replace(getBookmarksPanelUrl({ folder: origFolder }));
-      }
-      toggleEditDialog();
-    };
-    const handleOpenLink = () => {
+        pos,
+        toggleEditDialog,
+      ]
+    );
+
+    const handleOpenLink = useCallback(() => {
       dispatch(startHistoryMonitor());
       tabs.create({ url, selected: false });
-    };
-    const handleDeleteOptionClick = () => {
+    }, [dispatch, url]);
+
+    const handleDeleteOptionClick = useCallback(() => {
       handleRemove(pos, url);
-    };
-    const handleSelectionChange = () => {
+    }, [handleRemove, pos, url]);
+
+    const handleSelectionChange = useCallback(() => {
       handleSelectedChange(pos);
-    };
+    }, [handleSelectedChange, pos]);
 
-    const menuOptionsList = [
-      { onClick: toggleEditDialog, text: "Edit" },
-      { onClick: handleDeleteOptionClick, text: "Delete" },
-    ];
+    const renderRightMenu = useCallback(() => {
+      const menuOptionsList = [
+        { onClick: toggleEditDialog, text: "Edit", icon: EditIcon },
+        { onClick: handleDeleteOptionClick, text: "Delete", icon: DeleteIcon },
+      ];
+      return menuOptionsList.map(({ text, icon: Icon, onClick }) => (
+        <MenuItem
+          key={text}
+          onClick={() => {
+            onClick();
+            onMenuClose();
+          }}
+        >
+          <Icon sx={{ marginRight: "12px" }} />
+          {text}
+        </MenuItem>
+      ));
+    }, [handleDeleteOptionClick, onMenuClose, toggleEditDialog]);
 
-    const checkboxClasses = useStyles();
     return (
-      <>
+      /**
+       * NOTE: Change height when bookmark height changes
+       * Force render the bookmark when we want to edit it or its in the initial view
+       */
+      <ProgressiveRender
+        containerStyles={{ height: BOOKMARK_ROW_HEIGHT, width: "100%" }}
+        forceRender={openEditDialog || isInInitalView(pos)}
+        name={origTitle}
+      >
         <Box
           sx={{
             display: "flex",
@@ -124,20 +156,11 @@ const Bookmark = memo(
               onChange={handleSelectionChange}
               style={COLOR.pink}
               disableRipple
-              classes={{ root: checkboxClasses.root }}
+              sx={{ padding: "0px" }}
             />
           )}
-          <Box
-            component="img"
-            src={getFaviconUrl(url)}
-            sx={{
-              width: "20px",
-              height: "20px",
-              marginLeft: "6px",
-              marginRight: "8px",
-            }}
-          />
-          {!isExternalPage && <PersonAvatars imageUrls={imageUrls} />}
+          <Favicon url={url} />
+          {!isExternalPage && <PersonAvatars persons={personWithimageUrls} />}
           <BlackTooltip
             title={<Typography style={tooltipStyles}>{url}</Typography>}
             arrow
@@ -156,17 +179,7 @@ const Bookmark = memo(
             anchorReference="anchorPosition"
             anchorPosition={menuPos}
           >
-            {menuOptionsList.map(({ text, onClick }) => (
-              <MenuItem
-                key={text}
-                onClick={() => {
-                  onClick();
-                  onMenuClose();
-                }}
-              >
-                {text}
-              </MenuItem>
-            ))}
+            {renderRightMenu()}
           </RightClickMenu>
         )}
         {openEditDialog && (
@@ -183,7 +196,7 @@ const Bookmark = memo(
             onClose={toggleEditDialog}
           />
         )}
-      </>
+      </ProgressiveRender>
     );
   }
 );

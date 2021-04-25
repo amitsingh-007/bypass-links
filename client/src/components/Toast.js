@@ -1,6 +1,6 @@
-import { makeStyles, Slide } from "@material-ui/core";
-import Snackbar from "@material-ui/core/Snackbar";
+import { Slide } from "@material-ui/core";
 import Alert from "@material-ui/core/Alert";
+import Snackbar from "@material-ui/core/Snackbar";
 import { hideToast } from "GlobalActionCreators/";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,14 +10,9 @@ const position = {
   horizontal: "left",
 };
 
-const useStyles = makeStyles((theme) => ({
-  root: { padding: "0 8px" },
-}));
-
 const SlideTransition = (props) => <Slide {...props} direction="right" />;
 
 const Toast = () => {
-  const classes = useStyles();
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const toast = useSelector((state) => state.toast);
@@ -26,7 +21,7 @@ const Toast = () => {
     if (!open && toast) {
       setOpen(true);
     }
-  }, [toast]);
+  }, [open, toast]);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -51,7 +46,7 @@ const Toast = () => {
       TransitionComponent={SlideTransition}
     >
       <Alert
-        className={classes.root}
+        sx={{ padding: "0 8px" }}
         elevation={6}
         variant="filled"
         onClose={handleClose}

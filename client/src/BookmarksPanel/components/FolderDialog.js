@@ -36,8 +36,7 @@ export const FolderDialog = ({
       <TextField
         size="small"
         label="Name"
-        variant="filled"
-        color="secondary"
+        variant="outlined"
         title={name}
         value={name}
         onChange={handleNameChange}

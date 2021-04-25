@@ -2,11 +2,11 @@ import { Box } from "@material-ui/core";
 import { memo } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import Ripples from "react-ripples";
-import { bookmarkRowStyles } from "../constants";
+import { bookmarkRowStyles, BOOKMARK_ROW_WIDTH } from "../constants";
 
 const withBookmarkRow = (Component) =>
   memo((props) => {
-    const { isDir, name, url, pos, title } = props;
+    const { isDir, name, url, pos, title, isSelected } = props;
     const primaryUniqueId = isDir ? name : url;
     const secondaryUniqueId = isDir ? null : title;
 
@@ -23,6 +23,7 @@ const withBookmarkRow = (Component) =>
             }}
             data-text={primaryUniqueId}
             data-subtext={secondaryUniqueId}
+            data-is-selected={isSelected}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
           >
@@ -32,7 +33,7 @@ const withBookmarkRow = (Component) =>
                   display: "flex",
                   alignItems: "center",
                   flexGrow: "1",
-                  maxWidth: "747px",
+                  maxWidth: BOOKMARK_ROW_WIDTH,
                 }}
               >
                 <Component {...props} containerStyles={bookmarkRowStyles} />

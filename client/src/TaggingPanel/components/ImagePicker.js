@@ -14,7 +14,7 @@ import {
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import imageCompression from "browser-image-compression";
 import PanelHeading from "GlobalComponents/PanelHeading";
-import { COLOR } from "GlobalConstants/color";
+import { BG_COLOR_DARK, COLOR } from "GlobalConstants/color";
 import { FIREBASE_STORAGE_REF } from "GlobalConstants/index";
 import { uploadImageToFirebase } from "GlobalUtils/firebase";
 import { forwardRef, memo, useCallback, useRef, useState } from "react";
@@ -87,7 +87,7 @@ const ImagePicker = memo(({ uid, isOpen, onDialogClose, handleImageSave }) => {
       TransitionComponent={Transition}
     >
       {isUploadingImage && <LinearProgress color="secondary" />}
-      <DialogTitle sx={{ padding: "0 6px" }}>
+      <DialogTitle sx={{ padding: "0 6px", backgroundColor: BG_COLOR_DARK }}>
         <Box
           sx={{
             display: "flex",
@@ -144,11 +144,11 @@ const ImagePicker = memo(({ uid, isOpen, onDialogClose, handleImageSave }) => {
               style={{ marginRight: "10px" }}
             />
             <Button
-              variant="filled"
+              variant="outlined"
               color="secondary"
               onClick={handleImageLoadClick}
             >
-              Load
+              <strong>Load</strong>
             </Button>
           </Box>
           <Box
@@ -179,10 +179,10 @@ const ImagePicker = memo(({ uid, isOpen, onDialogClose, handleImageSave }) => {
             </Box>
             <Button
               color="primary"
-              variant="contained"
+              variant="outlined"
               onClick={showCroppedImage}
             >
-              Save Cropped Image
+              <strong>Save Cropped Image</strong>
             </Button>
           </Box>
         </Box>

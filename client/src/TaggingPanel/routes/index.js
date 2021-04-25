@@ -1,5 +1,4 @@
 import { ROUTES } from "GlobalConstants/routes";
-import { deserialzeQueryStringToObject } from "GlobalUtils/url";
 import { lazy } from "react";
 import { Route } from "react-router-dom";
 

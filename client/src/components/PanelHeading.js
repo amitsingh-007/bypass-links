@@ -8,12 +8,12 @@ const titleStyles = {
   color: COLOR.heading,
 };
 
-const PanelHeading = ({ heading }) => (
+const PanelHeading = ({ heading, containerStyles = {} }) => (
   <Typography
     component="span"
     variant="h1"
     display="inline"
-    style={titleStyles}
+    sx={{ ...titleStyles, ...containerStyles }}
   >
     {heading}
   </Typography>

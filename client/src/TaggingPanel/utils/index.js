@@ -1,6 +1,8 @@
 import storage from "ChromeApi/storage";
 import { STORAGE_KEYS } from "GlobalConstants/index";
+import { ROUTES } from "GlobalConstants/routes";
 import { getImageFromFirebase } from "GlobalUtils/firebase";
+import { serialzeObjectToQueryString } from "GlobalUtils/url";
 
 export const getPersons = async () => {
   const { [STORAGE_KEYS.persons]: persons } = await storage.get(
@@ -61,4 +63,15 @@ export const resolvePersonImageFromUid = async (uid) => {
     STORAGE_KEYS.personImages
   );
   return personImages[uid];
+};
+
+export const getPersonPos = (persons, person) =>
+  persons.findIndex(({ uid }) => uid === person.uid);
+
+export const getTaggingPanelUrl = ({ openBookmarksList }) => {
+  const qsObj = {};
+  if (openBookmarksList) {
+    qsObj.openBookmarksList = openBookmarksList;
+  }
+  return `${ROUTES.TAGGING_PANEL}?${serialzeObjectToQueryString(qsObj)}`;
 };

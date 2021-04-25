@@ -3,12 +3,16 @@ import CloudDoneTwoToneIcon from "@material-ui/icons/CloudDoneTwoTone";
 import CloudOffTwoTone from "@material-ui/icons/CloudOffTwoTone";
 import storage from "ChromeApi/storage";
 import { displayToast, setSignedInStatus } from "GlobalActionCreators/index";
+import { STORAGE_KEYS } from "GlobalConstants/index";
 import { COLOR } from "GlobalConstants/color";
 import { signIn, signOut } from "GlobalUtils/authentication";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { cachePersonImagesInStorage, refreshPersonImagesCache } from "SrcPath/TaggingPanel/utils/sync";
+import {
+  cachePersonImagesInStorage,
+  refreshPersonImagesCache,
+} from "SrcPath/TaggingPanel/utils/sync";
 import { IconButtonLoader } from "./Loader";
 
 export const Authenticate = memo(() => {
@@ -46,7 +50,7 @@ export const Authenticate = memo(() => {
   }, [dispatch]);
 
   useEffect(() => {
-    storage.get(["isSignedIn"]).then(({ isSignedIn }) => {
+    storage.get([STORAGE_KEYS.isSignedIn]).then(({ isSignedIn }) => {
       setIsSignedIn(isSignedIn);
       dispatch(setSignedInStatus(isSignedIn));
     });

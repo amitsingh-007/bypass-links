@@ -5,7 +5,7 @@
   "private": true,
   "devDependencies": {
     "lerna": "4.0.0",
-    "netlify-cli": "3.13.7"
+    "netlify-cli": "3.21.9"
   },
   "scripts": {
     "bootstrap": "lerna bootstrap --hoist",
