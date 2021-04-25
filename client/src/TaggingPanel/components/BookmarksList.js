@@ -4,14 +4,13 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  IconButton,
-  Slide,
+  IconButton
 } from "@material-ui/core";
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import EditTwoToneIcon from "@material-ui/icons/EditTwoTone";
 import PanelHeading from "GlobalComponents/PanelHeading";
 import { BG_COLOR_DARK, COLOR } from "GlobalConstants/color";
-import { forwardRef, memo, useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import Ripples from "react-ripples";
 import { useHistory } from "react-router";
 import { BookmarkExternal } from "SrcPath/BookmarksPanel/components/Bookmark";
@@ -19,16 +18,12 @@ import { bookmarkRowStyles } from "SrcPath/BookmarksPanel/constants";
 import { getBookmarksPanelUrl } from "SrcPath/BookmarksPanel/utils";
 import {
   getDecodedBookmark,
-  getFromHash,
+  getFromHash
 } from "SrcPath/BookmarksPanel/utils/bookmark";
-
-const Transition = forwardRef((props, ref) => (
-  <Slide direction="up" {...props} ref={ref} />
-));
 
 const imageStyles = { width: 40, height: 40 };
 
-const BookmarksList = memo(({ name, imageUrl, taggedUrls, handleClose }) => {
+const BookmarksList = memo(({ name, imageUrl, taggedUrls }) => {
   const history = useHistory();
   const [bookmarks, setBookmarks] = useState([]);
 
@@ -55,17 +50,16 @@ const BookmarksList = memo(({ name, imageUrl, taggedUrls, handleClose }) => {
     history.push(getBookmarksPanelUrl(urlParams));
   };
 
+  const handleClose = () => {
+    history.goBack();
+  };
+
   useEffect(() => {
     initBookmarks();
   }, [initBookmarks]);
 
   return (
-    <Dialog
-      fullScreen
-      open
-      onClose={handleClose}
-      TransitionComponent={Transition}
-    >
+    <Dialog open fullScreen onClose={handleClose}>
       <DialogTitle sx={{ padding: "0 6px", backgroundColor: BG_COLOR_DARK }}>
         <Box
           sx={{

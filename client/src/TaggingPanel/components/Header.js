@@ -31,7 +31,7 @@ const Header = memo(({ isFetching, handleAddPerson }) => {
   };
 
   const handleClose = () => {
-    history.push(ROUTES.HOMEPAGE);
+    history.goBack();
   };
 
   const onSyncClick = async () => {
