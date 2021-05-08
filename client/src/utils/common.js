@@ -26,3 +26,6 @@ export const getHostnameAlias = async (hostname) => {
   const hostnames = await getHostnames();
   return hostnames[hostname];
 };
+
+export const matchHostnames = async (hostname, bypassKey) =>
+  (await getHostnameAlias(hostname)) === bypassKey;

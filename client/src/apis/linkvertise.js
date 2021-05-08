@@ -37,3 +37,11 @@ export const fetchTargetUrl = async (userId, linkId, linkUrl) => {
     .then((data) => data);
   return response.data.target;
 };
+
+export const bypassLinkvertiseUsingExternalApi = async (urlObj) => {
+  const apiUrl = `https://bypass.bot.nu/bypass2?url=${urlObj.href}`;
+  const response = await fetch(apiUrl)
+    .then((response) => response.json())
+    .then((data) => data);
+  return response.destination;
+};

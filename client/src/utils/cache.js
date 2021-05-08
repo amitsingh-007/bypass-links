@@ -1,14 +1,19 @@
-export const addToCache = async (cache, url) => {
+export const getCacheObj = async (cacheBucketKey) =>
+  await caches.open(cacheBucketKey);
+
+export const addToCache = async (cacheBucketKey, url) => {
   if (!url) {
     return;
   }
+  const cache = await getCacheObj(cacheBucketKey);
   const response = await cache.match(url);
   if (!response) {
-    cache.add(url);
+    await cache.add(url);
   }
 };
 
-export const getFromCache = async (cache, url) => {
+export const getFromCache = async (cacheBucketKey, url) => {
+  const cache = await getCacheObj(cacheBucketKey);
   const response = await cache.match(url);
   if (!response || !response.blob) {
     return;
@@ -16,13 +21,17 @@ export const getFromCache = async (cache, url) => {
   return await response.blob();
 };
 
+export const getBlobUrlFromCache = async (cacheBucketKey, url) => {
+  const blob = await getFromCache(cacheBucketKey, url);
+  return blob && URL.createObjectURL(blob);
+};
+
 export const deleteAllCache = async (bucketKeys) => {
   bucketKeys.forEach(async (cacheBucketKey) => {
-    const cache = await caches.open(cacheBucketKey);
+    const cache = await getCacheObj(cacheBucketKey);
     const keys = await cache.keys();
     keys.forEach(async (key) => {
-      const isDeleted = await cache.delete(key);
-      console.log(isDeleted);
+      await cache.delete(key);
     });
   });
   console.log("Cleared all cache inside the buckets", bucketKeys);

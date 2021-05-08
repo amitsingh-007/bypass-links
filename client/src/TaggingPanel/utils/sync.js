@@ -1,5 +1,7 @@
 import storage from "ChromeApi/storage";
+import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
 import { FIREBASE_DB_REF, STORAGE_KEYS } from "GlobalConstants/index";
+import { addToCache, getCacheObj } from "GlobalUtils/cache";
 import {
   getFromFirebase,
   getImageFromFirebase,
@@ -43,8 +45,8 @@ const resolveImageFromPerson = async ({ uid, imageRef }) => ({
   imageUrl: await getImageFromFirebase(imageRef),
 });
 
-export const cachePersonImagesInStorage = async () => {
-  await refreshPersonImagesCache();
+export const cachePersonImageUrlsInStorage = async () => {
+  await refreshPersonImageUrlsCache();
   const persons = await getAllDecodedPersons();
   const personImagesList = await Promise.all(
     persons.map(resolveImageFromPerson)
@@ -57,6 +59,28 @@ export const cachePersonImagesInStorage = async () => {
   console.log("PersonImages is set to", personImages);
 };
 
-export const refreshPersonImagesCache = async () => {
+export const refreshPersonImageUrlsCache = async () => {
   await storage.remove(STORAGE_KEYS.personImages);
+};
+
+export const cachePersonImages = async () => {
+  const { [STORAGE_KEYS.personImages]: personImages } = await storage.get(
+    STORAGE_KEYS.personImages
+  );
+  const imageUrls = Object.values(personImages);
+  const cache = await getCacheObj(CACHE_BUCKET_KEYS.person);
+  await cache.addAll(imageUrls);
+  console.log("Initialized cache for all person urls");
+};
+
+export const updatePersonCacheAndImageUrls = async (person) => {
+  //Update person image urls in storage
+  const { [STORAGE_KEYS.personImages]: personImages } = await storage.get(
+    STORAGE_KEYS.personImages
+  );
+  const { uid, imageUrl } = await resolveImageFromPerson(person);
+  personImages[uid] = imageUrl;
+  await storage.set({ [STORAGE_KEYS.personImages]: personImages });
+  //Update person image cache
+  await addToCache(CACHE_BUCKET_KEYS.person, imageUrl);
 };

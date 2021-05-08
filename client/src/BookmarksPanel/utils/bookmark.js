@@ -1,6 +1,9 @@
 import storage from "ChromeApi/storage";
+import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
 import { FIREBASE_DB_REF, STORAGE_KEYS } from "GlobalConstants/index";
+import { getCacheObj } from "GlobalUtils/cache";
 import { getFromFirebase, saveDataToFirebase } from "GlobalUtils/firebase";
+import { getBookmarksObj, getFaviconUrl } from ".";
 
 export const syncBookmarksToStorage = async () => {
   const snapshot = await getFromFirebase(FIREBASE_DB_REF.bookmarks);
@@ -33,21 +36,14 @@ export const resetBookmarks = async () => {
   await storage.remove([STORAGE_KEYS.bookmarks, "hasPendingBookmarks"]);
 };
 
-export const getBookmarksObj = async () => {
-  const { [STORAGE_KEYS.bookmarks]: bookmarks } = await storage.get(
-    STORAGE_KEYS.bookmarks
-  );
-  return bookmarks;
-};
-
-export const getFromHash = async (isDir, hash) => {
+export const cacheBookmarkFavicons = async () => {
   const bookmarks = await getBookmarksObj();
-  return isDir ? bookmarks.folderList[hash] : bookmarks.urlList[hash];
+  const { urlList } = bookmarks;
+  const faviconUrls = Object.values(urlList).map(({ url }) =>
+    getFaviconUrl(decodeURIComponent(atob(url)))
+  );
+  const uniqueUrls = new Set(faviconUrls).values();
+  const cache = await getCacheObj(CACHE_BUCKET_KEYS.favicon);
+  await cache.addAll(uniqueUrls);
+  console.log("Initialized cache for all bookmark urls");
 };
-
-export const getDecodedBookmark = (bookmark) => ({
-  url: decodeURIComponent(atob(bookmark.url)),
-  title: decodeURIComponent(atob(bookmark.title)),
-  parentHash: bookmark.parentHash,
-  taggedUrls: bookmark.taggedUrls,
-});

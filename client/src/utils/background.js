@@ -1,4 +1,3 @@
-import storage from "ChromeApi/storage";
 import tabs, { getCurrentTab } from "ChromeApi/tabs";
 import { getExtensionState, isExtensionActive } from "./common";
 
@@ -7,7 +6,6 @@ export const bypassSingleLinkOnPage = async (selectorFn, tabId) => {
     code: `(${selectorFn})()`,
     runAt: "document_end",
   });
-  // shown in devtools of the popup window
   const targetUrl = result?.links?.[0] ?? null;
   tabs.update(tabId, { url: targetUrl });
 };

@@ -1,5 +1,11 @@
 import tabs from "ChromeApi/tabs";
-import { fetchLinkMetaData, fetchTargetUrl } from "GlobalApis/linkvertise";
+import {
+  bypassLinkvertiseUsingExternalApi,
+  fetchLinkMetaData,
+  fetchTargetUrl,
+} from "GlobalApis/linkvertise";
+import { BYPASS_KEYS } from "GlobalConstants/index";
+import { matchHostnames } from "GlobalUtils/common";
 
 const getDynamicParams = (url) => ({
   type: "dynamic",
@@ -22,6 +28,14 @@ export const bypassLinkvertise = async (url, tabId) => {
     ? getDynamicParams(url)
     : getStaticParams(url);
   const { linkId, linkUrl } = await fetchLinkMetaData(type, userId, target);
-  const targetUrl = await fetchTargetUrl(userId, linkId, linkUrl);
+  let targetUrl = await fetchTargetUrl(userId, linkId, linkUrl);
+  const targetUrlObj = new URL(targetUrl);
+  const isLinkvetiseDownloadPage = await matchHostnames(
+    targetUrlObj.hostname,
+    BYPASS_KEYS.LINKVERTISE_DOWNLOAD
+  );
+  if (isLinkvetiseDownloadPage) {
+    targetUrl = await bypassLinkvertiseUsingExternalApi(url);
+  }
   await tabs.update(tabId, { url: targetUrl });
 };
