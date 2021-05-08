@@ -6,14 +6,14 @@ import { startHistoryMonitor } from "GlobalActionCreators/index";
 import { COLOR } from "GlobalConstants/color";
 import { BYPASS_KEYS } from "GlobalConstants/index";
 import { getActiveDisabledColor } from "GlobalUtils/color";
-import { getHostnameAlias } from "GlobalUtils/common";
+import { matchHostnames } from "GlobalUtils/common";
 import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IconButtonLoader } from "./Loader";
 
 const isCurrentPageForum = async (url) => {
   const hostname = url && new URL(url).hostname;
-  return (await getHostnameAlias(hostname)) === BYPASS_KEYS.FORUMS;
+  return await matchHostnames(hostname, BYPASS_KEYS.FORUMS);
 };
 
 const OpenForumLinks = memo(() => {
