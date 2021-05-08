@@ -1,7 +1,8 @@
 import storage from "ChromeApi/storage";
+import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
 import { STORAGE_KEYS } from "GlobalConstants/index";
 import { ROUTES } from "GlobalConstants/routes";
-import { getImageFromFirebase } from "GlobalUtils/firebase";
+import { getBlobUrlFromCache } from "GlobalUtils/cache";
 import { serialzeObjectToQueryString } from "GlobalUtils/url";
 
 export const getPersons = async () => {
@@ -62,7 +63,8 @@ export const resolvePersonImageFromUid = async (uid) => {
   const { [STORAGE_KEYS.personImages]: personImages } = await storage.get(
     STORAGE_KEYS.personImages
   );
-  return personImages[uid];
+  const imageUrl = personImages[uid];
+  return await getBlobUrlFromCache(CACHE_BUCKET_KEYS.person, imageUrl);
 };
 
 export const getPersonPos = (persons, person) =>

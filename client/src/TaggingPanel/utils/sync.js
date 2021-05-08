@@ -1,7 +1,7 @@
 import storage from "ChromeApi/storage";
 import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
 import { FIREBASE_DB_REF, STORAGE_KEYS } from "GlobalConstants/index";
-import { getCacheObj } from "GlobalUtils/cache";
+import { addToCache, getCacheObj } from "GlobalUtils/cache";
 import {
   getFromFirebase,
   getImageFromFirebase,
@@ -71,4 +71,16 @@ export const cachePersonImages = async () => {
   const cache = await getCacheObj(CACHE_BUCKET_KEYS.person);
   await cache.addAll(imageUrls);
   console.log("Initialized cache for all person urls");
+};
+
+export const updatePersonCacheAndImageUrls = async (person) => {
+  //Update person image urls in storage
+  const { [STORAGE_KEYS.personImages]: personImages } = await storage.get(
+    STORAGE_KEYS.personImages
+  );
+  const { uid, imageUrl } = await resolveImageFromPerson(person);
+  personImages[uid] = imageUrl;
+  await storage.set({ [STORAGE_KEYS.personImages]: personImages });
+  //Update person image cache
+  await addToCache(CACHE_BUCKET_KEYS.person, imageUrl);
 };

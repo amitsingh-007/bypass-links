@@ -10,7 +10,7 @@ import {
   getSortedPersons,
   setPersonsInStorage,
 } from "../utils/index";
-import { cachePersonImagesInStorage } from "../utils/sync";
+import { updatePersonCacheAndImageUrls } from "../utils/sync";
 import Header from "./Header";
 import Persons from "./Persons";
 
@@ -45,20 +45,20 @@ const TaggingPanel = () => {
       {}
     );
     await setPersonsInStorage(encryptedPersons);
-    await cachePersonImagesInStorage();
     setIsFetching(false);
   };
 
-  const handleAddPerson = async (person) => {
-    const newPersons = [...persons, person];
-    setPersons(newPersons);
-    await handleSave(newPersons);
-  };
-
-  const handleEditPerson = async (updatedPerson) => {
-    const pos = getPersonPos(persons, updatedPerson);
+  const handleAddOrEditPerson = async (person) => {
     const newPersons = [...persons];
-    newPersons[pos] = updatedPerson;
+    const pos = getPersonPos(persons, person);
+    if (pos === -1) {
+      //Add person
+      newPersons.push(person);
+    } else {
+      //Update person
+      newPersons[pos] = person;
+    }
+    await updatePersonCacheAndImageUrls(person);
     setPersons(newPersons);
     await handleSave(newPersons);
   };
@@ -79,12 +79,12 @@ const TaggingPanel = () => {
   const sortedPersons = getSortedPersons(persons);
   return (
     <Box sx={{ width: PANEL_DIMENSIONS.width }}>
-      <Header isFetching={isFetching} handleAddPerson={handleAddPerson} />
+      <Header isFetching={isFetching} handleAddPerson={handleAddOrEditPerson} />
       <Box sx={{ minHeight: PANEL_DIMENSIONS.height }}>
-        {!isFetching ? (
+        {sortedPersons.length > 0 ? (
           <Persons
             persons={sortedPersons}
-            handleEditPerson={handleEditPerson}
+            handleEditPerson={handleAddOrEditPerson}
             handlePersonDelete={handlePersonDelete}
           />
         ) : null}

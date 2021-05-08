@@ -31,7 +31,7 @@ const Person = memo(
       resolvePersonImageFromUid(uid).then((url) => {
         setImageUrl(url);
       });
-    }, [person, uid]);
+    }, [uid, person]);
 
     useEffect(() => {
       setShowBookmarksList(openBookmarksListUid === uid);

@@ -150,9 +150,7 @@ class BookmarksPanel extends PureComponent {
       };
     }
     //Add bookmark favicon in the cache
-    getCacheObj(CACHE_BUCKET_KEYS.favicon).then((cache) => {
-      addToCache(cache, getFaviconUrl(url));
-    });
+    addToCache(CACHE_BUCKET_KEYS.favicon, getFaviconUrl(url));
 
     this.setState({
       urlList: { ...urlList },
