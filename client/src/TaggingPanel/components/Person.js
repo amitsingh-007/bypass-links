@@ -55,7 +55,11 @@ const Person = memo(
 
     return (
       <>
-        <IconButton onClick={openBookmarksList}>
+        <IconButton
+          onClick={openBookmarksList}
+          data-text={name}
+          className="personContainer"
+        >
           <Box
             sx={{
               display: "inline-flex",
@@ -66,8 +70,6 @@ const Person = memo(
               height: "156px",
               width: "156px",
             }}
-            className="personContainer"
-            data-text={name}
           >
             <Box onContextMenu={onMenuOpen}>
               <Badge
