@@ -1,8 +1,10 @@
 import { Avatar, Box, TextField } from "@material-ui/core";
+import PersonOffIcon from "@material-ui/icons/PersonOff";
 import { EditDialog } from "GlobalComponents/Dialogs";
 import { getImageFromFirebase } from "GlobalUtils/firebase";
 import md5 from "md5";
 import { memo, useEffect, useState } from "react";
+import { resolvePersonImageFromUid } from "../utils/index";
 import ImagePicker from "./ImagePicker";
 
 const imageStyles = { width: 200, height: 200 };
@@ -15,9 +17,14 @@ const AddOrEditPersonDialog = memo(
     const [imageUrl, setImageUrl] = useState("");
     const [showImagePicker, setShowImagePicker] = useState(false);
 
+    const initImageUrl = async (uid) => {
+      const imageUrl = await resolvePersonImageFromUid(uid);
+      setImageUrl(imageUrl);
+    };
+
     useEffect(() => {
       if (person) {
-        fetchImage(person.imageRef);
+        initImageUrl(person.uid);
       } else {
         setUid(md5(Date.now()));
       }
@@ -50,6 +57,8 @@ const AddOrEditPersonDialog = memo(
       });
     };
 
+    const isSaveActive = Boolean(name && imageUrl);
+
     return (
       <>
         <EditDialog
@@ -57,7 +66,7 @@ const AddOrEditPersonDialog = memo(
           openDialog={isOpen}
           closeDialog={onClose}
           handleSave={handlePersonSave}
-          isSaveOptionActive
+          isSaveOptionActive={isSaveActive}
         >
           <Box
             sx={{
@@ -71,7 +80,9 @@ const AddOrEditPersonDialog = memo(
                 alt={imageUrl || "No Image"}
                 src={imageUrl}
                 sx={imageStyles}
-              />
+              >
+                {imageUrl ? null : <PersonOffIcon sx={{ fontSize: 125 }} />}
+              </Avatar>
             </Box>
             <TextField
               size="small"
