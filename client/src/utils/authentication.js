@@ -1,13 +1,12 @@
 import storage from "ChromeApi/storage";
+import { STORAGE_KEYS } from "GlobalConstants/index";
 import { googleSignIn, googleSignOut } from "./firebase";
 import {
-  resetStorage,
+  processPostLogin,
+  processPostLogout,
   syncFirebaseToStorage,
   syncStorageToFirebase,
 } from "./sync";
-import { STORAGE_KEYS } from "GlobalConstants/index";
-import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
-import { deleteAllCache } from "./cache";
 
 export const syncAuthenticationToStorage = async (userProfile) => {
   await storage.set({
@@ -23,11 +22,17 @@ export const resetAuthentication = async () => {
 export const signIn = async () => {
   try {
     const response = await googleSignIn();
-    console.log("Login Success ", response);
+    //First sync remote firebase to storage
     await syncFirebaseToStorage(response.additionalUserInfo.profile);
+    //Then do post processing
+    await processPostLogin();
+
+    console.log("Login Success ", response);
     return true;
   } catch (err) {
     console.error("Error occured while signing in. ", err);
+    console.log("Reverting due to login error...");
+    await processPostLogout();
     return false;
   }
 };
@@ -38,10 +43,9 @@ export const signOut = async () => {
     await syncStorageToFirebase();
     //Then signout
     await googleSignOut();
-    // Reset storage only if signout successful
-    await resetStorage();
-    //Refresh browser cache
-    await deleteAllCache([CACHE_BUCKET_KEYS.favicon]);
+    //Finally do post logout processing
+    await processPostLogout();
+
     console.log("Logout Success");
     return true;
   } catch (err) {

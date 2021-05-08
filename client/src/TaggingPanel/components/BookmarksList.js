@@ -4,7 +4,7 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  IconButton
+  IconButton,
 } from "@material-ui/core";
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import EditTwoToneIcon from "@material-ui/icons/EditTwoTone";
@@ -15,11 +15,11 @@ import Ripples from "react-ripples";
 import { useHistory } from "react-router";
 import { BookmarkExternal } from "SrcPath/BookmarksPanel/components/Bookmark";
 import { bookmarkRowStyles } from "SrcPath/BookmarksPanel/constants";
-import { getBookmarksPanelUrl } from "SrcPath/BookmarksPanel/utils";
 import {
-  getDecodedBookmark,
-  getFromHash
-} from "SrcPath/BookmarksPanel/utils/bookmark";
+  getBookmarksPanelUrl,
+  getFromHash,
+} from "SrcPath/BookmarksPanel/utils/index";
+import { getDecodedBookmark } from "SrcPath/BookmarksPanel/utils/index";
 
 const imageStyles = { width: 40, height: 40 };
 

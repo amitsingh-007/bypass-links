@@ -1,4 +1,5 @@
-import { defaultBookmarkFolder } from "GlobalConstants/index";
+import storage from "ChromeApi/storage";
+import { defaultBookmarkFolder, STORAGE_KEYS } from "GlobalConstants/index";
 import { ROUTES } from "GlobalConstants/routes";
 import { serialzeObjectToQueryString } from "GlobalUtils/url";
 import md5 from "md5";
@@ -41,3 +42,22 @@ export const isInInitalView = (position) => position < BM_COUNT_IN_INITAL_VIEW;
 
 export const shouldRenderBookmarks = (folders, contextBookmarks) =>
   folders && contextBookmarks && contextBookmarks.length > 0;
+
+export const getBookmarksObj = async () => {
+  const { [STORAGE_KEYS.bookmarks]: bookmarks } = await storage.get(
+    STORAGE_KEYS.bookmarks
+  );
+  return bookmarks;
+};
+
+export const getFromHash = async (isDir, hash) => {
+  const bookmarks = await getBookmarksObj();
+  return isDir ? bookmarks.folderList[hash] : bookmarks.urlList[hash];
+};
+
+export const getDecodedBookmark = (bookmark) => ({
+  url: decodeURIComponent(atob(bookmark.url)),
+  title: decodeURIComponent(atob(bookmark.title)),
+  parentHash: bookmark.parentHash,
+  taggedUrls: bookmark.taggedUrls,
+});

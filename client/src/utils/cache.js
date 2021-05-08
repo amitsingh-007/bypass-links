@@ -1,3 +1,6 @@
+export const getCacheObj = async (cacheBucketKey) =>
+  await caches.open(cacheBucketKey);
+
 export const addToCache = async (cache, url) => {
   if (!url) {
     return;
@@ -18,11 +21,10 @@ export const getFromCache = async (cache, url) => {
 
 export const deleteAllCache = async (bucketKeys) => {
   bucketKeys.forEach(async (cacheBucketKey) => {
-    const cache = await caches.open(cacheBucketKey);
+    const cache = await getCacheObj(cacheBucketKey);
     const keys = await cache.keys();
     keys.forEach(async (key) => {
-      const isDeleted = await cache.delete(key);
-      console.log(isDeleted);
+      await cache.delete(key);
     });
   });
   console.log("Cleared all cache inside the buckets", bucketKeys);

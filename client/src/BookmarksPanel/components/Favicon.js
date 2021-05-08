@@ -3,7 +3,7 @@ import { memo, useCallback, useEffect, useState } from "react";
 import { getFaviconUrl } from "../utils";
 import LanguageIcon from "@material-ui/icons/Language";
 import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
-import { getFromCache } from "GlobalUtils/cache";
+import { getCacheObj, getFromCache } from "GlobalUtils/cache";
 
 const containerStyles = {
   width: "20px",
@@ -16,7 +16,7 @@ const Favicon = memo(({ url }) => {
   const [faviconUrl, setFaviconUrl] = useState("");
 
   const initFavicon = useCallback(async () => {
-    const cache = await caches.open(CACHE_BUCKET_KEYS.favicon);
+    const cache = await getCacheObj(CACHE_BUCKET_KEYS.favicon);
     const faviconBlob = await getFromCache(cache, getFaviconUrl(url));
     if (faviconBlob) {
       setFaviconUrl(URL.createObjectURL(faviconBlob));

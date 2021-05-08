@@ -1,3 +1,4 @@
+import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
 import {
   resetPersons,
   syncPersonsFirebaseWithStorage,
@@ -7,12 +8,14 @@ import {
   resetBookmarks,
   syncBookmarksToStorage,
   syncBookmarksFirebaseWithStorage,
+  cacheBookmarkFavicons,
 } from "../BookmarksPanel/utils/bookmark";
 import {
   resetAuthentication,
   syncAuthenticationToStorage,
 } from "./authentication";
 import { resetBypass, syncBypassToStorage } from "./bypass";
+import { deleteAllCache } from "./cache";
 import { resetLastVisited, syncLastVisitedToStorage } from "./lastVisited";
 import { resetRedirections, syncRedirectionsToStorage } from "./redirect";
 
@@ -43,4 +46,15 @@ export const resetStorage = async () => {
     resetLastVisited(),
     resetPersons(),
   ]);
+};
+
+export const processPostLogin = async () => {
+  await Promise.all([cacheBookmarkFavicons()]);
+};
+
+export const processPostLogout = async () => {
+  // Reset storage
+  await resetStorage();
+  //Refresh browser cache
+  await deleteAllCache([CACHE_BUCKET_KEYS.favicon]);
 };

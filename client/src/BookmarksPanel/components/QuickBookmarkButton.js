@@ -9,12 +9,12 @@ import md5 from "md5";
 import { memo, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { getBookmarksPanelUrl } from "SrcPath/BookmarksPanel/utils";
 import {
   getBookmarksObj,
-  getDecodedBookmark,
+  getBookmarksPanelUrl,
   getFromHash,
-} from "SrcPath/BookmarksPanel/utils/bookmark";
+} from "SrcPath/BookmarksPanel/utils/index";
+import { getDecodedBookmark } from "SrcPath/BookmarksPanel/utils/index";
 import { IconButtonLoader } from "../../components/Loader";
 
 const QuickBookmarkButton = memo(() => {
