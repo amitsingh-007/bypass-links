@@ -81,13 +81,32 @@ export const saveDataToFirebase = async (data, ref, successCallback) => {
 /**
  * STORAGE
  */
-export const uploadImageToFirebase = (blob, path) =>
-  firebase.storage().ref().child(path).put(blob, {
-    contentType: blob.type,
-  });
 
-export const getImageFromFirebase = (ref) =>
-  firebase.storage().ref().child(ref).getDownloadURL();
+const getStoragePath = async (ref) => {
+  const env = __PROD__ ? "prod" : "dev";
+  const { [STORAGE_KEYS.userProfile]: userProfile } = await storage.get(
+    STORAGE_KEYS.userProfile
+  );
+  return `${userProfile.uid}/${env}/${ref}`;
+};
 
-export const removeImageFromFirebase = (ref) =>
-  firebase.storage().ref().child(ref).delete();
+export const uploadImageToFirebase = async (blob, ref) =>
+  firebase
+    .storage()
+    .ref()
+    .child(await getStoragePath(ref))
+    .put(blob, { contentType: blob.type });
+
+export const getImageFromFirebase = async (ref) =>
+  firebase
+    .storage()
+    .ref()
+    .child(await getStoragePath(ref))
+    .getDownloadURL();
+
+export const removeImageFromFirebase = async (ref) =>
+  firebase
+    .storage()
+    .ref()
+    .child(await getStoragePath(ref))
+    .delete();
