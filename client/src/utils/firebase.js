@@ -19,8 +19,12 @@ firebase.initializeApp(firebaseConfig);
 /**
  * AUTHORIZATION
  */
-export const googleSignIn = () =>
-  firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
+export const googleSignIn = (token) =>
+  firebase
+    .auth()
+    .signInWithCredential(
+      firebase.auth.GoogleAuthProvider.credential(null, token)
+    );
 
 export const googleSignOut = () => firebase.auth().signOut();
 

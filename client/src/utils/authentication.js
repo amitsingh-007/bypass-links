@@ -1,3 +1,4 @@
+import identity from "ChromeApi/identity";
 import storage from "ChromeApi/storage";
 import { STORAGE_KEYS } from "GlobalConstants/index";
 import { googleSignIn, googleSignOut } from "./firebase";
@@ -21,12 +22,12 @@ export const resetAuthentication = async () => {
 
 export const signIn = async () => {
   try {
-    const response = await googleSignIn();
+    const googleAuthToken = await identity.getAuthToken({ interactive: true });
+    const response = await googleSignIn(googleAuthToken);
     //First sync remote firebase to storage
     await syncFirebaseToStorage(response.additionalUserInfo.profile);
     //Then do post processing
     await processPostLogin();
-
     console.log("Login Success ", response);
     return true;
   } catch (err) {
