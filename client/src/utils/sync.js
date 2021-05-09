@@ -13,18 +13,14 @@ import {
   syncBookmarksFirebaseWithStorage,
   syncBookmarksToStorage,
 } from "../BookmarksPanel/utils/bookmark";
-import {
-  resetAuthentication,
-  syncAuthenticationToStorage,
-} from "./authentication";
+import { resetAuthentication } from "./authentication";
 import { resetBypass, syncBypassToStorage } from "./bypass";
 import { deleteAllCache } from "./cache";
 import { resetLastVisited, syncLastVisitedToStorage } from "./lastVisited";
 import { resetRedirections, syncRedirectionsToStorage } from "./redirect";
 
-export const syncFirebaseToStorage = async (userProfile) => {
+export const syncFirebaseToStorage = async () => {
   await Promise.all([
-    syncAuthenticationToStorage(userProfile),
     syncRedirectionsToStorage(),
     syncBypassToStorage(),
     syncBookmarksToStorage(),
@@ -40,7 +36,7 @@ export const syncStorageToFirebase = async () => {
   ]);
 };
 
-export const resetStorage = async () => {
+const resetStorage = async () => {
   await Promise.all([
     resetAuthentication(),
     resetRedirections(),

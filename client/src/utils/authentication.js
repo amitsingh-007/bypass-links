@@ -9,23 +9,41 @@ import {
   syncStorageToFirebase,
 } from "./sync";
 
-export const syncAuthenticationToStorage = async (userProfile) => {
+const syncAuthenticationToStorage = async ({
+  userProfile,
+  googleAuthToken,
+}) => {
   await storage.set({
     [STORAGE_KEYS.isSignedIn]: true,
     [STORAGE_KEYS.userProfile]: userProfile,
+    [STORAGE_KEYS.googleAuthToken]: googleAuthToken,
   });
 };
 
 export const resetAuthentication = async () => {
-  await storage.remove([STORAGE_KEYS.isSignedIn, STORAGE_KEYS.userProfile]);
+  const { [STORAGE_KEYS.googleAuthToken]: googleAuthToken } = await storage.get(
+    STORAGE_KEYS.googleAuthToken
+  );
+  await identity.removeCachedAuthToken({ token: googleAuthToken });
+  console.log("Removed Google auth token from cache");
+  await storage.remove([
+    STORAGE_KEYS.isSignedIn,
+    STORAGE_KEYS.userProfile,
+    STORAGE_KEYS.googleAuthToken,
+  ]);
 };
 
 export const signIn = async () => {
   try {
     const googleAuthToken = await identity.getAuthToken({ interactive: true });
     const response = await googleSignIn(googleAuthToken);
-    //First sync remote firebase to storage
-    await syncFirebaseToStorage(response.additionalUserInfo.profile);
+    //First process authentication
+    await syncAuthenticationToStorage({
+      userProfile: response.additionalUserInfo.profile,
+      googleAuthToken,
+    });
+    //Then sync remote firebase to storage
+    await syncFirebaseToStorage();
     //Then do post processing
     await processPostLogin();
     console.log("Login Success ", response);

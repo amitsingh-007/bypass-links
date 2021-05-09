@@ -7,7 +7,7 @@ import {
 import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
 import { STORAGE_KEYS } from "GlobalConstants/index";
 import { PANEL_DIMENSIONS } from "GlobalConstants/styles";
-import { addToCache, getCacheObj } from "GlobalUtils/cache";
+import { addToCache } from "GlobalUtils/cache";
 import md5 from "md5";
 import { PureComponent } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";

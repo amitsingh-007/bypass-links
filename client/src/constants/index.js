@@ -20,9 +20,10 @@ export const STORAGE_KEYS = {
   redirections: "redirections",
   lastVisited: "lastVisited",
   persons: "persons",
-  personImages: "personImages", //not synced in firebase
+  personImages: "personImages",
   userProfile: "userProfile",
   isSignedIn: "isSignedIn",
+  googleAuthToken: "googleAuthToken",
 };
 
 export const BYPASS_KEYS = {
