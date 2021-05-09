@@ -1,9 +1,10 @@
+import scripting from "ChromeApi/scripting";
 import tabs, { getCurrentTab } from "ChromeApi/tabs";
 import { getExtensionState, isExtensionActive } from "./common";
 
 export const bypassSingleLinkOnPage = async (selectorFn, tabId) => {
-  const [result] = await tabs.executeScript(tabId, {
-    code: `(${selectorFn})()`,
+  const [result] = await scripting.executeScript(tabId, {
+    function: selectorFn,
     runAt: "document_end",
   });
   const targetUrl = result?.links?.[0] ?? null;
@@ -19,8 +20,8 @@ const getForumPageLinksFunc = () => {
   );
 };
 export const getForumPageLinks = async (tabId) => {
-  const [results] = await tabs.executeScript(tabId, {
-    code: `(${getForumPageLinksFunc})()`,
+  const [results] = await scripting.executeScript(tabId, {
+    function: getForumPageLinksFunc,
   });
   return new Promise((resolve, reject) => {
     resolve(results);
@@ -33,8 +34,8 @@ const getPageH1 = () => {
 };
 export const fetchPageH1 = async () => {
   const { id: tabId } = await getCurrentTab();
-  const [results] = await tabs.executeScript(tabId, {
-    code: `(${getPageH1})()`,
+  const [results] = await scripting.executeScript(tabId, {
+    function: getPageH1,
   });
   return new Promise((resolve, reject) => {
     resolve(results);

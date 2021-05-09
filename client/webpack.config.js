@@ -156,6 +156,10 @@ const getBackgroundConfigPlugins = () => {
               source: `${PATHS.FIREBASE_BUILD}/firebase.js`,
               destination: `${PATHS.EXTENSION}/`,
             },
+            {
+              source: `${PATHS.SRC}/scripts/service-worker.js`,
+              destination: `${PATHS.EXTENSION}/`,
+            },
           ],
         },
       },

@@ -1,10 +1,10 @@
 import promisify from "./promisifyChromeApi";
 
-const browserAction = {
+const action = {
   setIcon: (options) =>
     promisify((callback) => {
-      chrome.browserAction.setIcon(options, callback);
+      chrome.action.setIcon(options, callback);
     }),
 };
 
-export default browserAction;
+export default action;

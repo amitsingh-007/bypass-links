@@ -1,12 +1,12 @@
 {
   "key": "fdnekjijeofacghkammknogmiapepano",
   "version": "10.2.1",
-  "manifest_version": 2,
+  "manifest_version": 3,
   "short_name": "Bypass Links",
   "name": "Bypass Links",
   "author": "Amit Singh",
   "description": "Bypass links from various sites to required links.",
-  "browser_action": {
+  "action": {
     "default_icon": "bypass_link_on_128.png",
     "default_popup": "index.html",
     "default_title": "Bypass Links"
@@ -14,10 +14,12 @@
   "icons": {
     "128": "bypass_link_on_128.png"
   },
-  "permissions": ["storage", "tabs", "history", "<all_urls>"],
+  "permissions": ["storage", "tabs", "history"],
+  "host_permissions": ["<all_urls>"],
   "background": {
-    "scripts": ["firebase.js", "background.js"],
-    "persistent": false
+    "service_worker": "service-worker.js"
   },
-  "content_security_policy": "script-src 'self' https://apis.google.com/ 'unsafe-eval'; object-src 'self'"
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' ; object-src 'self'"
+  }
 }

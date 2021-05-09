@@ -1,4 +1,4 @@
-import browserAction from "ChromeApi/browserAction";
+import action from "ChromeApi/action";
 import { EXTENSION_STATE } from "GlobalConstants/index";
 import {
   fetchPageH1,
@@ -53,7 +53,7 @@ const onStorageChange = (changedObj, storageType) => {
   if (extState || hasPendingBookmarks || hasPendingPersons) {
     getExtensionIcon(extState, hasPendingBookmarks, hasPendingPersons).then(
       (icon) => {
-        browserAction.setIcon({ path: icon });
+        action.setIcon({ path: icon });
       }
     );
   }

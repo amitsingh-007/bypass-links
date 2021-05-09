@@ -1,5 +1,5 @@
 import history from "ChromeApi/history";
-import tabs from "ChromeApi/tabs";
+import scripting from "ChromeApi/scripting";
 
 const watchedThreadsPath = "/watched/threads";
 
@@ -21,9 +21,8 @@ const getThreadsOnThePage = () => {
   });
 };
 
-const highlightThreads = () => {
-  // eslint-disable-next-line no-undef
-  threads.data.forEach(({ id }) => {
+const highlightThreads = (threads) => {
+  threads.forEach(({ id }) => {
     const container = document.getElementsByClassName(
       `js-threadListItem-${id}`
     )[0];
@@ -44,8 +43,8 @@ const highlightOpenedUrls = async (tabId) => {
   const curDate = new Date();
   const startTime = curDate.setDate(curDate.getDate() - 1); //last 1 day
   const endTime = Date.now();
-  const [allThreads] = await tabs.executeScript(tabId, {
-    code: `(${getThreadsOnThePage})()`,
+  const [allThreads] = await scripting.executeScript(tabId, {
+    function: getThreadsOnThePage,
     runAt: "document_end",
   });
   const openedThreads = [];
@@ -55,10 +54,10 @@ const highlightOpenedUrls = async (tabId) => {
       openedThreads.push(thread);
     }
   }
-  tabs.executeScript(tabId, {
-    code: `const threads = ${JSON.stringify({
-      data: openedThreads,
-    })};(${highlightThreads})()`,
+  scripting.executeScript(tabId, {
+    function: () => {
+      highlightThreads(openedThreads);
+    },
     runAt: "document_end",
   });
 };
