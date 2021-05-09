@@ -44,7 +44,8 @@ export const Authenticate = memo(() => {
   }, [dispatch]);
 
   useEffect(() => {
-    storage.get([STORAGE_KEYS.isSignedIn]).then(({ isSignedIn }) => {
+    storage.get([STORAGE_KEYS.userProfile]).then(({ userProfile }) => {
+      const isSignedIn = Boolean(userProfile);
       setIsSignedIn(isSignedIn);
       dispatch(setSignedInStatus(isSignedIn));
     });

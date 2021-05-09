@@ -22,8 +22,6 @@ export const STORAGE_KEYS = {
   persons: "persons",
   personImages: "personImages",
   userProfile: "userProfile",
-  isSignedIn: "isSignedIn",
-  googleAuthToken: "googleAuthToken",
 };
 
 export const BYPASS_KEYS = {
@@ -38,14 +36,12 @@ export const BYPASS_KEYS = {
   MEDIUM: "MEDIUM",
 };
 
-const dbPrefix = __PROD__ ? "prod" : "dev";
-
 export const FIREBASE_DB_REF = {
-  bookmarks: `${dbPrefix}/${STORAGE_KEYS.bookmarks}`,
-  bypass: `${dbPrefix}/${STORAGE_KEYS.bypass}`,
-  redirections: `${dbPrefix}/${STORAGE_KEYS.redirections}`,
-  lastVisited: `${dbPrefix}/${STORAGE_KEYS.lastVisited}`,
-  persons: `${dbPrefix}/${STORAGE_KEYS.persons}`,
+  bookmarks: STORAGE_KEYS.bookmarks,
+  bypass: STORAGE_KEYS.bypass,
+  redirections: STORAGE_KEYS.redirections,
+  lastVisited: STORAGE_KEYS.lastVisited,
+  persons: STORAGE_KEYS.persons,
 };
 
 export const FIREBASE_STORAGE_REF = {

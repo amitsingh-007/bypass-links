@@ -1,6 +1,9 @@
 const FileManagerPlugin = require("filemanager-webpack-plugin");
-const { DllPlugin } = require("webpack");
+const { DllPlugin, DefinePlugin } = require("webpack");
 const { commonConfig, PATHS } = require("./webpack.common.config");
+
+const ENV = process.env.NODE_ENV;
+const isProduction = ENV === "production";
 
 const firebasedDllConfig = {
   ...commonConfig,
@@ -23,6 +26,9 @@ const firebasedDllConfig = {
           delete: ["./extension/*"],
         },
       },
+    }),
+    new DefinePlugin({
+      __PROD__: JSON.stringify(isProduction),
     }),
   ],
 };
