@@ -9,9 +9,9 @@ import { signIn, signOut } from "GlobalUtils/authentication";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { IconButtonLoader } from "./Loader";
+import { IconButtonLoader } from "GlobalComponents/Loader";
 
-export const Authenticate = memo(() => {
+const Authenticate = memo(() => {
   const dispatch = useDispatch();
   const [isFetching, setIsFetching] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
@@ -85,3 +85,5 @@ export const Authenticate = memo(() => {
     </IconButton>
   );
 });
+
+export default Authenticate;

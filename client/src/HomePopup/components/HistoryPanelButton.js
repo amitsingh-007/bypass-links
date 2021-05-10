@@ -7,24 +7,26 @@ import { memo } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-export const ManualHistoryPanelButton = memo(() => {
+const HistoryPanelButton = memo(() => {
   const isExtensionActive = useSelector((state) => state.isExtensionActive);
   const history = useHistory();
 
-  const handleShowManualHistoryPanel = () => {
-    history.push(ROUTES.MANUAL_HISTORY_PANEL);
+  const handleShowHistoryPanel = () => {
+    history.push(ROUTES.HISTORY_PANEL);
   };
 
   return (
     <IconButton
-      aria-label="ManualHistoryPanel"
+      aria-label="HistoryPanel"
       component="span"
       style={getActiveDisabledColor(isExtensionActive, COLOR.orange)}
-      onClick={handleShowManualHistoryPanel}
-      title="Manual History Control"
+      onClick={handleShowHistoryPanel}
+      title="History Control"
       disabled={!isExtensionActive}
     >
       <HistoryTwoToneIcon fontSize="large" />
     </IconButton>
   );
 });
+
+export default HistoryPanelButton;

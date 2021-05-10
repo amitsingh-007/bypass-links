@@ -9,7 +9,7 @@ import { getActiveDisabledColor } from "GlobalUtils/color";
 import { matchHostnames } from "GlobalUtils/common";
 import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { IconButtonLoader } from "./Loader";
+import { IconButtonLoader } from "GlobalComponents/Loader";
 
 const isCurrentPageForum = async (url) => {
   const hostname = url && new URL(url).hostname;

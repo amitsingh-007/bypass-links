@@ -26,7 +26,7 @@ export const endHistoryWatch = async () => {
   console.log("History clear successful.");
 };
 
-export const ToggleHistory = memo(() => {
+const ToggleHistory = memo(() => {
   const dispatch = useDispatch();
   const [isHistoryActive, setIsHistoryActive] = useState(false);
   const { isExtensionActive, startHistoryMonitor } = useSelector(
@@ -92,3 +92,5 @@ export const ToggleHistory = memo(() => {
     </Box>
   );
 });
+
+export default ToggleHistory;

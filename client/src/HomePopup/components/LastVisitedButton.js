@@ -12,8 +12,8 @@ import {
 import md5 from "md5";
 import { memo, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { IconButtonLoader } from "./Loader";
-import { BlackTooltip } from "./StyledComponents";
+import { IconButtonLoader } from "GlobalComponents/Loader";
+import { BlackTooltip } from "GlobalComponents/StyledComponents";
 
 const tooltipStyles = { fontSize: "13px" };
 

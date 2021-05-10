@@ -1,21 +1,21 @@
 import { Box, Typography } from "@material-ui/core/";
-import { Authenticate } from "GlobalComponents/Authenticate";
-import LastVisitedButton from "GlobalComponents/LastVisitedButton";
-import { ManualHistoryPanelButton } from "GlobalComponents/ManualHistoryPanelButton";
-import { OpenDefaultsButton } from "GlobalComponents/OpenDefaultsButton";
-import OpenForumLinks from "GlobalComponents/OpenForumLinks";
-import QuickBookmarkButton from "SrcPath/BookmarksPanel/components/QuickBookmarkButton";
 import { Row } from "GlobalComponents/Row";
-import { ToggleExtension } from "GlobalComponents/ToggleExtension";
-import { ToggleHistory } from "GlobalComponents/ToggleHistory";
 import { COLOR } from "GlobalConstants/color";
 import { memo } from "react";
-import BookmarksPanelButton from "SrcPath/BookmarksPanel/components/BookmarksPanelButton";
-import ShortcutsPanelButton from "SrcPath/ShortcutsPanel/components/ShortcutsPanelButton";
-import TaggingPanelButton from "SrcPath/TaggingPanel/components/TaggingPanelButton";
-import UserProfile from "SrcPath/BookmarksPanel/components/UserProfile";
+import Authenticate from "../components/Authenticate";
+import BookmarksPanelButton from "../components/BookmarksPanelButton";
+import LastVisitedButton from "../components/LastVisitedButton";
+import HistoryPanelButton from "../components/HistoryPanelButton";
+import OpenDefaultsButton from "../components/OpenDefaultsButton";
+import OpenForumLinks from "../components/OpenForumLinks";
+import QuickBookmarkButton from "../components/QuickBookmarkButton";
+import ShortcutsPanelButton from "../components/ShortcutsPanelButton";
+import TaggingPanelButton from "../components/TaggingPanelButton";
+import ToggleExtension from "../components/ToggleExtension";
+import ToggleHistory from "../components/ToggleHistory";
+import UserProfile from "../components/UserProfile";
 
-export const Popup = memo(() => (
+const Popup = memo(() => (
   <Box
     sx={{
       display: "flex",
@@ -47,7 +47,7 @@ export const Popup = memo(() => (
       <BookmarksPanelButton />
     </Row>
     <Box>
-      <ManualHistoryPanelButton />
+      <HistoryPanelButton />
       <OpenDefaultsButton />
       <QuickBookmarkButton />
     </Box>
@@ -58,3 +58,5 @@ export const Popup = memo(() => (
     </Box>
   </Box>
 ));
+
+export default Popup;
