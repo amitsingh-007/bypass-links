@@ -7,9 +7,9 @@ const turnOffAutocomplete = () => {
 };
 
 const turnOffInputSuggestions = (tabId) => {
-  scripting.executeScript(tabId, {
+  scripting.executeScript({
+    target: { tabId },
     function: turnOffAutocomplete,
-    runAt: "document_end",
   });
 };
 export default turnOffInputSuggestions;

@@ -1,9 +1,9 @@
 import promisify from "./promisifyChromeApi";
 
 const scripting = {
-  executeScript: (tabId, options) =>
+  executeScript: (options) =>
     promisify((callback) => {
-      chrome.scripting.executeScript(tabId, options, callback);
+      chrome.scripting.executeScript(options, callback);
     }),
 };
 

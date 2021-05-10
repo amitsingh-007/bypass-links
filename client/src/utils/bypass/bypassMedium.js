@@ -19,9 +19,9 @@ export const bypassMedium = async (url, tabId) => {
     return;
   }
 
-  const [result] = await scripting.executeScript(tabId, {
+  const [{ result }] = await scripting.executeScript({
+    target: { tabId },
     function: shouldBypass,
-    runAt: "document_end",
   });
   if (result && result.hasPaywall) {
     await windows.create({

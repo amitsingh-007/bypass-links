@@ -43,22 +43,22 @@ const highlightOpenedUrls = async (tabId) => {
   const curDate = new Date();
   const startTime = curDate.setDate(curDate.getDate() - 1); //last 1 day
   const endTime = Date.now();
-  const [allThreads] = await scripting.executeScript(tabId, {
+  const [{ result }] = await scripting.executeScript({
+    target: { tabId },
     function: getThreadsOnThePage,
-    runAt: "document_end",
   });
   const openedThreads = [];
-  for (const thread of allThreads) {
+  for (const thread of result) {
     const isVisited = await checkIfVisited(thread.title, startTime, endTime);
     if (isVisited) {
       openedThreads.push(thread);
     }
   }
-  scripting.executeScript(tabId, {
+  scripting.executeScript({
+    target: { tabId },
     function: () => {
       highlightThreads(openedThreads);
     },
-    runAt: "document_end",
   });
 };
 
