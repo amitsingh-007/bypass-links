@@ -14,49 +14,53 @@ import TaggingPanelButton from "../components/TaggingPanelButton";
 import ToggleExtension from "../components/ToggleExtension";
 import ToggleHistory from "../components/ToggleHistory";
 import UserProfile from "../components/UserProfile";
+import TwoFactorAuthenticate from "../components/TwoFactorAuthenticate";
 
-const Popup = memo(() => (
-  <Box
-    sx={{
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      padding: "16px",
-      width: "max-content",
-    }}
-  >
-    <Typography variant="h5" component="h5" gutterBottom>
-      <Box sx={{ color: COLOR.heading, fontWeight: "700" }}>BYPASS LINKS</Box>
-    </Typography>
+const PopupHome = memo(() => (
+  <>
     <Box
       sx={{
         display: "flex",
-        justifyContent: "space-between",
+        flexDirection: "column",
         alignItems: "center",
+        padding: "16px",
+        width: "max-content",
       }}
     >
-      <Box sx={{ marginRight: "10px" }}>
-        <ToggleExtension />
-        <ToggleHistory />
+      <Typography variant="h5" component="h5" gutterBottom>
+        <Box sx={{ color: COLOR.heading, fontWeight: "700" }}>BYPASS LINKS</Box>
+      </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Box sx={{ marginRight: "10px" }}>
+          <ToggleExtension />
+          <ToggleHistory />
+        </Box>
+        <UserProfile />
       </Box>
-      <UserProfile />
+      <Row>
+        <Authenticate />
+        <ShortcutsPanelButton />
+        <BookmarksPanelButton />
+      </Row>
+      <Box>
+        <HistoryPanelButton />
+        <OpenDefaultsButton />
+        <QuickBookmarkButton />
+      </Box>
+      <Box>
+        <OpenForumLinks />
+        <LastVisitedButton />
+        <TaggingPanelButton />
+      </Box>
     </Box>
-    <Row>
-      <Authenticate />
-      <ShortcutsPanelButton />
-      <BookmarksPanelButton />
-    </Row>
-    <Box>
-      <HistoryPanelButton />
-      <OpenDefaultsButton />
-      <QuickBookmarkButton />
-    </Box>
-    <Box>
-      <OpenForumLinks />
-      <LastVisitedButton />
-      <TaggingPanelButton />
-    </Box>
-  </Box>
+    <TwoFactorAuthenticate />
+  </>
 ));
 
-export default Popup;
+export default PopupHome;

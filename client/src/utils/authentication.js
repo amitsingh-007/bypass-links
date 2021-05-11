@@ -1,6 +1,7 @@
 import identity from "ChromeApi/identity";
 import storage from "ChromeApi/storage";
 import { STORAGE_KEYS } from "GlobalConstants/index";
+import { status2FA } from "SrcPath/SettingsPanel/apis/TwoFactorAuth";
 import { googleSignIn, googleSignOut } from "./firebase";
 import {
   processPostLogin,
@@ -10,6 +11,9 @@ import {
 } from "./sync";
 
 const syncAuthenticationToStorage = async (userProfile) => {
+  const { is2FAEnabled } = await status2FA(userProfile.uid);
+  userProfile.is2FAEnabled = is2FAEnabled;
+  userProfile.isTOTPVerified = false;
   await storage.set({
     [STORAGE_KEYS.userProfile]: userProfile,
   });

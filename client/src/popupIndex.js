@@ -42,6 +42,15 @@ const theme = createMuiTheme({
         root: { backgroundColor: BG_COLOR_BLACK },
       },
     },
+    MuiButton: {
+      styleOverrides: {
+        outlined: {
+          borderWidth: "2px",
+          borderRadius: "50px",
+          ":hover": { borderWidth: "2px" },
+        },
+      },
+    },
   },
 });
 

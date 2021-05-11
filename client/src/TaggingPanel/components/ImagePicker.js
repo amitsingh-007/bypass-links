@@ -29,7 +29,7 @@ const IMAGE_COMPRESSION_OPTIONS = {
 };
 
 const Transition = forwardRef((props, ref) => (
-  <Slide direction="up" {...props} ref={ref} />
+  <Slide direction="left" {...props} ref={ref} />
 ));
 
 const ImagePicker = memo(({ uid, isOpen, onDialogClose, handleImageSave }) => {
