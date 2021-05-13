@@ -40,7 +40,7 @@ const getDbRef = async (ref, isFallback = false) => {
   const { [STORAGE_KEYS.userProfile]: userProfile } = await storage.get(
     STORAGE_KEYS.userProfile
   );
-  return `${userProfile.uid}/${env}/${dbPrefix}/${ref}`;
+  return `${env}/${userProfile.uid}/${dbPrefix}/${ref}`;
 };
 
 const copyToFallbackDB = async (dbRef) => {

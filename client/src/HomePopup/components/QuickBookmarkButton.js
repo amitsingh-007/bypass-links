@@ -27,8 +27,10 @@ const QuickBookmarkButton = memo(() => {
     setIsFetching(true);
     const { url } = await getCurrentTab();
     const bookmarks = await getBookmarksObj();
-    const bookmark = bookmarks.urlList[md5(url)];
-    setBookmark(bookmark);
+    if (bookmarks) {
+      const bookmark = bookmarks.urlList[md5(url)];
+      setBookmark(bookmark);
+    }
     setIsFetching(false);
   };
 

@@ -13,10 +13,8 @@ export const syncBookmarksToStorage = async () => {
 };
 
 export const syncBookmarksFirebaseWithStorage = async () => {
-  const {
-    [STORAGE_KEYS.bookmarks]: bookmarks,
-    hasPendingBookmarks,
-  } = await storage.get([STORAGE_KEYS.bookmarks, "hasPendingBookmarks"]);
+  const { [STORAGE_KEYS.bookmarks]: bookmarks, hasPendingBookmarks } =
+    await storage.get([STORAGE_KEYS.bookmarks, "hasPendingBookmarks"]);
   if (!hasPendingBookmarks) {
     return;
   }
@@ -38,6 +36,9 @@ export const resetBookmarks = async () => {
 
 export const cacheBookmarkFavicons = async () => {
   const bookmarks = await getBookmarksObj();
+  if (!bookmarks) {
+    return;
+  }
   const { urlList } = bookmarks;
   const faviconUrls = Object.values(urlList).map(({ url }) =>
     getFaviconUrl(decodeURIComponent(atob(url)))

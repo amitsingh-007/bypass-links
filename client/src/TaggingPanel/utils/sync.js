@@ -11,16 +11,14 @@ import { getAllDecodedPersons } from ".";
 
 export const syncPersonsToStorage = async () => {
   const snapshot = await getFromFirebase(FIREBASE_DB_REF.persons);
-  const persons = snapshot.val();
+  const persons = snapshot.val() || {};
   await storage.set({ [STORAGE_KEYS.persons]: persons });
   console.log("Persons is set to", persons);
 };
 
 export const syncPersonsFirebaseWithStorage = async () => {
-  const {
-    [STORAGE_KEYS.persons]: persons,
-    hasPendingPersons,
-  } = await storage.get([STORAGE_KEYS.persons, "hasPendingPersons"]);
+  const { [STORAGE_KEYS.persons]: persons, hasPendingPersons } =
+    await storage.get([STORAGE_KEYS.persons, "hasPendingPersons"]);
   if (!hasPendingPersons) {
     return;
   }

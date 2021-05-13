@@ -25,15 +25,15 @@ Head over to [My Github Page](https://amitsingh-007.github.io/bypass-links/) and
 
 - Set **custom short URLs** for any websites that you frequently visit.
 
-- **Manipulate** browser history.
+- **Manipulate browser history**.
 
 - Set **custom redirections** for your websites in the Firebase Realtime Database.
 
 - A **fully customised shortcuts panel** to add/edit/delete/drag-n-drop custom redirection rules stored in **Firebase**.
 
-- A **bookmarks panel** with **quick bookmark** button.
+- A **bookmarks panel** with **quick bookmark** feature.
 
-- A **tagging panel** which enables to tag each bookmark with a person to easily search later.
+- A **tagging panel** which enables to tag each bookmark with a person/item to easily search by person/item.
 
 - A **fully customizable and full featured packed bookmarks panel** same as offered by Google Chrome with extra features.
 
@@ -43,4 +43,6 @@ Head over to [My Github Page](https://amitsingh-007.github.io/bypass-links/) and
 
 - Built with Cypress E2E testing.
 
-- Modern UI
+- TOTP based **Two Factor Authentication** Supported
+
+- **Modern UI**
