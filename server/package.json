@@ -5,6 +5,7 @@
   "dependencies": {
     "@bypass-links/common": "*",
     "@octokit/rest": "18.5.2",
+    "cors": "2.8.5",
     "express": "4.17.1",
     "firebase-admin": "9.8.0",
     "serverless-http": "2.7.0",

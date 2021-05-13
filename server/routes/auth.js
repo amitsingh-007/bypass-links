@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const serverless = require("serverless-http");
 const { BASE_PATH } = require("../constants");
 const { removeFromFirebase } = require("../utils/firebase");
@@ -6,6 +7,7 @@ const {
   FIREBASE_DB_REF,
 } = require("@bypass-links/common/src/constants/firebase");
 const setEnvVars = require("../middlewares/setEnvVars");
+const verifyUserId = require("../middlewares/verifyUserId");
 const {
   is2FAEnabled,
   fetchUser2FAInfo,
@@ -18,6 +20,11 @@ const app = express();
 const router = express.Router();
 
 app.use(setEnvVars);
+if (global.__PROD__) {
+  app.use(cors);
+  app.options("*", cors());
+}
+app.use(verifyUserId);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(`${BASE_PATH}/auth`, router);

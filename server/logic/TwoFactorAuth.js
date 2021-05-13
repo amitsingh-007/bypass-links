@@ -34,7 +34,10 @@ const setup2FA = async (uid) => {
       otpAuthUrl: decodeURIComponent(otpAuthUrl),
     };
   }
-  const { base32, otpauth_url } = speakeasy.generateSecret();
+  const { base32, otpauth_url } = speakeasy.generateSecret({
+    name: "Bypass Links",
+    symbols: false,
+  });
   await saveToFirebase({
     ref: FIREBASE_DB_REF.user2FAInfo,
     uid,
