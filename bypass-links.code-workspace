@@ -4,6 +4,9 @@
       "path": "."
     },
     {
+      "path": "./common"
+    },
+    {
       "path": "./server"
     },
     {

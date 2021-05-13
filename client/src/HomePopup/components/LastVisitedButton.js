@@ -1,8 +1,10 @@
+import { FIREBASE_DB_REF } from "@bypass-links/common/src/constants/firebase";
 import { IconButton, Typography } from "@material-ui/core";
 import EventAvailableTwoToneIcon from "@material-ui/icons/EventAvailableTwoTone";
 import { getCurrentTab } from "ChromeApi/tabs";
+import { IconButtonLoader } from "GlobalComponents/Loader";
+import { BlackTooltip } from "GlobalComponents/StyledComponents";
 import { COLOR } from "GlobalConstants/color";
-import { FIREBASE_DB_REF } from "GlobalConstants/index";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import { saveDataToFirebase } from "GlobalUtils/firebase";
 import {
@@ -12,8 +14,6 @@ import {
 import md5 from "md5";
 import { memo, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { IconButtonLoader } from "GlobalComponents/Loader";
-import { BlackTooltip } from "GlobalComponents/StyledComponents";
 
 const tooltipStyles = { fontSize: "13px" };
 

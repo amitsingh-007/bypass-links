@@ -4,6 +4,7 @@ import "firebase/auth";
 import "firebase/database";
 import "firebase/storage";
 import { STORAGE_KEYS } from "GlobalConstants/index";
+const { getFullDbPath } = require("@bypass-links/common/src/utils/firebase");
 
 const firebaseConfig = {
   apiKey: "AIzaSyDiMRlBhW36sLjEADoQj9T5L1H-hIDUAso",
@@ -33,14 +34,11 @@ export const googleSignOut = () => firebase.auth().signOut();
 /**
  * REALTIME DATABASE
  */
-
 const getDbRef = async (ref, isFallback = false) => {
-  const env = __PROD__ ? "prod" : "dev";
-  const dbPrefix = isFallback ? "fallback" : "live";
   const { [STORAGE_KEYS.userProfile]: userProfile } = await storage.get(
     STORAGE_KEYS.userProfile
   );
-  return `${env}/${userProfile.uid}/${dbPrefix}/${ref}`;
+  return getFullDbPath(ref, userProfile.uid, isFallback);
 };
 
 const copyToFallbackDB = async (dbRef) => {

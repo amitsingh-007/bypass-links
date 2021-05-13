@@ -1,3 +1,5 @@
+import { FIREBASE_DB_REF } from "@bypass-links/common/src/constants/firebase";
+
 export const LINKVERTISE_API_BASE_URL =
   "https://publisher.linkvertise.com/api/v1/redirect/link";
 
@@ -14,12 +16,12 @@ export const EXTENSION_STATE = {
 };
 
 export const STORAGE_KEYS = {
-  bookmarks: "bookmarks",
-  bypass: "bypass",
+  bookmarks: FIREBASE_DB_REF.bookmarks,
+  bypass: FIREBASE_DB_REF.bypass,
+  redirections: FIREBASE_DB_REF.redirections,
+  lastVisited: FIREBASE_DB_REF.lastVisited,
+  persons: FIREBASE_DB_REF.persons,
   mappedRedirections: "mappedRedirections",
-  redirections: "redirections",
-  lastVisited: "lastVisited",
-  persons: "persons",
   personImages: "personImages",
   userProfile: "userProfile",
 };
@@ -34,14 +36,6 @@ export const BYPASS_KEYS = {
   PASTELINK: "PASTELINK",
   RENTRY: "RENTRY",
   MEDIUM: "MEDIUM",
-};
-
-export const FIREBASE_DB_REF = {
-  bookmarks: STORAGE_KEYS.bookmarks,
-  bypass: STORAGE_KEYS.bypass,
-  redirections: STORAGE_KEYS.redirections,
-  lastVisited: STORAGE_KEYS.lastVisited,
-  persons: STORAGE_KEYS.persons,
 };
 
 export const FIREBASE_STORAGE_REF = {

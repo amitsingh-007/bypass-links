@@ -1,6 +1,7 @@
+import { FIREBASE_DB_REF } from "@bypass-links/common/src/constants/firebase";
 import storage from "ChromeApi/storage";
 import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
-import { FIREBASE_DB_REF, STORAGE_KEYS } from "GlobalConstants/index";
+import { STORAGE_KEYS } from "GlobalConstants/index";
 import { getCacheObj } from "GlobalUtils/cache";
 import { getFromFirebase, saveDataToFirebase } from "GlobalUtils/firebase";
 import { getBookmarksObj, getFaviconUrl } from ".";
