@@ -5,6 +5,7 @@ const FIREBASE_DB_REF = {
   persons: "persons",
   redirections: "redirections",
   userInfo: "userInfo",
+  user2FAInfo: "userInfo/twoFactorAuth",
 };
 
 module.exports = {
