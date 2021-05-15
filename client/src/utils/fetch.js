@@ -1,6 +1,7 @@
 export const fetchApi = (url, options = {}) => {
   const { responseType = "json", ...init } = options;
-  return fetch(url, init).then((response) => {
+  const fetchUrl = `${HOST_NAME}${url}`;
+  return fetch(fetchUrl, init).then((response) => {
     if (!response.ok) {
       throw response;
     }

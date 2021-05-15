@@ -4,6 +4,7 @@ const { commonConfig, PATHS } = require("./webpack.common.config");
 
 const ENV = process.env.NODE_ENV;
 const isProduction = ENV === "production";
+const hostName = process.env.HOST_NAME || "https://bypass-links.netlify.app";
 
 const firebasedDllConfig = {
   ...commonConfig,
@@ -29,6 +30,7 @@ const firebasedDllConfig = {
     }),
     new DefinePlugin({
       __PROD__: JSON.stringify(isProduction),
+      HOST_NAME: JSON.stringify(hostName),
     }),
   ],
 };

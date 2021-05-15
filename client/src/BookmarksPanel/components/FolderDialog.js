@@ -34,6 +34,7 @@ export const FolderDialog = ({
       isSaveOptionActive={isSaveOptionActive}
     >
       <TextField
+        autoFocus
         size="small"
         label="Name"
         variant="outlined"

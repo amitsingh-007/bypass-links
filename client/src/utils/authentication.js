@@ -2,6 +2,7 @@ import identity from "ChromeApi/identity";
 import storage from "ChromeApi/storage";
 import { STORAGE_KEYS } from "GlobalConstants/index";
 import { status2FA } from "SrcPath/SettingsPanel/apis/TwoFactorAuth";
+import { getUserProfile } from "SrcPath/SettingsPanel/utils";
 import { googleSignIn, googleSignOut } from "./firebase";
 import {
   processPostLogin,
@@ -20,9 +21,7 @@ const syncAuthenticationToStorage = async (userProfile) => {
 };
 
 export const resetAuthentication = async () => {
-  const { [STORAGE_KEYS.userProfile]: userProfile } = await storage.get(
-    STORAGE_KEYS.userProfile
-  );
+  const userProfile = await getUserProfile();
   await identity.removeCachedAuthToken({ token: userProfile.googleAuthToken });
   console.log("Removed Google auth token from cache");
   await storage.remove(STORAGE_KEYS.userProfile);

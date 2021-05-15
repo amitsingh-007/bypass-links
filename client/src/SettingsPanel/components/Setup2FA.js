@@ -22,6 +22,7 @@ import { forwardRef, memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setup2FA, verify2FA } from "../apis/TwoFactorAuth";
 import Verify2FA from "./Verify2FA";
+import { getUserProfile } from "../utils/index";
 
 const tooltipStyles = { fontSize: "13px" };
 
@@ -36,7 +37,8 @@ const Setup2FA = memo(({ isOpen, handleClose }) => {
   const [showVerifyToken, setShowVerifyToken] = useState(false);
 
   const init2FA = async () => {
-    const { otpAuthUrl, secretKey } = await setup2FA();
+    const userProfile = await getUserProfile();
+    const { otpAuthUrl, secretKey } = await setup2FA(userProfile.uid);
     const qrcodeUrl = await toDataURL(otpAuthUrl, {
       margin: 2,
       quality: 1,
@@ -56,9 +58,7 @@ const Setup2FA = memo(({ isOpen, handleClose }) => {
   };
 
   const handleTOTPVerify = async (totp) => {
-    const { [STORAGE_KEYS.userProfile]: userProfile } = await storage.get(
-      STORAGE_KEYS.userProfile
-    );
+    const userProfile = await getUserProfile();
     const { isVerified } = await verify2FA(userProfile.uid, totp);
     if (!isVerified) {
       dispatch(

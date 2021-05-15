@@ -70,3 +70,10 @@ ReactDOM.render(
   </StrictMode>,
   document.getElementById("root")
 );
+
+document.body.addEventListener("keydown", (e) => {
+  //prevent extension close on escape click
+  if (e.key === "Escape") {
+    e.preventDefault();
+  }
+});

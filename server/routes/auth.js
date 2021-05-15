@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const serverless = require("serverless-http");
-const { BASE_PATH } = require("../constants");
+const { BASE_PATH, ALLOWED_ORIGIN } = require("../constants");
 const { removeFromFirebase } = require("../utils/firebase");
 const {
   FIREBASE_DB_REF,
@@ -21,8 +21,7 @@ const router = express.Router();
 
 app.use(setEnvVars);
 if (global.__PROD__) {
-  app.use(cors);
-  app.options("*", cors());
+  app.use(cors({ origin: ALLOWED_ORIGIN }));
 }
 app.use(verifyUserId);
 app.use(express.json());

@@ -3,6 +3,7 @@ const {
 } = require("@bypass-links/common/src/constants/firebase");
 const { getFromFirebase, saveToFirebase } = require("../utils/firebase");
 const speakeasy = require("speakeasy");
+const { get2FATitle } = require("../utils");
 
 const verify2FAToken = (secretKey, totp) =>
   speakeasy.totp.verify({
@@ -35,7 +36,7 @@ const setup2FA = async (uid) => {
     };
   }
   const { base32, otpauth_url } = speakeasy.generateSecret({
-    name: "Bypass Links",
+    name: get2FATitle(),
     symbols: false,
   });
   await saveToFirebase({

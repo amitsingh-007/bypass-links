@@ -1,15 +1,14 @@
 import { IconButton } from "@material-ui/core";
 import CloudDoneTwoToneIcon from "@material-ui/icons/CloudDoneTwoTone";
 import CloudOffTwoTone from "@material-ui/icons/CloudOffTwoTone";
-import storage from "ChromeApi/storage";
 import { displayToast, setSignedInStatus } from "GlobalActionCreators/index";
+import { IconButtonLoader } from "GlobalComponents/Loader";
 import { COLOR } from "GlobalConstants/color";
-import { STORAGE_KEYS } from "GlobalConstants/index";
 import { signIn, signOut } from "GlobalUtils/authentication";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { IconButtonLoader } from "GlobalComponents/Loader";
+import { getUserProfile } from "SrcPath/SettingsPanel/utils/index";
 
 const Authenticate = memo(() => {
   const dispatch = useDispatch();
@@ -43,12 +42,15 @@ const Authenticate = memo(() => {
     setIsFetching(false);
   }, [dispatch]);
 
+  const init = async () => {
+    const userProfile = await getUserProfile();
+    const isSignedIn = Boolean(userProfile);
+    setIsSignedIn(isSignedIn);
+    dispatch(setSignedInStatus(isSignedIn));
+  };
+
   useEffect(() => {
-    storage.get([STORAGE_KEYS.userProfile]).then(({ userProfile }) => {
-      const isSignedIn = Boolean(userProfile);
-      setIsSignedIn(isSignedIn);
-      dispatch(setSignedInStatus(isSignedIn));
-    });
+    init();
   }, []);
 
   useEffect(() => {

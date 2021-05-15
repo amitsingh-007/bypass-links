@@ -12,9 +12,10 @@
     "speakeasy": "2.0.0"
   },
   "devDependencies": {
+    "kill-port": "1.6.1",
     "netlify-cli": "3.21.9"
   },
   "scripts": {
-    "serve": "netlify dev"
+    "serve": "kill-port 8888 && netlify dev"
   }
 }

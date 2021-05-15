@@ -4,9 +4,10 @@ import { TOTP_LENGTH } from "../constants";
 
 const totpInputStyles = {
   marginRight: "10px",
-  "& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
-    display: "none",
-  },
+  "& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+    {
+      display: "none",
+    },
 };
 
 const Verify2FA = memo(
@@ -23,7 +24,8 @@ const Verify2FA = memo(
       setTOTP(totp);
     };
 
-    const handleTOTPVerify = async () => {
+    const handleTOTPVerify = async (e) => {
+      e.preventDefault();
       setIsVerifying(true);
       await handleVerify(totp);
       setIsVerifying(false);
@@ -31,7 +33,11 @@ const Verify2FA = memo(
 
     return (
       <>
-        <Box sx={{ display: "flex", marginTop: "50px", ...containerStyles }}>
+        <Box
+          component="form"
+          sx={{ display: "flex", marginTop: "50px", ...containerStyles }}
+          onSubmit={handleTOTPVerify}
+        >
           <TextField
             required
             autoFocus
@@ -47,6 +53,7 @@ const Verify2FA = memo(
             sx={totpInputStyles}
           />
           <Button
+            type="submit"
             variant="outlined"
             color="secondary"
             onClick={handleTOTPVerify}

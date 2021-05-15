@@ -1,12 +1,11 @@
 import { Avatar, Box, Fade, IconButton } from "@material-ui/core";
 import PersonOffIcon from "@material-ui/icons/PersonOff";
 import SettingsRoundedIcon from "@material-ui/icons/SettingsRounded";
-import storage from "ChromeApi/storage";
-import { STORAGE_KEYS } from "GlobalConstants/index";
 import { ROUTES } from "GlobalConstants/routes";
 import { memo, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
+import { getUserProfile } from "SrcPath/SettingsPanel/utils/index";
 
 const avatarStyles = { height: "50px", width: "50px" };
 
@@ -17,9 +16,7 @@ const UserProfile = memo(() => {
   const [showSettingsIcon, setShowSettingsIcon] = useState(false);
 
   const initUserProfile = async () => {
-    const { [STORAGE_KEYS.userProfile]: userProfile } = await storage.get(
-      STORAGE_KEYS.userProfile
-    );
+    const userProfile = await getUserProfile();
     setUserProfile(userProfile);
   };
 

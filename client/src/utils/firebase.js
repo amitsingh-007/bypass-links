@@ -4,6 +4,7 @@ import "firebase/auth";
 import "firebase/database";
 import "firebase/storage";
 import { STORAGE_KEYS } from "GlobalConstants/index";
+import { getUserProfile } from "SrcPath/SettingsPanel/utils";
 const { getFullDbPath } = require("@bypass-links/common/src/utils/firebase");
 
 const firebaseConfig = {
@@ -35,9 +36,7 @@ export const googleSignOut = () => firebase.auth().signOut();
  * REALTIME DATABASE
  */
 const getDbRef = async (ref, isFallback = false) => {
-  const { [STORAGE_KEYS.userProfile]: userProfile } = await storage.get(
-    STORAGE_KEYS.userProfile
-  );
+  const userProfile = await getUserProfile();
   return getFullDbPath(ref, userProfile.uid, isFallback);
 };
 
@@ -82,9 +81,7 @@ export const saveDataToFirebase = async (data, ref, successCallback) => {
 
 const getStoragePath = async (ref) => {
   const env = __PROD__ ? "prod" : "dev";
-  const { [STORAGE_KEYS.userProfile]: userProfile } = await storage.get(
-    STORAGE_KEYS.userProfile
-  );
+  const userProfile = await getUserProfile();
   return `${userProfile.uid}/${env}/${ref}`;
 };
 

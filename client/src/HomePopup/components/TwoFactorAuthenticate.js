@@ -7,6 +7,7 @@ import { forwardRef, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { authenticate2FA } from "SrcPath/SettingsPanel/apis/TwoFactorAuth";
 import Verify2FA from "SrcPath/SettingsPanel/components/Verify2FA";
+import { getUserProfile } from "SrcPath/SettingsPanel/utils/index";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -18,10 +19,10 @@ const TwoFactorAuthenticate = () => {
   const [promptTOTPVerify, setPromptTOTPVerify] = useState(false);
 
   const initTOTPPrompt = async () => {
-    const { [STORAGE_KEYS.userProfile]: userProfile } = await storage.get(
-      STORAGE_KEYS.userProfile
-    );
-    setPromptTOTPVerify(!userProfile.isTOTPVerified);
+    const userProfile = await getUserProfile();
+    if (userProfile.is2FAEnabled) {
+      setPromptTOTPVerify(!userProfile.isTOTPVerified);
+    }
   };
 
   useEffect(() => {
@@ -31,9 +32,7 @@ const TwoFactorAuthenticate = () => {
   }, [isSignedIn]);
 
   const handleAuthenticateTOTP = async (totp) => {
-    const { [STORAGE_KEYS.userProfile]: userProfile } = await storage.get(
-      STORAGE_KEYS.userProfile
-    );
+    const userProfile = await getUserProfile();
     const { isVerified } = await authenticate2FA(userProfile.uid, totp);
     if (!isVerified) {
       dispatch(
