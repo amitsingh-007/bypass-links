@@ -9,7 +9,7 @@ import {
   RightClickMenu,
 } from "GlobalComponents/StyledComponents";
 import { COLOR } from "GlobalConstants/color";
-import { memo, useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {
@@ -49,6 +49,7 @@ const Bookmark = memo(
   }) => {
     const history = useHistory();
     const dispatch = useDispatch();
+    const bookmarkRef = useRef(null);
     const [personWithimageUrls, setPersonWithimageUrls] = useState("");
     const [openEditDialog, setOpenEditDialog] = useState(editBookmark);
     const [isMenuOpen, menuPos, onMenuClose, onMenuOpen] = useMenu();
@@ -65,9 +66,29 @@ const Bookmark = memo(
       }
     }, [initImageUrl, isExternalPage]);
 
+    useEffect(() => {
+      if (editBookmark && bookmarkRef?.current) {
+        bookmarkRef.current.style.animation = "blink-bookmark 1s infinite";
+      }
+    }, [editBookmark]);
+
+    const removeEditBookmarkAnimation = () => {
+      if (bookmarkRef?.current) {
+        setTimeout(() => {
+          bookmarkRef.current.style.animation = "";
+        }, 3 * 1000);
+      }
+    };
+
     const toggleEditDialog = useCallback(() => {
+      //Remove qs before closing
+      if (editBookmark && openEditDialog) {
+        history.replace(getBookmarksPanelUrl({ folder: origFolder }));
+        //Remove blinking animation after 3s of close
+        removeEditBookmarkAnimation();
+      }
       setOpenEditDialog(!openEditDialog);
-    }, [openEditDialog]);
+    }, [editBookmark, history, openEditDialog, origFolder]);
 
     const handleBookmarkSave = useCallback(
       (url, newTitle, newFolder, newTaggedPersons) => {
@@ -80,22 +101,9 @@ const Bookmark = memo(
           origTaggedPersons,
           newTaggedPersons
         );
-        //Remove qs before closing
-        if (editBookmark && openEditDialog) {
-          history.replace(getBookmarksPanelUrl({ folder: origFolder }));
-        }
         toggleEditDialog();
       },
-      [
-        editBookmark,
-        handleSave,
-        history,
-        openEditDialog,
-        origFolder,
-        origTaggedPersons,
-        pos,
-        toggleEditDialog,
-      ]
+      [handleSave, origFolder, origTaggedPersons, pos, toggleEditDialog]
     );
 
     const handleOpenLink = useCallback(() => {
@@ -141,6 +149,7 @@ const Bookmark = memo(
         name={origTitle}
       >
         <Box
+          ref={bookmarkRef}
           sx={{
             display: "flex",
             alignItems: "center",

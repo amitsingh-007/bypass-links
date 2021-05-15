@@ -1,9 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
 
+$grey-color: #ffffff14;
+$dark-color: #272c34;
+$black-color: #121212;
+
 .bookmarkRowContainer {
   &:hover,
   &[data-is-selected="true"] {
-    background-color: #ffffff14;
+    background-color: $grey-color;
   }
   > .react-ripples {
     width: 100%;
@@ -33,5 +37,17 @@ body {
   }
   to {
     transform: rotate(359deg);
+  }
+}
+
+@keyframes blink-bookmark {
+  0% {
+    background-color: $black-color;
+  }
+  50% {
+    background-color: $grey-color;
+  }
+  100% {
+    background-color: $black-color;
   }
 }
