@@ -43,6 +43,8 @@ jobs:
 
       - name: Install dependencies 🧼
         run: npm install && npm run bootstrap
+        env:
+          HOST_NAME: https://bypass-links.netlify.app
 
       - name: Download artifacts 🎨
         uses: actions/download-artifact@v2

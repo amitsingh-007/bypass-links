@@ -4,6 +4,7 @@
   "description": "This is an easy-to-use Open-Source `Browser Extension` which bypasses links on various websites and lets you use the direct url for your resource. This will help you to bypass recaptchas, unnecessary timers, countdowns, ads, popups, surveys, avoid unnecessary third party installs.",
   "private": true,
   "devDependencies": {
+    "cross-env": "7.0.3",
     "lerna": "4.0.0",
     "netlify-cli": "3.21.9"
   },
@@ -16,7 +17,7 @@
     "cypress:open": "lerna run --stream cypress:open",
     "cypress:run": "lerna run --stream cypress:run",
     "netlify:dev": "netlify dev",
-    "netlify:deploy": "npm run client:release && netlify deploy --prod",
+    "netlify:deploy": "cross-env HOST_NAME='https://bypass-links-dev.netlify.app' npm run client:release && netlify deploy --prod",
     "server:serve": "lerna run --stream serve"
   }
 }

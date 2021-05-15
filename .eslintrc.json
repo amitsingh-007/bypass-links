@@ -2,14 +2,16 @@
   "plugins": ["cypress"],
   "extends": ["eslint:recommended", "react-app", "plugin:cypress/recommended"],
   "env": {
-    "webextensions": true,
+    "es6": true,
     "browser": true,
-    "es6": true
+    "webextensions": true,
+    "serviceworker": true
   },
   "globals": {
     "chrome": false,
     "__EXT_VERSION__": false,
     "__RELEASE_DATE__": false,
-    "__PROD__": false
+    "__PROD__": false,
+    "HOST_NAME": false
   }
 }

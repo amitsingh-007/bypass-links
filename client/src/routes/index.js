@@ -1,21 +1,12 @@
 import { ROUTES } from "GlobalConstants/routes";
-import { Popup } from "GlobalContainers/Popup";
 import { lazy } from "react";
 import { Route } from "react-router-dom";
 
-export const HomePageRoute = (
-  <Route exact path={ROUTES.HOMEPAGE} render={() => <Popup />} />
-);
-
-const ManualHistoryPanel = lazy(() =>
+const HistoryPanel = lazy(() =>
   import(
-    /*  webpackChunkName: "manual-history-panel" */ "GlobalComponents/ManualHistoryPanel"
+    /*  webpackChunkName: "history-panel" */ "SrcPath/HistoryPanel/components/HistoryPanel"
   )
 );
-export const ManualHistoryPanelRoute = (
-  <Route
-    exact
-    path={ROUTES.MANUAL_HISTORY_PANEL}
-    render={() => <ManualHistoryPanel />}
-  />
+export const HistoryPanelRoute = (
+  <Route exact path={ROUTES.HISTORY_PANEL} render={() => <HistoryPanel />} />
 );

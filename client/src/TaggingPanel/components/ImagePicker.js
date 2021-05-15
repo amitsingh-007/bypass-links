@@ -29,7 +29,7 @@ const IMAGE_COMPRESSION_OPTIONS = {
 };
 
 const Transition = forwardRef((props, ref) => (
-  <Slide direction="up" {...props} ref={ref} />
+  <Slide direction="left" {...props} ref={ref} />
 ));
 
 const ImagePicker = memo(({ uid, isOpen, onDialogClose, handleImageSave }) => {
@@ -131,7 +131,14 @@ const ImagePicker = memo(({ uid, isOpen, onDialogClose, handleImageSave }) => {
           />
         </Box>
         <Box sx={{ padding: "0 20px" }}>
-          <Box sx={{ display: "flex", marginTop: "18px" }}>
+          <Box
+            component="form"
+            sx={{ display: "flex", marginTop: "18px" }}
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleImageLoadClick(e);
+            }}
+          >
             <TextField
               autoFocus
               inputRef={inputImageUrlRef}
@@ -143,11 +150,7 @@ const ImagePicker = memo(({ uid, isOpen, onDialogClose, handleImageSave }) => {
               title={inputImageUrl}
               style={{ marginRight: "10px" }}
             />
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={handleImageLoadClick}
-            >
+            <Button type="submit" variant="outlined" color="secondary">
               <strong>Load</strong>
             </Button>
           </Box>

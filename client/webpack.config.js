@@ -14,6 +14,7 @@ const ENV = process.env.NODE_ENV;
 const isProduction = ENV === "production";
 const enableBundleAnalyzer = process.env.ENABLE_BUNDLE_ANLYZER === "true";
 const isDevServer = process.env.DEV_SERVER === "true";
+const hostName = process.env.HOST_NAME || "https://bypass-links.netlify.app";
 
 const optimizationOptions = {
   nodeEnv: ENV,
@@ -84,6 +85,7 @@ const getWebpackBundleAnalyzerPlugin = (port) =>
 
 const definePlugin = new DefinePlugin({
   __PROD__: JSON.stringify(isProduction),
+  HOST_NAME: JSON.stringify(hostName),
 });
 
 const getDownloadPageConfigPlugins = () => {
@@ -112,6 +114,7 @@ const getDownloadPageConfigPlugins = () => {
       __EXT_VERSION__: JSON.stringify(extVersion),
       __RELEASE_DATE__: JSON.stringify(releaseDate),
       __PROD__: JSON.stringify(isProduction),
+      HOST_NAME: JSON.stringify(""),
     }),
     new InjectManifest({
       swSrc: "./src/sw.js",
@@ -154,6 +157,10 @@ const getBackgroundConfigPlugins = () => {
           copy: [
             {
               source: `${PATHS.FIREBASE_BUILD}/firebase.js`,
+              destination: `${PATHS.EXTENSION}/`,
+            },
+            {
+              source: `${PATHS.SRC}/scripts/service-worker.js`,
               destination: `${PATHS.EXTENSION}/`,
             },
           ],

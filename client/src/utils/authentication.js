@@ -1,5 +1,8 @@
+import identity from "ChromeApi/identity";
 import storage from "ChromeApi/storage";
 import { STORAGE_KEYS } from "GlobalConstants/index";
+import { status2FA } from "SrcPath/SettingsPanel/apis/TwoFactorAuth";
+import { getUserProfile } from "SrcPath/SettingsPanel/utils";
 import { googleSignIn, googleSignOut } from "./firebase";
 import {
   processPostLogin,
@@ -8,25 +11,35 @@ import {
   syncStorageToFirebase,
 } from "./sync";
 
-export const syncAuthenticationToStorage = async (userProfile) => {
+const syncAuthenticationToStorage = async (userProfile) => {
+  const { is2FAEnabled } = await status2FA(userProfile.uid);
+  userProfile.is2FAEnabled = is2FAEnabled;
+  userProfile.isTOTPVerified = false;
   await storage.set({
-    [STORAGE_KEYS.isSignedIn]: true,
     [STORAGE_KEYS.userProfile]: userProfile,
   });
 };
 
 export const resetAuthentication = async () => {
-  await storage.remove([STORAGE_KEYS.isSignedIn, STORAGE_KEYS.userProfile]);
+  const userProfile = await getUserProfile();
+  await identity.removeCachedAuthToken({ token: userProfile.googleAuthToken });
+  console.log("Removed Google auth token from cache");
+  await storage.remove(STORAGE_KEYS.userProfile);
 };
 
 export const signIn = async () => {
   try {
-    const response = await googleSignIn();
-    //First sync remote firebase to storage
-    await syncFirebaseToStorage(response.additionalUserInfo.profile);
+    const googleAuthToken = await identity.getAuthToken({ interactive: true });
+    const response = await googleSignIn(googleAuthToken);
+    const userProfile = response.additionalUserInfo.profile;
+    userProfile.googleAuthToken = googleAuthToken;
+    userProfile.uid = response.user.uid;
+    //First process authentication
+    await syncAuthenticationToStorage(userProfile);
+    //Then sync remote firebase to storage
+    await syncFirebaseToStorage();
     //Then do post processing
     await processPostLogin();
-
     console.log("Login Success ", response);
     return true;
   } catch (err) {

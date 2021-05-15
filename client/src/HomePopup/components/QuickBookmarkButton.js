@@ -12,10 +12,10 @@ import { useHistory } from "react-router-dom";
 import {
   getBookmarksObj,
   getBookmarksPanelUrl,
+  getDecodedBookmark,
   getFromHash,
 } from "SrcPath/BookmarksPanel/utils/index";
-import { getDecodedBookmark } from "SrcPath/BookmarksPanel/utils/index";
-import { IconButtonLoader } from "../../components/Loader";
+import { IconButtonLoader } from "GlobalComponents/Loader";
 
 const QuickBookmarkButton = memo(() => {
   const isSignedIn = useSelector((state) => state.isSignedIn);
@@ -27,8 +27,10 @@ const QuickBookmarkButton = memo(() => {
     setIsFetching(true);
     const { url } = await getCurrentTab();
     const bookmarks = await getBookmarksObj();
-    const bookmark = bookmarks.urlList[md5(url)];
-    setBookmark(bookmark);
+    if (bookmarks) {
+      const bookmark = bookmarks.urlList[md5(url)];
+      setBookmark(bookmark);
+    }
     setIsFetching(false);
   };
 

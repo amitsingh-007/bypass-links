@@ -1,7 +1,11 @@
+import storage from "ChromeApi/storage";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/database";
 import "firebase/storage";
+import { STORAGE_KEYS } from "GlobalConstants/index";
+import { getUserProfile } from "SrcPath/SettingsPanel/utils";
+const { getFullDbPath } = require("@bypass-links/common/src/utils/firebase");
 
 const firebaseConfig = {
   apiKey: "AIzaSyDiMRlBhW36sLjEADoQj9T5L1H-hIDUAso",
@@ -19,45 +23,44 @@ firebase.initializeApp(firebaseConfig);
 /**
  * AUTHORIZATION
  */
-export const googleSignIn = () =>
-  firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
+export const googleSignIn = (token) =>
+  firebase
+    .auth()
+    .signInWithCredential(
+      firebase.auth.GoogleAuthProvider.credential(null, token)
+    );
 
 export const googleSignOut = () => firebase.auth().signOut();
 
 /**
  * REALTIME DATABASE
  */
-export const getFromFirebase = async (ref) =>
-  firebase.database().ref(ref).once("value");
-
-export const saveToFirebase = async (ref, data) =>
-  firebase.database().ref(ref).set(data);
-
-export const getByKey = (ref, key) =>
-  firebase.database().ref(ref).child(key).once("value");
-
-export const searchOnKey = (ref, key) =>
-  firebase.database().ref(ref).orderByKey().equalTo(key).once("value");
-
-export const searchOnValue = (ref, field, value) =>
-  firebase.database().ref(ref).orderByChild(field).equalTo(value).once("value");
-
-export const upateValueInFirebase = (ref, key, value) =>
-  firebase.database().ref(ref).child(key).set(value);
-
-export const updateMany = (ref, updates) =>
-  firebase.database().ref(ref).update(updates);
-
-export const copyToFallbackDB = async (dbRef) => {
-  const fallbackDbRef = `fallback/${dbRef}`;
-  const snapshot = await getFromFirebase(dbRef);
-  await saveToFirebase(fallbackDbRef, snapshot.val());
-  console.log(`Updated ${fallbackDbRef} with ${dbRef}`);
+const getDbRef = async (ref, isFallback = false) => {
+  const userProfile = await getUserProfile();
+  return getFullDbPath(ref, userProfile.uid, isFallback);
 };
+
+const copyToFallbackDB = async (dbRef) => {
+  const snapshot = await getFromFirebase(dbRef);
+  await saveToFirebase(dbRef, snapshot.val(), true);
+  console.log(`Updated fallback ${dbRef}`);
+};
+
+export const getFromFirebase = async (ref) =>
+  firebase
+    .database()
+    .ref(await getDbRef(ref))
+    .once("value");
+
+export const saveToFirebase = async (ref, data, isFallback = false) =>
+  firebase
+    .database()
+    .ref(await getDbRef(ref, isFallback))
+    .set(data);
 
 export const saveDataToFirebase = async (data, ref, successCallback) => {
   await copyToFallbackDB(ref);
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve, _reject) => {
     saveToFirebase(ref, data)
       .then(async () => {
         if (successCallback) {
@@ -75,13 +78,30 @@ export const saveDataToFirebase = async (data, ref, successCallback) => {
 /**
  * STORAGE
  */
-export const uploadImageToFirebase = (blob, path) =>
-  firebase.storage().ref().child(path).put(blob, {
-    contentType: blob.type,
-  });
 
-export const getImageFromFirebase = (ref) =>
-  firebase.storage().ref().child(ref).getDownloadURL();
+const getStoragePath = async (ref) => {
+  const env = __PROD__ ? "prod" : "dev";
+  const userProfile = await getUserProfile();
+  return `${userProfile.uid}/${env}/${ref}`;
+};
 
-export const removeImageFromFirebase = (ref) =>
-  firebase.storage().ref().child(ref).delete();
+export const uploadImageToFirebase = async (blob, ref) =>
+  firebase
+    .storage()
+    .ref()
+    .child(await getStoragePath(ref))
+    .put(blob, { contentType: blob.type });
+
+export const getImageFromFirebase = async (ref) =>
+  firebase
+    .storage()
+    .ref()
+    .child(await getStoragePath(ref))
+    .getDownloadURL();
+
+export const removeImageFromFirebase = async (ref) =>
+  firebase
+    .storage()
+    .ref()
+    .child(await getStoragePath(ref))
+    .delete();

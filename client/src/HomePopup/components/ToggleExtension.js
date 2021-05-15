@@ -13,7 +13,7 @@ import {
 import { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
-export const ToggleExtension = memo(() => {
+const ToggleExtension = memo(() => {
   const dispatch = useDispatch();
   const [extState, setExtState] = useState(EXTENSION_STATE.INACTIVE);
 
@@ -53,3 +53,5 @@ export const ToggleExtension = memo(() => {
     </Box>
   );
 });
+
+export default ToggleExtension;

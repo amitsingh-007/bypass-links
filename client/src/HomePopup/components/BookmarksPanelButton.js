@@ -2,7 +2,7 @@ import { IconButton } from "@material-ui/core";
 import CollectionsBookmarkTwoToneIcon from "@material-ui/icons/CollectionsBookmarkTwoTone";
 import { COLOR } from "GlobalConstants/color";
 import { getActiveDisabledColor } from "GlobalUtils/color";
-import { getBookmarksPanelUrl } from "SrcPath/BookmarksPanel/utils";
+import { getBookmarksPanelUrl } from "SrcPath/BookmarksPanel/utils/index";
 import { memo } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";

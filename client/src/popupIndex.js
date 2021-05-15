@@ -42,6 +42,15 @@ const theme = createMuiTheme({
         root: { backgroundColor: BG_COLOR_BLACK },
       },
     },
+    MuiButton: {
+      styleOverrides: {
+        outlined: {
+          borderWidth: "2px",
+          borderRadius: "50px",
+          ":hover": { borderWidth: "2px" },
+        },
+      },
+    },
   },
 });
 
@@ -61,3 +70,10 @@ ReactDOM.render(
   </StrictMode>,
   document.getElementById("root")
 );
+
+document.body.addEventListener("keydown", (e) => {
+  //prevent extension close on escape click
+  if (e.key === "Escape") {
+    e.preventDefault();
+  }
+});

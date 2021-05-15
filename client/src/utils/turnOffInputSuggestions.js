@@ -1,4 +1,4 @@
-const { default: tabs } = require("ChromeApi/tabs");
+import scripting from "ChromeApi/scripting";
 
 const turnOffAutocomplete = () => {
   document
@@ -7,9 +7,9 @@ const turnOffAutocomplete = () => {
 };
 
 const turnOffInputSuggestions = (tabId) => {
-  tabs.executeScript(tabId, {
-    code: `(${turnOffAutocomplete})()`,
-    runAt: "document_end",
+  scripting.executeScript({
+    target: { tabId },
+    function: turnOffAutocomplete,
   });
 };
 export default turnOffInputSuggestions;

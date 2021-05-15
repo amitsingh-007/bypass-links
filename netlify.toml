@@ -1,8 +1,12 @@
+[dev]
+  port = 8888
+
 [build]
   publish = "client/build"
   functions = "server/routes/"
   targetPort = 5000
+  environment = { NODE_VERSION = "12" }
 
 [[redirects]]
-  from = "/api/extension"
-  to = "/.netlify/functions/extension"
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"

@@ -1,3 +1,4 @@
+import scripting from "ChromeApi/scripting";
 import tabs from "ChromeApi/tabs";
 import windows from "ChromeApi/windows";
 import { MEDIUM_HOMEPAGE, MEDIUM_WHITELISTED } from "GlobalConstants/index";
@@ -18,9 +19,9 @@ export const bypassMedium = async (url, tabId) => {
     return;
   }
 
-  const [result] = await tabs.executeScript(tabId, {
-    code: `(${shouldBypass})()`,
-    runAt: "document_end",
+  const [{ result }] = await scripting.executeScript({
+    target: { tabId },
+    function: shouldBypass,
   });
   if (result && result.hasPaywall) {
     await windows.create({

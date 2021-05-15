@@ -3,15 +3,19 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "@bypass-links/common": "*",
     "@octokit/rest": "18.5.2",
-    "body-parser": "1.19.0",
+    "cors": "2.8.5",
     "express": "4.17.1",
-    "serverless-http": "2.7.0"
+    "firebase-admin": "9.8.0",
+    "serverless-http": "2.7.0",
+    "speakeasy": "2.0.0"
   },
   "devDependencies": {
+    "kill-port": "1.6.1",
     "netlify-cli": "3.21.9"
   },
   "scripts": {
-    "serve": "netlify dev"
+    "serve": "kill-port 8888 && netlify dev"
   }
 }

@@ -1,4 +1,4 @@
-# Summary ![GitHub](https://img.shields.io/github/license/amitsingh-007/bypass-links?color=blue) ![Github Action / CI](https://github.com/amitsingh-007/bypass-links/workflows/CI/badge.svg) [![Netlify Status](https://api.netlify.com/api/v1/badges/8ad5c745-a8d8-42b6-8467-6c4b4285cd34/deploy-status)](https://app.netlify.com/sites/bypass-links-dev/deploys) [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/) [![Bypass Links](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/drjgmi&style=flat&logo=cypress)](https://dashboard.cypress.io/projects/drjgmi/runs) ![GitHub issues](https://img.shields.io/github/issues/amitsingh-007/bypass-links)
+# Summary ![GitHub](https://img.shields.io/github/license/amitsingh-007/bypass-links?color=blue) ![Github Action / CI](https://github.com/amitsingh-007/bypass-links/workflows/CI/badge.svg) [![Netlify Status](https://api.netlify.com/api/v1/badges/6d227aee-e1b7-42fb-b93b-e374e98c8e8f/deploy-status)](https://app.netlify.com/sites/bypass-links/deploys) [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/) [![Bypass Links](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/drjgmi&style=flat&logo=cypress)](https://dashboard.cypress.io/projects/drjgmi/runs) ![GitHub issues](https://img.shields.io/github/issues/amitsingh-007/bypass-links)
 
 This is an easy-to-use Open-Source `Browser Extension` which bypasses links on various websites and lets you use the direct url for your resource. This will help you to bypass recaptchas, unnecessary timers, countdowns, ads, popups, surveys, avoid unnecessary third party installs. It is also a fully-fletched utility extension with features like history monitor, bookmarks panel with tagging system. It is `COMPLETELY PRIVATE` which saves information only when the user is logged in.
 
@@ -25,15 +25,15 @@ Head over to [My Github Page](https://amitsingh-007.github.io/bypass-links/) and
 
 - Set **custom short URLs** for any websites that you frequently visit.
 
-- **Manipulate** browser history.
+- **Manipulate browser history**.
 
 - Set **custom redirections** for your websites in the Firebase Realtime Database.
 
 - A **fully customised shortcuts panel** to add/edit/delete/drag-n-drop custom redirection rules stored in **Firebase**.
 
-- A **bookmarks panel** with **quick bookmark** button.
+- A **bookmarks panel** with **quick bookmark** feature.
 
-- A **tagging panel** which enables to tag each bookmark with a person to easily search later.
+- A **tagging panel** which enables to tag each bookmark with a person/item to easily search by person/item.
 
 - A **fully customizable and full featured packed bookmarks panel** same as offered by Google Chrome with extra features.
 
@@ -43,4 +43,6 @@ Head over to [My Github Page](https://amitsingh-007.github.io/bypass-links/) and
 
 - Built with Cypress E2E testing.
 
-- Modern UI
+- TOTP based **Two Factor Authentication** Supported
+
+- **Modern UI**

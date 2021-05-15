@@ -4,10 +4,9 @@
 **/extension
 
 # cypress file
-debug.log 
+debug.log
 E2E/cypress/videos
 E2E/cypress/screenshots
 
 #netlify
-.netlify
 server/.env

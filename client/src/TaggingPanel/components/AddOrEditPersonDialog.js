@@ -85,6 +85,7 @@ const AddOrEditPersonDialog = memo(
               </Avatar>
             </Box>
             <TextField
+              autoFocus
               size="small"
               label="Name"
               variant="outlined"

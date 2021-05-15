@@ -12,7 +12,7 @@ import { ROUTES } from "GlobalConstants/routes";
 import { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import PanelHeading from "./PanelHeading";
+import PanelHeading from "../../components/PanelHeading";
 
 const DateTimeInput = memo(({ dateTime, onChange, label }) => (
   <DesktopDateTimePicker
@@ -37,7 +37,7 @@ const DateTimeInput = memo(({ dateTime, onChange, label }) => (
   />
 ));
 
-const ManualHistoryPanel = memo(() => {
+const HistoryPanel = memo(() => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [startDateTime, setStartDateTime] = useState(Date.now());
@@ -49,7 +49,7 @@ const ManualHistoryPanel = memo(() => {
         setStartDateTime(new Date(historyStartTime));
       }
     });
-  });
+  }, []);
 
   const handleStartDateTimeChange = (date) => {
     setStartDateTime(date.valueOf());
@@ -127,4 +127,4 @@ const ManualHistoryPanel = memo(() => {
   );
 });
 
-export default ManualHistoryPanel;
+export default HistoryPanel;

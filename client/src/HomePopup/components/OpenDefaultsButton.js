@@ -8,9 +8,9 @@ import { STORAGE_KEYS } from "GlobalConstants/index";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import { memo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { IconButtonLoader } from "./Loader";
+import { IconButtonLoader } from "GlobalComponents/Loader";
 
-export const OpenDefaultsButton = memo(() => {
+const OpenDefaultsButton = memo(() => {
   const dispatch = useDispatch();
   const isSignedIn = useSelector((state) => state.isSignedIn);
   const [isFetching, setIsFetching] = useState(false);
@@ -47,3 +47,5 @@ export const OpenDefaultsButton = memo(() => {
     </IconButton>
   );
 });
+
+export default OpenDefaultsButton;
