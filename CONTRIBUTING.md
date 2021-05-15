@@ -3,10 +3,11 @@
 - Fork this repository.
 - Run `npm install`.
 - For local development:
-  - Run `npm run analyzer` to run bundle analyzer.
-  - Run `npm run dev` to watch/build extenion related configs.
-  - Run `npm run start` to watch/build the files for download page only.
-  - Run `npm run release` for production build.
+  - Run `npm run client:analyzer` to run bundle analyzer.
+  - Run `npm run client:dev` to watch/build extenion related configs.
+  - Run `npm run client:release` for production build.
+  - Run `npm run client:start` to watch/build the files for download page only.
+  - Press `F5` or launch `Netlify Debugging` to run the server.
 
 # Guidelines for development
 
@@ -16,6 +17,5 @@
 
 # Deploying to Netlify
 
-- Run `netlify login` in the root folder.
-- After succesfully logging in through the web interface, it will create a gitignored folder named `.netlify`.
-- Now, everything should be working fine.
+- Run `netlify login` in the root folder and give credentials to login.
+- Run `npm run netlify:deploy` to deploy the site.

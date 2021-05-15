@@ -17,6 +17,6 @@
     "netlify-cli": "3.21.9"
   },
   "scripts": {
-    "serve": "kill-port 8888 && netlify dev"
+    "serve": "kill-port 8888 && netlify dev --inspect"
   }
 }
