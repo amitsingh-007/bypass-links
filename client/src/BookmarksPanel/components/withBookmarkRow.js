@@ -1,14 +1,26 @@
 import { Box } from "@material-ui/core";
-import { memo } from "react";
+import { memo, useEffect, useRef } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import Ripples from "react-ripples";
 import { bookmarkRowStyles, BOOKMARK_ROW_WIDTH } from "../constants";
 
 const withBookmarkRow = (Component) =>
   memo((props) => {
-    const { isDir, name, url, pos, title, isSelected } = props;
+    const bookmarkRef = useRef(null);
+    const { isDir, name, url, pos, title, isSelected, editBookmark } = props;
     const primaryUniqueId = isDir ? name : url;
     const secondaryUniqueId = isDir ? null : title;
+
+    useEffect(() => {
+      if (editBookmark && bookmarkRef?.current) {
+        setTimeout(() => {
+          bookmarkRef.current.scrollIntoView({
+            block: "center",
+            behavior: "smooth",
+          });
+        }, 0);
+      }
+    }, [editBookmark]);
 
     return (
       <Draggable draggableId={primaryUniqueId} index={pos}>
@@ -35,6 +47,7 @@ const withBookmarkRow = (Component) =>
                   flexGrow: "1",
                   maxWidth: BOOKMARK_ROW_WIDTH,
                 }}
+                ref={bookmarkRef}
               >
                 <Component {...props} containerStyles={bookmarkRowStyles} />
               </Box>

@@ -8,6 +8,7 @@
       "runtimeArgs": ["run-script", "server:serve"],
       "runtimeExecutable": "npm",
       "skipFiles": ["<node_internals>/**", "**/node_modules/**/*.js"],
+      "outFiles": ["${workspaceFolder}/server/**/*.js"],
       "resolveSourceMapLocations": [
         "${workspaceFolder}/**",
         "!**/node_modules/**"
