@@ -16,7 +16,6 @@
     "client:start": "lerna run --stream start",
     "cypress:open": "lerna run --stream cypress:open",
     "cypress:run": "lerna run --stream cypress:run",
-    "netlify:dev": "netlify dev",
     "netlify:deploy": "cross-env HOST_NAME='https://bypass-links-dev.netlify.app' npm run client:release && netlify deploy --prod",
     "server:serve": "lerna run --stream serve"
   }
