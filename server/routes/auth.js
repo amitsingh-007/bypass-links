@@ -1,4 +1,5 @@
 const express = require("express");
+const rateLimit = require("express-rate-limit");
 const cors = require("cors");
 const serverless = require("serverless-http");
 const { BASE_PATH, ALLOWED_ORIGIN } = require("../constants");
@@ -16,9 +17,18 @@ const {
   authenticate2FA,
 } = require("../logic/TwoFactorAuth");
 
+const apiLimiter = rateLimit({
+  windowMs: 5 * 60 * 1000, // 5 minutes
+  max: 20,
+});
+
 const app = express();
 const router = express.Router();
 
+app.set("trust proxy", 1);
+
+// Middlewares
+app.use(apiLimiter);
 app.use(setEnvVars);
 if (global.__PROD__) {
   app.use(cors({ origin: ALLOWED_ORIGIN }));
@@ -43,7 +53,7 @@ router.get("/setup-2fa", async (req, res) => {
 router.get("/verify-2fa", async (req, res) => {
   const { uid, totp } = req.query;
   const isVerified = await verify2FA({ uid, totp });
-  await res.json({ isVerified });
+  res.json({ isVerified });
 });
 
 /**
