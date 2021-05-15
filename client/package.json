@@ -63,6 +63,7 @@
     "webpack-cli": "4.6.0",
     "webpack-dev-server": "3.11.2",
     "webpack-node-externals": "2.5.2",
+    "webpack-watch-files-plugin": "1.1.0",
     "workbox-webpack-plugin": "6.1.2"
   },
   "scripts": {
