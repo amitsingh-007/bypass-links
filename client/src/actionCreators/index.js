@@ -1,4 +1,5 @@
 import {
+  SET_AUTHENTICATION_PROGRESS,
   DISPLAY_TOAST,
   HIDE_TOAST,
   RESET_HISTORY_MONITOR,
@@ -7,6 +8,7 @@ import {
   TURN_OFF_EXTENSION,
   TURN_ON_EXTENSION,
   UPDATE_TAGGED_PERSON_URLS,
+  RESET_AUTHENTICATION_PROGRESS,
 } from "GlobalActionTypes/index";
 
 export const setSignedInStatus = (isSignedIn) => ({
@@ -48,4 +50,13 @@ export const displayToast = ({
 
 export const hideToast = () => ({
   type: HIDE_TOAST,
+});
+
+export const setAuthenticationProgress = (data) => ({
+  type: SET_AUTHENTICATION_PROGRESS,
+  data,
+});
+
+export const resetAuthenticationProgress = () => ({
+  type: RESET_AUTHENTICATION_PROGRESS,
 });

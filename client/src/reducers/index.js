@@ -1,4 +1,5 @@
 import {
+  SET_AUTHENTICATION_PROGRESS,
   DISPLAY_TOAST,
   HIDE_TOAST,
   RESET_HISTORY_MONITOR,
@@ -7,6 +8,7 @@ import {
   TURN_OFF_EXTENSION,
   TURN_ON_EXTENSION,
   UPDATE_TAGGED_PERSON_URLS,
+  RESET_AUTHENTICATION_PROGRESS,
 } from "GlobalActionTypes/index";
 
 const defaultState = {
@@ -15,6 +17,7 @@ const defaultState = {
   startHistoryMonitor: false,
   toast: null,
   updateTaggedUrls: null,
+  authProgress: null,
 };
 
 const reducer = (state = defaultState, action) => {
@@ -62,6 +65,16 @@ const reducer = (state = defaultState, action) => {
       return {
         ...state,
         updateTaggedUrls: action.data,
+      };
+    case SET_AUTHENTICATION_PROGRESS:
+      return {
+        ...state,
+        authProgress: action.data,
+      };
+    case RESET_AUTHENTICATION_PROGRESS:
+      return {
+        ...state,
+        authProgress: null,
       };
     default:
       return defaultState;

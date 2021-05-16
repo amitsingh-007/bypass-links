@@ -1,26 +1,31 @@
-import { IconButton } from "@material-ui/core";
+import { Box, IconButton, LinearProgress, Typography } from "@material-ui/core";
 import CloudDoneTwoToneIcon from "@material-ui/icons/CloudDoneTwoTone";
 import CloudOffTwoTone from "@material-ui/icons/CloudOffTwoTone";
-import { displayToast, setSignedInStatus } from "GlobalActionCreators/index";
+import {
+  displayToast,
+  resetAuthenticationProgress,
+  setSignedInStatus,
+} from "GlobalActionCreators/index";
 import { IconButtonLoader } from "GlobalComponents/Loader";
 import { COLOR } from "GlobalConstants/color";
-import { signIn, signOut } from "GlobalUtils/authentication";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserProfile } from "SrcPath/SettingsPanel/utils/index";
+import { signIn, signOut } from "../utils/authentication";
 
 const Authenticate = memo(() => {
   const dispatch = useDispatch();
   const [isFetching, setIsFetching] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
-  const isExtensionActive = useSelector((state) => state.isExtensionActive);
+  const { isExtensionActive, authProgress } = useSelector((state) => state);
 
   const handleSignIn = async () => {
     setIsFetching(true);
     const isSignedIn = await signIn();
     setIsSignedIn(isSignedIn);
     dispatch(setSignedInStatus(isSignedIn));
+    dispatch(resetAuthenticationProgress());
     setIsFetching(false);
   };
 
@@ -40,6 +45,7 @@ const Authenticate = memo(() => {
       dispatch(setSignedInStatus(isSignedIn));
     }
     setIsFetching(false);
+    dispatch(resetAuthenticationProgress());
   }, [dispatch]);
 
   const init = async () => {
@@ -60,7 +66,33 @@ const Authenticate = memo(() => {
   }, [handleSignOut, isExtensionActive, isSignedIn]);
 
   if (isFetching) {
-    return <IconButtonLoader />;
+    const { message, progress, progressBuffer, total } = authProgress || {};
+    console.log(
+      `message = ${message}, progress = ${progress}, progressBuffer = ${progressBuffer}, total = ${total}`
+    );
+    return (
+      <>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+      </>
+    );
   }
 
   return isSignedIn ? (

@@ -8,6 +8,7 @@ import {
   getImageFromFirebase,
   saveDataToFirebase,
 } from "GlobalUtils/firebase";
+import { dispatchAuthenticationEvent } from "SrcPath/HomePopup/utils/authentication";
 import { getAllDecodedPersons } from ".";
 
 export const syncPersonsToStorage = async () => {
@@ -45,6 +46,12 @@ const resolveImageFromPerson = async ({ uid, imageRef }) => ({
 });
 
 export const cachePersonImageUrlsInStorage = async () => {
+  dispatchAuthenticationEvent({
+    message: "Caching person urls",
+    progress: 3,
+    progressBuffer: 4,
+    total: 5,
+  });
   await refreshPersonImageUrlsCache();
   const persons = await getAllDecodedPersons();
   const personImagesList = await Promise.all(
@@ -56,6 +63,12 @@ export const cachePersonImageUrlsInStorage = async () => {
   }, {});
   await storage.set({ [STORAGE_KEYS.personImages]: personImages });
   console.log("PersonImages is set to", personImages);
+  dispatchAuthenticationEvent({
+    message: "Cached person urls",
+    progress: 4,
+    progressBuffer: 4,
+    total: 5,
+  });
 };
 
 export const refreshPersonImageUrlsCache = async () => {
