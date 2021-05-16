@@ -169,6 +169,7 @@ class Header extends PureComponent {
       selectedBookmarks,
       isSaveButtonActive,
       isFetching,
+      contextBookmarks,
     } = this.props;
     const {
       openFolderDialog,
@@ -274,7 +275,9 @@ class Header extends PureComponent {
                   <Loader loaderSize={30} padding="12px" disableShrink />
                 )}
               </Box>
-              <PanelHeading heading="BOOKMARKS PANEL" />
+              <PanelHeading
+                heading={`BOOKMARKS PANEL (${contextBookmarks?.length || 0})`}
+              />
             </Box>
           </AccordionSummary>
           <AccordionDetails sx={{ paddingTop: "0px" }}>

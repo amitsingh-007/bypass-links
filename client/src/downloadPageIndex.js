@@ -1,15 +1,11 @@
-import {
-  createMuiTheme,
-  CssBaseline,
-  StylesProvider,
-  ThemeProvider
-} from "@material-ui/core";
+import { CssBaseline } from "@material-ui/core";
+import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import { StrictMode } from "react";
 import ReactDOM from "react-dom";
 import DownloadPage from "SrcPath/DownloadPage/components/DownloadPage";
 import "SrcPath/DownloadPage/styles/download-page.scss";
 
-const theme = createMuiTheme({
+const theme = createTheme({
   typography: {
     fontFamily: `"Inter", sans-serif`,
     h2: {
@@ -20,12 +16,10 @@ const theme = createMuiTheme({
 
 ReactDOM.render(
   <StrictMode>
-    <StylesProvider injectFirst>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <DownloadPage />
-      </ThemeProvider>
-    </StylesProvider>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
   </StrictMode>,
   document.getElementById("root")
 );

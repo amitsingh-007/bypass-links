@@ -2,13 +2,17 @@
 
 This is an easy-to-use Open-Source `Browser Extension` which bypasses links on various websites and lets you use the direct url for your resource. This will help you to bypass recaptchas, unnecessary timers, countdowns, ads, popups, surveys, avoid unnecessary third party installs. It is also a fully-fletched utility extension with features like history monitor, bookmarks panel with tagging system. It is `COMPLETELY PRIVATE` which saves information only when the user is logged in.
 
-## Download link ![GitHub all releases](https://img.shields.io/github/downloads/amitsingh-007/bypass-links/total?color=success)
+## Download link ![GitHub release (latest by date)](https://img.shields.io/github/v/release/amitsingh-007/bypass-links) ![GitHub all releases](https://img.shields.io/github/downloads/amitsingh-007/bypass-links/total?color=success)
 
-Head over to [My Github Page](https://amitsingh-007.github.io/bypass-links/) and download for your browser.
+Head over to [My Netlify Page](https://amitsingh-007.github.io/bypass-links/) and download for your browser.
 
 ## For Development [![Code of Conduct](https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat)](https://github.com/amitsingh-007/bypass-links/blob/main/CONTRIBUTING.md)
 
 [Click Here](https://github.com/amitsingh-007/bypass-links/blob/main/CONTRIBUTING.md) to get started.
+
+## Security Policy [![Secutiy Policy](https://img.shields.io/badge/security%20policy-important.svg?style=flat)](https://github.com/amitsingh-007/bypass-links/blob/main/SECURITY.md)
+
+[Click Here to read security policy](https://github.com/amitsingh-007/bypass-links/blob/main/SECURITY.md) to get started.
 
 ## Currently supported websites
 

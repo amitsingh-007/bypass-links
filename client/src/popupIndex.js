@@ -1,4 +1,5 @@
-import { createMuiTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
+import { CssBaseline } from "@material-ui/core";
+import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import darkScrollbar from "@material-ui/core/darkScrollbar";
 import ErrorBoundary from "GlobalComponents/ErrorBoundary";
 import { BG_COLOR_BLACK } from "GlobalConstants/color";
@@ -14,7 +15,7 @@ import reducer from "./reducers";
 
 const store = createStore(reducer);
 
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     mode: "dark",
   },

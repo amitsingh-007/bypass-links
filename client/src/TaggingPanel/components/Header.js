@@ -14,7 +14,7 @@ import SearchInput from "SrcPath/BookmarksPanel/components/SearchInput";
 import { syncPersonsFirebaseWithStorage } from "../utils/sync";
 import AddOrEditPersonDialog from "./AddOrEditPersonDialog";
 
-const Header = memo(({ isFetching, handleAddPerson }) => {
+const Header = memo(({ isFetching, handleAddPerson, persons }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [isSyncing, setIsSyncing] = useState(false);
@@ -107,7 +107,7 @@ const Header = memo(({ isFetching, handleAddPerson }) => {
         >
           <SearchInput searchClassName="personContainer" />
           <PanelHeading
-            heading="TAGGING PANEL"
+            heading={`TAGGING PANEL (${persons?.length || 0})`}
             containerStyles={{ marginLeft: "10px" }}
           />
         </Box>
