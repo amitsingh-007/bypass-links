@@ -1,9 +1,9 @@
 import identity from "ChromeApi/identity";
 import storage from "ChromeApi/storage";
 import { STORAGE_KEYS } from "GlobalConstants/index";
+import { googleSignIn, googleSignOut } from "GlobalUtils/firebase";
 import { status2FA } from "SrcPath/SettingsPanel/apis/TwoFactorAuth";
 import { getUserProfile } from "SrcPath/SettingsPanel/utils";
-import { googleSignIn, googleSignOut } from "./firebase";
 import {
   processPostLogin,
   processPostLogout,
