@@ -1,4 +1,7 @@
+import identity from "ChromeApi/identity";
+import storage from "ChromeApi/storage";
 import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
+import { STORAGE_KEYS } from "GlobalConstants/index";
 import { resetBypass, syncBypassToStorage } from "GlobalUtils/bypass/index";
 import { deleteAllCache } from "GlobalUtils/cache";
 import {
@@ -15,6 +18,8 @@ import {
   syncBookmarksFirebaseWithStorage,
   syncBookmarksToStorage,
 } from "SrcPath/BookmarksPanel/utils/bookmark";
+import { status2FA } from "SrcPath/SettingsPanel/apis/TwoFactorAuth";
+import { getUserProfile } from "SrcPath/SettingsPanel/utils";
 import {
   cachePersonImages,
   cachePersonImageUrlsInStorage,
@@ -23,9 +28,26 @@ import {
   syncPersonsFirebaseWithStorage,
   syncPersonsToStorage,
 } from "SrcPath/TaggingPanel/utils/sync";
-import { resetAuthentication } from "./authentication";
 
-export const syncFirebaseToStorage = async () => {
+const syncAuthenticationToStorage = async (userProfile) => {
+  const { is2FAEnabled } = await status2FA(userProfile.uid);
+  userProfile.is2FAEnabled = is2FAEnabled;
+  userProfile.isTOTPVerified = false;
+  await storage.set({ [STORAGE_KEYS.userProfile]: userProfile });
+};
+
+const resetAuthentication = async () => {
+  const userProfile = await getUserProfile();
+  if (!userProfile) {
+    console.log("User profile not found");
+    return;
+  }
+  await identity.removeCachedAuthToken({ token: userProfile.googleAuthToken });
+  console.log("Removed Google auth token from cache");
+  await storage.remove(STORAGE_KEYS.userProfile);
+};
+
+const syncFirebaseToStorage = async () => {
   await Promise.all([
     syncRedirectionsToStorage(),
     syncBypassToStorage(),
@@ -35,7 +57,7 @@ export const syncFirebaseToStorage = async () => {
   ]);
 };
 
-export const syncStorageToFirebase = async () => {
+const syncStorageToFirebase = async () => {
   await Promise.all([
     syncBookmarksFirebaseWithStorage(),
     syncPersonsFirebaseWithStorage(),
@@ -55,13 +77,23 @@ const resetStorage = async () => {
   console.log("Storage reset successful");
 };
 
-export const processPostLogin = async () => {
+export const processPostLogin = async (userProfile) => {
+  //First process authentication
+  await syncAuthenticationToStorage(userProfile);
+  //Then sync remote firebase to storage
+  await syncFirebaseToStorage();
+  //Then do other processes
   await cachePersonImageUrlsInStorage();
   await Promise.all([cacheBookmarkFavicons(), cachePersonImages()]);
 };
 
+export const processPreLogout = async () => {
+  //Sync changes to firebase before logout, cant sync after logout
+  await syncStorageToFirebase();
+};
+
 export const processPostLogout = async () => {
-  // Reset storage
+  //Reset storage
   await resetStorage();
   //Refresh browser cache
   await deleteAllCache([CACHE_BUCKET_KEYS.favicon, CACHE_BUCKET_KEYS.person]);

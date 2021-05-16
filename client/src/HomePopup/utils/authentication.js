@@ -1,50 +1,22 @@
 import identity from "ChromeApi/identity";
-import storage from "ChromeApi/storage";
-import { STORAGE_KEYS } from "GlobalConstants/index";
 import { googleSignIn, googleSignOut } from "GlobalUtils/firebase";
-import { status2FA } from "SrcPath/SettingsPanel/apis/TwoFactorAuth";
-import { getUserProfile } from "SrcPath/SettingsPanel/utils";
-import {
-  processPostLogin,
-  processPostLogout,
-  syncFirebaseToStorage,
-  syncStorageToFirebase,
-} from "./sync";
+import { processPostLogin, processPostLogout, processPreLogout } from "./sync";
 
-const syncAuthenticationToStorage = async (userProfile) => {
-  const { is2FAEnabled } = await status2FA(userProfile.uid);
-  userProfile.is2FAEnabled = is2FAEnabled;
-  userProfile.isTOTPVerified = false;
-  await storage.set({
-    [STORAGE_KEYS.userProfile]: userProfile,
-  });
-};
-
-export const resetAuthentication = async () => {
-  const userProfile = await getUserProfile();
-  if (!userProfile) {
-    console.log("User profile not found");
-    return;
-  }
-  await identity.removeCachedAuthToken({ token: userProfile.googleAuthToken });
-  console.log("Removed Google auth token from cache");
-  await storage.remove(STORAGE_KEYS.userProfile);
+const userSignIn = async () => {
+  const googleAuthToken = await identity.getAuthToken({ interactive: true });
+  const response = await googleSignIn(googleAuthToken);
+  const userProfile = response.additionalUserInfo.profile;
+  userProfile.googleAuthToken = googleAuthToken;
+  userProfile.uid = response.user.uid;
+  console.log("Firebase login response", response);
+  return userProfile;
 };
 
 export const signIn = async () => {
   try {
-    const googleAuthToken = await identity.getAuthToken({ interactive: true });
-    const response = await googleSignIn(googleAuthToken);
-    const userProfile = response.additionalUserInfo.profile;
-    userProfile.googleAuthToken = googleAuthToken;
-    userProfile.uid = response.user.uid;
-    //First process authentication
-    await syncAuthenticationToStorage(userProfile);
-    //Then sync remote firebase to storage
-    await syncFirebaseToStorage();
-    //Then do post processing
-    await processPostLogin();
-    console.log("Login Success ", response);
+    const userProfile = await userSignIn();
+    await processPostLogin(userProfile);
+    console.log("--------------Login Success--------------");
     return true;
   } catch (err) {
     console.error("Error occured while signing in. ", err);
@@ -56,14 +28,11 @@ export const signIn = async () => {
 
 export const signOut = async () => {
   try {
-    //First sync storage to firebase
-    await syncStorageToFirebase();
-    //Then signout
+    await processPreLogout();
     await googleSignOut();
-    //Finally do post logout processing
     await processPostLogout();
 
-    console.log("Logout Success");
+    console.log("--------------Logout Success--------------");
     return true;
   } catch (err) {
     console.error("Error occured while signing out. ", err);
