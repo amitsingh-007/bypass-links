@@ -22,6 +22,10 @@ const syncAuthenticationToStorage = async (userProfile) => {
 
 export const resetAuthentication = async () => {
   const userProfile = await getUserProfile();
+  if (!userProfile) {
+    console.log("User profile not found");
+    return;
+  }
   await identity.removeCachedAuthToken({ token: userProfile.googleAuthToken });
   console.log("Removed Google auth token from cache");
   await storage.remove(STORAGE_KEYS.userProfile);

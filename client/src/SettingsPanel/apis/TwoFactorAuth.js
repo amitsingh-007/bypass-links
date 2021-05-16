@@ -15,8 +15,17 @@ export const verify2FA = async (uid, totp) => {
 };
 
 export const status2FA = async (uid) => {
-  const { is2FAEnabled } = await fetchApi(`/api/auth/status-2fa/?uid=${uid}`);
-  return { is2FAEnabled };
+  try {
+    const { is2FAEnabled } = await fetchApi(`/api/auth/status-2fa/?uid=${uid}`);
+    return { is2FAEnabled };
+  } catch (e) {
+    console.log("2fa status api failed", e);
+    if (__PROD__) {
+      throw e;
+    } else {
+      return { is2FAEnabled: false };
+    }
+  }
 };
 
 export const authenticate2FA = async (uid, totp) => {
