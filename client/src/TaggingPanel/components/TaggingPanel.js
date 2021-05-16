@@ -79,7 +79,11 @@ const TaggingPanel = () => {
   const sortedPersons = getSortedPersons(persons);
   return (
     <Box sx={{ width: PANEL_DIMENSIONS.width }}>
-      <Header isFetching={isFetching} handleAddPerson={handleAddOrEditPerson} />
+      <Header
+        isFetching={isFetching}
+        handleAddPerson={handleAddOrEditPerson}
+        persons={sortedPersons}
+      />
       <Box sx={{ minHeight: PANEL_DIMENSIONS.height }}>
         {sortedPersons.length > 0 ? (
           <Persons
