@@ -7,8 +7,7 @@ Following are the supported node versions:
 | Version | Supported          |
 | ------- | ------------------ |
 | 12.x.x   | :white_check_mark: |
-| 10.x.x   | :white_check_mark: |
-| < 10.x.x   | :x: |
+| <= 10.x.x   | :x: |
 
 ## Reporting a Vulnerability
 

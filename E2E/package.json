@@ -4,7 +4,7 @@
   "description": "Cypress tests for the application",
   "devDependencies": {
     "cypress": "6.2.1",
-    "eslint-plugin-cypress": "2.11.2"
+    "eslint-plugin-cypress": "2.11.3"
   },
   "scripts": {
     "cypress:open": "cypress open",
