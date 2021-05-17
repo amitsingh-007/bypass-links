@@ -12,7 +12,7 @@ import { ROUTES } from "GlobalConstants/routes";
 import { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import PanelHeading from "../../components/PanelHeading";
+import PanelHeading from "GlobalComponents/PanelHeading";
 
 const DateTimeInput = memo(({ dateTime, onChange, label }) => (
   <DesktopDateTimePicker
