@@ -48,9 +48,9 @@ class BookmarksPanel extends PureComponent {
     this.setState({ isSaveButtonActive: false, isFetching: true });
     const { folders, urlList, folderList } = await getBookmarksObj();
     const folderContextHash = md5(folderContext);
-    const modifiedBookmarks = Object.entries(
-      folders[folderContextHash]
-    ).map((kvp) => bookmarksMapper(kvp, urlList, folderList));
+    const modifiedBookmarks = Object.entries(folders[folderContextHash]).map(
+      (kvp) => bookmarksMapper(kvp, urlList, folderList)
+    );
     this.setState({
       contextBookmarks: modifiedBookmarks,
       urlList,
@@ -174,12 +174,8 @@ class BookmarksPanel extends PureComponent {
   };
 
   handleBulkBookmarksMove = (destFolder) => {
-    const {
-      contextBookmarks,
-      selectedBookmarks,
-      folders,
-      urlList,
-    } = this.state;
+    const { contextBookmarks, selectedBookmarks, folders, urlList } =
+      this.state;
     const bookmarksToMove = contextBookmarks
       .filter((_bookmark, index) => Boolean(selectedBookmarks[index]))
       .map(({ url }) => md5(url));
@@ -357,17 +353,12 @@ class BookmarksPanel extends PureComponent {
       isFetching,
       isSaveButtonActive,
     } = this.state;
-    const {
-      bmUrl,
-      bmTitle,
-      addBookmark,
-      editBookmark,
-      folderContext,
-    } = this.props;
+    const { bmUrl, bmTitle, addBookmark, editBookmark, folderContext } =
+      this.props;
     const folderNamesList = getAllFolderNames(folderList);
 
     return (
-      <DragDropContext onDragEnd={this.onDragEnd}>
+      <>
         <Box
           sx={{
             width: PANEL_DIMENSIONS.width,
@@ -389,55 +380,57 @@ class BookmarksPanel extends PureComponent {
             curFolder={folderContext}
             isFetching={isFetching}
           />
-          <Droppable droppableId="bookmarks-list">
-            {(provided) => (
-              <Box
-                component="form"
-                noValidate
-                autoComplete="off"
-                sx={{ minHeight: contentHeight }}
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-              >
-                {shouldRenderBookmarks(folders, contextBookmarks) &&
-                  contextBookmarks.map(
-                    ({ url, title, name, taggedPersons, isDir }, index) =>
-                      isDir ? (
-                        <Folder
-                          key={name}
-                          pos={index}
-                          isDir={isDir}
-                          name={name}
-                          handleRemove={this.handleFolderRemove}
-                          handleEdit={this.handleFolderEdit}
-                          isEmpty={isFolderEmpty(folders, name)}
-                        />
-                      ) : (
-                        <Bookmark
-                          key={url}
-                          pos={index}
-                          isDir={isDir}
-                          url={url}
-                          title={title}
-                          taggedPersons={taggedPersons}
-                          isSelected={Boolean(selectedBookmarks[index])}
-                          folder={folderContext}
-                          folderNamesList={folderNamesList}
-                          handleSave={this.handleBookmarkSave}
-                          handleRemove={this.handleUrlRemove}
-                          handleSelectedChange={this.handleSelectedChange}
-                          editBookmark={
-                            editBookmark && url === bmUrl && title === bmTitle
-                          }
-                        />
-                      )
-                  )}
-                {provided.placeholder}
-              </Box>
-            )}
-          </Droppable>
+          <DragDropContext onDragEnd={this.onDragEnd}>
+            <Droppable droppableId="bookmarks-list">
+              {(provided) => (
+                <Box
+                  component="form"
+                  noValidate
+                  autoComplete="off"
+                  sx={{ minHeight: contentHeight }}
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                >
+                  {shouldRenderBookmarks(folders, contextBookmarks) &&
+                    contextBookmarks.map(
+                      ({ url, title, name, taggedPersons, isDir }, index) =>
+                        isDir ? (
+                          <Folder
+                            key={name}
+                            pos={index}
+                            isDir={isDir}
+                            name={name}
+                            handleRemove={this.handleFolderRemove}
+                            handleEdit={this.handleFolderEdit}
+                            isEmpty={isFolderEmpty(folders, name)}
+                          />
+                        ) : (
+                          <Bookmark
+                            key={url}
+                            pos={index}
+                            isDir={isDir}
+                            url={url}
+                            title={title}
+                            taggedPersons={taggedPersons}
+                            isSelected={Boolean(selectedBookmarks[index])}
+                            folder={folderContext}
+                            folderNamesList={folderNamesList}
+                            handleSave={this.handleBookmarkSave}
+                            handleRemove={this.handleUrlRemove}
+                            handleSelectedChange={this.handleSelectedChange}
+                            editBookmark={
+                              editBookmark && url === bmUrl && title === bmTitle
+                            }
+                          />
+                        )
+                    )}
+                  {provided.placeholder}
+                </Box>
+              )}
+            </Droppable>
+          </DragDropContext>
         </Box>
-      </DragDropContext>
+      </>
     );
   }
 }
