@@ -25,6 +25,7 @@ export const EditDialog = ({
     e.preventDefault();
     handleSave(e);
   };
+
   return (
     <Dialog fullWidth maxWidth="sm" open={openDialog} onClose={closeDialog}>
       <Box component="form" onSubmit={onSubmit}>

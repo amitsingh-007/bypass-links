@@ -307,17 +307,19 @@ class Header extends PureComponent {
           isOpen={openFolderDialog}
           onClose={this.toggleNewFolderDialog}
         />
-        <BookmarkDialog
-          url={url}
-          origTitle={title}
-          origFolder={defaultBookmarkFolder}
-          headerText="Add bookmark"
-          folderList={folderNamesList}
-          handleSave={this.handleNewBookmarkSave}
-          isOpen={openBookmarkDialog}
-          onClose={this.toggleBookmarkEditDialog}
-          isSaveActive
-        />
+        {openBookmarkDialog && (
+          <BookmarkDialog
+            url={url}
+            origTitle={title}
+            origFolder={defaultBookmarkFolder}
+            headerText="Add bookmark"
+            folderList={folderNamesList}
+            handleSave={this.handleNewBookmarkSave}
+            isOpen={openBookmarkDialog}
+            onClose={this.toggleBookmarkEditDialog}
+            isSaveActive
+          />
+        )}
         <ConfirmationDialog
           onClose={this.handleConfirmationDialogClose}
           onOk={this.handleConfirmationDialogOk}
