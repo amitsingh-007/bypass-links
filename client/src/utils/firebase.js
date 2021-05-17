@@ -1,9 +1,7 @@
-import storage from "ChromeApi/storage";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/database";
 import "firebase/storage";
-import { STORAGE_KEYS } from "GlobalConstants/index";
 import { getUserProfile } from "SrcPath/SettingsPanel/utils";
 const { getFullDbPath } = require("@bypass-links/common/src/utils/firebase");
 

@@ -4,8 +4,10 @@ export const bookmarkRowStyles = {
   paddingY: "5px",
 };
 
-export const BOOKMARK_ROW_HEIGHT = "34px";
-
 export const BM_COUNT_IN_INITAL_VIEW = 16;
 
-export const BOOKMARK_ROW_WIDTH = "793px";
+export const BOOKMARK_ROW_DIMENTSIONS = {
+  height: 34,
+  width: 793,
+};
+export const BOOKMARK_PANEL_CONTENT_HEIGHT = 532;

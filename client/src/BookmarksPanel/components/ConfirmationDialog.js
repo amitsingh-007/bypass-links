@@ -4,7 +4,6 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
 } from "@material-ui/core";
 import { COLOR } from "GlobalConstants/color";
 import { memo } from "react";

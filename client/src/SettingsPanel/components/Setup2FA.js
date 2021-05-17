@@ -32,7 +32,7 @@ const Transition = forwardRef(function Transition(props, ref) {
 
 const Setup2FA = memo(({ isOpen, handleClose }) => {
   const dispatch = useDispatch();
-  const [secretKey, setSecretKey] = useState(null);
+  const [, setSecretKey] = useState(null);
   const [qrcodeUrl, setQrcodeUrl] = useState(null);
   const [showVerifyToken, setShowVerifyToken] = useState(false);
 

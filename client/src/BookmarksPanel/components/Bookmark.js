@@ -22,7 +22,7 @@ import {
   getPersonsFromUids,
   getPersonsWithImageUrl,
 } from "SrcPath/TaggingPanel/utils";
-import { BOOKMARK_ROW_HEIGHT } from "../constants";
+import { BOOKMARK_ROW_DIMENTSIONS } from "../constants/index";
 import { BookmarkDialog } from "./BookmarkDialog";
 import Favicon from "./Favicon";
 import withBookmarkRow from "./withBookmarkRow";
@@ -144,7 +144,10 @@ const Bookmark = memo(
        * Force render the bookmark when we want to edit it or its in the initial view
        */
       <ProgressiveRender
-        containerStyles={{ height: BOOKMARK_ROW_HEIGHT, width: "100%" }}
+        containerStyles={{
+          height: `${BOOKMARK_ROW_DIMENTSIONS.height}px`,
+          width: "100%",
+        }}
         forceRender={openEditDialog || isInInitalView(pos)}
         name={origTitle}
       >

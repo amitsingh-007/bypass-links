@@ -2,7 +2,7 @@ import { Box } from "@material-ui/core";
 import { memo, useEffect, useRef } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import Ripples from "react-ripples";
-import { bookmarkRowStyles, BOOKMARK_ROW_WIDTH } from "../constants";
+import { bookmarkRowStyles, BOOKMARK_ROW_DIMENTSIONS } from "../constants";
 
 const withBookmarkRow = (Component) =>
   memo((props) => {
@@ -45,7 +45,7 @@ const withBookmarkRow = (Component) =>
                   display: "flex",
                   alignItems: "center",
                   flexGrow: "1",
-                  maxWidth: BOOKMARK_ROW_WIDTH,
+                  maxWidth: `${BOOKMARK_ROW_DIMENTSIONS.width}px`,
                 }}
                 ref={bookmarkRef}
               >

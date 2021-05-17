@@ -95,7 +95,6 @@ export const BookmarkDialog = ({
         }}
       >
         <TextField
-          autoFocus
           size="small"
           label="Name"
           color="secondary"

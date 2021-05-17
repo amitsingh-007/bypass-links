@@ -67,9 +67,6 @@ const Authenticate = memo(() => {
 
   if (isFetching) {
     const { message, progress, progressBuffer, total } = authProgress || {};
-    console.log(
-      `message = ${message}, progress = ${progress}, progressBuffer = ${progressBuffer}, total = ${total}`
-    );
     return (
       <>
         <IconButtonLoader />

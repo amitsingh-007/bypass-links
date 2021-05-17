@@ -9,7 +9,6 @@
     "@material-ui/core": "5.0.0-alpha.33",
     "@material-ui/icons": "5.0.0-alpha.29",
     "@material-ui/lab": "5.0.0-alpha.33",
-    "@material-ui/pickers": "3.3.10",
     "browser-image-compression": "1.0.14",
     "core-js": "3.12.1",
     "dayjs": "1.10.4",
