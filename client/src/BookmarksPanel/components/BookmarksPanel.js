@@ -13,6 +13,7 @@ import { PureComponent } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { BOOKMARK_PANEL_CONTENT_HEIGHT } from "../constants/index";
 import { bookmarksMapper } from "../mapper";
 import {
   getAllFolderNames,
@@ -25,8 +26,9 @@ import {
 import Bookmark from "./Bookmark";
 import Folder from "./Folder";
 import Header from "./Header";
+import { ScrollUpButton } from "./ScrollButton";
 
-const contentHeight = "532px";
+const bookmarksContainerId = "bookmarks-wrapper";
 
 class BookmarksPanel extends PureComponent {
   constructor(props) {
@@ -359,12 +361,7 @@ class BookmarksPanel extends PureComponent {
 
     return (
       <>
-        <Box
-          sx={{
-            width: PANEL_DIMENSIONS.width,
-            paddingBottom: "8px",
-          }}
-        >
+        <Box sx={{ width: PANEL_DIMENSIONS.width, paddingBottom: "8px" }}>
           <Header
             folderNamesList={folderNamesList}
             selectedBookmarks={selectedBookmarks}
@@ -384,10 +381,11 @@ class BookmarksPanel extends PureComponent {
             <Droppable droppableId="bookmarks-list">
               {(provided) => (
                 <Box
+                  id={bookmarksContainerId}
                   component="form"
                   noValidate
                   autoComplete="off"
-                  sx={{ minHeight: contentHeight }}
+                  sx={{ minHeight: `${BOOKMARK_PANEL_CONTENT_HEIGHT}px` }}
                   ref={provided.innerRef}
                   {...provided.droppableProps}
                 >
@@ -430,6 +428,10 @@ class BookmarksPanel extends PureComponent {
             </Droppable>
           </DragDropContext>
         </Box>
+        <ScrollUpButton
+          containerId={bookmarksContainerId}
+          bookmarks={contextBookmarks}
+        />
       </>
     );
   }
