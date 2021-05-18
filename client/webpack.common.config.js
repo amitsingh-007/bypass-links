@@ -1,5 +1,6 @@
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 const ENV = process.env.NODE_ENV;
 const isProduction = ENV === "production";
@@ -40,6 +41,7 @@ const commonConfig = {
   optimization: {
     nodeEnv: ENV,
     minimize: isProduction,
+    minimizer: ["...", new CssMinimizerPlugin()],
   },
   module: {
     rules: [

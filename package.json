@@ -5,7 +5,9 @@
   "private": true,
   "devDependencies": {
     "cross-env": "7.0.3",
-    "lerna": "4.0.0"
+    "lerna": "4.0.0",
+    "prettier": "2.3.0",
+    "pretty-quick": "3.1.0"
   },
   "scripts": {
     "bootstrap": "lerna bootstrap --hoist",
@@ -16,7 +18,13 @@
     "cypress:open": "lerna run --stream cypress:open",
     "cypress:run": "lerna run --stream cypress:run",
     "netlify:deploy": "cross-env HOST_NAME='https://bypass-links-dev.netlify.app' npm run client:release && npm run server:deploy",
+    "pretty-quick": "pretty-quick",
     "server:deploy": "lerna run --stream deploy",
     "server:serve": "lerna run --stream serve"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }

@@ -3,8 +3,6 @@ const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const FileManagerPlugin = require("filemanager-webpack-plugin");
 const { InjectManifest } = require("workbox-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const WatchExternalFilesPlugin = require("webpack-watch-files-plugin").default;
 const { DefinePlugin, DllReferencePlugin } = require("webpack");
 const { getExtensionFile } = require("./src/utils/downloadPage");
 const { releaseDate, extVersion } = require("./release-config");
@@ -143,15 +141,6 @@ const getPopupConfigPlugins = () => {
   ];
   if (enableBundleAnalyzer) {
     plugins.push(getWebpackBundleAnalyzerPlugin(8889));
-  }
-  if (isProduction) {
-    plugins.push(new OptimizeCssAssetsPlugin({}));
-  } else {
-    plugins.push(
-      new WatchExternalFilesPlugin({
-        files: ["./assets/*"],
-      })
-    );
   }
   return plugins;
 };
