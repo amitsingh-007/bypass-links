@@ -8,6 +8,7 @@ const { getExtensionFile } = require("./src/utils/downloadPage");
 const { releaseDate, extVersion } = require("./release-config");
 const { commonConfig, PATHS } = require("./webpack.common.config");
 const firebasedDllConfig = require("./webpack.firebase.config");
+const WatchExternalFilesPlugin = require("webpack-watch-external-files-plugin");
 
 const ENV = process.env.NODE_ENV;
 const isProduction = ENV === "production";
@@ -141,6 +142,9 @@ const getPopupConfigPlugins = () => {
   ];
   if (enableBundleAnalyzer) {
     plugins.push(getWebpackBundleAnalyzerPlugin(8889));
+  }
+  if (!isProduction) {
+    plugins.push(new WatchExternalFilesPlugin({ files: ["./assets/*"] }));
   }
   return plugins;
 };
