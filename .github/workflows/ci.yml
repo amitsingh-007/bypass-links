@@ -6,11 +6,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
         - name: send custom message with args
-            uses: appleboy/telegram-action@master
-            with:
-              to: ${{ secrets.TELEGRAM_TO }}
-              token: ${{ secrets.TELEGRAM_TOKEN }}
-              args: Bypass Links test telegram message. 💩
+          uses: appleboy/telegram-action@master
+          with:
+            to: ${{ secrets.TELEGRAM_TO }}
+            token: ${{ secrets.TELEGRAM_TOKEN }}
+            args: Bypass Links test telegram message. 💩
   #     - name: Checkout repo 🛎️
   #       uses: actions/checkout@v2
 
