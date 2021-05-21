@@ -28,6 +28,7 @@ jobs:
         run: npm run client:release
 
       - name: Upload artfacts 🎨
+        if: ${{ github.ref == 'refs/heads/main' }}
         uses: actions/upload-artifact@v2
         with:
           name: build
@@ -162,3 +163,10 @@ jobs:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         with:
           args: deploy --prod
+
+      - name: Notify Admins 📱
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          args: Release succesful. Check the latest version on https://bypass-links.netlify.app/. 🎉🥳
