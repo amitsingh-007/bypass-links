@@ -2,10 +2,10 @@ const express = require("express");
 const serverless = require("serverless-http");
 const { BASE_PATH } = require("../constants");
 const { getLatestRelease, getAssetsByReleaseId } = require("../utils/github");
-
+const helmet=require('helmet')
 const app = express();
 const router = express.Router();
-
+app.use(helemt())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(`${BASE_PATH}/extension`, router);

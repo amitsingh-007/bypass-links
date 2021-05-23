@@ -26,5 +26,8 @@
     "hooks": {
       "pre-commit": "pretty-quick --staged"
     }
+  },
+  "dependencies": {
+    "helmet": "^4.6.0"
   }
 }
