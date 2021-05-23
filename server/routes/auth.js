@@ -2,6 +2,9 @@ const express = require("express");
 const rateLimit = require("express-rate-limit");
 const cors = require("cors");
 const serverless = require("serverless-http");
+const morgan = require("morgan");
+const compression = require("compression");
+const helmet = require("helmet");
 const { BASE_PATH, ALLOWED_ORIGIN } = require("../constants");
 const { removeFromFirebase } = require("../utils/firebase");
 const {
@@ -28,6 +31,9 @@ const router = express.Router();
 app.set("trust proxy", 1);
 
 // Middlewares
+app.use(morgan("common"));
+app.use(helmet());
+app.use(compression());
 app.use(apiLimiter);
 app.use(setEnvVars);
 if (global.__PROD__) {
