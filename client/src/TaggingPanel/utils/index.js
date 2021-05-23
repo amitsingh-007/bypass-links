@@ -60,9 +60,12 @@ export const getPersonsWithImageUrl = async (persons) => {
 };
 
 export const resolvePersonImageFromUid = async (uid) => {
-  const { [STORAGE_KEYS.personImages]: personImages } = await storage.get(
-    STORAGE_KEYS.personImages
+  const { [STORAGE_KEYS.personImageUrls]: personImages } = await storage.get(
+    STORAGE_KEYS.personImageUrls
   );
+  if (!personImages) {
+    return "";
+  }
   const imageUrl = personImages[uid];
   return await getBlobUrlFromCache(CACHE_BUCKET_KEYS.person, imageUrl);
 };

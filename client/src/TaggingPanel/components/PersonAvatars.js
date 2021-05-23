@@ -11,7 +11,9 @@ const commonStyles = { marginRight: "8px" };
 const PersonAvatars = memo(({ persons }) => {
   const history = useHistory();
 
-  if (!persons?.length) {
+  const hasImages = persons?.length && persons.every(({ url }) => Boolean(url));
+
+  if (!hasImages) {
     return (
       <Avatar
         sx={{
