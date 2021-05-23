@@ -66,14 +66,9 @@ const Bookmark = memo(
       }
     }, [initImageUrl, isExternalPage]);
 
-    useEffect(() => {
-      if (editBookmark && bookmarkRef?.current) {
-        bookmarkRef.current.style.animation = "blink-bookmark 1s infinite";
-      }
-    }, [editBookmark]);
-
-    const removeEditBookmarkAnimation = () => {
+    const animateOpenedBookmark = () => {
       if (bookmarkRef?.current) {
+        bookmarkRef.current.style.animation = "blink-bookmark 0.5s infinite";
         setTimeout(() => {
           bookmarkRef.current.style.animation = "";
         }, 3 * 1000);
@@ -83,9 +78,9 @@ const Bookmark = memo(
     const toggleEditDialog = useCallback(() => {
       //Remove qs before closing
       if (editBookmark && openEditDialog) {
+        //Blink for 3s after close of bookmark dialog
+        animateOpenedBookmark();
         history.replace(getBookmarksPanelUrl({ folder: origFolder }));
-        //Remove blinking animation after 3s of close
-        removeEditBookmarkAnimation();
       }
       setOpenEditDialog(!openEditDialog);
     }, [editBookmark, history, openEditDialog, origFolder]);
