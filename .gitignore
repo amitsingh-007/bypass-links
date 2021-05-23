@@ -3,10 +3,5 @@
 **/firebase-build
 **/extension
 
-# cypress file
-debug.log
-E2E/cypress/videos
-E2E/cypress/screenshots
-
 #netlify
 server/.env

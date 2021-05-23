@@ -22,7 +22,7 @@ export const STORAGE_KEYS = {
   lastVisited: FIREBASE_DB_REF.lastVisited,
   persons: FIREBASE_DB_REF.persons,
   mappedRedirections: "mappedRedirections",
-  personImages: "personImages",
+  personImageUrls: "personImageUrls",
   userProfile: "userProfile",
 };
 

@@ -34,48 +34,9 @@ jobs:
           name: build
           path: ./client/build/
 
-  E2E:
-    runs-on: ubuntu-latest
-    needs: [Build]
-    if: ${{ github.ref == 'refs/heads/main' }}
-    steps:
-      - name: Checkout repository 🛎️
-        uses: actions/checkout@v2
-
-      - name: Install dependencies 🧼
-        run: npm install && npm run bootstrap
-        env:
-          HOST_NAME: https://bypass-links.netlify.app
-
-      - name: Download artifacts 🎨
-        uses: actions/download-artifact@v2
-        with:
-          name: build
-          path: ./client/build/
-
-      - name: Deploy to Netlify Staging 💠
-        uses: netlify/actions/cli@master
-        env:
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_STG_SITE_ID }}
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-        with:
-          args: deploy --prod
-
-      - name: Run Cypress 🧪
-        uses: cypress-io/github-action@v2
-        with:
-          browser: chrome
-          headless: true
-          record: true
-          parallel: true
-          working-directory: E2E
-        env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
   Release:
     runs-on: ubuntu-latest
-    needs: [E2E]
+    needs: [Build]
     if: ${{ github.ref == 'refs/heads/main' }}
     steps:
       - name: Checkout repo 🛎️
