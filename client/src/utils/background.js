@@ -53,13 +53,10 @@ export const getExtensionIcon = async (
   hasPendingPersons
 ) => {
   let icon;
-  if (
-    hasPendingBookmarks?.newValue === true ||
-    hasPendingPersons?.newValue === true
-  ) {
+  if (hasPendingBookmarks === true || hasPendingPersons === true) {
     icon = "bypass_link_pending_128.png";
   } else {
-    const newExtState = extState?.newValue ?? (await getExtensionState());
+    const newExtState = extState ?? (await getExtensionState());
     icon = isExtensionActive(newExtState)
       ? "bypass_link_on_128.png"
       : "bypass_link_off_128.png";
