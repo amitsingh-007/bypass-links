@@ -9,7 +9,7 @@ Following are the supported node versions:
 | 12.x.x   | :white_check_mark: |
 | <= 10.x.x   | :x: |
 
-Following are the supported node versions:
+Following are the supported browser versions:
 
 | Version | Supported          |
 | ------- | ------------------ |
