@@ -1,11 +1,11 @@
 {
   "key": "fdnekjijeofacghkammknogmiapepano",
-  "version": "11.0.6",
+  "version": "11.0.7",
   "manifest_version": 3,
   "short_name": "Bypass Links",
   "name": "Bypass Links",
   "author": "Amit Singh",
-  "description": "Bypass links from various sites to required links.",
+  "description": "Bypass links from various sites to required links, with added functionality of Bookmarks Manager, Tagging Panel.",
   "action": {
     "default_icon": "bypass_link_on_128.png",
     "default_popup": "index.html",

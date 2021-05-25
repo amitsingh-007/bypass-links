@@ -1,4 +1,5 @@
 import action from "ChromeApi/action";
+import storage from "ChromeApi/storage";
 import { EXTENSION_STATE } from "GlobalConstants/index";
 import {
   fetchPageH1,
@@ -16,6 +17,18 @@ import { redirect } from "GlobalUtils/redirect";
 import siteSpecificLogic from "GlobalUtils/siteSpecificLogic/index";
 import turnOffInputSuggestions from "GlobalUtils/turnOffInputSuggestions";
 
+const setExtensionIcon = ({
+  extState,
+  hasPendingBookmarks,
+  hasPendingPersons,
+}) => {
+  getExtensionIcon(extState, hasPendingBookmarks, hasPendingPersons).then(
+    (icon) => {
+      action.setIcon({ path: icon });
+    }
+  );
+};
+
 const onUpdateCallback = async (tabId, changeInfo) => {
   const { url } = changeInfo;
   const extState = await getExtensionState();
@@ -32,7 +45,15 @@ const onFirstTimeInstall = () => {
   setExtStateInStorage(EXTENSION_STATE.ACTIVE);
 };
 
-const onMessageReceive = (message, sender, sendResponse) => {
+const onBrowserStart = () => {
+  storage
+    .get(["extState", "hasPendingBookmarks", "hasPendingPersons"])
+    .then(({ extState, hasPendingBookmarks, hasPendingPersons }) => {
+      setExtensionIcon({ extState, hasPendingBookmarks, hasPendingPersons });
+    });
+};
+
+const onMessageReceive = (message, _sender, sendResponse) => {
   if (message.getForumPageLinks) {
     getForumPageLinks(message.getForumPageLinks).then((forumPageLinks) => {
       sendResponse({ forumPageLinks });
@@ -50,20 +71,21 @@ const onStorageChange = (changedObj, storageType) => {
     return;
   }
   const { extState, hasPendingBookmarks, hasPendingPersons } = changedObj;
-  if (extState || hasPendingBookmarks || hasPendingPersons) {
-    getExtensionIcon(extState, hasPendingBookmarks, hasPendingPersons).then(
-      (icon) => {
-        action.setIcon({ path: icon });
-      }
-    );
-  }
+  setExtensionIcon({
+    extState: extState?.newValue,
+    hasPendingBookmarks: hasPendingBookmarks?.newValue,
+    hasPendingPersons: hasPendingPersons?.newValue,
+  });
 };
-
-//Listen tab url change
-chrome.tabs.onUpdated.addListener(onUpdateCallback);
 
 //First time extension install
 chrome.runtime.onInstalled.addListener(onFirstTimeInstall);
+
+//Listen when the browser is opened
+chrome.runtime.onStartup.addListener(onBrowserStart);
+
+//Listen tab url change
+chrome.tabs.onUpdated.addListener(onUpdateCallback);
 
 //Listen to dispatched messages
 chrome.runtime.onMessage.addListener(onMessageReceive);
