@@ -12,22 +12,21 @@ import { fetchApi } from "GlobalUtils/fetch";
 import { memo, useState } from "react";
 
 export const ChromeExtension = memo(() => {
-  const [isDownloadComplete, setIsDownloadComplete] = useState(false);
+  const [isDownloadStarted, setIsDownloadStarted] = useState(false);
 
   const showDownloadText = () => {
-    setIsDownloadComplete(true);
+    setIsDownloadStarted(true);
     setTimeout(() => {
-      setIsDownloadComplete(false);
+      setIsDownloadStarted(false);
     }, 1000);
   };
 
-  const handleExtensionDownload = () => {
-    fetchApi("/api/extension/").then(({ extension }) => {
-      const downloadLink = document.createElement("a");
-      downloadLink.href = extension;
-      downloadLink.click();
-      showDownloadText();
-    });
+  const handleExtensionDownload = async () => {
+    const { extension } = await fetchApi("/api/extension/");
+    const downloadLink = document.createElement("a");
+    downloadLink.href = extension;
+    downloadLink.click();
+    showDownloadText();
   };
 
   return (
@@ -71,17 +70,14 @@ export const ChromeExtension = memo(() => {
           }}
         >
           <Fab
-            data-test-id="extension-download-button"
             variant="extended"
             onClick={handleExtensionDownload}
+            color={isDownloadStarted ? "primary" : "default"}
+            sx={{ width: "249px" }}
           >
             <CloudDownloadIcon />
-            <Box
-              data-test-id={isDownloadComplete ? "downloaded" : "download"}
-              component="span"
-              sx={{ ml: "8px" }}
-            >
-              {isDownloadComplete ? "Downloaded" : "Download Bypass Links"}
+            <Box component="span" sx={{ ml: "8px" }}>
+              {isDownloadStarted ? "Download Started" : "Download Bypass Links"}
             </Box>
           </Fab>
         </Box>
