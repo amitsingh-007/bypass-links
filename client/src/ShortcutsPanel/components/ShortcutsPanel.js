@@ -2,7 +2,7 @@ import { FIREBASE_DB_REF } from "@bypass-links/common/src/constants/firebase";
 import { Box } from "@material-ui/core";
 import storage from "ChromeApi/storage";
 import { displayToast } from "GlobalActionCreators/";
-import { STORAGE_KEYS } from "GlobalConstants/index";
+import { STORAGE_KEYS } from "GlobalConstants";
 import { ROUTES } from "GlobalConstants/routes";
 import { PANEL_DIMENSIONS } from "GlobalConstants/styles";
 import { saveDataToFirebase } from "GlobalUtils/firebase";

@@ -7,7 +7,7 @@ import { forwardRef, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { authenticate2FA } from "SrcPath/SettingsPanel/apis/TwoFactorAuth";
 import Verify2FA from "SrcPath/SettingsPanel/components/Verify2FA";
-import { getUserProfile } from "SrcPath/SettingsPanel/utils/index";
+import { getUserProfile } from "SrcPath/SettingsPanel/utils";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;

@@ -3,7 +3,7 @@ import PersonOffIcon from "@material-ui/icons/PersonOff";
 import { CircularTooltip } from "GlobalComponents/StyledComponents";
 import { memo } from "react";
 import { useHistory } from "react-router";
-import { getTaggingPanelUrl } from "SrcPath/TaggingPanel/utils/index";
+import { getTaggingPanelUrl } from "SrcPath/TaggingPanel/utils";
 
 const AVATAR_SIZE = { SMALL: "23px", BIG: "70px" };
 const commonStyles = { marginRight: "8px" };

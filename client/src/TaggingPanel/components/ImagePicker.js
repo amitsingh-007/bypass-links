@@ -15,7 +15,7 @@ import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import imageCompression from "browser-image-compression";
 import PanelHeading from "GlobalComponents/PanelHeading";
 import { BG_COLOR_DARK, COLOR } from "GlobalConstants/color";
-import { FIREBASE_STORAGE_REF } from "GlobalConstants/index";
+import { FIREBASE_STORAGE_REF } from "GlobalConstants";
 import { uploadImageToFirebase } from "GlobalUtils/firebase";
 import { forwardRef, memo, useCallback, useRef, useState } from "react";
 import Cropper from "react-easy-crop";

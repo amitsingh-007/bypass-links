@@ -5,7 +5,7 @@ import { ROUTES } from "GlobalConstants/routes";
 import { memo, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
-import { getUserProfile } from "SrcPath/SettingsPanel/utils/index";
+import { getUserProfile } from "SrcPath/SettingsPanel/utils";
 
 const avatarStyles = { height: "50px", width: "50px" };
 

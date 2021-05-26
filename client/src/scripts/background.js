@@ -1,20 +1,20 @@
 import action from "ChromeApi/action";
 import storage from "ChromeApi/storage";
-import { EXTENSION_STATE } from "GlobalConstants/index";
+import { EXTENSION_STATE } from "GlobalConstants";
 import {
   fetchPageH1,
   getExtensionIcon,
   getForumPageLinks,
   isValidUrl,
 } from "GlobalUtils/background";
-import { bypass } from "GlobalUtils/bypass/index";
+import { bypass } from "GlobalUtils/bypass";
 import {
   getExtensionState,
   isExtensionActive,
   setExtStateInStorage,
 } from "GlobalUtils/common";
 import { redirect } from "GlobalUtils/redirect";
-import siteSpecificLogic from "GlobalUtils/siteSpecificLogic/index";
+import siteSpecificLogic from "GlobalUtils/siteSpecificLogic";
 import turnOffInputSuggestions from "GlobalUtils/turnOffInputSuggestions";
 
 const setExtensionIcon = ({

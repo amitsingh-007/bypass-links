@@ -1,15 +1,11 @@
 import { Box } from "@material-ui/core";
 import storage from "ChromeApi/storage";
-import { STORAGE_KEYS } from "GlobalConstants/index";
+import { STORAGE_KEYS } from "GlobalConstants";
 import { PANEL_DIMENSIONS } from "GlobalConstants/styles";
 import { removeImageFromFirebase } from "GlobalUtils/firebase";
 import { useEffect, useState } from "react";
 import { decryptionMapper } from "../mapper";
-import {
-  getPersonPos,
-  getSortedPersons,
-  setPersonsInStorage,
-} from "../utils/index";
+import { getPersonPos, getSortedPersons, setPersonsInStorage } from "../utils";
 import { updatePersonCacheAndImageUrls } from "../utils/sync";
 import Header from "./Header";
 import Persons from "./Persons";

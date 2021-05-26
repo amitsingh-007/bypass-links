@@ -1,7 +1,7 @@
 import scripting from "ChromeApi/scripting";
 import tabs from "ChromeApi/tabs";
 import windows from "ChromeApi/windows";
-import { MEDIUM_HOMEPAGE, MEDIUM_WHITELISTED } from "GlobalConstants/index";
+import { MEDIUM_HOMEPAGE, MEDIUM_WHITELISTED } from "GlobalConstants";
 
 const shouldSkipBypassingMedium = (url, searchParams) =>
   url === MEDIUM_HOMEPAGE ||

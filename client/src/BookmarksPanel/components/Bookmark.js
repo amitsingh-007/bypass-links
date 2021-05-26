@@ -22,7 +22,7 @@ import {
   getPersonsFromUids,
   getPersonsWithImageUrl,
 } from "SrcPath/TaggingPanel/utils";
-import { BOOKMARK_ROW_DIMENTSIONS } from "../constants/index";
+import { BOOKMARK_ROW_DIMENTSIONS } from "../constants";
 import { BookmarkDialog } from "./BookmarkDialog";
 import Favicon from "./Favicon";
 import withBookmarkRow from "./withBookmarkRow";

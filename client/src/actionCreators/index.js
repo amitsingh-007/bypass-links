@@ -9,7 +9,7 @@ import {
   TURN_ON_EXTENSION,
   UPDATE_TAGGED_PERSON_URLS,
   RESET_AUTHENTICATION_PROGRESS,
-} from "GlobalActionTypes/index";
+} from "GlobalActionTypes";
 
 export const setSignedInStatus = (isSignedIn) => ({
   type: SET_SIGNED_IN_STATUS,

@@ -5,11 +5,12 @@ const { getFromFirebase, saveToFirebase } = require("../utils/firebase");
 const speakeasy = require("speakeasy");
 const { get2FATitle } = require("../utils");
 
-const verify2FAToken = (secretKey, totp) =>
+const verify2FAToken = (secretKey, totp, window = 0) =>
   speakeasy.totp.verify({
     secret: secretKey,
     token: totp,
     encoding: "base32",
+    window,
   });
 
 const is2FASetup = (user2FAInfo) =>
@@ -77,8 +78,7 @@ const authenticate2FA = async ({ uid, totp }) => {
   if (!is2FAEnabled(user2FAInfo)) {
     return false;
   }
-  const isVerified = verify2FAToken(user2FAInfo.secretKey, totp);
-  return isVerified;
+  return verify2FAToken(user2FAInfo.secretKey, totp, 1);
 };
 
 module.exports = {

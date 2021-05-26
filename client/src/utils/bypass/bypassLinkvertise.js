@@ -4,7 +4,7 @@ import {
   fetchLinkMetaData,
   fetchTargetUrl,
 } from "GlobalApis/linkvertise";
-import { BYPASS_KEYS } from "GlobalConstants/index";
+import { BYPASS_KEYS } from "GlobalConstants";
 import { matchHostnames } from "GlobalUtils/common";
 
 const getDynamicParams = (url) => ({

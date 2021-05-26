@@ -9,13 +9,8 @@ const BookmarksPanel = lazy(() =>
   )
 );
 const getQueryParams = (qs) => {
-  const {
-    folderContext,
-    addBookmark,
-    editBookmark,
-    bmUrl,
-    bmTitle,
-  } = deserialzeQueryStringToObject(qs);
+  const { folderContext, addBookmark, editBookmark, bmUrl, bmTitle } =
+    deserialzeQueryStringToObject(qs);
   return {
     folderContext,
     addBookmark: addBookmark === "true",

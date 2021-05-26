@@ -1,5 +1,5 @@
 import storage from "ChromeApi/storage";
-import { defaultBookmarkFolder, STORAGE_KEYS } from "GlobalConstants/index";
+import { defaultBookmarkFolder, STORAGE_KEYS } from "GlobalConstants";
 import { ROUTES } from "GlobalConstants/routes";
 import { serialzeObjectToQueryString } from "GlobalUtils/url";
 import md5 from "md5";

@@ -1,6 +1,6 @@
 import storage from "ChromeApi/storage";
 import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
-import { STORAGE_KEYS } from "GlobalConstants/index";
+import { STORAGE_KEYS } from "GlobalConstants";
 import { ROUTES } from "GlobalConstants/routes";
 import { getBlobUrlFromCache } from "GlobalUtils/cache";
 import { serialzeObjectToQueryString } from "GlobalUtils/url";

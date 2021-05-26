@@ -4,7 +4,7 @@ import { EditDialog } from "GlobalComponents/Dialogs";
 import { getImageFromFirebase } from "GlobalUtils/firebase";
 import md5 from "md5";
 import { memo, useEffect, useState } from "react";
-import { resolvePersonImageFromUid } from "../utils/index";
+import { resolvePersonImageFromUid } from "../utils";
 import ImagePicker from "./ImagePicker";
 
 const imageStyles = { width: 200, height: 200 };

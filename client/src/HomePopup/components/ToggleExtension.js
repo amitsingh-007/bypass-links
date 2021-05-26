@@ -1,9 +1,9 @@
 import { Box, Switch } from "@material-ui/core";
 import PowerOffTwoToneIcon from "@material-ui/icons/PowerOffTwoTone";
 import PowerTwoToneIcon from "@material-ui/icons/PowerTwoTone";
-import { turnOnExtension } from "GlobalActionCreators/index";
-import { turnOffExtension } from "GlobalActionCreators/index";
-import { EXTENSION_STATE } from "GlobalConstants/index";
+import { turnOnExtension } from "GlobalActionCreators";
+import { turnOffExtension } from "GlobalActionCreators";
+import { EXTENSION_STATE } from "GlobalConstants";
 import { getOffIconColor, getOnIconColor } from "GlobalUtils/color";
 import {
   getExtensionState,
@@ -28,6 +28,7 @@ const ToggleExtension = memo(() => {
       const isActive = isExtensionActive(extState);
       dispatchActionAndSetState(extState, isActive);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleToggle = (event) => {
