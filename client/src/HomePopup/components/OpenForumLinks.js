@@ -10,6 +10,7 @@ import { matchHostnames } from "GlobalUtils/common";
 import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IconButtonLoader } from "GlobalComponents/Loader";
+import { useCallback } from "react";
 
 const isCurrentPageForum = async (url) => {
   const hostname = url && new URL(url).hostname;
@@ -31,13 +32,14 @@ const OpenForumLinks = memo(() => {
     initCurrentTab();
   }, []);
 
-  const initIsActive = async () => {
+  const initIsActive = useCallback(async () => {
     const isActive = isSignedIn && (await isCurrentPageForum(currentTab.url));
     setIsActive(isActive);
-  };
+  }, [currentTab.url, isSignedIn]);
+
   useEffect(() => {
     initIsActive();
-  }, [isSignedIn, currentTab]);
+  }, [isSignedIn, currentTab, initIsActive]);
 
   const handleClick = async () => {
     setIsFetching(true);

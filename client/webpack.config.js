@@ -9,6 +9,7 @@ const { releaseDate, extVersion } = require("./release-config");
 const { commonConfig, PATHS } = require("./webpack.common.config");
 const firebasedDllConfig = require("./webpack.firebase.config");
 const WatchExternalFilesPlugin = require("webpack-watch-external-files-plugin");
+const ESLintPlugin = require("eslint-webpack-plugin");
 
 const ENV = process.env.NODE_ENV;
 const isProduction = ENV === "production";
@@ -36,6 +37,8 @@ const optimizationOptions = {
     },
   },
 };
+
+const esLintPLugin = new ESLintPlugin({});
 
 const miniCssExtractPlugin = new MiniCssExtractPlugin({
   filename: "[name].[contenthash].css",
@@ -139,6 +142,7 @@ const getPopupConfigPlugins = () => {
     dllReferencePlugin,
     miniCssExtractPlugin,
     definePlugin,
+    esLintPLugin,
   ];
   if (enableBundleAnalyzer) {
     plugins.push(getWebpackBundleAnalyzerPlugin(8889));
@@ -169,6 +173,7 @@ const getBackgroundConfigPlugins = () => {
     }),
     dllReferencePlugin,
     definePlugin,
+    esLintPLugin,
   ];
   if (enableBundleAnalyzer) {
     plugins.push(getWebpackBundleAnalyzerPlugin(8890));

@@ -46,6 +46,7 @@ export const BookmarkDialog = ({
 
   useEffect(() => {
     initPersonList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleTitleChange = (event) => {

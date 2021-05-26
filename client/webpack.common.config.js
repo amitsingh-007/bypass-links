@@ -6,6 +6,7 @@ const ENV = process.env.NODE_ENV;
 const isProduction = ENV === "production";
 
 const PATHS = {
+  ROOT: path.resolve(__dirname, ".."),
   BUILD: path.resolve(__dirname, "build"),
   EXTENSION: path.resolve(__dirname, "extension"),
   FIREBASE_BUILD: path.resolve(__dirname, "firebase-build"),

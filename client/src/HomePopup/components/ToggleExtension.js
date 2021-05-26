@@ -28,6 +28,7 @@ const ToggleExtension = memo(() => {
       const isActive = isExtensionActive(extState);
       dispatchActionAndSetState(extState, isActive);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleToggle = (event) => {
