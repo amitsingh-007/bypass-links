@@ -1,11 +1,11 @@
 import { Box, Button } from "@material-ui/core";
 import storage from "ChromeApi/storage";
-import { displayToast } from "GlobalActionCreators/index";
-import { STORAGE_KEYS } from "GlobalConstants/index";
+import { displayToast } from "GlobalActionCreators";
+import { STORAGE_KEYS } from "GlobalConstants";
 import { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { revoke2FA } from "../apis/TwoFactorAuth";
-import { getUserProfile } from "../utils/index";
+import { getUserProfile } from "../utils";
 import Setup2FA from "./Setup2FA";
 
 const TwoFactorAuth = memo(() => {

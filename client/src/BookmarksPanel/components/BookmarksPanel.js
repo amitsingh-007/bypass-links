@@ -1,11 +1,8 @@
 import { Box } from "@material-ui/core";
 import storage from "ChromeApi/storage";
-import {
-  displayToast,
-  updateTaggedPersonUrls,
-} from "GlobalActionCreators/index";
+import { displayToast, updateTaggedPersonUrls } from "GlobalActionCreators";
 import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
-import { STORAGE_KEYS } from "GlobalConstants/index";
+import { STORAGE_KEYS } from "GlobalConstants";
 import { PANEL_DIMENSIONS } from "GlobalConstants/styles";
 import { addToCache } from "GlobalUtils/cache";
 import md5 from "md5";
@@ -13,7 +10,7 @@ import { PureComponent } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { BOOKMARK_PANEL_CONTENT_HEIGHT } from "../constants/index";
+import { BOOKMARK_PANEL_CONTENT_HEIGHT } from "../constants";
 import { bookmarksMapper } from "../mapper";
 import {
   getAllFolderNames,
@@ -22,7 +19,7 @@ import {
   isFolderContainsDir,
   isFolderEmpty,
   shouldRenderBookmarks,
-} from "../utils/index";
+} from "../utils";
 import Bookmark from "./Bookmark";
 import Folder from "./Folder";
 import Header from "./Header";

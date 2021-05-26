@@ -1,6 +1,6 @@
 import { FIREBASE_DB_REF } from "@bypass-links/common/src/constants/firebase";
 import storage from "ChromeApi/storage";
-import { BYPASS_KEYS, STORAGE_KEYS } from "GlobalConstants/index";
+import { BYPASS_KEYS, STORAGE_KEYS } from "GlobalConstants";
 import { getHostnameAlias } from "GlobalUtils/common";
 import { getFromFirebase } from "GlobalUtils/firebase";
 import { bypassBonsai } from "./bypassBonsai";

@@ -1,8 +1,8 @@
 import identity from "ChromeApi/identity";
 import storage from "ChromeApi/storage";
 import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
-import { STORAGE_KEYS } from "GlobalConstants/index";
-import { resetBypass, syncBypassToStorage } from "GlobalUtils/bypass/index";
+import { STORAGE_KEYS } from "GlobalConstants";
+import { resetBypass, syncBypassToStorage } from "GlobalUtils/bypass";
 import { deleteAllCache } from "GlobalUtils/cache";
 import {
   resetLastVisited,

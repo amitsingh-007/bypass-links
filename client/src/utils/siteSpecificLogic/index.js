@@ -1,4 +1,4 @@
-import { BYPASS_KEYS } from "GlobalConstants/index";
+import { BYPASS_KEYS } from "GlobalConstants";
 import { getHostnameAlias } from "GlobalUtils/common";
 import { forumsLogic } from "./forumsLogic";
 

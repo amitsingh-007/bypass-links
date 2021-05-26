@@ -18,8 +18,8 @@ import { bookmarkRowStyles } from "SrcPath/BookmarksPanel/constants";
 import {
   getBookmarksPanelUrl,
   getFromHash,
-} from "SrcPath/BookmarksPanel/utils/index";
-import { getDecodedBookmark } from "SrcPath/BookmarksPanel/utils/index";
+} from "SrcPath/BookmarksPanel/utils";
+import { getDecodedBookmark } from "SrcPath/BookmarksPanel/utils";
 
 const imageStyles = { width: 40, height: 40 };
 

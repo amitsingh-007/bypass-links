@@ -1,4 +1,4 @@
-import { setAuthenticationProgress } from "GlobalActionCreators/index";
+import { setAuthenticationProgress } from "GlobalActionCreators";
 import Toast from "GlobalComponents/Toast";
 import { memo, useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";

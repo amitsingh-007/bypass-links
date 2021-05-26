@@ -5,13 +5,13 @@ import {
   displayToast,
   resetAuthenticationProgress,
   setSignedInStatus,
-} from "GlobalActionCreators/index";
+} from "GlobalActionCreators";
 import { IconButtonLoader } from "GlobalComponents/Loader";
 import { COLOR } from "GlobalConstants/color";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserProfile } from "SrcPath/SettingsPanel/utils/index";
+import { getUserProfile } from "SrcPath/SettingsPanel/utils";
 import { signIn, signOut } from "../utils/authentication";
 
 const Authenticate = memo(() => {

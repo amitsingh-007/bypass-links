@@ -3,7 +3,7 @@ import BookmarkBorderTwoToneIcon from "@material-ui/icons/BookmarkBorderTwoTone"
 import BookmarkTwoToneIcon from "@material-ui/icons/BookmarkTwoTone";
 import { getCurrentTab } from "ChromeApi/tabs";
 import { COLOR } from "GlobalConstants/color";
-import { defaultBookmarkFolder } from "GlobalConstants/index";
+import { defaultBookmarkFolder } from "GlobalConstants";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import md5 from "md5";
 import { memo, useEffect, useState } from "react";
@@ -14,7 +14,7 @@ import {
   getBookmarksPanelUrl,
   getDecodedBookmark,
   getFromHash,
-} from "SrcPath/BookmarksPanel/utils/index";
+} from "SrcPath/BookmarksPanel/utils";
 import { IconButtonLoader } from "GlobalComponents/Loader";
 
 const QuickBookmarkButton = memo(() => {

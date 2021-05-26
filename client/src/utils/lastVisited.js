@@ -1,6 +1,6 @@
 import storage from "ChromeApi/storage";
 import { FIREBASE_DB_REF } from "@bypass-links/common/src/constants/firebase";
-import { STORAGE_KEYS } from "GlobalConstants/index";
+import { STORAGE_KEYS } from "GlobalConstants";
 import { getFromFirebase } from "GlobalUtils/firebase";
 
 export const syncLastVisitedToStorage = async () => {

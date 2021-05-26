@@ -12,17 +12,17 @@ import {
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import HelpOutlineOutlinedIcon from "@material-ui/icons/HelpOutlineOutlined";
 import storage from "ChromeApi/storage";
-import { displayToast } from "GlobalActionCreators/index";
+import { displayToast } from "GlobalActionCreators";
 import PanelHeading from "GlobalComponents/PanelHeading";
 import { BlackTooltip } from "GlobalComponents/StyledComponents";
-import { STORAGE_KEYS } from "GlobalConstants/index";
+import { STORAGE_KEYS } from "GlobalConstants";
 import { BG_COLOR_BLACK, BG_COLOR_DARK, COLOR } from "GlobalConstants/color";
 import { toDataURL } from "qrcode";
 import { forwardRef, memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setup2FA, verify2FA } from "../apis/TwoFactorAuth";
 import Verify2FA from "./Verify2FA";
-import { getUserProfile } from "../utils/index";
+import { getUserProfile } from "../utils";
 
 const tooltipStyles = { fontSize: "13px" };
 

@@ -6,7 +6,7 @@ import DesktopDateTimePicker from "@material-ui/lab/DesktopDateTimePicker";
 import LocalizationProvider from "@material-ui/lab/LocalizationProvider";
 import historyApi from "ChromeApi/history";
 import storage from "ChromeApi/storage";
-import { displayToast } from "GlobalActionCreators/index";
+import { displayToast } from "GlobalActionCreators";
 import { BG_COLOR_DARK, COLOR } from "GlobalConstants/color";
 import { ROUTES } from "GlobalConstants/routes";
 import { memo, useEffect, useState } from "react";
