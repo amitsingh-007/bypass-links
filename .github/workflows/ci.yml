@@ -30,10 +30,8 @@ jobs:
       - name: Upload artfacts 🎨
         uses: actions/upload-artifact@v2
         with:
-          name: build
-          path: |
-            ./client/build/
-            ./client/build/bypass-links-*.zip
+          name: extension
+          path: ./client/build/bypass-links-*.zip
 
   Release:
     runs-on: ubuntu-latest
