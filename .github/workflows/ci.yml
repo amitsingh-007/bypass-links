@@ -31,7 +31,9 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: build
-          path: ./client/build/
+          path: |
+            ./client/build/
+            ./client/build/bypass-links-*.zip
 
   Release:
     runs-on: ubuntu-latest
