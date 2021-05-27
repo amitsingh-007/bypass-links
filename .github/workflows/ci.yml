@@ -24,7 +24,7 @@ jobs:
       - name: Install dependencies 🧼
         run: npm install && npm run bootstrap
 
-      - name: Building1 🛠
+      - name: Building 🛠
         run: npm run client:release
 
       - name: Upload artfacts 🎨
