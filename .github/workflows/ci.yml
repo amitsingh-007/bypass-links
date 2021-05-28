@@ -27,6 +27,13 @@ jobs:
       - name: Building 🛠
         run: npm run client:release
 
+      - name: Upload extension 🌐
+        if: ${{ github.ref != 'refs/heads/main' }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: extension
+          path: ./client/build/bypass-links-*.zip
+
       - name: Upload artfacts 🎨
         uses: actions/upload-artifact@v2
         with:
