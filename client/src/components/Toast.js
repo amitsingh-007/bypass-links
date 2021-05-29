@@ -13,7 +13,6 @@ const position = {
 const SlideTransition = (props) => <Slide {...props} direction="right" />;
 
 const Toast = () => {
-  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const toast = useSelector((state) => state.toast);
 

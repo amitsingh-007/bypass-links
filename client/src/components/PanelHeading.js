@@ -11,7 +11,6 @@ const titleStyles = {
 const PanelHeading = ({ heading, containerStyles = {} }) => (
   <Typography
     component="span"
-    variant="h1"
     display="inline"
     sx={{ ...titleStyles, ...containerStyles }}
   >
