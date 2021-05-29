@@ -13,6 +13,474 @@ export const setExtStateInStorage = (extState) => {
   storage.set({ extState }).then(() => {
     console.log(`ExtensionState in storage is set to ${extState}.`);
   });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
+  storage.set({ extState }).then(() => {
+    console.log(`ExtensionState in storage is set to ${extState}.`);
+  });
 };
 
 const getHostnames = async () => {

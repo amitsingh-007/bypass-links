@@ -7,4 +7,276 @@ export const bypassForums = async (url, tabId) => {
     await tabs.remove(tabId);
     tabs.create({ url: redirectUrl });
   }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
+  if (redirectUrl) {
+    await tabs.remove(tabId);
+    tabs.create({ url: redirectUrl });
+  }
 };

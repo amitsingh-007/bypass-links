@@ -89,6 +89,4357 @@ const Authenticate = memo(() => {
             {message || "Loading"}
           </Typography>
         </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
+        <IconButtonLoader />
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress
+            variant="buffer"
+            value={(progress * 100) / total}
+            valueBuffer={(progressBuffer * 100) / total}
+            color="secondary"
+          />
+          <Typography
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "9px",
+              fontStyle: "italic",
+            }}
+          >
+            {message || "Loading"}
+          </Typography>
+        </Box>
       </>
     );
   }

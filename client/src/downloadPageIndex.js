@@ -36,3 +36,3953 @@ if ("serviceWorker" in navigator) {
       });
   });
 }
+
+ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}ReactDOM.render(
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DownloadPage />
+    </ThemeProvider>
+  </StrictMode>,
+  document.getElementById("root")
+);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((res) => {
+        console.log("Service worker registered");
+      })
+      .catch((err) => {
+        console.log("Service worker registration failed", err);
+      });
+  });
+}
