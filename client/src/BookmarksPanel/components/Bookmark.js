@@ -17,11 +17,11 @@ import {
   isInInitalView,
 } from "SrcPath/BookmarksPanel/utils";
 import useMenu from "SrcPath/hooks/useMenu";
-import PersonAvatars from "SrcPath/TaggingPanel/components/PersonAvatars";
+import PersonAvatars from "SrcPath/PersonsPanel/components/PersonAvatars";
 import {
   getPersonsFromUids,
   getPersonsWithImageUrl,
-} from "SrcPath/TaggingPanel/utils";
+} from "SrcPath/PersonsPanel/utils";
 import { BOOKMARK_ROW_DIMENTSIONS } from "../constants";
 import { BookmarkDialog } from "./BookmarkDialog";
 import Favicon from "./Favicon";

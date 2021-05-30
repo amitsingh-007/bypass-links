@@ -1,7 +1,7 @@
 import storage from "ChromeApi/storage";
 import { memo, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { getPersons, setPersonsInStorage } from "SrcPath/TaggingPanel/utils";
+import { getPersons, setPersonsInStorage } from "SrcPath/PersonsPanel/utils";
 
 const THIRTY_SECONDS = 30 * 1000; //in milliseconds
 

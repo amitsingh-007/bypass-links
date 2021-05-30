@@ -4,13 +4,15 @@ import { STORAGE_KEYS } from "GlobalConstants";
 import { PANEL_DIMENSIONS } from "GlobalConstants/styles";
 import { removeImageFromFirebase } from "GlobalUtils/firebase";
 import { useEffect, useState } from "react";
+import { SORT_ORDER, SORT_TYPE } from "../constants/sort";
 import { decryptionMapper } from "../mapper";
-import { getPersonPos, getSortedPersons, setPersonsInStorage } from "../utils";
+import { getPersonPos, setPersonsInStorage } from "../utils";
+import { sortAlphabetically, sortByBookmarksCount } from "../utils/sort";
 import { updatePersonCacheAndImageUrls } from "../utils/sync";
 import Header from "./Header";
 import Persons from "./Persons";
 
-const TaggingPanel = () => {
+const PersonsPanel = () => {
   const [persons, setPersons] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
 
@@ -21,7 +23,7 @@ const TaggingPanel = () => {
         const decryptedPersons = Object.entries(persons || {}).map(
           decryptionMapper
         );
-        setPersons(decryptedPersons);
+        setPersons(sortAlphabetically(SORT_ORDER.asc, decryptedPersons));
         setIsFetching(false);
       });
   }, []);
@@ -72,13 +74,26 @@ const TaggingPanel = () => {
     await handleSave(newPersons);
   };
 
-  const sortedPersons = getSortedPersons(persons);
+  const handleSort = (sortType, sortOrder) => {
+    let sortFn = null;
+    if (sortType === SORT_TYPE.alphabetically) {
+      sortFn = sortAlphabetically;
+    } else if (sortType === SORT_TYPE.bookmarks) {
+      sortFn = sortByBookmarksCount;
+    } else {
+      throw new Error("Unknown sort type encountered");
+    }
+    setPersons(sortFn(sortOrder, persons));
+  };
+
+  const sortedPersons = persons;
   return (
     <Box sx={{ width: PANEL_DIMENSIONS.width }}>
       <Header
         isFetching={isFetching}
         handleAddPerson={handleAddOrEditPerson}
         persons={sortedPersons}
+        handleSort={handleSort}
       />
       <Box sx={{ minHeight: PANEL_DIMENSIONS.height }}>
         {sortedPersons.length > 0 ? (
@@ -93,4 +108,4 @@ const TaggingPanel = () => {
   );
 };
 
-export default TaggingPanel;
+export default PersonsPanel;

@@ -12,7 +12,7 @@ import { RightClickMenu } from "GlobalComponents/StyledComponents";
 import { memo, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import useMenu from "SrcPath/hooks/useMenu";
-import { getTaggingPanelUrl, resolvePersonImageFromUid } from "../utils";
+import { getPersonsPanelUrl, resolvePersonImageFromUid } from "../utils";
 import AddOrEditPersonDialog from "./AddOrEditPersonDialog";
 import BookmarksList from "./BookmarksList";
 
@@ -50,7 +50,7 @@ const Person = memo(
       taggedUrls && !!taggedUrls.length ? taggedUrls.length : 0;
 
     const openBookmarksList = () => {
-      history.push(getTaggingPanelUrl({ openBookmarksList: uid }));
+      history.push(getPersonsPanelUrl({ openBookmarksList: uid }));
     };
 
     return (

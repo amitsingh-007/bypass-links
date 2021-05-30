@@ -10,7 +10,7 @@ import OpenDefaultsButton from "../components/OpenDefaultsButton";
 import OpenForumLinks from "../components/OpenForumLinks";
 import QuickBookmarkButton from "../components/QuickBookmarkButton";
 import ShortcutsPanelButton from "../components/ShortcutsPanelButton";
-import TaggingPanelButton from "../components/TaggingPanelButton";
+import PersonsPanelButton from "../components/PersonsPanelButton";
 import ToggleExtension from "../components/ToggleExtension";
 import ToggleHistory from "../components/ToggleHistory";
 import UserProfile from "../components/UserProfile";
@@ -56,7 +56,7 @@ const PopupHome = memo(() => (
       <Box>
         <OpenForumLinks />
         <LastVisitedButton />
-        <TaggingPanelButton />
+        <PersonsPanelButton />
       </Box>
     </Box>
     <TwoFactorAuthenticate />

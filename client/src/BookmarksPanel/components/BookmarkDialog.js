@@ -4,10 +4,12 @@ import runtime from "ChromeApi/runtime";
 import { EditDialog } from "GlobalComponents/Dialogs";
 import { COLOR } from "GlobalConstants/color";
 import { useEffect, useState } from "react";
+import { SORT_ORDER } from "SrcPath/PersonsPanel/constants/sort";
 import {
   getAllDecodedPersons,
   getPersonsWithImageUrl,
-} from "SrcPath/TaggingPanel/utils";
+} from "SrcPath/PersonsPanel/utils";
+import { sortAlphabetically } from "SrcPath/PersonsPanel/utils/sort";
 import { FolderDropdown, PersonsDropdown } from "./Dropdown";
 
 export const BookmarkDialog = ({
@@ -34,7 +36,7 @@ export const BookmarkDialog = ({
     setIsFetchingPerson(true);
     const persons = await getAllDecodedPersons();
     const personsWithImageUrl = await getPersonsWithImageUrl(persons);
-    setPersonList(personsWithImageUrl);
+    setPersonList(sortAlphabetically(SORT_ORDER.asc, personsWithImageUrl));
     if (origTaggedPersons) {
       const taggedPersons = personsWithImageUrl.filter((person) =>
         origTaggedPersons.includes(person.uid)

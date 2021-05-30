@@ -3,7 +3,7 @@ import PersonOffIcon from "@material-ui/icons/PersonOff";
 import { CircularTooltip } from "GlobalComponents/StyledComponents";
 import { memo } from "react";
 import { useHistory } from "react-router";
-import { getTaggingPanelUrl } from "SrcPath/TaggingPanel/utils";
+import { getPersonsPanelUrl } from "SrcPath/PersonsPanel/utils";
 
 const AVATAR_SIZE = { SMALL: "23px", BIG: "70px" };
 const commonStyles = { marginRight: "8px" };
@@ -11,7 +11,8 @@ const commonStyles = { marginRight: "8px" };
 const PersonAvatars = memo(({ persons }) => {
   const history = useHistory();
 
-  const hasImages = persons?.length && persons.every(({ url }) => Boolean(url));
+  const hasImages =
+    persons?.length && persons.every(({ imageUrl }) => Boolean(imageUrl));
 
   if (!hasImages) {
     return (
@@ -28,7 +29,7 @@ const PersonAvatars = memo(({ persons }) => {
   }
 
   const handlePersonClick = (person) => {
-    history.push(getTaggingPanelUrl({ openBookmarksList: person.uid }));
+    history.push(getPersonsPanelUrl({ openBookmarksList: person.uid }));
   };
 
   return (

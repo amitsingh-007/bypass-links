@@ -1,7 +1,10 @@
 import { Box, InputBase } from "@material-ui/core";
 import { alpha } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
+import { useRef } from "react";
+import { useEffect } from "react";
 import { memo } from "react";
+import { useInView } from "react-intersection-observer";
 import { throttle } from "throttle-debounce";
 
 /**
@@ -9,6 +12,12 @@ import { throttle } from "throttle-debounce";
  * `data-text` and `data-subtext` should be applied on same node as of `searchClassName`
  */
 const SearchInput = memo(({ searchClassName }) => {
+  const inputRef = useRef(null);
+  const { ref, entry } = useInView({
+    trackVisibility: true,
+    delay: 100,
+  });
+
   const handleSearch = (searchText = "") => {
     const lowerSearchText = searchText.toLowerCase();
 
@@ -30,6 +39,12 @@ const SearchInput = memo(({ searchClassName }) => {
     handleSearch(event.target.value?.trim());
   });
 
+  useEffect(() => {
+    if (entry?.isVisible) {
+      inputRef?.current?.focus();
+    }
+  }, [entry?.isVisible]);
+
   return (
     <Box
       sx={{
@@ -41,6 +56,7 @@ const SearchInput = memo(({ searchClassName }) => {
         },
         width: "auto",
       }}
+      ref={ref}
     >
       <Box
         sx={{
@@ -58,7 +74,6 @@ const SearchInput = memo(({ searchClassName }) => {
       <InputBase
         placeholder="Search…"
         onChange={onChange}
-        autoFocus
         sx={{
           "& .MuiInputBase-input": {
             padding: (theme) => theme.spacing(1, 1, 1, 0),
@@ -68,6 +83,7 @@ const SearchInput = memo(({ searchClassName }) => {
             "&:focus": { width: "20ch" },
           },
         }}
+        inputRef={inputRef}
       />
     </Box>
   );

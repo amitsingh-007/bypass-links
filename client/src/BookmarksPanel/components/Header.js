@@ -1,10 +1,4 @@
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Box,
-  IconButton,
-} from "@material-ui/core";
+import { Box, IconButton } from "@material-ui/core";
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import CollectionsBookmarkTwoToneIcon from "@material-ui/icons/CollectionsBookmarkTwoTone";
 import CreateNewFolderTwoToneIcon from "@material-ui/icons/CreateNewFolderTwoTone";
@@ -13,11 +7,15 @@ import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
 import SyncTwoToneIcon from "@material-ui/icons/SyncTwoTone";
 import tabs from "ChromeApi/tabs";
 import { displayToast, startHistoryMonitor } from "GlobalActionCreators";
+import {
+  AccordionHeader,
+  PrimaryHeaderContent,
+  SecondaryHeaderContent,
+} from "GlobalComponents/AccordionHeader";
 import Loader from "GlobalComponents/Loader";
 import PanelHeading from "GlobalComponents/PanelHeading";
-import { COLOR } from "GlobalConstants/color";
 import { defaultBookmarkFolder } from "GlobalConstants";
-import { STICKY_HEADER } from "GlobalConstants/styles";
+import { COLOR } from "GlobalConstants/color";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import { PureComponent } from "react";
 import { connect } from "react-redux";
@@ -184,123 +182,97 @@ class Header extends PureComponent {
     );
     return (
       <>
-        <Accordion sx={{ margin: "0px !important", ...STICKY_HEADER }}>
-          <AccordionSummary
-            sx={{
-              padding: "0px",
-              minHeight: "50px !important",
-              "& .MuiAccordionSummary-content": { margin: "0px !important" },
-            }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                width: "100%",
-              }}
-            >
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <IconButton
-                  aria-label="Discard"
-                  component="span"
-                  style={COLOR.red}
-                  onClick={this.handleDiscardButtonClick}
-                  title="Discard and Close"
-                >
-                  <ArrowBackTwoToneIcon fontSize="large" />
-                </IconButton>
-                <IconButton
-                  aria-label="Save"
-                  component="span"
-                  style={getActiveDisabledColor(
-                    isSaveButtonActive,
-                    COLOR.green
-                  )}
-                  onClick={this.onSaveClick}
-                  title="Save locally"
-                  disabled={!isSaveButtonActive}
-                >
-                  <SaveTwoToneIcon fontSize="large" />
-                </IconButton>
-                <IconButton
-                  aria-label="Sync"
-                  component="span"
-                  onClick={this.onSyncClick}
-                  title="Sync storage to firebase"
-                  disabled={isSyncing}
-                >
-                  <SyncTwoToneIcon
-                    fontSize="large"
-                    className={isSyncing ? "iconLoading" : null}
-                    htmlColor={COLOR.orange.color}
-                  />
-                </IconButton>
-                <IconButton
-                  aria-label="NewFolder"
-                  component="span"
-                  style={COLOR.blue}
-                  onClick={this.toggleNewFolderDialog}
-                  title="Add new folder"
-                >
-                  <CreateNewFolderTwoToneIcon fontSize="large" />
-                </IconButton>
-                <IconButton
-                  aria-label="OpenSelected"
-                  component="span"
-                  style={getActiveDisabledColor(
-                    isOpenSelectedActive,
-                    COLOR.deepPurple
-                  )}
-                  disabled={!isOpenSelectedActive}
-                  onClick={this.handleOpenSelectedBookmarks}
-                  title="Open Selected"
-                >
-                  <OpenInNewTwoToneIcon fontSize="large" />
-                </IconButton>
-                <IconButton
-                  aria-label="Move Bookmarks"
-                  component="span"
-                  style={getActiveDisabledColor(
-                    isMoveBookmarksActive,
-                    COLOR.brown
-                  )}
-                  onClick={this.onEditBookmarksClick}
-                  title="Move Bookmarks"
-                  disabled={!isMoveBookmarksActive}
-                >
-                  <CollectionsBookmarkTwoToneIcon fontSize="large" />
-                </IconButton>
-                {isFetching && (
-                  <Loader loaderSize={30} padding="12px" disableShrink />
+        <AccordionHeader>
+          <PrimaryHeaderContent>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <IconButton
+                aria-label="Discard"
+                component="span"
+                style={COLOR.red}
+                onClick={this.handleDiscardButtonClick}
+                title="Discard and Close"
+              >
+                <ArrowBackTwoToneIcon fontSize="large" />
+              </IconButton>
+              <IconButton
+                aria-label="Save"
+                component="span"
+                style={getActiveDisabledColor(isSaveButtonActive, COLOR.green)}
+                onClick={this.onSaveClick}
+                title="Save locally"
+                disabled={!isSaveButtonActive}
+              >
+                <SaveTwoToneIcon fontSize="large" />
+              </IconButton>
+              <IconButton
+                aria-label="Sync"
+                component="span"
+                onClick={this.onSyncClick}
+                title="Sync storage to firebase"
+                disabled={isSyncing}
+              >
+                <SyncTwoToneIcon
+                  fontSize="large"
+                  className={isSyncing ? "iconLoading" : null}
+                  htmlColor={COLOR.orange.color}
+                />
+              </IconButton>
+              <IconButton
+                aria-label="NewFolder"
+                component="span"
+                style={COLOR.blue}
+                onClick={this.toggleNewFolderDialog}
+                title="Add new folder"
+              >
+                <CreateNewFolderTwoToneIcon fontSize="large" />
+              </IconButton>
+              <IconButton
+                aria-label="OpenSelected"
+                component="span"
+                style={getActiveDisabledColor(
+                  isOpenSelectedActive,
+                  COLOR.deepPurple
                 )}
-              </Box>
-              <PanelHeading
-                heading={`BOOKMARKS PANEL (${contextBookmarks?.length || 0})`}
+                disabled={!isOpenSelectedActive}
+                onClick={this.handleOpenSelectedBookmarks}
+                title="Open Selected"
+              >
+                <OpenInNewTwoToneIcon fontSize="large" />
+              </IconButton>
+              <IconButton
+                aria-label="Move Bookmarks"
+                component="span"
+                style={getActiveDisabledColor(
+                  isMoveBookmarksActive,
+                  COLOR.brown
+                )}
+                onClick={this.onEditBookmarksClick}
+                title="Move Bookmarks"
+                disabled={!isMoveBookmarksActive}
+              >
+                <CollectionsBookmarkTwoToneIcon fontSize="large" />
+              </IconButton>
+              {isFetching && (
+                <Loader loaderSize={30} padding="12px" disableShrink />
+              )}
+            </Box>
+            <PanelHeading
+              heading={`BOOKMARKS PANEL (${contextBookmarks?.length || 0})`}
+            />
+          </PrimaryHeaderContent>
+          <SecondaryHeaderContent>
+            <Box sx={{ minWidth: "190px" }}>
+              <FolderDropdown
+                folder={curFolder}
+                folderList={folderNamesList}
+                handleFolderChange={this.onFolderChange}
+                hideLabel
+                fullWidth
               />
             </Box>
-          </AccordionSummary>
-          <AccordionDetails sx={{ paddingTop: "0px" }}>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <Box sx={{ minWidth: "190px" }}>
-                <FolderDropdown
-                  folder={curFolder}
-                  folderList={folderNamesList}
-                  handleFolderChange={this.onFolderChange}
-                  hideLabel
-                  fullWidth
-                />
-              </Box>
-              <SearchInput searchClassName="bookmarkRowContainer" />
-            </Box>
-          </AccordionDetails>
-        </Accordion>
+            <SearchInput searchClassName="bookmarkRowContainer" />
+          </SecondaryHeaderContent>
+        </AccordionHeader>
         <FolderDialog
           headerText="Add folder"
           handleSave={this.handleNewFolderSave}
