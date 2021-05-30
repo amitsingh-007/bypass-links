@@ -13,7 +13,10 @@ import { throttle } from "throttle-debounce";
  */
 const SearchInput = memo(({ searchClassName }) => {
   const inputRef = useRef(null);
-  const { ref, inView } = useInView();
+  const { ref, inView, entry } = useInView({
+    trackVisibility: true,
+    delay: 100,
+  });
 
   const handleSearch = (searchText = "") => {
     const lowerSearchText = searchText.toLowerCase();
@@ -37,10 +40,16 @@ const SearchInput = memo(({ searchClassName }) => {
   });
 
   useEffect(() => {
-    if (inView) {
+    if (entry?.isVisible) {
       inputRef?.current?.focus();
     }
-  }, [inView]);
+  }, [entry?.isVisible]);
+
+  useEffect(() => {
+    return () => {
+      console.log("unmounted");
+    };
+  }, []);
 
   return (
     <Box
@@ -71,7 +80,6 @@ const SearchInput = memo(({ searchClassName }) => {
       <InputBase
         placeholder="Search…"
         onChange={onChange}
-        autoFocus
         sx={{
           "& .MuiInputBase-input": {
             padding: (theme) => theme.spacing(1, 1, 1, 0),

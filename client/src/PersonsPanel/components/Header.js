@@ -3,10 +3,14 @@ import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import PersonAddTwoToneIcon from "@material-ui/icons/PersonAddTwoTone";
 import SyncTwoToneIcon from "@material-ui/icons/SyncTwoTone";
 import { displayToast } from "GlobalActionCreators";
+import {
+  AccordionHeader,
+  PrimaryHeaderContent,
+  SecondaryHeaderContent,
+} from "GlobalComponents/AccordionHeader";
 import Loader from "GlobalComponents/Loader";
 import PanelHeading from "GlobalComponents/PanelHeading";
 import { COLOR } from "GlobalConstants/color";
-import { STICKY_HEADER } from "GlobalConstants/styles";
 import { memo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
@@ -49,69 +53,59 @@ const Header = memo(({ isFetching, handleAddPerson, persons }) => {
 
   return (
     <>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          ...STICKY_HEADER,
-        }}
-      >
-        <Box>
-          <IconButton
-            aria-label="Discard"
-            component="span"
-            style={COLOR.red}
-            onClick={handleClose}
-            title="Discard and Close"
-          >
-            <ArrowBackTwoToneIcon fontSize="large" />
-          </IconButton>
-          <IconButton
-            aria-label="Add"
-            component="span"
-            style={COLOR.blue}
-            onClick={toggleAddPersonDialog}
-            title="Add Person"
-          >
-            <PersonAddTwoToneIcon fontSize="large" />
-          </IconButton>
-          <IconButton
-            aria-label="Sync"
-            component="span"
-            onClick={onSyncClick}
-            title="Sync storage to firebase"
-            disabled={isSyncing}
-          >
-            <SyncTwoToneIcon
-              fontSize="large"
-              className={isSyncing ? "iconLoading" : null}
-              htmlColor={COLOR.orange.color}
-            />
-          </IconButton>
-          {isFetching && (
-            <Loader
-              loaderSize={30}
-              padding="12px"
-              display="inline"
-              disableShrink
-            />
-          )}
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <SearchInput searchClassName="personContainer" />
+      <AccordionHeader>
+        <PrimaryHeaderContent>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <IconButton
+              aria-label="Discard"
+              component="span"
+              style={COLOR.red}
+              onClick={handleClose}
+              title="Discard and Close"
+            >
+              <ArrowBackTwoToneIcon fontSize="large" />
+            </IconButton>
+            <IconButton
+              aria-label="Add"
+              component="span"
+              style={COLOR.blue}
+              onClick={toggleAddPersonDialog}
+              title="Add Person"
+            >
+              <PersonAddTwoToneIcon fontSize="large" />
+            </IconButton>
+            <IconButton
+              aria-label="Sync"
+              component="span"
+              onClick={onSyncClick}
+              title="Sync storage to firebase"
+              disabled={isSyncing}
+            >
+              <SyncTwoToneIcon
+                fontSize="large"
+                className={isSyncing ? "iconLoading" : null}
+                htmlColor={COLOR.orange.color}
+              />
+            </IconButton>
+            {isFetching && (
+              <Loader
+                loaderSize={30}
+                padding="12px"
+                display="inline"
+                disableShrink
+              />
+            )}
+          </Box>
           <PanelHeading
             heading={`PERSONS PANEL (${persons?.length || 0})`}
             containerStyles={{ marginLeft: "10px" }}
           />
-        </Box>
-      </Box>
+        </PrimaryHeaderContent>
+        <SecondaryHeaderContent>
+          <div>dummy</div>
+          <SearchInput searchClassName="personContainer" />
+        </SecondaryHeaderContent>
+      </AccordionHeader>
       {showAddPersonDialog && (
         <AddOrEditPersonDialog
           isOpen={showAddPersonDialog}
