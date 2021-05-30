@@ -10,7 +10,7 @@ import { updatePersonCacheAndImageUrls } from "../utils/sync";
 import Header from "./Header";
 import Persons from "./Persons";
 
-const TaggingPanel = () => {
+const PersonsPanel = () => {
   const [persons, setPersons] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
 
@@ -93,4 +93,4 @@ const TaggingPanel = () => {
   );
 };
 
-export default TaggingPanel;
+export default PersonsPanel;

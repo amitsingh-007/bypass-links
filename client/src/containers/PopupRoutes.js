@@ -6,7 +6,7 @@ import { HomePageRoute } from "SrcPath/HomePopup/routes";
 import { HistoryPanelRoute } from "SrcPath/routes";
 import { SettingsPanelRoute } from "SrcPath/SettingsPanel/routes";
 import { ShortcutsPanelRoute } from "SrcPath/ShortcutsPanel/routes";
-import { TaggingPanelRoute } from "SrcPath/TaggingPanel/routes";
+import { PersonsPanelRoute } from "SrcPath/PersonsPanel/routes";
 
 const PopupRoutes = () => (
   <Suspense fallback={<IconButtonLoader />}>
@@ -14,7 +14,7 @@ const PopupRoutes = () => (
       {HomePageRoute}
       {ShortcutsPanelRoute}
       {BookmarksPanelRoute}
-      {TaggingPanelRoute}
+      {PersonsPanelRoute}
       {HistoryPanelRoute}
       {SettingsPanelRoute}
     </Switch>

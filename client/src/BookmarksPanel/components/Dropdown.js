@@ -11,7 +11,7 @@ import {
   TextField,
 } from "@material-ui/core";
 import { memo, useState } from "react";
-import { getSortedPersons } from "SrcPath/TaggingPanel/utils";
+import { getSortedPersons } from "SrcPath/PersonsPanel/utils";
 
 export const FolderDropdown = ({
   folder,

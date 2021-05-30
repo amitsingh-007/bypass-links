@@ -107,7 +107,7 @@ const Header = memo(({ isFetching, handleAddPerson, persons }) => {
         >
           <SearchInput searchClassName="personContainer" />
           <PanelHeading
-            heading={`TAGGING PANEL (${persons?.length || 0})`}
+            heading={`PERSONS PANEL (${persons?.length || 0})`}
             containerStyles={{ marginLeft: "10px" }}
           />
         </Box>

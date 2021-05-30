@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import {
   getAllDecodedPersons,
   getPersonsWithImageUrl,
-} from "SrcPath/TaggingPanel/utils";
+} from "SrcPath/PersonsPanel/utils";
 import { FolderDropdown, PersonsDropdown } from "./Dropdown";
 
 export const BookmarkDialog = ({

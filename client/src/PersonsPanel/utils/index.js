@@ -73,10 +73,10 @@ export const resolvePersonImageFromUid = async (uid) => {
 export const getPersonPos = (persons, person) =>
   persons.findIndex(({ uid }) => uid === person.uid);
 
-export const getTaggingPanelUrl = ({ openBookmarksList }) => {
+export const getPersonsPanelUrl = ({ openBookmarksList }) => {
   const qsObj = {};
   if (openBookmarksList) {
     qsObj.openBookmarksList = openBookmarksList;
   }
-  return `${ROUTES.TAGGING_PANEL}?${serialzeObjectToQueryString(qsObj)}`;
+  return `${ROUTES.PERSONS_PANEL}?${serialzeObjectToQueryString(qsObj)}`;
 };

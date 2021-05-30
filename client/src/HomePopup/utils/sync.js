@@ -27,7 +27,7 @@ import {
   resetPersons,
   syncPersonsFirebaseWithStorage,
   syncPersonsToStorage,
-} from "SrcPath/TaggingPanel/utils/sync";
+} from "SrcPath/PersonsPanel/utils/sync";
 import { dispatchAuthenticationEvent } from "./authentication";
 
 const syncAuthenticationToStorage = async (userProfile) => {
