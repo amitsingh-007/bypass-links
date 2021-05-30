@@ -44,9 +44,6 @@ export const getAllDecodedPersons = async () => {
   return Object.entries(persons).map(([_key, person]) => decodePerson(person));
 };
 
-export const getSortedPersons = (persons) =>
-  persons.sort((a, b) => a.name.localeCompare(b.name));
-
 export const getPersonsWithImageUrl = async (persons) => {
   if (!persons) {
     return [];

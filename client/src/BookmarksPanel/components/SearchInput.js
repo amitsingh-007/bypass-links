@@ -13,7 +13,7 @@ import { throttle } from "throttle-debounce";
  */
 const SearchInput = memo(({ searchClassName }) => {
   const inputRef = useRef(null);
-  const { ref, inView, entry } = useInView({
+  const { ref, entry } = useInView({
     trackVisibility: true,
     delay: 100,
   });
@@ -44,12 +44,6 @@ const SearchInput = memo(({ searchClassName }) => {
       inputRef?.current?.focus();
     }
   }, [entry?.isVisible]);
-
-  useEffect(() => {
-    return () => {
-      console.log("unmounted");
-    };
-  }, []);
 
   return (
     <Box

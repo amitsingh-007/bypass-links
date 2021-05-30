@@ -11,7 +11,6 @@ import {
   TextField,
 } from "@material-ui/core";
 import { memo, useState } from "react";
-import { getSortedPersons } from "SrcPath/PersonsPanel/utils";
 
 export const FolderDropdown = ({
   folder,
@@ -105,14 +104,13 @@ export const PersonsDropdown = memo(
       </Box>
     );
 
-    const sortedPersons = getSortedPersons(personList);
     return (
       <Autocomplete
         multiple
         fullWidth
         limitTags={2}
         loading={loading}
-        options={sortedPersons}
+        options={personList}
         value={taggedPersons}
         onChange={handlePersonsChange}
         inputValue={inputText}

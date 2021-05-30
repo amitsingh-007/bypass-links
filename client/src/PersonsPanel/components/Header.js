@@ -17,8 +17,9 @@ import { useHistory } from "react-router";
 import SearchInput from "SrcPath/BookmarksPanel/components/SearchInput";
 import { syncPersonsFirebaseWithStorage } from "../utils/sync";
 import AddOrEditPersonDialog from "./AddOrEditPersonDialog";
+import Sort from "./Sort";
 
-const Header = memo(({ isFetching, handleAddPerson, persons }) => {
+const Header = memo(({ isFetching, handleAddPerson, persons, handleSort }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [isSyncing, setIsSyncing] = useState(false);
@@ -102,7 +103,9 @@ const Header = memo(({ isFetching, handleAddPerson, persons }) => {
           />
         </PrimaryHeaderContent>
         <SecondaryHeaderContent>
-          <div>dummy</div>
+          <Box sx={{ minWidth: "150px" }}>
+            <Sort onChange={handleSort} />
+          </Box>
           <SearchInput searchClassName="personContainer" />
         </SecondaryHeaderContent>
       </AccordionHeader>
