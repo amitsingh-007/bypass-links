@@ -1,4 +1,4 @@
-import { FIREBASE_DB_REF } from "@bypass-links/common/src/constants/firebase";
+import { FIREBASE_DB_REF } from "../../../../common/src/constants/firebase";
 import { IconButton, Typography } from "@material-ui/core";
 import EventAvailableTwoToneIcon from "@material-ui/icons/EventAvailableTwoTone";
 import { getCurrentTab } from "ChromeApi/tabs";

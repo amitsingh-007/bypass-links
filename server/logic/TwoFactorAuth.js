@@ -1,6 +1,4 @@
-const {
-  FIREBASE_DB_REF,
-} = require("@bypass-links/common/src/constants/firebase");
+const { FIREBASE_DB_REF } = require("../../common/src/constants/firebase");
 const { getFromFirebase, saveToFirebase } = require("../utils/firebase");
 const speakeasy = require("speakeasy");
 const { get2FATitle } = require("../utils");

@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@bypass-links/common": "*",
     "@octokit/rest": "18.5.3",
     "cors": "2.8.5",
     "compression": "1.7.4",

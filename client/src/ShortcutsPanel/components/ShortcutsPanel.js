@@ -1,4 +1,4 @@
-import { FIREBASE_DB_REF } from "@bypass-links/common/src/constants/firebase";
+import { FIREBASE_DB_REF } from "../../../../common/src/constants/firebase";
 import { Box } from "@material-ui/core";
 import storage from "ChromeApi/storage";
 import { displayToast } from "GlobalActionCreators/";

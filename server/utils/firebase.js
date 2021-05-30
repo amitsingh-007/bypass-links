@@ -1,5 +1,5 @@
 const admin = require("firebase-admin");
-const { getFullDbPath } = require("@bypass-links/common/src/utils/firebase");
+const { getFullDbPath } = require("../../common/src/utils/firebase");
 
 const serviceAccountKey = JSON.parse(process.env.SERVICE_ACCOUNT_KEY);
 

@@ -1,4 +1,4 @@
-import { FIREBASE_DB_REF } from "@bypass-links/common/src/constants/firebase";
+import { FIREBASE_DB_REF } from "../../../../common/src/constants/firebase";
 import storage from "ChromeApi/storage";
 import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
 import { STORAGE_KEYS } from "GlobalConstants";
