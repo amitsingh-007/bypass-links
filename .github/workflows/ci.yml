@@ -14,7 +14,7 @@ jobs:
           node-version: "12.x"
 
       - name: Cache 💾
-        uses: actions/cache@v2.1.5
+        uses: actions/cache@v2.1.6
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -111,7 +111,7 @@ jobs:
           node-version: "12.x"
 
       - name: Cache 💾
-        uses: actions/cache@v2.1.5
+        uses: actions/cache@v2.1.6
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
