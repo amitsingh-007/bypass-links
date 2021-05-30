@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "kill-port": "1.6.1",
-    "netlify-cli": "3.29.15"
+    "netlify-cli": "3.32.0"
   },
   "scripts": {
     "deploy": "netlify deploy --prod",
