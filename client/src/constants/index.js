@@ -1,4 +1,4 @@
-import { FIREBASE_DB_REF } from "@bypass-links/common/src/constants/firebase";
+import { FIREBASE_DB_REF } from "../../../common/src/constants/firebase";
 
 export const LINKVERTISE_API_BASE_URL =
   "https://publisher.linkvertise.com/api/v1/redirect/link";

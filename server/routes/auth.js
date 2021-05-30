@@ -7,9 +7,7 @@ const compression = require("compression");
 const helmet = require("helmet");
 const { BASE_PATH, ALLOWED_ORIGIN } = require("../constants");
 const { removeFromFirebase } = require("../utils/firebase");
-const {
-  FIREBASE_DB_REF,
-} = require("@bypass-links/common/src/constants/firebase");
+const { FIREBASE_DB_REF } = require("../../common/src/constants/firebase");
 const setEnvVars = require("../middlewares/setEnvVars");
 const verifyUserId = require("../middlewares/verifyUserId");
 const {
