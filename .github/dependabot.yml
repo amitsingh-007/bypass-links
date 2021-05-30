@@ -11,5 +11,6 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     open-pull-requests-limit: 200
+    target_branch: "dependabot"
     schedule:
       interval: "weekly"
