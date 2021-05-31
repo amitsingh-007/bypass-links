@@ -26,7 +26,7 @@ import { BookmarkDialog } from "./BookmarkDialog";
 import Favicon from "./Favicon";
 import withBookmarkRow from "./withBookmarkRow";
 
-const titleStyles = { flexGrow: "1" };
+const titleStyles = { flexGrow: "1", fontSize: "14px" };
 const tooltipStyles = { fontSize: "13px" };
 
 const Bookmark = memo(
@@ -36,7 +36,6 @@ const Bookmark = memo(
     folder: origFolder,
     taggedPersons: origTaggedPersons,
     pos,
-    isSelected,
     folderNamesList,
     handleSave,
     handleRemove,
@@ -171,12 +170,12 @@ const Bookmark = memo(
           <Favicon url={url} />
           {!isExternalPage && <PersonAvatars persons={personWithimageUrls} />}
           <BlackTooltip
-            title={<Typography style={tooltipStyles}>{url}</Typography>}
+            title={<Typography sx={tooltipStyles}>{url}</Typography>}
             arrow
             disableInteractive
             followCursor
           >
-            <Typography noWrap style={titleStyles}>
+            <Typography noWrap sx={titleStyles}>
               {origTitle}
             </Typography>
           </BlackTooltip>

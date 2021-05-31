@@ -17,6 +17,7 @@ const getTitleStyles = (isEmpty) => ({
   flexGrow: "1",
   marginLeft: "8px",
   color: isEmpty ? COLOR.blueGrey.color : "inherit",
+  fontSize: "14px",
 });
 
 const Folder = memo(
