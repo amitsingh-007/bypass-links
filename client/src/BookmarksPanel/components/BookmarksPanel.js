@@ -62,6 +62,7 @@ class BookmarksPanel extends PureComponent {
 
   componentDidMount() {
     this.initBookmarksData();
+    document.body.addEventListener("keydown", this.resetSelectedBookmarks);
   }
 
   componentDidUpdate(prevProps) {
@@ -71,10 +72,20 @@ class BookmarksPanel extends PureComponent {
     }
   }
 
+  componentWillUnmount() {
+    document.body.removeEventListener("keydown", this.resetSelectedBookmarks);
+  }
+
   handleSelectedChange = (pos) => {
     const { selectedBookmarks } = this.state;
     selectedBookmarks[pos] = !selectedBookmarks[pos];
     this.setState({ selectedBookmarks: [...selectedBookmarks] });
+  };
+
+  resetSelectedBookmarks = (event) => {
+    if (event.key === "Escape") {
+      this.setState({ selectedBookmarks: [] });
+    }
   };
 
   handleCreateNewFolder = (name) => {

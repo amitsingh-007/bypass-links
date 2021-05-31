@@ -1,4 +1,4 @@
-import { Box, Checkbox, MenuItem, Typography } from "@material-ui/core";
+import { Box, MenuItem, Typography } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import tabs from "ChromeApi/tabs";
@@ -8,7 +8,6 @@ import {
   BlackTooltip,
   RightClickMenu,
 } from "GlobalComponents/StyledComponents";
-import { COLOR } from "GlobalConstants/color";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -101,18 +100,29 @@ const Bookmark = memo(
       [handleSave, origFolder, origTaggedPersons, pos, toggleEditDialog]
     );
 
-    const handleOpenLink = useCallback(() => {
-      dispatch(startHistoryMonitor());
-      tabs.create({ url, selected: false });
-    }, [dispatch, url]);
+    const handleOpenLink = useCallback(
+      (event) => {
+        if (event.ctrlKey) {
+          return;
+        }
+        dispatch(startHistoryMonitor());
+        tabs.create({ url, selected: false });
+      },
+      [dispatch, url]
+    );
 
     const handleDeleteOptionClick = useCallback(() => {
       handleRemove(pos, url);
     }, [handleRemove, pos, url]);
 
-    const handleSelectionChange = useCallback(() => {
-      handleSelectedChange(pos);
-    }, [handleSelectedChange, pos]);
+    const handleSelectionChange = useCallback(
+      (event) => {
+        if (event.ctrlKey) {
+          handleSelectedChange(pos);
+        }
+      },
+      [handleSelectedChange, pos]
+    );
 
     const renderRightMenu = useCallback(() => {
       const menuOptionsList = [
@@ -156,16 +166,8 @@ const Bookmark = memo(
           }}
           onDoubleClick={handleOpenLink}
           onContextMenu={onMenuOpen}
+          onClick={handleSelectionChange}
         >
-          {!isExternalPage && (
-            <Checkbox
-              checked={isSelected}
-              onChange={handleSelectionChange}
-              style={COLOR.pink}
-              disableRipple
-              sx={{ padding: "0px" }}
-            />
-          )}
           <Favicon url={url} />
           {!isExternalPage && <PersonAvatars persons={personWithimageUrls} />}
           <BlackTooltip
