@@ -118,8 +118,9 @@ const BookmarksList = memo(({ name, imageUrl, taggedUrls }) => {
                 onClick={() => {
                   handleBookmarkEdit(bookmark);
                 }}
+                sx={{ mr: "4px" }}
               >
-                <EditTwoToneIcon />
+                <EditTwoToneIcon sx={{ fontSize: 22 }} />
               </IconButton>
               <Ripples>
                 <BookmarkExternal

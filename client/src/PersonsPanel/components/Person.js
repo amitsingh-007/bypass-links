@@ -56,6 +56,7 @@ const Person = memo(
     return (
       <>
         <IconButton
+          sx={{ padding: "0px" }}
           onClick={openBookmarksList}
           data-text={name}
           className="personContainer"
@@ -82,6 +83,7 @@ const Person = memo(
             </Box>
             <Typography
               sx={{
+                fontSize: "14px",
                 width: "110px",
                 overflow: "hidden",
                 wordBreak: "break-word",

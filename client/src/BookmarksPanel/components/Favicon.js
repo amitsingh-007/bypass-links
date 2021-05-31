@@ -8,8 +8,7 @@ import { getFaviconUrl } from "../utils";
 const containerStyles = {
   width: "20px",
   height: "20px",
-  marginLeft: "6px",
-  marginRight: "8px",
+  marginRight: "12px",
 };
 
 const Favicon = memo(({ url }) => {

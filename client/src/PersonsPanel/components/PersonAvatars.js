@@ -6,7 +6,7 @@ import { useHistory } from "react-router";
 import { getPersonsPanelUrl } from "SrcPath/PersonsPanel/utils";
 
 const AVATAR_SIZE = { SMALL: "23px", BIG: "70px" };
-const commonStyles = { marginRight: "8px" };
+const commonStyles = { marginRight: "12px" };
 
 const PersonAvatars = memo(({ persons }) => {
   const history = useHistory();
