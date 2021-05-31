@@ -1,4 +1,4 @@
-import { Box } from "@material-ui/core";
+import { Box, GlobalStyles } from "@material-ui/core";
 import storage from "ChromeApi/storage";
 import { displayToast, updateTaggedPersonUrls } from "GlobalActionCreators";
 import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
@@ -369,6 +369,11 @@ class BookmarksPanel extends PureComponent {
 
     return (
       <>
+        <GlobalStyles
+          styles={{
+            body: { "::-webkit-scrollbar": { width: "0px" } },
+          }}
+        />
         <Box sx={{ width: PANEL_DIMENSIONS.width, paddingBottom: "8px" }}>
           <Header
             folderNamesList={folderNamesList}

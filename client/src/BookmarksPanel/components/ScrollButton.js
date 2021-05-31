@@ -1,9 +1,8 @@
-import { IconButton } from "@material-ui/core";
+import { Box, CircularProgress, IconButton } from "@material-ui/core";
 import ExpandLessRoundedIcon from "@material-ui/icons/ExpandLessRounded";
 import ExpandMoreRoundedIcon from "@material-ui/icons/ExpandMoreRounded";
 import { COLOR } from "GlobalConstants/color";
-import { memo, useEffect, useState } from "react";
-import { debounce } from "throttle-debounce";
+import { memo, useCallback, useEffect, useState } from "react";
 import {
   BOOKMARK_PANEL_CONTENT_HEIGHT,
   BOOKMARK_ROW_DIMENTSIONS,
@@ -23,7 +22,7 @@ export const ScrollUpButton = memo(({ containerId, bookmarks }) => {
     nodeToScroll.scrollIntoView({ block: "center", behavior: "smooth" });
   };
 
-  const scrollListener = debounce(10, () => {
+  const scrollListener = useCallback(() => {
     const node = document.body;
     const parentNode = node.parentNode;
     var percentScrolled =
@@ -31,7 +30,7 @@ export const ScrollUpButton = memo(({ containerId, bookmarks }) => {
         (parentNode.scrollHeight - parentNode.clientHeight)) *
       100;
     setPercentScrolled(Math.round(percentScrolled));
-  });
+  }, []);
 
   useEffect(() => {
     if (!isShown) {
@@ -56,21 +55,27 @@ export const ScrollUpButton = memo(({ containerId, bookmarks }) => {
   }
 
   return (
-    <IconButton
-      sx={{
-        position: "fixed",
-        bottom: "10px",
-        right: "10px",
-        backgroundColor: COLOR.grey.color,
-      }}
-      size="small"
-      onClick={handleScrollClick}
-    >
-      {percentScrolled > 50 ? (
-        <ExpandLessRoundedIcon />
-      ) : (
-        <ExpandMoreRoundedIcon />
-      )}
-    </IconButton>
+    <Box sx={{ position: "fixed", bottom: "10px", right: "10px" }}>
+      <Box sx={{ position: "relative" }}>
+        <CircularProgress variant="determinate" value={percentScrolled} />
+        <IconButton
+          sx={{
+            backgroundColor: COLOR.grey.color,
+            padding: "4.5px",
+            position: "absolute",
+            top: "3.8px",
+            left: "3.8px",
+          }}
+          size="small"
+          onClick={handleScrollClick}
+        >
+          {percentScrolled > 50 ? (
+            <ExpandLessRoundedIcon />
+          ) : (
+            <ExpandMoreRoundedIcon />
+          )}
+        </IconButton>
+      </Box>
+    </Box>
   );
 });
