@@ -1,3 +1,4 @@
+import action from "ChromeApi/action";
 import scripting from "ChromeApi/scripting";
 import tabs, { getCurrentTab } from "ChromeApi/tabs";
 import { getExtensionState, isExtensionActive } from "./common";
@@ -47,11 +48,11 @@ export const fetchPageH1 = async () => {
 export const isValidUrl = (url) =>
   url && !/chrome(-extension)?:\/\/*/.test(url);
 
-export const getExtensionIcon = async (
+export const setExtensionIcon = async ({
   extState,
   hasPendingBookmarks,
-  hasPendingPersons
-) => {
+  hasPendingPersons,
+}) => {
   let icon;
   if (hasPendingBookmarks === true || hasPendingPersons === true) {
     icon = "bypass_link_pending_128.png";
@@ -61,5 +62,5 @@ export const getExtensionIcon = async (
       ? "bypass_link_on_128.png"
       : "bypass_link_off_128.png";
   }
-  return Promise.resolve(icon);
+  await action.setIcon({ path: icon });
 };

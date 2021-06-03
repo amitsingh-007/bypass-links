@@ -1,11 +1,10 @@
-import action from "ChromeApi/action";
 import storage from "ChromeApi/storage";
 import { EXTENSION_STATE } from "GlobalConstants";
 import {
   fetchPageH1,
-  getExtensionIcon,
   getForumPageLinks,
   isValidUrl,
+  setExtensionIcon,
 } from "GlobalUtils/background";
 import { bypass } from "GlobalUtils/bypass";
 import {
@@ -16,18 +15,6 @@ import {
 import { redirect } from "GlobalUtils/redirect";
 import siteSpecificLogic from "GlobalUtils/siteSpecificLogic";
 import turnOffInputSuggestions from "GlobalUtils/turnOffInputSuggestions";
-
-const setExtensionIcon = ({
-  extState,
-  hasPendingBookmarks,
-  hasPendingPersons,
-}) => {
-  getExtensionIcon(extState, hasPendingBookmarks, hasPendingPersons).then(
-    (icon) => {
-      action.setIcon({ path: icon });
-    }
-  );
-};
 
 const onUpdateCallback = async (tabId, changeInfo) => {
   const { url } = changeInfo;
@@ -48,8 +35,12 @@ const onFirstTimeInstall = () => {
 const onBrowserStart = () => {
   storage
     .get(["extState", "hasPendingBookmarks", "hasPendingPersons"])
-    .then(({ extState, hasPendingBookmarks, hasPendingPersons }) => {
-      setExtensionIcon({ extState, hasPendingBookmarks, hasPendingPersons });
+    .then(async ({ extState, hasPendingBookmarks, hasPendingPersons }) => {
+      await setExtensionIcon({
+        extState,
+        hasPendingBookmarks,
+        hasPendingPersons,
+      });
     });
 };
 
@@ -71,11 +62,13 @@ const onStorageChange = (changedObj, storageType) => {
     return;
   }
   const { extState, hasPendingBookmarks, hasPendingPersons } = changedObj;
-  setExtensionIcon({
-    extState: extState?.newValue,
-    hasPendingBookmarks: hasPendingBookmarks?.newValue,
-    hasPendingPersons: hasPendingPersons?.newValue,
-  });
+  if (extState || hasPendingBookmarks || hasPendingPersons) {
+    setExtensionIcon({
+      extState: extState?.newValue,
+      hasPendingBookmarks: hasPendingBookmarks?.newValue,
+      hasPendingPersons: hasPendingPersons?.newValue,
+    });
+  }
 };
 
 //First time extension install
