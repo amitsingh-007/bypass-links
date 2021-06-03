@@ -11,7 +11,7 @@
     "browser-image-compression": "1.0.14",
     "core-js": "3.13.1",
     "dayjs": "1.10.5",
-    "firebase": "8.6.1",
+    "firebase": "8.6.3",
     "md5": "2.3.0",
     "qrcode": "1.4.4",
     "react": "17.0.2",
