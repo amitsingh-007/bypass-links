@@ -4,6 +4,7 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     open-pull-requests-limit: 100
+    target-branch: "dependabot-updates"
     schedule:
       interval: "weekly"
 
