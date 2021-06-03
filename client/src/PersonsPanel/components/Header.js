@@ -25,7 +25,8 @@ const Header = memo(({ isFetching, handleAddPerson, persons, handleSort }) => {
   const [isSyncing, setIsSyncing] = useState(false);
   const [showAddPersonDialog, setShowAddPersonDialog] = useState(false);
 
-  const toggleAddPersonDialog = () => {
+  const toggleAddPersonDialog = (event) => {
+    event && event.stopPropagation();
     setShowAddPersonDialog(!showAddPersonDialog);
   };
 
@@ -34,11 +35,13 @@ const Header = memo(({ isFetching, handleAddPerson, persons, handleSort }) => {
     toggleAddPersonDialog();
   };
 
-  const handleClose = () => {
+  const handleClose = (event) => {
+    event.stopPropagation();
     history.goBack();
   };
 
-  const onSyncClick = async () => {
+  const onSyncClick = async (event) => {
+    event.stopPropagation();
     if (isSyncing) {
       return;
     }
