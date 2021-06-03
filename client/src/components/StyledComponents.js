@@ -1,4 +1,5 @@
-import { Menu, Tooltip, withStyles } from "@material-ui/core";
+import { Menu, Tooltip } from "@material-ui/core";
+import { withStyles } from "@material-ui/styles";
 
 export const BlackTooltip = withStyles((theme) => ({
   tooltip: {

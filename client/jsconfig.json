@@ -1,11 +1,16 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    "lib": ["es6", "dom"],
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
     "target": "es6",
     "allowSyntheticDefaultImports": false,
     "jsx": "react",
     "baseUrl": ".",
-    //Refer: https://github.com/microsoft/TypeScript/issues/26859#issuecomment-695806452
+    "strict": true,
+    // Refer: https://github.com/microsoft/TypeScript/issues/26859#issuecomment-695806452
     "paths": {
       "ChromeApi/*": ["./src/scripts/chrome/*"],
       "GlobalActionCreators": ["./src/actionCreators"],
