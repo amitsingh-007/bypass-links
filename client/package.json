@@ -31,7 +31,7 @@
     "@babel/preset-react": "7.13.13",
     "@babel/runtime": "7.14.0",
     "@material-ui/codemod": "5.0.0-alpha.33",
-    "@types/chrome": "0.0.140",
+    "@types/chrome": "0.0.144",
     "babel-loader": "8.2.2",
     "babel-preset-react-app": "10.0.0",
     "better-npm-run": "0.1.1",
