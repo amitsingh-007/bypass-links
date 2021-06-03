@@ -47,7 +47,7 @@
     "node-sass": "6.0.0",
     "sass-loader": "11.0.0",
     "style-loader": "2.0.0",
-    "webpack": "5.37.0",
+    "webpack": "5.38.1",
     "webpack-bundle-analyzer": "4.4.2",
     "webpack-cli": "4.7.0",
     "webpack-dev-server": "3.11.2",
