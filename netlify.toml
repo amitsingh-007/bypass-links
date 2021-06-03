@@ -6,7 +6,7 @@
   publish = "client/build"
   functions = "server/routes/"
   targetPort = 5000
-  environment = { NODE_VERSION = "12" }
+  environment = { NODE_VERSION = "14" }
 
 [[redirects]]
   from = "/api/*"
