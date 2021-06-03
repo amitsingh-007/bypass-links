@@ -3,6 +3,6 @@ export const ROUTES = {
   SHORTCUTS_PANEL: "/shortcuts-panel/",
   HISTORY_PANEL: "/history-panel/",
   BOOKMARK_PANEL: "/bookmark-panel/",
-  TAGGING_PANEL: "/tagging-panel/",
+  PERSONS_PANEL: "/persons-panel/",
   SETTINGS_PANEL: "/settings-panel/",
 };

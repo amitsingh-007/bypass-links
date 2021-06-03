@@ -44,9 +44,6 @@ export const getAllDecodedPersons = async () => {
   return Object.entries(persons).map(([_key, person]) => decodePerson(person));
 };
 
-export const getSortedPersons = (persons) =>
-  persons.sort((a, b) => a.name.localeCompare(b.name));
-
 export const getPersonsWithImageUrl = async (persons) => {
   if (!persons) {
     return [];
@@ -73,10 +70,10 @@ export const resolvePersonImageFromUid = async (uid) => {
 export const getPersonPos = (persons, person) =>
   persons.findIndex(({ uid }) => uid === person.uid);
 
-export const getTaggingPanelUrl = ({ openBookmarksList }) => {
+export const getPersonsPanelUrl = ({ openBookmarksList }) => {
   const qsObj = {};
   if (openBookmarksList) {
     qsObj.openBookmarksList = openBookmarksList;
   }
-  return `${ROUTES.TAGGING_PANEL}?${serialzeObjectToQueryString(qsObj)}`;
+  return `${ROUTES.PERSONS_PANEL}?${serialzeObjectToQueryString(qsObj)}`;
 };

@@ -1,4 +1,4 @@
-import { Box, Checkbox, MenuItem, Typography } from "@material-ui/core";
+import { Box, MenuItem, Typography } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import tabs from "ChromeApi/tabs";
@@ -8,7 +8,6 @@ import {
   BlackTooltip,
   RightClickMenu,
 } from "GlobalComponents/StyledComponents";
-import { COLOR } from "GlobalConstants/color";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -17,17 +16,17 @@ import {
   isInInitalView,
 } from "SrcPath/BookmarksPanel/utils";
 import useMenu from "SrcPath/hooks/useMenu";
-import PersonAvatars from "SrcPath/TaggingPanel/components/PersonAvatars";
+import PersonAvatars from "SrcPath/PersonsPanel/components/PersonAvatars";
 import {
   getPersonsFromUids,
   getPersonsWithImageUrl,
-} from "SrcPath/TaggingPanel/utils";
+} from "SrcPath/PersonsPanel/utils";
 import { BOOKMARK_ROW_DIMENTSIONS } from "../constants";
 import { BookmarkDialog } from "./BookmarkDialog";
 import Favicon from "./Favicon";
 import withBookmarkRow from "./withBookmarkRow";
 
-const titleStyles = { flexGrow: "1" };
+const titleStyles = { flexGrow: "1", fontSize: "14px" };
 const tooltipStyles = { fontSize: "13px" };
 
 const Bookmark = memo(
@@ -37,7 +36,6 @@ const Bookmark = memo(
     folder: origFolder,
     taggedPersons: origTaggedPersons,
     pos,
-    isSelected,
     folderNamesList,
     handleSave,
     handleRemove,
@@ -101,18 +99,29 @@ const Bookmark = memo(
       [handleSave, origFolder, origTaggedPersons, pos, toggleEditDialog]
     );
 
-    const handleOpenLink = useCallback(() => {
-      dispatch(startHistoryMonitor());
-      tabs.create({ url, selected: false });
-    }, [dispatch, url]);
+    const handleOpenLink = useCallback(
+      (event) => {
+        if (event.ctrlKey) {
+          return;
+        }
+        dispatch(startHistoryMonitor());
+        tabs.create({ url, selected: false });
+      },
+      [dispatch, url]
+    );
 
     const handleDeleteOptionClick = useCallback(() => {
       handleRemove(pos, url);
     }, [handleRemove, pos, url]);
 
-    const handleSelectionChange = useCallback(() => {
-      handleSelectedChange(pos);
-    }, [handleSelectedChange, pos]);
+    const handleSelectionChange = useCallback(
+      (event) => {
+        if (event.ctrlKey) {
+          handleSelectedChange(pos);
+        }
+      },
+      [handleSelectedChange, pos]
+    );
 
     const renderRightMenu = useCallback(() => {
       const menuOptionsList = [
@@ -156,25 +165,17 @@ const Bookmark = memo(
           }}
           onDoubleClick={handleOpenLink}
           onContextMenu={onMenuOpen}
+          onClick={handleSelectionChange}
         >
-          {!isExternalPage && (
-            <Checkbox
-              checked={isSelected}
-              onChange={handleSelectionChange}
-              style={COLOR.pink}
-              disableRipple
-              sx={{ padding: "0px" }}
-            />
-          )}
           <Favicon url={url} />
           {!isExternalPage && <PersonAvatars persons={personWithimageUrls} />}
           <BlackTooltip
-            title={<Typography style={tooltipStyles}>{url}</Typography>}
+            title={<Typography sx={tooltipStyles}>{url}</Typography>}
             arrow
             disableInteractive
             followCursor
           >
-            <Typography noWrap style={titleStyles}>
+            <Typography noWrap sx={titleStyles}>
               {origTitle}
             </Typography>
           </BlackTooltip>

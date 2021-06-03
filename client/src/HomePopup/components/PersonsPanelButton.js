@@ -7,12 +7,12 @@ import { memo } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 
-const TaggingPanelButton = memo(() => {
+const PersonsPanelButton = memo(() => {
   const isSignedIn = useSelector((state) => state.isSignedIn);
   const history = useHistory();
 
-  const handleShowTaggingPanel = () => {
-    history.push(ROUTES.TAGGING_PANEL);
+  const handleShowPersonsPanel = () => {
+    history.push(ROUTES.PERSONS_PANEL);
   };
 
   return (
@@ -20,13 +20,13 @@ const TaggingPanelButton = memo(() => {
       aria-label="OpenRedirectionsPanel"
       component="span"
       style={getActiveDisabledColor(isSignedIn, COLOR.indigo)}
-      onClick={handleShowTaggingPanel}
+      onClick={handleShowPersonsPanel}
       disabled={!isSignedIn}
-      title={isSignedIn ? "Open Tagging Panel" : undefined}
+      title={isSignedIn ? "Open Persons Panel" : undefined}
     >
       <TagFacesTwoToneIcon fontSize="large" />
     </IconButton>
   );
 });
 
-export default TaggingPanelButton;
+export default PersonsPanelButton;
