@@ -10,7 +10,7 @@
     "@material-ui/lab": "5.0.0-alpha.33",
     "browser-image-compression": "1.0.14",
     "core-js": "3.12.1",
-    "dayjs": "1.10.4",
+    "dayjs": "1.10.5",
     "firebase": "8.6.1",
     "md5": "2.3.0",
     "qrcode": "1.4.4",
