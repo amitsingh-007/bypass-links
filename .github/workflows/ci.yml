@@ -11,7 +11,7 @@ jobs:
       - name: Setting up Node.js 🔧
         uses: actions/setup-node@v2.1.5
         with:
-          node-version: "12.x"
+          node-version: "14.x"
 
       - name: Cache 💾
         uses: actions/cache@v2.1.6
@@ -108,7 +108,7 @@ jobs:
       - name: Setting up Node.js 🔧
         uses: actions/setup-node@v2.1.5
         with:
-          node-version: "12.x"
+          node-version: "14.x"
 
       - name: Cache 💾
         uses: actions/cache@v2.1.6
