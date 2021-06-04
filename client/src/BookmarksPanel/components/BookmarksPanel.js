@@ -14,8 +14,11 @@ import { BOOKMARK_PANEL_CONTENT_HEIGHT } from "../constants";
 import { bookmarksMapper } from "../mapper";
 import {
   getAllFolderNames,
+  getBookmarksAfterDrag,
   getBookmarksObj,
+  getDestinationIndex,
   getFaviconUrl,
+  getSelectedBookmarksAfterDrag,
   isFolderContainsDir,
   isFolderEmpty,
   shouldRenderBookmarks,
@@ -39,6 +42,7 @@ class BookmarksPanel extends PureComponent {
       isFetching: true,
       isSaveButtonActive: false,
       updateTaggedPersons: [],
+      curDraggingBookmark: {},
     };
   }
 
@@ -76,8 +80,11 @@ class BookmarksPanel extends PureComponent {
     document.body.removeEventListener("keydown", this.resetSelectedBookmarks);
   }
 
-  handleSelectedChange = (pos) => {
+  handleSelectedChange = (pos, isOnlySelection) => {
     const { selectedBookmarks } = this.state;
+    if (isOnlySelection) {
+      selectedBookmarks.fill(false);
+    }
     selectedBookmarks[pos] = !selectedBookmarks[pos];
     this.setState({ selectedBookmarks: [...selectedBookmarks] });
   };
@@ -342,16 +349,43 @@ class BookmarksPanel extends PureComponent {
     });
   };
 
+  onDragStart = async ({ draggableId, source }) => {
+    const { selectedBookmarks } = this.state;
+    const isCurrentDraggingSelected = selectedBookmarks[source.index];
+    if (!isCurrentDraggingSelected) {
+      selectedBookmarks.fill(false);
+      selectedBookmarks[source.index] = true;
+    }
+    this.setState({
+      curDraggingBookmark: {
+        uid: md5(draggableId),
+        dragCount: selectedBookmarks.filter(Boolean).length,
+      },
+      selectedBookmarks: [...selectedBookmarks],
+    });
+  };
+
   onDragEnd = ({ destination, source }) => {
+    this.setState({ curDraggingBookmark: {} });
     if (!source || !destination || destination.index === source.index) {
       return;
     }
-    const { contextBookmarks } = this.state;
-    const newBookmarks = Array.from(contextBookmarks);
-    const draggedBookmark = contextBookmarks[source.index];
-    newBookmarks.splice(source.index, 1);
-    newBookmarks.splice(destination.index, 0, draggedBookmark);
-    this.setState({ contextBookmarks: newBookmarks, isSaveButtonActive: true });
+    const { contextBookmarks, selectedBookmarks } = this.state;
+    const destIndex = getDestinationIndex(destination.index, selectedBookmarks);
+    const newBookmarks = getBookmarksAfterDrag(
+      contextBookmarks,
+      selectedBookmarks,
+      destIndex
+    );
+    const newSelectedBookmarks = getSelectedBookmarksAfterDrag(
+      selectedBookmarks,
+      destIndex
+    );
+    this.setState({
+      contextBookmarks: newBookmarks,
+      isSaveButtonActive: true,
+      selectedBookmarks: newSelectedBookmarks,
+    });
   };
 
   render() {
@@ -362,6 +396,7 @@ class BookmarksPanel extends PureComponent {
       selectedBookmarks,
       isFetching,
       isSaveButtonActive,
+      curDraggingBookmark,
     } = this.state;
     const { bmUrl, bmTitle, addBookmark, editBookmark, folderContext } =
       this.props;
@@ -390,7 +425,10 @@ class BookmarksPanel extends PureComponent {
             curFolder={folderContext}
             isFetching={isFetching}
           />
-          <DragDropContext onDragEnd={this.onDragEnd}>
+          <DragDropContext
+            onDragEnd={this.onDragEnd}
+            onDragStart={this.onDragStart}
+          >
             <Droppable droppableId="bookmarks-list">
               {(provided) => (
                 <Box
@@ -414,6 +452,7 @@ class BookmarksPanel extends PureComponent {
                             handleRemove={this.handleFolderRemove}
                             handleEdit={this.handleFolderEdit}
                             isEmpty={isFolderEmpty(folders, name)}
+                            curDraggingBookmark={curDraggingBookmark}
                           />
                         ) : (
                           <Bookmark
@@ -432,6 +471,7 @@ class BookmarksPanel extends PureComponent {
                             editBookmark={
                               editBookmark && url === bmUrl && title === bmTitle
                             }
+                            curDraggingBookmark={curDraggingBookmark}
                           />
                         )
                     )}

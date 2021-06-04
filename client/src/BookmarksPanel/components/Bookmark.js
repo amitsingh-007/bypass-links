@@ -116,9 +116,7 @@ const Bookmark = memo(
 
     const handleSelectionChange = useCallback(
       (event) => {
-        if (event.ctrlKey) {
-          handleSelectedChange(pos);
-        }
+        handleSelectedChange(pos, !event.ctrlKey);
       },
       [handleSelectedChange, pos]
     );

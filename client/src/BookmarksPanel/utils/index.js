@@ -61,3 +61,41 @@ export const getDecodedBookmark = (bookmark) => ({
   parentHash: bookmark.parentHash,
   taggedUrls: bookmark.taggedUrls,
 });
+
+export const getDestinationIndex = (destIndex, selectedBookmarks) => {
+  const draggedBookmarksBeforeDestIndex = selectedBookmarks.filter(
+    (isSelected, index) => isSelected && index < destIndex
+  ).length;
+  return draggedBookmarksBeforeDestIndex === 0
+    ? destIndex
+    : destIndex - draggedBookmarksBeforeDestIndex + 1;
+};
+
+export const getBookmarksAfterDrag = (
+  bookmarks,
+  selectedBookmarks,
+  destIndex
+) => {
+  const { draggedBookmarks, notDraggedBookmarks } = bookmarks.reduce(
+    (output, bookmark, index) => {
+      if (selectedBookmarks[index]) {
+        output.draggedBookmarks.push(bookmark);
+      } else {
+        output.notDraggedBookmarks.push(bookmark);
+      }
+      return output;
+    },
+    { draggedBookmarks: [], notDraggedBookmarks: [] }
+  );
+  notDraggedBookmarks.splice(destIndex, 0, ...draggedBookmarks);
+  return notDraggedBookmarks;
+};
+
+export const getSelectedBookmarksAfterDrag = (selectedBookmarks, destIndex) => {
+  const selectedBookmarksCount = selectedBookmarks.filter(Boolean).length;
+  const selectedBookmarksInNewOrder = selectedBookmarks.fill(false);
+  for (let i = destIndex; i < destIndex + selectedBookmarksCount; i++) {
+    selectedBookmarksInNewOrder[i] = true;
+  }
+  return [...selectedBookmarksInNewOrder];
+};
