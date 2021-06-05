@@ -157,17 +157,19 @@ const Bookmark = memo(
           icon: DriveFileMoveOutlinedIcon,
         });
       } else {
-        menuOptionsList.push({
-          onClick: toggleEditDialog,
-          text: "Edit",
-          icon: EditIcon,
-        });
+        menuOptionsList.push(
+          {
+            onClick: toggleEditDialog,
+            text: "Edit",
+            icon: EditIcon,
+          },
+          {
+            onClick: handleDeleteOptionClick,
+            text: "Delete",
+            icon: DeleteIcon,
+          }
+        );
       }
-      menuOptionsList.push({
-        onClick: handleDeleteOptionClick,
-        text: "Delete",
-        icon: DeleteIcon,
-      });
       return menuOptionsList.map(({ text, icon: Icon, onClick }) => (
         <MenuItem
           key={text}

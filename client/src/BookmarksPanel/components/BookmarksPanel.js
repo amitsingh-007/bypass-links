@@ -4,7 +4,7 @@ import tabs from "ChromeApi/tabs";
 import {
   displayToast,
   startHistoryMonitor,
-  updateTaggedPersonUrls
+  updateTaggedPersonUrls,
 } from "GlobalActionCreators";
 import { STORAGE_KEYS } from "GlobalConstants";
 import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
@@ -26,7 +26,7 @@ import {
   getSelectedBookmarksAfterDrag,
   isFolderContainsDir,
   isFolderEmpty,
-  shouldRenderBookmarks
+  shouldRenderBookmarks,
 } from "../utils";
 import Bookmark from "./Bookmark";
 import Folder from "./Folder";
@@ -251,6 +251,7 @@ class BookmarksPanel extends PureComponent {
       contextBookmarks: [...contextBookmarks],
       urlList: newUrlList,
       isSaveButtonActive: true,
+      selectedBookmarks: [],
     });
   };
 
