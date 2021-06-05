@@ -1,8 +1,13 @@
 import { Box, GlobalStyles } from "@material-ui/core";
 import storage from "ChromeApi/storage";
-import { displayToast, updateTaggedPersonUrls } from "GlobalActionCreators";
-import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
+import tabs from "ChromeApi/tabs";
+import {
+  displayToast,
+  startHistoryMonitor,
+  updateTaggedPersonUrls,
+} from "GlobalActionCreators";
 import { STORAGE_KEYS } from "GlobalConstants";
+import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
 import { PANEL_DIMENSIONS } from "GlobalConstants/styles";
 import { addToCache } from "GlobalUtils/cache";
 import md5 from "md5";
@@ -79,6 +84,16 @@ class BookmarksPanel extends PureComponent {
   componentWillUnmount() {
     document.body.removeEventListener("keydown", this.resetSelectedBookmarks);
   }
+
+  handleOpenSelectedBookmarks = () => {
+    const { selectedBookmarks, contextBookmarks } = this.state;
+    this.props.startHistoryMonitor();
+    contextBookmarks.forEach(({ url }, index) => {
+      if (selectedBookmarks[index]) {
+        tabs.create({ url, selected: false });
+      }
+    });
+  };
 
   handleSelectedChange = (pos, isOnlySelection) => {
     const { selectedBookmarks } = this.state;
@@ -236,6 +251,7 @@ class BookmarksPanel extends PureComponent {
       contextBookmarks: [...contextBookmarks],
       urlList: newUrlList,
       isSaveButtonActive: true,
+      selectedBookmarks: [],
     });
   };
 
@@ -401,6 +417,7 @@ class BookmarksPanel extends PureComponent {
     const { bmUrl, bmTitle, addBookmark, editBookmark, folderContext } =
       this.props;
     const folderNamesList = getAllFolderNames(folderList);
+    const selectedCount = selectedBookmarks.filter(Boolean).length;
 
     return (
       <>
@@ -412,18 +429,16 @@ class BookmarksPanel extends PureComponent {
         <Box sx={{ width: PANEL_DIMENSIONS.width, paddingBottom: "8px" }}>
           <Header
             folderNamesList={folderNamesList}
-            selectedBookmarks={selectedBookmarks}
             contextBookmarks={contextBookmarks}
             handleSave={this.handleSave}
             handleCreateNewFolder={this.handleCreateNewFolder}
             handleAddNewBookmark={this.handleAddNewBookmark}
             showBookmarkDialog={addBookmark && !isFetching}
-            handleBulkBookmarksMove={this.handleBulkBookmarksMove}
             url={bmUrl}
             title={bmTitle}
             isSaveButtonActive={isSaveButtonActive}
-            curFolder={folderContext}
             isFetching={isFetching}
+            curFolder={folderContext}
           />
           <DragDropContext
             onDragEnd={this.onDragEnd}
@@ -440,41 +455,52 @@ class BookmarksPanel extends PureComponent {
                   ref={provided.innerRef}
                   {...provided.droppableProps}
                 >
-                  {shouldRenderBookmarks(folders, contextBookmarks) &&
-                    contextBookmarks.map(
-                      ({ url, title, name, taggedPersons, isDir }, index) =>
-                        isDir ? (
-                          <Folder
-                            key={name}
-                            pos={index}
-                            isDir={isDir}
-                            name={name}
-                            handleRemove={this.handleFolderRemove}
-                            handleEdit={this.handleFolderEdit}
-                            isEmpty={isFolderEmpty(folders, name)}
-                            curDraggingBookmark={curDraggingBookmark}
-                          />
-                        ) : (
-                          <Bookmark
-                            key={url}
-                            pos={index}
-                            isDir={isDir}
-                            url={url}
-                            title={title}
-                            taggedPersons={taggedPersons}
-                            isSelected={Boolean(selectedBookmarks[index])}
-                            folder={folderContext}
-                            folderNamesList={folderNamesList}
-                            handleSave={this.handleBookmarkSave}
-                            handleRemove={this.handleUrlRemove}
-                            handleSelectedChange={this.handleSelectedChange}
-                            editBookmark={
-                              editBookmark && url === bmUrl && title === bmTitle
-                            }
-                            curDraggingBookmark={curDraggingBookmark}
-                          />
-                        )
-                    )}
+                  {shouldRenderBookmarks(folders, contextBookmarks)
+                    ? contextBookmarks.map(
+                        ({ url, title, name, taggedPersons, isDir }, index) =>
+                          isDir ? (
+                            <Folder
+                              key={name}
+                              pos={index}
+                              isDir={isDir}
+                              name={name}
+                              handleRemove={this.handleFolderRemove}
+                              handleEdit={this.handleFolderEdit}
+                              isEmpty={isFolderEmpty(folders, name)}
+                              curDraggingBookmark={curDraggingBookmark}
+                            />
+                          ) : (
+                            <Bookmark
+                              key={url}
+                              pos={index}
+                              isDir={isDir}
+                              url={url}
+                              title={title}
+                              curFolder={folderContext}
+                              taggedPersons={taggedPersons}
+                              isSelected={Boolean(selectedBookmarks[index])}
+                              selectedCount={selectedCount}
+                              folder={folderContext}
+                              folderNamesList={folderNamesList}
+                              handleSave={this.handleBookmarkSave}
+                              handleRemove={this.handleUrlRemove}
+                              handleSelectedChange={this.handleSelectedChange}
+                              handleOpenSelectedBookmarks={
+                                this.handleOpenSelectedBookmarks
+                              }
+                              handleBulkBookmarksMove={
+                                this.handleBulkBookmarksMove
+                              }
+                              editBookmark={
+                                editBookmark &&
+                                url === bmUrl &&
+                                title === bmTitle
+                              }
+                              curDraggingBookmark={curDraggingBookmark}
+                            />
+                          )
+                      )
+                    : null}
                   {provided.placeholder}
                 </Box>
               )}
@@ -490,14 +516,14 @@ class BookmarksPanel extends PureComponent {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    displayToast: bindActionCreators(displayToast, dispatch),
-    updateTaggedPersonUrls: bindActionCreators(
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      displayToast,
       updateTaggedPersonUrls,
-      dispatch
-    ),
-  };
-};
+      startHistoryMonitor,
+    },
+    dispatch
+  );
 
 export default connect(null, mapDispatchToProps)(BookmarksPanel);

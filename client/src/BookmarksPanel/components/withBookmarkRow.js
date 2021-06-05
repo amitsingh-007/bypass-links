@@ -4,6 +4,7 @@ import { memo, useEffect, useRef } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import Ripples from "react-ripples";
 import { bookmarkRowStyles, BOOKMARK_ROW_DIMENTSIONS } from "../constants";
+import "../scss/withBookmarkRow.scss";
 
 const withBookmarkRow = (Component) =>
   memo((props) => {

@@ -56,7 +56,7 @@ const Person = memo(
     return (
       <>
         <IconButton
-          sx={{ padding: "0px" }}
+          sx={{ padding: "0px", width: "20%", margin: "10px 0px" }}
           onClick={openBookmarksList}
           data-text={name}
           className="personContainer"

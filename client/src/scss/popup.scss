@@ -1,0 +1,27 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  padding: 0px !important;
+}
+
+// Custom scroll bar styles
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+.iconLoading {
+  animation: rotation 2s infinite linear;
+}

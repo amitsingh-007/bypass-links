@@ -1,0 +1,13 @@
+@import "../../scss/color.scss";
+
+@keyframes blink-bookmark {
+  0% {
+    background-color: $black-color;
+  }
+  50% {
+    background-color: $grey-color;
+  }
+  100% {
+    background-color: $black-color;
+  }
+}

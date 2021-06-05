@@ -1,145 +1,196 @@
-import { Box, MenuItem, Typography } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
+import DriveFileMoveOutlinedIcon from "@material-ui/icons/DriveFileMoveOutlined";
 import EditIcon from "@material-ui/icons/Edit";
+import OpenInNewTwoToneIcon from "@material-ui/icons/OpenInNewTwoTone";
 import tabs from "ChromeApi/tabs";
 import { startHistoryMonitor } from "GlobalActionCreators/";
+import ContextMenu from "GlobalComponents/ContextMenu";
 import ProgressiveRender from "GlobalComponents/ProgressiveRender";
-import {
-  BlackTooltip,
-  RightClickMenu,
-} from "GlobalComponents/StyledComponents";
-import { memo, useCallback, useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { BlackTooltip } from "GlobalComponents/StyledComponents";
+import { createRef, PureComponent } from "react";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { bindActionCreators, compose } from "redux";
 import {
   getBookmarksPanelUrl,
   isInInitalView,
 } from "SrcPath/BookmarksPanel/utils";
-import useMenu from "SrcPath/hooks/useMenu";
 import PersonAvatars from "SrcPath/PersonsPanel/components/PersonAvatars";
 import {
   getPersonsFromUids,
   getPersonsWithImageUrl,
 } from "SrcPath/PersonsPanel/utils";
 import { BOOKMARK_ROW_DIMENTSIONS } from "../constants";
-import { BookmarkDialog } from "./BookmarkDialog";
+import "../scss/bookmark.scss";
+import { BookmarkDialog, BulkBookmarksMoveDialog } from "./BookmarkDialog";
 import Favicon from "./Favicon";
 import withBookmarkRow from "./withBookmarkRow";
 
 const titleStyles = { flexGrow: "1", fontSize: "14px" };
 const tooltipStyles = { fontSize: "13px" };
 
-const Bookmark = memo(
-  ({
-    url,
-    title: origTitle,
-    folder: origFolder,
-    taggedPersons: origTaggedPersons,
-    pos,
-    folderNamesList,
-    handleSave,
-    handleRemove,
-    handleSelectedChange,
-    editBookmark,
-    containerStyles,
-    //Tells whether it is being rendered on page other than BookmarksPanel
-    isExternalPage = false,
-  }) => {
-    const history = useHistory();
-    const dispatch = useDispatch();
-    const bookmarkRef = useRef(null);
-    const [personWithimageUrls, setPersonWithimageUrls] = useState("");
-    const [openEditDialog, setOpenEditDialog] = useState(editBookmark);
-    const [isMenuOpen, menuPos, onMenuClose, onMenuOpen] = useMenu();
+class Bookmark extends PureComponent {
+  constructor(props) {
+    super(props);
 
-    const initImageUrl = useCallback(async () => {
-      const persons = await getPersonsFromUids(origTaggedPersons);
-      const personsWithImageUrl = await getPersonsWithImageUrl(persons);
-      setPersonWithimageUrls(personsWithImageUrl);
-    }, [origTaggedPersons]);
-
-    useEffect(() => {
-      if (!isExternalPage) {
-        initImageUrl();
-      }
-    }, [initImageUrl, isExternalPage]);
-
-    const animateOpenedBookmark = () => {
-      if (bookmarkRef?.current) {
-        bookmarkRef.current.style.animation = "blink-bookmark 0.5s infinite";
-        setTimeout(() => {
-          bookmarkRef.current.style.animation = "";
-        }, 3 * 1000);
-      }
+    const { editBookmark } = props;
+    this.state = {
+      personsWithImageUrls: "",
+      openEditDialog: editBookmark,
+      openBulkBookmarksMoveDialog: false,
+      menuOptions: this.getMenuOptions(),
     };
+    this.bookmarkRef = createRef(null);
+  }
 
-    const toggleEditDialog = useCallback(() => {
-      //Remove qs before closing
-      if (editBookmark && openEditDialog) {
-        //Blink for 3s after close of bookmark dialog
-        animateOpenedBookmark();
-        history.replace(getBookmarksPanelUrl({ folder: origFolder }));
-      }
-      setOpenEditDialog(!openEditDialog);
-    }, [editBookmark, history, openEditDialog, origFolder]);
+  initImageUrl = async () => {
+    const { taggedPersons: origTaggedPersons } = this.props;
+    const persons = await getPersonsFromUids(origTaggedPersons);
+    const personsWithImageUrls = await getPersonsWithImageUrl(persons);
+    this.setState({ personsWithImageUrls });
+  };
 
-    const handleBookmarkSave = useCallback(
-      (url, newTitle, newFolder, newTaggedPersons) => {
-        handleSave(
-          url,
-          newTitle,
-          origFolder,
-          newFolder,
-          pos,
-          origTaggedPersons,
-          newTaggedPersons
-        );
-        toggleEditDialog();
+  componentDidMount() {
+    const { isExternalPage = false } = this.props;
+    if (!isExternalPage) {
+      this.initImageUrl();
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.selectedCount !== this.props.selectedCount) {
+      this.setState({ menuOptions: this.getMenuOptions() });
+    }
+  }
+
+  getMenuOptions = () => {
+    const { handleOpenSelectedBookmarks, selectedCount } = this.props;
+    const menuOptionsList = [
+      {
+        onClick: handleOpenSelectedBookmarks,
+        text: `Open ${
+          selectedCount > 1 ? `all (${selectedCount}) ` : ""
+        }in new tab`,
+        icon: OpenInNewTwoToneIcon,
       },
-      [handleSave, origFolder, origTaggedPersons, pos, toggleEditDialog]
-    );
-
-    const handleOpenLink = useCallback(
-      (event) => {
-        if (event.ctrlKey) {
-          return;
+    ];
+    if (selectedCount > 1) {
+      menuOptionsList.push({
+        onClick: this.toggleBulkBookmarksMoveDialog,
+        text: "Bulk move bookmarks",
+        icon: DriveFileMoveOutlinedIcon,
+      });
+    } else {
+      menuOptionsList.push(
+        {
+          onClick: this.toggleEditDialog,
+          text: "Edit",
+          icon: EditIcon,
+        },
+        {
+          onClick: this.handleDeleteOptionClick,
+          text: "Delete",
+          icon: DeleteIcon,
         }
-        dispatch(startHistoryMonitor());
-        tabs.create({ url, selected: false });
-      },
-      [dispatch, url]
+      );
+    }
+    return menuOptionsList;
+  };
+
+  animateOpenedBookmark = () => {
+    if (this.bookmarkRef?.current) {
+      const bookmarkNode = this.bookmarkRef.current;
+      bookmarkNode.style.animation = "blink-bookmark 0.5s infinite";
+      setTimeout(() => {
+        bookmarkNode.style.animation = "";
+      }, 3 * 1000);
+    }
+  };
+
+  toggleEditDialog = () => {
+    const { folder: origFolder, editBookmark, history } = this.props;
+    const { openEditDialog } = this.state;
+    //Remove qs before closing
+    if (editBookmark && openEditDialog) {
+      //Blink for 3s after close of bookmark dialog
+      this.animateOpenedBookmark();
+      history.replace(getBookmarksPanelUrl({ folder: origFolder }));
+    }
+    this.setState({ openEditDialog: !openEditDialog });
+  };
+
+  handleBookmarkSave = (url, newTitle, newFolder, newTaggedPersons) => {
+    const {
+      folder: origFolder,
+      taggedPersons: origTaggedPersons,
+      pos,
+      handleSave,
+    } = this.props;
+    handleSave(
+      url,
+      newTitle,
+      origFolder,
+      newFolder,
+      pos,
+      origTaggedPersons,
+      newTaggedPersons
     );
+    this.toggleEditDialog();
+  };
 
-    const handleDeleteOptionClick = useCallback(() => {
-      handleRemove(pos, url);
-    }, [handleRemove, pos, url]);
+  handleOpenLink = (event) => {
+    if (event.ctrlKey) {
+      return;
+    }
+    const { url, startHistoryMonitor } = this.props;
+    startHistoryMonitor();
+    tabs.create({ url, selected: false });
+  };
 
-    const handleSelectionChange = useCallback(
-      (event) => {
-        handleSelectedChange(pos, !event.ctrlKey);
-      },
-      [handleSelectedChange, pos]
-    );
+  handleDeleteOptionClick = () => {
+    const { url, pos, handleRemove } = this.props;
+    handleRemove(pos, url);
+  };
 
-    const renderRightMenu = useCallback(() => {
-      const menuOptionsList = [
-        { onClick: toggleEditDialog, text: "Edit", icon: EditIcon },
-        { onClick: handleDeleteOptionClick, text: "Delete", icon: DeleteIcon },
-      ];
-      return menuOptionsList.map(({ text, icon: Icon, onClick }) => (
-        <MenuItem
-          key={text}
-          onClick={() => {
-            onClick();
-            onMenuClose();
-          }}
-        >
-          <Icon sx={{ marginRight: "12px" }} />
-          {text}
-        </MenuItem>
-      ));
-    }, [handleDeleteOptionClick, onMenuClose, toggleEditDialog]);
+  handleSelectionChange = (event) => {
+    const { pos, handleSelectedChange } = this.props;
+    handleSelectedChange(pos, !event.ctrlKey);
+  };
 
+  toggleBulkBookmarksMoveDialog = () => {
+    const { openBulkBookmarksMoveDialog } = this.state;
+    this.setState({
+      openBulkBookmarksMoveDialog: !openBulkBookmarksMoveDialog,
+    });
+  };
+
+  onRightClick = () => {
+    const { pos, handleSelectedChange, isSelected } = this.props;
+    if (!isSelected) {
+      handleSelectedChange(pos, true);
+    }
+  };
+
+  render() {
+    const {
+      url,
+      title: origTitle,
+      folder: origFolder,
+      taggedPersons: origTaggedPersons,
+      pos,
+      folderNamesList,
+      handleBulkBookmarksMove,
+      curFolder,
+      containerStyles,
+      isExternalPage = false,
+    } = this.props;
+    const {
+      personsWithImageUrls,
+      openEditDialog,
+      openBulkBookmarksMoveDialog,
+      menuOptions,
+    } = this.state;
     return (
       /**
        * NOTE: Change height when bookmark height changes
@@ -153,41 +204,38 @@ const Bookmark = memo(
         forceRender={openEditDialog || isInInitalView(pos)}
         name={origTitle}
       >
-        <Box
-          ref={bookmarkRef}
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            width: "100%",
-            ...containerStyles,
-          }}
-          onDoubleClick={handleOpenLink}
-          onContextMenu={onMenuOpen}
-          onClick={handleSelectionChange}
+        <ContextMenu
+          menuOptions={menuOptions}
+          showMenu={!isExternalPage}
+          onOpen={this.onRightClick}
         >
-          <Favicon url={url} />
-          {!isExternalPage && <PersonAvatars persons={personWithimageUrls} />}
-          <BlackTooltip
-            title={<Typography sx={tooltipStyles}>{url}</Typography>}
-            arrow
-            disableInteractive
-            followCursor
+          <Box
+            ref={this.bookmarkRef}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              width: "100%",
+              ...containerStyles,
+            }}
+            onDoubleClick={this.handleOpenLink}
+            onClick={this.handleSelectionChange}
           >
-            <Typography noWrap sx={titleStyles}>
-              {origTitle}
-            </Typography>
-          </BlackTooltip>
-        </Box>
-        {!isExternalPage && (
-          <RightClickMenu
-            open={isMenuOpen}
-            onClose={onMenuClose}
-            anchorReference="anchorPosition"
-            anchorPosition={menuPos}
-          >
-            {renderRightMenu()}
-          </RightClickMenu>
-        )}
+            <Favicon url={url} />
+            {!isExternalPage && (
+              <PersonAvatars persons={personsWithImageUrls} />
+            )}
+            <BlackTooltip
+              title={<Typography sx={tooltipStyles}>{url}</Typography>}
+              arrow
+              disableInteractive
+              followCursor
+            >
+              <Typography noWrap sx={titleStyles}>
+                {origTitle}
+              </Typography>
+            </BlackTooltip>
+          </Box>
+        </ContextMenu>
         {openEditDialog && (
           <BookmarkDialog
             url={url}
@@ -196,17 +244,33 @@ const Bookmark = memo(
             origTaggedPersons={origTaggedPersons}
             headerText="Edit bookmark"
             folderList={folderNamesList}
-            handleSave={handleBookmarkSave}
-            handleDelete={handleDeleteOptionClick}
+            handleSave={this.handleBookmarkSave}
+            handleDelete={this.handleDeleteOptionClick}
             isOpen={openEditDialog}
-            onClose={toggleEditDialog}
+            onClose={this.toggleEditDialog}
+          />
+        )}
+        {openBulkBookmarksMoveDialog && (
+          <BulkBookmarksMoveDialog
+            origFolder={curFolder}
+            folderList={folderNamesList}
+            handleSave={handleBulkBookmarksMove}
+            isOpen={openBulkBookmarksMoveDialog}
+            onClose={this.toggleBulkBookmarksMoveDialog}
           />
         )}
       </ProgressiveRender>
     );
   }
-);
+}
 
-export default withBookmarkRow(Bookmark);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ startHistoryMonitor }, dispatch);
 
-export { Bookmark as BookmarkExternal };
+const BookmarkExternal = compose(
+  withRouter,
+  connect(null, mapDispatchToProps)
+)(Bookmark);
+
+export default withBookmarkRow(BookmarkExternal);
+export { BookmarkExternal };
