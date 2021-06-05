@@ -1,33 +1,5 @@
 @import "../../scss/color.scss";
 
-.bookmarkRowContainer {
-  border: 2px solid transparent;
-  &:hover,
-  &[data-is-selected="true"] {
-    background-color: $grey-color;
-    border-radius: 20px;
-  }
-  &[data-is-selected="true"] {
-    border-color: #3f51b5;
-  }
-  // Select all selected adjacent siblings to collapse adjacent borders
-  &[data-is-selected="true"] + &[data-is-selected="true"] {
-    border-top-color: transparent;
-  }
-  > .react-ripples {
-    width: 100%;
-  }
-}
-
-@keyframes rotation {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(359deg);
-  }
-}
-
 @keyframes blink-bookmark {
   0% {
     background-color: $black-color;

@@ -22,6 +22,7 @@ import {
   getPersonsWithImageUrl,
 } from "SrcPath/PersonsPanel/utils";
 import { BOOKMARK_ROW_DIMENTSIONS } from "../constants";
+import "../scss/bookmark.scss";
 import { BookmarkDialog, BulkBookmarksMoveDialog } from "./BookmarkDialog";
 import Favicon from "./Favicon";
 import withBookmarkRow from "./withBookmarkRow";

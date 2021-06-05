@@ -17,7 +17,6 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { BOOKMARK_PANEL_CONTENT_HEIGHT } from "../constants";
 import { bookmarksMapper } from "../mapper";
-import "../scss/bookmark.scss";
 import {
   getAllFolderNames,
   getBookmarksAfterDrag,
