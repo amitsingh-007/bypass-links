@@ -1,12 +1,13 @@
 import { Box, GlobalStyles } from "@material-ui/core";
 import storage from "ChromeApi/storage";
+import tabs from "ChromeApi/tabs";
 import {
   displayToast,
   startHistoryMonitor,
-  updateTaggedPersonUrls,
+  updateTaggedPersonUrls
 } from "GlobalActionCreators";
-import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
 import { STORAGE_KEYS } from "GlobalConstants";
+import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
 import { PANEL_DIMENSIONS } from "GlobalConstants/styles";
 import { addToCache } from "GlobalUtils/cache";
 import md5 from "md5";
@@ -25,13 +26,12 @@ import {
   getSelectedBookmarksAfterDrag,
   isFolderContainsDir,
   isFolderEmpty,
-  shouldRenderBookmarks,
+  shouldRenderBookmarks
 } from "../utils";
 import Bookmark from "./Bookmark";
 import Folder from "./Folder";
 import Header from "./Header";
 import { ScrollUpButton } from "./ScrollButton";
-import tabs from "ChromeApi/tabs";
 
 const bookmarksContainerId = "bookmarks-wrapper";
 
@@ -428,18 +428,16 @@ class BookmarksPanel extends PureComponent {
         <Box sx={{ width: PANEL_DIMENSIONS.width, paddingBottom: "8px" }}>
           <Header
             folderNamesList={folderNamesList}
-            selectedBookmarks={selectedBookmarks}
             contextBookmarks={contextBookmarks}
             handleSave={this.handleSave}
             handleCreateNewFolder={this.handleCreateNewFolder}
             handleAddNewBookmark={this.handleAddNewBookmark}
             showBookmarkDialog={addBookmark && !isFetching}
-            handleBulkBookmarksMove={this.handleBulkBookmarksMove}
             url={bmUrl}
             title={bmTitle}
             isSaveButtonActive={isSaveButtonActive}
-            curFolder={folderContext}
             isFetching={isFetching}
+            curFolder={folderContext}
           />
           <DragDropContext
             onDragEnd={this.onDragEnd}
@@ -477,6 +475,7 @@ class BookmarksPanel extends PureComponent {
                               isDir={isDir}
                               url={url}
                               title={title}
+                              curFolder={folderContext}
                               taggedPersons={taggedPersons}
                               isSelected={Boolean(selectedBookmarks[index])}
                               selectedCount={selectedCount}
@@ -487,6 +486,9 @@ class BookmarksPanel extends PureComponent {
                               handleSelectedChange={this.handleSelectedChange}
                               handleOpenSelectedBookmarks={
                                 this.handleOpenSelectedBookmarks
+                              }
+                              handleBulkBookmarksMove={
+                                this.handleBulkBookmarksMove
                               }
                               editBookmark={
                                 editBookmark &&

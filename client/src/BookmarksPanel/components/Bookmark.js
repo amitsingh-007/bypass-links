@@ -1,5 +1,6 @@
 import { Box, MenuItem, Typography } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
+import DriveFileMoveOutlinedIcon from "@material-ui/icons/DriveFileMoveOutlined";
 import EditIcon from "@material-ui/icons/Edit";
 import OpenInNewTwoToneIcon from "@material-ui/icons/OpenInNewTwoTone";
 import tabs from "ChromeApi/tabs";
@@ -23,7 +24,7 @@ import {
   getPersonsWithImageUrl,
 } from "SrcPath/PersonsPanel/utils";
 import { BOOKMARK_ROW_DIMENTSIONS } from "../constants";
-import { BookmarkDialog } from "./BookmarkDialog";
+import { BookmarkDialog, BulkBookmarksMoveDialog } from "./BookmarkDialog";
 import Favicon from "./Favicon";
 import withBookmarkRow from "./withBookmarkRow";
 
@@ -42,6 +43,8 @@ const Bookmark = memo(
     handleRemove,
     handleSelectedChange,
     handleOpenSelectedBookmarks,
+    handleBulkBookmarksMove,
+    curFolder,
     isSelected,
     selectedCount,
     editBookmark,
@@ -53,6 +56,8 @@ const Bookmark = memo(
     const bookmarkRef = useRef(null);
     const [personWithimageUrls, setPersonWithimageUrls] = useState("");
     const [openEditDialog, setOpenEditDialog] = useState(editBookmark);
+    const [openBulkBookmarksMoveDialog, setOpenBulkBookmarksMoveDialog] =
+      useState(false);
     const [isMenuOpen, menuPos, onMenuClose, onMenuOpen] = useMenu();
 
     const initImageUrl = useCallback(async () => {
@@ -131,6 +136,10 @@ const Bookmark = memo(
       onMenuOpen(event);
     };
 
+    const toggleBulkBookmarksMoveDialog = useCallback(() => {
+      setOpenBulkBookmarksMoveDialog(!openBulkBookmarksMoveDialog);
+    }, [openBulkBookmarksMoveDialog]);
+
     const renderRightMenu = useCallback(() => {
       const menuOptionsList = [
         {
@@ -140,9 +149,25 @@ const Bookmark = memo(
           }in new tab`,
           icon: OpenInNewTwoToneIcon,
         },
-        { onClick: toggleEditDialog, text: "Edit", icon: EditIcon },
-        { onClick: handleDeleteOptionClick, text: "Delete", icon: DeleteIcon },
       ];
+      if (selectedCount > 1) {
+        menuOptionsList.push({
+          onClick: toggleBulkBookmarksMoveDialog,
+          text: "Bulk move bookmarks",
+          icon: DriveFileMoveOutlinedIcon,
+        });
+      } else {
+        menuOptionsList.push({
+          onClick: toggleEditDialog,
+          text: "Edit",
+          icon: EditIcon,
+        });
+      }
+      menuOptionsList.push({
+        onClick: handleDeleteOptionClick,
+        text: "Delete",
+        icon: DeleteIcon,
+      });
       return menuOptionsList.map(({ text, icon: Icon, onClick }) => (
         <MenuItem
           key={text}
@@ -160,6 +185,7 @@ const Bookmark = memo(
       handleOpenSelectedBookmarks,
       onMenuClose,
       selectedCount,
+      toggleBulkBookmarksMoveDialog,
       toggleEditDialog,
     ]);
 
@@ -223,6 +249,15 @@ const Bookmark = memo(
             handleDelete={handleDeleteOptionClick}
             isOpen={openEditDialog}
             onClose={toggleEditDialog}
+          />
+        )}
+        {openBulkBookmarksMoveDialog && (
+          <BulkBookmarksMoveDialog
+            origFolder={curFolder}
+            folderList={folderNamesList}
+            handleSave={handleBulkBookmarksMove}
+            isOpen={openBulkBookmarksMoveDialog}
+            onClose={toggleBulkBookmarksMoveDialog}
           />
         )}
       </ProgressiveRender>

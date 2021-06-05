@@ -1,6 +1,5 @@
 import { Box, IconButton } from "@material-ui/core";
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
-import CollectionsBookmarkTwoToneIcon from "@material-ui/icons/CollectionsBookmarkTwoTone";
 import CreateNewFolderTwoToneIcon from "@material-ui/icons/CreateNewFolderTwoTone";
 import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
 import SyncTwoToneIcon from "@material-ui/icons/SyncTwoTone";
@@ -21,7 +20,7 @@ import { withRouter } from "react-router-dom";
 import { bindActionCreators, compose } from "redux";
 import { getBookmarksPanelUrl } from "../utils";
 import { syncBookmarksFirebaseWithStorage } from "../utils/bookmark";
-import { BookmarkDialog, BulkBookmarksMoveDialog } from "./BookmarkDialog";
+import { BookmarkDialog } from "./BookmarkDialog";
 import ConfirmationDialog from "./ConfirmationDialog";
 import { FolderDropdown } from "./Dropdown";
 import { FolderDialog } from "./FolderDialog";
@@ -30,31 +29,21 @@ import SearchInput from "./SearchInput";
 class Header extends PureComponent {
   constructor(props) {
     super(props);
-    const { showBookmarkDialog, selectedBookmarks } = props;
+    const { showBookmarkDialog } = props;
     this.state = {
       openFolderDialog: false,
       openBookmarkDialog: showBookmarkDialog,
-      openBulkBookmarksMoveDialog: false,
       openConfirmationDialog: false,
       isSyncing: false,
-      isMoveBookmarksActive: this.isAnyBookmarkSelected(selectedBookmarks),
     };
   }
 
   componentDidUpdate(prevProps) {
-    const { showBookmarkDialog, selectedBookmarks } = this.props;
+    const { showBookmarkDialog } = this.props;
     if (prevProps.showBookmarkDialog !== showBookmarkDialog) {
       this.setState({ openBookmarkDialog: showBookmarkDialog });
     }
-    if (prevProps.selectedBookmarks !== selectedBookmarks) {
-      this.setState({
-        isMoveBookmarksActive: this.isAnyBookmarkSelected(selectedBookmarks),
-      });
-    }
   }
-
-  isAnyBookmarkSelected = (selectedBookmarks) =>
-    selectedBookmarks.some(Boolean);
 
   handleClose = () => {
     this.props.history.goBack();
@@ -97,11 +86,6 @@ class Header extends PureComponent {
     this.props.handleSave();
   };
 
-  onEditBookmarksClick = (event) => {
-    event.stopPropagation();
-    this.setState({ openBulkBookmarksMoveDialog: true });
-  };
-
   toggleNewFolderDialog = (event) => {
     event && event.stopPropagation();
     const { openFolderDialog } = this.state;
@@ -127,14 +111,6 @@ class Header extends PureComponent {
     this.setState({ openConfirmationDialog: false });
   };
 
-  handleBulkBookmarksMoveDialogClose = () => {
-    this.setState({ openBulkBookmarksMoveDialog: false });
-  };
-
-  handleBulkBookmarksMoveSave = (destFolder) => {
-    this.props.handleBulkBookmarksMove(destFolder);
-  };
-
   handleNewFolderSave = (folderName) => {
     this.props.handleCreateNewFolder(folderName);
     this.toggleNewFolderDialog();
@@ -158,10 +134,8 @@ class Header extends PureComponent {
     const {
       openFolderDialog,
       openBookmarkDialog,
-      openBulkBookmarksMoveDialog,
       openConfirmationDialog,
       isSyncing,
-      isMoveBookmarksActive,
     } = this.state;
     return (
       <>
@@ -209,19 +183,6 @@ class Header extends PureComponent {
               >
                 <CreateNewFolderTwoToneIcon fontSize="large" />
               </IconButton>
-              <IconButton
-                aria-label="Move Bookmarks"
-                component="span"
-                style={getActiveDisabledColor(
-                  isMoveBookmarksActive,
-                  COLOR.brown
-                )}
-                onClick={this.onEditBookmarksClick}
-                title="Move Bookmarks"
-                disabled={!isMoveBookmarksActive}
-              >
-                <CollectionsBookmarkTwoToneIcon fontSize="large" />
-              </IconButton>
               {isFetching && (
                 <Loader loaderSize={30} padding="12px" disableShrink />
               )}
@@ -266,13 +227,6 @@ class Header extends PureComponent {
           onClose={this.handleConfirmationDialogClose}
           onOk={this.handleConfirmationDialogOk}
           isOpen={openConfirmationDialog}
-        />
-        <BulkBookmarksMoveDialog
-          origFolder={curFolder}
-          folderList={folderNamesList}
-          handleSave={this.handleBulkBookmarksMoveSave}
-          isOpen={openBulkBookmarksMoveDialog}
-          onClose={this.handleBulkBookmarksMoveDialogClose}
         />
       </>
     );
