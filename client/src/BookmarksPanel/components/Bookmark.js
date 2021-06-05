@@ -1,6 +1,7 @@
 import { Box, MenuItem, Typography } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
+import OpenInNewTwoToneIcon from "@material-ui/icons/OpenInNewTwoTone";
 import tabs from "ChromeApi/tabs";
 import { startHistoryMonitor } from "GlobalActionCreators/";
 import ProgressiveRender from "GlobalComponents/ProgressiveRender";
@@ -40,9 +41,11 @@ const Bookmark = memo(
     handleSave,
     handleRemove,
     handleSelectedChange,
+    handleOpenSelectedBookmarks,
+    isSelected,
+    selectedCount,
     editBookmark,
     containerStyles,
-    //Tells whether it is being rendered on page other than BookmarksPanel
     isExternalPage = false,
   }) => {
     const history = useHistory();
@@ -121,8 +124,22 @@ const Bookmark = memo(
       [handleSelectedChange, pos]
     );
 
+    const handleRightClick = (event) => {
+      if (!isSelected) {
+        handleSelectedChange(pos, true);
+      }
+      onMenuOpen(event);
+    };
+
     const renderRightMenu = useCallback(() => {
       const menuOptionsList = [
+        {
+          onClick: handleOpenSelectedBookmarks,
+          text: `Open ${
+            selectedCount > 1 ? `all (${selectedCount}) ` : ""
+          }in new tab`,
+          icon: OpenInNewTwoToneIcon,
+        },
         { onClick: toggleEditDialog, text: "Edit", icon: EditIcon },
         { onClick: handleDeleteOptionClick, text: "Delete", icon: DeleteIcon },
       ];
@@ -138,7 +155,13 @@ const Bookmark = memo(
           {text}
         </MenuItem>
       ));
-    }, [handleDeleteOptionClick, onMenuClose, toggleEditDialog]);
+    }, [
+      handleDeleteOptionClick,
+      handleOpenSelectedBookmarks,
+      onMenuClose,
+      selectedCount,
+      toggleEditDialog,
+    ]);
 
     return (
       /**
@@ -162,7 +185,7 @@ const Bookmark = memo(
             ...containerStyles,
           }}
           onDoubleClick={handleOpenLink}
-          onContextMenu={onMenuOpen}
+          onContextMenu={handleRightClick}
           onClick={handleSelectionChange}
         >
           <Favicon url={url} />

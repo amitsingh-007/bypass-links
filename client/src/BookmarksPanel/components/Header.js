@@ -2,10 +2,8 @@ import { Box, IconButton } from "@material-ui/core";
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import CollectionsBookmarkTwoToneIcon from "@material-ui/icons/CollectionsBookmarkTwoTone";
 import CreateNewFolderTwoToneIcon from "@material-ui/icons/CreateNewFolderTwoTone";
-import OpenInNewTwoToneIcon from "@material-ui/icons/OpenInNewTwoTone";
 import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
 import SyncTwoToneIcon from "@material-ui/icons/SyncTwoTone";
-import tabs from "ChromeApi/tabs";
 import { displayToast, startHistoryMonitor } from "GlobalActionCreators";
 import {
   AccordionHeader,
@@ -99,17 +97,6 @@ class Header extends PureComponent {
     this.props.handleSave();
   };
 
-  handleOpenSelectedBookmarks = (event) => {
-    const { selectedBookmarks, contextBookmarks } = this.props;
-    event.stopPropagation();
-    this.props.startHistoryMonitor();
-    contextBookmarks.forEach(({ url }, index) => {
-      if (selectedBookmarks[index]) {
-        tabs.create({ url, selected: false });
-      }
-    });
-  };
-
   onEditBookmarksClick = (event) => {
     event.stopPropagation();
     this.setState({ openBulkBookmarksMoveDialog: true });
@@ -164,7 +151,6 @@ class Header extends PureComponent {
       title,
       curFolder,
       folderNamesList,
-      selectedBookmarks,
       isSaveButtonActive,
       isFetching,
       contextBookmarks,
@@ -177,9 +163,6 @@ class Header extends PureComponent {
       isSyncing,
       isMoveBookmarksActive,
     } = this.state;
-    const isOpenSelectedActive = selectedBookmarks.some(
-      (isSelected) => isSelected
-    );
     return (
       <>
         <AccordionHeader>
@@ -225,19 +208,6 @@ class Header extends PureComponent {
                 title="Add new folder"
               >
                 <CreateNewFolderTwoToneIcon fontSize="large" />
-              </IconButton>
-              <IconButton
-                aria-label="OpenSelected"
-                component="span"
-                style={getActiveDisabledColor(
-                  isOpenSelectedActive,
-                  COLOR.deepPurple
-                )}
-                disabled={!isOpenSelectedActive}
-                onClick={this.handleOpenSelectedBookmarks}
-                title="Open Selected"
-              >
-                <OpenInNewTwoToneIcon fontSize="large" />
               </IconButton>
               <IconButton
                 aria-label="Move Bookmarks"
