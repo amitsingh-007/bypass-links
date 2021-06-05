@@ -1,8 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
-
-$grey-color: #ffffff14;
-$dark-color: #272c34;
-$black-color: #121212;
+@import "../../scss/color.scss";
 
 .bookmarkRowContainer {
   border: 2px solid transparent;
@@ -21,23 +17,6 @@ $black-color: #121212;
   > .react-ripples {
     width: 100%;
   }
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  padding: 0px !important;
-}
-
-// Custom scroll bar styles
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-.iconLoading {
-  animation: rotation 2s infinite linear;
 }
 
 @keyframes rotation {
