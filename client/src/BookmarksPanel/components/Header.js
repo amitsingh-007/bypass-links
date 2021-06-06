@@ -14,6 +14,7 @@ import PanelHeading from "GlobalComponents/PanelHeading";
 import { defaultBookmarkFolder } from "GlobalConstants";
 import { COLOR } from "GlobalConstants/color";
 import { getActiveDisabledColor } from "GlobalUtils/color";
+import { createRef } from "react";
 import { PureComponent } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
@@ -36,12 +37,22 @@ class Header extends PureComponent {
       openConfirmationDialog: false,
       isSyncing: false,
     };
+    this.saveButtonRef = createRef(null);
   }
 
   componentDidUpdate(prevProps) {
     const { showBookmarkDialog } = this.props;
     if (prevProps.showBookmarkDialog !== showBookmarkDialog) {
       this.setState({ openBookmarkDialog: showBookmarkDialog });
+    }
+    if (
+      this.props.isSaveButtonActive &&
+      prevProps.contextBookmarks !== this.props.contextBookmarks
+    ) {
+      //Focus save button after updating bookmarks
+      setTimeout(() => {
+        this.saveButtonRef?.current?.focus();
+      }, 0);
     }
   }
 
@@ -141,8 +152,16 @@ class Header extends PureComponent {
       <>
         <AccordionHeader>
           <PrimaryHeaderContent>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                pl: "6px",
+                "> *": { mr: "12px !important" },
+              }}
+            >
               <IconButton
+                size="small"
                 aria-label="Discard"
                 component="span"
                 style={COLOR.red}
@@ -152,16 +171,19 @@ class Header extends PureComponent {
                 <ArrowBackTwoToneIcon fontSize="large" />
               </IconButton>
               <IconButton
+                size="small"
                 aria-label="Save"
                 component="span"
                 style={getActiveDisabledColor(isSaveButtonActive, COLOR.green)}
                 onClick={this.onSaveClick}
                 title="Save locally"
                 disabled={!isSaveButtonActive}
+                ref={this.saveButtonRef}
               >
                 <SaveTwoToneIcon fontSize="large" />
               </IconButton>
               <IconButton
+                size="small"
                 aria-label="Sync"
                 component="span"
                 onClick={this.onSyncClick}
@@ -175,6 +197,7 @@ class Header extends PureComponent {
                 />
               </IconButton>
               <IconButton
+                size="small"
                 aria-label="NewFolder"
                 component="span"
                 style={COLOR.blue}
@@ -184,7 +207,7 @@ class Header extends PureComponent {
                 <CreateNewFolderTwoToneIcon fontSize="large" />
               </IconButton>
               {isFetching && (
-                <Loader loaderSize={30} padding="12px" disableShrink />
+                <Loader loaderSize={28} padding="3px" disableShrink />
               )}
             </Box>
             <PanelHeading

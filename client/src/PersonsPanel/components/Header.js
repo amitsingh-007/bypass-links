@@ -59,8 +59,16 @@ const Header = memo(({ isFetching, handleAddPerson, persons, handleSort }) => {
     <>
       <AccordionHeader>
         <PrimaryHeaderContent>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              pl: "8px",
+              "> *": { mr: "12px !important" },
+            }}
+          >
             <IconButton
+              size="small"
               aria-label="Discard"
               component="span"
               style={COLOR.red}
@@ -70,6 +78,7 @@ const Header = memo(({ isFetching, handleAddPerson, persons, handleSort }) => {
               <ArrowBackTwoToneIcon fontSize="large" />
             </IconButton>
             <IconButton
+              size="small"
               aria-label="Add"
               component="span"
               style={COLOR.blue}
@@ -79,6 +88,7 @@ const Header = memo(({ isFetching, handleAddPerson, persons, handleSort }) => {
               <PersonAddTwoToneIcon fontSize="large" />
             </IconButton>
             <IconButton
+              size="small"
               aria-label="Sync"
               component="span"
               onClick={onSyncClick}
@@ -93,8 +103,8 @@ const Header = memo(({ isFetching, handleAddPerson, persons, handleSort }) => {
             </IconButton>
             {isFetching && (
               <Loader
-                loaderSize={30}
-                padding="12px"
+                loaderSize={28}
+                padding="3px"
                 display="inline"
                 disableShrink
               />

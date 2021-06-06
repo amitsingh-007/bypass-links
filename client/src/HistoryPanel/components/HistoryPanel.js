@@ -84,10 +84,13 @@ const HistoryPanel = memo(() => {
           justifyContent: "space-between",
           alignItems: "center",
           backgroundColor: BG_COLOR_DARK,
+          py: "4px",
+          px: "2px",
           marginBottom: "10px",
         }}
       >
         <IconButton
+          size="small"
           aria-label="Back"
           component="span"
           style={COLOR.blue}

@@ -1,9 +1,11 @@
 import { Box } from "@material-ui/core";
 import storage from "ChromeApi/storage";
+import { displayToast } from "GlobalActionCreators";
 import { STORAGE_KEYS } from "GlobalConstants";
 import { PANEL_DIMENSIONS } from "GlobalConstants/styles";
 import { removeImageFromFirebase } from "GlobalUtils/firebase";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { SORT_ORDER, SORT_TYPE } from "../constants/sort";
 import { decryptionMapper } from "../mapper";
 import { getPersonPos, setPersonsInStorage } from "../utils";
@@ -13,6 +15,7 @@ import Header from "./Header";
 import Persons from "./Persons";
 
 const PersonsPanel = () => {
+  const dispatch = useDispatch();
   const [persons, setPersons] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
 
@@ -29,7 +32,6 @@ const PersonsPanel = () => {
   }, []);
 
   const handleSave = async (persons) => {
-    setIsFetching(true);
     const encryptedPersons = persons.reduce(
       (obj, { uid, name, imageRef, taggedUrls }) => {
         obj[uid] = {
@@ -43,22 +45,26 @@ const PersonsPanel = () => {
       {}
     );
     await setPersonsInStorage(encryptedPersons);
-    setIsFetching(false);
   };
 
   const handleAddOrEditPerson = async (person) => {
-    const newPersons = [...persons];
+    setIsFetching(true);
     const pos = getPersonPos(persons, person);
     if (pos === -1) {
       //Add person
-      newPersons.push(person);
+      persons.push(person);
     } else {
       //Update person
-      newPersons[pos] = person;
+      persons[pos] = person;
     }
+    //Update person cache
     await updatePersonCacheAndImageUrls(person);
-    setPersons(newPersons);
-    await handleSave(newPersons);
+    //Update in the list
+    const sortedPersons = sortAlphabetically(SORT_ORDER.asc, persons);
+    setPersons(sortedPersons);
+    await handleSave(sortedPersons);
+    setIsFetching(false);
+    dispatch(displayToast({ message: "Person added/updated succesfully" }));
   };
 
   const handlePersonDelete = async (person) => {
@@ -67,11 +73,14 @@ const PersonsPanel = () => {
       console.error("Cant delete a person with tagged urls");
       return;
     }
+    setIsFetching(true);
     const newPersons = [...persons];
     newPersons.splice(pos, 1);
     setPersons(newPersons);
     await removeImageFromFirebase(person.imageRef);
     await handleSave(newPersons);
+    setIsFetching(false);
+    dispatch(displayToast({ message: "Person deleted succesfully" }));
   };
 
   const handleSort = (sortType, sortOrder) => {

@@ -71,7 +71,9 @@ class BookmarksPanel extends PureComponent {
 
   componentDidMount() {
     this.initBookmarksData();
-    document.body.addEventListener("keydown", this.resetSelectedBookmarks);
+    document
+      .getElementById(bookmarksContainerId)
+      .addEventListener("keydown", this.handleKeyPress);
   }
 
   componentDidUpdate(prevProps) {
@@ -82,8 +84,19 @@ class BookmarksPanel extends PureComponent {
   }
 
   componentWillUnmount() {
-    document.body.removeEventListener("keydown", this.resetSelectedBookmarks);
+    document
+      .getElementById(bookmarksContainerId)
+      .removeEventListener("keydown", this.handleKeyPress);
   }
+
+  handleKeyPress = (event) => {
+    if (event.key === "Escape") {
+      this.resetSelectedBookmarks();
+    }
+    if (event.key === "Enter") {
+      this.handleOpenSelectedBookmarks();
+    }
+  };
 
   handleOpenSelectedBookmarks = () => {
     const { selectedBookmarks, contextBookmarks } = this.state;
@@ -104,10 +117,8 @@ class BookmarksPanel extends PureComponent {
     this.setState({ selectedBookmarks: [...selectedBookmarks] });
   };
 
-  resetSelectedBookmarks = (event) => {
-    if (event.key === "Escape") {
-      this.setState({ selectedBookmarks: [] });
-    }
+  resetSelectedBookmarks = () => {
+    this.setState({ selectedBookmarks: [] });
   };
 
   handleCreateNewFolder = (name) => {
@@ -426,7 +437,7 @@ class BookmarksPanel extends PureComponent {
             body: { "::-webkit-scrollbar": { width: "0px" } },
           }}
         />
-        <Box sx={{ width: PANEL_DIMENSIONS.width, paddingBottom: "8px" }}>
+        <Box sx={{ width: PANEL_DIMENSIONS.width }}>
           <Header
             folderNamesList={folderNamesList}
             contextBookmarks={contextBookmarks}
@@ -451,7 +462,10 @@ class BookmarksPanel extends PureComponent {
                   component="form"
                   noValidate
                   autoComplete="off"
-                  sx={{ minHeight: `${BOOKMARK_PANEL_CONTENT_HEIGHT}px` }}
+                  sx={{
+                    minHeight: `${BOOKMARK_PANEL_CONTENT_HEIGHT}px`,
+                    padding: "4px 0px",
+                  }}
                   ref={provided.innerRef}
                   {...provided.droppableProps}
                 >
@@ -468,6 +482,9 @@ class BookmarksPanel extends PureComponent {
                               handleEdit={this.handleFolderEdit}
                               isEmpty={isFolderEmpty(folders, name)}
                               curDraggingBookmark={curDraggingBookmark}
+                              resetSelectedBookmarks={
+                                this.resetSelectedBookmarks
+                              }
                             />
                           ) : (
                             <Bookmark
