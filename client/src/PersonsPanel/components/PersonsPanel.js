@@ -1,9 +1,11 @@
 import { Box } from "@material-ui/core";
 import storage from "ChromeApi/storage";
+import { displayToast } from "GlobalActionCreators";
 import { STORAGE_KEYS } from "GlobalConstants";
 import { PANEL_DIMENSIONS } from "GlobalConstants/styles";
 import { removeImageFromFirebase } from "GlobalUtils/firebase";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { SORT_ORDER, SORT_TYPE } from "../constants/sort";
 import { decryptionMapper } from "../mapper";
 import { getPersonPos, setPersonsInStorage } from "../utils";
@@ -13,6 +15,7 @@ import Header from "./Header";
 import Persons from "./Persons";
 
 const PersonsPanel = () => {
+  const dispatch = useDispatch();
   const [persons, setPersons] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
 
@@ -61,6 +64,7 @@ const PersonsPanel = () => {
     setPersons(sortedPersons);
     await handleSave(sortedPersons);
     setIsFetching(false);
+    dispatch(displayToast({ message: "Person added/updated succesfully" }));
   };
 
   const handlePersonDelete = async (person) => {
@@ -76,6 +80,7 @@ const PersonsPanel = () => {
     await removeImageFromFirebase(person.imageRef);
     await handleSave(newPersons);
     setIsFetching(false);
+    dispatch(displayToast({ message: "Person deleted succesfully" }));
   };
 
   const handleSort = (sortType, sortOrder) => {
