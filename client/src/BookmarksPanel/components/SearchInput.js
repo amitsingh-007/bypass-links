@@ -1,11 +1,15 @@
 import { Box, InputBase } from "@material-ui/core";
 import { alpha } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
+import { useState } from "react";
+import { useCallback } from "react";
 import { useRef } from "react";
 import { useEffect } from "react";
 import { memo } from "react";
 import { useInView } from "react-intersection-observer";
 import { throttle } from "throttle-debounce";
+
+const refOptions = { trackVisibility: true, delay: 100 };
 
 /**
  * `searchClassName` should be parent of each row and not parent of all rows
@@ -13,37 +17,64 @@ import { throttle } from "throttle-debounce";
  */
 const SearchInput = memo(({ searchClassName }) => {
   const inputRef = useRef(null);
-  const { ref, entry } = useInView({
-    trackVisibility: true,
-    delay: 100,
-  });
+  const [searchText, setSearchText] = useState("");
+  const { ref, entry } = useInView(refOptions);
 
-  const handleSearch = (searchText = "") => {
-    const lowerSearchText = searchText.toLowerCase();
+  const handleSearch = useCallback(
+    (searchText) => {
+      const lowerSearchText = searchText.toLowerCase();
 
-    document.querySelectorAll(`.${searchClassName}`).forEach((node) => {
-      const textsToSearch = [
-        node.getAttribute("data-text")?.toLowerCase(),
-        node.getAttribute("data-subtext")?.toLowerCase(),
-      ];
+      document.querySelectorAll(`.${searchClassName}`).forEach((node) => {
+        const textsToSearch = [
+          node.getAttribute("data-text")?.toLowerCase(),
+          node.getAttribute("data-subtext")?.toLowerCase(),
+        ];
 
-      const isSearchMatched = textsToSearch.some(
-        (text) => text && text.includes(lowerSearchText)
-      );
+        const isSearchMatched = textsToSearch.some(
+          (text) => text && text.includes(lowerSearchText)
+        );
 
-      node.style.display = isSearchMatched ? "" : "none";
-    });
-  };
+        node.style.display = isSearchMatched ? "" : "none";
+      });
+    },
+    [searchClassName]
+  );
 
   const onChange = throttle(100, (event) => {
-    handleSearch(event.target.value?.trim());
+    setSearchText(event.target.value?.trim() ?? "");
   });
+
+  const handleEscapeKeyPress = useCallback(
+    (event) => {
+      if (event.key !== "Escape") {
+        return;
+      }
+      if (searchText) {
+        setSearchText("");
+        event.stopPropagation();
+        event.preventDefault();
+      }
+    },
+    [searchText]
+  );
+
+  useEffect(() => {
+    handleSearch(searchText);
+  }, [handleSearch, searchText]);
 
   useEffect(() => {
     if (entry?.isVisible) {
       inputRef?.current?.focus();
     }
   }, [entry?.isVisible]);
+
+  useEffect(() => {
+    const node = inputRef?.current;
+    node?.addEventListener("keydown", handleEscapeKeyPress);
+    return () => {
+      node?.removeEventListener("keydown", handleEscapeKeyPress);
+    };
+  }, [handleEscapeKeyPress]);
 
   return (
     <Box
@@ -83,6 +114,7 @@ const SearchInput = memo(({ searchClassName }) => {
             "&:focus": { width: "20ch" },
           },
         }}
+        value={searchText}
         inputRef={inputRef}
       />
     </Box>
