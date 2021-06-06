@@ -14,6 +14,7 @@ import PanelHeading from "GlobalComponents/PanelHeading";
 import { defaultBookmarkFolder } from "GlobalConstants";
 import { COLOR } from "GlobalConstants/color";
 import { getActiveDisabledColor } from "GlobalUtils/color";
+import { createRef } from "react";
 import { PureComponent } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
@@ -36,12 +37,22 @@ class Header extends PureComponent {
       openConfirmationDialog: false,
       isSyncing: false,
     };
+    this.saveButtonRef = createRef(null);
   }
 
   componentDidUpdate(prevProps) {
     const { showBookmarkDialog } = this.props;
     if (prevProps.showBookmarkDialog !== showBookmarkDialog) {
       this.setState({ openBookmarkDialog: showBookmarkDialog });
+    }
+    if (
+      this.props.isSaveButtonActive &&
+      prevProps.contextBookmarks !== this.props.contextBookmarks
+    ) {
+      //Focus save button after updating bookmarks
+      setTimeout(() => {
+        this.saveButtonRef?.current?.focus();
+      }, 0);
     }
   }
 
@@ -158,6 +169,7 @@ class Header extends PureComponent {
                 onClick={this.onSaveClick}
                 title="Save locally"
                 disabled={!isSaveButtonActive}
+                ref={this.saveButtonRef}
               >
                 <SaveTwoToneIcon fontSize="large" />
               </IconButton>

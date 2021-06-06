@@ -72,7 +72,9 @@ class BookmarksPanel extends PureComponent {
   componentDidMount() {
     this.initBookmarksData();
     document.body.addEventListener("keydown", this.resetSelectedBookmarks);
-    document.body.addEventListener("keydown", this.handleOpenSelectedBookmarks);
+    document
+      .getElementById(bookmarksContainerId)
+      .addEventListener("keydown", this.handleOpenSelectedBookmarks);
   }
 
   componentDidUpdate(prevProps) {
@@ -84,10 +86,9 @@ class BookmarksPanel extends PureComponent {
 
   componentWillUnmount() {
     document.body.removeEventListener("keydown", this.resetSelectedBookmarks);
-    document.body.removeEventListener(
-      "keydown",
-      this.handleOpenSelectedBookmarks
-    );
+    document
+      .getElementById(bookmarksContainerId)
+      .removeEventListener("keydown", this.handleOpenSelectedBookmarks);
   }
 
   handleOpenSelectedBookmarks = (event) => {

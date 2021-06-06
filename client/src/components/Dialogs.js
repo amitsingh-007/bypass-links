@@ -22,6 +22,8 @@ export const EditDialog = ({
   isSaveOptionActive,
 }) => {
   const onSubmit = (e) => {
+    //Stop conflict with enter click on panels
+    e.stopPropagation();
     e.preventDefault();
     handleSave(e);
   };
