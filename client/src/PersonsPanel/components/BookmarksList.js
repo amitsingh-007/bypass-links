@@ -86,7 +86,7 @@ const BookmarksList = memo(({ name, imageUrl, taggedUrls }) => {
                   component="span"
                   sx={{ marginLeft: "14px", textTransform: "uppercase" }}
                 >
-                  {`name (${bookmarks?.length || 0})`}
+                  {`${name} (${bookmarks?.length || 0})`}
                 </Box>
               </Box>
             }
