@@ -152,8 +152,16 @@ class Header extends PureComponent {
       <>
         <AccordionHeader>
           <PrimaryHeaderContent>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                pl: "6px",
+                "> *": { mr: "12px !important" },
+              }}
+            >
               <IconButton
+                size="small"
                 aria-label="Discard"
                 component="span"
                 style={COLOR.red}
@@ -163,6 +171,7 @@ class Header extends PureComponent {
                 <ArrowBackTwoToneIcon fontSize="large" />
               </IconButton>
               <IconButton
+                size="small"
                 aria-label="Save"
                 component="span"
                 style={getActiveDisabledColor(isSaveButtonActive, COLOR.green)}
@@ -174,6 +183,7 @@ class Header extends PureComponent {
                 <SaveTwoToneIcon fontSize="large" />
               </IconButton>
               <IconButton
+                size="small"
                 aria-label="Sync"
                 component="span"
                 onClick={this.onSyncClick}
@@ -187,6 +197,7 @@ class Header extends PureComponent {
                 />
               </IconButton>
               <IconButton
+                size="small"
                 aria-label="NewFolder"
                 component="span"
                 style={COLOR.blue}
@@ -196,7 +207,7 @@ class Header extends PureComponent {
                 <CreateNewFolderTwoToneIcon fontSize="large" />
               </IconButton>
               {isFetching && (
-                <Loader loaderSize={30} padding="12px" disableShrink />
+                <Loader loaderSize={28} padding="3px" disableShrink />
               )}
             </Box>
             <PanelHeading

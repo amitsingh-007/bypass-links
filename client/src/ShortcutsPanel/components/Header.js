@@ -16,11 +16,14 @@ const Header = memo(
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+          py: "4px",
+          px: "6px",
           ...STICKY_HEADER,
         }}
       >
-        <Box>
+        <Box sx={{ "> *": { mr: "12px !important" } }}>
           <IconButton
+            size="small"
             aria-label="Discard"
             component="span"
             style={COLOR.red}
@@ -30,6 +33,7 @@ const Header = memo(
             <ArrowBackTwoToneIcon fontSize="large" />
           </IconButton>
           <IconButton
+            size="small"
             aria-label="Save"
             component="span"
             style={COLOR.green}
@@ -39,6 +43,7 @@ const Header = memo(
             <SaveTwoToneIcon fontSize="large" />
           </IconButton>
           <IconButton
+            size="small"
             aria-label="Add"
             component="span"
             style={COLOR.blue}
@@ -49,8 +54,8 @@ const Header = memo(
           </IconButton>
           {isFetching && (
             <Loader
-              loaderSize={30}
-              padding="12px"
+              loaderSize={28}
+              padding="3px"
               display="inline"
               disableShrink
             />

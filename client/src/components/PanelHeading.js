@@ -2,8 +2,8 @@ import { Typography } from "@material-ui/core";
 import { COLOR } from "GlobalConstants/color";
 
 const titleStyles = {
-  fontSize: "21px",
-  marginRight: "18px",
+  fontSize: "18px",
+  marginRight: "14px",
   fontWeight: "700",
   color: COLOR.heading,
 };

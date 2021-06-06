@@ -56,8 +56,8 @@ export const AccordionHeader = memo(({ children }) => {
 export const PrimaryHeaderContent = memo(({ children }) => (
   <AccordionSummary
     sx={{
-      padding: "0px",
-      minHeight: "50px !important",
+      padding: "4px 0px",
+      minHeight: "unset !important",
       "& .MuiAccordionSummary-content": { margin: "0px !important" },
     }}
   >
@@ -75,7 +75,7 @@ export const PrimaryHeaderContent = memo(({ children }) => (
 ));
 
 export const SecondaryHeaderContent = memo(({ children }) => (
-  <AccordionDetails sx={{ paddingTop: "0px" }}>
+  <AccordionDetails sx={{ padding: "10px 12px 12px 12px" }}>
     <Box
       sx={{
         display: "flex",
