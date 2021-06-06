@@ -8,7 +8,7 @@ import { startHistoryMonitor } from "GlobalActionCreators/";
 import ContextMenu from "GlobalComponents/ContextMenu";
 import ProgressiveRender from "GlobalComponents/ProgressiveRender";
 import { BlackTooltip } from "GlobalComponents/StyledComponents";
-import { createRef, PureComponent } from "react";
+import { PureComponent } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { bindActionCreators, compose } from "redux";
@@ -22,7 +22,6 @@ import {
   getPersonsWithImageUrl,
 } from "SrcPath/PersonsPanel/utils";
 import { BOOKMARK_ROW_DIMENTSIONS } from "../constants";
-import "../scss/bookmark.scss";
 import { BookmarkDialog, BulkBookmarksMoveDialog } from "./BookmarkDialog";
 import Favicon from "./Favicon";
 import withBookmarkRow from "./withBookmarkRow";
@@ -41,7 +40,6 @@ class Bookmark extends PureComponent {
       openBulkBookmarksMoveDialog: false,
       menuOptions: this.getMenuOptions(),
     };
-    this.bookmarkRef = createRef(null);
   }
 
   initImageUrl = async () => {
@@ -95,23 +93,12 @@ class Bookmark extends PureComponent {
     return menuOptionsList;
   };
 
-  animateOpenedBookmark = () => {
-    if (this.bookmarkRef?.current) {
-      const bookmarkNode = this.bookmarkRef.current;
-      bookmarkNode.style.animation = "blink-bookmark 0.5s infinite";
-      setTimeout(() => {
-        bookmarkNode.style.animation = "";
-      }, 3 * 1000);
-    }
-  };
-
   toggleEditDialog = () => {
     const { folder: origFolder, editBookmark, history } = this.props;
     const { openEditDialog } = this.state;
-    //Remove qs before closing
+    //Remove qs before closing and mark current as selected
     if (editBookmark && openEditDialog) {
-      //Blink for 3s after close of bookmark dialog
-      this.animateOpenedBookmark();
+      this.handleSelectionChange(null);
       history.replace(getBookmarksPanelUrl({ folder: origFolder }));
     }
     this.setState({ openEditDialog: !openEditDialog });
@@ -156,7 +143,7 @@ class Bookmark extends PureComponent {
       return;
     }
     const { pos, handleSelectedChange } = this.props;
-    handleSelectedChange(pos, !event.ctrlKey);
+    handleSelectedChange(pos, !event?.ctrlKey);
   };
 
   toggleBulkBookmarksMoveDialog = () => {
@@ -211,7 +198,6 @@ class Bookmark extends PureComponent {
           onOpen={this.onRightClick}
         >
           <Box
-            ref={this.bookmarkRef}
             sx={{
               display: "flex",
               alignItems: "center",

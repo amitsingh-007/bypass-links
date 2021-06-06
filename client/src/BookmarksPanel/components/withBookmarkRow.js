@@ -23,13 +23,12 @@ const withBookmarkRow = (Component) =>
     const secondaryUniqueId = isDir ? null : title;
 
     useEffect(() => {
-      if (editBookmark && bookmarkRef?.current) {
-        setTimeout(() => {
-          bookmarkRef.current.scrollIntoView({
-            block: "center",
-            behavior: "smooth",
-          });
-        }, 0);
+      // Scroll into view after dialog close
+      if (!editBookmark && bookmarkRef?.current) {
+        bookmarkRef.current.scrollIntoView({
+          block: "center",
+          behavior: "smooth",
+        });
       }
     }, [editBookmark]);
 
