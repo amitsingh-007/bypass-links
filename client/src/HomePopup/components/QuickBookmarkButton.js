@@ -1,4 +1,4 @@
-import { IconButton } from "@material-ui/core";
+import { IconButton, Typography } from "@material-ui/core";
 import BookmarkBorderTwoToneIcon from "@material-ui/icons/BookmarkBorderTwoTone";
 import BookmarkTwoToneIcon from "@material-ui/icons/BookmarkTwoTone";
 import { getCurrentTab } from "ChromeApi/tabs";
@@ -16,6 +16,7 @@ import {
   getFromHash,
 } from "SrcPath/BookmarksPanel/utils";
 import { IconButtonLoader } from "GlobalComponents/Loader";
+import { BlackTooltip } from "GlobalComponents/StyledComponents";
 
 const QuickBookmarkButton = memo(() => {
   const isSignedIn = useSelector((state) => state.isSignedIn);
@@ -28,8 +29,11 @@ const QuickBookmarkButton = memo(() => {
     const { url } = await getCurrentTab();
     const bookmarks = await getBookmarksObj();
     if (bookmarks) {
-      const bookmark = bookmarks.urlList[md5(url)];
-      setBookmark(bookmark);
+      const encodedBookmark = bookmarks.urlList[md5(url)];
+      if (encodedBookmark) {
+        const decodedBookmark = getDecodedBookmark(encodedBookmark);
+        setBookmark(decodedBookmark);
+      }
     }
     setIsFetching(false);
   };
@@ -44,7 +48,7 @@ const QuickBookmarkButton = memo(() => {
   const handleClick = async () => {
     const urlParams = {};
     if (bookmark) {
-      const { url, title, parentHash } = getDecodedBookmark(bookmark);
+      const { url, title, parentHash } = bookmark;
       const parent = await getFromHash(true, parentHash);
       urlParams.editBookmark = true;
       urlParams.url = url;
@@ -65,19 +69,28 @@ const QuickBookmarkButton = memo(() => {
   }
 
   return bookmark ? (
-    <IconButton
-      aria-label="Bookmarked"
-      component="span"
-      style={getActiveDisabledColor(isSignedIn, COLOR.pink)}
-      onClick={handleClick}
-      disabled={!isSignedIn}
-      title={isSignedIn ? "Bookmarked" : undefined}
+    <BlackTooltip
+      title={
+        <Typography sx={{ fontSize: "13px" }}>
+          {bookmark.title.length > 82
+            ? `${bookmark.title.substring(0, 82)}...`
+            : bookmark.title}
+        </Typography>
+      }
+      arrow
+      disableInteractive
     >
-      <BookmarkTwoToneIcon fontSize="large" />
-    </IconButton>
+      <IconButton
+        component="span"
+        style={getActiveDisabledColor(isSignedIn, COLOR.pink)}
+        onClick={handleClick}
+        disabled={!isSignedIn}
+      >
+        <BookmarkTwoToneIcon fontSize="large" />
+      </IconButton>
+    </BlackTooltip>
   ) : (
     <IconButton
-      aria-label="NotBookmarked"
       component="span"
       style={getActiveDisabledColor(isSignedIn, COLOR.pink)}
       onClick={handleClick}
