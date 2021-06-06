@@ -202,6 +202,7 @@ class Bookmark extends PureComponent {
               display: "flex",
               alignItems: "center",
               width: "100%",
+              height: "100%",
               ...containerStyles,
             }}
             onDoubleClick={this.handleOpenLink}

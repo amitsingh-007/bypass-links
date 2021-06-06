@@ -3,12 +3,12 @@ import md5 from "md5";
 import { memo, useEffect, useRef } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import Ripples from "react-ripples";
+import usePrevious from "SrcPath/hooks/usePrevious";
 import { bookmarkRowStyles, BOOKMARK_ROW_DIMENTSIONS } from "../constants";
 import "../scss/withBookmarkRow.scss";
 
 const withBookmarkRow = (Component) =>
   memo((props) => {
-    const bookmarkRef = useRef(null);
     const {
       isDir,
       name,
@@ -19,18 +19,20 @@ const withBookmarkRow = (Component) =>
       editBookmark,
       curDraggingBookmark,
     } = props;
+    const bookmarkRef = useRef(null);
+    const prevEditBookmark = usePrevious(editBookmark);
     const primaryUniqueId = isDir ? name : url;
     const secondaryUniqueId = isDir ? null : title;
 
     useEffect(() => {
       // Scroll into view after dialog close
-      if (!editBookmark && bookmarkRef?.current) {
+      if (prevEditBookmark && !editBookmark && bookmarkRef?.current) {
         bookmarkRef.current.scrollIntoView({
           block: "center",
           behavior: "smooth",
         });
       }
-    }, [editBookmark]);
+    }, [editBookmark, prevEditBookmark]);
 
     return (
       <Draggable draggableId={primaryUniqueId} index={pos}>

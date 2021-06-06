@@ -28,6 +28,7 @@ const Folder = memo(
     handleEdit,
     isEmpty,
     containerStyles,
+    resetSelectedBookmarks,
   }) => {
     const dispatch = useDispatch();
     const history = useHistory();
@@ -69,6 +70,7 @@ const Folder = memo(
             width: "100%",
             ...containerStyles,
           }}
+          onClick={resetSelectedBookmarks}
           onDoubleClick={handleFolderOpen}
           onContextMenu={onMenuOpen}
         >

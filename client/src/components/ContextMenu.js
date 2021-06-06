@@ -27,7 +27,9 @@ const ContextMenu = memo(({ menuOptions, showMenu, onOpen, children }) => {
 
   return (
     <>
-      <Box onContextMenu={handleRightClick}>{children}</Box>
+      <Box sx={{ height: "100%" }} onContextMenu={handleRightClick}>
+        {children}
+      </Box>
       {showMenu ? (
         <RightClickMenu
           open={isMenuOpen}
