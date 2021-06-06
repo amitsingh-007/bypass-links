@@ -1,14 +1,13 @@
-import { Box, MenuItem, Typography } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import FolderTwoToneIcon from "@material-ui/icons/FolderTwoTone";
 import { displayToast } from "GlobalActionCreators/";
-import { RightClickMenu } from "GlobalComponents/StyledComponents";
+import ContextMenu from "GlobalComponents/ContextMenu";
 import { COLOR } from "GlobalConstants/color";
-import { memo, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import useMenu from "SrcPath/hooks/useMenu";
 import { getBookmarksPanelUrl } from "../utils";
 import { FolderDialog } from "./FolderDialog";
 import withBookmarkRow from "./withBookmarkRow";
@@ -32,16 +31,16 @@ const Folder = memo(
   }) => {
     const dispatch = useDispatch();
     const history = useHistory();
+    const [menuOptions, setMenuOptions] = useState([]);
     const [openEditDialog, setOpenEditDialog] = useState(false);
-    const [isMenuOpen, menuPos, onMenuClose, onMenuOpen] = useMenu();
 
-    const toggleEditDialog = () => {
+    const toggleEditDialog = useCallback(() => {
       setOpenEditDialog(!openEditDialog);
-    };
+    }, [openEditDialog]);
 
-    const handleDeleteOptionClick = () => {
+    const handleDeleteOptionClick = useCallback(() => {
       handleRemove(pos, origName);
-    };
+    }, [handleRemove, origName, pos]);
 
     const handleFolderSave = (newName) => {
       handleEdit(origName, newName, pos);
@@ -56,29 +55,44 @@ const Folder = memo(
       history.push(getBookmarksPanelUrl({ folder: origName }));
     };
 
-    const menuOptionsList = [
-      { onClick: toggleEditDialog, text: "Edit", icon: EditIcon },
-      { onClick: handleDeleteOptionClick, text: "Delete", icon: DeleteIcon },
-    ];
+    useEffect(() => {
+      const menuOptions = [
+        {
+          onClick: toggleEditDialog,
+          text: "Edit",
+          icon: EditIcon,
+        },
+        {
+          onClick: handleDeleteOptionClick,
+          text: "Delete",
+          icon: DeleteIcon,
+        },
+      ];
+      setMenuOptions(menuOptions);
+    }, [handleDeleteOptionClick, toggleEditDialog]);
 
     return (
       <>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            width: "100%",
-            ...containerStyles,
-          }}
-          onClick={resetSelectedBookmarks}
-          onDoubleClick={handleFolderOpen}
-          onContextMenu={onMenuOpen}
-        >
-          <FolderTwoToneIcon fontSize="small" htmlColor={COLOR.yellow.color} />
-          <Typography noWrap style={getTitleStyles(isEmpty)}>
-            {origName}
-          </Typography>
-        </Box>
+        <ContextMenu menuOptions={menuOptions}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              width: "100%",
+              ...containerStyles,
+            }}
+            onClick={resetSelectedBookmarks}
+            onDoubleClick={handleFolderOpen}
+          >
+            <FolderTwoToneIcon
+              fontSize="small"
+              htmlColor={COLOR.yellow.color}
+            />
+            <Typography noWrap style={getTitleStyles(isEmpty)}>
+              {origName}
+            </Typography>
+          </Box>
+        </ContextMenu>
         <FolderDialog
           headerText="Edit folder"
           origName={origName}
@@ -86,25 +100,6 @@ const Folder = memo(
           isOpen={openEditDialog}
           onClose={toggleEditDialog}
         />
-        <RightClickMenu
-          open={isMenuOpen}
-          onClose={onMenuClose}
-          anchorReference="anchorPosition"
-          anchorPosition={menuPos}
-        >
-          {menuOptionsList.map(({ text, icon: Icon, onClick }) => (
-            <MenuItem
-              key={text}
-              onClick={() => {
-                onClick();
-                onMenuClose();
-              }}
-            >
-              <Icon sx={{ marginRight: "12px" }} />
-              {text}
-            </MenuItem>
-          ))}
-        </RightClickMenu>
       </>
     );
   }

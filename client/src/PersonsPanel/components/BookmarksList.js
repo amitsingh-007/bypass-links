@@ -63,7 +63,7 @@ const BookmarksList = memo(({ name, imageUrl, taggedUrls }) => {
 
   return (
     <Dialog open fullScreen onClose={handleClose}>
-      <DialogTitle sx={{ padding: "0 6px", backgroundColor: BG_COLOR_DARK }}>
+      <DialogTitle sx={{ padding: "4px 6px", backgroundColor: BG_COLOR_DARK }}>
         <Box
           sx={{
             display: "flex",
@@ -72,6 +72,7 @@ const BookmarksList = memo(({ name, imageUrl, taggedUrls }) => {
           }}
         >
           <IconButton
+            size="small"
             aria-label="Discard"
             component="span"
             style={COLOR.red}
@@ -114,10 +115,10 @@ const BookmarksList = memo(({ name, imageUrl, taggedUrls }) => {
               key={bookmark.url}
             >
               <IconButton
+                size="small"
                 aria-label="Edit Bookmark"
                 title="Edit Bookmark"
                 style={COLOR.blue}
-                size="small"
                 edge="end"
                 onClick={() => {
                   handleBookmarkEdit(bookmark);

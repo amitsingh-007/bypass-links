@@ -1,17 +1,9 @@
-import {
-  Avatar,
-  Badge,
-  Box,
-  IconButton,
-  MenuItem,
-  Typography,
-} from "@material-ui/core";
+import { Avatar, Badge, Box, IconButton, Typography } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
-import { RightClickMenu } from "GlobalComponents/StyledComponents";
-import { memo, useEffect, useState } from "react";
+import ContextMenu from "GlobalComponents/ContextMenu";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import useMenu from "SrcPath/hooks/useMenu";
 import { getPersonsPanelUrl, resolvePersonImageFromUid } from "../utils";
 import AddOrEditPersonDialog from "./AddOrEditPersonDialog";
 import BookmarksList from "./BookmarksList";
@@ -20,12 +12,36 @@ const imageStyles = { width: 100, height: 100 };
 
 const Person = memo(
   ({ person, openBookmarksListUid, handleEditPerson, handlePersonDelete }) => {
+    const history = useHistory();
     const { uid, name, taggedUrls } = person;
     const [imageUrl, setImageUrl] = useState("");
     const [showBookmarksList, setShowBookmarksList] = useState(false);
-    const [isMenuOpen, menuPos, onMenuClose, onMenuOpen] = useMenu();
     const [showEditPersonDialog, setShowEditPersonDialog] = useState(false);
-    const history = useHistory();
+    const [menuOptions, setMenuOptions] = useState([]);
+
+    const handleDeleteOptionClick = useCallback(() => {
+      handlePersonDelete(person);
+    }, [handlePersonDelete, person]);
+
+    const toggleEditPersonDialog = useCallback(() => {
+      setShowEditPersonDialog(!showEditPersonDialog);
+    }, [showEditPersonDialog]);
+
+    useEffect(() => {
+      const menuOptions = [
+        {
+          onClick: toggleEditPersonDialog,
+          text: "Edit",
+          icon: EditIcon,
+        },
+        {
+          onClick: handleDeleteOptionClick,
+          text: "Delete",
+          icon: DeleteIcon,
+        },
+      ];
+      setMenuOptions(menuOptions);
+    }, [handleDeleteOptionClick, toggleEditPersonDialog]);
 
     useEffect(() => {
       resolvePersonImageFromUid(uid).then((url) => {
@@ -36,10 +52,6 @@ const Person = memo(
     useEffect(() => {
       setShowBookmarksList(openBookmarksListUid === uid);
     }, [openBookmarksListUid, uid]);
-
-    const toggleEditPersonDialog = () => {
-      setShowEditPersonDialog(!showEditPersonDialog);
-    };
 
     const handlePersonSave = (updatedPerson) => {
       handleEditPerson(updatedPerson);
@@ -72,7 +84,7 @@ const Person = memo(
               width: "156px",
             }}
           >
-            <Box onContextMenu={onMenuOpen}>
+            <ContextMenu menuOptions={menuOptions}>
               <Badge
                 badgeContent={taggedUrlsCount}
                 color="primary"
@@ -80,51 +92,25 @@ const Person = memo(
               >
                 <Avatar alt={name} src={imageUrl} sx={imageStyles} />
               </Badge>
-            </Box>
-            <Typography
-              sx={{
-                fontSize: "14px",
-                width: "110px",
-                overflow: "hidden",
-                wordBreak: "break-word",
-              }}
-              style={{
-                display: "-webkit-box",
-                WebkitLineClamp: 2,
-                WebkitBoxOrient: "vertical",
-              }}
-              title={name}
-            >
-              {name}
-            </Typography>
+              <Typography
+                sx={{
+                  fontSize: "14px",
+                  width: "110px",
+                  overflow: "hidden",
+                  wordBreak: "break-word",
+                }}
+                style={{
+                  display: "-webkit-box",
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: "vertical",
+                }}
+                title={name}
+              >
+                {name}
+              </Typography>
+            </ContextMenu>
           </Box>
         </IconButton>
-        <RightClickMenu
-          open={isMenuOpen}
-          onClose={onMenuClose}
-          anchorReference="anchorPosition"
-          anchorPosition={menuPos}
-        >
-          <MenuItem
-            onClick={() => {
-              toggleEditPersonDialog();
-              onMenuClose();
-            }}
-          >
-            <EditIcon sx={{ marginRight: "12px" }} />
-            Edit
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              handlePersonDelete(person);
-              onMenuClose();
-            }}
-            disabled={taggedUrlsCount > 0}
-          >
-            <DeleteIcon sx={{ marginRight: "12px" }} />
-            Delete
-          </MenuItem>
-        </RightClickMenu>
         {showBookmarksList && (
           <BookmarksList
             name={name}
