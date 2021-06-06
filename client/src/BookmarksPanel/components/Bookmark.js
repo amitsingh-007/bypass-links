@@ -52,10 +52,7 @@ class Bookmark extends PureComponent {
   };
 
   componentDidMount() {
-    const { isExternalPage = false } = this.props;
-    if (!isExternalPage) {
-      this.initImageUrl();
-    }
+    this.initImageUrl();
   }
 
   componentDidUpdate(prevProps) {
@@ -154,6 +151,10 @@ class Bookmark extends PureComponent {
   };
 
   handleSelectionChange = (event) => {
+    const { isExternalPage } = this.props;
+    if (isExternalPage) {
+      return;
+    }
     const { pos, handleSelectedChange } = this.props;
     handleSelectedChange(pos, !event.ctrlKey);
   };
@@ -221,9 +222,7 @@ class Bookmark extends PureComponent {
             onClick={this.handleSelectionChange}
           >
             <Favicon url={url} />
-            {!isExternalPage && (
-              <PersonAvatars persons={personsWithImageUrls} />
-            )}
+            <PersonAvatars persons={personsWithImageUrls} />
             <BlackTooltip
               title={<Typography sx={tooltipStyles}>{url}</Typography>}
               arrow

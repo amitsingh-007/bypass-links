@@ -1,6 +1,7 @@
 import {
   Avatar,
   Box,
+  Button,
   Dialog,
   DialogContent,
   DialogTitle,
@@ -17,9 +18,9 @@ import { BookmarkExternal } from "SrcPath/BookmarksPanel/components/Bookmark";
 import { bookmarkRowStyles } from "SrcPath/BookmarksPanel/constants";
 import {
   getBookmarksPanelUrl,
+  getDecodedBookmark,
   getFromHash,
 } from "SrcPath/BookmarksPanel/utils";
-import { getDecodedBookmark } from "SrcPath/BookmarksPanel/utils";
 
 const imageStyles = { width: 40, height: 40 };
 
@@ -31,22 +32,24 @@ const BookmarksList = memo(({ name, imageUrl, taggedUrls }) => {
     if (!taggedUrls?.length) {
       return;
     }
-    const fetchedbookmarks = await Promise.all(
+    const fetchedBookmarks = await Promise.all(
       taggedUrls.map(async (urlHash) => {
         const bookmark = await getFromHash(false, urlHash);
-        return getDecodedBookmark(bookmark);
+        const parent = await getFromHash(true, bookmark.parentHash);
+        const decodedBookmark = getDecodedBookmark(bookmark);
+        decodedBookmark.parentName = atob(parent.name);
+        return decodedBookmark;
       })
     );
-    setBookmarks(fetchedbookmarks);
+    setBookmarks(fetchedBookmarks);
   }, [taggedUrls]);
 
-  const handleBookmarkEdit = async ({ url, title, parentHash }) => {
+  const handleBookmarkEdit = async ({ url, title, parentName }) => {
     const urlParams = {};
-    const parent = await getFromHash(true, parentHash);
     urlParams.editBookmark = true;
     urlParams.url = url;
     urlParams.title = title;
-    urlParams.folder = atob(parent.name);
+    urlParams.folder = parentName;
     history.push(getBookmarksPanelUrl(urlParams));
   };
 
@@ -93,11 +96,12 @@ const BookmarksList = memo(({ name, imageUrl, taggedUrls }) => {
           />
         </Box>
       </DialogTitle>
-      <DialogContent sx={{ padding: 0 }}>
+      <DialogContent sx={{ padding: "8px 0 0 0" }}>
         {bookmarks.length > 0 ? (
           bookmarks.map((bookmark) => (
             <Box
               sx={{
+                position: "relative",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -126,10 +130,29 @@ const BookmarksList = memo(({ name, imageUrl, taggedUrls }) => {
                 <BookmarkExternal
                   url={bookmark.url}
                   title={bookmark.title}
+                  taggedPersons={bookmark.taggedPersons}
                   isExternalPage
                   containerStyles={{ ...bookmarkRowStyles, paddingLeft: "0px" }}
                 />
               </Ripples>
+              <Button
+                variant="contained"
+                color="secondary"
+                disableElevation
+                disableFocusRipple
+                disableTouchRipple
+                disableRipple
+                sx={{
+                  position: "absolute",
+                  right: "2px",
+                  fontSize: "9px",
+                  minWidth: "unset",
+                  padding: "2px 5px",
+                  borderRadius: "50px",
+                }}
+              >
+                {bookmark.parentName}
+              </Button>
             </Box>
           ))
         ) : (

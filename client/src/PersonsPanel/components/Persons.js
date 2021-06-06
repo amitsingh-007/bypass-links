@@ -16,7 +16,7 @@ const Persons = memo(({ persons, handleEditPerson, handlePersonDelete }) => {
   }, [history.location.search]);
 
   return (
-    <Box sx={{ padding: "10px 6px" }}>
+    <Box sx={{ padding: "6px" }}>
       {persons.map((person) => (
         <Person
           key={person.uid}

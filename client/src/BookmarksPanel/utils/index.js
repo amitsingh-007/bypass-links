@@ -59,7 +59,7 @@ export const getDecodedBookmark = (bookmark) => ({
   url: decodeURIComponent(atob(bookmark.url)),
   title: decodeURIComponent(atob(bookmark.title)),
   parentHash: bookmark.parentHash,
-  taggedUrls: bookmark.taggedUrls,
+  taggedPersons: bookmark.taggedPersons,
 });
 
 export const getDestinationIndex = (destIndex, selectedBookmarks) => {

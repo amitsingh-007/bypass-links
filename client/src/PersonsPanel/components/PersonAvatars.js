@@ -40,7 +40,8 @@ const PersonAvatars = memo(({ persons }) => {
           key={person.imageUrl}
           title={
             <Box
-              onClick={() => {
+              onClick={(event) => {
+                event.stopPropagation();
                 handlePersonClick(person);
               }}
               sx={{ cursor: "pointer" }}
