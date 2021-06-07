@@ -25,7 +25,7 @@ import { BookmarkDialog } from "./BookmarkDialog";
 import ConfirmationDialog from "./ConfirmationDialog";
 import { FolderDropdown } from "./Dropdown";
 import { FolderDialog } from "./FolderDialog";
-import SearchInput from "./SearchInput";
+import SearchInput from "GlobalComponents/SearchInput";
 
 class Header extends PureComponent {
   constructor(props) {

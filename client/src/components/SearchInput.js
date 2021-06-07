@@ -44,15 +44,16 @@ const SearchInput = memo(({ searchClassName }) => {
     setSearchText(event.target.value?.trim() ?? "");
   });
 
-  const handleEscapeKeyPress = useCallback(
+  const handleKeyPress = useCallback(
     (event) => {
-      if (event.key !== "Escape") {
-        return;
-      }
-      if (searchText) {
+      if (event.key === "Escape" && searchText) {
+        //Clear search box on Escape key press
         setSearchText("");
         event.stopPropagation();
         event.preventDefault();
+      } else if (event.key === "Backspace") {
+        //To prevent going back to prev page
+        event.stopPropagation();
       }
     },
     [searchText]
@@ -70,17 +71,17 @@ const SearchInput = memo(({ searchClassName }) => {
 
   useEffect(() => {
     const node = inputRef?.current;
-    node?.addEventListener("keydown", handleEscapeKeyPress);
+    node?.addEventListener("keydown", handleKeyPress);
     return () => {
-      node?.removeEventListener("keydown", handleEscapeKeyPress);
+      node?.removeEventListener("keydown", handleKeyPress);
     };
-  }, [handleEscapeKeyPress]);
+  }, [handleKeyPress]);
 
   return (
     <Box
       sx={{
         position: "relative",
-        borderRadius: (theme) => `${theme.shape.borderRadius}px`,
+        borderRadius: "40px",
         backgroundColor: (theme) => alpha(theme.palette.common.white, 0.15),
         "&:hover": {
           backgroundColor: (theme) => alpha(theme.palette.common.white, 0.25),
