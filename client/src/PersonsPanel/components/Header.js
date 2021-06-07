@@ -14,7 +14,7 @@ import { COLOR } from "GlobalConstants/color";
 import { memo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-import SearchInput from "SrcPath/BookmarksPanel/components/SearchInput";
+import SearchInput from "GlobalComponents/SearchInput";
 import { syncPersonsFirebaseWithStorage } from "../utils/sync";
 import AddOrEditPersonDialog from "./AddOrEditPersonDialog";
 import Sort from "./Sort";

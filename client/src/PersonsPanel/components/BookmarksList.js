@@ -21,6 +21,7 @@ import {
   getDecodedBookmark,
   getFromHash,
 } from "SrcPath/BookmarksPanel/utils";
+import SearchInput from "GlobalComponents/SearchInput";
 
 const imageStyles = { width: 40, height: 40 };
 
@@ -81,20 +82,23 @@ const BookmarksList = memo(({ name, imageUrl, taggedUrls }) => {
           >
             <ArrowBackTwoToneIcon fontSize="large" />
           </IconButton>
-          <PanelHeading
-            containerStyles={{ display: "inline-flex" }}
-            heading={
-              <Box sx={{ display: "inline-flex", alignItems: "center" }}>
-                <Avatar alt={name} src={imageUrl} sx={imageStyles} />
-                <Box
-                  component="span"
-                  sx={{ marginLeft: "14px", textTransform: "uppercase" }}
-                >
-                  {`${name} (${bookmarks?.length || 0})`}
+          <Box sx={{ display: "flex" }}>
+            <SearchInput searchClassName="bookmarkRowContainer" />
+            <PanelHeading
+              containerStyles={{ display: "inline-flex", ml: "8px" }}
+              heading={
+                <Box sx={{ display: "inline-flex", alignItems: "center" }}>
+                  <Avatar alt={name} src={imageUrl} sx={imageStyles} />
+                  <Box
+                    component="span"
+                    sx={{ marginLeft: "14px", textTransform: "uppercase" }}
+                  >
+                    {`${name} (${bookmarks?.length || 0})`}
+                  </Box>
                 </Box>
-              </Box>
-            }
-          />
+              }
+            />
+          </Box>
         </Box>
       </DialogTitle>
       <DialogContent sx={{ padding: "8px 0 0 0" }}>
@@ -112,6 +116,8 @@ const BookmarksList = memo(({ name, imageUrl, taggedUrls }) => {
                 paddingLeft: "8px",
               }}
               className="bookmarkRowContainer"
+              data-text={bookmark.url}
+              data-subtext={bookmark.title}
               key={bookmark.url}
             >
               <IconButton
