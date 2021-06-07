@@ -8,6 +8,7 @@ import { COLOR } from "GlobalConstants/color";
 import { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { BOOKMARK_ROW_DIMENTSIONS } from "../constants";
 import { getBookmarksPanelUrl } from "../utils";
 import { FolderDialog } from "./FolderDialog";
 import withBookmarkRow from "./withBookmarkRow";
@@ -79,6 +80,7 @@ const Folder = memo(
               display: "flex",
               alignItems: "center",
               width: "100%",
+              height: `${BOOKMARK_ROW_DIMENTSIONS.height}px`,
               ...containerStyles,
             }}
             onClick={resetSelectedBookmarks}
