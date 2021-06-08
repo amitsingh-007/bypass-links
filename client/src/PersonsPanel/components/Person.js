@@ -11,7 +11,13 @@ import BookmarksList from "./BookmarksList";
 const imageStyles = { width: 100, height: 100 };
 
 const Person = memo(
-  ({ person, openBookmarksListUid, handleEditPerson, handlePersonDelete }) => {
+  ({
+    person,
+    showAlphabetBadge,
+    openBookmarksListUid,
+    handleEditPerson,
+    handlePersonDelete,
+  }) => {
     const history = useHistory();
     const { uid, name, taggedUrls } = person;
     const [imageUrl, setImageUrl] = useState("");
@@ -84,31 +90,53 @@ const Person = memo(
               width: "156px",
             }}
           >
-            <ContextMenu menuOptions={menuOptions}>
-              <Badge
-                badgeContent={taggedUrlsCount}
-                color="primary"
-                overlap="circular"
-              >
-                <Avatar alt={name} src={imageUrl} sx={imageStyles} />
-              </Badge>
-              <Typography
-                sx={{
-                  fontSize: "14px",
-                  width: "110px",
-                  overflow: "hidden",
-                  wordBreak: "break-word",
-                }}
-                style={{
-                  display: "-webkit-box",
-                  WebkitLineClamp: 2,
-                  WebkitBoxOrient: "vertical",
-                }}
-                title={name}
-              >
-                {name}
-              </Typography>
-            </ContextMenu>
+            <Badge
+              badgeContent={
+                <Box
+                  component="span"
+                  sx={{ fontSize: "20px", fontWeight: "bold" }}
+                >
+                  {name[0]}
+                </Box>
+              }
+              color="secondary"
+              overlap="circular"
+              invisible={!showAlphabetBadge}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+            >
+              <ContextMenu menuOptions={menuOptions}>
+                <Badge
+                  badgeContent={taggedUrlsCount}
+                  color="primary"
+                  overlap="circular"
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left",
+                  }}
+                >
+                  <Avatar alt={name} src={imageUrl} sx={imageStyles} />
+                </Badge>
+                <Typography
+                  sx={{
+                    fontSize: "14px",
+                    width: "110px",
+                    overflow: "hidden",
+                    wordBreak: "break-word",
+                  }}
+                  style={{
+                    display: "-webkit-box",
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: "vertical",
+                  }}
+                  title={name}
+                >
+                  {name}
+                </Typography>
+              </ContextMenu>
+            </Badge>
           </Box>
         </IconButton>
         {showBookmarksList && (

@@ -16,7 +16,8 @@ const ContextMenu = memo(
       menuOptions.map(({ text, icon: Icon, onClick }) => (
         <MenuItem
           key={text}
-          onClick={() => {
+          onClick={(event) => {
+            event.stopPropagation();
             onClick();
             onMenuClose();
           }}
