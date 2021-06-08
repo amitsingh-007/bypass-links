@@ -51,9 +51,6 @@ const SearchInput = memo(({ searchClassName }) => {
         setSearchText("");
         event.stopPropagation();
         event.preventDefault();
-      } else if (event.key === "Backspace") {
-        //To prevent going back to prev page
-        event.stopPropagation();
       }
     },
     [searchText]

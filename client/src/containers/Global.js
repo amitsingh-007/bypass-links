@@ -12,7 +12,9 @@ const Global = memo(() => {
 
   useEffect(() => {
     const handleGoBack = (event) => {
-      if (event.key === "Backspace") {
+      const isBackspace = event.key === "Backspace";
+      const isInputElem = event.target.tagName === "INPUT";
+      if (isBackspace && !isInputElem) {
         history.goBack();
       }
     };
