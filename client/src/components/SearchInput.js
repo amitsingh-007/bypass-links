@@ -41,7 +41,7 @@ const SearchInput = memo(({ searchClassName }) => {
   );
 
   const onChange = throttle(100, (event) => {
-    setSearchText(event.target.value?.trim() ?? "");
+    setSearchText(event.target.value ?? "");
   });
 
   const handleKeyPress = useCallback(
