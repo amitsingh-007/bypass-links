@@ -174,7 +174,7 @@ class BookmarksPanel extends PureComponent {
     urlList[urlHash] = {
       url: btoa(encodeURIComponent(url)),
       title: btoa(encodeURIComponent(title)),
-      taggedPersons: newTaggedPersons,
+      taggedPersons: [...newTaggedPersons],
       parentHash: newFolderHash,
     };
     //Update folders and current context folder content based on dir change
@@ -260,6 +260,37 @@ class BookmarksPanel extends PureComponent {
     delete newUrlList[urlHash];
     this.setState({
       contextBookmarks: [...contextBookmarks],
+      urlList: newUrlList,
+      isSaveButtonActive: true,
+      selectedBookmarks: [],
+    });
+  };
+
+  handleBulkUrlRemove = () => {
+    const { contextBookmarks, urlList, selectedBookmarks } = this.state;
+    const newUrlList = { ...urlList };
+    const taggedPersonData = [];
+    //Remove from current context folder
+    const filteredContextBookmarks = contextBookmarks.filter(
+      (bookmark, index) => {
+        if (selectedBookmarks[index]) {
+          const urlHash = md5(bookmark.url);
+          //Update url in tagged persons
+          taggedPersonData.push({
+            prevTaggedPersons: bookmark.taggedPersons,
+            newTaggedPersons: [],
+            urlHash,
+          });
+          //Remove from all urls list
+          delete newUrlList[urlHash];
+          return false;
+        }
+        return true;
+      }
+    );
+    this.setState({
+      contextBookmarks: filteredContextBookmarks,
+      updateTaggedPersons: taggedPersonData,
       urlList: newUrlList,
       isSaveButtonActive: true,
       selectedBookmarks: [],
@@ -356,6 +387,7 @@ class BookmarksPanel extends PureComponent {
     const { folderContext } = this.props;
     this.setState({ isFetching: true });
     //Update url in tagged persons
+    console.log(updateTaggedPersons);
     this.props.updateTaggedPersonUrls(updateTaggedPersons);
     //Form folders obj for current context folder
     folders[md5(folderContext)] = contextBookmarks.map(
@@ -437,6 +469,10 @@ class BookmarksPanel extends PureComponent {
             body: { "::-webkit-scrollbar": { width: "0px" } },
           }}
         />
+        <ScrollUpButton
+          containerId={bookmarksContainerId}
+          bookmarks={contextBookmarks}
+        />
         <Box sx={{ width: PANEL_DIMENSIONS.width }}>
           <Header
             folderNamesList={folderNamesList}
@@ -508,6 +544,7 @@ class BookmarksPanel extends PureComponent {
                               handleBulkBookmarksMove={
                                 this.handleBulkBookmarksMove
                               }
+                              handleBulkUrlRemove={this.handleBulkUrlRemove}
                               editBookmark={
                                 editBookmark &&
                                 url === bmUrl &&
@@ -524,10 +561,6 @@ class BookmarksPanel extends PureComponent {
             </Droppable>
           </DragDropContext>
         </Box>
-        <ScrollUpButton
-          containerId={bookmarksContainerId}
-          bookmarks={contextBookmarks}
-        />
       </>
     );
   }
