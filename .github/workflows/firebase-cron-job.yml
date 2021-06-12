@@ -1,7 +1,7 @@
 name: Firebase Backup Cron Job
 on:
   schedule:
-    - cron: "0 6 * * *"
+    - cron: "*/5 * * * *"
 jobs:
   cron:
     runs-on: ubuntu-latest
