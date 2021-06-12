@@ -1,7 +1,11 @@
-const getFullDbPath = (ref, uid, isFallback) => {
-  const env = __PROD__ ? "prod" : "dev";
-  const dbPrefix = isFallback ? "fallback" : "live";
-  return `${env}/${uid}/${dbPrefix}/${ref}`;
+const { getEnv } = require("./env");
+
+const getFullDbPath = (ref, uid, isAbsolute = false) => {
+  if (isAbsolute) {
+    return ref;
+  }
+  const env = getEnv();
+  return `${env}/${uid}/${ref}`;
 };
 
 module.exports = {

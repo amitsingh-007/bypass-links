@@ -13,14 +13,14 @@ if (admin.apps.length === 0) {
 /**
  * REALTIME DATABASE
  */
-const getFromFirebase = async ({ ref, uid }) =>
-  admin.database().ref(getFullDbPath(ref, uid, false)).once("value");
+const getFromFirebase = async ({ ref, uid, isAbsolute }) =>
+  admin.database().ref(getFullDbPath(ref, uid, isAbsolute)).once("value");
 
-const saveToFirebase = async ({ ref, uid, data, isFallback = false }) =>
-  admin.database().ref(getFullDbPath(ref, uid, isFallback)).set(data);
+const saveToFirebase = async ({ ref, uid, data, isAbsolute }) =>
+  admin.database().ref(getFullDbPath(ref, uid, isAbsolute)).set(data);
 
-const removeFromFirebase = async ({ ref, uid }) =>
-  admin.database().ref(getFullDbPath(ref, uid, false)).remove();
+const removeFromFirebase = async ({ ref, uid, isAbsolute }) =>
+  admin.database().ref(getFullDbPath(ref, uid, isAbsolute)).remove();
 
 module.exports = {
   getFromFirebase,
