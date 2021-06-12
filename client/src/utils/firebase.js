@@ -33,15 +33,9 @@ export const googleSignOut = () => firebase.auth().signOut();
 /**
  * REALTIME DATABASE
  */
-const getDbRef = async (ref, isFallback = false) => {
+const getDbRef = async (ref) => {
   const userProfile = await getUserProfile();
-  return getFullDbPath(ref, userProfile.uid, isFallback);
-};
-
-const copyToFallbackDB = async (dbRef) => {
-  const snapshot = await getFromFirebase(dbRef);
-  await saveToFirebase(dbRef, snapshot.val(), true);
-  console.log(`Updated fallback ${dbRef}`);
+  return getFullDbPath(ref, userProfile.uid);
 };
 
 export const getFromFirebase = async (ref) =>
@@ -50,14 +44,13 @@ export const getFromFirebase = async (ref) =>
     .ref(await getDbRef(ref))
     .once("value");
 
-export const saveToFirebase = async (ref, data, isFallback = false) =>
+export const saveToFirebase = async (ref, data) =>
   firebase
     .database()
-    .ref(await getDbRef(ref, isFallback))
+    .ref(await getDbRef(ref))
     .set(data);
 
 export const saveDataToFirebase = async (data, ref, successCallback) => {
-  await copyToFallbackDB(ref);
   return new Promise((resolve, _reject) => {
     saveToFirebase(ref, data)
       .then(async () => {

@@ -1,0 +1,13 @@
+name: Firebase Backup Cron Job
+on:
+  schedule:
+    - cron: "0 6 * * *"
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Invoking Cron Job API 🛐
+        run: |
+          curl --request POST \
+          --url 'https://bypass-links-dev.netlify.app/api/backup' \
+          --header 'Authorization: Bearer ${{ secrets.FIREBASE_BACKUP_CRON_JOB_API_KEY }}'

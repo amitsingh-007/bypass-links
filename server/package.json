@@ -7,19 +7,12 @@
     "cors": "2.8.5",
     "compression": "1.7.4",
     "express": "4.17.1",
+    "express-bearer-token": "2.4.0",
     "express-rate-limit": "5.2.6",
     "firebase-admin": "9.9.0",
     "helmet": "4.6.0",
     "morgan": "1.10.0",
     "serverless-http": "2.7.0",
     "speakeasy": "2.0.0"
-  },
-  "devDependencies": {
-    "kill-port": "1.6.1",
-    "netlify-cli": "3.32.1"
-  },
-  "scripts": {
-    "deploy": "netlify deploy --prod",
-    "serve": "kill-port 8888 && netlify dev --inspect"
   }
 }

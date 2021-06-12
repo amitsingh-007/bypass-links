@@ -18,4 +18,4 @@
 # Deploying to Netlify
 
 - Run `netlify login` in the root folder and give credentials to login.
-- Run `npm run netlify:deploy` to deploy the site.
+- Run `npm run dev:deploy` to deploy the site.
