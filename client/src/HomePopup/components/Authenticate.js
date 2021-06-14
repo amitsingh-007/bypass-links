@@ -1,7 +1,5 @@
 import {
-  Box,
   Dialog,
-  DialogTitle,
   IconButton,
   LinearProgress,
   Typography,
