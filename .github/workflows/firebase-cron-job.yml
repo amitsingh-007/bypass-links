@@ -9,5 +9,4 @@ jobs:
       - name: Invoking Cron Job API 🛐
         run: |
           curl --request POST \
-          --url 'https://bypass-links-dev.netlify.app/api/backup' \
-          --header 'Authorization: Bearer ${{ secrets.FIREBASE_BACKUP_CRON_JOB_API_KEY }}'
+          --url 'https://bypass-links.netlify.app/api/backup?access_token=${{ secrets.FIREBASE_BACKUP_CRON_JOB_API_KEY }}'
