@@ -1,4 +1,11 @@
-import { Box, IconButton, LinearProgress, Typography } from "@material-ui/core";
+import {
+  Box,
+  Dialog,
+  DialogTitle,
+  IconButton,
+  LinearProgress,
+  Typography,
+} from "@material-ui/core";
 import CloudDoneTwoToneIcon from "@material-ui/icons/CloudDoneTwoTone";
 import CloudOffTwoTone from "@material-ui/icons/CloudOffTwoTone";
 import {
@@ -71,7 +78,20 @@ const Authenticate = memo(() => {
     return (
       <>
         <IconButtonLoader />
-        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+        <Dialog
+          sx={{
+            ".MuiPaper-root": {
+              m: 0,
+              top: 0,
+              width: "100%",
+              position: "fixed",
+              borderRadius: "0px",
+              backgroundColor: "unset",
+              backgroundImage: "unset",
+            },
+          }}
+          open
+        >
           <LinearProgress
             variant="buffer"
             value={(progress * 100) / total}
@@ -88,7 +108,7 @@ const Authenticate = memo(() => {
           >
             {message || "Loading"}
           </Typography>
-        </Box>
+        </Dialog>
       </>
     );
   }
