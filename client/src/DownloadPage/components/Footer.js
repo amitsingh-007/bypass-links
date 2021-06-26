@@ -20,7 +20,7 @@ const Footer = () => {
         display: "flex",
         alignItems: "flex-end",
         justifyContent: "space-between",
-        background: "url(/footer.png)",
+        background: "url(/assets/footer.png)",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
       }}

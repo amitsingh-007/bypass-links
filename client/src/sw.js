@@ -67,7 +67,7 @@ registerRoute(
 
 //Cache AddToHomeScreen assets
 registerRoute(
-  /manifest\.webmanifest\.json|bypass_link_512\.png|bypass_link_192\.png/,
+  /.*\/(manifest\.webmanifest\.json|bypass_link_[192,512]\.png)/,
   new NetworkFirst({
     cacheName: "a2hs-cache",
     plugins: [

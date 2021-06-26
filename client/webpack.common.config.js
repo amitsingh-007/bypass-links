@@ -57,7 +57,7 @@ const commonConfig = {
         test: /\.(svg)$/i,
         loader: "file-loader",
         options: {
-          name: "[name]-[contenthash].[ext]",
+          name: "icons/[name]-[contenthash].[ext]",
         },
       },
       {

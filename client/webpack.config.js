@@ -41,7 +41,7 @@ const optimizationOptions = {
 const esLintPLugin = new ESLintPlugin({});
 
 const miniCssExtractPlugin = new MiniCssExtractPlugin({
-  filename: "[name].[contenthash].css",
+  filename: "css/[name].[contenthash].css",
   chunkFilename: "[id].[contenthash].css",
 });
 
@@ -96,7 +96,7 @@ const getDownloadPageConfigPlugins = () => {
     new HtmlWebpackPlugin({
       template: "./public/index.html",
       cache: false,
-      favicon: "./assets/bypass_link_on_128.png",
+      favicon: "./public/bypass_link_192.png",
     }),
     new FileManagerPlugin({
       events: {
@@ -107,9 +107,10 @@ const getDownloadPageConfigPlugins = () => {
           copy: [
             {
               source: "./public/!(index.html)", //copy everything except index.html
-              destination: PATHS.BUILD,
+              destination: `${PATHS.BUILD}/assets/`,
             },
           ],
+          delete: ["./build/js/*.txt"],
         },
       },
     }),

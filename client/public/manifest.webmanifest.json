@@ -4,13 +4,13 @@
   "description": "Free to use Chrome extension to bypass links, ads, timers, recaptchas, etc from various sites.",
   "icons": [
     {
-      "src": "bypass_link_192.png",
+      "src": "/assets/bypass_link_192.png",
       "type": "image/png",
       "sizes": "192x192",
       "purpose": "any maskable"
     },
     {
-      "src": "bypass_link_512.png",
+      "src": "/assets/bypass_link_512.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "any maskable"

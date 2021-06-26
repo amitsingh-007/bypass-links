@@ -23,7 +23,7 @@ const AppHeader = memo(() => (
         <Box className="iconAnimate">
           <Box
             component="img"
-            src="/bypass_link_192.png"
+            src="/assets/bypass_link_192.png"
             alt="app-icon"
             sx={{
               height: "75px",
