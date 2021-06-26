@@ -41,8 +41,8 @@ const optimizationOptions = {
 const esLintPLugin = new ESLintPlugin({});
 
 const miniCssExtractPlugin = new MiniCssExtractPlugin({
-  filename: "[name].[contenthash].css",
-  chunkFilename: "[id].[contenthash].css",
+  filename: "css/[name].[contenthash].css",
+  chunkFilename: "css/[id].[contenthash].css",
 });
 
 const dllReferencePlugin = new DllReferencePlugin({
@@ -56,7 +56,11 @@ const getFileManagerPlugin = () => {
       onStart: {
         copy: [
           {
-            source: "./assets/*",
+            source: "./assets/!(index.html|manifest.json)",
+            destination: `${PATHS.EXTENSION}/assets/`,
+          },
+          {
+            source: "./assets/(index.html|manifest.json)",
             destination: PATHS.EXTENSION,
           },
         ],
@@ -96,7 +100,7 @@ const getDownloadPageConfigPlugins = () => {
     new HtmlWebpackPlugin({
       template: "./public/index.html",
       cache: false,
-      favicon: "./assets/bypass_link_on_128.png",
+      favicon: "./public/bypass_link_192.png",
     }),
     new FileManagerPlugin({
       events: {
@@ -107,9 +111,10 @@ const getDownloadPageConfigPlugins = () => {
           copy: [
             {
               source: "./public/!(index.html)", //copy everything except index.html
-              destination: PATHS.BUILD,
+              destination: `${PATHS.BUILD}/assets/`,
             },
           ],
+          delete: ["./build/js/*.txt"],
         },
       },
     }),
@@ -160,8 +165,8 @@ const getBackgroundConfigPlugins = () => {
         onStart: {
           copy: [
             {
-              source: `${PATHS.FIREBASE_BUILD}/firebase.js`,
-              destination: `${PATHS.EXTENSION}/`,
+              source: `${PATHS.FIREBASE_BUILD}/js/firebase.js`,
+              destination: `${PATHS.EXTENSION}/js/`,
             },
             {
               source: `${PATHS.SRC}/scripts/service-worker.js`,
@@ -211,7 +216,7 @@ const backgroundConfig = {
   name: "BackgroundScript",
   entry: "./src/scripts/background.js",
   output: {
-    path: PATHS.EXTENSION,
+    path: `${PATHS.EXTENSION}/js/`,
     filename: "background.js",
   },
   target: "browserslist",

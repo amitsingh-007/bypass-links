@@ -12,7 +12,7 @@ const firebasedDllConfig = {
   target: "browserslist",
   entry: ["./src/utils/firebase.js"],
   output: {
-    filename: "firebase.js",
+    filename: "js/firebase.js",
     path: PATHS.FIREBASE_BUILD,
     library: "firebase_lib",
   },

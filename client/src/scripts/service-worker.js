@@ -1,5 +1,5 @@
 try {
-  importScripts("firebase.js", "background.js");
+  importScripts("js/firebase.js", "js/background.js");
 } catch (error) {
   console.error(error);
 }

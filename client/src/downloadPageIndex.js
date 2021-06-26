@@ -1,4 +1,5 @@
 import { CssBaseline } from "@material-ui/core";
+import darkScrollbar from "@material-ui/core/darkScrollbar";
 import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import { StrictMode } from "react";
 import ReactDOM from "react-dom";
@@ -6,8 +7,16 @@ import DownloadPage from "SrcPath/DownloadPage/components/DownloadPage";
 import "SrcPath/DownloadPage/styles/download-page.scss";
 
 const theme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+  MuiCssBaseline: {
+    styleOverrides: {
+      body: darkScrollbar(),
+    },
+  },
   typography: {
-    fontFamily: `"Inter", sans-serif`,
+    fontFamily: `"Montserrat", sans-serif`,
     h2: {
       fontWeight: "400",
     },

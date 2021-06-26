@@ -1,27 +1,18 @@
-import { Container } from "@material-ui/core";
+import { Box } from "@material-ui/core";
 import { memo } from "react";
-import { ChromeExtension } from "./ChromeExtension";
-import Features from "./Features";
-import Heading from "./Heading";
-import ReleaseInfo from "./ReleaseInfo";
-import Section from "./Section";
+import AppHeader from "./AppHeader";
+import Footer from "./Footer";
+import PageHeader from "./PageHeader";
+import SalientFeatures from "./SalientFeatures";
 
 const DownloadPage = memo(() => (
   <>
-    <Container>
-      <Section textAlign="center">
-        <Heading />
-      </Section>
-      <Section>
-        <Features />
-      </Section>
-      <Section display="flex" justifyContent="space-evenly">
-        <ChromeExtension />
-      </Section>
-      <Section>
-        <ReleaseInfo />
-      </Section>
-    </Container>
+    <AppHeader />
+    <Box sx={{ p: "0 200px" }}>
+      <PageHeader />
+      <SalientFeatures />
+    </Box>
+    <Footer />
   </>
 ));
 

@@ -1,17 +1,18 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Work+Sans&display=swap");
+@import "./scroll-bar.scss";
 
-html {
-  background: url(https://images.unsplash.com/photo-1458682625221-3a45f8a844c7?q=50)
-    no-repeat center center fixed;
-  background-size: cover;
-  scroll-behavior: smooth;
-}
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,400;1,500;1,600;1,700&display=swap");
 
 body {
-  background-color: transparent !important;
+  > * {
+    background: #131b21;
+  }
 }
 
-.customBgColor {
-  background-color: rgba(207, 216, 220, 0.4);
-  border-radius: 6px;
+.animateIcon {
+  animation-fill-mode: both;
+  animation-duration: 1000ms;
+  animation-delay: 0ms;
+  animation-iteration-count: 1;
+  opacity: 1;
+  animation-name: react-reveal-352528299452713-1;
 }
