@@ -42,7 +42,7 @@ const esLintPLugin = new ESLintPlugin({});
 
 const miniCssExtractPlugin = new MiniCssExtractPlugin({
   filename: "css/[name].[contenthash].css",
-  chunkFilename: "[id].[contenthash].css",
+  chunkFilename: "css/[id].[contenthash].css",
 });
 
 const dllReferencePlugin = new DllReferencePlugin({
@@ -56,7 +56,11 @@ const getFileManagerPlugin = () => {
       onStart: {
         copy: [
           {
-            source: "./assets/*",
+            source: "./assets/!(index.html|manifest.json)",
+            destination: `${PATHS.EXTENSION}/assets/`,
+          },
+          {
+            source: "./assets/(index.html|manifest.json)",
             destination: PATHS.EXTENSION,
           },
         ],
@@ -161,8 +165,8 @@ const getBackgroundConfigPlugins = () => {
         onStart: {
           copy: [
             {
-              source: `${PATHS.FIREBASE_BUILD}/firebase.js`,
-              destination: `${PATHS.EXTENSION}/`,
+              source: `${PATHS.FIREBASE_BUILD}/js/firebase.js`,
+              destination: `${PATHS.EXTENSION}/js/`,
             },
             {
               source: `${PATHS.SRC}/scripts/service-worker.js`,
@@ -212,7 +216,7 @@ const backgroundConfig = {
   name: "BackgroundScript",
   entry: "./src/scripts/background.js",
   output: {
-    path: PATHS.EXTENSION,
+    path: `${PATHS.EXTENSION}/js/`,
     filename: "background.js",
   },
   target: "browserslist",

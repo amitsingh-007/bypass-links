@@ -55,12 +55,12 @@ export const setExtensionIcon = async ({
 }) => {
   let icon;
   if (hasPendingBookmarks === true || hasPendingPersons === true) {
-    icon = "bypass_link_pending_128.png";
+    icon = "assets/bypass_link_pending_128.png";
   } else {
     const newExtState = extState ?? (await getExtensionState());
     icon = isExtensionActive(newExtState)
-      ? "bypass_link_on_128.png"
-      : "bypass_link_off_128.png";
+      ? "assets/bypass_link_on_128.png"
+      : "assets/bypass_link_off_128.png";
   }
   await action.setIcon({ path: icon });
 };
