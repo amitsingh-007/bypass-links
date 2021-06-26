@@ -62,7 +62,7 @@ export const ScrollUpButton = memo(({ containerId, bookmarks }) => {
   }
 
   return (
-    <Box sx={{ position: "fixed", bottom: "10px", right: "10px" }}>
+    <Box sx={{ position: "fixed", bottom: "10px", right: "10px", zIndex: 1 }}>
       <Box sx={{ position: "relative" }}>
         <CircularProgress variant="determinate" value={percentScrolled} />
         <IconButton
@@ -72,6 +72,9 @@ export const ScrollUpButton = memo(({ containerId, bookmarks }) => {
             position: "absolute",
             top: "3.8px",
             left: "3.8px",
+            ":hover": {
+              backgroundColor: COLOR.grey.color,
+            },
           }}
           size="small"
           onClick={handleScrollClick}
