@@ -98,13 +98,14 @@ const Person = memo(
               </Badge>
               <Typography
                 sx={{
+                  display: "-webkit-box",
                   fontSize: "14px",
                   width: "110px",
                   overflow: "hidden",
                   wordBreak: "break-word",
+                  m: "auto",
                 }}
                 style={{
-                  display: "-webkit-box",
                   WebkitLineClamp: 2,
                   WebkitBoxOrient: "vertical",
                 }}
