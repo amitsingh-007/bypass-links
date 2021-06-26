@@ -26,7 +26,7 @@ const Description = () => (
       and many more ...
     </Box>
     <Box sx={{ position: "relative", top: "18px", right: "110px" }}>
-      <img component="img" src={circleLogo} alt="circle-logo" />
+      <Box component="img" src={circleLogo} alt="circle-logo" />
     </Box>
   </Box>
 );
@@ -35,7 +35,7 @@ const FeaturesColumn = ({ columnData }) =>
   columnData.map((data) => (
     <Box key={data.title}>
       <Box sx={{ width: "35px", height: "35px" }}>
-        <img component="img" src={data.icon} alt={data.altIconText} />
+        <Box component="img" src={data.icon} alt={data.altIconText} />
       </Box>
       <Typography
         sx={{
@@ -65,7 +65,7 @@ const FeaturesColumn = ({ columnData }) =>
 
 const SalientFeatures = memo(() => {
   return (
-    <Box sx={{ display: "flex", mt: "210px" }}>
+    <Box sx={{ display: "flex", mt: "200px" }}>
       <Description />
       <Box sx={{ width: "30%", mr: "70px" }}>
         <FeaturesColumn columnData={firstColumn} />

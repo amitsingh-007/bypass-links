@@ -1,11 +1,24 @@
-import { Box, Button, Typography } from "@material-ui/core";
-import { memo } from "react";
+import { Box, Typography } from "@material-ui/core";
+import chromeLogo from "GlobalIcons/chrome.svg";
+import { fetchApi } from "GlobalUtils/fetch";
+import { memo, useEffect, useState } from "react";
 
 const PageHeader = memo(() => {
+  const [downloadLink, setDownloadLink] = useState("");
+
+  const fetchDownloadLink = async () => {
+    const { extension } = await fetchApi("/api/extension/");
+    setDownloadLink(extension);
+  };
+
+  useEffect(() => {
+    fetchDownloadLink();
+  });
+
   return (
     <Box
       sx={{
-        m: "230px 88px 0px",
+        m: "220px 88px 0px",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -25,8 +38,12 @@ const PageHeader = memo(() => {
         Have a Link Bypasser and private Bookmarks Panel !
       </Typography>
       <Box sx={{ textAlign: "center" }}>
-        <Button
+        <Box
+          component="a"
+          href={downloadLink}
           sx={{
+            display: "inline-flex",
+            alignItems: "center",
             background: "linear-gradient(90deg,#6850ff,#a750ff)",
             borderRadius: "50px",
             fontWeight: "bold",
@@ -34,10 +51,18 @@ const PageHeader = memo(() => {
             color: "#fff",
             padding: "14px 27px",
             mt: "15px",
+            textDecoration: "unset",
           }}
         >
-          Download Now
-        </Button>
+          <Box
+            component="img"
+            src={chromeLogo}
+            alt="chrome-logo"
+            height={25}
+            sx={{ mr: "14px" }}
+          />
+          {" DOWNLOAD NOW"}
+        </Box>
       </Box>
     </Box>
   );
