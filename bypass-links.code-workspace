@@ -7,7 +7,7 @@
       "path": "./server"
     },
     {
-      "path": "./client"
+      "path": "./extension"
     }
   ]
 }

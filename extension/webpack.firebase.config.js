@@ -24,7 +24,7 @@ const firebasedDllConfig = {
     new FileManagerPlugin({
       events: {
         onStart: {
-          delete: ["./extension/*"],
+          delete: ["./extension-build/*"],
         },
       },
     }),

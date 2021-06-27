@@ -2,7 +2,7 @@
   "search.exclude": {
     "node_modules": true,
     "build/**": true,
-    "extension/**": true,
+    "extension-build/**": true,
     "firebase-build/**": true,
   }
 }

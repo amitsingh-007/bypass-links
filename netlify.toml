@@ -3,7 +3,7 @@
   autoLaunch = false
 
 [build]
-  publish = "client/build"
+  publish = "extension/build"
   functions = "server/routes/"
   targetPort = 5000
   environment = { NODE_VERSION = "14" }

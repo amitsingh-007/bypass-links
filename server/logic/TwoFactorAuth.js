@@ -1,7 +1,7 @@
-const { FIREBASE_DB_REF } = require("../../common/src/constants/firebase");
-const { getFromFirebase, saveToFirebase } = require("../utils/firebase");
-const speakeasy = require("speakeasy");
-const { get2FATitle } = require("../utils");
+import speakeasy from "speakeasy";
+import { FIREBASE_DB_REF } from "../../common/src/constants/firebase";
+import { get2FATitle } from "./index";
+import { getFromFirebase, saveToFirebase } from "./firebase";
 
 const verify2FAToken = (secretKey, totp, window = 0) =>
   speakeasy.totp.verify({
@@ -14,10 +14,10 @@ const verify2FAToken = (secretKey, totp, window = 0) =>
 const is2FASetup = (user2FAInfo) =>
   Boolean(user2FAInfo && user2FAInfo.secretKey);
 
-const is2FAEnabled = (user2FAInfo) =>
+export const is2FAEnabled = (user2FAInfo) =>
   is2FASetup(user2FAInfo) && user2FAInfo.is2FAEnabled;
 
-const fetchUser2FAInfo = async (uid) => {
+export const fetchUser2FAInfo = async (uid) => {
   const response = await getFromFirebase({
     ref: FIREBASE_DB_REF.user2FAInfo,
     uid,
@@ -25,7 +25,7 @@ const fetchUser2FAInfo = async (uid) => {
   return response.val();
 };
 
-const setup2FA = async (uid) => {
+export const setup2FA = async (uid) => {
   const user2FAInfo = await fetchUser2FAInfo(uid);
   if (is2FASetup(user2FAInfo)) {
     const { secretKey, otpAuthUrl } = user2FAInfo;
@@ -50,7 +50,7 @@ const setup2FA = async (uid) => {
   return { secretKey: base32, otpAuthUrl: otpauth_url };
 };
 
-const verify2FA = async ({ uid, totp }) => {
+export const verify2FA = async ({ uid, totp }) => {
   const user2FAInfo = await fetchUser2FAInfo(uid);
   if (!is2FASetup(user2FAInfo)) {
     return false;
@@ -71,18 +71,10 @@ const verify2FA = async ({ uid, totp }) => {
   return isVerified;
 };
 
-const authenticate2FA = async ({ uid, totp }) => {
+export const authenticate2FA = async ({ uid, totp }) => {
   const user2FAInfo = await fetchUser2FAInfo(uid);
   if (!is2FAEnabled(user2FAInfo)) {
     return false;
   }
   return verify2FAToken(user2FAInfo.secretKey, totp, 1);
-};
-
-module.exports = {
-  is2FAEnabled,
-  fetchUser2FAInfo,
-  setup2FA,
-  verify2FA,
-  authenticate2FA,
 };

@@ -39,5 +39,5 @@
       "SrcPath/*": ["./src/*"]
     }
   },
-  "exclude": ["build", "extension", "firebase-build", "**/node_modules"]
+  "exclude": ["build", "extension-build", "firebase-build", "**/node_modules"]
 }

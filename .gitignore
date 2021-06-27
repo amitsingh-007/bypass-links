@@ -1,7 +1,1 @@
 **/node_modules
-**/build
-**/firebase-build
-**/extension
-
-#netlify
-server/.env

@@ -1,7 +1,14 @@
 const admin = require("firebase-admin");
 const { getFullDbPath } = require("../../common/src/utils/firebase");
 
-const serviceAccountKey = JSON.parse(process.env.SERVICE_ACCOUNT_KEY);
+/**
+ * https://github.com/vercel/vercel/issues/749
+ * https://stackoverflow.com/a/50376092/8694064
+ * TODO: handle for netlify
+ */
+const serviceAccountKey = JSON.parse(
+  process.env.SERVICE_ACCOUNT_KEY.replace(/\n/g, "\\n")
+);
 
 if (admin.apps.length === 0) {
   admin.initializeApp({
@@ -13,17 +20,11 @@ if (admin.apps.length === 0) {
 /**
  * REALTIME DATABASE
  */
-const getFromFirebase = async ({ ref, uid, isAbsolute }) =>
+export const getFromFirebase = async ({ ref, uid, isAbsolute }) =>
   admin.database().ref(getFullDbPath(ref, uid, isAbsolute)).once("value");
 
-const saveToFirebase = async ({ ref, uid, data, isAbsolute }) =>
+export const saveToFirebase = async ({ ref, uid, data, isAbsolute }) =>
   admin.database().ref(getFullDbPath(ref, uid, isAbsolute)).set(data);
 
-const removeFromFirebase = async ({ ref, uid, isAbsolute }) =>
+export const removeFromFirebase = async ({ ref, uid, isAbsolute }) =>
   admin.database().ref(getFullDbPath(ref, uid, isAbsolute)).remove();
-
-module.exports = {
-  getFromFirebase,
-  saveToFirebase,
-  removeFromFirebase,
-};
