@@ -1,4 +1,4 @@
-import { getLatestRelease, getAssetsByReleaseId } from "../../logic/github";
+import { getAssetsByReleaseId, getLatestRelease } from "@logic/github";
 
 const handler = async (_req, res) => {
   const { data: latestRelease } = await getLatestRelease();

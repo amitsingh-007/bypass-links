@@ -1,4 +1,4 @@
-import { setup2FA } from "../../../logic/twoFactorAuth";
+import { setup2FA } from "@logic/twoFactorAuth";
 
 /**
  * API to initalize 2FA of a user for the very first time

@@ -1,4 +1,4 @@
-import { verify2FA } from "../../../logic/twoFactorAuth";
+import { verify2FA } from "@logic/twoFactorAuth";
 
 /**
  * API to verify the user while setting up 2FA

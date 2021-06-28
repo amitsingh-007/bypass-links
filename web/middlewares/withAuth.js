@@ -1,9 +1,9 @@
+import { ALLOWED_ORIGIN } from "@constants/index";
 import compression from "compression";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 import morgan from "morgan";
-import { ALLOWED_ORIGIN } from "../constants";
 import runMiddleware from "./runMiddleware";
 import verifyUserId from "./verifyUserId";
 

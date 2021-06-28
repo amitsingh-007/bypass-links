@@ -1,4 +1,4 @@
-import { authenticate2FA } from "../../../logic/twoFactorAuth";
+import { authenticate2FA } from "@logic/twoFactorAuth";
 
 /**
  * API to authenticate the user when he tries to login
