@@ -2,22 +2,24 @@
   "name": "extension",
   "version": "1.0.0",
   "private": true,
-  "dependencies": {
+  "peerDependencies": {
     "@emotion/react": "11.4.0",
     "@emotion/styled": "11.3.0",
     "@material-ui/core": "5.0.0-alpha.35",
     "@material-ui/icons": "5.0.0-alpha.35",
     "@material-ui/lab": "5.0.0-alpha.35",
     "@material-ui/styles": "5.0.0-alpha.35",
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
+  },
+  "dependencies": {
     "browser-image-compression": "1.0.14",
     "core-js": "3.13.1",
     "dayjs": "1.10.5",
     "firebase": "8.6.3",
     "md5": "2.3.0",
     "qrcode": "1.4.4",
-    "react": "17.0.2",
     "react-beautiful-dnd": "13.1.0",
-    "react-dom": "17.0.2",
     "react-easy-crop": "3.5.0",
     "react-intersection-observer": "8.32.0",
     "react-redux": "7.2.4",
@@ -50,16 +52,13 @@
     "webpack": "5.38.1",
     "webpack-bundle-analyzer": "4.4.2",
     "webpack-cli": "4.7.0",
-    "webpack-dev-server": "3.11.2",
     "webpack-node-externals": "3.0.0",
-    "webpack-watch-external-files-plugin": "1.0.0",
-    "workbox-webpack-plugin": "6.1.5"
+    "webpack-watch-external-files-plugin": "1.0.0"
   },
   "scripts": {
     "analyzer": "cross-env ENABLE_BUNDLE_ANLYZER=true npm run release",
     "dev": "better-npm-run dev",
-    "release": "better-npm-run release",
-    "start": "better-npm-run start"
+    "release": "better-npm-run release"
   },
   "betterScripts": {
     "dev": {
@@ -73,13 +72,6 @@
       "command": "webpack --config webpack.firebase.config.js && webpack",
       "env": {
         "NODE_ENV": "production"
-      }
-    },
-    "start": {
-      "command": "webpack serve",
-      "env": {
-        "NODE_ENV": "development",
-        "DEV_SERVER": true
       }
     }
   }

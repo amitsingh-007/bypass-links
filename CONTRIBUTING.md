@@ -3,10 +3,10 @@
 - Fork this repository.
 - Run `npm install`.
 - For local development:
-  - Run `npm run ext:analyzer` to run bundle analyzer.
-  - Run `npm run ext:dev` to watch/build extenion related configs.
-  - Run `npm run ext:release` for production build.
-  - Run `npm run ext:start` to watch/build the files for download page only.
+  - Run `npm run ext:analyzer` to run bundle analyzer on extension.
+  - Run `npm run ext:dev` to watch extenion.
+  - Run `npm run ext:release` for production build of extension.
+  - Run `npm run web:dev` to watch web.
   - Press `F5` or launch `Netlify Debugging` to run the server.
 
 # Guidelines for development

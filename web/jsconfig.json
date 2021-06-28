@@ -6,7 +6,9 @@
     "paths": {
       "@constants/*": ["constants/*"],
       "@logic/*": ["logic/*"],
-      "@middlewares/*": ["middlewares/*"]
+      "@middlewares/*": ["middlewares/*"],
+      "@ui/*": ["ui/*"],
+      "@common/*": ["../common/src/*"]
     }
   },
   "exclude": ["node_modules", ".next"]

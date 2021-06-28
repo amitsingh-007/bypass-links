@@ -1,4 +1,4 @@
-export const fetchApi = (url, options = {}) => {
+const fetchApi = (url, options = {}) => {
   const { responseType = "json", ...init } = options;
   const fetchUrl = `${HOST_NAME}${url}`;
   return fetch(fetchUrl, init).then((response) => {
@@ -17,3 +17,5 @@ export const fetchApi = (url, options = {}) => {
     }
   });
 };
+
+export default fetchApi;

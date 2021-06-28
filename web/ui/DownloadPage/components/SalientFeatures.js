@@ -1,5 +1,5 @@
 import { Box, Typography } from "@material-ui/core";
-import circleLogo from "GlobalIcons/circle.svg";
+import CircleIcon from "@ui/icons/circle.svg";
 import { memo } from "react";
 import { firstColumn, secondColumn } from "../constants/features";
 
@@ -26,17 +26,15 @@ const Description = () => (
       and many more ...
     </Box>
     <Box sx={{ position: "relative", top: "18px", right: "110px" }}>
-      <Box component="img" src={circleLogo} alt="circle-logo" />
+      <CircleIcon />
     </Box>
   </Box>
 );
 
 const FeaturesColumn = ({ columnData }) =>
-  columnData.map((data) => (
-    <Box key={data.title}>
-      <Box sx={{ width: "35px", height: "35px" }}>
-        <Box component="img" src={data.icon} alt={data.altIconText} />
-      </Box>
+  columnData.map(({ title, content, icon: Icon }) => (
+    <Box key={title}>
+      <Icon height={35} width={35} />
       <Typography
         sx={{
           fontWeight: 700,
@@ -47,7 +45,7 @@ const FeaturesColumn = ({ columnData }) =>
           mb: "10px",
         }}
       >
-        {data.title}
+        {title}
       </Typography>
       <Typography
         sx={{
@@ -58,7 +56,7 @@ const FeaturesColumn = ({ columnData }) =>
           mb: "56px",
         }}
       >
-        {data.content}
+        {content}
       </Typography>
     </Box>
   ));
@@ -76,5 +74,6 @@ const SalientFeatures = memo(() => {
     </Box>
   );
 });
+SalientFeatures.displayName = "SalientFeatures";
 
 export default SalientFeatures;

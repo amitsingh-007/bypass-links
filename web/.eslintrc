@@ -9,12 +9,19 @@
   "env": {
     "es6": true,
     "node": true,
-    "commonjs": true
+    "commonjs": true,
+    "browser": true,
+    "webextensions": true,
+    "serviceworker": true
   },
   "parserOptions": {
     "ecmaVersion": 11
   },
   "globals": {
-    "__PROD__": false
+    "__SERVER__": false,
+    "__PROD__": false,
+    "__EXT_VERSION__": false,
+    "__RELEASE_DATE__": false,
+    "HOST_NAME": false
   }
 }

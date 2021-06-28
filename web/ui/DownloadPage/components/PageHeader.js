@@ -1,6 +1,6 @@
 import { Box, Typography } from "@material-ui/core";
-import chromeLogo from "GlobalIcons/chrome.svg";
-import { fetchApi } from "GlobalUtils/fetch";
+import ChromeIcon from "@ui/icons/chrome.svg";
+import fetchApi from "@common/utils/fetch";
 import { memo, useEffect, useState } from "react";
 
 const PageHeader = memo(() => {
@@ -13,7 +13,7 @@ const PageHeader = memo(() => {
 
   useEffect(() => {
     fetchDownloadLink();
-  });
+  }, []);
 
   return (
     <Box
@@ -54,18 +54,15 @@ const PageHeader = memo(() => {
             textDecoration: "unset",
           }}
         >
-          <Box
-            component="img"
-            src={chromeLogo}
-            alt="chrome-logo"
-            height={25}
-            sx={{ mr: "14px" }}
-          />
-          {" DOWNLOAD NOW"}
+          <ChromeIcon height={25} width={25} />
+          <Box component="span" sx={{ ml: "10px" }}>
+            DOWNLOAD NOW
+          </Box>
         </Box>
       </Box>
     </Box>
   );
 });
+PageHeader.displayName = "PageHeader";
 
 export default PageHeader;

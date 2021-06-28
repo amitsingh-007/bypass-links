@@ -7,7 +7,6 @@ const isProduction = ENV === "production";
 
 const PATHS = {
   ROOT: path.resolve(__dirname, ".."),
-  BUILD: path.resolve(__dirname, "build"),
   EXTENSION: path.resolve(__dirname, "extension-build"),
   FIREBASE_BUILD: path.resolve(__dirname, "firebase-build"),
   SRC: path.resolve(__dirname, "src"),
@@ -18,6 +17,7 @@ const commonConfig = {
   resolve: {
     extensions: [".js", ".scss"],
     alias: {
+      "@common": path.resolve(__dirname, "..", "common/src/"),
       ChromeApi: path.resolve(__dirname, "src/scripts/chrome/"),
       GlobalActionCreators: path.resolve(__dirname, "src/actionCreators/"),
       GlobalActionTypes: path.resolve(__dirname, "src/actionTypes/"),

@@ -1,4 +1,4 @@
-import { fetchApi } from "GlobalUtils/fetch";
+import fetchApi from "@common/utils/fetch";
 
 export const setup2FA = async (uid) => {
   const { secretKey, otpAuthUrl } = await fetchApi(

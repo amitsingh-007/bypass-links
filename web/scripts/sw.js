@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-globals */
 import { ExpirationPlugin } from "workbox-expiration";
 import { registerRoute } from "workbox-routing";
 import { NetworkFirst } from "workbox-strategies";
