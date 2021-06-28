@@ -1,5 +1,5 @@
 {
-  "packages": ["server/", "extension/"],
+  "packages": ["web/", "extension/"],
   "version": "0.0.0",
   "command": {
     "bootstrap": {

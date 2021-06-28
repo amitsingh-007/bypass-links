@@ -26,15 +26,15 @@
   },
   "scripts": {
     "bootstrap": "lerna bootstrap --hoist",
+    "dev:deploy": "cross-env HOST_NAME='https://bypass-links-dev.netlify.app' npm run ext:release && npm run web:deploy",
     "ext:analyzer": "lerna run --stream analyzer",
     "ext:dev": "cd extension && npm run dev",
     "ext:release": "lerna run --stream release",
     "ext:start": "lerna run --stream start",
-    "dev:deploy": "cross-env HOST_NAME='https://bypass-links-dev.netlify.app' npm run ext:release && npm run server:deploy",
     "pretty-quick": "pretty-quick",
-    "server:deploy": "netlify deploy --prod",
-    "server:serve": "kill-port 8888 && netlify dev --inspect",
-    "vercel": "vercel server"
+    "vercel": "vercel web",
+    "web:dev": "cd web && npm run dev",
+    "web:deploy": "netlify deploy --prod"
   },
   "husky": {
     "hooks": {
