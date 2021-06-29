@@ -56,9 +56,9 @@
     "webpack-watch-external-files-plugin": "1.0.0"
   },
   "scripts": {
-    "analyzer": "cross-env ENABLE_BUNDLE_ANLYZER=true npm run release",
+    "analyzer": "cross-env ENABLE_BUNDLE_ANLYZER=true npm run build",
     "dev": "better-npm-run dev",
-    "release": "better-npm-run release"
+    "build": "better-npm-run build"
   },
   "betterScripts": {
     "dev": {
@@ -68,7 +68,7 @@
         "HOST_NAME": "http://localhost:8888"
       }
     },
-    "release": {
+    "build": {
       "command": "webpack --config webpack.firebase.config.js && webpack",
       "env": {
         "NODE_ENV": "production"

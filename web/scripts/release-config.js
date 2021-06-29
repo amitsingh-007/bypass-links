@@ -1,5 +1,3 @@
-const manifest = require("../../extension/assets/manifest.json");
-
 const DATE_OPTIONS = {
   year: "numeric",
   month: "long",
@@ -21,5 +19,4 @@ const getCurFormattedDateTime = () => {
 
 module.exports = {
   releaseDate: getCurFormattedDateTime(),
-  extVersion: manifest.version,
 };

@@ -1,6 +1,7 @@
 const path = require("path");
-const { releaseDate, extVersion } = require("./scripts/release-config");
 const withPWA = require("next-pwa");
+const { releaseDate } = require("./scripts/release-config");
+const { extVersion } = require("../common/src/scripts/extension-version");
 
 // next-pwa options
 const pwaConfig = {

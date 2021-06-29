@@ -4,9 +4,10 @@ const FileManagerPlugin = require("filemanager-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { DefinePlugin, DllReferencePlugin } = require("webpack");
 const { commonConfig, PATHS } = require("./webpack.common.config");
-const firebasedDllConfig = require("./webpack.firebase.config");
+const firebaseDllConfig = require("./webpack.firebase.config");
 const WatchExternalFilesPlugin = require("webpack-watch-external-files-plugin");
 const ESLintPlugin = require("eslint-webpack-plugin");
+const { extVersion } = require("../common/src/scripts/extension-version");
 
 const ENV = process.env.NODE_ENV;
 const isProduction = ENV === "production";
@@ -34,6 +35,37 @@ const definePlugin = new DefinePlugin({
   HOST_NAME: JSON.stringify(hostName),
 });
 
+const getPopupFileManagerPlugin = () => {
+  const config = {
+    events: {
+      onStart: {
+        copy: [
+          {
+            source: "./assets/!(index.html|manifest.json)",
+            destination: `${PATHS.EXTENSION}/assets/`,
+          },
+          {
+            source: "./assets/(index.html|manifest.json)",
+            destination: PATHS.EXTENSION,
+          },
+        ],
+      },
+    },
+  };
+  if (isProduction) {
+    config.events.onEnd = {
+      delete: ["./extension/js/*.txt"],
+      archive: [
+        {
+          source: PATHS.EXTENSION,
+          destination: `${PATHS.EXTENSION}/${`bypass-links-${extVersion}.zip`}`,
+        },
+      ],
+    };
+  }
+  return new FileManagerPlugin(config);
+};
+
 const getPopupConfigPlugins = () => {
   const plugins = [
     new HtmlWebpackPlugin({
@@ -45,22 +77,7 @@ const getPopupConfigPlugins = () => {
       filename: "css/[name].[contenthash].css",
       chunkFilename: "css/[id].[contenthash].css",
     }),
-    new FileManagerPlugin({
-      events: {
-        onStart: {
-          copy: [
-            {
-              source: "./assets/!(index.html|manifest.json)",
-              destination: `${PATHS.EXTENSION}/assets/`,
-            },
-            {
-              source: "./assets/(index.html|manifest.json)",
-              destination: PATHS.EXTENSION,
-            },
-          ],
-        },
-      },
-    }),
+    getPopupFileManagerPlugin(),
     dllReferencePlugin,
     definePlugin,
     esLintPLugin,
@@ -148,4 +165,4 @@ const popupConfig = {
   plugins: getPopupConfigPlugins(),
 };
 
-module.exports = [firebasedDllConfig, backgroundConfig, popupConfig];
+module.exports = [firebaseDllConfig, backgroundConfig, popupConfig];

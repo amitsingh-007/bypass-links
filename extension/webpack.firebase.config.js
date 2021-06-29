@@ -6,7 +6,7 @@ const ENV = process.env.NODE_ENV;
 const isProduction = ENV === "production";
 const hostName = process.env.HOST_NAME || "https://bypass-links.netlify.app";
 
-const firebasedDllConfig = {
+const firebaseDllConfig = {
   ...commonConfig,
   name: "Firebase",
   target: "browserslist",
@@ -39,4 +39,4 @@ const firebasedDllConfig = {
  * This will generate a common chunk for background and content scripts
  * This will be referenced using DllReferencePlugin
  */
-module.exports = firebasedDllConfig;
+module.exports = firebaseDllConfig;

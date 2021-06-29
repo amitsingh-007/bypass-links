@@ -36,10 +36,10 @@
   },
   "scripts": {
     "bootstrap": "lerna bootstrap --hoist",
-    "dev:deploy": "cross-env HOST_NAME='https://bypass-links-dev.netlify.app' npm run ext:release && npm run web:deploy",
+    "dev:deploy": "cross-env HOST_NAME='https://bypass-links-dev.netlify.app' npm run ext:build && npm run web:deploy",
     "ext:analyzer": "lerna run --stream analyzer",
     "ext:dev": "cd extension && npm run dev",
-    "ext:release": "lerna run --stream release",
+    "ext:build": "lerna run --scope=extension --stream build",
     "pretty-quick": "pretty-quick",
     "vercel": "vercel web",
     "web:dev": "cd web && npm run dev",

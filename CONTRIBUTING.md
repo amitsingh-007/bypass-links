@@ -5,7 +5,7 @@
 - For local development:
   - Run `npm run ext:analyzer` to run bundle analyzer on extension.
   - Run `npm run ext:dev` to watch extenion.
-  - Run `npm run ext:release` for production build of extension.
+  - Run `npm run ext:build` for production build of extension.
   - Run `npm run web:dev` to watch web.
   - Press `F5` or launch `Netlify Debugging` to run the server.
 
