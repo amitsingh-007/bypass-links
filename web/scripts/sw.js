@@ -12,9 +12,9 @@ self.skipWaiting();
 // eslint-disable-next-line no-unused-vars
 const manifest = self.__WB_MANIFEST;
 
-//Cache the root documn itself
+//Cache all GET request excluding apis
 registerRoute(
-  /\/$/,
+  /^((?!api).)*\/$/,
   new NetworkFirst({
     cacheName: "document-cache",
     plugins: [
@@ -40,7 +40,7 @@ registerRoute(
 
 //Cache extension zip file
 registerRoute(
-  /.*(bypass-links-.*).*\.zip$/,
+  /bypass-links-.*\.zip/,
   new NetworkFirst({
     cacheName: "extension-file-cache",
     plugins: [

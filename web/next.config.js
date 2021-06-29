@@ -2,17 +2,21 @@ const path = require("path");
 const { releaseDate, extVersion } = require("./scripts/release-config");
 const withPWA = require("next-pwa");
 
-const nextConfig = {
-  // next-pwa options
+// next-pwa options
+const pwaConfig = {
   pwa: {
-    dest: "public",
     swSrc: "./scripts/sw.js",
+    dest: "public",
   },
-  // nextJS options
   reactStrictMode: true,
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
   },
+};
+
+const nextConfig = {
+  ...pwaConfig,
+  // nextJS options
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     config.module.rules.push({
       test: /\.svg$/,
