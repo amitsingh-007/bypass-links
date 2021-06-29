@@ -17,7 +17,7 @@ jobs:
         with:
           node-version: "14.x"
 
-      - name: Cache 💾
+      - name: NPM Cache 💾
         uses: actions/cache@v2.1.6
         with:
           path: |
@@ -26,6 +26,12 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
+
+      - name: NextJS Cache 💾
+        uses: actions/cache@v2
+        with:
+          path: ${{ github.workspace }}/web/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install dependencies 🧼
         run: npm install && npm run bootstrap
