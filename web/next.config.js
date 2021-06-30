@@ -17,6 +17,9 @@ const pwaConfig = {
 
 const nextConfig = {
   ...pwaConfig,
+  experimental: {
+    externalDir: true,
+  },
   // nextJS options
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     config.module.rules.push({

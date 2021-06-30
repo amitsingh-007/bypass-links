@@ -37,11 +37,12 @@
   "scripts": {
     "bootstrap": "lerna bootstrap --hoist",
     "dev:deploy": "cross-env HOST_NAME='https://bypass-links-dev.netlify.app' npm run ext:build && npm run web:deploy",
+    "ext:build": "lerna run build --scope=extension --stream",
     "ext:dev": "cd extension && npm run dev",
-    "ext:build": "lerna run --scope=extension --stream build",
     "pretty-quick": "pretty-quick",
+    "build": "cd web && npm run build",
     "vercel": "vercel web",
-    "web:build": "lerna run --scope=web --stream build",
+    "web:build": "lerna run build --scope=web --stream",
     "web:dev": "cd web && npm run dev"
   },
   "husky": {
