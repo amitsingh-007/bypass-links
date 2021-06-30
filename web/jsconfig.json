@@ -7,8 +7,7 @@
       "@constants/*": ["constants/*"],
       "@logic/*": ["logic/*"],
       "@middlewares/*": ["middlewares/*"],
-      "@ui/*": ["ui/*"],
-      "@common/*": ["../common/src/*"]
+      "@ui/*": ["ui/*"]
     }
   },
   "exclude": ["node_modules", ".next"]

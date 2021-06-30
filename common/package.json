@@ -1,0 +1,13 @@
+{
+  "name": "@bypass-links/common",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Common code for web and extension",
+  "homepage": "",
+  "directories": {
+    "src": "src"
+  },
+  "files": [
+    "src"
+  ]
+}
