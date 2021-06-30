@@ -31,8 +31,7 @@
     "lerna": "4.0.0",
     "netlify-cli": "3.37.16",
     "prettier": "2.3.0",
-    "pretty-quick": "3.1.0",
-    "vercel": "23.0.1"
+    "pretty-quick": "3.1.0"
   },
   "scripts": {
     "bootstrap": "lerna bootstrap --hoist",
@@ -40,7 +39,7 @@
     "ext:build": "lerna run build --scope=extension --stream",
     "ext:dev": "cd extension && npm run dev",
     "pretty-quick": "pretty-quick",
-    "build": "cd web && npm run build",
+    "build": "lerna run build --parallel --stream",
     "vercel": "vercel web",
     "web:build": "lerna run build --scope=web --stream",
     "web:dev": "cd web && npm run dev"
