@@ -1,7 +1,7 @@
 const path = require("path");
 const withPWA = require("next-pwa");
 const { releaseDate } = require("./scripts/release-config");
-const { extVersion } = require("../common/src/scripts/extension-version");
+// const { extVersion } = require("../common/src/scripts/extension-version");
 
 // next-pwa options
 const pwaConfig = {
@@ -29,7 +29,7 @@ const nextConfig = {
     config.plugins.push(
       new webpack.DefinePlugin({
         __PROD__: JSON.stringify(!dev),
-        __EXT_VERSION__: JSON.stringify(extVersion),
+        __EXT_VERSION__: JSON.stringify("11.8.4"),
         __RELEASE_DATE__: JSON.stringify(releaseDate),
         HOST_NAME: JSON.stringify(
           dev ? "http://localhost:3000" : "https://bypass-links.vercel.app"
