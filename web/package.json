@@ -6,8 +6,7 @@
     "dev": "vercel env pull .env.local && next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "deploy": "vercel"
+    "lint": "next lint"
   },
   "dependencies": {
     "@bypass-links/common": "*",

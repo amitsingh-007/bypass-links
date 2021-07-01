@@ -37,6 +37,8 @@ const nextConfig = {
         __SERVER__: JSON.stringify(isServer),
       })
     );
+    // https://github.com/firebase/firebase-admin-node/issues/84
+    config.externals.push("firebase-admin");
     return config;
   },
 };

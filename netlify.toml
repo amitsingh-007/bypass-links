@@ -1,13 +1,7 @@
-[dev]
-  port = 8888
-  autoLaunch = false
-
 [build]
-  publish = "extension/build"
-  functions = "web/routes/"
-  targetPort = 5000
-  environment = { NODE_VERSION = "14" }
+  base = "web/"
+  command = "npm run build"
+  publish = "web/out"
 
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
+[[plugins]]
+  package = "@netlify/plugin-nextjs"

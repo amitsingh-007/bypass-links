@@ -4,7 +4,7 @@ const { commonConfig, PATHS } = require("./webpack.common.config");
 
 const ENV = process.env.NODE_ENV;
 const isProduction = ENV === "production";
-const hostName = process.env.HOST_NAME || "https://bypass-links.netlify.app";
+const hostName = process.env.HOST_NAME;
 
 const firebaseDllConfig = {
   ...commonConfig,

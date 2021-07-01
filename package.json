@@ -14,6 +14,7 @@
     "react-dom": "17.0.2"
   },
   "devDependencies": {
+    "@netlify/plugin-nextjs": "3.6.1",
     "@typescript-eslint/eslint-plugin": "4.26.0",
     "@typescript-eslint/parser": "4.26.0",
     "babel-eslint": "10.1.0",
@@ -35,13 +36,14 @@
   },
   "scripts": {
     "bootstrap": "lerna bootstrap --hoist",
-    "dev:deploy": "cross-env HOST_NAME='https://bypass-links-dev.netlify.app' npm run ext:build && npm run web:deploy",
     "ext:build": "lerna run build --scope=extension --stream",
     "ext:dev": "cd extension && npm run dev",
     "pretty-quick": "pretty-quick",
     "build": "lerna run build --parallel --stream",
-    "vercel": "vercel",
-    "web:build": "lerna run build --scope=web --stream",
+    "vercel:deploy": "vercel --prod",
+    "vercel:dev-deploy": "vercel",
+    "netlify:dev-deploy": "netlify deploy --build",
+    "web:build": "cd web && npm run build",
     "web:dev": "cd web && npm run dev"
   },
   "husky": {

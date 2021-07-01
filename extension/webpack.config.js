@@ -12,7 +12,7 @@ const { extVersion } = require("../common/src/scripts/extension-version");
 const ENV = process.env.NODE_ENV;
 const isProduction = ENV === "production";
 const enableBundleAnalyzer = process.env.ENABLE_BUNDLE_ANLYZER === "true";
-const hostName = process.env.HOST_NAME || "https://bypass-links.netlify.app";
+const hostName = process.env.HOST_NAME;
 
 const esLintPLugin = new ESLintPlugin({});
 
