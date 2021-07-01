@@ -4,6 +4,8 @@ on:
     branches-ignore:
       - "main"
       - "dependabot/*"
+    paths-ignore:
+      - "web/**"
 
 jobs:
   Build:
