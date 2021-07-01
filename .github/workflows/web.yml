@@ -33,8 +33,10 @@ jobs:
           path: ${{ github.workspace }}/web/.next/cache
           key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}
 
-      - name: Install dependencies 🧼
-        run: npm install && npm run bootstrap
-
-      - name: Building 🛠
-        run: npm run web:build
+      - name: Deploy (Vercel) 🔺
+        uses: amondnet/vercel-action@v20
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
