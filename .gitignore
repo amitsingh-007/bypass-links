@@ -1,6 +1,5 @@
 # netlify
-.netlify/
-out/
+.netlify
 
 **/node_modules
 
