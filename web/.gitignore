@@ -3,9 +3,5 @@
 out/
 .env.local
 
-#next-pwa
+# next-pwa
 public/sw.js
-
-# vercel
-.vercel
-

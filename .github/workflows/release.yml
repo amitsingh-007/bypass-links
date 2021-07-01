@@ -1,4 +1,4 @@
-name: CI
+name: Release
 on:
   push:
     branches:
@@ -153,7 +153,7 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
           # vercel-args: "--prod"
-          working-directory: ./web
+          # working-directory: ./web
 
       # - name: Deploy (Netlify) 💠
       #   uses: netlify/actions/cli@master

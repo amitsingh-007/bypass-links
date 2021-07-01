@@ -40,7 +40,7 @@
     "ext:dev": "cd extension && npm run dev",
     "pretty-quick": "pretty-quick",
     "build": "lerna run build --parallel --stream",
-    "vercel": "vercel web",
+    "vercel": "vercel",
     "web:build": "lerna run build --scope=web --stream",
     "web:dev": "cd web && npm run dev"
   },
