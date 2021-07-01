@@ -6,7 +6,7 @@ on:
       - "dependabot/*"
 
 jobs:
-  Extension-Build:
+  Build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo 🛎️
@@ -17,15 +17,15 @@ jobs:
         with:
           node-version: "14.x"
 
-      - name: Cache 💾
-        uses: actions/cache@v2.1.6
-        with:
-          path: |
-            ~/.npm
-            **/node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+      # - name: Cache 💾
+      #   uses: actions/cache@v2.1.6
+      #   with:
+      #     path: |
+      #       ~/.npm
+      #       **/node_modules
+      #     key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-node-
 
       - name: Install dependencies 🧼
         run: npm install && npm run bootstrap
@@ -36,5 +36,5 @@ jobs:
       - name: Upload extension 🌐
         uses: actions/upload-artifact@v2
         with:
-          name: extension
+          name: extension-file
           path: ./extension/extension-build/bypass-links-*.zip
