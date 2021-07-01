@@ -27,16 +27,29 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: NextJS Cache 💾
-        uses: actions/cache@v2
+      - name: Start preview deployment 🚀
+        uses: bobheadxi/deployments@v0.6.0
+        id: preview-deployment
         with:
-          path: ${{ github.workspace }}/web/.next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}
+          step: start
+          token: ${{ secrets.GITHUB_TOKEN }}
+          env: Preview
 
       - name: Deploy (Vercel) 🔺
         uses: amondnet/vercel-action@v20
+        id: vercel-action
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
+
+      - name: Finish preview deployment 🌙
+        uses: bobheadxi/deployments@v0.6.0
+        if: always()
+        with:
+          step: finish
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ job.status }}
+          deployment_id: ${{ steps.preview-deployment.outputs.deployment_id }}
+          env_url: ${{ steps.vercel-action.outputs.preview-url }}
