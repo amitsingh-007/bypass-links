@@ -1,3 +1,9 @@
+[dev]
+  command = "npm run web:dev"
+  port = 8888
+  targetPort = 3000
+  framework = "#custom"
+
 [build]
   base = "web/"
   command = "npm run build"

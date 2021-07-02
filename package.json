@@ -3,6 +3,20 @@
   "version": "1.0.0",
   "description": "This is an easy-to-use Open-Source `Browser Extension` which bypasses links on various websites and lets you use the direct url for your resource. This will help you to bypass recaptchas, unnecessary timers, countdowns, ads, popups, surveys, avoid unnecessary third party installs.",
   "private": true,
+  "scripts": {
+    "bootstrap": "lerna bootstrap --hoist",
+    "build": "lerna run build --parallel --stream",
+    "ext:build": "lerna run build --scope=extension --stream",
+    "ext:dev": "cd extension && npm run dev",
+    "netlify:dev": "netlify dev",
+    "netlify:deploy": "netlify deploy --prod",
+    "netlify:dev-deploy": "netlify deploy",
+    "pretty-quick": "pretty-quick",
+    "vercel:deploy": "vercel --prod",
+    "vercel:dev-deploy": "vercel",
+    "web:build": "lerna run build --scope=web --stream",
+    "web:dev": "cd web && npm run dev"
+  },
   "dependencies": {
     "@emotion/react": "11.4.0",
     "@emotion/styled": "11.3.0",
@@ -33,18 +47,6 @@
     "netlify-cli": "3.37.16",
     "prettier": "2.3.0",
     "pretty-quick": "3.1.0"
-  },
-  "scripts": {
-    "bootstrap": "lerna bootstrap --hoist",
-    "ext:build": "lerna run build --scope=extension --stream",
-    "ext:dev": "cd extension && npm run dev",
-    "pretty-quick": "pretty-quick",
-    "build": "lerna run build --parallel --stream",
-    "vercel:deploy": "vercel --prod",
-    "vercel:dev-deploy": "vercel",
-    "netlify:dev-deploy": "netlify deploy --build",
-    "web:build": "cd web && npm run build",
-    "web:dev": "cd web && npm run dev"
   },
   "husky": {
     "hooks": {

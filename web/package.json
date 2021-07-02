@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "vercel env pull .env.local && next dev",
+    "pre:dev": "cd .. && vercel env pull web/.env.local",
+    "dev": "npm run pre:dev && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"

@@ -10,5 +10,5 @@
       "@ui/*": ["ui/*"]
     }
   },
-  "exclude": ["node_modules", ".next"]
+  "exclude": ["node_modules", ".next", "netlify", "out"]
 }

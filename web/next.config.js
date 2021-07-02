@@ -17,9 +17,6 @@ const pwaConfig = {
 
 const nextConfig = {
   ...pwaConfig,
-  experimental: {
-    externalDir: true,
-  },
   // nextJS options
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     config.module.rules.push({
@@ -41,6 +38,9 @@ const nextConfig = {
     config.externals.push("firebase-admin");
     return config;
   },
+  reactStrictMode: true,
+  // https://docs.netlify.com/configure-builds/common-configurations/next-js/#edit-next-config-js
+  target: "serverless",
 };
 
 module.exports = withPWA(nextConfig);

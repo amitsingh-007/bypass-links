@@ -9,3 +9,5 @@ netlify/
 
 # next-pwa
 public/sw.js
+
+.vercel
