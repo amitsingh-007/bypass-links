@@ -4,6 +4,7 @@
     "allowSyntheticDefaultImports": false,
     "baseUrl": "./",
     "paths": {
+      "@common/*": ["../common/src/*"],
       "@constants/*": ["constants/*"],
       "@logic/*": ["logic/*"],
       "@middlewares/*": ["middlewares/*"],

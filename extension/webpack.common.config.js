@@ -17,6 +17,7 @@ const commonConfig = {
   resolve: {
     extensions: [".js", ".scss"],
     alias: {
+      "@common": path.resolve(__dirname, "..", "common/src/"),
       ChromeApi: path.resolve(__dirname, "src/scripts/chrome/"),
       GlobalActionCreators: path.resolve(__dirname, "src/actionCreators/"),
       GlobalActionTypes: path.resolve(__dirname, "src/actionTypes/"),
