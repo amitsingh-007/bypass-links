@@ -3,7 +3,32 @@
   "version": "1.0.0",
   "description": "This is an easy-to-use Open-Source `Browser Extension` which bypasses links on various websites and lets you use the direct url for your resource. This will help you to bypass recaptchas, unnecessary timers, countdowns, ads, popups, surveys, avoid unnecessary third party installs.",
   "private": true,
+  "scripts": {
+    "bootstrap": "lerna bootstrap --hoist",
+    "build": "lerna run build --parallel --stream",
+    "ext:build": "lerna run build --scope=extension --stream",
+    "ext:dev": "cd extension && npm run dev",
+    "netlify:dev": "netlify dev",
+    "netlify:deploy": "netlify deploy --prod",
+    "netlify:preview": "netlify deploy",
+    "pretty-quick": "pretty-quick",
+    "vercel:deploy": "vercel --prod",
+    "vercel:preview": "vercel",
+    "web:build": "lerna run build --scope=web --stream",
+    "web:dev": "cd web && npm run dev"
+  },
+  "dependencies": {
+    "@emotion/react": "11.4.0",
+    "@emotion/styled": "11.3.0",
+    "@material-ui/core": "5.0.0-alpha.35",
+    "@material-ui/icons": "5.0.0-alpha.35",
+    "@material-ui/lab": "5.0.0-alpha.35",
+    "@material-ui/styles": "5.0.0-alpha.35",
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
+  },
   "devDependencies": {
+    "@netlify/plugin-nextjs": "3.6.1",
     "@typescript-eslint/eslint-plugin": "4.26.0",
     "@typescript-eslint/parser": "4.26.0",
     "babel-eslint": "10.1.0",
@@ -22,17 +47,6 @@
     "netlify-cli": "3.37.16",
     "prettier": "2.3.0",
     "pretty-quick": "3.1.0"
-  },
-  "scripts": {
-    "bootstrap": "lerna bootstrap --hoist",
-    "client:analyzer": "lerna run --stream analyzer",
-    "client:dev": "cd ./client && npm run dev",
-    "client:release": "lerna run --stream release",
-    "client:start": "lerna run --stream start",
-    "dev:deploy": "cross-env HOST_NAME='https://bypass-links-dev.netlify.app' npm run client:release && npm run server:deploy",
-    "pretty-quick": "pretty-quick",
-    "server:deploy": "netlify deploy --prod",
-    "server:serve": "kill-port 8888 && netlify dev --inspect"
   },
   "husky": {
     "hooks": {

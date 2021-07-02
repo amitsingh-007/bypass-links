@@ -1,0 +1,57 @@
+name: Web CI
+on:
+  push:
+    branches-ignore:
+      - "main"
+      - "dependabot/*"
+    paths-ignore:
+      - "extension/**"
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo 🛎️
+        uses: actions/checkout@v2
+
+      - name: Setting up Node.js 🔧
+        uses: actions/setup-node@v2.1.5
+        with:
+          node-version: "14.x"
+
+      - name: NPM Cache 💾
+        uses: actions/cache@v2.1.6
+        with:
+          path: |
+            ~/.npm
+            **/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Start preview deployment 🚀
+        uses: bobheadxi/deployments@v0.6.0
+        id: preview-deployment
+        with:
+          step: start
+          token: ${{ secrets.GITHUB_TOKEN }}
+          env: Preview
+
+      - name: Deploy (Vercel) 🔺
+        uses: amondnet/vercel-action@v20
+        id: vercel-action
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
+
+      - name: Finish preview deployment 🌙
+        uses: bobheadxi/deployments@v0.6.0
+        if: always()
+        with:
+          step: finish
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ job.status }}
+          deployment_id: ${{ steps.preview-deployment.outputs.deployment_id }}
+          env_url: ${{ steps.vercel-action.outputs.preview-url }}

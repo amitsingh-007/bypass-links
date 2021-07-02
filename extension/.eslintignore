@@ -1,0 +1,4 @@
+node_modules/
+build/
+extension-build/
+firebase-build/

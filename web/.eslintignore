@@ -1,0 +1,7 @@
+node_modules/
+.next/
+.vercel/
+next.config.js
+.netlify/
+netlify/
+out/

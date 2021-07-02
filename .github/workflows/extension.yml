@@ -1,0 +1,42 @@
+name: Extension CI
+on:
+  push:
+    branches-ignore:
+      - "main"
+      - "dependabot/*"
+    paths-ignore:
+      - "web/**"
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo 🛎️
+        uses: actions/checkout@v2
+
+      - name: Setting up Node.js 🔧
+        uses: actions/setup-node@v2.1.5
+        with:
+          node-version: "14.x"
+
+      - name: Cache 💾
+        uses: actions/cache@v2.1.6
+        with:
+          path: |
+            ~/.npm
+            **/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies 🧼
+        run: npm install && npm run bootstrap
+
+      - name: Building 🛠
+        run: npm run ext:build
+
+      - name: Upload extension 🌐
+        uses: actions/upload-artifact@v2
+        with:
+          name: extension-file
+          path: ./extension/extension-build/bypass-links-*.zip

@@ -5,10 +5,10 @@
       "name": "Netlify Debugging",
       "type": "pwa-node",
       "request": "launch",
-      "runtimeArgs": ["run-script", "server:serve"],
+      "runtimeArgs": ["run-script", "netlify:dev"],
       "runtimeExecutable": "npm",
       "skipFiles": ["<node_internals>/**", "**/node_modules/**/*.js"],
-      "outFiles": ["${workspaceFolder}/server/**/*.js"],
+      "outFiles": ["${workspaceFolder}/web/**/*.js"],
       "resolveSourceMapLocations": [
         "${workspaceFolder}/**",
         "!**/node_modules/**"

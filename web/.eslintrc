@@ -1,0 +1,27 @@
+{
+  "root": true,
+  "extends": [
+    "eslint:recommended",
+    "plugin:prettier/recommended",
+    "next",
+    "next/core-web-vitals"
+  ],
+  "env": {
+    "es6": true,
+    "node": true,
+    "commonjs": true,
+    "browser": true,
+    "webextensions": true,
+    "serviceworker": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 11
+  },
+  "globals": {
+    "__SERVER__": false,
+    "__PROD__": false,
+    "__EXT_VERSION__": false,
+    "__RELEASE_DATE__": false,
+    "HOST_NAME": false
+  }
+}

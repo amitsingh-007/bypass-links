@@ -8,4 +8,4 @@ jobs:
     steps:
       - name: Invoking Cron Job API 🛐
         run: |
-          curl 'https://bypass-links.netlify.app/api/backup?access_token=${{ secrets.FIREBASE_BACKUP_CRON_JOB_API_KEY }}'
+          curl 'https://bypass-links.vercel.app/api/backup?access_token=${{ secrets.FIREBASE_BACKUP_CRON_JOB_API_KEY }}'

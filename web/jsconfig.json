@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "allowSyntheticDefaultImports": false,
+    "baseUrl": "./",
+    "paths": {
+      "@constants/*": ["constants/*"],
+      "@logic/*": ["logic/*"],
+      "@middlewares/*": ["middlewares/*"],
+      "@ui/*": ["ui/*"]
+    }
+  },
+  "exclude": ["node_modules", ".next", "netlify", "out"]
+}

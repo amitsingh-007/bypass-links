@@ -1,7 +1,9 @@
-**/node_modules
-**/build
-**/firebase-build
-**/extension
+# netlify
+.netlify
 
-#netlify
-server/.env
+**/node_modules
+
+# vercel
+.vercel/
+
+.vercel
