@@ -158,4 +158,4 @@ jobs:
         with:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
-          args: Release succesful. Check the latest version on https://bypass-links.netlify.app/. 🎉🥳
+          args: Release succesful. Check the latest version on https://bypass-links.vercel.app/. 🎉🥳

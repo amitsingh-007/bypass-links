@@ -10,10 +10,10 @@
     "ext:dev": "cd extension && npm run dev",
     "netlify:dev": "netlify dev",
     "netlify:deploy": "netlify deploy --prod",
-    "netlify:dev-deploy": "netlify deploy",
+    "netlify:preview": "netlify deploy",
     "pretty-quick": "pretty-quick",
     "vercel:deploy": "vercel --prod",
-    "vercel:dev-deploy": "vercel",
+    "vercel:preview": "vercel",
     "web:build": "lerna run build --scope=web --stream",
     "web:dev": "cd web && npm run dev"
   },

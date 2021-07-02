@@ -5,7 +5,7 @@
       "name": "Netlify Debugging",
       "type": "pwa-node",
       "request": "launch",
-      "runtimeArgs": ["run-script", "web:serve"],
+      "runtimeArgs": ["run-script", "netlify:dev"],
       "runtimeExecutable": "npm",
       "skipFiles": ["<node_internals>/**", "**/node_modules/**/*.js"],
       "outFiles": ["${workspaceFolder}/web/**/*.js"],
