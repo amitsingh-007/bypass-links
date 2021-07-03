@@ -59,17 +59,17 @@
     "build": "better-npm-run build"
   },
   "betterScripts": {
-    "dev": {
-      "command": "webpack --config webpack.firebase.config.js && webpack --watch --progress",
-      "env": {
-        "NODE_ENV": "development",
-        "HOST_NAME": "http://localhost:8888"
-      }
-    },
     "build": {
       "command": "webpack --config webpack.firebase.config.js && webpack",
       "env": {
         "NODE_ENV": "production"
+      }
+    },
+    "dev": {
+      "command": "webpack --config webpack.firebase.config.js && webpack --watch --progress",
+      "env": {
+        "NODE_ENV": "development",
+        "HOST_NAME": "http://localhost:3000"
       }
     }
   }
