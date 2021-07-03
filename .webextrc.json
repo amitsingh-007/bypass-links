@@ -7,6 +7,6 @@
     "name": "Extension CI",
     "artifact": "extension-file"
   },
-  "branchesIgnore": ["dependabot/*"],
-  "commentThreshold": 1024
+  "branchesIgnore": ["dependabot/**"],
+  "commentThreshold": 512
 }
