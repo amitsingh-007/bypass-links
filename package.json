@@ -17,16 +17,6 @@
     "web:build": "lerna run build --scope=web --stream",
     "web:dev": "cd web && npm run dev"
   },
-  "dependencies": {
-    "@emotion/react": "11.4.0",
-    "@emotion/styled": "11.3.0",
-    "@material-ui/core": "5.0.0-alpha.35",
-    "@material-ui/icons": "5.0.0-alpha.35",
-    "@material-ui/lab": "5.0.0-alpha.35",
-    "@material-ui/styles": "5.0.0-alpha.35",
-    "react": "17.0.2",
-    "react-dom": "17.0.2"
-  },
   "devDependencies": {
     "@netlify/plugin-nextjs": "3.6.1",
     "@typescript-eslint/eslint-plugin": "4.28.1",
@@ -44,7 +34,7 @@
     "eslint-plugin-react-hooks": "4.2.0",
     "kill-port": "1.6.1",
     "lerna": "4.0.0",
-    "netlify-cli": "3.37.16",
+    "netlify-cli": "4.0.5",
     "prettier": "2.3.2",
     "pretty-quick": "3.1.1"
   },
