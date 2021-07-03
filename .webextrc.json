@@ -1,0 +1,12 @@
+{
+  "manifest": {
+    "name": "manifest.json",
+    "dir": "./extension/assets/"
+  },
+  "workflow": {
+    "name": "Extension CI",
+    "artifact": "extension-file"
+  },
+  "branchesIgnore": ["dependabot/**"],
+  "commentThreshold": 512
+}
