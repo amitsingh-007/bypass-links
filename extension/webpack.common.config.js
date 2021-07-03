@@ -54,11 +54,8 @@ const commonConfig = {
         },
       },
       {
-        test: /\.(svg)$/i,
-        loader: "file-loader",
-        options: {
-          name: "icons/[name]-[contenthash].[ext]",
-        },
+        test: /\.svg$/,
+        use: ["@svgr/webpack"],
       },
       {
         test: /\.scss$/,
