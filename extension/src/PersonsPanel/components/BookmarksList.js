@@ -155,7 +155,7 @@ const BookmarksList = memo(({ name, imageUrl, taggedUrls }) => {
                   fontSize: "9px",
                   minWidth: "unset",
                   padding: "2px 5px",
-                  borderRadius: "50px",
+                  borderRadius: "51px",
                 }}
               >
                 {bookmark.parentName}
