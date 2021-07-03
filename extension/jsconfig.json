@@ -12,6 +12,7 @@
     "strict": true,
     // Refer: https://github.com/microsoft/TypeScript/issues/26859#issuecomment-695806452
     "paths": {
+      "@common": ["../common/src"],
       "@common/*": ["../common/src/*"],
       "ChromeApi/*": ["./src/scripts/chrome/*"],
       "GlobalActionCreators": ["./src/actionCreators"],
