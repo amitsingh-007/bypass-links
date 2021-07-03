@@ -1,5 +1,6 @@
 import { AppBar, Box, Toolbar } from "@material-ui/core";
 import { memo } from "react";
+import Image from "next/image";
 
 const AppHeader = memo(() => (
   <AppBar
@@ -22,18 +23,22 @@ const AppHeader = memo(() => (
       >
         <Box className="iconAnimate">
           <Box
-            component="img"
-            src="/bypass_link_192.png"
-            alt="app-icon"
             sx={{
-              height: "75px",
-              width: "75px",
               transform: "translate(-50%, -50%)",
               backgroundColor: "#202225",
               borderRadius: "50%",
               padding: "3px",
+              "> div": { verticalAlign: "middle" },
             }}
-          />
+          >
+            <Image
+              src="/bypass_link_192.png"
+              alt="app-icon"
+              height={75}
+              width={75}
+              priority
+            />
+          </Box>
         </Box>
       </Box>
     </Toolbar>

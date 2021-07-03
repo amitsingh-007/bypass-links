@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
     "target": "es2017",
+    "lib": ["es6", "dom"],
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
     "allowSyntheticDefaultImports": false,
     "baseUrl": "./",
     "paths": {

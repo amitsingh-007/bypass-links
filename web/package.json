@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "pre:dev": "cd .. && vercel env pull web/.env.local",
-    "dev": "npm run pre:dev && cross-env NODE_OPTIONS='--inspect' next dev",
+    "dev": "npm run pre:dev && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
