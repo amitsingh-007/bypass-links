@@ -62,7 +62,8 @@
     "build": {
       "command": "webpack --config webpack.firebase.config.js && webpack",
       "env": {
-        "NODE_ENV": "production"
+        "NODE_ENV": "production",
+        "HOST_NAME": "https://bypass-links.vercel.app"
       }
     },
     "dev": {
