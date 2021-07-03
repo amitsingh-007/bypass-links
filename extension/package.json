@@ -41,7 +41,7 @@
     "css-minimizer-webpack-plugin": "3.0.0",
     "eslint-webpack-plugin": "2.5.4",
     "file-loader": "6.2.0",
-    "filemanager-webpack-plugin": "5.0.0",
+    "filemanager-webpack-plugin": "6.1.4",
     "html-webpack-plugin": "5.0.0-beta.6",
     "mini-css-extract-plugin": "1.6.0",
     "node-sass": "6.0.0",
