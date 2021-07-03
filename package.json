@@ -44,7 +44,7 @@
     "eslint-plugin-react-hooks": "4.2.0",
     "kill-port": "1.6.1",
     "lerna": "4.0.0",
-    "netlify-cli": "3.37.16",
+    "netlify-cli": "4.0.5",
     "prettier": "2.3.0",
     "pretty-quick": "3.1.0"
   },
