@@ -1,13 +1,13 @@
 import { Box, Typography } from "@material-ui/core";
 import ChromeIcon from "@ui/icons/chrome.svg";
-import fetchApi from "@bypass-links/common/src/utils/fetch";
+import fetchApi from "@common/utils/fetch";
 import { memo, useEffect, useState } from "react";
 
 const PageHeader = memo(() => {
   const [downloadLink, setDownloadLink] = useState("");
 
   const fetchDownloadLink = async () => {
-    const { extension } = await fetchApi("/api/extension/");
+    const { extension } = await fetchApi("/api/extension");
     setDownloadLink(extension);
   };
 

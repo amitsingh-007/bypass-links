@@ -2,25 +2,22 @@
   "name": "extension",
   "version": "1.0.0",
   "private": true,
-  "peerDependencies": {
+  "dependencies": {
     "@emotion/react": "11.4.0",
     "@emotion/styled": "11.3.0",
     "@material-ui/core": "5.0.0-alpha.35",
     "@material-ui/icons": "5.0.0-alpha.35",
     "@material-ui/lab": "5.0.0-alpha.35",
     "@material-ui/styles": "5.0.0-alpha.35",
-    "react": "17.0.2",
-    "react-dom": "17.0.2"
-  },
-  "dependencies": {
-    "@bypass-links/common": "*",
     "browser-image-compression": "1.0.14",
     "core-js": "3.13.1",
     "dayjs": "1.10.5",
-    "firebase": "8.6.3",
+    "firebase": "8.7.0",
     "md5": "2.3.0",
     "qrcode": "1.4.4",
+    "react": "17.0.2",
     "react-beautiful-dnd": "13.1.0",
+    "react-dom": "17.0.2",
     "react-easy-crop": "3.5.0",
     "react-intersection-observer": "8.32.0",
     "react-redux": "7.2.4",
@@ -62,17 +59,17 @@
     "build": "better-npm-run build"
   },
   "betterScripts": {
-    "dev": {
-      "command": "webpack --config webpack.firebase.config.js && webpack --watch --progress",
-      "env": {
-        "NODE_ENV": "development",
-        "HOST_NAME": "http://localhost:8888"
-      }
-    },
     "build": {
       "command": "webpack --config webpack.firebase.config.js && webpack",
       "env": {
         "NODE_ENV": "production"
+      }
+    },
+    "dev": {
+      "command": "webpack --config webpack.firebase.config.js && webpack --watch --progress",
+      "env": {
+        "NODE_ENV": "development",
+        "HOST_NAME": "http://localhost:3000"
       }
     }
   }
