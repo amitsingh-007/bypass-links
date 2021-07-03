@@ -3,21 +3,21 @@ const withPWA = require("next-pwa");
 const { releaseDate } = require("./scripts/release-config");
 const { extVersion } = require("../common/src/scripts/extension-version");
 
-// next-pwa options
-const pwaConfig = {
+const isDev = process.env.NODE_ENV === "development";
+
+const nextConfig = {
+  // next-pwa options
   pwa: {
     swSrc: "./scripts/sw.js",
     dest: "public",
   },
+  // https://docs.netlify.com/configure-builds/common-configurations/next-js/#edit-next-config-js
+  target: "serverless",
+  // rest options are nextJS's
   reactStrictMode: true,
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
   },
-};
-
-const nextConfig = {
-  ...pwaConfig,
-  // nextJS options
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     config.module.rules.push({
       test: /\.svg$/,
@@ -38,9 +38,7 @@ const nextConfig = {
     config.externals.push("firebase-admin");
     return config;
   },
-  reactStrictMode: true,
-  // https://docs.netlify.com/configure-builds/common-configurations/next-js/#edit-next-config-js
-  target: "serverless",
 };
 
-module.exports = withPWA(nextConfig);
+// Disable service worker on dev
+module.exports = isDev ? nextConfig : withPWA(nextConfig);

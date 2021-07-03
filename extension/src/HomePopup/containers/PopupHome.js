@@ -37,27 +37,27 @@ const PopupHome = memo(() => (
           alignItems: "center",
         }}
       >
-        <Box sx={{ marginRight: "10px" }}>
+        <Box sx={{ marginRight: "20px" }}>
           <ToggleExtension />
           <ToggleHistory />
         </Box>
         <UserProfile />
       </Box>
-      <Row>
+      <Row styles={{ marginTop: "8.4px" }}>
         <Authenticate />
         <ShortcutsPanelButton />
         <BookmarksPanelButton />
       </Row>
-      <Box>
+      <Row>
         <HistoryPanelButton />
         <OpenDefaultsButton />
         <QuickBookmarkButton />
-      </Box>
-      <Box>
+      </Row>
+      <Row>
         <OpenForumLinks />
         <LastVisitedButton />
         <PersonsPanelButton />
-      </Box>
+      </Row>
     </Box>
     <TwoFactorAuthenticate />
   </>
