@@ -71,6 +71,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Cache 💾
+        uses: actions/cache@v2.1.6
+        with:
+          path: |
+            ~/.npm
+            **/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
       - name: "UI Tests - Chrome"
         uses: cypress-io/github-action@v2.9.7
         with:
