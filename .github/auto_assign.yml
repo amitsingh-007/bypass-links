@@ -5,8 +5,4 @@ addAssignees: true
 reviewers:
   - amitsingh-007
 
-skipKeywords:
-  - dependabot
-  - Bump
-
 numberOfReviewers: 1
