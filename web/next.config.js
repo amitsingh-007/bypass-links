@@ -28,9 +28,7 @@ const nextConfig = {
         __PROD__: JSON.stringify(!dev),
         __EXT_VERSION__: JSON.stringify(extVersion),
         __RELEASE_DATE__: JSON.stringify(releaseDate),
-        HOST_NAME: JSON.stringify(
-          dev ? "http://localhost:3000" : "https://bypass-links.vercel.app"
-        ),
+        HOST_NAME: JSON.stringify(""),
         __SERVER__: JSON.stringify(isServer),
       })
     );

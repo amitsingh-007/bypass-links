@@ -10,7 +10,7 @@
     "eslint-plugin-prettier": "3.4.0"
   },
   "scripts": {
-    "cypress:open": "cypress open --config-file cypress.dev.json",
+    "cypress:open": "cypress open",
     "cypress:run": "cypress run --headless -b chrome"
   }
 }

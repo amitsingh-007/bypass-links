@@ -1,5 +1,5 @@
 import { removeFromFirebase } from "@logic/firebase";
-import { FIREBASE_DB_REF } from "../../../../common/src/constants/firebase";
+import { FIREBASE_DB_REF } from "@common/constants/firebase";
 
 /**
  * API to revoke 2FA of the given user
