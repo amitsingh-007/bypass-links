@@ -6,6 +6,7 @@ on:
       - "dependabot/**"
     paths-ignore:
       - "web/**"
+      - "e2e/**"
 
 jobs:
   Build:
