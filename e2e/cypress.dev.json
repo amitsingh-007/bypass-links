@@ -1,0 +1,9 @@
+{
+  "projectId": "d5xzoq",
+  "baseUrl": "http://localhost:3000/",
+  "chromeWebSecurity": false,
+  "testFiles": "**/*.spec.js",
+  "fixturesFolder": false,
+  "pluginsFile": false,
+  "supportFile": false
+}

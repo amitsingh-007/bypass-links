@@ -1,0 +1,16 @@
+{
+  "name": "e2e",
+  "version": "1.0.0",
+  "description": "E2E tests for the application",
+  "devDependencies": {
+    "cypress": "7.6.0",
+    "eslint": "7.30.0",
+    "eslint-plugin-cypress": "2.11.3",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-prettier": "3.4.0"
+  },
+  "scripts": {
+    "cypress:open": "cypress open --config-file cypress.dev.json",
+    "cypress:run": "cypress run --headless -b chrome"
+  }
+}
