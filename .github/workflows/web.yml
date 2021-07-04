@@ -65,7 +65,7 @@ jobs:
     container: cypress/browsers:node14.16.0-chrome90-ff88
     strategy:
       fail-fast: false
-       matrix:
+      matrix:
         containers: [1, 2, 3, 4, 5]
     steps:
       - name: Checkout
