@@ -1,8 +1,0 @@
-addReviewers: false
-
-addAssignees: true
-
-reviewers:
-  - amitsingh-007
-
-numberOfReviewers: 1

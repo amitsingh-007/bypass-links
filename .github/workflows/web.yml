@@ -44,9 +44,9 @@ jobs:
         id: vercel-action
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
+          github-comment: false
 
       - name: Finish preview deployment 🌙
         uses: bobheadxi/deployments@v0.6.0
