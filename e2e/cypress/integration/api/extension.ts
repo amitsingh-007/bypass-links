@@ -2,7 +2,7 @@ import { assertSchema } from "@cypress/schema-tools";
 import schemas from "../../schema/extension";
 
 describe("Extension API", () => {
-  it("Assert response ", async () => {
+  it("Assert response ", () => {
     cy.request({
       method: "GET",
       url: "api/extension",
