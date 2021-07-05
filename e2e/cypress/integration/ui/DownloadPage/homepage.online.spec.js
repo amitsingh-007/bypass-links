@@ -1,5 +1,3 @@
-import { assertExtensionDownload } from "./common";
-
 describe("Homepage UI Tests when Online", () => {
   before(() => {
     cy.visit("/");
@@ -13,6 +11,6 @@ describe("Homepage UI Tests when Online", () => {
   });
 
   it("should download extension file on download button click", () => {
-    assertExtensionDownload();
+    cy.verifyExtensionDownload();
   });
 });

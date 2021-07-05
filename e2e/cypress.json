@@ -5,5 +5,5 @@
   "testFiles": ["**/*.spec.js", "api/*.ts"],
   "fixturesFolder": false,
   "pluginsFile": false,
-  "supportFile": false
+  "supportFile": "cypress/support/index.js"
 }

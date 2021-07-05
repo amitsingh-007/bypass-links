@@ -1,6 +1,5 @@
-import { clearServiceWorkerCache } from "../utils/cache";
-import { goOffline, goOnline } from "../utils/network";
-import { assertExtensionDownload } from "./common";
+import { clearServiceWorkerCache } from "../../utils/cache";
+import { goOffline, goOnline } from "../../utils/network";
 
 const assertOffline = () => {
   return cy.wrap(window).its("navigator.onLine").should("be.false");
@@ -38,7 +37,7 @@ describe.skip("Homepage UI Tests when Offline", () => {
 
     // cy.reload();
 
-    assertExtensionDownload();
+    cy.verifyExtensionDownload();
 
     goOnline();
   });
