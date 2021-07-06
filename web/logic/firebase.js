@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const admin = require("firebase-admin");
 const { getFullDbPath } = require("../../common/src/utils/firebase");
 
@@ -20,10 +21,10 @@ if (admin.apps.length === 0) {
 /**
  * REALTIME DATABASE
  */
-export const getFromFirebase = async ({ ref, uid, isAbsolute }) =>
+export const getFromFirebase = async ({ ref, uid = "", isAbsolute }) =>
   admin.database().ref(getFullDbPath(ref, uid, isAbsolute)).once("value");
 
-export const saveToFirebase = async ({ ref, uid, data, isAbsolute }) =>
+export const saveToFirebase = async ({ ref, uid = "", data, isAbsolute }) =>
   admin.database().ref(getFullDbPath(ref, uid, isAbsolute)).set(data);
 
 export const removeFromFirebase = async ({ ref, uid, isAbsolute }) =>

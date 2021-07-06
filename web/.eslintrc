@@ -26,5 +26,8 @@
     "HOST_NAME": false,
     "JSX": false,
     "React": false
+  },
+  "rules": {
+    "@typescript-eslint/explicit-module-boundary-types": "off"
   }
 }
