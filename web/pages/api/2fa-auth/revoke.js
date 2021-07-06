@@ -1,5 +1,6 @@
 import { removeFromFirebase } from "@logic/firebase";
-import { FIREBASE_DB_REF } from "../../../../common/src/constants/firebase";
+import { FIREBASE_DB_REF } from "@common/constants/firebase";
+import withAuth from "@middlewares/withAuth";
 
 /**
  * API to revoke 2FA of the given user
@@ -13,4 +14,4 @@ const handler = async (req, res) => {
   res.json({ isRevoked: true });
 };
 
-export default handler;
+export default withAuth(handler);

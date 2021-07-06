@@ -1,4 +1,5 @@
 import { setup2FA } from "@logic/twoFactorAuth";
+import withAuth from "@middlewares/withAuth";
 
 /**
  * API to initalize 2FA of a user for the very first time
@@ -9,4 +10,4 @@ const handler = async (req, res) => {
   res.json({ secretKey, otpAuthUrl });
 };
 
-export default handler;
+export default withAuth(handler);

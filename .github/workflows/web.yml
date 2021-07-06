@@ -10,6 +10,8 @@ on:
 jobs:
   Build:
     runs-on: ubuntu-latest
+    outputs:
+      preview_url: ${{ steps.vercel-action.outputs.preview-url }}
     steps:
       - name: Checkout repo 🛎️
         uses: actions/checkout@v2
@@ -42,9 +44,9 @@ jobs:
         id: vercel-action
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
+          github-comment: false
 
       - name: Finish preview deployment 🌙
         uses: bobheadxi/deployments@v0.6.0
@@ -55,3 +57,39 @@ jobs:
           status: ${{ job.status }}
           deployment_id: ${{ steps.preview-deployment.outputs.deployment_id }}
           env_url: ${{ steps.vercel-action.outputs.preview-url }}
+
+  Cypress:
+    needs: [Build]
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    container: cypress/browsers:node14.16.0-chrome90-ff88
+    strategy:
+      fail-fast: false
+      matrix:
+        containers: [1]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cache 💾
+        uses: actions/cache@v2.1.6
+        with:
+          path: |
+            ~/.npm
+            **/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: "UI Tests - Chrome"
+        uses: cypress-io/github-action@v2.9.7
+        with:
+          browser: chrome
+          headless: true
+          record: true
+          parallel: true
+          working-directory: e2e
+          config: baseUrl=${{needs.Build.outputs.preview_url}}
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

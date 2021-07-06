@@ -1,4 +1,5 @@
 import { verify2FA } from "@logic/twoFactorAuth";
+import withAuth from "@middlewares/withAuth";
 
 /**
  * API to verify the user while setting up 2FA
@@ -9,4 +10,4 @@ const handler = async (req, res) => {
   res.json({ isVerified });
 };
 
-export default handler;
+export default withAuth(handler);

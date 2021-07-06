@@ -6,5 +6,8 @@
   "extends": ["eslint:recommended", "plugin:prettier/recommended"],
   "parserOptions": {
     "ecmaVersion": 2020
+  },
+  "globals": {
+    "__PROD__": false
   }
 }

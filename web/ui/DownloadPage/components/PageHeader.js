@@ -26,7 +26,7 @@ const PageHeader = memo(() => {
       }}
     >
       <Typography
-        component="h2"
+        component="h1"
         variant="h3"
         sx={{
           textAlign: "center",
@@ -39,6 +39,7 @@ const PageHeader = memo(() => {
       </Typography>
       <Box sx={{ textAlign: "center" }}>
         <Box
+          data-test-attr="ext-download-button"
           component="a"
           href={downloadLink}
           sx={{

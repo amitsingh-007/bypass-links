@@ -1,0 +1,13 @@
+{
+  "root": true,
+  "plugins": ["cypress", "prettier"],
+  "extends": [
+    "plugin:cypress/recommended",
+    "eslint:recommended",
+    "plugin:prettier/recommended"
+  ],
+  "env": {
+    "es6": true,
+    "node": true
+  }
+}
