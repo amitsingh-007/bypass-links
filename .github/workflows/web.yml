@@ -39,7 +39,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           env: Preview
 
-      - name: Deploy (Vercel) 🔺
+      - name: Deploy Preview (Vercel) 🔺
         uses: amondnet/vercel-action@v20
         id: vercel-action
         with:
