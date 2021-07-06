@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-const GlobalMetaTags = () => {
+const GlobalMetaTags = (): JSX.Element => {
   return (
     <Head>
       <meta name="theme-color" content="#6850ff" />

@@ -4,8 +4,9 @@ import HandshakeIcon from "@ui/icons/handshake.svg";
 import MultilingualIcon from "@ui/icons/multilingual.svg";
 import PalmIcon from "@ui/icons/palm.svg";
 import SecurityIcon from "@ui/icons/security.svg";
+import Feature from "@ui/interfaces/feature";
 
-export const firstColumn = [
+export const firstColumn: Feature[] = [
   {
     icon: HandshakeIcon,
     altIconText: "circle-logo",
@@ -27,7 +28,7 @@ export const firstColumn = [
   },
 ];
 
-export const secondColumn = [
+export const secondColumn: Feature[] = [
   {
     icon: SecurityIcon,
     altIconText: "security-logo",

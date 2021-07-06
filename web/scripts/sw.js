@@ -9,7 +9,7 @@ self.skipWaiting();
  * Cant remove below line, otherwise webpack throws error
  * Refer: https://github.com/GoogleChrome/workbox/issues/2253
  */
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const manifest = self.__WB_MANIFEST;
 
 //Cache all GET request excluding apis

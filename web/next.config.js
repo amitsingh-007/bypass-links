@@ -5,6 +5,9 @@ const { extVersion } = require("../common/src/scripts/extension-version");
 
 const isDev = process.env.NODE_ENV === "development";
 
+/**
+ * @type {import('next/dist/next-server/server/config').NextConfig}
+ **/
 const nextConfig = {
   // next-pwa options
   pwa: {
