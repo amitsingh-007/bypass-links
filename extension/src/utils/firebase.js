@@ -3,7 +3,7 @@ import "firebase/auth";
 import "firebase/database";
 import "firebase/storage";
 import { getUserProfile } from "SrcPath/SettingsPanel/utils";
-const { getFullDbPath } = require("../../../common/src/utils/firebase");
+import { getFullDbPath } from "@common/utils/firebase";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDiMRlBhW36sLjEADoQj9T5L1H-hIDUAso",

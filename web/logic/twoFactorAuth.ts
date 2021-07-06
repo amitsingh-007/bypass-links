@@ -1,9 +1,10 @@
 import speakeasy from "speakeasy";
 import { FIREBASE_DB_REF } from "../../common/src/constants/firebase";
-import { get2FATitle } from "./index";
+import { Setup2FAResponse, User2FAInfo } from "../interfaces/twoFactorAuth";
 import { getFromFirebase, saveToFirebase } from "./firebase";
+import { get2FATitle } from "./index";
 
-const verify2FAToken = (secretKey, totp, window = 0) =>
+const verify2FAToken = (secretKey: string, totp: string, window = 0) =>
   speakeasy.totp.verify({
     secret: secretKey,
     token: totp,
@@ -11,13 +12,13 @@ const verify2FAToken = (secretKey, totp, window = 0) =>
     window,
   });
 
-const is2FASetup = (user2FAInfo) =>
+const is2FASetup = (user2FAInfo: User2FAInfo) =>
   Boolean(user2FAInfo && user2FAInfo.secretKey);
 
-export const is2FAEnabled = (user2FAInfo) =>
+export const is2FAEnabled = (user2FAInfo: User2FAInfo) =>
   is2FASetup(user2FAInfo) && user2FAInfo.is2FAEnabled;
 
-export const fetchUser2FAInfo = async (uid) => {
+export const fetchUser2FAInfo = async (uid: string): Promise<User2FAInfo> => {
   const response = await getFromFirebase({
     ref: FIREBASE_DB_REF.user2FAInfo,
     uid,
@@ -25,7 +26,7 @@ export const fetchUser2FAInfo = async (uid) => {
   return response.val();
 };
 
-export const setup2FA = async (uid) => {
+export const setup2FA = async (uid: string): Promise<Setup2FAResponse> => {
   const user2FAInfo = await fetchUser2FAInfo(uid);
   if (is2FASetup(user2FAInfo)) {
     const { secretKey, otpAuthUrl } = user2FAInfo;
@@ -34,7 +35,7 @@ export const setup2FA = async (uid) => {
       otpAuthUrl: decodeURIComponent(otpAuthUrl),
     };
   }
-  const { base32, otpauth_url } = speakeasy.generateSecret({
+  const { base32, otpauth_url = "" } = speakeasy.generateSecret({
     name: get2FATitle(),
     symbols: false,
   });
@@ -50,7 +51,13 @@ export const setup2FA = async (uid) => {
   return { secretKey: base32, otpAuthUrl: otpauth_url };
 };
 
-export const verify2FA = async ({ uid, totp }) => {
+export const verify2FA = async ({
+  uid,
+  totp,
+}: {
+  uid: string;
+  totp: string;
+}): Promise<boolean> => {
   const user2FAInfo = await fetchUser2FAInfo(uid);
   if (!is2FASetup(user2FAInfo)) {
     return false;
@@ -71,7 +78,13 @@ export const verify2FA = async ({ uid, totp }) => {
   return isVerified;
 };
 
-export const authenticate2FA = async ({ uid, totp }) => {
+export const authenticate2FA = async ({
+  uid,
+  totp,
+}: {
+  uid: string;
+  totp: string;
+}): Promise<boolean> => {
   const user2FAInfo = await fetchUser2FAInfo(uid);
   if (!is2FAEnabled(user2FAInfo)) {
     return false;
