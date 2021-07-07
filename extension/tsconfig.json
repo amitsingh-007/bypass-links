@@ -1,15 +1,24 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "lib": ["es6", "dom"],
+    "sourceMap": true,
+    "outDir": "./dist/",
+    "module": "esnext",
+    "target": "es6",
+    "jsx": "react-jsx",
+    "lib": ["es6", "dom", "dom.iterable"],
+    "allowJs": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node",
     "noImplicitAny": true,
     "noImplicitThis": true,
     "strictNullChecks": true,
-    "target": "es6",
-    "allowSyntheticDefaultImports": false,
-    "jsx": "react",
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
     "baseUrl": ".",
-    "strict": true,
     // Refer: https://github.com/microsoft/TypeScript/issues/26859#issuecomment-695806452
     "paths": {
       "@common": ["../common/src"],
@@ -41,5 +50,5 @@
       "SrcPath/*": ["./src/*"]
     }
   },
-  "exclude": ["build", "extension-build", "firebase-build", "**/node_modules"]
+  "exclude": ["extension-build", "firebase-build", "**/node_modules"]
 }

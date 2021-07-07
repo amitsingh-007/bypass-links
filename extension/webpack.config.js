@@ -14,7 +14,9 @@ const isProduction = ENV === "production";
 const enableBundleAnalyzer = process.env.ENABLE_BUNDLE_ANLYZER === "true";
 const hostName = process.env.HOST_NAME;
 
-const esLintPLugin = new ESLintPlugin({});
+const esLintPLugin = new ESLintPlugin({
+  extensions: ["js", "ts", "tsx"],
+});
 
 const dllReferencePlugin = new DllReferencePlugin({
   name: "firebase_lib",
@@ -134,7 +136,7 @@ const backgroundConfig = {
 const popupConfig = {
   ...commonConfig,
   name: "ContentScript",
-  entry: "./src/popupIndex.js",
+  entry: "./src/index.js",
   output: {
     path: PATHS.EXTENSION,
     filename: "js/[name].[chunkhash:9].js",

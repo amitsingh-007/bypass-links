@@ -15,7 +15,7 @@ const PATHS = {
 const commonConfig = {
   mode: ENV,
   resolve: {
-    extensions: [".js", ".scss"],
+    extensions: [".ts", ".tsx", ".js", ".scss"],
     alias: {
       "@common": path.resolve(__dirname, "..", "common/src/"),
       ChromeApi: path.resolve(__dirname, "src/scripts/chrome/"),
@@ -31,6 +31,7 @@ const commonConfig = {
       GlobalStyles: path.resolve(__dirname, "src/scss/"),
       GlobalUtils: path.resolve(__dirname, "src/utils/"),
       SrcPath: path.resolve(__dirname, "src/"),
+      "react/jsx-runtime": require.resolve("react/jsx-runtime"),
     },
     modules: [PATHS.SRC, "node_modules"],
   },
@@ -47,7 +48,12 @@ const commonConfig = {
   module: {
     rules: [
       {
-        test: /\.m?js$/,
+        test: /\.tsx?$/,
+        use: "ts-loader",
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.js$/,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",

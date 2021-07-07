@@ -3,7 +3,8 @@
     "eslint:recommended",
     "react-app",
     "plugin:react-hooks/recommended",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "plugin:@typescript-eslint/recommended"
   ],
   "parserOptions": {
     "ecmaVersion": 11,
@@ -28,11 +29,24 @@
   "globals": {
     "chrome": false,
     "__PROD__": false,
-    "HOST_NAME": false
+    "HOST_NAME": false,
+    "React": false
   },
   "rules": {
     "no-undef": "error",
     "eol-last": ["error", "always"],
-    "no-trailing-spaces": "error"
+    "no-trailing-spaces": "error",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/ban-types": [
+      "error",
+      {
+        "types": {
+          "Function": false
+        },
+        "extendDefaults": true
+      }
+    ]
   }
 }
