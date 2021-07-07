@@ -1,17 +1,12 @@
 import { Box } from "@material-ui/core";
-import Image from "next/image";
+import Image, { ImageProps } from "next/image";
 
-const BackgroundImage = ({
-  src,
-  alt,
-  height,
-  children,
-}: {
+type Props = Pick<ImageProps, "alt" | "height"> & {
   src: string;
-  alt: string;
-  height: string;
-  children: React.ReactNode;
-}) => {
+  children?: React.ReactNode;
+};
+
+const BackgroundImage = ({ src, alt, height, children }: Props) => {
   return (
     <>
       <Box
@@ -25,7 +20,7 @@ const BackgroundImage = ({
           },
         }}
       >
-        <Image src={src} alt={alt} layout="fill" objectFit="fill" blur />
+        <Image src={src} alt={alt} layout="fill" objectFit="fill" />
         <Box>{children}</Box>
       </Box>
     </>
