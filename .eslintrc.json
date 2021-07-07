@@ -5,9 +5,12 @@
   },
   "extends": ["eslint:recommended", "plugin:prettier/recommended"],
   "parserOptions": {
-    "ecmaVersion": 2020
+    "ecmaVersion": 2021,
+    "sourceType": "module",
+    "allowImportExportEverywhere": true
   },
   "globals": {
-    "__PROD__": false
+    "__PROD__": false,
+    "HOST_NAME": false
   }
 }

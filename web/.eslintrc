@@ -4,7 +4,8 @@
     "eslint:recommended",
     "plugin:prettier/recommended",
     "next",
-    "next/core-web-vitals"
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended"
   ],
   "env": {
     "es6": true,
@@ -22,6 +23,21 @@
     "__PROD__": false,
     "__EXT_VERSION__": false,
     "__RELEASE_DATE__": false,
-    "HOST_NAME": false
+    "HOST_NAME": false,
+    "JSX": false,
+    "React": false
+  },
+  "rules": {
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/ban-types": [
+      "error",
+      {
+        "types": {
+          "Function": false
+        },
+        "extendDefaults": true
+      }
+    ]
   }
 }

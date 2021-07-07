@@ -13,7 +13,7 @@ export const getLatestRelease = async () =>
     repo: REPO.NAME,
   });
 
-export const getAssetsByReleaseId = async (releaseId) =>
+export const getAssetsByReleaseId = async (releaseId: number) =>
   await octokit.rest.repos.listReleaseAssets({
     owner: REPO.OWNER,
     repo: REPO.NAME,

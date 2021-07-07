@@ -1,7 +1,7 @@
 import { CssBaseline } from "@material-ui/core";
-import darkScrollbar from "@material-ui/core/darkScrollbar";
 import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import GlobalMetaTags from "@ui/components/GlobalMetaTags";
+import { AppProps } from "next/dist/next-server/lib/router/router";
 import { StrictMode } from "react";
 import "../styles/globals.scss";
 
@@ -9,15 +9,10 @@ const theme = createTheme({
   palette: {
     mode: "dark",
   },
-  MuiCssBaseline: {
-    styleOverrides: {
-      body: darkScrollbar(),
-    },
-  },
   typography: {
     fontFamily: `"Montserrat", sans-serif`,
     h2: {
-      fontWeight: "400",
+      fontWeight: 400,
     },
   },
 });
@@ -35,16 +30,14 @@ if (!__SERVER__ && "serviceWorker" in navigator) {
   });
 }
 
-const MyApp = ({ Component, pageProps }) => {
-  return (
-    <StrictMode>
-      <GlobalMetaTags />
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Component {...pageProps} />
-      </ThemeProvider>
-    </StrictMode>
-  );
-};
+const MyApp = ({ Component, pageProps }: AppProps): JSX.Element => (
+  <StrictMode>
+    <GlobalMetaTags />
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Component {...pageProps} />
+    </ThemeProvider>
+  </StrictMode>
+);
 
 export default MyApp;

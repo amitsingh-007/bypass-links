@@ -2,8 +2,13 @@ import { getFromFirebase, saveToFirebase } from "@logic/firebase";
 import runMiddleware from "@middlewares/runMiddleware";
 import bearerToken from "express-bearer-token";
 import { getEnv } from "@common/utils/env";
+import { NextApiRequest, NextApiResponse } from "next";
 
-const handler = async (req, res) => {
+type NextApiRequestWithToken = NextApiRequest & {
+  token?: string;
+};
+
+const handler = async (req: NextApiRequestWithToken, res: NextApiResponse) => {
   runMiddleware(req, res, bearerToken());
 
   const authBearerToken = req.token;

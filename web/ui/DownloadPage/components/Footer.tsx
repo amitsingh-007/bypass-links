@@ -1,9 +1,15 @@
-import { Box, IconButton, Typography } from "@material-ui/core";
+import { Box, IconButton, SvgIconProps, Typography } from "@material-ui/core";
 import AccessTimeFilledRoundedIcon from "@material-ui/icons/AccessTimeFilledRounded";
 import ExtensionRoundedIcon from "@material-ui/icons/ExtensionRounded";
 import GitHubIcon from "@material-ui/icons/GitHub";
 
-const Info = ({ icon: Icon, text }) => (
+const Info = ({
+  icon: Icon,
+  text,
+}: {
+  icon: React.FC<SvgIconProps>;
+  text: string;
+}) => (
   <Box sx={{ display: "flex", alignItems: "center", mt: "10px" }}>
     <Icon fontSize="small" />
     <Typography sx={{ ml: "10px", fontWeight: 500 }}>{text}</Typography>
