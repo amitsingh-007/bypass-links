@@ -50,17 +50,18 @@ const PersonsPanel = () => {
   const handleAddOrEditPerson = async (person) => {
     setIsFetching(true);
     const pos = getPersonPos(persons, person);
+    const newPersons = [...persons];
     if (pos === -1) {
       //Add person
-      persons.push(person);
+      newPersons.push(person);
     } else {
       //Update person
-      persons[pos] = person;
+      newPersons[pos] = person;
     }
     //Update person cache
     await updatePersonCacheAndImageUrls(person);
     //Update in the list
-    const sortedPersons = sortAlphabetically(SORT_ORDER.asc, persons);
+    const sortedPersons = sortAlphabetically(SORT_ORDER.asc, newPersons);
     setPersons(sortedPersons);
     await handleSave(sortedPersons);
     setIsFetching(false);
@@ -95,19 +96,18 @@ const PersonsPanel = () => {
     setPersons(sortFn(sortOrder, persons));
   };
 
-  const sortedPersons = persons;
   return (
     <Box sx={{ width: PANEL_DIMENSIONS.width }}>
       <Header
         isFetching={isFetching}
         handleAddPerson={handleAddOrEditPerson}
-        persons={sortedPersons}
+        persons={persons}
         handleSort={handleSort}
       />
       <Box sx={{ minHeight: PANEL_DIMENSIONS.height }}>
-        {sortedPersons.length > 0 ? (
+        {persons.length > 0 ? (
           <Persons
-            persons={sortedPersons}
+            persons={persons}
             handleEditPerson={handleAddOrEditPerson}
             handlePersonDelete={handlePersonDelete}
           />
