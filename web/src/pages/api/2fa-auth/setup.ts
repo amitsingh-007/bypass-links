@@ -1,5 +1,5 @@
 import { setup2FA } from "@logic/twoFactorAuth";
-import withAuth from "@middlewares/withAuth";
+import withAuth from "src/middlewares/withAuth";
 import { NextApiRequest, NextApiResponse } from "next";
 
 /**

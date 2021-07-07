@@ -1,6 +1,6 @@
 import { CssBaseline } from "@material-ui/core";
 import { createTheme, ThemeProvider } from "@material-ui/core/styles";
-import GlobalMetaTags from "@ui/components/GlobalMetaTags";
+import GlobalMetaTags from "src/ui/components/GlobalMetaTags";
 import { AppProps } from "next/dist/next-server/lib/router/router";
 import { StrictMode } from "react";
 import "../styles/globals.scss";
@@ -17,7 +17,7 @@ const theme = createTheme({
   },
 });
 
-if (!__SERVER__ && "serviceWorker" in navigator) {
+if (!__SERVER__ && __PROD__ && "serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
       .register("/sw.js")

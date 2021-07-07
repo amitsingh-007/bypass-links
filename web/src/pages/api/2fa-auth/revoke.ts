@@ -1,6 +1,6 @@
 import { removeFromFirebase } from "@logic/firebase";
 import { FIREBASE_DB_REF } from "@common/constants/firebase";
-import withAuth from "@middlewares/withAuth";
+import withAuth from "src/middlewares/withAuth";
 import { NextApiRequest, NextApiResponse } from "next";
 
 /**

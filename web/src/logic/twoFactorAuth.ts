@@ -1,5 +1,5 @@
 import speakeasy from "speakeasy";
-import { FIREBASE_DB_REF } from "../../common/src/constants/firebase";
+import { FIREBASE_DB_REF } from "@common/constants/firebase";
 import { Setup2FAResponse, User2FAInfo } from "../interfaces/twoFactorAuth";
 import { getFromFirebase, saveToFirebase } from "./firebase";
 import { get2FATitle } from "./index";

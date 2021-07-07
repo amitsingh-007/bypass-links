@@ -1,5 +1,5 @@
 import { fetchUser2FAInfo, is2FAEnabled } from "@logic/twoFactorAuth";
-import withAuth from "@middlewares/withAuth";
+import withAuth from "src/middlewares/withAuth";
 import { NextApiRequest, NextApiResponse } from "next";
 
 /**

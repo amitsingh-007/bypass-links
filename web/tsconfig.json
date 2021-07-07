@@ -19,10 +19,10 @@
     "baseUrl": "./",
     "paths": {
       "@common/*": ["../common/src/*"],
-      "@constants/*": ["constants/*"],
-      "@logic/*": ["logic/*"],
-      "@middlewares/*": ["middlewares/*"],
-      "@ui/*": ["ui/*"]
+      "@constants/*": ["src/constants/*"],
+      "@logic/*": ["src/logic/*"],
+      "@middlewares/*": ["src/middlewares/*"],
+      "@ui/*": ["src/ui/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

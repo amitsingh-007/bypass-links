@@ -1,6 +1,6 @@
 import { Box, Typography } from "@material-ui/core";
 import CircleIcon from "@ui/icons/circle.svg";
-import Feature from "@ui/interfaces/feature";
+import Feature from "src/ui/interfaces/feature";
 import { memo } from "react";
 import { firstColumn, secondColumn } from "../constants/features";
 

@@ -17,7 +17,7 @@ const Persons = memo(({ persons, handleEditPerson, handlePersonDelete }) => {
 
   return (
     <Box sx={{ padding: "6px" }}>
-      {persons.map((person, index) => (
+      {persons.map((person) => (
         <Person
           key={person.uid}
           person={person}
