@@ -8,14 +8,21 @@ const firebaseDllConfig = require("./webpack.firebase.config");
 const WatchExternalFilesPlugin = require("webpack-watch-external-files-plugin");
 const ESLintPlugin = require("eslint-webpack-plugin");
 const { extVersion } = require("../common/src/scripts/extension-version");
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 
 const ENV = process.env.NODE_ENV;
 const isProduction = ENV === "production";
 const enableBundleAnalyzer = process.env.ENABLE_BUNDLE_ANLYZER === "true";
 const hostName = process.env.HOST_NAME;
 
+const tsCheckerPlugin = new ForkTsCheckerWebpackPlugin({
+  eslint: {
+    files: "./src/**/*.{ts,tsx}",
+  },
+});
+
 const esLintPLugin = new ESLintPlugin({
-  extensions: ["js", "ts", "tsx"],
+  extensions: ["js"],
 });
 
 const dllReferencePlugin = new DllReferencePlugin({
@@ -83,6 +90,7 @@ const getPopupConfigPlugins = () => {
     dllReferencePlugin,
     definePlugin,
     esLintPLugin,
+    tsCheckerPlugin,
   ];
   if (enableBundleAnalyzer) {
     plugins.push(getWebpackBundleAnalyzerPlugin(8889));
@@ -114,6 +122,7 @@ const getBackgroundConfigPlugins = () => {
     dllReferencePlugin,
     definePlugin,
     esLintPLugin,
+    tsCheckerPlugin,
   ];
   if (enableBundleAnalyzer) {
     plugins.push(getWebpackBundleAnalyzerPlugin(8890));

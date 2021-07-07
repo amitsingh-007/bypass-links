@@ -77,6 +77,7 @@ export const PersonsDropdown = memo(
     const renderSelectedOptions = (value, getTagProps) =>
       value.map((option, index) => (
         <Chip
+          key={option.name}
           label={option.name}
           avatar={<Avatar src={option.imageUrl} alt={option.name} />}
           {...getTagProps({ index })}

@@ -2,12 +2,14 @@
   "extends": [
     "eslint:recommended",
     "react-app",
+    "plugin:react/recommended",
     "plugin:react-hooks/recommended",
     "plugin:prettier/recommended",
     "plugin:@typescript-eslint/recommended"
   ],
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": 11,
+    "ecmaVersion": "latest",
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
@@ -47,6 +49,9 @@
         },
         "extendDefaults": true
       }
-    ]
+    ],
+    "react/prop-types": "off", //TODO: remove this after typescript migration
+    "no-redeclare": "off", //TODO: remove this after typescript migration
+    "react/display-name": "off"
   }
 }
