@@ -17,7 +17,7 @@ const theme = createTheme({
   },
 });
 
-if (!__SERVER__ && "serviceWorker" in navigator) {
+if (!__SERVER__ && __PROD__ && "serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
       .register("/sw.js")
