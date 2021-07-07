@@ -2,7 +2,7 @@ import { Box, IconButton, SvgIconProps, Typography } from "@material-ui/core";
 import AccessTimeFilledRoundedIcon from "@material-ui/icons/AccessTimeFilledRounded";
 import ExtensionRoundedIcon from "@material-ui/icons/ExtensionRounded";
 import GitHubIcon from "@material-ui/icons/GitHub";
-import BackgroundImage from "@ui/components/BackgroundImage";
+import BackgroundImage from "src/ui/components/BackgroundImage";
 
 const Info = ({
   icon: Icon,

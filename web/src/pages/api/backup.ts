@@ -1,5 +1,5 @@
 import { getFromFirebase, saveToFirebase } from "@logic/firebase";
-import runMiddleware from "@middlewares/runMiddleware";
+import runMiddleware from "src/middlewares/runMiddleware";
 import bearerToken from "express-bearer-token";
 import { getEnv } from "@common/utils/env";
 import { NextApiRequest, NextApiResponse } from "next";
