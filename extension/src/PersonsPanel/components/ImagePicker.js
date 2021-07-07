@@ -86,7 +86,11 @@ const ImagePicker = memo(({ uid, isOpen, onDialogClose, handleImageSave }) => {
       onClose={onClose}
       TransitionComponent={Transition}
     >
-      {isUploadingImage && <LinearProgress color="secondary" />}
+      {isUploadingImage && (
+        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+          <LinearProgress color="secondary" />
+        </Box>
+      )}
       <DialogTitle sx={{ padding: "0 6px", backgroundColor: BG_COLOR_DARK }}>
         <Box
           sx={{
