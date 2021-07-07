@@ -22,7 +22,11 @@ if (admin.apps.length === 0) {
 /**
  * REALTIME DATABASE
  */
-export const getFromFirebase = async ({ ref, uid, isAbsolute }: Firebase) =>
+export const getFromFirebase = async ({
+  ref,
+  uid,
+  isAbsolute,
+}: Omit<Firebase, "data">) =>
   admin.database().ref(getFullDbPath(ref, uid, isAbsolute)).once("value");
 
 export const saveToFirebase = async ({
@@ -33,5 +37,9 @@ export const saveToFirebase = async ({
 }: Firebase) =>
   admin.database().ref(getFullDbPath(ref, uid, isAbsolute)).set(data);
 
-export const removeFromFirebase = async ({ ref, uid, isAbsolute }: Firebase) =>
+export const removeFromFirebase = async ({
+  ref,
+  uid,
+  isAbsolute,
+}: Omit<Firebase, "data">) =>
   admin.database().ref(getFullDbPath(ref, uid, isAbsolute)).remove();

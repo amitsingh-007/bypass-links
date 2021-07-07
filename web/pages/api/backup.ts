@@ -4,11 +4,11 @@ import bearerToken from "express-bearer-token";
 import { getEnv } from "@common/utils/env";
 import { NextApiRequest, NextApiResponse } from "next";
 
-export interface Request extends NextApiRequest {
-  token: string;
-}
+type NextApiRequestWithToken = NextApiRequest & {
+  token?: string;
+};
 
-const handler = async (req: Request, res: NextApiResponse) => {
+const handler = async (req: NextApiRequestWithToken, res: NextApiResponse) => {
   runMiddleware(req, res, bearerToken());
 
   const authBearerToken = req.token;
