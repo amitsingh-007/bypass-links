@@ -19,10 +19,12 @@ const Header = memo(() => {
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
+        p: "4px",
         ...STICKY_HEADER,
       }}
     >
       <IconButton
+        size="small"
         aria-label="Close"
         component="span"
         style={COLOR.red}
