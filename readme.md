@@ -6,11 +6,11 @@ This is an easy-to-use Open-Source `Browser Extension` which bypasses links on v
 
 ## Download link ![GitHub all releases](https://img.shields.io/github/downloads/amitsingh-007/bypass-links/total?color=success) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/amitsingh-007/bypass-links) ![GitHub](https://img.shields.io/github/license/amitsingh-007/bypass-links?color=blue)
 
-Head over to [My Netlify Page](https://amitsingh-007.github.io/bypass-links/) and download for your browser.
+Head over to [Bypass Links Vercel Page](https://bypass-links.vercel.app) and download for your browser.
 
 ## For Development [![Code of Conduct](https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat)](https://github.com/amitsingh-007/bypass-links/blob/main/contributing.md) ![GitHub issues](https://img.shields.io/github/issues/amitsingh-007/bypass-links)
 
-[Click Here](https://github.com/amitsingh-007/bypass-links/blob/main/CONTRIBUTING.md) to get started.
+[Click Here](https://github.com/amitsingh-007/bypass-links/blob/main/contributing.md) to get started.
 
 ## Security Policy [![Secutiy Policy](https://img.shields.io/badge/security%20policy-important.svg?style=flat)](https://github.com/amitsingh-007/bypass-links/blob/main/SECURITY.md)
 
