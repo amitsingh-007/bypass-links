@@ -8,13 +8,13 @@ This is an easy-to-use Open-Source `Browser Extension` which bypasses links on v
 
 Head over to [My Netlify Page](https://amitsingh-007.github.io/bypass-links/) and download for your browser.
 
-## For Development [![Code of Conduct](https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat)](https://github.com/amitsingh-007/bypass-links/blob/main/CONTRIBUTING.md) ![GitHub issues](https://img.shields.io/github/issues/amitsingh-007/bypass-links)
+## For Development [![Code of Conduct](https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat)](https://github.com/amitsingh-007/bypass-links/blob/main/contributing.md) ![GitHub issues](https://img.shields.io/github/issues/amitsingh-007/bypass-links)
 
 [Click Here](https://github.com/amitsingh-007/bypass-links/blob/main/CONTRIBUTING.md) to get started.
 
 ## Security Policy [![Secutiy Policy](https://img.shields.io/badge/security%20policy-important.svg?style=flat)](https://github.com/amitsingh-007/bypass-links/blob/main/SECURITY.md)
 
-[Click Here to read security policy](https://github.com/amitsingh-007/bypass-links/blob/main/SECURITY.md) to get started.
+[Click Here to read security policy](https://github.com/amitsingh-007/bypass-links/blob/main/security.md) to get started.
 
 ## Currently supported websites
 
