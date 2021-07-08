@@ -19,7 +19,7 @@ const isCurrentPageForum = async (url) => {
 
 const OpenForumLinks = memo(() => {
   const dispatch = useDispatch();
-  const isSignedIn = useSelector((state) => state.isSignedIn);
+  const { isSignedIn } = useSelector((state) => state.root);
   const [isFetching, setIsFetching] = useState(false);
   const [currentTab, setCurrentTab] = useState({});
   const [isActive, setIsActive] = useState(false);

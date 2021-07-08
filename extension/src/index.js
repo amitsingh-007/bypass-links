@@ -1,19 +1,19 @@
 import { CssBaseline } from "@material-ui/core";
-import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import darkScrollbar from "@material-ui/core/darkScrollbar";
+import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import ErrorBoundary from "GlobalComponents/ErrorBoundary";
 import { BG_COLOR_BLACK } from "GlobalConstants/color";
 import Global from "GlobalContainers/Global";
 import PopupRoutes from "GlobalContainers/PopupRoutes";
+import rootReducers from "./reducers/rootReducer";
 import "GlobalStyles/popup.scss";
 import { StrictMode } from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { createStore } from "redux";
-import reducer from "./reducers";
 
-const store = createStore(reducer);
+const store = createStore(rootReducers);
 
 const theme = createTheme({
   palette: {

@@ -3,7 +3,8 @@ import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import CreateNewFolderTwoToneIcon from "@material-ui/icons/CreateNewFolderTwoTone";
 import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
 import SyncTwoToneIcon from "@material-ui/icons/SyncTwoTone";
-import { displayToast, startHistoryMonitor } from "GlobalActionCreators";
+import { startHistoryMonitor } from "GlobalActionCreators";
+import { displayToast } from "GlobalActionCreators/toast";
 import {
   AccordionHeader,
   PrimaryHeaderContent,
@@ -11,11 +12,11 @@ import {
 } from "GlobalComponents/AccordionHeader";
 import Loader from "GlobalComponents/Loader";
 import PanelHeading from "GlobalComponents/PanelHeading";
+import SearchInput from "GlobalComponents/SearchInput";
 import { defaultBookmarkFolder } from "GlobalConstants";
 import { COLOR } from "GlobalConstants/color";
 import { getActiveDisabledColor } from "GlobalUtils/color";
-import { createRef } from "react";
-import { PureComponent } from "react";
+import { createRef, PureComponent } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { bindActionCreators, compose } from "redux";
@@ -25,7 +26,6 @@ import { BookmarkDialog } from "./BookmarkDialog";
 import ConfirmationDialog from "./ConfirmationDialog";
 import { FolderDropdown } from "./Dropdown";
 import { FolderDialog } from "./FolderDialog";
-import SearchInput from "GlobalComponents/SearchInput";
 
 class Header extends PureComponent {
   constructor(props) {

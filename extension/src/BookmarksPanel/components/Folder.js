@@ -2,7 +2,7 @@ import { Box, Typography } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import FolderTwoToneIcon from "@material-ui/icons/FolderTwoTone";
-import { displayToast } from "GlobalActionCreators/";
+import { displayToast } from "GlobalActionCreators/toast";
 import ContextMenu from "GlobalComponents/ContextMenu";
 import { COLOR } from "GlobalConstants/color";
 import { memo, useCallback, useEffect, useState } from "react";

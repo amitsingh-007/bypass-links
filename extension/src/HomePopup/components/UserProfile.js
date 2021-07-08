@@ -11,7 +11,7 @@ const avatarStyles = { height: "50px", width: "50px" };
 
 const UserProfile = memo(() => {
   const history = useHistory();
-  const isSignedIn = useSelector((state) => state.isSignedIn);
+  const { isSignedIn } = useSelector((state) => state.root);
   const [userProfile, setUserProfile] = useState(null);
   const [showSettingsIcon, setShowSettingsIcon] = useState(false);
 

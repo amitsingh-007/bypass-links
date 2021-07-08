@@ -1,8 +1,5 @@
-import { AlertColor } from "@material-ui/core";
 import {
   SET_AUTHENTICATION_PROGRESS,
-  DISPLAY_TOAST,
-  HIDE_TOAST,
   RESET_HISTORY_MONITOR,
   SET_SIGNED_IN_STATUS,
   START_HISTORY_MONITOR,
@@ -38,25 +35,6 @@ export const resetHistoryMonitor = () => ({
 export const updateTaggedPersonUrls = (data: UpdateTaggedPersons) => ({
   type: UPDATE_TAGGED_PERSON_URLS,
   data,
-});
-
-export const displayToast = ({
-  message,
-  severity = "info",
-  duration = 3000,
-}: {
-  message: string;
-  severity?: AlertColor;
-  duration?: number;
-}) => ({
-  type: DISPLAY_TOAST,
-  message,
-  severity,
-  duration,
-});
-
-export const hideToast = () => ({
-  type: HIDE_TOAST,
 });
 
 export const setAuthenticationProgress = (data: AuthenticationEvent) => ({

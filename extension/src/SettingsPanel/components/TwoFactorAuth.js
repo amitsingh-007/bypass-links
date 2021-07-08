@@ -1,6 +1,6 @@
 import { Box, Button } from "@material-ui/core";
 import storage from "ChromeApi/storage";
-import { displayToast } from "GlobalActionCreators";
+import { displayToast } from "GlobalActionCreators/toast";
 import { STORAGE_KEYS } from "GlobalConstants";
 import { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";

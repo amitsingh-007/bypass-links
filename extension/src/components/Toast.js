@@ -1,7 +1,7 @@
 import { Slide } from "@material-ui/core";
 import Alert from "@material-ui/core/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
-import { hideToast } from "GlobalActionCreators/";
+import { hideToast } from "GlobalActionCreators/toast";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -23,7 +23,7 @@ const Toast = () => {
     }
   }, [open, toast]);
 
-  const handleClose = (event, reason) => {
+  const handleClose = (_event, reason) => {
     if (reason === "clickaway") {
       return;
     }

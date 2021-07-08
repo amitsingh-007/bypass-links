@@ -7,10 +7,10 @@ import {
 import CloudDoneTwoToneIcon from "@material-ui/icons/CloudDoneTwoTone";
 import CloudOffTwoTone from "@material-ui/icons/CloudOffTwoTone";
 import {
-  displayToast,
   resetAuthenticationProgress,
   setSignedInStatus,
 } from "GlobalActionCreators";
+import { displayToast } from "GlobalActionCreators/toast";
 import { IconButtonLoader } from "GlobalComponents/Loader";
 import { COLOR } from "GlobalConstants/color";
 import { getActiveDisabledColor } from "GlobalUtils/color";
@@ -23,7 +23,9 @@ const Authenticate = memo(() => {
   const dispatch = useDispatch();
   const [isFetching, setIsFetching] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
-  const { isExtensionActive, authProgress } = useSelector((state) => state);
+  const { isExtensionActive, authProgress } = useSelector(
+    (state) => state.root
+  );
 
   const handleSignIn = async () => {
     setIsFetching(true);

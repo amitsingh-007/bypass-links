@@ -30,7 +30,7 @@ const ToggleHistory = memo(() => {
   const dispatch = useDispatch();
   const [isHistoryActive, setIsHistoryActive] = useState(false);
   const { isExtensionActive, startHistoryMonitor } = useSelector(
-    (state) => state
+    (state) => state.root
   );
 
   const turnOffHistory = useCallback(() => {

@@ -19,7 +19,7 @@ import { IconButtonLoader } from "GlobalComponents/Loader";
 import { BlackTooltip } from "GlobalComponents/StyledComponents";
 
 const QuickBookmarkButton = memo(() => {
-  const isSignedIn = useSelector((state) => state.isSignedIn);
+  const { isSignedIn } = useSelector((state) => state.root);
   const [bookmark, setBookmark] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
   const history = useHistory();

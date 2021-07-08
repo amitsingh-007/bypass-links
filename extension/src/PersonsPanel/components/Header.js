@@ -2,7 +2,7 @@ import { Box, IconButton } from "@material-ui/core";
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import PersonAddTwoToneIcon from "@material-ui/icons/PersonAddTwoTone";
 import SyncTwoToneIcon from "@material-ui/icons/SyncTwoTone";
-import { displayToast } from "GlobalActionCreators";
+import { displayToast } from "GlobalActionCreators/toast";
 import {
   AccordionHeader,
   PrimaryHeaderContent,

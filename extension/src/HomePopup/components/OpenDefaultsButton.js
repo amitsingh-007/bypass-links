@@ -12,7 +12,7 @@ import { IconButtonLoader } from "GlobalComponents/Loader";
 
 const OpenDefaultsButton = memo(() => {
   const dispatch = useDispatch();
-  const isSignedIn = useSelector((state) => state.isSignedIn);
+  const { isSignedIn } = useSelector((state) => state.root);
   const [isFetching, setIsFetching] = useState(false);
 
   const handleOpenDefaults = async () => {

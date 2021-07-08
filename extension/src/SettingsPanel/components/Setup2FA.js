@@ -12,7 +12,7 @@ import {
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import HelpOutlineOutlinedIcon from "@material-ui/icons/HelpOutlineOutlined";
 import storage from "ChromeApi/storage";
-import { displayToast } from "GlobalActionCreators";
+import { displayToast } from "GlobalActionCreators/toast";
 import PanelHeading from "GlobalComponents/PanelHeading";
 import { BlackTooltip } from "GlobalComponents/StyledComponents";
 import { STORAGE_KEYS } from "GlobalConstants";

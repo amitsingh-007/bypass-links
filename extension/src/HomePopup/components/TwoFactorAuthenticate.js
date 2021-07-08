@@ -1,6 +1,6 @@
 import { Dialog, DialogContent, Slide } from "@material-ui/core";
 import storage from "ChromeApi/storage";
-import { displayToast } from "GlobalActionCreators/";
+import { displayToast } from "GlobalActionCreators/toast";
 import { STORAGE_KEYS } from "GlobalConstants/";
 import { BG_COLOR_BLACK } from "GlobalConstants/color";
 import { forwardRef, useEffect, useState } from "react";
@@ -15,7 +15,7 @@ const Transition = forwardRef(function Transition(props, ref) {
 
 const TwoFactorAuthenticate = () => {
   const dispatch = useDispatch();
-  const isSignedIn = useSelector((state) => state.isSignedIn);
+  const { isSignedIn } = useSelector((state) => state.root);
   const [promptTOTPVerify, setPromptTOTPVerify] = useState(false);
 
   const initTOTPPrompt = async () => {

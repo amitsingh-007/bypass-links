@@ -74,7 +74,7 @@ const updateUrlsInTaggedPersons = async (updates) => {
 
 const StoreListener = memo(() => {
   const { startHistoryMonitor, updateTaggedUrls } = useSelector(
-    (state) => state
+    (state) => state.root
   );
 
   useEffect(() => {

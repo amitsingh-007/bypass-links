@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 const ShortcutsPanelButton = memo(() => {
-  const isSignedIn = useSelector((state) => state.isSignedIn);
+  const { isSignedIn } = useSelector((state) => state.root);
   const history = useHistory();
 
   const handleOpenShortcutsPanel = () => {

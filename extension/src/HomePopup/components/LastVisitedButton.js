@@ -18,7 +18,7 @@ import { useSelector } from "react-redux";
 const tooltipStyles = { fontSize: "13px" };
 
 const LastVisitedButton = memo(() => {
-  const isSignedIn = useSelector((state) => state.isSignedIn);
+  const { isSignedIn } = useSelector((state) => state.root);
   const [isFetching, setIsFetching] = useState(false);
   const [lastVisited, setLastVisited] = useState(null);
   const [currentTab, setCurrentTab] = useState(null);

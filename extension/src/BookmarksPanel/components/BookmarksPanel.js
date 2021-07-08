@@ -2,10 +2,10 @@ import { Box, GlobalStyles } from "@material-ui/core";
 import storage from "ChromeApi/storage";
 import tabs from "ChromeApi/tabs";
 import {
-  displayToast,
   startHistoryMonitor,
   updateTaggedPersonUrls,
 } from "GlobalActionCreators";
+import { displayToast } from "GlobalActionCreators/toast";
 import { STORAGE_KEYS } from "GlobalConstants";
 import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
 import { PANEL_DIMENSIONS } from "GlobalConstants/styles";
