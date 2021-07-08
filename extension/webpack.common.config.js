@@ -26,6 +26,7 @@ const commonConfig = {
       GlobalConstants: path.resolve(__dirname, "src/constants/"),
       GlobalContainers: path.resolve(__dirname, "src/containers/"),
       GlobalIcons: path.resolve(__dirname, "src/icons/"),
+      GlobalInterfaces: path.resolve(__dirname, "src/interfaces/"),
       GlobalReducers: path.resolve(__dirname, "src/reducers/"),
       GlobalScripts: path.resolve(__dirname, "src/scripts/"),
       GlobalStyles: path.resolve(__dirname, "src/scss/"),

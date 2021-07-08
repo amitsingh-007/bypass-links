@@ -1,8 +1,8 @@
 import promisify from "./promisifyChromeApi";
 
 const runtime = {
-  sendMessage: (messageObj) =>
-    promisify((callback) => {
+  sendMessage: (messageObj: any) =>
+    promisify<any>((callback: any) => {
       chrome.runtime.sendMessage(messageObj, callback);
     }),
 };

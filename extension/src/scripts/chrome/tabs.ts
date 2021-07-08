@@ -1,28 +1,28 @@
 import promisify from "./promisifyChromeApi";
 
 const tabs = {
-  create: (options) =>
-    promisify((callback) => {
+  create: (options: chrome.tabs.CreateProperties) =>
+    promisify<chrome.tabs.Tab>((callback?: any) => {
       chrome.tabs.create(options, callback);
     }),
 
-  remove: (tabId) =>
-    promisify((callback) => {
+  remove: (tabId: number) =>
+    promisify<void>((callback?: any) => {
       chrome.tabs.remove(tabId, callback);
     }),
 
-  update: (tabId, options) =>
-    promisify((callback) => {
+  update: (tabId: number, options: chrome.tabs.UpdateProperties) =>
+    promisify<chrome.tabs.Tab | undefined>((callback?: any) => {
       chrome.tabs.update(tabId, options, callback);
     }),
 
-  goBack: (tabId) =>
-    promisify((callback) => {
+  goBack: (tabId: number) =>
+    promisify<void>((callback?: any) => {
       chrome.tabs.goBack(tabId, callback);
     }),
 
-  query: (options) =>
-    promisify((callback) => {
+  query: (options: chrome.tabs.QueryInfo) =>
+    promisify<chrome.tabs.Tab[]>((callback: any) => {
       chrome.tabs.query(options, callback);
     }),
 };

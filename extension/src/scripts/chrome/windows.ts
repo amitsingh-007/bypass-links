@@ -1,8 +1,8 @@
 import promisify from "./promisifyChromeApi";
 
 const windows = {
-  create: (options) =>
-    promisify((callback) => {
+  create: (options: chrome.windows.CreateData) =>
+    promisify<chrome.windows.Window | undefined>((callback?: any) => {
       chrome.windows.create(options, callback);
     }),
 };

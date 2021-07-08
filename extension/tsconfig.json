@@ -38,6 +38,8 @@
       "GlobalContainers/*": ["./src/containers/*"],
       "GlobalIcons": ["./src/icons"],
       "GlobalIcons/*": ["./src/icons/*"],
+      "GlobalInterfaces": ["./src/interfaces"],
+      "GlobalInterfaces/*": ["./src/interfaces/*"],
       "GlobalReducers": ["./src/reducers"],
       "GlobalReducers/*": ["./src/reducers/*"],
       "GlobalScripts": ["./src/scripts"],

@@ -45,12 +45,14 @@
       "error",
       {
         "types": {
+          "Object": false,
           "Function": false
         },
         "extendDefaults": true
       }
     ],
     "react/prop-types": "off", //TODO: remove this after typescript migration
+    "@typescript-eslint/no-redeclare": "off", //TODO: remove this after typescript migration
     "no-redeclare": "off", //TODO: remove this after typescript migration
     "react/display-name": "off"
   }
