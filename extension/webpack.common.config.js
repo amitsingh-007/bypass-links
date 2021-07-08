@@ -1,6 +1,7 @@
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 
 const ENV = process.env.NODE_ENV;
 const isProduction = ENV === "production";
@@ -16,25 +17,12 @@ const commonConfig = {
   mode: ENV,
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".scss"],
-    alias: {
-      "@common": path.resolve(__dirname, "..", "common/src/"),
-      ChromeApi: path.resolve(__dirname, "src/scripts/chrome/"),
-      GlobalActionCreators: path.resolve(__dirname, "src/actionCreators/"),
-      GlobalActionTypes: path.resolve(__dirname, "src/actionTypes/"),
-      GlobalApis: path.resolve(__dirname, "src/apis/"),
-      GlobalComponents: path.resolve(__dirname, "src/components/"),
-      GlobalConstants: path.resolve(__dirname, "src/constants/"),
-      GlobalContainers: path.resolve(__dirname, "src/containers/"),
-      GlobalIcons: path.resolve(__dirname, "src/icons/"),
-      GlobalInterfaces: path.resolve(__dirname, "src/interfaces/"),
-      GlobalReducers: path.resolve(__dirname, "src/reducers/"),
-      GlobalScripts: path.resolve(__dirname, "src/scripts/"),
-      GlobalStyles: path.resolve(__dirname, "src/scss/"),
-      GlobalUtils: path.resolve(__dirname, "src/utils/"),
-      SrcPath: path.resolve(__dirname, "src/"),
-      "react/jsx-runtime": require.resolve("react/jsx-runtime"),
-    },
     modules: [PATHS.SRC, "node_modules"],
+    plugins: [
+      new TsconfigPathsPlugin({
+        extensions: [".ts", ".tsx", ".js", ".scss"],
+      }),
+    ],
   },
   stats: isProduction ? "normal" : "errors-warnings",
   devtool: isProduction ? undefined : "inline-source-map",

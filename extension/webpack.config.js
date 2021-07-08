@@ -176,4 +176,4 @@ const popupConfig = {
   plugins: getPopupConfigPlugins(),
 };
 
-module.exports = [firebaseDllConfig, backgroundConfig, popupConfig];
+module.exports = [backgroundConfig, popupConfig];

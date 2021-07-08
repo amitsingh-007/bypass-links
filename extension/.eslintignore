@@ -3,3 +3,4 @@ build/
 extension-build/
 firebase-build/
 webpack.*.js
+webpack/
