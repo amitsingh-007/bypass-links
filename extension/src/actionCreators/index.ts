@@ -9,7 +9,7 @@ import {
   RESET_AUTHENTICATION_PROGRESS,
 } from "GlobalActionTypes";
 import { AuthenticationEvent } from "GlobalInterfaces/authentication";
-import { UpdateTaggedPersons } from "GlobalInterfaces/persons";
+import { UpdateTaggedPersons } from "SrcPath/PersonsPanel/interfaces/persons";
 
 export const setSignedInStatus = (isSignedIn: boolean) => ({
   type: SET_SIGNED_IN_STATUS,

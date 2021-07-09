@@ -1,21 +1,20 @@
-import { Slide } from "@material-ui/core";
-import Alert from "@material-ui/core/Alert";
-import Snackbar from "@material-ui/core/Snackbar";
+import { Slide, SlideProps } from "@material-ui/core";
+import Alert, { AlertProps } from "@material-ui/core/Alert";
+import Snackbar, { SnackbarProps } from "@material-ui/core/Snackbar";
 import { hideToast } from "GlobalActionCreators/toast";
+import { Dispatch } from "redux";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "SrcPath/reducers/rootReducer";
 
-const position = {
-  vertical: "bottom",
-  horizontal: "left",
-};
-
-const SlideTransition = (props) => <Slide {...props} direction="right" />;
+const SlideTransition = (props: SlideProps) => (
+  <Slide {...props} direction="right" />
+);
 
 const Toast = () => {
-  const dispatch = useDispatch();
+  const dispatch: Dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-  const toast = useSelector((state) => state.toast);
+  const toast = useSelector((state: RootState) => state.toast);
 
   useEffect(() => {
     if (!open && toast) {
@@ -23,7 +22,7 @@ const Toast = () => {
     }
   }, [open, toast]);
 
-  const handleClose = (_event, reason) => {
+  const handleClose: SnackbarProps["onClose"] = (_event, reason) => {
     if (reason === "clickaway") {
       return;
     }
@@ -31,7 +30,11 @@ const Toast = () => {
     setOpen(false);
   };
 
-  if (!toast) {
+  const handleAlertClose: AlertProps["onClose"] = (event) => {
+    handleClose(event, "timeout");
+  };
+
+  if (!toast?.message) {
     return null;
   }
 
@@ -42,14 +45,13 @@ const Toast = () => {
       open={open}
       autoHideDuration={duration}
       onClose={handleClose}
-      anchorOrigin={position}
       TransitionComponent={SlideTransition}
     >
       <Alert
         sx={{ padding: "0 8px" }}
         elevation={6}
         variant="filled"
-        onClose={handleClose}
+        onClose={handleAlertClose}
         severity={severity}
       >
         {message}

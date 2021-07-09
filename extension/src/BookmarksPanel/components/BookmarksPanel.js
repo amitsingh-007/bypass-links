@@ -387,7 +387,6 @@ class BookmarksPanel extends PureComponent {
     const { folderContext } = this.props;
     this.setState({ isFetching: true });
     //Update url in tagged persons
-    console.log(updateTaggedPersons);
     this.props.updateTaggedPersonUrls(updateTaggedPersons);
     //Form folders obj for current context folder
     folders[md5(folderContext)] = contextBookmarks.map(

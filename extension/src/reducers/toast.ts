@@ -1,8 +1,14 @@
 import { DISPLAY_TOAST, HIDE_TOAST } from "GlobalActionTypes/toast";
+import { ToastAction, ToastState } from "./interfaces/toast";
 
-const defaultState = null;
+const defaultState = {
+  message: null,
+};
 
-const toastReducer = (state = defaultState, action) => {
+const toastReducer = (
+  state: ToastState = defaultState,
+  action: ToastAction
+): ToastState => {
   switch (action.type) {
     case DISPLAY_TOAST:
       return {
