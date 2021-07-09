@@ -207,7 +207,11 @@ class Header extends PureComponent {
                 <CreateNewFolderTwoToneIcon fontSize="large" />
               </IconButton>
               {isFetching && (
-                <Loader loaderSize={28} padding="3px" disableShrink />
+                <Loader
+                  loaderSize={28}
+                  disableShrink
+                  styles={{ padding: "3px" }}
+                />
               )}
             </Box>
             <PanelHeading

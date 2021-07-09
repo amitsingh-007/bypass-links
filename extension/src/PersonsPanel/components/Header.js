@@ -104,9 +104,11 @@ const Header = memo(({ isFetching, handleAddPerson, persons, handleSort }) => {
             {isFetching && (
               <Loader
                 loaderSize={28}
-                padding="3px"
-                display="inline"
                 disableShrink
+                styles={{
+                  padding: "3px",
+                  display: "inline",
+                }}
               />
             )}
           </Box>
