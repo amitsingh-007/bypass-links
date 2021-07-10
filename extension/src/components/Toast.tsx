@@ -5,7 +5,7 @@ import { hideToast } from "GlobalActionCreators/toast";
 import { Dispatch } from "redux";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "SrcPath/reducers/rootReducer";
+import { RootState } from "GlobalReducers/rootReducer";
 
 const SlideTransition = (props: SlideProps) => (
   <Slide {...props} direction="right" />

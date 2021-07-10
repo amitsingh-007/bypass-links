@@ -18,13 +18,14 @@ import { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserProfile } from "SrcPath/SettingsPanel/utils";
 import { signIn, signOut } from "../utils/authentication";
+import { RootState } from "GlobalReducers/rootReducer";
 
 const Authenticate = memo(() => {
   const dispatch = useDispatch();
   const [isFetching, setIsFetching] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
   const { isExtensionActive, authProgress } = useSelector(
-    (state) => state.root
+    (state: RootState) => state.root
   );
 
   const handleSignIn = async () => {

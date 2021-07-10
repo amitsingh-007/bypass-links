@@ -10,10 +10,10 @@ export const MEDIUM_WHITELISTED = [
   "https://medium.com/me/",
 ];
 
-export const EXTENSION_STATE = {
-  ACTIVE: "active",
-  INACTIVE: "inactive",
-};
+export enum EXTENSION_STATE {
+  ACTIVE = "active",
+  INACTIVE = "inactive",
+}
 
 export const STORAGE_KEYS = {
   bookmarks: FIREBASE_DB_REF.bookmarks,

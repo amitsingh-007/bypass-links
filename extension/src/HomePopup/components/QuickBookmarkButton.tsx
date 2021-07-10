@@ -17,16 +17,19 @@ import {
 } from "SrcPath/BookmarksPanel/utils";
 import { IconButtonLoader } from "GlobalComponents/Loader";
 import { BlackTooltip } from "GlobalComponents/StyledComponents";
+import { RootState } from "GlobalReducers/rootReducer";
+import { Bookmark } from "SrcPath/BookmarksPanel/interfaces";
 
 const QuickBookmarkButton = memo(() => {
-  const { isSignedIn } = useSelector((state) => state.root);
-  const [bookmark, setBookmark] = useState(null);
+  const { isSignedIn } = useSelector((state: RootState) => state.root);
+  const [bookmark, setBookmark] = useState<Bookmark | null>(null);
   const [isFetching, setIsFetching] = useState(false);
   const history = useHistory();
 
   const initBookmark = async () => {
     setIsFetching(true);
-    const { url } = await getCurrentTab();
+    const currentTab = await getCurrentTab();
+    const url = currentTab?.url ?? "";
     const bookmarks = await getBookmarksObj();
     if (bookmarks) {
       const encodedBookmark = bookmarks.urlList[md5(url)];
@@ -46,7 +49,7 @@ const QuickBookmarkButton = memo(() => {
   }, [isSignedIn]);
 
   const handleClick = async () => {
-    const urlParams = {};
+    const urlParams = {} as any;
     if (bookmark) {
       const { url, title, parentHash } = bookmark;
       const parent = await getFromHash(true, parentHash);

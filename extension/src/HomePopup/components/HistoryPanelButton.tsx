@@ -2,14 +2,15 @@ import { IconButton } from "@material-ui/core";
 import HistoryTwoToneIcon from "@material-ui/icons/HistoryTwoTone";
 import { COLOR } from "GlobalConstants/color";
 import { ROUTES } from "GlobalConstants/routes";
+import { RootState } from "GlobalReducers/rootReducer";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import { memo } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 const HistoryPanelButton = memo(() => {
-  const { isExtensionActive } = useSelector((state) => state.root);
   const history = useHistory();
+  const { isExtensionActive } = useSelector((state: RootState) => state.root);
 
   const handleShowHistoryPanel = () => {
     history.push(ROUTES.HISTORY_PANEL);

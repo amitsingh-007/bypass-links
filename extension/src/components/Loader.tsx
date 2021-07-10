@@ -29,7 +29,7 @@ const Loader = memo<{
 ));
 export default Loader;
 
-export const IconButtonLoader = memo<Record<string, never>>(() => (
+export const IconButtonLoader = memo(() => (
   <Loader
     loaderSize={28}
     styles={{

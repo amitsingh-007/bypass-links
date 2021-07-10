@@ -11,17 +11,18 @@ import { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IconButtonLoader } from "GlobalComponents/Loader";
 import { useCallback } from "react";
+import { RootState } from "GlobalReducers/rootReducer";
 
-const isCurrentPageForum = async (url) => {
+const isCurrentPageForum = async (url = "") => {
   const hostname = url && new URL(url).hostname;
   return await matchHostnames(hostname, BYPASS_KEYS.FORUMS);
 };
 
 const OpenForumLinks = memo(() => {
   const dispatch = useDispatch();
-  const { isSignedIn } = useSelector((state) => state.root);
+  const { isSignedIn } = useSelector((state: RootState) => state.root);
   const [isFetching, setIsFetching] = useState(false);
-  const [currentTab, setCurrentTab] = useState({});
+  const [currentTab, setCurrentTab] = useState<chrome.tabs.Tab | null>(null);
   const [isActive, setIsActive] = useState(false);
 
   const initCurrentTab = async () => {
@@ -33,9 +34,9 @@ const OpenForumLinks = memo(() => {
   }, []);
 
   const initIsActive = useCallback(async () => {
-    const isActive = isSignedIn && (await isCurrentPageForum(currentTab.url));
+    const isActive = isSignedIn && (await isCurrentPageForum(currentTab?.url));
     setIsActive(isActive);
-  }, [currentTab.url, isSignedIn]);
+  }, [currentTab?.url, isSignedIn]);
 
   useEffect(() => {
     initIsActive();
@@ -45,9 +46,9 @@ const OpenForumLinks = memo(() => {
     setIsFetching(true);
     dispatch(startHistoryMonitor());
     const { forumPageLinks } = await runtime.sendMessage({
-      getForumPageLinks: currentTab.id,
+      getForumPageLinks: currentTab?.id,
     });
-    forumPageLinks.forEach((url) => {
+    forumPageLinks.forEach((url: string) => {
       tabs.create({ url, selected: false });
     });
     setIsFetching(false);

@@ -24,6 +24,7 @@ const Global = memo(() => {
     };
   }, [history]);
 
+  //TODO: after custom event consumtion
   const handleAuthenticationEvent = useCallback(
     (event) => {
       dispatch(setAuthenticationProgress(event.detail));

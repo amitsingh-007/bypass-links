@@ -1,21 +1,26 @@
 import { Dialog, DialogContent, Slide } from "@material-ui/core";
+import { TransitionProps } from "@material-ui/core/transitions";
 import storage from "ChromeApi/storage";
 import { displayToast } from "GlobalActionCreators/toast";
-import { STORAGE_KEYS } from "GlobalConstants/";
+import { STORAGE_KEYS } from "GlobalConstants";
 import { BG_COLOR_BLACK } from "GlobalConstants/color";
+import { RootState } from "GlobalReducers/rootReducer";
 import { forwardRef, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { authenticate2FA } from "SrcPath/SettingsPanel/apis/TwoFactorAuth";
 import Verify2FA from "SrcPath/SettingsPanel/components/Verify2FA";
 import { getUserProfile } from "SrcPath/SettingsPanel/utils";
 
-const Transition = forwardRef(function Transition(props, ref) {
+const Transition = forwardRef(function Transition(
+  props: TransitionProps & { children?: React.ReactElement<any, any> },
+  ref: React.Ref<unknown>
+) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 const TwoFactorAuthenticate = () => {
   const dispatch = useDispatch();
-  const { isSignedIn } = useSelector((state) => state.root);
+  const { isSignedIn } = useSelector((state: RootState) => state.root);
   const [promptTOTPVerify, setPromptTOTPVerify] = useState(false);
 
   const initTOTPPrompt = async () => {
@@ -31,7 +36,7 @@ const TwoFactorAuthenticate = () => {
     }
   }, [isSignedIn]);
 
-  const handleAuthenticateTOTP = async (totp) => {
+  const handleAuthenticateTOTP = async (totp: string) => {
     const userProfile = await getUserProfile();
     const { isVerified } = await authenticate2FA(userProfile.uid, totp);
     if (!isVerified) {

@@ -2,8 +2,10 @@ import identity from "ChromeApi/identity";
 import { googleSignIn, googleSignOut } from "GlobalUtils/firebase";
 import { AUTHENTICATION_EVENT } from "../constants/auth";
 import { processPostLogin, processPostLogout, processPreLogout } from "./sync";
+import { AuthenticationEvent } from "GlobalInterfaces/authentication";
+import { UserInfo } from "../interfaces/authentication";
 
-const userSignIn = async () => {
+const userSignIn = async (): Promise<UserInfo> => {
   dispatchAuthenticationEvent({
     message: "Logging in user",
     progress: 0,
@@ -12,20 +14,24 @@ const userSignIn = async () => {
   });
   const googleAuthToken = await identity.getAuthToken({ interactive: true });
   const response = await googleSignIn(googleAuthToken);
-  const userProfile = response.additionalUserInfo.profile;
-  userProfile.googleAuthToken = googleAuthToken;
-  userProfile.uid = response.user.uid;
+  const userProfile = response.additionalUserInfo?.profile ?? {};
+  const userInfo: UserInfo = {
+    ...userProfile,
+    googleAuthToken,
+    uid: response.user?.uid,
+  };
   console.log("Firebase login response", response);
+  console.log("UserInfo", userInfo);
   dispatchAuthenticationEvent({
     message: "User logged in",
     progress: 1,
     progressBuffer: 1,
     total: 5,
   });
-  return userProfile;
+  return userInfo;
 };
 
-export const signIn = async () => {
+export const signIn = async (): Promise<boolean> => {
   try {
     const userProfile = await userSignIn();
     await processPostLogin(userProfile);
@@ -39,7 +45,7 @@ export const signIn = async () => {
   }
 };
 
-export const signOut = async () => {
+export const signOut = async (): Promise<boolean> => {
   try {
     await processPreLogout();
     dispatchAuthenticationEvent({
@@ -65,7 +71,9 @@ export const signOut = async () => {
   }
 };
 
-export const dispatchAuthenticationEvent = (authProgressObj) => {
+export const dispatchAuthenticationEvent = (
+  authProgressObj: AuthenticationEvent
+) => {
   const event = new CustomEvent(AUTHENTICATION_EVENT, {
     detail: authProgressObj,
   });

@@ -1,10 +1,12 @@
-import { FIREBASE_DB_REF } from "../../../../common/src/constants/firebase";
+import { FIREBASE_DB_REF } from "@common/constants/firebase";
 import { IconButton, Typography } from "@material-ui/core";
 import EventAvailableTwoToneIcon from "@material-ui/icons/EventAvailableTwoTone";
 import { getCurrentTab } from "ChromeApi/tabs";
 import { IconButtonLoader } from "GlobalComponents/Loader";
 import { BlackTooltip } from "GlobalComponents/StyledComponents";
 import { COLOR } from "GlobalConstants/color";
+import { GenericObject } from "GlobalInterfaces/custom";
+import { RootState } from "GlobalReducers/rootReducer";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import { saveDataToFirebase } from "GlobalUtils/firebase";
 import {
@@ -18,19 +20,19 @@ import { useSelector } from "react-redux";
 const tooltipStyles = { fontSize: "13px" };
 
 const LastVisitedButton = memo(() => {
-  const { isSignedIn } = useSelector((state) => state.root);
+  const { isSignedIn } = useSelector((state: RootState) => state.root);
   const [isFetching, setIsFetching] = useState(false);
-  const [lastVisited, setLastVisited] = useState(null);
-  const [currentTab, setCurrentTab] = useState(null);
-  const [lastVisitedObj, setLastVisitedObj] = useState(null);
+  const [lastVisited, setLastVisited] = useState("");
+  const [currentTab, setCurrentTab] = useState<chrome.tabs.Tab | null>(null);
+  const [lastVisitedObj, setLastVisitedObj] = useState<GenericObject>({});
 
   const initLastVisited = async () => {
     setIsFetching(true);
     const lastVisitedObj = await getLastVisitedObj();
     const currentTab = await getCurrentTab();
-    const { hostname } = new URL(currentTab.url);
+    const { hostname } = new URL(currentTab.url ?? "");
     const lastVisitedDate = lastVisitedObj[md5(hostname)];
-    let displayInfo = null;
+    let displayInfo = "";
     if (lastVisitedDate) {
       const date = new Date(lastVisitedDate);
       displayInfo = `${date.toDateString()}, ${date.toLocaleTimeString()}`;
@@ -50,7 +52,7 @@ const LastVisitedButton = memo(() => {
 
   const handleUpdateLastVisited = async () => {
     setIsFetching(true);
-    const { hostname } = new URL(currentTab.url);
+    const { hostname } = new URL(currentTab?.url ?? "");
     lastVisitedObj[md5(hostname)] = Date.now();
     await saveDataToFirebase(
       lastVisitedObj,

@@ -6,10 +6,11 @@ import { getBookmarksPanelUrl } from "SrcPath/BookmarksPanel/utils";
 import { memo } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { RootState } from "GlobalReducers/rootReducer";
 
 const BookmarksPanelButton = memo(() => {
-  const { isSignedIn } = useSelector((state) => state.root);
   const history = useHistory();
+  const { isSignedIn } = useSelector((state: RootState) => state.root);
 
   const handleShowEditPanel = () => {
     history.push(getBookmarksPanelUrl({}));

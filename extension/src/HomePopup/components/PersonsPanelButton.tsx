@@ -6,10 +6,11 @@ import { getActiveDisabledColor } from "GlobalUtils/color";
 import { memo } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
+import { RootState } from "GlobalReducers/rootReducer";
 
 const PersonsPanelButton = memo(() => {
-  const { isSignedIn } = useSelector((state) => state.root);
   const history = useHistory();
+  const { isSignedIn } = useSelector((state: RootState) => state.root);
 
   const handleShowPersonsPanel = () => {
     history.push(ROUTES.PERSONS_PANEL);

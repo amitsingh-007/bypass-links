@@ -1,3 +1,4 @@
+import { GenericObject } from "GlobalInterfaces/custom";
 import promisify from "./promisifyChromeApi";
 
 const storage = {
@@ -7,7 +8,7 @@ const storage = {
     }),
 
   get: (keys: string | string[] | Object | null) =>
-    promisify<{ [key: string]: any }>((callback: any) => {
+    promisify<GenericObject>((callback: any) => {
       chrome.storage.local.get(keys, callback);
     }),
 

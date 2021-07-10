@@ -2,17 +2,19 @@ import { Avatar, Box, Fade, IconButton } from "@material-ui/core";
 import PersonOffIcon from "@material-ui/icons/PersonOff";
 import SettingsRoundedIcon from "@material-ui/icons/SettingsRounded";
 import { ROUTES } from "GlobalConstants/routes";
+import { RootState } from "GlobalReducers/rootReducer";
 import { memo, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { getUserProfile } from "SrcPath/SettingsPanel/utils";
+import { UserInfo } from "SrcPath/HomePopup/interfaces/authentication";
 
 const avatarStyles = { height: "50px", width: "50px" };
 
 const UserProfile = memo(() => {
   const history = useHistory();
-  const { isSignedIn } = useSelector((state) => state.root);
-  const [userProfile, setUserProfile] = useState(null);
+  const { isSignedIn } = useSelector((state: RootState) => state.root);
+  const [userProfile, setUserProfile] = useState<UserInfo | null>(null);
   const [showSettingsIcon, setShowSettingsIcon] = useState(false);
 
   const initUserProfile = async () => {
@@ -43,7 +45,7 @@ const UserProfile = memo(() => {
         src={userProfile.picture}
         sx={avatarStyles}
       />
-      <Fade direction="up" in={showSettingsIcon} mountOnEnter unmountOnExit>
+      <Fade in={showSettingsIcon} mountOnEnter unmountOnExit>
         <IconButton
           sx={{
             position: "absolute",

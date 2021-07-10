@@ -17,7 +17,10 @@ const ToggleExtension = memo(() => {
   const dispatch = useDispatch();
   const [extState, setExtState] = useState(EXTENSION_STATE.INACTIVE);
 
-  const dispatchActionAndSetState = (extState, isActive) => {
+  const dispatchActionAndSetState = (
+    extState: EXTENSION_STATE,
+    isActive: boolean
+  ) => {
     setExtState(extState);
     const action = isActive ? turnOnExtension : turnOffExtension;
     dispatch(action());
@@ -31,7 +34,7 @@ const ToggleExtension = memo(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleToggle = (event) => {
+  const handleToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const isActive = event.target.checked;
     const extState = isActive
       ? EXTENSION_STATE.ACTIVE

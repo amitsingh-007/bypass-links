@@ -29,8 +29,9 @@ import {
   syncPersonsToStorage,
 } from "SrcPath/PersonsPanel/utils/sync";
 import { dispatchAuthenticationEvent } from "./authentication";
+import { UserInfo } from "../interfaces/authentication";
 
-const syncAuthenticationToStorage = async (userProfile) => {
+const syncAuthenticationToStorage = async (userProfile: UserInfo) => {
   dispatchAuthenticationEvent({
     message: "Checking 2FA status",
     progress: 1,
@@ -55,7 +56,9 @@ const resetAuthentication = async () => {
     console.log("User profile not found");
     return;
   }
-  await identity.removeCachedAuthToken({ token: userProfile.googleAuthToken });
+  await identity.removeCachedAuthToken({
+    token: userProfile.googleAuthToken ?? "",
+  });
   console.log("Removed Google auth token from cache");
   await storage.remove(STORAGE_KEYS.userProfile);
 };
@@ -126,7 +129,7 @@ const resetStorage = async () => {
   });
 };
 
-export const processPostLogin = async (userProfile) => {
+export const processPostLogin = async (userProfile: UserInfo) => {
   //First process authentication
   await syncAuthenticationToStorage(userProfile);
   //Then sync remote firebase to storage

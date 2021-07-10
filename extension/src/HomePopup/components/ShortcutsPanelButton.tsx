@@ -2,13 +2,14 @@ import { IconButton } from "@material-ui/core";
 import TuneTwoToneIcon from "@material-ui/icons/TuneTwoTone";
 import { COLOR } from "GlobalConstants/color";
 import { ROUTES } from "GlobalConstants/routes";
+import { RootState } from "GlobalReducers/rootReducer";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import { memo } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 const ShortcutsPanelButton = memo(() => {
-  const { isSignedIn } = useSelector((state) => state.root);
+  const { isSignedIn } = useSelector((state: RootState) => state.root);
   const history = useHistory();
 
   const handleOpenShortcutsPanel = () => {

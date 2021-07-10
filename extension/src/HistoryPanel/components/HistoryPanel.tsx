@@ -3,8 +3,6 @@ import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import DeleteSweepTwoToneIcon from "@material-ui/icons/DeleteSweepTwoTone";
 import AdapterDayjs from "@material-ui/lab/AdapterDayjs";
 import DesktopDateTimePicker from "@material-ui/lab/DesktopDateTimePicker";
-import { ParseableDate } from "@material-ui/lab/internal/pickers/constants/prop-types";
-import { MuiTextFieldProps } from "@material-ui/lab/internal/pickers/PureDateInput";
 import LocalizationProvider from "@material-ui/lab/LocalizationProvider";
 import historyApi from "ChromeApi/history";
 import storage from "ChromeApi/storage";
@@ -15,17 +13,9 @@ import { ROUTES } from "GlobalConstants/routes";
 import { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { DateTimeInputProps } from "../interfaces/historyPanel";
 
-interface Props {
-  dateTime: ParseableDate<Date>;
-  label: MuiTextFieldProps["label"];
-  onChange: (
-    date: Date | null,
-    keyboardInputValue?: string | undefined
-  ) => void;
-}
-
-const DateTimeInput = ({ dateTime, onChange, label }: Props) => (
+const DateTimeInput = ({ dateTime, onChange, label }: DateTimeInputProps) => (
   <DesktopDateTimePicker
     showToolbar={false}
     ampm={false}
@@ -47,7 +37,7 @@ const DateTimeInput = ({ dateTime, onChange, label }: Props) => (
   />
 );
 
-const HistoryPanel = memo<Record<string, never>>(() => {
+const HistoryPanel = memo(() => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [startDateTime, setStartDateTime] = useState<Date | null>(new Date());

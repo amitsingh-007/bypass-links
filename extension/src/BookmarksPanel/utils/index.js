@@ -11,18 +11,18 @@ export const getFaviconUrl = (url) =>
   }`;
 
 export const getBookmarksPanelUrl = ({
-  folder,
-  addBookmark,
-  editBookmark,
-  url,
-  title,
+  folder = defaultBookmarkFolder,
+  addBookmark = false,
+  editBookmark = false,
+  url = "",
+  title = "",
 }) => {
   const qsObj = {
-    folderContext: folder || defaultBookmarkFolder,
-    addBookmark: addBookmark || false,
-    editBookmark: editBookmark || false,
-    bmUrl: url || "",
-    bmTitle: title || "",
+    folderContext: folder,
+    addBookmark: addBookmark,
+    editBookmark: editBookmark,
+    bmUrl: url,
+    bmTitle: title,
   };
   return `${ROUTES.BOOKMARK_PANEL}?${serialzeObjectToQueryString(qsObj)}`;
 };

@@ -9,10 +9,11 @@ import { getActiveDisabledColor } from "GlobalUtils/color";
 import { memo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IconButtonLoader } from "GlobalComponents/Loader";
+import { RootState } from "GlobalReducers/rootReducer";
 
 const OpenDefaultsButton = memo(() => {
   const dispatch = useDispatch();
-  const { isSignedIn } = useSelector((state) => state.root);
+  const { isSignedIn } = useSelector((state: RootState) => state.root);
   const [isFetching, setIsFetching] = useState(false);
 
   const handleOpenDefaults = async () => {
@@ -21,10 +22,12 @@ const OpenDefaultsButton = memo(() => {
     const { [STORAGE_KEYS.redirections]: redirections } = await storage.get([
       STORAGE_KEYS.redirections,
     ]);
-    const defaults = redirections.filter(({ isDefault }) => isDefault);
+    const defaults = redirections.filter(
+      ({ isDefault }: { isDefault: boolean }) => isDefault
+    );
     defaults
-      .filter((data) => data && data.alias && data.website)
-      .forEach(({ website }) => {
+      .filter((data: any) => data && data.alias && data.website)
+      .forEach(({ website }: any) => {
         tabs.create({ url: atob(website), selected: false });
       });
     setIsFetching(false);
