@@ -12,10 +12,11 @@ import { saveDataToFirebase } from "GlobalUtils/firebase";
 import {
   getLastVisitedObj,
   syncLastVisitedToStorage,
-} from "GlobalUtils/lastVisited";
+} from "SrcPath/HomePopup/utils/lastVisited";
 import md5 from "md5";
 import { memo, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { LastVisited } from "../interfaces/lastVisited";
 
 const tooltipStyles = { fontSize: "13px" };
 
@@ -24,7 +25,7 @@ const LastVisitedButton = memo(() => {
   const [isFetching, setIsFetching] = useState(false);
   const [lastVisited, setLastVisited] = useState("");
   const [currentTab, setCurrentTab] = useState<chrome.tabs.Tab | null>(null);
-  const [lastVisitedObj, setLastVisitedObj] = useState<GenericObject>({});
+  const [lastVisitedObj, setLastVisitedObj] = useState<LastVisited>({});
 
   const initLastVisited = async () => {
     setIsFetching(true);

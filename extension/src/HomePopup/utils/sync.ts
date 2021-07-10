@@ -7,7 +7,7 @@ import { deleteAllCache } from "GlobalUtils/cache";
 import {
   resetLastVisited,
   syncLastVisitedToStorage,
-} from "GlobalUtils/lastVisited";
+} from "SrcPath/HomePopup/utils/lastVisited";
 import {
   resetRedirections,
   syncRedirectionsToStorage,

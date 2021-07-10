@@ -21,7 +21,7 @@ firebase.initializeApp(firebaseConfig);
 /**
  * AUTHORIZATION
  */
-export const googleSignIn = (token) =>
+export const googleSignIn = (token: string) =>
   firebase
     .auth()
     .signInWithCredential(
@@ -33,24 +33,28 @@ export const googleSignOut = () => firebase.auth().signOut();
 /**
  * REALTIME DATABASE
  */
-const getDbRef = async (ref) => {
+const getDbRef = async (ref: string) => {
   const userProfile = await getUserProfile();
   return getFullDbPath(ref, userProfile.uid);
 };
 
-export const getFromFirebase = async (ref) =>
+export const getFromFirebase = async (ref: string) =>
   firebase
     .database()
     .ref(await getDbRef(ref))
     .once("value");
 
-export const saveToFirebase = async (ref, data) =>
+export const saveToFirebase = async (ref: string, data: any) =>
   firebase
     .database()
     .ref(await getDbRef(ref))
     .set(data);
 
-export const saveDataToFirebase = async (data, ref, successCallback) => {
+export const saveDataToFirebase = async (
+  data: any,
+  ref: string,
+  successCallback?: () => Promise<void>
+) => {
   return new Promise((resolve, _reject) => {
     saveToFirebase(ref, data)
       .then(async () => {
@@ -70,27 +74,27 @@ export const saveDataToFirebase = async (data, ref, successCallback) => {
  * STORAGE
  */
 
-const getStoragePath = async (ref) => {
+const getStoragePath = async (ref: string) => {
   const env = __PROD__ ? "prod" : "dev";
   const userProfile = await getUserProfile();
   return `${userProfile.uid}/${env}/${ref}`;
 };
 
-export const uploadImageToFirebase = async (blob, ref) =>
+export const uploadImageToFirebase = async (blob: Blob, ref: string) =>
   firebase
     .storage()
     .ref()
     .child(await getStoragePath(ref))
     .put(blob, { contentType: blob.type });
 
-export const getImageFromFirebase = async (ref) =>
+export const getImageFromFirebase = async (ref: string) =>
   firebase
     .storage()
     .ref()
     .child(await getStoragePath(ref))
     .getDownloadURL();
 
-export const removeImageFromFirebase = async (ref) =>
+export const removeImageFromFirebase = async (ref: string) =>
   firebase
     .storage()
     .ref()

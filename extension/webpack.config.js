@@ -4,7 +4,6 @@ const FileManagerPlugin = require("filemanager-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { DefinePlugin, DllReferencePlugin } = require("webpack");
 const { commonConfig, PATHS } = require("./webpack.common.config");
-const firebaseDllConfig = require("./webpack.firebase.config");
 const WatchExternalFilesPlugin = require("webpack-watch-external-files-plugin");
 const ESLintPlugin = require("eslint-webpack-plugin");
 const { extVersion } = require("../common/src/scripts/extension-version");
@@ -145,7 +144,7 @@ const backgroundConfig = {
 const popupConfig = {
   ...commonConfig,
   name: "ContentScript",
-  entry: "./src/index.js",
+  entry: "./src/index.tsx",
   output: {
     path: PATHS.EXTENSION,
     filename: "js/[name].[chunkhash:9].js",

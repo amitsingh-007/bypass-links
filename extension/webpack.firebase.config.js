@@ -10,7 +10,7 @@ const firebaseDllConfig = {
   ...commonConfig,
   name: "Firebase",
   target: "browserslist",
-  entry: ["./src/utils/firebase.js"],
+  entry: ["./src/utils/firebase.ts"],
   output: {
     filename: "js/firebase.js",
     path: PATHS.FIREBASE_BUILD,

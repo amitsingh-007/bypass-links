@@ -6,10 +6,11 @@ const turnOffAutocomplete = () => {
     .forEach((ele) => ele.setAttribute("autocomplete", "off"));
 };
 
-const turnOffInputSuggestions = (tabId) => {
+const turnOffInputSuggestions = (tabId: number) => {
   scripting.executeScript({
     target: { tabId },
     function: turnOffAutocomplete,
   });
 };
+
 export default turnOffInputSuggestions;
