@@ -3,22 +3,32 @@ import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import DeleteSweepTwoToneIcon from "@material-ui/icons/DeleteSweepTwoTone";
 import AdapterDayjs from "@material-ui/lab/AdapterDayjs";
 import DesktopDateTimePicker from "@material-ui/lab/DesktopDateTimePicker";
+import { ParseableDate } from "@material-ui/lab/internal/pickers/constants/prop-types";
+import { MuiTextFieldProps } from "@material-ui/lab/internal/pickers/PureDateInput";
 import LocalizationProvider from "@material-ui/lab/LocalizationProvider";
 import historyApi from "ChromeApi/history";
 import storage from "ChromeApi/storage";
 import { displayToast } from "GlobalActionCreators/toast";
+import PanelHeading from "GlobalComponents/PanelHeading";
 import { BG_COLOR_DARK, COLOR } from "GlobalConstants/color";
 import { ROUTES } from "GlobalConstants/routes";
 import { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import PanelHeading from "GlobalComponents/PanelHeading";
 
-const DateTimeInput = memo(({ dateTime, onChange, label }) => (
+interface Props {
+  dateTime: ParseableDate<Date>;
+  label: MuiTextFieldProps["label"];
+  onChange: (
+    date: Date | null,
+    keyboardInputValue?: string | undefined
+  ) => void;
+}
+
+const DateTimeInput = ({ dateTime, onChange, label }: Props) => (
   <DesktopDateTimePicker
     showToolbar={false}
     ampm={false}
-    margin="normal"
     label={label}
     value={dateTime}
     onChange={onChange}
@@ -35,28 +45,28 @@ const DateTimeInput = memo(({ dateTime, onChange, label }) => (
     )}
     maxDateTime={Date.now()}
   />
-));
+);
 
-const HistoryPanel = memo(() => {
+const HistoryPanel = memo<Record<string, never>>(() => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const [startDateTime, setStartDateTime] = useState(Date.now());
-  const [endDateTime, setEndDateTime] = useState(Date.now());
+  const [startDateTime, setStartDateTime] = useState<Date | null>(new Date());
+  const [endDateTime, setEndDateTime] = useState<Date | null>(new Date());
 
   useEffect(() => {
     storage.get(["historyStartTime"]).then(({ historyStartTime }) => {
       if (historyStartTime) {
-        setStartDateTime(new Date(historyStartTime));
+        setStartDateTime(historyStartTime);
       }
     });
   }, []);
 
-  const handleStartDateTimeChange = (date) => {
-    setStartDateTime(date.valueOf());
+  const handleStartDateTimeChange = (date: Date | null) => {
+    setStartDateTime(date);
   };
 
-  const handleEndDateTimeChange = (date) => {
-    setEndDateTime(date.valueOf());
+  const handleEndDateTimeChange = (date: Date | null) => {
+    setEndDateTime(date);
   };
 
   const handleClose = () => {
@@ -64,13 +74,15 @@ const HistoryPanel = memo(() => {
   };
 
   const handleClear = async () => {
-    if (startDateTime > endDateTime) {
+    const startDateNum = startDateTime?.valueOf() ?? 0;
+    const endDateNum = endDateTime?.valueOf() ?? 0;
+    if (startDateNum > endDateNum) {
       console.log("Start DateTime cannot be more than End DateTime.");
       return;
     }
     await historyApi.deleteRange({
-      startTime: startDateTime,
-      endTime: endDateTime,
+      startTime: startDateNum,
+      endTime: endDateNum,
     });
     storage.remove("historyStartTime");
     dispatch(displayToast({ message: "History cleared succesfully" }));

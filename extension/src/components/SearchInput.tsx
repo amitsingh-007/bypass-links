@@ -1,6 +1,7 @@
-import { Box, InputBase } from "@material-ui/core";
+import { Box, InputBase, InputBaseProps } from "@material-ui/core";
 import { alpha } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
+import { IntersectionObserverResponse } from "GlobalInterfaces/overrides";
 import { useState } from "react";
 import { useCallback } from "react";
 import { useRef } from "react";
@@ -15,37 +16,42 @@ const refOptions = { trackVisibility: true, delay: 100 };
  * `searchClassName` should be parent of each row and not parent of all rows
  * `data-text` and `data-subtext` should be applied on same node as of `searchClassName`
  */
-const SearchInput = memo(({ searchClassName }) => {
-  const inputRef = useRef(null);
+const SearchInput = memo<{ searchClassName: string }>(({ searchClassName }) => {
+  const inputRef = useRef<HTMLInputElement>(null);
   const [searchText, setSearchText] = useState("");
-  const { ref, entry } = useInView(refOptions);
+  const { ref, entry }: IntersectionObserverResponse = useInView(refOptions);
 
   const handleSearch = useCallback(
-    (searchText) => {
+    (searchText: string) => {
       const lowerSearchText = searchText.toLowerCase();
 
-      document.querySelectorAll(`.${searchClassName}`).forEach((node) => {
-        const textsToSearch = [
-          node.getAttribute("data-text")?.toLowerCase(),
-          node.getAttribute("data-subtext")?.toLowerCase(),
-        ];
+      document
+        .querySelectorAll<HTMLElement>(`.${searchClassName}`)
+        .forEach((node) => {
+          const textsToSearch = [
+            node.getAttribute("data-text")?.toLowerCase(),
+            node.getAttribute("data-subtext")?.toLowerCase(),
+          ];
 
-        const isSearchMatched = textsToSearch.some(
-          (text) => text && text.includes(lowerSearchText)
-        );
+          const isSearchMatched = textsToSearch.some(
+            (text) => text && text.includes(lowerSearchText)
+          );
 
-        node.style.display = isSearchMatched ? "" : "none";
-      });
+          node.style.display = isSearchMatched ? "" : "none";
+        });
     },
     [searchClassName]
   );
 
-  const onChange = throttle(100, (event) => {
-    setSearchText(event.target.value ?? "");
-  });
+  const onChange = throttle<React.ChangeEventHandler<HTMLInputElement>>(
+    100,
+    (event) => {
+      setSearchText(event.target.value ?? "");
+    }
+  );
 
   const handleKeyPress = useCallback(
-    (event) => {
+    (event: KeyboardEvent) => {
       if (event.key === "Escape" && searchText) {
         //Clear search box on Escape key press
         setSearchText("");

@@ -1,8 +1,14 @@
 import { Box } from "@material-ui/core";
 import { Component } from "react";
 
-class ErrorBoundary extends Component {
-  constructor(props) {
+class ErrorBoundary extends Component<
+  any,
+  {
+    hasError: boolean;
+    error: Error | null;
+  }
+> {
+  constructor(props: any) {
     super(props);
     this.state = {
       hasError: false,
@@ -10,15 +16,16 @@ class ErrorBoundary extends Component {
     };
   }
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError(error: Error) {
     return {
       hasError: true,
       error,
     };
   }
 
-  componentDidCatch(error, errorInfo) {
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     console.log(error);
+    //TODO: log error here
   }
 
   render() {
@@ -26,7 +33,7 @@ class ErrorBoundary extends Component {
     if (hasError) {
       return (
         <Box sx={{ padding: "12px", fontSize: "17px", width: "200px" }}>
-          {error.toString()}
+          {error?.toString()}
         </Box>
       );
     }
