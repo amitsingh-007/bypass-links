@@ -4,8 +4,8 @@ import { displayToast } from "GlobalActionCreators/toast";
 import { STORAGE_KEYS } from "GlobalConstants";
 import { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { revoke2FA } from "../apis/TwoFactorAuth";
-import { getUserProfile } from "../utils";
+import { revoke2FA } from "../apis/twoFactorAuth";
+import { getUserProfile } from "SrcPath/helpers/fetchFromStorage";
 import Setup2FA from "./Setup2FA";
 
 const TwoFactorAuth = memo(() => {
@@ -32,7 +32,7 @@ const TwoFactorAuth = memo(() => {
 
   const handle2FARevoke = async () => {
     const userProfile = await getUserProfile();
-    const { isRevoked } = await revoke2FA(userProfile.uid);
+    const { isRevoked } = await revoke2FA(userProfile.uid ?? "");
     if (!isRevoked) {
       dispatch(
         displayToast({ message: "Something went wrong", severity: "error" })

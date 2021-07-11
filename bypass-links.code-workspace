@@ -5,6 +5,10 @@
       "path": "."
     },
     {
+      "name": "Common",
+      "path": "./common"
+    },
+    {
       "name": "Web",
       "path": "./web"
     },

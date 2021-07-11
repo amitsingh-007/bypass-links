@@ -1,5 +1,6 @@
 import storage from "ChromeApi/storage";
 import { EXTENSION_STATE, STORAGE_KEYS } from "GlobalConstants";
+import { UserInfo } from "SrcPath/HomePopup/interfaces/authentication";
 import { LastVisited } from "SrcPath/HomePopup/interfaces/lastVisited";
 import { Redirection } from "SrcPath/ShortcutsPanel/interfaces/redirections";
 
@@ -27,4 +28,11 @@ export const getLastVisited = async (): Promise<LastVisited> => {
     STORAGE_KEYS.lastVisited
   );
   return lastVisited as LastVisited;
+};
+
+export const getUserProfile = async () => {
+  const { [STORAGE_KEYS.userProfile]: userProfile } = await storage.get(
+    STORAGE_KEYS.userProfile
+  );
+  return userProfile as UserInfo;
 };

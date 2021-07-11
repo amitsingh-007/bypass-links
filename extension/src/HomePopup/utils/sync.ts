@@ -18,8 +18,8 @@ import {
   syncBookmarksFirebaseWithStorage,
   syncBookmarksToStorage,
 } from "SrcPath/BookmarksPanel/utils/bookmark";
-import { status2FA } from "SrcPath/SettingsPanel/apis/TwoFactorAuth";
-import { getUserProfile } from "SrcPath/SettingsPanel/utils";
+import { status2FA } from "SrcPath/SettingsPanel/apis/twoFactorAuth";
+import { getUserProfile } from "SrcPath/helpers/fetchFromStorage";
 import {
   cachePersonImages,
   cachePersonImageUrlsInStorage,
@@ -38,7 +38,7 @@ const syncAuthenticationToStorage = async (userProfile: UserInfo) => {
     progressBuffer: 2,
     total: 5,
   });
-  const { is2FAEnabled } = await status2FA(userProfile.uid);
+  const { is2FAEnabled } = await status2FA(userProfile.uid ?? "");
   userProfile.is2FAEnabled = is2FAEnabled;
   userProfile.isTOTPVerified = false;
   await storage.set({ [STORAGE_KEYS.userProfile]: userProfile });

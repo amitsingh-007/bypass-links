@@ -16,9 +16,9 @@ import { COLOR } from "GlobalConstants/color";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserProfile } from "SrcPath/SettingsPanel/utils";
 import { signIn, signOut } from "../utils/authentication";
 import { RootState } from "GlobalReducers/rootReducer";
+import { getUserProfile } from "SrcPath/helpers/fetchFromStorage";
 
 const Authenticate = memo(() => {
   const dispatch = useDispatch();

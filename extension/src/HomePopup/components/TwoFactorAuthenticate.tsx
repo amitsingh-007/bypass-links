@@ -7,9 +7,9 @@ import { BG_COLOR_BLACK } from "GlobalConstants/color";
 import { RootState } from "GlobalReducers/rootReducer";
 import { forwardRef, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { authenticate2FA } from "SrcPath/SettingsPanel/apis/TwoFactorAuth";
+import { authenticate2FA } from "SrcPath/SettingsPanel/apis/twoFactorAuth";
 import Verify2FA from "SrcPath/SettingsPanel/components/Verify2FA";
-import { getUserProfile } from "SrcPath/SettingsPanel/utils";
+import { getUserProfile } from "SrcPath/helpers/fetchFromStorage";
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & { children?: React.ReactElement<any, any> },
@@ -38,7 +38,7 @@ const TwoFactorAuthenticate = () => {
 
   const handleAuthenticateTOTP = async (totp: string) => {
     const userProfile = await getUserProfile();
-    const { isVerified } = await authenticate2FA(userProfile.uid, totp);
+    const { isVerified } = await authenticate2FA(userProfile.uid ?? "", totp);
     if (!isVerified) {
       dispatch(
         displayToast({

@@ -9,6 +9,7 @@ import {
   Slide,
   Typography,
 } from "@material-ui/core";
+import { TransitionProps } from "@material-ui/core/transitions";
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import HelpOutlineOutlinedIcon from "@material-ui/icons/HelpOutlineOutlined";
 import storage from "ChromeApi/storage";
@@ -20,28 +21,35 @@ import { BG_COLOR_BLACK, BG_COLOR_DARK, COLOR } from "GlobalConstants/color";
 import { toDataURL } from "qrcode";
 import { forwardRef, memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { setup2FA, verify2FA } from "../apis/TwoFactorAuth";
+import { getUserProfile } from "SrcPath/helpers/fetchFromStorage";
+import { setup2FA, verify2FA } from "../apis/twoFactorAuth";
 import Verify2FA from "./Verify2FA";
-import { getUserProfile } from "../utils";
 
 const tooltipStyles = { fontSize: "13px" };
 
-const Transition = forwardRef(function Transition(props, ref) {
+const Transition = forwardRef(function Transition(
+  props: TransitionProps & { children?: React.ReactElement<any, any> },
+  ref: React.Ref<unknown>
+) {
   return <Slide direction="left" ref={ref} {...props} />;
 });
 
-const Setup2FA = memo(({ isOpen, handleClose }) => {
+type Props = {
+  isOpen: boolean;
+  handleClose: () => void;
+};
+
+const Setup2FA = memo(({ isOpen, handleClose }: Props) => {
   const dispatch = useDispatch();
-  const [, setSecretKey] = useState(null);
-  const [qrcodeUrl, setQrcodeUrl] = useState(null);
+  const [, setSecretKey] = useState("");
+  const [qrcodeUrl, setQrcodeUrl] = useState("");
   const [showVerifyToken, setShowVerifyToken] = useState(false);
 
   const init2FA = async () => {
     const userProfile = await getUserProfile();
-    const { otpAuthUrl, secretKey } = await setup2FA(userProfile.uid);
+    const { otpAuthUrl, secretKey } = await setup2FA(userProfile.uid ?? "");
     const qrcodeUrl = await toDataURL(otpAuthUrl, {
       margin: 2,
-      quality: 1,
       type: "image/jpeg",
       width: 180,
     });
@@ -57,9 +65,9 @@ const Setup2FA = memo(({ isOpen, handleClose }) => {
     setShowVerifyToken(!showVerifyToken);
   };
 
-  const handleTOTPVerify = async (totp) => {
+  const handleTOTPVerify = async (totp: string) => {
     const userProfile = await getUserProfile();
-    const { isVerified } = await verify2FA(userProfile.uid, totp);
+    const { isVerified } = await verify2FA(userProfile.uid ?? "", totp);
     if (!isVerified) {
       dispatch(
         displayToast({
