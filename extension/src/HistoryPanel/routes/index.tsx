@@ -5,7 +5,7 @@ import { Route } from "react-router-dom";
 const HistoryPanel = lazy(
   () =>
     import(
-      /*  webpackChunkName: "history-panel" */ "SrcPath/HistoryPanel/components/HistoryPanel"
+      /*  webpackChunkName: "history-panel" */ "../components/HistoryPanel"
     )
 );
 

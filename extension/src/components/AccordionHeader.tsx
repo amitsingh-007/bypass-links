@@ -12,10 +12,13 @@ import { useState } from "react";
 import { memo } from "react";
 
 export const AccordionHeader = memo(({ children }) => {
-  const accordionRef = useRef(null);
+  const accordionRef = useRef<HTMLDivElement>(null);
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const onAccordionStateChange = (_event, isExpanded) => {
+  const onAccordionStateChange = (
+    _event: React.SyntheticEvent,
+    isExpanded: boolean
+  ) => {
     setIsExpanded(isExpanded);
   };
 
@@ -41,7 +44,7 @@ export const AccordionHeader = memo(({ children }) => {
     };
   }, [handleEscapeKeyPress]);
 
-  return (
+  return children ? (
     <Accordion
       ref={accordionRef}
       expanded={isExpanded}
@@ -50,7 +53,7 @@ export const AccordionHeader = memo(({ children }) => {
     >
       {children}
     </Accordion>
-  );
+  ) : null;
 });
 
 export const PrimaryHeaderContent = memo(({ children }) => (

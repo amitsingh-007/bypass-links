@@ -1,13 +1,20 @@
 import { Box, MenuItem, Typography } from "@material-ui/core";
+import { MenuOptions } from "GlobalInterfaces/menu";
 import { memo } from "react";
 import useMenu from "SrcPath/hooks/useMenu";
 import { RightClickMenu } from "./StyledComponents";
 
-const ContextMenu = memo(
+type Props = {
+  menuOptions: MenuOptions[];
+  showMenu?: boolean;
+  onOpen?: () => void;
+};
+
+const ContextMenu = memo<Props>(
   ({ menuOptions, showMenu = true, onOpen, children }) => {
     const [isMenuOpen, menuPos, onMenuClose, onMenuOpen] = useMenu();
 
-    const handleRightClick = (event) => {
+    const handleRightClick = (event: React.MouseEvent<HTMLElement>) => {
       onOpen && onOpen();
       onMenuOpen(event);
     };

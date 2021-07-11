@@ -12,7 +12,16 @@ import DoneTwoToneIcon from "@material-ui/icons/DoneTwoTone";
 import { COLOR } from "GlobalConstants/color";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 
-export const EditDialog = ({
+interface Props {
+  headerText: string;
+  openDialog: boolean;
+  closeDialog: () => void;
+  handleSave: (e: React.FormEvent<HTMLFormElement>) => void;
+  handleDelete?: () => void;
+  isSaveOptionActive: boolean;
+}
+
+export const EditDialog: React.FC<Props> = ({
   children,
   headerText,
   openDialog,
@@ -21,7 +30,7 @@ export const EditDialog = ({
   handleDelete,
   isSaveOptionActive,
 }) => {
-  const onSubmit = (e) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     //Stop conflict with enter click on panels
     e.stopPropagation();
     e.preventDefault();
