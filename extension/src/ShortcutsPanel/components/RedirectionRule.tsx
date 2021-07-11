@@ -4,12 +4,12 @@ import DoneAllTwoToneIcon from "@material-ui/icons/DoneAllTwoTone";
 import DragHandleTwoToneIcon from "@material-ui/icons/DragHandleTwoTone";
 import OpenInNewTwoToneIcon from "@material-ui/icons/OpenInNewTwoTone";
 import tabs from "ChromeApi/tabs";
-import { startHistoryMonitor } from "GlobalActionCreators";
 import { COLOR } from "GlobalConstants/color";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import { memo, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
+import { startHistoryMonitor } from "SrcPath/HistoryPanel/actionCreators";
 import { DEFAULT_RULE_ALIAS } from "../constants";
 import { Redirection } from "../interfaces/redirections";
 

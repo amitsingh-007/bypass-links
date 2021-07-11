@@ -2,16 +2,15 @@ import { IconButton } from "@material-ui/core";
 import ForumTwoToneIcon from "@material-ui/icons/ForumTwoTone";
 import runtime from "ChromeApi/runtime";
 import tabs, { getCurrentTab } from "ChromeApi/tabs";
-import { startHistoryMonitor } from "GlobalActionCreators";
-import { COLOR } from "GlobalConstants/color";
+import { IconButtonLoader } from "GlobalComponents/Loader";
 import { BYPASS_KEYS } from "GlobalConstants";
+import { COLOR } from "GlobalConstants/color";
+import { RootState } from "GlobalReducers/rootReducer";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import { matchHostnames } from "GlobalUtils/common";
-import { memo, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { IconButtonLoader } from "GlobalComponents/Loader";
-import { useCallback } from "react";
-import { RootState } from "GlobalReducers/rootReducer";
+import { startHistoryMonitor } from "SrcPath/HistoryPanel/actionCreators";
 
 const isCurrentPageForum = async (url = "") => {
   const hostname = url && new URL(url).hostname;

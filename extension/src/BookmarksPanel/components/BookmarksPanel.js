@@ -1,10 +1,6 @@
 import { Box, GlobalStyles } from "@material-ui/core";
 import storage from "ChromeApi/storage";
 import tabs from "ChromeApi/tabs";
-import {
-  startHistoryMonitor,
-  updateTaggedPersonUrls,
-} from "GlobalActionCreators";
 import { displayToast } from "GlobalActionCreators/toast";
 import { STORAGE_KEYS } from "GlobalConstants";
 import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
@@ -15,6 +11,7 @@ import { PureComponent } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { startHistoryMonitor } from "SrcPath/HistoryPanel/actionCreators";
 import { BOOKMARK_PANEL_CONTENT_HEIGHT } from "../constants";
 import { bookmarksMapper } from "../mapper";
 import {
@@ -32,6 +29,7 @@ import Bookmark from "./Bookmark";
 import Folder from "./Folder";
 import Header from "./Header";
 import { ScrollUpButton } from "./ScrollButton";
+import { updateTaggedPersonUrls } from "SrcPath/PersonsPanel/actionCreators";
 
 const bookmarksContainerId = "bookmarks-wrapper";
 

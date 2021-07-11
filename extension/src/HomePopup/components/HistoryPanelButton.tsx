@@ -10,7 +10,9 @@ import { useHistory } from "react-router-dom";
 
 const HistoryPanelButton = memo(() => {
   const history = useHistory();
-  const { isExtensionActive } = useSelector((state: RootState) => state.root);
+  const { isExtensionActive } = useSelector(
+    (state: RootState) => state.extension
+  );
 
   const handleShowHistoryPanel = () => {
     history.push(ROUTES.HISTORY_PANEL);

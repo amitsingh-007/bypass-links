@@ -6,26 +6,25 @@ import {
 } from "@material-ui/core";
 import CloudDoneTwoToneIcon from "@material-ui/icons/CloudDoneTwoTone";
 import CloudOffTwoTone from "@material-ui/icons/CloudOffTwoTone";
-import {
-  resetAuthenticationProgress,
-  setSignedInStatus,
-} from "GlobalActionCreators";
+import { setSignedInStatus } from "GlobalActionCreators";
+import { resetAuthenticationProgress } from "GlobalActionCreators/auth";
 import { displayToast } from "GlobalActionCreators/toast";
 import { IconButtonLoader } from "GlobalComponents/Loader";
 import { COLOR } from "GlobalConstants/color";
+import { RootState } from "GlobalReducers/rootReducer";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { signIn, signOut } from "../utils/authentication";
-import { RootState } from "GlobalReducers/rootReducer";
 import { getUserProfile } from "SrcPath/helpers/fetchFromStorage";
+import { signIn, signOut } from "../utils/authentication";
 
 const Authenticate = memo(() => {
   const dispatch = useDispatch();
   const [isFetching, setIsFetching] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
-  const { isExtensionActive, authProgress } = useSelector(
-    (state: RootState) => state.root
+  const { authProgress } = useSelector((state: RootState) => state.auth);
+  const { isExtensionActive } = useSelector(
+    (state: RootState) => state.extension
   );
 
   const handleSignIn = async () => {
@@ -75,7 +74,12 @@ const Authenticate = memo(() => {
   }, [handleSignOut, isExtensionActive, isSignedIn]);
 
   if (isFetching) {
-    const { message, progress, progressBuffer, total } = authProgress || {};
+    const {
+      message,
+      progress = 0,
+      progressBuffer = 0,
+      total = 1,
+    } = authProgress || {};
     return (
       <>
         <IconButtonLoader />

@@ -2,14 +2,14 @@ import { IconButton } from "@material-ui/core";
 import OpenInNewTwoToneIcon from "@material-ui/icons/OpenInNewTwoTone";
 import storage from "ChromeApi/storage";
 import tabs from "ChromeApi/tabs";
-import { startHistoryMonitor } from "GlobalActionCreators";
-import { COLOR } from "GlobalConstants/color";
+import { IconButtonLoader } from "GlobalComponents/Loader";
 import { STORAGE_KEYS } from "GlobalConstants";
+import { COLOR } from "GlobalConstants/color";
+import { RootState } from "GlobalReducers/rootReducer";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import { memo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { IconButtonLoader } from "GlobalComponents/Loader";
-import { RootState } from "GlobalReducers/rootReducer";
+import { startHistoryMonitor } from "SrcPath/HistoryPanel/actionCreators";
 
 const OpenDefaultsButton = memo(() => {
   const dispatch = useDispatch();

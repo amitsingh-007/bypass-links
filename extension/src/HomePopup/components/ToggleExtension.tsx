@@ -1,8 +1,10 @@
 import { Box, Switch } from "@material-ui/core";
 import PowerOffTwoToneIcon from "@material-ui/icons/PowerOffTwoTone";
 import PowerTwoToneIcon from "@material-ui/icons/PowerTwoTone";
-import { turnOnExtension } from "GlobalActionCreators";
-import { turnOffExtension } from "GlobalActionCreators";
+import {
+  turnOnExtension,
+  turnOffExtension,
+} from "GlobalActionCreators/extension";
 import { EXTENSION_STATE } from "GlobalConstants";
 import { getOffIconColor, getOnIconColor } from "GlobalUtils/color";
 import { isExtensionActive, setExtStateInStorage } from "GlobalUtils/common";

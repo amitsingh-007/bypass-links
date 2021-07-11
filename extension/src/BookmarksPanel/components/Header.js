@@ -3,7 +3,6 @@ import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import CreateNewFolderTwoToneIcon from "@material-ui/icons/CreateNewFolderTwoTone";
 import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
 import SyncTwoToneIcon from "@material-ui/icons/SyncTwoTone";
-import { startHistoryMonitor } from "GlobalActionCreators";
 import { displayToast } from "GlobalActionCreators/toast";
 import {
   AccordionHeader,
@@ -20,6 +19,7 @@ import { createRef, PureComponent } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { bindActionCreators, compose } from "redux";
+import { startHistoryMonitor } from "SrcPath/HistoryPanel/actionCreators";
 import { getBookmarksPanelUrl } from "../utils";
 import { syncBookmarksFirebaseWithStorage } from "../utils/bookmark";
 import { BookmarkDialog } from "./BookmarkDialog";

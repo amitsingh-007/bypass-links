@@ -1,7 +1,10 @@
 import storage from "ChromeApi/storage";
+import { RootState } from "GlobalReducers/rootReducer";
 import { memo, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { getPersons, setPersonsInStorage } from "SrcPath/PersonsPanel/utils";
+import { getPersons } from "SrcPath/helpers/fetchFromStorage";
+import { UpdateTaggedPersons } from "SrcPath/PersonsPanel/interfaces/persons";
+import { setPersonsInStorage } from "SrcPath/PersonsPanel/utils";
 
 const THIRTY_SECONDS = 30 * 1000; //in milliseconds
 
@@ -15,13 +18,13 @@ export const startHistoryWatch = async () => {
     return;
   }
   await storage.set({
-    historyStartTime: new Date() - THIRTY_SECONDS,
+    historyStartTime: Date.now() - THIRTY_SECONDS,
   });
 };
 
-const getSeparatedPersons = (prevPersons, newPersons) => {
-  var prevPersonsSet = new Set(prevPersons);
-  var newPersonsSet = new Set(newPersons);
+const getSeparatedPersons = (prevPersons: string[], newPersons: string[]) => {
+  const prevPersonsSet = new Set(prevPersons);
+  const newPersonsSet = new Set(newPersons);
   const unchangedPersons = [...prevPersons].filter((uid) =>
     newPersonsSet.has(uid)
   );
@@ -38,7 +41,7 @@ const getSeparatedPersons = (prevPersons, newPersons) => {
   };
 };
 
-const updateUrlsInTaggedPersons = async (updates) => {
+const updateUrlsInTaggedPersons = async (updates: UpdateTaggedPersons[]) => {
   if (!updates || !updates.length) {
     return;
   }
@@ -73,8 +76,9 @@ const updateUrlsInTaggedPersons = async (updates) => {
 };
 
 const StoreListener = memo(() => {
-  const { startHistoryMonitor, updateTaggedUrls } = useSelector(
-    (state) => state.root
+  const { updateTaggedUrls } = useSelector((state: RootState) => state.persons);
+  const { startHistoryMonitor } = useSelector(
+    (state: RootState) => state.history
   );
 
   useEffect(() => {
@@ -84,7 +88,9 @@ const StoreListener = memo(() => {
   }, [startHistoryMonitor]);
 
   useEffect(() => {
-    updateUrlsInTaggedPersons(updateTaggedUrls);
+    if (updateTaggedUrls) {
+      updateUrlsInTaggedPersons(updateTaggedUrls);
+    }
   }, [updateTaggedUrls]);
 
   return null;

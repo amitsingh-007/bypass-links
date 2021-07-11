@@ -4,13 +4,7 @@ import { STORAGE_KEYS } from "GlobalConstants";
 import { ROUTES } from "GlobalConstants/routes";
 import { getBlobUrlFromCache } from "GlobalUtils/cache";
 import { serialzeObjectToQueryString } from "GlobalUtils/url";
-
-export const getPersons = async () => {
-  const { [STORAGE_KEYS.persons]: persons } = await storage.get(
-    STORAGE_KEYS.persons
-  );
-  return persons;
-};
+import { getPersons } from "SrcPath/helpers/fetchFromStorage";
 
 export const setPersonsInStorage = async (persons) => {
   await storage.set({

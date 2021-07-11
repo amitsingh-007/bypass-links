@@ -3,12 +3,12 @@ import VisibilityOffTwoToneIcon from "@material-ui/icons/VisibilityOffTwoTone";
 import VisibilityTwoToneIcon from "@material-ui/icons/VisibilityTwoTone";
 import history from "ChromeApi/history";
 import storage from "ChromeApi/storage";
-import { resetHistoryMonitor } from "GlobalActionCreators";
 import { startHistoryWatch } from "GlobalContainers/StoreListener";
 import { RootState } from "GlobalReducers/rootReducer";
 import { getOffIconColor, getOnIconColor } from "GlobalUtils/color";
 import { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { resetHistoryMonitor } from "SrcPath/HistoryPanel/actionCreators";
 
 export const endHistoryWatch = async () => {
   const { historyStartTime } = await storage.get(["historyStartTime"]);
@@ -30,8 +30,11 @@ export const endHistoryWatch = async () => {
 const ToggleHistory = memo(() => {
   const dispatch = useDispatch();
   const [isHistoryActive, setIsHistoryActive] = useState(false);
-  const { isExtensionActive, startHistoryMonitor } = useSelector(
-    (state: RootState) => state.root
+  const { startHistoryMonitor } = useSelector(
+    (state: RootState) => state.history
+  );
+  const { isExtensionActive } = useSelector(
+    (state: RootState) => state.extension
   );
 
   const turnOffHistory = useCallback(() => {
