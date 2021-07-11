@@ -1,54 +1,43 @@
-import { FIREBASE_DB_REF } from "../../../../common/src/constants/firebase";
 import { Box } from "@material-ui/core";
-import storage from "ChromeApi/storage";
 import { displayToast } from "GlobalActionCreators/toast";
-import { STORAGE_KEYS } from "GlobalConstants";
 import { ROUTES } from "GlobalConstants/routes";
 import { PANEL_DIMENSIONS } from "GlobalConstants/styles";
 import { saveDataToFirebase } from "GlobalUtils/firebase";
 import { syncRedirectionsToStorage } from "GlobalUtils/redirect";
 import { memo, useEffect, useState } from "react";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { getRedirections } from "SrcPath/helpers/fetchFromStorage";
+import { FIREBASE_DB_REF } from "@common/constants/firebase";
 import { DEFAULT_RULE_ALIAS } from "../constants";
 import Header from "./Header";
 import RedirectionRule from "./RedirectionRule";
+import { Redirection } from "../interfaces/redirections";
 
 //Filter valid rules
-const getValidRules = (obj) =>
+const getValidRules = (obj: Redirection) =>
   Boolean(obj && obj.alias && obj.alias !== DEFAULT_RULE_ALIAS && obj.website);
-
-//Map array into object so as to store in firebase
-const reducer = (obj, { alias, website, isDefault }, index) => {
-  obj[index++] = {
-    alias: btoa(alias),
-    website: btoa(website),
-    isDefault,
-  };
-  return obj;
-};
 
 const ShortcutsPanel = memo(() => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const [redirections, setRedirections] = useState(null);
+  const [redirections, setRedirections] = useState<Redirection[]>([]);
   const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
-    storage
-      .get([STORAGE_KEYS.redirections])
-      .then(({ [STORAGE_KEYS.redirections]: redirections }) => {
-        const modifiedRedirections = Object.entries(redirections).map(
-          ([_key, { alias, website, isDefault }]) => ({
+    getRedirections().then((redirections) => {
+      const modifiedRedirections = Object.entries(redirections).map(
+        ([_key, { alias, website, isDefault }]) =>
+          ({
             alias: atob(alias),
             website: atob(website),
             isDefault,
-          })
-        );
-        setRedirections(modifiedRedirections);
-        setIsFetching(false);
-      });
+          } as Redirection)
+      );
+      setRedirections(modifiedRedirections);
+      setIsFetching(false);
+    });
   }, []);
 
   const handleClose = () => {
@@ -59,7 +48,17 @@ const ShortcutsPanel = memo(() => {
     setIsFetching(true);
     const validRules = redirections.filter(getValidRules);
     console.log("Saving these redirection rules to Firebase", validRules);
-    const shortcutsObj = validRules.reduce(reducer, {});
+    const shortcutsObj = validRules.reduce<Record<number, Redirection>>(
+      (obj, { alias, website, isDefault }, index) => {
+        obj[index++] = {
+          alias: btoa(alias),
+          website: btoa(website),
+          isDefault,
+        };
+        return obj;
+      },
+      {}
+    );
     const isSaveSuccess = await saveDataToFirebase(
       shortcutsObj,
       FIREBASE_DB_REF.redirections,
@@ -86,18 +85,14 @@ const ShortcutsPanel = memo(() => {
     setRedirections([...redirections]);
   };
 
-  const handleRemoveRule = (pos) => {
+  const handleRemoveRule = (pos: number) => {
     const newRedirections = [...redirections];
     newRedirections.splice(pos, 1);
     setRedirections(newRedirections);
   };
 
-  const handleSaveRule = (alias, website, isDefault, pos) => {
-    redirections[pos] = {
-      alias,
-      website,
-      isDefault,
-    };
+  const handleSaveRule = (redirection: Redirection, pos: number) => {
+    redirections[pos] = redirection;
     setRedirections([...redirections]);
   };
 
@@ -105,7 +100,7 @@ const ShortcutsPanel = memo(() => {
    * This assumes that we have only one column.
    * Refer: https://egghead.io/lessons/react-persist-list-reordering-with-react-beautiful-dnd-using-the-ondragend-callback
    */
-  const onDragEnd = ({ destination, source }) => {
+  const onDragEnd = ({ destination, source }: DropResult) => {
     if (!source || !destination || destination.index === source.index) {
       return;
     }
@@ -125,38 +120,35 @@ const ShortcutsPanel = memo(() => {
           handleSave={handleSave}
           handleAddRule={handleAddRule}
         />
-        {
-          <Droppable droppableId="redirections-list">
-            {(provided) => (
-              <form
-                noValidate
-                autoComplete="off"
-                style={{
-                  paddingLeft: "12px",
-                  minHeight: PANEL_DIMENSIONS.height,
-                }}
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-              >
-                {!isFetching && redirections && redirections.length > 0
-                  ? redirections.map(({ alias, website, isDefault }, index) => (
-                      <RedirectionRule
-                        alias={alias}
-                        website={website}
-                        isDefault={isDefault}
-                        key={`${alias}_${website}`}
-                        pos={index}
-                        handleRemoveRule={handleRemoveRule}
-                        handleSaveRule={handleSaveRule}
-                        index={index}
-                      />
-                    ))
-                  : null}
-                {provided.placeholder}
-              </form>
-            )}
-          </Droppable>
-        }
+        <Droppable droppableId="redirections-list">
+          {(provided) => (
+            <form
+              noValidate
+              autoComplete="off"
+              style={{
+                paddingLeft: "12px",
+                minHeight: PANEL_DIMENSIONS.height,
+              }}
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+            >
+              {!isFetching && redirections.length > 0
+                ? redirections.map(({ alias, website, isDefault }, index) => (
+                    <RedirectionRule
+                      alias={alias}
+                      website={website}
+                      isDefault={isDefault}
+                      key={`${alias}_${website}`}
+                      pos={index}
+                      handleRemoveRule={handleRemoveRule}
+                      handleSaveRule={handleSaveRule}
+                    />
+                  ))
+                : null}
+              {provided.placeholder}
+            </form>
+          )}
+        </Droppable>
       </Box>
     </DragDropContext>
   );

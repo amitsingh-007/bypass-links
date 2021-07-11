@@ -1,7 +1,8 @@
 import action from "ChromeApi/action";
 import scripting from "ChromeApi/scripting";
 import tabs, { getCurrentTab } from "ChromeApi/tabs";
-import { getExtensionState, isExtensionActive } from "./common";
+import { getExtensionState } from "SrcPath/helpers/fetchFromStorage";
+import { isExtensionActive } from "./common";
 
 export const bypassSingleLinkOnPage = async (selectorFn, tabId) => {
   const [{ result }] = await scripting.executeScript({
@@ -40,7 +41,7 @@ export const fetchPageH1 = async () => {
     target: { tabId },
     function: getPageH1,
   });
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     resolve(result);
   });
 };

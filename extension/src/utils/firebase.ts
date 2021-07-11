@@ -54,7 +54,7 @@ export const saveDataToFirebase = async (
   data: any,
   ref: string,
   successCallback?: () => Promise<void>
-) => {
+): Promise<boolean> => {
   return new Promise((resolve, _reject) => {
     saveToFirebase(ref, data)
       .then(async () => {

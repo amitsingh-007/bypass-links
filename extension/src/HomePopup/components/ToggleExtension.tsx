@@ -5,13 +5,10 @@ import { turnOnExtension } from "GlobalActionCreators";
 import { turnOffExtension } from "GlobalActionCreators";
 import { EXTENSION_STATE } from "GlobalConstants";
 import { getOffIconColor, getOnIconColor } from "GlobalUtils/color";
-import {
-  getExtensionState,
-  isExtensionActive,
-  setExtStateInStorage,
-} from "GlobalUtils/common";
+import { isExtensionActive, setExtStateInStorage } from "GlobalUtils/common";
 import { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { getExtensionState } from "SrcPath/helpers/fetchFromStorage";
 
 const ToggleExtension = memo(() => {
   const dispatch = useDispatch();

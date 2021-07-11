@@ -1,3 +1,4 @@
+import { SxProps } from "@material-ui/system";
 import { BG_COLOR_DARK } from "./color";
 
 export const PANEL_DIMENSIONS = {
@@ -10,4 +11,4 @@ export const STICKY_HEADER = {
   top: 0,
   zIndex: 2,
   backgroundColor: BG_COLOR_DARK,
-};
+} as SxProps;

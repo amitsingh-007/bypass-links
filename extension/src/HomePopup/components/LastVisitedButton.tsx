@@ -5,18 +5,15 @@ import { getCurrentTab } from "ChromeApi/tabs";
 import { IconButtonLoader } from "GlobalComponents/Loader";
 import { BlackTooltip } from "GlobalComponents/StyledComponents";
 import { COLOR } from "GlobalConstants/color";
-import { GenericObject } from "GlobalInterfaces/custom";
 import { RootState } from "GlobalReducers/rootReducer";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import { saveDataToFirebase } from "GlobalUtils/firebase";
-import {
-  getLastVisitedObj,
-  syncLastVisitedToStorage,
-} from "SrcPath/HomePopup/utils/lastVisited";
+import { syncLastVisitedToStorage } from "SrcPath/HomePopup/utils/lastVisited";
 import md5 from "md5";
 import { memo, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { LastVisited } from "../interfaces/lastVisited";
+import { getLastVisited } from "SrcPath/helpers/fetchFromStorage";
 
 const tooltipStyles = { fontSize: "13px" };
 
@@ -29,7 +26,9 @@ const LastVisitedButton = memo(() => {
 
   const initLastVisited = async () => {
     setIsFetching(true);
-    const lastVisitedObj = await getLastVisitedObj();
+    const lastVisitedObj = await getLastVisited();
+    console.log(lastVisitedObj);
+
     const currentTab = await getCurrentTab();
     const { hostname } = new URL(currentTab.url ?? "");
     const lastVisitedDate = lastVisitedObj[md5(hostname)];
@@ -72,7 +71,7 @@ const LastVisitedButton = memo(() => {
     <BlackTooltip
       title={
         <Typography style={tooltipStyles}>
-          {lastVisited ?? "No last updated date"}
+          {lastVisited || "No last updated date"}
         </Typography>
       }
       arrow

@@ -8,8 +8,15 @@ import { COLOR } from "GlobalConstants/color";
 import { STICKY_HEADER } from "GlobalConstants/styles";
 import { memo } from "react";
 
+type Props = {
+  isFetching: boolean;
+  handleClose: () => void;
+  handleSave: () => void;
+  handleAddRule: () => void;
+};
+
 const Header = memo(
-  ({ isFetching, handleClose, handleSave, handleAddRule }) => {
+  ({ isFetching, handleClose, handleSave, handleAddRule }: Props) => {
     return (
       <Box
         sx={{

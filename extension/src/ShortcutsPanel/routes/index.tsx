@@ -2,10 +2,11 @@ import { ROUTES } from "GlobalConstants/routes";
 import { lazy } from "react";
 import { Route } from "react-router-dom";
 
-const ShortcutsPanel = lazy(() =>
-  import(
-    /*  webpackChunkName: "shortcuts-panel" */ "SrcPath/ShortcutsPanel/components/ShortcutsPanel"
-  )
+const ShortcutsPanel = lazy(
+  () =>
+    import(
+      /*  webpackChunkName: "shortcuts-panel" */ "SrcPath/ShortcutsPanel/components/ShortcutsPanel"
+    )
 );
 
 export const ShortcutsPanelRoute = (

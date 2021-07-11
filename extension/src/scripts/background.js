@@ -7,14 +7,11 @@ import {
   setExtensionIcon,
 } from "GlobalUtils/background";
 import { bypass } from "GlobalUtils/bypass";
-import {
-  getExtensionState,
-  isExtensionActive,
-  setExtStateInStorage,
-} from "GlobalUtils/common";
+import { isExtensionActive, setExtStateInStorage } from "GlobalUtils/common";
 import { redirect } from "GlobalUtils/redirect";
 import siteSpecificLogic from "GlobalUtils/siteSpecificLogic";
 import turnOffInputSuggestions from "GlobalUtils/turnOffInputSuggestions";
+import { getExtensionState } from "SrcPath/helpers/fetchFromStorage";
 
 const onUpdateCallback = async (tabId, changeInfo) => {
   const { url } = changeInfo;

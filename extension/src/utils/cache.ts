@@ -22,10 +22,11 @@ export const getBlobUrlFromCache = async (
   url: string
 ) => {
   const response = await getFromCache(cacheBucketKey, url);
-  if (!response || !response.blob) {
+  const blob = await response?.blob();
+  if (!blob) {
     return "";
   }
-  return URL.createObjectURL(response.blob());
+  return URL.createObjectURL(blob);
 };
 
 export const deleteAllCache = async (bucketKeys: string[]) => {

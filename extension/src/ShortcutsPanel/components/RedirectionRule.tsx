@@ -4,19 +4,26 @@ import DoneAllTwoToneIcon from "@material-ui/icons/DoneAllTwoTone";
 import DragHandleTwoToneIcon from "@material-ui/icons/DragHandleTwoTone";
 import OpenInNewTwoToneIcon from "@material-ui/icons/OpenInNewTwoTone";
 import tabs from "ChromeApi/tabs";
-import { startHistoryMonitor } from "GlobalActionCreators/";
+import { startHistoryMonitor } from "GlobalActionCreators";
 import { COLOR } from "GlobalConstants/color";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import { memo, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
 import { DEFAULT_RULE_ALIAS } from "../constants";
+import { Redirection } from "../interfaces/redirections";
 
 const inputProps = {
   style: {
     fontSize: "15px",
     padding: "4px 12px",
   },
+};
+
+type Props = Redirection & {
+  pos: number;
+  handleRemoveRule: (pos: number) => void;
+  handleSaveRule: (redirection: Redirection, pos: number) => void;
 };
 
 const RedirectionRule = memo(
@@ -27,28 +34,38 @@ const RedirectionRule = memo(
     pos,
     handleRemoveRule,
     handleSaveRule,
-    index,
-  }) => {
+  }: Props) => {
     const dispatch = useDispatch();
     const [ruleAlias, setRuleAlias] = useState(alias);
     const [ruleWebsite, setRuleWebsite] = useState(website);
     const [isDefaultRule, setIsDefaultRule] = useState(isDefault);
 
-    const onWebsiteAliasInput = (event) => {
+    const onWebsiteAliasInput = (
+      event: React.ChangeEvent<HTMLInputElement>
+    ) => {
       setRuleAlias(event.target.value.trim());
     };
-    const onWebsiteInput = (event) => {
+    const onWebsiteInput = (event: React.ChangeEvent<HTMLInputElement>) => {
       setRuleWebsite(event.target.value.trim());
     };
 
-    const handleDefaultRuleChange = (event) => {
+    const handleDefaultRuleChange = (
+      event: React.ChangeEvent<HTMLInputElement>
+    ) => {
       setIsDefaultRule(event.target.checked);
     };
     const handleRemoveClick = () => {
       handleRemoveRule(pos);
     };
     const handleSaveClick = () => {
-      handleSaveRule(ruleAlias, ruleWebsite, isDefaultRule, pos);
+      handleSaveRule(
+        {
+          alias: ruleAlias,
+          website: ruleWebsite,
+          isDefault: isDefaultRule,
+        },
+        pos
+      );
     };
     const handleLinkOpen = () => {
       dispatch(startHistoryMonitor());
@@ -62,7 +79,7 @@ const RedirectionRule = memo(
     const isRuleSaveActive = issameRule || ruleAlias === DEFAULT_RULE_ALIAS;
 
     return (
-      <Draggable draggableId={`${alias}_${website}`} index={index}>
+      <Draggable draggableId={`${alias}_${website}`} index={pos}>
         {(provided) => (
           <Box
             {...provided.draggableProps}
@@ -105,7 +122,7 @@ const RedirectionRule = memo(
             <IconButton
               aria-label="Open"
               title="Open"
-              style={getActiveDisabledColor(ruleWebsite, COLOR.deepPurple)}
+              style={getActiveDisabledColor(!!ruleWebsite, COLOR.deepPurple)}
               edge="end"
               disabled={!ruleWebsite}
               onClick={handleLinkOpen}
