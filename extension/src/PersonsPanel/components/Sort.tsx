@@ -4,13 +4,21 @@ import {
   ListSubheader,
   MenuItem,
   Select,
+  SelectProps,
 } from "@material-ui/core";
 import { memo } from "react";
 import { SORT_ORDER, SORT_TYPE } from "../constants/sort";
 
-const Sort = memo(({ onChange }) => {
-  const handleChange = (event) => {
-    const [sortType, sortOrder] = event.target.value.split("-");
+interface Props {
+  onChange: (sortType: SORT_TYPE, sortOrder: SORT_ORDER) => void;
+}
+
+const Sort = memo<Props>(({ onChange }) => {
+  const handleChange: SelectProps<string>["onChange"] = (event) => {
+    const [sortType, sortOrder] = event.target.value.split("-") as [
+      SORT_TYPE,
+      SORT_ORDER
+    ];
     onChange(sortType, sortOrder);
   };
 

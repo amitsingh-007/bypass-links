@@ -1,4 +1,6 @@
-const createImage = (url) =>
+import { Area } from "react-easy-crop/types";
+
+const createImage = (url: string): Promise<HTMLImageElement> =>
   new Promise((resolve, reject) => {
     const image = new Image();
     image.addEventListener("load", () => resolve(image));
@@ -6,7 +8,7 @@ const createImage = (url) =>
     image.src = url;
   });
 
-function getRadianAngle(degreeValue) {
+function getRadianAngle(degreeValue: number) {
   return (degreeValue * Math.PI) / 180;
 }
 
@@ -16,7 +18,11 @@ function getRadianAngle(degreeValue) {
  * @param {Object} pixelCrop - pixelCrop Object provided by react-easy-crop
  * @param {number} rotation - optional rotation parameter
  */
-export default async function getCroppedImg(imageSrc, pixelCrop, rotation = 0) {
+export default async function getCroppedImg(
+  imageSrc: string,
+  pixelCrop: Area,
+  rotation = 0
+): Promise<Blob> {
   const image = await createImage(imageSrc);
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
@@ -28,6 +34,10 @@ export default async function getCroppedImg(imageSrc, pixelCrop, rotation = 0) {
   // image to rotate in without being clipped by canvas context
   canvas.width = safeArea;
   canvas.height = safeArea;
+
+  if (!ctx) {
+    return new Blob();
+  }
 
   // translate canvas context to a central location on image to allow rotating around the center.
   ctx.translate(safeArea / 2, safeArea / 2);
@@ -59,7 +69,7 @@ export default async function getCroppedImg(imageSrc, pixelCrop, rotation = 0) {
   // As a blob
   return new Promise((resolve) => {
     canvas.toBlob((blob) => {
-      resolve(blob);
+      resolve(blob ?? new Blob());
     }, "image/jpeg");
   });
 }

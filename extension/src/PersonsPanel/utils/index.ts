@@ -1,44 +1,43 @@
 import storage from "ChromeApi/storage";
 import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
 import { STORAGE_KEYS } from "GlobalConstants";
-import { ROUTES } from "GlobalConstants/routes";
 import { getBlobUrlFromCache } from "GlobalUtils/cache";
-import { serialzeObjectToQueryString } from "GlobalUtils/url";
 import { getPersons } from "SrcPath/helpers/fetchFromStorage";
+import { IPerson, Persons } from "../interfaces/persons";
 
-export const setPersonsInStorage = async (persons) => {
+export const setPersonsInStorage = async (persons: Persons) => {
   await storage.set({
     [STORAGE_KEYS.persons]: persons,
     hasPendingPersons: true,
   });
 };
 
-const decodePerson = (person) => {
-  if (!person) {
-    return {};
-  }
-  const { uid, imageRef, name } = person;
+const decodePerson = (person: IPerson): IPerson => {
+  const { uid, imageRef, name, taggedUrls } = person;
   return {
     uid,
     name: atob(name),
     imageRef: decodeURIComponent(atob(imageRef)),
+    taggedUrls,
   };
 };
 
-export const getPersonsFromUids = async (uids) => {
+export const getPersonsFromUids = async (uids: string[]) => {
   if (!uids) {
     return [];
   }
   const persons = await getAllDecodedPersons();
-  return persons.filter((person) => uids.includes(person.uid));
+  return persons.filter((person) => uids.includes(person.uid ?? ""));
 };
 
 export const getAllDecodedPersons = async () => {
   const persons = await getPersons();
-  return Object.entries(persons).map(([_key, person]) => decodePerson(person));
+  return Object.entries(persons)
+    .filter(Boolean)
+    .map(([_key, person]) => decodePerson(person));
 };
 
-export const getPersonsWithImageUrl = async (persons) => {
+export const getPersonsWithImageUrl = async (persons: IPerson[]) => {
   if (!persons) {
     return [];
   }
@@ -50,7 +49,7 @@ export const getPersonsWithImageUrl = async (persons) => {
   );
 };
 
-export const resolvePersonImageFromUid = async (uid) => {
+export const resolvePersonImageFromUid = async (uid: string) => {
   const { [STORAGE_KEYS.personImageUrls]: personImages } = await storage.get(
     STORAGE_KEYS.personImageUrls
   );
@@ -61,13 +60,5 @@ export const resolvePersonImageFromUid = async (uid) => {
   return await getBlobUrlFromCache(CACHE_BUCKET_KEYS.person, imageUrl);
 };
 
-export const getPersonPos = (persons, person) =>
+export const getPersonPos = (persons: IPerson[], person: IPerson) =>
   persons.findIndex(({ uid }) => uid === person.uid);
-
-export const getPersonsPanelUrl = ({ openBookmarksList }) => {
-  const qsObj = {};
-  if (openBookmarksList) {
-    qsObj.openBookmarksList = openBookmarksList;
-  }
-  return `${ROUTES.PERSONS_PANEL}?${serialzeObjectToQueryString(qsObj)}`;
-};

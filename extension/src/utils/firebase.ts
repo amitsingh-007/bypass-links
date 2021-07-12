@@ -38,11 +38,13 @@ const getDbRef = async (ref: string) => {
   return getFullDbPath(ref, userProfile.uid);
 };
 
-export const getFromFirebase = async (ref: string) =>
-  firebase
+export const getFromFirebase = async <T>(ref: string) => {
+  const snapshot = await firebase
     .database()
     .ref(await getDbRef(ref))
     .once("value");
+  return (snapshot.val() || {}) as T;
+};
 
 export const saveToFirebase = async (ref: string, data: any) =>
   firebase
@@ -87,7 +89,7 @@ export const uploadImageToFirebase = async (blob: Blob, ref: string) =>
     .child(await getStoragePath(ref))
     .put(blob, { contentType: blob.type });
 
-export const getImageFromFirebase = async (ref: string) =>
+export const getImageFromFirebase = async (ref: string): Promise<string> =>
   firebase
     .storage()
     .ref()

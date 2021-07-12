@@ -2,10 +2,12 @@ import storage from "ChromeApi/storage";
 import { FIREBASE_DB_REF } from "@common/constants/firebase";
 import { STORAGE_KEYS } from "GlobalConstants";
 import { getFromFirebase } from "GlobalUtils/firebase";
+import { LastVisited } from "../interfaces/lastVisited";
 
 export const syncLastVisitedToStorage = async () => {
-  const snapshot = await getFromFirebase(FIREBASE_DB_REF.lastVisited);
-  const lastVisited = snapshot.val() || {};
+  const lastVisited = await getFromFirebase<LastVisited>(
+    FIREBASE_DB_REF.lastVisited
+  );
   await storage.set({ [STORAGE_KEYS.lastVisited]: lastVisited });
   console.log(`Last visited is set to`, lastVisited);
 };

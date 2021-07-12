@@ -4,7 +4,8 @@ import EditIcon from "@material-ui/icons/Edit";
 import ContextMenu from "GlobalComponents/ContextMenu";
 import { memo, useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import { getPersonsPanelUrl, resolvePersonImageFromUid } from "../utils";
+import { resolvePersonImageFromUid } from "../utils";
+import { getPersonsPanelUrl } from "../utils/urls";
 import AddOrEditPersonDialog from "./AddOrEditPersonDialog";
 import BookmarksList from "./BookmarksList";
 

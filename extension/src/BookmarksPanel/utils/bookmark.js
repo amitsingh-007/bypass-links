@@ -1,4 +1,4 @@
-import { FIREBASE_DB_REF } from "../../../../common/src/constants/firebase";
+import { FIREBASE_DB_REF } from "@common/constants/firebase";
 import storage from "ChromeApi/storage";
 import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
 import { STORAGE_KEYS } from "GlobalConstants";
@@ -7,8 +7,7 @@ import { getFromFirebase, saveDataToFirebase } from "GlobalUtils/firebase";
 import { getBookmarksObj, getFaviconUrl } from ".";
 
 export const syncBookmarksToStorage = async () => {
-  const snapshot = await getFromFirebase(FIREBASE_DB_REF.bookmarks);
-  const bookmarks = snapshot.val();
+  const bookmarks = await getFromFirebase(FIREBASE_DB_REF.bookmarks);
   await storage.set({ [STORAGE_KEYS.bookmarks]: bookmarks });
   console.log(`Bookmarks is set to`, bookmarks);
 };

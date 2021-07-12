@@ -27,8 +27,7 @@ export const redirect = async (tabId, url) => {
 };
 
 export const syncRedirectionsToStorage = async () => {
-  const snapshot = await getFromFirebase(FIREBASE_DB_REF.redirections);
-  const redirections = snapshot.val();
+  const redirections = await getFromFirebase(FIREBASE_DB_REF.redirections);
   await storage.set({ [STORAGE_KEYS.redirections]: redirections });
   const mappedRedirections = getMappedRedirections(redirections);
   await storage.set({ [STORAGE_KEYS.mappedRedirections]: mappedRedirections });

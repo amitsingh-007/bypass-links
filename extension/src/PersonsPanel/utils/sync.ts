@@ -1,4 +1,4 @@
-import { FIREBASE_DB_REF } from "../../../../common/src/constants/firebase";
+import { FIREBASE_DB_REF } from "@common/constants/firebase";
 import storage from "ChromeApi/storage";
 import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
 import { STORAGE_KEYS } from "GlobalConstants";
@@ -10,17 +10,21 @@ import {
 } from "GlobalUtils/firebase";
 import { dispatchAuthenticationEvent } from "SrcPath/HomePopup/utils/authentication";
 import { getAllDecodedPersons } from ".";
+import { IPerson, PersonImageUrls } from "../interfaces/persons";
+import {
+  getPersons,
+  getPersonImageUrls,
+} from "SrcPath/helpers/fetchFromStorage";
 
 export const syncPersonsToStorage = async () => {
-  const snapshot = await getFromFirebase(FIREBASE_DB_REF.persons);
-  const persons = snapshot.val() || {};
+  const persons = await getFromFirebase<IPerson>(FIREBASE_DB_REF.persons);
   await storage.set({ [STORAGE_KEYS.persons]: persons });
   console.log("Persons is set to", persons);
 };
 
 export const syncPersonsFirebaseWithStorage = async () => {
-  const { [STORAGE_KEYS.persons]: persons, hasPendingPersons } =
-    await storage.get([STORAGE_KEYS.persons, "hasPendingPersons"]);
+  const { hasPendingPersons } = await storage.get("hasPendingPersons");
+  const persons = await getPersons();
   if (!hasPendingPersons) {
     return;
   }
@@ -40,7 +44,13 @@ export const resetPersons = async () => {
   await storage.remove([STORAGE_KEYS.persons, "hasPendingPersons"]);
 };
 
-const resolveImageFromPerson = async ({ uid, imageRef }) => ({
+const resolveImageFromPerson = async ({
+  uid,
+  imageRef,
+}: {
+  uid: string;
+  imageRef: string;
+}) => ({
   uid,
   imageUrl: await getImageFromFirebase(imageRef),
 });
@@ -57,10 +67,13 @@ export const cachePersonImageUrlsInStorage = async () => {
   const personImagesList = await Promise.all(
     persons.map(resolveImageFromPerson)
   );
-  const personImageUrls = personImagesList.reduce((obj, { uid, imageUrl }) => {
-    obj[uid] = imageUrl;
-    return obj;
-  }, {});
+  const personImageUrls = personImagesList.reduce<PersonImageUrls>(
+    (obj, { uid, imageUrl }) => {
+      obj[uid] = imageUrl;
+      return obj;
+    },
+    {}
+  );
   await storage.set({ [STORAGE_KEYS.personImageUrls]: personImageUrls });
   console.log("PersonImageUrls is set to", personImageUrls);
   dispatchAuthenticationEvent({
@@ -76,9 +89,7 @@ export const refreshPersonImageUrlsCache = async () => {
 };
 
 export const cachePersonImages = async () => {
-  const { [STORAGE_KEYS.personImageUrls]: personImageUrls } = await storage.get(
-    STORAGE_KEYS.personImageUrls
-  );
+  const personImageUrls = await getPersonImageUrls();
   if (!personImageUrls) {
     console.log("Unable to cache person images since no person urls");
     return;
@@ -89,11 +100,9 @@ export const cachePersonImages = async () => {
   console.log("Initialized cache for all person urls");
 };
 
-export const updatePersonCacheAndImageUrls = async (person) => {
+export const updatePersonCacheAndImageUrls = async (person: IPerson) => {
   //Update person image urls in storage
-  const { [STORAGE_KEYS.personImageUrls]: personImageUrls } = await storage.get(
-    STORAGE_KEYS.personImageUrls
-  );
+  const personImageUrls = await getPersonImageUrls();
   const { uid, imageUrl } = await resolveImageFromPerson(person);
   personImageUrls[uid] = imageUrl;
   await storage.set({ [STORAGE_KEYS.personImageUrls]: personImageUrls });

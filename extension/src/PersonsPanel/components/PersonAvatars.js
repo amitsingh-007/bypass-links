@@ -3,7 +3,7 @@ import PersonOffIcon from "@material-ui/icons/PersonOff";
 import { CircularTooltip } from "GlobalComponents/StyledComponents";
 import { memo } from "react";
 import { useHistory } from "react-router";
-import { getPersonsPanelUrl } from "SrcPath/PersonsPanel/utils";
+import { getPersonsPanelUrl } from "../utils/urls";
 
 const AVATAR_SIZE = { SMALL: "23px", BIG: "70px" };
 const commonStyles = { marginRight: "12px" };
