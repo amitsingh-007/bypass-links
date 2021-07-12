@@ -79,7 +79,7 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: "UI Tests - Chrome"
-        uses: cypress-io/github-action@v2.9.7
+        uses: cypress-io/github-action@v2.11.6
         with:
           browser: chrome
           headless: true
