@@ -10,7 +10,7 @@ const titleStyles = {
 } as SxProps;
 
 interface Props {
-  heading: string;
+  heading: string | React.ReactNode;
   containerStyles?: SxProps;
 }
 

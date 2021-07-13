@@ -22,12 +22,23 @@ import {
   getFromHash,
 } from "SrcPath/BookmarksPanel/utils";
 import SearchInput from "GlobalComponents/SearchInput";
+import { Bookmark } from "SrcPath/BookmarksPanel/interfaces";
 
 const imageStyles = { width: 40, height: 40 };
 
-const BookmarksList = memo(({ name, imageUrl, taggedUrls }) => {
+interface Props {
+  name: string;
+  imageUrl: string;
+  taggedUrls: string[];
+}
+
+interface ModifiedBookmark extends Bookmark {
+  parentName: string;
+}
+
+const BookmarksList = memo<Props>(({ name, imageUrl, taggedUrls }) => {
   const history = useHistory();
-  const [bookmarks, setBookmarks] = useState([]);
+  const [bookmarks, setBookmarks] = useState<ModifiedBookmark[]>([]);
 
   const initBookmarks = useCallback(async () => {
     if (!taggedUrls?.length) {
@@ -38,15 +49,22 @@ const BookmarksList = memo(({ name, imageUrl, taggedUrls }) => {
         const bookmark = await getFromHash(false, urlHash);
         const parent = await getFromHash(true, bookmark.parentHash);
         const decodedBookmark = getDecodedBookmark(bookmark);
-        decodedBookmark.parentName = atob(parent.name);
-        return decodedBookmark;
+        return {
+          ...decodedBookmark,
+          parentName: atob(parent.name),
+        } as ModifiedBookmark;
       })
     );
     setBookmarks(fetchedBookmarks);
   }, [taggedUrls]);
 
-  const handleBookmarkEdit = async ({ url, title, parentName }) => {
-    const urlParams = {};
+  const handleBookmarkEdit = async ({
+    url,
+    title,
+    parentName,
+  }: ModifiedBookmark) => {
+    //TODO:change this
+    const urlParams = {} as any;
     urlParams.editBookmark = true;
     urlParams.url = url;
     urlParams.title = title;

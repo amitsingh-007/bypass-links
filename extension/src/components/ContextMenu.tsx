@@ -1,13 +1,14 @@
 import { Box, MenuItem, Typography } from "@material-ui/core";
-import { MenuOptions } from "GlobalInterfaces/menu";
+import { MenuOption } from "GlobalInterfaces/menu";
 import { memo } from "react";
 import useMenu from "SrcPath/hooks/useMenu";
 import { RightClickMenu } from "./StyledComponents";
 
 type Props = {
-  menuOptions: MenuOptions[];
+  menuOptions: MenuOption[];
   showMenu?: boolean;
   onOpen?: () => void;
+  children: React.ReactNode;
 };
 
 const ContextMenu = memo<Props>(

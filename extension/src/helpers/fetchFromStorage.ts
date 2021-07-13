@@ -2,7 +2,10 @@ import storage from "ChromeApi/storage";
 import { EXTENSION_STATE, STORAGE_KEYS } from "GlobalConstants";
 import { UserInfo } from "SrcPath/HomePopup/interfaces/authentication";
 import { LastVisited } from "SrcPath/HomePopup/interfaces/lastVisited";
-import { Persons } from "SrcPath/PersonsPanel/interfaces/persons";
+import {
+  PersonImageUrls,
+  IPersons,
+} from "SrcPath/PersonsPanel/interfaces/persons";
 import { Redirection } from "SrcPath/ShortcutsPanel/interfaces/redirections";
 
 export const getExtensionState = async () => {
@@ -42,5 +45,12 @@ export const getPersons = async () => {
   const { [STORAGE_KEYS.persons]: persons } = await storage.get(
     STORAGE_KEYS.persons
   );
-  return persons as Persons;
+  return persons as IPersons;
+};
+
+export const getPersonImageUrls = async () => {
+  const { [STORAGE_KEYS.personImageUrls]: personImageUrls } = await storage.get(
+    STORAGE_KEYS.personImageUrls
+  );
+  return personImageUrls as PersonImageUrls;
 };

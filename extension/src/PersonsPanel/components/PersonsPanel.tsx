@@ -6,7 +6,9 @@ import { PANEL_DIMENSIONS } from "GlobalConstants/styles";
 import { removeImageFromFirebase } from "GlobalUtils/firebase";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { getPersons } from "SrcPath/helpers/fetchFromStorage";
 import { SORT_ORDER, SORT_TYPE } from "../constants/sort";
+import { IPerson, IPersons } from "../interfaces/persons";
 import { decryptionMapper } from "../mapper";
 import { getPersonPos, setPersonsInStorage } from "../utils";
 import { sortAlphabetically, sortByBookmarksCount } from "../utils/sort";
@@ -16,23 +18,21 @@ import Persons from "./Persons";
 
 const PersonsPanel = () => {
   const dispatch = useDispatch();
-  const [persons, setPersons] = useState([]);
+  const [persons, setPersons] = useState<IPerson[]>([]);
   const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
-    storage
-      .get([STORAGE_KEYS.persons])
-      .then(({ [STORAGE_KEYS.persons]: persons }) => {
-        const decryptedPersons = Object.entries(persons || {}).map(
-          decryptionMapper
-        );
-        setPersons(sortAlphabetically(SORT_ORDER.asc, decryptedPersons));
-        setIsFetching(false);
-      });
+    getPersons().then((persons) => {
+      const decryptedPersons = Object.entries(persons || {}).map(
+        decryptionMapper
+      );
+      setPersons(sortAlphabetically(SORT_ORDER.asc, decryptedPersons));
+      setIsFetching(false);
+    });
   }, []);
 
-  const handleSave = async (persons) => {
-    const encryptedPersons = persons.reduce(
+  const handleSave = async (persons: IPerson[]) => {
+    const encryptedPersons = persons.reduce<IPersons>(
       (obj, { uid, name, imageRef, taggedUrls }) => {
         obj[uid] = {
           uid,
@@ -47,7 +47,7 @@ const PersonsPanel = () => {
     await setPersonsInStorage(encryptedPersons);
   };
 
-  const handleAddOrEditPerson = async (person) => {
+  const handleAddOrEditPerson = async (person: IPerson) => {
     setIsFetching(true);
     const pos = getPersonPos(persons, person);
     const newPersons = [...persons];
@@ -68,7 +68,7 @@ const PersonsPanel = () => {
     dispatch(displayToast({ message: "Person added/updated succesfully" }));
   };
 
-  const handlePersonDelete = async (person) => {
+  const handlePersonDelete = async (person: IPerson) => {
     const pos = getPersonPos(persons, person);
     if (persons[pos].taggedUrls?.length > 0) {
       console.error("Cant delete a person with tagged urls");
@@ -84,7 +84,7 @@ const PersonsPanel = () => {
     dispatch(displayToast({ message: "Person deleted succesfully" }));
   };
 
-  const handleSort = (sortType, sortOrder) => {
+  const handleSort = (sortType: SORT_TYPE, sortOrder: SORT_ORDER) => {
     let sortFn = null;
     if (sortType === SORT_TYPE.alphabetically) {
       sortFn = sortAlphabetically;

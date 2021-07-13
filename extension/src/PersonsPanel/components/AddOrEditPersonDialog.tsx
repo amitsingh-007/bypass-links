@@ -4,12 +4,20 @@ import { EditDialog } from "GlobalComponents/Dialogs";
 import { getImageFromFirebase } from "GlobalUtils/firebase";
 import md5 from "md5";
 import { memo, useEffect, useState } from "react";
+import { IPerson } from "../interfaces/persons";
 import { resolvePersonImageFromUid } from "../utils";
 import ImagePicker from "./ImagePicker";
 
 const imageStyles = { width: 200, height: 200 };
 
-const AddOrEditPersonDialog = memo(
+interface Props {
+  person?: IPerson;
+  isOpen: boolean;
+  onClose: () => void;
+  handleSaveClick: (person: IPerson) => void;
+}
+
+const AddOrEditPersonDialog = memo<Props>(
   ({ person, isOpen, onClose, handleSaveClick }) => {
     const [uid, setUid] = useState(person?.uid);
     const [name, setName] = useState(person?.name ?? "");
@@ -17,7 +25,7 @@ const AddOrEditPersonDialog = memo(
     const [imageUrl, setImageUrl] = useState("");
     const [showImagePicker, setShowImagePicker] = useState(false);
 
-    const initImageUrl = async (uid) => {
+    const initImageUrl = async (uid: string) => {
       const imageUrl = await resolvePersonImageFromUid(uid);
       setImageUrl(imageUrl);
     };
@@ -26,20 +34,22 @@ const AddOrEditPersonDialog = memo(
       if (person) {
         initImageUrl(person.uid);
       } else {
-        setUid(md5(Date.now()));
+        setUid(md5(Date.now().toString()));
       }
     }, [person]);
 
-    const fetchImage = async (ref) => {
+    const fetchImage = async (ref: string) => {
       const url = await getImageFromFirebase(ref);
       setImageUrl(url);
     };
 
-    const handleNameChange = (event) => {
+    const handleNameChange: React.ChangeEventHandler<HTMLTextAreaElement> = (
+      event
+    ) => {
       setName(event.target.value);
     };
 
-    const handleImageCropSave = async (imageFirebaseRef) => {
+    const handleImageCropSave = async (imageFirebaseRef: string) => {
       await fetchImage(imageFirebaseRef);
       setImageRef(imageFirebaseRef);
     };
@@ -49,6 +59,7 @@ const AddOrEditPersonDialog = memo(
     };
 
     const handlePersonSave = () => {
+      if (!uid || !imageRef) return;
       handleSaveClick({
         uid,
         name,
@@ -96,12 +107,14 @@ const AddOrEditPersonDialog = memo(
             />
           </Box>
         </EditDialog>
-        <ImagePicker
-          uid={uid}
-          isOpen={showImagePicker}
-          onDialogClose={toggleImagePicker}
-          handleImageSave={handleImageCropSave}
-        />
+        {uid && (
+          <ImagePicker
+            uid={uid}
+            isOpen={showImagePicker}
+            onDialogClose={toggleImagePicker}
+            handleImageSave={handleImageCropSave}
+          />
+        )}
       </>
     );
   }

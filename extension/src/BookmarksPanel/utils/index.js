@@ -4,6 +4,7 @@ import { ROUTES } from "GlobalConstants/routes";
 import { serialzeObjectToQueryString } from "GlobalUtils/url";
 import md5 from "md5";
 import { BM_COUNT_IN_INITAL_VIEW } from "../constants";
+import { Bookmark } from "../interfaces";
 
 export const getFaviconUrl = (url) =>
   `https://www.google.com/s2/favicons?sz=64&domain_url=${

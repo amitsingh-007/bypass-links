@@ -2,22 +2,32 @@ import { Avatar, Badge, Box, IconButton, Typography } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import ContextMenu from "GlobalComponents/ContextMenu";
+import { MenuOption } from "GlobalInterfaces/menu";
 import { memo, useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import { getPersonsPanelUrl, resolvePersonImageFromUid } from "../utils";
+import { IPerson } from "../interfaces/persons";
+import { resolvePersonImageFromUid } from "../utils";
+import { getPersonsPanelUrl } from "../utils/urls";
 import AddOrEditPersonDialog from "./AddOrEditPersonDialog";
 import BookmarksList from "./BookmarksList";
 
 const imageStyles = { width: 100, height: 100 };
 
-const Person = memo(
+interface Props {
+  person: IPerson;
+  openBookmarksListUid: string;
+  handleEditPerson: (person: IPerson) => void;
+  handlePersonDelete: (person: IPerson) => void;
+}
+
+const Person = memo<Props>(
   ({ person, openBookmarksListUid, handleEditPerson, handlePersonDelete }) => {
     const history = useHistory();
     const { uid, name, taggedUrls } = person;
     const [imageUrl, setImageUrl] = useState("");
     const [showBookmarksList, setShowBookmarksList] = useState(false);
     const [showEditPersonDialog, setShowEditPersonDialog] = useState(false);
-    const [menuOptions, setMenuOptions] = useState([]);
+    const [menuOptions, setMenuOptions] = useState<MenuOption[]>([]);
 
     const handleDeleteOptionClick = useCallback(() => {
       handlePersonDelete(person);
@@ -53,7 +63,7 @@ const Person = memo(
       setShowBookmarksList(openBookmarksListUid === uid);
     }, [openBookmarksListUid, uid]);
 
-    const handlePersonSave = (updatedPerson) => {
+    const handlePersonSave = (updatedPerson: IPerson) => {
       handleEditPerson(updatedPerson);
       toggleEditPersonDialog();
     };
