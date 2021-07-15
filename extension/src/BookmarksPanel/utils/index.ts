@@ -13,7 +13,7 @@ export const getFaviconUrl = (url: string) =>
     new URL(url).hostname
   }`;
 
-export const getAllFolderNames = (folderList: IFolder) =>
+export const getAllFolderNames = (folderList: IBookmarksObj["folderList"]) =>
   Object.entries(folderList).map(([_key, value]) => atob(value.name));
 
 export const isFolderEmpty = (

@@ -3,7 +3,7 @@ import { RootState } from "GlobalReducers/rootReducer";
 import { memo, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { getPersons } from "SrcPath/helpers/fetchFromStorage";
-import { UpdateTaggedPersons } from "SrcPath/PersonsPanel/interfaces/persons";
+import { IUpdateTaggedPerson } from "SrcPath/PersonsPanel/interfaces/persons";
 import { setPersonsInStorage } from "SrcPath/PersonsPanel/utils";
 
 const THIRTY_SECONDS = 30 * 1000; //in milliseconds
@@ -41,7 +41,7 @@ const getSeparatedPersons = (prevPersons: string[], newPersons: string[]) => {
   };
 };
 
-const updateUrlsInTaggedPersons = async (updates: UpdateTaggedPersons[]) => {
+const updateUrlsInTaggedPersons = async (updates: IUpdateTaggedPerson[]) => {
   if (!updates || !updates.length) {
     return;
   }

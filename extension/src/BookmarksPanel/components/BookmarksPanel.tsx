@@ -8,11 +8,24 @@ import { PANEL_DIMENSIONS } from "GlobalConstants/styles";
 import { addToCache } from "GlobalUtils/cache";
 import md5 from "md5";
 import { PureComponent } from "react";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import {
+  DragDropContext,
+  DragDropContextProps,
+  Droppable,
+} from "react-beautiful-dnd";
+import { connect, ConnectedProps } from "react-redux";
+import { getBookmarks } from "SrcPath/helpers/fetchFromStorage";
 import { startHistoryMonitor } from "SrcPath/HistoryPanel/actionCreators";
+import { updateTaggedPersonUrls } from "SrcPath/PersonsPanel/actionCreators";
+import { IUpdateTaggedPerson } from "SrcPath/PersonsPanel/interfaces/persons";
 import { BOOKMARK_PANEL_CONTENT_HEIGHT } from "../constants";
+import {
+  ContextBookmarks,
+  IBookmarksObj,
+  ICurDraggingBookmark,
+  ISelectedBookmarks,
+} from "../interfaces";
+import { BMPanelQueryParams } from "../interfaces/url";
 import { bookmarksMapper } from "../mapper";
 import {
   getAllFolderNames,
@@ -21,33 +34,45 @@ import {
   isFolderEmpty,
   shouldRenderBookmarks,
 } from "../utils";
+import {
+  getBookmarksAfterDrag,
+  getDestinationIndex,
+  getSelectedBookmarksAfterDrag,
+} from "../utils/manipulate";
 import Bookmark from "./Bookmark";
 import Folder from "./Folder";
 import Header from "./Header";
 import { ScrollUpButton } from "./ScrollButton";
-import { updateTaggedPersonUrls } from "SrcPath/PersonsPanel/actionCreators";
-import { getBookmarks } from "SrcPath/helpers/fetchFromStorage";
-import {
-  getDestinationIndex,
-  getBookmarksAfterDrag,
-  getSelectedBookmarksAfterDrag,
-} from "../utils/manipulate";
 
 const bookmarksContainerId = "bookmarks-wrapper";
 
-class BookmarksPanel extends PureComponent {
-  constructor(props) {
+interface Props extends PropsFromRedux, BMPanelQueryParams {}
+
+interface State {
+  contextBookmarks: ContextBookmarks;
+  urlList: IBookmarksObj["urlList"];
+  folderList: IBookmarksObj["folderList"];
+  folders: IBookmarksObj["folders"];
+  selectedBookmarks: ISelectedBookmarks;
+  isFetching: boolean;
+  isSaveButtonActive: boolean;
+  updateTaggedPersons: IUpdateTaggedPerson[];
+  curDraggingBookmark: ICurDraggingBookmark;
+}
+
+class BookmarksPanel extends PureComponent<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
-      contextBookmarks: null,
-      urlList: null,
-      folderList: [],
-      folders: null,
+      contextBookmarks: [],
+      urlList: {},
+      folderList: {},
+      folders: {},
       selectedBookmarks: [],
       isFetching: true,
       isSaveButtonActive: false,
       updateTaggedPersons: [],
-      curDraggingBookmark: {},
+      curDraggingBookmark: {} as ICurDraggingBookmark,
     };
   }
 
@@ -73,10 +98,10 @@ class BookmarksPanel extends PureComponent {
     this.initBookmarksData();
     document
       .getElementById(bookmarksContainerId)
-      .addEventListener("keydown", this.handleKeyPress);
+      ?.addEventListener("keydown", this.handleKeyPress);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props) {
     const { folderContext } = this.props;
     if (prevProps.folderContext !== folderContext) {
       this.initBookmarksData();
@@ -86,10 +111,10 @@ class BookmarksPanel extends PureComponent {
   componentWillUnmount() {
     document
       .getElementById(bookmarksContainerId)
-      .removeEventListener("keydown", this.handleKeyPress);
+      ?.removeEventListener("keydown", this.handleKeyPress);
   }
 
-  handleKeyPress = (event) => {
+  handleKeyPress = (event: KeyboardEvent) => {
     if (event.key === "Escape") {
       this.resetSelectedBookmarks();
     }
@@ -108,7 +133,7 @@ class BookmarksPanel extends PureComponent {
     });
   };
 
-  handleSelectedChange = (pos, isOnlySelection) => {
+  handleSelectedChange = (pos: number, isOnlySelection: boolean) => {
     const { selectedBookmarks } = this.state;
     if (isOnlySelection) {
       selectedBookmarks.fill(false);
@@ -121,13 +146,13 @@ class BookmarksPanel extends PureComponent {
     this.setState({ selectedBookmarks: [] });
   };
 
-  handleCreateNewFolder = (name) => {
+  handleCreateNewFolder = (name: string) => {
     const { contextBookmarks, folderList } = this.state;
     const { folderContext } = this.props;
     const isDir = true;
     const nameHash = md5(name);
     //Update current context folder
-    contextBookmarks.unshift({ isDir, name });
+    contextBookmarks?.unshift({ isDir, name });
     //Update data in all folders list
     folderList[nameHash] = {
       name: btoa(name),
@@ -141,27 +166,31 @@ class BookmarksPanel extends PureComponent {
   };
 
   updatePersonUrls = (
-    prevTaggedPersons = [],
-    newTaggedPersons = [],
-    urlHash
+    prevTaggedPersons: string[] = [],
+    newTaggedPersons: string[] = [],
+    urlHash: string
   ) => {
     const { updateTaggedPersons } = this.state;
     this.setState({
       updateTaggedPersons: [
         ...updateTaggedPersons,
-        { prevTaggedPersons, newTaggedPersons, urlHash },
+        {
+          prevTaggedPersons,
+          newTaggedPersons,
+          urlHash,
+        },
       ],
     });
   };
 
   handleBookmarkSave = (
-    url,
-    title,
-    oldFolder,
-    newFolder,
-    pos,
-    prevTaggedPersons,
-    newTaggedPersons
+    url: string,
+    title: string,
+    oldFolder: string,
+    newFolder: string,
+    pos: number,
+    prevTaggedPersons: string[],
+    newTaggedPersons: string[]
   ) => {
     const { contextBookmarks, folders, urlList } = this.state;
     const isFolderChange = oldFolder !== newFolder;
@@ -202,7 +231,12 @@ class BookmarksPanel extends PureComponent {
     });
   };
 
-  handleAddNewBookmark = (url, title, folder, taggedPersons) => {
+  handleAddNewBookmark = (
+    url: string,
+    title: string,
+    folder: string,
+    taggedPersons: string[]
+  ) => {
     const { contextBookmarks } = this.state;
     const { folderContext } = this.props;
     this.handleBookmarkSave(
@@ -216,12 +250,14 @@ class BookmarksPanel extends PureComponent {
     );
   };
 
-  handleBulkBookmarksMove = (destFolder) => {
+  handleBulkBookmarksMove = (destFolder: string) => {
     const { contextBookmarks, selectedBookmarks, folders, urlList } =
       this.state;
     const bookmarksToMove = contextBookmarks
-      .filter((_bookmark, index) => Boolean(selectedBookmarks[index]))
-      .map(({ url }) => md5(url));
+      .filter((bookmark, index) =>
+        Boolean(selectedBookmarks[index] && bookmark.url)
+      )
+      .map(({ url = "" }) => md5(url));
     //Change parent folder hash in urlList
     const destFolderHash = md5(destFolder);
     bookmarksToMove.forEach(
@@ -248,7 +284,7 @@ class BookmarksPanel extends PureComponent {
     });
   };
 
-  handleUrlRemove = (pos, url) => {
+  handleUrlRemove = (pos: number, url: string) => {
     const { contextBookmarks, urlList } = this.state;
     const urlHash = md5(url);
     //Update url in tagged persons
@@ -269,15 +305,15 @@ class BookmarksPanel extends PureComponent {
   handleBulkUrlRemove = () => {
     const { contextBookmarks, urlList, selectedBookmarks } = this.state;
     const newUrlList = { ...urlList };
-    const taggedPersonData = [];
+    const taggedPersonData: IUpdateTaggedPerson[] = [];
     //Remove from current context folder
     const filteredContextBookmarks = contextBookmarks.filter(
       (bookmark, index) => {
         if (selectedBookmarks[index]) {
-          const urlHash = md5(bookmark.url);
+          const urlHash = md5(bookmark.url || "");
           //Update url in tagged persons
           taggedPersonData.push({
-            prevTaggedPersons: bookmark.taggedPersons,
+            prevTaggedPersons: bookmark.taggedPersons || [],
             newTaggedPersons: [],
             urlHash,
           });
@@ -297,19 +333,22 @@ class BookmarksPanel extends PureComponent {
     });
   };
 
-  handleFolderEdit = (oldName, newName, pos) => {
+  handleFolderEdit = (oldName: string, newName: string, pos: number) => {
     const { contextBookmarks, folderList, folders, urlList } = this.state;
     const oldFolderHash = md5(oldName);
     const newFolderHash = md5(newName);
     //Update parentHash in urlList
-    const newUrlList = Object.entries(urlList).reduce((obj, [hash, data]) => {
-      if (data.parentHash === oldFolderHash) {
-        obj[hash] = { ...data, parentHash: newFolderHash };
-      } else {
-        obj[hash] = data;
-      }
-      return obj;
-    }, {});
+    const newUrlList = Object.entries(urlList).reduce<IBookmarksObj["urlList"]>(
+      (obj, [hash, data]) => {
+        if (data.parentHash === oldFolderHash) {
+          obj[hash] = { ...data, parentHash: newFolderHash };
+        } else {
+          obj[hash] = data;
+        }
+        return obj;
+      },
+      {}
+    );
     //Update name in folderList
     folderList[newFolderHash] = {
       ...folderList[oldFolderHash],
@@ -330,7 +369,7 @@ class BookmarksPanel extends PureComponent {
     });
   };
 
-  handleFolderRemove = (pos, name) => {
+  handleFolderRemove = (pos: number, name: string) => {
     const {
       urlList,
       folderList,
@@ -351,19 +390,22 @@ class BookmarksPanel extends PureComponent {
     //Remove from all folders list
     delete folderList[folderHash];
     //Remove all urls inside the folder and update all urls in tagged persons
-    const taggedPersonData = [];
-    const newUrlList = Object.entries(urlList).reduce((obj, [hash, data]) => {
-      if (data.parentHash !== folderHash) {
-        obj[hash] = data;
-      } else {
-        taggedPersonData.push({
-          prevTaggedPersons: data.taggedPersons,
-          newTaggedPersons: [],
-          urlHash: hash,
-        });
-      }
-      return obj;
-    }, {});
+    const taggedPersonData: IUpdateTaggedPerson[] = [];
+    const newUrlList = Object.entries(urlList).reduce<IBookmarksObj["urlList"]>(
+      (obj, [hash, data]) => {
+        if (data.parentHash !== folderHash) {
+          obj[hash] = data;
+        } else {
+          taggedPersonData.push({
+            prevTaggedPersons: data.taggedPersons,
+            newTaggedPersons: [],
+            urlHash: hash,
+          });
+        }
+        return obj;
+      },
+      {}
+    );
     //Remove its data from folders
     delete folders[folderHash];
     this.setState({
@@ -392,7 +434,7 @@ class BookmarksPanel extends PureComponent {
     folders[md5(folderContext)] = contextBookmarks.map(
       ({ isDir, url, name }) => ({
         isDir,
-        hash: md5(isDir ? name : url),
+        hash: md5((isDir ? name : url) || ""),
       })
     );
     const bookmarksObj = { folderList, urlList, folders };
@@ -407,7 +449,10 @@ class BookmarksPanel extends PureComponent {
     });
   };
 
-  onDragStart = async ({ draggableId, source }) => {
+  onDragStart: DragDropContextProps["onDragStart"] = async ({
+    draggableId,
+    source,
+  }) => {
     const { selectedBookmarks } = this.state;
     const isCurrentDraggingSelected = selectedBookmarks[source.index];
     if (!isCurrentDraggingSelected) {
@@ -423,8 +468,8 @@ class BookmarksPanel extends PureComponent {
     });
   };
 
-  onDragEnd = ({ destination, source }) => {
-    this.setState({ curDraggingBookmark: {} });
+  onDragEnd: DragDropContextProps["onDragEnd"] = ({ destination, source }) => {
+    this.setState({ curDraggingBookmark: {} as ICurDraggingBookmark });
     if (!source || !destination || destination.index === source.index) {
       return;
     }
@@ -506,7 +551,16 @@ class BookmarksPanel extends PureComponent {
                 >
                   {shouldRenderBookmarks(folders, contextBookmarks)
                     ? contextBookmarks.map(
-                        ({ url, title, name, taggedPersons, isDir }, index) =>
+                        (
+                          {
+                            url = "",
+                            title = "",
+                            name = "",
+                            taggedPersons = [],
+                            isDir,
+                          },
+                          index
+                        ) =>
                           isDir ? (
                             <Folder
                               key={name}
@@ -565,14 +619,14 @@ class BookmarksPanel extends PureComponent {
   }
 }
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      displayToast,
-      updateTaggedPersonUrls,
-      startHistoryMonitor,
-    },
-    dispatch
-  );
+const mapDispatchToProps = {
+  displayToast,
+  updateTaggedPersonUrls,
+  startHistoryMonitor,
+};
 
-export default connect(null, mapDispatchToProps)(BookmarksPanel);
+const connector = connect(null, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+export default connector(BookmarksPanel);

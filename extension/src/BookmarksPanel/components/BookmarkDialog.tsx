@@ -30,7 +30,7 @@ interface Props {
   handleDelete?: VoidFunction;
   isOpen: boolean;
   onClose: VoidFunction;
-  isSaveActive: boolean;
+  isSaveActive?: boolean;
 }
 
 const BookmarkDialog: React.FC<Props> = ({
@@ -44,7 +44,7 @@ const BookmarkDialog: React.FC<Props> = ({
   handleDelete,
   isOpen,
   onClose,
-  isSaveActive,
+  isSaveActive = false,
 }) => {
   const [taggedPersons, setTaggedPersons] = useState<IPersonWithImage[]>([]);
   const [title, setTitle] = useState(origTitle);

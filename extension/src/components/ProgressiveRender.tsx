@@ -6,6 +6,7 @@ import { useInView } from "react-intersection-observer";
 interface Props {
   containerStyles: SxProps;
   forceRender: boolean;
+  children: React.ReactNode;
 }
 
 const ProgressiveRender = memo<Props>(

@@ -1,14 +1,34 @@
 import { Box, Button } from "@material-ui/core";
+import { SxProps } from "@material-ui/system";
 import md5 from "md5";
 import { memo, useEffect, useRef } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import Ripples from "react-ripples";
 import usePrevious from "SrcPath/hooks/usePrevious";
+import { Subtract } from "utility-types";
 import { bookmarkRowStyles, BOOKMARK_ROW_DIMENTSIONS } from "../constants";
+import { ICurDraggingBookmark } from "../interfaces";
 import "../scss/withBookmarkRow.scss";
 
-const withBookmarkRow = (Component) =>
-  memo((props) => {
+export interface InjectedProps {
+  containerStyles: SxProps;
+}
+
+interface ExpectedProps {
+  isDir: boolean;
+  pos: number;
+  name?: string;
+  url?: string;
+  title?: string;
+  isSelected?: boolean;
+  editBookmark?: boolean;
+  curDraggingBookmark: ICurDraggingBookmark;
+}
+
+const withBookmarkRow = <T extends InjectedProps>(
+  Component: React.ComponentType<T>
+) =>
+  memo<Subtract<T, InjectedProps> & ExpectedProps>((props) => {
     const {
       isDir,
       name,
@@ -19,9 +39,9 @@ const withBookmarkRow = (Component) =>
       editBookmark,
       curDraggingBookmark,
     } = props;
-    const bookmarkRef = useRef(null);
+    const bookmarkRef = useRef<HTMLDivElement>(null);
     const prevEditBookmark = usePrevious(editBookmark);
-    const primaryUniqueId = isDir ? name : url;
+    const primaryUniqueId = (isDir ? name : url) || "";
     const secondaryUniqueId = isDir ? null : title;
 
     useEffect(() => {
@@ -56,12 +76,15 @@ const withBookmarkRow = (Component) =>
                 sx={{
                   display: "flex",
                   alignItems: "center",
-                  flexGrow: "1",
+                  flexGrow: 1,
                   maxWidth: `${BOOKMARK_ROW_DIMENTSIONS.width}px`,
                 }}
                 ref={bookmarkRef}
               >
-                <Component {...props} containerStyles={bookmarkRowStyles} />
+                <Component
+                  {...(props as unknown as T)}
+                  containerStyles={bookmarkRowStyles}
+                />
               </Box>
             </Ripples>
             {!isDir &&

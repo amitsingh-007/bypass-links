@@ -19,7 +19,7 @@ import { getActiveDisabledColor } from "GlobalUtils/color";
 import React, { createRef, PureComponent } from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router-dom";
-import { bindActionCreators, compose } from "redux";
+import { compose } from "redux";
 import { ContextBookmarks } from "../interfaces";
 import { syncBookmarksFirebaseWithStorage } from "../utils/bookmark";
 import { getBookmarksPanelUrl } from "../utils/url";
@@ -308,6 +308,6 @@ const connector = connect(null, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-const withCompose = compose(withRouter, connector);
+const withCompose = compose(connector);
 
-export default withCompose(Header);
+export default withRouter(withCompose(Header));

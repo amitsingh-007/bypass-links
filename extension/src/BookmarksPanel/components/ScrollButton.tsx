@@ -27,7 +27,7 @@ const getPercentScrolled = () => {
 };
 
 interface Props {
-  containerId: number;
+  containerId: string;
   bookmarks: ContextBookmarks;
 }
 
@@ -36,7 +36,7 @@ export const ScrollUpButton = memo<Props>(({ containerId, bookmarks }) => {
   const [percentScrolled, setPercentScrolled] = useState(0);
 
   const handleScrollClick = () => {
-    const nodes = document.getElementById(`${containerId}`)?.children;
+    const nodes = document.getElementById(containerId)?.children;
     if (!nodes?.length) {
       return;
     }

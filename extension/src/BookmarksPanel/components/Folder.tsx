@@ -5,22 +5,25 @@ import FolderTwoToneIcon from "@material-ui/icons/FolderTwoTone";
 import { displayToast } from "GlobalActionCreators/toast";
 import ContextMenu from "GlobalComponents/ContextMenu";
 import { COLOR } from "GlobalConstants/color";
+import { MenuOption } from "GlobalInterfaces/menu";
 import { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { BOOKMARK_ROW_DIMENTSIONS } from "../constants";
 import { getBookmarksPanelUrl } from "../utils/url";
 import { FolderDialog } from "./FolderDialog";
-import withBookmarkRow from "./withBookmarkRow";
+import withBookmarkRow, { InjectedProps } from "../hoc/withBookmarkRow";
 
-const getTitleStyles = (isEmpty) => ({
-  flexGrow: "1",
-  marginLeft: "8px",
-  color: isEmpty ? COLOR.blueGrey.color : "inherit",
-  fontSize: "14px",
-});
+interface Props extends InjectedProps {
+  name: string;
+  pos: number;
+  handleRemove: (pos: number, origName: string) => void;
+  handleEdit: (origName: string, newName: string, pos: number) => void;
+  isEmpty: boolean;
+  resetSelectedBookmarks: React.MouseEventHandler<HTMLDivElement>;
+}
 
-const Folder = memo(
+const Folder = memo<Props>(
   ({
     name: origName,
     pos,
@@ -32,7 +35,7 @@ const Folder = memo(
   }) => {
     const dispatch = useDispatch();
     const history = useHistory();
-    const [menuOptions, setMenuOptions] = useState([]);
+    const [menuOptions, setMenuOptions] = useState<MenuOption[]>([]);
     const [openEditDialog, setOpenEditDialog] = useState(false);
 
     const toggleEditDialog = useCallback(() => {
@@ -43,7 +46,7 @@ const Folder = memo(
       handleRemove(pos, origName);
     }, [handleRemove, origName, pos]);
 
-    const handleFolderSave = (newName) => {
+    const handleFolderSave = (newName: string) => {
       handleEdit(origName, newName, pos);
       toggleEditDialog();
     };
@@ -90,7 +93,15 @@ const Folder = memo(
               fontSize="small"
               htmlColor={COLOR.yellow.color}
             />
-            <Typography noWrap style={getTitleStyles(isEmpty)}>
+            <Typography
+              noWrap
+              sx={{
+                flexGrow: 1,
+                marginLeft: "8px",
+                fontSize: "14px",
+                color: isEmpty ? COLOR.blueGrey.color : "inherit",
+              }}
+            >
               {origName}
             </Typography>
           </Box>

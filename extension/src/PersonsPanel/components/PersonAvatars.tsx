@@ -3,12 +3,13 @@ import PersonOffIcon from "@material-ui/icons/PersonOff";
 import { CircularTooltip } from "GlobalComponents/StyledComponents";
 import { memo } from "react";
 import { useHistory } from "react-router";
+import { IPersonWithImage } from "../interfaces/persons";
 import { getPersonsPanelUrl } from "../utils/urls";
 
 const AVATAR_SIZE = { SMALL: "23px", BIG: "70px" };
 const commonStyles = { marginRight: "12px" };
 
-const PersonAvatars = memo(({ persons }) => {
+const PersonAvatars = memo<{ persons: IPersonWithImage[] }>(({ persons }) => {
   const history = useHistory();
 
   const hasImages =
@@ -28,7 +29,7 @@ const PersonAvatars = memo(({ persons }) => {
     );
   }
 
-  const handlePersonClick = (person) => {
+  const handlePersonClick = (person: IPersonWithImage) => {
     history.push(getPersonsPanelUrl({ openBookmarksList: person.uid }));
   };
 

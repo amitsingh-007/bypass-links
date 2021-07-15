@@ -7,7 +7,7 @@ export interface IPerson {
 
 export type IPersons = Record<string, IPerson>;
 
-export interface UpdateTaggedPersons {
+export interface IUpdateTaggedPerson {
   prevTaggedPersons: string[];
   newTaggedPersons: string[];
   urlHash: string;

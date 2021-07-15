@@ -1,6 +1,7 @@
 import { defaultBookmarkFolder } from "GlobalConstants";
 import { ROUTES } from "GlobalConstants/routes";
 import { serialzeObjectToQueryString } from "GlobalUtils/url";
+import { BMPanelQueryParams } from "../interfaces/url";
 
 export const getBookmarksPanelUrl = ({
   folder = defaultBookmarkFolder,
@@ -15,6 +16,6 @@ export const getBookmarksPanelUrl = ({
     editBookmark: editBookmark,
     bmUrl: url,
     bmTitle: title,
-  };
+  } as BMPanelQueryParams;
   return `${ROUTES.BOOKMARK_PANEL}?${serialzeObjectToQueryString(qsObj)}`;
 };

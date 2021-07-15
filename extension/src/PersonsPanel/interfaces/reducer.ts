@@ -1,10 +1,10 @@
-import { UpdateTaggedPersons } from "./persons";
+import { IUpdateTaggedPerson } from "./persons";
 
 export interface TaggedPersonsAction {
   type: string;
-  data: UpdateTaggedPersons[];
+  data: IUpdateTaggedPerson[];
 }
 
 export interface TaggedPersonsState {
-  updateTaggedUrls: UpdateTaggedPersons[] | null;
+  updateTaggedUrls: IUpdateTaggedPerson[] | null;
 }
