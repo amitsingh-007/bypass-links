@@ -44,10 +44,12 @@ const OpenForumLinks = memo(() => {
   const handleClick = async () => {
     setIsFetching(true);
     dispatch(startHistoryMonitor());
-    const { forumPageLinks } = await runtime.sendMessage({
+    const { forumPageLinks } = await runtime.sendMessage<{
+      forumPageLinks: string[];
+    }>({
       getForumPageLinks: currentTab?.id,
     });
-    forumPageLinks.forEach((url: string) => {
+    forumPageLinks.forEach((url) => {
       tabs.create({ url, selected: false });
     });
     setIsFetching(false);

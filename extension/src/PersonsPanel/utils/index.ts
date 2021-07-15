@@ -3,7 +3,7 @@ import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
 import { STORAGE_KEYS } from "GlobalConstants";
 import { getBlobUrlFromCache } from "GlobalUtils/cache";
 import { getPersons } from "SrcPath/helpers/fetchFromStorage";
-import { IPerson, IPersons } from "../interfaces/persons";
+import { IPerson, IPersons, IPersonWithImage } from "../interfaces/persons";
 
 export const setPersonsInStorage = async (persons: IPersons) => {
   await storage.set({
@@ -37,7 +37,9 @@ export const getAllDecodedPersons = async () => {
     .map(([_key, person]) => decodePerson(person));
 };
 
-export const getPersonsWithImageUrl = async (persons: IPerson[]) => {
+export const getPersonsWithImageUrl = async (
+  persons: IPerson[]
+): Promise<IPersonWithImage[]> => {
   if (!persons) {
     return [];
   }

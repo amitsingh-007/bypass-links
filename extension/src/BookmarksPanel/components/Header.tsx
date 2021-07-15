@@ -1,4 +1,4 @@
-import { Box, IconButton } from "@material-ui/core";
+import { Box, IconButton, SelectProps } from "@material-ui/core";
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import CreateNewFolderTwoToneIcon from "@material-ui/icons/CreateNewFolderTwoTone";
 import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
@@ -14,21 +14,50 @@ import PanelHeading from "GlobalComponents/PanelHeading";
 import SearchInput from "GlobalComponents/SearchInput";
 import { defaultBookmarkFolder } from "GlobalConstants";
 import { COLOR } from "GlobalConstants/color";
+import { VoidFunction } from "GlobalInterfaces/custom";
 import { getActiveDisabledColor } from "GlobalUtils/color";
-import { createRef, PureComponent } from "react";
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import React, { createRef, PureComponent } from "react";
+import { connect, ConnectedProps } from "react-redux";
+import { RouteComponentProps, withRouter } from "react-router-dom";
 import { bindActionCreators, compose } from "redux";
-import { startHistoryMonitor } from "SrcPath/HistoryPanel/actionCreators";
-import { getBookmarksPanelUrl } from "../utils";
+import { ContextBookmarks } from "../interfaces";
 import { syncBookmarksFirebaseWithStorage } from "../utils/bookmark";
-import { BookmarkDialog } from "./BookmarkDialog";
+import { getBookmarksPanelUrl } from "../utils/url";
+import BookmarkDialog from "./BookmarkDialog";
 import ConfirmationDialog from "./ConfirmationDialog";
 import { FolderDropdown } from "./Dropdown";
 import { FolderDialog } from "./FolderDialog";
 
-class Header extends PureComponent {
-  constructor(props) {
+interface Props extends RouteComponentProps<any>, PropsFromRedux {
+  showBookmarkDialog: boolean;
+  isSaveButtonActive: boolean;
+  contextBookmarks: ContextBookmarks;
+  handleSave: VoidFunction;
+  url: string;
+  title: string;
+  curFolder: string;
+  folderNamesList: string[];
+  isFetching: boolean;
+  handleCreateNewFolder: (folder: string) => void;
+  handleAddNewBookmark: (
+    url: string,
+    title: string,
+    folder: string,
+    taggedPersons: string[]
+  ) => void;
+}
+
+interface State {
+  openFolderDialog: boolean;
+  openBookmarkDialog: boolean;
+  openConfirmationDialog: boolean;
+  isSyncing: boolean;
+}
+
+class Header extends PureComponent<Props, State> {
+  private saveButtonRef: React.RefObject<HTMLButtonElement>;
+
+  constructor(props: Props) {
     super(props);
     const { showBookmarkDialog } = props;
     this.state = {
@@ -37,18 +66,16 @@ class Header extends PureComponent {
       openConfirmationDialog: false,
       isSyncing: false,
     };
-    this.saveButtonRef = createRef(null);
+    this.saveButtonRef = createRef();
   }
 
-  componentDidUpdate(prevProps) {
-    const { showBookmarkDialog } = this.props;
+  componentDidUpdate(prevProps: Props) {
+    const { showBookmarkDialog, isSaveButtonActive, contextBookmarks } =
+      this.props;
     if (prevProps.showBookmarkDialog !== showBookmarkDialog) {
       this.setState({ openBookmarkDialog: showBookmarkDialog });
     }
-    if (
-      this.props.isSaveButtonActive &&
-      prevProps.contextBookmarks !== this.props.contextBookmarks
-    ) {
+    if (isSaveButtonActive && prevProps.contextBookmarks !== contextBookmarks) {
       //Focus save button after updating bookmarks
       setTimeout(() => {
         this.saveButtonRef?.current?.focus();
@@ -60,13 +87,15 @@ class Header extends PureComponent {
     this.props.history.goBack();
   };
 
-  onFolderChange = (event) => {
+  onFolderChange: SelectProps<string>["onChange"] = (event) => {
     this.props.history.push(
       getBookmarksPanelUrl({ folder: event.target.value })
     );
   };
 
-  handleDiscardButtonClick = (event) => {
+  handleDiscardButtonClick: React.MouseEventHandler<HTMLButtonElement> = (
+    event
+  ) => {
     event.stopPropagation();
     const { isSaveButtonActive } = this.props;
     if (isSaveButtonActive) {
@@ -76,7 +105,7 @@ class Header extends PureComponent {
     }
   };
 
-  onSyncClick = async (event) => {
+  onSyncClick: React.MouseEventHandler<HTMLButtonElement> = async (event) => {
     const { isSyncing } = this.state;
     event.stopPropagation();
     if (isSyncing) {
@@ -92,15 +121,21 @@ class Header extends PureComponent {
     this.setState({ isSyncing: false });
   };
 
-  onSaveClick = (event) => {
+  onSaveClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
     event.stopPropagation();
     this.props.handleSave();
   };
 
-  toggleNewFolderDialog = (event) => {
-    event && event.stopPropagation();
+  toggleNewFolderDialog = () => {
     const { openFolderDialog } = this.state;
     this.setState({ openFolderDialog: !openFolderDialog });
+  };
+
+  handleNewFolderClick: React.MouseEventHandler<HTMLButtonElement> = (
+    event
+  ) => {
+    event.stopPropagation();
+    this.toggleNewFolderDialog();
   };
 
   toggleBookmarkEditDialog = () => {
@@ -122,12 +157,17 @@ class Header extends PureComponent {
     this.setState({ openConfirmationDialog: false });
   };
 
-  handleNewFolderSave = (folderName) => {
+  handleNewFolderSave = (folderName: string) => {
     this.props.handleCreateNewFolder(folderName);
     this.toggleNewFolderDialog();
   };
 
-  handleNewBookmarkSave = (url, title, folder, taggedPersons) => {
+  handleNewBookmarkSave = (
+    url: string,
+    title: string,
+    folder: string,
+    taggedPersons: string[]
+  ) => {
     this.props.handleAddNewBookmark(url, title, folder, taggedPersons);
     this.toggleBookmarkEditDialog();
   };
@@ -192,7 +232,7 @@ class Header extends PureComponent {
               >
                 <SyncTwoToneIcon
                   fontSize="large"
-                  className={isSyncing ? "iconLoading" : null}
+                  className={isSyncing ? "iconLoading" : ""}
                   htmlColor={COLOR.orange.color}
                 />
               </IconButton>
@@ -260,13 +300,14 @@ class Header extends PureComponent {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    displayToast: bindActionCreators(displayToast, dispatch),
-    startHistoryMonitor: bindActionCreators(startHistoryMonitor, dispatch),
-  };
+const mapDispatchToProps = {
+  displayToast,
 };
 
-const withCompose = compose(withRouter, connect(null, mapDispatchToProps));
+const connector = connect(null, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+const withCompose = compose(withRouter, connector);
 
 export default withCompose(Header);

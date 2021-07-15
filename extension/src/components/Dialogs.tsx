@@ -10,14 +10,15 @@ import CloseTwoToneIcon from "@material-ui/icons/CloseTwoTone";
 import DeleteTwoToneIcon from "@material-ui/icons/DeleteTwoTone";
 import DoneTwoToneIcon from "@material-ui/icons/DoneTwoTone";
 import { COLOR } from "GlobalConstants/color";
+import { VoidFunction } from "GlobalInterfaces/custom";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 
 interface Props {
   headerText: string;
   openDialog: boolean;
-  closeDialog: () => void;
+  closeDialog: VoidFunction;
   handleSave: (e: React.FormEvent<HTMLFormElement>) => void;
-  handleDelete?: () => void;
+  handleDelete?: VoidFunction;
   isSaveOptionActive: boolean;
 }
 

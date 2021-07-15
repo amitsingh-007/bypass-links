@@ -1,4 +1,5 @@
 import { Box, MenuItem, Typography } from "@material-ui/core";
+import { VoidFunction } from "GlobalInterfaces/custom";
 import { MenuOption } from "GlobalInterfaces/menu";
 import { memo } from "react";
 import useMenu from "SrcPath/hooks/useMenu";
@@ -7,7 +8,7 @@ import { RightClickMenu } from "./StyledComponents";
 type Props = {
   menuOptions: MenuOption[];
   showMenu?: boolean;
-  onOpen?: () => void;
+  onOpen?: VoidFunction;
   children: React.ReactNode;
 };
 

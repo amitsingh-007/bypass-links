@@ -4,17 +4,21 @@ import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
 import { STORAGE_KEYS } from "GlobalConstants";
 import { getCacheObj } from "GlobalUtils/cache";
 import { getFromFirebase, saveDataToFirebase } from "GlobalUtils/firebase";
-import { getBookmarksObj, getFaviconUrl } from ".";
+import { getFaviconUrl } from ".";
+import { IBookmarksObj } from "../interfaces";
+import { getBookmarks } from "SrcPath/helpers/fetchFromStorage";
 
 export const syncBookmarksToStorage = async () => {
-  const bookmarks = await getFromFirebase(FIREBASE_DB_REF.bookmarks);
+  const bookmarks = await getFromFirebase<IBookmarksObj>(
+    FIREBASE_DB_REF.bookmarks
+  );
   await storage.set({ [STORAGE_KEYS.bookmarks]: bookmarks });
   console.log(`Bookmarks is set to`, bookmarks);
 };
 
 export const syncBookmarksFirebaseWithStorage = async () => {
-  const { [STORAGE_KEYS.bookmarks]: bookmarks, hasPendingBookmarks } =
-    await storage.get([STORAGE_KEYS.bookmarks, "hasPendingBookmarks"]);
+  const { hasPendingBookmarks } = await storage.get("hasPendingBookmarks");
+  const bookmarks = await getBookmarks();
   if (!hasPendingBookmarks) {
     return;
   }
@@ -35,7 +39,7 @@ export const resetBookmarks = async () => {
 };
 
 export const cacheBookmarkFavicons = async () => {
-  const bookmarks = await getBookmarksObj();
+  const bookmarks = await getBookmarks();
   if (!bookmarks) {
     return;
   }

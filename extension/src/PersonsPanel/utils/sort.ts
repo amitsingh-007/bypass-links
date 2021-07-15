@@ -1,9 +1,9 @@
 import { SORT_ORDER } from "../constants/sort";
 import { IPerson } from "../interfaces/persons";
 
-export const sortAlphabetically = (
+export const sortAlphabetically = <T extends IPerson>(
   sortOrder: SORT_ORDER,
-  persons: IPerson[]
+  persons: T[]
 ) => {
   const sortedPersons = persons.sort((a, b) => a.name.localeCompare(b.name));
   if (sortOrder === SORT_ORDER.desc) {

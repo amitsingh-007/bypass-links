@@ -6,13 +6,14 @@ import Loader from "GlobalComponents/Loader";
 import PanelHeading from "GlobalComponents/PanelHeading";
 import { COLOR } from "GlobalConstants/color";
 import { STICKY_HEADER } from "GlobalConstants/styles";
+import { VoidFunction } from "GlobalInterfaces/custom";
 import { memo } from "react";
 
 type Props = {
   isFetching: boolean;
-  handleClose: () => void;
-  handleSave: () => void;
-  handleAddRule: () => void;
+  handleClose: VoidFunction;
+  handleSave: VoidFunction;
+  handleAddRule: VoidFunction;
 };
 
 const Header = memo(

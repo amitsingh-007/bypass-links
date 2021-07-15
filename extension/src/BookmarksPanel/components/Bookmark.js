@@ -7,14 +7,12 @@ import tabs from "ChromeApi/tabs";
 import ContextMenu from "GlobalComponents/ContextMenu";
 import ProgressiveRender from "GlobalComponents/ProgressiveRender";
 import { BlackTooltip } from "GlobalComponents/StyledComponents";
-import { createRef, PureComponent } from "react";
+import { PureComponent } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { bindActionCreators, compose } from "redux";
-import {
-  getBookmarksPanelUrl,
-  isInInitalView,
-} from "SrcPath/BookmarksPanel/utils";
+import { isInInitalView } from "SrcPath/BookmarksPanel/utils";
+import { getBookmarksPanelUrl } from "SrcPath/BookmarksPanel/utils/url";
 import { startHistoryMonitor } from "SrcPath/HistoryPanel/actionCreators";
 import PersonAvatars from "SrcPath/PersonsPanel/components/PersonAvatars";
 import {
@@ -22,7 +20,8 @@ import {
   getPersonsWithImageUrl,
 } from "SrcPath/PersonsPanel/utils";
 import { BOOKMARK_ROW_DIMENTSIONS } from "../constants";
-import { BookmarkDialog, BulkBookmarksMoveDialog } from "./BookmarkDialog";
+import BookmarkDialog from "./BookmarkDialog";
+import BulkBookmarksMoveDialog from "./BulkBookmarksMoveDialog";
 import Favicon from "./Favicon";
 import withBookmarkRow from "./withBookmarkRow";
 
@@ -40,7 +39,6 @@ class Bookmark extends PureComponent {
       openBulkBookmarksMoveDialog: false,
       menuOptions: this.getMenuOptions(),
     };
-    this.bookmarkRef = createRef(null);
   }
 
   initImageUrl = async () => {
@@ -149,12 +147,6 @@ class Bookmark extends PureComponent {
     }
     const { pos, handleSelectedChange } = this.props;
     const isCtrlPressed = event?.ctrlKey;
-    if (!isCtrlPressed) {
-      setTimeout(() => {
-        //TODO: not working
-        this.bookmarkRef.current.focus();
-      }, 0);
-    }
     handleSelectedChange(pos, !isCtrlPressed);
   };
 
@@ -217,7 +209,6 @@ class Bookmark extends PureComponent {
               height: "100%",
               ...containerStyles,
             }}
-            ref={this.bookmarkRef}
             onDoubleClick={this.handleOpenLink}
             onClick={this.handleSelectionChange}
           >

@@ -9,7 +9,7 @@ import { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { BOOKMARK_ROW_DIMENTSIONS } from "../constants";
-import { getBookmarksPanelUrl } from "../utils";
+import { getBookmarksPanelUrl } from "../utils/url";
 import { FolderDialog } from "./FolderDialog";
 import withBookmarkRow from "./withBookmarkRow";
 

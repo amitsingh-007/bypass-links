@@ -1,6 +1,7 @@
 import { Avatar, Box, TextField } from "@material-ui/core";
 import PersonOffIcon from "@material-ui/icons/PersonOff";
 import { EditDialog } from "GlobalComponents/Dialogs";
+import { VoidFunction } from "GlobalInterfaces/custom";
 import { getImageFromFirebase } from "GlobalUtils/firebase";
 import md5 from "md5";
 import { memo, useEffect, useState } from "react";
@@ -13,7 +14,7 @@ const imageStyles = { width: 200, height: 200 };
 interface Props {
   person?: IPerson;
   isOpen: boolean;
-  onClose: () => void;
+  onClose: VoidFunction;
   handleSaveClick: (person: IPerson) => void;
 }
 

@@ -1,5 +1,6 @@
 import storage from "ChromeApi/storage";
 import { EXTENSION_STATE, STORAGE_KEYS } from "GlobalConstants";
+import { IBookmarksObj } from "SrcPath/BookmarksPanel/interfaces";
 import { UserInfo } from "SrcPath/HomePopup/interfaces/authentication";
 import { LastVisited } from "SrcPath/HomePopup/interfaces/lastVisited";
 import {
@@ -53,4 +54,11 @@ export const getPersonImageUrls = async () => {
     STORAGE_KEYS.personImageUrls
   );
   return personImageUrls as PersonImageUrls;
+};
+
+export const getBookmarks = async () => {
+  const { [STORAGE_KEYS.bookmarks]: bookmarks } = await storage.get(
+    STORAGE_KEYS.bookmarks
+  );
+  return bookmarks as IBookmarksObj;
 };

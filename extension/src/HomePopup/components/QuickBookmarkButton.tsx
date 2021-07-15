@@ -10,19 +10,19 @@ import { memo, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {
-  getBookmarksObj,
-  getBookmarksPanelUrl,
   getDecodedBookmark,
-  getFromHash,
+  getFolderFromHash,
 } from "SrcPath/BookmarksPanel/utils";
+import { getBookmarksPanelUrl } from "SrcPath/BookmarksPanel/utils/url";
 import { IconButtonLoader } from "GlobalComponents/Loader";
 import { BlackTooltip } from "GlobalComponents/StyledComponents";
 import { RootState } from "GlobalReducers/rootReducer";
-import { Bookmark } from "SrcPath/BookmarksPanel/interfaces";
+import { IBookmark, IFolder } from "SrcPath/BookmarksPanel/interfaces";
+import { getBookmarks } from "SrcPath/helpers/fetchFromStorage";
 
 const QuickBookmarkButton = memo(() => {
   const { isSignedIn } = useSelector((state: RootState) => state.root);
-  const [bookmark, setBookmark] = useState<Bookmark | null>(null);
+  const [bookmark, setBookmark] = useState<IBookmark | null>(null);
   const [isFetching, setIsFetching] = useState(false);
   const history = useHistory();
 
@@ -30,7 +30,7 @@ const QuickBookmarkButton = memo(() => {
     setIsFetching(true);
     const currentTab = await getCurrentTab();
     const url = currentTab?.url ?? "";
-    const bookmarks = await getBookmarksObj();
+    const bookmarks = await getBookmarks();
     if (bookmarks) {
       const encodedBookmark = bookmarks.urlList[md5(url)];
       if (encodedBookmark) {
@@ -52,7 +52,7 @@ const QuickBookmarkButton = memo(() => {
     const urlParams = {} as any;
     if (bookmark) {
       const { url, title, parentHash } = bookmark;
-      const parent = await getFromHash(true, parentHash);
+      const parent = await getFolderFromHash(parentHash);
       urlParams.editBookmark = true;
       urlParams.url = url;
       urlParams.title = title;

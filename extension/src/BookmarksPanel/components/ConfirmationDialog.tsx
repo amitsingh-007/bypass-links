@@ -6,9 +6,14 @@ import {
   DialogContent,
 } from "@material-ui/core";
 import { COLOR } from "GlobalConstants/color";
+import { VoidFunction } from "GlobalInterfaces/custom";
 import { memo } from "react";
 
-const ConfirmationDialog = memo(({ onClose, onOk, isOpen }) => {
+const ConfirmationDialog = memo<{
+  onClose: VoidFunction;
+  onOk: VoidFunction;
+  isOpen: boolean;
+}>(({ onClose, onOk, isOpen }) => {
   const handleCancel = () => {
     onClose();
   };

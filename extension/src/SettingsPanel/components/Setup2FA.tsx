@@ -18,6 +18,7 @@ import PanelHeading from "GlobalComponents/PanelHeading";
 import { BlackTooltip } from "GlobalComponents/StyledComponents";
 import { STORAGE_KEYS } from "GlobalConstants";
 import { BG_COLOR_BLACK, BG_COLOR_DARK, COLOR } from "GlobalConstants/color";
+import { VoidFunction } from "GlobalInterfaces/custom";
 import { toDataURL } from "qrcode";
 import { forwardRef, memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -36,7 +37,7 @@ const Transition = forwardRef(function Transition(
 
 type Props = {
   isOpen: boolean;
-  handleClose: () => void;
+  handleClose: VoidFunction;
 };
 
 const Setup2FA = memo(({ isOpen, handleClose }: Props) => {

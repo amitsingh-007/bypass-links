@@ -17,12 +17,13 @@ import { useHistory } from "react-router";
 import { BookmarkExternal } from "SrcPath/BookmarksPanel/components/Bookmark";
 import { bookmarkRowStyles } from "SrcPath/BookmarksPanel/constants";
 import {
-  getBookmarksPanelUrl,
+  getBookmarkFromHash,
   getDecodedBookmark,
-  getFromHash,
+  getFolderFromHash,
 } from "SrcPath/BookmarksPanel/utils";
+import { getBookmarksPanelUrl } from "SrcPath/BookmarksPanel/utils/url";
 import SearchInput from "GlobalComponents/SearchInput";
-import { Bookmark } from "SrcPath/BookmarksPanel/interfaces";
+import { IBookmark } from "SrcPath/BookmarksPanel/interfaces";
 
 const imageStyles = { width: 40, height: 40 };
 
@@ -32,7 +33,7 @@ interface Props {
   taggedUrls: string[];
 }
 
-interface ModifiedBookmark extends Bookmark {
+interface ModifiedBookmark extends IBookmark {
   parentName: string;
 }
 
@@ -46,8 +47,8 @@ const BookmarksList = memo<Props>(({ name, imageUrl, taggedUrls }) => {
     }
     const fetchedBookmarks = await Promise.all(
       taggedUrls.map(async (urlHash) => {
-        const bookmark = await getFromHash(false, urlHash);
-        const parent = await getFromHash(true, bookmark.parentHash);
+        const bookmark = await getBookmarkFromHash(urlHash);
+        const parent = await getFolderFromHash(bookmark.parentHash);
         const decodedBookmark = getDecodedBookmark(bookmark);
         return {
           ...decodedBookmark,

@@ -1,17 +1,20 @@
 import { TextField } from "@material-ui/core";
 import { EditDialog } from "GlobalComponents/Dialogs";
+import { VoidFunction } from "GlobalInterfaces/custom";
 import { useState } from "react";
 
-export const FolderDialog = ({
-  origName = "",
-  headerText,
-  handleSave,
-  isOpen,
-  onClose,
-}) => {
+export const FolderDialog: React.FC<{
+  origName?: string;
+  headerText: string;
+  handleSave: (name: string) => void;
+  isOpen: boolean;
+  onClose: VoidFunction;
+}> = ({ origName = "", headerText, handleSave, isOpen, onClose }) => {
   const [name, setName] = useState(origName);
 
-  const handleNameChange = (event) => {
+  const handleNameChange: React.ChangeEventHandler<HTMLInputElement> = (
+    event
+  ) => {
     setName(event.target.value);
   };
 
@@ -24,7 +27,7 @@ export const FolderDialog = ({
     onClose();
   };
 
-  const isSaveOptionActive = name && name !== origName;
+  const isSaveOptionActive = Boolean(name && name !== origName);
   return (
     <EditDialog
       headerText={headerText}

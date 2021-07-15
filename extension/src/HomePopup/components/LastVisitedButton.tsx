@@ -27,7 +27,6 @@ const LastVisitedButton = memo(() => {
   const initLastVisited = async () => {
     setIsFetching(true);
     const lastVisitedObj = await getLastVisited();
-    console.log(lastVisitedObj);
 
     const currentTab = await getCurrentTab();
     const { hostname } = new URL(currentTab.url ?? "");

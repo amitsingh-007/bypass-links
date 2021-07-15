@@ -16,11 +16,7 @@ import { BOOKMARK_PANEL_CONTENT_HEIGHT } from "../constants";
 import { bookmarksMapper } from "../mapper";
 import {
   getAllFolderNames,
-  getBookmarksAfterDrag,
-  getBookmarksObj,
-  getDestinationIndex,
   getFaviconUrl,
-  getSelectedBookmarksAfterDrag,
   isFolderContainsDir,
   isFolderEmpty,
   shouldRenderBookmarks,
@@ -30,6 +26,12 @@ import Folder from "./Folder";
 import Header from "./Header";
 import { ScrollUpButton } from "./ScrollButton";
 import { updateTaggedPersonUrls } from "SrcPath/PersonsPanel/actionCreators";
+import { getBookmarks } from "SrcPath/helpers/fetchFromStorage";
+import {
+  getDestinationIndex,
+  getBookmarksAfterDrag,
+  getSelectedBookmarksAfterDrag,
+} from "../utils/manipulate";
 
 const bookmarksContainerId = "bookmarks-wrapper";
 
@@ -52,7 +54,7 @@ class BookmarksPanel extends PureComponent {
   initBookmarksData = async () => {
     const { folderContext } = this.props;
     this.setState({ isSaveButtonActive: false, isFetching: true });
-    const { folders, urlList, folderList } = await getBookmarksObj();
+    const { folders, urlList, folderList } = await getBookmarks();
     const folderContextHash = md5(folderContext);
     const modifiedBookmarks = Object.entries(folders[folderContextHash]).map(
       (kvp) => bookmarksMapper(kvp, urlList, folderList)

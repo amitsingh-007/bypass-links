@@ -14,3 +14,7 @@ export interface UpdateTaggedPersons {
 }
 
 export type PersonImageUrls = Record<string, string>;
+
+export interface IPersonWithImage extends IPerson {
+  imageUrl: string;
+}

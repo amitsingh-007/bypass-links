@@ -7,6 +7,7 @@ import {
   BOOKMARK_PANEL_CONTENT_HEIGHT,
   BOOKMARK_ROW_DIMENTSIONS,
 } from "../constants";
+import { ContextBookmarks } from "../interfaces";
 
 const minReqBookmarksToScroll = Math.ceil(
   BOOKMARK_PANEL_CONTENT_HEIGHT / BOOKMARK_ROW_DIMENTSIONS.height
@@ -14,7 +15,10 @@ const minReqBookmarksToScroll = Math.ceil(
 
 const getPercentScrolled = () => {
   const node = document.body;
-  const parentNode = node.parentNode;
+  const parentNode = node.parentElement;
+  if (!parentNode) {
+    return 0;
+  }
   return (
     ((node.scrollTop || parentNode.scrollTop) /
       (parentNode.scrollHeight - parentNode.clientHeight)) *
@@ -22,12 +26,17 @@ const getPercentScrolled = () => {
   );
 };
 
-export const ScrollUpButton = memo(({ containerId, bookmarks }) => {
+interface Props {
+  containerId: number;
+  bookmarks: ContextBookmarks;
+}
+
+export const ScrollUpButton = memo<Props>(({ containerId, bookmarks }) => {
   const [isShown, setIsShown] = useState(false);
   const [percentScrolled, setPercentScrolled] = useState(0);
 
   const handleScrollClick = () => {
-    const nodes = document.getElementById(containerId).childNodes;
+    const nodes = document.getElementById(`${containerId}`)?.children;
     if (!nodes?.length) {
       return;
     }

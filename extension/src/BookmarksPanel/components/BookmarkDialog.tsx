@@ -1,10 +1,12 @@
-import { Box, IconButton, TextField } from "@material-ui/core";
+import { Box, IconButton, SelectProps, TextField } from "@material-ui/core";
 import FormatColorTextTwoToneIcon from "@material-ui/icons/FormatColorTextTwoTone";
 import runtime from "ChromeApi/runtime";
 import { EditDialog } from "GlobalComponents/Dialogs";
 import { COLOR } from "GlobalConstants/color";
+import { VoidFunction } from "GlobalInterfaces/custom";
 import { useEffect, useState } from "react";
 import { SORT_ORDER } from "SrcPath/PersonsPanel/constants/sort";
+import { IPersonWithImage } from "SrcPath/PersonsPanel/interfaces/persons";
 import {
   getAllDecodedPersons,
   getPersonsWithImageUrl,
@@ -12,7 +14,26 @@ import {
 import { sortAlphabetically } from "SrcPath/PersonsPanel/utils/sort";
 import { FolderDropdown, PersonsDropdown } from "./Dropdown";
 
-export const BookmarkDialog = ({
+interface Props {
+  url: string;
+  origTitle: string;
+  origFolder: string;
+  origTaggedPersons?: string[];
+  headerText: string;
+  folderList: string[];
+  handleSave: (
+    origUrl: string,
+    title: string,
+    folder: string,
+    taggedPersons: string[]
+  ) => void;
+  handleDelete?: VoidFunction;
+  isOpen: boolean;
+  onClose: VoidFunction;
+  isSaveActive: boolean;
+}
+
+const BookmarkDialog: React.FC<Props> = ({
   url: origUrl,
   origTitle,
   origFolder,
@@ -25,10 +46,10 @@ export const BookmarkDialog = ({
   onClose,
   isSaveActive,
 }) => {
-  const [taggedPersons, setTaggedPersons] = useState([]);
+  const [taggedPersons, setTaggedPersons] = useState<IPersonWithImage[]>([]);
   const [title, setTitle] = useState(origTitle);
   const [folder, setFolder] = useState(origFolder);
-  const [personList, setPersonList] = useState([]);
+  const [personList, setPersonList] = useState<IPersonWithImage[]>([]);
   const [isFetchingPerson, setIsFetchingPerson] = useState(false);
   const [isSaveOptionActive, setIsSaveOptionActive] = useState(isSaveActive);
 
@@ -51,17 +72,19 @@ export const BookmarkDialog = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleTitleChange = (event) => {
+  const handleTitleChange: React.ChangeEventHandler<HTMLTextAreaElement> = (
+    event
+  ) => {
     const title = event.target.value;
     setTitle(title);
     setIsSaveOptionActive(title !== origTitle);
   };
-  const handleFolderChange = (event) => {
+  const handleFolderChange: SelectProps<string>["onChange"] = (event) => {
     const folder = event.target.value;
     setFolder(folder);
     setIsSaveOptionActive(folder !== origFolder);
   };
-  const handlePersonsChange = (_event, newValues) => {
+  const handlePersonsChange = (_event: any, newValues: IPersonWithImage[]) => {
     setTaggedPersons(newValues);
     setIsSaveOptionActive(true);
   };
@@ -77,7 +100,9 @@ export const BookmarkDialog = ({
   };
 
   const handleH1Click = async () => {
-    const { pageH1 } = await runtime.sendMessage({ fetchPageH1: true });
+    const { pageH1 } = await runtime.sendMessage<{ pageH1: string }>({
+      fetchPageH1: true,
+    });
     setTitle(pageH1);
   };
 
@@ -104,7 +129,7 @@ export const BookmarkDialog = ({
           title={title}
           value={title}
           onChange={handleTitleChange}
-          style={{ flexGrow: "1" }}
+          style={{ flexGrow: 1 }}
         />
         <IconButton
           aria-label="MakeH1asTitle"
@@ -141,42 +166,4 @@ export const BookmarkDialog = ({
   );
 };
 
-export const BulkBookmarksMoveDialog = ({
-  origFolder,
-  folderList,
-  handleSave,
-  isOpen,
-  onClose,
-}) => {
-  const [folder, setFolder] = useState(origFolder);
-
-  const handleFolderChange = (event) => {
-    setFolder(event.target.value);
-  };
-
-  const handleSaveClick = () => {
-    handleSave(folder);
-    onClose();
-  };
-  const handleClose = () => {
-    setFolder(origFolder);
-    onClose();
-  };
-
-  const isSaveOptionActive = folder !== origFolder;
-  return (
-    <EditDialog
-      headerText="Move Selected Bookmarks"
-      openDialog={isOpen}
-      closeDialog={handleClose}
-      handleSave={handleSaveClick}
-      isSaveOptionActive={isSaveOptionActive}
-    >
-      <FolderDropdown
-        folder={folder}
-        folderList={folderList}
-        handleFolderChange={handleFolderChange}
-      />
-    </EditDialog>
-  );
-};
+export default BookmarkDialog;

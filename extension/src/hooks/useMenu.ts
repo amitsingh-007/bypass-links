@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { PopoverPosition } from "@material-ui/core/Popover";
+import { VoidFunction } from "GlobalInterfaces/custom";
 
 const initialMouseState = { left: 0, top: 0 };
 
 const useMenu = (): [
   boolean,
   PopoverPosition,
-  () => void,
+  VoidFunction,
   (event: React.MouseEvent<HTMLElement>) => void
 ] => {
   const [mouseState, setMouseState] =
