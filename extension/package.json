@@ -2,6 +2,26 @@
   "name": "extension",
   "version": "1.0.0",
   "private": true,
+  "scripts": {
+    "dev": "better-npm-run dev",
+    "build": "better-npm-run build"
+  },
+  "betterScripts": {
+    "build": {
+      "command": "webpack --config webpack.firebase.config.js && webpack",
+      "env": {
+        "NODE_ENV": "production",
+        "HOST_NAME": "https://bypass-links.vercel.app"
+      }
+    },
+    "dev": {
+      "command": "webpack --progress --config webpack.firebase.config.js && webpack --watch --progress",
+      "env": {
+        "NODE_ENV": "development",
+        "HOST_NAME": "http://localhost:3000"
+      }
+    }
+  },
   "dependencies": {
     "@emotion/react": "11.4.0",
     "@emotion/styled": "11.3.0",
@@ -63,30 +83,9 @@
     "tsconfig-paths-webpack-plugin": "3.5.1",
     "typescript": "4.3.5",
     "webpack": "5.42.0",
-    "webpack-bundle-analyzer": "4.4.2",
     "webpack-cli": "4.7.2",
+    "webpack-merge": "5.8.0",
     "webpack-node-externals": "3.0.0",
     "webpack-watch-external-files-plugin": "1.0.0"
-  },
-  "scripts": {
-    "analyzer": "cross-env ENABLE_BUNDLE_ANLYZER=true npm run build",
-    "dev": "better-npm-run dev",
-    "build": "better-npm-run build"
-  },
-  "betterScripts": {
-    "build": {
-      "command": "webpack --config webpack.firebase.config.js && webpack",
-      "env": {
-        "NODE_ENV": "production",
-        "HOST_NAME": "https://bypass-links.vercel.app"
-      }
-    },
-    "dev": {
-      "command": "webpack --config webpack.firebase.config.js && webpack --watch --progress",
-      "env": {
-        "NODE_ENV": "development",
-        "HOST_NAME": "http://localhost:3000"
-      }
-    }
   }
 }

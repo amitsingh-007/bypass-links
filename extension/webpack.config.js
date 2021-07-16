@@ -1,46 +1,18 @@
+const { merge } = require("webpack-merge");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const FileManagerPlugin = require("filemanager-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const { DefinePlugin, DllReferencePlugin } = require("webpack");
-const { commonConfig, PATHS } = require("./webpack.common.config");
+const { DllReferencePlugin } = require("webpack");
 const WatchExternalFilesPlugin = require("webpack-watch-external-files-plugin");
-const ESLintPlugin = require("eslint-webpack-plugin");
+const { commonConfig, PATHS } = require("./webpack.common.config");
 const { extVersion } = require("../common/src/scripts/extension-version");
-const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 
 const ENV = process.env.NODE_ENV;
 const isProduction = ENV === "production";
-const enableBundleAnalyzer = process.env.ENABLE_BUNDLE_ANLYZER === "true";
-const hostName = process.env.HOST_NAME;
-
-const tsCheckerPlugin = new ForkTsCheckerWebpackPlugin({
-  eslint: {
-    files: "./src/**/*.{ts,tsx}",
-  },
-});
-
-const esLintPLugin = new ESLintPlugin({
-  extensions: ["js"],
-});
 
 const dllReferencePlugin = new DllReferencePlugin({
-  name: "firebase_lib",
-  manifest: `${PATHS.FIREBASE_BUILD}/firebase-manifest.json`,
-});
-
-const getWebpackBundleAnalyzerPlugin = (port) =>
-  new BundleAnalyzerPlugin({
-    openAnalyzer: true,
-    generateStatsFile: true,
-    statsFilename: "stats.json",
-    defaultSizes: "gzip",
-    analyzerPort: port,
-  });
-
-const definePlugin = new DefinePlugin({
-  __PROD__: JSON.stringify(isProduction),
-  HOST_NAME: JSON.stringify(hostName),
+  context: __dirname,
+  manifest: `${PATHS.FIREBASE}/manifest.json`,
 });
 
 const getPopupFileManagerPlugin = () => {
@@ -49,11 +21,11 @@ const getPopupFileManagerPlugin = () => {
       onStart: {
         copy: [
           {
-            source: "./assets/!(index.html|manifest.json)",
-            destination: `${PATHS.EXTENSION}/assets/`,
+            source: "./assets",
+            destination: `${PATHS.EXTENSION}/assets`,
           },
           {
-            source: "./assets/(index.html|manifest.json)",
+            source: "./public/*",
             destination: PATHS.EXTENSION,
           },
         ],
@@ -62,7 +34,6 @@ const getPopupFileManagerPlugin = () => {
   };
   if (isProduction) {
     config.events.onEnd = {
-      delete: ["./extension/js/*.txt"],
       archive: [
         {
           source: PATHS.EXTENSION,
@@ -74,42 +45,12 @@ const getPopupFileManagerPlugin = () => {
   return new FileManagerPlugin(config);
 };
 
-const getPopupConfigPlugins = () => {
-  const plugins = [
-    new HtmlWebpackPlugin({
-      template: "./assets/index.html",
-      inject: false,
-      cache: false,
-    }),
-    new MiniCssExtractPlugin({
-      filename: "css/[name].[contenthash].css",
-      chunkFilename: "css/[id].[contenthash].css",
-    }),
-    getPopupFileManagerPlugin(),
-    dllReferencePlugin,
-    definePlugin,
-    esLintPLugin,
-    tsCheckerPlugin,
-  ];
-  if (enableBundleAnalyzer) {
-    plugins.push(getWebpackBundleAnalyzerPlugin(8889));
-  }
-  if (!isProduction) {
-    plugins.push(new WatchExternalFilesPlugin({ files: ["./assets/*"] }));
-  }
-  return plugins;
-};
-
 const getBackgroundConfigPlugins = () => {
   const plugins = [
     new FileManagerPlugin({
       events: {
         onStart: {
           copy: [
-            {
-              source: `${PATHS.FIREBASE_BUILD}/js/firebase.js`,
-              destination: `${PATHS.EXTENSION}/js/`,
-            },
             {
               source: `${PATHS.SRC}/scripts/service-worker.js`,
               destination: `${PATHS.EXTENSION}/`,
@@ -119,31 +60,42 @@ const getBackgroundConfigPlugins = () => {
       },
     }),
     dllReferencePlugin,
-    definePlugin,
-    esLintPLugin,
-    tsCheckerPlugin,
   ];
-  if (enableBundleAnalyzer) {
-    plugins.push(getWebpackBundleAnalyzerPlugin(8890));
-  }
   return plugins;
 };
 
-const backgroundConfig = {
-  ...commonConfig,
-  name: "BackgroundScript",
+const getPopupConfigPlugins = () => {
+  const plugins = [
+    new HtmlWebpackPlugin({
+      template: "./public/index.html",
+      inject: false,
+      cache: false,
+    }),
+    new MiniCssExtractPlugin({
+      filename: "css/[name].[contenthash].css",
+      chunkFilename: "css/[id].[contenthash].css",
+    }),
+    new WatchExternalFilesPlugin({
+      files: ["./public/*"],
+    }),
+    getPopupFileManagerPlugin(),
+    dllReferencePlugin,
+  ];
+  return plugins;
+};
+
+const backgroundConfig = merge(commonConfig, {
+  name: "background-script",
   entry: "./src/scripts/background.js",
   output: {
     path: `${PATHS.EXTENSION}/js/`,
     filename: "background.js",
   },
-  target: "browserslist",
   plugins: getBackgroundConfigPlugins(),
-};
+});
 
-const popupConfig = {
-  ...commonConfig,
-  name: "ContentScript",
+const popupConfig = merge(commonConfig, {
+  name: "content-script",
   entry: "./src/index.tsx",
   output: {
     path: PATHS.EXTENSION,
@@ -151,28 +103,7 @@ const popupConfig = {
     chunkFilename: "js/[name].[chunkhash:9].js",
     pathinfo: false,
   },
-  target: "browserslist",
-  optimization: {
-    nodeEnv: ENV,
-    minimize: isProduction,
-    chunkIds: "named",
-    splitChunks: {
-      chunks: "all",
-      cacheGroups: {
-        vendor: {
-          test: /[\\/]node_modules[\\/]@material-ui[\\/]/,
-          name: "material-ui",
-          chunks: "all",
-        },
-        react: {
-          test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
-          name: "react",
-          chunks: "all",
-        },
-      },
-    },
-  },
   plugins: getPopupConfigPlugins(),
-};
+});
 
 module.exports = [backgroundConfig, popupConfig];

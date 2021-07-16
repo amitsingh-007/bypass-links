@@ -3,6 +3,6 @@
     "node_modules": true,
     "build/**": true,
     "extension-build/**": true,
-    "firebase-build/**": true,
+    "firebase-dll/**": true,
   }
 }

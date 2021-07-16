@@ -1,7 +1,7 @@
 {
   "manifest": {
     "name": "manifest.json",
-    "dir": "./extension/assets/"
+    "dir": "./extension/public/"
   },
   "workflow": {
     "name": "Extension CI",
