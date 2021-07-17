@@ -4,7 +4,7 @@
     "outDir": "./dist/",
     "module": "esnext",
     "target": "esnext",
-    "lib": ["esnext"],
+    "lib": ["esnext", "dom", "dom.iterable"],
     "allowJs": true,
     "strict": true,
     "skipLibCheck": true,

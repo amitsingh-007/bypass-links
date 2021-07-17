@@ -4,7 +4,7 @@ import { forumsLogic } from "./forums";
 
 const logicAndHostnameMapping = {
   [BYPASS_KEYS.FORUMS]: forumsLogic,
-};
+} as Record<BYPASS_KEYS, (url: URL, tabId: number) => Promise<void>>;
 
 const getLogicExecutor = async (url: URL) => {
   const hostnameAlias = await getHostnameAlias(url.hostname);

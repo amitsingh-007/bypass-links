@@ -41,7 +41,7 @@ const bypassAndHostnameMapping = {
   [BYPASS_KEYS.PASTELINK]: bypassPageLinks,
   [BYPASS_KEYS.RENTRY]: bypassPageLinks,
   [BYPASS_KEYS.MEDIUM]: bypassMedium,
-};
+} as Record<BYPASS_KEYS, (url: URL, tabId: number) => Promise<void>>;
 
 export const getBypassExecutor = async (url: URL) => {
   const hostnameAlias = await getHostnameAlias(url.hostname);

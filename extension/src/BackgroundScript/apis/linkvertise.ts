@@ -1,4 +1,5 @@
-import { LINKVERTISE_API_BASE_URL } from "GlobalConstants";
+const LINKVERTISE_API_BASE_URL =
+  "https://publisher.linkvertise.com/api/v1/redirect/link";
 
 export const fetchLinkMetaData = async (
   type: string,

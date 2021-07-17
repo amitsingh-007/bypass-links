@@ -13,7 +13,7 @@ const handler = async (
 ) => {
   const uid = <string>req.query.uid;
   await removeFromFirebase({
-    ref: `${FIREBASE_DB_REF.userInfo}/twoFactorAuth/`,
+    ref: FIREBASE_DB_REF.user2FAInfo,
     uid,
   });
   res.json({ isRevoked: true });

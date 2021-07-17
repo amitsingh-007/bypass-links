@@ -1,5 +1,5 @@
 import storage from "GlobalHelpers/chrome/storage";
-import { EXTENSION_STATE, STORAGE_KEYS } from "GlobalConstants";
+import { BYPASS_KEYS, EXTENSION_STATE, STORAGE_KEYS } from "GlobalConstants";
 import { IBookmarksObj } from "SrcPath/BookmarksPanel/interfaces";
 import { UserInfo } from "SrcPath/HomePopup/interfaces/authentication";
 import { LastVisited } from "SrcPath/HomePopup/interfaces/lastVisited";
@@ -21,7 +21,7 @@ export const getHostnames = async () => {
   const { [STORAGE_KEYS.bypass]: bypass } = await storage.get(
     STORAGE_KEYS.bypass
   );
-  return (bypass || {}) as Record<string, string>;
+  return (bypass || {}) as Record<string, BYPASS_KEYS>;
 };
 
 export const getRedirections = async () => {

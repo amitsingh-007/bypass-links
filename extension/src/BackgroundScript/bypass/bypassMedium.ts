@@ -1,7 +1,13 @@
 import scripting from "GlobalHelpers/chrome/scripting";
 import tabs from "GlobalHelpers/chrome/tabs";
 import windows from "GlobalHelpers/chrome/windows";
-import { MEDIUM_HOMEPAGE, MEDIUM_WHITELISTED } from "GlobalConstants";
+
+const MEDIUM_HOMEPAGE = "https://medium.com/";
+
+const MEDIUM_WHITELISTED = [
+  "https://medium.com/@suncommander",
+  "https://medium.com/me/",
+];
 
 interface IBypassMedium {
   hasPaywall: boolean;

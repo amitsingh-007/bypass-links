@@ -4,6 +4,7 @@ import "firebase/database";
 import "firebase/storage";
 import { getUserProfile } from "GlobalHelpers/fetchFromStorage";
 import { getFullDbPath } from "@common/utils/firebase";
+import { FIREBASE_DB_REF } from "@common/constants/firebase";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDiMRlBhW36sLjEADoQj9T5L1H-hIDUAso",
@@ -54,7 +55,7 @@ export const saveToFirebase = async (ref: string, data: any) =>
 
 export const saveDataToFirebase = async (
   data: any,
-  ref: string,
+  ref: FIREBASE_DB_REF,
   successCallback?: () => Promise<void>
 ): Promise<boolean> => {
   return new Promise((resolve, _reject) => {
