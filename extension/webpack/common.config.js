@@ -13,15 +13,11 @@ const tsConfigFile = `${PATHS.ROOT}/${
   isProduction ? "tsconfig.production.json" : "tsconfig.json"
 }`;
 
-const babelLoaderOpts = {
-  cacheDirectory: true,
-};
-
 const commonConfig = {
   mode: ENV,
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".scss"],
-    modules: [PATHS.SRC, "node_modules"],
+    modules: [PATHS.SRC, PATHS.COMMON, "node_modules"],
     plugins: [
       new TsconfigPathsPlugin({
         configFile: tsConfigFile,
@@ -64,19 +60,7 @@ const commonConfig = {
               transpileOnly: true,
             },
           },
-          {
-            loader: "babel-loader",
-            options: babelLoaderOpts,
-          },
         ],
-      },
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: "babel-loader",
-          options: babelLoaderOpts,
-        },
       },
       {
         test: /\.svg$/,

@@ -1,10 +1,11 @@
 const path = require("path");
 
 const PATHS = {
-  ROOT: path.resolve(__dirname, ".."),
+  COMMON: path.resolve(__dirname, "..", "..", "common"),
   EXTENSION: path.resolve(__dirname, "..", "extension-build"),
   FIREBASE: path.resolve(__dirname, "..", "firebase-dll"),
   SRC: path.resolve(__dirname, "..", "src"),
+  ROOT: path.resolve(__dirname, ".."),
 };
 
 module.exports = {
