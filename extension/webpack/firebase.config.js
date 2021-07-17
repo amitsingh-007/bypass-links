@@ -1,15 +1,11 @@
 /**
  * This will generate a common chunk for background and content scripts
- * This will be referenced using DllReferencePlugin
  */
 const { merge } = require("webpack-merge");
 const FileManagerPlugin = require("filemanager-webpack-plugin");
-const { DllPlugin, DefinePlugin } = require("webpack");
-const { commonConfig, PATHS } = require("./webpack.common.config");
-
-const ENV = process.env.NODE_ENV;
-const isProduction = ENV === "production";
-const hostName = process.env.HOST_NAME;
+const { DllPlugin } = require("webpack");
+const commonConfig = require("./common.config");
+const { PATHS } = require("./constants");
 
 const firebaseDllConfig = merge(commonConfig, {
   name: "firebase-dll",
@@ -27,13 +23,9 @@ const firebaseDllConfig = merge(commonConfig, {
     new FileManagerPlugin({
       events: {
         onStart: {
-          delete: ["./extension-build/*"],
+          delete: ["./extension-build/*", "./firebase-dll/*"],
         },
       },
-    }),
-    new DefinePlugin({
-      __PROD__: JSON.stringify(isProduction),
-      HOST_NAME: JSON.stringify(hostName),
     }),
   ],
 });

@@ -1,21 +1,13 @@
-const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const { DefinePlugin } = require("webpack");
 const TerserPlugin = require("terser-webpack-plugin");
+const { PATHS } = require("./constants");
 
 const ENV = process.env.NODE_ENV;
 const isProduction = ENV === "production";
-const hostName = process.env.HOST_NAME;
-
-const PATHS = {
-  ROOT: path.resolve(__dirname),
-  EXTENSION: path.resolve(__dirname, "extension-build"),
-  FIREBASE: path.resolve(__dirname, "firebase-dll"),
-  SRC: path.resolve(__dirname, "src"),
-};
 
 const tsConfigFile = `${PATHS.ROOT}/${
   isProduction ? "tsconfig.production.json" : "tsconfig.json"
@@ -105,9 +97,6 @@ const commonConfig = {
       },
     ],
   },
-  watchOptions: {
-    ignored: "node_modules/**",
-  },
   plugins: [
     new ForkTsCheckerWebpackPlugin({
       typescript: {
@@ -122,12 +111,12 @@ const commonConfig = {
     }),
     new DefinePlugin({
       __PROD__: JSON.stringify(isProduction),
-      HOST_NAME: JSON.stringify(hostName),
+      HOST_NAME: JSON.stringify(process.env.HOST_NAME),
     }),
   ],
+  watchOptions: {
+    ignored: "node_modules/**",
+  },
 };
 
-module.exports = {
-  commonConfig,
-  PATHS: PATHS,
-};
+module.exports = commonConfig;

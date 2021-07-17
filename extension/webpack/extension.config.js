@@ -4,14 +4,15 @@ const FileManagerPlugin = require("filemanager-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { DllReferencePlugin } = require("webpack");
 const WatchExternalFilesPlugin = require("webpack-watch-external-files-plugin");
-const { commonConfig, PATHS } = require("./webpack.common.config");
-const { extVersion } = require("../common/src/scripts/extension-version");
+const commonConfig = require("./common.config");
+const { extVersion } = require("../../common/src/scripts/extension-version");
+const { PATHS } = require("./constants");
 
 const ENV = process.env.NODE_ENV;
 const isProduction = ENV === "production";
 
 const dllReferencePlugin = new DllReferencePlugin({
-  context: __dirname,
+  context: PATHS.ROOT,
   manifest: `${PATHS.FIREBASE}/manifest.json`,
 });
 

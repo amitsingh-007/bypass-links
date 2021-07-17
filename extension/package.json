@@ -8,14 +8,14 @@
   },
   "betterScripts": {
     "build": {
-      "command": "webpack --config webpack.firebase.config.js && webpack",
+      "command": "webpack --config webpack/firebase.config.js && webpack --config webpack/extension.config.js",
       "env": {
         "NODE_ENV": "production",
         "HOST_NAME": "https://bypass-links.vercel.app"
       }
     },
     "dev": {
-      "command": "webpack --progress --config webpack.firebase.config.js && webpack --watch --progress",
+      "command": "webpack --progress --config webpack/firebase.config.js && webpack -w --progress --config webpack/extension.config.js",
       "env": {
         "NODE_ENV": "development",
         "HOST_NAME": "http://localhost:3000"
