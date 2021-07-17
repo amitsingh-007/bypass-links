@@ -1,6 +1,11 @@
 {
   "presets": [
-    "react-app",
+    [
+      "react-app",
+      {
+        "typescript": true
+      }
+    ],
     [
       "@babel/preset-env",
       {
