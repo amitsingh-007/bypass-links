@@ -1,12 +1,7 @@
-import md5 from "md5";
 import { getBookmarks } from "GlobalHelpers/fetchFromStorage";
+import md5 from "md5";
 import { BM_COUNT_IN_INITAL_VIEW } from "../constants";
-import {
-  ContextBookmarks,
-  IBookmark,
-  IBookmarksObj,
-  IFolder,
-} from "../interfaces";
+import { ContextBookmarks, IBookmark, IBookmarksObj } from "../interfaces";
 
 export const getFaviconUrl = (url: string) =>
   `https://www.google.com/s2/favicons?sz=64&domain_url=${

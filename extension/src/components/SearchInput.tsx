@@ -1,12 +1,8 @@
-import { Box, InputBase, InputBaseProps } from "@material-ui/core";
+import { Box, InputBase } from "@material-ui/core";
 import { alpha } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
 import { IntersectionObserverResponse } from "GlobalInterfaces/overrides";
-import { useState } from "react";
-import { useCallback } from "react";
-import { useRef } from "react";
-import { useEffect } from "react";
-import { memo } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { throttle } from "throttle-debounce";
 

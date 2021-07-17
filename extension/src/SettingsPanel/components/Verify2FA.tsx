@@ -1,8 +1,7 @@
 import { Box, Button, LinearProgress, TextField } from "@material-ui/core";
-import { GenericObject } from "GlobalInterfaces/custom";
+import { SxProps } from "@material-ui/system";
 import { memo, useState } from "react";
 import { TOTP_LENGTH } from "../constants";
-import { SxProps } from "@material-ui/system";
 
 const totpInputStyles = {
   marginRight: "10px",

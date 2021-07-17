@@ -1,24 +1,24 @@
 import { IconButton, Typography } from "@material-ui/core";
 import BookmarkBorderTwoToneIcon from "@material-ui/icons/BookmarkBorderTwoTone";
 import BookmarkTwoToneIcon from "@material-ui/icons/BookmarkTwoTone";
-import { getCurrentTab } from "GlobalHelpers/chrome/tabs";
-import { COLOR } from "GlobalConstants/color";
+import { IconButtonLoader } from "GlobalComponents/Loader";
+import { BlackTooltip } from "GlobalComponents/StyledComponents";
 import { defaultBookmarkFolder } from "GlobalConstants";
+import { COLOR } from "GlobalConstants/color";
+import { getCurrentTab } from "GlobalHelpers/chrome/tabs";
+import { getBookmarks } from "GlobalHelpers/fetchFromStorage";
+import { RootState } from "GlobalReducers/rootReducer";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import md5 from "md5";
 import { memo, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { IBookmark } from "SrcPath/BookmarksPanel/interfaces";
 import {
   getDecodedBookmark,
   getFolderFromHash,
 } from "SrcPath/BookmarksPanel/utils";
 import { getBookmarksPanelUrl } from "SrcPath/BookmarksPanel/utils/url";
-import { IconButtonLoader } from "GlobalComponents/Loader";
-import { BlackTooltip } from "GlobalComponents/StyledComponents";
-import { RootState } from "GlobalReducers/rootReducer";
-import { IBookmark, IFolder } from "SrcPath/BookmarksPanel/interfaces";
-import { getBookmarks } from "GlobalHelpers/fetchFromStorage";
 
 const QuickBookmarkButton = memo(() => {
   const { isSignedIn } = useSelector((state: RootState) => state.root);
