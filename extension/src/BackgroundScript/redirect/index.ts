@@ -1,25 +1,14 @@
 import { FIREBASE_DB_REF } from "@common/constants/firebase";
+import { STORAGE_KEYS } from "GlobalConstants";
 import storage from "GlobalHelpers/chrome/storage";
 import tabs from "GlobalHelpers/chrome/tabs";
-import { STORAGE_KEYS } from "GlobalConstants";
+import { getMappedRedirections } from "GlobalHelpers/fetchFromStorage";
 import { getFromFirebase } from "../../helpers/firebase";
+import { IRedirection } from "../interfaces/redirections";
+import { mapRedirections } from "../mapper/redirection";
 
-const getMappedRedirections = (redirections) =>
-  redirections &&
-  redirections.reduce((obj, { alias, website }) => {
-    obj[alias] = website;
-    return obj;
-  }, {});
-
-const getRedirections = async () => {
-  const { mappedRedirections } = await storage.get([
-    STORAGE_KEYS.mappedRedirections,
-  ]);
-  return mappedRedirections || {};
-};
-
-export const redirect = async (tabId, url) => {
-  const redirections = await getRedirections();
+export const redirect = async (tabId: number, url: URL) => {
+  const redirections = await getMappedRedirections();
   const redirectUrl = redirections[btoa(url.href)];
   if (redirectUrl) {
     await tabs.update(tabId, { url: atob(redirectUrl) });
@@ -27,9 +16,11 @@ export const redirect = async (tabId, url) => {
 };
 
 export const syncRedirectionsToStorage = async () => {
-  const redirections = await getFromFirebase(FIREBASE_DB_REF.redirections);
+  const redirections = await getFromFirebase<IRedirection[]>(
+    FIREBASE_DB_REF.redirections
+  );
   await storage.set({ [STORAGE_KEYS.redirections]: redirections });
-  const mappedRedirections = getMappedRedirections(redirections);
+  const mappedRedirections = mapRedirections(redirections);
   await storage.set({ [STORAGE_KEYS.mappedRedirections]: mappedRedirections });
   console.log(`Redirections is set to`, redirections);
 };

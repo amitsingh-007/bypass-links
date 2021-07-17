@@ -1,15 +1,25 @@
 import { LINKVERTISE_API_BASE_URL } from "GlobalConstants";
 
-export const fetchLinkMetaData = async (type, userId, target) => {
+export const fetchLinkMetaData = async (
+  type: string,
+  userId: string,
+  target: string
+): Promise<{
+  linkId: string;
+  linkUrl: string;
+}> => {
   const apiUrl = `${LINKVERTISE_API_BASE_URL}/${type}/${userId}/${target}`;
   const res = await fetch(apiUrl)
     .then((response) => response.json())
     .then((data) => data);
   const { id, url } = res.data.link;
-  return { linkId: id, linkUrl: url };
+  return {
+    linkId: id,
+    linkUrl: url,
+  };
 };
 
-const getParams = (linkId) => {
+const getParams = (linkId: string) => {
   const params = {
     serial: btoa(
       JSON.stringify({
@@ -22,7 +32,11 @@ const getParams = (linkId) => {
   return params;
 };
 
-export const fetchTargetUrl = async (userId, linkId, linkUrl) => {
+export const fetchTargetUrl = async (
+  userId: string,
+  linkId: string,
+  linkUrl: string
+): Promise<string> => {
   const params = getParams(linkId);
   const apiUrl = `${LINKVERTISE_API_BASE_URL}/${userId}/${linkUrl}/target`;
   const response = await fetch(apiUrl, {
@@ -38,7 +52,9 @@ export const fetchTargetUrl = async (userId, linkId, linkUrl) => {
   return response.data.target;
 };
 
-export const bypassLinkvertiseUsingExternalApi = async (urlObj) => {
+export const bypassLinkvertiseUsingExternalApi = async (
+  urlObj: URL
+): Promise<string> => {
   const apiUrl = `https://bypass.bot.nu/bypass2?url=${urlObj.href}`;
   const response = await fetch(apiUrl)
     .then((response) => response.json())

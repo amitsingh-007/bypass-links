@@ -7,7 +7,10 @@ import {
   PersonImageUrls,
   IPersons,
 } from "SrcPath/PersonsPanel/interfaces/persons";
-import { Redirection } from "SrcPath/ShortcutsPanel/interfaces/redirections";
+import {
+  IMappedRedirections,
+  IRedirection,
+} from "SrcPath/BackgroundScript/interfaces/redirections";
 
 export const getExtensionState = async () => {
   const { extState } = await storage.get("extState");
@@ -25,7 +28,14 @@ export const getRedirections = async () => {
   const { [STORAGE_KEYS.redirections]: redirections } = await storage.get(
     STORAGE_KEYS.redirections
   );
-  return redirections as Redirection;
+  return redirections as IRedirection[];
+};
+
+export const getMappedRedirections = async () => {
+  const { mappedRedirections } = await storage.get([
+    STORAGE_KEYS.mappedRedirections,
+  ]);
+  return (mappedRedirections || {}) as IMappedRedirections;
 };
 
 export const getLastVisited = async (): Promise<LastVisited> => {

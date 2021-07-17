@@ -1,42 +1,17 @@
 import action from "GlobalHelpers/chrome/action";
 import scripting from "GlobalHelpers/chrome/scripting";
-import tabs, { getCurrentTab } from "GlobalHelpers/chrome/tabs";
+import { getCurrentTab } from "GlobalHelpers/chrome/tabs";
 import { getExtensionState } from "GlobalHelpers/fetchFromStorage";
 import { isExtensionActive } from "../../utils/common";
-
-export const bypassSingleLinkOnPage = async (selectorFn, tabId) => {
-  const [{ result }] = await scripting.executeScript({
-    target: { tabId },
-    function: selectorFn,
-  });
-  const targetUrl = result?.links?.[0] ?? null;
-  tabs.update(tabId, { url: targetUrl });
-};
-
-const getForumPageLinksFunc = () => {
-  const unreadRows = document.querySelectorAll(
-    ".block-row.block-row--separated:not(.block-row--alt)"
-  );
-  return [...unreadRows].map(
-    (row) => row.querySelector("a.fauxBlockLink-blockLink").href
-  );
-};
-export const getForumPageLinks = async (tabId) => {
-  const [{ result }] = await scripting.executeScript({
-    target: { tabId },
-    function: getForumPageLinksFunc,
-  });
-  return new Promise((resolve, reject) => {
-    resolve(result);
-  });
-};
+import { EXTENSION_STATE } from "GlobalConstants";
 
 const getPageH1 = () => {
   const h1s = document.getElementsByTagName("h1");
   return h1s.length > 0 ? h1s[0].innerText : "";
 };
+
 export const fetchPageH1 = async () => {
-  const { id: tabId } = await getCurrentTab();
+  const { id: tabId = -1 } = await getCurrentTab();
   const [{ result }] = await scripting.executeScript({
     target: { tabId },
     function: getPageH1,
@@ -46,15 +21,19 @@ export const fetchPageH1 = async () => {
   });
 };
 
-export const isValidUrl = (url) =>
+export const isValidUrl = (url?: string) =>
   url && !/chrome(-extension)?:\/\/*/.test(url);
 
 export const setExtensionIcon = async ({
   extState,
   hasPendingBookmarks,
   hasPendingPersons,
+}: {
+  extState?: EXTENSION_STATE;
+  hasPendingBookmarks: boolean;
+  hasPendingPersons: boolean;
 }) => {
-  let icon;
+  let icon: string;
   if (hasPendingBookmarks === true || hasPendingPersons === true) {
     icon = "assets/bypass_link_pending_128.png";
   } else {

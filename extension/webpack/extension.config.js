@@ -87,7 +87,7 @@ const getPopupConfigPlugins = () => {
 
 const backgroundConfig = merge(commonConfig, {
   name: "background-script",
-  entry: "./src/BackgroundScript/index.js",
+  entry: "./src/BackgroundScript/index.ts",
   output: {
     path: `${PATHS.EXTENSION}/js/`,
     filename: "background.js",

@@ -1,8 +1,8 @@
-import { FIREBASE_DB_REF } from "../../../../common/src/constants/firebase";
-import storage from "GlobalHelpers/chrome/storage";
-import { BYPASS_KEYS, STORAGE_KEYS } from "GlobalConstants";
+import { BYPASS_KEYS } from "GlobalConstants";
+import scripting from "GlobalHelpers/chrome/scripting";
+import tabs from "GlobalHelpers/chrome/tabs";
 import { getHostnameAlias } from "GlobalUtils/common";
-import { getFromFirebase } from "GlobalHelpers/firebase";
+import { IBypass } from "../interfaces/bypass";
 import { bypassBonsai } from "./bypassBonsai";
 import { bypassBonsaiLink } from "./bypassBonsaiLink";
 import { bypassForums } from "./bypassForums";
@@ -10,9 +10,24 @@ import { bypassLinkvertise } from "./bypassLinkvertise";
 import { bypassMedium } from "./bypassMedium";
 import { bypassPageLinks } from "./bypassPageLinks";
 
-const getMappedBypass = (bypass) =>
+export const bypassSingleLinkOnPage = async (
+  selectorFn: () => void,
+  tabId: number
+) => {
+  const response = await scripting.executeScript({
+    target: { tabId },
+    function: selectorFn,
+  });
+  const result: { links: string[] } | null = response[0].result;
+  const targetUrl = result?.links?.[0];
+  if (targetUrl) {
+    tabs.update(tabId, { url: targetUrl });
+  }
+};
+
+export const getDecodedBypass = (bypass: IBypass) =>
   bypass &&
-  Object.entries(bypass).reduce((obj, [key, value]) => {
+  Object.entries(bypass).reduce<IBypass>((obj, [key, value]) => {
     obj[decodeURIComponent(atob(key))] = value;
     return obj;
   }, {});
@@ -28,7 +43,7 @@ const bypassAndHostnameMapping = {
   [BYPASS_KEYS.MEDIUM]: bypassMedium,
 };
 
-const getBypassExecutor = async (url) => {
+export const getBypassExecutor = async (url: URL) => {
   const hostnameAlias = await getHostnameAlias(url.hostname);
   if (bypassAndHostnameMapping[hostnameAlias]) {
     return bypassAndHostnameMapping[hostnameAlias];
@@ -37,22 +52,4 @@ const getBypassExecutor = async (url) => {
     return bypassAndHostnameMapping.MEDIUM;
   }
   return null;
-};
-
-export const bypass = async (tabId, url) => {
-  const bypassExecutor = await getBypassExecutor(url);
-  if (bypassExecutor) {
-    await bypassExecutor(url, tabId);
-  }
-};
-
-export const syncBypassToStorage = async () => {
-  const response = await getFromFirebase(FIREBASE_DB_REF.bypass);
-  const bypass = getMappedBypass(response);
-  await storage.set({ [STORAGE_KEYS.bypass]: bypass });
-  console.log("Bypass is set to", bypass);
-};
-
-export const resetBypass = async () => {
-  await storage.remove(STORAGE_KEYS.bypass);
 };

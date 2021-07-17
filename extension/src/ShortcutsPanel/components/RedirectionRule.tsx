@@ -11,7 +11,7 @@ import { Draggable } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
 import { startHistoryMonitor } from "SrcPath/HistoryPanel/actionCreators";
 import { DEFAULT_RULE_ALIAS } from "../constants";
-import { Redirection } from "../interfaces/redirections";
+import { IRedirection } from "SrcPath/BackgroundScript/interfaces/redirections";
 
 const inputProps = {
   style: {
@@ -20,10 +20,10 @@ const inputProps = {
   },
 };
 
-type Props = Redirection & {
+type Props = IRedirection & {
   pos: number;
   handleRemoveRule: (pos: number) => void;
-  handleSaveRule: (redirection: Redirection, pos: number) => void;
+  handleSaveRule: (redirection: IRedirection, pos: number) => void;
 };
 
 const RedirectionRule = memo(

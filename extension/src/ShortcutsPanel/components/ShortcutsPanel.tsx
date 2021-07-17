@@ -13,16 +13,16 @@ import { FIREBASE_DB_REF } from "@common/constants/firebase";
 import { DEFAULT_RULE_ALIAS } from "../constants";
 import Header from "./Header";
 import RedirectionRule from "./RedirectionRule";
-import { Redirection } from "../interfaces/redirections";
+import { IRedirection } from "SrcPath/BackgroundScript/interfaces/redirections";
 
 //Filter valid rules
-const getValidRules = (obj: Redirection) =>
+const getValidRules = (obj: IRedirection) =>
   Boolean(obj && obj.alias && obj.alias !== DEFAULT_RULE_ALIAS && obj.website);
 
 const ShortcutsPanel = memo(() => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const [redirections, setRedirections] = useState<Redirection[]>([]);
+  const [redirections, setRedirections] = useState<IRedirection[]>([]);
   const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ const ShortcutsPanel = memo(() => {
             alias: atob(alias),
             website: atob(website),
             isDefault,
-          } as Redirection)
+          } as IRedirection)
       );
       setRedirections(modifiedRedirections);
       setIsFetching(false);
@@ -48,7 +48,7 @@ const ShortcutsPanel = memo(() => {
     setIsFetching(true);
     const validRules = redirections.filter(getValidRules);
     console.log("Saving these redirection rules to Firebase", validRules);
-    const shortcutsObj = validRules.reduce<Record<number, Redirection>>(
+    const shortcutsObj = validRules.reduce<Record<number, IRedirection>>(
       (obj, { alias, website, isDefault }, index) => {
         obj[index++] = {
           alias: btoa(alias),
@@ -91,7 +91,7 @@ const ShortcutsPanel = memo(() => {
     setRedirections(newRedirections);
   };
 
-  const handleSaveRule = (redirection: Redirection, pos: number) => {
+  const handleSaveRule = (redirection: IRedirection, pos: number) => {
     redirections[pos] = redirection;
     setRedirections([...redirections]);
   };

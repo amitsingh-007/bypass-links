@@ -3,17 +3,17 @@ import {
   bypassLinkvertiseUsingExternalApi,
   fetchLinkMetaData,
   fetchTargetUrl,
-} from "GlobalApis/linkvertise";
+} from "SrcPath/BackgroundScript/apis/linkvertise";
 import { BYPASS_KEYS } from "GlobalConstants";
 import { matchHostnames } from "GlobalUtils/common";
 
-const getDynamicParams = (url) => ({
+const getDynamicParams = (url: URL) => ({
   type: "dynamic",
   userId: url.pathname.split("/")[1],
   target: url.searchParams.get("r"),
 });
 
-const getStaticParams = (url) => {
+const getStaticParams = (url: URL) => {
   const [, userId, target] = url.pathname.split("/");
   return {
     type: "static",
@@ -22,12 +22,16 @@ const getStaticParams = (url) => {
   };
 };
 
-export const bypassLinkvertise = async (url, tabId) => {
+export const bypassLinkvertise = async (url: URL, tabId: number) => {
   const isDynamicType = url.pathname.includes("dynamic");
   const { type, userId, target } = isDynamicType
     ? getDynamicParams(url)
     : getStaticParams(url);
-  const { linkId, linkUrl } = await fetchLinkMetaData(type, userId, target);
+  const { linkId, linkUrl } = await fetchLinkMetaData(
+    type,
+    userId,
+    target || ""
+  );
   let targetUrl = await fetchTargetUrl(userId, linkId, linkUrl);
   const targetUrlObj = new URL(targetUrl);
   const isLinkvetiseDownloadPage = await matchHostnames(

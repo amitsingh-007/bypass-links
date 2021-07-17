@@ -1,4 +1,4 @@
-import { bypassSingleLinkOnPage } from "../misc/background";
+import { bypassSingleLinkOnPage } from "../bypass/bypassUtils";
 
 const findMegaLinks = () => {
   const LINKS_TO_BYPASS = ["mega.nz", "drive.google.com"];
@@ -6,7 +6,7 @@ const findMegaLinks = () => {
   const anchorTagsOnPage = document.getElementsByTagName("a");
   const links = [...anchorTagsOnPage]
     .map((anchor) => [anchor.innerText.trim(), anchor.href.trim()])
-    .flat(Infinity);
+    .flat(2);
   const uniqueLinks = Array.from(new Set(links));
   const validLinks = uniqueLinks.filter(
     (url) =>
@@ -17,6 +17,6 @@ const findMegaLinks = () => {
   return { links: validLinks };
 };
 
-export const bypassPageLinks = async (url, tabId) => {
+export const bypassPageLinks = async (_url: URL, tabId: number) => {
   await bypassSingleLinkOnPage(findMegaLinks, tabId);
 };

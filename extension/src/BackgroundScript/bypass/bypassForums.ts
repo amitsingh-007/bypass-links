@@ -1,9 +1,9 @@
 import tabs from "GlobalHelpers/chrome/tabs";
 
-export const bypassForums = async (url, tabId) => {
+export const bypassForums = async (url: URL, tabId: number) => {
   const encodedRedirectUrl = url.searchParams.get("to");
-  const redirectUrl = encodedRedirectUrl && atob(encodedRedirectUrl);
-  if (redirectUrl) {
+  if (encodedRedirectUrl) {
+    const redirectUrl = atob(encodedRedirectUrl);
     await tabs.remove(tabId);
     tabs.create({ url: redirectUrl });
   }

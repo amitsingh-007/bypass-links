@@ -1,12 +1,14 @@
-import { bypassSingleLinkOnPage } from "../misc/background";
+import { bypassSingleLinkOnPage } from "./bypassUtils";
 
 const findLinksOnPage = () => {
   const LINKS_TO_EXCLUDE = ["t.me"];
 
   const anchorTagsOnPage = document
     .getElementById("main")
-    .getElementsByTagName("a");
-  const links = [...anchorTagsOnPage].map((anchor) => anchor.href.trim());
+    ?.getElementsByTagName("a");
+  const links = [...(anchorTagsOnPage || [])].map((anchor) =>
+    anchor.href.trim()
+  );
   const uniqueLinks = Array.from(new Set(links));
   const validLinks = uniqueLinks.filter(
     (url) =>
@@ -17,6 +19,6 @@ const findLinksOnPage = () => {
   return { links: validLinks };
 };
 
-export const bypassBonsaiLink = async (url, tabId) => {
+export const bypassBonsaiLink = async (_url: URL, tabId: number) => {
   await bypassSingleLinkOnPage(findLinksOnPage, tabId);
 };

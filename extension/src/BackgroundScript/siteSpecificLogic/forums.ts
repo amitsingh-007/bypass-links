@@ -1,9 +1,14 @@
 import history from "GlobalHelpers/chrome/history";
 import scripting from "GlobalHelpers/chrome/scripting";
 
+interface Thread {
+  id: string;
+  title: string;
+}
+
 const watchedThreadsPath = "/watched/threads";
 
-const getThreadsOnThePage = () => {
+const getThreadsOnThePage = (): Thread[] => {
   const titleSuffix = "U29jaWFsIE1lZGlhIEdpcmxzIEZvcnVt";
   return Array.from(
     document.getElementsByClassName("structItem-cell structItem-cell--main")
@@ -21,7 +26,7 @@ const getThreadsOnThePage = () => {
   });
 };
 
-const highlightThreads = (threads) => {
+const highlightThreads = (threads: Thread[]) => {
   threads.forEach(({ id }) => {
     const container = document.getElementsByClassName(
       `js-threadListItem-${id}`
@@ -30,7 +35,11 @@ const highlightThreads = (threads) => {
   });
 };
 
-const checkIfVisited = async (title, startTime, endTime) => {
+const checkIfVisited = async (
+  title: string,
+  startTime: number,
+  endTime: number
+) => {
   const results = await history.search({
     text: title,
     startTime: startTime,
@@ -39,15 +48,16 @@ const checkIfVisited = async (title, startTime, endTime) => {
   return results.length > 0;
 };
 
-const highlightOpenedUrls = async (tabId) => {
+const highlightOpenedUrls = async (tabId: number) => {
   const curDate = new Date();
   const startTime = curDate.setDate(curDate.getDate() - 1); //last 1 day
   const endTime = Date.now();
-  const [{ result }] = await scripting.executeScript({
+  const response = await scripting.executeScript({
     target: { tabId },
     function: getThreadsOnThePage,
   });
-  const openedThreads = [];
+  const result: Thread[] = response[0].result;
+  const openedThreads: Thread[] = [];
   for (const thread of result) {
     const isVisited = await checkIfVisited(thread.title, startTime, endTime);
     if (isVisited) {
@@ -62,7 +72,7 @@ const highlightOpenedUrls = async (tabId) => {
   });
 };
 
-export const forumsLogic = async (url, tabId) => {
+export const forumsLogic = async (url: URL, tabId: number) => {
   if (url.pathname === watchedThreadsPath) {
     highlightOpenedUrls(tabId);
   }
