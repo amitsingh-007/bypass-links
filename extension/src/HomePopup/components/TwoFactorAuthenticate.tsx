@@ -1,6 +1,6 @@
 import { Dialog, DialogContent, Slide } from "@material-ui/core";
 import { TransitionProps } from "@material-ui/core/transitions";
-import storage from "ChromeApi/storage";
+import storage from "GlobalHelpers/chrome/storage";
 import { displayToast } from "GlobalActionCreators/toast";
 import { STORAGE_KEYS } from "GlobalConstants";
 import { BG_COLOR_BLACK } from "GlobalConstants/color";
@@ -9,7 +9,7 @@ import { forwardRef, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { authenticate2FA } from "SrcPath/SettingsPanel/apis/twoFactorAuth";
 import Verify2FA from "SrcPath/SettingsPanel/components/Verify2FA";
-import { getUserProfile } from "SrcPath/helpers/fetchFromStorage";
+import { getUserProfile } from "GlobalHelpers/fetchFromStorage";
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & { children?: React.ReactElement<any, any> },

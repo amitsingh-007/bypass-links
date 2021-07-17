@@ -1,5 +1,5 @@
 import md5 from "md5";
-import { getBookmarks } from "SrcPath/helpers/fetchFromStorage";
+import { getBookmarks } from "GlobalHelpers/fetchFromStorage";
 import { BM_COUNT_IN_INITAL_VIEW } from "../constants";
 import {
   ContextBookmarks,

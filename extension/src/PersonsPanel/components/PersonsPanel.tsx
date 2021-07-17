@@ -1,12 +1,12 @@
 import { Box } from "@material-ui/core";
-import storage from "ChromeApi/storage";
+import storage from "GlobalHelpers/chrome/storage";
 import { displayToast } from "GlobalActionCreators/toast";
 import { STORAGE_KEYS } from "GlobalConstants";
 import { PANEL_DIMENSIONS } from "GlobalConstants/styles";
-import { removeImageFromFirebase } from "GlobalUtils/firebase";
+import { removeImageFromFirebase } from "GlobalHelpers/firebase";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { getPersons } from "SrcPath/helpers/fetchFromStorage";
+import { getPersons } from "GlobalHelpers/fetchFromStorage";
 import { SORT_ORDER, SORT_TYPE } from "../constants/sort";
 import { IPerson, IPersons } from "../interfaces/persons";
 import { decryptionMapper } from "../mapper";

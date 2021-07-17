@@ -1,4 +1,4 @@
-import storage from "ChromeApi/storage";
+import storage from "GlobalHelpers/chrome/storage";
 import { EXTENSION_STATE, STORAGE_KEYS } from "GlobalConstants";
 import { IBookmarksObj } from "SrcPath/BookmarksPanel/interfaces";
 import { UserInfo } from "SrcPath/HomePopup/interfaces/authentication";

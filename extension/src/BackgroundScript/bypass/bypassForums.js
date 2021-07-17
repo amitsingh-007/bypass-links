@@ -1,4 +1,4 @@
-import tabs from "ChromeApi/tabs";
+import tabs from "GlobalHelpers/chrome/tabs";
 
 export const bypassForums = async (url, tabId) => {
   const encodedRedirectUrl = url.searchParams.get("to");

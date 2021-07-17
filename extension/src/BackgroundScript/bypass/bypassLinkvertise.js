@@ -1,4 +1,4 @@
-import tabs from "ChromeApi/tabs";
+import tabs from "GlobalHelpers/chrome/tabs";
 import {
   bypassLinkvertiseUsingExternalApi,
   fetchLinkMetaData,

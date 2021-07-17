@@ -1,17 +1,17 @@
-import storage from "ChromeApi/storage";
+import storage from "GlobalHelpers/chrome/storage";
 import { EXTENSION_STATE } from "GlobalConstants";
 import {
   fetchPageH1,
   getForumPageLinks,
   isValidUrl,
   setExtensionIcon,
-} from "GlobalUtils/background";
-import { bypass } from "GlobalUtils/bypass";
+} from "./misc/background";
+import { bypass } from "./bypass";
 import { isExtensionActive, setExtStateInStorage } from "GlobalUtils/common";
-import { redirect } from "GlobalUtils/redirect";
-import siteSpecificLogic from "GlobalUtils/siteSpecificLogic";
-import turnOffInputSuggestions from "GlobalUtils/turnOffInputSuggestions";
-import { getExtensionState } from "SrcPath/helpers/fetchFromStorage";
+import { redirect } from "./redirect";
+import siteSpecificLogic from "./siteSpecificLogic";
+import turnOffInputSuggestions from "./misc/turnOffInputSuggestions";
+import { getExtensionState } from "GlobalHelpers/fetchFromStorage";
 
 const onUpdateCallback = async (tabId, changeInfo) => {
   const { url } = changeInfo;

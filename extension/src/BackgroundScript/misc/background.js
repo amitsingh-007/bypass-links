@@ -1,8 +1,8 @@
-import action from "ChromeApi/action";
-import scripting from "ChromeApi/scripting";
-import tabs, { getCurrentTab } from "ChromeApi/tabs";
-import { getExtensionState } from "SrcPath/helpers/fetchFromStorage";
-import { isExtensionActive } from "./common";
+import action from "GlobalHelpers/chrome/action";
+import scripting from "GlobalHelpers/chrome/scripting";
+import tabs, { getCurrentTab } from "GlobalHelpers/chrome/tabs";
+import { getExtensionState } from "GlobalHelpers/fetchFromStorage";
+import { isExtensionActive } from "../../utils/common";
 
 export const bypassSingleLinkOnPage = async (selectorFn, tabId) => {
   const [{ result }] = await scripting.executeScript({

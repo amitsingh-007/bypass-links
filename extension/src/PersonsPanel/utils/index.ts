@@ -1,8 +1,8 @@
-import storage from "ChromeApi/storage";
+import storage from "GlobalHelpers/chrome/storage";
 import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
 import { STORAGE_KEYS } from "GlobalConstants";
 import { getBlobUrlFromCache } from "GlobalUtils/cache";
-import { getPersons } from "SrcPath/helpers/fetchFromStorage";
+import { getPersons } from "GlobalHelpers/fetchFromStorage";
 import { IPerson, IPersons, IPersonWithImage } from "../interfaces/persons";
 
 export const setPersonsInStorage = async (persons: IPersons) => {

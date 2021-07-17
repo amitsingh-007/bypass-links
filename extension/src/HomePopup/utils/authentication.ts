@@ -1,5 +1,5 @@
-import identity from "ChromeApi/identity";
-import { googleSignIn, googleSignOut } from "GlobalUtils/firebase";
+import identity from "GlobalHelpers/chrome/identity";
+import { googleSignIn, googleSignOut } from "GlobalHelpers/firebase";
 import { AUTHENTICATION_EVENT } from "../constants/auth";
 import { processPostLogin, processPostLogout, processPreLogout } from "./sync";
 import { AuthenticationEvent } from "GlobalInterfaces/authentication";

@@ -1,7 +1,7 @@
 import { IconButton } from "@material-ui/core";
 import OpenInNewTwoToneIcon from "@material-ui/icons/OpenInNewTwoTone";
-import storage from "ChromeApi/storage";
-import tabs from "ChromeApi/tabs";
+import storage from "GlobalHelpers/chrome/storage";
+import tabs from "GlobalHelpers/chrome/tabs";
 import { IconButtonLoader } from "GlobalComponents/Loader";
 import { STORAGE_KEYS } from "GlobalConstants";
 import { COLOR } from "GlobalConstants/color";

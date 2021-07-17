@@ -3,7 +3,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import DriveFileMoveOutlinedIcon from "@material-ui/icons/DriveFileMoveOutlined";
 import EditIcon from "@material-ui/icons/Edit";
 import OpenInNewTwoToneIcon from "@material-ui/icons/OpenInNewTwoTone";
-import tabs from "ChromeApi/tabs";
+import tabs from "GlobalHelpers/chrome/tabs";
 import ContextMenu from "GlobalComponents/ContextMenu";
 import ProgressiveRender from "GlobalComponents/ProgressiveRender";
 import { BlackTooltip } from "GlobalComponents/StyledComponents";

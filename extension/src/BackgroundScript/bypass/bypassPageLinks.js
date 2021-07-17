@@ -1,4 +1,4 @@
-import { bypassSingleLinkOnPage } from "GlobalUtils/background";
+import { bypassSingleLinkOnPage } from "../misc/background";
 
 const findMegaLinks = () => {
   const LINKS_TO_BYPASS = ["mega.nz", "drive.google.com"];

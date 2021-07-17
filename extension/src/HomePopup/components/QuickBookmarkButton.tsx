@@ -1,7 +1,7 @@
 import { IconButton, Typography } from "@material-ui/core";
 import BookmarkBorderTwoToneIcon from "@material-ui/icons/BookmarkBorderTwoTone";
 import BookmarkTwoToneIcon from "@material-ui/icons/BookmarkTwoTone";
-import { getCurrentTab } from "ChromeApi/tabs";
+import { getCurrentTab } from "GlobalHelpers/chrome/tabs";
 import { COLOR } from "GlobalConstants/color";
 import { defaultBookmarkFolder } from "GlobalConstants";
 import { getActiveDisabledColor } from "GlobalUtils/color";
@@ -18,7 +18,7 @@ import { IconButtonLoader } from "GlobalComponents/Loader";
 import { BlackTooltip } from "GlobalComponents/StyledComponents";
 import { RootState } from "GlobalReducers/rootReducer";
 import { IBookmark, IFolder } from "SrcPath/BookmarksPanel/interfaces";
-import { getBookmarks } from "SrcPath/helpers/fetchFromStorage";
+import { getBookmarks } from "GlobalHelpers/fetchFromStorage";
 
 const QuickBookmarkButton = memo(() => {
   const { isSignedIn } = useSelector((state: RootState) => state.root);

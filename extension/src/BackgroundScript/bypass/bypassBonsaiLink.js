@@ -1,4 +1,4 @@
-import { bypassSingleLinkOnPage } from "GlobalUtils/background";
+import { bypassSingleLinkOnPage } from "../misc/background";
 
 const findLinksOnPage = () => {
   const LINKS_TO_EXCLUDE = ["t.me"];

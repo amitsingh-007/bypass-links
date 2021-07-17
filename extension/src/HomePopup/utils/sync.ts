@@ -1,8 +1,11 @@
-import identity from "ChromeApi/identity";
-import storage from "ChromeApi/storage";
+import identity from "GlobalHelpers/chrome/identity";
+import storage from "GlobalHelpers/chrome/storage";
 import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
 import { STORAGE_KEYS } from "GlobalConstants";
-import { resetBypass, syncBypassToStorage } from "GlobalUtils/bypass";
+import {
+  resetBypass,
+  syncBypassToStorage,
+} from "SrcPath/BackgroundScript/bypass";
 import { deleteAllCache } from "GlobalUtils/cache";
 import {
   resetLastVisited,
@@ -11,7 +14,7 @@ import {
 import {
   resetRedirections,
   syncRedirectionsToStorage,
-} from "GlobalUtils/redirect";
+} from "SrcPath/BackgroundScript/redirect";
 import {
   cacheBookmarkFavicons,
   resetBookmarks,
@@ -19,7 +22,7 @@ import {
   syncBookmarksToStorage,
 } from "SrcPath/BookmarksPanel/utils/bookmark";
 import { status2FA } from "SrcPath/SettingsPanel/apis/twoFactorAuth";
-import { getUserProfile } from "SrcPath/helpers/fetchFromStorage";
+import { getUserProfile } from "GlobalHelpers/fetchFromStorage";
 import {
   cachePersonImages,
   cachePersonImageUrlsInStorage,

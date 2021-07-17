@@ -1,12 +1,12 @@
 import { FIREBASE_DB_REF } from "@common/constants/firebase";
-import storage from "ChromeApi/storage";
+import storage from "GlobalHelpers/chrome/storage";
 import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
 import { STORAGE_KEYS } from "GlobalConstants";
 import { getCacheObj } from "GlobalUtils/cache";
-import { getFromFirebase, saveDataToFirebase } from "GlobalUtils/firebase";
+import { getFromFirebase, saveDataToFirebase } from "GlobalHelpers/firebase";
 import { getFaviconUrl } from ".";
 import { IBookmarksObj } from "../interfaces";
-import { getBookmarks } from "SrcPath/helpers/fetchFromStorage";
+import { getBookmarks } from "GlobalHelpers/fetchFromStorage";
 
 export const syncBookmarksToStorage = async () => {
   const bookmarks = await getFromFirebase<IBookmarksObj>(

@@ -1,7 +1,7 @@
-import storage from "ChromeApi/storage";
+import storage from "GlobalHelpers/chrome/storage";
 import { FIREBASE_DB_REF } from "@common/constants/firebase";
 import { STORAGE_KEYS } from "GlobalConstants";
-import { getFromFirebase } from "GlobalUtils/firebase";
+import { getFromFirebase } from "GlobalHelpers/firebase";
 import { LastVisited } from "../interfaces/lastVisited";
 
 export const syncLastVisitedToStorage = async () => {

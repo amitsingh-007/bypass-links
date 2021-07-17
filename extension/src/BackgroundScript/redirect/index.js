@@ -1,8 +1,8 @@
 import { FIREBASE_DB_REF } from "@common/constants/firebase";
-import storage from "ChromeApi/storage";
-import tabs from "ChromeApi/tabs";
+import storage from "GlobalHelpers/chrome/storage";
+import tabs from "GlobalHelpers/chrome/tabs";
 import { STORAGE_KEYS } from "GlobalConstants";
-import { getFromFirebase } from "./firebase";
+import { getFromFirebase } from "../../helpers/firebase";
 
 const getMappedRedirections = (redirections) =>
   redirections &&

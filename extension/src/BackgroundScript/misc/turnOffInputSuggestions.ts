@@ -1,4 +1,4 @@
-import scripting from "ChromeApi/scripting";
+import scripting from "GlobalHelpers/chrome/scripting";
 
 const turnOffAutocomplete = () => {
   document

@@ -12,7 +12,7 @@ import {
 import { TransitionProps } from "@material-ui/core/transitions";
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import HelpOutlineOutlinedIcon from "@material-ui/icons/HelpOutlineOutlined";
-import storage from "ChromeApi/storage";
+import storage from "GlobalHelpers/chrome/storage";
 import { displayToast } from "GlobalActionCreators/toast";
 import PanelHeading from "GlobalComponents/PanelHeading";
 import { BlackTooltip } from "GlobalComponents/StyledComponents";
@@ -22,7 +22,7 @@ import { VoidFunction } from "GlobalInterfaces/custom";
 import { toDataURL } from "qrcode";
 import { forwardRef, memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { getUserProfile } from "SrcPath/helpers/fetchFromStorage";
+import { getUserProfile } from "GlobalHelpers/fetchFromStorage";
 import { setup2FA, verify2FA } from "../apis/twoFactorAuth";
 import Verify2FA from "./Verify2FA";
 

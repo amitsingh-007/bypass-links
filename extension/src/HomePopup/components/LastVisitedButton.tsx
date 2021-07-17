@@ -1,19 +1,19 @@
 import { FIREBASE_DB_REF } from "@common/constants/firebase";
 import { IconButton, Typography } from "@material-ui/core";
 import EventAvailableTwoToneIcon from "@material-ui/icons/EventAvailableTwoTone";
-import { getCurrentTab } from "ChromeApi/tabs";
+import { getCurrentTab } from "GlobalHelpers/chrome/tabs";
 import { IconButtonLoader } from "GlobalComponents/Loader";
 import { BlackTooltip } from "GlobalComponents/StyledComponents";
 import { COLOR } from "GlobalConstants/color";
 import { RootState } from "GlobalReducers/rootReducer";
 import { getActiveDisabledColor } from "GlobalUtils/color";
-import { saveDataToFirebase } from "GlobalUtils/firebase";
+import { saveDataToFirebase } from "GlobalHelpers/firebase";
 import { syncLastVisitedToStorage } from "SrcPath/HomePopup/utils/lastVisited";
 import md5 from "md5";
 import { memo, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { LastVisited } from "../interfaces/lastVisited";
-import { getLastVisited } from "SrcPath/helpers/fetchFromStorage";
+import { getLastVisited } from "GlobalHelpers/fetchFromStorage";
 
 const tooltipStyles = { fontSize: "13px" };
 

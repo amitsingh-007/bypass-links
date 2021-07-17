@@ -23,7 +23,7 @@
     "paths": {
       "@common": ["../common/src"],
       "@common/*": ["../common/src/*"],
-      "ChromeApi/*": ["./src/helpers/chrome/*"],
+      "GlobalHelpers/*": ["./src/helpers/*"],
       "GlobalActionCreators": ["./src/actionCreators"],
       "GlobalActionCreators/*": ["./src/actionCreators/*"],
       "GlobalActionTypes": ["./src/actionTypes"],

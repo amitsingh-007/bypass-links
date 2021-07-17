@@ -1,8 +1,8 @@
-import storage from "ChromeApi/storage";
+import storage from "GlobalHelpers/chrome/storage";
 import { RootState } from "GlobalReducers/rootReducer";
 import { memo, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { getPersons } from "SrcPath/helpers/fetchFromStorage";
+import { getPersons } from "GlobalHelpers/fetchFromStorage";
 import { IUpdateTaggedPerson } from "SrcPath/PersonsPanel/interfaces/persons";
 import { setPersonsInStorage } from "SrcPath/PersonsPanel/utils";
 

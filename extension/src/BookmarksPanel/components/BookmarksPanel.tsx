@@ -1,6 +1,6 @@
 import { Box, GlobalStyles } from "@material-ui/core";
-import storage from "ChromeApi/storage";
-import tabs from "ChromeApi/tabs";
+import storage from "GlobalHelpers/chrome/storage";
+import tabs from "GlobalHelpers/chrome/tabs";
 import { displayToast } from "GlobalActionCreators/toast";
 import { STORAGE_KEYS } from "GlobalConstants";
 import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
@@ -14,7 +14,7 @@ import {
   Droppable,
 } from "react-beautiful-dnd";
 import { connect, ConnectedProps } from "react-redux";
-import { getBookmarks } from "SrcPath/helpers/fetchFromStorage";
+import { getBookmarks } from "GlobalHelpers/fetchFromStorage";
 import { startHistoryMonitor } from "SrcPath/HistoryPanel/actionCreators";
 import { updateTaggedPersonUrls } from "SrcPath/PersonsPanel/actionCreators";
 import { IUpdateTaggedPerson } from "SrcPath/PersonsPanel/interfaces/persons";

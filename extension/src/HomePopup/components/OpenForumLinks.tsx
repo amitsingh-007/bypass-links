@@ -1,7 +1,7 @@
 import { IconButton } from "@material-ui/core";
 import ForumTwoToneIcon from "@material-ui/icons/ForumTwoTone";
-import runtime from "ChromeApi/runtime";
-import tabs, { getCurrentTab } from "ChromeApi/tabs";
+import runtime from "GlobalHelpers/chrome/runtime";
+import tabs, { getCurrentTab } from "GlobalHelpers/chrome/tabs";
 import { IconButtonLoader } from "GlobalComponents/Loader";
 import { BYPASS_KEYS } from "GlobalConstants";
 import { COLOR } from "GlobalConstants/color";

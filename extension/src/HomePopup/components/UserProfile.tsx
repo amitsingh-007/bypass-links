@@ -6,7 +6,7 @@ import { RootState } from "GlobalReducers/rootReducer";
 import { memo, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
-import { getUserProfile } from "SrcPath/helpers/fetchFromStorage";
+import { getUserProfile } from "GlobalHelpers/fetchFromStorage";
 import { UserInfo } from "SrcPath/HomePopup/interfaces/authentication";
 
 const avatarStyles = { height: "50px", width: "50px" };

@@ -3,7 +3,7 @@ import DeleteTwoToneIcon from "@material-ui/icons/DeleteTwoTone";
 import DoneAllTwoToneIcon from "@material-ui/icons/DoneAllTwoTone";
 import DragHandleTwoToneIcon from "@material-ui/icons/DragHandleTwoTone";
 import OpenInNewTwoToneIcon from "@material-ui/icons/OpenInNewTwoTone";
-import tabs from "ChromeApi/tabs";
+import tabs from "GlobalHelpers/chrome/tabs";
 import { COLOR } from "GlobalConstants/color";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import { memo, useState } from "react";

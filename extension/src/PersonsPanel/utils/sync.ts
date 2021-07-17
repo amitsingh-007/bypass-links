@@ -1,5 +1,5 @@
 import { FIREBASE_DB_REF } from "@common/constants/firebase";
-import storage from "ChromeApi/storage";
+import storage from "GlobalHelpers/chrome/storage";
 import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
 import { STORAGE_KEYS } from "GlobalConstants";
 import { addToCache, getCacheObj } from "GlobalUtils/cache";
@@ -7,14 +7,11 @@ import {
   getFromFirebase,
   getImageFromFirebase,
   saveDataToFirebase,
-} from "GlobalUtils/firebase";
+} from "GlobalHelpers/firebase";
 import { dispatchAuthenticationEvent } from "SrcPath/HomePopup/utils/authentication";
 import { getAllDecodedPersons } from ".";
 import { IPerson, PersonImageUrls } from "../interfaces/persons";
-import {
-  getPersons,
-  getPersonImageUrls,
-} from "SrcPath/helpers/fetchFromStorage";
+import { getPersons, getPersonImageUrls } from "GlobalHelpers/fetchFromStorage";
 
 export const syncPersonsToStorage = async () => {
   const persons = await getFromFirebase<IPerson>(FIREBASE_DB_REF.persons);

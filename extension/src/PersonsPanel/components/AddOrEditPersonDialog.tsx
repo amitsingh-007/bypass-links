@@ -2,7 +2,7 @@ import { Avatar, Box, TextField } from "@material-ui/core";
 import PersonOffIcon from "@material-ui/icons/PersonOff";
 import { EditDialog } from "GlobalComponents/Dialogs";
 import { VoidFunction } from "GlobalInterfaces/custom";
-import { getImageFromFirebase } from "GlobalUtils/firebase";
+import { getImageFromFirebase } from "GlobalHelpers/firebase";
 import md5 from "md5";
 import { memo, useEffect, useState } from "react";
 import { IPerson } from "../interfaces/persons";

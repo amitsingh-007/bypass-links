@@ -1,8 +1,8 @@
 import { Box, Switch } from "@material-ui/core";
 import VisibilityOffTwoToneIcon from "@material-ui/icons/VisibilityOffTwoTone";
 import VisibilityTwoToneIcon from "@material-ui/icons/VisibilityTwoTone";
-import history from "ChromeApi/history";
-import storage from "ChromeApi/storage";
+import history from "GlobalHelpers/chrome/history";
+import storage from "GlobalHelpers/chrome/storage";
 import { startHistoryWatch } from "GlobalContainers/StoreListener";
 import { RootState } from "GlobalReducers/rootReducer";
 import { getOffIconColor, getOnIconColor } from "GlobalUtils/color";

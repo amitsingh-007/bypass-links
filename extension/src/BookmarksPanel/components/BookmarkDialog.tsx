@@ -1,6 +1,6 @@
 import { Box, IconButton, SelectProps, TextField } from "@material-ui/core";
 import FormatColorTextTwoToneIcon from "@material-ui/icons/FormatColorTextTwoTone";
-import runtime from "ChromeApi/runtime";
+import runtime from "GlobalHelpers/chrome/runtime";
 import { EditDialog } from "GlobalComponents/Dialogs";
 import { COLOR } from "GlobalConstants/color";
 import { VoidFunction } from "GlobalInterfaces/custom";

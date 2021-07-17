@@ -1,5 +1,5 @@
-import history from "ChromeApi/history";
-import scripting from "ChromeApi/scripting";
+import history from "GlobalHelpers/chrome/history";
+import scripting from "GlobalHelpers/chrome/scripting";
 
 const watchedThreadsPath = "/watched/threads";
 

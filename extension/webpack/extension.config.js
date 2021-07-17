@@ -53,7 +53,7 @@ const getBackgroundConfigPlugins = () => {
         onStart: {
           copy: [
             {
-              source: `${PATHS.SRC}/scripts/service-worker.js`,
+              source: `${PATHS.SRC}/BackgroundScript/service-worker.js`,
               destination: `${PATHS.EXTENSION}/`,
             },
           ],
@@ -87,7 +87,7 @@ const getPopupConfigPlugins = () => {
 
 const backgroundConfig = merge(commonConfig, {
   name: "background-script",
-  entry: "./src/scripts/background.js",
+  entry: "./src/BackgroundScript/index.js",
   output: {
     path: `${PATHS.EXTENSION}/js/`,
     filename: "background.js",
