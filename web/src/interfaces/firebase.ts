@@ -1,7 +1,5 @@
-import { FIREBASE_DB_REF } from "@common/constants/firebase";
-
 export interface Firebase {
-  ref: FIREBASE_DB_REF;
+  ref: string;
   uid?: string;
   isAbsolute?: boolean;
   data: any;
