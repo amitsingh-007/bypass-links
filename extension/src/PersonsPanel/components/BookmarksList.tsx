@@ -37,7 +37,11 @@ interface ModifiedBookmark extends IBookmark {
   parentName: string;
 }
 
-const BookmarksList = memo<Props>(({ name, imageUrl, taggedUrls }) => {
+const BookmarksList = memo<Props>(function BookmarksList({
+  name,
+  imageUrl,
+  taggedUrls,
+}) {
   const history = useHistory();
   const [bookmarks, setBookmarks] = useState<ModifiedBookmark[]>([]);
 

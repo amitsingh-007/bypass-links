@@ -13,7 +13,7 @@ const ConfirmationDialog = memo<{
   onClose: VoidFunction;
   onOk: VoidFunction;
   isOpen: boolean;
-}>(({ onClose, onOk, isOpen }) => {
+}>(function ConfirmationDialog({ onClose, onOk, isOpen }) {
   const handleCancel = () => {
     onClose();
   };

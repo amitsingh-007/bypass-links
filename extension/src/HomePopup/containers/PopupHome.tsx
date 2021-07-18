@@ -16,51 +16,55 @@ import ToggleHistory from "../components/ToggleHistory";
 import UserProfile from "../components/UserProfile";
 import TwoFactorAuthenticate from "../components/TwoFactorAuthenticate";
 
-const PopupHome = memo(() => (
-  <>
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: "16px",
-        width: "max-content",
-      }}
-    >
-      <Typography variant="h5" component="h5" gutterBottom>
-        <Box sx={{ color: COLOR.heading, fontWeight: "700" }}>BYPASS LINKS</Box>
-      </Typography>
+const PopupHome = memo(function PopupHome() {
+  return (
+    <>
       <Box
         sx={{
           display: "flex",
-          justifyContent: "space-between",
+          flexDirection: "column",
           alignItems: "center",
+          padding: "16px",
+          width: "max-content",
         }}
       >
-        <Box sx={{ marginRight: "20px" }}>
-          <ToggleExtension />
-          <ToggleHistory />
+        <Typography variant="h5" component="h5" gutterBottom>
+          <Box sx={{ color: COLOR.heading, fontWeight: "700" }}>
+            BYPASS LINKS
+          </Box>
+        </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Box sx={{ marginRight: "20px" }}>
+            <ToggleExtension />
+            <ToggleHistory />
+          </Box>
+          <UserProfile />
         </Box>
-        <UserProfile />
+        <Row styles={{ marginTop: "8.4px" }}>
+          <Authenticate />
+          <ShortcutsPanelButton />
+          <BookmarksPanelButton />
+        </Row>
+        <Row>
+          <HistoryPanelButton />
+          <OpenDefaultsButton />
+          <QuickBookmarkButton />
+        </Row>
+        <Row>
+          <OpenForumLinks />
+          <LastVisitedButton />
+          <PersonsPanelButton />
+        </Row>
       </Box>
-      <Row styles={{ marginTop: "8.4px" }}>
-        <Authenticate />
-        <ShortcutsPanelButton />
-        <BookmarksPanelButton />
-      </Row>
-      <Row>
-        <HistoryPanelButton />
-        <OpenDefaultsButton />
-        <QuickBookmarkButton />
-      </Row>
-      <Row>
-        <OpenForumLinks />
-        <LastVisitedButton />
-        <PersonsPanelButton />
-      </Row>
-    </Box>
-    <TwoFactorAuthenticate />
-  </>
-));
+      <TwoFactorAuthenticate />
+    </>
+  );
+});
 
 export default PopupHome;

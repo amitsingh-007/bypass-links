@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { RootState } from "GlobalReducers/rootReducer";
 
-const PersonsPanelButton = memo(() => {
+const PersonsPanelButton = memo(function PersonsPanelButton() {
   const history = useHistory();
   const { isSignedIn } = useSelector((state: RootState) => state.root);
 

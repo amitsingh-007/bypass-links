@@ -40,7 +40,14 @@
     "no-trailing-spaces": "error",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        "args": "after-used",
+        "ignoreRestSiblings": true,
+        "argsIgnorePattern": "^_"
+      }
+    ],
     "@typescript-eslint/ban-types": [
       "error",
       {
@@ -51,9 +58,6 @@
         "extendDefaults": true
       }
     ],
-    "react/prop-types": "off", //TODO: remove this after typescript migration
-    "@typescript-eslint/no-redeclare": "off", //TODO: remove this after typescript migration
-    "no-redeclare": "off", //TODO: remove this after typescript migration
-    "react/display-name": "off"
+    "react/prop-types": "off"
   }
 }

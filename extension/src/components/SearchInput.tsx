@@ -12,7 +12,9 @@ const refOptions = { trackVisibility: true, delay: 100 };
  * `searchClassName` should be parent of each row and not parent of all rows
  * `data-text` and `data-subtext` should be applied on same node as of `searchClassName`
  */
-const SearchInput = memo<{ searchClassName: string }>(({ searchClassName }) => {
+const SearchInput = memo<{ searchClassName: string }>(function SearchInput({
+  searchClassName,
+}) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [searchText, setSearchText] = useState("");
   const { ref, entry }: IntersectionObserverResponse = useInView(refOptions);

@@ -6,7 +6,7 @@ import { useHistory } from "react-router";
 import { AUTHENTICATION_EVENT } from "SrcPath/HomePopup/constants/auth";
 import StoreListener from "./StoreListener";
 
-const Global = memo(() => {
+const Global = memo(function Global() {
   const dispatch = useDispatch();
   const history = useHistory();
 

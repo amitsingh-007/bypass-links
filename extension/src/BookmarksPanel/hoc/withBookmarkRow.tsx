@@ -28,7 +28,9 @@ interface ExpectedProps {
 const withBookmarkRow = <T extends InjectedProps>(
   Component: React.ComponentType<T>
 ) =>
-  memo<Subtract<T, InjectedProps> & ExpectedProps>((props) => {
+  memo<Subtract<T, InjectedProps> & ExpectedProps>(function BookmarkRowHoc(
+    props
+  ) {
     const {
       isDir,
       name,

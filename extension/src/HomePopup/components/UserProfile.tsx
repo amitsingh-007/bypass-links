@@ -11,7 +11,7 @@ import { UserInfo } from "SrcPath/HomePopup/interfaces/authentication";
 
 const avatarStyles = { height: "50px", width: "50px" };
 
-const UserProfile = memo(() => {
+const UserProfile = memo(function UserProfile() {
   const history = useHistory();
   const { isSignedIn } = useSelector((state: RootState) => state.root);
   const [userProfile, setUserProfile] = useState<UserInfo | null>(null);

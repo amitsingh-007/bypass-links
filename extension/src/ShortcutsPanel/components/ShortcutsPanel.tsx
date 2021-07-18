@@ -19,7 +19,7 @@ import { IRedirection } from "SrcPath/BackgroundScript/interfaces/redirections";
 const getValidRules = (obj: IRedirection) =>
   Boolean(obj && obj.alias && obj.alias !== DEFAULT_RULE_ALIAS && obj.website);
 
-const ShortcutsPanel = memo(() => {
+const ShortcutsPanel = memo(function ShortcutsPanel() {
   const history = useHistory();
   const dispatch = useDispatch();
   const [redirections, setRedirections] = useState<IRedirection[]>([]);

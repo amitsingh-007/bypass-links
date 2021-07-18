@@ -8,7 +8,7 @@ import { memo } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-const ShortcutsPanelButton = memo(() => {
+const ShortcutsPanelButton = memo(function ShortcutsPanelButton() {
   const { isSignedIn } = useSelector((state: RootState) => state.root);
   const history = useHistory();
 

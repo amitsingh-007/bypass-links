@@ -23,7 +23,7 @@ class ErrorBoundary extends Component<
     };
   }
 
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+  componentDidCatch(error: Error, _errorInfo: React.ErrorInfo) {
     console.log(error);
     //TODO: log error here
   }

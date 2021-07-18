@@ -3,7 +3,7 @@ import { memo } from "react";
 import Header from "../components/Header";
 import TwoFactorAuth from "../components/TwoFactorAuth";
 
-const SettingsPanel = memo(() => {
+const SettingsPanel = memo(function SettingsPanel() {
   return (
     <Box sx={{ width: "400px", height: "400px" }}>
       <Header />

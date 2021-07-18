@@ -11,32 +11,34 @@ interface Props {
   handlePersonDelete: (person: IPerson) => void;
 }
 
-const Persons = memo<Props>(
-  ({ persons, handleEditPerson, handlePersonDelete }) => {
-    const [openBookmarksListUid, setOpenBookmarksListUidUid] = useState("");
-    const history = useHistory();
+const Persons = memo<Props>(function Persons({
+  persons,
+  handleEditPerson,
+  handlePersonDelete,
+}) {
+  const [openBookmarksListUid, setOpenBookmarksListUidUid] = useState("");
+  const history = useHistory();
 
-    useEffect(() => {
-      const { openBookmarksList } = deserialzeQueryStringToObject(
-        history.location.search
-      );
-      setOpenBookmarksListUidUid(openBookmarksList);
-    }, [history.location.search]);
-
-    return (
-      <Box sx={{ padding: "6px" }}>
-        {persons.map((person) => (
-          <Person
-            key={person.uid}
-            person={person}
-            handleEditPerson={handleEditPerson}
-            handlePersonDelete={handlePersonDelete}
-            openBookmarksListUid={openBookmarksListUid}
-          />
-        ))}
-      </Box>
+  useEffect(() => {
+    const { openBookmarksList } = deserialzeQueryStringToObject(
+      history.location.search
     );
-  }
-);
+    setOpenBookmarksListUidUid(openBookmarksList);
+  }, [history.location.search]);
+
+  return (
+    <Box sx={{ padding: "6px" }}>
+      {persons.map((person) => (
+        <Person
+          key={person.uid}
+          person={person}
+          handleEditPerson={handleEditPerson}
+          handlePersonDelete={handlePersonDelete}
+          openBookmarksListUid={openBookmarksListUid}
+        />
+      ))}
+    </Box>
+  );
+});
 
 export default Persons;

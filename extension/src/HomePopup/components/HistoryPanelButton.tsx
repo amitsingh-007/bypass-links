@@ -8,7 +8,7 @@ import { memo } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-const HistoryPanelButton = memo(() => {
+const HistoryPanelButton = memo(function HistoryPanelButton() {
   const history = useHistory();
   const { isExtensionActive } = useSelector(
     (state: RootState) => state.extension

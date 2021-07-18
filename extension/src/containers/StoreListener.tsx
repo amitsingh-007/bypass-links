@@ -75,7 +75,7 @@ const updateUrlsInTaggedPersons = async (updates: IUpdateTaggedPerson[]) => {
   await setPersonsInStorage(persons);
 };
 
-const StoreListener = memo(() => {
+const StoreListener = memo(function StoreListener() {
   const { updateTaggedUrls } = useSelector((state: RootState) => state.persons);
   const { startHistoryMonitor } = useSelector(
     (state: RootState) => state.history

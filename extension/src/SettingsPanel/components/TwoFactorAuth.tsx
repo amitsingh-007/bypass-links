@@ -8,7 +8,7 @@ import { revoke2FA } from "../apis/twoFactorAuth";
 import { getUserProfile } from "GlobalHelpers/fetchFromStorage";
 import Setup2FA from "./Setup2FA";
 
-const TwoFactorAuth = memo(() => {
+const TwoFactorAuth = memo(function TwoFactorAuth() {
   const dispatch = useDispatch();
   const [is2FAEnabled, setIs2FAEnabled] = useState(false);
   const [show2FASetup, setShow2FASetup] = useState(false);

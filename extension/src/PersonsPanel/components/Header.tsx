@@ -27,130 +27,133 @@ interface Props {
   handleSort: any;
 }
 
-const Header = memo<Props>(
-  ({ isFetching, handleAddPerson, persons, handleSort }) => {
-    const dispatch = useDispatch();
-    const history = useHistory();
-    const [isSyncing, setIsSyncing] = useState(false);
-    const [showAddPersonDialog, setShowAddPersonDialog] = useState(false);
+const Header = memo<Props>(function Header({
+  isFetching,
+  handleAddPerson,
+  persons,
+  handleSort,
+}) {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [showAddPersonDialog, setShowAddPersonDialog] = useState(false);
 
-    const toggleAddPersonDialog = () => {
-      setShowAddPersonDialog(!showAddPersonDialog);
-    };
+  const toggleAddPersonDialog = () => {
+    setShowAddPersonDialog(!showAddPersonDialog);
+  };
 
-    const handleAddPersonClick: React.MouseEventHandler<HTMLButtonElement> = (
-      event
-    ) => {
-      event.stopPropagation();
-      toggleAddPersonDialog();
-    };
+  const handleAddPersonClick: React.MouseEventHandler<HTMLButtonElement> = (
+    event
+  ) => {
+    event.stopPropagation();
+    toggleAddPersonDialog();
+  };
 
-    const handlePersonSave = (person: IPerson) => {
-      handleAddPerson(person);
-      toggleAddPersonDialog();
-    };
+  const handlePersonSave = (person: IPerson) => {
+    handleAddPerson(person);
+    toggleAddPersonDialog();
+  };
 
-    const handleClose: React.MouseEventHandler<HTMLButtonElement> = (event) => {
-      event.stopPropagation();
-      history.goBack();
-    };
+  const handleClose: React.MouseEventHandler<HTMLButtonElement> = (event) => {
+    event.stopPropagation();
+    history.goBack();
+  };
 
-    const onSyncClick: React.MouseEventHandler<HTMLButtonElement> = async (
-      event
-    ) => {
-      event.stopPropagation();
-      if (isSyncing) {
-        return;
-      }
-      setIsSyncing(true);
-      try {
-        await syncPersonsFirebaseWithStorage();
-        dispatch(displayToast({ message: "Persons synced succesfully" }));
-      } catch (ex) {
-        dispatch(displayToast({ message: ex, severity: "error" }));
-      }
-      setIsSyncing(false);
-    };
+  const onSyncClick: React.MouseEventHandler<HTMLButtonElement> = async (
+    event
+  ) => {
+    event.stopPropagation();
+    if (isSyncing) {
+      return;
+    }
+    setIsSyncing(true);
+    try {
+      await syncPersonsFirebaseWithStorage();
+      dispatch(displayToast({ message: "Persons synced succesfully" }));
+    } catch (ex) {
+      dispatch(displayToast({ message: ex, severity: "error" }));
+    }
+    setIsSyncing(false);
+  };
 
-    return (
-      <>
-        <AccordionHeader>
-          <PrimaryHeaderContent>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                pl: "8px",
-                "> *": { mr: "12px !important" },
-              }}
+  return (
+    <>
+      <AccordionHeader>
+        <PrimaryHeaderContent>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              pl: "8px",
+              "> *": { mr: "12px !important" },
+            }}
+          >
+            <IconButton
+              size="small"
+              aria-label="Discard"
+              component="span"
+              style={COLOR.red}
+              onClick={handleClose}
+              title="Discard and Close"
             >
-              <IconButton
-                size="small"
-                aria-label="Discard"
-                component="span"
-                style={COLOR.red}
-                onClick={handleClose}
-                title="Discard and Close"
-              >
-                <ArrowBackTwoToneIcon fontSize="large" />
-              </IconButton>
-              <IconButton
-                size="small"
-                aria-label="Add"
-                component="span"
-                style={COLOR.blue}
-                onClick={handleAddPersonClick}
-                title="Add Person"
-              >
-                <PersonAddTwoToneIcon fontSize="large" />
-              </IconButton>
-              <IconButton
-                size="small"
-                aria-label="Sync"
-                component="span"
-                onClick={onSyncClick}
-                title="Sync storage to firebase"
-                disabled={isSyncing}
-              >
-                <SyncTwoToneIcon
-                  fontSize="large"
-                  className={isSyncing ? "iconLoading" : ""}
-                  htmlColor={COLOR.orange.color}
-                />
-              </IconButton>
-              {isFetching && (
-                <Loader
-                  loaderSize={28}
-                  disableShrink
-                  styles={{
-                    padding: "3px",
-                    display: "inline",
-                  }}
-                />
-              )}
-            </Box>
-            <PanelHeading
-              heading={`PERSONS PANEL (${persons?.length || 0})`}
-              containerStyles={{ marginLeft: "10px" }}
-            />
-          </PrimaryHeaderContent>
-          <SecondaryHeaderContent>
-            <Box sx={{ minWidth: "150px" }}>
-              <Sort onChange={handleSort} />
-            </Box>
-            <SearchInput searchClassName="personContainer" />
-          </SecondaryHeaderContent>
-        </AccordionHeader>
-        {showAddPersonDialog && (
-          <AddOrEditPersonDialog
-            isOpen={showAddPersonDialog}
-            onClose={toggleAddPersonDialog}
-            handleSaveClick={handlePersonSave}
+              <ArrowBackTwoToneIcon fontSize="large" />
+            </IconButton>
+            <IconButton
+              size="small"
+              aria-label="Add"
+              component="span"
+              style={COLOR.blue}
+              onClick={handleAddPersonClick}
+              title="Add Person"
+            >
+              <PersonAddTwoToneIcon fontSize="large" />
+            </IconButton>
+            <IconButton
+              size="small"
+              aria-label="Sync"
+              component="span"
+              onClick={onSyncClick}
+              title="Sync storage to firebase"
+              disabled={isSyncing}
+            >
+              <SyncTwoToneIcon
+                fontSize="large"
+                className={isSyncing ? "iconLoading" : ""}
+                htmlColor={COLOR.orange.color}
+              />
+            </IconButton>
+            {isFetching && (
+              <Loader
+                loaderSize={28}
+                disableShrink
+                styles={{
+                  padding: "3px",
+                  display: "inline",
+                }}
+              />
+            )}
+          </Box>
+          <PanelHeading
+            heading={`PERSONS PANEL (${persons?.length || 0})`}
+            containerStyles={{ marginLeft: "10px" }}
           />
-        )}
-      </>
-    );
-  }
-);
+        </PrimaryHeaderContent>
+        <SecondaryHeaderContent>
+          <Box sx={{ minWidth: "150px" }}>
+            <Sort onChange={handleSort} />
+          </Box>
+          <SearchInput searchClassName="personContainer" />
+        </SecondaryHeaderContent>
+      </AccordionHeader>
+      {showAddPersonDialog && (
+        <AddOrEditPersonDialog
+          isOpen={showAddPersonDialog}
+          onClose={toggleAddPersonDialog}
+          handleSaveClick={handlePersonSave}
+        />
+      )}
+    </>
+  );
+});
 
 export default Header;

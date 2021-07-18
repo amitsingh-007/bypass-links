@@ -13,7 +13,7 @@ interface Props {
   onChange: (sortType: SORT_TYPE, sortOrder: SORT_ORDER) => void;
 }
 
-const Sort = memo<Props>(({ onChange }) => {
+const Sort = memo<Props>(function Sort({ onChange }) {
   const handleChange: SelectProps<string>["onChange"] = (event) => {
     const [sortType, sortOrder] = event.target.value.split("-") as [
       SORT_TYPE,

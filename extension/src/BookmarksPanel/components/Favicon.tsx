@@ -11,7 +11,7 @@ const containerStyles = {
   marginRight: "12px",
 };
 
-const Favicon = memo<{ url: string }>(({ url }) => {
+const Favicon = memo<{ url: string }>(function Favicon({ url }) {
   const [faviconUrl, setFaviconUrl] = useState("");
 
   const initFavicon = useCallback(async () => {

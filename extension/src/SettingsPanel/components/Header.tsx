@@ -6,7 +6,7 @@ import { STICKY_HEADER } from "GlobalConstants/styles";
 import { memo } from "react";
 import { useHistory } from "react-router";
 
-const Header = memo(() => {
+const Header = memo(function Header() {
   const history = useHistory();
 
   const handleClose = () => {

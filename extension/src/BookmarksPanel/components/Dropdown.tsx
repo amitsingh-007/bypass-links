@@ -56,7 +56,12 @@ export const PersonsDropdown = memo<{
   personList: IPersonWithImage[];
   loading: boolean;
   handlePersonsChange: (event: any, newValue: IPersonWithImage[]) => void;
-}>(({ taggedPersons, personList = [], loading, handlePersonsChange }) => {
+}>(function PersonsDropdown({
+  taggedPersons,
+  personList = [],
+  loading,
+  handlePersonsChange,
+}) {
   const [inputText, setInputText] = useState("");
 
   const onUserInputChange = (_event: any, newInputValue: string) => {

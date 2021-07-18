@@ -27,7 +27,7 @@ export const endHistoryWatch = async () => {
   console.log("History clear successful.");
 };
 
-const ToggleHistory = memo(() => {
+const ToggleHistory = memo(function ToggleHistory() {
   const dispatch = useDispatch();
   const [isHistoryActive, setIsHistoryActive] = useState(false);
   const { startHistoryMonitor } = useSelector(

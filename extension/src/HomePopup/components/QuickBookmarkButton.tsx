@@ -20,7 +20,7 @@ import {
 } from "SrcPath/BookmarksPanel/utils";
 import { getBookmarksPanelUrl } from "SrcPath/BookmarksPanel/utils/url";
 
-const QuickBookmarkButton = memo(() => {
+const QuickBookmarkButton = memo(function QuickBookmarkButton() {
   const { isSignedIn } = useSelector((state: RootState) => state.root);
   const [bookmark, setBookmark] = useState<IBookmark | null>(null);
   const [isFetching, setIsFetching] = useState(false);

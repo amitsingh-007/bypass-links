@@ -16,7 +16,12 @@ const Verify2FA = memo<{
   handleVerify: (totp: string) => Promise<void>;
   containerStyles?: SxProps;
   buttonStyles?: SxProps;
-}>(({ isShown, handleVerify, containerStyles = {}, buttonStyles = {} }) => {
+}>(function Verify2FA({
+  isShown,
+  handleVerify,
+  containerStyles = {},
+  buttonStyles = {},
+}) {
   const [totp, setTOTP] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
 

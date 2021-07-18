@@ -12,7 +12,7 @@ import { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { getExtensionState } from "GlobalHelpers/fetchFromStorage";
 
-const ToggleExtension = memo(() => {
+const ToggleExtension = memo(function ToggleExtension() {
   const dispatch = useDispatch();
   const [extState, setExtState] = useState(EXTENSION_STATE.INACTIVE);
 

@@ -31,7 +31,10 @@ interface Props {
   bookmarks: ContextBookmarks;
 }
 
-export const ScrollUpButton = memo<Props>(({ containerId, bookmarks }) => {
+export const ScrollUpButton = memo<Props>(function ScrollUpButton({
+  containerId,
+  bookmarks,
+}) {
   const [isShown, setIsShown] = useState(false);
   const [percentScrolled, setPercentScrolled] = useState(0);
 

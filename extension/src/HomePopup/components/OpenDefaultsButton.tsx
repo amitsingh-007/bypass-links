@@ -11,7 +11,7 @@ import { memo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { startHistoryMonitor } from "SrcPath/HistoryPanel/actionCreators";
 
-const OpenDefaultsButton = memo(() => {
+const OpenDefaultsButton = memo(function OpenDefaultsButton() {
   const dispatch = useDispatch();
   const { isSignedIn } = useSelector((state: RootState) => state.root);
   const [isFetching, setIsFetching] = useState(false);

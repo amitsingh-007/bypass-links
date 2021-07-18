@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { RootState } from "GlobalReducers/rootReducer";
 
-const BookmarksPanelButton = memo(() => {
+const BookmarksPanelButton = memo(function BookmarksPanelButton() {
   const history = useHistory();
   const { isSignedIn } = useSelector((state: RootState) => state.root);
 

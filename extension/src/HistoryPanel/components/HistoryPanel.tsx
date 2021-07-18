@@ -37,7 +37,7 @@ const DateTimeInput = ({ dateTime, onChange, label }: DateTimeInputProps) => (
   />
 );
 
-const HistoryPanel = memo(() => {
+const HistoryPanel = memo(function HistoryPanel() {
   const history = useHistory();
   const dispatch = useDispatch();
   const [startDateTime, setStartDateTime] = useState<Date | null>(new Date());

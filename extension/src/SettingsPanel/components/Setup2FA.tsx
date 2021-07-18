@@ -40,7 +40,7 @@ type Props = {
   handleClose: VoidFunction;
 };
 
-const Setup2FA = memo(({ isOpen, handleClose }: Props) => {
+const Setup2FA = memo(function Setup2FA({ isOpen, handleClose }: Props) {
   const dispatch = useDispatch();
   const [, setSecretKey] = useState("");
   const [qrcodeUrl, setQrcodeUrl] = useState("");

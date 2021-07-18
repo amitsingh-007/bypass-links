@@ -11,7 +11,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { memo } from "react";
 
-export const AccordionHeader = memo(({ children }) => {
+export const AccordionHeader = memo(function AccordionHeader({ children }) {
   const accordionRef = useRef<HTMLDivElement>(null);
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -56,37 +56,45 @@ export const AccordionHeader = memo(({ children }) => {
   ) : null;
 });
 
-export const PrimaryHeaderContent = memo(({ children }) => (
-  <AccordionSummary
-    sx={{
-      padding: "4px 0px",
-      minHeight: "unset !important",
-      "& .MuiAccordionSummary-content": { margin: "0px !important" },
-    }}
-  >
-    <Box
+export const PrimaryHeaderContent = memo(function PrimaryHeaderContent({
+  children,
+}) {
+  return (
+    <AccordionSummary
       sx={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        width: "100%",
+        padding: "4px 0px",
+        minHeight: "unset !important",
+        "& .MuiAccordionSummary-content": { margin: "0px !important" },
       }}
     >
-      {children}
-    </Box>
-  </AccordionSummary>
-));
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          width: "100%",
+        }}
+      >
+        {children}
+      </Box>
+    </AccordionSummary>
+  );
+});
 
-export const SecondaryHeaderContent = memo(({ children }) => (
-  <AccordionDetails sx={{ padding: "10px 12px 12px 12px" }}>
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
-      {children}
-    </Box>
-  </AccordionDetails>
-));
+export const SecondaryHeaderContent = memo(function SecondaryHeaderContent({
+  children,
+}) {
+  return (
+    <AccordionDetails sx={{ padding: "10px 12px 12px 12px" }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        {children}
+      </Box>
+    </AccordionDetails>
+  );
+});

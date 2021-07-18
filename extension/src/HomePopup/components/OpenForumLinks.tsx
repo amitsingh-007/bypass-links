@@ -17,7 +17,7 @@ const isCurrentPageForum = async (url = "") => {
   return await matchHostnames(hostname, BYPASS_KEYS.FORUMS);
 };
 
-const OpenForumLinks = memo(() => {
+const OpenForumLinks = memo(function OpenForumLinks() {
   const dispatch = useDispatch();
   const { isSignedIn } = useSelector((state: RootState) => state.root);
   const [isFetching, setIsFetching] = useState(false);
