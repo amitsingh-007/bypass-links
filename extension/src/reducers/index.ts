@@ -12,7 +12,7 @@ const reducer = (state = defaultState, action: any) => {
         isSignedIn: action.isSignedIn,
       };
     default:
-      return defaultState;
+      return state;
   }
 };
 

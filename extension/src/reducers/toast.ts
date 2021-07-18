@@ -19,7 +19,7 @@ const toastReducer = (
       };
     case HIDE_TOAST:
     default:
-      return defaultState;
+      return state;
   }
 };
 

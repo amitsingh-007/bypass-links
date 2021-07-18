@@ -24,7 +24,7 @@ const extensionReducer = (
         isExtensionActive: false,
       };
     default:
-      return defaultState;
+      return state;
   }
 };
 

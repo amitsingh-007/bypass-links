@@ -24,7 +24,7 @@ const authReducer = (
         authProgress: null,
       };
     default:
-      return defaultState;
+      return state;
   }
 };
 
