@@ -1,4 +1,7 @@
 node_modules/
 build/
 extension-build/
-firebase-build/
+firebase-dll/
+webpack.*.js
+webpack/
+.eslintcache

@@ -7,5 +7,12 @@
   },
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
+  },
+  "search.exclude": {
+    "**/node_modules/**": true,
+    "extension/build/**": true,
+    "extension/extension-build/**": true,
+    "extension/firebase-dll/**": true,
+    "**/package-lock.json": true
   }
 }

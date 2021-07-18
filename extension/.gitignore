@@ -1,3 +1,5 @@
+.eslintcache
+
 build/
-firebase-build/
+firebase-dll/
 extension-build/

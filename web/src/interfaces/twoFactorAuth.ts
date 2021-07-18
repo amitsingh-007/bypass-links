@@ -3,8 +3,3 @@ export interface User2FAInfo {
   otpAuthUrl: string;
   is2FAEnabled: boolean;
 }
-
-export interface Setup2FAResponse {
-  secretKey: string;
-  otpAuthUrl: string;
-}

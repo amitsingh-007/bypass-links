@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Bypass Links</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <% for(var i=0; i < htmlWebpackPlugin.files.css.length; i++) {%>
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="<%= htmlWebpackPlugin.files.css[i] %>"
+    />
+    <% } %>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/javascript" src="js/firebase.dll.js"></script>
+    <% for(var i=0; i < htmlWebpackPlugin.files.js.length; i++) {%>
+    <script
+      type="text/javascript"
+      src="<%= htmlWebpackPlugin.files.js[i] %>"
+    ></script>
+    <% } %>
+  </body>
+</html>
