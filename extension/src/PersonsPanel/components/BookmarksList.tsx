@@ -24,6 +24,7 @@ import {
 import { getBookmarksPanelUrl } from "SrcPath/BookmarksPanel/utils/url";
 import SearchInput from "GlobalComponents/SearchInput";
 import { IBookmark } from "SrcPath/BookmarksPanel/interfaces";
+import { BookmarkUrlParams } from "../interfaces/url";
 
 const imageStyles = { width: 40, height: 40 };
 
@@ -68,8 +69,7 @@ const BookmarksList = memo<Props>(function BookmarksList({
     title,
     parentName,
   }: ModifiedBookmark) => {
-    //TODO:change this
-    const urlParams = {} as any;
+    const urlParams = {} as BookmarkUrlParams;
     urlParams.editBookmark = true;
     urlParams.url = url;
     urlParams.title = title;

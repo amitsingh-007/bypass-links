@@ -1,5 +1,6 @@
 import { setAuthenticationProgress } from "GlobalActionCreators/auth";
 import Toast from "GlobalComponents/Toast";
+import { AuthenticationEvent } from "GlobalInterfaces/authentication";
 import { memo, useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
@@ -24,18 +25,20 @@ const Global = memo(function Global() {
     };
   }, [history]);
 
-  //TODO: after custom event consumtion
   const handleAuthenticationEvent = useCallback(
-    (event) => {
+    (event: CustomEvent<AuthenticationEvent>) => {
       dispatch(setAuthenticationProgress(event.detail));
     },
     [dispatch]
   );
 
   useEffect(() => {
-    document.addEventListener(AUTHENTICATION_EVENT, handleAuthenticationEvent);
+    document.addEventListener<any>(
+      AUTHENTICATION_EVENT,
+      handleAuthenticationEvent
+    );
     return () => {
-      document.removeEventListener(
+      document.removeEventListener<any>(
         AUTHENTICATION_EVENT,
         handleAuthenticationEvent
       );

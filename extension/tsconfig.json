@@ -11,7 +11,7 @@
     "strict": true,
     "alwaysStrict": true,
     "allowUnreachableCode": false,
-    // "exactOptionalPropertyTypes": true, not supported yet by ts-loader
+    // "exactOptionalPropertyTypes": true, //supported in typescript 4.4
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "skipLibCheck": true,
