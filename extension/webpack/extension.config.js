@@ -89,8 +89,8 @@ const backgroundConfig = merge(commonConfig, {
   name: "background-script",
   entry: "./src/BackgroundScript/index.ts",
   output: {
-    path: `${PATHS.EXTENSION}/js/`,
-    filename: "background.js",
+    path: PATHS.EXTENSION,
+    filename: "js/background.js",
   },
   plugins: getBackgroundConfigPlugins(),
 });
