@@ -18,6 +18,7 @@ const toastReducer = (
         duration: action.duration,
       };
     case HIDE_TOAST:
+      return defaultState;
     default:
       return state;
   }
