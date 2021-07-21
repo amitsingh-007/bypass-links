@@ -20,6 +20,8 @@
     "paths": {
       "@common/*": ["../common/src/*"],
       "@constants/*": ["src/constants/*"],
+      "@database/*": ["src/database/*"],
+      "@helpers/*": ["src/helpers/*"],
       "@logic/*": ["src/logic/*"],
       "@middlewares/*": ["src/middlewares/*"],
       "@ui/*": ["src/ui/*"]

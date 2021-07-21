@@ -13,7 +13,6 @@
     "allowUnreachableCode": false,
     // "exactOptionalPropertyTypes": true, //supported in typescript 4.4
     "noImplicitReturns": true,
-    "noUnusedLocals": true,
     "skipLibCheck": true,
     "importHelpers": true,
     "moduleResolution": "node",

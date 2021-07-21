@@ -7,3 +7,6 @@
 .vercel/
 
 .vercel
+
+# Supabase
+.supabase

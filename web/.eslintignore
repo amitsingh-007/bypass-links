@@ -5,3 +5,4 @@ next.config.js
 .netlify/
 netlify/
 out/
+public/sw.js

@@ -63,7 +63,11 @@ const resetAuthentication = async () => {
     token: userProfile.googleAuthToken ?? "",
   });
   console.log("Removed Google auth token from cache");
-  await storage.remove(STORAGE_KEYS.userProfile);
+  await storage.remove([
+    STORAGE_KEYS.userProfile,
+    "is2FAEnabled",
+    "isTOTPVerified",
+  ]);
 };
 
 const syncFirebaseToStorage = async () => {

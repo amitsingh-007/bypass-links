@@ -11,3 +11,5 @@ netlify/
 public/sw.js
 
 .vercel
+
+.eslintcache
