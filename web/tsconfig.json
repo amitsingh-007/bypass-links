@@ -28,5 +28,5 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", ".next", "netlify", "out", "next.config.js"]
+  "exclude": ["node_modules", ".next", "netlify", "out"]
 }

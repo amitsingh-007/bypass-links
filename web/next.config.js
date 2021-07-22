@@ -1,7 +1,5 @@
-// eslint-disable @typescript-eslint/no-var-requires
 const path = require("path");
 const withPWA = require("next-pwa");
-const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const { releaseDate } = require("./scripts/release-config");
 const { extVersion } = require("../common/src/scripts/extension-version");
 
@@ -39,14 +37,6 @@ const nextConfig = {
         __RELEASE_DATE__: JSON.stringify(releaseDate),
         HOST_NAME: JSON.stringify(""),
         __SERVER__: JSON.stringify(isServer),
-      }),
-      new ForkTsCheckerWebpackPlugin({
-        eslint: {
-          files: "**/*.{js,ts,tsx}",
-          options: {
-            cache: dev,
-          },
-        },
       })
     );
     // https://github.com/firebase/firebase-admin-node/issues/84
