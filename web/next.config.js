@@ -44,6 +44,7 @@ const nextConfig = {
           files: "**/*.{js,ts,tsx}",
           options: {
             cache: dev,
+            ignorePath: path.join(__dirname, ".eslintignore"),
           },
         },
       })
