@@ -102,7 +102,6 @@ const popupConfig = merge(commonConfig, {
     path: PATHS.EXTENSION,
     filename: "js/[name].[chunkhash:9].js",
     chunkFilename: "js/[name].[chunkhash:9].js",
-    pathinfo: false,
   },
   plugins: getPopupConfigPlugins(),
 });
