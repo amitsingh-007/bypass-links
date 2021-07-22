@@ -1,5 +1,6 @@
 const path = require("path");
 const withPWA = require("next-pwa");
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const { releaseDate } = require("./scripts/release-config");
 const { extVersion } = require("../common/src/scripts/extension-version");
 
@@ -39,6 +40,18 @@ const nextConfig = {
         __SERVER__: JSON.stringify(isServer),
       })
     );
+    if (dev) {
+      config.plugins.push(
+        new ForkTsCheckerWebpackPlugin({
+          eslint: {
+            files: "**/*.{js,ts,tsx}",
+            options: {
+              cache: true,
+            },
+          },
+        })
+      );
+    }
     // https://github.com/firebase/firebase-admin-node/issues/84
     config.externals.push("firebase-admin");
     return config;

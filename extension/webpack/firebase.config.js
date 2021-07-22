@@ -2,7 +2,7 @@
  * This will generate a common chunk for background and content scripts
  */
 const { merge } = require("webpack-merge");
-const FileManagerPlugin = require("filemanager-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const { DllPlugin } = require("webpack");
 const commonConfig = require("./common.config");
 const { PATHS } = require("./constants");
@@ -20,13 +20,7 @@ const firebaseDllConfig = merge(commonConfig, {
       name: "firebase_lib",
       path: `${PATHS.FIREBASE}/manifest.json`,
     }),
-    new FileManagerPlugin({
-      events: {
-        onStart: {
-          delete: ["./extension-build/*", "./firebase-dll/*"],
-        },
-      },
-    }),
+    new CleanWebpackPlugin(),
   ],
 });
 

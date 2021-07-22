@@ -59,5 +59,11 @@
       "SrcPath/*": ["./src/*"]
     }
   },
-  "exclude": ["extension-build", "firebase-dll", "**/node_modules", "webpack"]
+  "exclude": [
+    "extension-build",
+    "firebase-dll",
+    "**/node_modules",
+    "webpack",
+    "scripts"
+  ]
 }
