@@ -36,10 +36,3 @@ export const saveToFirebase = async ({
   isAbsolute,
 }: Firebase) =>
   admin.database().ref(getFullDbPath(ref, uid, isAbsolute)).set(data);
-
-export const removeFromFirebase = async ({
-  ref,
-  uid,
-  isAbsolute,
-}: Omit<Firebase, "data">) =>
-  admin.database().ref(getFullDbPath(ref, uid, isAbsolute)).remove();

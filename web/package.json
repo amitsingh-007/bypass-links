@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "pre:dev": "cd .. && vercel env pull web/.env.local",
-    "dev": "npm run pre:dev && next dev",
     "build": "next build",
+    "dev": "npm run pre:dev && next dev",
+    "lint": "next lint",
+    "pre:dev": "cd .. && vercel env pull web/.env.local",
     "start": "next start",
-    "lint": "next lint"
+    "supabase:types": "openapi-typescript https://ywcajjmxjhycwxmiwvto.supabase.co/rest/v1/?apikey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYyNjYzNDE3NywiZXhwIjoxOTQyMjEwMTc3fQ.wiX8cCKApudG6kzta9Etp_lbCBQ90iqAb0F4n3Gc46I --output src/@types/supabase.ts"
   },
   "dependencies": {
     "@emotion/react": "11.4.0",
@@ -43,6 +44,7 @@
     "eslint-plugin-prettier": "3.4.0",
     "fork-ts-checker-webpack-plugin": "6.2.12",
     "next-pwa": "5.2.21",
+    "openapi-typescript": "4.0.2",
     "prettier": "2.3.2",
     "sass": "1.35.1",
     "vercel": "23.0.1"

@@ -10,7 +10,7 @@ const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<Authenticate2FAResponse>
 ) => {
-  const { uid, totp } = req.query as { [key: string]: string };
+  const { uid, totp } = req.query as Record<string, string>;
   const isVerified = await authenticate2FA({ uid, totp });
   res.json({ isVerified });
 };

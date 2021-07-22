@@ -1,6 +1,6 @@
 import { getTotp as generateTotpToken } from "minimal-cognito-totp";
 
-const uid = "4767b7c0ca4c4f21855cgh56";
+const uid = "6b85a98e-2550-46c6-aa6b-1e0d4b9346db";
 
 describe("Two Factor Auth Setup Flow", () => {
   let secretKey, otpAuthUrl;
