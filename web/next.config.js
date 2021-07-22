@@ -43,7 +43,7 @@ const nextConfig = {
         eslint: {
           files: "**/*.{js,ts,tsx}",
           options: {
-            cache: true,
+            cache: dev,
           },
         },
       })
