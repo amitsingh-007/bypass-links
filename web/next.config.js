@@ -1,3 +1,4 @@
+// eslint-disable @typescript-eslint/no-var-requires
 const path = require("path");
 const withPWA = require("next-pwa");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
@@ -44,7 +45,6 @@ const nextConfig = {
           files: "**/*.{js,ts,tsx}",
           options: {
             cache: dev,
-            ignorePath: path.join(__dirname, ".eslintignore"),
           },
         },
       })
