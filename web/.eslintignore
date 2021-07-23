@@ -2,8 +2,5 @@ node_modules/
 .next/
 .vercel/
 next.config.js
-.netlify/
-netlify/
-out/
 public/sw.js
 src/@types/supabase.ts

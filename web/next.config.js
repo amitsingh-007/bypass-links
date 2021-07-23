@@ -15,8 +15,6 @@ const nextConfig = {
     swSrc: "./scripts/sw.js",
     dest: "public",
   },
-  // https://docs.netlify.com/configure-builds/common-configurations/next-js/#edit-next-config-js
-  target: "serverless",
   // rest options are nextJS's
   experimental: {
     //To build common folder, which is outside root directory; https://github.com/vercel/next.js/issues/5666

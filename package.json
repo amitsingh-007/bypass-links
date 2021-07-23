@@ -8,9 +8,6 @@
     "build": "lerna run build --parallel --stream",
     "ext:build": "lerna run build --scope=extension --stream",
     "ext:dev": "cd extension && npm run dev",
-    "netlify:dev": "netlify dev",
-    "netlify:deploy": "netlify deploy --prod",
-    "netlify:preview": "netlify deploy",
     "pre-commit": "npm run pretty-quick",
     "prepare": "husky install",
     "pretty-quick": "pretty-quick --staged",
@@ -22,7 +19,6 @@
     "web:dev": "cd web && npm run dev"
   },
   "devDependencies": {
-    "@netlify/plugin-nextjs": "3.6.1",
     "@typescript-eslint/eslint-plugin": "4.28.2",
     "@typescript-eslint/parser": "4.28.1",
     "eslint": "7.30.0",
@@ -30,7 +26,6 @@
     "eslint-plugin-prettier": "3.4.0",
     "husky": "7.0.1",
     "lerna": "4.0.0",
-    "netlify-cli": "4.0.5",
     "prettier": "2.3.2",
     "pretty-quick": "3.1.1",
     "supabase": "0.4.4"

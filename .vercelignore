@@ -1,8 +1,5 @@
 **/.env.local
 **/node_modules/
 **/.next
-**/.netlify
-**/netlify
-**/out
 **/extension-build/
 **/firebase-dll/

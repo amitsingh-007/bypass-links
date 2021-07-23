@@ -1,11 +1,7 @@
-# netlify
-.netlify
-
 **/node_modules
 
 # vercel
 .vercel/
-
 .vercel
 
 # Supabase

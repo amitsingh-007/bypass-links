@@ -2,11 +2,6 @@
 .next/
 .env.local
 
-# netlify
-.netlify/
-out/
-netlify/
-
 # next-pwa
 public/sw.js
 
