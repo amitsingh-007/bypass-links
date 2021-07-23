@@ -50,8 +50,6 @@ const nextConfig = {
         })
       );
     }
-    // https://github.com/firebase/firebase-admin-node/issues/84
-    config.externals.push("firebase-admin");
     return config;
   },
 };
