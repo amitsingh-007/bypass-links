@@ -111,6 +111,108 @@ export interface paths {
       };
     };
   };
+  "/shortcuts": {
+    get: {
+      parameters: {
+        query: {
+          user_id?: parameters["rowFilter.shortcuts.user_id"];
+          alias?: parameters["rowFilter.shortcuts.alias"];
+          url?: parameters["rowFilter.shortcuts.url"];
+          is_pinned?: parameters["rowFilter.shortcuts.is_pinned"];
+          is_prod?: parameters["rowFilter.shortcuts.is_prod"];
+          priority?: parameters["rowFilter.shortcuts.priority"];
+          /** Filtering Columns */
+          select?: parameters["select"];
+          /** Ordering */
+          order?: parameters["order"];
+          /** Limiting and Pagination */
+          offset?: parameters["offset"];
+          /** Limiting and Pagination */
+          limit?: parameters["limit"];
+        };
+        header: {
+          /** Limiting and Pagination */
+          Range?: parameters["range"];
+          /** Limiting and Pagination */
+          "Range-Unit"?: parameters["rangeUnit"];
+          /** Preference */
+          Prefer?: parameters["preferCount"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: {
+          schema: definitions["shortcuts"][];
+        };
+        /** Partial Content */
+        206: unknown;
+      };
+    };
+    post: {
+      parameters: {
+        body: {
+          /** shortcuts */
+          shortcuts?: definitions["shortcuts"];
+        };
+        query: {
+          /** Filtering Columns */
+          select?: parameters["select"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** Created */
+        201: unknown;
+      };
+    };
+    delete: {
+      parameters: {
+        query: {
+          user_id?: parameters["rowFilter.shortcuts.user_id"];
+          alias?: parameters["rowFilter.shortcuts.alias"];
+          url?: parameters["rowFilter.shortcuts.url"];
+          is_pinned?: parameters["rowFilter.shortcuts.is_pinned"];
+          is_prod?: parameters["rowFilter.shortcuts.is_prod"];
+          priority?: parameters["rowFilter.shortcuts.priority"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+    patch: {
+      parameters: {
+        query: {
+          user_id?: parameters["rowFilter.shortcuts.user_id"];
+          alias?: parameters["rowFilter.shortcuts.alias"];
+          url?: parameters["rowFilter.shortcuts.url"];
+          is_pinned?: parameters["rowFilter.shortcuts.is_pinned"];
+          is_prod?: parameters["rowFilter.shortcuts.is_prod"];
+          priority?: parameters["rowFilter.shortcuts.priority"];
+        };
+        body: {
+          /** shortcuts */
+          shortcuts?: definitions["shortcuts"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+  };
 }
 
 export interface definitions {
@@ -124,6 +226,22 @@ export interface definitions {
      * This is a Primary Key.<pk/>
      */
     id: number;
+  };
+  shortcuts: {
+    user_id: string;
+    /**
+     * Note:
+     * This is a Primary Key.<pk/>
+     */
+    alias: string;
+    url: string;
+    is_pinned: boolean;
+    /**
+     * Note:
+     * This is a Primary Key.<pk/>
+     */
+    is_prod: boolean;
+    priority: number;
   };
 }
 
@@ -155,6 +273,14 @@ export interface parameters {
   "rowFilter.auth.totp_auth_url": string;
   "rowFilter.auth.user_id": string;
   "rowFilter.auth.id": string;
+  /** shortcuts */
+  "body.shortcuts": definitions["shortcuts"];
+  "rowFilter.shortcuts.user_id": string;
+  "rowFilter.shortcuts.alias": string;
+  "rowFilter.shortcuts.url": string;
+  "rowFilter.shortcuts.is_pinned": string;
+  "rowFilter.shortcuts.is_prod": string;
+  "rowFilter.shortcuts.priority": string;
 }
 
 export interface operations {}
