@@ -18,7 +18,6 @@ const PersonsPanelButton = memo(function PersonsPanelButton() {
 
   return (
     <IconButton
-      aria-label="OpenRedirectionsPanel"
       component="span"
       style={getActiveDisabledColor(isSignedIn, COLOR.indigo)}
       onClick={handleShowPersonsPanel}

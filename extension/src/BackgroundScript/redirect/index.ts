@@ -13,13 +13,13 @@ export const redirect = async (tabId: number, url: URL) => {
   }
 };
 
-export const syncRedirectionsToStorage = async () => {
+export const syncShortcutsToStorage = async () => {
   const userId = await getUserId();
   const shortcuts = await fetchShortcuts(userId || "");
-  await storage.set({ [STORAGE_KEYS.redirections]: shortcuts });
+  await storage.set({ [STORAGE_KEYS.shortcuts]: shortcuts });
   console.log(`Shortcuts is set to`, shortcuts);
 };
 
-export const resetRedirections = async () => {
-  await storage.remove(STORAGE_KEYS.redirections);
+export const resetShortcuts = async () => {
+  await storage.remove(STORAGE_KEYS.shortcuts);
 };

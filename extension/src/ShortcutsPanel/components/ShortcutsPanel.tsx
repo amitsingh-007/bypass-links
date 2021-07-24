@@ -8,12 +8,12 @@ import { memo, useEffect, useState } from "react";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { syncRedirectionsToStorage } from "SrcPath/BackgroundScript/redirect";
+import { syncShortcutsToStorage } from "SrcPath/BackgroundScript/redirect";
 import { saveShortcuts } from "../apis";
 import { DEFAULT_RULE_ALIAS } from "../constants";
 import { Shortcut } from "../interfaces/shortcuts";
 import Header from "./Header";
-import RedirectionRule from "./RedirectionRule";
+import ShortcutRule from "./ShortcutRule";
 
 //Filter valid rules
 const getValidRules = (obj: Shortcut) =>
@@ -47,7 +47,7 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
       priority: index + 1,
     }));
     const isSaveSuccess = await saveShortcuts(mappedShortcuts);
-    await syncRedirectionsToStorage();
+    await syncShortcutsToStorage();
     if (isSaveSuccess) {
       setShortcuts(validRules);
       dispatch(
@@ -70,9 +70,9 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
   };
 
   const handleRemoveRule = (pos: number) => {
-    const newRedirections = [...shortcuts];
-    newRedirections.splice(pos, 1);
-    setShortcuts(newRedirections);
+    const newShortcuts = [...shortcuts];
+    newShortcuts.splice(pos, 1);
+    setShortcuts(newShortcuts);
   };
 
   const handleSaveRule = (shortcut: Shortcut, pos: number) => {
@@ -88,11 +88,11 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
     if (!source || !destination || destination.index === source.index) {
       return;
     }
-    const newRedirections = Array.from(shortcuts);
-    const draggedRedirection = shortcuts[source.index];
-    newRedirections.splice(source.index, 1);
-    newRedirections.splice(destination.index, 0, draggedRedirection);
-    setShortcuts(newRedirections);
+    const newShortcuts = Array.from(shortcuts);
+    const draggedShortcuts = shortcuts[source.index];
+    newShortcuts.splice(source.index, 1);
+    newShortcuts.splice(destination.index, 0, draggedShortcuts);
+    setShortcuts(newShortcuts);
   };
 
   return (
@@ -104,7 +104,7 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
           handleSave={handleSave}
           handleAddRule={handleAddRule}
         />
-        <Droppable droppableId="redirections-list">
+        <Droppable droppableId="shortcuts-list">
           {(provided) => (
             <form
               noValidate
@@ -118,7 +118,7 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
             >
               {!isFetching && shortcuts.length > 0
                 ? shortcuts.map(({ alias, url, isPinned }, index) => (
-                    <RedirectionRule
+                    <ShortcutRule
                       alias={alias}
                       url={url}
                       isPinned={isPinned}

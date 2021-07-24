@@ -22,10 +22,10 @@ export const getHostnames = async () => {
 };
 
 export const getShortcuts = async () => {
-  const { [STORAGE_KEYS.redirections]: redirections } = await storage.get(
-    STORAGE_KEYS.redirections
+  const { [STORAGE_KEYS.shortcuts]: shortcuts } = await storage.get(
+    STORAGE_KEYS.shortcuts
   );
-  return redirections as IShortcut[];
+  return shortcuts as IShortcut[];
 };
 
 export const getLastVisited = async (): Promise<LastVisited> => {

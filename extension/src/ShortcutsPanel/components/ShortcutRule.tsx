@@ -23,10 +23,10 @@ const inputProps = {
 type Props = Shortcut & {
   pos: number;
   handleRemoveRule: (pos: number) => void;
-  handleSaveRule: (redirection: Shortcut, pos: number) => void;
+  handleSaveRule: (shortcut: Shortcut, pos: number) => void;
 };
 
-const RedirectionRule = memo(function RedirectionRule({
+const ShortcutRule = memo(function ShortcutRule({
   alias,
   url,
   isPinned,
@@ -148,4 +148,4 @@ const RedirectionRule = memo(function RedirectionRule({
   );
 });
 
-export default RedirectionRule;
+export default ShortcutRule;

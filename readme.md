@@ -31,9 +31,9 @@ Head over to [Bypass Links Vercel Page](https://bypass-links.vercel.app) and dow
 
 - **Manipulate browser history**.
 
-- Set **custom redirections** for your websites in the Firebase Realtime Database.
+- Set **custom shortcuts/alias** for your urls for faster access.
 
-- A **fully customised shortcuts panel** to add/edit/delete/drag-n-drop custom redirection rules stored in **Firebase**.
+- A **fully customised shortcuts panel** with add/edit/delete/drag-n-drop custom shortcut rules functionality.
 
 - A **bookmarks panel** with **quick bookmark** feature.
 

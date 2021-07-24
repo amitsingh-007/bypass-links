@@ -12,8 +12,8 @@ import {
   syncLastVisitedToStorage,
 } from "SrcPath/HomePopup/utils/lastVisited";
 import {
-  resetRedirections,
-  syncRedirectionsToStorage,
+  resetShortcuts,
+  syncShortcutsToStorage,
 } from "SrcPath/BackgroundScript/redirect";
 import {
   cacheBookmarkFavicons,
@@ -78,7 +78,7 @@ const syncFirebaseToStorage = async () => {
     total: 5,
   });
   await Promise.all([
-    syncRedirectionsToStorage(),
+    syncShortcutsToStorage(),
     syncBypassToStorage(),
     syncBookmarksToStorage(),
     syncLastVisitedToStorage(),
@@ -120,7 +120,7 @@ const resetStorage = async () => {
   });
   await Promise.all([
     resetAuthentication(),
-    resetRedirections(),
+    resetShortcuts(),
     resetBypass(),
     resetBookmarks(),
     resetLastVisited(),

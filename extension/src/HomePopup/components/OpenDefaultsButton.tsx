@@ -19,10 +19,10 @@ const OpenDefaultsButton = memo(function OpenDefaultsButton() {
   const handleOpenDefaults = async () => {
     setIsFetching(true);
     dispatch(startHistoryMonitor());
-    const { [STORAGE_KEYS.redirections]: redirections } = await storage.get([
-      STORAGE_KEYS.redirections,
+    const { [STORAGE_KEYS.shortcuts]: shortcuts } = await storage.get([
+      STORAGE_KEYS.shortcuts,
     ]);
-    const defaults = redirections.filter(
+    const defaults = shortcuts.filter(
       ({ isDefault }: { isDefault: boolean }) => isDefault
     );
     defaults
