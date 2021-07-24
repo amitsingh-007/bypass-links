@@ -8,7 +8,7 @@ export const fetchUser2FA = async (
   const { data, error } = await supabase
     .from<definitions["auth"]>("auth")
     .select("is_2fa_enabled, totp_secret_key, totp_auth_url")
-    .match({ user_id: userId })
+    .match({ user_id: userId, is_prod: __PROD__ })
     .single();
   if (!data || error) {
     console.error(error);
@@ -33,6 +33,7 @@ export const createUser2FA = async (
         is_2fa_enabled: user2FAInfo.is2FAEnabled,
         totp_auth_url: user2FAInfo.otpAuthUrl,
         totp_secret_key: user2FAInfo.secretKey,
+        is_prod: __PROD__,
       },
     ]);
   if (!data || error) {
@@ -46,7 +47,7 @@ export const saveVerifiedUser = async (userId: string): Promise<boolean> => {
   const { data, error } = await supabase
     .from<definitions["auth"]>("auth")
     .update({ is_2fa_enabled: true })
-    .match({ user_id: userId });
+    .match({ user_id: userId, is_prod: __PROD__ });
   if (!data || error) {
     console.error(error);
     return false;
@@ -58,7 +59,7 @@ export const disableUser2FA = async (userId: string): Promise<boolean> => {
   const { data, error } = await supabase
     .from<definitions["auth"]>("auth")
     .update({ is_2fa_enabled: false })
-    .match({ user_id: userId });
+    .match({ user_id: userId, is_prod: __PROD__ });
   if (!data || error) {
     console.error(error);
     return false;

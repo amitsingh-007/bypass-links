@@ -20,7 +20,7 @@ export interface paths {
           totp_secret_key?: parameters["rowFilter.auth.totp_secret_key"];
           totp_auth_url?: parameters["rowFilter.auth.totp_auth_url"];
           user_id?: parameters["rowFilter.auth.user_id"];
-          id?: parameters["rowFilter.auth.id"];
+          is_prod?: parameters["rowFilter.auth.is_prod"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -75,7 +75,7 @@ export interface paths {
           totp_secret_key?: parameters["rowFilter.auth.totp_secret_key"];
           totp_auth_url?: parameters["rowFilter.auth.totp_auth_url"];
           user_id?: parameters["rowFilter.auth.user_id"];
-          id?: parameters["rowFilter.auth.id"];
+          is_prod?: parameters["rowFilter.auth.is_prod"];
         };
         header: {
           /** Preference */
@@ -94,7 +94,7 @@ export interface paths {
           totp_secret_key?: parameters["rowFilter.auth.totp_secret_key"];
           totp_auth_url?: parameters["rowFilter.auth.totp_auth_url"];
           user_id?: parameters["rowFilter.auth.user_id"];
-          id?: parameters["rowFilter.auth.id"];
+          is_prod?: parameters["rowFilter.auth.is_prod"];
         };
         body: {
           /** auth */
@@ -220,12 +220,16 @@ export interface definitions {
     is_2fa_enabled: boolean;
     totp_secret_key: string;
     totp_auth_url: string;
+    /**
+     * Note:
+     * This is a Primary Key.<pk/>
+     */
     user_id: string;
     /**
      * Note:
      * This is a Primary Key.<pk/>
      */
-    id: number;
+    is_prod: boolean;
   };
   shortcuts: {
     user_id: string;
@@ -272,7 +276,7 @@ export interface parameters {
   "rowFilter.auth.totp_secret_key": string;
   "rowFilter.auth.totp_auth_url": string;
   "rowFilter.auth.user_id": string;
-  "rowFilter.auth.id": string;
+  "rowFilter.auth.is_prod": string;
   /** shortcuts */
   "body.shortcuts": definitions["shortcuts"];
   "rowFilter.shortcuts.user_id": string;
