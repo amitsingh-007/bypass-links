@@ -9,7 +9,7 @@ export const STORAGE_KEYS = {
   bookmarks: FIREBASE_DB_REF.bookmarks,
   bypass: FIREBASE_DB_REF.bypass,
   shortcuts: "shortcuts",
-  lastVisited: FIREBASE_DB_REF.lastVisited,
+  lastVisited: "lastVisited",
   persons: FIREBASE_DB_REF.persons,
   personImageUrls: "personImageUrls",
   userProfile: "userProfile",

@@ -1,14 +1,18 @@
-import storage from "GlobalHelpers/chrome/storage";
-import { FIREBASE_DB_REF } from "@common/constants/firebase";
 import { STORAGE_KEYS } from "GlobalConstants";
-import { getFromFirebase } from "GlobalHelpers/firebase";
+import storage from "GlobalHelpers/chrome/storage";
+import { getLastVisited } from "../apis/lastVisited";
 import { LastVisited } from "../interfaces/lastVisited";
 
 export const syncLastVisitedToStorage = async () => {
-  const lastVisited = await getFromFirebase<LastVisited>(
-    FIREBASE_DB_REF.lastVisited
+  const lastVisited = await getLastVisited();
+  const mappedLastVisited = lastVisited.reduce<LastVisited>(
+    (obj, { hostname, visitedOn }) => {
+      obj[hostname] = new Date(visitedOn).getTime();
+      return obj;
+    },
+    {}
   );
-  await storage.set({ [STORAGE_KEYS.lastVisited]: lastVisited });
+  await storage.set({ [STORAGE_KEYS.lastVisited]: mappedLastVisited });
   console.log(`Last visited is set to`, lastVisited);
 };
 

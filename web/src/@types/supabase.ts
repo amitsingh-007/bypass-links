@@ -111,6 +111,102 @@ export interface paths {
       };
     };
   };
+  "/last_visited": {
+    get: {
+      parameters: {
+        query: {
+          user_id?: parameters["rowFilter.last_visited.user_id"];
+          is_prod?: parameters["rowFilter.last_visited.is_prod"];
+          hostname?: parameters["rowFilter.last_visited.hostname"];
+          visited_on?: parameters["rowFilter.last_visited.visited_on"];
+          /** Filtering Columns */
+          select?: parameters["select"];
+          /** Ordering */
+          order?: parameters["order"];
+          /** Limiting and Pagination */
+          offset?: parameters["offset"];
+          /** Limiting and Pagination */
+          limit?: parameters["limit"];
+        };
+        header: {
+          /** Limiting and Pagination */
+          Range?: parameters["range"];
+          /** Limiting and Pagination */
+          "Range-Unit"?: parameters["rangeUnit"];
+          /** Preference */
+          Prefer?: parameters["preferCount"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: {
+          schema: definitions["last_visited"][];
+        };
+        /** Partial Content */
+        206: unknown;
+      };
+    };
+    post: {
+      parameters: {
+        body: {
+          /** last_visited */
+          last_visited?: definitions["last_visited"];
+        };
+        query: {
+          /** Filtering Columns */
+          select?: parameters["select"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** Created */
+        201: unknown;
+      };
+    };
+    delete: {
+      parameters: {
+        query: {
+          user_id?: parameters["rowFilter.last_visited.user_id"];
+          is_prod?: parameters["rowFilter.last_visited.is_prod"];
+          hostname?: parameters["rowFilter.last_visited.hostname"];
+          visited_on?: parameters["rowFilter.last_visited.visited_on"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+    patch: {
+      parameters: {
+        query: {
+          user_id?: parameters["rowFilter.last_visited.user_id"];
+          is_prod?: parameters["rowFilter.last_visited.is_prod"];
+          hostname?: parameters["rowFilter.last_visited.hostname"];
+          visited_on?: parameters["rowFilter.last_visited.visited_on"];
+        };
+        body: {
+          /** last_visited */
+          last_visited?: definitions["last_visited"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+  };
   "/shortcuts": {
     get: {
       parameters: {
@@ -231,7 +327,29 @@ export interface definitions {
      */
     is_prod: boolean;
   };
+  last_visited: {
+    /**
+     * Note:
+     * This is a Primary Key.<pk/>
+     */
+    user_id: string;
+    /**
+     * Note:
+     * This is a Primary Key.<pk/>
+     */
+    is_prod: boolean;
+    /**
+     * Note:
+     * This is a Primary Key.<pk/>
+     */
+    hostname: string;
+    visited_on: string;
+  };
   shortcuts: {
+    /**
+     * Note:
+     * This is a Primary Key.<pk/>
+     */
     user_id: string;
     /**
      * Note:
@@ -277,6 +395,12 @@ export interface parameters {
   "rowFilter.auth.totp_auth_url": string;
   "rowFilter.auth.user_id": string;
   "rowFilter.auth.is_prod": string;
+  /** last_visited */
+  "body.last_visited": definitions["last_visited"];
+  "rowFilter.last_visited.user_id": string;
+  "rowFilter.last_visited.is_prod": string;
+  "rowFilter.last_visited.hostname": string;
+  "rowFilter.last_visited.visited_on": string;
   /** shortcuts */
   "body.shortcuts": definitions["shortcuts"];
   "rowFilter.shortcuts.user_id": string;
