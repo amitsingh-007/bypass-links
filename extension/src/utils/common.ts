@@ -1,6 +1,6 @@
 import storage from "GlobalHelpers/chrome/storage";
 import { BYPASS_KEYS, EXTENSION_STATE } from "GlobalConstants";
-import { getHostnames } from "GlobalHelpers/fetchFromStorage";
+import { getHostnames, getUserProfile } from "GlobalHelpers/fetchFromStorage";
 
 export const isExtensionActive = (extState: EXTENSION_STATE) =>
   extState === EXTENSION_STATE.ACTIVE;
@@ -20,3 +20,8 @@ export const matchHostnames = async (
   hostname: string,
   bypassKey: BYPASS_KEYS
 ) => (await getHostnameAlias(hostname)) === bypassKey;
+
+export const getUserId = async () => {
+  const userProfile = await getUserProfile();
+  return userProfile.uid;
+};

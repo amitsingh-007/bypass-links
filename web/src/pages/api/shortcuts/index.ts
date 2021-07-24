@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import withAuth from "src/middlewares/withAuth";
 import { getShortcuts, saveShortcuts } from "@database/shortcuts";
-import { IShortcuts } from "@common/interfaces/shortcuts";
+import { IShortcut } from "@common/interfaces/shortcuts";
 
 /**
  * API to get shortcuts for a user
@@ -11,7 +11,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
   if (req.method === "GET") {
     res.json({ shortcuts: await getShortcuts(uid) });
   } else if (req.method === "POST") {
-    const { shortcuts }: { shortcuts: IShortcuts[] | null } = JSON.parse(
+    const { shortcuts }: { shortcuts: IShortcut[] | null } = JSON.parse(
       req.body
     );
     res.json({

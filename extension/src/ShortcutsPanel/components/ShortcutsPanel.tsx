@@ -1,41 +1,36 @@
+import { IShortcut } from "@common/interfaces/shortcuts";
 import { Box } from "@material-ui/core";
 import { displayToast } from "GlobalActionCreators/toast";
 import { ROUTES } from "GlobalConstants/routes";
 import { PANEL_DIMENSIONS } from "GlobalConstants/styles";
-import { saveDataToFirebase } from "GlobalHelpers/firebase";
-import { syncRedirectionsToStorage } from "SrcPath/BackgroundScript/redirect";
+import { getShortcuts } from "GlobalHelpers/fetchFromStorage";
 import { memo, useEffect, useState } from "react";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { getRedirections } from "GlobalHelpers/fetchFromStorage";
-import { FIREBASE_DB_REF } from "@common/constants/firebase";
+import { syncRedirectionsToStorage } from "SrcPath/BackgroundScript/redirect";
+import { saveShortcuts } from "../apis";
 import { DEFAULT_RULE_ALIAS } from "../constants";
+import { Shortcut } from "../interfaces/shortcuts";
 import Header from "./Header";
 import RedirectionRule from "./RedirectionRule";
-import { IRedirection } from "SrcPath/BackgroundScript/interfaces/redirections";
 
 //Filter valid rules
-const getValidRules = (obj: IRedirection) =>
-  Boolean(obj && obj.alias && obj.alias !== DEFAULT_RULE_ALIAS && obj.website);
+const getValidRules = (obj: Shortcut) =>
+  Boolean(obj && obj.alias && obj.alias !== DEFAULT_RULE_ALIAS && obj.url);
 
 const ShortcutsPanel = memo(function ShortcutsPanel() {
   const history = useHistory();
   const dispatch = useDispatch();
-  const [redirections, setRedirections] = useState<IRedirection[]>([]);
+  const [shortcuts, setShortcuts] = useState<Shortcut[]>([]);
   const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
-    getRedirections().then((redirections) => {
-      const modifiedRedirections = Object.entries(redirections).map(
-        ([_key, { alias, website, isDefault }]) =>
-          ({
-            alias: atob(alias),
-            website: atob(website),
-            isDefault,
-          } as IRedirection)
-      );
-      setRedirections(modifiedRedirections);
+    getShortcuts().then((shortcuts) => {
+      const sortedShortcuts = shortcuts
+        .sort((a, b) => a.priority - b.priority)
+        .map<Shortcut>(({ priority, ...shortcut }) => shortcut);
+      setShortcuts(sortedShortcuts);
       setIsFetching(false);
     });
   }, []);
@@ -46,26 +41,15 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
 
   const handleSave = async () => {
     setIsFetching(true);
-    const validRules = redirections.filter(getValidRules);
-    console.log("Saving these redirection rules to Firebase", validRules);
-    const shortcutsObj = validRules.reduce<Record<number, IRedirection>>(
-      (obj, { alias, website, isDefault }, index) => {
-        obj[index++] = {
-          alias: btoa(alias),
-          website: btoa(website),
-          isDefault,
-        };
-        return obj;
-      },
-      {}
-    );
-    const isSaveSuccess = await saveDataToFirebase(
-      shortcutsObj,
-      FIREBASE_DB_REF.redirections,
-      syncRedirectionsToStorage
-    );
+    const validRules = shortcuts.filter(getValidRules);
+    const mappedShortcuts = validRules.map<IShortcut>((x, index) => ({
+      ...x,
+      priority: index + 1,
+    }));
+    const isSaveSuccess = await saveShortcuts(mappedShortcuts);
+    await syncRedirectionsToStorage();
     if (isSaveSuccess) {
-      setRedirections(validRules);
+      setShortcuts(validRules);
       dispatch(
         displayToast({
           message: "Saved succesfully",
@@ -77,23 +61,23 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
   };
 
   const handleAddRule = () => {
-    redirections.unshift({
+    shortcuts.unshift({
       alias: DEFAULT_RULE_ALIAS,
-      website: "",
-      isDefault: false,
+      url: "",
+      isPinned: false,
     });
-    setRedirections([...redirections]);
+    setShortcuts([...shortcuts]);
   };
 
   const handleRemoveRule = (pos: number) => {
-    const newRedirections = [...redirections];
+    const newRedirections = [...shortcuts];
     newRedirections.splice(pos, 1);
-    setRedirections(newRedirections);
+    setShortcuts(newRedirections);
   };
 
-  const handleSaveRule = (redirection: IRedirection, pos: number) => {
-    redirections[pos] = redirection;
-    setRedirections([...redirections]);
+  const handleSaveRule = (shortcut: Shortcut, pos: number) => {
+    shortcuts[pos] = shortcut;
+    setShortcuts([...shortcuts]);
   };
 
   /*
@@ -104,11 +88,11 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
     if (!source || !destination || destination.index === source.index) {
       return;
     }
-    const newRedirections = Array.from(redirections);
-    const draggedRedirection = redirections[source.index];
+    const newRedirections = Array.from(shortcuts);
+    const draggedRedirection = shortcuts[source.index];
     newRedirections.splice(source.index, 1);
     newRedirections.splice(destination.index, 0, draggedRedirection);
-    setRedirections(newRedirections);
+    setShortcuts(newRedirections);
   };
 
   return (
@@ -132,13 +116,13 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
               ref={provided.innerRef}
               {...provided.droppableProps}
             >
-              {!isFetching && redirections.length > 0
-                ? redirections.map(({ alias, website, isDefault }, index) => (
+              {!isFetching && shortcuts.length > 0
+                ? shortcuts.map(({ alias, url, isPinned }, index) => (
                     <RedirectionRule
                       alias={alias}
-                      website={website}
-                      isDefault={isDefault}
-                      key={`${alias}_${website}`}
+                      url={url}
+                      isPinned={isPinned}
+                      key={`${alias}_${url}`}
                       pos={index}
                       handleRemoveRule={handleRemoveRule}
                       handleSaveRule={handleSaveRule}

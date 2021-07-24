@@ -3,15 +3,15 @@ import DeleteTwoToneIcon from "@material-ui/icons/DeleteTwoTone";
 import DoneAllTwoToneIcon from "@material-ui/icons/DoneAllTwoTone";
 import DragHandleTwoToneIcon from "@material-ui/icons/DragHandleTwoTone";
 import OpenInNewTwoToneIcon from "@material-ui/icons/OpenInNewTwoTone";
-import tabs from "GlobalHelpers/chrome/tabs";
 import { COLOR } from "GlobalConstants/color";
+import tabs from "GlobalHelpers/chrome/tabs";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import { memo, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
 import { startHistoryMonitor } from "SrcPath/HistoryPanel/actionCreators";
 import { DEFAULT_RULE_ALIAS } from "../constants";
-import { IRedirection } from "SrcPath/BackgroundScript/interfaces/redirections";
+import { Shortcut } from "../interfaces/shortcuts";
 
 const inputProps = {
   style: {
@@ -20,36 +20,36 @@ const inputProps = {
   },
 };
 
-type Props = IRedirection & {
+type Props = Shortcut & {
   pos: number;
   handleRemoveRule: (pos: number) => void;
-  handleSaveRule: (redirection: IRedirection, pos: number) => void;
+  handleSaveRule: (redirection: Shortcut, pos: number) => void;
 };
 
 const RedirectionRule = memo(function RedirectionRule({
   alias,
-  website,
-  isDefault,
+  url,
+  isPinned,
   pos,
   handleRemoveRule,
   handleSaveRule,
 }: Props) {
   const dispatch = useDispatch();
   const [ruleAlias, setRuleAlias] = useState(alias);
-  const [ruleWebsite, setRuleWebsite] = useState(website);
-  const [isDefaultRule, setIsDefaultRule] = useState(isDefault);
+  const [ruleUrl, setRuleUrl] = useState(url);
+  const [isPinnedRule, setIsPinnedRule] = useState(isPinned);
 
-  const onWebsiteAliasInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onUrlAliasInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRuleAlias(event.target.value.trim());
   };
-  const onWebsiteInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRuleWebsite(event.target.value.trim());
+  const onUrlInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRuleUrl(event.target.value.trim());
   };
 
-  const handleDefaultRuleChange = (
+  const handlePinnedStateChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setIsDefaultRule(event.target.checked);
+    setIsPinnedRule(event.target.checked);
   };
   const handleRemoveClick = () => {
     handleRemoveRule(pos);
@@ -58,25 +58,23 @@ const RedirectionRule = memo(function RedirectionRule({
     handleSaveRule(
       {
         alias: ruleAlias,
-        website: ruleWebsite,
-        isDefault: isDefaultRule,
+        url: ruleUrl,
+        isPinned: isPinnedRule,
       },
       pos
     );
   };
   const handleLinkOpen = () => {
     dispatch(startHistoryMonitor());
-    tabs.create({ url: ruleWebsite, selected: false });
+    tabs.create({ url: ruleUrl, selected: false });
   };
 
   const issameRule =
-    alias === ruleAlias &&
-    website === ruleWebsite &&
-    isDefault === isDefaultRule;
+    alias === ruleAlias && url === ruleUrl && isPinned === isPinnedRule;
   const isRuleSaveActive = issameRule || ruleAlias === DEFAULT_RULE_ALIAS;
 
   return (
-    <Draggable draggableId={`${alias}_${website}`} index={pos}>
+    <Draggable draggableId={`${alias}_${url}`} index={pos}>
       {(provided) => (
         <Box
           {...provided.draggableProps}
@@ -93,14 +91,14 @@ const RedirectionRule = memo(function RedirectionRule({
             <DragHandleTwoToneIcon />
           </IconButton>
           <Checkbox
-            checked={isDefaultRule}
-            onChange={handleDefaultRuleChange}
+            checked={isPinnedRule}
+            onChange={handlePinnedStateChange}
             style={COLOR.pink}
           />
           <TextField
             id={alias}
             value={ruleAlias}
-            onChange={onWebsiteAliasInput}
+            onChange={onUrlAliasInput}
             size="small"
             placeholder="Enter Alias"
             sx={{ marginRight: "8px" }}
@@ -108,20 +106,20 @@ const RedirectionRule = memo(function RedirectionRule({
             autoFocus={ruleAlias === DEFAULT_RULE_ALIAS}
           />
           <TextField
-            id={ruleWebsite}
-            value={ruleWebsite}
-            onChange={onWebsiteInput}
+            id={ruleUrl}
+            value={ruleUrl}
+            onChange={onUrlInput}
             fullWidth
             size="small"
-            placeholder="Enter Website"
+            placeholder="Enter Url"
             inputProps={inputProps}
           />
           <IconButton
             aria-label="Open"
             title="Open"
-            style={getActiveDisabledColor(!!ruleWebsite, COLOR.deepPurple)}
+            style={getActiveDisabledColor(!!ruleUrl, COLOR.deepPurple)}
             edge="end"
-            disabled={!ruleWebsite}
+            disabled={!ruleUrl}
             onClick={handleLinkOpen}
           >
             <OpenInNewTwoToneIcon />

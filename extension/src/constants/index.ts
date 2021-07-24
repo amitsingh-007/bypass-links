@@ -11,7 +11,6 @@ export const STORAGE_KEYS = {
   redirections: FIREBASE_DB_REF.redirections,
   lastVisited: FIREBASE_DB_REF.lastVisited,
   persons: FIREBASE_DB_REF.persons,
-  mappedRedirections: "mappedRedirections",
   personImageUrls: "personImageUrls",
   userProfile: "userProfile",
 };

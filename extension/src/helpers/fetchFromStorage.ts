@@ -1,16 +1,13 @@
-import storage from "GlobalHelpers/chrome/storage";
+import { IShortcut } from "@common/interfaces/shortcuts";
 import { BYPASS_KEYS, EXTENSION_STATE, STORAGE_KEYS } from "GlobalConstants";
+import storage from "GlobalHelpers/chrome/storage";
 import { IBookmarksObj } from "SrcPath/BookmarksPanel/interfaces";
 import { UserInfo } from "SrcPath/HomePopup/interfaces/authentication";
 import { LastVisited } from "SrcPath/HomePopup/interfaces/lastVisited";
 import {
-  PersonImageUrls,
   IPersons,
+  PersonImageUrls,
 } from "SrcPath/PersonsPanel/interfaces/persons";
-import {
-  IMappedRedirections,
-  IRedirection,
-} from "SrcPath/BackgroundScript/interfaces/redirections";
 
 export const getExtensionState = async () => {
   const { extState } = await storage.get("extState");
@@ -24,18 +21,11 @@ export const getHostnames = async () => {
   return (bypass || {}) as Record<string, BYPASS_KEYS>;
 };
 
-export const getRedirections = async () => {
+export const getShortcuts = async () => {
   const { [STORAGE_KEYS.redirections]: redirections } = await storage.get(
     STORAGE_KEYS.redirections
   );
-  return redirections as IRedirection[];
-};
-
-export const getMappedRedirections = async () => {
-  const { mappedRedirections } = await storage.get([
-    STORAGE_KEYS.mappedRedirections,
-  ]);
-  return (mappedRedirections || {}) as IMappedRedirections;
+  return redirections as IShortcut[];
 };
 
 export const getLastVisited = async (): Promise<LastVisited> => {

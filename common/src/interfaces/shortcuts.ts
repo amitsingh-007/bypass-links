@@ -1,4 +1,4 @@
-export interface IShortcuts {
+export interface IShortcut {
   alias: string;
   url: string;
   isPinned: boolean;

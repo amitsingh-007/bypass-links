@@ -1,10 +1,10 @@
 import supabase from "@helpers/supabase";
-import { IShortcuts } from "@common/interfaces/shortcuts";
+import { IShortcut } from "@common/interfaces/shortcuts";
 import { definitions } from "../@types/supabase";
 
 export const getShortcuts = async (
   userId: string
-): Promise<IShortcuts[] | null> => {
+): Promise<IShortcut[] | null> => {
   const { data, error } = await supabase
     .from<definitions["shortcuts"]>("shortcuts")
     .select("is_pinned, alias, url, priority")
@@ -21,10 +21,7 @@ export const getShortcuts = async (
   }));
 };
 
-export const saveShortcuts = async (
-  userId: string,
-  shortcuts: IShortcuts[]
-) => {
+export const saveShortcuts = async (userId: string, shortcuts: IShortcut[]) => {
   const mappedShorcuts = shortcuts.map((x) => ({
     user_id: userId,
     alias: x.alias,
