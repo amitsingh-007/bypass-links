@@ -7,7 +7,7 @@ export enum EXTENSION_STATE {
 
 export const STORAGE_KEYS = {
   bookmarks: FIREBASE_DB_REF.bookmarks,
-  bypass: FIREBASE_DB_REF.bypass,
+  bypass: "bypass",
   shortcuts: "shortcuts",
   lastVisited: "lastVisited",
   persons: FIREBASE_DB_REF.persons,

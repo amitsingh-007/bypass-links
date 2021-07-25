@@ -2,7 +2,6 @@ import { BYPASS_KEYS } from "GlobalConstants";
 import scripting from "GlobalHelpers/chrome/scripting";
 import tabs from "GlobalHelpers/chrome/tabs";
 import { getHostnameAlias } from "GlobalUtils/common";
-import { IBypass } from "../interfaces/bypass";
 import { bypassBonsai } from "./bypassBonsai";
 import { bypassBonsaiLink } from "./bypassBonsaiLink";
 import { bypassForums } from "./bypassForums";
@@ -24,13 +23,6 @@ export const bypassSingleLinkOnPage = async (
     tabs.update(tabId, { url: targetUrl });
   }
 };
-
-export const getDecodedBypass = (bypass: IBypass) =>
-  bypass &&
-  Object.entries(bypass).reduce<IBypass>((obj, [key, value]) => {
-    obj[decodeURIComponent(atob(key))] = value;
-    return obj;
-  }, {});
 
 const bypassAndHostnameMapping = {
   [BYPASS_KEYS.LINKVERTISE]: bypassLinkvertise,

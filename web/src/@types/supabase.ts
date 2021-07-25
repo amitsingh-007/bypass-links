@@ -111,6 +111,102 @@ export interface paths {
       };
     };
   };
+  "/bypass_sites": {
+    get: {
+      parameters: {
+        query: {
+          user_id?: parameters["rowFilter.bypass_sites.user_id"];
+          is_prod?: parameters["rowFilter.bypass_sites.is_prod"];
+          hostname?: parameters["rowFilter.bypass_sites.hostname"];
+          name?: parameters["rowFilter.bypass_sites.name"];
+          /** Filtering Columns */
+          select?: parameters["select"];
+          /** Ordering */
+          order?: parameters["order"];
+          /** Limiting and Pagination */
+          offset?: parameters["offset"];
+          /** Limiting and Pagination */
+          limit?: parameters["limit"];
+        };
+        header: {
+          /** Limiting and Pagination */
+          Range?: parameters["range"];
+          /** Limiting and Pagination */
+          "Range-Unit"?: parameters["rangeUnit"];
+          /** Preference */
+          Prefer?: parameters["preferCount"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: {
+          schema: definitions["bypass_sites"][];
+        };
+        /** Partial Content */
+        206: unknown;
+      };
+    };
+    post: {
+      parameters: {
+        body: {
+          /** bypass_sites */
+          bypass_sites?: definitions["bypass_sites"];
+        };
+        query: {
+          /** Filtering Columns */
+          select?: parameters["select"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** Created */
+        201: unknown;
+      };
+    };
+    delete: {
+      parameters: {
+        query: {
+          user_id?: parameters["rowFilter.bypass_sites.user_id"];
+          is_prod?: parameters["rowFilter.bypass_sites.is_prod"];
+          hostname?: parameters["rowFilter.bypass_sites.hostname"];
+          name?: parameters["rowFilter.bypass_sites.name"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+    patch: {
+      parameters: {
+        query: {
+          user_id?: parameters["rowFilter.bypass_sites.user_id"];
+          is_prod?: parameters["rowFilter.bypass_sites.is_prod"];
+          hostname?: parameters["rowFilter.bypass_sites.hostname"];
+          name?: parameters["rowFilter.bypass_sites.name"];
+        };
+        body: {
+          /** bypass_sites */
+          bypass_sites?: definitions["bypass_sites"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+  };
   "/last_visited": {
     get: {
       parameters: {
@@ -327,6 +423,24 @@ export interface definitions {
      */
     is_prod: boolean;
   };
+  bypass_sites: {
+    /**
+     * Note:
+     * This is a Primary Key.<pk/>
+     */
+    user_id: string;
+    /**
+     * Note:
+     * This is a Primary Key.<pk/>
+     */
+    is_prod: boolean;
+    hostname: string;
+    /**
+     * Note:
+     * This is a Primary Key.<pk/>
+     */
+    name: string;
+  };
   last_visited: {
     /**
      * Note:
@@ -395,6 +509,12 @@ export interface parameters {
   "rowFilter.auth.totp_auth_url": string;
   "rowFilter.auth.user_id": string;
   "rowFilter.auth.is_prod": string;
+  /** bypass_sites */
+  "body.bypass_sites": definitions["bypass_sites"];
+  "rowFilter.bypass_sites.user_id": string;
+  "rowFilter.bypass_sites.is_prod": string;
+  "rowFilter.bypass_sites.hostname": string;
+  "rowFilter.bypass_sites.name": string;
   /** last_visited */
   "body.last_visited": definitions["last_visited"];
   "rowFilter.last_visited.user_id": string;
