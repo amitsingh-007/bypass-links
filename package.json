@@ -28,7 +28,7 @@
     "eslint-plugin-prettier": "3.4.0",
     "husky": "7.0.1",
     "lerna": "4.0.0",
-    "netlify-cli": "4.0.5",
+    "netlify-cli": "5.2.6",
     "prettier": "2.3.2",
     "pretty-quick": "3.1.1"
   }
