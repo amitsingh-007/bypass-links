@@ -4,7 +4,7 @@ import { getShortcuts, saveShortcuts } from "@database/shortcuts";
 import { IShortcut } from "@common/interfaces/shortcuts";
 
 /**
- * API to get shortcuts for a user
+ * API to get and save shortcuts for a user
  */
 const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
   const uid = req.query.uid as string;

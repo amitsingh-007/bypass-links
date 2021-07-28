@@ -2,18 +2,21 @@
   "root": true,
   "extends": [
     "eslint:recommended",
+    "plugin:jest/recommended",
     "plugin:prettier/recommended",
     "next",
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended"
   ],
+  "plugins": ["jest"],
   "env": {
     "es6": true,
     "node": true,
     "commonjs": true,
     "browser": true,
     "webextensions": true,
-    "serviceworker": true
+    "serviceworker": true,
+    "jest/globals": true
   },
   "parserOptions": {
     "ecmaVersion": 11

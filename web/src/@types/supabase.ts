@@ -903,6 +903,26 @@ export interface paths {
       };
     };
   };
+  "/rpc/get_persons": {
+    post: {
+      parameters: {
+        body: {
+          args: {
+            is_prod: boolean;
+            user_id: string;
+          };
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferParams"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: unknown;
+      };
+    };
+  };
 }
 
 export interface definitions {

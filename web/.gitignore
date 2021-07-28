@@ -9,4 +9,7 @@ public/sw.js
 
 .eslintcache
 
+#jest
+coverage
+
 migration

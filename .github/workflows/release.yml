@@ -55,6 +55,26 @@ jobs:
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
           github-comment: false
 
+  Jest:
+    needs: [Build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cache 💾
+        uses: actions/cache@v2.1.6
+        with:
+          path: |
+            ~/.npm
+            **/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Run Unit Tests 🧪
+        run: npm run test
+
   Cypress:
     needs: [Build]
     timeout-minutes: 10
@@ -93,7 +113,7 @@ jobs:
 
   Create_Release:
     runs-on: ubuntu-latest
-    needs: [Cypress]
+    needs: [Cypress, Jest]
     steps:
       - name: Checkout repo 🛎️
         uses: actions/checkout@v2

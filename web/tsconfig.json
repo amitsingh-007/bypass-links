@@ -27,6 +27,6 @@
       "@ui/*": ["src/ui/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "migration"],
   "exclude": ["node_modules", ".next"]
 }

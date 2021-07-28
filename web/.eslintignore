@@ -4,3 +4,4 @@ node_modules/
 next.config.js
 public/sw.js
 src/@types/supabase.ts
+jest.config.js
