@@ -1,35 +1,30 @@
-import { FIREBASE_DB_REF } from "@common/constants/firebase";
-import storage from "GlobalHelpers/chrome/storage";
-import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
+import { IPerson } from "@common/interfaces/person";
 import { STORAGE_KEYS } from "GlobalConstants";
+import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
+import storage from "GlobalHelpers/chrome/storage";
+import { getPersonImageUrls, getPersons } from "GlobalHelpers/fetchFromStorage";
+import { getImageFromFirebase } from "GlobalHelpers/firebase";
 import { addToCache, getCacheObj } from "GlobalUtils/cache";
-import {
-  getFromFirebase,
-  getImageFromFirebase,
-  saveDataToFirebase,
-} from "GlobalHelpers/firebase";
 import { dispatchAuthenticationEvent } from "SrcPath/HomePopup/utils/authentication";
-import { getAllDecodedPersons } from ".";
-import { IPerson, PersonImageUrls } from "../interfaces/persons";
-import { getPersons, getPersonImageUrls } from "GlobalHelpers/fetchFromStorage";
+import { fetchPersons, savePersons } from "../apis";
+import { PersonImageUrls } from "../interfaces/persons";
 
 export const syncPersonsToStorage = async () => {
-  const persons = await getFromFirebase<IPerson>(FIREBASE_DB_REF.persons);
+  const persons = await fetchPersons();
   await storage.set({ [STORAGE_KEYS.persons]: persons });
   console.log("Persons is set to", persons);
 };
 
-export const syncPersonsFirebaseWithStorage = async () => {
-  const { hasPendingPersons } = await storage.get("hasPendingPersons");
-  const persons = await getPersons();
+export const syncPersonsToCloud = async () => {
+  const { hasPendingPersons } = await storage.get(
+    STORAGE_KEYS.hasPendingPersons
+  );
   if (!hasPendingPersons) {
     return;
   }
-  console.log("Syncing persons from storage to firebase", persons);
-  const isSaveSuccess = await saveDataToFirebase(
-    persons,
-    FIREBASE_DB_REF.persons
-  );
+  const persons = await getPersons();
+  console.log("Syncing persons from storage to cloud", persons);
+  const isSaveSuccess = await savePersons(persons);
   if (isSaveSuccess) {
     await storage.remove("hasPendingPersons");
   } else {
@@ -38,18 +33,15 @@ export const syncPersonsFirebaseWithStorage = async () => {
 };
 
 export const resetPersons = async () => {
-  await storage.remove([STORAGE_KEYS.persons, "hasPendingPersons"]);
+  await storage.remove([STORAGE_KEYS.persons, STORAGE_KEYS.hasPendingPersons]);
 };
 
 const resolveImageFromPerson = async ({
-  uid,
-  imageRef,
-}: {
-  uid: string;
-  imageRef: string;
-}) => ({
-  uid,
-  imageUrl: await getImageFromFirebase(imageRef),
+  id,
+  imagePath,
+}: Pick<IPerson, "id" | "imagePath">) => ({
+  id,
+  imageUrl: await getImageFromFirebase(imagePath),
 });
 
 export const cachePersonImageUrlsInStorage = async () => {
@@ -60,13 +52,13 @@ export const cachePersonImageUrlsInStorage = async () => {
     total: 5,
   });
   await refreshPersonImageUrlsCache();
-  const persons = await getAllDecodedPersons();
+  const persons = await getPersons();
   const personImagesList = await Promise.all(
     persons.map(resolveImageFromPerson)
   );
   const personImageUrls = personImagesList.reduce<PersonImageUrls>(
-    (obj, { uid, imageUrl }) => {
-      obj[uid] = imageUrl;
+    (obj, { id, imageUrl }) => {
+      obj[id] = imageUrl;
       return obj;
     },
     {}
@@ -100,8 +92,8 @@ export const cachePersonImages = async () => {
 export const updatePersonCacheAndImageUrls = async (person: IPerson) => {
   //Update person image urls in storage
   const personImageUrls = await getPersonImageUrls();
-  const { uid, imageUrl } = await resolveImageFromPerson(person);
-  personImageUrls[uid] = imageUrl;
+  const { id, imageUrl } = await resolveImageFromPerson(person);
+  personImageUrls[id] = imageUrl;
   await storage.set({ [STORAGE_KEYS.personImageUrls]: personImageUrls });
   //Update person image cache
   await addToCache(CACHE_BUCKET_KEYS.person, imageUrl);

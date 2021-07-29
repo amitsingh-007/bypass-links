@@ -2,9 +2,9 @@
 
 ```js
 persons : {
-    uid,
+    id,
     name,
-    imageRef,
-    taggedUrls : [urlHash1, urlHash2, ...]
+    imagePath,
+    taggedUrls : [urlHash1, urlHash2, ...] | null
 }
 ```

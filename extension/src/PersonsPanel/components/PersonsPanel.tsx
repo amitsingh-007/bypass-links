@@ -1,3 +1,4 @@
+import { IPerson } from "@common/interfaces/person";
 import { Box } from "@material-ui/core";
 import { displayToast } from "GlobalActionCreators/toast";
 import { PANEL_DIMENSIONS } from "GlobalConstants/styles";
@@ -6,8 +7,6 @@ import { removeImageFromFirebase } from "GlobalHelpers/firebase";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { SORT_ORDER, SORT_TYPE } from "../constants/sort";
-import { IPerson, IPersons } from "../interfaces/persons";
-import { decryptionMapper } from "../mapper";
 import { getPersonPos, setPersonsInStorage } from "../utils";
 import { sortAlphabetically, sortByBookmarksCount } from "../utils/sort";
 import { updatePersonCacheAndImageUrls } from "../utils/sync";
@@ -21,28 +20,13 @@ const PersonsPanel = () => {
 
   useEffect(() => {
     getPersons().then((persons) => {
-      const decryptedPersons = Object.entries(persons || {}).map(
-        decryptionMapper
-      );
-      setPersons(sortAlphabetically(SORT_ORDER.asc, decryptedPersons));
+      setPersons(sortAlphabetically(SORT_ORDER.asc, persons));
       setIsFetching(false);
     });
   }, []);
 
   const handleSave = async (persons: IPerson[]) => {
-    const encryptedPersons = persons.reduce<IPersons>(
-      (obj, { uid, name, imageRef, taggedUrls }) => {
-        obj[uid] = {
-          uid,
-          name: btoa(name),
-          imageRef: btoa(encodeURIComponent(imageRef)),
-          taggedUrls,
-        };
-        return obj;
-      },
-      {}
-    );
-    await setPersonsInStorage(encryptedPersons);
+    await setPersonsInStorage(persons);
   };
 
   const handleAddOrEditPerson = async (person: IPerson) => {
@@ -68,7 +52,7 @@ const PersonsPanel = () => {
 
   const handlePersonDelete = async (person: IPerson) => {
     const pos = getPersonPos(persons, person);
-    if (persons[pos].taggedUrls?.length > 0) {
+    if (persons[pos].taggedUrls?.length) {
       console.error("Cant delete a person with tagged urls");
       return;
     }
@@ -76,7 +60,7 @@ const PersonsPanel = () => {
     const newPersons = [...persons];
     newPersons.splice(pos, 1);
     setPersons(newPersons);
-    await removeImageFromFirebase(person.imageRef);
+    await removeImageFromFirebase(person.imagePath);
     await handleSave(newPersons);
     setIsFetching(false);
     dispatch(displayToast({ message: "Person deleted succesfully" }));

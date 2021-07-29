@@ -5,9 +5,9 @@ import { VoidFunction } from "GlobalInterfaces/custom";
 import { getImageFromFirebase } from "GlobalHelpers/firebase";
 import md5 from "md5";
 import { memo, useEffect, useState } from "react";
-import { IPerson } from "../interfaces/persons";
-import { resolvePersonImageFromUid } from "../utils";
+import { resolveImageFromPersonId } from "../utils";
 import ImagePicker from "./ImagePicker";
+import { IPerson } from "@common/interfaces/person";
 
 const imageStyles = { width: 200, height: 200 };
 
@@ -24,28 +24,28 @@ const AddOrEditPersonDialog = memo<Props>(function AddOrEditPersonDialog({
   onClose,
   handleSaveClick,
 }) {
-  const [uid, setUid] = useState(person?.uid);
+  const [personId, setPersonId] = useState(person?.id);
   const [name, setName] = useState(person?.name ?? "");
-  const [imageRef, setImageRef] = useState(person?.imageRef);
-  const [imageUrl, setImageUrl] = useState("");
+  const [imagePath, setImagePath] = useState(person?.imagePath);
+  const [fullImageUrl, setFullImageUrl] = useState("");
   const [showImagePicker, setShowImagePicker] = useState(false);
 
-  const initImageUrl = async (uid: string) => {
-    const imageUrl = await resolvePersonImageFromUid(uid);
-    setImageUrl(imageUrl);
+  const initImageUrl = async (id: string) => {
+    const imageUrl = await resolveImageFromPersonId(id);
+    setFullImageUrl(imageUrl);
   };
 
   useEffect(() => {
     if (person) {
-      initImageUrl(person.uid);
+      initImageUrl(person.id);
     } else {
-      setUid(md5(Date.now().toString()));
+      setPersonId(md5(Date.now().toString()));
     }
   }, [person]);
 
   const fetchImage = async (ref: string) => {
     const url = await getImageFromFirebase(ref);
-    setImageUrl(url);
+    setFullImageUrl(url);
   };
 
   const handleNameChange: React.ChangeEventHandler<HTMLTextAreaElement> = (
@@ -56,7 +56,7 @@ const AddOrEditPersonDialog = memo<Props>(function AddOrEditPersonDialog({
 
   const handleImageCropSave = async (imageFirebaseRef: string) => {
     await fetchImage(imageFirebaseRef);
-    setImageRef(imageFirebaseRef);
+    setImagePath(imageFirebaseRef);
   };
 
   const toggleImagePicker = () => {
@@ -64,16 +64,16 @@ const AddOrEditPersonDialog = memo<Props>(function AddOrEditPersonDialog({
   };
 
   const handlePersonSave = () => {
-    if (!uid || !imageRef) return;
+    if (!personId || !imagePath) return;
     handleSaveClick({
-      uid,
+      id: personId,
       name,
-      imageRef,
+      imagePath,
       taggedUrls: person?.taggedUrls || [],
     });
   };
 
-  const isSaveActive = Boolean(name && imageUrl);
+  const isSaveActive = Boolean(name && fullImageUrl);
 
   return (
     <>
@@ -93,11 +93,11 @@ const AddOrEditPersonDialog = memo<Props>(function AddOrEditPersonDialog({
         >
           <Box onClick={toggleImagePicker} sx={{ cursor: "pointer" }}>
             <Avatar
-              alt={imageUrl || "No Image"}
-              src={imageUrl}
+              alt={fullImageUrl || "No Image"}
+              src={fullImageUrl}
               sx={imageStyles}
             >
-              {imageUrl ? null : <PersonOffIcon sx={{ fontSize: 125 }} />}
+              {fullImageUrl ? null : <PersonOffIcon sx={{ fontSize: 125 }} />}
             </Avatar>
           </Box>
           <TextField
@@ -112,9 +112,9 @@ const AddOrEditPersonDialog = memo<Props>(function AddOrEditPersonDialog({
           />
         </Box>
       </EditDialog>
-      {uid && (
+      {personId && (
         <ImagePicker
-          uid={uid}
+          id={personId}
           isOpen={showImagePicker}
           onDialogClose={toggleImagePicker}
           handleImageSave={handleImageCropSave}

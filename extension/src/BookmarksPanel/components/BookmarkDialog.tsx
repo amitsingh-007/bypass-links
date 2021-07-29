@@ -1,16 +1,14 @@
 import { Box, IconButton, SelectProps, TextField } from "@material-ui/core";
 import FormatColorTextTwoToneIcon from "@material-ui/icons/FormatColorTextTwoTone";
-import runtime from "GlobalHelpers/chrome/runtime";
 import { EditDialog } from "GlobalComponents/Dialogs";
 import { COLOR } from "GlobalConstants/color";
+import runtime from "GlobalHelpers/chrome/runtime";
+import { getPersons } from "GlobalHelpers/fetchFromStorage";
 import { VoidFunction } from "GlobalInterfaces/custom";
 import { useEffect, useState } from "react";
 import { SORT_ORDER } from "SrcPath/PersonsPanel/constants/sort";
 import { IPersonWithImage } from "SrcPath/PersonsPanel/interfaces/persons";
-import {
-  getAllDecodedPersons,
-  getPersonsWithImageUrl,
-} from "SrcPath/PersonsPanel/utils";
+import { getPersonsWithImageUrl } from "SrcPath/PersonsPanel/utils";
 import { sortAlphabetically } from "SrcPath/PersonsPanel/utils/sort";
 import { FolderDropdown, PersonsDropdown } from "./Dropdown";
 
@@ -55,12 +53,12 @@ const BookmarkDialog: React.FC<Props> = ({
 
   const initPersonList = async () => {
     setIsFetchingPerson(true);
-    const persons = await getAllDecodedPersons();
+    const persons = await getPersons();
     const personsWithImageUrl = await getPersonsWithImageUrl(persons);
     setPersonList(sortAlphabetically(SORT_ORDER.asc, personsWithImageUrl));
     if (origTaggedPersons) {
       const taggedPersons = personsWithImageUrl.filter((person) =>
-        origTaggedPersons.includes(person.uid)
+        origTaggedPersons.includes(person.id)
       );
       setTaggedPersons(taggedPersons);
     }
@@ -94,7 +92,7 @@ const BookmarkDialog: React.FC<Props> = ({
       origUrl,
       title,
       folder,
-      taggedPersons.map(({ uid }) => uid)
+      taggedPersons.map(({ id }) => id)
     );
     onClose();
   };

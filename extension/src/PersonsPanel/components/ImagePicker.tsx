@@ -40,14 +40,14 @@ const Transition = forwardRef(function Transition(
 });
 
 interface Props {
-  uid: string;
+  id: string;
   isOpen: boolean;
   onDialogClose: VoidFunction;
   handleImageSave: (imageRef: string) => void;
 }
 
 const ImagePicker = memo<Props>(
-  ({ uid, isOpen, onDialogClose, handleImageSave }) => {
+  ({ id, isOpen, onDialogClose, handleImageSave }) => {
     const inputImageUrlRef = useRef<HTMLInputElement>(null);
     const [isUploadingImage, setIsUploadingImage] = useState(false);
     const [inputImageUrl, setInputImageUrl] = useState("");
@@ -75,7 +75,7 @@ const ImagePicker = memo<Props>(
         return;
       }
       try {
-        const imageRef = `${FIREBASE_STORAGE_REF.persons}/${uid}.jpeg`;
+        const imageRef = `${FIREBASE_STORAGE_REF.persons}/${id}.jpeg`;
         setIsUploadingImage(true);
         const croppedImage = await getCroppedImg(
           inputImageUrl,
@@ -83,7 +83,7 @@ const ImagePicker = memo<Props>(
           ROTATION
         );
         const compressedImage = await imageCompression(
-          new File([croppedImage], uid, { type: croppedImage.type }),
+          new File([croppedImage], id, { type: croppedImage.type }),
           IMAGE_COMPRESSION_OPTIONS
         );
         await uploadImageToFirebase(compressedImage, imageRef);
@@ -94,7 +94,7 @@ const ImagePicker = memo<Props>(
       } finally {
         setIsUploadingImage(false);
       }
-    }, [croppedAreaPixels, handleImageSave, inputImageUrl, onDialogClose, uid]);
+    }, [croppedAreaPixels, handleImageSave, inputImageUrl, onDialogClose, id]);
 
     const onClose = useCallback(() => {
       onDialogClose();

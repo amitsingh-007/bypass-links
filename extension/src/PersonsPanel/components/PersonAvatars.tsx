@@ -31,7 +31,7 @@ const PersonAvatars = memo<{ persons: IPersonWithImage[] }>(
     }
 
     const handlePersonClick = (person: IPersonWithImage) => {
-      history.push(getPersonsPanelUrl({ openBookmarksList: person.uid }));
+      history.push(getPersonsPanelUrl({ openBookmarksList: person.id }));
     };
 
     return (

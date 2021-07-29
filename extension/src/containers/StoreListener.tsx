@@ -25,15 +25,13 @@ export const startHistoryWatch = async () => {
 const getSeparatedPersons = (prevPersons: string[], newPersons: string[]) => {
   const prevPersonsSet = new Set(prevPersons);
   const newPersonsSet = new Set(newPersons);
-  const unchangedPersons = [...prevPersons].filter((uid) =>
-    newPersonsSet.has(uid)
+  const unchangedPersons = [...prevPersons].filter((id) =>
+    newPersonsSet.has(id)
   );
   const removedPersons = [...prevPersons].filter(
-    (uid) => !newPersonsSet.has(uid)
+    (id) => !newPersonsSet.has(id)
   );
-  const addedPersons = [...newPersons].filter(
-    (uid) => !prevPersonsSet.has(uid)
-  );
+  const addedPersons = [...newPersons].filter((id) => !prevPersonsSet.has(id));
   return {
     removedPersons,
     addedPersons,
@@ -46,6 +44,7 @@ const updateUrlsInTaggedPersons = async (updates: IUpdateTaggedPerson[]) => {
     return;
   }
   const persons = await getPersons();
+  const personsMap = new Map(persons.map((x) => [x.id, x]));
   updates.forEach(({ prevTaggedPersons, newTaggedPersons, urlHash }) => {
     const { removedPersons, addedPersons } = getSeparatedPersons(
       prevTaggedPersons,
@@ -56,23 +55,29 @@ const updateUrlsInTaggedPersons = async (updates: IUpdateTaggedPerson[]) => {
       return;
     }
     //Remove urlHash for removed persons
-    removedPersons.forEach((personUid) => {
-      const { taggedUrls } = persons[personUid];
-      if (!taggedUrls || taggedUrls.length < 1) {
-        throw new Error(`No taggedUrls found against uid: ${personUid}`);
+    removedPersons.forEach((personId) => {
+      const person = personsMap.get(personId);
+      if (!person || !person.taggedUrls?.length) {
+        throw new Error(
+          `Invalid person or No taggedUrls found for id: ${personId}`
+        );
       }
-      persons[personUid].taggedUrls = taggedUrls.filter(
-        (hash) => hash !== urlHash
-      );
+      person.taggedUrls = person.taggedUrls.filter((hash) => hash !== urlHash);
+      personsMap.set(personId, person);
     });
     //Add urlHash to added persons
-    addedPersons.forEach((personUid) => {
-      const taggedUrls = persons[personUid].taggedUrls || [];
+    addedPersons.forEach((personId) => {
+      const person = personsMap.get(personId);
+      if (!person) {
+        throw new Error(`Person not found for id: ${personId}`);
+      }
+      const taggedUrls = person.taggedUrls || [];
       taggedUrls.push(urlHash);
-      persons[personUid].taggedUrls = taggedUrls;
+      person.taggedUrls = taggedUrls;
+      personsMap.set(personId, person);
     });
   });
-  await setPersonsInStorage(persons);
+  await setPersonsInStorage(Array.from(personsMap.values()));
 };
 
 const StoreListener = memo(function StoreListener() {

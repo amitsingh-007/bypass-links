@@ -1,8 +1,7 @@
+import { IPerson } from "@common/interfaces/person";
 import { Box, IconButton } from "@material-ui/core";
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import PersonAddTwoToneIcon from "@material-ui/icons/PersonAddTwoTone";
-import SyncTwoToneIcon from "@material-ui/icons/SyncTwoTone";
-import { displayToast } from "GlobalActionCreators/toast";
 import {
   AccordionHeader,
   PrimaryHeaderContent,
@@ -10,15 +9,12 @@ import {
 } from "GlobalComponents/AccordionHeader";
 import Loader from "GlobalComponents/Loader";
 import PanelHeading from "GlobalComponents/PanelHeading";
+import SearchInput from "GlobalComponents/SearchInput";
 import { COLOR } from "GlobalConstants/color";
 import { memo, useState } from "react";
-import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-import SearchInput from "GlobalComponents/SearchInput";
-import { syncPersonsFirebaseWithStorage } from "../utils/sync";
 import AddOrEditPersonDialog from "./AddOrEditPersonDialog";
 import Sort from "./Sort";
-import { IPerson } from "../interfaces/persons";
 
 interface Props {
   isFetching: boolean;
@@ -33,9 +29,7 @@ const Header = memo<Props>(function Header({
   persons,
   handleSort,
 }) {
-  const dispatch = useDispatch();
   const history = useHistory();
-  const [isSyncing, setIsSyncing] = useState(false);
   const [showAddPersonDialog, setShowAddPersonDialog] = useState(false);
 
   const toggleAddPersonDialog = () => {
@@ -57,23 +51,6 @@ const Header = memo<Props>(function Header({
   const handleClose: React.MouseEventHandler<HTMLButtonElement> = (event) => {
     event.stopPropagation();
     history.goBack();
-  };
-
-  const onSyncClick: React.MouseEventHandler<HTMLButtonElement> = async (
-    event
-  ) => {
-    event.stopPropagation();
-    if (isSyncing) {
-      return;
-    }
-    setIsSyncing(true);
-    try {
-      await syncPersonsFirebaseWithStorage();
-      dispatch(displayToast({ message: "Persons synced succesfully" }));
-    } catch (ex) {
-      dispatch(displayToast({ message: ex, severity: "error" }));
-    }
-    setIsSyncing(false);
   };
 
   return (
@@ -107,20 +84,6 @@ const Header = memo<Props>(function Header({
               title="Add Person"
             >
               <PersonAddTwoToneIcon fontSize="large" />
-            </IconButton>
-            <IconButton
-              size="small"
-              aria-label="Sync"
-              component="span"
-              onClick={onSyncClick}
-              title="Sync storage to firebase"
-              disabled={isSyncing}
-            >
-              <SyncTwoToneIcon
-                fontSize="large"
-                className={isSyncing ? "iconLoading" : ""}
-                htmlColor={COLOR.orange.color}
-              />
             </IconButton>
             {isFetching && (
               <Loader

@@ -1,8 +1,8 @@
+import { IPerson } from "@common/interfaces/person";
 import { Box } from "@material-ui/core";
 import { deserialzeQueryStringToObject } from "GlobalUtils/url";
 import { memo, useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import { IPerson } from "../interfaces/persons";
 import Person from "./Person";
 
 interface Props {
@@ -30,7 +30,7 @@ const Persons = memo<Props>(function Persons({
     <Box sx={{ padding: "6px" }}>
       {persons.map((person) => (
         <Person
-          key={person.uid}
+          key={person.id}
           person={person}
           handleEditPerson={handleEditPerson}
           handlePersonDelete={handlePersonDelete}

@@ -1,13 +1,11 @@
+import { IPerson } from "@common/interfaces/person";
 import { IShortcut } from "@common/interfaces/shortcuts";
 import { BYPASS_KEYS, EXTENSION_STATE, STORAGE_KEYS } from "GlobalConstants";
 import storage from "GlobalHelpers/chrome/storage";
 import { IBookmarksObj } from "SrcPath/BookmarksPanel/interfaces";
 import { UserInfo } from "SrcPath/HomePopup/interfaces/authentication";
 import { LastVisited } from "SrcPath/HomePopup/interfaces/lastVisited";
-import {
-  IPersons,
-  PersonImageUrls,
-} from "SrcPath/PersonsPanel/interfaces/persons";
+import { PersonImageUrls } from "SrcPath/PersonsPanel/interfaces/persons";
 
 export const getExtensionState = async () => {
   const { extState } = await storage.get("extState");
@@ -46,7 +44,7 @@ export const getPersons = async () => {
   const { [STORAGE_KEYS.persons]: persons } = await storage.get(
     STORAGE_KEYS.persons
   );
-  return persons as IPersons;
+  return persons as IPerson[];
 };
 
 export const getPersonImageUrls = async () => {

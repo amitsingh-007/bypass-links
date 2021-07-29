@@ -1,3 +1,4 @@
+import { IPerson } from "@common/interfaces/person";
 import { Avatar, Badge, Box, IconButton, Typography } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
@@ -5,8 +6,7 @@ import ContextMenu from "GlobalComponents/ContextMenu";
 import { MenuOption } from "GlobalInterfaces/menu";
 import { memo, useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import { IPerson } from "../interfaces/persons";
-import { resolvePersonImageFromUid } from "../utils";
+import { resolveImageFromPersonId } from "../utils";
 import { getPersonsPanelUrl } from "../utils/urls";
 import AddOrEditPersonDialog from "./AddOrEditPersonDialog";
 import BookmarksList from "./BookmarksList";
@@ -23,7 +23,7 @@ interface Props {
 const Person = memo<Props>(
   ({ person, openBookmarksListUid, handleEditPerson, handlePersonDelete }) => {
     const history = useHistory();
-    const { uid, name, taggedUrls } = person;
+    const { id, name, taggedUrls } = person;
     const [imageUrl, setImageUrl] = useState("");
     const [showBookmarksList, setShowBookmarksList] = useState(false);
     const [showEditPersonDialog, setShowEditPersonDialog] = useState(false);
@@ -54,14 +54,14 @@ const Person = memo<Props>(
     }, [handleDeleteOptionClick, toggleEditPersonDialog]);
 
     useEffect(() => {
-      resolvePersonImageFromUid(uid).then((url) => {
+      resolveImageFromPersonId(id).then((url) => {
         setImageUrl(url);
       });
-    }, [uid, person]);
+    }, [id, person]);
 
     useEffect(() => {
-      setShowBookmarksList(openBookmarksListUid === uid);
-    }, [openBookmarksListUid, uid]);
+      setShowBookmarksList(openBookmarksListUid === id);
+    }, [openBookmarksListUid, id]);
 
     const handlePersonSave = (updatedPerson: IPerson) => {
       handleEditPerson(updatedPerson);
@@ -72,7 +72,7 @@ const Person = memo<Props>(
       taggedUrls && !!taggedUrls.length ? taggedUrls.length : 0;
 
     const openBookmarksList = () => {
-      history.push(getPersonsPanelUrl({ openBookmarksList: uid }));
+      history.push(getPersonsPanelUrl({ openBookmarksList: id }));
     };
 
     return (

@@ -1,40 +1,24 @@
-import storage from "GlobalHelpers/chrome/storage";
-import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
+import { IPerson } from "@common/interfaces/person";
 import { STORAGE_KEYS } from "GlobalConstants";
-import { getBlobUrlFromCache } from "GlobalUtils/cache";
+import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
+import storage from "GlobalHelpers/chrome/storage";
 import { getPersons } from "GlobalHelpers/fetchFromStorage";
-import { IPerson, IPersons, IPersonWithImage } from "../interfaces/persons";
+import { getBlobUrlFromCache } from "GlobalUtils/cache";
+import { IPersonWithImage } from "../interfaces/persons";
 
-export const setPersonsInStorage = async (persons: IPersons) => {
+export const setPersonsInStorage = async (persons: IPerson[]) => {
   await storage.set({
     [STORAGE_KEYS.persons]: persons,
-    hasPendingPersons: true,
+    [STORAGE_KEYS.hasPendingPersons]: true,
   });
-};
-
-const decodePerson = (person: IPerson): IPerson => {
-  const { uid, imageRef, name, taggedUrls } = person;
-  return {
-    uid,
-    name: atob(name),
-    imageRef: decodeURIComponent(atob(imageRef)),
-    taggedUrls,
-  };
 };
 
 export const getPersonsFromUids = async (uids: string[]) => {
   if (!uids) {
     return [];
   }
-  const persons = await getAllDecodedPersons();
-  return persons.filter((person) => uids.includes(person.uid ?? ""));
-};
-
-export const getAllDecodedPersons = async () => {
   const persons = await getPersons();
-  return Object.entries(persons)
-    .filter(Boolean)
-    .map(([_key, person]) => decodePerson(person));
+  return persons.filter((person) => uids.includes(person.id ?? ""));
 };
 
 export const getPersonsWithImageUrl = async (
@@ -46,21 +30,21 @@ export const getPersonsWithImageUrl = async (
   return await Promise.all(
     persons.map(async (person) => ({
       ...person,
-      imageUrl: await resolvePersonImageFromUid(person.uid),
+      imageUrl: await resolveImageFromPersonId(person.id),
     }))
   );
 };
 
-export const resolvePersonImageFromUid = async (uid: string) => {
+export const resolveImageFromPersonId = async (id: string) => {
   const { [STORAGE_KEYS.personImageUrls]: personImages } = await storage.get(
     STORAGE_KEYS.personImageUrls
   );
   if (!personImages) {
     return "";
   }
-  const imageUrl = personImages[uid];
+  const imageUrl = personImages[id];
   return await getBlobUrlFromCache(CACHE_BUCKET_KEYS.person, imageUrl);
 };
 
 export const getPersonPos = (persons: IPerson[], person: IPerson) =>
-  persons.findIndex(({ uid }) => uid === person.uid);
+  persons.findIndex(({ id }) => id === person.id);

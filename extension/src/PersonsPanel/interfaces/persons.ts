@@ -1,11 +1,4 @@
-export interface IPerson {
-  uid: string;
-  name: string;
-  imageRef: string;
-  taggedUrls: string[];
-}
-
-export type IPersons = Record<string, IPerson>;
+import { IPerson } from "@common/interfaces/person";
 
 export interface IUpdateTaggedPerson {
   prevTaggedPersons: string[];

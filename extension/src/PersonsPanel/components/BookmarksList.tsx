@@ -31,7 +31,7 @@ const imageStyles = { width: 40, height: 40 };
 interface Props {
   name: string;
   imageUrl: string;
-  taggedUrls: string[];
+  taggedUrls: string[] | null;
 }
 
 interface ModifiedBookmark extends IBookmark {

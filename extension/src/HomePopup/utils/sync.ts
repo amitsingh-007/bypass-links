@@ -28,7 +28,7 @@ import {
   cachePersonImageUrlsInStorage,
   refreshPersonImageUrlsCache,
   resetPersons,
-  syncPersonsFirebaseWithStorage,
+  syncPersonsToCloud,
   syncPersonsToStorage,
 } from "SrcPath/PersonsPanel/utils/sync";
 import { dispatchAuthenticationEvent } from "./authentication";
@@ -99,10 +99,7 @@ const syncStorageToFirebase = async () => {
     progressBuffer: 1,
     total: 4,
   });
-  await Promise.all([
-    syncBookmarksFirebaseWithStorage(),
-    syncPersonsFirebaseWithStorage(),
-  ]);
+  await Promise.all([syncBookmarksFirebaseWithStorage(), syncPersonsToCloud()]);
   dispatchAuthenticationEvent({
     message: "Synced firebase with storage",
     progress: 1,

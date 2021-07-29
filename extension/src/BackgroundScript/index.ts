@@ -1,5 +1,5 @@
 import storage from "GlobalHelpers/chrome/storage";
-import { EXTENSION_STATE } from "GlobalConstants";
+import { EXTENSION_STATE, STORAGE_KEYS } from "GlobalConstants";
 import { fetchPageH1, isValidUrl, setExtensionIcon } from "./utils";
 import { bypass } from "./bypass";
 import { isExtensionActive, setExtStateInStorage } from "GlobalUtils/common";
@@ -17,14 +17,20 @@ chrome.runtime.onInstalled.addListener(() => {
 //Listen when the browser is opened
 chrome.runtime.onStartup.addListener(() => {
   storage
-    .get(["extState", "hasPendingBookmarks", "hasPendingPersons"])
-    .then(async ({ extState, hasPendingBookmarks, hasPendingPersons }) => {
-      await setExtensionIcon({
+    .get(["extState", "hasPendingBookmarks", STORAGE_KEYS.hasPendingPersons])
+    .then(
+      async ({
         extState,
         hasPendingBookmarks,
-        hasPendingPersons,
-      });
-    });
+        [STORAGE_KEYS.hasPendingPersons]: hasPendingPersons,
+      }) => {
+        await setExtensionIcon({
+          extState,
+          hasPendingBookmarks,
+          hasPendingPersons,
+        });
+      }
+    );
 });
 
 //Listen tab url change
