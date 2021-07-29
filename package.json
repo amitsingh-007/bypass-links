@@ -14,6 +14,7 @@
     "supabase:init": "supabase init",
     "supabase:start": "supabase start",
     "test": "lerna run test --stream",
+    "test:web": "lerna run test --stream --scope=web",
     "vercel:deploy": "vercel --prod",
     "vercel:preview": "vercel",
     "web:build": "lerna run build --scope=web --stream",

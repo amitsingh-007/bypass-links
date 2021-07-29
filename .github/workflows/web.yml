@@ -31,8 +31,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
+      - name: Install dependencies 🧼
+        run: npm install && npm run bootstrap
+
       - name: Run Unit Tests 🧪
-        run: npm run test
+        run: npm run test:web
 
       - name: Start preview deployment 🚀
         uses: bobheadxi/deployments@v0.6.0
