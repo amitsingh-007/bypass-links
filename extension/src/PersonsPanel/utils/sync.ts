@@ -3,8 +3,8 @@ import { STORAGE_KEYS } from "GlobalConstants";
 import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
 import storage from "GlobalHelpers/chrome/storage";
 import { getPersonImageUrls, getPersons } from "GlobalHelpers/fetchFromStorage";
-import { getImageFromFirebase } from "GlobalHelpers/firebase";
 import { addToCache, getCacheObj } from "GlobalUtils/cache";
+import { getImageUrl } from "SrcPath/apis/image";
 import { dispatchAuthenticationEvent } from "SrcPath/HomePopup/utils/authentication";
 import { fetchPersons, savePersons } from "../apis";
 import { PersonImageUrls } from "../interfaces/persons";
@@ -41,7 +41,7 @@ const resolveImageFromPerson = async ({
   imagePath,
 }: Pick<IPerson, "id" | "imagePath">) => ({
   id,
-  imageUrl: await getImageFromFirebase(imagePath),
+  imageUrl: await getImageUrl(imagePath),
 });
 
 export const cachePersonImageUrlsInStorage = async () => {

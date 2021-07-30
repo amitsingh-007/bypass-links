@@ -1,7 +1,6 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/database";
-import "firebase/storage";
 import { getUserProfile } from "GlobalHelpers/fetchFromStorage";
 import { getFullDbPath } from "@common/utils/firebase";
 import { FIREBASE_DB_REF } from "@common/constants/firebase";
@@ -72,34 +71,3 @@ export const saveDataToFirebase = async (
       });
   });
 };
-
-/**
- * STORAGE
- */
-
-const getStoragePath = async (ref: string) => {
-  const env = __PROD__ ? "prod" : "dev";
-  const userProfile = await getUserProfile();
-  return `${userProfile.uid}/${env}/${ref}`;
-};
-
-export const uploadImageToFirebase = async (blob: Blob, ref: string) =>
-  firebase
-    .storage()
-    .ref()
-    .child(await getStoragePath(ref))
-    .put(blob, { contentType: blob.type });
-
-export const getImageFromFirebase = async (ref: string): Promise<string> =>
-  firebase
-    .storage()
-    .ref()
-    .child(await getStoragePath(ref))
-    .getDownloadURL();
-
-export const removeImageFromFirebase = async (ref: string) =>
-  firebase
-    .storage()
-    .ref()
-    .child(await getStoragePath(ref))
-    .delete();

@@ -17,23 +17,20 @@ export const getImageUrl = async (
 export const uploadImage = async (
   uid: string,
   file: Express.Multer.File
-): Promise<boolean> => {
+): Promise<string | null> => {
+  const path = `${uid}/${__PROD__ ? "prod" : "dev"}/${file.originalname}`;
   const { data, error } = await supabase.storage
     .from("persons")
-    .upload(
-      `${uid}/${__PROD__ ? "prod" : "dev"}/${file.originalname}`,
-      file.buffer,
-      {
-        cacheControl: "604800", // 7 days
-        upsert: true,
-        contentType: "image/jpeg",
-      }
-    );
+    .upload(path, file.buffer, {
+      cacheControl: "604800", // 7 days
+      upsert: true,
+      contentType: "image/jpeg",
+    });
   if (!data || error) {
     console.error(error);
-    return false;
+    return null;
   }
-  return true;
+  return path;
 };
 
 export const removeImage = async (

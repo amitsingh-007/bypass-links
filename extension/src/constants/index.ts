@@ -28,8 +28,4 @@ export enum BYPASS_KEYS {
   MEDIUM = "MEDIUM",
 }
 
-export const FIREBASE_STORAGE_REF = {
-  persons: STORAGE_KEYS.persons,
-};
-
 export const defaultBookmarkFolder = "Bookmarks bar";

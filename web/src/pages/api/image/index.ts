@@ -31,7 +31,7 @@ const handler = async (
     const imageFile =
       req.files?.length === 1 ? (<Express.Multer.File[]>req.files)[0] : null;
     res.json({
-      isSuccess: Boolean(imageFile && (await uploadImage(uid, imageFile))),
+      imagePath: imageFile ? await uploadImage(uid, imageFile) : null,
     });
   } else if (req.method === "DELETE") {
     const imagePath = req.query.imagePath as string;

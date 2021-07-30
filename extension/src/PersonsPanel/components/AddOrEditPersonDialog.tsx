@@ -1,13 +1,13 @@
+import { IPerson } from "@common/interfaces/person";
 import { Avatar, Box, TextField } from "@material-ui/core";
 import PersonOffIcon from "@material-ui/icons/PersonOff";
 import { EditDialog } from "GlobalComponents/Dialogs";
 import { VoidFunction } from "GlobalInterfaces/custom";
-import { getImageFromFirebase } from "GlobalHelpers/firebase";
 import md5 from "md5";
 import { memo, useEffect, useState } from "react";
+import { getImageUrl } from "SrcPath/apis/image";
 import { resolveImageFromPersonId } from "../utils";
 import ImagePicker from "./ImagePicker";
-import { IPerson } from "@common/interfaces/person";
 
 const imageStyles = { width: 200, height: 200 };
 
@@ -43,20 +43,16 @@ const AddOrEditPersonDialog = memo<Props>(function AddOrEditPersonDialog({
     }
   }, [person]);
 
-  const fetchImage = async (ref: string) => {
-    const url = await getImageFromFirebase(ref);
-    setFullImageUrl(url);
-  };
-
   const handleNameChange: React.ChangeEventHandler<HTMLTextAreaElement> = (
     event
   ) => {
     setName(event.target.value);
   };
 
-  const handleImageCropSave = async (imageFirebaseRef: string) => {
-    await fetchImage(imageFirebaseRef);
-    setImagePath(imageFirebaseRef);
+  const handleImageCropSave = async (imagePath: string) => {
+    const url = await getImageUrl(imagePath);
+    setFullImageUrl(url);
+    setImagePath(imagePath);
   };
 
   const toggleImagePicker = () => {
