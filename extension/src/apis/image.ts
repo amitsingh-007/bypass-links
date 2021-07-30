@@ -1,5 +1,6 @@
 import fetchApi from "@common/utils/fetch";
 import { getUserId } from "GlobalUtils/common";
+import { serialzeObjectToQueryString } from "GlobalUtils/url";
 
 export const getImageUrl = async (imagePath: string): Promise<string> => {
   const userId = await getUserId();
@@ -7,6 +8,18 @@ export const getImageUrl = async (imagePath: string): Promise<string> => {
     `/api/image/url?uid=${userId}&imagePath=${imagePath}`
   );
   return imageUrl || "";
+};
+
+export const getImageUrls = async (imagePaths: string[]): Promise<string[]> => {
+  const userId = await getUserId();
+  const qs = serialzeObjectToQueryString({
+    uid: userId,
+    imagePaths,
+  }).toString();
+  const { imageUrls } = await fetchApi<{ imageUrls: string[] }>(
+    `/api/image/urls?${qs}`
+  );
+  return imageUrls;
 };
 
 export const uploadImage = async (

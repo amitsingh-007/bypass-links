@@ -4,7 +4,7 @@ import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
 import storage from "GlobalHelpers/chrome/storage";
 import { getPersonImageUrls, getPersons } from "GlobalHelpers/fetchFromStorage";
 import { addToCache, getCacheObj } from "GlobalUtils/cache";
-import { getImageUrl } from "SrcPath/apis/image";
+import { getImageUrl, getImageUrls } from "SrcPath/apis/image";
 import { dispatchAuthenticationEvent } from "SrcPath/HomePopup/utils/authentication";
 import { fetchPersons, savePersons } from "../apis";
 import { PersonImageUrls } from "../interfaces/persons";
@@ -53,12 +53,12 @@ export const cachePersonImageUrlsInStorage = async () => {
   });
   await refreshPersonImageUrlsCache();
   const persons = await getPersons();
-  const personImagesList = await Promise.all(
-    persons.map(resolveImageFromPerson)
+  const imageUrls = await getImageUrls(
+    persons.map((person) => person.imagePath)
   );
-  const personImageUrls = personImagesList.reduce<PersonImageUrls>(
-    (obj, { id, imageUrl }) => {
-      obj[id] = imageUrl;
+  const personImageUrls = persons.reduce<PersonImageUrls>(
+    (obj, person, index) => {
+      obj[person.id] = imageUrls[index];
       return obj;
     },
     {}
