@@ -42,7 +42,7 @@
     "eslint-plugin-prettier": "3.4.0",
     "next-pwa": "5.2.21",
     "prettier": "2.3.2",
-    "sass": "1.35.1",
+    "sass": "1.37.0",
     "vercel": "23.0.1"
   }
 }
