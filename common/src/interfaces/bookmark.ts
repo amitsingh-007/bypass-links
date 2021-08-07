@@ -18,3 +18,9 @@ export type IFolderMeta = Record<
     priority: number;
   }[]
 >;
+
+export type IBookmarks = {
+  urls: IBookmarkUrl | null;
+  folders: IFolder | null;
+  foldersMeta: IFolderMeta | null;
+};

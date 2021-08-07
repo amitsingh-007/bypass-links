@@ -70,7 +70,9 @@ describe("getUpdates test", () => {
   });
 
   it("should return empty delete and update list for invalid identifier", () => {
-    expect(getUpdates(allList, updateList, "uid")).toStrictEqual({
+    expect(
+      getUpdates(allList, updateList, "uid" as unknown as "id")
+    ).toStrictEqual({
       deleteList: [],
       updateList,
     });
