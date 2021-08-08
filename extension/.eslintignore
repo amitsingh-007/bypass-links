@@ -4,4 +4,3 @@ extension-build/
 firebase-dll/
 webpack.*.js
 webpack/
-.eslintcache

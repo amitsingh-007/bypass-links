@@ -2,13 +2,24 @@ import admin from "firebase-admin";
 import { getFullDbPath } from "@common/utils/firebase";
 import { Firebase } from "../interfaces/firebase";
 
-const serviceAccountKey = JSON.parse(
-  process.env.SERVICE_ACCOUNT_KEY?.replace(/\n/g, "\\n") ?? ""
-);
+/**
+ * We split the credentials json that we get from firebase admin because:
+ * Vercel stringifies the json and JSON.parse fails on the private key.
+ *
+ * SERVICE_ACCOUNT_KEY: contains the credetials json except the private_key
+ * FIREBASE_PRIVATE_KEY: contains the private key
+ */
+const getFirebaseCredentials = () => {
+  const serviceAccountKey = JSON.parse(process.env.SERVICE_ACCOUNT_KEY ?? "");
+  return admin.credential.cert({
+    ...serviceAccountKey,
+    private_key: process.env.FIREBASE_PRIVATE_KEY,
+  });
+};
 
 if (admin.apps.length === 0) {
   admin.initializeApp({
-    credential: admin.credential.cert(serviceAccountKey),
+    credential: getFirebaseCredentials(),
     databaseURL: "https://bypass-links.firebaseio.com",
   });
 }
