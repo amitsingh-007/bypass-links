@@ -16,7 +16,7 @@ export const bypassSingleLinkOnPage = async (
 ) => {
   const response = await scripting.executeScript({
     target: { tabId },
-    function: selectorFn,
+    func: selectorFn,
   });
   const result: { links: string[] } | null = response[0].result;
   const targetUrl = result?.links?.[0];

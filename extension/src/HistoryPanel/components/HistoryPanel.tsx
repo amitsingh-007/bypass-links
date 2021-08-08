@@ -33,7 +33,8 @@ const DateTimeInput = ({ dateTime, onChange, label }: DateTimeInputProps) => (
         />
       </Box>
     )}
-    maxDateTime={Date.now()}
+    // Not working. Check: https://github.com/mui-org/material-ui/pull/27392
+    // maxDateTime={new Date()}
   />
 );
 

@@ -14,7 +14,7 @@ export const fetchPageH1 = async () => {
   const { id: tabId = -1 } = await getCurrentTab();
   const [{ result }] = await scripting.executeScript({
     target: { tabId },
-    function: getPageH1,
+    func: getPageH1,
   });
   return new Promise((resolve) => {
     resolve(result);

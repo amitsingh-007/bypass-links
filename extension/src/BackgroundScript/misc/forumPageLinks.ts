@@ -13,7 +13,7 @@ const getForumPageLinksFunc = () => {
 export const getForumPageLinks = async (tabId: number): Promise<string[]> => {
   const [{ result }] = await scripting.executeScript({
     target: { tabId },
-    function: getForumPageLinksFunc,
+    func: getForumPageLinksFunc,
   });
   return new Promise((resolve) => {
     resolve(result);

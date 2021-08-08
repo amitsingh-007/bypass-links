@@ -54,7 +54,7 @@ const highlightOpenedUrls = async (tabId: number) => {
   const endTime = Date.now();
   const response = await scripting.executeScript({
     target: { tabId },
-    function: getThreadsOnThePage,
+    func: getThreadsOnThePage,
   });
   const result: Thread[] = response[0].result;
   const openedThreads: Thread[] = [];
@@ -66,7 +66,7 @@ const highlightOpenedUrls = async (tabId: number) => {
   }
   scripting.executeScript({
     target: { tabId },
-    function: () => {
+    func: () => {
       highlightThreads(openedThreads);
     },
   });
