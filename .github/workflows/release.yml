@@ -182,14 +182,6 @@ jobs:
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
           env_url: ${{ steps.vercel-action.outputs.preview-url }}
 
-      # - name: Deploy (Netlify) 💠
-      #   uses: netlify/actions/cli@master
-      #   env:
-      #     NETLIFY_SITE_ID: ${{ secrets.NETLIFY_PROD_SITE_ID }}
-      #     NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-      #   with:
-      #     args: deploy --prod
-
       - name: Notify Admins 📱
         uses: appleboy/telegram-action@master
         with:

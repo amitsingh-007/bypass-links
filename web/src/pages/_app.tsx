@@ -3,7 +3,7 @@ import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import GlobalMetaTags from "src/ui/components/GlobalMetaTags";
 import { AppProps } from "next/dist/next-server/lib/router/router";
 import { StrictMode } from "react";
-import "../styles/globals.scss";
+import "@ui/styles/globals.scss";
 
 const theme = createTheme({
   palette: {

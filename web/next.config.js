@@ -1,4 +1,5 @@
 const path = require("path");
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const withPWA = require("next-pwa");
 const { releaseDate } = require("./scripts/release-config");
 const { extVersion } = require("../common/src/scripts/extension-version");
@@ -14,8 +15,6 @@ const nextConfig = {
     swSrc: "./scripts/sw.js",
     dest: "public",
   },
-  // https://docs.netlify.com/configure-builds/common-configurations/next-js/#edit-next-config-js
-  target: "serverless",
   // rest options are nextJS's
   experimental: {
     //To build common folder, which is outside root directory; https://github.com/vercel/next.js/issues/5666
@@ -39,6 +38,18 @@ const nextConfig = {
         __SERVER__: JSON.stringify(isServer),
       })
     );
+    if (dev) {
+      config.plugins.push(
+        new ForkTsCheckerWebpackPlugin({
+          eslint: {
+            files: "**/*.{js,ts,tsx}",
+            options: {
+              cache: true,
+            },
+          },
+        })
+      );
+    }
     // https://github.com/firebase/firebase-admin-node/issues/84
     config.externals.push("firebase-admin");
     return config;
