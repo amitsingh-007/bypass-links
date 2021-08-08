@@ -83,7 +83,7 @@ const ImagePicker = memo<Props>(
           ROTATION
         );
         const compressedImage = await imageCompression(
-          new File([croppedImage], uid, { type: croppedImage.type }),
+          new File([croppedImage], `${uid}.jpeg`, { type: croppedImage.type }),
           IMAGE_COMPRESSION_OPTIONS
         );
         await uploadImageToFirebase(compressedImage, imageRef);

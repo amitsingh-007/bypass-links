@@ -44,10 +44,7 @@ export const resetPersons = async () => {
 const resolveImageFromPerson = async ({
   uid,
   imageRef,
-}: {
-  uid: string;
-  imageRef: string;
-}) => ({
+}: Pick<IPerson, "uid" | "imageRef">) => ({
   uid,
   imageUrl: await getImageFromFirebase(imageRef),
 });

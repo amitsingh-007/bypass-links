@@ -2,12 +2,6 @@ import admin from "firebase-admin";
 import { getFullDbPath } from "@common/utils/firebase";
 import { Firebase } from "../interfaces/firebase";
 
-/**
- * https://github.com/vercel/vercel/issues/749
- * https://stackoverflow.com/a/50376092/8694064
- * TODO: handle for netlify
- */
-
 const serviceAccountKey = JSON.parse(
   process.env.SERVICE_ACCOUNT_KEY?.replace(/\n/g, "\\n") ?? ""
 );

@@ -1,25 +1,31 @@
 interface IOptions extends RequestInit {
-  responseType: string;
+  responseType?: string;
 }
 
-const fetchApi = (url: string, options?: IOptions) => {
+const fetchApi = <T = any>(url: string, options?: IOptions): Promise<T> => {
   const { responseType = "json", ...init } = options || {};
   const fetchUrl = `${HOST_NAME}${url}`;
   return fetch(fetchUrl, init).then((response) => {
     if (!response.ok) {
       throw response;
     }
+    let res: any;
     switch (responseType) {
       case "json":
-        return response.json();
+        res = response.json();
+        break;
       case "blob":
-        return response.blob();
+        res = response.blob();
+        break;
       case "none":
-        return response;
+        res = response;
+        break;
       default:
-        return response.text();
+        res = response.text();
     }
+    return res as Promise<T>;
   });
 };
 
 export default fetchApi;
+
