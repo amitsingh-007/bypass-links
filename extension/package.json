@@ -32,7 +32,7 @@
     "@material-ui/styles": "5.0.0-beta.0",
     "browser-image-compression": "1.0.14",
     "core-js": "3.16.0",
-    "dayjs": "1.10.5",
+    "dayjs": "1.10.6",
     "firebase": "8.7.0",
     "md5": "2.3.0",
     "qrcode": "1.4.4",
