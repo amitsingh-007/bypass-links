@@ -34,7 +34,7 @@ export const bypassMedium = async (url: URL, tabId: number) => {
 
   const response = await scripting.executeScript({
     target: { tabId },
-    function: shouldBypass,
+    func: shouldBypass,
   });
   const result: IBypassMedium | null = response[0].result;
   if (result?.hasPaywall) {
