@@ -1,10 +1,15 @@
-import firebase from "firebase/app";
-import "firebase/auth";
-import "firebase/database";
-import "firebase/storage";
-import { getUserProfile } from "GlobalHelpers/fetchFromStorage";
-import { getFullDbPath } from "@common/utils/firebase";
 import { FIREBASE_DB_REF } from "@common/constants/firebase";
+import { getFullDbPath } from "@common/utils/firebase";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithCredential,
+  signOut,
+} from "firebase/auth";
+import firebase from "firebase/compat/app";
+import "firebase/compat/database";
+import "firebase/compat/storage";
+import { getUserProfile } from "GlobalHelpers/fetchFromStorage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDiMRlBhW36sLjEADoQj9T5L1H-hIDUAso",
@@ -17,19 +22,20 @@ const firebaseConfig = {
   measurementId: "G-ZGKPZFJ01Z",
 };
 
-firebase.initializeApp(firebaseConfig);
+const firebaseApp = firebase.initializeApp(firebaseConfig);
 
 /**
  * AUTHORIZATION
  */
-export const googleSignIn = (token: string) =>
-  firebase
-    .auth()
-    .signInWithCredential(
-      firebase.auth.GoogleAuthProvider.credential(null, token)
-    );
+export const googleSignIn = (token: string) => {
+  const auth = getAuth(firebaseApp);
+  return signInWithCredential(auth, GoogleAuthProvider.credential(null, token));
+};
 
-export const googleSignOut = () => firebase.auth().signOut();
+export const googleSignOut = () => {
+  const auth = getAuth(firebaseApp);
+  return signOut(auth);
+};
 
 /**
  * REALTIME DATABASE

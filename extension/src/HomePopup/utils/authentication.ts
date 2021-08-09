@@ -14,11 +14,12 @@ const userSignIn = async (): Promise<UserInfo> => {
   });
   const googleAuthToken = await identity.getAuthToken({ interactive: true });
   const response = await googleSignIn(googleAuthToken);
-  const userProfile = response.additionalUserInfo?.profile ?? {};
+  const userProfile = response.user ?? {};
   const userInfo: UserInfo = {
-    ...userProfile,
     googleAuthToken,
     uid: response.user?.uid,
+    name: userProfile.displayName ?? "No Name",
+    picture: userProfile.photoURL ?? "",
   };
   console.log("Firebase login response", response);
   console.log("UserInfo", userInfo);

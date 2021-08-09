@@ -33,7 +33,7 @@
     "browser-image-compression": "1.0.14",
     "core-js": "3.16.0",
     "dayjs": "1.10.6",
-    "firebase": "8.9.0",
+    "firebase": "9.0.0-beta.8",
     "md5": "2.3.0",
     "qrcode": "1.4.4",
     "react": "17.0.2",
