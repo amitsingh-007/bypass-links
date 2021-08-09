@@ -1,4 +1,3 @@
-import { FIREBASE_DB_REF } from "@common/constants/firebase";
 import { getFullDbPath } from "@common/utils/firebase";
 import {
   getAuth,
@@ -7,8 +6,8 @@ import {
   signOut,
 } from "firebase/auth";
 import firebase from "firebase/compat/app";
-import "firebase/compat/database";
 import "firebase/compat/storage";
+import { get, getDatabase, ref, set } from "firebase/database";
 import { getUserProfile } from "GlobalHelpers/fetchFromStorage";
 
 const firebaseConfig = {
@@ -45,38 +44,23 @@ const getDbRef = async (ref: string) => {
   return getFullDbPath(ref, userProfile.uid);
 };
 
-export const getFromFirebase = async <T>(ref: string) => {
-  const snapshot = await firebase
-    .database()
-    .ref(await getDbRef(ref))
-    .once("value");
+export const getFromFirebase = async <T>(path: string) => {
+  const db = getDatabase(firebaseApp);
+  const dbRef = ref(db, await getDbRef(path));
+  const snapshot = await get(dbRef);
   return (snapshot.val() || {}) as T;
 };
 
-export const saveToFirebase = async (ref: string, data: any) =>
-  firebase
-    .database()
-    .ref(await getDbRef(ref))
-    .set(data);
-
-export const saveDataToFirebase = async (
-  data: any,
-  ref: FIREBASE_DB_REF,
-  successCallback?: () => Promise<void>
-): Promise<boolean> => {
-  return new Promise((resolve, _reject) => {
-    saveToFirebase(ref, data)
-      .then(async () => {
-        if (successCallback) {
-          await successCallback();
-        }
-        resolve(true);
-      })
-      .catch((err) => {
-        console.log(`Error while saving data to Firebase db: ${ref}`, err);
-        resolve(false);
-      });
-  });
+export const saveToFirebase = async (path: string, data: any) => {
+  try {
+    const db = getDatabase(firebaseApp);
+    const dbRef = ref(db, await getDbRef(path));
+    await set(dbRef, data);
+    return true;
+  } catch (err) {
+    console.log(`Error while saving data to Firebase db: ${ref}`, err);
+    return false;
+  }
 };
 
 /**

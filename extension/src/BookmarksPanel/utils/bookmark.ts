@@ -1,12 +1,12 @@
 import { FIREBASE_DB_REF } from "@common/constants/firebase";
-import storage from "GlobalHelpers/chrome/storage";
-import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
 import { STORAGE_KEYS } from "GlobalConstants";
+import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
+import storage from "GlobalHelpers/chrome/storage";
+import { getBookmarks } from "GlobalHelpers/fetchFromStorage";
+import { getFromFirebase, saveToFirebase } from "GlobalHelpers/firebase";
 import { getCacheObj } from "GlobalUtils/cache";
-import { getFromFirebase, saveDataToFirebase } from "GlobalHelpers/firebase";
 import { getFaviconUrl } from ".";
 import { IBookmarksObj } from "../interfaces";
-import { getBookmarks } from "GlobalHelpers/fetchFromStorage";
 
 export const syncBookmarksToStorage = async () => {
   const bookmarks = await getFromFirebase<IBookmarksObj>(
@@ -23,9 +23,9 @@ export const syncBookmarksFirebaseWithStorage = async () => {
     return;
   }
   console.log("Syncing bookmarks from storage to firebase", bookmarks);
-  const isSaveSuccess = await saveDataToFirebase(
-    bookmarks,
-    FIREBASE_DB_REF.bookmarks
+  const isSaveSuccess = await saveToFirebase(
+    FIREBASE_DB_REF.bookmarks,
+    bookmarks
   );
   if (isSaveSuccess) {
     await storage.remove("hasPendingBookmarks");
