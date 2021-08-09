@@ -1,16 +1,24 @@
 import { getFullDbPath } from "@common/utils/firebase";
+import { initializeApp } from "firebase/app";
 import {
   getAuth,
   GoogleAuthProvider,
+  indexedDBLocalPersistence,
+  initializeAuth,
   signInWithCredential,
   signOut,
 } from "firebase/auth";
-import firebase from "firebase/compat/app";
-import "firebase/compat/storage";
 import { get, getDatabase, ref, set } from "firebase/database";
+import {
+  deleteObject,
+  getDownloadURL,
+  getStorage,
+  ref as ref1,
+  uploadBytes,
+} from "firebase/storage";
 import { getUserProfile } from "GlobalHelpers/fetchFromStorage";
 
-const firebaseConfig = {
+const firebaseApp = initializeApp({
   apiKey: "AIzaSyDiMRlBhW36sLjEADoQj9T5L1H-hIDUAso",
   authDomain: "bypass-links.firebaseapp.com",
   databaseURL: "https://bypass-links.firebaseio.com/",
@@ -19,16 +27,20 @@ const firebaseConfig = {
   messagingSenderId: "603462573180",
   appId: "1:603462573180:web:317c7f02f1f66b836f3df9",
   measurementId: "G-ZGKPZFJ01Z",
-};
-
-const firebaseApp = firebase.initializeApp(firebaseConfig);
+});
 
 /**
  * AUTHORIZATION
  */
-export const googleSignIn = (token: string) => {
-  const auth = getAuth(firebaseApp);
-  return signInWithCredential(auth, GoogleAuthProvider.credential(null, token));
+export const googleSignIn = async (token: string) => {
+  const auth = initializeAuth(firebaseApp, {
+    persistence: indexedDBLocalPersistence,
+  });
+  const response = await signInWithCredential(
+    auth,
+    GoogleAuthProvider.credential(null, token)
+  );
+  return response;
 };
 
 export const googleSignOut = () => {
@@ -73,23 +85,20 @@ const getStoragePath = async (ref: string) => {
   return `${userProfile.uid}/${env}/${ref}`;
 };
 
-export const uploadImageToFirebase = async (blob: Blob, ref: string) =>
-  firebase
-    .storage()
-    .ref()
-    .child(await getStoragePath(ref))
-    .put(blob, { contentType: blob.type });
+export const uploadImageToFirebase = async (blob: Blob, ref: string) => {
+  const storage = getStorage(firebaseApp);
+  const path = ref1(storage, await getStoragePath(ref));
+  await uploadBytes(path, blob, { contentType: blob.type });
+};
 
-export const getImageFromFirebase = async (ref: string): Promise<string> =>
-  firebase
-    .storage()
-    .ref()
-    .child(await getStoragePath(ref))
-    .getDownloadURL();
+export const getImageFromFirebase = async (ref: string) => {
+  const storage = getStorage(firebaseApp);
+  const path = ref1(storage, await getStoragePath(ref));
+  return getDownloadURL(path);
+};
 
-export const removeImageFromFirebase = async (ref: string) =>
-  firebase
-    .storage()
-    .ref()
-    .child(await getStoragePath(ref))
-    .delete();
+export const removeImageFromFirebase = async (ref: string) => {
+  const storage = getStorage(firebaseApp);
+  const path = ref1(storage, await getStoragePath(ref));
+  await deleteObject(path);
+};
