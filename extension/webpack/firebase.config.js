@@ -9,7 +9,11 @@ const { PATHS } = require("./constants");
 
 const firebaseDllConfig = merge(commonConfig, {
   name: "firebase-dll",
-  entry: ["./src/helpers/firebase.ts"],
+  entry: [
+    "./src/helpers/firebase/auth.ts",
+    "./src/helpers/firebase/database.ts",
+    "./src/helpers/firebase/storage.ts",
+  ],
   output: {
     filename: "js/firebase.dll.js",
     path: PATHS.EXTENSION,

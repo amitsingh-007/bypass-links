@@ -12,18 +12,18 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
+import { TransitionProps } from "@material-ui/core/transitions";
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import imageCompression from "browser-image-compression";
 import PanelHeading from "GlobalComponents/PanelHeading";
-import { BG_COLOR_DARK, COLOR } from "GlobalConstants/color";
 import { FIREBASE_STORAGE_REF } from "GlobalConstants";
-import { uploadImageToFirebase } from "GlobalHelpers/firebase";
+import { BG_COLOR_DARK, COLOR } from "GlobalConstants/color";
+import { uploadImageToFirebase } from "GlobalHelpers/firebase/storage";
+import { VoidFunction } from "GlobalInterfaces/custom";
 import { forwardRef, memo, useCallback, useRef, useState } from "react";
 import Cropper from "react-easy-crop";
-import getCroppedImg from "../utils/cropImage";
-import { TransitionProps } from "@material-ui/core/transitions";
 import { Area } from "react-easy-crop/types";
-import { VoidFunction } from "GlobalInterfaces/custom";
+import getCroppedImg from "../utils/cropImage";
 
 const ROTATION = 0; //No rotation allowed
 const ASPECT_RATIO = 1; //Square image allowed

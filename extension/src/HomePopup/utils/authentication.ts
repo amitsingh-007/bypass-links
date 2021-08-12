@@ -1,9 +1,9 @@
 import identity from "GlobalHelpers/chrome/identity";
-import { googleSignIn, googleSignOut } from "GlobalHelpers/firebase";
-import { AUTHENTICATION_EVENT } from "../constants/auth";
-import { processPostLogin, processPostLogout, processPreLogout } from "./sync";
+import { googleSignIn, googleSignOut } from "GlobalHelpers/firebase/auth";
 import { AuthenticationEvent } from "GlobalInterfaces/authentication";
+import { AUTHENTICATION_EVENT } from "../constants/auth";
 import { UserInfo } from "../interfaces/authentication";
+import { processPostLogin, processPostLogout, processPreLogout } from "./sync";
 
 const userSignIn = async (): Promise<UserInfo> => {
   dispatchAuthenticationEvent({
@@ -14,11 +14,12 @@ const userSignIn = async (): Promise<UserInfo> => {
   });
   const googleAuthToken = await identity.getAuthToken({ interactive: true });
   const response = await googleSignIn(googleAuthToken);
-  const userProfile = response.additionalUserInfo?.profile ?? {};
+  const userProfile = response.user ?? {};
   const userInfo: UserInfo = {
-    ...userProfile,
     googleAuthToken,
     uid: response.user?.uid,
+    name: userProfile.displayName ?? "No Name",
+    picture: userProfile.photoURL ?? "",
   };
   console.log("Firebase login response", response);
   console.log("UserInfo", userInfo);

@@ -1,19 +1,19 @@
+import { FIREBASE_DB_REF } from "@common/constants/firebase";
 import { Box } from "@material-ui/core";
 import { displayToast } from "GlobalActionCreators/toast";
 import { ROUTES } from "GlobalConstants/routes";
 import { PANEL_DIMENSIONS } from "GlobalConstants/styles";
-import { saveDataToFirebase } from "GlobalHelpers/firebase";
-import { syncRedirectionsToStorage } from "SrcPath/BackgroundScript/redirect";
+import { getRedirections } from "GlobalHelpers/fetchFromStorage";
+import { saveToFirebase } from "GlobalHelpers/firebase/database";
 import { memo, useEffect, useState } from "react";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { getRedirections } from "GlobalHelpers/fetchFromStorage";
-import { FIREBASE_DB_REF } from "@common/constants/firebase";
+import { IRedirection } from "SrcPath/BackgroundScript/interfaces/redirections";
+import { syncRedirectionsToStorage } from "SrcPath/BackgroundScript/redirect";
 import { DEFAULT_RULE_ALIAS } from "../constants";
 import Header from "./Header";
 import RedirectionRule from "./RedirectionRule";
-import { IRedirection } from "SrcPath/BackgroundScript/interfaces/redirections";
 
 //Filter valid rules
 const getValidRules = (obj: IRedirection) =>
@@ -59,12 +59,12 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
       },
       {}
     );
-    const isSaveSuccess = await saveDataToFirebase(
-      shortcutsObj,
+    const isSaveSuccess = await saveToFirebase(
       FIREBASE_DB_REF.redirections,
-      syncRedirectionsToStorage
+      shortcutsObj
     );
     if (isSaveSuccess) {
+      syncRedirectionsToStorage();
       setRedirections(validRules);
       dispatch(
         displayToast({

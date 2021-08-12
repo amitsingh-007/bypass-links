@@ -1,7 +1,7 @@
 import { FIREBASE_DB_REF } from "@common/constants/firebase";
 import { STORAGE_KEYS } from "GlobalConstants";
 import storage from "GlobalHelpers/chrome/storage";
-import { getFromFirebase } from "GlobalHelpers/firebase";
+import { getFromFirebase } from "GlobalHelpers/firebase/database";
 import { IBypass } from "../interfaces/bypass";
 import { getBypassExecutor, getDecodedBypass } from "./bypassUtils";
 

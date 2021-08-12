@@ -3,7 +3,7 @@ import { STORAGE_KEYS } from "GlobalConstants";
 import storage from "GlobalHelpers/chrome/storage";
 import tabs from "GlobalHelpers/chrome/tabs";
 import { getMappedRedirections } from "GlobalHelpers/fetchFromStorage";
-import { getFromFirebase } from "../../helpers/firebase";
+import { getFromFirebase } from "GlobalHelpers/firebase/database";
 import { IRedirection } from "../interfaces/redirections";
 import { mapRedirections } from "../mapper/redirection";
 

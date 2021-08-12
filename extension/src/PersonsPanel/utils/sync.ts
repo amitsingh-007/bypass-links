@@ -1,17 +1,17 @@
 import { FIREBASE_DB_REF } from "@common/constants/firebase";
-import storage from "GlobalHelpers/chrome/storage";
-import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
 import { STORAGE_KEYS } from "GlobalConstants";
-import { addToCache, getCacheObj } from "GlobalUtils/cache";
+import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
+import storage from "GlobalHelpers/chrome/storage";
+import { getPersonImageUrls, getPersons } from "GlobalHelpers/fetchFromStorage";
 import {
   getFromFirebase,
-  getImageFromFirebase,
-  saveDataToFirebase,
-} from "GlobalHelpers/firebase";
+  saveToFirebase,
+} from "GlobalHelpers/firebase/database";
+import { getImageFromFirebase } from "GlobalHelpers/firebase/storage";
+import { addToCache, getCacheObj } from "GlobalUtils/cache";
 import { dispatchAuthenticationEvent } from "SrcPath/HomePopup/utils/authentication";
 import { getAllDecodedPersons } from ".";
 import { IPerson, PersonImageUrls } from "../interfaces/persons";
-import { getPersons, getPersonImageUrls } from "GlobalHelpers/fetchFromStorage";
 
 export const syncPersonsToStorage = async () => {
   const persons = await getFromFirebase<IPerson>(FIREBASE_DB_REF.persons);
@@ -26,10 +26,7 @@ export const syncPersonsFirebaseWithStorage = async () => {
     return;
   }
   console.log("Syncing persons from storage to firebase", persons);
-  const isSaveSuccess = await saveDataToFirebase(
-    persons,
-    FIREBASE_DB_REF.persons
-  );
+  const isSaveSuccess = await saveToFirebase(FIREBASE_DB_REF.persons, persons);
   if (isSaveSuccess) {
     await storage.remove("hasPendingPersons");
   } else {
