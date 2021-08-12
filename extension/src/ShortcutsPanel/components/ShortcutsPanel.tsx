@@ -4,7 +4,7 @@ import { displayToast } from "GlobalActionCreators/toast";
 import { ROUTES } from "GlobalConstants/routes";
 import { PANEL_DIMENSIONS } from "GlobalConstants/styles";
 import { getRedirections } from "GlobalHelpers/fetchFromStorage";
-import { saveToFirebase } from "GlobalHelpers/firebase";
+import { saveToFirebase } from "GlobalHelpers/firebase/database";
 import { memo, useEffect, useState } from "react";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";

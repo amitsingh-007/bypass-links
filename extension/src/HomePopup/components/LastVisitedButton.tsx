@@ -6,7 +6,7 @@ import { BlackTooltip } from "GlobalComponents/StyledComponents";
 import { COLOR } from "GlobalConstants/color";
 import { getCurrentTab } from "GlobalHelpers/chrome/tabs";
 import { getLastVisited } from "GlobalHelpers/fetchFromStorage";
-import { saveToFirebase } from "GlobalHelpers/firebase";
+import { saveToFirebase } from "GlobalHelpers/firebase/database";
 import { RootState } from "GlobalReducers/rootReducer";
 import { getActiveDisabledColor } from "GlobalUtils/color";
 import md5 from "md5";

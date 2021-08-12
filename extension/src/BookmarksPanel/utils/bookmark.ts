@@ -3,7 +3,10 @@ import { STORAGE_KEYS } from "GlobalConstants";
 import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
 import storage from "GlobalHelpers/chrome/storage";
 import { getBookmarks } from "GlobalHelpers/fetchFromStorage";
-import { getFromFirebase, saveToFirebase } from "GlobalHelpers/firebase";
+import {
+  getFromFirebase,
+  saveToFirebase,
+} from "GlobalHelpers/firebase/database";
 import { getCacheObj } from "GlobalUtils/cache";
 import { getFaviconUrl } from ".";
 import { IBookmarksObj } from "../interfaces";

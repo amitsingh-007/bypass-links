@@ -1,9 +1,9 @@
 import identity from "GlobalHelpers/chrome/identity";
-import { googleSignIn, googleSignOut } from "GlobalHelpers/firebase";
-import { AUTHENTICATION_EVENT } from "../constants/auth";
-import { processPostLogin, processPostLogout, processPreLogout } from "./sync";
+import { googleSignIn, googleSignOut } from "GlobalHelpers/firebase/auth";
 import { AuthenticationEvent } from "GlobalInterfaces/authentication";
+import { AUTHENTICATION_EVENT } from "../constants/auth";
 import { UserInfo } from "../interfaces/authentication";
+import { processPostLogin, processPostLogout, processPreLogout } from "./sync";
 
 const userSignIn = async (): Promise<UserInfo> => {
   dispatchAuthenticationEvent({

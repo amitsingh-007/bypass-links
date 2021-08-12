@@ -2,7 +2,7 @@ import { Box } from "@material-ui/core";
 import { displayToast } from "GlobalActionCreators/toast";
 import { PANEL_DIMENSIONS } from "GlobalConstants/styles";
 import { getPersons } from "GlobalHelpers/fetchFromStorage";
-import { removeImageFromFirebase } from "GlobalHelpers/firebase";
+import { removeImageFromFirebase } from "GlobalHelpers/firebase/storage";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { SORT_ORDER, SORT_TYPE } from "../constants/sort";

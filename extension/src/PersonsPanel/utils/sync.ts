@@ -5,9 +5,9 @@ import storage from "GlobalHelpers/chrome/storage";
 import { getPersonImageUrls, getPersons } from "GlobalHelpers/fetchFromStorage";
 import {
   getFromFirebase,
-  getImageFromFirebase,
   saveToFirebase,
-} from "GlobalHelpers/firebase";
+} from "GlobalHelpers/firebase/database";
+import { getImageFromFirebase } from "GlobalHelpers/firebase/storage";
 import { addToCache, getCacheObj } from "GlobalUtils/cache";
 import { dispatchAuthenticationEvent } from "SrcPath/HomePopup/utils/authentication";
 import { getAllDecodedPersons } from ".";
