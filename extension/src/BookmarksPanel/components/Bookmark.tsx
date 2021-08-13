@@ -218,7 +218,6 @@ class Bookmark extends PureComponent<Props, State> {
       title,
       folder = "",
       curFolder = "",
-      // pos = 0,
       taggedPersons,
       folderNamesList = [],
       handleBulkBookmarksMove,

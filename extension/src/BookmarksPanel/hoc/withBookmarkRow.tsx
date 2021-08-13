@@ -52,10 +52,7 @@ const withBookmarkRow = <T extends InjectedProps>(
         `[data-text='${primaryUniqueId}']`
       );
       if (prevEditBookmark && !editBookmark && node) {
-        node.scrollIntoView({
-          block: "center",
-          behavior: "smooth",
-        });
+        node.scrollIntoView({ block: "center", behavior: "smooth" });
       }
     }, [editBookmark, prevEditBookmark, primaryUniqueId]);
 
