@@ -5,12 +5,12 @@ import { useInView } from "react-intersection-observer";
 
 interface Props {
   containerStyles: SxProps;
-  forceRender: boolean;
+  forceRender?: boolean;
   children: React.ReactNode;
 }
 
 const ProgressiveRender = memo<Props>(
-  ({ containerStyles, forceRender, children }) => {
+  ({ containerStyles, forceRender = false, children }) => {
     const { ref, inView } = useInView({
       rootMargin: "100px",
       triggerOnce: true,

@@ -1,7 +1,8 @@
 import { Box, Button } from "@material-ui/core";
 import { SxProps } from "@material-ui/system";
+import ProgressiveRender from "GlobalComponents/ProgressiveRender";
 import md5 from "md5";
-import { memo, useEffect, useRef } from "react";
+import { memo, useEffect } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import Ripples from "react-ripples";
 import usePrevious from "SrcPath/hooks/usePrevious";
@@ -9,6 +10,7 @@ import { Subtract } from "utility-types";
 import { bookmarkRowStyles, BOOKMARK_ROW_DIMENTSIONS } from "../constants";
 import { ICurDraggingBookmark } from "../interfaces";
 import "../scss/withBookmarkRow.scss";
+import { isInInitalView } from "../utils";
 
 export interface InjectedProps {
   containerStyles: SxProps;
@@ -41,20 +43,24 @@ const withBookmarkRow = <T extends InjectedProps>(
       editBookmark,
       curDraggingBookmark,
     } = props;
-    const bookmarkRef = useRef<HTMLDivElement>(null);
     const prevEditBookmark = usePrevious(editBookmark);
     const primaryUniqueId = (isDir ? name : url) || "";
     const secondaryUniqueId = isDir ? null : title;
 
     useEffect(() => {
       // Scroll into view after dialog close
-      if (prevEditBookmark && !editBookmark && bookmarkRef?.current) {
-        bookmarkRef.current.scrollIntoView({
-          block: "center",
-          behavior: "smooth",
-        });
+      const node = document.querySelector<HTMLDivElement>(
+        `[data-text='${primaryUniqueId}']`
+      );
+      if (prevEditBookmark && !editBookmark && node) {
+        node.scrollIntoView({ block: "center", behavior: "smooth" });
       }
-    }, [editBookmark, prevEditBookmark]);
+    }, [editBookmark, prevEditBookmark, primaryUniqueId]);
+
+    const showDragCount =
+      !isDir &&
+      curDraggingBookmark.uid === md5(primaryUniqueId) &&
+      curDraggingBookmark.dragCount > 0;
 
     return (
       <Draggable draggableId={primaryUniqueId} index={pos}>
@@ -73,39 +79,44 @@ const withBookmarkRow = <T extends InjectedProps>(
             {...provided.draggableProps}
             {...provided.dragHandleProps}
           >
-            <Ripples>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  flexGrow: 1,
-                  maxWidth: `${BOOKMARK_ROW_DIMENTSIONS.width}px`,
-                }}
-                ref={bookmarkRef}
-              >
-                <Component
-                  {...(props as unknown as T)}
-                  containerStyles={bookmarkRowStyles}
-                />
-              </Box>
-            </Ripples>
-            {!isDir &&
-            curDraggingBookmark.uid === md5(primaryUniqueId) &&
-            curDraggingBookmark.dragCount > 0 ? (
-              <Button
-                variant="contained"
-                color="secondary"
-                sx={{
-                  mr: "8px",
-                  fontSize: "12px",
-                  minWidth: "unset",
-                  padding: "0px 7px",
-                  borderRadius: "50%",
-                }}
-              >
-                {curDraggingBookmark.dragCount}
-              </Button>
-            ) : null}
+            <ProgressiveRender
+              containerStyles={{
+                height: `${BOOKMARK_ROW_DIMENTSIONS.height}px`,
+                width: "100%",
+              }}
+              forceRender={editBookmark || isInInitalView(pos)}
+            >
+              <Ripples>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    flexGrow: 1,
+                    maxWidth: `${BOOKMARK_ROW_DIMENTSIONS.width}px`,
+                  }}
+                >
+                  <Component
+                    {...(props as unknown as T)}
+                    containerStyles={bookmarkRowStyles}
+                  />
+                </Box>
+              </Ripples>
+              {showDragCount ? (
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  sx={{
+                    mr: "8px",
+                    fontSize: "12px",
+                    minWidth: "unset",
+                    padding: "0px 7px",
+                    borderRadius: "50%",
+                  }}
+                >
+                  {curDraggingBookmark.dragCount}
+                </Button>
+              ) : null}
+            </ProgressiveRender>
           </Box>
         )}
       </Draggable>
