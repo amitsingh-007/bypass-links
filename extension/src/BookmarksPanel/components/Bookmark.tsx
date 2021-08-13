@@ -3,17 +3,15 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import DriveFileMoveOutlinedIcon from "@material-ui/icons/DriveFileMoveOutlined";
 import EditIcon from "@material-ui/icons/Edit";
 import OpenInNewTwoToneIcon from "@material-ui/icons/OpenInNewTwoTone";
-import tabs from "GlobalHelpers/chrome/tabs";
 import ContextMenu from "GlobalComponents/ContextMenu";
-import ProgressiveRender from "GlobalComponents/ProgressiveRender";
 import { BlackTooltip } from "GlobalComponents/StyledComponents";
+import tabs from "GlobalHelpers/chrome/tabs";
 import { VoidFunction } from "GlobalInterfaces/custom";
 import { MenuOption } from "GlobalInterfaces/menu";
 import { Fragment, PureComponent } from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { compose } from "redux";
-import { isInInitalView } from "SrcPath/BookmarksPanel/utils";
 import { getBookmarksPanelUrl } from "SrcPath/BookmarksPanel/utils/url";
 import { startHistoryMonitor } from "SrcPath/HistoryPanel/actionCreators";
 import PersonAvatars from "SrcPath/PersonsPanel/components/PersonAvatars";
@@ -22,7 +20,6 @@ import {
   getPersonsFromUids,
   getPersonsWithImageUrl,
 } from "SrcPath/PersonsPanel/utils";
-import { BOOKMARK_ROW_DIMENTSIONS } from "../constants";
 import withBookmarkRow, { InjectedProps } from "../hoc/withBookmarkRow";
 import BookmarkDialog from "./BookmarkDialog";
 import BulkBookmarksMoveDialog from "./BulkBookmarksMoveDialog";
@@ -221,7 +218,7 @@ class Bookmark extends PureComponent<Props, State> {
       title,
       folder = "",
       curFolder = "",
-      pos = 0,
+      // pos = 0,
       taggedPersons,
       folderNamesList = [],
       handleBulkBookmarksMove,
@@ -235,73 +232,61 @@ class Bookmark extends PureComponent<Props, State> {
       menuOptions,
     } = this.state;
     return (
-      /**
-       * NOTE: Change height when bookmark height changes
-       * Force render the bookmark when we want to edit it or its in the initial view
-       */
-      <ProgressiveRender
-        containerStyles={{
-          height: `${BOOKMARK_ROW_DIMENTSIONS.height}px`,
-          width: "100%",
-        }}
-        forceRender={openEditDialog || isInInitalView(pos)}
-      >
-        <Fragment>
-          <ContextMenu
-            menuOptions={menuOptions}
-            showMenu={!isExternalPage}
-            onOpen={this.onRightClick}
+      <Fragment>
+        <ContextMenu
+          menuOptions={menuOptions}
+          showMenu={!isExternalPage}
+          onOpen={this.onRightClick}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              width: "100%",
+              height: "100%",
+              ...containerStyles,
+            }}
+            onDoubleClick={this.handleOpenLink}
+            onClick={this.handleSelectionChange}
           >
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                width: "100%",
-                height: "100%",
-                ...containerStyles,
-              }}
-              onDoubleClick={this.handleOpenLink}
-              onClick={this.handleSelectionChange}
+            <Favicon url={url} />
+            <PersonAvatars persons={personsWithImageUrls} />
+            <BlackTooltip
+              title={<Typography sx={tooltipStyles}>{url}</Typography>}
+              arrow
+              disableInteractive
+              followCursor
             >
-              <Favicon url={url} />
-              <PersonAvatars persons={personsWithImageUrls} />
-              <BlackTooltip
-                title={<Typography sx={tooltipStyles}>{url}</Typography>}
-                arrow
-                disableInteractive
-                followCursor
-              >
-                <Typography noWrap sx={titleStyles}>
-                  {title}
-                </Typography>
-              </BlackTooltip>
-            </Box>
-          </ContextMenu>
-          {openEditDialog && (
-            <BookmarkDialog
-              url={url}
-              origTitle={title}
-              origFolder={folder}
-              origTaggedPersons={taggedPersons}
-              headerText="Edit bookmark"
-              folderList={folderNamesList}
-              handleSave={this.handleBookmarkSave}
-              handleDelete={this.handleDeleteOptionClick}
-              isOpen={openEditDialog}
-              onClose={this.toggleEditDialog}
-            />
-          )}
-          {handleBulkBookmarksMove && openBulkBookmarksMoveDialog && (
-            <BulkBookmarksMoveDialog
-              origFolder={curFolder}
-              folderList={folderNamesList}
-              handleSave={handleBulkBookmarksMove}
-              isOpen={openBulkBookmarksMoveDialog}
-              onClose={this.toggleBulkBookmarksMoveDialog}
-            />
-          )}
-        </Fragment>
-      </ProgressiveRender>
+              <Typography noWrap sx={titleStyles}>
+                {title}
+              </Typography>
+            </BlackTooltip>
+          </Box>
+        </ContextMenu>
+        {openEditDialog && (
+          <BookmarkDialog
+            url={url}
+            origTitle={title}
+            origFolder={folder}
+            origTaggedPersons={taggedPersons}
+            headerText="Edit bookmark"
+            folderList={folderNamesList}
+            handleSave={this.handleBookmarkSave}
+            handleDelete={this.handleDeleteOptionClick}
+            isOpen={openEditDialog}
+            onClose={this.toggleEditDialog}
+          />
+        )}
+        {handleBulkBookmarksMove && openBulkBookmarksMoveDialog && (
+          <BulkBookmarksMoveDialog
+            origFolder={curFolder}
+            folderList={folderNamesList}
+            handleSave={handleBulkBookmarksMove}
+            isOpen={openBulkBookmarksMoveDialog}
+            onClose={this.toggleBulkBookmarksMoveDialog}
+          />
+        )}
+      </Fragment>
     );
   }
 }
