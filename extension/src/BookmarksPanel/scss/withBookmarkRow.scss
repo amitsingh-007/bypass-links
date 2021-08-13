@@ -14,7 +14,8 @@
   &[data-is-selected="true"] + &[data-is-selected="true"] {
     border-top-color: transparent;
   }
-  > .react-ripples {
-    width: 100%;
-  }
+}
+
+.react-ripples {
+  width: 100%;
 }

@@ -10,6 +10,7 @@ import { Subtract } from "utility-types";
 import { bookmarkRowStyles, BOOKMARK_ROW_DIMENTSIONS } from "../constants";
 import { ICurDraggingBookmark } from "../interfaces";
 import "../scss/withBookmarkRow.scss";
+import { isInInitalView } from "../utils";
 
 export interface InjectedProps {
   containerStyles: SxProps;
@@ -83,7 +84,7 @@ const withBookmarkRow = <T extends InjectedProps>(
                 height: `${BOOKMARK_ROW_DIMENTSIONS.height}px`,
                 width: "100%",
               }}
-              forceRender={editBookmark}
+              forceRender={editBookmark || isInInitalView(pos)}
             >
               <Ripples>
                 <Box
