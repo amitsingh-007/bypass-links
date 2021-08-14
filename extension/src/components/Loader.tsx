@@ -17,7 +17,7 @@ const Loader = memo<{
       sx={{
         display: "flex",
         justifyContent: "center",
-        verticalAlign: "middle",
+        alignItems: "center",
         ...styles,
       }}
     >
