@@ -31,7 +31,7 @@
     "@material-ui/lab": "5.0.0-alpha.41",
     "@material-ui/styles": "5.0.0-beta.2",
     "browser-image-compression": "1.0.14",
-    "core-js": "3.16.0",
+    "core-js": "3.16.1",
     "dayjs": "1.10.6",
     "firebase": "9.0.0-beta.8",
     "md5": "2.3.0",
