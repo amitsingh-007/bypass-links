@@ -19,6 +19,7 @@ const nextConfig = {
   experimental: {
     //To build common folder, which is outside root directory; https://github.com/vercel/next.js/issues/5666
     externalDir: true,
+    esmExternals: true,
   },
   reactStrictMode: true,
   sassOptions: {
