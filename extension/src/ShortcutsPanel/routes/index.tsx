@@ -5,7 +5,7 @@ import { Route } from "react-router-dom";
 const ShortcutsPanel = lazy(
   () =>
     import(
-      /*  webpackChunkName: "shortcuts-panel" */ "SrcPath/ShortcutsPanel/components/ShortcutsPanel"
+      /*  webpackChunkName: "shortcuts-panel" */ "../components/ShortcutsPanel"
     )
 );
 

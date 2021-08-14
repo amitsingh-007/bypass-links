@@ -5,7 +5,7 @@ import { Route } from "react-router-dom";
 const PersonsPanel = lazy(
   () =>
     import(
-      /*  webpackChunkName: "persons-panel" */ "SrcPath/PersonsPanel/components/PersonsPanel"
+      /*  webpackChunkName: "persons-panel" */ "../components/PersonsPanel"
     )
 );
 

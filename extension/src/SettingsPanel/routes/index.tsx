@@ -5,7 +5,7 @@ import { Route } from "react-router-dom";
 const SettingsPanel = lazy(
   () =>
     import(
-      /*  webpackChunkName: "settings-panel" */ "SrcPath/SettingsPanel/containers/SettingsPanel"
+      /*  webpackChunkName: "settings-panel" */ "../containers/SettingsPanel"
     )
 );
 
