@@ -10,7 +10,7 @@ import { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { resetHistoryMonitor } from "SrcPath/HistoryPanel/actionCreators";
 
-export const endHistoryWatch = async () => {
+const endHistoryWatch = async () => {
   const { historyStartTime } = await storage.get(["historyStartTime"]);
   if (!historyStartTime) {
     console.log("Nothing to clear.");

@@ -43,7 +43,6 @@ const popupConfig = merge(commonConfig, {
     DllReferenceWebpackPlugin,
     new HtmlWebpackPlugin({
       template: "./public/index.html",
-      inject: false,
     }),
     new MiniCssExtractPlugin({
       filename: "css/[name].[contenthash].css",
@@ -51,7 +50,10 @@ const popupConfig = merge(commonConfig, {
     }),
     new CopyWebpackPlugin({
       patterns: [
-        { from: `${PATHS.ROOT}/assets`, to: `${PATHS.EXTENSION}/assets` },
+        {
+          from: `${PATHS.ROOT}/assets`,
+          to: `${PATHS.EXTENSION}/assets`,
+        },
         {
           context: `${PATHS.ROOT}/public`,
           from: "**/*",

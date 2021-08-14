@@ -4,7 +4,6 @@ import SearchIcon from "@material-ui/icons/Search";
 import { IntersectionObserverResponse } from "GlobalInterfaces/overrides";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
-import { throttle } from "throttle-debounce";
 
 const refOptions = { trackVisibility: true, delay: 100 };
 
@@ -41,12 +40,9 @@ const SearchInput = memo<{ searchClassName: string }>(function SearchInput({
     [searchClassName]
   );
 
-  const onChange = throttle<React.ChangeEventHandler<HTMLInputElement>>(
-    100,
-    (event) => {
-      setSearchText(event.target.value ?? "");
-    }
-  );
+  const onChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    setSearchText(event.target.value ?? "");
+  };
 
   const handleKeyPress = useCallback(
     (event: KeyboardEvent) => {

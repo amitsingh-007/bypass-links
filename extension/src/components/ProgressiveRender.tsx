@@ -1,6 +1,6 @@
 import { Box } from "@material-ui/core";
 import { SxProps } from "@material-ui/system";
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 
 interface Props {
@@ -11,14 +11,29 @@ interface Props {
 
 const ProgressiveRender = memo<Props>(
   ({ containerStyles, forceRender = false, children }) => {
+    const [isRendered, setIsRendered] = useState(forceRender);
     const { ref, inView } = useInView({
       rootMargin: "100px",
       triggerOnce: true,
     });
 
+    useEffect(() => {
+      if (!isRendered && inView) {
+        setIsRendered(true);
+      }
+    }, [isRendered, inView]);
+
+    useEffect(() => {
+      window.requestIdleCallback(() => {
+        if (!isRendered) {
+          setIsRendered(true);
+        }
+      });
+    }, [isRendered]);
+
     return (
       <Box sx={containerStyles} ref={ref}>
-        {inView || forceRender ? children : null}
+        {isRendered ? children : null}
       </Box>
     );
   }

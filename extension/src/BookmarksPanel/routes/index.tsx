@@ -7,7 +7,7 @@ import { BMPanelQueryParams } from "../interfaces/url";
 const BookmarksPanel = lazy(
   () =>
     import(
-      /*  webpackChunkName: "bookmarks-panel" */ "SrcPath/BookmarksPanel/components/BookmarksPanel"
+      /* webpackChunkName: "bookmarks-panel" */ "../components/BookmarksPanel"
     )
 );
 const getQueryParams = (qs: string): BMPanelQueryParams => {
