@@ -83,6 +83,9 @@ const withBookmarkRow = <T extends InjectedProps>(
               containerStyles={{
                 height: `${BOOKMARK_ROW_DIMENTSIONS.height}px`,
                 width: "100%",
+                position: "relative",
+                display: "flex",
+                alignItems: "center ",
               }}
               forceRender={editBookmark || isInInitalView(pos)}
             >
@@ -91,7 +94,6 @@ const withBookmarkRow = <T extends InjectedProps>(
                   sx={{
                     display: "flex",
                     alignItems: "center",
-                    flexGrow: 1,
                     maxWidth: `${BOOKMARK_ROW_DIMENTSIONS.width}px`,
                   }}
                 >
@@ -106,7 +108,8 @@ const withBookmarkRow = <T extends InjectedProps>(
                   variant="contained"
                   color="secondary"
                   sx={{
-                    mr: "8px",
+                    position: "absolute",
+                    right: "3px",
                     fontSize: "12px",
                     minWidth: "unset",
                     padding: "0px 7px",
