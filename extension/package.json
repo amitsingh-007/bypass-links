@@ -29,7 +29,7 @@
     "@material-ui/core": "5.0.0-beta.2",
     "@material-ui/icons": "5.0.0-beta.4",
     "@material-ui/lab": "5.0.0-alpha.41",
-    "@material-ui/styles": "5.0.0-beta.2",
+    "@material-ui/styles": "5.0.0-beta.4",
     "browser-image-compression": "1.0.15",
     "core-js": "3.16.1",
     "dayjs": "1.10.6",
