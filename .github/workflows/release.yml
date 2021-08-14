@@ -16,7 +16,9 @@ jobs:
       - name: Setting up Node.js 🔧
         uses: actions/setup-node@v2.4.0
         with:
-          node-version: "14.x"
+          node-version: "14"
+          cache: "npm"
+          cache-dependency-path: "**/package-lock.json"
 
       - name: Cache 💾
         uses: actions/cache@v2.1.6
@@ -153,7 +155,9 @@ jobs:
       - name: Setting up Node.js 🔧
         uses: actions/setup-node@v2.4.0
         with:
-          node-version: "14.x"
+          node-version: "14"
+          cache: "npm"
+          cache-dependency-path: "**/package-lock.json"
 
       - name: Start deployment 🚀
         uses: bobheadxi/deployments@v0.6.0
