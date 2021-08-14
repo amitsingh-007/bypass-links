@@ -1,9 +1,9 @@
 import { CssBaseline } from "@material-ui/core";
 import { createTheme, ThemeProvider } from "@material-ui/core/styles";
-import GlobalMetaTags from "src/ui/components/GlobalMetaTags";
-import { AppProps } from "next/dist/next-server/lib/router/router";
-import { StrictMode } from "react";
 import "@ui/styles/globals.scss";
+import { AppProps } from "next/dist/shared/lib/router/router";
+import { StrictMode } from "react";
+import GlobalMetaTags from "src/ui/components/GlobalMetaTags";
 
 const theme = createTheme({
   palette: {
