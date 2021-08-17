@@ -91,11 +91,7 @@ const withBookmarkRow = <T extends InjectedProps>(
             >
               <Ripples>
                 <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    maxWidth: `${BOOKMARK_ROW_DIMENTSIONS.width}px`,
-                  }}
+                  sx={{ display: "flex", alignItems: "center", width: "100%" }}
                 >
                   <Component
                     {...(props as unknown as T)}
