@@ -11,14 +11,11 @@ const BookmarksPanel = lazy(
     )
 );
 const getQueryParams = (qs: string): BMPanelQueryParams => {
-  const { folderContext, addBookmark, editBookmark, bmUrl, bmTitle } =
-    deserialzeQueryStringToObject(qs);
+  const { folderContext, bmUrl, operation } = deserialzeQueryStringToObject(qs);
   return {
     folderContext,
-    addBookmark: addBookmark === "true",
-    editBookmark: editBookmark === "true",
+    operation: Number(operation),
     bmUrl,
-    bmTitle,
   };
 };
 export const BookmarksPanelRoute = (

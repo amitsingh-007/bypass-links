@@ -56,7 +56,7 @@ const Folder = memo<Props>(
         dispatch(displayToast({ message: "This folder is empty" }));
         return;
       }
-      history.push(getBookmarksPanelUrl({ folder: origName }));
+      history.push(getBookmarksPanelUrl({ folderContext: origName }));
     };
 
     useEffect(() => {

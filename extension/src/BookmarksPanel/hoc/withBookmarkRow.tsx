@@ -1,9 +1,8 @@
 import { Box } from "@material-ui/core";
 import { SxProps } from "@material-ui/system";
-import { memo, useEffect } from "react";
+import { memo } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import Ripples from "react-ripples";
-import usePrevious from "SrcPath/hooks/usePrevious";
 import { Subtract } from "utility-types";
 import { bookmarkRowStyles } from "../constants";
 import "../scss/withBookmarkRow.scss";
@@ -19,7 +18,6 @@ interface ExpectedProps {
   url?: string;
   title?: string;
   isSelected?: boolean;
-  editBookmark?: boolean;
 }
 
 const withBookmarkRow = <T extends InjectedProps>(
@@ -28,19 +26,8 @@ const withBookmarkRow = <T extends InjectedProps>(
   memo<Subtract<T, InjectedProps> & ExpectedProps>(function BookmarkRowHoc(
     props
   ) {
-    const { isDir, name, url, pos, isSelected, editBookmark } = props;
-    const prevEditBookmark = usePrevious(editBookmark);
+    const { isDir, name, url, pos, isSelected } = props;
     const primaryUniqueId = (isDir ? name : url) || "";
-
-    useEffect(() => {
-      //TODO: Scroll into view after dialog close
-      const node = document.querySelector<HTMLDivElement>(
-        `[data-text='${primaryUniqueId}']`
-      );
-      if (prevEditBookmark && !editBookmark && node) {
-        node.scrollIntoView({ block: "center", behavior: "smooth" });
-      }
-    }, [editBookmark, prevEditBookmark, primaryUniqueId]);
 
     return (
       <Draggable draggableId={primaryUniqueId} index={pos}>

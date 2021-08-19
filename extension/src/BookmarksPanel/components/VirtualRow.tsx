@@ -14,15 +14,11 @@ export interface VirtualRowProps {
   folderList: IBookmarksObj["folderList"];
   folders: IBookmarksObj["folders"];
   selectedBookmarks: ISelectedBookmarks;
-  bmUrl: string;
-  bmTitle: string;
-  editBookmark: boolean;
   folderContext: BookmarkProps["curFolder"];
   contextBookmarks: ContextBookmarks;
   handleFolderRemove: FolderProps["handleRemove"];
   handleFolderEdit: FolderProps["handleEdit"];
   resetSelectedBookmarks: FolderProps["resetSelectedBookmarks"];
-  handleBookmarkSave: BookmarkProps["handleSave"];
   handleUrlRemove: BookmarkProps["handleRemove"];
   handleSelectedChange: BookmarkProps["handleSelectedChange"];
   handleOpenSelectedBookmarks: BookmarkProps["handleOpenSelectedBookmarks"];
@@ -39,15 +35,11 @@ const VirtualRow = memo<{
     folderList,
     folders,
     selectedBookmarks,
-    bmUrl,
-    bmTitle,
-    editBookmark,
     folderContext,
     contextBookmarks,
     handleFolderRemove,
     handleFolderEdit,
     resetSelectedBookmarks,
-    handleBookmarkSave,
     handleUrlRemove,
     handleSelectedChange,
     handleOpenSelectedBookmarks,
@@ -87,13 +79,11 @@ const VirtualRow = memo<{
           selectedCount={selectedCount}
           folder={folderContext}
           folderNamesList={folderNamesList}
-          handleSave={handleBookmarkSave}
           handleRemove={handleUrlRemove}
           handleSelectedChange={handleSelectedChange}
           handleOpenSelectedBookmarks={handleOpenSelectedBookmarks}
           handleBulkBookmarksMove={handleBulkBookmarksMove}
           handleBulkUrlRemove={handleBulkUrlRemove}
-          editBookmark={editBookmark && url === bmUrl && title === bmTitle}
         />
       )}
     </Box>

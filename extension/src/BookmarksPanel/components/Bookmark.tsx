@@ -12,7 +12,6 @@ import { Fragment, PureComponent } from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { compose } from "redux";
-import { getBookmarksPanelUrl } from "SrcPath/BookmarksPanel/utils/url";
 import { startHistoryMonitor } from "SrcPath/HistoryPanel/actionCreators";
 import PersonAvatars from "SrcPath/PersonsPanel/components/PersonAvatars";
 import { IPersonWithImage } from "SrcPath/PersonsPanel/interfaces/persons";
@@ -20,8 +19,9 @@ import {
   getPersonsFromUids,
   getPersonsWithImageUrl,
 } from "SrcPath/PersonsPanel/utils";
+import { setBookmarkOperation } from "../actionCreators";
+import { BOOKMARK_OPERATION } from "../constants";
 import withBookmarkRow, { InjectedProps } from "../hoc/withBookmarkRow";
-import BookmarkDialog from "./BookmarkDialog";
 import BulkBookmarksMoveDialog from "./BulkBookmarksMoveDialog";
 import Favicon from "./Favicon";
 
@@ -38,19 +38,9 @@ export interface Props
   isExternalPage?: boolean;
   folder?: string;
   pos?: number;
-  editBookmark?: boolean;
   selectedCount?: number;
   isSelected?: boolean;
   curFolder?: string;
-  handleSave?: (
-    url: string,
-    newTitle: string,
-    folder: string,
-    newFolder: string,
-    pos: number,
-    taggedPersons: string[],
-    newTaggedPersons: string[]
-  ) => void;
   handleRemove?: (pos: number, url: string) => void;
   handleSelectedChange?: (pos: number, isOnlySelection: boolean) => void;
   handleOpenSelectedBookmarks?: VoidFunction;
@@ -61,7 +51,6 @@ export interface Props
 
 interface State {
   personsWithImageUrls: IPersonWithImage[];
-  openEditDialog: boolean;
   openBulkBookmarksMoveDialog: boolean;
   menuOptions: MenuOption[];
 }
@@ -70,10 +59,8 @@ class Bookmark extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    const { editBookmark = false } = props;
     this.state = {
       personsWithImageUrls: [],
-      openEditDialog: editBookmark,
       openBulkBookmarksMoveDialog: false,
       menuOptions: this.getMenuOptions(),
     };
@@ -129,7 +116,7 @@ class Bookmark extends PureComponent<Props, State> {
     } else {
       menuOptionsList.push(
         {
-          onClick: this.toggleEditDialog,
+          onClick: this.handleBookmarkEdit,
           text: "Edit",
           icon: EditIcon,
         },
@@ -143,35 +130,10 @@ class Bookmark extends PureComponent<Props, State> {
     return menuOptionsList;
   };
 
-  toggleEditDialog = () => {
-    const { folder, editBookmark, history } = this.props;
-    const { openEditDialog } = this.state;
-    //Remove qs before closing and mark current as selected
-    if (editBookmark && openEditDialog) {
-      this.handleSelectionChange(null);
-      history.replace(getBookmarksPanelUrl({ folder }));
-    }
-    this.setState({ openEditDialog: !openEditDialog });
-  };
-
-  handleBookmarkSave = (
-    url: string,
-    newTitle: string,
-    newFolder: string,
-    newTaggedPersons: string[]
-  ) => {
-    const { folder = "", taggedPersons, pos = 0, handleSave } = this.props;
-    handleSave &&
-      handleSave(
-        url,
-        newTitle,
-        folder,
-        newFolder,
-        pos,
-        taggedPersons,
-        newTaggedPersons
-      );
-    this.toggleEditDialog();
+  handleBookmarkEdit = () => {
+    const { url, setBookmarkOperation } = this.props;
+    setBookmarkOperation(BOOKMARK_OPERATION.EDIT, url);
+    this.handleSelectionChange(null);
   };
 
   handleOpenLink: React.MouseEventHandler<HTMLDivElement> = (event) => {
@@ -216,20 +178,14 @@ class Bookmark extends PureComponent<Props, State> {
     const {
       url,
       title,
-      folder = "",
       curFolder = "",
-      taggedPersons,
       folderNamesList = [],
       handleBulkBookmarksMove,
       containerStyles,
       isExternalPage = false,
     } = this.props;
-    const {
-      personsWithImageUrls,
-      openEditDialog,
-      openBulkBookmarksMoveDialog,
-      menuOptions,
-    } = this.state;
+    const { personsWithImageUrls, openBulkBookmarksMoveDialog, menuOptions } =
+      this.state;
     return (
       <Fragment>
         <ContextMenu
@@ -262,20 +218,6 @@ class Bookmark extends PureComponent<Props, State> {
             </Typography>
           </Box>
         </ContextMenu>
-        {openEditDialog && (
-          <BookmarkDialog
-            url={url}
-            origTitle={title}
-            origFolder={folder}
-            origTaggedPersons={taggedPersons}
-            headerText="Edit bookmark"
-            folderList={folderNamesList}
-            handleSave={this.handleBookmarkSave}
-            handleDelete={this.handleDeleteOptionClick}
-            isOpen={openEditDialog}
-            onClose={this.toggleEditDialog}
-          />
-        )}
         {handleBulkBookmarksMove && openBulkBookmarksMoveDialog && (
           <BulkBookmarksMoveDialog
             origFolder={curFolder}
@@ -292,6 +234,7 @@ class Bookmark extends PureComponent<Props, State> {
 
 const mapDispatchToProps = {
   startHistoryMonitor,
+  setBookmarkOperation,
 };
 
 const connector = connect(null, mapDispatchToProps);

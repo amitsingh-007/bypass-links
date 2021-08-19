@@ -19,7 +19,9 @@ import { FixedSizeList as List } from "react-window";
 import { startHistoryMonitor } from "SrcPath/HistoryPanel/actionCreators";
 import { updateTaggedPersonUrls } from "SrcPath/PersonsPanel/actionCreators";
 import { IUpdateTaggedPerson } from "SrcPath/PersonsPanel/interfaces/persons";
+import { setBookmarkOperation } from "../actionCreators";
 import {
+  BOOKMARK_OPERATION,
   BOOKMARK_PANEL_CONTENT_HEIGHT,
   BOOKMARK_ROW_DIMENTSIONS,
 } from "../constants";
@@ -44,6 +46,7 @@ import {
   getSelectedBookmarksAfterDrag,
 } from "../utils/manipulate";
 import DragClone from "./DragClone";
+import EditBookmark from "./EditBookmark";
 import Header from "./Header";
 import { ScrollUpButton } from "./ScrollButton";
 import VirtualRow, { VirtualRowProps } from "./VirtualRow";
@@ -102,7 +105,16 @@ class BookmarksPanel extends PureComponent<Props, State> {
   };
 
   componentDidMount() {
-    this.initBookmarksData();
+    this.initBookmarksData().then(() => {
+      const { operation, bmUrl, setBookmarkOperation } = this.props;
+      if (operation !== BOOKMARK_OPERATION.NONE) {
+        /**
+         * Need to call after initBookmarksData,
+         * Since EditBookmark internally needs contextBookmarks to be set beforehand
+         */
+        setBookmarkOperation(operation, bmUrl);
+      }
+    });
     document
       .getElementById(bookmarksContainerId)
       ?.addEventListener("keydown", this.handleKeyPress);
@@ -241,25 +253,6 @@ class BookmarksPanel extends PureComponent<Props, State> {
       contextBookmarks: [...newBookmarks],
       isSaveButtonActive: true,
     });
-  };
-
-  handleAddNewBookmark = (
-    url: string,
-    title: string,
-    folder: string,
-    taggedPersons: string[]
-  ) => {
-    const { contextBookmarks } = this.state;
-    const { folderContext } = this.props;
-    this.handleBookmarkSave(
-      url,
-      title,
-      folderContext,
-      folder,
-      contextBookmarks.length,
-      [],
-      taggedPersons
-    );
   };
 
   handleBulkBookmarksMove = (destFolder: string) => {
@@ -507,8 +500,7 @@ class BookmarksPanel extends PureComponent<Props, State> {
       isSaveButtonActive,
       searchText,
     } = this.state;
-    const { bmUrl, bmTitle, addBookmark, editBookmark, folderContext } =
-      this.props;
+    const { folderContext } = this.props;
     const folderNamesList = getAllFolderNames(folderList);
     const filteredContextBookmarks = getFilteredContextBookmarks(
       contextBookmarks,
@@ -532,14 +524,18 @@ class BookmarksPanel extends PureComponent<Props, State> {
             contextBookmarks={contextBookmarks}
             handleSave={this.handleSave}
             handleCreateNewFolder={this.handleCreateNewFolder}
-            handleAddNewBookmark={this.handleAddNewBookmark}
-            showBookmarkDialog={addBookmark && !isFetching}
-            url={bmUrl}
-            title={bmTitle}
             isSaveButtonActive={isSaveButtonActive}
             isFetching={isFetching}
             curFolder={folderContext}
             onSearchChange={this.handleSearchTextChange}
+          />
+          <EditBookmark
+            curFolder={folderContext}
+            onSave={this.handleBookmarkSave}
+            contextBookmarks={contextBookmarks}
+            folderNamesList={folderNamesList}
+            handleScroll={this.handleScroll}
+            handleSelectedChange={this.handleSelectedChange}
           />
           {shouldRenderBookmarks(folders, filteredContextBookmarks) ? (
             <DragDropContext
@@ -566,15 +562,11 @@ class BookmarksPanel extends PureComponent<Props, State> {
                       folderList,
                       folders,
                       selectedBookmarks,
-                      bmUrl,
-                      bmTitle,
-                      editBookmark,
                       folderContext,
                       contextBookmarks: filteredContextBookmarks,
                       handleFolderRemove: this.handleFolderRemove,
                       handleFolderEdit: this.handleFolderEdit,
                       resetSelectedBookmarks: this.resetSelectedBookmarks,
-                      handleBookmarkSave: this.handleBookmarkSave,
                       handleUrlRemove: this.handleUrlRemove,
                       handleSelectedChange: this.handleSelectedChange,
                       handleOpenSelectedBookmarks:
@@ -599,6 +591,7 @@ const mapDispatchToProps = {
   displayToast,
   updateTaggedPersonUrls,
   startHistoryMonitor,
+  setBookmarkOperation,
 };
 const connector = connect(null, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;

@@ -4,7 +4,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import ContextMenu from "GlobalComponents/ContextMenu";
 import { MenuOption } from "GlobalInterfaces/menu";
 import { memo, useCallback, useEffect, useState } from "react";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 import { IPerson } from "../interfaces/persons";
 import { resolvePersonImageFromUid } from "../utils";
 import { getPersonsPanelUrl } from "../utils/urls";

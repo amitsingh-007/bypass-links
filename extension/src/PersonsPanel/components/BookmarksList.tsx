@@ -10,21 +10,23 @@ import {
 import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import EditTwoToneIcon from "@material-ui/icons/EditTwoTone";
 import PanelHeading from "GlobalComponents/PanelHeading";
+import SearchWrapper from "GlobalComponents/SearchWrapper";
 import { BG_COLOR_DARK, COLOR } from "GlobalConstants/color";
 import { memo, useCallback, useEffect, useState } from "react";
 import Ripples from "react-ripples";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 import { BookmarkExternal } from "SrcPath/BookmarksPanel/components/Bookmark";
-import { bookmarkRowStyles } from "SrcPath/BookmarksPanel/constants";
+import {
+  bookmarkRowStyles,
+  BOOKMARK_OPERATION,
+} from "SrcPath/BookmarksPanel/constants";
+import { IBookmark } from "SrcPath/BookmarksPanel/interfaces";
 import {
   getBookmarkFromHash,
   getDecodedBookmark,
   getFolderFromHash,
 } from "SrcPath/BookmarksPanel/utils";
 import { getBookmarksPanelUrl } from "SrcPath/BookmarksPanel/utils/url";
-import SearchWrapper from "GlobalComponents/SearchWrapper";
-import { IBookmark } from "SrcPath/BookmarksPanel/interfaces";
-import { BookmarkUrlParams } from "../interfaces/url";
 
 const imageStyles = { width: 40, height: 40 };
 
@@ -64,17 +66,14 @@ const BookmarksList = memo<Props>(function BookmarksList({
     setBookmarks(fetchedBookmarks);
   }, [taggedUrls]);
 
-  const handleBookmarkEdit = async ({
-    url,
-    title,
-    parentName,
-  }: ModifiedBookmark) => {
-    const urlParams = {} as BookmarkUrlParams;
-    urlParams.editBookmark = true;
-    urlParams.url = url;
-    urlParams.title = title;
-    urlParams.folder = parentName;
-    history.push(getBookmarksPanelUrl(urlParams));
+  const handleBookmarkEdit = async ({ url, parentName }: ModifiedBookmark) => {
+    history.push(
+      getBookmarksPanelUrl({
+        operation: BOOKMARK_OPERATION.EDIT,
+        bmUrl: url,
+        folderContext: parentName,
+      })
+    );
   };
 
   const handleClose = () => {

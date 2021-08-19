@@ -16,8 +16,8 @@
   }
   // To prevent hovering row not to hide the bottom border of the row just above it
   &:hover:not([data-is-selected="true"]) {
-    border-top: 0px;
-    border-bottom: 0px;
+    border-top: 0;
+    border-bottom: 0;
     margin-top: 2px; // Same as border width
     padding-bottom: 2px; // Same as border width
   }

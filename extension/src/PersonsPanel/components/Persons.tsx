@@ -1,7 +1,7 @@
 import { Box } from "@material-ui/core";
 import { deserialzeQueryStringToObject } from "GlobalUtils/url";
 import { memo, useEffect, useState } from "react";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 import { IPerson } from "../interfaces/persons";
 import Person from "./Person";
 
