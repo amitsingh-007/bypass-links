@@ -11,7 +11,7 @@ import {
 } from "GlobalComponents/AccordionHeader";
 import Loader from "GlobalComponents/Loader";
 import PanelHeading from "GlobalComponents/PanelHeading";
-import SearchInput from "GlobalComponents/SearchInput";
+import Search from "GlobalComponents/Search";
 import { defaultBookmarkFolder } from "GlobalConstants";
 import { COLOR } from "GlobalConstants/color";
 import { VoidFunction } from "GlobalInterfaces/custom";
@@ -45,6 +45,7 @@ interface Props extends RouteComponentProps<any>, PropsFromRedux {
     folder: string,
     taggedPersons: string[]
   ) => void;
+  onSearchChange: (text: string) => void;
 }
 
 interface State {
@@ -181,6 +182,7 @@ class Header extends PureComponent<Props, State> {
       isSaveButtonActive,
       isFetching,
       contextBookmarks,
+      onSearchChange,
     } = this.props;
     const {
       openFolderDialog,
@@ -202,7 +204,6 @@ class Header extends PureComponent<Props, State> {
             >
               <IconButton
                 size="small"
-                aria-label="Discard"
                 component="span"
                 style={COLOR.red}
                 onClick={this.handleDiscardButtonClick}
@@ -212,7 +213,6 @@ class Header extends PureComponent<Props, State> {
               </IconButton>
               <IconButton
                 size="small"
-                aria-label="Save"
                 component="span"
                 style={getActiveDisabledColor(isSaveButtonActive, COLOR.green)}
                 onClick={this.onSaveClick}
@@ -224,7 +224,6 @@ class Header extends PureComponent<Props, State> {
               </IconButton>
               <IconButton
                 size="small"
-                aria-label="Sync"
                 component="span"
                 onClick={this.onSyncClick}
                 title="Sync storage to firebase"
@@ -238,10 +237,9 @@ class Header extends PureComponent<Props, State> {
               </IconButton>
               <IconButton
                 size="small"
-                aria-label="NewFolder"
                 component="span"
                 style={COLOR.blue}
-                onClick={this.toggleNewFolderDialog}
+                onClick={this.handleNewFolderClick}
                 title="Add new folder"
               >
                 <CreateNewFolderTwoToneIcon fontSize="large" />
@@ -268,7 +266,7 @@ class Header extends PureComponent<Props, State> {
                 fullWidth
               />
             </Box>
-            <SearchInput searchClassName="bookmarkRowContainer" />
+            <Search onChange={onSearchChange} />
           </SecondaryHeaderContent>
         </AccordionHeader>
         <FolderDialog

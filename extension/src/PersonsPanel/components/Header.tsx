@@ -14,7 +14,7 @@ import { COLOR } from "GlobalConstants/color";
 import { memo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-import SearchInput from "GlobalComponents/SearchInput";
+import SearchWrapper from "GlobalComponents/SearchWrapper";
 import { syncPersonsFirebaseWithStorage } from "../utils/sync";
 import AddOrEditPersonDialog from "./AddOrEditPersonDialog";
 import Sort from "./Sort";
@@ -142,7 +142,7 @@ const Header = memo<Props>(function Header({
           <Box sx={{ minWidth: "150px" }}>
             <Sort onChange={handleSort} />
           </Box>
-          <SearchInput searchClassName="personContainer" />
+          <SearchWrapper searchClassName="personContainer" />
         </SecondaryHeaderContent>
       </AccordionHeader>
       {showAddPersonDialog && (

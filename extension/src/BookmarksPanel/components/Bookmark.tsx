@@ -28,7 +28,7 @@ import Favicon from "./Favicon";
 const titleStyles = { flexGrow: 1, fontSize: "14px" };
 const tooltipStyles = { fontSize: "13px" };
 
-interface Props
+export interface Props
   extends RouteComponentProps<any>,
     PropsFromRedux,
     InjectedProps {
@@ -248,18 +248,18 @@ class Bookmark extends PureComponent<Props, State> {
             onDoubleClick={this.handleOpenLink}
             onClick={this.handleSelectionChange}
           >
-            <Favicon url={url} />
-            <PersonAvatars persons={personsWithImageUrls} />
             <BlackTooltip
               title={<Typography sx={tooltipStyles}>{url}</Typography>}
               arrow
               disableInteractive
-              followCursor
+              placement="right"
             >
-              <Typography noWrap sx={titleStyles}>
-                {title}
-              </Typography>
+              <Favicon url={url} />
             </BlackTooltip>
+            <PersonAvatars persons={personsWithImageUrls} />
+            <Typography noWrap sx={titleStyles}>
+              {title}
+            </Typography>
           </Box>
         </ContextMenu>
         {openEditDialog && (

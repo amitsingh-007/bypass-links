@@ -1,7 +1,13 @@
 import { getBookmarks } from "GlobalHelpers/fetchFromStorage";
 import md5 from "md5";
 import { BM_COUNT_IN_INITAL_VIEW } from "../constants";
-import { ContextBookmarks, IBookmark, IBookmarksObj } from "../interfaces";
+import {
+  ContextBookmarks,
+  IBookmark,
+  IBookmarksObj,
+  ISelectedBookmarks,
+} from "../interfaces";
+import memoize from "memoize-one";
 
 export const getFaviconUrl = (url: string) =>
   `https://www.google.com/s2/favicons?sz=64&domain_url=${
@@ -48,3 +54,22 @@ export const getDecodedBookmark = (bookmark: IBookmark) => ({
   parentHash: bookmark.parentHash,
   taggedPersons: bookmark.taggedPersons,
 });
+
+const hasText = (searchText: string, text?: string) =>
+  text?.toLowerCase().includes(searchText.toLowerCase());
+
+export const getFilteredContextBookmarks = memoize(
+  (contextBookmarks: ContextBookmarks, searchText: string) =>
+    contextBookmarks?.filter(
+      ({ url, title, name }) =>
+        !searchText ||
+        hasText(searchText, url) ||
+        hasText(searchText, title) ||
+        hasText(searchText, name)
+    )
+);
+
+export const getSelectedCount = memoize(
+  (selectedBookmarks: ISelectedBookmarks) =>
+    selectedBookmarks.filter(Boolean).length
+);

@@ -22,7 +22,7 @@ import {
   getFolderFromHash,
 } from "SrcPath/BookmarksPanel/utils";
 import { getBookmarksPanelUrl } from "SrcPath/BookmarksPanel/utils/url";
-import SearchInput from "GlobalComponents/SearchInput";
+import SearchWrapper from "GlobalComponents/SearchWrapper";
 import { IBookmark } from "SrcPath/BookmarksPanel/interfaces";
 import { BookmarkUrlParams } from "../interfaces/url";
 
@@ -106,7 +106,7 @@ const BookmarksList = memo<Props>(function BookmarksList({
             <ArrowBackTwoToneIcon fontSize="large" />
           </IconButton>
           <Box sx={{ display: "flex" }}>
-            <SearchInput searchClassName="bookmarkRowContainer" />
+            <SearchWrapper searchClassName="bookmarkRowContainer" />
             <PanelHeading
               containerStyles={{ display: "inline-flex", ml: "8px" }}
               heading={

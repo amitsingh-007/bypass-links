@@ -14,7 +14,7 @@ import { getBookmarksPanelUrl } from "../utils/url";
 import { FolderDialog } from "./FolderDialog";
 import withBookmarkRow, { InjectedProps } from "../hoc/withBookmarkRow";
 
-interface Props extends InjectedProps {
+export interface Props extends InjectedProps {
   name: string;
   pos: number;
   handleRemove: (pos: number, origName: string) => void;

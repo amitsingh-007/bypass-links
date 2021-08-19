@@ -14,8 +14,16 @@
   &[data-is-selected="true"] + &[data-is-selected="true"] {
     border-top-color: transparent;
   }
+  // To prevent hovering row not to hide the bottom border of the row just above it
+  &:hover:not([data-is-selected="true"]) {
+    border-top: 0px;
+    border-bottom: 0px;
+    margin-top: 2px; // Same as border width
+    padding-bottom: 2px; // Same as border width
+  }
 }
 
 .react-ripples {
   width: 100%;
+  height: 100%;
 }
