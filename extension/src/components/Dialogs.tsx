@@ -90,6 +90,7 @@ export const EditDialog: React.FC<Props> = ({
                 disabled={!isSaveOptionActive}
                 style={getActiveDisabledColor(isSaveOptionActive, COLOR.green)}
                 title="Save"
+                sx={{ ml: "10px" }}
               >
                 <DoneTwoToneIcon fontSize="large" />
               </IconButton>

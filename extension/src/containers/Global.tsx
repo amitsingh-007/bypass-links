@@ -3,7 +3,7 @@ import Toast from "GlobalComponents/Toast";
 import { AuthenticationEvent } from "GlobalInterfaces/authentication";
 import { memo, useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 import { AUTHENTICATION_EVENT } from "SrcPath/HomePopup/constants/auth";
 import StoreListener from "./StoreListener";
 

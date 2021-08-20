@@ -11,8 +11,7 @@ import {
 } from "GlobalComponents/AccordionHeader";
 import Loader from "GlobalComponents/Loader";
 import PanelHeading from "GlobalComponents/PanelHeading";
-import SearchInput from "GlobalComponents/SearchInput";
-import { defaultBookmarkFolder } from "GlobalConstants";
+import Search from "GlobalComponents/Search";
 import { COLOR } from "GlobalConstants/color";
 import { VoidFunction } from "GlobalInterfaces/custom";
 import { getActiveDisabledColor } from "GlobalUtils/color";
@@ -23,33 +22,23 @@ import { compose } from "redux";
 import { ContextBookmarks } from "../interfaces";
 import { syncBookmarksFirebaseWithStorage } from "../utils/bookmark";
 import { getBookmarksPanelUrl } from "../utils/url";
-import BookmarkDialog from "./BookmarkDialog";
 import ConfirmationDialog from "./ConfirmationDialog";
 import { FolderDropdown } from "./Dropdown";
 import { FolderDialog } from "./FolderDialog";
 
 interface Props extends RouteComponentProps<any>, PropsFromRedux {
-  showBookmarkDialog: boolean;
   isSaveButtonActive: boolean;
   contextBookmarks: ContextBookmarks;
   handleSave: VoidFunction;
-  url: string;
-  title: string;
   curFolder: string;
   folderNamesList: string[];
   isFetching: boolean;
   handleCreateNewFolder: (folder: string) => void;
-  handleAddNewBookmark: (
-    url: string,
-    title: string,
-    folder: string,
-    taggedPersons: string[]
-  ) => void;
+  onSearchChange: (text: string) => void;
 }
 
 interface State {
   openFolderDialog: boolean;
-  openBookmarkDialog: boolean;
   openConfirmationDialog: boolean;
   isSyncing: boolean;
 }
@@ -59,10 +48,8 @@ class Header extends PureComponent<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    const { showBookmarkDialog } = props;
     this.state = {
       openFolderDialog: false,
-      openBookmarkDialog: showBookmarkDialog,
       openConfirmationDialog: false,
       isSyncing: false,
     };
@@ -70,11 +57,7 @@ class Header extends PureComponent<Props, State> {
   }
 
   componentDidUpdate(prevProps: Props) {
-    const { showBookmarkDialog, isSaveButtonActive, contextBookmarks } =
-      this.props;
-    if (prevProps.showBookmarkDialog !== showBookmarkDialog) {
-      this.setState({ openBookmarkDialog: showBookmarkDialog });
-    }
+    const { isSaveButtonActive, contextBookmarks } = this.props;
     if (isSaveButtonActive && prevProps.contextBookmarks !== contextBookmarks) {
       //Focus save button after updating bookmarks
       setTimeout(() => {
@@ -89,7 +72,7 @@ class Header extends PureComponent<Props, State> {
 
   onFolderChange: SelectProps<string>["onChange"] = (event) => {
     this.props.history.push(
-      getBookmarksPanelUrl({ folder: event.target.value })
+      getBookmarksPanelUrl({ folderContext: event.target.value })
     );
   };
 
@@ -138,16 +121,6 @@ class Header extends PureComponent<Props, State> {
     this.toggleNewFolderDialog();
   };
 
-  toggleBookmarkEditDialog = () => {
-    const { history, showBookmarkDialog } = this.props;
-    const { openBookmarkDialog } = this.state;
-    //Remove qs before closing
-    if (showBookmarkDialog && openBookmarkDialog) {
-      history.replace(getBookmarksPanelUrl({ folder: defaultBookmarkFolder }));
-    }
-    this.setState({ openBookmarkDialog: !openBookmarkDialog });
-  };
-
   handleConfirmationDialogClose = () => {
     this.setState({ openConfirmationDialog: false });
   };
@@ -162,32 +135,16 @@ class Header extends PureComponent<Props, State> {
     this.toggleNewFolderDialog();
   };
 
-  handleNewBookmarkSave = (
-    url: string,
-    title: string,
-    folder: string,
-    taggedPersons: string[]
-  ) => {
-    this.props.handleAddNewBookmark(url, title, folder, taggedPersons);
-    this.toggleBookmarkEditDialog();
-  };
-
   render() {
     const {
-      url,
-      title,
       curFolder,
       folderNamesList,
       isSaveButtonActive,
       isFetching,
       contextBookmarks,
+      onSearchChange,
     } = this.props;
-    const {
-      openFolderDialog,
-      openBookmarkDialog,
-      openConfirmationDialog,
-      isSyncing,
-    } = this.state;
+    const { openFolderDialog, openConfirmationDialog, isSyncing } = this.state;
     return (
       <>
         <AccordionHeader>
@@ -202,7 +159,6 @@ class Header extends PureComponent<Props, State> {
             >
               <IconButton
                 size="small"
-                aria-label="Discard"
                 component="span"
                 style={COLOR.red}
                 onClick={this.handleDiscardButtonClick}
@@ -212,7 +168,6 @@ class Header extends PureComponent<Props, State> {
               </IconButton>
               <IconButton
                 size="small"
-                aria-label="Save"
                 component="span"
                 style={getActiveDisabledColor(isSaveButtonActive, COLOR.green)}
                 onClick={this.onSaveClick}
@@ -224,7 +179,6 @@ class Header extends PureComponent<Props, State> {
               </IconButton>
               <IconButton
                 size="small"
-                aria-label="Sync"
                 component="span"
                 onClick={this.onSyncClick}
                 title="Sync storage to firebase"
@@ -238,10 +192,9 @@ class Header extends PureComponent<Props, State> {
               </IconButton>
               <IconButton
                 size="small"
-                aria-label="NewFolder"
                 component="span"
                 style={COLOR.blue}
-                onClick={this.toggleNewFolderDialog}
+                onClick={this.handleNewFolderClick}
                 title="Add new folder"
               >
                 <CreateNewFolderTwoToneIcon fontSize="large" />
@@ -268,7 +221,7 @@ class Header extends PureComponent<Props, State> {
                 fullWidth
               />
             </Box>
-            <SearchInput searchClassName="bookmarkRowContainer" />
+            <Search onChange={onSearchChange} />
           </SecondaryHeaderContent>
         </AccordionHeader>
         <FolderDialog
@@ -277,19 +230,6 @@ class Header extends PureComponent<Props, State> {
           isOpen={openFolderDialog}
           onClose={this.toggleNewFolderDialog}
         />
-        {openBookmarkDialog && (
-          <BookmarkDialog
-            url={url}
-            origTitle={title}
-            origFolder={defaultBookmarkFolder}
-            headerText="Add bookmark"
-            folderList={folderNamesList}
-            handleSave={this.handleNewBookmarkSave}
-            isOpen={openBookmarkDialog}
-            onClose={this.toggleBookmarkEditDialog}
-            isSaveActive
-          />
-        )}
         <ConfirmationDialog
           onClose={this.handleConfirmationDialogClose}
           onOk={this.handleConfirmationDialogOk}
@@ -305,9 +245,7 @@ const mapDispatchToProps = {
 };
 
 const connector = connect(null, mapDispatchToProps);
-
 type PropsFromRedux = ConnectedProps<typeof connector>;
-
 const withCompose = compose(connector);
 
 export default withRouter(withCompose(Header));

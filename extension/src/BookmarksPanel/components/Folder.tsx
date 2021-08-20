@@ -9,12 +9,11 @@ import { MenuOption } from "GlobalInterfaces/menu";
 import { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { BOOKMARK_ROW_DIMENTSIONS } from "../constants";
+import withBookmarkRow, { InjectedProps } from "../hoc/withBookmarkRow";
 import { getBookmarksPanelUrl } from "../utils/url";
 import { FolderDialog } from "./FolderDialog";
-import withBookmarkRow, { InjectedProps } from "../hoc/withBookmarkRow";
 
-interface Props extends InjectedProps {
+export interface Props extends InjectedProps {
   name: string;
   pos: number;
   handleRemove: (pos: number, origName: string) => void;
@@ -56,7 +55,7 @@ const Folder = memo<Props>(
         dispatch(displayToast({ message: "This folder is empty" }));
         return;
       }
-      history.push(getBookmarksPanelUrl({ folder: origName }));
+      history.push(getBookmarksPanelUrl({ folderContext: origName }));
     };
 
     useEffect(() => {
@@ -77,13 +76,15 @@ const Folder = memo<Props>(
 
     return (
       <>
-        <ContextMenu menuOptions={menuOptions}>
+        <ContextMenu
+          menuOptions={menuOptions}
+          containerStyles={{ display: "flex", alignItems: "center" }}
+        >
           <Box
             sx={{
               display: "flex",
               alignItems: "center",
               width: "100%",
-              height: `${BOOKMARK_ROW_DIMENTSIONS.height}px`,
               ...containerStyles,
             }}
             onClick={resetSelectedBookmarks}

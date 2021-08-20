@@ -1,7 +1,7 @@
+import { BOOKMARK_OPERATION } from "../constants";
+
 export interface BMPanelQueryParams {
   folderContext: string;
-  addBookmark: boolean;
-  editBookmark: boolean;
+  operation: BOOKMARK_OPERATION;
   bmUrl: string;
-  bmTitle: string;
 }

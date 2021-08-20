@@ -5,6 +5,7 @@ export const BlackTooltip = withStyles((theme) => ({
   tooltip: {
     backgroundColor: theme.palette.common.black,
     fontSize: 11,
+    boxShadow: theme.shadows[5],
   },
   arrow: {
     color: theme.palette.common.black,

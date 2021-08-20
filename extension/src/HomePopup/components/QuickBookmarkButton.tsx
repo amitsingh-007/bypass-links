@@ -13,12 +13,14 @@ import md5 from "md5";
 import { memo, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { BOOKMARK_OPERATION } from "SrcPath/BookmarksPanel/constants";
 import { IBookmark } from "SrcPath/BookmarksPanel/interfaces";
 import {
   getDecodedBookmark,
   getFolderFromHash,
 } from "SrcPath/BookmarksPanel/utils";
 import { getBookmarksPanelUrl } from "SrcPath/BookmarksPanel/utils/url";
+import { BMPanelQueryParams } from "SrcPath/BookmarksPanel/interfaces/url";
 
 const QuickBookmarkButton = memo(function QuickBookmarkButton() {
   const { isSignedIn } = useSelector((state: RootState) => state.root);
@@ -49,20 +51,18 @@ const QuickBookmarkButton = memo(function QuickBookmarkButton() {
   }, [isSignedIn]);
 
   const handleClick = async () => {
-    const urlParams = {} as any;
+    const urlParams = {} as Partial<BMPanelQueryParams>;
     if (bookmark) {
-      const { url, title, parentHash } = bookmark;
+      const { url, parentHash } = bookmark;
       const parent = await getFolderFromHash(parentHash);
-      urlParams.editBookmark = true;
-      urlParams.url = url;
-      urlParams.title = title;
-      urlParams.folder = atob(parent.name);
+      urlParams.operation = BOOKMARK_OPERATION.EDIT;
+      urlParams.bmUrl = url;
+      urlParams.folderContext = atob(parent.name);
     } else {
-      const { url, title } = await getCurrentTab();
-      urlParams.addBookmark = true;
-      urlParams.url = url;
-      urlParams.title = title;
-      urlParams.folder = defaultBookmarkFolder;
+      const { url } = await getCurrentTab();
+      urlParams.operation = BOOKMARK_OPERATION.ADD;
+      urlParams.bmUrl = url;
+      urlParams.folderContext = defaultBookmarkFolder;
     }
     history.push(getBookmarksPanelUrl(urlParams));
   };

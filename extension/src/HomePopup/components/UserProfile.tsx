@@ -5,7 +5,7 @@ import { ROUTES } from "GlobalConstants/routes";
 import { RootState } from "GlobalReducers/rootReducer";
 import { memo, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 import { getUserProfile } from "GlobalHelpers/fetchFromStorage";
 import { UserInfo } from "SrcPath/HomePopup/interfaces/authentication";
 

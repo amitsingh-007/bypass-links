@@ -1,6 +1,6 @@
 import { Box } from "@material-ui/core";
 import { displayToast } from "GlobalActionCreators/toast";
-import { PANEL_DIMENSIONS } from "GlobalConstants/styles";
+import { PANEL_DIMENSIONS_PX } from "GlobalConstants/styles";
 import { getPersons } from "GlobalHelpers/fetchFromStorage";
 import { removeImageFromFirebase } from "GlobalHelpers/firebase/storage";
 import { useEffect, useState } from "react";
@@ -8,7 +8,11 @@ import { useDispatch } from "react-redux";
 import { SORT_ORDER, SORT_TYPE } from "../constants/sort";
 import { IPerson, IPersons } from "../interfaces/persons";
 import { decryptionMapper } from "../mapper";
-import { getPersonPos, setPersonsInStorage } from "../utils";
+import {
+  getFilteredPersons,
+  getPersonPos,
+  setPersonsInStorage,
+} from "../utils";
 import { sortAlphabetically, sortByBookmarksCount } from "../utils/sort";
 import { updatePersonCacheAndImageUrls } from "../utils/sync";
 import Header from "./Header";
@@ -18,6 +22,7 @@ const PersonsPanel = () => {
   const dispatch = useDispatch();
   const [persons, setPersons] = useState<IPerson[]>([]);
   const [isFetching, setIsFetching] = useState(true);
+  const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     getPersons().then((persons) => {
@@ -94,18 +99,24 @@ const PersonsPanel = () => {
     setPersons(sortFn(sortOrder, persons));
   };
 
+  const handleSearchTextChange = (text: string) => {
+    setSearchText(text);
+  };
+
+  const filteredPersons = getFilteredPersons(persons, searchText);
   return (
-    <Box sx={{ width: PANEL_DIMENSIONS.width }}>
+    <Box sx={{ width: PANEL_DIMENSIONS_PX.width }}>
       <Header
         isFetching={isFetching}
         handleAddPerson={handleAddOrEditPerson}
-        persons={persons}
+        persons={filteredPersons}
         handleSort={handleSort}
+        onSearchChange={handleSearchTextChange}
       />
-      <Box sx={{ minHeight: PANEL_DIMENSIONS.height }}>
-        {persons.length > 0 ? (
+      <Box sx={{ minHeight: PANEL_DIMENSIONS_PX.height }}>
+        {filteredPersons.length > 0 ? (
           <Persons
-            persons={persons}
+            persons={filteredPersons}
             handleEditPerson={handleAddOrEditPerson}
             handlePersonDelete={handlePersonDelete}
           />

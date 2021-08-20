@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+import bookmarkOperation from "SrcPath/BookmarksPanel/reducers";
 import historyMonitorReducer from "SrcPath/HistoryPanel/reducers";
 import personsReducer from "SrcPath/PersonsPanel/reducers";
 import reducer from ".";
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   history: historyMonitorReducer,
   auth: authReducer,
   persons: personsReducer,
+  bookmarkOperation,
 });
 
 export default rootReducer;

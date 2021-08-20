@@ -1,4 +1,5 @@
 import { Box, MenuItem, Typography } from "@material-ui/core";
+import { SxProps } from "@material-ui/system";
 import { VoidFunction } from "GlobalInterfaces/custom";
 import { MenuOption } from "GlobalInterfaces/menu";
 import { memo } from "react";
@@ -10,12 +11,14 @@ type Props = {
   showMenu?: boolean;
   onOpen?: VoidFunction;
   children: React.ReactNode;
+  containerStyles?: SxProps;
 };
 
 const ContextMenu = memo<Props>(function ContextMenu({
   menuOptions,
   showMenu = true,
   onOpen,
+  containerStyles = {},
   children,
 }) {
   const [isMenuOpen, menuPos, onMenuClose, onMenuOpen] = useMenu();
@@ -44,7 +47,7 @@ const ContextMenu = memo<Props>(function ContextMenu({
   return (
     <>
       <Box
-        sx={{ height: "100%", width: "100%" }}
+        sx={{ height: "100%", width: "100%", ...containerStyles }}
         onContextMenu={handleRightClick}
       >
         {children}

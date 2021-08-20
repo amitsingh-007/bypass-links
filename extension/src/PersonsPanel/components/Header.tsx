@@ -10,21 +10,22 @@ import {
 } from "GlobalComponents/AccordionHeader";
 import Loader from "GlobalComponents/Loader";
 import PanelHeading from "GlobalComponents/PanelHeading";
+import Search from "GlobalComponents/Search";
 import { COLOR } from "GlobalConstants/color";
 import { memo, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router";
-import SearchInput from "GlobalComponents/SearchInput";
+import { useHistory } from "react-router-dom";
+import { IPerson } from "../interfaces/persons";
 import { syncPersonsFirebaseWithStorage } from "../utils/sync";
 import AddOrEditPersonDialog from "./AddOrEditPersonDialog";
 import Sort from "./Sort";
-import { IPerson } from "../interfaces/persons";
 
 interface Props {
   isFetching: boolean;
   handleAddPerson: any;
   persons: IPerson[];
   handleSort: any;
+  onSearchChange: (text: string) => void;
 }
 
 const Header = memo<Props>(function Header({
@@ -32,6 +33,7 @@ const Header = memo<Props>(function Header({
   handleAddPerson,
   persons,
   handleSort,
+  onSearchChange,
 }) {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -142,7 +144,7 @@ const Header = memo<Props>(function Header({
           <Box sx={{ minWidth: "150px" }}>
             <Sort onChange={handleSort} />
           </Box>
-          <SearchInput searchClassName="personContainer" />
+          <Search onChange={onSearchChange} />
         </SecondaryHeaderContent>
       </AccordionHeader>
       {showAddPersonDialog && (

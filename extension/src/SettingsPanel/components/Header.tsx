@@ -4,7 +4,7 @@ import PanelHeading from "GlobalComponents/PanelHeading";
 import { COLOR } from "GlobalConstants/color";
 import { STICKY_HEADER } from "GlobalConstants/styles";
 import { memo } from "react";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 
 const Header = memo(function Header() {
   const history = useHistory();

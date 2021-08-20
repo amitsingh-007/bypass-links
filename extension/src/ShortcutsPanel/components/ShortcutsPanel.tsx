@@ -2,7 +2,7 @@ import { FIREBASE_DB_REF } from "@common/constants/firebase";
 import { Box } from "@material-ui/core";
 import { displayToast } from "GlobalActionCreators/toast";
 import { ROUTES } from "GlobalConstants/routes";
-import { PANEL_DIMENSIONS } from "GlobalConstants/styles";
+import { PANEL_DIMENSIONS_PX } from "GlobalConstants/styles";
 import { getRedirections } from "GlobalHelpers/fetchFromStorage";
 import { saveToFirebase } from "GlobalHelpers/firebase/database";
 import { memo, useEffect, useState } from "react";
@@ -113,7 +113,7 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Box sx={{ width: PANEL_DIMENSIONS.width }}>
+      <Box sx={{ width: PANEL_DIMENSIONS_PX.width }}>
         <Header
           isFetching={isFetching}
           handleClose={handleClose}
@@ -127,7 +127,7 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
               autoComplete="off"
               style={{
                 paddingLeft: "12px",
-                minHeight: PANEL_DIMENSIONS.height,
+                minHeight: PANEL_DIMENSIONS_PX.height,
               }}
               ref={provided.innerRef}
               {...provided.droppableProps}

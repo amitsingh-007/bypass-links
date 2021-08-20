@@ -36,8 +36,3 @@ export type ContextBookmark = Partial<
 };
 
 export type ContextBookmarks = ContextBookmark[];
-
-export interface ICurDraggingBookmark {
-  uid: string;
-  dragCount: number;
-}
