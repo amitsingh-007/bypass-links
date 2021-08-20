@@ -13,7 +13,6 @@ import PanelHeading from "GlobalComponents/PanelHeading";
 import SearchWrapper from "GlobalComponents/SearchWrapper";
 import { BG_COLOR_DARK, COLOR } from "GlobalConstants/color";
 import { memo, useCallback, useEffect, useState } from "react";
-import Ripples from "react-ripples";
 import { useHistory } from "react-router-dom";
 import { BookmarkExternal } from "SrcPath/BookmarksPanel/components/Bookmark";
 import {
@@ -155,15 +154,13 @@ const BookmarksList = memo<Props>(function BookmarksList({
               >
                 <EditTwoToneIcon sx={{ fontSize: 22 }} />
               </IconButton>
-              <Ripples>
-                <BookmarkExternal
-                  url={bookmark.url}
-                  title={bookmark.title}
-                  taggedPersons={bookmark.taggedPersons}
-                  isExternalPage
-                  containerStyles={{ ...bookmarkRowStyles, paddingLeft: "0px" }}
-                />
-              </Ripples>
+              <BookmarkExternal
+                url={bookmark.url}
+                title={bookmark.title}
+                taggedPersons={bookmark.taggedPersons}
+                isExternalPage
+                containerStyles={{ ...bookmarkRowStyles, paddingLeft: "0px" }}
+              />
               <Button
                 variant="contained"
                 color="secondary"

@@ -13,7 +13,7 @@ import BookmarksList from "./BookmarksList";
 
 const imageStyles = { width: 100, height: 100 };
 
-interface Props {
+export interface Props {
   person: IPerson;
   openBookmarksListUid: string;
   handleEditPerson: (person: IPerson) => void;
@@ -78,10 +78,8 @@ const Person = memo<Props>(
     return (
       <>
         <IconButton
-          sx={{ padding: "0px", width: "20%", margin: "10px 0px" }}
+          sx={{ padding: "0px", margin: "10px 0px" }}
           onClick={openBookmarksList}
-          data-text={name}
-          className="personContainer"
         >
           <Box
             sx={{

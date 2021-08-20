@@ -4,6 +4,9 @@ import { STORAGE_KEYS } from "GlobalConstants";
 import { getBlobUrlFromCache } from "GlobalUtils/cache";
 import { getPersons } from "GlobalHelpers/fetchFromStorage";
 import { IPerson, IPersons, IPersonWithImage } from "../interfaces/persons";
+import { GRID_COLUMN_SIZE } from "../constants";
+import memoize from "memoize-one/dist/memoize-one";
+import { hasText } from "GlobalUtils/search";
 
 export const setPersonsInStorage = async (persons: IPersons) => {
   await storage.set({
@@ -64,3 +67,11 @@ export const resolvePersonImageFromUid = async (uid: string) => {
 
 export const getPersonPos = (persons: IPerson[], person: IPerson) =>
   persons.findIndex(({ uid }) => uid === person.uid);
+
+export const getReactKey = (row: number, column: number) =>
+  row * GRID_COLUMN_SIZE + column;
+
+export const getFilteredPersons = memoize(
+  (persons: IPerson[], searchText: string) =>
+    persons.filter(({ name }) => !searchText || hasText(searchText, name))
+);

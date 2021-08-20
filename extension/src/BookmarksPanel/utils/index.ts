@@ -8,6 +8,7 @@ import {
   ISelectedBookmarks,
 } from "../interfaces";
 import memoize from "memoize-one";
+import { hasText } from "GlobalUtils/search";
 
 export const getFaviconUrl = (url: string) =>
   `https://www.google.com/s2/favicons?sz=64&domain_url=${
@@ -54,9 +55,6 @@ export const getDecodedBookmark = (bookmark: IBookmark) => ({
   parentHash: bookmark.parentHash,
   taggedPersons: bookmark.taggedPersons,
 });
-
-const hasText = (searchText: string, text?: string) =>
-  text?.toLowerCase().includes(searchText.toLowerCase());
 
 export const getFilteredContextBookmarks = memoize(
   (contextBookmarks: ContextBookmarks, searchText: string) =>

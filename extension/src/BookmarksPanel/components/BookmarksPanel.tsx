@@ -2,7 +2,7 @@ import { Box, GlobalStyles } from "@material-ui/core";
 import { displayToast } from "GlobalActionCreators/toast";
 import { STORAGE_KEYS } from "GlobalConstants";
 import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
-import { PANEL_DIMENSIONS } from "GlobalConstants/styles";
+import { PANEL_DIMENSIONS_PX } from "GlobalConstants/styles";
 import storage from "GlobalHelpers/chrome/storage";
 import tabs from "GlobalHelpers/chrome/tabs";
 import { getBookmarks } from "GlobalHelpers/fetchFromStorage";
@@ -15,7 +15,7 @@ import {
   Droppable,
 } from "react-beautiful-dnd";
 import { connect, ConnectedProps } from "react-redux";
-import { FixedSizeList as List } from "react-window";
+import { FixedSizeList } from "react-window";
 import { startHistoryMonitor } from "SrcPath/HistoryPanel/actionCreators";
 import { updateTaggedPersonUrls } from "SrcPath/PersonsPanel/actionCreators";
 import { IUpdateTaggedPerson } from "SrcPath/PersonsPanel/interfaces/persons";
@@ -518,7 +518,7 @@ class BookmarksPanel extends PureComponent<Props, State> {
           itemsSize={curBookmarksCount}
           onScroll={this.handleScroll}
         />
-        <Box sx={{ width: PANEL_DIMENSIONS.width }}>
+        <Box sx={{ width: PANEL_DIMENSIONS_PX.width }}>
           <Header
             folderNamesList={folderNamesList}
             contextBookmarks={contextBookmarks}
@@ -551,10 +551,10 @@ class BookmarksPanel extends PureComponent<Props, State> {
                   )}
                 >
                   {(provided) => (
-                    <List<VirtualRowProps>
+                    <FixedSizeList<VirtualRowProps>
                       ref={this.listRef}
                       height={BOOKMARK_PANEL_CONTENT_HEIGHT}
-                      width={PANEL_DIMENSIONS.width}
+                      width={PANEL_DIMENSIONS_PX.width}
                       itemSize={BOOKMARK_ROW_DIMENTSIONS.height}
                       itemCount={curBookmarksCount}
                       overscanCount={5}
@@ -582,7 +582,7 @@ class BookmarksPanel extends PureComponent<Props, State> {
                       }}
                     >
                       {VirtualRow}
-                    </List>
+                    </FixedSizeList>
                   )}
                 </Droppable>
               </DragDropContext>
