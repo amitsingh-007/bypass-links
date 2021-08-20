@@ -8,6 +8,7 @@
   }
   &[data-is-selected="true"] {
     background-color: rgba(63, 81, 181, 0.4);
+
     &:hover {
       background-color: rgba(63, 81, 181, 0.6);
     }
