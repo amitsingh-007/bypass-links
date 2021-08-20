@@ -1,25 +1,16 @@
 @import "../../scss/color.scss";
 
 .bookmarkRowContainer {
-  border: 2px solid transparent;
   &:hover,
   &[data-is-selected="true"] {
     background-color: $grey-color;
     border-radius: 20px;
   }
   &[data-is-selected="true"] {
-    border-color: #3f51b5;
-  }
-  // Select all selected adjacent siblings to collapse adjacent borders
-  &[data-is-selected="true"] + &[data-is-selected="true"] {
-    border-top-color: transparent;
-  }
-  // To prevent hovering row not to hide the bottom border of the row just above it
-  &:hover:not([data-is-selected="true"]) {
-    border-top: 0;
-    border-bottom: 0;
-    margin-top: 2px; // Same as border width
-    padding-bottom: 2px; // Same as border width
+    background-color: rgba(63, 81, 181, 0.4);
+    &:hover {
+      background-color: rgba(63, 81, 181, 0.6);
+    }
   }
 }
 

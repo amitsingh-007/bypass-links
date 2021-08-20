@@ -56,7 +56,7 @@ const VirtualRow = memo<{
     isDir,
   } = contextBookmarks[index];
   return (
-    <Box key={isDir ? name : url} style={style}>
+    <Box style={style}>
       {isDir ? (
         <Folder
           pos={index}

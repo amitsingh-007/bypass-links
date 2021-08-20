@@ -537,50 +537,57 @@ class BookmarksPanel extends PureComponent<Props, State> {
             handleScroll={this.handleScroll}
             handleSelectedChange={this.handleSelectedChange}
           />
-          {shouldRenderBookmarks(folders, filteredContextBookmarks) ? (
-            <DragDropContext
-              onDragEnd={this.onDragEnd}
-              onDragStart={this.onDragStart}
-            >
-              <Droppable
-                droppableId="bookmarks-list"
-                mode="virtual"
-                renderClone={(provided) => (
-                  <DragClone provided={provided} dragCount={selectedCount} />
-                )}
+          <Box sx={{ height: `${BOOKMARK_PANEL_CONTENT_HEIGHT}px` }}>
+            {shouldRenderBookmarks(folders, filteredContextBookmarks) ? (
+              <DragDropContext
+                onDragEnd={this.onDragEnd}
+                onDragStart={this.onDragStart}
               >
-                {(provided) => (
-                  <List<VirtualRowProps>
-                    ref={this.listRef}
-                    height={BOOKMARK_PANEL_CONTENT_HEIGHT}
-                    itemCount={curBookmarksCount}
-                    itemSize={BOOKMARK_ROW_DIMENTSIONS.height}
-                    width={BOOKMARK_ROW_DIMENTSIONS.width}
-                    overscanCount={5}
-                    outerRef={provided.innerRef}
-                    itemData={{
-                      folderList,
-                      folders,
-                      selectedBookmarks,
-                      folderContext,
-                      contextBookmarks: filteredContextBookmarks,
-                      handleFolderRemove: this.handleFolderRemove,
-                      handleFolderEdit: this.handleFolderEdit,
-                      resetSelectedBookmarks: this.resetSelectedBookmarks,
-                      handleUrlRemove: this.handleUrlRemove,
-                      handleSelectedChange: this.handleSelectedChange,
-                      handleOpenSelectedBookmarks:
-                        this.handleOpenSelectedBookmarks,
-                      handleBulkBookmarksMove: this.handleBulkBookmarksMove,
-                      handleBulkUrlRemove: this.handleBulkUrlRemove,
-                    }}
-                  >
-                    {VirtualRow}
-                  </List>
-                )}
-              </Droppable>
-            </DragDropContext>
-          ) : null}
+                <Droppable
+                  droppableId="bookmarks-list"
+                  mode="virtual"
+                  renderClone={(provided) => (
+                    <DragClone provided={provided} dragCount={selectedCount} />
+                  )}
+                >
+                  {(provided) => (
+                    <List<VirtualRowProps>
+                      ref={this.listRef}
+                      height={BOOKMARK_PANEL_CONTENT_HEIGHT}
+                      width={PANEL_DIMENSIONS.width}
+                      itemSize={BOOKMARK_ROW_DIMENTSIONS.height}
+                      itemCount={curBookmarksCount}
+                      overscanCount={5}
+                      outerRef={provided.innerRef}
+                      itemKey={(index, data) => {
+                        const { isDir, url, name } =
+                          data.contextBookmarks[index];
+                        return (isDir ? name : url) ?? "";
+                      }}
+                      itemData={{
+                        folderList,
+                        folders,
+                        selectedBookmarks,
+                        folderContext,
+                        contextBookmarks: filteredContextBookmarks,
+                        handleFolderRemove: this.handleFolderRemove,
+                        handleFolderEdit: this.handleFolderEdit,
+                        resetSelectedBookmarks: this.resetSelectedBookmarks,
+                        handleUrlRemove: this.handleUrlRemove,
+                        handleSelectedChange: this.handleSelectedChange,
+                        handleOpenSelectedBookmarks:
+                          this.handleOpenSelectedBookmarks,
+                        handleBulkBookmarksMove: this.handleBulkBookmarksMove,
+                        handleBulkUrlRemove: this.handleBulkUrlRemove,
+                      }}
+                    >
+                      {VirtualRow}
+                    </List>
+                  )}
+                </Droppable>
+              </DragDropContext>
+            ) : null}
+          </Box>
         </Box>
       </>
     );

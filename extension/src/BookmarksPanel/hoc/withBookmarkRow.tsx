@@ -2,7 +2,6 @@ import { Box } from "@material-ui/core";
 import { SxProps } from "@material-ui/system";
 import { memo } from "react";
 import { Draggable } from "react-beautiful-dnd";
-import Ripples from "react-ripples";
 import { Subtract } from "utility-types";
 import { bookmarkRowStyles } from "../constants";
 import "../scss/withBookmarkRow.scss";
@@ -36,6 +35,7 @@ const withBookmarkRow = <T extends InjectedProps>(
             className="bookmarkRowContainer"
             ref={provided.innerRef}
             sx={{
+              height: "100%",
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
@@ -44,16 +44,12 @@ const withBookmarkRow = <T extends InjectedProps>(
             {...provided.draggableProps}
             {...provided.dragHandleProps}
           >
-            <Ripples>
-              <Box
-                sx={{ display: "flex", alignItems: "center", width: "100%" }}
-              >
-                <Component
-                  {...(props as unknown as T)}
-                  containerStyles={bookmarkRowStyles}
-                />
-              </Box>
-            </Ripples>
+            <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
+              <Component
+                {...(props as unknown as T)}
+                containerStyles={bookmarkRowStyles}
+              />
+            </Box>
           </Box>
         )}
       </Draggable>
