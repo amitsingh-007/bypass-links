@@ -39,7 +39,7 @@ const Persons = memo<Props>(function Persons({
         rowHeight={PERSON_SIZE.height}
         columnCount={GRID_COLUMN_SIZE}
         columnWidth={PERSON_SIZE.width}
-        // overscanRowCount={2}
+        overscanRowCount={5}
         itemKey={({ rowIndex, columnIndex, data }) => {
           const person = data.persons[getReactKey(rowIndex, columnIndex)];
           return person?.uid ?? `${rowIndex}_${columnIndex}`;
