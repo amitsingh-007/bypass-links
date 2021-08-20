@@ -4,6 +4,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import { IntersectionObserverResponse } from "GlobalInterfaces/overrides";
 import { memo, useEffect, useRef } from "react";
 import { useInView } from "react-intersection-observer";
+import { debounce } from "throttle-debounce";
 
 interface Props {
   onChange: (searchText: string) => void;
@@ -15,6 +16,13 @@ const Search = memo<Props>(function Search({ onChange }) {
     trackVisibility: true,
     delay: 100,
   });
+
+  const onInputChange = debounce(
+    300,
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      onChange(event.target.value ?? "");
+    }
+  );
 
   useEffect(() => {
     if (entry?.isVisible) {
@@ -64,7 +72,7 @@ const Search = memo<Props>(function Search({ onChange }) {
       </Box>
       <InputBase
         placeholder="Search…"
-        onChange={(e) => onChange(e.target.value ?? "")}
+        onChange={onInputChange}
         sx={{
           "& .MuiInputBase-input": {
             padding: (theme) => theme.spacing(1, 1, 1, 0),

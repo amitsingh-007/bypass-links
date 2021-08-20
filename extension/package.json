@@ -46,6 +46,7 @@
     "react-router-dom": "5.2.0",
     "react-window": "1.8.6",
     "redux": "4.1.1",
+    "throttle-debounce": "3.0.1",
     "utility-types": "3.10.0"
   },
   "devDependencies": {
@@ -59,6 +60,7 @@
     "@types/react-router-dom": "5.1.8",
     "@types/react-window": "1.8.5",
     "@types/requestidlecallback": "0.3.4",
+    "@types/throttle-debounce": "^2.1.0",
     "@typescript-eslint/eslint-plugin": "4.29.1",
     "@typescript-eslint/parser": "4.29.1",
     "archiver": "5.3.0",
