@@ -159,7 +159,11 @@ const BookmarksList = memo<Props>(function BookmarksList({
                 title={bookmark.title}
                 taggedPersons={bookmark.taggedPersons}
                 isExternalPage
-                containerStyles={{ ...bookmarkRowStyles, paddingLeft: "0px" }}
+                containerStyles={{
+                  ...bookmarkRowStyles,
+                  paddingLeft: "0px",
+                  maxWidth: "748px",
+                }}
               />
               <Button
                 variant="contained"
