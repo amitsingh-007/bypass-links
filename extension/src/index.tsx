@@ -1,3 +1,7 @@
+// Uncomment this to see render comments in the console
+// if (!__PROD__) {
+//   require("./scripts/wdyr");
+// }
 import { CssBaseline } from "@material-ui/core";
 import darkScrollbar from "@material-ui/core/darkScrollbar";
 import { createTheme, ThemeProvider } from "@material-ui/core/styles";
@@ -5,15 +9,23 @@ import ErrorBoundary from "GlobalComponents/ErrorBoundary";
 import { BG_COLOR_BLACK } from "GlobalConstants/color";
 import Global from "GlobalContainers/Global";
 import PopupRoutes from "GlobalContainers/PopupRoutes";
-import rootReducers from "./reducers/rootReducer";
 import "GlobalStyles/popup.scss";
 import { StrictMode } from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import { createStore } from "redux";
+import { applyMiddleware, compose, createStore } from "redux";
+import rootReducers from "./reducers/rootReducer";
 
-const store = createStore(rootReducers);
+const middlewares = [];
+if (!__PROD__) {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const { logger } = require("redux-logger");
+  middlewares.push(logger);
+}
+const store = compose(applyMiddleware(...middlewares))(createStore)(
+  rootReducers
+);
 
 const theme = createTheme({
   palette: {

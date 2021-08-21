@@ -7,7 +7,7 @@ import useMenu from "SrcPath/hooks/useMenu";
 import { RightClickMenu } from "./StyledComponents";
 
 type Props = {
-  menuOptions: MenuOption[];
+  getMenuOptions: () => MenuOption[];
   showMenu?: boolean;
   onOpen?: VoidFunction;
   children: React.ReactNode;
@@ -15,7 +15,7 @@ type Props = {
 };
 
 const ContextMenu = memo<Props>(function ContextMenu({
-  menuOptions,
+  getMenuOptions,
   showMenu = true,
   onOpen,
   containerStyles = {},
@@ -24,12 +24,14 @@ const ContextMenu = memo<Props>(function ContextMenu({
   const [isMenuOpen, menuPos, onMenuClose, onMenuOpen] = useMenu();
 
   const handleRightClick = (event: React.MouseEvent<HTMLElement>) => {
-    onOpen && onOpen();
-    onMenuOpen(event);
+    if (showMenu) {
+      onOpen && onOpen();
+      onMenuOpen(event);
+    }
   };
 
   const renderMenu = () =>
-    menuOptions.map(({ text, icon: Icon, onClick }) => (
+    getMenuOptions().map(({ text, icon: Icon, onClick }) => (
       <MenuItem
         key={text}
         onClick={(event) => {

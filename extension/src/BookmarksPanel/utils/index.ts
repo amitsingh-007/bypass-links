@@ -15,8 +15,10 @@ export const getFaviconUrl = (url: string) =>
     new URL(url).hostname
   }`;
 
-export const getAllFolderNames = (folderList: IBookmarksObj["folderList"]) =>
-  Object.entries(folderList).map(([_key, value]) => atob(value.name));
+export const getAllFolderNames = memoize(
+  (folderList: IBookmarksObj["folderList"]) =>
+    Object.entries(folderList).map(([_key, value]) => atob(value.name))
+);
 
 export const isFolderEmpty = (
   folders: IBookmarksObj["folders"],

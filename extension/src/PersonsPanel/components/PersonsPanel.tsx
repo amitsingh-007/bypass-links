@@ -1,4 +1,4 @@
-import { Box } from "@material-ui/core";
+import { Box, GlobalStyles } from "@material-ui/core";
 import { displayToast } from "GlobalActionCreators/toast";
 import { PANEL_DIMENSIONS_PX } from "GlobalConstants/styles";
 import { getPersons } from "GlobalHelpers/fetchFromStorage";
@@ -105,24 +105,29 @@ const PersonsPanel = () => {
 
   const filteredPersons = getFilteredPersons(persons, searchText);
   return (
-    <Box sx={{ width: PANEL_DIMENSIONS_PX.width }}>
-      <Header
-        isFetching={isFetching}
-        handleAddPerson={handleAddOrEditPerson}
-        persons={filteredPersons}
-        handleSort={handleSort}
-        onSearchChange={handleSearchTextChange}
+    <>
+      <GlobalStyles
+        styles={{ body: { "::-webkit-scrollbar": { width: "0px" } } }}
       />
-      <Box sx={{ minHeight: PANEL_DIMENSIONS_PX.height }}>
-        {filteredPersons.length > 0 ? (
-          <Persons
-            persons={filteredPersons}
-            handleEditPerson={handleAddOrEditPerson}
-            handlePersonDelete={handlePersonDelete}
-          />
-        ) : null}
+      <Box sx={{ width: PANEL_DIMENSIONS_PX.width }}>
+        <Header
+          isFetching={isFetching}
+          handleAddPerson={handleAddOrEditPerson}
+          persons={filteredPersons}
+          handleSort={handleSort}
+          onSearchChange={handleSearchTextChange}
+        />
+        <Box sx={{ minHeight: PANEL_DIMENSIONS_PX.height }}>
+          {filteredPersons.length > 0 ? (
+            <Persons
+              persons={filteredPersons}
+              handleEditPerson={handleAddOrEditPerson}
+              handlePersonDelete={handlePersonDelete}
+            />
+          ) : null}
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 

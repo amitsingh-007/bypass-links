@@ -28,7 +28,12 @@ const PopupHome = memo(function PopupHome() {
           width: "max-content",
         }}
       >
-        <Typography variant="h5" component="h5" gutterBottom>
+        <Typography
+          variant="h5"
+          component="h5"
+          gutterBottom
+          sx={{ userSelect: "none" }}
+        >
           <Box sx={{ color: COLOR.heading, fontWeight: "700" }}>
             BYPASS LINKS
           </Box>

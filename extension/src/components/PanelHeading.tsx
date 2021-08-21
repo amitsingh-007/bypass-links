@@ -19,7 +19,11 @@ const PanelHeading: React.FC<Props> = ({ heading, containerStyles = {} }) => (
     component="span"
     variant="h1"
     display="inline"
-    sx={{ ...titleStyles, ...containerStyles }}
+    sx={{
+      userSelect: "none",
+      ...titleStyles,
+      ...containerStyles,
+    }}
   >
     {heading}
   </Typography>

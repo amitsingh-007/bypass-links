@@ -6,24 +6,19 @@ import {
   IBookmarksObj,
   ISelectedBookmarks,
 } from "../interfaces";
-import { getAllFolderNames, isFolderEmpty } from "../utils";
+import { isFolderEmpty } from "../utils";
 import Bookmark, { Props as BookmarkProps } from "./Bookmark";
 import Folder, { Props as FolderProps } from "./Folder";
 
 export interface VirtualRowProps {
-  folderList: IBookmarksObj["folderList"];
+  folderNamesList: string[];
   folders: IBookmarksObj["folders"];
   selectedBookmarks: ISelectedBookmarks;
-  folderContext: BookmarkProps["curFolder"];
   contextBookmarks: ContextBookmarks;
   handleFolderRemove: FolderProps["handleRemove"];
   handleFolderEdit: FolderProps["handleEdit"];
   resetSelectedBookmarks: FolderProps["resetSelectedBookmarks"];
-  handleUrlRemove: BookmarkProps["handleRemove"];
   handleSelectedChange: BookmarkProps["handleSelectedChange"];
-  handleOpenSelectedBookmarks: BookmarkProps["handleOpenSelectedBookmarks"];
-  handleBulkBookmarksMove: BookmarkProps["handleBulkBookmarksMove"];
-  handleBulkUrlRemove: BookmarkProps["handleBulkUrlRemove"];
 }
 
 const VirtualRow = memo<{
@@ -32,22 +27,14 @@ const VirtualRow = memo<{
   data: VirtualRowProps;
 }>(({ index, style, data: innerProps }) => {
   const {
-    folderList,
     folders,
     selectedBookmarks,
-    folderContext,
     contextBookmarks,
     handleFolderRemove,
     handleFolderEdit,
     resetSelectedBookmarks,
-    handleUrlRemove,
     handleSelectedChange,
-    handleOpenSelectedBookmarks,
-    handleBulkBookmarksMove,
-    handleBulkUrlRemove,
   } = innerProps;
-  const folderNamesList = getAllFolderNames(folderList);
-  const selectedCount = selectedBookmarks.filter(Boolean).length;
   const {
     url = "",
     title = "",
@@ -73,17 +60,9 @@ const VirtualRow = memo<{
           isDir={isDir}
           url={url}
           title={title}
-          curFolder={folderContext}
           taggedPersons={taggedPersons}
           isSelected={Boolean(selectedBookmarks[index])}
-          selectedCount={selectedCount}
-          folder={folderContext}
-          folderNamesList={folderNamesList}
-          handleRemove={handleUrlRemove}
           handleSelectedChange={handleSelectedChange}
-          handleOpenSelectedBookmarks={handleOpenSelectedBookmarks}
-          handleBulkBookmarksMove={handleBulkBookmarksMove}
-          handleBulkUrlRemove={handleBulkUrlRemove}
         />
       )}
     </Box>

@@ -4,3 +4,4 @@ extension-build/
 firebase-dll/
 webpack.*.js
 webpack/
+wdyr.ts
