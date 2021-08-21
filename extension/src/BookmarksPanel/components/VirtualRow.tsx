@@ -14,16 +14,11 @@ export interface VirtualRowProps {
   folderNamesList: string[];
   folders: IBookmarksObj["folders"];
   selectedBookmarks: ISelectedBookmarks;
-  folderContext: BookmarkProps["curFolder"];
   contextBookmarks: ContextBookmarks;
   handleFolderRemove: FolderProps["handleRemove"];
   handleFolderEdit: FolderProps["handleEdit"];
   resetSelectedBookmarks: FolderProps["resetSelectedBookmarks"];
-  handleUrlRemove: BookmarkProps["handleRemove"];
   handleSelectedChange: BookmarkProps["handleSelectedChange"];
-  handleOpenSelectedBookmarks: BookmarkProps["handleOpenSelectedBookmarks"];
-  handleBulkBookmarksMove: BookmarkProps["handleBulkBookmarksMove"];
-  handleBulkUrlRemove: BookmarkProps["handleBulkUrlRemove"];
 }
 
 const VirtualRow = memo<{
@@ -34,19 +29,12 @@ const VirtualRow = memo<{
   const {
     folders,
     selectedBookmarks,
-    folderContext,
     contextBookmarks,
     handleFolderRemove,
     handleFolderEdit,
     resetSelectedBookmarks,
-    handleUrlRemove,
     handleSelectedChange,
-    handleOpenSelectedBookmarks,
-    handleBulkBookmarksMove,
-    handleBulkUrlRemove,
-    folderNamesList,
   } = innerProps;
-  const selectedCount = selectedBookmarks.filter(Boolean).length;
   const {
     url = "",
     title = "",
@@ -72,17 +60,9 @@ const VirtualRow = memo<{
           isDir={isDir}
           url={url}
           title={title}
-          curFolder={folderContext}
           taggedPersons={taggedPersons}
           isSelected={Boolean(selectedBookmarks[index])}
-          selectedCount={selectedCount}
-          folder={folderContext}
-          folderNamesList={folderNamesList}
-          handleRemove={handleUrlRemove}
           handleSelectedChange={handleSelectedChange}
-          handleOpenSelectedBookmarks={handleOpenSelectedBookmarks}
-          handleBulkBookmarksMove={handleBulkBookmarksMove}
-          handleBulkUrlRemove={handleBulkUrlRemove}
         />
       )}
     </Box>

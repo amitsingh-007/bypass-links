@@ -122,7 +122,7 @@ const BookmarksList = memo<Props>(function BookmarksList({
           </Box>
         </Box>
       </DialogTitle>
-      <DialogContent sx={{ padding: "8px 0 0 0" }}>
+      <DialogContent sx={{ p: 0, pt: "4px !important" }}>
         {bookmarks.length > 0 ? (
           bookmarks.map((bookmark) => (
             <Box
@@ -134,7 +134,6 @@ const BookmarksList = memo<Props>(function BookmarksList({
                 width: "100%",
                 cursor: "pointer",
                 userSelect: "none",
-                paddingLeft: "8px",
               }}
               className="bookmarkRowContainer"
               data-text={bookmark.url}
@@ -162,7 +161,7 @@ const BookmarksList = memo<Props>(function BookmarksList({
                 containerStyles={{
                   ...bookmarkRowStyles,
                   paddingLeft: "0px",
-                  maxWidth: "748px",
+                  maxWidth: "756px",
                 }}
               />
               <Button

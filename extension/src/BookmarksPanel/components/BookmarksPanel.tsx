@@ -45,6 +45,7 @@ import {
   getDestinationIndex,
   getSelectedBookmarksAfterDrag,
 } from "../utils/manipulate";
+import BookmarkContextMenu from "./BookmarkContextMenu";
 import DragClone from "./DragClone";
 import EditBookmark from "./EditBookmark";
 import Header from "./Header";
@@ -537,7 +538,16 @@ class BookmarksPanel extends PureComponent<Props, State> {
             handleScroll={this.handleScroll}
             handleSelectedChange={this.handleSelectedChange}
           />
-          <Box sx={{ height: `${BOOKMARK_PANEL_CONTENT_HEIGHT}px` }}>
+          <BookmarkContextMenu
+            curFolder={folderContext}
+            contextBookmarks={contextBookmarks}
+            folderNamesList={folderNamesList}
+            selectedBookmarks={selectedBookmarks}
+            handleBulkUrlRemove={this.handleBulkUrlRemove}
+            handleUrlRemove={this.handleUrlRemove}
+            handleBulkBookmarksMove={this.handleBulkBookmarksMove}
+            handleOpenSelectedBookmarks={this.handleOpenSelectedBookmarks}
+          >
             {shouldRenderBookmarks(folders, filteredContextBookmarks) ? (
               <DragDropContext
                 onDragEnd={this.onDragEnd}
@@ -568,17 +578,11 @@ class BookmarksPanel extends PureComponent<Props, State> {
                         folderNamesList,
                         folders,
                         selectedBookmarks,
-                        folderContext,
                         contextBookmarks: filteredContextBookmarks,
                         handleFolderRemove: this.handleFolderRemove,
                         handleFolderEdit: this.handleFolderEdit,
                         resetSelectedBookmarks: this.resetSelectedBookmarks,
-                        handleUrlRemove: this.handleUrlRemove,
                         handleSelectedChange: this.handleSelectedChange,
-                        handleOpenSelectedBookmarks:
-                          this.handleOpenSelectedBookmarks,
-                        handleBulkBookmarksMove: this.handleBulkBookmarksMove,
-                        handleBulkUrlRemove: this.handleBulkUrlRemove,
                       }}
                     >
                       {VirtualRow}
@@ -587,7 +591,7 @@ class BookmarksPanel extends PureComponent<Props, State> {
                 </Droppable>
               </DragDropContext>
             ) : null}
-          </Box>
+          </BookmarkContextMenu>
         </Box>
       </>
     );
