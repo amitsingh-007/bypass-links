@@ -77,7 +77,7 @@ const Folder = memo<Props>(
     return (
       <>
         <ContextMenu
-          menuOptions={menuOptions}
+          getMenuOptions={() => menuOptions}
           containerStyles={{ display: "flex", alignItems: "center" }}
         >
           <Box

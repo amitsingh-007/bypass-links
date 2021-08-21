@@ -37,10 +37,10 @@ const BookmarkContextMenu = memo<{
     handleUrlRemove,
     handleBulkUrlRemove,
   }) => {
+    const selectedCount = selectedBookmarks.filter(Boolean).length;
+
     const dispatch = useDispatch();
     const [openBulkMoveDialog, setOpenBulkMoveDialog] = useState(false);
-
-    const selectedCount = selectedBookmarks.filter(Boolean).length;
 
     const toggleBulkMoveDialog = () => {
       setOpenBulkMoveDialog(!openBulkMoveDialog);
@@ -105,7 +105,8 @@ const BookmarkContextMenu = memo<{
     return (
       <>
         <ContextMenu
-          menuOptions={getMenuOptions()}
+          showMenu={selectedCount > 0}
+          getMenuOptions={getMenuOptions}
           containerStyles={{ height: `${BOOKMARK_PANEL_CONTENT_HEIGHT}px` }}
         >
           {children}

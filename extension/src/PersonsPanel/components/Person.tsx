@@ -92,7 +92,7 @@ const Person = memo<Props>(
               width: "156px",
             }}
           >
-            <ContextMenu menuOptions={menuOptions}>
+            <ContextMenu getMenuOptions={() => menuOptions}>
               <Badge
                 badgeContent={taggedUrlsCount}
                 color="primary"
