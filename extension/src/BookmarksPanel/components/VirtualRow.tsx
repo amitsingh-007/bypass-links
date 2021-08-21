@@ -6,12 +6,12 @@ import {
   IBookmarksObj,
   ISelectedBookmarks,
 } from "../interfaces";
-import { getAllFolderNames, isFolderEmpty } from "../utils";
+import { isFolderEmpty } from "../utils";
 import Bookmark, { Props as BookmarkProps } from "./Bookmark";
 import Folder, { Props as FolderProps } from "./Folder";
 
 export interface VirtualRowProps {
-  folderList: IBookmarksObj["folderList"];
+  folderNamesList: string[];
   folders: IBookmarksObj["folders"];
   selectedBookmarks: ISelectedBookmarks;
   folderContext: BookmarkProps["curFolder"];
@@ -32,7 +32,6 @@ const VirtualRow = memo<{
   data: VirtualRowProps;
 }>(({ index, style, data: innerProps }) => {
   const {
-    folderList,
     folders,
     selectedBookmarks,
     folderContext,
@@ -45,8 +44,8 @@ const VirtualRow = memo<{
     handleOpenSelectedBookmarks,
     handleBulkBookmarksMove,
     handleBulkUrlRemove,
+    folderNamesList,
   } = innerProps;
-  const folderNamesList = getAllFolderNames(folderList);
   const selectedCount = selectedBookmarks.filter(Boolean).length;
   const {
     url = "",

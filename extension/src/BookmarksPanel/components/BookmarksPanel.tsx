@@ -565,7 +565,7 @@ class BookmarksPanel extends PureComponent<Props, State> {
                         return (isDir ? name : url) ?? "";
                       }}
                       itemData={{
-                        folderList,
+                        folderNamesList,
                         folders,
                         selectedBookmarks,
                         folderContext,

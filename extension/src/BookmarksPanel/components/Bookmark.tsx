@@ -70,7 +70,12 @@ class Bookmark extends PureComponent<Props, State> {
     const { taggedPersons } = this.props;
     const persons = await getPersonsFromUids(taggedPersons);
     const personsWithImageUrls = await getPersonsWithImageUrl(persons);
-    this.setState({ personsWithImageUrls });
+    if (
+      this.state.personsWithImageUrls.length !== 0 &&
+      personsWithImageUrls.length !== 0
+    ) {
+      this.setState({ personsWithImageUrls });
+    }
   };
 
   componentDidMount() {
@@ -238,11 +243,8 @@ const mapDispatchToProps = {
 };
 
 const connector = connect(null, mapDispatchToProps);
-
 type PropsFromRedux = ConnectedProps<typeof connector>;
-
 const BookmarkExternal = withRouter(compose(connector)(Bookmark));
 
 export { BookmarkExternal };
-
 export default withBookmarkRow(BookmarkExternal);
