@@ -4,4 +4,5 @@ const whyDidYouRender = require("@welldone-software/why-did-you-render");
 
 whyDidYouRender(React, {
   trackAllPureComponents: true,
+  exclude: [/^(VirtualCell|VirtualRow|Connect\(Draggable\))/],
 });
