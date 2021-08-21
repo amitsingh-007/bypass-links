@@ -1,6 +1,6 @@
 // Uncomment this to see render comments in the console
 if (!__PROD__) {
-  require("../scripts/wdyr");
+  require("./scripts/wdyr");
 }
 import { CssBaseline } from "@material-ui/core";
 import darkScrollbar from "@material-ui/core/darkScrollbar";
