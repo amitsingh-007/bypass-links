@@ -1,19 +1,17 @@
 import { FIREBASE_DB_REF } from "@common/constants/firebase";
-import { IconButton, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import EventAvailableTwoToneIcon from "@material-ui/icons/EventAvailableTwoTone";
-import { IconButtonLoader } from "GlobalComponents/Loader";
 import { BlackTooltip } from "GlobalComponents/StyledComponents";
-import { COLOR } from "GlobalConstants/color";
 import { getCurrentTab } from "GlobalHelpers/chrome/tabs";
 import { getLastVisited } from "GlobalHelpers/fetchFromStorage";
 import { saveToFirebase } from "GlobalHelpers/firebase/database";
 import { RootState } from "GlobalReducers/rootReducer";
-import { getActiveDisabledColor } from "GlobalUtils/color";
 import md5 from "md5";
 import { memo, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { syncLastVisitedToStorage } from "SrcPath/HomePopup/utils/lastVisited";
 import { LastVisited } from "../interfaces/lastVisited";
+import StyledButton from "./StyledButton";
 
 const tooltipStyles = { fontSize: "13px" };
 
@@ -64,29 +62,25 @@ const LastVisitedButton = memo(() => {
     initLastVisited();
   };
 
-  if (isFetching) {
-    return <IconButtonLoader />;
-  }
-
   return (
-    <BlackTooltip
-      title={
-        <Typography style={tooltipStyles}>
-          {lastVisited || "No last updated date"}
-        </Typography>
-      }
-      arrow
-      disableInteractive
+    <StyledButton
+      showSuccessColor={isSignedIn}
+      isLoading={isFetching}
+      isDisabled={!isSignedIn}
+      onClick={handleUpdateLastVisited}
     >
-      <IconButton
-        component="span"
-        style={getActiveDisabledColor(isSignedIn, COLOR.brown)}
-        onClick={handleUpdateLastVisited}
-        disabled={!isSignedIn}
+      <BlackTooltip
+        title={
+          <Typography style={tooltipStyles}>
+            {lastVisited || "No last updated date"}
+          </Typography>
+        }
+        arrow
+        disableInteractive
       >
-        <EventAvailableTwoToneIcon fontSize="large" />
-      </IconButton>
-    </BlackTooltip>
+        <EventAvailableTwoToneIcon />
+      </BlackTooltip>
+    </StyledButton>
   );
 });
 

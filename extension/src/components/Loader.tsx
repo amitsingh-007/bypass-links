@@ -30,15 +30,3 @@ const Loader = memo<{
   );
 });
 export default Loader;
-
-export const IconButtonLoader = memo(function IconButtonLoader() {
-  return (
-    <Loader
-      loaderSize={28}
-      styles={{
-        display: "inline-flex",
-        width: "59px",
-      }}
-    />
-  );
-});

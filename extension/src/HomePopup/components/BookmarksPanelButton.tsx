@@ -1,12 +1,10 @@
-import { IconButton } from "@material-ui/core";
 import CollectionsBookmarkTwoToneIcon from "@material-ui/icons/CollectionsBookmarkTwoTone";
-import { COLOR } from "GlobalConstants/color";
-import { getActiveDisabledColor } from "GlobalUtils/color";
-import { getBookmarksPanelUrl } from "SrcPath/BookmarksPanel/utils/url";
+import { RootState } from "GlobalReducers/rootReducer";
 import { memo } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { RootState } from "GlobalReducers/rootReducer";
+import { getBookmarksPanelUrl } from "SrcPath/BookmarksPanel/utils/url";
+import StyledButton from "./StyledButton";
 
 const BookmarksPanelButton = memo(function BookmarksPanelButton() {
   const history = useHistory();
@@ -17,16 +15,13 @@ const BookmarksPanelButton = memo(function BookmarksPanelButton() {
   };
 
   return (
-    <IconButton
-      aria-label="OpenBookmarsPanel"
-      component="span"
-      style={getActiveDisabledColor(isSignedIn, COLOR.blue)}
+    <StyledButton
+      showSuccessColor={isSignedIn}
+      isDisabled={!isSignedIn}
       onClick={handleShowEditPanel}
-      disabled={!isSignedIn}
-      title={isSignedIn ? "Open Bookmarks Panel" : undefined}
     >
-      <CollectionsBookmarkTwoToneIcon fontSize="large" />
-    </IconButton>
+      <CollectionsBookmarkTwoToneIcon />
+    </StyledButton>
   );
 });
 

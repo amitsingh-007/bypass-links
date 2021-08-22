@@ -1,15 +1,12 @@
-import { IconButton } from "@material-ui/core";
 import OpenInNewTwoToneIcon from "@material-ui/icons/OpenInNewTwoTone";
+import { STORAGE_KEYS } from "GlobalConstants";
 import storage from "GlobalHelpers/chrome/storage";
 import tabs from "GlobalHelpers/chrome/tabs";
-import { IconButtonLoader } from "GlobalComponents/Loader";
-import { STORAGE_KEYS } from "GlobalConstants";
-import { COLOR } from "GlobalConstants/color";
 import { RootState } from "GlobalReducers/rootReducer";
-import { getActiveDisabledColor } from "GlobalUtils/color";
 import { memo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { startHistoryMonitor } from "SrcPath/HistoryPanel/actionCreators";
+import StyledButton from "./StyledButton";
 
 const OpenDefaultsButton = memo(function OpenDefaultsButton() {
   const dispatch = useDispatch();
@@ -33,21 +30,15 @@ const OpenDefaultsButton = memo(function OpenDefaultsButton() {
     setIsFetching(false);
   };
 
-  if (isFetching) {
-    return <IconButtonLoader />;
-  }
-
   return (
-    <IconButton
-      aria-label="OpenDefaults"
-      component="span"
-      style={getActiveDisabledColor(isSignedIn, COLOR.deepPurple)}
+    <StyledButton
+      showSuccessColor={isSignedIn}
+      isLoading={isFetching}
+      isDisabled={!isSignedIn}
       onClick={handleOpenDefaults}
-      disabled={!isSignedIn}
-      title={isSignedIn ? "Open Defaults" : undefined}
     >
-      <OpenInNewTwoToneIcon fontSize="large" />
-    </IconButton>
+      <OpenInNewTwoToneIcon />
+    </StyledButton>
   );
 });
 

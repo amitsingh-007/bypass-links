@@ -1,12 +1,10 @@
-import { IconButton } from "@material-ui/core";
 import TagFacesTwoToneIcon from "@material-ui/icons/TagFacesTwoTone";
-import { COLOR } from "GlobalConstants/color";
 import { ROUTES } from "GlobalConstants/routes";
-import { getActiveDisabledColor } from "GlobalUtils/color";
+import { RootState } from "GlobalReducers/rootReducer";
 import { memo } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { RootState } from "GlobalReducers/rootReducer";
+import StyledButton from "./StyledButton";
 
 const PersonsPanelButton = memo(function PersonsPanelButton() {
   const history = useHistory();
@@ -17,16 +15,13 @@ const PersonsPanelButton = memo(function PersonsPanelButton() {
   };
 
   return (
-    <IconButton
-      aria-label="OpenRedirectionsPanel"
-      component="span"
-      style={getActiveDisabledColor(isSignedIn, COLOR.indigo)}
+    <StyledButton
+      showSuccessColor={isSignedIn}
+      isDisabled={!isSignedIn}
       onClick={handleShowPersonsPanel}
-      disabled={!isSignedIn}
-      title={isSignedIn ? "Open Persons Panel" : undefined}
     >
-      <TagFacesTwoToneIcon fontSize="large" />
-    </IconButton>
+      <TagFacesTwoToneIcon />
+    </StyledButton>
   );
 });
 
