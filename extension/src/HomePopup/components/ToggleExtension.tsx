@@ -1,16 +1,14 @@
-import { Box, Switch } from "@material-ui/core";
-import PowerOffTwoToneIcon from "@material-ui/icons/PowerOffTwoTone";
-import PowerTwoToneIcon from "@material-ui/icons/PowerTwoTone";
+import { FormControlLabel } from "@material-ui/core";
 import {
-  turnOnExtension,
   turnOffExtension,
+  turnOnExtension,
 } from "GlobalActionCreators/extension";
+import { StyledSwitch } from "GlobalComponents/StyledComponents";
 import { EXTENSION_STATE } from "GlobalConstants";
-import { getOffIconColor, getOnIconColor } from "GlobalUtils/color";
+import { getExtensionState } from "GlobalHelpers/fetchFromStorage";
 import { isExtensionActive, setExtStateInStorage } from "GlobalUtils/common";
 import { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { getExtensionState } from "GlobalHelpers/fetchFromStorage";
 
 const ToggleExtension = memo(function ToggleExtension() {
   const dispatch = useDispatch();
@@ -44,16 +42,12 @@ const ToggleExtension = memo(function ToggleExtension() {
 
   const isActive = isExtensionActive(extState);
   return (
-    <Box sx={{ display: "flex", alignItems: "center" }}>
-      <PowerOffTwoToneIcon htmlColor={getOffIconColor(isActive)} />
-      <Switch
-        checked={isActive}
-        onChange={handleToggle}
-        color="primary"
-        name="extState"
-      />
-      <PowerTwoToneIcon htmlColor={getOnIconColor(isActive)} />
-    </Box>
+    <FormControlLabel
+      control={<StyledSwitch checked={isActive} onChange={handleToggle} />}
+      label="Enable"
+      labelPlacement="start"
+      sx={{ ml: 0, justifyContent: "space-between" }}
+    />
   );
 });
 

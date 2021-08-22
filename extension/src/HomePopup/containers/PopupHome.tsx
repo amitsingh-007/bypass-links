@@ -45,7 +45,13 @@ const PopupHome = memo(function PopupHome() {
             alignItems: "center",
           }}
         >
-          <Box sx={{ marginRight: "20px" }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              marginRight: "20px",
+            }}
+          >
             <ToggleExtension />
             <ToggleHistory />
           </Box>
