@@ -1,4 +1,4 @@
-import { FormControlLabel } from "@material-ui/core";
+import { Box, FormControlLabel } from "@material-ui/core";
 import { StyledSwitch } from "GlobalComponents/StyledComponents";
 import { startHistoryWatch } from "GlobalContainers/StoreListener";
 import history from "GlobalHelpers/chrome/history";
@@ -89,7 +89,7 @@ const ToggleHistory = memo(function ToggleHistory() {
           disabled={!isExtensionActive}
         />
       }
-      label="Watch"
+      label={<Box sx={{ mr: "3px" }}>Watch</Box>}
       labelPlacement="start"
       sx={{ ml: 0, justifyContent: "space-between" }}
     />

@@ -1,4 +1,4 @@
-import { FormControlLabel } from "@material-ui/core";
+import { Box, FormControlLabel } from "@material-ui/core";
 import {
   turnOffExtension,
   turnOnExtension,
@@ -44,7 +44,7 @@ const ToggleExtension = memo(function ToggleExtension() {
   return (
     <FormControlLabel
       control={<StyledSwitch checked={isActive} onChange={handleToggle} />}
-      label="Enable"
+      label={<Box sx={{ mr: "3px" }}>Enable</Box>}
       labelPlacement="start"
       sx={{ ml: 0, justifyContent: "space-between" }}
     />

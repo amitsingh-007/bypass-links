@@ -39,13 +39,13 @@ const PopupHome = memo(function PopupHome() {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
+            width: "100%",
           }}
         >
           <Box
             sx={{
               display: "flex",
               flexDirection: "column",
-              marginRight: "20px",
             }}
           >
             <ToggleExtension />
@@ -53,7 +53,7 @@ const PopupHome = memo(function PopupHome() {
           </Box>
           <UserProfile />
         </Box>
-        <Row styles={{ marginTop: "8.4px" }}>
+        <Row styles={{ marginTop: "15px" }}>
           <Authenticate />
           <ShortcutsPanelButton />
           <BookmarksPanelButton />
