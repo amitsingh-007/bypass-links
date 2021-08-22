@@ -1,5 +1,4 @@
-import { Dialog, LinearProgress, Typography } from "@material-ui/core";
-import CloudDoneTwoToneIcon from "@material-ui/icons/CloudDoneTwoTone";
+import { Dialog, LinearProgress, SvgIcon, Typography } from "@material-ui/core";
 import CloudOffTwoTone from "@material-ui/icons/CloudOffTwoTone";
 import { setSignedInStatus } from "GlobalActionCreators";
 import { resetAuthenticationProgress } from "GlobalActionCreators/auth";
@@ -7,6 +6,7 @@ import { displayToast } from "GlobalActionCreators/toast";
 import { getUserProfile } from "GlobalHelpers/fetchFromStorage";
 import { RootState } from "GlobalReducers/rootReducer";
 import { memo, useCallback, useEffect, useState } from "react";
+import { RiLoginCircleFill, RiLogoutCircleRFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { signIn, signOut } from "../utils/authentication";
 import StyledButton from "./StyledButton";
@@ -80,7 +80,9 @@ const Authenticate = memo(() => {
         isDisabled={!isExtensionActive}
         onClick={isSignedIn ? handleSignOut : handleSignIn}
       >
-        {isSignedIn ? <CloudDoneTwoToneIcon /> : <CloudOffTwoTone />}
+        <SvgIcon>
+          {isSignedIn ? <RiLogoutCircleRFill /> : <RiLoginCircleFill />}
+        </SvgIcon>
       </StyledButton>
       {isFetching && (
         <Dialog
