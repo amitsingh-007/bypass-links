@@ -1,5 +1,4 @@
 import { Dialog, LinearProgress, SvgIcon, Typography } from "@material-ui/core";
-import CloudOffTwoTone from "@material-ui/icons/CloudOffTwoTone";
 import { setSignedInStatus } from "GlobalActionCreators";
 import { resetAuthenticationProgress } from "GlobalActionCreators/auth";
 import { displayToast } from "GlobalActionCreators/toast";
