@@ -8,7 +8,7 @@ import { SettingsPanelRoute } from "SrcPath/SettingsPanel/routes";
 import { ShortcutsPanelRoute } from "SrcPath/ShortcutsPanel/routes";
 
 const PopupRoutes = () => (
-  <Suspense>
+  <Suspense fallback={null}>
     <Switch>
       {HomePageRoute}
       {ShortcutsPanelRoute}
