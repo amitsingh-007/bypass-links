@@ -1,7 +1,8 @@
-import TuneTwoToneIcon from "@material-ui/icons/TuneTwoTone";
+import { SvgIcon } from "@material-ui/core";
 import { ROUTES } from "GlobalConstants/routes";
 import { RootState } from "GlobalReducers/rootReducer";
 import { memo } from "react";
+import { GoFileSymlinkFile } from "react-icons/go";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import StyledButton from "./StyledButton";
@@ -20,7 +21,9 @@ const ShortcutsPanelButton = memo(function ShortcutsPanelButton() {
       isDisabled={!isSignedIn}
       onClick={handleOpenShortcutsPanel}
     >
-      <TuneTwoToneIcon />
+      <SvgIcon>
+        <GoFileSymlinkFile />
+      </SvgIcon>
     </StyledButton>
   );
 });

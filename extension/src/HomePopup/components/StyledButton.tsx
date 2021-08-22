@@ -17,7 +17,7 @@ const StyledButton = memo<{
         borderRadius: "50%",
         minWidth: "unset",
       }}
-      color={showSuccessColor ? "secondary" : "primary"}
+      color={showSuccessColor ? "success" : "error"}
       loading={isLoading}
       disabled={isDisabled}
       onClick={onClick}

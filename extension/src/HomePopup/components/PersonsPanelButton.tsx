@@ -1,7 +1,8 @@
-import TagFacesTwoToneIcon from "@material-ui/icons/TagFacesTwoTone";
+import { SvgIcon } from "@material-ui/core";
 import { ROUTES } from "GlobalConstants/routes";
 import { RootState } from "GlobalReducers/rootReducer";
 import { memo } from "react";
+import { FaUserTag } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import StyledButton from "./StyledButton";
@@ -20,7 +21,9 @@ const PersonsPanelButton = memo(function PersonsPanelButton() {
       isDisabled={!isSignedIn}
       onClick={handleShowPersonsPanel}
     >
-      <TagFacesTwoToneIcon />
+      <SvgIcon>
+        <FaUserTag />
+      </SvgIcon>
     </StyledButton>
   );
 });

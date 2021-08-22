@@ -1,6 +1,5 @@
 import { FIREBASE_DB_REF } from "@common/constants/firebase";
-import { Typography } from "@material-ui/core";
-import EventAvailableTwoToneIcon from "@material-ui/icons/EventAvailableTwoTone";
+import { SvgIcon, Typography } from "@material-ui/core";
 import { BlackTooltip } from "GlobalComponents/StyledComponents";
 import { getCurrentTab } from "GlobalHelpers/chrome/tabs";
 import { getLastVisited } from "GlobalHelpers/fetchFromStorage";
@@ -8,6 +7,7 @@ import { saveToFirebase } from "GlobalHelpers/firebase/database";
 import { RootState } from "GlobalReducers/rootReducer";
 import md5 from "md5";
 import { memo, useEffect, useState } from "react";
+import { FaCalendarCheck, FaCalendarTimes } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { syncLastVisitedToStorage } from "SrcPath/HomePopup/utils/lastVisited";
 import { LastVisited } from "../interfaces/lastVisited";
@@ -56,10 +56,10 @@ const LastVisitedButton = memo(() => {
       lastVisitedObj
     );
     if (isSuccess) {
-      syncLastVisitedToStorage();
+      await syncLastVisitedToStorage();
     }
+    await initLastVisited();
     setIsFetching(false);
-    initLastVisited();
   };
 
   return (
@@ -69,17 +69,21 @@ const LastVisitedButton = memo(() => {
       isDisabled={!isSignedIn}
       onClick={handleUpdateLastVisited}
     >
-      <BlackTooltip
-        title={
-          <Typography style={tooltipStyles}>
-            {lastVisited || "No last updated date"}
-          </Typography>
-        }
-        arrow
-        disableInteractive
-      >
-        <EventAvailableTwoToneIcon />
-      </BlackTooltip>
+      {lastVisited ? (
+        <BlackTooltip
+          title={<Typography style={tooltipStyles}>{lastVisited}</Typography>}
+          arrow
+          disableInteractive
+        >
+          <SvgIcon>
+            <FaCalendarCheck />
+          </SvgIcon>
+        </BlackTooltip>
+      ) : (
+        <SvgIcon>
+          <FaCalendarTimes />
+        </SvgIcon>
+      )}
     </StyledButton>
   );
 });

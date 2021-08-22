@@ -1,10 +1,11 @@
-import ForumTwoToneIcon from "@material-ui/icons/ForumTwoTone";
+import { SvgIcon } from "@material-ui/core";
 import { BYPASS_KEYS } from "GlobalConstants";
 import runtime from "GlobalHelpers/chrome/runtime";
 import tabs, { getCurrentTab } from "GlobalHelpers/chrome/tabs";
 import { RootState } from "GlobalReducers/rootReducer";
 import { matchHostnames } from "GlobalUtils/common";
 import { memo, useCallback, useEffect, useState } from "react";
+import { MdForum } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { startHistoryMonitor } from "SrcPath/HistoryPanel/actionCreators";
 import StyledButton from "./StyledButton";
@@ -59,7 +60,9 @@ const OpenForumLinks = memo(function OpenForumLinks() {
       isDisabled={!isActive}
       onClick={handleClick}
     >
-      <ForumTwoToneIcon />
+      <SvgIcon>
+        <MdForum />
+      </SvgIcon>
     </StyledButton>
   );
 });

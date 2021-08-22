@@ -1,7 +1,8 @@
-import HistoryTwoToneIcon from "@material-ui/icons/HistoryTwoTone";
+import { SvgIcon } from "@material-ui/core";
 import { ROUTES } from "GlobalConstants/routes";
 import { RootState } from "GlobalReducers/rootReducer";
 import { memo } from "react";
+import { RiHistoryFill } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import StyledButton from "./StyledButton";
@@ -22,7 +23,9 @@ const HistoryPanelButton = memo(function HistoryPanelButton() {
       isDisabled={!isExtensionActive}
       onClick={handleShowHistoryPanel}
     >
-      <HistoryTwoToneIcon />
+      <SvgIcon>
+        <RiHistoryFill />
+      </SvgIcon>
     </StyledButton>
   );
 });

@@ -1,6 +1,4 @@
-import { Typography } from "@material-ui/core";
-import BookmarkBorderTwoToneIcon from "@material-ui/icons/BookmarkBorderTwoTone";
-import BookmarkTwoToneIcon from "@material-ui/icons/BookmarkTwoTone";
+import { SvgIcon, Typography } from "@material-ui/core";
 import { BlackTooltip } from "GlobalComponents/StyledComponents";
 import { defaultBookmarkFolder } from "GlobalConstants";
 import { getCurrentTab } from "GlobalHelpers/chrome/tabs";
@@ -8,6 +6,8 @@ import { getBookmarks } from "GlobalHelpers/fetchFromStorage";
 import { RootState } from "GlobalReducers/rootReducer";
 import md5 from "md5";
 import { memo, useEffect, useState } from "react";
+import { BiBookmarkPlus } from "react-icons/bi";
+import { RiBookmark3Fill } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { BOOKMARK_OPERATION } from "SrcPath/BookmarksPanel/constants";
@@ -84,10 +84,14 @@ const QuickBookmarkButton = memo(function QuickBookmarkButton() {
           arrow
           disableInteractive
         >
-          <BookmarkTwoToneIcon />
+          <SvgIcon>
+            <RiBookmark3Fill />
+          </SvgIcon>
         </BlackTooltip>
       ) : (
-        <BookmarkBorderTwoToneIcon />
+        <SvgIcon>
+          <BiBookmarkPlus />
+        </SvgIcon>
       )}
     </StyledButton>
   );

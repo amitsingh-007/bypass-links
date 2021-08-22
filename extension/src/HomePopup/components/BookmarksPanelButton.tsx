@@ -1,6 +1,7 @@
-import CollectionsBookmarkTwoToneIcon from "@material-ui/icons/CollectionsBookmarkTwoTone";
+import { SvgIcon } from "@material-ui/core";
 import { RootState } from "GlobalReducers/rootReducer";
 import { memo } from "react";
+import { RiBookMarkFill } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { getBookmarksPanelUrl } from "SrcPath/BookmarksPanel/utils/url";
@@ -20,7 +21,9 @@ const BookmarksPanelButton = memo(function BookmarksPanelButton() {
       isDisabled={!isSignedIn}
       onClick={handleShowEditPanel}
     >
-      <CollectionsBookmarkTwoToneIcon />
+      <SvgIcon>
+        <RiBookMarkFill />
+      </SvgIcon>
     </StyledButton>
   );
 });
