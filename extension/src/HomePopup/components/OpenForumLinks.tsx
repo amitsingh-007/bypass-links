@@ -59,6 +59,7 @@ const OpenForumLinks = memo(function OpenForumLinks() {
       isLoading={isFetching}
       isDisabled={!isActive}
       onClick={handleClick}
+      color="warning"
     >
       <SvgIcon>
         <MdForum />

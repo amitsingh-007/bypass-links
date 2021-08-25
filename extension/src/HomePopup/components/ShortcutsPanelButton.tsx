@@ -20,6 +20,7 @@ const ShortcutsPanelButton = memo(function ShortcutsPanelButton() {
       showSuccessColor={isSignedIn}
       isDisabled={!isSignedIn}
       onClick={handleOpenShortcutsPanel}
+      color="secondary"
     >
       <SvgIcon>
         <GoFileSymlinkFile />

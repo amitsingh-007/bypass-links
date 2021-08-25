@@ -71,6 +71,7 @@ const QuickBookmarkButton = memo(function QuickBookmarkButton() {
       isLoading={isFetching}
       isDisabled={!isSignedIn}
       onClick={handleClick}
+      color={bookmark ? "success" : "error"}
     >
       {bookmark ? (
         <BlackTooltip

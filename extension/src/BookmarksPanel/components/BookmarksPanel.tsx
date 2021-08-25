@@ -584,6 +584,7 @@ class BookmarksPanel extends PureComponent<Props, State> {
                         resetSelectedBookmarks: this.resetSelectedBookmarks,
                         handleSelectedChange: this.handleSelectedChange,
                       }}
+                      style={{ overflowY: "scroll" }}
                     >
                       {VirtualRow}
                     </FixedSizeList>

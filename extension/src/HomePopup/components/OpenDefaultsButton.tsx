@@ -37,6 +37,7 @@ const OpenDefaultsButton = memo(function OpenDefaultsButton() {
       isLoading={isFetching}
       isDisabled={!isSignedIn}
       onClick={handleOpenDefaults}
+      color="warning"
     >
       <SvgIcon>
         <FiExternalLink />

@@ -78,6 +78,7 @@ const Authenticate = memo(() => {
         isLoading={isFetching}
         isDisabled={!isExtensionActive}
         onClick={isSignedIn ? handleSignOut : handleSignIn}
+        color="success"
       >
         <SvgIcon>
           {isSignedIn ? <RiLogoutCircleRFill /> : <RiLoginCircleFill />}

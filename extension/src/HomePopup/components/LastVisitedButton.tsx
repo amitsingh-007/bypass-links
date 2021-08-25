@@ -68,6 +68,7 @@ const LastVisitedButton = memo(() => {
       isLoading={isFetching}
       isDisabled={!isSignedIn}
       onClick={handleUpdateLastVisited}
+      color={lastVisited ? "success" : "error"}
     >
       {lastVisited ? (
         <BlackTooltip
