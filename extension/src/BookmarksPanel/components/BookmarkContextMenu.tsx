@@ -1,11 +1,11 @@
-import DeleteIcon from "@material-ui/icons/Delete";
-import DriveFileMoveOutlinedIcon from "@material-ui/icons/DriveFileMoveOutlined";
-import EditIcon from "@material-ui/icons/Edit";
-import OpenInNewTwoToneIcon from "@material-ui/icons/OpenInNewTwoTone";
 import ContextMenu from "GlobalComponents/ContextMenu";
 import { VoidFunction } from "GlobalInterfaces/custom";
 import { MenuOption } from "GlobalInterfaces/menu";
 import { memo, useState } from "react";
+import { AiFillEdit } from "react-icons/ai";
+import { BsFillFolderSymlinkFill } from "react-icons/bs";
+import { FiExternalLink } from "react-icons/fi";
+import { RiBookmark2Fill } from "react-icons/ri";
 import { useDispatch } from "react-redux";
 import { setBookmarkOperation } from "../actionCreators";
 import {
@@ -72,30 +72,30 @@ const BookmarkContextMenu = memo<{
         text: `Open ${
           selectedCount > 1 ? `all (${selectedCount}) ` : ""
         }in new tab`,
-        icon: OpenInNewTwoToneIcon,
+        icon: FiExternalLink,
       });
       if (selectedCount > 1) {
         menuOptionsList.push({
           onClick: toggleBulkMoveDialog,
           text: "Bulk move bookmarks",
-          icon: DriveFileMoveOutlinedIcon,
+          icon: BsFillFolderSymlinkFill,
         });
         menuOptionsList.push({
           onClick: handleBulkUrlRemove,
           text: "Delete All",
-          icon: DeleteIcon,
+          icon: RiBookmark2Fill,
         });
       } else {
         menuOptionsList.push(
           {
             onClick: handleBookmarkEdit,
             text: "Edit",
-            icon: EditIcon,
+            icon: AiFillEdit,
           },
           {
             onClick: handleDeleteOptionClick,
             text: "Delete",
-            icon: DeleteIcon,
+            icon: RiBookmark2Fill,
           }
         );
       }

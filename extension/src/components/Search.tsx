@@ -1,8 +1,8 @@
 import { Box, InputBase } from "@material-ui/core";
 import { alpha } from "@material-ui/core/styles";
-import SearchIcon from "@material-ui/icons/Search";
 import { IntersectionObserverResponse } from "GlobalInterfaces/overrides";
 import { memo, useEffect, useRef } from "react";
+import { GoSearch } from "react-icons/go";
 import { useInView } from "react-intersection-observer";
 import { debounce } from "throttle-debounce";
 
@@ -68,7 +68,7 @@ const Search = memo<Props>(function Search({ onChange }) {
           justifyContent: "center",
         }}
       >
-        <SearchIcon />
+        <GoSearch />
       </Box>
       <InputBase
         placeholder="Search…"

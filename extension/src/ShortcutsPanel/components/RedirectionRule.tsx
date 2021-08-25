@@ -1,17 +1,15 @@
 import { Box, Checkbox, IconButton, TextField } from "@material-ui/core";
-import DeleteTwoToneIcon from "@material-ui/icons/DeleteTwoTone";
-import DoneAllTwoToneIcon from "@material-ui/icons/DoneAllTwoTone";
-import DragHandleTwoToneIcon from "@material-ui/icons/DragHandleTwoTone";
-import OpenInNewTwoToneIcon from "@material-ui/icons/OpenInNewTwoTone";
 import tabs from "GlobalHelpers/chrome/tabs";
-import { COLOR } from "GlobalConstants/color";
-import { getActiveDisabledColor } from "GlobalUtils/color";
 import { memo, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
+import { FiExternalLink } from "react-icons/fi";
+import { IoCheckmarkDoneSharp } from "react-icons/io5";
+import { MdRemoveCircleOutline } from "react-icons/md";
+import { MdDragHandle } from "react-icons/md";
 import { useDispatch } from "react-redux";
+import { IRedirection } from "SrcPath/BackgroundScript/interfaces/redirections";
 import { startHistoryMonitor } from "SrcPath/HistoryPanel/actionCreators";
 import { DEFAULT_RULE_ALIAS } from "../constants";
-import { IRedirection } from "SrcPath/BackgroundScript/interfaces/redirections";
 
 const inputProps = {
   style: {
@@ -85,17 +83,16 @@ const RedirectionRule = memo(function RedirectionRule({
           <IconButton
             ref={provided.innerRef}
             {...provided.dragHandleProps}
-            aria-label="Drag"
             title="Drag"
-            style={COLOR.blueGrey}
             edge="start"
+            color="secondary"
           >
-            <DragHandleTwoToneIcon />
+            <MdDragHandle />
           </IconButton>
           <Checkbox
             checked={isDefaultRule}
             onChange={handleDefaultRuleChange}
-            style={COLOR.pink}
+            color="primary"
           />
           <TextField
             id={alias}
@@ -117,32 +114,25 @@ const RedirectionRule = memo(function RedirectionRule({
             inputProps={inputProps}
           />
           <IconButton
-            aria-label="Open"
             title="Open"
-            style={getActiveDisabledColor(!!ruleWebsite, COLOR.deepPurple)}
             edge="end"
+            color="info"
             disabled={!ruleWebsite}
             onClick={handleLinkOpen}
           >
-            <OpenInNewTwoToneIcon />
+            <FiExternalLink />
           </IconButton>
           <IconButton
-            aria-label="Save"
             title="Save"
-            style={getActiveDisabledColor(!isRuleSaveActive, COLOR.green)}
+            color="success"
             edge="end"
             disabled={isRuleSaveActive}
             onClick={handleSaveClick}
           >
-            <DoneAllTwoToneIcon />
+            <IoCheckmarkDoneSharp />
           </IconButton>
-          <IconButton
-            aria-label="Remove"
-            title="Delete"
-            style={COLOR.red}
-            onClick={handleRemoveClick}
-          >
-            <DeleteTwoToneIcon />
+          <IconButton title="Delete" color="error" onClick={handleRemoveClick}>
+            <MdRemoveCircleOutline />
           </IconButton>
         </Box>
       )}

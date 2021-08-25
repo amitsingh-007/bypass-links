@@ -5,7 +5,6 @@ import {
   DialogActions,
   DialogContent,
 } from "@material-ui/core";
-import { COLOR } from "GlobalConstants/color";
 import { VoidFunction } from "GlobalInterfaces/custom";
 import { memo } from "react";
 
@@ -27,10 +26,15 @@ const ConfirmationDialog = memo<{
         <Box>There are some unsaved changes</Box>
       </DialogContent>
       <DialogActions>
-        <Button autoFocus onClick={handleCancel} style={COLOR.red}>
+        <Button
+          autoFocus
+          variant="outlined"
+          onClick={handleCancel}
+          color="error"
+        >
           <strong>Cancel</strong>
         </Button>
-        <Button onClick={handleOk} style={COLOR.green}>
+        <Button variant="outlined" onClick={handleOk} color="success">
           <strong>Discard</strong>
         </Button>
       </DialogActions>

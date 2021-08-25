@@ -4,7 +4,6 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  IconButton,
   LinearProgress,
   Slide,
   Slider,
@@ -13,16 +12,16 @@ import {
   Typography,
 } from "@material-ui/core";
 import { TransitionProps } from "@material-ui/core/transitions";
-import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
 import imageCompression from "browser-image-compression";
 import PanelHeading from "GlobalComponents/PanelHeading";
 import { FIREBASE_STORAGE_REF } from "GlobalConstants";
-import { BG_COLOR_DARK, COLOR } from "GlobalConstants/color";
+import { BG_COLOR_DARK } from "GlobalConstants/color";
 import { uploadImageToFirebase } from "GlobalHelpers/firebase/storage";
 import { VoidFunction } from "GlobalInterfaces/custom";
 import { forwardRef, memo, useCallback, useRef, useState } from "react";
 import Cropper from "react-easy-crop";
 import { Area } from "react-easy-crop/types";
+import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import getCroppedImg from "../utils/cropImage";
 
 const ROTATION = 0; //No rotation allowed
@@ -112,7 +111,7 @@ const ImagePicker = memo<Props>(
             <LinearProgress color="secondary" />
           </Box>
         )}
-        <DialogTitle sx={{ padding: "0 6px", backgroundColor: BG_COLOR_DARK }}>
+        <DialogTitle sx={{ p: "8px 6px", backgroundColor: BG_COLOR_DARK }}>
           <Box
             sx={{
               display: "flex",
@@ -120,15 +119,15 @@ const ImagePicker = memo<Props>(
               alignItems: "center",
             }}
           >
-            <IconButton
-              aria-label="Discard"
-              component="span"
-              style={COLOR.red}
+            <Button
+              variant="outlined"
+              startIcon={<HiOutlineArrowNarrowLeft />}
               onClick={onDialogClose}
-              title="Discard and Close"
+              size="small"
+              color="error"
             >
-              <ArrowBackTwoToneIcon fontSize="large" />
-            </IconButton>
+              Back
+            </Button>
             <PanelHeading heading="UPLOAD IMAGE" />
           </Box>
         </DialogTitle>

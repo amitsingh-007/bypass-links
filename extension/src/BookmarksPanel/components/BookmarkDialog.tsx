@@ -1,10 +1,9 @@
 import { Box, IconButton, SelectProps, TextField } from "@material-ui/core";
-import FormatColorTextTwoToneIcon from "@material-ui/icons/FormatColorTextTwoTone";
-import runtime from "GlobalHelpers/chrome/runtime";
 import { EditDialog } from "GlobalComponents/Dialogs";
-import { COLOR } from "GlobalConstants/color";
+import runtime from "GlobalHelpers/chrome/runtime";
 import { VoidFunction } from "GlobalInterfaces/custom";
 import { useEffect, useState } from "react";
+import { FaHeading } from "react-icons/fa";
 import { SORT_ORDER } from "SrcPath/PersonsPanel/constants/sort";
 import { IPersonWithImage } from "SrcPath/PersonsPanel/interfaces/persons";
 import {
@@ -13,7 +12,6 @@ import {
 } from "SrcPath/PersonsPanel/utils";
 import { sortAlphabetically } from "SrcPath/PersonsPanel/utils/sort";
 import { FolderDropdown, PersonsDropdown } from "./Dropdown";
-
 interface Props {
   url: string;
   origTitle: string;
@@ -41,7 +39,6 @@ const BookmarkDialog: React.FC<Props> = ({
   headerText,
   folderList,
   handleSave,
-  handleDelete,
   isOpen,
   onClose,
   isSaveActive = false,
@@ -112,7 +109,6 @@ const BookmarkDialog: React.FC<Props> = ({
       openDialog={isOpen}
       closeDialog={onClose}
       handleSave={handleSaveClick}
-      handleDelete={handleDelete}
       isSaveOptionActive={isSaveOptionActive}
     >
       <Box
@@ -132,13 +128,12 @@ const BookmarkDialog: React.FC<Props> = ({
           style={{ flexGrow: 1 }}
         />
         <IconButton
-          aria-label="MakeH1asTitle"
           component="span"
-          style={COLOR.blue}
+          color="info"
           onClick={handleH1Click}
           title="Make H1 as Title"
         >
-          <FormatColorTextTwoToneIcon fontSize="large" />
+          <FaHeading />
         </IconButton>
       </Box>
       <TextField

@@ -1,16 +1,16 @@
-import { Box, IconButton, TextField } from "@material-ui/core";
-import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
-import DeleteSweepTwoToneIcon from "@material-ui/icons/DeleteSweepTwoTone";
+import { Box, Button, TextField } from "@material-ui/core";
 import AdapterDayjs from "@material-ui/lab/AdapterDayjs";
 import DesktopDateTimePicker from "@material-ui/lab/DesktopDateTimePicker";
 import LocalizationProvider from "@material-ui/lab/LocalizationProvider";
-import historyApi from "GlobalHelpers/chrome/history";
-import storage from "GlobalHelpers/chrome/storage";
 import { displayToast } from "GlobalActionCreators/toast";
 import PanelHeading from "GlobalComponents/PanelHeading";
-import { BG_COLOR_DARK, COLOR } from "GlobalConstants/color";
+import { BG_COLOR_DARK } from "GlobalConstants/color";
 import { ROUTES } from "GlobalConstants/routes";
+import historyApi from "GlobalHelpers/chrome/history";
+import storage from "GlobalHelpers/chrome/storage";
 import { memo, useEffect, useState } from "react";
+import { AiOutlineClear } from "react-icons/ai";
+import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { DateTimeInputProps } from "../interfaces/historyPanel";
@@ -33,7 +33,7 @@ const DateTimeInput = ({ dateTime, onChange, label }: DateTimeInputProps) => (
         />
       </Box>
     )}
-    // Not working. Check: https://github.com/mui-org/material-ui/pull/27392
+    //! Note: Not working. Check: https://github.com/mui-org/material-ui/pull/27392
     // maxDateTime={new Date()}
   />
 );
@@ -87,21 +87,21 @@ const HistoryPanel = memo(function HistoryPanel() {
           justifyContent: "space-between",
           alignItems: "center",
           backgroundColor: BG_COLOR_DARK,
-          py: "4px",
-          px: "2px",
-          marginBottom: "10px",
+          py: "8px",
+          pl: "10px",
+          pr: "2px",
+          mb: "10px",
         }}
       >
-        <IconButton
-          size="small"
-          aria-label="Back"
-          component="span"
-          style={COLOR.blue}
+        <Button
+          variant="outlined"
+          startIcon={<HiOutlineArrowNarrowLeft />}
           onClick={handleClose}
-          title="Back"
+          size="small"
+          color="error"
         >
-          <ArrowBackTwoToneIcon fontSize="large" />
-        </IconButton>
+          Back
+        </Button>
         <PanelHeading heading="HISTORY PANEL" />
       </Box>
       <Box sx={{ display: "flex", flexDirection: "column", paddingX: "15px" }}>
@@ -118,16 +118,16 @@ const HistoryPanel = memo(function HistoryPanel() {
           />
         </LocalizationProvider>
       </Box>
-      <Box sx={{ textAlign: "center" }}>
-        <IconButton
-          aria-label="Clear"
-          component="span"
-          style={COLOR.red}
+      <Box sx={{ textAlign: "center", mt: "10px" }}>
+        <Button
+          variant="outlined"
+          startIcon={<AiOutlineClear />}
           onClick={handleClear}
-          title="Clear"
+          size="small"
+          color="error"
         >
-          <DeleteSweepTwoToneIcon fontSize="large" />
-        </IconButton>
+          Clear
+        </Button>
       </Box>
     </Box>
   );

@@ -1,8 +1,7 @@
 import { Box, IconButton } from "@material-ui/core";
-import ExpandLessRoundedIcon from "@material-ui/icons/ExpandLessRounded";
-import ExpandMoreRoundedIcon from "@material-ui/icons/ExpandMoreRounded";
 import { COLOR } from "GlobalConstants/color";
 import { memo } from "react";
+import { BsFillCaretDownFill, BsFillCaretUpFill } from "react-icons/bs";
 import {
   BOOKMARK_PANEL_CONTENT_HEIGHT,
   BOOKMARK_ROW_DIMENTSIONS,
@@ -47,10 +46,10 @@ export const ScrollUpButton = memo<Props>(function ScrollUpButton({
         }}
       >
         <ButtonContainer onClick={handleScrollUpClick}>
-          <ExpandLessRoundedIcon />
+          <BsFillCaretUpFill />
         </ButtonContainer>
         <ButtonContainer onClick={handleScrollDownClick}>
-          <ExpandMoreRoundedIcon />
+          <BsFillCaretDownFill />
         </ButtonContainer>
       </Box>
     </Box>
@@ -59,11 +58,11 @@ export const ScrollUpButton = memo<Props>(function ScrollUpButton({
 
 const ButtonContainer: React.FC<{ onClick: any }> = ({ onClick, children }) => (
   <IconButton
-    size="small"
     sx={{
       backgroundColor: COLOR.grey.color,
       padding: "1px",
       ":hover": { backgroundColor: COLOR.grey.color },
+      fontSize: "20px",
     }}
     onClick={onClick}
   >
