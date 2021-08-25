@@ -1,7 +1,6 @@
 import { Box, SvgIcon, Typography } from "@material-ui/core";
 import { displayToast } from "GlobalActionCreators/toast";
 import ContextMenu from "GlobalComponents/ContextMenu";
-import { COLOR } from "GlobalConstants/color";
 import { MenuOption } from "GlobalInterfaces/menu";
 import { memo, useCallback, useEffect, useState } from "react";
 import { AiFillEdit } from "react-icons/ai";
@@ -99,7 +98,7 @@ const Folder = memo<Props>(
                 flexGrow: 1,
                 marginLeft: "8px",
                 fontSize: "14px",
-                color: isEmpty ? COLOR.blueGrey.color : "inherit",
+                color: isEmpty ? "lightslategray" : "inherit",
               }}
             >
               {origName}

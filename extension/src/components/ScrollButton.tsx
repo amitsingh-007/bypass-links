@@ -1,26 +1,20 @@
 import { Box, IconButton } from "@material-ui/core";
-import { COLOR } from "GlobalConstants/color";
+import { alpha } from "@material-ui/core/styles";
 import { memo } from "react";
 import { BsFillCaretDownFill, BsFillCaretUpFill } from "react-icons/bs";
-import {
-  BOOKMARK_PANEL_CONTENT_HEIGHT,
-  BOOKMARK_ROW_DIMENTSIONS,
-} from "../constants";
-
-const minReqBookmarksToScroll = Math.ceil(
-  BOOKMARK_PANEL_CONTENT_HEIGHT / BOOKMARK_ROW_DIMENTSIONS.height
-);
 
 interface Props {
   itemsSize: number;
   onScroll: (itemNumber: number) => void;
+  minItemsReqToShow?: number;
 }
 
-export const ScrollUpButton = memo<Props>(function ScrollUpButton({
+export const ScrollButton = memo<Props>(function ScrollButton({
   itemsSize,
   onScroll,
+  minItemsReqToShow: minItemsToScroll = 0,
 }) {
-  if (itemsSize <= minReqBookmarksToScroll) {
+  if (minItemsToScroll > 0 && itemsSize <= minItemsToScroll) {
     return null;
   }
 
@@ -33,15 +27,12 @@ export const ScrollUpButton = memo<Props>(function ScrollUpButton({
   };
 
   return (
-    <Box
-      sx={{ position: "fixed", bottom: "9px", right: "15px", zIndex: 1 }}
-      data-amit="singh"
-    >
+    <Box sx={{ position: "fixed", bottom: "9px", right: "15px", zIndex: 1 }}>
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
-          backgroundColor: COLOR.grey.color,
+          backgroundColor: (theme) => theme.palette.grey[800],
           borderRadius: "20px",
         }}
       >
@@ -59,9 +50,11 @@ export const ScrollUpButton = memo<Props>(function ScrollUpButton({
 const ButtonContainer: React.FC<{ onClick: any }> = ({ onClick, children }) => (
   <IconButton
     sx={{
-      backgroundColor: COLOR.grey.color,
+      backgroundColor: (theme) => theme.palette.grey[800],
       padding: "1px",
-      ":hover": { backgroundColor: COLOR.grey.color },
+      "&:hover": {
+        backgroundColor: (theme) => alpha(theme.palette.grey[100], 0.25),
+      },
       fontSize: "20px",
     }}
     onClick={onClick}

@@ -1,14 +1,13 @@
 import { getBookmarks } from "GlobalHelpers/fetchFromStorage";
+import { hasText } from "GlobalUtils/search";
 import md5 from "md5";
-import { BM_COUNT_IN_INITAL_VIEW } from "../constants";
+import memoize from "memoize-one";
 import {
   ContextBookmarks,
   IBookmark,
   IBookmarksObj,
   ISelectedBookmarks,
 } from "../interfaces";
-import memoize from "memoize-one";
-import { hasText } from "GlobalUtils/search";
 
 export const getFaviconUrl = (url: string) =>
   `https://www.google.com/s2/favicons?sz=64&domain_url=${
@@ -32,9 +31,6 @@ export const isFolderContainsDir = (
   folders: IBookmarksObj["folders"],
   hash: string
 ) => folders[hash] && folders[hash].some(({ isDir }) => isDir);
-
-export const isInInitalView = (position: number) =>
-  position < BM_COUNT_IN_INITAL_VIEW;
 
 export const shouldRenderBookmarks = (
   folders: IBookmarksObj["folders"],

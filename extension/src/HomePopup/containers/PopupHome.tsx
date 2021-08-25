@@ -1,5 +1,4 @@
 import { Box, Typography } from "@material-ui/core/";
-import { COLOR } from "GlobalConstants/color";
 import { memo } from "react";
 import Authenticate from "../components/Authenticate";
 import BookmarksPanelButton from "../components/BookmarksPanelButton";
@@ -30,9 +29,7 @@ const PopupHome = memo(function PopupHome() {
         }}
       >
         <Typography variant="h5" component="h5" gutterBottom>
-          <Box sx={{ color: COLOR.heading, fontWeight: "700" }}>
-            BYPASS LINKS
-          </Box>
+          <Box sx={{ color: "azure", fontWeight: "700" }}>BYPASS LINKS</Box>
         </Typography>
         <Box
           sx={{

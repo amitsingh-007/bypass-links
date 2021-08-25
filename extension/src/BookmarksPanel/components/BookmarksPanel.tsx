@@ -1,5 +1,6 @@
 import { Box, GlobalStyles } from "@material-ui/core";
 import { displayToast } from "GlobalActionCreators/toast";
+import { ScrollButton } from "GlobalComponents/ScrollButton";
 import { STORAGE_KEYS } from "GlobalConstants";
 import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
 import { PANEL_DIMENSIONS_PX } from "GlobalConstants/styles";
@@ -49,9 +50,11 @@ import BookmarkContextMenu from "./BookmarkContextMenu";
 import DragClone from "./DragClone";
 import EditBookmark from "./EditBookmark";
 import Header from "./Header";
-import { ScrollUpButton } from "./ScrollButton";
 import VirtualRow, { VirtualRowProps } from "./VirtualRow";
 
+const minReqBookmarksToScroll = Math.ceil(
+  BOOKMARK_PANEL_CONTENT_HEIGHT / BOOKMARK_ROW_DIMENTSIONS.height
+);
 const bookmarksContainerId = "bookmarks-wrapper";
 
 interface Props extends PropsFromRedux, BMPanelQueryParams {}
@@ -515,9 +518,10 @@ class BookmarksPanel extends PureComponent<Props, State> {
         <GlobalStyles
           styles={{ body: { "::-webkit-scrollbar": { width: "0px" } } }}
         />
-        <ScrollUpButton
+        <ScrollButton
           itemsSize={curBookmarksCount}
           onScroll={this.handleScroll}
+          minItemsReqToShow={minReqBookmarksToScroll}
         />
         <Box sx={{ width: PANEL_DIMENSIONS_PX.width }}>
           <Header
