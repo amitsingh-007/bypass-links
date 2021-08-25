@@ -29,7 +29,7 @@
     "@material-ui/core": "5.0.0-beta.4",
     "@material-ui/lab": "5.0.0-alpha.43",
     "@material-ui/styles": "5.0.0-beta.4",
-    "@welldone-software/why-did-you-render": "6.2.0",
+    "@welldone-software/why-did-you-render": "6.2.1",
     "browser-image-compression": "1.0.15",
     "dayjs": "1.10.6",
     "firebase": "9.0.0-beta.8",
