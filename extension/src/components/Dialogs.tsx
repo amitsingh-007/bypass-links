@@ -1,24 +1,19 @@
 import {
   Box,
+  Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  IconButton,
 } from "@material-ui/core";
-import CloseTwoToneIcon from "@material-ui/icons/CloseTwoTone";
-import DeleteTwoToneIcon from "@material-ui/icons/DeleteTwoTone";
-import DoneTwoToneIcon from "@material-ui/icons/DoneTwoTone";
-import { COLOR } from "GlobalConstants/color";
 import { VoidFunction } from "GlobalInterfaces/custom";
-import { getActiveDisabledColor } from "GlobalUtils/color";
+import { MdClose, MdDone } from "react-icons/md";
 
 interface Props {
   headerText: string;
   openDialog: boolean;
   closeDialog: VoidFunction;
   handleSave: (e: React.FormEvent<HTMLFormElement>) => void;
-  handleDelete?: VoidFunction;
   isSaveOptionActive: boolean;
 }
 
@@ -28,7 +23,6 @@ export const EditDialog: React.FC<Props> = ({
   openDialog,
   closeDialog,
   handleSave,
-  handleDelete,
   isSaveOptionActive,
 }) => {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -54,47 +48,36 @@ export const EditDialog: React.FC<Props> = ({
         >
           {children}
         </DialogContent>
-        <DialogActions>
+        <DialogActions sx={{ pt: 0 }}>
           <Box
             sx={{
               display: "flex",
-              justifyContent: handleDelete ? "space-between" : "flex-end",
+              justifyContent: "flex-end",
               width: "100%",
-              paddingX: "7px",
+              px: "24px",
+              pb: "10px",
             }}
           >
-            {handleDelete ? (
-              <IconButton
-                type="button"
-                component="button"
-                style={COLOR.red}
-                onClick={handleDelete}
-                title="Delete"
-              >
-                <DeleteTwoToneIcon fontSize="large" />
-              </IconButton>
-            ) : null}
-            <div>
-              <IconButton
-                type="button"
-                component="button"
-                style={COLOR.blue}
-                onClick={closeDialog}
-                title="Cancel"
-              >
-                <CloseTwoToneIcon fontSize="large" />
-              </IconButton>
-              <IconButton
-                type="submit"
-                component="button"
-                disabled={!isSaveOptionActive}
-                style={getActiveDisabledColor(isSaveOptionActive, COLOR.green)}
-                title="Save"
-                sx={{ ml: "10px" }}
-              >
-                <DoneTwoToneIcon fontSize="large" />
-              </IconButton>
-            </div>
+            <Button
+              variant="outlined"
+              startIcon={<MdClose />}
+              onClick={closeDialog}
+              size="small"
+              color="error"
+            >
+              Close
+            </Button>
+            <Button
+              type="submit"
+              variant="outlined"
+              startIcon={<MdDone />}
+              size="small"
+              disabled={!isSaveOptionActive}
+              color="success"
+              sx={{ ml: "10px" }}
+            >
+              Save
+            </Button>
           </Box>
         </DialogActions>
       </Box>

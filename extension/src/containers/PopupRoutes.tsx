@@ -1,15 +1,14 @@
-import { IconButtonLoader } from "GlobalComponents/Loader";
 import { Suspense } from "react";
 import { Switch } from "react-router-dom";
 import { BookmarksPanelRoute } from "SrcPath/BookmarksPanel/routes";
-import { HomePageRoute } from "SrcPath/HomePopup/routes";
 import { HistoryPanelRoute } from "SrcPath/HistoryPanel/routes";
+import { HomePageRoute } from "SrcPath/HomePopup/routes";
+import { PersonsPanelRoute } from "SrcPath/PersonsPanel/routes";
 import { SettingsPanelRoute } from "SrcPath/SettingsPanel/routes";
 import { ShortcutsPanelRoute } from "SrcPath/ShortcutsPanel/routes";
-import { PersonsPanelRoute } from "SrcPath/PersonsPanel/routes";
 
 const PopupRoutes = () => (
-  <Suspense fallback={<IconButtonLoader />}>
+  <Suspense fallback={null}>
     <Switch>
       {HomePageRoute}
       {ShortcutsPanelRoute}

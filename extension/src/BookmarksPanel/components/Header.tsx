@@ -1,8 +1,5 @@
-import { Box, IconButton, SelectProps } from "@material-ui/core";
-import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
-import CreateNewFolderTwoToneIcon from "@material-ui/icons/CreateNewFolderTwoTone";
-import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
-import SyncTwoToneIcon from "@material-ui/icons/SyncTwoTone";
+import { Box, Button, SelectProps } from "@material-ui/core";
+import { LoadingButton } from "@material-ui/lab";
 import { displayToast } from "GlobalActionCreators/toast";
 import {
   AccordionHeader,
@@ -12,10 +9,12 @@ import {
 import Loader from "GlobalComponents/Loader";
 import PanelHeading from "GlobalComponents/PanelHeading";
 import Search from "GlobalComponents/Search";
-import { COLOR } from "GlobalConstants/color";
 import { VoidFunction } from "GlobalInterfaces/custom";
-import { getActiveDisabledColor } from "GlobalUtils/color";
 import React, { createRef, PureComponent } from "react";
+import { FaFolderPlus } from "react-icons/fa";
+import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
+import { IoSave } from "react-icons/io5";
+import { RiUploadCloud2Fill } from "react-icons/ri";
 import { connect, ConnectedProps } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { compose } from "redux";
@@ -157,55 +156,46 @@ class Header extends PureComponent<Props, State> {
                 "> *": { mr: "12px !important" },
               }}
             >
-              <IconButton
-                size="small"
-                component="span"
-                style={COLOR.red}
+              <Button
+                variant="outlined"
+                startIcon={<HiOutlineArrowNarrowLeft />}
                 onClick={this.handleDiscardButtonClick}
-                title="Discard and Close"
-              >
-                <ArrowBackTwoToneIcon fontSize="large" />
-              </IconButton>
-              <IconButton
                 size="small"
-                component="span"
-                style={getActiveDisabledColor(isSaveButtonActive, COLOR.green)}
-                onClick={this.onSaveClick}
-                title="Save locally"
+                color="error"
+              >
+                Back
+              </Button>
+              <Button
+                variant="outlined"
+                startIcon={<FaFolderPlus />}
+                onClick={this.handleNewFolderClick}
+                size="small"
+                color="primary"
+              >
+                Add
+              </Button>
+              <Button
+                variant="outlined"
                 disabled={!isSaveButtonActive}
+                startIcon={<IoSave />}
+                onClick={this.onSaveClick}
+                size="small"
+                color="success"
                 ref={this.saveButtonRef}
               >
-                <SaveTwoToneIcon fontSize="large" />
-              </IconButton>
-              <IconButton
-                size="small"
-                component="span"
+                Save
+              </Button>
+              <LoadingButton
+                variant="outlined"
+                startIcon={<RiUploadCloud2Fill />}
                 onClick={this.onSyncClick}
-                title="Sync storage to firebase"
-                disabled={isSyncing}
-              >
-                <SyncTwoToneIcon
-                  fontSize="large"
-                  className={isSyncing ? "iconLoading" : ""}
-                  htmlColor={COLOR.orange.color}
-                />
-              </IconButton>
-              <IconButton
                 size="small"
-                component="span"
-                style={COLOR.blue}
-                onClick={this.handleNewFolderClick}
-                title="Add new folder"
+                color="warning"
+                loading={isSyncing}
               >
-                <CreateNewFolderTwoToneIcon fontSize="large" />
-              </IconButton>
-              {isFetching && (
-                <Loader
-                  loaderSize={28}
-                  disableShrink
-                  styles={{ padding: "3px" }}
-                />
-              )}
+                Sync
+              </LoadingButton>
+              {isFetching && <Loader />}
             </Box>
             <PanelHeading
               heading={`BOOKMARKS PANEL (${contextBookmarks?.length || 0})`}

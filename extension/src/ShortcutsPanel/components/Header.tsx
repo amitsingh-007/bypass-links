@@ -1,13 +1,12 @@
-import { Box, IconButton } from "@material-ui/core";
-import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
-import PlaylistAddTwoToneIcon from "@material-ui/icons/PlaylistAddTwoTone";
-import SaveTwoToneIcon from "@material-ui/icons/SaveTwoTone";
+import { Box, Button } from "@material-ui/core";
 import Loader from "GlobalComponents/Loader";
 import PanelHeading from "GlobalComponents/PanelHeading";
-import { COLOR } from "GlobalConstants/color";
 import { STICKY_HEADER } from "GlobalConstants/styles";
 import { VoidFunction } from "GlobalInterfaces/custom";
 import { memo } from "react";
+import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
+import { IoSave } from "react-icons/io5";
+import { RiPlayListAddFill } from "react-icons/ri";
 
 type Props = {
   isFetching: boolean;
@@ -28,52 +27,46 @@ const Header = memo(function Header({
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        py: "4px",
+        py: "8px",
         px: "6px",
         ...STICKY_HEADER,
       }}
     >
-      <Box sx={{ "> *": { mr: "12px !important" } }}>
-        <IconButton
-          size="small"
-          aria-label="Discard"
-          component="span"
-          style={COLOR.red}
+      <Box
+        sx={{
+          "> *": { mr: "12px !important" },
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <Button
+          variant="outlined"
+          startIcon={<HiOutlineArrowNarrowLeft />}
           onClick={handleClose}
-          title="Discard and Close"
-        >
-          <ArrowBackTwoToneIcon fontSize="large" />
-        </IconButton>
-        <IconButton
           size="small"
-          aria-label="Save"
-          component="span"
-          style={COLOR.green}
-          onClick={handleSave}
-          title="Save and Close"
+          color="error"
         >
-          <SaveTwoToneIcon fontSize="large" />
-        </IconButton>
-        <IconButton
-          size="small"
-          aria-label="Add"
-          component="span"
-          style={COLOR.blue}
+          Back
+        </Button>
+        <Button
+          variant="outlined"
+          startIcon={<RiPlayListAddFill />}
           onClick={handleAddRule}
-          title="Add Rule"
+          size="small"
+          color="primary"
         >
-          <PlaylistAddTwoToneIcon fontSize="large" />
-        </IconButton>
-        {isFetching && (
-          <Loader
-            loaderSize={28}
-            disableShrink
-            styles={{
-              padding: "3px",
-              display: "inline",
-            }}
-          />
-        )}
+          Add
+        </Button>
+        <Button
+          variant="outlined"
+          startIcon={<IoSave />}
+          onClick={handleSave}
+          size="small"
+          color="success"
+        >
+          Save
+        </Button>
+        {isFetching && <Loader />}
       </Box>
       <PanelHeading heading="SHORTCUTS PANEL" />
     </Box>

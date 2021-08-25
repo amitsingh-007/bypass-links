@@ -1,27 +1,20 @@
 import { Box, IconButton } from "@material-ui/core";
-import ExpandLessRoundedIcon from "@material-ui/icons/ExpandLessRounded";
-import ExpandMoreRoundedIcon from "@material-ui/icons/ExpandMoreRounded";
-import { COLOR } from "GlobalConstants/color";
+import { alpha } from "@material-ui/core/styles";
 import { memo } from "react";
-import {
-  BOOKMARK_PANEL_CONTENT_HEIGHT,
-  BOOKMARK_ROW_DIMENTSIONS,
-} from "../constants";
-
-const minReqBookmarksToScroll = Math.ceil(
-  BOOKMARK_PANEL_CONTENT_HEIGHT / BOOKMARK_ROW_DIMENTSIONS.height
-);
+import { BsFillCaretDownFill, BsFillCaretUpFill } from "react-icons/bs";
 
 interface Props {
   itemsSize: number;
   onScroll: (itemNumber: number) => void;
+  minItemsReqToShow?: number;
 }
 
-export const ScrollUpButton = memo<Props>(function ScrollUpButton({
+export const ScrollButton = memo<Props>(function ScrollButton({
   itemsSize,
   onScroll,
+  minItemsReqToShow: minItemsToScroll = 0,
 }) {
-  if (itemsSize <= minReqBookmarksToScroll) {
+  if (minItemsToScroll > 0 && itemsSize <= minItemsToScroll) {
     return null;
   }
 
@@ -34,23 +27,20 @@ export const ScrollUpButton = memo<Props>(function ScrollUpButton({
   };
 
   return (
-    <Box
-      sx={{ position: "fixed", bottom: "9px", right: "15px", zIndex: 1 }}
-      data-amit="singh"
-    >
+    <Box sx={{ position: "fixed", bottom: "9px", right: "15px", zIndex: 1 }}>
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
-          backgroundColor: COLOR.grey.color,
+          backgroundColor: (theme) => theme.palette.grey[800],
           borderRadius: "20px",
         }}
       >
         <ButtonContainer onClick={handleScrollUpClick}>
-          <ExpandLessRoundedIcon />
+          <BsFillCaretUpFill />
         </ButtonContainer>
         <ButtonContainer onClick={handleScrollDownClick}>
-          <ExpandMoreRoundedIcon />
+          <BsFillCaretDownFill />
         </ButtonContainer>
       </Box>
     </Box>
@@ -59,11 +49,13 @@ export const ScrollUpButton = memo<Props>(function ScrollUpButton({
 
 const ButtonContainer: React.FC<{ onClick: any }> = ({ onClick, children }) => (
   <IconButton
-    size="small"
     sx={{
-      backgroundColor: COLOR.grey.color,
+      backgroundColor: (theme) => theme.palette.grey[800],
       padding: "1px",
-      ":hover": { backgroundColor: COLOR.grey.color },
+      "&:hover": {
+        backgroundColor: (theme) => alpha(theme.palette.grey[100], 0.25),
+      },
+      fontSize: "20px",
     }}
     onClick={onClick}
   >

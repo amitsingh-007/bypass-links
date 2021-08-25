@@ -7,12 +7,12 @@ import {
   DialogTitle,
   IconButton,
 } from "@material-ui/core";
-import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
-import EditTwoToneIcon from "@material-ui/icons/EditTwoTone";
 import PanelHeading from "GlobalComponents/PanelHeading";
 import SearchWrapper from "GlobalComponents/SearchWrapper";
-import { BG_COLOR_DARK, COLOR } from "GlobalConstants/color";
+import { BG_COLOR_DARK } from "GlobalConstants/color";
 import { memo, useCallback, useEffect, useState } from "react";
+import { AiFillEdit } from "react-icons/ai";
+import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import { useHistory } from "react-router-dom";
 import { BookmarkExternal } from "SrcPath/BookmarksPanel/components/Bookmark";
 import {
@@ -93,16 +93,15 @@ const BookmarksList = memo<Props>(function BookmarksList({
             alignItems: "center",
           }}
         >
-          <IconButton
-            size="small"
-            aria-label="Discard"
-            component="span"
-            style={COLOR.red}
+          <Button
+            variant="outlined"
+            startIcon={<HiOutlineArrowNarrowLeft />}
             onClick={handleClose}
-            title="Discard and Close"
+            size="small"
+            color="error"
           >
-            <ArrowBackTwoToneIcon fontSize="large" />
-          </IconButton>
+            Back
+          </Button>
           <Box sx={{ display: "flex" }}>
             <SearchWrapper searchClassName="bookmarkRowContainer" />
             <PanelHeading
@@ -142,16 +141,15 @@ const BookmarksList = memo<Props>(function BookmarksList({
             >
               <IconButton
                 size="small"
-                aria-label="Edit Bookmark"
                 title="Edit Bookmark"
-                style={COLOR.blue}
+                color="info"
                 edge="end"
                 onClick={() => {
                   handleBookmarkEdit(bookmark);
                 }}
                 sx={{ mr: "4px" }}
               >
-                <EditTwoToneIcon sx={{ fontSize: 22 }} />
+                <AiFillEdit style={{ fontSize: "22px" }} />
               </IconButton>
               <BookmarkExternal
                 url={bookmark.url}

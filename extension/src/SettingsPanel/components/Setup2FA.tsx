@@ -5,24 +5,24 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  IconButton,
   Slide,
+  SvgIcon,
   Typography,
 } from "@material-ui/core";
 import { TransitionProps } from "@material-ui/core/transitions";
-import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
-import HelpOutlineOutlinedIcon from "@material-ui/icons/HelpOutlineOutlined";
-import storage from "GlobalHelpers/chrome/storage";
 import { displayToast } from "GlobalActionCreators/toast";
 import PanelHeading from "GlobalComponents/PanelHeading";
 import { BlackTooltip } from "GlobalComponents/StyledComponents";
 import { STORAGE_KEYS } from "GlobalConstants";
-import { BG_COLOR_BLACK, BG_COLOR_DARK, COLOR } from "GlobalConstants/color";
+import { BG_COLOR_BLACK, BG_COLOR_DARK } from "GlobalConstants/color";
+import storage from "GlobalHelpers/chrome/storage";
+import { getUserProfile } from "GlobalHelpers/fetchFromStorage";
 import { VoidFunction } from "GlobalInterfaces/custom";
 import { toDataURL } from "qrcode";
 import { forwardRef, memo, useEffect, useState } from "react";
+import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
+import { IoHelpCircle } from "react-icons/io5";
 import { useDispatch } from "react-redux";
-import { getUserProfile } from "GlobalHelpers/fetchFromStorage";
 import { setup2FA, verify2FA } from "../apis/twoFactorAuth";
 import Verify2FA from "./Verify2FA";
 
@@ -90,7 +90,7 @@ const Setup2FA = memo(function Setup2FA({ isOpen, handleClose }: Props) {
       onClose={handleClose}
       TransitionComponent={Transition}
     >
-      <DialogTitle sx={{ p: "0px", backgroundColor: BG_COLOR_DARK }}>
+      <DialogTitle sx={{ p: "8px", backgroundColor: BG_COLOR_DARK }}>
         <Box
           sx={{
             display: "flex",
@@ -98,15 +98,15 @@ const Setup2FA = memo(function Setup2FA({ isOpen, handleClose }: Props) {
             alignItems: "center",
           }}
         >
-          <IconButton
-            aria-label="Close"
-            component="span"
-            style={COLOR.red}
+          <Button
+            variant="outlined"
+            startIcon={<HiOutlineArrowNarrowLeft />}
             onClick={handleClose}
-            title="Close"
+            size="small"
+            color="error"
           >
-            <ArrowBackTwoToneIcon fontSize="large" />
-          </IconButton>
+            Back
+          </Button>
           <PanelHeading
             containerStyles={{ display: "inline-flex" }}
             heading="SETUP 2FA"
@@ -118,7 +118,7 @@ const Setup2FA = memo(function Setup2FA({ isOpen, handleClose }: Props) {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          p: "10px",
+          p: "10px !important",
           backgroundColor: BG_COLOR_BLACK,
         }}
       >
@@ -156,10 +156,13 @@ const Setup2FA = memo(function Setup2FA({ isOpen, handleClose }: Props) {
               disableInteractive
               placement="top"
             >
-              <HelpOutlineOutlinedIcon
+              {/* <HelpOutlineOutlinedIcon
                 sx={{ position: "absolute", left: "90px" }}
                 fontSize="small"
-              />
+              /> */}
+              <SvgIcon color="info">
+                <IoHelpCircle />
+              </SvgIcon>
             </BlackTooltip>
           </Box>
         )}

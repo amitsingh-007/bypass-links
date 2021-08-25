@@ -1,9 +1,9 @@
 import { Avatar, Badge, Box, IconButton, Typography } from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit";
 import ContextMenu from "GlobalComponents/ContextMenu";
 import { MenuOption } from "GlobalInterfaces/menu";
 import { memo, useCallback, useEffect, useState } from "react";
+import { AiFillEdit } from "react-icons/ai";
+import { RiBookmark2Fill } from "react-icons/ri";
 import { useHistory } from "react-router-dom";
 import { IPerson } from "../interfaces/persons";
 import { resolvePersonImageFromUid } from "../utils";
@@ -42,12 +42,12 @@ const Person = memo<Props>(
         {
           onClick: toggleEditPersonDialog,
           text: "Edit",
-          icon: EditIcon,
+          icon: AiFillEdit,
         },
         {
           onClick: handleDeleteOptionClick,
           text: "Delete",
-          icon: DeleteIcon,
+          icon: RiBookmark2Fill,
         },
       ];
       setMenuOptions(menuOptions);

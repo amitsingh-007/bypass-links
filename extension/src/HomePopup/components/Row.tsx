@@ -8,9 +8,10 @@ export const Row: React.FC<{
   <Box
     sx={{
       display: "flex",
+      alignItems: "center",
       justifyContent: "space-between",
       width: "100%",
-      my: "3px",
+      my: "6px",
       ...styles,
     }}
   >

@@ -1,16 +1,18 @@
-import { Box } from "@material-ui/core";
-import LanguageIcon from "@material-ui/icons/Language";
+import { Box, SvgIcon } from "@material-ui/core";
+import { SxProps } from "@material-ui/system";
 import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
 import { getBlobUrlFromCache } from "GlobalUtils/cache";
-import { forwardRef } from "react";
-import { memo, useCallback, useEffect, useState } from "react";
+import { forwardRef, memo, useCallback, useEffect, useState } from "react";
+import { MdBrokenImage } from "react-icons/md";
 import { getFaviconUrl } from "../utils";
 
 const containerStyles = {
   width: "20px",
   height: "20px",
   marginRight: "12px",
-};
+  display: "flex",
+  flexDirection: "center",
+} as SxProps;
 
 const Favicon = memo(
   forwardRef<HTMLDivElement, { url: string }>(
@@ -39,7 +41,9 @@ const Favicon = memo(
         />
       ) : (
         <Box sx={containerStyles} ref={ref} {...tooltipProps}>
-          <LanguageIcon fontSize="small" color="disabled" />
+          <SvgIcon color="disabled">
+            <MdBrokenImage />
+          </SvgIcon>
         </Box>
       );
     }

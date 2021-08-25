@@ -1,9 +1,8 @@
-import { Box, IconButton } from "@material-ui/core";
-import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
+import { Box, Button } from "@material-ui/core";
 import PanelHeading from "GlobalComponents/PanelHeading";
-import { COLOR } from "GlobalConstants/color";
 import { STICKY_HEADER } from "GlobalConstants/styles";
 import { memo } from "react";
+import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import { useHistory } from "react-router-dom";
 
 const Header = memo(function Header() {
@@ -19,20 +18,19 @@ const Header = memo(function Header() {
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        p: "4px",
+        p: "8px",
         ...STICKY_HEADER,
       }}
     >
-      <IconButton
-        size="small"
-        aria-label="Close"
-        component="span"
-        style={COLOR.red}
+      <Button
+        variant="outlined"
+        startIcon={<HiOutlineArrowNarrowLeft />}
         onClick={handleClose}
-        title="Close"
+        size="small"
+        color="error"
       >
-        <ArrowBackTwoToneIcon fontSize="large" />
-      </IconButton>
+        Back
+      </Button>
       <PanelHeading
         heading="SETTINGS"
         containerStyles={{ marginLeft: "10px" }}

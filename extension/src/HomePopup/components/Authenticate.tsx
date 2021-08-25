@@ -1,22 +1,14 @@
-import {
-  Dialog,
-  IconButton,
-  LinearProgress,
-  Typography,
-} from "@material-ui/core";
-import CloudDoneTwoToneIcon from "@material-ui/icons/CloudDoneTwoTone";
-import CloudOffTwoTone from "@material-ui/icons/CloudOffTwoTone";
+import { Dialog, LinearProgress, SvgIcon, Typography } from "@material-ui/core";
 import { setSignedInStatus } from "GlobalActionCreators";
 import { resetAuthenticationProgress } from "GlobalActionCreators/auth";
 import { displayToast } from "GlobalActionCreators/toast";
-import { IconButtonLoader } from "GlobalComponents/Loader";
-import { COLOR } from "GlobalConstants/color";
-import { RootState } from "GlobalReducers/rootReducer";
-import { getActiveDisabledColor } from "GlobalUtils/color";
-import { memo, useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { getUserProfile } from "GlobalHelpers/fetchFromStorage";
+import { RootState } from "GlobalReducers/rootReducer";
+import { memo, useCallback, useEffect, useState } from "react";
+import { RiLoginCircleFill, RiLogoutCircleRFill } from "react-icons/ri";
+import { useDispatch, useSelector } from "react-redux";
 import { signIn, signOut } from "../utils/authentication";
+import StyledButton from "./StyledButton";
 
 const Authenticate = memo(() => {
   const dispatch = useDispatch();
@@ -73,16 +65,26 @@ const Authenticate = memo(() => {
     }
   }, [handleSignOut, isExtensionActive, isSignedIn]);
 
-  if (isFetching) {
-    const {
-      message,
-      progress = 0,
-      progressBuffer = 0,
-      total = 1,
-    } = authProgress || {};
-    return (
-      <>
-        <IconButtonLoader />
+  const {
+    message,
+    progress = 0,
+    progressBuffer = 0,
+    total = 1,
+  } = authProgress || {};
+  return (
+    <>
+      <StyledButton
+        showSuccessColor={isSignedIn}
+        isLoading={isFetching}
+        isDisabled={!isExtensionActive}
+        onClick={isSignedIn ? handleSignOut : handleSignIn}
+        color="success"
+      >
+        <SvgIcon>
+          {isSignedIn ? <RiLogoutCircleRFill /> : <RiLoginCircleFill />}
+        </SvgIcon>
+      </StyledButton>
+      {isFetching && (
         <Dialog
           sx={{
             ".MuiPaper-root": {
@@ -114,32 +116,8 @@ const Authenticate = memo(() => {
             {message || "Loading"}
           </Typography>
         </Dialog>
-      </>
-    );
-  }
-
-  return isSignedIn ? (
-    <IconButton
-      aria-label="SignOut"
-      component="span"
-      style={COLOR.green}
-      onClick={handleSignOut}
-      title="Click to SignOut"
-      disabled={!isExtensionActive}
-    >
-      <CloudDoneTwoToneIcon fontSize="large" />
-    </IconButton>
-  ) : (
-    <IconButton
-      aria-label="SignIn"
-      component="span"
-      style={getActiveDisabledColor(isExtensionActive, COLOR.red)}
-      onClick={handleSignIn}
-      title="Click to SignIn"
-      disabled={!isExtensionActive}
-    >
-      <CloudOffTwoTone fontSize="large" />
-    </IconButton>
+      )}
+    </>
   );
 });
 

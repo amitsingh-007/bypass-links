@@ -1,7 +1,7 @@
 import { Avatar, AvatarGroup, Box } from "@material-ui/core";
-import PersonOffIcon from "@material-ui/icons/PersonOff";
 import { CircularTooltip } from "GlobalComponents/StyledComponents";
 import { memo } from "react";
+import { RiUserUnfollowFill } from "react-icons/ri";
 import { useHistory } from "react-router-dom";
 import { IPersonWithImage } from "../interfaces/persons";
 import { getPersonsPanelUrl } from "../utils/urls";
@@ -25,7 +25,7 @@ const PersonAvatars = memo<{ persons: IPersonWithImage[] }>(
             ...commonStyles,
           }}
         >
-          <PersonOffIcon sx={{ fontSize: 17 }} />
+          <RiUserUnfollowFill style={{ fontSize: "15px" }} />
         </Avatar>
       );
     }

@@ -1,26 +1,24 @@
-import { IconButton, Typography } from "@material-ui/core";
-import BookmarkBorderTwoToneIcon from "@material-ui/icons/BookmarkBorderTwoTone";
-import BookmarkTwoToneIcon from "@material-ui/icons/BookmarkTwoTone";
-import { IconButtonLoader } from "GlobalComponents/Loader";
+import { SvgIcon, Typography } from "@material-ui/core";
 import { BlackTooltip } from "GlobalComponents/StyledComponents";
 import { defaultBookmarkFolder } from "GlobalConstants";
-import { COLOR } from "GlobalConstants/color";
 import { getCurrentTab } from "GlobalHelpers/chrome/tabs";
 import { getBookmarks } from "GlobalHelpers/fetchFromStorage";
 import { RootState } from "GlobalReducers/rootReducer";
-import { getActiveDisabledColor } from "GlobalUtils/color";
 import md5 from "md5";
 import { memo, useEffect, useState } from "react";
+import { BiBookmarkPlus } from "react-icons/bi";
+import { RiBookmark3Fill } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { BOOKMARK_OPERATION } from "SrcPath/BookmarksPanel/constants";
 import { IBookmark } from "SrcPath/BookmarksPanel/interfaces";
+import { BMPanelQueryParams } from "SrcPath/BookmarksPanel/interfaces/url";
 import {
   getDecodedBookmark,
   getFolderFromHash,
 } from "SrcPath/BookmarksPanel/utils";
 import { getBookmarksPanelUrl } from "SrcPath/BookmarksPanel/utils/url";
-import { BMPanelQueryParams } from "SrcPath/BookmarksPanel/interfaces/url";
+import StyledButton from "./StyledButton";
 
 const QuickBookmarkButton = memo(function QuickBookmarkButton() {
   const { isSignedIn } = useSelector((state: RootState) => state.root);
@@ -67,41 +65,36 @@ const QuickBookmarkButton = memo(function QuickBookmarkButton() {
     history.push(getBookmarksPanelUrl(urlParams));
   };
 
-  if (isFetching) {
-    return <IconButtonLoader />;
-  }
-
-  return bookmark ? (
-    <BlackTooltip
-      title={
-        <Typography sx={{ fontSize: "13px" }}>
-          {bookmark.title.length > 82
-            ? `${bookmark.title.substring(0, 82)}...`
-            : bookmark.title}
-        </Typography>
-      }
-      arrow
-      disableInteractive
-    >
-      <IconButton
-        component="span"
-        style={getActiveDisabledColor(isSignedIn, COLOR.pink)}
-        onClick={handleClick}
-        disabled={!isSignedIn}
-      >
-        <BookmarkTwoToneIcon fontSize="large" />
-      </IconButton>
-    </BlackTooltip>
-  ) : (
-    <IconButton
-      component="span"
-      style={getActiveDisabledColor(isSignedIn, COLOR.pink)}
+  return (
+    <StyledButton
+      showSuccessColor={isSignedIn}
+      isLoading={isFetching}
+      isDisabled={!isSignedIn}
       onClick={handleClick}
-      disabled={!isSignedIn}
-      title={isSignedIn ? "Not Bookmarked" : undefined}
+      color={bookmark ? "success" : "error"}
     >
-      <BookmarkBorderTwoToneIcon fontSize="large" />
-    </IconButton>
+      {bookmark ? (
+        <BlackTooltip
+          title={
+            <Typography sx={{ fontSize: "13px" }}>
+              {bookmark.title.length > 82
+                ? `${bookmark.title.substring(0, 82)}...`
+                : bookmark.title}
+            </Typography>
+          }
+          arrow
+          disableInteractive
+        >
+          <SvgIcon>
+            <RiBookmark3Fill />
+          </SvgIcon>
+        </BlackTooltip>
+      ) : (
+        <SvgIcon>
+          <BiBookmarkPlus />
+        </SvgIcon>
+      )}
+    </StyledButton>
   );
 });
 

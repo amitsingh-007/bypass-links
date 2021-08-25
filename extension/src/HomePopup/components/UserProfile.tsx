@@ -1,12 +1,12 @@
-import { Avatar, Box, Fade, IconButton } from "@material-ui/core";
-import PersonOffIcon from "@material-ui/icons/PersonOff";
-import SettingsRoundedIcon from "@material-ui/icons/SettingsRounded";
+import { Avatar, Box, Fade, IconButton, SvgIcon } from "@material-ui/core";
 import { ROUTES } from "GlobalConstants/routes";
+import { getUserProfile } from "GlobalHelpers/fetchFromStorage";
 import { RootState } from "GlobalReducers/rootReducer";
 import { memo, useEffect, useState } from "react";
+import { MdSettings } from "react-icons/md";
+import { RiUserUnfollowFill } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { getUserProfile } from "GlobalHelpers/fetchFromStorage";
 import { UserInfo } from "SrcPath/HomePopup/interfaces/authentication";
 
 const avatarStyles = { height: "50px", width: "50px" };
@@ -55,13 +55,15 @@ const UserProfile = memo(function UserProfile() {
           }}
           onClick={handleOpenSettings}
         >
-          <SettingsRoundedIcon />
+          <MdSettings />
         </IconButton>
       </Fade>
     </Box>
   ) : (
     <Avatar sx={avatarStyles}>
-      <PersonOffIcon fontSize="large" />
+      <SvgIcon fontSize="medium">
+        <RiUserUnfollowFill />
+      </SvgIcon>
     </Avatar>
   );
 });

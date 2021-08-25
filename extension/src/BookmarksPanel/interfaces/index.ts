@@ -5,7 +5,7 @@ export interface IBookmark {
   taggedPersons: string[];
 }
 
-export interface IFolder {
+interface IFolder {
   name: string;
   parentHash: string;
 }

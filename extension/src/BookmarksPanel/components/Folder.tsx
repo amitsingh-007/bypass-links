@@ -1,12 +1,11 @@
-import { Box, Typography } from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit";
-import FolderTwoToneIcon from "@material-ui/icons/FolderTwoTone";
+import { Box, SvgIcon, Typography } from "@material-ui/core";
 import { displayToast } from "GlobalActionCreators/toast";
 import ContextMenu from "GlobalComponents/ContextMenu";
-import { COLOR } from "GlobalConstants/color";
 import { MenuOption } from "GlobalInterfaces/menu";
 import { memo, useCallback, useEffect, useState } from "react";
+import { AiFillEdit } from "react-icons/ai";
+import { FaFolderMinus } from "react-icons/fa";
+import { FcFolder } from "react-icons/fc";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import withBookmarkRow, { InjectedProps } from "../hoc/withBookmarkRow";
@@ -63,12 +62,12 @@ const Folder = memo<Props>(
         {
           onClick: toggleEditDialog,
           text: "Edit",
-          icon: EditIcon,
+          icon: AiFillEdit,
         },
         {
           onClick: handleDeleteOptionClick,
           text: "Delete",
-          icon: DeleteIcon,
+          icon: FaFolderMinus,
         },
       ];
       setMenuOptions(menuOptions);
@@ -90,17 +89,16 @@ const Folder = memo<Props>(
             onClick={resetSelectedBookmarks}
             onDoubleClick={handleFolderOpen}
           >
-            <FolderTwoToneIcon
-              fontSize="small"
-              htmlColor={COLOR.yellow.color}
-            />
+            <SvgIcon sx={{ fontSize: "21.5px" }}>
+              <FcFolder />
+            </SvgIcon>
             <Typography
               noWrap
               sx={{
                 flexGrow: 1,
                 marginLeft: "8px",
                 fontSize: "14px",
-                color: isEmpty ? COLOR.blueGrey.color : "inherit",
+                color: isEmpty ? "lightslategray" : "inherit",
               }}
             >
               {origName}

@@ -1,7 +1,5 @@
-import { Box, IconButton } from "@material-ui/core";
-import ArrowBackTwoToneIcon from "@material-ui/icons/ArrowBackTwoTone";
-import PersonAddTwoToneIcon from "@material-ui/icons/PersonAddTwoTone";
-import SyncTwoToneIcon from "@material-ui/icons/SyncTwoTone";
+import { Box, Button } from "@material-ui/core";
+import { LoadingButton } from "@material-ui/lab";
 import { displayToast } from "GlobalActionCreators/toast";
 import {
   AccordionHeader,
@@ -11,8 +9,10 @@ import {
 import Loader from "GlobalComponents/Loader";
 import PanelHeading from "GlobalComponents/PanelHeading";
 import Search from "GlobalComponents/Search";
-import { COLOR } from "GlobalConstants/color";
 import { memo, useState } from "react";
+import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
+import { IoIosPersonAdd } from "react-icons/io";
+import { RiUploadCloud2Fill } from "react-icons/ri";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { IPerson } from "../interfaces/persons";
@@ -90,50 +90,35 @@ const Header = memo<Props>(function Header({
               "> *": { mr: "12px !important" },
             }}
           >
-            <IconButton
-              size="small"
-              aria-label="Discard"
-              component="span"
-              style={COLOR.red}
+            <Button
+              variant="outlined"
+              startIcon={<HiOutlineArrowNarrowLeft />}
               onClick={handleClose}
-              title="Discard and Close"
-            >
-              <ArrowBackTwoToneIcon fontSize="large" />
-            </IconButton>
-            <IconButton
               size="small"
-              aria-label="Add"
-              component="span"
-              style={COLOR.blue}
+              color="error"
+            >
+              Back
+            </Button>
+            <Button
+              variant="outlined"
+              startIcon={<IoIosPersonAdd />}
               onClick={handleAddPersonClick}
-              title="Add Person"
-            >
-              <PersonAddTwoToneIcon fontSize="large" />
-            </IconButton>
-            <IconButton
               size="small"
-              aria-label="Sync"
-              component="span"
-              onClick={onSyncClick}
-              title="Sync storage to firebase"
-              disabled={isSyncing}
+              color="primary"
             >
-              <SyncTwoToneIcon
-                fontSize="large"
-                className={isSyncing ? "iconLoading" : ""}
-                htmlColor={COLOR.orange.color}
-              />
-            </IconButton>
-            {isFetching && (
-              <Loader
-                loaderSize={28}
-                disableShrink
-                styles={{
-                  padding: "3px",
-                  display: "inline",
-                }}
-              />
-            )}
+              Add
+            </Button>
+            <LoadingButton
+              variant="outlined"
+              startIcon={<RiUploadCloud2Fill />}
+              onClick={onSyncClick}
+              size="small"
+              color="warning"
+              loading={isSyncing}
+            >
+              Sync
+            </LoadingButton>
+            {isFetching && <Loader />}
           </Box>
           <PanelHeading
             heading={`PERSONS PANEL (${persons?.length || 0})`}

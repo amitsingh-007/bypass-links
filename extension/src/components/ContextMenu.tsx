@@ -1,4 +1,4 @@
-import { Box, MenuItem, Typography } from "@material-ui/core";
+import { Box, MenuItem, Typography, SvgIcon } from "@material-ui/core";
 import { SxProps } from "@material-ui/system";
 import { VoidFunction } from "GlobalInterfaces/custom";
 import { MenuOption } from "GlobalInterfaces/menu";
@@ -41,7 +41,9 @@ const ContextMenu = memo<Props>(function ContextMenu({
         }}
         sx={{ padding: "3px 12px" }}
       >
-        <Icon sx={{ mr: "12px", fontSize: 20 }} />
+        <SvgIcon sx={{ mr: "12px", fontSize: 20 }}>
+          <Icon />
+        </SvgIcon>
         <Typography sx={{ fontSize: "15px" }}>{text}</Typography>
       </MenuItem>
     ));

@@ -1,11 +1,9 @@
-import { Box, Switch } from "@material-ui/core";
-import VisibilityOffTwoToneIcon from "@material-ui/icons/VisibilityOffTwoTone";
-import VisibilityTwoToneIcon from "@material-ui/icons/VisibilityTwoTone";
+import { Box, FormControlLabel } from "@material-ui/core";
+import { StyledSwitch } from "GlobalComponents/StyledComponents";
+import { startHistoryWatch } from "GlobalContainers/StoreListener";
 import history from "GlobalHelpers/chrome/history";
 import storage from "GlobalHelpers/chrome/storage";
-import { startHistoryWatch } from "GlobalContainers/StoreListener";
 import { RootState } from "GlobalReducers/rootReducer";
-import { getOffIconColor, getOnIconColor } from "GlobalUtils/color";
 import { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { resetHistoryMonitor } from "SrcPath/HistoryPanel/actionCreators";
@@ -83,17 +81,18 @@ const ToggleHistory = memo(function ToggleHistory() {
   };
 
   return (
-    <Box sx={{ display: "flex", alignItems: "center" }}>
-      <VisibilityOffTwoToneIcon htmlColor={getOffIconColor(isHistoryActive)} />
-      <Switch
-        checked={isHistoryActive}
-        onChange={handleToggle}
-        color="primary"
-        name="historyWatch"
-        disabled={!isExtensionActive}
-      />
-      <VisibilityTwoToneIcon htmlColor={getOnIconColor(isHistoryActive)} />
-    </Box>
+    <FormControlLabel
+      control={
+        <StyledSwitch
+          checked={isHistoryActive}
+          onChange={handleToggle}
+          disabled={!isExtensionActive}
+        />
+      }
+      label={<Box sx={{ mr: "3px" }}>Watch</Box>}
+      labelPlacement="start"
+      sx={{ ml: 0, justifyContent: "space-between" }}
+    />
   );
 });
 

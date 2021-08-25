@@ -62,7 +62,7 @@ export const PrimaryHeaderContent = memo(function PrimaryHeaderContent({
   return (
     <AccordionSummary
       sx={{
-        padding: "4px 0px",
+        padding: "8px 0px",
         minHeight: "unset !important",
         "& .MuiAccordionSummary-content": { margin: "0px !important" },
       }}

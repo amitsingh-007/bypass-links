@@ -1,12 +1,11 @@
-import { IconButton } from "@material-ui/core";
-import HistoryTwoToneIcon from "@material-ui/icons/HistoryTwoTone";
-import { COLOR } from "GlobalConstants/color";
+import { SvgIcon } from "@material-ui/core";
 import { ROUTES } from "GlobalConstants/routes";
 import { RootState } from "GlobalReducers/rootReducer";
-import { getActiveDisabledColor } from "GlobalUtils/color";
 import { memo } from "react";
+import { RiHistoryFill } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import StyledButton from "./StyledButton";
 
 const HistoryPanelButton = memo(function HistoryPanelButton() {
   const history = useHistory();
@@ -19,16 +18,15 @@ const HistoryPanelButton = memo(function HistoryPanelButton() {
   };
 
   return (
-    <IconButton
-      aria-label="HistoryPanel"
-      component="span"
-      style={getActiveDisabledColor(isExtensionActive, COLOR.orange)}
+    <StyledButton
+      showSuccessColor={isExtensionActive}
+      isDisabled={!isExtensionActive}
       onClick={handleShowHistoryPanel}
-      title="History Control"
-      disabled={!isExtensionActive}
     >
-      <HistoryTwoToneIcon fontSize="large" />
-    </IconButton>
+      <SvgIcon>
+        <RiHistoryFill />
+      </SvgIcon>
+    </StyledButton>
   );
 });
 

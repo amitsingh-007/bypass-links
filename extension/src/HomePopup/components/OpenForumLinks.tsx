@@ -1,16 +1,14 @@
-import { IconButton } from "@material-ui/core";
-import ForumTwoToneIcon from "@material-ui/icons/ForumTwoTone";
+import { SvgIcon } from "@material-ui/core";
+import { BYPASS_KEYS } from "GlobalConstants";
 import runtime from "GlobalHelpers/chrome/runtime";
 import tabs, { getCurrentTab } from "GlobalHelpers/chrome/tabs";
-import { IconButtonLoader } from "GlobalComponents/Loader";
-import { BYPASS_KEYS } from "GlobalConstants";
-import { COLOR } from "GlobalConstants/color";
 import { RootState } from "GlobalReducers/rootReducer";
-import { getActiveDisabledColor } from "GlobalUtils/color";
 import { matchHostnames } from "GlobalUtils/common";
 import { memo, useCallback, useEffect, useState } from "react";
+import { MdForum } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { startHistoryMonitor } from "SrcPath/HistoryPanel/actionCreators";
+import StyledButton from "./StyledButton";
 
 const isCurrentPageForum = async (url = "") => {
   const hostname = url && new URL(url).hostname;
@@ -55,20 +53,18 @@ const OpenForumLinks = memo(function OpenForumLinks() {
     setIsFetching(false);
   };
 
-  if (isFetching) {
-    return <IconButtonLoader />;
-  }
   return (
-    <IconButton
-      aria-label="OpenForumLinks"
-      component="span"
-      style={getActiveDisabledColor(isActive, COLOR.lime)}
+    <StyledButton
+      showSuccessColor={isActive}
+      isLoading={isFetching}
+      isDisabled={!isActive}
       onClick={handleClick}
-      title={isActive ? "Open Forum Links" : undefined}
-      disabled={!isActive}
+      color="warning"
     >
-      <ForumTwoToneIcon fontSize="large" />
-    </IconButton>
+      <SvgIcon>
+        <MdForum />
+      </SvgIcon>
+    </StyledButton>
   );
 });
 

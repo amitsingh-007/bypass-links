@@ -1,10 +1,10 @@
 import { Avatar, Box, TextField } from "@material-ui/core";
-import PersonOffIcon from "@material-ui/icons/PersonOff";
 import { EditDialog } from "GlobalComponents/Dialogs";
 import { getImageFromFirebase } from "GlobalHelpers/firebase/storage";
 import { VoidFunction } from "GlobalInterfaces/custom";
 import md5 from "md5";
 import { memo, useEffect, useState } from "react";
+import { RiUserUnfollowFill } from "react-icons/ri";
 import { IPerson } from "../interfaces/persons";
 import { resolvePersonImageFromUid } from "../utils";
 import ImagePicker from "./ImagePicker";
@@ -97,7 +97,9 @@ const AddOrEditPersonDialog = memo<Props>(function AddOrEditPersonDialog({
               src={imageUrl}
               sx={imageStyles}
             >
-              {imageUrl ? null : <PersonOffIcon sx={{ fontSize: 125 }} />}
+              {imageUrl ? null : (
+                <RiUserUnfollowFill style={{ fontSize: "120px" }} />
+              )}
             </Avatar>
           </Box>
           <TextField
