@@ -10,7 +10,7 @@
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-prettier": "3.4.1",
     "minimal-cognito-totp": "1.0.1",
-    "typescript": "4.3.5"
+    "typescript": "4.4.2"
   },
   "scripts": {
     "build": "tsc",
