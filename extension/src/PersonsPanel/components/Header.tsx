@@ -73,7 +73,10 @@ const Header = memo<Props>(function Header({
       await syncPersonsFirebaseWithStorage();
       dispatch(displayToast({ message: "Persons synced succesfully" }));
     } catch (ex) {
-      dispatch(displayToast({ message: ex, severity: "error" }));
+      console.error("Persons synced failed", ex);
+      dispatch(
+        displayToast({ message: "Persons synced failed", severity: "error" })
+      );
     }
     setIsSyncing(false);
   };
