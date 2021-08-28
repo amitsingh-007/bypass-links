@@ -97,8 +97,12 @@ class Header extends PureComponent<Props, State> {
     try {
       await syncBookmarksFirebaseWithStorage();
       this.props.displayToast({ message: "Bookmarks synced succesfully" });
-    } catch (ex) {
-      this.props.displayToast({ message: ex, severity: "error" });
+    } catch (ex: any) {
+      console.error("Bookmarks sync failed", ex);
+      this.props.displayToast({
+        message: "Bookmarks sync failed",
+        severity: "error",
+      });
     }
     this.setState({ isSyncing: false });
   };
