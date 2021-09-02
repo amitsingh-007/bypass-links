@@ -8,12 +8,14 @@ import {
 } from "@material-ui/core";
 import { VoidFunction } from "GlobalInterfaces/custom";
 import { MdClose, MdDone } from "react-icons/md";
+import { RiBookmark2Fill } from "react-icons/ri";
 
 interface Props {
   headerText: string;
   openDialog: boolean;
   closeDialog: VoidFunction;
   handleSave: (e: React.FormEvent<HTMLFormElement>) => void;
+  handleDelete?: VoidFunction;
   isSaveOptionActive: boolean;
 }
 
@@ -23,6 +25,7 @@ export const EditDialog: React.FC<Props> = ({
   openDialog,
   closeDialog,
   handleSave,
+  handleDelete,
   isSaveOptionActive,
 }) => {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -52,32 +55,45 @@ export const EditDialog: React.FC<Props> = ({
           <Box
             sx={{
               display: "flex",
-              justifyContent: "flex-end",
+              justifyContent: handleDelete ? "space-between" : "flex-end",
               width: "100%",
               px: "24px",
               pb: "10px",
             }}
           >
-            <Button
-              variant="outlined"
-              startIcon={<MdClose />}
-              onClick={closeDialog}
-              size="small"
-              color="error"
-            >
-              Close
-            </Button>
-            <Button
-              type="submit"
-              variant="outlined"
-              startIcon={<MdDone />}
-              size="small"
-              disabled={!isSaveOptionActive}
-              color="success"
-              sx={{ ml: "10px" }}
-            >
-              Save
-            </Button>
+            {handleDelete ? (
+              <Button
+                variant="outlined"
+                startIcon={<RiBookmark2Fill />}
+                onClick={handleDelete}
+                size="small"
+                color="error"
+              >
+                Delete
+              </Button>
+            ) : null}
+            <Box>
+              <Button
+                variant="outlined"
+                startIcon={<MdClose />}
+                onClick={closeDialog}
+                size="small"
+                color="error"
+              >
+                Close
+              </Button>
+              <Button
+                type="submit"
+                variant="outlined"
+                startIcon={<MdDone />}
+                size="small"
+                disabled={!isSaveOptionActive}
+                color="success"
+                sx={{ ml: "10px" }}
+              >
+                Save
+              </Button>
+            </Box>
           </Box>
         </DialogActions>
       </Box>

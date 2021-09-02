@@ -537,6 +537,7 @@ class BookmarksPanel extends PureComponent<Props, State> {
           <EditBookmark
             curFolder={folderContext}
             onSave={this.handleBookmarkSave}
+            onDelete={this.handleUrlRemove}
             contextBookmarks={contextBookmarks}
             folderNamesList={folderNamesList}
             handleScroll={this.handleScroll}

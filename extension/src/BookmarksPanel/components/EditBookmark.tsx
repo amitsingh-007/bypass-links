@@ -32,6 +32,7 @@ interface Props extends RouteComponentProps<any>, PropsFromRedux {
     taggedPersons: string[],
     newTaggedPersons: string[]
   ) => void;
+  onDelete: (pos: number, url: string) => void;
 }
 
 interface State {
@@ -126,6 +127,13 @@ class EditBookmark extends PureComponent<Props, State> {
     }
   };
 
+  handleBookmarkDelete = () => {
+    const { onDelete } = this.props;
+    const { pos, url } = this.state;
+    onDelete(pos, url);
+    this.closeDialog();
+  };
+
   handleBookmarkSave = (
     url: string,
     newTitle: string,
@@ -163,6 +171,11 @@ class EditBookmark extends PureComponent<Props, State> {
         headerText={heading[operation]}
         folderList={folderNamesList}
         handleSave={this.handleBookmarkSave}
+        handleDelete={
+          operation === BOOKMARK_OPERATION.EDIT
+            ? this.handleBookmarkDelete
+            : undefined
+        }
         onClose={this.closeDialog}
         isSaveActive={operation === BOOKMARK_OPERATION.ADD}
       />
