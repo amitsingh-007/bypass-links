@@ -12,6 +12,7 @@ import {
 } from "SrcPath/PersonsPanel/utils";
 import { sortAlphabetically } from "SrcPath/PersonsPanel/utils/sort";
 import { FolderDropdown, PersonsDropdown } from "./Dropdown";
+
 interface Props {
   url: string;
   origTitle: string;
@@ -39,6 +40,7 @@ const BookmarkDialog: React.FC<Props> = ({
   headerText,
   folderList,
   handleSave,
+  handleDelete,
   isOpen,
   onClose,
   isSaveActive = false,
@@ -109,6 +111,7 @@ const BookmarkDialog: React.FC<Props> = ({
       openDialog={isOpen}
       closeDialog={onClose}
       handleSave={handleSaveClick}
+      handleDelete={handleDelete}
       isSaveOptionActive={isSaveOptionActive}
     >
       <Box

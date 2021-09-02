@@ -62,6 +62,11 @@ const theme = createTheme({
           borderRadius: "50px",
           ":hover": { borderWidth: "2px" },
         },
+        root: {
+          "&.Mui-disabled": {
+            borderWidth: "2px",
+          },
+        },
       },
     },
   },
