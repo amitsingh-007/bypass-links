@@ -9,5 +9,5 @@
   },
   "branchesIgnore": ["dependabot/**"],
   "commentThreshold": 512,
-  "autoAssign": "amitsingh-007"
+  "autoAssign": ["amitsingh-007"]
 }
