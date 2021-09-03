@@ -1,0 +1,11 @@
+manifest:
+  name: manifest.json
+  dir: "./extension/public/"
+workflow:
+  name: Extension CI
+  artifact: extension-file
+branches-ignore:
+  - dependabot/**
+comment-threshold: 512
+auto-assign:
+  - amitsingh-007
