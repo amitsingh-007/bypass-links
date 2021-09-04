@@ -20,7 +20,6 @@ export interface Props extends InjectedProps {
   url: string;
   title: string;
   taggedPersons: string[];
-  isExternalPage?: boolean;
   pos?: number;
   isSelected?: boolean;
   handleSelectedChange?: (pos: number, isOnlySelection: boolean) => void;
@@ -35,7 +34,6 @@ const Bookmark = memo<Props>(
     isSelected,
     handleSelectedChange,
     containerStyles,
-    isExternalPage,
   }) => {
     const dispatch = useDispatch();
     const [personsWithImageUrls, setPersonsWithImageUrls] = useState<
@@ -66,11 +64,11 @@ const Bookmark = memo<Props>(
     };
 
     const handleSelectionChange = (event: React.MouseEvent<HTMLDivElement>) => {
-      if (isExternalPage) {
+      if (!handleSelectedChange) {
         return;
       }
       const isCtrlPressed = event.ctrlKey;
-      handleSelectedChange && handleSelectedChange(pos, !isCtrlPressed);
+      handleSelectedChange(pos, !isCtrlPressed);
     };
 
     const onRightClick = () => {

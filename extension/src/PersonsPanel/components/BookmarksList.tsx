@@ -155,7 +155,6 @@ const BookmarksList = memo<Props>(function BookmarksList({
                 url={bookmark.url}
                 title={bookmark.title}
                 taggedPersons={bookmark.taggedPersons}
-                isExternalPage
                 containerStyles={{
                   ...bookmarkRowStyles,
                   paddingLeft: "0px",
