@@ -44,7 +44,14 @@ const withBookmarkRow = <T extends InjectedProps>(
             {...provided.draggableProps}
             {...provided.dragHandleProps}
           >
-            <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                height: "100%",
+                width: "100%",
+              }}
+            >
               <Component
                 {...(props as unknown as T)}
                 containerStyles={bookmarkRowStyles}
