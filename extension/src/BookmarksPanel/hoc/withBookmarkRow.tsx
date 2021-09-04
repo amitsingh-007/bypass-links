@@ -33,30 +33,21 @@ const withBookmarkRow = <T extends InjectedProps>(
         {(provided) => (
           <Box
             className="bookmarkRowContainer"
-            ref={provided.innerRef}
             sx={{
               height: "100%",
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
             }}
+            ref={provided.innerRef}
             data-is-selected={isSelected}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
           >
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                height: "100%",
-                width: "100%",
-              }}
-            >
-              <Component
-                {...(props as unknown as T)}
-                containerStyles={bookmarkRowStyles}
-              />
-            </Box>
+            <Component
+              {...(props as unknown as T)}
+              containerStyles={bookmarkRowStyles}
+            />
           </Box>
         )}
       </Draggable>

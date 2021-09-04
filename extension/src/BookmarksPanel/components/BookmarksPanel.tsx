@@ -55,7 +55,6 @@ import VirtualRow, { VirtualRowProps } from "./VirtualRow";
 const minReqBookmarksToScroll = Math.ceil(
   BOOKMARK_PANEL_CONTENT_HEIGHT / BOOKMARK_ROW_DIMENTSIONS.height
 );
-const bookmarksContainerId = "bookmarks-wrapper";
 
 interface Props extends PropsFromRedux, BMPanelQueryParams {}
 
@@ -119,9 +118,7 @@ class BookmarksPanel extends PureComponent<Props, State> {
         setBookmarkOperation(operation, bmUrl);
       }
     });
-    document
-      .getElementById(bookmarksContainerId)
-      ?.addEventListener("keydown", this.handleKeyPress);
+    document.body.addEventListener("keydown", this.handleKeyPress);
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -132,9 +129,7 @@ class BookmarksPanel extends PureComponent<Props, State> {
   }
 
   componentWillUnmount() {
-    document
-      .getElementById(bookmarksContainerId)
-      ?.removeEventListener("keydown", this.handleKeyPress);
+    document.body.removeEventListener("keydown", this.handleKeyPress);
   }
 
   handleSearchTextChange = (text: string) => {
