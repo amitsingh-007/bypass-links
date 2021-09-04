@@ -5,19 +5,19 @@ const DragClone: React.FC<{ provided: DraggableProvided; dragCount: number }> =
   ({ provided, dragCount }) => (
     <Box
       className="bookmarkRowContainer"
-      data-is-selected="true"
       sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
         width: "100%",
+        height: "100%",
         py: "2px",
-        pl: "12px",
-        pr: "9px",
         fontSize: "14px",
-        verticalAlign: "middle",
-        textAlign: "center",
       }}
+      data-is-selected="true"
+      ref={provided.innerRef}
       {...provided.draggableProps}
       {...provided.dragHandleProps}
-      ref={provided.innerRef}
     >{`Currently dragging: ${dragCount} bookmarks/folders`}</Box>
   );
 
