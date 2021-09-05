@@ -48,7 +48,7 @@
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.2",
     "eslint-config-prettier": "8.3.0",
-    "eslint-plugin-prettier": "3.4.1",
+    "eslint-plugin-prettier": "4.0.0",
     "fork-ts-checker-webpack-plugin": "6.3.3",
     "next-pwa": "5.3.1",
     "prettier": "2.3.2",
