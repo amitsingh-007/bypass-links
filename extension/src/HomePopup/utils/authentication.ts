@@ -10,7 +10,7 @@ const userSignIn = async (): Promise<UserInfo> => {
     message: "Logging in user",
     progress: 0,
     progressBuffer: 1,
-    total: 5,
+    total: 6,
   });
   const googleAuthToken = await identity.getAuthToken({ interactive: true });
   const response = await googleSignIn(googleAuthToken);
@@ -27,7 +27,7 @@ const userSignIn = async (): Promise<UserInfo> => {
     message: "User logged in",
     progress: 1,
     progressBuffer: 1,
-    total: 5,
+    total: 6,
   });
   return userInfo;
 };

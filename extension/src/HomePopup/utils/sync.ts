@@ -1,16 +1,13 @@
+import { STORAGE_KEYS } from "GlobalConstants";
+import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
 import identity from "GlobalHelpers/chrome/identity";
 import storage from "GlobalHelpers/chrome/storage";
-import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
-import { STORAGE_KEYS } from "GlobalConstants";
+import { getUserProfile } from "GlobalHelpers/fetchFromStorage";
+import { deleteAllCache } from "GlobalUtils/cache";
 import {
   resetBypass,
   syncBypassToStorage,
 } from "SrcPath/BackgroundScript/bypass";
-import { deleteAllCache } from "GlobalUtils/cache";
-import {
-  resetLastVisited,
-  syncLastVisitedToStorage,
-} from "SrcPath/HomePopup/utils/lastVisited";
 import {
   resetRedirections,
   syncRedirectionsToStorage,
@@ -21,25 +18,27 @@ import {
   syncBookmarksFirebaseWithStorage,
   syncBookmarksToStorage,
 } from "SrcPath/BookmarksPanel/utils/bookmark";
-import { status2FA } from "SrcPath/SettingsPanel/apis/twoFactorAuth";
-import { getUserProfile } from "GlobalHelpers/fetchFromStorage";
 import {
-  cachePersonImages,
-  cachePersonImageUrlsInStorage,
+  resetLastVisited,
+  syncLastVisitedToStorage,
+} from "SrcPath/HomePopup/utils/lastVisited";
+import {
+  cachePersonImagesInStorage,
   refreshPersonImageUrlsCache,
   resetPersons,
   syncPersonsFirebaseWithStorage,
   syncPersonsToStorage,
 } from "SrcPath/PersonsPanel/utils/sync";
-import { dispatchAuthenticationEvent } from "./authentication";
+import { status2FA } from "SrcPath/SettingsPanel/apis/twoFactorAuth";
 import { UserInfo } from "../interfaces/authentication";
+import { dispatchAuthenticationEvent } from "./authentication";
 
 const syncAuthenticationToStorage = async (userProfile: UserInfo) => {
   dispatchAuthenticationEvent({
     message: "Checking 2FA status",
     progress: 1,
     progressBuffer: 2,
-    total: 5,
+    total: 6,
   });
   const { is2FAEnabled } = await status2FA(userProfile.uid ?? "");
   userProfile.is2FAEnabled = is2FAEnabled;
@@ -49,7 +48,7 @@ const syncAuthenticationToStorage = async (userProfile: UserInfo) => {
     message: "2FA status checked",
     progress: 2,
     progressBuffer: 2,
-    total: 5,
+    total: 6,
   });
 };
 
@@ -71,7 +70,7 @@ const syncFirebaseToStorage = async () => {
     message: "Syncing storage with firebase",
     progress: 2,
     progressBuffer: 3,
-    total: 5,
+    total: 6,
   });
   await Promise.all([
     syncRedirectionsToStorage(),
@@ -84,7 +83,7 @@ const syncFirebaseToStorage = async () => {
     message: "Synced storage with firebase",
     progress: 3,
     progressBuffer: 3,
-    total: 5,
+    total: 6,
   });
 };
 
@@ -139,26 +138,26 @@ export const processPostLogin = async (userProfile: UserInfo) => {
   await syncFirebaseToStorage();
   //Then do other processes
   try {
-    await cachePersonImageUrlsInStorage();
+    await cachePersonImagesInStorage();
     dispatchAuthenticationEvent({
-      message: "Caching person images & favicons",
-      progress: 4,
-      progressBuffer: 5,
-      total: 5,
-    });
-    await Promise.all([cacheBookmarkFavicons(), cachePersonImages()]);
-    dispatchAuthenticationEvent({
-      message: "Cached person images & favicons",
+      message: "Caching bookmark favicons",
       progress: 5,
-      progressBuffer: 5,
-      total: 5,
+      progressBuffer: 6,
+      total: 6,
+    });
+    await cacheBookmarkFavicons();
+    dispatchAuthenticationEvent({
+      message: "Cached bookmark favicons",
+      progress: 6,
+      progressBuffer: 6,
+      total: 6,
     });
   } catch (e) {
     dispatchAuthenticationEvent({
       message: "Caching failed",
-      progress: 5,
-      progressBuffer: 5,
-      total: 5,
+      progress: 6,
+      progressBuffer: 6,
+      total: 6,
     });
   }
 };
