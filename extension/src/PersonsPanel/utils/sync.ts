@@ -9,7 +9,7 @@ import {
 } from "GlobalHelpers/firebase/database";
 import { getImageFromFirebase } from "GlobalHelpers/firebase/storage";
 import { addToCache, getCacheObj } from "GlobalUtils/cache";
-import { dispatchAuthenticationEvent } from "SrcPath/HomePopup/utils/authentication";
+import { AuthProgress } from "SrcPath/HomePopup/utils/authProgress";
 import { getAllDecodedPersons } from ".";
 import { IPerson, PersonImageUrls } from "../interfaces/persons";
 
@@ -46,17 +46,19 @@ const resolveImageFromPerson = async ({
   imageUrl: await getImageFromFirebase(imageRef),
 });
 
-export const cachePersonImageUrlsInStorage = async () => {
-  dispatchAuthenticationEvent({
-    message: "Caching person urls",
-    progress: 3,
-    progressBuffer: 4,
-    total: 5,
-  });
+export const cachePersonImagesInStorage = async () => {
+  AuthProgress.start("Caching person urls");
   await refreshPersonImageUrlsCache();
   const persons = await getAllDecodedPersons();
+  let totalResolved = 0;
   const personImagesList = await Promise.all(
-    persons.map(resolveImageFromPerson)
+    persons.map(async (person) => {
+      const url = await resolveImageFromPerson(person);
+      AuthProgress.update(
+        `Caching person urls: ${++totalResolved}/${persons.length}`
+      );
+      return url;
+    })
   );
   const personImageUrls = personImagesList.reduce<PersonImageUrls>(
     (obj, { uid, imageUrl }) => {
@@ -67,20 +69,17 @@ export const cachePersonImageUrlsInStorage = async () => {
   );
   await storage.set({ [STORAGE_KEYS.personImageUrls]: personImageUrls });
   console.log("PersonImageUrls is set to", personImageUrls);
-  dispatchAuthenticationEvent({
-    message: "Cached person urls",
-    progress: 4,
-    progressBuffer: 4,
-    total: 5,
-  });
+  AuthProgress.finish("Cached person urls");
+  AuthProgress.start("Caching person images");
+  await cachePersonImages(personImageUrls);
+  AuthProgress.finish("Cached person images");
 };
 
 export const refreshPersonImageUrlsCache = async () => {
   await storage.remove(STORAGE_KEYS.personImageUrls);
 };
 
-export const cachePersonImages = async () => {
-  const personImageUrls = await getPersonImageUrls();
+export const cachePersonImages = async (personImageUrls: PersonImageUrls) => {
   if (!personImageUrls) {
     console.log("Unable to cache person images since no person urls");
     return;
