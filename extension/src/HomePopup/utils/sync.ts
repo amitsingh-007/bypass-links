@@ -32,24 +32,15 @@ import {
 import { status2FA } from "SrcPath/SettingsPanel/apis/twoFactorAuth";
 import { UserInfo } from "../interfaces/authentication";
 import { dispatchAuthenticationEvent } from "./authentication";
+import { AuthProgress } from "./authProgress";
 
 const syncAuthenticationToStorage = async (userProfile: UserInfo) => {
-  dispatchAuthenticationEvent({
-    message: "Checking 2FA status",
-    progress: 1,
-    progressBuffer: 2,
-    total: 6,
-  });
+  AuthProgress.start("Checking 2FA status");
   const { is2FAEnabled } = await status2FA(userProfile.uid ?? "");
   userProfile.is2FAEnabled = is2FAEnabled;
   userProfile.isTOTPVerified = false;
   await storage.set({ [STORAGE_KEYS.userProfile]: userProfile });
-  dispatchAuthenticationEvent({
-    message: "2FA status checked",
-    progress: 2,
-    progressBuffer: 2,
-    total: 6,
-  });
+  AuthProgress.finish("2FA status checked");
 };
 
 const resetAuthentication = async () => {
@@ -66,12 +57,7 @@ const resetAuthentication = async () => {
 };
 
 const syncFirebaseToStorage = async () => {
-  dispatchAuthenticationEvent({
-    message: "Syncing storage with firebase",
-    progress: 2,
-    progressBuffer: 3,
-    total: 6,
-  });
+  AuthProgress.start("Syncing storage with firebase");
   await Promise.all([
     syncRedirectionsToStorage(),
     syncBypassToStorage(),
@@ -79,12 +65,7 @@ const syncFirebaseToStorage = async () => {
     syncLastVisitedToStorage(),
     syncPersonsToStorage(),
   ]);
-  dispatchAuthenticationEvent({
-    message: "Synced storage with firebase",
-    progress: 3,
-    progressBuffer: 3,
-    total: 6,
-  });
+  AuthProgress.finish("Synced storage with firebase");
 };
 
 const syncStorageToFirebase = async () => {
@@ -139,26 +120,11 @@ export const processPostLogin = async (userProfile: UserInfo) => {
   //Then do other processes
   try {
     await cachePersonImagesInStorage();
-    dispatchAuthenticationEvent({
-      message: "Caching bookmark favicons",
-      progress: 5,
-      progressBuffer: 6,
-      total: 6,
-    });
+    AuthProgress.start("Caching bookmark favicons");
     await cacheBookmarkFavicons();
-    dispatchAuthenticationEvent({
-      message: "Cached bookmark favicons",
-      progress: 6,
-      progressBuffer: 6,
-      total: 6,
-    });
+    AuthProgress.finish("Cached bookmark favicons");
   } catch (e) {
-    dispatchAuthenticationEvent({
-      message: "Caching failed",
-      progress: 6,
-      progressBuffer: 6,
-      total: 6,
-    });
+    AuthProgress.finish("Caching failed");
   }
 };
 

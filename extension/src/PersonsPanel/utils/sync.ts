@@ -9,7 +9,7 @@ import {
 } from "GlobalHelpers/firebase/database";
 import { getImageFromFirebase } from "GlobalHelpers/firebase/storage";
 import { addToCache, getCacheObj } from "GlobalUtils/cache";
-import { dispatchAuthenticationEvent } from "SrcPath/HomePopup/utils/authentication";
+import { AuthProgress } from "SrcPath/HomePopup/utils/authProgress";
 import { getAllDecodedPersons } from ".";
 import { IPerson, PersonImageUrls } from "../interfaces/persons";
 
@@ -47,24 +47,16 @@ const resolveImageFromPerson = async ({
 });
 
 export const cachePersonImagesInStorage = async () => {
-  dispatchAuthenticationEvent({
-    message: "Caching person urls",
-    progress: 3,
-    progressBuffer: 4,
-    total: 6,
-  });
+  AuthProgress.start("Caching person urls");
   await refreshPersonImageUrlsCache();
   const persons = await getAllDecodedPersons();
   let totalResolved = 0;
   const personImagesList = await Promise.all(
     persons.map(async (person) => {
       const url = await resolveImageFromPerson(person);
-      dispatchAuthenticationEvent({
-        message: `Caching person urls: ${++totalResolved}/${persons.length}`,
-        progress: 3,
-        progressBuffer: 4,
-        total: 6,
-      });
+      AuthProgress.update(
+        `Caching person urls: ${++totalResolved}/${persons.length}`
+      );
       return url;
     })
   );
@@ -77,25 +69,10 @@ export const cachePersonImagesInStorage = async () => {
   );
   await storage.set({ [STORAGE_KEYS.personImageUrls]: personImageUrls });
   console.log("PersonImageUrls is set to", personImageUrls);
-  dispatchAuthenticationEvent({
-    message: "Cached person urls",
-    progress: 4,
-    progressBuffer: 4,
-    total: 6,
-  });
-  dispatchAuthenticationEvent({
-    message: "Caching person images",
-    progress: 4,
-    progressBuffer: 5,
-    total: 6,
-  });
+  AuthProgress.finish("Cached person urls");
+  AuthProgress.start("Caching person images");
   await cachePersonImages(personImageUrls);
-  dispatchAuthenticationEvent({
-    message: "Cached person images",
-    progress: 5,
-    progressBuffer: 5,
-    total: 6,
-  });
+  AuthProgress.finish("Cached person images");
 };
 
 export const refreshPersonImageUrlsCache = async () => {

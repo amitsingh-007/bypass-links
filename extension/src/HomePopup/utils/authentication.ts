@@ -3,15 +3,11 @@ import { googleSignIn, googleSignOut } from "GlobalHelpers/firebase/auth";
 import { AuthenticationEvent } from "GlobalInterfaces/authentication";
 import { AUTHENTICATION_EVENT } from "../constants/auth";
 import { UserInfo } from "../interfaces/authentication";
+import { AuthProgress } from "./authProgress";
 import { processPostLogin, processPostLogout, processPreLogout } from "./sync";
 
 const userSignIn = async (): Promise<UserInfo> => {
-  dispatchAuthenticationEvent({
-    message: "Logging in user",
-    progress: 0,
-    progressBuffer: 1,
-    total: 6,
-  });
+  AuthProgress.start("Logging in user");
   const googleAuthToken = await identity.getAuthToken({ interactive: true });
   const response = await googleSignIn(googleAuthToken);
   const userProfile = response.user ?? {};
@@ -23,17 +19,13 @@ const userSignIn = async (): Promise<UserInfo> => {
   };
   console.log("Firebase login response", response);
   console.log("UserInfo", userInfo);
-  dispatchAuthenticationEvent({
-    message: "User logged in",
-    progress: 1,
-    progressBuffer: 1,
-    total: 6,
-  });
+  AuthProgress.finish("User logged in");
   return userInfo;
 };
 
 export const signIn = async (): Promise<boolean> => {
   try {
+    AuthProgress.initialize(6);
     const userProfile = await userSignIn();
     await processPostLogin(userProfile);
     console.log("--------------Login Success--------------");
