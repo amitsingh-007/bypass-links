@@ -1,4 +1,5 @@
-import { dispatchAuthenticationEvent } from "./authentication";
+import { AuthenticationEvent } from "GlobalInterfaces/authentication";
+import { AUTHENTICATION_EVENT } from "../constants/auth";
 
 export class AuthProgress {
   private static total: number;
@@ -10,8 +11,17 @@ export class AuthProgress {
     this.curProgress = -1;
   };
 
+  static dispatchAuthenticationEvent = (
+    authProgressObj: AuthenticationEvent
+  ) => {
+    const event = new CustomEvent(AUTHENTICATION_EVENT, {
+      detail: authProgressObj,
+    });
+    document.dispatchEvent(event);
+  };
+
   static start = (message: string) => {
-    dispatchAuthenticationEvent({
+    this.dispatchAuthenticationEvent({
       message,
       progress: ++this.curProgress,
       progressBuffer: this.curProgress + 1,
@@ -20,7 +30,7 @@ export class AuthProgress {
   };
 
   static update = (message: string) => {
-    dispatchAuthenticationEvent({
+    this.dispatchAuthenticationEvent({
       message,
       progress: this.curProgress,
       progressBuffer: this.curProgress + 1,
@@ -29,7 +39,7 @@ export class AuthProgress {
   };
 
   static finish = (message: string) => {
-    dispatchAuthenticationEvent({
+    this.dispatchAuthenticationEvent({
       message,
       progress: this.curProgress + 1,
       progressBuffer: this.curProgress + 1,

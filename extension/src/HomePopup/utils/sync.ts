@@ -31,7 +31,6 @@ import {
 } from "SrcPath/PersonsPanel/utils/sync";
 import { status2FA } from "SrcPath/SettingsPanel/apis/twoFactorAuth";
 import { UserInfo } from "../interfaces/authentication";
-import { dispatchAuthenticationEvent } from "./authentication";
 import { AuthProgress } from "./authProgress";
 
 const syncAuthenticationToStorage = async (userProfile: UserInfo) => {
@@ -69,31 +68,16 @@ const syncFirebaseToStorage = async () => {
 };
 
 const syncStorageToFirebase = async () => {
-  dispatchAuthenticationEvent({
-    message: "Syncing firebase with storage",
-    progress: 0,
-    progressBuffer: 1,
-    total: 4,
-  });
+  AuthProgress.start("Syncing firebase with storage");
   await Promise.all([
     syncBookmarksFirebaseWithStorage(),
     syncPersonsFirebaseWithStorage(),
   ]);
-  dispatchAuthenticationEvent({
-    message: "Synced firebase with storage",
-    progress: 1,
-    progressBuffer: 1,
-    total: 4,
-  });
+  AuthProgress.finish("Synced firebase with storage");
 };
 
 const resetStorage = async () => {
-  dispatchAuthenticationEvent({
-    message: "Resetting storage",
-    progress: 2,
-    progressBuffer: 3,
-    total: 4,
-  });
+  AuthProgress.start("Resetting storage");
   await Promise.all([
     resetAuthentication(),
     resetRedirections(),
@@ -104,12 +88,7 @@ const resetStorage = async () => {
     refreshPersonImageUrlsCache(),
   ]);
   console.log("Storage reset successful");
-  dispatchAuthenticationEvent({
-    message: "Storage reset",
-    progress: 3,
-    progressBuffer: 3,
-    total: 4,
-  });
+  AuthProgress.finish("Storage reset");
 };
 
 export const processPostLogin = async (userProfile: UserInfo) => {
@@ -137,17 +116,7 @@ export const processPostLogout = async () => {
   //Reset storage
   await resetStorage();
   //Refresh browser cache
-  dispatchAuthenticationEvent({
-    message: "Clearing cache",
-    progress: 3,
-    progressBuffer: 4,
-    total: 4,
-  });
+  AuthProgress.start("Clearing cache");
   await deleteAllCache([CACHE_BUCKET_KEYS.favicon, CACHE_BUCKET_KEYS.person]);
-  dispatchAuthenticationEvent({
-    message: "Cleared cache",
-    progress: 4,
-    progressBuffer: 4,
-    total: 4,
-  });
+  AuthProgress.finish("Cleared cache");
 };
