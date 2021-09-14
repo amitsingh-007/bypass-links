@@ -3,7 +3,7 @@ import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
 import identity from "GlobalHelpers/chrome/identity";
 import runtime from "GlobalHelpers/chrome/runtime";
 import storage from "GlobalHelpers/chrome/storage";
-import { getUserProfile } from "GlobalHelpers/fetchFromStorage";
+import { getSettings, getUserProfile } from "GlobalHelpers/fetchFromStorage";
 import { deleteAllCache } from "GlobalUtils/cache";
 import {
   resetBypass,
@@ -31,6 +31,10 @@ import {
   syncPersonsToStorage,
 } from "SrcPath/PersonsPanel/utils/sync";
 import { status2FA } from "SrcPath/SettingsPanel/apis/twoFactorAuth";
+import {
+  resetSettings,
+  syncSettingsToStorage,
+} from "SrcPath/SettingsPanel/utils/sync";
 import { UserInfo } from "../interfaces/authentication";
 import { AuthProgress } from "./authProgress";
 
@@ -64,6 +68,7 @@ const syncFirebaseToStorage = async () => {
     syncBookmarksToStorage(),
     syncLastVisitedToStorage(),
     syncPersonsToStorage(),
+    syncSettingsToStorage(),
   ]);
   AuthProgress.finish("Synced storage with firebase");
 };
@@ -86,6 +91,7 @@ const resetStorage = async () => {
     resetBookmarks(),
     resetLastVisited(),
     resetPersons(),
+    resetSettings(),
     refreshPersonImageUrlsCache(),
   ]);
   console.log("Storage reset successful");
@@ -114,7 +120,7 @@ export const processPreLogout = async () => {
 };
 
 export const processPostLogout = async () => {
-  //TODO: add consent check
+  const { hasManageGoogleActivityConsent } = await getSettings();
   //Reset storage
   await resetStorage();
   //Refresh browser cache
@@ -122,7 +128,9 @@ export const processPostLogout = async () => {
   await deleteAllCache([CACHE_BUCKET_KEYS.favicon, CACHE_BUCKET_KEYS.person]);
   AuthProgress.finish("Cleared cache");
   //Clear activity from google account
-  await runtime.sendMessage<{ manageGoogleActivity: string }>({
-    manageGoogleActivity: true,
-  });
+  if (hasManageGoogleActivityConsent) {
+    await runtime.sendMessage<{ manageGoogleActivity: string }>({
+      manageGoogleActivity: true,
+    });
+  }
 };
