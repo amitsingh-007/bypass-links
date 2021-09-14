@@ -8,6 +8,7 @@ import siteSpecificLogic from "./siteSpecificLogic";
 import turnOffInputSuggestions from "./misc/turnOffInputSuggestions";
 import { getExtensionState } from "GlobalHelpers/fetchFromStorage";
 import { getForumPageLinks } from "./misc/forumPageLinks";
+import { manageGoogleActivity } from "./automation/manageGoogleActivity";
 
 //First time extension install
 chrome.runtime.onInstalled.addListener(() => {
@@ -49,6 +50,10 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   } else if (message.fetchPageH1) {
     fetchPageH1().then((pageH1) => {
       sendResponse({ pageH1 });
+    });
+  } else if (message.manageGoogleActivity) {
+    manageGoogleActivity().then(() => {
+      sendResponse({ isSuccess: true });
     });
   }
   return true;

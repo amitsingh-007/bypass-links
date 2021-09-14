@@ -1,6 +1,7 @@
 import { STORAGE_KEYS } from "GlobalConstants";
 import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
 import identity from "GlobalHelpers/chrome/identity";
+import runtime from "GlobalHelpers/chrome/runtime";
 import storage from "GlobalHelpers/chrome/storage";
 import { getUserProfile } from "GlobalHelpers/fetchFromStorage";
 import { deleteAllCache } from "GlobalUtils/cache";
@@ -113,10 +114,15 @@ export const processPreLogout = async () => {
 };
 
 export const processPostLogout = async () => {
+  //TODO: add consent check
   //Reset storage
   await resetStorage();
   //Refresh browser cache
   AuthProgress.start("Clearing cache");
   await deleteAllCache([CACHE_BUCKET_KEYS.favicon, CACHE_BUCKET_KEYS.person]);
   AuthProgress.finish("Cleared cache");
+  //Clear activity from google account
+  await runtime.sendMessage<{ manageGoogleActivity: string }>({
+    manageGoogleActivity: true,
+  });
 };
