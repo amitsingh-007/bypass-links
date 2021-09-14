@@ -4,7 +4,6 @@ import { fetchPageH1, isValidUrl, setExtensionIcon } from "./utils";
 import { bypass } from "./bypass";
 import { isExtensionActive, setExtStateInStorage } from "GlobalUtils/common";
 import { redirect } from "./redirect";
-import siteSpecificLogic from "./siteSpecificLogic";
 import turnOffInputSuggestions from "./misc/turnOffInputSuggestions";
 import { getExtensionState } from "GlobalHelpers/fetchFromStorage";
 import { getForumPageLinks } from "./misc/forumPageLinks";
@@ -37,7 +36,6 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo) => {
     bypass(tabId, currentTabUrl);
     redirect(tabId, currentTabUrl);
     turnOffInputSuggestions(tabId);
-    siteSpecificLogic(tabId, currentTabUrl);
   }
 });
 
