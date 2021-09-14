@@ -4,6 +4,6 @@ export enum FIREBASE_DB_REF {
   lastVisited = "lastVisited",
   persons = "persons",
   redirections = "redirections",
-  userInfo = "userInfo",
+  settings = "userInfo/settings",
   user2FAInfo = "userInfo/twoFactorAuth",
 }

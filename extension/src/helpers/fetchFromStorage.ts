@@ -11,6 +11,7 @@ import {
   IMappedRedirections,
   IRedirection,
 } from "SrcPath/BackgroundScript/interfaces/redirections";
+import { ISettings } from "SrcPath/SettingsPanel/interfaces/settings";
 
 export const getExtensionState = async () => {
   const { extState } = await storage.get("extState");
@@ -50,6 +51,13 @@ export const getUserProfile = async () => {
     STORAGE_KEYS.userProfile
   );
   return userProfile as UserInfo;
+};
+
+export const getSettings = async () => {
+  const { [STORAGE_KEYS.settings]: settings } = await storage.get(
+    STORAGE_KEYS.settings
+  );
+  return settings as ISettings;
 };
 
 export const getPersons = async () => {

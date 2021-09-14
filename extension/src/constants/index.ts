@@ -14,6 +14,7 @@ export const STORAGE_KEYS = {
   mappedRedirections: "mappedRedirections",
   personImageUrls: "personImageUrls",
   userProfile: "userProfile",
+  settings: "settings",
 };
 
 export enum BYPASS_KEYS {

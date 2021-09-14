@@ -4,10 +4,10 @@ import { fetchPageH1, isValidUrl, setExtensionIcon } from "./utils";
 import { bypass } from "./bypass";
 import { isExtensionActive, setExtStateInStorage } from "GlobalUtils/common";
 import { redirect } from "./redirect";
-import siteSpecificLogic from "./siteSpecificLogic";
 import turnOffInputSuggestions from "./misc/turnOffInputSuggestions";
 import { getExtensionState } from "GlobalHelpers/fetchFromStorage";
 import { getForumPageLinks } from "./misc/forumPageLinks";
+import { manageGoogleActivity } from "./automation/manageGoogleActivity";
 
 //First time extension install
 chrome.runtime.onInstalled.addListener(() => {
@@ -36,7 +36,6 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo) => {
     bypass(tabId, currentTabUrl);
     redirect(tabId, currentTabUrl);
     turnOffInputSuggestions(tabId);
-    siteSpecificLogic(tabId, currentTabUrl);
   }
 });
 
@@ -49,6 +48,10 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   } else if (message.fetchPageH1) {
     fetchPageH1().then((pageH1) => {
       sendResponse({ pageH1 });
+    });
+  } else if (message.manageGoogleActivity) {
+    manageGoogleActivity().then(() => {
+      sendResponse({ isSuccess: true });
     });
   }
   return true;
