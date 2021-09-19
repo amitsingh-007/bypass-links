@@ -2,6 +2,7 @@ import { Box, Typography } from "@material-ui/core/";
 import { memo } from "react";
 import Authenticate from "../components/Authenticate";
 import BookmarksPanelButton from "../components/BookmarksPanelButton";
+import ClearSearchEntries from "../components/ClearSearchEntries";
 import HistoryPanelButton from "../components/HistoryPanelButton";
 import LastVisitedButton from "../components/LastVisitedButton";
 import OpenDefaultsButton from "../components/OpenDefaultsButton";
@@ -64,6 +65,9 @@ const PopupHome = memo(function PopupHome() {
           <OpenForumLinks />
           <LastVisitedButton />
           <PersonsPanelButton />
+        </Row>
+        <Row styles={{ justifyContent: "center" }}>
+          <ClearSearchEntries />
         </Row>
       </Box>
       <TwoFactorAuthenticate />

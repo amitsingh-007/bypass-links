@@ -3,6 +3,7 @@ import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
 import identity from "GlobalHelpers/chrome/identity";
 import runtime from "GlobalHelpers/chrome/runtime";
 import storage from "GlobalHelpers/chrome/storage";
+import tabs from "GlobalHelpers/chrome/tabs";
 import { getSettings, getUserProfile } from "GlobalHelpers/fetchFromStorage";
 import { deleteAllCache } from "GlobalUtils/cache";
 import {
@@ -127,6 +128,9 @@ export const processPostLogout = async () => {
   AuthProgress.start("Clearing cache");
   await deleteAllCache([CACHE_BUCKET_KEYS.favicon, CACHE_BUCKET_KEYS.person]);
   AuthProgress.finish("Cleared cache");
+  //Open Google Seach and Google Image tabs
+  await tabs.create({ url: "https://www.google.com/" });
+  await tabs.create({ url: "https://www.google.com/imghp" });
   //Clear activity from google account
   if (hasManageGoogleActivityConsent) {
     await runtime.sendMessage<{ manageGoogleActivity: string }>({
