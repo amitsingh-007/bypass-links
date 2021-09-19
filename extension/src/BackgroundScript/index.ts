@@ -8,6 +8,10 @@ import turnOffInputSuggestions from "./misc/turnOffInputSuggestions";
 import { getExtensionState } from "GlobalHelpers/fetchFromStorage";
 import { getForumPageLinks } from "./misc/forumPageLinks";
 import { manageGoogleActivity } from "./automation/manageGoogleActivity";
+import {
+  clearSeachEntries,
+  stopClearSeachEntries,
+} from "./automation/searchEntries";
 
 //First time extension install
 chrome.runtime.onInstalled.addListener(() => {
@@ -51,6 +55,14 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     });
   } else if (message.manageGoogleActivity) {
     manageGoogleActivity().then(() => {
+      sendResponse({ isSuccess: true });
+    });
+  } else if (message.clearSearchEntries) {
+    clearSeachEntries(message.clearSearchEntries).then(() => {
+      sendResponse({ isSuccess: true });
+    });
+  } else if (message.stopClearSearchEntries) {
+    stopClearSeachEntries(message.stopClearSearchEntries).then(() => {
       sendResponse({ isSuccess: true });
     });
   }
