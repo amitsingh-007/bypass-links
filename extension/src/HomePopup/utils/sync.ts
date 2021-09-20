@@ -128,11 +128,11 @@ export const processPostLogout = async () => {
   AuthProgress.start("Clearing cache");
   await deleteAllCache([CACHE_BUCKET_KEYS.favicon, CACHE_BUCKET_KEYS.person]);
   AuthProgress.finish("Cleared cache");
-  //Open Google Seach and Google Image tabs
-  await tabs.create({ url: "https://www.google.com/" });
-  await tabs.create({ url: "https://www.google.com/imghp" });
-  //Clear activity from google account
   if (hasManageGoogleActivityConsent) {
+    //Open Google Seach and Google Image tabs
+    await tabs.create({ url: "https://www.google.com/" });
+    await tabs.create({ url: "https://www.google.com/imghp" });
+    //Clear activity from google account
     await runtime.sendMessage<{ manageGoogleActivity: string }>({
       manageGoogleActivity: true,
     });
