@@ -1,15 +1,16 @@
-import { Menu, Switch, Tooltip } from "@material-ui/core";
-import { withStyles } from "@material-ui/styles";
-import { styled } from "@material-ui/core/styles";
+import { Menu, Switch, Tooltip } from "@mui/material";
+import { withStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 
-export const BlackTooltip = withStyles((theme) => ({
+//TODO: check this
+export const BlackTooltip = withStyles((_theme) => ({
   tooltip: {
-    backgroundColor: theme.palette.common.black,
+    // backgroundColor: theme.palette.common.black,
     fontSize: 11,
-    boxShadow: theme.shadows[5],
+    // boxShadow: theme.shadows[5],
   },
   arrow: {
-    color: theme.palette.common.black,
+    // color: theme.palette.common.black,
   },
 }))(Tooltip);
 

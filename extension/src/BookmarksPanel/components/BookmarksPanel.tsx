@@ -1,4 +1,4 @@
-import { Box, GlobalStyles } from "@material-ui/core";
+import { Box, GlobalStyles } from "@mui/material";
 import { displayToast } from "GlobalActionCreators/toast";
 import { ScrollButton } from "GlobalComponents/ScrollButton";
 import { STORAGE_KEYS } from "GlobalConstants";

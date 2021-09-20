@@ -1,4 +1,4 @@
-import { SvgIcon, Typography } from "@material-ui/core";
+import { SvgIcon, Typography } from "@mui/material";
 import { BlackTooltip } from "GlobalComponents/StyledComponents";
 import { defaultBookmarkFolder } from "GlobalConstants";
 import { getCurrentTab } from "GlobalHelpers/chrome/tabs";

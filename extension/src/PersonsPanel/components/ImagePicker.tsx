@@ -10,8 +10,8 @@ import {
   SliderUnstyledTypeMap,
   TextField,
   Typography,
-} from "@material-ui/core";
-import { TransitionProps } from "@material-ui/core/transitions";
+} from "@mui/material";
+import { TransitionProps } from "@mui/material/transitions";
 import imageCompression from "browser-image-compression";
 import PanelHeading from "GlobalComponents/PanelHeading";
 import { FIREBASE_STORAGE_REF } from "GlobalConstants";

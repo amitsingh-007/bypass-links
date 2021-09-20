@@ -1,5 +1,5 @@
-import { Box } from "@material-ui/core";
-import { SxProps } from "@material-ui/system";
+import { Box } from "@mui/material";
+import { SxProps } from "@mui/system";
 import { memo } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { Subtract } from "utility-types";

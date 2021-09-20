@@ -1,4 +1,4 @@
-import { Box, Typography } from "@material-ui/core";
+import { Box, Typography } from "@mui/material";
 import CircleIcon from "@ui/icons/circle.svg";
 import Feature from "src/ui/interfaces/feature";
 import { memo } from "react";

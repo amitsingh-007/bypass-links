@@ -1,4 +1,4 @@
-import { Box, FormControlLabel } from "@material-ui/core";
+import { Box, FormControlLabel } from "@mui/material";
 import {
   turnOffExtension,
   turnOnExtension,

@@ -1,4 +1,4 @@
-import { Box, SvgIcon, Typography } from "@material-ui/core";
+import { Box, SvgIcon, Typography } from "@mui/material";
 import { displayToast } from "GlobalActionCreators/toast";
 import ContextMenu from "GlobalComponents/ContextMenu";
 import { MenuOption } from "GlobalInterfaces/menu";

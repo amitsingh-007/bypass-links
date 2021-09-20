@@ -1,4 +1,4 @@
-import { SvgIcon } from "@material-ui/core";
+import { SvgIcon } from "@mui/material";
 import { BYPASS_KEYS } from "GlobalConstants";
 import runtime from "GlobalHelpers/chrome/runtime";
 import tabs, { getCurrentTab } from "GlobalHelpers/chrome/tabs";

@@ -1,4 +1,4 @@
-import { Box, Button } from "@material-ui/core";
+import { Box, Button } from "@mui/material";
 import PanelHeading from "GlobalComponents/PanelHeading";
 import { STICKY_HEADER } from "GlobalConstants/styles";
 import { memo } from "react";

@@ -1,5 +1,5 @@
-import { Box, MenuItem, Typography, SvgIcon } from "@material-ui/core";
-import { SxProps } from "@material-ui/system";
+import { Box, MenuItem, Typography, SvgIcon } from "@mui/material";
+import { SxProps } from "@mui/system";
 import { VoidFunction } from "GlobalInterfaces/custom";
 import { MenuOption } from "GlobalInterfaces/menu";
 import { memo } from "react";

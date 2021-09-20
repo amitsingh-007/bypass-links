@@ -1,5 +1,5 @@
-import { Typography } from "@material-ui/core";
-import { SxProps } from "@material-ui/system";
+import { Typography } from "@mui/material";
+import { SxProps } from "@mui/system";
 
 const titleStyles = {
   fontSize: "18px",

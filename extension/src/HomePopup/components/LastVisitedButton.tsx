@@ -1,5 +1,5 @@
 import { FIREBASE_DB_REF } from "@common/constants/firebase";
-import { SvgIcon, Typography } from "@material-ui/core";
+import { SvgIcon, Typography } from "@mui/material";
 import { BlackTooltip } from "GlobalComponents/StyledComponents";
 import { getCurrentTab } from "GlobalHelpers/chrome/tabs";
 import { getLastVisited } from "GlobalHelpers/fetchFromStorage";

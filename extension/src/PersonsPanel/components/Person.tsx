@@ -1,4 +1,4 @@
-import { Avatar, Badge, Box, IconButton, Typography } from "@material-ui/core";
+import { Avatar, Badge, Box, IconButton, Typography } from "@mui/material";
 import ContextMenu from "GlobalComponents/ContextMenu";
 import { MenuOption } from "GlobalInterfaces/menu";
 import { memo, useCallback, useEffect, useState } from "react";

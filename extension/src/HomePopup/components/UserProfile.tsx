@@ -1,4 +1,4 @@
-import { Avatar, Box, Fade, IconButton, SvgIcon } from "@material-ui/core";
+import { Avatar, Box, Fade, IconButton, SvgIcon } from "@mui/material";
 import { ROUTES } from "GlobalConstants/routes";
 import { getUserProfile } from "GlobalHelpers/fetchFromStorage";
 import { RootState } from "GlobalReducers/rootReducer";

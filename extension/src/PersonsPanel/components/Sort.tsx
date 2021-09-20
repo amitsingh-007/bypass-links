@@ -5,7 +5,7 @@ import {
   MenuItem,
   Select,
   SelectProps,
-} from "@material-ui/core";
+} from "@mui/material";
 import { memo } from "react";
 import { SORT_ORDER, SORT_TYPE } from "../constants/sort";
 

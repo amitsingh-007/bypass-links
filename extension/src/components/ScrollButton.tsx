@@ -1,5 +1,5 @@
-import { Box, IconButton } from "@material-ui/core";
-import { alpha } from "@material-ui/core/styles";
+import { Box, IconButton } from "@mui/material";
+import { alpha } from "@mui/material/styles";
 import { memo } from "react";
 import { BsFillCaretDownFill, BsFillCaretUpFill } from "react-icons/bs";
 

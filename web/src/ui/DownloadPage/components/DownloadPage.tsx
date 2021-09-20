@@ -1,4 +1,4 @@
-import { Box } from "@material-ui/core";
+import { Box } from "@mui/material";
 import { memo } from "react";
 import AppHeader from "./AppHeader";
 import Footer from "./Footer";

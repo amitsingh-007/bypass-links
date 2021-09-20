@@ -1,4 +1,4 @@
-import { Box, Checkbox, IconButton, TextField } from "@material-ui/core";
+import { Box, Checkbox, IconButton, TextField } from "@mui/material";
 import tabs from "GlobalHelpers/chrome/tabs";
 import { memo, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";

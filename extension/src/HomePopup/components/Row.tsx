@@ -1,5 +1,5 @@
-import { Box } from "@material-ui/core";
-import { SxProps } from "@material-ui/system";
+import { Box } from "@mui/material";
+import { SxProps } from "@mui/system";
 
 export const Row: React.FC<{
   children: React.ReactNode;

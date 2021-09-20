@@ -1,4 +1,4 @@
-import { AppBar, Box, Toolbar } from "@material-ui/core";
+import { AppBar, Box, Toolbar } from "@mui/material";
 import { memo } from "react";
 import Image from "next/image";
 

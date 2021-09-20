@@ -1,5 +1,5 @@
 import { FIREBASE_DB_REF } from "@common/constants/firebase";
-import { Box } from "@material-ui/core";
+import { Box } from "@mui/material";
 import { getSettings } from "GlobalHelpers/fetchFromStorage";
 import { saveToFirebase } from "GlobalHelpers/firebase/database";
 import { memo, useEffect, useState } from "react";

@@ -4,7 +4,7 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-} from "@material-ui/core";
+} from "@mui/material";
 import { VoidFunction } from "GlobalInterfaces/custom";
 import { memo } from "react";
 

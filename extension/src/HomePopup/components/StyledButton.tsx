@@ -1,5 +1,5 @@
-import { ButtonTypeMap } from "@material-ui/core";
-import { LoadingButton } from "@material-ui/lab";
+import { ButtonTypeMap } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 import { memo } from "react";
 
 const StyledButton = memo<{

@@ -1,5 +1,5 @@
-import { Box, Button, LinearProgress, TextField } from "@material-ui/core";
-import { SxProps } from "@material-ui/system";
+import { Box, Button, LinearProgress, TextField } from "@mui/material";
+import { SxProps } from "@mui/system";
 import { memo, useState } from "react";
 import { TOTP_LENGTH } from "../constants";
 

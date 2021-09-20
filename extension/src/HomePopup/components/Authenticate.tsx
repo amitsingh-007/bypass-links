@@ -1,4 +1,4 @@
-import { Dialog, LinearProgress, SvgIcon, Typography } from "@material-ui/core";
+import { Dialog, LinearProgress, SvgIcon, Typography } from "@mui/material";
 import { setSignedInStatus } from "GlobalActionCreators";
 import { resetAuthenticationProgress } from "GlobalActionCreators/auth";
 import { displayToast } from "GlobalActionCreators/toast";

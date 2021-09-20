@@ -1,4 +1,4 @@
-import { Box, Typography } from "@material-ui/core";
+import { Box, Typography } from "@mui/material";
 import { BlackTooltip } from "GlobalComponents/StyledComponents";
 import tabs from "GlobalHelpers/chrome/tabs";
 import { memo, useCallback, useEffect, useState } from "react";

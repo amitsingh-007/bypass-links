@@ -1,6 +1,6 @@
-import { Slide, SlideProps } from "@material-ui/core";
-import Alert, { AlertProps } from "@material-ui/core/Alert";
-import Snackbar, { SnackbarProps } from "@material-ui/core/Snackbar";
+import { Slide, SlideProps } from "@mui/material";
+import Alert, { AlertProps } from "@mui/material/Alert";
+import Snackbar, { SnackbarProps } from "@mui/material/Snackbar";
 import { hideToast } from "GlobalActionCreators/toast";
 import { Dispatch } from "redux";
 import { useEffect, useState } from "react";

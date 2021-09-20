@@ -1,5 +1,5 @@
-import { CssBaseline } from "@material-ui/core";
-import { createTheme, ThemeProvider } from "@material-ui/core/styles";
+import { CssBaseline } from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import "@ui/styles/globals.scss";
 import { AppProps } from "next/dist/shared/lib/router/router";
 import { StrictMode } from "react";

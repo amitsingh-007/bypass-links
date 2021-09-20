@@ -1,5 +1,5 @@
-import { Box, Button, SelectProps } from "@material-ui/core";
-import { LoadingButton } from "@material-ui/lab";
+import { Box, Button, SelectProps } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 import { displayToast } from "GlobalActionCreators/toast";
 import {
   AccordionHeader,

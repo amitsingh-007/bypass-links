@@ -2,9 +2,9 @@
 // if (!__PROD__) {
 //   require("./scripts/wdyr");
 // }
-import { CssBaseline } from "@material-ui/core";
-import darkScrollbar from "@material-ui/core/darkScrollbar";
-import { createTheme, ThemeProvider } from "@material-ui/core/styles";
+import { CssBaseline } from "@mui/material";
+import darkScrollbar from "@mui/material/darkScrollbar";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ErrorBoundary from "GlobalComponents/ErrorBoundary";
 import { BG_COLOR_BLACK } from "GlobalConstants/color";
 import Global from "GlobalContainers/Global";

@@ -1,5 +1,5 @@
-import { Box, InputBase } from "@material-ui/core";
-import { alpha } from "@material-ui/core/styles";
+import { Box, InputBase } from "@mui/material";
+import { alpha } from "@mui/material/styles";
 import { IntersectionObserverResponse } from "GlobalInterfaces/overrides";
 import { memo, useEffect, useRef } from "react";
 import { GoSearch } from "react-icons/go";

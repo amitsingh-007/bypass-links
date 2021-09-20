@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { PopoverPosition } from "@material-ui/core/Popover";
+import { PopoverPosition } from "@mui/material/Popover";
 import { VoidFunction } from "GlobalInterfaces/custom";
 
 const initialMouseState = { left: 0, top: 0 };

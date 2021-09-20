@@ -8,8 +8,8 @@ import {
   Slide,
   SvgIcon,
   Typography,
-} from "@material-ui/core";
-import { TransitionProps } from "@material-ui/core/transitions";
+} from "@mui/material";
+import { TransitionProps } from "@mui/material/transitions";
 import { displayToast } from "GlobalActionCreators/toast";
 import PanelHeading from "GlobalComponents/PanelHeading";
 import { BlackTooltip } from "GlobalComponents/StyledComponents";

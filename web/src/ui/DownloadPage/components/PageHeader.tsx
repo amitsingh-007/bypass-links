@@ -1,4 +1,4 @@
-import { Box, Typography } from "@material-ui/core";
+import { Box, Typography } from "@mui/material";
 import ChromeIcon from "@ui/icons/chrome.svg";
 import fetchApi from "@common/utils/fetch";
 import { memo, useEffect, useState } from "react";

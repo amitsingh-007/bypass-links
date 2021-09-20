@@ -1,5 +1,5 @@
-import { Dialog, DialogContent, Slide } from "@material-ui/core";
-import { TransitionProps } from "@material-ui/core/transitions";
+import { Dialog, DialogContent, Slide } from "@mui/material";
+import { TransitionProps } from "@mui/material/transitions";
 import storage from "GlobalHelpers/chrome/storage";
 import { displayToast } from "GlobalActionCreators/toast";
 import { STORAGE_KEYS } from "GlobalConstants";

@@ -1,4 +1,4 @@
-import { Box } from "@material-ui/core";
+import { Box } from "@mui/material";
 import { ScrollButton } from "GlobalComponents/ScrollButton";
 import { PANEL_SIZE, PERSON_SIZE } from "GlobalConstants/styles";
 import { deserialzeQueryStringToObject } from "GlobalUtils/url";

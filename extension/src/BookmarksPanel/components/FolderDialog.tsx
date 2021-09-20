@@ -1,4 +1,4 @@
-import { TextField } from "@material-ui/core";
+import { TextField } from "@mui/material";
 import { EditDialog } from "GlobalComponents/Dialogs";
 import { VoidFunction } from "GlobalInterfaces/custom";
 import { useState } from "react";

@@ -1,4 +1,4 @@
-import { Box, GlobalStyles } from "@material-ui/core";
+import { Box, GlobalStyles } from "@mui/material";
 import { displayToast } from "GlobalActionCreators/toast";
 import { PANEL_DIMENSIONS_PX } from "GlobalConstants/styles";
 import { getPersons } from "GlobalHelpers/fetchFromStorage";

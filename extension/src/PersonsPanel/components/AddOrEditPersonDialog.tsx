@@ -1,4 +1,4 @@
-import { Avatar, Box, TextField } from "@material-ui/core";
+import { Avatar, Box, TextField } from "@mui/material";
 import { EditDialog } from "GlobalComponents/Dialogs";
 import { getImageFromFirebase } from "GlobalHelpers/firebase/storage";
 import { VoidFunction } from "GlobalInterfaces/custom";

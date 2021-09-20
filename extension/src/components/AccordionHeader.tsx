@@ -3,7 +3,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
-} from "@material-ui/core";
+} from "@mui/material";
 import { STICKY_HEADER } from "GlobalConstants/styles";
 import { useRef } from "react";
 import { useCallback } from "react";

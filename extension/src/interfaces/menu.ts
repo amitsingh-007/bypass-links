@@ -1,4 +1,4 @@
-import { SvgIconProps } from "@material-ui/core";
+import { SvgIconProps } from "@mui/material";
 import { VoidFunction } from "./custom";
 
 export interface MenuOption {

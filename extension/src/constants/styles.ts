@@ -1,4 +1,4 @@
-import { SxProps } from "@material-ui/system";
+import { SxProps } from "@mui/system";
 import { BG_COLOR_DARK } from "./color";
 
 export const PANEL_SIZE = {

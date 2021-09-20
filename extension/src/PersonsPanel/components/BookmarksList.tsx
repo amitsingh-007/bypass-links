@@ -6,7 +6,7 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
-} from "@material-ui/core";
+} from "@mui/material";
 import PanelHeading from "GlobalComponents/PanelHeading";
 import SearchWrapper from "GlobalComponents/SearchWrapper";
 import { BG_COLOR_DARK } from "GlobalConstants/color";

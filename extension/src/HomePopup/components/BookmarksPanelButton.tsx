@@ -1,4 +1,4 @@
-import { SvgIcon } from "@material-ui/core";
+import { SvgIcon } from "@mui/material";
 import { RootState } from "GlobalReducers/rootReducer";
 import { memo } from "react";
 import { RiBookMarkFill } from "react-icons/ri";

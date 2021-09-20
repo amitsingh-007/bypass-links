@@ -1,5 +1,5 @@
 import { FIREBASE_DB_REF } from "@common/constants/firebase";
-import { Box } from "@material-ui/core";
+import { Box } from "@mui/material";
 import { displayToast } from "GlobalActionCreators/toast";
 import { ROUTES } from "GlobalConstants/routes";
 import { PANEL_DIMENSIONS_PX } from "GlobalConstants/styles";

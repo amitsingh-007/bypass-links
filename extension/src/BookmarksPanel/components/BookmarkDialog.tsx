@@ -1,4 +1,4 @@
-import { Box, IconButton, SelectProps, TextField } from "@material-ui/core";
+import { Box, IconButton, SelectProps, TextField } from "@mui/material";
 import { EditDialog } from "GlobalComponents/Dialogs";
 import runtime from "GlobalHelpers/chrome/runtime";
 import { VoidFunction } from "GlobalInterfaces/custom";

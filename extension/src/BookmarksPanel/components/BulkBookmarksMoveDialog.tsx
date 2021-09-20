@@ -1,4 +1,4 @@
-import { SelectProps } from "@material-ui/core";
+import { SelectProps } from "@mui/material";
 import { EditDialog } from "GlobalComponents/Dialogs";
 import { VoidFunction } from "GlobalInterfaces/custom";
 import { useState } from "react";

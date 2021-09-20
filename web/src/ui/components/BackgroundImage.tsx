@@ -1,4 +1,4 @@
-import { Box } from "@material-ui/core";
+import { Box } from "@mui/material";
 import Image, { ImageProps } from "next/image";
 
 type Props = Pick<ImageProps, "alt" | "height"> & {

@@ -5,7 +5,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-} from "@material-ui/core";
+} from "@mui/material";
 import { VoidFunction } from "GlobalInterfaces/custom";
 import { MdClose, MdDone } from "react-icons/md";
 import { RiBookmark2Fill } from "react-icons/ri";

@@ -1,4 +1,4 @@
-import { Box } from "@material-ui/core";
+import { Box } from "@mui/material";
 import { memo } from "react";
 import { areEqual } from "react-window";
 import {

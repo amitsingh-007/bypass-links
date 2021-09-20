@@ -1,7 +1,13 @@
-import { Box, IconButton, SvgIconProps, Typography } from "@material-ui/core";
-import AccessTimeFilledRoundedIcon from "@material-ui/icons/AccessTimeFilledRounded";
-import ExtensionRoundedIcon from "@material-ui/icons/ExtensionRounded";
-import GitHubIcon from "@material-ui/icons/GitHub";
+import {
+  Box,
+  IconButton,
+  SvgIcon,
+  SvgIconProps,
+  Typography,
+} from "@mui/material";
+import { GoMarkGithub } from "react-icons/go";
+import { MdExtension } from "react-icons/md";
+import { RiTimeFill } from "react-icons/ri";
 import BackgroundImage from "src/ui/components/BackgroundImage";
 
 const Info = ({
@@ -12,7 +18,9 @@ const Info = ({
   text: string;
 }) => (
   <Box sx={{ display: "flex", alignItems: "center", mt: "10px" }}>
-    <Icon fontSize="small" />
+    <SvgIcon fontSize="medium">
+      <Icon />
+    </SvgIcon>
     <Typography sx={{ ml: "10px", fontWeight: 500 }}>{text}</Typography>
   </Box>
 );
@@ -31,17 +39,18 @@ const Footer = () => {
           }}
         >
           <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Info icon={ExtensionRoundedIcon} text={`v ${__EXT_VERSION__}`} />
-            <Info icon={AccessTimeFilledRoundedIcon} text={__RELEASE_DATE__} />
+            <Info icon={MdExtension} text={`v ${__EXT_VERSION__}`} />
+            <Info icon={RiTimeFill} text={__RELEASE_DATE__} />
           </Box>
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <Box
               component="a"
+              target="_blank"
               href="https://github.com/amitsingh-007/bypass-links"
               title="Bypass Links Github Page"
             >
-              <IconButton>
-                <GitHubIcon fontSize="large" />
+              <IconButton size="large">
+                <GoMarkGithub />
               </IconButton>
             </Box>
           </Box>

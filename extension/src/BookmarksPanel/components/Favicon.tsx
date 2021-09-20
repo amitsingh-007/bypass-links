@@ -1,5 +1,5 @@
-import { Box, SvgIcon } from "@material-ui/core";
-import { SxProps } from "@material-ui/system";
+import { Box, SvgIcon } from "@mui/material";
+import { SxProps } from "@mui/system";
 import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
 import { getBlobUrlFromCache } from "GlobalUtils/cache";
 import { forwardRef, memo, useCallback, useEffect, useState } from "react";

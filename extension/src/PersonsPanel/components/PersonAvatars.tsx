@@ -1,4 +1,4 @@
-import { Avatar, AvatarGroup, Box } from "@material-ui/core";
+import { Avatar, AvatarGroup, Box } from "@mui/material";
 import { CircularTooltip } from "GlobalComponents/StyledComponents";
 import { memo } from "react";
 import { RiUserUnfollowFill } from "react-icons/ri";

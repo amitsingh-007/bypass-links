@@ -12,7 +12,7 @@ import {
   Select,
   SelectProps,
   TextField,
-} from "@material-ui/core";
+} from "@mui/material";
 import { memo, useState } from "react";
 import { IPersonWithImage } from "SrcPath/PersonsPanel/interfaces/persons";
 

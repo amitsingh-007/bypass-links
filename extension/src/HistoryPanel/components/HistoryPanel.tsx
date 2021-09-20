@@ -1,7 +1,7 @@
-import { Box, Button, TextField } from "@material-ui/core";
-import AdapterDayjs from "@material-ui/lab/AdapterDayjs";
-import DesktopDateTimePicker from "@material-ui/lab/DesktopDateTimePicker";
-import LocalizationProvider from "@material-ui/lab/LocalizationProvider";
+import { Box, Button, TextField } from "@mui/material";
+import AdapterDayjs from "@mui/lab/AdapterDayjs";
+import DesktopDateTimePicker from "@mui/lab/DesktopDateTimePicker";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import { displayToast } from "GlobalActionCreators/toast";
 import PanelHeading from "GlobalComponents/PanelHeading";
 import { BG_COLOR_DARK } from "GlobalConstants/color";

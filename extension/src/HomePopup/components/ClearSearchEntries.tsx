@@ -1,5 +1,4 @@
-import { Button, SvgIcon } from "@material-ui/core";
-import { Box } from "@material-ui/system";
+import { Box, Button, SvgIcon } from "@mui/material";
 import runtime from "GlobalHelpers/chrome/runtime";
 import { getCurrentTab } from "GlobalHelpers/chrome/tabs";
 import { RootState } from "GlobalReducers/rootReducer";
