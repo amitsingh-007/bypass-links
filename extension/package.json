@@ -28,7 +28,6 @@
     "@emotion/styled": "11.3.0",
     "@mui/material": "5.0.0",
     "@mui/lab": "5.0.0-alpha.46",
-    "@mui/styles": "5.0.0",
     "@welldone-software/why-did-you-render": "6.2.1",
     "browser-image-compression": "1.0.15",
     "dayjs": "1.10.7",

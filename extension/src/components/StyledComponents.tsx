@@ -1,32 +1,32 @@
 import { Menu, Switch, Tooltip } from "@mui/material";
-import { withStyles } from "@mui/styles";
+import { menuClasses } from "@mui/material/Menu";
 import { styled } from "@mui/material/styles";
+import { tooltipClasses, TooltipProps } from "@mui/material/Tooltip";
 
-//TODO: check this
-export const BlackTooltip = withStyles((_theme) => ({
-  tooltip: {
-    // backgroundColor: theme.palette.common.black,
-    fontSize: 11,
-    // boxShadow: theme.shadows[5],
+export const BlackTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} arrow classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.arrow}`]: {
+    color: theme.palette.common.black,
   },
-  arrow: {
-    // color: theme.palette.common.black,
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: theme.palette.common.black,
   },
-}))(Tooltip);
+}));
 
-export const CircularTooltip = withStyles(() => ({
-  tooltip: {
+export const CircularTooltip = styled(BlackTooltip)(() => ({
+  [`& .${tooltipClasses.tooltip}`]: {
     borderRadius: "50%",
     padding: "4px",
   },
-}))(BlackTooltip);
+}));
 
-export const RightClickMenu = withStyles(() => ({
-  paper: {
+export const RightClickMenu = styled(Menu)(() => ({
+  [`& .${menuClasses.paper}`]: {
     minWidth: "150px",
     borderRadius: "10px",
   },
-}))(Menu);
+}));
 
 export const StyledSwitch = styled(Switch)(({ theme }) => ({
   padding: 8,
