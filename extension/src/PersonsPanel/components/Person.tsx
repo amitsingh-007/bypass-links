@@ -9,23 +9,20 @@ import { IPerson } from "../interfaces/persons";
 import { resolvePersonImageFromUid } from "../utils";
 import { getPersonsPanelUrl } from "../utils/urls";
 import AddOrEditPersonDialog from "./AddOrEditPersonDialog";
-import BookmarksList from "./BookmarksList";
 
 const imageStyles = { width: 100, height: 100 };
 
 export interface Props {
   person: IPerson;
-  openBookmarksListUid: string;
   handleEditPerson: (person: IPerson) => void;
   handlePersonDelete: (person: IPerson) => void;
 }
 
 const Person = memo<Props>(
-  ({ person, openBookmarksListUid, handleEditPerson, handlePersonDelete }) => {
+  ({ person, handleEditPerson, handlePersonDelete }) => {
     const history = useHistory();
     const { uid, name, taggedUrls } = person;
     const [imageUrl, setImageUrl] = useState("");
-    const [showBookmarksList, setShowBookmarksList] = useState(false);
     const [showEditPersonDialog, setShowEditPersonDialog] = useState(false);
     const [menuOptions, setMenuOptions] = useState<MenuOption[]>([]);
 
@@ -58,10 +55,6 @@ const Person = memo<Props>(
         setImageUrl(url);
       });
     }, [uid, person]);
-
-    useEffect(() => {
-      setShowBookmarksList(openBookmarksListUid === uid);
-    }, [openBookmarksListUid, uid]);
 
     const handlePersonSave = (updatedPerson: IPerson) => {
       handleEditPerson(updatedPerson);
@@ -124,13 +117,6 @@ const Person = memo<Props>(
             </ContextMenu>
           </Box>
         </IconButton>
-        {showBookmarksList && (
-          <BookmarksList
-            name={name}
-            imageUrl={imageUrl}
-            taggedUrls={taggedUrls}
-          />
-        )}
         {showEditPersonDialog && (
           <AddOrEditPersonDialog
             person={person}

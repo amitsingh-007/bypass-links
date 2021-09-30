@@ -9,7 +9,6 @@ export interface VirtualCellProps {
   persons: IPerson[];
   handleEditPerson: PersonProps["handleEditPerson"];
   handlePersonDelete: PersonProps["handlePersonDelete"];
-  openBookmarksListUid: PersonProps["openBookmarksListUid"];
 }
 
 const VirtualCell = memo<{
@@ -18,12 +17,7 @@ const VirtualCell = memo<{
   style: React.CSSProperties;
   data: VirtualCellProps;
 }>(({ columnIndex, rowIndex, data, style }) => {
-  const {
-    persons,
-    handleEditPerson,
-    handlePersonDelete,
-    openBookmarksListUid,
-  } = data;
+  const { persons, handleEditPerson, handlePersonDelete } = data;
   const index = getReactKey(rowIndex, columnIndex);
   if (index >= persons.length) {
     return null;
@@ -34,7 +28,6 @@ const VirtualCell = memo<{
         person={persons[index]}
         handleEditPerson={handleEditPerson}
         handlePersonDelete={handlePersonDelete}
-        openBookmarksListUid={openBookmarksListUid}
       />
     </Box>
   );
