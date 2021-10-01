@@ -2,6 +2,7 @@ import { Typography } from "@mui/material";
 import { SxProps } from "@mui/system";
 
 const titleStyles = {
+  userSelect: "none",
   fontSize: "18px",
   marginRight: "14px",
   fontWeight: "700",
@@ -19,7 +20,6 @@ const PanelHeading: React.FC<Props> = ({ heading, containerStyles = {} }) => (
     variant="h1"
     display="inline"
     sx={{
-      userSelect: "none",
       ...titleStyles,
       ...containerStyles,
     }}
