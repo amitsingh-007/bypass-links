@@ -122,12 +122,11 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
         />
         <Droppable droppableId="redirections-list">
           {(provided) => (
-            <form
-              noValidate
-              autoComplete="off"
-              style={{
+            <Box
+              sx={{
                 paddingLeft: "12px",
-                minHeight: PANEL_DIMENSIONS_PX.height,
+                height: PANEL_DIMENSIONS_PX.height,
+                overflowY: "scroll",
               }}
               ref={provided.innerRef}
               {...provided.droppableProps}
@@ -146,7 +145,7 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
                   ))
                 : null}
               {provided.placeholder}
-            </form>
+            </Box>
           )}
         </Droppable>
       </Box>
