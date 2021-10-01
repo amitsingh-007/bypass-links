@@ -1,20 +1,8 @@
 import { Box, Typography } from "@mui/material";
 import ChromeIcon from "@ui/icons/chrome.svg";
-import fetchApi from "@common/utils/fetch";
-import { memo, useEffect, useState } from "react";
+import { memo } from "react";
 
-const PageHeader = memo(() => {
-  const [downloadLink, setDownloadLink] = useState("");
-
-  const fetchDownloadLink = async () => {
-    const { extension } = await fetchApi("/api/extension");
-    setDownloadLink(extension);
-  };
-
-  useEffect(() => {
-    fetchDownloadLink();
-  }, []);
-
+const PageHeader = memo<{ downloadLink: string }>(({ downloadLink }) => {
   return (
     <Box
       sx={{

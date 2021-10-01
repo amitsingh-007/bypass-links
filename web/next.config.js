@@ -35,7 +35,7 @@ const nextConfig = {
         __PROD__: JSON.stringify(!dev),
         __EXT_VERSION__: JSON.stringify(extVersion),
         __RELEASE_DATE__: JSON.stringify(releaseDate),
-        HOST_NAME: JSON.stringify(""),
+        HOST_NAME: JSON.stringify(process.env.HOST_NAME),
         __SERVER__: JSON.stringify(isServer),
       })
     );
