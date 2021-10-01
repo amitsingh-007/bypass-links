@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "next build",
+    "build": "better-npm-run build",
     "dev": "npm run pre:dev && better-npm-run dev",
     "lint": "next lint",
     "pre:dev": "cd .. && vercel env pull web/.env.local",
@@ -13,7 +13,14 @@
     "dev": {
       "command": "next dev",
       "env": {
-        "NODE_OPTIONS": "--inspect"
+        "NODE_OPTIONS": "--inspect",
+        "HOST_NAME": "http://localhost:3000"
+      }
+    },
+    "build": {
+      "command": "next build",
+      "env": {
+        "HOST_NAME": "https://bypass-links.vercel.app"
       }
     }
   },

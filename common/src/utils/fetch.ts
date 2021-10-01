@@ -28,4 +28,3 @@ const fetchApi = <T = any>(url: string, options?: IOptions): Promise<T> => {
 };
 
 export default fetchApi;
-
