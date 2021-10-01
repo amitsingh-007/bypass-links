@@ -58,11 +58,12 @@ const Verify2FA = memo<{
           type="number"
           color="primary"
           variant="outlined"
-          label="Enter TOTP to verify"
+          label="Enter TOTP"
           title={totp}
           value={totp}
           onChange={handleTOTPChange}
           sx={totpInputStyles}
+          inputProps={{ sx: { px: "16px", letterSpacing: "17px" } }}
         />
         <Button
           type="submit"
