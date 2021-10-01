@@ -29,7 +29,7 @@
     "@mui/material": "5.0.1",
     "@mui/lab": "5.0.0-alpha.48",
     "@welldone-software/why-did-you-render": "6.2.1",
-    "browser-image-compression": "1.0.15",
+    "browser-image-compression": "1.0.16",
     "dayjs": "1.10.7",
     "firebase": "9.1.0",
     "md5": "2.3.0",
