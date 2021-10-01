@@ -202,7 +202,8 @@ class Header extends PureComponent<Props, State> {
               {isFetching && <Loader />}
             </Box>
             <PanelHeading
-              heading={`BOOKMARKS PANEL (${contextBookmarks?.length || 0})`}
+              heading={`${curFolder} (${contextBookmarks?.length || 0})`}
+              containerStyles={{ textTransform: "uppercase" }}
             />
           </PrimaryHeaderContent>
           <SecondaryHeaderContent>
