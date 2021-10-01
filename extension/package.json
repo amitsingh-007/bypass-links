@@ -27,7 +27,7 @@
     "@emotion/react": "11.4.1",
     "@emotion/styled": "11.3.0",
     "@mui/material": "5.0.2",
-    "@mui/lab": "5.0.0-alpha.48",
+    "@mui/lab": "5.0.0-alpha.49",
     "@welldone-software/why-did-you-render": "6.2.1",
     "browser-image-compression": "1.0.16",
     "dayjs": "1.10.7",
