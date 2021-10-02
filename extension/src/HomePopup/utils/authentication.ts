@@ -1,5 +1,6 @@
 import identity from "GlobalHelpers/chrome/identity";
 import { googleSignIn, googleSignOut } from "GlobalHelpers/firebase/auth";
+import { Dispatch } from "redux";
 import { UserInfo } from "../interfaces/authentication";
 import { AuthProgress } from "./authProgress";
 import { processPostLogin, processPostLogout, processPreLogout } from "./sync";
@@ -21,9 +22,9 @@ const userSignIn = async (): Promise<UserInfo> => {
   return userInfo;
 };
 
-export const signIn = async (): Promise<boolean> => {
+export const signIn = async (dispatch: Dispatch): Promise<boolean> => {
   try {
-    AuthProgress.initialize(6);
+    AuthProgress.initialize(6, dispatch);
     const userProfile = await userSignIn();
     await processPostLogin(userProfile);
     console.log("--------------Login Success--------------");
@@ -31,14 +32,14 @@ export const signIn = async (): Promise<boolean> => {
   } catch (err) {
     console.error("Error occured while signing in. ", err);
     console.log("Reverting due to login error...");
-    await signOut();
+    await signOut(dispatch);
     return false;
   }
 };
 
-export const signOut = async (): Promise<boolean> => {
+export const signOut = async (dispatch: Dispatch): Promise<boolean> => {
   try {
-    AuthProgress.initialize(4);
+    AuthProgress.initialize(4, dispatch);
     await processPreLogout();
     AuthProgress.start("Logging out user");
     await googleSignOut();
