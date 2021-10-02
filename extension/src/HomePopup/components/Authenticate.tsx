@@ -21,7 +21,7 @@ const Authenticate = memo(() => {
 
   const handleSignIn = async () => {
     setIsFetching(true);
-    const isSignedIn = await signIn();
+    const isSignedIn = await signIn(dispatch);
     setIsSignedIn(isSignedIn);
     dispatch(setSignedInStatus(isSignedIn));
     dispatch(resetAuthenticationProgress());
@@ -30,7 +30,7 @@ const Authenticate = memo(() => {
 
   const handleSignOut = useCallback(async () => {
     setIsFetching(true);
-    const isSignedOut = await signOut();
+    const isSignedOut = await signOut(dispatch);
     if (!isSignedOut) {
       dispatch(
         displayToast({

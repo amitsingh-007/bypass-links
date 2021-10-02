@@ -1,14 +1,9 @@
-import { setAuthenticationProgress } from "GlobalActionCreators/auth";
 import Toast from "GlobalComponents/Toast";
-import { AuthenticationEvent } from "GlobalInterfaces/authentication";
-import { memo, useCallback, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { memo, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { AUTHENTICATION_EVENT } from "SrcPath/HomePopup/constants/auth";
 import StoreListener from "./StoreListener";
 
 const Global = memo(function Global() {
-  const dispatch = useDispatch();
   const history = useHistory();
 
   useEffect(() => {
@@ -24,26 +19,6 @@ const Global = memo(function Global() {
       document.body.removeEventListener("keydown", handleGoBack);
     };
   }, [history]);
-
-  const handleAuthenticationEvent = useCallback(
-    (event: CustomEvent<AuthenticationEvent>) => {
-      dispatch(setAuthenticationProgress(event.detail));
-    },
-    [dispatch]
-  );
-
-  useEffect(() => {
-    document.addEventListener<any>(
-      AUTHENTICATION_EVENT,
-      handleAuthenticationEvent
-    );
-    return () => {
-      document.removeEventListener<any>(
-        AUTHENTICATION_EVENT,
-        handleAuthenticationEvent
-      );
-    };
-  }, [handleAuthenticationEvent]);
 
   return (
     <>

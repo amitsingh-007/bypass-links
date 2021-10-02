@@ -1,49 +1,48 @@
+import { setAuthenticationProgress } from "GlobalActionCreators/auth";
 import { AuthenticationEvent } from "GlobalInterfaces/authentication";
-import { AUTHENTICATION_EVENT } from "../constants/auth";
+import { Dispatch } from "redux";
 
 export class AuthProgress {
-  private static total: number;
+  private static _total: number;
+  private static _curProgress: number;
+  private static _dispatch: Dispatch;
 
-  private static curProgress: number;
-
-  static initialize = (total: number) => {
-    this.total = total;
-    this.curProgress = -1;
+  static initialize = (total: number, dispatch: Dispatch) => {
+    this._total = total;
+    this._curProgress = -1;
+    this._dispatch = dispatch; // dispatch will remain same untill we pass new store in Provider
   };
 
   static dispatchAuthenticationEvent = (
     authProgressObj: AuthenticationEvent
   ) => {
-    const event = new CustomEvent(AUTHENTICATION_EVENT, {
-      detail: authProgressObj,
-    });
-    document.dispatchEvent(event);
+    this._dispatch(setAuthenticationProgress(authProgressObj));
   };
 
   static start = (message: string) => {
     this.dispatchAuthenticationEvent({
       message,
-      progress: ++this.curProgress,
-      progressBuffer: this.curProgress + 1,
-      total: this.total,
+      progress: ++this._curProgress,
+      progressBuffer: this._curProgress + 1,
+      total: this._total,
     });
   };
 
   static update = (message: string) => {
     this.dispatchAuthenticationEvent({
       message,
-      progress: this.curProgress,
-      progressBuffer: this.curProgress + 1,
-      total: this.total,
+      progress: this._curProgress,
+      progressBuffer: this._curProgress + 1,
+      total: this._total,
     });
   };
 
   static finish = (message: string) => {
     this.dispatchAuthenticationEvent({
       message,
-      progress: this.curProgress + 1,
-      progressBuffer: this.curProgress + 1,
-      total: this.total,
+      progress: this._curProgress + 1,
+      progressBuffer: this._curProgress + 1,
+      total: this._total,
     });
   };
 }
