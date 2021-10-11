@@ -57,7 +57,7 @@
     "@types/qrcode": "1.4.1",
     "@types/react-beautiful-dnd": "13.1.2",
     "@types/react-dom": "17.0.9",
-    "@types/react-router-dom": "5.3.0",
+    "@types/react-router-dom": "5.3.1",
     "@types/react-window": "1.8.5",
     "@types/redux-logger": "3.0.9",
     "@types/requestidlecallback": "0.3.4",
