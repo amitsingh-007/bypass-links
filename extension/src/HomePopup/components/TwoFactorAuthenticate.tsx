@@ -12,7 +12,7 @@ import Verify2FA from "SrcPath/SettingsPanel/components/Verify2FA";
 import { getUserProfile } from "GlobalHelpers/fetchFromStorage";
 
 const Transition = forwardRef(function Transition(
-  props: TransitionProps & { children?: React.ReactElement<any, any> },
+  props: TransitionProps & { children: React.ReactElement<any, any> },
   ref: React.Ref<unknown>
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
