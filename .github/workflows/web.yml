@@ -3,6 +3,7 @@ on:
   push:
     branches-ignore:
       - "main"
+      - "release-**"
       - "dependabot/**"
     paths-ignore:
       - "extension/**"
