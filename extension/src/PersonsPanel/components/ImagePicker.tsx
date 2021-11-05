@@ -32,7 +32,7 @@ const IMAGE_COMPRESSION_OPTIONS = {
 };
 
 const Transition = forwardRef(function Transition(
-  props: TransitionProps & { children: React.ReactElement<any, any> },
+  props: TransitionProps & { children?: React.ReactElement<any, any> },
   ref: React.Ref<unknown>
 ) {
   return <Slide direction="left" ref={ref} {...props} />;
