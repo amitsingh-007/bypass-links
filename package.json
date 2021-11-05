@@ -8,9 +8,6 @@
     "build": "lerna run build --parallel --stream",
     "ext:build": "lerna run build --scope=extension --stream",
     "ext:dev": "cd extension && npm run dev",
-    "pre-commit": "npm run pretty-quick",
-    "prepare": "husky install",
-    "pretty-quick": "pretty-quick --staged",
     "vercel:deploy": "vercel --prod",
     "vercel:preview": "vercel",
     "web:build": "lerna run build --scope=web --stream",
@@ -22,9 +19,7 @@
     "eslint": "7.32.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-prettier": "4.0.0",
-    "husky": "7.0.4",
     "lerna": "4.0.0",
-    "prettier": "2.4.1",
-    "pretty-quick": "3.1.1"
+    "prettier": "2.4.1"
   }
 }
