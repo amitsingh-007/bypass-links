@@ -34,7 +34,7 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Start preview deployment 🚀
-        uses: bobheadxi/deployments@v0.6.0
+        uses: bobheadxi/deployments@v0.6.1
         id: preview-deployment
         with:
           step: start
@@ -51,7 +51,7 @@ jobs:
           github-comment: false
 
       - name: Finish preview deployment 🌙
-        uses: bobheadxi/deployments@v0.6.0
+        uses: bobheadxi/deployments@v0.6.1
         if: always()
         with:
           step: finish
