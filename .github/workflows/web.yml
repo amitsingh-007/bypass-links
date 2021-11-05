@@ -4,6 +4,7 @@ on:
     branches-ignore:
       - "main"
       - "dependabot/**"
+      - "f-test-deps-on-ci"
     paths-ignore:
       - "extension/**"
 
