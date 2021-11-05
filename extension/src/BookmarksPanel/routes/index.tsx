@@ -1,7 +1,7 @@
 import { ROUTES } from "GlobalConstants/routes";
 import { deserialzeQueryStringToObject } from "GlobalUtils/url";
 import { lazy } from "react";
-import { Route } from "react-router-dom";
+import { Route, useLocation } from "react-router-dom";
 import { BMPanelQueryParams } from "../interfaces/url";
 
 const BookmarksPanel = lazy(
@@ -18,13 +18,13 @@ const getQueryParams = (qs: string): BMPanelQueryParams => {
     bmUrl,
   };
 };
+
+const BookmarksPanelWrapper = () => {
+  const location = useLocation();
+  const queryParams = getQueryParams(location.search);
+  return <BookmarksPanel {...queryParams} />;
+};
+
 export const BookmarksPanelRoute = (
-  <Route
-    exact
-    path={ROUTES.BOOKMARK_PANEL}
-    render={(props) => {
-      const queryParams = getQueryParams(props.location.search);
-      return <BookmarksPanel {...queryParams} {...props} />;
-    }}
-  />
+  <Route path={ROUTES.BOOKMARK_PANEL} element={<BookmarksPanelWrapper />} />
 );

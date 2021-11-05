@@ -3,16 +3,16 @@ import { RootState } from "GlobalReducers/rootReducer";
 import { memo } from "react";
 import { RiBookMarkFill } from "react-icons/ri";
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getBookmarksPanelUrl } from "SrcPath/BookmarksPanel/utils/url";
 import StyledButton from "./StyledButton";
 
 const BookmarksPanelButton = memo(function BookmarksPanelButton() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { isSignedIn } = useSelector((state: RootState) => state.root);
 
   const handleShowEditPanel = () => {
-    history.push(getBookmarksPanelUrl({}));
+    navigate(getBookmarksPanelUrl({}));
   };
 
   return (

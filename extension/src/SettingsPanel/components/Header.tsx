@@ -3,13 +3,13 @@ import PanelHeading from "GlobalComponents/PanelHeading";
 import { STICKY_HEADER } from "GlobalConstants/styles";
 import { memo } from "react";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Header = memo(function Header() {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleClose = () => {
-    history.goBack();
+    navigate(-1);
   };
 
   return (

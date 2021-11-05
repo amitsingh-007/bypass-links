@@ -1,24 +1,24 @@
 import Toast from "GlobalComponents/Toast";
 import { memo, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import StoreListener from "./StoreListener";
 
 const Global = memo(function Global() {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleGoBack = (event: KeyboardEvent) => {
       const isBackspace = event.key === "Backspace";
       const isInputElem = (event.target as Element).tagName === "INPUT";
       if (isBackspace && !isInputElem) {
-        history.goBack();
+        navigate(-1);
       }
     };
     document.body.addEventListener("keydown", handleGoBack);
     return () => {
       document.body.removeEventListener("keydown", handleGoBack);
     };
-  }, [history]);
+  }, [navigate]);
 
   return (
     <>

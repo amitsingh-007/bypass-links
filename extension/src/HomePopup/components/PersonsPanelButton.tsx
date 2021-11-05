@@ -4,15 +4,15 @@ import { RootState } from "GlobalReducers/rootReducer";
 import { memo } from "react";
 import { FaUserTag } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import StyledButton from "./StyledButton";
 
 const PersonsPanelButton = memo(function PersonsPanelButton() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { isSignedIn } = useSelector((state: RootState) => state.root);
 
   const handleShowPersonsPanel = () => {
-    history.push(ROUTES.PERSONS_PANEL);
+    navigate(ROUTES.PERSONS_PANEL);
   };
 
   return (

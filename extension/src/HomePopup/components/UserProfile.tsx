@@ -6,13 +6,13 @@ import { memo, useEffect, useState } from "react";
 import { MdSettings } from "react-icons/md";
 import { RiUserUnfollowFill } from "react-icons/ri";
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { UserInfo } from "SrcPath/HomePopup/interfaces/authentication";
 
 const avatarStyles = { height: "50px", width: "50px" };
 
 const UserProfile = memo(function UserProfile() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { isSignedIn } = useSelector((state: RootState) => state.root);
   const [userProfile, setUserProfile] = useState<UserInfo | null>(null);
   const [showSettingsIcon, setShowSettingsIcon] = useState(false);
@@ -31,7 +31,7 @@ const UserProfile = memo(function UserProfile() {
   };
 
   const handleOpenSettings = () => {
-    history.push(ROUTES.SETTINGS_PANEL);
+    navigate(ROUTES.SETTINGS_PANEL);
   };
 
   return userProfile ? (

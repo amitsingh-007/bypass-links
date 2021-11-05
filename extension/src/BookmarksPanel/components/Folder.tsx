@@ -7,7 +7,7 @@ import { AiFillEdit } from "react-icons/ai";
 import { FaFolderMinus } from "react-icons/fa";
 import { FcFolder } from "react-icons/fc";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import withBookmarkRow, { InjectedProps } from "../hoc/withBookmarkRow";
 import { getBookmarksPanelUrl } from "../utils/url";
 import { FolderDialog } from "./FolderDialog";
@@ -32,7 +32,7 @@ const Folder = memo<Props>(
     resetSelectedBookmarks,
   }) => {
     const dispatch = useDispatch();
-    const history = useHistory();
+    const navigate = useNavigate();
     const [menuOptions, setMenuOptions] = useState<MenuOption[]>([]);
     const [openEditDialog, setOpenEditDialog] = useState(false);
 
@@ -54,7 +54,7 @@ const Folder = memo<Props>(
         dispatch(displayToast({ message: "This folder is empty" }));
         return;
       }
-      history.push(getBookmarksPanelUrl({ folderContext: origName }));
+      navigate(getBookmarksPanelUrl({ folderContext: origName }));
     };
 
     useEffect(() => {

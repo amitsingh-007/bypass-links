@@ -16,7 +16,6 @@ import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import { IoSave } from "react-icons/io5";
 import { RiUploadCloud2Fill } from "react-icons/ri";
 import { connect, ConnectedProps } from "react-redux";
-import { RouteComponentProps, withRouter } from "react-router-dom";
 import { compose } from "redux";
 import { ContextBookmarks } from "../interfaces";
 import { syncBookmarksFirebaseWithStorage } from "../utils/bookmark";
@@ -24,8 +23,9 @@ import { getBookmarksPanelUrl } from "../utils/url";
 import ConfirmationDialog from "./ConfirmationDialog";
 import { FolderDropdown } from "./Dropdown";
 import { FolderDialog } from "./FolderDialog";
+import withRouter, { WithRouterProps } from "SrcPath/hoc/withRouter";
 
-interface Props extends RouteComponentProps<any>, PropsFromRedux {
+interface Props extends WithRouterProps, PropsFromRedux {
   isSaveButtonActive: boolean;
   contextBookmarks: ContextBookmarks;
   handleSave: VoidFunction;
@@ -66,11 +66,11 @@ class Header extends PureComponent<Props, State> {
   }
 
   handleClose = () => {
-    this.props.history.goBack();
+    this.props.navigate(-1);
   };
 
   onFolderChange: SelectProps<string>["onChange"] = (event) => {
-    this.props.history.push(
+    this.props.navigate(
       getBookmarksPanelUrl({ folderContext: event.target.value })
     );
   };

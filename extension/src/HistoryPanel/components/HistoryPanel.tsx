@@ -12,7 +12,7 @@ import { memo, useEffect, useState } from "react";
 import { AiOutlineClear } from "react-icons/ai";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { DateTimeInputProps } from "../interfaces/historyPanel";
 
 const DateTimeInput = ({ dateTime, onChange, label }: DateTimeInputProps) => (
@@ -39,7 +39,7 @@ const DateTimeInput = ({ dateTime, onChange, label }: DateTimeInputProps) => (
 );
 
 const HistoryPanel = memo(function HistoryPanel() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [startDateTime, setStartDateTime] = useState<Date | null>(new Date());
   const [endDateTime, setEndDateTime] = useState<Date | null>(new Date());
@@ -61,7 +61,7 @@ const HistoryPanel = memo(function HistoryPanel() {
   };
 
   const handleClose = () => {
-    history.push(ROUTES.HOMEPAGE);
+    navigate(ROUTES.HOMEPAGE);
   };
 
   const handleClear = async () => {

@@ -4,7 +4,7 @@ import { MenuOption } from "GlobalInterfaces/menu";
 import { memo, useCallback, useEffect, useState } from "react";
 import { AiFillEdit } from "react-icons/ai";
 import { RiBookmark2Fill } from "react-icons/ri";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { IPerson } from "../interfaces/persons";
 import { resolvePersonImageFromUid } from "../utils";
 import { getPersonsPanelUrl } from "../utils/urls";
@@ -20,7 +20,7 @@ export interface Props {
 
 const Person = memo<Props>(
   ({ person, handleEditPerson, handlePersonDelete }) => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const { uid, name, taggedUrls } = person;
     const [imageUrl, setImageUrl] = useState("");
     const [showEditPersonDialog, setShowEditPersonDialog] = useState(false);
@@ -65,7 +65,7 @@ const Person = memo<Props>(
       taggedUrls && !!taggedUrls.length ? taggedUrls.length : 0;
 
     const openBookmarksList = () => {
-      history.push(getPersonsPanelUrl({ openBookmarksList: uid }));
+      navigate(getPersonsPanelUrl({ openBookmarksList: uid }));
     };
 
     return (
