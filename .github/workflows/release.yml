@@ -40,15 +40,6 @@ jobs:
       - name: Install dependencies 🧼
         run: npm install && npm run bootstrap
 
-      - name: Building Extension🛠
-        run: npm run ext:build
-
-      - name: Uploading extension 🌐
-        uses: actions/upload-artifact@v2
-        with:
-          name: extension-file
-          path: ./extension/extension-build/bypass-links-*.zip
-
       - name: Deploy Preview (Vercel) 🔺
         uses: amondnet/vercel-action@v20
         id: vercel-action
