@@ -29,7 +29,7 @@ import Verify2FA from "./Verify2FA";
 const tooltipStyles = { fontSize: "13px" };
 
 const Transition = forwardRef(function Transition(
-  props: TransitionProps & { children?: React.ReactElement<any, any> },
+  props: TransitionProps & { children: React.ReactElement<any, any> },
   ref: React.Ref<unknown>
 ) {
   return <Slide direction="left" ref={ref} {...props} />;
