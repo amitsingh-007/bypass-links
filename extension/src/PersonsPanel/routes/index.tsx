@@ -10,5 +10,5 @@ const PersonsPanel = lazy(
 );
 
 export const PersonsPanelRoute = (
-  <Route exact path={ROUTES.PERSONS_PANEL} render={() => <PersonsPanel />} />
+  <Route path={ROUTES.PERSONS_PANEL} element={<PersonsPanel />} />
 );

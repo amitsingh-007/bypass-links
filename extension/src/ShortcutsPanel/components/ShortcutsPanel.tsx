@@ -8,7 +8,7 @@ import { saveToFirebase } from "GlobalHelpers/firebase/database";
 import { memo, useEffect, useState } from "react";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { IRedirection } from "SrcPath/BackgroundScript/interfaces/redirections";
 import { syncRedirectionsToStorage } from "SrcPath/BackgroundScript/redirect";
 import { DEFAULT_RULE_ALIAS } from "../constants";
@@ -20,7 +20,7 @@ const getValidRules = (obj: IRedirection) =>
   Boolean(obj && obj.alias && obj.alias !== DEFAULT_RULE_ALIAS && obj.website);
 
 const ShortcutsPanel = memo(function ShortcutsPanel() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [redirections, setRedirections] = useState<IRedirection[]>([]);
   const [isFetching, setIsFetching] = useState(true);
@@ -41,7 +41,7 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
   }, []);
 
   const handleClose = () => {
-    history.push(ROUTES.HOMEPAGE);
+    navigate(ROUTES.HOMEPAGE);
   };
 
   const handleSave = async () => {

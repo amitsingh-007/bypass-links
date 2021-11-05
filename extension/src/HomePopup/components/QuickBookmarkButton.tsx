@@ -9,7 +9,7 @@ import { memo, useEffect, useState } from "react";
 import { BiBookmarkPlus } from "react-icons/bi";
 import { RiBookmark3Fill } from "react-icons/ri";
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { BOOKMARK_OPERATION } from "SrcPath/BookmarksPanel/constants";
 import { IBookmark } from "SrcPath/BookmarksPanel/interfaces";
 import { BMPanelQueryParams } from "SrcPath/BookmarksPanel/interfaces/url";
@@ -24,7 +24,7 @@ const QuickBookmarkButton = memo(function QuickBookmarkButton() {
   const { isSignedIn } = useSelector((state: RootState) => state.root);
   const [bookmark, setBookmark] = useState<IBookmark | null>(null);
   const [isFetching, setIsFetching] = useState(false);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const initBookmark = async () => {
     setIsFetching(true);
@@ -62,7 +62,7 @@ const QuickBookmarkButton = memo(function QuickBookmarkButton() {
       urlParams.bmUrl = url;
       urlParams.folderContext = defaultBookmarkFolder;
     }
-    history.push(getBookmarksPanelUrl(urlParams));
+    navigate(getBookmarksPanelUrl(urlParams));
   };
 
   return (

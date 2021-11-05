@@ -13,7 +13,7 @@ import { BG_COLOR_DARK } from "GlobalConstants/color";
 import { memo, useCallback, useEffect, useState } from "react";
 import { AiFillEdit } from "react-icons/ai";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { BookmarkExternal } from "SrcPath/BookmarksPanel/components/Bookmark";
 import {
   bookmarkRowStyles,
@@ -44,7 +44,7 @@ const BookmarksList = memo<Props>(function BookmarksList({
   imageUrl,
   taggedUrls,
 }) {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [bookmarks, setBookmarks] = useState<ModifiedBookmark[]>([]);
 
   const initBookmarks = useCallback(async () => {
@@ -66,7 +66,7 @@ const BookmarksList = memo<Props>(function BookmarksList({
   }, [taggedUrls]);
 
   const handleBookmarkEdit = async ({ url, parentName }: ModifiedBookmark) => {
-    history.push(
+    navigate(
       getBookmarksPanelUrl({
         operation: BOOKMARK_OPERATION.EDIT,
         bmUrl: url,
@@ -76,7 +76,7 @@ const BookmarksList = memo<Props>(function BookmarksList({
   };
 
   const handleClose = () => {
-    history.goBack();
+    navigate(-1);
   };
 
   useEffect(() => {

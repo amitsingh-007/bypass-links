@@ -3,7 +3,7 @@ import { ScrollButton } from "GlobalComponents/ScrollButton";
 import { PANEL_SIZE, PERSON_SIZE } from "GlobalConstants/styles";
 import { deserialzeQueryStringToObject } from "GlobalUtils/url";
 import { memo, useEffect, useRef, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { FixedSizeGrid } from "react-window";
 import { GRID_COLUMN_SIZE } from "../constants";
 import { IPerson } from "../interfaces/persons";
@@ -22,14 +22,14 @@ const Persons = memo<Props>(function Persons({
   handleEditPerson,
   handlePersonDelete,
 }) {
-  const history = useHistory();
+  const location = useLocation();
   const gridRef = useRef<any>(null);
   const [personToOpen, setPersonToOpen] = useState<IPerson | null>(null);
   const [personToOpenImage, setPersonToOpenImage] = useState("");
 
   useEffect(() => {
     const { openBookmarksList } = deserialzeQueryStringToObject(
-      history.location.search
+      location.search
     );
     const person =
       (openBookmarksList &&
@@ -41,7 +41,7 @@ const Persons = memo<Props>(function Persons({
         setPersonToOpenImage(url);
       });
     }
-  }, [history.location.search, persons]);
+  }, [location.search, persons]);
 
   const handleScroll = (itemNumber: number) => {
     gridRef.current?.scrollToItem({ rowIndex: itemNumber });

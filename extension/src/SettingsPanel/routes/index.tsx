@@ -10,5 +10,5 @@ const SettingsPanel = lazy(
 );
 
 export const SettingsPanelRoute = (
-  <Route exact path={ROUTES.SETTINGS_PANEL} render={() => <SettingsPanel />} />
+  <Route path={ROUTES.SETTINGS_PANEL} element={<SettingsPanel />} />
 );

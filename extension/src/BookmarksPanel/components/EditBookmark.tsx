@@ -3,7 +3,7 @@ import { getCurrentTab } from "GlobalHelpers/chrome/tabs";
 import { RootState } from "GlobalReducers/rootReducer";
 import { PureComponent } from "react";
 import { connect, ConnectedProps } from "react-redux";
-import { RouteComponentProps, withRouter } from "react-router-dom";
+import withRouter, { WithRouterProps } from "SrcPath/hoc/withRouter";
 import { compose } from "redux";
 import { resetBookmarkOperation } from "../actionCreators";
 import { BOOKMARK_OPERATION } from "../constants";
@@ -17,7 +17,7 @@ const heading = {
   [BOOKMARK_OPERATION.EDIT]: "Edit bookmark",
 };
 
-interface Props extends RouteComponentProps<any>, PropsFromRedux {
+interface Props extends WithRouterProps, PropsFromRedux {
   folderNamesList: string[];
   curFolder: string;
   contextBookmarks: ContextBookmarks;
@@ -110,14 +110,16 @@ class EditBookmark extends PureComponent<Props, State> {
     const {
       curFolder,
       operation,
-      history,
+      navigate,
       resetBookmarkOperation,
       handleScroll,
       handleSelectedChange,
     } = this.props;
     //Remove qs before closing and mark current as selected
     if (operation === BOOKMARK_OPERATION.EDIT && openDialog) {
-      history.replace(getBookmarksPanelUrl({ folderContext: curFolder }));
+      navigate(getBookmarksPanelUrl({ folderContext: curFolder }), {
+        replace: true,
+      });
     }
     this.setState({ ...defaultBookmarkFields, openDialog: false });
     resetBookmarkOperation();
