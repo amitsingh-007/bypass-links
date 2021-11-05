@@ -44,7 +44,7 @@
     "react-redux": "7.2.5",
     "react-router-dom": "5.3.0",
     "react-window": "1.8.6",
-    "redux": "4.1.1",
+    "redux": "4.1.2",
     "redux-logger": "3.0.6",
     "throttle-debounce": "3.0.1",
     "utility-types": "3.10.0"
