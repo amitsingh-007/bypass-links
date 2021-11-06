@@ -21,7 +21,7 @@ const AppHeader = memo(() => (
           left: "50%",
         }}
       >
-        <Box className="iconAnimate">
+        <Box>
           <Box
             sx={{
               transform: "translate(-50%, -50%)",
