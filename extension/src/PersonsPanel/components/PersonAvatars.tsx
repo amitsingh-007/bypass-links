@@ -2,7 +2,7 @@ import { Avatar, AvatarGroup, Box } from "@mui/material";
 import { CircularTooltip } from "GlobalComponents/StyledComponents";
 import { memo } from "react";
 import { RiUserUnfollowFill } from "react-icons/ri";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { IPersonWithImage } from "../interfaces/persons";
 import { getPersonsPanelUrl } from "../utils/urls";
 
@@ -11,7 +11,7 @@ const commonStyles = { marginRight: "12px" };
 
 const PersonAvatars = memo<{ persons: IPersonWithImage[] }>(
   function PersonAvatars({ persons }) {
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const hasImages =
       persons?.length && persons.every(({ imageUrl }) => Boolean(imageUrl));
@@ -31,7 +31,7 @@ const PersonAvatars = memo<{ persons: IPersonWithImage[] }>(
     }
 
     const handlePersonClick = (person: IPersonWithImage) => {
-      history.push(getPersonsPanelUrl({ openBookmarksList: person.uid }));
+      navigate(getPersonsPanelUrl({ openBookmarksList: person.uid }));
     };
 
     return (

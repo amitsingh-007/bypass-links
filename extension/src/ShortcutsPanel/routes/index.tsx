@@ -10,9 +10,5 @@ const ShortcutsPanel = lazy(
 );
 
 export const ShortcutsPanelRoute = (
-  <Route
-    exact
-    path={ROUTES.SHORTCUTS_PANEL}
-    render={() => <ShortcutsPanel />}
-  />
+  <Route path={ROUTES.SHORTCUTS_PANEL} element={<ShortcutsPanel />} />
 );

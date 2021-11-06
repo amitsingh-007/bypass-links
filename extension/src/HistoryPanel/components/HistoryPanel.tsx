@@ -12,8 +12,9 @@ import { memo, useEffect, useState } from "react";
 import { AiOutlineClear } from "react-icons/ai";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { DateTimeInputProps } from "../interfaces/historyPanel";
+import dayjs from "dayjs";
 
 const DateTimeInput = ({ dateTime, onChange, label }: DateTimeInputProps) => (
   <DesktopDateTimePicker
@@ -22,6 +23,7 @@ const DateTimeInput = ({ dateTime, onChange, label }: DateTimeInputProps) => (
     label={label}
     value={dateTime}
     onChange={onChange}
+    maxDateTime={dayjs()}
     renderInput={(props) => (
       <Box sx={{ paddingY: "8px" }}>
         <TextField
@@ -33,16 +35,16 @@ const DateTimeInput = ({ dateTime, onChange, label }: DateTimeInputProps) => (
         />
       </Box>
     )}
-    //! Note: Not working. Check: https://github.com/mui-org/material-ui/pull/27392
-    // maxDateTime={new Date()}
   />
 );
 
 const HistoryPanel = memo(function HistoryPanel() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [startDateTime, setStartDateTime] = useState<Date | null>(new Date());
-  const [endDateTime, setEndDateTime] = useState<Date | null>(new Date());
+  const [startDateTime, setStartDateTime] = useState<dayjs.Dayjs | null>(
+    dayjs()
+  );
+  const [endDateTime, setEndDateTime] = useState<dayjs.Dayjs | null>(dayjs());
 
   useEffect(() => {
     storage.get(["historyStartTime"]).then(({ historyStartTime }) => {
@@ -52,16 +54,16 @@ const HistoryPanel = memo(function HistoryPanel() {
     });
   }, []);
 
-  const handleStartDateTimeChange = (date: Date | null) => {
+  const handleStartDateTimeChange = (date: dayjs.Dayjs | null) => {
     setStartDateTime(date);
   };
 
-  const handleEndDateTimeChange = (date: Date | null) => {
+  const handleEndDateTimeChange = (date: dayjs.Dayjs | null) => {
     setEndDateTime(date);
   };
 
   const handleClose = () => {
-    history.push(ROUTES.HOMEPAGE);
+    navigate(ROUTES.HOMEPAGE);
   };
 
   const handleClear = async () => {

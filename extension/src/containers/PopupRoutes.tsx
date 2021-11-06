@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { Switch } from "react-router-dom";
+import { Routes } from "react-router-dom";
 import { BookmarksPanelRoute } from "SrcPath/BookmarksPanel/routes";
 import { HistoryPanelRoute } from "SrcPath/HistoryPanel/routes";
 import { HomePageRoute } from "SrcPath/HomePopup/routes";
@@ -9,14 +9,14 @@ import { ShortcutsPanelRoute } from "SrcPath/ShortcutsPanel/routes";
 
 const PopupRoutes = () => (
   <Suspense fallback={null}>
-    <Switch>
+    <Routes>
       {HomePageRoute}
       {ShortcutsPanelRoute}
       {BookmarksPanelRoute}
       {PersonsPanelRoute}
       {HistoryPanelRoute}
       {SettingsPanelRoute}
-    </Switch>
+    </Routes>
   </Suspense>
 );
 

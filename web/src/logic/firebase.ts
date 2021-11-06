@@ -1,5 +1,6 @@
-import admin from "firebase-admin";
 import { getFullDbPath } from "@common/utils/firebase";
+import { cert, getApp, getApps, initializeApp } from "firebase-admin/app";
+import { getDatabase } from "firebase-admin/database";
 import { Firebase } from "../interfaces/firebase";
 
 /**
@@ -11,18 +12,21 @@ import { Firebase } from "../interfaces/firebase";
  */
 const getFirebaseCredentials = () => {
   const serviceAccountKey = JSON.parse(process.env.SERVICE_ACCOUNT_KEY ?? "");
-  return admin.credential.cert({
+  return cert({
     ...serviceAccountKey,
     private_key: process.env.FIREBASE_PRIVATE_KEY,
   });
 };
 
-if (admin.apps.length === 0) {
-  admin.initializeApp({
-    credential: getFirebaseCredentials(),
-    databaseURL: "https://bypass-links.firebaseio.com",
-  });
-}
+const firebaseApp =
+  getApps().length > 0
+    ? getApp()
+    : initializeApp({
+        credential: getFirebaseCredentials(),
+        databaseURL: "https://bypass-links.firebaseio.com",
+      });
+
+const database = getDatabase(firebaseApp);
 
 /**
  * REALTIME DATABASE
@@ -32,19 +36,18 @@ export const getFromFirebase = async ({
   uid,
   isAbsolute,
 }: Omit<Firebase, "data">) =>
-  admin.database().ref(getFullDbPath(ref, uid, isAbsolute)).once("value");
+  database.ref(getFullDbPath(ref, uid, isAbsolute)).once("value");
 
 export const saveToFirebase = async ({
   ref,
   uid,
   data,
   isAbsolute,
-}: Firebase) =>
-  admin.database().ref(getFullDbPath(ref, uid, isAbsolute)).set(data);
+}: Firebase) => database.ref(getFullDbPath(ref, uid, isAbsolute)).set(data);
 
 export const removeFromFirebase = async ({
   ref,
   uid,
   isAbsolute,
 }: Omit<Firebase, "data">) =>
-  admin.database().ref(getFullDbPath(ref, uid, isAbsolute)).remove();
+  database.ref(getFullDbPath(ref, uid, isAbsolute)).remove();

@@ -10,5 +10,5 @@ const HistoryPanel = lazy(
 );
 
 export const HistoryPanelRoute = (
-  <Route exact path={ROUTES.HISTORY_PANEL} render={() => <HistoryPanel />} />
+  <Route path={ROUTES.HISTORY_PANEL} element={<HistoryPanel />} />
 );

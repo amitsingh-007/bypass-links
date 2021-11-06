@@ -14,7 +14,7 @@ import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import { IoIosPersonAdd } from "react-icons/io";
 import { RiUploadCloud2Fill } from "react-icons/ri";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { IPerson } from "../interfaces/persons";
 import { syncPersonsFirebaseWithStorage } from "../utils/sync";
 import AddOrEditPersonDialog from "./AddOrEditPersonDialog";
@@ -36,7 +36,7 @@ const Header = memo<Props>(function Header({
   onSearchChange,
 }) {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const [isSyncing, setIsSyncing] = useState(false);
   const [showAddPersonDialog, setShowAddPersonDialog] = useState(false);
 
@@ -58,7 +58,7 @@ const Header = memo<Props>(function Header({
 
   const handleClose: React.MouseEventHandler<HTMLButtonElement> = (event) => {
     event.stopPropagation();
-    history.goBack();
+    navigate(-1);
   };
 
   const onSyncClick: React.MouseEventHandler<HTMLButtonElement> = async (

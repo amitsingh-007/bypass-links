@@ -4,17 +4,17 @@ import { RootState } from "GlobalReducers/rootReducer";
 import { memo } from "react";
 import { RiHistoryFill } from "react-icons/ri";
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import StyledButton from "./StyledButton";
 
 const HistoryPanelButton = memo(function HistoryPanelButton() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { isExtensionActive } = useSelector(
     (state: RootState) => state.extension
   );
 
   const handleShowHistoryPanel = () => {
-    history.push(ROUTES.HISTORY_PANEL);
+    navigate(ROUTES.HISTORY_PANEL);
   };
 
   return (

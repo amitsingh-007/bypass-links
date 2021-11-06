@@ -10,7 +10,7 @@ import {
 } from "../interfaces";
 
 export const getFaviconUrl = (url: string) =>
-  `https://www.google.com/s2/favicons?sz=64&domain_url=${
+  `https://s2.googleusercontent.com/s2/favicons?sz=64&domain=${
     new URL(url).hostname
   }`;
 

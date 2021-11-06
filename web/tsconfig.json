@@ -24,7 +24,8 @@
       "@logic/*": ["src/logic/*"],
       "@middlewares/*": ["src/middlewares/*"],
       "@ui/*": ["src/ui/*"]
-    }
+    },
+    "incremental": true
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules", ".next"]
