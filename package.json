@@ -6,6 +6,7 @@
   "scripts": {
     "bootstrap": "lerna bootstrap --hoist",
     "build": "lerna run build --parallel --stream",
+    "cypress:open": "lerna run cypress:open",
     "ext:build": "lerna run build --scope=extension --stream",
     "ext:dev": "cd extension && npm run dev",
     "vercel:deploy": "vercel --prod",
