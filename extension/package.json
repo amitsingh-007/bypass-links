@@ -28,7 +28,7 @@
     "@emotion/styled": "11.6.0",
     "@mui/material": "5.0.6",
     "@mui/lab": "5.0.0-alpha.53",
-    "@welldone-software/why-did-you-render": "6.2.1",
+    "@welldone-software/why-did-you-render": "6.2.3",
     "browser-image-compression": "1.0.17",
     "dayjs": "1.10.7",
     "firebase": "9.5.0",
