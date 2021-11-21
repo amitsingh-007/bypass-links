@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@emotion/react": "11.5.0",
-    "@emotion/styled": "11.3.0",
+    "@emotion/styled": "11.6.0",
     "@firebase/database-compat": "0.1.2",
     "@mui/material": "5.0.6",
     "@mui/lab": "5.0.0-alpha.53",
