@@ -50,7 +50,7 @@
     "utility-types": "3.10.0"
   },
   "devDependencies": {
-    "@svgr/webpack": "5.5.0",
+    "@svgr/webpack": "6.0.0",
     "@types/chrome": "0.0.164",
     "@types/material-ui": "0.21.12",
     "@types/md5": "2.3.1",
