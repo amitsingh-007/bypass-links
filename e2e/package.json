@@ -8,7 +8,7 @@
     "cypress:run": "cypress run --headless -b chrome"
   },
   "devDependencies": {
-    "@cypress/schema-tools": "4.7.8",
+    "@cypress/schema-tools": "4.7.9",
     "cypress": "9.1.1",
     "eslint": "7.32.0",
     "eslint-plugin-cypress": "2.12.1",
