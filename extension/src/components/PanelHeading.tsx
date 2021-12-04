@@ -1,13 +1,13 @@
 import { Typography } from "@mui/material";
 import { SxProps } from "@mui/system";
 
-const titleStyles = {
+const titleStyles: SxProps = {
   userSelect: "none",
   fontSize: "18px",
   marginRight: "14px",
   fontWeight: "700",
   color: "azure",
-} as SxProps;
+};
 
 interface Props {
   heading: string | React.ReactNode;

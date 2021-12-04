@@ -18,116 +18,118 @@ export interface Props {
   handlePersonDelete: (person: IPerson) => void;
 }
 
-const Person = memo<Props>(
-  ({ person, handleEditPerson, handlePersonDelete }) => {
-    const navigate = useNavigate();
-    const { uid, name, taggedUrls } = person;
-    const [imageUrl, setImageUrl] = useState("");
-    const [showEditPersonDialog, setShowEditPersonDialog] = useState(false);
-    const [menuOptions, setMenuOptions] = useState<MenuOption[]>([]);
+const Person = memo<Props>(function Person({
+  person,
+  handleEditPerson,
+  handlePersonDelete,
+}) {
+  const navigate = useNavigate();
+  const { uid, name, taggedUrls } = person;
+  const [imageUrl, setImageUrl] = useState("");
+  const [showEditPersonDialog, setShowEditPersonDialog] = useState(false);
+  const [menuOptions, setMenuOptions] = useState<MenuOption[]>([]);
 
-    const handleDeleteOptionClick = useCallback(() => {
-      handlePersonDelete(person);
-    }, [handlePersonDelete, person]);
+  const handleDeleteOptionClick = useCallback(() => {
+    handlePersonDelete(person);
+  }, [handlePersonDelete, person]);
 
-    const toggleEditPersonDialog = useCallback(() => {
-      setShowEditPersonDialog(!showEditPersonDialog);
-    }, [showEditPersonDialog]);
+  const toggleEditPersonDialog = useCallback(() => {
+    setShowEditPersonDialog(!showEditPersonDialog);
+  }, [showEditPersonDialog]);
 
-    useEffect(() => {
-      const menuOptions = [
-        {
-          onClick: toggleEditPersonDialog,
-          text: "Edit",
-          icon: AiFillEdit,
-        },
-        {
-          onClick: handleDeleteOptionClick,
-          text: "Delete",
-          icon: RiBookmark2Fill,
-        },
-      ];
-      setMenuOptions(menuOptions);
-    }, [handleDeleteOptionClick, toggleEditPersonDialog]);
+  useEffect(() => {
+    const menuOptions = [
+      {
+        onClick: toggleEditPersonDialog,
+        text: "Edit",
+        icon: AiFillEdit,
+      },
+      {
+        onClick: handleDeleteOptionClick,
+        text: "Delete",
+        icon: RiBookmark2Fill,
+      },
+    ];
+    setMenuOptions(menuOptions);
+  }, [handleDeleteOptionClick, toggleEditPersonDialog]);
 
-    useEffect(() => {
-      resolvePersonImageFromUid(uid).then((url) => {
-        setImageUrl(url);
-      });
-    }, [uid, person]);
+  useEffect(() => {
+    resolvePersonImageFromUid(uid).then((url) => {
+      setImageUrl(url);
+    });
+  }, [uid, person]);
 
-    const handlePersonSave = (updatedPerson: IPerson) => {
-      handleEditPerson(updatedPerson);
-      toggleEditPersonDialog();
-    };
+  const handlePersonSave = (updatedPerson: IPerson) => {
+    handleEditPerson(updatedPerson);
+    toggleEditPersonDialog();
+  };
 
-    const taggedUrlsCount =
-      taggedUrls && !!taggedUrls.length ? taggedUrls.length : 0;
+  const taggedUrlsCount =
+    taggedUrls && !!taggedUrls.length ? taggedUrls.length : 0;
 
-    const openBookmarksList = () => {
-      navigate(getPersonsPanelUrl({ openBookmarksList: uid }));
-    };
+  const openBookmarksList = () => {
+    navigate(getPersonsPanelUrl({ openBookmarksList: uid }));
+  };
 
-    return (
-      <>
-        <IconButton
-          sx={{ padding: "0px", margin: "10px 0px" }}
-          onClick={openBookmarksList}
+  return (
+    <>
+      <IconButton
+        sx={{ padding: "0px", margin: "10px 0px" }}
+        onClick={openBookmarksList}
+      >
+        <Box
+          sx={{
+            display: "inline-flex",
+            flexDirection: "column",
+            alignItems: "center",
+            padding: "4px 16px",
+            cursor: "pointer",
+            height: "156px",
+            width: "156px",
+          }}
         >
-          <Box
-            sx={{
-              display: "inline-flex",
-              flexDirection: "column",
-              alignItems: "center",
-              padding: "4px 16px",
-              cursor: "pointer",
-              height: "156px",
-              width: "156px",
-            }}
-          >
-            <ContextMenu getMenuOptions={() => menuOptions}>
-              <Badge
-                badgeContent={taggedUrlsCount}
-                color="primary"
-                overlap="circular"
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left",
-                }}
-              >
-                <Avatar alt={name} src={imageUrl} sx={imageStyles} />
-              </Badge>
-              <Typography
-                sx={{
-                  display: "-webkit-box",
-                  fontSize: "14px",
-                  width: "110px",
-                  overflow: "hidden",
-                  wordBreak: "break-word",
-                  m: "auto",
-                }}
-                style={{
-                  WebkitLineClamp: 2,
-                  WebkitBoxOrient: "vertical",
-                }}
-                title={name}
-              >
-                {name}
-              </Typography>
-            </ContextMenu>
-          </Box>
-        </IconButton>
-        {showEditPersonDialog && (
-          <AddOrEditPersonDialog
-            person={person}
-            isOpen={showEditPersonDialog}
-            onClose={toggleEditPersonDialog}
-            handleSaveClick={handlePersonSave}
-          />
-        )}
-      </>
-    );
-  }
-);
+          <ContextMenu getMenuOptions={() => menuOptions}>
+            <Badge
+              badgeContent={taggedUrlsCount}
+              color="primary"
+              overlap="circular"
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+            >
+              <Avatar alt={name} src={imageUrl} sx={imageStyles} />
+            </Badge>
+            <Typography
+              sx={{
+                display: "-webkit-box",
+                fontSize: "14px",
+                width: "110px",
+                overflow: "hidden",
+                wordBreak: "break-word",
+                m: "auto",
+              }}
+              style={{
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: "vertical",
+              }}
+              title={name}
+            >
+              {name}
+            </Typography>
+          </ContextMenu>
+        </Box>
+      </IconButton>
+      {showEditPersonDialog && (
+        <AddOrEditPersonDialog
+          person={person}
+          isOpen={showEditPersonDialog}
+          onClose={toggleEditPersonDialog}
+          handleSaveClick={handlePersonSave}
+        />
+      )}
+    </>
+  );
+});
 
 export default Person;

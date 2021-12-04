@@ -8,13 +8,13 @@
     "cypress:run": "cypress run --headless -b chrome"
   },
   "devDependencies": {
-    "@cypress/schema-tools": "4.7.8",
-    "cypress": "8.7.0",
+    "@cypress/schema-tools": "4.7.9",
+    "cypress": "9.1.1",
     "eslint": "7.32.0",
     "eslint-plugin-cypress": "2.12.1",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-prettier": "4.0.0",
     "minimal-cognito-totp": "1.0.1",
-    "typescript": "4.4.4"
+    "typescript": "4.5.2"
   }
 }

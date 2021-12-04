@@ -17,17 +17,17 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Setting up Node.js 🔧
-        uses: actions/setup-node@v2.4.1
+        uses: actions/setup-node@v2.5.0
         with:
           node-version: "14"
           cache: "npm"
           cache-dependency-path: "**/package-lock.json"
 
-      - name: NPM Cache 💾
-        uses: actions/cache@v2.1.6
+      - name: Cache 💾
+        uses: actions/cache@v2.1.7
         with:
           path: |
-            ~/.npm
+            **/.npm
             **/node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |

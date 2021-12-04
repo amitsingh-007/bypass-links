@@ -15,7 +15,7 @@ import StyledButton from "./StyledButton";
 
 const tooltipStyles = { fontSize: "13px" };
 
-const LastVisitedButton = memo(() => {
+const LastVisitedButton = memo(function LastVisitedButton() {
   const { isSignedIn } = useSelector((state: RootState) => state.root);
   const [isFetching, setIsFetching] = useState(false);
   const [lastVisited, setLastVisited] = useState("");
