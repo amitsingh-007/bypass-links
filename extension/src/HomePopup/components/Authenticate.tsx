@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { signIn, signOut } from "../utils/authentication";
 import StyledButton from "./StyledButton";
 
-const Authenticate = memo(() => {
+const Authenticate = memo(function Authenticate() {
   const dispatch = useDispatch();
   const [isFetching, setIsFetching] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);

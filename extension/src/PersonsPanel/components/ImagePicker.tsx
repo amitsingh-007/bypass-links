@@ -24,7 +24,6 @@ import { Area } from "react-easy-crop/types";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import getCroppedImg from "../utils/cropImage";
 
-const ROTATION = 0; //No rotation allowed
 const ASPECT_RATIO = 1; //Square image allowed
 const IMAGE_COMPRESSION_OPTIONS = {
   maxSizeMB: 200 / 1024, //max 200KB size
@@ -80,8 +79,7 @@ const ImagePicker = memo<Props>(function ImagePicker({
       setIsUploadingImage(true);
       const croppedImage = await getCroppedImg(
         inputImageUrl,
-        croppedAreaPixels,
-        ROTATION
+        croppedAreaPixels
       );
       const compressedImage = await imageCompression(
         new File([croppedImage], `${uid}.jpeg`, { type: croppedImage.type }),
@@ -149,7 +147,6 @@ const ImagePicker = memo<Props>(function ImagePicker({
             image={inputImageUrl}
             crop={crop}
             zoom={zoom}
-            rotation={ROTATION}
             aspect={ASPECT_RATIO}
             onCropChange={setCrop}
             onCropComplete={onCropComplete}
