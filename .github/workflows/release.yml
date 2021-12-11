@@ -24,8 +24,8 @@ jobs:
         uses: actions/cache@v2.1.7
         with:
           path: |
-            ~/.npm
-            **/node_modules
+            node_modules
+            */*/node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
@@ -74,8 +74,8 @@ jobs:
         uses: actions/cache@v2.1.7
         with:
           path: |
-            ~/.npm
-            **/node_modules
+            node_modules
+            */*/node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
