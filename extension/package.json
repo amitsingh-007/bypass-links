@@ -38,7 +38,7 @@
     "react": "17.0.2",
     "react-beautiful-dnd": "13.1.0",
     "react-dom": "17.0.2",
-    "react-easy-crop": "4.0.0",
+    "react-easy-crop": "4.0.1",
     "react-icons": "4.3.1",
     "react-intersection-observer": "8.32.5",
     "react-redux": "7.2.6",
