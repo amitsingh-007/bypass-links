@@ -7,6 +7,9 @@ on:
     paths-ignore:
       - "extension/**"
 
+env:
+  FORCE_COLOR: true # https://github.com/actions/setup-node/issues/317
+
 jobs:
   Build:
     runs-on: ubuntu-latest
