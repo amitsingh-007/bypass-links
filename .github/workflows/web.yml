@@ -20,7 +20,6 @@ jobs:
         uses: actions/setup-node@v2.5.0
         with:
           node-version: "14"
-          cache: "npm"
 
       - name: Cache 💾
         uses: actions/cache@v2.1.7
