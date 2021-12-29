@@ -24,7 +24,7 @@ const userSignIn = async (): Promise<UserInfo> => {
 
 export const signIn = async (dispatch: Dispatch): Promise<boolean> => {
   try {
-    AuthProgress.initialize(6, dispatch);
+    AuthProgress.initialize(7, dispatch);
     const userProfile = await userSignIn();
     await processPostLogin(userProfile);
     console.log("--------------Login Success--------------");
