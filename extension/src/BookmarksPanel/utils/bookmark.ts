@@ -8,6 +8,7 @@ import {
   saveToFirebase,
 } from "GlobalHelpers/firebase/database";
 import { getCacheObj } from "GlobalUtils/cache";
+import { AuthProgress } from "SrcPath/HomePopup/utils/authProgress";
 import { getFaviconUrl } from ".";
 import { IBookmarksObj } from "../interfaces";
 
@@ -46,12 +47,23 @@ export const cacheBookmarkFavicons = async () => {
   if (!bookmarks) {
     return;
   }
+  AuthProgress.start("Caching favicons");
   const { urlList } = bookmarks;
+  let totalResolved = 0;
   const faviconUrls = Object.values(urlList).map(({ url }) =>
     getFaviconUrl(decodeURIComponent(atob(url)))
   );
-  const uniqueUrls = new Set(faviconUrls).values();
+  const uniqueUrls = Array.from(new Set(faviconUrls));
   const cache = await getCacheObj(CACHE_BUCKET_KEYS.favicon);
-  await cache.addAll(uniqueUrls);
+  await Promise.all(
+    uniqueUrls.map(async (url) => {
+      const urlPromise = await cache.add(url);
+      AuthProgress.update(
+        `Caching favicons: ${++totalResolved}/${uniqueUrls.length}`
+      );
+      return urlPromise;
+    })
+  );
   console.log("Initialized cache for all bookmark urls");
+  AuthProgress.finish("Cached favicons");
 };

@@ -10,7 +10,7 @@ import {
 } from "../interfaces";
 
 export const getFaviconUrl = (url: string) =>
-  `https://icons.duckduckgo.com/ip3/${new URL(url).hostname}.ico`;
+  `https://www.google.com/s2/favicons?sz=64&domain_url=${new URL(url).origin}`;
 
 export const getAllFolderNames = memoize(
   (folderList: IBookmarksObj["folderList"]) =>
