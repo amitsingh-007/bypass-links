@@ -27,8 +27,8 @@
   "dependencies": {
     "@emotion/react": "11.7.1",
     "@emotion/styled": "11.6.0",
-    "@mui/material": "5.2.5",
-    "@mui/lab": "5.0.0-alpha.61",
+    "@mui/material": "5.2.6",
+    "@mui/lab": "5.0.0-alpha.62",
     "@octokit/rest": "18.12.0",
     "cors": "2.8.5",
     "express-bearer-token": "2.4.0",
@@ -55,7 +55,7 @@
     "fork-ts-checker-webpack-plugin": "6.5.0",
     "next-pwa": "5.4.4",
     "prettier": "2.5.1",
-    "sass": "1.45.1",
+    "sass": "1.45.2",
     "vercel": "23.1.2"
   }
 }

@@ -1,22 +1,14 @@
-import { Dialog, DialogContent, Slide } from "@mui/material";
-import { TransitionProps } from "@mui/material/transitions";
-import storage from "GlobalHelpers/chrome/storage";
+import { Dialog, DialogContent } from "@mui/material";
 import { displayToast } from "GlobalActionCreators/toast";
 import { STORAGE_KEYS } from "GlobalConstants";
 import { BG_COLOR_BLACK } from "GlobalConstants/color";
+import storage from "GlobalHelpers/chrome/storage";
+import { getUserProfile } from "GlobalHelpers/fetchFromStorage";
 import { RootState } from "GlobalReducers/rootReducer";
-import { forwardRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { authenticate2FA } from "SrcPath/SettingsPanel/apis/twoFactorAuth";
 import Verify2FA from "SrcPath/SettingsPanel/components/Verify2FA";
-import { getUserProfile } from "GlobalHelpers/fetchFromStorage";
-
-const Transition = forwardRef(function Transition(
-  props: TransitionProps & { children: React.ReactElement<any, any> },
-  ref: React.Ref<unknown>
-) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
 
 const TwoFactorAuthenticate = () => {
   const dispatch = useDispatch();
@@ -54,7 +46,7 @@ const TwoFactorAuthenticate = () => {
   };
 
   return (
-    <Dialog fullScreen open={promptTOTPVerify} TransitionComponent={Transition}>
+    <Dialog fullScreen open={promptTOTPVerify}>
       <DialogContent
         sx={{
           display: "flex",
