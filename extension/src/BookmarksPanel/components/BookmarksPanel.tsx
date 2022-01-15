@@ -125,6 +125,7 @@ class BookmarksPanel extends PureComponent<Props, State> {
     const { folderContext } = this.props;
     if (prevProps.folderContext !== folderContext) {
       this.initBookmarksData();
+      this.handleScroll(0);
     }
   }
 
