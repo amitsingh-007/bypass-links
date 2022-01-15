@@ -26,12 +26,12 @@
   "dependencies": {
     "@emotion/react": "11.7.1",
     "@emotion/styled": "11.6.0",
-    "@mui/material": "5.2.7",
-    "@mui/lab": "5.0.0-alpha.63",
+    "@mui/material": "5.2.8",
+    "@mui/lab": "5.0.0-alpha.64",
     "@welldone-software/why-did-you-render": "6.2.3",
     "browser-image-compression": "1.0.17",
     "dayjs": "1.10.7",
-    "firebase": "9.6.2",
+    "firebase": "9.6.3",
     "md5": "2.3.0",
     "memoize-one": "6.0.0",
     "qrcode": "1.5.0",
@@ -50,8 +50,8 @@
     "utility-types": "3.10.0"
   },
   "devDependencies": {
-    "@svgr/webpack": "6.1.2",
-    "@types/chrome": "0.0.175",
+    "@svgr/webpack": "6.2.0",
+    "@types/chrome": "0.0.176",
     "@types/material-ui": "0.21.12",
     "@types/md5": "2.3.1",
     "@types/qrcode": "1.4.2",
@@ -82,7 +82,7 @@
     "ts-loader": "9.2.6",
     "tsconfig-paths-webpack-plugin": "3.5.2",
     "typescript": "4.5.4",
-    "webpack": "5.65.0",
+    "webpack": "5.66.0",
     "webpack-cli": "4.9.1",
     "webpack-merge": "5.8.0"
   }
