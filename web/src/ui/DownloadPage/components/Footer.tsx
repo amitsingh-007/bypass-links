@@ -38,7 +38,7 @@ const Footer = () => {
             px: "200px",
           }}
         >
-          <Box sx={{ display: "flex", flexDirection: "column" }}>
+          <Box sx={{ display: "flex", flexDirection: "column", zIndex: 1 }}>
             <Info icon={MdExtension} text={`v ${__EXT_VERSION__}`} />
             <Info icon={RiTimeFill} text={__RELEASE_DATE__} />
           </Box>
