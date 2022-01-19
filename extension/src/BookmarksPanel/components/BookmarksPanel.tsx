@@ -487,7 +487,7 @@ class BookmarksPanel extends PureComponent<Props, State> {
   };
 
   handleScroll = (itemNumber: number) => {
-    this.listRef.current.scrollToItem(itemNumber);
+    this.listRef.current?.scrollToItem(itemNumber);
   };
 
   render() {
