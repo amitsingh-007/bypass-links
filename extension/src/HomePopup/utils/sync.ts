@@ -122,6 +122,8 @@ export const processPreLogout = async () => {
 
 export const processPostLogout = async () => {
   const { hasManageGoogleActivityConsent } = await getSettings();
+  const { historyStartTime } = await storage.get(["historyStartTime"]);
+  const historyWatchTime = Date.now() - historyStartTime;
   //Reset storage
   await resetStorage();
   //Refresh browser cache
@@ -134,7 +136,7 @@ export const processPostLogout = async () => {
     await tabs.create({ url: "https://www.google.com/imghp" });
     //Clear activity from google account
     await runtime.sendMessage<{ manageGoogleActivity: string }>({
-      manageGoogleActivity: true,
+      manageGoogleActivity: { historyWatchTime },
     });
   }
 };

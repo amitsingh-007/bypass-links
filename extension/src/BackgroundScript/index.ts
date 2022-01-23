@@ -1,17 +1,13 @@
-import storage from "GlobalHelpers/chrome/storage";
 import { EXTENSION_STATE } from "GlobalConstants";
-import { fetchPageH1, isValidUrl, setExtensionIcon } from "./utils";
-import { bypass } from "./bypass";
-import { isExtensionActive, setExtStateInStorage } from "GlobalUtils/common";
-import { redirect } from "./redirect";
-import turnOffInputSuggestions from "./misc/turnOffInputSuggestions";
+import storage from "GlobalHelpers/chrome/storage";
 import { getExtensionState } from "GlobalHelpers/fetchFromStorage";
-import { getForumPageLinks } from "./misc/forumPageLinks";
+import { isExtensionActive, setExtStateInStorage } from "GlobalUtils/common";
 import { manageGoogleActivity } from "./automation/manageGoogleActivity";
-import {
-  clearSeachEntries,
-  stopClearSeachEntries,
-} from "./automation/searchEntries";
+import { bypass } from "./bypass";
+import { getForumPageLinks } from "./misc/forumPageLinks";
+import turnOffInputSuggestions from "./misc/turnOffInputSuggestions";
+import { redirect } from "./redirect";
+import { fetchPageH1, isValidUrl, setExtensionIcon } from "./utils";
 
 //First time extension install
 chrome.runtime.onInstalled.addListener(() => {
@@ -54,15 +50,8 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
       sendResponse({ pageH1 });
     });
   } else if (message.manageGoogleActivity) {
-    manageGoogleActivity().then(() => {
-      sendResponse({ isSuccess: true });
-    });
-  } else if (message.clearSearchEntries) {
-    clearSeachEntries(message.clearSearchEntries).then(() => {
-      sendResponse({ isSuccess: true });
-    });
-  } else if (message.stopClearSearchEntries) {
-    stopClearSeachEntries(message.stopClearSearchEntries).then(() => {
+    const { historyWatchTime } = message.manageGoogleActivity;
+    manageGoogleActivity(historyWatchTime).then(() => {
       sendResponse({ isSuccess: true });
     });
   }

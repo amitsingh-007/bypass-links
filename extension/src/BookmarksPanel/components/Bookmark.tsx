@@ -12,6 +12,7 @@ import {
 } from "SrcPath/PersonsPanel/utils";
 import withBookmarkRow, { InjectedProps } from "../hoc/withBookmarkRow";
 import Favicon from "./Favicon";
+import md5 from "md5";
 
 const titleStyles = { flexGrow: 1, fontSize: "14px" };
 const tooltipStyles = { fontSize: "13px" };
@@ -43,13 +44,8 @@ const Bookmark = memo<Props>(
     const initImageUrl = useCallback(async () => {
       const persons = await getPersonsFromUids(taggedPersons);
       const newPersonsWithImageUrls = await getPersonsWithImageUrl(persons);
-      if (
-        personsWithImageUrls.length !== 0 ||
-        newPersonsWithImageUrls.length !== 0
-      ) {
-        setPersonsWithImageUrls(newPersonsWithImageUrls);
-      }
-    }, [personsWithImageUrls.length, taggedPersons]);
+      setPersonsWithImageUrls(newPersonsWithImageUrls);
+    }, [taggedPersons]);
 
     useEffect(() => {
       initImageUrl();
@@ -99,7 +95,7 @@ const Bookmark = memo<Props>(
           <Favicon url={url} />
         </BlackTooltip>
         <PersonAvatars persons={personsWithImageUrls} />
-        <Typography noWrap sx={titleStyles}>
+        <Typography noWrap sx={titleStyles} data-context-id={md5(url)}>
           {title}
         </Typography>
       </Box>

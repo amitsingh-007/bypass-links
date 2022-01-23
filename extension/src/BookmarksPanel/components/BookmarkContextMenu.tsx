@@ -1,6 +1,7 @@
 import ContextMenu from "GlobalComponents/ContextMenu";
 import { VoidFunction } from "GlobalInterfaces/custom";
 import { MenuOption } from "GlobalInterfaces/menu";
+import md5 from "md5";
 import { memo, useState } from "react";
 import { AiFillEdit } from "react-icons/ai";
 import { BsFillFolderSymlinkFill } from "react-icons/bs";
@@ -46,8 +47,10 @@ const BookmarkContextMenu = memo<{
       setOpenBulkMoveDialog(!openBulkMoveDialog);
     };
 
-    const getBookmark = () => {
-      const selectedIndex = selectedBookmarks.findIndex(Boolean);
+    const getBookmark = (id: string) => {
+      const selectedIndex = contextBookmarks.findIndex(
+        (bookmark) => md5(bookmark.url ?? "") === id
+      );
       const selectedBookmark = contextBookmarks[selectedIndex];
       return {
         pos: selectedIndex,
@@ -55,13 +58,13 @@ const BookmarkContextMenu = memo<{
       };
     };
 
-    const handleDeleteOptionClick = () => {
-      const { pos, url } = getBookmark();
+    const handleDeleteOptionClick = (id: string) => {
+      const { pos, url } = getBookmark(id);
       handleUrlRemove(pos, url);
     };
 
-    const handleBookmarkEdit = () => {
-      const { url } = getBookmark();
+    const handleBookmarkEdit = (id: string) => {
+      const { url } = getBookmark(id);
       dispatch(setBookmarkOperation(BOOKMARK_OPERATION.EDIT, url));
     };
 
