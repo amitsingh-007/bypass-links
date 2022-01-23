@@ -140,9 +140,12 @@ class BookmarksPanel extends PureComponent<Props, State> {
   handleKeyPress = (event: KeyboardEvent) => {
     if (event.key === "Escape") {
       this.resetSelectedBookmarks();
-    }
-    if (event.key === "Enter") {
-      this.handleOpenSelectedBookmarks();
+    } else if (event.key === "Enter") {
+      const target = event.target as HTMLElement;
+      // To prevent from opening links on saving bookmarks using keys
+      if (target.nodeName !== "BUTTON" && target.nodeName !== "INPUT") {
+        this.handleOpenSelectedBookmarks();
+      }
     }
   };
 
