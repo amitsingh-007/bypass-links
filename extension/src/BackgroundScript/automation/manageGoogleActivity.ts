@@ -43,7 +43,7 @@ const automate = () => {
   }, 500);
 };
 
-export const manageGoogleActivity = async () => {
+export const manageGoogleActivity = async (historyWatchTime: number) => {
   const tab = await tabs.create({
     url: "https://myactivity.google.com/activitycontrols/webandapp",
   });
@@ -53,9 +53,12 @@ export const manageGoogleActivity = async () => {
         target: { tabId },
         func: automate,
       });
-      setTimeout(() => {
-        tabs.remove(tabId);
-      }, 3000);
+      //Close only when history watch time was less than 1 hour
+      if (historyWatchTime <= 60 * 60 * 1000) {
+        setTimeout(() => {
+          tabs.remove(tabId);
+        }, 3000);
+      }
     }
   });
 };

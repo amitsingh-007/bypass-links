@@ -50,7 +50,8 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
       sendResponse({ pageH1 });
     });
   } else if (message.manageGoogleActivity) {
-    manageGoogleActivity().then(() => {
+    const { historyWatchTime } = message.manageGoogleActivity;
+    manageGoogleActivity(historyWatchTime).then(() => {
       sendResponse({ isSuccess: true });
     });
   }
