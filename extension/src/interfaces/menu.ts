@@ -1,8 +1,7 @@
 import { SvgIconProps } from "@mui/material";
-import { VoidFunction } from "./custom";
 
 export interface MenuOption {
-  onClick: VoidFunction;
+  onClick: (id: string) => void;
   text: string;
   icon: React.FC<SvgIconProps>;
 }

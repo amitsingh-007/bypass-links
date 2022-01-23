@@ -2,7 +2,7 @@ import { Box, MenuItem, Typography, SvgIcon } from "@mui/material";
 import { SxProps } from "@mui/system";
 import { VoidFunction } from "GlobalInterfaces/custom";
 import { MenuOption } from "GlobalInterfaces/menu";
-import { memo } from "react";
+import { memo, useState } from "react";
 import useMenu from "SrcPath/hooks/useMenu";
 import { RightClickMenu } from "./StyledComponents";
 
@@ -22,9 +22,12 @@ const ContextMenu = memo<Props>(function ContextMenu({
   children,
 }) {
   const [isMenuOpen, menuPos, onMenuClose, onMenuOpen] = useMenu();
+  const [id, setId] = useState("");
 
   const handleRightClick = (event: React.MouseEvent<HTMLElement>) => {
     if (showMenu) {
+      const target = event.target as HTMLElement;
+      setId(target.getAttribute("data-context-id") ?? "");
       onOpen && onOpen();
       onMenuOpen(event);
     }
@@ -36,7 +39,7 @@ const ContextMenu = memo<Props>(function ContextMenu({
         key={text}
         onClick={(event) => {
           event.stopPropagation();
-          onClick();
+          onClick(id);
           onMenuClose();
         }}
         sx={{ padding: "3px 12px" }}
