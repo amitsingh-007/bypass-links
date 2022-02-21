@@ -74,7 +74,7 @@
     "eslint-plugin-prettier": "4.0.0",
     "eslint-plugin-react": "7.28.0",
     "eslint-plugin-react-hooks": "4.3.0",
-    "fork-ts-checker-webpack-plugin": "6.5.0",
+    "fork-ts-checker-webpack-plugin": "7.2.1",
     "html-webpack-plugin": "5.5.0",
     "mini-css-extract-plugin": "2.5.3",
     "node-sass": "7.0.1",
