@@ -7,7 +7,6 @@ import {
   LinearProgress,
   Slide,
   Slider,
-  SliderUnstyledTypeMap,
   TextField,
   Typography,
 } from "@mui/material";
@@ -61,10 +60,8 @@ const ImagePicker = memo<Props>(function ImagePicker({
     setInputImageUrl(inputImageUrlRef?.current?.value ?? "");
   };
 
-  const handleZoomChange: SliderUnstyledTypeMap["props"]["onChange"] = (
-    _event,
-    zoom
-  ) => setZoom(zoom as number);
+  const handleZoomChange = (_event: Event, zoom: number | number[]) =>
+    setZoom(zoom as number);
 
   const onCropComplete = useCallback((_croppedArea, croppedAreaPixels) => {
     setCroppedAreaPixels(croppedAreaPixels);

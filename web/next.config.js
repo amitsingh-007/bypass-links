@@ -16,6 +16,12 @@ const nextConfig = {
     dest: "public",
   },
   // Rest options are nextJS's
+  swcMinify: true,
+  compiler: {
+    removeConsole: {
+      exclude: ["error"],
+    },
+  },
   experimental: {
     //To build common folder, which is outside root directory; https://github.com/vercel/next.js/issues/5666
     externalDir: true,
