@@ -2,6 +2,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const ESLintPlugin = require("eslint-webpack-plugin");
 const { DefinePlugin } = require("webpack");
 const TerserPlugin = require("terser-webpack-plugin");
 const { PATHS } = require("./constants");
@@ -86,12 +87,11 @@ const commonConfig = {
       typescript: {
         configFile: tsConfigFile,
       },
-      eslint: {
-        files: "./src/**/*.{js,ts,tsx}",
-        options: {
-          cache: true,
-        },
-      },
+    }),
+    new ESLintPlugin({
+      files: "./src/**/*.{js,ts,tsx}",
+      threads: true,
+      cache: true,
     }),
     new DefinePlugin({
       __PROD__: JSON.stringify(isProduction),
