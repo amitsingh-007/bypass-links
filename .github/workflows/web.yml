@@ -57,3 +57,4 @@ jobs:
           status: ${{ job.status }}
           deployment_id: ${{ steps.preview-deployment.outputs.deployment_id }}
           env_url: ${{ steps.vercel-action.outputs.preview-url }}
+          env: ${{ steps.preview-deployment.outputs.env }}

@@ -185,6 +185,7 @@ jobs:
           status: ${{ job.status }}
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
           env_url: ${{ steps.vercel-action.outputs.preview-url }}
+          env: ${{ steps.deployment.outputs.env }}
 
       - name: Notify Admins 📱
         uses: appleboy/telegram-action@master
