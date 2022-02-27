@@ -26,8 +26,8 @@
   "dependencies": {
     "@emotion/react": "11.8.1",
     "@emotion/styled": "11.8.1",
-    "@mui/material": "5.4.2",
-    "@mui/lab": "5.0.0-alpha.69",
+    "@mui/material": "5.4.3",
+    "@mui/lab": "5.0.0-alpha.70",
     "@welldone-software/why-did-you-render": "6.2.3",
     "browser-image-compression": "1.0.17",
     "dayjs": "1.10.7",
@@ -51,7 +51,7 @@
   },
   "devDependencies": {
     "@svgr/webpack": "6.2.1",
-    "@types/chrome": "0.0.178",
+    "@types/chrome": "0.0.179",
     "@types/material-ui": "0.21.12",
     "@types/md5": "2.3.2",
     "@types/qrcode": "1.4.2",
@@ -72,7 +72,7 @@
     "css-minimizer-webpack-plugin": "3.4.1",
     "eslint": "7.32.0",
     "eslint-plugin-prettier": "4.0.0",
-    "eslint-plugin-react": "7.28.0",
+    "eslint-plugin-react": "7.29.2",
     "eslint-plugin-react-hooks": "4.3.0",
     "eslint-webpack-plugin": "3.1.1",
     "fork-ts-checker-webpack-plugin": "7.2.1",

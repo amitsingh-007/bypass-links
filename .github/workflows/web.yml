@@ -32,7 +32,7 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Start preview deployment 🚀
-        uses: bobheadxi/deployments@v0.6.2
+        uses: bobheadxi/deployments@v1.0.1
         id: preview-deployment
         with:
           step: start
@@ -49,7 +49,7 @@ jobs:
           github-comment: false
 
       - name: Finish preview deployment 🌙
-        uses: bobheadxi/deployments@v0.6.2
+        uses: bobheadxi/deployments@v1.0.1
         if: always()
         with:
           step: finish
@@ -57,3 +57,4 @@ jobs:
           status: ${{ job.status }}
           deployment_id: ${{ steps.preview-deployment.outputs.deployment_id }}
           env_url: ${{ steps.vercel-action.outputs.preview-url }}
+          env: ${{ steps.preview-deployment.outputs.env }}
