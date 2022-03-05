@@ -11,7 +11,7 @@ jobs:
       preview_url: ${{ steps.vercel-action.outputs.preview-url }}
     steps:
       - name: Checkout repo 🛎️
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setting up Node.js 🔧
         uses: actions/setup-node@v2.5.1
@@ -68,7 +68,7 @@ jobs:
         containers: [1]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Cache 💾
         uses: actions/cache@v2.1.7
@@ -98,7 +98,7 @@ jobs:
     needs: [Cypress]
     steps:
       - name: Checkout repo 🛎️
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Download artifacts 🎨
         uses: actions/download-artifact@v2
@@ -150,7 +150,7 @@ jobs:
     needs: [Create_Release]
     steps:
       - name: Checkout repo 🛎️
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setting up Node.js 🔧
         uses: actions/setup-node@v2.5.1
