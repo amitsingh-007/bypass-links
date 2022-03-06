@@ -1,5 +1,6 @@
 const path = require("path");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const ESLintPlugin = require("eslint-webpack-plugin");
 const withPWA = require("next-pwa");
 const { releaseDate } = require("./scripts/release-config");
 const { extVersion } = require("../common/src/scripts/extension-version");
@@ -46,14 +47,12 @@ const nextConfig = {
     );
     if (dev) {
       config.plugins.push(
-        new ForkTsCheckerWebpackPlugin({
-          eslint: {
-            files: "**/*.{js,ts,tsx}",
-            options: {
-              cache: true,
-            },
-          },
-        })
+        new ForkTsCheckerWebpackPlugin(),
+        new ESLintPlugin({
+          files: "./src/**/*.{js,ts,tsx}",
+          threads: true,
+          cache: true,
+        }),
       );
     }
     // https://github.com/firebase/firebase-admin-node/issues/84
