@@ -30,7 +30,7 @@
     "@mui/lab": "5.0.0-alpha.71",
     "@welldone-software/why-did-you-render": "6.2.3",
     "browser-image-compression": "1.0.17",
-    "dayjs": "1.10.8",
+    "dayjs": "1.11.0",
     "firebase": "9.6.8",
     "md5": "2.3.0",
     "memoize-one": "6.0.0",
