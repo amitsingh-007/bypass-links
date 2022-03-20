@@ -36,11 +36,15 @@ const Favicon = memo(
           component="img"
           src={faviconUrl}
           sx={containerStyles}
-          ref={ref}
+          ref={ref as React.Ref<unknown>}
           {...tooltipProps}
         />
       ) : (
-        <Box sx={containerStyles} ref={ref} {...tooltipProps}>
+        <Box
+          sx={containerStyles}
+          ref={ref as React.Ref<unknown>}
+          {...tooltipProps}
+        >
           <SvgIcon color="disabled">
             <MdBrokenImage />
           </SvgIcon>

@@ -128,7 +128,7 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
                 height: PANEL_DIMENSIONS_PX.height,
                 overflowY: "scroll",
               }}
-              ref={provided.innerRef}
+              ref={provided.innerRef as React.Ref<unknown>}
               {...provided.droppableProps}
             >
               {!isFetching && redirections.length > 0

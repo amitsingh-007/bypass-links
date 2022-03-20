@@ -39,7 +39,7 @@ const withBookmarkRow = <T extends InjectedProps>(
               justifyContent: "space-between",
               alignItems: "center",
             }}
-            ref={provided.innerRef}
+            ref={provided.innerRef as React.Ref<unknown>}
             data-is-selected={isSelected}
             {...provided.draggableProps}
             {...provided.dragHandleProps}

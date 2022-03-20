@@ -55,7 +55,7 @@ const Search = memo<Props>(function Search({ onChange }) {
         },
         width: "auto",
       }}
-      ref={ref}
+      ref={ref as React.Ref<unknown>}
     >
       <Box
         sx={{

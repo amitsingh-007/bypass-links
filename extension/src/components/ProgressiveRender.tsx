@@ -32,7 +32,7 @@ const ProgressiveRender = memo<Props>(
     }, [isRendered]);
 
     return (
-      <Box sx={containerStyles} ref={ref}>
+      <Box sx={containerStyles} ref={ref as React.Ref<unknown>}>
         {isRendered ? children : null}
       </Box>
     );
