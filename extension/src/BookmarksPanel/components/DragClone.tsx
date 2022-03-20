@@ -17,7 +17,7 @@ const DragClone: React.FC<{
       fontSize: "14px",
     }}
     data-is-selected="true"
-    ref={provided.innerRef}
+    ref={provided.innerRef as React.Ref<unknown> as React.Ref<unknown>}
     {...provided.draggableProps}
     {...provided.dragHandleProps}
   >{`Currently dragging: ${dragCount} bookmarks/folders`}</Box>
