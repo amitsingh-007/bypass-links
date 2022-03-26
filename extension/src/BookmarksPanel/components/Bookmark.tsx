@@ -36,6 +36,7 @@ const Bookmark = memo<Props>(
     handleSelectedChange,
     containerStyles,
   }) => {
+    const contextId = md5(url);
     const dispatch = useDispatch();
     const [personsWithImageUrls, setPersonsWithImageUrls] = useState<
       IPersonWithImage[]
@@ -85,6 +86,7 @@ const Bookmark = memo<Props>(
         onDoubleClick={handleOpenLink}
         onClick={handleSelectionChange}
         onContextMenu={onRightClick}
+        data-context-id={contextId}
       >
         <BlackTooltip
           title={<Typography sx={tooltipStyles}>{url}</Typography>}
@@ -95,7 +97,7 @@ const Bookmark = memo<Props>(
           <Favicon url={url} />
         </BlackTooltip>
         <PersonAvatars persons={personsWithImageUrls} />
-        <Typography noWrap sx={titleStyles} data-context-id={md5(url)}>
+        <Typography noWrap sx={titleStyles} data-context-id={contextId}>
           {title}
         </Typography>
       </Box>
