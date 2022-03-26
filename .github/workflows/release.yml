@@ -11,17 +11,17 @@ jobs:
       preview_url: ${{ steps.vercel-action.outputs.preview-url }}
     steps:
       - name: Checkout repo 🛎️
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setting up Node.js 🔧
-        uses: actions/setup-node@v2.5.1
+        uses: actions/setup-node@v3
         with:
-          node-version: "14"
+          node-version: "16"
           cache: "npm"
           cache-dependency-path: "**/package-lock.json"
 
       - name: Cache 💾
-        uses: actions/cache@v2.1.7
+        uses: actions/cache@v3
         with:
           path: |
             node_modules
@@ -31,7 +31,7 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: NextJS Cache 💾
-        uses: actions/cache@v2.1.7
+        uses: actions/cache@v3
         with:
           path: ${{ github.workspace }}/web/.next/cache
           key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}
@@ -68,10 +68,10 @@ jobs:
         containers: [1]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Cache 💾
-        uses: actions/cache@v2.1.7
+        uses: actions/cache@v3
         with:
           path: |
             node_modules
@@ -81,7 +81,7 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: "UI Tests - Chrome"
-        uses: cypress-io/github-action@v2.11.7
+        uses: cypress-io/github-action@v3.0.3
         with:
           browser: chrome
           headless: true
@@ -98,7 +98,7 @@ jobs:
     needs: [Cypress]
     steps:
       - name: Checkout repo 🛎️
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Download artifacts 🎨
         uses: actions/download-artifact@v2
@@ -150,12 +150,12 @@ jobs:
     needs: [Create_Release]
     steps:
       - name: Checkout repo 🛎️
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setting up Node.js 🔧
-        uses: actions/setup-node@v2.5.1
+        uses: actions/setup-node@v3
         with:
-          node-version: "14"
+          node-version: "16"
           cache: "npm"
           cache-dependency-path: "**/package-lock.json"
 
