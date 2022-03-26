@@ -1,0 +1,22 @@
+
+name: Cleanup CI
+on:
+  pull_request:
+    types: [ closed ]
+
+jobs:
+  Prune:
+    steps:
+    - name: Extract branch name 🕊
+      id: get_branch
+      shell: bash
+      env:
+        PR_HEAD: ${{ github.head_ref }}
+      run: echo "##[set-output name=branch;]$(echo ${PR_HEAD#refs/heads/} | tr / -)"
+
+    - name: Mark environment as deactivated 💣
+      uses: bobheadxi/deployments@v1.1.0
+      with:
+        step: deactivate-env
+        token: ${{ secrets.GITHUB_TOKEN }}
+        env: ${{ steps.get_branch.outputs.branch }}
