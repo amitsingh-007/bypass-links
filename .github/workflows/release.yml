@@ -16,7 +16,7 @@ jobs:
       - name: Setting up Node.js 🔧
         uses: actions/setup-node@v2.5.1
         with:
-          node-version: "14"
+          node-version: "16"
           cache: "npm"
           cache-dependency-path: "**/package-lock.json"
 
@@ -155,7 +155,7 @@ jobs:
       - name: Setting up Node.js 🔧
         uses: actions/setup-node@v2.5.1
         with:
-          node-version: "14"
+          node-version: "16"
           cache: "npm"
           cache-dependency-path: "**/package-lock.json"
 
