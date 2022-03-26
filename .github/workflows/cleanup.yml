@@ -6,6 +6,7 @@ on:
 
 jobs:
   Prune:
+    runs-on: ubuntu-latest
     steps:
     - name: Extract branch name 🕊
       id: get_branch
