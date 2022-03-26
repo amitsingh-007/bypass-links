@@ -28,7 +28,7 @@
     "@emotion/react": "11.8.2",
     "@emotion/styled": "11.8.1",
     "@mui/material": "5.5.2",
-    "@mui/lab": "5.0.0-alpha.73",
+    "@mui/lab": "5.0.0-alpha.74",
     "@octokit/rest": "18.12.0",
     "cors": "2.8.5",
     "express-bearer-token": "2.4.0",
