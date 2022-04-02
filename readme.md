@@ -10,7 +10,7 @@ Head over to [Bypass Links Vercel Page](https://bypass-links.vercel.app) and dow
 
 [Click Here](https://github.com/amitsingh-007/bypass-links/blob/main/contributing.md) to get started.
 
-## Security Policy [![Secutiy Policy](https://img.shields.io/badge/security%20policy-important.svg?style=flat)](https://github.com/amitsingh-007/bypass-links/blob/main/SECURITY.md)
+## Security Policy [![Secutiy Policy](https://img.shields.io/badge/security%20policy-important.svg?style=flat)](https://github.com/amitsingh-007/bypass-links/blob/main/security.md)
 
 [Click Here to read security policy](https://github.com/amitsingh-007/bypass-links/blob/main/security.md) to get started.
 
