@@ -39,7 +39,7 @@ jobs:
         run: npm run ext:build
 
       - name: Upload extension 🌐
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: extension-file
           path: ./extension/extension-build/bypass-links-*.zip
