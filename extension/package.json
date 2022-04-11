@@ -46,7 +46,7 @@
     "react-window": "1.8.6",
     "redux": "4.1.2",
     "redux-logger": "3.0.6",
-    "throttle-debounce": "3.0.1",
+    "throttle-debounce": "4.0.0",
     "utility-types": "3.10.0"
   },
   "devDependencies": {
