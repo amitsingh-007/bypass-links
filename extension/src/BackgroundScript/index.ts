@@ -27,15 +27,34 @@ chrome.runtime.onStartup.addListener(() => {
     });
 });
 
-//Listen tab url change
-chrome.tabs.onUpdated.addListener(async (tabId, changeInfo) => {
-  const { url = "" } = changeInfo;
+const onPageLoad = async (tabId: number, url: string) => {
   const extState = await getExtensionState();
   if (isValidUrl(url) && isExtensionActive(extState)) {
     const currentTabUrl = new URL(url);
     bypass(tabId, currentTabUrl);
     redirect(tabId, currentTabUrl);
     turnOffInputSuggestions(tabId);
+  }
+};
+
+//Listen tab url change
+chrome.tabs.onUpdated.addListener((tabId, changeInfo) =>
+  onPageLoad(tabId, changeInfo?.url ?? "")
+);
+
+/**
+ * NOTE: Can remove chrome.tabs.onUpdated in favor of this
+ * @link https://stackoverflow.com/questions/16949810/how-can-i-run-this-script-when-the-tab-reloads-chrome-extension
+ */
+chrome.webNavigation.onCommitted.addListener((details) => {
+  if (["reload"].includes(details.transitionType)) {
+    chrome.webNavigation.onCompleted.addListener(function onComplete({
+      tabId,
+      url,
+    }) {
+      onPageLoad(tabId, url);
+      chrome.webNavigation.onCompleted.removeListener(onComplete);
+    });
   }
 });
 

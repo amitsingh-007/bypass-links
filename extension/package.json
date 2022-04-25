@@ -23,6 +23,9 @@
       }
     }
   },
+  "optionalDependencies": {
+    "@types/react": "17.0.44"
+  },
   "dependencies": {
     "@emotion/react": "11.8.2",
     "@emotion/styled": "11.8.1",
