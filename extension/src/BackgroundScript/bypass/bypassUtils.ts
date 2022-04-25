@@ -37,6 +37,7 @@ const bypassAndHostnameMapping = {
   [BYPASS_KEYS.BONSAI]: bypassBonsai,
   [BYPASS_KEYS.BONSAILINK]: bypassBonsaiLink,
   [BYPASS_KEYS.FORUMS]: bypassForums,
+  [BYPASS_KEYS.FORUMS_V2]: bypassForums,
   [BYPASS_KEYS.JUSTPASTEIT]: bypassPageLinks,
   [BYPASS_KEYS.PASTELINK]: bypassPageLinks,
   [BYPASS_KEYS.RENTRY]: bypassPageLinks,
