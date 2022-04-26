@@ -1,6 +1,7 @@
 import tabs from "GlobalHelpers/chrome/tabs";
 import {
   bypassLinkvertiseUsingExternalApi,
+  bypassLinkvertiseUsingExternalFallbackApi,
   fetchLinkMetaData,
   fetchTargetUrl,
 } from "SrcPath/BackgroundScript/apis/linkvertise";
@@ -33,13 +34,16 @@ export const bypassLinkvertise = async (url: URL, tabId: number) => {
     target || ""
   );
   let targetUrl = await fetchTargetUrl(userId, linkId, linkUrl);
-  const targetUrlObj = new URL(targetUrl);
+  const hostname = targetUrl ? new URL(targetUrl).hostname : "";
   const isLinkvetiseDownloadPage = await matchHostnames(
-    targetUrlObj.hostname,
+    hostname,
     BYPASS_KEYS.LINKVERTISE_DOWNLOAD
   );
   if (isLinkvetiseDownloadPage) {
     targetUrl = await bypassLinkvertiseUsingExternalApi(url);
+  }
+  if (!targetUrl) {
+    targetUrl = await bypassLinkvertiseUsingExternalFallbackApi(url);
   }
   await tabs.update(tabId, { url: targetUrl });
 };

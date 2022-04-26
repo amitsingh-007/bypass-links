@@ -27,6 +27,7 @@ export enum BYPASS_KEYS {
   PASTELINK = "PASTELINK",
   RENTRY = "RENTRY",
   MEDIUM = "MEDIUM",
+  FORUMS_V2 = "FORUMS_V2",
 }
 
 export const FIREBASE_STORAGE_REF = {

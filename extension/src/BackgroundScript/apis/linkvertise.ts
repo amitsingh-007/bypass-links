@@ -62,3 +62,19 @@ export const bypassLinkvertiseUsingExternalApi = async (
     .then((data) => data);
   return response.destination;
 };
+
+export const bypassLinkvertiseUsingExternalFallbackApi = async (
+  urlObj: URL
+): Promise<string> => {
+  const apiUrl = `https://api.bypass.vip/`;
+  const data = new URLSearchParams({ url: urlObj.href });
+  const result = await fetch(apiUrl, {
+    method: "POST",
+    body: data,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+    },
+  });
+  const response = await result.json();
+  return response.response?.substring(11);
+};

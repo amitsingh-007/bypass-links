@@ -12,7 +12,10 @@ import StyledButton from "./StyledButton";
 
 const isCurrentPageForum = async (url = "") => {
   const hostname = url && new URL(url).hostname;
-  return await matchHostnames(hostname, BYPASS_KEYS.FORUMS);
+  return (
+    (await matchHostnames(hostname, BYPASS_KEYS.FORUMS)) ||
+    (await matchHostnames(hostname, BYPASS_KEYS.FORUMS_V2))
+  );
 };
 
 const OpenForumLinks = memo(function OpenForumLinks() {
