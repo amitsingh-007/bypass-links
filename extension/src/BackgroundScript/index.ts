@@ -28,6 +28,9 @@ chrome.runtime.onStartup.addListener(() => {
 });
 
 const onPageLoad = async (tabId: number, url: string) => {
+  if (!url) {
+    return;
+  }
   const extState = await getExtensionState();
   if (isValidUrl(url) && isExtensionActive(extState)) {
     const currentTabUrl = new URL(url);
@@ -50,9 +53,8 @@ chrome.webNavigation.onCommitted.addListener((details) => {
   if (["reload"].includes(details.transitionType)) {
     chrome.webNavigation.onCompleted.addListener(function onComplete({
       tabId,
-      url,
     }) {
-      onPageLoad(tabId, url);
+      onPageLoad(tabId, details.url);
       chrome.webNavigation.onCompleted.removeListener(onComplete);
     });
   }
