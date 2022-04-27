@@ -37,7 +37,7 @@ jobs:
           key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install dependencies 🧼
-        run: npm install && npm run bootstrap
+        run: npm install && npm run bootstrap --legacy-peer-deps
 
       - name: Building Extension🛠
         run: npm run ext:build

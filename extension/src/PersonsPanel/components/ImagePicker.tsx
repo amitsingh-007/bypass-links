@@ -63,9 +63,12 @@ const ImagePicker = memo<Props>(function ImagePicker({
   const handleZoomChange = (_event: Event, zoom: number | number[]) =>
     setZoom(zoom as number);
 
-  const onCropComplete = useCallback((_croppedArea, croppedAreaPixels) => {
-    setCroppedAreaPixels(croppedAreaPixels);
-  }, []);
+  const onCropComplete = useCallback(
+    (_croppedArea: Area, croppedAreaPixels: Area) => {
+      setCroppedAreaPixels(croppedAreaPixels);
+    },
+    []
+  );
 
   const showCroppedImage = useCallback(async () => {
     if (!inputImageUrl) {

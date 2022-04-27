@@ -47,7 +47,10 @@ export const ScrollButton = memo<Props>(function ScrollButton({
   );
 });
 
-const ButtonContainer: React.FC<{ onClick: any }> = ({ onClick, children }) => (
+const ButtonContainer: React.FC<{
+  children?: React.ReactNode;
+  onClick: any;
+}> = ({ onClick, children }) => (
   <IconButton
     sx={{
       backgroundColor: (theme) => theme.palette.grey[800],

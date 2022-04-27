@@ -11,90 +11,92 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { memo } from "react";
 
-export const AccordionHeader = memo(function AccordionHeader({ children }) {
-  const accordionRef = useRef<HTMLDivElement>(null);
-  const [isExpanded, setIsExpanded] = useState(false);
+export const AccordionHeader = memo<{ children?: React.ReactNode }>(
+  function AccordionHeader({ children }) {
+    const accordionRef = useRef<HTMLDivElement>(null);
+    const [isExpanded, setIsExpanded] = useState(false);
 
-  const onAccordionStateChange = (
-    _event: React.SyntheticEvent,
-    isExpanded: boolean
-  ) => {
-    setIsExpanded(isExpanded);
-  };
-
-  const handleEscapeKeyPress = useCallback(
-    (event) => {
-      if (event.key !== "Escape") {
-        return;
-      }
-      if (isExpanded) {
-        setIsExpanded(false);
-        event.stopPropagation();
-        event.preventDefault();
-      }
-    },
-    [isExpanded]
-  );
-
-  useEffect(() => {
-    const node = accordionRef?.current;
-    node?.addEventListener("keydown", handleEscapeKeyPress);
-    return () => {
-      node?.removeEventListener("keydown", handleEscapeKeyPress);
+    const onAccordionStateChange = (
+      _event: React.SyntheticEvent,
+      isExpanded: boolean
+    ) => {
+      setIsExpanded(isExpanded);
     };
-  }, [handleEscapeKeyPress]);
 
-  return children ? (
-    <Accordion
-      ref={accordionRef}
-      expanded={isExpanded}
-      onChange={onAccordionStateChange}
-      sx={{ margin: "0px !important", ...STICKY_HEADER }}
-    >
-      {children}
-    </Accordion>
-  ) : null;
-});
+    const handleEscapeKeyPress = useCallback(
+      (event: KeyboardEvent) => {
+        if (event.key !== "Escape") {
+          return;
+        }
+        if (isExpanded) {
+          setIsExpanded(false);
+          event.stopPropagation();
+          event.preventDefault();
+        }
+      },
+      [isExpanded]
+    );
 
-export const PrimaryHeaderContent = memo(function PrimaryHeaderContent({
-  children,
-}) {
-  return (
-    <AccordionSummary
-      sx={{
-        padding: "8px 0px",
-        minHeight: "unset !important",
-        "& .MuiAccordionSummary-content": { margin: "0px !important" },
-      }}
-    >
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          width: "100%",
-        }}
+    useEffect(() => {
+      const node = accordionRef?.current;
+      node?.addEventListener("keydown", handleEscapeKeyPress);
+      return () => {
+        node?.removeEventListener("keydown", handleEscapeKeyPress);
+      };
+    }, [handleEscapeKeyPress]);
+
+    return children ? (
+      <Accordion
+        ref={accordionRef}
+        expanded={isExpanded}
+        onChange={onAccordionStateChange}
+        sx={{ margin: "0px !important", ...STICKY_HEADER }}
       >
         {children}
-      </Box>
-    </AccordionSummary>
-  );
-});
+      </Accordion>
+    ) : null;
+  }
+);
 
-export const SecondaryHeaderContent = memo(function SecondaryHeaderContent({
-  children,
-}) {
-  return (
-    <AccordionDetails sx={{ padding: "10px 12px 12px 12px" }}>
-      <Box
+export const PrimaryHeaderContent = memo<{ children?: React.ReactNode }>(
+  function PrimaryHeaderContent({ children }) {
+    return (
+      <AccordionSummary
         sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
+          padding: "8px 0px",
+          minHeight: "unset !important",
+          "& .MuiAccordionSummary-content": { margin: "0px !important" },
         }}
       >
-        {children}
-      </Box>
-    </AccordionDetails>
-  );
-});
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
+          {children}
+        </Box>
+      </AccordionSummary>
+    );
+  }
+);
+
+export const SecondaryHeaderContent = memo<{ children?: React.ReactNode }>(
+  function SecondaryHeaderContent({ children }) {
+    return (
+      <AccordionDetails sx={{ padding: "10px 12px 12px 12px" }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          {children}
+        </Box>
+      </AccordionDetails>
+    );
+  }
+);
