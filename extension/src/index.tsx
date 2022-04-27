@@ -11,7 +11,7 @@ import Global from "GlobalContainers/Global";
 import PopupRoutes from "GlobalContainers/PopupRoutes";
 import "GlobalStyles/popup.scss";
 import { StrictMode } from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { applyMiddleware, compose, createStore } from "redux";
@@ -72,21 +72,24 @@ const theme = createTheme({
   },
 });
 
-ReactDOM.render(
-  <StrictMode>
-    <ErrorBoundary>
-      <Provider store={store}>
-        <BrowserRouter>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <PopupRoutes />
-            <Global />
-          </ThemeProvider>
-        </BrowserRouter>
-      </Provider>
-    </ErrorBoundary>
-  </StrictMode>,
-  document.getElementById("root")
+const container = document.getElementById("root");
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+const root = createRoot(container!);
+root.render(
+  // !NOTE: Enable StrictMode when react-beautiful-dnd is supported for React 18
+  // <StrictMode>
+  <ErrorBoundary>
+    <Provider store={store}>
+      <BrowserRouter>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <PopupRoutes />
+          <Global />
+        </ThemeProvider>
+      </BrowserRouter>
+    </Provider>
+  </ErrorBoundary>
+  // </StrictMode>
 );
 
 document.body.addEventListener("keydown", (e) => {
