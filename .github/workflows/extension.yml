@@ -33,7 +33,7 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Install dependencies 🧼
-        run: npm install && npm run bootstrap --legacy-peer-deps
+        run: npm install && npm run bootstrap
 
       - name: Building 🛠
         run: npm run ext:build

@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "command": {
     "bootstrap": {
-      "hoist": true
+      "hoist": true,
+      "npmClientArgs": ["--legacy-peer-deps"]
     }
   }
 }
