@@ -10,7 +10,7 @@ import { BG_COLOR_BLACK } from "GlobalConstants/color";
 import Global from "GlobalContainers/Global";
 import PopupRoutes from "GlobalContainers/PopupRoutes";
 import "GlobalStyles/popup.scss";
-import { StrictMode } from "react";
+// import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
