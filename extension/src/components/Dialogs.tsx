@@ -11,6 +11,7 @@ import { MdClose, MdDone } from "react-icons/md";
 import { RiBookmark2Fill } from "react-icons/ri";
 
 interface Props {
+  children?: React.ReactNode;
   headerText: string;
   openDialog: boolean;
   closeDialog: VoidFunction;
