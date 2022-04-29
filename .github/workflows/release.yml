@@ -43,7 +43,7 @@ jobs:
         run: npm run ext:build
 
       - name: Uploading extension 🌐
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: extension-file
           path: ./extension/extension-build/bypass-links-*.zip
@@ -101,7 +101,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Download artifacts 🎨
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: extension-file
           path: ./extension/extension-build/
