@@ -3,7 +3,7 @@
 ## Setup on local
 
 - Fork this repository.
-- Run `npm install && npm run bootstrap`.
+- Run `npm install`.
 - For local development:
   - Run `npm run ext:dev` to watch extenion.
   - Run `npm run ext:build` for production build of extension.
