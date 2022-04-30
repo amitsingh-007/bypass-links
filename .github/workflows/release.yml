@@ -2,63 +2,10 @@ name: Deploy CI
 on:
   push:
     branches:
-      - "main"
+      - "f-fix-cypress"
 
 jobs:
-  Build:
-    runs-on: ubuntu-latest
-    outputs:
-      preview_url: ${{ steps.vercel-action.outputs.preview-url }}
-    steps:
-      - name: Checkout repo 🛎️
-        uses: actions/checkout@v3
-
-      - name: Setting up Node.js 🔧
-        uses: actions/setup-node@v3
-        with:
-          node-version: "16"
-          cache: "npm"
-          cache-dependency-path: "**/package-lock.json"
-
-      - name: Cache 💾
-        uses: actions/cache@v3
-        with:
-          path: |
-            node_modules
-            */*/node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
-      - name: NextJS Cache 💾
-        uses: actions/cache@v3
-        with:
-          path: ${{ github.workspace }}/web/.next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}
-
-      - name: Install dependencies 🧼
-        run: npm install
-
-      - name: Building Extension🛠
-        run: npm run ext:build
-
-      - name: Uploading extension 🌐
-        uses: actions/upload-artifact@v3
-        with:
-          name: extension-file
-          path: ./extension/extension-build/bypass-links-*.zip
-
-      - name: Deploy Preview (Vercel) 🔺
-        uses: amondnet/vercel-action@v20
-        id: vercel-action
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
-          github-comment: false
-
   Cypress:
-    needs: [Build]
     timeout-minutes: 10
     runs-on: ubuntu-latest
     container: cypress/browsers:node14.16.0-chrome90-ff88
@@ -80,6 +27,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
+      - name: Install dependencies 🧼
+        run: npm install
+
       - name: "UI Tests - Chrome"
         uses: cypress-io/github-action@v3.0.3
         with:
@@ -89,107 +39,7 @@ jobs:
           parallel: true
           working-directory: e2e
           config: baseUrl=${{needs.Build.outputs.preview_url}}
+          install: false
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  Create_Release:
-    runs-on: ubuntu-latest
-    needs: [Cypress]
-    steps:
-      - name: Checkout repo 🛎️
-        uses: actions/checkout@v3
-
-      - name: Download artifacts 🎨
-        uses: actions/download-artifact@v3
-        with:
-          name: extension-file
-          path: ./extension/extension-build/
-
-      - name: Generate Release Tag 🏷
-        uses: amitsingh-007/next-release-tag@v1.0.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Generate changelog 🧾
-        id: changelog
-        uses: metcalfc/changelog-generator@v3.0.0
-        with:
-          myToken: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Create Release ✒
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ env.release_tag }}
-          release_name: Release ${{ env.release_tag }}
-          body: ${{ steps.changelog.outputs.changelog }}
-          draft: false
-          prerelease: false
-
-      - name: Get Release Asset Name 🗃
-        id: get_release_asset_name
-        run: |
-          file=$(find ./extension/extension-build/bypass-links-*.zip  -printf "%f\n")
-          echo "::set-output name=asset_name::$file"
-
-      - name: Upload Release Asset ☁
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./extension/extension-build/${{ steps.get_release_asset_name.outputs.asset_name }}
-          asset_name: ${{ steps.get_release_asset_name.outputs.asset_name }}
-          asset_content_type: application/zip
-
-  Deploy:
-    runs-on: ubuntu-latest
-    needs: [Create_Release]
-    steps:
-      - name: Checkout repo 🛎️
-        uses: actions/checkout@v3
-
-      - name: Setting up Node.js 🔧
-        uses: actions/setup-node@v3
-        with:
-          node-version: "16"
-          cache: "npm"
-          cache-dependency-path: "**/package-lock.json"
-
-      - name: Start deployment 🚀
-        uses: bobheadxi/deployments@v1.1.0
-        id: deployment
-        with:
-          step: start
-          token: ${{ secrets.GITHUB_TOKEN }}
-          env: Production
-
-      - name: Deploy (Vercel) 🔺
-        uses: amondnet/vercel-action@v20
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
-          vercel-args: "--prod"
-
-      - name: Finish deployment 🌙
-        uses: bobheadxi/deployments@v1.1.0
-        if: always()
-        with:
-          step: finish
-          token: ${{ secrets.GITHUB_TOKEN }}
-          status: ${{ job.status }}
-          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
-          env_url: ${{ steps.vercel-action.outputs.preview-url }}
-          env: ${{ steps.deployment.outputs.env }}
-
-      - name: Notify Admins 📱
-        uses: appleboy/telegram-action@master
-        with:
-          to: ${{ secrets.TELEGRAM_TO }}
-          token: ${{ secrets.TELEGRAM_TOKEN }}
-          args: Release succesful. Check the latest version on https://bypass-links.vercel.app/. 🎉🥳
