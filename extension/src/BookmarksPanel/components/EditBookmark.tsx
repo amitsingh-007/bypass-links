@@ -1,15 +1,14 @@
-import { defaultBookmarkFolder } from "GlobalConstants";
 import { getCurrentTab } from "GlobalHelpers/chrome/tabs";
 import { RootState } from "GlobalReducers/rootReducer";
-import { PureComponent } from "react";
-import { connect, ConnectedProps } from "react-redux";
-import withRouter, { WithRouterProps } from "SrcPath/hoc/withRouter";
-import { compose } from "redux";
+import { memo, useCallback, useEffect, useState } from "react";
 import { resetBookmarkOperation } from "../actionCreators";
 import { BOOKMARK_OPERATION } from "../constants";
 import { ContextBookmark, ContextBookmarks } from "../interfaces";
 import { getBookmarksPanelUrl } from "../utils/url";
 import BookmarkDialog from "./BookmarkDialog";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const heading = {
   [BOOKMARK_OPERATION.NONE]: "",
@@ -17,7 +16,7 @@ const heading = {
   [BOOKMARK_OPERATION.EDIT]: "Edit bookmark",
 };
 
-interface Props extends WithRouterProps, PropsFromRedux {
+interface Props {
   folderNamesList: string[];
   curFolder: string;
   contextBookmarks: ContextBookmarks;
@@ -35,135 +34,107 @@ interface Props extends WithRouterProps, PropsFromRedux {
   onDelete: (pos: number, url: string) => void;
 }
 
-interface State {
-  pos: number;
-  url: string;
-  title: string;
-  taggedPersons: string[];
-  folder: string;
-  openDialog: boolean;
-}
-
-const defaultBookmarkFields = {
-  pos: -1,
-  url: "",
-  title: "",
-  folder: "",
-  taggedPersons: [],
-};
-
-class EditBookmark extends PureComponent<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      ...defaultBookmarkFields,
-      openDialog: false,
-    };
-  }
-
-  resolveBookmark = async (operation: BOOKMARK_OPERATION, bmUrl: string) => {
-    const { contextBookmarks, curFolder } = this.props;
-    if (operation === BOOKMARK_OPERATION.ADD) {
-      const { title = "" } = await getCurrentTab();
-      this.setState({
-        pos: contextBookmarks.length,
-        folder: defaultBookmarkFolder,
-        taggedPersons: [],
-        url: bmUrl,
-        title,
-        openDialog: true,
-      });
-      return;
-    }
-    let bookmark: Required<ContextBookmark> | undefined;
-    let pos = -1;
-    contextBookmarks.forEach((x, index) => {
-      if (x.url === bmUrl) {
-        bookmark = x as Required<ContextBookmark>;
-        pos = index;
-      }
-    });
-    if (bookmark) {
-      this.setState({
-        pos,
-        url: bookmark.url,
-        title: bookmark.title,
-        taggedPersons: bookmark.taggedPersons,
-        folder: curFolder,
-        openDialog: true,
-      });
-    }
-  };
-
-  componentDidUpdate(prevProps: Props) {
-    const { operation, bmUrl } = this.props;
-    if (
-      prevProps.operation !== operation &&
-      operation !== BOOKMARK_OPERATION.NONE
-    ) {
-      this.resolveBookmark(operation, bmUrl);
-    }
-  }
-
-  closeDialog = () => {
-    const { pos, openDialog } = this.state;
-    const {
-      curFolder,
-      operation,
-      navigate,
-      resetBookmarkOperation,
-      handleScroll,
-      handleSelectedChange,
-    } = this.props;
-    //Remove qs before closing and mark current as selected
-    if (operation === BOOKMARK_OPERATION.EDIT && openDialog) {
-      navigate(getBookmarksPanelUrl({ folderContext: curFolder }), {
-        replace: true,
-      });
-    }
-    this.setState({ ...defaultBookmarkFields, openDialog: false });
-    resetBookmarkOperation();
-    if (operation === BOOKMARK_OPERATION.EDIT) {
-      handleScroll(pos);
-      handleSelectedChange(pos, true);
-    }
-  };
-
-  handleBookmarkDelete = () => {
-    const { onDelete } = this.props;
-    const { pos, url } = this.state;
-    onDelete(pos, url);
-    this.closeDialog();
-  };
-
-  handleBookmarkSave = (
-    url: string,
-    newTitle: string,
-    newFolder: string,
-    newTaggedPersons: string[]
-  ) => {
-    const { taggedPersons, pos } = this.state;
-    const { curFolder, onSave } = this.props;
-    onSave(
-      url,
-      newTitle,
-      curFolder,
-      newFolder,
-      pos,
-      taggedPersons,
-      newTaggedPersons
+const EditBookmark = memo<Props>(
+  ({
+    folderNamesList,
+    curFolder,
+    contextBookmarks,
+    handleScroll,
+    handleSelectedChange,
+    onSave,
+    onDelete,
+  }) => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const [pos, setPos] = useState(-1);
+    const [url, setUrl] = useState("");
+    const [title, setTitle] = useState("");
+    const [taggedPersons, setTaggedPersons] = useState<string[]>([]);
+    const [openDialog, setOpenDialog] = useState(false);
+    const { operation, url: bmUrl } = useSelector(
+      (state: RootState) => state.bookmarkOperation
     );
-    this.closeDialog();
-  };
 
-  render() {
-    const { openDialog, url, title, taggedPersons } = this.state;
-    const { curFolder, operation, folderNamesList } = this.props;
+    const resolveBookmark = useCallback(
+      async (operation: BOOKMARK_OPERATION, bmUrl: string) => {
+        if (operation === BOOKMARK_OPERATION.ADD) {
+          const { title = "" } = await getCurrentTab();
+          setPos(contextBookmarks.length);
+          setUrl(bmUrl);
+          setTitle(title);
+          setTaggedPersons([]);
+          setOpenDialog(true);
+          return;
+        }
+        let bookmark: Required<ContextBookmark> | undefined;
+        let pos = -1;
+        contextBookmarks.forEach((x, index) => {
+          if (x.url === bmUrl) {
+            bookmark = x as Required<ContextBookmark>;
+            pos = index;
+          }
+        });
+        if (bookmark) {
+          setPos(pos);
+          setUrl(bookmark.url);
+          setTitle(bookmark.title);
+          setTaggedPersons(bookmark.taggedPersons);
+          setOpenDialog(true);
+        }
+      },
+      [contextBookmarks]
+    );
 
-    if (!openDialog) {
-      return null;
-    }
-    return (
+    useEffect(() => {
+      if (operation !== BOOKMARK_OPERATION.NONE) {
+        resolveBookmark(operation, bmUrl);
+      }
+    }, [bmUrl, operation, resolveBookmark]);
+
+    const closeDialog = () => {
+      //Remove qs before closing and mark current as selected
+      if (operation === BOOKMARK_OPERATION.EDIT && openDialog) {
+        navigate(getBookmarksPanelUrl({ folderContext: curFolder }), {
+          replace: true,
+        });
+      }
+      // Reset bookmark fields
+      setPos(-1);
+      setUrl("");
+      setTitle("");
+      setTaggedPersons([]);
+      setOpenDialog(false);
+      dispatch(resetBookmarkOperation());
+      if (operation === BOOKMARK_OPERATION.EDIT) {
+        handleScroll(pos);
+        handleSelectedChange(pos, true);
+      }
+    };
+
+    const handleBookmarkDelete = () => {
+      onDelete(pos, url);
+      closeDialog();
+    };
+
+    const handleBookmarkSave = (
+      url: string,
+      newTitle: string,
+      newFolder: string,
+      newTaggedPersons: string[]
+    ) => {
+      onSave(
+        url,
+        newTitle,
+        curFolder,
+        newFolder,
+        pos,
+        taggedPersons,
+        newTaggedPersons
+      );
+      closeDialog();
+    };
+
+    return openDialog ? (
       <BookmarkDialog
         isOpen
         url={url}
@@ -172,30 +143,18 @@ class EditBookmark extends PureComponent<Props, State> {
         origTaggedPersons={taggedPersons}
         headerText={heading[operation]}
         folderList={folderNamesList}
-        handleSave={this.handleBookmarkSave}
+        handleSave={handleBookmarkSave}
         handleDelete={
           operation === BOOKMARK_OPERATION.EDIT
-            ? this.handleBookmarkDelete
+            ? handleBookmarkDelete
             : undefined
         }
-        onClose={this.closeDialog}
+        onClose={closeDialog}
         isSaveActive={operation === BOOKMARK_OPERATION.ADD}
       />
-    );
+    ) : null;
   }
-}
+);
+EditBookmark.displayName = "EditBookmark";
 
-const mapStateToProps = (state: RootState) => {
-  const { operation, url: bmUrl } = state.bookmarkOperation;
-  return { operation, bmUrl };
-};
-
-const mapDispatchToProps = {
-  resetBookmarkOperation,
-};
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>;
-const withCompose = compose(connector);
-
-export default withRouter(withCompose(EditBookmark));
+export default EditBookmark;
