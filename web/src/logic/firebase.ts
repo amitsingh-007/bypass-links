@@ -8,7 +8,7 @@ import { Firebase } from "../interfaces/firebase";
  * Vercel stringifies the json and JSON.parse fails on the private key.
  *
  * SERVICE_ACCOUNT_KEY: contains the credetials json except the private_key
- * FIREBASE_PRIVATE_KEY: contains the private key
+ * FIREBASE_PRIVATE_KEY: contains the private key sjnmdolifhjnsdf
  */
 const getFirebaseCredentials = () => {
   const serviceAccountKey = JSON.parse(process.env.SERVICE_ACCOUNT_KEY ?? "");
