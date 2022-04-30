@@ -2,7 +2,7 @@
 
 ## NOTE
 
-Since dependabot bot doesnt support lerna packages yet, so we cant make this as a lerna package.
+Since dependabot bot doesnt support lerna packages yet, so we cant make this as a package.
 
 You can track the issue raised [here](https://github.com/dependabot/dependabot-core/issues/2167).
 
