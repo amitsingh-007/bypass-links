@@ -30,6 +30,8 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
+      - name: Install dependencies 🧼
+        run: npm install
 
       - name: Start preview deployment 🚀
         uses: bobheadxi/deployments@v1.1.0
@@ -46,6 +48,7 @@ jobs:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
+           working-directory: ./web
           github-comment: false
 
       - name: Finish preview deployment 🌙
