@@ -53,7 +53,7 @@ export const fetchTargetUrl = async (
   return response.data.target;
 };
 
-export const bypassLinkvertiseUsingExternalApi = async (
+export const bypassLinkvertiseUsingExternalFallbackApi = async (
   urlObj: URL
 ): Promise<string> => {
   const apiUrl = `https://bypass.bot.nu/bypass2?url=${urlObj.href}`;
@@ -63,7 +63,7 @@ export const bypassLinkvertiseUsingExternalApi = async (
   return response.destination;
 };
 
-export const bypassLinkvertiseUsingExternalFallbackApi = async (
+export const bypassLinkvertiseUsingExternalApi = async (
   urlObj: URL
 ): Promise<string> => {
   const apiUrl = `https://api.bypass.vip/`;
