@@ -31,7 +31,7 @@
     "@mui/x-date-pickers": "5.0.0-alpha.2",
     "@welldone-software/why-did-you-render": "7.0.1",
     "browser-image-compression": "2.0.0",
-    "dayjs": "1.11.1",
+    "dayjs": "1.11.2",
     "firebase": "9.8.0",
     "md5": "2.3.0",
     "memoize-one": "6.0.0",
