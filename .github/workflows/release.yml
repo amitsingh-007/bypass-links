@@ -84,7 +84,7 @@ jobs:
         run: cd e2e && npm install
 
       - name: "UI Tests - Chrome"
-        uses: cypress-io/github-action@v3.0.4
+        uses: cypress-io/github-action@v3.0.5
         with:
           browser: chrome
           headless: true
