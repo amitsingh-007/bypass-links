@@ -84,7 +84,7 @@ jobs:
         run: cd e2e && npm install
 
       - name: "UI Tests - Chrome"
-        uses: cypress-io/github-action@v3.0.4
+        uses: cypress-io/github-action@v3.0.5
         with:
           browser: chrome
           headless: true
@@ -164,7 +164,7 @@ jobs:
           cache-dependency-path: "**/package-lock.json"
 
       - name: Start deployment 🚀
-        uses: bobheadxi/deployments@v1.1.0
+        uses: bobheadxi/deployments@v1.2.0
         id: deployment
         with:
           step: start
@@ -181,7 +181,7 @@ jobs:
           vercel-args: "--prod"
 
       - name: Finish deployment 🌙
-        uses: bobheadxi/deployments@v1.1.0
+        uses: bobheadxi/deployments@v1.2.0
         if: always()
         with:
           step: finish
