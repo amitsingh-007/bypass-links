@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const fs = require('s');
+const fs = require('fs');
 const archiver = require('archiver');
 const { PATHS } = require('../webpack/constants');
 const { extVersion } = require('../../common/src/scripts/extension-version');
