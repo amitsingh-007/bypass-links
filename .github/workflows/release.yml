@@ -2,7 +2,7 @@ name: Deploy CI
 on:
   push:
     branches:
-      - "main"
+      - 'main'
 
 jobs:
   Build:
@@ -16,9 +16,9 @@ jobs:
       - name: Setting up Node.js 🔧
         uses: actions/setup-node@v3
         with:
-          node-version: "16"
-          cache: "npm"
-          cache-dependency-path: "**/package-lock.json"
+          node-version: '16'
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
 
       - name: Cache 💾
         uses: actions/cache@v3
@@ -83,7 +83,7 @@ jobs:
       - name: Install dependencies 🧼
         run: cd e2e && npm install
 
-      - name: "UI Tests - Chrome"
+      - name: 'UI Tests - Chrome'
         uses: cypress-io/github-action@v3.1.0
         with:
           browser: chrome
@@ -159,9 +159,9 @@ jobs:
       - name: Setting up Node.js 🔧
         uses: actions/setup-node@v3
         with:
-          node-version: "16"
-          cache: "npm"
-          cache-dependency-path: "**/package-lock.json"
+          node-version: '16'
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
 
       - name: Start deployment 🚀
         uses: bobheadxi/deployments@v1.2.0
@@ -178,7 +178,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
-          vercel-args: "--prod"
+          vercel-args: '--prod'
 
       - name: Finish deployment 🌙
         uses: bobheadxi/deployments@v1.2.0

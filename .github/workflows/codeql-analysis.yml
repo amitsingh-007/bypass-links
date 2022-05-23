@@ -1,9 +1,9 @@
-name: "CodeQL"
+name: 'CodeQL'
 
 on:
   push:
     branches-ignore:
-      - "dependabot/**"
+      - 'dependabot/**'
   pull_request:
     branches: [main]
 
@@ -19,7 +19,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: ["javascript", "typescript"]
+        language: ['javascript', 'typescript']
 
     steps:
       - name: Checkout repository 🛎️

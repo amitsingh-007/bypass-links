@@ -1,6 +1,6 @@
 manifest:
   name: manifest.json
-  dir: "./extension/public/"
+  dir: './extension/public/'
 workflow:
   name: Extension CI
   artifact: extension-file

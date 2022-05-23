@@ -2,10 +2,10 @@ name: Web CI
 on:
   push:
     branches-ignore:
-      - "main"
-      - "dependabot/**"
+      - 'main'
+      - 'dependabot/**'
     paths-ignore:
-      - "extension/**"
+      - 'extension/**'
 
 jobs:
   Build:
@@ -19,7 +19,7 @@ jobs:
       - name: Setting up Node.js 🔧
         uses: actions/setup-node@v3
         with:
-          node-version: "16"
+          node-version: '16'
 
       - name: Cache 💾
         uses: actions/cache@v3
