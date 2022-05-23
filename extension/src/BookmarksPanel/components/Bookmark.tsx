@@ -53,7 +53,7 @@ const Bookmark = memo<Props>(
     }, [initImageUrl]);
 
     const handleOpenLink: React.MouseEventHandler<HTMLDivElement> = (event) => {
-      if (event.ctrlKey) {
+      if (event.ctrlKey || event.metaKey) {
         return;
       }
       dispatch(startHistoryMonitor());
@@ -64,8 +64,8 @@ const Bookmark = memo<Props>(
       if (!handleSelectedChange) {
         return;
       }
-      const isCtrlPressed = event.ctrlKey;
-      handleSelectedChange(pos, !isCtrlPressed);
+      const isCtrlOrCommandKey = event.ctrlKey || event.metaKey;
+      handleSelectedChange(pos, !isCtrlOrCommandKey);
     };
 
     const onRightClick = () => {

@@ -5,9 +5,7 @@
   "scripts": {
     "build": "better-npm-run build",
     "dev": "npm run pre:dev && better-npm-run dev",
-    "lint": "next lint",
-    "pre:dev": "cd .. && vercel env pull web/.env.local",
-    "start": "next start"
+    "pre:dev": "cd .. && vercel env pull web/.env.local"
   },
   "betterScripts": {
     "dev": {
