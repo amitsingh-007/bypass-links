@@ -1,16 +1,16 @@
-import { Box, SvgIcon, Typography } from "@mui/material";
-import { displayToast } from "GlobalActionCreators/toast";
-import ContextMenu from "GlobalComponents/ContextMenu";
-import { MenuOption } from "GlobalInterfaces/menu";
-import { memo, useCallback, useEffect, useState } from "react";
-import { AiFillEdit } from "react-icons/ai";
-import { FaFolderMinus } from "react-icons/fa";
-import { FcFolder } from "react-icons/fc";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import withBookmarkRow, { InjectedProps } from "../hoc/withBookmarkRow";
-import { getBookmarksPanelUrl } from "../utils/url";
-import { FolderDialog } from "./FolderDialog";
+import { Box, SvgIcon, Typography } from '@mui/material';
+import { displayToast } from 'GlobalActionCreators/toast';
+import ContextMenu from 'GlobalComponents/ContextMenu';
+import { MenuOption } from 'GlobalInterfaces/menu';
+import { memo, useCallback, useEffect, useState } from 'react';
+import { AiFillEdit } from 'react-icons/ai';
+import { FaFolderMinus } from 'react-icons/fa';
+import { FcFolder } from 'react-icons/fc';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import withBookmarkRow, { InjectedProps } from '../hoc/withBookmarkRow';
+import { getBookmarksPanelUrl } from '../utils/url';
+import { FolderDialog } from './FolderDialog';
 
 export interface Props extends InjectedProps {
   name: string;
@@ -50,7 +50,7 @@ const Folder = memo<Props>(function Folder({
 
   const handleFolderOpen = () => {
     if (isEmpty) {
-      dispatch(displayToast({ message: "This folder is empty" }));
+      dispatch(displayToast({ message: 'This folder is empty' }));
       return;
     }
     navigate(getBookmarksPanelUrl({ folderContext: origName }));
@@ -60,12 +60,12 @@ const Folder = memo<Props>(function Folder({
     const menuOptions = [
       {
         onClick: toggleEditDialog,
-        text: "Edit",
+        text: 'Edit',
         icon: AiFillEdit,
       },
       {
         onClick: handleDeleteOptionClick,
-        text: "Delete",
+        text: 'Delete',
         icon: FaFolderMinus,
       },
     ];
@@ -76,28 +76,28 @@ const Folder = memo<Props>(function Folder({
     <>
       <ContextMenu
         getMenuOptions={() => menuOptions}
-        containerStyles={{ display: "flex", alignItems: "center" }}
+        containerStyles={{ display: 'flex', alignItems: 'center' }}
       >
         <Box
           sx={{
-            display: "flex",
-            alignItems: "center",
-            width: "100%",
+            display: 'flex',
+            alignItems: 'center',
+            width: '100%',
             ...containerStyles,
           }}
           onClick={resetSelectedBookmarks}
           onDoubleClick={handleFolderOpen}
         >
-          <SvgIcon sx={{ fontSize: "21.5px" }}>
+          <SvgIcon sx={{ fontSize: '21.5px' }}>
             <FcFolder />
           </SvgIcon>
           <Typography
             noWrap
             sx={{
               flexGrow: 1,
-              marginLeft: "8px",
-              fontSize: "14px",
-              color: isEmpty ? "lightslategray" : "inherit",
+              marginLeft: '8px',
+              fontSize: '14px',
+              color: isEmpty ? 'lightslategray' : 'inherit',
             }}
           >
             {origName}

@@ -1,5 +1,5 @@
-import { setBookmarkOperation } from "../actionCreators";
-import { BOOKMARK_OPERATION } from "../constants";
+import { setBookmarkOperation } from '../actionCreators';
+import { BOOKMARK_OPERATION } from '../constants';
 
 export interface OperationState {
   operation: BOOKMARK_OPERATION;
@@ -8,5 +8,5 @@ export interface OperationState {
 
 export interface OperationAction {
   type: string;
-  data?: ReturnType<typeof setBookmarkOperation>["data"];
+  data?: ReturnType<typeof setBookmarkOperation>['data'];
 }

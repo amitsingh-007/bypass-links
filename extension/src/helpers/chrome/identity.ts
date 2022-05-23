@@ -1,4 +1,4 @@
-import promisify from "./promisifyChromeApi";
+import promisify from './promisifyChromeApi';
 
 const identity = {
   getAuthToken: (options: chrome.identity.TokenDetails) =>

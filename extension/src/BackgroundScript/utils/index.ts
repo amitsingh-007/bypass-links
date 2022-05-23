@@ -1,13 +1,13 @@
-import action from "GlobalHelpers/chrome/action";
-import scripting from "GlobalHelpers/chrome/scripting";
-import { getCurrentTab } from "GlobalHelpers/chrome/tabs";
-import { getExtensionState } from "GlobalHelpers/fetchFromStorage";
-import { isExtensionActive } from "../../utils/common";
-import { EXTENSION_STATE } from "GlobalConstants";
+import action from 'GlobalHelpers/chrome/action';
+import scripting from 'GlobalHelpers/chrome/scripting';
+import { getCurrentTab } from 'GlobalHelpers/chrome/tabs';
+import { getExtensionState } from 'GlobalHelpers/fetchFromStorage';
+import { isExtensionActive } from '../../utils/common';
+import { EXTENSION_STATE } from 'GlobalConstants';
 
 const getPageH1 = () => {
-  const h1s = document.getElementsByTagName("h1");
-  return h1s.length > 0 ? h1s[0].innerText : "";
+  const h1s = document.getElementsByTagName('h1');
+  return h1s.length > 0 ? h1s[0].innerText : '';
 };
 
 export const fetchPageH1 = async () => {
@@ -35,12 +35,12 @@ export const setExtensionIcon = async ({
 }) => {
   let icon: string;
   if (hasPendingBookmarks === true || hasPendingPersons === true) {
-    icon = "assets/bypass_link_pending_128.png";
+    icon = 'assets/bypass_link_pending_128.png';
   } else {
     const newExtState = extState ?? (await getExtensionState());
     icon = isExtensionActive(newExtState)
-      ? "assets/bypass_link_on_128.png"
-      : "assets/bypass_link_off_128.png";
+      ? 'assets/bypass_link_on_128.png'
+      : 'assets/bypass_link_off_128.png';
   }
   await action.setIcon({ path: icon });
 };

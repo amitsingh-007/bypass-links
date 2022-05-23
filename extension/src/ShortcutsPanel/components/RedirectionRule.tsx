@@ -1,20 +1,20 @@
-import { Box, Checkbox, IconButton, TextField } from "@mui/material";
-import tabs from "GlobalHelpers/chrome/tabs";
-import { memo, useState } from "react";
-import { Draggable } from "react-beautiful-dnd";
-import { FiExternalLink } from "react-icons/fi";
-import { IoCheckmarkDoneSharp } from "react-icons/io5";
-import { MdRemoveCircleOutline } from "react-icons/md";
-import { MdDragHandle } from "react-icons/md";
-import { useDispatch } from "react-redux";
-import { IRedirection } from "SrcPath/BackgroundScript/interfaces/redirections";
-import { startHistoryMonitor } from "SrcPath/HistoryPanel/actionCreators";
-import { DEFAULT_RULE_ALIAS } from "../constants";
+import { Box, Checkbox, IconButton, TextField } from '@mui/material';
+import tabs from 'GlobalHelpers/chrome/tabs';
+import { memo, useState } from 'react';
+import { Draggable } from 'react-beautiful-dnd';
+import { FiExternalLink } from 'react-icons/fi';
+import { IoCheckmarkDoneSharp } from 'react-icons/io5';
+import { MdRemoveCircleOutline } from 'react-icons/md';
+import { MdDragHandle } from 'react-icons/md';
+import { useDispatch } from 'react-redux';
+import { IRedirection } from 'SrcPath/BackgroundScript/interfaces/redirections';
+import { startHistoryMonitor } from 'SrcPath/HistoryPanel/actionCreators';
+import { DEFAULT_RULE_ALIAS } from '../constants';
 
 const inputProps = {
   style: {
-    fontSize: "15px",
-    padding: "4px 12px",
+    fontSize: '15px',
+    padding: '4px 12px',
   },
 };
 
@@ -78,7 +78,7 @@ const RedirectionRule = memo(function RedirectionRule({
       {(provided) => (
         <Box
           {...provided.draggableProps}
-          sx={{ display: "flex", alignItems: "center" }}
+          sx={{ display: 'flex', alignItems: 'center' }}
         >
           <IconButton
             ref={provided.innerRef}
@@ -100,7 +100,7 @@ const RedirectionRule = memo(function RedirectionRule({
             onChange={onWebsiteAliasInput}
             size="small"
             placeholder="Enter Alias"
-            sx={{ marginRight: "8px" }}
+            sx={{ marginRight: '8px' }}
             inputProps={inputProps}
             autoFocus={ruleAlias === DEFAULT_RULE_ALIAS}
           />

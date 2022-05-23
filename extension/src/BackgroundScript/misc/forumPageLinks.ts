@@ -1,12 +1,12 @@
-import scripting from "GlobalHelpers/chrome/scripting";
+import scripting from 'GlobalHelpers/chrome/scripting';
 
 const getForumPageLinksFunc = () => {
   const unreadRows = document.querySelectorAll(
-    ".block-row.block-row--separated:not(.block-row--alt).is-unread"
+    '.block-row.block-row--separated:not(.block-row--alt).is-unread'
   );
   return [...unreadRows].map(
     (row) =>
-      row.querySelector<HTMLAnchorElement>("a.fauxBlockLink-blockLink")?.href
+      row.querySelector<HTMLAnchorElement>('a.fauxBlockLink-blockLink')?.href
   );
 };
 

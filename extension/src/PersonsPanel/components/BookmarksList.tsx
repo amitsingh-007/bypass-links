@@ -6,26 +6,26 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
-} from "@mui/material";
-import PanelHeading from "GlobalComponents/PanelHeading";
-import SearchWrapper from "GlobalComponents/SearchWrapper";
-import { BG_COLOR_DARK } from "GlobalConstants/color";
-import { memo, useCallback, useEffect, useState } from "react";
-import { AiFillEdit } from "react-icons/ai";
-import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
-import { useNavigate } from "react-router-dom";
-import { BookmarkExternal } from "SrcPath/BookmarksPanel/components/Bookmark";
+} from '@mui/material';
+import PanelHeading from 'GlobalComponents/PanelHeading';
+import SearchWrapper from 'GlobalComponents/SearchWrapper';
+import { BG_COLOR_DARK } from 'GlobalConstants/color';
+import { memo, useCallback, useEffect, useState } from 'react';
+import { AiFillEdit } from 'react-icons/ai';
+import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
+import { useNavigate } from 'react-router-dom';
+import { BookmarkExternal } from 'SrcPath/BookmarksPanel/components/Bookmark';
 import {
   bookmarkRowStyles,
   BOOKMARK_OPERATION,
-} from "SrcPath/BookmarksPanel/constants";
-import { IBookmark } from "SrcPath/BookmarksPanel/interfaces";
+} from 'SrcPath/BookmarksPanel/constants';
+import { IBookmark } from 'SrcPath/BookmarksPanel/interfaces';
 import {
   getBookmarkFromHash,
   getDecodedBookmark,
   getFolderFromHash,
-} from "SrcPath/BookmarksPanel/utils";
-import { getBookmarksPanelUrl } from "SrcPath/BookmarksPanel/utils/url";
+} from 'SrcPath/BookmarksPanel/utils';
+import { getBookmarksPanelUrl } from 'SrcPath/BookmarksPanel/utils/url';
 
 const imageStyles = { width: 40, height: 40 };
 
@@ -85,12 +85,12 @@ const BookmarksList = memo<Props>(function BookmarksList({
 
   return (
     <Dialog open fullScreen onClose={handleClose}>
-      <DialogTitle sx={{ padding: "4px 6px", backgroundColor: BG_COLOR_DARK }}>
+      <DialogTitle sx={{ padding: '4px 6px', backgroundColor: BG_COLOR_DARK }}>
         <Box
           sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
           }}
         >
           <Button
@@ -102,16 +102,16 @@ const BookmarksList = memo<Props>(function BookmarksList({
           >
             Back
           </Button>
-          <Box sx={{ display: "flex" }}>
+          <Box sx={{ display: 'flex' }}>
             <SearchWrapper searchClassName="bookmarkRowContainer" />
             <PanelHeading
-              containerStyles={{ display: "inline-flex", ml: "8px" }}
+              containerStyles={{ display: 'inline-flex', ml: '8px' }}
               heading={
-                <Box sx={{ display: "inline-flex", alignItems: "center" }}>
+                <Box sx={{ display: 'inline-flex', alignItems: 'center' }}>
                   <Avatar alt={name} src={imageUrl} sx={imageStyles} />
                   <Box
                     component="span"
-                    sx={{ marginLeft: "14px", textTransform: "uppercase" }}
+                    sx={{ marginLeft: '14px', textTransform: 'uppercase' }}
                   >
                     {`${name} (${bookmarks?.length || 0})`}
                   </Box>
@@ -121,18 +121,18 @@ const BookmarksList = memo<Props>(function BookmarksList({
           </Box>
         </Box>
       </DialogTitle>
-      <DialogContent sx={{ p: 0, pt: "4px !important" }}>
+      <DialogContent sx={{ p: 0, pt: '4px !important' }}>
         {bookmarks.length > 0 ? (
           bookmarks.map((bookmark) => (
             <Box
               sx={{
-                position: "relative",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                width: "100%",
-                cursor: "pointer",
-                userSelect: "none",
+                position: 'relative',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '100%',
+                cursor: 'pointer',
+                userSelect: 'none',
               }}
               className="bookmarkRowContainer"
               data-text={bookmark.url}
@@ -147,9 +147,9 @@ const BookmarksList = memo<Props>(function BookmarksList({
                 onClick={() => {
                   handleBookmarkEdit(bookmark);
                 }}
-                sx={{ mr: "4px" }}
+                sx={{ mr: '4px' }}
               >
-                <AiFillEdit style={{ fontSize: "22px" }} />
+                <AiFillEdit style={{ fontSize: '22px' }} />
               </IconButton>
               <BookmarkExternal
                 url={bookmark.url}
@@ -157,8 +157,8 @@ const BookmarksList = memo<Props>(function BookmarksList({
                 taggedPersons={bookmark.taggedPersons}
                 containerStyles={{
                   ...bookmarkRowStyles,
-                  paddingLeft: "0px",
-                  maxWidth: "756px",
+                  paddingLeft: '0px',
+                  maxWidth: '756px',
                 }}
               />
               <Button
@@ -169,12 +169,12 @@ const BookmarksList = memo<Props>(function BookmarksList({
                 disableTouchRipple
                 disableRipple
                 sx={{
-                  position: "absolute",
-                  right: "2px",
-                  fontSize: "9px",
-                  minWidth: "unset",
-                  padding: "2px 5px",
-                  borderRadius: "50px",
+                  position: 'absolute',
+                  right: '2px',
+                  fontSize: '9px',
+                  minWidth: 'unset',
+                  padding: '2px 5px',
+                  borderRadius: '50px',
                 }}
               >
                 {bookmark.parentName}
@@ -182,7 +182,7 @@ const BookmarksList = memo<Props>(function BookmarksList({
             </Box>
           ))
         ) : (
-          <Box sx={{ textAlign: "center", marginTop: "30px" }}>
+          <Box sx={{ textAlign: 'center', marginTop: '30px' }}>
             No tagged bookmarks found
           </Box>
         )}

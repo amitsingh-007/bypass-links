@@ -1,17 +1,17 @@
-import { Box, IconButton, SelectProps, TextField } from "@mui/material";
-import { EditDialog } from "GlobalComponents/Dialogs";
-import runtime from "GlobalHelpers/chrome/runtime";
-import { VoidFunction } from "GlobalInterfaces/custom";
-import { useEffect, useState } from "react";
-import { FaHeading } from "react-icons/fa";
-import { SORT_ORDER } from "SrcPath/PersonsPanel/constants/sort";
-import { IPersonWithImage } from "SrcPath/PersonsPanel/interfaces/persons";
+import { Box, IconButton, SelectProps, TextField } from '@mui/material';
+import { EditDialog } from 'GlobalComponents/Dialogs';
+import runtime from 'GlobalHelpers/chrome/runtime';
+import { VoidFunction } from 'GlobalInterfaces/custom';
+import { useEffect, useState } from 'react';
+import { FaHeading } from 'react-icons/fa';
+import { SORT_ORDER } from 'SrcPath/PersonsPanel/constants/sort';
+import { IPersonWithImage } from 'SrcPath/PersonsPanel/interfaces/persons';
 import {
   getAllDecodedPersons,
   getPersonsWithImageUrl,
-} from "SrcPath/PersonsPanel/utils";
-import { sortAlphabetically } from "SrcPath/PersonsPanel/utils/sort";
-import { FolderDropdown, PersonsDropdown } from "./Dropdown";
+} from 'SrcPath/PersonsPanel/utils';
+import { sortAlphabetically } from 'SrcPath/PersonsPanel/utils/sort';
+import { FolderDropdown, PersonsDropdown } from './Dropdown';
 
 interface Props {
   url: string;
@@ -78,7 +78,7 @@ const BookmarkDialog: React.FC<Props> = ({
     setTitle(title);
     setIsSaveOptionActive(title !== origTitle);
   };
-  const handleFolderChange: SelectProps<string>["onChange"] = (event) => {
+  const handleFolderChange: SelectProps<string>['onChange'] = (event) => {
     const folder = event.target.value;
     setFolder(folder);
     setIsSaveOptionActive(folder !== origFolder);
@@ -116,9 +116,9 @@ const BookmarkDialog: React.FC<Props> = ({
     >
       <Box
         sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
         }}
       >
         <TextField
@@ -152,7 +152,7 @@ const BookmarkDialog: React.FC<Props> = ({
         folderList={folderList}
         handleFolderChange={handleFolderChange}
       />
-      <Box sx={{ paddingRight: "15px" }}>
+      <Box sx={{ paddingRight: '15px' }}>
         <PersonsDropdown
           taggedPersons={taggedPersons}
           personList={personList}

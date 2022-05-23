@@ -1,29 +1,29 @@
-import { Box, Button, SelectProps } from "@mui/material";
-import { LoadingButton } from "@mui/lab";
-import { displayToast } from "GlobalActionCreators/toast";
+import { Box, Button, SelectProps } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import { displayToast } from 'GlobalActionCreators/toast';
 import {
   AccordionHeader,
   PrimaryHeaderContent,
   SecondaryHeaderContent,
-} from "GlobalComponents/AccordionHeader";
-import Loader from "GlobalComponents/Loader";
-import PanelHeading from "GlobalComponents/PanelHeading";
-import Search from "GlobalComponents/Search";
-import { VoidFunction } from "GlobalInterfaces/custom";
-import React, { createRef, PureComponent } from "react";
-import { FaFolderPlus } from "react-icons/fa";
-import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
-import { IoSave } from "react-icons/io5";
-import { RiUploadCloud2Fill } from "react-icons/ri";
-import { connect, ConnectedProps } from "react-redux";
-import { compose } from "redux";
-import { ContextBookmarks } from "../interfaces";
-import { syncBookmarksFirebaseWithStorage } from "../utils/bookmark";
-import { getBookmarksPanelUrl } from "../utils/url";
-import ConfirmationDialog from "./ConfirmationDialog";
-import { FolderDropdown } from "./Dropdown";
-import { FolderDialog } from "./FolderDialog";
-import withRouter, { WithRouterProps } from "SrcPath/hoc/withRouter";
+} from 'GlobalComponents/AccordionHeader';
+import Loader from 'GlobalComponents/Loader';
+import PanelHeading from 'GlobalComponents/PanelHeading';
+import Search from 'GlobalComponents/Search';
+import { VoidFunction } from 'GlobalInterfaces/custom';
+import React, { createRef, PureComponent } from 'react';
+import { FaFolderPlus } from 'react-icons/fa';
+import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
+import { IoSave } from 'react-icons/io5';
+import { RiUploadCloud2Fill } from 'react-icons/ri';
+import { connect, ConnectedProps } from 'react-redux';
+import { compose } from 'redux';
+import { ContextBookmarks } from '../interfaces';
+import { syncBookmarksFirebaseWithStorage } from '../utils/bookmark';
+import { getBookmarksPanelUrl } from '../utils/url';
+import ConfirmationDialog from './ConfirmationDialog';
+import { FolderDropdown } from './Dropdown';
+import { FolderDialog } from './FolderDialog';
+import withRouter, { WithRouterProps } from 'SrcPath/hoc/withRouter';
 
 interface Props extends WithRouterProps, PropsFromRedux {
   isSaveButtonActive: boolean;
@@ -69,7 +69,7 @@ class Header extends PureComponent<Props, State> {
     this.props.navigate(-1);
   };
 
-  onFolderChange: SelectProps<string>["onChange"] = (event) => {
+  onFolderChange: SelectProps<string>['onChange'] = (event) => {
     this.props.navigate(
       getBookmarksPanelUrl({ folderContext: event.target.value })
     );
@@ -96,12 +96,12 @@ class Header extends PureComponent<Props, State> {
     this.setState({ isSyncing: true });
     try {
       await syncBookmarksFirebaseWithStorage();
-      this.props.displayToast({ message: "Bookmarks synced succesfully" });
+      this.props.displayToast({ message: 'Bookmarks synced succesfully' });
     } catch (ex: any) {
-      console.error("Bookmarks sync failed", ex);
+      console.error('Bookmarks sync failed', ex);
       this.props.displayToast({
-        message: "Bookmarks sync failed",
-        severity: "error",
+        message: 'Bookmarks sync failed',
+        severity: 'error',
       });
     }
     this.setState({ isSyncing: false });
@@ -154,10 +154,10 @@ class Header extends PureComponent<Props, State> {
           <PrimaryHeaderContent>
             <Box
               sx={{
-                display: "flex",
-                alignItems: "center",
-                pl: "6px",
-                "> *": { mr: "12px !important" },
+                display: 'flex',
+                alignItems: 'center',
+                pl: '6px',
+                '> *': { mr: '12px !important' },
               }}
             >
               <Button
@@ -203,11 +203,11 @@ class Header extends PureComponent<Props, State> {
             </Box>
             <PanelHeading
               heading={`${curFolder} (${contextBookmarks?.length || 0})`}
-              containerStyles={{ textTransform: "uppercase" }}
+              containerStyles={{ textTransform: 'uppercase' }}
             />
           </PrimaryHeaderContent>
           <SecondaryHeaderContent>
-            <Box sx={{ minWidth: "190px" }}>
+            <Box sx={{ minWidth: '190px' }}>
               <FolderDropdown
                 folder={curFolder}
                 folderList={folderNamesList}

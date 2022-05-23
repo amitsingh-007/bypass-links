@@ -4,8 +4,8 @@ import {
   initializeAuth,
   signInWithCredential,
   signOut,
-} from "firebase/auth";
-import firebaseApp from ".";
+} from 'firebase/auth';
+import firebaseApp from '.';
 
 const auth = initializeAuth(firebaseApp, {
   persistence: indexedDBLocalPersistence,

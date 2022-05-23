@@ -1,13 +1,13 @@
-import { clearServiceWorkerCache } from "../../utils/cache";
-import { goOffline, goOnline } from "../../utils/network";
+import { clearServiceWorkerCache } from '../../utils/cache';
+import { goOffline, goOnline } from '../../utils/network';
 
 const assertOffline = () => {
-  return cy.wrap(window).its("navigator.onLine").should("be.false");
+  return cy.wrap(window).its('navigator.onLine').should('be.false');
 };
 
-describe.skip("Homepage UI Tests when Offline", () => {
+describe.skip('Homepage UI Tests when Offline', () => {
   before(() => {
-    cy.visit("/", {
+    cy.visit('/', {
       onLoad: clearServiceWorkerCache,
     });
     // eslint-disable-next-line cypress/no-unnecessary-waiting
@@ -23,14 +23,14 @@ describe.skip("Homepage UI Tests when Offline", () => {
   //   goOnline();
   // });
 
-  it("should have required assets available in offline mode", () => {
+  it('should have required assets available in offline mode', () => {
     // assertExtensionDownload();
 
     goOffline();
 
     assertOffline();
 
-    fetch("https://jsonplaceholder.typicode.com/todos/1");
+    fetch('https://jsonplaceholder.typicode.com/todos/1');
 
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(8000);

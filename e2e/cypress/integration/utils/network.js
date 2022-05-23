@@ -1,8 +1,8 @@
 export const goOnline = () => {
-  cy.log("**go online**")
+  cy.log('**go online**')
     .then(() => {
-      return Cypress.automation("remote:debugger:protocol", {
-        command: "Network.emulateNetworkConditions",
+      return Cypress.automation('remote:debugger:protocol', {
+        command: 'Network.emulateNetworkConditions',
         params: {
           offline: false,
           latency: -1,
@@ -12,22 +12,22 @@ export const goOnline = () => {
       });
     })
     .then(() => {
-      return Cypress.automation("remote:debugger:protocol", {
-        command: "Network.disable",
+      return Cypress.automation('remote:debugger:protocol', {
+        command: 'Network.disable',
       });
     });
 };
 
 export const goOffline = () => {
-  cy.log("**go offline**")
+  cy.log('**go offline**')
     .then(() => {
-      return Cypress.automation("remote:debugger:protocol", {
-        command: "Network.enable",
+      return Cypress.automation('remote:debugger:protocol', {
+        command: 'Network.enable',
       });
     })
     .then(() => {
-      return Cypress.automation("remote:debugger:protocol", {
-        command: "Network.emulateNetworkConditions",
+      return Cypress.automation('remote:debugger:protocol', {
+        command: 'Network.emulateNetworkConditions',
         params: {
           offline: true,
           latency: -1,

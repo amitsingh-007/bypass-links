@@ -1,5 +1,5 @@
 const LINKVERTISE_API_BASE_URL =
-  "https://publisher.linkvertise.com/api/v1/redirect/link";
+  'https://publisher.linkvertise.com/api/v1/redirect/link';
 
 export const fetchLinkMetaData = async (
   type: string,
@@ -25,7 +25,7 @@ const getParams = (linkId: string) => {
     serial: btoa(
       JSON.stringify({
         timestamp: new Date().getTime(),
-        random: "6548307",
+        random: '6548307',
         link_id: linkId,
       })
     ),
@@ -41,10 +41,10 @@ export const fetchTargetUrl = async (
   const params = getParams(linkId);
   const apiUrl = `${LINKVERTISE_API_BASE_URL}/${userId}/${linkUrl}/target`;
   const response = await fetch(apiUrl, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "content-type": "application/json",
-      accept: "application/json",
+      'content-type': 'application/json',
+      accept: 'application/json',
     },
     body: JSON.stringify(params),
   })
@@ -69,10 +69,10 @@ export const bypassLinkvertiseUsingExternalApi = async (
   const apiUrl = `https://api.bypass.vip/`;
   const data = new URLSearchParams({ url: urlObj.href });
   const result = await fetch(apiUrl, {
-    method: "POST",
+    method: 'POST',
     body: data,
     headers: {
-      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
     },
   });
   const response = await result.json();

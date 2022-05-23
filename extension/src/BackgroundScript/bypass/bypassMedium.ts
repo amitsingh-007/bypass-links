@@ -1,12 +1,12 @@
-import scripting from "GlobalHelpers/chrome/scripting";
-import tabs from "GlobalHelpers/chrome/tabs";
-import windows from "GlobalHelpers/chrome/windows";
+import scripting from 'GlobalHelpers/chrome/scripting';
+import tabs from 'GlobalHelpers/chrome/tabs';
+import windows from 'GlobalHelpers/chrome/windows';
 
-const MEDIUM_HOMEPAGE = "https://medium.com/";
+const MEDIUM_HOMEPAGE = 'https://medium.com/';
 
 const MEDIUM_WHITELISTED = [
-  "https://medium.com/@suncommander",
-  "https://medium.com/me/",
+  'https://medium.com/@suncommander',
+  'https://medium.com/me/',
 ];
 
 interface IBypassMedium {
@@ -19,11 +19,11 @@ const shouldSkipBypassingMedium = (
 ) =>
   url === MEDIUM_HOMEPAGE ||
   MEDIUM_WHITELISTED.find((link) => url.includes(link)) ||
-  searchParams.get("source");
+  searchParams.get('source');
 
 const shouldBypass = (): IBypassMedium => {
   return {
-    hasPaywall: !!document.getElementById("paywall-background-color"),
+    hasPaywall: !!document.getElementById('paywall-background-color'),
   };
 };
 
@@ -40,7 +40,7 @@ export const bypassMedium = async (url: URL, tabId: number) => {
   if (result?.hasPaywall) {
     await windows.create({
       url: url.href,
-      state: "maximized",
+      state: 'maximized',
       incognito: true,
     });
     tabs.goBack(tabId);

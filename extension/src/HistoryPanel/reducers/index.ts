@@ -1,8 +1,8 @@
-import { RESET_HISTORY_MONITOR, START_HISTORY_MONITOR } from "../actionTypes";
+import { RESET_HISTORY_MONITOR, START_HISTORY_MONITOR } from '../actionTypes';
 import {
   HistoryMonitorAction,
   HistoryMonitorState,
-} from "../interfaces/reducer";
+} from '../interfaces/reducer';
 
 const defaultState = {
   startHistoryMonitor: false,

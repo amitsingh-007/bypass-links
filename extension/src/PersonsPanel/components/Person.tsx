@@ -1,14 +1,14 @@
-import { Avatar, Badge, Box, IconButton, Typography } from "@mui/material";
-import ContextMenu from "GlobalComponents/ContextMenu";
-import { MenuOption } from "GlobalInterfaces/menu";
-import { memo, useCallback, useEffect, useState } from "react";
-import { AiFillEdit } from "react-icons/ai";
-import { RiBookmark2Fill } from "react-icons/ri";
-import { useNavigate } from "react-router-dom";
-import { IPerson } from "../interfaces/persons";
-import { resolvePersonImageFromUid } from "../utils";
-import { getPersonsPanelUrl } from "../utils/urls";
-import AddOrEditPersonDialog from "./AddOrEditPersonDialog";
+import { Avatar, Badge, Box, IconButton, Typography } from '@mui/material';
+import ContextMenu from 'GlobalComponents/ContextMenu';
+import { MenuOption } from 'GlobalInterfaces/menu';
+import { memo, useCallback, useEffect, useState } from 'react';
+import { AiFillEdit } from 'react-icons/ai';
+import { RiBookmark2Fill } from 'react-icons/ri';
+import { useNavigate } from 'react-router-dom';
+import { IPerson } from '../interfaces/persons';
+import { resolvePersonImageFromUid } from '../utils';
+import { getPersonsPanelUrl } from '../utils/urls';
+import AddOrEditPersonDialog from './AddOrEditPersonDialog';
 
 const imageStyles = { width: 100, height: 100 };
 
@@ -25,7 +25,7 @@ const Person = memo<Props>(function Person({
 }) {
   const navigate = useNavigate();
   const { uid, name, taggedUrls } = person;
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState('');
   const [showEditPersonDialog, setShowEditPersonDialog] = useState(false);
   const [menuOptions, setMenuOptions] = useState<MenuOption[]>([]);
 
@@ -41,12 +41,12 @@ const Person = memo<Props>(function Person({
     const menuOptions = [
       {
         onClick: toggleEditPersonDialog,
-        text: "Edit",
+        text: 'Edit',
         icon: AiFillEdit,
       },
       {
         onClick: handleDeleteOptionClick,
-        text: "Delete",
+        text: 'Delete',
         icon: RiBookmark2Fill,
       },
     ];
@@ -74,18 +74,18 @@ const Person = memo<Props>(function Person({
   return (
     <>
       <IconButton
-        sx={{ padding: "0px", margin: "10px 0px" }}
+        sx={{ padding: '0px', margin: '10px 0px' }}
         onClick={openBookmarksList}
       >
         <Box
           sx={{
-            display: "inline-flex",
-            flexDirection: "column",
-            alignItems: "center",
-            padding: "4px 16px",
-            cursor: "pointer",
-            height: "156px",
-            width: "156px",
+            display: 'inline-flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            padding: '4px 16px',
+            cursor: 'pointer',
+            height: '156px',
+            width: '156px',
           }}
         >
           <ContextMenu getMenuOptions={() => menuOptions}>
@@ -94,24 +94,24 @@ const Person = memo<Props>(function Person({
               color="primary"
               overlap="circular"
               anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
+                vertical: 'bottom',
+                horizontal: 'left',
               }}
             >
               <Avatar alt={name} src={imageUrl} sx={imageStyles} />
             </Badge>
             <Typography
               sx={{
-                display: "-webkit-box",
-                fontSize: "14px",
-                width: "110px",
-                overflow: "hidden",
-                wordBreak: "break-word",
-                m: "auto",
+                display: '-webkit-box',
+                fontSize: '14px',
+                width: '110px',
+                overflow: 'hidden',
+                wordBreak: 'break-word',
+                m: 'auto',
               }}
               style={{
                 WebkitLineClamp: 2,
-                WebkitBoxOrient: "vertical",
+                WebkitBoxOrient: 'vertical',
               }}
               title={name}
             >

@@ -1,6 +1,6 @@
-import storage from "GlobalHelpers/chrome/storage";
-import { BYPASS_KEYS, EXTENSION_STATE } from "GlobalConstants";
-import { getHostnames } from "GlobalHelpers/fetchFromStorage";
+import storage from 'GlobalHelpers/chrome/storage';
+import { BYPASS_KEYS, EXTENSION_STATE } from 'GlobalConstants';
+import { getHostnames } from 'GlobalHelpers/fetchFromStorage';
 
 export const isExtensionActive = (extState: EXTENSION_STATE) =>
   extState === EXTENSION_STATE.ACTIVE;

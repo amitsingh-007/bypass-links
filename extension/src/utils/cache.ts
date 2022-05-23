@@ -1,4 +1,4 @@
-import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
+import { CACHE_BUCKET_KEYS } from 'GlobalConstants/cache';
 
 export const getCacheObj = async (cacheBucketKey: string) =>
   await caches.open(cacheBucketKey);
@@ -32,7 +32,7 @@ export const getBlobUrlFromCache = async (
   const response = await getFromCache(cacheBucketKey, url);
   const blob = await response?.blob();
   if (!blob) {
-    return "";
+    return '';
   }
   return URL.createObjectURL(blob);
 };
@@ -45,5 +45,5 @@ export const deleteAllCache = async (bucketKeys: CACHE_BUCKET_KEYS[]) => {
       await cache.delete(key);
     });
   });
-  console.log("Cleared all cache inside the buckets", bucketKeys);
+  console.log('Cleared all cache inside the buckets', bucketKeys);
 };

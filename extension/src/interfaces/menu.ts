@@ -1,4 +1,4 @@
-import { SvgIconProps } from "@mui/material";
+import { SvgIconProps } from '@mui/material';
 
 export interface MenuOption {
   onClick: (id: string) => void;

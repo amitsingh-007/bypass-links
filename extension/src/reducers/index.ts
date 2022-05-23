@@ -1,4 +1,4 @@
-import { SET_SIGNED_IN_STATUS } from "GlobalActionTypes";
+import { SET_SIGNED_IN_STATUS } from 'GlobalActionTypes';
 
 const defaultState = {
   isSignedIn: false,

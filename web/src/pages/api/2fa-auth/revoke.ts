@@ -1,8 +1,8 @@
-import { FIREBASE_DB_REF } from "@common/constants/firebase";
-import { Revoke2FAResponse } from "@common/interfaces/twoFactorAuth";
-import { removeFromFirebase } from "@logic/firebase";
-import { NextApiRequest, NextApiResponse } from "next";
-import withAuth from "src/middlewares/withAuth";
+import { FIREBASE_DB_REF } from '@common/constants/firebase';
+import { Revoke2FAResponse } from '@common/interfaces/twoFactorAuth';
+import { removeFromFirebase } from '@logic/firebase';
+import { NextApiRequest, NextApiResponse } from 'next';
+import withAuth from 'src/middlewares/withAuth';
 
 /**
  * API to revoke 2FA of the given user

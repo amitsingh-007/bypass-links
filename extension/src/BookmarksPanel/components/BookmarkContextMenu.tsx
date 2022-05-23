@@ -1,20 +1,20 @@
-import ContextMenu from "GlobalComponents/ContextMenu";
-import { VoidFunction } from "GlobalInterfaces/custom";
-import { MenuOption } from "GlobalInterfaces/menu";
-import md5 from "md5";
-import { memo, useState } from "react";
-import { AiFillEdit } from "react-icons/ai";
-import { BsFillFolderSymlinkFill } from "react-icons/bs";
-import { FiExternalLink } from "react-icons/fi";
-import { RiBookmark2Fill } from "react-icons/ri";
-import { useDispatch } from "react-redux";
-import { setBookmarkOperation } from "../actionCreators";
+import ContextMenu from 'GlobalComponents/ContextMenu';
+import { VoidFunction } from 'GlobalInterfaces/custom';
+import { MenuOption } from 'GlobalInterfaces/menu';
+import md5 from 'md5';
+import { memo, useState } from 'react';
+import { AiFillEdit } from 'react-icons/ai';
+import { BsFillFolderSymlinkFill } from 'react-icons/bs';
+import { FiExternalLink } from 'react-icons/fi';
+import { RiBookmark2Fill } from 'react-icons/ri';
+import { useDispatch } from 'react-redux';
+import { setBookmarkOperation } from '../actionCreators';
 import {
   BOOKMARK_OPERATION,
   BOOKMARK_PANEL_CONTENT_HEIGHT,
-} from "../constants";
-import { ContextBookmarks, ISelectedBookmarks } from "../interfaces";
-import BulkBookmarksMoveDialog from "./BulkBookmarksMoveDialog";
+} from '../constants';
+import { ContextBookmarks, ISelectedBookmarks } from '../interfaces';
+import BulkBookmarksMoveDialog from './BulkBookmarksMoveDialog';
 
 const BookmarkContextMenu = memo<{
   curFolder: string;
@@ -49,12 +49,12 @@ const BookmarkContextMenu = memo<{
 
     const getBookmark = (id: string) => {
       const selectedIndex = contextBookmarks.findIndex(
-        (bookmark) => md5(bookmark.url ?? "") === id
+        (bookmark) => md5(bookmark.url ?? '') === id
       );
       const selectedBookmark = contextBookmarks[selectedIndex];
       return {
         pos: selectedIndex,
-        url: selectedBookmark.url ?? "",
+        url: selectedBookmark.url ?? '',
       };
     };
 
@@ -73,31 +73,31 @@ const BookmarkContextMenu = memo<{
       menuOptionsList.push({
         onClick: handleOpenSelectedBookmarks,
         text: `Open ${
-          selectedCount > 1 ? `all (${selectedCount}) ` : ""
+          selectedCount > 1 ? `all (${selectedCount}) ` : ''
         }in new tab`,
         icon: FiExternalLink,
       });
       if (selectedCount > 1) {
         menuOptionsList.push({
           onClick: toggleBulkMoveDialog,
-          text: "Bulk move bookmarks",
+          text: 'Bulk move bookmarks',
           icon: BsFillFolderSymlinkFill,
         });
         menuOptionsList.push({
           onClick: handleBulkUrlRemove,
-          text: "Delete All",
+          text: 'Delete All',
           icon: RiBookmark2Fill,
         });
       } else {
         menuOptionsList.push(
           {
             onClick: handleBookmarkEdit,
-            text: "Edit",
+            text: 'Edit',
             icon: AiFillEdit,
           },
           {
             onClick: handleDeleteOptionClick,
-            text: "Delete",
+            text: 'Delete',
             icon: RiBookmark2Fill,
           }
         );
@@ -127,6 +127,6 @@ const BookmarkContextMenu = memo<{
     );
   }
 );
-BookmarkContextMenu.displayName = "BookmarkContextMenu";
+BookmarkContextMenu.displayName = 'BookmarkContextMenu';
 
 export default BookmarkContextMenu;

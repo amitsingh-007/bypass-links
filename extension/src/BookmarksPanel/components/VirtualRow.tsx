@@ -1,24 +1,24 @@
-import { Box } from "@mui/material";
-import { memo } from "react";
-import { areEqual } from "react-window";
+import { Box } from '@mui/material';
+import { memo } from 'react';
+import { areEqual } from 'react-window';
 import {
   ContextBookmarks,
   IBookmarksObj,
   ISelectedBookmarks,
-} from "../interfaces";
-import { isFolderEmpty } from "../utils";
-import Bookmark, { Props as BookmarkProps } from "./Bookmark";
-import Folder, { Props as FolderProps } from "./Folder";
+} from '../interfaces';
+import { isFolderEmpty } from '../utils';
+import Bookmark, { Props as BookmarkProps } from './Bookmark';
+import Folder, { Props as FolderProps } from './Folder';
 
 export interface VirtualRowProps {
   folderNamesList: string[];
-  folders: IBookmarksObj["folders"];
+  folders: IBookmarksObj['folders'];
   selectedBookmarks: ISelectedBookmarks;
   contextBookmarks: ContextBookmarks;
-  handleFolderRemove: FolderProps["handleRemove"];
-  handleFolderEdit: FolderProps["handleEdit"];
-  resetSelectedBookmarks: FolderProps["resetSelectedBookmarks"];
-  handleSelectedChange: BookmarkProps["handleSelectedChange"];
+  handleFolderRemove: FolderProps['handleRemove'];
+  handleFolderEdit: FolderProps['handleEdit'];
+  resetSelectedBookmarks: FolderProps['resetSelectedBookmarks'];
+  handleSelectedChange: BookmarkProps['handleSelectedChange'];
 }
 
 const VirtualRow = memo<{
@@ -36,9 +36,9 @@ const VirtualRow = memo<{
     handleSelectedChange,
   } = innerProps;
   const {
-    url = "",
-    title = "",
-    name = "",
+    url = '',
+    title = '',
+    name = '',
     taggedPersons = [],
     isDir,
   } = contextBookmarks[index];
@@ -68,6 +68,6 @@ const VirtualRow = memo<{
     </Box>
   );
 }, areEqual);
-VirtualRow.displayName = "VirtualRow";
+VirtualRow.displayName = 'VirtualRow';
 
 export default VirtualRow;

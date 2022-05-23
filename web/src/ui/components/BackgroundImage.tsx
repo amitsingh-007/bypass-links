@@ -1,7 +1,7 @@
-import { Box } from "@mui/material";
-import Image, { ImageProps } from "next/image";
+import { Box } from '@mui/material';
+import Image, { ImageProps } from 'next/image';
 
-type Props = Pick<ImageProps, "alt" | "height"> & {
+type Props = Pick<ImageProps, 'alt' | 'height'> & {
   src: string;
   children?: React.ReactNode;
 };
@@ -11,11 +11,11 @@ const BackgroundImage = ({ src, alt, height, children }: Props) => {
     <>
       <Box
         sx={{
-          position: "relative",
-          width: "100%",
+          position: 'relative',
+          width: '100%',
           height,
           zIndex: 1,
-          "> div": {
+          '> div': {
             zIndex: -1,
           },
         }}

@@ -1,23 +1,23 @@
-import { Box, SvgIcon } from "@mui/material";
-import { SxProps } from "@mui/system";
-import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
-import { getBlobUrlFromCache } from "GlobalUtils/cache";
-import { forwardRef, memo, useCallback, useEffect, useState } from "react";
-import { MdBrokenImage } from "react-icons/md";
-import { getFaviconUrl } from "../utils";
+import { Box, SvgIcon } from '@mui/material';
+import { SxProps } from '@mui/system';
+import { CACHE_BUCKET_KEYS } from 'GlobalConstants/cache';
+import { getBlobUrlFromCache } from 'GlobalUtils/cache';
+import { forwardRef, memo, useCallback, useEffect, useState } from 'react';
+import { MdBrokenImage } from 'react-icons/md';
+import { getFaviconUrl } from '../utils';
 
 const containerStyles = {
-  width: "20px",
-  height: "20px",
-  marginRight: "12px",
-  display: "flex",
-  flexDirection: "center",
+  width: '20px',
+  height: '20px',
+  marginRight: '12px',
+  display: 'flex',
+  flexDirection: 'center',
 } as SxProps;
 
 const Favicon = memo(
   forwardRef<HTMLDivElement, { url: string }>(
     ({ url, ...tooltipProps }, ref) => {
-      const [faviconUrl, setFaviconUrl] = useState("");
+      const [faviconUrl, setFaviconUrl] = useState('');
 
       const initFavicon = useCallback(async () => {
         const faviconBlobUrl = await getBlobUrlFromCache(
@@ -53,6 +53,6 @@ const Favicon = memo(
     }
   )
 );
-Favicon.displayName = "Favicon";
+Favicon.displayName = 'Favicon';
 
 export default Favicon;

@@ -1,7 +1,7 @@
-import { Box, IconButton } from "@mui/material";
-import { alpha } from "@mui/material/styles";
-import { memo } from "react";
-import { BsFillCaretDownFill, BsFillCaretUpFill } from "react-icons/bs";
+import { Box, IconButton } from '@mui/material';
+import { alpha } from '@mui/material/styles';
+import { memo } from 'react';
+import { BsFillCaretDownFill, BsFillCaretUpFill } from 'react-icons/bs';
 
 interface Props {
   itemsSize: number;
@@ -27,13 +27,13 @@ export const ScrollButton = memo<Props>(function ScrollButton({
   };
 
   return (
-    <Box sx={{ position: "fixed", bottom: "9px", right: "15px", zIndex: 1 }}>
+    <Box sx={{ position: 'fixed', bottom: '9px', right: '15px', zIndex: 1 }}>
       <Box
         sx={{
-          display: "flex",
-          flexDirection: "column",
+          display: 'flex',
+          flexDirection: 'column',
           backgroundColor: (theme) => theme.palette.grey[800],
-          borderRadius: "20px",
+          borderRadius: '20px',
         }}
       >
         <ButtonContainer onClick={handleScrollUpClick}>
@@ -54,11 +54,11 @@ const ButtonContainer: React.FC<{
   <IconButton
     sx={{
       backgroundColor: (theme) => theme.palette.grey[800],
-      padding: "1px",
-      "&:hover": {
+      padding: '1px',
+      '&:hover': {
         backgroundColor: (theme) => alpha(theme.palette.grey[100], 0.25),
       },
-      fontSize: "20px",
+      fontSize: '20px',
     }}
     onClick={onClick}
   >

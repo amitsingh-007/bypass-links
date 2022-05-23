@@ -1,11 +1,11 @@
-import { SvgIcon } from "@mui/material";
-import { ROUTES } from "GlobalConstants/routes";
-import { RootState } from "GlobalReducers/rootReducer";
-import { memo } from "react";
-import { FaUserTag } from "react-icons/fa";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import StyledButton from "./StyledButton";
+import { SvgIcon } from '@mui/material';
+import { ROUTES } from 'GlobalConstants/routes';
+import { RootState } from 'GlobalReducers/rootReducer';
+import { memo } from 'react';
+import { FaUserTag } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import StyledButton from './StyledButton';
 
 const PersonsPanelButton = memo(function PersonsPanelButton() {
   const navigate = useNavigate();

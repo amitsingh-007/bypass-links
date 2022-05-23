@@ -1,4 +1,4 @@
-import { AuthenticationEvent } from "GlobalInterfaces/authentication";
+import { AuthenticationEvent } from 'GlobalInterfaces/authentication';
 
 export interface AuthState {
   authProgress: AuthenticationEvent | null;

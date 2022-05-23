@@ -1,24 +1,24 @@
-import identity from "GlobalHelpers/chrome/identity";
-import { googleSignIn, googleSignOut } from "GlobalHelpers/firebase/auth";
-import { Dispatch } from "redux";
-import { UserInfo } from "../interfaces/authentication";
-import { AuthProgress } from "./authProgress";
-import { processPostLogin, processPostLogout, processPreLogout } from "./sync";
+import identity from 'GlobalHelpers/chrome/identity';
+import { googleSignIn, googleSignOut } from 'GlobalHelpers/firebase/auth';
+import { Dispatch } from 'redux';
+import { UserInfo } from '../interfaces/authentication';
+import { AuthProgress } from './authProgress';
+import { processPostLogin, processPostLogout, processPreLogout } from './sync';
 
 const userSignIn = async (): Promise<UserInfo> => {
-  AuthProgress.start("Logging in user");
+  AuthProgress.start('Logging in user');
   const googleAuthToken = await identity.getAuthToken({ interactive: true });
   const response = await googleSignIn(googleAuthToken);
   const userProfile = response.user ?? {};
   const userInfo: UserInfo = {
     googleAuthToken,
     uid: response.user?.uid,
-    name: userProfile.displayName ?? "No Name",
-    picture: userProfile.photoURL ?? "",
+    name: userProfile.displayName ?? 'No Name',
+    picture: userProfile.photoURL ?? '',
   };
-  console.log("Firebase login response", response);
-  console.log("UserInfo", userInfo);
-  AuthProgress.finish("User logged in");
+  console.log('Firebase login response', response);
+  console.log('UserInfo', userInfo);
+  AuthProgress.finish('User logged in');
   return userInfo;
 };
 
@@ -27,11 +27,11 @@ export const signIn = async (dispatch: Dispatch): Promise<boolean> => {
     AuthProgress.initialize(7, dispatch);
     const userProfile = await userSignIn();
     await processPostLogin(userProfile);
-    console.log("--------------Login Success--------------");
+    console.log('--------------Login Success--------------');
     return true;
   } catch (err) {
-    console.error("Error occured while signing in. ", err);
-    console.log("Reverting due to login error...");
+    console.error('Error occured while signing in. ', err);
+    console.log('Reverting due to login error...');
     await signOut(dispatch);
     return false;
   }
@@ -41,15 +41,15 @@ export const signOut = async (dispatch: Dispatch): Promise<boolean> => {
   try {
     AuthProgress.initialize(4, dispatch);
     await processPreLogout();
-    AuthProgress.start("Logging out user");
+    AuthProgress.start('Logging out user');
     await googleSignOut();
-    AuthProgress.finish("User logged out");
+    AuthProgress.finish('User logged out');
     await processPostLogout();
 
-    console.log("--------------Logout Success--------------");
+    console.log('--------------Logout Success--------------');
     return true;
   } catch (err) {
-    console.error("Error occured while signing out. ", err);
+    console.error('Error occured while signing out. ', err);
     return false;
   }
 };

@@ -1,14 +1,14 @@
-import { Box } from "@mui/material";
-import { memo } from "react";
-import { areEqual } from "react-window";
-import { IPerson } from "../interfaces/persons";
-import { getReactKey } from "../utils";
-import Person, { Props as PersonProps } from "./Person";
+import { Box } from '@mui/material';
+import { memo } from 'react';
+import { areEqual } from 'react-window';
+import { IPerson } from '../interfaces/persons';
+import { getReactKey } from '../utils';
+import Person, { Props as PersonProps } from './Person';
 
 export interface VirtualCellProps {
   persons: IPerson[];
-  handleEditPerson: PersonProps["handleEditPerson"];
-  handlePersonDelete: PersonProps["handlePersonDelete"];
+  handleEditPerson: PersonProps['handleEditPerson'];
+  handlePersonDelete: PersonProps['handlePersonDelete'];
 }
 
 const VirtualCell = memo<{
@@ -32,6 +32,6 @@ const VirtualCell = memo<{
     </Box>
   );
 }, areEqual);
-VirtualCell.displayName = "VirtualCell";
+VirtualCell.displayName = 'VirtualCell';
 
 export default VirtualCell;

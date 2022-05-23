@@ -1,19 +1,19 @@
-import { getCurrentTab } from "GlobalHelpers/chrome/tabs";
-import { RootState } from "GlobalReducers/rootReducer";
-import { memo, useCallback, useEffect, useState } from "react";
-import { resetBookmarkOperation } from "../actionCreators";
-import { BOOKMARK_OPERATION } from "../constants";
-import { ContextBookmark, ContextBookmarks } from "../interfaces";
-import { getBookmarksPanelUrl } from "../utils/url";
-import BookmarkDialog from "./BookmarkDialog";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { getCurrentTab } from 'GlobalHelpers/chrome/tabs';
+import { RootState } from 'GlobalReducers/rootReducer';
+import { memo, useCallback, useEffect, useState } from 'react';
+import { resetBookmarkOperation } from '../actionCreators';
+import { BOOKMARK_OPERATION } from '../constants';
+import { ContextBookmark, ContextBookmarks } from '../interfaces';
+import { getBookmarksPanelUrl } from '../utils/url';
+import BookmarkDialog from './BookmarkDialog';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const heading = {
-  [BOOKMARK_OPERATION.NONE]: "",
-  [BOOKMARK_OPERATION.ADD]: "Add bookmark",
-  [BOOKMARK_OPERATION.EDIT]: "Edit bookmark",
+  [BOOKMARK_OPERATION.NONE]: '',
+  [BOOKMARK_OPERATION.ADD]: 'Add bookmark',
+  [BOOKMARK_OPERATION.EDIT]: 'Edit bookmark',
 };
 
 interface Props {
@@ -47,8 +47,8 @@ const EditBookmark = memo<Props>(
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [pos, setPos] = useState(-1);
-    const [url, setUrl] = useState("");
-    const [title, setTitle] = useState("");
+    const [url, setUrl] = useState('');
+    const [title, setTitle] = useState('');
     const [taggedPersons, setTaggedPersons] = useState<string[]>([]);
     const [openDialog, setOpenDialog] = useState(false);
     const { operation, url: bmUrl } = useSelector(
@@ -58,7 +58,7 @@ const EditBookmark = memo<Props>(
     const resolveBookmark = useCallback(
       async (operation: BOOKMARK_OPERATION, bmUrl: string) => {
         if (operation === BOOKMARK_OPERATION.ADD) {
-          const { title = "" } = await getCurrentTab();
+          const { title = '' } = await getCurrentTab();
           setPos(contextBookmarks.length);
           setUrl(bmUrl);
           setTitle(title);
@@ -100,8 +100,8 @@ const EditBookmark = memo<Props>(
       }
       // Reset bookmark fields
       setPos(-1);
-      setUrl("");
-      setTitle("");
+      setUrl('');
+      setTitle('');
       setTaggedPersons([]);
       setOpenDialog(false);
       dispatch(resetBookmarkOperation());
@@ -155,6 +155,6 @@ const EditBookmark = memo<Props>(
     ) : null;
   }
 );
-EditBookmark.displayName = "EditBookmark";
+EditBookmark.displayName = 'EditBookmark';
 
 export default EditBookmark;

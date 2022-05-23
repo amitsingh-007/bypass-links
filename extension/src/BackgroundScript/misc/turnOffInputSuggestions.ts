@@ -1,9 +1,9 @@
-import scripting from "GlobalHelpers/chrome/scripting";
+import scripting from 'GlobalHelpers/chrome/scripting';
 
 const turnOffAutocomplete = () => {
   document
-    .querySelectorAll("input")
-    .forEach((ele) => ele.setAttribute("autocomplete", "off"));
+    .querySelectorAll('input')
+    .forEach((ele) => ele.setAttribute('autocomplete', 'off'));
 };
 
 const turnOffInputSuggestions = (tabId: number) => {

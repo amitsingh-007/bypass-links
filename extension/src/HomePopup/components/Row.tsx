@@ -1,5 +1,5 @@
-import { Box } from "@mui/material";
-import { SxProps } from "@mui/system";
+import { Box } from '@mui/material';
+import { SxProps } from '@mui/system';
 
 export const Row: React.FC<{
   children: React.ReactNode;
@@ -7,11 +7,11 @@ export const Row: React.FC<{
 }> = ({ children, styles = {} }) => (
   <Box
     sx={{
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
-      width: "100%",
-      my: "6px",
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      width: '100%',
+      my: '6px',
       ...styles,
     }}
   >

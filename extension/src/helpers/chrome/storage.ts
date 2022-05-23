@@ -1,5 +1,5 @@
-import { GenericObject } from "GlobalInterfaces/custom";
-import promisify from "./promisifyChromeApi";
+import { GenericObject } from 'GlobalInterfaces/custom';
+import promisify from './promisifyChromeApi';
 
 const storage = {
   set: (items: Object) =>

@@ -1,8 +1,8 @@
 import {
   RESET_AUTHENTICATION_PROGRESS,
   SET_AUTHENTICATION_PROGRESS,
-} from "GlobalActionTypes/auth";
-import { AuthAction, AuthState } from "./interfaces/auth";
+} from 'GlobalActionTypes/auth';
+import { AuthAction, AuthState } from './interfaces/auth';
 
 const defaultState = {
   authProgress: null,

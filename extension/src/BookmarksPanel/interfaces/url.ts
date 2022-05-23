@@ -1,4 +1,4 @@
-import { BOOKMARK_OPERATION } from "../constants";
+import { BOOKMARK_OPERATION } from '../constants';
 
 export interface BMPanelQueryParams {
   folderContext: string;

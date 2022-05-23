@@ -8,25 +8,25 @@ import {
   Slide,
   SvgIcon,
   Typography,
-} from "@mui/material";
-import { TransitionProps } from "@mui/material/transitions";
-import { displayToast } from "GlobalActionCreators/toast";
-import PanelHeading from "GlobalComponents/PanelHeading";
-import { BlackTooltip } from "GlobalComponents/StyledComponents";
-import { STORAGE_KEYS } from "GlobalConstants";
-import { BG_COLOR_BLACK, BG_COLOR_DARK } from "GlobalConstants/color";
-import storage from "GlobalHelpers/chrome/storage";
-import { getUserProfile } from "GlobalHelpers/fetchFromStorage";
-import { VoidFunction } from "GlobalInterfaces/custom";
-import { toDataURL } from "qrcode";
-import { forwardRef, memo, useEffect, useState } from "react";
-import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
-import { IoHelpCircle } from "react-icons/io5";
-import { useDispatch } from "react-redux";
-import { setup2FA, verify2FA } from "../apis/twoFactorAuth";
-import Verify2FA from "./Verify2FA";
+} from '@mui/material';
+import { TransitionProps } from '@mui/material/transitions';
+import { displayToast } from 'GlobalActionCreators/toast';
+import PanelHeading from 'GlobalComponents/PanelHeading';
+import { BlackTooltip } from 'GlobalComponents/StyledComponents';
+import { STORAGE_KEYS } from 'GlobalConstants';
+import { BG_COLOR_BLACK, BG_COLOR_DARK } from 'GlobalConstants/color';
+import storage from 'GlobalHelpers/chrome/storage';
+import { getUserProfile } from 'GlobalHelpers/fetchFromStorage';
+import { VoidFunction } from 'GlobalInterfaces/custom';
+import { toDataURL } from 'qrcode';
+import { forwardRef, memo, useEffect, useState } from 'react';
+import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
+import { IoHelpCircle } from 'react-icons/io5';
+import { useDispatch } from 'react-redux';
+import { setup2FA, verify2FA } from '../apis/twoFactorAuth';
+import Verify2FA from './Verify2FA';
 
-const tooltipStyles = { fontSize: "13px" };
+const tooltipStyles = { fontSize: '13px' };
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & { children: React.ReactElement<any, any> },
@@ -42,16 +42,16 @@ type Props = {
 
 const Setup2FA = memo(function Setup2FA({ isOpen, handleClose }: Props) {
   const dispatch = useDispatch();
-  const [, setSecretKey] = useState("");
-  const [qrcodeUrl, setQrcodeUrl] = useState("");
+  const [, setSecretKey] = useState('');
+  const [qrcodeUrl, setQrcodeUrl] = useState('');
   const [showVerifyToken, setShowVerifyToken] = useState(false);
 
   const init2FA = async () => {
     const userProfile = await getUserProfile();
-    const { otpAuthUrl, secretKey } = await setup2FA(userProfile.uid ?? "");
+    const { otpAuthUrl, secretKey } = await setup2FA(userProfile.uid ?? '');
     const qrcodeUrl = await toDataURL(otpAuthUrl, {
       margin: 2,
-      type: "image/jpeg",
+      type: 'image/jpeg',
       width: 180,
     });
     setSecretKey(secretKey);
@@ -68,12 +68,12 @@ const Setup2FA = memo(function Setup2FA({ isOpen, handleClose }: Props) {
 
   const handleTOTPVerify = async (totp: string) => {
     const userProfile = await getUserProfile();
-    const { isVerified } = await verify2FA(userProfile.uid ?? "", totp);
+    const { isVerified } = await verify2FA(userProfile.uid ?? '', totp);
     if (!isVerified) {
       dispatch(
         displayToast({
-          message: "Entered TOTP is incorrect",
-          severity: "error",
+          message: 'Entered TOTP is incorrect',
+          severity: 'error',
         })
       );
       return;
@@ -90,12 +90,12 @@ const Setup2FA = memo(function Setup2FA({ isOpen, handleClose }: Props) {
       onClose={handleClose}
       TransitionComponent={Transition}
     >
-      <DialogTitle sx={{ p: "8px", backgroundColor: BG_COLOR_DARK }}>
+      <DialogTitle sx={{ p: '8px', backgroundColor: BG_COLOR_DARK }}>
         <Box
           sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
           }}
         >
           <Button
@@ -108,17 +108,17 @@ const Setup2FA = memo(function Setup2FA({ isOpen, handleClose }: Props) {
             Back
           </Button>
           <PanelHeading
-            containerStyles={{ display: "inline-flex" }}
+            containerStyles={{ display: 'inline-flex' }}
             heading="SETUP 2FA"
           />
         </Box>
       </DialogTitle>
       <DialogContent
         sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          p: "10px !important",
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          p: '10px !important',
           backgroundColor: BG_COLOR_BLACK,
         }}
       >
@@ -126,15 +126,15 @@ const Setup2FA = memo(function Setup2FA({ isOpen, handleClose }: Props) {
           src={qrcodeUrl}
           alt="2FA QRCode"
           variant="square"
-          sx={{ width: "180px", height: "180px" }}
+          sx={{ width: '180px', height: '180px' }}
         />
         {!showVerifyToken && (
           <Box
             sx={{
-              display: "flex",
-              alignItems: "center",
-              mt: "12px",
-              position: "relative",
+              display: 'flex',
+              alignItems: 'center',
+              mt: '12px',
+              position: 'relative',
             }}
           >
             <Button

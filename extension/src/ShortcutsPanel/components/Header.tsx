@@ -1,12 +1,12 @@
-import { Box, Button } from "@mui/material";
-import Loader from "GlobalComponents/Loader";
-import PanelHeading from "GlobalComponents/PanelHeading";
-import { STICKY_HEADER } from "GlobalConstants/styles";
-import { VoidFunction } from "GlobalInterfaces/custom";
-import { memo } from "react";
-import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
-import { IoSave } from "react-icons/io5";
-import { RiPlayListAddFill } from "react-icons/ri";
+import { Box, Button } from '@mui/material';
+import Loader from 'GlobalComponents/Loader';
+import PanelHeading from 'GlobalComponents/PanelHeading';
+import { STICKY_HEADER } from 'GlobalConstants/styles';
+import { VoidFunction } from 'GlobalInterfaces/custom';
+import { memo } from 'react';
+import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
+import { IoSave } from 'react-icons/io5';
+import { RiPlayListAddFill } from 'react-icons/ri';
 
 type Props = {
   isFetching: boolean;
@@ -24,19 +24,19 @@ const Header = memo(function Header({
   return (
     <Box
       sx={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        py: "8px",
-        px: "6px",
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        py: '8px',
+        px: '6px',
         ...STICKY_HEADER,
       }}
     >
       <Box
         sx={{
-          "> *": { mr: "12px !important" },
-          display: "flex",
-          alignItems: "center",
+          '> *': { mr: '12px !important' },
+          display: 'flex',
+          alignItems: 'center',
         }}
       >
         <Button

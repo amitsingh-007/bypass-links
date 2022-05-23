@@ -1,31 +1,31 @@
-import { CssBaseline } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import "@ui/styles/globals.scss";
-import { AppProps } from "next/dist/shared/lib/router/router";
-import { StrictMode } from "react";
-import GlobalMetaTags from "src/ui/components/GlobalMetaTags";
+import { CssBaseline } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import '@ui/styles/globals.scss';
+import { AppProps } from 'next/dist/shared/lib/router/router';
+import { StrictMode } from 'react';
+import GlobalMetaTags from 'src/ui/components/GlobalMetaTags';
 
 const theme = createTheme({
   palette: {
-    mode: "dark",
+    mode: 'dark',
   },
   typography: {
-    fontFamily: `"Montserrat", sans-serif`,
+    fontFamily: `'Montserrat', sans-serif`,
     h2: {
       fontWeight: 400,
     },
   },
 });
 
-if (!__SERVER__ && __PROD__ && "serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
+if (!__SERVER__ && __PROD__ && 'serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
     navigator.serviceWorker
-      .register("/sw.js")
+      .register('/sw.js')
       .then(() => {
-        console.log("Service worker registered");
+        console.log('Service worker registered');
       })
       .catch((err) => {
-        console.log("Service worker registration failed", err);
+        console.log('Service worker registration failed', err);
       });
   });
 }

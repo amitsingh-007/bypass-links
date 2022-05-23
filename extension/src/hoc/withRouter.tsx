@@ -3,7 +3,7 @@ import {
   useNavigate,
   NavigateFunction,
   Location,
-} from "react-router-dom";
+} from 'react-router-dom';
 
 const withRouter = (WrappedComponent: React.ComponentType<any>) =>
   function InnerComponent(props: any) {

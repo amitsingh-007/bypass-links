@@ -1,5 +1,5 @@
-import { REPO } from "@constants/index";
-import { Octokit } from "@octokit/rest";
+import { REPO } from '@constants/index';
+import { Octokit } from '@octokit/rest';
 
 const authToken = process.env.GITHUB_TOKEN;
 

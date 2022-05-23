@@ -1,13 +1,13 @@
-import { Box, Button, LinearProgress, TextField } from "@mui/material";
-import { SxProps } from "@mui/system";
-import { memo, useState } from "react";
-import { TOTP_LENGTH } from "../constants";
+import { Box, Button, LinearProgress, TextField } from '@mui/material';
+import { SxProps } from '@mui/system';
+import { memo, useState } from 'react';
+import { TOTP_LENGTH } from '../constants';
 
 const totpInputStyles = {
-  marginRight: "10px",
-  "& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+  marginRight: '10px',
+  '& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button':
     {
-      display: "none",
+      display: 'none',
     },
 };
 
@@ -22,7 +22,7 @@ const Verify2FA = memo<{
   containerStyles = {},
   buttonStyles = {},
 }) {
-  const [totp, setTOTP] = useState("");
+  const [totp, setTOTP] = useState('');
   const [isVerifying, setIsVerifying] = useState(false);
 
   if (!isShown) {
@@ -47,7 +47,7 @@ const Verify2FA = memo<{
     <>
       <Box
         component="form"
-        sx={{ display: "flex", marginTop: "50px", ...containerStyles }}
+        sx={{ display: 'flex', marginTop: '50px', ...containerStyles }}
         onSubmit={handleTOTPVerify}
       >
         <TextField
@@ -63,7 +63,7 @@ const Verify2FA = memo<{
           value={totp}
           onChange={handleTOTPChange}
           sx={totpInputStyles}
-          inputProps={{ sx: { px: "16px", letterSpacing: "17px" } }}
+          inputProps={{ sx: { px: '16px', letterSpacing: '17px' } }}
         />
         <Button
           type="submit"
@@ -77,7 +77,7 @@ const Verify2FA = memo<{
         </Button>
       </Box>
       {isVerifying && (
-        <Box sx={{ position: "fixed", top: 0, left: 0, width: "100%" }}>
+        <Box sx={{ position: 'fixed', top: 0, left: 0, width: '100%' }}>
           <LinearProgress color="secondary" />
         </Box>
       )}

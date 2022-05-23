@@ -1,4 +1,4 @@
-import { ContextBookmarks, ISelectedBookmarks } from "../interfaces";
+import { ContextBookmarks, ISelectedBookmarks } from '../interfaces';
 
 export const getDestinationIndex = (
   destIndex: number,

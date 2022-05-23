@@ -1,7 +1,7 @@
-import { TextField } from "@mui/material";
-import { EditDialog } from "GlobalComponents/Dialogs";
-import { VoidFunction } from "GlobalInterfaces/custom";
-import { useState } from "react";
+import { TextField } from '@mui/material';
+import { EditDialog } from 'GlobalComponents/Dialogs';
+import { VoidFunction } from 'GlobalInterfaces/custom';
+import { useState } from 'react';
 
 export const FolderDialog: React.FC<{
   origName?: string;
@@ -9,7 +9,7 @@ export const FolderDialog: React.FC<{
   handleSave: (name: string) => void;
   isOpen: boolean;
   onClose: VoidFunction;
-}> = ({ origName = "", headerText, handleSave, isOpen, onClose }) => {
+}> = ({ origName = '', headerText, handleSave, isOpen, onClose }) => {
   const [name, setName] = useState(origName);
 
   const handleNameChange: React.ChangeEventHandler<HTMLInputElement> = (

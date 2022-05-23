@@ -1,7 +1,7 @@
-import { Box } from "@mui/material";
-import { SxProps } from "@mui/system";
-import { memo, useEffect, useState } from "react";
-import { useInView } from "react-intersection-observer";
+import { Box } from '@mui/material';
+import { SxProps } from '@mui/system';
+import { memo, useEffect, useState } from 'react';
+import { useInView } from 'react-intersection-observer';
 
 interface Props {
   containerStyles: SxProps;
@@ -13,7 +13,7 @@ const ProgressiveRender = memo<Props>(
   ({ containerStyles, forceRender = false, children }) => {
     const [isRendered, setIsRendered] = useState(forceRender);
     const { ref, inView } = useInView({
-      rootMargin: "100px",
+      rootMargin: '100px',
       triggerOnce: true,
     });
 
@@ -38,6 +38,6 @@ const ProgressiveRender = memo<Props>(
     );
   }
 );
-ProgressiveRender.displayName = "ProgressiveRender";
+ProgressiveRender.displayName = 'ProgressiveRender';
 
 export default ProgressiveRender;

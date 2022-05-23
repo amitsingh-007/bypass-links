@@ -1,8 +1,8 @@
-Cypress.Commands.add("verifyExtensionDownload", () => {
-  cy.get(`[data-test-attr="ext-download-button"]`)
-    .should("have.attr", "href")
+Cypress.Commands.add('verifyExtensionDownload', () => {
+  cy.get(`[data-test-attr='ext-download-button']`)
+    .should('have.attr', 'href')
     .and(
-      "match",
+      'match',
       /https:\/\/github\.com\/amitsingh-007\/bypass-links\/releases\/download\/.*\.zip/
     );
 });

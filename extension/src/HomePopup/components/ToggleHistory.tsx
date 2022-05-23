@@ -1,17 +1,17 @@
-import { Box, FormControlLabel } from "@mui/material";
-import { StyledSwitch } from "GlobalComponents/StyledComponents";
-import { startHistoryWatch } from "GlobalContainers/StoreListener";
-import history from "GlobalHelpers/chrome/history";
-import storage from "GlobalHelpers/chrome/storage";
-import { RootState } from "GlobalReducers/rootReducer";
-import { memo, useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { resetHistoryMonitor } from "SrcPath/HistoryPanel/actionCreators";
+import { Box, FormControlLabel } from '@mui/material';
+import { StyledSwitch } from 'GlobalComponents/StyledComponents';
+import { startHistoryWatch } from 'GlobalContainers/StoreListener';
+import history from 'GlobalHelpers/chrome/history';
+import storage from 'GlobalHelpers/chrome/storage';
+import { RootState } from 'GlobalReducers/rootReducer';
+import { memo, useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { resetHistoryMonitor } from 'SrcPath/HistoryPanel/actionCreators';
 
 const endHistoryWatch = async () => {
-  const { historyStartTime } = await storage.get(["historyStartTime"]);
+  const { historyStartTime } = await storage.get(['historyStartTime']);
   if (!historyStartTime) {
-    console.log("Nothing to clear.");
+    console.log('Nothing to clear.');
     return;
   }
   const historyEndTime = Date.now();
@@ -21,8 +21,8 @@ const endHistoryWatch = async () => {
     startTime: historyStartTime,
     endTime: historyEndTime,
   });
-  storage.remove("historyStartTime");
-  console.log("History clear successful.");
+  storage.remove('historyStartTime');
+  console.log('History clear successful.');
 };
 
 const ToggleHistory = memo(function ToggleHistory() {
@@ -52,7 +52,7 @@ const ToggleHistory = memo(function ToggleHistory() {
 
   //Init toggle on mount
   useEffect(() => {
-    storage.get(["historyStartTime"]).then(({ historyStartTime }) => {
+    storage.get(['historyStartTime']).then(({ historyStartTime }) => {
       setIsHistoryActive(!!historyStartTime);
     });
   }, []);
@@ -89,9 +89,9 @@ const ToggleHistory = memo(function ToggleHistory() {
           disabled={!isExtensionActive}
         />
       }
-      label={<Box sx={{ mr: "3px" }}>Watch</Box>}
+      label={<Box sx={{ mr: '3px' }}>Watch</Box>}
       labelPlacement="start"
-      sx={{ ml: 0, justifyContent: "space-between" }}
+      sx={{ ml: 0, justifyContent: 'space-between' }}
     />
   );
 });

@@ -1,7 +1,7 @@
-import tabs from "GlobalHelpers/chrome/tabs";
+import tabs from 'GlobalHelpers/chrome/tabs';
 
 export const bypassBonsai = async (url: URL, tabId: number) => {
-  const encodedTargetUrl = url.searchParams.get("adsurlkkk");
+  const encodedTargetUrl = url.searchParams.get('adsurlkkk');
   if (encodedTargetUrl) {
     await tabs.update(tabId, { url: atob(encodedTargetUrl) });
   }

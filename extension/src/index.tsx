@@ -2,25 +2,25 @@
 // if (!__PROD__) {
 //   require("./scripts/wdyr");
 // }
-import { CssBaseline } from "@mui/material";
-import darkScrollbar from "@mui/material/darkScrollbar";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import ErrorBoundary from "GlobalComponents/ErrorBoundary";
-import { BG_COLOR_BLACK } from "GlobalConstants/color";
-import Global from "GlobalContainers/Global";
-import PopupRoutes from "GlobalContainers/PopupRoutes";
-import "GlobalStyles/popup.scss";
+import { CssBaseline } from '@mui/material';
+import darkScrollbar from '@mui/material/darkScrollbar';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import ErrorBoundary from 'GlobalComponents/ErrorBoundary';
+import { BG_COLOR_BLACK } from 'GlobalConstants/color';
+import Global from 'GlobalContainers/Global';
+import PopupRoutes from 'GlobalContainers/PopupRoutes';
+import 'GlobalStyles/popup.scss';
 // import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
-import { applyMiddleware, compose, createStore } from "redux";
-import rootReducers from "./reducers/rootReducer";
+import { createRoot } from 'react-dom/client';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
+import { applyMiddleware, compose, createStore } from 'redux';
+import rootReducers from './reducers/rootReducer';
 
 const middlewares = [];
 if (!__PROD__) {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const { logger } = require("redux-logger");
+  const { logger } = require('redux-logger');
   middlewares.push(logger);
 }
 const store = compose(applyMiddleware(...middlewares))(createStore)(
@@ -29,7 +29,7 @@ const store = compose(applyMiddleware(...middlewares))(createStore)(
 
 const theme = createTheme({
   palette: {
-    mode: "dark",
+    mode: 'dark',
   },
   typography: {
     fontFamily: `"Inter", sans-serif`,
@@ -58,13 +58,13 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         outlined: {
-          borderWidth: "2px",
-          borderRadius: "50px",
-          ":hover": { borderWidth: "2px" },
+          borderWidth: '2px',
+          borderRadius: '50px',
+          ':hover': { borderWidth: '2px' },
         },
         root: {
-          "&.Mui-disabled": {
-            borderWidth: "2px",
+          '&.Mui-disabled': {
+            borderWidth: '2px',
           },
         },
       },
@@ -72,7 +72,7 @@ const theme = createTheme({
   },
 });
 
-const container = document.getElementById("root");
+const container = document.getElementById('root');
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const root = createRoot(container!);
 root.render(
@@ -92,9 +92,9 @@ root.render(
   // </StrictMode>
 );
 
-document.body.addEventListener("keydown", (e) => {
+document.body.addEventListener('keydown', (e) => {
   //prevent extension close on escape click
-  if (e.key === "Escape") {
+  if (e.key === 'Escape') {
     e.preventDefault();
   }
 });

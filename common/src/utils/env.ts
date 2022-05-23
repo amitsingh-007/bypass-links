@@ -1,1 +1,1 @@
-export const getEnv = () => (__PROD__ ? "prod" : "dev");
+export const getEnv = () => (__PROD__ ? 'prod' : 'dev');

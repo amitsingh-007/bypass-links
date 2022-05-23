@@ -1,5 +1,5 @@
-import { DISPLAY_TOAST, HIDE_TOAST } from "GlobalActionTypes/toast";
-import { ToastAction, ToastState } from "./interfaces/toast";
+import { DISPLAY_TOAST, HIDE_TOAST } from 'GlobalActionTypes/toast';
+import { ToastAction, ToastState } from './interfaces/toast';
 
 const defaultState = {
   message: null,

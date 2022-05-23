@@ -1,13 +1,13 @@
-import { EXTENSION_STATE } from "GlobalConstants";
-import storage from "GlobalHelpers/chrome/storage";
-import { getExtensionState } from "GlobalHelpers/fetchFromStorage";
-import { isExtensionActive, setExtStateInStorage } from "GlobalUtils/common";
-import { manageGoogleActivity } from "./automation/manageGoogleActivity";
-import { bypass } from "./bypass";
-import { getForumPageLinks } from "./misc/forumPageLinks";
-import turnOffInputSuggestions from "./misc/turnOffInputSuggestions";
-import { redirect } from "./redirect";
-import { fetchPageH1, isValidUrl, setExtensionIcon } from "./utils";
+import { EXTENSION_STATE } from 'GlobalConstants';
+import storage from 'GlobalHelpers/chrome/storage';
+import { getExtensionState } from 'GlobalHelpers/fetchFromStorage';
+import { isExtensionActive, setExtStateInStorage } from 'GlobalUtils/common';
+import { manageGoogleActivity } from './automation/manageGoogleActivity';
+import { bypass } from './bypass';
+import { getForumPageLinks } from './misc/forumPageLinks';
+import turnOffInputSuggestions from './misc/turnOffInputSuggestions';
+import { redirect } from './redirect';
+import { fetchPageH1, isValidUrl, setExtensionIcon } from './utils';
 
 //First time extension install
 chrome.runtime.onInstalled.addListener(() => {
@@ -17,7 +17,7 @@ chrome.runtime.onInstalled.addListener(() => {
 //Listen when the browser is opened
 chrome.runtime.onStartup.addListener(() => {
   storage
-    .get(["extState", "hasPendingBookmarks", "hasPendingPersons"])
+    .get(['extState', 'hasPendingBookmarks', 'hasPendingPersons'])
     .then(async ({ extState, hasPendingBookmarks, hasPendingPersons }) => {
       await setExtensionIcon({
         extState,
@@ -42,7 +42,7 @@ const onPageLoad = async (tabId: number, url: string) => {
 
 //Listen tab url change
 chrome.tabs.onUpdated.addListener((tabId, changeInfo) =>
-  onPageLoad(tabId, changeInfo?.url ?? "")
+  onPageLoad(tabId, changeInfo?.url ?? '')
 );
 
 /**
@@ -50,7 +50,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo) =>
  * @link https://stackoverflow.com/questions/16949810/how-can-i-run-this-script-when-the-tab-reloads-chrome-extension
  */
 chrome.webNavigation.onCommitted.addListener((details) => {
-  if (["reload"].includes(details.transitionType)) {
+  if (['reload'].includes(details.transitionType)) {
     chrome.webNavigation.onCompleted.addListener(function onComplete({
       tabId,
     }) {
@@ -81,7 +81,7 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
 
 //Listen to chrome storage changes
 chrome.storage.onChanged.addListener((changedObj, storageType) => {
-  if (storageType !== "local") {
+  if (storageType !== 'local') {
     return;
   }
   const { extState, hasPendingBookmarks, hasPendingPersons } = changedObj;

@@ -1,4 +1,4 @@
-import { IMappedRedirections, IRedirection } from "../interfaces/redirections";
+import { IMappedRedirections, IRedirection } from '../interfaces/redirections';
 
 export const mapRedirections = (
   redirections: IRedirection[]

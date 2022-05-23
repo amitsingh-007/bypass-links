@@ -1,7 +1,7 @@
-import { Verify2FAResponse } from "@common/interfaces/twoFactorAuth";
-import { verify2FA } from "@logic/twoFactorAuth";
-import { NextApiRequest, NextApiResponse } from "next";
-import withAuth from "src/middlewares/withAuth";
+import { Verify2FAResponse } from '@common/interfaces/twoFactorAuth';
+import { verify2FA } from '@logic/twoFactorAuth';
+import { NextApiRequest, NextApiResponse } from 'next';
+import withAuth from 'src/middlewares/withAuth';
 
 /**
  * API to verify the user while setting up 2FA

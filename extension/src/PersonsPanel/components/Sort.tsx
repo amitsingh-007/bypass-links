@@ -5,17 +5,17 @@ import {
   MenuItem,
   Select,
   SelectProps,
-} from "@mui/material";
-import { memo } from "react";
-import { SORT_ORDER, SORT_TYPE } from "../constants/sort";
+} from '@mui/material';
+import { memo } from 'react';
+import { SORT_ORDER, SORT_TYPE } from '../constants/sort';
 
 interface Props {
   onChange: (sortType: SORT_TYPE, sortOrder: SORT_ORDER) => void;
 }
 
 const Sort = memo<Props>(function Sort({ onChange }) {
-  const handleChange: SelectProps<string>["onChange"] = (event) => {
-    const [sortType, sortOrder] = event.target.value.split("-") as [
+  const handleChange: SelectProps<string>['onChange'] = (event) => {
+    const [sortType, sortOrder] = event.target.value.split('-') as [
       SORT_TYPE,
       SORT_ORDER
     ];

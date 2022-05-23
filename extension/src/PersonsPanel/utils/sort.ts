@@ -1,5 +1,5 @@
-import { SORT_ORDER } from "../constants/sort";
-import { IPerson } from "../interfaces/persons";
+import { SORT_ORDER } from '../constants/sort';
+import { IPerson } from '../interfaces/persons';
 
 export const sortAlphabetically = <T extends IPerson>(
   sortOrder: SORT_ORDER,

@@ -1,8 +1,8 @@
-import { SelectProps } from "@mui/material";
-import { EditDialog } from "GlobalComponents/Dialogs";
-import { VoidFunction } from "GlobalInterfaces/custom";
-import { useState } from "react";
-import { FolderDropdown } from "./Dropdown";
+import { SelectProps } from '@mui/material';
+import { EditDialog } from 'GlobalComponents/Dialogs';
+import { VoidFunction } from 'GlobalInterfaces/custom';
+import { useState } from 'react';
+import { FolderDropdown } from './Dropdown';
 
 interface Props {
   origFolder: string;
@@ -21,7 +21,7 @@ const BulkBookmarksMoveDialog: React.FC<Props> = ({
 }) => {
   const [folder, setFolder] = useState(origFolder);
 
-  const handleFolderChange: SelectProps<string>["onChange"] = (event) => {
+  const handleFolderChange: SelectProps<string>['onChange'] = (event) => {
     setFolder(event.target.value);
   };
 

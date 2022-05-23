@@ -1,16 +1,16 @@
-import { SvgIcon } from "@mui/material";
-import { BYPASS_KEYS } from "GlobalConstants";
-import runtime from "GlobalHelpers/chrome/runtime";
-import tabs, { getCurrentTab } from "GlobalHelpers/chrome/tabs";
-import { RootState } from "GlobalReducers/rootReducer";
-import { matchHostnames } from "GlobalUtils/common";
-import { memo, useCallback, useEffect, useState } from "react";
-import { MdForum } from "react-icons/md";
-import { useDispatch, useSelector } from "react-redux";
-import { startHistoryMonitor } from "SrcPath/HistoryPanel/actionCreators";
-import StyledButton from "./StyledButton";
+import { SvgIcon } from '@mui/material';
+import { BYPASS_KEYS } from 'GlobalConstants';
+import runtime from 'GlobalHelpers/chrome/runtime';
+import tabs, { getCurrentTab } from 'GlobalHelpers/chrome/tabs';
+import { RootState } from 'GlobalReducers/rootReducer';
+import { matchHostnames } from 'GlobalUtils/common';
+import { memo, useCallback, useEffect, useState } from 'react';
+import { MdForum } from 'react-icons/md';
+import { useDispatch, useSelector } from 'react-redux';
+import { startHistoryMonitor } from 'SrcPath/HistoryPanel/actionCreators';
+import StyledButton from './StyledButton';
 
-const isCurrentPageForum = async (url = "") => {
+const isCurrentPageForum = async (url = '') => {
   const hostname = url && new URL(url).hostname;
   return (
     (await matchHostnames(hostname, BYPASS_KEYS.FORUMS)) ||

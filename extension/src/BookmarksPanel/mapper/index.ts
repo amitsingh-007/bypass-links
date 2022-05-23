@@ -1,9 +1,9 @@
-import { ContextBookmark, IBookmarksObj, IFolderMetaData } from "../interfaces";
+import { ContextBookmark, IBookmarksObj, IFolderMetaData } from '../interfaces';
 
 export const bookmarksMapper: (
   kvp: [string, IFolderMetaData],
-  urlList: IBookmarksObj["urlList"],
-  folderList: IBookmarksObj["folderList"]
+  urlList: IBookmarksObj['urlList'],
+  folderList: IBookmarksObj['folderList']
 ) => any = ([_key, { isDir, hash }], urlList, folderList) => {
   const obj = { isDir } as ContextBookmark;
   if (isDir) {

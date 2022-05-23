@@ -1,6 +1,6 @@
-import { setAuthenticationProgress } from "GlobalActionCreators/auth";
-import { AuthenticationEvent } from "GlobalInterfaces/authentication";
-import { Dispatch } from "redux";
+import { setAuthenticationProgress } from 'GlobalActionCreators/auth';
+import { AuthenticationEvent } from 'GlobalInterfaces/authentication';
+import { Dispatch } from 'redux';
 
 export class AuthProgress {
   private static _total: number;

@@ -1,7 +1,7 @@
-import { Authenticate2FAResponse } from "@common/interfaces/twoFactorAuth";
-import { authenticate2FA } from "@logic/twoFactorAuth";
-import { NextApiRequest, NextApiResponse } from "next";
-import withAuth from "src/middlewares/withAuth";
+import { Authenticate2FAResponse } from '@common/interfaces/twoFactorAuth';
+import { authenticate2FA } from '@logic/twoFactorAuth';
+import { NextApiRequest, NextApiResponse } from 'next';
+import withAuth from 'src/middlewares/withAuth';
 
 /**
  * API to authenticate the user when he tries to login

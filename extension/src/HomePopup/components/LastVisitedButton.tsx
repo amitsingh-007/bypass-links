@@ -1,24 +1,24 @@
-import { FIREBASE_DB_REF } from "@common/constants/firebase";
-import { SvgIcon, Typography } from "@mui/material";
-import { BlackTooltip } from "GlobalComponents/StyledComponents";
-import { getCurrentTab } from "GlobalHelpers/chrome/tabs";
-import { getLastVisited } from "GlobalHelpers/fetchFromStorage";
-import { saveToFirebase } from "GlobalHelpers/firebase/database";
-import { RootState } from "GlobalReducers/rootReducer";
-import md5 from "md5";
-import { memo, useEffect, useState } from "react";
-import { FaCalendarCheck, FaCalendarTimes } from "react-icons/fa";
-import { useSelector } from "react-redux";
-import { syncLastVisitedToStorage } from "SrcPath/HomePopup/utils/lastVisited";
-import { LastVisited } from "../interfaces/lastVisited";
-import StyledButton from "./StyledButton";
+import { FIREBASE_DB_REF } from '@common/constants/firebase';
+import { SvgIcon, Typography } from '@mui/material';
+import { BlackTooltip } from 'GlobalComponents/StyledComponents';
+import { getCurrentTab } from 'GlobalHelpers/chrome/tabs';
+import { getLastVisited } from 'GlobalHelpers/fetchFromStorage';
+import { saveToFirebase } from 'GlobalHelpers/firebase/database';
+import { RootState } from 'GlobalReducers/rootReducer';
+import md5 from 'md5';
+import { memo, useEffect, useState } from 'react';
+import { FaCalendarCheck, FaCalendarTimes } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
+import { syncLastVisitedToStorage } from 'SrcPath/HomePopup/utils/lastVisited';
+import { LastVisited } from '../interfaces/lastVisited';
+import StyledButton from './StyledButton';
 
-const tooltipStyles = { fontSize: "13px" };
+const tooltipStyles = { fontSize: '13px' };
 
 const LastVisitedButton = memo(function LastVisitedButton() {
   const { isSignedIn } = useSelector((state: RootState) => state.root);
   const [isFetching, setIsFetching] = useState(false);
-  const [lastVisited, setLastVisited] = useState("");
+  const [lastVisited, setLastVisited] = useState('');
   const [currentTab, setCurrentTab] = useState<chrome.tabs.Tab | null>(null);
   const [lastVisitedObj, setLastVisitedObj] = useState<LastVisited>({});
 
@@ -27,9 +27,9 @@ const LastVisitedButton = memo(function LastVisitedButton() {
     const lastVisitedObj = await getLastVisited();
 
     const currentTab = await getCurrentTab();
-    const { hostname } = new URL(currentTab.url ?? "");
+    const { hostname } = new URL(currentTab.url ?? '');
     const lastVisitedDate = lastVisitedObj[md5(hostname)];
-    let displayInfo = "";
+    let displayInfo = '';
     if (lastVisitedDate) {
       const date = new Date(lastVisitedDate);
       displayInfo = `${date.toDateString()}, ${date.toLocaleTimeString()}`;
@@ -49,7 +49,7 @@ const LastVisitedButton = memo(function LastVisitedButton() {
 
   const handleUpdateLastVisited = async () => {
     setIsFetching(true);
-    const { hostname } = new URL(currentTab?.url ?? "");
+    const { hostname } = new URL(currentTab?.url ?? '');
     lastVisitedObj[md5(hostname)] = Date.now();
     const isSuccess = await saveToFirebase(
       FIREBASE_DB_REF.lastVisited,
@@ -68,7 +68,7 @@ const LastVisitedButton = memo(function LastVisitedButton() {
       isLoading={isFetching}
       isDisabled={!isSignedIn}
       onClick={handleUpdateLastVisited}
-      color={lastVisited ? "success" : "error"}
+      color={lastVisited ? 'success' : 'error'}
     >
       {lastVisited ? (
         <BlackTooltip

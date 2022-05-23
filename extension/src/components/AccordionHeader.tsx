@@ -3,13 +3,13 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
-} from "@mui/material";
-import { STICKY_HEADER } from "GlobalConstants/styles";
-import { useRef } from "react";
-import { useCallback } from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import { memo } from "react";
+} from '@mui/material';
+import { STICKY_HEADER } from 'GlobalConstants/styles';
+import { useRef } from 'react';
+import { useCallback } from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { memo } from 'react';
 
 export const AccordionHeader = memo<{ children?: React.ReactNode }>(
   function AccordionHeader({ children }) {
@@ -25,7 +25,7 @@ export const AccordionHeader = memo<{ children?: React.ReactNode }>(
 
     const handleEscapeKeyPress = useCallback(
       (event: KeyboardEvent) => {
-        if (event.key !== "Escape") {
+        if (event.key !== 'Escape') {
           return;
         }
         if (isExpanded) {
@@ -39,9 +39,9 @@ export const AccordionHeader = memo<{ children?: React.ReactNode }>(
 
     useEffect(() => {
       const node = accordionRef?.current;
-      node?.addEventListener("keydown", handleEscapeKeyPress);
+      node?.addEventListener('keydown', handleEscapeKeyPress);
       return () => {
-        node?.removeEventListener("keydown", handleEscapeKeyPress);
+        node?.removeEventListener('keydown', handleEscapeKeyPress);
       };
     }, [handleEscapeKeyPress]);
 
@@ -50,7 +50,7 @@ export const AccordionHeader = memo<{ children?: React.ReactNode }>(
         ref={accordionRef}
         expanded={isExpanded}
         onChange={onAccordionStateChange}
-        sx={{ margin: "0px !important", ...STICKY_HEADER }}
+        sx={{ margin: '0px !important', ...STICKY_HEADER }}
       >
         {children}
       </Accordion>
@@ -63,17 +63,17 @@ export const PrimaryHeaderContent = memo<{ children?: React.ReactNode }>(
     return (
       <AccordionSummary
         sx={{
-          padding: "8px 0px",
-          minHeight: "unset !important",
-          "& .MuiAccordionSummary-content": { margin: "0px !important" },
+          padding: '8px 0px',
+          minHeight: 'unset !important',
+          '& .MuiAccordionSummary-content': { margin: '0px !important' },
         }}
       >
         <Box
           sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            width: "100%",
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            width: '100%',
           }}
         >
           {children}
@@ -86,12 +86,12 @@ export const PrimaryHeaderContent = memo<{ children?: React.ReactNode }>(
 export const SecondaryHeaderContent = memo<{ children?: React.ReactNode }>(
   function SecondaryHeaderContent({ children }) {
     return (
-      <AccordionDetails sx={{ padding: "10px 12px 12px 12px" }}>
+      <AccordionDetails sx={{ padding: '10px 12px 12px 12px' }}>
         <Box
           sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
           }}
         >
           {children}

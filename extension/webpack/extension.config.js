@@ -1,10 +1,11 @@
-const { merge } = require("webpack-merge");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const { DllReferencePlugin } = require("webpack");
-const commonConfig = require("./common.config");
-const { PATHS } = require("./constants");
+/* eslint-disable @typescript-eslint/no-var-requires */
+const { merge } = require('webpack-merge');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { DllReferencePlugin } = require('webpack');
+const commonConfig = require('./common.config');
+const { PATHS } = require('./constants');
 
 const DllReferenceWebpackPlugin = new DllReferencePlugin({
   context: PATHS.ROOT,
@@ -12,11 +13,11 @@ const DllReferenceWebpackPlugin = new DllReferencePlugin({
 });
 
 const backgroundConfig = merge(commonConfig, {
-  name: "background-script",
-  entry: "./src/BackgroundScript/index.ts",
+  name: 'background-script',
+  entry: './src/BackgroundScript/index.ts',
   output: {
     path: PATHS.EXTENSION,
-    filename: "js/background.js",
+    filename: 'js/background.js',
   },
   plugins: [
     DllReferenceWebpackPlugin,
@@ -32,21 +33,21 @@ const backgroundConfig = merge(commonConfig, {
 });
 
 const popupConfig = merge(commonConfig, {
-  name: "content-script",
-  entry: "./src/index.tsx",
+  name: 'content-script',
+  entry: './src/index.tsx',
   output: {
     path: PATHS.EXTENSION,
-    filename: "js/[name].[chunkhash:9].js",
-    chunkFilename: "js/[name].[chunkhash:9].js",
+    filename: 'js/[name].[chunkhash:9].js',
+    chunkFilename: 'js/[name].[chunkhash:9].js',
   },
   plugins: [
     DllReferenceWebpackPlugin,
     new HtmlWebpackPlugin({
-      template: "./public/index.html",
+      template: './public/index.html',
     }),
     new MiniCssExtractPlugin({
-      filename: "css/[name].[contenthash].css",
-      chunkFilename: "css/[id].[contenthash].css",
+      filename: 'css/[name].[contenthash].css',
+      chunkFilename: 'css/[id].[contenthash].css',
     }),
     new CopyWebpackPlugin({
       patterns: [
@@ -56,9 +57,9 @@ const popupConfig = merge(commonConfig, {
         },
         {
           context: `${PATHS.ROOT}/public`,
-          from: "**/*",
+          from: '**/*',
           globOptions: {
-            ignore: ["**/*.html"],
+            ignore: ['**/*.html'],
           },
         },
       ],

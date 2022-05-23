@@ -1,38 +1,38 @@
-import { Box, GlobalStyles } from "@mui/material";
-import { displayToast } from "GlobalActionCreators/toast";
-import { ScrollButton } from "GlobalComponents/ScrollButton";
-import { STORAGE_KEYS } from "GlobalConstants";
-import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
-import { PANEL_DIMENSIONS_PX } from "GlobalConstants/styles";
-import storage from "GlobalHelpers/chrome/storage";
-import tabs from "GlobalHelpers/chrome/tabs";
-import { getBookmarks } from "GlobalHelpers/fetchFromStorage";
-import { addToCache } from "GlobalUtils/cache";
-import md5 from "md5";
-import { createRef, PureComponent } from "react";
+import { Box, GlobalStyles } from '@mui/material';
+import { displayToast } from 'GlobalActionCreators/toast';
+import { ScrollButton } from 'GlobalComponents/ScrollButton';
+import { STORAGE_KEYS } from 'GlobalConstants';
+import { CACHE_BUCKET_KEYS } from 'GlobalConstants/cache';
+import { PANEL_DIMENSIONS_PX } from 'GlobalConstants/styles';
+import storage from 'GlobalHelpers/chrome/storage';
+import tabs from 'GlobalHelpers/chrome/tabs';
+import { getBookmarks } from 'GlobalHelpers/fetchFromStorage';
+import { addToCache } from 'GlobalUtils/cache';
+import md5 from 'md5';
+import { createRef, PureComponent } from 'react';
 import {
   DragDropContext,
   DragDropContextProps,
   Droppable,
-} from "react-beautiful-dnd";
-import { connect, ConnectedProps } from "react-redux";
-import { FixedSizeList } from "react-window";
-import { startHistoryMonitor } from "SrcPath/HistoryPanel/actionCreators";
-import { updateTaggedPersonUrls } from "SrcPath/PersonsPanel/actionCreators";
-import { IUpdateTaggedPerson } from "SrcPath/PersonsPanel/interfaces/persons";
-import { setBookmarkOperation } from "../actionCreators";
+} from 'react-beautiful-dnd';
+import { connect, ConnectedProps } from 'react-redux';
+import { FixedSizeList } from 'react-window';
+import { startHistoryMonitor } from 'SrcPath/HistoryPanel/actionCreators';
+import { updateTaggedPersonUrls } from 'SrcPath/PersonsPanel/actionCreators';
+import { IUpdateTaggedPerson } from 'SrcPath/PersonsPanel/interfaces/persons';
+import { setBookmarkOperation } from '../actionCreators';
 import {
   BOOKMARK_OPERATION,
   BOOKMARK_PANEL_CONTENT_HEIGHT,
   BOOKMARK_ROW_DIMENTSIONS,
-} from "../constants";
+} from '../constants';
 import {
   ContextBookmarks,
   IBookmarksObj,
   ISelectedBookmarks,
-} from "../interfaces";
-import { BMPanelQueryParams } from "../interfaces/url";
-import { bookmarksMapper } from "../mapper";
+} from '../interfaces';
+import { BMPanelQueryParams } from '../interfaces/url';
+import { bookmarksMapper } from '../mapper';
 import {
   getAllFolderNames,
   getFaviconUrl,
@@ -40,17 +40,17 @@ import {
   getSelectedCount,
   isFolderContainsDir,
   shouldRenderBookmarks,
-} from "../utils";
+} from '../utils';
 import {
   getBookmarksAfterDrag,
   getDestinationIndex,
   getSelectedBookmarksAfterDrag,
-} from "../utils/manipulate";
-import BookmarkContextMenu from "./BookmarkContextMenu";
-import DragClone from "./DragClone";
-import EditBookmark from "./EditBookmark";
-import Header from "./Header";
-import VirtualRow, { VirtualRowProps } from "./VirtualRow";
+} from '../utils/manipulate';
+import BookmarkContextMenu from './BookmarkContextMenu';
+import DragClone from './DragClone';
+import EditBookmark from './EditBookmark';
+import Header from './Header';
+import VirtualRow, { VirtualRowProps } from './VirtualRow';
 
 const minReqBookmarksToScroll = Math.ceil(
   BOOKMARK_PANEL_CONTENT_HEIGHT / BOOKMARK_ROW_DIMENTSIONS.height
@@ -60,9 +60,9 @@ interface Props extends PropsFromRedux, BMPanelQueryParams {}
 
 interface State {
   contextBookmarks: ContextBookmarks;
-  urlList: IBookmarksObj["urlList"];
-  folderList: IBookmarksObj["folderList"];
-  folders: IBookmarksObj["folders"];
+  urlList: IBookmarksObj['urlList'];
+  folderList: IBookmarksObj['folderList'];
+  folders: IBookmarksObj['folders'];
   selectedBookmarks: ISelectedBookmarks;
   isFetching: boolean;
   isSaveButtonActive: boolean;
@@ -84,7 +84,7 @@ class BookmarksPanel extends PureComponent<Props, State> {
       isFetching: true,
       isSaveButtonActive: false,
       updateTaggedPersons: [],
-      searchText: "",
+      searchText: '',
     };
     this.listRef = createRef();
   }
@@ -118,7 +118,7 @@ class BookmarksPanel extends PureComponent<Props, State> {
         setBookmarkOperation(operation, bmUrl);
       }
     });
-    document.body.addEventListener("keydown", this.handleKeyPress);
+    document.body.addEventListener('keydown', this.handleKeyPress);
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -130,7 +130,7 @@ class BookmarksPanel extends PureComponent<Props, State> {
   }
 
   componentWillUnmount() {
-    document.body.removeEventListener("keydown", this.handleKeyPress);
+    document.body.removeEventListener('keydown', this.handleKeyPress);
   }
 
   handleSearchTextChange = (text: string) => {
@@ -138,12 +138,12 @@ class BookmarksPanel extends PureComponent<Props, State> {
   };
 
   handleKeyPress = (event: KeyboardEvent) => {
-    if (event.key === "Escape") {
+    if (event.key === 'Escape') {
       this.resetSelectedBookmarks();
-    } else if (event.key === "Enter") {
+    } else if (event.key === 'Enter') {
       const target = event.target as HTMLElement;
       // To prevent from opening links on saving bookmarks using keys
-      if (target.nodeName !== "BUTTON" && target.nodeName !== "INPUT") {
+      if (target.nodeName !== 'BUTTON' && target.nodeName !== 'INPUT') {
         this.handleOpenSelectedBookmarks();
       }
     }
@@ -265,7 +265,7 @@ class BookmarksPanel extends PureComponent<Props, State> {
       .filter((bookmark, index) =>
         Boolean(selectedBookmarks[index] && bookmark.url)
       )
-      .map(({ url = "" }) => md5(url));
+      .map(({ url = '' }) => md5(url));
     //Change parent folder hash in urlList
     const destFolderHash = md5(destFolder);
     bookmarksToMove.forEach(
@@ -318,7 +318,7 @@ class BookmarksPanel extends PureComponent<Props, State> {
     const filteredContextBookmarks = contextBookmarks.filter(
       (bookmark, index) => {
         if (selectedBookmarks[index]) {
-          const urlHash = md5(bookmark.url || "");
+          const urlHash = md5(bookmark.url || '');
           //Update url in tagged persons
           taggedPersonData.push({
             prevTaggedPersons: bookmark.taggedPersons || [],
@@ -346,7 +346,7 @@ class BookmarksPanel extends PureComponent<Props, State> {
     const oldFolderHash = md5(oldName);
     const newFolderHash = md5(newName);
     //Update parentHash in urlList
-    const newUrlList = Object.entries(urlList).reduce<IBookmarksObj["urlList"]>(
+    const newUrlList = Object.entries(urlList).reduce<IBookmarksObj['urlList']>(
       (obj, [hash, data]) => {
         if (data.parentHash === oldFolderHash) {
           obj[hash] = { ...data, parentHash: newFolderHash };
@@ -388,8 +388,8 @@ class BookmarksPanel extends PureComponent<Props, State> {
     const folderHash = md5(name);
     if (isFolderContainsDir(folders, folderHash)) {
       this.props.displayToast({
-        message: "Remove inner folders first.",
-        severity: "error",
+        message: 'Remove inner folders first.',
+        severity: 'error',
       });
       return;
     }
@@ -399,7 +399,7 @@ class BookmarksPanel extends PureComponent<Props, State> {
     delete folderList[folderHash];
     //Remove all urls inside the folder and update all urls in tagged persons
     const taggedPersonData: IUpdateTaggedPerson[] = [];
-    const newUrlList = Object.entries(urlList).reduce<IBookmarksObj["urlList"]>(
+    const newUrlList = Object.entries(urlList).reduce<IBookmarksObj['urlList']>(
       (obj, [hash, data]) => {
         if (data.parentHash !== folderHash) {
           obj[hash] = data;
@@ -442,7 +442,7 @@ class BookmarksPanel extends PureComponent<Props, State> {
     folders[md5(folderContext)] = contextBookmarks.map(
       ({ isDir, url, name }) => ({
         isDir,
-        hash: md5((isDir ? name : url) || ""),
+        hash: md5((isDir ? name : url) || ''),
       })
     );
     const bookmarksObj = { folderList, urlList, folders };
@@ -452,12 +452,12 @@ class BookmarksPanel extends PureComponent<Props, State> {
     });
     this.setState({ isFetching: false, isSaveButtonActive: false });
     displayToast({
-      message: "Saved temporarily",
+      message: 'Saved temporarily',
       duration: 1500,
     });
   };
 
-  onDragStart: DragDropContextProps["onDragStart"] = async ({ source }) => {
+  onDragStart: DragDropContextProps['onDragStart'] = async ({ source }) => {
     const { selectedBookmarks } = this.state;
     const isCurrentDraggingSelected = selectedBookmarks[source.index];
     if (!isCurrentDraggingSelected) {
@@ -467,7 +467,7 @@ class BookmarksPanel extends PureComponent<Props, State> {
     this.setState({ selectedBookmarks: [...selectedBookmarks] });
   };
 
-  onDragEnd: DragDropContextProps["onDragEnd"] = ({ destination, source }) => {
+  onDragEnd: DragDropContextProps['onDragEnd'] = ({ destination, source }) => {
     if (!source || !destination || destination.index === source.index) {
       return;
     }
@@ -515,7 +515,7 @@ class BookmarksPanel extends PureComponent<Props, State> {
     return (
       <>
         <GlobalStyles
-          styles={{ body: { "::-webkit-scrollbar": { width: "0px" } } }}
+          styles={{ body: { '::-webkit-scrollbar': { width: '0px' } } }}
         />
         <ScrollButton
           itemsSize={curBookmarksCount}
@@ -576,7 +576,7 @@ class BookmarksPanel extends PureComponent<Props, State> {
                       itemKey={(index, data) => {
                         const { isDir, url, name } =
                           data.contextBookmarks[index];
-                        return (isDir ? name : url) ?? "";
+                        return (isDir ? name : url) ?? '';
                       }}
                       itemData={{
                         folderNamesList,
@@ -588,7 +588,7 @@ class BookmarksPanel extends PureComponent<Props, State> {
                         resetSelectedBookmarks: this.resetSelectedBookmarks,
                         handleSelectedChange: this.handleSelectedChange,
                       }}
-                      style={{ overflowY: "scroll" }}
+                      style={{ overflowY: 'scroll' }}
                     >
                       {VirtualRow}
                     </FixedSizeList>

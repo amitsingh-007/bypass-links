@@ -1,9 +1,9 @@
-import { FIREBASE_DB_REF } from "@common/constants/firebase";
-import { STORAGE_KEYS } from "GlobalConstants";
-import storage from "GlobalHelpers/chrome/storage";
-import { getFromFirebase } from "GlobalHelpers/firebase/database";
-import { IBypass } from "../interfaces/bypass";
-import { getBypassExecutor, getDecodedBypass } from "./bypassUtils";
+import { FIREBASE_DB_REF } from '@common/constants/firebase';
+import { STORAGE_KEYS } from 'GlobalConstants';
+import storage from 'GlobalHelpers/chrome/storage';
+import { getFromFirebase } from 'GlobalHelpers/firebase/database';
+import { IBypass } from '../interfaces/bypass';
+import { getBypassExecutor, getDecodedBypass } from './bypassUtils';
 
 export const bypass = async (tabId: number, url: URL) => {
   const bypassExecutor = await getBypassExecutor(url);
@@ -16,7 +16,7 @@ export const syncBypassToStorage = async () => {
   const response = await getFromFirebase<IBypass>(FIREBASE_DB_REF.bypass);
   const bypass = getDecodedBypass(response);
   await storage.set({ [STORAGE_KEYS.bypass]: bypass });
-  console.log("Bypass is set to", bypass);
+  console.log('Bypass is set to', bypass);
 };
 
 export const resetBypass = async () => {

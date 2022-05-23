@@ -1,24 +1,24 @@
-import { Box, Button } from "@mui/material";
-import { LoadingButton } from "@mui/lab";
-import { displayToast } from "GlobalActionCreators/toast";
+import { Box, Button } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import { displayToast } from 'GlobalActionCreators/toast';
 import {
   AccordionHeader,
   PrimaryHeaderContent,
   SecondaryHeaderContent,
-} from "GlobalComponents/AccordionHeader";
-import Loader from "GlobalComponents/Loader";
-import PanelHeading from "GlobalComponents/PanelHeading";
-import Search from "GlobalComponents/Search";
-import { memo, useState } from "react";
-import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
-import { IoIosPersonAdd } from "react-icons/io";
-import { RiUploadCloud2Fill } from "react-icons/ri";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { IPerson } from "../interfaces/persons";
-import { syncPersonsFirebaseWithStorage } from "../utils/sync";
-import AddOrEditPersonDialog from "./AddOrEditPersonDialog";
-import Sort from "./Sort";
+} from 'GlobalComponents/AccordionHeader';
+import Loader from 'GlobalComponents/Loader';
+import PanelHeading from 'GlobalComponents/PanelHeading';
+import Search from 'GlobalComponents/Search';
+import { memo, useState } from 'react';
+import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
+import { IoIosPersonAdd } from 'react-icons/io';
+import { RiUploadCloud2Fill } from 'react-icons/ri';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { IPerson } from '../interfaces/persons';
+import { syncPersonsFirebaseWithStorage } from '../utils/sync';
+import AddOrEditPersonDialog from './AddOrEditPersonDialog';
+import Sort from './Sort';
 
 interface Props {
   isFetching: boolean;
@@ -71,11 +71,11 @@ const Header = memo<Props>(function Header({
     setIsSyncing(true);
     try {
       await syncPersonsFirebaseWithStorage();
-      dispatch(displayToast({ message: "Persons synced succesfully" }));
+      dispatch(displayToast({ message: 'Persons synced succesfully' }));
     } catch (ex) {
-      console.error("Persons synced failed", ex);
+      console.error('Persons synced failed', ex);
       dispatch(
-        displayToast({ message: "Persons synced failed", severity: "error" })
+        displayToast({ message: 'Persons synced failed', severity: 'error' })
       );
     }
     setIsSyncing(false);
@@ -87,10 +87,10 @@ const Header = memo<Props>(function Header({
         <PrimaryHeaderContent>
           <Box
             sx={{
-              display: "flex",
-              alignItems: "center",
-              pl: "8px",
-              "> *": { mr: "12px !important" },
+              display: 'flex',
+              alignItems: 'center',
+              pl: '8px',
+              '> *': { mr: '12px !important' },
             }}
           >
             <Button
@@ -125,11 +125,11 @@ const Header = memo<Props>(function Header({
           </Box>
           <PanelHeading
             heading={`PERSONS PANEL (${persons?.length || 0})`}
-            containerStyles={{ marginLeft: "10px" }}
+            containerStyles={{ marginLeft: '10px' }}
           />
         </PrimaryHeaderContent>
         <SecondaryHeaderContent>
-          <Box sx={{ minWidth: "150px" }}>
+          <Box sx={{ minWidth: '150px' }}>
             <Sort onChange={handleSort} />
           </Box>
           <Search onChange={onSearchChange} />

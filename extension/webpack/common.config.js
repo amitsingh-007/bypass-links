@@ -1,40 +1,41 @@
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
-const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
-const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
-const ESLintPlugin = require("eslint-webpack-plugin");
-const { DefinePlugin } = require("webpack");
-const TerserPlugin = require("terser-webpack-plugin");
-const { PATHS } = require("./constants");
+/* eslint-disable @typescript-eslint/no-var-requires */
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
+const { DefinePlugin } = require('webpack');
+const TerserPlugin = require('terser-webpack-plugin');
+const { PATHS } = require('./constants');
 
 const ENV = process.env.NODE_ENV;
-const isProduction = ENV === "production";
+const isProduction = ENV === 'production';
 
 const tsConfigFile = `${PATHS.ROOT}/${
-  isProduction ? "tsconfig.production.json" : "tsconfig.json"
+  isProduction ? 'tsconfig.production.json' : 'tsconfig.json'
 }`;
 
 const commonConfig = {
   mode: ENV,
   resolve: {
-    extensions: [".ts", ".tsx", ".js", ".scss"],
-    modules: [PATHS.SRC, PATHS.COMMON, "node_modules"],
+    extensions: ['.ts', '.tsx', '.js', '.scss'],
+    modules: [PATHS.SRC, PATHS.COMMON, 'node_modules'],
     plugins: [
       new TsconfigPathsPlugin({
         configFile: tsConfigFile,
-        extensions: [".ts", ".tsx", ".js", ".scss"],
+        extensions: ['.ts', '.tsx', '.js', '.scss'],
       }),
     ],
   },
-  stats: isProduction ? "normal" : "errors-warnings",
-  devtool: isProduction ? undefined : "inline-source-map",
-  target: "browserslist",
+  stats: isProduction ? 'normal' : 'errors-warnings',
+  devtool: isProduction ? undefined : 'inline-source-map',
+  target: 'browserslist',
   performance: {
     hints: false,
   },
   optimization: {
     nodeEnv: ENV,
-    chunkIds: "named",
+    chunkIds: 'named',
     minimize: isProduction,
     minimizer: [
       new TerserPlugin({
@@ -55,7 +56,7 @@ const commonConfig = {
         exclude: /node_modules/,
         use: [
           {
-            loader: "ts-loader",
+            loader: 'ts-loader',
             options: {
               configFile: tsConfigFile,
               transpileOnly: true,
@@ -65,15 +66,15 @@ const commonConfig = {
       },
       {
         test: /\.svg$/,
-        use: ["@svgr/webpack"],
+        use: ['@svgr/webpack'],
       },
       {
         test: /\.scss$/,
         use: [
           MiniCssExtractPlugin.loader,
-          "css-loader",
+          'css-loader',
           {
-            loader: "sass-loader",
+            loader: 'sass-loader',
             options: {
               sourceMap: !isProduction,
             },
@@ -89,7 +90,7 @@ const commonConfig = {
       },
     }),
     new ESLintPlugin({
-      files: "./src/**/*.{js,ts,tsx}",
+      files: './src/**/*.{js,ts,tsx}',
       threads: true,
       cache: true,
     }),
@@ -99,7 +100,7 @@ const commonConfig = {
     }),
   ],
   watchOptions: {
-    ignored: "node_modules/**",
+    ignored: 'node_modules/**',
   },
 };
 

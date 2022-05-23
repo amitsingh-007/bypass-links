@@ -1,5 +1,5 @@
-import { Box } from "@mui/material";
-import { Component } from "react";
+import { Box } from '@mui/material';
+import { Component } from 'react';
 
 class ErrorBoundary extends Component<
   any,
@@ -32,7 +32,7 @@ class ErrorBoundary extends Component<
     const { hasError, error } = this.state;
     if (hasError) {
       return (
-        <Box sx={{ padding: "12px", fontSize: "17px", width: "200px" }}>
+        <Box sx={{ padding: '12px', fontSize: '17px', width: '200px' }}>
           {error?.toString()}
         </Box>
       );

@@ -1,15 +1,15 @@
-import storage from "GlobalHelpers/chrome/storage";
-import { RootState } from "GlobalReducers/rootReducer";
-import { memo, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { getPersons } from "GlobalHelpers/fetchFromStorage";
-import { IUpdateTaggedPerson } from "SrcPath/PersonsPanel/interfaces/persons";
-import { setPersonsInStorage } from "SrcPath/PersonsPanel/utils";
+import storage from 'GlobalHelpers/chrome/storage';
+import { RootState } from 'GlobalReducers/rootReducer';
+import { memo, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { getPersons } from 'GlobalHelpers/fetchFromStorage';
+import { IUpdateTaggedPerson } from 'SrcPath/PersonsPanel/interfaces/persons';
+import { setPersonsInStorage } from 'SrcPath/PersonsPanel/utils';
 
 const THIRTY_SECONDS = 30 * 1000; //in milliseconds
 
 const isHistoryAlreadyActive = async () => {
-  const { historyStartTime } = await storage.get(["historyStartTime"]);
+  const { historyStartTime } = await storage.get(['historyStartTime']);
   return Boolean(historyStartTime);
 };
 
