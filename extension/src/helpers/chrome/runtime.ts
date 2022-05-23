@@ -1,4 +1,4 @@
-import promisify from "./promisifyChromeApi";
+import promisify from './promisifyChromeApi';
 
 const runtime = {
   sendMessage: <T>(messageObj: any) =>

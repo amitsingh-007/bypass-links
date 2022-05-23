@@ -1,6 +1,6 @@
-import { ExpirationPlugin } from "workbox-expiration";
-import { registerRoute } from "workbox-routing";
-import { NetworkFirst } from "workbox-strategies";
+import { ExpirationPlugin } from 'workbox-expiration';
+import { registerRoute } from 'workbox-routing';
+import { NetworkFirst } from 'workbox-strategies';
 
 self.skipWaiting();
 
@@ -16,7 +16,7 @@ const manifest = self.__WB_MANIFEST;
 registerRoute(
   /^((?!api).)*\/$/,
   new NetworkFirst({
-    cacheName: "document-cache",
+    cacheName: 'document-cache',
     plugins: [
       new ExpirationPlugin({
         maxEntries: 1,
@@ -29,7 +29,7 @@ registerRoute(
 registerRoute(
   /\.*\.(png|svg|html|js|css)$/,
   new NetworkFirst({
-    cacheName: "document-assets-cache",
+    cacheName: 'document-assets-cache',
     plugins: [
       new ExpirationPlugin({
         maxAgeSeconds: 7 * 24 * 60 * 60,
@@ -42,7 +42,7 @@ registerRoute(
 registerRoute(
   /bypass-links-.*\.zip/,
   new NetworkFirst({
-    cacheName: "extension-file-cache",
+    cacheName: 'extension-file-cache',
     plugins: [
       new ExpirationPlugin({
         maxEntries: 1,
@@ -55,7 +55,7 @@ registerRoute(
 registerRoute(
   /https:\/\/fonts\.gstatic.com\/.*\.woff2/,
   new NetworkFirst({
-    cacheName: "fonts-cache",
+    cacheName: 'fonts-cache',
     plugins: [
       new ExpirationPlugin({
         maxEntries: 1,
@@ -68,7 +68,7 @@ registerRoute(
 registerRoute(
   /.*\/(manifest\.webmanifest\.json|bypass_link_[192,512]\.png)/,
   new NetworkFirst({
-    cacheName: "a2hs-cache",
+    cacheName: 'a2hs-cache',
     plugins: [
       new ExpirationPlugin({
         maxEntries: 1,

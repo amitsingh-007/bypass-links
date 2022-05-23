@@ -1,5 +1,5 @@
-import { ROUTES } from "GlobalConstants/routes";
-import { serialzeObjectToQueryString } from "GlobalUtils/url";
+import { ROUTES } from 'GlobalConstants/routes';
+import { serialzeObjectToQueryString } from 'GlobalUtils/url';
 
 interface UrlOptions {
   openBookmarksList: string;

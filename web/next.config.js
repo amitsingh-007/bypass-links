@@ -1,11 +1,11 @@
-const path = require("path");
-const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
-const ESLintPlugin = require("eslint-webpack-plugin");
-const withPWA = require("next-pwa");
-const { releaseDate } = require("./scripts/release-config");
-const { extVersion } = require("../common/src/scripts/extension-version");
+const path = require('path');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
+const withPWA = require('next-pwa');
+const { releaseDate } = require('./scripts/release-config');
+const { extVersion } = require('../common/src/scripts/extension-version');
 
-const isDev = process.env.NODE_ENV === "development";
+const isDev = process.env.NODE_ENV === 'development';
 
 /**
  * @type {import('next/dist/next-server/server/config').NextConfig}
@@ -13,14 +13,14 @@ const isDev = process.env.NODE_ENV === "development";
 const nextConfig = {
   // next-pwa options
   pwa: {
-    swSrc: "./scripts/sw.js",
-    dest: "public",
+    swSrc: './scripts/sw.js',
+    dest: 'public',
   },
   // Rest options are nextJS's
   swcMinify: true,
   compiler: {
     removeConsole: {
-      exclude: ["error"],
+      exclude: ['error'],
     },
   },
   experimental: {
@@ -29,12 +29,12 @@ const nextConfig = {
   },
   reactStrictMode: true,
   sassOptions: {
-    includePaths: [path.join(__dirname, "styles")],
+    includePaths: [path.join(__dirname, 'styles')],
   },
   webpack: (config, { dev, isServer, webpack }) => {
     config.module.rules.push({
       test: /\.svg$/,
-      use: ["@svgr/webpack"],
+      use: ['@svgr/webpack'],
     });
     config.plugins.push(
       new webpack.DefinePlugin({
@@ -49,14 +49,14 @@ const nextConfig = {
       config.plugins.push(
         new ForkTsCheckerWebpackPlugin(),
         new ESLintPlugin({
-          files: "./src/**/*.{js,ts,tsx}",
+          files: './src/**/*.{js,ts,tsx}',
           threads: true,
           cache: true,
         })
       );
     }
     // https://github.com/firebase/firebase-admin-node/issues/84
-    config.externals.push("firebase-admin");
+    config.externals.push('firebase-admin');
     return config;
   },
 };

@@ -1,14 +1,14 @@
-import { Dialog, DialogContent } from "@mui/material";
-import { displayToast } from "GlobalActionCreators/toast";
-import { STORAGE_KEYS } from "GlobalConstants";
-import { BG_COLOR_BLACK } from "GlobalConstants/color";
-import storage from "GlobalHelpers/chrome/storage";
-import { getUserProfile } from "GlobalHelpers/fetchFromStorage";
-import { RootState } from "GlobalReducers/rootReducer";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { authenticate2FA } from "SrcPath/SettingsPanel/apis/twoFactorAuth";
-import Verify2FA from "SrcPath/SettingsPanel/components/Verify2FA";
+import { Dialog, DialogContent } from '@mui/material';
+import { displayToast } from 'GlobalActionCreators/toast';
+import { STORAGE_KEYS } from 'GlobalConstants';
+import { BG_COLOR_BLACK } from 'GlobalConstants/color';
+import storage from 'GlobalHelpers/chrome/storage';
+import { getUserProfile } from 'GlobalHelpers/fetchFromStorage';
+import { RootState } from 'GlobalReducers/rootReducer';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { authenticate2FA } from 'SrcPath/SettingsPanel/apis/twoFactorAuth';
+import Verify2FA from 'SrcPath/SettingsPanel/components/Verify2FA';
 
 const TwoFactorAuthenticate = () => {
   const dispatch = useDispatch();
@@ -30,12 +30,12 @@ const TwoFactorAuthenticate = () => {
 
   const handleAuthenticateTOTP = async (totp: string) => {
     const userProfile = await getUserProfile();
-    const { isVerified } = await authenticate2FA(userProfile.uid ?? "", totp);
+    const { isVerified } = await authenticate2FA(userProfile.uid ?? '', totp);
     if (!isVerified) {
       dispatch(
         displayToast({
-          message: "Entered TOTP is incorrect",
-          severity: "error",
+          message: 'Entered TOTP is incorrect',
+          severity: 'error',
         })
       );
       return;
@@ -49,18 +49,18 @@ const TwoFactorAuthenticate = () => {
     <Dialog fullScreen open={promptTOTPVerify}>
       <DialogContent
         sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          p: "10px",
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          p: '10px',
           backgroundColor: BG_COLOR_BLACK,
         }}
       >
         <Verify2FA
           isShown
           handleVerify={handleAuthenticateTOTP}
-          containerStyles={{ mt: "0px", flexDirection: "column" }}
-          buttonStyles={{ mt: "20px" }}
+          containerStyles={{ mt: '0px', flexDirection: 'column' }}
+          buttonStyles={{ mt: '20px' }}
         />
       </DialogContent>
     </Dialog>

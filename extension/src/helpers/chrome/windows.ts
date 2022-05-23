@@ -1,4 +1,4 @@
-import promisify from "./promisifyChromeApi";
+import promisify from './promisifyChromeApi';
 
 const windows = {
   create: (options: chrome.windows.CreateData) =>

@@ -1,13 +1,13 @@
-import { assertSchema } from "@cypress/schema-tools";
-import schemas from "../../schema/extension";
+import { assertSchema } from '@cypress/schema-tools';
+import schemas from '../../schema/extension';
 
-describe("Extension API", () => {
-  it("Assert response ", () => {
+describe('Extension API', () => {
+  it('Assert response ', () => {
     cy.request({
-      method: "GET",
-      url: "api/extension",
+      method: 'GET',
+      url: 'api/extension',
     }).then((response) => {
-      assertSchema(schemas)("extensionApiSchema", "1.0.0")(response.body);
+      assertSchema(schemas)('extensionApiSchema', '1.0.0')(response.body);
     });
   });
 });

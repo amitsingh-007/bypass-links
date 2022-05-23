@@ -1,13 +1,13 @@
-import { FIREBASE_DB_REF } from "@common/constants/firebase";
-import { Box } from "@mui/material";
-import { getSettings } from "GlobalHelpers/fetchFromStorage";
-import { saveToFirebase } from "GlobalHelpers/firebase/database";
-import { memo, useEffect, useState } from "react";
-import Header from "../components/Header";
-import ManageGoogleActivityConsent from "../components/ManageGoogleActivityConsent";
-import TwoFactorAuth from "../components/TwoFactorAuth";
-import { ISettings } from "../interfaces/settings";
-import { syncSettingsToStorage } from "../utils/sync";
+import { FIREBASE_DB_REF } from '@common/constants/firebase';
+import { Box } from '@mui/material';
+import { getSettings } from 'GlobalHelpers/fetchFromStorage';
+import { saveToFirebase } from 'GlobalHelpers/firebase/database';
+import { memo, useEffect, useState } from 'react';
+import Header from '../components/Header';
+import ManageGoogleActivityConsent from '../components/ManageGoogleActivityConsent';
+import TwoFactorAuth from '../components/TwoFactorAuth';
+import { ISettings } from '../interfaces/settings';
+import { syncSettingsToStorage } from '../utils/sync';
 
 const defaultSettings: ISettings = {
   hasManageGoogleActivityConsent: false,
@@ -45,9 +45,9 @@ const SettingsPanel = memo(function SettingsPanel() {
   };
 
   return (
-    <Box sx={{ width: "400px", height: "400px" }}>
+    <Box sx={{ width: '400px', height: '400px' }}>
       <Header />
-      <Box sx={{ p: "14px 16px" }}>
+      <Box sx={{ p: '14px 16px' }}>
         <TwoFactorAuth />
         <ManageGoogleActivityConsent
           hasManageGoogleActivityConsent={

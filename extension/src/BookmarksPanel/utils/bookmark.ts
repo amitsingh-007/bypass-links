@@ -1,16 +1,16 @@
-import { FIREBASE_DB_REF } from "@common/constants/firebase";
-import { STORAGE_KEYS } from "GlobalConstants";
-import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
-import storage from "GlobalHelpers/chrome/storage";
-import { getBookmarks } from "GlobalHelpers/fetchFromStorage";
+import { FIREBASE_DB_REF } from '@common/constants/firebase';
+import { STORAGE_KEYS } from 'GlobalConstants';
+import { CACHE_BUCKET_KEYS } from 'GlobalConstants/cache';
+import storage from 'GlobalHelpers/chrome/storage';
+import { getBookmarks } from 'GlobalHelpers/fetchFromStorage';
 import {
   getFromFirebase,
   saveToFirebase,
-} from "GlobalHelpers/firebase/database";
-import { getCacheObj } from "GlobalUtils/cache";
-import { AuthProgress } from "SrcPath/HomePopup/utils/authProgress";
-import { getFaviconUrl } from ".";
-import { IBookmarksObj } from "../interfaces";
+} from 'GlobalHelpers/firebase/database';
+import { getCacheObj } from 'GlobalUtils/cache';
+import { AuthProgress } from 'SrcPath/HomePopup/utils/authProgress';
+import { getFaviconUrl } from '.';
+import { IBookmarksObj } from '../interfaces';
 
 export const syncBookmarksToStorage = async () => {
   const bookmarks = await getFromFirebase<IBookmarksObj>(
@@ -21,25 +21,25 @@ export const syncBookmarksToStorage = async () => {
 };
 
 export const syncBookmarksFirebaseWithStorage = async () => {
-  const { hasPendingBookmarks } = await storage.get("hasPendingBookmarks");
+  const { hasPendingBookmarks } = await storage.get('hasPendingBookmarks');
   const bookmarks = await getBookmarks();
   if (!hasPendingBookmarks) {
     return;
   }
-  console.log("Syncing bookmarks from storage to firebase", bookmarks);
+  console.log('Syncing bookmarks from storage to firebase', bookmarks);
   const isSaveSuccess = await saveToFirebase(
     FIREBASE_DB_REF.bookmarks,
     bookmarks
   );
   if (isSaveSuccess) {
-    await storage.remove("hasPendingBookmarks");
+    await storage.remove('hasPendingBookmarks');
   } else {
-    throw new Error("Error while syncing bookmarks from storage to firebase");
+    throw new Error('Error while syncing bookmarks from storage to firebase');
   }
 };
 
 export const resetBookmarks = async () => {
-  await storage.remove([STORAGE_KEYS.bookmarks, "hasPendingBookmarks"]);
+  await storage.remove([STORAGE_KEYS.bookmarks, 'hasPendingBookmarks']);
 };
 
 export const cacheBookmarkFavicons = async () => {
@@ -47,7 +47,7 @@ export const cacheBookmarkFavicons = async () => {
   if (!bookmarks) {
     return;
   }
-  AuthProgress.start("Caching favicons");
+  AuthProgress.start('Caching favicons');
   const { urlList } = bookmarks;
   let totalResolved = 0;
   const faviconUrls = Object.values(urlList).map(({ url }) =>
@@ -64,6 +64,6 @@ export const cacheBookmarkFavicons = async () => {
       return urlPromise;
     })
   );
-  console.log("Initialized cache for all bookmark urls");
-  AuthProgress.finish("Cached favicons");
+  console.log('Initialized cache for all bookmark urls');
+  AuthProgress.finish('Cached favicons');
 };

@@ -1,14 +1,14 @@
-import { Dialog, LinearProgress, SvgIcon, Typography } from "@mui/material";
-import { setSignedInStatus } from "GlobalActionCreators";
-import { resetAuthenticationProgress } from "GlobalActionCreators/auth";
-import { displayToast } from "GlobalActionCreators/toast";
-import { getUserProfile } from "GlobalHelpers/fetchFromStorage";
-import { RootState } from "GlobalReducers/rootReducer";
-import { memo, useCallback, useEffect, useState } from "react";
-import { RiLoginCircleFill, RiLogoutCircleRFill } from "react-icons/ri";
-import { useDispatch, useSelector } from "react-redux";
-import { signIn, signOut } from "../utils/authentication";
-import StyledButton from "./StyledButton";
+import { Dialog, LinearProgress, SvgIcon, Typography } from '@mui/material';
+import { setSignedInStatus } from 'GlobalActionCreators';
+import { resetAuthenticationProgress } from 'GlobalActionCreators/auth';
+import { displayToast } from 'GlobalActionCreators/toast';
+import { getUserProfile } from 'GlobalHelpers/fetchFromStorage';
+import { RootState } from 'GlobalReducers/rootReducer';
+import { memo, useCallback, useEffect, useState } from 'react';
+import { RiLoginCircleFill, RiLogoutCircleRFill } from 'react-icons/ri';
+import { useDispatch, useSelector } from 'react-redux';
+import { signIn, signOut } from '../utils/authentication';
+import StyledButton from './StyledButton';
 
 const Authenticate = memo(function Authenticate() {
   const dispatch = useDispatch();
@@ -34,8 +34,8 @@ const Authenticate = memo(function Authenticate() {
     if (!isSignedOut) {
       dispatch(
         displayToast({
-          message: "Error while logging out",
-          severity: "error",
+          message: 'Error while logging out',
+          severity: 'error',
         })
       );
     } else {
@@ -87,14 +87,14 @@ const Authenticate = memo(function Authenticate() {
       {isFetching && (
         <Dialog
           sx={{
-            ".MuiPaper-root": {
+            '.MuiPaper-root': {
               m: 0,
               top: 0,
-              width: "100%",
-              position: "fixed",
-              borderRadius: "0px",
-              backgroundColor: "unset",
-              backgroundImage: "unset",
+              width: '100%',
+              position: 'fixed',
+              borderRadius: '0px',
+              backgroundColor: 'unset',
+              backgroundImage: 'unset',
             },
           }}
           open
@@ -107,13 +107,13 @@ const Authenticate = memo(function Authenticate() {
           />
           <Typography
             sx={{
-              display: "flex",
-              justifyContent: "center",
-              fontSize: "9px",
-              fontStyle: "italic",
+              display: 'flex',
+              justifyContent: 'center',
+              fontSize: '9px',
+              fontStyle: 'italic',
             }}
           >
-            {message || "Loading"}
+            {message || 'Loading'}
           </Typography>
         </Dialog>
       )}

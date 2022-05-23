@@ -1,8 +1,8 @@
 import {
   TURN_OFF_EXTENSION,
   TURN_ON_EXTENSION,
-} from "GlobalActionTypes/extension";
-import { ExtensionAction, ExtensionState } from "./interfaces/extension";
+} from 'GlobalActionTypes/extension';
+import { ExtensionAction, ExtensionState } from './interfaces/extension';
 
 const defaultState = {
   isExtensionActive: true,

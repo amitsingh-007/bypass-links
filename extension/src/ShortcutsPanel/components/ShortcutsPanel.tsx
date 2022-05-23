@@ -1,19 +1,19 @@
-import { FIREBASE_DB_REF } from "@common/constants/firebase";
-import { Box } from "@mui/material";
-import { displayToast } from "GlobalActionCreators/toast";
-import { ROUTES } from "GlobalConstants/routes";
-import { PANEL_DIMENSIONS_PX } from "GlobalConstants/styles";
-import { getRedirections } from "GlobalHelpers/fetchFromStorage";
-import { saveToFirebase } from "GlobalHelpers/firebase/database";
-import { memo, useEffect, useState } from "react";
-import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { IRedirection } from "SrcPath/BackgroundScript/interfaces/redirections";
-import { syncRedirectionsToStorage } from "SrcPath/BackgroundScript/redirect";
-import { DEFAULT_RULE_ALIAS } from "../constants";
-import Header from "./Header";
-import RedirectionRule from "./RedirectionRule";
+import { FIREBASE_DB_REF } from '@common/constants/firebase';
+import { Box } from '@mui/material';
+import { displayToast } from 'GlobalActionCreators/toast';
+import { ROUTES } from 'GlobalConstants/routes';
+import { PANEL_DIMENSIONS_PX } from 'GlobalConstants/styles';
+import { getRedirections } from 'GlobalHelpers/fetchFromStorage';
+import { saveToFirebase } from 'GlobalHelpers/firebase/database';
+import { memo, useEffect, useState } from 'react';
+import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { IRedirection } from 'SrcPath/BackgroundScript/interfaces/redirections';
+import { syncRedirectionsToStorage } from 'SrcPath/BackgroundScript/redirect';
+import { DEFAULT_RULE_ALIAS } from '../constants';
+import Header from './Header';
+import RedirectionRule from './RedirectionRule';
 
 //Filter valid rules
 const getValidRules = (obj: IRedirection) =>
@@ -47,7 +47,7 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
   const handleSave = async () => {
     setIsFetching(true);
     const validRules = redirections.filter(getValidRules);
-    console.log("Saving these redirection rules to Firebase", validRules);
+    console.log('Saving these redirection rules to Firebase', validRules);
     const shortcutsObj = validRules.reduce<Record<number, IRedirection>>(
       (obj, { alias, website, isDefault }, index) => {
         obj[index++] = {
@@ -68,7 +68,7 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
       setRedirections(validRules);
       dispatch(
         displayToast({
-          message: "Saved succesfully",
+          message: 'Saved succesfully',
           duration: 1500,
         })
       );
@@ -79,7 +79,7 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
   const handleAddRule = () => {
     redirections.unshift({
       alias: DEFAULT_RULE_ALIAS,
-      website: "",
+      website: '',
       isDefault: false,
     });
     setRedirections([...redirections]);
@@ -124,9 +124,9 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
           {(provided) => (
             <Box
               sx={{
-                paddingLeft: "12px",
+                paddingLeft: '12px',
                 height: PANEL_DIMENSIONS_PX.height,
-                overflowY: "scroll",
+                overflowY: 'scroll',
               }}
               ref={provided.innerRef as React.Ref<unknown>}
               {...provided.droppableProps}

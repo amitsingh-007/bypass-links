@@ -1,4 +1,4 @@
-import promisify from "./promisifyChromeApi";
+import promisify from './promisifyChromeApi';
 
 const history = {
   deleteRange: (options: chrome.history.Range) =>

@@ -1,34 +1,34 @@
-import { AppBar, Box, Toolbar } from "@mui/material";
-import { memo } from "react";
-import Image from "next/image";
+import { AppBar, Box, Toolbar } from '@mui/material';
+import { memo } from 'react';
+import Image from 'next/image';
 
 const AppHeader = memo(() => (
   <AppBar
     position="static"
     sx={{
-      background: "#202225",
-      borderBottom: "1px solid #202225",
-      boxShadow: "0 0 5px rgb(0 0 0 / 35%)",
-      borderColor: "#080808",
-      borderWidth: "0 0 1px",
+      background: '#202225',
+      borderBottom: '1px solid #202225',
+      boxShadow: '0 0 5px rgb(0 0 0 / 35%)',
+      borderColor: '#080808',
+      borderWidth: '0 0 1px',
     }}
   >
-    <Toolbar sx={{ position: "relative" }}>
+    <Toolbar sx={{ position: 'relative' }}>
       <Box
         sx={{
-          position: "absolute",
-          top: "80%",
-          left: "50%",
+          position: 'absolute',
+          top: '80%',
+          left: '50%',
         }}
       >
         <Box>
           <Box
             sx={{
-              transform: "translate(-50%, -50%)",
-              backgroundColor: "#202225",
-              borderRadius: "50%",
-              padding: "3px",
-              "> div": { verticalAlign: "middle" },
+              transform: 'translate(-50%, -50%)',
+              backgroundColor: '#202225',
+              borderRadius: '50%',
+              padding: '3px',
+              '> div': { verticalAlign: 'middle' },
             }}
           >
             <Image
@@ -44,6 +44,6 @@ const AppHeader = memo(() => (
     </Toolbar>
   </AppBar>
 ));
-AppHeader.displayName = "AppHeader";
+AppHeader.displayName = 'AppHeader';
 
 export default AppHeader;

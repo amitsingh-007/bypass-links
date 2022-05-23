@@ -1,12 +1,12 @@
-import { Box, Button } from "@mui/material";
-import storage from "GlobalHelpers/chrome/storage";
-import { displayToast } from "GlobalActionCreators/toast";
-import { STORAGE_KEYS } from "GlobalConstants";
-import { memo, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { revoke2FA } from "../apis/twoFactorAuth";
-import { getUserProfile } from "GlobalHelpers/fetchFromStorage";
-import Setup2FA from "./Setup2FA";
+import { Box, Button } from '@mui/material';
+import storage from 'GlobalHelpers/chrome/storage';
+import { displayToast } from 'GlobalActionCreators/toast';
+import { STORAGE_KEYS } from 'GlobalConstants';
+import { memo, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { revoke2FA } from '../apis/twoFactorAuth';
+import { getUserProfile } from 'GlobalHelpers/fetchFromStorage';
+import Setup2FA from './Setup2FA';
 
 const TwoFactorAuth = memo(function TwoFactorAuth() {
   const dispatch = useDispatch();
@@ -32,10 +32,10 @@ const TwoFactorAuth = memo(function TwoFactorAuth() {
 
   const handle2FARevoke = async () => {
     const userProfile = await getUserProfile();
-    const { isRevoked } = await revoke2FA(userProfile.uid ?? "");
+    const { isRevoked } = await revoke2FA(userProfile.uid ?? '');
     if (!isRevoked) {
       dispatch(
-        displayToast({ message: "Something went wrong", severity: "error" })
+        displayToast({ message: 'Something went wrong', severity: 'error' })
       );
       return;
     }
@@ -45,7 +45,7 @@ const TwoFactorAuth = memo(function TwoFactorAuth() {
       [STORAGE_KEYS.userProfile]: userProfile,
     });
     setIs2FAEnabled(false);
-    dispatch(displayToast({ message: "2FA revoked successfully" }));
+    dispatch(displayToast({ message: '2FA revoked successfully' }));
   };
 
   const handleClose2FASetup = () => {
@@ -56,19 +56,19 @@ const TwoFactorAuth = memo(function TwoFactorAuth() {
     <>
       <Box
         sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
         }}
       >
         <Box>Two factor Authentication</Box>
         <Button
           size="small"
           variant="outlined"
-          color={is2FAEnabled ? "secondary" : "primary"}
+          color={is2FAEnabled ? 'secondary' : 'primary'}
           onClick={handle2FASetupClick}
         >
-          <strong>{is2FAEnabled ? "Revoke" : "Enable"}</strong>
+          <strong>{is2FAEnabled ? 'Revoke' : 'Enable'}</strong>
         </Button>
         <Setup2FA handleClose={handleClose2FASetup} isOpen={show2FASetup} />
       </Box>

@@ -4,8 +4,8 @@ import {
   Setup2FAResponse,
   Status2FAResponse,
   Verify2FAResponse,
-} from "@common/interfaces/twoFactorAuth";
-import fetchApi from "@common/utils/fetch";
+} from '@common/interfaces/twoFactorAuth';
+import fetchApi from '@common/utils/fetch';
 
 export const setup2FA = async (uid: string): Promise<Setup2FAResponse> => {
   const { secretKey, otpAuthUrl } = await fetchApi(
@@ -29,7 +29,7 @@ export const status2FA = async (uid: string): Promise<Status2FAResponse> => {
     const { is2FAEnabled } = await fetchApi(`/api/2fa-auth/status?uid=${uid}`);
     return { is2FAEnabled };
   } catch (e) {
-    console.log("2fa status api failed", e);
+    console.log('2fa status api failed', e);
     if (__PROD__) {
       throw e;
     } else {

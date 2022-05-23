@@ -1,12 +1,12 @@
-import storage from "GlobalHelpers/chrome/storage";
-import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
-import { STORAGE_KEYS } from "GlobalConstants";
-import { getBlobUrlFromCache } from "GlobalUtils/cache";
-import { getPersons } from "GlobalHelpers/fetchFromStorage";
-import { IPerson, IPersons, IPersonWithImage } from "../interfaces/persons";
-import { GRID_COLUMN_SIZE } from "../constants";
-import memoize from "memoize-one/dist/memoize-one";
-import { hasText } from "GlobalUtils/search";
+import storage from 'GlobalHelpers/chrome/storage';
+import { CACHE_BUCKET_KEYS } from 'GlobalConstants/cache';
+import { STORAGE_KEYS } from 'GlobalConstants';
+import { getBlobUrlFromCache } from 'GlobalUtils/cache';
+import { getPersons } from 'GlobalHelpers/fetchFromStorage';
+import { IPerson, IPersons, IPersonWithImage } from '../interfaces/persons';
+import { GRID_COLUMN_SIZE } from '../constants';
+import memoize from 'memoize-one/dist/memoize-one';
+import { hasText } from 'GlobalUtils/search';
 
 export const setPersonsInStorage = async (persons: IPersons) => {
   await storage.set({
@@ -30,7 +30,7 @@ export const getPersonsFromUids = async (uids: string[]) => {
     return [];
   }
   const persons = await getAllDecodedPersons();
-  return persons.filter((person) => uids.includes(person.uid ?? ""));
+  return persons.filter((person) => uids.includes(person.uid ?? ''));
 };
 
 export const getAllDecodedPersons = async () => {
@@ -59,7 +59,7 @@ export const resolvePersonImageFromUid = async (uid: string) => {
     STORAGE_KEYS.personImageUrls
   );
   if (!personImages) {
-    return "";
+    return '';
   }
   const imageUrl = personImages[uid];
   return await getBlobUrlFromCache(CACHE_BUCKET_KEYS.person, imageUrl);

@@ -1,7 +1,7 @@
-import { Box, FormControlLabel } from "@mui/material";
-import { StyledSwitch } from "GlobalComponents/StyledComponents";
-import { memo, useEffect, useState } from "react";
-import { IHandleSettingsChange } from "../containers/SettingsPanel";
+import { Box, FormControlLabel } from '@mui/material';
+import { StyledSwitch } from 'GlobalComponents/StyledComponents';
+import { memo, useEffect, useState } from 'react';
+import { IHandleSettingsChange } from '../containers/SettingsPanel';
 
 interface Props {
   hasManageGoogleActivityConsent: boolean;
@@ -36,7 +36,7 @@ const ManageGoogleActivityConsent = memo<Props>(
         disabled={isUpdatingSettings}
         control={
           <StyledSwitch
-            sx={{ mr: "6px" }}
+            sx={{ mr: '6px' }}
             checked={hasConsent}
             onChange={handleToggle}
           />
@@ -44,15 +44,15 @@ const ManageGoogleActivityConsent = memo<Props>(
         label={<Box>Allow to Manage Google Activity</Box>}
         labelPlacement="start"
         sx={{
-          mt: "4px",
+          mt: '4px',
           ml: 0,
-          display: "flex",
-          justifyContent: "space-between",
+          display: 'flex',
+          justifyContent: 'space-between',
         }}
       />
     );
   }
 );
-ManageGoogleActivityConsent.displayName = "ManageGoogleActivityConsent";
+ManageGoogleActivityConsent.displayName = 'ManageGoogleActivityConsent';
 
 export default ManageGoogleActivityConsent;

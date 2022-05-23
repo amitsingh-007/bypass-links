@@ -1,5 +1,5 @@
-import { UPDATE_TAGGED_PERSON_URLS } from "../actionTypes";
-import { TaggedPersonsAction, TaggedPersonsState } from "../interfaces/reducer";
+import { UPDATE_TAGGED_PERSON_URLS } from '../actionTypes';
+import { TaggedPersonsAction, TaggedPersonsState } from '../interfaces/reducer';
 
 const defaultState = {
   updateTaggedUrls: null,

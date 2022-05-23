@@ -1,6 +1,6 @@
-import { ButtonTypeMap } from "@mui/material";
-import { LoadingButton } from "@mui/lab";
-import { memo } from "react";
+import { ButtonTypeMap } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import { memo } from 'react';
 
 const StyledButton = memo<{
   children: React.ReactNode;
@@ -8,7 +8,7 @@ const StyledButton = memo<{
   isLoading?: boolean;
   isDisabled: boolean;
   onClick: React.MouseEventHandler;
-  color?: ButtonTypeMap["props"]["color"];
+  color?: ButtonTypeMap['props']['color'];
 }>(
   ({
     children,
@@ -16,18 +16,18 @@ const StyledButton = memo<{
     isLoading = false,
     isDisabled,
     onClick,
-    color = "secondary",
+    color = 'secondary',
   }) => {
     return (
       <LoadingButton
         variant="outlined"
         sx={{
-          width: "50px",
-          height: "50px",
-          borderRadius: "50%",
-          minWidth: "unset",
+          width: '50px',
+          height: '50px',
+          borderRadius: '50%',
+          minWidth: 'unset',
         }}
-        color={showSuccessColor ? color : "error"}
+        color={showSuccessColor ? color : 'error'}
         loading={isLoading}
         disabled={isDisabled}
         onClick={onClick}
@@ -37,6 +37,6 @@ const StyledButton = memo<{
     );
   }
 );
-StyledButton.displayName = "StyledButton";
+StyledButton.displayName = 'StyledButton';
 
 export default StyledButton;

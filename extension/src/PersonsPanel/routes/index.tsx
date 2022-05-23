@@ -1,11 +1,11 @@
-import { ROUTES } from "GlobalConstants/routes";
-import { lazy } from "react";
-import { Route } from "react-router-dom";
+import { ROUTES } from 'GlobalConstants/routes';
+import { lazy } from 'react';
+import { Route } from 'react-router-dom';
 
 const PersonsPanel = lazy(
   () =>
     import(
-      /*  webpackChunkName: "persons-panel" */ "../components/PersonsPanel"
+      /*  webpackChunkName: "persons-panel" */ '../components/PersonsPanel'
     )
 );
 

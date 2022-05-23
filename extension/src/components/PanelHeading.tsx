@@ -1,12 +1,12 @@
-import { Typography } from "@mui/material";
-import { SxProps } from "@mui/system";
+import { Typography } from '@mui/material';
+import { SxProps } from '@mui/system';
 
 const titleStyles: SxProps = {
-  userSelect: "none",
-  fontSize: "18px",
-  marginRight: "14px",
-  fontWeight: "700",
-  color: "azure",
+  userSelect: 'none',
+  fontSize: '18px',
+  marginRight: '14px',
+  fontWeight: '700',
+  color: 'azure',
 };
 
 interface Props {

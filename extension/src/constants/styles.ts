@@ -1,5 +1,5 @@
-import { SxProps } from "@mui/system";
-import { BG_COLOR_DARK } from "./color";
+import { SxProps } from '@mui/system';
+import { BG_COLOR_DARK } from './color';
 
 export const PANEL_SIZE = {
   width: 792,
@@ -17,7 +17,7 @@ export const PERSON_SIZE = {
 };
 
 export const STICKY_HEADER = {
-  position: "sticky",
+  position: 'sticky',
   top: 0,
   zIndex: 2,
   backgroundColor: BG_COLOR_DARK,

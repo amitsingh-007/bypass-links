@@ -1,13 +1,13 @@
-import { Avatar, Box, TextField } from "@mui/material";
-import { EditDialog } from "GlobalComponents/Dialogs";
-import { getImageFromFirebase } from "GlobalHelpers/firebase/storage";
-import { VoidFunction } from "GlobalInterfaces/custom";
-import md5 from "md5";
-import { memo, useEffect, useState } from "react";
-import { RiUserUnfollowFill } from "react-icons/ri";
-import { IPerson } from "../interfaces/persons";
-import { resolvePersonImageFromUid } from "../utils";
-import ImagePicker from "./ImagePicker";
+import { Avatar, Box, TextField } from '@mui/material';
+import { EditDialog } from 'GlobalComponents/Dialogs';
+import { getImageFromFirebase } from 'GlobalHelpers/firebase/storage';
+import { VoidFunction } from 'GlobalInterfaces/custom';
+import md5 from 'md5';
+import { memo, useEffect, useState } from 'react';
+import { RiUserUnfollowFill } from 'react-icons/ri';
+import { IPerson } from '../interfaces/persons';
+import { resolvePersonImageFromUid } from '../utils';
+import ImagePicker from './ImagePicker';
 
 const imageStyles = { width: 200, height: 200 };
 
@@ -25,9 +25,9 @@ const AddOrEditPersonDialog = memo<Props>(function AddOrEditPersonDialog({
   handleSaveClick,
 }) {
   const [uid, setUid] = useState(person?.uid);
-  const [name, setName] = useState(person?.name ?? "");
+  const [name, setName] = useState(person?.name ?? '');
   const [imageRef, setImageRef] = useState(person?.imageRef);
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState('');
   const [showImagePicker, setShowImagePicker] = useState(false);
 
   const initImageUrl = async (uid: string) => {
@@ -78,7 +78,7 @@ const AddOrEditPersonDialog = memo<Props>(function AddOrEditPersonDialog({
   return (
     <>
       <EditDialog
-        headerText={person ? "Edit" : "Add a Person"}
+        headerText={person ? 'Edit' : 'Add a Person'}
         openDialog={isOpen}
         closeDialog={onClose}
         handleSave={handlePersonSave}
@@ -86,19 +86,19 @@ const AddOrEditPersonDialog = memo<Props>(function AddOrEditPersonDialog({
       >
         <Box
           sx={{
-            display: "flex",
-            alignItems: "center",
-            flexDirection: "column",
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: 'column',
           }}
         >
-          <Box onClick={toggleImagePicker} sx={{ cursor: "pointer" }}>
+          <Box onClick={toggleImagePicker} sx={{ cursor: 'pointer' }}>
             <Avatar
-              alt={imageUrl || "No Image"}
+              alt={imageUrl || 'No Image'}
               src={imageUrl}
               sx={imageStyles}
             >
               {imageUrl ? null : (
-                <RiUserUnfollowFill style={{ fontSize: "120px" }} />
+                <RiUserUnfollowFill style={{ fontSize: '120px' }} />
               )}
             </Avatar>
           </Box>
@@ -110,7 +110,7 @@ const AddOrEditPersonDialog = memo<Props>(function AddOrEditPersonDialog({
             title={name}
             value={name}
             onChange={handleNameChange}
-            style={{ marginTop: "20px" }}
+            style={{ marginTop: '20px' }}
           />
         </Box>
       </EditDialog>

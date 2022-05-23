@@ -5,10 +5,10 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-} from "@mui/material";
-import { VoidFunction } from "GlobalInterfaces/custom";
-import { MdClose, MdDone } from "react-icons/md";
-import { RiBookmark2Fill } from "react-icons/ri";
+} from '@mui/material';
+import { VoidFunction } from 'GlobalInterfaces/custom';
+import { MdClose, MdDone } from 'react-icons/md';
+import { RiBookmark2Fill } from 'react-icons/ri';
 
 interface Props {
   children?: React.ReactNode;
@@ -42,12 +42,12 @@ export const EditDialog: React.FC<Props> = ({
         <DialogTitle>{headerText}</DialogTitle>
         <DialogContent
           sx={{
-            "& .MuiTextField-root, .MuiFormControl-root": {
+            '& .MuiTextField-root, .MuiFormControl-root': {
               margin: (theme) => theme.spacing(1),
             },
-            overflow: "hidden",
-            display: "flex",
-            flexDirection: "column",
+            overflow: 'hidden',
+            display: 'flex',
+            flexDirection: 'column',
           }}
         >
           {children}
@@ -55,11 +55,11 @@ export const EditDialog: React.FC<Props> = ({
         <DialogActions sx={{ pt: 0 }}>
           <Box
             sx={{
-              display: "flex",
-              justifyContent: handleDelete ? "space-between" : "flex-end",
-              width: "100%",
-              px: "24px",
-              pb: "10px",
+              display: 'flex',
+              justifyContent: handleDelete ? 'space-between' : 'flex-end',
+              width: '100%',
+              px: '24px',
+              pb: '10px',
             }}
           >
             {handleDelete ? (
@@ -90,7 +90,7 @@ export const EditDialog: React.FC<Props> = ({
                 size="small"
                 disabled={!isSaveOptionActive}
                 color="success"
-                sx={{ ml: "10px" }}
+                sx={{ ml: '10px' }}
               >
                 Save
               </Button>

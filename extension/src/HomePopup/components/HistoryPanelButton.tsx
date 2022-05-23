@@ -1,11 +1,11 @@
-import { SvgIcon } from "@mui/material";
-import { ROUTES } from "GlobalConstants/routes";
-import { RootState } from "GlobalReducers/rootReducer";
-import { memo } from "react";
-import { RiHistoryFill } from "react-icons/ri";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import StyledButton from "./StyledButton";
+import { SvgIcon } from '@mui/material';
+import { ROUTES } from 'GlobalConstants/routes';
+import { RootState } from 'GlobalReducers/rootReducer';
+import { memo } from 'react';
+import { RiHistoryFill } from 'react-icons/ri';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import StyledButton from './StyledButton';
 
 const HistoryPanelButton = memo(function HistoryPanelButton() {
   const navigate = useNavigate();

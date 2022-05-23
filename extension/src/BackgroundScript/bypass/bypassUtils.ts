@@ -1,14 +1,14 @@
-import { BYPASS_KEYS } from "GlobalConstants";
-import scripting from "GlobalHelpers/chrome/scripting";
-import tabs from "GlobalHelpers/chrome/tabs";
-import { getHostnameAlias } from "GlobalUtils/common";
-import { IBypass } from "../interfaces/bypass";
-import { bypassBonsai } from "./bypassBonsai";
-import { bypassBonsaiLink } from "./bypassBonsaiLink";
-import { bypassForums } from "./bypassForums";
-import { bypassLinkvertise } from "./bypassLinkvertise";
-import { bypassMedium } from "./bypassMedium";
-import { bypassPageLinks } from "./bypassPageLinks";
+import { BYPASS_KEYS } from 'GlobalConstants';
+import scripting from 'GlobalHelpers/chrome/scripting';
+import tabs from 'GlobalHelpers/chrome/tabs';
+import { getHostnameAlias } from 'GlobalUtils/common';
+import { IBypass } from '../interfaces/bypass';
+import { bypassBonsai } from './bypassBonsai';
+import { bypassBonsaiLink } from './bypassBonsaiLink';
+import { bypassForums } from './bypassForums';
+import { bypassLinkvertise } from './bypassLinkvertise';
+import { bypassMedium } from './bypassMedium';
+import { bypassPageLinks } from './bypassPageLinks';
 
 export const bypassSingleLinkOnPage = async (
   selectorFn: () => void,
@@ -49,7 +49,7 @@ export const getBypassExecutor = async (url: URL) => {
   if (bypassAndHostnameMapping[hostnameAlias]) {
     return bypassAndHostnameMapping[hostnameAlias];
   }
-  if (url.hostname.includes("medium.com")) {
+  if (url.hostname.includes('medium.com')) {
     return bypassAndHostnameMapping.MEDIUM;
   }
   return null;

@@ -1,68 +1,68 @@
-import { STORAGE_KEYS } from "GlobalConstants";
-import { CACHE_BUCKET_KEYS } from "GlobalConstants/cache";
-import identity from "GlobalHelpers/chrome/identity";
-import runtime from "GlobalHelpers/chrome/runtime";
-import storage from "GlobalHelpers/chrome/storage";
-import tabs from "GlobalHelpers/chrome/tabs";
-import { getSettings, getUserProfile } from "GlobalHelpers/fetchFromStorage";
-import { deleteAllCache } from "GlobalUtils/cache";
+import { STORAGE_KEYS } from 'GlobalConstants';
+import { CACHE_BUCKET_KEYS } from 'GlobalConstants/cache';
+import identity from 'GlobalHelpers/chrome/identity';
+import runtime from 'GlobalHelpers/chrome/runtime';
+import storage from 'GlobalHelpers/chrome/storage';
+import tabs from 'GlobalHelpers/chrome/tabs';
+import { getSettings, getUserProfile } from 'GlobalHelpers/fetchFromStorage';
+import { deleteAllCache } from 'GlobalUtils/cache';
 import {
   resetBypass,
   syncBypassToStorage,
-} from "SrcPath/BackgroundScript/bypass";
+} from 'SrcPath/BackgroundScript/bypass';
 import {
   resetRedirections,
   syncRedirectionsToStorage,
-} from "SrcPath/BackgroundScript/redirect";
+} from 'SrcPath/BackgroundScript/redirect';
 import {
   cacheBookmarkFavicons,
   resetBookmarks,
   syncBookmarksFirebaseWithStorage,
   syncBookmarksToStorage,
-} from "SrcPath/BookmarksPanel/utils/bookmark";
+} from 'SrcPath/BookmarksPanel/utils/bookmark';
 import {
   resetLastVisited,
   syncLastVisitedToStorage,
-} from "SrcPath/HomePopup/utils/lastVisited";
+} from 'SrcPath/HomePopup/utils/lastVisited';
 import {
   cachePersonImagesInStorage,
   refreshPersonImageUrlsCache,
   resetPersons,
   syncPersonsFirebaseWithStorage,
   syncPersonsToStorage,
-} from "SrcPath/PersonsPanel/utils/sync";
-import { status2FA } from "SrcPath/SettingsPanel/apis/twoFactorAuth";
+} from 'SrcPath/PersonsPanel/utils/sync';
+import { status2FA } from 'SrcPath/SettingsPanel/apis/twoFactorAuth';
 import {
   resetSettings,
   syncSettingsToStorage,
-} from "SrcPath/SettingsPanel/utils/sync";
-import { UserInfo } from "../interfaces/authentication";
-import { AuthProgress } from "./authProgress";
+} from 'SrcPath/SettingsPanel/utils/sync';
+import { UserInfo } from '../interfaces/authentication';
+import { AuthProgress } from './authProgress';
 
 const syncAuthenticationToStorage = async (userProfile: UserInfo) => {
-  AuthProgress.start("Checking 2FA status");
-  const { is2FAEnabled } = await status2FA(userProfile.uid ?? "");
+  AuthProgress.start('Checking 2FA status');
+  const { is2FAEnabled } = await status2FA(userProfile.uid ?? '');
   userProfile.is2FAEnabled = is2FAEnabled;
   userProfile.isTOTPVerified = false;
   await storage.set({ [STORAGE_KEYS.userProfile]: userProfile });
-  AuthProgress.finish("2FA status checked");
+  AuthProgress.finish('2FA status checked');
 };
 
 const resetAuthentication = async () => {
   const userProfile = await getUserProfile();
   if (!userProfile) {
-    console.log("User profile not found");
+    console.log('User profile not found');
     return;
   }
   await identity.removeCachedAuthToken({
-    token: userProfile.googleAuthToken ?? "",
+    token: userProfile.googleAuthToken ?? '',
   });
-  console.log("Removed Google auth token from cache");
+  console.log('Removed Google auth token from cache');
   await storage.remove(STORAGE_KEYS.userProfile);
 };
 
 const syncFirebaseToStorage = async () => {
-  AuthProgress.start("Syncing storage with firebase");
+  AuthProgress.start('Syncing storage with firebase');
   await Promise.all([
     syncRedirectionsToStorage(),
     syncBypassToStorage(),
@@ -71,20 +71,20 @@ const syncFirebaseToStorage = async () => {
     syncPersonsToStorage(),
     syncSettingsToStorage(),
   ]);
-  AuthProgress.finish("Synced storage with firebase");
+  AuthProgress.finish('Synced storage with firebase');
 };
 
 const syncStorageToFirebase = async () => {
-  AuthProgress.start("Syncing firebase with storage");
+  AuthProgress.start('Syncing firebase with storage');
   await Promise.all([
     syncBookmarksFirebaseWithStorage(),
     syncPersonsFirebaseWithStorage(),
   ]);
-  AuthProgress.finish("Synced firebase with storage");
+  AuthProgress.finish('Synced firebase with storage');
 };
 
 const resetStorage = async () => {
-  AuthProgress.start("Resetting storage");
+  AuthProgress.start('Resetting storage');
   await Promise.all([
     resetAuthentication(),
     resetRedirections(),
@@ -95,8 +95,8 @@ const resetStorage = async () => {
     resetSettings(),
     refreshPersonImageUrlsCache(),
   ]);
-  console.log("Storage reset successful");
-  AuthProgress.finish("Storage reset");
+  console.log('Storage reset successful');
+  AuthProgress.finish('Storage reset');
 };
 
 export const processPostLogin = async (userProfile: UserInfo) => {
@@ -107,11 +107,11 @@ export const processPostLogin = async (userProfile: UserInfo) => {
   //Then do other processes
   try {
     await cachePersonImagesInStorage();
-    AuthProgress.start("Caching bookmark favicons");
+    AuthProgress.start('Caching bookmark favicons');
     await cacheBookmarkFavicons();
-    AuthProgress.finish("Cached bookmark favicons");
+    AuthProgress.finish('Cached bookmark favicons');
   } catch (e) {
-    AuthProgress.finish("Caching failed");
+    AuthProgress.finish('Caching failed');
   }
 };
 
@@ -122,18 +122,18 @@ export const processPreLogout = async () => {
 
 export const processPostLogout = async () => {
   const { hasManageGoogleActivityConsent } = await getSettings();
-  const { historyStartTime } = await storage.get(["historyStartTime"]);
+  const { historyStartTime } = await storage.get(['historyStartTime']);
   const historyWatchTime = Date.now() - historyStartTime;
   //Reset storage
   await resetStorage();
   //Refresh browser cache
-  AuthProgress.start("Clearing cache");
+  AuthProgress.start('Clearing cache');
   await deleteAllCache([CACHE_BUCKET_KEYS.favicon, CACHE_BUCKET_KEYS.person]);
-  AuthProgress.finish("Cleared cache");
+  AuthProgress.finish('Cleared cache');
   if (hasManageGoogleActivityConsent) {
     //Open Google Seach and Google Image tabs
-    await tabs.create({ url: "https://www.google.com/" });
-    await tabs.create({ url: "https://www.google.com/imghp" });
+    await tabs.create({ url: 'https://www.google.com/' });
+    await tabs.create({ url: 'https://www.google.com/imghp' });
     //Clear activity from google account
     await runtime.sendMessage<{ manageGoogleActivity: string }>({
       manageGoogleActivity: { historyWatchTime },

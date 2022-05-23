@@ -1,10 +1,10 @@
-import { Box } from "@mui/material";
-import { SxProps } from "@mui/system";
-import { memo } from "react";
-import { Draggable } from "react-beautiful-dnd";
-import { Subtract } from "utility-types";
-import { bookmarkRowStyles } from "../constants";
-import "../scss/withBookmarkRow.scss";
+import { Box } from '@mui/material';
+import { SxProps } from '@mui/system';
+import { memo } from 'react';
+import { Draggable } from 'react-beautiful-dnd';
+import { Subtract } from 'utility-types';
+import { bookmarkRowStyles } from '../constants';
+import '../scss/withBookmarkRow.scss';
 
 export interface InjectedProps {
   containerStyles: SxProps;
@@ -26,7 +26,7 @@ const withBookmarkRow = <T extends InjectedProps>(
     props
   ) {
     const { isDir, name, url, pos, isSelected } = props;
-    const primaryUniqueId = (isDir ? name : url) || "";
+    const primaryUniqueId = (isDir ? name : url) || '';
 
     return (
       <Draggable draggableId={primaryUniqueId} index={pos}>
@@ -34,10 +34,10 @@ const withBookmarkRow = <T extends InjectedProps>(
           <Box
             className="bookmarkRowContainer"
             sx={{
-              height: "100%",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
+              height: '100%',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
             }}
             ref={provided.innerRef as React.Ref<unknown>}
             data-is-selected={isSelected}

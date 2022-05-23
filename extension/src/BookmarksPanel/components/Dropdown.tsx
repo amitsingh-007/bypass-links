@@ -12,14 +12,14 @@ import {
   Select,
   SelectProps,
   TextField,
-} from "@mui/material";
-import { memo, useState } from "react";
-import { IPersonWithImage } from "SrcPath/PersonsPanel/interfaces/persons";
+} from '@mui/material';
+import { memo, useState } from 'react';
+import { IPersonWithImage } from 'SrcPath/PersonsPanel/interfaces/persons';
 
 export const FolderDropdown: React.FC<{
   folder: string;
   folderList: string[];
-  handleFolderChange: SelectProps<string>["onChange"];
+  handleFolderChange: SelectProps<string>['onChange'];
   hideLabel?: boolean;
   fullWidth?: boolean;
 }> = ({
@@ -62,7 +62,7 @@ export const PersonsDropdown = memo<{
   loading,
   handlePersonsChange,
 }) {
-  const [inputText, setInputText] = useState("");
+  const [inputText, setInputText] = useState('');
 
   const onUserInputChange = (_event: any, newInputValue: string) => {
     setInputText(newInputValue);
@@ -75,14 +75,14 @@ export const PersonsDropdown = memo<{
       color="secondary"
       InputProps={{
         ...params.InputProps,
-        color: "secondary",
+        color: 'secondary',
         endAdornment: (
           <>
             {loading ? (
               <CircularProgress
                 color="inherit"
                 size={20}
-                sx={{ marginRight: "35px" }}
+                sx={{ marginRight: '35px' }}
               />
             ) : null}
             {params.InputProps.endAdornment}
@@ -113,18 +113,18 @@ export const PersonsDropdown = memo<{
     <Box
       component="li"
       sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
       {...props}
     >
       <Avatar
         alt={option.name}
         src={option.imageUrl}
-        sx={{ height: "25px", width: "25px" }}
+        sx={{ height: '25px', width: '25px' }}
       />
-      <Box component="span" sx={{ marginLeft: "10px" }}>
+      <Box component="span" sx={{ marginLeft: '10px' }}>
         {option.name}
       </Box>
     </Box>

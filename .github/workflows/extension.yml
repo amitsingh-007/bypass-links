@@ -2,11 +2,11 @@ name: Extension CI
 on:
   push:
     branches-ignore:
-      - "main"
-      - "dependabot/**"
+      - 'main'
+      - 'dependabot/**'
     paths-ignore:
-      - "web/**"
-      - "e2e/**"
+      - 'web/**'
+      - 'e2e/**'
 
 jobs:
   Build:
@@ -18,9 +18,9 @@ jobs:
       - name: Setting up Node.js 🔧
         uses: actions/setup-node@v3
         with:
-          node-version: "16"
-          cache: "npm"
-          cache-dependency-path: "**/package-lock.json"
+          node-version: '16'
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
 
       - name: Cache 💾
         uses: actions/cache@v3

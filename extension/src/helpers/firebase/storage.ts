@@ -4,12 +4,12 @@ import {
   getStorage,
   ref,
   uploadBytes,
-} from "firebase/storage";
-import { getUserProfile } from "GlobalHelpers/fetchFromStorage";
-import firebaseApp from ".";
+} from 'firebase/storage';
+import { getUserProfile } from 'GlobalHelpers/fetchFromStorage';
+import firebaseApp from '.';
 
 const getStoragePath = async (ref: string) => {
-  const env = __PROD__ ? "prod" : "dev";
+  const env = __PROD__ ? 'prod' : 'dev';
   const userProfile = await getUserProfile();
   return `${userProfile.uid}/${env}/${ref}`;
 };

@@ -1,17 +1,17 @@
 version: 2
 updates:
   # Maintain dependencies for GitHub Actions
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     open-pull-requests-limit: 100
-    target-branch: "dependabot-updates"
+    target-branch: 'dependabot-updates'
     schedule:
-      interval: "weekly"
+      interval: 'weekly'
 
   # Maintain dependencies for npm
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: 'npm'
+    directory: '/'
     open-pull-requests-limit: 200
-    target-branch: "dependabot-updates"
+    target-branch: 'dependabot-updates'
     schedule:
-      interval: "weekly"
+      interval: 'weekly'

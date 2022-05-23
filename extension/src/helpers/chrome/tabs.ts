@@ -1,4 +1,4 @@
-import promisify from "./promisifyChromeApi";
+import promisify from './promisifyChromeApi';
 
 const tabs = {
   create: (options: chrome.tabs.CreateProperties) =>

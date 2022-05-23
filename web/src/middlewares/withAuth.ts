@@ -1,9 +1,9 @@
-import { ALLOWED_ORIGIN } from "@constants/index";
-import cors from "cors";
-import helmet from "helmet";
-import { NextApiRequest, NextApiResponse } from "next";
-import runMiddleware from "./runMiddleware";
-import verifyUserId from "./verifyUserId";
+import { ALLOWED_ORIGIN } from '@constants/index';
+import cors from 'cors';
+import helmet from 'helmet';
+import { NextApiRequest, NextApiResponse } from 'next';
+import runMiddleware from './runMiddleware';
+import verifyUserId from './verifyUserId';
 
 interface Handler {
   (req: NextApiRequest, res: NextApiResponse): Promise<void>;

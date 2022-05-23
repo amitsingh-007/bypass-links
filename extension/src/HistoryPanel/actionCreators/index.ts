@@ -1,4 +1,4 @@
-import { RESET_HISTORY_MONITOR, START_HISTORY_MONITOR } from "../actionTypes";
+import { RESET_HISTORY_MONITOR, START_HISTORY_MONITOR } from '../actionTypes';
 
 export const startHistoryMonitor = () => ({
   type: START_HISTORY_MONITOR,

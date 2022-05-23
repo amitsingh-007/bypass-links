@@ -1,11 +1,11 @@
-import { ROUTES } from "GlobalConstants/routes";
-import { lazy } from "react";
-import { Route } from "react-router-dom";
+import { ROUTES } from 'GlobalConstants/routes';
+import { lazy } from 'react';
+import { Route } from 'react-router-dom';
 
 const HistoryPanel = lazy(
   () =>
     import(
-      /*  webpackChunkName: "history-panel" */ "../components/HistoryPanel"
+      /*  webpackChunkName: "history-panel" */ '../components/HistoryPanel'
     )
 );
 

@@ -1,21 +1,21 @@
-import { Box, Typography } from "@mui/material";
-import { BlackTooltip } from "GlobalComponents/StyledComponents";
-import tabs from "GlobalHelpers/chrome/tabs";
-import { memo, useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { startHistoryMonitor } from "SrcPath/HistoryPanel/actionCreators";
-import PersonAvatars from "SrcPath/PersonsPanel/components/PersonAvatars";
-import { IPersonWithImage } from "SrcPath/PersonsPanel/interfaces/persons";
+import { Box, Typography } from '@mui/material';
+import { BlackTooltip } from 'GlobalComponents/StyledComponents';
+import tabs from 'GlobalHelpers/chrome/tabs';
+import { memo, useCallback, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { startHistoryMonitor } from 'SrcPath/HistoryPanel/actionCreators';
+import PersonAvatars from 'SrcPath/PersonsPanel/components/PersonAvatars';
+import { IPersonWithImage } from 'SrcPath/PersonsPanel/interfaces/persons';
 import {
   getPersonsFromUids,
   getPersonsWithImageUrl,
-} from "SrcPath/PersonsPanel/utils";
-import withBookmarkRow, { InjectedProps } from "../hoc/withBookmarkRow";
-import Favicon from "./Favicon";
-import md5 from "md5";
+} from 'SrcPath/PersonsPanel/utils';
+import withBookmarkRow, { InjectedProps } from '../hoc/withBookmarkRow';
+import Favicon from './Favicon';
+import md5 from 'md5';
 
-const titleStyles = { flexGrow: 1, fontSize: "14px" };
-const tooltipStyles = { fontSize: "13px" };
+const titleStyles = { flexGrow: 1, fontSize: '14px' };
+const tooltipStyles = { fontSize: '13px' };
 
 export interface Props extends InjectedProps {
   url: string;
@@ -77,10 +77,10 @@ const Bookmark = memo<Props>(
     return (
       <Box
         sx={{
-          display: "flex",
-          alignItems: "center",
-          width: "100%",
-          height: "100%",
+          display: 'flex',
+          alignItems: 'center',
+          width: '100%',
+          height: '100%',
           ...containerStyles,
         }}
         onDoubleClick={handleOpenLink}
@@ -104,7 +104,7 @@ const Bookmark = memo<Props>(
     );
   }
 );
-Bookmark.displayName = "Bookmark";
+Bookmark.displayName = 'Bookmark';
 
 export const BookmarkExternal = Bookmark;
 export default withBookmarkRow(BookmarkExternal);

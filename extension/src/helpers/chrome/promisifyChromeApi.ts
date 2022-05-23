@@ -5,7 +5,7 @@ const promisify = <T>(block: Function) =>
       if (!errorMsg) {
         resolve(...results);
       }
-      if (errorMsg === "The tab was closed.") {
+      if (errorMsg === 'The tab was closed.') {
         resolve({} as T);
       } else {
         reject({ message: errorMsg, func: block.toString() });

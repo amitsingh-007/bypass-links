@@ -30,7 +30,7 @@ export interface IBookmarksObj {
 export type ISelectedBookmarks = boolean[];
 
 export type ContextBookmark = Partial<
-  Pick<IFolder, "name"> & Omit<IBookmark, "parentHash">
+  Pick<IFolder, 'name'> & Omit<IBookmark, 'parentHash'>
 > & {
   isDir: boolean;
 };

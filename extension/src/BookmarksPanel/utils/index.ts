@@ -1,24 +1,24 @@
-import { getBookmarks } from "GlobalHelpers/fetchFromStorage";
-import { hasText } from "GlobalUtils/search";
-import md5 from "md5";
-import memoize from "memoize-one";
+import { getBookmarks } from 'GlobalHelpers/fetchFromStorage';
+import { hasText } from 'GlobalUtils/search';
+import md5 from 'md5';
+import memoize from 'memoize-one';
 import {
   ContextBookmarks,
   IBookmark,
   IBookmarksObj,
   ISelectedBookmarks,
-} from "../interfaces";
+} from '../interfaces';
 
 export const getFaviconUrl = (url: string) =>
   `https://www.google.com/s2/favicons?sz=64&domain_url=${new URL(url).origin}`;
 
 export const getAllFolderNames = memoize(
-  (folderList: IBookmarksObj["folderList"]) =>
+  (folderList: IBookmarksObj['folderList']) =>
     Object.entries(folderList).map(([_key, value]) => atob(value.name))
 );
 
 export const isFolderEmpty = (
-  folders: IBookmarksObj["folders"],
+  folders: IBookmarksObj['folders'],
   name: string
 ) => {
   const folder = folders[md5(name)];
@@ -26,12 +26,12 @@ export const isFolderEmpty = (
 };
 
 export const isFolderContainsDir = (
-  folders: IBookmarksObj["folders"],
+  folders: IBookmarksObj['folders'],
   hash: string
 ) => folders[hash] && folders[hash].some(({ isDir }) => isDir);
 
 export const shouldRenderBookmarks = (
-  folders: IBookmarksObj["folders"],
+  folders: IBookmarksObj['folders'],
   contextBookmarks: ContextBookmarks
 ) => folders && contextBookmarks && contextBookmarks.length > 0;
 

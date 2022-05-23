@@ -1,5 +1,5 @@
-import { memo, useCallback, useEffect, useState } from "react";
-import Search from "./Search";
+import { memo, useCallback, useEffect, useState } from 'react';
+import Search from './Search';
 
 /**
  * `searchClassName` should be parent of each row and not parent of all rows
@@ -8,7 +8,7 @@ import Search from "./Search";
 const SearchWrapper = memo<{ searchClassName: string }>(function SearchInput({
   searchClassName,
 }) {
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState('');
 
   const handleSearch = useCallback(
     (searchText: string) => {
@@ -18,15 +18,15 @@ const SearchWrapper = memo<{ searchClassName: string }>(function SearchInput({
         .querySelectorAll<HTMLElement>(`.${searchClassName}`)
         .forEach((node) => {
           const textsToSearch = [
-            node.getAttribute("data-text")?.toLowerCase(),
-            node.getAttribute("data-subtext")?.toLowerCase(),
+            node.getAttribute('data-text')?.toLowerCase(),
+            node.getAttribute('data-subtext')?.toLowerCase(),
           ];
 
           const isSearchMatched = textsToSearch.some(
             (text) => text && text.includes(lowerSearchText)
           );
 
-          node.style.display = isSearchMatched ? "" : "none";
+          node.style.display = isSearchMatched ? '' : 'none';
         });
     },
     [searchClassName]

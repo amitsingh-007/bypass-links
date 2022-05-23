@@ -1,12 +1,11 @@
-name: "CodeQL"
+name: 'CodeQL'
 
 on:
   push:
-    branches: [main]
+    branches-ignore:
+      - 'dependabot/**'
   pull_request:
     branches: [main]
-  schedule:
-    - cron: "24 7 * * 6"
 
 jobs:
   analyze:
@@ -20,7 +19,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: ["javascript"]
+        language: ['javascript', 'typescript']
 
     steps:
       - name: Checkout repository 🛎️

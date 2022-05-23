@@ -1,13 +1,13 @@
-import { SvgIcon } from "@mui/material";
-import { STORAGE_KEYS } from "GlobalConstants";
-import storage from "GlobalHelpers/chrome/storage";
-import tabs from "GlobalHelpers/chrome/tabs";
-import { RootState } from "GlobalReducers/rootReducer";
-import { memo, useState } from "react";
-import { FiExternalLink } from "react-icons/fi";
-import { useDispatch, useSelector } from "react-redux";
-import { startHistoryMonitor } from "SrcPath/HistoryPanel/actionCreators";
-import StyledButton from "./StyledButton";
+import { SvgIcon } from '@mui/material';
+import { STORAGE_KEYS } from 'GlobalConstants';
+import storage from 'GlobalHelpers/chrome/storage';
+import tabs from 'GlobalHelpers/chrome/tabs';
+import { RootState } from 'GlobalReducers/rootReducer';
+import { memo, useState } from 'react';
+import { FiExternalLink } from 'react-icons/fi';
+import { useDispatch, useSelector } from 'react-redux';
+import { startHistoryMonitor } from 'SrcPath/HistoryPanel/actionCreators';
+import StyledButton from './StyledButton';
 
 const OpenDefaultsButton = memo(function OpenDefaultsButton() {
   const dispatch = useDispatch();

@@ -1,9 +1,9 @@
 import {
   RESET_AUTHENTICATION_PROGRESS,
   SET_AUTHENTICATION_PROGRESS,
-} from "GlobalActionTypes/auth";
-import { AuthenticationEvent } from "GlobalInterfaces/authentication";
-import { AuthAction } from "GlobalReducers/interfaces/auth";
+} from 'GlobalActionTypes/auth';
+import { AuthenticationEvent } from 'GlobalInterfaces/authentication';
+import { AuthAction } from 'GlobalReducers/interfaces/auth';
 
 export const setAuthenticationProgress = (
   data: AuthenticationEvent
@@ -12,6 +12,6 @@ export const setAuthenticationProgress = (
   data,
 });
 
-export const resetAuthenticationProgress = (): Pick<AuthAction, "type"> => ({
+export const resetAuthenticationProgress = (): Pick<AuthAction, 'type'> => ({
   type: RESET_AUTHENTICATION_PROGRESS,
 });

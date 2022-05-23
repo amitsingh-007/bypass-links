@@ -1,8 +1,8 @@
 import {
   RESET_BOOKMARK_OPERATION,
   SET_BOOKMARK_OPERATION,
-} from "../actionTypes";
-import { BOOKMARK_OPERATION } from "../constants";
+} from '../actionTypes';
+import { BOOKMARK_OPERATION } from '../constants';
 
 export const setBookmarkOperation = (
   operation: BOOKMARK_OPERATION,

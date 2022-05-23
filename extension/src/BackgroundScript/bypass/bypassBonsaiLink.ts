@@ -1,11 +1,11 @@
-import { bypassSingleLinkOnPage } from "./bypassUtils";
+import { bypassSingleLinkOnPage } from './bypassUtils';
 
 const findLinksOnPage = () => {
-  const LINKS_TO_EXCLUDE = ["t.me"];
+  const LINKS_TO_EXCLUDE = ['t.me'];
 
   const anchorTagsOnPage = document
-    .getElementById("main")
-    ?.getElementsByTagName("a");
+    .getElementById('main')
+    ?.getElementsByTagName('a');
   const links = [...(anchorTagsOnPage || [])].map((anchor) =>
     anchor.href.trim()
   );

@@ -1,14 +1,14 @@
-import { Box, FormControlLabel } from "@mui/material";
+import { Box, FormControlLabel } from '@mui/material';
 import {
   turnOffExtension,
   turnOnExtension,
-} from "GlobalActionCreators/extension";
-import { StyledSwitch } from "GlobalComponents/StyledComponents";
-import { EXTENSION_STATE } from "GlobalConstants";
-import { getExtensionState } from "GlobalHelpers/fetchFromStorage";
-import { isExtensionActive, setExtStateInStorage } from "GlobalUtils/common";
-import { memo, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+} from 'GlobalActionCreators/extension';
+import { StyledSwitch } from 'GlobalComponents/StyledComponents';
+import { EXTENSION_STATE } from 'GlobalConstants';
+import { getExtensionState } from 'GlobalHelpers/fetchFromStorage';
+import { isExtensionActive, setExtStateInStorage } from 'GlobalUtils/common';
+import { memo, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 const ToggleExtension = memo(function ToggleExtension() {
   const dispatch = useDispatch();
@@ -44,9 +44,9 @@ const ToggleExtension = memo(function ToggleExtension() {
   return (
     <FormControlLabel
       control={<StyledSwitch checked={isActive} onChange={handleToggle} />}
-      label={<Box sx={{ mr: "3px" }}>Enable</Box>}
+      label={<Box sx={{ mr: '3px' }}>Enable</Box>}
       labelPlacement="start"
-      sx={{ ml: 0, justifyContent: "space-between" }}
+      sx={{ ml: 0, justifyContent: 'space-between' }}
     />
   );
 });

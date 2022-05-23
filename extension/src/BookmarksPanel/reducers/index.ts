@@ -1,13 +1,13 @@
 import {
   RESET_BOOKMARK_OPERATION,
   SET_BOOKMARK_OPERATION,
-} from "../actionTypes";
-import { BOOKMARK_OPERATION } from "../constants";
-import { OperationAction, OperationState } from "../interfaces/store";
+} from '../actionTypes';
+import { BOOKMARK_OPERATION } from '../constants';
+import { OperationAction, OperationState } from '../interfaces/store';
 
 const defaultState = {
   operation: BOOKMARK_OPERATION.NONE,
-  url: "",
+  url: '',
 };
 
 const bookmarkOperation = (
@@ -19,7 +19,7 @@ const bookmarkOperation = (
       return {
         ...state,
         operation: action.data?.operation ?? BOOKMARK_OPERATION.NONE,
-        url: action.data?.url ?? "",
+        url: action.data?.url ?? '',
       };
     case RESET_BOOKMARK_OPERATION:
       return defaultState;

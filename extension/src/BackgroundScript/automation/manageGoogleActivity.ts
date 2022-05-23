@@ -1,5 +1,5 @@
-import scripting from "GlobalHelpers/chrome/scripting";
-import tabs from "GlobalHelpers/chrome/tabs";
+import scripting from 'GlobalHelpers/chrome/scripting';
+import tabs from 'GlobalHelpers/chrome/tabs';
 
 const automate = () => {
   const menuOptionButton = document.querySelector<HTMLButtonElement>(
@@ -13,7 +13,7 @@ const automate = () => {
     return;
   }
   const menuOption = [...menuOptions].find(
-    (option) => option.innerText === "Delete activity by"
+    (option) => option.innerText === 'Delete activity by'
   );
   menuOption?.click();
   setTimeout(() => {
@@ -24,17 +24,17 @@ const automate = () => {
       return;
     }
     const option = [...timeRangeOptions].find(
-      (option) => option.innerText === "Last hour"
+      (option) => option.innerText === 'Last hour'
     );
     option?.dispatchEvent(
-      new MouseEvent("mousedown", {
+      new MouseEvent('mousedown', {
         view: window,
         bubbles: true,
         cancelable: true,
       })
     );
     option?.dispatchEvent(
-      new MouseEvent("mouseup", {
+      new MouseEvent('mouseup', {
         view: window,
         bubbles: true,
         cancelable: true,
@@ -45,10 +45,10 @@ const automate = () => {
 
 export const manageGoogleActivity = async (historyWatchTime: number) => {
   const tab = await tabs.create({
-    url: "https://myactivity.google.com/activitycontrols/webandapp",
+    url: 'https://myactivity.google.com/activitycontrols/webandapp',
   });
   chrome.tabs.onUpdated.addListener(async (tabId, info) => {
-    if (info.status === "complete" && tabId === tab.id) {
+    if (info.status === 'complete' && tabId === tab.id) {
       await scripting.executeScript({
         target: { tabId },
         func: automate,

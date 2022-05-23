@@ -3,7 +3,7 @@ interface IOptions extends RequestInit {
 }
 
 const fetchApi = <T = any>(url: string, options?: IOptions): Promise<T> => {
-  const { responseType = "json", ...init } = options || {};
+  const { responseType = 'json', ...init } = options || {};
   const fetchUrl = `${HOST_NAME}${url}`;
   return fetch(fetchUrl, init).then((response) => {
     if (!response.ok) {
@@ -11,13 +11,13 @@ const fetchApi = <T = any>(url: string, options?: IOptions): Promise<T> => {
     }
     let res: any;
     switch (responseType) {
-      case "json":
+      case 'json':
         res = response.json();
         break;
-      case "blob":
+      case 'blob':
         res = response.blob();
         break;
-      case "none":
+      case 'none':
         res = response;
         break;
       default:

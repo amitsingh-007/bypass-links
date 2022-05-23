@@ -1,9 +1,9 @@
-import { bypassSingleLinkOnPage } from "../bypass/bypassUtils";
+import { bypassSingleLinkOnPage } from '../bypass/bypassUtils';
 
 const findMegaLinks = () => {
-  const LINKS_TO_BYPASS = ["mega.nz", "drive.google.com"];
+  const LINKS_TO_BYPASS = ['mega.nz', 'drive.google.com'];
 
-  const anchorTagsOnPage = document.getElementsByTagName("a");
+  const anchorTagsOnPage = document.getElementsByTagName('a');
   const links = [...anchorTagsOnPage]
     .map((anchor) => [anchor.innerText.trim(), anchor.href.trim()])
     .flat(2);

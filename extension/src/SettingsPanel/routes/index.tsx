@@ -1,11 +1,11 @@
-import { ROUTES } from "GlobalConstants/routes";
-import { lazy } from "react";
-import { Route } from "react-router-dom";
+import { ROUTES } from 'GlobalConstants/routes';
+import { lazy } from 'react';
+import { Route } from 'react-router-dom';
 
 const SettingsPanel = lazy(
   () =>
     import(
-      /*  webpackChunkName: "settings-panel" */ "../containers/SettingsPanel"
+      /*  webpackChunkName: "settings-panel" */ '../containers/SettingsPanel'
     )
 );
 

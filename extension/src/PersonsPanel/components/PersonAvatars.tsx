@@ -1,13 +1,13 @@
-import { Avatar, AvatarGroup, Box } from "@mui/material";
-import { CircularTooltip } from "GlobalComponents/StyledComponents";
-import { memo } from "react";
-import { RiUserUnfollowFill } from "react-icons/ri";
-import { useNavigate } from "react-router-dom";
-import { IPersonWithImage } from "../interfaces/persons";
-import { getPersonsPanelUrl } from "../utils/urls";
+import { Avatar, AvatarGroup, Box } from '@mui/material';
+import { CircularTooltip } from 'GlobalComponents/StyledComponents';
+import { memo } from 'react';
+import { RiUserUnfollowFill } from 'react-icons/ri';
+import { useNavigate } from 'react-router-dom';
+import { IPersonWithImage } from '../interfaces/persons';
+import { getPersonsPanelUrl } from '../utils/urls';
 
-const AVATAR_SIZE = { SMALL: "23px", BIG: "70px" };
-const commonStyles = { marginRight: "12px" };
+const AVATAR_SIZE = { SMALL: '23px', BIG: '70px' };
+const commonStyles = { marginRight: '12px' };
 
 const PersonAvatars = memo<{ persons: IPersonWithImage[] }>(
   function PersonAvatars({ persons }) {
@@ -25,7 +25,7 @@ const PersonAvatars = memo<{ persons: IPersonWithImage[] }>(
             ...commonStyles,
           }}
         >
-          <RiUserUnfollowFill style={{ fontSize: "15px" }} />
+          <RiUserUnfollowFill style={{ fontSize: '15px' }} />
         </Avatar>
       );
     }
@@ -46,7 +46,7 @@ const PersonAvatars = memo<{ persons: IPersonWithImage[] }>(
                   event.stopPropagation();
                   handlePersonClick(person);
                 }}
-                sx={{ cursor: "pointer" }}
+                sx={{ cursor: 'pointer' }}
               >
                 <Avatar
                   alt={person.name}
@@ -62,7 +62,7 @@ const PersonAvatars = memo<{ persons: IPersonWithImage[] }>(
               sx={{
                 width: AVATAR_SIZE.SMALL,
                 height: AVATAR_SIZE.SMALL,
-                border: "unset !important",
+                border: 'unset !important',
               }}
             />
           </CircularTooltip>

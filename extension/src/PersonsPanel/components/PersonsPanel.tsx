@@ -1,28 +1,28 @@
-import { Box, GlobalStyles } from "@mui/material";
-import { displayToast } from "GlobalActionCreators/toast";
-import { PANEL_DIMENSIONS_PX } from "GlobalConstants/styles";
-import { getPersons } from "GlobalHelpers/fetchFromStorage";
-import { removeImageFromFirebase } from "GlobalHelpers/firebase/storage";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { SORT_ORDER, SORT_TYPE } from "../constants/sort";
-import { IPerson, IPersons } from "../interfaces/persons";
-import { decryptionMapper } from "../mapper";
+import { Box, GlobalStyles } from '@mui/material';
+import { displayToast } from 'GlobalActionCreators/toast';
+import { PANEL_DIMENSIONS_PX } from 'GlobalConstants/styles';
+import { getPersons } from 'GlobalHelpers/fetchFromStorage';
+import { removeImageFromFirebase } from 'GlobalHelpers/firebase/storage';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { SORT_ORDER, SORT_TYPE } from '../constants/sort';
+import { IPerson, IPersons } from '../interfaces/persons';
+import { decryptionMapper } from '../mapper';
 import {
   getFilteredPersons,
   getPersonPos,
   setPersonsInStorage,
-} from "../utils";
-import { sortAlphabetically, sortByBookmarksCount } from "../utils/sort";
-import { updatePersonCacheAndImageUrls } from "../utils/sync";
-import Header from "./Header";
-import Persons from "./Persons";
+} from '../utils';
+import { sortAlphabetically, sortByBookmarksCount } from '../utils/sort';
+import { updatePersonCacheAndImageUrls } from '../utils/sync';
+import Header from './Header';
+import Persons from './Persons';
 
 const PersonsPanel = () => {
   const dispatch = useDispatch();
   const [persons, setPersons] = useState<IPerson[]>([]);
   const [isFetching, setIsFetching] = useState(true);
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
     getPersons().then((persons) => {
@@ -68,13 +68,13 @@ const PersonsPanel = () => {
     setPersons(sortedPersons);
     await handleSave(sortedPersons);
     setIsFetching(false);
-    dispatch(displayToast({ message: "Person added/updated succesfully" }));
+    dispatch(displayToast({ message: 'Person added/updated succesfully' }));
   };
 
   const handlePersonDelete = async (person: IPerson) => {
     const pos = getPersonPos(persons, person);
     if (persons[pos].taggedUrls?.length > 0) {
-      console.error("Cant delete a person with tagged urls");
+      console.error('Cant delete a person with tagged urls');
       return;
     }
     setIsFetching(true);
@@ -84,7 +84,7 @@ const PersonsPanel = () => {
     await removeImageFromFirebase(person.imageRef);
     await handleSave(newPersons);
     setIsFetching(false);
-    dispatch(displayToast({ message: "Person deleted succesfully" }));
+    dispatch(displayToast({ message: 'Person deleted succesfully' }));
   };
 
   const handleSort = (sortType: SORT_TYPE, sortOrder: SORT_ORDER) => {
@@ -94,7 +94,7 @@ const PersonsPanel = () => {
     } else if (sortType === SORT_TYPE.bookmarks) {
       sortFn = sortByBookmarksCount;
     } else {
-      throw new Error("Unknown sort type encountered");
+      throw new Error('Unknown sort type encountered');
     }
     setPersons(sortFn(sortOrder, persons));
   };
@@ -107,7 +107,7 @@ const PersonsPanel = () => {
   return (
     <>
       <GlobalStyles
-        styles={{ body: { "::-webkit-scrollbar": { width: "0px" } } }}
+        styles={{ body: { '::-webkit-scrollbar': { width: '0px' } } }}
       />
       <Box sx={{ width: PANEL_DIMENSIONS_PX.width }}>
         <Header

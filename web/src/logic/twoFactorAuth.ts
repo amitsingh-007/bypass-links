@@ -1,15 +1,15 @@
-import { FIREBASE_DB_REF } from "@common/constants/firebase";
-import { Setup2FAResponse } from "@common/interfaces/twoFactorAuth";
-import speakeasy from "speakeasy";
-import { User2FAInfo } from "../interfaces/twoFactorAuth";
-import { getFromFirebase, saveToFirebase } from "./firebase";
-import { get2FATitle } from "./index";
+import { FIREBASE_DB_REF } from '@common/constants/firebase';
+import { Setup2FAResponse } from '@common/interfaces/twoFactorAuth';
+import speakeasy from 'speakeasy';
+import { User2FAInfo } from '../interfaces/twoFactorAuth';
+import { getFromFirebase, saveToFirebase } from './firebase';
+import { get2FATitle } from './index';
 
 const verify2FAToken = (secretKey: string, totp: string, window = 0) =>
   speakeasy.totp.verify({
     secret: secretKey,
     token: totp,
-    encoding: "base32",
+    encoding: 'base32',
     window,
   });
 
@@ -36,7 +36,7 @@ export const setup2FA = async (uid: string): Promise<Setup2FAResponse> => {
       otpAuthUrl: decodeURIComponent(otpAuthUrl),
     };
   }
-  const { base32, otpauth_url = "" } = speakeasy.generateSecret({
+  const { base32, otpauth_url = '' } = speakeasy.generateSecret({
     name: get2FATitle(),
     symbols: false,
   });

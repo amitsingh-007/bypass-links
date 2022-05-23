@@ -1,11 +1,11 @@
-import { Slide, SlideProps } from "@mui/material";
-import Alert, { AlertProps } from "@mui/material/Alert";
-import Snackbar, { SnackbarProps } from "@mui/material/Snackbar";
-import { hideToast } from "GlobalActionCreators/toast";
-import { Dispatch } from "redux";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "GlobalReducers/rootReducer";
+import { Slide, SlideProps } from '@mui/material';
+import Alert, { AlertProps } from '@mui/material/Alert';
+import Snackbar, { SnackbarProps } from '@mui/material/Snackbar';
+import { hideToast } from 'GlobalActionCreators/toast';
+import { Dispatch } from 'redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'GlobalReducers/rootReducer';
 
 const SlideTransition = (props: SlideProps) => (
   <Slide {...props} direction="right" />
@@ -22,16 +22,16 @@ const Toast = () => {
     }
   }, [open, toast]);
 
-  const handleClose: SnackbarProps["onClose"] = (_event, reason) => {
-    if (reason === "clickaway") {
+  const handleClose: SnackbarProps['onClose'] = (_event, reason) => {
+    if (reason === 'clickaway') {
       return;
     }
     dispatch(hideToast());
     setOpen(false);
   };
 
-  const handleAlertClose: AlertProps["onClose"] = (event) => {
-    handleClose(event, "timeout");
+  const handleAlertClose: AlertProps['onClose'] = (event) => {
+    handleClose(event, 'timeout');
   };
 
   if (!toast?.message) {
@@ -48,7 +48,7 @@ const Toast = () => {
       TransitionComponent={SlideTransition}
     >
       <Alert
-        sx={{ padding: "0 8px" }}
+        sx={{ padding: '0 8px' }}
         elevation={6}
         variant="filled"
         onClose={handleAlertClose}
