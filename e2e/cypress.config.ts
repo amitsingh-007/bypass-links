@@ -5,7 +5,7 @@ export default defineConfig({
   chromeWebSecurity: false,
   fixturesFolder: false,
   e2e: {
-    setupNodeEvents(_on, _config) {},
+    setupNodeEvents() {},
     baseUrl: 'http://localhost:3000/',
   },
 });
