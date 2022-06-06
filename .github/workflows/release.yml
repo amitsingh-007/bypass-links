@@ -61,7 +61,7 @@ jobs:
     needs: [Build]
     timeout-minutes: 10
     runs-on: ubuntu-latest
-    container: cypress/browsers:node14.16.0-chrome90-ff88
+    container: cypress/browsers:node14.19.0-chrome100-ff99-edge
     strategy:
       fail-fast: false
       matrix:
