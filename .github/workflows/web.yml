@@ -58,3 +58,43 @@ jobs:
           deployment_id: ${{ steps.preview-deployment.outputs.deployment_id }}
           env_url: ${{ steps.vercel-action.outputs.preview-url }}
           env: ${{ steps.preview-deployment.outputs.env }}
+
+  Cypress:
+    needs: [Build]
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    container: cypress/browsers:node14.19.0-chrome100-ff99-edge
+    strategy:
+      fail-fast: false
+      matrix:
+        containers: [1]
+    steps:
+        - name: Checkout
+          uses: actions/checkout@v3
+
+        - name: Cache 💾
+          uses: actions/cache@v3
+          with:
+            path: |
+              node_modules
+              */*/node_modules
+            key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+            restore-keys: |
+              ${{ runner.os }}-node-
+
+        - name: Install dependencies 🧼
+          run: cd e2e && npm install
+
+        - name: 'UI Tests - Chrome'
+          uses: cypress-io/github-action@v4.0.0
+          with:
+            browser: chrome
+            headless: true
+            record: true
+            parallel: true
+            working-directory: e2e
+            config: baseUrl=${{needs.Build.outputs.preview_url}}
+            install: false
+          env:
+            CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
