@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
-const { DefinePlugin } = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
 const { PATHS } = require('./constants');
 
@@ -94,9 +94,12 @@ const commonConfig = {
       threads: true,
       cache: true,
     }),
-    new DefinePlugin({
+    new webpack.DefinePlugin({
       __PROD__: JSON.stringify(isProduction),
       HOST_NAME: JSON.stringify(process.env.HOST_NAME),
+    }),
+    new webpack.optimize.LimitChunkCountPlugin({
+      maxChunks: 1,
     }),
   ],
   watchOptions: {
