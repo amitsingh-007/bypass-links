@@ -27,7 +27,7 @@
     "@emotion/react": "11.9.3",
     "@emotion/styled": "11.8.1",
     "@mui/material": "5.8.3",
-    "@mui/lab": "5.0.0-alpha.85",
+    "@mui/lab": "5.0.0-alpha.86",
     "@mui/x-date-pickers": "5.0.0-alpha.6",
     "@welldone-software/why-did-you-render": "7.0.1",
     "browser-image-compression": "2.0.0",
