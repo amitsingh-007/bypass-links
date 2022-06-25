@@ -10,8 +10,6 @@ on:
 jobs:
   Build:
     runs-on: ubuntu-latest
-    outputs:
-      preview_url: ${{ steps.vercel-action.outputs.preview-url }}
     steps:
       - name: Checkout repo 🛎️
         uses: actions/checkout@v3
@@ -31,14 +29,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: Start preview deployment 🚀
-        uses: bobheadxi/deployments@v1.3.0
-        id: preview-deployment
-        with:
-          step: start
-          token: ${{ secrets.GITHUB_TOKEN }}
-          env: Preview
-
       - name: Deploy Preview (Vercel) 🔺
         uses: amondnet/vercel-action@v25
         id: vercel-action
@@ -47,14 +37,3 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
           github-comment: false
-
-      - name: Finish preview deployment 🌙
-        uses: bobheadxi/deployments@v1.3.0
-        if: always()
-        with:
-          step: finish
-          token: ${{ secrets.GITHUB_TOKEN }}
-          status: ${{ job.status }}
-          deployment_id: ${{ steps.preview-deployment.outputs.deployment_id }}
-          env_url: ${{ steps.vercel-action.outputs.preview-url }}
-          env: ${{ steps.preview-deployment.outputs.env }}
