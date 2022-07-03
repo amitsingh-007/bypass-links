@@ -9,11 +9,11 @@
   },
   "devDependencies": {
     "@cypress/schema-tools": "4.7.9",
-    "cypress": "10.2.0",
-    "eslint": "8.18.0",
+    "cypress": "10.3.0",
+    "eslint": "8.19.0",
     "eslint-plugin-cypress": "2.12.1",
     "eslint-config-prettier": "8.5.0",
-    "eslint-plugin-prettier": "4.0.0",
+    "eslint-plugin-prettier": "4.2.1",
     "minimal-cognito-totp": "1.0.1",
     "typescript": "4.7.4"
   }
