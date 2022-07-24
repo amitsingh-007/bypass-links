@@ -25,7 +25,7 @@
   "dependencies": {
     "@emotion/react": "11.9.3",
     "@emotion/styled": "11.9.3",
-    "@mui/lab": "5.0.0-alpha.90",
+    "@mui/lab": "5.0.0-alpha.91",
     "@mui/material": "5.9.1",
     "@octokit/rest": "19.0.3",
     "cors": "2.8.5",
