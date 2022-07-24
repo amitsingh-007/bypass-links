@@ -76,7 +76,7 @@ const container = document.getElementById('root');
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const root = createRoot(container!);
 root.render(
-  // !NOTE: Enable StrictMode when react-beautiful-dnd is supported for React 18
+  // !NOTE TODO: Enable StrictMode when react-beautiful-dnd is supported for React 18
   // <StrictMode>
   <ErrorBoundary>
     <Provider store={store}>
