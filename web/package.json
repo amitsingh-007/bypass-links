@@ -25,12 +25,12 @@
   "dependencies": {
     "@emotion/react": "11.9.3",
     "@emotion/styled": "11.9.3",
-    "@mui/lab": "5.0.0-alpha.91",
-    "@mui/material": "5.9.1",
+    "@mui/lab": "5.0.0-alpha.92",
+    "@mui/material": "5.9.2",
     "@octokit/rest": "19.0.3",
     "cors": "2.8.5",
     "express-bearer-token": "2.4.0",
-    "firebase-admin": "11.0.0",
+    "firebase-admin": "11.0.1",
     "helmet": "5.1.1",
     "next": "12.2.3",
     "react": "18.2.0",
@@ -44,7 +44,7 @@
     "@types/cors": "2.8.12",
     "@types/express": "4.17.13",
     "@types/speakeasy": "2.0.7",
-    "@typescript-eslint/eslint-plugin": "5.30.7",
+    "@typescript-eslint/eslint-plugin": "5.31.0",
     "better-npm-run": "0.1.1",
     "eslint": "8.20.0",
     "eslint-config-next": "12.2.3",
@@ -52,10 +52,10 @@
     "eslint-plugin-prettier": "4.2.1",
     "eslint-webpack-plugin": "3.2.0",
     "fork-ts-checker-webpack-plugin": "7.2.13",
-    "next-pwa": "5.5.4",
+    "next-pwa": "5.5.5",
     "prettier": "2.7.1",
     "sass": "1.54.0",
     "typescript": "4.7.4",
-    "vercel": "27.2.0"
+    "vercel": "27.3.3"
   }
 }
