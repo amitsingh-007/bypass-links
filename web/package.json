@@ -54,7 +54,7 @@
     "fork-ts-checker-webpack-plugin": "7.2.13",
     "next-pwa": "5.5.5",
     "prettier": "2.7.1",
-    "sass": "1.54.0",
+    "sass": "1.54.3",
     "typescript": "4.7.4",
     "vercel": "27.3.7"
   }
