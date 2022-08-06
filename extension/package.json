@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@emotion/react": "11.10.0",
-    "@emotion/styled": "11.9.3",
+    "@emotion/styled": "11.10.0",
     "@mui/material": "5.9.3",
     "@mui/lab": "5.0.0-alpha.93",
     "@mui/x-date-pickers": "5.0.0-beta.4",
