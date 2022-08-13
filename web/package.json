@@ -5,14 +5,20 @@
   "scripts": {
     "build": "better-npm-run build",
     "dev": "npm run pre:dev && better-npm-run dev",
+    "dev:debug": "better-npm-run dev:debug",
     "pre:dev": "cd .. && vercel env pull web/.env.local"
   },
   "betterScripts": {
     "dev": {
       "command": "next dev",
       "env": {
-        "NODE_OPTIONS": "--inspect",
         "HOST_NAME": "http://localhost:3000"
+      }
+    },
+    "dev:debug": {
+      "command": "npm run dev",
+      "env": {
+        "NODE_OPTIONS": "--inspect"
       }
     },
     "build": {
