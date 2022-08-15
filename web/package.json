@@ -33,7 +33,7 @@
     "@emotion/styled": "11.10.0",
     "@mui/lab": "5.0.0-alpha.94",
     "@mui/material": "5.10.0",
-    "@octokit/rest": "19.0.3",
+    "@octokit/rest": "19.0.4",
     "cors": "2.8.5",
     "express-bearer-token": "2.4.0",
     "firebase-admin": "11.0.1",
