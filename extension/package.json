@@ -26,7 +26,7 @@
   "dependencies": {
     "@emotion/react": "11.10.0",
     "@emotion/styled": "11.10.0",
-    "@mui/material": "5.10.0",
+    "@mui/material": "5.10.1",
     "@mui/lab": "5.0.0-alpha.95",
     "@mui/x-date-pickers": "5.0.0-beta.5",
     "@welldone-software/why-did-you-render": "7.0.1",
