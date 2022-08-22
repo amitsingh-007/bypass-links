@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { SxProps } from '@mui/system';
 import { memo } from 'react';
-import { Draggable } from 'react-beautiful-dnd';
+import { Draggable } from '@react-forked/dnd';
 import { Subtract } from 'utility-types';
 import { bookmarkRowStyles } from '../constants';
 import '../scss/withBookmarkRow.scss';

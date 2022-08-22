@@ -1,7 +1,7 @@
 import { Box, Checkbox, IconButton, TextField } from '@mui/material';
 import tabs from 'GlobalHelpers/chrome/tabs';
 import { memo, useState } from 'react';
-import { Draggable } from 'react-beautiful-dnd';
+import { Draggable } from '@react-forked/dnd';
 import { FiExternalLink } from 'react-icons/fi';
 import { IoCheckmarkDoneSharp } from 'react-icons/io5';
 import { MdRemoveCircleOutline } from 'react-icons/md';

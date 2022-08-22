@@ -14,7 +14,7 @@ import {
   DragDropContext,
   DragDropContextProps,
   Droppable,
-} from 'react-beautiful-dnd';
+} from '@react-forked/dnd';
 import { connect, ConnectedProps } from 'react-redux';
 import { FixedSizeList } from 'react-window';
 import { startHistoryMonitor } from 'SrcPath/HistoryPanel/actionCreators';
