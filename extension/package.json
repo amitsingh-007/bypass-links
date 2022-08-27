@@ -28,7 +28,7 @@
     "@emotion/styled": "11.10.0",
     "@hello-pangea/dnd": "16.0.0",
     "@mui/material": "5.10.2",
-    "@mui/lab": "5.0.0-alpha.95",
+    "@mui/lab": "5.0.0-alpha.96",
     "@mui/x-date-pickers": "5.0.0-beta.7",
     "@welldone-software/why-did-you-render": "7.0.1",
     "browser-image-compression": "2.0.0",
