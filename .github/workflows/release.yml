@@ -61,7 +61,7 @@ jobs:
     needs: [Build]
     timeout-minutes: 10
     runs-on: ubuntu-latest
-    container: cypress/browsers:node14.19.0-chrome100-ff99-edge
+    container: cypress/browsers:node16.14.2-slim-chrome100-ff99-edge
     strategy:
       fail-fast: false
       matrix:
@@ -87,7 +87,6 @@ jobs:
         uses: cypress-io/github-action@v4.2.0
         with:
           browser: chrome
-          headless: true
           record: true
           parallel: true
           working-directory: e2e
