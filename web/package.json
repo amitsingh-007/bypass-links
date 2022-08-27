@@ -61,7 +61,7 @@
     "next-pwa": "5.5.5",
     "prettier": "2.7.1",
     "sass": "1.54.5",
-    "typescript": "4.7.4",
+    "typescript": "4.8.2",
     "vercel": "28.2.0"
   }
 }
