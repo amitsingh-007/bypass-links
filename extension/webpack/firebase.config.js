@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /**
- * This will generate a common chunk for background and content scripts
+ * This will generate a common chunk  of all the files inside ./src/helpers/firebase for background and content scripts webpack build
  */
+const glob = require('glob');
 const { merge } = require('webpack-merge');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { DllPlugin } = require('webpack');
@@ -10,11 +11,7 @@ const { PATHS } = require('./constants');
 
 const firebaseDllConfig = merge(commonConfig, {
   name: 'firebase-dll',
-  entry: [
-    './src/helpers/firebase/auth.ts',
-    './src/helpers/firebase/database.ts',
-    './src/helpers/firebase/storage.ts',
-  ],
+  entry: glob.sync('./src/helpers/firebase/*.ts'),
   output: {
     filename: 'js/firebase.dll.js',
     path: PATHS.EXTENSION,
