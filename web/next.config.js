@@ -1,7 +1,7 @@
 const path = require('path');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
-const withPWA = require('next-pwa');
+const nextPWA = require('next-pwa');
 const { releaseDate } = require('./scripts/release-config');
 const { extVersion } = require('../common/src/scripts/extension-version');
 
@@ -11,12 +11,6 @@ const isDev = process.env.NODE_ENV === 'development';
  * @type {import('next/dist/next-server/server/config').NextConfig}
  **/
 const nextConfig = {
-  // next-pwa options
-  pwa: {
-    swSrc: './scripts/sw.js',
-    dest: 'public',
-  },
-  // Rest options are nextJS's
   swcMinify: true,
   compiler: {
     removeConsole: {
@@ -60,6 +54,11 @@ const nextConfig = {
     return config;
   },
 };
+
+const withPWA = nextPWA({
+  swSrc: './scripts/sw.js',
+  dest: 'public',
+});
 
 // Disable service worker on dev
 module.exports = isDev ? nextConfig : withPWA(nextConfig);
