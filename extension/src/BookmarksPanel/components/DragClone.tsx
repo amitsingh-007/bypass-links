@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { DraggableProvided } from 'react-beautiful-dnd';
+import { DraggableProvided } from '@hello-pangea/dnd';
 
 const DragClone: React.FC<{
   provided: DraggableProvided;

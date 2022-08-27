@@ -6,7 +6,7 @@ import { PANEL_DIMENSIONS_PX } from 'GlobalConstants/styles';
 import { getRedirections } from 'GlobalHelpers/fetchFromStorage';
 import { saveToFirebase } from 'GlobalHelpers/firebase/database';
 import { memo, useEffect, useState } from 'react';
-import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { IRedirection } from 'SrcPath/BackgroundScript/interfaces/redirections';
