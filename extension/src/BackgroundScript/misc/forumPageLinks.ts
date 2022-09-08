@@ -10,10 +10,35 @@ const getForumPageLinksFunc = () => {
   );
 };
 
-export const getForumPageLinks = async (tabId: number): Promise<string[]> => {
+const getForumWatchedThreadsLinksFunc = () => {
+  const unreadRows = document.querySelectorAll(
+    '.structItemContainer > .structItem.is-unread > .structItem-cell--main'
+  );
+  return [...unreadRows].map((row) => {
+    const lastPageLink = row.querySelector<HTMLAnchorElement>(
+      '.structItem-pageJump > a:last-child'
+    )?.href;
+    if (lastPageLink) {
+      return lastPageLink;
+    }
+    const topicLink = row.querySelector<HTMLAnchorElement>(
+      '.structItem-title > a:not(.labelLink), [data-preview-url]'
+    )?.href;
+    return topicLink;
+  });
+};
+
+export const getForumPageLinks = async (
+  tabId: number,
+  url: string
+): Promise<string[]> => {
+  const { pathname } = new URL(url);
+  const isWatchThreadsPage = pathname === '/watched/threads';
   const [{ result }] = await scripting.executeScript({
     target: { tabId },
-    func: getForumPageLinksFunc,
+    func: isWatchThreadsPage
+      ? getForumWatchedThreadsLinksFunc
+      : getForumPageLinksFunc,
   });
   return new Promise((resolve) => {
     resolve(result);

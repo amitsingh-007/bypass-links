@@ -47,8 +47,10 @@ const OpenForumLinks = memo(function OpenForumLinks() {
     dispatch(startHistoryMonitor());
     const { forumPageLinks } = await runtime.sendMessage<{
       forumPageLinks: string[];
+      url: string;
     }>({
       getForumPageLinks: currentTab?.id,
+      url: currentTab?.url,
     });
     forumPageLinks.forEach((url) => {
       tabs.create({ url, selected: false });
