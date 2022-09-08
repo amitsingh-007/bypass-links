@@ -52,10 +52,6 @@ const popupConfig = merge(commonConfig, {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: `${PATHS.ROOT}/assets`,
-          to: `${PATHS.EXTENSION}/assets`,
-        },
-        {
           context: `${PATHS.ROOT}/public`,
           from: '**/*',
           globOptions: {
