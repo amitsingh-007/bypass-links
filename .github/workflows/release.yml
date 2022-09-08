@@ -71,18 +71,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Cache 💾
-        uses: actions/cache@v3
-        with:
-          path: |
-            node_modules
-            */*/node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+      - name: Install root dependencies
+        uses: bahmutov/npm-install@v1
 
-      - name: Install dependencies 🧼
-        run: cd e2e && npm install
+      # - name: Install dependencies 🧼
+      #   run: cd e2e && npm install
 
       - name: 'UI Tests - Chrome'
         uses: cypress-io/github-action@v4.2.0
@@ -92,7 +85,7 @@ jobs:
           parallel: true
           working-directory: e2e
           config: baseUrl=${{needs.Build.outputs.preview_url}}
-          install: true
+          install: false
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
