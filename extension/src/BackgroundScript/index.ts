@@ -63,9 +63,11 @@ chrome.webNavigation.onCommitted.addListener((details) => {
 //Listen to dispatched messages
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   if (message.getForumPageLinks) {
-    getForumPageLinks(message.getForumPageLinks).then((forumPageLinks) => {
-      sendResponse({ forumPageLinks });
-    });
+    getForumPageLinks(message.getForumPageLinks, message.url).then(
+      (forumPageLinks) => {
+        sendResponse({ forumPageLinks });
+      }
+    );
   } else if (message.fetchPageH1) {
     fetchPageH1().then((pageH1) => {
       sendResponse({ pageH1 });
