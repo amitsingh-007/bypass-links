@@ -92,7 +92,7 @@ jobs:
           parallel: true
           working-directory: e2e
           config: baseUrl=${{needs.Build.outputs.preview_url}}
-          install: false
+          install: true
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
