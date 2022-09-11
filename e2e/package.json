@@ -15,6 +15,6 @@
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "4.2.1",
     "minimal-cognito-totp": "1.0.1",
-    "typescript": "4.8.2"
+    "typescript": "4.8.3"
   }
 }
