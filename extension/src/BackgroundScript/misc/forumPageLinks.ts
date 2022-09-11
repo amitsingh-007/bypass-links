@@ -15,16 +15,16 @@ const getForumWatchedThreadsLinksFunc = () => {
     '.structItemContainer > .structItem.is-unread > .structItem-cell--main'
   );
   return [...unreadRows].map((row) => {
-    const lastPageLink = row.querySelector<HTMLAnchorElement>(
-      '.structItem-pageJump > a:last-child'
-    )?.href;
-    if (lastPageLink) {
-      return lastPageLink;
-    }
     const topicLink = row.querySelector<HTMLAnchorElement>(
       '.structItem-title > a:not(.labelLink), [data-preview-url]'
     )?.href;
-    return topicLink;
+    if (topicLink) {
+      return topicLink;
+    }
+    const lastPageLink = row.querySelector<HTMLAnchorElement>(
+      '.structItem-pageJump > a:last-child'
+    )?.href;
+    return lastPageLink;
   });
 };
 
