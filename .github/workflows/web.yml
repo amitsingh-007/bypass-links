@@ -6,6 +6,7 @@ on:
       - 'dependabot/**'
     paths-ignore:
       - 'extension/**'
+      - 'e2e/**'
 
 jobs:
   Build:
@@ -19,15 +20,14 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Cache 💾
+      - name: NextJS Cache 💾
         uses: actions/cache@v3
         with:
-          path: |
-            node_modules
-            */*/node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+          path: ${{ github.workspace }}/web/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Install dependencies 🧼
+        uses: bahmutov/npm-install@v1
 
       - name: Deploy Preview (Vercel) 🔺
         uses: amondnet/vercel-action@v25
