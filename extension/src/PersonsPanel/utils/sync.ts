@@ -79,7 +79,7 @@ export const refreshPersonImageUrlsCache = async () => {
   await storage.remove(STORAGE_KEYS.personImageUrls);
 };
 
-export const cachePersonImages = async (personImageUrls: PersonImageUrls) => {
+const cachePersonImages = async (personImageUrls: PersonImageUrls) => {
   if (!personImageUrls) {
     console.log('Unable to cache person images since no person urls');
     return;
