@@ -17,10 +17,7 @@ export const addToCache = async (
   }
 };
 
-export const getFromCache = async (
-  cacheBucketKey: CACHE_BUCKET_KEYS,
-  url: string
-) => {
+const getFromCache = async (cacheBucketKey: CACHE_BUCKET_KEYS, url: string) => {
   const cache = await getCacheObj(cacheBucketKey);
   return await cache.match(url);
 };
