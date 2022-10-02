@@ -13,27 +13,25 @@ export const goOnline = () => {
     })
     .then(() => {
       return Cypress.automation('remote:debugger:protocol', {
-        command: 'Network.disable',
+        command: 'Network.enable',
       });
     });
 };
 
 export const goOffline = () => {
-  cy.log('**go offline**')
-    .then(() => {
-      return Cypress.automation('remote:debugger:protocol', {
-        command: 'Network.enable',
-      });
-    })
-    .then(() => {
-      return Cypress.automation('remote:debugger:protocol', {
-        command: 'Network.emulateNetworkConditions',
-        params: {
-          offline: true,
-          latency: -1,
-          downloadThroughput: -1,
-          uploadThroughput: -1,
-        },
-      });
+  cy.log('go offline');
+  return Cypress.automation('remote:debugger:protocol', {
+    command: 'Network.enable',
+  }).then(() => {
+    Cypress.automation('remote:debugger:protocol', {
+      command: 'Network.emulateNetworkConditions',
+      params: {
+        offline: true,
+        latency: -1,
+        downloadThroughput: -1,
+        uploadThroughput: -1,
+      },
     });
+    return true;
+  });
 };

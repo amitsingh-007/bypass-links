@@ -5,40 +5,43 @@ const assertOffline = () => {
   return cy.wrap(window).its('navigator.onLine').should('be.false');
 };
 
+/**
+ * Enable this test after this issue: https://github.com/cypress-io/cypress/issues/17723
+ */
 describe.skip('Homepage UI Tests when Offline', () => {
   before(() => {
     cy.visit('/', {
-      onLoad: clearServiceWorkerCache,
+      // onLoad: clearServiceWorkerCache,
     });
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(5000);
-    cy.reload(true);
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(5000);
   });
-  // beforeEach(() => {
-  //   goOnline();
-  // });
-  // afterEach(() => {
-  //   goOnline();
-  // });
+  beforeEach(() => goOnline());
+  afterEach(() => goOnline());
 
-  it('should have required assets available in offline mode', () => {
-    // assertExtensionDownload();
+  it(
+    'should have required assets available in offline mode',
+    { browser: '!firefox' },
+    () => {
+      // assertExtensionDownload();
 
-    goOffline();
+      cy.reload(true);
 
-    assertOffline();
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(8000).then(() => {
+        goOffline();
+      });
 
-    fetch('https://jsonplaceholder.typicode.com/todos/1');
+      assertOffline();
 
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(8000);
+      fetch('https://jsonplaceholder.typicode.com/todos/1');
 
-    // cy.reload();
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(8000);
 
-    cy.verifyExtensionDownload();
+      // cy.reload();
 
-    goOnline();
-  });
+      cy.verifyExtensionDownload();
+
+      goOnline();
+    }
+  );
 });
