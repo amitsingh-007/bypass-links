@@ -32,7 +32,7 @@
     "@emotion/react": "11.10.4",
     "@emotion/styled": "11.10.4",
     "@mui/lab": "5.0.0-alpha.101",
-    "@mui/material": "5.10.6",
+    "@mui/material": "5.10.7",
     "@octokit/rest": "19.0.4",
     "express-bearer-token": "2.4.0",
     "firebase-admin": "11.0.1",
