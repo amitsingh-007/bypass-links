@@ -47,17 +47,16 @@ const Authenticate = memo(function Authenticate() {
     dispatch(resetAuthenticationProgress());
   }, [dispatch]);
 
-  const init = async () => {
+  const init = useCallback(async () => {
     const userProfile = await getUserProfile();
     const isSignedIn = Boolean(userProfile);
     setIsSignedIn(isSignedIn);
     dispatch(setSignedInStatus(isSignedIn));
-  };
+  }, [dispatch]);
 
   useEffect(() => {
     init();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [init]);
 
   useEffect(() => {
     if (isSignedIn && !isExtensionActive) {

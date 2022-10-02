@@ -57,7 +57,7 @@ export const manageGoogleActivity = async (historyWatchTime: number) => {
       if (historyWatchTime <= 60 * 60 * 1000) {
         setTimeout(() => {
           tabs.remove(tabId);
-        }, 3000);
+        }, 10000);
       }
     }
   });
