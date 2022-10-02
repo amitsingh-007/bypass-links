@@ -471,8 +471,12 @@ class BookmarksPanel extends PureComponent<Props, State> {
     if (!source || !destination || destination.index === source.index) {
       return;
     }
+    this.handleMoveBookmarks(destination.index);
+  };
+
+  handleMoveBookmarks = (destinationIndex: number) => {
     const { contextBookmarks, selectedBookmarks } = this.state;
-    const destIndex = getDestinationIndex(destination.index, selectedBookmarks);
+    const destIndex = getDestinationIndex(destinationIndex, selectedBookmarks);
     const newBookmarks = getBookmarksAfterDrag(
       contextBookmarks,
       selectedBookmarks,
@@ -551,6 +555,8 @@ class BookmarksPanel extends PureComponent<Props, State> {
             handleUrlRemove={this.handleUrlRemove}
             handleBulkBookmarksMove={this.handleBulkBookmarksMove}
             handleOpenSelectedBookmarks={this.handleOpenSelectedBookmarks}
+            handleMoveBookmarks={this.handleMoveBookmarks}
+            handleScroll={this.handleScroll}
           >
             {shouldRenderBookmarks(folders, filteredContextBookmarks) ? (
               <DragDropContext

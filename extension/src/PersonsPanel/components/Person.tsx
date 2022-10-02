@@ -1,6 +1,6 @@
 import { Avatar, Badge, Box, IconButton, Typography } from '@mui/material';
 import ContextMenu from 'GlobalComponents/ContextMenu';
-import { MenuOption } from 'GlobalInterfaces/menu';
+import { IMenuOptions } from 'GlobalInterfaces/menu';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
 import { RiBookmark2Fill } from 'react-icons/ri';
@@ -27,7 +27,7 @@ const Person = memo<Props>(function Person({
   const { uid, name, taggedUrls } = person;
   const [imageUrl, setImageUrl] = useState('');
   const [showEditPersonDialog, setShowEditPersonDialog] = useState(false);
-  const [menuOptions, setMenuOptions] = useState<MenuOption[]>([]);
+  const [menuOptions, setMenuOptions] = useState<IMenuOptions>([]);
 
   const handleDeleteOptionClick = useCallback(() => {
     handlePersonDelete(person);

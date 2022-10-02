@@ -1,13 +1,42 @@
 import { Box, MenuItem, Typography, SvgIcon } from '@mui/material';
 import { SxProps } from '@mui/system';
 import { VoidFunction } from 'GlobalInterfaces/custom';
-import { MenuOption } from 'GlobalInterfaces/menu';
+import { IMenuOptions, MenuOption } from 'GlobalInterfaces/menu';
 import { memo, useState } from 'react';
 import useMenu from 'SrcPath/hooks/useMenu';
 import { RightClickMenu } from './StyledComponents';
 
+const MenuItemWrapper = ({
+  id,
+  onMenuClose,
+  menuOption,
+  styles = {},
+}: {
+  id: string;
+  onMenuClose: () => void;
+  menuOption: MenuOption;
+  styles?: SxProps;
+}) => {
+  const { text, icon: Icon, onClick } = menuOption;
+  return (
+    <MenuItem
+      onClick={(event) => {
+        event.stopPropagation();
+        onClick(id);
+        onMenuClose();
+      }}
+      sx={{ padding: '3px 12px', ...styles }}
+    >
+      <SvgIcon sx={{ mr: '12px', fontSize: 20 }}>
+        <Icon />
+      </SvgIcon>
+      <Typography sx={{ fontSize: '15px' }}>{text}</Typography>
+    </MenuItem>
+  );
+};
+
 type Props = {
-  getMenuOptions: () => MenuOption[];
+  getMenuOptions: () => IMenuOptions;
   showMenu?: boolean;
   onOpen?: VoidFunction;
   children: React.ReactNode;
@@ -34,22 +63,31 @@ const ContextMenu = memo<Props>(function ContextMenu({
   };
 
   const renderMenu = () =>
-    getMenuOptions().map(({ text, icon: Icon, onClick }) => (
-      <MenuItem
-        key={text}
-        onClick={(event) => {
-          event.stopPropagation();
-          onClick(id);
-          onMenuClose();
-        }}
-        sx={{ padding: '3px 12px' }}
-      >
-        <SvgIcon sx={{ mr: '12px', fontSize: 20 }}>
-          <Icon />
-        </SvgIcon>
-        <Typography sx={{ fontSize: '15px' }}>{text}</Typography>
-      </MenuItem>
-    ));
+    getMenuOptions().map((option, index) =>
+      Array.isArray(option) ? (
+        <Box
+          sx={{ display: 'flex', justifyContent: 'space-between' }}
+          key={index}
+        >
+          {option.map((menuOption, index) => (
+            <MenuItemWrapper
+              key={index}
+              id={id}
+              onMenuClose={onMenuClose}
+              menuOption={menuOption}
+              styles={{ flexGrow: index !== option.length - 1 ? 1 : 'unset' }}
+            />
+          ))}
+        </Box>
+      ) : (
+        <MenuItemWrapper
+          key={index}
+          id={id}
+          onMenuClose={onMenuClose}
+          menuOption={option}
+        />
+      )
+    );
 
   return (
     <>

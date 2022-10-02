@@ -1,11 +1,12 @@
 import ContextMenu from 'GlobalComponents/ContextMenu';
 import { VoidFunction } from 'GlobalInterfaces/custom';
-import { MenuOption } from 'GlobalInterfaces/menu';
+import { IMenuOptions } from 'GlobalInterfaces/menu';
 import md5 from 'md5';
 import { memo, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
 import { BsFillFolderSymlinkFill } from 'react-icons/bs';
 import { FiExternalLink } from 'react-icons/fi';
+import { HiArrowCircleDown, HiArrowCircleUp } from 'react-icons/hi';
 import { RiBookmark2Fill } from 'react-icons/ri';
 import { useDispatch } from 'react-redux';
 import { setBookmarkOperation } from '../actionCreators';
@@ -26,6 +27,8 @@ const BookmarkContextMenu = memo<{
   handleBulkUrlRemove: VoidFunction;
   handleUrlRemove: (pos: number, url: string) => void;
   handleBulkBookmarksMove: (folder: string) => void;
+  handleMoveBookmarks: (destinationIndex: number) => void;
+  handleScroll: (itemNumber: number) => void;
 }>(
   ({
     children,
@@ -37,6 +40,8 @@ const BookmarkContextMenu = memo<{
     handleBulkBookmarksMove,
     handleUrlRemove,
     handleBulkUrlRemove,
+    handleMoveBookmarks,
+    handleScroll,
   }) => {
     const selectedCount = selectedBookmarks.filter(Boolean).length;
 
@@ -68,7 +73,12 @@ const BookmarkContextMenu = memo<{
       dispatch(setBookmarkOperation(BOOKMARK_OPERATION.EDIT, url));
     };
 
-    const getMenuOptions = (): MenuOption[] => {
+    const handleMoveToTopBottom = (pos: number) => () => {
+      handleMoveBookmarks(pos);
+      handleScroll(pos);
+    };
+
+    const getMenuOptions = (): IMenuOptions => {
       const menuOptionsList = [];
       menuOptionsList.push({
         onClick: handleOpenSelectedBookmarks,
@@ -77,6 +87,18 @@ const BookmarkContextMenu = memo<{
         }in new tab`,
         icon: FiExternalLink,
       });
+      menuOptionsList.push([
+        {
+          onClick: handleMoveToTopBottom(0),
+          text: 'Top',
+          icon: HiArrowCircleUp,
+        },
+        {
+          onClick: handleMoveToTopBottom(contextBookmarks.length - 1),
+          text: 'Bottom',
+          icon: HiArrowCircleDown,
+        },
+      ]);
       if (selectedCount > 1) {
         menuOptionsList.push({
           onClick: toggleBulkMoveDialog,
