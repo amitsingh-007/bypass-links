@@ -169,10 +169,3 @@ jobs:
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
           env_url: ${{ steps.vercel-action.outputs.preview-url }}
           env: ${{ steps.deployment.outputs.env }}
-
-      - name: Notify Admins 📱
-        uses: appleboy/telegram-action@master
-        with:
-          to: ${{ secrets.TELEGRAM_TO }}
-          token: ${{ secrets.TELEGRAM_TOKEN }}
-          args: Release succesful. Check the latest version on https://bypass-links.vercel.app/. 🎉🥳
