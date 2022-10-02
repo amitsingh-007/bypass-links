@@ -5,3 +5,5 @@ export interface MenuOption {
   text: string;
   icon: React.FC<SvgIconProps>;
 }
+
+export type IMenuOptions = (MenuOption | MenuOption[])[];

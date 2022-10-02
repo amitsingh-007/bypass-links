@@ -1,7 +1,7 @@
 import { Box, SvgIcon, Typography } from '@mui/material';
 import { displayToast } from 'GlobalActionCreators/toast';
 import ContextMenu from 'GlobalComponents/ContextMenu';
-import { MenuOption } from 'GlobalInterfaces/menu';
+import { IMenuOptions } from 'GlobalInterfaces/menu';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
 import { FaFolderMinus } from 'react-icons/fa';
@@ -32,7 +32,7 @@ const Folder = memo<Props>(function Folder({
 }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [menuOptions, setMenuOptions] = useState<MenuOption[]>([]);
+  const [menuOptions, setMenuOptions] = useState<IMenuOptions>([]);
   const [openEditDialog, setOpenEditDialog] = useState(false);
 
   const toggleEditDialog = useCallback(() => {
