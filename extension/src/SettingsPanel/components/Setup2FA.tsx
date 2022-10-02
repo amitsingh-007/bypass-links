@@ -69,18 +69,19 @@ const Setup2FA = memo(function Setup2FA({ isOpen, handleClose }: Props) {
   const handleTOTPVerify = async (totp: string) => {
     const userProfile = await getUserProfile();
     const { isVerified } = await verify2FA(userProfile.uid ?? '', totp);
-    if (!isVerified) {
+    if (isVerified) {
+      userProfile.is2FAEnabled = true;
+      await storage.set({ [STORAGE_KEYS.userProfile]: userProfile });
+      handleClose();
+    } else {
       dispatch(
         displayToast({
           message: 'Entered TOTP is incorrect',
           severity: 'error',
         })
       );
-      return;
     }
-    userProfile.is2FAEnabled = true;
-    await storage.set({ [STORAGE_KEYS.userProfile]: userProfile });
-    handleClose();
+    return isVerified;
   };
 
   return (
@@ -156,17 +157,17 @@ const Setup2FA = memo(function Setup2FA({ isOpen, handleClose }: Props) {
               disableInteractive
               placement="top"
             >
-              {/* <HelpOutlineOutlinedIcon
-                sx={{ position: "absolute", left: "90px" }}
-                fontSize="small"
-              /> */}
               <SvgIcon color="info">
                 <IoHelpCircle />
               </SvgIcon>
             </BlackTooltip>
           </Box>
         )}
-        <Verify2FA isShown={showVerifyToken} handleVerify={handleTOTPVerify} />
+        <Verify2FA
+          isShown={showVerifyToken}
+          handleVerify={handleTOTPVerify}
+          containerStyles={{ mt: '50px' }}
+        />
       </DialogContent>
     </Dialog>
   );

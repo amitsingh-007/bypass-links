@@ -31,18 +31,19 @@ const TwoFactorAuthenticate = () => {
   const handleAuthenticateTOTP = async (totp: string) => {
     const userProfile = await getUserProfile();
     const { isVerified } = await authenticate2FA(userProfile.uid ?? '', totp);
-    if (!isVerified) {
+    if (isVerified) {
+      userProfile.isTOTPVerified = true;
+      await storage.set({ [STORAGE_KEYS.userProfile]: userProfile });
+      setPromptTOTPVerify(false);
+    } else {
       dispatch(
         displayToast({
           message: 'Entered TOTP is incorrect',
           severity: 'error',
         })
       );
-      return;
     }
-    userProfile.isTOTPVerified = true;
-    await storage.set({ [STORAGE_KEYS.userProfile]: userProfile });
-    setPromptTOTPVerify(false);
+    return isVerified;
   };
 
   return (
@@ -56,12 +57,7 @@ const TwoFactorAuthenticate = () => {
           backgroundColor: BG_COLOR_BLACK,
         }}
       >
-        <Verify2FA
-          isShown
-          handleVerify={handleAuthenticateTOTP}
-          containerStyles={{ mt: '0px', flexDirection: 'column' }}
-          buttonStyles={{ mt: '20px' }}
-        />
+        <Verify2FA isShown handleVerify={handleAuthenticateTOTP} />
       </DialogContent>
     </Dialog>
   );
