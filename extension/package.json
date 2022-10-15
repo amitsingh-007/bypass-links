@@ -60,7 +60,6 @@
     "@types/react-router-dom": "5.3.3",
     "@types/react-window": "1.8.5",
     "@types/redux-logger": "3.0.9",
-    "@types/requestidlecallback": "0.3.5",
     "@types/throttle-debounce": "^5.0.0",
     "@typescript-eslint/eslint-plugin": "5.40.0",
     "@typescript-eslint/parser": "5.40.0",
