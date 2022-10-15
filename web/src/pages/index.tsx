@@ -6,6 +6,14 @@ import Footer from '../ui/DownloadPage/components/Footer';
 import MetaTags from '../ui/DownloadPage/components/MetaTags';
 import PageHeader from '../ui/DownloadPage/components/PageHeader';
 import SalientFeatures from '../ui/DownloadPage/components/SalientFeatures';
+import dynamic from 'next/dynamic';
+
+const NotificationBanner = dynamic(
+  () => import('../ui/components/NotificationBanner'),
+  {
+    ssr: false,
+  }
+);
 
 export const getServerSideProps: GetServerSideProps<{
   downloadLink: string;
@@ -24,6 +32,7 @@ export default function Home({
   return (
     <>
       <MetaTags />
+      <NotificationBanner />
       <AppHeader />
       <Box sx={{ p: '0 200px' }}>
         <PageHeader downloadLink={downloadLink} />

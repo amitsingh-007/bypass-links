@@ -58,7 +58,9 @@ const nextConfig = {
 const withPWA = nextPWA({
   swSrc: './scripts/sw.js',
   dest: 'public',
+  register: true,
+  sw: '/sw.js',
 });
 
 // Disable service worker on dev
-module.exports = isDev ? nextConfig : withPWA(nextConfig);
+module.exports = withPWA(nextConfig);

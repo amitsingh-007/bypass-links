@@ -1,6 +1,9 @@
 import { ExpirationPlugin } from 'workbox-expiration';
 import { registerRoute } from 'workbox-routing';
 import { NetworkFirst } from 'workbox-strategies';
+import { initializeApp } from 'firebase/app';
+import { getMessaging, isSupported } from 'firebase/messaging/sw';
+import { getPublicConfig } from '@common/utils/firebase';
 
 self.skipWaiting();
 
@@ -76,3 +79,13 @@ registerRoute(
     ],
   })
 );
+
+const listenToBgFCMMessages = async () => {
+  const firebaseApp = initializeApp(getPublicConfig());
+
+  await isSupported();
+
+  //Intialize Firebase messaging, then Firebase internally listens to background messages and shows notifications
+  getMessaging(firebaseApp);
+};
+listenToBgFCMMessages();
