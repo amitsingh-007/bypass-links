@@ -90,7 +90,7 @@ jobs:
           path: ./extension/extension-build/
 
       - name: Generate Release Tag 🏷
-        uses: amitsingh-007/next-release-tag@v2.1.0
+        uses: amitsingh-007/next-release-tag@v2.2.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
