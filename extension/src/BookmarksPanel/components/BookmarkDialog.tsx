@@ -2,7 +2,7 @@ import { Box, IconButton, SelectProps, TextField } from '@mui/material';
 import { EditDialog } from 'GlobalComponents/Dialogs';
 import runtime from 'GlobalHelpers/chrome/runtime';
 import { VoidFunction } from 'GlobalInterfaces/custom';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FaHeading } from 'react-icons/fa';
 import { SORT_ORDER } from 'SrcPath/PersonsPanel/constants/sort';
 import { IPersonWithImage } from 'SrcPath/PersonsPanel/interfaces/persons';
@@ -52,7 +52,7 @@ const BookmarkDialog: React.FC<Props> = ({
   const [isFetchingPerson, setIsFetchingPerson] = useState(false);
   const [isSaveOptionActive, setIsSaveOptionActive] = useState(isSaveActive);
 
-  const initPersonList = async () => {
+  const initPersonList = useCallback(async () => {
     setIsFetchingPerson(true);
     const persons = await getAllDecodedPersons();
     const personsWithImageUrl = await getPersonsWithImageUrl(persons);
@@ -64,12 +64,11 @@ const BookmarkDialog: React.FC<Props> = ({
       setTaggedPersons(taggedPersons);
     }
     setIsFetchingPerson(false);
-  };
+  }, [origTaggedPersons]);
 
   useEffect(() => {
     initPersonList();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [initPersonList]);
 
   const handleTitleChange: React.ChangeEventHandler<HTMLTextAreaElement> = (
     event
