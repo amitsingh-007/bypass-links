@@ -9,8 +9,8 @@
   },
   "devDependencies": {
     "@cypress/schema-tools": "4.7.9",
-    "cypress": "10.9.0",
-    "eslint": "8.24.0",
+    "cypress": "10.10.0",
+    "eslint": "8.25.0",
     "eslint-plugin-cypress": "2.12.1",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "4.2.1",
