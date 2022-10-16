@@ -1,6 +1,6 @@
 import { SvgIcon, Typography } from '@mui/material';
 import { BlackTooltip } from 'GlobalComponents/StyledComponents';
-import { defaultBookmarkFolder } from 'GlobalConstants';
+import { defaultBookmarkFolder } from '@common/components/Bookmarks/constants';
 import { getCurrentTab } from 'GlobalHelpers/chrome/tabs';
 import { getBookmarks } from 'GlobalHelpers/fetchFromStorage';
 import { RootState } from 'GlobalReducers/rootReducer';

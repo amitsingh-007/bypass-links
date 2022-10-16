@@ -1,4 +1,4 @@
-import { defaultBookmarkFolder } from 'GlobalConstants';
+import { defaultBookmarkFolder } from '@common/components/Bookmarks/constants';
 import { ROUTES } from 'GlobalConstants/routes';
 import { serialzeObjectToQueryString } from 'GlobalUtils/url';
 import { BOOKMARK_OPERATION } from '../constants';
