@@ -1,8 +1,4 @@
-import {
-  ContextBookmark,
-  IBookmarksObj,
-  IFolderMetaData,
-} from '@common/components/Bookmarks/interfaces';
+import { ContextBookmark, IBookmarksObj, IFolderMetaData } from '../interfaces';
 
 export const bookmarksMapper: (
   kvp: [string, IFolderMetaData],

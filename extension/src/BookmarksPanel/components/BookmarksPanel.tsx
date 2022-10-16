@@ -32,7 +32,7 @@ import {
   ISelectedBookmarks,
 } from '@common/components/Bookmarks/interfaces';
 import { BMPanelQueryParams } from '../interfaces/url';
-import { bookmarksMapper } from '../mapper';
+import { bookmarksMapper } from '@common/components/Bookmarks/mapper';
 import {
   getAllFolderNames,
   getFaviconUrl,
