@@ -5,7 +5,7 @@ import {
   DialogActions,
   DialogContent,
 } from '@mui/material';
-import { VoidFunction } from 'GlobalInterfaces/custom';
+import { VoidFunction } from '@common/interfaces/custom';
 import { memo } from 'react';
 
 const ConfirmationDialog = memo<{

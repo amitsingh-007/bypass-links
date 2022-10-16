@@ -15,7 +15,7 @@ import { IoIosPersonAdd } from 'react-icons/io';
 import { RiUploadCloud2Fill } from 'react-icons/ri';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { IPerson } from '../interfaces/persons';
+import { IPerson } from '@common/components/Persons/interfaces/persons';
 import { syncPersonsFirebaseWithStorage } from '../utils/sync';
 import AddOrEditPersonDialog from './AddOrEditPersonDialog';
 import Sort from './Sort';

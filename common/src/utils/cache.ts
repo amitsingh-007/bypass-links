@@ -1,4 +1,4 @@
-import { CACHE_BUCKET_KEYS } from 'GlobalConstants/cache';
+import { CACHE_BUCKET_KEYS } from '../constants/cache';
 
 export const getCacheObj = async (cacheBucketKey: string) =>
   await caches.open(cacheBucketKey);

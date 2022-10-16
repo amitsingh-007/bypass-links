@@ -1,11 +1,11 @@
 import { Box, IconButton, SelectProps, TextField } from '@mui/material';
 import { EditDialog } from 'GlobalComponents/Dialogs';
 import runtime from 'GlobalHelpers/chrome/runtime';
-import { VoidFunction } from 'GlobalInterfaces/custom';
+import { VoidFunction } from '@common/interfaces/custom';
 import { useCallback, useEffect, useState } from 'react';
 import { FaHeading } from 'react-icons/fa';
 import { SORT_ORDER } from 'SrcPath/PersonsPanel/constants/sort';
-import { IPersonWithImage } from 'SrcPath/PersonsPanel/interfaces/persons';
+import { IPersonWithImage } from '@common/components/Persons/interfaces/persons';
 import {
   getAllDecodedPersons,
   getPersonsWithImageUrl,

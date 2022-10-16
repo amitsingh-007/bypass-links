@@ -5,9 +5,9 @@ import { memo, useCallback, useEffect, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
 import { RiBookmark2Fill } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
-import { IPerson } from '../interfaces/persons';
+import { IPerson } from '@common/components/Persons/interfaces/persons';
 import { resolvePersonImageFromUid } from '../utils';
-import { getPersonsPanelUrl } from '../utils/urls';
+import { getPersonsPanelUrl } from '@common/components/Persons/utils/urls';
 import AddOrEditPersonDialog from './AddOrEditPersonDialog';
 
 const imageStyles = { width: 100, height: 100 };

@@ -16,7 +16,7 @@ import PanelHeading from 'GlobalComponents/PanelHeading';
 import { FIREBASE_STORAGE_REF } from 'GlobalConstants';
 import { BG_COLOR_DARK } from 'GlobalConstants/color';
 import { uploadImageToFirebase } from 'GlobalHelpers/firebase/storage';
-import { VoidFunction } from 'GlobalInterfaces/custom';
+import { VoidFunction } from '@common/interfaces/custom';
 import { forwardRef, memo, useCallback, useRef, useState } from 'react';
 import Cropper from 'react-easy-crop';
 import { Area } from 'react-easy-crop/types';

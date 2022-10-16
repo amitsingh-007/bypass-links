@@ -12,12 +12,12 @@ import {
 import { TransitionProps } from '@mui/material/transitions';
 import { displayToast } from 'GlobalActionCreators/toast';
 import PanelHeading from 'GlobalComponents/PanelHeading';
-import { BlackTooltip } from 'GlobalComponents/StyledComponents';
+import { BlackTooltip } from '@common/components/StyledComponents';
 import { STORAGE_KEYS } from 'GlobalConstants';
 import { BG_COLOR_BLACK, BG_COLOR_DARK } from 'GlobalConstants/color';
 import storage from 'GlobalHelpers/chrome/storage';
 import { getUserProfile } from 'GlobalHelpers/fetchFromStorage';
-import { VoidFunction } from 'GlobalInterfaces/custom';
+import { VoidFunction } from '@common/interfaces/custom';
 import { toDataURL } from 'qrcode';
 import { forwardRef, memo, useEffect, useState } from 'react';
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';

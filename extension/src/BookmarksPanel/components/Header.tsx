@@ -9,7 +9,7 @@ import {
 import Loader from 'GlobalComponents/Loader';
 import PanelHeading from 'GlobalComponents/PanelHeading';
 import Search from 'GlobalComponents/Search';
-import { VoidFunction } from 'GlobalInterfaces/custom';
+import { VoidFunction } from '@common/interfaces/custom';
 import React, { createRef, PureComponent } from 'react';
 import { FaFolderPlus } from 'react-icons/fa';
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
@@ -19,7 +19,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { compose } from 'redux';
 import { ContextBookmarks } from '@common/components/Bookmarks/interfaces';
 import { syncBookmarksFirebaseWithStorage } from '../utils/bookmark';
-import { getBookmarksPanelUrl } from '../utils/url';
+import { getBookmarksPanelUrl } from '@common/components/Bookmarks/utils/url';
 import ConfirmationDialog from './ConfirmationDialog';
 import { FolderDropdown } from './Dropdown';
 import { FolderDialog } from './FolderDialog';

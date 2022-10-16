@@ -1,12 +1,12 @@
 import { Box } from '@mui/material';
 import { ScrollButton } from 'GlobalComponents/ScrollButton';
 import { PANEL_SIZE, PERSON_SIZE } from 'GlobalConstants/styles';
-import { deserialzeQueryStringToObject } from 'GlobalUtils/url';
+import { deserialzeQueryStringToObject } from '@common/utils/url';
 import { memo, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { FixedSizeGrid } from 'react-window';
 import { GRID_COLUMN_SIZE } from '../constants';
-import { IPerson } from '../interfaces/persons';
+import { IPerson } from '@common/components/Persons/interfaces/persons';
 import { getReactKey, resolvePersonImageFromUid } from '../utils';
 import BookmarksList from './BookmarksList';
 import VirtualCell, { VirtualCellProps } from './VirtualCell';

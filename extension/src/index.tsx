@@ -15,6 +15,7 @@ import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { applyMiddleware, compose, createStore } from 'redux';
+import RouterProvider from './provider/RouterProvider';
 import rootReducers from './reducers/rootReducer';
 
 const middlewares = [];
@@ -83,7 +84,9 @@ root.render(
         <BrowserRouter>
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            <PopupRoutes />
+            <RouterProvider>
+              <PopupRoutes />
+            </RouterProvider>
             <Global />
           </ThemeProvider>
         </BrowserRouter>

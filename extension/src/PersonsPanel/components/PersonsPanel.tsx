@@ -6,7 +6,10 @@ import { removeImageFromFirebase } from 'GlobalHelpers/firebase/storage';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { SORT_ORDER, SORT_TYPE } from '../constants/sort';
-import { IPerson, IPersons } from '../interfaces/persons';
+import {
+  IPerson,
+  IPersons,
+} from '@common/components/Persons/interfaces/persons';
 import { decryptionMapper } from '../mapper';
 import {
   getFilteredPersons,

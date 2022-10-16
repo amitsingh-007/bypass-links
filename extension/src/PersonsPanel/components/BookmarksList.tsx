@@ -14,18 +14,19 @@ import { memo, useCallback, useEffect, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
-import { BookmarkExternal } from 'SrcPath/BookmarksPanel/components/Bookmark';
-import {
-  bookmarkRowStyles,
-  BOOKMARK_OPERATION,
-} from 'SrcPath/BookmarksPanel/constants';
+import Bookmark from '@common/components/Bookmarks/components/Bookmark';
+import { bookmarkRowStyles } from 'SrcPath/BookmarksPanel/constants';
+import { BOOKMARK_OPERATION } from '@common/components/Bookmarks/constants';
 import { IBookmark } from '@common/components/Bookmarks/interfaces';
 import {
   getBookmarkFromHash,
   getDecodedBookmark,
   getFolderFromHash,
 } from 'SrcPath/BookmarksPanel/utils';
-import { getBookmarksPanelUrl } from 'SrcPath/BookmarksPanel/utils/url';
+import { getBookmarksPanelUrl } from '@common/components/Bookmarks/utils/url';
+import { useDispatch } from 'react-redux';
+import { startHistoryMonitor } from 'SrcPath/HistoryPanel/actionCreators';
+import tabs from 'GlobalHelpers/chrome/tabs';
 
 const imageStyles = { width: 40, height: 40 };
 
@@ -44,6 +45,7 @@ const BookmarksList = memo<Props>(function BookmarksList({
   imageUrl,
   taggedUrls,
 }) {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [bookmarks, setBookmarks] = useState<ModifiedBookmark[]>([]);
 
@@ -73,6 +75,11 @@ const BookmarksList = memo<Props>(function BookmarksList({
         folderContext: parentName,
       })
     );
+  };
+
+  const onOpenLink = (url: string) => {
+    dispatch(startHistoryMonitor());
+    tabs.create({ url, selected: false });
   };
 
   const handleClose = () => {
@@ -151,7 +158,7 @@ const BookmarksList = memo<Props>(function BookmarksList({
               >
                 <AiFillEdit style={{ fontSize: '22px' }} />
               </IconButton>
-              <BookmarkExternal
+              <Bookmark
                 url={bookmark.url}
                 title={bookmark.title}
                 taggedPersons={bookmark.taggedPersons}
@@ -160,6 +167,7 @@ const BookmarksList = memo<Props>(function BookmarksList({
                   paddingLeft: '0px',
                   maxWidth: '756px',
                 }}
+                onOpenLink={onOpenLink}
               />
               <Button
                 variant="contained"

@@ -4,6 +4,7 @@
     "outDir": "./dist/",
     "module": "esnext",
     "target": "esnext",
+    "jsx": "react-jsxdev",
     "lib": ["esnext", "dom", "dom.iterable"],
     "allowJs": true,
     "strict": true,

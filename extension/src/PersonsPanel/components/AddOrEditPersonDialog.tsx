@@ -1,11 +1,11 @@
 import { Avatar, Box, TextField } from '@mui/material';
 import { EditDialog } from 'GlobalComponents/Dialogs';
 import { getImageFromFirebase } from 'GlobalHelpers/firebase/storage';
-import { VoidFunction } from 'GlobalInterfaces/custom';
+import { VoidFunction } from '@common/interfaces/custom';
 import md5 from 'md5';
 import { memo, useEffect, useState } from 'react';
 import { RiUserUnfollowFill } from 'react-icons/ri';
-import { IPerson } from '../interfaces/persons';
+import { IPerson } from '@common/components/Persons/interfaces/persons';
 import { resolvePersonImageFromUid } from '../utils';
 import ImagePicker from './ImagePicker';
 

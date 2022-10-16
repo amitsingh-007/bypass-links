@@ -1,5 +1,5 @@
 import ContextMenu from 'GlobalComponents/ContextMenu';
-import { VoidFunction } from 'GlobalInterfaces/custom';
+import { VoidFunction } from '@common/interfaces/custom';
 import { IMenuOptions } from 'GlobalInterfaces/menu';
 import md5 from 'md5';
 import { memo, useState } from 'react';
@@ -10,10 +10,8 @@ import { HiArrowCircleDown, HiArrowCircleUp } from 'react-icons/hi';
 import { RiBookmark2Fill } from 'react-icons/ri';
 import { useDispatch } from 'react-redux';
 import { setBookmarkOperation } from '../actionCreators';
-import {
-  BOOKMARK_OPERATION,
-  BOOKMARK_PANEL_CONTENT_HEIGHT,
-} from '../constants';
+import { BOOKMARK_PANEL_CONTENT_HEIGHT } from '../constants';
+import { BOOKMARK_OPERATION } from '@common/components/Bookmarks/constants';
 import {
   ContextBookmarks,
   ISelectedBookmarks,

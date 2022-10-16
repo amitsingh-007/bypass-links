@@ -1,7 +1,7 @@
 import { Box, SvgIcon } from '@mui/material';
 import { SxProps } from '@mui/system';
-import { CACHE_BUCKET_KEYS } from 'GlobalConstants/cache';
-import { getBlobUrlFromCache } from 'GlobalUtils/cache';
+import { CACHE_BUCKET_KEYS } from '../constants/cache';
+import { getBlobUrlFromCache } from '../utils/cache';
 import { forwardRef, memo, useCallback, useEffect, useState } from 'react';
 import { MdBrokenImage } from 'react-icons/md';
 import { getFaviconUrl } from '../utils';

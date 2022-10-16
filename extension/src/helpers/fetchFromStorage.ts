@@ -6,7 +6,7 @@ import { LastVisited } from 'SrcPath/HomePopup/interfaces/lastVisited';
 import {
   PersonImageUrls,
   IPersons,
-} from 'SrcPath/PersonsPanel/interfaces/persons';
+} from '@common/components/Persons/interfaces/persons';
 import {
   IMappedRedirections,
   IRedirection,

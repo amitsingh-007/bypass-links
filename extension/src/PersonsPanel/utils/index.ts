@@ -1,9 +1,13 @@
 import storage from 'GlobalHelpers/chrome/storage';
-import { CACHE_BUCKET_KEYS } from 'GlobalConstants/cache';
+import { CACHE_BUCKET_KEYS } from '@common/constants/cache';
 import { STORAGE_KEYS } from 'GlobalConstants';
-import { getBlobUrlFromCache } from 'GlobalUtils/cache';
+import { getBlobUrlFromCache } from '@common/utils/cache';
 import { getPersons } from 'GlobalHelpers/fetchFromStorage';
-import { IPerson, IPersons, IPersonWithImage } from '../interfaces/persons';
+import {
+  IPerson,
+  IPersons,
+  IPersonWithImage,
+} from '@common/components/Persons/interfaces/persons';
 import { GRID_COLUMN_SIZE } from '../constants';
 import memoize from 'memoize-one/dist/memoize-one';
 import { hasText } from 'GlobalUtils/search';
