@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import { memo } from 'react';
 import { Draggable } from '@hello-pangea/dnd';
 import { bookmarkRowStyles } from '../constants';
-import '../scss/withBookmarkRow.scss';
+import '@common/components/Bookmarks/scss/BookmarkRow.scss';
 
 interface ExpectedProps {
   isDir: boolean;

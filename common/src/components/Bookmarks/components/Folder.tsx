@@ -8,7 +8,7 @@ import useRouter from '../../../hooks/useRouter';
 export interface Props {
   name: string;
   isEmpty: boolean;
-  resetSelectedBookmarks: React.MouseEventHandler<HTMLDivElement>;
+  resetSelectedBookmarks?: React.MouseEventHandler<HTMLDivElement>;
   containerStyles?: SxProps;
 }
 
