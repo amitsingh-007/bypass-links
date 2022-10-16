@@ -5,7 +5,7 @@ import {
   ContextBookmarks,
   IBookmarksObj,
   ISelectedBookmarks,
-} from '../interfaces';
+} from '@common/components/Bookmarks/interfaces';
 import { isFolderEmpty } from '../utils';
 import Bookmark, { Props as BookmarkProps } from './Bookmark';
 import Folder, { Props as FolderProps } from './Folder';

@@ -19,7 +19,7 @@ import {
   bookmarkRowStyles,
   BOOKMARK_OPERATION,
 } from 'SrcPath/BookmarksPanel/constants';
-import { IBookmark } from 'SrcPath/BookmarksPanel/interfaces';
+import { IBookmark } from '@common/components/Bookmarks/interfaces';
 import {
   getBookmarkFromHash,
   getDecodedBookmark,

@@ -17,7 +17,7 @@ import { IoSave } from 'react-icons/io5';
 import { RiUploadCloud2Fill } from 'react-icons/ri';
 import { connect, ConnectedProps } from 'react-redux';
 import { compose } from 'redux';
-import { ContextBookmarks } from '../interfaces';
+import { ContextBookmarks } from '@common/components/Bookmarks/interfaces';
 import { syncBookmarksFirebaseWithStorage } from '../utils/bookmark';
 import { getBookmarksPanelUrl } from '../utils/url';
 import ConfirmationDialog from './ConfirmationDialog';

@@ -11,7 +11,7 @@ import { RiBookmark3Fill } from 'react-icons/ri';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { BOOKMARK_OPERATION } from 'SrcPath/BookmarksPanel/constants';
-import { IBookmark } from 'SrcPath/BookmarksPanel/interfaces';
+import { IBookmark } from '@common/components/Bookmarks/interfaces';
 import { BMPanelQueryParams } from 'SrcPath/BookmarksPanel/interfaces/url';
 import {
   getDecodedBookmark,

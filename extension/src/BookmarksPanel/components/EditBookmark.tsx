@@ -3,7 +3,10 @@ import { RootState } from 'GlobalReducers/rootReducer';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { resetBookmarkOperation } from '../actionCreators';
 import { BOOKMARK_OPERATION } from '../constants';
-import { ContextBookmark, ContextBookmarks } from '../interfaces';
+import {
+  ContextBookmark,
+  ContextBookmarks,
+} from '@common/components/Bookmarks/interfaces';
 import { getBookmarksPanelUrl } from '../utils/url';
 import BookmarkDialog from './BookmarkDialog';
 import { useSelector } from 'react-redux';

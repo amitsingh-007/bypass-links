@@ -30,7 +30,7 @@ import {
   ContextBookmarks,
   IBookmarksObj,
   ISelectedBookmarks,
-} from '../interfaces';
+} from '@common/components/Bookmarks/interfaces';
 import { BMPanelQueryParams } from '../interfaces/url';
 import { bookmarksMapper } from '../mapper';
 import {

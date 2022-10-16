@@ -10,7 +10,7 @@ import {
 import { getCacheObj } from 'GlobalUtils/cache';
 import { AuthProgress } from 'SrcPath/HomePopup/utils/authProgress';
 import { getFaviconUrl } from '.';
-import { IBookmarksObj } from '../interfaces';
+import { IBookmarksObj } from '@common/components/Bookmarks/interfaces';
 
 export const syncBookmarksToStorage = async () => {
   const bookmarks = await getFromFirebase<IBookmarksObj>(

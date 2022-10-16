@@ -1,6 +1,6 @@
 import storage from 'GlobalHelpers/chrome/storage';
 import { BYPASS_KEYS, EXTENSION_STATE, STORAGE_KEYS } from 'GlobalConstants';
-import { IBookmarksObj } from 'SrcPath/BookmarksPanel/interfaces';
+import { IBookmarksObj } from '@common/components/Bookmarks/interfaces';
 import { UserInfo } from 'SrcPath/HomePopup/interfaces/authentication';
 import { LastVisited } from 'SrcPath/HomePopup/interfaces/lastVisited';
 import {

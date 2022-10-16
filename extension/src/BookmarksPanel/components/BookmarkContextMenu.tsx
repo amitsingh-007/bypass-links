@@ -14,7 +14,10 @@ import {
   BOOKMARK_OPERATION,
   BOOKMARK_PANEL_CONTENT_HEIGHT,
 } from '../constants';
-import { ContextBookmarks, ISelectedBookmarks } from '../interfaces';
+import {
+  ContextBookmarks,
+  ISelectedBookmarks,
+} from '@common/components/Bookmarks/interfaces';
 import BulkBookmarksMoveDialog from './BulkBookmarksMoveDialog';
 
 const BookmarkContextMenu = memo<{
