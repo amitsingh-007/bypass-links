@@ -33,26 +33,35 @@ export default function BookmarksPage() {
   const [folders, setFolders] = useState<IBookmarksObj['folders']>({});
 
   const initBookmarksData = useCallback(async () => {
+    console.log('amit 1');
     if (!folderContext) {
+      console.log('amit 2');
       //show error page
       throw new Error('No folder found');
     }
+    console.log('amit 3');
     if (!data) {
+      console.log('amit 4');
       return;
     }
+    console.log('amit 5', data);
     setIsIniting(true);
+    console.log('amit 6');
     const { folders, urlList, folderList } = data;
+    console.log('amit 7');
     const folderContextHash = md5(folderContext);
+    console.log('amit 8');
     const modifiedBookmarks = Object.entries(folders[folderContextHash]).map(
       (kvp) => bookmarksMapper(kvp, urlList, folderList)
     );
+    console.log('amit ', modifiedBookmarks);
     setContextBookmarks(modifiedBookmarks);
     // setUrlList(urlList);
-    // setFolderList(folderList);
+    // setFo9lderList(folderList);
     setFolders(folders);
     setIsIniting(false);
     console.log('data', data);
-    console.log('contextBookmarks', contextBookmarks);
+    // console.log('contextBookmarks', contextBookmarks);
     console.log('folders', folders);
   }, [data, folderContext]);
 
@@ -60,7 +69,7 @@ export default function BookmarksPage() {
     initBookmarksData();
   }, [initBookmarksData]);
 
-  console.log('amit loading', { isLoading, isIniting });
+  console.log('amit loading', { data, isLoading, isIniting });
 
   // if no user, then throw error
   return (
