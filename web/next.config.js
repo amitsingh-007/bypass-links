@@ -11,7 +11,7 @@ const isDev = process.env.NODE_ENV === 'development';
  * @type {import('next/dist/next-server/server/config').NextConfig}
  **/
 const nextConfig = {
-  productionBrowserSourceMaps: true,
+  productionBrowserSourceMaps: false,
   swcMinify: true,
   compiler: {
     // removeConsole: isDev ? false : { exclude: ['error'] },
@@ -61,4 +61,5 @@ const withPWA = nextPWA({
 });
 
 // Disable service worker on dev
-module.exports = isDev ? nextConfig : withPWA(nextConfig);
+module.exports = nextConfig;
+// module.exports = isDev ? nextConfig : withPWA(nextConfig);
