@@ -1,6 +1,6 @@
 import { getFullDbPath } from '@common/utils/firebase';
 import { User } from 'firebase/auth';
-import { get, getDatabase, ref } from 'firebase/database';
+import { get, getDatabase, onValue, ref } from 'firebase/database';
 import firebaseApp from '.';
 
 const getDbRef = async (ref: string, user: User) => {
@@ -17,6 +17,16 @@ export const getFromFirebase = async <T>(path: string, user: User | null) => {
   }
   console.log('db 3', path);
   const dbRef = ref(db, await getDbRef(path, user));
+  onValue(
+    dbRef,
+    () => {
+      console.log('SNAP: ' + snapshot.val());
+    },
+    (error) => {
+      console.error(error);
+      console.log(error);
+    }
+  );
   console.log('db 4', dbRef);
   const snapshot = await get(dbRef);
   console.log('snapshot', snapshot.val());
