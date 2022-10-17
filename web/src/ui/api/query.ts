@@ -6,6 +6,7 @@ import FirebaseKeys from './query.keys';
 
 const useFirebaseDb = <T>(ref: FIREBASE_DB_REF) => {
   const { user } = useUser();
+  console.log('inside query', user, ref);
   return useQuery<T, Error>(
     FirebaseKeys.getFromFirebase(ref, user),
     () => getFromFirebase<T>(ref, user),

@@ -11,6 +11,7 @@ const isDev = process.env.NODE_ENV === 'development';
  * @type {import('next/dist/next-server/server/config').NextConfig}
  **/
 const nextConfig = {
+  productionBrowserSourceMaps: true,
   swcMinify: true,
   compiler: {
     // removeConsole: isDev ? false : { exclude: ['error'] },
