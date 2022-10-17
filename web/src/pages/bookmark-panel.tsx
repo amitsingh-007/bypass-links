@@ -44,7 +44,7 @@ export default function BookmarksPage() {
       console.log('amit 4');
       return;
     }
-    console.log('amit 5', data);
+    console.log('amit 5', JSON.stringify(data));
     setIsIniting(true);
     console.log('amit 6');
     const { folders, urlList, folderList } = data;
