@@ -62,4 +62,4 @@ const withPWA = nextPWA({
 
 // Disable service worker on dev
 module.exports = nextConfig;
-// module.exports = isDev ? nextConfig : withPWA(nextConfig);
+module.exports = isDev ? nextConfig : withPWA(nextConfig);
