@@ -1,7 +1,10 @@
 import { Box, Typography } from '@mui/material';
 import { BlackTooltip } from '../../StyledComponents';
-import { memo, useCallback, useEffect, useState } from 'react';
-import PersonAvatars from '../../Persons/components/PersonAvatars';
+import {
+  memo,
+  // , useCallback, useEffect, useState
+} from 'react';
+// import PersonAvatars from '../../Persons/components/PersonAvatars';
 // import { IPersonWithImage } from '../../Persons/interfaces/persons';
 // import {
 //   getPersonsFromUids,

@@ -55,6 +55,7 @@
     "@types/compression": "1.7.2",
     "@types/express": "4.17.14",
     "@types/md5": "2.3.2",
+    "@types/react-window": "1.8.5",
     "@types/speakeasy": "2.0.7",
     "@typescript-eslint/eslint-plugin": "5.40.0",
     "better-npm-run": "0.1.1",
