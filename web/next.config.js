@@ -12,7 +12,7 @@ const isDev = process.env.NODE_ENV === 'development';
  **/
 const nextConfig = {
   productionBrowserSourceMaps: true,
-  // swcMinify: true,
+  swcMinify: true,
   compiler: {
     // removeConsole: isDev ? false : { exclude: ['error'] },
   },
