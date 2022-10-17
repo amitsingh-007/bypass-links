@@ -59,7 +59,7 @@ const withPWA = nextPWA({
   dest: 'public',
   register: true,
   sw: '/sw.js',
-  runtimeCaching: [],
+  // runtimeCaching: [],
   publicExcludes: ['!**/*'],
   buildExcludes: ['*'],
   cacheStartUrl: false,
