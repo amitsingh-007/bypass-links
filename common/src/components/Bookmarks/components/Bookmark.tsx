@@ -1,12 +1,15 @@
 import { Box, Typography } from '@mui/material';
 import { BlackTooltip } from '../../StyledComponents';
-import { memo, useCallback, useEffect, useState } from 'react';
-import PersonAvatars from '../../Persons/components/PersonAvatars';
-import { IPersonWithImage } from '../../Persons/interfaces/persons';
 import {
-  getPersonsFromUids,
-  getPersonsWithImageUrl,
-} from '../../../../../extension/src/PersonsPanel/utils'; //TODO: Do after fetching persons from fb for web
+  memo,
+  // , useCallback, useEffect, useState
+} from 'react';
+// import PersonAvatars from '../../Persons/components/PersonAvatars';
+// import { IPersonWithImage } from '../../Persons/interfaces/persons';
+// import {
+//   getPersonsFromUids,
+//   getPersonsWithImageUrl,
+// } from '../../../../../extension/src/PersonsPanel/utils'; //TODO: Do after fetching persons from fb for web
 import Favicon from '../../Favicon';
 import md5 from 'md5';
 import { SxProps } from '@mui/system';
@@ -37,19 +40,19 @@ const Bookmark = memo<Props>(
     onOpenLink,
   }) => {
     const contextId = md5(url);
-    const [personsWithImageUrls, setPersonsWithImageUrls] = useState<
-      IPersonWithImage[]
-    >([]);
+    // const [personsWithImageUrls, setPersonsWithImageUrls] = useState<
+    //   IPersonWithImage[]
+    // >([]);
 
-    const initImageUrl = useCallback(async () => {
-      const persons = await getPersonsFromUids(taggedPersons);
-      const newPersonsWithImageUrls = await getPersonsWithImageUrl(persons);
-      setPersonsWithImageUrls(newPersonsWithImageUrls);
-    }, [taggedPersons]);
+    // const initImageUrl = useCallback(async () => {
+    //   const persons = await getPersonsFromUids(taggedPersons);
+    //   const newPersonsWithImageUrls = await getPersonsWithImageUrl(persons);
+    //   setPersonsWithImageUrls(newPersonsWithImageUrls);
+    // }, [taggedPersons]);
 
-    useEffect(() => {
-      initImageUrl();
-    }, [initImageUrl]);
+    // useEffect(() => {
+    //   initImageUrl();
+    // }, [initImageUrl]);
 
     const handleOpenLink: React.MouseEventHandler<HTMLDivElement> = (event) => {
       if (event.ctrlKey || event.metaKey) {
@@ -94,7 +97,7 @@ const Bookmark = memo<Props>(
         >
           <Favicon url={url} />
         </BlackTooltip>
-        <PersonAvatars persons={personsWithImageUrls} />
+        {/* <PersonAvatars persons={personsWithImageUrls} /> */}
         <Typography noWrap sx={titleStyles} data-context-id={contextId}>
           {title}
         </Typography>

@@ -20,7 +20,12 @@ const BackgroundImage = ({ src, alt, height, children }: Props) => {
           },
         }}
       >
-        <Image src={src} alt={alt} layout="fill" objectFit="fill" />
+        <Image
+          src={src}
+          alt={alt}
+          // layout="fill"
+          // objectFit="fill"
+        />
         <Box>{children}</Box>
       </Box>
     </>
