@@ -19,7 +19,7 @@ export const getFromFirebase = async <T>(path: string, user: User | null) => {
   const dbRef = ref(db, await getDbRef(path, user));
   onValue(
     dbRef,
-    () => {
+    (snapshot) => {
       console.log('SNAP: ' + snapshot.val());
     },
     (error) => {
