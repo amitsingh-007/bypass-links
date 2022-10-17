@@ -55,6 +55,7 @@ const nextConfig = {
 };
 
 const withPWA = nextPWA({
+  disable: true, //TODO: A2HS not working when disabled, also firebase breaking on turning on
   swSrc: './scripts/sw.js',
   dest: 'public',
   register: true,
@@ -65,5 +66,4 @@ const withPWA = nextPWA({
   cacheStartUrl: false,
 });
 
-// Disable service worker on dev
-module.exports = isDev ? nextConfig : withPWA(nextConfig);
+module.exports = withPWA(nextConfig);
