@@ -55,7 +55,7 @@ const nextConfig = {
 };
 
 const withPWA = nextPWA({
-  disable: true, //TODO: A2HS not working when disabled, also firebase breaking on turning on
+  disable: true, //still failing on prod
   swSrc: './scripts/sw.js',
   dest: 'public',
   register: true,
@@ -65,5 +65,5 @@ const withPWA = nextPWA({
   buildExcludes: ['*'],
   cacheStartUrl: false,
 });
-
-module.exports = withPWA(nextConfig);
+//TODO: A2HS not working when disabled, also firebase breaking on turning on
+module.exports = true ? nextConfig : withPWA(nextConfig);
