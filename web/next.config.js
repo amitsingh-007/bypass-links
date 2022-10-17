@@ -14,8 +14,7 @@ const nextConfig = {
   productionBrowserSourceMaps: true,
   swcMinify: true,
   compiler: {
-    // removeConsole: isDev ? false : { exclude: ['error'] },
-    removeConsole: false,
+    removeConsole: isDev ? false : { exclude: ['error'] },
   },
   experimental: {
     //To build common folder, which is outside root directory; https://github.com/vercel/next.js/issues/5666
@@ -58,8 +57,9 @@ const nextConfig = {
 const withPWA = nextPWA({
   swSrc: './scripts/sw.js',
   dest: 'public',
+  register: true,
+  sw: '/sw.js',
 });
 
 // Disable service worker on dev
-module.exports = nextConfig;
 module.exports = isDev ? nextConfig : withPWA(nextConfig);
