@@ -51,12 +51,16 @@ export default function BookmarksPage() {
     // setFolderList(folderList);
     setFolders(folders);
     setIsIniting(false);
+    console.log('data', data);
+    console.log('contextBookmarks', contextBookmarks);
+    console.log('folders', folders);
   }, [data, folderContext]);
 
   useEffect(() => {
-    console.log(document.referrer);
     initBookmarksData();
   }, [initBookmarksData]);
+
+  console.log('amit loading', { isLoading, isIniting });
 
   // if no user, then throw error
   return (

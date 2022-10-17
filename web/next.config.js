@@ -13,7 +13,8 @@ const isDev = process.env.NODE_ENV === 'development';
 const nextConfig = {
   swcMinify: true,
   compiler: {
-    removeConsole: isDev ? false : { exclude: ['error'] },
+    // removeConsole: isDev ? false : { exclude: ['error'] },
+    removeConsole: false,
   },
   experimental: {
     //To build common folder, which is outside root directory; https://github.com/vercel/next.js/issues/5666
