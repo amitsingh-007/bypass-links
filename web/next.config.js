@@ -59,6 +59,10 @@ const withPWA = nextPWA({
   dest: 'public',
   register: true,
   sw: '/sw.js',
+  runtimeCaching: [],
+  publicExcludes: ['!**/*'],
+  buildExcludes: ['*'],
+  cacheStartUrl: false,
 });
 
 // Disable service worker on dev
