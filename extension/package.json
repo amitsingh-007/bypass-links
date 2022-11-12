@@ -52,7 +52,7 @@
   },
   "devDependencies": {
     "@svgr/webpack": "6.5.0",
-    "@types/chrome": "0.0.197",
+    "@types/chrome": "0.0.200",
     "@types/material-ui": "0.21.12",
     "@types/md5": "2.3.2",
     "@types/qrcode": "1.5.0",
