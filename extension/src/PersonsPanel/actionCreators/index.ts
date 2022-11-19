@@ -1,5 +1,5 @@
 import { UPDATE_TAGGED_PERSON_URLS } from '../actionTypes';
-import { IUpdateTaggedPerson } from '../interfaces/persons';
+import { IUpdateTaggedPerson } from '@common/components/Persons/interfaces/persons';
 import { TaggedPersonsAction } from '../interfaces/reducer';
 
 export const updateTaggedPersonUrls = (

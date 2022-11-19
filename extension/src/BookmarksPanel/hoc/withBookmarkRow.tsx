@@ -1,14 +1,8 @@
 import { Box } from '@mui/material';
-import { SxProps } from '@mui/system';
 import { memo } from 'react';
 import { Draggable } from '@hello-pangea/dnd';
-import { Subtract } from 'utility-types';
 import { bookmarkRowStyles } from '../constants';
-import '../scss/withBookmarkRow.scss';
-
-export interface InjectedProps {
-  containerStyles: SxProps;
-}
+import '@common/components/Bookmarks/scss/BookmarkRow.scss';
 
 interface ExpectedProps {
   isDir: boolean;
@@ -19,12 +13,8 @@ interface ExpectedProps {
   isSelected?: boolean;
 }
 
-const withBookmarkRow = <T extends InjectedProps>(
-  Component: React.ComponentType<T>
-) =>
-  memo<Subtract<T, InjectedProps> & ExpectedProps>(function BookmarkRowHoc(
-    props
-  ) {
+const withBookmarkRow = <T extends object>(Component: React.ComponentType<T>) =>
+  memo<T & ExpectedProps>(function BookmarkRowHoc(props) {
     const { isDir, name, url, pos, isSelected } = props;
     const primaryUniqueId = (isDir ? name : url) || '';
 
@@ -44,10 +34,7 @@ const withBookmarkRow = <T extends InjectedProps>(
             {...provided.draggableProps}
             {...provided.dragHandleProps}
           >
-            <Component
-              {...(props as unknown as T)}
-              containerStyles={bookmarkRowStyles}
-            />
+            <Component {...props} containerStyles={bookmarkRowStyles} />
           </Box>
         )}
       </Draggable>

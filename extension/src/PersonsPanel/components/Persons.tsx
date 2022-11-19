@@ -1,15 +1,16 @@
 import { Box } from '@mui/material';
 import { ScrollButton } from 'GlobalComponents/ScrollButton';
 import { PANEL_SIZE, PERSON_SIZE } from 'GlobalConstants/styles';
-import { deserialzeQueryStringToObject } from 'GlobalUtils/url';
+import { deserialzeQueryStringToObject } from '@common/utils/url';
 import { memo, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { FixedSizeGrid } from 'react-window';
 import { GRID_COLUMN_SIZE } from '../constants';
-import { IPerson } from '../interfaces/persons';
-import { getReactKey, resolvePersonImageFromUid } from '../utils';
+import { IPerson } from '@common/components/Persons/interfaces/persons';
+import { getReactKey } from '../utils';
 import BookmarksList from './BookmarksList';
 import VirtualCell, { VirtualCellProps } from './VirtualCell';
+import usePerson from '@common/components/Persons/hooks/usePerson';
 
 interface Props {
   persons: IPerson[];
@@ -26,6 +27,7 @@ const Persons = memo<Props>(function Persons({
   const gridRef = useRef<any>(null);
   const [personToOpen, setPersonToOpen] = useState<IPerson | null>(null);
   const [personToOpenImage, setPersonToOpenImage] = useState('');
+  const { resolvePersonImageFromUid } = usePerson();
 
   useEffect(() => {
     const { openBookmarksList } = deserialzeQueryStringToObject(
@@ -41,7 +43,7 @@ const Persons = memo<Props>(function Persons({
         setPersonToOpenImage(url);
       });
     }
-  }, [location.search, persons]);
+  }, [location.search, persons, resolvePersonImageFromUid]);
 
   const handleScroll = (itemNumber: number) => {
     gridRef.current?.scrollToItem({ rowIndex: itemNumber });

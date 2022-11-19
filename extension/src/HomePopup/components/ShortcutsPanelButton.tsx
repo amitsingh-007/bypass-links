@@ -1,5 +1,5 @@
 import { SvgIcon } from '@mui/material';
-import { ROUTES } from 'GlobalConstants/routes';
+import { ROUTES } from '@common/constants/routes';
 import { RootState } from 'GlobalReducers/rootReducer';
 import { memo } from 'react';
 import { GoFileSymlinkFile } from 'react-icons/go';

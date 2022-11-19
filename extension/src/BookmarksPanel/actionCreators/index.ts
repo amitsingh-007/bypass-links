@@ -2,7 +2,7 @@ import {
   RESET_BOOKMARK_OPERATION,
   SET_BOOKMARK_OPERATION,
 } from '../actionTypes';
-import { BOOKMARK_OPERATION } from '../constants';
+import { BOOKMARK_OPERATION } from '@common/components/Bookmarks/constants';
 
 export const setBookmarkOperation = (
   operation: BOOKMARK_OPERATION,

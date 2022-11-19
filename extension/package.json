@@ -47,8 +47,7 @@
     "react-window": "1.8.8",
     "redux": "4.2.0",
     "redux-logger": "3.0.6",
-    "throttle-debounce": "5.0.0",
-    "utility-types": "3.10.0"
+    "throttle-debounce": "5.0.0"
   },
   "devDependencies": {
     "@svgr/webpack": "6.5.1",
@@ -60,7 +59,7 @@
     "@types/react-router-dom": "5.3.3",
     "@types/react-window": "1.8.5",
     "@types/redux-logger": "3.0.9",
-    "@types/throttle-debounce": "^5.0.0",
+    "@types/throttle-debounce": "5.0.0",
     "@typescript-eslint/eslint-plugin": "5.42.1",
     "@typescript-eslint/parser": "5.42.1",
     "archiver": "5.3.1",

@@ -13,6 +13,7 @@
     "extension/build/**": true,
     "extension/extension-build/**": true,
     "extension/firebase-dll/**": true,
-    "**/package-lock.json": true
+    "**/package-lock.json": true,
+    "**/.eslintcache": true
   }
 }

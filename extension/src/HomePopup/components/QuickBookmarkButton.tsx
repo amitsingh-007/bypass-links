@@ -1,6 +1,6 @@
 import { SvgIcon, Typography } from '@mui/material';
-import { BlackTooltip } from 'GlobalComponents/StyledComponents';
-import { defaultBookmarkFolder } from 'GlobalConstants';
+import { BlackTooltip } from '@common/components/StyledComponents';
+import { defaultBookmarkFolder } from '@common/components/Bookmarks/constants';
 import { getCurrentTab } from 'GlobalHelpers/chrome/tabs';
 import { getBookmarks } from 'GlobalHelpers/fetchFromStorage';
 import { RootState } from 'GlobalReducers/rootReducer';
@@ -10,14 +10,14 @@ import { BiBookmarkPlus } from 'react-icons/bi';
 import { RiBookmark3Fill } from 'react-icons/ri';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { BOOKMARK_OPERATION } from 'SrcPath/BookmarksPanel/constants';
-import { IBookmark } from 'SrcPath/BookmarksPanel/interfaces';
-import { BMPanelQueryParams } from 'SrcPath/BookmarksPanel/interfaces/url';
+import { BOOKMARK_OPERATION } from '@common/components/Bookmarks/constants';
+import { IBookmark } from '@common/components/Bookmarks/interfaces';
+import { BMPanelQueryParams } from '@common/components/Bookmarks/interfaces/url';
 import {
   getDecodedBookmark,
   getFolderFromHash,
 } from 'SrcPath/BookmarksPanel/utils';
-import { getBookmarksPanelUrl } from 'SrcPath/BookmarksPanel/utils/url';
+import { getBookmarksPanelUrl } from '@common/components/Bookmarks/utils/url';
 import StyledButton from './StyledButton';
 
 const QuickBookmarkButton = memo(function QuickBookmarkButton() {

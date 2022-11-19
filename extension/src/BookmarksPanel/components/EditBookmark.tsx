@@ -2,9 +2,12 @@ import { getCurrentTab } from 'GlobalHelpers/chrome/tabs';
 import { RootState } from 'GlobalReducers/rootReducer';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { resetBookmarkOperation } from '../actionCreators';
-import { BOOKMARK_OPERATION } from '../constants';
-import { ContextBookmark, ContextBookmarks } from '../interfaces';
-import { getBookmarksPanelUrl } from '../utils/url';
+import { BOOKMARK_OPERATION } from '@common/components/Bookmarks/constants';
+import {
+  ContextBookmark,
+  ContextBookmarks,
+} from '@common/components/Bookmarks/interfaces';
+import { getBookmarksPanelUrl } from '@common/components/Bookmarks/utils/url';
 import BookmarkDialog from './BookmarkDialog';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';

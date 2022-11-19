@@ -5,10 +5,10 @@ import { memo, useCallback, useEffect, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
 import { RiBookmark2Fill } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
-import { IPerson } from '../interfaces/persons';
-import { resolvePersonImageFromUid } from '../utils';
-import { getPersonsPanelUrl } from '../utils/urls';
+import { IPerson } from '@common/components/Persons/interfaces/persons';
+import { getPersonsPanelUrl } from '@common/components/Persons/utils/urls';
 import AddOrEditPersonDialog from './AddOrEditPersonDialog';
+import usePerson from '@common/components/Persons/hooks/usePerson';
 
 const imageStyles = { width: 100, height: 100 };
 
@@ -25,6 +25,7 @@ const Person = memo<Props>(function Person({
 }) {
   const navigate = useNavigate();
   const { uid, name, taggedUrls } = person;
+  const { resolvePersonImageFromUid } = usePerson();
   const [imageUrl, setImageUrl] = useState('');
   const [showEditPersonDialog, setShowEditPersonDialog] = useState(false);
   const [menuOptions, setMenuOptions] = useState<IMenuOptions>([]);
@@ -57,7 +58,7 @@ const Person = memo<Props>(function Person({
     resolvePersonImageFromUid(uid).then((url) => {
       setImageUrl(url);
     });
-  }, [uid, person]);
+  }, [uid, person, resolvePersonImageFromUid]);
 
   const handlePersonSave = (updatedPerson: IPerson) => {
     handleEditPerson(updatedPerson);

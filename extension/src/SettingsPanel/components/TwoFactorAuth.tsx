@@ -1,7 +1,7 @@
 import { Box, Button } from '@mui/material';
 import storage from 'GlobalHelpers/chrome/storage';
 import { displayToast } from 'GlobalActionCreators/toast';
-import { STORAGE_KEYS } from 'GlobalConstants';
+import { STORAGE_KEYS } from '@common/constants/storage';
 import { memo, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { revoke2FA } from '../apis/twoFactorAuth';

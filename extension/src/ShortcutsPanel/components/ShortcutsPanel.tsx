@@ -1,7 +1,7 @@
 import { FIREBASE_DB_REF } from '@common/constants/firebase';
 import { Box } from '@mui/material';
 import { displayToast } from 'GlobalActionCreators/toast';
-import { ROUTES } from 'GlobalConstants/routes';
+import { ROUTES } from '@common/constants/routes';
 import { PANEL_DIMENSIONS_PX } from 'GlobalConstants/styles';
 import { getRedirections } from 'GlobalHelpers/fetchFromStorage';
 import { saveToFirebase } from 'GlobalHelpers/firebase/database';

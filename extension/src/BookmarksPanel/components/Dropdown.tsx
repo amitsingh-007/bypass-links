@@ -14,7 +14,7 @@ import {
   TextField,
 } from '@mui/material';
 import { memo, useState } from 'react';
-import { IPersonWithImage } from 'SrcPath/PersonsPanel/interfaces/persons';
+import { IPersonWithImage } from '@common/components/Persons/interfaces/persons';
 
 export const FolderDropdown: React.FC<{
   folder: string;

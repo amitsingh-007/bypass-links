@@ -1,4 +1,4 @@
-import { IPerson } from '../interfaces/persons';
+import { IPerson } from '@common/components/Persons/interfaces/persons';
 
 export const decryptionMapper = ([_key, { uid, name, imageRef, taggedUrls }]: [
   key: string,

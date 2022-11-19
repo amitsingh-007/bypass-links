@@ -1,17 +1,14 @@
 import { Box, IconButton, SelectProps, TextField } from '@mui/material';
 import { EditDialog } from 'GlobalComponents/Dialogs';
 import runtime from 'GlobalHelpers/chrome/runtime';
-import { VoidFunction } from 'GlobalInterfaces/custom';
+import { VoidFunction } from '@common/interfaces/custom';
 import { useCallback, useEffect, useState } from 'react';
 import { FaHeading } from 'react-icons/fa';
 import { SORT_ORDER } from 'SrcPath/PersonsPanel/constants/sort';
-import { IPersonWithImage } from 'SrcPath/PersonsPanel/interfaces/persons';
-import {
-  getAllDecodedPersons,
-  getPersonsWithImageUrl,
-} from 'SrcPath/PersonsPanel/utils';
+import { IPersonWithImage } from '@common/components/Persons/interfaces/persons';
 import { sortAlphabetically } from 'SrcPath/PersonsPanel/utils/sort';
 import { FolderDropdown, PersonsDropdown } from './Dropdown';
+import usePerson from '@common/components/Persons/hooks/usePerson';
 
 interface Props {
   url: string;
@@ -45,6 +42,7 @@ const BookmarkDialog: React.FC<Props> = ({
   onClose,
   isSaveActive = false,
 }) => {
+  const { getAllDecodedPersons, getPersonsWithImageUrl } = usePerson();
   const [taggedPersons, setTaggedPersons] = useState<IPersonWithImage[]>([]);
   const [title, setTitle] = useState(origTitle);
   const [folder, setFolder] = useState(origFolder);
@@ -64,7 +62,7 @@ const BookmarkDialog: React.FC<Props> = ({
       setTaggedPersons(taggedPersons);
     }
     setIsFetchingPerson(false);
-  }, [origTaggedPersons]);
+  }, [getAllDecodedPersons, getPersonsWithImageUrl, origTaggedPersons]);
 
   useEffect(() => {
     initPersonList();

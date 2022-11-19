@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { memo } from 'react';
 import { areEqual } from 'react-window';
-import { IPerson } from '../interfaces/persons';
+import { IPerson } from '@common/components/Persons/interfaces/persons';
 import { getReactKey } from '../utils';
 import Person, { Props as PersonProps } from './Person';
 
