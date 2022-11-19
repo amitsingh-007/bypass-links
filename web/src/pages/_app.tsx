@@ -6,13 +6,16 @@ import { StrictMode } from 'react';
 import GlobalMetaTags from 'src/ui/components/GlobalMetaTags';
 import DynamicProvider from '@/ui/provider/DynamicProvider';
 import { AuthProvider } from '@/ui/provider/AuthProvider';
+import { Montserrat } from '@next/font/google';
+
+const montserrat = Montserrat({ display: 'swap' });
 
 const theme = createTheme({
   palette: {
     mode: 'dark',
   },
   typography: {
-    fontFamily: `'Montserrat', sans-serif`,
+    fontFamily: montserrat.style.fontFamily,
     h2: {
       fontWeight: 400,
     },
