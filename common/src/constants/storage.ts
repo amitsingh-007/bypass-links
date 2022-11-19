@@ -1,4 +1,4 @@
-import { FIREBASE_DB_REF } from "./firebase";
+import { FIREBASE_DB_REF } from './firebase';
 
 export const STORAGE_KEYS = {
   bookmarks: FIREBASE_DB_REF.bookmarks,

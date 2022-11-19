@@ -62,7 +62,7 @@ const BookmarkDialog: React.FC<Props> = ({
       setTaggedPersons(taggedPersons);
     }
     setIsFetchingPerson(false);
-  }, [getPersonsWithImageUrl, origTaggedPersons]);
+  }, [getAllDecodedPersons, getPersonsWithImageUrl, origTaggedPersons]);
 
   useEffect(() => {
     initPersonList();

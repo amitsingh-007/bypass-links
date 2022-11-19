@@ -8,8 +8,7 @@ const useStorage = () => {
 
   const getPersons = () => storage.get<IPersons>(STORAGE_KEYS.persons);
 
-  const getPersonImageUrls = () =>
-    storage.get<any>(STORAGE_KEYS.personImageUrls);
+  const getPersonImageUrls = () => storage.get(STORAGE_KEYS.personImageUrls);
 
   return {
     getPersons,
