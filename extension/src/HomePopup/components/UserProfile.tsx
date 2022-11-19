@@ -1,5 +1,5 @@
 import { Avatar, Box, Fade, IconButton, SvgIcon } from '@mui/material';
-import { ROUTES } from 'GlobalConstants/routes';
+import { ROUTES } from '@common/constants/routes';
 import { getUserProfile } from 'GlobalHelpers/fetchFromStorage';
 import { RootState } from 'GlobalReducers/rootReducer';
 import { memo, useEffect, useState } from 'react';

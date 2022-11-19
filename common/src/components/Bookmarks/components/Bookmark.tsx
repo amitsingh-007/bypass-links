@@ -1,30 +1,33 @@
 import { Box, Typography } from '@mui/material';
-import { BlackTooltip } from 'GlobalComponents/StyledComponents';
-import tabs from 'GlobalHelpers/chrome/tabs';
+import { BlackTooltip } from '../../StyledComponents';
 import { memo, useCallback, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { startHistoryMonitor } from 'SrcPath/HistoryPanel/actionCreators';
-import PersonAvatars from 'SrcPath/PersonsPanel/components/PersonAvatars';
-import { IPersonWithImage } from 'SrcPath/PersonsPanel/interfaces/persons';
-import {
-  getPersonsFromUids,
-  getPersonsWithImageUrl,
-} from 'SrcPath/PersonsPanel/utils';
-import withBookmarkRow, { InjectedProps } from '../hoc/withBookmarkRow';
-import Favicon from './Favicon';
+import PersonAvatars from '../../Persons/components/PersonAvatars';
+import { IPerson, IPersonWithImage } from '../../Persons/interfaces/persons';
+import Favicon from '../../Favicon';
 import md5 from 'md5';
+import { SxProps } from '@mui/system';
+import usePerson from '../../Persons/hooks/usePerson';
 
 const titleStyles = { flexGrow: 1, fontSize: '14px' };
 const tooltipStyles = { fontSize: '13px' };
 
-export interface Props extends InjectedProps {
+export interface Props {
   url: string;
   title: string;
   taggedPersons: string[];
   pos?: number;
   isSelected?: boolean;
   handleSelectedChange?: (pos: number, isOnlySelection: boolean) => void;
+  containerStyles?: SxProps;
+  onOpenLink: (url: string) => void;
 }
+
+const getPersonsFromUids = async (uids: string[], persons: IPerson[]) => {
+  if (!uids || !persons) {
+    return [];
+  }
+  return persons.filter((person) => uids.includes(person.uid ?? ''));
+};
 
 const Bookmark = memo<Props>(
   ({
@@ -34,16 +37,18 @@ const Bookmark = memo<Props>(
     taggedPersons,
     isSelected,
     handleSelectedChange,
-    containerStyles,
+    containerStyles = {},
+    onOpenLink,
   }) => {
     const contextId = md5(url);
-    const dispatch = useDispatch();
     const [personsWithImageUrls, setPersonsWithImageUrls] = useState<
       IPersonWithImage[]
     >([]);
+    const { getAllDecodedPersons, getPersonsWithImageUrl } = usePerson();
 
     const initImageUrl = useCallback(async () => {
-      const persons = await getPersonsFromUids(taggedPersons);
+      const allPersons = await getAllDecodedPersons();
+      const persons = await getPersonsFromUids(taggedPersons, allPersons);
       const newPersonsWithImageUrls = await getPersonsWithImageUrl(persons);
       setPersonsWithImageUrls(newPersonsWithImageUrls);
     }, [taggedPersons]);
@@ -56,8 +61,7 @@ const Bookmark = memo<Props>(
       if (event.ctrlKey || event.metaKey) {
         return;
       }
-      dispatch(startHistoryMonitor());
-      tabs.create({ url, selected: false });
+      onOpenLink(url);
     };
 
     const handleSelectionChange = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -106,5 +110,4 @@ const Bookmark = memo<Props>(
 );
 Bookmark.displayName = 'Bookmark';
 
-export const BookmarkExternal = Bookmark;
-export default withBookmarkRow(BookmarkExternal);
+export default Bookmark;

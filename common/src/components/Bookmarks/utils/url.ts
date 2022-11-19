@@ -1,6 +1,6 @@
-import { defaultBookmarkFolder } from 'GlobalConstants';
-import { ROUTES } from 'GlobalConstants/routes';
-import { serialzeObjectToQueryString } from 'GlobalUtils/url';
+import { defaultBookmarkFolder } from '../constants';
+import { ROUTES } from '../../../constants/routes';
+import { serialzeObjectToQueryString } from '../../../utils/url';
 import { BOOKMARK_OPERATION } from '../constants';
 import { BMPanelQueryParams } from '../interfaces/url';
 

@@ -1,5 +1,5 @@
 import { memo, useCallback, useEffect, useState } from 'react';
-import Search from './Search';
+import Search from '@common/components/Search';
 
 /**
  * `searchClassName` should be parent of each row and not parent of all rows

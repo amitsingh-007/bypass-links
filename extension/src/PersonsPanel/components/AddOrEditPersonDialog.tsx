@@ -1,13 +1,13 @@
 import { Avatar, Box, TextField } from '@mui/material';
 import { EditDialog } from 'GlobalComponents/Dialogs';
 import { getImageFromFirebase } from 'GlobalHelpers/firebase/storage';
-import { VoidFunction } from 'GlobalInterfaces/custom';
+import { VoidFunction } from '@common/interfaces/custom';
 import md5 from 'md5';
-import { memo, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { RiUserUnfollowFill } from 'react-icons/ri';
-import { IPerson } from '../interfaces/persons';
-import { resolvePersonImageFromUid } from '../utils';
+import { IPerson } from '@common/components/Persons/interfaces/persons';
 import ImagePicker from './ImagePicker';
+import usePerson from '@common/components/Persons/hooks/usePerson';
 
 const imageStyles = { width: 200, height: 200 };
 
@@ -24,16 +24,20 @@ const AddOrEditPersonDialog = memo<Props>(function AddOrEditPersonDialog({
   onClose,
   handleSaveClick,
 }) {
+  const { resolvePersonImageFromUid } = usePerson();
   const [uid, setUid] = useState(person?.uid);
   const [name, setName] = useState(person?.name ?? '');
   const [imageRef, setImageRef] = useState(person?.imageRef);
   const [imageUrl, setImageUrl] = useState('');
   const [showImagePicker, setShowImagePicker] = useState(false);
 
-  const initImageUrl = async (uid: string) => {
-    const imageUrl = await resolvePersonImageFromUid(uid);
-    setImageUrl(imageUrl);
-  };
+  const initImageUrl = useCallback(
+    async (uid: string) => {
+      const imageUrl = await resolvePersonImageFromUid(uid);
+      setImageUrl(imageUrl);
+    },
+    [resolvePersonImageFromUid]
+  );
 
   useEffect(() => {
     if (person) {
@@ -41,7 +45,7 @@ const AddOrEditPersonDialog = memo<Props>(function AddOrEditPersonDialog({
     } else {
       setUid(md5(Date.now().toString()));
     }
-  }, [person]);
+  }, [initImageUrl, person]);
 
   const fetchImage = async (ref: string) => {
     const url = await getImageFromFirebase(ref);

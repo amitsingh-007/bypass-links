@@ -1,4 +1,4 @@
-import { GenericObject } from 'GlobalInterfaces/custom';
+import { GenericObject } from '../interfaces/custom';
 
 export const serialzeObjectToQueryString = (urlParams: GenericObject) =>
   new URLSearchParams(urlParams).toString();

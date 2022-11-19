@@ -1,13 +1,13 @@
 import { Box, GlobalStyles } from '@mui/material';
 import { displayToast } from 'GlobalActionCreators/toast';
 import { ScrollButton } from 'GlobalComponents/ScrollButton';
-import { STORAGE_KEYS } from 'GlobalConstants';
-import { CACHE_BUCKET_KEYS } from 'GlobalConstants/cache';
+import { STORAGE_KEYS } from '@common/constants/storage';
+import { CACHE_BUCKET_KEYS } from '@common/constants/cache';
 import { PANEL_DIMENSIONS_PX } from 'GlobalConstants/styles';
 import storage from 'GlobalHelpers/chrome/storage';
 import tabs from 'GlobalHelpers/chrome/tabs';
 import { getBookmarks } from 'GlobalHelpers/fetchFromStorage';
-import { addToCache } from 'GlobalUtils/cache';
+import { addToCache } from '@common/utils/cache';
 import md5 from 'md5';
 import { createRef, PureComponent } from 'react';
 import {
@@ -19,28 +19,26 @@ import { connect, ConnectedProps } from 'react-redux';
 import { FixedSizeList } from 'react-window';
 import { startHistoryMonitor } from 'SrcPath/HistoryPanel/actionCreators';
 import { updateTaggedPersonUrls } from 'SrcPath/PersonsPanel/actionCreators';
-import { IUpdateTaggedPerson } from 'SrcPath/PersonsPanel/interfaces/persons';
+import { IUpdateTaggedPerson } from '@common/components/Persons/interfaces/persons';
 import { setBookmarkOperation } from '../actionCreators';
 import {
-  BOOKMARK_OPERATION,
   BOOKMARK_PANEL_CONTENT_HEIGHT,
   BOOKMARK_ROW_DIMENTSIONS,
 } from '../constants';
+import { BOOKMARK_OPERATION } from '@common/components/Bookmarks/constants';
 import {
   ContextBookmarks,
   IBookmarksObj,
   ISelectedBookmarks,
-} from '../interfaces';
-import { BMPanelQueryParams } from '../interfaces/url';
-import { bookmarksMapper } from '../mapper';
+} from '@common/components/Bookmarks/interfaces';
+import { BMPanelQueryParams } from '@common/components/Bookmarks/interfaces/url';
+import { bookmarksMapper } from '@common/components/Bookmarks/mapper';
 import {
   getAllFolderNames,
-  getFaviconUrl,
-  getFilteredContextBookmarks,
   getSelectedCount,
   isFolderContainsDir,
-  shouldRenderBookmarks,
 } from '../utils';
+import { getFaviconProxyUrl } from '@common/utils';
 import {
   getBookmarksAfterDrag,
   getDestinationIndex,
@@ -51,6 +49,10 @@ import DragClone from './DragClone';
 import EditBookmark from './EditBookmark';
 import Header from './Header';
 import VirtualRow, { VirtualRowProps } from './VirtualRow';
+import {
+  getFilteredContextBookmarks,
+  shouldRenderBookmarks,
+} from '@common/components/Bookmarks/utils';
 
 const minReqBookmarksToScroll = Math.ceil(
   BOOKMARK_PANEL_CONTENT_HEIGHT / BOOKMARK_ROW_DIMENTSIONS.height
@@ -249,7 +251,7 @@ class BookmarksPanel extends PureComponent<Props, State> {
       };
     }
     //Add bookmark favicon in the cache
-    addToCache(CACHE_BUCKET_KEYS.favicon, getFaviconUrl(url));
+    addToCache(CACHE_BUCKET_KEYS.favicon, getFaviconProxyUrl(url));
 
     this.setState({
       urlList: { ...urlList },

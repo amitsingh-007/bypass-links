@@ -1,10 +1,10 @@
 import { Box, InputBase } from '@mui/material';
 import { alpha } from '@mui/material/styles';
-import { IntersectionObserverResponse } from 'GlobalInterfaces/overrides';
 import { memo, useEffect, useRef } from 'react';
 import { GoSearch } from 'react-icons/go';
 import { useInView } from 'react-intersection-observer';
 import { debounce } from 'throttle-debounce';
+import { IntersectionObserverResponse } from '../interfaces/overrides';
 
 interface Props {
   onChange: (searchText: string) => void;

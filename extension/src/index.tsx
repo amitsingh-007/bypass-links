@@ -6,7 +6,7 @@ import { CssBaseline } from '@mui/material';
 import darkScrollbar from '@mui/material/darkScrollbar';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ErrorBoundary from 'GlobalComponents/ErrorBoundary';
-import { BG_COLOR_BLACK } from 'GlobalConstants/color';
+import { BG_COLOR_BLACK } from '@common/constants/color';
 import Global from 'GlobalContainers/Global';
 import PopupRoutes from 'GlobalContainers/PopupRoutes';
 import 'GlobalStyles/popup.scss';
@@ -15,6 +15,7 @@ import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { applyMiddleware, compose, createStore } from 'redux';
+import DynamicProvider from './provider/DynamicProvider';
 import rootReducers from './reducers/rootReducer';
 
 const middlewares = [];
@@ -76,14 +77,15 @@ const container = document.getElementById('root');
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const root = createRoot(container!);
 root.render(
-  // !NOTE TODO: Enable StrictMode when react-beautiful-dnd is supported for React 18
   <StrictMode>
     <ErrorBoundary>
       <Provider store={store}>
         <BrowserRouter>
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            <PopupRoutes />
+            <DynamicProvider>
+              <PopupRoutes />
+            </DynamicProvider>
             <Global />
           </ThemeProvider>
         </BrowserRouter>

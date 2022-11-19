@@ -4,7 +4,7 @@ import { memo } from 'react';
 import { RiBookMarkFill } from 'react-icons/ri';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getBookmarksPanelUrl } from 'SrcPath/BookmarksPanel/utils/url';
+import { getBookmarksPanelUrl } from '@common/components/Bookmarks/utils/url';
 import StyledButton from './StyledButton';
 
 const BookmarksPanelButton = memo(function BookmarksPanelButton() {

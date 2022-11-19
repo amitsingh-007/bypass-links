@@ -6,10 +6,11 @@ type Props = Pick<ImageProps, 'alt' | 'height'> & {
   children?: React.ReactNode;
 };
 
+// TODO: check this when removing nextJs canary version
 const BackgroundImage = ({ src, alt, height, children }: Props) => {
   return (
     <>
-      <Box
+      {/* <Box
         sx={{
           position: 'relative',
           width: '100%',
@@ -20,9 +21,16 @@ const BackgroundImage = ({ src, alt, height, children }: Props) => {
           },
         }}
       >
-        <Image src={src} alt={alt} layout="fill" objectFit="fill" />
+        <Image
+          src={src}
+          alt={alt}
+          width={100}
+          height={height}
+          layout="fill"
+          objectFit="fill"
+        />
         <Box>{children}</Box>
-      </Box>
+      </Box> */}
     </>
   );
 };

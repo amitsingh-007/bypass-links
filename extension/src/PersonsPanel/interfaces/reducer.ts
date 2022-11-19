@@ -1,4 +1,4 @@
-import { IUpdateTaggedPerson } from './persons';
+import { IUpdateTaggedPerson } from '@common/components/Persons/interfaces/persons';
 
 export interface TaggedPersonsAction {
   type: string;

@@ -9,9 +9,3 @@ export const BOOKMARK_ROW_DIMENTSIONS = {
 };
 
 export const BOOKMARK_PANEL_CONTENT_HEIGHT = 532;
-
-export enum BOOKMARK_OPERATION {
-  NONE,
-  ADD,
-  EDIT,
-}

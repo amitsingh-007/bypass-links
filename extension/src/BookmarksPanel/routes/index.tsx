@@ -1,8 +1,8 @@
-import { ROUTES } from 'GlobalConstants/routes';
-import { deserialzeQueryStringToObject } from 'GlobalUtils/url';
+import { ROUTES } from '@common/constants/routes';
+import { deserialzeQueryStringToObject } from '@common/utils/url';
 import { lazy } from 'react';
 import { Route, useLocation } from 'react-router-dom';
-import { BMPanelQueryParams } from '../interfaces/url';
+import { BMPanelQueryParams } from '@common/components/Bookmarks/interfaces/url';
 
 const BookmarksPanel = lazy(
   () =>

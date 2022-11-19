@@ -28,7 +28,7 @@ const Info = ({
 const Footer = () => {
   return (
     <Box sx={{ mt: '100px' }}>
-      <BackgroundImage src="/footer.png" alt="footer image" height="300px">
+      <BackgroundImage src="/footer.png" alt="footer image" height={300}>
         <Box
           sx={{
             display: 'flex',

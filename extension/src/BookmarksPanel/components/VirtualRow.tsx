@@ -5,10 +5,10 @@ import {
   ContextBookmarks,
   IBookmarksObj,
   ISelectedBookmarks,
-} from '../interfaces';
-import { isFolderEmpty } from '../utils';
-import Bookmark, { Props as BookmarkProps } from './Bookmark';
-import Folder, { Props as FolderProps } from './Folder';
+} from '@common/components/Bookmarks/interfaces';
+import { isFolderEmpty } from '@common/components/Bookmarks/utils';
+import BookmarkRow, { Props as BookmarkProps } from './BookmarkRow';
+import Folder, { Props as FolderProps } from './FolderRow';
 
 export interface VirtualRowProps {
   folderNamesList: string[];
@@ -55,7 +55,7 @@ const VirtualRow = memo<{
           resetSelectedBookmarks={resetSelectedBookmarks}
         />
       ) : (
-        <Bookmark
+        <BookmarkRow
           pos={index}
           isDir={isDir}
           url={url}

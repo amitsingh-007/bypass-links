@@ -1,17 +1,17 @@
 import { Avatar, AvatarGroup, Box } from '@mui/material';
-import { CircularTooltip } from 'GlobalComponents/StyledComponents';
-import { memo } from 'react';
+import { CircularTooltip } from '../../StyledComponents';
+import { memo, useContext } from 'react';
 import { RiUserUnfollowFill } from 'react-icons/ri';
-import { useNavigate } from 'react-router-dom';
 import { IPersonWithImage } from '../interfaces/persons';
 import { getPersonsPanelUrl } from '../utils/urls';
+import DynamicContext from '../../../provider/DynamicContext';
 
 const AVATAR_SIZE = { SMALL: '23px', BIG: '70px' };
 const commonStyles = { marginRight: '12px' };
 
 const PersonAvatars = memo<{ persons: IPersonWithImage[] }>(
   function PersonAvatars({ persons }) {
-    const navigate = useNavigate();
+    const { push } = useContext(DynamicContext);
 
     const hasImages =
       persons?.length && persons.every(({ imageUrl }) => Boolean(imageUrl));
@@ -31,7 +31,7 @@ const PersonAvatars = memo<{ persons: IPersonWithImage[] }>(
     }
 
     const handlePersonClick = (person: IPersonWithImage) => {
-      navigate(getPersonsPanelUrl({ openBookmarksList: person.uid }));
+      push(getPersonsPanelUrl({ openBookmarksList: person.uid }));
     };
 
     return (

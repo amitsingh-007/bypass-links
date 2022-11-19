@@ -1,11 +1,11 @@
-import { STORAGE_KEYS } from 'GlobalConstants';
-import { CACHE_BUCKET_KEYS } from 'GlobalConstants/cache';
+import { STORAGE_KEYS } from '@common/constants/storage';
+import { CACHE_BUCKET_KEYS } from '@common/constants/cache';
 import identity from 'GlobalHelpers/chrome/identity';
 import runtime from 'GlobalHelpers/chrome/runtime';
 import storage from 'GlobalHelpers/chrome/storage';
 import tabs from 'GlobalHelpers/chrome/tabs';
 import { getSettings, getUserProfile } from 'GlobalHelpers/fetchFromStorage';
-import { deleteAllCache } from 'GlobalUtils/cache';
+import { deleteAllCache } from '@common/utils/cache';
 import {
   resetBypass,
   syncBypassToStorage,
