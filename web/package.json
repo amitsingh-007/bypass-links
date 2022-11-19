@@ -31,12 +31,12 @@
   "dependencies": {
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
-    "@mui/lab": "5.0.0-alpha.107",
-    "@mui/material": "5.10.13",
+    "@mui/lab": "5.0.0-alpha.108",
+    "@mui/material": "5.10.14",
     "@octokit/rest": "19.0.5",
     "express-bearer-token": "2.4.0",
     "firebase": "9.12.1",
-    "firebase-admin": "11.2.1",
+    "firebase-admin": "11.3.0",
     "helmet": "6.0.0",
     "md5": "2.3.0",
     "memoize-one": "6.0.0",
@@ -45,7 +45,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "4.6.0",
-    "react-intersection-observer": "9.4.0",
+    "react-intersection-observer": "9.4.1",
     "react-use": "17.4.0",
     "react-window": "1.8.7",
     "speakeasy": "2.0.0",
@@ -59,9 +59,9 @@
     "@types/react-window": "1.8.5",
     "@types/speakeasy": "2.0.7",
     "@types/throttle-debounce": "5.0.0",
-    "@typescript-eslint/eslint-plugin": "5.42.1",
+    "@typescript-eslint/eslint-plugin": "5.43.0",
     "better-npm-run": "0.1.1",
-    "eslint": "8.27.0",
+    "eslint": "8.28.0",
     "eslint-config-next": "12.3.1",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "4.2.1",
@@ -70,7 +70,7 @@
     "next-pwa": "5.6.0",
     "prettier": "2.7.1",
     "sass": "1.56.1",
-    "typescript": "4.8.4",
-    "vercel": "28.4.17"
+    "typescript": "4.9.3",
+    "vercel": "28.5.5"
   }
 }
