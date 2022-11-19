@@ -1,7 +1,6 @@
 import { getBookmarks } from 'GlobalHelpers/fetchFromStorage';
 import memoize from 'memoize-one';
 import {
-  ContextBookmarks,
   IBookmark,
   IBookmarksObj,
   ISelectedBookmarks,
