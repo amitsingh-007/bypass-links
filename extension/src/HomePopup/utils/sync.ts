@@ -1,4 +1,4 @@
-import { STORAGE_KEYS } from 'GlobalConstants';
+import { STORAGE_KEYS } from '@common/constants/storage';
 import { CACHE_BUCKET_KEYS } from '@common/constants/cache';
 import identity from 'GlobalHelpers/chrome/identity';
 import runtime from 'GlobalHelpers/chrome/runtime';

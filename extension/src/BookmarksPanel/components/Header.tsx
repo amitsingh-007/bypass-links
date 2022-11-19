@@ -8,7 +8,7 @@ import {
 } from 'GlobalComponents/AccordionHeader';
 import Loader from 'GlobalComponents/Loader';
 import PanelHeading from 'GlobalComponents/PanelHeading';
-import Search from 'GlobalComponents/Search';
+import Search from '@common/components/Search';
 import { VoidFunction } from '@common/interfaces/custom';
 import React, { createRef, PureComponent } from 'react';
 import { FaFolderPlus } from 'react-icons/fa';

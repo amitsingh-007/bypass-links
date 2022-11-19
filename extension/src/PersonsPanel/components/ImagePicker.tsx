@@ -14,7 +14,7 @@ import { TransitionProps } from '@mui/material/transitions';
 import imageCompression from 'browser-image-compression';
 import PanelHeading from 'GlobalComponents/PanelHeading';
 import { FIREBASE_STORAGE_REF } from 'GlobalConstants';
-import { BG_COLOR_DARK } from 'GlobalConstants/color';
+import { BG_COLOR_DARK } from '@common/constants/color';
 import { uploadImageToFirebase } from 'GlobalHelpers/firebase/storage';
 import { VoidFunction } from '@common/interfaces/custom';
 import { forwardRef, memo, useCallback, useRef, useState } from 'react';

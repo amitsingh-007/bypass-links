@@ -1,9 +1,9 @@
 import { Box, SvgIcon, Typography } from '@mui/material';
-import { memo } from 'react';
+import { memo, useContext } from 'react';
 import { FcFolder } from 'react-icons/fc';
 import { getBookmarksPanelUrl } from '../utils/url';
 import { SxProps } from '@mui/system';
-import useRouter from '../../../hooks/useRouter';
+import DynamicContext from '../../../provider/DynamicContext';
 
 export interface Props {
   name: string;
@@ -18,7 +18,7 @@ const Folder = memo<Props>(function Folder({
   containerStyles = {},
   resetSelectedBookmarks,
 }) {
-  const { push } = useRouter();
+  const { push } = useContext(DynamicContext);
 
   const handleFolderOpen = () => {
     if (!isEmpty) {

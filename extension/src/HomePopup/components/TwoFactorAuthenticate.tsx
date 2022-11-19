@@ -1,7 +1,7 @@
 import { Dialog, DialogContent } from '@mui/material';
 import { displayToast } from 'GlobalActionCreators/toast';
-import { STORAGE_KEYS } from 'GlobalConstants';
-import { BG_COLOR_BLACK } from 'GlobalConstants/color';
+import { STORAGE_KEYS } from '@common/constants/storage';
+import { BG_COLOR_BLACK } from '@common/constants/color';
 import storage from 'GlobalHelpers/chrome/storage';
 import { getUserProfile } from 'GlobalHelpers/fetchFromStorage';
 import { RootState } from 'GlobalReducers/rootReducer';

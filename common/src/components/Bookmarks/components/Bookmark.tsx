@@ -2,14 +2,11 @@ import { Box, Typography } from '@mui/material';
 import { BlackTooltip } from '../../StyledComponents';
 import { memo, useCallback, useEffect, useState } from 'react';
 import PersonAvatars from '../../Persons/components/PersonAvatars';
-import { IPersonWithImage } from '../../Persons/interfaces/persons';
-import {
-  getPersonsFromUids,
-  getPersonsWithImageUrl,
-} from '../../../../../extension/src/PersonsPanel/utils'; //TODO: Do after fetching persons from fb for web
+import { IPerson, IPersonWithImage } from '../../Persons/interfaces/persons';
 import Favicon from '../../Favicon';
 import md5 from 'md5';
 import { SxProps } from '@mui/system';
+import usePerson from '../../Persons/hooks/usePerson';
 
 const titleStyles = { flexGrow: 1, fontSize: '14px' };
 const tooltipStyles = { fontSize: '13px' };
@@ -24,6 +21,13 @@ export interface Props {
   containerStyles?: SxProps;
   onOpenLink: (url: string) => void;
 }
+
+const getPersonsFromUids = async (uids: string[], persons: IPerson[]) => {
+  if (!uids || !persons) {
+    return [];
+  }
+  return persons.filter((person) => uids.includes(person.uid ?? ''));
+};
 
 const Bookmark = memo<Props>(
   ({
@@ -40,9 +44,11 @@ const Bookmark = memo<Props>(
     const [personsWithImageUrls, setPersonsWithImageUrls] = useState<
       IPersonWithImage[]
     >([]);
+    const { getAllDecodedPersons, getPersonsWithImageUrl } = usePerson();
 
     const initImageUrl = useCallback(async () => {
-      const persons = await getPersonsFromUids(taggedPersons);
+      const allPersons = await getAllDecodedPersons();
+      const persons = await getPersonsFromUids(taggedPersons, allPersons);
       const newPersonsWithImageUrls = await getPersonsWithImageUrl(persons);
       setPersonsWithImageUrls(newPersonsWithImageUrls);
     }, [taggedPersons]);

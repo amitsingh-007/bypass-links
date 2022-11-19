@@ -1,5 +1,5 @@
 import { SvgIcon } from '@mui/material';
-import { STORAGE_KEYS } from 'GlobalConstants';
+import { STORAGE_KEYS } from '@common/constants/storage';
 import storage from 'GlobalHelpers/chrome/storage';
 import tabs from 'GlobalHelpers/chrome/tabs';
 import { RootState } from 'GlobalReducers/rootReducer';

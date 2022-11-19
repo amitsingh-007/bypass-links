@@ -1,5 +1,4 @@
 import { getBookmarks } from 'GlobalHelpers/fetchFromStorage';
-import { hasText } from 'GlobalUtils/search';
 import memoize from 'memoize-one';
 import {
   ContextBookmarks,
@@ -18,11 +17,6 @@ export const isFolderContainsDir = (
   hash: string
 ) => folders[hash] && folders[hash].some(({ isDir }) => isDir);
 
-export const shouldRenderBookmarks = (
-  folders: IBookmarksObj['folders'],
-  contextBookmarks: ContextBookmarks
-) => folders && contextBookmarks && contextBookmarks.length > 0;
-
 export const getFolderFromHash = async (hash: string) => {
   const bookmarks = await getBookmarks();
   return bookmarks.folderList[hash];
@@ -39,17 +33,6 @@ export const getDecodedBookmark = (bookmark: IBookmark) => ({
   parentHash: bookmark.parentHash,
   taggedPersons: bookmark.taggedPersons,
 });
-
-export const getFilteredContextBookmarks = memoize(
-  (contextBookmarks: ContextBookmarks, searchText: string) =>
-    contextBookmarks?.filter(
-      ({ url, title, name }) =>
-        !searchText ||
-        hasText(searchText, url) ||
-        hasText(searchText, title) ||
-        hasText(searchText, name)
-    )
-);
 
 export const getSelectedCount = memoize(
   (selectedBookmarks: ISelectedBookmarks) =>

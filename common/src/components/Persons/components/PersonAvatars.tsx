@@ -1,17 +1,17 @@
 import { Avatar, AvatarGroup, Box } from '@mui/material';
 import { CircularTooltip } from '../../StyledComponents';
-import { memo } from 'react';
+import { memo, useContext } from 'react';
 import { RiUserUnfollowFill } from 'react-icons/ri';
 import { IPersonWithImage } from '../interfaces/persons';
 import { getPersonsPanelUrl } from '../utils/urls';
-import useRouter from '../../../hooks/useRouter';
+import DynamicContext from '../../../provider/DynamicContext';
 
 const AVATAR_SIZE = { SMALL: '23px', BIG: '70px' };
 const commonStyles = { marginRight: '12px' };
 
 const PersonAvatars = memo<{ persons: IPersonWithImage[] }>(
   function PersonAvatars({ persons }) {
-    const { push } = useRouter();
+    const { push } = useContext(DynamicContext);
 
     const hasImages =
       persons?.length && persons.every(({ imageUrl }) => Boolean(imageUrl));

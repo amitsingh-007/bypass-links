@@ -6,12 +6,9 @@ import { useCallback, useEffect, useState } from 'react';
 import { FaHeading } from 'react-icons/fa';
 import { SORT_ORDER } from 'SrcPath/PersonsPanel/constants/sort';
 import { IPersonWithImage } from '@common/components/Persons/interfaces/persons';
-import {
-  getAllDecodedPersons,
-  getPersonsWithImageUrl,
-} from 'SrcPath/PersonsPanel/utils';
 import { sortAlphabetically } from 'SrcPath/PersonsPanel/utils/sort';
 import { FolderDropdown, PersonsDropdown } from './Dropdown';
+import usePerson from '@common/components/Persons/hooks/usePerson';
 
 interface Props {
   url: string;
@@ -45,6 +42,7 @@ const BookmarkDialog: React.FC<Props> = ({
   onClose,
   isSaveActive = false,
 }) => {
+  const { getAllDecodedPersons, getPersonsWithImageUrl } = usePerson();
   const [taggedPersons, setTaggedPersons] = useState<IPersonWithImage[]>([]);
   const [title, setTitle] = useState(origTitle);
   const [folder, setFolder] = useState(origFolder);
@@ -64,7 +62,7 @@ const BookmarkDialog: React.FC<Props> = ({
       setTaggedPersons(taggedPersons);
     }
     setIsFetchingPerson(false);
-  }, [origTaggedPersons]);
+  }, [getPersonsWithImageUrl, origTaggedPersons]);
 
   useEffect(() => {
     initPersonList();

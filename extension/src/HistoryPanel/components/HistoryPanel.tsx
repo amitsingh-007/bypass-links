@@ -4,7 +4,7 @@ import { DesktopDateTimePicker } from '@mui/x-date-pickers/DesktopDateTimePicker
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { displayToast } from 'GlobalActionCreators/toast';
 import PanelHeading from 'GlobalComponents/PanelHeading';
-import { BG_COLOR_DARK } from 'GlobalConstants/color';
+import { BG_COLOR_DARK } from '@common/constants/color';
 import { ROUTES } from '@common/constants/routes';
 import historyApi from 'GlobalHelpers/chrome/history';
 import storage from 'GlobalHelpers/chrome/storage';

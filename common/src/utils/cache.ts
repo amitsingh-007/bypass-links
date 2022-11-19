@@ -36,11 +36,16 @@ export const getBlobUrlFromCache = async (
 
 export const deleteAllCache = async (bucketKeys: CACHE_BUCKET_KEYS[]) => {
   bucketKeys.forEach(async (cacheBucketKey) => {
-    const cache = await getCacheObj(cacheBucketKey);
-    const keys = await cache.keys();
-    keys.forEach(async (key) => {
-      await cache.delete(key);
-    });
+    await deleteCache(cacheBucketKey);
   });
   console.log('Cleared all cache inside the buckets', bucketKeys);
+};
+
+export const deleteCache = async (bucketKey: string) => {
+  await caches.delete(bucketKey);
+};
+
+export const isCachePresent = async (key: string) => {
+  const cacheKeys = await caches.keys();
+  return cacheKeys.includes(key);
 };

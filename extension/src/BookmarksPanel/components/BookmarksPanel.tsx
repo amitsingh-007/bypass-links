@@ -1,7 +1,7 @@
 import { Box, GlobalStyles } from '@mui/material';
 import { displayToast } from 'GlobalActionCreators/toast';
 import { ScrollButton } from 'GlobalComponents/ScrollButton';
-import { STORAGE_KEYS } from 'GlobalConstants';
+import { STORAGE_KEYS } from '@common/constants/storage';
 import { CACHE_BUCKET_KEYS } from '@common/constants/cache';
 import { PANEL_DIMENSIONS_PX } from 'GlobalConstants/styles';
 import storage from 'GlobalHelpers/chrome/storage';
@@ -35,12 +35,10 @@ import { BMPanelQueryParams } from '@common/components/Bookmarks/interfaces/url'
 import { bookmarksMapper } from '@common/components/Bookmarks/mapper';
 import {
   getAllFolderNames,
-  getFilteredContextBookmarks,
   getSelectedCount,
   isFolderContainsDir,
-  shouldRenderBookmarks,
 } from '../utils';
-import { getFaviconUrl } from '@common/utils';
+import { getFaviconProxyUrl } from '@common/utils';
 import {
   getBookmarksAfterDrag,
   getDestinationIndex,
@@ -51,6 +49,10 @@ import DragClone from './DragClone';
 import EditBookmark from './EditBookmark';
 import Header from './Header';
 import VirtualRow, { VirtualRowProps } from './VirtualRow';
+import {
+  getFilteredContextBookmarks,
+  shouldRenderBookmarks,
+} from '@common/components/Bookmarks/utils';
 
 const minReqBookmarksToScroll = Math.ceil(
   BOOKMARK_PANEL_CONTENT_HEIGHT / BOOKMARK_ROW_DIMENTSIONS.height
@@ -249,7 +251,7 @@ class BookmarksPanel extends PureComponent<Props, State> {
       };
     }
     //Add bookmark favicon in the cache
-    addToCache(CACHE_BUCKET_KEYS.favicon, getFaviconUrl(url));
+    addToCache(CACHE_BUCKET_KEYS.favicon, getFaviconProxyUrl(url));
 
     this.setState({
       urlList: { ...urlList },

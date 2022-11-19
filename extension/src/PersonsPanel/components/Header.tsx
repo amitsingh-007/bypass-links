@@ -8,7 +8,6 @@ import {
 } from 'GlobalComponents/AccordionHeader';
 import Loader from 'GlobalComponents/Loader';
 import PanelHeading from 'GlobalComponents/PanelHeading';
-import Search from 'GlobalComponents/Search';
 import { memo, useState } from 'react';
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
 import { IoIosPersonAdd } from 'react-icons/io';
@@ -19,6 +18,7 @@ import { IPerson } from '@common/components/Persons/interfaces/persons';
 import { syncPersonsFirebaseWithStorage } from '../utils/sync';
 import AddOrEditPersonDialog from './AddOrEditPersonDialog';
 import Sort from './Sort';
+import Search from '@common/components/Search';
 
 interface Props {
   isFetching: boolean;

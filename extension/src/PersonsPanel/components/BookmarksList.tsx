@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import PanelHeading from 'GlobalComponents/PanelHeading';
 import SearchWrapper from 'GlobalComponents/SearchWrapper';
-import { BG_COLOR_DARK } from 'GlobalConstants/color';
+import { BG_COLOR_DARK } from '@common/constants/color';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';

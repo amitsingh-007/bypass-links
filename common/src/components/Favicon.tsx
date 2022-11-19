@@ -4,7 +4,7 @@ import { CACHE_BUCKET_KEYS } from '../constants/cache';
 import { getBlobUrlFromCache } from '../utils/cache';
 import { forwardRef, memo, useCallback, useEffect, useState } from 'react';
 import { MdBrokenImage } from 'react-icons/md';
-import { getFaviconUrl } from '../utils';
+import { getFaviconProxyUrl } from '../utils';
 
 const containerStyles = {
   width: '20px',
@@ -22,7 +22,7 @@ const Favicon = memo(
       const initFavicon = useCallback(async () => {
         const faviconBlobUrl = await getBlobUrlFromCache(
           CACHE_BUCKET_KEYS.favicon,
-          getFaviconUrl(url)
+          getFaviconProxyUrl(url)
         );
         setFaviconUrl(faviconBlobUrl);
       }, [url]);

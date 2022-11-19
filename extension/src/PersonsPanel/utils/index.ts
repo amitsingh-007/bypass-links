@@ -1,16 +1,14 @@
 import storage from 'GlobalHelpers/chrome/storage';
-import { CACHE_BUCKET_KEYS } from '@common/constants/cache';
-import { STORAGE_KEYS } from 'GlobalConstants';
-import { getBlobUrlFromCache } from '@common/utils/cache';
+import { STORAGE_KEYS } from '@common/constants/storage';
 import { getPersons } from 'GlobalHelpers/fetchFromStorage';
 import {
   IPerson,
   IPersons,
-  IPersonWithImage,
 } from '@common/components/Persons/interfaces/persons';
 import { GRID_COLUMN_SIZE } from '../constants';
 import memoize from 'memoize-one/dist/memoize-one';
-import { hasText } from 'GlobalUtils/search';
+import { decodePersons } from '@common/components/Persons/utils';
+import { hasText } from '@common/utils/search';
 
 export const setPersonsInStorage = async (persons: IPersons) => {
   await storage.set({
@@ -19,54 +17,9 @@ export const setPersonsInStorage = async (persons: IPersons) => {
   });
 };
 
-const decodePerson = (person: IPerson): IPerson => {
-  const { uid, imageRef, name, taggedUrls } = person;
-  return {
-    uid,
-    name: atob(name),
-    imageRef: decodeURIComponent(atob(imageRef)),
-    taggedUrls,
-  };
-};
-
-export const getPersonsFromUids = async (uids: string[]) => {
-  if (!uids) {
-    return [];
-  }
-  const persons = await getAllDecodedPersons();
-  return persons.filter((person) => uids.includes(person.uid ?? ''));
-};
-
 export const getAllDecodedPersons = async () => {
   const persons = await getPersons();
-  return Object.entries(persons)
-    .filter(Boolean)
-    .map(([_key, person]) => decodePerson(person));
-};
-
-export const getPersonsWithImageUrl = async (
-  persons: IPerson[]
-): Promise<IPersonWithImage[]> => {
-  if (!persons) {
-    return [];
-  }
-  return await Promise.all(
-    persons.map(async (person) => ({
-      ...person,
-      imageUrl: await resolvePersonImageFromUid(person.uid),
-    }))
-  );
-};
-
-export const resolvePersonImageFromUid = async (uid: string) => {
-  const { [STORAGE_KEYS.personImageUrls]: personImages } = await storage.get(
-    STORAGE_KEYS.personImageUrls
-  );
-  if (!personImages) {
-    return '';
-  }
-  const imageUrl = personImages[uid];
-  return await getBlobUrlFromCache(CACHE_BUCKET_KEYS.person, imageUrl);
+  return decodePersons(persons);
 };
 
 export const getPersonPos = (persons: IPerson[], person: IPerson) =>

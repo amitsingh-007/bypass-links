@@ -1,5 +1,5 @@
 import storage from 'GlobalHelpers/chrome/storage';
-import { BYPASS_KEYS, EXTENSION_STATE, STORAGE_KEYS } from 'GlobalConstants';
+import { BYPASS_KEYS, EXTENSION_STATE } from 'GlobalConstants';
 import { IBookmarksObj } from '@common/components/Bookmarks/interfaces';
 import { UserInfo } from 'SrcPath/HomePopup/interfaces/authentication';
 import { LastVisited } from 'SrcPath/HomePopup/interfaces/lastVisited';
@@ -12,6 +12,7 @@ import {
   IRedirection,
 } from 'SrcPath/BackgroundScript/interfaces/redirections';
 import { ISettings } from 'SrcPath/SettingsPanel/interfaces/settings';
+import { STORAGE_KEYS } from '@common/constants/storage';
 
 export const getExtensionState = async () => {
   const { extState } = await storage.get('extState');
