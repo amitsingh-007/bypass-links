@@ -8,7 +8,7 @@ import DynamicProvider from '@/ui/provider/DynamicProvider';
 import { AuthProvider } from '@/ui/provider/AuthProvider';
 import { Montserrat } from '@next/font/google';
 
-const montserrat = Montserrat({ display: 'swap' });
+const montserrat = Montserrat({ display: 'swap', subsets: ['latin'] });
 
 const theme = createTheme({
   palette: {

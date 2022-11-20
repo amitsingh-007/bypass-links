@@ -31,7 +31,7 @@ import {
   syncPersonsFirebaseWithStorage,
   syncPersonsToStorage,
 } from 'SrcPath/PersonsPanel/utils/sync';
-import { status2FA } from 'SrcPath/SettingsPanel/apis/twoFactorAuth';
+import { status2FA } from '@common/components/Auth/apis/twoFactorAuth';
 import {
   resetSettings,
   syncSettingsToStorage,
