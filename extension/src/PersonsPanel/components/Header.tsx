@@ -132,7 +132,7 @@ const Header = memo<Props>(function Header({
           <Box sx={{ minWidth: '150px' }}>
             <Sort onChange={handleSort} />
           </Box>
-          <Search onChange={onSearchChange} />
+          <Search onChange={onSearchChange} focusOnVisible />
         </SecondaryHeaderContent>
       </AccordionHeader>
       {showAddPersonDialog && (

@@ -8,6 +8,7 @@ export const STORAGE_KEYS = {
   persons: FIREBASE_DB_REF.persons,
   mappedRedirections: 'mappedRedirections',
   personImageUrls: 'personImageUrls',
-  userProfile: 'userProfile',
+  userProfile: 'userProfile', //only used in ext
   settings: 'settings',
+  twoFactorAuth: 'twoFactorAuth', //only used in web
 };

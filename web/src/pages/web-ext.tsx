@@ -10,22 +10,49 @@ import { RiLoginCircleFill, RiLogoutCircleRFill } from 'react-icons/ri';
 import { RiBookMarkFill } from 'react-icons/ri';
 import { FaUserTag } from 'react-icons/fa';
 import { LoadingButton } from '@mui/lab';
+import { getFromLocalStorage, setToLocalStorage } from '@/ui/provider/utils';
+import { STORAGE_KEYS } from '@common/constants/storage';
+import { ITwoFactorAuth } from '@/ui/TwoFactorAuth/interface';
+import TOTPPopup from '@common/components/Auth/components/TOTPPopup';
 
 export default function Web() {
   const router = useRouter();
-  const { isLoggedIn } = useUser();
+  const { user, isLoggedIn } = useUser();
   const { isLoading, preloadData, clearData } = useWebPreload();
   const [shouldPreloadData, setShouldPreloadData] = useState(false);
-  const [hasPreloaded, setHasPreloaded] = useState(false);
+  const [promptTOTPVerify, setPromptTOTPVerify] = useState(false);
+
+  const initTOTPPrompt = async () => {
+    const twoFAData = await getFromLocalStorage<ITwoFactorAuth>(
+      STORAGE_KEYS.twoFactorAuth
+    );
+    if (!twoFAData) {
+      return setPromptTOTPVerify(false);
+    }
+    if (twoFAData.is2FAEnabled) {
+      setPromptTOTPVerify(!twoFAData.isTOTPVerified);
+    }
+  };
 
   useEffect(() => {
-    if (shouldPreloadData && isLoggedIn && !hasPreloaded && !isLoading) {
+    initTOTPPrompt();
+  }, [isLoggedIn]);
+
+  /**
+   * Preload data only when:
+   * 1. User is logged-in: isLoggedIn
+   * 2. Data has already not preloaded in local storage: shouldPreloadData
+   * 3. Data is already not preloading: !isLoading
+   */
+  useEffect(() => {
+    const preload = isLoggedIn && shouldPreloadData && !isLoading;
+    if (preload) {
       preloadData().then(() => {
-        setHasPreloaded(true);
         setShouldPreloadData(false);
+        initTOTPPrompt();
       });
     }
-  }, [hasPreloaded, isLoading, preloadData, shouldPreloadData, isLoggedIn]);
+  }, [isLoading, preloadData, shouldPreloadData, isLoggedIn]);
 
   const handleSignIn = async () => {
     await googleSignIn();
@@ -36,7 +63,22 @@ export default function Web() {
     await googleSignOut();
     await clearData();
     setShouldPreloadData(false);
-    setHasPreloaded(false);
+  };
+
+  const onVerify = async (isVerified: boolean) => {
+    if (isVerified) {
+      const twoFAData = await getFromLocalStorage<ITwoFactorAuth>(
+        STORAGE_KEYS.twoFactorAuth
+      );
+      if (!twoFAData) {
+        return;
+      }
+      twoFAData.isTOTPVerified = true;
+      await setToLocalStorage(STORAGE_KEYS.twoFactorAuth, twoFAData);
+      setPromptTOTPVerify(false);
+    } else {
+      alert('Entered TOTP is incorrect');
+    }
   };
 
   return (
@@ -64,24 +106,34 @@ export default function Web() {
         >
           {isLoggedIn ? 'Logout' : 'Login'}
         </LoadingButton>
-        <Button
-          variant="outlined"
-          startIcon={<RiBookMarkFill />}
-          onClick={() => router.push(ROUTES.BOOKMARK_PANEL)}
-          disabled={!isLoggedIn || isLoading}
-          color="secondary"
-        >
-          Bookmarks Page
-        </Button>
-        <Button
-          variant="outlined"
-          startIcon={<FaUserTag />}
-          onClick={() => router.push(ROUTES.PERSONS_PANEL)}
-          disabled
-          color="secondary"
-        >
-          Persons Page
-        </Button>
+        {promptTOTPVerify ? (
+          <TOTPPopup
+            userId={user?.uid ?? ''}
+            promptTOTPVerify={promptTOTPVerify}
+            verifyCallback={onVerify}
+          />
+        ) : (
+          <>
+            <Button
+              variant="outlined"
+              startIcon={<RiBookMarkFill />}
+              onClick={() => router.push(ROUTES.BOOKMARK_PANEL)}
+              disabled={!isLoggedIn || isLoading}
+              color="secondary"
+            >
+              Bookmarks Page
+            </Button>
+            <Button
+              variant="outlined"
+              startIcon={<FaUserTag />}
+              onClick={() => router.push(ROUTES.PERSONS_PANEL)}
+              disabled
+              color="secondary"
+            >
+              Persons Page
+            </Button>
+          </>
+        )}
       </Box>
     </Container>
   );

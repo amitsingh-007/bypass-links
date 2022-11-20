@@ -40,7 +40,7 @@ const SearchWrapper = memo<{ searchClassName: string }>(function SearchInput({
     handleSearch(searchText);
   }, [handleSearch, searchText]);
 
-  return <Search onChange={onChange} />;
+  return <Search onChange={onChange} focusOnVisible />;
 });
 
 export default SearchWrapper;

@@ -24,7 +24,7 @@ import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
 import { IoHelpCircle } from 'react-icons/io5';
 import { useDispatch } from 'react-redux';
 import { setup2FA, verify2FA } from '../apis/twoFactorAuth';
-import Verify2FA from './Verify2FA';
+import Verify2FA from '@common/components/Auth/components/Verify2FA';
 
 const tooltipStyles = { fontSize: '13px' };
 

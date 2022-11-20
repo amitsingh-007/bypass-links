@@ -216,7 +216,7 @@ class Header extends PureComponent<Props, State> {
                 fullWidth
               />
             </Box>
-            <Search onChange={onSearchChange} />
+            <Search onChange={onSearchChange} focusOnVisible />
           </SecondaryHeaderContent>
         </AccordionHeader>
         <FolderDialog

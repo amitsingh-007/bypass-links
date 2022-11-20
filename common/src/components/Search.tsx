@@ -7,10 +7,14 @@ import { debounce } from 'throttle-debounce';
 import { IntersectionObserverResponse } from '../interfaces/overrides';
 
 interface Props {
+  focusOnVisible?: boolean;
   onChange: (searchText: string) => void;
 }
 
-const Search = memo<Props>(function Search({ onChange }) {
+const Search = memo<Props>(function Search({
+  focusOnVisible = false,
+  onChange,
+}) {
   const inputRef = useRef<HTMLInputElement>(null);
   const { ref, entry }: IntersectionObserverResponse = useInView({
     trackVisibility: true,
@@ -25,7 +29,7 @@ const Search = memo<Props>(function Search({ onChange }) {
   );
 
   useEffect(() => {
-    if (entry?.isVisible) {
+    if (entry?.isVisible && focusOnVisible) {
       inputRef?.current?.focus();
     }
   }, [entry?.isVisible]);

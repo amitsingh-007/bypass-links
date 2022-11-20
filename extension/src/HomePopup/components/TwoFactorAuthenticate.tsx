@@ -1,19 +1,18 @@
-import { Dialog, DialogContent } from '@mui/material';
 import { displayToast } from 'GlobalActionCreators/toast';
 import { STORAGE_KEYS } from '@common/constants/storage';
-import { BG_COLOR_BLACK } from '@common/constants/color';
 import storage from 'GlobalHelpers/chrome/storage';
 import { getUserProfile } from 'GlobalHelpers/fetchFromStorage';
 import { RootState } from 'GlobalReducers/rootReducer';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { authenticate2FA } from 'SrcPath/SettingsPanel/apis/twoFactorAuth';
-import Verify2FA from 'SrcPath/SettingsPanel/components/Verify2FA';
+import TOTPPopup from '@common/components/Auth/components/TOTPPopup';
+import { UserInfo } from '../interfaces/authentication';
 
 const TwoFactorAuthenticate = () => {
   const dispatch = useDispatch();
   const { isSignedIn } = useSelector((state: RootState) => state.root);
   const [promptTOTPVerify, setPromptTOTPVerify] = useState(false);
+  const [user, setUser] = useState<UserInfo | null>(null);
 
   const initTOTPPrompt = async () => {
     const userProfile = await getUserProfile();
@@ -28,12 +27,17 @@ const TwoFactorAuthenticate = () => {
     }
   }, [isSignedIn]);
 
-  const handleAuthenticateTOTP = async (totp: string) => {
-    const userProfile = await getUserProfile();
-    const { isVerified } = await authenticate2FA(userProfile.uid ?? '', totp);
+  useEffect(() => {
+    getUserProfile().then((userProfile) => setUser(userProfile));
+  }, [isSignedIn]);
+
+  const onVerify = async (isVerified: boolean) => {
+    if (!user) {
+      return;
+    }
     if (isVerified) {
-      userProfile.isTOTPVerified = true;
-      await storage.set({ [STORAGE_KEYS.userProfile]: userProfile });
+      user.isTOTPVerified = true;
+      await storage.set({ [STORAGE_KEYS.userProfile]: user });
       setPromptTOTPVerify(false);
     } else {
       dispatch(
@@ -43,23 +47,15 @@ const TwoFactorAuthenticate = () => {
         })
       );
     }
-    return isVerified;
   };
 
   return (
-    <Dialog fullScreen open={promptTOTPVerify}>
-      <DialogContent
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          p: '10px',
-          backgroundColor: BG_COLOR_BLACK,
-        }}
-      >
-        <Verify2FA isShown handleVerify={handleAuthenticateTOTP} />
-      </DialogContent>
-    </Dialog>
+    <TOTPPopup
+      dialog
+      userId={user?.uid ?? ''}
+      promptTOTPVerify={promptTOTPVerify}
+      verifyCallback={onVerify}
+    />
   );
 };
 
