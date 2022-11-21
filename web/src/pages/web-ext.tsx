@@ -127,7 +127,7 @@ export default function Web() {
               variant="outlined"
               startIcon={<FaUserTag />}
               onClick={() => router.push(ROUTES.PERSONS_PANEL)}
-              disabled
+              disabled={!isLoggedIn || isLoading}
               color="secondary"
             >
               Persons Page

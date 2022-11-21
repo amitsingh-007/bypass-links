@@ -11,7 +11,7 @@ const commonStyles = { marginRight: '12px' };
 
 const PersonAvatars = memo<{ persons: IPersonWithImage[] }>(
   function PersonAvatars({ persons }) {
-    const { push } = useContext(DynamicContext);
+    const { location } = useContext(DynamicContext);
 
     const hasImages =
       persons?.length && persons.every(({ imageUrl }) => Boolean(imageUrl));
@@ -31,7 +31,7 @@ const PersonAvatars = memo<{ persons: IPersonWithImage[] }>(
     }
 
     const handlePersonClick = (person: IPersonWithImage) => {
-      push(getPersonsPanelUrl({ openBookmarksList: person.uid }));
+      location.push(getPersonsPanelUrl({ openBookmarksList: person.uid }));
     };
 
     return (

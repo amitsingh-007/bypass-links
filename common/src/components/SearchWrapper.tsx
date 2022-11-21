@@ -1,13 +1,14 @@
 import { memo, useCallback, useEffect, useState } from 'react';
-import Search from '@common/components/Search';
+import Search from './Search';
 
 /**
  * `searchClassName` should be parent of each row and not parent of all rows
  * `data-text` and `data-subtext` should be applied on same node as of `searchClassName`
  */
-const SearchWrapper = memo<{ searchClassName: string }>(function SearchInput({
-  searchClassName,
-}) {
+const SearchWrapper = memo<{
+  searchClassName: string;
+  focusOnVisible: boolean;
+}>(function SearchInput({ searchClassName, focusOnVisible }) {
   const [searchText, setSearchText] = useState('');
 
   const handleSearch = useCallback(
@@ -40,7 +41,7 @@ const SearchWrapper = memo<{ searchClassName: string }>(function SearchInput({
     handleSearch(searchText);
   }, [handleSearch, searchText]);
 
-  return <Search onChange={onChange} focusOnVisible />;
+  return <Search onChange={onChange} focusOnVisible={focusOnVisible} />;
 });
 
 export default SearchWrapper;

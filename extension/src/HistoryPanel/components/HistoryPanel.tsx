@@ -3,7 +3,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDateTimePicker } from '@mui/x-date-pickers/DesktopDateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { displayToast } from 'GlobalActionCreators/toast';
-import PanelHeading from 'GlobalComponents/PanelHeading';
+import PanelHeading from '@common/components/PanelHeading';
 import { BG_COLOR_DARK } from '@common/constants/color';
 import { ROUTES } from '@common/constants/routes';
 import historyApi from 'GlobalHelpers/chrome/history';

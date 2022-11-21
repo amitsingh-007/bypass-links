@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import { displayToast } from 'GlobalActionCreators/toast';
-import PanelHeading from 'GlobalComponents/PanelHeading';
+import PanelHeading from '@common/components/PanelHeading';
 import { BlackTooltip } from '@common/components/StyledComponents';
 import { STORAGE_KEYS } from '@common/constants/storage';
 import { BG_COLOR_BLACK, BG_COLOR_DARK } from '@common/constants/color';

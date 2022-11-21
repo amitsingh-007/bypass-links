@@ -4,11 +4,11 @@ import runtime from 'GlobalHelpers/chrome/runtime';
 import { VoidFunction } from '@common/interfaces/custom';
 import { useCallback, useEffect, useState } from 'react';
 import { FaHeading } from 'react-icons/fa';
-import { SORT_ORDER } from 'SrcPath/PersonsPanel/constants/sort';
+import { SORT_ORDER } from '@common/components/Persons/constants/sort';
 import { IPersonWithImage } from '@common/components/Persons/interfaces/persons';
-import { sortAlphabetically } from 'SrcPath/PersonsPanel/utils/sort';
 import { FolderDropdown, PersonsDropdown } from './Dropdown';
 import usePerson from '@common/components/Persons/hooks/usePerson';
+import { sortAlphabetically } from '@common/components/Persons/utils';
 
 interface Props {
   url: string;

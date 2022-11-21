@@ -7,7 +7,10 @@ import {
   SelectProps,
 } from '@mui/material';
 import { memo } from 'react';
-import { SORT_ORDER, SORT_TYPE } from '../constants/sort';
+import {
+  SORT_ORDER,
+  SORT_TYPE,
+} from '@common/components/Persons/constants/sort';
 
 interface Props {
   onChange: (sortType: SORT_TYPE, sortOrder: SORT_ORDER) => void;

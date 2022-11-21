@@ -11,20 +11,20 @@ import VirtualRow, {
   VirtualRowProps,
 } from '@/ui/BookmarksPage/components/VirtualRow';
 import { useRouter } from 'next/router';
-import { Container } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import { STORAGE_KEYS } from '@common/constants/storage';
 import { getFromLocalStorage, setToLocalStorage } from '@/ui/provider/utils';
 import MetaTags from '@/ui/components/MetaTags';
-import Header, { HEADER_HEIGHT } from '@/ui/components/Header';
+import Header from '@/ui/components/Header';
 import {
   getFilteredContextBookmarks,
   shouldRenderBookmarks,
 } from '@common/components/Bookmarks/utils';
-import { useWindowSize } from 'react-use';
+import { useMeasure } from 'react-use';
 
 export default function BookmarksPage() {
   const router = useRouter();
-  const { height: WINDOW_HEIGHT } = useWindowSize();
+  const [contentRef, { height: contentHeight }] = useMeasure();
   const folderContext =
     (router.query.folderContext as string) ?? defaultBookmarkFolder;
   const [contextBookmarks, setContextBookmarks] = useState<ContextBookmarks>(
@@ -63,31 +63,36 @@ export default function BookmarksPage() {
   const curBookmarksCount = filteredContextBookmarks.length;
 
   return (
-    <Container maxWidth="md">
+    <Container
+      maxWidth="md"
+      sx={{ height: '100vh', display: 'flex', flexDirection: 'column' }}
+    >
       <MetaTags titleSuffix="Bookmarks Panel" />
       <Header
         title={`${folderContext} (${contextBookmarks?.length || 0})`}
         onSearchChange={handleSearchTextChange}
       />
-      {shouldRenderBookmarks(folders, filteredContextBookmarks) ? (
-        <FixedSizeList<VirtualRowProps>
-          height={WINDOW_HEIGHT - HEADER_HEIGHT}
-          width="100%"
-          itemSize={31}
-          itemCount={curBookmarksCount}
-          overscanCount={10}
-          itemKey={(index, data) => {
-            const { isDir, url, name } = data.contextBookmarks[index];
-            return (isDir ? name : url) ?? '';
-          }}
-          itemData={{
-            folders,
-            contextBookmarks: filteredContextBookmarks,
-          }}
-        >
-          {VirtualRow}
-        </FixedSizeList>
-      ) : null}
+      <Box ref={contentRef} sx={{ flex: 1 }}>
+        {shouldRenderBookmarks(folders, filteredContextBookmarks) ? (
+          <FixedSizeList<VirtualRowProps>
+            height={contentHeight}
+            width="100%"
+            itemSize={31}
+            itemCount={curBookmarksCount}
+            overscanCount={10}
+            itemKey={(index, data) => {
+              const { isDir, url, name } = data.contextBookmarks[index];
+              return (isDir ? name : url) ?? '';
+            }}
+            itemData={{
+              folders,
+              contextBookmarks: filteredContextBookmarks,
+            }}
+          >
+            {VirtualRow}
+          </FixedSizeList>
+        ) : null}
+      </Box>
     </Container>
   );
 }

@@ -3,8 +3,6 @@ import AppBar from '@mui/material/AppBar';
 import { BG_COLOR_DARK } from '@common/constants/color';
 import Search from '@common/components/Search';
 
-export const HEADER_HEIGHT = 64;
-
 const Header = ({
   title,
   onSearchChange,

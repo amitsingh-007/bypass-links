@@ -1,25 +1,38 @@
 import { Box, GlobalStyles } from '@mui/material';
 import { displayToast } from 'GlobalActionCreators/toast';
-import { PANEL_DIMENSIONS_PX } from 'GlobalConstants/styles';
+import { PANEL_DIMENSIONS_PX, PANEL_SIZE } from 'GlobalConstants/styles';
 import { getPersons } from 'GlobalHelpers/fetchFromStorage';
 import { removeImageFromFirebase } from 'GlobalHelpers/firebase/storage';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { SORT_ORDER, SORT_TYPE } from '../constants/sort';
+import {
+  SORT_ORDER,
+  SORT_TYPE,
+} from '@common/components/Persons/constants/sort';
 import {
   IPerson,
   IPersons,
 } from '@common/components/Persons/interfaces/persons';
-import { decryptionMapper } from '../mapper';
-import {
-  getFilteredPersons,
-  getPersonPos,
-  setPersonsInStorage,
-} from '../utils';
-import { sortAlphabetically, sortByBookmarksCount } from '../utils/sort';
+import { decryptionMapper } from '@common/components/Persons/mapper';
+import { getPersonPos, setPersonsInStorage } from '../utils';
+import { sortByBookmarksCount } from '../utils/sort';
 import { updatePersonCacheAndImageUrls } from '../utils/sync';
 import Header from './Header';
-import Persons from './Persons';
+import Persons from '@common/components/Persons/components/Persons';
+import PersonVirtualCell from './PersonVirtualCell';
+import { startHistoryMonitor } from 'SrcPath/HistoryPanel/actionCreators';
+import tabs from 'GlobalHelpers/chrome/tabs';
+import {
+  getFilteredPersons,
+  sortAlphabetically,
+} from '@common/components/Persons/utils';
+import { GRID_COLUMN_SIZE } from '../constants';
+
+const sizeConfig = {
+  gridColumnSize: GRID_COLUMN_SIZE,
+  panelHeight: PANEL_SIZE.height,
+  panelWidth: PANEL_SIZE.width,
+};
 
 const PersonsPanel = () => {
   const dispatch = useDispatch();
@@ -106,6 +119,11 @@ const PersonsPanel = () => {
     setSearchText(text);
   };
 
+  const onLinkOpen = (url: string) => {
+    dispatch(startHistoryMonitor());
+    tabs.create({ url, selected: false });
+  };
+
   const filteredPersons = getFilteredPersons(persons, searchText);
   return (
     <>
@@ -126,6 +144,11 @@ const PersonsPanel = () => {
               persons={filteredPersons}
               handleEditPerson={handleAddOrEditPerson}
               handlePersonDelete={handlePersonDelete}
+              virtualCell={PersonVirtualCell}
+              onLinkOpen={onLinkOpen}
+              sizeConfig={sizeConfig}
+              bookmarkListProps={{ fullscreen: true, focusSearch: true }}
+              scrollButton
             />
           ) : null}
         </Box>

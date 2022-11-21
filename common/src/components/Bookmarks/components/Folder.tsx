@@ -18,11 +18,11 @@ const Folder = memo<Props>(function Folder({
   containerStyles = {},
   resetSelectedBookmarks,
 }) {
-  const { push } = useContext(DynamicContext);
+  const { location } = useContext(DynamicContext);
 
   const handleFolderOpen = () => {
     if (!isEmpty) {
-      push(getBookmarksPanelUrl({ folderContext: origName }));
+      location.push(getBookmarksPanelUrl({ folderContext: origName }));
     }
   };
 

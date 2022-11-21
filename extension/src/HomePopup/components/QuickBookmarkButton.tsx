@@ -13,15 +13,14 @@ import { useNavigate } from 'react-router-dom';
 import { BOOKMARK_OPERATION } from '@common/components/Bookmarks/constants';
 import { IBookmark } from '@common/components/Bookmarks/interfaces';
 import { BMPanelQueryParams } from '@common/components/Bookmarks/interfaces/url';
-import {
-  getDecodedBookmark,
-  getFolderFromHash,
-} from 'SrcPath/BookmarksPanel/utils';
 import { getBookmarksPanelUrl } from '@common/components/Bookmarks/utils/url';
 import StyledButton from './StyledButton';
+import { getDecodedBookmark } from '@common/components/Bookmarks/utils';
+import useBookmark from '@common/components/Bookmarks/hooks/useBookmark';
 
 const QuickBookmarkButton = memo(function QuickBookmarkButton() {
   const { isSignedIn } = useSelector((state: RootState) => state.root);
+  const { getFolderFromHash } = useBookmark();
   const [bookmark, setBookmark] = useState<IBookmark | null>(null);
   const [isFetching, setIsFetching] = useState(false);
   const navigate = useNavigate();

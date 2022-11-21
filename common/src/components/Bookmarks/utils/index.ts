@@ -1,4 +1,4 @@
-import { ContextBookmarks, IBookmarksObj } from '../interfaces';
+import { ContextBookmarks, IBookmark, IBookmarksObj } from '../interfaces';
 import memoize from 'memoize-one';
 import md5 from 'md5';
 import { hasText } from '../../../utils/search';
@@ -26,3 +26,10 @@ export const shouldRenderBookmarks = (
   folders: IBookmarksObj['folders'],
   contextBookmarks: ContextBookmarks
 ) => folders && contextBookmarks && contextBookmarks.length > 0;
+
+export const getDecodedBookmark = (bookmark: IBookmark) => ({
+  url: decodeURIComponent(atob(bookmark.url)),
+  title: decodeURIComponent(atob(bookmark.title)),
+  parentHash: bookmark.parentHash,
+  taggedPersons: bookmark.taggedPersons,
+});

@@ -7,6 +7,7 @@ import GlobalMetaTags from 'src/ui/components/GlobalMetaTags';
 import DynamicProvider from '@/ui/provider/DynamicProvider';
 import { AuthProvider } from '@/ui/provider/AuthProvider';
 import { Montserrat } from '@next/font/google';
+import { BG_COLOR_BLACK } from '@common/constants/color';
 
 const montserrat = Montserrat({ display: 'swap', subsets: ['latin'] });
 
@@ -24,6 +25,21 @@ const theme = createTheme({
     MuiCssBaseline: {
       styleOverrides: {
         body: darkScrollbar(),
+      },
+    },
+    MuiDialogTitle: {
+      styleOverrides: {
+        root: { backgroundColor: BG_COLOR_BLACK },
+      },
+    },
+    MuiDialogContent: {
+      styleOverrides: {
+        root: { backgroundColor: BG_COLOR_BLACK },
+      },
+    },
+    MuiDialogActions: {
+      styleOverrides: {
+        root: { backgroundColor: BG_COLOR_BLACK },
       },
     },
     MuiButton: {

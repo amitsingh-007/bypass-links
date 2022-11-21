@@ -1,6 +1,6 @@
 import { Box, Button } from '@mui/material';
 import Loader from 'GlobalComponents/Loader';
-import PanelHeading from 'GlobalComponents/PanelHeading';
+import PanelHeading from '@common/components/PanelHeading';
 import { STICKY_HEADER } from 'GlobalConstants/styles';
 import { VoidFunction } from '@common/interfaces/custom';
 import { memo } from 'react';

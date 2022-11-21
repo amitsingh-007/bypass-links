@@ -7,7 +7,7 @@ import {
   SecondaryHeaderContent,
 } from 'GlobalComponents/AccordionHeader';
 import Loader from 'GlobalComponents/Loader';
-import PanelHeading from 'GlobalComponents/PanelHeading';
+import PanelHeading from '@common/components/PanelHeading';
 import { memo, useState } from 'react';
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
 import { IoIosPersonAdd } from 'react-icons/io';
