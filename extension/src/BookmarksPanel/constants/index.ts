@@ -1,8 +1,3 @@
-export const bookmarkRowStyles = {
-  paddingLeft: '12px',
-  paddingRight: '9px',
-};
-
 export const BOOKMARK_ROW_DIMENTSIONS = {
   height: 31,
   width: 793,

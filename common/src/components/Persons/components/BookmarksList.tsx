@@ -6,27 +6,24 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
+  Container,
 } from '@mui/material';
-import PanelHeading from 'GlobalComponents/PanelHeading';
-import SearchWrapper from 'GlobalComponents/SearchWrapper';
-import { BG_COLOR_DARK } from '@common/constants/color';
-import { memo, useCallback, useEffect, useState } from 'react';
+import PanelHeading from '../../PanelHeading';
+import SearchWrapper from '../../SearchWrapper';
+import { BG_COLOR_DARK } from '../../../constants/color';
+import { memo, useCallback, useEffect, useState, useContext } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
-import { useNavigate } from 'react-router-dom';
-import Bookmark from '@common/components/Bookmarks/components/Bookmark';
-import { bookmarkRowStyles } from 'SrcPath/BookmarksPanel/constants';
-import { BOOKMARK_OPERATION } from '@common/components/Bookmarks/constants';
-import { IBookmark } from '@common/components/Bookmarks/interfaces';
+import Bookmark from '../../../components/Bookmarks/components/Bookmark';
 import {
-  getBookmarkFromHash,
-  getDecodedBookmark,
-  getFolderFromHash,
-} from 'SrcPath/BookmarksPanel/utils';
-import { getBookmarksPanelUrl } from '@common/components/Bookmarks/utils/url';
-import { useDispatch } from 'react-redux';
-import { startHistoryMonitor } from 'SrcPath/HistoryPanel/actionCreators';
-import tabs from 'GlobalHelpers/chrome/tabs';
+  bookmarkRowStyles,
+  BOOKMARK_OPERATION,
+} from '../../../components/Bookmarks/constants';
+import { IBookmark } from '../../../components/Bookmarks/interfaces';
+import { getBookmarksPanelUrl } from '../../../components/Bookmarks/utils/url';
+import useBookmark from '../../Bookmarks/hooks/useBookmark';
+import { getDecodedBookmark } from '../../Bookmarks/utils';
+import DynamicContext from '../../../provider/DynamicContext';
 
 const imageStyles = { width: 40, height: 40 };
 
@@ -34,6 +31,9 @@ interface Props {
   name: string;
   imageUrl: string;
   taggedUrls: string[];
+  onLinkOpen: (url: string) => void;
+  fullscreen: boolean;
+  focusSearch: boolean;
 }
 
 interface ModifiedBookmark extends IBookmark {
@@ -44,9 +44,12 @@ const BookmarksList = memo<Props>(function BookmarksList({
   name,
   imageUrl,
   taggedUrls,
+  onLinkOpen,
+  fullscreen,
+  focusSearch,
 }) {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const { location } = useContext(DynamicContext);
+  const { getBookmarkFromHash, getFolderFromHash } = useBookmark();
   const [bookmarks, setBookmarks] = useState<ModifiedBookmark[]>([]);
 
   const initBookmarks = useCallback(async () => {
@@ -68,7 +71,7 @@ const BookmarksList = memo<Props>(function BookmarksList({
   }, [taggedUrls]);
 
   const handleBookmarkEdit = async ({ url, parentName }: ModifiedBookmark) => {
-    navigate(
+    location.push(
       getBookmarksPanelUrl({
         operation: BOOKMARK_OPERATION.EDIT,
         bmUrl: url,
@@ -77,21 +80,16 @@ const BookmarksList = memo<Props>(function BookmarksList({
     );
   };
 
-  const onOpenLink = (url: string) => {
-    dispatch(startHistoryMonitor());
-    tabs.create({ url, selected: false });
-  };
-
   const handleClose = () => {
-    navigate(-1);
+    location.goBack();
   };
 
   useEffect(() => {
     initBookmarks();
   }, [initBookmarks]);
 
-  return (
-    <Dialog open fullScreen onClose={handleClose}>
+  const renderContent = () => (
+    <>
       <DialogTitle sx={{ padding: '4px 6px', backgroundColor: BG_COLOR_DARK }}>
         <Box
           sx={{
@@ -110,7 +108,10 @@ const BookmarksList = memo<Props>(function BookmarksList({
             Back
           </Button>
           <Box sx={{ display: 'flex' }}>
-            <SearchWrapper searchClassName="bookmarkRowContainer" />
+            <SearchWrapper
+              searchClassName="bookmarkRowContainer"
+              focusOnVisible={focusSearch}
+            />
             <PanelHeading
               containerStyles={{ display: 'inline-flex', ml: '8px' }}
               heading={
@@ -165,9 +166,9 @@ const BookmarksList = memo<Props>(function BookmarksList({
                 containerStyles={{
                   ...bookmarkRowStyles,
                   paddingLeft: '0px',
-                  maxWidth: '756px',
+                  overflowX: 'hidden',
                 }}
-                onOpenLink={onOpenLink}
+                onOpenLink={onLinkOpen}
               />
               <Button
                 variant="contained"
@@ -195,6 +196,28 @@ const BookmarksList = memo<Props>(function BookmarksList({
           </Box>
         )}
       </DialogContent>
+    </>
+  );
+
+  return (
+    <Dialog
+      open
+      fullScreen
+      onClose={handleClose}
+      PaperProps={{
+        sx: {
+          maxWidth: 'unset',
+          maxHeight: 'unset',
+          margin: 'unset',
+          backgroundImage: 'unset',
+        },
+      }}
+    >
+      {fullscreen ? (
+        renderContent()
+      ) : (
+        <Container maxWidth="md">{renderContent()}</Container>
+      )}
     </Dialog>
   );
 });

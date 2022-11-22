@@ -9,6 +9,7 @@ import { isFolderEmpty } from '@common/components/Bookmarks/utils';
 import Bookmark from '@common/components/Bookmarks/components/Bookmark';
 import Folder from '@common/components/Bookmarks/components/Folder';
 import styles from './VirtualRow.module.scss';
+import { openNewTab } from '@/ui/utils';
 
 export interface VirtualRowProps {
   folders: IBookmarksObj['folders'];
@@ -35,7 +36,7 @@ const VirtualRow = memo<{
   } = contextBookmarks[index];
 
   const onOpenLink = (url: string) => {
-    window.open(url, '_blank')?.open();
+    openNewTab(url);
   };
 
   return (

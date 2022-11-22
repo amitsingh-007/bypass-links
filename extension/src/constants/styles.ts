@@ -11,11 +11,6 @@ export const PANEL_DIMENSIONS_PX = {
   height: `${PANEL_SIZE.height}px`,
 };
 
-export const PERSON_SIZE = {
-  width: 156,
-  height: 156,
-};
-
 export const STICKY_HEADER = {
   position: 'sticky',
   top: 0,

@@ -1,7 +1,11 @@
 import { createContext } from 'react';
 
 export interface IDynamicContext {
-  push: (url: string) => void;
+  location: {
+    push: (url: string) => void;
+    query: () => string;
+    goBack: () => void;
+  };
   storage: {
     get: <T>(key: string) => Promise<T | null | undefined>;
     set: (key: string, data: any) => Promise<void>;
@@ -9,7 +13,11 @@ export interface IDynamicContext {
 }
 
 const DynamicContext = createContext<IDynamicContext>({
-  push: () => undefined,
+  location: {
+    push: () => undefined,
+    query: () => '',
+    goBack: () => undefined,
+  },
   storage: {
     get: () => Promise.resolve({} as any),
     set: () => Promise.resolve(),

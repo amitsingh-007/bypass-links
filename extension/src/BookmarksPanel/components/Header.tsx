@@ -7,7 +7,7 @@ import {
   SecondaryHeaderContent,
 } from 'GlobalComponents/AccordionHeader';
 import Loader from 'GlobalComponents/Loader';
-import PanelHeading from 'GlobalComponents/PanelHeading';
+import PanelHeading from '@common/components/PanelHeading';
 import Search from '@common/components/Search';
 import { VoidFunction } from '@common/interfaces/custom';
 import React, { createRef, PureComponent } from 'react';

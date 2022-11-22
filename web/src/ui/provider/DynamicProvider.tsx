@@ -6,14 +6,19 @@ import { getFromLocalStorage, setToLocalStorage } from './utils';
 const DynamicProvider = ({ children }: { children: ReactElement }) => {
   const router = useRouter();
 
-  const push = (url: string) => router.push(url);
+  const location = {
+    push: (url: string) => router.push(url),
+    query: () => new URLSearchParams(router.query as any).toString(),
+    goBack: router.back,
+  };
+
   const storage = {
     get: getFromLocalStorage,
     set: setToLocalStorage,
   };
 
   return (
-    <DynamicContext.Provider value={{ push, storage }}>
+    <DynamicContext.Provider value={{ location, storage }}>
       {children}
     </DynamicContext.Provider>
   );
