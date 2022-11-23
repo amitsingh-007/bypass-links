@@ -3,9 +3,12 @@ const fs = require('fs');
 const archiver = require('archiver');
 const { PATHS } = require('../webpack/constants');
 const { extVersion } = require('../../common/src/scripts/extension-version');
+const {
+  getFileNameFromVersion,
+} = require('../../common/src/utils/extensionFile');
 
 const output = fs.createWriteStream(
-  `${PATHS.EXTENSION}/${`bypass-links-${extVersion}.zip`}`
+  `${PATHS.EXTENSION}/${getFileNameFromVersion(extVersion)}`
 );
 
 const archive = archiver('zip', { zlib: { level: 9 } }); //highest & most compression
