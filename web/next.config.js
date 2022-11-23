@@ -8,7 +8,7 @@ const { extVersion } = require('../common/src/scripts/extension-version');
 const isDev = process.env.NODE_ENV === 'development';
 
 /**
- * @type {import('next/dist/next-server/server/config').NextConfig}
+ * @type {import('next').NextConfig}
  **/
 const nextConfig = {
   productionBrowserSourceMaps: true,

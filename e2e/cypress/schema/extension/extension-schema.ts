@@ -1,4 +1,4 @@
-import { ObjectSchema, versionSchemas } from "@cypress/schema-tools";
+import { ObjectSchema, versionSchemas } from '@cypress/schema-tools';
 
 const extensionApiSchema100: ObjectSchema = {
   version: {
@@ -7,15 +7,18 @@ const extensionApiSchema100: ObjectSchema = {
     patch: 0,
   },
   example: {
-    extension: "https://download-link.zip",
+    extension: 'https://download-link.zip',
   },
   schema: {
-    title: "extensionApiSchema",
-    type: "object",
-    required: ["extension"],
+    title: 'extensionApiSchema',
+    type: 'object',
+    required: ['extension', 'version'],
     properties: {
       extension: {
-        type: "string",
+        type: 'string',
+      },
+      version: {
+        type: 'string',
       },
     },
     additionalProperties: false,
