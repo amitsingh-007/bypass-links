@@ -4,6 +4,7 @@ import { getCurrentTab } from 'GlobalHelpers/chrome/tabs';
 import { getExtensionState } from 'GlobalHelpers/fetchFromStorage';
 import { isExtensionActive } from '../../utils/common';
 import { EXTENSION_STATE } from 'GlobalConstants';
+import fetchApi from '@common/utils/fetch';
 
 const getPageH1 = () => {
   const h1s = document.getElementsByTagName('h1');
@@ -43,4 +44,10 @@ export const setExtensionIcon = async ({
       : 'assets/bypass_link_off_128.png';
   }
   await action.setIcon({ path: icon });
+};
+
+export const checkForUpdates = async () => {
+  const { version: latestVersion } = await fetchApi('/api/extension');
+  const { version: currentVersion } = chrome.runtime.getManifest();
+  return latestVersion === currentVersion;
 };

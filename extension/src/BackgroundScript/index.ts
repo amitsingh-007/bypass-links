@@ -7,7 +7,14 @@ import { bypass } from './bypass';
 import { getForumPageLinks } from './misc/forumPageLinks';
 import turnOffInputSuggestions from './misc/turnOffInputSuggestions';
 import { redirect } from './redirect';
-import { fetchPageH1, isValidUrl, setExtensionIcon } from './utils';
+import {
+  checkForUpdates,
+  fetchPageH1,
+  isValidUrl,
+  setExtensionIcon,
+} from './utils';
+import { red } from '@mui/material/colors';
+import action from 'GlobalHelpers/chrome/action';
 
 //First time extension install
 chrome.runtime.onInstalled.addListener(() => {
@@ -25,6 +32,15 @@ chrome.runtime.onStartup.addListener(() => {
         hasPendingPersons,
       });
     });
+  checkForUpdates().then((isUsingLatest) => {
+    if (!isUsingLatest) {
+      action.setBadgeWithTitle(
+        '!',
+        red[700],
+        'You are using older version of Bypass Links'
+      );
+    }
+  });
 });
 
 const onPageLoad = async (tabId: number, url: string) => {
