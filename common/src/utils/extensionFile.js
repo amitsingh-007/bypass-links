@@ -3,10 +3,10 @@ const FILE_NAME = {
   suffix: '.zip',
 };
 
-export const getFileNameFromVersion = (extVersion: string) =>
+const getFileNameFromVersion = (extVersion) =>
   `${FILE_NAME.prefix}${extVersion}${FILE_NAME.suffix}`;
 
-export const getVersionFromFileName = (fileName: string) =>
+const getVersionFromFileName = (fileName) =>
   fileName.substring(
     fileName.indexOf(FILE_NAME.prefix) + FILE_NAME.prefix.length,
     fileName.lastIndexOf(FILE_NAME.suffix)
