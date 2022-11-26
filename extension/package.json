@@ -29,7 +29,7 @@
     "@hello-pangea/dnd": "16.1.0",
     "@mui/material": "5.10.15",
     "@mui/lab": "5.0.0-alpha.108",
-    "@mui/x-date-pickers": "5.0.8",
+    "@mui/x-date-pickers": "5.0.9",
     "@welldone-software/why-did-you-render": "7.0.1",
     "browser-image-compression": "2.0.0",
     "dayjs": "1.11.6",
