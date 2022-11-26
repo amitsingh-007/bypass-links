@@ -1,12 +1,20 @@
 import { Box } from '@mui/material';
 import Image, { ImageProps } from 'next/image';
+import { CSSProperties } from 'react';
 
 type Props = Pick<ImageProps, 'alt' | 'height'> & {
   src: string;
   children?: React.ReactNode;
+  imageStyles?: CSSProperties;
 };
 
-const BackgroundImage = ({ src, alt, height, children }: Props) => {
+const BackgroundImage = ({
+  src,
+  alt,
+  height,
+  children,
+  imageStyles = {},
+}: Props) => {
   return (
     <>
       <Box
@@ -20,7 +28,7 @@ const BackgroundImage = ({ src, alt, height, children }: Props) => {
           },
         }}
       >
-        <Image src={src} alt={alt} sizes="100vw" fill />
+        <Image src={src} alt={alt} sizes="100%" fill style={imageStyles} />
         <Box>{children}</Box>
       </Box>
     </>
