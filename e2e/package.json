@@ -14,7 +14,7 @@
     "eslint-plugin-cypress": "2.12.1",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "4.2.1",
-    "minimal-cognito-totp": "1.0.1",
+    "otplib": "12.0.1",
     "typescript": "4.9.3"
   }
 }

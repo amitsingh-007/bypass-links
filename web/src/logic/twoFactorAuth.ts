@@ -1,17 +1,14 @@
 import { FIREBASE_DB_REF } from '@common/constants/firebase';
 import { Setup2FAResponse } from '@common/interfaces/twoFactorAuth';
-import speakeasy from 'speakeasy';
+import { authenticator } from 'otplib';
 import { User2FAInfo } from '../interfaces/twoFactorAuth';
-import { getFromFirebase, saveToFirebase } from './firebase';
+import { getUser, getFromFirebase, saveToFirebase } from './firebase';
 import { get2FATitle } from './index';
 
-const verify2FAToken = (secretKey: string, totp: string, window = 0) =>
-  speakeasy.totp.verify({
-    secret: secretKey,
-    token: totp,
-    encoding: 'base32',
-    window,
-  });
+authenticator.options = { window: 1 };
+
+const verify2FAToken = (secret: string, token: string) =>
+  authenticator.verify({ token, secret });
 
 const is2FASetup = (user2FAInfo: User2FAInfo) =>
   Boolean(user2FAInfo && user2FAInfo.secretKey);
@@ -36,20 +33,23 @@ export const setup2FA = async (uid: string): Promise<Setup2FAResponse> => {
       otpAuthUrl: decodeURIComponent(otpAuthUrl),
     };
   }
-  const { base32, otpauth_url = '' } = speakeasy.generateSecret({
-    name: get2FATitle(),
-    symbols: false,
-  });
+  const user = await getUser(uid);
+  const secret = authenticator.generateSecret();
+  const otpAuthUrl = authenticator.keyuri(
+    user.displayName ?? '',
+    get2FATitle(),
+    secret
+  );
   await saveToFirebase({
     ref: FIREBASE_DB_REF.user2FAInfo,
     uid,
     data: {
-      secretKey: base32,
-      otpAuthUrl: encodeURIComponent(otpauth_url),
+      secretKey: secret,
+      otpAuthUrl: encodeURIComponent(otpAuthUrl),
       is2FAEnabled: false,
     },
   });
-  return { secretKey: base32, otpAuthUrl: otpauth_url };
+  return { secretKey: secret, otpAuthUrl };
 };
 
 export const verify2FA = async ({
@@ -90,5 +90,5 @@ export const authenticate2FA = async ({
   if (!is2FAEnabled(user2FAInfo)) {
     return false;
   }
-  return verify2FAToken(user2FAInfo.secretKey, totp, 1);
+  return verify2FAToken(user2FAInfo.secretKey, totp);
 };

@@ -43,13 +43,13 @@
     "memoize-one": "6.0.0",
     "next": "13.0.4",
     "nocache": "3.0.4",
+    "otplib": "12.0.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "4.6.0",
     "react-intersection-observer": "9.4.1",
     "react-use": "17.4.0",
     "react-window": "1.8.8",
-    "speakeasy": "2.0.0",
     "throttle-debounce": "5.0.0"
   },
   "devDependencies": {
@@ -58,7 +58,6 @@
     "@types/express": "4.17.14",
     "@types/md5": "2.3.2",
     "@types/react-window": "1.8.5",
-    "@types/speakeasy": "2.0.7",
     "@types/throttle-debounce": "5.0.0",
     "@typescript-eslint/eslint-plugin": "5.43.0",
     "better-npm-run": "0.1.1",

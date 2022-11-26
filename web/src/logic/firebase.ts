@@ -1,6 +1,7 @@
 import { getFullDbPath } from '@common/utils/firebase';
 import { cert, getApp, getApps, initializeApp } from 'firebase-admin/app';
 import { getDatabase } from 'firebase-admin/database';
+import { getAuth } from 'firebase-admin/auth';
 import { Firebase } from '../interfaces/firebase';
 
 /**
@@ -27,6 +28,7 @@ const firebaseApp =
       });
 
 const database = getDatabase(firebaseApp);
+const auth = getAuth(firebaseApp);
 
 /**
  * REALTIME DATABASE
@@ -51,3 +53,5 @@ export const removeFromFirebase = async ({
   isAbsolute,
 }: Omit<Firebase, 'data'>) =>
   database.ref(getFullDbPath(ref, uid, isAbsolute)).remove();
+
+export const getUser = (uid: string) => auth.getUser(uid);
