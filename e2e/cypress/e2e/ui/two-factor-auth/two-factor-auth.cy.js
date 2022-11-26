@@ -1,6 +1,6 @@
-import { getTotp as generateTotpToken } from 'minimal-cognito-totp';
+import { authenticator } from 'otplib';
 
-const uid = '4767b7c0ca4c4f21855cgh56';
+const uid = 'LmUG7m0hT1cfbnJiO0JvAJhdL5O2';
 
 describe('Two Factor Auth Setup Flow', () => {
   let secretKey, otpAuthUrl;
@@ -65,7 +65,7 @@ describe('Two Factor Auth Setup Flow', () => {
   });
 
   it('should verify if user enters correct totp token', () => {
-    const token = generateTotpToken(secretKey);
+    const token = authenticator.generate(secretKey);
     cy.request({
       method: 'GET',
       url: `api/2fa-auth/verify?uid=${uid}&totp=${token}`,
@@ -99,7 +99,7 @@ describe('Two Factor Auth Setup Flow', () => {
   });
 
   it('should authenticate the user if correct totp token is entered', () => {
-    const token = generateTotpToken(secretKey);
+    const token = authenticator.generate(secretKey);
     cy.request({
       method: 'GET',
       url: `api/2fa-auth/authenticate?uid=${uid}&totp=${token}`,
