@@ -1,5 +1,5 @@
 import fetchApi from '@common/utils/fetch';
-import { Box, GlobalStyles } from '@mui/material';
+import { Container, GlobalStyles } from '@mui/material';
 import { GlobalStylesProps, Theme } from '@mui/system';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import AppHeader from '../ui/DownloadPage/components/AppHeader';
@@ -40,10 +40,10 @@ export default function Home({
       <GlobalStyles styles={globalStyles} />
       <MetaTags />
       <AppHeader />
-      <Box sx={{ p: '0 200px' }}>
+      <Container maxWidth="xl">
         <PageHeader downloadLink={downloadLink} />
         <SalientFeatures />
-      </Box>
+      </Container>
       <Footer />
     </>
   );

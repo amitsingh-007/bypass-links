@@ -1,12 +1,15 @@
+import useDevice from '@/ui/hooks/useDevice';
 import { Box, Typography } from '@mui/material';
 import ChromeIcon from '@ui/icons/chrome.svg';
 import { memo } from 'react';
 
 const PageHeader = memo<{ downloadLink: string }>(({ downloadLink }) => {
+  const isDesktop = useDevice();
+
   return (
     <Box
       sx={{
-        m: '220px 88px 0px',
+        m: isDesktop ? '150px 88px 0px' : '50px 0',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -39,7 +42,7 @@ const PageHeader = memo<{ downloadLink: string }>(({ downloadLink }) => {
             fontSize: '17px',
             color: '#fff',
             padding: '14px 27px',
-            mt: '15px',
+            mt: '50px',
             textDecoration: 'unset',
           }}
         >

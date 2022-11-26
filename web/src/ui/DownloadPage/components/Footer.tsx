@@ -1,3 +1,4 @@
+import useDevice from '@/ui/hooks/useDevice';
 import {
   Box,
   IconButton,
@@ -16,26 +17,44 @@ const Info = ({
 }: {
   icon: React.FC<SvgIconProps>;
   text: string;
-}) => (
-  <Box sx={{ display: 'flex', alignItems: 'center', mt: '10px' }}>
-    <SvgIcon fontSize="medium">
-      <Icon />
-    </SvgIcon>
-    <Typography sx={{ ml: '10px', fontWeight: 500 }}>{text}</Typography>
-  </Box>
-);
+}) => {
+  const isDesktop = useDevice();
+
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        mt: isDesktop ? '10px' : 0,
+      }}
+    >
+      <SvgIcon fontSize="medium">
+        <Icon />
+      </SvgIcon>
+      <Typography sx={{ ml: '10px', fontWeight: 500 }}>{text}</Typography>
+    </Box>
+  );
+};
 
 const Footer = () => {
+  const isDesktop = useDevice();
+
   return (
     <Box sx={{ mt: '100px' }}>
-      <BackgroundImage src="/footer.png" alt="footer image" height={300}>
+      <BackgroundImage
+        src="/footer.png"
+        alt="footer image"
+        height={isDesktop ? 300 : 130}
+        imageStyles={{ transform: `scale(${isDesktop ? 1 : 1.3})` }}
+      >
         <Box
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
             width: '100%',
-            pt: '212px',
-            px: '200px',
+            px: isDesktop ? '200px' : '10px',
+            position: 'absolute',
+            bottom: isDesktop ? '7%' : '-10px',
           }}
         >
           <Box sx={{ display: 'flex', flexDirection: 'column', zIndex: 1 }}>
