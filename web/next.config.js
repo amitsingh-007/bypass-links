@@ -53,12 +53,12 @@ const nextConfig = {
   },
 };
 
+/**
+ * Automatically generates a SW file with fetch listener, basic caching, etc.
+ * No need to create our own sw.js file. All default options work fine.
+ */
 const withPWA = nextPWA({
-  disable: isDev,
-  swSrc: './scripts/sw.js',
   dest: 'public',
-  register: true,
-  sw: '/sw.js',
 });
 
 module.exports = withPWA(nextConfig);

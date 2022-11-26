@@ -6,6 +6,7 @@
 tsconfig.tsbuildinfo
 
 # next-pwa
-public/sw.js
+public/sw*
+public/workbox*
 
 .vercel
