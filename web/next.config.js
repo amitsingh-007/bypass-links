@@ -58,6 +58,7 @@ const nextConfig = {
  * No need to create our own sw.js file. All default options work fine.
  */
 const withPWA = nextPWA({
+  disable: isDev,
   dest: 'public',
 });
 
