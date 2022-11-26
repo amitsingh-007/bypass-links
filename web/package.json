@@ -31,7 +31,7 @@
   "dependencies": {
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
-    "@mui/lab": "5.0.0-alpha.108",
+    "@mui/lab": "5.0.0-alpha.109",
     "@mui/material": "5.10.15",
     "@next/font": "13.0.5",
     "@octokit/rest": "19.0.5",
