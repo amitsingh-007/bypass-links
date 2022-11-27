@@ -39,14 +39,14 @@ const PageHeader = memo<{ downloadLink: string }>(({ downloadLink }) => {
             background: 'linear-gradient(90deg,#6850ff,#a750ff)',
             borderRadius: '50px',
             fontWeight: 'bold',
-            fontSize: '17px',
+            fontSize: '16px',
             color: '#fff',
             padding: '14px 27px',
             mt: '50px',
             textDecoration: 'unset',
           }}
         >
-          <ChromeIcon height={25} width={25} />
+          <ChromeIcon height={22} width={22} />
           <Box component="span" sx={{ ml: '10px' }}>
             DOWNLOAD NOW
           </Box>
