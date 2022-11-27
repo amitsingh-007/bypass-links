@@ -1,4 +1,3 @@
-import useDevice from '@/ui/hooks/useDevice';
 import {
   Box,
   IconButton,
@@ -6,10 +5,11 @@ import {
   SvgIconProps,
   Typography,
 } from '@mui/material';
+import Image from 'next/image';
 import { GoMarkGithub } from 'react-icons/go';
 import { MdExtension } from 'react-icons/md';
 import { RiTimeFill } from 'react-icons/ri';
-import BackgroundImage from 'src/ui/components/BackgroundImage';
+import footerImage from '@public/footer.png'; //TODO
 
 const Info = ({
   icon: Icon,
@@ -18,17 +18,15 @@ const Info = ({
   icon: React.FC<SvgIconProps>;
   text: string;
 }) => {
-  const isDesktop = useDevice();
-
   return (
     <Box
       sx={{
         display: 'flex',
         alignItems: 'center',
-        mt: isDesktop ? '10px' : 0,
+        mt: { xs: 0, md: '10px' },
       }}
     >
-      <SvgIcon fontSize="medium">
+      <SvgIcon sx={{ fontSize: { xs: '1.25rem', md: '1.5rem' } }}>
         <Icon />
       </SvgIcon>
       <Typography sx={{ ml: '10px', fontWeight: 500 }}>{text}</Typography>
@@ -37,44 +35,51 @@ const Info = ({
 };
 
 const Footer = () => {
-  const isDesktop = useDevice();
-
   return (
-    <Box sx={{ mt: '100px' }}>
-      <BackgroundImage
-        src="/footer.png"
+    <Box
+      sx={{
+        position: 'relative',
+        height: { xs: 130, md: 300 },
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'space-around',
+      }}
+    >
+      <Image
+        src={footerImage}
         alt="footer image"
-        height={isDesktop ? 300 : 130}
-        imageStyles={{ transform: `scale(${isDesktop ? 1 : 1.3})` }}
+        style={{
+          height: 'inherit',
+          width: 'inherit',
+        }}
+      />
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          width: '100%',
+          position: 'absolute',
+          px: { xs: '20px', md: '200px' },
+          bottom: { xs: '0', md: '7%' },
+        }}
       >
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            width: '100%',
-            px: isDesktop ? '200px' : '10px',
-            position: 'absolute',
-            bottom: isDesktop ? '7%' : '-10px',
-          }}
-        >
-          <Box sx={{ display: 'flex', flexDirection: 'column', zIndex: 1 }}>
-            <Info icon={MdExtension} text={`v ${__EXT_VERSION__}`} />
-            <Info icon={RiTimeFill} text={__RELEASE_DATE__} />
-          </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Box
-              component="a"
-              target="_blank"
-              href="https://github.com/amitsingh-007/bypass-links"
-              title="Bypass Links Github Page"
-            >
-              <IconButton size="large">
-                <GoMarkGithub />
-              </IconButton>
-            </Box>
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Info icon={MdExtension} text={`v ${__EXT_VERSION__}`} />
+          <Info icon={RiTimeFill} text={__RELEASE_DATE__} />
+        </Box>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box
+            component="a"
+            target="_blank"
+            href="https://github.com/amitsingh-007/bypass-links"
+            title="Bypass Links Github Page"
+          >
+            <IconButton size="large">
+              <GoMarkGithub />
+            </IconButton>
           </Box>
         </Box>
-      </BackgroundImage>
+      </Box>
     </Box>
   );
 };

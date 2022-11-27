@@ -3,7 +3,6 @@ import CircleIcon from '@ui/icons/circle.svg';
 import Feature from 'src/ui/interfaces/feature';
 import { memo } from 'react';
 import { firstColumn, secondColumn } from '../constants/features';
-import useDevice from '@/ui/hooks/useDevice';
 
 const Description = () => (
   <Box sx={{ position: 'relative' }}>
@@ -38,8 +37,6 @@ const FeaturesColumn = ({
 }: {
   columnData: Feature[];
 }): JSX.Element => {
-  const isDesktop = useDevice();
-
   return (
     <>
       {columnData.map(({ title, content, icon: Icon }) => (
@@ -51,7 +48,7 @@ const FeaturesColumn = ({
               fontSize: '19px',
               lineHeight: '23px',
               color: '#fff',
-              mt: isDesktop ? '20px' : 0,
+              mt: { xs: 0, md: '20px' },
               mb: '10px',
             }}
           >
@@ -75,11 +72,9 @@ const FeaturesColumn = ({
 };
 
 const SalientFeatures = memo(() => {
-  const isDesktop = useDevice();
-
   return (
     <Box sx={{ display: 'flex', mt: '150px' }}>
-      <Grid container spacing={isDesktop ? 12 : 4}>
+      <Grid container spacing={[4, 12]}>
         <Grid item xs={12} md={5}>
           <Description />
         </Grid>
