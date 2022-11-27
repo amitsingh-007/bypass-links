@@ -9,7 +9,7 @@ import Image from 'next/image';
 import { GoMarkGithub } from 'react-icons/go';
 import { MdExtension } from 'react-icons/md';
 import { RiTimeFill } from 'react-icons/ri';
-import footerImage from '@public/footer.png'; //TODO
+import footerImage from '@public/footer.png';
 
 const Info = ({
   icon: Icon,
