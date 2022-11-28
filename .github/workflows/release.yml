@@ -64,7 +64,7 @@ jobs:
         uses: bahmutov/npm-install@v1
 
       - name: 'UI Tests - Chrome'
-        uses: cypress-io/github-action@v4.2.1
+        uses: cypress-io/github-action@v4.2.2
         with:
           browser: chrome
           record: true
