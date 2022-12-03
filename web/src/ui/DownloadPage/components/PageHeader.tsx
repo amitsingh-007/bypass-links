@@ -6,7 +6,10 @@ const PageHeader = memo<{ downloadLink: string }>(({ downloadLink }) => {
   return (
     <Box
       sx={{
-        m: '220px 88px 0px',
+        m: {
+          xs: '50px 0',
+          md: '150px 88px 0px',
+        },
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -18,7 +21,7 @@ const PageHeader = memo<{ downloadLink: string }>(({ downloadLink }) => {
         variant="h3"
         sx={{
           textAlign: 'center',
-          fontSize: '40px',
+          fontSize: { xs: '35px', md: '40px' },
           fontWeight: 'bold',
           lineHeight: '1.5',
         }}
@@ -36,14 +39,14 @@ const PageHeader = memo<{ downloadLink: string }>(({ downloadLink }) => {
             background: 'linear-gradient(90deg,#6850ff,#a750ff)',
             borderRadius: '50px',
             fontWeight: 'bold',
-            fontSize: '17px',
+            fontSize: '16px',
             color: '#fff',
             padding: '14px 27px',
-            mt: '15px',
+            mt: '50px',
             textDecoration: 'unset',
           }}
         >
-          <ChromeIcon height={25} width={25} />
+          <ChromeIcon height={22} width={22} />
           <Box component="span" sx={{ ml: '10px' }}>
             DOWNLOAD NOW
           </Box>

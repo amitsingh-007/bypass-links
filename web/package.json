@@ -1,12 +1,12 @@
 {
   "name": "web",
-  "version": "1.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "build": "better-npm-run build",
-    "dev": "npm run pre:dev && better-npm-run dev",
+    "dev": "better-npm-run dev",
     "dev:debug": "better-npm-run dev:debug",
-    "pre:dev": "cd .. && vercel env pull web/.env.local"
+    "dev:env": "cd .. && vercel env pull web/.env.local"
   },
   "betterScripts": {
     "dev": {
