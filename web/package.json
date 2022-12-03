@@ -33,7 +33,7 @@
     "@emotion/styled": "11.10.5",
     "@mui/lab": "5.0.0-alpha.110",
     "@mui/material": "5.10.15",
-    "@next/font": "13.0.5",
+    "@next/font": "13.0.6",
     "@octokit/rest": "19.0.5",
     "express-bearer-token": "2.4.0",
     "firebase": "9.12.1",
