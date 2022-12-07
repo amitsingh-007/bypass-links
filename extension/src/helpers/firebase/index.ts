@@ -1,6 +1,6 @@
-import { FIREBASE_PUBLIC_CONFIG } from '@common/constants/firebase';
+import { getFirebasePublicConfig } from '@common/constants/firebase';
 import { initializeApp } from 'firebase/app';
 
-const firebaseApp = initializeApp(FIREBASE_PUBLIC_CONFIG);
+const firebaseApp = initializeApp(getFirebasePublicConfig());
 
 export default firebaseApp;
