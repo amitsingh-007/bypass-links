@@ -1,10 +1,10 @@
 import { authenticator } from 'otplib';
 
-const isProd = process.env.CYPRESS_NODE_ENV === 'Production';
+const isDevEnv = Cypress.env('CYPRESS_NODE_ENV') === 'Development';
 
-const uid = isProd
-  ? 'LmUG7m0hT1cfbnJiO0JvAJhdL5O2'
-  : '0zwHh3AUKrby6uIV2tKzArDXy243';
+const uid = isDevEnv
+  ? '0zwHh3AUKrby6uIV2tKzArDXy243'
+  : 'LmUG7m0hT1cfbnJiO0JvAJhdL5O2';
 
 describe('Two Factor Auth Setup Flow', () => {
   let secretKey, otpAuthUrl;

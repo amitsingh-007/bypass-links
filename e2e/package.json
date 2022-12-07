@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "build": "tsc",
-    "cypress:open": "cypress open",
-    "cypress:run": "cypress run --headless -b chrome"
+    "cypress:open": "cypress open --env CYPRESS_NODE_ENV=Development",
+    "cypress:run": "cypress run --env CYPRESS_NODE_ENV=Development --headless -b chrome"
   },
   "devDependencies": {
     "@cypress/schema-tools": "4.7.9",
