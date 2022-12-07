@@ -3,6 +3,7 @@ import { cert, getApp, getApps, initializeApp } from 'firebase-admin/app';
 import { getDatabase } from 'firebase-admin/database';
 import { getAuth } from 'firebase-admin/auth';
 import { Firebase } from '../interfaces/firebase';
+import { getFirebasePublicConfig } from '@common/constants/firebase';
 
 /**
  * We split the credentials json that we get from firebase admin because:
@@ -11,6 +12,9 @@ import { Firebase } from '../interfaces/firebase';
  * SERVICE_ACCOUNT_KEY: contains the credetials json except the private_key
  * FIREBASE_PRIVATE_KEY: contains the private key
  */
+
+const firebasePublicConfig = getFirebasePublicConfig();
+
 const getFirebaseCredentials = () => {
   const serviceAccountKey = JSON.parse(process.env.SERVICE_ACCOUNT_KEY ?? '');
   return cert({
@@ -24,7 +28,7 @@ const firebaseApp =
     ? getApp()
     : initializeApp({
         credential: getFirebaseCredentials(),
-        databaseURL: 'https://bypass-links.firebaseio.com',
+        databaseURL: firebasePublicConfig.databaseURL,
       });
 
 const database = getDatabase(firebaseApp);

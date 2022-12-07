@@ -73,8 +73,9 @@ jobs:
           config: baseUrl=${{needs.Build.outputs.preview_url}}
           install: false
         env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          CYPRESS_NODE_ENV: Production
 
   Create_Release:
     runs-on: ubuntu-latest

@@ -5,7 +5,7 @@
   "scripts": {
     "build": "better-npm-run build && npm run post:build",
     "dev": "better-npm-run dev",
-    "post:build": "node scripts/archive"
+    "post:build": "node scripts/manifest-file && node scripts/archive"
   },
   "betterScripts": {
     "build": {
@@ -76,6 +76,7 @@
     "fork-ts-checker-webpack-plugin": "7.2.13",
     "glob": "8.0.3",
     "html-webpack-plugin": "5.5.0",
+    "jsonfile": "6.1.0",
     "mini-css-extract-plugin": "2.7.1",
     "node-sass": "8.0.0",
     "sass-loader": "13.2.0",
