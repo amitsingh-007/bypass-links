@@ -1,10 +1,8 @@
 import { Box, GlobalStyles } from '@mui/material';
 import { displayToast } from 'GlobalActionCreators/toast';
 import { ScrollButton } from '@common/components/ScrollButton';
-import { STORAGE_KEYS } from '@common/constants/storage';
 import { CACHE_BUCKET_KEYS } from '@common/constants/cache';
 import { PANEL_DIMENSIONS_PX } from 'GlobalConstants/styles';
-import storage from 'GlobalHelpers/chrome/storage';
 import tabs from 'GlobalHelpers/chrome/tabs';
 import { getBookmarks } from 'GlobalHelpers/fetchFromStorage';
 import { addToCache } from '@common/utils/cache';

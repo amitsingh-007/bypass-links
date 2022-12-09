@@ -23,7 +23,6 @@ import {
 } from '@common/components/Bookmarks/mapper';
 import md5 from 'md5';
 import storage from 'GlobalHelpers/chrome/storage';
-import { STORAGE_KEYS } from '@common/constants/storage';
 import { addToCache } from '@common/utils/cache';
 import { CACHE_BUCKET_KEYS } from '@common/constants/cache';
 import { getFaviconProxyUrl } from '@common/utils';
