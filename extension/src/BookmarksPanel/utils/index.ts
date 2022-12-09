@@ -3,6 +3,8 @@ import {
   IBookmarksObj,
   ISelectedBookmarks,
 } from '@common/components/Bookmarks/interfaces';
+import storage from 'GlobalHelpers/chrome/storage';
+import { STORAGE_KEYS } from '@common/constants/storage';
 
 export const getAllFolderNames = memoize(
   (folderList: IBookmarksObj['folderList']) =>
@@ -18,3 +20,10 @@ export const getSelectedCount = memoize(
   (selectedBookmarks: ISelectedBookmarks) =>
     selectedBookmarks.filter(Boolean).length
 );
+
+export const setBookmarksInStorage = async (bookmarksObj: IBookmarksObj) => {
+  await storage.set({
+    [STORAGE_KEYS.bookmarks]: bookmarksObj,
+    hasPendingBookmarks: true,
+  });
+};

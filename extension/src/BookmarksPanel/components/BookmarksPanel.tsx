@@ -32,11 +32,15 @@ import {
   ISelectedBookmarks,
 } from '@common/components/Bookmarks/interfaces';
 import { BMPanelQueryParams } from '@common/components/Bookmarks/interfaces/url';
-import { bookmarksMapper } from '@common/components/Bookmarks/mapper';
+import {
+  bookmarksMapper,
+  getEncryptedBookmark,
+} from '@common/components/Bookmarks/mapper';
 import {
   getAllFolderNames,
   getSelectedCount,
   isFolderContainsDir,
+  setBookmarksInStorage,
 } from '../utils';
 import { getFaviconProxyUrl } from '@common/utils';
 import {
@@ -229,12 +233,12 @@ class BookmarksPanel extends PureComponent<Props, State> {
     //Update url in tagged persons
     this.updatePersonUrls(prevTaggedPersons, newTaggedPersons, urlHash);
     //Update urlList with new values
-    urlList[urlHash] = {
-      url: btoa(encodeURIComponent(url)),
-      title: btoa(encodeURIComponent(title)),
+    urlList[urlHash] = getEncryptedBookmark({
+      url,
+      title,
       taggedPersons: [...newTaggedPersons],
       parentHash: newFolderHash,
-    };
+    });
     //Update folders and current context folder content based on dir change
     const newBookmarks = contextBookmarks;
     if (isFolderChange) {
@@ -447,11 +451,8 @@ class BookmarksPanel extends PureComponent<Props, State> {
         hash: md5((isDir ? name : url) || ''),
       })
     );
-    const bookmarksObj = { folderList, urlList, folders };
-    await storage.set({
-      [STORAGE_KEYS.bookmarks]: bookmarksObj,
-      hasPendingBookmarks: true,
-    });
+    const bookmarksObj: IBookmarksObj = { folderList, urlList, folders };
+    await setBookmarksInStorage(bookmarksObj);
     this.setState({ isFetching: false, isSaveButtonActive: false });
     displayToast({
       message: 'Saved temporarily',
