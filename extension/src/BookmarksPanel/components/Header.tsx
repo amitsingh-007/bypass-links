@@ -52,7 +52,7 @@ class Header extends PureComponent<Props, State> {
     super(props);
     this.state = {
       openFolderDialog: false,
-      openReplaceDialog: true,
+      openReplaceDialog: false,
       openConfirmationDialog: false,
       isSyncing: false,
     };
