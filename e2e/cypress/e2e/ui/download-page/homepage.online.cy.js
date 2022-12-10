@@ -1,5 +1,5 @@
 describe('Homepage UI Tests when Online', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/');
   });
 
