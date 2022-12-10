@@ -3,11 +3,15 @@ const { merge } = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const { DllReferencePlugin } = require('webpack');
 const commonConfig = require('./common.config');
 const { PATHS } = require('./constants');
 
-const DllReferenceWebpackPlugin = new DllReferencePlugin({
+const ENV = process.env.NODE_ENV;
+const isProduction = ENV === 'production';
+
+const dllReferenceWebpackPlugin = new DllReferencePlugin({
   context: PATHS.ROOT,
   manifest: `${PATHS.FIREBASE}/manifest.json`,
 });
@@ -20,7 +24,7 @@ const backgroundConfig = merge(commonConfig, {
     filename: 'js/background.js',
   },
   plugins: [
-    DllReferenceWebpackPlugin,
+    dllReferenceWebpackPlugin,
     new CopyWebpackPlugin({
       patterns: [
         {
@@ -40,8 +44,15 @@ const popupConfig = merge(commonConfig, {
     filename: 'js/[name].[chunkhash:9].js',
     chunkFilename: 'js/[name].[chunkhash:9].js',
   },
+  devServer: {
+    hot: true,
+    devMiddleware: {
+      writeToDisk: true,
+    },
+  },
   plugins: [
-    DllReferenceWebpackPlugin,
+    !isProduction && new ReactRefreshWebpackPlugin(),
+    dllReferenceWebpackPlugin,
     new HtmlWebpackPlugin({
       template: './public/index.html',
     }),
@@ -64,7 +75,7 @@ const popupConfig = merge(commonConfig, {
         },
       ],
     }),
-  ],
+  ].filter(Boolean),
 });
 
 module.exports = [backgroundConfig, popupConfig];

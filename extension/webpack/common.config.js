@@ -6,6 +6,7 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const ReactRefreshTypeScript = require('react-refresh-typescript');
 const { PATHS } = require('./constants');
 
 const ENV = process.env.NODE_ENV;
@@ -60,6 +61,11 @@ const commonConfig = {
             options: {
               configFile: tsConfigFile,
               transpileOnly: true,
+              ...(!isProduction && {
+                getCustomTransformers: () => ({
+                  before: [ReactRefreshTypeScript()],
+                }),
+              }),
             },
           },
         ],
