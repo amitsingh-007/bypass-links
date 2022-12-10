@@ -14,7 +14,7 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      -name: Downmerge main -> dependabot-updates ⛙
+      - name: Downmerge main -> dependabot-updates ⛙
         run: |
           git checkout test-2
           git merge -m 'Merge branch 'main' into dependabot-updates' test-1
