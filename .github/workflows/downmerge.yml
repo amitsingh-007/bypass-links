@@ -16,6 +16,8 @@ jobs:
 
       - name: Downmerge main -> dependabot-updates ⛙
         run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
           git checkout dependabot-updates
           git merge -m 'Merge branch 'main' into dependabot-updates' main
           git push origin dependabot-updates
