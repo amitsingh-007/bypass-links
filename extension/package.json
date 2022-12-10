@@ -27,7 +27,7 @@
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
     "@hello-pangea/dnd": "16.2.0",
-    "@mui/material": "5.10.16",
+    "@mui/material": "5.10.17",
     "@mui/lab": "5.0.0-alpha.111",
     "@mui/x-date-pickers": "5.0.10",
     "@welldone-software/why-did-you-render": "7.0.1",
