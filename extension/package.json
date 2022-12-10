@@ -33,7 +33,7 @@
     "@welldone-software/why-did-you-render": "7.0.1",
     "browser-image-compression": "2.0.0",
     "dayjs": "1.11.6",
-    "firebase": "9.14.0",
+    "firebase": "9.15.0",
     "md5": "2.3.0",
     "memoize-one": "6.0.0",
     "qrcode": "1.5.1",
