@@ -3,7 +3,9 @@ import promisify from './promisifyChromeApi';
 const identity = {
   getAuthToken: (options: chrome.identity.TokenDetails) =>
     promisify<string>((callback: any) => {
-      chrome.identity.getAuthToken(options, callback);
+      chrome.identity.clearAllCachedAuthTokens(() => {
+        chrome.identity.getAuthToken(options, callback);
+      });
     }),
 
   removeCachedAuthToken: (options: chrome.identity.TokenInformation) =>

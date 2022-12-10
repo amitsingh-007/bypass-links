@@ -36,11 +36,11 @@ const AppHeader = memo(() => {
           <Box>
             <Box
               sx={{
+                display: 'flex',
                 transform: 'translate(-50%, -50%)',
                 backgroundColor: '#202225',
                 borderRadius: '50%',
-                padding: '3px',
-                '> div': { verticalAlign: 'middle' },
+                padding: '8px',
               }}
               onClick={() => setClickCount(clickCount + 1)}
             >

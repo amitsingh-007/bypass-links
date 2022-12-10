@@ -15,6 +15,7 @@ import { FaFolderPlus } from 'react-icons/fa';
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
 import { IoSave } from 'react-icons/io5';
 import { RiUploadCloud2Fill } from 'react-icons/ri';
+import { TbReplace } from 'react-icons/tb';
 import { connect, ConnectedProps } from 'react-redux';
 import { compose } from 'redux';
 import { ContextBookmarks } from '@common/components/Bookmarks/interfaces';
@@ -24,6 +25,7 @@ import ConfirmationDialog from './ConfirmationDialog';
 import { FolderDropdown } from './Dropdown';
 import { FolderDialog } from './FolderDialog';
 import withRouter, { WithRouterProps } from 'SrcPath/hoc/withRouter';
+import ReplaceDialog from './ReplaceDialog';
 
 interface Props extends WithRouterProps, PropsFromRedux {
   isSaveButtonActive: boolean;
@@ -39,6 +41,7 @@ interface Props extends WithRouterProps, PropsFromRedux {
 interface State {
   openFolderDialog: boolean;
   openConfirmationDialog: boolean;
+  openReplaceDialog: boolean;
   isSyncing: boolean;
 }
 
@@ -49,6 +52,7 @@ class Header extends PureComponent<Props, State> {
     super(props);
     this.state = {
       openFolderDialog: false,
+      openReplaceDialog: true,
       openConfirmationDialog: false,
       isSyncing: false,
     };
@@ -117,11 +121,21 @@ class Header extends PureComponent<Props, State> {
     this.setState({ openFolderDialog: !openFolderDialog });
   };
 
+  toggleReplaceDialog = () => {
+    const { openReplaceDialog } = this.state;
+    this.setState({ openReplaceDialog: !openReplaceDialog });
+  };
+
   handleNewFolderClick: React.MouseEventHandler<HTMLButtonElement> = (
     event
   ) => {
     event.stopPropagation();
     this.toggleNewFolderDialog();
+  };
+
+  handleReplaceClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
+    event.stopPropagation();
+    this.toggleReplaceDialog();
   };
 
   handleConfirmationDialogClose = () => {
@@ -147,7 +161,12 @@ class Header extends PureComponent<Props, State> {
       contextBookmarks,
       onSearchChange,
     } = this.props;
-    const { openFolderDialog, openConfirmationDialog, isSyncing } = this.state;
+    const {
+      openFolderDialog,
+      openConfirmationDialog,
+      openReplaceDialog,
+      isSyncing,
+    } = this.state;
     return (
       <>
         <AccordionHeader>
@@ -177,6 +196,15 @@ class Header extends PureComponent<Props, State> {
                 color="primary"
               >
                 Add
+              </Button>
+              <Button
+                variant="outlined"
+                startIcon={<TbReplace />}
+                onClick={this.handleReplaceClick}
+                size="small"
+                color="primary"
+              >
+                Replace
               </Button>
               <Button
                 variant="outlined"
@@ -225,6 +253,9 @@ class Header extends PureComponent<Props, State> {
           isOpen={openFolderDialog}
           onClose={this.toggleNewFolderDialog}
         />
+        {openReplaceDialog && (
+          <ReplaceDialog onClose={this.toggleReplaceDialog} />
+        )}
         <ConfirmationDialog
           onClose={this.handleConfirmationDialogClose}
           onOk={this.handleConfirmationDialogOk}
