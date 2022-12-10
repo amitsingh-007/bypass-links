@@ -1,0 +1,23 @@
+name: Downmerge Changes
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  Sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo 🛎️
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Downmerge main -> dependabot-updates ⛙
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git checkout dependabot-updates
+          git merge -m 'Merge branch 'main' into dependabot-updates' main
+          git push origin dependabot-updates
