@@ -20,9 +20,7 @@
   },
   "globals": {
     "__PROD__": false,
-    "HOST_NAME": false,
-    "JSX": false,
-    "React": false
+    "HOST_NAME": false
   },
   "rules": {
     "@typescript-eslint/explicit-module-boundary-types": "off",
