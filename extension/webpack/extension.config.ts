@@ -49,6 +49,12 @@ const popupConfig = merge<Configuration>(commonConfig, {
     devMiddleware: {
       writeToDisk: true,
     },
+    client: {
+      overlay: {
+        errors: true,
+        warnings: false,
+      },
+    },
   },
   plugins: [
     !isProduction && new ReactRefreshWebpackPlugin(),
