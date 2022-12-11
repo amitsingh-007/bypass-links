@@ -1,12 +1,12 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const { merge } = require('webpack-merge');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
-const { DllReferencePlugin } = require('webpack');
-const commonConfig = require('./common.config');
-const { PATHS } = require('./constants');
+import { merge } from 'webpack-merge';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
+import { Configuration, DllReferencePlugin } from 'webpack';
+import commonConfig from './common.config';
+import { PATHS } from './constants';
+import 'webpack-dev-server'; //Required for TS typings
 
 const ENV = process.env.NODE_ENV;
 const isProduction = ENV === 'production';
@@ -16,7 +16,7 @@ const dllReferenceWebpackPlugin = new DllReferencePlugin({
   manifest: `${PATHS.FIREBASE}/manifest.json`,
 });
 
-const backgroundConfig = merge(commonConfig, {
+const backgroundConfig = merge<Configuration>(commonConfig, {
   name: 'background-script',
   entry: './src/BackgroundScript/index.ts',
   output: {
@@ -36,7 +36,7 @@ const backgroundConfig = merge(commonConfig, {
   ],
 });
 
-const popupConfig = merge(commonConfig, {
+const popupConfig = merge<Configuration>(commonConfig, {
   name: 'content-script',
   entry: './src/index.tsx',
   output: {
@@ -78,4 +78,4 @@ const popupConfig = merge(commonConfig, {
   ].filter(Boolean),
 });
 
-module.exports = [backgroundConfig, popupConfig];
+export default [backgroundConfig, popupConfig];

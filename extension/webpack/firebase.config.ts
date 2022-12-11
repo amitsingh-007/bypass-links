@@ -1,15 +1,14 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+import glob from 'glob';
+import { merge } from 'webpack-merge';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+import { DllPlugin, Configuration } from 'webpack';
+import commonConfig from './common.config';
+import { PATHS } from './constants';
+
 /**
  * This will generate a common chunk  of all the files inside ./src/helpers/firebase for background and content scripts webpack build
  */
-const glob = require('glob');
-const { merge } = require('webpack-merge');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const { DllPlugin } = require('webpack');
-const commonConfig = require('./common.config');
-const { PATHS } = require('./constants');
-
-const firebaseDllConfig = merge(commonConfig, {
+const firebaseDllConfig = merge<Configuration>(commonConfig, {
   name: 'firebase-dll',
   entry: glob.sync('./src/helpers/firebase/*.ts'),
   output: {
@@ -26,4 +25,4 @@ const firebaseDllConfig = merge(commonConfig, {
   ],
 });
 
-module.exports = firebaseDllConfig;
+export default firebaseDllConfig;
