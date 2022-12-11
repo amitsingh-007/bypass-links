@@ -44,11 +44,13 @@
       "SrcPath/*": ["./src/*"]
     }
   },
-  "exclude": [
-    "extension-build",
-    "firebase-dll",
-    "**/node_modules",
-    "webpack",
-    "scripts"
-  ]
+  "include": ["@types", "src", "webpack"],
+  "exclude": ["extension-build", "firebase-dll", "**/node_modules"],
+  //Required for webpack config in typescript
+  "ts-node": {
+    "files": true,
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  }
 }

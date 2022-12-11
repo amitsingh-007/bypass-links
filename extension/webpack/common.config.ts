@@ -1,13 +1,12 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const webpack = require('webpack');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const ESLintPlugin = require('eslint-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
-const ReactRefreshTypeScript = require('react-refresh-typescript');
-const { PATHS } = require('./constants');
+import webpack from 'webpack';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
+import ESLintPlugin from 'eslint-webpack-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
+import ReactRefreshTypeScript from 'react-refresh-typescript';
+import { PATHS } from './constants';
 
 const ENV = process.env.NODE_ENV;
 const isProduction = ENV === 'production';
@@ -16,7 +15,7 @@ const tsConfigFile = `${PATHS.ROOT}/${
   isProduction ? 'tsconfig.production.json' : 'tsconfig.json'
 }`;
 
-const commonConfig = {
+const commonConfig: webpack.Configuration = {
   mode: ENV,
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.scss'],
@@ -113,4 +112,4 @@ const commonConfig = {
   },
 };
 
-module.exports = commonConfig;
+export default commonConfig;
