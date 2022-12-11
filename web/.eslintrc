@@ -19,10 +19,7 @@
     "ecmaVersion": 2022
   },
   "globals": {
-    "__SERVER__": false,
     "__PROD__": false,
-    "__EXT_VERSION__": false,
-    "__RELEASE_DATE__": false,
     "HOST_NAME": false,
     "JSX": false,
     "React": false

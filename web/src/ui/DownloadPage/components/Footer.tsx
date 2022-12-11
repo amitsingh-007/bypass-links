@@ -1,6 +1,7 @@
 import {
   Box,
   IconButton,
+  NoSsr,
   SvgIcon,
   SvgIconProps,
   Typography,
@@ -10,6 +11,7 @@ import { GoMarkGithub } from 'react-icons/go';
 import { MdExtension } from 'react-icons/md';
 import { RiTimeFill } from 'react-icons/ri';
 import footerImage from '@public/footer.png';
+import { getFormattedDateTime } from '@/ui/utils';
 
 const Info = ({
   icon: Icon,
@@ -34,7 +36,13 @@ const Info = ({
   );
 };
 
-const Footer = () => {
+const Footer = ({
+  releaseDate,
+  extVersion,
+}: {
+  releaseDate: string;
+  extVersion: string;
+}) => {
   return (
     <Box
       sx={{
@@ -64,8 +72,10 @@ const Footer = () => {
         }}
       >
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Info icon={MdExtension} text={`v ${__EXT_VERSION__}`} />
-          <Info icon={RiTimeFill} text={__RELEASE_DATE__} />
+          <Info icon={MdExtension} text={`v ${extVersion}`} />
+          <NoSsr>
+            <Info icon={RiTimeFill} text={getFormattedDateTime(releaseDate)} />
+          </NoSsr>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Box
