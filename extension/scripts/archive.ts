@@ -1,11 +1,8 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const fs = require('fs');
-const archiver = require('archiver');
-const { PATHS } = require('../webpack/constants');
-const { extVersion } = require('../../common/src/scripts/extension-version');
-const {
-  getFileNameFromVersion,
-} = require('../../common/src/utils/extensionFile');
+import fs from 'fs';
+import archiver from 'archiver';
+import { PATHS } from '../webpack/constants';
+import { extVersion } from '../../common/src/scripts/extension-version';
+import { getFileNameFromVersion } from '../../common/src/utils/extensionFile';
 
 const output = fs.createWriteStream(
   `${PATHS.EXTENSION}/${getFileNameFromVersion(extVersion)}`

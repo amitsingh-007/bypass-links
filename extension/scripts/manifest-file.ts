@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const jsonfile = require('jsonfile');
-const { PATHS } = require('../webpack/constants');
+import jsonfile from 'jsonfile';
+import { PATHS } from '../webpack/constants';
 
 const manifestFilePath = `${PATHS.EXTENSION}/manifest.json`;
 
