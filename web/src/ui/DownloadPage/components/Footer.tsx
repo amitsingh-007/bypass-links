@@ -1,7 +1,6 @@
 import {
   Box,
   IconButton,
-  NoSsr,
   SvgIcon,
   SvgIconProps,
   Typography,
@@ -39,9 +38,11 @@ const Info = ({
 const Footer = ({
   releaseDate,
   extVersion,
+  country,
 }: {
   releaseDate: string;
   extVersion: string;
+  country: string;
 }) => {
   return (
     <Box
@@ -73,9 +74,10 @@ const Footer = ({
       >
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Info icon={MdExtension} text={`v ${extVersion}`} />
-          <NoSsr>
-            <Info icon={RiTimeFill} text={getFormattedDateTime(releaseDate)} />
-          </NoSsr>
+          <Info
+            icon={RiTimeFill}
+            text={getFormattedDateTime(releaseDate, country)}
+          />
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Box

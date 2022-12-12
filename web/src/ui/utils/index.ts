@@ -1,6 +1,6 @@
-export const getFormattedDateTime = (dateTime: string) => {
+export const getFormattedDateTime = (dateTime: string, country: string) => {
   const date = new Date(dateTime);
-  const locale = 'en-IN';
+  const locale = `en-${country}`;
   return `${date.toLocaleDateString(locale, {
     year: 'numeric',
     month: 'long',

@@ -26,7 +26,8 @@ export const getServerSideProps: GetServerSideProps<{
   downloadLink: string;
   releaseDate: string;
   extVersion: string;
-}> = async () => {
+  country: string;
+}> = async ({ query }) => {
   const { extension, date, version } = await fetchApi<IExtension>(
     '/api/extension'
   );
@@ -35,6 +36,7 @@ export const getServerSideProps: GetServerSideProps<{
       downloadLink: extension,
       releaseDate: date,
       extVersion: version,
+      country: (query.country as string) ?? '',
     },
   };
 };
@@ -43,6 +45,7 @@ export default function Home({
   downloadLink,
   releaseDate,
   extVersion,
+  country,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <>
@@ -53,7 +56,11 @@ export default function Home({
         <PageHeader downloadLink={downloadLink} />
         <SalientFeatures />
       </Container>
-      <Footer releaseDate={releaseDate} extVersion={extVersion} />
+      <Footer
+        country={country}
+        releaseDate={releaseDate}
+        extVersion={extVersion}
+      />
     </>
   );
 }
