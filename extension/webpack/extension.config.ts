@@ -3,9 +3,14 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
+import FileManagerPlugin from 'filemanager-webpack-plugin';
 import { Configuration, DllReferencePlugin } from 'webpack';
 import commonConfig from './common.config';
 import { PATHS } from './constants';
+import {
+  getFileNameFromVersion,
+  getExtVersion,
+} from '../../common/src/utils/extensionFile';
 import 'webpack-dev-server'; //Required for TS typings
 
 const ENV = process.env.NODE_ENV;
@@ -58,6 +63,31 @@ const popupConfig = merge<Configuration>(commonConfig, {
   },
   plugins: [
     !isProduction && new ReactRefreshWebpackPlugin(),
+    isProduction &&
+      new FileManagerPlugin({
+        events: {
+          onEnd: {
+            archive: [
+              {
+                source: PATHS.EXTENSION,
+                destination: `${PATHS.EXTENSION}/${getFileNameFromVersion(
+                  getExtVersion()
+                )}`,
+                format: 'zip',
+                options: {
+                  zlib: {
+                    level: 9,
+                  },
+                  globOptions: {
+                    dot: true,
+                    ignore: ['*.zip'], //ignore the output .zip file
+                  },
+                },
+              },
+            ],
+          },
+        },
+      }),
     dllReferenceWebpackPlugin,
     new HtmlWebpackPlugin({
       template: './public/index.html',

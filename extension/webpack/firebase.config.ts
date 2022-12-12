@@ -1,6 +1,5 @@
 import glob from 'glob';
 import { merge } from 'webpack-merge';
-import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import { DllPlugin, Configuration } from 'webpack';
 import commonConfig from './common.config';
 import { PATHS } from './constants';
@@ -15,13 +14,13 @@ const firebaseDllConfig = merge<Configuration>(commonConfig, {
     filename: 'js/firebase.dll.js',
     path: PATHS.EXTENSION,
     library: 'firebase_lib',
+    clean: true,
   },
   plugins: [
     new DllPlugin({
       name: 'firebase_lib',
       path: `${PATHS.FIREBASE}/manifest.json`,
     }),
-    new CleanWebpackPlugin(),
   ],
 });
 

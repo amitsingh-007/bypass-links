@@ -2,7 +2,6 @@ const path = require('path');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const nextPWA = require('next-pwa');
-const { extVersion } = require('../common/src/scripts/extension-version');
 
 const isDev = process.env.NODE_ENV === 'development';
 
