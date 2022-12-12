@@ -1,9 +1,11 @@
+import 'webpack-dev-server'; //Required for TS typings
 import { merge } from 'webpack-merge';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import FileManagerPlugin from 'filemanager-webpack-plugin';
+import MergeJsonWebpackPlugin from 'merge-jsons-webpack-plugin';
 import { Configuration, DllReferencePlugin } from 'webpack';
 import commonConfig from './common.config';
 import { PATHS } from './constants';
@@ -11,7 +13,6 @@ import {
   getFileNameFromVersion,
   getExtVersion,
 } from '../../common/src/utils/extensionFile';
-import 'webpack-dev-server'; //Required for TS typings
 
 const ENV = process.env.NODE_ENV;
 const isProduction = ENV === 'production';
@@ -62,6 +63,35 @@ const popupConfig = merge<Configuration>(commonConfig, {
     },
   },
   plugins: [
+    dllReferenceWebpackPlugin,
+    new HtmlWebpackPlugin({
+      template: './public/index.html',
+    }),
+    new MiniCssExtractPlugin({
+      filename: 'css/[name].[contenthash].css',
+      chunkFilename: 'css/[id].[contenthash].css',
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: `${PATHS.ROOT}/assets`,
+          to: `${PATHS.EXTENSION}/assets`,
+        },
+      ],
+    }),
+    new MergeJsonWebpackPlugin({
+      output: {
+        groupBy: [
+          {
+            pattern: `public/manifest${isProduction ? '*' : ''}.json`,
+            fileName: 'manifest.json',
+          },
+        ],
+      },
+      globOptions: {
+        root: PATHS.ROOT,
+      },
+    }),
     !isProduction && new ReactRefreshWebpackPlugin(),
     isProduction &&
       new FileManagerPlugin({
@@ -88,29 +118,6 @@ const popupConfig = merge<Configuration>(commonConfig, {
           },
         },
       }),
-    dllReferenceWebpackPlugin,
-    new HtmlWebpackPlugin({
-      template: './public/index.html',
-    }),
-    new MiniCssExtractPlugin({
-      filename: 'css/[name].[contenthash].css',
-      chunkFilename: 'css/[id].[contenthash].css',
-    }),
-    new CopyWebpackPlugin({
-      patterns: [
-        {
-          from: `${PATHS.ROOT}/assets`,
-          to: `${PATHS.EXTENSION}/assets`,
-        },
-        {
-          context: `${PATHS.ROOT}/public`,
-          from: '**/*',
-          globOptions: {
-            ignore: ['**/*.html'],
-          },
-        },
-      ],
-    }),
   ].filter(Boolean),
 });
 
