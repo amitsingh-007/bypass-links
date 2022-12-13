@@ -44,8 +44,8 @@
       "SrcPath/*": ["./src/*"]
     }
   },
-  "include": ["@types", "src", "webpack"],
-  "exclude": ["extension-build", "firebase-dll", "**/node_modules"],
+  "include": ["@types", "src", "webpack.config.ts"],
+  "exclude": ["build", "**/node_modules"],
   //Required for webpack config in typescript
   "ts-node": {
     "files": true,

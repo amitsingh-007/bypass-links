@@ -1,5 +1,4 @@
 **/.env.local
 **/node_modules/
 **/.next
-**/extension-build/
-**/firebase-dll/
+**/extensionbuild/
