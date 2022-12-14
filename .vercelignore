@@ -1,4 +1,4 @@
 **/.env.local
 **/node_modules/
 **/.next
-**/extensionbuild/
+**/build/
