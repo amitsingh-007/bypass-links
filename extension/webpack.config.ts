@@ -40,23 +40,25 @@ const config: Configuration = {
     content_script: {
       import: './src/index.tsx',
       filename: 'js/[name].[chunkhash:9].js',
-      dependOn: 'firebase_common',
+      // dependOn: 'firebase_common',
     },
     background_script: {
       import: './src/BackgroundScript/index.ts',
       filename: 'js/background.js',
-      dependOn: 'firebase_common',
+      // dependOn: 'firebase_common',
     },
-    firebase_common: {
-      import: './src/helpers/firebase',
-      filename: 'js/[name].js',
-    },
+    // firebase_common: {
+    //   import: './src/helpers/firebase',
+    //   filename: 'js/[name].js',
+    // },
   },
   output: {
     path: PATHS.EXTENSION,
     clean: true,
     filename: 'js/[name].js',
     chunkFilename: 'js/[name].js',
+    asyncChunks: false,
+    chunkFormat: 'array-push',
   },
   devServer: {
     hot: true,
@@ -92,9 +94,9 @@ const config: Configuration = {
     minimize: isProduction,
     runtimeChunk: 'single',
     usedExports: true,
-    splitChunks: {
-      chunks: 'all',
-    },
+    // splitChunks: {
+    //   chunks: 'all',
+    // },
     minimizer: [
       new TerserPlugin({
         terserOptions: {
