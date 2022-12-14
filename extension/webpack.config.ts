@@ -171,6 +171,7 @@ const config: Configuration = {
     }),
     new HtmlWebpackPlugin({
       template: './public/index.html',
+      excludeChunks: ['background_script'],
     }),
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash].css',
