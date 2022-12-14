@@ -39,18 +39,12 @@ const config: Configuration = {
   entry: {
     content_script: {
       import: './src/index.tsx',
-      filename: 'js/[name].[chunkhash:9].js',
-      // dependOn: 'firebase_common',
+      filename: 'js/content.js',
     },
     background_script: {
       import: './src/BackgroundScript/index.ts',
       filename: 'js/background.js',
-      // dependOn: 'firebase_common',
     },
-    // firebase_common: {
-    //   import: './src/helpers/firebase',
-    //   filename: 'js/[name].js',
-    // },
   },
   output: {
     path: PATHS.EXTENSION,
@@ -58,7 +52,6 @@ const config: Configuration = {
     filename: 'js/[name].js',
     chunkFilename: 'js/[name].js',
     asyncChunks: false,
-    chunkFormat: 'array-push',
   },
   devServer: {
     hot: true,
@@ -94,9 +87,15 @@ const config: Configuration = {
     minimize: isProduction,
     runtimeChunk: 'single',
     usedExports: true,
-    // splitChunks: {
-    //   chunks: 'all',
-    // },
+    splitChunks: {
+      cacheGroups: {
+        common: {
+          name: 'common_chunk',
+          chunks: 'all',
+          enforce: true,
+        },
+      },
+    },
     minimizer: [
       new TerserPlugin({
         terserOptions: {
@@ -160,7 +159,7 @@ const config: Configuration = {
     }),
     new ESLintPlugin({
       files: './src/**/*.{js,ts,tsx}',
-      threads: true,
+      threads: !isProduction,
       cache: true,
     }),
     new DefinePlugin({
