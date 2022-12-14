@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "cross-env NODE_ENV=production HOST_NAME=https://bypass-links.vercel.app webpack",
+    "build": "cross-env NODE_ENV=production HOST_NAME=https://bypass-links.vercel.app webpack --progress",
     "dev": "cross-env NODE_ENV=development HOST_NAME=http://localhost:3000 webpack serve --progress"
   },
+  "sideEffects": false,
   "dependencies": {
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",

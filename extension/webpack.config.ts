@@ -37,13 +37,15 @@ const config: Configuration = {
   mode: ENV,
   name: 'extension',
   entry: {
-    content: {
+    content_script: {
       import: './src/index.tsx',
       filename: 'js/[name].[chunkhash:9].js',
+      dependOn: 'firebase_common',
     },
-    background: {
+    background_script: {
       import: './src/BackgroundScript/index.ts',
-      filename: 'js/[name].js',
+      filename: 'js/background.js',
+      dependOn: 'firebase_common',
     },
     firebase_common: {
       import: './src/helpers/firebase',
@@ -82,13 +84,14 @@ const config: Configuration = {
   devtool: isProduction ? undefined : 'inline-source-map',
   target: 'browserslist',
   performance: {
-    hints: false,
+    hints: isProduction ? undefined : false,
   },
   optimization: {
     nodeEnv: ENV,
     chunkIds: 'named',
     minimize: isProduction,
     runtimeChunk: 'single',
+    usedExports: true,
     splitChunks: {
       chunks: 'all',
     },
