@@ -100,7 +100,6 @@ const config: Configuration = {
     minimizer: [
       new TerserPlugin({
         terserOptions: {
-          compress: true,
           format: {
             comments: false,
           },
