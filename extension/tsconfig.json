@@ -23,6 +23,7 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "incremental": true,
     "baseUrl": ".",
     // Refer: https://github.com/microsoft/TypeScript/issues/26859#issuecomment-695806452
     "paths": {
