@@ -31,6 +31,7 @@ export const getServerSideProps: GetServerSideProps<{
   const { extension, date, version } = await fetchApi<IExtension>(
     '/api/extension'
   );
+  console.log(1, { extension, date, version });
   return {
     props: {
       downloadLink: extension,
@@ -47,6 +48,7 @@ export default function Home({
   extVersion,
   country,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  console.log(2, { downloadLink, releaseDate, extVersion, country });
   return (
     <>
       <GlobalStyles styles={globalStyles} />

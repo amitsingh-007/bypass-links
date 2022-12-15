@@ -44,6 +44,7 @@ const Footer = ({
   extVersion: string;
   country: string;
 }) => {
+  console.log(3, { releaseDate, extVersion, country });
   return (
     <Box
       sx={{
