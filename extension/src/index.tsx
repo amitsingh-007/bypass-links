@@ -1,7 +1,3 @@
-// Uncomment this to see render comments in the console
-// if (!__PROD__) {
-//   require("./scripts/wdyr");
-// }
 import { CssBaseline } from '@mui/material';
 import darkScrollbar from '@mui/material/darkScrollbar';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -14,19 +10,11 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import { applyMiddleware, compose, createStore } from 'redux';
+import { createStore } from 'redux';
 import DynamicProvider from './provider/DynamicProvider';
 import rootReducers from './reducers/rootReducer';
 
-const middlewares = [];
-if (!__PROD__) {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const { logger } = require('redux-logger');
-  middlewares.push(logger);
-}
-const store = compose(applyMiddleware(...middlewares))(createStore)(
-  rootReducers
-);
+const store = createStore(rootReducers);
 
 const theme = createTheme({
   palette: {

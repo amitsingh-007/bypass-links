@@ -13,7 +13,6 @@
     "@mui/lab": "5.0.0-alpha.111",
     "@mui/material": "5.10.17",
     "@mui/x-date-pickers": "5.0.10",
-    "@welldone-software/why-did-you-render": "7.0.1",
     "browser-image-compression": "2.0.0",
     "dayjs": "1.11.7",
     "firebase": "9.15.0",
@@ -29,7 +28,6 @@
     "react-router-dom": "6.4.5",
     "react-window": "1.8.8",
     "redux": "4.2.0",
-    "redux-logger": "3.0.6",
     "throttle-debounce": "5.0.0"
   },
   "devDependencies": {
@@ -43,7 +41,6 @@
     "@types/react-dom": "18.0.9",
     "@types/react-router-dom": "5.3.3",
     "@types/react-window": "1.8.5",
-    "@types/redux-logger": "3.0.9",
     "@types/throttle-debounce": "5.0.0",
     "@types/webpack": "5.28.0",
     "@typescript-eslint/eslint-plugin": "5.46.0",
