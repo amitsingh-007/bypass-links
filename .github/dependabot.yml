@@ -5,21 +5,21 @@ updates:
     directory: '/'
     open-pull-requests-limit: 100
     target-branch: 'dependabot-updates'
+    labels: []
     schedule:
       interval: 'weekly'
       day: 'saturday'
       time: '10:00'
       timezone: 'Asia/Kolkata'
-      labels: []
 
   # Maintain dependencies for npm
   - package-ecosystem: 'npm'
     directory: '/'
     open-pull-requests-limit: 200
     target-branch: 'dependabot-updates'
+    labels: []
     schedule:
       interval: 'weekly'
       day: 'saturday'
       time: '10:00'
       timezone: 'Asia/Kolkata'
-      labels: []
