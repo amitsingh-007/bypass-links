@@ -78,6 +78,8 @@ const Footer = ({
             icon={RiTimeFill}
             text={getFormattedDateTime(releaseDate, country)}
           />
+          <span>{releaseDate}</span>
+          <span>{country}</span>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Box
