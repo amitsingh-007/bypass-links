@@ -17,14 +17,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
-
-      - name: NextJS Cache 💾
-        uses: actions/cache@v3
-        with:
-          path: ${{ github.workspace }}/web/.next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install dependencies 🧼
         uses: bahmutov/npm-install@v1
@@ -140,8 +132,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
 
       - name: Start deployment 🚀
         uses: bobheadxi/deployments@v1.3.0
