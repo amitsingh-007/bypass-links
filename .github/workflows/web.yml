@@ -20,15 +20,6 @@ jobs:
         with:
           node-version: '18'
 
-      - name: NextJS Cache 💾
-        uses: actions/cache@v3
-        with:
-          path: ${{ github.workspace }}/web/.next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}
-
-      - name: Install dependencies 🧼
-        uses: bahmutov/npm-install@v1
-
       - name: Deploy Preview (Vercel) 🔺
         uses: amondnet/vercel-action@v25
         id: vercel-action

@@ -10,9 +10,9 @@ const isDev = process.env.NODE_ENV === 'development';
  **/
 const nextConfig = {
   productionBrowserSourceMaps: true,
-  compiler: {
-    removeConsole: isDev ? false : { exclude: ['error'] },
-  },
+  // compiler: {
+  //   removeConsole: isDev ? false : { exclude: ['error'] },
+  // },
   experimental: {
     //To build common folder, which is outside root directory; https://github.com/vercel/next.js/issues/5666
     externalDir: true,
