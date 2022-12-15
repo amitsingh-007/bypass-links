@@ -59,6 +59,7 @@ const config: Configuration = {
       writeToDisk: true,
     },
     client: {
+      logging: 'warn',
       overlay: {
         errors: true,
         warnings: false,
@@ -174,8 +175,8 @@ const config: Configuration = {
       excludeChunks: ['background_script'],
     }),
     new MiniCssExtractPlugin({
-      filename: 'css/[name].[contenthash].css',
-      chunkFilename: 'css/[id].[contenthash].css',
+      filename: 'css/[name].css',
+      chunkFilename: 'css/[id].css',
     }),
     new CopyWebpackPlugin({
       patterns: [
