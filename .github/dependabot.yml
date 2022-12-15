@@ -7,9 +7,10 @@ updates:
     target-branch: 'dependabot-updates'
     schedule:
       interval: 'weekly'
-      day: "saturday"
-      time: "10:00"
-      timezone: "Asia/Kolkata"
+      day: 'saturday'
+      time: '10:00'
+      timezone: 'Asia/Kolkata'
+      labels: []
 
   # Maintain dependencies for npm
   - package-ecosystem: 'npm'
@@ -18,6 +19,7 @@ updates:
     target-branch: 'dependabot-updates'
     schedule:
       interval: 'weekly'
-      day: "saturday"
-      time: "10:00"
-      timezone: "Asia/Kolkata"
+      day: 'saturday'
+      time: '10:00'
+      timezone: 'Asia/Kolkata'
+      labels: []
