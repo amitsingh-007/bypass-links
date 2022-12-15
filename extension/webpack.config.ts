@@ -122,7 +122,9 @@ const config: Configuration = {
               transpileOnly: true,
               ...(!isProduction && {
                 getCustomTransformers: () => ({
-                  before: [ReactRefreshTypeScript()],
+                  before: [!isProduction && ReactRefreshTypeScript()].filter(
+                    Boolean
+                  ),
                 }),
               }),
             },
