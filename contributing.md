@@ -5,7 +5,7 @@
 - Fork this repository.
 - Run `npm install`.
 - For local development:
-  - Run `npm run ext:dev` to watch extenion.
+  - Run `npm run ext:dev` to watch extension.
   - Run `npm run ext:build` for production build of extension.
   - Only once run `npm run dev:env` inside web folder. Then run `npm run web:dev` to watch web(NextJS).
   - Run `npm run web:build` for production build of NextJS.

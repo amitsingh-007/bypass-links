@@ -10,6 +10,7 @@ import { GoMarkGithub } from 'react-icons/go';
 import { MdExtension } from 'react-icons/md';
 import { RiTimeFill } from 'react-icons/ri';
 import footerImage from '@public/footer.png';
+import { getFormattedDateTime } from '@/ui/utils';
 
 const Info = ({
   icon: Icon,
@@ -34,7 +35,15 @@ const Info = ({
   );
 };
 
-const Footer = () => {
+const Footer = ({
+  releaseDate,
+  extVersion,
+  country,
+}: {
+  releaseDate: string;
+  extVersion: string;
+  country: string;
+}) => {
   return (
     <Box
       sx={{
@@ -64,8 +73,11 @@ const Footer = () => {
         }}
       >
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Info icon={MdExtension} text={`v ${__EXT_VERSION__}`} />
-          <Info icon={RiTimeFill} text={__RELEASE_DATE__} />
+          <Info icon={MdExtension} text={`v ${extVersion}`} />
+          <Info
+            icon={RiTimeFill}
+            text={getFormattedDateTime(releaseDate, country)}
+          />
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Box

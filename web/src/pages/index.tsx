@@ -7,6 +7,7 @@ import Footer from '../ui/DownloadPage/components/Footer';
 import MetaTags from '../ui/DownloadPage/components/MetaTags';
 import PageHeader from '../ui/DownloadPage/components/PageHeader';
 import SalientFeatures from '../ui/DownloadPage/components/SalientFeatures';
+import { IExtension } from '@common/interfaces/api';
 
 const globalStyles: GlobalStylesProps<Theme>['styles'] = {
   '*': {
@@ -23,17 +24,28 @@ const globalStyles: GlobalStylesProps<Theme>['styles'] = {
 
 export const getServerSideProps: GetServerSideProps<{
   downloadLink: string;
-}> = async () => {
-  const { extension } = await fetchApi('/api/extension');
+  releaseDate: string;
+  extVersion: string;
+  country: string;
+}> = async ({ query }) => {
+  const { extension, date, version } = await fetchApi<IExtension>(
+    '/api/extension'
+  );
   return {
     props: {
       downloadLink: extension,
+      releaseDate: date,
+      extVersion: version,
+      country: (query.country as string) ?? '',
     },
   };
 };
 
 export default function Home({
   downloadLink,
+  releaseDate,
+  extVersion,
+  country,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <>
@@ -44,7 +56,11 @@ export default function Home({
         <PageHeader downloadLink={downloadLink} />
         <SalientFeatures />
       </Container>
-      <Footer />
+      <Footer
+        country={country}
+        releaseDate={releaseDate}
+        extVersion={extVersion}
+      />
     </>
   );
 }

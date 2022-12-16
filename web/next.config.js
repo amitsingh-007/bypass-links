@@ -2,8 +2,6 @@ const path = require('path');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const nextPWA = require('next-pwa');
-const { releaseDate } = require('./scripts/release-config');
-const { extVersion } = require('../common/src/scripts/extension-version');
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -31,10 +29,7 @@ const nextConfig = {
     config.plugins.push(
       new webpack.DefinePlugin({
         __PROD__: JSON.stringify(!dev),
-        __EXT_VERSION__: JSON.stringify(extVersion),
-        __RELEASE_DATE__: JSON.stringify(releaseDate),
         HOST_NAME: JSON.stringify(process.env.HOST_NAME),
-        __SERVER__: JSON.stringify(isServer),
       })
     );
     if (dev) {

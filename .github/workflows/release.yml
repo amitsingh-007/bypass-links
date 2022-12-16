@@ -17,14 +17,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
-
-      - name: NextJS Cache 💾
-        uses: actions/cache@v3
-        with:
-          path: ${{ github.workspace }}/web/.next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install dependencies 🧼
         uses: bahmutov/npm-install@v1
@@ -36,7 +28,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: extension-file
-          path: ./extension/extension-build/bypass-links-*.zip
+          path: ./extension/build/bypass-links-*.zip
 
       - name: Deploy Preview (Vercel) 🔺
         uses: amondnet/vercel-action@v25
@@ -88,7 +80,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: extension-file
-          path: ./extension/extension-build/
+          path: ./extension/build/
 
       - name: Generate Release Tag 🏷
         uses: amitsingh-007/next-release-tag@v2.2.0
@@ -116,7 +108,7 @@ jobs:
       - name: Get Release Asset Name 🗃
         id: get_release_asset_name
         run: |
-          file=$(find ./extension/extension-build/bypass-links-*.zip  -printf "%f\n")
+          file=$(find ./extension/build/bypass-links-*.zip  -printf "%f\n")
           echo "::set-output name=asset_name::$file"
 
       - name: Upload Release Asset ☁
@@ -125,7 +117,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./extension/extension-build/${{ steps.get_release_asset_name.outputs.asset_name }}
+          asset_path: ./extension/build/${{ steps.get_release_asset_name.outputs.asset_name }}
           asset_name: ${{ steps.get_release_asset_name.outputs.asset_name }}
           asset_content_type: application/zip
 
@@ -140,8 +132,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
 
       - name: Start deployment 🚀
         uses: bobheadxi/deployments@v1.3.0

@@ -5,6 +5,7 @@ import { getExtensionState } from 'GlobalHelpers/fetchFromStorage';
 import { isExtensionActive } from '../../utils/common';
 import { EXTENSION_STATE } from 'GlobalConstants';
 import fetchApi from '@common/utils/fetch';
+import { IExtension } from '@common/interfaces/api';
 
 const getPageH1 = () => {
   const h1s = document.getElementsByTagName('h1');
@@ -47,7 +48,9 @@ export const setExtensionIcon = async ({
 };
 
 export const checkForUpdates = async () => {
-  const { version: latestVersion } = await fetchApi('/api/extension');
+  const { version: latestVersion } = await fetchApi<IExtension>(
+    '/api/extension'
+  );
   const { version: currentVersion } = chrome.runtime.getManifest();
   return latestVersion === currentVersion;
 };
