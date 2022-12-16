@@ -12,12 +12,15 @@ const extensionApiSchema100: ObjectSchema = {
   schema: {
     title: 'extensionApiSchema',
     type: 'object',
-    required: ['extension', 'version'],
+    required: ['extension', 'version', 'date'],
     properties: {
       extension: {
         type: 'string',
       },
       version: {
+        type: 'string',
+      },
+      date: {
         type: 'string',
       },
     },
