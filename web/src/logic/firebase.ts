@@ -1,4 +1,4 @@
-import { getFullDbPath } from '@common/utils/firebase';
+import { getFullDbPath } from '@pkg/common/src/utils/firebase';
 import { cert, getApp, getApps, initializeApp } from 'firebase-admin/app';
 import { getDatabase } from 'firebase-admin/database';
 import { getAuth } from 'firebase-admin/auth';
