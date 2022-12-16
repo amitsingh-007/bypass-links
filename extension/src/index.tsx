@@ -58,6 +58,11 @@ const theme = createTheme({
         },
       },
     },
+    MuiTextField: {
+      defaultProps: {
+        autoComplete: 'off',
+      },
+    },
   },
 });
 
