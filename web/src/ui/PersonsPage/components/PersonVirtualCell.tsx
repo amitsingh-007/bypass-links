@@ -6,7 +6,7 @@ import { getReactKey } from '@common/components/Persons/utils';
 import Person from '@common/components/Persons/components/Person';
 import { GRID_COLUMN_SIZE } from '../constants';
 
-export interface PersonVirtualCellProps {
+interface PersonVirtualCellProps {
   persons: IPerson[];
 }
 

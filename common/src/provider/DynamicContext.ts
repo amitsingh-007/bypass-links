@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 
-export interface IDynamicContext {
+interface IDynamicContext {
   location: {
     push: (url: string) => void;
     query: () => string;

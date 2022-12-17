@@ -2,7 +2,7 @@ import create from 'zustand';
 import { VoidFunction } from '@common/interfaces/custom';
 import { BOOKMARK_OPERATION } from '@common/components/Bookmarks/constants';
 
-export interface OperationState {
+interface OperationState {
   operation: BOOKMARK_OPERATION;
   url: string;
 }
