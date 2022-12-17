@@ -3,7 +3,6 @@ import { PANEL_DIMENSIONS_PX, PANEL_SIZE } from 'GlobalConstants/styles';
 import { getPersons } from 'GlobalHelpers/fetchFromStorage';
 import { removeImageFromFirebase } from 'GlobalHelpers/firebase/storage';
 import { useEffect, useMemo, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import {
   SORT_ORDER,
   SORT_TYPE,
@@ -19,7 +18,6 @@ import { updatePersonCacheAndImageUrls } from '../utils/sync';
 import Header from './Header';
 import Persons from '@common/components/Persons/components/Persons';
 import PersonVirtualCell from './PersonVirtualCell';
-import { startHistoryMonitor } from 'SrcPath/HistoryPanel/actionCreators';
 import tabs from 'GlobalHelpers/chrome/tabs';
 import {
   getFilteredPersons,
@@ -27,6 +25,7 @@ import {
 } from '@common/components/Persons/utils';
 import { GRID_COLUMN_SIZE } from '../constants';
 import useToastStore from 'GlobalStore/toast';
+import useHistoryStore from 'GlobalStore/history';
 
 const sizeConfig = {
   gridColumnSize: GRID_COLUMN_SIZE,
@@ -35,7 +34,9 @@ const sizeConfig = {
 };
 
 const PersonsPanel = () => {
-  const dispatch = useDispatch();
+  const startHistoryMonitor = useHistoryStore(
+    (state) => state.startHistoryMonitor
+  );
   const displayToast = useToastStore((state) => state.displayToast);
   const [persons, setPersons] = useState<IPerson[]>([]);
   const [isFetching, setIsFetching] = useState(true);
@@ -121,7 +122,7 @@ const PersonsPanel = () => {
   };
 
   const onLinkOpen = (url: string) => {
-    dispatch(startHistoryMonitor());
+    startHistoryMonitor();
     tabs.create({ url, selected: false });
   };
 

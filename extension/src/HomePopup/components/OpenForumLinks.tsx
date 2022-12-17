@@ -3,11 +3,11 @@ import { BYPASS_KEYS } from 'GlobalConstants';
 import runtime from 'GlobalHelpers/chrome/runtime';
 import tabs, { getCurrentTab } from 'GlobalHelpers/chrome/tabs';
 import { RootState } from 'GlobalReducers/rootReducer';
+import useHistoryStore from 'GlobalStore/history';
 import { matchHostnames } from 'GlobalUtils/common';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { MdForum } from 'react-icons/md';
-import { useDispatch, useSelector } from 'react-redux';
-import { startHistoryMonitor } from 'SrcPath/HistoryPanel/actionCreators';
+import { useSelector } from 'react-redux';
 import StyledButton from './StyledButton';
 
 const isCurrentPageForum = async (url = '') => {
@@ -19,7 +19,9 @@ const isCurrentPageForum = async (url = '') => {
 };
 
 const OpenForumLinks = memo(function OpenForumLinks() {
-  const dispatch = useDispatch();
+  const startHistoryMonitor = useHistoryStore(
+    (state) => state.startHistoryMonitor
+  );
   const { isSignedIn } = useSelector((state: RootState) => state.root);
   const [isFetching, setIsFetching] = useState(false);
   const [currentTab, setCurrentTab] = useState<chrome.tabs.Tab | null>(null);
@@ -44,7 +46,7 @@ const OpenForumLinks = memo(function OpenForumLinks() {
 
   const handleClick = async () => {
     setIsFetching(true);
-    dispatch(startHistoryMonitor());
+    startHistoryMonitor();
     const { forumPageLinks } = await runtime.sendMessage<{
       forumPageLinks: string[];
       url: string;

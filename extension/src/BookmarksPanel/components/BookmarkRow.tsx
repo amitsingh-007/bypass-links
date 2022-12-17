@@ -4,15 +4,16 @@ import Bookmark, {
 import { memo } from 'react';
 import withBookmarkRow from '../hoc/withBookmarkRow';
 import tabs from 'GlobalHelpers/chrome/tabs';
-import { startHistoryMonitor } from 'SrcPath/HistoryPanel/actionCreators';
-import { useDispatch } from 'react-redux';
+import useHistoryStore from 'GlobalStore/history';
 
 const BookmarkRow = memo<Omit<Props, 'onOpenLink'>>((props) => {
-  const dispatch = useDispatch();
+  const startHistoryMonitor = useHistoryStore(
+    (state) => state.startHistoryMonitor
+  );
 
   const onOpenLink = (url: string) => {
-    dispatch(startHistoryMonitor());
-    tabs.create({ url, selected: false });
+    startHistoryMonitor();
+    tabs.create({ url, active: false });
   };
 
   return <Bookmark {...props} onOpenLink={onOpenLink} />;

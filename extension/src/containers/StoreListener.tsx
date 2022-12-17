@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { getPersons } from 'GlobalHelpers/fetchFromStorage';
 import { IUpdateTaggedPerson } from '@common/components/Persons/interfaces/persons';
 import { setPersonsInStorage } from 'SrcPath/PersonsPanel/utils';
+import useHistoryStore from 'GlobalStore/history';
 
 const THIRTY_SECONDS = 30 * 1000; //in milliseconds
 
@@ -77,15 +78,13 @@ const updateUrlsInTaggedPersons = async (updates: IUpdateTaggedPerson[]) => {
 
 const StoreListener = memo(function StoreListener() {
   const { updateTaggedUrls } = useSelector((state: RootState) => state.persons);
-  const { startHistoryMonitor } = useSelector(
-    (state: RootState) => state.history
-  );
+  const monitorHistory = useHistoryStore((state) => state.monitorHistory);
 
   useEffect(() => {
-    if (startHistoryMonitor) {
+    if (monitorHistory) {
       startHistoryWatch();
     }
-  }, [startHistoryMonitor]);
+  }, [monitorHistory]);
 
   useEffect(() => {
     if (updateTaggedUrls) {

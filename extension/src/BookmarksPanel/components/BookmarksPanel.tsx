@@ -14,7 +14,6 @@ import {
 } from '@hello-pangea/dnd';
 import { useDispatch } from 'react-redux';
 import { FixedSizeList } from 'react-window';
-import { startHistoryMonitor } from 'SrcPath/HistoryPanel/actionCreators';
 import { updateTaggedPersonUrls } from 'SrcPath/PersonsPanel/actionCreators';
 import { IUpdateTaggedPerson } from '@common/components/Persons/interfaces/persons';
 import { setBookmarkOperation } from '../actionCreators';
@@ -55,6 +54,7 @@ import {
   shouldRenderBookmarks,
 } from '@common/components/Bookmarks/utils';
 import useToastStore from 'GlobalStore/toast';
+import useHistoryStore from 'GlobalStore/history';
 
 const minReqBookmarksToScroll = Math.ceil(
   BOOKMARK_PANEL_CONTENT_HEIGHT / BOOKMARK_ROW_DIMENTSIONS.height
@@ -66,6 +66,9 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
   bmUrl,
 }) {
   const dispatch = useDispatch();
+  const startHistoryMonitor = useHistoryStore(
+    (state) => state.startHistoryMonitor
+  );
   const displayToast = useToastStore((state) => state.displayToast);
   const listRef = useRef<any>();
   const [contextBookmarks, setContextBookmarks] = useState<ContextBookmarks>(
@@ -100,13 +103,13 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
   }, [folderContext]);
 
   const handleOpenSelectedBookmarks = useCallback(() => {
-    dispatch(startHistoryMonitor());
+    startHistoryMonitor();
     contextBookmarks.forEach(({ url }, index) => {
       if (selectedBookmarks[index]) {
         tabs.create({ url, selected: false });
       }
     });
-  }, [contextBookmarks, dispatch, selectedBookmarks]);
+  }, [contextBookmarks, selectedBookmarks, startHistoryMonitor]);
 
   const handleKeyPress = useCallback(
     (event: KeyboardEvent) => {

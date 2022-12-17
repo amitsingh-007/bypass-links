@@ -5,18 +5,20 @@ import tabs from 'GlobalHelpers/chrome/tabs';
 import { RootState } from 'GlobalReducers/rootReducer';
 import { memo, useState } from 'react';
 import { FiExternalLink } from 'react-icons/fi';
-import { useDispatch, useSelector } from 'react-redux';
-import { startHistoryMonitor } from 'SrcPath/HistoryPanel/actionCreators';
+import { useSelector } from 'react-redux';
 import StyledButton from './StyledButton';
+import useHistoryStore from 'GlobalStore/history';
 
 const OpenDefaultsButton = memo(function OpenDefaultsButton() {
-  const dispatch = useDispatch();
+  const startHistoryMonitor = useHistoryStore(
+    (state) => state.startHistoryMonitor
+  );
   const { isSignedIn } = useSelector((state: RootState) => state.root);
   const [isFetching, setIsFetching] = useState(false);
 
   const handleOpenDefaults = async () => {
     setIsFetching(true);
-    dispatch(startHistoryMonitor());
+    startHistoryMonitor();
     const { [STORAGE_KEYS.redirections]: redirections } = await storage.get([
       STORAGE_KEYS.redirections,
     ]);

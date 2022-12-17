@@ -6,10 +6,9 @@ import { FiExternalLink } from 'react-icons/fi';
 import { IoCheckmarkDoneSharp } from 'react-icons/io5';
 import { MdRemoveCircleOutline } from 'react-icons/md';
 import { MdDragHandle } from 'react-icons/md';
-import { useDispatch } from 'react-redux';
 import { IRedirection } from 'SrcPath/BackgroundScript/interfaces/redirections';
-import { startHistoryMonitor } from 'SrcPath/HistoryPanel/actionCreators';
 import { DEFAULT_RULE_ALIAS } from '../constants';
+import useHistoryStore from 'GlobalStore/history';
 
 const inputProps = {
   style: {
@@ -32,7 +31,9 @@ const RedirectionRule = memo(function RedirectionRule({
   handleRemoveRule,
   handleSaveRule,
 }: Props) {
-  const dispatch = useDispatch();
+  const startHistoryMonitor = useHistoryStore(
+    (state) => state.startHistoryMonitor
+  );
   const [ruleAlias, setRuleAlias] = useState(alias);
   const [ruleWebsite, setRuleWebsite] = useState(website);
   const [isDefaultRule, setIsDefaultRule] = useState(isDefault);
@@ -63,7 +64,7 @@ const RedirectionRule = memo(function RedirectionRule({
     );
   };
   const handleLinkOpen = () => {
-    dispatch(startHistoryMonitor());
+    startHistoryMonitor();
     tabs.create({ url: ruleWebsite, selected: false });
   };
 
