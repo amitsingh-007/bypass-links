@@ -4,12 +4,7 @@ import { lazy } from 'react';
 import { Route, useLocation } from 'react-router-dom';
 import { BMPanelQueryParams } from '@common/components/Bookmarks/interfaces/url';
 
-const BookmarksPanel = lazy(
-  () =>
-    import(
-      /* webpackChunkName: "bookmarks-panel" */ '../components/BookmarksPanel'
-    )
-);
+const BookmarksPanel = lazy(() => import('../components/BookmarksPanel'));
 const getQueryParams = (qs: string): BMPanelQueryParams => {
   const { folderContext, bmUrl, operation } = deserialzeQueryStringToObject(qs);
   return {

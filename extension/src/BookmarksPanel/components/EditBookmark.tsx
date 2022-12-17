@@ -96,7 +96,7 @@ const EditBookmark = memo<Props>(
 
     const closeDialog = () => {
       //Remove qs before closing and mark current as selected
-      if (operation === BOOKMARK_OPERATION.EDIT && openDialog) {
+      if (openDialog) {
         navigate(getBookmarksPanelUrl({ folderContext: curFolder }), {
           replace: true,
         });

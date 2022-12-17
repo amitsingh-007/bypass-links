@@ -1,5 +1,4 @@
 import { ContextBookmarks, IBookmark, IBookmarksObj } from '../interfaces';
-import memoize from 'memoize-one';
 import md5 from 'md5';
 import { hasText } from '../../../utils/search';
 
@@ -11,16 +10,17 @@ export const isFolderEmpty = (
   return !folder || folder.length < 1;
 };
 
-export const getFilteredContextBookmarks = memoize(
-  (contextBookmarks: ContextBookmarks, searchText: string) =>
-    contextBookmarks?.filter(
-      ({ url, title, name }) =>
-        !searchText ||
-        hasText(searchText, url) ||
-        hasText(searchText, title) ||
-        hasText(searchText, name)
-    )
-);
+export const getFilteredContextBookmarks = (
+  contextBookmarks: ContextBookmarks,
+  searchText: string
+) =>
+  contextBookmarks?.filter(
+    ({ url, title, name }) =>
+      !searchText ||
+      hasText(searchText, url) ||
+      hasText(searchText, title) ||
+      hasText(searchText, name)
+  );
 
 export const shouldRenderBookmarks = (
   folders: IBookmarksObj['folders'],
