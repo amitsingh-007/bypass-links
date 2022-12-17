@@ -12,10 +12,8 @@ import {
   DragDropContextProps,
   Droppable,
 } from '@hello-pangea/dnd';
-import { useDispatch } from 'react-redux';
 import { FixedSizeList } from 'react-window';
 import { IUpdateTaggedPerson } from '@common/components/Persons/interfaces/persons';
-import { setBookmarkOperation } from '../actionCreators';
 import {
   BOOKMARK_PANEL_CONTENT_HEIGHT,
   BOOKMARK_ROW_DIMENTSIONS,
@@ -55,6 +53,7 @@ import {
 import useToastStore from 'GlobalStore/toast';
 import useHistoryStore from 'GlobalStore/history';
 import usePersonStore from 'GlobalStore/person';
+import useBookmarkStore from 'GlobalStore/bookmark';
 
 const minReqBookmarksToScroll = Math.ceil(
   BOOKMARK_PANEL_CONTENT_HEIGHT / BOOKMARK_ROW_DIMENTSIONS.height
@@ -65,13 +64,15 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
   operation,
   bmUrl,
 }) {
-  const dispatch = useDispatch();
   const startHistoryMonitor = useHistoryStore(
     (state) => state.startHistoryMonitor
   );
   const displayToast = useToastStore((state) => state.displayToast);
   const updateTaggedPersonUrls = usePersonStore(
     (state) => state.updateTaggedPersonUrls
+  );
+  const setBookmarkOperation = useBookmarkStore(
+    (state) => state.setBookmarkOperation
   );
   const listRef = useRef<any>();
   const [contextBookmarks, setContextBookmarks] = useState<ContextBookmarks>(
@@ -93,12 +94,10 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     setIsSaveButtonActive(false);
     setIsFetching(true);
     const { folders, urlList, folderList } = await getBookmarks();
-    console.log('amit urlList', urlList);
     const folderContextHash = md5(folderContext);
     const modifiedBookmarks = Object.entries(folders[folderContextHash]).map(
       (kvp) => bookmarksMapper(kvp, urlList, folderList)
     );
-    console.log('amit after', modifiedBookmarks);
     setContextBookmarks(modifiedBookmarks);
     setUrlList(urlList);
     setFolderList(folderList);
@@ -143,9 +142,9 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
        * Need to call after initBookmarksData,
        * Since EditBookmark internally needs contextBookmarks to be set beforehand
        */
-      dispatch(setBookmarkOperation(operation, bmUrl));
+      setBookmarkOperation(operation, bmUrl);
     }
-  }, [bmUrl, dispatch, isFetching, operation]);
+  }, [bmUrl, isFetching, operation, setBookmarkOperation]);
 
   useEffect(() => {
     document.body.addEventListener('keydown', handleKeyPress);
