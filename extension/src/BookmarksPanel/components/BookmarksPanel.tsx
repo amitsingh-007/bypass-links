@@ -7,13 +7,13 @@ import tabs from 'GlobalHelpers/chrome/tabs';
 import { getBookmarks } from 'GlobalHelpers/fetchFromStorage';
 import { addToCache } from '@common/utils/cache';
 import md5 from 'md5';
-import { createRef, PureComponent } from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import {
   DragDropContext,
   DragDropContextProps,
   Droppable,
 } from '@hello-pangea/dnd';
-import { connect, ConnectedProps } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { FixedSizeList } from 'react-window';
 import { startHistoryMonitor } from 'SrcPath/HistoryPanel/actionCreators';
 import { updateTaggedPersonUrls } from 'SrcPath/PersonsPanel/actionCreators';
@@ -60,262 +60,241 @@ const minReqBookmarksToScroll = Math.ceil(
   BOOKMARK_PANEL_CONTENT_HEIGHT / BOOKMARK_ROW_DIMENTSIONS.height
 );
 
-interface Props extends PropsFromRedux, BMPanelQueryParams {}
+const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
+  folderContext,
+  operation,
+  bmUrl,
+}) {
+  const dispatch = useDispatch();
+  const listRef = useRef<any>();
+  const [contextBookmarks, setContextBookmarks] = useState<ContextBookmarks>(
+    []
+  );
+  const [urlList, setUrlList] = useState<IBookmarksObj['urlList']>({});
+  const [folderList, setFolderList] = useState<IBookmarksObj['folderList']>({});
+  const [folders, setFolders] = useState<IBookmarksObj['folders']>({});
+  const [selectedBookmarks, setSelectedBookmarks] =
+    useState<ISelectedBookmarks>([]);
+  const [isFetching, setIsFetching] = useState(true);
+  const [isSaveButtonActive, setIsSaveButtonActive] = useState(false);
+  const [updateTaggedPersons, setUpdateTaggedPersons] = useState<
+    IUpdateTaggedPerson[]
+  >([]);
+  const [searchText, setSearchText] = useState('');
 
-interface State {
-  contextBookmarks: ContextBookmarks;
-  urlList: IBookmarksObj['urlList'];
-  folderList: IBookmarksObj['folderList'];
-  folders: IBookmarksObj['folders'];
-  selectedBookmarks: ISelectedBookmarks;
-  isFetching: boolean;
-  isSaveButtonActive: boolean;
-  updateTaggedPersons: IUpdateTaggedPerson[];
-  searchText: string;
-}
-
-class BookmarksPanel extends PureComponent<Props, State> {
-  private listRef: React.RefObject<any>;
-
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      contextBookmarks: [],
-      urlList: {},
-      folderList: {},
-      folders: {},
-      selectedBookmarks: [],
-      isFetching: true,
-      isSaveButtonActive: false,
-      updateTaggedPersons: [],
-      searchText: '',
-    };
-    this.listRef = createRef();
-  }
-
-  initBookmarksData = async () => {
-    const { folderContext } = this.props;
-    this.setState({ isSaveButtonActive: false, isFetching: true });
+  const initBookmarksData = useCallback(async () => {
+    setIsSaveButtonActive(false);
+    setIsFetching(true);
     const { folders, urlList, folderList } = await getBookmarks();
     const folderContextHash = md5(folderContext);
     const modifiedBookmarks = Object.entries(folders[folderContextHash]).map(
       (kvp) => bookmarksMapper(kvp, urlList, folderList)
     );
-    this.setState({
-      contextBookmarks: modifiedBookmarks,
-      urlList,
-      folderList,
-      folders,
-      selectedBookmarks: [],
-      isFetching: false,
-    });
-  };
+    setContextBookmarks(modifiedBookmarks);
+    setUrlList(urlList);
+    setFolderList(folderList);
+    setFolders(folders);
+    setSelectedBookmarks([]);
+    setIsFetching(false);
+  }, [folderContext]);
 
-  componentDidMount() {
-    this.initBookmarksData().then(() => {
-      const { operation, bmUrl, setBookmarkOperation } = this.props;
-      if (operation !== BOOKMARK_OPERATION.NONE) {
-        /**
-         * Need to call after initBookmarksData,
-         * Since EditBookmark internally needs contextBookmarks to be set beforehand
-         */
-        setBookmarkOperation(operation, bmUrl);
-      }
-    });
-    document.body.addEventListener('keydown', this.handleKeyPress);
-  }
-
-  componentDidUpdate(prevProps: Props) {
-    const { folderContext } = this.props;
-    if (prevProps.folderContext !== folderContext) {
-      this.initBookmarksData();
-      this.handleScroll(0);
-    }
-  }
-
-  componentWillUnmount() {
-    document.body.removeEventListener('keydown', this.handleKeyPress);
-  }
-
-  handleSearchTextChange = (text: string) => {
-    this.setState({ searchText: text });
-  };
-
-  handleKeyPress = (event: KeyboardEvent) => {
-    if (event.key === 'Escape') {
-      this.resetSelectedBookmarks();
-    } else if (event.key === 'Enter') {
-      const target = event.target as HTMLElement;
-      // To prevent from opening links on saving bookmarks using keys
-      if (target.nodeName !== 'BUTTON' && target.nodeName !== 'INPUT') {
-        this.handleOpenSelectedBookmarks();
-      }
-    }
-  };
-
-  handleOpenSelectedBookmarks = () => {
-    const { selectedBookmarks, contextBookmarks } = this.state;
-    this.props.startHistoryMonitor();
+  const handleOpenSelectedBookmarks = useCallback(() => {
+    dispatch(startHistoryMonitor());
     contextBookmarks.forEach(({ url }, index) => {
       if (selectedBookmarks[index]) {
         tabs.create({ url, selected: false });
       }
     });
-  };
+  }, [contextBookmarks, dispatch, selectedBookmarks]);
 
-  updatePersonUrls = (
-    prevTaggedPersons: string[] = [],
-    newTaggedPersons: string[] = [],
-    urlHash: string
-  ) => {
-    const { updateTaggedPersons } = this.state;
-    this.setState({
-      updateTaggedPersons: [
+  const handleKeyPress = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        resetSelectedBookmarks();
+      } else if (event.key === 'Enter') {
+        const target = event.target as HTMLElement;
+        // To prevent from opening links on saving bookmarks using keys
+        if (target.nodeName !== 'BUTTON' && target.nodeName !== 'INPUT') {
+          handleOpenSelectedBookmarks();
+        }
+      }
+    },
+    [handleOpenSelectedBookmarks]
+  );
+
+  useEffect(() => {
+    initBookmarksData().then(() => {
+      handleScroll(0);
+    });
+  }, [initBookmarksData]);
+
+  useEffect(() => {
+    if (!isFetching && operation !== BOOKMARK_OPERATION.NONE) {
+      /**
+       * Need to call after initBookmarksData,
+       * Since EditBookmark internally needs contextBookmarks to be set beforehand
+       */
+      dispatch(setBookmarkOperation(operation, bmUrl));
+    }
+  }, [bmUrl, dispatch, isFetching, operation]);
+
+  useEffect(() => {
+    document.body.addEventListener('keydown', handleKeyPress);
+    return () => {
+      document.body.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [handleKeyPress]);
+
+  const handleSearchTextChange = (text: string) => setSearchText(text);
+
+  const updatePersonUrls = useCallback(
+    (
+      prevTaggedPersons: string[] = [],
+      newTaggedPersons: string[] = [],
+      urlHash: string
+    ) =>
+      setUpdateTaggedPersons([
         ...updateTaggedPersons,
         {
           prevTaggedPersons,
           newTaggedPersons,
           urlHash,
         },
-      ],
-    });
-  };
+      ]),
+    [updateTaggedPersons]
+  );
 
-  handleSelectedChange = (pos: number, isOnlySelection: boolean) => {
-    const { selectedBookmarks } = this.state;
-    if (isOnlySelection) {
-      selectedBookmarks.fill(false);
-    }
-    selectedBookmarks[pos] = !selectedBookmarks[pos];
-    this.setState({ selectedBookmarks: [...selectedBookmarks] });
-  };
+  const handleSelectedChange = useCallback(
+    (pos: number, isOnlySelection: boolean) => {
+      if (isOnlySelection) {
+        selectedBookmarks.fill(false);
+      }
+      selectedBookmarks[pos] = !selectedBookmarks[pos];
+      setSelectedBookmarks([...selectedBookmarks]);
+    },
+    [selectedBookmarks]
+  );
 
-  resetSelectedBookmarks = () => {
-    this.setState({ selectedBookmarks: [] });
-  };
+  const resetSelectedBookmarks = () => setSelectedBookmarks([]);
 
-  handleCreateNewFolder = (name: string) => {
-    const { contextBookmarks, folderList } = this.state;
-    const { folderContext } = this.props;
-    const isDir = true;
-    const nameHash = md5(name);
-    //Update current context folder
-    contextBookmarks?.unshift({ isDir, name });
-    //Update data in all folders list
-    folderList[nameHash] = {
-      name: btoa(name),
-      parentHash: md5(folderContext),
-    };
-    this.setState({
-      contextBookmarks: [...contextBookmarks],
-      folderList: { ...folderList },
-      isSaveButtonActive: true,
-    });
-    this.handleScroll(0);
-  };
+  const handleCreateNewFolder = useCallback(
+    (name: string) => {
+      const isDir = true;
+      const nameHash = md5(name);
+      //Update current context folder
+      contextBookmarks?.unshift({ isDir, name });
+      //Update data in all folders list
+      folderList[nameHash] = {
+        name: btoa(name),
+        parentHash: md5(folderContext),
+      };
+      setContextBookmarks([...contextBookmarks]);
+      setFolderList({ ...folderList });
+      setIsSaveButtonActive(true);
+      handleScroll(0);
+    },
+    [contextBookmarks, folderContext, folderList]
+  );
 
-  handleBookmarkSave = (
-    url: string,
-    title: string,
-    oldFolder: string,
-    newFolder: string,
-    pos: number,
-    prevTaggedPersons: string[],
-    newTaggedPersons: string[]
-  ) => {
-    const { contextBookmarks, folders, urlList } = this.state;
-    const isFolderChange = oldFolder !== newFolder;
-    const isDir = false;
-    const urlHash = md5(url);
-    const newFolderHash = md5(newFolder);
-    //Update url in tagged persons
-    this.updatePersonUrls(prevTaggedPersons, newTaggedPersons, urlHash);
-    //Update urlList with new values
-    urlList[urlHash] = getEncryptedBookmark({
-      url,
-      title,
-      taggedPersons: [...newTaggedPersons],
-      parentHash: newFolderHash,
-    });
-    //Update folders and current context folder content based on dir change
-    const newBookmarks = contextBookmarks;
-    if (isFolderChange) {
-      folders[newFolderHash] = folders[newFolderHash] || []; //to handle empty folders
-      folders[newFolderHash].push({ isDir, hash: urlHash });
-      this.setState({ folders: { ...folders } });
-      newBookmarks.splice(pos, 1);
-    } else {
-      newBookmarks[pos] = {
+  const handleBookmarkSave = useCallback(
+    (
+      url: string,
+      title: string,
+      oldFolder: string,
+      newFolder: string,
+      pos: number,
+      prevTaggedPersons: string[],
+      newTaggedPersons: string[]
+    ) => {
+      const isFolderChange = oldFolder !== newFolder;
+      const isDir = false;
+      const urlHash = md5(url);
+      const newFolderHash = md5(newFolder);
+      //Update url in tagged persons
+      updatePersonUrls(prevTaggedPersons, newTaggedPersons, urlHash);
+      //Update urlList with new values
+      urlList[urlHash] = getEncryptedBookmark({
         url,
         title,
-        taggedPersons: newTaggedPersons,
-        isDir,
-      };
-    }
-    //Add bookmark favicon in the cache
-    addToCache(CACHE_BUCKET_KEYS.favicon, getFaviconProxyUrl(url));
+        taggedPersons: [...newTaggedPersons],
+        parentHash: newFolderHash,
+      });
+      //Update folders and current context folder content based on dir change
+      const newBookmarks = contextBookmarks;
+      if (isFolderChange) {
+        folders[newFolderHash] = folders[newFolderHash] || []; //to handle empty folders
+        folders[newFolderHash].push({ isDir, hash: urlHash });
+        setFolders({ ...folders });
+        newBookmarks.splice(pos, 1);
+      } else {
+        newBookmarks[pos] = {
+          url,
+          title,
+          taggedPersons: newTaggedPersons,
+          isDir,
+        };
+      }
+      //Add bookmark favicon in the cache
+      addToCache(CACHE_BUCKET_KEYS.favicon, getFaviconProxyUrl(url));
+      setUrlList({ ...urlList });
+      setContextBookmarks([...newBookmarks]);
+      setIsSaveButtonActive(true);
+    },
+    [contextBookmarks, folders, updatePersonUrls, urlList]
+  );
 
-    this.setState({
-      urlList: { ...urlList },
-      contextBookmarks: [...newBookmarks],
-      isSaveButtonActive: true,
-    });
-  };
+  const handleBulkBookmarksMove = useCallback(
+    (destFolder: string) => {
+      const bookmarksToMove = contextBookmarks
+        .filter((bookmark, index) =>
+          Boolean(selectedBookmarks[index] && bookmark.url)
+        )
+        .map(({ url = '' }) => md5(url));
+      //Change parent folder hash in urlList
+      const destFolderHash = md5(destFolder);
+      bookmarksToMove.forEach(
+        (urlHash) =>
+          (urlList[urlHash] = {
+            ...urlList[urlHash],
+            parentHash: destFolderHash,
+          })
+      );
+      //Add to destination folder
+      folders[destFolderHash] = (folders[destFolderHash] || []).concat(
+        bookmarksToMove.map((urlHash) => ({ isDir: false, hash: urlHash }))
+      );
+      //Remove from old folder, ie, contextBookmarks
+      const updatedBookmarksInOldFolder = contextBookmarks.filter(
+        (_bookmark, index) => !selectedBookmarks[index]
+      );
+      setUrlList({ ...urlList });
+      setFolders({ ...folders });
+      setContextBookmarks(updatedBookmarksInOldFolder);
+      setSelectedBookmarks([]);
+      setIsSaveButtonActive(true);
+    },
+    [contextBookmarks, folders, selectedBookmarks, urlList]
+  );
 
-  handleBulkBookmarksMove = (destFolder: string) => {
-    const { contextBookmarks, selectedBookmarks, folders, urlList } =
-      this.state;
-    const bookmarksToMove = contextBookmarks
-      .filter((bookmark, index) =>
-        Boolean(selectedBookmarks[index] && bookmark.url)
-      )
-      .map(({ url = '' }) => md5(url));
-    //Change parent folder hash in urlList
-    const destFolderHash = md5(destFolder);
-    bookmarksToMove.forEach(
-      (urlHash) =>
-        (urlList[urlHash] = {
-          ...urlList[urlHash],
-          parentHash: destFolderHash,
-        })
-    );
-    //Add to destination folder
-    folders[destFolderHash] = (folders[destFolderHash] || []).concat(
-      bookmarksToMove.map((urlHash) => ({ isDir: false, hash: urlHash }))
-    );
-    //Remove from old folder, ie, contextBookmarks
-    const updatedBookmarksInOldFolder = contextBookmarks.filter(
-      (_bookmark, index) => !selectedBookmarks[index]
-    );
-    this.setState({
-      urlList: { ...urlList },
-      folders: { ...folders },
-      contextBookmarks: updatedBookmarksInOldFolder,
-      selectedBookmarks: [],
-      isSaveButtonActive: true,
-    });
-  };
+  const handleUrlRemove = useCallback(
+    (pos: number, url: string) => {
+      const urlHash = md5(url);
+      //Update url in tagged persons
+      updatePersonUrls(contextBookmarks[pos].taggedPersons, [], urlHash);
+      //Remove from current context folder
+      contextBookmarks.splice(pos, 1);
+      //Remove from all urls list
+      const newUrlList = { ...urlList };
+      delete newUrlList[urlHash];
+      setContextBookmarks([...contextBookmarks]);
+      setUrlList(newUrlList);
+      setIsSaveButtonActive(true);
+      setSelectedBookmarks([]);
+    },
+    [contextBookmarks, updatePersonUrls, urlList]
+  );
 
-  handleUrlRemove = (pos: number, url: string) => {
-    const { contextBookmarks, urlList } = this.state;
-    const urlHash = md5(url);
-    //Update url in tagged persons
-    this.updatePersonUrls(contextBookmarks[pos].taggedPersons, [], urlHash);
-    //Remove from current context folder
-    contextBookmarks.splice(pos, 1);
-    //Remove from all urls list
-    const newUrlList = { ...urlList };
-    delete newUrlList[urlHash];
-    this.setState({
-      contextBookmarks: [...contextBookmarks],
-      urlList: newUrlList,
-      isSaveButtonActive: true,
-      selectedBookmarks: [],
-    });
-  };
-
-  handleBulkUrlRemove = () => {
-    const { contextBookmarks, urlList, selectedBookmarks } = this.state;
+  const handleBulkUrlRemove = useCallback(() => {
     const newUrlList = { ...urlList };
     const taggedPersonData: IUpdateTaggedPerson[] = [];
     //Remove from current context folder
@@ -336,75 +315,69 @@ class BookmarksPanel extends PureComponent<Props, State> {
         return true;
       }
     );
-    this.setState({
-      contextBookmarks: filteredContextBookmarks,
-      updateTaggedPersons: taggedPersonData,
-      urlList: newUrlList,
-      isSaveButtonActive: true,
-      selectedBookmarks: [],
-    });
-  };
+    setContextBookmarks(filteredContextBookmarks);
+    setUpdateTaggedPersons(taggedPersonData);
+    setUrlList(newUrlList);
+    setIsSaveButtonActive(true);
+    setSelectedBookmarks([]);
+  }, [contextBookmarks, selectedBookmarks, urlList]);
 
-  handleFolderEdit = (oldName: string, newName: string, pos: number) => {
-    const { contextBookmarks, folderList, folders, urlList } = this.state;
-    const oldFolderHash = md5(oldName);
-    const newFolderHash = md5(newName);
-    //Update parentHash in urlList
-    const newUrlList = Object.entries(urlList).reduce<IBookmarksObj['urlList']>(
-      (obj, [hash, data]) => {
+  const handleFolderEdit = useCallback(
+    (oldName: string, newName: string, pos: number) => {
+      const oldFolderHash = md5(oldName);
+      const newFolderHash = md5(newName);
+      //Update parentHash in urlList
+      const newUrlList = Object.entries(urlList).reduce<
+        IBookmarksObj['urlList']
+      >((obj, [hash, data]) => {
         if (data.parentHash === oldFolderHash) {
           obj[hash] = { ...data, parentHash: newFolderHash };
         } else {
           obj[hash] = data;
         }
         return obj;
-      },
-      {}
-    );
-    //Update name in folderList
-    folderList[newFolderHash] = {
-      ...folderList[oldFolderHash],
-      name: btoa(newName),
-    };
-    delete folderList[oldFolderHash];
-    //Update in folders
-    folders[newFolderHash] = folders[oldFolderHash];
-    delete folders[oldFolderHash];
-    //Update current folder
-    contextBookmarks[pos] = { ...contextBookmarks[pos], name: newName };
-    this.setState({
-      urlList: newUrlList,
-      folderList: { ...folderList },
-      folders: { ...folders },
-      contextBookmarks: [...contextBookmarks],
-      isSaveButtonActive: true,
-    });
-  };
+      }, {});
+      //Update name in folderList
+      folderList[newFolderHash] = {
+        ...folderList[oldFolderHash],
+        name: btoa(newName),
+      };
+      delete folderList[oldFolderHash];
+      //Update in folders
+      folders[newFolderHash] = folders[oldFolderHash];
+      delete folders[oldFolderHash];
+      //Update current folder
+      contextBookmarks[pos] = { ...contextBookmarks[pos], name: newName };
+      setUrlList(newUrlList);
+      setFolderList({ ...folderList });
+      setFolders({ ...folders });
+      setContextBookmarks([...contextBookmarks]);
+      setIsSaveButtonActive(true);
+    },
+    [contextBookmarks, folderList, folders, urlList]
+  );
 
-  handleFolderRemove = (pos: number, name: string) => {
-    const {
-      urlList,
-      folderList,
-      contextBookmarks,
-      folders,
-      updateTaggedPersons,
-    } = this.state;
-    const folderHash = md5(name);
-    if (isFolderContainsDir(folders, folderHash)) {
-      this.props.displayToast({
-        message: 'Remove inner folders first.',
-        severity: 'error',
-      });
-      return;
-    }
-    //Remove from current context folder
-    contextBookmarks.splice(pos, 1);
-    //Remove from all folders list
-    delete folderList[folderHash];
-    //Remove all urls inside the folder and update all urls in tagged persons
-    const taggedPersonData: IUpdateTaggedPerson[] = [];
-    const newUrlList = Object.entries(urlList).reduce<IBookmarksObj['urlList']>(
-      (obj, [hash, data]) => {
+  const handleFolderRemove = useCallback(
+    (pos: number, name: string) => {
+      const folderHash = md5(name);
+      if (isFolderContainsDir(folders, folderHash)) {
+        dispatch(
+          displayToast({
+            message: 'Remove inner folders first.',
+            severity: 'error',
+          })
+        );
+        return;
+      }
+      //Remove from current context folder
+      contextBookmarks.splice(pos, 1);
+      //Remove from all folders list
+      delete folderList[folderHash];
+      //Remove all urls inside the folder and update all urls in tagged persons
+      const taggedPersonData: IUpdateTaggedPerson[] = [];
+      const newUrlList = Object.entries(urlList).reduce<
+        IBookmarksObj['urlList']
+      >((obj, [hash, data]) => {
         if (data.parentHash !== folderHash) {
           obj[hash] = data;
         } else {
@@ -415,33 +388,30 @@ class BookmarksPanel extends PureComponent<Props, State> {
           });
         }
         return obj;
-      },
-      {}
-    );
-    //Remove its data from folders
-    delete folders[folderHash];
-    this.setState({
-      contextBookmarks: [...contextBookmarks],
-      folderList: { ...folderList },
-      updateTaggedPersons: [...updateTaggedPersons, ...taggedPersonData],
-      urlList: newUrlList,
-      folders: { ...folders },
-      isSaveButtonActive: true,
-    });
-  };
-
-  handleSave = async () => {
-    const {
-      urlList,
-      folders,
-      folderList,
+      }, {});
+      //Remove its data from folders
+      delete folders[folderHash];
+      setContextBookmarks([...contextBookmarks]);
+      setFolderList({ ...folderList });
+      setUpdateTaggedPersons([...updateTaggedPersons, ...taggedPersonData]);
+      setUrlList(newUrlList);
+      setFolders({ ...folders });
+      setIsSaveButtonActive(true);
+    },
+    [
       contextBookmarks,
+      dispatch,
+      folderList,
+      folders,
       updateTaggedPersons,
-    } = this.state;
-    const { folderContext, updateTaggedPersonUrls, displayToast } = this.props;
-    this.setState({ isFetching: true });
+      urlList,
+    ]
+  );
+
+  const handleSave = useCallback(async () => {
+    setIsFetching(true);
     //Update url in tagged persons
-    updateTaggedPersonUrls(updateTaggedPersons);
+    dispatch(updateTaggedPersonUrls(updateTaggedPersons));
     //Form folders obj for current context folder
     folders[md5(folderContext)] = contextBookmarks.map(
       ({ isDir, url, name }) => ({
@@ -451,172 +421,166 @@ class BookmarksPanel extends PureComponent<Props, State> {
     );
     const bookmarksObj: IBookmarksObj = { folderList, urlList, folders };
     await setBookmarksInStorage(bookmarksObj);
-    this.setState({ isFetching: false, isSaveButtonActive: false });
-    displayToast({
-      message: 'Saved temporarily',
-      duration: 1500,
-    });
-  };
-
-  onDragStart: DragDropContextProps['onDragStart'] = async ({ source }) => {
-    const { selectedBookmarks } = this.state;
-    const isCurrentDraggingSelected = selectedBookmarks[source.index];
-    if (!isCurrentDraggingSelected) {
-      selectedBookmarks.fill(false);
-      selectedBookmarks[source.index] = true;
-    }
-    this.setState({ selectedBookmarks: [...selectedBookmarks] });
-  };
-
-  onDragEnd: DragDropContextProps['onDragEnd'] = ({ destination, source }) => {
-    if (!source || !destination || destination.index === source.index) {
-      return;
-    }
-    this.handleMoveBookmarks(destination.index);
-  };
-
-  handleMoveBookmarks = (destinationIndex: number) => {
-    const { contextBookmarks, selectedBookmarks } = this.state;
-    const destIndex = getDestinationIndex(destinationIndex, selectedBookmarks);
-    const newBookmarks = getBookmarksAfterDrag(
-      contextBookmarks,
-      selectedBookmarks,
-      destIndex
+    setIsFetching(false);
+    setIsSaveButtonActive(false);
+    dispatch(
+      displayToast({
+        message: 'Saved temporarily',
+        duration: 1500,
+      })
     );
-    const newSelectedBookmarks = getSelectedBookmarksAfterDrag(
-      selectedBookmarks,
-      destIndex
-    );
-    this.setState({
-      contextBookmarks: newBookmarks,
-      isSaveButtonActive: true,
-      selectedBookmarks: newSelectedBookmarks,
-    });
-  };
+  }, [
+    contextBookmarks,
+    dispatch,
+    folderContext,
+    folderList,
+    folders,
+    updateTaggedPersons,
+    urlList,
+  ]);
 
-  handleScroll = (itemNumber: number) => {
-    this.listRef.current?.scrollToItem(itemNumber);
-  };
+  const handleMoveBookmarks = useCallback(
+    (destinationIndex: number) => {
+      const destIndex = getDestinationIndex(
+        destinationIndex,
+        selectedBookmarks
+      );
+      const newBookmarks = getBookmarksAfterDrag(
+        contextBookmarks,
+        selectedBookmarks,
+        destIndex
+      );
+      const newSelectedBookmarks = getSelectedBookmarksAfterDrag(
+        selectedBookmarks,
+        destIndex
+      );
+      setContextBookmarks(newBookmarks);
+      setIsSaveButtonActive(true);
+      setSelectedBookmarks(newSelectedBookmarks);
+    },
+    [contextBookmarks, selectedBookmarks]
+  );
 
-  render() {
-    const {
-      contextBookmarks,
-      folderList,
-      folders,
-      selectedBookmarks,
-      isFetching,
-      isSaveButtonActive,
-      searchText,
-    } = this.state;
-    const { folderContext } = this.props;
-    const folderNamesList = getAllFolderNames(folderList);
-    const filteredContextBookmarks = getFilteredContextBookmarks(
-      contextBookmarks,
-      searchText
-    );
-    const curBookmarksCount = filteredContextBookmarks.length;
-    const selectedCount = getSelectedCount(selectedBookmarks);
+  const onDragStart = useCallback<
+    NonNullable<DragDropContextProps['onDragStart']>
+  >(
+    async ({ source }) => {
+      const isCurrentDraggingSelected = selectedBookmarks[source.index];
+      if (!isCurrentDraggingSelected) {
+        selectedBookmarks.fill(false);
+        selectedBookmarks[source.index] = true;
+      }
+      setSelectedBookmarks([...selectedBookmarks]);
+    },
+    [selectedBookmarks]
+  );
 
-    return (
-      <>
-        <GlobalStyles
-          styles={{ body: { '::-webkit-scrollbar': { width: '0px' } } }}
+  const onDragEnd = useCallback<DragDropContextProps['onDragEnd']>(
+    ({ destination, source }) => {
+      if (!source || !destination || destination.index === source.index) {
+        return;
+      }
+      handleMoveBookmarks(destination.index);
+    },
+    [handleMoveBookmarks]
+  );
+
+  const handleScroll = (itemNumber: number) =>
+    listRef.current?.scrollToItem(itemNumber);
+
+  const folderNamesList = getAllFolderNames(folderList);
+  const filteredContextBookmarks = getFilteredContextBookmarks(
+    contextBookmarks,
+    searchText
+  );
+  const curBookmarksCount = filteredContextBookmarks.length;
+  const selectedCount = getSelectedCount(selectedBookmarks);
+  return (
+    <>
+      <GlobalStyles
+        styles={{ body: { '::-webkit-scrollbar': { width: '0px' } } }}
+      />
+      <ScrollButton
+        itemsSize={curBookmarksCount}
+        onScroll={handleScroll}
+        minItemsReqToShow={minReqBookmarksToScroll}
+      />
+      <Box sx={{ width: PANEL_DIMENSIONS_PX.width }}>
+        <Header
+          folderNamesList={folderNamesList}
+          contextBookmarks={contextBookmarks}
+          handleSave={handleSave}
+          handleCreateNewFolder={handleCreateNewFolder}
+          isSaveButtonActive={isSaveButtonActive}
+          isFetching={isFetching}
+          curFolder={folderContext}
+          onSearchChange={handleSearchTextChange}
         />
-        <ScrollButton
-          itemsSize={curBookmarksCount}
-          onScroll={this.handleScroll}
-          minItemsReqToShow={minReqBookmarksToScroll}
+        <EditBookmark
+          curFolder={folderContext}
+          onSave={handleBookmarkSave}
+          onDelete={handleUrlRemove}
+          contextBookmarks={contextBookmarks}
+          folderNamesList={folderNamesList}
+          handleScroll={handleScroll}
+          handleSelectedChange={handleSelectedChange}
         />
-        <Box sx={{ width: PANEL_DIMENSIONS_PX.width }}>
-          <Header
-            folderNamesList={folderNamesList}
-            contextBookmarks={contextBookmarks}
-            handleSave={this.handleSave}
-            handleCreateNewFolder={this.handleCreateNewFolder}
-            isSaveButtonActive={isSaveButtonActive}
-            isFetching={isFetching}
-            curFolder={folderContext}
-            onSearchChange={this.handleSearchTextChange}
-          />
-          <EditBookmark
-            curFolder={folderContext}
-            onSave={this.handleBookmarkSave}
-            onDelete={this.handleUrlRemove}
-            contextBookmarks={contextBookmarks}
-            folderNamesList={folderNamesList}
-            handleScroll={this.handleScroll}
-            handleSelectedChange={this.handleSelectedChange}
-          />
-          <BookmarkContextMenu
-            curFolder={folderContext}
-            contextBookmarks={contextBookmarks}
-            folderNamesList={folderNamesList}
-            selectedBookmarks={selectedBookmarks}
-            handleBulkUrlRemove={this.handleBulkUrlRemove}
-            handleUrlRemove={this.handleUrlRemove}
-            handleBulkBookmarksMove={this.handleBulkBookmarksMove}
-            handleOpenSelectedBookmarks={this.handleOpenSelectedBookmarks}
-            handleMoveBookmarks={this.handleMoveBookmarks}
-            handleScroll={this.handleScroll}
-          >
-            {shouldRenderBookmarks(folders, filteredContextBookmarks) ? (
-              <DragDropContext
-                onDragEnd={this.onDragEnd}
-                onDragStart={this.onDragStart}
+        <BookmarkContextMenu
+          curFolder={folderContext}
+          contextBookmarks={contextBookmarks}
+          folderNamesList={folderNamesList}
+          selectedBookmarks={selectedBookmarks}
+          handleBulkUrlRemove={handleBulkUrlRemove}
+          handleUrlRemove={handleUrlRemove}
+          handleBulkBookmarksMove={handleBulkBookmarksMove}
+          handleOpenSelectedBookmarks={handleOpenSelectedBookmarks}
+          handleMoveBookmarks={handleMoveBookmarks}
+          handleScroll={handleScroll}
+        >
+          {shouldRenderBookmarks(folders, filteredContextBookmarks) ? (
+            <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
+              <Droppable
+                droppableId="bookmarks-list"
+                mode="virtual"
+                renderClone={(provided) => (
+                  <DragClone provided={provided} dragCount={selectedCount} />
+                )}
               >
-                <Droppable
-                  droppableId="bookmarks-list"
-                  mode="virtual"
-                  renderClone={(provided) => (
-                    <DragClone provided={provided} dragCount={selectedCount} />
-                  )}
-                >
-                  {(provided) => (
-                    <FixedSizeList<VirtualRowProps>
-                      ref={this.listRef}
-                      height={BOOKMARK_PANEL_CONTENT_HEIGHT}
-                      width={PANEL_DIMENSIONS_PX.width}
-                      itemSize={BOOKMARK_ROW_DIMENTSIONS.height}
-                      itemCount={curBookmarksCount}
-                      overscanCount={5}
-                      outerRef={provided.innerRef}
-                      itemKey={(index, data) => {
-                        const { isDir, url, name } =
-                          data.contextBookmarks[index];
-                        return (isDir ? name : url) ?? '';
-                      }}
-                      itemData={{
-                        folderNamesList,
-                        folders,
-                        selectedBookmarks,
-                        contextBookmarks: filteredContextBookmarks,
-                        handleFolderRemove: this.handleFolderRemove,
-                        handleFolderEdit: this.handleFolderEdit,
-                        resetSelectedBookmarks: this.resetSelectedBookmarks,
-                        handleSelectedChange: this.handleSelectedChange,
-                      }}
-                      style={{ overflowY: 'scroll' }}
-                    >
-                      {VirtualRow}
-                    </FixedSizeList>
-                  )}
-                </Droppable>
-              </DragDropContext>
-            ) : null}
-          </BookmarkContextMenu>
-        </Box>
-      </>
-    );
-  }
-}
+                {(provided) => (
+                  <FixedSizeList<VirtualRowProps>
+                    ref={listRef}
+                    height={BOOKMARK_PANEL_CONTENT_HEIGHT}
+                    width={PANEL_DIMENSIONS_PX.width}
+                    itemSize={BOOKMARK_ROW_DIMENTSIONS.height}
+                    itemCount={curBookmarksCount}
+                    overscanCount={5}
+                    outerRef={provided.innerRef}
+                    itemKey={(index, data) => {
+                      const { isDir, url, name } = data.contextBookmarks[index];
+                      return (isDir ? name : url) ?? '';
+                    }}
+                    itemData={{
+                      folderNamesList,
+                      folders,
+                      selectedBookmarks,
+                      contextBookmarks: filteredContextBookmarks,
+                      handleFolderRemove: handleFolderRemove,
+                      handleFolderEdit: handleFolderEdit,
+                      resetSelectedBookmarks: resetSelectedBookmarks,
+                      handleSelectedChange: handleSelectedChange,
+                    }}
+                    style={{ overflowY: 'scroll' }}
+                  >
+                    {VirtualRow}
+                  </FixedSizeList>
+                )}
+              </Droppable>
+            </DragDropContext>
+          ) : null}
+        </BookmarkContextMenu>
+      </Box>
+    </>
+  );
+});
 
-const mapDispatchToProps = {
-  displayToast,
-  updateTaggedPersonUrls,
-  startHistoryMonitor,
-  setBookmarkOperation,
-};
-const connector = connect(null, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-export default connector(BookmarksPanel);
+export default BookmarksPanel;
