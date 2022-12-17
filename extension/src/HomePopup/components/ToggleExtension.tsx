@@ -3,7 +3,7 @@ import { StyledSwitch } from 'GlobalComponents/StyledComponents';
 import { EXTENSION_STATE } from 'GlobalConstants';
 import { getExtensionState } from 'GlobalHelpers/fetchFromStorage';
 import useExtStore from 'GlobalStore/extension';
-import { isExtensionActive, setExtStateInStorage } from 'GlobalUtils/common';
+import { getIsExtensionActive, setExtStateInStorage } from 'GlobalUtils/common';
 import { memo, useEffect, useState } from 'react';
 
 const ToggleExtension = memo(function ToggleExtension() {
@@ -22,7 +22,7 @@ const ToggleExtension = memo(function ToggleExtension() {
 
   useEffect(() => {
     getExtensionState().then((extState) => {
-      const isActive = isExtensionActive(extState);
+      const isActive = getIsExtensionActive(extState);
       dispatchActionAndSetState(extState, isActive);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -37,7 +37,7 @@ const ToggleExtension = memo(function ToggleExtension() {
     dispatchActionAndSetState(extState, isActive);
   };
 
-  const isActive = isExtensionActive(extState);
+  const isActive = getIsExtensionActive(extState);
   return (
     <FormControlLabel
       control={<StyledSwitch checked={isActive} onChange={handleToggle} />}
