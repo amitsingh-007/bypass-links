@@ -3,7 +3,7 @@ import { displayToast } from 'GlobalActionCreators/toast';
 import { PANEL_DIMENSIONS_PX, PANEL_SIZE } from 'GlobalConstants/styles';
 import { getPersons } from 'GlobalHelpers/fetchFromStorage';
 import { removeImageFromFirebase } from 'GlobalHelpers/firebase/storage';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   SORT_ORDER,
@@ -124,7 +124,10 @@ const PersonsPanel = () => {
     tabs.create({ url, selected: false });
   };
 
-  const filteredPersons = getFilteredPersons(persons, searchText);
+  const filteredPersons = useMemo(
+    () => getFilteredPersons(persons, searchText),
+    [persons, searchText]
+  );
   return (
     <>
       <GlobalStyles

@@ -7,7 +7,7 @@ import tabs from 'GlobalHelpers/chrome/tabs';
 import { getBookmarks } from 'GlobalHelpers/fetchFromStorage';
 import { addToCache } from '@common/utils/cache';
 import md5 from 'md5';
-import { memo, useCallback, useEffect, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   DragDropContext,
   DragDropContextProps,
@@ -488,13 +488,19 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
   const handleScroll = (itemNumber: number) =>
     listRef.current?.scrollToItem(itemNumber);
 
-  const folderNamesList = getAllFolderNames(folderList);
-  const filteredContextBookmarks = getFilteredContextBookmarks(
-    contextBookmarks,
-    searchText
+  const folderNamesList = useMemo(
+    () => getAllFolderNames(folderList),
+    [folderList]
+  );
+  const filteredContextBookmarks = useMemo(
+    () => getFilteredContextBookmarks(contextBookmarks, searchText),
+    [contextBookmarks, searchText]
   );
   const curBookmarksCount = filteredContextBookmarks.length;
-  const selectedCount = getSelectedCount(selectedBookmarks);
+  const selectedCount = useMemo(
+    () => getSelectedCount(selectedBookmarks),
+    [selectedBookmarks]
+  );
   return (
     <>
       <GlobalStyles

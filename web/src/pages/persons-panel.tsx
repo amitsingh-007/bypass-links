@@ -15,7 +15,7 @@ import {
 } from '@common/components/Persons/utils';
 import { STORAGE_KEYS } from '@common/constants/storage';
 import { Box, Container } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useMeasure } from 'react-use';
 import { SORT_ORDER } from '@common/components/Persons/constants/sort';
 import { decryptionMapper } from '@common/components/Persons/mapper';
@@ -46,7 +46,10 @@ const PersonsPage = () => {
     openNewTab(url);
   };
 
-  const filteredPersons = getFilteredPersons(persons, searchText);
+  const filteredPersons = useMemo(
+    () => getFilteredPersons(persons, searchText),
+    [persons, searchText]
+  );
   return (
     <Container
       maxWidth="md"

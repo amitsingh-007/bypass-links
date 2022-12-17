@@ -1,6 +1,5 @@
 import { IPerson, IPersons } from '../interfaces/persons';
 import { hasText } from '../../../utils/search';
-import memoize from 'memoize-one';
 import { SORT_ORDER } from '../constants/sort';
 
 export const decodePerson = (person: IPerson): IPerson => {
@@ -21,10 +20,8 @@ export const decodePersons = (persons: IPersons) =>
 export const getReactKey = (row: number, column: number, gridSize: number) =>
   row * gridSize + column;
 
-export const getFilteredPersons = memoize(
-  (persons: IPerson[], searchText: string) =>
-    persons.filter(({ name }) => !searchText || hasText(searchText, name))
-);
+export const getFilteredPersons = (persons: IPerson[], searchText: string) =>
+  persons.filter(({ name }) => !searchText || hasText(searchText, name));
 
 export const sortAlphabetically = <T extends IPerson>(
   sortOrder: SORT_ORDER,

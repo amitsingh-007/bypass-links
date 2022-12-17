@@ -4,7 +4,7 @@ import {
 } from '@common/components/Bookmarks/interfaces';
 import { bookmarksMapper } from '@common/components/Bookmarks/mapper';
 import { defaultBookmarkFolder } from '@common/components/Bookmarks/constants';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import md5 from 'md5';
 import { FixedSizeList } from 'react-window';
 import VirtualRow, {
@@ -56,9 +56,9 @@ export default function BookmarksPage() {
 
   const handleSearchTextChange = (text: string) => setSearchText(text);
 
-  const filteredContextBookmarks = getFilteredContextBookmarks(
-    contextBookmarks,
-    searchText
+  const filteredContextBookmarks = useMemo(
+    () => getFilteredContextBookmarks(contextBookmarks, searchText),
+    [contextBookmarks, searchText]
   );
   const curBookmarksCount = filteredContextBookmarks.length;
 
