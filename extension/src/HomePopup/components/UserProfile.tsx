@@ -1,19 +1,18 @@
 import { Avatar, Box, Fade, IconButton, SvgIcon } from '@mui/material';
 import { ROUTES } from '@common/constants/routes';
 import { getUserProfile } from 'GlobalHelpers/fetchFromStorage';
-import { RootState } from 'GlobalReducers/rootReducer';
 import { memo, useEffect, useState } from 'react';
 import { MdSettings } from 'react-icons/md';
 import { RiUserUnfollowFill } from 'react-icons/ri';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { UserInfo } from 'SrcPath/HomePopup/interfaces/authentication';
+import useAuthStore from 'GlobalStore/auth';
 
 const avatarStyles = { height: '50px', width: '50px' };
 
 const UserProfile = memo(function UserProfile() {
   const navigate = useNavigate();
-  const { isSignedIn } = useSelector((state: RootState) => state.root);
+  const isSignedIn = useAuthStore((state) => state.isSignedIn);
   const [userProfile, setUserProfile] = useState<UserInfo | null>(null);
   const [showSettingsIcon, setShowSettingsIcon] = useState(false);
 

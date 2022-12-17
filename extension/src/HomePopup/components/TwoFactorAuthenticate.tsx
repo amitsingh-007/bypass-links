@@ -1,16 +1,15 @@
 import { STORAGE_KEYS } from '@common/constants/storage';
 import storage from 'GlobalHelpers/chrome/storage';
 import { getUserProfile } from 'GlobalHelpers/fetchFromStorage';
-import { RootState } from 'GlobalReducers/rootReducer';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import TOTPPopup from '@common/components/Auth/components/TOTPPopup';
 import { UserInfo } from '../interfaces/authentication';
 import useToastStore from 'GlobalStore/toast';
+import useAuthStore from 'GlobalStore/auth';
 
 const TwoFactorAuthenticate = () => {
   const displayToast = useToastStore((state) => state.displayToast);
-  const { isSignedIn } = useSelector((state: RootState) => state.root);
+  const isSignedIn = useAuthStore((state) => state.isSignedIn);
   const [promptTOTPVerify, setPromptTOTPVerify] = useState(false);
   const [user, setUser] = useState<UserInfo | null>(null);
 

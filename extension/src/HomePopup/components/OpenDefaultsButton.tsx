@@ -2,18 +2,17 @@ import { SvgIcon } from '@mui/material';
 import { STORAGE_KEYS } from '@common/constants/storage';
 import storage from 'GlobalHelpers/chrome/storage';
 import tabs from 'GlobalHelpers/chrome/tabs';
-import { RootState } from 'GlobalReducers/rootReducer';
 import { memo, useState } from 'react';
 import { FiExternalLink } from 'react-icons/fi';
-import { useSelector } from 'react-redux';
 import StyledButton from './StyledButton';
 import useHistoryStore from 'GlobalStore/history';
+import useAuthStore from 'GlobalStore/auth';
 
 const OpenDefaultsButton = memo(function OpenDefaultsButton() {
   const startHistoryMonitor = useHistoryStore(
     (state) => state.startHistoryMonitor
   );
-  const { isSignedIn } = useSelector((state: RootState) => state.root);
+  const isSignedIn = useAuthStore((state) => state.isSignedIn);
   const [isFetching, setIsFetching] = useState(false);
 
   const handleOpenDefaults = async () => {

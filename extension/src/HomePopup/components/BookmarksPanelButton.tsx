@@ -1,15 +1,14 @@
 import { SvgIcon } from '@mui/material';
-import { RootState } from 'GlobalReducers/rootReducer';
 import { memo } from 'react';
 import { RiBookMarkFill } from 'react-icons/ri';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getBookmarksPanelUrl } from '@common/components/Bookmarks/utils/url';
 import StyledButton from './StyledButton';
+import useAuthStore from 'GlobalStore/auth';
 
 const BookmarksPanelButton = memo(function BookmarksPanelButton() {
   const navigate = useNavigate();
-  const { isSignedIn } = useSelector((state: RootState) => state.root);
+  const isSignedIn = useAuthStore((state) => state.isSignedIn);
 
   const handleShowEditPanel = () => {
     navigate(getBookmarksPanelUrl({}));

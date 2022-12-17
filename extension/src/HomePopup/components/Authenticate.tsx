@@ -1,20 +1,18 @@
 import { Dialog, LinearProgress, SvgIcon, Typography } from '@mui/material';
-import { setSignedInStatus } from 'GlobalActionCreators';
 import { getUserProfile } from 'GlobalHelpers/fetchFromStorage';
 import useAuthStore from 'GlobalStore/auth';
 import useExtStore from 'GlobalStore/extension';
 import useToastStore from 'GlobalStore/toast';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { RiLoginCircleFill, RiLogoutCircleRFill } from 'react-icons/ri';
-import { useDispatch } from 'react-redux';
 import { signIn, signOut } from '../utils/authentication';
 import StyledButton from './StyledButton';
 
 const Authenticate = memo(function Authenticate() {
-  const dispatch = useDispatch();
   const isExtensionActive = useExtStore((state) => state.isExtensionActive);
   const displayToast = useToastStore((state) => state.displayToast);
   const authProgress = useAuthStore((state) => state.authProgress);
+  const setSignedInStatus = useAuthStore((state) => state.setSignedInStatus);
   const resetAuthProgress = useAuthStore((state) => state.resetAuthProgress);
   const [isFetching, setIsFetching] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
@@ -23,7 +21,7 @@ const Authenticate = memo(function Authenticate() {
     setIsFetching(true);
     const isSignedIn = await signIn();
     setIsSignedIn(isSignedIn);
-    dispatch(setSignedInStatus(isSignedIn));
+    setSignedInStatus(isSignedIn);
     resetAuthProgress();
     setIsFetching(false);
   };
@@ -39,18 +37,18 @@ const Authenticate = memo(function Authenticate() {
     } else {
       const isSignedIn = !isSignedOut;
       setIsSignedIn(isSignedIn);
-      dispatch(setSignedInStatus(isSignedIn));
+      setSignedInStatus(isSignedIn);
     }
     setIsFetching(false);
     resetAuthProgress();
-  }, [dispatch, displayToast, resetAuthProgress]);
+  }, [displayToast, resetAuthProgress, setSignedInStatus]);
 
   const init = useCallback(async () => {
     const userProfile = await getUserProfile();
     const isSignedIn = Boolean(userProfile);
     setIsSignedIn(isSignedIn);
-    dispatch(setSignedInStatus(isSignedIn));
-  }, [dispatch]);
+    setSignedInStatus(isSignedIn);
+  }, [setSignedInStatus]);
 
   useEffect(() => {
     init();
