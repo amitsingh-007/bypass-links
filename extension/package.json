@@ -23,7 +23,7 @@
     "react-easy-crop": "4.6.3",
     "react-icons": "4.7.1",
     "react-intersection-observer": "9.4.1",
-    "react-router-dom": "6.4.5",
+    "react-router-dom": "6.5.0",
     "react-window": "1.8.8",
     "throttle-debounce": "5.0.0",
     "zustand": "4.1.5"
