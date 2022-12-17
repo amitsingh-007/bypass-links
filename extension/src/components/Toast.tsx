@@ -1,20 +1,17 @@
 import { Slide, SlideProps } from '@mui/material';
 import Alert, { AlertProps } from '@mui/material/Alert';
 import Snackbar, { SnackbarProps } from '@mui/material/Snackbar';
-import { hideToast } from 'GlobalActionCreators/toast';
-import { Dispatch } from 'redux';
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'GlobalReducers/rootReducer';
+import useToastStore from 'GlobalStore/toast';
 
 const SlideTransition = (props: SlideProps) => (
   <Slide {...props} direction="right" />
 );
 
 const Toast = () => {
-  const dispatch: Dispatch = useDispatch();
+  const toast = useToastStore((state) => state.toast);
+  const hideToast = useToastStore((state) => state.hideToast);
   const [open, setOpen] = useState(false);
-  const toast = useSelector((state: RootState) => state.toast);
 
   useEffect(() => {
     if (!open && toast) {
@@ -26,7 +23,7 @@ const Toast = () => {
     if (reason === 'clickaway') {
       return;
     }
-    dispatch(hideToast());
+    hideToast();
     setOpen(false);
   };
 

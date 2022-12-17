@@ -1,5 +1,4 @@
 import { Box, GlobalStyles } from '@mui/material';
-import { displayToast } from 'GlobalActionCreators/toast';
 import { PANEL_DIMENSIONS_PX, PANEL_SIZE } from 'GlobalConstants/styles';
 import { getPersons } from 'GlobalHelpers/fetchFromStorage';
 import { removeImageFromFirebase } from 'GlobalHelpers/firebase/storage';
@@ -27,6 +26,7 @@ import {
   sortAlphabetically,
 } from '@common/components/Persons/utils';
 import { GRID_COLUMN_SIZE } from '../constants';
+import useToastStore from 'GlobalStore/toast';
 
 const sizeConfig = {
   gridColumnSize: GRID_COLUMN_SIZE,
@@ -36,6 +36,7 @@ const sizeConfig = {
 
 const PersonsPanel = () => {
   const dispatch = useDispatch();
+  const displayToast = useToastStore((state) => state.displayToast);
   const [persons, setPersons] = useState<IPerson[]>([]);
   const [isFetching, setIsFetching] = useState(true);
   const [searchText, setSearchText] = useState('');
@@ -84,7 +85,7 @@ const PersonsPanel = () => {
     setPersons(sortedPersons);
     await handleSave(sortedPersons);
     setIsFetching(false);
-    dispatch(displayToast({ message: 'Person added/updated succesfully' }));
+    displayToast({ message: 'Person added/updated succesfully' });
   };
 
   const handlePersonDelete = async (person: IPerson) => {
@@ -100,7 +101,7 @@ const PersonsPanel = () => {
     await removeImageFromFirebase(person.imageRef);
     await handleSave(newPersons);
     setIsFetching(false);
-    dispatch(displayToast({ message: 'Person deleted succesfully' }));
+    displayToast({ message: 'Person deleted succesfully' });
   };
 
   const handleSort = (sortType: SORT_TYPE, sortOrder: SORT_ORDER) => {

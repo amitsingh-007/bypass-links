@@ -4,11 +4,9 @@ import historyMonitorReducer from 'SrcPath/HistoryPanel/reducers';
 import personsReducer from 'SrcPath/PersonsPanel/reducers';
 import reducer from '.';
 import extensionReducer from './extension';
-import toastReducer from './toast';
 
 const rootReducer = combineReducers({
   root: reducer,
-  toast: toastReducer,
   extension: extensionReducer,
   history: historyMonitorReducer,
   persons: personsReducer,

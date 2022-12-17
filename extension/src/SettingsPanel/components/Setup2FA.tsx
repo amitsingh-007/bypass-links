@@ -10,7 +10,6 @@ import {
   Typography,
 } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
-import { displayToast } from 'GlobalActionCreators/toast';
 import PanelHeading from '@common/components/PanelHeading';
 import { BlackTooltip } from '@common/components/StyledComponents';
 import { STORAGE_KEYS } from '@common/constants/storage';
@@ -22,9 +21,9 @@ import { toDataURL } from 'qrcode';
 import { forwardRef, memo, useEffect, useState } from 'react';
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
 import { IoHelpCircle } from 'react-icons/io5';
-import { useDispatch } from 'react-redux';
 import { setup2FA, verify2FA } from '../apis/twoFactorAuth';
 import Verify2FA from '@common/components/Auth/components/Verify2FA';
+import useToastStore from 'GlobalStore/toast';
 
 const tooltipStyles = { fontSize: '13px' };
 
@@ -41,7 +40,7 @@ type Props = {
 };
 
 const Setup2FA = memo(function Setup2FA({ isOpen, handleClose }: Props) {
-  const dispatch = useDispatch();
+  const displayToast = useToastStore((state) => state.displayToast);
   const [, setSecretKey] = useState('');
   const [qrcodeUrl, setQrcodeUrl] = useState('');
   const [showVerifyToken, setShowVerifyToken] = useState(false);
@@ -74,12 +73,10 @@ const Setup2FA = memo(function Setup2FA({ isOpen, handleClose }: Props) {
       await storage.set({ [STORAGE_KEYS.userProfile]: userProfile });
       handleClose();
     } else {
-      dispatch(
-        displayToast({
-          message: 'Entered TOTP is incorrect',
-          severity: 'error',
-        })
-      );
+      displayToast({
+        message: 'Entered TOTP is incorrect',
+        severity: 'error',
+      });
     }
     return isVerified;
   };

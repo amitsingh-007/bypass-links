@@ -1,15 +1,15 @@
-import { displayToast } from 'GlobalActionCreators/toast';
 import { STORAGE_KEYS } from '@common/constants/storage';
 import storage from 'GlobalHelpers/chrome/storage';
 import { getUserProfile } from 'GlobalHelpers/fetchFromStorage';
 import { RootState } from 'GlobalReducers/rootReducer';
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import TOTPPopup from '@common/components/Auth/components/TOTPPopup';
 import { UserInfo } from '../interfaces/authentication';
+import useToastStore from 'GlobalStore/toast';
 
 const TwoFactorAuthenticate = () => {
-  const dispatch = useDispatch();
+  const displayToast = useToastStore((state) => state.displayToast);
   const { isSignedIn } = useSelector((state: RootState) => state.root);
   const [promptTOTPVerify, setPromptTOTPVerify] = useState(false);
   const [user, setUser] = useState<UserInfo | null>(null);
@@ -40,12 +40,10 @@ const TwoFactorAuthenticate = () => {
       await storage.set({ [STORAGE_KEYS.userProfile]: user });
       setPromptTOTPVerify(false);
     } else {
-      dispatch(
-        displayToast({
-          message: 'Entered TOTP is incorrect',
-          severity: 'error',
-        })
-      );
+      displayToast({
+        message: 'Entered TOTP is incorrect',
+        severity: 'error',
+      });
     }
   };
 

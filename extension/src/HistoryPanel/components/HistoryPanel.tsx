@@ -2,7 +2,6 @@ import { Box, Button, TextField } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDateTimePicker } from '@mui/x-date-pickers/DesktopDateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { displayToast } from 'GlobalActionCreators/toast';
 import PanelHeading from '@common/components/PanelHeading';
 import { BG_COLOR_DARK } from '@common/constants/color';
 import { ROUTES } from '@common/constants/routes';
@@ -11,10 +10,10 @@ import storage from 'GlobalHelpers/chrome/storage';
 import { memo, useEffect, useState } from 'react';
 import { AiOutlineClear } from 'react-icons/ai';
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { DateTimeInputProps } from '../interfaces/historyPanel';
 import dayjs from 'dayjs';
+import useToastStore from 'GlobalStore/toast';
 
 const DateTimeInput = ({ dateTime, onChange, label }: DateTimeInputProps) => (
   <DesktopDateTimePicker
@@ -40,7 +39,7 @@ const DateTimeInput = ({ dateTime, onChange, label }: DateTimeInputProps) => (
 
 const HistoryPanel = memo(function HistoryPanel() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const displayToast = useToastStore((state) => state.displayToast);
   const [startDateTime, setStartDateTime] = useState<dayjs.Dayjs | null>(
     dayjs()
   );
@@ -78,7 +77,7 @@ const HistoryPanel = memo(function HistoryPanel() {
       endTime: endDateNum,
     });
     storage.remove('historyStartTime');
-    dispatch(displayToast({ message: 'History cleared succesfully' }));
+    displayToast({ message: 'History cleared succesfully' });
   };
 
   return (

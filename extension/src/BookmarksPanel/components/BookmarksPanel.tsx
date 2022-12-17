@@ -1,5 +1,4 @@
 import { Box, GlobalStyles } from '@mui/material';
-import { displayToast } from 'GlobalActionCreators/toast';
 import { ScrollButton } from '@common/components/ScrollButton';
 import { CACHE_BUCKET_KEYS } from '@common/constants/cache';
 import { PANEL_DIMENSIONS_PX } from 'GlobalConstants/styles';
@@ -55,6 +54,7 @@ import {
   getFilteredContextBookmarks,
   shouldRenderBookmarks,
 } from '@common/components/Bookmarks/utils';
+import useToastStore from 'GlobalStore/toast';
 
 const minReqBookmarksToScroll = Math.ceil(
   BOOKMARK_PANEL_CONTENT_HEIGHT / BOOKMARK_ROW_DIMENTSIONS.height
@@ -66,6 +66,7 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
   bmUrl,
 }) {
   const dispatch = useDispatch();
+  const displayToast = useToastStore((state) => state.displayToast);
   const listRef = useRef<any>();
   const [contextBookmarks, setContextBookmarks] = useState<ContextBookmarks>(
     []
@@ -361,12 +362,10 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     (pos: number, name: string) => {
       const folderHash = md5(name);
       if (isFolderContainsDir(folders, folderHash)) {
-        dispatch(
-          displayToast({
-            message: 'Remove inner folders first.',
-            severity: 'error',
-          })
-        );
+        displayToast({
+          message: 'Remove inner folders first.',
+          severity: 'error',
+        });
         return;
       }
       //Remove from current context folder
@@ -400,7 +399,7 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     },
     [
       contextBookmarks,
-      dispatch,
+      displayToast,
       folderList,
       folders,
       updateTaggedPersons,
@@ -423,15 +422,14 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     await setBookmarksInStorage(bookmarksObj);
     setIsFetching(false);
     setIsSaveButtonActive(false);
-    dispatch(
-      displayToast({
-        message: 'Saved temporarily',
-        duration: 1500,
-      })
-    );
+    displayToast({
+      message: 'Saved temporarily',
+      duration: 1500,
+    });
   }, [
     contextBookmarks,
     dispatch,
+    displayToast,
     folderContext,
     folderList,
     folders,

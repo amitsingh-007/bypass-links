@@ -1,9 +1,9 @@
 import { Dialog, LinearProgress, SvgIcon, Typography } from '@mui/material';
 import { setSignedInStatus } from 'GlobalActionCreators';
-import { displayToast } from 'GlobalActionCreators/toast';
 import { getUserProfile } from 'GlobalHelpers/fetchFromStorage';
 import { RootState } from 'GlobalReducers/rootReducer';
 import useAuthStore from 'GlobalStore/auth';
+import useToastStore from 'GlobalStore/toast';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { RiLoginCircleFill, RiLogoutCircleRFill } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,6 +12,7 @@ import StyledButton from './StyledButton';
 
 const Authenticate = memo(function Authenticate() {
   const dispatch = useDispatch();
+  const displayToast = useToastStore((state) => state.displayToast);
   const authProgress = useAuthStore((state) => state.authProgress);
   const resetAuthProgress = useAuthStore((state) => state.resetAuthProgress);
   const [isFetching, setIsFetching] = useState(false);
@@ -33,12 +34,10 @@ const Authenticate = memo(function Authenticate() {
     setIsFetching(true);
     const isSignedOut = await signOut();
     if (!isSignedOut) {
-      dispatch(
-        displayToast({
-          message: 'Error while logging out',
-          severity: 'error',
-        })
-      );
+      displayToast({
+        message: 'Error while logging out',
+        severity: 'error',
+      });
     } else {
       const isSignedIn = !isSignedOut;
       setIsSignedIn(isSignedIn);
@@ -46,7 +45,7 @@ const Authenticate = memo(function Authenticate() {
     }
     setIsFetching(false);
     resetAuthProgress();
-  }, [dispatch, resetAuthProgress]);
+  }, [dispatch, displayToast, resetAuthProgress]);
 
   const init = useCallback(async () => {
     const userProfile = await getUserProfile();

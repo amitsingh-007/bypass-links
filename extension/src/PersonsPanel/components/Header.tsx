@@ -1,6 +1,5 @@
 import { Box, Button } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { displayToast } from 'GlobalActionCreators/toast';
 import {
   AccordionHeader,
   PrimaryHeaderContent,
@@ -12,13 +11,13 @@ import { memo, useState } from 'react';
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
 import { IoIosPersonAdd } from 'react-icons/io';
 import { RiUploadCloud2Fill } from 'react-icons/ri';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { IPerson } from '@common/components/Persons/interfaces/persons';
 import { syncPersonsFirebaseWithStorage } from '../utils/sync';
 import AddOrEditPersonDialog from './AddOrEditPersonDialog';
 import Sort from './Sort';
 import Search from '@common/components/Search';
+import useToastStore from 'GlobalStore/toast';
 
 interface Props {
   isFetching: boolean;
@@ -35,8 +34,8 @@ const Header = memo<Props>(function Header({
   handleSort,
   onSearchChange,
 }) {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const displayToast = useToastStore((state) => state.displayToast);
   const [isSyncing, setIsSyncing] = useState(false);
   const [showAddPersonDialog, setShowAddPersonDialog] = useState(false);
 
@@ -71,12 +70,10 @@ const Header = memo<Props>(function Header({
     setIsSyncing(true);
     try {
       await syncPersonsFirebaseWithStorage();
-      dispatch(displayToast({ message: 'Persons synced succesfully' }));
+      displayToast({ message: 'Persons synced succesfully' });
     } catch (ex) {
       console.error('Persons synced failed', ex);
-      dispatch(
-        displayToast({ message: 'Persons synced failed', severity: 'error' })
-      );
+      displayToast({ message: 'Persons synced failed', severity: 'error' });
     }
     setIsSyncing(false);
   };
