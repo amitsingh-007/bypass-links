@@ -1,10 +1,8 @@
 import { Box, GlobalStyles } from '@mui/material';
-import { displayToast } from 'GlobalActionCreators/toast';
 import { PANEL_DIMENSIONS_PX, PANEL_SIZE } from 'GlobalConstants/styles';
 import { getPersons } from 'GlobalHelpers/fetchFromStorage';
 import { removeImageFromFirebase } from 'GlobalHelpers/firebase/storage';
 import { useEffect, useMemo, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import {
   SORT_ORDER,
   SORT_TYPE,
@@ -20,13 +18,14 @@ import { updatePersonCacheAndImageUrls } from '../utils/sync';
 import Header from './Header';
 import Persons from '@common/components/Persons/components/Persons';
 import PersonVirtualCell from './PersonVirtualCell';
-import { startHistoryMonitor } from 'SrcPath/HistoryPanel/actionCreators';
 import tabs from 'GlobalHelpers/chrome/tabs';
 import {
   getFilteredPersons,
   sortAlphabetically,
 } from '@common/components/Persons/utils';
 import { GRID_COLUMN_SIZE } from '../constants';
+import useToastStore from 'GlobalStore/toast';
+import useHistoryStore from 'GlobalStore/history';
 
 const sizeConfig = {
   gridColumnSize: GRID_COLUMN_SIZE,
@@ -35,7 +34,10 @@ const sizeConfig = {
 };
 
 const PersonsPanel = () => {
-  const dispatch = useDispatch();
+  const startHistoryMonitor = useHistoryStore(
+    (state) => state.startHistoryMonitor
+  );
+  const displayToast = useToastStore((state) => state.displayToast);
   const [persons, setPersons] = useState<IPerson[]>([]);
   const [isFetching, setIsFetching] = useState(true);
   const [searchText, setSearchText] = useState('');
@@ -84,7 +86,7 @@ const PersonsPanel = () => {
     setPersons(sortedPersons);
     await handleSave(sortedPersons);
     setIsFetching(false);
-    dispatch(displayToast({ message: 'Person added/updated succesfully' }));
+    displayToast({ message: 'Person added/updated succesfully' });
   };
 
   const handlePersonDelete = async (person: IPerson) => {
@@ -100,7 +102,7 @@ const PersonsPanel = () => {
     await removeImageFromFirebase(person.imageRef);
     await handleSave(newPersons);
     setIsFetching(false);
-    dispatch(displayToast({ message: 'Person deleted succesfully' }));
+    displayToast({ message: 'Person deleted succesfully' });
   };
 
   const handleSort = (sortType: SORT_TYPE, sortOrder: SORT_ORDER) => {
@@ -120,8 +122,8 @@ const PersonsPanel = () => {
   };
 
   const onLinkOpen = (url: string) => {
-    dispatch(startHistoryMonitor());
-    tabs.create({ url, selected: false });
+    startHistoryMonitor();
+    tabs.create({ url, active: false });
   };
 
   const filteredPersons = useMemo(

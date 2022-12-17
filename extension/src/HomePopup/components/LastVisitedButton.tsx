@@ -4,19 +4,18 @@ import { BlackTooltip } from '@common/components/StyledComponents';
 import { getCurrentTab } from 'GlobalHelpers/chrome/tabs';
 import { getLastVisited } from 'GlobalHelpers/fetchFromStorage';
 import { saveToFirebase } from 'GlobalHelpers/firebase/database';
-import { RootState } from 'GlobalReducers/rootReducer';
 import md5 from 'md5';
 import { memo, useEffect, useState } from 'react';
 import { FaCalendarCheck, FaCalendarTimes } from 'react-icons/fa';
-import { useSelector } from 'react-redux';
 import { syncLastVisitedToStorage } from 'SrcPath/HomePopup/utils/lastVisited';
 import { LastVisited } from '../interfaces/lastVisited';
 import StyledButton from './StyledButton';
+import useAuthStore from 'GlobalStore/auth';
 
 const tooltipStyles = { fontSize: '13px' };
 
 const LastVisitedButton = memo(function LastVisitedButton() {
-  const { isSignedIn } = useSelector((state: RootState) => state.root);
+  const isSignedIn = useAuthStore((state) => state.isSignedIn);
   const [isFetching, setIsFetching] = useState(false);
   const [lastVisited, setLastVisited] = useState('');
   const [currentTab, setCurrentTab] = useState<chrome.tabs.Tab | null>(null);

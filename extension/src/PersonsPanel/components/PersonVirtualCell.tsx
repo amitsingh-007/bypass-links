@@ -11,7 +11,7 @@ import { RiBookmark2Fill } from 'react-icons/ri';
 import { IMenuOptions } from 'GlobalInterfaces/menu';
 import { GRID_COLUMN_SIZE } from '../constants';
 
-export interface PersonVirtualCellProps {
+interface PersonVirtualCellProps {
   persons: IPerson[];
   handleEditPerson: (person: IPerson) => void;
   handlePersonDelete: (person: IPerson) => void;

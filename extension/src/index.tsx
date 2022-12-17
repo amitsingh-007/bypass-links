@@ -8,13 +8,8 @@ import PopupRoutes from 'GlobalContainers/PopupRoutes';
 import 'GlobalStyles/popup.scss';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import { createStore } from 'redux';
 import DynamicProvider from './provider/DynamicProvider';
-import rootReducers from './reducers/rootReducer';
-
-const store = createStore(rootReducers);
 
 const theme = createTheme({
   palette: {
@@ -72,17 +67,15 @@ const root = createRoot(container!);
 root.render(
   <StrictMode>
     <ErrorBoundary>
-      <Provider store={store}>
-        <BrowserRouter>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <DynamicProvider>
-              <PopupRoutes />
-            </DynamicProvider>
-            <Global />
-          </ThemeProvider>
-        </BrowserRouter>
-      </Provider>
+      <BrowserRouter>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <DynamicProvider>
+            <PopupRoutes />
+          </DynamicProvider>
+          <Global />
+        </ThemeProvider>
+      </BrowserRouter>
     </ErrorBoundary>
   </StrictMode>
 );

@@ -3,12 +3,10 @@ import { BlackTooltip } from '@common/components/StyledComponents';
 import { defaultBookmarkFolder } from '@common/components/Bookmarks/constants';
 import { getCurrentTab } from 'GlobalHelpers/chrome/tabs';
 import { getBookmarks } from 'GlobalHelpers/fetchFromStorage';
-import { RootState } from 'GlobalReducers/rootReducer';
 import md5 from 'md5';
 import { memo, useEffect, useState } from 'react';
 import { BiBookmarkPlus } from 'react-icons/bi';
 import { RiBookmark3Fill } from 'react-icons/ri';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { BOOKMARK_OPERATION } from '@common/components/Bookmarks/constants';
 import { IBookmark } from '@common/components/Bookmarks/interfaces';
@@ -17,9 +15,10 @@ import { getBookmarksPanelUrl } from '@common/components/Bookmarks/utils/url';
 import StyledButton from './StyledButton';
 import { getDecodedBookmark } from '@common/components/Bookmarks/utils';
 import useBookmark from '@common/components/Bookmarks/hooks/useBookmark';
+import useAuthStore from 'GlobalStore/auth';
 
 const QuickBookmarkButton = memo(function QuickBookmarkButton() {
-  const { isSignedIn } = useSelector((state: RootState) => state.root);
+  const isSignedIn = useAuthStore((state) => state.isSignedIn);
   const { getFolderFromHash } = useBookmark();
   const [bookmark, setBookmark] = useState<IBookmark | null>(null);
   const [isFetching, setIsFetching] = useState(false);

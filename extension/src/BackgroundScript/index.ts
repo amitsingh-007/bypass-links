@@ -1,7 +1,7 @@
 import { EXTENSION_STATE } from 'GlobalConstants';
 import storage from 'GlobalHelpers/chrome/storage';
 import { getExtensionState } from 'GlobalHelpers/fetchFromStorage';
-import { isExtensionActive, setExtStateInStorage } from 'GlobalUtils/common';
+import { getIsExtensionActive, setExtStateInStorage } from 'GlobalUtils/common';
 import { manageGoogleActivity } from './automation/manageGoogleActivity';
 import { bypass } from './bypass';
 import { getForumPageLinks } from './misc/forumPageLinks';
@@ -48,7 +48,7 @@ const onPageLoad = async (tabId: number, url: string) => {
     return;
   }
   const extState = await getExtensionState();
-  if (isValidUrl(url) && isExtensionActive(extState)) {
+  if (isValidUrl(url) && getIsExtensionActive(extState)) {
     const currentTabUrl = new URL(url);
     bypass(tabId, currentTabUrl);
     redirect(tabId, currentTabUrl);

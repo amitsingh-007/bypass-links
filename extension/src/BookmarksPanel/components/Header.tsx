@@ -1,6 +1,5 @@
 import { Box, Button, SelectProps } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { displayToast } from 'GlobalActionCreators/toast';
 import {
   AccordionHeader,
   PrimaryHeaderContent,
@@ -16,7 +15,6 @@ import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
 import { IoSave } from 'react-icons/io5';
 import { RiUploadCloud2Fill } from 'react-icons/ri';
 import { TbReplace } from 'react-icons/tb';
-import { useDispatch } from 'react-redux';
 import { ContextBookmarks } from '@common/components/Bookmarks/interfaces';
 import { syncBookmarksFirebaseWithStorage } from '../utils/bookmark';
 import { getBookmarksPanelUrl } from '@common/components/Bookmarks/utils/url';
@@ -25,6 +23,7 @@ import { FolderDropdown } from './Dropdown';
 import { FolderDialog } from './FolderDialog';
 import ReplaceDialog from './ReplaceDialog';
 import { useNavigate } from 'react-router-dom';
+import useToastStore from 'GlobalStore/toast';
 
 interface Props {
   isSaveButtonActive: boolean;
@@ -48,7 +47,7 @@ const Header = memo<Props>(function Header({
   onSearchChange,
 }) {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const displayToast = useToastStore((state) => state.displayToast);
   const saveButtonRef = useRef<HTMLButtonElement>(null);
   const [openFolderDialog, setOpenFolderDialog] = useState(false);
   const [openReplaceDialog, setOpenReplaceDialog] = useState(false);
@@ -93,15 +92,13 @@ const Header = memo<Props>(function Header({
     setIsSyncing(true);
     try {
       await syncBookmarksFirebaseWithStorage();
-      dispatch(displayToast({ message: 'Bookmarks synced succesfully' }));
+      displayToast({ message: 'Bookmarks synced succesfully' });
     } catch (ex: any) {
       console.error('Bookmarks sync failed', ex);
-      dispatch(
-        displayToast({
-          message: 'Bookmarks sync failed',
-          severity: 'error',
-        })
-      );
+      displayToast({
+        message: 'Bookmarks sync failed',
+        severity: 'error',
+      });
     }
     setIsSyncing(false);
   };

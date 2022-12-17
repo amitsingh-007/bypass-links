@@ -2,21 +2,22 @@ import { SvgIcon } from '@mui/material';
 import { STORAGE_KEYS } from '@common/constants/storage';
 import storage from 'GlobalHelpers/chrome/storage';
 import tabs from 'GlobalHelpers/chrome/tabs';
-import { RootState } from 'GlobalReducers/rootReducer';
 import { memo, useState } from 'react';
 import { FiExternalLink } from 'react-icons/fi';
-import { useDispatch, useSelector } from 'react-redux';
-import { startHistoryMonitor } from 'SrcPath/HistoryPanel/actionCreators';
 import StyledButton from './StyledButton';
+import useHistoryStore from 'GlobalStore/history';
+import useAuthStore from 'GlobalStore/auth';
 
 const OpenDefaultsButton = memo(function OpenDefaultsButton() {
-  const dispatch = useDispatch();
-  const { isSignedIn } = useSelector((state: RootState) => state.root);
+  const startHistoryMonitor = useHistoryStore(
+    (state) => state.startHistoryMonitor
+  );
+  const isSignedIn = useAuthStore((state) => state.isSignedIn);
   const [isFetching, setIsFetching] = useState(false);
 
   const handleOpenDefaults = async () => {
     setIsFetching(true);
-    dispatch(startHistoryMonitor());
+    startHistoryMonitor();
     const { [STORAGE_KEYS.redirections]: redirections } = await storage.get([
       STORAGE_KEYS.redirections,
     ]);
@@ -26,7 +27,7 @@ const OpenDefaultsButton = memo(function OpenDefaultsButton() {
     defaults
       .filter((data: any) => data && data.alias && data.website)
       .forEach(({ website }: any) => {
-        tabs.create({ url: atob(website), selected: false });
+        tabs.create({ url: atob(website), active: false });
       });
     setIsFetching(false);
   };

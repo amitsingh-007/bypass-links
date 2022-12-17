@@ -7,7 +7,7 @@ import { getPersonsPanelUrl } from '../utils/urls';
 
 const imageStyles = { width: 100, height: 100 };
 
-export interface Props {
+interface Props {
   person: IPerson;
 }
 

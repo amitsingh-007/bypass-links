@@ -8,8 +8,6 @@ import { BsFillFolderSymlinkFill } from 'react-icons/bs';
 import { FiExternalLink } from 'react-icons/fi';
 import { HiArrowCircleDown, HiArrowCircleUp } from 'react-icons/hi';
 import { RiBookmark2Fill } from 'react-icons/ri';
-import { useDispatch } from 'react-redux';
-import { setBookmarkOperation } from '../actionCreators';
 import { BOOKMARK_PANEL_CONTENT_HEIGHT } from '../constants';
 import { BOOKMARK_OPERATION } from '@common/components/Bookmarks/constants';
 import {
@@ -17,6 +15,7 @@ import {
   ISelectedBookmarks,
 } from '@common/components/Bookmarks/interfaces';
 import BulkBookmarksMoveDialog from './BulkBookmarksMoveDialog';
+import useBookmarkStore from 'GlobalStore/bookmark';
 
 const BookmarkContextMenu = memo<{
   curFolder: string;
@@ -46,7 +45,9 @@ const BookmarkContextMenu = memo<{
   }) => {
     const selectedCount = selectedBookmarks.filter(Boolean).length;
 
-    const dispatch = useDispatch();
+    const setBookmarkOperation = useBookmarkStore(
+      (state) => state.setBookmarkOperation
+    );
     const [openBulkMoveDialog, setOpenBulkMoveDialog] = useState(false);
 
     const toggleBulkMoveDialog = () => {
@@ -71,7 +72,7 @@ const BookmarkContextMenu = memo<{
 
     const handleBookmarkEdit = (id: string) => {
       const { url } = getBookmark(id);
-      dispatch(setBookmarkOperation(BOOKMARK_OPERATION.EDIT, url));
+      setBookmarkOperation(BOOKMARK_OPERATION.EDIT, url);
     };
 
     const handleMoveToTopBottom = (pos: number) => () => {

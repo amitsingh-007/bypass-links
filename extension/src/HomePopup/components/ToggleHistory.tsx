@@ -3,10 +3,9 @@ import { StyledSwitch } from 'GlobalComponents/StyledComponents';
 import { startHistoryWatch } from 'GlobalContainers/StoreListener';
 import history from 'GlobalHelpers/chrome/history';
 import storage from 'GlobalHelpers/chrome/storage';
-import { RootState } from 'GlobalReducers/rootReducer';
+import useExtStore from 'GlobalStore/extension';
+import useHistoryStore from 'GlobalStore/history';
 import { memo, useCallback, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { resetHistoryMonitor } from 'SrcPath/HistoryPanel/actionCreators';
 
 const endHistoryWatch = async () => {
   const { historyStartTime } = await storage.get(['historyStartTime']);
@@ -26,14 +25,12 @@ const endHistoryWatch = async () => {
 };
 
 const ToggleHistory = memo(function ToggleHistory() {
-  const dispatch = useDispatch();
+  const resetHistoryMonitor = useHistoryStore(
+    (state) => state.resetHistoryMonitor
+  );
+  const monitorHistory = useHistoryStore((state) => state.monitorHistory);
+  const isExtensionActive = useExtStore((state) => state.isExtensionActive);
   const [isHistoryActive, setIsHistoryActive] = useState(false);
-  const { startHistoryMonitor } = useSelector(
-    (state: RootState) => state.history
-  );
-  const { isExtensionActive } = useSelector(
-    (state: RootState) => state.extension
-  );
 
   const turnOffHistory = useCallback(() => {
     if (isHistoryActive) {
@@ -44,11 +41,11 @@ const ToggleHistory = memo(function ToggleHistory() {
 
   const turnOnHistory = useCallback(async () => {
     if (!isHistoryActive) {
-      dispatch(resetHistoryMonitor());
+      resetHistoryMonitor();
       await startHistoryWatch();
       setIsHistoryActive(true);
     }
-  }, [dispatch, isHistoryActive]);
+  }, [isHistoryActive, resetHistoryMonitor]);
 
   //Init toggle on mount
   useEffect(() => {
@@ -66,10 +63,10 @@ const ToggleHistory = memo(function ToggleHistory() {
 
   //Turn on history on store change
   useEffect(() => {
-    if (startHistoryMonitor) {
+    if (monitorHistory) {
       turnOnHistory();
     }
-  }, [startHistoryMonitor, turnOnHistory]);
+  }, [monitorHistory, turnOnHistory]);
 
   const handleToggle = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const isActive = event.target.checked;

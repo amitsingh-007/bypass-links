@@ -1,7 +1,5 @@
 import { getCurrentTab } from 'GlobalHelpers/chrome/tabs';
-import { RootState } from 'GlobalReducers/rootReducer';
 import { memo, useCallback, useEffect, useState } from 'react';
-import { resetBookmarkOperation } from '../actionCreators';
 import { BOOKMARK_OPERATION } from '@common/components/Bookmarks/constants';
 import {
   ContextBookmark,
@@ -9,9 +7,8 @@ import {
 } from '@common/components/Bookmarks/interfaces';
 import { getBookmarksPanelUrl } from '@common/components/Bookmarks/utils/url';
 import BookmarkDialog from './BookmarkDialog';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import useBookmarkStore from 'GlobalStore/bookmark';
 
 const heading = {
   [BOOKMARK_OPERATION.NONE]: '',
@@ -48,15 +45,17 @@ const EditBookmark = memo<Props>(
     onDelete,
   }) => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const resetBookmarkOperation = useBookmarkStore(
+      (state) => state.resetBookmarkOperation
+    );
+    const { operation, url: bmUrl } = useBookmarkStore(
+      (state) => state.bookmarkOperation
+    );
     const [pos, setPos] = useState(-1);
     const [url, setUrl] = useState('');
     const [title, setTitle] = useState('');
     const [taggedPersons, setTaggedPersons] = useState<string[]>([]);
     const [openDialog, setOpenDialog] = useState(false);
-    const { operation, url: bmUrl } = useSelector(
-      (state: RootState) => state.bookmarkOperation
-    );
 
     const resolveBookmark = useCallback(
       async (operation: BOOKMARK_OPERATION, bmUrl: string) => {
@@ -107,7 +106,7 @@ const EditBookmark = memo<Props>(
       setTitle('');
       setTaggedPersons([]);
       setOpenDialog(false);
-      dispatch(resetBookmarkOperation());
+      resetBookmarkOperation();
       if (operation === BOOKMARK_OPERATION.EDIT) {
         handleScroll(pos);
         handleSelectedChange(pos, true);

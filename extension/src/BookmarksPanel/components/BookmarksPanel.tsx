@@ -1,5 +1,4 @@
 import { Box, GlobalStyles } from '@mui/material';
-import { displayToast } from 'GlobalActionCreators/toast';
 import { ScrollButton } from '@common/components/ScrollButton';
 import { CACHE_BUCKET_KEYS } from '@common/constants/cache';
 import { PANEL_DIMENSIONS_PX } from 'GlobalConstants/styles';
@@ -13,12 +12,8 @@ import {
   DragDropContextProps,
   Droppable,
 } from '@hello-pangea/dnd';
-import { useDispatch } from 'react-redux';
 import { FixedSizeList } from 'react-window';
-import { startHistoryMonitor } from 'SrcPath/HistoryPanel/actionCreators';
-import { updateTaggedPersonUrls } from 'SrcPath/PersonsPanel/actionCreators';
 import { IUpdateTaggedPerson } from '@common/components/Persons/interfaces/persons';
-import { setBookmarkOperation } from '../actionCreators';
 import {
   BOOKMARK_PANEL_CONTENT_HEIGHT,
   BOOKMARK_ROW_DIMENTSIONS,
@@ -55,6 +50,10 @@ import {
   getFilteredContextBookmarks,
   shouldRenderBookmarks,
 } from '@common/components/Bookmarks/utils';
+import useToastStore from 'GlobalStore/toast';
+import useHistoryStore from 'GlobalStore/history';
+import usePersonStore from 'GlobalStore/person';
+import useBookmarkStore from 'GlobalStore/bookmark';
 
 const minReqBookmarksToScroll = Math.ceil(
   BOOKMARK_PANEL_CONTENT_HEIGHT / BOOKMARK_ROW_DIMENTSIONS.height
@@ -65,7 +64,16 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
   operation,
   bmUrl,
 }) {
-  const dispatch = useDispatch();
+  const startHistoryMonitor = useHistoryStore(
+    (state) => state.startHistoryMonitor
+  );
+  const displayToast = useToastStore((state) => state.displayToast);
+  const updateTaggedPersonUrls = usePersonStore(
+    (state) => state.updateTaggedPersonUrls
+  );
+  const setBookmarkOperation = useBookmarkStore(
+    (state) => state.setBookmarkOperation
+  );
   const listRef = useRef<any>();
   const [contextBookmarks, setContextBookmarks] = useState<ContextBookmarks>(
     []
@@ -99,13 +107,13 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
   }, [folderContext]);
 
   const handleOpenSelectedBookmarks = useCallback(() => {
-    dispatch(startHistoryMonitor());
+    startHistoryMonitor();
     contextBookmarks.forEach(({ url }, index) => {
       if (selectedBookmarks[index]) {
-        tabs.create({ url, selected: false });
+        tabs.create({ url, active: false });
       }
     });
-  }, [contextBookmarks, dispatch, selectedBookmarks]);
+  }, [contextBookmarks, selectedBookmarks, startHistoryMonitor]);
 
   const handleKeyPress = useCallback(
     (event: KeyboardEvent) => {
@@ -134,9 +142,9 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
        * Need to call after initBookmarksData,
        * Since EditBookmark internally needs contextBookmarks to be set beforehand
        */
-      dispatch(setBookmarkOperation(operation, bmUrl));
+      setBookmarkOperation(operation, bmUrl);
     }
-  }, [bmUrl, dispatch, isFetching, operation]);
+  }, [bmUrl, isFetching, operation, setBookmarkOperation]);
 
   useEffect(() => {
     document.body.addEventListener('keydown', handleKeyPress);
@@ -361,12 +369,10 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     (pos: number, name: string) => {
       const folderHash = md5(name);
       if (isFolderContainsDir(folders, folderHash)) {
-        dispatch(
-          displayToast({
-            message: 'Remove inner folders first.',
-            severity: 'error',
-          })
-        );
+        displayToast({
+          message: 'Remove inner folders first.',
+          severity: 'error',
+        });
         return;
       }
       //Remove from current context folder
@@ -400,7 +406,7 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     },
     [
       contextBookmarks,
-      dispatch,
+      displayToast,
       folderList,
       folders,
       updateTaggedPersons,
@@ -411,7 +417,7 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
   const handleSave = useCallback(async () => {
     setIsFetching(true);
     //Update url in tagged persons
-    dispatch(updateTaggedPersonUrls(updateTaggedPersons));
+    updateTaggedPersonUrls(updateTaggedPersons);
     //Form folders obj for current context folder
     folders[md5(folderContext)] = contextBookmarks.map(
       ({ isDir, url, name }) => ({
@@ -423,18 +429,17 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     await setBookmarksInStorage(bookmarksObj);
     setIsFetching(false);
     setIsSaveButtonActive(false);
-    dispatch(
-      displayToast({
-        message: 'Saved temporarily',
-        duration: 1500,
-      })
-    );
+    displayToast({
+      message: 'Saved temporarily',
+      duration: 1500,
+    });
   }, [
     contextBookmarks,
-    dispatch,
+    displayToast,
     folderContext,
     folderList,
     folders,
+    updateTaggedPersonUrls,
     updateTaggedPersons,
     urlList,
   ]);

@@ -1,15 +1,14 @@
 import { Box, Button } from '@mui/material';
 import storage from 'GlobalHelpers/chrome/storage';
-import { displayToast } from 'GlobalActionCreators/toast';
 import { STORAGE_KEYS } from '@common/constants/storage';
 import { memo, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { revoke2FA } from '../apis/twoFactorAuth';
 import { getUserProfile } from 'GlobalHelpers/fetchFromStorage';
 import Setup2FA from './Setup2FA';
+import useToastStore from 'GlobalStore/toast';
 
 const TwoFactorAuth = memo(function TwoFactorAuth() {
-  const dispatch = useDispatch();
+  const displayToast = useToastStore((state) => state.displayToast);
   const [is2FAEnabled, setIs2FAEnabled] = useState(false);
   const [show2FASetup, setShow2FASetup] = useState(false);
 
@@ -34,9 +33,7 @@ const TwoFactorAuth = memo(function TwoFactorAuth() {
     const userProfile = await getUserProfile();
     const { isRevoked } = await revoke2FA(userProfile.uid ?? '');
     if (!isRevoked) {
-      dispatch(
-        displayToast({ message: 'Something went wrong', severity: 'error' })
-      );
+      displayToast({ message: 'Something went wrong', severity: 'error' });
       return;
     }
     userProfile.is2FAEnabled = false;
@@ -45,7 +42,7 @@ const TwoFactorAuth = memo(function TwoFactorAuth() {
       [STORAGE_KEYS.userProfile]: userProfile,
     });
     setIs2FAEnabled(false);
-    dispatch(displayToast({ message: '2FA revoked successfully' }));
+    displayToast({ message: '2FA revoked successfully' });
   };
 
   const handleClose2FASetup = () => {

@@ -2,12 +2,11 @@ import { SvgIcon } from '@mui/material';
 import { BYPASS_KEYS } from 'GlobalConstants';
 import runtime from 'GlobalHelpers/chrome/runtime';
 import tabs, { getCurrentTab } from 'GlobalHelpers/chrome/tabs';
-import { RootState } from 'GlobalReducers/rootReducer';
+import useAuthStore from 'GlobalStore/auth';
+import useHistoryStore from 'GlobalStore/history';
 import { matchHostnames } from 'GlobalUtils/common';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { MdForum } from 'react-icons/md';
-import { useDispatch, useSelector } from 'react-redux';
-import { startHistoryMonitor } from 'SrcPath/HistoryPanel/actionCreators';
 import StyledButton from './StyledButton';
 
 const isCurrentPageForum = async (url = '') => {
@@ -19,8 +18,10 @@ const isCurrentPageForum = async (url = '') => {
 };
 
 const OpenForumLinks = memo(function OpenForumLinks() {
-  const dispatch = useDispatch();
-  const { isSignedIn } = useSelector((state: RootState) => state.root);
+  const startHistoryMonitor = useHistoryStore(
+    (state) => state.startHistoryMonitor
+  );
+  const isSignedIn = useAuthStore((state) => state.isSignedIn);
   const [isFetching, setIsFetching] = useState(false);
   const [currentTab, setCurrentTab] = useState<chrome.tabs.Tab | null>(null);
   const [isActive, setIsActive] = useState(false);
@@ -44,7 +45,7 @@ const OpenForumLinks = memo(function OpenForumLinks() {
 
   const handleClick = async () => {
     setIsFetching(true);
-    dispatch(startHistoryMonitor());
+    startHistoryMonitor();
     const { forumPageLinks } = await runtime.sendMessage<{
       forumPageLinks: string[];
       url: string;
@@ -53,7 +54,7 @@ const OpenForumLinks = memo(function OpenForumLinks() {
       url: currentTab?.url,
     });
     forumPageLinks.forEach((url) => {
-      tabs.create({ url, selected: false });
+      tabs.create({ url, active: false });
     });
     setIsFetching(false);
   };

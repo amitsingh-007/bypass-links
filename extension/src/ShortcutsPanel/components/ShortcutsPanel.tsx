@@ -1,19 +1,18 @@
 import { FIREBASE_DB_REF } from '@common/constants/firebase';
 import { Box } from '@mui/material';
-import { displayToast } from 'GlobalActionCreators/toast';
 import { ROUTES } from '@common/constants/routes';
 import { PANEL_DIMENSIONS_PX } from 'GlobalConstants/styles';
 import { getRedirections } from 'GlobalHelpers/fetchFromStorage';
 import { saveToFirebase } from 'GlobalHelpers/firebase/database';
 import { memo, useEffect, useState } from 'react';
 import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { IRedirection } from 'SrcPath/BackgroundScript/interfaces/redirections';
 import { syncRedirectionsToStorage } from 'SrcPath/BackgroundScript/redirect';
 import { DEFAULT_RULE_ALIAS } from '../constants';
 import Header from './Header';
 import RedirectionRule from './RedirectionRule';
+import useToastStore from 'GlobalStore/toast';
 
 //Filter valid rules
 const getValidRules = (obj: IRedirection) =>
@@ -21,7 +20,7 @@ const getValidRules = (obj: IRedirection) =>
 
 const ShortcutsPanel = memo(function ShortcutsPanel() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const displayToast = useToastStore((state) => state.displayToast);
   const [redirections, setRedirections] = useState<IRedirection[]>([]);
   const [isFetching, setIsFetching] = useState(true);
 
@@ -66,12 +65,10 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
     if (isSaveSuccess) {
       syncRedirectionsToStorage();
       setRedirections(validRules);
-      dispatch(
-        displayToast({
-          message: 'Saved succesfully',
-          duration: 1500,
-        })
-      );
+      displayToast({
+        message: 'Saved succesfully',
+        duration: 1500,
+      });
     }
     setIsFetching(false);
   };

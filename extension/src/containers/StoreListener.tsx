@@ -1,10 +1,10 @@
 import storage from 'GlobalHelpers/chrome/storage';
-import { RootState } from 'GlobalReducers/rootReducer';
 import { memo, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { getPersons } from 'GlobalHelpers/fetchFromStorage';
 import { IUpdateTaggedPerson } from '@common/components/Persons/interfaces/persons';
 import { setPersonsInStorage } from 'SrcPath/PersonsPanel/utils';
+import useHistoryStore from 'GlobalStore/history';
+import usePersonStore from 'GlobalStore/person';
 
 const THIRTY_SECONDS = 30 * 1000; //in milliseconds
 
@@ -76,16 +76,14 @@ const updateUrlsInTaggedPersons = async (updates: IUpdateTaggedPerson[]) => {
 };
 
 const StoreListener = memo(function StoreListener() {
-  const { updateTaggedUrls } = useSelector((state: RootState) => state.persons);
-  const { startHistoryMonitor } = useSelector(
-    (state: RootState) => state.history
-  );
+  const updateTaggedUrls = usePersonStore((state) => state.updateTaggedUrls);
+  const monitorHistory = useHistoryStore((state) => state.monitorHistory);
 
   useEffect(() => {
-    if (startHistoryMonitor) {
+    if (monitorHistory) {
       startHistoryWatch();
     }
-  }, [startHistoryMonitor]);
+  }, [monitorHistory]);
 
   useEffect(() => {
     if (updateTaggedUrls) {

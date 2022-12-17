@@ -1,10 +1,10 @@
 import { createContext } from 'react';
 
-export interface IDynamicContext {
+interface IDynamicContext {
   location: {
     push: (url: string) => void;
     query: () => string;
-    goBack: () => void;
+    goBack: VoidFunction;
   };
   storage: {
     get: <T>(key: string) => Promise<T | null | undefined>;
