@@ -14,7 +14,6 @@ import {
 } from '@hello-pangea/dnd';
 import { useDispatch } from 'react-redux';
 import { FixedSizeList } from 'react-window';
-import { updateTaggedPersonUrls } from 'SrcPath/PersonsPanel/actionCreators';
 import { IUpdateTaggedPerson } from '@common/components/Persons/interfaces/persons';
 import { setBookmarkOperation } from '../actionCreators';
 import {
@@ -55,6 +54,7 @@ import {
 } from '@common/components/Bookmarks/utils';
 import useToastStore from 'GlobalStore/toast';
 import useHistoryStore from 'GlobalStore/history';
+import usePersonStore from 'GlobalStore/person';
 
 const minReqBookmarksToScroll = Math.ceil(
   BOOKMARK_PANEL_CONTENT_HEIGHT / BOOKMARK_ROW_DIMENTSIONS.height
@@ -70,6 +70,9 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     (state) => state.startHistoryMonitor
   );
   const displayToast = useToastStore((state) => state.displayToast);
+  const updateTaggedPersonUrls = usePersonStore(
+    (state) => state.updateTaggedPersonUrls
+  );
   const listRef = useRef<any>();
   const [contextBookmarks, setContextBookmarks] = useState<ContextBookmarks>(
     []
@@ -90,10 +93,12 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     setIsSaveButtonActive(false);
     setIsFetching(true);
     const { folders, urlList, folderList } = await getBookmarks();
+    console.log('amit urlList', urlList);
     const folderContextHash = md5(folderContext);
     const modifiedBookmarks = Object.entries(folders[folderContextHash]).map(
       (kvp) => bookmarksMapper(kvp, urlList, folderList)
     );
+    console.log('amit after', modifiedBookmarks);
     setContextBookmarks(modifiedBookmarks);
     setUrlList(urlList);
     setFolderList(folderList);
@@ -413,7 +418,7 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
   const handleSave = useCallback(async () => {
     setIsFetching(true);
     //Update url in tagged persons
-    dispatch(updateTaggedPersonUrls(updateTaggedPersons));
+    updateTaggedPersonUrls(updateTaggedPersons);
     //Form folders obj for current context folder
     folders[md5(folderContext)] = contextBookmarks.map(
       ({ isDir, url, name }) => ({
@@ -431,11 +436,11 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     });
   }, [
     contextBookmarks,
-    dispatch,
     displayToast,
     folderContext,
     folderList,
     folders,
+    updateTaggedPersonUrls,
     updateTaggedPersons,
     urlList,
   ]);

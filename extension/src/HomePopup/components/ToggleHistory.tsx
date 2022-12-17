@@ -29,7 +29,6 @@ const ToggleHistory = memo(function ToggleHistory() {
     (state) => state.resetHistoryMonitor
   );
   const monitorHistory = useHistoryStore((state) => state.monitorHistory);
-  console.log(monitorHistory);
   const isExtensionActive = useExtStore((state) => state.isExtensionActive);
   const [isHistoryActive, setIsHistoryActive] = useState(false);
 
