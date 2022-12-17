@@ -1,17 +1,14 @@
 import { Box, FormControlLabel } from '@mui/material';
-import {
-  turnOffExtension,
-  turnOnExtension,
-} from 'GlobalActionCreators/extension';
 import { StyledSwitch } from 'GlobalComponents/StyledComponents';
 import { EXTENSION_STATE } from 'GlobalConstants';
 import { getExtensionState } from 'GlobalHelpers/fetchFromStorage';
+import useExtStore from 'GlobalStore/extension';
 import { isExtensionActive, setExtStateInStorage } from 'GlobalUtils/common';
 import { memo, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 
 const ToggleExtension = memo(function ToggleExtension() {
-  const dispatch = useDispatch();
+  const turnOnExtension = useExtStore((state) => state.turnOnExtension);
+  const turnOffExtension = useExtStore((state) => state.turnOffExtension);
   const [extState, setExtState] = useState(EXTENSION_STATE.INACTIVE);
 
   const dispatchActionAndSetState = (
@@ -20,7 +17,7 @@ const ToggleExtension = memo(function ToggleExtension() {
   ) => {
     setExtState(extState);
     const action = isActive ? turnOnExtension : turnOffExtension;
-    dispatch(action());
+    action();
   };
 
   useEffect(() => {

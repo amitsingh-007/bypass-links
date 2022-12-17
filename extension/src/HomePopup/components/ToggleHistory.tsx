@@ -4,6 +4,7 @@ import { startHistoryWatch } from 'GlobalContainers/StoreListener';
 import history from 'GlobalHelpers/chrome/history';
 import storage from 'GlobalHelpers/chrome/storage';
 import { RootState } from 'GlobalReducers/rootReducer';
+import useExtStore from 'GlobalStore/extension';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetHistoryMonitor } from 'SrcPath/HistoryPanel/actionCreators';
@@ -27,12 +28,10 @@ const endHistoryWatch = async () => {
 
 const ToggleHistory = memo(function ToggleHistory() {
   const dispatch = useDispatch();
+  const isExtensionActive = useExtStore((state) => state.isExtensionActive);
   const [isHistoryActive, setIsHistoryActive] = useState(false);
   const { startHistoryMonitor } = useSelector(
     (state: RootState) => state.history
-  );
-  const { isExtensionActive } = useSelector(
-    (state: RootState) => state.extension
   );
 
   const turnOffHistory = useCallback(() => {

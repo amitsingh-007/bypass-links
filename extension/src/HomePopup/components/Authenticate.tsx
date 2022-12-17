@@ -1,25 +1,23 @@
 import { Dialog, LinearProgress, SvgIcon, Typography } from '@mui/material';
 import { setSignedInStatus } from 'GlobalActionCreators';
 import { getUserProfile } from 'GlobalHelpers/fetchFromStorage';
-import { RootState } from 'GlobalReducers/rootReducer';
 import useAuthStore from 'GlobalStore/auth';
+import useExtStore from 'GlobalStore/extension';
 import useToastStore from 'GlobalStore/toast';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { RiLoginCircleFill, RiLogoutCircleRFill } from 'react-icons/ri';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { signIn, signOut } from '../utils/authentication';
 import StyledButton from './StyledButton';
 
 const Authenticate = memo(function Authenticate() {
   const dispatch = useDispatch();
+  const isExtensionActive = useExtStore((state) => state.isExtensionActive);
   const displayToast = useToastStore((state) => state.displayToast);
   const authProgress = useAuthStore((state) => state.authProgress);
   const resetAuthProgress = useAuthStore((state) => state.resetAuthProgress);
   const [isFetching, setIsFetching] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
-  const { isExtensionActive } = useSelector(
-    (state: RootState) => state.extension
-  );
 
   const handleSignIn = async () => {
     setIsFetching(true);

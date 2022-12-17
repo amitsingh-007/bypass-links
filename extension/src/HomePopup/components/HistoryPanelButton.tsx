@@ -1,17 +1,14 @@
 import { SvgIcon } from '@mui/material';
 import { ROUTES } from '@common/constants/routes';
-import { RootState } from 'GlobalReducers/rootReducer';
 import { memo } from 'react';
 import { RiHistoryFill } from 'react-icons/ri';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import StyledButton from './StyledButton';
+import useExtStore from 'GlobalStore/extension';
 
 const HistoryPanelButton = memo(function HistoryPanelButton() {
   const navigate = useNavigate();
-  const { isExtensionActive } = useSelector(
-    (state: RootState) => state.extension
-  );
+  const isExtensionActive = useExtStore((state) => state.isExtensionActive);
 
   const handleShowHistoryPanel = () => {
     navigate(ROUTES.HISTORY_PANEL);
