@@ -1,23 +1,17 @@
-import { setAuthenticationProgress } from 'GlobalActionCreators/auth';
 import { AuthenticationEvent } from 'GlobalInterfaces/authentication';
-import { Dispatch } from 'redux';
+import useAuthStore from 'GlobalStore/auth';
 
 export class AuthProgress {
   private static _total: number;
   private static _curProgress: number;
-  private static _dispatch: Dispatch;
 
-  static initialize = (total: number, dispatch: Dispatch) => {
+  static initialize = (total: number) => {
     this._total = total;
     this._curProgress = -1;
-    this._dispatch = dispatch; // dispatch will remain same untill we pass new store in Provider
   };
 
-  static dispatchAuthenticationEvent = (
-    authProgressObj: AuthenticationEvent
-  ) => {
-    this._dispatch(setAuthenticationProgress(authProgressObj));
-  };
+  static dispatchAuthenticationEvent = (authProgressObj: AuthenticationEvent) =>
+    useAuthStore.setState({ authProgress: authProgressObj });
 
   static start = (message: string) => {
     this.dispatchAuthenticationEvent({

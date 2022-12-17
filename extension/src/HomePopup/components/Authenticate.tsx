@@ -1,9 +1,9 @@
 import { Dialog, LinearProgress, SvgIcon, Typography } from '@mui/material';
 import { setSignedInStatus } from 'GlobalActionCreators';
-import { resetAuthenticationProgress } from 'GlobalActionCreators/auth';
 import { displayToast } from 'GlobalActionCreators/toast';
 import { getUserProfile } from 'GlobalHelpers/fetchFromStorage';
 import { RootState } from 'GlobalReducers/rootReducer';
+import useAuthStore from 'GlobalStore/auth';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { RiLoginCircleFill, RiLogoutCircleRFill } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,25 +12,26 @@ import StyledButton from './StyledButton';
 
 const Authenticate = memo(function Authenticate() {
   const dispatch = useDispatch();
+  const authProgress = useAuthStore((state) => state.authProgress);
+  const resetAuthProgress = useAuthStore((state) => state.resetAuthProgress);
   const [isFetching, setIsFetching] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
-  const { authProgress } = useSelector((state: RootState) => state.auth);
   const { isExtensionActive } = useSelector(
     (state: RootState) => state.extension
   );
 
   const handleSignIn = async () => {
     setIsFetching(true);
-    const isSignedIn = await signIn(dispatch);
+    const isSignedIn = await signIn();
     setIsSignedIn(isSignedIn);
     dispatch(setSignedInStatus(isSignedIn));
-    dispatch(resetAuthenticationProgress());
+    resetAuthProgress();
     setIsFetching(false);
   };
 
   const handleSignOut = useCallback(async () => {
     setIsFetching(true);
-    const isSignedOut = await signOut(dispatch);
+    const isSignedOut = await signOut();
     if (!isSignedOut) {
       dispatch(
         displayToast({
@@ -44,8 +45,8 @@ const Authenticate = memo(function Authenticate() {
       dispatch(setSignedInStatus(isSignedIn));
     }
     setIsFetching(false);
-    dispatch(resetAuthenticationProgress());
-  }, [dispatch]);
+    resetAuthProgress();
+  }, [dispatch, resetAuthProgress]);
 
   const init = useCallback(async () => {
     const userProfile = await getUserProfile();

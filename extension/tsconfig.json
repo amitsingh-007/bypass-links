@@ -40,6 +40,7 @@
       "GlobalContainers/*": ["./src/containers/*"],
       "GlobalInterfaces/*": ["./src/interfaces/*"],
       "GlobalReducers/*": ["./src/reducers/*"],
+      "GlobalStore/*": ["./src/store/*"],
       "GlobalStyles/*": ["./src/scss/*"],
       "GlobalUtils/*": ["./src/utils/*"],
       "SrcPath/*": ["./src/*"]
