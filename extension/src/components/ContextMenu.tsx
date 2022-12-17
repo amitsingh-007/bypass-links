@@ -13,7 +13,7 @@ const MenuItemWrapper = ({
   styles = {},
 }: {
   id: string;
-  onMenuClose: () => void;
+  onMenuClose: VoidFunction;
   menuOption: MenuOption;
   styles?: SxProps;
 }) => {

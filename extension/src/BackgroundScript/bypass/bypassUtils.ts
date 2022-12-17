@@ -1,3 +1,4 @@
+import { VoidFunction } from '@common/interfaces/custom';
 import { BYPASS_KEYS } from 'GlobalConstants';
 import scripting from 'GlobalHelpers/chrome/scripting';
 import tabs from 'GlobalHelpers/chrome/tabs';
@@ -11,7 +12,7 @@ import { bypassMedium } from './bypassMedium';
 import { bypassPageLinks } from './bypassPageLinks';
 
 export const bypassSingleLinkOnPage = async (
-  selectorFn: () => void,
+  selectorFn: VoidFunction,
   tabId: number
 ) => {
   const response = await scripting.executeScript({
