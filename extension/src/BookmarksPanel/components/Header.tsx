@@ -10,24 +10,23 @@ import Loader from 'GlobalComponents/Loader';
 import PanelHeading from '@common/components/PanelHeading';
 import Search from '@common/components/Search';
 import { VoidFunction } from '@common/interfaces/custom';
-import React, { createRef, PureComponent } from 'react';
+import React, { memo, useEffect, useRef, useState } from 'react';
 import { FaFolderPlus } from 'react-icons/fa';
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
 import { IoSave } from 'react-icons/io5';
 import { RiUploadCloud2Fill } from 'react-icons/ri';
 import { TbReplace } from 'react-icons/tb';
-import { connect, ConnectedProps } from 'react-redux';
-import { compose } from 'redux';
+import { useDispatch } from 'react-redux';
 import { ContextBookmarks } from '@common/components/Bookmarks/interfaces';
 import { syncBookmarksFirebaseWithStorage } from '../utils/bookmark';
 import { getBookmarksPanelUrl } from '@common/components/Bookmarks/utils/url';
 import ConfirmationDialog from './ConfirmationDialog';
 import { FolderDropdown } from './Dropdown';
 import { FolderDialog } from './FolderDialog';
-import withRouter, { WithRouterProps } from 'SrcPath/hoc/withRouter';
 import ReplaceDialog from './ReplaceDialog';
+import { useNavigate } from 'react-router-dom';
 
-interface Props extends WithRouterProps, PropsFromRedux {
+interface Props {
   isSaveButtonActive: boolean;
   contextBookmarks: ContextBookmarks;
   handleSave: VoidFunction;
@@ -38,240 +37,204 @@ interface Props extends WithRouterProps, PropsFromRedux {
   onSearchChange: (text: string) => void;
 }
 
-interface State {
-  openFolderDialog: boolean;
-  openConfirmationDialog: boolean;
-  openReplaceDialog: boolean;
-  isSyncing: boolean;
-}
+const Header = memo<Props>(function Header({
+  isSaveButtonActive,
+  contextBookmarks,
+  handleSave,
+  curFolder,
+  folderNamesList,
+  isFetching,
+  handleCreateNewFolder,
+  onSearchChange,
+}) {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const saveButtonRef = useRef<HTMLButtonElement>(null);
+  const [openFolderDialog, setOpenFolderDialog] = useState(false);
+  const [openReplaceDialog, setOpenReplaceDialog] = useState(false);
+  const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
 
-class Header extends PureComponent<Props, State> {
-  private saveButtonRef: React.RefObject<HTMLButtonElement>;
-
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      openFolderDialog: false,
-      openReplaceDialog: false,
-      openConfirmationDialog: false,
-      isSyncing: false,
-    };
-    this.saveButtonRef = createRef();
-  }
-
-  componentDidUpdate(prevProps: Props) {
-    const { isSaveButtonActive, contextBookmarks } = this.props;
-    if (isSaveButtonActive && prevProps.contextBookmarks !== contextBookmarks) {
+  useEffect(() => {
+    if (isSaveButtonActive) {
       //Focus save button after updating bookmarks
       setTimeout(() => {
-        this.saveButtonRef?.current?.focus();
+        saveButtonRef?.current?.focus();
       }, 0);
     }
-  }
+  }, [isSaveButtonActive, contextBookmarks]);
 
-  handleClose = () => {
-    this.props.navigate(-1);
+  const handleClose = () => {
+    navigate(-1);
   };
 
-  onFolderChange: SelectProps<string>['onChange'] = (event) => {
-    this.props.navigate(
-      getBookmarksPanelUrl({ folderContext: event.target.value })
-    );
+  const onFolderChange: SelectProps<string>['onChange'] = (event) => {
+    navigate(getBookmarksPanelUrl({ folderContext: event.target.value }));
   };
 
-  handleDiscardButtonClick: React.MouseEventHandler<HTMLButtonElement> = (
+  const handleDiscardButtonClick: React.MouseEventHandler<HTMLButtonElement> = (
     event
   ) => {
     event.stopPropagation();
-    const { isSaveButtonActive } = this.props;
     if (isSaveButtonActive) {
-      this.setState({ openConfirmationDialog: true });
+      setOpenConfirmationDialog(true);
     } else {
-      this.handleClose();
+      handleClose();
     }
   };
 
-  onSyncClick: React.MouseEventHandler<HTMLButtonElement> = async (event) => {
-    const { isSyncing } = this.state;
+  const onSyncClick: React.MouseEventHandler<HTMLButtonElement> = async (
+    event
+  ) => {
     event.stopPropagation();
     if (isSyncing) {
       return;
     }
-    this.setState({ isSyncing: true });
+    setIsSyncing(true);
     try {
       await syncBookmarksFirebaseWithStorage();
-      this.props.displayToast({ message: 'Bookmarks synced succesfully' });
+      dispatch(displayToast({ message: 'Bookmarks synced succesfully' }));
     } catch (ex: any) {
       console.error('Bookmarks sync failed', ex);
-      this.props.displayToast({
-        message: 'Bookmarks sync failed',
-        severity: 'error',
-      });
+      dispatch(
+        displayToast({
+          message: 'Bookmarks sync failed',
+          severity: 'error',
+        })
+      );
     }
-    this.setState({ isSyncing: false });
+    setIsSyncing(false);
   };
 
-  onSaveClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
+  const onSaveClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
     event.stopPropagation();
-    this.props.handleSave();
+    handleSave();
   };
 
-  toggleNewFolderDialog = () => {
-    const { openFolderDialog } = this.state;
-    this.setState({ openFolderDialog: !openFolderDialog });
-  };
+  const toggleNewFolderDialog = () => setOpenFolderDialog(!openFolderDialog);
 
-  toggleReplaceDialog = () => {
-    const { openReplaceDialog } = this.state;
-    this.setState({ openReplaceDialog: !openReplaceDialog });
-  };
+  const toggleReplaceDialog = () => setOpenReplaceDialog(!openReplaceDialog);
 
-  handleNewFolderClick: React.MouseEventHandler<HTMLButtonElement> = (
+  const handleNewFolderClick: React.MouseEventHandler<HTMLButtonElement> = (
     event
   ) => {
     event.stopPropagation();
-    this.toggleNewFolderDialog();
+    toggleNewFolderDialog();
   };
 
-  handleReplaceClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
+  const handleReplaceClick: React.MouseEventHandler<HTMLButtonElement> = (
+    event
+  ) => {
     event.stopPropagation();
-    this.toggleReplaceDialog();
+    toggleReplaceDialog();
   };
 
-  handleConfirmationDialogClose = () => {
-    this.setState({ openConfirmationDialog: false });
+  const handleConfirmationDialogClose = () => setOpenConfirmationDialog(false);
+
+  const handleConfirmationDialogOk = () => {
+    handleClose();
+    setOpenConfirmationDialog(false);
   };
 
-  handleConfirmationDialogOk = () => {
-    this.handleClose();
-    this.setState({ openConfirmationDialog: false });
+  const handleNewFolderSave = (folderName: string) => {
+    handleCreateNewFolder(folderName);
+    toggleNewFolderDialog();
   };
 
-  handleNewFolderSave = (folderName: string) => {
-    this.props.handleCreateNewFolder(folderName);
-    this.toggleNewFolderDialog();
-  };
-
-  render() {
-    const {
-      curFolder,
-      folderNamesList,
-      isSaveButtonActive,
-      isFetching,
-      contextBookmarks,
-      onSearchChange,
-    } = this.props;
-    const {
-      openFolderDialog,
-      openConfirmationDialog,
-      openReplaceDialog,
-      isSyncing,
-    } = this.state;
-    return (
-      <>
-        <AccordionHeader>
-          <PrimaryHeaderContent>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                pl: '6px',
-                '> *': { mr: '12px !important' },
-              }}
+  return (
+    <>
+      <AccordionHeader>
+        <PrimaryHeaderContent>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              pl: '6px',
+              '> *': { mr: '12px !important' },
+            }}
+          >
+            <Button
+              variant="outlined"
+              startIcon={<HiOutlineArrowNarrowLeft />}
+              onClick={handleDiscardButtonClick}
+              size="small"
+              color="error"
             >
-              <Button
-                variant="outlined"
-                startIcon={<HiOutlineArrowNarrowLeft />}
-                onClick={this.handleDiscardButtonClick}
-                size="small"
-                color="error"
-              >
-                Back
-              </Button>
-              <Button
-                variant="outlined"
-                startIcon={<FaFolderPlus />}
-                onClick={this.handleNewFolderClick}
-                size="small"
-                color="primary"
-              >
-                Add
-              </Button>
-              <Button
-                variant="outlined"
-                startIcon={<TbReplace />}
-                onClick={this.handleReplaceClick}
-                size="small"
-                color="primary"
-              >
-                Replace
-              </Button>
-              <Button
-                variant="outlined"
-                disabled={!isSaveButtonActive}
-                startIcon={<IoSave />}
-                onClick={this.onSaveClick}
-                size="small"
-                color="success"
-                ref={this.saveButtonRef}
-              >
-                Save
-              </Button>
-              <LoadingButton
-                variant="outlined"
-                startIcon={<RiUploadCloud2Fill />}
-                onClick={this.onSyncClick}
-                size="small"
-                color="warning"
-                loading={isSyncing}
-              >
-                Sync
-              </LoadingButton>
-              {isFetching && <Loader />}
-            </Box>
-            <PanelHeading
-              heading={`${curFolder} (${contextBookmarks?.length || 0})`}
-              containerStyles={{ textTransform: 'uppercase' }}
+              Back
+            </Button>
+            <Button
+              variant="outlined"
+              startIcon={<FaFolderPlus />}
+              onClick={handleNewFolderClick}
+              size="small"
+              color="primary"
+            >
+              Add
+            </Button>
+            <Button
+              variant="outlined"
+              startIcon={<TbReplace />}
+              onClick={handleReplaceClick}
+              size="small"
+              color="primary"
+            >
+              Replace
+            </Button>
+            <Button
+              variant="outlined"
+              disabled={!isSaveButtonActive}
+              startIcon={<IoSave />}
+              onClick={onSaveClick}
+              size="small"
+              color="success"
+              ref={saveButtonRef}
+            >
+              Save
+            </Button>
+            <LoadingButton
+              variant="outlined"
+              startIcon={<RiUploadCloud2Fill />}
+              onClick={onSyncClick}
+              size="small"
+              color="warning"
+              loading={isSyncing}
+            >
+              Sync
+            </LoadingButton>
+            {isFetching && <Loader />}
+          </Box>
+          <PanelHeading
+            heading={`${curFolder} (${contextBookmarks?.length || 0})`}
+            containerStyles={{ textTransform: 'uppercase' }}
+          />
+        </PrimaryHeaderContent>
+        <SecondaryHeaderContent>
+          <Box sx={{ minWidth: '190px' }}>
+            <FolderDropdown
+              folder={curFolder}
+              folderList={folderNamesList}
+              handleFolderChange={onFolderChange}
+              hideLabel
+              fullWidth
             />
-          </PrimaryHeaderContent>
-          <SecondaryHeaderContent>
-            <Box sx={{ minWidth: '190px' }}>
-              <FolderDropdown
-                folder={curFolder}
-                folderList={folderNamesList}
-                handleFolderChange={this.onFolderChange}
-                hideLabel
-                fullWidth
-              />
-            </Box>
-            <Search onChange={onSearchChange} focusOnVisible />
-          </SecondaryHeaderContent>
-        </AccordionHeader>
-        <FolderDialog
-          headerText="Add folder"
-          handleSave={this.handleNewFolderSave}
-          isOpen={openFolderDialog}
-          onClose={this.toggleNewFolderDialog}
-        />
-        {openReplaceDialog && (
-          <ReplaceDialog onClose={this.toggleReplaceDialog} />
-        )}
-        <ConfirmationDialog
-          onClose={this.handleConfirmationDialogClose}
-          onOk={this.handleConfirmationDialogOk}
-          isOpen={openConfirmationDialog}
-        />
-      </>
-    );
-  }
-}
+          </Box>
+          <Search onChange={onSearchChange} focusOnVisible />
+        </SecondaryHeaderContent>
+      </AccordionHeader>
+      <FolderDialog
+        headerText="Add folder"
+        handleSave={handleNewFolderSave}
+        isOpen={openFolderDialog}
+        onClose={toggleNewFolderDialog}
+      />
+      {openReplaceDialog && <ReplaceDialog onClose={toggleReplaceDialog} />}
+      <ConfirmationDialog
+        onClose={handleConfirmationDialogClose}
+        onOk={handleConfirmationDialogOk}
+        isOpen={openConfirmationDialog}
+      />
+    </>
+  );
+});
 
-const mapDispatchToProps = {
-  displayToast,
-};
-
-const connector = connect(null, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>;
-const withCompose = compose(connector);
-
-export default withRouter(withCompose(Header));
+export default Header;
