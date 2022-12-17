@@ -65,7 +65,7 @@ const RedirectionRule = memo(function RedirectionRule({
   };
   const handleLinkOpen = () => {
     startHistoryMonitor();
-    tabs.create({ url: ruleWebsite, selected: false });
+    tabs.create({ url: ruleWebsite, active: false });
   };
 
   const issameRule =

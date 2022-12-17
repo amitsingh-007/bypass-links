@@ -123,7 +123,7 @@ const PersonsPanel = () => {
 
   const onLinkOpen = (url: string) => {
     startHistoryMonitor();
-    tabs.create({ url, selected: false });
+    tabs.create({ url, active: false });
   };
 
   const filteredPersons = useMemo(

@@ -110,7 +110,7 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     startHistoryMonitor();
     contextBookmarks.forEach(({ url }, index) => {
       if (selectedBookmarks[index]) {
-        tabs.create({ url, selected: false });
+        tabs.create({ url, active: false });
       }
     });
   }, [contextBookmarks, selectedBookmarks, startHistoryMonitor]);

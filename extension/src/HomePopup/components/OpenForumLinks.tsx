@@ -54,7 +54,7 @@ const OpenForumLinks = memo(function OpenForumLinks() {
       url: currentTab?.url,
     });
     forumPageLinks.forEach((url) => {
-      tabs.create({ url, selected: false });
+      tabs.create({ url, active: false });
     });
     setIsFetching(false);
   };

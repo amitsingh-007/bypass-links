@@ -27,7 +27,7 @@ const OpenDefaultsButton = memo(function OpenDefaultsButton() {
     defaults
       .filter((data: any) => data && data.alias && data.website)
       .forEach(({ website }: any) => {
-        tabs.create({ url: atob(website), selected: false });
+        tabs.create({ url: atob(website), active: false });
       });
     setIsFetching(false);
   };
