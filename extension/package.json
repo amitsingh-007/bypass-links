@@ -11,7 +11,7 @@
     "@emotion/styled": "11.10.5",
     "@hello-pangea/dnd": "16.2.0",
     "@mui/lab": "5.0.0-alpha.111",
-    "@mui/material": "5.10.17",
+    "@mui/material": "5.11.0",
     "@mui/x-date-pickers": "5.0.11",
     "browser-image-compression": "2.0.0",
     "dayjs": "1.11.7",

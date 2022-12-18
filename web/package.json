@@ -11,7 +11,7 @@
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
     "@mui/lab": "5.0.0-alpha.111",
-    "@mui/material": "5.10.17",
+    "@mui/material": "5.11.0",
     "@next/font": "13.0.7",
     "@octokit/rest": "19.0.5",
     "express-bearer-token": "2.4.0",
