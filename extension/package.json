@@ -41,7 +41,7 @@
     "@types/react-window": "1.8.5",
     "@types/throttle-debounce": "5.0.0",
     "@types/webpack": "5.28.0",
-    "@typescript-eslint/eslint-plugin": "5.46.0",
+    "@typescript-eslint/eslint-plugin": "5.46.1",
     "@typescript-eslint/parser": "5.46.0",
     "clean-webpack-plugin": "4.0.0",
     "copy-webpack-plugin": "11.0.0",
