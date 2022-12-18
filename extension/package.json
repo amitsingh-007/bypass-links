@@ -31,7 +31,7 @@
   "devDependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.10",
     "@svgr/webpack": "6.5.1",
-    "@types/chrome": "0.0.203",
+    "@types/chrome": "0.0.204",
     "@types/material-ui": "0.21.12",
     "@types/md5": "2.3.2",
     "@types/node": "16.18.8",
