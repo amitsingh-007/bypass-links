@@ -1,4 +1,4 @@
 {
   "cleanUrls": true,
-  "installCommand": "npm install"
+  "installCommand": "cd .. && npm install"
 }
