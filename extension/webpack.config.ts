@@ -20,7 +20,6 @@ import {
 } from '../shared/src/utils/extensionFile';
 
 const PATHS = {
-  SHARED: resolve(__dirname, '..', 'shared'),
   ROOT: resolve(__dirname),
   SRC: resolve(__dirname, 'src'),
   EXTENSION: resolve(__dirname, 'build'),
@@ -68,7 +67,7 @@ const config: Configuration = {
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.scss'],
-    modules: [PATHS.SRC, PATHS.SHARED, 'node_modules'],
+    modules: [PATHS.SRC, 'node_modules'],
     plugins: [
       new TsconfigPathsPlugin({
         configFile: tsConfigFile,
