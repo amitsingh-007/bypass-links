@@ -91,8 +91,12 @@ const config: Configuration = {
       cacheGroups: {
         common: {
           name: 'common_chunk',
+          //Include all entries to create a common chunk
           chunks: 'all',
-          enforce: true,
+          //If all entries(2 for content and bg) use a code, then it to common chunk
+          minChunks: 2,
+          //Always include common code in common chunk
+          enforceSizeThreshold: 0,
         },
       },
     },
