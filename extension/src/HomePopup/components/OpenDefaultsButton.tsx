@@ -1,5 +1,5 @@
 import { SvgIcon } from '@mui/material';
-import { STORAGE_KEYS } from '@common/constants/storage';
+import { STORAGE_KEYS } from '@bypass/common/constants/storage';
 import storage from 'GlobalHelpers/chrome/storage';
 import tabs from 'GlobalHelpers/chrome/tabs';
 import { memo, useState } from 'react';

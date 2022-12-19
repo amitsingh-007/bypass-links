@@ -6,23 +6,23 @@ import { useEffect, useMemo, useState } from 'react';
 import {
   SORT_ORDER,
   SORT_TYPE,
-} from '@common/components/Persons/constants/sort';
+} from '@bypass/common/components/Persons/constants/sort';
 import {
   IPerson,
   IPersons,
-} from '@common/components/Persons/interfaces/persons';
-import { decryptionMapper } from '@common/components/Persons/mapper';
+} from '@bypass/common/components/Persons/interfaces/persons';
+import { decryptionMapper } from '@bypass/common/components/Persons/mapper';
 import { getPersonPos, setPersonsInStorage } from '../utils';
 import { sortByBookmarksCount } from '../utils/sort';
 import { updatePersonCacheAndImageUrls } from '../utils/sync';
 import Header from './Header';
-import Persons from '@common/components/Persons/components/Persons';
+import Persons from '@bypass/common/components/Persons/components/Persons';
 import PersonVirtualCell from './PersonVirtualCell';
 import tabs from 'GlobalHelpers/chrome/tabs';
 import {
   getFilteredPersons,
   sortAlphabetically,
-} from '@common/components/Persons/utils';
+} from '@bypass/common/components/Persons/utils';
 import { GRID_COLUMN_SIZE } from '../constants';
 import useToastStore from 'GlobalStore/toast';
 import useHistoryStore from 'GlobalStore/history';

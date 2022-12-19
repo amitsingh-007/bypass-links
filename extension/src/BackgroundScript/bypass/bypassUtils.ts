@@ -1,4 +1,4 @@
-import { VoidFunction } from '@common/interfaces/custom';
+import { VoidFunction } from '@bypass/common/interfaces/custom';
 import { BYPASS_KEYS } from 'GlobalConstants';
 import scripting from 'GlobalHelpers/chrome/scripting';
 import tabs from 'GlobalHelpers/chrome/tabs';

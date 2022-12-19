@@ -1,6 +1,6 @@
 import { SelectProps } from '@mui/material';
 import { EditDialog } from 'GlobalComponents/Dialogs';
-import { VoidFunction } from '@common/interfaces/custom';
+import { VoidFunction } from '@bypass/common/interfaces/custom';
 import { useState } from 'react';
 import { FolderDropdown } from './Dropdown';
 

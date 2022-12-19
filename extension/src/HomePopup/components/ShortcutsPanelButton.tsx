@@ -1,5 +1,5 @@
 import { SvgIcon } from '@mui/material';
-import { ROUTES } from '@common/constants/routes';
+import { ROUTES } from '@bypass/common/constants/routes';
 import { memo } from 'react';
 import { GoFileSymlinkFile } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';

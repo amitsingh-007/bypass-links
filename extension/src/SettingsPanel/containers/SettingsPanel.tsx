@@ -1,4 +1,4 @@
-import { FIREBASE_DB_REF } from '@common/constants/firebase';
+import { FIREBASE_DB_REF } from '@bypass/common/constants/firebase';
 import { Box } from '@mui/material';
 import { getSettings } from 'GlobalHelpers/fetchFromStorage';
 import { saveToFirebase } from 'GlobalHelpers/firebase/database';

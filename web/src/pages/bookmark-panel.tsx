@@ -1,9 +1,9 @@
 import {
   ContextBookmarks,
   IBookmarksObj,
-} from '@common/components/Bookmarks/interfaces';
-import { bookmarksMapper } from '@common/components/Bookmarks/mapper';
-import { defaultBookmarkFolder } from '@common/components/Bookmarks/constants';
+} from '@bypass/common/components/Bookmarks/interfaces';
+import { bookmarksMapper } from '@bypass/common/components/Bookmarks/mapper';
+import { defaultBookmarkFolder } from '@bypass/common/components/Bookmarks/constants';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import md5 from 'md5';
 import { FixedSizeList } from 'react-window';
@@ -12,14 +12,14 @@ import VirtualRow, {
 } from '@/ui/BookmarksPage/components/VirtualRow';
 import { useRouter } from 'next/router';
 import { Box, Container } from '@mui/material';
-import { STORAGE_KEYS } from '@common/constants/storage';
+import { STORAGE_KEYS } from '@bypass/common/constants/storage';
 import { getFromLocalStorage, setToLocalStorage } from '@/ui/provider/utils';
 import MetaTags from '@/ui/components/MetaTags';
 import Header from '@/ui/components/Header';
 import {
   getFilteredContextBookmarks,
   shouldRenderBookmarks,
-} from '@common/components/Bookmarks/utils';
+} from '@bypass/common/components/Bookmarks/utils';
 import { useMeasure } from 'react-use';
 
 export default function BookmarksPage() {

@@ -10,19 +10,19 @@ import {
   Typography,
 } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
-import PanelHeading from '@common/components/PanelHeading';
-import { BlackTooltip } from '@common/components/StyledComponents';
-import { STORAGE_KEYS } from '@common/constants/storage';
-import { BG_COLOR_BLACK, BG_COLOR_DARK } from '@common/constants/color';
+import PanelHeading from '@bypass/common/components/PanelHeading';
+import { BlackTooltip } from '@bypass/common/components/StyledComponents';
+import { STORAGE_KEYS } from '@bypass/common/constants/storage';
+import { BG_COLOR_BLACK, BG_COLOR_DARK } from '@bypass/common/constants/color';
 import storage from 'GlobalHelpers/chrome/storage';
 import { getUserProfile } from 'GlobalHelpers/fetchFromStorage';
-import { VoidFunction } from '@common/interfaces/custom';
+import { VoidFunction } from '@bypass/common/interfaces/custom';
 import { toDataURL } from 'qrcode';
 import { forwardRef, memo, useEffect, useState } from 'react';
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
 import { IoHelpCircle } from 'react-icons/io5';
 import { setup2FA, verify2FA } from '../apis/twoFactorAuth';
-import Verify2FA from '@common/components/Auth/components/Verify2FA';
+import Verify2FA from '@bypass/common/components/Auth/components/Verify2FA';
 import useToastStore from 'GlobalStore/toast';
 
 const tooltipStyles = { fontSize: '13px' };

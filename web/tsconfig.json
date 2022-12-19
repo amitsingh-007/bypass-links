@@ -20,7 +20,6 @@
     "paths": {
       "@/*": ["src/*"],
       "@public/*": ["public/*"],
-      "@common/*": ["../common/src/*"],
       "@constants/*": ["src/constants/*"],
       "@logic/*": ["src/logic/*"],
       "@middlewares/*": ["src/middlewares/*"],

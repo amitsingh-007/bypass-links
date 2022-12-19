@@ -1,7 +1,7 @@
 import storage from 'GlobalHelpers/chrome/storage';
 import { memo, useEffect } from 'react';
 import { getPersons } from 'GlobalHelpers/fetchFromStorage';
-import { IUpdateTaggedPerson } from '@common/components/Persons/interfaces/persons';
+import { IUpdateTaggedPerson } from '@bypass/common/components/Persons/interfaces/persons';
 import { setPersonsInStorage } from 'SrcPath/PersonsPanel/utils';
 import useHistoryStore from 'GlobalStore/history';
 import usePersonStore from 'GlobalStore/person';

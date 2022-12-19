@@ -1,5 +1,5 @@
-import { FIREBASE_DB_REF } from '@common/constants/firebase';
-import { STORAGE_KEYS } from '@common/constants/storage';
+import { FIREBASE_DB_REF } from '@bypass/common/constants/firebase';
+import { STORAGE_KEYS } from '@bypass/common/constants/storage';
 import storage from 'GlobalHelpers/chrome/storage';
 import tabs from 'GlobalHelpers/chrome/tabs';
 import { getMappedRedirections } from 'GlobalHelpers/fetchFromStorage';

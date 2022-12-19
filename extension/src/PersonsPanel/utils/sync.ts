@@ -1,6 +1,6 @@
-import { FIREBASE_DB_REF } from '@common/constants/firebase';
-import { STORAGE_KEYS } from '@common/constants/storage';
-import { CACHE_BUCKET_KEYS } from '@common/constants/cache';
+import { FIREBASE_DB_REF } from '@bypass/common/constants/firebase';
+import { STORAGE_KEYS } from '@bypass/common/constants/storage';
+import { CACHE_BUCKET_KEYS } from '@bypass/common/constants/cache';
 import storage from 'GlobalHelpers/chrome/storage';
 import { getPersonImageUrls, getPersons } from 'GlobalHelpers/fetchFromStorage';
 import {
@@ -8,13 +8,13 @@ import {
   saveToFirebase,
 } from 'GlobalHelpers/firebase/database';
 import { getImageFromFirebase } from 'GlobalHelpers/firebase/storage';
-import { addToCache, getCacheObj } from '@common/utils/cache';
+import { addToCache, getCacheObj } from '@bypass/common/utils/cache';
 import { AuthProgress } from 'SrcPath/HomePopup/utils/authProgress';
 import { getAllDecodedPersons } from '.';
 import {
   IPerson,
   PersonImageUrls,
-} from '@common/components/Persons/interfaces/persons';
+} from '@bypass/common/components/Persons/interfaces/persons';
 
 export const syncPersonsToStorage = async () => {
   const persons = await getFromFirebase<IPerson>(FIREBASE_DB_REF.persons);

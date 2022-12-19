@@ -1,8 +1,8 @@
-import { STORAGE_KEYS } from '@common/constants/storage';
+import { STORAGE_KEYS } from '@bypass/common/constants/storage';
 import storage from 'GlobalHelpers/chrome/storage';
 import { getUserProfile } from 'GlobalHelpers/fetchFromStorage';
 import { useEffect, useState } from 'react';
-import TOTPPopup from '@common/components/Auth/components/TOTPPopup';
+import TOTPPopup from '@bypass/common/components/Auth/components/TOTPPopup';
 import { UserInfo } from '../interfaces/authentication';
 import useToastStore from 'GlobalStore/toast';
 import useAuthStore from 'GlobalStore/auth';

@@ -27,7 +27,6 @@
     "baseUrl": ".",
     // Refer: https://github.com/microsoft/TypeScript/issues/26859#issuecomment-695806452
     "paths": {
-      "@common/*": ["../common/src/*"],
       "GlobalHelpers/*": ["./src/helpers/*"],
       "GlobalApis/*": ["src/BackgroundScript/apis/*"],
       "GlobalComponents/*": ["./src/components/*"],

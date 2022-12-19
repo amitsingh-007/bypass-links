@@ -1,5 +1,5 @@
-import { SORT_ORDER } from '@common/components/Persons/constants/sort';
-import { IPerson } from '@common/components/Persons/interfaces/persons';
+import { SORT_ORDER } from '@bypass/common/components/Persons/constants/sort';
+import { IPerson } from '@bypass/common/components/Persons/interfaces/persons';
 
 export const sortByBookmarksCount = (
   sortOrder: SORT_ORDER,

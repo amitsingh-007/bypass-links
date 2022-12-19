@@ -12,11 +12,11 @@ import {
 } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import imageCompression from 'browser-image-compression';
-import PanelHeading from '@common/components/PanelHeading';
+import PanelHeading from '@bypass/common/components/PanelHeading';
 import { FIREBASE_STORAGE_REF } from 'GlobalConstants';
-import { BG_COLOR_DARK } from '@common/constants/color';
+import { BG_COLOR_DARK } from '@bypass/common/constants/color';
 import { uploadImageToFirebase } from 'GlobalHelpers/firebase/storage';
-import { VoidFunction } from '@common/interfaces/custom';
+import { VoidFunction } from '@bypass/common/interfaces/custom';
 import { forwardRef, memo, useCallback, useRef, useState } from 'react';
 import Cropper from 'react-easy-crop';
 import { Area } from 'react-easy-crop/types';

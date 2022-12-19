@@ -7,7 +7,7 @@ import GlobalMetaTags from 'src/ui/components/GlobalMetaTags';
 import DynamicProvider from '@/ui/provider/DynamicProvider';
 import { AuthProvider } from '@/ui/provider/AuthProvider';
 import { Montserrat } from '@next/font/google';
-import { BG_COLOR_BLACK } from '@common/constants/color';
+import { BG_COLOR_BLACK } from '@bypass/common/constants/color';
 
 const montserrat = Montserrat({ display: 'swap', subsets: ['latin'] });
 

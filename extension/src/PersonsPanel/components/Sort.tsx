@@ -10,7 +10,7 @@ import { memo } from 'react';
 import {
   SORT_ORDER,
   SORT_TYPE,
-} from '@common/components/Persons/constants/sort';
+} from '@bypass/common/components/Persons/constants/sort';
 
 interface Props {
   onChange: (sortType: SORT_TYPE, sortOrder: SORT_ORDER) => void;

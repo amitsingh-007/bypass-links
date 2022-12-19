@@ -1,6 +1,6 @@
 import Bookmark, {
   Props,
-} from '@common/components/Bookmarks/components/Bookmark';
+} from '@bypass/common/components/Bookmarks/components/Bookmark';
 import { memo } from 'react';
 import withBookmarkRow from '../hoc/withBookmarkRow';
 import tabs from 'GlobalHelpers/chrome/tabs';

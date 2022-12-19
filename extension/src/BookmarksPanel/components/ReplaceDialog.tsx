@@ -12,7 +12,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { VoidFunction } from '@common/interfaces/custom';
+import { VoidFunction } from '@bypass/common/interfaces/custom';
 import { MdClose } from 'react-icons/md';
 import { useState, useEffect } from 'react';
 import { getBookmarks, getPersons } from 'GlobalHelpers/fetchFromStorage';
@@ -20,14 +20,14 @@ import { TbReplace } from 'react-icons/tb';
 import {
   getDecryptedBookmark,
   getEncryptedBookmark,
-} from '@common/components/Bookmarks/mapper';
+} from '@bypass/common/components/Bookmarks/mapper';
 import md5 from 'md5';
 import storage from 'GlobalHelpers/chrome/storage';
-import { addToCache } from '@common/utils/cache';
-import { CACHE_BUCKET_KEYS } from '@common/constants/cache';
-import { getFaviconProxyUrl } from '@common/utils';
+import { addToCache } from '@bypass/common/utils/cache';
+import { CACHE_BUCKET_KEYS } from '@bypass/common/constants/cache';
+import { getFaviconProxyUrl } from '@bypass/common/utils';
 import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '@common/constants/routes';
+import { ROUTES } from '@bypass/common/constants/routes';
 import { setPersonsInStorage } from 'SrcPath/PersonsPanel/utils';
 import { setBookmarksInStorage } from '../utils';
 

@@ -1,4 +1,4 @@
-import { Authenticate2FAResponse } from '@common/interfaces/twoFactorAuth';
+import { Authenticate2FAResponse } from '@bypass/common/interfaces/twoFactorAuth';
 import { authenticate2FA } from '@logic/twoFactorAuth';
 import { NextApiRequest, NextApiResponse } from 'next';
 import withAuth from 'src/middlewares/withAuth';

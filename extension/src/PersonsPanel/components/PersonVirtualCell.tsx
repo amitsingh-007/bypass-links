@@ -1,9 +1,9 @@
 import { Box } from '@mui/material';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { areEqual } from 'react-window';
-import { IPerson } from '@common/components/Persons/interfaces/persons';
-import { getReactKey } from '@common/components/Persons/utils';
-import Person from '@common/components/Persons/components/Person';
+import { IPerson } from '@bypass/common/components/Persons/interfaces/persons';
+import { getReactKey } from '@bypass/common/components/Persons/utils';
+import Person from '@bypass/common/components/Persons/components/Person';
 import ContextMenu from 'GlobalComponents/ContextMenu';
 import AddOrEditPersonDialog from './AddOrEditPersonDialog';
 import { AiFillEdit } from 'react-icons/ai';

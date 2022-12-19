@@ -1,6 +1,6 @@
 import { Box, MenuItem, Typography, SvgIcon } from '@mui/material';
 import { SxProps } from '@mui/system';
-import { VoidFunction } from '@common/interfaces/custom';
+import { VoidFunction } from '@bypass/common/interfaces/custom';
 import { IMenuOptions, MenuOption } from 'GlobalInterfaces/menu';
 import { memo, useState } from 'react';
 import useMenu from 'SrcPath/hooks/useMenu';

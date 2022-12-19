@@ -1,7 +1,7 @@
 import { getAssetsByReleaseId, getLatestRelease } from '@logic/github';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getVersionFromFileName } from '@common/utils/extensionFile';
-import { IExtension } from '@common/interfaces/api';
+import { getVersionFromFileName } from '@bypass/common/utils/extensionFile';
+import { IExtension } from '@bypass/common/interfaces/api';
 
 const handler = async (
   _req: NextApiRequest,

@@ -1,4 +1,4 @@
-import { Status2FAResponse } from '@common/interfaces/twoFactorAuth';
+import { Status2FAResponse } from '@bypass/common/interfaces/twoFactorAuth';
 import { fetchUser2FAInfo, is2FAEnabled } from '@logic/twoFactorAuth';
 import { NextApiRequest, NextApiResponse } from 'next';
 import withAuth from 'src/middlewares/withAuth';

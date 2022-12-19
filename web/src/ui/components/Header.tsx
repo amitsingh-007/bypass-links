@@ -1,7 +1,7 @@
 import { Toolbar, Typography } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
-import { BG_COLOR_DARK } from '@common/constants/color';
-import Search from '@common/components/Search';
+import { BG_COLOR_DARK } from '@bypass/common/constants/color';
+import Search from '@bypass/common/components/Search';
 
 const Header = ({
   title,

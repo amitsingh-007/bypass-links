@@ -1,4 +1,4 @@
-import { getStoragePath } from '@common/utils/firebase';
+import { getStoragePath } from '@bypass/common/utils/firebase';
 import { getDownloadURL, getStorage, ref } from 'firebase/storage';
 import firebaseApp from '.';
 

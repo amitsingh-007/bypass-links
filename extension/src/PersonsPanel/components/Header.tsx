@@ -6,17 +6,17 @@ import {
   SecondaryHeaderContent,
 } from 'GlobalComponents/AccordionHeader';
 import Loader from 'GlobalComponents/Loader';
-import PanelHeading from '@common/components/PanelHeading';
+import PanelHeading from '@bypass/common/components/PanelHeading';
 import { memo, useState } from 'react';
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
 import { IoIosPersonAdd } from 'react-icons/io';
 import { RiUploadCloud2Fill } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
-import { IPerson } from '@common/components/Persons/interfaces/persons';
+import { IPerson } from '@bypass/common/components/Persons/interfaces/persons';
 import { syncPersonsFirebaseWithStorage } from '../utils/sync';
 import AddOrEditPersonDialog from './AddOrEditPersonDialog';
 import Sort from './Sort';
-import Search from '@common/components/Search';
+import Search from '@bypass/common/components/Search';
 import useToastStore from 'GlobalStore/toast';
 
 interface Props {

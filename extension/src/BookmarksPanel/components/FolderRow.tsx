@@ -1,6 +1,6 @@
 import Folder, {
   Props as FolderProps,
-} from '@common/components/Bookmarks/components/Folder';
+} from '@bypass/common/components/Bookmarks/components/Folder';
 import ContextMenu from 'GlobalComponents/ContextMenu';
 import { IMenuOptions } from 'GlobalInterfaces/menu';
 import withBookmarkRow from '../hoc/withBookmarkRow';

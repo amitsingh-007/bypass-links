@@ -2,6 +2,17 @@
   "name": "@bypass/common",
   "version": "1.0.0",
   "private": true,
+  "exports": {
+    "./*": "./src/*"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./src/*/index",
+        "./src/*"
+      ]
+    }
+  },
   "dependencies": {
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",

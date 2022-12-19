@@ -1,4 +1,4 @@
-import { getFirebasePublicConfig } from '@common/constants/firebase';
+import { getFirebasePublicConfig } from '@bypass/common/constants/firebase';
 import { initializeApp } from 'firebase/app';
 
 const firebaseApp = initializeApp(getFirebasePublicConfig());
