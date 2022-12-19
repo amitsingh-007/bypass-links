@@ -12,16 +12,19 @@ const usePerson = () => {
     const persons = await getPersons();
     if (!persons) return [];
     return decodePersons(persons);
-  }, []);
+  }, [getPersons]);
 
-  const resolvePersonImageFromUid = useCallback(async (uid: string) => {
-    const personImages = await getPersonImageUrls();
-    if (!personImages) {
-      return '';
-    }
-    const imageUrl = personImages[uid];
-    return await getBlobUrlFromCache(CACHE_BUCKET_KEYS.person, imageUrl);
-  }, []);
+  const resolvePersonImageFromUid = useCallback(
+    async (uid: string) => {
+      const personImages = await getPersonImageUrls();
+      if (!personImages) {
+        return '';
+      }
+      const imageUrl = personImages[uid];
+      return await getBlobUrlFromCache(CACHE_BUCKET_KEYS.person, imageUrl);
+    },
+    [getPersonImageUrls]
+  );
 
   const getPersonsWithImageUrl = useCallback(
     async (persons: IPerson[]): Promise<IPersonWithImage[]> => {
@@ -35,7 +38,7 @@ const usePerson = () => {
         }))
       );
     },
-    []
+    [resolvePersonImageFromUid]
   );
 
   return {

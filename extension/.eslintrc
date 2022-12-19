@@ -6,6 +6,7 @@
     "plugin:prettier/recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react-hooks/recommended",
+    "plugin:react/jsx-runtime",
     "prettier"
   ],
   "parser": "@typescript-eslint/parser",
@@ -28,12 +29,6 @@
     "webextensions": true,
     "serviceworker": true,
     "node": true
-  },
-  "globals": {
-    "chrome": false,
-    "__PROD__": false,
-    "HOST_NAME": false,
-    "React": false
   },
   "rules": {
     "no-undef": "error",
@@ -61,5 +56,13 @@
     ],
     "@typescript-eslint/ban-ts-comment": "warn",
     "react/prop-types": "off"
-  }
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "no-undef": "off"
+      }
+    }
+  ]
 }

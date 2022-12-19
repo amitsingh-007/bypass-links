@@ -51,7 +51,7 @@ const Bookmark = memo<Props>(
       const persons = await getPersonsFromUids(taggedPersons, allPersons);
       const newPersonsWithImageUrls = await getPersonsWithImageUrl(persons);
       setPersonsWithImageUrls(newPersonsWithImageUrls);
-    }, [taggedPersons]);
+    }, [getAllDecodedPersons, getPersonsWithImageUrl, taggedPersons]);
 
     useEffect(() => {
       initImageUrl();

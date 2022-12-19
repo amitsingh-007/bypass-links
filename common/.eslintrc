@@ -6,6 +6,7 @@
     "plugin:prettier/recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react-hooks/recommended",
+    "plugin:react/jsx-runtime",
     "prettier"
   ],
   "parser": "@typescript-eslint/parser",
@@ -28,10 +29,6 @@
     "webextensions": true,
     "serviceworker": true,
     "node": true
-  },
-  "globals": {
-    "__PROD__": false,
-    "HOST_NAME": false
   },
   "rules": {
     "no-undef": "error",
@@ -59,5 +56,14 @@
     ],
     "@typescript-eslint/ban-ts-comment": "warn",
     "react/prop-types": "off"
-  }
+  },
+  "overrides": [
+    // https://stackoverflow.com/a/64197516/8694064
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "no-undef": "off"
+      }
+    }
+  ]
 }

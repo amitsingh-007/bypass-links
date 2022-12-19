@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useCallback, useContext } from 'react';
 import DynamicContext from '../provider/DynamicContext';
 import { IPersons } from '../components/Persons/interfaces/persons';
 import { STORAGE_KEYS } from '../constants/storage';
@@ -7,12 +7,20 @@ import { IBookmarksObj } from '../components/Bookmarks/interfaces';
 const useStorage = () => {
   const { storage } = useContext(DynamicContext);
 
-  const getBookmarks = () => storage.get<IBookmarksObj>(STORAGE_KEYS.bookmarks);
+  const getBookmarks = useCallback(
+    () => storage.get<IBookmarksObj>(STORAGE_KEYS.bookmarks),
+    [storage]
+  );
 
-  const getPersons = () => storage.get<IPersons>(STORAGE_KEYS.persons);
+  const getPersons = useCallback(
+    () => storage.get<IPersons>(STORAGE_KEYS.persons),
+    [storage]
+  );
 
-  const getPersonImageUrls = () =>
-    storage.get<any>(STORAGE_KEYS.personImageUrls);
+  const getPersonImageUrls = useCallback(
+    () => storage.get<any>(STORAGE_KEYS.personImageUrls),
+    [storage]
+  );
 
   return {
     getBookmarks,

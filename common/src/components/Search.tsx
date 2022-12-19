@@ -32,7 +32,7 @@ const Search = memo<Props>(function Search({
     if (entry?.isVisible && focusOnVisible) {
       inputRef?.current?.focus();
     }
-  }, [entry?.isVisible]);
+  }, [entry?.isVisible, focusOnVisible]);
 
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
