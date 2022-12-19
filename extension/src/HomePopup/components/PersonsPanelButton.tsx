@@ -1,5 +1,5 @@
 import { SvgIcon } from '@mui/material';
-import { ROUTES } from '@bypass/common/constants/routes';
+import { ROUTES } from '@bypass/shared/constants/routes';
 import { memo } from 'react';
 import { FaUserTag } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';

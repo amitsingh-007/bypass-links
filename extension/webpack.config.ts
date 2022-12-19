@@ -17,13 +17,13 @@ import { resolve } from 'path';
 import {
   getFileNameFromVersion,
   getExtVersion,
-} from '../common/src/utils/extensionFile';
+} from '../shared/src/utils/extensionFile';
 
 const PATHS = {
-  COMMON: resolve(__dirname, '..', 'common'),
-  EXTENSION: resolve(__dirname, 'build'),
-  SRC: resolve(__dirname, 'src'),
+  SHARED: resolve(__dirname, '..', 'shared'),
   ROOT: resolve(__dirname),
+  SRC: resolve(__dirname, 'src'),
+  EXTENSION: resolve(__dirname, 'build'),
 };
 
 const ENV = process.env.NODE_ENV;
@@ -68,7 +68,7 @@ const config: Configuration = {
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.scss'],
-    modules: [PATHS.SRC, PATHS.COMMON, 'node_modules'],
+    modules: [PATHS.SRC, PATHS.SHARED, 'node_modules'],
     plugins: [
       new TsconfigPathsPlugin({
         configFile: tsConfigFile,

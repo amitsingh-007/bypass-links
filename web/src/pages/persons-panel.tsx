@@ -4,21 +4,21 @@ import PersonVirtualCell from '@/ui/PersonsPage/components/PersonVirtualCell';
 import { GRID_COLUMN_SIZE } from '@/ui/PersonsPage/constants';
 import { getFromLocalStorage } from '@/ui/provider/utils';
 import { openNewTab } from '@/ui/utils';
-import Persons from '@bypass/common/components/Persons/components/Persons';
+import Persons from '@bypass/shared/components/Persons/components/Persons';
 import {
   IPerson,
   IPersons,
-} from '@bypass/common/components/Persons/interfaces/persons';
+} from '@bypass/shared/components/Persons/interfaces/persons';
 import {
   getFilteredPersons,
   sortAlphabetically,
-} from '@bypass/common/components/Persons/utils';
-import { STORAGE_KEYS } from '@bypass/common/constants/storage';
+} from '@bypass/shared/components/Persons/utils';
+import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
 import { Box, Container } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
 import { useMeasure } from 'react-use';
-import { SORT_ORDER } from '@bypass/common/components/Persons/constants/sort';
-import { decryptionMapper } from '@bypass/common/components/Persons/mapper';
+import { SORT_ORDER } from '@bypass/shared/components/Persons/constants/sort';
+import { decryptionMapper } from '@bypass/shared/components/Persons/mapper';
 
 const PersonsPage = () => {
   const [persons, setPersons] = useState<IPerson[]>([]);

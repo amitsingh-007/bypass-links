@@ -1,8 +1,8 @@
 import { Box, Button } from '@mui/material';
 import Loader from 'GlobalComponents/Loader';
-import PanelHeading from '@bypass/common/components/PanelHeading';
+import PanelHeading from '@bypass/shared/components/PanelHeading';
 import { STICKY_HEADER } from 'GlobalConstants/styles';
-import { VoidFunction } from '@bypass/common/interfaces/custom';
+import { VoidFunction } from '@bypass/shared/interfaces/custom';
 import { memo } from 'react';
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
 import { IoSave } from 'react-icons/io5';

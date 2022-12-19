@@ -1,5 +1,5 @@
 import create from 'zustand';
-import { VoidFunction } from '@bypass/common/interfaces/custom';
+import { VoidFunction } from '@bypass/shared/interfaces/custom';
 import { AlertColor } from '@mui/material';
 
 interface ToastState {

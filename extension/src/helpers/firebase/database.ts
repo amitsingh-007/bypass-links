@@ -1,4 +1,4 @@
-import { getFullDbPath } from '@bypass/common/utils/firebase';
+import { getFullDbPath } from '@bypass/shared/utils/firebase';
 import { get, getDatabase, ref, set } from 'firebase/database';
 import firebaseApp from '.';
 import { getUserProfile } from '../fetchFromStorage';

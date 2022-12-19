@@ -1,6 +1,6 @@
-import { FIREBASE_DB_REF } from '@bypass/common/constants/firebase';
+import { FIREBASE_DB_REF } from '@bypass/shared/constants/firebase';
 import { Box } from '@mui/material';
-import { ROUTES } from '@bypass/common/constants/routes';
+import { ROUTES } from '@bypass/shared/constants/routes';
 import { PANEL_DIMENSIONS_PX } from 'GlobalConstants/styles';
 import { getRedirections } from 'GlobalHelpers/fetchFromStorage';
 import { saveToFirebase } from 'GlobalHelpers/firebase/database';

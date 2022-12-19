@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import DynamicContext from '@bypass/common/provider/DynamicContext';
+import DynamicContext from '@bypass/shared/provider/DynamicContext';
 import { getFromChromeStorage, setToChromeStorage } from './utils';
 
 const DynamicProvider = ({ children }: { children: ReactElement }) => {

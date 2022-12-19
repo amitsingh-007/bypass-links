@@ -1,5 +1,5 @@
 import { Box, Button } from '@mui/material';
-import PanelHeading from '@bypass/common/components/PanelHeading';
+import PanelHeading from '@bypass/shared/components/PanelHeading';
 import { STICKY_HEADER } from 'GlobalConstants/styles';
 import { memo } from 'react';
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';

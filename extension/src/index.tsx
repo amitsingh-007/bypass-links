@@ -2,7 +2,7 @@ import { CssBaseline } from '@mui/material';
 import darkScrollbar from '@mui/material/darkScrollbar';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ErrorBoundary from 'GlobalComponents/ErrorBoundary';
-import { BG_COLOR_BLACK } from '@bypass/common/constants/color';
+import { BG_COLOR_BLACK } from '@bypass/shared/constants/color';
 import Global from 'GlobalContainers/Global';
 import PopupRoutes from 'GlobalContainers/PopupRoutes';
 import 'GlobalStyles/popup.scss';

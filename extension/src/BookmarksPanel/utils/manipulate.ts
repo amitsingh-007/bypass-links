@@ -1,7 +1,7 @@
 import {
   ContextBookmarks,
   ISelectedBookmarks,
-} from '@bypass/common/components/Bookmarks/interfaces';
+} from '@bypass/shared/components/Bookmarks/interfaces';
 
 export const getDestinationIndex = (
   destIndex: number,

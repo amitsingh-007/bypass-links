@@ -2,8 +2,8 @@ import {
   Revoke2FAResponse,
   Setup2FAResponse,
   Verify2FAResponse,
-} from '@bypass/common/interfaces/twoFactorAuth';
-import fetchApi from '@bypass/common/utils/fetch';
+} from '@bypass/shared/interfaces/twoFactorAuth';
+import fetchApi from '@bypass/shared/utils/fetch';
 
 export const setup2FA = async (uid: string): Promise<Setup2FAResponse> => {
   const { secretKey, otpAuthUrl } = await fetchApi(

@@ -1,6 +1,6 @@
 import create from 'zustand';
-import { VoidFunction } from '@bypass/common/interfaces/custom';
-import { BOOKMARK_OPERATION } from '@bypass/common/components/Bookmarks/constants';
+import { VoidFunction } from '@bypass/shared/interfaces/custom';
+import { BOOKMARK_OPERATION } from '@bypass/shared/components/Bookmarks/constants';
 
 interface OperationState {
   operation: BOOKMARK_OPERATION;

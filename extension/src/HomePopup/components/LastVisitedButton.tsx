@@ -1,6 +1,6 @@
-import { FIREBASE_DB_REF } from '@bypass/common/constants/firebase';
+import { FIREBASE_DB_REF } from '@bypass/shared/constants/firebase';
 import { SvgIcon, Typography } from '@mui/material';
-import { BlackTooltip } from '@bypass/common/components/StyledComponents';
+import { BlackTooltip } from '@bypass/shared/components/StyledComponents';
 import { getCurrentTab } from 'GlobalHelpers/chrome/tabs';
 import { getLastVisited } from 'GlobalHelpers/fetchFromStorage';
 import { saveToFirebase } from 'GlobalHelpers/firebase/database';

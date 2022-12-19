@@ -1,8 +1,8 @@
 import { Box } from '@mui/material';
 import { memo } from 'react';
 import { Draggable } from '@hello-pangea/dnd';
-import { bookmarkRowStyles } from '@bypass/common/components/Bookmarks/constants';
-import '@bypass/common/components/Bookmarks/scss/BookmarkRow.scss';
+import { bookmarkRowStyles } from '@bypass/shared/components/Bookmarks/constants';
+import '@bypass/shared/components/Bookmarks/scss/BookmarkRow.scss';
 
 interface ExpectedProps {
   isDir: boolean;

@@ -1,4 +1,4 @@
-import { getFullDbPath } from '@bypass/common/utils/firebase';
+import { getFullDbPath } from '@bypass/shared/utils/firebase';
 import { User } from 'firebase/auth';
 import { get, getDatabase, ref } from 'firebase/database';
 import firebaseApp from '.';

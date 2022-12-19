@@ -1,7 +1,7 @@
 import { googleSignIn, googleSignOut } from '@/ui/firebase/auth';
 import { Box, Button, Container, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
-import { ROUTES } from '@bypass/common/constants/routes';
+import { ROUTES } from '@bypass/shared/constants/routes';
 import useWebPreload from '@/ui/hooks/useWebPreload';
 import { useEffect, useState } from 'react';
 import { useUser } from '@/ui/provider/AuthProvider';
@@ -11,9 +11,9 @@ import { RiBookMarkFill } from 'react-icons/ri';
 import { FaUserTag } from 'react-icons/fa';
 import { LoadingButton } from '@mui/lab';
 import { getFromLocalStorage, setToLocalStorage } from '@/ui/provider/utils';
-import { STORAGE_KEYS } from '@bypass/common/constants/storage';
+import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
 import { ITwoFactorAuth } from '@/ui/TwoFactorAuth/interface';
-import TOTPPopup from '@bypass/common/components/Auth/components/TOTPPopup';
+import TOTPPopup from '@bypass/shared/components/Auth/components/TOTPPopup';
 
 export default function Web() {
   const router = useRouter();

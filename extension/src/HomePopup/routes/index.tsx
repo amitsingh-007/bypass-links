@@ -1,4 +1,4 @@
-import { ROUTES } from '@bypass/common/constants/routes';
+import { ROUTES } from '@bypass/shared/constants/routes';
 import { Route } from 'react-router-dom';
 import PopupHome from 'SrcPath/HomePopup/containers/PopupHome';
 

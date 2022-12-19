@@ -1,6 +1,6 @@
 import { TextField } from '@mui/material';
 import { EditDialog } from 'GlobalComponents/Dialogs';
-import { VoidFunction } from '@bypass/common/interfaces/custom';
+import { VoidFunction } from '@bypass/shared/interfaces/custom';
 import { useState } from 'react';
 
 export const FolderDialog: React.FC<{

@@ -1,5 +1,5 @@
 import create from 'zustand';
-import { IUpdateTaggedPerson } from '@bypass/common/components/Persons/interfaces/persons';
+import { IUpdateTaggedPerson } from '@bypass/shared/components/Persons/interfaces/persons';
 
 interface State {
   updateTaggedUrls: IUpdateTaggedPerson[] | null;

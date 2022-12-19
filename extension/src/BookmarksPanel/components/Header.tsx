@@ -6,18 +6,18 @@ import {
   SecondaryHeaderContent,
 } from 'GlobalComponents/AccordionHeader';
 import Loader from 'GlobalComponents/Loader';
-import PanelHeading from '@bypass/common/components/PanelHeading';
-import Search from '@bypass/common/components/Search';
-import { VoidFunction } from '@bypass/common/interfaces/custom';
+import PanelHeading from '@bypass/shared/components/PanelHeading';
+import Search from '@bypass/shared/components/Search';
+import { VoidFunction } from '@bypass/shared/interfaces/custom';
 import React, { memo, useEffect, useRef, useState } from 'react';
 import { FaFolderPlus } from 'react-icons/fa';
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
 import { IoSave } from 'react-icons/io5';
 import { RiUploadCloud2Fill } from 'react-icons/ri';
 import { TbReplace } from 'react-icons/tb';
-import { ContextBookmarks } from '@bypass/common/components/Bookmarks/interfaces';
+import { ContextBookmarks } from '@bypass/shared/components/Bookmarks/interfaces';
 import { syncBookmarksFirebaseWithStorage } from '../utils/bookmark';
-import { getBookmarksPanelUrl } from '@bypass/common/components/Bookmarks/utils/url';
+import { getBookmarksPanelUrl } from '@bypass/shared/components/Bookmarks/utils/url';
 import ConfirmationDialog from './ConfirmationDialog';
 import { FolderDropdown } from './Dropdown';
 import { FolderDialog } from './FolderDialog';

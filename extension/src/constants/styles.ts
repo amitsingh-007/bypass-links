@@ -1,5 +1,5 @@
 import { SxProps } from '@mui/system';
-import { BG_COLOR_DARK } from '@bypass/common/constants/color';
+import { BG_COLOR_DARK } from '@bypass/shared/constants/color';
 
 export const PANEL_SIZE = {
   width: 792,

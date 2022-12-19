@@ -2,7 +2,7 @@ import { SvgIcon } from '@mui/material';
 import { memo } from 'react';
 import { RiBookMarkFill } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
-import { getBookmarksPanelUrl } from '@bypass/common/components/Bookmarks/utils/url';
+import { getBookmarksPanelUrl } from '@bypass/shared/components/Bookmarks/utils/url';
 import StyledButton from './StyledButton';
 import useAuthStore from 'GlobalStore/auth';
 

@@ -1,11 +1,11 @@
 import { getCurrentTab } from 'GlobalHelpers/chrome/tabs';
 import { memo, useCallback, useEffect, useState } from 'react';
-import { BOOKMARK_OPERATION } from '@bypass/common/components/Bookmarks/constants';
+import { BOOKMARK_OPERATION } from '@bypass/shared/components/Bookmarks/constants';
 import {
   ContextBookmark,
   ContextBookmarks,
-} from '@bypass/common/components/Bookmarks/interfaces';
-import { getBookmarksPanelUrl } from '@bypass/common/components/Bookmarks/utils/url';
+} from '@bypass/shared/components/Bookmarks/interfaces';
+import { getBookmarksPanelUrl } from '@bypass/shared/components/Bookmarks/utils/url';
 import BookmarkDialog from './BookmarkDialog';
 import { useNavigate } from 'react-router-dom';
 import useBookmarkStore from 'GlobalStore/bookmark';

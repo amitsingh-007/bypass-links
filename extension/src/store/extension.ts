@@ -1,5 +1,5 @@
 import create from 'zustand';
-import { VoidFunction } from '@bypass/common/interfaces/custom';
+import { VoidFunction } from '@bypass/shared/interfaces/custom';
 
 interface State {
   isExtensionActive: boolean;

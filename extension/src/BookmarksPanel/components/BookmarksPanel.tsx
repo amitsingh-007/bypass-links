@@ -1,10 +1,10 @@
 import { Box, GlobalStyles } from '@mui/material';
-import { ScrollButton } from '@bypass/common/components/ScrollButton';
-import { CACHE_BUCKET_KEYS } from '@bypass/common/constants/cache';
+import { ScrollButton } from '@bypass/shared/components/ScrollButton';
+import { CACHE_BUCKET_KEYS } from '@bypass/shared/constants/cache';
 import { PANEL_DIMENSIONS_PX } from 'GlobalConstants/styles';
 import tabs from 'GlobalHelpers/chrome/tabs';
 import { getBookmarks } from 'GlobalHelpers/fetchFromStorage';
-import { addToCache } from '@bypass/common/utils/cache';
+import { addToCache } from '@bypass/shared/utils/cache';
 import md5 from 'md5';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
@@ -13,29 +13,29 @@ import {
   Droppable,
 } from '@hello-pangea/dnd';
 import { FixedSizeList } from 'react-window';
-import { IUpdateTaggedPerson } from '@bypass/common/components/Persons/interfaces/persons';
+import { IUpdateTaggedPerson } from '@bypass/shared/components/Persons/interfaces/persons';
 import {
   BOOKMARK_PANEL_CONTENT_HEIGHT,
   BOOKMARK_ROW_DIMENTSIONS,
 } from '../constants';
-import { BOOKMARK_OPERATION } from '@bypass/common/components/Bookmarks/constants';
+import { BOOKMARK_OPERATION } from '@bypass/shared/components/Bookmarks/constants';
 import {
   ContextBookmarks,
   IBookmarksObj,
   ISelectedBookmarks,
-} from '@bypass/common/components/Bookmarks/interfaces';
-import { BMPanelQueryParams } from '@bypass/common/components/Bookmarks/interfaces/url';
+} from '@bypass/shared/components/Bookmarks/interfaces';
+import { BMPanelQueryParams } from '@bypass/shared/components/Bookmarks/interfaces/url';
 import {
   bookmarksMapper,
   getEncryptedBookmark,
-} from '@bypass/common/components/Bookmarks/mapper';
+} from '@bypass/shared/components/Bookmarks/mapper';
 import {
   getAllFolderNames,
   getSelectedCount,
   isFolderContainsDir,
   setBookmarksInStorage,
 } from '../utils';
-import { getFaviconProxyUrl } from '@bypass/common/utils';
+import { getFaviconProxyUrl } from '@bypass/shared/utils';
 import {
   getBookmarksAfterDrag,
   getDestinationIndex,
@@ -49,7 +49,7 @@ import VirtualRow, { VirtualRowProps } from './VirtualRow';
 import {
   getFilteredContextBookmarks,
   shouldRenderBookmarks,
-} from '@bypass/common/components/Bookmarks/utils';
+} from '@bypass/shared/components/Bookmarks/utils';
 import useToastStore from 'GlobalStore/toast';
 import useHistoryStore from 'GlobalStore/history';
 import usePersonStore from 'GlobalStore/person';

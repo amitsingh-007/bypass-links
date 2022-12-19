@@ -1,11 +1,11 @@
-import { STORAGE_KEYS } from '@bypass/common/constants/storage';
-import { CACHE_BUCKET_KEYS } from '@bypass/common/constants/cache';
+import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
+import { CACHE_BUCKET_KEYS } from '@bypass/shared/constants/cache';
 import identity from 'GlobalHelpers/chrome/identity';
 import runtime from 'GlobalHelpers/chrome/runtime';
 import storage from 'GlobalHelpers/chrome/storage';
 import tabs from 'GlobalHelpers/chrome/tabs';
 import { getSettings, getUserProfile } from 'GlobalHelpers/fetchFromStorage';
-import { deleteAllCache } from '@bypass/common/utils/cache';
+import { deleteAllCache } from '@bypass/shared/utils/cache';
 import {
   resetBypass,
   syncBypassToStorage,
@@ -31,7 +31,7 @@ import {
   syncPersonsFirebaseWithStorage,
   syncPersonsToStorage,
 } from 'SrcPath/PersonsPanel/utils/sync';
-import { status2FA } from '@bypass/common/components/Auth/apis/twoFactorAuth';
+import { status2FA } from '@bypass/shared/components/Auth/apis/twoFactorAuth';
 import {
   resetSettings,
   syncSettingsToStorage,

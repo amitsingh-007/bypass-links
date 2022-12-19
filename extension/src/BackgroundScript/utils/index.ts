@@ -4,8 +4,8 @@ import { getCurrentTab } from 'GlobalHelpers/chrome/tabs';
 import { getExtensionState } from 'GlobalHelpers/fetchFromStorage';
 import { getIsExtensionActive } from '../../utils/common';
 import { EXTENSION_STATE } from 'GlobalConstants';
-import fetchApi from '@bypass/common/utils/fetch';
-import { IExtension } from '@bypass/common/interfaces/api';
+import fetchApi from '@bypass/shared/utils/fetch';
+import { IExtension } from '@bypass/shared/interfaces/api';
 
 const getPageH1 = () => {
   const h1s = document.getElementsByTagName('h1');

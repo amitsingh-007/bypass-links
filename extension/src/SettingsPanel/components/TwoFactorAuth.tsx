@@ -1,6 +1,6 @@
 import { Box, Button } from '@mui/material';
 import storage from 'GlobalHelpers/chrome/storage';
-import { STORAGE_KEYS } from '@bypass/common/constants/storage';
+import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
 import { memo, useEffect, useState } from 'react';
 import { revoke2FA } from '../apis/twoFactorAuth';
 import { getUserProfile } from 'GlobalHelpers/fetchFromStorage';

@@ -14,9 +14,9 @@
     "web:dev": "npm run dev -w=web"
   },
   "workspaces": [
-    "common",
+    "shared",
+    "e2e",
     "extension",
-    "web",
-    "e2e"
+    "web"
   ]
 }

@@ -1,13 +1,13 @@
 import { Avatar, Box, TextField } from '@mui/material';
 import { EditDialog } from 'GlobalComponents/Dialogs';
 import { getImageFromFirebase } from 'GlobalHelpers/firebase/storage';
-import { VoidFunction } from '@bypass/common/interfaces/custom';
+import { VoidFunction } from '@bypass/shared/interfaces/custom';
 import md5 from 'md5';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { RiUserUnfollowFill } from 'react-icons/ri';
-import { IPerson } from '@bypass/common/components/Persons/interfaces/persons';
+import { IPerson } from '@bypass/shared/components/Persons/interfaces/persons';
 import ImagePicker from './ImagePicker';
-import usePerson from '@bypass/common/components/Persons/hooks/usePerson';
+import usePerson from '@bypass/shared/components/Persons/hooks/usePerson';
 
 const imageStyles = { width: 200, height: 200 };
 

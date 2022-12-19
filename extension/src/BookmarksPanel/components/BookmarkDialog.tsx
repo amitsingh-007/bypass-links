@@ -1,14 +1,14 @@
 import { Box, IconButton, SelectProps, TextField } from '@mui/material';
 import { EditDialog } from 'GlobalComponents/Dialogs';
 import runtime from 'GlobalHelpers/chrome/runtime';
-import { VoidFunction } from '@bypass/common/interfaces/custom';
+import { VoidFunction } from '@bypass/shared/interfaces/custom';
 import { useCallback, useEffect, useState } from 'react';
 import { FaHeading } from 'react-icons/fa';
-import { SORT_ORDER } from '@bypass/common/components/Persons/constants/sort';
-import { IPersonWithImage } from '@bypass/common/components/Persons/interfaces/persons';
+import { SORT_ORDER } from '@bypass/shared/components/Persons/constants/sort';
+import { IPersonWithImage } from '@bypass/shared/components/Persons/interfaces/persons';
 import { FolderDropdown, PersonsDropdown } from './Dropdown';
-import usePerson from '@bypass/common/components/Persons/hooks/usePerson';
-import { sortAlphabetically } from '@bypass/common/components/Persons/utils';
+import usePerson from '@bypass/shared/components/Persons/hooks/usePerson';
+import { sortAlphabetically } from '@bypass/shared/components/Persons/utils';
 
 interface Props {
   url: string;

@@ -1,5 +1,5 @@
 import { Avatar, Box, Fade, IconButton, SvgIcon } from '@mui/material';
-import { ROUTES } from '@bypass/common/constants/routes';
+import { ROUTES } from '@bypass/shared/constants/routes';
 import { getUserProfile } from 'GlobalHelpers/fetchFromStorage';
 import { memo, useEffect, useState } from 'react';
 import { MdSettings } from 'react-icons/md';
