@@ -1,9 +1,9 @@
 import { Box, GlobalStyles } from '@mui/material';
 import { ScrollButton } from '@bypass/shared/components/ScrollButton';
 import { CACHE_BUCKET_KEYS } from '@bypass/shared/constants/cache';
-import { PANEL_DIMENSIONS_PX } from 'GlobalConstants/styles';
-import tabs from 'GlobalHelpers/chrome/tabs';
-import { getBookmarks } from 'GlobalHelpers/fetchFromStorage';
+import { PANEL_DIMENSIONS_PX } from '@constants/styles';
+import tabs from '@helpers/chrome/tabs';
+import { getBookmarks } from '@helpers/fetchFromStorage';
 import { addToCache } from '@bypass/shared/utils/cache';
 import md5 from 'md5';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -50,10 +50,10 @@ import {
   getFilteredContextBookmarks,
   shouldRenderBookmarks,
 } from '@bypass/shared/components/Bookmarks/utils';
-import useToastStore from 'GlobalStore/toast';
-import useHistoryStore from 'GlobalStore/history';
-import usePersonStore from 'GlobalStore/person';
-import useBookmarkStore from 'GlobalStore/bookmark';
+import useToastStore from '@store/toast';
+import useHistoryStore from '@store/history';
+import usePersonStore from '@store/person';
+import useBookmarkStore from '@store/bookmark';
 
 const minReqBookmarksToScroll = Math.ceil(
   BOOKMARK_PANEL_CONTENT_HEIGHT / BOOKMARK_ROW_DIMENTSIONS.height

@@ -1,15 +1,12 @@
 import { FIREBASE_DB_REF } from '@bypass/shared/constants/firebase';
 import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
 import { CACHE_BUCKET_KEYS } from '@bypass/shared/constants/cache';
-import storage from 'GlobalHelpers/chrome/storage';
-import { getPersonImageUrls, getPersons } from 'GlobalHelpers/fetchFromStorage';
-import {
-  getFromFirebase,
-  saveToFirebase,
-} from 'GlobalHelpers/firebase/database';
-import { getImageFromFirebase } from 'GlobalHelpers/firebase/storage';
+import storage from '@helpers/chrome/storage';
+import { getPersonImageUrls, getPersons } from '@helpers/fetchFromStorage';
+import { getFromFirebase, saveToFirebase } from '@helpers/firebase/database';
+import { getImageFromFirebase } from '@helpers/firebase/storage';
 import { addToCache, getCacheObj } from '@bypass/shared/utils/cache';
-import { AuthProgress } from 'SrcPath/HomePopup/utils/authProgress';
+import { AuthProgress } from '@/HomePopup/utils/authProgress';
 import { getAllDecodedPersons } from '.';
 import {
   IPerson,

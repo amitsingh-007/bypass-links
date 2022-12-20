@@ -1,9 +1,9 @@
 import { Box, FormControlLabel } from '@mui/material';
-import { StyledSwitch } from 'GlobalComponents/StyledComponents';
-import { EXTENSION_STATE } from 'GlobalConstants';
-import { getExtensionState } from 'GlobalHelpers/fetchFromStorage';
-import useExtStore from 'GlobalStore/extension';
-import { getIsExtensionActive, setExtStateInStorage } from 'GlobalUtils/common';
+import { StyledSwitch } from '@components/StyledComponents';
+import { EXTENSION_STATE } from '@constants/index';
+import { getExtensionState } from '@helpers/fetchFromStorage';
+import useExtStore from '@store/extension';
+import { getIsExtensionActive, setExtStateInStorage } from '@/utils/common';
 import { memo, useEffect, useState } from 'react';
 
 const ToggleExtension = memo(function ToggleExtension() {

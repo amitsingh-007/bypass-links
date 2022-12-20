@@ -1,9 +1,9 @@
 import { Box, MenuItem, Typography, SvgIcon } from '@mui/material';
 import { SxProps } from '@mui/system';
 import { VoidFunction } from '@bypass/shared/interfaces/custom';
-import { IMenuOptions, MenuOption } from 'GlobalInterfaces/menu';
+import { IMenuOptions, MenuOption } from '@interfaces/menu';
 import { memo, useState } from 'react';
-import useMenu from 'SrcPath/hooks/useMenu';
+import useMenu from '@/hooks/useMenu';
 import { RightClickMenu } from './StyledComponents';
 
 const MenuItemWrapper = ({

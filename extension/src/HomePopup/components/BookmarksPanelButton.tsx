@@ -4,7 +4,7 @@ import { RiBookMarkFill } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
 import { getBookmarksPanelUrl } from '@bypass/shared/components/Bookmarks/utils/url';
 import StyledButton from './StyledButton';
-import useAuthStore from 'GlobalStore/auth';
+import useAuthStore from '@store/auth';
 
 const BookmarksPanelButton = memo(function BookmarksPanelButton() {
   const navigate = useNavigate();

@@ -1,8 +1,8 @@
 import { SvgIcon, Typography } from '@mui/material';
 import { BlackTooltip } from '@bypass/shared/components/StyledComponents';
 import { defaultBookmarkFolder } from '@bypass/shared/components/Bookmarks/constants';
-import { getCurrentTab } from 'GlobalHelpers/chrome/tabs';
-import { getBookmarks } from 'GlobalHelpers/fetchFromStorage';
+import { getCurrentTab } from '@helpers/chrome/tabs';
+import { getBookmarks } from '@helpers/fetchFromStorage';
 import md5 from 'md5';
 import { memo, useEffect, useState } from 'react';
 import { BiBookmarkPlus } from 'react-icons/bi';
@@ -15,7 +15,7 @@ import { getBookmarksPanelUrl } from '@bypass/shared/components/Bookmarks/utils/
 import StyledButton from './StyledButton';
 import { getDecodedBookmark } from '@bypass/shared/components/Bookmarks/utils';
 import useBookmark from '@bypass/shared/components/Bookmarks/hooks/useBookmark';
-import useAuthStore from 'GlobalStore/auth';
+import useAuthStore from '@store/auth';
 
 const QuickBookmarkButton = memo(function QuickBookmarkButton() {
   const isSignedIn = useAuthStore((state) => state.isSignedIn);

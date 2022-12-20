@@ -1,5 +1,5 @@
-import scripting from 'GlobalHelpers/chrome/scripting';
-import tabs from 'GlobalHelpers/chrome/tabs';
+import scripting from '@helpers/chrome/scripting';
+import tabs from '@helpers/chrome/tabs';
 
 const automate = () => {
   const menuOptionButton = document.querySelector<HTMLButtonElement>(

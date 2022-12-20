@@ -1,7 +1,7 @@
-import { EXTENSION_STATE } from 'GlobalConstants';
-import storage from 'GlobalHelpers/chrome/storage';
-import { getExtensionState } from 'GlobalHelpers/fetchFromStorage';
-import { getIsExtensionActive, setExtStateInStorage } from 'GlobalUtils/common';
+import { EXTENSION_STATE } from '@constants/index';
+import storage from '@helpers/chrome/storage';
+import { getExtensionState } from '@helpers/fetchFromStorage';
+import { getIsExtensionActive, setExtStateInStorage } from '@/utils/common';
 import { manageGoogleActivity } from './automation/manageGoogleActivity';
 import { bypass } from './bypass';
 import { getForumPageLinks } from './misc/forumPageLinks';
@@ -14,7 +14,7 @@ import {
   setExtensionIcon,
 } from './utils';
 import { red } from '@mui/material/colors';
-import action from 'GlobalHelpers/chrome/action';
+import action from '@helpers/chrome/action';
 
 //First time extension install
 chrome.runtime.onInstalled.addListener(() => {

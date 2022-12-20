@@ -1,6 +1,6 @@
 import { Box, IconButton, SelectProps, TextField } from '@mui/material';
-import { EditDialog } from 'GlobalComponents/Dialogs';
-import runtime from 'GlobalHelpers/chrome/runtime';
+import { EditDialog } from '@components/Dialogs';
+import runtime from '@helpers/chrome/runtime';
 import { VoidFunction } from '@bypass/shared/interfaces/custom';
 import { useCallback, useEffect, useState } from 'react';
 import { FaHeading } from 'react-icons/fa';

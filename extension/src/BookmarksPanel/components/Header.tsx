@@ -4,8 +4,8 @@ import {
   AccordionHeader,
   PrimaryHeaderContent,
   SecondaryHeaderContent,
-} from 'GlobalComponents/AccordionHeader';
-import Loader from 'GlobalComponents/Loader';
+} from '@components/AccordionHeader';
+import Loader from '@components/Loader';
 import PanelHeading from '@bypass/shared/components/PanelHeading';
 import Search from '@bypass/shared/components/Search';
 import { VoidFunction } from '@bypass/shared/interfaces/custom';
@@ -23,7 +23,7 @@ import { FolderDropdown } from './Dropdown';
 import { FolderDialog } from './FolderDialog';
 import ReplaceDialog from './ReplaceDialog';
 import { useNavigate } from 'react-router-dom';
-import useToastStore from 'GlobalStore/toast';
+import useToastStore from '@store/toast';
 
 interface Props {
   isSaveButtonActive: boolean;

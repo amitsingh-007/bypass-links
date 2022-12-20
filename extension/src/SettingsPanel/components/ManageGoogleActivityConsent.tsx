@@ -1,5 +1,5 @@
 import { Box, FormControlLabel } from '@mui/material';
-import { StyledSwitch } from 'GlobalComponents/StyledComponents';
+import { StyledSwitch } from '@components/StyledComponents';
 import { memo, useEffect, useState } from 'react';
 import { IHandleSettingsChange } from '../containers/SettingsPanel';
 

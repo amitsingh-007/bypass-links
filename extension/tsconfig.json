@@ -4,17 +4,12 @@
     "baseUrl": ".",
     // Refer: https://github.com/microsoft/TypeScript/issues/26859#issuecomment-695806452
     "paths": {
-      "GlobalHelpers/*": ["./src/helpers/*"],
-      "GlobalApis/*": ["src/BackgroundScript/apis/*"],
-      "GlobalComponents/*": ["./src/components/*"],
-      "GlobalConstants": ["./src/constants"],
-      "GlobalConstants/*": ["./src/constants/*"],
-      "GlobalContainers/*": ["./src/containers/*"],
-      "GlobalInterfaces/*": ["./src/interfaces/*"],
-      "GlobalStore/*": ["./src/store/*"],
-      "GlobalStyles/*": ["./src/scss/*"],
-      "GlobalUtils/*": ["./src/utils/*"],
-      "SrcPath/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@components/*": ["./src/components/*"],
+      "@constants/*": ["./src/constants/*"],
+      "@helpers/*": ["./src/helpers/*"],
+      "@interfaces/*": ["./src/interfaces/*"],
+      "@store/*": ["./src/store/*"]
     }
   },
   "include": ["@types", "src", "webpack.config.ts"],

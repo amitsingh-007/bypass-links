@@ -1,6 +1,6 @@
 import { Avatar, Box, TextField } from '@mui/material';
-import { EditDialog } from 'GlobalComponents/Dialogs';
-import { getImageFromFirebase } from 'GlobalHelpers/firebase/storage';
+import { EditDialog } from '@components/Dialogs';
+import { getImageFromFirebase } from '@helpers/firebase/storage';
 import { VoidFunction } from '@bypass/shared/interfaces/custom';
 import md5 from 'md5';
 import { memo, useCallback, useEffect, useState } from 'react';

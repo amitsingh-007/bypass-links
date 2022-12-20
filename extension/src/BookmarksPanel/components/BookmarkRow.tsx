@@ -3,8 +3,8 @@ import Bookmark, {
 } from '@bypass/shared/components/Bookmarks/components/Bookmark';
 import { memo } from 'react';
 import withBookmarkRow from '../hoc/withBookmarkRow';
-import tabs from 'GlobalHelpers/chrome/tabs';
-import useHistoryStore from 'GlobalStore/history';
+import tabs from '@helpers/chrome/tabs';
+import useHistoryStore from '@store/history';
 
 const BookmarkRow = memo<Omit<Props, 'onOpenLink'>>((props) => {
   const startHistoryMonitor = useHistoryStore(

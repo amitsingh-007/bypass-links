@@ -6,7 +6,7 @@ import {
   ref,
   uploadBytes,
 } from 'firebase/storage';
-import { getUserProfile } from 'GlobalHelpers/fetchFromStorage';
+import { getUserProfile } from '@helpers/fetchFromStorage';
 import firebaseApp from '.';
 
 const getPath = async (ref: string) => {

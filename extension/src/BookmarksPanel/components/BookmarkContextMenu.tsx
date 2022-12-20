@@ -1,6 +1,6 @@
-import ContextMenu from 'GlobalComponents/ContextMenu';
+import ContextMenu from '@components/ContextMenu';
 import { VoidFunction } from '@bypass/shared/interfaces/custom';
-import { IMenuOptions } from 'GlobalInterfaces/menu';
+import { IMenuOptions } from '@interfaces/menu';
 import md5 from 'md5';
 import { memo, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
@@ -15,7 +15,7 @@ import {
   ISelectedBookmarks,
 } from '@bypass/shared/components/Bookmarks/interfaces';
 import BulkBookmarksMoveDialog from './BulkBookmarksMoveDialog';
-import useBookmarkStore from 'GlobalStore/bookmark';
+import useBookmarkStore from '@store/bookmark';
 
 const BookmarkContextMenu = memo<{
   curFolder: string;

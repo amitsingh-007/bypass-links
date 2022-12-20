@@ -1,8 +1,8 @@
 import Folder, {
   Props as FolderProps,
 } from '@bypass/shared/components/Bookmarks/components/Folder';
-import ContextMenu from 'GlobalComponents/ContextMenu';
-import { IMenuOptions } from 'GlobalInterfaces/menu';
+import ContextMenu from '@components/ContextMenu';
+import { IMenuOptions } from '@interfaces/menu';
 import withBookmarkRow from '../hoc/withBookmarkRow';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';

@@ -1,6 +1,6 @@
-import storage from 'GlobalHelpers/chrome/storage';
+import storage from '@helpers/chrome/storage';
 import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
-import { getPersons } from 'GlobalHelpers/fetchFromStorage';
+import { getPersons } from '@helpers/fetchFromStorage';
 import {
   IPerson,
   IPersons,

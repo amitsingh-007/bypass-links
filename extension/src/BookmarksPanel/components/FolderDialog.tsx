@@ -1,5 +1,5 @@
 import { TextField } from '@mui/material';
-import { EditDialog } from 'GlobalComponents/Dialogs';
+import { EditDialog } from '@components/Dialogs';
 import { VoidFunction } from '@bypass/shared/interfaces/custom';
 import { useState } from 'react';
 

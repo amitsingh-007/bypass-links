@@ -1,10 +1,10 @@
-import storage from 'GlobalHelpers/chrome/storage';
+import storage from '@helpers/chrome/storage';
 import { memo, useEffect } from 'react';
-import { getPersons } from 'GlobalHelpers/fetchFromStorage';
+import { getPersons } from '@helpers/fetchFromStorage';
 import { IUpdateTaggedPerson } from '@bypass/shared/components/Persons/interfaces/persons';
-import { setPersonsInStorage } from 'SrcPath/PersonsPanel/utils';
-import useHistoryStore from 'GlobalStore/history';
-import usePersonStore from 'GlobalStore/person';
+import { setPersonsInStorage } from '@/PersonsPanel/utils';
+import useHistoryStore from '@store/history';
+import usePersonStore from '@store/person';
 
 const THIRTY_SECONDS = 30 * 1000; //in milliseconds
 

@@ -1,4 +1,4 @@
-import storage from 'GlobalHelpers/chrome/storage';
+import storage from '@helpers/chrome/storage';
 
 export const getFromChromeStorage = async <
   T extends {

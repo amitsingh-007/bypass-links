@@ -1,11 +1,11 @@
 import { Box, Button } from '@mui/material';
-import storage from 'GlobalHelpers/chrome/storage';
+import storage from '@helpers/chrome/storage';
 import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
 import { memo, useEffect, useState } from 'react';
 import { revoke2FA } from '../apis/twoFactorAuth';
-import { getUserProfile } from 'GlobalHelpers/fetchFromStorage';
+import { getUserProfile } from '@helpers/fetchFromStorage';
 import Setup2FA from './Setup2FA';
-import useToastStore from 'GlobalStore/toast';
+import useToastStore from '@store/toast';
 
 const TwoFactorAuth = memo(function TwoFactorAuth() {
   const displayToast = useToastStore((state) => state.displayToast);

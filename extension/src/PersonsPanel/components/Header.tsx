@@ -4,8 +4,8 @@ import {
   AccordionHeader,
   PrimaryHeaderContent,
   SecondaryHeaderContent,
-} from 'GlobalComponents/AccordionHeader';
-import Loader from 'GlobalComponents/Loader';
+} from '@components/AccordionHeader';
+import Loader from '@components/Loader';
 import PanelHeading from '@bypass/shared/components/PanelHeading';
 import { memo, useState } from 'react';
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
@@ -17,7 +17,7 @@ import { syncPersonsFirebaseWithStorage } from '../utils/sync';
 import AddOrEditPersonDialog from './AddOrEditPersonDialog';
 import Sort from './Sort';
 import Search from '@bypass/shared/components/Search';
-import useToastStore from 'GlobalStore/toast';
+import useToastStore from '@store/toast';
 
 interface Props {
   isFetching: boolean;

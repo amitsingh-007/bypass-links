@@ -1,16 +1,16 @@
 import { FIREBASE_DB_REF } from '@bypass/shared/constants/firebase';
 import { SvgIcon, Typography } from '@mui/material';
 import { BlackTooltip } from '@bypass/shared/components/StyledComponents';
-import { getCurrentTab } from 'GlobalHelpers/chrome/tabs';
-import { getLastVisited } from 'GlobalHelpers/fetchFromStorage';
-import { saveToFirebase } from 'GlobalHelpers/firebase/database';
+import { getCurrentTab } from '@helpers/chrome/tabs';
+import { getLastVisited } from '@helpers/fetchFromStorage';
+import { saveToFirebase } from '@helpers/firebase/database';
 import md5 from 'md5';
 import { memo, useEffect, useState } from 'react';
 import { FaCalendarCheck, FaCalendarTimes } from 'react-icons/fa';
-import { syncLastVisitedToStorage } from 'SrcPath/HomePopup/utils/lastVisited';
+import { syncLastVisitedToStorage } from '@/HomePopup/utils/lastVisited';
 import { LastVisited } from '../interfaces/lastVisited';
 import StyledButton from './StyledButton';
-import useAuthStore from 'GlobalStore/auth';
+import useAuthStore from '@store/auth';
 
 const tooltipStyles = { fontSize: '13px' };
 

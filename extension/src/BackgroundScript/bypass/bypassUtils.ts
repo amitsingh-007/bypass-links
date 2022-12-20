@@ -1,8 +1,8 @@
 import { VoidFunction } from '@bypass/shared/interfaces/custom';
-import { BYPASS_KEYS } from 'GlobalConstants';
-import scripting from 'GlobalHelpers/chrome/scripting';
-import tabs from 'GlobalHelpers/chrome/tabs';
-import { getHostnameAlias } from 'GlobalUtils/common';
+import { BYPASS_KEYS } from '@constants/index';
+import scripting from '@helpers/chrome/scripting';
+import tabs from '@helpers/chrome/tabs';
+import { getHostnameAlias } from '@/utils/common';
 import { IBypass } from '../interfaces/bypass';
 import { bypassBonsai } from './bypassBonsai';
 import { bypassBonsaiLink } from './bypassBonsaiLink';

@@ -1,4 +1,4 @@
-import { getCurrentTab } from 'GlobalHelpers/chrome/tabs';
+import { getCurrentTab } from '@helpers/chrome/tabs';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { BOOKMARK_OPERATION } from '@bypass/shared/components/Bookmarks/constants';
 import {
@@ -8,7 +8,7 @@ import {
 import { getBookmarksPanelUrl } from '@bypass/shared/components/Bookmarks/utils/url';
 import BookmarkDialog from './BookmarkDialog';
 import { useNavigate } from 'react-router-dom';
-import useBookmarkStore from 'GlobalStore/bookmark';
+import useBookmarkStore from '@store/bookmark';
 
 const heading = {
   [BOOKMARK_OPERATION.NONE]: '',
