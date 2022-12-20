@@ -1,4 +1,4 @@
-const config = require('@bypass/shared/config/eslint.base.js');
+const config = require('../shared/config/.eslintrc.js');
 
 module.exports = {
   root: true,

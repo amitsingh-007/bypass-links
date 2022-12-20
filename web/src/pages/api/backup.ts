@@ -24,7 +24,7 @@ const handler = async (req: NextApiRequestWithToken, res: NextApiResponse) => {
     data: snapshot.val(),
     isAbsolute: true,
   });
-  res.json({ status: 'Firebase backup successful' });
+  return res.json({ status: 'Firebase backup successful' });
 };
 
 export default handler;

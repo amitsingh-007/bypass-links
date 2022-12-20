@@ -1,4 +1,4 @@
 {
   "root": true,
-  "extends": ["./config/eslint.base.js"]
+  "extends": ["./config/.eslintrc.js"]
 }

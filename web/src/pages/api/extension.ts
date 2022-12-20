@@ -16,7 +16,7 @@ const handler = async (
     return res.status(500).end();
   }
   const { browser_download_url, name, updated_at } = extension;
-  res.json({
+  return res.json({
     extension: browser_download_url,
     version: getVersionFromFileName(name),
     date: updated_at,

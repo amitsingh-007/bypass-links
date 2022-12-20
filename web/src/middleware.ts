@@ -7,4 +7,5 @@ export function middleware(req: NextRequest) {
     nextUrl.searchParams.set('country', geo?.country ?? 'IN');
     return NextResponse.rewrite(nextUrl);
   }
+  return NextResponse.next();
 }
