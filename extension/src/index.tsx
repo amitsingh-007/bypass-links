@@ -1,15 +1,15 @@
 import { CssBaseline } from '@mui/material';
 import darkScrollbar from '@mui/material/darkScrollbar';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import ErrorBoundary from 'GlobalComponents/ErrorBoundary';
-import { BG_COLOR_BLACK } from '@common/constants/color';
-import Global from 'GlobalContainers/Global';
-import PopupRoutes from 'GlobalContainers/PopupRoutes';
-import 'GlobalStyles/popup.scss';
+import ErrorBoundary from '@components/ErrorBoundary';
+import { BG_COLOR_BLACK } from '@bypass/shared/constants/color';
+import '@/scss/popup.scss';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import DynamicProvider from './provider/DynamicProvider';
+import PopupRoutes from './components/PopupRoutes';
+import Global from './components/Global';
 
 const theme = createTheme({
   palette: {

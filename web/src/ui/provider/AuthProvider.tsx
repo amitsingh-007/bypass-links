@@ -5,7 +5,7 @@ import { onAuthStateChange } from '../firebase/auth';
 import { createContext } from 'react';
 import { useRouter } from 'next/router';
 import { getFromLocalStorage } from './utils';
-import { STORAGE_KEYS } from '@common/constants/storage';
+import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
 import { ITwoFactorAuth } from '../TwoFactorAuth/interface';
 import { ROUTES } from '../constants/routes';
 

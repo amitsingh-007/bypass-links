@@ -1,6 +1,6 @@
-import scripting from 'GlobalHelpers/chrome/scripting';
-import tabs from 'GlobalHelpers/chrome/tabs';
-import windows from 'GlobalHelpers/chrome/windows';
+import scripting from '@helpers/chrome/scripting';
+import tabs from '@helpers/chrome/tabs';
+import windows from '@helpers/chrome/windows';
 
 const MEDIUM_HOMEPAGE = 'https://medium.com/';
 

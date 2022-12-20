@@ -1,8 +1,8 @@
 import { Dialog, LinearProgress, SvgIcon, Typography } from '@mui/material';
-import { getUserProfile } from 'GlobalHelpers/fetchFromStorage';
-import useAuthStore from 'GlobalStore/auth';
-import useExtStore from 'GlobalStore/extension';
-import useToastStore from 'GlobalStore/toast';
+import { getUserProfile } from '@helpers/fetchFromStorage';
+import useAuthStore from '@store/auth';
+import useExtStore from '@store/extension';
+import useToastStore from '@store/toast';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { RiLoginCircleFill, RiLogoutCircleRFill } from 'react-icons/ri';
 import { signIn, signOut } from '../utils/authentication';

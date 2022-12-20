@@ -1,11 +1,11 @@
-import { STORAGE_KEYS } from '@common/constants/storage';
-import storage from 'GlobalHelpers/chrome/storage';
-import { getUserProfile } from 'GlobalHelpers/fetchFromStorage';
+import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
+import storage from '@helpers/chrome/storage';
+import { getUserProfile } from '@helpers/fetchFromStorage';
 import { useEffect, useState } from 'react';
-import TOTPPopup from '@common/components/Auth/components/TOTPPopup';
+import TOTPPopup from '@bypass/shared/components/Auth/components/TOTPPopup';
 import { UserInfo } from '../interfaces/authentication';
-import useToastStore from 'GlobalStore/toast';
-import useAuthStore from 'GlobalStore/auth';
+import useToastStore from '@store/toast';
+import useAuthStore from '@store/auth';
 
 const TwoFactorAuthenticate = () => {
   const displayToast = useToastStore((state) => state.displayToast);

@@ -1,7 +1,7 @@
-import { FIREBASE_DB_REF } from '@common/constants/firebase';
+import { FIREBASE_DB_REF } from '@bypass/shared/constants/firebase';
 import { Box } from '@mui/material';
-import { getSettings } from 'GlobalHelpers/fetchFromStorage';
-import { saveToFirebase } from 'GlobalHelpers/firebase/database';
+import { getSettings } from '@helpers/fetchFromStorage';
+import { saveToFirebase } from '@helpers/firebase/database';
 import { memo, useEffect, useState } from 'react';
 import Header from '../components/Header';
 import ManageGoogleActivityConsent from '../components/ManageGoogleActivityConsent';

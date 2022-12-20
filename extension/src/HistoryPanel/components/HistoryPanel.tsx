@@ -2,18 +2,18 @@ import { Box, Button, TextField } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDateTimePicker } from '@mui/x-date-pickers/DesktopDateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import PanelHeading from '@common/components/PanelHeading';
-import { BG_COLOR_DARK } from '@common/constants/color';
-import { ROUTES } from '@common/constants/routes';
-import historyApi from 'GlobalHelpers/chrome/history';
-import storage from 'GlobalHelpers/chrome/storage';
+import PanelHeading from '@bypass/shared/components/PanelHeading';
+import { BG_COLOR_DARK } from '@bypass/shared/constants/color';
+import { ROUTES } from '@bypass/shared/constants/routes';
+import historyApi from '@helpers/chrome/history';
+import storage from '@helpers/chrome/storage';
 import { memo, useEffect, useState } from 'react';
 import { AiOutlineClear } from 'react-icons/ai';
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
 import { DateTimeInputProps } from '../interfaces/historyPanel';
 import dayjs from 'dayjs';
-import useToastStore from 'GlobalStore/toast';
+import useToastStore from '@store/toast';
 
 const DateTimeInput = ({ dateTime, onChange, label }: DateTimeInputProps) => (
   <DesktopDateTimePicker

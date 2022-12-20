@@ -1,9 +1,9 @@
-import { getFullDbPath } from '@common/utils/firebase';
+import { getFullDbPath } from '@bypass/shared/utils/firebase';
 import { cert, getApp, getApps, initializeApp } from 'firebase-admin/app';
 import { getDatabase } from 'firebase-admin/database';
 import { getAuth } from 'firebase-admin/auth';
 import { Firebase } from '../interfaces/firebase';
-import { getFirebasePublicConfig } from '@common/constants/firebase';
+import { getFirebasePublicConfig } from '@bypass/shared/constants/firebase';
 
 /**
  * We split the credentials json that we get from firebase admin because:

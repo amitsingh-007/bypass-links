@@ -1,4 +1,4 @@
-import tabs from 'GlobalHelpers/chrome/tabs';
+import tabs from '@helpers/chrome/tabs';
 
 export const bypassBonsai = async (url: URL, tabId: number) => {
   const encodedTargetUrl = url.searchParams.get('adsurlkkk');

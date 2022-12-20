@@ -1,4 +1,4 @@
-import fetchApi from '@common/utils/fetch';
+import fetchApi from '@bypass/shared/utils/fetch';
 import { Container, GlobalStyles } from '@mui/material';
 import { GlobalStylesProps, Theme } from '@mui/system';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
@@ -7,7 +7,7 @@ import Footer from '../ui/DownloadPage/components/Footer';
 import MetaTags from '../ui/DownloadPage/components/MetaTags';
 import PageHeader from '../ui/DownloadPage/components/PageHeader';
 import SalientFeatures from '../ui/DownloadPage/components/SalientFeatures';
-import { IExtension } from '@common/interfaces/api';
+import { IExtension } from '@bypass/shared/interfaces/api';
 
 const globalStyles: GlobalStylesProps<Theme>['styles'] = {
   '*': {

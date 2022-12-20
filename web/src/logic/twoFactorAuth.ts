@@ -1,5 +1,5 @@
-import { FIREBASE_DB_REF } from '@common/constants/firebase';
-import { Setup2FAResponse } from '@common/interfaces/twoFactorAuth';
+import { FIREBASE_DB_REF } from '@bypass/shared/constants/firebase';
+import { Setup2FAResponse } from '@bypass/shared/interfaces/twoFactorAuth';
 import { authenticator } from 'otplib';
 import { User2FAInfo } from '../interfaces/twoFactorAuth';
 import { getUser, getFromFirebase, saveToFirebase } from './firebase';

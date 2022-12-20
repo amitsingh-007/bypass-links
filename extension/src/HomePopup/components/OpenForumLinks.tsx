@@ -1,10 +1,10 @@
 import { SvgIcon } from '@mui/material';
-import { BYPASS_KEYS } from 'GlobalConstants';
-import runtime from 'GlobalHelpers/chrome/runtime';
-import tabs, { getCurrentTab } from 'GlobalHelpers/chrome/tabs';
-import useAuthStore from 'GlobalStore/auth';
-import useHistoryStore from 'GlobalStore/history';
-import { matchHostnames } from 'GlobalUtils/common';
+import { BYPASS_KEYS } from '@constants/index';
+import runtime from '@helpers/chrome/runtime';
+import tabs, { getCurrentTab } from '@helpers/chrome/tabs';
+import useAuthStore from '@store/auth';
+import useHistoryStore from '@store/history';
+import { matchHostnames } from '@/utils/common';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { MdForum } from 'react-icons/md';
 import StyledButton from './StyledButton';

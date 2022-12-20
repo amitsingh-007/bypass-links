@@ -1,10 +1,10 @@
 import { SvgIcon } from '@mui/material';
-import { ROUTES } from '@common/constants/routes';
+import { ROUTES } from '@bypass/shared/constants/routes';
 import { memo } from 'react';
 import { GoFileSymlinkFile } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
 import StyledButton from './StyledButton';
-import useAuthStore from 'GlobalStore/auth';
+import useAuthStore from '@store/auth';
 
 const ShortcutsPanelButton = memo(function ShortcutsPanelButton() {
   const isSignedIn = useAuthStore((state) => state.isSignedIn);

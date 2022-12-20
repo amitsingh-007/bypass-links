@@ -1,14 +1,14 @@
 import { Box, Checkbox, IconButton, TextField } from '@mui/material';
-import tabs from 'GlobalHelpers/chrome/tabs';
+import tabs from '@helpers/chrome/tabs';
 import { memo, useState } from 'react';
 import { Draggable } from '@hello-pangea/dnd';
 import { FiExternalLink } from 'react-icons/fi';
 import { IoCheckmarkDoneSharp } from 'react-icons/io5';
 import { MdRemoveCircleOutline } from 'react-icons/md';
 import { MdDragHandle } from 'react-icons/md';
-import { IRedirection } from 'SrcPath/BackgroundScript/interfaces/redirections';
+import { IRedirection } from '@/BackgroundScript/interfaces/redirections';
 import { DEFAULT_RULE_ALIAS } from '../constants';
-import useHistoryStore from 'GlobalStore/history';
+import useHistoryStore from '@store/history';
 
 const inputProps = {
   style: {

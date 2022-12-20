@@ -1,11 +1,11 @@
 import { Box, FormControlLabel } from '@mui/material';
-import { StyledSwitch } from 'GlobalComponents/StyledComponents';
-import { startHistoryWatch } from 'GlobalContainers/StoreListener';
-import history from 'GlobalHelpers/chrome/history';
-import storage from 'GlobalHelpers/chrome/storage';
-import useExtStore from 'GlobalStore/extension';
-import useHistoryStore from 'GlobalStore/history';
+import { StyledSwitch } from '@components/StyledComponents';
+import history from '@helpers/chrome/history';
+import storage from '@helpers/chrome/storage';
+import useExtStore from '@store/extension';
+import useHistoryStore from '@store/history';
 import { memo, useCallback, useEffect, useState } from 'react';
+import { startHistoryWatch } from '@/components/StoreListener';
 
 const endHistoryWatch = async () => {
   const { historyStartTime } = await storage.get(['historyStartTime']);

@@ -17,13 +17,12 @@ import { resolve } from 'path';
 import {
   getFileNameFromVersion,
   getExtVersion,
-} from '../common/src/utils/extensionFile';
+} from '../shared/src/utils/extensionFile';
 
 const PATHS = {
-  COMMON: resolve(__dirname, '..', 'common'),
-  EXTENSION: resolve(__dirname, 'build'),
-  SRC: resolve(__dirname, 'src'),
   ROOT: resolve(__dirname),
+  SRC: resolve(__dirname, 'src'),
+  EXTENSION: resolve(__dirname, 'build'),
 };
 
 const ENV = process.env.NODE_ENV;
@@ -68,7 +67,7 @@ const config: Configuration = {
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.scss'],
-    modules: [PATHS.SRC, PATHS.COMMON, 'node_modules'],
+    modules: [PATHS.SRC, 'node_modules'],
     plugins: [
       new TsconfigPathsPlugin({
         configFile: tsConfigFile,
@@ -92,8 +91,12 @@ const config: Configuration = {
       cacheGroups: {
         common: {
           name: 'common_chunk',
+          //Include all entries to create a common chunk
           chunks: 'all',
-          enforce: true,
+          //If all entries(2 for content and bg) use a code, then it to common chunk
+          minChunks: 2,
+          //Always include common code in common chunk
+          enforceSizeThreshold: 0,
         },
       },
     },

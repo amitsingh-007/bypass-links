@@ -1,14 +1,14 @@
 import { Box } from '@mui/material';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { areEqual } from 'react-window';
-import { IPerson } from '@common/components/Persons/interfaces/persons';
-import { getReactKey } from '@common/components/Persons/utils';
-import Person from '@common/components/Persons/components/Person';
-import ContextMenu from 'GlobalComponents/ContextMenu';
+import { IPerson } from '@bypass/shared/components/Persons/interfaces/persons';
+import { getReactKey } from '@bypass/shared/components/Persons/utils';
+import Person from '@bypass/shared/components/Persons/components/Person';
+import ContextMenu from '@components/ContextMenu';
 import AddOrEditPersonDialog from './AddOrEditPersonDialog';
 import { AiFillEdit } from 'react-icons/ai';
 import { RiBookmark2Fill } from 'react-icons/ri';
-import { IMenuOptions } from 'GlobalInterfaces/menu';
+import { IMenuOptions } from '@interfaces/menu';
 import { GRID_COLUMN_SIZE } from '../constants';
 
 interface PersonVirtualCellProps {

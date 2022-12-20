@@ -1,5 +1,5 @@
-import identity from 'GlobalHelpers/chrome/identity';
-import { googleSignIn, googleSignOut } from 'GlobalHelpers/firebase/auth';
+import identity from '@helpers/chrome/identity';
+import { googleSignIn, googleSignOut } from '@helpers/firebase/auth';
 import { UserInfo } from '../interfaces/authentication';
 import { AuthProgress } from './authProgress';
 import { processPostLogin, processPostLogout, processPreLogout } from './sync';

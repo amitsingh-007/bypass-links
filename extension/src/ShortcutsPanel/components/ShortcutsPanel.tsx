@@ -1,18 +1,18 @@
-import { FIREBASE_DB_REF } from '@common/constants/firebase';
+import { FIREBASE_DB_REF } from '@bypass/shared/constants/firebase';
 import { Box } from '@mui/material';
-import { ROUTES } from '@common/constants/routes';
-import { PANEL_DIMENSIONS_PX } from 'GlobalConstants/styles';
-import { getRedirections } from 'GlobalHelpers/fetchFromStorage';
-import { saveToFirebase } from 'GlobalHelpers/firebase/database';
+import { ROUTES } from '@bypass/shared/constants/routes';
+import { PANEL_DIMENSIONS_PX } from '@constants/styles';
+import { getRedirections } from '@helpers/fetchFromStorage';
+import { saveToFirebase } from '@helpers/firebase/database';
 import { memo, useEffect, useState } from 'react';
 import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
 import { useNavigate } from 'react-router-dom';
-import { IRedirection } from 'SrcPath/BackgroundScript/interfaces/redirections';
-import { syncRedirectionsToStorage } from 'SrcPath/BackgroundScript/redirect';
+import { IRedirection } from '@/BackgroundScript/interfaces/redirections';
+import { syncRedirectionsToStorage } from '@/BackgroundScript/redirect';
 import { DEFAULT_RULE_ALIAS } from '../constants';
 import Header from './Header';
 import RedirectionRule from './RedirectionRule';
-import useToastStore from 'GlobalStore/toast';
+import useToastStore from '@store/toast';
 
 //Filter valid rules
 const getValidRules = (obj: IRedirection) =>

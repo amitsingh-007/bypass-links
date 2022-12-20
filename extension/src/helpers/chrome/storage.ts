@@ -1,4 +1,4 @@
-import { GenericObject } from '@common/interfaces/custom';
+import { GenericObject } from '@bypass/shared/interfaces/custom';
 import promisify from './promisifyChromeApi';
 
 const storage = {

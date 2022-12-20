@@ -1,9 +1,9 @@
 import {
   IBookmarksObj,
   ISelectedBookmarks,
-} from '@common/components/Bookmarks/interfaces';
-import storage from 'GlobalHelpers/chrome/storage';
-import { STORAGE_KEYS } from '@common/constants/storage';
+} from '@bypass/shared/components/Bookmarks/interfaces';
+import storage from '@helpers/chrome/storage';
+import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
 
 export const getAllFolderNames = (folderList: IBookmarksObj['folderList']) =>
   Object.entries(folderList).map(([_key, value]) => atob(value.name));

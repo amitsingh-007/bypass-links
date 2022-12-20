@@ -1,4 +1,4 @@
-import { getFaviconUrl } from '@common/utils';
+import { getFaviconUrl } from '@bypass/shared/utils';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {

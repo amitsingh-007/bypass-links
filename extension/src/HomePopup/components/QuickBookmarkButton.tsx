@@ -1,21 +1,21 @@
 import { SvgIcon, Typography } from '@mui/material';
-import { BlackTooltip } from '@common/components/StyledComponents';
-import { defaultBookmarkFolder } from '@common/components/Bookmarks/constants';
-import { getCurrentTab } from 'GlobalHelpers/chrome/tabs';
-import { getBookmarks } from 'GlobalHelpers/fetchFromStorage';
+import { BlackTooltip } from '@bypass/shared/components/StyledComponents';
+import { defaultBookmarkFolder } from '@bypass/shared/components/Bookmarks/constants';
+import { getCurrentTab } from '@helpers/chrome/tabs';
+import { getBookmarks } from '@helpers/fetchFromStorage';
 import md5 from 'md5';
 import { memo, useEffect, useState } from 'react';
 import { BiBookmarkPlus } from 'react-icons/bi';
 import { RiBookmark3Fill } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
-import { BOOKMARK_OPERATION } from '@common/components/Bookmarks/constants';
-import { IBookmark } from '@common/components/Bookmarks/interfaces';
-import { BMPanelQueryParams } from '@common/components/Bookmarks/interfaces/url';
-import { getBookmarksPanelUrl } from '@common/components/Bookmarks/utils/url';
+import { BOOKMARK_OPERATION } from '@bypass/shared/components/Bookmarks/constants';
+import { IBookmark } from '@bypass/shared/components/Bookmarks/interfaces';
+import { BMPanelQueryParams } from '@bypass/shared/components/Bookmarks/interfaces/url';
+import { getBookmarksPanelUrl } from '@bypass/shared/components/Bookmarks/utils/url';
 import StyledButton from './StyledButton';
-import { getDecodedBookmark } from '@common/components/Bookmarks/utils';
-import useBookmark from '@common/components/Bookmarks/hooks/useBookmark';
-import useAuthStore from 'GlobalStore/auth';
+import { getDecodedBookmark } from '@bypass/shared/components/Bookmarks/utils';
+import useBookmark from '@bypass/shared/components/Bookmarks/hooks/useBookmark';
+import useAuthStore from '@store/auth';
 
 const QuickBookmarkButton = memo(function QuickBookmarkButton() {
   const isSignedIn = useAuthStore((state) => state.isSignedIn);

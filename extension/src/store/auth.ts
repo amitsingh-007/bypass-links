@@ -1,6 +1,6 @@
 import create from 'zustand';
-import { AuthenticationEvent } from 'GlobalInterfaces/authentication';
-import { VoidFunction } from '@common/interfaces/custom';
+import { AuthenticationEvent } from '@interfaces/authentication';
+import { VoidFunction } from '@bypass/shared/interfaces/custom';
 
 interface State {
   isSignedIn: boolean;

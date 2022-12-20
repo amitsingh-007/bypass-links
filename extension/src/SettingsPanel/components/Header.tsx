@@ -1,6 +1,6 @@
 import { Box, Button } from '@mui/material';
-import PanelHeading from '@common/components/PanelHeading';
-import { STICKY_HEADER } from 'GlobalConstants/styles';
+import PanelHeading from '@bypass/shared/components/PanelHeading';
+import { STICKY_HEADER } from '@constants/styles';
 import { memo } from 'react';
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';

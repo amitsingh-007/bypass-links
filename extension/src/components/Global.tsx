@@ -1,4 +1,4 @@
-import Toast from 'GlobalComponents/Toast';
+import Toast from '@components/Toast';
 import { memo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import StoreListener from './StoreListener';

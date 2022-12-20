@@ -2,7 +2,7 @@ import { getFromFirebase, saveToFirebase } from '@logic/firebase';
 import runMiddleware from 'src/middlewares/runMiddleware';
 import bearerToken from 'express-bearer-token';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { FIREBASE_DB_ROOT_KEYS } from '@common/utils/firebase';
+import { FIREBASE_DB_ROOT_KEYS } from '@bypass/shared/utils/firebase';
 
 type NextApiRequestWithToken = NextApiRequest & {
   token?: string;
@@ -24,7 +24,7 @@ const handler = async (req: NextApiRequestWithToken, res: NextApiResponse) => {
     data: snapshot.val(),
     isAbsolute: true,
   });
-  res.json({ status: 'Firebase backup successful' });
+  return res.json({ status: 'Firebase backup successful' });
 };
 
 export default handler;

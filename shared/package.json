@@ -1,0 +1,44 @@
+{
+  "name": "@bypass/shared",
+  "version": "1.0.0",
+  "private": true,
+  "exports": {
+    "./config/*": "./config/*",
+    "./*": "./src/*"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./src/*/index",
+        "./src/*"
+      ],
+      "./config/*": [
+        "./config/*"
+      ]
+    }
+  },
+  "dependencies": {
+    "@emotion/react": "11.10.5",
+    "@emotion/styled": "11.10.5",
+    "@mui/material": "5.11.0",
+    "md5": "2.3.0",
+    "react": "18.2.0",
+    "react-icons": "4.7.1",
+    "react-intersection-observer": "9.4.1",
+    "react-window": "1.8.8",
+    "throttle-debounce": "5.0.0"
+  },
+  "devDependencies": {
+    "@types/material-ui": "0.21.12",
+    "@types/md5": "2.3.2",
+    "@types/react-window": "1.8.5",
+    "@types/throttle-debounce": "5.0.0",
+    "@typescript-eslint/eslint-plugin": "5.46.1",
+    "@typescript-eslint/parser": "5.46.1",
+    "eslint": "8.30.0",
+    "eslint-plugin-prettier": "4.2.1",
+    "eslint-plugin-react": "7.31.11",
+    "eslint-plugin-react-hooks": "4.6.0",
+    "typescript": "4.9.4"
+  }
+}

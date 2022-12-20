@@ -1,5 +1,4 @@
 node_modules/
 .next/
 .vercel/
-next.config.js
-public/sw.js
+**/*.js

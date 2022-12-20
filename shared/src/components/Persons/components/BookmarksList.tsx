@@ -68,7 +68,7 @@ const BookmarksList = memo<Props>(function BookmarksList({
       })
     );
     setBookmarks(fetchedBookmarks);
-  }, [taggedUrls]);
+  }, [getBookmarkFromHash, getFolderFromHash, taggedUrls]);
 
   const handleBookmarkEdit = async ({ url, parentName }: ModifiedBookmark) => {
     location.push(

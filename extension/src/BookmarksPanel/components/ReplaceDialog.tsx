@@ -12,23 +12,23 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { VoidFunction } from '@common/interfaces/custom';
+import { VoidFunction } from '@bypass/shared/interfaces/custom';
 import { MdClose } from 'react-icons/md';
 import { useState, useEffect } from 'react';
-import { getBookmarks, getPersons } from 'GlobalHelpers/fetchFromStorage';
+import { getBookmarks, getPersons } from '@helpers/fetchFromStorage';
 import { TbReplace } from 'react-icons/tb';
 import {
   getDecryptedBookmark,
   getEncryptedBookmark,
-} from '@common/components/Bookmarks/mapper';
+} from '@bypass/shared/components/Bookmarks/mapper';
 import md5 from 'md5';
-import storage from 'GlobalHelpers/chrome/storage';
-import { addToCache } from '@common/utils/cache';
-import { CACHE_BUCKET_KEYS } from '@common/constants/cache';
-import { getFaviconProxyUrl } from '@common/utils';
+import storage from '@helpers/chrome/storage';
+import { addToCache } from '@bypass/shared/utils/cache';
+import { CACHE_BUCKET_KEYS } from '@bypass/shared/constants/cache';
+import { getFaviconProxyUrl } from '@bypass/shared/utils';
 import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '@common/constants/routes';
-import { setPersonsInStorage } from 'SrcPath/PersonsPanel/utils';
+import { ROUTES } from '@bypass/shared/constants/routes';
+import { setPersonsInStorage } from '@/PersonsPanel/utils';
 import { setBookmarksInStorage } from '../utils';
 
 interface ILogData {

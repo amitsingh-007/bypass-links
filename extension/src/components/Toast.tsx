@@ -2,7 +2,7 @@ import { Slide, SlideProps } from '@mui/material';
 import Alert, { AlertProps } from '@mui/material/Alert';
 import Snackbar, { SnackbarProps } from '@mui/material/Snackbar';
 import { useEffect, useState } from 'react';
-import useToastStore from 'GlobalStore/toast';
+import useToastStore from '@store/toast';
 
 const SlideTransition = (props: SlideProps) => (
   <Slide {...props} direction="right" />

@@ -1,12 +1,12 @@
 import { SvgIcon } from '@mui/material';
-import { STORAGE_KEYS } from '@common/constants/storage';
-import storage from 'GlobalHelpers/chrome/storage';
-import tabs from 'GlobalHelpers/chrome/tabs';
+import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
+import storage from '@helpers/chrome/storage';
+import tabs from '@helpers/chrome/tabs';
 import { memo, useState } from 'react';
 import { FiExternalLink } from 'react-icons/fi';
 import StyledButton from './StyledButton';
-import useHistoryStore from 'GlobalStore/history';
-import useAuthStore from 'GlobalStore/auth';
+import useHistoryStore from '@store/history';
+import useAuthStore from '@store/auth';
 
 const OpenDefaultsButton = memo(function OpenDefaultsButton() {
   const startHistoryMonitor = useHistoryStore(

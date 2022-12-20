@@ -1,6 +1,6 @@
-import ContextMenu from 'GlobalComponents/ContextMenu';
-import { VoidFunction } from '@common/interfaces/custom';
-import { IMenuOptions } from 'GlobalInterfaces/menu';
+import ContextMenu from '@components/ContextMenu';
+import { VoidFunction } from '@bypass/shared/interfaces/custom';
+import { IMenuOptions } from '@interfaces/menu';
 import md5 from 'md5';
 import { memo, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
@@ -9,13 +9,13 @@ import { FiExternalLink } from 'react-icons/fi';
 import { HiArrowCircleDown, HiArrowCircleUp } from 'react-icons/hi';
 import { RiBookmark2Fill } from 'react-icons/ri';
 import { BOOKMARK_PANEL_CONTENT_HEIGHT } from '../constants';
-import { BOOKMARK_OPERATION } from '@common/components/Bookmarks/constants';
+import { BOOKMARK_OPERATION } from '@bypass/shared/components/Bookmarks/constants';
 import {
   ContextBookmarks,
   ISelectedBookmarks,
-} from '@common/components/Bookmarks/interfaces';
+} from '@bypass/shared/components/Bookmarks/interfaces';
 import BulkBookmarksMoveDialog from './BulkBookmarksMoveDialog';
-import useBookmarkStore from 'GlobalStore/bookmark';
+import useBookmarkStore from '@store/bookmark';
 
 const BookmarkContextMenu = memo<{
   curFolder: string;

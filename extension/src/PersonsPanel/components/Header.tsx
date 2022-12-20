@@ -4,20 +4,20 @@ import {
   AccordionHeader,
   PrimaryHeaderContent,
   SecondaryHeaderContent,
-} from 'GlobalComponents/AccordionHeader';
-import Loader from 'GlobalComponents/Loader';
-import PanelHeading from '@common/components/PanelHeading';
+} from '@components/AccordionHeader';
+import Loader from '@components/Loader';
+import PanelHeading from '@bypass/shared/components/PanelHeading';
 import { memo, useState } from 'react';
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
 import { IoIosPersonAdd } from 'react-icons/io';
 import { RiUploadCloud2Fill } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
-import { IPerson } from '@common/components/Persons/interfaces/persons';
+import { IPerson } from '@bypass/shared/components/Persons/interfaces/persons';
 import { syncPersonsFirebaseWithStorage } from '../utils/sync';
 import AddOrEditPersonDialog from './AddOrEditPersonDialog';
 import Sort from './Sort';
-import Search from '@common/components/Search';
-import useToastStore from 'GlobalStore/toast';
+import Search from '@bypass/shared/components/Search';
+import useToastStore from '@store/toast';
 
 interface Props {
   isFetching: boolean;

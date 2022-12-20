@@ -1,10 +1,10 @@
 import { SvgIcon } from '@mui/material';
-import { ROUTES } from '@common/constants/routes';
+import { ROUTES } from '@bypass/shared/constants/routes';
 import { memo } from 'react';
 import { RiHistoryFill } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
 import StyledButton from './StyledButton';
-import useExtStore from 'GlobalStore/extension';
+import useExtStore from '@store/extension';
 
 const HistoryPanelButton = memo(function HistoryPanelButton() {
   const navigate = useNavigate();

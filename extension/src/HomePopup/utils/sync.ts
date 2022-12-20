@@ -1,41 +1,38 @@
-import { STORAGE_KEYS } from '@common/constants/storage';
-import { CACHE_BUCKET_KEYS } from '@common/constants/cache';
-import identity from 'GlobalHelpers/chrome/identity';
-import runtime from 'GlobalHelpers/chrome/runtime';
-import storage from 'GlobalHelpers/chrome/storage';
-import tabs from 'GlobalHelpers/chrome/tabs';
-import { getSettings, getUserProfile } from 'GlobalHelpers/fetchFromStorage';
-import { deleteAllCache } from '@common/utils/cache';
-import {
-  resetBypass,
-  syncBypassToStorage,
-} from 'SrcPath/BackgroundScript/bypass';
+import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
+import { CACHE_BUCKET_KEYS } from '@bypass/shared/constants/cache';
+import identity from '@helpers/chrome/identity';
+import runtime from '@helpers/chrome/runtime';
+import storage from '@helpers/chrome/storage';
+import tabs from '@helpers/chrome/tabs';
+import { getSettings, getUserProfile } from '@helpers/fetchFromStorage';
+import { deleteAllCache } from '@bypass/shared/utils/cache';
+import { resetBypass, syncBypassToStorage } from '@/BackgroundScript/bypass';
 import {
   resetRedirections,
   syncRedirectionsToStorage,
-} from 'SrcPath/BackgroundScript/redirect';
+} from '@/BackgroundScript/redirect';
 import {
   cacheBookmarkFavicons,
   resetBookmarks,
   syncBookmarksFirebaseWithStorage,
   syncBookmarksToStorage,
-} from 'SrcPath/BookmarksPanel/utils/bookmark';
+} from '@/BookmarksPanel/utils/bookmark';
 import {
   resetLastVisited,
   syncLastVisitedToStorage,
-} from 'SrcPath/HomePopup/utils/lastVisited';
+} from '@/HomePopup/utils/lastVisited';
 import {
   cachePersonImagesInStorage,
   refreshPersonImageUrlsCache,
   resetPersons,
   syncPersonsFirebaseWithStorage,
   syncPersonsToStorage,
-} from 'SrcPath/PersonsPanel/utils/sync';
-import { status2FA } from '@common/components/Auth/apis/twoFactorAuth';
+} from '@/PersonsPanel/utils/sync';
+import { status2FA } from '@bypass/shared/components/Auth/apis/twoFactorAuth';
 import {
   resetSettings,
   syncSettingsToStorage,
-} from 'SrcPath/SettingsPanel/utils/sync';
+} from '@/SettingsPanel/utils/sync';
 import { UserInfo } from '../interfaces/authentication';
 import { AuthProgress } from './authProgress';
 

@@ -1,4 +1,4 @@
-import { STORAGE_KEYS } from '@common/constants/storage';
+import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
 
 export enum EXTENSION_STATE {
   ACTIVE = 'active',

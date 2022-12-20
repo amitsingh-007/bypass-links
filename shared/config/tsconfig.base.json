@@ -1,14 +1,17 @@
 {
   "compilerOptions": {
-    "sourceMap": true,
-    "outDir": "./dist/",
     "module": "esnext",
     "target": "esnext",
     "jsx": "react-jsxdev",
-    "lib": ["esnext", "dom", "dom.iterable"],
+    "lib": ["esnext", "dom", "dom.iterable", "webworker"],
     "allowJs": true,
+    "checkJs": true,
     "strict": true,
+    "alwaysStrict": true,
+    "allowUnreachableCode": false,
+    "noImplicitReturns": true,
     "skipLibCheck": true,
+    "importHelpers": true,
     "moduleResolution": "node",
     "noImplicitAny": true,
     "noImplicitThis": true,
@@ -17,6 +20,8 @@
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "incremental": true,
+    "noEmit": true
   }
 }

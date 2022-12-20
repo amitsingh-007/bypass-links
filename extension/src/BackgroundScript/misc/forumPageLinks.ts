@@ -1,4 +1,4 @@
-import scripting from 'GlobalHelpers/chrome/scripting';
+import scripting from '@helpers/chrome/scripting';
 
 const getForumPageLinksFunc = () => {
   const unreadRows = document.querySelectorAll(

@@ -1,11 +1,11 @@
-import storage from 'GlobalHelpers/chrome/storage';
-import { STORAGE_KEYS } from '@common/constants/storage';
-import { getPersons } from 'GlobalHelpers/fetchFromStorage';
+import storage from '@helpers/chrome/storage';
+import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
+import { getPersons } from '@helpers/fetchFromStorage';
 import {
   IPerson,
   IPersons,
-} from '@common/components/Persons/interfaces/persons';
-import { decodePersons } from '@common/components/Persons/utils';
+} from '@bypass/shared/components/Persons/interfaces/persons';
+import { decodePersons } from '@bypass/shared/components/Persons/utils';
 
 export const setPersonsInStorage = async (persons: IPersons) => {
   await storage.set({

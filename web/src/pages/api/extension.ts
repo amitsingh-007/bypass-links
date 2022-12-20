@@ -1,7 +1,7 @@
 import { getAssetsByReleaseId, getLatestRelease } from '@logic/github';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getVersionFromFileName } from '@common/utils/extensionFile';
-import { IExtension } from '@common/interfaces/api';
+import { getVersionFromFileName } from '@bypass/shared/utils/extensionFile';
+import { IExtension } from '@bypass/shared/interfaces/api';
 
 const handler = async (
   _req: NextApiRequest,
@@ -16,7 +16,7 @@ const handler = async (
     return res.status(500).end();
   }
   const { browser_download_url, name, updated_at } = extension;
-  res.json({
+  return res.json({
     extension: browser_download_url,
     version: getVersionFromFileName(name),
     date: updated_at,

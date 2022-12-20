@@ -1,11 +1,11 @@
-import action from 'GlobalHelpers/chrome/action';
-import scripting from 'GlobalHelpers/chrome/scripting';
-import { getCurrentTab } from 'GlobalHelpers/chrome/tabs';
-import { getExtensionState } from 'GlobalHelpers/fetchFromStorage';
+import action from '@helpers/chrome/action';
+import scripting from '@helpers/chrome/scripting';
+import { getCurrentTab } from '@helpers/chrome/tabs';
+import { getExtensionState } from '@helpers/fetchFromStorage';
 import { getIsExtensionActive } from '../../utils/common';
-import { EXTENSION_STATE } from 'GlobalConstants';
-import fetchApi from '@common/utils/fetch';
-import { IExtension } from '@common/interfaces/api';
+import { EXTENSION_STATE } from '@constants/index';
+import fetchApi from '@bypass/shared/utils/fetch';
+import { IExtension } from '@bypass/shared/interfaces/api';
 
 const getPageH1 = () => {
   const h1s = document.getElementsByTagName('h1');

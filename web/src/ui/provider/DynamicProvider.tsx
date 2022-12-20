@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import DynamicContext from '@common/provider/DynamicContext';
+import DynamicContext from '@bypass/shared/provider/DynamicContext';
 import { useRouter } from 'next/router';
 import { getFromLocalStorage, setToLocalStorage } from './utils';
 

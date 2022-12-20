@@ -4,7 +4,7 @@ import {
   AccordionSummary,
   Box,
 } from '@mui/material';
-import { STICKY_HEADER } from 'GlobalConstants/styles';
+import { STICKY_HEADER } from '@constants/styles';
 import { useRef } from 'react';
 import { useCallback } from 'react';
 import { useEffect } from 'react';

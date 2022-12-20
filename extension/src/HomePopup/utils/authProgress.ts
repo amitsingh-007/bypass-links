@@ -1,5 +1,5 @@
-import { AuthenticationEvent } from 'GlobalInterfaces/authentication';
-import useAuthStore from 'GlobalStore/auth';
+import { AuthenticationEvent } from '@interfaces/authentication';
+import useAuthStore from '@store/auth';
 
 export class AuthProgress {
   private static _total: number;
