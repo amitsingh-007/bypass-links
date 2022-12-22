@@ -74,6 +74,11 @@ const config: Configuration = {
         extensions: ['.ts', '.tsx', '.js', '.scss'],
       }),
     ],
+    alias: {
+      react: 'preact/compat',
+      'react-dom': 'preact/compat',
+      'react/jsx-runtime': 'preact/jsx-runtime',
+    },
   },
   stats: isProduction ? 'normal' : 'errors-warnings',
   devtool: isProduction ? undefined : 'inline-source-map',
