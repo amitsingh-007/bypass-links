@@ -11,6 +11,7 @@ module.exports = {
     'plugin:react/jsx-runtime',
     'prettier',
   ],
+  plugins: ['import'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
@@ -23,6 +24,15 @@ module.exports = {
     react: {
       pragma: 'React',
       version: 'detect',
+    },
+    'import/parsers': {
+      '@typescript-eslint/parser': ['.ts', '.tsx'],
+    },
+    'import/resolver': {
+      typescript: {
+        alwaysTryTypes: true,
+        project: './tsconfig.json',
+      },
     },
   },
   env: {
@@ -57,6 +67,7 @@ module.exports = {
     ],
     '@typescript-eslint/ban-ts-comment': 'warn',
     'react/prop-types': 'off',
+    'import/no-extraneous-dependencies': ['error'],
   },
   overrides: [
     // https://stackoverflow.com/a/64197516/8694064

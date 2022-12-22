@@ -165,7 +165,6 @@ const config: Configuration = {
     }),
     new ESLintPlugin({
       files: './src/**/*.{js,ts,tsx}',
-      threads: !isProduction,
       cache: true,
     }),
     new DefinePlugin({

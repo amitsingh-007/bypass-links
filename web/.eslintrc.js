@@ -13,6 +13,8 @@ module.exports = {
     ...config.env,
     commonjs: true,
   },
+  plugins: config.plugins,
+  settings: config.settings,
   parserOptions: config.parserOptions,
   rules: config.rules,
   overrides: config.overrides,

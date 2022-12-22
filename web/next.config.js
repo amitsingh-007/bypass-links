@@ -37,7 +37,6 @@ const nextConfig = {
         new ForkTsCheckerWebpackPlugin(),
         new ESLintPlugin({
           files: './src/**/*.{js,ts,tsx}',
-          threads: true,
           cache: true,
         })
       );
