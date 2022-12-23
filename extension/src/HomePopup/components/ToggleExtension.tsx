@@ -5,6 +5,7 @@ import { getExtensionState } from '@helpers/fetchFromStorage';
 import useExtStore from '@store/extension';
 import { getIsExtensionActive, setExtStateInStorage } from '@/utils/common';
 import { memo, useEffect, useState } from 'react';
+import { Switch } from '@mantine/core';
 
 const ToggleExtension = memo(function ToggleExtension() {
   const turnOnExtension = useExtStore((state) => state.turnOnExtension);
@@ -39,12 +40,15 @@ const ToggleExtension = memo(function ToggleExtension() {
 
   const isActive = getIsExtensionActive(extState);
   return (
-    <FormControlLabel
-      control={<StyledSwitch checked={isActive} onChange={handleToggle} />}
-      label={<Box sx={{ mr: '3px' }}>Enable</Box>}
-      labelPlacement="start"
-      sx={{ ml: 0, justifyContent: 'space-between' }}
-    />
+    <>
+      <FormControlLabel
+        control={<StyledSwitch checked={isActive} onChange={handleToggle} />}
+        label={<Box sx={{ mr: '3px' }}>Enable</Box>}
+        labelPlacement="start"
+        sx={{ ml: 0, justifyContent: 'space-between' }}
+      />
+      <Switch onLabel="ON" offLabel="OFF" size="md" label="Enable" />
+    </>
   );
 });
 

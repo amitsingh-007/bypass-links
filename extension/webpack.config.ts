@@ -140,10 +140,6 @@ const config: Configuration = {
         ],
       },
       {
-        test: /\.svg$/,
-        use: ['@svgr/webpack'],
-      },
-      {
         test: /\.scss$/,
         use: [
           MiniCssExtractPlugin.loader,
@@ -155,6 +151,10 @@ const config: Configuration = {
             },
           },
         ],
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: 'asset/resource',
       },
     ],
   },

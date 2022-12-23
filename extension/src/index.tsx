@@ -10,6 +10,12 @@ import { BrowserRouter } from 'react-router-dom';
 import DynamicProvider from './provider/DynamicProvider';
 import PopupRoutes from './components/PopupRoutes';
 import Global from './components/Global';
+import {
+  MantineProvider,
+  MantineThemeOverride,
+  Global as GlobalStyles,
+} from '@mantine/core';
+import googleSansFont from './google-sans.woff2';
 
 const theme = createTheme({
   palette: {
@@ -61,6 +67,11 @@ const theme = createTheme({
   },
 });
 
+const mantineTheme: MantineThemeOverride = {
+  colorScheme: 'dark',
+  fontFamily: 'Product Sans',
+};
+
 const container = document.getElementById('root');
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const root = createRoot(container!);
@@ -68,13 +79,29 @@ root.render(
   <StrictMode>
     <ErrorBoundary>
       <BrowserRouter>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <DynamicProvider>
-            <PopupRoutes />
-          </DynamicProvider>
-          <Global />
-        </ThemeProvider>
+        <MantineProvider withGlobalStyles withNormalizeCSS theme={mantineTheme}>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <DynamicProvider>
+              <>
+                <PopupRoutes />
+                <GlobalStyles
+                  styles={[
+                    {
+                      '@font-face': {
+                        fontFamily: 'Product Sans',
+                        src: `url('${googleSansFont}') format("woff2")`,
+                        fontWeight: 400,
+                        fontStyle: 'normal',
+                      },
+                    },
+                  ]}
+                />
+              </>
+            </DynamicProvider>
+            <Global />
+          </ThemeProvider>
+        </MantineProvider>
       </BrowserRouter>
     </ErrorBoundary>
   </StrictMode>

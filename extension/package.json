@@ -11,6 +11,8 @@
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
     "@hello-pangea/dnd": "16.2.0",
+    "@mantine/core": "5.9.5",
+    "@mantine/hooks": "5.9.5",
     "@mui/lab": "5.0.0-alpha.112",
     "@mui/material": "5.11.0",
     "@mui/system": "5.11.0",
@@ -33,7 +35,6 @@
   },
   "devDependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.10",
-    "@svgr/webpack": "6.5.1",
     "@types/chrome": "0.0.204",
     "@types/material-ui": "0.21.12",
     "@types/md5": "2.3.2",
