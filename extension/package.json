@@ -39,7 +39,7 @@
     "@types/md5": "2.3.2",
     "@types/node": "18.11.17",
     "@types/qrcode": "1.5.0",
-    "@types/react-dom": "18.0.9",
+    "@types/react-dom": "18.0.10",
     "@types/react-router-dom": "5.3.3",
     "@types/react-window": "1.8.5",
     "@types/throttle-debounce": "5.0.0",
