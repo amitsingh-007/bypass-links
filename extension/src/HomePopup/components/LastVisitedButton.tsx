@@ -1,18 +1,14 @@
+import { syncLastVisitedToStorage } from '@/HomePopup/utils/lastVisited';
 import { FIREBASE_DB_REF } from '@bypass/shared/constants/firebase';
-import { SvgIcon, Typography } from '@mui/material';
-import { BlackTooltip } from '@bypass/shared/components/StyledComponents';
 import { getCurrentTab } from '@helpers/chrome/tabs';
 import { getLastVisited } from '@helpers/fetchFromStorage';
 import { saveToFirebase } from '@helpers/firebase/database';
+import { Button, HoverCard, Text } from '@mantine/core';
+import useAuthStore from '@store/auth';
 import md5 from 'md5';
 import { memo, useEffect, useState } from 'react';
 import { FaCalendarCheck, FaCalendarTimes } from 'react-icons/fa';
-import { syncLastVisitedToStorage } from '@/HomePopup/utils/lastVisited';
 import { LastVisited } from '../interfaces/lastVisited';
-import StyledButton from './StyledButton';
-import useAuthStore from '@store/auth';
-
-const tooltipStyles = { fontSize: '13px' };
 
 const LastVisitedButton = memo(function LastVisitedButton() {
   const isSignedIn = useAuthStore((state) => state.isSignedIn);
@@ -62,29 +58,32 @@ const LastVisitedButton = memo(function LastVisitedButton() {
   };
 
   return (
-    <StyledButton
-      showSuccessColor={isSignedIn}
-      isLoading={isFetching}
-      isDisabled={!isSignedIn}
-      onClick={handleUpdateLastVisited}
-      color={lastVisited ? 'success' : 'error'}
+    <HoverCard
+      withArrow
+      width="90%"
+      openDelay={0}
+      closeDelay={0}
+      disabled={!lastVisited}
     >
-      {lastVisited ? (
-        <BlackTooltip
-          title={<Typography style={tooltipStyles}>{lastVisited}</Typography>}
-          arrow
-          disableInteractive
+      <HoverCard.Target>
+        <Button
+          variant="light"
+          radius="xl"
+          loaderPosition="right"
+          loading={isFetching}
+          disabled={!isSignedIn}
+          onClick={handleUpdateLastVisited}
+          rightIcon={lastVisited ? <FaCalendarCheck /> : <FaCalendarTimes />}
+          fullWidth
+          color={lastVisited ? 'teal' : 'red'}
         >
-          <SvgIcon>
-            <FaCalendarCheck />
-          </SvgIcon>
-        </BlackTooltip>
-      ) : (
-        <SvgIcon>
-          <FaCalendarTimes />
-        </SvgIcon>
-      )}
-    </StyledButton>
+          Visited
+        </Button>
+      </HoverCard.Target>
+      <HoverCard.Dropdown>
+        <Text size="xs">{lastVisited}</Text>
+      </HoverCard.Dropdown>
+    </HoverCard>
   );
 });
 

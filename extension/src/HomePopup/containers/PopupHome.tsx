@@ -1,4 +1,4 @@
-import { Box, Grid, Text } from '@mantine/core';
+import { Flex, SimpleGrid, Text } from '@mantine/core';
 import { memo } from 'react';
 import Authenticate from '../components/Authenticate';
 import BookmarksPanelButton from '../components/BookmarksPanelButton';
@@ -17,11 +17,11 @@ import UserProfile from '../components/UserProfile';
 const PopupHome = memo(function PopupHome() {
   return (
     <>
-      <Box
+      <Flex
+        direction="column"
+        align="center"
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
+          width: 'fit-content',
           padding: '8px 16px 16px',
         }}
       >
@@ -36,56 +36,36 @@ const PopupHome = memo(function PopupHome() {
         >
           Bypass Links
         </Text>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            gap: '25px',
-          }}
+        <Flex
+          justify="space-between"
+          align="center"
+          gap="40px"
+          sx={{ marginBottom: '16px' }}
         >
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '8px',
-            }}
-          >
+          <Flex direction="column" gap="8px">
             <ToggleExtension />
             <ToggleHistory />
-          </Box>
+          </Flex>
           <UserProfile />
-        </Box>
-        <Grid gutter="lg" sx={{ marginTop: '10px' }}>
-          <Grid.Col span={4}>
-            <Authenticate />
-          </Grid.Col>
-          <Grid.Col span={4}>
-            <ShortcutsPanelButton />
-          </Grid.Col>
-          <Grid.Col span={4}>
-            <BookmarksPanelButton />
-          </Grid.Col>
-          <Grid.Col span={4}>
-            <HistoryPanelButton />
-          </Grid.Col>
-          <Grid.Col span={4}>
-            <OpenDefaultsButton />
-          </Grid.Col>
-          <Grid.Col span={4}>
-            <QuickBookmarkButton />
-          </Grid.Col>
-          <Grid.Col span={4}>
-            <OpenForumLinks />
-          </Grid.Col>
-          <Grid.Col span={4}>
-            <LastVisitedButton />
-          </Grid.Col>
-          <Grid.Col span={4}>
-            <PersonsPanelButton />
-          </Grid.Col>
-        </Grid>
-      </Box>
+        </Flex>
+        <Authenticate />
+        <SimpleGrid
+          cols={2}
+          sx={{
+            marginTop: '16px',
+            width: 'max-content',
+          }}
+        >
+          <OpenDefaultsButton />
+          <QuickBookmarkButton />
+          <PersonsPanelButton />
+          <BookmarksPanelButton />
+          <HistoryPanelButton />
+          <ShortcutsPanelButton />
+          <OpenForumLinks />
+          <LastVisitedButton />
+        </SimpleGrid>
+      </Flex>
       <TwoFactorAuthenticate />
     </>
   );

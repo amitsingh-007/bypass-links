@@ -17,7 +17,6 @@ export class AuthProgress {
     this.dispatchAuthenticationEvent({
       message,
       progress: ++this._curProgress,
-      progressBuffer: this._curProgress + 1,
       total: this._total,
     });
   };
@@ -26,7 +25,6 @@ export class AuthProgress {
     this.dispatchAuthenticationEvent({
       message,
       progress: this._curProgress,
-      progressBuffer: this._curProgress + 1,
       total: this._total,
     });
   };
@@ -35,7 +33,6 @@ export class AuthProgress {
     this.dispatchAuthenticationEvent({
       message,
       progress: this._curProgress + 1,
-      progressBuffer: this._curProgress + 1,
       total: this._total,
     });
   };
