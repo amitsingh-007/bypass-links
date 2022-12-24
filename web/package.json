@@ -14,7 +14,7 @@
     "@mui/lab": "5.0.0-alpha.112",
     "@mui/material": "5.11.0",
     "@mui/system": "5.11.0",
-    "@next/font": "13.0.7",
+    "@next/font": "13.1.0",
     "@octokit/rest": "19.0.5",
     "express-bearer-token": "2.4.0",
     "firebase": "9.15.0",
