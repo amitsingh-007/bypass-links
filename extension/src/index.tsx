@@ -10,12 +10,7 @@ import { BrowserRouter } from 'react-router-dom';
 import DynamicProvider from './provider/DynamicProvider';
 import PopupRoutes from './components/PopupRoutes';
 import Global from './components/Global';
-import {
-  MantineProvider,
-  MantineThemeOverride,
-  Global as GlobalStyles,
-} from '@mantine/core';
-import googleSansFont from './google-sans.woff2';
+import { MantineProvider, MantineThemeOverride } from '@mantine/core';
 
 const theme = createTheme({
   palette: {
@@ -70,6 +65,7 @@ const theme = createTheme({
 const mantineTheme: MantineThemeOverride = {
   colorScheme: 'dark',
   fontFamily: 'Product Sans',
+  cursorType: 'pointer',
 };
 
 const container = document.getElementById('root');
@@ -85,21 +81,9 @@ root.render(
             <DynamicProvider>
               <>
                 <PopupRoutes />
-                <GlobalStyles
-                  styles={[
-                    {
-                      '@font-face': {
-                        fontFamily: 'Product Sans',
-                        src: `url('${googleSansFont}') format("woff2")`,
-                        fontWeight: 400,
-                        fontStyle: 'normal',
-                      },
-                    },
-                  ]}
-                />
+                <Global />
               </>
             </DynamicProvider>
-            <Global />
           </ThemeProvider>
         </MantineProvider>
       </BrowserRouter>

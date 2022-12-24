@@ -2,6 +2,19 @@ import Toast from '@components/Toast';
 import { memo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import StoreListener from './StoreListener';
+import { Global as MantineGlobal } from '@mantine/core';
+import googleSansFont from '@/fonts/google-sans.woff2';
+
+const styles: React.ComponentProps<typeof MantineGlobal>['styles'] = [
+  {
+    '@font-face': {
+      fontFamily: 'Product Sans',
+      src: `url('${googleSansFont}') format("woff2")`,
+      fontWeight: 400,
+      fontStyle: 'normal',
+    },
+  },
+];
 
 const Global = memo(function Global() {
   const navigate = useNavigate();
@@ -22,6 +35,7 @@ const Global = memo(function Global() {
 
   return (
     <>
+      <MantineGlobal styles={styles} />
       <StoreListener />
       <Toast />
     </>
