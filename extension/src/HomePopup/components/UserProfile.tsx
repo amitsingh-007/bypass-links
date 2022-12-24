@@ -1,20 +1,18 @@
-import { Avatar, Box, Fade, IconButton, SvgIcon } from '@mui/material';
+import { UserInfo } from '@/HomePopup/interfaces/authentication';
 import { ROUTES } from '@bypass/shared/constants/routes';
 import { getUserProfile } from '@helpers/fetchFromStorage';
+import { ActionIcon, Avatar, Box, Transition } from '@mantine/core';
+import { useHover } from '@mantine/hooks';
+import useAuthStore from '@store/auth';
 import { memo, useEffect, useState } from 'react';
 import { MdSettings } from 'react-icons/md';
-import { RiUserUnfollowFill } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
-import { UserInfo } from '@/HomePopup/interfaces/authentication';
-import useAuthStore from '@store/auth';
-
-const avatarStyles = { height: '50px', width: '50px' };
 
 const UserProfile = memo(function UserProfile() {
   const navigate = useNavigate();
+  const { hovered, ref } = useHover();
   const isSignedIn = useAuthStore((state) => state.isSignedIn);
   const [userProfile, setUserProfile] = useState<UserInfo | null>(null);
-  const [showSettingsIcon, setShowSettingsIcon] = useState(false);
 
   const initUserProfile = async () => {
     const userProfile = await getUserProfile();
@@ -25,45 +23,42 @@ const UserProfile = memo(function UserProfile() {
     initUserProfile();
   }, [isSignedIn]);
 
-  const toggleSettingsIcon = () => {
-    setShowSettingsIcon(!showSettingsIcon);
-  };
-
   const handleOpenSettings = () => {
     navigate(ROUTES.SETTINGS_PANEL);
   };
 
-  return userProfile ? (
-    <Box
-      onMouseEnter={toggleSettingsIcon}
-      onMouseLeave={toggleSettingsIcon}
-      sx={{ position: 'relative' }}
-    >
+  return (
+    <Box sx={{ position: 'relative' }} ref={ref}>
       <Avatar
-        alt={userProfile.name}
-        src={userProfile.picture}
-        sx={avatarStyles}
+        radius="xl"
+        size={50}
+        src={userProfile?.picture}
+        alt={userProfile?.name}
+        color="indigo"
       />
-      <Fade in={showSettingsIcon} mountOnEnter unmountOnExit>
-        <IconButton
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-          }}
-          onClick={handleOpenSettings}
-        >
-          <MdSettings />
-        </IconButton>
-      </Fade>
+      <Transition mounted={hovered && isSignedIn} transition="fade">
+        {(styles) => (
+          <Box
+            style={styles}
+            sx={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+            }}
+          >
+            <ActionIcon
+              radius="xl"
+              variant="subtle"
+              size={50}
+              onClick={handleOpenSettings}
+            >
+              <MdSettings size="20px" />
+            </ActionIcon>
+          </Box>
+        )}
+      </Transition>
     </Box>
-  ) : (
-    <Avatar sx={avatarStyles}>
-      <SvgIcon fontSize="medium">
-        <RiUserUnfollowFill />
-      </SvgIcon>
-    </Avatar>
   );
 });
 

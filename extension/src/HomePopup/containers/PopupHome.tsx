@@ -41,7 +41,7 @@ const PopupHome = memo(function PopupHome() {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            width: '100%',
+            gap: '25px',
           }}
         >
           <Box
