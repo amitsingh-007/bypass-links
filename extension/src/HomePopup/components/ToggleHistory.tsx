@@ -1,11 +1,11 @@
-import { Box, FormControlLabel } from '@mui/material';
-import { StyledSwitch } from '@components/StyledComponents';
+import { startHistoryWatch } from '@/components/StoreListener';
 import history from '@helpers/chrome/history';
 import storage from '@helpers/chrome/storage';
+import { Switch, useMantineTheme } from '@mantine/core';
 import useExtStore from '@store/extension';
 import useHistoryStore from '@store/history';
 import { memo, useCallback, useEffect, useState } from 'react';
-import { startHistoryWatch } from '@/components/StoreListener';
+import { HiOutlineEye, HiOutlineEyeOff } from 'react-icons/hi';
 
 const endHistoryWatch = async () => {
   const { historyStartTime } = await storage.get(['historyStartTime']);
@@ -25,6 +25,7 @@ const endHistoryWatch = async () => {
 };
 
 const ToggleHistory = memo(function ToggleHistory() {
+  const theme = useMantineTheme();
   const resetHistoryMonitor = useHistoryStore(
     (state) => state.resetHistoryMonitor
   );
@@ -78,17 +79,27 @@ const ToggleHistory = memo(function ToggleHistory() {
   };
 
   return (
-    <FormControlLabel
-      control={
-        <StyledSwitch
-          checked={isHistoryActive}
-          onChange={handleToggle}
-          disabled={!isExtensionActive}
-        />
+    <Switch
+      onLabel="ON"
+      offLabel="OFF"
+      size="md"
+      label="History"
+      checked={isHistoryActive}
+      onChange={handleToggle}
+      disabled={!isExtensionActive}
+      thumbIcon={
+        isHistoryActive ? (
+          <HiOutlineEye
+            size={12}
+            color={theme.colors.teal[theme.fn.primaryShade()]}
+          />
+        ) : (
+          <HiOutlineEyeOff
+            size={12}
+            color={theme.colors.red[theme.fn.primaryShade()]}
+          />
+        )
       }
-      label={<Box sx={{ mr: '3px' }}>Watch</Box>}
-      labelPlacement="start"
-      sx={{ ml: 0, justifyContent: 'space-between' }}
     />
   );
 });

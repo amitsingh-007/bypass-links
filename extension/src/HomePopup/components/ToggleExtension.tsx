@@ -45,7 +45,6 @@ const ToggleExtension = memo(function ToggleExtension() {
       offLabel="OFF"
       size="md"
       label="Enable"
-      labelPosition="left"
       color="teal"
       checked={isActive}
       onChange={handleToggle}

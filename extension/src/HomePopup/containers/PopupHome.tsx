@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Text } from '@mantine/core';
 import { memo } from 'react';
 import Authenticate from '../components/Authenticate';
 import BookmarksPanelButton from '../components/BookmarksPanelButton';
@@ -23,14 +23,21 @@ const PopupHome = memo(function PopupHome() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          padding: '16px',
+          padding: '8px 16px 16px',
           width: '218px',
-          '> *': { userSelect: 'none' },
         }}
       >
-        <Typography variant="h5" component="h5" gutterBottom>
-          <Box sx={{ color: 'azure', fontWeight: '700' }}>BYPASS LINKS</Box>
-        </Typography>
+        <Text
+          fz="xl"
+          fw={700}
+          c="grape.0"
+          sx={{
+            marginBottom: '10px',
+            userSelect: 'none',
+          }}
+        >
+          Bypass Links
+        </Text>
         <Box
           sx={{
             display: 'flex',
@@ -43,6 +50,7 @@ const PopupHome = memo(function PopupHome() {
             sx={{
               display: 'flex',
               flexDirection: 'column',
+              gap: '8px',
             }}
           >
             <ToggleExtension />
