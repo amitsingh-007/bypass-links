@@ -18,7 +18,7 @@
     "@octokit/rest": "19.0.5",
     "express-bearer-token": "2.4.0",
     "firebase": "9.15.0",
-    "firebase-admin": "11.4.0",
+    "firebase-admin": "11.4.1",
     "helmet": "6.0.1",
     "md5": "2.3.0",
     "next": "13.1.0",
