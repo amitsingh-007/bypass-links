@@ -17,7 +17,6 @@ import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
 import { Box, Container } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
 import { useMeasure } from 'react-use';
-import { SORT_ORDER } from '@bypass/shared/components/Persons/constants/sort';
 import { decryptionMapper } from '@bypass/shared/components/Persons/mapper';
 
 const PersonsPage = () => {
@@ -34,7 +33,7 @@ const PersonsPage = () => {
       const decryptedPersons = Object.entries(persons || {}).map(
         decryptionMapper
       );
-      setPersons(sortAlphabetically(SORT_ORDER.asc, decryptedPersons));
+      setPersons(sortAlphabetically(decryptedPersons));
     });
   }, []);
 

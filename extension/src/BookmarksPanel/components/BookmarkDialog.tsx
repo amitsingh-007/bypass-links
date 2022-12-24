@@ -4,7 +4,6 @@ import runtime from '@helpers/chrome/runtime';
 import { VoidFunction } from '@bypass/shared/interfaces/custom';
 import { useCallback, useEffect, useState } from 'react';
 import { FaHeading } from 'react-icons/fa';
-import { SORT_ORDER } from '@bypass/shared/components/Persons/constants/sort';
 import { IPersonWithImage } from '@bypass/shared/components/Persons/interfaces/persons';
 import { FolderDropdown, PersonsDropdown } from './Dropdown';
 import usePerson from '@bypass/shared/components/Persons/hooks/usePerson';
@@ -54,7 +53,7 @@ const BookmarkDialog: React.FC<Props> = ({
     setIsFetchingPerson(true);
     const persons = await getAllDecodedPersons();
     const personsWithImageUrl = await getPersonsWithImageUrl(persons);
-    setPersonList(sortAlphabetically(SORT_ORDER.asc, personsWithImageUrl));
+    setPersonList(sortAlphabetically(personsWithImageUrl));
     if (origTaggedPersons) {
       const taggedPersons = personsWithImageUrl.filter((person) =>
         origTaggedPersons.includes(person.uid)

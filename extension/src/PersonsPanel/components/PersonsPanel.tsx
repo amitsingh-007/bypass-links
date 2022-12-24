@@ -1,31 +1,27 @@
-import { Box, GlobalStyles } from '@mui/material';
-import { PANEL_DIMENSIONS_PX, PANEL_SIZE } from '@constants/styles';
-import { getPersons } from '@helpers/fetchFromStorage';
-import { removeImageFromFirebase } from '@helpers/firebase/storage';
-import { useEffect, useMemo, useState } from 'react';
-import {
-  SORT_ORDER,
-  SORT_TYPE,
-} from '@bypass/shared/components/Persons/constants/sort';
+import Persons from '@bypass/shared/components/Persons/components/Persons';
 import {
   IPerson,
   IPersons,
 } from '@bypass/shared/components/Persons/interfaces/persons';
 import { decryptionMapper } from '@bypass/shared/components/Persons/mapper';
-import { getPersonPos, setPersonsInStorage } from '../utils';
-import { sortByBookmarksCount } from '../utils/sort';
-import { updatePersonCacheAndImageUrls } from '../utils/sync';
-import Header from './Header';
-import Persons from '@bypass/shared/components/Persons/components/Persons';
-import PersonVirtualCell from './PersonVirtualCell';
-import tabs from '@helpers/chrome/tabs';
 import {
   getFilteredPersons,
   sortAlphabetically,
 } from '@bypass/shared/components/Persons/utils';
-import { GRID_COLUMN_SIZE } from '../constants';
-import useToastStore from '@store/toast';
+import { PANEL_DIMENSIONS_PX, PANEL_SIZE } from '@constants/styles';
+import tabs from '@helpers/chrome/tabs';
+import { getPersons } from '@helpers/fetchFromStorage';
+import { removeImageFromFirebase } from '@helpers/firebase/storage';
+import { LoadingOverlay } from '@mantine/core';
+import { Box, GlobalStyles } from '@mui/material';
 import useHistoryStore from '@store/history';
+import useToastStore from '@store/toast';
+import { useEffect, useMemo, useState } from 'react';
+import { GRID_COLUMN_SIZE } from '../constants';
+import { getPersonPos, setPersonsInStorage } from '../utils';
+import { updatePersonCacheAndImageUrls } from '../utils/sync';
+import PersonHeader from './PersonHeader';
+import PersonVirtualCell from './PersonVirtualCell';
 
 const sizeConfig = {
   gridColumnSize: GRID_COLUMN_SIZE,
@@ -47,7 +43,7 @@ const PersonsPanel = () => {
       const decryptedPersons = Object.entries(persons || {}).map(
         decryptionMapper
       );
-      setPersons(sortAlphabetically(SORT_ORDER.asc, decryptedPersons));
+      setPersons(sortAlphabetically(decryptedPersons));
       setIsFetching(false);
     });
   }, []);
@@ -82,7 +78,7 @@ const PersonsPanel = () => {
     //Update person cache
     await updatePersonCacheAndImageUrls(person);
     //Update in the list
-    const sortedPersons = sortAlphabetically(SORT_ORDER.asc, newPersons);
+    const sortedPersons = sortAlphabetically(newPersons);
     setPersons(sortedPersons);
     await handleSave(sortedPersons);
     setIsFetching(false);
@@ -105,18 +101,6 @@ const PersonsPanel = () => {
     displayToast({ message: 'Person deleted succesfully' });
   };
 
-  const handleSort = (sortType: SORT_TYPE, sortOrder: SORT_ORDER) => {
-    let sortFn = null;
-    if (sortType === SORT_TYPE.alphabetically) {
-      sortFn = sortAlphabetically;
-    } else if (sortType === SORT_TYPE.bookmarks) {
-      sortFn = sortByBookmarksCount;
-    } else {
-      throw new Error('Unknown sort type encountered');
-    }
-    setPersons(sortFn(sortOrder, persons));
-  };
-
   const handleSearchTextChange = (text: string) => {
     setSearchText(text);
   };
@@ -130,20 +114,22 @@ const PersonsPanel = () => {
     () => getFilteredPersons(persons, searchText),
     [persons, searchText]
   );
+
   return (
     <>
       <GlobalStyles
         styles={{ body: { '::-webkit-scrollbar': { width: '0px' } } }}
       />
       <Box sx={{ width: PANEL_DIMENSIONS_PX.width }}>
-        <Header
+        <PersonHeader
           isFetching={isFetching}
           handleAddPerson={handleAddOrEditPerson}
           persons={filteredPersons}
-          handleSort={handleSort}
           onSearchChange={handleSearchTextChange}
         />
-        <Box sx={{ minHeight: PANEL_DIMENSIONS_PX.height }}>
+        <Box
+          sx={{ minHeight: PANEL_DIMENSIONS_PX.height, position: 'relative' }}
+        >
           {filteredPersons.length > 0 ? (
             <Persons
               persons={filteredPersons}
@@ -156,6 +142,7 @@ const PersonsPanel = () => {
               scrollButton
             />
           ) : null}
+          <LoadingOverlay visible={isFetching} />
         </Box>
       </Box>
     </>

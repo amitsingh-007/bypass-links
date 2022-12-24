@@ -215,7 +215,7 @@ const Header = memo<Props>(function Header({
               fullWidth
             />
           </Box>
-          <Search onChange={onSearchChange} focusOnVisible />
+          <Search onChange={onSearchChange} />
         </SecondaryHeaderContent>
       </AccordionHeader>
       <FolderDialog

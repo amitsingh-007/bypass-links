@@ -33,7 +33,6 @@ interface Props {
   taggedUrls: string[];
   onLinkOpen: (url: string) => void;
   fullscreen: boolean;
-  focusSearch: boolean;
 }
 
 interface ModifiedBookmark extends IBookmark {
@@ -46,7 +45,6 @@ const BookmarksList = memo<Props>(function BookmarksList({
   taggedUrls,
   onLinkOpen,
   fullscreen,
-  focusSearch,
 }) {
   const { location } = useContext(DynamicContext);
   const { getBookmarkFromHash, getFolderFromHash } = useBookmark();
@@ -108,10 +106,7 @@ const BookmarksList = memo<Props>(function BookmarksList({
             Back
           </Button>
           <Box sx={{ display: 'flex' }}>
-            <SearchWrapper
-              searchClassName="bookmarkRowContainer"
-              focusOnVisible={focusSearch}
-            />
+            <SearchWrapper searchClassName="bookmarkRowContainer" />
             <PanelHeading
               containerStyles={{ display: 'inline-flex', ml: '8px' }}
               heading={

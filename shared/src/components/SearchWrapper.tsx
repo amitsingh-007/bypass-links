@@ -7,8 +7,7 @@ import Search from './Search';
  */
 const SearchWrapper = memo<{
   searchClassName: string;
-  focusOnVisible: boolean;
-}>(function SearchInput({ searchClassName, focusOnVisible }) {
+}>(function SearchInput({ searchClassName }) {
   const [searchText, setSearchText] = useState('');
 
   const handleSearch = useCallback(
@@ -41,7 +40,7 @@ const SearchWrapper = memo<{
     handleSearch(searchText);
   }, [handleSearch, searchText]);
 
-  return <Search onChange={onChange} focusOnVisible={focusOnVisible} />;
+  return <Search onChange={onChange} />;
 });
 
 export default SearchWrapper;
