@@ -13,7 +13,7 @@
     "@emotion/styled": "11.10.5",
     "@mui/lab": "5.0.0-alpha.112",
     "@mui/material": "5.11.1",
-    "@mui/system": "5.11.0",
+    "@mui/system": "5.11.1",
     "@next/font": "13.1.0",
     "@octokit/rest": "19.0.5",
     "express-bearer-token": "2.4.0",
