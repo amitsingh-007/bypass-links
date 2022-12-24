@@ -3,7 +3,7 @@ import { FIREBASE_DB_REF } from '@bypass/shared/constants/firebase';
 import { getCurrentTab } from '@helpers/chrome/tabs';
 import { getLastVisited } from '@helpers/fetchFromStorage';
 import { saveToFirebase } from '@helpers/firebase/database';
-import { Button, HoverCard, Text } from '@mantine/core';
+import { Button, Text, Tooltip } from '@mantine/core';
 import useAuthStore from '@store/auth';
 import md5 from 'md5';
 import { memo, useEffect, useState } from 'react';
@@ -58,32 +58,26 @@ const LastVisitedButton = memo(function LastVisitedButton() {
   };
 
   return (
-    <HoverCard
-      withArrow
-      width="90%"
-      openDelay={0}
-      closeDelay={0}
+    <Tooltip
+      label={<Text>{lastVisited}</Text>}
       disabled={!lastVisited}
+      withArrow
+      radius="md"
     >
-      <HoverCard.Target>
-        <Button
-          variant="light"
-          radius="xl"
-          loaderPosition="right"
-          loading={isFetching}
-          disabled={!isSignedIn}
-          onClick={handleUpdateLastVisited}
-          rightIcon={lastVisited ? <FaCalendarCheck /> : <FaCalendarTimes />}
-          fullWidth
-          color={lastVisited ? 'teal' : 'red'}
-        >
-          Visited
-        </Button>
-      </HoverCard.Target>
-      <HoverCard.Dropdown>
-        <Text size="xs">{lastVisited}</Text>
-      </HoverCard.Dropdown>
-    </HoverCard>
+      <Button
+        variant="light"
+        radius="xl"
+        loaderPosition="right"
+        loading={isFetching}
+        disabled={!isSignedIn}
+        onClick={handleUpdateLastVisited}
+        rightIcon={lastVisited ? <FaCalendarCheck /> : <FaCalendarTimes />}
+        fullWidth
+        color={lastVisited ? 'teal' : 'red'}
+      >
+        Visited
+      </Button>
+    </Tooltip>
   );
 });
 

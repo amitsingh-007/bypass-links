@@ -9,7 +9,7 @@ import { getDecodedBookmark } from '@bypass/shared/components/Bookmarks/utils';
 import { getBookmarksPanelUrl } from '@bypass/shared/components/Bookmarks/utils/url';
 import { getCurrentTab } from '@helpers/chrome/tabs';
 import { getBookmarks } from '@helpers/fetchFromStorage';
-import { Button, HoverCard, Text } from '@mantine/core';
+import { Button, Text, Tooltip } from '@mantine/core';
 import useAuthStore from '@store/auth';
 import md5 from 'md5';
 import { memo, useEffect, useState } from 'react';
@@ -64,32 +64,27 @@ const QuickBookmarkButton = memo(function QuickBookmarkButton() {
   };
 
   return (
-    <HoverCard
-      withArrow
-      width="90%"
-      openDelay={0}
-      closeDelay={0}
+    <Tooltip
+      label={<Text size="xs">{bookmark?.title}</Text>}
       disabled={!bookmark}
+      withArrow
+      multiline
+      radius="md"
     >
-      <HoverCard.Target>
-        <Button
-          variant="light"
-          radius="xl"
-          loaderPosition="right"
-          loading={isFetching}
-          disabled={!isSignedIn}
-          onClick={handleClick}
-          rightIcon={bookmark ? <RiBookmark3Fill /> : <BiBookmarkPlus />}
-          fullWidth
-          color={bookmark ? 'teal' : 'red'}
-        >
-          {bookmark ? 'Unpin' : 'Pin'}
-        </Button>
-      </HoverCard.Target>
-      <HoverCard.Dropdown>
-        <Text size="xs">{bookmark?.title}</Text>
-      </HoverCard.Dropdown>
-    </HoverCard>
+      <Button
+        variant="light"
+        radius="xl"
+        loaderPosition="right"
+        loading={isFetching}
+        disabled={!isSignedIn}
+        onClick={handleClick}
+        rightIcon={bookmark ? <RiBookmark3Fill /> : <BiBookmarkPlus />}
+        fullWidth
+        color={bookmark ? 'teal' : 'red'}
+      >
+        {bookmark ? 'Unpin' : 'Pin'}
+      </Button>
+    </Tooltip>
   );
 });
 
