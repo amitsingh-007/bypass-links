@@ -37,7 +37,7 @@
     "@types/md5": "2.3.2",
     "@types/react-window": "1.8.5",
     "@types/throttle-debounce": "5.0.0",
-    "@typescript-eslint/eslint-plugin": "5.46.1",
+    "@typescript-eslint/eslint-plugin": "5.47.0",
     "cross-env": "7.0.3",
     "eslint": "8.30.0",
     "eslint-config-next": "13.1.0",
