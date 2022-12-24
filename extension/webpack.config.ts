@@ -74,11 +74,14 @@ const config: Configuration = {
         extensions: ['.ts', '.tsx', '.js', '.scss'],
       }),
     ],
-    alias: {
-      react: 'preact/compat',
-      'react-dom': 'preact/compat',
-      'react/jsx-runtime': 'preact/jsx-runtime',
-    },
+    //Preact doesnt support hmr, so disable it for dev
+    alias: isProduction
+      ? {
+          react: 'preact/compat',
+          'react-dom': 'preact/compat',
+          'react/jsx-runtime': 'preact/jsx-runtime',
+        }
+      : undefined,
   },
   stats: isProduction ? 'normal' : 'errors-warnings',
   devtool: isProduction ? undefined : 'inline-source-map',
