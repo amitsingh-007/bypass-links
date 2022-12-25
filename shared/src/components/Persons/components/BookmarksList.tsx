@@ -1,7 +1,5 @@
 import { ActionIcon, Avatar, Badge, Box, Center, Modal } from '@mantine/core';
-import { Button, IconButton } from '@mui/material';
 import { memo, useCallback, useContext, useEffect, useState } from 'react';
-import { AiFillEdit } from 'react-icons/ai';
 import { MdModeEdit } from 'react-icons/md';
 import Bookmark from '../../../components/Bookmarks/components/Bookmark';
 import {
@@ -34,6 +32,7 @@ const BookmarksList = memo<Props>(function BookmarksList({
   imageUrl,
   taggedUrls,
   onLinkOpen,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   fullscreen,
   isOpen,
 }) {
