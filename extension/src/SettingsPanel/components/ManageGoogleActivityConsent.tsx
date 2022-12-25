@@ -1,8 +1,6 @@
-import { Box, FormControlLabel } from '@mui/material';
-import { StyledSwitch } from '@components/StyledComponents';
+import { Flex, Switch, Text } from '@mantine/core';
 import { memo, useEffect, useState } from 'react';
 import { IHandleSettingsChange } from './SettingsPanel';
-import { Flex, Switch, Text } from '@mantine/core';
 
 interface Props {
   hasManageGoogleActivityConsent: boolean;

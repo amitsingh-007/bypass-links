@@ -55,7 +55,7 @@ const TwoFactorAuth = memo(function TwoFactorAuth() {
       <Button
         radius="xl"
         variant="light"
-        color={is2FAEnabled ? 'red' : 'teal'}
+        color={is2FAEnabled ? 'teal' : 'red'}
         onClick={handle2FASetupClick}
       >
         <strong>{is2FAEnabled ? 'Revoke' : 'Enable'}</strong>
