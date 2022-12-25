@@ -1,3 +1,4 @@
+import { MAX_PANEL_SIZE } from '@/constants';
 import Persons from '@bypass/shared/components/Persons/components/Persons';
 import {
   IPerson,
@@ -8,26 +9,17 @@ import {
   getFilteredPersons,
   sortAlphabetically,
 } from '@bypass/shared/components/Persons/utils';
-import { PANEL_DIMENSIONS_PX, PANEL_SIZE } from '@constants/styles';
 import tabs from '@helpers/chrome/tabs';
 import { getPersons } from '@helpers/fetchFromStorage';
 import { removeImageFromFirebase } from '@helpers/firebase/storage';
-import { LoadingOverlay } from '@mantine/core';
-import { Box, GlobalStyles } from '@mui/material';
+import { Box, Flex, LoadingOverlay } from '@mantine/core';
 import useHistoryStore from '@store/history';
 import useToastStore from '@store/toast';
 import { useEffect, useMemo, useState } from 'react';
-import { GRID_COLUMN_SIZE } from '../constants';
 import { getPersonPos, setPersonsInStorage } from '../utils';
 import { updatePersonCacheAndImageUrls } from '../utils/sync';
 import PersonHeader from './PersonHeader';
 import PersonVirtualCell from './PersonVirtualCell';
-
-const sizeConfig = {
-  gridColumnSize: GRID_COLUMN_SIZE,
-  panelHeight: PANEL_SIZE.height,
-  panelWidth: PANEL_SIZE.width,
-};
 
 const PersonsPanel = () => {
   const startHistoryMonitor = useHistoryStore(
@@ -117,19 +109,17 @@ const PersonsPanel = () => {
 
   return (
     <>
-      <GlobalStyles
-        styles={{ body: { '::-webkit-scrollbar': { width: '0px' } } }}
-      />
-      <Box sx={{ width: PANEL_DIMENSIONS_PX.width }}>
+      <Flex
+        direction="column"
+        sx={{ width: MAX_PANEL_SIZE.WIDTH, height: MAX_PANEL_SIZE.HEIGHT }}
+      >
         <PersonHeader
           isFetching={isFetching}
           handleAddPerson={handleAddOrEditPerson}
           persons={filteredPersons}
           onSearchChange={handleSearchTextChange}
         />
-        <Box
-          sx={{ minHeight: PANEL_DIMENSIONS_PX.height, position: 'relative' }}
-        >
+        <Box sx={{ position: 'relative', flex: 1 }}>
           {filteredPersons.length > 0 ? (
             <Persons
               persons={filteredPersons}
@@ -137,14 +127,13 @@ const PersonsPanel = () => {
               handlePersonDelete={handlePersonDelete}
               virtualCell={PersonVirtualCell}
               onLinkOpen={onLinkOpen}
-              sizeConfig={sizeConfig}
               bookmarkListProps={{ fullscreen: true, focusSearch: true }}
               scrollButton
             />
           ) : null}
           <LoadingOverlay visible={isFetching} />
         </Box>
-      </Box>
+      </Flex>
     </>
   );
 };

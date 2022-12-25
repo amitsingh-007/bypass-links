@@ -1,16 +1,17 @@
+import '@/scss/popup.scss';
+import { BG_COLOR_BLACK } from '@bypass/shared/constants/color';
+import { mantineTheme } from '@bypass/shared/constants/theme';
+import ErrorBoundary from '@components/ErrorBoundary';
+import { MantineProvider } from '@mantine/core';
 import { CssBaseline } from '@mui/material';
 import darkScrollbar from '@mui/material/darkScrollbar';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import ErrorBoundary from '@components/ErrorBoundary';
-import { BG_COLOR_BLACK } from '@bypass/shared/constants/color';
-import '@/scss/popup.scss';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import DynamicProvider from './provider/DynamicProvider';
-import PopupRoutes from './components/PopupRoutes';
 import Global from './components/Global';
-import { MantineProvider, MantineThemeOverride } from '@mantine/core';
+import PopupRoutes from './components/PopupRoutes';
+import DynamicProvider from './provider/DynamicProvider';
 
 const theme = createTheme({
   palette: {
@@ -61,12 +62,6 @@ const theme = createTheme({
     },
   },
 });
-
-const mantineTheme: MantineThemeOverride = {
-  colorScheme: 'dark',
-  fontFamily: 'Product Sans',
-  cursorType: 'pointer',
-};
 
 const container = document.getElementById('root');
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

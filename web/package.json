@@ -11,6 +11,8 @@
     "@bypass/shared": "file:shared",
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
+    "@mantine/core": "5.9.5",
+    "@mantine/hooks": "5.9.5",
     "@mui/lab": "5.0.0-alpha.113",
     "@mui/material": "5.11.1",
     "@mui/system": "5.11.1",

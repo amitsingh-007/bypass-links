@@ -1,7 +1,6 @@
 import Header from '@/ui/components/Header';
 import MetaTags from '@/ui/components/MetaTags';
 import PersonVirtualCell from '@/ui/PersonsPage/components/PersonVirtualCell';
-import { GRID_COLUMN_SIZE } from '@/ui/PersonsPage/constants';
 import { getFromLocalStorage } from '@/ui/provider/utils';
 import { openNewTab } from '@/ui/utils';
 import Persons from '@bypass/shared/components/Persons/components/Persons';
@@ -9,6 +8,7 @@ import {
   IPerson,
   IPersons,
 } from '@bypass/shared/components/Persons/interfaces/persons';
+import { decryptionMapper } from '@bypass/shared/components/Persons/mapper';
 import {
   getFilteredPersons,
   sortAlphabetically,
@@ -16,14 +16,10 @@ import {
 import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
 import { Box, Container } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
-import { useMeasure } from 'react-use';
-import { decryptionMapper } from '@bypass/shared/components/Persons/mapper';
 
 const PersonsPage = () => {
   const [persons, setPersons] = useState<IPerson[]>([]);
   const [searchText, setSearchText] = useState('');
-  const [contentRef, { width: contentWidth, height: contentHeight }] =
-    useMeasure();
 
   useEffect(() => {
     getFromLocalStorage<IPersons>(STORAGE_KEYS.persons).then((persons) => {
@@ -59,17 +55,12 @@ const PersonsPage = () => {
         title={`PERSONS PANEL (${filteredPersons?.length || 0})`}
         onSearchChange={handleSearchTextChange}
       />
-      <Box ref={contentRef} sx={{ flex: 1 }}>
+      <Box sx={{ flex: 1 }}>
         {filteredPersons.length > 0 ? (
           <Persons
             persons={filteredPersons}
             virtualCell={PersonVirtualCell}
             onLinkOpen={onLinkOpen}
-            sizeConfig={{
-              gridColumnSize: GRID_COLUMN_SIZE,
-              panelHeight: contentHeight,
-              panelWidth: contentWidth,
-            }}
             bookmarkListProps={{ fullscreen: false, focusSearch: false }}
           />
         ) : null}

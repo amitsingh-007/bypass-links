@@ -1,13 +1,15 @@
+import { AuthProvider } from '@/ui/provider/AuthProvider';
+import DynamicProvider from '@/ui/provider/DynamicProvider';
+import { BG_COLOR_BLACK } from '@bypass/shared/constants/color';
+import { mantineTheme } from '@bypass/shared/constants/theme';
+import { MantineProvider } from '@mantine/core';
 import { CssBaseline, darkScrollbar } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Montserrat } from '@next/font/google';
 import '@ui/styles/globals.scss';
 import { AppProps } from 'next/dist/shared/lib/router/router';
 import { StrictMode } from 'react';
 import GlobalMetaTags from 'src/ui/components/GlobalMetaTags';
-import DynamicProvider from '@/ui/provider/DynamicProvider';
-import { AuthProvider } from '@/ui/provider/AuthProvider';
-import { Montserrat } from '@next/font/google';
-import { BG_COLOR_BLACK } from '@bypass/shared/constants/color';
 
 const montserrat = Montserrat({ display: 'swap', subsets: ['latin'] });
 
@@ -63,14 +65,16 @@ const MyApp = ({ Component, pageProps }: AppProps): JSX.Element => {
   return (
     <StrictMode>
       <GlobalMetaTags />
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <DynamicProvider>
-          <AuthProvider>
-            <Component {...pageProps} />
-          </AuthProvider>
-        </DynamicProvider>
-      </ThemeProvider>
+      <MantineProvider withGlobalStyles withNormalizeCSS theme={mantineTheme}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <DynamicProvider>
+            <AuthProvider>
+              <Component {...pageProps} />
+            </AuthProvider>
+          </DynamicProvider>
+        </ThemeProvider>
+      </MantineProvider>
     </StrictMode>
   );
 };

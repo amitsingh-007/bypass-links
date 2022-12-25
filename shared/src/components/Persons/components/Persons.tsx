@@ -8,6 +8,8 @@ import { getReactKey } from '../utils';
 import BookmarksList from './BookmarksList';
 import usePerson from '../hooks/usePerson';
 import DynamicContext from '../../../provider/DynamicContext';
+import { useElementSize } from '@mantine/hooks';
+import { GRID_COLUMN_SIZE } from '../constants';
 
 interface Props {
   persons: IPerson[];
@@ -15,11 +17,6 @@ interface Props {
   handlePersonDelete?: (person: IPerson) => void;
   onLinkOpen: (url: string) => void;
   scrollButton?: boolean;
-  sizeConfig: {
-    gridColumnSize: number;
-    panelHeight: number;
-    panelWidth: number;
-  };
   bookmarkListProps: {
     fullscreen: boolean;
     focusSearch: boolean;
@@ -32,18 +29,16 @@ interface Props {
   }>;
 }
 
-const PADDING = 6;
-
 const Persons = memo<Props>(function Persons({
   persons,
   handleEditPerson,
   handlePersonDelete,
   onLinkOpen,
   scrollButton = false,
-  sizeConfig,
   bookmarkListProps,
   virtualCell: VirtualCell,
 }) {
+  const { ref, width, height } = useElementSize();
   const { location } = useContext(DynamicContext);
   const queryString = location.query();
   const gridRef = useRef<any>(null);
@@ -69,30 +64,25 @@ const Persons = memo<Props>(function Persons({
     gridRef.current?.scrollToItem({ rowIndex: itemNumber });
   };
 
-  const rowCount = Math.ceil(persons.length / sizeConfig.gridColumnSize);
-  const topBottomPadding = PADDING * 2;
-  const cellDimension =
-    (sizeConfig.panelWidth - topBottomPadding) / sizeConfig.gridColumnSize;
+  const rowCount = Math.ceil(persons.length / GRID_COLUMN_SIZE);
+  const cellDimension = (width - 8) / GRID_COLUMN_SIZE;
+
   return (
     <>
       {scrollButton && (
         <ScrollButton itemsSize={rowCount} onScroll={handleScroll} />
       )}
-      <Box sx={{ padding: `${PADDING}px` }}>
+      <Box sx={{ height: '100%' }} ref={ref}>
         <FixedSizeGrid<React.ComponentProps<typeof VirtualCell>['data']>
-          height={sizeConfig.panelHeight - topBottomPadding}
-          width={sizeConfig.panelWidth}
+          height={height}
+          width={width}
           rowCount={rowCount}
-          columnCount={sizeConfig.gridColumnSize}
+          columnCount={GRID_COLUMN_SIZE}
           rowHeight={cellDimension}
           columnWidth={cellDimension}
           overscanRowCount={2}
           itemKey={({ rowIndex, columnIndex, data }) => {
-            const index = getReactKey(
-              rowIndex,
-              columnIndex,
-              sizeConfig.gridColumnSize
-            );
+            const index = getReactKey(rowIndex, columnIndex);
             const person = data.persons[index];
             return person?.uid ?? `${rowIndex}_${columnIndex}`;
           }}

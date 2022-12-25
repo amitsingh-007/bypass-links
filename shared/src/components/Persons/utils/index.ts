@@ -1,5 +1,6 @@
 import { IPerson, IPersons } from '../interfaces/persons';
 import { hasText } from '../../../utils/search';
+import { GRID_COLUMN_SIZE } from '../constants';
 
 export const decodePerson = (person: IPerson): IPerson => {
   const { uid, imageRef, name, taggedUrls } = person;
@@ -16,8 +17,8 @@ export const decodePersons = (persons: IPersons) =>
     .filter(Boolean)
     .map(([_key, person]) => decodePerson(person));
 
-export const getReactKey = (row: number, column: number, gridSize: number) =>
-  row * gridSize + column;
+export const getReactKey = (row: number, column: number) =>
+  row * GRID_COLUMN_SIZE + column;
 
 export const getFilteredPersons = (persons: IPerson[], searchText: string) =>
   persons.filter(({ name }) => !searchText || hasText(searchText, name));
