@@ -69,7 +69,7 @@ const Authenticate = memo(function Authenticate() {
         loaderPosition="right"
         disabled={!isExtensionActive}
         onClick={isSignedIn ? handleSignOut : handleSignIn}
-        color={isSignedIn ? 'red' : 'teal'}
+        color={isSignedIn ? 'teal' : 'red'}
         rightIcon={isSignedIn ? <RiLogoutCircleRFill /> : <RiLoginCircleFill />}
         fullWidth
       >

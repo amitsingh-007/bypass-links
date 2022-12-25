@@ -1,7 +1,7 @@
 import { Box, FormControlLabel } from '@mui/material';
 import { StyledSwitch } from '@components/StyledComponents';
 import { memo, useEffect, useState } from 'react';
-import { IHandleSettingsChange } from '../containers/SettingsPanel';
+import { IHandleSettingsChange } from './SettingsPanel';
 
 interface Props {
   hasManageGoogleActivityConsent: boolean;

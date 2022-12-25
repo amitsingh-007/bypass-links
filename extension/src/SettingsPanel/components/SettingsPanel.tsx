@@ -1,13 +1,13 @@
+import Header from '@/components/Header';
 import { FIREBASE_DB_REF } from '@bypass/shared/constants/firebase';
-import { Box } from '@mui/material';
 import { getSettings } from '@helpers/fetchFromStorage';
 import { saveToFirebase } from '@helpers/firebase/database';
+import { Box } from '@mui/material';
 import { memo, useEffect, useState } from 'react';
-import Header from '../components/Header';
-import ManageGoogleActivityConsent from '../components/ManageGoogleActivityConsent';
-import TwoFactorAuth from '../components/TwoFactorAuth';
 import { ISettings } from '../interfaces/settings';
 import { syncSettingsToStorage } from '../utils/sync';
+import ManageGoogleActivityConsent from './ManageGoogleActivityConsent';
+import TwoFactorAuth from './TwoFactorAuth';
 
 const defaultSettings: ISettings = {
   hasManageGoogleActivityConsent: false,
@@ -46,7 +46,7 @@ const SettingsPanel = memo(function SettingsPanel() {
 
   return (
     <Box sx={{ width: '400px', height: '400px' }}>
-      <Header />
+      <Header text="Settings" />
       <Box sx={{ p: '14px 16px' }}>
         <TwoFactorAuth />
         <ManageGoogleActivityConsent
