@@ -2,6 +2,7 @@ import { Box, FormControlLabel } from '@mui/material';
 import { StyledSwitch } from '@components/StyledComponents';
 import { memo, useEffect, useState } from 'react';
 import { IHandleSettingsChange } from './SettingsPanel';
+import { Flex, Switch, Text } from '@mantine/core';
 
 interface Props {
   hasManageGoogleActivityConsent: boolean;
@@ -32,24 +33,18 @@ const ManageGoogleActivityConsent = memo<Props>(
     };
 
     return (
-      <FormControlLabel
-        disabled={isUpdatingSettings}
-        control={
-          <StyledSwitch
-            sx={{ mr: '6px' }}
-            checked={hasConsent}
-            onChange={handleToggle}
-          />
-        }
-        label={<Box>Allow to Manage Google Activity</Box>}
-        labelPlacement="start"
-        sx={{
-          mt: '4px',
-          ml: 0,
-          display: 'flex',
-          justifyContent: 'space-between',
-        }}
-      />
+      <Flex justify="space-between">
+        <Text>Allow to Manage Google Activity</Text>
+        <Switch
+          onLabel="ON"
+          offLabel="OFF"
+          size="md"
+          checked={hasConsent}
+          color="teal"
+          onChange={handleToggle}
+          disabled={isUpdatingSettings}
+        />
+      </Flex>
     );
   }
 );

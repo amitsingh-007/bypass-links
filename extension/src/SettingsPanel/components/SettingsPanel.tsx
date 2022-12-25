@@ -2,7 +2,7 @@ import Header from '@bypass/shared/components/Header';
 import { FIREBASE_DB_REF } from '@bypass/shared/constants/firebase';
 import { getSettings } from '@helpers/fetchFromStorage';
 import { saveToFirebase } from '@helpers/firebase/database';
-import { Box } from '@mui/material';
+import { Box, Flex } from '@mantine/core';
 import { memo, useEffect, useState } from 'react';
 import { ISettings } from '../interfaces/settings';
 import { syncSettingsToStorage } from '../utils/sync';
@@ -45,9 +45,9 @@ const SettingsPanel = memo(function SettingsPanel() {
   };
 
   return (
-    <Box sx={{ width: '400px', height: '400px' }}>
+    <Box w={400} h={400}>
       <Header text="Settings" />
-      <Box sx={{ p: '14px 16px' }}>
+      <Flex direction="column" gap="xs" p="14px 16px">
         <TwoFactorAuth />
         <ManageGoogleActivityConsent
           hasManageGoogleActivityConsent={
@@ -56,7 +56,7 @@ const SettingsPanel = memo(function SettingsPanel() {
           handleSettingsChange={handleSettingsChange}
           isUpdatingSettings={isUpdatingSettings}
         />
-      </Box>
+      </Flex>
     </Box>
   );
 });

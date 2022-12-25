@@ -1,11 +1,11 @@
-import { Box, Button } from '@mui/material';
-import storage from '@helpers/chrome/storage';
 import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
+import storage from '@helpers/chrome/storage';
+import { getUserProfile } from '@helpers/fetchFromStorage';
+import { Button, Flex, Text } from '@mantine/core';
+import useToastStore from '@store/toast';
 import { memo, useEffect, useState } from 'react';
 import { revoke2FA } from '../apis/twoFactorAuth';
-import { getUserProfile } from '@helpers/fetchFromStorage';
 import Setup2FA from './Setup2FA';
-import useToastStore from '@store/toast';
 
 const TwoFactorAuth = memo(function TwoFactorAuth() {
   const displayToast = useToastStore((state) => state.displayToast);
@@ -50,26 +50,18 @@ const TwoFactorAuth = memo(function TwoFactorAuth() {
   };
 
   return (
-    <>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
+    <Flex align="center" justify="space-between">
+      <Text>Two factor Authentication</Text>
+      <Button
+        radius="xl"
+        variant="light"
+        color={is2FAEnabled ? 'red' : 'teal'}
+        onClick={handle2FASetupClick}
       >
-        <Box>Two factor Authentication</Box>
-        <Button
-          size="small"
-          variant="outlined"
-          color={is2FAEnabled ? 'secondary' : 'primary'}
-          onClick={handle2FASetupClick}
-        >
-          <strong>{is2FAEnabled ? 'Revoke' : 'Enable'}</strong>
-        </Button>
-        <Setup2FA handleClose={handleClose2FASetup} isOpen={show2FASetup} />
-      </Box>
-    </>
+        <strong>{is2FAEnabled ? 'Revoke' : 'Enable'}</strong>
+      </Button>
+      <Setup2FA handleClose={handleClose2FASetup} isOpen={show2FASetup} />
+    </Flex>
   );
 });
 
