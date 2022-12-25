@@ -4,4 +4,5 @@ export const mantineTheme: MantineThemeOverride = {
   colorScheme: 'dark',
   fontFamily: 'Product Sans',
   cursorType: 'pointer',
+  loader: 'bars',
 };

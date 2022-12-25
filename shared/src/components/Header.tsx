@@ -1,17 +1,23 @@
-import { memo } from 'react';
+import { memo, useContext } from 'react';
 import { Badge, Button, Group, Header as MantineHeader } from '@mantine/core';
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
-import { useNavigate } from 'react-router-dom';
 import Search from '@bypass/shared/components/Search';
+import DynamicContext from '../provider/DynamicContext';
 
 interface Props {
   children?: React.ReactNode;
   text?: React.ReactNode;
   onSearchChange?: (text: string) => void;
+  rightContent?: React.ReactNode;
 }
 
-const Header = memo<Props>(function Header({ children, text, onSearchChange }) {
-  const navigate = useNavigate();
+const Header = memo<Props>(function Header({
+  children,
+  text,
+  onSearchChange,
+  rightContent: RightContent = null,
+}) {
+  const { location } = useContext(DynamicContext);
 
   return (
     <MantineHeader
@@ -28,13 +34,14 @@ const Header = memo<Props>(function Header({ children, text, onSearchChange }) {
           variant="light"
           color="red"
           leftIcon={<HiOutlineArrowNarrowLeft />}
-          onClick={() => navigate(-1)}
+          onClick={location.goBack}
         >
           Back
         </Button>
         {children}
       </Group>
-      <Group>
+      <Group sx={{ justifyContent: 'flex-end' }}>
+        {RightContent}
         {onSearchChange ? <Search onChange={onSearchChange} /> : null}
         {text ? (
           <Badge size="lg" radius="lg">

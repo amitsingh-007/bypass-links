@@ -1,4 +1,4 @@
-import Header from '@/components/Header';
+import Header from '@bypass/shared/components/Header';
 import { FIREBASE_DB_REF } from '@bypass/shared/constants/firebase';
 import { getSettings } from '@helpers/fetchFromStorage';
 import { saveToFirebase } from '@helpers/firebase/database';

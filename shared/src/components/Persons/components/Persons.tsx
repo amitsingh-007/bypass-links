@@ -1,15 +1,15 @@
-import { Box } from '@mui/material';
-import { ScrollButton } from '../../ScrollButton';
-import { deserialzeQueryStringToObject } from '../../../utils/url';
-import { memo, useEffect, useRef, useState, useContext } from 'react';
+import { Box } from '@mantine/core';
+import { useElementSize } from '@mantine/hooks';
+import { memo, useContext, useEffect, useRef, useState } from 'react';
 import { FixedSizeGrid } from 'react-window';
+import DynamicContext from '../../../provider/DynamicContext';
+import { deserialzeQueryStringToObject } from '../../../utils/url';
+import { ScrollButton } from '../../ScrollButton';
+import { GRID_COLUMN_SIZE } from '../constants';
+import usePerson from '../hooks/usePerson';
 import { IPerson } from '../interfaces/persons';
 import { getReactKey } from '../utils';
 import BookmarksList from './BookmarksList';
-import usePerson from '../hooks/usePerson';
-import DynamicContext from '../../../provider/DynamicContext';
-import { useElementSize } from '@mantine/hooks';
-import { GRID_COLUMN_SIZE } from '../constants';
 
 interface Props {
   persons: IPerson[];
@@ -65,7 +65,7 @@ const Persons = memo<Props>(function Persons({
   };
 
   const rowCount = Math.ceil(persons.length / GRID_COLUMN_SIZE);
-  const cellDimension = (width - 8) / GRID_COLUMN_SIZE;
+  const cellDimension = (width - 8) / GRID_COLUMN_SIZE; //Adjust scrollbar width
 
   return (
     <>
@@ -92,15 +92,14 @@ const Persons = memo<Props>(function Persons({
           {VirtualCell}
         </FixedSizeGrid>
       </Box>
-      {personToOpen && (
-        <BookmarksList
-          name={personToOpen.name}
-          imageUrl={personToOpenImage}
-          taggedUrls={personToOpen.taggedUrls}
-          onLinkOpen={onLinkOpen}
-          {...bookmarkListProps}
-        />
-      )}
+      <BookmarksList
+        isOpen={Boolean(personToOpen)}
+        name={personToOpen?.name}
+        imageUrl={personToOpenImage}
+        taggedUrls={personToOpen?.taggedUrls}
+        onLinkOpen={onLinkOpen}
+        {...bookmarkListProps}
+      />
     </>
   );
 });

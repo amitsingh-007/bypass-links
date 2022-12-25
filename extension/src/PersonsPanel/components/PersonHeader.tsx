@@ -1,4 +1,4 @@
-import Header from '@/components/Header';
+import Header from '@bypass/shared/components/Header';
 import { IPerson } from '@bypass/shared/components/Persons/interfaces/persons';
 import { Button } from '@mantine/core';
 import useToastStore from '@store/toast';

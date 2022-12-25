@@ -1,19 +1,8 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Container,
-} from '@mui/material';
-import PanelHeading from '../../PanelHeading';
-import SearchWrapper from '../../SearchWrapper';
-import { BG_COLOR_DARK } from '../../../constants/color';
-import { memo, useCallback, useEffect, useState, useContext } from 'react';
+import { ActionIcon, Avatar, Badge, Box, Center, Modal } from '@mantine/core';
+import { Button, IconButton } from '@mui/material';
+import { memo, useCallback, useContext, useEffect, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
-import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
+import { MdModeEdit } from 'react-icons/md';
 import Bookmark from '../../../components/Bookmarks/components/Bookmark';
 import {
   bookmarkRowStyles,
@@ -21,18 +10,19 @@ import {
 } from '../../../components/Bookmarks/constants';
 import { IBookmark } from '../../../components/Bookmarks/interfaces';
 import { getBookmarksPanelUrl } from '../../../components/Bookmarks/utils/url';
+import Header from '../../../components/Header';
+import DynamicContext from '../../../provider/DynamicContext';
 import useBookmark from '../../Bookmarks/hooks/useBookmark';
 import { getDecodedBookmark } from '../../Bookmarks/utils';
-import DynamicContext from '../../../provider/DynamicContext';
-
-const imageStyles = { width: 40, height: 40 };
+import SearchWrapper from '../../SearchWrapper';
 
 interface Props {
-  name: string;
+  name?: string;
   imageUrl: string;
-  taggedUrls: string[];
+  taggedUrls?: string[];
   onLinkOpen: (url: string) => void;
   fullscreen: boolean;
+  isOpen: boolean;
 }
 
 interface ModifiedBookmark extends IBookmark {
@@ -45,6 +35,7 @@ const BookmarksList = memo<Props>(function BookmarksList({
   taggedUrls,
   onLinkOpen,
   fullscreen,
+  isOpen,
 }) {
   const { location } = useContext(DynamicContext);
   const { getBookmarkFromHash, getFolderFromHash } = useBookmark();
@@ -84,136 +75,85 @@ const BookmarksList = memo<Props>(function BookmarksList({
 
   useEffect(() => {
     initBookmarks();
+    return () => {
+      setBookmarks([]);
+    };
   }, [initBookmarks]);
 
-  const renderContent = () => (
-    <>
-      <DialogTitle sx={{ padding: '4px 6px', backgroundColor: BG_COLOR_DARK }}>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <Button
-            variant="outlined"
-            startIcon={<HiOutlineArrowNarrowLeft />}
-            onClick={handleClose}
-            size="small"
-            color="error"
-          >
-            Back
-          </Button>
-          <Box sx={{ display: 'flex' }}>
-            <SearchWrapper searchClassName="bookmarkRowContainer" />
-            <PanelHeading
-              containerStyles={{ display: 'inline-flex', ml: '8px' }}
-              heading={
-                <Box sx={{ display: 'inline-flex', alignItems: 'center' }}>
-                  <Avatar alt={name} src={imageUrl} sx={imageStyles} />
-                  <Box
-                    component="span"
-                    sx={{ marginLeft: '14px', textTransform: 'uppercase' }}
-                  >
-                    {`${name} (${bookmarks?.length || 0})`}
-                  </Box>
-                </Box>
-              }
-            />
-          </Box>
-        </Box>
-      </DialogTitle>
-      <DialogContent sx={{ p: 0, pt: '4px !important' }}>
-        {bookmarks.length > 0 ? (
-          bookmarks.map((bookmark) => (
-            <Box
-              sx={{
-                position: 'relative',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: '100%',
-                cursor: 'pointer',
-                userSelect: 'none',
-              }}
-              className="bookmarkRowContainer"
-              data-text={bookmark.url}
-              data-subtext={bookmark.title}
-              key={bookmark.url}
-            >
-              <IconButton
-                size="small"
-                title="Edit Bookmark"
-                color="info"
-                edge="end"
-                onClick={() => {
-                  handleBookmarkEdit(bookmark);
-                }}
-                sx={{ mr: '4px' }}
-              >
-                <AiFillEdit style={{ fontSize: '22px' }} />
-              </IconButton>
-              <Bookmark
-                url={bookmark.url}
-                title={bookmark.title}
-                taggedPersons={bookmark.taggedPersons}
-                containerStyles={{
-                  ...bookmarkRowStyles,
-                  paddingLeft: '0px',
-                  overflowX: 'hidden',
-                }}
-                onOpenLink={onLinkOpen}
-              />
-              <Button
-                variant="contained"
-                color="secondary"
-                disableElevation
-                disableFocusRipple
-                disableTouchRipple
-                disableRipple
-                sx={{
-                  position: 'absolute',
-                  right: '2px',
-                  fontSize: '9px',
-                  minWidth: 'unset',
-                  padding: '2px 5px',
-                  borderRadius: '50px',
-                }}
-              >
-                {bookmark.parentName}
-              </Button>
-            </Box>
-          ))
-        ) : (
-          <Box sx={{ textAlign: 'center', marginTop: '30px' }}>
-            No tagged bookmarks found
-          </Box>
-        )}
-      </DialogContent>
-    </>
-  );
-
   return (
-    <Dialog
-      open
-      fullScreen
+    <Modal
+      opened={isOpen}
       onClose={handleClose}
-      PaperProps={{
-        sx: {
-          maxWidth: 'unset',
-          maxHeight: 'unset',
-          margin: 'unset',
-          backgroundImage: 'unset',
-        },
+      fullScreen
+      zIndex={1002}
+      withCloseButton={false}
+      styles={{
+        modal: { padding: '0 !important' },
+        title: { flex: 1, marginRight: 0 },
+        header: { marginBottom: 0 },
       }}
     >
-      {fullscreen ? (
-        renderContent()
+      <Header
+        rightContent={
+          <>
+            <SearchWrapper searchClassName="bookmarkRowContainer" />
+            <Avatar src={imageUrl} alt={name} radius={999} />
+            <Badge size="lg" radius="lg" sx={{ maxWidth: '50%' }}>{`${name} (${
+              bookmarks?.length || 0
+            })`}</Badge>
+          </>
+        }
+      />
+      {bookmarks.length > 0 ? (
+        bookmarks.map((bookmark) => (
+          <Center
+            sx={{
+              position: 'relative',
+              width: '100%',
+              cursor: 'pointer',
+              userSelect: 'none',
+            }}
+            className="bookmarkRowContainer"
+            data-text={bookmark.url}
+            data-subtext={bookmark.title}
+            key={bookmark.url}
+          >
+            <ActionIcon
+              size={32}
+              title="Edit Bookmark"
+              color="red"
+              onClick={() => {
+                handleBookmarkEdit(bookmark);
+              }}
+              radius={999}
+              mr="4px"
+            >
+              <MdModeEdit size="18px" />
+            </ActionIcon>
+            <Bookmark
+              url={bookmark.url}
+              title={bookmark.title}
+              taggedPersons={bookmark.taggedPersons}
+              containerStyles={{
+                ...bookmarkRowStyles,
+                paddingLeft: '0px',
+                overflowX: 'hidden',
+                width: 'unset',
+                flex: 1,
+              }}
+              onOpenLink={onLinkOpen}
+            />
+            <Badge size="sm" color="violet">
+              {bookmark.parentName}
+            </Badge>
+          </Center>
+        ))
       ) : (
-        <Container maxWidth="md">{renderContent()}</Container>
+        <Box ta="center" mt="30px">
+          No tagged bookmarks found
+        </Box>
       )}
-    </Dialog>
+    </Modal>
   );
 });
 
