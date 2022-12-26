@@ -72,13 +72,8 @@ const RedirectionRule = memo(function RedirectionRule({
   return (
     <Draggable draggableId={`${alias}_${website}`} index={pos}>
       {(provided) => (
-        <Center {...provided.draggableProps}>
-          <ActionIcon
-            ref={provided.innerRef}
-            {...provided.dragHandleProps}
-            radius={999}
-            size="lg"
-          >
+        <Center ref={provided.innerRef} {...provided.draggableProps}>
+          <ActionIcon {...provided.dragHandleProps} radius={999} size="lg">
             <RxDragHandleDots2 size={20} />
           </ActionIcon>
           <Group sx={{ flex: 1 }}>

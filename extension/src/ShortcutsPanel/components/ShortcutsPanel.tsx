@@ -39,6 +39,11 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
     });
   }, []);
 
+  const saveRedirectionTemp = (newRedirections: IRedirection[]) => {
+    setRedirections(newRedirections);
+    setIsSaveActive(true);
+  };
+
   const handleSave = async () => {
     setIsFetching(true);
     const validRules = redirections.filter(getValidRules);
@@ -76,21 +81,18 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
       website: '',
       isDefault: false,
     });
-    setRedirections([...redirections]);
-    setIsSaveActive(true);
+    saveRedirectionTemp([...redirections]);
   };
 
   const handleRemoveRule = (pos: number) => {
     const newRedirections = [...redirections];
     newRedirections.splice(pos, 1);
-    setRedirections(newRedirections);
-    setIsSaveActive(true);
+    saveRedirectionTemp(newRedirections);
   };
 
   const handleSaveRule = (redirection: IRedirection, pos: number) => {
     redirections[pos] = redirection;
-    setRedirections([...redirections]);
-    setIsSaveActive(true);
+    saveRedirectionTemp([...redirections]);
   };
 
   /*
@@ -105,34 +107,34 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
     const draggedRedirection = redirections[source.index];
     newRedirections.splice(source.index, 1);
     newRedirections.splice(destination.index, 0, draggedRedirection);
-    setRedirections(newRedirections);
+    saveRedirectionTemp(newRedirections);
   };
 
   return (
     <Flex w={MAX_PANEL_SIZE.WIDTH} h={MAX_PANEL_SIZE.HEIGHT} direction="column">
+      <Header text="Shortcuts">
+        <Button
+          variant="light"
+          leftIcon={<RiPlayListAddFill />}
+          onClick={handleAddRule}
+          radius="xl"
+          disabled={isFetching}
+        >
+          Add
+        </Button>
+        <Button
+          variant="light"
+          leftIcon={<IoSave />}
+          onClick={handleSave}
+          color="teal"
+          radius="xl"
+          loading={isFetching}
+          disabled={!isSaveActive}
+        >
+          Save
+        </Button>
+      </Header>
       <DragDropContext onDragEnd={onDragEnd}>
-        <Header text="Shortcuts">
-          <Button
-            variant="light"
-            leftIcon={<RiPlayListAddFill />}
-            onClick={handleAddRule}
-            radius="xl"
-            disabled={isFetching}
-          >
-            Add
-          </Button>
-          <Button
-            variant="light"
-            leftIcon={<IoSave />}
-            onClick={handleSave}
-            color="teal"
-            radius="xl"
-            loading={isFetching}
-            disabled={!isSaveActive}
-          >
-            Save
-          </Button>
-        </Header>
         <Droppable droppableId="redirections-list">
           {(provided) => (
             <Flex
