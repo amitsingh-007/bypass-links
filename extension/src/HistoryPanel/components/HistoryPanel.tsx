@@ -1,19 +1,16 @@
-import { Box, Button, TextField } from '@mui/material';
+import Header from '@bypass/shared/components/Header';
+import historyApi from '@helpers/chrome/history';
+import storage from '@helpers/chrome/storage';
+import { Box, Button, Flex } from '@mantine/core';
+import { TextField } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDateTimePicker } from '@mui/x-date-pickers/DesktopDateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import PanelHeading from '@bypass/shared/components/PanelHeading';
-import { BG_COLOR_DARK } from '@bypass/shared/constants/color';
-import { ROUTES } from '@bypass/shared/constants/routes';
-import historyApi from '@helpers/chrome/history';
-import storage from '@helpers/chrome/storage';
+import useToastStore from '@store/toast';
+import dayjs from 'dayjs';
 import { memo, useEffect, useState } from 'react';
 import { AiOutlineClear } from 'react-icons/ai';
-import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
-import { useNavigate } from 'react-router-dom';
 import { DateTimeInputProps } from '../interfaces/historyPanel';
-import dayjs from 'dayjs';
-import useToastStore from '@store/toast';
 
 const DateTimeInput = ({ dateTime, onChange, label }: DateTimeInputProps) => (
   <DesktopDateTimePicker
@@ -24,7 +21,7 @@ const DateTimeInput = ({ dateTime, onChange, label }: DateTimeInputProps) => (
     onChange={onChange}
     maxDateTime={dayjs()}
     renderInput={(props) => (
-      <Box sx={{ paddingY: '8px' }}>
+      <Box py={8}>
         <TextField
           {...props}
           helperText={null}
@@ -38,7 +35,6 @@ const DateTimeInput = ({ dateTime, onChange, label }: DateTimeInputProps) => (
 );
 
 const HistoryPanel = memo(function HistoryPanel() {
-  const navigate = useNavigate();
   const displayToast = useToastStore((state) => state.displayToast);
   const [startDateTime, setStartDateTime] = useState<dayjs.Dayjs | null>(
     dayjs()
@@ -61,10 +57,6 @@ const HistoryPanel = memo(function HistoryPanel() {
     setEndDateTime(date);
   };
 
-  const handleClose = () => {
-    navigate(ROUTES.HOMEPAGE);
-  };
-
   const handleClear = async () => {
     const startDateNum = startDateTime?.valueOf() ?? 0;
     const endDateNum = endDateTime?.valueOf() ?? 0;
@@ -81,31 +73,9 @@ const HistoryPanel = memo(function HistoryPanel() {
   };
 
   return (
-    <Box sx={{ width: '321px', height: '570px' }}>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          backgroundColor: BG_COLOR_DARK,
-          py: '8px',
-          pl: '10px',
-          pr: '2px',
-          mb: '10px',
-        }}
-      >
-        <Button
-          variant="outlined"
-          startIcon={<HiOutlineArrowNarrowLeft />}
-          onClick={handleClose}
-          size="small"
-          color="error"
-        >
-          Back
-        </Button>
-        <PanelHeading heading="HISTORY PANEL" />
-      </Box>
-      <Box sx={{ display: 'flex', flexDirection: 'column', paddingX: '15px' }}>
+    <Box w={321} h={570}>
+      <Header text="History Panel" />
+      <Flex direction="column" px={15}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DateTimeInput
             dateTime={startDateTime}
@@ -118,14 +88,13 @@ const HistoryPanel = memo(function HistoryPanel() {
             label="End Date Time"
           />
         </LocalizationProvider>
-      </Box>
-      <Box sx={{ textAlign: 'center', mt: '10px' }}>
+      </Flex>
+      <Box ta="center" mt={10}>
         <Button
-          variant="outlined"
-          startIcon={<AiOutlineClear />}
+          radius="xl"
+          variant="light"
+          leftIcon={<AiOutlineClear />}
           onClick={handleClear}
-          size="small"
-          color="error"
         >
           Clear
         </Button>
