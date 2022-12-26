@@ -1,20 +1,25 @@
-import { Box, Checkbox, IconButton, TextField } from '@mui/material';
-import tabs from '@helpers/chrome/tabs';
-import { memo, useState } from 'react';
-import { Draggable } from '@hello-pangea/dnd';
-import { FiExternalLink } from 'react-icons/fi';
-import { IoCheckmarkDoneSharp } from 'react-icons/io5';
-import { MdRemoveCircleOutline } from 'react-icons/md';
-import { MdDragHandle } from 'react-icons/md';
 import { IRedirection } from '@/BackgroundScript/interfaces/redirections';
-import { DEFAULT_RULE_ALIAS } from '../constants';
+import { Draggable } from '@hello-pangea/dnd';
+import tabs from '@helpers/chrome/tabs';
+import {
+  ActionIcon,
+  Center,
+  Checkbox,
+  Group,
+  Sx,
+  TextInput,
+} from '@mantine/core';
 import useHistoryStore from '@store/history';
+import { memo, useState } from 'react';
+import { CgWebsite } from 'react-icons/cg';
+import { GiSaveArrow } from 'react-icons/gi';
+import { MdOutlineDelete, MdShortcut } from 'react-icons/md';
+import { RxDragHandleDots2, RxExternalLink } from 'react-icons/rx';
+import { DEFAULT_RULE_ALIAS } from '../constants';
 
-const inputProps = {
-  style: {
-    fontSize: '15px',
-    padding: '4px 12px',
-  },
+const disabledStyles: Sx = {
+  border: 'unset !important',
+  backgroundColor: 'unset !important',
 };
 
 type Props = IRedirection & {
@@ -38,21 +43,10 @@ const RedirectionRule = memo(function RedirectionRule({
   const [ruleWebsite, setRuleWebsite] = useState(website);
   const [isDefaultRule, setIsDefaultRule] = useState(isDefault);
 
-  const onWebsiteAliasInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRuleAlias(event.target.value.trim());
-  };
-  const onWebsiteInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRuleWebsite(event.target.value.trim());
-  };
-
-  const handleDefaultRuleChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setIsDefaultRule(event.target.checked);
-  };
   const handleRemoveClick = () => {
     handleRemoveRule(pos);
   };
+
   const handleSaveClick = () => {
     handleSaveRule(
       {
@@ -63,6 +57,7 @@ const RedirectionRule = memo(function RedirectionRule({
       pos
     );
   };
+
   const handleLinkOpen = () => {
     startHistoryMonitor();
     tabs.create({ url: ruleWebsite, active: false });
@@ -77,65 +72,68 @@ const RedirectionRule = memo(function RedirectionRule({
   return (
     <Draggable draggableId={`${alias}_${website}`} index={pos}>
       {(provided) => (
-        <Box
-          {...provided.draggableProps}
-          sx={{ display: 'flex', alignItems: 'center' }}
-        >
-          <IconButton
+        <Center {...provided.draggableProps}>
+          <ActionIcon
             ref={provided.innerRef}
             {...provided.dragHandleProps}
-            title="Drag"
-            edge="start"
-            color="secondary"
+            radius={999}
+            size="lg"
           >
-            <MdDragHandle />
-          </IconButton>
+            <RxDragHandleDots2 size={20} />
+          </ActionIcon>
+          <Group sx={{ flex: 1 }}>
+            <TextInput
+              w="35%"
+              placeholder="Enter Alias"
+              value={ruleAlias}
+              onChange={(e) => setRuleAlias(e.target.value.trim())}
+              icon={<MdShortcut />}
+              error={!ruleAlias}
+            />
+            <TextInput
+              w="60%"
+              placeholder="Enter Website"
+              value={ruleWebsite}
+              onChange={(e) => setRuleWebsite(e.target.value.trim())}
+              icon={<CgWebsite />}
+              error={!ruleWebsite}
+            />
+          </Group>
           <Checkbox
             checked={isDefaultRule}
-            onChange={handleDefaultRuleChange}
-            color="primary"
+            onChange={(e) => setIsDefaultRule(e.target.checked)}
+            mr={2}
+            sx={{ display: 'flex' }}
           />
-          <TextField
-            id={alias}
-            value={ruleAlias}
-            onChange={onWebsiteAliasInput}
-            size="small"
-            placeholder="Enter Alias"
-            sx={{ marginRight: '8px' }}
-            inputProps={inputProps}
-            autoFocus={ruleAlias === DEFAULT_RULE_ALIAS}
-          />
-          <TextField
-            id={ruleWebsite}
-            value={ruleWebsite}
-            onChange={onWebsiteInput}
-            fullWidth
-            size="small"
-            placeholder="Enter Website"
-            inputProps={inputProps}
-          />
-          <IconButton
-            title="Open"
-            edge="end"
-            color="info"
+          <ActionIcon
+            radius={999}
+            size="lg"
             disabled={!ruleWebsite}
             onClick={handleLinkOpen}
+            color="blue.5"
+            sx={ruleWebsite ? undefined : disabledStyles}
           >
-            <FiExternalLink />
-          </IconButton>
-          <IconButton
-            title="Save"
-            color="success"
-            edge="end"
+            <RxExternalLink size={21} />
+          </ActionIcon>
+          <ActionIcon
+            radius={999}
+            size="lg"
             disabled={isRuleSaveActive}
             onClick={handleSaveClick}
+            color="teal"
+            sx={isRuleSaveActive ? disabledStyles : undefined}
           >
-            <IoCheckmarkDoneSharp />
-          </IconButton>
-          <IconButton title="Delete" color="error" onClick={handleRemoveClick}>
-            <MdRemoveCircleOutline />
-          </IconButton>
-        </Box>
+            <GiSaveArrow size={20} />
+          </ActionIcon>
+          <ActionIcon
+            radius={999}
+            size="lg"
+            onClick={handleRemoveClick}
+            color="red"
+          >
+            <MdOutlineDelete size={21} />
+          </ActionIcon>
+        </Center>
       )}
     </Draggable>
   );

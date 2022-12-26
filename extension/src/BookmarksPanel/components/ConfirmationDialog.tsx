@@ -8,6 +8,7 @@ import {
 import { VoidFunction } from '@bypass/shared/interfaces/custom';
 import { memo } from 'react';
 
+//TODO: after migrating this, consume this is Settings Panel also
 const ConfirmationDialog = memo<{
   onClose: VoidFunction;
   onOk: VoidFunction;

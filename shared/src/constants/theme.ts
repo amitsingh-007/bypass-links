@@ -5,4 +5,11 @@ export const mantineTheme: MantineThemeOverride = {
   fontFamily: 'Product Sans',
   cursorType: 'pointer',
   loader: 'bars',
+  components: {
+    TextInput: {
+      defaultProps: {
+        autoComplete: 'off',
+      },
+    },
+  },
 };

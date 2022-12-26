@@ -1,28 +1,28 @@
-import { FIREBASE_DB_REF } from '@bypass/shared/constants/firebase';
-import { Box } from '@mui/material';
-import { ROUTES } from '@bypass/shared/constants/routes';
-import { PANEL_DIMENSIONS_PX } from '@constants/styles';
-import { getRedirections } from '@helpers/fetchFromStorage';
-import { saveToFirebase } from '@helpers/firebase/database';
-import { memo, useEffect, useState } from 'react';
-import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
-import { useNavigate } from 'react-router-dom';
 import { IRedirection } from '@/BackgroundScript/interfaces/redirections';
 import { syncRedirectionsToStorage } from '@/BackgroundScript/redirect';
-import { DEFAULT_RULE_ALIAS } from '../constants';
-import Header from './Header';
-import RedirectionRule from './RedirectionRule';
+import { MAX_PANEL_SIZE } from '@/constants';
+import Header from '@bypass/shared/components/Header';
+import { FIREBASE_DB_REF } from '@bypass/shared/constants/firebase';
+import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
+import { getRedirections } from '@helpers/fetchFromStorage';
+import { saveToFirebase } from '@helpers/firebase/database';
+import { Button, Flex, LoadingOverlay } from '@mantine/core';
 import useToastStore from '@store/toast';
+import { memo, useEffect, useState } from 'react';
+import { IoSave } from 'react-icons/io5';
+import { RiPlayListAddFill } from 'react-icons/ri';
+import { DEFAULT_RULE_ALIAS } from '../constants';
+import RedirectionRule from './RedirectionRule';
 
 //Filter valid rules
 const getValidRules = (obj: IRedirection) =>
   Boolean(obj && obj.alias && obj.alias !== DEFAULT_RULE_ALIAS && obj.website);
 
 const ShortcutsPanel = memo(function ShortcutsPanel() {
-  const navigate = useNavigate();
   const displayToast = useToastStore((state) => state.displayToast);
   const [redirections, setRedirections] = useState<IRedirection[]>([]);
   const [isFetching, setIsFetching] = useState(true);
+  const [isSaveActive, setIsSaveActive] = useState(false);
 
   useEffect(() => {
     getRedirections().then((redirections) => {
@@ -38,10 +38,6 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
       setIsFetching(false);
     });
   }, []);
-
-  const handleClose = () => {
-    navigate(ROUTES.HOMEPAGE);
-  };
 
   const handleSave = async () => {
     setIsFetching(true);
@@ -70,6 +66,7 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
         duration: 1500,
       });
     }
+    setIsSaveActive(false);
     setIsFetching(false);
   };
 
@@ -80,17 +77,20 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
       isDefault: false,
     });
     setRedirections([...redirections]);
+    setIsSaveActive(true);
   };
 
   const handleRemoveRule = (pos: number) => {
     const newRedirections = [...redirections];
     newRedirections.splice(pos, 1);
     setRedirections(newRedirections);
+    setIsSaveActive(true);
   };
 
   const handleSaveRule = (redirection: IRedirection, pos: number) => {
     redirections[pos] = redirection;
     setRedirections([...redirections]);
+    setIsSaveActive(true);
   };
 
   /*
@@ -109,26 +109,41 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
   };
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <Box sx={{ width: PANEL_DIMENSIONS_PX.width }}>
-        <Header
-          isFetching={isFetching}
-          handleClose={handleClose}
-          handleSave={handleSave}
-          handleAddRule={handleAddRule}
-        />
+    <Flex w={MAX_PANEL_SIZE.WIDTH} h={MAX_PANEL_SIZE.HEIGHT} direction="column">
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Header text="Shortcuts">
+          <Button
+            variant="light"
+            leftIcon={<RiPlayListAddFill />}
+            onClick={handleAddRule}
+            radius="xl"
+            disabled={isFetching}
+          >
+            Add
+          </Button>
+          <Button
+            variant="light"
+            leftIcon={<IoSave />}
+            onClick={handleSave}
+            color="teal"
+            radius="xl"
+            loading={isFetching}
+            disabled={!isSaveActive}
+          >
+            Save
+          </Button>
+        </Header>
         <Droppable droppableId="redirections-list">
           {(provided) => (
-            <Box
-              sx={{
-                paddingLeft: '12px',
-                height: PANEL_DIMENSIONS_PX.height,
-                overflowY: 'scroll',
-              }}
-              ref={provided.innerRef as React.Ref<unknown>}
+            <Flex
+              direction="column"
+              gap={10}
+              p="10px 4px 4px"
+              sx={{ overflow: 'auto', flex: 1 }}
+              ref={provided.innerRef}
               {...provided.droppableProps}
             >
-              {!isFetching && redirections.length > 0
+              {redirections.length > 0
                 ? redirections.map(({ alias, website, isDefault }, index) => (
                     <RedirectionRule
                       alias={alias}
@@ -142,11 +157,12 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
                   ))
                 : null}
               {provided.placeholder}
-            </Box>
+              <LoadingOverlay visible={isFetching} />
+            </Flex>
           )}
         </Droppable>
-      </Box>
-    </DragDropContext>
+      </DragDropContext>
+    </Flex>
   );
 });
 
