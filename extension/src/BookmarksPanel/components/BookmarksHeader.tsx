@@ -11,7 +11,7 @@ import { TbReplace } from 'react-icons/tb';
 import { useNavigate } from 'react-router-dom';
 import { syncBookmarksFirebaseWithStorage } from '../utils/bookmark';
 import ConfirmationDialog from './ConfirmationDialog';
-import { FolderDialog } from './FolderDialog';
+import { FolderAddEditDialog } from './FolderAddEditDialog';
 import ReplaceDialog from './ReplaceDialog';
 
 interface Props {
@@ -164,7 +164,7 @@ const BookmarksHeader = memo<Props>(function BookmarksHeader({
           Sync
         </Button>
       </Header>
-      <FolderDialog
+      <FolderAddEditDialog
         headerText="Add folder"
         handleSave={handleNewFolderSave}
         isOpen={openFolderDialog}

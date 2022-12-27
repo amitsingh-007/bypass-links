@@ -7,7 +7,7 @@ import withBookmarkRow from '../hoc/withBookmarkRow';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
 import { FaFolderMinus } from 'react-icons/fa';
-import { FolderDialog } from './FolderDialog';
+import { FolderAddEditDialog } from './FolderAddEditDialog';
 
 interface Props extends FolderProps {
   pos: number;
@@ -57,7 +57,7 @@ const FolderRow = memo<Props>(
         >
           <Folder name={origName} {...restProps} />
         </ContextMenu>
-        <FolderDialog
+        <FolderAddEditDialog
           headerText="Edit folder"
           origName={origName}
           handleSave={handleFolderSave}
