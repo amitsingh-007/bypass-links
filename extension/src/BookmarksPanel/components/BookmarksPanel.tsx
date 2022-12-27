@@ -35,10 +35,7 @@ import useToastStore from '@store/toast';
 import md5 from 'md5';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FixedSizeList } from 'react-window';
-import {
-  BOOKMARK_PANEL_CONTENT_HEIGHT,
-  BOOKMARK_ROW_DIMENTSIONS,
-} from '../constants';
+import { BOOKMARK_ROW_HEIGHT } from '../constants';
 import {
   getAllFolderNames,
   getSelectedCount,
@@ -50,15 +47,11 @@ import {
   getDestinationIndex,
   getSelectedBookmarksAfterDrag,
 } from '../utils/manipulate';
+import BookmarkAddEditDialog from './BookmarkAddEditDialog';
 import BookmarkContextMenu from './BookmarkContextMenu';
-import DragClone from './DragClone';
-import EditBookmark from './EditBookmark';
 import BookmarksHeader from './BookmarksHeader';
+import DragClone from './DragClone';
 import VirtualRow, { VirtualRowProps } from './VirtualRow';
-
-const minReqBookmarksToScroll = Math.ceil(
-  BOOKMARK_PANEL_CONTENT_HEIGHT / BOOKMARK_ROW_DIMENTSIONS.height
-);
 
 const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
   folderContext,
@@ -479,6 +472,7 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     () => getSelectedCount(selectedBookmarks),
     [selectedBookmarks]
   );
+  const minReqBookmarksToScroll = Math.ceil(bodyHeight / BOOKMARK_ROW_HEIGHT);
   return (
     <>
       <ScrollButton
@@ -499,7 +493,7 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
           isFetching={isFetching}
           onSearchChange={handleSearchTextChange}
         />
-        <EditBookmark
+        <BookmarkAddEditDialog
           curFolder={folderContext}
           onSave={handleBookmarkSave}
           onDelete={handleUrlRemove}
@@ -532,7 +526,7 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
                       ref={listRef}
                       height={bodyHeight}
                       width={bodyWidth}
-                      itemSize={BOOKMARK_ROW_DIMENTSIONS.height}
+                      itemSize={BOOKMARK_ROW_HEIGHT}
                       itemCount={curBookmarksCount}
                       overscanCount={5}
                       outerRef={provided.innerRef}
