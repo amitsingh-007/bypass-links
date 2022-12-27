@@ -20,11 +20,11 @@ import {
   getFilteredContextBookmarks,
   shouldRenderBookmarks,
 } from '@bypass/shared/components/Bookmarks/utils';
-import { useMeasure } from 'react-use';
+import { useElementSize } from '@mantine/hooks';
 
 export default function BookmarksPage() {
   const router = useRouter();
-  const [contentRef, { height: contentHeight }] = useMeasure();
+  const { ref: contentRef, height: contentHeight } = useElementSize();
   const folderContext =
     (router.query.folderContext as string) ?? defaultBookmarkFolder;
   const [contextBookmarks, setContextBookmarks] = useState<ContextBookmarks>(

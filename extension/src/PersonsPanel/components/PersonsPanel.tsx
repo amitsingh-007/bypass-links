@@ -12,7 +12,7 @@ import {
 import tabs from '@helpers/chrome/tabs';
 import { getPersons } from '@helpers/fetchFromStorage';
 import { removeImageFromFirebase } from '@helpers/firebase/storage';
-import { Box, Flex, LoadingOverlay } from '@mantine/core';
+import { Box, Flex } from '@mantine/core';
 import useHistoryStore from '@store/history';
 import useToastStore from '@store/toast';
 import { useEffect, useMemo, useState } from 'react';
@@ -131,7 +131,6 @@ const PersonsPanel = () => {
               scrollButton
             />
           ) : null}
-          <LoadingOverlay visible={isFetching} />
         </Box>
       </Flex>
     </>

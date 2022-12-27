@@ -28,10 +28,8 @@
     "react-dom": "18.2.0",
     "react-easy-crop": "4.6.3",
     "react-icons": "4.7.1",
-    "react-intersection-observer": "9.4.1",
     "react-router-dom": "6.6.1",
     "react-window": "1.8.8",
-    "throttle-debounce": "5.0.0",
     "zustand": "4.1.5"
   },
   "devDependencies": {
@@ -44,7 +42,6 @@
     "@types/react-dom": "18.0.10",
     "@types/react-router-dom": "5.3.3",
     "@types/react-window": "1.8.5",
-    "@types/throttle-debounce": "5.0.0",
     "@types/webpack": "5.28.0",
     "@typescript-eslint/eslint-plugin": "5.47.0",
     "@typescript-eslint/parser": "5.47.0",

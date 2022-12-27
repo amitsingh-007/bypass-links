@@ -1,6 +1,6 @@
 import Header from '@bypass/shared/components/Header';
 import { IPerson } from '@bypass/shared/components/Persons/interfaces/persons';
-import { Button } from '@mantine/core';
+import { Button, LoadingOverlay } from '@mantine/core';
 import useToastStore from '@store/toast';
 import { memo, useState } from 'react';
 import { IoIosPersonAdd } from 'react-icons/io';
@@ -29,22 +29,12 @@ const PersonHeader = memo<Props>(function PersonHeader({
     setShowAddPersonDialog(!showAddPersonDialog);
   };
 
-  const handleAddPersonClick: React.MouseEventHandler<HTMLButtonElement> = (
-    event
-  ) => {
-    event.stopPropagation();
-    toggleAddPersonDialog();
-  };
-
   const handlePersonSave = (person: IPerson) => {
     handleAddPerson(person);
     toggleAddPersonDialog();
   };
 
-  const onSyncClick: React.MouseEventHandler<HTMLButtonElement> = async (
-    event
-  ) => {
-    event.stopPropagation();
+  const onSyncClick = async () => {
     if (isSyncing) {
       return;
     }
@@ -66,7 +56,7 @@ const PersonHeader = memo<Props>(function PersonHeader({
           radius="xl"
           variant="light"
           leftIcon={<IoIosPersonAdd />}
-          onClick={handleAddPersonClick}
+          onClick={toggleAddPersonDialog}
           disabled={isFetching}
         >
           Add
@@ -90,6 +80,7 @@ const PersonHeader = memo<Props>(function PersonHeader({
           handleSaveClick={handlePersonSave}
         />
       )}
+      <LoadingOverlay visible={isSyncing} />
     </>
   );
 });

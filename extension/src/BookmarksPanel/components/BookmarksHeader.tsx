@@ -1,9 +1,9 @@
 import { ContextBookmarks } from '@bypass/shared/components/Bookmarks/interfaces';
 import Header from '@bypass/shared/components/Header';
 import { VoidFunction } from '@bypass/shared/interfaces/custom';
-import { Button } from '@mantine/core';
+import { Button, LoadingOverlay } from '@mantine/core';
 import useToastStore from '@store/toast';
-import React, { memo, useState } from 'react';
+import { memo, useState } from 'react';
 import { FaFolderPlus } from 'react-icons/fa';
 import { IoSave } from 'react-icons/io5';
 import { RiUploadCloud2Fill } from 'react-icons/ri';
@@ -50,10 +50,7 @@ const BookmarksHeader = memo<Props>(function BookmarksHeader({
     }
   };
 
-  const onSyncClick: React.MouseEventHandler<HTMLButtonElement> = async (
-    event
-  ) => {
-    event.stopPropagation();
+  const onSyncClick = async () => {
     if (isSyncing) {
       return;
     }
@@ -146,6 +143,7 @@ const BookmarksHeader = memo<Props>(function BookmarksHeader({
         onOk={handleConfirmationDialogOk}
         isOpen={openConfirmationDialog}
       />
+      <LoadingOverlay visible={isSyncing} />
     </>
   );
 });
