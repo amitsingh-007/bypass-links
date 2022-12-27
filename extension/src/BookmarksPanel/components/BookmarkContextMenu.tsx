@@ -1,42 +1,34 @@
-import ContextMenu from '@components/ContextMenu';
-import { VoidFunction } from '@bypass/shared/interfaces/custom';
-import { IMenuOptions } from '@interfaces/menu';
-import md5 from 'md5';
-import { memo, useState } from 'react';
-import { AiFillEdit } from 'react-icons/ai';
-import { BsFillFolderSymlinkFill } from 'react-icons/bs';
-import { FiExternalLink } from 'react-icons/fi';
-import { HiArrowCircleDown, HiArrowCircleUp } from 'react-icons/hi';
-import { RiBookmark2Fill } from 'react-icons/ri';
 import { BOOKMARK_OPERATION } from '@bypass/shared/components/Bookmarks/constants';
 import {
   ContextBookmarks,
   ISelectedBookmarks,
 } from '@bypass/shared/components/Bookmarks/interfaces';
-import BulkBookmarksMoveDialog from './BulkBookmarksMoveDialog';
+import { VoidFunction } from '@bypass/shared/interfaces/custom';
+import ContextMenu from '@components/ContextMenu';
+import { IMenuOptions } from '@interfaces/menu';
 import useBookmarkStore from '@store/bookmark';
+import md5 from 'md5';
+import { memo } from 'react';
+import { AiFillEdit } from 'react-icons/ai';
+import { FiExternalLink } from 'react-icons/fi';
+import { HiArrowCircleDown, HiArrowCircleUp } from 'react-icons/hi';
+import { RiBookmark2Fill } from 'react-icons/ri';
 
 const BookmarkContextMenu = memo<{
-  curFolder: string;
   contextBookmarks: ContextBookmarks;
-  folderNamesList: string[];
   children: React.ReactNode;
   selectedBookmarks: ISelectedBookmarks;
   handleOpenSelectedBookmarks: VoidFunction;
   handleBulkUrlRemove: VoidFunction;
   handleUrlRemove: (pos: number, url: string) => void;
-  handleBulkBookmarksMove: (folder: string) => void;
   handleMoveBookmarks: (destinationIndex: number) => void;
   handleScroll: (itemNumber: number) => void;
 }>(
   ({
     children,
-    curFolder,
     contextBookmarks,
-    folderNamesList,
     selectedBookmarks,
     handleOpenSelectedBookmarks,
-    handleBulkBookmarksMove,
     handleUrlRemove,
     handleBulkUrlRemove,
     handleMoveBookmarks,
@@ -47,11 +39,6 @@ const BookmarkContextMenu = memo<{
     const setBookmarkOperation = useBookmarkStore(
       (state) => state.setBookmarkOperation
     );
-    const [openBulkMoveDialog, setOpenBulkMoveDialog] = useState(false);
-
-    const toggleBulkMoveDialog = () => {
-      setOpenBulkMoveDialog(!openBulkMoveDialog);
-    };
 
     const getBookmark = (id: string) => {
       const selectedIndex = contextBookmarks.findIndex(
@@ -102,11 +89,6 @@ const BookmarkContextMenu = memo<{
       ]);
       if (selectedCount > 1) {
         menuOptionsList.push({
-          onClick: toggleBulkMoveDialog,
-          text: 'Bulk move bookmarks',
-          icon: BsFillFolderSymlinkFill,
-        });
-        menuOptionsList.push({
           onClick: handleBulkUrlRemove,
           text: 'Delete All',
           icon: RiBookmark2Fill,
@@ -129,24 +111,13 @@ const BookmarkContextMenu = memo<{
     };
 
     return (
-      <>
-        <ContextMenu
-          showMenu={selectedCount > 0}
-          getMenuOptions={getMenuOptions}
-          containerStyles={{ flex: 1 }}
-        >
-          {children}
-        </ContextMenu>
-        {openBulkMoveDialog && (
-          <BulkBookmarksMoveDialog
-            isOpen
-            origFolder={curFolder}
-            folderList={folderNamesList}
-            handleSave={handleBulkBookmarksMove}
-            onClose={toggleBulkMoveDialog}
-          />
-        )}
-      </>
+      <ContextMenu
+        showMenu={selectedCount > 0}
+        getMenuOptions={getMenuOptions}
+        containerStyles={{ flex: 1 }}
+      >
+        {children}
+      </ContextMenu>
     );
   }
 );

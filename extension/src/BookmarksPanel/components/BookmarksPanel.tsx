@@ -257,39 +257,6 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     [contextBookmarks, folders, updatePersonUrls, urlList]
   );
 
-  const handleBulkBookmarksMove = useCallback(
-    (destFolder: string) => {
-      const bookmarksToMove = contextBookmarks
-        .filter((bookmark, index) =>
-          Boolean(selectedBookmarks[index] && bookmark.url)
-        )
-        .map(({ url = '' }) => md5(url));
-      //Change parent folder hash in urlList
-      const destFolderHash = md5(destFolder);
-      bookmarksToMove.forEach(
-        (urlHash) =>
-          (urlList[urlHash] = {
-            ...urlList[urlHash],
-            parentHash: destFolderHash,
-          })
-      );
-      //Add to destination folder
-      folders[destFolderHash] = (folders[destFolderHash] || []).concat(
-        bookmarksToMove.map((urlHash) => ({ isDir: false, hash: urlHash }))
-      );
-      //Remove from old folder, ie, contextBookmarks
-      const updatedBookmarksInOldFolder = contextBookmarks.filter(
-        (_bookmark, index) => !selectedBookmarks[index]
-      );
-      setUrlList({ ...urlList });
-      setFolders({ ...folders });
-      setContextBookmarks(updatedBookmarksInOldFolder);
-      setSelectedBookmarks([]);
-      setIsSaveButtonActive(true);
-    },
-    [contextBookmarks, folders, selectedBookmarks, urlList]
-  );
-
   const handleUrlRemove = useCallback(
     (pos: number, url: string) => {
       const urlHash = md5(url);
@@ -542,13 +509,10 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
           handleSelectedChange={handleSelectedChange}
         />
         <BookmarkContextMenu
-          curFolder={folderContext}
           contextBookmarks={contextBookmarks}
-          folderNamesList={folderNamesList}
           selectedBookmarks={selectedBookmarks}
           handleBulkUrlRemove={handleBulkUrlRemove}
           handleUrlRemove={handleUrlRemove}
-          handleBulkBookmarksMove={handleBulkBookmarksMove}
           handleOpenSelectedBookmarks={handleOpenSelectedBookmarks}
           handleMoveBookmarks={handleMoveBookmarks}
           handleScroll={handleScroll}
