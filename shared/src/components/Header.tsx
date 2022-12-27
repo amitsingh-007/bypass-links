@@ -9,6 +9,7 @@ interface Props {
   text?: React.ReactNode;
   onSearchChange?: (text: string) => void;
   rightContent?: React.ReactNode;
+  onBackClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const Header = memo<Props>(function Header({
@@ -16,6 +17,7 @@ const Header = memo<Props>(function Header({
   text,
   onSearchChange,
   rightContent: RightContent = null,
+  onBackClick,
 }) {
   const { location } = useContext(DynamicContext);
 
@@ -34,7 +36,7 @@ const Header = memo<Props>(function Header({
           variant="light"
           color="red"
           leftIcon={<HiOutlineArrowNarrowLeft />}
-          onClick={location.goBack}
+          onClick={onBackClick ?? location.goBack}
         >
           Back
         </Button>

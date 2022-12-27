@@ -1,47 +1,32 @@
-import { Box, Button, SelectProps } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
-import {
-  AccordionHeader,
-  PrimaryHeaderContent,
-  SecondaryHeaderContent,
-} from '@components/AccordionHeader';
-import Loader from '@components/Loader';
-import PanelHeading from '@bypass/shared/components/PanelHeading';
-import Search from '@bypass/shared/components/Search';
+import { ContextBookmarks } from '@bypass/shared/components/Bookmarks/interfaces';
+import Header from '@bypass/shared/components/Header';
 import { VoidFunction } from '@bypass/shared/interfaces/custom';
+import { Button } from '@mantine/core';
+import useToastStore from '@store/toast';
 import React, { memo, useEffect, useRef, useState } from 'react';
 import { FaFolderPlus } from 'react-icons/fa';
-import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
 import { IoSave } from 'react-icons/io5';
 import { RiUploadCloud2Fill } from 'react-icons/ri';
 import { TbReplace } from 'react-icons/tb';
-import { ContextBookmarks } from '@bypass/shared/components/Bookmarks/interfaces';
+import { useNavigate } from 'react-router-dom';
 import { syncBookmarksFirebaseWithStorage } from '../utils/bookmark';
-import { getBookmarksPanelUrl } from '@bypass/shared/components/Bookmarks/utils/url';
 import ConfirmationDialog from './ConfirmationDialog';
-import { FolderDropdown } from './Dropdown';
 import { FolderDialog } from './FolderDialog';
 import ReplaceDialog from './ReplaceDialog';
-import { useNavigate } from 'react-router-dom';
-import useToastStore from '@store/toast';
 
 interface Props {
   isSaveButtonActive: boolean;
   contextBookmarks: ContextBookmarks;
   handleSave: VoidFunction;
-  curFolder: string;
-  folderNamesList: string[];
   isFetching: boolean;
   handleCreateNewFolder: (folder: string) => void;
   onSearchChange: (text: string) => void;
 }
 
-const Header = memo<Props>(function Header({
+const BookmarksHeader = memo<Props>(function BookmarksHeader({
   isSaveButtonActive,
   contextBookmarks,
   handleSave,
-  curFolder,
-  folderNamesList,
   isFetching,
   handleCreateNewFolder,
   onSearchChange,
@@ -67,13 +52,7 @@ const Header = memo<Props>(function Header({
     navigate(-1);
   };
 
-  const onFolderChange: SelectProps<string>['onChange'] = (event) => {
-    navigate(getBookmarksPanelUrl({ folderContext: event.target.value }));
-  };
-
-  const handleDiscardButtonClick: React.MouseEventHandler<HTMLButtonElement> = (
-    event
-  ) => {
+  const onBackClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
     event.stopPropagation();
     if (isSaveButtonActive) {
       setOpenConfirmationDialog(true);
@@ -140,84 +119,51 @@ const Header = memo<Props>(function Header({
 
   return (
     <>
-      <AccordionHeader>
-        <PrimaryHeaderContent>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              pl: '6px',
-              '> *': { mr: '12px !important' },
-            }}
-          >
-            <Button
-              variant="outlined"
-              startIcon={<HiOutlineArrowNarrowLeft />}
-              onClick={handleDiscardButtonClick}
-              size="small"
-              color="error"
-            >
-              Back
-            </Button>
-            <Button
-              variant="outlined"
-              startIcon={<FaFolderPlus />}
-              onClick={handleNewFolderClick}
-              size="small"
-              color="primary"
-            >
-              Add
-            </Button>
-            <Button
-              variant="outlined"
-              startIcon={<TbReplace />}
-              onClick={handleReplaceClick}
-              size="small"
-              color="primary"
-            >
-              Replace
-            </Button>
-            <Button
-              variant="outlined"
-              disabled={!isSaveButtonActive}
-              startIcon={<IoSave />}
-              onClick={onSaveClick}
-              size="small"
-              color="success"
-              ref={saveButtonRef}
-            >
-              Save
-            </Button>
-            <LoadingButton
-              variant="outlined"
-              startIcon={<RiUploadCloud2Fill />}
-              onClick={onSyncClick}
-              size="small"
-              color="warning"
-              loading={isSyncing}
-            >
-              Sync
-            </LoadingButton>
-            {isFetching && <Loader />}
-          </Box>
-          <PanelHeading
-            heading={`${curFolder} (${contextBookmarks?.length || 0})`}
-            containerStyles={{ textTransform: 'uppercase' }}
-          />
-        </PrimaryHeaderContent>
-        <SecondaryHeaderContent>
-          <Box sx={{ minWidth: '190px' }}>
-            <FolderDropdown
-              folder={curFolder}
-              folderList={folderNamesList}
-              handleFolderChange={onFolderChange}
-              hideLabel
-              fullWidth
-            />
-          </Box>
-          <Search onChange={onSearchChange} />
-        </SecondaryHeaderContent>
-      </AccordionHeader>
+      <Header
+        onBackClick={onBackClick}
+        onSearchChange={onSearchChange}
+        text={`${contextBookmarks?.length || 0}`}
+      >
+        <Button
+          radius="xl"
+          variant="light"
+          leftIcon={<FaFolderPlus />}
+          onClick={handleNewFolderClick}
+          disabled={isFetching || isSyncing}
+        >
+          Add
+        </Button>
+        <Button
+          radius="xl"
+          variant="light"
+          leftIcon={<TbReplace />}
+          onClick={handleReplaceClick}
+          disabled={isFetching || isSyncing}
+        >
+          Replace
+        </Button>
+        <Button
+          radius="xl"
+          variant="light"
+          color="teal"
+          leftIcon={<IoSave />}
+          onClick={onSaveClick}
+          disabled={isFetching || !isSaveButtonActive}
+        >
+          Save
+        </Button>
+        <Button
+          radius="xl"
+          variant="light"
+          leftIcon={<RiUploadCloud2Fill />}
+          onClick={onSyncClick}
+          color="yellow"
+          loading={isSyncing}
+          disabled={!isSyncing && isFetching}
+        >
+          Sync
+        </Button>
+      </Header>
       <FolderDialog
         headerText="Add folder"
         handleSave={handleNewFolderSave}
@@ -234,4 +180,4 @@ const Header = memo<Props>(function Header({
   );
 });
 
-export default Header;
+export default BookmarksHeader;

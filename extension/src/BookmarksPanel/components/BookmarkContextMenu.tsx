@@ -8,7 +8,6 @@ import { BsFillFolderSymlinkFill } from 'react-icons/bs';
 import { FiExternalLink } from 'react-icons/fi';
 import { HiArrowCircleDown, HiArrowCircleUp } from 'react-icons/hi';
 import { RiBookmark2Fill } from 'react-icons/ri';
-import { BOOKMARK_PANEL_CONTENT_HEIGHT } from '../constants';
 import { BOOKMARK_OPERATION } from '@bypass/shared/components/Bookmarks/constants';
 import {
   ContextBookmarks,
@@ -134,7 +133,7 @@ const BookmarkContextMenu = memo<{
         <ContextMenu
           showMenu={selectedCount > 0}
           getMenuOptions={getMenuOptions}
-          containerStyles={{ height: `${BOOKMARK_PANEL_CONTENT_HEIGHT}px` }}
+          containerStyles={{ flex: 1 }}
         >
           {children}
         </ContextMenu>
