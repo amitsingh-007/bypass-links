@@ -3,7 +3,7 @@ import Header from '@bypass/shared/components/Header';
 import { VoidFunction } from '@bypass/shared/interfaces/custom';
 import { Button } from '@mantine/core';
 import useToastStore from '@store/toast';
-import React, { memo, useEffect, useRef, useState } from 'react';
+import React, { memo, useState } from 'react';
 import { FaFolderPlus } from 'react-icons/fa';
 import { IoSave } from 'react-icons/io5';
 import { RiUploadCloud2Fill } from 'react-icons/ri';
@@ -33,20 +33,10 @@ const BookmarksHeader = memo<Props>(function BookmarksHeader({
 }) {
   const navigate = useNavigate();
   const displayToast = useToastStore((state) => state.displayToast);
-  const saveButtonRef = useRef<HTMLButtonElement>(null);
   const [openFolderDialog, setOpenFolderDialog] = useState(false);
   const [openReplaceDialog, setOpenReplaceDialog] = useState(false);
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
-
-  useEffect(() => {
-    if (isSaveButtonActive) {
-      //Focus save button after updating bookmarks
-      setTimeout(() => {
-        saveButtonRef?.current?.focus();
-      }, 0);
-    }
-  }, [isSaveButtonActive, contextBookmarks]);
 
   const handleClose = () => {
     navigate(-1);
@@ -82,28 +72,9 @@ const BookmarksHeader = memo<Props>(function BookmarksHeader({
     setIsSyncing(false);
   };
 
-  const onSaveClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
-    event.stopPropagation();
-    handleSave();
-  };
-
   const toggleNewFolderDialog = () => setOpenFolderDialog(!openFolderDialog);
 
   const toggleReplaceDialog = () => setOpenReplaceDialog(!openReplaceDialog);
-
-  const handleNewFolderClick: React.MouseEventHandler<HTMLButtonElement> = (
-    event
-  ) => {
-    event.stopPropagation();
-    toggleNewFolderDialog();
-  };
-
-  const handleReplaceClick: React.MouseEventHandler<HTMLButtonElement> = (
-    event
-  ) => {
-    event.stopPropagation();
-    toggleReplaceDialog();
-  };
 
   const handleConfirmationDialogClose = () => setOpenConfirmationDialog(false);
 
@@ -128,7 +99,7 @@ const BookmarksHeader = memo<Props>(function BookmarksHeader({
           radius="xl"
           variant="light"
           leftIcon={<FaFolderPlus />}
-          onClick={handleNewFolderClick}
+          onClick={toggleNewFolderDialog}
           disabled={isFetching || isSyncing}
         >
           Add
@@ -137,7 +108,7 @@ const BookmarksHeader = memo<Props>(function BookmarksHeader({
           radius="xl"
           variant="light"
           leftIcon={<TbReplace />}
-          onClick={handleReplaceClick}
+          onClick={toggleReplaceDialog}
           disabled={isFetching || isSyncing}
         >
           Replace
@@ -147,7 +118,7 @@ const BookmarksHeader = memo<Props>(function BookmarksHeader({
           variant="light"
           color="teal"
           leftIcon={<IoSave />}
-          onClick={onSaveClick}
+          onClick={handleSave}
           disabled={isFetching || !isSaveButtonActive}
         >
           Save
