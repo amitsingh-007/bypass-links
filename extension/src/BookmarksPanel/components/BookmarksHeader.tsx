@@ -42,8 +42,7 @@ const BookmarksHeader = memo<Props>(function BookmarksHeader({
     navigate(-1);
   };
 
-  const onBackClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
-    event.stopPropagation();
+  const onBackClick = () => {
     if (isSaveButtonActive) {
       setOpenConfirmationDialog(true);
     } else {

@@ -1,45 +1,36 @@
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-} from '@mui/material';
 import { VoidFunction } from '@bypass/shared/interfaces/custom';
+import { Button, Group, Modal } from '@mantine/core';
 import { memo } from 'react';
 
-//TODO: after migrating this, consume this is Settings Panel also
-const ConfirmationDialog = memo<{
+interface Props {
   onClose: VoidFunction;
   onOk: VoidFunction;
   isOpen: boolean;
-}>(function ConfirmationDialog({ onClose, onOk, isOpen }) {
-  const handleCancel = () => {
-    onClose();
-  };
-  const handleOk = () => {
-    onOk();
-  };
+}
 
+const ConfirmationDialog = memo<Props>(function ConfirmationDialog({
+  onClose,
+  onOk,
+  isOpen,
+}) {
   return (
-    <Dialog disableEscapeKeyDown maxWidth="xs" open={isOpen}>
-      <DialogContent>
-        <Box>There are some unsaved changes</Box>
-      </DialogContent>
-      <DialogActions>
-        <Button
-          autoFocus
-          variant="outlined"
-          onClick={handleCancel}
-          color="error"
-        >
-          <strong>Cancel</strong>
+    <Modal
+      onClose={() => undefined}
+      withCloseButton={false}
+      closeOnEscape={false}
+      centered
+      opened={isOpen}
+      title="There are some unsaved changes"
+    >
+      <Group position="right" mt="lg">
+        <Button color="red" onClick={onOk}>
+          Discard
         </Button>
-        <Button variant="outlined" onClick={handleOk} color="success">
-          <strong>Discard</strong>
+        <Button color="teal" onClick={onClose}>
+          Cancel
         </Button>
-      </DialogActions>
-    </Dialog>
+      </Group>
+    </Modal>
   );
 });
 

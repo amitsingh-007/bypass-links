@@ -11,5 +11,11 @@ export const mantineTheme: MantineThemeOverride = {
         autoComplete: 'off',
       },
     },
+    Modal: {
+      defaultProps: {
+        withFocusReturn: true,
+        zIndex: 1002, //1 more than Header's zIndex
+      },
+    },
   },
 };
