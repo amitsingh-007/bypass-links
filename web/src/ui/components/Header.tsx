@@ -1,6 +1,5 @@
 import { Toolbar, Typography } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
-import { BG_COLOR_DARK } from '@bypass/shared/constants/color';
 import Search from '@bypass/shared/components/Search';
 
 const Header = ({
@@ -11,10 +10,7 @@ const Header = ({
   onSearchChange: (searchText: string) => void;
 }) => {
   return (
-    <AppBar
-      position="static"
-      sx={{ borderRadius: '4px', backgroundColor: BG_COLOR_DARK }}
-    >
+    <AppBar position="static" sx={{ borderRadius: '4px' }}>
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Search onChange={onSearchChange} />
         <Typography
