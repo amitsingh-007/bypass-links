@@ -1,5 +1,4 @@
 import '@/scss/popup.scss';
-import { BG_COLOR_BLACK } from '@bypass/shared/constants/color';
 import { mantineTheme } from '@bypass/shared/constants/theme';
 import ErrorBoundary from '@components/ErrorBoundary';
 import { MantineProvider } from '@mantine/core';
@@ -24,21 +23,6 @@ const theme = createTheme({
     MuiCssBaseline: {
       styleOverrides: {
         body: darkScrollbar(),
-      },
-    },
-    MuiDialogTitle: {
-      styleOverrides: {
-        root: { backgroundColor: BG_COLOR_BLACK },
-      },
-    },
-    MuiDialogContent: {
-      styleOverrides: {
-        root: { backgroundColor: BG_COLOR_BLACK },
-      },
-    },
-    MuiDialogActions: {
-      styleOverrides: {
-        root: { backgroundColor: BG_COLOR_BLACK },
       },
     },
     MuiButton: {
