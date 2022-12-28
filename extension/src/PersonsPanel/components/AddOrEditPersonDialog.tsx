@@ -118,25 +118,23 @@ const AddOrEditPersonDialog = memo<Props>(function AddOrEditPersonDialog({
                   size={imageSize}
                   radius="xl"
                 />
-                {!!imageUrl && (
-                  <Box
-                    sx={{
-                      position: 'absolute',
-                      top: '50%',
-                      left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                    }}
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                  }}
+                >
+                  <ActionIcon
+                    radius="xl"
+                    variant="subtle"
+                    size={imageSize}
+                    onClick={toggleImagePicker}
                   >
-                    <ActionIcon
-                      radius="xl"
-                      variant="subtle"
-                      size={imageSize}
-                      onClick={toggleImagePicker}
-                    >
-                      <MdModeEdit size="25px" />
-                    </ActionIcon>
-                  </Box>
-                )}
+                    <MdModeEdit size="25px" />
+                  </ActionIcon>
+                </Box>
               </Box>
             </Center>
             <TextInput
