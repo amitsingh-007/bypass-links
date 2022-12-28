@@ -1,60 +1,63 @@
-import { Slide, SlideProps } from '@mui/material';
-import Alert, { AlertProps } from '@mui/material/Alert';
-import Snackbar, { SnackbarProps } from '@mui/material/Snackbar';
-import { useEffect, useState } from 'react';
-import useToastStore from '@store/toast';
+import { Alert, AlertProps, Transition } from '@mantine/core';
+import useToastStore, { ToastType } from '@store/toast';
+import { memo, useEffect, useRef, useState } from 'react';
 
-const SlideTransition = (props: SlideProps) => (
-  <Slide {...props} direction="right" />
-);
+const COLOR_MAP: Record<ToastType, AlertProps['color']> = {
+  success: 'teal',
+  error: 'red',
+};
 
-const Toast = () => {
+const Toast = memo(function Toast() {
   const toast = useToastStore((state) => state.toast);
   const hideToast = useToastStore((state) => state.hideToast);
   const [open, setOpen] = useState(false);
+  const timerRef = useRef<NodeJS.Timeout | undefined>();
 
   useEffect(() => {
-    if (!open && toast) {
-      setOpen(true);
+    const { message, duration = 3000 } = toast;
+    if (message) {
+      if (!open) {
+        setOpen(true);
+      }
+      clearTimeout(timerRef.current);
+      timerRef.current = setTimeout(hideToast, duration);
+    } else {
+      setOpen(false);
     }
-  }, [open, toast]);
+  }, [hideToast, open, toast]);
 
-  const handleClose: SnackbarProps['onClose'] = (_event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    hideToast();
-    setOpen(false);
-  };
+  useEffect(() => () => clearTimeout(timerRef.current), []);
 
-  const handleAlertClose: AlertProps['onClose'] = (event) => {
-    handleClose(event, 'timeout');
-  };
-
-  if (!toast?.message) {
-    return null;
-  }
-
-  const { message, severity, duration } = toast;
+  const { message, severity = 'success' } = toast;
   return (
-    <Snackbar
-      key={message}
-      open={open}
-      autoHideDuration={duration}
-      onClose={handleClose}
-      TransitionComponent={SlideTransition}
+    <Transition
+      mounted={open}
+      transition="slide-right"
+      timingFunction="ease"
+      duration={400}
+      exitDuration={0}
     >
-      <Alert
-        sx={{ padding: '0 8px' }}
-        elevation={6}
-        variant="filled"
-        onClose={handleAlertClose}
-        severity={severity}
-      >
-        {message}
-      </Alert>
-    </Snackbar>
+      {(styles) => (
+        <Alert
+          radius="md"
+          variant="outline"
+          withCloseButton
+          onClose={hideToast}
+          color={COLOR_MAP[severity]}
+          w="fit-content"
+          maw="250px"
+          p={8}
+          pr={35}
+          bottom={10}
+          left={10}
+          pos="fixed"
+          style={styles}
+        >
+          {message}
+        </Alert>
+      )}
+    </Transition>
   );
-};
+});
 
 export default Toast;
