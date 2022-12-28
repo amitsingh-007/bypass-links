@@ -1,38 +1,14 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Slide,
-  SvgIcon,
-  Typography,
-} from '@mui/material';
-import { TransitionProps } from '@mui/material/transitions';
-import PanelHeading from '@bypass/shared/components/PanelHeading';
-import { BlackTooltip } from '@bypass/shared/components/StyledComponents';
+import InputTOTP from '@bypass/shared/components/Auth/components/InputTOTP';
+import Header from '@bypass/shared/components/Header';
 import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
-import { BG_COLOR_BLACK, BG_COLOR_DARK } from '@bypass/shared/constants/color';
+import { VoidFunction } from '@bypass/shared/interfaces/custom';
 import storage from '@helpers/chrome/storage';
 import { getUserProfile } from '@helpers/fetchFromStorage';
-import { VoidFunction } from '@bypass/shared/interfaces/custom';
-import { toDataURL } from 'qrcode';
-import { forwardRef, memo, useEffect, useState } from 'react';
-import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
-import { IoHelpCircle } from 'react-icons/io5';
-import { setup2FA, verify2FA } from '../apis/twoFactorAuth';
-import Verify2FA from '@bypass/shared/components/Auth/components/Verify2FA';
+import { Button, Center, Modal } from '@mantine/core';
 import useToastStore from '@store/toast';
-
-const tooltipStyles = { fontSize: '13px' };
-
-const Transition = forwardRef(function Transition(
-  props: TransitionProps & { children: React.ReactElement<any, any> },
-  ref: React.Ref<unknown>
-) {
-  return <Slide direction="left" ref={ref} {...props} />;
-});
+import { QRCodeCanvas } from 'qrcode.react';
+import { memo, useEffect, useState } from 'react';
+import { setup2FA, verify2FA } from '../apis/twoFactorAuth';
 
 type Props = {
   isOpen: boolean;
@@ -42,19 +18,14 @@ type Props = {
 const Setup2FA = memo(function Setup2FA({ isOpen, handleClose }: Props) {
   const displayToast = useToastStore((state) => state.displayToast);
   const [, setSecretKey] = useState('');
-  const [qrcodeUrl, setQrcodeUrl] = useState('');
+  const [optAuthUrl, setOptAuthUrl] = useState('');
   const [showVerifyToken, setShowVerifyToken] = useState(false);
 
   const init2FA = async () => {
     const userProfile = await getUserProfile();
     const { otpAuthUrl, secretKey } = await setup2FA(userProfile.uid ?? '');
-    const qrcodeUrl = await toDataURL(otpAuthUrl, {
-      margin: 2,
-      type: 'image/jpeg',
-      width: 180,
-    });
     setSecretKey(secretKey);
-    setQrcodeUrl(qrcodeUrl);
+    setOptAuthUrl(otpAuthUrl);
   };
 
   useEffect(() => {
@@ -78,95 +49,32 @@ const Setup2FA = memo(function Setup2FA({ isOpen, handleClose }: Props) {
         severity: 'error',
       });
     }
-    return isVerified;
   };
 
   return (
-    <Dialog
-      fullScreen
-      open={isOpen}
+    <Modal
+      opened={isOpen}
       onClose={handleClose}
-      TransitionComponent={Transition}
+      fullScreen
+      zIndex={1002}
+      withCloseButton={false}
+      styles={{ modal: { padding: '0 !important' } }}
     >
-      <DialogTitle sx={{ p: '8px', backgroundColor: BG_COLOR_DARK }}>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <Button
-            variant="outlined"
-            startIcon={<HiOutlineArrowNarrowLeft />}
-            onClick={handleClose}
-            size="small"
-            color="error"
-          >
-            Back
-          </Button>
-          <PanelHeading
-            containerStyles={{ display: 'inline-flex' }}
-            heading="SETUP 2FA"
-          />
-        </Box>
-      </DialogTitle>
-      <DialogContent
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          p: '10px !important',
-          backgroundColor: BG_COLOR_BLACK,
-        }}
-      >
-        <Avatar
-          src={qrcodeUrl}
-          alt="2FA QRCode"
-          variant="square"
-          sx={{ width: '180px', height: '180px' }}
-        />
+      <Header text="Setup two factor auth" onBackClick={handleClose} />
+      <Center mt={20} sx={{ flexDirection: 'column' }}>
+        <QRCodeCanvas value={optAuthUrl} size={200} includeMargin />
         {!showVerifyToken && (
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              mt: '12px',
-              position: 'relative',
-            }}
-          >
-            <Button
-              size="small"
-              color="primary"
-              variant="outlined"
-              onClick={toggleTokenVerify}
-            >
-              <strong>Proceed</strong>
-            </Button>
-            <BlackTooltip
-              title={
-                <Typography style={tooltipStyles}>
-                  Open your authenticator app (Google Authentication, Authy,
-                  etc) and scan the QRCode
-                </Typography>
-              }
-              arrow
-              disableInteractive
-              placement="top"
-            >
-              <SvgIcon color="info">
-                <IoHelpCircle />
-              </SvgIcon>
-            </BlackTooltip>
-          </Box>
+          <Button mt={40} radius="xl" onClick={toggleTokenVerify}>
+            Scan & Proceed
+          </Button>
         )}
-        <Verify2FA
-          isShown={showVerifyToken}
-          handleVerify={handleTOTPVerify}
-          containerStyles={{ mt: '50px' }}
-        />
-      </DialogContent>
-    </Dialog>
+      </Center>
+      {showVerifyToken && (
+        <Center mt={10}>
+          <InputTOTP handleVerify={handleTOTPVerify} />
+        </Center>
+      )}
+    </Modal>
   );
 });
 

@@ -13,7 +13,8 @@ import { LoadingButton } from '@mui/lab';
 import { getFromLocalStorage, setToLocalStorage } from '@/ui/provider/utils';
 import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
 import { ITwoFactorAuth } from '@/ui/TwoFactorAuth/interface';
-import TOTPPopup from '@bypass/shared/components/Auth/components/TOTPPopup';
+import InputTOTP from '@bypass/shared/components/Auth/components/InputTOTP';
+import { authenticate2FA } from '@bypass/shared/components/Auth/apis/twoFactorAuth';
 
 export default function Web() {
   const router = useRouter();
@@ -65,7 +66,8 @@ export default function Web() {
     setShouldPreloadData(false);
   };
 
-  const onVerify = async (isVerified: boolean) => {
+  const onVerify = async (totp: string) => {
+    const { isVerified } = await authenticate2FA(user?.uid ?? '', totp);
     if (isVerified) {
       const twoFAData = await getFromLocalStorage<ITwoFactorAuth>(
         STORAGE_KEYS.twoFactorAuth
@@ -107,11 +109,7 @@ export default function Web() {
           {isLoggedIn ? 'Logout' : 'Login'}
         </LoadingButton>
         {promptTOTPVerify ? (
-          <TOTPPopup
-            userId={user?.uid ?? ''}
-            promptTOTPVerify={promptTOTPVerify}
-            verifyCallback={onVerify}
-          />
+          <InputTOTP handleVerify={onVerify} />
         ) : (
           <>
             <Button
