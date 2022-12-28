@@ -80,7 +80,7 @@ const PersonHeader = memo<Props>(function PersonHeader({
           handleSaveClick={handlePersonSave}
         />
       )}
-      <LoadingOverlay visible={isSyncing} />
+      <LoadingOverlay visible={isSyncing || isFetching} />
     </>
   );
 });

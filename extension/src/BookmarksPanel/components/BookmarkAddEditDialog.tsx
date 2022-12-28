@@ -36,6 +36,14 @@ interface Props {
   onDelete: (pos: number, url: string) => void;
 }
 
+interface IForm {
+  pos: number;
+  url: string;
+  title: string;
+  folder: string;
+  taggedPersons: string[];
+}
+
 const validateHandler = (value: string) => (!value?.trim() ? 'Required' : null);
 
 const BookmarkAddEditDialog = memo<Props>(function BookmarkAddEditDialog({
@@ -56,13 +64,7 @@ const BookmarkAddEditDialog = memo<Props>(function BookmarkAddEditDialog({
   );
   const [origTaggedPersons, setOrigTaggedPersons] = useState<string[]>([]);
   const [openDialog, setOpenDialog] = useState(false);
-  const form = useForm<{
-    pos: number;
-    url: string;
-    title: string;
-    folder: string;
-    taggedPersons: string[];
-  }>({
+  const form = useForm<IForm>({
     initialValues: {
       pos: -1,
       url: '',
