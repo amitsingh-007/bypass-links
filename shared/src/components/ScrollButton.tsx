@@ -1,7 +1,6 @@
-import { Box, IconButton } from '@mui/material';
-import { alpha } from '@mui/material/styles';
-import { memo } from 'react';
-import { BsFillCaretDownFill, BsFillCaretUpFill } from 'react-icons/bs';
+import { Button } from '@mantine/core';
+import { memo, useMemo } from 'react';
+import { BsArrowDown, BsArrowUp } from 'react-icons/bs';
 
 interface Props {
   itemsSize: number;
@@ -14,54 +13,47 @@ export const ScrollButton = memo<Props>(function ScrollButton({
   onScroll,
   minItemsReqToShow: minItemsToScroll = 0,
 }) {
-  if (minItemsToScroll > 0 && itemsSize <= minItemsToScroll) {
-    return null;
-  }
+  const buttonConfig = useMemo(
+    () => [
+      {
+        text: 'Top',
+        icon: <BsArrowUp />,
+        onClick: () => onScroll(0),
+      },
+      {
+        text: 'Bottom',
+        icon: <BsArrowDown />,
+        onClick: () => onScroll(itemsSize),
+      },
+    ],
+    [itemsSize, onScroll]
+  );
 
-  const handleScrollUpClick = () => {
-    onScroll(0);
-  };
-
-  const handleScrollDownClick = () => {
-    onScroll(itemsSize);
-  };
-
-  return (
-    <Box sx={{ position: 'fixed', bottom: '9px', right: '15px', zIndex: 1 }}>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          backgroundColor: (theme) => theme.palette.grey[800],
-          borderRadius: '20px',
-        }}
-      >
-        <ButtonContainer onClick={handleScrollUpClick}>
-          <BsFillCaretUpFill />
-        </ButtonContainer>
-        <ButtonContainer onClick={handleScrollDownClick}>
-          <BsFillCaretDownFill />
-        </ButtonContainer>
-      </Box>
-    </Box>
+  return minItemsToScroll > 0 && itemsSize <= minItemsToScroll ? null : (
+    <Button.Group
+      orientation="vertical"
+      pos="fixed"
+      bottom={9}
+      right={15}
+      sx={{ zIndex: 1 }}
+    >
+      {buttonConfig.map(({ icon, text, onClick }) => (
+        <Button
+          key={text}
+          variant="light"
+          compact
+          size="sm"
+          color="violet"
+          leftIcon={icon}
+          styles={{
+            inner: { justifyContent: 'flex-start' },
+            leftIcon: { marginRight: '1px' },
+          }}
+          onClick={onClick}
+        >
+          {text}
+        </Button>
+      ))}
+    </Button.Group>
   );
 });
-
-const ButtonContainer: React.FC<{
-  children?: React.ReactNode;
-  onClick: any;
-}> = ({ onClick, children }) => (
-  <IconButton
-    sx={{
-      backgroundColor: (theme) => theme.palette.grey[800],
-      padding: '1px',
-      '&:hover': {
-        backgroundColor: (theme) => alpha(theme.palette.grey[100], 0.25),
-      },
-      fontSize: '20px',
-    }}
-    onClick={onClick}
-  >
-    {children}
-  </IconButton>
-);

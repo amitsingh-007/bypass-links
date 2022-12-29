@@ -21,6 +21,7 @@ const ConfirmationDialog = memo<Props>(function ConfirmationDialog({
       centered
       opened={isOpen}
       title="There are some unsaved changes"
+      size={300}
     >
       <Group position="right" mt="lg">
         <Button color="red" onClick={onOk}>
