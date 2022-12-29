@@ -18,9 +18,6 @@ const nextConfig = {
     externalDir: true,
   },
   reactStrictMode: true,
-  sassOptions: {
-    includePaths: [path.join(__dirname, 'styles')],
-  },
   webpack: (config, { dev, isServer, webpack }) => {
     config.module.rules.push({
       test: /\.svg$/,

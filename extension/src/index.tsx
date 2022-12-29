@@ -1,4 +1,3 @@
-import '@/scss/popup.scss';
 import { mantineTheme } from '@bypass/shared/constants/theme';
 import ErrorBoundary from '@components/ErrorBoundary';
 import { MantineProvider } from '@mantine/core';

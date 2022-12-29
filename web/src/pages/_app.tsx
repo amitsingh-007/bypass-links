@@ -5,7 +5,6 @@ import { MantineProvider } from '@mantine/core';
 import { CssBaseline, darkScrollbar } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Montserrat } from '@next/font/google';
-import '@ui/styles/globals.scss';
 import { AppProps } from 'next/dist/shared/lib/router/router';
 import { StrictMode } from 'react';
 import GlobalMetaTags from 'src/ui/components/GlobalMetaTags';
