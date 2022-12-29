@@ -122,7 +122,6 @@ const BookmarksList = memo<Props>(function BookmarksList({
               },
               bookmarkRowStyles,
             ]}
-            className="bookmarkRowContainer"
             key={bookmark.url}
           >
             <ActionIcon

@@ -16,11 +16,6 @@ export interface VirtualRowProps {
   contextBookmarks: ContextBookmarks;
 }
 
-const rowStyles = {
-  paddingLeft: '12px',
-  paddingRight: '9px',
-};
-
 const VirtualRow = memo<{
   index: number;
   style: React.CSSProperties;
