@@ -7,12 +7,10 @@ import { memo, useState } from 'react';
 import { FaFolderPlus } from 'react-icons/fa';
 import { IoSave } from 'react-icons/io5';
 import { RiUploadCloud2Fill } from 'react-icons/ri';
-import { TbReplace } from 'react-icons/tb';
 import { useNavigate } from 'react-router-dom';
 import { syncBookmarksFirebaseWithStorage } from '../utils/bookmark';
 import ConfirmationDialog from './ConfirmationDialog';
 import { FolderAddEditDialog } from './FolderAddEditDialog';
-import ReplaceDialog from './ReplaceDialog';
 
 interface Props {
   isSaveButtonActive: boolean;
@@ -34,7 +32,6 @@ const BookmarksHeader = memo<Props>(function BookmarksHeader({
   const navigate = useNavigate();
   const displayToast = useToastStore((state) => state.displayToast);
   const [openFolderDialog, setOpenFolderDialog] = useState(false);
-  const [openReplaceDialog, setOpenReplaceDialog] = useState(false);
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
 
@@ -70,8 +67,6 @@ const BookmarksHeader = memo<Props>(function BookmarksHeader({
 
   const toggleNewFolderDialog = () => setOpenFolderDialog(!openFolderDialog);
 
-  const toggleReplaceDialog = () => setOpenReplaceDialog(!openReplaceDialog);
-
   const handleConfirmationDialogClose = () => setOpenConfirmationDialog(false);
 
   const handleConfirmationDialogOk = () => {
@@ -103,15 +98,6 @@ const BookmarksHeader = memo<Props>(function BookmarksHeader({
         <Button
           radius="xl"
           variant="light"
-          leftIcon={<TbReplace />}
-          onClick={toggleReplaceDialog}
-          disabled={isFetching || isSyncing}
-        >
-          Replace
-        </Button>
-        <Button
-          radius="xl"
-          variant="light"
           color="teal"
           leftIcon={<IoSave />}
           onClick={handleSave}
@@ -137,7 +123,6 @@ const BookmarksHeader = memo<Props>(function BookmarksHeader({
         isOpen={openFolderDialog}
         onClose={toggleNewFolderDialog}
       />
-      {openReplaceDialog && <ReplaceDialog onClose={toggleReplaceDialog} />}
       <ConfirmationDialog
         onClose={handleConfirmationDialogClose}
         onOk={handleConfirmationDialogOk}

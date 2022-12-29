@@ -27,7 +27,7 @@ const Header = memo<Props>(function Header({
       sx={{
         display: 'flex',
         justifyContent: 'space-between',
-        padding: '0 16px',
+        padding: '0 10px',
       }}
     >
       <Group>
