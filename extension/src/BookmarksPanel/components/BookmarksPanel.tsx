@@ -152,8 +152,6 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     };
   }, [handleKeyPress]);
 
-  const handleSearchTextChange = (text: string) => setSearchText(text);
-
   const updatePersonUrls = useCallback(
     (
       prevTaggedPersons: string[] = [],
@@ -491,7 +489,7 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
           handleCreateNewFolder={handleCreateNewFolder}
           isSaveButtonActive={isSaveButtonActive}
           isFetching={isFetching}
-          onSearchChange={handleSearchTextChange}
+          onSearchChange={setSearchText}
         />
         <BookmarkAddEditDialog
           curFolder={folderContext}

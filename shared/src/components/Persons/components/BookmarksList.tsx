@@ -1,16 +1,23 @@
 import { ActionIcon, Avatar, Badge, Box, Center, Modal } from '@mantine/core';
-import { memo, useCallback, useContext, useEffect, useState } from 'react';
+import {
+  memo,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { MdModeEdit } from 'react-icons/md';
 import Bookmark from '../../../components/Bookmarks/components/Bookmark';
 import { BOOKMARK_OPERATION } from '../../../components/Bookmarks/constants';
-import { IBookmark } from '../../../components/Bookmarks/interfaces';
 import { getBookmarksPanelUrl } from '../../../components/Bookmarks/utils/url';
 import Header from '../../../components/Header';
 import DynamicContext from '../../../provider/DynamicContext';
 import { bookmarkRowStyles } from '../../Bookmarks/constants/styles';
 import useBookmark from '../../Bookmarks/hooks/useBookmark';
 import { getDecodedBookmark } from '../../Bookmarks/utils';
-import SearchWrapper from '../../SearchWrapper';
+import { ModifiedBookmark } from '../interfaces/bookmark';
+import { getFilteredModifiedBookmarks } from '../utils/bookmark';
 
 interface Props {
   name?: string;
@@ -19,10 +26,6 @@ interface Props {
   onLinkOpen: (url: string) => void;
   fullscreen: boolean;
   isOpen: boolean;
-}
-
-interface ModifiedBookmark extends IBookmark {
-  parentName: string;
 }
 
 const BookmarksList = memo<Props>(function BookmarksList({
@@ -37,6 +40,7 @@ const BookmarksList = memo<Props>(function BookmarksList({
   const { location } = useContext(DynamicContext);
   const { getBookmarkFromHash, getFolderFromHash } = useBookmark();
   const [bookmarks, setBookmarks] = useState<ModifiedBookmark[]>([]);
+  const [searchText, setSearchText] = useState('');
 
   const initBookmarks = useCallback(async () => {
     if (!taggedUrls?.length) {
@@ -77,6 +81,11 @@ const BookmarksList = memo<Props>(function BookmarksList({
     };
   }, [initBookmarks]);
 
+  const filteredBookmarks = useMemo(
+    () => getFilteredModifiedBookmarks(bookmarks, searchText),
+    [bookmarks, searchText]
+  );
+
   return (
     <Modal
       opened={isOpen}
@@ -91,18 +100,18 @@ const BookmarksList = memo<Props>(function BookmarksList({
       }}
     >
       <Header
+        onSearchChange={setSearchText}
         rightContent={
           <>
-            <SearchWrapper searchClassName="bookmarkRowContainer" />
             <Avatar src={imageUrl} alt={name} radius={999} />
-            <Badge size="lg" radius="lg" sx={{ maxWidth: '50%' }}>{`${name} (${
-              bookmarks?.length || 0
+            <Badge size="lg" radius="lg" maw="50%">{`${name} (${
+              filteredBookmarks?.length || 0
             })`}</Badge>
           </>
         }
       />
-      {bookmarks.length > 0 ? (
-        bookmarks.map((bookmark) => (
+      {filteredBookmarks.length > 0 ? (
+        filteredBookmarks.map((bookmark) => (
           <Center
             sx={[
               {
@@ -114,8 +123,6 @@ const BookmarksList = memo<Props>(function BookmarksList({
               bookmarkRowStyles,
             ]}
             className="bookmarkRowContainer"
-            data-text={bookmark.url}
-            data-subtext={bookmark.title}
             key={bookmark.url}
           >
             <ActionIcon
