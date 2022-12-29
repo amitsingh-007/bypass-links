@@ -20,5 +20,4 @@ const BookmarkRow = memo<Omit<Props, 'onOpenLink'>>((props) => {
 });
 BookmarkRow.displayName = 'BookmarkRow';
 
-export type { Props };
 export default withBookmarkRow(BookmarkRow);

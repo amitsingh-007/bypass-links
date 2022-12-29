@@ -1,8 +1,8 @@
-import { Box } from '@mui/material';
-import { memo } from 'react';
-import { Draggable } from '@hello-pangea/dnd';
-import { bookmarkRowStyles } from '@bypass/shared/components/Bookmarks/constants';
+import { bookmarkRowStyles } from '@bypass/shared/components/Bookmarks/constants/styles';
 import '@bypass/shared/components/Bookmarks/scss/BookmarkRow.scss';
+import { Draggable } from '@hello-pangea/dnd';
+import { Box } from '@mantine/core';
+import { memo } from 'react';
 
 interface ExpectedProps {
   isDir: boolean;
@@ -22,19 +22,14 @@ const withBookmarkRow = <T extends object>(Component: React.ComponentType<T>) =>
       <Draggable draggableId={primaryUniqueId} index={pos}>
         {(provided) => (
           <Box
-            className="bookmarkRowContainer"
-            sx={{
-              height: '100%',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-            ref={provided.innerRef as React.Ref<unknown>}
+            h="100%"
+            sx={bookmarkRowStyles}
+            ref={provided.innerRef}
             data-is-selected={isSelected}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
           >
-            <Component {...props} containerStyles={bookmarkRowStyles} />
+            <Component {...props} />
           </Box>
         )}
       </Draggable>

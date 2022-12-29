@@ -1,26 +1,23 @@
-import { Box } from '@mui/material';
+import { bookmarkRowStyles } from '@bypass/shared/components/Bookmarks/constants/styles';
 import { DraggableProvided } from '@hello-pangea/dnd';
+import { Center, Text } from '@mantine/core';
 
 const DragClone: React.FC<{
   provided: DraggableProvided;
   dragCount: number;
 }> = ({ provided, dragCount }) => (
-  <Box
-    className="bookmarkRowContainer"
-    sx={{
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      width: '100%',
-      height: '100%',
-      py: '2px',
-      fontSize: '14px',
-    }}
-    data-is-selected="true"
-    ref={provided.innerRef as React.Ref<unknown> as React.Ref<unknown>}
+  <Center
+    w="100%"
+    h="100%"
+    py={2}
+    sx={bookmarkRowStyles}
+    data-is-dragging="true"
+    ref={provided.innerRef}
     {...provided.draggableProps}
     {...provided.dragHandleProps}
-  >{`Currently dragging: ${dragCount} bookmarks/folders`}</Box>
+  >
+    <Text size={15}>{`Currently dragging: ${dragCount} item`}</Text>
+  </Center>
 );
 
 export default DragClone;

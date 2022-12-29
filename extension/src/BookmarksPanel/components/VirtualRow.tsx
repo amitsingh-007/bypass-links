@@ -7,8 +7,9 @@ import {
   ISelectedBookmarks,
 } from '@bypass/shared/components/Bookmarks/interfaces';
 import { isFolderEmpty } from '@bypass/shared/components/Bookmarks/utils';
-import BookmarkRow, { Props as BookmarkProps } from './BookmarkRow';
-import Folder, { Props as FolderProps } from './FolderRow';
+import BookmarkRow from './BookmarkRow';
+import { Props as BookmarkProps } from '@bypass/shared/components/Bookmarks/components/Bookmark';
+import FolderRow, { Props as FolderProps } from './FolderRow';
 
 export interface VirtualRowProps {
   folderNamesList: string[];
@@ -45,7 +46,7 @@ const VirtualRow = memo<{
   return (
     <Box style={style}>
       {isDir ? (
-        <Folder
+        <FolderRow
           pos={index}
           isDir={isDir}
           name={name}

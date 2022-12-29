@@ -1,21 +1,18 @@
-import { Box, SvgIcon, Typography } from '@mui/material';
+import { Center, Text, ThemeIcon } from '@mantine/core';
 import { memo, useContext } from 'react';
-import { FcFolder } from 'react-icons/fc';
-import { getBookmarksPanelUrl } from '../utils/url';
-import { SxProps } from '@mui/system';
+import { HiFolder } from 'react-icons/hi';
 import DynamicContext from '../../../provider/DynamicContext';
+import { getBookmarksPanelUrl } from '../utils/url';
 
 export interface Props {
   name: string;
   isEmpty: boolean;
   resetSelectedBookmarks?: React.MouseEventHandler<HTMLDivElement>;
-  containerStyles?: SxProps;
 }
 
 const Folder = memo<Props>(function Folder({
   name: origName,
   isEmpty,
-  containerStyles = {},
   resetSelectedBookmarks,
 }) {
   const { location } = useContext(DynamicContext);
@@ -27,31 +24,30 @@ const Folder = memo<Props>(function Folder({
   };
 
   return (
-    <Box
+    <Center
+      w="100%"
+      h="100%"
+      p={6}
       sx={{
-        display: 'flex',
-        alignItems: 'center',
-        width: '100%',
-        ...containerStyles,
+        gap: '12px',
+        opacity: isEmpty ? 0.6 : 1,
+        cursor: isEmpty ? 'not-allowed' : 'inherit',
       }}
       onClick={resetSelectedBookmarks}
       onDoubleClick={handleFolderOpen}
     >
-      <SvgIcon sx={{ fontSize: '21.5px' }}>
-        <FcFolder />
-      </SvgIcon>
-      <Typography
-        noWrap
-        sx={{
-          flexGrow: 1,
-          marginLeft: '8px',
-          fontSize: '14px',
-          color: isEmpty ? 'lightslategray' : 'inherit',
-        }}
+      <ThemeIcon
+        size={20}
+        variant="outline"
+        color="yellow"
+        sx={{ border: 'unset' }}
       >
+        <HiFolder size={20} />
+      </ThemeIcon>
+      <Text size={15} lineClamp={1} sx={{ flex: 1 }} fw="bold">
         {origName}
-      </Typography>
-    </Box>
+      </Text>
+    </Center>
   );
 });
 

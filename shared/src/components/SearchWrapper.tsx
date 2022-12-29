@@ -13,7 +13,6 @@ const SearchWrapper = memo<{
   const handleSearch = useCallback(
     (searchText: string) => {
       const lowerSearchText = searchText.toLowerCase();
-
       document
         .querySelectorAll<HTMLElement>(`.${searchClassName}`)
         .forEach((node) => {
@@ -21,26 +20,20 @@ const SearchWrapper = memo<{
             node.getAttribute('data-text')?.toLowerCase(),
             node.getAttribute('data-subtext')?.toLowerCase(),
           ];
-
           const isSearchMatched = textsToSearch.some(
             (text) => text && text.includes(lowerSearchText)
           );
-
           node.style.display = isSearchMatched ? '' : 'none';
         });
     },
     [searchClassName]
   );
 
-  const onChange = (text: string) => {
-    setSearchText(text);
-  };
-
   useEffect(() => {
     handleSearch(searchText);
   }, [handleSearch, searchText]);
 
-  return <Search onChange={onChange} />;
+  return <Search onChange={setSearchText} />;
 });
 
 export default SearchWrapper;

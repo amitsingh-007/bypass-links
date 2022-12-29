@@ -1,15 +1,15 @@
-import { Box } from '@mui/material';
-import { memo } from 'react';
-import { areEqual } from 'react-window';
+import { openNewTab } from '@/ui/utils';
+import Bookmark from '@bypass/shared/components/Bookmarks/components/Bookmark';
+import Folder from '@bypass/shared/components/Bookmarks/components/Folder';
+import { bookmarkRowStyles } from '@bypass/shared/components/Bookmarks/constants/styles';
 import {
   ContextBookmarks,
   IBookmarksObj,
 } from '@bypass/shared/components/Bookmarks/interfaces';
 import { isFolderEmpty } from '@bypass/shared/components/Bookmarks/utils';
-import Bookmark from '@bypass/shared/components/Bookmarks/components/Bookmark';
-import Folder from '@bypass/shared/components/Bookmarks/components/Folder';
-import styles from './VirtualRow.module.scss';
-import { openNewTab } from '@/ui/utils';
+import { Flex } from '@mantine/core';
+import { memo } from 'react';
+import { areEqual } from 'react-window';
 
 export interface VirtualRowProps {
   folders: IBookmarksObj['folders'];
@@ -40,32 +40,21 @@ const VirtualRow = memo<{
   };
 
   return (
-    <Box
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        cursor: 'pointer',
-        userSelect: 'none',
-        ...style,
-      }}
-      className={styles.bookmarkRowContainer}
+    <Flex
+      sx={[{ cursor: 'pointer', userSelect: 'none' }, bookmarkRowStyles]}
+      style={style}
     >
       {isDir ? (
-        <Folder
-          name={name}
-          isEmpty={isFolderEmpty(folders, name)}
-          containerStyles={rowStyles}
-        />
+        <Folder name={name} isEmpty={isFolderEmpty(folders, name)} />
       ) : (
         <Bookmark
           url={url}
           title={title}
           taggedPersons={taggedPersons}
           onOpenLink={onOpenLink}
-          containerStyles={rowStyles}
         />
       )}
-    </Box>
+    </Flex>
   );
 }, areEqual);
 VirtualRow.displayName = 'VirtualRow';

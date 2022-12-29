@@ -2,14 +2,12 @@ import { ActionIcon, Avatar, Badge, Box, Center, Modal } from '@mantine/core';
 import { memo, useCallback, useContext, useEffect, useState } from 'react';
 import { MdModeEdit } from 'react-icons/md';
 import Bookmark from '../../../components/Bookmarks/components/Bookmark';
-import {
-  bookmarkRowStyles,
-  BOOKMARK_OPERATION,
-} from '../../../components/Bookmarks/constants';
+import { BOOKMARK_OPERATION } from '../../../components/Bookmarks/constants';
 import { IBookmark } from '../../../components/Bookmarks/interfaces';
 import { getBookmarksPanelUrl } from '../../../components/Bookmarks/utils/url';
 import Header from '../../../components/Header';
 import DynamicContext from '../../../provider/DynamicContext';
+import { bookmarkRowStyles } from '../../Bookmarks/constants/styles';
 import useBookmark from '../../Bookmarks/hooks/useBookmark';
 import { getDecodedBookmark } from '../../Bookmarks/utils';
 import SearchWrapper from '../../SearchWrapper';
@@ -106,12 +104,15 @@ const BookmarksList = memo<Props>(function BookmarksList({
       {bookmarks.length > 0 ? (
         bookmarks.map((bookmark) => (
           <Center
-            sx={{
-              position: 'relative',
-              width: '100%',
-              cursor: 'pointer',
-              userSelect: 'none',
-            }}
+            sx={[
+              {
+                position: 'relative',
+                width: '100%',
+                cursor: 'pointer',
+                userSelect: 'none',
+              },
+              bookmarkRowStyles,
+            ]}
             className="bookmarkRowContainer"
             data-text={bookmark.url}
             data-subtext={bookmark.title}
@@ -125,23 +126,17 @@ const BookmarksList = memo<Props>(function BookmarksList({
                 handleBookmarkEdit(bookmark);
               }}
               radius={999}
-              mr="4px"
             >
               <MdModeEdit size="18px" />
             </ActionIcon>
-            <Bookmark
-              url={bookmark.url}
-              title={bookmark.title}
-              taggedPersons={bookmark.taggedPersons}
-              containerStyles={{
-                ...bookmarkRowStyles,
-                paddingLeft: '0px',
-                overflowX: 'hidden',
-                width: 'unset',
-                flex: 1,
-              }}
-              onOpenLink={onLinkOpen}
-            />
+            <Box sx={{ flex: 1 }}>
+              <Bookmark
+                url={bookmark.url}
+                title={bookmark.title}
+                taggedPersons={bookmark.taggedPersons}
+                onOpenLink={onLinkOpen}
+              />
+            </Box>
             <Badge size="sm" color="violet">
               {bookmark.parentName}
             </Badge>
