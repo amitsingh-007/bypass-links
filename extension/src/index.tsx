@@ -1,5 +1,4 @@
 import { mantineTheme } from '@bypass/shared/constants/theme';
-import ErrorBoundary from '@components/ErrorBoundary';
 import { MantineProvider } from '@mantine/core';
 import { CssBaseline } from '@mui/material';
 import darkScrollbar from '@mui/material/darkScrollbar';
@@ -51,21 +50,19 @@ const container = document.getElementById('root');
 const root = createRoot(container!);
 root.render(
   <StrictMode>
-    <ErrorBoundary>
-      <BrowserRouter>
-        <MantineProvider withGlobalStyles withNormalizeCSS theme={mantineTheme}>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <DynamicProvider>
-              <>
-                <PopupRoutes />
-                <Global />
-              </>
-            </DynamicProvider>
-          </ThemeProvider>
-        </MantineProvider>
-      </BrowserRouter>
-    </ErrorBoundary>
+    <BrowserRouter>
+      <MantineProvider withGlobalStyles withNormalizeCSS theme={mantineTheme}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <DynamicProvider>
+            <>
+              <PopupRoutes />
+              <Global />
+            </>
+          </DynamicProvider>
+        </ThemeProvider>
+      </MantineProvider>
+    </BrowserRouter>
   </StrictMode>
 );
 

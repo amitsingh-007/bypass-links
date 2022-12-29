@@ -1,14 +1,14 @@
-import { Box } from '@mui/material';
-import { memo } from 'react';
-import { areEqual } from 'react-window';
+import { Props as BookmarkProps } from '@bypass/shared/components/Bookmarks/components/Bookmark';
 import {
   ContextBookmarks,
   IBookmarksObj,
   ISelectedBookmarks,
 } from '@bypass/shared/components/Bookmarks/interfaces';
 import { isFolderEmpty } from '@bypass/shared/components/Bookmarks/utils';
+import { Box } from '@mantine/core';
+import { memo } from 'react';
+import { areEqual } from 'react-window';
 import BookmarkRow from './BookmarkRow';
-import { Props as BookmarkProps } from '@bypass/shared/components/Bookmarks/components/Bookmark';
 import FolderRow, { Props as FolderProps } from './FolderRow';
 
 export interface VirtualRowProps {
