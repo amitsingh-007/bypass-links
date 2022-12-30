@@ -1,13 +1,7 @@
-import { memo, useContext } from 'react';
-import {
-  Badge,
-  Button,
-  Group,
-  Header as MantineHeader,
-  useMantineTheme,
-} from '@mantine/core';
-import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
 import Search from '@bypass/shared/components/Search';
+import { Badge, Button, Group, Header as MantineHeader } from '@mantine/core';
+import { memo, useContext } from 'react';
+import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
 import DynamicContext from '../provider/DynamicContext';
 
 interface Props {
