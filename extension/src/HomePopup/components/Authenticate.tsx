@@ -1,12 +1,11 @@
-import { Dialog, LinearProgress, SvgIcon, Typography } from '@mui/material';
 import { getUserProfile } from '@helpers/fetchFromStorage';
+import { Button, LoadingOverlay, Progress } from '@mantine/core';
 import useAuthStore from '@store/auth';
 import useExtStore from '@store/extension';
 import useToastStore from '@store/toast';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { RiLoginCircleFill, RiLogoutCircleRFill } from 'react-icons/ri';
 import { signIn, signOut } from '../utils/authentication';
-import StyledButton from './StyledButton';
 
 const Authenticate = memo(function Authenticate() {
   const isExtensionActive = useExtStore((state) => state.isExtensionActive);
@@ -60,57 +59,37 @@ const Authenticate = memo(function Authenticate() {
     }
   }, [handleSignOut, isExtensionActive, isSignedIn]);
 
-  const {
-    message,
-    progress = 0,
-    progressBuffer = 0,
-    total = 1,
-  } = authProgress || {};
+  const { message, progress = 7, total = 1 } = authProgress || {};
   return (
     <>
-      <StyledButton
-        showSuccessColor={isSignedIn}
-        isLoading={isFetching}
-        isDisabled={!isExtensionActive}
+      <Button
+        variant="light"
+        radius="xl"
+        loading={isFetching}
+        loaderPosition="right"
+        disabled={!isExtensionActive}
         onClick={isSignedIn ? handleSignOut : handleSignIn}
-        color="success"
+        color={isSignedIn ? 'teal' : 'red'}
+        rightIcon={isSignedIn ? <RiLogoutCircleRFill /> : <RiLoginCircleFill />}
+        fullWidth
       >
-        <SvgIcon>
-          {isSignedIn ? <RiLogoutCircleRFill /> : <RiLoginCircleFill />}
-        </SvgIcon>
-      </StyledButton>
+        {isSignedIn ? 'Logout' : 'Login'}
+      </Button>
       {isFetching && (
-        <Dialog
-          sx={{
-            '.MuiPaper-root': {
-              m: 0,
-              top: 0,
-              width: '100%',
-              position: 'fixed',
-              borderRadius: '0px',
-              backgroundColor: 'unset',
-              backgroundImage: 'unset',
-            },
-          }}
-          open
-        >
-          <LinearProgress
-            variant="buffer"
+        <>
+          <LoadingOverlay visible zIndex={100} />
+          <Progress
             value={(progress * 100) / total}
-            valueBuffer={(progressBuffer * 100) / total}
-            color="secondary"
+            label={message || 'Loading'}
+            size="xl"
+            radius="xl"
+            w="100%"
+            pos="fixed"
+            top={0}
+            left="50%"
+            sx={{ zIndex: 105, transform: 'translateX(-50%)' }}
           />
-          <Typography
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              fontSize: '9px',
-              fontStyle: 'italic',
-            }}
-          >
-            {message || 'Loading'}
-          </Typography>
-        </Dialog>
+        </>
       )}
     </>
   );

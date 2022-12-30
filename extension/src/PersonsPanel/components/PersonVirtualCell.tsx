@@ -1,15 +1,13 @@
-import { Box } from '@mui/material';
-import { memo, useCallback, useEffect, useState } from 'react';
-import { areEqual } from 'react-window';
+import Person from '@bypass/shared/components/Persons/components/Person';
 import { IPerson } from '@bypass/shared/components/Persons/interfaces/persons';
 import { getReactKey } from '@bypass/shared/components/Persons/utils';
-import Person from '@bypass/shared/components/Persons/components/Person';
-import ContextMenu from '@components/ContextMenu';
-import AddOrEditPersonDialog from './AddOrEditPersonDialog';
+import ContextMenu, { IMenuOptions } from '@/components/ContextMenu';
+import { Box, useMantineTheme } from '@mantine/core';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
 import { RiBookmark2Fill } from 'react-icons/ri';
-import { IMenuOptions } from '@interfaces/menu';
-import { GRID_COLUMN_SIZE } from '../constants';
+import { areEqual } from 'react-window';
+import AddOrEditPersonDialog from './AddOrEditPersonDialog';
 
 interface PersonVirtualCellProps {
   persons: IPerson[];
@@ -23,11 +21,12 @@ const PersonVirtualCell = memo<{
   style: React.CSSProperties;
   data: PersonVirtualCellProps;
 }>(({ columnIndex, rowIndex, data, style }) => {
+  const theme = useMantineTheme();
   const { persons, handleEditPerson, handlePersonDelete } = data;
-  const index = getReactKey(rowIndex, columnIndex, GRID_COLUMN_SIZE);
+  const index = getReactKey(rowIndex, columnIndex);
   const person = persons[index];
   const [showEditPersonDialog, setShowEditPersonDialog] = useState(false);
-  const [menuOptions, setMenuOptions] = useState<IMenuOptions>([]);
+  const [menuOptions, setMenuOptions] = useState<IMenuOptions[]>([]);
 
   const handleDeleteOptionClick = useCallback(() => {
     handlePersonDelete(person);
@@ -43,15 +42,17 @@ const PersonVirtualCell = memo<{
         onClick: toggleEditPersonDialog,
         text: 'Edit',
         icon: AiFillEdit,
+        color: theme.colors.violet[9],
       },
       {
         onClick: handleDeleteOptionClick,
         text: 'Delete',
         icon: RiBookmark2Fill,
+        color: theme.colors.red[9],
       },
     ];
     setMenuOptions(menuOptions);
-  }, [handleDeleteOptionClick, toggleEditPersonDialog]);
+  }, [handleDeleteOptionClick, toggleEditPersonDialog, theme.colors]);
 
   const handlePersonSave = (updatedPerson: IPerson) => {
     handleEditPerson(updatedPerson);
@@ -62,18 +63,20 @@ const PersonVirtualCell = memo<{
     return null;
   }
   return (
-    <Box style={style}>
-      <ContextMenu getMenuOptions={() => menuOptions}>
-        <Person person={person} />
-        {showEditPersonDialog && (
-          <AddOrEditPersonDialog
-            person={person}
-            isOpen={showEditPersonDialog}
-            onClose={toggleEditPersonDialog}
-            handleSaveClick={handlePersonSave}
-          />
-        )}
-      </ContextMenu>
+    <Box style={style} p={8}>
+      <Box>
+        <ContextMenu options={menuOptions}>
+          <Person person={person} />
+        </ContextMenu>
+      </Box>
+      {showEditPersonDialog && (
+        <AddOrEditPersonDialog
+          person={person}
+          isOpen={showEditPersonDialog}
+          onClose={toggleEditPersonDialog}
+          handleSaveClick={handlePersonSave}
+        />
+      )}
     </Box>
   );
 }, areEqual);

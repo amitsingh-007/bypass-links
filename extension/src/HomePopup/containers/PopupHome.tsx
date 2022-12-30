@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Flex, SimpleGrid, Text } from '@mantine/core';
 import { memo } from 'react';
 import Authenticate from '../components/Authenticate';
 import BookmarksPanelButton from '../components/BookmarksPanelButton';
@@ -8,7 +8,6 @@ import OpenDefaultsButton from '../components/OpenDefaultsButton';
 import OpenForumLinks from '../components/OpenForumLinks';
 import PersonsPanelButton from '../components/PersonsPanelButton';
 import QuickBookmarkButton from '../components/QuickBookmarkButton';
-import { Row } from '../components/Row';
 import ShortcutsPanelButton from '../components/ShortcutsPanelButton';
 import ToggleExtension from '../components/ToggleExtension';
 import ToggleHistory from '../components/ToggleHistory';
@@ -18,54 +17,29 @@ import UserProfile from '../components/UserProfile';
 const PopupHome = memo(function PopupHome() {
   return (
     <>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          padding: '16px',
-          width: '218px',
-          '> *': { userSelect: 'none' },
-        }}
-      >
-        <Typography variant="h5" component="h5" gutterBottom>
-          <Box sx={{ color: 'azure', fontWeight: '700' }}>BYPASS LINKS</Box>
-        </Typography>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            width: '100%',
-          }}
-        >
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-            }}
-          >
+      <Flex direction="column" align="center" w="fit-content" p="8px 16px 16px">
+        <Text fz="xl" fw={700} c="grape.0" mb={10} sx={{ userSelect: 'none' }}>
+          Bypass Links
+        </Text>
+        <Flex justify="space-between" align="center" gap="40px" mb={16}>
+          <Flex direction="column" gap="8px">
             <ToggleExtension />
             <ToggleHistory />
-          </Box>
+          </Flex>
           <UserProfile />
-        </Box>
-        <Row styles={{ marginTop: '15px' }}>
-          <Authenticate />
-          <ShortcutsPanelButton />
-          <BookmarksPanelButton />
-        </Row>
-        <Row>
-          <HistoryPanelButton />
+        </Flex>
+        <Authenticate />
+        <SimpleGrid cols={2} mt={16} w="max-content">
           <OpenDefaultsButton />
           <QuickBookmarkButton />
-        </Row>
-        <Row>
+          <PersonsPanelButton />
+          <BookmarksPanelButton />
+          <HistoryPanelButton />
+          <ShortcutsPanelButton />
           <OpenForumLinks />
           <LastVisitedButton />
-          <PersonsPanelButton />
-        </Row>
-      </Box>
+        </SimpleGrid>
+      </Flex>
       <TwoFactorAuthenticate />
     </>
   );

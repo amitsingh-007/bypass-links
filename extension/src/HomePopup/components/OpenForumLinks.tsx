@@ -1,13 +1,12 @@
-import { SvgIcon } from '@mui/material';
+import { matchHostnames } from '@/utils/common';
 import { BYPASS_KEYS } from '@constants/index';
 import runtime from '@helpers/chrome/runtime';
 import tabs, { getCurrentTab } from '@helpers/chrome/tabs';
+import { Button } from '@mantine/core';
 import useAuthStore from '@store/auth';
 import useHistoryStore from '@store/history';
-import { matchHostnames } from '@/utils/common';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { MdForum } from 'react-icons/md';
-import StyledButton from './StyledButton';
 
 const isCurrentPageForum = async (url = '') => {
   const hostname = url && new URL(url).hostname;
@@ -60,17 +59,19 @@ const OpenForumLinks = memo(function OpenForumLinks() {
   };
 
   return (
-    <StyledButton
-      showSuccessColor={isActive}
-      isLoading={isFetching}
-      isDisabled={!isActive}
+    <Button
+      variant="light"
+      radius="xl"
+      loaderPosition="right"
+      loading={isFetching}
+      disabled={!isActive}
       onClick={handleClick}
-      color="warning"
+      rightIcon={<MdForum />}
+      fullWidth
+      color="yellow"
     >
-      <SvgIcon>
-        <MdForum />
-      </SvgIcon>
-    </StyledButton>
+      Forum
+    </Button>
   );
 });
 

@@ -21,3 +21,8 @@ export enum BYPASS_KEYS {
 export const FIREBASE_STORAGE_REF = {
   persons: STORAGE_KEYS.persons,
 };
+
+export const MAX_PANEL_SIZE = {
+  WIDTH: 800,
+  HEIGHT: 600,
+};

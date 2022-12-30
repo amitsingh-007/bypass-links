@@ -1,23 +1,4 @@
-import { Box, GlobalStyles } from '@mui/material';
-import { ScrollButton } from '@bypass/shared/components/ScrollButton';
-import { CACHE_BUCKET_KEYS } from '@bypass/shared/constants/cache';
-import { PANEL_DIMENSIONS_PX } from '@constants/styles';
-import tabs from '@helpers/chrome/tabs';
-import { getBookmarks } from '@helpers/fetchFromStorage';
-import { addToCache } from '@bypass/shared/utils/cache';
-import md5 from 'md5';
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import {
-  DragDropContext,
-  DragDropContextProps,
-  Droppable,
-} from '@hello-pangea/dnd';
-import { FixedSizeList } from 'react-window';
-import { IUpdateTaggedPerson } from '@bypass/shared/components/Persons/interfaces/persons';
-import {
-  BOOKMARK_PANEL_CONTENT_HEIGHT,
-  BOOKMARK_ROW_DIMENTSIONS,
-} from '../constants';
+import { MAX_PANEL_SIZE } from '@/constants';
 import { BOOKMARK_OPERATION } from '@bypass/shared/components/Bookmarks/constants';
 import {
   ContextBookmarks,
@@ -30,40 +11,58 @@ import {
   getEncryptedBookmark,
 } from '@bypass/shared/components/Bookmarks/mapper';
 import {
+  getFilteredContextBookmarks,
+  shouldRenderBookmarks,
+} from '@bypass/shared/components/Bookmarks/utils';
+import { IUpdateTaggedPerson } from '@bypass/shared/components/Persons/interfaces/persons';
+import { ScrollButton } from '@bypass/shared/components/ScrollButton';
+import { CACHE_BUCKET_KEYS } from '@bypass/shared/constants/cache';
+import { getFaviconProxyUrl } from '@bypass/shared/utils';
+import { addToCache } from '@bypass/shared/utils/cache';
+import {
+  DragDropContext,
+  DragDropContextProps,
+  Droppable,
+} from '@hello-pangea/dnd';
+import tabs from '@helpers/chrome/tabs';
+import { getBookmarks } from '@helpers/fetchFromStorage';
+import { Box, Flex } from '@mantine/core';
+import { useElementSize } from '@mantine/hooks';
+import useBookmarkStore from '@store/bookmark';
+import useHistoryStore from '@store/history';
+import usePersonStore from '@store/person';
+import useToastStore from '@store/toast';
+import md5 from 'md5';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { FixedSizeList } from 'react-window';
+import { BOOKMARK_ROW_HEIGHT } from '../constants';
+import {
   getAllFolderNames,
   getSelectedCount,
   isFolderContainsDir,
   setBookmarksInStorage,
 } from '../utils';
-import { getFaviconProxyUrl } from '@bypass/shared/utils';
 import {
   getBookmarksAfterDrag,
   getDestinationIndex,
   getSelectedBookmarksAfterDrag,
 } from '../utils/manipulate';
+import BookmarkAddEditDialog from './BookmarkAddEditDialog';
 import BookmarkContextMenu from './BookmarkContextMenu';
+import BookmarksHeader from './BookmarksHeader';
 import DragClone from './DragClone';
-import EditBookmark from './EditBookmark';
-import Header from './Header';
 import VirtualRow, { VirtualRowProps } from './VirtualRow';
-import {
-  getFilteredContextBookmarks,
-  shouldRenderBookmarks,
-} from '@bypass/shared/components/Bookmarks/utils';
-import useToastStore from '@store/toast';
-import useHistoryStore from '@store/history';
-import usePersonStore from '@store/person';
-import useBookmarkStore from '@store/bookmark';
-
-const minReqBookmarksToScroll = Math.ceil(
-  BOOKMARK_PANEL_CONTENT_HEIGHT / BOOKMARK_ROW_DIMENTSIONS.height
-);
 
 const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
   folderContext,
   operation,
   bmUrl,
 }) {
+  const {
+    ref: bodyRef,
+    width: bodyWidth,
+    height: bodyHeight,
+  } = useElementSize();
   const startHistoryMonitor = useHistoryStore(
     (state) => state.startHistoryMonitor
   );
@@ -115,21 +114,6 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     });
   }, [contextBookmarks, selectedBookmarks, startHistoryMonitor]);
 
-  const handleKeyPress = useCallback(
-    (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        resetSelectedBookmarks();
-      } else if (event.key === 'Enter') {
-        const target = event.target as HTMLElement;
-        // To prevent from opening links on saving bookmarks using keys
-        if (target.nodeName !== 'BUTTON' && target.nodeName !== 'INPUT') {
-          handleOpenSelectedBookmarks();
-        }
-      }
-    },
-    [handleOpenSelectedBookmarks]
-  );
-
   useEffect(() => {
     initBookmarksData().then(() => {
       handleScroll(0);
@@ -145,15 +129,6 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
       setBookmarkOperation(operation, bmUrl);
     }
   }, [bmUrl, isFetching, operation, setBookmarkOperation]);
-
-  useEffect(() => {
-    document.body.addEventListener('keydown', handleKeyPress);
-    return () => {
-      document.body.removeEventListener('keydown', handleKeyPress);
-    };
-  }, [handleKeyPress]);
-
-  const handleSearchTextChange = (text: string) => setSearchText(text);
 
   const updatePersonUrls = useCallback(
     (
@@ -249,39 +224,6 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
       setIsSaveButtonActive(true);
     },
     [contextBookmarks, folders, updatePersonUrls, urlList]
-  );
-
-  const handleBulkBookmarksMove = useCallback(
-    (destFolder: string) => {
-      const bookmarksToMove = contextBookmarks
-        .filter((bookmark, index) =>
-          Boolean(selectedBookmarks[index] && bookmark.url)
-        )
-        .map(({ url = '' }) => md5(url));
-      //Change parent folder hash in urlList
-      const destFolderHash = md5(destFolder);
-      bookmarksToMove.forEach(
-        (urlHash) =>
-          (urlList[urlHash] = {
-            ...urlList[urlHash],
-            parentHash: destFolderHash,
-          })
-      );
-      //Add to destination folder
-      folders[destFolderHash] = (folders[destFolderHash] || []).concat(
-        bookmarksToMove.map((urlHash) => ({ isDir: false, hash: urlHash }))
-      );
-      //Remove from old folder, ie, contextBookmarks
-      const updatedBookmarksInOldFolder = contextBookmarks.filter(
-        (_bookmark, index) => !selectedBookmarks[index]
-      );
-      setUrlList({ ...urlList });
-      setFolders({ ...folders });
-      setContextBookmarks(updatedBookmarksInOldFolder);
-      setSelectedBookmarks([]);
-      setIsSaveButtonActive(true);
-    },
-    [contextBookmarks, folders, selectedBookmarks, urlList]
   );
 
   const handleUrlRemove = useCallback(
@@ -506,28 +448,28 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     () => getSelectedCount(selectedBookmarks),
     [selectedBookmarks]
   );
+  const minReqBookmarksToScroll = Math.ceil(bodyHeight / BOOKMARK_ROW_HEIGHT);
   return (
     <>
-      <GlobalStyles
-        styles={{ body: { '::-webkit-scrollbar': { width: '0px' } } }}
-      />
       <ScrollButton
         itemsSize={curBookmarksCount}
         onScroll={handleScroll}
         minItemsReqToShow={minReqBookmarksToScroll}
       />
-      <Box sx={{ width: PANEL_DIMENSIONS_PX.width }}>
-        <Header
-          folderNamesList={folderNamesList}
+      <Flex
+        direction="column"
+        w={MAX_PANEL_SIZE.WIDTH}
+        h={MAX_PANEL_SIZE.HEIGHT}
+      >
+        <BookmarksHeader
           contextBookmarks={contextBookmarks}
           handleSave={handleSave}
           handleCreateNewFolder={handleCreateNewFolder}
           isSaveButtonActive={isSaveButtonActive}
           isFetching={isFetching}
-          curFolder={folderContext}
-          onSearchChange={handleSearchTextChange}
+          onSearchChange={setSearchText}
         />
-        <EditBookmark
+        <BookmarkAddEditDialog
           curFolder={folderContext}
           onSave={handleBookmarkSave}
           onDelete={handleUrlRemove}
@@ -537,59 +479,59 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
           handleSelectedChange={handleSelectedChange}
         />
         <BookmarkContextMenu
-          curFolder={folderContext}
           contextBookmarks={contextBookmarks}
-          folderNamesList={folderNamesList}
           selectedBookmarks={selectedBookmarks}
           handleBulkUrlRemove={handleBulkUrlRemove}
           handleUrlRemove={handleUrlRemove}
-          handleBulkBookmarksMove={handleBulkBookmarksMove}
           handleOpenSelectedBookmarks={handleOpenSelectedBookmarks}
           handleMoveBookmarks={handleMoveBookmarks}
           handleScroll={handleScroll}
         >
-          {shouldRenderBookmarks(folders, filteredContextBookmarks) ? (
-            <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
-              <Droppable
-                droppableId="bookmarks-list"
-                mode="virtual"
-                renderClone={(provided) => (
-                  <DragClone provided={provided} dragCount={selectedCount} />
-                )}
-              >
-                {(provided) => (
-                  <FixedSizeList<VirtualRowProps>
-                    ref={listRef}
-                    height={BOOKMARK_PANEL_CONTENT_HEIGHT}
-                    width={PANEL_DIMENSIONS_PX.width}
-                    itemSize={BOOKMARK_ROW_DIMENTSIONS.height}
-                    itemCount={curBookmarksCount}
-                    overscanCount={5}
-                    outerRef={provided.innerRef}
-                    itemKey={(index, data) => {
-                      const { isDir, url, name } = data.contextBookmarks[index];
-                      return (isDir ? name : url) ?? '';
-                    }}
-                    itemData={{
-                      folderNamesList,
-                      folders,
-                      selectedBookmarks,
-                      contextBookmarks: filteredContextBookmarks,
-                      handleFolderRemove: handleFolderRemove,
-                      handleFolderEdit: handleFolderEdit,
-                      resetSelectedBookmarks: resetSelectedBookmarks,
-                      handleSelectedChange: handleSelectedChange,
-                    }}
-                    style={{ overflowY: 'scroll' }}
-                  >
-                    {VirtualRow}
-                  </FixedSizeList>
-                )}
-              </Droppable>
-            </DragDropContext>
-          ) : null}
+          <Box ref={bodyRef} h="100%" w="100%">
+            {shouldRenderBookmarks(folders, filteredContextBookmarks) ? (
+              <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
+                <Droppable
+                  droppableId="bookmarks-list"
+                  mode="virtual"
+                  renderClone={(provided) => (
+                    <DragClone provided={provided} dragCount={selectedCount} />
+                  )}
+                >
+                  {(provided) => (
+                    <FixedSizeList<VirtualRowProps>
+                      ref={listRef}
+                      height={bodyHeight}
+                      width={bodyWidth}
+                      itemSize={BOOKMARK_ROW_HEIGHT}
+                      itemCount={curBookmarksCount}
+                      overscanCount={5}
+                      outerRef={provided.innerRef}
+                      itemKey={(index, data) => {
+                        const { isDir, url, name } =
+                          data.contextBookmarks[index];
+                        return (isDir ? name : url) ?? '';
+                      }}
+                      itemData={{
+                        folderNamesList,
+                        folders,
+                        selectedBookmarks,
+                        contextBookmarks: filteredContextBookmarks,
+                        handleFolderRemove: handleFolderRemove,
+                        handleFolderEdit: handleFolderEdit,
+                        resetSelectedBookmarks: resetSelectedBookmarks,
+                        handleSelectedChange: handleSelectedChange,
+                      }}
+                      style={{ overflowY: 'scroll' }}
+                    >
+                      {VirtualRow}
+                    </FixedSizeList>
+                  )}
+                </Droppable>
+              </DragDropContext>
+            ) : null}
+          </Box>
         </BookmarkContextMenu>
-      </Box>
+      </Flex>
     </>
   );
 });

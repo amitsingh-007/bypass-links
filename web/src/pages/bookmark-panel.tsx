@@ -1,30 +1,30 @@
+import VirtualRow, {
+  VirtualRowProps,
+} from '@/ui/BookmarksPage/components/VirtualRow';
+import MetaTags from '@/ui/components/MetaTags';
+import { getFromLocalStorage, setToLocalStorage } from '@/ui/provider/utils';
+import { defaultBookmarkFolder } from '@bypass/shared/components/Bookmarks/constants';
 import {
   ContextBookmarks,
   IBookmarksObj,
 } from '@bypass/shared/components/Bookmarks/interfaces';
 import { bookmarksMapper } from '@bypass/shared/components/Bookmarks/mapper';
-import { defaultBookmarkFolder } from '@bypass/shared/components/Bookmarks/constants';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import md5 from 'md5';
-import { FixedSizeList } from 'react-window';
-import VirtualRow, {
-  VirtualRowProps,
-} from '@/ui/BookmarksPage/components/VirtualRow';
-import { useRouter } from 'next/router';
-import { Box, Container } from '@mui/material';
-import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
-import { getFromLocalStorage, setToLocalStorage } from '@/ui/provider/utils';
-import MetaTags from '@/ui/components/MetaTags';
-import Header from '@/ui/components/Header';
 import {
   getFilteredContextBookmarks,
   shouldRenderBookmarks,
 } from '@bypass/shared/components/Bookmarks/utils';
-import { useMeasure } from 'react-use';
+import Header from '@bypass/shared/components/Header';
+import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
+import { Box, Container } from '@mantine/core';
+import { useElementSize } from '@mantine/hooks';
+import md5 from 'md5';
+import { useRouter } from 'next/router';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { FixedSizeList } from 'react-window';
 
 export default function BookmarksPage() {
   const router = useRouter();
-  const [contentRef, { height: contentHeight }] = useMeasure();
+  const { ref: contentRef, height: contentHeight } = useElementSize();
   const folderContext =
     (router.query.folderContext as string) ?? defaultBookmarkFolder;
   const [contextBookmarks, setContextBookmarks] = useState<ContextBookmarks>(
@@ -64,13 +64,14 @@ export default function BookmarksPage() {
 
   return (
     <Container
-      maxWidth="md"
-      sx={{ height: '100vh', display: 'flex', flexDirection: 'column' }}
+      size="md"
+      h="100vh"
+      sx={{ display: 'flex', flexDirection: 'column' }}
     >
       <MetaTags titleSuffix="Bookmarks Panel" />
       <Header
-        title={`${folderContext} (${contextBookmarks?.length || 0})`}
         onSearchChange={handleSearchTextChange}
+        text={`${folderContext} (${contextBookmarks?.length || 0})`}
       />
       <Box ref={contentRef} sx={{ flex: 1 }}>
         {shouldRenderBookmarks(folders, filteredContextBookmarks) ? (

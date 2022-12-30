@@ -1,135 +1,107 @@
-import { Box, Button, TextField } from '@mui/material';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DesktopDateTimePicker } from '@mui/x-date-pickers/DesktopDateTimePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import PanelHeading from '@bypass/shared/components/PanelHeading';
-import { BG_COLOR_DARK } from '@bypass/shared/constants/color';
-import { ROUTES } from '@bypass/shared/constants/routes';
+import Header from '@bypass/shared/components/Header';
 import historyApi from '@helpers/chrome/history';
 import storage from '@helpers/chrome/storage';
-import { memo, useEffect, useState } from 'react';
-import { AiOutlineClear } from 'react-icons/ai';
-import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
-import { useNavigate } from 'react-router-dom';
-import { DateTimeInputProps } from '../interfaces/historyPanel';
-import dayjs from 'dayjs';
+import { Box, Button, Stack } from '@mantine/core';
+import {
+  DateRangePicker,
+  DateRangePickerValue,
+  TimeRangeInput,
+  TimeRangeInputProps,
+} from '@mantine/dates';
+import { useForm } from '@mantine/form';
 import useToastStore from '@store/toast';
+import { memo, useEffect } from 'react';
+import { AiOutlineClear, AiOutlineClockCircle } from 'react-icons/ai';
+import { HiOutlineCalendar } from 'react-icons/hi';
+import { combineDateTime, validateDateTime } from '../utils/date';
 
-const DateTimeInput = ({ dateTime, onChange, label }: DateTimeInputProps) => (
-  <DesktopDateTimePicker
-    showToolbar={false}
-    ampm={false}
-    label={label}
-    value={dateTime}
-    onChange={onChange}
-    maxDateTime={dayjs()}
-    renderInput={(props) => (
-      <Box sx={{ paddingY: '8px' }}>
-        <TextField
-          {...props}
-          helperText={null}
-          variant="outlined"
-          color="secondary"
-          fullWidth
-        />
-      </Box>
-    )}
-  />
-);
+interface IForm {
+  timeRange: Required<TimeRangeInputProps>['value'];
+  dateRange: DateRangePickerValue;
+}
+
+const currentDate = new Date();
 
 const HistoryPanel = memo(function HistoryPanel() {
-  const navigate = useNavigate();
   const displayToast = useToastStore((state) => state.displayToast);
-  const [startDateTime, setStartDateTime] = useState<dayjs.Dayjs | null>(
-    dayjs()
-  );
-  const [endDateTime, setEndDateTime] = useState<dayjs.Dayjs | null>(dayjs());
+
+  const form = useForm<IForm>({
+    initialValues: {
+      timeRange: [currentDate, currentDate],
+      dateRange: [currentDate, currentDate],
+    },
+    validate: {
+      timeRange: validateDateTime,
+      dateRange: validateDateTime,
+    },
+  });
 
   useEffect(() => {
     storage.get(['historyStartTime']).then(({ historyStartTime }) => {
       if (historyStartTime) {
-        setStartDateTime(historyStartTime);
+        form.setFieldValue('timeRange', [
+          new Date(historyStartTime),
+          currentDate,
+        ]);
       }
     });
-  }, []);
+  }, [form]);
 
-  const handleStartDateTimeChange = (date: dayjs.Dayjs | null) => {
-    setStartDateTime(date);
-  };
-
-  const handleEndDateTimeChange = (date: dayjs.Dayjs | null) => {
-    setEndDateTime(date);
-  };
-
-  const handleClose = () => {
-    navigate(ROUTES.HOMEPAGE);
-  };
-
-  const handleClear = async () => {
-    const startDateNum = startDateTime?.valueOf() ?? 0;
-    const endDateNum = endDateTime?.valueOf() ?? 0;
-    if (startDateNum > endDateNum) {
-      console.log('Start DateTime cannot be more than End DateTime.');
+  const handleClear = async (values: typeof form.values) => {
+    const [startTime, endTime] = values.timeRange;
+    const [startDate, endDate] = values.dateRange;
+    if (!startTime || !endTime || !startDate || !endDate) {
+      console.log('Something went wrong!!!');
+      return;
+    }
+    const startDateTime = combineDateTime(startTime, startDate);
+    const endDateTime = combineDateTime(endTime, endDate);
+    if (startDateTime > endDateTime) {
+      displayToast({
+        message: "Start date time can't be greater than end date time",
+        severity: 'error',
+      });
       return;
     }
     await historyApi.deleteRange({
-      startTime: startDateNum,
-      endTime: endDateNum,
+      startTime: startDateTime.valueOf(),
+      endTime: endDateTime.valueOf(),
     });
     storage.remove('historyStartTime');
     displayToast({ message: 'History cleared succesfully' });
   };
 
   return (
-    <Box sx={{ width: '321px', height: '570px' }}>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          backgroundColor: BG_COLOR_DARK,
-          py: '8px',
-          pl: '10px',
-          pr: '2px',
-          mb: '10px',
-        }}
-      >
-        <Button
-          variant="outlined"
-          startIcon={<HiOutlineArrowNarrowLeft />}
-          onClick={handleClose}
-          size="small"
-          color="error"
-        >
-          Back
-        </Button>
-        <PanelHeading heading="HISTORY PANEL" />
-      </Box>
-      <Box sx={{ display: 'flex', flexDirection: 'column', paddingX: '15px' }}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DateTimeInput
-            dateTime={startDateTime}
-            onChange={handleStartDateTimeChange}
-            label="Start Date Time"
+    <Box w={330} h={460}>
+      <Header text="History Panel" />
+      <form onSubmit={form.onSubmit(handleClear)}>
+        <Stack p={15}>
+          <DateRangePicker
+            label="Select start and end date"
+            {...form.getInputProps('dateRange')}
+            icon={<HiOutlineCalendar />}
+            allowSingleDateInRange
+            allowLevelChange={false}
+            maxDate={currentDate}
           />
-          <DateTimeInput
-            dateTime={endDateTime}
-            onChange={handleEndDateTimeChange}
-            label="End Date Time"
+          <TimeRangeInput
+            label="Select start and end time"
+            {...form.getInputProps('timeRange')}
+            icon={<AiOutlineClockCircle />}
+            format="12"
+            clearable
           />
-        </LocalizationProvider>
-      </Box>
-      <Box sx={{ textAlign: 'center', mt: '10px' }}>
-        <Button
-          variant="outlined"
-          startIcon={<AiOutlineClear />}
-          onClick={handleClear}
-          size="small"
-          color="error"
-        >
-          Clear
-        </Button>
-      </Box>
+          <Button
+            radius="xl"
+            variant="light"
+            leftIcon={<AiOutlineClear />}
+            color="red"
+            type="submit"
+          >
+            Clear
+          </Button>
+        </Stack>
+      </form>
     </Box>
   );
 });

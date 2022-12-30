@@ -1,11 +1,13 @@
+import { authenticate2FA } from '@bypass/shared/components/Auth/apis/twoFactorAuth';
+import InputTOTP from '@bypass/shared/components/Auth/components/InputTOTP';
 import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
 import storage from '@helpers/chrome/storage';
 import { getUserProfile } from '@helpers/fetchFromStorage';
-import { useEffect, useState } from 'react';
-import TOTPPopup from '@bypass/shared/components/Auth/components/TOTPPopup';
-import { UserInfo } from '../interfaces/authentication';
-import useToastStore from '@store/toast';
+import { Center, Modal } from '@mantine/core';
 import useAuthStore from '@store/auth';
+import useToastStore from '@store/toast';
+import { useEffect, useState } from 'react';
+import { UserInfo } from '../interfaces/authentication';
 
 const TwoFactorAuthenticate = () => {
   const displayToast = useToastStore((state) => state.displayToast);
@@ -30,10 +32,11 @@ const TwoFactorAuthenticate = () => {
     getUserProfile().then((userProfile) => setUser(userProfile));
   }, [isSignedIn]);
 
-  const onVerify = async (isVerified: boolean) => {
+  const onVerify = async (totp: string) => {
     if (!user) {
       return;
     }
+    const { isVerified } = await authenticate2FA(user.uid ?? '', totp);
     if (isVerified) {
       user.isTOTPVerified = true;
       await storage.set({ [STORAGE_KEYS.userProfile]: user });
@@ -47,12 +50,19 @@ const TwoFactorAuthenticate = () => {
   };
 
   return (
-    <TOTPPopup
-      dialog
-      userId={user?.uid ?? ''}
-      promptTOTPVerify={promptTOTPVerify}
-      verifyCallback={onVerify}
-    />
+    <Modal
+      opened={promptTOTPVerify}
+      fullScreen
+      onClose={() => undefined}
+      withCloseButton={false}
+      closeOnClickOutside={false}
+      closeOnEscape={false}
+      styles={{ body: { height: '100%' } }}
+    >
+      <Center h="100%">
+        <InputTOTP handleVerify={onVerify} />
+      </Center>
+    </Modal>
   );
 };
 

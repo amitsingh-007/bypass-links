@@ -1,20 +1,16 @@
+import { getIsExtensionActive, setExtStateInStorage } from '@/utils/common';
 import { EXTENSION_STATE } from '@constants/index';
+import action from '@helpers/chrome/action';
 import storage from '@helpers/chrome/storage';
 import { getExtensionState } from '@helpers/fetchFromStorage';
-import { getIsExtensionActive, setExtStateInStorage } from '@/utils/common';
 import { manageGoogleActivity } from './automation/manageGoogleActivity';
 import { bypass } from './bypass';
 import { getForumPageLinks } from './misc/forumPageLinks';
 import turnOffInputSuggestions from './misc/turnOffInputSuggestions';
 import { redirect } from './redirect';
-import {
-  checkForUpdates,
-  fetchPageH1,
-  isValidUrl,
-  setExtensionIcon,
-} from './utils';
-import { red } from '@mui/material/colors';
-import action from '@helpers/chrome/action';
+import { checkForUpdates, isValidUrl, setExtensionIcon } from './utils';
+
+const red = '#FF6B6B';
 
 //First time extension install
 chrome.runtime.onInstalled.addListener(() => {
@@ -36,7 +32,7 @@ chrome.runtime.onStartup.addListener(() => {
     if (!isUsingLatest) {
       action.setBadgeWithTitle(
         '!',
-        red[700],
+        red,
         'You are using older version of Bypass Links'
       );
     }
@@ -84,10 +80,6 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
         sendResponse({ forumPageLinks });
       }
     );
-  } else if (message.fetchPageH1) {
-    fetchPageH1().then((pageH1) => {
-      sendResponse({ pageH1 });
-    });
   } else if (message.manageGoogleActivity) {
     const { historyWatchTime } = message.manageGoogleActivity;
     manageGoogleActivity(historyWatchTime).then(() => {

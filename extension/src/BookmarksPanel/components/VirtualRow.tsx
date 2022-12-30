@@ -1,14 +1,15 @@
-import { Box } from '@mui/material';
-import { memo } from 'react';
-import { areEqual } from 'react-window';
+import { Props as BookmarkProps } from '@bypass/shared/components/Bookmarks/components/Bookmark';
 import {
   ContextBookmarks,
   IBookmarksObj,
   ISelectedBookmarks,
 } from '@bypass/shared/components/Bookmarks/interfaces';
 import { isFolderEmpty } from '@bypass/shared/components/Bookmarks/utils';
-import BookmarkRow, { Props as BookmarkProps } from './BookmarkRow';
-import Folder, { Props as FolderProps } from './FolderRow';
+import { Box } from '@mantine/core';
+import { memo } from 'react';
+import { areEqual } from 'react-window';
+import BookmarkRow from './BookmarkRow';
+import FolderRow, { Props as FolderProps } from './FolderRow';
 
 export interface VirtualRowProps {
   folderNamesList: string[];
@@ -45,7 +46,7 @@ const VirtualRow = memo<{
   return (
     <Box style={style}>
       {isDir ? (
-        <Folder
+        <FolderRow
           pos={index}
           isDir={isDir}
           name={name}

@@ -1,10 +1,11 @@
 import create from 'zustand';
 import { VoidFunction } from '@bypass/shared/interfaces/custom';
-import { AlertColor } from '@mui/material';
+
+export type ToastType = 'success' | 'error';
 
 interface ToastState {
   message: string | null;
-  severity?: AlertColor;
+  severity?: ToastType;
   duration?: number;
 }
 
@@ -20,8 +21,7 @@ const defaultState: ToastState = {
 
 const useToastStore = create<State>()((set) => ({
   toast: defaultState,
-  displayToast: ({ message, severity = 'info', duration = 3000 }) =>
-    set(() => ({ toast: { message, severity, duration } })),
+  displayToast: (toast) => set(() => ({ toast })),
   hideToast: () => set(() => ({ toast: defaultState })),
 }));
 

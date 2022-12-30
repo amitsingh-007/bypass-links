@@ -1,13 +1,15 @@
-import { Box } from '@mui/material';
-import { ScrollButton } from '../../ScrollButton';
-import { deserialzeQueryStringToObject } from '../../../utils/url';
-import { memo, useEffect, useRef, useState, useContext } from 'react';
+import { Box } from '@mantine/core';
+import { useElementSize } from '@mantine/hooks';
+import { memo, useContext, useEffect, useRef, useState } from 'react';
 import { FixedSizeGrid } from 'react-window';
+import DynamicContext from '../../../provider/DynamicContext';
+import { deserialzeQueryStringToObject } from '../../../utils/url';
+import { ScrollButton } from '../../ScrollButton';
+import { GRID_COLUMN_SIZE } from '../constants';
+import usePerson from '../hooks/usePerson';
 import { IPerson } from '../interfaces/persons';
 import { getReactKey } from '../utils';
 import BookmarksList from './BookmarksList';
-import usePerson from '../hooks/usePerson';
-import DynamicContext from '../../../provider/DynamicContext';
 
 interface Props {
   persons: IPerson[];
@@ -15,14 +17,8 @@ interface Props {
   handlePersonDelete?: (person: IPerson) => void;
   onLinkOpen: (url: string) => void;
   scrollButton?: boolean;
-  sizeConfig: {
-    gridColumnSize: number;
-    panelHeight: number;
-    panelWidth: number;
-  };
   bookmarkListProps: {
     fullscreen: boolean;
-    focusSearch: boolean;
   };
   virtualCell: React.ComponentType<{
     columnIndex: number;
@@ -32,18 +28,16 @@ interface Props {
   }>;
 }
 
-const PADDING = 6;
-
 const Persons = memo<Props>(function Persons({
   persons,
   handleEditPerson,
   handlePersonDelete,
   onLinkOpen,
   scrollButton = false,
-  sizeConfig,
   bookmarkListProps,
   virtualCell: VirtualCell,
 }) {
+  const { ref, width, height } = useElementSize();
   const { location } = useContext(DynamicContext);
   const queryString = location.query();
   const gridRef = useRef<any>(null);
@@ -69,30 +63,25 @@ const Persons = memo<Props>(function Persons({
     gridRef.current?.scrollToItem({ rowIndex: itemNumber });
   };
 
-  const rowCount = Math.ceil(persons.length / sizeConfig.gridColumnSize);
-  const topBottomPadding = PADDING * 2;
-  const cellDimension =
-    (sizeConfig.panelWidth - topBottomPadding) / sizeConfig.gridColumnSize;
+  const rowCount = Math.ceil(persons.length / GRID_COLUMN_SIZE);
+  const cellDimension = (width - 8) / GRID_COLUMN_SIZE; //Adjust scrollbar width
+
   return (
     <>
       {scrollButton && (
         <ScrollButton itemsSize={rowCount} onScroll={handleScroll} />
       )}
-      <Box sx={{ padding: `${PADDING}px` }}>
+      <Box h="100%" ref={ref}>
         <FixedSizeGrid<React.ComponentProps<typeof VirtualCell>['data']>
-          height={sizeConfig.panelHeight - topBottomPadding}
-          width={sizeConfig.panelWidth}
+          height={height}
+          width={width}
           rowCount={rowCount}
-          columnCount={sizeConfig.gridColumnSize}
+          columnCount={GRID_COLUMN_SIZE}
           rowHeight={cellDimension}
           columnWidth={cellDimension}
           overscanRowCount={2}
           itemKey={({ rowIndex, columnIndex, data }) => {
-            const index = getReactKey(
-              rowIndex,
-              columnIndex,
-              sizeConfig.gridColumnSize
-            );
+            const index = getReactKey(rowIndex, columnIndex);
             const person = data.persons[index];
             return person?.uid ?? `${rowIndex}_${columnIndex}`;
           }}
@@ -102,15 +91,14 @@ const Persons = memo<Props>(function Persons({
           {VirtualCell}
         </FixedSizeGrid>
       </Box>
-      {personToOpen && (
-        <BookmarksList
-          name={personToOpen.name}
-          imageUrl={personToOpenImage}
-          taggedUrls={personToOpen.taggedUrls}
-          onLinkOpen={onLinkOpen}
-          {...bookmarkListProps}
-        />
-      )}
+      <BookmarksList
+        isOpen={Boolean(personToOpen)}
+        name={personToOpen?.name}
+        imageUrl={personToOpenImage}
+        taggedUrls={personToOpen?.taggedUrls}
+        onLinkOpen={onLinkOpen}
+        {...bookmarkListProps}
+      />
     </>
   );
 });

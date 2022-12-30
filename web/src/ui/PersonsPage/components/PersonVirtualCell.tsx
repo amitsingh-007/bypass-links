@@ -1,10 +1,9 @@
-import { Box } from '@mui/material';
-import { memo } from 'react';
-import { areEqual } from 'react-window';
+import Person from '@bypass/shared/components/Persons/components/Person';
 import { IPerson } from '@bypass/shared/components/Persons/interfaces/persons';
 import { getReactKey } from '@bypass/shared/components/Persons/utils';
-import Person from '@bypass/shared/components/Persons/components/Person';
-import { GRID_COLUMN_SIZE } from '../constants';
+import { Box } from '@mantine/core';
+import { memo } from 'react';
+import { areEqual } from 'react-window';
 
 interface PersonVirtualCellProps {
   persons: IPerson[];
@@ -17,14 +16,14 @@ const PersonVirtualCell = memo<{
   data: PersonVirtualCellProps;
 }>(({ columnIndex, rowIndex, data, style }) => {
   const { persons } = data;
-  const index = getReactKey(rowIndex, columnIndex, GRID_COLUMN_SIZE);
+  const index = getReactKey(rowIndex, columnIndex);
   const person = persons[index];
 
   if (index >= persons.length) {
     return null;
   }
   return (
-    <Box style={style}>
+    <Box style={style} p={12}>
       <Person person={person} />
     </Box>
   );

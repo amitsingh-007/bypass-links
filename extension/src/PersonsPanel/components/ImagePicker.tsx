@@ -1,26 +1,21 @@
+import Header from '@bypass/shared/components/Header';
+import { VoidFunction } from '@bypass/shared/interfaces/custom';
+import { FIREBASE_STORAGE_REF } from '@constants/index';
+import { uploadImageToFirebase } from '@helpers/firebase/storage';
 import {
   Box,
   Button,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  LinearProgress,
-  Slide,
+  Group,
+  LoadingOverlay,
+  Modal,
   Slider,
-  TextField,
-  Typography,
-} from '@mui/material';
-import { TransitionProps } from '@mui/material/transitions';
+  TextInput,
+} from '@mantine/core';
+import { useDebouncedState } from '@mantine/hooks';
 import imageCompression from 'browser-image-compression';
-import PanelHeading from '@bypass/shared/components/PanelHeading';
-import { FIREBASE_STORAGE_REF } from '@constants/index';
-import { BG_COLOR_DARK } from '@bypass/shared/constants/color';
-import { uploadImageToFirebase } from '@helpers/firebase/storage';
-import { VoidFunction } from '@bypass/shared/interfaces/custom';
-import { forwardRef, memo, useCallback, useRef, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import Cropper from 'react-easy-crop';
 import { Area } from 'react-easy-crop/types';
-import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
 import getCroppedImg from '../utils/cropImage';
 
 const ASPECT_RATIO = 1; //Square image allowed
@@ -28,13 +23,6 @@ const IMAGE_COMPRESSION_OPTIONS = {
   maxSizeMB: 200 / 1024, //max 200KB size
   maxWidthOrHeight: 250, //max 200px square size image
 };
-
-const Transition = forwardRef(function Transition(
-  props: TransitionProps & { children: React.ReactElement<any, any> },
-  ref: React.Ref<unknown>
-) {
-  return <Slide direction="left" ref={ref} {...props} />;
-});
 
 interface Props {
   uid: string;
@@ -49,19 +37,11 @@ const ImagePicker = memo<Props>(function ImagePicker({
   onDialogClose,
   handleImageSave,
 }) {
-  const inputImageUrlRef = useRef<HTMLInputElement>(null);
   const [isUploadingImage, setIsUploadingImage] = useState(false);
-  const [inputImageUrl, setInputImageUrl] = useState('');
+  const [inputImageUrl, setInputImageUrl] = useDebouncedState('', 500);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area>({} as Area);
-
-  const handleImageLoadClick = () => {
-    setInputImageUrl(inputImageUrlRef?.current?.value ?? '');
-  };
-
-  const handleZoomChange = (_event: Event, zoom: number | number[]) =>
-    setZoom(zoom as number);
 
   const onCropComplete = useCallback(
     (_croppedArea: Area, croppedAreaPixels: Area) => {
@@ -70,7 +50,7 @@ const ImagePicker = memo<Props>(function ImagePicker({
     []
   );
 
-  const showCroppedImage = useCallback(async () => {
+  const saveCroppedImage = useCallback(async () => {
     if (!inputImageUrl) {
       return;
     }
@@ -95,125 +75,58 @@ const ImagePicker = memo<Props>(function ImagePicker({
     }
   }, [croppedAreaPixels, handleImageSave, inputImageUrl, onDialogClose, uid]);
 
-  const onClose = useCallback(() => {
-    onDialogClose();
-  }, [onDialogClose]);
-
   return (
-    <Dialog
+    <Modal
+      opened={isOpen}
+      onClose={onDialogClose}
       fullScreen
-      open={isOpen}
-      onClose={onClose}
-      TransitionComponent={Transition}
+      zIndex={1002}
+      withCloseButton={false}
+      styles={{ modal: { padding: '0 !important' } }}
     >
-      {isUploadingImage && (
-        <Box sx={{ position: 'fixed', top: 0, left: 0, width: '100%' }}>
-          <LinearProgress color="secondary" />
-        </Box>
-      )}
-      <DialogTitle sx={{ p: '8px 6px', backgroundColor: BG_COLOR_DARK }}>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <Button
-            variant="outlined"
-            startIcon={<HiOutlineArrowNarrowLeft />}
-            onClick={onDialogClose}
-            size="small"
-            color="error"
-          >
-            Back
-          </Button>
-          <PanelHeading heading="UPLOAD IMAGE" />
-        </Box>
-      </DialogTitle>
-      <DialogContent>
-        <Box
-          sx={{
-            position: 'relative',
-            width: '100%',
-            height: '396px',
-            borderRadius: '10px',
-            overflow: 'hidden',
-          }}
-        >
-          <Cropper
-            cropShape="round"
-            showGrid={false}
-            image={inputImageUrl}
-            crop={crop}
-            zoom={zoom}
-            aspect={ASPECT_RATIO}
-            onCropChange={setCrop}
-            onCropComplete={onCropComplete}
-            onZoomChange={setZoom}
+      <LoadingOverlay visible={isUploadingImage} />
+      <Header text="Upload Image" onBackClick={onDialogClose} />
+      <Box w="100%" h={396} pos="relative">
+        <Cropper
+          cropShape="round"
+          showGrid={false}
+          image={inputImageUrl}
+          crop={crop}
+          zoom={zoom}
+          aspect={ASPECT_RATIO}
+          onCropChange={setCrop}
+          onCropComplete={onCropComplete}
+          onZoomChange={setZoom}
+        />
+      </Box>
+      <Box px={20} pt={20}>
+        <Group sx={{ justifyContent: 'center' }}>
+          <TextInput
+            placeholder="Enter image link"
+            onChange={(e) => setInputImageUrl(e.target.value ?? '')}
+            data-autofocus
+            w="40%"
           />
-        </Box>
-        <Box sx={{ padding: '0 20px' }}>
-          <Box
-            component="form"
-            sx={{ display: 'flex', marginTop: '18px' }}
-            onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-              e.preventDefault();
-              handleImageLoadClick();
-            }}
-          >
-            <TextField
-              autoFocus
-              inputRef={inputImageUrlRef}
-              fullWidth
-              size="small"
-              label="Image Url"
-              variant="outlined"
-              color="primary"
-              title={inputImageUrl}
-              style={{ marginRight: '10px' }}
-            />
-            <Button type="submit" variant="outlined" color="secondary">
-              <strong>Load</strong>
-            </Button>
-          </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              marginTop: '18px',
-            }}
-          >
-            <Box sx={{ display: 'flex', alignItems: 'center', width: '50%' }}>
-              <Typography
-                id="zoom"
-                variant="overline"
-                style={{ marginRight: '20px', fontSize: '15px' }}
-              >
-                Zoom
-              </Typography>
-              <Slider
-                value={zoom}
-                min={1}
-                max={3}
-                step={0.001}
-                aria-labelledby="zoom"
-                valueLabelDisplay="auto"
-                onChange={handleZoomChange}
-                color="secondary"
-              />
-            </Box>
-            <Button
-              color="primary"
-              variant="outlined"
-              onClick={showCroppedImage}
-            >
-              <strong>Save Cropped Image</strong>
-            </Button>
-          </Box>
-        </Box>
-      </DialogContent>
-    </Dialog>
+          <Slider
+            radius="xl"
+            value={zoom}
+            onChange={setZoom}
+            min={1}
+            max={3}
+            step={0.001}
+            label={(value) => value.toFixed(1)}
+            disabled={!inputImageUrl}
+            color={zoom > 2 ? 'red' : 'blue'}
+            w="40%"
+          />
+        </Group>
+        <Group mt={20} sx={{ justifyContent: 'center' }}>
+          <Button radius="xl" color="teal" onClick={saveCroppedImage}>
+            Save Cropped Image
+          </Button>
+        </Group>
+      </Box>
+    </Modal>
   );
 });
 

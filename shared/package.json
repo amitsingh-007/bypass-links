@@ -18,22 +18,16 @@
     }
   },
   "dependencies": {
-    "@emotion/react": "11.10.5",
-    "@emotion/styled": "11.10.5",
-    "@mui/material": "5.11.1",
-    "@mui/system": "5.11.1",
+    "@mantine/core": "5.9.5",
+    "@mantine/hooks": "5.9.5",
     "md5": "2.3.0",
     "react": "18.2.0",
     "react-icons": "4.7.1",
-    "react-intersection-observer": "9.4.1",
-    "react-window": "1.8.8",
-    "throttle-debounce": "5.0.0"
+    "react-window": "1.8.8"
   },
   "devDependencies": {
-    "@types/material-ui": "0.21.12",
     "@types/md5": "2.3.2",
     "@types/react-window": "1.8.5",
-    "@types/throttle-debounce": "5.0.0",
     "@typescript-eslint/eslint-plugin": "5.47.0",
     "@typescript-eslint/parser": "5.47.0",
     "eslint": "8.30.0",

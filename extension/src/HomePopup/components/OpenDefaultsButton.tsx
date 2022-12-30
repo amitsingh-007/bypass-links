@@ -1,12 +1,11 @@
-import { SvgIcon } from '@mui/material';
 import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
 import storage from '@helpers/chrome/storage';
 import tabs from '@helpers/chrome/tabs';
+import { Button } from '@mantine/core';
+import useAuthStore from '@store/auth';
+import useHistoryStore from '@store/history';
 import { memo, useState } from 'react';
 import { FiExternalLink } from 'react-icons/fi';
-import StyledButton from './StyledButton';
-import useHistoryStore from '@store/history';
-import useAuthStore from '@store/auth';
 
 const OpenDefaultsButton = memo(function OpenDefaultsButton() {
   const startHistoryMonitor = useHistoryStore(
@@ -33,17 +32,19 @@ const OpenDefaultsButton = memo(function OpenDefaultsButton() {
   };
 
   return (
-    <StyledButton
-      showSuccessColor={isSignedIn}
-      isLoading={isFetching}
-      isDisabled={!isSignedIn}
+    <Button
+      variant="light"
+      radius="xl"
+      loaderPosition="right"
+      loading={isFetching}
+      disabled={!isSignedIn}
       onClick={handleOpenDefaults}
-      color="warning"
+      rightIcon={<FiExternalLink />}
+      fullWidth
+      color="yellow"
     >
-      <SvgIcon>
-        <FiExternalLink />
-      </SvgIcon>
-    </StyledButton>
+      Defaults
+    </Button>
   );
 });
 

@@ -1,10 +1,9 @@
-import { SvgIcon } from '@mui/material';
 import { ROUTES } from '@bypass/shared/constants/routes';
+import { Button } from '@mantine/core';
+import useAuthStore from '@store/auth';
 import { memo } from 'react';
 import { FaUserTag } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import StyledButton from './StyledButton';
-import useAuthStore from '@store/auth';
 
 const PersonsPanelButton = memo(function PersonsPanelButton() {
   const navigate = useNavigate();
@@ -15,15 +14,17 @@ const PersonsPanelButton = memo(function PersonsPanelButton() {
   };
 
   return (
-    <StyledButton
-      showSuccessColor={isSignedIn}
-      isDisabled={!isSignedIn}
+    <Button
+      variant="light"
+      radius="xl"
+      loaderPosition="right"
+      disabled={!isSignedIn}
       onClick={handleShowPersonsPanel}
+      rightIcon={<FaUserTag />}
+      fullWidth
     >
-      <SvgIcon>
-        <FaUserTag />
-      </SvgIcon>
-    </StyledButton>
+      Persons
+    </Button>
   );
 });
 

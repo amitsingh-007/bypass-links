@@ -5,8 +5,3 @@ export enum BOOKMARK_OPERATION {
   ADD,
   EDIT,
 }
-
-export const bookmarkRowStyles = {
-  paddingLeft: '12px',
-  paddingRight: '9px',
-};

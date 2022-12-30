@@ -1,15 +1,14 @@
+import { IExtension } from '@bypass/shared/interfaces/api';
 import fetchApi from '@bypass/shared/utils/fetch';
-import { Container, GlobalStyles } from '@mui/material';
-import { GlobalStylesProps, Theme } from '@mui/system';
+import { Container, Global } from '@mantine/core';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import AppHeader from '../ui/DownloadPage/components/AppHeader';
 import Footer from '../ui/DownloadPage/components/Footer';
 import MetaTags from '../ui/DownloadPage/components/MetaTags';
 import PageHeader from '../ui/DownloadPage/components/PageHeader';
 import SalientFeatures from '../ui/DownloadPage/components/SalientFeatures';
-import { IExtension } from '@bypass/shared/interfaces/api';
 
-const globalStyles: GlobalStylesProps<Theme>['styles'] = {
+const pageStyles = {
   '*': {
     '::selection': {
       background: '#6850ff',
@@ -49,10 +48,10 @@ export default function Home({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <>
-      <GlobalStyles styles={globalStyles} />
+      <Global styles={pageStyles} />
       <MetaTags />
       <AppHeader />
-      <Container maxWidth="xl">
+      <Container size="xl">
         <PageHeader downloadLink={downloadLink} />
         <SalientFeatures />
       </Container>

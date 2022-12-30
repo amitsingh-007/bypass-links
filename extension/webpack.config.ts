@@ -1,22 +1,20 @@
 import 'webpack-dev-server'; //Required for TS typings
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import CopyWebpackPlugin from 'copy-webpack-plugin';
-import { CleanWebpackPlugin } from 'clean-webpack-plugin';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
-import FileManagerPlugin from 'filemanager-webpack-plugin';
-import MergeJsonWebpackPlugin from 'merge-jsons-webpack-plugin';
-import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
-import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 import ESLintPlugin from 'eslint-webpack-plugin';
-import TerserPlugin from 'terser-webpack-plugin';
-import ReactRefreshTypeScript from 'react-refresh-typescript';
-import { Configuration, DefinePlugin, optimize } from 'webpack';
+import FileManagerPlugin from 'filemanager-webpack-plugin';
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import MergeJsonWebpackPlugin from 'merge-jsons-webpack-plugin';
 import { resolve } from 'path';
+import ReactRefreshTypeScript from 'react-refresh-typescript';
+import TerserPlugin from 'terser-webpack-plugin';
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
+import { Configuration, DefinePlugin, optimize } from 'webpack';
 import {
-  getFileNameFromVersion,
   getExtVersion,
+  getFileNameFromVersion,
 } from '../shared/src/utils/extensionFile';
 
 const PATHS = {
@@ -66,19 +64,22 @@ const config: Configuration = {
     },
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.scss'],
+    extensions: ['.ts', '.tsx', '.js'],
     modules: [PATHS.SRC, 'node_modules'],
     plugins: [
       new TsconfigPathsPlugin({
         configFile: tsConfigFile,
-        extensions: ['.ts', '.tsx', '.js', '.scss'],
+        extensions: ['.ts', '.tsx', '.js'],
       }),
     ],
-    alias: {
-      react: 'preact/compat',
-      'react-dom': 'preact/compat',
-      'react/jsx-runtime': 'preact/jsx-runtime',
-    },
+    //Preact doesnt support hmr, so disable it for dev
+    alias: isProduction
+      ? {
+          react: 'preact/compat',
+          'react-dom': 'preact/compat',
+          'react/jsx-runtime': 'preact/jsx-runtime',
+        }
+      : undefined,
   },
   stats: isProduction ? 'normal' : 'errors-warnings',
   devtool: isProduction ? undefined : 'inline-source-map',
@@ -114,7 +115,6 @@ const config: Configuration = {
         },
         extractComments: false,
       }),
-      new CssMinimizerPlugin(),
     ],
   },
   module: {
@@ -135,23 +135,6 @@ const config: Configuration = {
                   ),
                 }),
               }),
-            },
-          },
-        ],
-      },
-      {
-        test: /\.svg$/,
-        use: ['@svgr/webpack'],
-      },
-      {
-        test: /\.scss$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
-          {
-            loader: 'sass-loader',
-            options: {
-              sourceMap: !isProduction,
             },
           },
         ],
@@ -182,10 +165,6 @@ const config: Configuration = {
     new HtmlWebpackPlugin({
       template: './public/index.html',
       excludeChunks: ['background_script'],
-    }),
-    new MiniCssExtractPlugin({
-      filename: 'css/[name].css',
-      chunkFilename: 'css/[id].css',
     }),
     new CopyWebpackPlugin({
       patterns: [

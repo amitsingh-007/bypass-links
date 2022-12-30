@@ -1,43 +1,39 @@
 import {
+  ActionIcon,
   Avatar,
+  Badge,
   Box,
-  Button,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
+  Center,
   Container,
-} from '@mui/material';
-import PanelHeading from '../../PanelHeading';
-import SearchWrapper from '../../SearchWrapper';
-import { BG_COLOR_DARK } from '../../../constants/color';
-import { memo, useCallback, useEffect, useState, useContext } from 'react';
-import { AiFillEdit } from 'react-icons/ai';
-import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
-import Bookmark from '../../../components/Bookmarks/components/Bookmark';
+  Modal,
+} from '@mantine/core';
 import {
-  bookmarkRowStyles,
-  BOOKMARK_OPERATION,
-} from '../../../components/Bookmarks/constants';
-import { IBookmark } from '../../../components/Bookmarks/interfaces';
+  memo,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+import { MdModeEdit } from 'react-icons/md';
+import Bookmark from '../../../components/Bookmarks/components/Bookmark';
+import { BOOKMARK_OPERATION } from '../../../components/Bookmarks/constants';
 import { getBookmarksPanelUrl } from '../../../components/Bookmarks/utils/url';
+import Header from '../../../components/Header';
+import DynamicContext from '../../../provider/DynamicContext';
+import { bookmarkRowStyles } from '../../Bookmarks/constants/styles';
 import useBookmark from '../../Bookmarks/hooks/useBookmark';
 import { getDecodedBookmark } from '../../Bookmarks/utils';
-import DynamicContext from '../../../provider/DynamicContext';
-
-const imageStyles = { width: 40, height: 40 };
+import { ModifiedBookmark } from '../interfaces/bookmark';
+import { getFilteredModifiedBookmarks } from '../utils/bookmark';
 
 interface Props {
-  name: string;
+  name?: string;
   imageUrl: string;
-  taggedUrls: string[];
+  taggedUrls?: string[];
   onLinkOpen: (url: string) => void;
   fullscreen: boolean;
-  focusSearch: boolean;
-}
-
-interface ModifiedBookmark extends IBookmark {
-  parentName: string;
+  isOpen: boolean;
 }
 
 const BookmarksList = memo<Props>(function BookmarksList({
@@ -45,12 +41,14 @@ const BookmarksList = memo<Props>(function BookmarksList({
   imageUrl,
   taggedUrls,
   onLinkOpen,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   fullscreen,
-  focusSearch,
+  isOpen,
 }) {
   const { location } = useContext(DynamicContext);
   const { getBookmarkFromHash, getFolderFromHash } = useBookmark();
   const [bookmarks, setBookmarks] = useState<ModifiedBookmark[]>([]);
+  const [searchText, setSearchText] = useState('');
 
   const initBookmarks = useCallback(async () => {
     if (!taggedUrls?.length) {
@@ -86,139 +84,88 @@ const BookmarksList = memo<Props>(function BookmarksList({
 
   useEffect(() => {
     initBookmarks();
+    return () => {
+      setBookmarks([]);
+    };
   }, [initBookmarks]);
+
+  const filteredBookmarks = useMemo(
+    () => getFilteredModifiedBookmarks(bookmarks, searchText),
+    [bookmarks, searchText]
+  );
 
   const renderContent = () => (
     <>
-      <DialogTitle sx={{ padding: '4px 6px', backgroundColor: BG_COLOR_DARK }}>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <Button
-            variant="outlined"
-            startIcon={<HiOutlineArrowNarrowLeft />}
-            onClick={handleClose}
-            size="small"
-            color="error"
+      <Header
+        onSearchChange={setSearchText}
+        rightContent={
+          <>
+            <Avatar src={imageUrl} alt={name} radius={999} />
+            <Badge size="lg" radius="lg" maw="50%">{`${name} (${
+              filteredBookmarks?.length || 0
+            })`}</Badge>
+          </>
+        }
+      />
+      {filteredBookmarks.length > 0 ? (
+        filteredBookmarks.map((bookmark) => (
+          <Center
+            pos="relative"
+            w="100%"
+            sx={[{ cursor: 'pointer', userSelect: 'none' }, bookmarkRowStyles]}
+            key={bookmark.url}
           >
-            Back
-          </Button>
-          <Box sx={{ display: 'flex' }}>
-            <SearchWrapper
-              searchClassName="bookmarkRowContainer"
-              focusOnVisible={focusSearch}
-            />
-            <PanelHeading
-              containerStyles={{ display: 'inline-flex', ml: '8px' }}
-              heading={
-                <Box sx={{ display: 'inline-flex', alignItems: 'center' }}>
-                  <Avatar alt={name} src={imageUrl} sx={imageStyles} />
-                  <Box
-                    component="span"
-                    sx={{ marginLeft: '14px', textTransform: 'uppercase' }}
-                  >
-                    {`${name} (${bookmarks?.length || 0})`}
-                  </Box>
-                </Box>
-              }
-            />
-          </Box>
-        </Box>
-      </DialogTitle>
-      <DialogContent sx={{ p: 0, pt: '4px !important' }}>
-        {bookmarks.length > 0 ? (
-          bookmarks.map((bookmark) => (
-            <Box
-              sx={{
-                position: 'relative',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: '100%',
-                cursor: 'pointer',
-                userSelect: 'none',
+            <ActionIcon
+              size={32}
+              title="Edit Bookmark"
+              color="red"
+              onClick={() => {
+                handleBookmarkEdit(bookmark);
               }}
-              className="bookmarkRowContainer"
-              data-text={bookmark.url}
-              data-subtext={bookmark.title}
-              key={bookmark.url}
+              radius={999}
             >
-              <IconButton
-                size="small"
-                title="Edit Bookmark"
-                color="info"
-                edge="end"
-                onClick={() => {
-                  handleBookmarkEdit(bookmark);
-                }}
-                sx={{ mr: '4px' }}
-              >
-                <AiFillEdit style={{ fontSize: '22px' }} />
-              </IconButton>
+              <MdModeEdit size="18px" />
+            </ActionIcon>
+            <Box sx={{ flex: 1 }}>
               <Bookmark
                 url={bookmark.url}
                 title={bookmark.title}
                 taggedPersons={bookmark.taggedPersons}
-                containerStyles={{
-                  ...bookmarkRowStyles,
-                  paddingLeft: '0px',
-                  overflowX: 'hidden',
-                }}
                 onOpenLink={onLinkOpen}
               />
-              <Button
-                variant="contained"
-                color="secondary"
-                disableElevation
-                disableFocusRipple
-                disableTouchRipple
-                disableRipple
-                sx={{
-                  position: 'absolute',
-                  right: '2px',
-                  fontSize: '9px',
-                  minWidth: 'unset',
-                  padding: '2px 5px',
-                  borderRadius: '50px',
-                }}
-              >
-                {bookmark.parentName}
-              </Button>
             </Box>
-          ))
-        ) : (
-          <Box sx={{ textAlign: 'center', marginTop: '30px' }}>
-            No tagged bookmarks found
-          </Box>
-        )}
-      </DialogContent>
+            <Badge size="sm" color="violet">
+              {bookmark.parentName}
+            </Badge>
+          </Center>
+        ))
+      ) : (
+        <Box ta="center" mt="30px">
+          No tagged bookmarks found
+        </Box>
+      )}
     </>
   );
 
   return (
-    <Dialog
-      open
-      fullScreen
+    <Modal
+      opened={isOpen}
       onClose={handleClose}
-      PaperProps={{
-        sx: {
-          maxWidth: 'unset',
-          maxHeight: 'unset',
-          margin: 'unset',
-          backgroundImage: 'unset',
-        },
+      fullScreen
+      zIndex={1002}
+      withCloseButton={false}
+      styles={{
+        modal: { padding: '0 !important' },
+        title: { flex: 1, marginRight: 0 },
+        header: { marginBottom: 0 },
       }}
     >
       {fullscreen ? (
         renderContent()
       ) : (
-        <Container maxWidth="md">{renderContent()}</Container>
+        <Container size="md">{renderContent()}</Container>
       )}
-    </Dialog>
+    </Modal>
   );
 });
 

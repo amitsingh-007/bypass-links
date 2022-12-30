@@ -1,12 +1,13 @@
-import { Box, FormControlLabel } from '@mui/material';
-import { StyledSwitch } from '@components/StyledComponents';
+import { getIsExtensionActive, setExtStateInStorage } from '@/utils/common';
 import { EXTENSION_STATE } from '@constants/index';
 import { getExtensionState } from '@helpers/fetchFromStorage';
+import { Switch, useMantineTheme } from '@mantine/core';
 import useExtStore from '@store/extension';
-import { getIsExtensionActive, setExtStateInStorage } from '@/utils/common';
 import { memo, useEffect, useState } from 'react';
+import { BsCheckLg, BsXLg } from 'react-icons/bs';
 
 const ToggleExtension = memo(function ToggleExtension() {
+  const theme = useMantineTheme();
   const turnOnExtension = useExtStore((state) => state.turnOnExtension);
   const turnOffExtension = useExtStore((state) => state.turnOffExtension);
   const [extState, setExtState] = useState(EXTENSION_STATE.INACTIVE);
@@ -39,11 +40,24 @@ const ToggleExtension = memo(function ToggleExtension() {
 
   const isActive = getIsExtensionActive(extState);
   return (
-    <FormControlLabel
-      control={<StyledSwitch checked={isActive} onChange={handleToggle} />}
-      label={<Box sx={{ mr: '3px' }}>Enable</Box>}
-      labelPlacement="start"
-      sx={{ ml: 0, justifyContent: 'space-between' }}
+    <Switch
+      onLabel="ON"
+      offLabel="OFF"
+      size="md"
+      label="Enable"
+      color="teal"
+      checked={isActive}
+      onChange={handleToggle}
+      thumbIcon={
+        isActive ? (
+          <BsCheckLg
+            size={8}
+            color={theme.colors.teal[theme.fn.primaryShade()]}
+          />
+        ) : (
+          <BsXLg size={8} color={theme.colors.red[theme.fn.primaryShade()]} />
+        )
+      }
     />
   );
 });

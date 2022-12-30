@@ -1,21 +1,36 @@
-import { Avatar, Box, TextField } from '@mui/material';
-import { EditDialog } from '@components/Dialogs';
-import { getImageFromFirebase } from '@helpers/firebase/storage';
+import usePerson from '@bypass/shared/components/Persons/hooks/usePerson';
+import { IPerson } from '@bypass/shared/components/Persons/interfaces/persons';
 import { VoidFunction } from '@bypass/shared/interfaces/custom';
+import { getImageFromFirebase } from '@helpers/firebase/storage';
+import {
+  ActionIcon,
+  Avatar,
+  Box,
+  Button,
+  Center,
+  Modal,
+  Stack,
+  TextInput,
+} from '@mantine/core';
+import { useForm } from '@mantine/form';
 import md5 from 'md5';
 import { memo, useCallback, useEffect, useState } from 'react';
-import { RiUserUnfollowFill } from 'react-icons/ri';
-import { IPerson } from '@bypass/shared/components/Persons/interfaces/persons';
+import { MdModeEdit } from 'react-icons/md';
 import ImagePicker from './ImagePicker';
-import usePerson from '@bypass/shared/components/Persons/hooks/usePerson';
 
-const imageStyles = { width: 200, height: 200 };
+const imageSize = 200;
 
 interface Props {
   person?: IPerson;
   isOpen: boolean;
   onClose: VoidFunction;
   handleSaveClick: (person: IPerson) => void;
+}
+
+interface IForm {
+  uid?: string;
+  name: string;
+  imageRef?: string;
 }
 
 const AddOrEditPersonDialog = memo<Props>(function AddOrEditPersonDialog({
@@ -25,11 +40,19 @@ const AddOrEditPersonDialog = memo<Props>(function AddOrEditPersonDialog({
   handleSaveClick,
 }) {
   const { resolvePersonImageFromUid } = usePerson();
-  const [uid, setUid] = useState(person?.uid);
-  const [name, setName] = useState(person?.name ?? '');
-  const [imageRef, setImageRef] = useState(person?.imageRef);
   const [imageUrl, setImageUrl] = useState('');
   const [showImagePicker, setShowImagePicker] = useState(false);
+
+  const form = useForm<IForm>({
+    initialValues: {
+      uid: person?.uid,
+      name: person?.name ?? '',
+      imageRef: person?.imageRef,
+    },
+    validate: {
+      name: (value) => (value ? null : 'Required'),
+    },
+  });
 
   const initImageUrl = useCallback(
     async (uid: string) => {
@@ -43,8 +66,9 @@ const AddOrEditPersonDialog = memo<Props>(function AddOrEditPersonDialog({
     if (person) {
       initImageUrl(person.uid);
     } else {
-      setUid(md5(Date.now().toString()));
+      form.setFieldValue('uid', md5(Date.now().toString()));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initImageUrl, person]);
 
   const fetchImage = async (ref: string) => {
@@ -52,23 +76,18 @@ const AddOrEditPersonDialog = memo<Props>(function AddOrEditPersonDialog({
     setImageUrl(url);
   };
 
-  const handleNameChange: React.ChangeEventHandler<HTMLTextAreaElement> = (
-    event
-  ) => {
-    setName(event.target.value);
-  };
-
   const handleImageCropSave = async (imageFirebaseRef: string) => {
     await fetchImage(imageFirebaseRef);
-    setImageRef(imageFirebaseRef);
+    form.setFieldValue('imageRef', imageFirebaseRef);
   };
 
-  const toggleImagePicker = () => {
-    setShowImagePicker(!showImagePicker);
-  };
+  const toggleImagePicker = () => setShowImagePicker(!showImagePicker);
 
-  const handlePersonSave = () => {
-    if (!uid || !imageRef) return;
+  const handleSave = (values: typeof form.values) => {
+    const { uid, name, imageRef } = values;
+    if (!uid || !imageRef) {
+      return;
+    }
     handleSaveClick({
       uid,
       name,
@@ -77,47 +96,58 @@ const AddOrEditPersonDialog = memo<Props>(function AddOrEditPersonDialog({
     });
   };
 
-  const isSaveActive = Boolean(name && imageUrl);
-
+  const { uid } = form.values;
   return (
     <>
-      <EditDialog
-        headerText={person ? 'Edit' : 'Add a Person'}
-        openDialog={isOpen}
-        closeDialog={onClose}
-        handleSave={handlePersonSave}
-        isSaveOptionActive={isSaveActive}
+      <Modal
+        closeOnClickOutside={false}
+        closeOnEscape={false}
+        centered
+        opened={isOpen}
+        onClose={onClose}
+        title={person ? 'Edit Person' : 'Add Person'}
+        padding={40}
       >
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            flexDirection: 'column',
-          }}
-        >
-          <Box onClick={toggleImagePicker} sx={{ cursor: 'pointer' }}>
-            <Avatar
-              alt={imageUrl || 'No Image'}
-              src={imageUrl}
-              sx={imageStyles}
-            >
-              {imageUrl ? null : (
-                <RiUserUnfollowFill style={{ fontSize: '120px' }} />
-              )}
-            </Avatar>
-          </Box>
-          <TextField
-            autoFocus
-            size="small"
-            label="Name"
-            variant="outlined"
-            title={name}
-            value={name}
-            onChange={handleNameChange}
-            style={{ marginTop: '20px' }}
-          />
-        </Box>
-      </EditDialog>
+        <form onSubmit={form.onSubmit(handleSave)}>
+          <Stack>
+            <Center>
+              <Box pos="relative">
+                <Avatar
+                  alt={imageUrl || 'No Image'}
+                  src={imageUrl}
+                  size={imageSize}
+                  radius="xl"
+                />
+                <Box
+                  pos="absolute"
+                  top="50%"
+                  left="50%"
+                  sx={{ transform: 'translate(-50%, -50%)' }}
+                >
+                  <ActionIcon
+                    radius="xl"
+                    variant="subtle"
+                    size={imageSize}
+                    onClick={toggleImagePicker}
+                  >
+                    <MdModeEdit size="25px" />
+                  </ActionIcon>
+                </Box>
+              </Box>
+            </Center>
+            <TextInput
+              withAsterisk
+              label="Name"
+              placeholder="Enter name"
+              data-autofocus
+              {...form.getInputProps('name')}
+            />
+            <Button type="submit" color="teal">
+              Save
+            </Button>
+          </Stack>
+        </form>
+      </Modal>
       {uid && (
         <ImagePicker
           uid={uid}

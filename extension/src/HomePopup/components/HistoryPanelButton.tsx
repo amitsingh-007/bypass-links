@@ -1,10 +1,9 @@
-import { SvgIcon } from '@mui/material';
 import { ROUTES } from '@bypass/shared/constants/routes';
+import { Button } from '@mantine/core';
+import useExtStore from '@store/extension';
 import { memo } from 'react';
 import { RiHistoryFill } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
-import StyledButton from './StyledButton';
-import useExtStore from '@store/extension';
 
 const HistoryPanelButton = memo(function HistoryPanelButton() {
   const navigate = useNavigate();
@@ -15,15 +14,17 @@ const HistoryPanelButton = memo(function HistoryPanelButton() {
   };
 
   return (
-    <StyledButton
-      showSuccessColor={isExtensionActive}
-      isDisabled={!isExtensionActive}
+    <Button
+      variant="light"
+      radius="xl"
+      loaderPosition="right"
+      disabled={!isExtensionActive}
       onClick={handleShowHistoryPanel}
+      rightIcon={<RiHistoryFill />}
+      fullWidth
     >
-      <SvgIcon>
-        <RiHistoryFill />
-      </SvgIcon>
-    </StyledButton>
+      History
+    </Button>
   );
 });
 
