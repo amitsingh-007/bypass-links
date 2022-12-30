@@ -1,5 +1,11 @@
 import { memo, useContext } from 'react';
-import { Badge, Button, Group, Header as MantineHeader } from '@mantine/core';
+import {
+  Badge,
+  Button,
+  Group,
+  Header as MantineHeader,
+  useMantineTheme,
+} from '@mantine/core';
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
 import Search from '@bypass/shared/components/Search';
 import DynamicContext from '../provider/DynamicContext';
@@ -28,7 +34,16 @@ const Header = memo<Props>(function Header({
       height={HEADER_HEIGHT}
       py={0}
       px={10}
-      sx={{ display: 'flex', justifyContent: 'space-between' }}
+      sx={(theme) => ({
+        display: 'flex',
+        justifyContent: 'space-between',
+        //Handle web headers
+        [theme.fn.largerThan('md')]: {
+          border: `1px solid ${theme.colors.dark[5]}`,
+          borderBottomLeftRadius: 6,
+          borderBottomRightRadius: 6,
+        },
+      })}
     >
       <Group>
         <Button

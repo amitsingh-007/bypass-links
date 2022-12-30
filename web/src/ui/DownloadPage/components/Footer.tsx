@@ -24,7 +24,7 @@ const Info = ({ icon: Icon, text }: { icon: IconType; text: string }) => {
       >
         <Icon size="100%" />
       </Box>
-      <Text ml={10} fw={500}>
+      <Text ml={10} fw={500} fz="1.1rem">
         {text}
       </Text>
     </Flex>

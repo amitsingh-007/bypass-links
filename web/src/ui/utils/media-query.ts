@@ -15,7 +15,7 @@ export const getMediaQuery = (theme: MantineTheme, styleObj: IStyles) => {
   return Object.entries(styleObj).reduce<Record<string, any>>(
     (responsiveStyle, [key, value]) => {
       const [mobileStyle, desktopStyle] = value;
-      const mediaQueryKey = `@media (max-width: ${theme.breakpoints.md}px)`;
+      const mediaQueryKey = theme.fn.smallerThan('md');
       responsiveStyle[key] = desktopStyle;
       let mediaQueryObj = responsiveStyle[mediaQueryKey] ?? {};
       mediaQueryObj = { ...mediaQueryObj, [key]: mobileStyle };
