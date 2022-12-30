@@ -10,7 +10,6 @@ import {
 } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 import useToastStore from '@store/toast';
-import dayjs from 'dayjs';
 import { memo, useEffect } from 'react';
 import { AiOutlineClear, AiOutlineClockCircle } from 'react-icons/ai';
 import { HiOutlineCalendar } from 'react-icons/hi';
@@ -21,7 +20,7 @@ interface IForm {
   dateRange: DateRangePickerValue;
 }
 
-const currentDate = dayjs().toDate();
+const currentDate = new Date();
 
 const HistoryPanel = memo(function HistoryPanel() {
   const displayToast = useToastStore((state) => state.displayToast);
