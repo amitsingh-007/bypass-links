@@ -1,4 +1,12 @@
-import { ActionIcon, Avatar, Badge, Box, Center, Modal } from '@mantine/core';
+import {
+  ActionIcon,
+  Avatar,
+  Badge,
+  Box,
+  Center,
+  Container,
+  Modal,
+} from '@mantine/core';
 import {
   memo,
   useCallback,
@@ -86,19 +94,8 @@ const BookmarksList = memo<Props>(function BookmarksList({
     [bookmarks, searchText]
   );
 
-  return (
-    <Modal
-      opened={isOpen}
-      onClose={handleClose}
-      fullScreen
-      zIndex={1002}
-      withCloseButton={false}
-      styles={{
-        modal: { padding: '0 !important' },
-        title: { flex: 1, marginRight: 0 },
-        header: { marginBottom: 0 },
-      }}
-    >
+  const renderContent = () => (
+    <>
       <Header
         onSearchChange={setSearchText}
         rightContent={
@@ -146,6 +143,27 @@ const BookmarksList = memo<Props>(function BookmarksList({
         <Box ta="center" mt="30px">
           No tagged bookmarks found
         </Box>
+      )}
+    </>
+  );
+
+  return (
+    <Modal
+      opened={isOpen}
+      onClose={handleClose}
+      fullScreen
+      zIndex={1002}
+      withCloseButton={false}
+      styles={{
+        modal: { padding: '0 !important' },
+        title: { flex: 1, marginRight: 0 },
+        header: { marginBottom: 0 },
+      }}
+    >
+      {fullscreen ? (
+        renderContent()
+      ) : (
+        <Container size="md">{renderContent()}</Container>
       )}
     </Modal>
   );

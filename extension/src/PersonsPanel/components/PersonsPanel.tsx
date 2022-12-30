@@ -128,7 +128,7 @@ const PersonsPanel = () => {
               handlePersonDelete={handlePersonDelete}
               virtualCell={PersonVirtualCell}
               onLinkOpen={onLinkOpen}
-              bookmarkListProps={{ fullscreen: true, focusSearch: true }}
+              bookmarkListProps={{ fullscreen: true }}
               scrollButton
             />
           ) : null}

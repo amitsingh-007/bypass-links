@@ -19,7 +19,6 @@ interface Props {
   scrollButton?: boolean;
   bookmarkListProps: {
     fullscreen: boolean;
-    focusSearch: boolean;
   };
   virtualCell: React.ComponentType<{
     columnIndex: number;

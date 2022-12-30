@@ -43,13 +43,13 @@ const Header = memo<Props>(function Header({
         {children}
       </Group>
       <Group sx={{ justifyContent: 'flex-end' }}>
-        {RightContent}
         {onSearchChange ? <Search onChange={onSearchChange} /> : null}
         {text ? (
           <Badge size="lg" radius="lg">
             {text}
           </Badge>
         ) : null}
+        {RightContent}
       </Group>
     </MantineHeader>
   );

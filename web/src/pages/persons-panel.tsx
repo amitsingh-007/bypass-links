@@ -62,7 +62,7 @@ const PersonsPage = () => {
             persons={filteredPersons}
             virtualCell={PersonVirtualCell}
             onLinkOpen={onLinkOpen}
-            bookmarkListProps={{ fullscreen: false, focusSearch: false }}
+            bookmarkListProps={{ fullscreen: false }}
           />
         ) : null}
       </Box>
