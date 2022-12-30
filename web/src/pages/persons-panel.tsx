@@ -1,8 +1,8 @@
-import Header from '@/ui/components/Header';
 import MetaTags from '@/ui/components/MetaTags';
 import PersonVirtualCell from '@/ui/PersonsPage/components/PersonVirtualCell';
 import { getFromLocalStorage } from '@/ui/provider/utils';
 import { openNewTab } from '@/ui/utils';
+import Header from '@bypass/shared/components/Header';
 import Persons from '@bypass/shared/components/Persons/components/Persons';
 import {
   IPerson,
@@ -14,7 +14,7 @@ import {
   sortAlphabetically,
 } from '@bypass/shared/components/Persons/utils';
 import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
-import { Box, Container } from '@mui/material';
+import { Box, Container } from '@mantine/core';
 import { useEffect, useMemo, useState } from 'react';
 
 const PersonsPage = () => {
@@ -47,13 +47,14 @@ const PersonsPage = () => {
   );
   return (
     <Container
-      maxWidth="md"
-      sx={{ height: '100vh', display: 'flex', flexDirection: 'column' }}
+      size="md"
+      h="100vh"
+      sx={{ display: 'flex', flexDirection: 'column' }}
     >
       <MetaTags titleSuffix="Bookmarks Panel" />
       <Header
-        title={`PERSONS PANEL (${filteredPersons?.length || 0})`}
         onSearchChange={handleSearchTextChange}
+        text={`Persons Panel (${filteredPersons?.length || 0})`}
       />
       <Box sx={{ flex: 1 }}>
         {filteredPersons.length > 0 ? (

@@ -26,7 +26,6 @@
     "react-window": "1.8.8"
   },
   "devDependencies": {
-    "@types/material-ui": "0.21.12",
     "@types/md5": "2.3.2",
     "@types/react-window": "1.8.5",
     "@typescript-eslint/eslint-plugin": "5.47.0",

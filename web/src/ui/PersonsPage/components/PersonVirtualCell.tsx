@@ -1,7 +1,7 @@
 import Person from '@bypass/shared/components/Persons/components/Person';
 import { IPerson } from '@bypass/shared/components/Persons/interfaces/persons';
 import { getReactKey } from '@bypass/shared/components/Persons/utils';
-import { Box } from '@mui/material';
+import { Box } from '@mantine/core';
 import { memo } from 'react';
 import { areEqual } from 'react-window';
 
@@ -23,7 +23,7 @@ const PersonVirtualCell = memo<{
     return null;
   }
   return (
-    <Box style={style}>
+    <Box style={style} p={12}>
       <Person person={person} />
     </Box>
   );

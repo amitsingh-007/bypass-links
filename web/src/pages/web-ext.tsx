@@ -1,20 +1,23 @@
-import { googleSignIn, googleSignOut } from '@/ui/firebase/auth';
-import { Box, Button, Container, Typography } from '@mui/material';
-import { useRouter } from 'next/router';
-import { ROUTES } from '@bypass/shared/constants/routes';
-import useWebPreload from '@/ui/hooks/useWebPreload';
-import { useEffect, useState } from 'react';
-import { useUser } from '@/ui/provider/AuthProvider';
 import MetaTags from '@/ui/components/MetaTags';
-import { RiLoginCircleFill, RiLogoutCircleRFill } from 'react-icons/ri';
-import { RiBookMarkFill } from 'react-icons/ri';
-import { FaUserTag } from 'react-icons/fa';
-import { LoadingButton } from '@mui/lab';
+import { googleSignIn, googleSignOut } from '@/ui/firebase/auth';
+import useWebPreload from '@/ui/hooks/useWebPreload';
+import { useUser } from '@/ui/provider/AuthProvider';
 import { getFromLocalStorage, setToLocalStorage } from '@/ui/provider/utils';
-import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
 import { ITwoFactorAuth } from '@/ui/TwoFactorAuth/interface';
-import InputTOTP from '@bypass/shared/components/Auth/components/InputTOTP';
 import { authenticate2FA } from '@bypass/shared/components/Auth/apis/twoFactorAuth';
+import InputTOTP from '@bypass/shared/components/Auth/components/InputTOTP';
+import Header from '@bypass/shared/components/Header';
+import { ROUTES } from '@bypass/shared/constants/routes';
+import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
+import { Button, Center, Container, Stack } from '@mantine/core';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { FaUserTag } from 'react-icons/fa';
+import {
+  RiBookMarkFill,
+  RiLoginCircleFill,
+  RiLogoutCircleRFill,
+} from 'react-icons/ri';
 
 export default function Web() {
   const router = useRouter();
@@ -84,55 +87,54 @@ export default function Web() {
   };
 
   return (
-    <Container maxWidth="md" sx={{ pt: '16px' }}>
+    <Container size="md">
       <MetaTags titleSuffix="Home" />
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '32px',
-          userSelect: 'none',
-        }}
-      >
-        <Typography variant="h3">Bypass Links</Typography>
-        <Typography variant="h4">Web Version</Typography>
-        <LoadingButton
-          variant="outlined"
-          startIcon={
-            isLoggedIn ? <RiLoginCircleFill /> : <RiLogoutCircleRFill />
-          }
-          onClick={isLoggedIn ? handleSignOut : handleSignIn}
-          loading={isLoading}
-          color={isLoggedIn ? 'success' : 'error'}
-        >
-          {isLoggedIn ? 'Logout' : 'Login'}
-        </LoadingButton>
-        {promptTOTPVerify ? (
-          <InputTOTP handleVerify={onVerify} />
-        ) : (
-          <>
-            <Button
-              variant="outlined"
-              startIcon={<RiBookMarkFill />}
-              onClick={() => router.push(ROUTES.BOOKMARK_PANEL)}
-              disabled={!isLoggedIn || isLoading}
-              color="secondary"
-            >
-              Bookmarks Page
-            </Button>
-            <Button
-              variant="outlined"
-              startIcon={<FaUserTag />}
-              onClick={() => router.push(ROUTES.PERSONS_PANEL)}
-              disabled={!isLoggedIn || isLoading}
-              color="secondary"
-            >
-              Persons Page
-            </Button>
-          </>
-        )}
-      </Box>
+      <Header text={'Bypass Links - Web'} />
+      <Center mt="md">
+        <Stack w="40%">
+          <Button
+            variant="light"
+            radius="xl"
+            size="md"
+            loading={isLoading}
+            loaderPosition="right"
+            onClick={isLoggedIn ? handleSignOut : handleSignIn}
+            color={isLoggedIn ? 'teal' : 'red'}
+            rightIcon={
+              isLoggedIn ? <RiLogoutCircleRFill /> : <RiLoginCircleFill />
+            }
+            fullWidth
+          >
+            {isLoggedIn ? 'Logout' : 'Login'}
+          </Button>
+          {promptTOTPVerify ? (
+            <InputTOTP handleVerify={onVerify} />
+          ) : (
+            <>
+              <Button
+                variant="light"
+                radius="xl"
+                size="md"
+                rightIcon={<RiBookMarkFill />}
+                onClick={() => router.push(ROUTES.BOOKMARK_PANEL)}
+                disabled={!isLoggedIn || isLoading}
+              >
+                Bookmarks Page
+              </Button>
+              <Button
+                variant="light"
+                radius="xl"
+                size="md"
+                rightIcon={<FaUserTag />}
+                onClick={() => router.push(ROUTES.PERSONS_PANEL)}
+                disabled={!isLoggedIn || isLoading}
+              >
+                Persons Page
+              </Button>
+            </>
+          )}
+        </Stack>
+      </Center>
     </Container>
   );
 }
