@@ -28,11 +28,8 @@ const Folder = memo<Props>(function Folder({
       w="100%"
       h="100%"
       p={6}
-      sx={{
-        gap: '12px',
-        opacity: isEmpty ? 0.6 : 1,
-        cursor: isEmpty ? 'not-allowed' : 'inherit',
-      }}
+      opacity={isEmpty ? 0.6 : 1}
+      sx={{ gap: '12px', cursor: isEmpty ? 'not-allowed' : 'inherit' }}
       onClick={resetSelectedBookmarks}
       onDoubleClick={handleFolderOpen}
     >

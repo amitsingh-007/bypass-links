@@ -28,7 +28,7 @@ const UserProfile = memo(function UserProfile() {
   };
 
   return (
-    <Box sx={{ position: 'relative' }} ref={ref}>
+    <Box pos="relative" ref={ref}>
       <Avatar
         radius="xl"
         size={50}

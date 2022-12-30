@@ -83,14 +83,11 @@ const Authenticate = memo(function Authenticate() {
             label={message || 'Loading'}
             size="xl"
             radius="xl"
-            sx={{
-              zIndex: 105,
-              width: '100%',
-              position: 'fixed',
-              top: '0',
-              left: '50%',
-              transform: 'translateX(-50%)',
-            }}
+            w="100%"
+            pos="fixed"
+            top={0}
+            left="50%"
+            sx={{ zIndex: 105, transform: 'translateX(-50%)' }}
           />
         </>
       )}

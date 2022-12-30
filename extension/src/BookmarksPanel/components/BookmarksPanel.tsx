@@ -114,21 +114,6 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     });
   }, [contextBookmarks, selectedBookmarks, startHistoryMonitor]);
 
-  const handleKeyPress = useCallback(
-    (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        resetSelectedBookmarks();
-      } else if (event.key === 'Enter') {
-        const target = event.target as HTMLElement;
-        // To prevent from opening links on saving bookmarks using keys
-        if (target.nodeName !== 'BUTTON' && target.nodeName !== 'INPUT') {
-          handleOpenSelectedBookmarks();
-        }
-      }
-    },
-    [handleOpenSelectedBookmarks]
-  );
-
   useEffect(() => {
     initBookmarksData().then(() => {
       handleScroll(0);
@@ -144,13 +129,6 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
       setBookmarkOperation(operation, bmUrl);
     }
   }, [bmUrl, isFetching, operation, setBookmarkOperation]);
-
-  useEffect(() => {
-    document.body.addEventListener('keydown', handleKeyPress);
-    return () => {
-      document.body.removeEventListener('keydown', handleKeyPress);
-    };
-  }, [handleKeyPress]);
 
   const updatePersonUrls = useCallback(
     (

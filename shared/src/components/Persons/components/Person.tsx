@@ -33,11 +33,9 @@ const Person = memo<Props>(function Person({ person }) {
       component={ActionIcon}
       radius="lg"
       withBorder
-      sx={(theme) => ({
-        height: '100%',
-        width: '100%',
-        backgroundColor: theme.colors.dark[9],
-      })}
+      h="100%"
+      w="100%"
+      sx={(theme) => ({ backgroundColor: theme.colors.dark[9] })}
       onClick={openBookmarksList}
     >
       <Card.Section>
@@ -46,7 +44,9 @@ const Person = memo<Props>(function Person({ person }) {
           color="dark"
           variant="filled"
           radius="xl"
-          sx={{ position: 'absolute', top: 0, right: '-3px' }}
+          pos="absolute"
+          top={0}
+          right={-3}
         >
           {taggedUrlsCount}
         </Badge>

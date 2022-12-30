@@ -26,11 +26,9 @@ const Header = memo<Props>(function Header({
   return (
     <MantineHeader
       height={HEADER_HEIGHT}
-      sx={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        padding: '0 10px',
-      }}
+      py={0}
+      px={10}
+      sx={{ display: 'flex', justifyContent: 'space-between' }}
     >
       <Group>
         <Button

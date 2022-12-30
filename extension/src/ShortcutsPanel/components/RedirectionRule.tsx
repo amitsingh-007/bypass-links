@@ -98,7 +98,7 @@ const RedirectionRule = memo(function RedirectionRule({
             checked={isDefaultRule}
             onChange={(e) => setIsDefaultRule(e.target.checked)}
             mr={2}
-            sx={{ display: 'flex' }}
+            display="flex"
           />
           <ActionIcon
             radius={999}

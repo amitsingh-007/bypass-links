@@ -86,7 +86,7 @@ const ImagePicker = memo<Props>(function ImagePicker({
     >
       <LoadingOverlay visible={isUploadingImage} />
       <Header text="Upload Image" onBackClick={onDialogClose} />
-      <Box w="100%" h={396} sx={{ position: 'relative', overflow: 'hidden' }}>
+      <Box w="100%" h={396} pos="relative">
         <Cropper
           cropShape="round"
           showGrid={false}

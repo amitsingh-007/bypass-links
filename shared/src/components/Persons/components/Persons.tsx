@@ -72,7 +72,7 @@ const Persons = memo<Props>(function Persons({
       {scrollButton && (
         <ScrollButton itemsSize={rowCount} onScroll={handleScroll} />
       )}
-      <Box sx={{ height: '100%' }} ref={ref}>
+      <Box h="100%" ref={ref}>
         <FixedSizeGrid<React.ComponentProps<typeof VirtualCell>['data']>
           height={height}
           width={width}

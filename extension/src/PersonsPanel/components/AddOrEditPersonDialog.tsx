@@ -111,7 +111,7 @@ const AddOrEditPersonDialog = memo<Props>(function AddOrEditPersonDialog({
         <form onSubmit={form.onSubmit(handleSave)}>
           <Stack>
             <Center>
-              <Box sx={{ position: 'relative' }}>
+              <Box pos="relative">
                 <Avatar
                   alt={imageUrl || 'No Image'}
                   src={imageUrl}
@@ -119,12 +119,10 @@ const AddOrEditPersonDialog = memo<Props>(function AddOrEditPersonDialog({
                   radius="xl"
                 />
                 <Box
-                  sx={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                  }}
+                  pos="absolute"
+                  top="50%"
+                  left="50%"
+                  sx={{ transform: 'translate(-50%, -50%)' }}
                 >
                   <ActionIcon
                     radius="xl"

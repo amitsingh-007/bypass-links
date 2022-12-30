@@ -63,7 +63,7 @@ const PersonVirtualCell = memo<{
     return null;
   }
   return (
-    <Box style={style} sx={{ padding: '8px' }}>
+    <Box style={style} p={8}>
       <Box>
         <ContextMenu options={menuOptions}>
           <Person person={person} />

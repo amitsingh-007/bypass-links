@@ -113,15 +113,9 @@ const BookmarksList = memo<Props>(function BookmarksList({
       {filteredBookmarks.length > 0 ? (
         filteredBookmarks.map((bookmark) => (
           <Center
-            sx={[
-              {
-                position: 'relative',
-                width: '100%',
-                cursor: 'pointer',
-                userSelect: 'none',
-              },
-              bookmarkRowStyles,
-            ]}
+            pos="relative"
+            w="100%"
+            sx={[{ cursor: 'pointer', userSelect: 'none' }, bookmarkRowStyles]}
             key={bookmark.url}
           >
             <ActionIcon

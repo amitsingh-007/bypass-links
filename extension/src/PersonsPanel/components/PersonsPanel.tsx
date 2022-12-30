@@ -111,7 +111,8 @@ const PersonsPanel = () => {
     <>
       <Flex
         direction="column"
-        sx={{ width: MAX_PANEL_SIZE.WIDTH, height: MAX_PANEL_SIZE.HEIGHT }}
+        w={MAX_PANEL_SIZE.WIDTH}
+        h={MAX_PANEL_SIZE.HEIGHT}
       >
         <PersonHeader
           isFetching={isFetching}
@@ -119,7 +120,7 @@ const PersonsPanel = () => {
           persons={filteredPersons}
           onSearchChange={handleSearchTextChange}
         />
-        <Box sx={{ position: 'relative', flex: 1 }}>
+        <Box pos="relative" sx={{ flex: 1 }}>
           {filteredPersons.length > 0 ? (
             <Persons
               persons={filteredPersons}
