@@ -1,13 +1,13 @@
 import Folder, {
   Props as FolderProps,
 } from '@bypass/shared/components/Bookmarks/components/Folder';
-import ContextMenu from '@components/ContextMenu';
-import { IMenuOptions } from '@interfaces/menu';
+import ContextMenu, { IMenuOptions } from '@/components/ContextMenu';
 import withBookmarkRow from '../hoc/withBookmarkRow';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
 import { FaFolderMinus } from 'react-icons/fa';
 import { FolderAddEditDialog } from './FolderAddEditDialog';
+import { useMantineTheme } from '@mantine/core';
 
 interface Props extends FolderProps {
   pos: number;
@@ -17,8 +17,9 @@ interface Props extends FolderProps {
 
 const FolderRow = memo<Props>(
   ({ name: origName, pos, handleRemove, handleEdit, ...restProps }) => {
+    const theme = useMantineTheme();
     const [openEditDialog, setOpenEditDialog] = useState(false);
-    const [menuOptions, setMenuOptions] = useState<IMenuOptions>([]);
+    const [menuOptions, setMenuOptions] = useState<IMenuOptions[]>([]);
 
     const toggleEditDialog = useCallback(() => {
       setOpenEditDialog(!openEditDialog);
@@ -39,22 +40,21 @@ const FolderRow = memo<Props>(
           onClick: toggleEditDialog,
           text: 'Edit',
           icon: AiFillEdit,
+          color: theme.colors.violet[9],
         },
         {
           onClick: handleDeleteOptionClick,
           text: 'Delete',
           icon: FaFolderMinus,
+          color: theme.colors.red[9],
         },
       ];
       setMenuOptions(menuOptions);
-    }, [handleDeleteOptionClick, toggleEditDialog]);
+    }, [handleDeleteOptionClick, theme.colors, toggleEditDialog]);
 
     return (
       <>
-        <ContextMenu
-          getMenuOptions={() => menuOptions}
-          containerStyles={{ display: 'flex', alignItems: 'center' }}
-        >
+        <ContextMenu options={menuOptions}>
           <Folder name={origName} {...restProps} />
         </ContextMenu>
         <FolderAddEditDialog

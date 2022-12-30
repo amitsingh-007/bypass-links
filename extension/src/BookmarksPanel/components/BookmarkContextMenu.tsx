@@ -4,17 +4,17 @@ import {
   ISelectedBookmarks,
 } from '@bypass/shared/components/Bookmarks/interfaces';
 import { VoidFunction } from '@bypass/shared/interfaces/custom';
-import ContextMenu from '@components/ContextMenu';
-import { IMenuOptions } from '@interfaces/menu';
+import ContextMenu, { IMenuOptions } from '@/components/ContextMenu';
+import { useMantineTheme } from '@mantine/core';
 import useBookmarkStore from '@store/bookmark';
 import md5 from 'md5';
-import { memo } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
-import { FiExternalLink } from 'react-icons/fi';
-import { HiArrowCircleDown, HiArrowCircleUp } from 'react-icons/hi';
+import { HiArrowCircleUp } from 'react-icons/hi';
 import { RiBookmark2Fill } from 'react-icons/ri';
+import { RxExternalLink } from 'react-icons/rx';
 
-const BookmarkContextMenu = memo<{
+interface Props {
   contextBookmarks: ContextBookmarks;
   children: React.ReactNode;
   selectedBookmarks: ISelectedBookmarks;
@@ -23,7 +23,9 @@ const BookmarkContextMenu = memo<{
   handleUrlRemove: (pos: number, url: string) => void;
   handleMoveBookmarks: (destinationIndex: number) => void;
   handleScroll: (itemNumber: number) => void;
-}>(
+}
+
+const BookmarkContextMenu = memo<Props>(
   ({
     children,
     contextBookmarks,
@@ -34,64 +36,70 @@ const BookmarkContextMenu = memo<{
     handleMoveBookmarks,
     handleScroll,
   }) => {
+    const theme = useMantineTheme();
     const selectedCount = selectedBookmarks.filter(Boolean).length;
 
     const setBookmarkOperation = useBookmarkStore(
       (state) => state.setBookmarkOperation
     );
 
-    const getBookmark = (id: string) => {
-      const selectedIndex = contextBookmarks.findIndex(
-        (bookmark) => md5(bookmark.url ?? '') === id
-      );
-      const selectedBookmark = contextBookmarks[selectedIndex];
-      return {
-        pos: selectedIndex,
-        url: selectedBookmark.url ?? '',
-      };
-    };
+    const getBookmark = useCallback(
+      (id: string) => {
+        const selectedIndex = contextBookmarks.findIndex(
+          (bookmark) => md5(bookmark.url ?? '') === id
+        );
+        const selectedBookmark = contextBookmarks[selectedIndex];
+        return {
+          pos: selectedIndex,
+          url: selectedBookmark.url ?? '',
+        };
+      },
+      [contextBookmarks]
+    );
 
-    const handleDeleteOptionClick = (id: string) => {
-      const { pos, url } = getBookmark(id);
-      handleUrlRemove(pos, url);
-    };
+    const handleDeleteOptionClick = useCallback(
+      (id: string) => {
+        const { pos, url } = getBookmark(id);
+        handleUrlRemove(pos, url);
+      },
+      [getBookmark, handleUrlRemove]
+    );
 
-    const handleBookmarkEdit = (id: string) => {
-      const { url } = getBookmark(id);
-      setBookmarkOperation(BOOKMARK_OPERATION.EDIT, url);
-    };
+    const handleBookmarkEdit = useCallback(
+      (id: string) => {
+        const { url } = getBookmark(id);
+        setBookmarkOperation(BOOKMARK_OPERATION.EDIT, url);
+      },
+      [getBookmark, setBookmarkOperation]
+    );
 
-    const handleMoveToTopBottom = (pos: number) => () => {
-      handleMoveBookmarks(pos);
-      handleScroll(pos);
-    };
+    const handleMoveToTop = useCallback(() => {
+      handleMoveBookmarks(0);
+      handleScroll(0);
+    }, [handleMoveBookmarks, handleScroll]);
 
-    const getMenuOptions = (): IMenuOptions => {
-      const menuOptionsList = [];
-      menuOptionsList.push({
-        onClick: handleOpenSelectedBookmarks,
-        text: `Open ${
-          selectedCount > 1 ? `all (${selectedCount}) ` : ''
-        }in new tab`,
-        icon: FiExternalLink,
-      });
-      menuOptionsList.push([
+    const menuOptions = useMemo(() => {
+      const menuOptionsList: IMenuOptions[] = [
         {
-          onClick: handleMoveToTopBottom(0),
+          onClick: handleOpenSelectedBookmarks,
+          text: `Open ${
+            selectedCount > 1 ? `all (${selectedCount}) ` : ''
+          }in new tab`,
+          icon: RxExternalLink,
+          color: theme.colors.yellow[9],
+        },
+        {
+          onClick: handleMoveToTop,
           text: 'Top',
           icon: HiArrowCircleUp,
         },
-        {
-          onClick: handleMoveToTopBottom(contextBookmarks.length - 1),
-          text: 'Bottom',
-          icon: HiArrowCircleDown,
-        },
-      ]);
+      ];
       if (selectedCount > 1) {
         menuOptionsList.push({
           onClick: handleBulkUrlRemove,
           text: 'Delete All',
           icon: RiBookmark2Fill,
+          color: theme.colors.red[9],
         });
       } else {
         menuOptionsList.push(
@@ -99,22 +107,32 @@ const BookmarkContextMenu = memo<{
             onClick: handleBookmarkEdit,
             text: 'Edit',
             icon: AiFillEdit,
+            color: theme.colors.violet[9],
           },
           {
             onClick: handleDeleteOptionClick,
             text: 'Delete',
             icon: RiBookmark2Fill,
+            color: theme.colors.red[9],
           }
         );
       }
       return menuOptionsList;
-    };
+    }, [
+      handleBookmarkEdit,
+      handleBulkUrlRemove,
+      handleDeleteOptionClick,
+      handleMoveToTop,
+      handleOpenSelectedBookmarks,
+      selectedCount,
+      theme.colors,
+    ]);
 
     return (
       <ContextMenu
-        showMenu={selectedCount > 0}
-        getMenuOptions={getMenuOptions}
-        containerStyles={{ flex: 1 }}
+        options={menuOptions}
+        mount={selectedCount > 0}
+        adjustOffset={false}
       >
         {children}
       </ContextMenu>

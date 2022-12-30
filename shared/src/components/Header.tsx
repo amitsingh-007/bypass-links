@@ -12,6 +12,8 @@ interface Props {
   onBackClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
+export const HEADER_HEIGHT = 56;
+
 const Header = memo<Props>(function Header({
   children,
   text,
@@ -23,7 +25,7 @@ const Header = memo<Props>(function Header({
 
   return (
     <MantineHeader
-      height={56}
+      height={HEADER_HEIGHT}
       sx={{
         display: 'flex',
         justifyContent: 'space-between',

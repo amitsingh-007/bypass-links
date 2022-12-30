@@ -1,114 +1,101 @@
-import { Box, MenuItem, Typography, SvgIcon } from '@mui/material';
-import { SxProps } from '@mui/system';
-import { VoidFunction } from '@bypass/shared/interfaces/custom';
-import { IMenuOptions, MenuOption } from '@interfaces/menu';
-import { memo, useState } from 'react';
-import useMenu from '@/hooks/useMenu';
-import { RightClickMenu } from './StyledComponents';
+import { HEADER_HEIGHT } from '@bypass/shared/components/Header';
+import { Box, Menu, useMantineTheme } from '@mantine/core';
+import { useWindowEvent } from '@mantine/hooks';
+import { useState } from 'react';
+import { IconType } from 'react-icons';
 
-const MenuItemWrapper = ({
-  id,
-  onMenuClose,
-  menuOption,
-  styles = {},
-}: {
-  id: string;
-  onMenuClose: VoidFunction;
-  menuOption: MenuOption;
-  styles?: SxProps;
-}) => {
-  const { text, icon: Icon, onClick } = menuOption;
-  return (
-    <MenuItem
-      onClick={(event) => {
-        event.stopPropagation();
-        onClick(id);
-        onMenuClose();
-      }}
-      sx={{ padding: '3px 12px', ...styles }}
-    >
-      <SvgIcon sx={{ mr: '12px', fontSize: 20 }}>
-        <Icon />
-      </SvgIcon>
-      <Typography sx={{ fontSize: '15px' }}>{text}</Typography>
-    </MenuItem>
-  );
-};
+export interface IMenuOptions {
+  text: string;
+  icon: IconType;
+  onClick: (id: string) => void;
+  color?: string;
+}
 
-type Props = {
-  getMenuOptions: () => IMenuOptions;
-  showMenu?: boolean;
-  onOpen?: VoidFunction;
+interface Props {
+  options: IMenuOptions[];
   children: React.ReactNode;
-  containerStyles?: SxProps;
-};
+  mount?: boolean;
+  adjustOffset?: boolean;
+}
 
-const ContextMenu = memo<Props>(function ContextMenu({
-  getMenuOptions,
-  showMenu = true,
-  onOpen,
-  containerStyles = {},
+const ContextMenu = ({
+  options,
+  mount = true,
   children,
-}) {
-  const [isMenuOpen, menuPos, onMenuClose, onMenuOpen] = useMenu();
+  adjustOffset = true,
+}: Props) => {
+  const theme = useMantineTheme();
+  const [points, setPoints] = useState({ x: 0, y: 0 });
   const [id, setId] = useState('');
 
-  const handleRightClick = (event: React.MouseEvent<HTMLElement>) => {
-    if (showMenu) {
-      const target = event.target as HTMLElement;
-      setId(target.getAttribute('data-context-id') ?? '');
-      onOpen && onOpen();
-      onMenuOpen(event);
-    }
+  useWindowEvent('click', () => setPoints({ x: 0, y: 0 }));
+
+  const handleContextMenu: React.MouseEventHandler = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const target = e.target as HTMLElement;
+    setId(target.getAttribute('data-context-id') ?? '');
+    setPoints({
+      x: e.clientX,
+      y: e.clientY - (adjustOffset ? HEADER_HEIGHT : 0),
+    });
   };
 
-  const renderMenu = () =>
-    getMenuOptions().map((option, index) =>
-      Array.isArray(option) ? (
-        <Box
-          sx={{ display: 'flex', justifyContent: 'space-between' }}
-          key={index}
-        >
-          {option.map((menuOption, index) => (
-            <MenuItemWrapper
-              key={index}
-              id={id}
-              onMenuClose={onMenuClose}
-              menuOption={menuOption}
-              styles={{ flexGrow: index !== option.length - 1 ? 1 : 'unset' }}
-            />
-          ))}
-        </Box>
-      ) : (
-        <MenuItemWrapper
-          key={index}
-          id={id}
-          onMenuClose={onMenuClose}
-          menuOption={option}
-        />
-      )
-    );
+  const showMenu = mount && points.x != 0 && points.y !== 0;
 
   return (
     <>
-      <Box
-        sx={{ height: '100%', width: '100%', ...containerStyles }}
-        onContextMenu={handleRightClick}
-      >
+      <Box w="100%" h="100%" onContextMenu={handleContextMenu}>
         {children}
       </Box>
-      {showMenu ? (
-        <RightClickMenu
-          open={isMenuOpen}
-          onClose={onMenuClose}
-          anchorReference="anchorPosition"
-          anchorPosition={menuPos}
-        >
-          {renderMenu()}
-        </RightClickMenu>
-      ) : null}
+      <Box
+        pos="fixed"
+        top={0}
+        left={0}
+        right={0}
+        bottom={0}
+        display={showMenu ? 'block' : 'none'}
+        sx={{ zIndex: 7000 }}
+      >
+        <Box pos="absolute" top={points.y} left={points.x}>
+          <Menu
+            id="context-menu"
+            radius="md"
+            shadow="xl"
+            opened={showMenu}
+            transition="pop-top-left"
+            transitionDuration={200}
+            exitTransitionDuration={0}
+          >
+            <Menu.Dropdown>
+              {options.map(
+                ({
+                  text,
+                  icon: Icon,
+                  onClick,
+                  color = theme.colors.blue[8],
+                }) => {
+                  const isRedColor = theme.colors.red.includes(color);
+                  return (
+                    <Menu.Item
+                      key={text}
+                      px={8}
+                      py={6}
+                      icon={<Icon color={color} size={14} />}
+                      color={isRedColor ? 'red' : undefined}
+                      onClick={() => onClick(id)}
+                    >
+                      {text}
+                    </Menu.Item>
+                  );
+                }
+              )}
+            </Menu.Dropdown>
+          </Menu>
+        </Box>
+      </Box>
     </>
   );
-});
+};
 
 export default ContextMenu;
