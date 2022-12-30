@@ -55,11 +55,11 @@ export default function Home({
         <PageHeader downloadLink={downloadLink} />
         <SalientFeatures />
       </Container>
-      {/* <Footer
+      <Footer
         country={country}
         releaseDate={releaseDate}
         extVersion={extVersion}
-      /> */}
+      />
     </>
   );
 }
