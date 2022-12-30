@@ -15,10 +15,8 @@ root.render(
     <BrowserRouter>
       <MantineProvider withGlobalStyles withNormalizeCSS theme={mantineTheme}>
         <DynamicProvider>
-          <>
-            <PopupRoutes />
-            <Global />
-          </>
+          <PopupRoutes />
+          <Global />
         </DynamicProvider>
       </MantineProvider>
     </BrowserRouter>

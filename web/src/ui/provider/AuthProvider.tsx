@@ -1,4 +1,4 @@
-import { ReactElement, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { User } from 'firebase/auth';
 import { onAuthStateChange } from '../firebase/auth';
 
@@ -17,7 +17,7 @@ const AuthContext = createContext<IAuthContext>({
   user: null,
 });
 
-export const AuthProvider = ({ children }: { children: ReactElement }) => {
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const [user, setUser] = useState<IAuthContext['user']>(null);
 

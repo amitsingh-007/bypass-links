@@ -81,7 +81,6 @@ const HistoryPanel = memo(function HistoryPanel() {
             {...form.getInputProps('dateRange')}
             icon={<HiOutlineCalendar />}
             allowSingleDateInRange
-            inputFormat="DD MMM YYYY"
             allowLevelChange={false}
             maxDate={currentDate}
           />
