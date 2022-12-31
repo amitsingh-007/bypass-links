@@ -15,7 +15,7 @@ import { Configuration, DefinePlugin, optimize } from 'webpack';
 import {
   getExtVersion,
   getFileNameFromVersion,
-} from '../shared/src/utils/extensionFile';
+} from '../packages/shared/src/utils/extensionFile';
 
 const PATHS = {
   ROOT: resolve(__dirname),

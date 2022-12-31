@@ -16,10 +16,10 @@ import {
   useState,
 } from 'react';
 import { MdModeEdit } from 'react-icons/md';
-import Bookmark from '../../../components/Bookmarks/components/Bookmark';
-import { BOOKMARK_OPERATION } from '../../../components/Bookmarks/constants';
-import { getBookmarksPanelUrl } from '../../../components/Bookmarks/utils/url';
-import Header from '../../../components/Header';
+import Bookmark from '../../Bookmarks/components/Bookmark';
+import { BOOKMARK_OPERATION } from '../../Bookmarks/constants';
+import { getBookmarksPanelUrl } from '../../Bookmarks/utils/url';
+import Header from '../../Header';
 import DynamicContext from '../../../provider/DynamicContext';
 import { bookmarkRowStyles } from '../../Bookmarks/constants/styles';
 import useBookmark from '../../Bookmarks/hooks/useBookmark';

@@ -1,5 +1,5 @@
 {
-  "extends": "../shared/config/tsconfig.base.json",
+  "extends": "../packages/shared/config/tsconfig.base.json",
   "compilerOptions": {
     "baseUrl": ".",
     // Refer: https://github.com/microsoft/TypeScript/issues/26859#issuecomment-695806452

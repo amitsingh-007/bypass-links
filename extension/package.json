@@ -7,7 +7,7 @@
     "dev": "cross-env NODE_ENV=development HOST_NAME=http://localhost:3000 webpack serve --progress"
   },
   "dependencies": {
-    "@bypass/shared": "file:shared",
+    "@bypass/shared": "file:packages/shared",
     "@emotion/react": "11.10.5",
     "@hello-pangea/dnd": "16.2.0",
     "@mantine/core": "5.9.5",
