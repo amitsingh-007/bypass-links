@@ -28,7 +28,7 @@
   "devDependencies": {
     "@types/md5": "2.3.2",
     "@types/react-window": "1.8.5",
-    "@typescript-eslint/eslint-plugin": "5.47.0",
+    "@typescript-eslint/eslint-plugin": "5.47.1",
     "@typescript-eslint/parser": "5.47.0",
     "eslint": "8.30.0",
     "eslint-import-resolver-typescript": "3.5.2",
