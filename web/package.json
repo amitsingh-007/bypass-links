@@ -14,7 +14,7 @@
     "@mantine/core": "5.9.5",
     "@mantine/hooks": "5.9.5",
     "@mantine/next": "5.9.5",
-    "@next/font": "13.1.0",
+    "@next/font": "13.1.1",
     "@octokit/rest": "19.0.5",
     "express-bearer-token": "2.4.0",
     "firebase": "9.15.0",
