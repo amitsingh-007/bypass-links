@@ -1,7 +1,9 @@
 {
   "cleanUrls": true,
-  "installCommand": "cd ../.. && npm install",
-  "buildCommand": "cd ../.. && npm run build -- --filter=@bypass/web --include-dependencies --no-deps",
+  "trailingSlash": false,
+  "silent": true,
   "regions": ["bom1"],
-  "trailingSlash": false
+  "installCommand": "cd ../.. && npm install",
+  "buildCommand": "cd ../.. && npm run build -- --filter=@bypass/web",
+  "ignoreCommand": "npx turbo-ignore"
 }
