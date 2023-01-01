@@ -1,6 +1,7 @@
 {
   "cleanUrls": true,
-  "installCommand": "cd .. && npm install",
+  "installCommand": "cd ../.. && npm install",
+  "buildCommand": "cd ../.. && npm run build -- --filter=@bypass/web",
   "regions": ["bom1"],
   "trailingSlash": false
 }
