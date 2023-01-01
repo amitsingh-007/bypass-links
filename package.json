@@ -16,6 +16,7 @@
     "apps/*"
   ],
   "devDependencies": {
-    "turbo": "1.6.3"
+    "turbo": "1.6.3",
+    "vercel": "28.10.1"
   }
 }
