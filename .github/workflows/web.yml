@@ -17,17 +17,19 @@ jobs:
     steps:
       - name: Checkout repo 🛎️
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
 
       - name: Setting up Node.js 🔧
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      - name: Deploy Preview (Vercel) 🔺
-        uses: amondnet/vercel-action@v25
-        id: vercel-action
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
-          github-comment: false
+      # - name: Deploy Preview (Vercel) 🔺
+      #   uses: amondnet/vercel-action@v25
+      #   id: vercel-action
+      #   with:
+      #     vercel-token: ${{ secrets.VERCEL_TOKEN }}
+      #     vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
+      #     vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
+      #     github-comment: false
