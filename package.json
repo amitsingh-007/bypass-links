@@ -4,10 +4,10 @@
   "description": "An easy-to-use Open-Source `Browser Extension` which bypasses links on various websites and lets you use the direct url for your resource. This will help you to bypass recaptchas, unnecessary timers, countdowns, ads, popups, surveys, avoid unnecessary third party installs.",
   "private": true,
   "scripts": {
-    "build": "npm run build -w=extension -w=web",
+    "build": "npm run build -w=apps/extension -w=web",
     "cypress:open": "npm run cypress:open -w=e2e",
-    "ext:build": "npm run build -w=extension",
-    "ext:dev": "npm run dev -w=extension",
+    "ext:build": "npm run build -w=apps/extension",
+    "ext:dev": "npm run dev -w=apps/extension",
     "vercel:deploy": "vercel --prod",
     "vercel:preview": "vercel",
     "web:build": "npm run build -w=web",
@@ -15,8 +15,8 @@
   },
   "workspaces": [
     "e2e",
-    "extension",
     "web",
-    "packages/*"
+    "packages/*",
+    "apps/*"
   ]
 }
