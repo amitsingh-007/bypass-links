@@ -24,7 +24,7 @@ jobs:
         uses: bahmutov/npm-install@v1
 
       - name: Building 🛠
-        run: npm run ext:build
+        run: npm run build
 
       - name: Upload extension 🌐
         uses: actions/upload-artifact@v3
