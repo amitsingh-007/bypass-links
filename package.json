@@ -4,7 +4,7 @@
   "description": "An easy-to-use Open-Source `Browser Extension` which bypasses links on various websites and lets you use the direct url for your resource. This will help you to bypass recaptchas, unnecessary timers, countdowns, ads, popups, surveys, avoid unnecessary third party installs.",
   "private": true,
   "scripts": {
-    "build": "FORCE_COLOR=1 turbo run build --cache-dir=.turbo-cache",
+    "build": "FORCE_COLOR=1 turbo run build",
     "cypress:open": "npm run cypress:open -w=e2e",
     "dev": "FORCE_COLOR=1 turbo run dev",
     "vercel:deploy": "vercel --prod",
