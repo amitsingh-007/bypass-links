@@ -20,10 +20,10 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Setting up Node.js 🔧
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
+      # - name: Setting up Node.js 🔧
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: '18'
 
       # - name: Deploy Preview (Vercel) 🔺
       #   uses: amondnet/vercel-action@v25
