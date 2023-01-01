@@ -10,3 +10,14 @@ public/sw*
 public/workbox*
 
 .vercel
+
+
+**/node_modules
+
+**/.eslintcache
+
+**/.DS_Store
+
+.turbo
+.turbo-cache
+

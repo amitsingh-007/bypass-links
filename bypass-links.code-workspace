@@ -10,7 +10,7 @@
     },
     {
       "name": "shared",
-      "path": "package/shared"
+      "path": "packages/shared"
     },
     {
       "name": "extension",
