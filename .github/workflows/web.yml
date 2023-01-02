@@ -1,4 +1,4 @@
-name: Web CI
+name: Build CI
 on:
   push:
     branches-ignore:
@@ -9,7 +9,6 @@ on:
       - 'e2e/**'
 
 jobs:
-  Build:
     env:
       # TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       # TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
