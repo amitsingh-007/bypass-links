@@ -185,7 +185,7 @@ const config = {
       output: {
         groupBy: [
           {
-            pattern: `public/manifest${isProduction ? '*' : ''}.json`,
+            pattern: `../../packages/shared/src/configs/manifest${isProduction ? '*' : ''}.json`,
             fileName: 'manifest.json',
           },
         ],

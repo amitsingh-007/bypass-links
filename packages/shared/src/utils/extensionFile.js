@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-/* eslint-disable @typescript-eslint/no-var-requires */
-const manifest = require('../../../../apps/extension/public/manifest.json');
+const manifest = require('@bypass/shared/configs/manifest.json');
 
 const FILE_NAME = {
   prefix: 'bypass-links-',
