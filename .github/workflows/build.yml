@@ -1,16 +1,16 @@
-name: Extension CI
+name: Build CI
 on:
   push:
     branches-ignore:
       - 'main'
       - 'dependabot/**'
-    paths-ignore:
-      - 'web/**'
-      - 'e2e/**'
 
 jobs:
   Build:
     runs-on: ubuntu-latest
+    env:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
     steps:
       - name: Checkout repo 🛎️
         uses: actions/checkout@v3
@@ -24,7 +24,7 @@ jobs:
         uses: bahmutov/npm-install@v1
 
       - name: Building 🛠
-        run: npm run ext:build
+        run: npm run build
 
       - name: Upload extension 🌐
         uses: actions/upload-artifact@v3

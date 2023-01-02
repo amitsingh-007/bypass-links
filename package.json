@@ -6,9 +6,7 @@
   "scripts": {
     "build": "FORCE_COLOR=1 turbo run build",
     "cypress:open": "npm run cypress:open -w=e2e",
-    "dev": "FORCE_COLOR=1 turbo run dev",
-    "vercel:deploy": "vercel --prod",
-    "vercel:preview": "vercel"
+    "dev": "FORCE_COLOR=1 turbo run dev"
   },
   "workspaces": [
     "e2e",
@@ -16,6 +14,7 @@
     "apps/*"
   ],
   "devDependencies": {
-    "turbo": "1.6.3"
+    "turbo": "1.6.3",
+    "vercel": "28.10.1"
   }
 }
