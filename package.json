@@ -7,8 +7,10 @@
     "build": "FORCE_COLOR=1 turbo run build",
     "cypress:open": "npm run cypress:open -w=e2e",
     "dev": "FORCE_COLOR=1 turbo run dev",
-    "vercel:deploy": "vercel --prod",
-    "vercel:preview": "vercel"
+    "vercel:preview": "npm run vercel:env && npm run vercel:build && npm run vercel:deploy",
+    "vercel:env": "vercel pull --yes --environment=preview --token=${{ env.VERCEL_TOKEN }}",
+    "vercel:build": "vercel build --token=${{ env.VERCEL_TOKEN }}",
+    "vercel:deploy": "vercel deploy --prebuilt --token=${{ env.VERCEL_TOKEN }}"
   },
   "workspaces": [
     "e2e",
