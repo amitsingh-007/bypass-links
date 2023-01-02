@@ -1,0 +1,21 @@
+{
+  "name": "@bypass/configs",
+  "version": "1.0.0",
+  "private": true,
+  "files": [
+    ".eslintrc.js",
+    "tsconfig.base.json"
+  ],
+  "peerDependencies": {
+    "@typescript-eslint/eslint-plugin": "5.47.0",
+    "@typescript-eslint/parser": "5.47.0",
+    "eslint": "8.30.0",
+    "eslint-config-turbo": "0.0.7",
+    "eslint-import-resolver-typescript": "3.5.2",
+    "eslint-plugin-import": "2.26.0",
+    "eslint-plugin-prettier": "4.2.1",
+    "eslint-plugin-react": "7.31.11",
+    "eslint-plugin-react-hooks": "4.6.0",
+    "typescript": "4.9.4"
+  }
+}

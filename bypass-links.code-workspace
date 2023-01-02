@@ -5,6 +5,9 @@
       "path": "."
     },
     {
+      "path": "packages/configs"
+    },
+    {
       "path": "e2e"
     },
     {
