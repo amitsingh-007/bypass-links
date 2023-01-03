@@ -6,7 +6,8 @@
   "scripts": {
     "build": "FORCE_COLOR=1 turbo run build",
     "cypress:open": "npm run cypress:open -w=e2e",
-    "dev": "FORCE_COLOR=1 turbo run dev"
+    "dev": "FORCE_COLOR=1 turbo run dev",
+    "dev:env": "vercel env pull apps/web/.env.local"
   },
   "workspaces": [
     "e2e",
