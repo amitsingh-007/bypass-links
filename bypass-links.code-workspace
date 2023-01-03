@@ -5,20 +5,19 @@
       "path": "."
     },
     {
-      "name": "shared",
-      "path": "shared"
+      "path": "packages/configs"
     },
     {
-      "name": "e2e",
       "path": "e2e"
     },
     {
-      "name": "extension",
-      "path": "extension"
+      "path": "packages/shared"
     },
     {
-      "name": "web",
-      "path": "web"
+      "path": "apps/extension"
+    },
+    {
+      "path": "apps/web"
     }
   ]
 }

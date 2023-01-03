@@ -1,0 +1,14 @@
+.eslintignore
+
+# next.js
+.next/
+.env.local
+tsconfig.tsbuildinfo
+
+# next-pwa
+public/sw*
+public/workbox*
+
+.vercel
+
+.turbo

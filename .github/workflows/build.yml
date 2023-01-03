@@ -1,0 +1,33 @@
+name: Build CI
+on:
+  push:
+    branches-ignore:
+      - 'main'
+      - 'dependabot/**'
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    env:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+    steps:
+      - name: Checkout repo 🛎️
+        uses: actions/checkout@v3
+
+      - name: Setting up Node.js 🔧
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies 🧼
+        uses: bahmutov/npm-install@v1
+
+      - name: Building 🛠
+        run: npm run build
+
+      - name: Upload extension 🌐
+        uses: actions/upload-artifact@v3
+        with:
+          name: extension-file
+          path: ./apps/extension/build/bypass-links-*.zip
