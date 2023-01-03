@@ -1,18 +1,18 @@
-import storage from '@helpers/chrome/storage';
-import { BYPASS_KEYS, EXTENSION_STATE } from '@constants/index';
-import { IBookmarksObj } from '@bypass/shared/components/Bookmarks/interfaces';
-import { UserInfo } from '@/HomePopup/interfaces/authentication';
-import { LastVisited } from '@/HomePopup/interfaces/lastVisited';
-import {
-  PersonImageUrls,
-  IPersons,
-} from '@bypass/shared/components/Persons/interfaces/persons';
 import {
   IMappedRedirections,
   IRedirection,
 } from '@/BackgroundScript/interfaces/redirections';
+import { UserInfo } from '@/HomePopup/interfaces/authentication';
+import { LastVisited } from '@/HomePopup/interfaces/lastVisited';
 import { ISettings } from '@/SettingsPanel/interfaces/settings';
-import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
+import {
+  IBookmarksObj,
+  IPersons,
+  PersonImageUrls,
+  STORAGE_KEYS,
+} from '@bypass/shared';
+import { BYPASS_KEYS, EXTENSION_STATE } from '@constants/index';
+import storage from '@helpers/chrome/storage';
 
 export const getExtensionState = async () => {
   const { extState } = await storage.get('extState');

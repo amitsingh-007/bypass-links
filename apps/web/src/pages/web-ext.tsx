@@ -4,11 +4,13 @@ import useWebPreload from '@/ui/hooks/useWebPreload';
 import { useUser } from '@/ui/provider/AuthProvider';
 import { getFromLocalStorage, setToLocalStorage } from '@/ui/provider/utils';
 import { ITwoFactorAuth } from '@/ui/TwoFactorAuth/interface';
-import { authenticate2FA } from '@bypass/shared/components/Auth/apis/twoFactorAuth';
-import InputTOTP from '@bypass/shared/components/Auth/components/InputTOTP';
-import Header from '@bypass/shared/components/Header';
-import { ROUTES } from '@bypass/shared/constants/routes';
-import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
+import {
+  authenticate2FA,
+  Header,
+  InputTOTP,
+  ROUTES,
+  STORAGE_KEYS,
+} from '@bypass/shared';
 import { Button, Center, Container, Stack } from '@mantine/core';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';

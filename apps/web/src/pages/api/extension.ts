@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { getAssetsByReleaseId, getLatestRelease } from '@logic/github';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { IExtension } from '@bypass/shared';
 //@ts-ignore
-import { getVersionFromFileName } from '@bypass/shared/utils/extensionFile';
-import { IExtension } from '@bypass/shared/interfaces/api';
+import { getVersionFromFileName } from '../../../../../packages/shared/src/utils/extensionFile';
 
 const handler = async (
   _req: NextApiRequest,

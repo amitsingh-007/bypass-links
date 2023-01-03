@@ -1,4 +1,4 @@
-import { mantineTheme } from '@bypass/shared/constants/theme';
+import { mantineTheme } from '@bypass/shared';
 import { MantineProvider } from '@mantine/core';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';

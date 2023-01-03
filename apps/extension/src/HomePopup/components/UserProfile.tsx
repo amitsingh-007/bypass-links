@@ -1,5 +1,5 @@
 import { UserInfo } from '@/HomePopup/interfaces/authentication';
-import { ROUTES } from '@bypass/shared/constants/routes';
+import { ROUTES } from '@bypass/shared';
 import { getUserProfile } from '@helpers/fetchFromStorage';
 import { ActionIcon, Avatar, Box, Transition } from '@mantine/core';
 import { useHover } from '@mantine/hooks';

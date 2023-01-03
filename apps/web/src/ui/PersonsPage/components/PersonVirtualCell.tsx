@@ -1,6 +1,4 @@
-import Person from '@bypass/shared/components/Persons/components/Person';
-import { IPerson } from '@bypass/shared/components/Persons/interfaces/persons';
-import { getReactKey } from '@bypass/shared/components/Persons/utils';
+import { getReactKey, IPerson, Person } from '@bypass/shared';
 import { Box } from '@mantine/core';
 import { memo } from 'react';
 import { areEqual } from 'react-window';

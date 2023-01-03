@@ -3,18 +3,16 @@ import VirtualRow, {
 } from '@/ui/BookmarksPage/components/VirtualRow';
 import MetaTags from '@/ui/components/MetaTags';
 import { getFromLocalStorage, setToLocalStorage } from '@/ui/provider/utils';
-import { defaultBookmarkFolder } from '@bypass/shared/components/Bookmarks/constants';
 import {
+  bookmarksMapper,
   ContextBookmarks,
-  IBookmarksObj,
-} from '@bypass/shared/components/Bookmarks/interfaces';
-import { bookmarksMapper } from '@bypass/shared/components/Bookmarks/mapper';
-import {
+  defaultBookmarkFolder,
   getFilteredContextBookmarks,
+  Header,
+  IBookmarksObj,
   shouldRenderBookmarks,
-} from '@bypass/shared/components/Bookmarks/utils';
-import Header from '@bypass/shared/components/Header';
-import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
+  STORAGE_KEYS,
+} from '@bypass/shared';
 import { Box, Container } from '@mantine/core';
 import { useElementSize } from '@mantine/hooks';
 import md5 from 'md5';

@@ -1,4 +1,4 @@
-import { getStoragePath } from '@bypass/shared/utils/firebase';
+import { getStoragePath } from '@bypass/shared';
 import {
   deleteObject,
   getDownloadURL,

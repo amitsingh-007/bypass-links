@@ -1,24 +1,20 @@
 import { MAX_PANEL_SIZE } from '@/constants';
-import { BOOKMARK_OPERATION } from '@bypass/shared/components/Bookmarks/constants';
 import {
+  addToCache,
+  BMPanelQueryParams,
+  bookmarksMapper,
+  BOOKMARK_OPERATION,
+  CACHE_BUCKET_KEYS,
   ContextBookmarks,
+  getEncryptedBookmark,
+  getFaviconProxyUrl,
+  getFilteredContextBookmarks,
   IBookmarksObj,
   ISelectedBookmarks,
-} from '@bypass/shared/components/Bookmarks/interfaces';
-import { BMPanelQueryParams } from '@bypass/shared/components/Bookmarks/interfaces/url';
-import {
-  bookmarksMapper,
-  getEncryptedBookmark,
-} from '@bypass/shared/components/Bookmarks/mapper';
-import {
-  getFilteredContextBookmarks,
+  IUpdateTaggedPerson,
+  ScrollButton,
   shouldRenderBookmarks,
-} from '@bypass/shared/components/Bookmarks/utils';
-import { IUpdateTaggedPerson } from '@bypass/shared/components/Persons/interfaces/persons';
-import { ScrollButton } from '@bypass/shared/components/ScrollButton';
-import { CACHE_BUCKET_KEYS } from '@bypass/shared/constants/cache';
-import { getFaviconProxyUrl } from '@bypass/shared/utils';
-import { addToCache } from '@bypass/shared/utils/cache';
+} from '@bypass/shared';
 import {
   DragDropContext,
   DragDropContextProps,

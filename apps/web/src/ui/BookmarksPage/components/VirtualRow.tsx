@@ -1,12 +1,12 @@
 import { openNewTab } from '@/ui/utils';
-import Bookmark from '@bypass/shared/components/Bookmarks/components/Bookmark';
-import Folder from '@bypass/shared/components/Bookmarks/components/Folder';
-import { bookmarkRowStyles } from '@bypass/shared/components/Bookmarks/constants/styles';
 import {
+  Bookmark,
+  bookmarkRowStyles,
   ContextBookmarks,
+  Folder,
   IBookmarksObj,
-} from '@bypass/shared/components/Bookmarks/interfaces';
-import { isFolderEmpty } from '@bypass/shared/components/Bookmarks/utils';
+  isFolderEmpty,
+} from '@bypass/shared';
 import { Flex } from '@mantine/core';
 import { memo } from 'react';
 import { areEqual } from 'react-window';

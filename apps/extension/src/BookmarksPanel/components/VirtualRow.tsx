@@ -1,10 +1,10 @@
-import { Props as BookmarkProps } from '@bypass/shared/components/Bookmarks/components/Bookmark';
 import {
+  BookmarkProps,
   ContextBookmarks,
   IBookmarksObj,
   ISelectedBookmarks,
-} from '@bypass/shared/components/Bookmarks/interfaces';
-import { isFolderEmpty } from '@bypass/shared/components/Bookmarks/utils';
+  isFolderEmpty,
+} from '@bypass/shared';
 import { Box } from '@mantine/core';
 import { memo } from 'react';
 import { areEqual } from 'react-window';

@@ -1,10 +1,10 @@
-import { BOOKMARK_OPERATION } from '@bypass/shared/components/Bookmarks/constants';
+import ContextMenu, { IMenuOptions } from '@/components/ContextMenu';
 import {
+  BOOKMARK_OPERATION,
   ContextBookmarks,
   ISelectedBookmarks,
-} from '@bypass/shared/components/Bookmarks/interfaces';
-import { VoidFunction } from '@bypass/shared/interfaces/custom';
-import ContextMenu, { IMenuOptions } from '@/components/ContextMenu';
+  VoidFunction,
+} from '@bypass/shared';
 import { useMantineTheme } from '@mantine/core';
 import useBookmarkStore from '@store/bookmark';
 import md5 from 'md5';

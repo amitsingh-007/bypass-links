@@ -1,5 +1,4 @@
-import { IExtension } from '@bypass/shared/interfaces/api';
-import fetchApi from '@bypass/shared/utils/fetch';
+import { fetchApi, IExtension } from '@bypass/shared';
 import { EXTENSION_STATE } from '@constants/index';
 import action from '@helpers/chrome/action';
 import { getExtensionState } from '@helpers/fetchFromStorage';

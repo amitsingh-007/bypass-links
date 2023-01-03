@@ -1,4 +1,4 @@
-import { bookmarkRowStyles } from '@bypass/shared/components/Bookmarks/constants/styles';
+import { bookmarkRowStyles } from '@bypass/shared';
 import { Draggable } from '@hello-pangea/dnd';
 import { Box } from '@mantine/core';
 import { memo } from 'react';

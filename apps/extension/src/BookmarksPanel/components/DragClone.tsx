@@ -1,4 +1,4 @@
-import { bookmarkRowStyles } from '@bypass/shared/components/Bookmarks/constants/styles';
+import { bookmarkRowStyles } from '@bypass/shared';
 import { DraggableProvided } from '@hello-pangea/dnd';
 import { Center, Text } from '@mantine/core';
 

@@ -1,7 +1,7 @@
 import storage from '@helpers/chrome/storage';
 import { memo, useEffect } from 'react';
 import { getPersons } from '@helpers/fetchFromStorage';
-import { IUpdateTaggedPerson } from '@bypass/shared/components/Persons/interfaces/persons';
+import { IUpdateTaggedPerson } from '@bypass/shared';
 import { setPersonsInStorage } from '@/PersonsPanel/utils';
 import useHistoryStore from '@store/history';
 import usePersonStore from '@store/person';

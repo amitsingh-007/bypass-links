@@ -1,6 +1,4 @@
-import { authenticate2FA } from '@bypass/shared/components/Auth/apis/twoFactorAuth';
-import InputTOTP from '@bypass/shared/components/Auth/components/InputTOTP';
-import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
+import { authenticate2FA, InputTOTP, STORAGE_KEYS } from '@bypass/shared';
 import storage from '@helpers/chrome/storage';
 import { getUserProfile } from '@helpers/fetchFromStorage';
 import { Center, Modal } from '@mantine/core';

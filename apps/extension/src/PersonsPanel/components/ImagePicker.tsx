@@ -1,5 +1,4 @@
-import Header from '@bypass/shared/components/Header';
-import { VoidFunction } from '@bypass/shared/interfaces/custom';
+import { Header, VoidFunction } from '@bypass/shared';
 import { FIREBASE_STORAGE_REF } from '@constants/index';
 import { uploadImageToFirebase } from '@helpers/firebase/storage';
 import {

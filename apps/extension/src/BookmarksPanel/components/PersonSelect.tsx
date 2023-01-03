@@ -1,5 +1,4 @@
-import usePerson from '@bypass/shared/components/Persons/hooks/usePerson';
-import { sortAlphabetically } from '@bypass/shared/components/Persons/utils';
+import { sortAlphabetically, usePerson } from '@bypass/shared';
 import { Avatar, Group, MultiSelect, Text } from '@mantine/core';
 import { forwardRef, memo, useCallback, useEffect, useState } from 'react';
 

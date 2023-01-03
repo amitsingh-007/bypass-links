@@ -4,13 +4,13 @@ import { HiFolder } from 'react-icons/hi';
 import DynamicContext from '../../../provider/DynamicContext';
 import { getBookmarksPanelUrl } from '../utils/url';
 
-export interface Props {
+export interface FolderProps {
   name: string;
   isEmpty: boolean;
   resetSelectedBookmarks?: React.MouseEventHandler<HTMLDivElement>;
 }
 
-const Folder = memo<Props>(function Folder({
+const Folder = memo<FolderProps>(function Folder({
   name: origName,
   isEmpty,
   resetSelectedBookmarks,

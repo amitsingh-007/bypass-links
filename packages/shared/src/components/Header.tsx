@@ -1,7 +1,8 @@
-import Search from '@bypass/shared/components/Search';
+import { Search } from '@bypass/shared';
 import { Badge, Button, Group, Header as MantineHeader } from '@mantine/core';
 import { memo, useContext } from 'react';
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
+import { HEADER_HEIGHT } from '../constants';
 import DynamicContext from '../provider/DynamicContext';
 
 interface Props {
@@ -11,8 +12,6 @@ interface Props {
   rightContent?: React.ReactNode;
   onBackClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
-
-export const HEADER_HEIGHT = 56;
 
 const Header = memo<Props>(function Header({
   children,

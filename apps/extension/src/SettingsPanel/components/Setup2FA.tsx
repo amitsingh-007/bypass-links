@@ -1,7 +1,4 @@
-import InputTOTP from '@bypass/shared/components/Auth/components/InputTOTP';
-import Header from '@bypass/shared/components/Header';
-import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
-import { VoidFunction } from '@bypass/shared/interfaces/custom';
+import { Header, InputTOTP, STORAGE_KEYS, VoidFunction } from '@bypass/shared';
 import storage from '@helpers/chrome/storage';
 import { getUserProfile } from '@helpers/fetchFromStorage';
 import { Button, Center, Modal } from '@mantine/core';

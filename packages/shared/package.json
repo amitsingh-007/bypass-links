@@ -2,17 +2,12 @@
   "name": "@bypass/shared",
   "version": "1.0.0",
   "private": true,
-  "exports": {
-    "./*": "./src/*"
-  },
-  "typesVersions": {
-    "*": {
-      "*": [
-        "./src/*/index",
-        "./src/*"
-      ]
-    }
-  },
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "files": [
+    "src/configs/manifest.json",
+    "src/configs/manifest.production.json"
+  ],
   "dependencies": {
     "@mantine/core": "5.9.5",
     "@mantine/hooks": "5.9.5",

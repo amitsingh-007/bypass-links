@@ -1,4 +1,4 @@
-import { VoidFunction } from '@bypass/shared/interfaces/custom';
+import { VoidFunction } from '@bypass/shared';
 import { BYPASS_KEYS } from '@constants/index';
 import scripting from '@helpers/chrome/scripting';
 import tabs from '@helpers/chrome/tabs';

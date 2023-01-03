@@ -6,16 +6,16 @@ import {
   removeFromLocalStorage,
   setToLocalStorage,
 } from '@/ui/provider/utils';
-import { IBookmarksObj } from '@bypass/shared/components/Bookmarks/interfaces';
-import { CACHE_BUCKET_KEYS } from '@bypass/shared/constants/cache';
-import { FIREBASE_DB_REF } from '@bypass/shared/constants/firebase';
-import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
-import { getFaviconProxyUrl } from '@bypass/shared/utils';
 import {
+  CACHE_BUCKET_KEYS,
   deleteCache,
+  FIREBASE_DB_REF,
   getCacheObj,
+  getFaviconProxyUrl,
+  IBookmarksObj,
   isCachePresent,
-} from '@bypass/shared/utils/cache';
+  STORAGE_KEYS,
+} from '@bypass/shared';
 import { User } from 'firebase/auth';
 import { useCallback, useState } from 'react';
 

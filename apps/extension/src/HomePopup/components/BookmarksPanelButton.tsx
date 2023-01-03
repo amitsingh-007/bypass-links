@@ -1,4 +1,4 @@
-import { getBookmarksPanelUrl } from '@bypass/shared/components/Bookmarks/utils/url';
+import { getBookmarksPanelUrl } from '@bypass/shared';
 import { Button } from '@mantine/core';
 import useAuthStore from '@store/auth';
 import { memo } from 'react';

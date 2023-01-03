@@ -1,6 +1,4 @@
-import { ContextBookmarks } from '@bypass/shared/components/Bookmarks/interfaces';
-import Header from '@bypass/shared/components/Header';
-import { VoidFunction } from '@bypass/shared/interfaces/custom';
+import { ContextBookmarks, Header, VoidFunction } from '@bypass/shared';
 import { Button, LoadingOverlay } from '@mantine/core';
 import useToastStore from '@store/toast';
 import { memo, useState } from 'react';

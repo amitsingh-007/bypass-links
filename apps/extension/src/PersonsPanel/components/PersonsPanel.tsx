@@ -1,14 +1,12 @@
 import { MAX_PANEL_SIZE } from '@/constants';
-import Persons from '@bypass/shared/components/Persons/components/Persons';
 import {
+  decryptionMapper,
+  getFilteredPersons,
   IPerson,
   IPersons,
-} from '@bypass/shared/components/Persons/interfaces/persons';
-import { decryptionMapper } from '@bypass/shared/components/Persons/mapper';
-import {
-  getFilteredPersons,
+  Persons,
   sortAlphabetically,
-} from '@bypass/shared/components/Persons/utils';
+} from '@bypass/shared';
 import tabs from '@helpers/chrome/tabs';
 import { getPersons } from '@helpers/fetchFromStorage';
 import { removeImageFromFirebase } from '@helpers/firebase/storage';

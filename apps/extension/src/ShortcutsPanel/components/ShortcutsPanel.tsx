@@ -1,8 +1,7 @@
 import { IRedirection } from '@/BackgroundScript/interfaces/redirections';
 import { syncRedirectionsToStorage } from '@/BackgroundScript/redirect';
 import { MAX_PANEL_SIZE } from '@/constants';
-import Header from '@bypass/shared/components/Header';
-import { FIREBASE_DB_REF } from '@bypass/shared/constants/firebase';
+import { FIREBASE_DB_REF, Header } from '@bypass/shared';
 import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
 import { getRedirections } from '@helpers/fetchFromStorage';
 import { saveToFirebase } from '@helpers/firebase/database';

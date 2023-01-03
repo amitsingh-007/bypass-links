@@ -2,18 +2,16 @@ import MetaTags from '@/ui/components/MetaTags';
 import PersonVirtualCell from '@/ui/PersonsPage/components/PersonVirtualCell';
 import { getFromLocalStorage } from '@/ui/provider/utils';
 import { openNewTab } from '@/ui/utils';
-import Header from '@bypass/shared/components/Header';
-import Persons from '@bypass/shared/components/Persons/components/Persons';
 import {
+  decryptionMapper,
+  getFilteredPersons,
+  Header,
   IPerson,
   IPersons,
-} from '@bypass/shared/components/Persons/interfaces/persons';
-import { decryptionMapper } from '@bypass/shared/components/Persons/mapper';
-import {
-  getFilteredPersons,
+  Persons,
   sortAlphabetically,
-} from '@bypass/shared/components/Persons/utils';
-import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
+  STORAGE_KEYS,
+} from '@bypass/shared';
 import { Box, Container } from '@mantine/core';
 import { useEffect, useMemo, useState } from 'react';
 

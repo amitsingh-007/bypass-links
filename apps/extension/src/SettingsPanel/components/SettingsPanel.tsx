@@ -1,5 +1,4 @@
-import Header from '@bypass/shared/components/Header';
-import { FIREBASE_DB_REF } from '@bypass/shared/constants/firebase';
+import { FIREBASE_DB_REF, Header } from '@bypass/shared';
 import { getSettings } from '@helpers/fetchFromStorage';
 import { saveToFirebase } from '@helpers/firebase/database';
 import { Box, Flex } from '@mantine/core';

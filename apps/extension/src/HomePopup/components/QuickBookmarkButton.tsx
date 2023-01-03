@@ -1,12 +1,12 @@
 import {
+  BMPanelQueryParams,
   BOOKMARK_OPERATION,
   defaultBookmarkFolder,
-} from '@bypass/shared/components/Bookmarks/constants';
-import useBookmark from '@bypass/shared/components/Bookmarks/hooks/useBookmark';
-import { IBookmark } from '@bypass/shared/components/Bookmarks/interfaces';
-import { BMPanelQueryParams } from '@bypass/shared/components/Bookmarks/interfaces/url';
-import { getDecodedBookmark } from '@bypass/shared/components/Bookmarks/utils';
-import { getBookmarksPanelUrl } from '@bypass/shared/components/Bookmarks/utils/url';
+  getBookmarksPanelUrl,
+  getDecodedBookmark,
+  IBookmark,
+  useBookmark,
+} from '@bypass/shared';
 import { getCurrentTab } from '@helpers/chrome/tabs';
 import { getBookmarks } from '@helpers/fetchFromStorage';
 import { Button, Text, Tooltip } from '@mantine/core';

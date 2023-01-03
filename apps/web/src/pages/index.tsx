@@ -1,5 +1,4 @@
-import { IExtension } from '@bypass/shared/interfaces/api';
-import fetchApi from '@bypass/shared/utils/fetch';
+import { fetchApi, IExtension } from '@bypass/shared';
 import { Container, Global } from '@mantine/core';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import AppHeader from '../ui/DownloadPage/components/AppHeader';

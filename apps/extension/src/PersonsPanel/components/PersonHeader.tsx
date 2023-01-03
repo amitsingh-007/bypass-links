@@ -1,5 +1,4 @@
-import Header from '@bypass/shared/components/Header';
-import { IPerson } from '@bypass/shared/components/Persons/interfaces/persons';
+import { Header, IPerson } from '@bypass/shared';
 import { Button, LoadingOverlay } from '@mantine/core';
 import useToastStore from '@store/toast';
 import { memo, useState } from 'react';

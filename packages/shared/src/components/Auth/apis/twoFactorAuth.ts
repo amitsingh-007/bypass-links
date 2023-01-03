@@ -2,7 +2,7 @@ import {
   Authenticate2FAResponse,
   Status2FAResponse,
 } from '../../../interfaces/twoFactorAuth';
-import fetchApi from '../../../utils/fetch';
+import { fetchApi } from '../../../utils/fetch';
 
 export const authenticate2FA = async (
   uid: string,

@@ -6,16 +6,16 @@ import {
   removeFromLocalStorage,
   setToLocalStorage,
 } from '@/ui/provider/utils';
-import usePerson from '@bypass/shared/components/Persons/hooks/usePerson';
-import { PersonImageUrls } from '@bypass/shared/components/Persons/interfaces/persons';
-import { CACHE_BUCKET_KEYS } from '@bypass/shared/constants/cache';
-import { FIREBASE_DB_REF } from '@bypass/shared/constants/firebase';
-import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
 import {
+  CACHE_BUCKET_KEYS,
   deleteCache,
+  FIREBASE_DB_REF,
   getCacheObj,
   isCachePresent,
-} from '@bypass/shared/utils/cache';
+  PersonImageUrls,
+  STORAGE_KEYS,
+  usePerson,
+} from '@bypass/shared';
 import { User } from 'firebase/auth';
 import { useCallback, useState } from 'react';
 

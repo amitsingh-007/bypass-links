@@ -1,7 +1,5 @@
-import Person from '@bypass/shared/components/Persons/components/Person';
-import { IPerson } from '@bypass/shared/components/Persons/interfaces/persons';
-import { getReactKey } from '@bypass/shared/components/Persons/utils';
 import ContextMenu, { IMenuOptions } from '@/components/ContextMenu';
+import { getReactKey, IPerson, Person } from '@bypass/shared';
 import { Box, useMantineTheme } from '@mantine/core';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';

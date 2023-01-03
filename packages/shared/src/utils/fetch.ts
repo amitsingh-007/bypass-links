@@ -2,7 +2,10 @@ interface IOptions extends RequestInit {
   responseType?: string;
 }
 
-const fetchApi = <T = any>(url: string, options?: IOptions): Promise<T> => {
+export const fetchApi = <T = any>(
+  url: string,
+  options?: IOptions
+): Promise<T> => {
   const { responseType = 'json', ...init } = options || {};
   const fetchUrl = `${HOST_NAME}${url}`;
   return fetch(fetchUrl, init).then((response) => {
@@ -26,5 +29,3 @@ const fetchApi = <T = any>(url: string, options?: IOptions): Promise<T> => {
     return res as Promise<T>;
   });
 };
-
-export default fetchApi;

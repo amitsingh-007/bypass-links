@@ -1,4 +1,4 @@
-import { Verify2FAResponse } from '@bypass/shared/interfaces/twoFactorAuth';
+import { Verify2FAResponse } from '@bypass/shared';
 import { verify2FA } from '@logic/twoFactorAuth';
 import { NextApiRequest, NextApiResponse } from 'next';
 import withAuth from 'src/middlewares/withAuth';

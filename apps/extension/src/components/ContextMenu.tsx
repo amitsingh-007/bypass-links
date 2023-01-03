@@ -1,4 +1,4 @@
-import { HEADER_HEIGHT } from '@bypass/shared/components/Header';
+import { HEADER_HEIGHT } from '@bypass/shared';
 import { Box, Menu, useMantineTheme } from '@mantine/core';
 import { useWindowEvent } from '@mantine/hooks';
 import { useState } from 'react';

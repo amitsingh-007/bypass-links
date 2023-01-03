@@ -1,12 +1,10 @@
-import Bookmark, {
-  Props,
-} from '@bypass/shared/components/Bookmarks/components/Bookmark';
-import { memo } from 'react';
-import withBookmarkRow from '../hoc/withBookmarkRow';
+import { Bookmark, BookmarkProps } from '@bypass/shared';
 import tabs from '@helpers/chrome/tabs';
 import useHistoryStore from '@store/history';
+import { memo } from 'react';
+import withBookmarkRow from '../hoc/withBookmarkRow';
 
-const BookmarkRow = memo<Omit<Props, 'onOpenLink'>>((props) => {
+const BookmarkRow = memo<Omit<BookmarkProps, 'onOpenLink'>>((props) => {
   const startHistoryMonitor = useHistoryStore(
     (state) => state.startHistoryMonitor
   );

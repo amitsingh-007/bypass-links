@@ -1,4 +1,4 @@
-import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
+import { STORAGE_KEYS } from '@bypass/shared';
 import storage from '@helpers/chrome/storage';
 import { getUserProfile } from '@helpers/fetchFromStorage';
 import { Button, Flex, Text } from '@mantine/core';

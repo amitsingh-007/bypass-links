@@ -6,7 +6,7 @@ import { IPerson, IPersonWithImage } from '../../Persons/interfaces/persons';
 import Favicon from './Favicon';
 import PersonAvatars from './PersonAvatars';
 
-export interface Props {
+export interface BookmarkProps {
   url: string;
   title: string;
   taggedPersons: string[];
@@ -23,7 +23,7 @@ const getPersonsFromUids = async (uids: string[], persons: IPerson[]) => {
   return persons.filter((person) => uids.includes(person.uid ?? ''));
 };
 
-const Bookmark = memo<Props>(function Bookmark({
+const Bookmark = memo<BookmarkProps>(function Bookmark({
   url,
   title,
   pos = 0,

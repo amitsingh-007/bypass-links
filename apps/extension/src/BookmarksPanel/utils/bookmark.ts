@@ -1,13 +1,15 @@
-import { FIREBASE_DB_REF } from '@bypass/shared/constants/firebase';
-import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
-import { CACHE_BUCKET_KEYS } from '@bypass/shared/constants/cache';
+import { AuthProgress } from '@/HomePopup/utils/authProgress';
+import {
+  CACHE_BUCKET_KEYS,
+  FIREBASE_DB_REF,
+  getCacheObj,
+  getFaviconProxyUrl,
+  IBookmarksObj,
+  STORAGE_KEYS,
+} from '@bypass/shared';
 import storage from '@helpers/chrome/storage';
 import { getBookmarks } from '@helpers/fetchFromStorage';
 import { getFromFirebase, saveToFirebase } from '@helpers/firebase/database';
-import { getCacheObj } from '@bypass/shared/utils/cache';
-import { AuthProgress } from '@/HomePopup/utils/authProgress';
-import { getFaviconProxyUrl } from '@bypass/shared/utils';
-import { IBookmarksObj } from '@bypass/shared/components/Bookmarks/interfaces';
 
 export const syncBookmarksToStorage = async () => {
   const bookmarks = await getFromFirebase<IBookmarksObj>(

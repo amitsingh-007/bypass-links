@@ -1,5 +1,4 @@
-import { FIREBASE_DB_REF } from '@bypass/shared/constants/firebase';
-import { Revoke2FAResponse } from '@bypass/shared/interfaces/twoFactorAuth';
+import { FIREBASE_DB_REF, Revoke2FAResponse } from '@bypass/shared';
 import { removeFromFirebase } from '@logic/firebase';
 import { NextApiRequest, NextApiResponse } from 'next';
 import withAuth from 'src/middlewares/withAuth';

@@ -1,6 +1,4 @@
-import usePerson from '@bypass/shared/components/Persons/hooks/usePerson';
-import { IPerson } from '@bypass/shared/components/Persons/interfaces/persons';
-import { VoidFunction } from '@bypass/shared/interfaces/custom';
+import { IPerson, usePerson, VoidFunction } from '@bypass/shared';
 import { getImageFromFirebase } from '@helpers/firebase/storage';
 import {
   ActionIcon,

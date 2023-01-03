@@ -1,4 +1,4 @@
-import { ROUTES } from '@bypass/shared/constants/routes';
+import { ROUTES } from '@bypass/shared';
 import { lazy } from 'react';
 import { Route } from 'react-router-dom';
 

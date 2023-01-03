@@ -1,4 +1,4 @@
-const manifest = require('@bypass/shared/configs/manifest.json');
+const manifest = require('@bypass/shared/src/configs/manifest.json');
 
 const FILE_NAME = {
   prefix: 'bypass-links-',

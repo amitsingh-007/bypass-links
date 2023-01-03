@@ -1,4 +1,4 @@
-import DynamicContext from '@bypass/shared/provider/DynamicContext';
+import { DynamicContext } from '@bypass/shared';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getFromChromeStorage, setToChromeStorage } from './utils';
 

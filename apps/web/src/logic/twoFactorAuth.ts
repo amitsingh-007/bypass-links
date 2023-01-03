@@ -1,8 +1,7 @@
-import { FIREBASE_DB_REF } from '@bypass/shared/constants/firebase';
-import { Setup2FAResponse } from '@bypass/shared/interfaces/twoFactorAuth';
+import { FIREBASE_DB_REF, Setup2FAResponse } from '@bypass/shared';
 import { authenticator } from 'otplib';
 import { User2FAInfo } from '../interfaces/twoFactorAuth';
-import { getUser, getFromFirebase, saveToFirebase } from './firebase';
+import { getFromFirebase, getUser, saveToFirebase } from './firebase';
 import { get2FATitle } from './index';
 
 authenticator.options = { window: 1 };

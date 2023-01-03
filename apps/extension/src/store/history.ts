@@ -1,5 +1,5 @@
 import create from 'zustand';
-import { VoidFunction } from '@bypass/shared/interfaces/custom';
+import { VoidFunction } from '@bypass/shared';
 
 interface State {
   monitorHistory: boolean;

@@ -1,13 +1,11 @@
-import Folder, {
-  Props as FolderProps,
-} from '@bypass/shared/components/Bookmarks/components/Folder';
 import ContextMenu, { IMenuOptions } from '@/components/ContextMenu';
-import withBookmarkRow from '../hoc/withBookmarkRow';
+import { Folder, FolderProps } from '@bypass/shared';
+import { useMantineTheme } from '@mantine/core';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
 import { FaFolderMinus } from 'react-icons/fa';
+import withBookmarkRow from '../hoc/withBookmarkRow';
 import { FolderAddEditDialog } from './FolderAddEditDialog';
-import { useMantineTheme } from '@mantine/core';
 
 interface Props extends FolderProps {
   pos: number;

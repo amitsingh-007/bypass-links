@@ -1,6 +1,6 @@
-import { ReactElement } from 'react';
-import DynamicContext from '@bypass/shared/provider/DynamicContext';
+import { DynamicContext } from '@bypass/shared';
 import { useRouter } from 'next/router';
+import { ReactElement } from 'react';
 import { getFromLocalStorage, setToLocalStorage } from './utils';
 
 const DynamicProvider = ({ children }: { children: ReactElement }) => {

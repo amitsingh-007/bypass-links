@@ -1,4 +1,4 @@
-import { ROUTES } from '@bypass/shared/constants/routes';
+import { ROUTES } from '@bypass/shared';
 import { Button } from '@mantine/core';
 import useAuthStore from '@store/auth';
 import { memo } from 'react';

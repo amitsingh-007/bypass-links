@@ -4,8 +4,7 @@ import {
   removeFromLocalStorage,
   setToLocalStorage,
 } from '@/ui/provider/utils';
-import { status2FA } from '@bypass/shared/components/Auth/apis/twoFactorAuth';
-import { STORAGE_KEYS } from '@bypass/shared/constants/storage';
+import { status2FA, STORAGE_KEYS } from '@bypass/shared';
 import { User } from 'firebase/auth';
 import { useCallback, useState } from 'react';
 import { ITwoFactorAuth } from '../interface';

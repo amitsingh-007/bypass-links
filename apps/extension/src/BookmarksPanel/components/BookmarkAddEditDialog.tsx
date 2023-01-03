@@ -1,11 +1,11 @@
 import { getCurrentTab } from '@/helpers/chrome/tabs';
 import useBookmarkStore from '@/store/bookmark';
-import { BOOKMARK_OPERATION } from '@bypass/shared/components/Bookmarks/constants';
 import {
+  BOOKMARK_OPERATION,
   ContextBookmark,
   ContextBookmarks,
-} from '@bypass/shared/components/Bookmarks/interfaces';
-import { getBookmarksPanelUrl } from '@bypass/shared/components/Bookmarks/utils/url';
+  getBookmarksPanelUrl,
+} from '@bypass/shared';
 import { Button, Modal, Select, Stack, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { memo, useCallback, useEffect, useState } from 'react';

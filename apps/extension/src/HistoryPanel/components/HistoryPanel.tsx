@@ -1,4 +1,4 @@
-import Header from '@bypass/shared/components/Header';
+import { Header } from '@bypass/shared';
 import historyApi from '@helpers/chrome/history';
 import storage from '@helpers/chrome/storage';
 import { Box, Button, Stack } from '@mantine/core';
