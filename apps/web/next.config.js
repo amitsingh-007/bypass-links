@@ -13,11 +13,8 @@ const nextConfig = {
   compiler: {
     removeConsole: isDev ? false : { exclude: ['error'] },
   },
-  experimental: {
-    //To build common folder, which is outside root directory; https://github.com/vercel/next.js/issues/5666
-    externalDir: true,
-  },
   reactStrictMode: true,
+  transpilePackages: ['@bypass/shared'],
   webpack: (config, { dev, isServer, webpack }) => {
     config.module.rules.push({
       test: /\.svg$/,

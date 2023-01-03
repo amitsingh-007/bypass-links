@@ -41,7 +41,6 @@ const BookmarksList = memo<Props>(function BookmarksList({
   imageUrl,
   taggedUrls,
   onLinkOpen,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   fullscreen,
   isOpen,
 }) {
