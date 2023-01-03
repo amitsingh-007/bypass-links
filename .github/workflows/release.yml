@@ -80,7 +80,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: extension-file
-          path: ./extension/build/
+          path: ./apps/extension/build/
 
       - name: Generate Release Tag 🏷
         uses: amitsingh-007/next-release-tag@v2.2.0
