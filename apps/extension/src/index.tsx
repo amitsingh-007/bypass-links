@@ -8,17 +8,18 @@ import PopupRoutes from './components/PopupRoutes';
 import DynamicProvider from './provider/DynamicProvider';
 
 const container = document.getElementById('root');
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-const root = createRoot(container!);
-root.render(
-  <StrictMode>
-    <BrowserRouter>
-      <MantineProvider withGlobalStyles withNormalizeCSS theme={mantineTheme}>
-        <DynamicProvider>
-          <PopupRoutes />
-          <Global />
-        </DynamicProvider>
-      </MantineProvider>
-    </BrowserRouter>
-  </StrictMode>
-);
+if (container) {
+  const root = createRoot(container);
+  root.render(
+    <StrictMode>
+      <BrowserRouter>
+        <MantineProvider withGlobalStyles withNormalizeCSS theme={mantineTheme}>
+          <DynamicProvider>
+            <PopupRoutes />
+            <Global />
+          </DynamicProvider>
+        </MantineProvider>
+      </BrowserRouter>
+    </StrictMode>
+  );
+}

@@ -1,21 +1,18 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const ESLintPlugin = require('eslint-webpack-plugin');
-const FileManagerPlugin = require('filemanager-webpack-plugin');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MergeJsonWebpackPlugin = require('merge-jsons-webpack-plugin');
-const ReactRefreshTypeScript = require('react-refresh-typescript');
-const TerserPlugin = require('terser-webpack-plugin');
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const { DefinePlugin, optimize } = require('webpack');
-const { resolve } = require('path');
-const {
-  getExtVersion,
-  getFileNameFromVersion,
-} = require('../../packages/shared/src/utils/extensionFile');
+import 'webpack-dev-server'; //Required for TS typings
+import { getExtVersion, getFileNameFromVersion } from '@bypass/shared';
+import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
+import ESLintPlugin from 'eslint-webpack-plugin';
+import FileManagerPlugin from 'filemanager-webpack-plugin';
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import MergeJsonWebpackPlugin from 'merge-jsons-webpack-plugin';
+import { resolve } from 'path';
+import ReactRefreshTypeScript from 'react-refresh-typescript';
+import TerserPlugin from 'terser-webpack-plugin';
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
+import { DefinePlugin, optimize } from 'webpack';
 
 const PATHS = {
   ROOT: resolve(__dirname),
@@ -30,9 +27,6 @@ const tsConfigFile = `${PATHS.ROOT}/${
   isProduction ? 'tsconfig.production.json' : 'tsconfig.json'
 }`;
 
-/**
- * @type {import('webpack').Configuration}
- */
 const config = {
   mode: ENV,
   name: 'extension',
@@ -185,7 +179,9 @@ const config = {
       output: {
         groupBy: [
           {
-            pattern: `../../packages/shared/src/configs/manifest${isProduction ? '*' : ''}.json`,
+            pattern: `../../packages/shared/src/configs/manifest${
+              isProduction ? '*' : ''
+            }.json`,
             fileName: 'manifest.json',
           },
         ],
@@ -223,4 +219,4 @@ const config = {
   ].filter(Boolean),
 };
 
-module.exports = config;
+export default config;
