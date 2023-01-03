@@ -10,8 +10,8 @@
   },
   "search.exclude": {
     "**/node_modules/**": true,
-    "extension/build/**": true,
     "**/package-lock.json": true,
-    "**/.eslintcache": true
+    "**/.eslintcache": true,
+    "**/.turbo/**": true
   }
 }
