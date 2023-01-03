@@ -8,6 +8,8 @@ on:
 jobs:
   Build:
     runs-on: ubuntu-latest
+    outputs:
+      preview_url: ${{ steps.vercel-action.outputs.preview-url }}
     env:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
@@ -31,3 +33,42 @@ jobs:
         with:
           name: extension-file
           path: ./apps/extension/build/bypass-links-*.zip
+
+      - name: Deploy Preview (Vercel) 🔺
+        uses: amondnet/vercel-action@v25
+        id: vercel-action
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
+          github-comment: false
+
+  Cypress:
+    needs: [Build]
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    container: cypress/browsers:node18.12.0-chrome107
+    strategy:
+      fail-fast: false
+      matrix:
+        containers: [1]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install dependencies 🧼
+        uses: bahmutov/npm-install@v1
+
+      - name: 'UI Tests - Chrome'
+        uses: cypress-io/github-action@v5.0.2
+        with:
+          browser: chrome
+          record: true
+          parallel: true
+          working-directory: e2e
+          config: baseUrl=${{needs.Build.outputs.preview_url}}
+          install: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          CYPRESS_NODE_ENV: Production
