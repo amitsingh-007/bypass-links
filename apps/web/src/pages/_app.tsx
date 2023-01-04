@@ -1,6 +1,5 @@
 import { AuthProvider } from '@/ui/provider/AuthProvider';
 import DynamicProvider from '@/ui/provider/DynamicProvider';
-import { api } from '@/utils/api';
 import { mantineTheme } from '@bypass/shared';
 import { Global, MantineProvider } from '@mantine/core';
 import { AppProps } from 'next/dist/shared/lib/router/router';
@@ -23,4 +22,4 @@ const MyApp = ({ Component, pageProps }: AppProps): JSX.Element => {
   );
 };
 
-export default api.withTRPC(MyApp);
+export default MyApp;

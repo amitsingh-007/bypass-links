@@ -21,37 +21,41 @@ const pageStyles = {
 };
 
 export const getServerSideProps: GetServerSideProps<{
+  downloadLink: string;
+  releaseDate: string;
+  extVersion: string;
   country: string;
 }> = async ({ query }) => {
+  const { extension, date, version } = await api.extension.latest.query();
   return {
     props: {
+      downloadLink: extension,
+      releaseDate: date,
+      extVersion: version,
       country: (query.country as string) ?? '',
     },
   };
 };
 
 export default function Home({
+  downloadLink,
+  releaseDate,
+  extVersion,
   country,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const { data: latestExtension } = api.extension.latest.useQuery();
-
-  if (!latestExtension || !country) {
-    return null;
-  }
-
   return (
     <>
       <Global styles={pageStyles} />
       <MetaTags />
       <AppHeader />
       <Container size="xl">
-        <PageHeader downloadLink={latestExtension.extension} />
+        <PageHeader downloadLink={downloadLink} />
         <SalientFeatures />
       </Container>
       <Footer
         country={country}
-        releaseDate={latestExtension.date}
-        extVersion={latestExtension.version}
+        releaseDate={releaseDate}
+        extVersion={extVersion}
       />
     </>
   );
