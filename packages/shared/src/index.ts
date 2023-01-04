@@ -49,7 +49,6 @@ export * from './constants/theme';
 export * from './hooks/useStorage';
 
 //Interfaces
-export * from './interfaces/api';
 export * from './interfaces/custom';
 export * from './interfaces/twoFactorAuth';
 

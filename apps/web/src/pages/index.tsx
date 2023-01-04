@@ -1,4 +1,4 @@
-import { fetchApi, IExtension } from '@bypass/shared';
+import { api } from '@/utils/api';
 import { Container, Global } from '@mantine/core';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import AppHeader from '../ui/DownloadPage/components/AppHeader';
@@ -21,43 +21,37 @@ const pageStyles = {
 };
 
 export const getServerSideProps: GetServerSideProps<{
-  downloadLink: string;
-  releaseDate: string;
-  extVersion: string;
   country: string;
 }> = async ({ query }) => {
-  const { extension, date, version } = await fetchApi<IExtension>(
-    '/api/extension'
-  );
   return {
     props: {
-      downloadLink: extension,
-      releaseDate: date,
-      extVersion: version,
       country: (query.country as string) ?? '',
     },
   };
 };
 
 export default function Home({
-  downloadLink,
-  releaseDate,
-  extVersion,
   country,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const { data: latestExtension } = api.extension.latest.useQuery();
+
+  if (!latestExtension || !country) {
+    return null;
+  }
+
   return (
     <>
       <Global styles={pageStyles} />
       <MetaTags />
       <AppHeader />
       <Container size="xl">
-        <PageHeader downloadLink={downloadLink} />
+        <PageHeader downloadLink={latestExtension.extension} />
         <SalientFeatures />
       </Container>
       <Footer
         country={country}
-        releaseDate={releaseDate}
-        extVersion={extVersion}
+        releaseDate={latestExtension.date}
+        extVersion={latestExtension.version}
       />
     </>
   );

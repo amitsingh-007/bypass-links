@@ -9,5 +9,5 @@
       "outputs": ["build/**", ".next/**"]
     }
   },
-  "globalEnv": ["NODE_ENV", "HOST_NAME"]
+  "globalEnv": ["NODE_ENV", "HOST_NAME", "GITHUB_TOKEN"]
 }

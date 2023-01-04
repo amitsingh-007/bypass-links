@@ -1,0 +1,28 @@
+{
+  "name": "@bypass/trpc",
+  "version": "1.0.0",
+  "private": true,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "sideEffects": "false",
+  "dependencies": {
+    "@octokit/rest": "19.0.5",
+    "@trpc/server": "10.7.0",
+    "superjson": "1.12.1",
+    "zod": "3.20.2"
+  },
+  "devDependencies": {
+    "@bypass/configs": "file:packages/configs",
+    "@bypass/shared": "file:packages/shared",
+    "@typescript-eslint/eslint-plugin": "5.47.0",
+    "@typescript-eslint/parser": "5.47.0",
+    "eslint": "8.30.0",
+    "eslint-config-turbo": "0.0.7",
+    "eslint-import-resolver-typescript": "3.5.2",
+    "eslint-plugin-import": "2.26.0",
+    "eslint-plugin-prettier": "4.2.1",
+    "eslint-plugin-react": "7.31.11",
+    "eslint-plugin-react-hooks": "4.6.0",
+    "typescript": "4.9.4"
+  }
+}

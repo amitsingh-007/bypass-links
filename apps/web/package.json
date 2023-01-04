@@ -8,12 +8,17 @@
   },
   "dependencies": {
     "@bypass/shared": "file:packages/shared",
+    "@bypass/trpc": "file:packages/trpc",
     "@emotion/react": "11.10.5",
     "@emotion/server": "11.10.0",
     "@mantine/core": "5.9.5",
     "@mantine/hooks": "5.9.5",
     "@mantine/next": "5.9.5",
-    "@octokit/rest": "19.0.5",
+    "@tanstack/react-query": "4.20.9",
+    "@trpc/client": "10.7.0",
+    "@trpc/next": "10.7.0",
+    "@trpc/react-query": "10.7.0",
+    "@trpc/server": "10.7.0",
     "express-bearer-token": "2.4.0",
     "firebase": "9.15.0",
     "firebase-admin": "11.4.1",
@@ -26,7 +31,8 @@
     "react-dom": "18.2.0",
     "react-icons": "4.7.1",
     "react-window": "1.8.8",
-    "sharp": "0.31.3"
+    "sharp": "0.31.3",
+    "superjson": "1.12.1"
   },
   "devDependencies": {
     "@bypass/configs": "file:packages/configs",

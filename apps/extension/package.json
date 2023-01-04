@@ -8,12 +8,15 @@
   },
   "dependencies": {
     "@bypass/shared": "file:packages/shared",
+    "@bypass/trpc": "file:packages/trpc",
     "@emotion/react": "11.10.5",
     "@hello-pangea/dnd": "16.2.0",
     "@mantine/core": "5.9.5",
     "@mantine/dates": "5.9.5",
     "@mantine/form": "5.9.5",
     "@mantine/hooks": "5.9.5",
+    "@trpc/client": "10.7.0",
+    "@trpc/server": "10.7.0",
     "browser-image-compression": "2.0.0",
     "firebase": "9.15.0",
     "md5": "2.3.0",
@@ -25,6 +28,7 @@
     "react-icons": "4.7.1",
     "react-router-dom": "6.6.1",
     "react-window": "1.8.8",
+    "superjson": "1.12.1",
     "zustand": "4.1.5"
   },
   "devDependencies": {
