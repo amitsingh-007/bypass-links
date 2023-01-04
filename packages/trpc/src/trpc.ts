@@ -1,6 +1,5 @@
 import { initTRPC } from '@trpc/server';
 import { type CreateNextContextOptions } from '@trpc/server/adapters/next';
-import superjson from 'superjson';
 
 type CreateContextOptions = Record<string, never>;
 
@@ -15,7 +14,6 @@ export const createTRPCContext = async (_opts: CreateNextContextOptions) => {
 export const t = initTRPC
   .context<Awaited<ReturnType<typeof createTRPCContext>>>()
   .create({
-    transformer: superjson,
     errorFormatter({ shape }) {
       return shape;
     },

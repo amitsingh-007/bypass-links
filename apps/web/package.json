@@ -28,8 +28,7 @@
     "react-dom": "18.2.0",
     "react-icons": "4.7.1",
     "react-window": "1.8.8",
-    "sharp": "0.31.3",
-    "superjson": "1.12.1"
+    "sharp": "0.31.3"
   },
   "devDependencies": {
     "@bypass/configs": "file:packages/configs",
