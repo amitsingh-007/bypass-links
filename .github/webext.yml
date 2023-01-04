@@ -1,6 +1,5 @@
 manifest:
   name: manifest.json
-  dir: './apps/extension/public/'
   dir: './packages/shared/src/configs/'
 workflow:
   name: Extension CI
