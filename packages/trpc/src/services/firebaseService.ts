@@ -1,7 +1,14 @@
 import { getFirebasePublicConfig, getFullDbPath } from '@bypass/shared';
 import { cert, getApp, getApps, initializeApp } from 'firebase-admin/app';
+import { getAuth } from 'firebase-admin/auth';
 import { getDatabase } from 'firebase-admin/database';
-import { Firebase } from '../interfaces/firebase';
+
+interface Firebase {
+  ref: string;
+  uid?: string;
+  isAbsolute?: boolean;
+  data: any;
+}
 
 /**
  * We split the credentials json that we get from firebase admin because:
@@ -30,6 +37,7 @@ const firebaseApp =
       });
 
 const database = getDatabase(firebaseApp);
+const auth = getAuth(firebaseApp);
 
 /**
  * REALTIME DATABASE
@@ -47,3 +55,12 @@ export const saveToFirebase = async ({
   data,
   isAbsolute,
 }: Firebase) => database.ref(getFullDbPath(ref, uid, isAbsolute)).set(data);
+
+export const removeFromFirebase = async ({
+  ref,
+  uid,
+  isAbsolute,
+}: Omit<Firebase, 'data'>) =>
+  database.ref(getFullDbPath(ref, uid, isAbsolute)).remove();
+
+export const getUser = (uid: string) => auth.getUser(uid);

@@ -9,5 +9,12 @@
       "outputs": ["build/**", ".next/**"]
     }
   },
-  "globalEnv": ["NODE_ENV", "HOST_NAME", "GITHUB_TOKEN"]
+  "globalEnv": [
+    "NODE_ENV",
+    "HOST_NAME",
+    "GITHUB_TOKEN",
+    "SERVICE_ACCOUNT_KEY",
+    "FIREBASE_PRIVATE_KEY",
+    "SITE_NAME"
+  ]
 }

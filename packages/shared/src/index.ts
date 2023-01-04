@@ -1,5 +1,4 @@
 //Auth
-export * from './components/Auth/apis/twoFactorAuth';
 export { default as InputTOTP } from './components/Auth/components/InputTOTP';
 export * from './components/Auth/constants';
 
@@ -50,7 +49,6 @@ export * from './hooks/useStorage';
 
 //Interfaces
 export * from './interfaces/custom';
-export * from './interfaces/twoFactorAuth';
 
 //Provider
 export { default as DynamicContext } from './provider/DynamicContext';
@@ -58,7 +56,6 @@ export { default as DynamicContext } from './provider/DynamicContext';
 //Utils
 export * from './utils';
 export * from './utils/cache';
-export * from './utils/fetch';
 export * from './utils/firebase';
 export * from './utils/search';
 export * from './utils/url';

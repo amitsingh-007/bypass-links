@@ -1,10 +1,13 @@
-import { FIREBASE_DB_REF, Setup2FAResponse } from '@bypass/shared';
+import { FIREBASE_DB_REF } from '@bypass/shared';
 import { authenticator } from 'otplib';
-import { User2FAInfo } from '../interfaces/twoFactorAuth';
-import { getFromFirebase, getUser, saveToFirebase } from './firebase';
-import { get2FATitle } from './index';
+import { User2FAInfo } from '../interfaces/firebase';
+import { getUser, saveToFirebase } from './firebaseService';
+import { fetchUser2FAInfo } from './userService';
 
 authenticator.options = { window: 1 };
+
+const get2FATitle = () =>
+  __PROD__ ? process.env.SITE_NAME ?? '' : 'Bypass Links - Local';
 
 const verify2FAToken = (secret: string, token: string) =>
   authenticator.verify({ token, secret });
@@ -15,15 +18,7 @@ const is2FASetup = (user2FAInfo: User2FAInfo) =>
 export const is2FAEnabled = (user2FAInfo: User2FAInfo) =>
   is2FASetup(user2FAInfo) && user2FAInfo.is2FAEnabled;
 
-export const fetchUser2FAInfo = async (uid: string): Promise<User2FAInfo> => {
-  const response = await getFromFirebase({
-    ref: FIREBASE_DB_REF.user2FAInfo,
-    uid,
-  });
-  return response.val();
-};
-
-export const setup2FA = async (uid: string): Promise<Setup2FAResponse> => {
+export const setup2FA = async (uid: string) => {
   const user2FAInfo = await fetchUser2FAInfo(uid);
   if (is2FASetup(user2FAInfo)) {
     const { secretKey, otpAuthUrl } = user2FAInfo;
@@ -57,7 +52,7 @@ export const verify2FA = async ({
 }: {
   uid: string;
   totp: string;
-}): Promise<boolean> => {
+}) => {
   const user2FAInfo = await fetchUser2FAInfo(uid);
   if (!is2FASetup(user2FAInfo)) {
     return false;
@@ -84,7 +79,7 @@ export const authenticate2FA = async ({
 }: {
   uid: string;
   totp: string;
-}): Promise<boolean> => {
+}) => {
   const user2FAInfo = await fetchUser2FAInfo(uid);
   if (!is2FAEnabled(user2FAInfo)) {
     return false;
