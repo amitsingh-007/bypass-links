@@ -7,7 +7,19 @@
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["build/**", ".next/**"]
+    },
+    "test": {
+      "outputs": []
     }
   },
-  "globalEnv": ["NODE_ENV", "HOST_NAME"]
+  "globalDependencies": ["**/.env", ".github/**"],
+  "globalEnv": [
+    "NODE_ENV",
+    "HOST_NAME",
+    "GITHUB_TOKEN",
+    "SERVICE_ACCOUNT_KEY",
+    "FIREBASE_PRIVATE_KEY",
+    "SITE_NAME",
+    "VERCEL_ENV"
+  ]
 }

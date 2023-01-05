@@ -1,24 +1,26 @@
 {
-  "name": "@bypass/shared",
+  "name": "@bypass/trpc",
   "version": "1.0.0",
   "private": true,
   "main": "src/index.ts",
   "types": "src/index.ts",
   "sideEffects": false,
+  "scripts": {
+    "test": "vitest run"
+  },
   "dependencies": {
-    "@mantine/core": "5.9.5",
-    "@mantine/hooks": "5.9.5",
-    "md5": "2.3.0",
-    "react": "18.2.0",
-    "react-icons": "4.7.1",
-    "react-window": "1.8.8"
+    "@octokit/rest": "19.0.5",
+    "@trpc/server": "10.7.0",
+    "firebase-admin": "11.4.1",
+    "otplib": "12.0.1",
+    "zod": "3.20.2"
   },
   "devDependencies": {
     "@bypass/configs": "file:packages/configs",
-    "@types/md5": "2.3.2",
-    "@types/react-window": "1.8.5",
+    "@bypass/shared": "file:packages/shared",
     "@typescript-eslint/eslint-plugin": "5.47.0",
     "@typescript-eslint/parser": "5.47.0",
+    "dotenv": "16.0.3",
     "eslint": "8.30.0",
     "eslint-config-turbo": "0.0.7",
     "eslint-import-resolver-typescript": "3.5.2",
@@ -26,6 +28,7 @@
     "eslint-plugin-prettier": "4.2.1",
     "eslint-plugin-react": "7.31.11",
     "eslint-plugin-react-hooks": "4.6.0",
-    "typescript": "4.9.4"
+    "typescript": "4.9.4",
+    "vitest": "0.26.3"
   }
 }

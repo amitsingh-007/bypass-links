@@ -1,4 +1,5 @@
-import { authenticate2FA, InputTOTP, STORAGE_KEYS } from '@bypass/shared';
+import { api } from '@/utils/api';
+import { InputTOTP, STORAGE_KEYS } from '@bypass/shared';
 import storage from '@helpers/chrome/storage';
 import { getUserProfile } from '@helpers/fetchFromStorage';
 import { Center, Modal } from '@mantine/core';
@@ -34,7 +35,10 @@ const TwoFactorAuthenticate = () => {
     if (!user) {
       return;
     }
-    const { isVerified } = await authenticate2FA(user.uid ?? '', totp);
+    const { isVerified } = await api.twoFactorAuth.authenticate.query({
+      uid: user.uid ?? '',
+      totp,
+    });
     if (isVerified) {
       user.isTOTPVerified = true;
       await storage.set({ [STORAGE_KEYS.userProfile]: user });

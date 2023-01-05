@@ -1,7 +1,7 @@
-import { fetchApi, IExtension } from '@bypass/shared';
 import { EXTENSION_STATE } from '@constants/index';
 import action from '@helpers/chrome/action';
 import { getExtensionState } from '@helpers/fetchFromStorage';
+import { api } from '../../utils/api';
 import { getIsExtensionActive } from '../../utils/common';
 
 export const isValidUrl = (url?: string) =>
@@ -29,9 +29,7 @@ export const setExtensionIcon = async ({
 };
 
 export const checkForUpdates = async () => {
-  const { version: latestVersion } = await fetchApi<IExtension>(
-    '/api/extension'
-  );
+  const { version: latestVersion } = await api.extension.latest.query();
   const { version: currentVersion } = chrome.runtime.getManifest();
   return latestVersion === currentVersion;
 };

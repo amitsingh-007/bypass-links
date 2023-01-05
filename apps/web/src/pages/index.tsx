@@ -1,4 +1,4 @@
-import { fetchApi, IExtension } from '@bypass/shared';
+import { api } from '@/utils/api';
 import { Container, Global } from '@mantine/core';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import AppHeader from '../ui/DownloadPage/components/AppHeader';
@@ -26,9 +26,7 @@ export const getServerSideProps: GetServerSideProps<{
   extVersion: string;
   country: string;
 }> = async ({ query }) => {
-  const { extension, date, version } = await fetchApi<IExtension>(
-    '/api/extension'
-  );
+  const { extension, date, version } = await api.extension.latest.query();
   return {
     props: {
       downloadLink: extension,

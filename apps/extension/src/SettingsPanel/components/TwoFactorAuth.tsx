@@ -1,10 +1,10 @@
+import { api } from '@/utils/api';
 import { STORAGE_KEYS } from '@bypass/shared';
 import storage from '@helpers/chrome/storage';
 import { getUserProfile } from '@helpers/fetchFromStorage';
 import { Button, Flex, Text } from '@mantine/core';
 import useToastStore from '@store/toast';
 import { memo, useEffect, useState } from 'react';
-import { revoke2FA } from '../apis/twoFactorAuth';
 import Setup2FA from './Setup2FA';
 
 const TwoFactorAuth = memo(function TwoFactorAuth() {
@@ -31,7 +31,9 @@ const TwoFactorAuth = memo(function TwoFactorAuth() {
 
   const handle2FARevoke = async () => {
     const userProfile = await getUserProfile();
-    const { isRevoked } = await revoke2FA(userProfile.uid ?? '');
+    const { isRevoked } = await api.twoFactorAuth.revoke.mutate(
+      userProfile.uid ?? ''
+    );
     if (!isRevoked) {
       displayToast({ message: 'Something went wrong', severity: 'error' });
       return;

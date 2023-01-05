@@ -24,10 +24,10 @@ import {
   resetSettings,
   syncSettingsToStorage,
 } from '@/SettingsPanel/utils/sync';
+import { api } from '@/utils/api';
 import {
   CACHE_BUCKET_KEYS,
   deleteAllCache,
-  status2FA,
   STORAGE_KEYS,
 } from '@bypass/shared';
 import identity from '@helpers/chrome/identity';
@@ -40,7 +40,9 @@ import { AuthProgress } from './authProgress';
 
 const syncAuthenticationToStorage = async (userProfile: UserInfo) => {
   AuthProgress.start('Checking 2FA status');
-  const { is2FAEnabled } = await status2FA(userProfile.uid ?? '');
+  const { is2FAEnabled } = await api.twoFactorAuth.status.query(
+    userProfile.uid ?? ''
+  );
   userProfile.is2FAEnabled = is2FAEnabled;
   userProfile.isTOTPVerified = false;
   await storage.set({ [STORAGE_KEYS.userProfile]: userProfile });

@@ -4,7 +4,8 @@ import {
   removeFromLocalStorage,
   setToLocalStorage,
 } from '@/ui/provider/utils';
-import { status2FA, STORAGE_KEYS } from '@bypass/shared';
+import { api } from '@/utils/api';
+import { STORAGE_KEYS } from '@bypass/shared';
 import { User } from 'firebase/auth';
 import { useCallback, useState } from 'react';
 import { ITwoFactorAuth } from '../interface';
@@ -13,7 +14,7 @@ const sync2FAToStorage = async (user: User) => {
   if (isExistsInLocalStorage(STORAGE_KEYS.twoFactorAuth)) {
     return;
   }
-  const { is2FAEnabled } = await status2FA(user.uid);
+  const { is2FAEnabled } = await api.twoFactorAuth.status.query(user.uid);
   const data: ITwoFactorAuth = {
     is2FAEnabled,
     isTOTPVerified: false,

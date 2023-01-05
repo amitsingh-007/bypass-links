@@ -4,13 +4,8 @@ import useWebPreload from '@/ui/hooks/useWebPreload';
 import { useUser } from '@/ui/provider/AuthProvider';
 import { getFromLocalStorage, setToLocalStorage } from '@/ui/provider/utils';
 import { ITwoFactorAuth } from '@/ui/TwoFactorAuth/interface';
-import {
-  authenticate2FA,
-  Header,
-  InputTOTP,
-  ROUTES,
-  STORAGE_KEYS,
-} from '@bypass/shared';
+import { api } from '@/utils/api';
+import { Header, InputTOTP, ROUTES, STORAGE_KEYS } from '@bypass/shared';
 import { Button, Center, Container, Stack } from '@mantine/core';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -72,7 +67,10 @@ export default function Web() {
   };
 
   const onVerify = async (totp: string) => {
-    const { isVerified } = await authenticate2FA(user?.uid ?? '', totp);
+    const { isVerified } = await api.twoFactorAuth.authenticate.query({
+      uid: user?.uid ?? '',
+      totp,
+    });
     if (isVerified) {
       const twoFAData = await getFromLocalStorage<ITwoFactorAuth>(
         STORAGE_KEYS.twoFactorAuth

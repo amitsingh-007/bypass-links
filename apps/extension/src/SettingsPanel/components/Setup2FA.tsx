@@ -1,3 +1,4 @@
+import { api } from '@/utils/api';
 import { Header, InputTOTP, STORAGE_KEYS, VoidFunction } from '@bypass/shared';
 import storage from '@helpers/chrome/storage';
 import { getUserProfile } from '@helpers/fetchFromStorage';
@@ -5,7 +6,6 @@ import { Button, Center, Modal } from '@mantine/core';
 import useToastStore from '@store/toast';
 import { QRCodeCanvas } from 'qrcode.react';
 import { memo, useEffect, useState } from 'react';
-import { setup2FA, verify2FA } from '../apis/twoFactorAuth';
 
 type Props = {
   isOpen: boolean;
@@ -20,7 +20,9 @@ const Setup2FA = memo(function Setup2FA({ isOpen, handleClose }: Props) {
 
   const init2FA = async () => {
     const userProfile = await getUserProfile();
-    const { otpAuthUrl, secretKey } = await setup2FA(userProfile.uid ?? '');
+    const { otpAuthUrl, secretKey } = await api.twoFactorAuth.setup.mutate(
+      userProfile.uid ?? ''
+    );
     setSecretKey(secretKey);
     setOptAuthUrl(otpAuthUrl);
   };
@@ -35,7 +37,10 @@ const Setup2FA = memo(function Setup2FA({ isOpen, handleClose }: Props) {
 
   const handleTOTPVerify = async (totp: string) => {
     const userProfile = await getUserProfile();
-    const { isVerified } = await verify2FA(userProfile.uid ?? '', totp);
+    const { isVerified } = await api.twoFactorAuth.verify.query({
+      uid: userProfile.uid ?? '',
+      totp,
+    });
     if (isVerified) {
       userProfile.is2FAEnabled = true;
       await storage.set({ [STORAGE_KEYS.userProfile]: userProfile });

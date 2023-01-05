@@ -2,7 +2,6 @@
   "extends": "@bypass/configs/tsconfig.base.json",
   "compilerOptions": {
     "baseUrl": ".",
-    // Refer: https://github.com/microsoft/TypeScript/issues/26859#issuecomment-695806452
     "paths": {
       "@/*": ["./src/*"],
       "@components/*": ["./src/components/*"],
