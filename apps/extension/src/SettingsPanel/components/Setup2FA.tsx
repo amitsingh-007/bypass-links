@@ -20,7 +20,7 @@ const Setup2FA = memo(function Setup2FA({ isOpen, handleClose }: Props) {
 
   const init2FA = async () => {
     const userProfile = await getUserProfile();
-    const { otpAuthUrl, secretKey } = await api.twoFactorAuth.setup.query(
+    const { otpAuthUrl, secretKey } = await api.twoFactorAuth.setup.mutate(
       userProfile.uid ?? ''
     );
     setSecretKey(secretKey);

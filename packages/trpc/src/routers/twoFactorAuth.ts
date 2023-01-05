@@ -41,7 +41,7 @@ const twoFactorAuthRouter = t.router({
     }),
 
   //Revoke 2FA for the user
-  revoke: t.procedure.input(uidType).query(async ({ input: uid }) => {
+  revoke: t.procedure.input(uidType).mutation(async ({ input: uid }) => {
     await removeFromFirebase({
       ref: FIREBASE_DB_REF.user2FAInfo,
       uid,
@@ -50,7 +50,7 @@ const twoFactorAuthRouter = t.router({
   }),
 
   //Initalizes 2FA for a user for the very first time
-  setup: t.procedure.input(uidType).query(async ({ input: uid }) => {
+  setup: t.procedure.input(uidType).mutation(async ({ input: uid }) => {
     const { secretKey, otpAuthUrl } = await setup2FA(uid);
     return { secretKey, otpAuthUrl };
   }),

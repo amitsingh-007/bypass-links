@@ -31,7 +31,7 @@ const TwoFactorAuth = memo(function TwoFactorAuth() {
 
   const handle2FARevoke = async () => {
     const userProfile = await getUserProfile();
-    const { isRevoked } = await api.twoFactorAuth.revoke.query(
+    const { isRevoked } = await api.twoFactorAuth.revoke.mutate(
       userProfile.uid ?? ''
     );
     if (!isRevoked) {
