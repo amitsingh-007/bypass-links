@@ -1,3 +1,5 @@
+import { FIREBASE_DB_ROOT_KEYS } from '@bypass/shared';
+import { getFromFirebase, saveToFirebase } from './firebaseService';
 import { getAssetsByReleaseId, getLatestRelease } from './githubService';
 
 export const getLatestExtension = async () => {
@@ -7,4 +9,16 @@ export const getLatestExtension = async () => {
     (asset) => asset.content_type === 'application/zip'
   );
   return extension;
+};
+
+export const backupData = async () => {
+  const snapshot = await getFromFirebase({
+    ref: FIREBASE_DB_ROOT_KEYS.data,
+    isAbsolute: true,
+  });
+  await saveToFirebase({
+    ref: FIREBASE_DB_ROOT_KEYS.backup,
+    data: snapshot.val(),
+    isAbsolute: true,
+  });
 };

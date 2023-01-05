@@ -6,8 +6,6 @@
     "paths": {
       "@/*": ["src/*"],
       "@public/*": ["public/*"],
-      "@constants/*": ["src/constants/*"],
-      "@logic/*": ["src/logic/*"],
       "@middlewares/*": ["src/middlewares/*"],
       "@ui/*": ["src/ui/*"]
     }
