@@ -1,5 +1,6 @@
 import { FIREBASE_DB_REF } from '@bypass/shared';
 import { z } from 'zod';
+import { uidType } from '../helpers/validation';
 import { removeFromFirebase } from '../services/firebaseService';
 import {
   authenticate2FA,
@@ -15,7 +16,7 @@ const twoFactorAuthRouter = t.router({
   authenticate: t.procedure
     .input(
       z.object({
-        uid: z.string(),
+        uid: uidType,
         totp: z.string(),
       })
     )
@@ -29,7 +30,7 @@ const twoFactorAuthRouter = t.router({
   verify: t.procedure
     .input(
       z.object({
-        uid: z.string(),
+        uid: uidType,
         totp: z.string(),
       })
     )
@@ -40,7 +41,7 @@ const twoFactorAuthRouter = t.router({
     }),
 
   //Revoke 2FA for the user
-  revoke: t.procedure.input(z.string()).query(async ({ input: uid }) => {
+  revoke: t.procedure.input(uidType).query(async ({ input: uid }) => {
     await removeFromFirebase({
       ref: FIREBASE_DB_REF.user2FAInfo,
       uid,
@@ -49,13 +50,13 @@ const twoFactorAuthRouter = t.router({
   }),
 
   //Initalizes 2FA for a user for the very first time
-  setup: t.procedure.input(z.string()).query(async ({ input: uid }) => {
+  setup: t.procedure.input(uidType).query(async ({ input: uid }) => {
     const { secretKey, otpAuthUrl } = await setup2FA(uid);
     return { secretKey, otpAuthUrl };
   }),
 
   //Indicates whether 2FA is enabled by the user or not
-  status: t.procedure.input(z.string()).query(async ({ input: uid }) => {
+  status: t.procedure.input(uidType).query(async ({ input: uid }) => {
     const user2FAInfo = await fetchUser2FAInfo(uid);
     return { is2FAEnabled: is2FAEnabled(user2FAInfo) };
   }),
