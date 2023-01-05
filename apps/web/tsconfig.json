@@ -6,7 +6,6 @@
     "paths": {
       "@/*": ["src/*"],
       "@public/*": ["public/*"],
-      "@middlewares/*": ["src/middlewares/*"],
       "@ui/*": ["src/ui/*"]
     }
   },
