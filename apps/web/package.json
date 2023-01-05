@@ -11,7 +11,7 @@
     "@bypass/trpc": "file:packages/trpc",
     "@emotion/react": "11.10.5",
     "@emotion/server": "11.10.0",
-    "@mantine/core": "5.9.5",
+    "@mantine/core": "5.10.0",
     "@mantine/hooks": "5.9.5",
     "@mantine/next": "5.9.5",
     "@trpc/client": "10.7.0",
