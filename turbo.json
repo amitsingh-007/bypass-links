@@ -12,6 +12,7 @@
       "outputs": []
     }
   },
+  "globalDependencies": ["**/.env", ".github/**"],
   "globalEnv": [
     "NODE_ENV",
     "HOST_NAME",
