@@ -4,7 +4,10 @@
   "private": true,
   "main": "src/index.ts",
   "types": "src/index.ts",
-  "sideEffects": "false",
+  "sideEffects": false,
+  "scripts": {
+    "test": "vitest run"
+  },
   "dependencies": {
     "@octokit/rest": "19.0.5",
     "@trpc/server": "10.7.0",
@@ -17,6 +20,7 @@
     "@bypass/shared": "file:packages/shared",
     "@typescript-eslint/eslint-plugin": "5.47.0",
     "@typescript-eslint/parser": "5.47.0",
+    "dotenv": "16.0.3",
     "eslint": "8.30.0",
     "eslint-config-turbo": "0.0.7",
     "eslint-import-resolver-typescript": "3.5.2",
@@ -24,6 +28,7 @@
     "eslint-plugin-prettier": "4.2.1",
     "eslint-plugin-react": "7.31.11",
     "eslint-plugin-react-hooks": "4.6.0",
-    "typescript": "4.9.4"
+    "typescript": "4.9.4",
+    "vitest": "0.26.3"
   }
 }

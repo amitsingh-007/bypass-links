@@ -1,8 +1,8 @@
 .eslintignore
 
+
 # next.js
 .next/
-.env.local
 tsconfig.tsbuildinfo
 
 # next-pwa
@@ -12,3 +12,5 @@ public/workbox*
 .vercel
 
 .turbo
+
+.env

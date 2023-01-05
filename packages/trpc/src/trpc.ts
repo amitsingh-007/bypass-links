@@ -3,7 +3,7 @@ import { type CreateNextContextOptions } from '@trpc/server/adapters/next';
 
 type CreateContextOptions = Record<string, never>;
 
-const createInnerTRPCContext = async (_opts: CreateContextOptions) => {
+export const createInnerTRPCContext = async (_opts: CreateContextOptions) => {
   return {};
 };
 
