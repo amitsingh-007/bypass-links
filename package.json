@@ -8,6 +8,7 @@
     "cypress:open": "npm run cypress:open -w=e2e",
     "dev": "FORCE_COLOR=1 turbo run dev",
     "dev:env": "vercel env pull apps/web/.env && vercel env pull packages/trpc/.env",
+    "e2e": "FORCE_COLOR=1 turbo run e2e",
     "test": "FORCE_COLOR=1 turbo run test"
   },
   "workspaces": [
