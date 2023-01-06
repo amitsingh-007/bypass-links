@@ -5,9 +5,6 @@
       "path": "."
     },
     {
-      "path": "e2e"
-    },
-    {
       "path": "packages/shared"
     },
     {
