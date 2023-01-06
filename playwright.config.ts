@@ -3,8 +3,6 @@ import type { PlaywrightTestConfig } from '@playwright/test';
 const ciBaseUrl = process.env.PLAYWRIGHT_TEST_BASE_URL;
 const isCI = Boolean(ciBaseUrl);
 
-console.log('ci base url', ciBaseUrl);
-
 const config: PlaywrightTestConfig = {
   globalTimeout: 30 * 60 * 1000,
   expect: { timeout: 5000 },

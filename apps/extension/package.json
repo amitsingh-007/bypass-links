@@ -18,6 +18,7 @@
     "@trpc/client": "10.7.0",
     "@trpc/server": "10.7.0",
     "browser-image-compression": "2.0.0",
+    "dayjs": "1.11.7",
     "firebase": "9.15.0",
     "md5": "2.3.0",
     "preact": "10.11.3",
