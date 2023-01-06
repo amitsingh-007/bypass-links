@@ -8,7 +8,8 @@
     "cypress:open": "npm run cypress:open -w=e2e",
     "dev": "FORCE_COLOR=1 turbo run dev",
     "dev:env": "vercel env pull apps/web/.env && vercel env pull packages/trpc/.env",
-    "e2e": "FORCE_COLOR=1 turbo run e2e",
+    "e2e": "playwright test",
+    "e2e:report": "playwright show-report",
     "test": "FORCE_COLOR=1 turbo run test"
   },
   "workspaces": [
@@ -17,6 +18,7 @@
     "apps/*"
   ],
   "devDependencies": {
+    "@playwright/test": "1.29.1",
     "turbo": "1.6.3",
     "vercel": "28.10.1"
   }

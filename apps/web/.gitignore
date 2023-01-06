@@ -11,7 +11,3 @@ public/workbox*
 .turbo
 
 .env
-
-/test-results/
-/playwright-report/
-/playwright/.cache/

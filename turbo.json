@@ -8,9 +8,6 @@
       "dependsOn": ["^build"],
       "outputs": ["build/**", ".next/**"]
     },
-    "e2e": {
-      "cache": false
-    },
     "test": {
       "outputs": []
     }
