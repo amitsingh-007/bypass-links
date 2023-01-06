@@ -39,35 +39,48 @@ jobs:
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
           github-comment: false
 
-  Cypress:
+  Playwright:
     needs: [Build]
     timeout-minutes: 10
     runs-on: ubuntu-latest
-    container: cypress/browsers:node18.12.0-chrome107
-    strategy:
-      fail-fast: false
-      matrix:
-        containers: [1]
     steps:
-      - name: Checkout
+      - name: Checkout repo 🛎️
         uses: actions/checkout@v3
+
+      - name: Setting up Node.js 🔧
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Cache Playwright binaries 📑
+        uses: actions/cache@v3
+        id: playwright-cache
+        with:
+          path: |
+            ~/Library/Caches/ms-playwright
+            ~/.cache/ms-playwright
+            ${{ github.workspace }}/node_modules/playwright
+          key: cache-playwright-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: cache-playwright-
 
       - name: Install dependencies 🧼
         uses: bahmutov/npm-install@v1
 
-      - name: 'UI Tests - Chrome'
-        uses: cypress-io/github-action@v5.0.2
-        with:
-          browser: chrome
-          record: true
-          parallel: true
-          working-directory: e2e
-          config: baseUrl=${{needs.Build.outputs.preview_url}}
-          install: false
+      - name: Install Playwright browsers 🖥️
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright tests 🧪
+        run: npx playwright test
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          CYPRESS_NODE_ENV: Production
+          PLAYWRIGHT_TEST_BASE_URL: ${{ needs.Build.outputs.preview_url }}
+
+      - name: Upload Playwright test report 📂
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
 
   Create_Release:
     runs-on: ubuntu-latest
