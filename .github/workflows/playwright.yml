@@ -32,6 +32,7 @@ jobs:
           github-comment: false
 
   Playwright:
+    needs: [Build]
     timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
