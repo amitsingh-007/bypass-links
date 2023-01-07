@@ -15,7 +15,7 @@
     "apps/*"
   ],
   "devDependencies": {
-    "@playwright/test": "1.29.1",
+    "@playwright/test": "1.29.2",
     "turbo": "1.6.3",
     "vercel": "28.10.3"
   }
