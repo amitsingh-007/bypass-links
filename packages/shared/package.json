@@ -7,7 +7,7 @@
   "sideEffects": false,
   "dependencies": {
     "@mantine/core": "5.9.5",
-    "@mantine/hooks": "5.9.5",
+    "@mantine/hooks": "5.10.0",
     "md5": "2.3.0",
     "react": "18.2.0",
     "react-icons": "4.7.1",

@@ -14,7 +14,7 @@
     "@mantine/core": "5.9.5",
     "@mantine/dates": "5.9.5",
     "@mantine/form": "5.10.0",
-    "@mantine/hooks": "5.9.5",
+    "@mantine/hooks": "5.10.0",
     "@trpc/client": "10.7.0",
     "@trpc/server": "10.8.1",
     "browser-image-compression": "2.0.0",
