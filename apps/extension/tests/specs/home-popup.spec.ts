@@ -1,20 +1,14 @@
-import { test, chromium } from '@playwright/test';
-import path from 'path';
+import { expect, test } from '../fixtures/extension-fixture';
 
 test.describe('Home Popup', () => {
-  test('load extension', async () => {
-    const pathToExtension = path.join(__dirname, '../../build');
-    console.log(pathToExtension);
-    const userDataDir = '/tmp/test-user-data-dir';
-    const browserContext = await chromium.launchPersistentContext(userDataDir, {
-      headless: false,
-      args: [
-        `--disable-extensions-except=${pathToExtension}`,
-        `--load-extension=${pathToExtension}`,
-      ],
-    });
-    const page = await browserContext.newPage();
+  test('load extension', async ({ page, backgroundSW }) => {
     await page.goto('/index.html');
+    //Content script loaded
     await page.isVisible('Bypass Links');
+    const isSWIntialized = await backgroundSW.evaluate(
+      () => self.__SW_INITIALIZED__
+    );
+    //Background SW loaded
+    expect(isSWIntialized).toBeTruthy();
   });
 });

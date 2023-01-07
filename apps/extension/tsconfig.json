@@ -11,7 +11,7 @@
       "@store/*": ["./src/store/*"]
     }
   },
-  "include": ["@types", "src"],
+  "include": ["@types", "src", "tests"],
   "exclude": ["build", "**/node_modules"],
   //Required for webpack config in typescript
   "ts-node": {
