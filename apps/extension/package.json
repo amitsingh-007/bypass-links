@@ -16,7 +16,7 @@
     "@mantine/form": "5.9.5",
     "@mantine/hooks": "5.9.5",
     "@trpc/client": "10.7.0",
-    "@trpc/server": "10.7.0",
+    "@trpc/server": "10.8.1",
     "browser-image-compression": "2.0.0",
     "dayjs": "1.11.7",
     "firebase": "9.15.0",
