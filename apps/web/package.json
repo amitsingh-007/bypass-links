@@ -13,7 +13,7 @@
     "@emotion/server": "11.10.0",
     "@mantine/core": "5.9.5",
     "@mantine/hooks": "5.10.0",
-    "@mantine/next": "5.9.5",
+    "@mantine/next": "5.10.0",
     "@trpc/client": "10.7.0",
     "@trpc/server": "10.8.1",
     "firebase": "9.15.0",
