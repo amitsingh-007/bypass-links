@@ -11,7 +11,8 @@ test.describe('Download page', () => {
     await downloadPage.testPageMetaData();
   });
 
-  test('extension download', async ({ page }) => {
+  test('extension download', async ({ page }, testConfig) => {
+    testConfig.setTimeout(30 * 1000);
     const downloadPromise = page.waitForEvent('download');
     const downloadButton = page.locator('a', { hasText: 'Download Now' });
     await downloadButton.click();
