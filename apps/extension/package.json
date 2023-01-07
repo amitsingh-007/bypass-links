@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "@bypass/configs": "file:packages/configs",
+    "@playwright/test": "1.29.1",
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.10",
     "@types/chrome": "0.0.206",
     "@types/md5": "2.3.2",
