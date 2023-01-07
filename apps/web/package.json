@@ -14,7 +14,7 @@
     "@mantine/core": "5.9.5",
     "@mantine/hooks": "5.9.5",
     "@mantine/next": "5.9.5",
-    "@trpc/client": "10.7.0",
+    "@trpc/client": "10.8.1",
     "@trpc/server": "10.7.0",
     "firebase": "9.15.0",
     "md5": "2.3.0",
