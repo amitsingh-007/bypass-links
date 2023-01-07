@@ -1,0 +1,93 @@
+name: Playwright Tests
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    outputs:
+      preview_url: ${{ steps.vercel-action.outputs.preview-url }}
+    steps:
+      - name: Checkout repo 🛎️
+        uses: actions/checkout@v3
+
+      - name: Setting up Node.js 🔧
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies 🧼
+        uses: bahmutov/npm-install@v1
+
+      - name: Building Extension🛠
+        run: npm run build -- --filter=@bypass/extension
+
+      - name: Uploading extension 🌐
+        uses: actions/upload-artifact@v3
+        with:
+          name: extension-folder
+          path: ./apps/extension/build
+
+      - name: Deploy Preview (Vercel) 🔺
+        uses: amondnet/vercel-action@v25
+        id: vercel-action
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
+          github-comment: false
+
+  Playwright:
+    needs: [Build]
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo 🛎️
+        uses: actions/checkout@v3
+
+      - name: Setting up Node.js 🔧
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Cache playwright binaries
+        uses: actions/cache@v3
+        id: playwright-cache
+        with:
+          path: |
+            ~/Library/Caches/ms-playwright
+            ~/.cache/ms-playwright
+            ${{ github.workspace }}/node_modules/playwright
+          key: cache-playwright-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: cache-playwright-
+
+      - name: Download artifacts 🎨
+        uses: actions/download-artifact@v3
+        with:
+          name: extension-folder
+          path: ./apps/extension/build/
+
+      - name: Display structure of downloaded files
+        run: ls -R
+        working-directory: ./apps/extension/build
+
+      - name: Install dependencies 🧼
+        uses: bahmutov/npm-install@v1
+
+      - name: Install Playwright Browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright tests
+        run: npx playwright test
+        env:
+          PLAYWRIGHT_TEST_BASE_URL: ${{ needs.Build.outputs.preview_url }}
+
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
