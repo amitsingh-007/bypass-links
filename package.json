@@ -17,6 +17,6 @@
   "devDependencies": {
     "@playwright/test": "1.29.1",
     "turbo": "1.6.3",
-    "vercel": "28.10.1"
+    "vercel": "28.10.3"
   }
 }
