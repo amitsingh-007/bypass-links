@@ -21,7 +21,7 @@
     "@typescript-eslint/eslint-plugin": "5.47.0",
     "@typescript-eslint/parser": "5.47.0",
     "dotenv": "16.0.3",
-    "eslint": "8.30.0",
+    "eslint": "8.31.0",
     "eslint-config-turbo": "0.0.7",
     "eslint-import-resolver-typescript": "3.5.2",
     "eslint-plugin-import": "2.26.0",
