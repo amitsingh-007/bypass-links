@@ -17,13 +17,22 @@ const config: PlaywrightTestConfig = {
     video: 'on-first-retry',
     trace: 'retain-on-failure',
     headless: true,
-    baseURL: ciBaseUrl || 'http://localhost:3000',
     channel: 'chrome',
   },
   projects: [
     {
       name: '@bypass/web',
       testDir: './apps/web/tests/',
+      use: {
+        baseURL: ciBaseUrl || 'http://localhost:3000',
+      },
+    },
+    {
+      name: '@bypass/extension',
+      testDir: './apps/extension/tests/',
+      use: {
+        baseURL: 'chrome-extension://chadipececickdfjckjkjpehlhnkclmb',
+      },
     },
   ],
 };
