@@ -5,7 +5,10 @@ export const getFormattedDateTime = (dateTime: string, country: string) => {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
-  })} ${date.toLocaleTimeString(locale, { timeStyle: 'short' })}`;
+  })} ${date.toLocaleTimeString(locale, {
+    timeStyle: 'short',
+    hour12: false,
+  })}`;
 };
 
 export const openNewTab = (url: string) => window.open(url, '_blank')?.open();
