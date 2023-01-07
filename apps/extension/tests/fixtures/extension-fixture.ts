@@ -5,6 +5,7 @@ import {
   Worker,
 } from '@playwright/test';
 import path from 'path';
+import { tempDir } from '../../../../scripts/global-teardown';
 
 export const test = base.extend<{
   context: BrowserContext;
@@ -13,8 +14,7 @@ export const test = base.extend<{
   // eslint-disable-next-line no-empty-pattern
   context: async ({}, use) => {
     const pathToExtension = path.join(__dirname, '../../build');
-    const userDataDir = '/tmp/test-user-data-dir';
-    const browserContext = await chromium.launchPersistentContext(userDataDir, {
+    const browserContext = await chromium.launchPersistentContext(tempDir, {
       headless: false,
       channel: 'chrome',
       args: [

@@ -7,9 +7,10 @@ const config: PlaywrightTestConfig = {
   globalTimeout: 30 * 60 * 1000,
   expect: { timeout: 5000 },
   forbidOnly: isCI,
-  retries: 2,
+  retries: isCI ? 2 : 1,
   fullyParallel: true,
   reporter: [['github'], ['html', { open: isCI ? 'never' : 'always' }]],
+  globalSetup: require.resolve('./scripts/global-teardown'),
   use: {
     navigationTimeout: 30 * 1000,
     actionTimeout: 10 * 1000,
@@ -22,14 +23,14 @@ const config: PlaywrightTestConfig = {
   projects: [
     {
       name: '@bypass/web',
-      testDir: './apps/web/tests/',
+      testDir: './apps/web/tests',
       use: {
         baseURL: ciBaseUrl || 'http://localhost:3000',
       },
     },
     {
       name: '@bypass/extension',
-      testDir: './apps/extension/tests/',
+      testDir: './apps/extension/tests',
       use: {
         baseURL: 'chrome-extension://chadipececickdfjckjkjpehlhnkclmb',
       },
