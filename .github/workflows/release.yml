@@ -27,7 +27,7 @@ jobs:
       - name: Uploading extension 🌐
         uses: actions/upload-artifact@v3
         with:
-          name: extension-file
+          name: extension-folder
           path: ./apps/extension/build
 
       - name: Deploy Preview (Vercel) 🔺
@@ -67,7 +67,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: extension-folder
-          path: ./apps/extension/build/
+          path: ./apps/extension/build
 
       - name: Install dependencies 🧼
         uses: bahmutov/npm-install@v1
@@ -98,7 +98,7 @@ jobs:
       - name: Download artifacts 🎨
         uses: actions/download-artifact@v3
         with:
-          name: extension-file
+          name: extension-folder
           path: ./apps/extension/build/
 
       - name: Generate Release Tag 🏷
