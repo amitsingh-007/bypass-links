@@ -8,3 +8,8 @@
 **/.DS_Store
 
 .turbo
+
+# playwright
+/test-results/
+/playwright-report/
+/playwright/.cache/

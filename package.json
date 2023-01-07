@@ -5,17 +5,17 @@
   "private": true,
   "scripts": {
     "build": "FORCE_COLOR=1 turbo run build",
-    "cypress:open": "npm run cypress:open -w=e2e",
     "dev": "FORCE_COLOR=1 turbo run dev",
     "dev:env": "vercel env pull apps/web/.env && vercel env pull packages/trpc/.env",
+    "e2e": "playwright test",
     "test": "FORCE_COLOR=1 turbo run test"
   },
   "workspaces": [
-    "e2e",
     "packages/*",
     "apps/*"
   ],
   "devDependencies": {
+    "@playwright/test": "1.29.1",
     "turbo": "1.6.3",
     "vercel": "28.10.1"
   }
