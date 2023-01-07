@@ -41,4 +41,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: extension-file
-          path: ./apps/extension/build/bypass-links-*.zip
+          path: ./apps/extension/build

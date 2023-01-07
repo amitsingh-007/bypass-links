@@ -67,10 +67,6 @@ jobs:
           name: extension-folder
           path: ./apps/extension/build/
 
-      - name: Display structure of downloaded files
-        run: ls -R
-        working-directory: ./apps/extension/build
-
       - name: Install dependencies 🧼
         uses: bahmutov/npm-install@v1
 

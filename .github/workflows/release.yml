@@ -28,7 +28,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: extension-file
-          path: ./apps/extension/build/bypass-links-*.zip
+          path: ./apps/extension/build
 
       - name: Deploy Preview (Vercel) 🔺
         uses: amondnet/vercel-action@v25
@@ -63,6 +63,12 @@ jobs:
           key: cache-playwright-${{ hashFiles('**/package-lock.json') }}
           restore-keys: cache-playwright-
 
+      - name: Download artifacts 🎨
+        uses: actions/download-artifact@v3
+        with:
+          name: extension-folder
+          path: ./apps/extension/build/
+
       - name: Install dependencies 🧼
         uses: bahmutov/npm-install@v1
 
@@ -71,7 +77,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run Playwright tests 🧪
-        run: npx playwright test
+        run: xvfb-run --auto-servernum -- npx playwright test
         env:
           PLAYWRIGHT_TEST_BASE_URL: ${{ needs.Build.outputs.preview_url }}
 
