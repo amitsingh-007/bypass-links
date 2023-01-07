@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { DownloadPage } from '../page-object-models/download-page';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
@@ -6,12 +7,8 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('Download page', () => {
   test('page metadata', async ({ page }) => {
-    await expect(page).toHaveTitle(
-      'Bypass Links - Skip Links, Ads, Timers & Recaptchas'
-    );
-    expect(await page.getByRole('heading', { level: 1 }).innerText()).toBe(
-      'Have a Link Bypasser and private Bookmarks Panel !'
-    );
+    const downloadPage = new DownloadPage(page);
+    await downloadPage.testPageMetaData();
   });
 
   test('extension download', async ({ page }) => {
@@ -20,5 +17,15 @@ test.describe('Download page', () => {
     await downloadButton.click();
     const download = await downloadPromise;
     expect(download.suggestedFilename()).toMatch(/bypass-links-.+.zip/);
+  });
+
+  test('offline mode', async ({ page }, testConfig) => {
+    testConfig.setTimeout(30 * 1000);
+    await page.waitForTimeout(15 * 1000); //Let the SW cache assets
+    const context = page.context();
+    await context.setOffline(true);
+    await page.reload();
+    const downloadPage = new DownloadPage(page);
+    await downloadPage.testPageMetaData();
   });
 });
