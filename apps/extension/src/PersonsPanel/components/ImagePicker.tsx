@@ -11,17 +11,11 @@ import {
   TextInput,
 } from '@mantine/core';
 import { useDebouncedState } from '@mantine/hooks';
-import imageCompression from 'browser-image-compression';
 import { memo, useCallback, useState } from 'react';
 import Cropper from 'react-easy-crop';
 import { Area } from 'react-easy-crop/types';
+import { getCompressedImage } from '../utils/compressImage';
 import getCroppedImg from '../utils/cropImage';
-
-const ASPECT_RATIO = 1; //Square image allowed
-const IMAGE_COMPRESSION_OPTIONS = {
-  maxSizeMB: 200 / 1024, //max 200KB size
-  maxWidthOrHeight: 250, //max 200px square size image
-};
 
 interface Props {
   uid: string;
@@ -49,7 +43,7 @@ const ImagePicker = memo<Props>(function ImagePicker({
     []
   );
 
-  const saveCroppedImage = useCallback(async () => {
+  const saveCroppedImage = async () => {
     if (!inputImageUrl) {
       return;
     }
@@ -60,10 +54,7 @@ const ImagePicker = memo<Props>(function ImagePicker({
         inputImageUrl,
         croppedAreaPixels
       );
-      const compressedImage = await imageCompression(
-        new File([croppedImage], `${uid}.jpeg`, { type: croppedImage.type }),
-        IMAGE_COMPRESSION_OPTIONS
-      );
+      const compressedImage = await getCompressedImage(croppedImage);
       await uploadImageToFirebase(compressedImage, imageRef);
       handleImageSave(imageRef);
       onDialogClose();
@@ -72,7 +63,7 @@ const ImagePicker = memo<Props>(function ImagePicker({
     } finally {
       setIsUploadingImage(false);
     }
-  }, [croppedAreaPixels, handleImageSave, inputImageUrl, onDialogClose, uid]);
+  };
 
   return (
     <Modal
@@ -92,7 +83,7 @@ const ImagePicker = memo<Props>(function ImagePicker({
           image={inputImageUrl}
           crop={crop}
           zoom={zoom}
-          aspect={ASPECT_RATIO}
+          aspect={1}
           onCropChange={setCrop}
           onCropComplete={onCropComplete}
           onZoomChange={setZoom}
