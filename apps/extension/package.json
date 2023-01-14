@@ -15,7 +15,7 @@
     "@mantine/dates": "5.9.5",
     "@mantine/form": "5.10.0",
     "@mantine/hooks": "5.10.0",
-    "@trpc/client": "10.8.1",
+    "@trpc/client": "10.9.0",
     "@trpc/server": "10.9.0",
     "compressorjs": "1.1.1",
     "dayjs": "1.11.7",
