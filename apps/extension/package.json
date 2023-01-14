@@ -29,7 +29,7 @@
     "react-icons": "4.7.1",
     "react-router-dom": "6.6.2",
     "react-window": "1.8.8",
-    "zustand": "4.2.0"
+    "zustand": "4.3.2"
   },
   "devDependencies": {
     "@bypass/configs": "file:packages/configs",
