@@ -18,7 +18,7 @@
   "devDependencies": {
     "@bypass/configs": "file:packages/configs",
     "@bypass/shared": "file:packages/shared",
-    "@typescript-eslint/eslint-plugin": "5.48.0",
+    "@typescript-eslint/eslint-plugin": "5.48.1",
     "@typescript-eslint/parser": "5.48.0",
     "dotenv": "16.0.3",
     "eslint": "8.31.0",
