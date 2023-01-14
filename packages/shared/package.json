@@ -17,7 +17,7 @@
     "@bypass/configs": "file:packages/configs",
     "@types/md5": "2.3.2",
     "@types/react-window": "1.8.5",
-    "@typescript-eslint/eslint-plugin": "5.48.0",
+    "@typescript-eslint/eslint-plugin": "5.48.1",
     "@typescript-eslint/parser": "5.48.0",
     "eslint": "8.31.0",
     "eslint-config-turbo": "0.0.7",
