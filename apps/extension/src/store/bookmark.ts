@@ -1,5 +1,5 @@
 import { BOOKMARK_OPERATION, VoidFunction } from '@bypass/shared';
-import create from 'zustand';
+import { create } from 'zustand';
 
 interface OperationState {
   operation: BOOKMARK_OPERATION;

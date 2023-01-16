@@ -1,4 +1,4 @@
-import create from 'zustand';
+import { create } from 'zustand';
 import { IUpdateTaggedPerson } from '@bypass/shared';
 
 interface State {

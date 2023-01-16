@@ -1,4 +1,4 @@
-import create from 'zustand';
+import { create } from 'zustand';
 import { AuthenticationEvent } from '@interfaces/authentication';
 import { VoidFunction } from '@bypass/shared';
 
