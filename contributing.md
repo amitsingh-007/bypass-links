@@ -3,13 +3,13 @@
 ## Setup on local
 
 - Fork this repository.
-- Run `npm install` in the root folder.
+- Run `pnpm install` in the root folder.
 - For local development:
-  - Run `npm run dev:env` inside web folder to pull env variables.
-  - Run `npm run dev` to develop.
-  - Run `npm run build` for production build.
-  - Run `npm run e2e` to run e2e of all workspaces.
-  - Run `npm test` to run tests of all workspaces.
+  - Run `pnpm run dev:env` inside web folder to pull env variables.
+  - Run `pnpm run dev` to develop.
+  - Run `pnpm run build` for production build.
+  - Run `pnpm run e2e` to run e2e of all workspaces.
+  - Run `pnpm test` to run tests of all workspaces.
 
 ## Guidelines for development
 

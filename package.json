@@ -8,12 +8,9 @@
     "dev": "FORCE_COLOR=1 turbo run dev",
     "dev:env": "vercel env pull apps/web/.env && vercel env pull packages/trpc/.env",
     "e2e": "playwright test",
+    "preinstall": "npx only-allow pnpm",
     "test": "FORCE_COLOR=1 turbo run test"
   },
-  "workspaces": [
-    "packages/*",
-    "apps/*"
-  ],
   "devDependencies": {
     "@playwright/test": "1.29.2",
     "turbo": "1.7.0",

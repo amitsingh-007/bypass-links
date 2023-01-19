@@ -16,8 +16,8 @@
     "zod": "3.20.2"
   },
   "devDependencies": {
-    "@bypass/configs": "file:packages/configs",
-    "@bypass/shared": "file:packages/shared",
+    "@bypass/configs": "workspace:*",
+    "@bypass/shared": "workspace:*",
     "@typescript-eslint/eslint-plugin": "5.48.1",
     "@typescript-eslint/parser": "5.48.1",
     "dotenv": "16.0.3",
