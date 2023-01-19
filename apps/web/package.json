@@ -7,13 +7,14 @@
     "dev": "cross-env HOST_NAME=http://localhost:3000 next dev"
   },
   "dependencies": {
-    "@bypass/shared": "file:packages/shared",
-    "@bypass/trpc": "file:packages/trpc",
+    "@bypass/shared": "workspace:*",
+    "@bypass/trpc": "workspace:*",
     "@emotion/react": "11.10.5",
     "@emotion/server": "11.10.0",
-    "@mantine/core": "5.9.5",
+    "@mantine/core": "5.10.0",
     "@mantine/hooks": "5.10.0",
     "@mantine/next": "5.10.0",
+    "@mantine/styles": "5.10.0",
     "@trpc/client": "10.9.0",
     "@trpc/server": "10.9.0",
     "firebase": "9.15.0",
@@ -26,12 +27,17 @@
     "sharp": "0.31.3"
   },
   "devDependencies": {
-    "@bypass/configs": "file:packages/configs",
+    "@babel/core": "7.20.12",
+    "@bypass/configs": "workspace:*",
+    "@playwright/test": "1.29.2",
     "@svgr/webpack": "6.5.1",
     "@types/md5": "2.3.2",
+    "@types/react": "18.0.27",
     "@types/react-window": "1.8.5",
     "@typescript-eslint/eslint-plugin": "5.48.1",
+    "@typescript-eslint/parser": "5.48.1",
     "cross-env": "7.0.3",
+    "encoding": "0.1.13",
     "eslint": "8.31.0",
     "eslint-config-next": "13.1.2",
     "eslint-config-prettier": "8.6.0",
@@ -41,8 +47,9 @@
     "eslint-webpack-plugin": "3.2.0",
     "fork-ts-checker-webpack-plugin": "7.3.0",
     "next-pwa": "5.6.0",
-    "@playwright/test": "1.29.2",
+    "node-fetch": "3.3.0",
     "prettier": "2.8.3",
-    "typescript": "4.9.4"
+    "typescript": "4.9.4",
+    "webpack": "5.75.0"
   }
 }

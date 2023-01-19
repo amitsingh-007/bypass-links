@@ -17,25 +17,31 @@ jobs:
       - name: Checkout repo 🛎️
         uses: actions/checkout@v3
 
+      - name: Setup pnpm 🎁
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7
+
       - name: Setting up Node.js 🔧
         uses: actions/setup-node@v3
         with:
           node-version: '18'
+          cache: 'pnpm'
 
       - name: Install dependencies 🧼
-        uses: bahmutov/npm-install@v1
+        run: pnpm install --frozen-lockfile
 
       - name: Pull environment variables 🏔
-        run:  |
-            vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-            vercel env pull apps/web/.env --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-            vercel env pull packages/trpc/.env --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+        run: |
+          vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+          vercel env pull apps/web/.env --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+          vercel env pull packages/trpc/.env --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Building 🛠
-        run: npm run build
+        run: pnpm run build
 
       - name: Run tests 🧪
-        run: npm test
+        run: pnpm test
 
       - name: Upload extension 🌐
         uses: actions/upload-artifact@v3

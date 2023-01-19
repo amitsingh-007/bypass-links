@@ -6,16 +6,21 @@
   "types": "src/index.ts",
   "sideEffects": false,
   "dependencies": {
-    "@mantine/core": "5.9.5",
+    "@mantine/core": "5.10.0",
     "@mantine/hooks": "5.10.0",
     "md5": "2.3.0",
+    "preact": "10.11.3",
     "react": "18.2.0",
+    "react-dom": "18.2.0",
     "react-icons": "4.7.1",
     "react-window": "1.8.8"
   },
   "devDependencies": {
-    "@bypass/configs": "file:packages/configs",
+    "@babel/core": "7.20.12",
+    "@bypass/configs": "workspace:*",
+    "@emotion/react": "11.10.5",
     "@types/md5": "2.3.2",
+    "@types/react": "18.0.27",
     "@types/react-window": "1.8.5",
     "@typescript-eslint/eslint-plugin": "5.48.1",
     "@typescript-eslint/parser": "5.48.1",
@@ -26,6 +31,8 @@
     "eslint-plugin-prettier": "4.2.1",
     "eslint-plugin-react": "7.32.0",
     "eslint-plugin-react-hooks": "4.6.0",
+    "prettier": "2.8.3",
+    "tslib": "2.4.1",
     "typescript": "4.9.4"
   }
 }

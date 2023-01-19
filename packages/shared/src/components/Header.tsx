@@ -1,9 +1,9 @@
-import { Search } from '@bypass/shared';
 import { Badge, Button, Group, Header as MantineHeader } from '@mantine/core';
 import { memo, useContext } from 'react';
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
 import { HEADER_HEIGHT } from '../constants';
 import DynamicContext from '../provider/DynamicContext';
+import Search from './Search';
 
 interface Props {
   children?: React.ReactNode;
