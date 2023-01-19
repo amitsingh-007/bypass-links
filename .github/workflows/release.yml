@@ -13,16 +13,22 @@ jobs:
       - name: Checkout repo 🛎️
         uses: actions/checkout@v3
 
+      - name: Setup pnpm 🎁
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7
+
       - name: Setting up Node.js 🔧
         uses: actions/setup-node@v3
         with:
           node-version: '18'
+          cache: 'pnpm'
 
       - name: Install dependencies 🧼
-        uses: bahmutov/npm-install@v1
+        run: pnpm install --frozen-lockfile
 
       - name: Building Extension🛠
-        run: npm run build --filter=@bypass/extension
+        run: pnpm run build --filter=@bypass/extension
 
       - name: Uploading extension 🌐
         uses: actions/upload-artifact@v3
@@ -47,10 +53,16 @@ jobs:
       - name: Checkout repo 🛎️
         uses: actions/checkout@v3
 
+      - name: Setup pnpm 🎁
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7
+
       - name: Setting up Node.js 🔧
         uses: actions/setup-node@v3
         with:
           node-version: '18'
+          cache: 'pnpm'
 
       - name: Cache Playwright binaries 📑
         uses: actions/cache@v3
@@ -60,7 +72,7 @@ jobs:
             ~/Library/Caches/ms-playwright
             ~/.cache/ms-playwright
             ${{ github.workspace }}/node_modules/playwright
-          key: cache-playwright-${{ hashFiles('**/package-lock.json') }}
+          key: cache-playwright-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: cache-playwright-
 
       - name: Download artifacts 🎨
@@ -70,7 +82,7 @@ jobs:
           path: ./apps/extension/build
 
       - name: Install dependencies 🧼
-        uses: bahmutov/npm-install@v1
+        run: pnpm install --frozen-lockfile
 
       - name: Install Playwright browsers 🖥️
         if: steps.playwright-cache.outputs.cache-hit != 'true'
@@ -146,11 +158,6 @@ jobs:
     steps:
       - name: Checkout repo 🛎️
         uses: actions/checkout@v3
-
-      - name: Setting up Node.js 🔧
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
 
       - name: Start deployment 🚀
         uses: bobheadxi/deployments@v1.3.0
