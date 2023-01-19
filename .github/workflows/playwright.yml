@@ -69,7 +69,7 @@ jobs:
             ~/Library/Caches/ms-playwright
             ~/.cache/ms-playwright
             ${{ github.workspace }}/node_modules/playwright
-          key: cache-playwright-${{ hashFiles('**/package-lock.json') }}
+          key: cache-playwright-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: cache-playwright-
 
       - name: Download artifacts 🎨
