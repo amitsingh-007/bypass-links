@@ -38,10 +38,10 @@ jobs:
           vercel env pull packages/trpc/.env --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Building 🛠
-        run: npm run build
+        run: pnpm run build
 
       - name: Run tests 🧪
-        run: npm test
+        run: pnpm test
 
       - name: Upload extension 🌐
         uses: actions/upload-artifact@v3

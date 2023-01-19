@@ -3,6 +3,6 @@
   "trailingSlash": false,
   "regions": ["bom1"],
   "installCommand": "cd ../.. && pnpm install",
-  "buildCommand": "cd ../.. && pnpm run build -- --filter=@bypass/web",
+  "buildCommand": "cd ../.. && pnpm run build --filter=@bypass/web",
   "ignoreCommand": "npx turbo-ignore"
 }

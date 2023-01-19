@@ -22,7 +22,7 @@ jobs:
         uses: bahmutov/npm-install@v1
 
       - name: Building Extension🛠
-        run: npm run build -- --filter=@bypass/extension
+        run: npm run build --filter=@bypass/extension
 
       - name: Uploading extension 🌐
         uses: actions/upload-artifact@v3
