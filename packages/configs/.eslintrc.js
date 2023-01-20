@@ -69,6 +69,18 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': 'warn',
     'react/prop-types': 'off',
     'import/no-extraneous-dependencies': ['error'],
+    '@typescript-eslint/no-empty-interface': [
+      'error',
+      {
+        allowSingleExtends: true,
+      },
+    ],
+    '@typescript-eslint/no-namespace': [
+      'error',
+      {
+        allowDeclarations: true,
+      },
+    ],
   },
   overrides: [
     // https://stackoverflow.com/a/64197516/8694064

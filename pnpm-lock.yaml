@@ -5,10 +5,12 @@ importers:
   .:
     specifiers:
       '@playwright/test': 1.29.2
+      '@types/node': 18.11.18
       turbo: 1.7.0
       vercel: 28.12.4
     devDependencies:
       '@playwright/test': 1.29.2
+      '@types/node': 18.11.18
       turbo: 1.7.0
       vercel: 28.12.4
 
@@ -75,6 +77,7 @@ importers:
       webpack: 5.75.0
       webpack-cli: 5.0.1
       webpack-dev-server: 4.11.1
+      zod: 3.20.2
       zustand: 4.3.2
     dependencies:
       '@bypass/shared': link:../../packages/shared
@@ -140,6 +143,7 @@ importers:
       webpack: 5.75.0_webpack-cli@5.0.1
       webpack-cli: 5.0.1_uaydpeuxkjjcxdbyfgk36cjdxi
       webpack-dev-server: 4.11.1_rjsyjcrmk25kqsjzwkvj3a2evq
+      zod: 3.20.2
 
   apps/web:
     specifiers:
@@ -185,6 +189,7 @@ importers:
       sharp: 0.31.3
       typescript: 4.9.4
       webpack: 5.75.0
+      zod: 3.20.2
     dependencies:
       '@bypass/shared': link:../../packages/shared
       '@bypass/trpc': link:../../packages/trpc
@@ -229,6 +234,7 @@ importers:
       prettier: 2.8.3
       typescript: 4.9.4
       webpack: 5.75.0
+      zod: 3.20.2
 
   packages/configs:
     specifiers: {}
@@ -6439,7 +6445,7 @@ packages:
       micromatch: 4.0.5
       normalize-path: 3.0.0
       schema-utils: 4.0.0
-      webpack: 5.75.0_webpack-cli@5.0.1
+      webpack: 5.75.0
     dev: true
 
   /eslint/8.31.0:
@@ -6906,7 +6912,7 @@ packages:
       semver: 7.3.8
       tapable: 2.2.1
       typescript: 4.9.4
-      webpack: 5.75.0_webpack-cli@5.0.1
+      webpack: 5.75.0
     dev: true
 
   /formdata-polyfill/4.0.10:
@@ -11581,7 +11587,6 @@ packages:
 
   /zod/3.20.2:
     resolution: {integrity: sha512-1MzNQdAvO+54H+EaK5YpyEy0T+Ejo/7YLHS93G3RnYWh5gaotGHwGeN/ZO687qEDU2y4CdStQYXVHIgrUl5UVQ==}
-    dev: false
 
   /zustand/4.3.2_react@18.2.0:
     resolution: {integrity: sha512-rd4haDmlwMTVWVqwvgy00ny8rtti/klRoZjFbL/MAcDnmD5qSw/RZc+Vddstdv90M5Lv6RPgWvm1Hivyn0QgJw==}
