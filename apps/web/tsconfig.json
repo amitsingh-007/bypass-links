@@ -2,6 +2,7 @@
   "extends": "@bypass/configs/tsconfig.base.json",
   "compilerOptions": {
     "jsx": "preserve",
+    "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
