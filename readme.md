@@ -8,25 +8,25 @@ Head over to [Bypass Links Vercel Page](https://bypass-links.vercel.app) and dow
 
 ## Salient features
 
-- A fully customizable and full featured packed bookmarks panel same as offered by Google Chrome with extra features.
+- A fully customizable and full-feature packed bookmarks panel same as offered by Google Chrome with extra features.
 
-- A persons panel which enables to tag each bookmark with multiple person to easily search by person.
+- A person panel which enables tagging any bookmark with multiple person to search by a person quickly.
 
-- A fully customised shortcuts panel with shortcut rules to create custom shortcuts for frequestly visited websites.
+- A fully customised shortcuts panel with shortcut rules to create custom shortcuts for frequently visited websites.
 
-- Open pre-selected set of frequently visited websites in a single click.
+- Open a pre-selected set of frequently visited websites in a single click.
 
-- Open all unvisited links in a watched threads of supported forums websites.
+- Open all unvisited links in watched threads of supported forums websites.
 
-- Mark any websited as visited with timestamp for quick access of last visited time.
+- Mark any website as visited with a timestamp for quick access to the last visited time.
 
-- Bypass link shortners and timers on supported pages.
+- Bypass link shorteners and timers on supported pages.
 
-- TOTP based two factor authentication supported.
+- TOTP-based two-factor authentication supported.
 
 - Manipulate browser history.
 
-- Turn off auto suggestions for any page.
+- Turn off autosuggestions for any page.
 
 - Full dark theme support with modern UI.
 
