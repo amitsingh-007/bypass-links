@@ -1,14 +1,18 @@
-import { BOOKMARK_OPERATION, VoidFunction } from '@bypass/shared';
+import {
+  BOOKMARK_OPERATION,
+  IBookmarkOperation,
+  VoidFunction,
+} from '@bypass/shared';
 import { create } from 'zustand';
 
 interface OperationState {
-  operation: BOOKMARK_OPERATION;
+  operation: IBookmarkOperation;
   url: string;
 }
 
 interface State {
   bookmarkOperation: OperationState;
-  setBookmarkOperation: (operation: BOOKMARK_OPERATION, url: string) => void;
+  setBookmarkOperation: (operation: IBookmarkOperation, url: string) => void;
   resetBookmarkOperation: VoidFunction;
 }
 

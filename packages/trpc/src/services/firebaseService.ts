@@ -1,11 +1,16 @@
-import { getFirebasePublicConfig, getFullDbPath } from '@bypass/shared';
+import {
+  getFirebasePublicConfig,
+  getFullDbPath,
+  IFirebaseDbRef,
+  IFirebaseDbRootKeys,
+} from '@bypass/shared';
 import { cert, getApp, getApps, initializeApp } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
 import { getDatabase } from 'firebase-admin/database';
 import { getEnvVars } from '../constants/env';
 
 interface Firebase {
-  ref: string;
+  ref: IFirebaseDbRef | IFirebaseDbRootKeys;
   uid?: string;
   isAbsolute?: boolean;
   data: any;

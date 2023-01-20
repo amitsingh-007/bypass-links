@@ -1,4 +1,4 @@
-import { getFullDbPath } from '@bypass/shared';
+import { getFullDbPath, IFirebaseDbRef } from '@bypass/shared';
 import { get, getDatabase, ref, set } from 'firebase/database';
 import firebaseApp from '.';
 import { getUserProfile } from '../fetchFromStorage';
@@ -10,13 +10,13 @@ const getDbRef = async (ref: string) => {
 
 const db = getDatabase(firebaseApp);
 
-export const getFromFirebase = async <T>(path: string) => {
+export const getFromFirebase = async <T>(path: IFirebaseDbRef) => {
   const dbRef = ref(db, await getDbRef(path));
   const snapshot = await get(dbRef);
   return (snapshot.val() || {}) as T;
 };
 
-export const saveToFirebase = async (path: string, data: any) => {
+export const saveToFirebase = async (path: IFirebaseDbRef, data: any) => {
   try {
     const dbRef = ref(db, await getDbRef(path));
     await set(dbRef, data);

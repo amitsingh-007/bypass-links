@@ -49,6 +49,7 @@ export * from './hooks/useStorage';
 
 //Interfaces
 export * from './interfaces/custom';
+export * from './interfaces/utilityTypes';
 
 //Provider
 export { default as DynamicContext } from './provider/DynamicContext';

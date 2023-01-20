@@ -1,4 +1,4 @@
-import { getFullDbPath } from '@bypass/shared';
+import { getFullDbPath, IFirebaseDbRef } from '@bypass/shared';
 import { User } from 'firebase/auth';
 import { get, getDatabase, ref } from 'firebase/database';
 import firebaseApp from '.';
@@ -9,7 +9,10 @@ const getDbRef = async (ref: string, user: User) => {
 
 const db = getDatabase(firebaseApp);
 
-export const getFromFirebase = async <T>(path: string, user: User | null) => {
+export const getFromFirebase = async <T>(
+  path: IFirebaseDbRef,
+  user: User | null
+) => {
   if (!user) {
     throw new Error('User not found');
   }

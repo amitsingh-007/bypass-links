@@ -1,22 +1,26 @@
-import { STORAGE_KEYS } from '@bypass/shared';
+import { ObjectValues, STORAGE_KEYS } from '@bypass/shared';
 
-export enum EXTENSION_STATE {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-}
+export const EXTENSION_STATE = {
+  ACTIVE: 'active',
+  INACTIVE: 'inactive',
+} as const;
 
-export enum BYPASS_KEYS {
-  LINKVERTISE = 'LINKVERTISE',
-  LINKVERTISE_DOWNLOAD = 'LINKVERTISE_DOWNLOAD',
-  BONSAI = 'BONSAI',
-  BONSAILINK = 'BONSAILINK',
-  FORUMS = 'FORUMS',
-  JUSTPASTEIT = 'JUSTPASTEIT',
-  PASTELINK = 'PASTELINK',
-  RENTRY = 'RENTRY',
-  MEDIUM = 'MEDIUM',
-  FORUMS_V2 = 'FORUMS_V2',
-}
+export type IExtensionState = ObjectValues<typeof EXTENSION_STATE>;
+
+export const BYPASS_KEYS = {
+  LINKVERTISE: 'LINKVERTISE',
+  LINKVERTISE_DOWNLOAD: 'LINKVERTISE_DOWNLOAD',
+  BONSAI: 'BONSAI',
+  BONSAILINK: 'BONSAILINK',
+  FORUMS: 'FORUMS',
+  JUSTPASTEIT: 'JUSTPASTEIT',
+  PASTELINK: 'PASTELINK',
+  RENTRY: 'RENTRY',
+  MEDIUM: 'MEDIUM',
+  FORUMS_V2: 'FORUMS_V2',
+} as const;
+
+export type IBypassKeys = ObjectValues<typeof BYPASS_KEYS>;
 
 export const FIREBASE_STORAGE_REF = {
   persons: STORAGE_KEYS.persons,

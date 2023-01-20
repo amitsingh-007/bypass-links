@@ -1,7 +1,11 @@
+import { ObjectValues } from '../interfaces/utilityTypes';
+
 export const FIREBASE_DB_ROOT_KEYS = {
   data: 'data',
   backup: 'backup',
-};
+} as const;
+
+export type IFirebaseDbRootKeys = ObjectValues<typeof FIREBASE_DB_ROOT_KEYS>;
 
 export const getFullDbPath = (
   ref: string,

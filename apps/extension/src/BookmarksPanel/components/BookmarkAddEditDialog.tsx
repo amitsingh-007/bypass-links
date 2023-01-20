@@ -5,6 +5,7 @@ import {
   ContextBookmark,
   ContextBookmarks,
   getBookmarksPanelUrl,
+  IBookmarkOperation,
 } from '@bypass/shared';
 import { Button, Modal, Select, Stack, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
@@ -80,7 +81,7 @@ const BookmarkAddEditDialog = memo<Props>(function BookmarkAddEditDialog({
   });
 
   const resolveBookmark = useCallback(
-    async (operation: BOOKMARK_OPERATION, bmUrl: string) => {
+    async (operation: IBookmarkOperation, bmUrl: string) => {
       if (operation === BOOKMARK_OPERATION.ADD) {
         const { title = '' } = await getCurrentTab();
         form.setValues({

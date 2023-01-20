@@ -1,5 +1,5 @@
 import { getIsExtensionActive, setExtStateInStorage } from '@/utils/common';
-import { EXTENSION_STATE } from '@constants/index';
+import { EXTENSION_STATE, IExtensionState } from '@constants/index';
 import { getExtensionState } from '@helpers/fetchFromStorage';
 import { Switch, useMantineTheme } from '@mantine/core';
 import useExtStore from '@store/extension';
@@ -10,10 +10,12 @@ const ToggleExtension = memo(function ToggleExtension() {
   const theme = useMantineTheme();
   const turnOnExtension = useExtStore((state) => state.turnOnExtension);
   const turnOffExtension = useExtStore((state) => state.turnOffExtension);
-  const [extState, setExtState] = useState(EXTENSION_STATE.INACTIVE);
+  const [extState, setExtState] = useState<IExtensionState>(
+    EXTENSION_STATE.INACTIVE
+  );
 
   const dispatchActionAndSetState = (
-    extState: EXTENSION_STATE,
+    extState: IExtensionState,
     isActive: boolean
   ) => {
     setExtState(extState);
