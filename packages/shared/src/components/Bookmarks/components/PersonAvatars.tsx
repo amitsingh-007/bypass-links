@@ -23,9 +23,6 @@ const PersonAvatars = memo<{ persons: IPersonWithImage[] }>(
             transition="pop"
             transitionDuration={450}
             exitTransitionDuration={0}
-            //TODO: Raised GH issue in mantine
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            //@ts-ignore
             styles={{
               dropdown: {
                 padding: 0,
