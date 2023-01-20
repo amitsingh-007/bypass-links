@@ -3,7 +3,7 @@ name: 'CodeQL'
 on:
   push:
     branches-ignore:
-      - 'dependabot/**'
+      - 'renovate/**'
 
 jobs:
   analyze:
