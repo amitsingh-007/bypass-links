@@ -187,7 +187,6 @@ importers:
       react-icons: 4.7.1
       react-window: 1.8.8
       sharp: 0.31.3
-      stylis-plugin-rtl: 2.1.1
       typescript: 4.9.4
       webpack: 5.75.0
       zod: 3.20.2
@@ -210,7 +209,6 @@ importers:
       react-icons: 4.7.1_react@18.2.0
       react-window: 1.8.8_biqbaboplfbrettd7655fr4n2y
       sharp: 0.31.3
-      stylis-plugin-rtl: 2.1.1
     devDependencies:
       '@babel/core': 7.20.12
       '@bypass/configs': link:../../packages/configs
@@ -5393,11 +5391,6 @@ packages:
     engines: {node: '>= 6'}
     dev: true
 
-  /cssjanus/2.1.0:
-    resolution: {integrity: sha512-kAijbny3GmdOi9k+QT6DGIXqFvL96aksNlGr4Rhk9qXDZYWUojU4bRc3IHWxdaLNOqgEZHuXoe5Wl2l7dxLW5g==}
-    engines: {node: '>=10.0.0'}
-    dev: false
-
   /csso/4.2.0:
     resolution: {integrity: sha512-wvlcdIbf6pwKEk7vHj8/Bkc0B4ylXZruLvOgs9doS5eOsOpuodOV2zJChSpkp+pRpYQLQMeF04nr3Z68Sta9jA==}
     engines: {node: '>=8.0.0'}
@@ -6452,7 +6445,7 @@ packages:
       micromatch: 4.0.5
       normalize-path: 3.0.0
       schema-utils: 4.0.0
-      webpack: 5.75.0_webpack-cli@5.0.1
+      webpack: 5.75.0
     dev: true
 
   /eslint/8.31.0:
@@ -6919,7 +6912,7 @@ packages:
       semver: 7.3.8
       tapable: 2.2.1
       typescript: 4.9.4
-      webpack: 5.75.0_webpack-cli@5.0.1
+      webpack: 5.75.0
     dev: true
 
   /formdata-polyfill/4.0.10:
@@ -10207,14 +10200,6 @@ packages:
       '@babel/core': 7.20.12
       client-only: 0.0.1
       react: 18.2.0
-
-  /stylis-plugin-rtl/2.1.1:
-    resolution: {integrity: sha512-q6xIkri6fBufIO/sV55md2CbgS5c6gg9EhSVATtHHCdOnbN/jcI0u3lYhNVeuI65c4lQPo67g8xmq5jrREvzlg==}
-    peerDependencies:
-      stylis: 4.x
-    dependencies:
-      cssjanus: 2.1.0
-    dev: false
 
   /stylis/4.1.3:
     resolution: {integrity: sha512-GP6WDNWf+o403jrEp9c5jibKavrtLW+/qYGhFxFrG8maXhwTBI7gLLhiBb0o7uFccWN+EOS9aMO6cGHWAO07OA==}

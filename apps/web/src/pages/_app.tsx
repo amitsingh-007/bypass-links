@@ -11,20 +11,18 @@ const MyApp = ({ Component, pageProps }: AppProps): JSX.Element => {
   return (
     <StrictMode>
       <GlobalMetaTags />
-      <div dir="rtl">
-        <MantineProvider
-          withGlobalStyles
-          withNormalizeCSS
-          theme={{ ...mantineTheme, dir: 'rtl' }}
-          emotionCache={rtlCache}
-        >
-          <DynamicProvider>
-            <AuthProvider>
-              <Component {...pageProps} />
-            </AuthProvider>
-          </DynamicProvider>
-        </MantineProvider>
-      </div>
+      <MantineProvider
+        withGlobalStyles
+        withNormalizeCSS
+        theme={{ ...mantineTheme }}
+        emotionCache={rtlCache}
+      >
+        <DynamicProvider>
+          <AuthProvider>
+            <Component {...pageProps} />
+          </AuthProvider>
+        </DynamicProvider>
+      </MantineProvider>
     </StrictMode>
   );
 };

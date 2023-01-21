@@ -24,7 +24,6 @@
     "react-dom": "18.2.0",
     "react-icons": "4.7.1",
     "react-window": "1.8.8",
-    "stylis-plugin-rtl": "2.1.1",
     "sharp": "0.31.3"
   },
   "devDependencies": {
