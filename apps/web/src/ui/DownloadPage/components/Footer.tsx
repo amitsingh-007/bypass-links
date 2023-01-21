@@ -69,10 +69,15 @@ const Footer = ({
       >
         <Flex direction="column">
           <Info icon={MdExtension} text={`v ${extVersion}`} />
-          <Info
+          {/* <Info
             icon={RiTimeFill}
             text={getFormattedDateTime(releaseDate, country)}
-          />
+          /> */}
+          {'releaseDate: ' + releaseDate}
+          <br />
+          {'country: ' + country}
+          <br />
+          {'country 2: ' + `${country}`}
         </Flex>
         <Flex align="center">
           <Box
