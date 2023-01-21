@@ -15,6 +15,6 @@
     "@playwright/test": "1.29.2",
     "@types/node": "18.11.18",
     "turbo": "1.7.0",
-    "vercel": "28.12.4"
+    "vercel": "28.13.0"
   }
 }

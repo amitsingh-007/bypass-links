@@ -162,7 +162,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Start deployment
-        uses: bobheadxi/deployments@v1.3.0
+        uses: bobheadxi/deployments@v1.4.0
         id: deployment
         with:
           step: start
@@ -179,7 +179,7 @@ jobs:
           vercel-args: '--prod'
 
       - name: Finish deployment
-        uses: bobheadxi/deployments@v1.3.0
+        uses: bobheadxi/deployments@v1.4.0
         if: always()
         with:
           step: finish
