@@ -27,7 +27,7 @@
     "react-dom": "18.2.0",
     "react-easy-crop": "4.6.3",
     "react-icons": "4.7.1",
-    "react-router-dom": "6.6.2",
+    "react-router-dom": "6.7.0",
     "react-window": "1.8.8",
     "zustand": "4.3.2"
   },
