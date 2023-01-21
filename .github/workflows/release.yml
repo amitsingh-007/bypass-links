@@ -12,33 +12,33 @@ jobs:
     outputs:
       preview_url: ${{ steps.vercel-action.outputs.preview-url }}
     steps:
-      - name: Checkout repo 🛎️
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Setup pnpm 🎁
+      - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 7
 
-      - name: Setting up Node.js 🔧
+      - name: Setting up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
           cache: 'pnpm'
 
-      - name: Install dependencies 🧼
+      - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Building Extension🛠
+      - name: Building Extension
         run: pnpm run build --filter=@bypass/extension
 
-      - name: Uploading extension 🌐
+      - name: Uploading extension
         uses: actions/upload-artifact@v3
         with:
           name: extension-folder
           path: ./apps/extension/build
 
-      - name: Deploy Preview (Vercel) 🔺
+      - name: Deploy Preview (Vercel)
         uses: amondnet/vercel-action@v25
         id: vercel-action
         with:
@@ -52,21 +52,21 @@ jobs:
     timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo 🛎️
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Setup pnpm 🎁
+      - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 7
 
-      - name: Setting up Node.js 🔧
+      - name: Setting up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
           cache: 'pnpm'
 
-      - name: Cache Playwright binaries 📑
+      - name: Cache Playwright binaries
         uses: actions/cache@v3
         id: playwright-cache
         with:
@@ -77,25 +77,25 @@ jobs:
           key: cache-playwright-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: cache-playwright-
 
-      - name: Download artifacts 🎨
+      - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
           name: extension-folder
           path: ./apps/extension/build
 
-      - name: Install dependencies 🧼
+      - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Install Playwright browsers 🖥️
+      - name: Install Playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps
 
-      - name: Run Playwright tests 🧪
+      - name: Run Playwright tests
         run: xvfb-run --auto-servernum -- npx playwright test
         env:
           PLAYWRIGHT_TEST_BASE_URL: ${{ needs.Build.outputs.preview_url }}
 
-      - name: Upload Playwright test report 📂
+      - name: Upload Playwright test report
         uses: actions/upload-artifact@v3
         if: always()
         with:
@@ -106,27 +106,27 @@ jobs:
     runs-on: ubuntu-latest
     needs: [Playwright]
     steps:
-      - name: Checkout repo 🛎️
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Download artifacts 🎨
+      - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
           name: extension-folder
           path: ./apps/extension/build/
 
-      - name: Generate Release Tag 🏷
+      - name: Generate Release Tag
         uses: amitsingh-007/next-release-tag@v2.2.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Generate changelog 🧾
+      - name: Generate changelog
         id: changelog
         uses: metcalfc/changelog-generator@v4.0.1
         with:
           myToken: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create Release ✒
+      - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
@@ -138,13 +138,13 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Get Release Asset Name 🗃
+      - name: Get Release Asset Name
         id: get_release_asset_name
         run: |
           file=$(find ./apps/extension/build/bypass-links-*.zip  -printf "%f\n")
           echo "::set-output name=asset_name::$file"
 
-      - name: Upload Release Asset ☁
+      - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -158,10 +158,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: [Create_Release]
     steps:
-      - name: Checkout repo 🛎️
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Start deployment 🚀
+      - name: Start deployment
         uses: bobheadxi/deployments@v1.3.0
         id: deployment
         with:
@@ -169,7 +169,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           env: Production
 
-      - name: Deploy (Vercel) 🔺
+      - name: Deploy (Vercel)
         uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
@@ -178,7 +178,7 @@ jobs:
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
           vercel-args: '--prod'
 
-      - name: Finish deployment 🌙
+      - name: Finish deployment
         uses: bobheadxi/deployments@v1.3.0
         if: always()
         with:

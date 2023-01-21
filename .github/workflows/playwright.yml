@@ -7,33 +7,33 @@ jobs:
     outputs:
       preview_url: ${{ steps.vercel-action.outputs.preview-url }}
     steps:
-      - name: Checkout repo 🛎️
+      - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Setup pnpm 🎁
+      - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 7
 
-      - name: Setting up Node.js 🔧
+      - name: Setting up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
           cache: 'pnpm'
 
-      - name: Install dependencies 🧼
+      - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Building Extension🛠
+      - name: Building extension
         run: pnpm run build --filter=@bypass/extension
 
-      - name: Uploading extension 🌐
+      - name: Uploading extension
         uses: actions/upload-artifact@v3
         with:
           name: extension-folder
           path: ./apps/extension/build
 
-      - name: Deploy Preview (Vercel) 🔺
+      - name: Deploy Preview (Vercel)
         uses: amondnet/vercel-action@v25
         id: vercel-action
         with:
@@ -47,15 +47,15 @@ jobs:
     timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo 🛎️
+      - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Setup pnpm 🎁
+      - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 7
 
-      - name: Setting up Node.js 🔧
+      - name: Setting up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
@@ -72,13 +72,13 @@ jobs:
           key: cache-playwright-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: cache-playwright-
 
-      - name: Download artifacts 🎨
+      - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
           name: extension-folder
           path: ./apps/extension/build/
 
-      - name: Install dependencies 🧼
+      - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Install Playwright Browsers

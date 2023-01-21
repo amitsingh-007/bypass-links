@@ -6,6 +6,6 @@ jobs:
   cron:
     runs-on: ubuntu-latest
     steps:
-      - name: Invoking Cron Job API 🛐
+      - name: Invoking cron job API
         run: |
           curl 'https://bypass-links.vercel.app/api/backup?access_token=${{ secrets.FIREBASE_BACKUP_CRON_JOB_API_KEY }}'

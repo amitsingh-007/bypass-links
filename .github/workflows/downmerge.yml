@@ -8,13 +8,13 @@ jobs:
   Sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo 🛎️
+      - name: Checkout repository
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Downmerge main -> renovate-updates ⛙
+      - name: Downmerge main -> renovate-updates
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
