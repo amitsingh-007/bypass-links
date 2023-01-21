@@ -28,7 +28,8 @@ export default function Web() {
       STORAGE_KEYS.twoFactorAuth
     );
     if (!twoFAData) {
-      return setPromptTOTPVerify(false);
+      setPromptTOTPVerify(false);
+      return;
     }
     if (twoFAData.is2FAEnabled) {
       setPromptTOTPVerify(!twoFAData.isTOTPVerified);

@@ -1,14 +1,12 @@
+import { ObjectValues } from '@bypass/shared';
 import { MantineTheme } from '@mantine/core';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { CSSObject } from '@mantine/styles/lib/tss/types/css-object';
-
-type valueof<T> = T[keyof T];
 
 /**
  * First value of array is mobile style followed by desktop style
  */
 type IStyles = {
-  [K in keyof CSSObject]: [valueof<CSSObject>, valueof<CSSObject>];
+  [K in keyof CSSObject]: [ObjectValues<CSSObject>, ObjectValues<CSSObject>];
 };
 
 export const getMediaQuery = (theme: MantineTheme, styleObj: IStyles) => {

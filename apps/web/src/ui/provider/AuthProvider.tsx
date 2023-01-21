@@ -1,13 +1,11 @@
-import { useContext, useEffect, useState } from 'react';
-import { User } from 'firebase/auth';
-import { onAuthStateChange } from '../firebase/auth';
-
-import { createContext } from 'react';
-import { useRouter } from 'next/router';
-import { getFromLocalStorage } from './utils';
 import { STORAGE_KEYS } from '@bypass/shared';
-import { ITwoFactorAuth } from '../TwoFactorAuth/interface';
+import { User } from 'firebase/auth';
+import { useRouter } from 'next/router';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { ROUTES } from '../constants/routes';
+import { onAuthStateChange } from '../firebase/auth';
+import { ITwoFactorAuth } from '../TwoFactorAuth/interface';
+import { getFromLocalStorage } from './utils';
 
 interface IAuthContext {
   user: User | null;
@@ -22,7 +20,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<IAuthContext['user']>(null);
 
   useEffect(() => {
-    onAuthStateChange((user: User | null) => setUser(user));
+    onAuthStateChange((_user: User | null) => setUser(_user));
   }, []);
 
   useEffect(() => {

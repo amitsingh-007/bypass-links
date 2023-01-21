@@ -30,8 +30,8 @@ const VirtualRow = memo<{
     isDir,
   } = contextBookmarks[index];
 
-  const onOpenLink = (url: string) => {
-    openNewTab(url);
+  const onOpenLink = (_url: string) => {
+    openNewTab(_url);
   };
 
   return (

@@ -1,9 +1,11 @@
-const config = require('@bypass/configs/.eslintrc.js');
+const config = require('@bypass/configs/eslint.base');
 
 module.exports = {
   root: true,
   extends: [
     'eslint:recommended',
+    'airbnb-base',
+    'airbnb-typescript/base',
     'plugin:prettier/recommended',
     'next',
     'next/core-web-vitals',

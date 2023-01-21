@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "files": [
-    ".eslintrc.js",
+    "eslint.base.js",
     "tsconfig.base.json"
   ],
   "peerDependencies": {

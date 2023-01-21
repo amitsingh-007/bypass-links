@@ -9,7 +9,7 @@ const AppHeader = memo(function AppHeader() {
   const [clickCount, setClickCount] = useState(0);
 
   useEffect(() => {
-    if (clickCount == 5) {
+    if (clickCount === 5) {
       router.push(ROUTES.BYPASS_LINKS_WEB);
     }
   }, [clickCount, router]);

@@ -38,13 +38,17 @@ export default function BookmarksPage() {
     if (!bookmarksData) {
       return;
     }
-    const { folders, urlList, folderList } = bookmarksData;
+    const {
+      folders: foldersData,
+      urlList: urlListData,
+      folderList: folderListData,
+    } = bookmarksData;
     const folderContextHash = md5(folderContext);
-    const modifiedBookmarks = Object.entries(folders[folderContextHash]).map(
-      (kvp) => bookmarksMapper(kvp, urlList, folderList)
-    );
+    const modifiedBookmarks = Object.entries(
+      foldersData[folderContextHash]
+    ).map((kvp) => bookmarksMapper(kvp, urlListData, folderListData));
     setContextBookmarks(modifiedBookmarks);
-    setFolders(folders);
+    setFolders(foldersData);
     setToLocalStorage(STORAGE_KEYS.bookmarks, bookmarksData);
   }, [folderContext]);
 

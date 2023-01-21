@@ -52,6 +52,8 @@ module.exports = {
     'eol-last': ['error', 'always'],
     'no-trailing-spaces': 'error',
     'import/prefer-default-export': 'off',
+    'class-methods-use-this': 'off',
+    'no-alert': 'off',
     // https://github.com/import-js/eslint-plugin-import/blob/v2.27.4/docs/rules/no-cycle.md#when-not-to-use-it
     'import/no-cycle': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
@@ -89,8 +91,18 @@ module.exports = {
         allowDeclarations: true,
       },
     ],
-    'no-param-reassign': ['error', { props: false }],
-    'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
+    'no-param-reassign': [
+      'error',
+      {
+        props: false,
+      },
+    ],
+    'no-plusplus': [
+      'error',
+      {
+        allowForLoopAfterthoughts: true,
+      },
+    ],
   },
   overrides: [
     // https://stackoverflow.com/a/64197516/8694064

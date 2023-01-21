@@ -20,11 +20,11 @@ const PersonsPage = () => {
   const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
-    getFromLocalStorage<IPersons>(STORAGE_KEYS.persons).then((persons) => {
-      if (!persons) {
+    getFromLocalStorage<IPersons>(STORAGE_KEYS.persons).then((_persons) => {
+      if (!_persons) {
         return;
       }
-      const decryptedPersons = Object.entries(persons || {}).map(
+      const decryptedPersons = Object.entries(_persons || {}).map(
         decryptionMapper
       );
       setPersons(sortAlphabetically(decryptedPersons));
