@@ -17,6 +17,8 @@
     "@mantine/styles": "5.10.1",
     "@trpc/client": "10.9.0",
     "@trpc/server": "10.9.0",
+    "countries-and-timezones": "3.4.0",
+    "dayjs": "1.11.7",
     "firebase": "9.15.0",
     "md5": "2.3.0",
     "next": "13.1.2",
