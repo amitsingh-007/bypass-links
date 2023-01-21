@@ -1,7 +1,7 @@
-import { getFormattedDateTime } from '@/ui/utils';
 import { getMediaQuery } from '@/ui/utils/media-query';
 import { ActionIcon, Box, Flex, Text } from '@mantine/core';
 import footerImage from '@public/footer.png';
+import dayjs from 'dayjs';
 import Image from 'next/image';
 import { IconType } from 'react-icons';
 import { GoMarkGithub } from 'react-icons/go';
@@ -34,11 +34,11 @@ const Info = ({ icon: Icon, text }: { icon: IconType; text: string }) => {
 const Footer = ({
   releaseDate,
   extVersion,
-  country,
+  timezone,
 }: {
   releaseDate: string;
   extVersion: string;
-  country: string;
+  timezone: string;
 }) => {
   return (
     <Flex
@@ -71,7 +71,9 @@ const Footer = ({
           <Info icon={MdExtension} text={`v ${extVersion}`} />
           <Info
             icon={RiTimeFill}
-            text={getFormattedDateTime(releaseDate, country)}
+            text={dayjs(releaseDate)
+              .tz(timezone)
+              .format('DD MMMM YYYY hh:mm A')}
           />
         </Flex>
         <Flex align="center">
