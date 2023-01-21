@@ -1,10 +1,11 @@
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const nextPWA = require('next-pwa');
-const { getEnvVars } = require('./src/constants/env');
+const { verifyEnvVars } = require('./src/constants/env');
 
-const { HOST_NAME, VERCEL_ENV } = getEnvVars();
-const isDev = VERCEL_ENV === 'development';
+verifyEnvVars();
+
+const isDev = process.env.VERCEL_ENV === 'development';
 
 /**
  * @type {import('next').NextConfig}
@@ -24,7 +25,7 @@ const nextConfig = {
     config.plugins.push(
       new webpack.DefinePlugin({
         __PROD__: JSON.stringify(!dev),
-        HOST_NAME: JSON.stringify(HOST_NAME),
+        HOST_NAME: JSON.stringify(process.env.HOST_NAME),
       })
     );
     if (dev) {

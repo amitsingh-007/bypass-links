@@ -11,8 +11,8 @@ const envVariables = z.object({
   PORT: z.string().optional(),
 });
 
-const getEnvVars = () => envVariables.parse(process.env);
+const verifyEnvVars = () => envVariables.parse(process.env);
 
 module.exports = {
-  getEnvVars,
+  verifyEnvVars,
 };
