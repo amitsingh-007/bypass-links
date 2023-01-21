@@ -31,20 +31,11 @@ jobs:
       - name: Install dependencies 🧼
         run: pnpm install --frozen-lockfile
 
-      - name: Pull environment variables 🏔
-        run: |
-          vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-          vercel env pull apps/web/.env --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-          vercel env pull packages/trpc/.env --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Building 🛠
-        run: pnpm run build
-
-      - name: Run tests 🧪
-        run: pnpm test
-
-      - name: Upload extension 🌐
-        uses: actions/upload-artifact@v3
+      - name: Deploy Preview (Vercel) 🔺
+        uses: amondnet/vercel-action@v25
+        id: vercel-action
         with:
-          name: extension-file
-          path: ./apps/extension/build/bypass-links-*.zip
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
+          github-comment: false
