@@ -12,12 +12,12 @@ import { checkForUpdates, isValidUrl, setExtensionIcon } from './utils';
 
 const red = '#FF6B6B';
 
-//First time extension install
+// First time extension install
 chrome.runtime.onInstalled.addListener(() => {
   setExtStateInStorage(EXTENSION_STATE.ACTIVE);
 });
 
-//Listen when the browser is opened
+// Listen when the browser is opened
 chrome.runtime.onStartup.addListener(() => {
   storage
     .get(['extState', 'hasPendingBookmarks', 'hasPendingPersons'])
@@ -52,7 +52,7 @@ const onPageLoad = async (tabId: number, url: string) => {
   }
 };
 
-//Listen tab url change
+// Listen tab url change
 chrome.tabs.onUpdated.addListener((tabId, changeInfo) =>
   onPageLoad(tabId, changeInfo?.url ?? '')
 );
@@ -72,7 +72,7 @@ chrome.webNavigation.onCommitted.addListener((details) => {
   }
 });
 
-//Listen to dispatched messages
+// Listen to dispatched messages
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   if (message.getForumPageLinks) {
     getForumPageLinks(message.getForumPageLinks, message.url).then(
@@ -89,7 +89,7 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   return true;
 });
 
-//Listen to chrome storage changes
+// Listen to chrome storage changes
 chrome.storage.onChanged.addListener((changedObj, storageType) => {
   if (storageType !== 'local') {
     return;

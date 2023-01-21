@@ -6,7 +6,7 @@ import { setPersonsInStorage } from '@/PersonsPanel/utils';
 import useHistoryStore from '@store/history';
 import usePersonStore from '@store/person';
 
-const THIRTY_SECONDS = 30 * 1000; //in milliseconds
+const THIRTY_SECONDS = 30 * 1000; // in milliseconds
 
 const isHistoryAlreadyActive = async () => {
   const { historyStartTime } = await storage.get(['historyStartTime']);
@@ -51,11 +51,11 @@ const updateUrlsInTaggedPersons = async (updates: IUpdateTaggedPerson[]) => {
       prevTaggedPersons,
       newTaggedPersons
     );
-    //Do nothing if no change
+    // Do nothing if no change
     if (!removedPersons.length && !addedPersons.length) {
       return;
     }
-    //Remove urlHash for removed persons
+    // Remove urlHash for removed persons
     removedPersons.forEach((personUid) => {
       const { taggedUrls } = persons[personUid];
       if (!taggedUrls || taggedUrls.length < 1) {
@@ -65,7 +65,7 @@ const updateUrlsInTaggedPersons = async (updates: IUpdateTaggedPerson[]) => {
         (hash) => hash !== urlHash
       );
     });
-    //Add urlHash to added persons
+    // Add urlHash to added persons
     addedPersons.forEach((personUid) => {
       const taggedUrls = persons[personUid].taggedUrls || [];
       taggedUrls.push(urlHash);

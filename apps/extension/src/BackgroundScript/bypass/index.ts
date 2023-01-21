@@ -13,9 +13,9 @@ export const bypass = async (tabId: number, url: URL) => {
 
 export const syncBypassToStorage = async () => {
   const response = await getFromFirebase<IBypass>(FIREBASE_DB_REF.bypass);
-  const bypass = getDecodedBypass(response);
-  await storage.set({ [STORAGE_KEYS.bypass]: bypass });
-  console.log('Bypass is set to', bypass);
+  const bypassData = getDecodedBypass(response);
+  await storage.set({ [STORAGE_KEYS.bypass]: bypassData });
+  console.log('Bypass is set to', bypassData);
 };
 
 export const resetBypass = async () => {

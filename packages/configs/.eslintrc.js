@@ -4,6 +4,8 @@
 module.exports = {
   extends: [
     'eslint:recommended',
+    'airbnb-base',
+    'airbnb-typescript/base',
     'plugin:react/recommended',
     'plugin:prettier/recommended',
     'plugin:@typescript-eslint/recommended',
@@ -20,6 +22,7 @@ module.exports = {
     ecmaFeatures: {
       jsx: true,
     },
+    project: './tsconfig.json',
   },
   settings: {
     react: {
@@ -44,8 +47,13 @@ module.exports = {
     node: true,
   },
   rules: {
+    'no-new': 'off',
+    'no-console': 'off',
     'eol-last': ['error', 'always'],
     'no-trailing-spaces': 'error',
+    'import/prefer-default-export': 'off',
+    // https://github.com/import-js/eslint-plugin-import/blob/v2.27.4/docs/rules/no-cycle.md#when-not-to-use-it
+    'import/no-cycle': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-unused-vars': [
@@ -81,6 +89,8 @@ module.exports = {
         allowDeclarations: true,
       },
     ],
+    'no-param-reassign': ['error', { props: false }],
+    'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
   },
   overrides: [
     // https://stackoverflow.com/a/64197516/8694064

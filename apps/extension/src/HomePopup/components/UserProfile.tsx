@@ -15,8 +15,8 @@ const UserProfile = memo(function UserProfile() {
   const [userProfile, setUserProfile] = useState<UserInfo | null>(null);
 
   const initUserProfile = async () => {
-    const userProfile = await getUserProfile();
-    setUserProfile(userProfile);
+    const profile = await getUserProfile();
+    setUserProfile(profile);
   };
 
   useEffect(() => {

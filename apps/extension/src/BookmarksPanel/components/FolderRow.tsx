@@ -33,7 +33,7 @@ const FolderRow = memo<Props>(
     };
 
     useEffect(() => {
-      const menuOptions = [
+      const options = [
         {
           onClick: toggleEditDialog,
           text: 'Edit',
@@ -47,7 +47,7 @@ const FolderRow = memo<Props>(
           color: theme.colors.red[9],
         },
       ];
-      setMenuOptions(menuOptions);
+      setMenuOptions(options);
     }, [handleDeleteOptionClick, theme.colors, toggleEditDialog]);
 
     return (

@@ -81,12 +81,12 @@ const BookmarkAddEditDialog = memo<Props>(function BookmarkAddEditDialog({
   });
 
   const resolveBookmark = useCallback(
-    async (operation: IBookmarkOperation, bmUrl: string) => {
-      if (operation === BOOKMARK_OPERATION.ADD) {
+    async (_operation: IBookmarkOperation, _bmUrl: string) => {
+      if (_operation === BOOKMARK_OPERATION.ADD) {
         const { title = '' } = await getCurrentTab();
         form.setValues({
           pos: contextBookmarks.length,
-          url: bmUrl,
+          url: _bmUrl,
           title,
           folder: curFolder,
           taggedPersons: [],
@@ -98,7 +98,7 @@ const BookmarkAddEditDialog = memo<Props>(function BookmarkAddEditDialog({
       let bookmark: Required<ContextBookmark> | undefined;
       let pos = -1;
       contextBookmarks.forEach((x, index) => {
-        if (x.url === bmUrl) {
+        if (x.url === _bmUrl) {
           bookmark = x as Required<ContextBookmark>;
           pos = index;
         }
@@ -126,7 +126,7 @@ const BookmarkAddEditDialog = memo<Props>(function BookmarkAddEditDialog({
   }, [bmUrl, operation, resolveBookmark]);
 
   const closeDialog = () => {
-    //Remove qs before closing and mark current as selected
+    // Remove qs before closing and mark current as selected
     if (openDialog) {
       navigate(getBookmarksPanelUrl({ folderContext: curFolder }), {
         replace: true,

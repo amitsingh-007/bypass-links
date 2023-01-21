@@ -8,7 +8,7 @@ const promisify = <T>(block: Function) =>
       if (errorMsg === 'The tab was closed.') {
         resolve({} as T);
       } else {
-        reject({ message: errorMsg, func: block.toString() });
+        reject(new Error(errorMsg));
       }
     });
   });

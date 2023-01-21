@@ -21,14 +21,6 @@ const TwoFactorAuth = memo(function TwoFactorAuth() {
     initSetup2FA();
   }, [show2FASetup]);
 
-  const handle2FASetupClick = () => {
-    if (is2FAEnabled) {
-      handle2FARevoke();
-    } else {
-      setShow2FASetup(true);
-    }
-  };
-
   const handle2FARevoke = async () => {
     const userProfile = await getUserProfile();
     const { isRevoked } = await api.twoFactorAuth.revoke.mutate(
@@ -45,6 +37,14 @@ const TwoFactorAuth = memo(function TwoFactorAuth() {
     });
     setIs2FAEnabled(false);
     displayToast({ message: '2FA revoked successfully' });
+  };
+
+  const handle2FASetupClick = () => {
+    if (is2FAEnabled) {
+      handle2FARevoke();
+    } else {
+      setShow2FASetup(true);
+    }
   };
 
   const handleClose2FASetup = () => {

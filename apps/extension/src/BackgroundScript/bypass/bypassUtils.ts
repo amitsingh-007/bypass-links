@@ -1,8 +1,5 @@
-import { VoidFunction } from '@bypass/shared';
-import { BYPASS_KEYS, IBypassKeys } from '@constants/index';
-import scripting from '@helpers/chrome/scripting';
-import tabs from '@helpers/chrome/tabs';
 import { getHostnameAlias } from '@/utils/common';
+import { BYPASS_KEYS, IBypassKeys } from '@constants/index';
 import { IBypass } from '../interfaces/bypass';
 import { bypassBonsai } from './bypassBonsai';
 import { bypassBonsaiLink } from './bypassBonsaiLink';
@@ -10,21 +7,6 @@ import { bypassForums } from './bypassForums';
 import { bypassLinkvertise } from './bypassLinkvertise';
 import { bypassMedium } from './bypassMedium';
 import { bypassPageLinks } from './bypassPageLinks';
-
-export const bypassSingleLinkOnPage = async (
-  selectorFn: VoidFunction,
-  tabId: number
-) => {
-  const response = await scripting.executeScript({
-    target: { tabId },
-    func: selectorFn,
-  });
-  const result: { links: string[] } | null = response[0].result;
-  const targetUrl = result?.links?.[0];
-  if (targetUrl) {
-    tabs.update(tabId, { url: targetUrl });
-  }
-};
 
 export const getDecodedBypass = (bypass: IBypass) =>
   bypass &&

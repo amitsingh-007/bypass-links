@@ -21,21 +21,6 @@ const userSignIn = async (): Promise<UserInfo> => {
   return userInfo;
 };
 
-export const signIn = async (): Promise<boolean> => {
-  try {
-    AuthProgress.initialize(7);
-    const userProfile = await userSignIn();
-    await processPostLogin(userProfile);
-    console.log('--------------Login Success--------------');
-    return true;
-  } catch (err) {
-    console.error('Error occured while signing in. ', err);
-    console.log('Reverting due to login error...');
-    await signOut();
-    return false;
-  }
-};
-
 export const signOut = async (): Promise<boolean> => {
   try {
     AuthProgress.initialize(4);
@@ -49,6 +34,21 @@ export const signOut = async (): Promise<boolean> => {
     return true;
   } catch (err) {
     console.error('Error occured while signing out. ', err);
+    return false;
+  }
+};
+
+export const signIn = async (): Promise<boolean> => {
+  try {
+    AuthProgress.initialize(7);
+    const userProfile = await userSignIn();
+    await processPostLogin(userProfile);
+    console.log('--------------Login Success--------------');
+    return true;
+  } catch (err) {
+    console.error('Error occured while signing in. ', err);
+    console.log('Reverting due to login error...');
+    await signOut();
     return false;
   }
 };

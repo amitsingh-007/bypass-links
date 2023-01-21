@@ -48,7 +48,7 @@ export const fetchTargetUrl = async (
     },
     body: JSON.stringify(params),
   })
-    .then((response) => response.json())
+    .then((res) => res.json())
     .then((data) => data);
   return response.data.target;
 };
@@ -58,7 +58,7 @@ export const bypassLinkvertiseUsingExternalFallbackApi = async (
 ): Promise<string> => {
   const apiUrl = `https://bypass.bot.nu/bypass2?url=${urlObj.href}`;
   const response = await fetch(apiUrl)
-    .then((response) => response.json())
+    .then((res) => res.json())
     .then((data) => data);
   return response.destination;
 };

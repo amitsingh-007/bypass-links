@@ -37,8 +37,8 @@ const ImagePicker = memo<Props>(function ImagePicker({
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area>({} as Area);
 
   const onCropComplete = useCallback(
-    (_croppedArea: Area, croppedAreaPixels: Area) => {
-      setCroppedAreaPixels(croppedAreaPixels);
+    (_croppedArea: Area, _croppedAreaPixels: Area) => {
+      setCroppedAreaPixels(_croppedAreaPixels);
     },
     []
   );

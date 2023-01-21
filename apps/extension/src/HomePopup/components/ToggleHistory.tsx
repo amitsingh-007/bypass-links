@@ -48,21 +48,21 @@ const ToggleHistory = memo(function ToggleHistory() {
     }
   }, [isHistoryActive, resetHistoryMonitor]);
 
-  //Init toggle on mount
+  // Init toggle on mount
   useEffect(() => {
     storage.get(['historyStartTime']).then(({ historyStartTime }) => {
       setIsHistoryActive(!!historyStartTime);
     });
   }, []);
 
-  //Turn off history when extension is off
+  // Turn off history when extension is off
   useEffect(() => {
     if (!isExtensionActive) {
       turnOffHistory();
     }
   }, [isExtensionActive, turnOffHistory]);
 
-  //Turn on history on store change
+  // Turn on history on store change
   useEffect(() => {
     if (monitorHistory) {
       turnOnHistory();

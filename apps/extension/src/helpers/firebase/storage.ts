@@ -9,9 +9,9 @@ import {
 import { getUserProfile } from '@helpers/fetchFromStorage';
 import firebaseApp from '.';
 
-const getPath = async (ref: string) => {
+const getPath = async (_ref: string) => {
   const userProfile = await getUserProfile();
-  return getStoragePath(ref, userProfile.uid ?? '');
+  return getStoragePath(_ref, userProfile.uid ?? '');
 };
 
 const storage = getStorage(firebaseApp);

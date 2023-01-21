@@ -26,16 +26,17 @@ const OpenForumLinks = memo(function OpenForumLinks() {
   const [isActive, setIsActive] = useState(false);
 
   const initCurrentTab = async () => {
-    const currentTab = await getCurrentTab();
-    setCurrentTab(currentTab);
+    const curTab = await getCurrentTab();
+    setCurrentTab(curTab);
   };
+
   useEffect(() => {
     initCurrentTab();
   }, []);
 
   const initIsActive = useCallback(async () => {
-    const isActive = isSignedIn && (await isCurrentPageForum(currentTab?.url));
-    setIsActive(isActive);
+    const isForum = isSignedIn && (await isCurrentPageForum(currentTab?.url));
+    setIsActive(isForum);
   }, [currentTab?.url, isSignedIn]);
 
   useEffect(() => {

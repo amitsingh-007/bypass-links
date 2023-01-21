@@ -35,7 +35,7 @@ const PersonVirtualCell = memo<{
   }, [showEditPersonDialog]);
 
   useEffect(() => {
-    const menuOptions = [
+    const options = [
       {
         onClick: toggleEditPersonDialog,
         text: 'Edit',
@@ -49,7 +49,7 @@ const PersonVirtualCell = memo<{
         color: theme.colors.red[9],
       },
     ];
-    setMenuOptions(menuOptions);
+    setMenuOptions(options);
   }, [handleDeleteOptionClick, toggleEditPersonDialog, theme.colors]);
 
   const handlePersonSave = (updatedPerson: IPerson) => {

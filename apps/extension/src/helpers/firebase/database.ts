@@ -3,9 +3,9 @@ import { get, getDatabase, ref, set } from 'firebase/database';
 import firebaseApp from '.';
 import { getUserProfile } from '../fetchFromStorage';
 
-const getDbRef = async (ref: string) => {
+const getDbRef = async (_ref: string) => {
   const userProfile = await getUserProfile();
-  return getFullDbPath(ref, userProfile.uid);
+  return getFullDbPath(_ref, userProfile.uid);
 };
 
 const db = getDatabase(firebaseApp);

@@ -57,8 +57,9 @@ export const cacheBookmarkFavicons = async () => {
   await Promise.all(
     uniqueUrls.map(async (url) => {
       const urlPromise = await cache.add(url);
+      totalResolved += 1;
       AuthProgress.update(
-        `Caching favicons: ${++totalResolved}/${uniqueUrls.length}`
+        `Caching favicons: ${totalResolved}/${uniqueUrls.length}`
       );
       return urlPromise;
     })
