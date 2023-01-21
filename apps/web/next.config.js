@@ -6,6 +6,7 @@ const { verifyEnvVars } = require('./src/constants/env');
 verifyEnvVars();
 
 const isDev = process.env.VERCEL_ENV === 'development';
+process.env['NODE_ENV'] = 'development';
 
 /**
  * @type {import('next').NextConfig}
@@ -39,6 +40,9 @@ const nextConfig = {
     }
     // https://github.com/firebase/firebase-admin-node/issues/84
     config.externals.push('firebase-admin');
+    config.mode = 'development';
+    config.optimization.nodeEnv = 'development';
+    config.optimization.minimize = false;
     return config;
   },
 };
