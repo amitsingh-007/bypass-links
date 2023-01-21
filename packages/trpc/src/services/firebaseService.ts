@@ -1,10 +1,16 @@
-import { getFirebasePublicConfig, getFullDbPath } from '@bypass/shared';
+import {
+  getFirebasePublicConfig,
+  getFullDbPath,
+  IFirebaseDbRef,
+  IFirebaseDbRootKeys,
+} from '@bypass/shared';
 import { cert, getApp, getApps, initializeApp } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
 import { getDatabase } from 'firebase-admin/database';
+import { getEnvVars } from '../constants/env';
 
 interface Firebase {
-  ref: string;
+  ref: IFirebaseDbRef | IFirebaseDbRootKeys;
   uid?: string;
   isAbsolute?: boolean;
   data: any;
@@ -17,14 +23,15 @@ interface Firebase {
  * SERVICE_ACCOUNT_KEY: contains the credetials json except the private_key
  * FIREBASE_PRIVATE_KEY: contains the private key
  */
+const { SERVICE_ACCOUNT_KEY, FIREBASE_PRIVATE_KEY } = getEnvVars();
 
 const firebasePublicConfig = getFirebasePublicConfig();
 
 const getFirebaseCredentials = () => {
-  const serviceAccountKey = JSON.parse(process.env.SERVICE_ACCOUNT_KEY ?? '');
+  const serviceAccountKey = JSON.parse(SERVICE_ACCOUNT_KEY);
   return cert({
     ...serviceAccountKey,
-    private_key: process.env.FIREBASE_PRIVATE_KEY,
+    private_key: FIREBASE_PRIVATE_KEY,
   });
 };
 

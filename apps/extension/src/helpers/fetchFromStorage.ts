@@ -11,19 +11,19 @@ import {
   PersonImageUrls,
   STORAGE_KEYS,
 } from '@bypass/shared';
-import { BYPASS_KEYS, EXTENSION_STATE } from '@constants/index';
+import { IBypassKeys, IExtensionState } from '@constants/index';
 import storage from '@helpers/chrome/storage';
 
 export const getExtensionState = async () => {
   const { extState } = await storage.get('extState');
-  return extState as EXTENSION_STATE;
+  return extState as IExtensionState;
 };
 
 export const getHostnames = async () => {
   const { [STORAGE_KEYS.bypass]: bypass } = await storage.get(
     STORAGE_KEYS.bypass
   );
-  return (bypass || {}) as Record<string, BYPASS_KEYS>;
+  return (bypass || {}) as Record<string, IBypassKeys>;
 };
 
 export const getRedirections = async () => {

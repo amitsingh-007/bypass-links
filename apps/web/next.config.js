@@ -1,7 +1,9 @@
-const path = require('path');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const nextPWA = require('next-pwa');
+const { verifyEnvVars } = require('./src/constants/env');
+
+verifyEnvVars();
 
 const isDev = process.env.VERCEL_ENV === 'development';
 

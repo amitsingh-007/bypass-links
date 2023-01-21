@@ -13,6 +13,7 @@ import ReactRefreshTypeScript from 'react-refresh-typescript';
 import TerserPlugin from 'terser-webpack-plugin';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import { DefinePlugin, optimize } from 'webpack';
+import { getEnvVars } from './src/constants/env';
 
 const PATHS = {
   ROOT: resolve(__dirname),
@@ -20,7 +21,8 @@ const PATHS = {
   EXTENSION: resolve(__dirname, 'build'),
 };
 
-const ENV = process.env.NODE_ENV;
+const { NODE_ENV: ENV, HOST_NAME } = getEnvVars();
+
 const isProduction = ENV === 'production';
 
 const tsConfigFile = `${PATHS.ROOT}/${
@@ -154,7 +156,7 @@ const config = {
     }),
     new DefinePlugin({
       __PROD__: JSON.stringify(isProduction),
-      HOST_NAME: JSON.stringify(process.env.HOST_NAME),
+      HOST_NAME: JSON.stringify(HOST_NAME),
     }),
     new optimize.LimitChunkCountPlugin({
       maxChunks: 1,

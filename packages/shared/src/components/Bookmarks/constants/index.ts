@@ -1,7 +1,11 @@
+import { ObjectValues } from '../../../interfaces/utilityTypes';
+
 export const defaultBookmarkFolder = 'Bookmarks bar';
 
-export enum BOOKMARK_OPERATION {
-  NONE,
-  ADD,
-  EDIT,
-}
+export const BOOKMARK_OPERATION = {
+  NONE: 'none',
+  ADD: 'add',
+  EDIT: 'edit',
+} as const;
+
+export type IBookmarkOperation = ObjectValues<typeof BOOKMARK_OPERATION>;

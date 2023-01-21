@@ -34,7 +34,7 @@ export const secondColumn: Feature[] = [
     altIconText: 'security-logo',
     title: 'Enhanced Privacy',
     content:
-      "All data is first encoded at user's device before sending to the server",
+      'All data is first encoded at user device before sending to the server',
   },
   {
     icon: MultilingualIcon,

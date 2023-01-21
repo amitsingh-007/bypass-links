@@ -6,13 +6,29 @@ This is an easy-to-use Open-Source `Browser Extension` which bypasses links on v
 
 Head over to [Bypass Links Vercel Page](https://bypass-links.vercel.app) and download for your browser.
 
-## For Development [![Code of Conduct](https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat)](https://github.com/amitsingh-007/bypass-links/blob/main/contributing.md) ![GitHub issues](https://img.shields.io/github/issues/amitsingh-007/bypass-links)
+## Salient features
 
-[Click Here](https://github.com/amitsingh-007/bypass-links/blob/main/contributing.md) to get started.
+- A fully customizable and full-feature packed bookmarks panel same as offered by Google Chrome with extra features.
 
-## Security Policy [![Secutiy Policy](https://img.shields.io/badge/security%20policy-important.svg?style=flat)](https://github.com/amitsingh-007/bypass-links/blob/main/security.md)
+- A person panel which enables tagging any bookmark with multiple person to search by a person quickly.
 
-[Click Here to read security policy](https://github.com/amitsingh-007/bypass-links/blob/main/security.md) to get started.
+- A fully customised shortcuts panel with shortcut rules to create custom shortcuts for frequently visited websites.
+
+- Open a pre-selected set of frequently visited websites in a single click.
+
+- Open all unvisited links in watched threads of supported forums websites.
+
+- Mark any website as visited with a timestamp for quick access to the last visited time.
+
+- Bypass link shorteners and timers on supported pages.
+
+- TOTP-based two-factor authentication supported.
+
+- Manipulate browser history.
+
+- Turn off autosuggestions for any page.
+
+- Full dark theme support with modern UI.
 
 ## Currently supported websites
 
@@ -25,26 +41,10 @@ Head over to [Bypass Links Vercel Page](https://bypass-links.vercel.app) and dow
     * rentry
     * forums.*
 
-## Salient features
+## For Development [![Code of Conduct](https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat)](https://github.com/amitsingh-007/bypass-links/blob/main/contributing.md) ![GitHub issues](https://img.shields.io/github/issues/amitsingh-007/bypass-links)
 
-- Set **custom short URLs** for any websites that you frequently visit.
+[Click Here](https://github.com/amitsingh-007/bypass-links/blob/main/contributing.md) to get started.
 
-- **Manipulate browser history**.
+## Security Policy [![Secutiy Policy](https://img.shields.io/badge/security%20policy-important.svg?style=flat)](https://github.com/amitsingh-007/bypass-links/blob/main/security.md)
 
-- Set **custom shortcuts/alias** for your urls for faster access.
-
-- A **fully customised shortcuts panel** with add/edit/delete/drag-n-drop custom shortcut rules functionality.
-
-- A **bookmarks panel** with **quick bookmark** feature.
-
-- A **tagging panel** which enables to tag each bookmark with a person/item to easily search by person/item.
-
-- A **fully customizable and full featured packed bookmarks panel** same as offered by Google Chrome with extra features.
-
-- **Turn off auto suggestions** for any page.
-
-- Full **dark theme** support.
-
-- TOTP based **Two Factor Authentication** Supported
-
-- **Modern UI**
+[Click Here to read security policy](https://github.com/amitsingh-007/bypass-links/blob/main/security.md) to get started.

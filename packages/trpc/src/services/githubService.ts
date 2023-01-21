@@ -1,10 +1,11 @@
 import { REPO } from '../constants/github';
 import { Octokit } from '@octokit/rest';
+import { getEnvVars } from '../constants/env';
 
-const authToken = process.env.GITHUB_TOKEN;
+const { GITHUB_TOKEN } = getEnvVars();
 
 const octokit = new Octokit({
-  auth: authToken,
+  auth: GITHUB_TOKEN,
 });
 
 export const getLatestRelease = async () =>

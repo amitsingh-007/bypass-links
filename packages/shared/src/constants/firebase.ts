@@ -1,12 +1,16 @@
-export enum FIREBASE_DB_REF {
-  bookmarks = 'bookmarks',
-  bypass = 'bypass',
-  lastVisited = 'lastVisited',
-  persons = 'persons',
-  redirections = 'redirections',
-  settings = 'userInfo/settings',
-  user2FAInfo = 'userInfo/twoFactorAuth',
-}
+import { ObjectValues } from '../interfaces/utilityTypes';
+
+export const FIREBASE_DB_REF = {
+  bookmarks: 'bookmarks',
+  bypass: 'bypass',
+  lastVisited: 'lastVisited',
+  persons: 'persons',
+  redirections: 'redirections',
+  settings: 'userInfo/settings',
+  user2FAInfo: 'userInfo/twoFactorAuth',
+} as const;
+
+export type IFirebaseDbRef = ObjectValues<typeof FIREBASE_DB_REF>;
 
 export const getFirebasePublicConfig = () => {
   if (__PROD__) {

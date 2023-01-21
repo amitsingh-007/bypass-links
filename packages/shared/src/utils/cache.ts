@@ -1,10 +1,10 @@
-import { CACHE_BUCKET_KEYS } from '../constants/cache';
+import { ICacheBucketKeys } from '../constants/cache';
 
 export const getCacheObj = async (cacheBucketKey: string) =>
   await caches.open(cacheBucketKey);
 
 export const addToCache = async (
-  cacheBucketKey: CACHE_BUCKET_KEYS,
+  cacheBucketKey: ICacheBucketKeys,
   url: string
 ) => {
   if (!url) {
@@ -17,13 +17,13 @@ export const addToCache = async (
   }
 };
 
-const getFromCache = async (cacheBucketKey: CACHE_BUCKET_KEYS, url: string) => {
+const getFromCache = async (cacheBucketKey: ICacheBucketKeys, url: string) => {
   const cache = await getCacheObj(cacheBucketKey);
   return await cache.match(url);
 };
 
 export const getBlobUrlFromCache = async (
-  cacheBucketKey: CACHE_BUCKET_KEYS,
+  cacheBucketKey: ICacheBucketKeys,
   url: string
 ) => {
   const response = await getFromCache(cacheBucketKey, url);
@@ -34,7 +34,7 @@ export const getBlobUrlFromCache = async (
   return URL.createObjectURL(blob);
 };
 
-export const deleteAllCache = async (bucketKeys: CACHE_BUCKET_KEYS[]) => {
+export const deleteAllCache = async (bucketKeys: ICacheBucketKeys[]) => {
   bucketKeys.forEach(async (cacheBucketKey) => {
     await deleteCache(cacheBucketKey);
   });

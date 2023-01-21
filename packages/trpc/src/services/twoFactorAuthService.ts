@@ -1,5 +1,6 @@
 import { FIREBASE_DB_REF } from '@bypass/shared';
 import { authenticator } from 'otplib';
+import { getEnvVars } from '../constants/env';
 import { User2FAInfo } from '../interfaces/firebase';
 import { getUser, saveToFirebase } from './firebaseService';
 import { fetchUser2FAInfo } from './userService';
@@ -7,7 +8,7 @@ import { fetchUser2FAInfo } from './userService';
 authenticator.options = { window: 1 };
 
 const get2FATitle = () =>
-  __PROD__ ? process.env.SITE_NAME ?? '' : 'Bypass Links - Local';
+  __PROD__ ? getEnvVars().SITE_NAME ?? '' : 'Bypass Links - Local';
 
 const verify2FAToken = (secret: string, token: string) =>
   authenticator.verify({ token, secret });

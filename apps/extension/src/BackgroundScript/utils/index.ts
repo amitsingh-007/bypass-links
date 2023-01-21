@@ -1,4 +1,4 @@
-import { EXTENSION_STATE } from '@constants/index';
+import { IExtensionState } from '@constants/index';
 import action from '@helpers/chrome/action';
 import { getExtensionState } from '@helpers/fetchFromStorage';
 import { api } from '../../utils/api';
@@ -12,7 +12,7 @@ export const setExtensionIcon = async ({
   hasPendingBookmarks,
   hasPendingPersons,
 }: {
-  extState?: EXTENSION_STATE;
+  extState?: IExtensionState;
   hasPendingBookmarks: boolean;
   hasPendingPersons: boolean;
 }) => {

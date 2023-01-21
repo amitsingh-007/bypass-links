@@ -11,12 +11,14 @@
     "@bypass/trpc": "workspace:*",
     "@emotion/react": "11.10.5",
     "@emotion/server": "11.10.0",
-    "@mantine/core": "5.10.0",
-    "@mantine/hooks": "5.10.0",
-    "@mantine/next": "5.10.0",
-    "@mantine/styles": "5.10.0",
+    "@mantine/core": "5.10.1",
+    "@mantine/hooks": "5.10.1",
+    "@mantine/next": "5.10.1",
+    "@mantine/styles": "5.10.1",
     "@trpc/client": "10.9.0",
     "@trpc/server": "10.9.0",
+    "countries-and-timezones": "3.4.0",
+    "dayjs": "1.11.7",
     "firebase": "9.15.0",
     "md5": "2.3.0",
     "next": "13.1.2",
@@ -50,6 +52,7 @@
     "node-fetch": "3.3.0",
     "prettier": "2.8.3",
     "typescript": "4.9.4",
-    "webpack": "5.75.0"
+    "webpack": "5.75.0",
+    "zod": "3.20.2"
   }
 }

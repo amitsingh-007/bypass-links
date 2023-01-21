@@ -1,8 +1,12 @@
-import { defineConfig } from 'vitest/config';
 import dotenv from 'dotenv';
+import { defineConfig } from 'vitest/config';
+import { getEnvVars } from './src/constants/env';
 
 dotenv.config();
-const isDev = process.env.VERCEL_ENV === 'development';
+
+const { VERCEL_ENV } = getEnvVars();
+
+const isDev = VERCEL_ENV === 'development';
 
 export default defineConfig({
   define: {

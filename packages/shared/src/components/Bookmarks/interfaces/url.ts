@@ -1,7 +1,7 @@
-import { BOOKMARK_OPERATION } from '../constants';
+import { IBookmarkOperation } from '../constants';
 
 export interface BMPanelQueryParams {
   folderContext: string;
-  operation: BOOKMARK_OPERATION;
+  operation: IBookmarkOperation;
   bmUrl: string;
 }

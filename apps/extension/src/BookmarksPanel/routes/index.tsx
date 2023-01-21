@@ -1,6 +1,7 @@
 import {
   BMPanelQueryParams,
   deserialzeQueryStringToObject,
+  IBookmarkOperation,
   ROUTES,
 } from '@bypass/shared';
 import { lazy } from 'react';
@@ -11,7 +12,7 @@ const getQueryParams = (qs: string): BMPanelQueryParams => {
   const { folderContext, bmUrl, operation } = deserialzeQueryStringToObject(qs);
   return {
     folderContext,
-    operation: Number(operation),
+    operation: operation as IBookmarkOperation,
     bmUrl,
   };
 };

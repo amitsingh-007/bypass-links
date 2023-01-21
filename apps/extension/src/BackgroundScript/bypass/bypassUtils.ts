@@ -1,5 +1,5 @@
 import { VoidFunction } from '@bypass/shared';
-import { BYPASS_KEYS } from '@constants/index';
+import { BYPASS_KEYS, IBypassKeys } from '@constants/index';
 import scripting from '@helpers/chrome/scripting';
 import tabs from '@helpers/chrome/tabs';
 import { getHostnameAlias } from '@/utils/common';
@@ -43,7 +43,7 @@ const bypassAndHostnameMapping = {
   [BYPASS_KEYS.PASTELINK]: bypassPageLinks,
   [BYPASS_KEYS.RENTRY]: bypassPageLinks,
   [BYPASS_KEYS.MEDIUM]: bypassMedium,
-} as Record<BYPASS_KEYS, (url: URL, tabId: number) => Promise<void>>;
+} as Record<IBypassKeys, (url: URL, tabId: number) => Promise<void>>;
 
 export const getBypassExecutor = async (url: URL) => {
   const hostnameAlias = await getHostnameAlias(url.hostname);
