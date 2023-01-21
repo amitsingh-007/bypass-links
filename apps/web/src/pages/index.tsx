@@ -6,6 +6,7 @@ import Footer from '../ui/DownloadPage/components/Footer';
 import MetaTags from '../ui/DownloadPage/components/MetaTags';
 import PageHeader from '../ui/DownloadPage/components/PageHeader';
 import SalientFeatures from '../ui/DownloadPage/components/SalientFeatures';
+import ct from 'countries-and-timezones';
 
 const pageStyles = {
   '*': {
@@ -24,15 +25,18 @@ export const getServerSideProps: GetServerSideProps<{
   downloadLink: string;
   releaseDate: string;
   extVersion: string;
-  country: string;
+  userTimezone: string;
 }> = async ({ query }) => {
   const { extension, date, version } = await api.extension.latest.query();
+  const country = (query.country as string) ?? '';
+  const data = ct.getCountry(country);
+  const tz = data?.timezones?.[0] ?? '';
   return {
     props: {
       downloadLink: extension,
       releaseDate: date,
       extVersion: version,
-      country: (query.country as string) ?? '',
+      userTimezone: tz,
     },
   };
 };
@@ -41,7 +45,7 @@ export default function Home({
   downloadLink,
   releaseDate,
   extVersion,
-  country,
+  userTimezone,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <>
@@ -53,7 +57,7 @@ export default function Home({
         <SalientFeatures />
       </Container>
       <Footer
-        country={country}
+        timezone={userTimezone}
         releaseDate={releaseDate}
         extVersion={extVersion}
       />

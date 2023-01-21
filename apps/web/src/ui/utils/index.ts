@@ -1,4 +1,3 @@
-import ct from 'countries-and-timezones';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
@@ -6,9 +5,7 @@ import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-export const getFormattedDateTime = (dateTime: string, country: string) => {
-  const data = ct.getCountry(country);
-  const tz = data?.timezones[0];
+export const getFormattedDateTime = (dateTime: string, tz: string) => {
   console.log(tz);
   console.log(dayjs(dateTime).tz(tz).format('DD MMMM YYYY HH:MM Z'));
   return dayjs(dateTime).tz(tz).format('DD MMMM YYYY hh:mm A');

@@ -34,11 +34,11 @@ const Info = ({ icon: Icon, text }: { icon: IconType; text: string }) => {
 const Footer = ({
   releaseDate,
   extVersion,
-  country,
+  timezone,
 }: {
   releaseDate: string;
   extVersion: string;
-  country: string;
+  timezone: string;
 }) => {
   return (
     <Flex
@@ -71,13 +71,8 @@ const Footer = ({
           <Info icon={MdExtension} text={`v ${extVersion}`} />
           <Info
             icon={RiTimeFill}
-            text={getFormattedDateTime(releaseDate, country)}
+            text={getFormattedDateTime(releaseDate, timezone)}
           />
-          {'releaseDate: ' + releaseDate}
-          <br />
-          {'country: ' + country}
-          <br />
-          {'country 2: ' + `${country}`}
         </Flex>
         <Flex align="center">
           <Box
