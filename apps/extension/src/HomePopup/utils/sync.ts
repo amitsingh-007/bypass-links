@@ -101,11 +101,11 @@ const resetStorage = async () => {
 };
 
 export const processPostLogin = async (userProfile: UserInfo) => {
-  //First process authentication
+  // First process authentication
   await syncAuthenticationToStorage(userProfile);
-  //Then sync remote firebase to storage
+  // Then sync remote firebase to storage
   await syncFirebaseToStorage();
-  //Then do other processes
+  // Then do other processes
   try {
     await cachePersonImagesInStorage();
     AuthProgress.start('Caching bookmark favicons');
@@ -117,7 +117,7 @@ export const processPostLogin = async (userProfile: UserInfo) => {
 };
 
 export const processPreLogout = async () => {
-  //Sync changes to firebase before logout, cant sync after logout
+  // Sync changes to firebase before logout, cant sync after logout
   await syncStorageToFirebase();
 };
 
@@ -125,17 +125,17 @@ export const processPostLogout = async () => {
   const settings = await getSettings();
   const { historyStartTime } = await storage.get(['historyStartTime']);
   const historyWatchTime = Date.now() - historyStartTime;
-  //Reset storage
+  // Reset storage
   await resetStorage();
-  //Refresh browser cache
+  // Refresh browser cache
   AuthProgress.start('Clearing cache');
   await deleteAllCache([CACHE_BUCKET_KEYS.favicon, CACHE_BUCKET_KEYS.person]);
   AuthProgress.finish('Cleared cache');
   if (settings?.hasManageGoogleActivityConsent) {
-    //Open Google Seach and Google Image tabs
+    // Open Google Seach and Google Image tabs
     await tabs.create({ url: 'https://www.google.com/' });
     await tabs.create({ url: 'https://www.google.com/imghp' });
-    //Clear activity from google account
+    // Clear activity from google account
     await runtime.sendMessage<{ manageGoogleActivity: string }>({
       manageGoogleActivity: { historyWatchTime },
     });

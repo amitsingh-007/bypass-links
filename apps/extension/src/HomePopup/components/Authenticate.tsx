@@ -18,9 +18,9 @@ const Authenticate = memo(function Authenticate() {
 
   const handleSignIn = async () => {
     setIsFetching(true);
-    const isSignedIn = await signIn();
-    setIsSignedIn(isSignedIn);
-    setSignedInStatus(isSignedIn);
+    const isUserSignedIn = await signIn();
+    setIsSignedIn(isUserSignedIn);
+    setSignedInStatus(isUserSignedIn);
     resetAuthProgress();
     setIsFetching(false);
   };
@@ -34,9 +34,9 @@ const Authenticate = memo(function Authenticate() {
         severity: 'error',
       });
     } else {
-      const isSignedIn = !isSignedOut;
-      setIsSignedIn(isSignedIn);
-      setSignedInStatus(isSignedIn);
+      const isUserSignedIn = !isSignedOut;
+      setIsSignedIn(isUserSignedIn);
+      setSignedInStatus(isUserSignedIn);
     }
     setIsFetching(false);
     resetAuthProgress();
@@ -44,9 +44,9 @@ const Authenticate = memo(function Authenticate() {
 
   const init = useCallback(async () => {
     const userProfile = await getUserProfile();
-    const isSignedIn = Boolean(userProfile);
-    setIsSignedIn(isSignedIn);
-    setSignedInStatus(isSignedIn);
+    const isUserSignedIn = Boolean(userProfile);
+    setIsSignedIn(isUserSignedIn);
+    setSignedInStatus(isUserSignedIn);
   }, [setSignedInStatus]);
 
   useEffect(() => {

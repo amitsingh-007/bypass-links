@@ -35,7 +35,7 @@ export const mantineTheme: MantineThemeOverride = {
     Modal: {
       defaultProps: {
         withFocusReturn: true,
-        zIndex: 1002, //1 more than Header's zIndex
+        zIndex: 1002, // 1 more than Header's zIndex
       },
     },
   },

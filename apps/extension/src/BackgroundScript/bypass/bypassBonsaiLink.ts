@@ -1,4 +1,4 @@
-import { bypassSingleLinkOnPage } from './bypassUtils';
+import { bypassSingleLinkOnPage } from '../utils/pageLink';
 
 const findLinksOnPage = () => {
   const LINKS_TO_EXCLUDE = ['t.me'];

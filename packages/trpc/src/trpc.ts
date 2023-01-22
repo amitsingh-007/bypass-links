@@ -8,7 +8,7 @@ export const createInnerTRPCContext = async (_opts: CreateContextOptions) => {
 };
 
 export const createTRPCContext = async (_opts: CreateNextContextOptions) => {
-  return await createInnerTRPCContext({});
+  return createInnerTRPCContext({});
 };
 
 export const t = initTRPC

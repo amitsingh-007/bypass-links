@@ -13,11 +13,11 @@ const InputTOTP = ({
   const handleTOTPChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const totp = event.target.value?.slice(0, TOTP_LENGTH);
-    setTOTP(totp);
-    if (totp?.length === TOTP_LENGTH) {
+    const inputTotp = event.target.value?.slice(0, TOTP_LENGTH);
+    setTOTP(inputTotp);
+    if (inputTotp?.length === TOTP_LENGTH) {
       setIsVerifying(true);
-      await handleVerify(totp);
+      await handleVerify(inputTotp);
       setIsVerifying(false);
       setTOTP('');
     }

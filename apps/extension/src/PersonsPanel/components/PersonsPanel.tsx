@@ -29,8 +29,8 @@ const PersonsPanel = () => {
   const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
-    getPersons().then((persons) => {
-      const decryptedPersons = Object.entries(persons || {}).map(
+    getPersons().then((_persons) => {
+      const decryptedPersons = Object.entries(_persons || {}).map(
         decryptionMapper
       );
       setPersons(sortAlphabetically(decryptedPersons));
@@ -38,8 +38,8 @@ const PersonsPanel = () => {
     });
   }, []);
 
-  const handleSave = async (persons: IPerson[]) => {
-    const encryptedPersons = persons.reduce<IPersons>(
+  const handleSave = async (_persons: IPerson[]) => {
+    const encryptedPersons = _persons.reduce<IPersons>(
       (obj, { uid, name, imageRef, taggedUrls }) => {
         obj[uid] = {
           uid,
@@ -59,15 +59,15 @@ const PersonsPanel = () => {
     const pos = getPersonPos(persons, person);
     const newPersons = [...persons];
     if (pos === -1) {
-      //Add person
+      // Add person
       newPersons.push(person);
     } else {
-      //Update person
+      // Update person
       newPersons[pos] = person;
     }
-    //Update person cache
+    // Update person cache
     await updatePersonCacheAndImageUrls(person);
-    //Update in the list
+    // Update in the list
     const sortedPersons = sortAlphabetically(newPersons);
     setPersons(sortedPersons);
     await handleSave(sortedPersons);
@@ -106,33 +106,27 @@ const PersonsPanel = () => {
   );
 
   return (
-    <>
-      <Flex
-        direction="column"
-        w={MAX_PANEL_SIZE.WIDTH}
-        h={MAX_PANEL_SIZE.HEIGHT}
-      >
-        <PersonHeader
-          isFetching={isFetching}
-          handleAddPerson={handleAddOrEditPerson}
-          persons={filteredPersons}
-          onSearchChange={handleSearchTextChange}
-        />
-        <Box pos="relative" sx={{ flex: 1 }}>
-          {filteredPersons.length > 0 ? (
-            <Persons
-              persons={filteredPersons}
-              handleEditPerson={handleAddOrEditPerson}
-              handlePersonDelete={handlePersonDelete}
-              virtualCell={PersonVirtualCell}
-              onLinkOpen={onLinkOpen}
-              bookmarkListProps={{ fullscreen: true }}
-              scrollButton
-            />
-          ) : null}
-        </Box>
-      </Flex>
-    </>
+    <Flex direction="column" w={MAX_PANEL_SIZE.WIDTH} h={MAX_PANEL_SIZE.HEIGHT}>
+      <PersonHeader
+        isFetching={isFetching}
+        handleAddPerson={handleAddOrEditPerson}
+        persons={filteredPersons}
+        onSearchChange={handleSearchTextChange}
+      />
+      <Box pos="relative" sx={{ flex: 1 }}>
+        {filteredPersons.length > 0 ? (
+          <Persons
+            persons={filteredPersons}
+            handleEditPerson={handleAddOrEditPerson}
+            handlePersonDelete={handlePersonDelete}
+            virtualCell={PersonVirtualCell}
+            onLinkOpen={onLinkOpen}
+            bookmarkListProps={{ fullscreen: true }}
+            scrollButton
+          />
+        ) : null}
+      </Box>
+    </Flex>
   );
 };
 

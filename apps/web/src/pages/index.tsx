@@ -1,12 +1,12 @@
 import { api } from '@/utils/api';
 import { Container, Global } from '@mantine/core';
+import ct from 'countries-and-timezones';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import AppHeader from '../ui/DownloadPage/components/AppHeader';
 import Footer from '../ui/DownloadPage/components/Footer';
 import MetaTags from '../ui/DownloadPage/components/MetaTags';
 import PageHeader from '../ui/DownloadPage/components/PageHeader';
 import SalientFeatures from '../ui/DownloadPage/components/SalientFeatures';
-import ct from 'countries-and-timezones';
 
 const pageStyles = {
   '*': {

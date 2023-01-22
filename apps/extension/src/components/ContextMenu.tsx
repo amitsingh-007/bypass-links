@@ -41,7 +41,7 @@ const ContextMenu = ({
     });
   };
 
-  const showMenu = mount && points.x != 0 && points.y !== 0;
+  const showMenu = mount && points.x !== 0 && points.y !== 0;
 
   return (
     <>

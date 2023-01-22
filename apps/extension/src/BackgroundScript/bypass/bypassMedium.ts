@@ -36,7 +36,7 @@ export const bypassMedium = async (url: URL, tabId: number) => {
     target: { tabId },
     func: shouldBypass,
   });
-  const result: IBypassMedium | null = response[0].result;
+  const { result }: { result: IBypassMedium | null } = response[0];
   if (result?.hasPaywall) {
     await windows.create({
       url: url.href,

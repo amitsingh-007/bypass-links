@@ -15,29 +15,29 @@ const ToggleExtension = memo(function ToggleExtension() {
   );
 
   const dispatchActionAndSetState = (
-    extState: IExtensionState,
+    _extState: IExtensionState,
     isActive: boolean
   ) => {
-    setExtState(extState);
+    setExtState(_extState);
     const action = isActive ? turnOnExtension : turnOffExtension;
     action();
   };
 
   useEffect(() => {
-    getExtensionState().then((extState) => {
-      const isActive = getIsExtensionActive(extState);
-      dispatchActionAndSetState(extState, isActive);
+    getExtensionState().then((_extState) => {
+      const isActive = getIsExtensionActive(_extState);
+      dispatchActionAndSetState(_extState, isActive);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const isActive = event.target.checked;
-    const extState = isActive
+    const extensionState = isActive
       ? EXTENSION_STATE.ACTIVE
       : EXTENSION_STATE.INACTIVE;
-    setExtStateInStorage(extState);
-    dispatchActionAndSetState(extState, isActive);
+    setExtStateInStorage(extensionState);
+    dispatchActionAndSetState(extensionState, isActive);
   };
 
   const isActive = getIsExtensionActive(extState);

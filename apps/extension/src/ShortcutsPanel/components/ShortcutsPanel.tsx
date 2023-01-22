@@ -13,7 +13,7 @@ import { RiPlayListAddFill } from 'react-icons/ri';
 import { DEFAULT_RULE_ALIAS } from '../constants';
 import RedirectionRule from './RedirectionRule';
 
-//Filter valid rules
+// Filter valid rules
 const getValidRules = (obj: IRedirection) =>
   Boolean(obj && obj.alias && obj.alias !== DEFAULT_RULE_ALIAS && obj.website);
 
@@ -24,8 +24,8 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
   const [isSaveActive, setIsSaveActive] = useState(false);
 
   useEffect(() => {
-    getRedirections().then((redirections) => {
-      const modifiedRedirections = Object.entries(redirections).map(
+    getRedirections().then((_redirections) => {
+      const modifiedRedirections = Object.entries(_redirections).map(
         ([_key, { alias, website, isDefault }]) =>
           ({
             alias: atob(alias),
@@ -49,7 +49,7 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
     console.log('Saving these redirection rules to Firebase', validRules);
     const shortcutsObj = validRules.reduce<Record<number, IRedirection>>(
       (obj, { alias, website, isDefault }, index) => {
-        obj[index++] = {
+        obj[index] = {
           alias: btoa(alias),
           website: btoa(website),
           isDefault,

@@ -3,8 +3,8 @@ import { User } from 'firebase/auth';
 import { get, getDatabase, ref } from 'firebase/database';
 import firebaseApp from '.';
 
-const getDbRef = async (ref: string, user: User) => {
-  return getFullDbPath(ref, user.uid);
+const getDbRef = async (_ref: string, user: User) => {
+  return getFullDbPath(_ref, user.uid);
 };
 
 const db = getDatabase(firebaseApp);

@@ -1,4 +1,4 @@
-import { bypassSingleLinkOnPage } from '../bypass/bypassUtils';
+import { bypassSingleLinkOnPage } from '../utils/pageLink';
 
 const findMegaLinks = () => {
   const LINKS_TO_BYPASS = ['mega.nz', 'drive.google.com'];

@@ -47,6 +47,21 @@ const resolveImageFromPerson = async ({
   imageUrl: await getImageFromFirebase(imageRef),
 });
 
+export const refreshPersonImageUrlsCache = async () => {
+  await storage.remove(STORAGE_KEYS.personImageUrls);
+};
+
+const cachePersonImages = async (personImageUrls: PersonImageUrls) => {
+  if (!personImageUrls) {
+    console.log('Unable to cache person images since no person urls');
+    return;
+  }
+  const imageUrls = Object.values(personImageUrls);
+  const cache = await getCacheObj(CACHE_BUCKET_KEYS.person);
+  await cache.addAll(imageUrls);
+  console.log('Initialized cache for all person urls');
+};
+
 export const cachePersonImagesInStorage = async () => {
   AuthProgress.start('Caching person urls');
   await refreshPersonImageUrlsCache();
@@ -55,8 +70,9 @@ export const cachePersonImagesInStorage = async () => {
   const personImagesList = await Promise.all(
     persons.map(async (person) => {
       const url = await resolveImageFromPerson(person);
+      totalResolved += 1;
       AuthProgress.update(
-        `Caching person urls: ${++totalResolved}/${persons.length}`
+        `Caching person urls: ${totalResolved}/${persons.length}`
       );
       return url;
     })
@@ -76,27 +92,12 @@ export const cachePersonImagesInStorage = async () => {
   AuthProgress.finish('Cached person images');
 };
 
-export const refreshPersonImageUrlsCache = async () => {
-  await storage.remove(STORAGE_KEYS.personImageUrls);
-};
-
-const cachePersonImages = async (personImageUrls: PersonImageUrls) => {
-  if (!personImageUrls) {
-    console.log('Unable to cache person images since no person urls');
-    return;
-  }
-  const imageUrls = Object.values(personImageUrls);
-  const cache = await getCacheObj(CACHE_BUCKET_KEYS.person);
-  await cache.addAll(imageUrls);
-  console.log('Initialized cache for all person urls');
-};
-
 export const updatePersonCacheAndImageUrls = async (person: IPerson) => {
-  //Update person image urls in storage
+  // Update person image urls in storage
   const personImageUrls = await getPersonImageUrls();
   const { uid, imageUrl } = await resolveImageFromPerson(person);
   personImageUrls[uid] = imageUrl;
   await storage.set({ [STORAGE_KEYS.personImageUrls]: personImageUrls });
-  //Update person image cache
+  // Update person image cache
   await addToCache(CACHE_BUCKET_KEYS.person, imageUrl);
 };

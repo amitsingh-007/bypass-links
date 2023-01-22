@@ -1,6 +1,6 @@
-import { ContextBookmarks, IBookmark, IBookmarksObj } from '../interfaces';
 import md5 from 'md5';
 import { hasText } from '../../../utils/search';
+import { ContextBookmarks, IBookmark, IBookmarksObj } from '../interfaces';
 
 export const isFolderEmpty = (
   folders: IBookmarksObj['folders'],

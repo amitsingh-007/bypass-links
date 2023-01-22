@@ -1,4 +1,4 @@
-import 'webpack-dev-server'; //Required for TS typings
+import 'webpack-dev-server'; // Required for TS typings
 import { getExtVersion, getFileNameFromVersion } from '@bypass/shared';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
@@ -71,7 +71,7 @@ const config = {
         extensions: ['.ts', '.tsx', '.js'],
       }),
     ],
-    //Preact doesnt support hmr, so disable it for dev
+    // Preact doesnt support hmr, so disable it for dev
     alias: isProduction
       ? {
           react: 'preact/compat',
@@ -96,11 +96,11 @@ const config = {
       cacheGroups: {
         common: {
           name: 'common_chunk',
-          //Include all entries to create a common chunk
+          // Include all entries to create a common chunk
           chunks: 'all',
-          //If all entries(2 for content and bg) use a code, then it to common chunk
+          // If all entries(2 for content and bg) use a code, then it to common chunk
           minChunks: 2,
-          //Always include common code in common chunk
+          // Always include common code in common chunk
           enforceSizeThreshold: 0,
         },
       },
@@ -151,11 +151,20 @@ const config = {
       },
     }),
     new ESLintPlugin({
-      files: './src/**/*.{js,ts,tsx}',
+      files: [
+        './src/**/*.{js,ts,tsx}',
+        '@bypass/**/*.{js,ts,tsx}',
+        '@bypass/*',
+        '**/@bypass/*',
+        '@bypass',
+        'node_modules/@bypass/*',
+        'node_modules/@bypass/**',
+        'node_modules/@bypass/**/*.{js,ts,tsx}',
+      ],
       cache: true,
     }),
     new DefinePlugin({
-      __PROD__: JSON.stringify(isProduction),
+      PROD_ENV: JSON.stringify(isProduction),
       HOST_NAME: JSON.stringify(HOST_NAME),
     }),
     new optimize.LimitChunkCountPlugin({
@@ -210,7 +219,7 @@ const config = {
                   },
                   globOptions: {
                     dot: true,
-                    ignore: ['*.zip'], //ignore the output .zip file
+                    ignore: ['*.zip'], // ignore the output .zip file
                   },
                 },
               },

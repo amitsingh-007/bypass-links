@@ -6,9 +6,11 @@
   "types": "src/index.ts",
   "sideEffects": false,
   "scripts": {
+    "lint": "eslint .",
     "test": "vitest run"
   },
   "dependencies": {
+    "@bypass/shared": "workspace:*",
     "@octokit/rest": "19.0.5",
     "@trpc/server": "10.9.0",
     "firebase-admin": "11.5.0",
@@ -17,16 +19,18 @@
   },
   "devDependencies": {
     "@bypass/configs": "workspace:*",
-    "@bypass/shared": "workspace:*",
     "@firebase/app-types": "0.9.0",
     "@typescript-eslint/eslint-plugin": "5.48.2",
     "@typescript-eslint/parser": "5.48.2",
     "dotenv": "16.0.3",
     "eslint": "8.32.0",
+    "eslint-config-airbnb": "19.0.4",
+    "eslint-config-airbnb-typescript": "17.0.0",
     "eslint-config-turbo": "0.0.7",
     "eslint-import-resolver-typescript": "3.5.3",
     "eslint-plugin-import": "2.27.5",
     "eslint-plugin-prettier": "4.2.1",
+    "eslint-plugin-jsx-a11y": "6.7.1",
     "eslint-plugin-react": "7.32.1",
     "eslint-plugin-react-hooks": "4.6.0",
     "prettier": "2.8.3",

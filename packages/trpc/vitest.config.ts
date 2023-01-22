@@ -10,7 +10,7 @@ const isDev = VERCEL_ENV === 'development';
 
 export default defineConfig({
   define: {
-    __PROD__: !isDev,
+    PROD_ENV: !isDev,
   },
   test: {
     setupFiles: ['dotenv/config'],

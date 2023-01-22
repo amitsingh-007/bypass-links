@@ -19,19 +19,19 @@ const LastVisitedButton = memo(function LastVisitedButton() {
 
   const initLastVisited = async () => {
     setIsFetching(true);
-    const lastVisitedObj = await getLastVisited();
+    const lastVisitedData = await getLastVisited();
 
-    const currentTab = await getCurrentTab();
-    const { hostname } = new URL(currentTab.url ?? '');
-    const lastVisitedDate = lastVisitedObj[md5(hostname)];
+    const curTab = await getCurrentTab();
+    const { hostname } = new URL(curTab.url ?? '');
+    const lastVisitedDate = lastVisitedData[md5(hostname)];
     let displayInfo = '';
     if (lastVisitedDate) {
       const date = new Date(lastVisitedDate);
       displayInfo = `${date.toDateString()}, ${date.toLocaleTimeString()}`;
     }
     setLastVisited(displayInfo);
-    setLastVisitedObj(lastVisitedObj);
-    setCurrentTab(currentTab);
+    setLastVisitedObj(lastVisitedData);
+    setCurrentTab(curTab);
     setIsFetching(false);
   };
 

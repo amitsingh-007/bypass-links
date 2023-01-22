@@ -13,7 +13,7 @@ export const FIREBASE_DB_REF = {
 export type IFirebaseDbRef = ObjectValues<typeof FIREBASE_DB_REF>;
 
 export const getFirebasePublicConfig = () => {
-  if (__PROD__) {
+  if (PROD_ENV) {
     return {
       apiKey: 'AIzaSyDiMRlBhW36sLjEADoQj9T5L1H-hIDUAso',
       authDomain: 'bypass-links.firebaseapp.com',

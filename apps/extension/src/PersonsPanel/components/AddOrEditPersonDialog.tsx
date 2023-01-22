@@ -54,8 +54,8 @@ const AddOrEditPersonDialog = memo<Props>(function AddOrEditPersonDialog({
 
   const initImageUrl = useCallback(
     async (uid: string) => {
-      const imageUrl = await resolvePersonImageFromUid(uid);
-      setImageUrl(imageUrl);
+      const image = await resolvePersonImageFromUid(uid);
+      setImageUrl(image);
     },
     [resolvePersonImageFromUid]
   );

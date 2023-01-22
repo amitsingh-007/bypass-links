@@ -4,7 +4,7 @@ import { memo } from 'react';
 import StoreListener from './StoreListener';
 
 const Global = memo(function Global() {
-  //Prevent extension popup close on Escape click
+  // Prevent extension popup close on Escape click
   useWindowEvent('keydown', (e) => e.key === 'Escape' && e.preventDefault());
 
   return (

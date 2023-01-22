@@ -88,15 +88,19 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
   const initBookmarksData = useCallback(async () => {
     setIsSaveButtonActive(false);
     setIsFetching(true);
-    const { folders, urlList, folderList } = await getBookmarks();
+    const {
+      folders: foldersData,
+      urlList: urlListData,
+      folderList: folderListData,
+    } = await getBookmarks();
     const folderContextHash = md5(folderContext);
-    const modifiedBookmarks = Object.entries(folders[folderContextHash]).map(
-      (kvp) => bookmarksMapper(kvp, urlList, folderList)
-    );
+    const modifiedBookmarks = Object.entries(
+      foldersData[folderContextHash]
+    ).map((kvp) => bookmarksMapper(kvp, urlListData, folderListData));
     setContextBookmarks(modifiedBookmarks);
-    setUrlList(urlList);
-    setFolderList(folderList);
-    setFolders(folders);
+    setUrlList(urlListData);
+    setFolderList(folderListData);
+    setFolders(foldersData);
     setSelectedBookmarks([]);
     setIsFetching(false);
   }, [folderContext]);
@@ -109,6 +113,9 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
       }
     });
   }, [contextBookmarks, selectedBookmarks, startHistoryMonitor]);
+
+  const handleScroll = (itemNumber: number) =>
+    listRef.current?.scrollToItem(itemNumber);
 
   useEffect(() => {
     initBookmarksData().then(() => {
@@ -128,9 +135,9 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
 
   const updatePersonUrls = useCallback(
     (
+      urlHash: string,
       prevTaggedPersons: string[] = [],
-      newTaggedPersons: string[] = [],
-      urlHash: string
+      newTaggedPersons: string[] = []
     ) =>
       setUpdateTaggedPersons([
         ...updateTaggedPersons,
@@ -160,9 +167,9 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     (name: string) => {
       const isDir = true;
       const nameHash = md5(name);
-      //Update current context folder
+      // Update current context folder
       contextBookmarks?.unshift({ isDir, name });
-      //Update data in all folders list
+      // Update data in all folders list
       folderList[nameHash] = {
         name: btoa(name),
         parentHash: md5(folderContext),
@@ -189,19 +196,19 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
       const isDir = false;
       const urlHash = md5(url);
       const newFolderHash = md5(newFolder);
-      //Update url in tagged persons
-      updatePersonUrls(prevTaggedPersons, newTaggedPersons, urlHash);
-      //Update urlList with new values
+      // Update url in tagged persons
+      updatePersonUrls(urlHash, prevTaggedPersons, newTaggedPersons);
+      // Update urlList with new values
       urlList[urlHash] = getEncryptedBookmark({
         url,
         title,
         taggedPersons: [...newTaggedPersons],
         parentHash: newFolderHash,
       });
-      //Update folders and current context folder content based on dir change
+      // Update folders and current context folder content based on dir change
       const newBookmarks = contextBookmarks;
       if (isFolderChange) {
-        folders[newFolderHash] = folders[newFolderHash] || []; //to handle empty folders
+        folders[newFolderHash] = folders[newFolderHash] || []; // to handle empty folders
         folders[newFolderHash].push({ isDir, hash: urlHash });
         setFolders({ ...folders });
         newBookmarks.splice(pos, 1);
@@ -213,7 +220,7 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
           isDir,
         };
       }
-      //Add bookmark favicon in the cache
+      // Add bookmark favicon in the cache
       addToCache(CACHE_BUCKET_KEYS.favicon, getFaviconProxyUrl(url));
       setUrlList({ ...urlList });
       setContextBookmarks([...newBookmarks]);
@@ -225,11 +232,11 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
   const handleUrlRemove = useCallback(
     (pos: number, url: string) => {
       const urlHash = md5(url);
-      //Update url in tagged persons
-      updatePersonUrls(contextBookmarks[pos].taggedPersons, [], urlHash);
-      //Remove from current context folder
+      // Update url in tagged persons
+      updatePersonUrls(urlHash, contextBookmarks[pos].taggedPersons, []);
+      // Remove from current context folder
       contextBookmarks.splice(pos, 1);
-      //Remove from all urls list
+      // Remove from all urls list
       const newUrlList = { ...urlList };
       delete newUrlList[urlHash];
       setContextBookmarks([...contextBookmarks]);
@@ -243,18 +250,18 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
   const handleBulkUrlRemove = useCallback(() => {
     const newUrlList = { ...urlList };
     const taggedPersonData: IUpdateTaggedPerson[] = [];
-    //Remove from current context folder
+    // Remove from current context folder
     const filteredContextBookmarks = contextBookmarks.filter(
       (bookmark, index) => {
         if (selectedBookmarks[index]) {
           const urlHash = md5(bookmark.url || '');
-          //Update url in tagged persons
+          // Update url in tagged persons
           taggedPersonData.push({
             prevTaggedPersons: bookmark.taggedPersons || [],
             newTaggedPersons: [],
             urlHash,
           });
-          //Remove from all urls list
+          // Remove from all urls list
           delete newUrlList[urlHash];
           return false;
         }
@@ -272,7 +279,7 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     (oldName: string, newName: string, pos: number) => {
       const oldFolderHash = md5(oldName);
       const newFolderHash = md5(newName);
-      //Update parentHash in urlList
+      // Update parentHash in urlList
       const newUrlList = Object.entries(urlList).reduce<
         IBookmarksObj['urlList']
       >((obj, [hash, data]) => {
@@ -283,16 +290,16 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
         }
         return obj;
       }, {});
-      //Update name in folderList
+      // Update name in folderList
       folderList[newFolderHash] = {
         ...folderList[oldFolderHash],
         name: btoa(newName),
       };
       delete folderList[oldFolderHash];
-      //Update in folders
+      // Update in folders
       folders[newFolderHash] = folders[oldFolderHash];
       delete folders[oldFolderHash];
-      //Update current folder
+      // Update current folder
       contextBookmarks[pos] = { ...contextBookmarks[pos], name: newName };
       setUrlList(newUrlList);
       setFolderList({ ...folderList });
@@ -313,11 +320,11 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
         });
         return;
       }
-      //Remove from current context folder
+      // Remove from current context folder
       contextBookmarks.splice(pos, 1);
-      //Remove from all folders list
+      // Remove from all folders list
       delete folderList[folderHash];
-      //Remove all urls inside the folder and update all urls in tagged persons
+      // Remove all urls inside the folder and update all urls in tagged persons
       const taggedPersonData: IUpdateTaggedPerson[] = [];
       const newUrlList = Object.entries(urlList).reduce<
         IBookmarksObj['urlList']
@@ -333,7 +340,7 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
         }
         return obj;
       }, {});
-      //Remove its data from folders
+      // Remove its data from folders
       delete folders[folderHash];
       setContextBookmarks([...contextBookmarks]);
       setFolderList({ ...folderList });
@@ -354,9 +361,9 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
 
   const handleSave = useCallback(async () => {
     setIsFetching(true);
-    //Update url in tagged persons
+    // Update url in tagged persons
     updateTaggedPersonUrls(updateTaggedPersons);
-    //Form folders obj for current context folder
+    // Form folders obj for current context folder
     folders[md5(folderContext)] = contextBookmarks.map(
       ({ isDir, url, name }) => ({
         isDir,
@@ -427,9 +434,6 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     },
     [handleMoveBookmarks]
   );
-
-  const handleScroll = (itemNumber: number) =>
-    listRef.current?.scrollToItem(itemNumber);
 
   const folderNamesList = useMemo(
     () => getAllFolderNames(folderList),
@@ -512,10 +516,10 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
                         folders,
                         selectedBookmarks,
                         contextBookmarks: filteredContextBookmarks,
-                        handleFolderRemove: handleFolderRemove,
-                        handleFolderEdit: handleFolderEdit,
-                        resetSelectedBookmarks: resetSelectedBookmarks,
-                        handleSelectedChange: handleSelectedChange,
+                        handleFolderRemove,
+                        handleFolderEdit,
+                        resetSelectedBookmarks,
+                        handleSelectedChange,
                       }}
                       style={{ overflowY: 'scroll' }}
                     >

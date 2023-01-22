@@ -5,6 +5,7 @@ import {
   Worker,
 } from '@playwright/test';
 import path from 'path';
+// eslint-disable-next-line import/no-relative-packages
 import { tempDir } from '../../../../scripts/global-teardown';
 
 export const test = base.extend<{
@@ -36,4 +37,4 @@ export const test = base.extend<{
   },
 });
 
-export const expect = test.expect;
+export const { expect } = test;

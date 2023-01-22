@@ -21,7 +21,7 @@ const usePerson = () => {
         return '';
       }
       const imageUrl = personImages[uid];
-      return await getBlobUrlFromCache(CACHE_BUCKET_KEYS.person, imageUrl);
+      return getBlobUrlFromCache(CACHE_BUCKET_KEYS.person, imageUrl);
     },
     [getPersonImageUrls]
   );
@@ -31,7 +31,7 @@ const usePerson = () => {
       if (!persons) {
         return [];
       }
-      return await Promise.all(
+      return Promise.all(
         persons.map(async (person) => ({
           ...person,
           imageUrl: await resolvePersonImageFromUid(person.uid),

@@ -24,7 +24,7 @@ const automate = () => {
       return;
     }
     const option = [...timeRangeOptions].find(
-      (option) => option.innerText === 'Last hour'
+      (_option) => _option.innerText === 'Last hour'
     );
     option?.dispatchEvent(
       new MouseEvent('mousedown', {
@@ -53,7 +53,7 @@ export const manageGoogleActivity = async (historyWatchTime: number) => {
         target: { tabId },
         func: automate,
       });
-      //Close only when history watch time was less than 1 hour
+      // Close only when history watch time was less than 1 hour
       if (historyWatchTime <= 60 * 60 * 1000) {
         setTimeout(() => {
           tabs.remove(tabId);

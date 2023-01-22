@@ -28,7 +28,8 @@ export default function Web() {
       STORAGE_KEYS.twoFactorAuth
     );
     if (!twoFAData) {
-      return setPromptTOTPVerify(false);
+      setPromptTOTPVerify(false);
+      return;
     }
     if (twoFAData.is2FAEnabled) {
       setPromptTOTPVerify(!twoFAData.isTOTPVerified);
@@ -89,7 +90,7 @@ export default function Web() {
   return (
     <Container size="md">
       <MetaTags titleSuffix="Home" />
-      <Header text={'Bypass Links - Web'} />
+      <Header text="Bypass Links - Web" />
       <Center mt="md">
         <Stack w="40%">
           <Button

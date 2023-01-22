@@ -1,7 +1,6 @@
-import { defaultBookmarkFolder } from '../constants';
 import { ROUTES } from '../../../constants/routes';
 import { serialzeObjectToQueryString } from '../../../utils/url';
-import { BOOKMARK_OPERATION } from '../constants';
+import { BOOKMARK_OPERATION, defaultBookmarkFolder } from '../constants';
 import { BMPanelQueryParams } from '../interfaces/url';
 
 export const getBookmarksPanelUrl = ({

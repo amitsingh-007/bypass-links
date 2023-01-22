@@ -22,8 +22,8 @@ const SettingsPanel = memo(function SettingsPanel() {
 
   const initSettings = async () => {
     setIsUpdatingSettings(true);
-    const settings = await getSettings();
-    setSettings(settings);
+    const settingsData = await getSettings();
+    setSettings(settingsData);
     setIsUpdatingSettings(false);
   };
 

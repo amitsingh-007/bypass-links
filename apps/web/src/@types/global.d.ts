@@ -1,2 +1,3 @@
-declare const __PROD__: boolean;
+declare const PROD_ENV: boolean;
+
 declare const HOST_NAME: string;

@@ -2,38 +2,40 @@ import { AuthenticationEvent } from '@interfaces/authentication';
 import useAuthStore from '@store/auth';
 
 export class AuthProgress {
-  private static _total: number;
-  private static _curProgress: number;
+  private static total: number;
+
+  private static curProgress: number;
 
   static initialize = (total: number) => {
-    this._total = total;
-    this._curProgress = -1;
+    this.total = total;
+    this.curProgress = -1;
   };
 
   static dispatchAuthenticationEvent = (authProgressObj: AuthenticationEvent) =>
     useAuthStore.setState({ authProgress: authProgressObj });
 
   static start = (message: string) => {
+    this.curProgress += 1;
     this.dispatchAuthenticationEvent({
       message,
-      progress: ++this._curProgress,
-      total: this._total,
+      progress: this.curProgress,
+      total: this.total,
     });
   };
 
   static update = (message: string) => {
     this.dispatchAuthenticationEvent({
       message,
-      progress: this._curProgress,
-      total: this._total,
+      progress: this.curProgress,
+      total: this.total,
     });
   };
 
   static finish = (message: string) => {
     this.dispatchAuthenticationEvent({
       message,
-      progress: this._curProgress + 1,
-      total: this._total,
+      progress: this.curProgress + 1,
+      total: this.total,
     });
   };
 }

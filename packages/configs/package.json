@@ -3,16 +3,20 @@
   "version": "1.0.0",
   "private": true,
   "files": [
-    ".eslintrc.js",
-    "tsconfig.base.json"
+    "eslint.base.js",
+    "tsconfig.base.json",
+    "lint-staged.base.js"
   ],
   "peerDependencies": {
     "@typescript-eslint/eslint-plugin": "5.48.2",
     "@typescript-eslint/parser": "5.48.2",
     "eslint": "8.32.0",
+    "eslint-config-airbnb": "19.0.4",
+    "eslint-config-airbnb-typescript": "17.0.0",
     "eslint-config-turbo": "0.0.7",
     "eslint-import-resolver-typescript": "3.5.3",
     "eslint-plugin-import": "2.27.5",
+    "eslint-plugin-jsx-a11y": "6.7.1",
     "eslint-plugin-prettier": "4.2.1",
     "eslint-plugin-react": "7.32.1",
     "eslint-plugin-react-hooks": "4.6.0",

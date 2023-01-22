@@ -3,13 +3,16 @@
  */
 module.exports = {
   extends: [
+    'airbnb',
+    'airbnb-typescript',
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:prettier/recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:react-hooks/recommended',
-    'plugin:react/jsx-runtime',
     'prettier',
+    'plugin:playwright/playwright-test',
+    'plugin:react/jsx-runtime',
     'turbo',
   ],
   plugins: ['import'],
@@ -20,6 +23,7 @@ module.exports = {
     ecmaFeatures: {
       jsx: true,
     },
+    project: './tsconfig.json',
   },
   settings: {
     react: {
@@ -43,9 +47,19 @@ module.exports = {
     serviceworker: true,
     node: true,
   },
+  ignorePatterns: ['.eslintrc.js'],
   rules: {
+    'no-new': 'off',
+    'no-console': 'off',
     'eol-last': ['error', 'always'],
     'no-trailing-spaces': 'error',
+    'import/prefer-default-export': 'off',
+    'class-methods-use-this': 'off',
+    'no-alert': 'off',
+    'react/function-component-definition': 'off',
+    'react/jsx-props-no-spreading': 'off',
+    // https://github.com/import-js/eslint-plugin-import/blob/v2.27.4/docs/rules/no-cycle.md#when-not-to-use-it
+    'import/no-cycle': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-unused-vars': [
@@ -68,7 +82,12 @@ module.exports = {
     ],
     '@typescript-eslint/ban-ts-comment': 'warn',
     'react/prop-types': 'off',
-    'import/no-extraneous-dependencies': ['error'],
+    'import/no-extraneous-dependencies': [
+      'error',
+      {
+        devDependencies: ['tests/**', '*.config.{js,ts}'],
+      },
+    ],
     '@typescript-eslint/no-empty-interface': [
       'error',
       {
@@ -79,6 +98,24 @@ module.exports = {
       'error',
       {
         allowDeclarations: true,
+      },
+    ],
+    'no-param-reassign': [
+      'error',
+      {
+        props: false,
+      },
+    ],
+    'no-plusplus': [
+      'error',
+      {
+        allowForLoopAfterthoughts: true,
+      },
+    ],
+    'react/require-default-props': [
+      'error',
+      {
+        functions: 'defaultArguments',
       },
     ],
   },
