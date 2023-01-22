@@ -57,6 +57,7 @@ importers:
       eslint-import-resolver-typescript: 3.5.3
       eslint-plugin-import: 2.27.5
       eslint-plugin-jsx-a11y: 6.7.1
+      eslint-plugin-playwright: 0.12.0
       eslint-plugin-prettier: 4.2.1
       eslint-plugin-react: 7.32.1
       eslint-plugin-react-hooks: 4.6.0
@@ -136,6 +137,7 @@ importers:
       eslint-import-resolver-typescript: 3.5.3_ps7hf4l2dvbuxvtusmrfhmzsba
       eslint-plugin-import: 2.27.5_bzolr7xl6xcwr64wsu2tr4eimm
       eslint-plugin-jsx-a11y: 6.7.1_eslint@8.32.0
+      eslint-plugin-playwright: 0.12.0_eslint@8.32.0
       eslint-plugin-prettier: 4.2.1_3vccgihvamfrdnqonsut5ihh4a
       eslint-plugin-react: 7.32.1_eslint@8.32.0
       eslint-plugin-react-hooks: 4.6.0_eslint@8.32.0
@@ -190,6 +192,7 @@ importers:
       eslint-import-resolver-typescript: 3.5.3
       eslint-plugin-import: 2.27.5
       eslint-plugin-jsx-a11y: 6.7.1
+      eslint-plugin-playwright: 0.12.0
       eslint-plugin-prettier: 4.2.1
       eslint-webpack-plugin: 3.2.0
       firebase: 9.16.0
@@ -248,6 +251,7 @@ importers:
       eslint-import-resolver-typescript: 3.5.3_ps7hf4l2dvbuxvtusmrfhmzsba
       eslint-plugin-import: 2.27.5_bzolr7xl6xcwr64wsu2tr4eimm
       eslint-plugin-jsx-a11y: 6.7.1_eslint@8.32.0
+      eslint-plugin-playwright: 0.12.0_eslint@8.32.0
       eslint-plugin-prettier: 4.2.1_cn4lalcyadplruoxa5mhp7j3dq
       eslint-webpack-plugin: 3.2.0_ozjdf2ywoi3qlyjpudft42m7aq
       fork-ts-checker-webpack-plugin: 7.3.0_3fkjkrd3audxnith3e7fo4fnxi
@@ -6372,6 +6376,18 @@ packages:
       object.entries: 1.1.6
       object.fromentries: 2.0.6
       semver: 6.3.0
+    dev: true
+
+  /eslint-plugin-playwright/0.12.0_eslint@8.32.0:
+    resolution: {integrity: sha512-KXuzQjVzca5irMT/7rvzJKsVDGbQr43oQPc8i+SLEBqmfrTxlwMwRqfv9vtZqh4hpU0jmrnA/EOfwtls+5QC1w==}
+    peerDependencies:
+      eslint: '>=7'
+      eslint-plugin-jest: '>=24'
+    peerDependenciesMeta:
+      eslint-plugin-jest:
+        optional: true
+    dependencies:
+      eslint: 8.32.0
     dev: true
 
   /eslint-plugin-prettier/4.2.1_3vccgihvamfrdnqonsut5ihh4a:
