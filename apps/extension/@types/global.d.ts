@@ -1,3 +1,3 @@
 interface Window {
-  __SW_INITIALIZED__?: boolean;
+  SW_INITIALIZED?: boolean;
 }

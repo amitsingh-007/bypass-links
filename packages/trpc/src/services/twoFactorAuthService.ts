@@ -8,7 +8,7 @@ import { fetchUser2FAInfo } from './userService';
 authenticator.options = { window: 1 };
 
 const get2FATitle = () =>
-  __PROD__ ? getEnvVars().SITE_NAME ?? '' : 'Bypass Links - Local';
+  PROD_ENV ? getEnvVars().SITE_NAME ?? '' : 'Bypass Links - Local';
 
 const verify2FAToken = (secret: string, token: string) =>
   authenticator.verify({ token, secret });

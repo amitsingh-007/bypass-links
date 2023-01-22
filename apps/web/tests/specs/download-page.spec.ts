@@ -22,7 +22,7 @@ test.describe('Download page', () => {
 
   test('offline mode', async ({ page }, testConfig) => {
     testConfig.setTimeout(30 * 1000);
-    await page.waitForTimeout(15 * 1000); //Let the SW cache assets
+    await page.waitForTimeout(15 * 1000); // Let the SW cache assets
     const context = page.context();
     await context.setOffline(true);
     await page.reload();

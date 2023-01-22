@@ -1,8 +1,8 @@
+import { getVersionFromFileName } from '@bypass/shared';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import { getLatestExtension } from '../services/extensionService';
 import { t } from '../trpc';
-import { getVersionFromFileName } from '@bypass/shared';
 
 const extensionRouter = t.router({
   latest: t.procedure.input(z.void()).query(async () => {
@@ -13,11 +13,11 @@ const extensionRouter = t.router({
         message: 'Extension not found',
       });
     }
-    const { browser_download_url, name, updated_at } = extension;
+    // const { browser_download_url, name, updated_at } = extension;
     return {
-      extension: browser_download_url,
-      version: getVersionFromFileName(name),
-      date: updated_at,
+      extension: extension.browser_download_url,
+      version: getVersionFromFileName(extension.name),
+      date: extension.updated_at,
     };
   }),
 });

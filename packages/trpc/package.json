@@ -10,6 +10,7 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@bypass/shared": "workspace:*",
     "@octokit/rest": "19.0.5",
     "@trpc/server": "10.9.0",
     "firebase-admin": "11.5.0",
@@ -18,7 +19,6 @@
   },
   "devDependencies": {
     "@bypass/configs": "workspace:*",
-    "@bypass/shared": "workspace:*",
     "@firebase/app-types": "0.9.0",
     "@typescript-eslint/eslint-plugin": "5.48.2",
     "@typescript-eslint/parser": "5.48.2",

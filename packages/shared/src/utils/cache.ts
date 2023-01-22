@@ -1,7 +1,7 @@
 import { ICacheBucketKeys } from '../constants/cache';
 
 export const getCacheObj = async (cacheBucketKey: string) =>
-  await caches.open(cacheBucketKey);
+  caches.open(cacheBucketKey);
 
 export const addToCache = async (
   cacheBucketKey: ICacheBucketKeys,
@@ -19,7 +19,7 @@ export const addToCache = async (
 
 const getFromCache = async (cacheBucketKey: ICacheBucketKeys, url: string) => {
   const cache = await getCacheObj(cacheBucketKey);
-  return await cache.match(url);
+  return cache.match(url);
 };
 
 export const getBlobUrlFromCache = async (
@@ -34,15 +34,15 @@ export const getBlobUrlFromCache = async (
   return URL.createObjectURL(blob);
 };
 
+export const deleteCache = async (bucketKey: string) => {
+  await caches.delete(bucketKey);
+};
+
 export const deleteAllCache = async (bucketKeys: ICacheBucketKeys[]) => {
   bucketKeys.forEach(async (cacheBucketKey) => {
     await deleteCache(cacheBucketKey);
   });
   console.log('Cleared all cache inside the buckets', bucketKeys);
-};
-
-export const deleteCache = async (bucketKey: string) => {
-  await caches.delete(bucketKey);
 };
 
 export const isCachePresent = async (key: string) => {

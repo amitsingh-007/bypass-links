@@ -1,1 +1,1 @@
-declare const __PROD__: boolean;
+declare const PROD_ENV: boolean;

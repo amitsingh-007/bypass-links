@@ -30,7 +30,7 @@ const Header = memo<Props>(function Header({
       sx={(theme) => ({
         display: 'flex',
         justifyContent: 'space-between',
-        //Handle web headers
+        // Handle web headers
         [theme.fn.largerThan('md')]: {
           border: `1px solid ${theme.colors.dark[5]}`,
           borderBottomLeftRadius: 6,

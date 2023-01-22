@@ -344,6 +344,7 @@ importers:
       vitest: 0.27.2
       zod: 3.20.2
     dependencies:
+      '@bypass/shared': link:../shared
       '@octokit/rest': 19.0.5
       '@trpc/server': 10.9.0
       firebase-admin: 11.5.0
@@ -351,7 +352,6 @@ importers:
       zod: 3.20.2
     devDependencies:
       '@bypass/configs': link:../configs
-      '@bypass/shared': link:../shared
       '@firebase/app-types': 0.9.0
       '@typescript-eslint/eslint-plugin': 5.48.2_caon6io6stgpr7lz2rtbhekxqy
       '@typescript-eslint/parser': 5.48.2_7uibuqfxkfaozanbtbziikiqje

@@ -3,12 +3,13 @@ import { expect, test } from '../fixtures/extension-fixture';
 test.describe('Home Popup', () => {
   test('load extension', async ({ page, backgroundSW }) => {
     await page.goto('/index.html');
-    //Content script loaded
+    // Content script loaded
     await page.isVisible('Bypass Links');
     const isSWIntialized = await backgroundSW.evaluate(
-      () => self.__SW_INITIALIZED__
+      // eslint-disable-next-line no-restricted-globals
+      () => self.SW_INITIALIZED
     );
-    //Background SW loaded
+    // Background SW loaded
     expect(isSWIntialized).toBeTruthy();
   });
 });

@@ -82,7 +82,7 @@ module.exports = {
     'import/no-extraneous-dependencies': [
       'error',
       {
-        devDependencies: ['**/*.test.js', '**/*.spec.js', '*.config.ts'],
+        devDependencies: ['tests/**', '*.config.{js,ts}'],
       },
     ],
     '@typescript-eslint/no-empty-interface': [

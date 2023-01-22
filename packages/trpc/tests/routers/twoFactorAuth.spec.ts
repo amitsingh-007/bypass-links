@@ -1,8 +1,8 @@
+import { authenticator } from 'otplib';
 import { describe, expect, it } from 'vitest';
 import { getTrpcCaller } from '../test-helpers';
-import { authenticator } from 'otplib';
 
-const uid = !global.__PROD__
+const uid = !global.PROD_ENV
   ? '0zwHh3AUKrby6uIV2tKzArDXy243'
   : 'LmUG7m0hT1cfbnJiO0JvAJhdL5O2';
 

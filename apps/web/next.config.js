@@ -24,7 +24,7 @@ const nextConfig = {
     });
     config.plugins.push(
       new webpack.DefinePlugin({
-        __PROD__: JSON.stringify(!dev),
+        PROD_ENV: JSON.stringify(!dev),
         HOST_NAME: JSON.stringify(process.env.HOST_NAME),
       })
     );

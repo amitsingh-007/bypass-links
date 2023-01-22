@@ -49,7 +49,7 @@ const Persons = memo<Props>(function Persons({
     const { openBookmarksList } = deserialzeQueryStringToObject(queryString);
     const person =
       (openBookmarksList &&
-        persons.find((person) => person.uid === openBookmarksList)) ||
+        persons.find((_person) => _person.uid === openBookmarksList)) ||
       null;
     setPersonToOpen(person);
     if (person) {
@@ -64,7 +64,7 @@ const Persons = memo<Props>(function Persons({
   };
 
   const rowCount = Math.ceil(persons.length / GRID_COLUMN_SIZE);
-  const cellDimension = (width - 8) / GRID_COLUMN_SIZE; //Adjust scrollbar width
+  const cellDimension = (width - 8) / GRID_COLUMN_SIZE; // Adjust scrollbar width
 
   return (
     <>

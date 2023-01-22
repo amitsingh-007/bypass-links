@@ -164,7 +164,7 @@ const config = {
       cache: true,
     }),
     new DefinePlugin({
-      __PROD__: JSON.stringify(isProduction),
+      PROD_ENV: JSON.stringify(isProduction),
       HOST_NAME: JSON.stringify(HOST_NAME),
     }),
     new optimize.LimitChunkCountPlugin({
