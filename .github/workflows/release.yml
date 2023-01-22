@@ -116,6 +116,7 @@ jobs:
           path: ./apps/extension/build/
 
       - name: Generate Release Tag
+        id: generate_release_tag
         uses: amitsingh-007/next-release-tag@v3.0.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -132,8 +133,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ env.release_tag }}
-          release_name: Release ${{ env.release_tag }}
+          tag_name: ${{ steps.generate_release_tag.outputs.release_tag }}
+          release_name: Release ${{ steps.generate_release_tag.outputs.release_tag }}
           body: ${{ steps.changelog.outputs.changelog }}
           draft: false
           prerelease: false
