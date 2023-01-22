@@ -20,11 +20,9 @@ const twoFactorAuthRouter = t.router({
         totp: z.string(),
       })
     )
-    .query(async ({ input }) => {
-      return {
-        isVerified: await authenticate2FA(input),
-      };
-    }),
+    .query(async ({ input }) => ({
+      isVerified: await authenticate2FA(input),
+    })),
 
   // Verifies the user code while setting up 2FA
   verify: t.procedure
@@ -34,11 +32,9 @@ const twoFactorAuthRouter = t.router({
         totp: z.string(),
       })
     )
-    .query(async ({ input }) => {
-      return {
-        isVerified: await verify2FA(input),
-      };
-    }),
+    .query(async ({ input }) => ({
+      isVerified: await verify2FA(input),
+    })),
 
   // Revoke 2FA for the user
   revoke: t.procedure.input(uidType).mutation(async ({ input: uid }) => {

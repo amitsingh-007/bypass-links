@@ -90,7 +90,7 @@ export default function Web() {
   return (
     <Container size="md">
       <MetaTags titleSuffix="Home" />
-      <Header text={'Bypass Links - Web'} />
+      <Header text="Bypass Links - Web" />
       <Center mt="md">
         <Stack w="40%">
           <Button

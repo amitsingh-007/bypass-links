@@ -4,12 +4,12 @@ module.exports = {
   root: true,
   extends: [
     'eslint:recommended',
-    'airbnb-base',
-    'airbnb-typescript/base',
+    'airbnb',
+    'airbnb-typescript',
+    'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
     'next',
     'next/core-web-vitals',
-    'plugin:@typescript-eslint/recommended',
   ],
   env: {
     ...config.env,

@@ -1,26 +1,28 @@
 import { DynamicContext } from '@bypass/shared';
 import { useRouter } from 'next/router';
-import { ReactElement } from 'react';
+import { ReactElement, useMemo } from 'react';
 import { getFromLocalStorage, setToLocalStorage } from './utils';
 
 const DynamicProvider = ({ children }: { children: ReactElement }) => {
   const router = useRouter();
 
-  const location = {
-    push: (url: string) => router.push(url),
-    query: () => new URLSearchParams(router.query as any).toString(),
-    goBack: router.back,
-  };
-
-  const storage = {
-    get: getFromLocalStorage,
-    set: setToLocalStorage,
-  };
+  const ctx = useMemo(
+    () => ({
+      location: {
+        push: (url: string) => router.push(url),
+        query: () => new URLSearchParams(router.query as any).toString(),
+        goBack: router.back,
+      },
+      storage: {
+        get: getFromLocalStorage,
+        set: setToLocalStorage,
+      },
+    }),
+    [router]
+  );
 
   return (
-    <DynamicContext.Provider value={{ location, storage }}>
-      {children}
-    </DynamicContext.Provider>
+    <DynamicContext.Provider value={ctx}>{children}</DynamicContext.Provider>
   );
 };
 

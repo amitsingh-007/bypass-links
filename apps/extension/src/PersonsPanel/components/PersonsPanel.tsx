@@ -106,33 +106,27 @@ const PersonsPanel = () => {
   );
 
   return (
-    <>
-      <Flex
-        direction="column"
-        w={MAX_PANEL_SIZE.WIDTH}
-        h={MAX_PANEL_SIZE.HEIGHT}
-      >
-        <PersonHeader
-          isFetching={isFetching}
-          handleAddPerson={handleAddOrEditPerson}
-          persons={filteredPersons}
-          onSearchChange={handleSearchTextChange}
-        />
-        <Box pos="relative" sx={{ flex: 1 }}>
-          {filteredPersons.length > 0 ? (
-            <Persons
-              persons={filteredPersons}
-              handleEditPerson={handleAddOrEditPerson}
-              handlePersonDelete={handlePersonDelete}
-              virtualCell={PersonVirtualCell}
-              onLinkOpen={onLinkOpen}
-              bookmarkListProps={{ fullscreen: true }}
-              scrollButton
-            />
-          ) : null}
-        </Box>
-      </Flex>
-    </>
+    <Flex direction="column" w={MAX_PANEL_SIZE.WIDTH} h={MAX_PANEL_SIZE.HEIGHT}>
+      <PersonHeader
+        isFetching={isFetching}
+        handleAddPerson={handleAddOrEditPerson}
+        persons={filteredPersons}
+        onSearchChange={handleSearchTextChange}
+      />
+      <Box pos="relative" sx={{ flex: 1 }}>
+        {filteredPersons.length > 0 ? (
+          <Persons
+            persons={filteredPersons}
+            handleEditPerson={handleAddOrEditPerson}
+            handlePersonDelete={handlePersonDelete}
+            virtualCell={PersonVirtualCell}
+            onLinkOpen={onLinkOpen}
+            bookmarkListProps={{ fullscreen: true }}
+            scrollButton
+          />
+        ) : null}
+      </Box>
+    </Flex>
   );
 };
 

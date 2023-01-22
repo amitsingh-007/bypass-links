@@ -1,7 +1,7 @@
 import { STORAGE_KEYS } from '@bypass/shared';
 import { User } from 'firebase/auth';
 import { useRouter } from 'next/router';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { ROUTES } from '../constants/routes';
 import { onAuthStateChange } from '../firebase/auth';
 import { ITwoFactorAuth } from '../TwoFactorAuth/interface';
@@ -18,6 +18,8 @@ const AuthContext = createContext<IAuthContext>({
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const [user, setUser] = useState<IAuthContext['user']>(null);
+
+  const ctx = useMemo(() => ({ user }), [user]);
 
   useEffect(() => {
     onAuthStateChange((_user: User | null) => setUser(_user));
@@ -39,9 +41,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     );
   }, [router, user]);
 
-  return (
-    <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={ctx}>{children}</AuthContext.Provider>;
 };
 
 export const useUser = () => {

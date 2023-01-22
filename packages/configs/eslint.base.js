@@ -3,15 +3,15 @@
  */
 module.exports = {
   extends: [
+    'airbnb',
+    'airbnb-typescript',
     'eslint:recommended',
-    'airbnb-base',
-    'airbnb-typescript/base',
     'plugin:react/recommended',
     'plugin:prettier/recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:react-hooks/recommended',
-    'plugin:react/jsx-runtime',
     'prettier',
+    'plugin:react/jsx-runtime',
     'turbo',
   ],
   plugins: ['import'],
@@ -55,6 +55,8 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'class-methods-use-this': 'off',
     'no-alert': 'off',
+    'react/function-component-definition': 'off',
+    'react/jsx-props-no-spreading': 'off',
     // https://github.com/import-js/eslint-plugin-import/blob/v2.27.4/docs/rules/no-cycle.md#when-not-to-use-it
     'import/no-cycle': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
@@ -107,6 +109,12 @@ module.exports = {
       'error',
       {
         allowForLoopAfterthoughts: true,
+      },
+    ],
+    'react/require-default-props': [
+      'error',
+      {
+        functions: 'defaultArguments',
       },
     ],
   },
