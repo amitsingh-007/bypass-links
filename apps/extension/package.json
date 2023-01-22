@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "build": "cross-env NODE_ENV=production HOST_NAME=https://bypass-links.vercel.app webpack",
-    "dev": "cross-env NODE_ENV=development HOST_NAME=http://localhost:3000 webpack serve"
+    "dev": "cross-env NODE_ENV=development HOST_NAME=http://localhost:3000 webpack serve",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@bypass/shared": "workspace:*",

@@ -15,9 +15,12 @@ module.exports = {
     ...config.env,
     commonjs: true,
   },
+  parserOptions: {
+    ...config.parserOptions,
+    tsconfigRootDir: __dirname,
+  },
   plugins: config.plugins,
   settings: config.settings,
-  parserOptions: config.parserOptions,
   rules: config.rules,
   overrides: config.overrides,
 };

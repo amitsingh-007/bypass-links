@@ -4,17 +4,22 @@
   "description": "An easy-to-use Open-Source `Browser Extension` which bypasses links on various websites and lets you use the direct url for your resource. This will help you to bypass recaptchas, unnecessary timers, countdowns, ads, popups, surveys, avoid unnecessary third party installs.",
   "private": true,
   "scripts": {
-    "build": "FORCE_COLOR=1 turbo run build",
-    "dev": "FORCE_COLOR=1 turbo run dev",
+    "build": "cross-env FORCE_COLOR=1 turbo run build",
+    "dev": "cross-env FORCE_COLOR=1 turbo run dev",
     "dev:env": "vercel env pull apps/web/.env && vercel env pull packages/trpc/.env",
     "e2e": "playwright test",
-    "preinstall": "npx only-allow pnpm",
-    "test": "FORCE_COLOR=1 turbo run test"
+    "lint": "cross-env FORCE_COLOR=1 turbo run lint --continue",
+    "precommit": "lint-staged --quiet",
+    "prepare": "husky install",
+    "test": "cross-env FORCE_COLOR=1 turbo run test"
   },
   "devDependencies": {
     "@playwright/test": "1.29.2",
     "@types/node": "18.11.18",
+    "cross-env": "7.0.3",
+    "lint-staged": "13.1.0",
     "turbo": "1.7.0",
-    "vercel": "28.13.0"
+    "vercel": "28.13.0",
+    "husky": "8.0.0"
   }
 }

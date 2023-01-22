@@ -4,7 +4,8 @@
   "private": true,
   "files": [
     "eslint.base.js",
-    "tsconfig.base.json"
+    "tsconfig.base.json",
+    "lint-staged.base.js"
   ],
   "peerDependencies": {
     "@typescript-eslint/eslint-plugin": "5.48.2",

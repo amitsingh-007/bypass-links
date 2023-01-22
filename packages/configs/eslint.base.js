@@ -46,6 +46,7 @@ module.exports = {
     serviceworker: true,
     node: true,
   },
+  ignorePatterns: ['.eslintrc.js'],
   rules: {
     'no-new': 'off',
     'no-console': 'off',
@@ -78,7 +79,12 @@ module.exports = {
     ],
     '@typescript-eslint/ban-ts-comment': 'warn',
     'react/prop-types': 'off',
-    'import/no-extraneous-dependencies': ['error'],
+    'import/no-extraneous-dependencies': [
+      'error',
+      {
+        devDependencies: ['**/*.test.js', '**/*.spec.js', '*.config.ts'],
+      },
+    ],
     '@typescript-eslint/no-empty-interface': [
       'error',
       {

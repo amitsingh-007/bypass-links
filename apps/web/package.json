@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "build": "cross-env HOST_NAME=https://bypass-links.vercel.app next build",
-    "dev": "cross-env HOST_NAME=http://localhost:3000 next dev"
+    "dev": "cross-env HOST_NAME=http://localhost:3000 next dev",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@bypass/shared": "workspace:*",
