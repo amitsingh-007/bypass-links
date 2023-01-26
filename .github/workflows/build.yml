@@ -38,7 +38,7 @@ jobs:
           vercel env pull packages/trpc/.env --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Building
-        run: pnpm run build
+        run: pnpm build
 
       - name: Run tests
         run: pnpm test
