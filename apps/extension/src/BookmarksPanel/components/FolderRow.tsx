@@ -20,8 +20,8 @@ const FolderRow = memo<Props>(
     const [menuOptions, setMenuOptions] = useState<IMenuOptions[]>([]);
 
     const toggleEditDialog = useCallback(() => {
-      setOpenEditDialog(!openEditDialog);
-    }, [openEditDialog]);
+      setOpenEditDialog((prev) => !prev);
+    }, []);
 
     const handleDeleteOptionClick = useCallback(() => {
       handleRemove(pos, origName);
