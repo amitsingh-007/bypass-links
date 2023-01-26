@@ -2,10 +2,10 @@ import { getCurrentTab } from '@/helpers/chrome/tabs';
 import useBookmarkStore from '@/store/bookmark';
 import {
   BOOKMARK_OPERATION,
-  ContextBookmark,
   ContextBookmarks,
   getBookmarksPanelUrl,
   IBookmarkOperation,
+  IDecodedBookmark,
 } from '@bypass/shared';
 import { Button, Modal, Select, Stack, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
@@ -95,11 +95,11 @@ const BookmarkAddEditDialog = memo<Props>(function BookmarkAddEditDialog({
         setOpenDialog(true);
         return;
       }
-      let bookmark: Required<ContextBookmark> | undefined;
+      let bookmark: Required<IDecodedBookmark> | undefined;
       let pos = -1;
       contextBookmarks.forEach((x, index) => {
-        if (x.url === _bmUrl) {
-          bookmark = x as Required<ContextBookmark>;
+        if (!x.isDir && x.url === _bmUrl) {
+          bookmark = x;
           pos = index;
         }
       });

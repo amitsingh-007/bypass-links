@@ -1,6 +1,10 @@
 import md5 from 'md5';
 import { hasText } from '../../../utils/search';
-import { ContextBookmarks, IBookmark, IBookmarksObj } from '../interfaces';
+import {
+  ContextBookmarks,
+  IEncodedBookmark,
+  IBookmarksObj,
+} from '../interfaces';
 
 export const isFolderEmpty = (
   folders: IBookmarksObj['folders'],
@@ -14,20 +18,21 @@ export const getFilteredContextBookmarks = (
   contextBookmarks: ContextBookmarks,
   searchText: string
 ) =>
-  contextBookmarks?.filter(
-    ({ url, title, name }) =>
-      !searchText ||
-      hasText(searchText, url) ||
-      hasText(searchText, title) ||
-      hasText(searchText, name)
-  );
+  contextBookmarks?.filter((ctx) => {
+    if (!searchText) {
+      return true;
+    }
+    return ctx.isDir
+      ? hasText(searchText, ctx.name)
+      : hasText(searchText, ctx.url) || hasText(searchText, ctx.title);
+  });
 
 export const shouldRenderBookmarks = (
   folders: IBookmarksObj['folders'],
   contextBookmarks: ContextBookmarks
 ) => folders && contextBookmarks && contextBookmarks.length > 0;
 
-export const getDecodedBookmark = (bookmark: IBookmark) => ({
+export const getDecodedBookmark = (bookmark: IEncodedBookmark) => ({
   url: decodeURIComponent(atob(bookmark.url)),
   title: decodeURIComponent(atob(bookmark.title)),
   parentHash: bookmark.parentHash,

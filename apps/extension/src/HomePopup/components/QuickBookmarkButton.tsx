@@ -4,7 +4,7 @@ import {
   defaultBookmarkFolder,
   getBookmarksPanelUrl,
   getDecodedBookmark,
-  IBookmark,
+  IEncodedBookmark,
   useBookmark,
 } from '@bypass/shared';
 import { getCurrentTab } from '@helpers/chrome/tabs';
@@ -21,7 +21,7 @@ const QuickBookmarkButton = memo(function QuickBookmarkButton() {
   const navigate = useNavigate();
   const isSignedIn = useAuthStore((state) => state.isSignedIn);
   const { getFolderFromHash } = useBookmark();
-  const [bookmark, setBookmark] = useState<IBookmark | null>(null);
+  const [bookmark, setBookmark] = useState<IEncodedBookmark | null>(null);
   const [isFetching, setIsFetching] = useState(false);
 
   const initBookmark = async () => {

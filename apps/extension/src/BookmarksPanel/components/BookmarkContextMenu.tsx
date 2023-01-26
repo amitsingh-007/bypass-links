@@ -46,9 +46,12 @@ const BookmarkContextMenu = memo<Props>(
     const getBookmark = useCallback(
       (id: string) => {
         const selectedIndex = contextBookmarks.findIndex(
-          (bookmark) => md5(bookmark.url ?? '') === id
+          (bookmark) => !bookmark.isDir && md5(bookmark.url ?? '') === id
         );
         const selectedBookmark = contextBookmarks[selectedIndex];
+        if (!selectedBookmark || selectedBookmark.isDir) {
+          throw new Error(`Bookmark not found for id: ${id}`);
+        }
         return {
           pos: selectedIndex,
           url: selectedBookmark.url ?? '',

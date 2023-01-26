@@ -107,9 +107,9 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
 
   const handleOpenSelectedBookmarks = useCallback(() => {
     startHistoryMonitor();
-    contextBookmarks.forEach(({ url }, index) => {
-      if (selectedBookmarks[index]) {
-        tabs.create({ url, active: false });
+    contextBookmarks.forEach((bookmark, index) => {
+      if (selectedBookmarks[index] && !bookmark.isDir) {
+        tabs.create({ url: bookmark.url, active: false });
       }
     });
   }, [contextBookmarks, selectedBookmarks, startHistoryMonitor]);
@@ -253,8 +253,12 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
   const handleUrlRemove = useCallback(
     (pos: number, url: string) => {
       const urlHash = md5(url);
+      const contextBookmark = contextBookmarks[pos];
+      if (contextBookmark.isDir) {
+        throw new Error(`Item at pos: ${pos} not a bookmark`);
+      }
       // Update url in tagged persons
-      updatePersonUrls(urlHash, contextBookmarks[pos].taggedPersons, []);
+      updatePersonUrls(urlHash, contextBookmark.taggedPersons, []);
       // Remove from current context folder
       setContextBookmarks((prev) => {
         const newValue = [...prev];
@@ -279,8 +283,8 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     // Remove from current context folder
     setContextBookmarks((prev) => {
       const filteredContextBookmarks = prev.filter((bookmark, index) => {
-        if (selectedBookmarks[index]) {
-          const urlHash = md5(bookmark.url || '');
+        if (selectedBookmarks[index] && !bookmark.isDir) {
+          const urlHash = md5(bookmark.url);
           // Update url in tagged persons
           taggedPersonData.push({
             prevTaggedPersons: bookmark.taggedPersons || [],
@@ -339,7 +343,11 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
       // Update current folder
       setContextBookmarks((prev) => {
         const newValue = [...prev];
-        newValue[pos] = { ...newValue[pos], name: newName };
+        const curFolder = newValue[pos];
+        if (!curFolder.isDir) {
+          throw new Error(`Item at pos: ${pos} not a folder`);
+        }
+        newValue[pos] = { ...curFolder, name: newName };
         return newValue;
       });
       setIsSaveButtonActive(true);
@@ -406,12 +414,10 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     updateTaggedPersonUrls(updateTaggedPersons);
     // Form folders obj for current context folder
     const newFolders = { ...folders };
-    newFolders[md5(folderContext)] = contextBookmarks.map(
-      ({ isDir, url, name }) => ({
-        isDir,
-        hash: md5((isDir ? name : url) || ''),
-      })
-    );
+    newFolders[md5(folderContext)] = contextBookmarks.map((x) => ({
+      isDir: x.isDir,
+      hash: md5(x.isDir ? x.name : x.url),
+    }));
     const bookmarksObj: IBookmarksObj = {
       folderList,
       urlList,
@@ -554,9 +560,8 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
                       overscanCount={5}
                       outerRef={provided.innerRef}
                       itemKey={(index, data) => {
-                        const { isDir, url, name } =
-                          data.contextBookmarks[index];
-                        return (isDir ? name : url) ?? '';
+                        const ctx = data.contextBookmarks[index];
+                        return ctx.isDir ? ctx.name : ctx.url;
                       }}
                       itemData={{
                         folderNamesList,
