@@ -83,7 +83,11 @@ const Footer = ({
             href="https://github.com/amitsingh-007/bypass-links"
             title="Bypass Links - Github"
           >
-            <ActionIcon radius={999} size="xl">
+            <ActionIcon
+              radius={999}
+              size="xl"
+              aria-label="Github Repository Link"
+            >
               <GoMarkGithub size={28} />
             </ActionIcon>
           </Box>
