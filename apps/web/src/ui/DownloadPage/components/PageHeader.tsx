@@ -3,7 +3,7 @@ import ChromeIcon from '@ui/icons/chrome.svg';
 import { memo } from 'react';
 
 const PageHeader = memo<{ downloadLink: string }>(({ downloadLink }) => (
-  <Group mt={70} position="center">
+  <Group mt={70} position="center" sx={{ flexDirection: 'column' }}>
     <Title fz={{ base: 35, md: 45 }} ta="center">
       Have a Link Bypasser and private Bookmarks Panel !
     </Title>
