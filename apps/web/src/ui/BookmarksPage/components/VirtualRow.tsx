@@ -22,13 +22,7 @@ const VirtualRow = memo<{
   data: VirtualRowProps;
 }>(({ index, style, data: innerProps }) => {
   const { folders, contextBookmarks } = innerProps;
-  const {
-    url = '',
-    title = '',
-    name = '',
-    taggedPersons = [],
-    isDir,
-  } = contextBookmarks[index];
+  const ctx = contextBookmarks[index];
 
   const onOpenLink = (_url: string) => {
     openNewTab(_url);
@@ -39,13 +33,13 @@ const VirtualRow = memo<{
       sx={[{ cursor: 'pointer', userSelect: 'none' }, bookmarkRowStyles]}
       style={style}
     >
-      {isDir ? (
-        <Folder name={name} isEmpty={isFolderEmpty(folders, name)} />
+      {ctx.isDir ? (
+        <Folder name={ctx.name} isEmpty={isFolderEmpty(folders, ctx.name)} />
       ) : (
         <Bookmark
-          url={url}
-          title={title}
-          taggedPersons={taggedPersons}
+          url={ctx.url}
+          title={ctx.title}
+          taggedPersons={ctx.taggedPersons}
           onOpenLink={onOpenLink}
         />
       )}

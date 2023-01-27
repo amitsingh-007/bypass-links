@@ -62,6 +62,7 @@ module.exports = {
     'import/no-cycle': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    'prefer-promise-reject-errors': 'off',
     '@typescript-eslint/no-unused-vars': [
       'warn',
       {

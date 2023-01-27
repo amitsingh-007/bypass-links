@@ -107,9 +107,9 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
 
   const handleOpenSelectedBookmarks = useCallback(() => {
     startHistoryMonitor();
-    contextBookmarks.forEach(({ url }, index) => {
-      if (selectedBookmarks[index]) {
-        tabs.create({ url, active: false });
+    contextBookmarks.forEach((bookmark, index) => {
+      if (selectedBookmarks[index] && !bookmark.isDir) {
+        tabs.create({ url: bookmark.url, active: false });
       }
     });
   }, [contextBookmarks, selectedBookmarks, startHistoryMonitor]);
@@ -139,26 +139,29 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
       prevTaggedPersons: string[] = [],
       newTaggedPersons: string[] = []
     ) =>
-      setUpdateTaggedPersons([
-        ...updateTaggedPersons,
+      setUpdateTaggedPersons((prev) => [
+        ...prev,
         {
           prevTaggedPersons,
           newTaggedPersons,
           urlHash,
         },
       ]),
-    [updateTaggedPersons]
+    []
   );
 
   const handleSelectedChange = useCallback(
     (pos: number, isOnlySelection: boolean) => {
-      if (isOnlySelection) {
-        selectedBookmarks.fill(false);
-      }
-      selectedBookmarks[pos] = !selectedBookmarks[pos];
-      setSelectedBookmarks([...selectedBookmarks]);
+      setSelectedBookmarks((prev) => {
+        const newValue = [...prev];
+        if (isOnlySelection) {
+          newValue.fill(false);
+        }
+        newValue[pos] = !newValue[pos];
+        return newValue;
+      });
     },
-    [selectedBookmarks]
+    []
   );
 
   const resetSelectedBookmarks = () => setSelectedBookmarks([]);
@@ -168,18 +171,24 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
       const isDir = true;
       const nameHash = md5(name);
       // Update current context folder
-      contextBookmarks?.unshift({ isDir, name });
+      setContextBookmarks((prev) => {
+        const newValue = [...prev];
+        newValue.unshift({ isDir, name });
+        return newValue;
+      });
       // Update data in all folders list
-      folderList[nameHash] = {
-        name: btoa(name),
-        parentHash: md5(folderContext),
-      };
-      setContextBookmarks([...contextBookmarks]);
-      setFolderList({ ...folderList });
+      setFolderList((prev) => {
+        const newValue = { ...prev };
+        newValue[nameHash] = {
+          name: btoa(name),
+          parentHash: md5(folderContext),
+        };
+        return newValue;
+      });
       setIsSaveButtonActive(true);
       handleScroll(0);
     },
-    [contextBookmarks, folderContext, folderList]
+    [folderContext]
   );
 
   const handleBookmarkSave = useCallback(
@@ -199,62 +208,83 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
       // Update url in tagged persons
       updatePersonUrls(urlHash, prevTaggedPersons, newTaggedPersons);
       // Update urlList with new values
-      urlList[urlHash] = getEncryptedBookmark({
-        url,
-        title,
-        taggedPersons: [...newTaggedPersons],
-        parentHash: newFolderHash,
-      });
-      // Update folders and current context folder content based on dir change
-      const newBookmarks = contextBookmarks;
-      if (isFolderChange) {
-        folders[newFolderHash] = folders[newFolderHash] || []; // to handle empty folders
-        folders[newFolderHash].push({ isDir, hash: urlHash });
-        setFolders({ ...folders });
-        newBookmarks.splice(pos, 1);
-      } else {
-        newBookmarks[pos] = {
+      setUrlList((prev) => {
+        const newValue = { ...prev };
+        newValue[urlHash] = getEncryptedBookmark({
           url,
           title,
-          taggedPersons: newTaggedPersons,
-          isDir,
-        };
+          taggedPersons: [...newTaggedPersons],
+          parentHash: newFolderHash,
+        });
+        return newValue;
+      });
+      // Update folders and current context folder content based on dir change
+      if (isFolderChange) {
+        setFolders((prev) => {
+          const newValue = { ...prev };
+          newValue[newFolderHash] = newValue[newFolderHash] || []; // to handle empty folders
+          newValue[newFolderHash].push({ isDir, hash: urlHash });
+          return newValue;
+        });
+        setContextBookmarks((prev) => {
+          const newValue = [...prev];
+          newValue.splice(pos, 1);
+          return newValue;
+        });
+      } else {
+        setContextBookmarks((prev) => {
+          const newValue = [...prev];
+          newValue[pos] = {
+            url,
+            title,
+            taggedPersons: newTaggedPersons,
+            isDir,
+          };
+          return newValue;
+        });
       }
       // Add bookmark favicon in the cache
       addToCache(CACHE_BUCKET_KEYS.favicon, getFaviconProxyUrl(url));
-      setUrlList({ ...urlList });
-      setContextBookmarks([...newBookmarks]);
       setIsSaveButtonActive(true);
     },
-    [contextBookmarks, folders, updatePersonUrls, urlList]
+    [updatePersonUrls]
   );
 
   const handleUrlRemove = useCallback(
     (pos: number, url: string) => {
       const urlHash = md5(url);
+      const contextBookmark = contextBookmarks[pos];
+      if (contextBookmark.isDir) {
+        throw new Error(`Item at pos: ${pos} not a bookmark`);
+      }
       // Update url in tagged persons
-      updatePersonUrls(urlHash, contextBookmarks[pos].taggedPersons, []);
+      updatePersonUrls(urlHash, contextBookmark.taggedPersons, []);
       // Remove from current context folder
-      contextBookmarks.splice(pos, 1);
+      setContextBookmarks((prev) => {
+        const newValue = [...prev];
+        newValue.splice(pos, 1);
+        return newValue;
+      });
       // Remove from all urls list
-      const newUrlList = { ...urlList };
-      delete newUrlList[urlHash];
-      setContextBookmarks([...contextBookmarks]);
-      setUrlList(newUrlList);
+      setUrlList((prev) => {
+        const newUrlList = { ...prev };
+        delete newUrlList[urlHash];
+        return newUrlList;
+      });
       setIsSaveButtonActive(true);
       setSelectedBookmarks([]);
     },
-    [contextBookmarks, updatePersonUrls, urlList]
+    [contextBookmarks, updatePersonUrls]
   );
 
   const handleBulkUrlRemove = useCallback(() => {
     const newUrlList = { ...urlList };
     const taggedPersonData: IUpdateTaggedPerson[] = [];
     // Remove from current context folder
-    const filteredContextBookmarks = contextBookmarks.filter(
-      (bookmark, index) => {
-        if (selectedBookmarks[index]) {
-          const urlHash = md5(bookmark.url || '');
+    setContextBookmarks((prev) => {
+      const filteredContextBookmarks = prev.filter((bookmark, index) => {
+        if (selectedBookmarks[index] && !bookmark.isDir) {
+          const urlHash = md5(bookmark.url);
           // Update url in tagged persons
           taggedPersonData.push({
             prevTaggedPersons: bookmark.taggedPersons || [],
@@ -266,48 +296,63 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
           return false;
         }
         return true;
-      }
-    );
-    setContextBookmarks(filteredContextBookmarks);
+      });
+      return filteredContextBookmarks;
+    });
     setUpdateTaggedPersons(taggedPersonData);
     setUrlList(newUrlList);
     setIsSaveButtonActive(true);
     setSelectedBookmarks([]);
-  }, [contextBookmarks, selectedBookmarks, urlList]);
+  }, [selectedBookmarks, urlList]);
 
   const handleFolderEdit = useCallback(
     (oldName: string, newName: string, pos: number) => {
       const oldFolderHash = md5(oldName);
       const newFolderHash = md5(newName);
       // Update parentHash in urlList
-      const newUrlList = Object.entries(urlList).reduce<
-        IBookmarksObj['urlList']
-      >((obj, [hash, data]) => {
-        if (data.parentHash === oldFolderHash) {
-          obj[hash] = { ...data, parentHash: newFolderHash };
-        } else {
-          obj[hash] = data;
-        }
-        return obj;
-      }, {});
+      setUrlList((prev) =>
+        Object.entries(prev).reduce<IBookmarksObj['urlList']>(
+          (obj, [hash, data]) => {
+            if (data.parentHash === oldFolderHash) {
+              obj[hash] = { ...data, parentHash: newFolderHash };
+            } else {
+              obj[hash] = data;
+            }
+            return obj;
+          },
+          {}
+        )
+      );
       // Update name in folderList
-      folderList[newFolderHash] = {
-        ...folderList[oldFolderHash],
-        name: btoa(newName),
-      };
-      delete folderList[oldFolderHash];
+      setFolderList((prev) => {
+        const newValue = { ...prev };
+        newValue[newFolderHash] = {
+          ...newValue[oldFolderHash],
+          name: btoa(newName),
+        };
+        delete newValue[oldFolderHash];
+        return newValue;
+      });
       // Update in folders
-      folders[newFolderHash] = folders[oldFolderHash];
-      delete folders[oldFolderHash];
+      setFolders((prev) => {
+        const newValue = { ...prev };
+        newValue[newFolderHash] = newValue[oldFolderHash];
+        delete newValue[oldFolderHash];
+        return newValue;
+      });
       // Update current folder
-      contextBookmarks[pos] = { ...contextBookmarks[pos], name: newName };
-      setUrlList(newUrlList);
-      setFolderList({ ...folderList });
-      setFolders({ ...folders });
-      setContextBookmarks([...contextBookmarks]);
+      setContextBookmarks((prev) => {
+        const newValue = [...prev];
+        const curFolder = newValue[pos];
+        if (!curFolder.isDir) {
+          throw new Error(`Item at pos: ${pos} not a folder`);
+        }
+        newValue[pos] = { ...curFolder, name: newName };
+        return newValue;
+      });
       setIsSaveButtonActive(true);
     },
-    [contextBookmarks, folderList, folders, urlList]
+    []
   );
 
   const handleFolderRemove = useCallback(
@@ -321,42 +366,46 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
         return;
       }
       // Remove from current context folder
-      contextBookmarks.splice(pos, 1);
+      setContextBookmarks((prev) => {
+        const newValue = [...prev];
+        newValue.splice(pos, 1);
+        return newValue;
+      });
       // Remove from all folders list
-      delete folderList[folderHash];
+      setFolderList((prev) => {
+        const newValue = { ...prev };
+        delete newValue[folderHash];
+        return newValue;
+      });
       // Remove all urls inside the folder and update all urls in tagged persons
       const taggedPersonData: IUpdateTaggedPerson[] = [];
-      const newUrlList = Object.entries(urlList).reduce<
-        IBookmarksObj['urlList']
-      >((obj, [hash, data]) => {
-        if (data.parentHash !== folderHash) {
-          obj[hash] = data;
-        } else {
-          taggedPersonData.push({
-            prevTaggedPersons: data.taggedPersons,
-            newTaggedPersons: [],
-            urlHash: hash,
-          });
-        }
-        return obj;
-      }, {});
+      setUrlList((prev) =>
+        Object.entries(prev).reduce<IBookmarksObj['urlList']>(
+          (obj, [hash, data]) => {
+            if (data.parentHash !== folderHash) {
+              obj[hash] = data;
+            } else {
+              taggedPersonData.push({
+                prevTaggedPersons: data.taggedPersons,
+                newTaggedPersons: [],
+                urlHash: hash,
+              });
+            }
+            return obj;
+          },
+          {}
+        )
+      );
       // Remove its data from folders
-      delete folders[folderHash];
-      setContextBookmarks([...contextBookmarks]);
-      setFolderList({ ...folderList });
+      setFolders((prev) => {
+        const newValue = { ...prev };
+        delete newValue[folderHash];
+        return newValue;
+      });
       setUpdateTaggedPersons([...updateTaggedPersons, ...taggedPersonData]);
-      setUrlList(newUrlList);
-      setFolders({ ...folders });
       setIsSaveButtonActive(true);
     },
-    [
-      contextBookmarks,
-      displayToast,
-      folderList,
-      folders,
-      updateTaggedPersons,
-      urlList,
-    ]
+    [displayToast, folders, updateTaggedPersons]
   );
 
   const handleSave = useCallback(async () => {
@@ -364,14 +413,18 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     // Update url in tagged persons
     updateTaggedPersonUrls(updateTaggedPersons);
     // Form folders obj for current context folder
-    folders[md5(folderContext)] = contextBookmarks.map(
-      ({ isDir, url, name }) => ({
-        isDir,
-        hash: md5((isDir ? name : url) || ''),
-      })
-    );
-    const bookmarksObj: IBookmarksObj = { folderList, urlList, folders };
+    const newFolders = { ...folders };
+    newFolders[md5(folderContext)] = contextBookmarks.map((x) => ({
+      isDir: x.isDir,
+      hash: md5(x.isDir ? x.name : x.url),
+    }));
+    const bookmarksObj: IBookmarksObj = {
+      folderList,
+      urlList,
+      folders: newFolders,
+    };
     await setBookmarksInStorage(bookmarksObj);
+    await initBookmarksData();
     setIsFetching(false);
     setIsSaveButtonActive(false);
     displayToast({
@@ -384,46 +437,46 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     folderContext,
     folderList,
     folders,
+    initBookmarksData,
     updateTaggedPersonUrls,
     updateTaggedPersons,
     urlList,
   ]);
 
-  const handleMoveBookmarks = useCallback(
-    (destinationIndex: number) => {
+  const handleMoveBookmarks = useCallback((destinationIndex: number) => {
+    setSelectedBookmarks((prevSelectedBookmarks) => {
       const destIndex = getDestinationIndex(
         destinationIndex,
-        selectedBookmarks
+        prevSelectedBookmarks
       );
-      const newBookmarks = getBookmarksAfterDrag(
-        contextBookmarks,
-        selectedBookmarks,
+      setContextBookmarks((prevContextBookmarks) =>
+        getBookmarksAfterDrag(
+          prevContextBookmarks,
+          prevSelectedBookmarks,
+          destIndex
+        )
+      );
+      return getSelectedBookmarksAfterDrag(
+        [...prevSelectedBookmarks],
         destIndex
       );
-      const newSelectedBookmarks = getSelectedBookmarksAfterDrag(
-        selectedBookmarks,
-        destIndex
-      );
-      setContextBookmarks(newBookmarks);
-      setIsSaveButtonActive(true);
-      setSelectedBookmarks(newSelectedBookmarks);
-    },
-    [contextBookmarks, selectedBookmarks]
-  );
+    });
+    setIsSaveButtonActive(true);
+  }, []);
 
   const onDragStart = useCallback<
     NonNullable<DragDropContextProps['onDragStart']>
-  >(
-    async ({ source }) => {
-      const isCurrentDraggingSelected = selectedBookmarks[source.index];
+  >(({ source }) => {
+    setSelectedBookmarks((prev) => {
+      const newValue = [...prev];
+      const isCurrentDraggingSelected = newValue[source.index];
       if (!isCurrentDraggingSelected) {
-        selectedBookmarks.fill(false);
-        selectedBookmarks[source.index] = true;
+        newValue.fill(false);
+        newValue[source.index] = true;
       }
-      setSelectedBookmarks([...selectedBookmarks]);
-    },
-    [selectedBookmarks]
-  );
+      return newValue;
+    });
+  }, []);
 
   const onDragEnd = useCallback<DragDropContextProps['onDragEnd']>(
     ({ destination, source }) => {
@@ -507,9 +560,8 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
                       overscanCount={5}
                       outerRef={provided.innerRef}
                       itemKey={(index, data) => {
-                        const { isDir, url, name } =
-                          data.contextBookmarks[index];
-                        return (isDir ? name : url) ?? '';
+                        const ctx = data.contextBookmarks[index];
+                        return ctx.isDir ? ctx.name : ctx.url;
                       }}
                       itemData={{
                         folderNamesList,

@@ -84,8 +84,8 @@ export default function BookmarksPage() {
             itemCount={curBookmarksCount}
             overscanCount={10}
             itemKey={(index, data) => {
-              const { isDir, url, name } = data.contextBookmarks[index];
-              return (isDir ? name : url) ?? '';
+              const ctx = data.contextBookmarks[index];
+              return ctx.isDir ? ctx.name : ctx.url;
             }}
             itemData={{
               folders,

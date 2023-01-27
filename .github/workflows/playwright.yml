@@ -25,7 +25,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Building extension
-        run: pnpm run build --filter=@bypass/extension
+        run: pnpm build --filter=@bypass/extension
 
       - name: Uploading extension
         uses: actions/upload-artifact@v3

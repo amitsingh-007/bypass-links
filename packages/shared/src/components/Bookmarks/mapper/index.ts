@@ -1,38 +1,45 @@
 import {
   ContextBookmark,
-  IBookmark,
+  IEncodedBookmark,
   IBookmarksObj,
   IFolderMetaData,
 } from '../interfaces';
 
-export const getDecryptedBookmark = (bookmark: IBookmark): IBookmark => ({
+export const getDecryptedBookmark = (
+  bookmark: IEncodedBookmark
+): IEncodedBookmark => ({
   url: decodeURIComponent(atob(bookmark.url)),
   title: decodeURIComponent(atob(bookmark.title)),
   taggedPersons: bookmark.taggedPersons || [],
   parentHash: bookmark.parentHash,
 });
 
-export const getEncryptedBookmark = (bookmark: IBookmark): IBookmark => ({
+export const getEncryptedBookmark = (
+  bookmark: IEncodedBookmark
+): IEncodedBookmark => ({
   url: btoa(encodeURIComponent(bookmark.url)),
   title: btoa(encodeURIComponent(bookmark.title)),
   taggedPersons: bookmark.taggedPersons || [],
   parentHash: bookmark.parentHash,
 });
 
-export const bookmarksMapper: (
-  kvp: [string, IFolderMetaData],
+export const bookmarksMapper = (
+  [_key, { isDir, hash }]: [string, IFolderMetaData],
   urlList: IBookmarksObj['urlList'],
   folderList: IBookmarksObj['folderList']
-) => any = ([_key, { isDir, hash }], urlList, folderList) => {
-  const obj = { isDir } as ContextBookmark;
+): ContextBookmark => {
   if (isDir) {
     const folder = folderList[hash];
-    obj.name = atob(folder.name);
-  } else {
-    const bookmark = getDecryptedBookmark(urlList[hash]);
-    obj.url = bookmark.url;
-    obj.title = bookmark.title;
-    obj.taggedPersons = bookmark.taggedPersons;
+    return {
+      isDir,
+      name: atob(folder.name),
+    };
   }
-  return obj;
+  const bookmark = getDecryptedBookmark(urlList[hash]);
+  return {
+    isDir,
+    url: bookmark.url,
+    title: bookmark.title,
+    taggedPersons: bookmark.taggedPersons,
+  };
 };

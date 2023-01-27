@@ -36,32 +36,26 @@ const VirtualRow = memo<{
     resetSelectedBookmarks,
     handleSelectedChange,
   } = innerProps;
-  const {
-    url = '',
-    title = '',
-    name = '',
-    taggedPersons = [],
-    isDir,
-  } = contextBookmarks[index];
+  const ctx = contextBookmarks[index];
   return (
     <Box style={style}>
-      {isDir ? (
+      {ctx.isDir ? (
         <FolderRow
           pos={index}
-          isDir={isDir}
-          name={name}
+          isDir={ctx.isDir}
+          name={ctx.name}
           handleRemove={handleFolderRemove}
           handleEdit={handleFolderEdit}
-          isEmpty={isFolderEmpty(folders, name)}
+          isEmpty={isFolderEmpty(folders, ctx.name)}
           resetSelectedBookmarks={resetSelectedBookmarks}
         />
       ) : (
         <BookmarkRow
           pos={index}
-          isDir={isDir}
-          url={url}
-          title={title}
-          taggedPersons={taggedPersons}
+          isDir={ctx.isDir}
+          url={ctx.url}
+          title={ctx.title}
+          taggedPersons={ctx.taggedPersons}
           isSelected={Boolean(selectedBookmarks[index])}
           handleSelectedChange={handleSelectedChange}
         />

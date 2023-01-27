@@ -1,11 +1,11 @@
-export interface IBookmark {
+export interface IEncodedBookmark {
   url: string;
   title: string;
   parentHash: string;
   taggedPersons: string[];
 }
 
-interface IFolder {
+interface IEncodedFolder {
   name: string;
   parentHash: string;
 }
@@ -15,12 +15,28 @@ export interface IFolderMetaData {
   hash: string;
 }
 
+export interface IDecodedBookmark {
+  isDir: false;
+  url: string;
+  title: string;
+  taggedPersons: string[];
+}
+
+interface IDecodedFolder {
+  isDir: true;
+  name: string;
+}
+
+export type ContextBookmark = IDecodedBookmark | IDecodedFolder;
+
+export type ContextBookmarks = ContextBookmark[];
+
 export interface IBookmarksObj {
   folderList: {
-    [foldername_hash: string]: IFolder;
+    [foldername_hash: string]: IEncodedFolder;
   };
   urlList: {
-    [url_hash: string]: IBookmark;
+    [url_hash: string]: IEncodedBookmark;
   };
   folders: {
     [foldername_hash: string]: IFolderMetaData[];
@@ -28,11 +44,3 @@ export interface IBookmarksObj {
 }
 
 export type ISelectedBookmarks = boolean[];
-
-export type ContextBookmark = Partial<
-  Pick<IFolder, 'name'> & Omit<IBookmark, 'parentHash'>
-> & {
-  isDir: boolean;
-};
-
-export type ContextBookmarks = ContextBookmark[];
