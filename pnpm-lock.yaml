@@ -4,7 +4,7 @@ importers:
 
   .:
     specifiers:
-      '@playwright/test': 1.29.2
+      '@playwright/test': 1.30.0
       '@types/node': 18.11.18
       cross-env: 7.0.3
       husky: 8.0.3
@@ -12,7 +12,7 @@ importers:
       turbo: 1.7.0
       vercel: 28.13.0
     devDependencies:
-      '@playwright/test': 1.29.2
+      '@playwright/test': 1.30.0
       '@types/node': 18.11.18
       cross-env: 7.0.3
       husky: 8.0.3
@@ -32,7 +32,7 @@ importers:
       '@mantine/dates': 5.10.2
       '@mantine/form': 5.10.2
       '@mantine/hooks': 5.10.2
-      '@playwright/test': 1.29.2
+      '@playwright/test': 1.30.0
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.10
       '@trpc/client': 10.9.0
       '@trpc/server': 10.9.0
@@ -116,7 +116,7 @@ importers:
     devDependencies:
       '@babel/core': 7.20.12
       '@bypass/configs': link:../../packages/configs
-      '@playwright/test': 1.29.2
+      '@playwright/test': 1.30.0
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.10_3lg45jznfkaedc25egrbkruzdu
       '@types/chrome': 0.0.210
       '@types/md5': 2.3.2
@@ -171,7 +171,7 @@ importers:
       '@mantine/hooks': 5.10.2
       '@mantine/next': 5.10.2
       '@mantine/styles': 5.10.2
-      '@playwright/test': 1.29.2
+      '@playwright/test': 1.30.0
       '@svgr/webpack': 6.5.1
       '@trpc/client': 10.9.0
       '@trpc/server': 10.9.0
@@ -234,7 +234,7 @@ importers:
     devDependencies:
       '@babel/core': 7.20.12
       '@bypass/configs': link:../../packages/configs
-      '@playwright/test': 1.29.2
+      '@playwright/test': 1.30.0
       '@svgr/webpack': 6.5.1
       '@types/md5': 2.3.2
       '@types/react': 18.0.27
@@ -3220,13 +3220,13 @@ packages:
       tslib: 2.5.0
     dev: true
 
-  /@playwright/test/1.29.2:
-    resolution: {integrity: sha512-+3/GPwOgcoF0xLz/opTnahel1/y42PdcgZ4hs+BZGIUjtmEFSXGg+nFoaH3NSmuc7a6GSFwXDJ5L7VXpqzigNg==}
+  /@playwright/test/1.30.0:
+    resolution: {integrity: sha512-SVxkQw1xvn/Wk/EvBnqWIq6NLo1AppwbYOjNLmyU0R1RoQ3rLEBtmjTnElcnz8VEtn11fptj1ECxK0tgURhajw==}
     engines: {node: '>=14'}
     hasBin: true
     dependencies:
       '@types/node': 18.11.18
-      playwright-core: 1.29.2
+      playwright-core: 1.30.0
     dev: true
 
   /@pmmmwh/react-refresh-webpack-plugin/0.5.10_3lg45jznfkaedc25egrbkruzdu:
@@ -9330,8 +9330,8 @@ packages:
       pathe: 1.1.0
     dev: true
 
-  /playwright-core/1.29.2:
-    resolution: {integrity: sha512-94QXm4PMgFoHAhlCuoWyaBYKb92yOcGVHdQLoxQ7Wjlc7Flg4aC/jbFW7xMR52OfXMVkWicue4WXE7QEegbIRA==}
+  /playwright-core/1.30.0:
+    resolution: {integrity: sha512-7AnRmTCf+GVYhHbLJsGUtskWTE33SwMZkybJ0v6rqR1boxq2x36U7p1vDRV7HO2IwTZgmycracLxPEJI49wu4g==}
     engines: {node: '>=14'}
     hasBin: true
     dev: true
