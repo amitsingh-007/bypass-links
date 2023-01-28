@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@bypass/shared": "workspace:*",
-    "@octokit/rest": "19.0.5",
+    "@octokit/rest": "19.0.7",
     "@trpc/server": "10.9.0",
     "firebase-admin": "11.5.0",
     "otplib": "12.0.1",
