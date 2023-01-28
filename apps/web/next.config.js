@@ -34,6 +34,7 @@ const nextConfig = {
         new ESLintPlugin({
           files: './src/**/*.{js,ts,tsx}',
           cache: true,
+          threads: true,
         })
       );
     }
