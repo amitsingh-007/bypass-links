@@ -22,7 +22,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Building extension
         run: pnpm build --filter=@bypass/extension
@@ -79,7 +79,7 @@ jobs:
           path: ./apps/extension/build/
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Install Playwright Browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'

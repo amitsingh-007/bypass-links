@@ -151,17 +151,9 @@ const config = {
       },
     }),
     new ESLintPlugin({
-      files: [
-        './src/**/*.{js,ts,tsx}',
-        '@bypass/**/*.{js,ts,tsx}',
-        '@bypass/*',
-        '**/@bypass/*',
-        '@bypass',
-        'node_modules/@bypass/*',
-        'node_modules/@bypass/**',
-        'node_modules/@bypass/**/*.{js,ts,tsx}',
-      ],
+      files: './src/**/*.{js,ts,tsx}',
       cache: true,
+      threads: true,
     }),
     new DefinePlugin({
       PROD_ENV: JSON.stringify(isProduction),
