@@ -1,7 +1,15 @@
 import { appRouter } from '../src/index';
-import { createInnerTRPCContext } from '../src/trpc';
+
+const createInnerTRPCContext = () => {
+  return {
+    reqMetaData: {
+      ip: '',
+      userAgent: '',
+    },
+  };
+};
 
 export const getTrpcCaller = async () => {
-  const ctx = await createInnerTRPCContext({});
+  const ctx = createInnerTRPCContext();
   return appRouter.createCaller(ctx);
 };
