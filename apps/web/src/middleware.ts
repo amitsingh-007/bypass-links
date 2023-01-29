@@ -9,7 +9,8 @@ export function middleware(req: NextRequest) {
     const detectedIp = requestIp.getClientIp(req);
     console.log('ip', detectedIp);
     // @ts-ignore
-    // const forwarded = req.headers['x-forwarded-for'];
+    const forwarded = req.headers['x-forwarded-for'];
+    console.log('forwarded', forwarded);
     // const ip =
     //   typeof forwarded === 'string'
     //     ? forwarded.split(/, /)[0]
@@ -17,6 +18,13 @@ export function middleware(req: NextRequest) {
     // console.log('ip', { ip });
     const { geo, nextUrl } = req;
     nextUrl.searchParams.set('country', geo?.country ?? 'IN');
+    nextUrl.searchParams.set('ip', detectedIp ?? '');
+    // @ts-ignore
+    nextUrl.searchParams.set('remoteAddress', req?.socket?.remoteAddress ?? '');
+    nextUrl.searchParams.set(
+      'forwarded',
+      typeof forwarded === 'string' ? forwarded : ''
+    );
     return NextResponse.rewrite(nextUrl);
   }
   return NextResponse.next();

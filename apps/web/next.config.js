@@ -13,7 +13,7 @@ const isDev = process.env.VERCEL_ENV === 'development';
 const nextConfig = {
   productionBrowserSourceMaps: true,
   compiler: {
-    removeConsole: isDev ? false : { exclude: ['error'] },
+    removeConsole: false,
   },
   reactStrictMode: true,
   transpilePackages: ['@bypass/shared'],
