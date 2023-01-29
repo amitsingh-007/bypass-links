@@ -1,3 +1,4 @@
+import Logging from '@/error';
 import { getIsExtensionActive, setExtStateInStorage } from '@/utils/common';
 import { EXTENSION_STATE } from '@constants/index';
 import action from '@helpers/chrome/action';
@@ -9,6 +10,8 @@ import { getForumPageLinks } from './misc/forumPageLinks';
 import turnOffInputSuggestions from './misc/turnOffInputSuggestions';
 import { redirect } from './redirect';
 import { checkForUpdates, isValidUrl, setExtensionIcon } from './utils';
+
+Logging.logErrors();
 
 const red = '#FF6B6B';
 

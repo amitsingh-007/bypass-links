@@ -1,14 +1,18 @@
 import { initTRPC } from '@trpc/server';
 import { type CreateNextContextOptions } from '@trpc/server/adapters/next';
+import requestIp from 'request-ip';
 
-type CreateContextOptions = Record<string, never>;
-
-export const createInnerTRPCContext = async (_opts: CreateContextOptions) => {
-  return {};
-};
-
-export const createTRPCContext = async (_opts: CreateNextContextOptions) => {
-  return createInnerTRPCContext({});
+export const createTRPCContext = async (opts: CreateNextContextOptions) => {
+  const { req } = opts;
+  const { headers } = req;
+  const ip = requestIp.getClientIp(req);
+  const userAgent = headers['user-agent'];
+  return {
+    reqMetaData: {
+      ip,
+      userAgent,
+    },
+  };
 };
 
 export const t = initTRPC

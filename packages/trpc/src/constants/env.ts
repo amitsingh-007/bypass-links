@@ -9,6 +9,8 @@ const envVariables = z.object({
   FIREBASE_PRIVATE_KEY: z.string(),
   GITHUB_TOKEN: z.string(),
   SITE_NAME: z.string().optional(),
+  AXIOM_TOKEN: z.string(),
+  AXIOM_ORG_ID: z.string(),
 });
 
 declare global {
