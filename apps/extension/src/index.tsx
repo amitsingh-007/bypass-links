@@ -5,7 +5,10 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import Global from './components/Global';
 import PopupRoutes from './components/PopupRoutes';
+import Logging from './logging';
 import DynamicProvider from './provider/DynamicProvider';
+
+Logging.logErrors();
 
 const container = document.getElementById('root');
 if (container) {

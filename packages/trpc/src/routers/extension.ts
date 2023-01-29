@@ -13,7 +13,6 @@ const extensionRouter = t.router({
         message: 'Extension not found',
       });
     }
-    // const { browser_download_url, name, updated_at } = extension;
     return {
       extension: extension.browser_download_url,
       version: getVersionFromFileName(extension.name),

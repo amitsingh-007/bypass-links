@@ -92,7 +92,7 @@ export default function Web() {
       <MetaTags titleSuffix="Home" />
       <Header text="Bypass Links - Web" />
       <Center mt="md">
-        <Stack w="40%">
+        <Stack w="40%" align={promptTOTPVerify ? 'center' : 'stretch'}>
           <Button
             variant="light"
             radius="xl"
