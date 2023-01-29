@@ -61,8 +61,8 @@ export default function Home({
   console.log(meta);
   return (
     <>
-      <div>{meta}</div>
-      <br />
+      {/* <div>{meta}</div>
+      <br /> */}
       <div>{JSON.stringify(meta)}</div>
       <Global styles={pageStyles} />
       <MetaTags />
