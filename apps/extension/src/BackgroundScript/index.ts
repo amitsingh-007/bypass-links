@@ -1,4 +1,4 @@
-import Logging from '@/error';
+import Logging from '@/logging';
 import { getIsExtensionActive, setExtStateInStorage } from '@/utils/common';
 import { EXTENSION_STATE } from '@constants/index';
 import action from '@helpers/chrome/action';
