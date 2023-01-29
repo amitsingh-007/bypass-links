@@ -11,6 +11,9 @@ export function middleware(req: NextRequest) {
     // @ts-ignore
     const forwarded = req.headers['x-forwarded-for'];
     console.log('forwarded', forwarded);
+    // @ts-ignore
+    console.log('remoteAddress', req?.socket?.remoteAddress);
+    console.log('headers', req.headers);
     // const ip =
     //   typeof forwarded === 'string'
     //     ? forwarded.split(/, /)[0]
