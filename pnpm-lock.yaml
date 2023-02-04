@@ -180,7 +180,7 @@ importers:
       '@types/react-window': 1.8.5
       '@typescript-eslint/eslint-plugin': 5.49.0
       '@typescript-eslint/parser': 5.49.0
-      countries-and-timezones: 3.4.0
+      countries-and-timezones: 3.4.1
       cross-env: 7.0.3
       dayjs: 1.11.7
       encoding: 0.1.13
@@ -221,7 +221,7 @@ importers:
       '@mantine/styles': 5.10.2_sogmqz4enknxtkxk3k5s6bqwnq
       '@trpc/client': 10.9.0_@trpc+server@10.9.0
       '@trpc/server': 10.9.0
-      countries-and-timezones: 3.4.0
+      countries-and-timezones: 3.4.1
       dayjs: 1.11.7
       firebase: 9.16.0_encoding@0.1.13
       md5: 2.3.0
@@ -5465,8 +5465,8 @@ packages:
       path-type: 4.0.0
       yaml: 1.10.2
 
-  /countries-and-timezones/3.4.0:
-    resolution: {integrity: sha512-E4YrEFSUKM8JWJB2VAIHJGp3tSCQPfG9xX6glKmr+LUObPnosmPwbsFizdNIewl+MGXTqbR2c3BKGL0HNpVGMQ==}
+  /countries-and-timezones/3.4.1:
+    resolution: {integrity: sha512-INeHGCony4XUUR8iGL/lmt9s1Oi+n+gFHeJAMfbV5hJfYeDOB8JG1oxz5xFQu5oBZoRCJe/87k1Vzue9DoIauA==}
     engines: {node: '>=8.x', npm: '>=5.x'}
     dev: false
 
