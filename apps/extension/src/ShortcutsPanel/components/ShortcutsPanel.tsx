@@ -66,7 +66,7 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
       syncRedirectionsToStorage();
       setRedirections(validRules);
       displayToast({
-        message: 'Saved succesfully',
+        message: 'Saved successfully',
         duration: 1500,
       });
     }

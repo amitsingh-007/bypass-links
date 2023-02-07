@@ -52,7 +52,7 @@ const BookmarksHeader = memo<Props>(function BookmarksHeader({
     setIsSyncing(true);
     try {
       await syncBookmarksFirebaseWithStorage();
-      displayToast({ message: 'Bookmarks synced succesfully' });
+      displayToast({ message: 'Bookmarks synced successfully' });
     } catch (ex: any) {
       console.error('Bookmarks sync failed', ex);
       displayToast({

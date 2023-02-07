@@ -3,7 +3,7 @@ import { useElementSize } from '@mantine/hooks';
 import { memo, useContext, useEffect, useRef, useState } from 'react';
 import { FixedSizeGrid } from 'react-window';
 import DynamicContext from '../../../provider/DynamicContext';
-import { deserialzeQueryStringToObject } from '../../../utils/url';
+import { deserializeQueryStringToObject } from '../../../utils/url';
 import { ScrollButton } from '../../ScrollButton';
 import { GRID_COLUMN_SIZE } from '../constants';
 import usePerson from '../hooks/usePerson';
@@ -46,7 +46,7 @@ const Persons = memo<Props>(function Persons({
   const { resolvePersonImageFromUid } = usePerson();
 
   useEffect(() => {
-    const { openBookmarksList } = deserialzeQueryStringToObject(queryString);
+    const { openBookmarksList } = deserializeQueryStringToObject(queryString);
     const person =
       (openBookmarksList &&
         persons.find((_person) => _person.uid === openBookmarksList)) ||

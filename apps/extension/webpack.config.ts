@@ -71,7 +71,7 @@ const config = {
         extensions: ['.ts', '.tsx', '.js'],
       }),
     ],
-    // Preact doesnt support hmr, so disable it for dev
+    // Preact doesn't support hmr, so disable it for dev
     alias: isProduction
       ? {
           react: 'preact/compat',

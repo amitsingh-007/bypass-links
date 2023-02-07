@@ -68,7 +68,7 @@ const HistoryPanel = memo(function HistoryPanel() {
       endTime: endDateTime.valueOf(),
     });
     storage.remove('historyStartTime');
-    displayToast({ message: 'History cleared succesfully' });
+    displayToast({ message: 'History cleared successfully' });
   };
 
   return (

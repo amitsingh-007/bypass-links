@@ -10,7 +10,7 @@ import { StrictMode } from 'react';
 import GlobalMetaTags from 'src/ui/components/GlobalMetaTags';
 
 /**
- * Intialize dayjs with timezone plugin
+ * Initialize dayjs with timezone plugin
  * timezone plugin requires utc plugin
  */
 dayjs.extend(utc);

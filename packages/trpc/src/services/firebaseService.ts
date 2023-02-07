@@ -20,7 +20,7 @@ interface Firebase {
  * We split the credentials json that we get from firebase admin because:
  * Vercel stringifies the json and JSON.parse fails on the private key.
  *
- * SERVICE_ACCOUNT_KEY: contains the credetials json except the private_key
+ * SERVICE_ACCOUNT_KEY: contains the credentials json except the private_key
  * FIREBASE_PRIVATE_KEY: contains the private key
  */
 const { SERVICE_ACCOUNT_KEY, FIREBASE_PRIVATE_KEY } = getEnvVars();

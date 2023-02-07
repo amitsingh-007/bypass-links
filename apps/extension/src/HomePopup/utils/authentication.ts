@@ -33,7 +33,7 @@ export const signOut = async (): Promise<boolean> => {
     console.log('--------------Logout Success--------------');
     return true;
   } catch (err) {
-    console.error('Error occured while signing out. ', err);
+    console.error('Error occurred while signing out. ', err);
     return false;
   }
 };
@@ -46,7 +46,7 @@ export const signIn = async (): Promise<boolean> => {
     console.log('--------------Login Success--------------');
     return true;
   } catch (err) {
-    console.error('Error occured while signing in. ', err);
+    console.error('Error occurred while signing in. ', err);
     console.log('Reverting due to login error...');
     await signOut();
     return false;

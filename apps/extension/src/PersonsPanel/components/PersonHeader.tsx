@@ -40,7 +40,7 @@ const PersonHeader = memo<Props>(function PersonHeader({
     setIsSyncing(true);
     try {
       await syncPersonsFirebaseWithStorage();
-      displayToast({ message: 'Persons synced succesfully' });
+      displayToast({ message: 'Persons synced successfully' });
     } catch (ex) {
       console.error('Persons synced failed', ex);
       displayToast({ message: 'Persons synced failed', severity: 'error' });

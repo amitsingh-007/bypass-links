@@ -1,6 +1,6 @@
 import {
   BMPanelQueryParams,
-  deserialzeQueryStringToObject,
+  deserializeQueryStringToObject,
   IBookmarkOperation,
   ROUTES,
 } from '@bypass/shared';
@@ -9,7 +9,8 @@ import { Route, useLocation } from 'react-router-dom';
 
 const BookmarksPanel = lazy(() => import('../components/BookmarksPanel'));
 const getQueryParams = (qs: string): BMPanelQueryParams => {
-  const { folderContext, bmUrl, operation } = deserialzeQueryStringToObject(qs);
+  const { folderContext, bmUrl, operation } =
+    deserializeQueryStringToObject(qs);
   return {
     folderContext,
     operation: operation as IBookmarkOperation,

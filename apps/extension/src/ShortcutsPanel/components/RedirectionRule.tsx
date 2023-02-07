@@ -63,11 +63,11 @@ const RedirectionRule = memo(function RedirectionRule({
     tabs.create({ url: ruleWebsite, active: false });
   };
 
-  const issameRule =
+  const isSameRule =
     alias === ruleAlias &&
     website === ruleWebsite &&
     isDefault === isDefaultRule;
-  const isRuleSaveActive = issameRule || ruleAlias === DEFAULT_RULE_ALIAS;
+  const isRuleSaveActive = isSameRule || ruleAlias === DEFAULT_RULE_ALIAS;
 
   return (
     <Draggable draggableId={`${alias}_${website}`} index={pos}>

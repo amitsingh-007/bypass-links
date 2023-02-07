@@ -5,11 +5,11 @@ test.describe('Home Popup', () => {
     await page.goto('/index.html');
     // Content script loaded
     await page.isVisible('Bypass Links');
-    const isSWIntialized = await backgroundSW.evaluate(
+    const isSWInitialized = await backgroundSW.evaluate(
       // eslint-disable-next-line no-restricted-globals
       () => self.SW_INITIALIZED
     );
     // Background SW loaded
-    expect(isSWIntialized).toBeTruthy();
+    expect(isSWInitialized).toBeTruthy();
   });
 });
