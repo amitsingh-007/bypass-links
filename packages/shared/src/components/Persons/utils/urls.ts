@@ -1,5 +1,5 @@
 import { ROUTES } from '../../../constants/routes';
-import { serialzeObjectToQueryString } from '../../../utils/url';
+import { serializeObjectToQueryString } from '../../../utils/url';
 
 interface UrlOptions {
   openBookmarksList: string;
@@ -10,5 +10,5 @@ export const getPersonsPanelUrl = ({ openBookmarksList }: UrlOptions) => {
   if (openBookmarksList) {
     qsObj.openBookmarksList = openBookmarksList;
   }
-  return `${ROUTES.PERSONS_PANEL}?${serialzeObjectToQueryString(qsObj)}`;
+  return `${ROUTES.PERSONS_PANEL}?${serializeObjectToQueryString(qsObj)}`;
 };

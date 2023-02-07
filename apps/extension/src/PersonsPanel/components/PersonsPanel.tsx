@@ -72,7 +72,7 @@ const PersonsPanel = () => {
     setPersons(sortedPersons);
     await handleSave(sortedPersons);
     setIsFetching(false);
-    displayToast({ message: 'Person added/updated succesfully' });
+    displayToast({ message: 'Person added/updated successfully' });
   };
 
   const handlePersonDelete = async (person: IPerson) => {
@@ -88,7 +88,7 @@ const PersonsPanel = () => {
     await removeImageFromFirebase(person.imageRef);
     await handleSave(newPersons);
     setIsFetching(false);
-    displayToast({ message: 'Person deleted succesfully' });
+    displayToast({ message: 'Person deleted successfully' });
   };
 
   const handleSearchTextChange = (text: string) => {

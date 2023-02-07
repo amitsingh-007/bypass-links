@@ -132,7 +132,7 @@ export const processPostLogout = async () => {
   await deleteAllCache([CACHE_BUCKET_KEYS.favicon, CACHE_BUCKET_KEYS.person]);
   AuthProgress.finish('Cleared cache');
   if (settings?.hasManageGoogleActivityConsent) {
-    // Open Google Seach and Google Image tabs
+    // Open Google Search and Google Image tabs
     await tabs.create({ url: 'https://www.google.com/' });
     await tabs.create({ url: 'https://www.google.com/imghp' });
     // Clear activity from google account

@@ -1,5 +1,5 @@
 import { ROUTES } from '../../../constants/routes';
-import { serialzeObjectToQueryString } from '../../../utils/url';
+import { serializeObjectToQueryString } from '../../../utils/url';
 import { BOOKMARK_OPERATION, defaultBookmarkFolder } from '../constants';
 import { BMPanelQueryParams } from '../interfaces/url';
 
@@ -13,5 +13,5 @@ export const getBookmarksPanelUrl = ({
     operation,
     bmUrl,
   };
-  return `${ROUTES.BOOKMARK_PANEL}?${serialzeObjectToQueryString(qsObj)}`;
+  return `${ROUTES.BOOKMARK_PANEL}?${serializeObjectToQueryString(qsObj)}`;
 };

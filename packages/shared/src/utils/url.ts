@@ -1,7 +1,7 @@
 import { GenericObject } from '../interfaces/custom';
 
-export const serialzeObjectToQueryString = (urlParams: GenericObject) =>
+export const serializeObjectToQueryString = (urlParams: GenericObject) =>
   new URLSearchParams(urlParams).toString();
 
-export const deserialzeQueryStringToObject = (queryString: string) =>
+export const deserializeQueryStringToObject = (queryString: string) =>
   Object.fromEntries(new URLSearchParams(queryString));

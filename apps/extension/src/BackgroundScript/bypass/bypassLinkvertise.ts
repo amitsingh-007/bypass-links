@@ -35,11 +35,11 @@ export const bypassLinkvertise = async (url: URL, tabId: number) => {
   );
   let targetUrl = await fetchTargetUrl(userId, linkId, linkUrl);
   const hostname = targetUrl ? new URL(targetUrl).hostname : '';
-  const isLinkvetiseDownloadPage = await matchHostnames(
+  const isLinkvertiseDownloadPage = await matchHostnames(
     hostname,
     BYPASS_KEYS.LINKVERTISE_DOWNLOAD
   );
-  if (isLinkvetiseDownloadPage) {
+  if (isLinkvertiseDownloadPage) {
     targetUrl = await bypassLinkvertiseUsingExternalApi(url);
   }
   if (!targetUrl) {

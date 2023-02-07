@@ -45,7 +45,7 @@ const twoFactorAuthRouter = t.router({
     return { isRevoked: true };
   }),
 
-  // Initalizes 2FA for a user for the very first time
+  // Initializes 2FA for a user for the very first time
   setup: t.procedure.input(uidType).mutation(async ({ input: uid }) => {
     const { secretKey, otpAuthUrl } = await setup2FA(uid);
     return { secretKey, otpAuthUrl };

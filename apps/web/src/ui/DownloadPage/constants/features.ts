@@ -48,6 +48,6 @@ export const secondColumn: Feature[] = [
     altIconText: 'graph-logo',
     title: 'Continuously Updated',
     content:
-      'Continuosusly updated with new features and also fixing vulnerabilities',
+      'Continuously updated with new features and also fixing vulnerabilities',
   },
 ];

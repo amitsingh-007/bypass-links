@@ -11,7 +11,7 @@ const MetaTags = () => {
         content="Chrome extension to Bypass links to skip ads, links, timers, captchas and private Bookmarks Panel"
       />
       <link rel="canonical" href={`${HOST_NAME}${router.pathname}`} />
-      <title>Bypass Links - Skip Links, Ads, Timers & Recaptchas</title>
+      <title>Bypass Links - Skip Links, Ads, Timers & ReCaptchas</title>
     </Head>
   );
 };
