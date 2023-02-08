@@ -207,7 +207,7 @@ const config = {
                 format: 'zip',
                 options: {
                   zlib: {
-                    level: 9,
+                    level: 1,
                   },
                   globOptions: {
                     dot: true,
