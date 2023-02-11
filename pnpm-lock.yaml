@@ -87,7 +87,7 @@ importers:
       webpack: 5.75.0
       webpack-cli: 5.0.1
       webpack-dev-server: 4.11.1
-      zod: 3.20.2
+      zod: 3.20.6
       zustand: 4.3.2
     dependencies:
       '@bypass/shared': link:../../packages/shared
@@ -157,7 +157,7 @@ importers:
       webpack: 5.75.0_webpack-cli@5.0.1
       webpack-cli: 5.0.1_uaydpeuxkjjcxdbyfgk36cjdxi
       webpack-dev-server: 4.11.1_rjsyjcrmk25kqsjzwkvj3a2evq
-      zod: 3.20.2
+      zod: 3.20.6
 
   apps/web:
     specifiers:
@@ -209,7 +209,7 @@ importers:
       sharp: 0.31.3
       typescript: 4.9.5
       webpack: 5.75.0
-      zod: 3.20.2
+      zod: 3.20.6
     dependencies:
       '@bypass/shared': link:../../packages/shared
       '@bypass/trpc': link:../../packages/trpc
@@ -260,7 +260,7 @@ importers:
       prettier: 2.8.3
       typescript: 4.9.5
       webpack: 5.75.0
-      zod: 3.20.2
+      zod: 3.20.6
 
   packages/configs:
     specifiers: {}
@@ -356,7 +356,7 @@ importers:
       request-ip: 3.3.0
       typescript: 4.9.5
       vitest: 0.28.4
-      zod: 3.20.2
+      zod: 3.20.6
     dependencies:
       '@axiomhq/axiom-node': 0.11.0
       '@bypass/shared': link:../shared
@@ -365,7 +365,7 @@ importers:
       firebase-admin: 11.5.0
       otplib: 12.0.1
       request-ip: 3.3.0
-      zod: 3.20.2
+      zod: 3.20.6
     devDependencies:
       '@bypass/configs': link:../configs
       '@firebase/app-types': 0.9.0
@@ -12230,8 +12230,8 @@ packages:
       readable-stream: 3.6.0
     dev: true
 
-  /zod/3.20.2:
-    resolution: {integrity: sha512-1MzNQdAvO+54H+EaK5YpyEy0T+Ejo/7YLHS93G3RnYWh5gaotGHwGeN/ZO687qEDU2y4CdStQYXVHIgrUl5UVQ==}
+  /zod/3.20.6:
+    resolution: {integrity: sha512-oyu0m54SGCtzh6EClBVqDDlAYRz4jrVtKwQ7ZnsEmMI9HnzuZFj8QFwAY1M5uniIYACdGvv0PBWPF2kO0aNofA==}
 
   /zustand/4.3.2_react@18.2.0:
     resolution: {integrity: sha512-rd4haDmlwMTVWVqwvgy00ny8rtti/klRoZjFbL/MAcDnmD5qSw/RZc+Vddstdv90M5Lv6RPgWvm1Hivyn0QgJw==}
