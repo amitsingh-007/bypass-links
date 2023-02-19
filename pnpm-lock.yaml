@@ -88,7 +88,7 @@ importers:
       webpack-cli: 5.0.1
       webpack-dev-server: 4.11.1
       zod: 3.20.6
-      zustand: 4.3.2
+      zustand: 4.3.3
     dependencies:
       '@bypass/shared': link:../../packages/shared
       '@bypass/trpc': link:../../packages/trpc
@@ -112,7 +112,7 @@ importers:
       react-icons: 4.7.1_react@18.2.0
       react-router-dom: 6.8.1_biqbaboplfbrettd7655fr4n2y
       react-window: 1.8.8_biqbaboplfbrettd7655fr4n2y
-      zustand: 4.3.2_react@18.2.0
+      zustand: 4.3.3_react@18.2.0
     devDependencies:
       '@babel/core': 7.20.12
       '@bypass/configs': link:../../packages/configs
@@ -12233,8 +12233,8 @@ packages:
   /zod/3.20.6:
     resolution: {integrity: sha512-oyu0m54SGCtzh6EClBVqDDlAYRz4jrVtKwQ7ZnsEmMI9HnzuZFj8QFwAY1M5uniIYACdGvv0PBWPF2kO0aNofA==}
 
-  /zustand/4.3.2_react@18.2.0:
-    resolution: {integrity: sha512-rd4haDmlwMTVWVqwvgy00ny8rtti/klRoZjFbL/MAcDnmD5qSw/RZc+Vddstdv90M5Lv6RPgWvm1Hivyn0QgJw==}
+  /zustand/4.3.3_react@18.2.0:
+    resolution: {integrity: sha512-x2jXq8S0kfLGNwGh87nhRfEc2eZy37tSatpSoSIN+O6HIaBhgQHSONV/F9VNrNcBcKQu/E80K1DeHDYQC/zCrQ==}
     engines: {node: '>=12.7.0'}
     peerDependencies:
       immer: '>=9.0'
