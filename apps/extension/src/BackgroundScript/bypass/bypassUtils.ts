@@ -1,5 +1,5 @@
-import { getHostnameAlias } from '@/utils/common';
 import { BYPASS_KEYS, IBypassKeys } from '@constants/index';
+import { getHostnameAlias } from '@/utils/common';
 import { IBypass } from '../interfaces/bypass';
 import { bypassBonsai } from './bypassBonsai';
 import { bypassBonsaiLink } from './bypassBonsaiLink';
