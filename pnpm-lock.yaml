@@ -76,7 +76,7 @@ importers:
       react-easy-crop: 4.7.1
       react-icons: 4.7.1
       react-refresh: 0.14.0
-      react-refresh-typescript: 2.0.7
+      react-refresh-typescript: 2.0.8
       react-router-dom: 6.8.1
       react-window: 1.8.8
       terser-webpack-plugin: 5.3.6
@@ -148,7 +148,7 @@ importers:
       merge-jsons-webpack-plugin: 2.0.1
       prettier: 2.8.4
       react-refresh: 0.14.0
-      react-refresh-typescript: 2.0.7_zsc6ustdfxyce7wo4eqbh6smfq
+      react-refresh-typescript: 2.0.8_zsc6ustdfxyce7wo4eqbh6smfq
       terser-webpack-plugin: 5.3.6_webpack@5.75.0
       ts-loader: 9.4.2_hhrrucqyg4eysmfpujvov2ym5u
       ts-node: 10.9.1_bdgp3l2zgaopogaavxusmetvge
@@ -11666,11 +11666,11 @@ packages:
       use-sync-external-store: 1.2.0_react@18.2.0
     dev: false
 
-  /react-refresh-typescript/2.0.7_zsc6ustdfxyce7wo4eqbh6smfq:
-    resolution: {integrity: sha512-KbuW57FauO11e6a9gU836sCm3M3z0b2+J2qPhUudg0QplOfz0eAF3gMeshcUC/ChfNLJCK1SZxvYmUtRxiZE5A==}
+  /react-refresh-typescript/2.0.8_zsc6ustdfxyce7wo4eqbh6smfq:
+    resolution: {integrity: sha512-7zsaM8jIpUZ2hxMdTo9GNZRauTI11AD5YNNaNXVGb8mtYVwdSbc6IQV8YaHevSWYbx+ZpZispezdCfaJuTrh3w==}
     peerDependencies:
       react-refresh: 0.10.x || 0.11.x || 0.12.x || 0.13.x || 0.14.x
-      typescript: ^4
+      typescript: ^4.8 || ^5.0
     dependencies:
       react-refresh: 0.14.0
       typescript: 4.9.5
