@@ -280,7 +280,7 @@ importers:
       eslint: 8.33.0
       eslint-config-airbnb: 19.0.4
       eslint-config-airbnb-typescript: 17.0.0
-      eslint-config-turbo: 0.0.7
+      eslint-config-turbo: 0.0.8
       eslint-import-resolver-typescript: 3.5.3
       eslint-plugin-import: 2.27.5
       eslint-plugin-jsx-a11y: 6.7.1
@@ -317,7 +317,7 @@ importers:
       eslint: 8.33.0
       eslint-config-airbnb: 19.0.4_uhus6rimx3ujvztlky4xaizltu
       eslint-config-airbnb-typescript: 17.0.0_kh22gsft6r4fkunxdzqyqzlvzy
-      eslint-config-turbo: 0.0.7_eslint@8.33.0
+      eslint-config-turbo: 0.0.8_eslint@8.33.0
       eslint-import-resolver-typescript: 3.5.3_ohdts44xlqyeyrlje4qnefqeay
       eslint-plugin-import: 2.27.5_nowqz4jutkd4a233czbfk7jsgu
       eslint-plugin-jsx-a11y: 6.7.1_eslint@8.33.0
@@ -343,7 +343,7 @@ importers:
       eslint: 8.33.0
       eslint-config-airbnb: 19.0.4
       eslint-config-airbnb-typescript: 17.0.0
-      eslint-config-turbo: 0.0.7
+      eslint-config-turbo: 0.0.8
       eslint-import-resolver-typescript: 3.5.3
       eslint-plugin-import: 2.27.5
       eslint-plugin-jsx-a11y: 6.7.1
@@ -376,7 +376,7 @@ importers:
       eslint: 8.33.0
       eslint-config-airbnb: 19.0.4_uhus6rimx3ujvztlky4xaizltu
       eslint-config-airbnb-typescript: 17.0.0_kh22gsft6r4fkunxdzqyqzlvzy
-      eslint-config-turbo: 0.0.7_eslint@8.33.0
+      eslint-config-turbo: 0.0.8_eslint@8.33.0
       eslint-import-resolver-typescript: 3.5.3_ohdts44xlqyeyrlje4qnefqeay
       eslint-plugin-import: 2.27.5_nowqz4jutkd4a233czbfk7jsgu
       eslint-plugin-jsx-a11y: 6.7.1_eslint@8.33.0
@@ -6503,13 +6503,13 @@ packages:
       eslint: 8.33.0
     dev: true
 
-  /eslint-config-turbo/0.0.7_eslint@8.33.0:
-    resolution: {integrity: sha512-WbrGlyfs94rOXrhombi1wjIAYGdV2iosgJRndOZtmDQeq5GLTzYmBUCJQZWtLBEBUPCj96RxZ2OL7Cn+xv/Azg==}
+  /eslint-config-turbo/0.0.8_eslint@8.33.0:
+    resolution: {integrity: sha512-ijj6uv0QX2kWahg3OYnTK1/q4MueXsqY2uE4MP9yeUA5CzVhL7GU+biKlv1BfMMqPltixHUcpZoW4yyNLCnMiw==}
     peerDependencies:
       eslint: '>6.6.0'
     dependencies:
       eslint: 8.33.0
-      eslint-plugin-turbo: 0.0.7_eslint@8.33.0
+      eslint-plugin-turbo: 0.0.8_eslint@8.33.0
     dev: true
 
   /eslint-import-resolver-node/0.3.7:
@@ -6708,8 +6708,8 @@ packages:
       string.prototype.matchall: 4.0.8
     dev: true
 
-  /eslint-plugin-turbo/0.0.7_eslint@8.33.0:
-    resolution: {integrity: sha512-iajOH8eD4jha3duztGVBD1BEmvNrQBaA/y3HFHf91vMDRYRwH7BpHSDFtxydDpk5ghlhRxG299SFxz7D6z4MBQ==}
+  /eslint-plugin-turbo/0.0.8_eslint@8.33.0:
+    resolution: {integrity: sha512-pExSCmjWw/KFKb3/0PVqxiWb30FbcwDEf6kKv3alvNBSVEzDHalyAGHc9klbLSG+nFmbkfNE3Ky/UHDryCqt8g==}
     peerDependencies:
       eslint: '>6.6.0'
     dependencies:
