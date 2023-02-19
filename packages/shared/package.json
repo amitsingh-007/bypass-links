@@ -21,7 +21,7 @@
   "devDependencies": {
     "@babel/core": "7.20.12",
     "@bypass/configs": "workspace:*",
-    "@emotion/react": "11.10.5",
+    "@emotion/react": "11.10.6",
     "@types/md5": "2.3.2",
     "@types/react": "18.0.28",
     "@types/react-window": "1.8.5",
