@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bypass-links.vercel.app/sitemap.xml
