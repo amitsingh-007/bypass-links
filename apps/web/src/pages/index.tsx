@@ -1,10 +1,11 @@
+import { seoConfig } from '@/ui/DownloadPage/constants/seo';
 import { api } from '@/utils/api';
 import { Container, Global } from '@mantine/core';
 import ct from 'countries-and-timezones';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+import { NextSeo } from 'next-seo';
 import AppHeader from '../ui/DownloadPage/components/AppHeader';
 import Footer from '../ui/DownloadPage/components/Footer';
-import MetaTags from '../ui/DownloadPage/components/MetaTags';
 import PageHeader from '../ui/DownloadPage/components/PageHeader';
 import SalientFeatures from '../ui/DownloadPage/components/SalientFeatures';
 
@@ -50,7 +51,7 @@ export default function Home({
   return (
     <>
       <Global styles={pageStyles} />
-      <MetaTags />
+      <NextSeo {...seoConfig} />
       <AppHeader />
       <Container size="xl">
         <PageHeader downloadLink={downloadLink} />

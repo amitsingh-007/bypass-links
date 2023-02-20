@@ -1,5 +1,3 @@
-import tabs from '@helpers/chrome/tabs';
-import { BYPASS_KEYS } from '@constants/index';
 import {
   bypassLinkvertiseUsingExternalApi,
   bypassLinkvertiseUsingExternalFallbackApi,
@@ -7,6 +5,8 @@ import {
   fetchTargetUrl,
 } from '@/BackgroundScript/apis/linkvertise';
 import { matchHostnames } from '@/utils/common';
+import { BYPASS_KEYS } from '@constants/index';
+import tabs from '@helpers/chrome/tabs';
 
 const getDynamicParams = (url: URL) => ({
   type: 'dynamic',

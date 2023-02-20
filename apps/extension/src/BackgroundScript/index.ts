@@ -1,9 +1,9 @@
+import Logging from '@/logging';
+import { getIsExtensionActive, setExtStateInStorage } from '@/utils/common';
 import { EXTENSION_STATE } from '@constants/index';
 import action from '@helpers/chrome/action';
 import storage from '@helpers/chrome/storage';
 import { getExtensionState } from '@helpers/fetchFromStorage';
-import { getIsExtensionActive, setExtStateInStorage } from '@/utils/common';
-import Logging from '@/logging';
 import { manageGoogleActivity } from './automation/manageGoogleActivity';
 import { bypass } from './bypass';
 import { getForumPageLinks } from './misc/forumPageLinks';
