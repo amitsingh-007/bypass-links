@@ -1,7 +1,7 @@
 import { DefaultSeoProps } from 'next-seo';
 
 export const globalSEOConfig = {
-  dangerouslySetAllPagesToNoFollow: false,
+  titleTemplate: 'Bypass Links - %s',
   themeColor: '#6850ff',
   additionalMetaTags: [
     {

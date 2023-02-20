@@ -1,4 +1,3 @@
-import MetaTags from '@/ui/components/MetaTags';
 import PersonVirtualCell from '@/ui/PersonsPage/components/PersonVirtualCell';
 import { getFromLocalStorage } from '@/ui/provider/utils';
 import { openNewTab } from '@/ui/utils';
@@ -13,6 +12,7 @@ import {
   STORAGE_KEYS,
 } from '@bypass/shared';
 import { Box, Container } from '@mantine/core';
+import { NextSeo } from 'next-seo';
 import { useEffect, useMemo, useState } from 'react';
 
 const PersonsPage = () => {
@@ -49,7 +49,7 @@ const PersonsPage = () => {
       h="100vh"
       sx={{ display: 'flex', flexDirection: 'column' }}
     >
-      <MetaTags titleSuffix="Bookmarks Panel" />
+      <NextSeo title="Persons Panel" noindex nofollow />
       <Header
         onSearchChange={handleSearchTextChange}
         text={`Persons Panel (${filteredPersons?.length || 0})`}

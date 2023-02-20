@@ -1,4 +1,3 @@
-import MetaTags from '@/ui/components/MetaTags';
 import { googleSignIn, googleSignOut } from '@/ui/firebase/auth';
 import useWebPreload from '@/ui/hooks/useWebPreload';
 import { useUser } from '@/ui/provider/AuthProvider';
@@ -7,6 +6,7 @@ import { ITwoFactorAuth } from '@/ui/TwoFactorAuth/interface';
 import { api } from '@/utils/api';
 import { Header, InputTOTP, ROUTES, STORAGE_KEYS } from '@bypass/shared';
 import { Button, Center, Container, Stack } from '@mantine/core';
+import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { FaUserTag } from 'react-icons/fa';
@@ -89,7 +89,7 @@ export default function Web() {
 
   return (
     <Container size="md">
-      <MetaTags titleSuffix="Home" />
+      <NextSeo title="Home" noindex nofollow />
       <Header text="Bypass Links - Web" />
       <Center mt="md">
         <Stack w="40%" align={promptTOTPVerify ? 'center' : 'stretch'}>
