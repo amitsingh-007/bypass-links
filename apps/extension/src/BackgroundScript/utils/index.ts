@@ -1,11 +1,33 @@
 import { IExtensionState } from '@constants/index';
 import action from '@helpers/chrome/action';
 import { getExtensionState } from '@helpers/fetchFromStorage';
+import { EXTENSION_ID } from '@/constants/manifest';
 import { api } from '../../utils/api';
 import { getIsExtensionActive } from '../../utils/common';
 
-export const isValidUrl = (url?: string) =>
-  url && !/chrome(-extension)?:\/\/*/.test(url);
+const restrictedProtocols = new Set([
+  'chrome:', // Chrome browser internal URLs
+  'edge:', // Edge browser internal URLs
+  'about:', // Empty page URLs
+  'data:', // Encoded image URLs
+  'chrome-search:', // Chrome internal URLs
+]);
+const restrictedHosts = new Set([
+  'chrome.google.com', // Chrome web store
+]);
+
+export const isValidUrl = (_url?: string): boolean => {
+  if (!_url) return false;
+  const url = new URL(_url);
+  // Don't allow accessing other extensions
+  if (url.protocol === 'chrome-extension:') {
+    return url.hostname === EXTENSION_ID;
+  }
+  console.log(url);
+  return (
+    !restrictedHosts.has(url.hostname) && !restrictedProtocols.has(url.protocol)
+  );
+};
 
 export const setExtensionIcon = async ({
   extState,

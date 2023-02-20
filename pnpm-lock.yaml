@@ -200,6 +200,7 @@ importers:
       md5: 2.3.0
       next: 13.1.6
       next-pwa: 5.6.0
+      next-seo: 5.15.0
       node-fetch: 3.3.0
       prettier: 2.8.4
       react: 18.2.0
@@ -226,6 +227,7 @@ importers:
       firebase: 9.17.1_encoding@0.1.13
       md5: 2.3.0
       next: 13.1.6_pjwopsidmaokadturxaafygjp4
+      next-seo: 5.15.0_3vryta7zmbcsw4rrqf4axjqggm
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-icons: 4.7.1_react@18.2.0
@@ -5866,7 +5868,7 @@ packages:
       webpack: '>=4.0.0 <6.0.0'
     dependencies:
       del: 4.1.1
-      webpack: 5.75.0_webpack-cli@5.0.1
+      webpack: 5.75.0
     dev: true
 
   /cli-cursor/3.1.0:
@@ -7463,7 +7465,7 @@ packages:
       micromatch: 4.0.5
       normalize-path: 3.0.0
       schema-utils: 4.0.0
-      webpack: 5.75.0_webpack-cli@5.0.1
+      webpack: 5.75.0
     dev: true
 
   /eslint/8.34.0:
@@ -8034,7 +8036,7 @@ packages:
       semver: 7.3.8
       tapable: 2.2.1
       typescript: 4.9.5
-      webpack: 5.75.0_webpack-cli@5.0.1
+      webpack: 5.75.0
     dev: true
 
   /form-data/4.0.0:
@@ -10577,6 +10579,18 @@ packages:
       - webpack
     dev: true
 
+  /next-seo/5.15.0_3vryta7zmbcsw4rrqf4axjqggm:
+    resolution: {integrity: sha512-LGbcY91yDKGMb7YI+28n3g+RuChUkt6pXNpa8FkfKkEmNiJkeRDEXTnnjVtwT9FmMhG6NH8qwHTelGrlYm9rgg==}
+    peerDependencies:
+      next: ^8.1.1-canary.54 || >=9.0.0
+      react: '>=16.0.0'
+      react-dom: '>=16.0.0'
+    dependencies:
+      next: 13.1.6_pjwopsidmaokadturxaafygjp4
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
   /next/13.1.6_pjwopsidmaokadturxaafygjp4:
     resolution: {integrity: sha512-hHlbhKPj9pW+Cymvfzc15lvhaOZ54l+8sXDXJWm3OBNBzgrVj6hwGPmqqsXg40xO1Leq+kXpllzRPuncpC0Phw==}
     engines: {node: '>=14.6.0'}
@@ -12861,7 +12875,7 @@ packages:
       schema-utils: 3.1.1
       serialize-javascript: 6.0.1
       terser: 5.16.1
-      webpack: 5.75.0_webpack-cli@5.0.1
+      webpack: 5.75.0
     dev: true
 
   /terser/5.16.1:

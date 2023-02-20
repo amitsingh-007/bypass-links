@@ -1,7 +1,6 @@
 import VirtualRow, {
   VirtualRowProps,
 } from '@/ui/BookmarksPage/components/VirtualRow';
-import MetaTags from '@/ui/components/MetaTags';
 import { getFromLocalStorage, setToLocalStorage } from '@/ui/provider/utils';
 import {
   bookmarksMapper,
@@ -16,6 +15,7 @@ import {
 import { Box, Container } from '@mantine/core';
 import { useElementSize } from '@mantine/hooks';
 import md5 from 'md5';
+import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FixedSizeList } from 'react-window';
@@ -70,7 +70,7 @@ export default function BookmarksPage() {
       h="100vh"
       sx={{ display: 'flex', flexDirection: 'column' }}
     >
-      <MetaTags titleSuffix="Bookmarks Panel" />
+      <NextSeo title="Bookmarks Panel" noindex nofollow />
       <Header
         onSearchChange={handleSearchTextChange}
         text={`${folderContext} (${contextBookmarks?.length || 0})`}

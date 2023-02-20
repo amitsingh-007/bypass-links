@@ -1,6 +1,6 @@
+import { VoidFunction } from '@bypass/shared';
 import scripting from '@/helpers/chrome/scripting';
 import tabs from '@/helpers/chrome/tabs';
-import { VoidFunction } from '@bypass/shared';
 
 export const bypassSingleLinkOnPage = async (
   selectorFn: VoidFunction,
