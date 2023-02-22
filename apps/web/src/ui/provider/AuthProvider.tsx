@@ -3,7 +3,6 @@ import { type User } from 'firebase/auth';
 import { useRouter } from 'next/router';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { ROUTES } from '../constants/routes';
-import { onAuthStateChange } from '../firebase/auth';
 import { ITwoFactorAuth } from '../TwoFactorAuth/interface';
 import { getFromLocalStorage } from './utils';
 
@@ -17,13 +16,11 @@ const AuthContext = createContext<IAuthContext>({
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
-  const [user, setUser] = useState<IAuthContext['user']>(null);
+  const [user] = useState<IAuthContext['user']>(null);
 
   const ctx = useMemo(() => ({ user }), [user]);
 
-  useEffect(() => {
-    onAuthStateChange((_user: User | null) => setUser(_user));
-  }, []);
+  useEffect(() => {}, []);
 
   useEffect(() => {
     if (!user || router.pathname === ROUTES.BYPASS_LINKS_WEB) {
