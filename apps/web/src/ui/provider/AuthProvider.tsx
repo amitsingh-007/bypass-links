@@ -1,5 +1,5 @@
 import { STORAGE_KEYS } from '@bypass/shared';
-import { User } from 'firebase/auth';
+import { type User } from 'firebase/auth';
 import { useRouter } from 'next/router';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { ROUTES } from '../constants/routes';
