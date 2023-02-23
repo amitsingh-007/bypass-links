@@ -14,13 +14,26 @@ const AuthContext = createContext<IAuthContext>({
   user: null,
 });
 
+const RESTRICTED_PATHS = ['/'];
+
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
-  const [user] = useState<IAuthContext['user']>(null);
+  const [user, setUser] = useState<IAuthContext['user']>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   const ctx = useMemo(() => ({ user }), [user]);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (isInitialized || RESTRICTED_PATHS.includes(router.pathname)) {
+      return;
+    }
+    const initAuth = async () => {
+      const { onAuthStateChange } = await import('../firebase/auth');
+      onAuthStateChange((_user: User | null) => setUser(_user));
+      setIsInitialized(true);
+    };
+    initAuth();
+  }, [isInitialized, router.pathname]);
 
   useEffect(() => {
     if (!user || router.pathname === ROUTES.BYPASS_LINKS_WEB) {
