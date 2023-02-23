@@ -3,6 +3,7 @@ import { memo, useContext } from 'react';
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
 import { HEADER_HEIGHT } from '../constants';
 import DynamicContext from '../provider/DynamicContext';
+import { getMediaQuery } from '../utils/mediaQuery';
 import Search from './Search';
 
 interface Props {
@@ -53,7 +54,13 @@ const Header = memo<Props>(function Header({
       <Group sx={{ justifyContent: 'flex-end' }}>
         {onSearchChange ? <Search onChange={onSearchChange} /> : null}
         {text ? (
-          <Badge size="lg" radius="lg">
+          <Badge
+            size="lg"
+            radius="lg"
+            sx={(theme) =>
+              getMediaQuery(theme, { display: ['none', 'initial'] })
+            }
+          >
             {text}
           </Badge>
         ) : null}

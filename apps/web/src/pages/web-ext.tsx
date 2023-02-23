@@ -4,7 +4,13 @@ import { useUser } from '@/ui/provider/AuthProvider';
 import { getFromLocalStorage, setToLocalStorage } from '@/ui/provider/utils';
 import { ITwoFactorAuth } from '@/ui/TwoFactorAuth/interface';
 import { api } from '@/utils/api';
-import { Header, InputTOTP, ROUTES, STORAGE_KEYS } from '@bypass/shared';
+import {
+  getMediaQuery,
+  Header,
+  InputTOTP,
+  ROUTES,
+  STORAGE_KEYS,
+} from '@bypass/shared';
 import { Button, Center, Container, Stack } from '@mantine/core';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
@@ -88,11 +94,14 @@ export default function Web() {
   };
 
   return (
-    <Container size="md">
+    <Container size="md" px={0}>
       <NextSeo title="Home" noindex nofollow />
       <Header text="Bypass Links - Web" />
       <Center mt="md">
-        <Stack w="40%" align={promptTOTPVerify ? 'center' : 'stretch'}>
+        <Stack
+          align={promptTOTPVerify ? 'center' : 'stretch'}
+          sx={(theme) => getMediaQuery(theme, { width: ['80%', '40%'] })}
+        >
           <Button
             variant="light"
             radius="xl"

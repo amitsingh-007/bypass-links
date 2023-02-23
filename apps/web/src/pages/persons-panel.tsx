@@ -47,6 +47,7 @@ const PersonsPage = () => {
     <Container
       size="md"
       h="100vh"
+      px={0}
       sx={{ display: 'flex', flexDirection: 'column' }}
     >
       <NextSeo title="Persons Panel" noindex nofollow />

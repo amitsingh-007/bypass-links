@@ -1,4 +1,4 @@
-import { getMediaQuery } from '@/ui/utils/media-query';
+import { getMediaQuery } from '@bypass/shared';
 import { ActionIcon, Box, Flex, Text } from '@mantine/core';
 import footerImage from '@public/footer.png';
 import dayjs from 'dayjs';

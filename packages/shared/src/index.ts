@@ -55,3 +55,4 @@ export * from './utils/firebase';
 export * from './utils/search';
 export * from './utils/url';
 export * from './utils/extensionFile';
+export * from './utils/mediaQuery';

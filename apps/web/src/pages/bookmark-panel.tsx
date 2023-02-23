@@ -68,6 +68,7 @@ export default function BookmarksPage() {
     <Container
       size="md"
       h="100vh"
+      px={0}
       sx={{ display: 'flex', flexDirection: 'column' }}
     >
       <NextSeo title="Bookmarks Panel" noindex nofollow />

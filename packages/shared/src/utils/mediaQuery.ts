@@ -1,6 +1,6 @@
-import { ObjectValues } from '@bypass/shared';
 import { MantineTheme } from '@mantine/core';
 import { CSSObject } from '@mantine/styles/lib/tss/types/css-object';
+import { ObjectValues } from '../interfaces/utilityTypes';
 
 /**
  * First value of array is mobile style followed by desktop style

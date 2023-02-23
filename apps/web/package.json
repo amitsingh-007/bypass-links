@@ -15,7 +15,6 @@
     "@mantine/core": "5.10.4",
     "@mantine/hooks": "5.10.4",
     "@mantine/next": "5.10.4",
-    "@mantine/styles": "5.10.4",
     "@trpc/client": "10.12.0",
     "@trpc/server": "10.12.0",
     "countries-and-timezones": "3.4.1",
