@@ -1,9 +1,8 @@
 import { STORAGE_KEYS } from '@bypass/shared';
-import { User } from 'firebase/auth';
+import { type User } from 'firebase/auth';
 import { useRouter } from 'next/router';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { ROUTES } from '../constants/routes';
-import { onAuthStateChange } from '../firebase/auth';
 import { ITwoFactorAuth } from '../TwoFactorAuth/interface';
 import { getFromLocalStorage } from './utils';
 
@@ -15,15 +14,26 @@ const AuthContext = createContext<IAuthContext>({
   user: null,
 });
 
+const RESTRICTED_PATHS = ['/'];
+
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const [user, setUser] = useState<IAuthContext['user']>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   const ctx = useMemo(() => ({ user }), [user]);
 
   useEffect(() => {
-    onAuthStateChange((_user: User | null) => setUser(_user));
-  }, []);
+    if (isInitialized || RESTRICTED_PATHS.includes(router.pathname)) {
+      return;
+    }
+    const initAuth = async () => {
+      const { onAuthStateChange } = await import('../firebase/auth');
+      onAuthStateChange((_user: User | null) => setUser(_user));
+      setIsInitialized(true);
+    };
+    initAuth();
+  }, [isInitialized, router.pathname]);
 
   useEffect(() => {
     if (!user || router.pathname === ROUTES.BYPASS_LINKS_WEB) {
