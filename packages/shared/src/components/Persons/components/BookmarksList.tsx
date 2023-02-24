@@ -167,7 +167,9 @@ const BookmarksList = memo<Props>(function BookmarksList({
       {fullscreen ? (
         renderContent()
       ) : (
-        <Container size="md">{renderContent()}</Container>
+        <Container size="md" px={0}>
+          {renderContent()}
+        </Container>
       )}
     </Modal>
   );

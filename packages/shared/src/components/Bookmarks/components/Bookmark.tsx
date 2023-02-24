@@ -107,12 +107,7 @@ const Bookmark = memo<BookmarkProps>(function Bookmark({
         sx={{ flex: 1 }}
       >
         {isMobile ? (
-          <Anchor
-            href={url}
-            display="block"
-            td="none"
-            sx={{ color: 'inherit' }}
-          >
+          <Anchor href={url} display="block" sx={{ color: 'inherit' }}>
             {title}
           </Anchor>
         ) : (
