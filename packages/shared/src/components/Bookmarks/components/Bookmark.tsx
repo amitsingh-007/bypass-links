@@ -1,6 +1,7 @@
-import { Flex, Text, Tooltip } from '@mantine/core';
+import { Anchor, Flex, Text, Tooltip } from '@mantine/core';
 import md5 from 'md5';
 import { memo, useCallback, useEffect, useState } from 'react';
+import usePlatform from '../../../hooks/usePlatform';
 import usePerson from '../../Persons/hooks/usePerson';
 import { IPerson, IPersonWithImage } from '../../Persons/interfaces/persons';
 import Favicon from './Favicon';
@@ -37,6 +38,7 @@ const Bookmark = memo<BookmarkProps>(function Bookmark({
     IPersonWithImage[]
   >([]);
   const { getAllDecodedPersons, getPersonsWithImageUrl } = usePerson();
+  const isMobile = usePlatform();
 
   const initImageUrl = useCallback(async () => {
     const allPersons = await getAllDecodedPersons();
@@ -104,7 +106,18 @@ const Bookmark = memo<BookmarkProps>(function Bookmark({
         data-context-id={contextId}
         sx={{ flex: 1 }}
       >
-        {title}
+        {isMobile ? (
+          <Anchor
+            href={url}
+            display="block"
+            td="none"
+            sx={{ color: 'inherit' }}
+          >
+            {title}
+          </Anchor>
+        ) : (
+          title
+        )}
       </Text>
     </Flex>
   );
