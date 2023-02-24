@@ -26,6 +26,7 @@ import useBookmark from '../../Bookmarks/hooks/useBookmark';
 import { getDecodedBookmark } from '../../Bookmarks/utils';
 import { ModifiedBookmark } from '../interfaces/bookmark';
 import { getFilteredModifiedBookmarks } from '../utils/bookmark';
+import { getMediaQuery } from '../../../utils/mediaQuery';
 
 interface Props {
   name?: string;
@@ -98,12 +99,16 @@ const BookmarksList = memo<Props>(function BookmarksList({
       <Header
         onSearchChange={setSearchText}
         rightContent={
-          <>
+          <Box
+            sx={(theme) =>
+              getMediaQuery(theme, { display: ['none', 'contents'] })
+            }
+          >
             <Avatar src={imageUrl} alt={name} radius={999} />
             <Badge size="lg" radius="lg" maw="50%">{`${name} (${
               filteredBookmarks?.length || 0
             })`}</Badge>
-          </>
+          </Box>
         }
       />
       {filteredBookmarks.length > 0 ? (
@@ -162,7 +167,9 @@ const BookmarksList = memo<Props>(function BookmarksList({
       {fullscreen ? (
         renderContent()
       ) : (
-        <Container size="md">{renderContent()}</Container>
+        <Container size="md" px={0}>
+          {renderContent()}
+        </Container>
       )}
     </Modal>
   );

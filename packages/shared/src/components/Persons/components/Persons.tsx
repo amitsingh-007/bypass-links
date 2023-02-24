@@ -2,13 +2,13 @@ import { Box } from '@mantine/core';
 import { useElementSize } from '@mantine/hooks';
 import { memo, useContext, useEffect, useRef, useState } from 'react';
 import { FixedSizeGrid } from 'react-window';
+import usePlatform from '../../../hooks/usePlatform';
 import DynamicContext from '../../../provider/DynamicContext';
 import { deserializeQueryStringToObject } from '../../../utils/url';
 import { ScrollButton } from '../../ScrollButton';
-import { GRID_COLUMN_SIZE } from '../constants';
 import usePerson from '../hooks/usePerson';
 import { IPerson } from '../interfaces/persons';
-import { getReactKey } from '../utils';
+import { getColumnCount, getReactKey } from '../utils';
 import BookmarksList from './BookmarksList';
 
 interface Props {
@@ -44,6 +44,7 @@ const Persons = memo<Props>(function Persons({
   const [personToOpen, setPersonToOpen] = useState<IPerson | null>(null);
   const [personToOpenImage, setPersonToOpenImage] = useState('');
   const { resolvePersonImageFromUid } = usePerson();
+  const isMobile = usePlatform();
 
   useEffect(() => {
     const { openBookmarksList } = deserializeQueryStringToObject(queryString);
@@ -63,8 +64,10 @@ const Persons = memo<Props>(function Persons({
     gridRef.current?.scrollToItem({ rowIndex: itemNumber });
   };
 
-  const rowCount = Math.ceil(persons.length / GRID_COLUMN_SIZE);
-  const cellDimension = (width - 8) / GRID_COLUMN_SIZE; // Adjust scrollbar width
+  const columnCount = getColumnCount(isMobile);
+  const rowCount = Math.ceil(persons.length / columnCount);
+  const columnDimension = (width - 8) / columnCount; // Adjust scrollbar width
+  const rowDimension = columnDimension + (isMobile ? 40 : 0);
 
   return (
     <>
@@ -76,12 +79,12 @@ const Persons = memo<Props>(function Persons({
           height={height}
           width={width}
           rowCount={rowCount}
-          columnCount={GRID_COLUMN_SIZE}
-          rowHeight={cellDimension}
-          columnWidth={cellDimension}
+          columnCount={columnCount}
+          rowHeight={rowDimension}
+          columnWidth={columnDimension}
           overscanRowCount={2}
           itemKey={({ rowIndex, columnIndex, data }) => {
-            const index = getReactKey(rowIndex, columnIndex);
+            const index = getReactKey(rowIndex, columnIndex, columnCount);
             const person = data.persons[index];
             return person?.uid ?? `${rowIndex}_${columnIndex}`;
           }}

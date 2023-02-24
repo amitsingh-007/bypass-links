@@ -19,7 +19,6 @@ export * from './components/Bookmarks/utils/url';
 // Person
 export { default as Person } from './components/Persons/components/Person';
 export { default as Persons } from './components/Persons/components/Persons';
-export * from './components/Persons/constants';
 export * from './components/Persons/interfaces/bookmark';
 export * from './components/Persons/interfaces/persons';
 export * from './components/Persons/mapper';
@@ -55,3 +54,7 @@ export * from './utils/firebase';
 export * from './utils/search';
 export * from './utils/url';
 export * from './utils/extensionFile';
+export * from './utils/mediaQuery';
+
+// Hooks
+export { default as usePlatform } from './hooks/usePlatform';

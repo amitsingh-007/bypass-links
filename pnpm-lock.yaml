@@ -170,7 +170,6 @@ importers:
       '@mantine/core': 5.10.4
       '@mantine/hooks': 5.10.4
       '@mantine/next': 5.10.4
-      '@mantine/styles': 5.10.4
       '@playwright/test': 1.30.0
       '@svgr/webpack': 6.5.1
       '@trpc/client': 10.12.0
@@ -219,7 +218,6 @@ importers:
       '@mantine/core': 5.10.4_xgfpbscinl7gpxk3zixgsno7yu
       '@mantine/hooks': 5.10.4_react@18.2.0
       '@mantine/next': 5.10.4_pnokhhiiffeanlj7xihut5qdrq
-      '@mantine/styles': 5.10.4_keyspdss4kub3atek752gc6fle
       '@trpc/client': 10.12.0_@trpc+server@10.12.0
       '@trpc/server': 10.12.0
       countries-and-timezones: 3.4.1
@@ -274,6 +272,7 @@ importers:
       '@emotion/react': 11.10.6
       '@mantine/core': 5.10.4
       '@mantine/hooks': 5.10.4
+      '@mantine/styles': 5.10.4
       '@types/md5': 2.3.2
       '@types/react': 18.0.28
       '@types/react-window': 1.8.5
@@ -301,6 +300,7 @@ importers:
     dependencies:
       '@mantine/core': 5.10.4_xgfpbscinl7gpxk3zixgsno7yu
       '@mantine/hooks': 5.10.4_react@18.2.0
+      '@mantine/styles': 5.10.4_keyspdss4kub3atek752gc6fle
       md5: 2.3.0
       preact: 10.12.1
       react: 18.2.0
@@ -5868,7 +5868,7 @@ packages:
       webpack: '>=4.0.0 <6.0.0'
     dependencies:
       del: 4.1.1
-      webpack: 5.75.0
+      webpack: 5.75.0_webpack-cli@5.0.1
     dev: true
 
   /cli-cursor/3.1.0:
@@ -7465,7 +7465,7 @@ packages:
       micromatch: 4.0.5
       normalize-path: 3.0.0
       schema-utils: 4.0.0
-      webpack: 5.75.0
+      webpack: 5.75.0_webpack-cli@5.0.1
     dev: true
 
   /eslint/8.34.0:
@@ -8036,7 +8036,7 @@ packages:
       semver: 7.3.8
       tapable: 2.2.1
       typescript: 4.9.5
-      webpack: 5.75.0
+      webpack: 5.75.0_webpack-cli@5.0.1
     dev: true
 
   /form-data/4.0.0:
@@ -12875,7 +12875,7 @@ packages:
       schema-utils: 3.1.1
       serialize-javascript: 6.0.1
       terser: 5.16.1
-      webpack: 5.75.0
+      webpack: 5.75.0_webpack-cli@5.0.1
     dev: true
 
   /terser/5.16.1:
