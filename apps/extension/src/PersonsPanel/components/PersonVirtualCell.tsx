@@ -1,5 +1,5 @@
 import ContextMenu, { IMenuOptions } from '@/components/ContextMenu';
-import { getReactKey, IPerson, Person } from '@bypass/shared';
+import { getColumnCount, getReactKey, IPerson, Person } from '@bypass/shared';
 import { Box, useMantineTheme } from '@mantine/core';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
@@ -21,7 +21,7 @@ const PersonVirtualCell = memo<{
 }>(({ columnIndex, rowIndex, data, style }) => {
   const theme = useMantineTheme();
   const { persons, handleEditPerson, handlePersonDelete } = data;
-  const index = getReactKey(rowIndex, columnIndex);
+  const index = getReactKey(rowIndex, columnIndex, getColumnCount(false));
   const person = persons[index];
   const [showEditPersonDialog, setShowEditPersonDialog] = useState(false);
   const [menuOptions, setMenuOptions] = useState<IMenuOptions[]>([]);

@@ -1,4 +1,10 @@
-import { getReactKey, IPerson, Person } from '@bypass/shared';
+import {
+  getColumnCount,
+  getReactKey,
+  IPerson,
+  Person,
+  usePlatform,
+} from '@bypass/shared';
 import { Box } from '@mantine/core';
 import { memo } from 'react';
 import { areEqual } from 'react-window';
@@ -13,8 +19,9 @@ const PersonVirtualCell = memo<{
   style: React.CSSProperties;
   data: PersonVirtualCellProps;
 }>(({ columnIndex, rowIndex, data, style }) => {
+  const isMobile = usePlatform();
   const { persons } = data;
-  const index = getReactKey(rowIndex, columnIndex);
+  const index = getReactKey(rowIndex, columnIndex, getColumnCount(isMobile));
   const person = persons[index];
 
   if (index >= persons.length) {
