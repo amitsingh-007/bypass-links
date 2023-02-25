@@ -68,7 +68,7 @@ importers:
       html-webpack-plugin: 5.5.0
       md5: 2.3.0
       merge-jsons-webpack-plugin: 2.0.1
-      preact: 10.12.1
+      preact: 10.13.0
       prettier: 2.8.4
       qrcode.react: 3.1.0
       react: 18.2.0
@@ -104,7 +104,7 @@ importers:
       dayjs: 1.11.7
       firebase: 9.17.1
       md5: 2.3.0
-      preact: 10.12.1
+      preact: 10.13.0
       qrcode.react: 3.1.0_react@18.2.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -289,7 +289,7 @@ importers:
       eslint-plugin-react: 7.32.2
       eslint-plugin-react-hooks: 4.6.0
       md5: 2.3.0
-      preact: 10.12.1
+      preact: 10.13.0
       prettier: 2.8.4
       react: 18.2.0
       react-dom: 18.2.0
@@ -302,7 +302,7 @@ importers:
       '@mantine/hooks': 5.10.4_react@18.2.0
       '@mantine/styles': 5.10.4_keyspdss4kub3atek752gc6fle
       md5: 2.3.0
-      preact: 10.12.1
+      preact: 10.13.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-icons: 4.7.1_react@18.2.0
@@ -11315,8 +11315,8 @@ packages:
       source-map-js: 1.0.2
     dev: true
 
-  /preact/10.12.1:
-    resolution: {integrity: sha512-l8386ixSsBdbreOAkqtrwqHwdvR35ID8c3rKPa8lCWuO86dBi32QWHV4vfsZK1utLLFMvw+Z5Ad4XLkZzchscg==}
+  /preact/10.13.0:
+    resolution: {integrity: sha512-ERdIdUpR6doqdaSIh80hvzebHB7O6JxycOhyzAeLEchqOq/4yueslQbfnPwXaNhAYacFTyCclhwkEbOumT0tHw==}
     dev: false
 
   /prebuild-install/7.1.1:
