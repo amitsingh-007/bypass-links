@@ -73,7 +73,7 @@ importers:
       qrcode.react: 3.1.0
       react: 18.2.0
       react-dom: 18.2.0
-      react-easy-crop: 4.7.1
+      react-easy-crop: 4.7.3
       react-icons: 4.7.1
       react-refresh: 0.14.0
       react-refresh-typescript: 2.0.8
@@ -108,7 +108,7 @@ importers:
       qrcode.react: 3.1.0_react@18.2.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      react-easy-crop: 4.7.1_biqbaboplfbrettd7655fr4n2y
+      react-easy-crop: 4.7.3_biqbaboplfbrettd7655fr4n2y
       react-icons: 4.7.1_react@18.2.0
       react-router-dom: 6.8.1_biqbaboplfbrettd7655fr4n2y
       react-window: 1.8.8_biqbaboplfbrettd7655fr4n2y
@@ -11611,8 +11611,8 @@ packages:
       react: 18.2.0
       scheduler: 0.23.0
 
-  /react-easy-crop/4.7.1_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-F9EmLo90yWCR18voJki9upZF2GVsmPKQmu8vtTnUDFwb/PHblvMCKy/KUbu6/cniRmvPS2kiDjCUmMpAoDeJcw==}
+  /react-easy-crop/4.7.3_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-+LUQyKKAo10a28Q7whEDKs+mrGMctTDYDCT29++VYk3KKPivp/hPWWfZDrFebBOiezhGljFoi+bApH7DsVk2rg==}
     peerDependencies:
       react: '>=16.4.0'
       react-dom: '>=16.4.0'
