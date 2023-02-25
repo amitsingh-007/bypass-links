@@ -33,7 +33,7 @@
     "zustand": "4.3.3"
   },
   "devDependencies": {
-    "@babel/core": "7.20.12",
+    "@babel/core": "7.21.0",
     "@bypass/configs": "workspace:*",
     "@playwright/test": "1.30.0",
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.10",
