@@ -20,7 +20,7 @@
     "react-window": "1.8.8"
   },
   "devDependencies": {
-    "@babel/core": "7.20.12",
+    "@babel/core": "7.21.0",
     "@bypass/configs": "workspace:*",
     "@emotion/react": "11.10.6",
     "@types/md5": "2.3.2",
