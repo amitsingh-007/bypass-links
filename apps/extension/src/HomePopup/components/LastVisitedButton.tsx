@@ -20,9 +20,11 @@ const LastVisitedButton = memo(function LastVisitedButton() {
   const initLastVisited = async () => {
     setIsFetching(true);
     const lastVisitedData = await getLastVisited();
-
     const curTab = await getCurrentTab();
-    const { hostname } = new URL(curTab.url ?? '');
+    if (!curTab?.url) {
+      return;
+    }
+    const { hostname } = new URL(curTab.url);
     const lastVisitedDate = lastVisitedData[md5(hostname)];
     let displayInfo = '';
     if (lastVisitedDate) {
@@ -44,7 +46,10 @@ const LastVisitedButton = memo(function LastVisitedButton() {
 
   const handleUpdateLastVisited = async () => {
     setIsFetching(true);
-    const { hostname } = new URL(currentTab?.url ?? '');
+    if (!currentTab?.url) {
+      return;
+    }
+    const { hostname } = new URL(currentTab.url);
     lastVisitedObj[md5(hostname)] = Date.now();
     const isSuccess = await saveToFirebase(
       FIREBASE_DB_REF.lastVisited,
