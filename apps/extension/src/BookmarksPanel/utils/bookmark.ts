@@ -7,7 +7,6 @@ import {
   IBookmarksObj,
   STORAGE_KEYS,
 } from '@bypass/shared';
-import storage from '@helpers/chrome/storage';
 import { getBookmarks } from '@helpers/fetchFromStorage';
 import { getFromFirebase, saveToFirebase } from '@helpers/firebase/database';
 
@@ -15,12 +14,14 @@ export const syncBookmarksToStorage = async () => {
   const bookmarks = await getFromFirebase<IBookmarksObj>(
     FIREBASE_DB_REF.bookmarks
   );
-  await storage.set({ [STORAGE_KEYS.bookmarks]: bookmarks });
+  await chrome.storage.local.set({ [STORAGE_KEYS.bookmarks]: bookmarks });
   console.log(`Bookmarks is set to`, bookmarks);
 };
 
 export const syncBookmarksFirebaseWithStorage = async () => {
-  const { hasPendingBookmarks } = await storage.get('hasPendingBookmarks');
+  const { hasPendingBookmarks } = await chrome.storage.local.get(
+    'hasPendingBookmarks'
+  );
   const bookmarks = await getBookmarks();
   if (!hasPendingBookmarks) {
     return;
@@ -31,14 +32,17 @@ export const syncBookmarksFirebaseWithStorage = async () => {
     bookmarks
   );
   if (isSaveSuccess) {
-    await storage.remove('hasPendingBookmarks');
+    await chrome.storage.local.remove('hasPendingBookmarks');
   } else {
     throw new Error('Error while syncing bookmarks from storage to firebase');
   }
 };
 
 export const resetBookmarks = async () => {
-  await storage.remove([STORAGE_KEYS.bookmarks, 'hasPendingBookmarks']);
+  await chrome.storage.local.remove([
+    STORAGE_KEYS.bookmarks,
+    'hasPendingBookmarks',
+  ]);
 };
 
 export const cacheBookmarkFavicons = async () => {

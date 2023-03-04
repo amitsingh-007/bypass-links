@@ -1,9 +1,8 @@
 import { decodePersons, IPerson, IPersons, STORAGE_KEYS } from '@bypass/shared';
-import storage from '@helpers/chrome/storage';
 import { getPersons } from '@helpers/fetchFromStorage';
 
 export const setPersonsInStorage = async (persons: IPersons) => {
-  await storage.set({
+  await chrome.storage.local.set({
     [STORAGE_KEYS.persons]: persons,
     hasPendingPersons: true,
   });

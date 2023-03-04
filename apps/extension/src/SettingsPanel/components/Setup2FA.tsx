@@ -1,6 +1,5 @@
 import { api } from '@/utils/api';
 import { Header, InputTOTP, STORAGE_KEYS, VoidFunction } from '@bypass/shared';
-import storage from '@helpers/chrome/storage';
 import { getUserProfile } from '@helpers/fetchFromStorage';
 import { Button, Center, Modal } from '@mantine/core';
 import useToastStore from '@store/toast';
@@ -43,7 +42,9 @@ const Setup2FA = memo(function Setup2FA({ isOpen, handleClose }: Props) {
     });
     if (isVerified) {
       userProfile.is2FAEnabled = true;
-      await storage.set({ [STORAGE_KEYS.userProfile]: userProfile });
+      await chrome.storage.local.set({
+        [STORAGE_KEYS.userProfile]: userProfile,
+      });
       handleClose();
     } else {
       displayToast({

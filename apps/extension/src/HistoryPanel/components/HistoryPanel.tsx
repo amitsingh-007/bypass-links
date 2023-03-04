@@ -1,5 +1,4 @@
 import { Header } from '@bypass/shared';
-import storage from '@helpers/chrome/storage';
 import { Box, Button, Stack } from '@mantine/core';
 import {
   DateRangePicker,
@@ -36,14 +35,16 @@ const HistoryPanel = memo(function HistoryPanel() {
   });
 
   useEffect(() => {
-    storage.get(['historyStartTime']).then(({ historyStartTime }) => {
-      if (historyStartTime) {
-        form.setFieldValue('timeRange', [
-          new Date(historyStartTime),
-          currentDate,
-        ]);
-      }
-    });
+    chrome.storage.local
+      .get(['historyStartTime'])
+      .then(({ historyStartTime }) => {
+        if (historyStartTime) {
+          form.setFieldValue('timeRange', [
+            new Date(historyStartTime),
+            currentDate,
+          ]);
+        }
+      });
   }, [form]);
 
   const handleClear = async (values: typeof form.values) => {
@@ -66,7 +67,7 @@ const HistoryPanel = memo(function HistoryPanel() {
       startTime: startDateTime.valueOf(),
       endTime: endDateTime.valueOf(),
     });
-    storage.remove('historyStartTime');
+    chrome.storage.local.remove('historyStartTime');
     displayToast({ message: 'History cleared successfully' });
   };
 

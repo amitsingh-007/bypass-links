@@ -31,7 +31,6 @@ import {
   STORAGE_KEYS,
 } from '@bypass/shared';
 import runtime from '@helpers/chrome/runtime';
-import storage from '@helpers/chrome/storage';
 import tabs from '@helpers/chrome/tabs';
 import { getSettings, getUserProfile } from '@helpers/fetchFromStorage';
 import { UserInfo } from '../interfaces/authentication';
@@ -44,7 +43,7 @@ const syncAuthenticationToStorage = async (userProfile: UserInfo) => {
   );
   userProfile.is2FAEnabled = is2FAEnabled;
   userProfile.isTOTPVerified = false;
-  await storage.set({ [STORAGE_KEYS.userProfile]: userProfile });
+  await chrome.storage.local.set({ [STORAGE_KEYS.userProfile]: userProfile });
   AuthProgress.finish('2FA status checked');
 };
 
@@ -58,7 +57,7 @@ const resetAuthentication = async () => {
     token: userProfile.googleAuthToken ?? '',
   });
   console.log('Removed Google auth token from cache');
-  await storage.remove(STORAGE_KEYS.userProfile);
+  await chrome.storage.local.remove(STORAGE_KEYS.userProfile);
 };
 
 const syncFirebaseToStorage = async () => {
@@ -122,7 +121,9 @@ export const processPreLogout = async () => {
 
 export const processPostLogout = async () => {
   const settings = await getSettings();
-  const { historyStartTime } = await storage.get(['historyStartTime']);
+  const { historyStartTime } = await chrome.storage.local.get([
+    'historyStartTime',
+  ]);
   const historyWatchTime = Date.now() - historyStartTime;
   // Reset storage
   await resetStorage();

@@ -1,7 +1,6 @@
 import Logging from '@/logging';
 import { getIsExtensionActive, setExtStateInStorage } from '@/utils/common';
 import { EXTENSION_STATE } from '@constants/index';
-import storage from '@helpers/chrome/storage';
 import { getExtensionState } from '@helpers/fetchFromStorage';
 import { manageGoogleActivity } from './automation/manageGoogleActivity';
 import { bypass } from './bypass';
@@ -21,7 +20,7 @@ chrome.runtime.onInstalled.addListener(() => {
 
 // Listen when the browser is opened
 chrome.runtime.onStartup.addListener(() => {
-  storage
+  chrome.storage.local
     .get(['extState', 'hasPendingBookmarks', 'hasPendingPersons'])
     .then(async ({ extState, hasPendingBookmarks, hasPendingPersons }) => {
       await setExtensionIcon({
