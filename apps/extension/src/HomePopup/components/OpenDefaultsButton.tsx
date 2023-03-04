@@ -1,5 +1,4 @@
 import { STORAGE_KEYS } from '@bypass/shared';
-import tabs from '@helpers/chrome/tabs';
 import { Button } from '@mantine/core';
 import useAuthStore from '@store/auth';
 import useHistoryStore from '@store/history';
@@ -24,7 +23,7 @@ const OpenDefaultsButton = memo(function OpenDefaultsButton() {
     defaults
       .filter((data: any) => data && data.alias && data.website)
       .forEach(({ website }: any) => {
-        tabs.create({ url: atob(website), active: false });
+        chrome.tabs.create({ url: atob(website), active: false });
       });
     setIsFetching(false);
   };

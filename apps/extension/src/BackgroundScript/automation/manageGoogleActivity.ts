@@ -1,5 +1,4 @@
 import scripting from '@helpers/chrome/scripting';
-import tabs from '@helpers/chrome/tabs';
 
 const automate = () => {
   const menuOptionButton = document.querySelector<HTMLButtonElement>(
@@ -44,7 +43,7 @@ const automate = () => {
 };
 
 export const manageGoogleActivity = async (historyWatchTime: number) => {
-  const tab = await tabs.create({
+  const tab = await chrome.tabs.create({
     url: 'https://myactivity.google.com/activitycontrols/webandapp',
   });
   chrome.tabs.onUpdated.addListener(async (tabId, info) => {
@@ -56,7 +55,7 @@ export const manageGoogleActivity = async (historyWatchTime: number) => {
       // Close only when history watch time was less than 1 hour
       if (historyWatchTime <= 60 * 60 * 1000) {
         setTimeout(() => {
-          tabs.remove(tabId);
+          chrome.tabs.remove(tabId);
         }, 10000);
       }
     }

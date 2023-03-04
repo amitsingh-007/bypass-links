@@ -1,7 +1,7 @@
 import { matchHostnames } from '@/utils/common';
+import { getCurrentTab } from '@/utils/tabs';
 import { BYPASS_KEYS } from '@constants/index';
 import runtime from '@helpers/chrome/runtime';
-import tabs, { getCurrentTab } from '@helpers/chrome/tabs';
 import { Button } from '@mantine/core';
 import useAuthStore from '@store/auth';
 import useHistoryStore from '@store/history';
@@ -54,7 +54,7 @@ const OpenForumLinks = memo(function OpenForumLinks() {
       url: currentTab?.url,
     });
     forumPageLinks.forEach((url) => {
-      tabs.create({ url, active: false });
+      chrome.tabs.create({ url, active: false });
     });
     setIsFetching(false);
   };

@@ -6,7 +6,6 @@ import {
 } from '@/BackgroundScript/apis/linkvertise';
 import { matchHostnames } from '@/utils/common';
 import { BYPASS_KEYS } from '@constants/index';
-import tabs from '@helpers/chrome/tabs';
 
 const getDynamicParams = (url: URL) => ({
   type: 'dynamic',
@@ -45,5 +44,5 @@ export const bypassLinkvertise = async (url: URL, tabId: number) => {
   if (!targetUrl) {
     targetUrl = await bypassLinkvertiseUsingExternalFallbackApi(url);
   }
-  await tabs.update(tabId, { url: targetUrl });
+  await chrome.tabs.update(tabId, { url: targetUrl });
 };

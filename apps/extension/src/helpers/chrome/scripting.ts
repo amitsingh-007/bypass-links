@@ -1,5 +1,5 @@
 import Logging from '@/logging';
-import { getCurrentTab } from './tabs';
+import { getCurrentTab } from '@/utils/tabs';
 
 const getExecuteScriptError = async (
   err: unknown,

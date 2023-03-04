@@ -1,5 +1,4 @@
 import scripting from '@helpers/chrome/scripting';
-import tabs from '@helpers/chrome/tabs';
 import windows from '@helpers/chrome/windows';
 
 const MEDIUM_HOMEPAGE = 'https://medium.com/';
@@ -43,6 +42,6 @@ export const bypassMedium = async (url: URL, tabId: number) => {
       state: 'maximized',
       incognito: true,
     });
-    tabs.goBack(tabId);
+    chrome.tabs.goBack(tabId);
   }
 };

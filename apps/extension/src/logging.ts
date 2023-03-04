@@ -1,6 +1,6 @@
 import { ILogRequest } from '@bypass/trpc';
-import { getCurrentTab } from './helpers/chrome/tabs';
 import { api } from './utils/api';
+import { getCurrentTab } from './utils/tabs';
 
 class Logging {
   static parseObject = (obj?: Object | null) =>

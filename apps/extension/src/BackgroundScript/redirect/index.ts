@@ -1,5 +1,4 @@
 import { FIREBASE_DB_REF, STORAGE_KEYS } from '@bypass/shared';
-import tabs from '@helpers/chrome/tabs';
 import { getMappedRedirections } from '@helpers/fetchFromStorage';
 import { getFromFirebase } from '@helpers/firebase/database';
 import { IRedirection } from '../interfaces/redirections';
@@ -9,7 +8,7 @@ export const redirect = async (tabId: number, url: URL) => {
   const redirections = await getMappedRedirections();
   const redirectUrl = redirections[btoa(url.href)];
   if (redirectUrl) {
-    await tabs.update(tabId, { url: atob(redirectUrl) });
+    await chrome.tabs.update(tabId, { url: atob(redirectUrl) });
   }
 };
 

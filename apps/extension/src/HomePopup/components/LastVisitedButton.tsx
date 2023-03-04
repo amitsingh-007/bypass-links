@@ -1,6 +1,6 @@
 import { syncLastVisitedToStorage } from '@/HomePopup/utils/lastVisited';
+import { getCurrentTab } from '@/utils/tabs';
 import { FIREBASE_DB_REF } from '@bypass/shared';
-import { getCurrentTab } from '@helpers/chrome/tabs';
 import { getLastVisited } from '@helpers/fetchFromStorage';
 import { saveToFirebase } from '@helpers/firebase/database';
 import { Button, Text, Tooltip } from '@mantine/core';

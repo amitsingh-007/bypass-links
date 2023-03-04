@@ -31,7 +31,6 @@ import {
   STORAGE_KEYS,
 } from '@bypass/shared';
 import runtime from '@helpers/chrome/runtime';
-import tabs from '@helpers/chrome/tabs';
 import { getSettings, getUserProfile } from '@helpers/fetchFromStorage';
 import { UserInfo } from '../interfaces/authentication';
 import { AuthProgress } from './authProgress';
@@ -133,8 +132,8 @@ export const processPostLogout = async () => {
   AuthProgress.finish('Cleared cache');
   if (settings?.hasManageGoogleActivityConsent) {
     // Open Google Search and Google Image tabs
-    await tabs.create({ url: 'https://www.google.com/' });
-    await tabs.create({ url: 'https://www.google.com/imghp' });
+    await chrome.tabs.create({ url: 'https://www.google.com/' });
+    await chrome.tabs.create({ url: 'https://www.google.com/imghp' });
     // Clear activity from google account
     await runtime.sendMessage<{ manageGoogleActivity: string }>({
       manageGoogleActivity: { historyWatchTime },

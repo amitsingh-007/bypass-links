@@ -1,5 +1,5 @@
-import { getCurrentTab } from '@/helpers/chrome/tabs';
 import useBookmarkStore from '@/store/bookmark';
+import { getCurrentTab } from '@/utils/tabs';
 import {
   BOOKMARK_OPERATION,
   ContextBookmarks,
