@@ -74,7 +74,7 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0
       react-easy-crop: 4.7.4
-      react-icons: 4.7.1
+      react-icons: 4.8.0
       react-refresh: 0.14.0
       react-refresh-typescript: 2.0.8
       react-router-dom: 6.8.2
@@ -109,7 +109,7 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-easy-crop: 4.7.4_biqbaboplfbrettd7655fr4n2y
-      react-icons: 4.7.1_react@18.2.0
+      react-icons: 4.8.0_react@18.2.0
       react-router-dom: 6.8.2_biqbaboplfbrettd7655fr4n2y
       react-window: 1.8.8_biqbaboplfbrettd7655fr4n2y
       zustand: 4.3.5_react@18.2.0
@@ -204,7 +204,7 @@ importers:
       prettier: 2.8.4
       react: 18.2.0
       react-dom: 18.2.0
-      react-icons: 4.7.1
+      react-icons: 4.8.0
       react-window: 1.8.8
       sharp: 0.31.3
       typescript: 4.9.5
@@ -228,7 +228,7 @@ importers:
       next-seo: 5.15.0_nvzgbose6yf6w7ijjprgspqefi
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      react-icons: 4.7.1_react@18.2.0
+      react-icons: 4.8.0_react@18.2.0
       react-window: 1.8.8_biqbaboplfbrettd7655fr4n2y
       sharp: 0.31.3
     devDependencies:
@@ -293,7 +293,7 @@ importers:
       prettier: 2.8.4
       react: 18.2.0
       react-dom: 18.2.0
-      react-icons: 4.7.1
+      react-icons: 4.8.0
       react-window: 1.8.8
       tslib: 2.5.0
       typescript: 4.9.5
@@ -305,7 +305,7 @@ importers:
       preact: 10.13.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      react-icons: 4.7.1_react@18.2.0
+      react-icons: 4.8.0_react@18.2.0
       react-window: 1.8.8_biqbaboplfbrettd7655fr4n2y
     devDependencies:
       '@babel/core': 7.21.0
@@ -11655,8 +11655,8 @@ packages:
       tslib: 2.0.1
     dev: false
 
-  /react-icons/4.7.1_react@18.2.0:
-    resolution: {integrity: sha512-yHd3oKGMgm7zxo3EA7H2n7vxSoiGmHk5t6Ou4bXsfcgWyhfDKMpyKfhHR6Bjnn63c+YXBLBPUql9H4wPJM6sXw==}
+  /react-icons/4.8.0_react@18.2.0:
+    resolution: {integrity: sha512-N6+kOLcihDiAnj5Czu637waJqSnwlMNROzVZMhfX68V/9bu9qHaMIJC4UdozWoOk57gahFCNHwVvWzm0MTzRjg==}
     peerDependencies:
       react: '*'
     dependencies:
