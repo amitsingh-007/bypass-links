@@ -31,7 +31,7 @@ const getForumWatchedThreadsLinksFunc = () => {
 export const getForumPageLinks = async (
   tabId: number,
   url: string
-): Promise<string[]> => {
+): Promise<(string | undefined)[]> => {
   const { pathname } = new URL(url);
   const isWatchThreadsPage = pathname === '/watched/threads';
   const [{ result }] = await scripting.executeScript({

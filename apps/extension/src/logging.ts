@@ -1,9 +1,12 @@
 import { ILogRequest } from '@bypass/trpc';
+import { getCurrentTab } from './helpers/chrome/tabs';
 import { api } from './utils/api';
 
 class Logging {
-  static stringifyError = (e?: Object) =>
-    JSON.stringify(e, Object.getOwnPropertyNames(e));
+  static parseObject = (obj?: Object | null) =>
+    obj
+      ? JSON.parse(JSON.stringify(obj, Object.getOwnPropertyNames(obj)))
+      : obj;
 
   static sendToLog = async (data: { message: any; metaData: any }) => {
     try {
@@ -14,6 +17,7 @@ class Logging {
         isProd: PROD_ENV,
         level: 'error',
         url: globalThis.location.href,
+        tabUrl: (await getCurrentTab()).url,
         message: data.message ?? 'ERROR_MESSAGE_NOT_FOUND',
         metaData: data.metaData,
       };
@@ -28,7 +32,7 @@ class Logging {
       Logging.sendToLog({
         message: errorMsg,
         metaData: {
-          error: Logging.stringifyError(error),
+          error: Logging.parseObject(error),
           url,
           line,
           column,
@@ -42,9 +46,9 @@ class Logging {
       const { reason } = error;
       Logging.sendToLog({
         message:
-          typeof reason === 'object' ? Logging.stringifyError(reason) : reason,
+          typeof reason === 'object' ? Logging.parseObject(reason) : reason,
         metaData: {
-          error: Logging.stringifyError(error),
+          error: Logging.parseObject(error),
           type: 'promiseRejection',
         },
       });
