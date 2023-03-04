@@ -1,5 +1,4 @@
 import { startHistoryWatch } from '@/components/StoreListener';
-import history from '@helpers/chrome/history';
 import storage from '@helpers/chrome/storage';
 import { Switch, useMantineTheme } from '@mantine/core';
 import useExtStore from '@store/extension';
@@ -16,7 +15,7 @@ const endHistoryWatch = async () => {
   const historyEndTime = Date.now();
   console.log(`Start DateTime is: ${new Date(historyStartTime)}`);
   console.log(`End DateTime is: ${new Date(historyEndTime)}`);
-  await history.deleteRange({
+  await chrome.history.deleteRange({
     startTime: historyStartTime,
     endTime: historyEndTime,
   });

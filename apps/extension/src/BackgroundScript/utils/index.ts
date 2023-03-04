@@ -1,5 +1,4 @@
 import { IExtensionState } from '@constants/index';
-import action from '@helpers/chrome/action';
 import { getExtensionState } from '@helpers/fetchFromStorage';
 import { api } from '../../utils/api';
 import { getIsExtensionActive } from '../../utils/common';
@@ -42,7 +41,7 @@ export const setExtensionIcon = async ({
       ? 'assets/bypass_link_on_32.png'
       : 'assets/bypass_link_off_32.png';
   }
-  await action.setIcon({ path: icon });
+  await chrome.action.setIcon({ path: icon });
 };
 
 export const checkForUpdates = async () => {

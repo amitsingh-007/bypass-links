@@ -1,7 +1,6 @@
 import Logging from '@/logging';
 import { getIsExtensionActive, setExtStateInStorage } from '@/utils/common';
 import { EXTENSION_STATE } from '@constants/index';
-import action from '@helpers/chrome/action';
 import storage from '@helpers/chrome/storage';
 import { getExtensionState } from '@helpers/fetchFromStorage';
 import { manageGoogleActivity } from './automation/manageGoogleActivity';
@@ -33,11 +32,11 @@ chrome.runtime.onStartup.addListener(() => {
     });
   checkForUpdates().then((isUsingLatest) => {
     if (!isUsingLatest) {
-      action.setBadgeWithTitle(
-        '!',
-        red,
-        'You are using older version of Bypass Links'
-      );
+      chrome.action.setBadgeText({ text: '!' });
+      chrome.action.setBadgeBackgroundColor({ color: red });
+      chrome.action.setTitle({
+        title: 'You are using older version of Bypass Links',
+      });
     }
   });
 });

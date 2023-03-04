@@ -17,7 +17,7 @@ class Logging {
         isProd: PROD_ENV,
         level: 'error',
         url: globalThis.location.href,
-        tabUrl: (await getCurrentTab()).url,
+        tabUrl: (await getCurrentTab())?.url,
         message: data.message ?? 'ERROR_MESSAGE_NOT_FOUND',
         metaData: data.metaData,
       };

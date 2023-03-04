@@ -1,5 +1,4 @@
 import { Header } from '@bypass/shared';
-import historyApi from '@helpers/chrome/history';
 import storage from '@helpers/chrome/storage';
 import { Box, Button, Stack } from '@mantine/core';
 import {
@@ -63,7 +62,7 @@ const HistoryPanel = memo(function HistoryPanel() {
       });
       return;
     }
-    await historyApi.deleteRange({
+    await chrome.history.deleteRange({
       startTime: startDateTime.valueOf(),
       endTime: endDateTime.valueOf(),
     });

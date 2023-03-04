@@ -30,7 +30,6 @@ import {
   deleteAllCache,
   STORAGE_KEYS,
 } from '@bypass/shared';
-import identity from '@helpers/chrome/identity';
 import runtime from '@helpers/chrome/runtime';
 import storage from '@helpers/chrome/storage';
 import tabs from '@helpers/chrome/tabs';
@@ -55,7 +54,7 @@ const resetAuthentication = async () => {
     console.log('User profile not found');
     return;
   }
-  await identity.removeCachedAuthToken({
+  await chrome.identity.removeCachedAuthToken({
     token: userProfile.googleAuthToken ?? '',
   });
   console.log('Removed Google auth token from cache');
