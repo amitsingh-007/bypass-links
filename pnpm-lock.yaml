@@ -47,7 +47,7 @@ importers:
       '@typescript-eslint/eslint-plugin': 5.53.0
       '@typescript-eslint/parser': 5.53.0
       clean-webpack-plugin: 4.0.0
-      compressorjs: 1.1.1
+      compressorjs: 1.2.1
       copy-webpack-plugin: 11.0.0
       cross-env: 7.0.3
       dayjs: 1.11.7
@@ -100,7 +100,7 @@ importers:
       '@mantine/hooks': 5.10.4_react@18.2.0
       '@trpc/client': 10.12.0_@trpc+server@10.12.0
       '@trpc/server': 10.12.0
-      compressorjs: 1.1.1
+      compressorjs: 1.2.1
       dayjs: 1.11.7
       firebase: 9.17.1
       md5: 2.3.0
@@ -6059,8 +6059,8 @@ packages:
       - supports-color
     dev: true
 
-  /compressorjs/1.1.1:
-    resolution: {integrity: sha512-SysRuUPfmUNoq+RviE0iMFVUmoX2q/x+7PkEPUmk6NGkd85hDrmvujx0Qtp8UCGA6KMe5kuodsylPQcNaLf60w==}
+  /compressorjs/1.2.1:
+    resolution: {integrity: sha512-+geIjeRnPhQ+LLvvA7wxBQE5ddeLU7pJ3FsKFWirDw6veY3s9iLxAQEw7lXGHnhCJvBujEQWuNnGzZcvCvdkLQ==}
     dependencies:
       blueimp-canvas-to-blob: 3.29.0
       is-blob: 2.1.0
