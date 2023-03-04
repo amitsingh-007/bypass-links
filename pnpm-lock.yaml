@@ -4,7 +4,7 @@ importers:
 
   .:
     specifiers:
-      '@playwright/test': 1.31.1
+      '@playwright/test': 1.31.2
       '@types/node': 18.14.1
       cross-env: 7.0.3
       husky: 8.0.3
@@ -12,7 +12,7 @@ importers:
       turbo: 1.8.2
       vercel: 28.16.7
     devDependencies:
-      '@playwright/test': 1.31.1
+      '@playwright/test': 1.31.2
       '@types/node': 18.14.1
       cross-env: 7.0.3
       husky: 8.0.3
@@ -32,7 +32,7 @@ importers:
       '@mantine/dates': 5.10.4
       '@mantine/form': 5.10.4
       '@mantine/hooks': 5.10.4
-      '@playwright/test': 1.31.1
+      '@playwright/test': 1.31.2
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.10
       '@trpc/client': 10.12.0
       '@trpc/server': 10.12.0
@@ -116,7 +116,7 @@ importers:
     devDependencies:
       '@babel/core': 7.21.0
       '@bypass/configs': link:../../packages/configs
-      '@playwright/test': 1.31.1
+      '@playwright/test': 1.31.2
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.10_3lg45jznfkaedc25egrbkruzdu
       '@types/chrome': 0.0.217
       '@types/md5': 2.3.2
@@ -170,7 +170,7 @@ importers:
       '@mantine/core': 5.10.4
       '@mantine/hooks': 5.10.4
       '@mantine/next': 5.10.4
-      '@playwright/test': 1.31.1
+      '@playwright/test': 1.31.2
       '@svgr/webpack': 6.5.1
       '@trpc/client': 10.12.0
       '@trpc/server': 10.12.0
@@ -234,7 +234,7 @@ importers:
     devDependencies:
       '@babel/core': 7.21.0
       '@bypass/configs': link:../../packages/configs
-      '@playwright/test': 1.31.1
+      '@playwright/test': 1.31.2
       '@svgr/webpack': 6.5.1
       '@types/md5': 2.3.2
       '@types/react': 18.0.28
@@ -3543,13 +3543,13 @@ packages:
       tslib: 2.5.0
     dev: true
 
-  /@playwright/test/1.31.1:
-    resolution: {integrity: sha512-IsytVZ+0QLDh1Hj83XatGp/GsI1CDJWbyDaBGbainsh0p2zC7F4toUocqowmjS6sQff2NGT3D9WbDj/3K2CJiA==}
+  /@playwright/test/1.31.2:
+    resolution: {integrity: sha512-BYVutxDI4JeZKV1+ups6dt5WiqKhjBtIYowyZIJ3kBDmJgsuPKsqqKNIMFbUePLSCmp2cZu+BDL427RcNKTRYw==}
     engines: {node: '>=14'}
     hasBin: true
     dependencies:
       '@types/node': 18.14.1
-      playwright-core: 1.31.1
+      playwright-core: 1.31.2
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
@@ -11217,8 +11217,8 @@ packages:
       pathe: 1.1.0
     dev: true
 
-  /playwright-core/1.31.1:
-    resolution: {integrity: sha512-JTyX4kV3/LXsvpHkLzL2I36aCdml4zeE35x+G5aPc4bkLsiRiQshU5lWeVpHFAuC8xAcbI6FDcw/8z3q2xtJSQ==}
+  /playwright-core/1.31.2:
+    resolution: {integrity: sha512-a1dFgCNQw4vCsG7bnojZjDnPewZcw7tZUNFN0ZkcLYKj+mPmXvg4MpaaKZ5SgqPsOmqIf2YsVRkgqiRDxD+fDQ==}
     engines: {node: '>=14'}
     hasBin: true
     dev: true
