@@ -1,4 +1,4 @@
-import scripting from '@helpers/chrome/scripting';
+import scripting from '@/utils/scripting';
 
 const automate = () => {
   const menuOptionButton = document.querySelector<HTMLButtonElement>(

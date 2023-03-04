@@ -1,4 +1,4 @@
-import scripting from '@/helpers/chrome/scripting';
+import scripting from '@/utils/scripting';
 
 export const bypassSingleLinkOnPage = async (
   selectorFn: () => { links: string[] | null },
