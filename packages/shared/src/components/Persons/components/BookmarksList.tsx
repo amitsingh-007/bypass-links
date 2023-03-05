@@ -159,7 +159,7 @@ const BookmarksList = memo<Props>(function BookmarksList({
       zIndex={1002}
       withCloseButton={false}
       styles={{
-        content: { padding: '0 !important' },
+        body: { padding: 0 },
         title: { flex: 1, marginRight: 0 },
         header: { marginBottom: 0 },
       }}

@@ -61,7 +61,7 @@ const Setup2FA = memo(function Setup2FA({ isOpen, handleClose }: Props) {
       fullScreen
       zIndex={1002}
       withCloseButton={false}
-      styles={{ content: { padding: '0 !important' } }}
+      styles={{ body: { padding: 0 } }}
     >
       <Header text="Setup two factor auth" onBackClick={handleClose} />
       <Center mt={20} sx={{ flexDirection: 'column' }}>
