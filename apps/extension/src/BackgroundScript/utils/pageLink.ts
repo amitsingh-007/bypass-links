@@ -1,18 +1,16 @@
-import { VoidFunction } from '@bypass/shared';
-import scripting from '@/helpers/chrome/scripting';
-import tabs from '@/helpers/chrome/tabs';
+import scripting from '@/utils/scripting';
 
 export const bypassSingleLinkOnPage = async (
-  selectorFn: VoidFunction,
+  selectorFn: () => { links: string[] | null },
   tabId: number
 ) => {
   const response = await scripting.executeScript({
     target: { tabId },
     func: selectorFn,
   });
-  const { result }: { result: { links: string[] } | null } = response[0];
+  const { result } = response[0];
   const targetUrl = result?.links?.[0];
   if (targetUrl) {
-    tabs.update(tabId, { url: targetUrl });
+    chrome.tabs.update(tabId, { url: targetUrl });
   }
 };

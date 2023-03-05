@@ -3,14 +3,13 @@ import {
   IBypassKeys,
   IExtensionState,
 } from '@constants/index';
-import storage from '@helpers/chrome/storage';
 import { getHostnames } from '@helpers/fetchFromStorage';
 
 export const getIsExtensionActive = (extState: IExtensionState) =>
   extState === EXTENSION_STATE.ACTIVE;
 
 export const setExtStateInStorage = (extState: IExtensionState) => {
-  storage.set({ extState }).then(() => {
+  chrome.storage.local.set({ extState }).then(() => {
     console.log(`ExtensionState in storage is set to ${extState}.`);
   });
 };

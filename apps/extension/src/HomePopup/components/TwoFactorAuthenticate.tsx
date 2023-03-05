@@ -1,6 +1,5 @@
 import { api } from '@/utils/api';
 import { InputTOTP, STORAGE_KEYS } from '@bypass/shared';
-import storage from '@helpers/chrome/storage';
 import { getUserProfile } from '@helpers/fetchFromStorage';
 import { Center, Modal } from '@mantine/core';
 import useAuthStore from '@store/auth';
@@ -41,7 +40,7 @@ const TwoFactorAuthenticate = () => {
     });
     if (isVerified) {
       user.isTOTPVerified = true;
-      await storage.set({ [STORAGE_KEYS.userProfile]: user });
+      await chrome.storage.local.set({ [STORAGE_KEYS.userProfile]: user });
       setPromptTOTPVerify(false);
     } else {
       displayToast({

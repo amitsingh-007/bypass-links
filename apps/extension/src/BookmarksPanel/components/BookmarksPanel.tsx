@@ -20,7 +20,6 @@ import {
   DragDropContextProps,
   Droppable,
 } from '@hello-pangea/dnd';
-import tabs from '@helpers/chrome/tabs';
 import { getBookmarks } from '@helpers/fetchFromStorage';
 import { Box, Flex } from '@mantine/core';
 import { useElementSize } from '@mantine/hooks';
@@ -109,7 +108,7 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     startHistoryMonitor();
     contextBookmarks.forEach((bookmark, index) => {
       if (selectedBookmarks[index] && !bookmark.isDir) {
-        tabs.create({ url: bookmark.url, active: false });
+        chrome.tabs.create({ url: bookmark.url, active: false });
       }
     });
   }, [contextBookmarks, selectedBookmarks, startHistoryMonitor]);

@@ -1,3 +1,4 @@
+import { getCurrentTab } from '@/utils/tabs';
 import {
   BMPanelQueryParams,
   BOOKMARK_OPERATION,
@@ -7,7 +8,6 @@ import {
   IEncodedBookmark,
   useBookmark,
 } from '@bypass/shared';
-import { getCurrentTab } from '@helpers/chrome/tabs';
 import { getBookmarks } from '@helpers/fetchFromStorage';
 import { Button, Text, Tooltip } from '@mantine/core';
 import useAuthStore from '@store/auth';

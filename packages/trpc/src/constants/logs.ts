@@ -7,6 +7,7 @@ export const logRequestSchema = z.object({
   isProd: z.boolean(),
   level: z.literal('info').or(z.literal('error')),
   url: z.string(),
+  tabUrl: z.string().optional(),
   message: z.any(),
   metaData: z.any(),
 });

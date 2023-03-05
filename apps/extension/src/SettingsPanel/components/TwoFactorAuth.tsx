@@ -1,6 +1,5 @@
 import { api } from '@/utils/api';
 import { STORAGE_KEYS } from '@bypass/shared';
-import storage from '@helpers/chrome/storage';
 import { getUserProfile } from '@helpers/fetchFromStorage';
 import { Button, Flex, Text } from '@mantine/core';
 import useToastStore from '@store/toast';
@@ -32,7 +31,7 @@ const TwoFactorAuth = memo(function TwoFactorAuth() {
     }
     userProfile.is2FAEnabled = false;
     userProfile.isTOTPVerified = false;
-    await storage.set({
+    await chrome.storage.local.set({
       [STORAGE_KEYS.userProfile]: userProfile,
     });
     setIs2FAEnabled(false);

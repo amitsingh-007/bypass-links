@@ -1,6 +1,4 @@
-import scripting from '@helpers/chrome/scripting';
-import tabs from '@helpers/chrome/tabs';
-import windows from '@helpers/chrome/windows';
+import scripting from '@/utils/scripting';
 
 const MEDIUM_HOMEPAGE = 'https://medium.com/';
 
@@ -38,11 +36,11 @@ export const bypassMedium = async (url: URL, tabId: number) => {
   });
   const { result }: { result: IBypassMedium | null } = response[0];
   if (result?.hasPaywall) {
-    await windows.create({
+    await chrome.windows.create({
       url: url.href,
       state: 'maximized',
       incognito: true,
     });
-    tabs.goBack(tabId);
+    chrome.tabs.goBack(tabId);
   }
 };

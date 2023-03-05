@@ -7,7 +7,6 @@ import {
   Persons,
   sortAlphabetically,
 } from '@bypass/shared';
-import tabs from '@helpers/chrome/tabs';
 import { getPersons } from '@helpers/fetchFromStorage';
 import { removeImageFromFirebase } from '@helpers/firebase/storage';
 import { Box, Flex } from '@mantine/core';
@@ -97,7 +96,7 @@ const PersonsPanel = () => {
 
   const onLinkOpen = (url: string) => {
     startHistoryMonitor();
-    tabs.create({ url, active: false });
+    chrome.tabs.create({ url, active: false });
   };
 
   const filteredPersons = useMemo(

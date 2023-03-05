@@ -1,15 +1,12 @@
 import Logging from '@/logging';
 import { getIsExtensionActive, setExtStateInStorage } from '@/utils/common';
 import { EXTENSION_STATE } from '@constants/index';
-import action from '@helpers/chrome/action';
-import storage from '@helpers/chrome/storage';
 import { getExtensionState } from '@helpers/fetchFromStorage';
-import { manageGoogleActivity } from './automation/manageGoogleActivity';
 import { bypass } from './bypass';
-import { getForumPageLinks } from './misc/forumPageLinks';
 import turnOffInputSuggestions from './misc/turnOffInputSuggestions';
 import { redirect } from './redirect';
 import { checkForUpdates, isValidUrl, setExtensionIcon } from './utils';
+import { receiveRuntimeMessage } from './utils/receiveRuntimeMessage';
 
 Logging.logErrors();
 
@@ -22,7 +19,7 @@ chrome.runtime.onInstalled.addListener(() => {
 
 // Listen when the browser is opened
 chrome.runtime.onStartup.addListener(() => {
-  storage
+  chrome.storage.local
     .get(['extState', 'hasPendingBookmarks', 'hasPendingPersons'])
     .then(async ({ extState, hasPendingBookmarks, hasPendingPersons }) => {
       await setExtensionIcon({
@@ -33,11 +30,11 @@ chrome.runtime.onStartup.addListener(() => {
     });
   checkForUpdates().then((isUsingLatest) => {
     if (!isUsingLatest) {
-      action.setBadgeWithTitle(
-        '!',
-        red,
-        'You are using older version of Bypass Links'
-      );
+      chrome.action.setBadgeText({ text: '!' });
+      chrome.action.setBadgeBackgroundColor({ color: red });
+      chrome.action.setTitle({
+        title: 'You are using older version of Bypass Links',
+      });
     }
   });
 });
@@ -77,18 +74,7 @@ chrome.webNavigation.onCommitted.addListener((details) => {
 
 // Listen to dispatched messages
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
-  if (message.getForumPageLinks) {
-    getForumPageLinks(message.getForumPageLinks, message.url).then(
-      (forumPageLinks) => {
-        sendResponse({ forumPageLinks });
-      }
-    );
-  } else if (message.manageGoogleActivity) {
-    const { historyWatchTime } = message.manageGoogleActivity;
-    manageGoogleActivity(historyWatchTime).then(() => {
-      sendResponse({ isSuccess: true });
-    });
-  }
+  receiveRuntimeMessage(message, sendResponse);
   return true;
 });
 

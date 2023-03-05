@@ -3,7 +3,6 @@ import {
   ISelectedBookmarks,
   STORAGE_KEYS,
 } from '@bypass/shared';
-import storage from '@helpers/chrome/storage';
 
 export const getAllFolderNames = (folderList: IBookmarksObj['folderList']) =>
   Object.entries(folderList).map(([_key, value]) => atob(value.name));
@@ -17,7 +16,7 @@ export const getSelectedCount = (selectedBookmarks: ISelectedBookmarks) =>
   selectedBookmarks.filter(Boolean).length;
 
 export const setBookmarksInStorage = async (bookmarksObj: IBookmarksObj) => {
-  await storage.set({
+  await chrome.storage.local.set({
     [STORAGE_KEYS.bookmarks]: bookmarksObj,
     hasPendingBookmarks: true,
   });

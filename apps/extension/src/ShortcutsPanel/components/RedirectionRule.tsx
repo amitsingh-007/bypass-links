@@ -1,6 +1,5 @@
 import { IRedirection } from '@/BackgroundScript/interfaces/redirections';
 import { Draggable } from '@hello-pangea/dnd';
-import tabs from '@helpers/chrome/tabs';
 import {
   ActionIcon,
   Center,
@@ -60,7 +59,7 @@ const RedirectionRule = memo(function RedirectionRule({
 
   const handleLinkOpen = () => {
     startHistoryMonitor();
-    tabs.create({ url: ruleWebsite, active: false });
+    chrome.tabs.create({ url: ruleWebsite, active: false });
   };
 
   const isSameRule =

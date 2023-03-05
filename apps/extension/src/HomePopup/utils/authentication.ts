@@ -1,4 +1,3 @@
-import identity from '@helpers/chrome/identity';
 import { googleSignIn, googleSignOut } from '@helpers/firebase/auth';
 import { UserInfo } from '../interfaces/authentication';
 import { AuthProgress } from './authProgress';
@@ -6,7 +5,13 @@ import { processPostLogin, processPostLogout, processPreLogout } from './sync';
 
 const userSignIn = async (): Promise<UserInfo> => {
   AuthProgress.start('Logging in user');
-  const googleAuthToken = await identity.getAuthToken({ interactive: true });
+  await chrome.identity.clearAllCachedAuthTokens();
+  const { token: googleAuthToken } = await chrome.identity.getAuthToken({
+    interactive: true,
+  });
+  if (!googleAuthToken) {
+    throw new Error('Google auth token not found');
+  }
   const response = await googleSignIn(googleAuthToken);
   const userProfile = response.user ?? {};
   const userInfo: UserInfo = {

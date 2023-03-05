@@ -25,15 +25,12 @@ import {
   syncSettingsToStorage,
 } from '@/SettingsPanel/utils/sync';
 import { api } from '@/utils/api';
+import { sendRuntimeMessage } from '@/utils/sendRuntimeMessage';
 import {
   CACHE_BUCKET_KEYS,
   deleteAllCache,
   STORAGE_KEYS,
 } from '@bypass/shared';
-import identity from '@helpers/chrome/identity';
-import runtime from '@helpers/chrome/runtime';
-import storage from '@helpers/chrome/storage';
-import tabs from '@helpers/chrome/tabs';
 import { getSettings, getUserProfile } from '@helpers/fetchFromStorage';
 import { UserInfo } from '../interfaces/authentication';
 import { AuthProgress } from './authProgress';
@@ -45,7 +42,7 @@ const syncAuthenticationToStorage = async (userProfile: UserInfo) => {
   );
   userProfile.is2FAEnabled = is2FAEnabled;
   userProfile.isTOTPVerified = false;
-  await storage.set({ [STORAGE_KEYS.userProfile]: userProfile });
+  await chrome.storage.local.set({ [STORAGE_KEYS.userProfile]: userProfile });
   AuthProgress.finish('2FA status checked');
 };
 
@@ -55,11 +52,11 @@ const resetAuthentication = async () => {
     console.log('User profile not found');
     return;
   }
-  await identity.removeCachedAuthToken({
+  await chrome.identity.removeCachedAuthToken({
     token: userProfile.googleAuthToken ?? '',
   });
   console.log('Removed Google auth token from cache');
-  await storage.remove(STORAGE_KEYS.userProfile);
+  await chrome.storage.local.remove(STORAGE_KEYS.userProfile);
 };
 
 const syncFirebaseToStorage = async () => {
@@ -123,7 +120,9 @@ export const processPreLogout = async () => {
 
 export const processPostLogout = async () => {
   const settings = await getSettings();
-  const { historyStartTime } = await storage.get(['historyStartTime']);
+  const { historyStartTime } = await chrome.storage.local.get([
+    'historyStartTime',
+  ]);
   const historyWatchTime = Date.now() - historyStartTime;
   // Reset storage
   await resetStorage();
@@ -133,11 +132,9 @@ export const processPostLogout = async () => {
   AuthProgress.finish('Cleared cache');
   if (settings?.hasManageGoogleActivityConsent) {
     // Open Google Search and Google Image tabs
-    await tabs.create({ url: 'https://www.google.com/' });
-    await tabs.create({ url: 'https://www.google.com/imghp' });
+    await chrome.tabs.create({ url: 'https://www.google.com/' });
+    await chrome.tabs.create({ url: 'https://www.google.com/imghp' });
     // Clear activity from google account
-    await runtime.sendMessage<{ manageGoogleActivity: string }>({
-      manageGoogleActivity: { historyWatchTime },
-    });
+    await sendRuntimeMessage({ key: 'manageGoogleActivity', historyWatchTime });
   }
 };

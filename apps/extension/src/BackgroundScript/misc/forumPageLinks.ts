@@ -1,4 +1,4 @@
-import scripting from '@helpers/chrome/scripting';
+import scripting from '@/utils/scripting';
 
 const getForumPageLinksFunc = () => {
   const unreadRows = document.querySelectorAll(
@@ -29,9 +29,12 @@ const getForumWatchedThreadsLinksFunc = () => {
 };
 
 export const getForumPageLinks = async (
-  tabId: number,
-  url: string
+  tabId?: number,
+  url?: string
 ): Promise<string[]> => {
+  if (!tabId || !url) {
+    throw new Error('No tabId/url found in getForumPageLinks()');
+  }
   const { pathname } = new URL(url);
   const isWatchThreadsPage = pathname === '/watched/threads';
   const [{ result }] = await scripting.executeScript({
@@ -40,7 +43,5 @@ export const getForumPageLinks = async (
       ? getForumWatchedThreadsLinksFunc
       : getForumPageLinksFunc,
   });
-  return new Promise((resolve) => {
-    resolve(result);
-  });
+  return result.filter(Boolean);
 };

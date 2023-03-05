@@ -1,5 +1,4 @@
 import { FIREBASE_DB_REF, STORAGE_KEYS } from '@bypass/shared';
-import storage from '@helpers/chrome/storage';
 import { getFromFirebase } from '@helpers/firebase/database';
 import { IBypass } from '../interfaces/bypass';
 import { getBypassExecutor, getDecodedBypass } from './bypassUtils';
@@ -14,10 +13,10 @@ export const bypass = async (tabId: number, url: URL) => {
 export const syncBypassToStorage = async () => {
   const response = await getFromFirebase<IBypass>(FIREBASE_DB_REF.bypass);
   const bypassData = getDecodedBypass(response);
-  await storage.set({ [STORAGE_KEYS.bypass]: bypassData });
+  await chrome.storage.local.set({ [STORAGE_KEYS.bypass]: bypassData });
   console.log('Bypass is set to', bypassData);
 };
 
 export const resetBypass = async () => {
-  await storage.remove(STORAGE_KEYS.bypass);
+  await chrome.storage.local.remove(STORAGE_KEYS.bypass);
 };

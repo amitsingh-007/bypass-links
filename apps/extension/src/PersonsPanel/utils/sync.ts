@@ -8,7 +8,6 @@ import {
   PersonImageUrls,
   STORAGE_KEYS,
 } from '@bypass/shared';
-import storage from '@helpers/chrome/storage';
 import { getPersonImageUrls, getPersons } from '@helpers/fetchFromStorage';
 import { getFromFirebase, saveToFirebase } from '@helpers/firebase/database';
 import { getImageFromFirebase } from '@helpers/firebase/storage';
@@ -16,12 +15,14 @@ import { getAllDecodedPersons } from '.';
 
 export const syncPersonsToStorage = async () => {
   const persons = await getFromFirebase<IPerson>(FIREBASE_DB_REF.persons);
-  await storage.set({ [STORAGE_KEYS.persons]: persons });
+  await chrome.storage.local.set({ [STORAGE_KEYS.persons]: persons });
   console.log('Persons is set to', persons);
 };
 
 export const syncPersonsFirebaseWithStorage = async () => {
-  const { hasPendingPersons } = await storage.get('hasPendingPersons');
+  const { hasPendingPersons } = await chrome.storage.local.get(
+    'hasPendingPersons'
+  );
   const persons = await getPersons();
   if (!hasPendingPersons) {
     return;
@@ -29,14 +30,17 @@ export const syncPersonsFirebaseWithStorage = async () => {
   console.log('Syncing persons from storage to firebase', persons);
   const isSaveSuccess = await saveToFirebase(FIREBASE_DB_REF.persons, persons);
   if (isSaveSuccess) {
-    await storage.remove('hasPendingPersons');
+    await chrome.storage.local.remove('hasPendingPersons');
   } else {
     throw new Error('Error while syncing persons from storage to firebase');
   }
 };
 
 export const resetPersons = async () => {
-  await storage.remove([STORAGE_KEYS.persons, 'hasPendingPersons']);
+  await chrome.storage.local.remove([
+    STORAGE_KEYS.persons,
+    'hasPendingPersons',
+  ]);
 };
 
 const resolveImageFromPerson = async ({
@@ -48,7 +52,7 @@ const resolveImageFromPerson = async ({
 });
 
 export const refreshPersonImageUrlsCache = async () => {
-  await storage.remove(STORAGE_KEYS.personImageUrls);
+  await chrome.storage.local.remove(STORAGE_KEYS.personImageUrls);
 };
 
 const cachePersonImages = async (personImageUrls: PersonImageUrls) => {
@@ -84,7 +88,9 @@ export const cachePersonImagesInStorage = async () => {
     },
     {}
   );
-  await storage.set({ [STORAGE_KEYS.personImageUrls]: personImageUrls });
+  await chrome.storage.local.set({
+    [STORAGE_KEYS.personImageUrls]: personImageUrls,
+  });
   console.log('PersonImageUrls is set to', personImageUrls);
   AuthProgress.finish('Cached person urls');
   AuthProgress.start('Caching person images');
@@ -97,7 +103,9 @@ export const updatePersonCacheAndImageUrls = async (person: IPerson) => {
   const personImageUrls = await getPersonImageUrls();
   const { uid, imageUrl } = await resolveImageFromPerson(person);
   personImageUrls[uid] = imageUrl;
-  await storage.set({ [STORAGE_KEYS.personImageUrls]: personImageUrls });
+  await chrome.storage.local.set({
+    [STORAGE_KEYS.personImageUrls]: personImageUrls,
+  });
   // Update person image cache
   await addToCache(CACHE_BUCKET_KEYS.person, imageUrl);
 };

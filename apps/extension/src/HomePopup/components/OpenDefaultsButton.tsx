@@ -1,6 +1,4 @@
 import { STORAGE_KEYS } from '@bypass/shared';
-import storage from '@helpers/chrome/storage';
-import tabs from '@helpers/chrome/tabs';
 import { Button } from '@mantine/core';
 import useAuthStore from '@store/auth';
 import useHistoryStore from '@store/history';
@@ -17,16 +15,15 @@ const OpenDefaultsButton = memo(function OpenDefaultsButton() {
   const handleOpenDefaults = async () => {
     setIsFetching(true);
     startHistoryMonitor();
-    const { [STORAGE_KEYS.redirections]: redirections } = await storage.get([
-      STORAGE_KEYS.redirections,
-    ]);
+    const { [STORAGE_KEYS.redirections]: redirections } =
+      await chrome.storage.local.get([STORAGE_KEYS.redirections]);
     const defaults = redirections.filter(
       ({ isDefault }: { isDefault: boolean }) => isDefault
     );
     defaults
       .filter((data: any) => data && data.alias && data.website)
       .forEach(({ website }: any) => {
-        tabs.create({ url: atob(website), active: false });
+        chrome.tabs.create({ url: atob(website), active: false });
       });
     setIsFetching(false);
   };

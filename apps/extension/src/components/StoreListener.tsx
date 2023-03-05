@@ -1,15 +1,16 @@
-import storage from '@helpers/chrome/storage';
-import { memo, useEffect } from 'react';
-import { getPersons } from '@helpers/fetchFromStorage';
-import { IUpdateTaggedPerson } from '@bypass/shared';
 import { setPersonsInStorage } from '@/PersonsPanel/utils';
+import { IUpdateTaggedPerson } from '@bypass/shared';
+import { getPersons } from '@helpers/fetchFromStorage';
 import useHistoryStore from '@store/history';
 import usePersonStore from '@store/person';
+import { memo, useEffect } from 'react';
 
 const THIRTY_SECONDS = 30 * 1000; // in milliseconds
 
 const isHistoryAlreadyActive = async () => {
-  const { historyStartTime } = await storage.get(['historyStartTime']);
+  const { historyStartTime } = await chrome.storage.local.get([
+    'historyStartTime',
+  ]);
   return Boolean(historyStartTime);
 };
 
@@ -17,7 +18,7 @@ export const startHistoryWatch = async () => {
   if (await isHistoryAlreadyActive()) {
     return;
   }
-  await storage.set({
+  await chrome.storage.local.set({
     historyStartTime: Date.now() - THIRTY_SECONDS,
   });
 };
