@@ -2,12 +2,11 @@ import Logging from '@/logging';
 import { getIsExtensionActive, setExtStateInStorage } from '@/utils/common';
 import { EXTENSION_STATE } from '@constants/index';
 import { getExtensionState } from '@helpers/fetchFromStorage';
-import { manageGoogleActivity } from './automation/manageGoogleActivity';
 import { bypass } from './bypass';
-import { getForumPageLinks } from './misc/forumPageLinks';
 import turnOffInputSuggestions from './misc/turnOffInputSuggestions';
 import { redirect } from './redirect';
 import { checkForUpdates, isValidUrl, setExtensionIcon } from './utils';
+import { receiveRuntimeMessage } from './utils/receiveRuntimeMessage';
 
 Logging.logErrors();
 
@@ -75,18 +74,7 @@ chrome.webNavigation.onCommitted.addListener((details) => {
 
 // Listen to dispatched messages
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
-  if (message.getForumPageLinks) {
-    getForumPageLinks(message.getForumPageLinks, message.url).then(
-      (forumPageLinks) => {
-        sendResponse({ forumPageLinks });
-      }
-    );
-  } else if (message.manageGoogleActivity) {
-    const { historyWatchTime } = message.manageGoogleActivity;
-    manageGoogleActivity(historyWatchTime).then(() => {
-      sendResponse({ isSuccess: true });
-    });
-  }
+  receiveRuntimeMessage(message, sendResponse);
   return true;
 });
 

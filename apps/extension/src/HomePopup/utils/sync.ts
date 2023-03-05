@@ -25,12 +25,12 @@ import {
   syncSettingsToStorage,
 } from '@/SettingsPanel/utils/sync';
 import { api } from '@/utils/api';
+import { sendRuntimeMessage } from '@/utils/sendRuntimeMessage';
 import {
   CACHE_BUCKET_KEYS,
   deleteAllCache,
   STORAGE_KEYS,
 } from '@bypass/shared';
-import runtime from '@helpers/chrome/runtime';
 import { getSettings, getUserProfile } from '@helpers/fetchFromStorage';
 import { UserInfo } from '../interfaces/authentication';
 import { AuthProgress } from './authProgress';
@@ -135,8 +135,6 @@ export const processPostLogout = async () => {
     await chrome.tabs.create({ url: 'https://www.google.com/' });
     await chrome.tabs.create({ url: 'https://www.google.com/imghp' });
     // Clear activity from google account
-    await runtime.sendMessage<{ manageGoogleActivity: string }>({
-      manageGoogleActivity: { historyWatchTime },
-    });
+    await sendRuntimeMessage({ key: 'manageGoogleActivity', historyWatchTime });
   }
 };

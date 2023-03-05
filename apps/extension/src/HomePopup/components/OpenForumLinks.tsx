@@ -1,7 +1,7 @@
 import { matchHostnames } from '@/utils/common';
+import { sendRuntimeMessage } from '@/utils/sendRuntimeMessage';
 import { getCurrentTab } from '@/utils/tabs';
 import { BYPASS_KEYS } from '@constants/index';
-import runtime from '@helpers/chrome/runtime';
 import { Button } from '@mantine/core';
 import useAuthStore from '@store/auth';
 import useHistoryStore from '@store/history';
@@ -46,11 +46,9 @@ const OpenForumLinks = memo(function OpenForumLinks() {
   const handleClick = async () => {
     setIsFetching(true);
     startHistoryMonitor();
-    const { forumPageLinks } = await runtime.sendMessage<{
-      forumPageLinks: string[];
-      url: string;
-    }>({
-      getForumPageLinks: currentTab?.id,
+    const { forumPageLinks } = await sendRuntimeMessage({
+      key: 'forumPageLinks',
+      tabId: currentTab?.id,
       url: currentTab?.url,
     });
     forumPageLinks.forEach((url) => {
