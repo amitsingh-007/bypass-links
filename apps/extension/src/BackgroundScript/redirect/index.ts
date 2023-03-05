@@ -1,3 +1,4 @@
+import { startHistoryWatch } from '@/utils/history';
 import { FIREBASE_DB_REF, STORAGE_KEYS } from '@bypass/shared';
 import { getMappedRedirections } from '@helpers/fetchFromStorage';
 import { getFromFirebase } from '@helpers/firebase/database';
@@ -9,6 +10,7 @@ export const redirect = async (tabId: number, url: URL) => {
   const redirectUrl = redirections[btoa(url.href)];
   if (redirectUrl) {
     await chrome.tabs.update(tabId, { url: atob(redirectUrl) });
+    await startHistoryWatch();
   }
 };
 
