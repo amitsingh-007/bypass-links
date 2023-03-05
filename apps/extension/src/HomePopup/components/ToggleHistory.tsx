@@ -1,4 +1,4 @@
-import { startHistoryWatch } from '@/components/StoreListener';
+import { startHistoryWatch } from '@/utils/history';
 import { Switch, useMantineTheme } from '@mantine/core';
 import useExtStore from '@store/extension';
 import useHistoryStore from '@store/history';
