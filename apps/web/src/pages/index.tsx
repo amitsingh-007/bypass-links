@@ -1,5 +1,5 @@
 import { seoConfig } from '@/ui/DownloadPage/constants/seo';
-import { api } from '@/utils/api';
+import { getCaller } from '@/utils/caller';
 import { Container, Global } from '@mantine/core';
 import ct from 'countries-and-timezones';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
@@ -27,9 +27,9 @@ export const getServerSideProps: GetServerSideProps<{
   releaseDate: string;
   extVersion: string;
   userTimezone: string;
-}> = async ({ query }) => {
-  const { extension, date, version } = await api.extension.latest.query();
-  const country = (query.country as string) ?? '';
+}> = async (ctx) => {
+  const { extension, date, version } = await getCaller(ctx).extension.latest();
+  const country = (ctx.query.country as string) ?? '';
   const data = ct.getCountry(country);
   const tz = data?.timezones?.[0] ?? '';
   return {
