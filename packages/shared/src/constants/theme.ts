@@ -8,7 +8,6 @@ export const mantineTheme: MantineThemeOverride = {
   },
   cursorType: 'pointer',
   loader: 'bars',
-  dateFormat: 'DD MMM YYYY',
   globalStyles: (theme) => ({
     '::-webkit-scrollbar': {
       width: theme.spacing.sm,
@@ -16,13 +15,13 @@ export const mantineTheme: MantineThemeOverride = {
     },
     '::-webkit-scrollbar-thumb': {
       backgroundColor: theme.colors.dark[3],
-      borderWidth: 3,
+      borderWidth: '0.1875rem',
       borderStyle: 'solid',
       borderColor: theme.colors.dark[6],
       borderRadius: theme.radius.md,
     },
     '::-webkit-scrollbar-track': {
-      borderRadius: 10,
+      borderRadius: '0.625rem',
       backgroundColor: theme.colors.dark[6],
     },
   }),
@@ -34,7 +33,7 @@ export const mantineTheme: MantineThemeOverride = {
     },
     Modal: {
       defaultProps: {
-        withFocusReturn: true,
+        returnFocus: true,
         zIndex: 1002, // 1 more than Header's zIndex
       },
     },

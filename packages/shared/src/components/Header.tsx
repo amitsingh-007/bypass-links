@@ -34,8 +34,8 @@ const Header = memo<Props>(function Header({
         // Handle web headers
         [theme.fn.largerThan('md')]: {
           border: `1px solid ${theme.colors.dark[5]}`,
-          borderBottomLeftRadius: 6,
-          borderBottomRightRadius: 6,
+          borderBottomLeftRadius: '0.375rem',
+          borderBottomRightRadius: '0.375rem',
         },
       })}
     >

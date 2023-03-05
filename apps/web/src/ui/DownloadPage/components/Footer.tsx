@@ -12,19 +12,19 @@ const Info = ({ icon: Icon, text }: { icon: IconType; text: string }) => {
   return (
     <Flex
       align="center"
-      sx={(theme) => getMediaQuery(theme, { marginTop: [0, '10px'] })}
+      sx={(theme) => getMediaQuery(theme, { marginTop: [0, '0.625rem'] })}
     >
       <Box
         sx={(theme) =>
           getMediaQuery(theme, {
-            width: ['20px', '24px'],
-            height: ['20px', '24px'],
+            width: ['1.25rem', '1.5rem'],
+            height: ['1.25rem', '1.5rem'],
           })
         }
       >
         <Icon size="100%" />
       </Box>
-      <Text ml={10} fw={500} fz="1.1rem">
+      <Text ml="0.625rem" fw={500} fz="1.1rem">
         {text}
       </Text>
     </Flex>
@@ -47,7 +47,7 @@ const Footer = ({
       justify="space-around"
       sx={(theme) =>
         getMediaQuery(theme, {
-          height: ['130px', '300px'],
+          height: ['8.125rem', '18.75rem'],
         })
       }
     >
@@ -62,7 +62,7 @@ const Footer = ({
         w="100%"
         sx={(theme) =>
           getMediaQuery(theme, {
-            padding: ['0 20px', '0 200px'],
+            padding: ['0 1.25rem', '0 12.5rem'],
             bottom: [0, '7%'],
           })
         }

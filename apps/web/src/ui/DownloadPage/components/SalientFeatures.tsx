@@ -5,8 +5,8 @@ import Feature from 'src/ui/interfaces/feature';
 import { firstColumn, secondColumn } from '../constants/features';
 
 const Description = () => (
-  <Box pos="relative" mb={40}>
-    <Text fw={500} fz={31} component="span">
+  <Box pos="relative" mb="2.5rem">
+    <Text fw={500} fz="2rem" component="span">
       Why{' '}
       <Text component="span" color="#7e67ff">
         Bypass Links
@@ -14,17 +14,17 @@ const Description = () => (
     </Text>
     <Box
       pos="absolute"
-      top={30}
-      right={105}
-      w={140}
+      top="1.875rem"
+      right="6.5625rem"
+      w="8.75rem"
       sx={{ borderBottom: '30px solid rgba(106,80,255,.4)' }}
     />
-    <Text mt={35} size="md">
+    <Text mt="2.33rem" size="md">
       An easy to use links bypasser and highly customizable & multipurpose
       bookmarks panel with person tagging panel, website last visited feature
       and many more ...
     </Text>
-    <Box pos="relative" top={18} right={110}>
+    <Box pos="relative" top="1.125rem" right="6.25rem">
       <CircleIcon />
     </Box>
   </Box>
@@ -38,7 +38,7 @@ const FeaturesColumn = ({
   return (
     <>
       {columnData.map(({ title, content, icon: Icon }) => (
-        <Box key={title} mb={70}>
+        <Box key={title} mb="4.375rem">
           <Icon height={35} width={35} />
           <Text fw="bold" fz="lg">
             {title}
@@ -54,7 +54,7 @@ const FeaturesColumn = ({
 
 const SalientFeatures = memo(function SalientFeatures() {
   return (
-    <Flex mt={150}>
+    <Flex mt="9.375rem">
       <Grid>
         <Grid.Col md={5}>
           <Description />

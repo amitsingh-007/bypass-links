@@ -31,7 +31,7 @@ const Favicon = forwardRef<HTMLDivElement, Props>(function Favicon(
     <Avatar
       ref={ref}
       radius="xs"
-      size={20}
+      size="1.25rem"
       src={faviconUrl}
       alt={faviconUrl}
       color="red"

@@ -58,7 +58,6 @@ const TwoFactorAuthenticate = () => {
       withCloseButton={false}
       closeOnClickOutside={false}
       closeOnEscape={false}
-      styles={{ body: { height: '100%' } }}
     >
       <Center h="100%">
         <InputTOTP handleVerify={onVerify} />

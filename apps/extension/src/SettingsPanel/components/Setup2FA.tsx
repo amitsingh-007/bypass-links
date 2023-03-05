@@ -61,19 +61,19 @@ const Setup2FA = memo(function Setup2FA({ isOpen, handleClose }: Props) {
       fullScreen
       zIndex={1002}
       withCloseButton={false}
-      styles={{ modal: { padding: '0 !important' } }}
+      styles={{ body: { padding: 0 } }}
     >
       <Header text="Setup two factor auth" onBackClick={handleClose} />
       <Center mt={20} sx={{ flexDirection: 'column' }}>
         <QRCodeCanvas value={optAuthUrl} size={200} includeMargin />
         {!showVerifyToken && (
-          <Button mt={40} radius="xl" onClick={toggleTokenVerify}>
+          <Button mt="2.5rem" radius="xl" onClick={toggleTokenVerify}>
             Scan & Proceed
           </Button>
         )}
       </Center>
       {showVerifyToken && (
-        <Center mt={10}>
+        <Center mt="0.625rem">
           <InputTOTP handleVerify={handleTOTPVerify} />
         </Center>
       )}

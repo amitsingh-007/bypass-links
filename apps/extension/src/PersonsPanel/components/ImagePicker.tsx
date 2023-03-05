@@ -72,11 +72,10 @@ const ImagePicker = memo<Props>(function ImagePicker({
       fullScreen
       zIndex={1002}
       withCloseButton={false}
-      styles={{ modal: { padding: '0 !important' } }}
     >
       <LoadingOverlay visible={isUploadingImage} />
       <Header text="Upload Image" onBackClick={onDialogClose} />
-      <Box w="100%" h={396} pos="relative">
+      <Box w="100%" h="24.75rem" pos="relative">
         <Cropper
           cropShape="round"
           showGrid={false}
@@ -89,7 +88,7 @@ const ImagePicker = memo<Props>(function ImagePicker({
           onZoomChange={setZoom}
         />
       </Box>
-      <Box px={20} pt={20}>
+      <Box px="1.25rem" pt="1.25rem">
         <Group sx={{ justifyContent: 'center' }}>
           <TextInput
             placeholder="Enter image link"
@@ -110,7 +109,7 @@ const ImagePicker = memo<Props>(function ImagePicker({
             w="40%"
           />
         </Group>
-        <Group mt={20} sx={{ justifyContent: 'center' }}>
+        <Group mt="1.25rem" sx={{ justifyContent: 'center' }}>
           <Button radius="xl" color="teal" onClick={saveCroppedImage}>
             Save Cropped Image
           </Button>

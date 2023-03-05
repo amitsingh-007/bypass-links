@@ -16,7 +16,7 @@ const AppHeader = memo(function AppHeader() {
 
   return (
     <Header
-      height={72}
+      height="4.5rem"
       pos="sticky"
       sx={(theme) => ({
         backdropFilter: 'blur(10px)',

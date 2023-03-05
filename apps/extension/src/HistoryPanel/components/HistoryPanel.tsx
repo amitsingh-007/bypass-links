@@ -1,36 +1,44 @@
 import { Header } from '@bypass/shared';
 import { Box, Button, Stack } from '@mantine/core';
-import {
-  DateRangePicker,
-  DateRangePickerValue,
-  TimeRangeInput,
-  TimeRangeInputProps,
-} from '@mantine/dates';
+import { DateTimePicker, DateTimePickerProps } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 import useToastStore from '@store/toast';
 import { memo, useEffect } from 'react';
 import { AiOutlineClear, AiOutlineClockCircle } from 'react-icons/ai';
-import { HiOutlineCalendar } from 'react-icons/hi';
-import { combineDateTime, validateDateTime } from '../utils/date';
 
 interface IForm {
-  timeRange: Required<TimeRangeInputProps>['value'];
-  dateRange: DateRangePickerValue;
+  startDateTime: Date;
+  endDateTime: Date;
 }
 
 const currentDate = new Date();
+
+const DateTime = (props: DateTimePickerProps) => (
+  <DateTimePicker
+    valueFormat="hh:mm A DD MMM YYYY"
+    maxDate={new Date()}
+    withAsterisk
+    level="month"
+    nextDisabled
+    hasNextLevel={false}
+    icon={<AiOutlineClockCircle />}
+    {...props}
+  />
+);
 
 const HistoryPanel = memo(function HistoryPanel() {
   const displayToast = useToastStore((state) => state.displayToast);
 
   const form = useForm<IForm>({
     initialValues: {
-      timeRange: [currentDate, currentDate],
-      dateRange: [currentDate, currentDate],
+      startDateTime: currentDate,
+      endDateTime: currentDate,
     },
     validate: {
-      timeRange: validateDateTime,
-      dateRange: validateDateTime,
+      startDateTime: (value, values) =>
+        value > values.endDateTime
+          ? "Start date time can't be greater than end date time"
+          : null,
     },
   });
 
@@ -48,14 +56,10 @@ const HistoryPanel = memo(function HistoryPanel() {
   }, [form]);
 
   const handleClear = async (values: typeof form.values) => {
-    const [startTime, endTime] = values.timeRange;
-    const [startDate, endDate] = values.dateRange;
-    if (!startTime || !endTime || !startDate || !endDate) {
-      console.log('Something went wrong!!!');
-      return;
+    const { startDateTime, endDateTime } = values;
+    if (!startDateTime || !endDateTime) {
+      throw new Error('start/end date time not found');
     }
-    const startDateTime = combineDateTime(startTime, startDate);
-    const endDateTime = combineDateTime(endTime, endDate);
     if (startDateTime > endDateTime) {
       displayToast({
         message: "Start date time can't be greater than end date time",
@@ -72,24 +76,17 @@ const HistoryPanel = memo(function HistoryPanel() {
   };
 
   return (
-    <Box w={330} h={460}>
+    <Box w="20.625rem" h="28.75rem">
       <Header text="History Panel" />
       <form onSubmit={form.onSubmit(handleClear)}>
-        <Stack p={15}>
-          <DateRangePicker
-            label="Select start and end date"
-            {...form.getInputProps('dateRange')}
-            icon={<HiOutlineCalendar />}
-            allowSingleDateInRange
-            allowLevelChange={false}
-            maxDate={currentDate}
+        <Stack p="1rem">
+          <DateTime
+            label="Select start date/time"
+            {...form.getInputProps('startDateTime')}
           />
-          <TimeRangeInput
-            label="Select start and end time"
-            {...form.getInputProps('timeRange')}
-            icon={<AiOutlineClockCircle />}
-            format="12"
-            clearable
+          <DateTime
+            label="Select end date/time"
+            {...form.getInputProps('endDateTime')}
           />
           <Button
             radius="xl"

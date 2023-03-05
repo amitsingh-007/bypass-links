@@ -77,8 +77,8 @@ const Bookmark = memo<BookmarkProps>(function Bookmark({
       w="100%"
       h="100%"
       align="center"
-      gap={12}
-      px={6}
+      gap="0.75rem"
+      px="0.375rem"
       onDoubleClick={handleOpenLink}
       onClick={handleSelectionChange}
       onContextMenu={onRightClick}
@@ -94,14 +94,16 @@ const Bookmark = memo<BookmarkProps>(function Bookmark({
         sx={{ wordWrap: 'break-word' }}
         w="40%"
         lh="1.3"
-        transition="pop"
-        transitionDuration={300}
+        transitionProps={{
+          transition: 'pop',
+          duration: 300,
+        }}
       >
         <Favicon url={url} />
       </Tooltip>
       <PersonAvatars persons={personsWithImageUrls} />
       <Text
-        size={15}
+        size="0.9375rem"
         lineClamp={1}
         data-context-id={contextId}
         sx={{ flex: 1 }}
