@@ -54,10 +54,12 @@ const PersonSelect = memo<{ formProps: any }>(function PersonSelect({
       searchable
       dropdownPosition="top"
       nothingFound="No person with this name"
-      maxDropdownHeight={250}
-      transitionDuration={150}
-      transition="pop-top-left"
-      transitionTimingFunction="ease"
+      maxDropdownHeight="15.625rem"
+      transitionProps={{
+        duration: 150,
+        transition: 'pop-top-left',
+        timingFunction: 'ease',
+      }}
       {...formProps}
     />
   );

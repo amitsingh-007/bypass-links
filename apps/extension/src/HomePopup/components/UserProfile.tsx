@@ -31,7 +31,7 @@ const UserProfile = memo(function UserProfile() {
     <Box pos="relative" ref={ref}>
       <Avatar
         radius="xl"
-        size={50}
+        size="3.125rem"
         src={userProfile?.picture}
         alt={userProfile?.name}
         color="indigo"
@@ -50,7 +50,7 @@ const UserProfile = memo(function UserProfile() {
             <ActionIcon
               radius="xl"
               variant="subtle"
-              size={50}
+              size="3.125rem"
               onClick={handleOpenSettings}
             >
               <MdSettings size="20px" />

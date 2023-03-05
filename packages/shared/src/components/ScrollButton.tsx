@@ -33,8 +33,8 @@ export const ScrollButton = memo<Props>(function ScrollButton({
     <Button.Group
       orientation="vertical"
       pos="fixed"
-      bottom={9}
-      right={15}
+      bottom="0.5625rem"
+      right="1rem"
       sx={{ zIndex: 1 }}
     >
       {buttonConfig.map(({ icon, text, onClick }) => (
@@ -47,7 +47,7 @@ export const ScrollButton = memo<Props>(function ScrollButton({
           leftIcon={icon}
           styles={{
             inner: { justifyContent: 'flex-start' },
-            leftIcon: { marginRight: '1px' },
+            leftIcon: { marginRight: '0.0625rem' },
           }}
           onClick={onClick}
         >

@@ -1,11 +1,6 @@
 import { Header } from '@bypass/shared';
 import { Box, Button, Stack } from '@mantine/core';
-import {
-  DateRangePicker,
-  DateRangePickerValue,
-  TimeRangeInput,
-  TimeRangeInputProps,
-} from '@mantine/dates';
+import { DateTimePicker } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 import useToastStore from '@store/toast';
 import { memo, useEffect } from 'react';
@@ -14,8 +9,10 @@ import { HiOutlineCalendar } from 'react-icons/hi';
 import { combineDateTime, validateDateTime } from '../utils/date';
 
 interface IForm {
-  timeRange: Required<TimeRangeInputProps>['value'];
-  dateRange: DateRangePickerValue;
+  timeRange: Required<any>['value'];
+  dateRange: any;
+  // timeRange: Required<TimeRangeInputProps>['value'];
+  // dateRange: DateRangePickerValue;
 }
 
 const currentDate = new Date();
@@ -72,11 +69,13 @@ const HistoryPanel = memo(function HistoryPanel() {
   };
 
   return (
-    <Box w={330} h={460}>
+    <Box w="20.625rem" h="28.75rem">
       <Header text="History Panel" />
       <form onSubmit={form.onSubmit(handleClear)}>
-        <Stack p={15}>
-          <DateRangePicker
+        <Stack p="1rem">
+          <DateTimePicker />
+          {/* <DateRangePicker
+            valueFormat="DD MMM YYYY"
             label="Select start and end date"
             {...form.getInputProps('dateRange')}
             icon={<HiOutlineCalendar />}
@@ -90,7 +89,7 @@ const HistoryPanel = memo(function HistoryPanel() {
             icon={<AiOutlineClockCircle />}
             format="12"
             clearable
-          />
+          /> */}
           <Button
             radius="xl"
             variant="light"

@@ -120,7 +120,7 @@ const BookmarksList = memo<Props>(function BookmarksList({
             key={bookmark.url}
           >
             <ActionIcon
-              size={32}
+              size="2rem"
               title="Edit Bookmark"
               color="red"
               onClick={() => {
@@ -128,7 +128,7 @@ const BookmarksList = memo<Props>(function BookmarksList({
               }}
               radius={999}
             >
-              <MdModeEdit size="18px" />
+              <MdModeEdit size="1.125rem" />
             </ActionIcon>
             <Box sx={{ flex: 1 }}>
               <Bookmark
@@ -144,7 +144,7 @@ const BookmarksList = memo<Props>(function BookmarksList({
           </Center>
         ))
       ) : (
-        <Box ta="center" mt="30px">
+        <Box ta="center" mt="1.875rem">
           No tagged bookmarks found
         </Box>
       )}
@@ -159,7 +159,7 @@ const BookmarksList = memo<Props>(function BookmarksList({
       zIndex={1002}
       withCloseButton={false}
       styles={{
-        modal: { padding: '0 !important' },
+        content: { padding: '0 !important' },
         title: { flex: 1, marginRight: 0 },
         header: { marginBottom: 0 },
       }}

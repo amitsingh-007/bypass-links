@@ -39,14 +39,14 @@ const Person = memo<Props>(function Person({ person }) {
       onClick={openBookmarksList}
     >
       <Card.Section>
-        <Image src={imageUrl} alt={name} height={110} />
+        <Image src={imageUrl} alt={name} height="6.875rem" />
         <Badge
           color="dark"
           variant="filled"
           radius="xl"
           pos="absolute"
           top={0}
-          right={-3}
+          right="-0.1875rem"
         >
           {taggedUrlsCount}
         </Badge>

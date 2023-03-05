@@ -20,9 +20,11 @@ const PersonAvatars = memo<{ persons: IPersonWithImage[] }>(
             shadow="xl"
             radius={999}
             returnFocus
-            transition="pop"
-            transitionDuration={450}
-            exitTransitionDuration={0}
+            transitionProps={{
+              transition: 'pop',
+              duration: 450,
+              exitDuration: 0,
+            }}
             styles={{
               dropdown: {
                 padding: 0,
@@ -31,13 +33,13 @@ const PersonAvatars = memo<{ persons: IPersonWithImage[] }>(
             }}
           >
             <HoverCard.Target>
-              <Avatar radius={999} size={28} src={imageUrl} />
+              <Avatar radius={999} size="1.75rem" src={imageUrl} />
             </HoverCard.Target>
             <HoverCard.Dropdown>
               <Avatar
                 ml={0}
                 radius={999}
-                size={70}
+                size="4.375rem"
                 src={imageUrl}
                 onClick={() =>
                   location.push(getPersonsPanelUrl({ openBookmarksList: uid }))
@@ -48,8 +50,8 @@ const PersonAvatars = memo<{ persons: IPersonWithImage[] }>(
         ))}
       </Avatar.Group>
     ) : (
-      <Avatar radius={999} size={28} color="red">
-        <TbUser size={18} />
+      <Avatar radius={999} size="1.75rem" color="red">
+        <TbUser size="1.125rem" />
       </Avatar>
     );
   }

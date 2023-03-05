@@ -45,11 +45,11 @@ const Toast = memo(function Toast() {
           onClose={hideToast}
           color={COLOR_MAP[severity]}
           w="fit-content"
-          maw="250px"
-          p={8}
-          pr={35}
-          bottom={10}
-          left={10}
+          maw="15.625rem"
+          p="0.5rem"
+          pr="2.1875rem"
+          bottom="0.625rem"
+          left="0.625rem"
           pos="fixed"
           style={styles}
         >

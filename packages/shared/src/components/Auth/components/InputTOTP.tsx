@@ -26,7 +26,7 @@ const InputTOTP = ({
   return (
     <TextInput
       data-autofocus
-      maw={200}
+      maw="12.5rem"
       size="lg"
       type="number"
       onBlur={({ target }) => target.focus()}
@@ -35,12 +35,12 @@ const InputTOTP = ({
       onChange={handleTOTPChange}
       styles={{
         input: {
-          paddingLeft: '16px',
-          paddingRight: '16px',
-          letterSpacing: '16px',
+          paddingLeft: '1rem',
+          paddingRight: '1rem',
+          letterSpacing: '1rem',
         },
         label: {
-          fontSize: '15px',
+          fontSize: '0.9375rem',
         },
       }}
       disabled={isVerifying}

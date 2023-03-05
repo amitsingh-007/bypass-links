@@ -190,9 +190,11 @@ const BookmarkAddEditDialog = memo<Props>(function BookmarkAddEditDialog({
           <Select
             withAsterisk
             label="Folder"
-            transition="pop-top-left"
-            transitionDuration={150}
-            transitionTimingFunction="ease"
+            transitionProps={{
+              transition: 'pop-top-left',
+              duration: 150,
+              timingFunction: 'ease',
+            }}
             data={folderNamesList}
             {...form.getInputProps('folder')}
           />

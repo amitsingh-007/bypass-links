@@ -3,8 +3,8 @@ import ChromeIcon from '@ui/icons/chrome.svg';
 import { memo } from 'react';
 
 const PageHeader = memo<{ downloadLink: string }>(({ downloadLink }) => (
-  <Group mt={70} position="center" sx={{ flexDirection: 'column' }}>
-    <Title fz={{ base: 35, md: 45 }} ta="center">
+  <Group mt="4.375rem" position="center" sx={{ flexDirection: 'column' }}>
+    <Title fz={{ base: '2.1875rem', md: '2.8125rem' }} ta="center">
       Have a Link Bypasser and private Bookmarks Panel !
     </Title>
     <Box ta="center">
@@ -18,7 +18,7 @@ const PageHeader = memo<{ downloadLink: string }>(({ downloadLink }) => (
         fw="bold"
         variant="gradient"
         gradient={{ from: '#6850ff', to: '#a750ff', deg: 90 }}
-        fz={16}
+        fz="1rem"
         data-test-attr="ext-download-button"
       >
         Download Now

@@ -139,7 +139,7 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
             <Flex
               direction="column"
               gap={10}
-              p="10px 4px 4px"
+              p="0.625rem 0.25rem 0.25rem"
               sx={{ overflow: 'auto', flex: 1 }}
               ref={provided.innerRef}
               {...provided.droppableProps}

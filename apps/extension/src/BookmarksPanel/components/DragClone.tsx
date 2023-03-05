@@ -9,7 +9,7 @@ const DragClone: React.FC<{
   <Center
     w="100%"
     h="100%"
-    py={2}
+    py="0.125rem"
     sx={bookmarkRowStyles}
     data-is-dragging="true"
     ref={provided.innerRef}

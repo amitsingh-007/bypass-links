@@ -104,7 +104,7 @@ const AddOrEditPersonDialog = memo<Props>(function AddOrEditPersonDialog({
         opened={isOpen}
         onClose={onClose}
         title={person ? 'Edit Person' : 'Add Person'}
-        padding={40}
+        padding="2.5rem"
       >
         <form onSubmit={form.onSubmit(handleSave)}>
           <Stack>

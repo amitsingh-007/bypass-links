@@ -63,9 +63,11 @@ const ContextMenu = ({
             radius="md"
             shadow="xl"
             opened={showMenu}
-            transition="pop-top-left"
-            transitionDuration={200}
-            exitTransitionDuration={0}
+            transitionProps={{
+              transition: 'pop-top-left',
+              duration: 200,
+              exitDuration: 0,
+            }}
           >
             <Menu.Dropdown>
               {options.map(
@@ -79,9 +81,9 @@ const ContextMenu = ({
                   return (
                     <Menu.Item
                       key={text}
-                      px={8}
-                      py={6}
-                      icon={<Icon color={color} size={14} />}
+                      px="0.5rem"
+                      py="0.375rem"
+                      icon={<Icon color={color} size="0.875rem" />}
                       color={isRedColor ? 'red' : undefined}
                       onClick={() => onClick(id)}
                     >

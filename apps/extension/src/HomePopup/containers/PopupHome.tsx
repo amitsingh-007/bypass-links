@@ -17,19 +17,30 @@ import UserProfile from '../components/UserProfile';
 const PopupHome = memo(function PopupHome() {
   return (
     <>
-      <Flex direction="column" align="center" w="fit-content" p="8px 16px 16px">
-        <Text fz="xl" fw={700} c="grape.0" mb={10} sx={{ userSelect: 'none' }}>
+      <Flex
+        direction="column"
+        align="center"
+        w="fit-content"
+        p="0.5rem 1rem 1rem"
+      >
+        <Text
+          fz="xl"
+          fw={700}
+          c="grape.0"
+          mb="0.625rem"
+          sx={{ userSelect: 'none' }}
+        >
           Bypass Links
         </Text>
-        <Flex justify="space-between" align="center" gap="40px" mb={16}>
-          <Flex direction="column" gap="8px">
+        <Flex justify="space-between" align="center" gap="2.5rem" mb="1rem">
+          <Flex direction="column" gap="0.5rem">
             <ToggleExtension />
             <ToggleHistory />
           </Flex>
           <UserProfile />
         </Flex>
         <Authenticate />
-        <SimpleGrid cols={2} mt={16} w="max-content">
+        <SimpleGrid cols={2} mt="1rem" w="max-content">
           <OpenDefaultsButton />
           <QuickBookmarkButton />
           <PersonsPanelButton />

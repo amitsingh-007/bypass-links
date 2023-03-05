@@ -44,9 +44,9 @@ const SettingsPanel = memo(function SettingsPanel() {
   };
 
   return (
-    <Box w={400} h={400}>
+    <Box w="25rem" h="25rem">
       <Header text="Settings" />
-      <Flex direction="column" gap="xs" p="14px 16px">
+      <Flex direction="column" gap="xs" p="0.875rem 1rem">
         <TwoFactorAuth />
         <ManageGoogleActivityConsent
           hasManageGoogleActivityConsent={

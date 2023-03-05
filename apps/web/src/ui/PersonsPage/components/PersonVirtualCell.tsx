@@ -28,7 +28,7 @@ const PersonVirtualCell = memo<{
     return null;
   }
   return (
-    <Box style={style} p={12}>
+    <Box style={style} p="0.75rem">
       <Person person={person} />
     </Box>
   );
