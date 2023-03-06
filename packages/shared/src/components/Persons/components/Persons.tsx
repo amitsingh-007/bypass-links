@@ -66,7 +66,7 @@ const Persons = memo<Props>(function Persons({
 
   const columnCount = getColumnCount(isMobile);
   const rowCount = Math.ceil(persons.length / columnCount);
-  const columnDimension = (width - 8) / columnCount; // Adjust scrollbar width
+  const columnDimension = (width - 12) / columnCount; // Adjust scrollbar width
   const rowDimension = columnDimension + (isMobile ? 40 : 0);
 
   return (
