@@ -68,7 +68,7 @@ importers:
       html-webpack-plugin: 5.5.0
       md5: 2.3.0
       merge-jsons-webpack-plugin: 2.0.1
-      preact: 10.13.0
+      preact: 10.13.1
       prettier: 2.8.4
       qrcode.react: 3.1.0
       react: 18.2.0
@@ -104,7 +104,7 @@ importers:
       dayjs: 1.11.7
       firebase: 9.17.2
       md5: 2.3.0
-      preact: 10.13.0
+      preact: 10.13.1
       qrcode.react: 3.1.0_react@18.2.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -293,7 +293,7 @@ importers:
       eslint-plugin-react: 7.32.2
       eslint-plugin-react-hooks: 4.6.0
       md5: 2.3.0
-      preact: 10.13.0
+      preact: 10.13.1
       prettier: 2.8.4
       react: 18.2.0
       react-dom: 18.2.0
@@ -306,7 +306,7 @@ importers:
       '@mantine/hooks': 6.0.0_react@18.2.0
       '@mantine/styles': 6.0.0_keyspdss4kub3atek752gc6fle
       md5: 2.3.0
-      preact: 10.13.0
+      preact: 10.13.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-icons: 4.8.0_react@18.2.0
@@ -5884,7 +5884,7 @@ packages:
       webpack: '>=4.0.0 <6.0.0'
     dependencies:
       del: 4.1.1
-      webpack: 5.75.0
+      webpack: 5.75.0_webpack-cli@5.0.1
     dev: true
 
   /cli-cursor/3.1.0:
@@ -7485,7 +7485,7 @@ packages:
       micromatch: 4.0.5
       normalize-path: 3.0.0
       schema-utils: 4.0.0
-      webpack: 5.75.0
+      webpack: 5.75.0_webpack-cli@5.0.1
     dev: true
 
   /eslint/8.35.0:
@@ -8057,7 +8057,7 @@ packages:
       semver: 7.3.8
       tapable: 2.2.1
       typescript: 4.9.5
-      webpack: 5.75.0
+      webpack: 5.75.0_webpack-cli@5.0.1
     dev: true
 
   /form-data/4.0.0:
@@ -11367,8 +11367,8 @@ packages:
       source-map-js: 1.0.2
     dev: true
 
-  /preact/10.13.0:
-    resolution: {integrity: sha512-ERdIdUpR6doqdaSIh80hvzebHB7O6JxycOhyzAeLEchqOq/4yueslQbfnPwXaNhAYacFTyCclhwkEbOumT0tHw==}
+  /preact/10.13.1:
+    resolution: {integrity: sha512-KyoXVDU5OqTpG9LXlB3+y639JAGzl8JSBXLn1J9HTSB3gbKcuInga7bZnXLlxmK94ntTs1EFeZp0lrja2AuBYQ==}
     dev: false
 
   /prebuild-install/7.1.1:
@@ -12979,7 +12979,7 @@ packages:
       schema-utils: 3.1.1
       serialize-javascript: 6.0.1
       terser: 5.16.1
-      webpack: 5.75.0
+      webpack: 5.75.0_webpack-cli@5.0.1
     dev: true
 
   /terser/5.16.1:
