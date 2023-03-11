@@ -30,7 +30,7 @@
     "react-icons": "4.8.0",
     "react-router-dom": "6.8.2",
     "react-window": "1.8.8",
-    "zustand": "4.3.5"
+    "zustand": "4.3.6"
   },
   "devDependencies": {
     "@babel/core": "7.21.0",
