@@ -36,7 +36,7 @@ importers:
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.10
       '@trpc/client': 10.16.0
       '@trpc/server': 10.16.0
-      '@types/chrome': 0.0.221
+      '@types/chrome': 0.0.224
       '@types/md5': 2.3.2
       '@types/node': 18.15.3
       '@types/react': 18.0.28
@@ -118,7 +118,7 @@ importers:
       '@bypass/configs': link:../../packages/configs
       '@playwright/test': 1.31.2
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.10_y5oarjlbdn5pdktwbcn52uzkqa
-      '@types/chrome': 0.0.221
+      '@types/chrome': 0.0.224
       '@types/md5': 2.3.2
       '@types/node': 18.15.3
       '@types/react': 18.0.28
@@ -4147,8 +4147,8 @@ packages:
     resolution: {integrity: sha512-KnRanxnpfpjUTqTCXslZSEdLfXExwgNxYPdiO2WGUj8+HDjFi8R3k5RVKPeSCzLjCcshCAtVO2QBbVuAV4kTnw==}
     dev: true
 
-  /@types/chrome/0.0.221:
-    resolution: {integrity: sha512-hD86b5sUswrOn0+7Np4yIluClo8eSupSwUyV0S3A7Q96kfsTS3dI+VExj+G+DOyON2vMCKXef24E07cMCuF46w==}
+  /@types/chrome/0.0.224:
+    resolution: {integrity: sha512-YkL7q3KDV7OAKgVCBNIfH73rnjNMbIzAYHzTa2DKhSK/2z0Wf/n8yJnK/UoW+lvuYJJR4LtAkG3YvsIZTy7BOA==}
     dependencies:
       '@types/filesystem': 0.0.32
       '@types/har-format': 1.2.10
