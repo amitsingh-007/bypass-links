@@ -62,7 +62,7 @@
     "eslint-plugin-react-hooks": "4.6.0",
     "eslint-webpack-plugin": "4.0.0",
     "filemanager-webpack-plugin": "8.0.0",
-    "fork-ts-checker-webpack-plugin": "7.3.0",
+    "fork-ts-checker-webpack-plugin": "8.0.0",
     "html-webpack-plugin": "5.5.0",
     "merge-jsons-webpack-plugin": "2.0.1",
     "prettier": "2.8.4",
