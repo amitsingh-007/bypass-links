@@ -19,7 +19,7 @@
     "@trpc/server": "10.16.0",
     "countries-and-timezones": "3.4.1",
     "dayjs": "1.11.7",
-    "firebase": "9.17.2",
+    "firebase": "9.18.0",
     "md5": "2.3.0",
     "next": "13.2.4",
     "next-seo": "5.15.0",
