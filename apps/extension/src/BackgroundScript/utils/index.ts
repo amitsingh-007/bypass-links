@@ -10,9 +10,12 @@ const restrictedProtocols = new Set([
   'data:', // Encoded image URLs
   'chrome-search:', // Chrome internal URLs
   'chrome-extension:', // Chrome extension URLs
+  'content:', // Tampermonkey related URLs
+  'file:', // File System URLs
 ]);
 const restrictedHosts = new Set([
   'chrome.google.com', // Chrome web store
+  'microsoftedge.microsoft.com', // Microsoft Edge web store
 ]);
 
 export const isValidUrl = (_url?: string): boolean => {

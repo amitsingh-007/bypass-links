@@ -3,13 +3,24 @@ import { api } from './utils/api';
 import { getCurrentTab } from './utils/tabs';
 
 class Logging {
-  static parseObject = (obj?: Object | null) =>
-    obj
-      ? JSON.parse(JSON.stringify(obj, Object.getOwnPropertyNames(obj)))
-      : obj;
+  private static errorsToIgnore = [
+    'No tab with id',
+    'Frame with ID 0 is showing error page',
+    'Frame with ID 0 was removed',
+  ];
 
-  static sendToLog = async (data: { message: any; metaData: any }) => {
+  private static ignoreError = (err: string) => {
+    if (typeof err !== 'string') {
+      return false;
+    }
+    return this.errorsToIgnore.some((e) => err.includes(e));
+  };
+
+  private static sendToLog = async (data: { message: any; metaData: any }) => {
     try {
+      if (this.ignoreError(data.message)) {
+        return;
+      }
       const { version } = chrome.runtime.getManifest();
       data.metaData.manifestVersion = version;
       const log: ILogRequest = {
@@ -27,12 +38,17 @@ class Logging {
     }
   };
 
-  static logErrors = () => {
+  static parseObject = (obj?: Object | null) =>
+    obj
+      ? JSON.parse(JSON.stringify(obj, Object.getOwnPropertyNames(obj)))
+      : obj;
+
+  static init = () => {
     globalThis.onerror = (errorMsg, url, line, column, error) => {
-      Logging.sendToLog({
+      this.sendToLog({
         message: errorMsg,
         metaData: {
-          error: Logging.parseObject(error),
+          error: this.parseObject(error),
           url,
           line,
           column,
@@ -44,11 +60,10 @@ class Logging {
 
     globalThis.onunhandledrejection = (error) => {
       const { reason } = error;
-      Logging.sendToLog({
-        message:
-          typeof reason === 'object' ? Logging.parseObject(reason) : reason,
+      this.sendToLog({
+        message: typeof reason === 'object' ? this.parseObject(reason) : reason,
         metaData: {
-          error: Logging.parseObject(error),
+          error: this.parseObject(error),
           type: 'promiseRejection',
         },
       });
