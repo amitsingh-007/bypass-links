@@ -8,7 +8,7 @@ import PopupRoutes from './components/PopupRoutes';
 import Logging from './logging';
 import DynamicProvider from './provider/DynamicProvider';
 
-Logging.logErrors();
+Logging.init();
 
 const container = document.getElementById('root');
 if (container) {

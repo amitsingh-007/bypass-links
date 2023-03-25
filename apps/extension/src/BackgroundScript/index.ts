@@ -8,7 +8,7 @@ import { redirect } from './redirect';
 import { checkForUpdates, isValidUrl, setExtensionIcon } from './utils';
 import { receiveRuntimeMessage } from './utils/receiveRuntimeMessage';
 
-Logging.logErrors();
+Logging.init();
 
 const red = '#FF6B6B';
 

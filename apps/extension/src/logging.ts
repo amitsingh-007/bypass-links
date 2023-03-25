@@ -9,7 +9,7 @@ class Logging {
     'Frame with ID 0 was removed',
   ];
 
-  static ignoreError = (err: string) => {
+  private static ignoreError = (err: string) => {
     if (typeof err !== 'string') {
       return false;
     }
@@ -43,7 +43,7 @@ class Logging {
       ? JSON.parse(JSON.stringify(obj, Object.getOwnPropertyNames(obj)))
       : obj;
 
-  static logErrors = () => {
+  static init = () => {
     globalThis.onerror = (errorMsg, url, line, column, error) => {
       this.sendToLog({
         message: errorMsg,
