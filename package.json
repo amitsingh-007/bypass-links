@@ -19,7 +19,7 @@
     "cross-env": "7.0.3",
     "husky": "8.0.3",
     "lint-staged": "13.2.0",
-    "turbo": "1.8.3",
+    "turbo": "1.8.5",
     "vercel": "28.17.0"
   }
 }
