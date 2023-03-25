@@ -1,6 +1,12 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:base"],
+  "extends": [
+    "config:base",
+    ":disableRateLimiting",
+    ":rebaseStalePrs",
+    ":updateNotScheduled"
+  ],
   "baseBranches": ["renovate-updates"],
+  "timezone": "IST",
   "schedule": ["before 10am on Saturday"]
 }
