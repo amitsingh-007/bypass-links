@@ -34,8 +34,8 @@ importers:
       '@mantine/hooks': 6.0.2
       '@playwright/test': 1.32.1
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.10
-      '@trpc/client': 10.16.0
-      '@trpc/server': 10.16.0
+      '@trpc/client': 10.18.0
+      '@trpc/server': 10.18.0
       '@types/chrome': 0.0.225
       '@types/md5': 2.3.2
       '@types/node': 18.15.9
@@ -98,8 +98,8 @@ importers:
       '@mantine/dates': 6.0.2_5lnseipk2idlpjpvohdnajqndm
       '@mantine/form': 6.0.2_react@18.2.0
       '@mantine/hooks': 6.0.2_react@18.2.0
-      '@trpc/client': 10.16.0_@trpc+server@10.16.0
-      '@trpc/server': 10.16.0
+      '@trpc/client': 10.18.0_@trpc+server@10.18.0
+      '@trpc/server': 10.18.0
       compressorjs: 1.2.1
       dayjs: 1.11.7
       firebase: 9.18.0
@@ -172,8 +172,8 @@ importers:
       '@mantine/next': 6.0.2
       '@playwright/test': 1.32.1
       '@svgr/webpack': 6.5.1
-      '@trpc/client': 10.16.0
-      '@trpc/server': 10.16.0
+      '@trpc/client': 10.18.0
+      '@trpc/server': 10.18.0
       '@types/md5': 2.3.2
       '@types/react': 18.0.29
       '@types/react-window': 1.8.5
@@ -220,8 +220,8 @@ importers:
       '@mantine/core': 6.0.2_bak3fyusewryyru7kfxuiatynu
       '@mantine/hooks': 6.0.2_react@18.2.0
       '@mantine/next': 6.0.2_qqau3dvbojnwvgou4gzbrwl7sy
-      '@trpc/client': 10.16.0_@trpc+server@10.16.0
-      '@trpc/server': 10.16.0
+      '@trpc/client': 10.18.0_@trpc+server@10.18.0
+      '@trpc/server': 10.18.0
       countries-and-timezones: 3.4.1
       dayjs: 1.11.7
       firebase: 9.18.0_encoding@0.1.13
@@ -341,7 +341,7 @@ importers:
       '@bypass/shared': workspace:*
       '@firebase/app-types': 0.9.0
       '@octokit/rest': 19.0.7
-      '@trpc/server': 10.16.0
+      '@trpc/server': 10.18.0
       '@types/request-ip': 0.0.37
       '@typescript-eslint/eslint-plugin': 5.55.0
       '@typescript-eslint/parser': 5.55.0
@@ -367,7 +367,7 @@ importers:
       '@axiomhq/axiom-node': 0.11.0
       '@bypass/shared': link:../shared
       '@octokit/rest': 19.0.7
-      '@trpc/server': 10.16.0
+      '@trpc/server': 10.18.0
       firebase-admin: 11.5.0
       otplib: 12.0.1
       request-ip: 3.3.0
@@ -4062,16 +4062,16 @@ packages:
     dev: false
     optional: true
 
-  /@trpc/client/10.16.0_@trpc+server@10.16.0:
-    resolution: {integrity: sha512-Hxxi3mOcUyszosj6xpPDIIBV1TOhXKpZ191BW/60r1lXBAfNrDUWHOTol1Dfu+hpcx4bpj3WRyob5cf+6KeCDA==}
+  /@trpc/client/10.18.0_@trpc+server@10.18.0:
+    resolution: {integrity: sha512-2d+6r2C/xygTjDWX9jT66defgHzbQP0Z8vrvyT3XtPjqU6JNlRNuS2ZtB8xDPdOQUUVnndzZ43BMr+Zu49K0OQ==}
     peerDependencies:
-      '@trpc/server': 10.16.0
+      '@trpc/server': 10.18.0
     dependencies:
-      '@trpc/server': 10.16.0
+      '@trpc/server': 10.18.0
     dev: false
 
-  /@trpc/server/10.16.0:
-    resolution: {integrity: sha512-lCUq7AB7vcgrNbaN+xP/AN62OjKDgrRyG7fTDPv5K633ut7KJ3m57qs60VRBOgp9vow6elAg51pKFFDtPHbTRA==}
+  /@trpc/server/10.18.0:
+    resolution: {integrity: sha512-nVMqdDIF9YLOeC3g6RdAvdCPqkHFjpshSqZGThZ+fyjiWSUXj2ZKCduhJFnY77TjtgODojeaaghmzcnjxb+Onw==}
     dev: false
 
   /@trysound/sax/0.2.0:
