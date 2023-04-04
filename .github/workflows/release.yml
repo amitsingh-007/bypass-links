@@ -162,7 +162,7 @@ jobs:
         id: asset_name
         run: |
           file=$(find ./apps/extension/build/bypass-links-*.zip  -printf "%f\n")
-          echo "::set-output name=asset_name::$file"
+          echo "asset_name=$file" >> $GITHUB_OUTPUT
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
