@@ -117,9 +117,11 @@ jobs:
 
       - name: Generate Release Tag
         id: release_tag
-        uses: amitsingh-007/next-release-tag@v3.0.0
+        uses: amitsingh-007/next-release-tag@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          tag_prefix: 'v'
+          tag_template: 'yy.mm.i'
 
       - name: Get Release Asset Name
         id: asset_name
