@@ -116,44 +116,25 @@ jobs:
           path: ./apps/extension/build/
 
       - name: Generate Release Tag
-        id: generate_release_tag
+        id: release_tag
         uses: amitsingh-007/next-release-tag@v3.0.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Generate changelog
-        id: changelog
-        uses: metcalfc/changelog-generator@v4.1.0
-        with:
-          myToken: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ steps.generate_release_tag.outputs.release_tag }}
-          release_name: Release ${{ steps.generate_release_tag.outputs.release_tag }}
-          body: ${{ steps.changelog.outputs.changelog }}
-          draft: false
-          prerelease: false
-
       - name: Get Release Asset Name
-        id: get_release_asset_name
+        id: asset_name
         run: |
           file=$(find ./apps/extension/build/bypass-links-*.zip  -printf "%f\n")
           echo "::set-output name=asset_name::$file"
 
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./apps/extension/build/${{ steps.get_release_asset_name.outputs.asset_name }}
-          asset_name: ${{ steps.get_release_asset_name.outputs.asset_name }}
-          asset_content_type: application/zip
+          name: Release ${{ steps.release_tag.outputs.next_release_tag }}
+          tag_name: ${{ steps.release_tag.outputs.next_release_tag }}
+          token: ${{secrets.GITHUB_TOKEN}}
+          generate_release_notes: true
+          files: ./apps/extension/build/${{ steps.asset_name.outputs.asset_name }}
 
   Deploy:
     runs-on: ubuntu-latest
