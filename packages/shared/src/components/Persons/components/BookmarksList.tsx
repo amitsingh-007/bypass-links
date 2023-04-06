@@ -62,7 +62,7 @@ const BookmarksList = memo<Props>(function BookmarksList({
         return {
           ...decodedBookmark,
           parentName: atob(parent.name),
-        } as ModifiedBookmark;
+        } satisfies ModifiedBookmark;
       })
     );
     setBookmarks(fetchedBookmarks);

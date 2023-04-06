@@ -18,7 +18,7 @@ class Logging {
 
   private static sendToLog = async (data: { message: any; metaData: any }) => {
     try {
-      if (this.ignoreError(data.message)) {
+      if (this.ignoreError(data.message || data.message?.message)) {
         return;
       }
       const { version } = chrome.runtime.getManifest();

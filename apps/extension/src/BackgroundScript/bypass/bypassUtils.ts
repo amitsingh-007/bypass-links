@@ -15,7 +15,11 @@ export const getDecodedBypass = (bypass: IBypass) =>
     return obj;
   }, {});
 
-const bypassAndHostnameMapping = {
+type IRedirectionMapping = Partial<
+  Record<IBypassKeys, (url: URL, tabId: number) => Promise<void>>
+>;
+
+const bypassAndHostnameMapping: IRedirectionMapping = {
   [BYPASS_KEYS.LINKVERTISE]: bypassLinkvertise,
   [BYPASS_KEYS.BONSAI]: bypassBonsai,
   [BYPASS_KEYS.BONSAILINK]: bypassBonsaiLink,
@@ -25,7 +29,7 @@ const bypassAndHostnameMapping = {
   [BYPASS_KEYS.PASTELINK]: bypassPageLinks,
   [BYPASS_KEYS.RENTRY]: bypassPageLinks,
   [BYPASS_KEYS.MEDIUM]: bypassMedium,
-} as Record<IBypassKeys, (url: URL, tabId: number) => Promise<void>>;
+};
 
 export const getBypassExecutor = async (url: URL) => {
   const hostnameAlias = await getHostnameAlias(url.hostname);

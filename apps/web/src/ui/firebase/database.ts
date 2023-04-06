@@ -12,11 +12,11 @@ const db = getDatabase(firebaseApp);
 export const getFromFirebase = async <T>(
   path: IFirebaseDbRef,
   user: User | null
-) => {
+): Promise<T> => {
   if (!user) {
     throw new Error('User not found');
   }
   const dbRef = ref(db, await getDbRef(path, user));
   const snapshot = await get(dbRef);
-  return (snapshot.val() || {}) as T;
+  return snapshot.val() || {};
 };

@@ -34,7 +34,12 @@ const ImagePicker = memo<Props>(function ImagePicker({
   const [inputImageUrl, setInputImageUrl] = useDebouncedState('', 500);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area>({} as Area);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area>({
+    height: 0,
+    width: 0,
+    x: 0,
+    y: 0,
+  });
 
   const onCropComplete = useCallback(
     (_croppedArea: Area, _croppedAreaPixels: Area) => {
@@ -72,6 +77,10 @@ const ImagePicker = memo<Props>(function ImagePicker({
       fullScreen
       zIndex={1002}
       withCloseButton={false}
+      styles={{
+        body: { padding: 'unset' },
+        content: { '> div': { maxHeight: 'unset' } },
+      }}
     >
       <LoadingOverlay visible={isUploadingImage} />
       <Header text="Upload Image" onBackClick={onDialogClose} />

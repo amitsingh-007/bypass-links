@@ -47,11 +47,16 @@ const Toast = memo(function Toast() {
           w="fit-content"
           maw="15.625rem"
           p="0.5rem"
-          pr="2.1875rem"
           bottom="0.625rem"
           left="0.625rem"
           pos="fixed"
           style={styles}
+          styles={{
+            wrapper: {
+              alignItems: 'center',
+              gap: '0.5rem',
+            },
+          }}
         >
           {message}
         </Alert>

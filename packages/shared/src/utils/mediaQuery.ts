@@ -9,7 +9,10 @@ type IStyles = {
   [K in keyof CSSObject]: [ObjectValues<CSSObject>, ObjectValues<CSSObject>];
 };
 
-export const getMediaQuery = (theme: MantineTheme, styleObj: IStyles) => {
+export const getMediaQuery = (
+  theme: MantineTheme,
+  styleObj: IStyles
+): CSSObject => {
   return Object.entries(styleObj).reduce<Record<string, any>>(
     (responsiveStyle, [key, value]) => {
       const [mobileStyle, desktopStyle] = value;
@@ -21,5 +24,5 @@ export const getMediaQuery = (theme: MantineTheme, styleObj: IStyles) => {
       return responsiveStyle;
     },
     {}
-  ) as CSSObject;
+  ) satisfies CSSObject;
 };
