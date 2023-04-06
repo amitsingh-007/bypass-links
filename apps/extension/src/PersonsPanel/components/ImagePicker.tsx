@@ -77,6 +77,10 @@ const ImagePicker = memo<Props>(function ImagePicker({
       fullScreen
       zIndex={1002}
       withCloseButton={false}
+      styles={{
+        body: { padding: 'unset' },
+        content: { '> div': { maxHeight: 'unset' } },
+      }}
     >
       <LoadingOverlay visible={isUploadingImage} />
       <Header text="Upload Image" onBackClick={onDialogClose} />
