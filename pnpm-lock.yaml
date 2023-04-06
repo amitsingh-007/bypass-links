@@ -71,8 +71,8 @@ importers:
         specifier: 2.3.0
         version: 2.3.0
       preact:
-        specifier: 10.13.1
-        version: 10.13.1
+        specifier: 10.13.2
+        version: 10.13.2
       qrcode.react:
         specifier: 3.1.0
         version: 3.1.0(react@18.2.0)
@@ -445,8 +445,8 @@ importers:
         specifier: 2.3.0
         version: 2.3.0
       preact:
-        specifier: 10.13.1
-        version: 10.13.1
+        specifier: 10.13.2
+        version: 10.13.2
       react:
         specifier: 18.2.0
         version: 18.2.0
@@ -11321,8 +11321,8 @@ packages:
       source-map-js: 1.0.2
     dev: true
 
-  /preact@10.13.1:
-    resolution: {integrity: sha512-KyoXVDU5OqTpG9LXlB3+y639JAGzl8JSBXLn1J9HTSB3gbKcuInga7bZnXLlxmK94ntTs1EFeZp0lrja2AuBYQ==}
+  /preact@10.13.2:
+    resolution: {integrity: sha512-q44QFLhOhty2Bd0Y46fnYW0gD/cbVM9dUVtNTDKPcdXSMA7jfY+Jpd6rk3GB0lcQss0z5s/6CmVP0Z/hV+g6pw==}
     dev: false
 
   /prebuild-install@7.1.1:
