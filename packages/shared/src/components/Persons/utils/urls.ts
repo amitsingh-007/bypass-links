@@ -5,10 +5,5 @@ interface UrlOptions {
   openBookmarksList: string;
 }
 
-export const getPersonsPanelUrl = ({ openBookmarksList }: UrlOptions) => {
-  const qsObj = {} as UrlOptions;
-  if (openBookmarksList) {
-    qsObj.openBookmarksList = openBookmarksList;
-  }
-  return `${ROUTES.PERSONS_PANEL}?${serializeObjectToQueryString(qsObj)}`;
-};
+export const getPersonsPanelUrl = (obj: UrlOptions) =>
+  `${ROUTES.PERSONS_PANEL}?${serializeObjectToQueryString(obj)}`;

@@ -31,7 +31,7 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
             alias: atob(alias),
             website: atob(website),
             isDefault,
-          } as IRedirection)
+          } satisfies IRedirection)
       );
       setRedirections(modifiedRedirections);
       setIsFetching(false);

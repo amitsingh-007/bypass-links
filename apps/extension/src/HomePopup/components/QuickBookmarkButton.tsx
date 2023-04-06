@@ -47,7 +47,7 @@ const QuickBookmarkButton = memo(function QuickBookmarkButton() {
   }, [isSignedIn]);
 
   const handleClick = async () => {
-    const urlParams = {} as Partial<BMPanelQueryParams>;
+    const urlParams: Partial<BMPanelQueryParams> = {};
     if (bookmark) {
       const { url, parentHash } = bookmark;
       const parent = await getFolderFromHash(parentHash);

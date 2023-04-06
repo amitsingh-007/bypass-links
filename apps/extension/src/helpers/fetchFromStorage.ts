@@ -13,65 +13,65 @@ import {
 } from '@bypass/shared';
 import { IBypassKeys, IExtensionState } from '@constants/index';
 
-export const getExtensionState = async () => {
+export const getExtensionState = async (): Promise<IExtensionState> => {
   const { extState } = await chrome.storage.local.get('extState');
-  return extState as IExtensionState;
+  return extState;
 };
 
-export const getHostnames = async () => {
+export const getHostnames = async (): Promise<Record<string, IBypassKeys>> => {
   const { [STORAGE_KEYS.bypass]: bypass } = await chrome.storage.local.get(
     STORAGE_KEYS.bypass
   );
-  return (bypass || {}) as Record<string, IBypassKeys>;
+  return bypass || {};
 };
 
-export const getRedirections = async () => {
+export const getRedirections = async (): Promise<IRedirection[]> => {
   const { [STORAGE_KEYS.redirections]: redirections } =
     await chrome.storage.local.get(STORAGE_KEYS.redirections);
-  return redirections as IRedirection[];
+  return redirections;
 };
 
-export const getMappedRedirections = async () => {
+export const getMappedRedirections = async (): Promise<IMappedRedirections> => {
   const { mappedRedirections } = await chrome.storage.local.get([
     STORAGE_KEYS.mappedRedirections,
   ]);
-  return (mappedRedirections || {}) as IMappedRedirections;
+  return mappedRedirections || {};
 };
 
 export const getLastVisited = async (): Promise<LastVisited> => {
   const { [STORAGE_KEYS.lastVisited]: lastVisited } =
     await chrome.storage.local.get(STORAGE_KEYS.lastVisited);
-  return lastVisited as LastVisited;
+  return lastVisited;
 };
 
-export const getUserProfile = async () => {
+export const getUserProfile = async (): Promise<UserInfo> => {
   const { [STORAGE_KEYS.userProfile]: userProfile } =
     await chrome.storage.local.get(STORAGE_KEYS.userProfile);
-  return userProfile as UserInfo;
+  return userProfile;
 };
 
-export const getSettings = async () => {
+export const getSettings = async (): Promise<ISettings> => {
   const { [STORAGE_KEYS.settings]: settings } = await chrome.storage.local.get(
     STORAGE_KEYS.settings
   );
-  return settings as ISettings;
+  return settings;
 };
 
-export const getPersons = async () => {
+export const getPersons = async (): Promise<IPersons> => {
   const { [STORAGE_KEYS.persons]: persons } = await chrome.storage.local.get(
     STORAGE_KEYS.persons
   );
-  return persons as IPersons;
+  return persons;
 };
 
-export const getPersonImageUrls = async () => {
+export const getPersonImageUrls = async (): Promise<PersonImageUrls> => {
   const { [STORAGE_KEYS.personImageUrls]: personImageUrls } =
     await chrome.storage.local.get(STORAGE_KEYS.personImageUrls);
-  return personImageUrls as PersonImageUrls;
+  return personImageUrls;
 };
 
-export const getBookmarks = async () => {
+export const getBookmarks = async (): Promise<IBookmarksObj> => {
   const { [STORAGE_KEYS.bookmarks]: bookmarks } =
     await chrome.storage.local.get(STORAGE_KEYS.bookmarks);
-  return bookmarks as IBookmarksObj;
+  return bookmarks;
 };

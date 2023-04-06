@@ -10,10 +10,10 @@ const getDbRef = async (_ref: string) => {
 
 const db = getDatabase(firebaseApp);
 
-export const getFromFirebase = async <T>(path: IFirebaseDbRef) => {
+export const getFromFirebase = async <T>(path: IFirebaseDbRef): Promise<T> => {
   const dbRef = ref(db, await getDbRef(path));
   const snapshot = await get(dbRef);
-  return (snapshot.val() || {}) as T;
+  return snapshot.val() || {};
 };
 
 export const saveToFirebase = async (path: IFirebaseDbRef, data: any) => {
