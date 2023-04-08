@@ -59,7 +59,7 @@
     "node-fetch": "3.3.1",
     "prettier": "2.8.7",
     "typescript": "5.0.4",
-    "webpack": "5.76.3",
+    "webpack": "5.78.0",
     "zod": "3.21.4"
   }
 }
