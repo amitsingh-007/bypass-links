@@ -35,7 +35,7 @@
   "devDependencies": {
     "@babel/core": "7.21.4",
     "@bypass/configs": "workspace:*",
-    "@playwright/test": "1.32.1",
+    "@playwright/test": "1.32.2",
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.10",
     "@types/chrome": "0.0.228",
     "@types/md5": "2.3.2",
