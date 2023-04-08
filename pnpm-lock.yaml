@@ -95,8 +95,8 @@ importers:
         specifier: 1.8.8
         version: 1.8.8(react-dom@18.2.0)(react@18.2.0)
       zustand:
-        specifier: 4.3.6
-        version: 4.3.6(react@18.2.0)
+        specifier: 4.3.7
+        version: 4.3.7(react@18.2.0)
     devDependencies:
       '@babel/core':
         specifier: 7.21.4
@@ -14395,8 +14395,8 @@ packages:
   /zod@3.21.4:
     resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
 
-  /zustand@4.3.6(react@18.2.0):
-    resolution: {integrity: sha512-6J5zDxjxLE+yukC2XZWf/IyWVKnXT9b9HUv09VJ/bwGCpKNcaTqp7Ws28Xr8jnbvnZcdRaidztAPsXFBIqufiw==}
+  /zustand@4.3.7(react@18.2.0):
+    resolution: {integrity: sha512-dY8ERwB9Nd21ellgkBZFhudER8KVlelZm8388B5nDAXhO/+FZDhYMuRnqDgu5SYyRgz/iaf8RKnbUs/cHfOGlQ==}
     engines: {node: '>=12.7.0'}
     peerDependencies:
       immer: '>=9.0'
