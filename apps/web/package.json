@@ -31,7 +31,7 @@
     "sharp": "0.32.0"
   },
   "devDependencies": {
-    "@babel/core": "7.21.3",
+    "@babel/core": "7.21.4",
     "@bypass/configs": "workspace:*",
     "@playwright/test": "1.32.1",
     "@svgr/webpack": "7.0.0",
