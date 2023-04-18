@@ -9,9 +9,9 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@mantine/core": "6.0.6",
-    "@mantine/hooks": "6.0.6",
-    "@mantine/styles": "6.0.6",
+    "@mantine/core": "6.0.8",
+    "@mantine/hooks": "6.0.8",
+    "@mantine/styles": "6.0.8",
     "md5": "2.3.0",
     "preact": "10.13.2",
     "react": "18.2.0",
