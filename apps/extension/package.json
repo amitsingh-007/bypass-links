@@ -29,7 +29,7 @@
     "react-easy-crop": "4.7.4",
     "react-icons": "4.8.0",
     "react-router-dom": "6.10.0",
-    "react-window": "1.8.8",
+    "react-window": "1.8.9",
     "zustand": "4.3.7"
   },
   "devDependencies": {
