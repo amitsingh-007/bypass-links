@@ -3,6 +3,7 @@ import { AuthProvider } from '@/ui/provider/AuthProvider';
 import DynamicProvider from '@/ui/provider/DynamicProvider';
 import { mantineTheme } from '@bypass/shared';
 import { MantineProvider } from '@mantine/core';
+import { Analytics } from '@vercel/analytics/react';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
@@ -25,6 +26,7 @@ const MyApp = ({ Component, pageProps }: AppProps): JSX.Element => {
           <AuthProvider>
             <DefaultSeo {...globalSEOConfig} />
             <Component {...pageProps} />
+            <Analytics />
           </AuthProvider>
         </DynamicProvider>
       </MantineProvider>
