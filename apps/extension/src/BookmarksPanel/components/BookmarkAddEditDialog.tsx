@@ -189,6 +189,7 @@ const BookmarkAddEditDialog = memo<Props>(function BookmarkAddEditDialog({
           />
           <Select
             withAsterisk
+            maxDropdownHeight={120}
             label="Folder"
             transitionProps={{
               transition: 'pop-top-left',
