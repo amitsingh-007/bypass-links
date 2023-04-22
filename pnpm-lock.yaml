@@ -201,8 +201,8 @@ importers:
         specifier: 0.14.0
         version: 0.14.0
       react-refresh-typescript:
-        specifier: 2.0.8
-        version: 2.0.8(react-refresh@0.14.0)(typescript@5.0.4)
+        specifier: 2.0.9
+        version: 2.0.9(react-refresh@0.14.0)(typescript@5.0.4)
       terser-webpack-plugin:
         specifier: 5.3.7
         version: 5.3.7(esbuild@0.16.3)(webpack@5.78.0)
@@ -11600,8 +11600,8 @@ packages:
       use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
 
-  /react-refresh-typescript@2.0.8(react-refresh@0.14.0)(typescript@5.0.4):
-    resolution: {integrity: sha512-7zsaM8jIpUZ2hxMdTo9GNZRauTI11AD5YNNaNXVGb8mtYVwdSbc6IQV8YaHevSWYbx+ZpZispezdCfaJuTrh3w==}
+  /react-refresh-typescript@2.0.9(react-refresh@0.14.0)(typescript@5.0.4):
+    resolution: {integrity: sha512-chAnOO4vpxm/3WkgOVmti+eN8yUtkJzeGkOigV6UA9eDFz12W34e/SsYe2H5+RwYJ3+sfSZkVbiXcG1chEBxlg==}
     peerDependencies:
       react-refresh: 0.10.x || 0.11.x || 0.12.x || 0.13.x || 0.14.x
       typescript: ^4.8 || ^5.0
