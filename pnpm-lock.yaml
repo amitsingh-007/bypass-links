@@ -530,8 +530,8 @@ importers:
   packages/trpc:
     dependencies:
       '@axiomhq/axiom-node':
-        specifier: 0.11.0
-        version: 0.11.0
+        specifier: 0.12.0
+        version: 0.12.0
       '@bypass/shared':
         specifier: workspace:*
         version: link:../shared
@@ -633,14 +633,13 @@ packages:
       leven: 3.1.0
     dev: true
 
-  /@axiomhq/axiom-node@0.11.0:
-    resolution: {integrity: sha512-dweTewyzJk4LlvqGNduqlxoiC4heGbDciPnLa9FDJinMmWaRmZZKe0rJfITDnNTaEKCv3A1WfAfttuTWAzN/qA==}
+  /@axiomhq/axiom-node@0.12.0:
+    resolution: {integrity: sha512-998jnkwSCzKk4oTqiWfHIeW18yj7LZu5+srTq72nLXaEZ5rrGMqKPx5W96hs8u9TeOjFxGBsfJCStEIVnrru1g==}
     engines: {node: '>=14'}
     dependencies:
       axios: 1.2.5
       axios-retry: 3.4.0
       to-time: 1.0.2
-      uuid: 8.3.2
       winston-transport: 4.5.0
     transitivePeerDependencies:
       - debug
