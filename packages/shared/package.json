@@ -24,7 +24,7 @@
     "@bypass/configs": "workspace:*",
     "@emotion/react": "11.10.8",
     "@types/md5": "2.3.2",
-    "@types/react": "18.0.38",
+    "@types/react": "18.2.5",
     "@types/react-window": "1.8.5",
     "@typescript-eslint/eslint-plugin": "5.59.2",
     "@typescript-eslint/parser": "5.59.2",
