@@ -9,9 +9,9 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@mantine/core": "6.0.8",
-    "@mantine/hooks": "6.0.8",
-    "@mantine/styles": "6.0.8",
+    "@mantine/core": "6.0.10",
+    "@mantine/hooks": "6.0.10",
+    "@mantine/styles": "6.0.10",
     "md5": "2.3.0",
     "preact": "10.13.2",
     "react": "18.2.0",
@@ -20,15 +20,15 @@
     "react-window": "1.8.9"
   },
   "devDependencies": {
-    "@babel/core": "7.21.4",
+    "@babel/core": "7.21.8",
     "@bypass/configs": "workspace:*",
-    "@emotion/react": "11.10.6",
+    "@emotion/react": "11.10.8",
     "@types/md5": "2.3.2",
-    "@types/react": "18.0.38",
+    "@types/react": "18.2.5",
     "@types/react-window": "1.8.5",
-    "@typescript-eslint/eslint-plugin": "5.59.0",
-    "@typescript-eslint/parser": "5.59.0",
-    "eslint": "8.39.0",
+    "@typescript-eslint/eslint-plugin": "5.59.2",
+    "@typescript-eslint/parser": "5.59.2",
+    "eslint": "8.40.0",
     "eslint-config-airbnb": "19.0.4",
     "eslint-config-airbnb-typescript": "17.0.0",
     "eslint-config-turbo": "1.9.3",
@@ -38,7 +38,7 @@
     "eslint-plugin-prettier": "4.2.1",
     "eslint-plugin-react": "7.32.2",
     "eslint-plugin-react-hooks": "4.6.0",
-    "prettier": "2.8.7",
+    "prettier": "2.8.8",
     "tslib": "2.5.0",
     "typescript": "5.0.4"
   }
