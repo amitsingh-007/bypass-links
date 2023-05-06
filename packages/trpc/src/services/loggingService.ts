@@ -1,4 +1,4 @@
-import Client from '@axiomhq/axiom-node';
+import { Client } from '@axiomhq/axiom-node';
 import { getEnvVars } from '../constants/env';
 import { axiomDataset, ILogData, ILogRequest } from '../constants/logs';
 
