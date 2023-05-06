@@ -542,8 +542,8 @@ importers:
         specifier: 10.25.0
         version: 10.25.0
       firebase-admin:
-        specifier: 11.7.0
-        version: 11.7.0
+        specifier: 11.8.0
+        version: 11.8.0
       otplib:
         specifier: 12.0.1
         version: 12.0.1
@@ -2981,7 +2981,7 @@ packages:
       fast-deep-equal: 3.1.3
       functional-red-black-tree: 1.0.1
       google-gax: 3.6.0
-      protobufjs: 7.1.2
+      protobufjs: 7.2.3
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -8026,8 +8026,8 @@ packages:
       locate-path: 6.0.0
       path-exists: 4.0.0
 
-  /firebase-admin@11.7.0:
-    resolution: {integrity: sha512-58y9dor/nrK4Dc/hwpmm7uGCy+oqld+k189mclWwhKu8IZJcZbXxPFHsNzW/yG7aVTH5sTD4rHnRXj8+t5AhPQ==}
+  /firebase-admin@11.8.0:
+    resolution: {integrity: sha512-RxO0wWDnuqVikXExhVjnhVaaXpziKCad4D1rOX5c1WJdk1jAu9hfE4rbrFKZQZgF1okZS04kgCBIFJro7xn8NQ==}
     engines: {node: '>=14'}
     dependencies:
       '@fastify/busboy': 1.2.1
@@ -11512,26 +11512,6 @@ packages:
       '@types/node': 18.15.13
       long: 4.0.0
     dev: false
-
-  /protobufjs@7.1.2:
-    resolution: {integrity: sha512-4ZPTPkXCdel3+L81yw3dG6+Kq3umdWKh7Dc7GW/CpNk4SX3hK58iPCWeCyhVTDrbkNeKrYNZ7EojM5WDaEWTLQ==}
-    engines: {node: '>=12.0.0'}
-    requiresBuild: true
-    dependencies:
-      '@protobufjs/aspromise': 1.1.2
-      '@protobufjs/base64': 1.1.2
-      '@protobufjs/codegen': 2.0.4
-      '@protobufjs/eventemitter': 1.1.0
-      '@protobufjs/fetch': 1.1.0
-      '@protobufjs/float': 1.0.2
-      '@protobufjs/inquire': 1.1.0
-      '@protobufjs/path': 1.1.2
-      '@protobufjs/pool': 1.1.0
-      '@protobufjs/utf8': 1.1.0
-      '@types/node': 18.15.13
-      long: 5.2.1
-    dev: false
-    optional: true
 
   /protobufjs@7.2.3:
     resolution: {integrity: sha512-TtpvOqwB5Gdz/PQmOjgsrGH1nHjAQVCN7JG4A6r1sXRWESL5rNMAiRcBQlCAdKxZcAbstExQePYG8xof/JVRgg==}
