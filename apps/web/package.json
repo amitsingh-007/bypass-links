@@ -10,8 +10,8 @@
   "dependencies": {
     "@bypass/shared": "workspace:*",
     "@bypass/trpc": "workspace:*",
-    "@emotion/react": "11.10.8",
-    "@emotion/server": "11.10.0",
+    "@emotion/react": "11.11.0",
+    "@emotion/server": "11.11.0",
     "@mantine/core": "6.0.10",
     "@mantine/hooks": "6.0.10",
     "@mantine/next": "6.0.10",
