@@ -10,7 +10,7 @@
   "dependencies": {
     "@bypass/shared": "workspace:*",
     "@bypass/trpc": "workspace:*",
-    "@emotion/react": "11.10.8",
+    "@emotion/react": "11.11.0",
     "@hello-pangea/dnd": "16.2.0",
     "@mantine/core": "6.0.10",
     "@mantine/dates": "6.0.10",
