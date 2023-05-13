@@ -35,7 +35,7 @@
     "@babel/core": "7.21.8",
     "@bypass/configs": "workspace:*",
     "@playwright/test": "1.33.0",
-    "@svgr/webpack": "7.0.0",
+    "@svgr/webpack": "8.0.1",
     "@types/md5": "2.3.2",
     "@types/react": "18.2.5",
     "@types/react-window": "1.8.5",
