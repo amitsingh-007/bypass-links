@@ -68,7 +68,7 @@
     "prettier": "2.8.8",
     "react-refresh": "0.14.0",
     "react-refresh-typescript": "2.0.9",
-    "terser-webpack-plugin": "5.3.8",
+    "terser-webpack-plugin": "5.3.9",
     "ts-loader": "9.4.2",
     "ts-node": "10.9.1",
     "tsconfig-paths-webpack-plugin": "4.0.1",
