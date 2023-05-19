@@ -111,8 +111,8 @@ importers:
         specifier: 0.5.10
         version: 0.5.10(@types/webpack@5.28.1)(react-refresh@0.14.0)(webpack-dev-server@4.15.0)(webpack@5.82.1)
       '@types/chrome':
-        specifier: 0.0.235
-        version: 0.0.235
+        specifier: 0.0.236
+        version: 0.0.236
       '@types/md5':
         specifier: 2.3.2
         version: 2.3.2
@@ -3975,8 +3975,8 @@ packages:
     resolution: {integrity: sha512-KnRanxnpfpjUTqTCXslZSEdLfXExwgNxYPdiO2WGUj8+HDjFi8R3k5RVKPeSCzLjCcshCAtVO2QBbVuAV4kTnw==}
     dev: true
 
-  /@types/chrome@0.0.235:
-    resolution: {integrity: sha512-SPj9A4E35SBJICjnL04KZEA/eVr8Km7gbnEfAxzaU2fHpLSnN64OPnfOR3EpDJXXpSORKTn3OUDwugw+rYBBXA==}
+  /@types/chrome@0.0.236:
+    resolution: {integrity: sha512-ArQoxO9WtDY6GWcT2cpo+D+hyASPeFt7PHQEUDXwQhRS00Rbop07rnEOA046yws0HkM83Tcew/hW6Dgvnj4iMQ==}
     dependencies:
       '@types/filesystem': 0.0.32
       '@types/har-format': 1.2.10
