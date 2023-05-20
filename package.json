@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "@playwright/test": "1.33.0",
-    "@types/node": "18.16.8",
+    "@types/node": "18.16.13",
     "cross-env": "7.0.3",
     "husky": "8.0.3",
     "lint-staged": "13.2.2",
