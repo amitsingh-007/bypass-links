@@ -13,7 +13,7 @@
     "@mantine/hooks": "6.0.11",
     "@mantine/styles": "6.0.11",
     "md5": "2.3.0",
-    "preact": "10.13.2",
+    "preact": "10.14.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "4.8.0",
