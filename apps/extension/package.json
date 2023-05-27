@@ -37,7 +37,7 @@
     "@bypass/configs": "workspace:*",
     "@playwright/test": "1.34.3",
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.10",
-    "@types/chrome": "0.0.236",
+    "@types/chrome": "0.0.237",
     "@types/md5": "2.3.2",
     "@types/node": "18.16.13",
     "@types/react": "18.2.6",
