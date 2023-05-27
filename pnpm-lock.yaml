@@ -5,8 +5,8 @@ importers:
   .:
     devDependencies:
       '@playwright/test':
-        specifier: 1.34.0
-        version: 1.34.0
+        specifier: 1.34.3
+        version: 1.34.3
       '@types/node':
         specifier: 18.16.13
         version: 18.16.13
@@ -105,8 +105,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/configs
       '@playwright/test':
-        specifier: 1.34.0
-        version: 1.34.0
+        specifier: 1.34.3
+        version: 1.34.3
       '@pmmmwh/react-refresh-webpack-plugin':
         specifier: 0.5.10
         version: 0.5.10(@types/webpack@5.28.1)(react-refresh@0.14.0)(webpack-dev-server@4.15.0)(webpack@5.83.1)
@@ -307,8 +307,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/configs
       '@playwright/test':
-        specifier: 1.34.0
-        version: 1.34.0
+        specifier: 1.34.3
+        version: 1.34.3
       '@svgr/webpack':
         specifier: 8.0.1
         version: 8.0.1
@@ -3524,13 +3524,13 @@ packages:
       tiny-glob: 0.2.9
       tslib: 2.5.2
 
-  /@playwright/test@1.34.0:
-    resolution: {integrity: sha512-GIALJVODOIrMflLV54H3Cow635OfrTwOu24ZTDyKC66uchtFX2NcCRq83cLdakMjZKYK78lODNLQSYBj2OgaTw==}
+  /@playwright/test@1.34.3:
+    resolution: {integrity: sha512-zPLef6w9P6T/iT6XDYG3mvGOqOyb6eHaV9XtkunYs0+OzxBtrPAAaHotc0X+PJ00WPPnLfFBTl7mf45Mn8DBmw==}
     engines: {node: '>=14'}
     hasBin: true
     dependencies:
       '@types/node': 18.16.13
-      playwright-core: 1.34.0
+      playwright-core: 1.34.3
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
@@ -11155,9 +11155,10 @@ packages:
       pathe: 1.1.0
     dev: true
 
-  /playwright-core@1.34.0:
-    resolution: {integrity: sha512-fMUY1+iR6kYbJF/EsOOqzBA99ZHXbw9sYPNjwA4X/oV0hVF/1aGlWYBGPVUEqxBkGANDKMziYoOdKGU5DIP5Gg==}
+  /playwright-core@1.34.3:
+    resolution: {integrity: sha512-2pWd6G7OHKemc5x1r1rp8aQcpvDh7goMBZlJv6Co5vCNLVcQJdhxRL09SGaY6HcyHH9aT4tiynZabMofVasBYw==}
     engines: {node: '>=14'}
+    hasBin: true
     dev: true
 
   /postcss-discard-duplicates@5.1.0(postcss@8.4.21):
