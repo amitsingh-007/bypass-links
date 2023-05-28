@@ -23,8 +23,8 @@ importers:
         specifier: 1.9.9
         version: 1.9.9
       vercel:
-        specifier: 29.3.6
-        version: 29.3.6(@types/node@18.16.16)
+        specifier: 29.4.0
+        version: 29.4.0(@types/node@18.16.16)
 
   apps/extension:
     dependencies:
@@ -826,11 +826,6 @@ packages:
       '@babel/types': 7.22.3
     dev: true
 
-  /@babel/helper-plugin-utils@7.20.2:
-    resolution: {integrity: sha512-8RvlJG2mj4huQ4pZ+rU9lqKi9ZKiRmuvGuM2HlWmkmgOhbs6zEAw6IEiJ5cQqGbDzGZOhwuOQNtZMi/ENLjZoQ==}
-    engines: {node: '>=6.9.0'}
-    dev: true
-
   /@babel/helper-plugin-utils@7.21.5:
     resolution: {integrity: sha512-0WDaIlXKOX/3KfBK/dwP1oQGiPh6rjMkT7HIRv7i5RR2VUMwrx5ZL0dwBkKx7+SW1zwNdgjHd34IMk5ZjTeHVg==}
     engines: {node: '>=6.9.0'}
@@ -1220,7 +1215,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.22.1
-      '@babel/helper-plugin-utils': 7.20.2
+      '@babel/helper-plugin-utils': 7.21.5
     dev: true
 
   /@babel/plugin-syntax-logical-assignment-operators@7.10.4(@babel/core@7.22.1):
@@ -1304,7 +1299,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.22.1
-      '@babel/helper-plugin-utils': 7.20.2
+      '@babel/helper-plugin-utils': 7.21.5
     dev: true
 
   /@babel/plugin-transform-arrow-functions@7.21.5(@babel/core@7.22.1):
@@ -13559,8 +13554,8 @@ packages:
     engines: {node: '>= 0.8'}
     dev: true
 
-  /vercel@29.3.6(@types/node@18.16.16):
-    resolution: {integrity: sha512-fwld21d9WoCTUJcbyTWvq0c9VchUCJ2qs0kaczcYo9Vs8+ORnxC8FFgbysR2f7B4iwL2hUxTMEWkQGV2782LjQ==}
+  /vercel@29.4.0(@types/node@18.16.16):
+    resolution: {integrity: sha512-sVfg87dhF3q6Nhrr5zv2oaOU1zQQd+MlsjhdNkB9MfrQyXqluAdHKiNz0+g/+wJeh/y7sUhWk2/XJb5CDlF70w==}
     engines: {node: '>= 14'}
     hasBin: true
     requiresBuild: true
