@@ -23,8 +23,8 @@ importers:
         specifier: 1.9.9
         version: 1.9.9
       vercel:
-        specifier: 29.4.0
-        version: 29.4.0(@types/node@18.16.16)
+        specifier: 30.0.0
+        version: 30.0.0(@types/node@18.16.16)
 
   apps/extension:
     dependencies:
@@ -802,7 +802,7 @@ packages:
     resolution: {integrity: sha512-orajc5T2PsRYUN3ZryCEFeMDYwyw09c/pZeaQEZPH0MpKzSvn3e0uXsDBu3k03VI+9DBiRo+l22BfKTpKwa/Wg==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.21.5
+      '@babel/types': 7.22.3
 
   /@babel/helper-module-transforms@7.22.1:
     resolution: {integrity: sha512-dxAe9E7ySDGbQdCVOY/4+UcD8M9ZFqZcZhSPsPacvCG4M+9lwtDDQfI2EoaSvmf7W/8yCBkGU0m7Pvt1ru3UZw==}
@@ -2000,14 +2000,6 @@ packages:
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
-
-  /@babel/types@7.21.5:
-    resolution: {integrity: sha512-m4AfNvVF2mVC/F7fDEdH2El3HzUg9It/XsCxZiOTTA3m3qYfcSVSbTfM6Q9xG+hYDniZssYhlXKKUMD5m8tF4Q==}
-    engines: {node: '>=6.9.0'}
-    dependencies:
-      '@babel/helper-string-parser': 7.21.5
-      '@babel/helper-validator-identifier': 7.19.1
-      to-fast-properties: 2.0.0
 
   /@babel/types@7.22.3:
     resolution: {integrity: sha512-P3na3xIQHTKY4L0YOG7pM8M8uoUIB910WQaSiiMCZUC2Cy8XFEQONGABFnHWBa2gpGKODTAJcNhi5Zk0sLRrzg==}
@@ -13562,8 +13554,8 @@ packages:
     engines: {node: '>= 0.8'}
     dev: true
 
-  /vercel@29.4.0(@types/node@18.16.16):
-    resolution: {integrity: sha512-sVfg87dhF3q6Nhrr5zv2oaOU1zQQd+MlsjhdNkB9MfrQyXqluAdHKiNz0+g/+wJeh/y7sUhWk2/XJb5CDlF70w==}
+  /vercel@30.0.0(@types/node@18.16.16):
+    resolution: {integrity: sha512-JxpE29jxVTjnBsILc0E4umj6cLFq8H6AsSowGiPz/dxP0lJLwX3QPgDn+qd6GWIc4QDNEnvvkqAJ+7pSKTO04A==}
     engines: {node: '>= 14'}
     hasBin: true
     requiresBuild: true
