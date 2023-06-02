@@ -1,4 +1,8 @@
-lockfileVersion: '6.0'
+lockfileVersion: '6.1'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
 
 importers:
 
@@ -86,8 +90,8 @@ importers:
         specifier: 4.7.4
         version: 4.7.4(react-dom@18.2.0)(react@18.2.0)
       react-icons:
-        specifier: 4.8.0
-        version: 4.8.0(react@18.2.0)
+        specifier: 4.9.0
+        version: 4.9.0(react@18.2.0)
       react-router-dom:
         specifier: 6.11.2
         version: 6.11.2(react-dom@18.2.0)(react@18.2.0)
@@ -288,8 +292,8 @@ importers:
         specifier: 18.2.0
         version: 18.2.0(react@18.2.0)
       react-icons:
-        specifier: 4.8.0
-        version: 4.8.0(react@18.2.0)
+        specifier: 4.9.0
+        version: 4.9.0(react@18.2.0)
       react-window:
         specifier: 1.8.9
         version: 1.8.9(react-dom@18.2.0)(react@18.2.0)
@@ -457,8 +461,8 @@ importers:
         specifier: 18.2.0
         version: 18.2.0(react@18.2.0)
       react-icons:
-        specifier: 4.8.0
-        version: 4.8.0(react@18.2.0)
+        specifier: 4.9.0
+        version: 4.9.0(react@18.2.0)
       react-window:
         specifier: 1.8.9
         version: 1.8.9(react-dom@18.2.0)(react@18.2.0)
@@ -11575,8 +11579,8 @@ packages:
       tslib: 2.0.1
     dev: false
 
-  /react-icons@4.8.0(react@18.2.0):
-    resolution: {integrity: sha512-N6+kOLcihDiAnj5Czu637waJqSnwlMNROzVZMhfX68V/9bu9qHaMIJC4UdozWoOk57gahFCNHwVvWzm0MTzRjg==}
+  /react-icons@4.9.0(react@18.2.0):
+    resolution: {integrity: sha512-ijUnFr//ycebOqujtqtV9PFS7JjhWg0QU6ykURVHuL4cbofvRCf3f6GMn9+fBktEFQOIVZnuAYLZdiyadRQRFg==}
     peerDependencies:
       react: '*'
     dependencies:
