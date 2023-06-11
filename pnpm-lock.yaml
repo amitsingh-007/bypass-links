@@ -326,8 +326,8 @@ importers:
         specifier: 1.8.5
         version: 1.8.5
       '@types/request-ip':
-        specifier: 0.0.37
-        version: 0.0.37
+        specifier: 0.0.38
+        version: 0.0.38
       '@typescript-eslint/eslint-plugin':
         specifier: 5.59.7
         version: 5.59.7(@typescript-eslint/parser@5.59.7)(eslint@8.42.0)(typescript@5.0.4)
@@ -565,8 +565,8 @@ importers:
         specifier: 0.9.0
         version: 0.9.0
       '@types/request-ip':
-        specifier: 0.0.37
-        version: 0.0.37
+        specifier: 0.0.38
+        version: 0.0.38
       '@typescript-eslint/eslint-plugin':
         specifier: 5.59.7
         version: 5.59.7(@typescript-eslint/parser@5.59.7)(eslint@8.42.0)(typescript@5.0.4)
@@ -4402,8 +4402,8 @@ packages:
       '@types/scheduler': 0.16.2
       csstype: 3.1.1
 
-  /@types/request-ip@0.0.37:
-    resolution: {integrity: sha512-uw6/i3rQnpznxD7LtLaeuZytLhKZK6bRoTS6XVJlwxIOoOpEBU7bgKoVXDNtOg4Xl6riUKHa9bjMVrL6ESqYlQ==}
+  /@types/request-ip@0.0.38:
+    resolution: {integrity: sha512-1yeq8UuK/tUBqLXRY24gjeFvrSNaGNcOcZLQjHlnuw8iu+qE/vTQ64TUcLWorr607NKLfFakdoYEXXHXrLLKCw==}
     dependencies:
       '@types/node': 18.16.17
     dev: true
