@@ -69,7 +69,7 @@
     "react-refresh": "0.14.0",
     "react-refresh-typescript": "2.0.9",
     "terser-webpack-plugin": "5.3.9",
-    "ts-loader": "9.4.3",
+    "ts-loader": "9.4.4",
     "ts-node": "10.9.1",
     "tsconfig-paths-webpack-plugin": "4.0.1",
     "typescript": "5.1.3",
