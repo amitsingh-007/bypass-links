@@ -4,7 +4,7 @@ import footerImage from '@public/footer.png';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import { IconType } from 'react-icons';
-import { GoMarkGithub } from 'react-icons/go';
+import { BsGithub } from 'react-icons/bs';
 import { MdExtension } from 'react-icons/md';
 import { RiTimeFill } from 'react-icons/ri';
 
@@ -88,7 +88,7 @@ const Footer = ({
               size="xl"
               aria-label="Github Repository Link"
             >
-              <GoMarkGithub size={28} />
+              <BsGithub size={28} />
             </ActionIcon>
           </Box>
         </Flex>
