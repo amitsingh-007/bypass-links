@@ -19,7 +19,7 @@
     "@trpc/client": "10.29.1",
     "@trpc/server": "10.29.1",
     "compressorjs": "1.2.1",
-    "dayjs": "1.11.8",
+    "dayjs": "1.11.9",
     "firebase": "9.23.0",
     "md5": "2.3.0",
     "preact": "10.15.1",
