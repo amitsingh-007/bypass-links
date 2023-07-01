@@ -49,7 +49,7 @@ importers:
         version: 6.0.13(@emotion/react@11.11.1)(@mantine/hooks@6.0.13)(@types/react@18.2.14)(react-dom@18.2.0)(react@18.2.0)
       '@mantine/dates':
         specifier: 6.0.13
-        version: 6.0.13(@mantine/core@6.0.13)(@mantine/hooks@6.0.13)(dayjs@1.11.8)(react@18.2.0)
+        version: 6.0.13(@mantine/core@6.0.13)(@mantine/hooks@6.0.13)(dayjs@1.11.9)(react@18.2.0)
       '@mantine/form':
         specifier: 6.0.13
         version: 6.0.13(react@18.2.0)
@@ -66,8 +66,8 @@ importers:
         specifier: 1.2.1
         version: 1.2.1
       dayjs:
-        specifier: 1.11.8
-        version: 1.11.8
+        specifier: 1.11.9
+        version: 1.11.9
       firebase:
         specifier: 9.23.0
         version: 9.23.0(encoding@0.1.13)
@@ -271,8 +271,8 @@ importers:
         specifier: 3.4.1
         version: 3.4.1
       dayjs:
-        specifier: 1.11.8
-        version: 1.11.8
+        specifier: 1.11.9
+        version: 1.11.9
       firebase:
         specifier: 9.23.0
         version: 9.23.0(encoding@0.1.13)
@@ -3132,7 +3132,7 @@ packages:
       - '@types/react'
     dev: false
 
-  /@mantine/dates@6.0.13(@mantine/core@6.0.13)(@mantine/hooks@6.0.13)(dayjs@1.11.8)(react@18.2.0):
+  /@mantine/dates@6.0.13(@mantine/core@6.0.13)(@mantine/hooks@6.0.13)(dayjs@1.11.9)(react@18.2.0):
     resolution: {integrity: sha512-sWStU+sgblTZAfuuFlwG3w3WCFYHVf1L+sG2WdlXOljd9WpQVem214HTh6staJ894+vIQESIvseWvq6FDyQAaQ==}
     peerDependencies:
       '@mantine/core': 6.0.13
@@ -3143,7 +3143,7 @@ packages:
       '@mantine/core': 6.0.13(@emotion/react@11.11.1)(@mantine/hooks@6.0.13)(@types/react@18.2.14)(react-dom@18.2.0)(react@18.2.0)
       '@mantine/hooks': 6.0.13(react@18.2.0)
       '@mantine/utils': 6.0.13(react@18.2.0)
-      dayjs: 1.11.8
+      dayjs: 1.11.9
       react: 18.2.0
     dev: false
 
@@ -6362,8 +6362,8 @@ packages:
       time-zone: 1.0.0
     dev: true
 
-  /dayjs@1.11.8:
-    resolution: {integrity: sha512-LcgxzFoWMEPO7ggRv1Y2N31hUf2R0Vj7fuy/m+Bg1K8rr+KAs1AEy4y9jd5DXe8pbHgX+srkHNS7TH6Q6ZhYeQ==}
+  /dayjs@1.11.9:
+    resolution: {integrity: sha512-QvzAURSbQ0pKdIye2txOzNaHmxtUBXerpY0FJsFXUMKbIZeFm5ht1LS/jFsrncjnmtv8HsG0W2g6c0zUjZWmpA==}
     dev: false
 
   /deasync@0.1.28:
