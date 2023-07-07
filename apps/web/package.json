@@ -18,7 +18,7 @@
     "@trpc/client": "10.33.0",
     "@trpc/server": "10.33.0",
     "@vercel/analytics": "1.0.1",
-    "countries-and-timezones": "3.4.1",
+    "countries-and-timezones": "3.5.1",
     "dayjs": "1.11.9",
     "firebase": "9.23.0",
     "md5": "2.3.0",
