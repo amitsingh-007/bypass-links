@@ -52,7 +52,7 @@
     "eslint-import-resolver-typescript": "3.5.5",
     "eslint-plugin-import": "2.27.5",
     "eslint-plugin-jsx-a11y": "6.7.1",
-    "eslint-plugin-playwright": "0.15.2",
+    "eslint-plugin-playwright": "0.15.3",
     "eslint-plugin-prettier": "4.2.1",
     "eslint-webpack-plugin": "4.0.1",
     "fork-ts-checker-webpack-plugin": "8.0.0",
