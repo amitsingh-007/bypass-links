@@ -75,8 +75,8 @@ importers:
         specifier: 2.3.0
         version: 2.3.0
       preact:
-        specifier: 10.15.1
-        version: 10.15.1
+        specifier: 10.16.0
+        version: 10.16.0
       qrcode.react:
         specifier: 3.1.0
         version: 3.1.0(react@18.2.0)
@@ -452,8 +452,8 @@ importers:
         specifier: 2.3.0
         version: 2.3.0
       preact:
-        specifier: 10.15.1
-        version: 10.15.1
+        specifier: 10.16.0
+        version: 10.16.0
       react:
         specifier: 18.2.0
         version: 18.2.0
@@ -11311,8 +11311,8 @@ packages:
       source-map-js: 1.0.2
     dev: true
 
-  /preact@10.15.1:
-    resolution: {integrity: sha512-qs2ansoQEwzNiV5eAcRT1p1EC/dmEzaATVDJNiB3g2sRDWdA7b7MurXdJjB2+/WQktGWZwxvDrnuRFbWuIr64g==}
+  /preact@10.16.0:
+    resolution: {integrity: sha512-XTSj3dJ4roKIC93pald6rWuB2qQJO9gO2iLLyTe87MrjQN+HklueLsmskbywEWqCHlclgz3/M4YLL2iBr9UmMA==}
     dev: false
 
   /prebuild-install@7.1.1:
@@ -13808,6 +13808,7 @@ packages:
   /vm2@3.9.14:
     resolution: {integrity: sha512-HgvPHYHeQy8+QhzlFryvSteA4uQLBCOub02mgqdR+0bN/akRZ48TGB1v0aCv7ksyc0HXx16AZtMHKS38alc6TA==}
     engines: {node: '>=6.0'}
+    deprecated: The library contains critical security issues and should not be used for production! The maintenance of the project has been discontinued. Consider migrating your code to isolated-vm.
     hasBin: true
     dependencies:
       acorn: 8.9.0
