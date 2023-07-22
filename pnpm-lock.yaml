@@ -217,8 +217,8 @@ importers:
         specifier: 10.9.1
         version: 10.9.1(@types/node@18.16.19)(typescript@5.1.6)
       tsconfig-paths-webpack-plugin:
-        specifier: 4.0.1
-        version: 4.0.1
+        specifier: 4.1.0
+        version: 4.1.0
       typescript:
         specifier: 5.1.6
         version: 5.1.6
@@ -13238,12 +13238,12 @@ packages:
     resolution: {integrity: sha512-FZIXf1ksVyLcfr7M317jbB67XFJhOO1YqdTcuGaq9q5jLUoTikukZ+98TPjKiP2jC5CgmYdWWYs0s2nLSU0/1A==}
     dev: true
 
-  /tsconfig-paths-webpack-plugin@4.0.1:
-    resolution: {integrity: sha512-m5//KzLoKmqu2MVix+dgLKq70MnFi8YL8sdzQZ6DblmCdfuq/y3OqvJd5vMndg2KEVCOeNz8Es4WVZhYInteLw==}
+  /tsconfig-paths-webpack-plugin@4.1.0:
+    resolution: {integrity: sha512-xWFISjviPydmtmgeUAuXp4N1fky+VCtfhOkDUFIv5ea7p4wuTomI4QTrXvFBX2S4jZsmyTSrStQl+E+4w+RzxA==}
     engines: {node: '>=10.13.0'}
     dependencies:
       chalk: 4.1.2
-      enhanced-resolve: 5.12.0
+      enhanced-resolve: 5.15.0
       tsconfig-paths: 4.1.2
     dev: true
 
