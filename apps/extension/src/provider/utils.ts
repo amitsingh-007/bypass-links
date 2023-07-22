@@ -1,7 +1,7 @@
 export const getFromChromeStorage = async <
   T extends {
     [key: string]: any;
-  }
+  },
 >(
   key: string
 ) => {

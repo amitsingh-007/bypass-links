@@ -12,9 +12,9 @@
   "dependencies": {
     "@axiomhq/axiom-node": "0.12.0",
     "@bypass/shared": "workspace:*",
-    "@octokit/rest": "19.0.13",
-    "@trpc/server": "10.33.0",
-    "firebase-admin": "11.9.0",
+    "@octokit/rest": "20.0.1",
+    "@trpc/server": "10.35.0",
+    "firebase-admin": "11.10.1",
     "otplib": "12.0.1",
     "request-ip": "3.3.0",
     "zod": "3.21.4"
@@ -23,21 +23,21 @@
     "@bypass/configs": "workspace:*",
     "@firebase/app-types": "0.9.0",
     "@types/request-ip": "0.0.38",
-    "@typescript-eslint/eslint-plugin": "5.60.1",
-    "@typescript-eslint/parser": "5.60.1",
+    "@typescript-eslint/eslint-plugin": "6.1.0",
+    "@typescript-eslint/parser": "6.1.0",
     "dotenv": "16.3.1",
-    "eslint": "8.44.0",
+    "eslint": "8.45.0",
     "eslint-config-airbnb": "19.0.4",
-    "eslint-config-airbnb-typescript": "17.0.0",
-    "eslint-config-turbo": "1.10.7",
+    "eslint-config-airbnb-typescript": "17.1.0",
+    "eslint-config-turbo": "1.10.9",
     "eslint-import-resolver-typescript": "3.5.5",
     "eslint-plugin-import": "2.27.5",
     "eslint-plugin-jsx-a11y": "6.7.1",
-    "eslint-plugin-prettier": "4.2.1",
-    "eslint-plugin-react": "7.32.2",
+    "eslint-plugin-prettier": "5.0.0",
+    "eslint-plugin-react": "7.33.0",
     "eslint-plugin-react-hooks": "4.6.0",
-    "prettier": "2.8.8",
+    "prettier": "3.0.0",
     "typescript": "5.1.6",
-    "vitest": "0.32.2"
+    "vitest": "0.33.0"
   }
 }

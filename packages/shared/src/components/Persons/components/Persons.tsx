@@ -82,6 +82,7 @@ const Persons = memo<Props>(function Persons({
           columnCount={columnCount}
           rowHeight={rowDimension}
           columnWidth={columnDimension}
+          style={{ overflowX: 'hidden' }}
           overscanRowCount={2}
           itemKey={({ rowIndex, columnIndex, data }) => {
             const index = getReactKey(rowIndex, columnIndex, columnCount);

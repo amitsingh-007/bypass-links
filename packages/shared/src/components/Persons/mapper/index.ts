@@ -2,7 +2,7 @@ import { IPerson } from '../interfaces/persons';
 
 export const decryptionMapper = ([_key, { uid, name, imageRef, taggedUrls }]: [
   key: string,
-  value: IPerson
+  value: IPerson,
 ]): IPerson => ({
   uid,
   name: atob(name),

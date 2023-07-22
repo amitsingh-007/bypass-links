@@ -86,7 +86,7 @@ const Bookmark = memo<BookmarkProps>(function Bookmark({
     >
       <Tooltip
         label={url}
-        color="indigo"
+        color="violet"
         position="right"
         withArrow
         arrowSize={6}

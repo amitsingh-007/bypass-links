@@ -14,12 +14,12 @@
     "test": "cross-env FORCE_COLOR=1 turbo run test"
   },
   "devDependencies": {
-    "@playwright/test": "1.35.1",
-    "@types/node": "18.16.19",
+    "@playwright/test": "1.36.1",
+    "@types/node": "18.16.20",
     "cross-env": "7.0.3",
     "husky": "8.0.3",
     "lint-staged": "13.2.3",
-    "turbo": "1.10.7",
-    "vercel": "31.0.1"
+    "turbo": "1.10.9",
+    "vercel": "31.0.4"
   }
 }

@@ -4,9 +4,10 @@
     "config:base",
     ":disableRateLimiting",
     ":rebaseStalePrs",
-    ":updateNotScheduled"
+    ":updateNotScheduled",
+    ":automergeMinor",
+    ":maintainLockFilesMonthly",
+    "schedule:monthly"
   ],
-  "baseBranches": ["renovate-updates"],
-  "timezone": "IST",
-  "schedule": ["before 10am on Saturday"]
+  "baseBranches": ["renovate-updates"]
 }
