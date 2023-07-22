@@ -546,8 +546,8 @@ importers:
         specifier: 10.33.0
         version: 10.33.0
       firebase-admin:
-        specifier: 11.9.0
-        version: 11.9.0
+        specifier: 11.10.1
+        version: 11.10.1
       otplib:
         specifier: 12.0.1
         version: 12.0.1
@@ -8055,8 +8055,8 @@ packages:
       locate-path: 6.0.0
       path-exists: 4.0.0
 
-  /firebase-admin@11.9.0:
-    resolution: {integrity: sha512-My7qrInVZFmImX8aTulrp9kgY6d88Wn+ie8UIXKzZ3SJqQQhDwFT7Q3pgQXK9RfdsUtcxJJ3rCK7MWBm4GGtuw==}
+  /firebase-admin@11.10.1:
+    resolution: {integrity: sha512-atv1E6GbuvcvWaD3eHwrjeP5dAVs+EaHEJhu9CThMzPY6In8QYDiUR6tq5SwGl4SdA/GcAU0nhwWc/FSJsAzfQ==}
     engines: {node: '>=14'}
     dependencies:
       '@fastify/busboy': 1.2.1
