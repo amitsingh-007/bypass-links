@@ -572,7 +572,7 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
                         resetSelectedBookmarks,
                         handleSelectedChange,
                       }}
-                      style={{ overflowY: 'scroll' }}
+                      style={{ overflow: 'hidden scroll' }}
                     >
                       {VirtualRow}
                     </FixedSizeList>
