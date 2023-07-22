@@ -1,6 +1,6 @@
 import { Avatar, HoverCard, Tooltip } from '@mantine/core';
 import { memo, useContext } from 'react';
-import { TbUser } from 'react-icons/tb';
+import { TbUserOff } from 'react-icons/tb';
 import DynamicContext from '../../../provider/DynamicContext';
 import { IPersonWithImage } from '../../Persons/interfaces/persons';
 import { getPersonsPanelUrl } from '../../Persons/utils/urls';
@@ -56,7 +56,7 @@ const PersonAvatars = memo<{ persons: IPersonWithImage[] }>(
       </Avatar.Group>
     ) : (
       <Avatar radius={999} size="1.75rem" color="red">
-        <TbUser size="1.125rem" />
+        <TbUserOff size="1.125rem" />
       </Avatar>
     );
   }
