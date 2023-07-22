@@ -68,6 +68,7 @@ const LastVisitedButton = memo(function LastVisitedButton() {
       disabled={!lastVisited}
       withArrow
       radius="md"
+      color="gray"
     >
       <Button
         variant="light"

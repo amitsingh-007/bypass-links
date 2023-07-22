@@ -70,6 +70,7 @@ const QuickBookmarkButton = memo(function QuickBookmarkButton() {
       withArrow
       multiline
       radius="md"
+      color="gray"
     >
       <Button
         variant="light"
