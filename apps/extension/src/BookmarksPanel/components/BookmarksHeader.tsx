@@ -1,5 +1,6 @@
 import { ContextBookmarks, Header, VoidFunction } from '@bypass/shared';
 import { Button, LoadingOverlay } from '@mantine/core';
+import { useHotkeys } from '@mantine/hooks';
 import useToastStore from '@store/toast';
 import { memo, useState } from 'react';
 import { FaFolderPlus } from 'react-icons/fa';
@@ -32,6 +33,21 @@ const BookmarksHeader = memo<Props>(function BookmarksHeader({
   const [openFolderDialog, setOpenFolderDialog] = useState(false);
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
+
+  const disableSave = isFetching || !isSaveButtonActive;
+
+  useHotkeys([
+    [
+      'mod+s',
+      (event) => {
+        event.stopPropagation();
+        event.preventDefault();
+        if (!disableSave) {
+          handleSave();
+        }
+      },
+    ],
+  ]);
 
   const handleClose = () => {
     navigate(-1);
@@ -99,7 +115,7 @@ const BookmarksHeader = memo<Props>(function BookmarksHeader({
           color="teal"
           leftIcon={<IoSave />}
           onClick={handleSave}
-          disabled={isFetching || !isSaveButtonActive}
+          disabled={disableSave}
         >
           Save
         </Button>
