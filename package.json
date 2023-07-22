@@ -14,7 +14,7 @@
     "test": "cross-env FORCE_COLOR=1 turbo run test"
   },
   "devDependencies": {
-    "@playwright/test": "1.35.1",
+    "@playwright/test": "1.36.1",
     "@types/node": "18.16.19",
     "cross-env": "7.0.3",
     "husky": "8.0.3",
