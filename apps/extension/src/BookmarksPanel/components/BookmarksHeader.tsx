@@ -82,7 +82,7 @@ const BookmarksHeader = memo<Props>(function BookmarksHeader({
       <Header
         onBackClick={onBackClick}
         onSearchChange={onSearchChange}
-        text={`${contextBookmarks?.length || 0}`}
+        text={contextBookmarks?.length || 0}
       >
         <Button
           radius="xl"
