@@ -93,8 +93,8 @@ importers:
         specifier: 4.10.1
         version: 4.10.1(react@18.2.0)
       react-router-dom:
-        specifier: 6.14.1
-        version: 6.14.1(react-dom@18.2.0)(react@18.2.0)
+        specifier: 6.14.2
+        version: 6.14.2(react-dom@18.2.0)(react@18.2.0)
       react-window:
         specifier: 1.8.9
         version: 1.8.9(react-dom@18.2.0)(react@18.2.0)
@@ -1890,9 +1890,9 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
-      '@babel/compat-data': 7.22.5
+      '@babel/compat-data': 7.22.9
       '@babel/core': 7.22.9
-      '@babel/helper-compilation-targets': 7.22.5(@babel/core@7.22.9)
+      '@babel/helper-compilation-targets': 7.22.9(@babel/core@7.22.9)
       '@babel/helper-plugin-utils': 7.21.5
       '@babel/helper-validator-option': 7.22.5
       '@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression': 7.18.6(@babel/core@7.22.9)
@@ -1966,7 +1966,7 @@ packages:
       babel-plugin-polyfill-corejs3: 0.6.0(@babel/core@7.22.9)
       babel-plugin-polyfill-regenerator: 0.4.1(@babel/core@7.22.9)
       core-js-compat: 3.27.2
-      semver: 6.3.0
+      semver: 6.3.1
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -3806,8 +3806,8 @@ packages:
     engines: {node: '>=14'}
     dev: true
 
-  /@remix-run/router@1.7.1:
-    resolution: {integrity: sha512-bgVQM4ZJ2u2CM8k1ey70o1ePFXsEzYVZoWghh6WjM8p59jQ7HxzbHW4SbnWFG7V9ig9chLawQxDTZ3xzOF8MkQ==}
+  /@remix-run/router@1.7.2:
+    resolution: {integrity: sha512-7Lcn7IqGMV+vizMPoEl5F0XDshcdDYtMI6uJLQdQz5CfZAwy3vvGKYSUk789qndt5dEC4HfSjviSYlSoHGL2+A==}
     engines: {node: '>=14'}
     dev: false
 
@@ -4854,13 +4854,13 @@ packages:
         optional: true
     dependencies:
       '@babel/core': 7.22.9
-      '@babel/generator': 7.22.5
-      '@babel/parser': 7.22.5
+      '@babel/generator': 7.22.9
+      '@babel/parser': 7.22.7
       '@babel/plugin-syntax-jsx': 7.21.4(@babel/core@7.22.9)
       '@babel/plugin-syntax-typescript': 7.21.4(@babel/core@7.22.9)
       '@babel/preset-env': 7.21.5(@babel/core@7.22.9)
       '@babel/preset-typescript': 7.21.5(@babel/core@7.22.9)
-      '@babel/traverse': 7.22.5
+      '@babel/traverse': 7.22.8
       '@babel/types': 7.22.5
       '@npmcli/package-json': 2.0.0
       '@remix-run/server-runtime': 1.18.0
@@ -11791,26 +11791,26 @@ packages:
       use-sidecar: 1.1.2(@types/react@18.2.15)(react@18.2.0)
     dev: false
 
-  /react-router-dom@6.14.1(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-ssF6M5UkQjHK70fgukCJyjlda0Dgono2QGwqGvuk7D+EDGHdacEN3Yke2LTMjkrpHuFwBfDFsEjGVXBDmL+bWw==}
+  /react-router-dom@6.14.2(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-5pWX0jdKR48XFZBuJqHosX3AAHjRAzygouMTyimnBPOLdY3WjzUSKhus2FVMihUFWzeLebDgr4r8UeQFAct7Bg==}
     engines: {node: '>=14'}
     peerDependencies:
       react: '>=16.8'
       react-dom: '>=16.8'
     dependencies:
-      '@remix-run/router': 1.7.1
+      '@remix-run/router': 1.7.2
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-      react-router: 6.14.1(react@18.2.0)
+      react-router: 6.14.2(react@18.2.0)
     dev: false
 
-  /react-router@6.14.1(react@18.2.0):
-    resolution: {integrity: sha512-U4PfgvG55LdvbQjg5Y9QRWyVxIdO1LlpYT7x+tMAxd9/vmiPuJhIwdxZuIQLN/9e3O4KFDHYfR9gzGeYMasW8g==}
+  /react-router@6.14.2(react@18.2.0):
+    resolution: {integrity: sha512-09Zss2dE2z+T1D03IheqAFtK4UzQyX8nFPWx6jkwdYzGLXd5ie06A6ezS2fO6zJfEb/SpG6UocN2O1hfD+2urQ==}
     engines: {node: '>=14'}
     peerDependencies:
       react: '>=16.8'
     dependencies:
-      '@remix-run/router': 1.7.1
+      '@remix-run/router': 1.7.2
       react: 18.2.0
     dev: false
 
