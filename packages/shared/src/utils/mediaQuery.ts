@@ -16,7 +16,7 @@ export const getMediaQuery = (
   return Object.entries(styleObj).reduce<Record<string, any>>(
     (responsiveStyle, [key, value]) => {
       const [mobileStyle, desktopStyle] = value;
-      const mediaQueryKey = theme.fn.smallerThan('md');
+      const mediaQueryKey = theme.fn.smallerThan('sm');
       responsiveStyle[key] = desktopStyle;
       let mediaQueryObj = responsiveStyle[mediaQueryKey] ?? {};
       mediaQueryObj = { ...mediaQueryObj, [key]: mobileStyle };
