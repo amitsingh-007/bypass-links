@@ -6,6 +6,7 @@ import {
   bookmarksMapper,
   ContextBookmarks,
   defaultBookmarkFolder,
+  getBookmarkId,
   getFilteredContextBookmarks,
   Header,
   IBookmarksObj,
@@ -86,7 +87,7 @@ export default function BookmarksPage() {
             overscanCount={10}
             itemKey={(index, data) => {
               const ctx = data.contextBookmarks[index];
-              return ctx.isDir ? ctx.name : ctx.url;
+              return getBookmarkId(ctx);
             }}
             itemData={{
               folders,

@@ -4,7 +4,6 @@ import { useMantineTheme } from '@mantine/core';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
 import { FaFolderMinus } from 'react-icons/fa';
-import withBookmarkRow from '../hoc/withBookmarkRow';
 import { FolderAddEditDialog } from './FolderAddEditDialog';
 
 interface Props extends FolderProps {
@@ -69,4 +68,4 @@ const FolderRow = memo<Props>(
 FolderRow.displayName = 'FolderRow';
 
 export type { Props };
-export default withBookmarkRow(FolderRow);
+export default FolderRow;

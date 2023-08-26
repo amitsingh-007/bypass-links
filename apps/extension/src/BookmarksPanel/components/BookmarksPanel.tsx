@@ -1,25 +1,36 @@
 import { MAX_PANEL_SIZE } from '@/constants';
 import {
-  addToCache,
   BMPanelQueryParams,
-  bookmarksMapper,
   BOOKMARK_OPERATION,
   CACHE_BUCKET_KEYS,
   ContextBookmarks,
-  getEncryptedBookmark,
-  getFaviconProxyUrl,
-  getFilteredContextBookmarks,
   IBookmarksObj,
   ISelectedBookmarks,
   IUpdateTaggedPerson,
   ScrollButton,
+  addToCache,
+  bookmarksMapper,
+  getBookmarkId,
+  getEncryptedBookmark,
+  getFaviconProxyUrl,
+  getFilteredContextBookmarks,
   shouldRenderBookmarks,
 } from '@bypass/shared';
 import {
-  DragDropContext,
-  DragDropContextProps,
-  Droppable,
-} from '@hello-pangea/dnd';
+  DndContext,
+  DndContextProps,
+  DragOverlay,
+  KeyboardSensor,
+  PointerSensor,
+  closestCenter,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
 import { getBookmarks } from '@helpers/fetchFromStorage';
 import { Box, Flex } from '@mantine/core';
 import { useElementSize } from '@mantine/hooks';
@@ -29,11 +40,11 @@ import usePersonStore from '@store/person';
 import useToastStore from '@store/toast';
 import md5 from 'md5';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { FixedSizeList } from 'react-window';
 import { BOOKMARK_ROW_HEIGHT } from '../constants';
 import {
   getAllFolderNames,
-  getSelectedCount,
   isFolderContainsDir,
   setBookmarksInStorage,
 } from '../utils';
@@ -68,6 +79,17 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
   const setBookmarkOperation = useBookmarkStore(
     (state) => state.setBookmarkOperation
   );
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        delay: 100,
+        tolerance: 5,
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
   const listRef = useRef<any>();
   const [contextBookmarks, setContextBookmarks] = useState<ContextBookmarks>(
     []
@@ -83,6 +105,7 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     IUpdateTaggedPerson[]
   >([]);
   const [searchText, setSearchText] = useState('');
+  const [isDragging, setIsDragging] = useState(false);
 
   const initBookmarksData = useCallback(async () => {
     setIsSaveButtonActive(false);
@@ -415,7 +438,7 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     const newFolders = { ...folders };
     newFolders[md5(folderContext)] = contextBookmarks.map((x) => ({
       isDir: x.isDir,
-      hash: md5(x.isDir ? x.name : x.url),
+      hash: md5(getBookmarkId(x)),
     }));
     const bookmarksObj: IBookmarksObj = {
       folderList,
@@ -463,26 +486,30 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     setIsSaveButtonActive(true);
   }, []);
 
-  const onDragStart = useCallback<
-    NonNullable<DragDropContextProps['onDragStart']>
-  >(({ source }) => {
-    setSelectedBookmarks((prev) => {
-      const newValue = [...prev];
-      const isCurrentDraggingSelected = newValue[source.index];
-      if (!isCurrentDraggingSelected) {
-        newValue.fill(false);
-        newValue[source.index] = true;
-      }
-      return newValue;
-    });
-  }, []);
+  const onDragStart = useCallback<NonNullable<DndContextProps['onDragStart']>>(
+    ({ active }) => {
+      const index = active.data.current?.sortable?.index;
+      setSelectedBookmarks((prev) => {
+        const newValue = [...prev];
+        const isCurrentDraggingSelected = newValue[index];
+        if (!isCurrentDraggingSelected) {
+          newValue.fill(false);
+          newValue[index] = true;
+        }
+        return newValue;
+      });
+      setIsDragging(true);
+    },
+    []
+  );
 
-  const onDragEnd = useCallback<DragDropContextProps['onDragEnd']>(
-    ({ destination, source }) => {
-      if (!source || !destination || destination.index === source.index) {
+  const onDragEnd = useCallback<NonNullable<DndContextProps['onDragEnd']>>(
+    ({ active, over }) => {
+      if (!over || active.id === over.id) {
         return;
       }
-      handleMoveBookmarks(destination.index);
+      handleMoveBookmarks(over.data.current?.sortable?.index);
+      setIsDragging(false);
     },
     [handleMoveBookmarks]
   );
@@ -496,10 +523,6 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     [contextBookmarks, searchText]
   );
   const curBookmarksCount = filteredContextBookmarks.length;
-  const selectedCount = useMemo(
-    () => getSelectedCount(selectedBookmarks),
-    [selectedBookmarks]
-  );
   const minReqBookmarksToScroll = Math.ceil(bodyHeight / BOOKMARK_ROW_HEIGHT);
   return (
     <>
@@ -541,44 +564,55 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
         >
           <Box ref={bodyRef} h="100%" w="100%">
             {shouldRenderBookmarks(folders, filteredContextBookmarks) ? (
-              <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
-                <Droppable
-                  droppableId="bookmarks-list"
-                  mode="virtual"
-                  renderClone={(provided) => (
-                    <DragClone provided={provided} dragCount={selectedCount} />
-                  )}
+              <DndContext
+                sensors={sensors}
+                collisionDetection={closestCenter}
+                onDragStart={onDragStart}
+                onDragEnd={onDragEnd}
+                // onDragCancel={() => setActiveId(null)}
+                // modifiers={modifiers}
+              >
+                <SortableContext
+                  items={filteredContextBookmarks.map(getBookmarkId)}
+                  strategy={verticalListSortingStrategy}
                 >
-                  {(provided) => (
-                    <FixedSizeList<VirtualRowProps>
-                      ref={listRef}
-                      height={bodyHeight}
-                      width={bodyWidth}
-                      itemSize={BOOKMARK_ROW_HEIGHT}
-                      itemCount={curBookmarksCount}
-                      overscanCount={5}
-                      outerRef={provided.innerRef}
-                      itemKey={(index, data) => {
-                        const ctx = data.contextBookmarks[index];
-                        return ctx.isDir ? ctx.name : ctx.url;
-                      }}
-                      itemData={{
-                        folderNamesList,
-                        folders,
-                        selectedBookmarks,
-                        contextBookmarks: filteredContextBookmarks,
-                        handleFolderRemove,
-                        handleFolderEdit,
-                        resetSelectedBookmarks,
-                        handleSelectedChange,
-                      }}
-                      style={{ overflow: 'hidden scroll' }}
-                    >
-                      {VirtualRow}
-                    </FixedSizeList>
-                  )}
-                </Droppable>
-              </DragDropContext>
+                  <FixedSizeList<VirtualRowProps>
+                    ref={listRef}
+                    height={bodyHeight}
+                    width={bodyWidth}
+                    itemSize={BOOKMARK_ROW_HEIGHT}
+                    itemCount={curBookmarksCount}
+                    overscanCount={5}
+                    itemKey={(index, data) => {
+                      const ctx = data.contextBookmarks[index];
+                      return getBookmarkId(ctx);
+                    }}
+                    itemData={{
+                      folderNamesList,
+                      folders,
+                      selectedBookmarks,
+                      contextBookmarks: filteredContextBookmarks,
+                      handleFolderRemove,
+                      handleFolderEdit,
+                      resetSelectedBookmarks,
+                      handleSelectedChange,
+                    }}
+                    style={{ overflow: 'hidden scroll' }}
+                  >
+                    {VirtualRow}
+                  </FixedSizeList>
+                </SortableContext>
+                {createPortal(
+                  <DragOverlay>
+                    <DragClone
+                      selectedBookmarks={selectedBookmarks}
+                      contextBookmarks={contextBookmarks}
+                      isDragging={isDragging}
+                    />
+                  </DragOverlay>,
+                  document.body
+                )}
+              </DndContext>
             ) : null}
           </Box>
         </BookmarkContextMenu>

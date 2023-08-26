@@ -1,7 +1,6 @@
 import { Bookmark, BookmarkProps } from '@bypass/shared';
 import useHistoryStore from '@store/history';
 import { memo } from 'react';
-import withBookmarkRow from '../hoc/withBookmarkRow';
 
 const BookmarkRow = memo<Omit<BookmarkProps, 'onOpenLink'>>((props) => {
   const startHistoryMonitor = useHistoryStore(
@@ -17,4 +16,4 @@ const BookmarkRow = memo<Omit<BookmarkProps, 'onOpenLink'>>((props) => {
 });
 BookmarkRow.displayName = 'BookmarkRow';
 
-export default withBookmarkRow(BookmarkRow);
+export default BookmarkRow;
