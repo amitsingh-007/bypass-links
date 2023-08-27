@@ -1,25 +1,26 @@
 import { MAX_PANEL_SIZE } from '@/constants';
 import {
-  addToCache,
   BMPanelQueryParams,
-  bookmarksMapper,
   BOOKMARK_OPERATION,
   CACHE_BUCKET_KEYS,
   ContextBookmarks,
-  getEncryptedBookmark,
-  getFaviconProxyUrl,
-  getFilteredContextBookmarks,
   IBookmarksObj,
   ISelectedBookmarks,
   IUpdateTaggedPerson,
   ScrollButton,
+  addToCache,
+  bookmarksMapper,
+  getBookmarkId,
+  getEncryptedBookmark,
+  getFaviconProxyUrl,
+  getFilteredContextBookmarks,
   shouldRenderBookmarks,
 } from '@bypass/shared';
+import { DndContext, DragOverlay, closestCenter } from '@dnd-kit/core';
 import {
-  DragDropContext,
-  DragDropContextProps,
-  Droppable,
-} from '@hello-pangea/dnd';
+  SortableContext,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
 import { getBookmarks } from '@helpers/fetchFromStorage';
 import { Box, Flex } from '@mantine/core';
 import { useElementSize } from '@mantine/hooks';
@@ -31,9 +32,9 @@ import md5 from 'md5';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FixedSizeList } from 'react-window';
 import { BOOKMARK_ROW_HEIGHT } from '../constants';
+import useBookmarkDrag from '../hooks/useBookmarkDrag';
 import {
   getAllFolderNames,
-  getSelectedCount,
   isFolderContainsDir,
   setBookmarksInStorage,
 } from '../utils';
@@ -415,7 +416,7 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     const newFolders = { ...folders };
     newFolders[md5(folderContext)] = contextBookmarks.map((x) => ({
       isDir: x.isDir,
-      hash: md5(x.isDir ? x.name : x.url),
+      hash: md5(getBookmarkId(x)),
     }));
     const bookmarksObj: IBookmarksObj = {
       folderList,
@@ -463,30 +464,11 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     setIsSaveButtonActive(true);
   }, []);
 
-  const onDragStart = useCallback<
-    NonNullable<DragDropContextProps['onDragStart']>
-  >(({ source }) => {
-    setSelectedBookmarks((prev) => {
-      const newValue = [...prev];
-      const isCurrentDraggingSelected = newValue[source.index];
-      if (!isCurrentDraggingSelected) {
-        newValue.fill(false);
-        newValue[source.index] = true;
-      }
-      return newValue;
+  const { sensors, isDragging, onDragStart, onDragEnd, onDragCancel } =
+    useBookmarkDrag({
+      setSelectedBookmarks,
+      handleMoveBookmarks,
     });
-  }, []);
-
-  const onDragEnd = useCallback<DragDropContextProps['onDragEnd']>(
-    ({ destination, source }) => {
-      if (!source || !destination || destination.index === source.index) {
-        return;
-      }
-      handleMoveBookmarks(destination.index);
-    },
-    [handleMoveBookmarks]
-  );
-
   const folderNamesList = useMemo(
     () => getAllFolderNames(folderList),
     [folderList]
@@ -496,10 +478,6 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     [contextBookmarks, searchText]
   );
   const curBookmarksCount = filteredContextBookmarks.length;
-  const selectedCount = useMemo(
-    () => getSelectedCount(selectedBookmarks),
-    [selectedBookmarks]
-  );
   const minReqBookmarksToScroll = Math.ceil(bodyHeight / BOOKMARK_ROW_HEIGHT);
   return (
     <>
@@ -541,44 +519,52 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
         >
           <Box ref={bodyRef} h="100%" w="100%">
             {shouldRenderBookmarks(folders, filteredContextBookmarks) ? (
-              <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
-                <Droppable
-                  droppableId="bookmarks-list"
-                  mode="virtual"
-                  renderClone={(provided) => (
-                    <DragClone provided={provided} dragCount={selectedCount} />
-                  )}
+              <DndContext
+                sensors={sensors}
+                collisionDetection={closestCenter}
+                onDragStart={onDragStart}
+                onDragEnd={onDragEnd}
+                onDragCancel={onDragCancel}
+              >
+                <SortableContext
+                  items={filteredContextBookmarks.map(getBookmarkId)}
+                  strategy={verticalListSortingStrategy}
                 >
-                  {(provided) => (
-                    <FixedSizeList<VirtualRowProps>
-                      ref={listRef}
-                      height={bodyHeight}
-                      width={bodyWidth}
-                      itemSize={BOOKMARK_ROW_HEIGHT}
-                      itemCount={curBookmarksCount}
-                      overscanCount={5}
-                      outerRef={provided.innerRef}
-                      itemKey={(index, data) => {
-                        const ctx = data.contextBookmarks[index];
-                        return ctx.isDir ? ctx.name : ctx.url;
-                      }}
-                      itemData={{
-                        folderNamesList,
-                        folders,
-                        selectedBookmarks,
-                        contextBookmarks: filteredContextBookmarks,
-                        handleFolderRemove,
-                        handleFolderEdit,
-                        resetSelectedBookmarks,
-                        handleSelectedChange,
-                      }}
-                      style={{ overflow: 'hidden scroll' }}
-                    >
-                      {VirtualRow}
-                    </FixedSizeList>
+                  <FixedSizeList<VirtualRowProps>
+                    ref={listRef}
+                    height={bodyHeight}
+                    width={bodyWidth}
+                    itemSize={BOOKMARK_ROW_HEIGHT}
+                    itemCount={curBookmarksCount}
+                    overscanCount={5}
+                    itemKey={(index, data) => {
+                      const ctx = data.contextBookmarks[index];
+                      return getBookmarkId(ctx);
+                    }}
+                    itemData={{
+                      folderNamesList,
+                      folders,
+                      selectedBookmarks,
+                      contextBookmarks: filteredContextBookmarks,
+                      handleFolderRemove,
+                      handleFolderEdit,
+                      resetSelectedBookmarks,
+                      handleSelectedChange,
+                    }}
+                    style={{ overflow: 'hidden scroll' }}
+                  >
+                    {VirtualRow}
+                  </FixedSizeList>
+                </SortableContext>
+                <DragOverlay>
+                  {isDragging && (
+                    <DragClone
+                      selectedBookmarks={selectedBookmarks}
+                      contextBookmarks={contextBookmarks}
+                    />
                   )}
-                </Droppable>
-              </DragDropContext>
+                </DragOverlay>
+              </DndContext>
             ) : null}
           </Box>
         </BookmarkContextMenu>

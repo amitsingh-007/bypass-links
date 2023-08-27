@@ -3,7 +3,10 @@ import {
   ContextBookmarks,
   IBookmarksObj,
   ISelectedBookmarks,
+  bookmarkRowStyles,
+  getBookmarkId,
   isFolderEmpty,
+  useDndSortable,
 } from '@bypass/shared';
 import { Box } from '@mantine/core';
 import { memo } from 'react';
@@ -37,29 +40,46 @@ const VirtualRow = memo<{
     handleSelectedChange,
   } = innerProps;
   const ctx = contextBookmarks[index];
+  const id = getBookmarkId(ctx);
+
+  const { transition, listeners, setNodeRef, attributes, containerStyles } =
+    useDndSortable(id);
+
+  const isSelected = Boolean(selectedBookmarks[index]);
   return (
-    <Box style={style}>
-      {ctx.isDir ? (
-        <FolderRow
-          pos={index}
-          isDir={ctx.isDir}
-          name={ctx.name}
-          handleRemove={handleFolderRemove}
-          handleEdit={handleFolderEdit}
-          isEmpty={isFolderEmpty(folders, ctx.name)}
-          resetSelectedBookmarks={resetSelectedBookmarks}
-        />
-      ) : (
-        <BookmarkRow
-          pos={index}
-          isDir={ctx.isDir}
-          url={ctx.url}
-          title={ctx.title}
-          taggedPersons={ctx.taggedPersons}
-          isSelected={Boolean(selectedBookmarks[index])}
-          handleSelectedChange={handleSelectedChange}
-        />
-      )}
+    <Box
+      style={{ ...style, transition }}
+      sx={[
+        containerStyles,
+        // Added to fix context menu
+        { zIndex: ctx.isDir ? 1 : 'auto' },
+      ]}
+      ref={setNodeRef}
+      {...listeners}
+      {...attributes}
+      tabIndex={0}
+    >
+      <Box h="100%" sx={bookmarkRowStyles} data-is-selected={isSelected}>
+        {ctx.isDir ? (
+          <FolderRow
+            pos={index}
+            name={ctx.name}
+            handleRemove={handleFolderRemove}
+            handleEdit={handleFolderEdit}
+            isEmpty={isFolderEmpty(folders, ctx.name)}
+            resetSelectedBookmarks={resetSelectedBookmarks}
+          />
+        ) : (
+          <BookmarkRow
+            pos={index}
+            url={ctx.url}
+            title={ctx.title}
+            taggedPersons={ctx.taggedPersons}
+            isSelected={isSelected}
+            handleSelectedChange={handleSelectedChange}
+          />
+        )}
+      </Box>
     </Box>
   );
 }, areEqual);
