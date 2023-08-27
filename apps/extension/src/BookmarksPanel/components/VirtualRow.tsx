@@ -8,7 +8,8 @@ import {
   isFolderEmpty,
 } from '@bypass/shared';
 import { useSortable } from '@dnd-kit/sortable';
-import { Box } from '@mantine/core';
+import { Transform } from '@dnd-kit/utilities';
+import { Box, CSSObject } from '@mantine/core';
 import { memo, useEffect } from 'react';
 import { areEqual } from 'react-window';
 import BookmarkRow from './BookmarkRow';
@@ -24,6 +25,28 @@ export interface VirtualRowProps {
   resetSelectedBookmarks: FolderProps['resetSelectedBookmarks'];
   handleSelectedChange: BookmarkProps['handleSelectedChange'];
 }
+
+const getContainerStyles = (
+  isDragging: boolean,
+  transform: Transform | null
+) => {
+  const styles: CSSObject = {
+    transform: `translate3d(${Math.round(transform?.x ?? 0)}px, ${Math.round(
+      transform?.y ?? 0
+    )}px, 0) scaleX(${transform?.scaleX ?? 1}) scaleY(${
+      transform?.scaleY ?? 1
+    })`,
+    transformOrigin: '0 0',
+    touchAction: 'manipulation',
+    userSelect: 'none',
+    cursor: 'pointer',
+  };
+  if (isDragging) {
+    styles.opacity = 0.6;
+    styles.zIndex = -1;
+  }
+  return styles;
+};
 
 const VirtualRow = memo<{
   index: number;
@@ -49,65 +72,23 @@ const VirtualRow = memo<{
     setNodeRef,
     transform,
     transition,
-  } = useSortable({
-    id,
-  });
+  } = useSortable({ id });
 
   useEffect(() => {
     if (!isDragging) {
       return undefined;
     }
     document.body.style.cursor = 'grabbing';
-
     return () => {
       document.body.style.cursor = '';
     };
   }, [isDragging]);
 
-  const wrapperClass = {
-    transform:
-      'translate3d(var(--translate-x, 0), var(--translate-y, 0), 0) scaleX(var(--scale-x, 1)) scaleY(var(--scale-y, 1))',
-    transformOrigin: '0 0',
-    touchAction: 'manipulation',
-  };
-
-  const dragOverlayClass = isDragging
-    ? {
-        '--scale': 1.05,
-        '--box-shadow':
-          '0 0 0 calc(1px / var(--scale-x, 1)) rgba(63, 63, 68, 0.05), 0 1px calc(3px / var(--scale-x, 1)) 0 rgba(34, 33, 81, 0.15)',
-        '--box-shadow-picked-up':
-          '0 0 0 calc(1px / var(--scale-x, 1)) rgba(63, 63, 68, 0.05), -1px 0 15px 0 rgba(34, 33, 81, 0.01), 0px 15px 15px 0 rgba(34, 33, 81, 0.25)',
-        opacity: 'var(--dragging-opacity, 0.75)',
-        zIndex: -1,
-      }
-    : {};
-
   const isSelected = Boolean(selectedBookmarks[index]);
-
   return (
     <Box
-      style={
-        {
-          ...style,
-          transition,
-          '--translate-x': transform
-            ? `${Math.round(transform.x)}px`
-            : undefined,
-          '--translate-y': transform
-            ? `${Math.round(transform.y)}px`
-            : undefined,
-          '--scale-x': transform?.scaleX ? `${transform.scaleX}` : undefined,
-          '--scale-y': transform?.scaleY ? `${transform.scaleY}` : undefined,
-          '--index': index,
-        } as React.CSSProperties
-      }
-      sx={{
-        ...wrapperClass,
-        ...dragOverlayClass,
-        userSelect: 'none',
-        cursor: 'pointer',
-      }}
+      style={{ ...style, transition }}
+      sx={getContainerStyles(isDragging, transform)}
       ref={setNodeRef}
       data-index={index}
       data-id={id}

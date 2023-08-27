@@ -16,19 +16,9 @@ import {
   getFilteredContextBookmarks,
   shouldRenderBookmarks,
 } from '@bypass/shared';
-import {
-  DndContext,
-  DndContextProps,
-  DragOverlay,
-  KeyboardSensor,
-  PointerSensor,
-  closestCenter,
-  useSensor,
-  useSensors,
-} from '@dnd-kit/core';
+import { DndContext, DragOverlay, closestCenter } from '@dnd-kit/core';
 import {
   SortableContext,
-  sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { getBookmarks } from '@helpers/fetchFromStorage';
@@ -40,9 +30,9 @@ import usePersonStore from '@store/person';
 import useToastStore from '@store/toast';
 import md5 from 'md5';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
 import { FixedSizeList } from 'react-window';
 import { BOOKMARK_ROW_HEIGHT } from '../constants';
+import useBookmarkDrag from '../hooks/useBookmarkDrag';
 import {
   getAllFolderNames,
   isFolderContainsDir,
@@ -79,17 +69,6 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
   const setBookmarkOperation = useBookmarkStore(
     (state) => state.setBookmarkOperation
   );
-  const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        delay: 100,
-        tolerance: 5,
-      },
-    }),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
-  );
   const listRef = useRef<any>();
   const [contextBookmarks, setContextBookmarks] = useState<ContextBookmarks>(
     []
@@ -105,7 +84,6 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     IUpdateTaggedPerson[]
   >([]);
   const [searchText, setSearchText] = useState('');
-  const [isDragging, setIsDragging] = useState(false);
 
   const initBookmarksData = useCallback(async () => {
     setIsSaveButtonActive(false);
@@ -486,34 +464,11 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     setIsSaveButtonActive(true);
   }, []);
 
-  const onDragStart = useCallback<NonNullable<DndContextProps['onDragStart']>>(
-    ({ active }) => {
-      const index = active.data.current?.sortable?.index;
-      setSelectedBookmarks((prev) => {
-        const newValue = [...prev];
-        const isCurrentDraggingSelected = newValue[index];
-        if (!isCurrentDraggingSelected) {
-          newValue.fill(false);
-          newValue[index] = true;
-        }
-        return newValue;
-      });
-      setIsDragging(true);
-    },
-    []
-  );
-
-  const onDragEnd = useCallback<NonNullable<DndContextProps['onDragEnd']>>(
-    ({ active, over }) => {
-      if (!over || active.id === over.id) {
-        return;
-      }
-      handleMoveBookmarks(over.data.current?.sortable?.index);
-      setIsDragging(false);
-    },
-    [handleMoveBookmarks]
-  );
-
+  const { sensors, isDragging, onDragStart, onDragEnd, onDragCancel } =
+    useBookmarkDrag({
+      setSelectedBookmarks,
+      handleMoveBookmarks,
+    });
   const folderNamesList = useMemo(
     () => getAllFolderNames(folderList),
     [folderList]
@@ -569,8 +524,7 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
                 collisionDetection={closestCenter}
                 onDragStart={onDragStart}
                 onDragEnd={onDragEnd}
-                // onDragCancel={() => setActiveId(null)}
-                // modifiers={modifiers}
+                onDragCancel={onDragCancel}
               >
                 <SortableContext
                   items={filteredContextBookmarks.map(getBookmarkId)}
@@ -602,16 +556,14 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
                     {VirtualRow}
                   </FixedSizeList>
                 </SortableContext>
-                {createPortal(
-                  <DragOverlay>
+                <DragOverlay>
+                  {isDragging && (
                     <DragClone
                       selectedBookmarks={selectedBookmarks}
                       contextBookmarks={contextBookmarks}
-                      isDragging={isDragging}
                     />
-                  </DragOverlay>,
-                  document.body
-                )}
+                  )}
+                </DragOverlay>
               </DndContext>
             ) : null}
           </Box>

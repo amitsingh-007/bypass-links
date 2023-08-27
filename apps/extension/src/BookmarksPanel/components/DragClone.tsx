@@ -6,18 +6,15 @@ import {
 import { Box, Center, Text } from '@mantine/core';
 import FolderRow from './FolderRow';
 import BookmarkRow from './BookmarkRow';
+import { getSelectedCount } from '../utils';
 
 const noOp = () => undefined;
 
 const DragClone: React.FC<{
-  isDragging: boolean;
   selectedBookmarks: ISelectedBookmarks;
   contextBookmarks: ContextBookmarks;
-}> = ({ isDragging, selectedBookmarks, contextBookmarks }) => {
-  const dragCount = selectedBookmarks.filter(Boolean).length;
-  if (!isDragging) {
-    return null;
-  }
+}> = ({ selectedBookmarks, contextBookmarks }) => {
+  const dragCount = getSelectedCount(selectedBookmarks);
 
   if (dragCount > 1) {
     return (
