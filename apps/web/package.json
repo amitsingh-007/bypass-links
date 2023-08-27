@@ -15,6 +15,7 @@
     "@mantine/core": "6.0.17",
     "@mantine/hooks": "6.0.17",
     "@mantine/next": "6.0.17",
+    "@tanstack/react-virtual": "3.0.0-beta.54",
     "@trpc/client": "10.35.0",
     "@trpc/server": "10.35.0",
     "@vercel/analytics": "1.0.1",
@@ -27,7 +28,6 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "4.10.1",
-    "react-window": "1.8.9",
     "request-ip": "3.3.0",
     "sharp": "0.32.4"
   },
@@ -38,7 +38,6 @@
     "@svgr/webpack": "8.0.1",
     "@types/md5": "2.3.2",
     "@types/react": "18.2.15",
-    "@types/react-window": "1.8.5",
     "@types/request-ip": "0.0.38",
     "@typescript-eslint/eslint-plugin": "6.1.0",
     "@typescript-eslint/parser": "6.1.0",

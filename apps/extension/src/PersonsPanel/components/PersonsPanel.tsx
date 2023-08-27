@@ -2,6 +2,7 @@ import { MAX_PANEL_SIZE } from '@/constants';
 import {
   decryptionMapper,
   getFilteredPersons,
+  HEADER_HEIGHT,
   IPerson,
   IPersons,
   Persons,
@@ -112,16 +113,20 @@ const PersonsPanel = () => {
         persons={filteredPersons}
         onSearchChange={handleSearchTextChange}
       />
-      <Box pos="relative" sx={{ flex: 1 }}>
+      <Box pos="relative" h={MAX_PANEL_SIZE.HEIGHT - HEADER_HEIGHT}>
         {filteredPersons.length > 0 ? (
           <Persons
             persons={filteredPersons}
-            handleEditPerson={handleAddOrEditPerson}
-            handlePersonDelete={handlePersonDelete}
-            virtualCell={PersonVirtualCell}
             onLinkOpen={onLinkOpen}
             bookmarkListProps={{ fullscreen: true }}
             scrollButton
+            renderPerson={(person) => (
+              <PersonVirtualCell
+                person={person}
+                handleEditPerson={handleAddOrEditPerson}
+                handlePersonDelete={handlePersonDelete}
+              />
+            )}
           />
         ) : null}
       </Box>

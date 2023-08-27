@@ -1,8 +1,7 @@
 import {
   BookmarkProps,
-  ContextBookmarks,
+  ContextBookmark,
   IBookmarksObj,
-  ISelectedBookmarks,
   bookmarkRowStyles,
   getBookmarkId,
   isFolderEmpty,
@@ -13,41 +12,38 @@ import { memo } from 'react';
 import BookmarkRow from './BookmarkRow';
 import FolderRow, { Props as FolderProps } from './FolderRow';
 
-export interface VirtualRowProps {
-  index: number;
+export interface Props {
+  bookmark: ContextBookmark;
+  pos: number;
   folderNamesList: string[];
   folders: IBookmarksObj['folders'];
-  selectedBookmarks: ISelectedBookmarks;
-  contextBookmarks: ContextBookmarks;
+  isSelected: boolean;
   handleFolderRemove: FolderProps['handleRemove'];
   handleFolderEdit: FolderProps['handleEdit'];
   resetSelectedBookmarks: FolderProps['resetSelectedBookmarks'];
   handleSelectedChange: BookmarkProps['handleSelectedChange'];
 }
 
-const VirtualRow = memo<VirtualRowProps>(function VirtualRow({
-  index,
+const VirtualRow = memo<Props>(function VirtualRow({
+  bookmark,
+  pos,
   folders,
-  selectedBookmarks,
-  contextBookmarks,
+  isSelected,
   handleFolderRemove,
   handleFolderEdit,
   resetSelectedBookmarks,
   handleSelectedChange,
 }) {
-  const ctx = contextBookmarks[index];
-  const id = getBookmarkId(ctx);
-
+  const id = getBookmarkId(bookmark);
   const { listeners, setNodeRef, attributes, containerStyles } =
     useDndSortable(id);
 
-  const isSelected = Boolean(selectedBookmarks[index]);
   return (
     <Box
       sx={[
         containerStyles,
         // Added to fix context menu
-        { zIndex: ctx.isDir ? 1 : 'auto' },
+        { zIndex: bookmark.isDir ? 1 : 'auto' },
       ]}
       h="100%"
       ref={setNodeRef}
@@ -56,21 +52,21 @@ const VirtualRow = memo<VirtualRowProps>(function VirtualRow({
       tabIndex={0}
     >
       <Box h="100%" sx={bookmarkRowStyles} data-is-selected={isSelected}>
-        {ctx.isDir ? (
+        {bookmark.isDir ? (
           <FolderRow
-            pos={index}
-            name={ctx.name}
+            pos={pos}
+            name={bookmark.name}
             handleRemove={handleFolderRemove}
             handleEdit={handleFolderEdit}
-            isEmpty={isFolderEmpty(folders, ctx.name)}
+            isEmpty={isFolderEmpty(folders, bookmark.name)}
             resetSelectedBookmarks={resetSelectedBookmarks}
           />
         ) : (
           <BookmarkRow
-            pos={index}
-            url={ctx.url}
-            title={ctx.title}
-            taggedPersons={ctx.taggedPersons}
+            pos={pos}
+            url={bookmark.url}
+            title={bookmark.title}
+            taggedPersons={bookmark.taggedPersons}
             isSelected={isSelected}
             handleSelectedChange={handleSelectedChange}
           />

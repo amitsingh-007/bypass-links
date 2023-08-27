@@ -2,6 +2,7 @@ import { MAX_PANEL_SIZE } from '@/constants';
 import {
   BMPanelQueryParams,
   BOOKMARK_OPERATION,
+  BOOKMARK_ROW_HEIGHT,
   CACHE_BUCKET_KEYS,
   ContextBookmarks,
   HEADER_HEIGHT,
@@ -32,7 +33,6 @@ import useToastStore from '@store/toast';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import md5 from 'md5';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
-import { BOOKMARK_ROW_HEIGHT } from '../constants';
 import useBookmarkDrag from '../hooks/useBookmarkDrag';
 import {
   getAllFolderNames,
@@ -121,9 +121,8 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     });
   }, [contextBookmarks, selectedBookmarks, startHistoryMonitor]);
 
-  const handleScroll = (itemNumber: number) => {
+  const handleScroll = (itemNumber: number) =>
     virtualizer.scrollToIndex(itemNumber, { behavior: 'smooth' });
-  };
 
   useEffect(() => {
     initBookmarksData();
@@ -538,19 +537,11 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
                   strategy={verticalListSortingStrategy}
                   disabled={!!searchText}
                 >
-                  <Box
-                    style={{
-                      height: `${virtualizer.getTotalSize()}px`,
-                      width: '100%',
-                      position: 'relative',
-                    }}
-                  >
+                  <Box h={virtualizer.getTotalSize()} w="100%" pos="relative">
                     {virtualizer.getVirtualItems().map((virtualRow) => (
                       <Box
                         key={virtualRow.key}
-                        sx={{
-                          transform: `translateY(${virtualRow.start}px)`,
-                        }}
+                        sx={{ transform: `translateY(${virtualRow.start}px)` }}
                         pos="absolute"
                         top={0}
                         left={0}
@@ -558,15 +549,15 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
                         h={virtualRow.size}
                       >
                         <VirtualRow
-                          index={virtualRow.index}
+                          bookmark={filteredContextBookmarks[virtualRow.index]}
+                          pos={virtualRow.index}
+                          isSelected={selectedBookmarks[virtualRow.index]}
                           folderNamesList={folderNamesList}
                           folders={folders}
-                          selectedBookmarks={selectedBookmarks}
                           handleFolderRemove={handleFolderRemove}
                           handleFolderEdit={handleFolderEdit}
                           resetSelectedBookmarks={resetSelectedBookmarks}
                           handleSelectedChange={handleSelectedChange}
-                          contextBookmarks={filteredContextBookmarks}
                         />
                       </Box>
                     ))}
