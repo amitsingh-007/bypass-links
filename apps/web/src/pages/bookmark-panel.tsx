@@ -1,29 +1,27 @@
-import VirtualRow, {
-  VirtualRowProps,
-} from '@/ui/BookmarksPage/components/VirtualRow';
+import VirtualRow from '@/ui/BookmarksPage/components/VirtualRow';
 import { getFromLocalStorage, setToLocalStorage } from '@/ui/provider/utils';
 import {
-  bookmarksMapper,
+  BOOKMARK_ROW_HEIGHT,
   ContextBookmarks,
+  Header,
+  IBookmarksObj,
+  STORAGE_KEYS,
+  bookmarksMapper,
   defaultBookmarkFolder,
   getBookmarkId,
   getFilteredContextBookmarks,
-  Header,
-  IBookmarksObj,
   shouldRenderBookmarks,
-  STORAGE_KEYS,
 } from '@bypass/shared';
 import { Box, Container } from '@mantine/core';
-import { useElementSize } from '@mantine/hooks';
+import { useVirtualizer } from '@tanstack/react-virtual';
 import md5 from 'md5';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { FixedSizeList } from 'react-window';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 export default function BookmarksPage() {
   const router = useRouter();
-  const { ref: contentRef, height: contentHeight } = useElementSize();
+  const contentRef = useRef<HTMLDivElement>(null);
   const folderContext =
     (router.query.folderContext as string) ?? defaultBookmarkFolder;
   const [contextBookmarks, setContextBookmarks] = useState<ContextBookmarks>(
@@ -31,6 +29,17 @@ export default function BookmarksPage() {
   );
   const [folders, setFolders] = useState<IBookmarksObj['folders']>({});
   const [searchText, setSearchText] = useState('');
+  const filteredContextBookmarks = useMemo(
+    () => getFilteredContextBookmarks(contextBookmarks, searchText),
+    [contextBookmarks, searchText]
+  );
+  const virtualizer = useVirtualizer({
+    count: filteredContextBookmarks.length,
+    estimateSize: () => BOOKMARK_ROW_HEIGHT,
+    overscan: 10,
+    getScrollElement: () => contentRef.current,
+    getItemKey: (idx) => getBookmarkId(filteredContextBookmarks[idx]),
+  });
 
   const initBookmarksData = useCallback(async () => {
     const bookmarksData = await getFromLocalStorage<IBookmarksObj>(
@@ -59,12 +68,6 @@ export default function BookmarksPage() {
 
   const handleSearchTextChange = (text: string) => setSearchText(text);
 
-  const filteredContextBookmarks = useMemo(
-    () => getFilteredContextBookmarks(contextBookmarks, searchText),
-    [contextBookmarks, searchText]
-  );
-  const curBookmarksCount = filteredContextBookmarks.length;
-
   return (
     <Container
       size="md"
@@ -77,25 +80,27 @@ export default function BookmarksPage() {
         onSearchChange={handleSearchTextChange}
         text={`${folderContext} (${contextBookmarks?.length || 0})`}
       />
-      <Box ref={contentRef} sx={{ flex: 1 }}>
+      <Box ref={contentRef} sx={{ flex: 1, overflow: 'hidden auto' }}>
         {shouldRenderBookmarks(folders, filteredContextBookmarks) ? (
-          <FixedSizeList<VirtualRowProps>
-            height={contentHeight}
-            width="100%"
-            itemSize={31}
-            itemCount={curBookmarksCount}
-            overscanCount={10}
-            itemKey={(index, data) => {
-              const ctx = data.contextBookmarks[index];
-              return getBookmarkId(ctx);
-            }}
-            itemData={{
-              folders,
-              contextBookmarks: filteredContextBookmarks,
-            }}
-          >
-            {VirtualRow}
-          </FixedSizeList>
+          <Box h={virtualizer.getTotalSize()} w="100%" pos="relative">
+            {virtualizer.getVirtualItems().map((virtualRow) => (
+              <Box
+                key={virtualRow.key}
+                sx={{ transform: `translateY(${virtualRow.start}px)` }}
+                pos="absolute"
+                top={0}
+                left={0}
+                w="100%"
+                h={virtualRow.size}
+              >
+                <VirtualRow
+                  index={virtualRow.index}
+                  folders={folders}
+                  contextBookmarks={filteredContextBookmarks}
+                />
+              </Box>
+            ))}
+          </Box>
         ) : null}
       </Box>
     </Container>

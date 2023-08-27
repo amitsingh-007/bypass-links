@@ -2,8 +2,10 @@ import { MAX_PANEL_SIZE } from '@/constants';
 import {
   BMPanelQueryParams,
   BOOKMARK_OPERATION,
+  BOOKMARK_ROW_HEIGHT,
   CACHE_BUCKET_KEYS,
   ContextBookmarks,
+  HEADER_HEIGHT,
   IBookmarksObj,
   ISelectedBookmarks,
   IUpdateTaggedPerson,
@@ -28,10 +30,9 @@ import useBookmarkStore from '@store/bookmark';
 import useHistoryStore from '@store/history';
 import usePersonStore from '@store/person';
 import useToastStore from '@store/toast';
+import { useVirtualizer } from '@tanstack/react-virtual';
 import md5 from 'md5';
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { FixedSizeList } from 'react-window';
-import { BOOKMARK_ROW_HEIGHT } from '../constants';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import useBookmarkDrag from '../hooks/useBookmarkDrag';
 import {
   getAllFolderNames,
@@ -47,18 +48,14 @@ import BookmarkAddEditDialog from './BookmarkAddEditDialog';
 import BookmarkContextMenu from './BookmarkContextMenu';
 import BookmarksHeader from './BookmarksHeader';
 import DragClone from './DragClone';
-import VirtualRow, { VirtualRowProps } from './VirtualRow';
+import VirtualRow from './VirtualRow';
 
 const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
   folderContext,
   operation,
   bmUrl,
 }) {
-  const {
-    ref: bodyRef,
-    width: bodyWidth,
-    height: bodyHeight,
-  } = useElementSize();
+  const { ref: bodyRef, height: bodyHeight } = useElementSize();
   const startHistoryMonitor = useHistoryStore(
     (state) => state.startHistoryMonitor
   );
@@ -69,7 +66,6 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
   const setBookmarkOperation = useBookmarkStore(
     (state) => state.setBookmarkOperation
   );
-  const listRef = useRef<any>();
   const [contextBookmarks, setContextBookmarks] = useState<ContextBookmarks>(
     []
   );
@@ -84,6 +80,17 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     IUpdateTaggedPerson[]
   >([]);
   const [searchText, setSearchText] = useState('');
+  const filteredContextBookmarks = useMemo(
+    () => getFilteredContextBookmarks(contextBookmarks, searchText),
+    [contextBookmarks, searchText]
+  );
+  const virtualizer = useVirtualizer({
+    count: filteredContextBookmarks.length,
+    estimateSize: () => BOOKMARK_ROW_HEIGHT,
+    overscan: 5,
+    getScrollElement: () => bodyRef.current,
+    getItemKey: (idx) => getBookmarkId(filteredContextBookmarks[idx]),
+  });
 
   const initBookmarksData = useCallback(async () => {
     setIsSaveButtonActive(false);
@@ -115,12 +122,10 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
   }, [contextBookmarks, selectedBookmarks, startHistoryMonitor]);
 
   const handleScroll = (itemNumber: number) =>
-    listRef.current?.scrollToItem(itemNumber);
+    virtualizer.scrollToIndex(itemNumber, { behavior: 'smooth' });
 
   useEffect(() => {
-    initBookmarksData().then(() => {
-      handleScroll(0);
-    });
+    initBookmarksData();
   }, [initBookmarksData]);
 
   useEffect(() => {
@@ -282,7 +287,7 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     const taggedPersonData: IUpdateTaggedPerson[] = [];
     // Remove from current context folder
     setContextBookmarks((prev) => {
-      const filteredContextBookmarks = prev.filter((bookmark, index) => {
+      const filteredBookmarks = prev.filter((bookmark, index) => {
         if (selectedBookmarks[index] && !bookmark.isDir) {
           const urlHash = md5(bookmark.url);
           // Update url in tagged persons
@@ -297,7 +302,7 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
         }
         return true;
       });
-      return filteredContextBookmarks;
+      return filteredBookmarks;
     });
     setUpdateTaggedPersons(taggedPersonData);
     setUrlList(newUrlList);
@@ -473,10 +478,6 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     () => getAllFolderNames(folderList),
     [folderList]
   );
-  const filteredContextBookmarks = useMemo(
-    () => getFilteredContextBookmarks(contextBookmarks, searchText),
-    [contextBookmarks, searchText]
-  );
   const curBookmarksCount = filteredContextBookmarks.length;
   const minReqBookmarksToScroll = Math.ceil(bodyHeight / BOOKMARK_ROW_HEIGHT);
   return (
@@ -517,7 +518,12 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
           handleMoveBookmarks={handleMoveBookmarks}
           handleScroll={handleScroll}
         >
-          <Box ref={bodyRef} h="100%" w="100%">
+          <Box
+            ref={bodyRef}
+            h={MAX_PANEL_SIZE.HEIGHT - HEADER_HEIGHT}
+            w="100%"
+            sx={{ overflow: 'hidden scroll' }}
+          >
             {shouldRenderBookmarks(folders, filteredContextBookmarks) ? (
               <DndContext
                 sensors={sensors}
@@ -529,32 +535,33 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
                 <SortableContext
                   items={filteredContextBookmarks.map(getBookmarkId)}
                   strategy={verticalListSortingStrategy}
+                  disabled={!!searchText}
                 >
-                  <FixedSizeList<VirtualRowProps>
-                    ref={listRef}
-                    height={bodyHeight}
-                    width={bodyWidth}
-                    itemSize={BOOKMARK_ROW_HEIGHT}
-                    itemCount={curBookmarksCount}
-                    overscanCount={5}
-                    itemKey={(index, data) => {
-                      const ctx = data.contextBookmarks[index];
-                      return getBookmarkId(ctx);
-                    }}
-                    itemData={{
-                      folderNamesList,
-                      folders,
-                      selectedBookmarks,
-                      contextBookmarks: filteredContextBookmarks,
-                      handleFolderRemove,
-                      handleFolderEdit,
-                      resetSelectedBookmarks,
-                      handleSelectedChange,
-                    }}
-                    style={{ overflow: 'hidden scroll' }}
-                  >
-                    {VirtualRow}
-                  </FixedSizeList>
+                  <Box h={virtualizer.getTotalSize()} w="100%" pos="relative">
+                    {virtualizer.getVirtualItems().map((virtualRow) => (
+                      <Box
+                        key={virtualRow.key}
+                        sx={{ transform: `translateY(${virtualRow.start}px)` }}
+                        pos="absolute"
+                        top={0}
+                        left={0}
+                        w="100%"
+                        h={virtualRow.size}
+                      >
+                        <VirtualRow
+                          bookmark={filteredContextBookmarks[virtualRow.index]}
+                          pos={virtualRow.index}
+                          isSelected={selectedBookmarks[virtualRow.index]}
+                          folderNamesList={folderNamesList}
+                          folders={folders}
+                          handleFolderRemove={handleFolderRemove}
+                          handleFolderEdit={handleFolderEdit}
+                          resetSelectedBookmarks={resetSelectedBookmarks}
+                          handleSelectedChange={handleSelectedChange}
+                        />
+                      </Box>
+                    ))}
+                  </Box>
                 </SortableContext>
                 <DragOverlay>
                   {isDragging && (

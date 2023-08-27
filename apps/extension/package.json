@@ -18,6 +18,7 @@
     "@mantine/dates": "6.0.17",
     "@mantine/form": "6.0.17",
     "@mantine/hooks": "6.0.17",
+    "@tanstack/react-virtual": "3.0.0-beta.54",
     "@trpc/client": "10.35.0",
     "@trpc/server": "10.35.0",
     "compressorjs": "1.2.1",
@@ -31,7 +32,6 @@
     "react-easy-crop": "5.0.0",
     "react-icons": "4.10.1",
     "react-router-dom": "6.14.2",
-    "react-window": "1.8.9",
     "zustand": "4.3.9"
   },
   "devDependencies": {
@@ -45,7 +45,6 @@
     "@types/react": "18.2.15",
     "@types/react-dom": "18.2.7",
     "@types/react-router-dom": "5.3.3",
-    "@types/react-window": "1.8.5",
     "@types/webpack": "5.28.1",
     "@typescript-eslint/eslint-plugin": "6.1.0",
     "@typescript-eslint/parser": "6.1.0",

@@ -6,7 +6,8 @@ import { useEffect } from 'react';
 
 const getContainerStyles = (
   isDragging: boolean,
-  transform: Transform | null
+  transform: Transform | null,
+  transition: string | undefined
 ) => {
   const styles: CSSObject = {
     transform: `translate3d(${Math.round(transform?.x ?? 0)}px, ${Math.round(
@@ -18,6 +19,7 @@ const getContainerStyles = (
     touchAction: 'manipulation',
     userSelect: 'none',
     cursor: 'pointer',
+    transition,
   };
   if (isDragging) {
     styles.opacity = 0.6;
@@ -28,7 +30,7 @@ const getContainerStyles = (
 
 const useDndSortable = (id: UniqueIdentifier) => {
   const sortable = useSortable({ id });
-  const { isDragging, transform } = sortable;
+  const { isDragging, transform, transition } = sortable;
 
   useEffect(() => {
     if (!isDragging) {
@@ -42,7 +44,7 @@ const useDndSortable = (id: UniqueIdentifier) => {
 
   return {
     ...sortable,
-    containerStyles: getContainerStyles(isDragging, transform),
+    containerStyles: getContainerStyles(isDragging, transform, transition),
   };
 };
 

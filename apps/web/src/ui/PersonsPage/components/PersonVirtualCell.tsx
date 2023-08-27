@@ -1,38 +1,16 @@
-import {
-  getColumnCount,
-  getReactKey,
-  IPerson,
-  Person,
-  usePlatform,
-} from '@bypass/shared';
+import { IPerson, Person } from '@bypass/shared';
 import { Box } from '@mantine/core';
-import { memo } from 'react';
-import { areEqual } from 'react-window';
 
-interface PersonVirtualCellProps {
-  persons: IPerson[];
+interface Props {
+  person: IPerson;
 }
 
-const PersonVirtualCell = memo<{
-  columnIndex: number;
-  rowIndex: number;
-  style: React.CSSProperties;
-  data: PersonVirtualCellProps;
-}>(({ columnIndex, rowIndex, data, style }) => {
-  const isMobile = usePlatform();
-  const { persons } = data;
-  const index = getReactKey(rowIndex, columnIndex, getColumnCount(isMobile));
-  const person = persons[index];
-
-  if (index >= persons.length) {
-    return null;
-  }
+const PersonVirtualCell = ({ person }: Props) => {
   return (
-    <Box style={style} p="0.75rem">
+    <Box p="0.75rem" h="100%">
       <Person person={person} />
     </Box>
   );
-}, areEqual);
-PersonVirtualCell.displayName = 'PersonVirtualCell';
+};
 
 export default PersonVirtualCell;

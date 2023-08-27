@@ -1,28 +1,23 @@
 import ContextMenu, { IMenuOptions } from '@/components/ContextMenu';
-import { getColumnCount, getReactKey, IPerson, Person } from '@bypass/shared';
+import { IPerson, Person } from '@bypass/shared';
 import { Box, useMantineTheme } from '@mantine/core';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
 import { RiBookmark2Fill } from 'react-icons/ri';
-import { areEqual } from 'react-window';
 import AddOrEditPersonDialog from './AddOrEditPersonDialog';
 
-interface PersonVirtualCellProps {
-  persons: IPerson[];
+interface Props {
+  person: IPerson;
   handleEditPerson: (person: IPerson) => void;
   handlePersonDelete: (person: IPerson) => void;
 }
 
-const PersonVirtualCell = memo<{
-  columnIndex: number;
-  rowIndex: number;
-  style: React.CSSProperties;
-  data: PersonVirtualCellProps;
-}>(({ columnIndex, rowIndex, data, style }) => {
+const PersonVirtualCell = memo<Props>(function PersonVirtualCell({
+  person,
+  handleEditPerson,
+  handlePersonDelete,
+}) {
   const theme = useMantineTheme();
-  const { persons, handleEditPerson, handlePersonDelete } = data;
-  const index = getReactKey(rowIndex, columnIndex, getColumnCount(false));
-  const person = persons[index];
   const [showEditPersonDialog, setShowEditPersonDialog] = useState(false);
   const [menuOptions, setMenuOptions] = useState<IMenuOptions[]>([]);
 
@@ -57,11 +52,8 @@ const PersonVirtualCell = memo<{
     toggleEditPersonDialog();
   };
 
-  if (index >= persons.length) {
-    return null;
-  }
   return (
-    <Box style={style} p="0.5rem">
+    <Box p="0.5rem" h="100%">
       <Box h="100%">
         <ContextMenu options={menuOptions}>
           <Person person={person} />
@@ -77,7 +69,6 @@ const PersonVirtualCell = memo<{
       )}
     </Box>
   );
-}, areEqual);
-PersonVirtualCell.displayName = 'PersonVirtualCell';
+});
 
 export default PersonVirtualCell;
