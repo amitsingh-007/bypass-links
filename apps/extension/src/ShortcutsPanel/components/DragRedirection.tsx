@@ -13,11 +13,11 @@ interface Props {
 
 const DragRedirection = ({ redirection, ...restProps }: Props) => {
   const id = getRedirectionId(redirection);
-  const { transition, listeners, setNodeRef, attributes, containerStyles } =
+  const { listeners, setNodeRef, attributes, containerStyles } =
     useDndSortable(id);
 
   return (
-    <Box style={{ transition }} sx={containerStyles} tabIndex={0}>
+    <Box sx={containerStyles} tabIndex={0}>
       <RedirectionRule
         {...redirection}
         {...restProps}

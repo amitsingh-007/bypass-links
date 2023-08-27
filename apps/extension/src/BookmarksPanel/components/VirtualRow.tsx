@@ -10,11 +10,11 @@ import {
 } from '@bypass/shared';
 import { Box } from '@mantine/core';
 import { memo } from 'react';
-import { areEqual } from 'react-window';
 import BookmarkRow from './BookmarkRow';
 import FolderRow, { Props as FolderProps } from './FolderRow';
 
 export interface VirtualRowProps {
+  index: number;
   folderNamesList: string[];
   folders: IBookmarksObj['folders'];
   selectedBookmarks: ISelectedBookmarks;
@@ -25,35 +25,31 @@ export interface VirtualRowProps {
   handleSelectedChange: BookmarkProps['handleSelectedChange'];
 }
 
-const VirtualRow = memo<{
-  index: number;
-  style: React.CSSProperties;
-  data: VirtualRowProps;
-}>(({ index, style, data: innerProps }) => {
-  const {
-    folders,
-    selectedBookmarks,
-    contextBookmarks,
-    handleFolderRemove,
-    handleFolderEdit,
-    resetSelectedBookmarks,
-    handleSelectedChange,
-  } = innerProps;
+const VirtualRow = memo<VirtualRowProps>(function VirtualRow({
+  index,
+  folders,
+  selectedBookmarks,
+  contextBookmarks,
+  handleFolderRemove,
+  handleFolderEdit,
+  resetSelectedBookmarks,
+  handleSelectedChange,
+}) {
   const ctx = contextBookmarks[index];
   const id = getBookmarkId(ctx);
 
-  const { transition, listeners, setNodeRef, attributes, containerStyles } =
+  const { listeners, setNodeRef, attributes, containerStyles } =
     useDndSortable(id);
 
   const isSelected = Boolean(selectedBookmarks[index]);
   return (
     <Box
-      style={{ ...style, transition }}
       sx={[
         containerStyles,
         // Added to fix context menu
         { zIndex: ctx.isDir ? 1 : 'auto' },
       ]}
+      h="100%"
       ref={setNodeRef}
       {...listeners}
       {...attributes}
@@ -82,7 +78,6 @@ const VirtualRow = memo<{
       </Box>
     </Box>
   );
-}, areEqual);
-VirtualRow.displayName = 'VirtualRow';
+});
 
 export default VirtualRow;
