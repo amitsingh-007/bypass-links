@@ -88,7 +88,11 @@ const VirtualRow = memo<{
   return (
     <Box
       style={{ ...style, transition }}
-      sx={getContainerStyles(isDragging, transform)}
+      sx={[
+        getContainerStyles(isDragging, transform),
+        // Added to fix context menu
+        { zIndex: ctx.isDir ? 1 : 'auto' },
+      ]}
       ref={setNodeRef}
       data-index={index}
       data-id={id}
