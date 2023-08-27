@@ -2,13 +2,12 @@ import {
   ContextBookmarks,
   ISelectedBookmarks,
   bookmarkRowStyles,
+  noOp,
 } from '@bypass/shared';
 import { Box, Center, Text } from '@mantine/core';
 import FolderRow from './FolderRow';
 import BookmarkRow from './BookmarkRow';
 import { getSelectedCount } from '../utils';
-
-const noOp = () => undefined;
 
 const DragClone: React.FC<{
   selectedBookmarks: ISelectedBookmarks;

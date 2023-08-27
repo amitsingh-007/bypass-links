@@ -14,7 +14,6 @@
     "@dnd-kit/sortable": "7.0.2",
     "@dnd-kit/utilities": "3.2.1",
     "@emotion/react": "11.11.1",
-    "@hello-pangea/dnd": "16.3.0",
     "@mantine/core": "6.0.17",
     "@mantine/dates": "6.0.17",
     "@mantine/form": "6.0.17",

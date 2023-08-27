@@ -6,11 +6,10 @@ import {
   bookmarkRowStyles,
   getBookmarkId,
   isFolderEmpty,
+  useDndSortable,
 } from '@bypass/shared';
-import { useSortable } from '@dnd-kit/sortable';
-import { Transform } from '@dnd-kit/utilities';
-import { Box, CSSObject } from '@mantine/core';
-import { memo, useEffect } from 'react';
+import { Box } from '@mantine/core';
+import { memo } from 'react';
 import { areEqual } from 'react-window';
 import BookmarkRow from './BookmarkRow';
 import FolderRow, { Props as FolderProps } from './FolderRow';
@@ -25,28 +24,6 @@ export interface VirtualRowProps {
   resetSelectedBookmarks: FolderProps['resetSelectedBookmarks'];
   handleSelectedChange: BookmarkProps['handleSelectedChange'];
 }
-
-const getContainerStyles = (
-  isDragging: boolean,
-  transform: Transform | null
-) => {
-  const styles: CSSObject = {
-    transform: `translate3d(${Math.round(transform?.x ?? 0)}px, ${Math.round(
-      transform?.y ?? 0
-    )}px, 0) scaleX(${transform?.scaleX ?? 1}) scaleY(${
-      transform?.scaleY ?? 1
-    })`,
-    transformOrigin: '0 0',
-    touchAction: 'manipulation',
-    userSelect: 'none',
-    cursor: 'pointer',
-  };
-  if (isDragging) {
-    styles.opacity = 0.6;
-    styles.zIndex = -1;
-  }
-  return styles;
-};
 
 const VirtualRow = memo<{
   index: number;
@@ -65,37 +42,19 @@ const VirtualRow = memo<{
   const ctx = contextBookmarks[index];
   const id = getBookmarkId(ctx);
 
-  const {
-    attributes,
-    isDragging,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-  } = useSortable({ id });
-
-  useEffect(() => {
-    if (!isDragging) {
-      return undefined;
-    }
-    document.body.style.cursor = 'grabbing';
-    return () => {
-      document.body.style.cursor = '';
-    };
-  }, [isDragging]);
+  const { transition, listeners, setNodeRef, attributes, containerStyles } =
+    useDndSortable(id);
 
   const isSelected = Boolean(selectedBookmarks[index]);
   return (
     <Box
       style={{ ...style, transition }}
       sx={[
-        getContainerStyles(isDragging, transform),
+        containerStyles,
         // Added to fix context menu
         { zIndex: ctx.isDir ? 1 : 'auto' },
       ]}
       ref={setNodeRef}
-      data-index={index}
-      data-id={id}
       {...listeners}
       {...attributes}
       tabIndex={0}

@@ -58,3 +58,4 @@ export * from './utils/mediaQuery';
 
 // Hooks
 export { default as usePlatform } from './hooks/usePlatform';
+export { default as useDndSortable } from './hooks/useDndSortable';
