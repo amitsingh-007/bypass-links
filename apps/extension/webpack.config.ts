@@ -98,7 +98,7 @@ const config = {
           name: 'common_chunk',
           // Include all entries to create a common chunk
           chunks: 'all',
-          // If all entries(2 for content and bg) use a code, then it to common chunk
+          // If all entries(2 for content and bg) use a code, then include it to common chunk
           minChunks: 2,
           // Always include common code in common chunk
           enforceSizeThreshold: 0,
