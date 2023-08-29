@@ -191,7 +191,6 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
         return newValue;
       });
       setIsSaveButtonActive(true);
-      handleScroll(0);
     },
     [folderContext]
   );
