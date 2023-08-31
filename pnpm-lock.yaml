@@ -62,6 +62,9 @@ importers:
       '@mantine/hooks':
         specifier: 6.0.17
         version: 6.0.17(react@18.2.0)
+      '@t3-oss/env-core':
+        specifier: 0.6.1
+        version: 0.6.1(typescript@5.1.6)(zod@3.21.4)
       '@tanstack/react-virtual':
         specifier: 3.0.0-beta.54
         version: 3.0.0-beta.54(react@18.2.0)
@@ -104,6 +107,9 @@ importers:
       react-router-dom:
         specifier: 6.14.2
         version: 6.14.2(react-dom@18.2.0)(react@18.2.0)
+      zod:
+        specifier: 3.21.4
+        version: 3.21.4
       zustand:
         specifier: 4.3.9
         version: 4.3.9(react@18.2.0)
@@ -234,9 +240,6 @@ importers:
       webpack-dev-server:
         specifier: 4.15.1
         version: 4.15.1(webpack-cli@5.1.4)(webpack@5.88.2)
-      zod:
-        specifier: 3.21.4
-        version: 3.21.4
 
   apps/web:
     dependencies:
@@ -261,6 +264,9 @@ importers:
       '@mantine/next':
         specifier: 6.0.17
         version: 6.0.17(@emotion/react@11.11.1)(@emotion/server@11.11.0)(next@13.4.12)(react-dom@18.2.0)(react@18.2.0)
+      '@t3-oss/env-nextjs':
+        specifier: 0.6.1
+        version: 0.6.1(typescript@5.1.6)(zod@3.21.4)
       '@tanstack/react-virtual':
         specifier: 3.0.0-beta.54
         version: 3.0.0-beta.54(react@18.2.0)
@@ -306,6 +312,9 @@ importers:
       sharp:
         specifier: 0.32.4
         version: 0.32.4
+      zod:
+        specifier: 3.21.4
+        version: 3.21.4
     devDependencies:
       '@babel/core':
         specifier: 7.22.9
@@ -391,9 +400,6 @@ importers:
       webpack:
         specifier: 5.88.2
         version: 5.88.2(esbuild@0.17.6)(webpack-cli@5.1.4)
-      zod:
-        specifier: 3.21.4
-        version: 3.21.4
 
   packages/configs:
     dependencies:
@@ -548,6 +554,9 @@ importers:
       '@octokit/rest':
         specifier: 20.0.1
         version: 20.0.1
+      '@t3-oss/env-core':
+        specifier: 0.6.1
+        version: 0.6.1(typescript@5.1.6)(zod@3.21.4)
       '@trpc/server':
         specifier: 10.35.0
         version: 10.35.0
@@ -4040,7 +4049,7 @@ packages:
       react-native: ^0.0.0-0 || 0.60 - 0.72 || 1000.0.0
     dependencies:
       merge-options: 3.0.4
-      react-native: 0.72.3(@babel/core@7.22.9)(@babel/preset-env@7.22.9)(encoding@0.1.13)(react@18.2.0)
+      react-native: 0.72.3(@babel/core@7.22.9)(@babel/preset-env@7.22.9)(react@18.2.0)
     dev: false
 
   /@react-native-community/cli-clean@11.3.5(encoding@0.1.13):
@@ -4137,15 +4146,15 @@ packages:
       - encoding
     dev: false
 
-  /@react-native-community/cli-plugin-metro@11.3.5(@babel/core@7.22.9)(encoding@0.1.13):
+  /@react-native-community/cli-plugin-metro@11.3.5(@babel/core@7.22.9):
     resolution: {integrity: sha512-r9AekfeLKdblB7LfWB71IrNy1XM03WrByQlUQajUOZAP2NmUUBLl9pMZscPjJeOSgLpHB9ixEFTIOhTabri/qg==}
     dependencies:
       '@react-native-community/cli-server-api': 11.3.5(encoding@0.1.13)
       '@react-native-community/cli-tools': 11.3.5(encoding@0.1.13)
       chalk: 4.1.2
       execa: 5.1.1
-      metro: 0.76.7(encoding@0.1.13)
-      metro-config: 0.76.7(encoding@0.1.13)
+      metro: 0.76.7
+      metro-config: 0.76.7
       metro-core: 0.76.7
       metro-react-native-babel-transformer: 0.76.7(@babel/core@7.22.9)
       metro-resolver: 0.76.7
@@ -4200,7 +4209,7 @@ packages:
       joi: 17.9.2
     dev: false
 
-  /@react-native-community/cli@11.3.5(@babel/core@7.22.9)(encoding@0.1.13):
+  /@react-native-community/cli@11.3.5(@babel/core@7.22.9):
     resolution: {integrity: sha512-wMXgKEWe6uesw7vyXKKjx5EDRog0QdXHxdgRguG14AjQRao1+4gXEWq2yyExOTi/GDY6dfJBUGTCwGQxhnk/Lg==}
     engines: {node: '>=16'}
     hasBin: true
@@ -4210,7 +4219,7 @@ packages:
       '@react-native-community/cli-debugger-ui': 11.3.5
       '@react-native-community/cli-doctor': 11.3.5(encoding@0.1.13)
       '@react-native-community/cli-hermes': 11.3.5(encoding@0.1.13)
-      '@react-native-community/cli-plugin-metro': 11.3.5(@babel/core@7.22.9)(encoding@0.1.13)
+      '@react-native-community/cli-plugin-metro': 11.3.5(@babel/core@7.22.9)
       '@react-native-community/cli-server-api': 11.3.5(encoding@0.1.13)
       '@react-native-community/cli-tools': 11.3.5(encoding@0.1.13)
       '@react-native-community/cli-types': 11.3.5
@@ -4267,7 +4276,7 @@ packages:
     dependencies:
       invariant: 2.2.4
       nullthrows: 1.1.1
-      react-native: 0.72.3(@babel/core@7.22.9)(@babel/preset-env@7.22.9)(encoding@0.1.13)(react@18.2.0)
+      react-native: 0.72.3(@babel/core@7.22.9)(@babel/preset-env@7.22.9)(react@18.2.0)
     dev: false
 
   /@remix-run/router@1.7.1:
@@ -4569,6 +4578,27 @@ packages:
     dependencies:
       defer-to-connect: 2.0.1
     dev: true
+
+  /@t3-oss/env-core@0.6.1(typescript@5.1.6)(zod@3.21.4):
+    resolution: {integrity: sha512-KQD7qEDJtkWIWWmTVjNvk0wnHpkvAQ6CRbUxbWMFNG/fiosBQDQvtRpBNu6USxBscJCoC4z6y7P9MN52/mLOzw==}
+    peerDependencies:
+      typescript: '>=4.7.2'
+      zod: ^3.0.0
+    dependencies:
+      typescript: 5.1.6
+      zod: 3.21.4
+    dev: false
+
+  /@t3-oss/env-nextjs@0.6.1(typescript@5.1.6)(zod@3.21.4):
+    resolution: {integrity: sha512-z1dIC++Vxj9kmzX5nSPfcrCSkszy3dTEPC4Ssx7Ap5AqR3c2Qa7S0xf8axn6coy7D/vCXDAAnHYnCMDhtcY3SQ==}
+    peerDependencies:
+      typescript: '>=4.7.2'
+      zod: ^3.0.0
+    dependencies:
+      '@t3-oss/env-core': 0.6.1(typescript@5.1.6)(zod@3.21.4)
+      typescript: 5.1.6
+      zod: 3.21.4
+    dev: false
 
   /@tanstack/react-virtual@3.0.0-beta.54(react@18.2.0):
     resolution: {integrity: sha512-D1mDMf4UPbrtHRZZriCly5bXTBMhylslm4dhcHqTtDJ6brQcgGmk8YD9JdWBGWfGSWPKoh2x1H3e7eh+hgPXtQ==}
@@ -11284,14 +11314,14 @@ packages:
       rimraf: 3.0.2
     dev: false
 
-  /metro-config@0.76.7(encoding@0.1.13):
+  /metro-config@0.76.7:
     resolution: {integrity: sha512-CFDyNb9bqxZemiChC/gNdXZ7OQkIwmXzkrEXivcXGbgzlt/b2juCv555GWJHyZSlorwnwJfY3uzAFu4A9iRVfg==}
     engines: {node: '>=16'}
     dependencies:
       connect: 3.7.0
       cosmiconfig: 5.2.1
       jest-validate: 29.6.1
-      metro: 0.76.7(encoding@0.1.13)
+      metro: 0.76.7
       metro-cache: 0.76.7
       metro-core: 0.76.7
       metro-runtime: 0.76.7
@@ -11484,7 +11514,7 @@ packages:
       - supports-color
     dev: false
 
-  /metro-transform-worker@0.76.7(encoding@0.1.13):
+  /metro-transform-worker@0.76.7:
     resolution: {integrity: sha512-cGvELqFMVk9XTC15CMVzrCzcO6sO1lURfcbgjuuPdzaWuD11eEyocvkTX0DPiRjsvgAmicz4XYxVzgYl3MykDw==}
     engines: {node: '>=16'}
     dependencies:
@@ -11493,7 +11523,7 @@ packages:
       '@babel/parser': 7.22.7
       '@babel/types': 7.22.5
       babel-preset-fbjs: 3.4.0(@babel/core@7.22.9)
-      metro: 0.76.7(encoding@0.1.13)
+      metro: 0.76.7
       metro-babel-transformer: 0.76.7
       metro-cache: 0.76.7
       metro-cache-key: 0.76.7
@@ -11507,7 +11537,7 @@ packages:
       - utf-8-validate
     dev: false
 
-  /metro@0.76.7(encoding@0.1.13):
+  /metro@0.76.7:
     resolution: {integrity: sha512-67ZGwDeumEPnrHI+pEDSKH2cx+C81Gx8Mn5qOtmGUPm/Up9Y4I1H2dJZ5n17MWzejNo0XAvPh0QL0CrlJEODVQ==}
     engines: {node: '>=16'}
     hasBin: true
@@ -11537,7 +11567,7 @@ packages:
       metro-babel-transformer: 0.76.7
       metro-cache: 0.76.7
       metro-cache-key: 0.76.7
-      metro-config: 0.76.7(encoding@0.1.13)
+      metro-config: 0.76.7
       metro-core: 0.76.7
       metro-file-map: 0.76.7
       metro-inspector-proxy: 0.76.7(encoding@0.1.13)
@@ -11549,7 +11579,7 @@ packages:
       metro-source-map: 0.76.7
       metro-symbolicate: 0.76.7
       metro-transform-plugins: 0.76.7
-      metro-transform-worker: 0.76.7(encoding@0.1.13)
+      metro-transform-worker: 0.76.7
       mime-types: 2.1.35
       node-fetch: 2.6.12(encoding@0.1.13)
       nullthrows: 1.1.1
@@ -13241,7 +13271,7 @@ packages:
   /react-is@18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
 
-  /react-native@0.72.3(@babel/core@7.22.9)(@babel/preset-env@7.22.9)(encoding@0.1.13)(react@18.2.0):
+  /react-native@0.72.3(@babel/core@7.22.9)(@babel/preset-env@7.22.9)(react@18.2.0):
     resolution: {integrity: sha512-QqISi+JVmCssNP2FlQ4MWhlc4O/I00MRE1/GClvyZ8h/6kdsyk/sOirkYdZqX3+DrJfI3q+OnyMnsyaXIQ/5tQ==}
     engines: {node: '>=16'}
     hasBin: true
@@ -13249,7 +13279,7 @@ packages:
       react: 18.2.0
     dependencies:
       '@jest/create-cache-key-function': 29.6.1
-      '@react-native-community/cli': 11.3.5(@babel/core@7.22.9)(encoding@0.1.13)
+      '@react-native-community/cli': 11.3.5(@babel/core@7.22.9)
       '@react-native-community/cli-platform-android': 11.3.5(encoding@0.1.13)
       '@react-native-community/cli-platform-ios': 11.3.5(encoding@0.1.13)
       '@react-native/assets-registry': 0.72.0

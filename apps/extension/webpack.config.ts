@@ -1,4 +1,3 @@
-import 'webpack-dev-server'; // Required for TS typings
 import { getExtVersion, getFileNameFromVersion } from '@bypass/shared';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
@@ -13,7 +12,8 @@ import ReactRefreshTypeScript from 'react-refresh-typescript';
 import TerserPlugin from 'terser-webpack-plugin';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import { DefinePlugin, optimize } from 'webpack';
-import { getEnvVars } from './src/constants/env';
+import 'webpack-dev-server'; // Required for TS typings
+import { env } from './src/constants/env';
 
 const PATHS = {
   ROOT: resolve(__dirname),
@@ -21,16 +21,16 @@ const PATHS = {
   EXTENSION: resolve(__dirname, 'build'),
 };
 
-const { NODE_ENV: ENV, HOST_NAME } = getEnvVars();
+const { NODE_ENV, HOST_NAME } = env;
 
-const isProduction = ENV === 'production';
+const isProduction = NODE_ENV === 'production';
 
 const tsConfigFile = `${PATHS.ROOT}/${
   isProduction ? 'tsconfig.production.json' : 'tsconfig.json'
 }`;
 
 const config = {
-  mode: ENV,
+  mode: NODE_ENV,
   name: 'extension',
   entry: {
     content_script: {
@@ -87,7 +87,7 @@ const config = {
     hints: isProduction ? undefined : false,
   },
   optimization: {
-    nodeEnv: ENV,
+    nodeEnv: NODE_ENV,
     chunkIds: 'named',
     minimize: isProduction,
     runtimeChunk: 'single',

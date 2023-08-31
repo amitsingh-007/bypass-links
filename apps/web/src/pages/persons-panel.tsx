@@ -7,7 +7,6 @@ import {
   Header,
   IPerson,
   IPersons,
-  noOp,
   Persons,
   sortAlphabetically,
   STORAGE_KEYS,
