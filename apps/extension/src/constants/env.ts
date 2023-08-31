@@ -1,15 +1,14 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
+import { createEnv } from '@t3-oss/env-core';
 import { z } from 'zod';
 
-const envVariables = z.object({
-  NODE_ENV: z.literal('development').or(z.literal('production')),
-  HOST_NAME: z.string(),
+export const env = createEnv({
+  clientPrefix: '',
+  server: {
+    NODE_ENV: z.literal('development').or(z.literal('production')),
+    HOST_NAME: z.string(),
+  },
+  client: {
+    HOST_NAME: z.string(),
+  },
+  runtimeEnv: process.env,
 });
-
-declare global {
-  namespace NodeJS {
-    interface ProcessEnv extends z.infer<typeof envVariables> {}
-  }
-}
-
-export const getEnvVars = () => envVariables.parse(process.env);

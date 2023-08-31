@@ -15,6 +15,7 @@
     "@mantine/core": "6.0.17",
     "@mantine/hooks": "6.0.17",
     "@mantine/next": "6.0.17",
+    "@t3-oss/env-nextjs": "0.6.1",
     "@tanstack/react-virtual": "3.0.0-beta.54",
     "@trpc/client": "10.35.0",
     "@trpc/server": "10.35.0",
@@ -29,7 +30,8 @@
     "react-dom": "18.2.0",
     "react-icons": "4.10.1",
     "request-ip": "3.3.0",
-    "sharp": "0.32.4"
+    "sharp": "0.32.4",
+    "zod": "3.21.4"
   },
   "devDependencies": {
     "@babel/core": "7.22.9",
@@ -59,7 +61,6 @@
     "node-fetch": "3.3.1",
     "prettier": "3.0.0",
     "typescript": "5.1.6",
-    "webpack": "5.88.2",
-    "zod": "3.21.4"
+    "webpack": "5.88.2"
   }
 }

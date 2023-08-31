@@ -1,10 +1,10 @@
 import dotenv from 'dotenv';
 import { defineConfig } from 'vitest/config';
-import { getEnvVars } from './src/constants/env';
+import { getEnv } from './src/constants/env';
 
 dotenv.config();
 
-const { VERCEL_ENV } = getEnvVars();
+const { VERCEL_ENV } = getEnv();
 
 const isDev = VERCEL_ENV === 'development';
 
