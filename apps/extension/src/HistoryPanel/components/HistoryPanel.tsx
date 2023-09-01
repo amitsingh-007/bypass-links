@@ -19,7 +19,6 @@ const DateTime = (props: DateTimePickerProps) => (
     maxDate={new Date()}
     withAsterisk
     level="month"
-    nextDisabled
     hasNextLevel={false}
     icon={<AiOutlineClockCircle />}
     {...props}
@@ -47,13 +46,11 @@ const HistoryPanel = memo(function HistoryPanel() {
       .get(['historyStartTime'])
       .then(({ historyStartTime }) => {
         if (historyStartTime) {
-          form.setFieldValue('timeRange', [
-            new Date(historyStartTime),
-            currentDate,
-          ]);
+          form.setFieldValue('startDateTime', new Date(historyStartTime));
         }
       });
-  }, [form]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleClear = async (values: typeof form.values) => {
     const { startDateTime, endDateTime } = values;
@@ -76,7 +73,7 @@ const HistoryPanel = memo(function HistoryPanel() {
   };
 
   return (
-    <Box w="20.625rem" h="28.75rem">
+    <Box w={324} h={570}>
       <Header text="History Panel" />
       <form onSubmit={form.onSubmit(handleClear)}>
         <Stack p="1rem">

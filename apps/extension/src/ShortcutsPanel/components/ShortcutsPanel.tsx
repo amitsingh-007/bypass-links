@@ -2,26 +2,31 @@ import { IRedirection } from '@/BackgroundScript/interfaces/redirections';
 import { syncRedirectionsToStorage } from '@/BackgroundScript/redirect';
 import { MAX_PANEL_SIZE } from '@/constants';
 import { FIREBASE_DB_REF, Header } from '@bypass/shared';
-import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
+import { DndContext, DragOverlay, closestCenter } from '@dnd-kit/core';
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
 import { getRedirections } from '@helpers/fetchFromStorage';
 import { saveToFirebase } from '@helpers/firebase/database';
 import { Button, Flex, LoadingOverlay } from '@mantine/core';
+import { useElementSize } from '@mantine/hooks';
 import useToastStore from '@store/toast';
 import { memo, useEffect, useState } from 'react';
 import { IoSave } from 'react-icons/io5';
 import { RiPlayListAddFill } from 'react-icons/ri';
 import { DEFAULT_RULE_ALIAS } from '../constants';
-import RedirectionRule from './RedirectionRule';
-
-// Filter valid rules
-const getValidRules = (obj: IRedirection) =>
-  Boolean(obj && obj.alias && obj.alias !== DEFAULT_RULE_ALIAS && obj.website);
+import useShortcutDrag from '../hooks/useShortcutDrag';
+import { getRedirectionId, getValidRules } from '../utils';
+import DragClone from './DragClone';
+import DragRedirection from './DragRedirection';
 
 const ShortcutsPanel = memo(function ShortcutsPanel() {
   const displayToast = useToastStore((state) => state.displayToast);
   const [redirections, setRedirections] = useState<IRedirection[]>([]);
   const [isFetching, setIsFetching] = useState(true);
   const [isSaveActive, setIsSaveActive] = useState(false);
+  const { ref, width } = useElementSize();
 
   useEffect(() => {
     getRedirections().then((_redirections) => {
@@ -94,20 +99,11 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
     saveRedirectionTemp([...redirections]);
   };
 
-  /*
-   * This assumes that we have only one column.
-   * Refer: https://egghead.io/lessons/react-persist-list-reordering-with-react-beautiful-dnd-using-the-ondragend-callback
-   */
-  const onDragEnd = ({ destination, source }: DropResult) => {
-    if (!source || !destination || destination.index === source.index) {
-      return;
-    }
-    const newRedirections = Array.from(redirections);
-    const draggedRedirection = redirections[source.index];
-    newRedirections.splice(source.index, 1);
-    newRedirections.splice(destination.index, 0, draggedRedirection);
-    saveRedirectionTemp(newRedirections);
-  };
+  const { sensors, draggingNode, onDragStart, onDragEnd, onDragCancel } =
+    useShortcutDrag({
+      redirections,
+      saveRedirectionTemp,
+    });
 
   return (
     <Flex w={MAX_PANEL_SIZE.WIDTH} h={MAX_PANEL_SIZE.HEIGHT} direction="column">
@@ -133,36 +129,45 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
           Save
         </Button>
       </Header>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="redirections-list">
-          {(provided) => (
-            <Flex
-              direction="column"
-              gap={10}
-              p="0.625rem 0.25rem 0.25rem"
-              sx={{ overflow: 'auto', flex: 1 }}
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-            >
-              {redirections.length > 0
-                ? redirections.map(({ alias, website, isDefault }, index) => (
-                    <RedirectionRule
-                      alias={alias}
-                      website={website}
-                      isDefault={isDefault}
-                      key={`${alias}_${website}`}
-                      pos={index}
-                      handleRemoveRule={handleRemoveRule}
-                      handleSaveRule={handleSaveRule}
-                    />
-                  ))
-                : null}
-              {provided.placeholder}
-              <LoadingOverlay visible={isFetching} />
-            </Flex>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragStart={onDragStart}
+        onDragEnd={onDragEnd}
+        onDragCancel={onDragCancel}
+      >
+        <SortableContext
+          items={redirections.map(getRedirectionId)}
+          strategy={verticalListSortingStrategy}
+        >
+          <Flex
+            ref={ref}
+            direction="column"
+            gap={10}
+            p="0.625rem 0.25rem 0.25rem"
+            sx={{ overflow: 'auto', flex: 1 }}
+          >
+            {redirections?.map((redirection, index) => (
+              <DragRedirection
+                key={getRedirectionId(redirection)}
+                redirection={redirection}
+                pos={index}
+                handleRemoveRule={handleRemoveRule}
+                handleSaveRule={handleSaveRule}
+              />
+            ))}
+            <LoadingOverlay visible={isFetching} />
+          </Flex>
+        </SortableContext>
+        <DragOverlay style={{ width }}>
+          {!!draggingNode && (
+            <DragClone
+              redirections={redirections}
+              draggingNode={draggingNode}
+            />
           )}
-        </Droppable>
-      </DragDropContext>
+        </DragOverlay>
+      </DndContext>
     </Flex>
   );
 });

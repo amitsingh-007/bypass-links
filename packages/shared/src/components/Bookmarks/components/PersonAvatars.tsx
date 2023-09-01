@@ -25,12 +25,8 @@ const PersonAvatars = memo<{ persons: IPersonWithImage[] }>(
               duration: 450,
               exitDuration: 0,
             }}
-            styles={{
-              dropdown: {
-                padding: 0,
-                cursor: 'pointer',
-              },
-            }}
+            position="top"
+            styles={{ dropdown: { padding: 0, cursor: 'pointer' } }}
           >
             <HoverCard.Target>
               <Avatar radius={999} size="1.75rem" src={imageUrl} />

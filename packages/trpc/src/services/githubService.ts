@@ -1,8 +1,8 @@
 import { Octokit } from '@octokit/rest';
-import { getEnvVars } from '../constants/env';
 import { REPO } from '../constants/github';
+import { getEnv } from '../constants/env';
 
-const { GITHUB_TOKEN } = getEnvVars();
+const { GITHUB_TOKEN } = getEnv();
 
 const octokit = new Octokit({
   auth: GITHUB_TOKEN,

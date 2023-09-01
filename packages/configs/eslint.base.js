@@ -63,6 +63,7 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     'prefer-promise-reject-errors': 'off',
+    'react/require-default-props': 'off',
     '@typescript-eslint/no-unused-vars': [
       'warn',
       {
@@ -111,12 +112,6 @@ module.exports = {
       'error',
       {
         allowForLoopAfterthoughts: true,
-      },
-    ],
-    'react/require-default-props': [
-      'error',
-      {
-        functions: 'defaultArguments',
       },
     ],
   },
