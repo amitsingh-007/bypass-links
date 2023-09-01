@@ -301,8 +301,8 @@ importers:
         specifier: 3.3.0
         version: 3.3.0
       sharp:
-        specifier: 0.32.4
-        version: 0.32.4
+        specifier: 0.32.5
+        version: 0.32.5
     devDependencies:
       '@babel/core':
         specifier: 7.22.11
@@ -14165,8 +14165,8 @@ packages:
     dependencies:
       kind-of: 6.0.3
 
-  /sharp@0.32.4:
-    resolution: {integrity: sha512-exUnZewqVZC6UXqXuQ8fyJJv0M968feBi04jb9GcUHrWtkRoAKnbJt8IfwT4NJs7FskArbJ14JAFGVuooszoGg==}
+  /sharp@0.32.5:
+    resolution: {integrity: sha512-0dap3iysgDkNaPOaOL4X/0akdu0ma62GcdC2NBQ+93eqpePdDdr2/LM0sFdDSMmN7yS+odyZtPsb7tx/cYBKnQ==}
     engines: {node: '>=14.15.0'}
     requiresBuild: true
     dependencies:
