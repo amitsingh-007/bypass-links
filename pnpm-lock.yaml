@@ -64,7 +64,7 @@ importers:
         version: 6.0.19(react@18.2.0)
       '@t3-oss/env-core':
         specifier: 0.6.1
-        version: 0.6.1(typescript@5.2.2)(zod@3.21.4)
+        version: 0.6.1(typescript@5.2.2)(zod@3.22.2)
       '@tanstack/react-virtual':
         specifier: 3.0.0-beta.54
         version: 3.0.0-beta.54(react@18.2.0)
@@ -108,8 +108,8 @@ importers:
         specifier: 6.15.0
         version: 6.15.0(react-dom@18.2.0)(react@18.2.0)
       zod:
-        specifier: 3.21.4
-        version: 3.21.4
+        specifier: 3.22.2
+        version: 3.22.2
       zustand:
         specifier: 4.4.1
         version: 4.4.1(@types/react@18.2.21)(react@18.2.0)
@@ -266,7 +266,7 @@ importers:
         version: 6.0.19(@emotion/react@11.11.1)(@emotion/server@11.11.0)(next@13.4.19)(react-dom@18.2.0)(react@18.2.0)
       '@t3-oss/env-nextjs':
         specifier: 0.6.1
-        version: 0.6.1(typescript@5.2.2)(zod@3.21.4)
+        version: 0.6.1(typescript@5.2.2)(zod@3.22.2)
       '@tanstack/react-virtual':
         specifier: 3.0.0-beta.54
         version: 3.0.0-beta.54(react@18.2.0)
@@ -313,8 +313,8 @@ importers:
         specifier: 0.32.5
         version: 0.32.5
       zod:
-        specifier: 3.21.4
-        version: 3.21.4
+        specifier: 3.22.2
+        version: 3.22.2
     devDependencies:
       '@babel/core':
         specifier: 7.22.11
@@ -3943,16 +3943,6 @@ packages:
     dependencies:
       tslib: 2.6.2
 
-  /@t3-oss/env-core@0.6.1(typescript@5.2.2)(zod@3.21.4):
-    resolution: {integrity: sha512-KQD7qEDJtkWIWWmTVjNvk0wnHpkvAQ6CRbUxbWMFNG/fiosBQDQvtRpBNu6USxBscJCoC4z6y7P9MN52/mLOzw==}
-    peerDependencies:
-      typescript: '>=4.7.2'
-      zod: ^3.0.0
-    dependencies:
-      typescript: 5.2.2
-      zod: 3.21.4
-    dev: false
-
   /@t3-oss/env-core@0.6.1(typescript@5.2.2)(zod@3.22.2):
     resolution: {integrity: sha512-KQD7qEDJtkWIWWmTVjNvk0wnHpkvAQ6CRbUxbWMFNG/fiosBQDQvtRpBNu6USxBscJCoC4z6y7P9MN52/mLOzw==}
     peerDependencies:
@@ -3963,15 +3953,15 @@ packages:
       zod: 3.22.2
     dev: false
 
-  /@t3-oss/env-nextjs@0.6.1(typescript@5.2.2)(zod@3.21.4):
+  /@t3-oss/env-nextjs@0.6.1(typescript@5.2.2)(zod@3.22.2):
     resolution: {integrity: sha512-z1dIC++Vxj9kmzX5nSPfcrCSkszy3dTEPC4Ssx7Ap5AqR3c2Qa7S0xf8axn6coy7D/vCXDAAnHYnCMDhtcY3SQ==}
     peerDependencies:
       typescript: '>=4.7.2'
       zod: ^3.0.0
     dependencies:
-      '@t3-oss/env-core': 0.6.1(typescript@5.2.2)(zod@3.21.4)
+      '@t3-oss/env-core': 0.6.1(typescript@5.2.2)(zod@3.22.2)
       typescript: 5.2.2
-      zod: 3.21.4
+      zod: 3.22.2
     dev: false
 
   /@tanstack/react-virtual@3.0.0-beta.54(react@18.2.0):
