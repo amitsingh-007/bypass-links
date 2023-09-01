@@ -232,8 +232,8 @@ importers:
         specifier: 4.15.1
         version: 4.15.1(webpack-cli@5.1.4)(webpack@5.88.2)
       zod:
-        specifier: 3.21.4
-        version: 3.21.4
+        specifier: 3.22.2
+        version: 3.22.2
 
   apps/web:
     dependencies:
@@ -392,8 +392,8 @@ importers:
         specifier: 5.88.2
         version: 5.88.2(esbuild@0.17.6)(webpack-cli@5.1.4)
       zod:
-        specifier: 3.21.4
-        version: 3.21.4
+        specifier: 3.22.2
+        version: 3.22.2
 
   packages/configs:
     dependencies:
@@ -555,8 +555,8 @@ importers:
         specifier: 3.3.0
         version: 3.3.0
       zod:
-        specifier: 3.21.4
-        version: 3.21.4
+        specifier: 3.22.2
+        version: 3.22.2
     devDependencies:
       '@bypass/configs':
         specifier: workspace:*
@@ -16496,6 +16496,9 @@ packages:
 
   /zod@3.21.4:
     resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
+
+  /zod@3.22.2:
+    resolution: {integrity: sha512-wvWkphh5WQsJbVk1tbx1l1Ly4yg+XecD+Mq280uBGt9wa5BKSWf4Mhp6GmrkPixhMxmabYY7RbzlwVP32pbGCg==}
 
   /zustand@4.3.9(react@18.2.0):
     resolution: {integrity: sha512-Tat5r8jOMG1Vcsj8uldMyqYKC5IZvQif8zetmLHs9WoZlntTHmIoNM8TpLRY31ExncuUvUOXehd0kvahkuHjDw==}
