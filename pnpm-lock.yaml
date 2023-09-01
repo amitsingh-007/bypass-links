@@ -176,7 +176,7 @@ importers:
         version: 0.16.0(eslint@8.45.0)
       eslint-plugin-prettier:
         specifier: 5.0.0
-        version: 5.0.0(eslint-config-prettier@8.10.0)(eslint@8.45.0)(prettier@3.0.0)
+        version: 5.0.0(eslint-config-prettier@8.10.0)(eslint@8.45.0)(prettier@3.0.3)
       eslint-plugin-react:
         specifier: 7.33.2
         version: 7.33.2(eslint@8.45.0)
@@ -199,8 +199,8 @@ importers:
         specifier: 2.0.1
         version: 2.0.1
       prettier:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.3
+        version: 3.0.3
       react-refresh:
         specifier: 0.14.0
         version: 0.14.0
@@ -369,7 +369,7 @@ importers:
         version: 0.16.0(eslint@8.45.0)
       eslint-plugin-prettier:
         specifier: 5.0.0
-        version: 5.0.0(eslint-config-prettier@8.10.0)(eslint@8.45.0)(prettier@3.0.0)
+        version: 5.0.0(eslint-config-prettier@8.10.0)(eslint@8.45.0)(prettier@3.0.3)
       eslint-webpack-plugin:
         specifier: 4.0.1
         version: 4.0.1(eslint@8.45.0)(webpack@5.88.2)
@@ -383,8 +383,8 @@ importers:
         specifier: 3.3.2
         version: 3.3.2
       prettier:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.3
+        version: 3.0.3
       typescript:
         specifier: 5.2.2
         version: 5.2.2
@@ -426,7 +426,7 @@ importers:
         version: 6.7.1(eslint@8.45.0)
       eslint-plugin-prettier:
         specifier: 5.0.0
-        version: 5.0.0(eslint-config-prettier@8.10.0)(eslint@8.45.0)(prettier@3.0.0)
+        version: 5.0.0(eslint-config-prettier@8.10.0)(eslint@8.45.0)(prettier@3.0.3)
       eslint-plugin-react:
         specifier: 7.33.2
         version: 7.33.2(eslint@8.45.0)
@@ -514,7 +514,7 @@ importers:
         version: 6.7.1(eslint@8.45.0)
       eslint-plugin-prettier:
         specifier: 5.0.0
-        version: 5.0.0(eslint-config-prettier@8.10.0)(eslint@8.45.0)(prettier@3.0.0)
+        version: 5.0.0(eslint-config-prettier@8.10.0)(eslint@8.45.0)(prettier@3.0.3)
       eslint-plugin-react:
         specifier: 7.33.2
         version: 7.33.2(eslint@8.45.0)
@@ -522,8 +522,8 @@ importers:
         specifier: 4.6.0
         version: 4.6.0(eslint@8.45.0)
       prettier:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.3
+        version: 3.0.3
       tslib:
         specifier: 2.6.0
         version: 2.6.0
@@ -599,7 +599,7 @@ importers:
         version: 6.7.1(eslint@8.45.0)
       eslint-plugin-prettier:
         specifier: 5.0.0
-        version: 5.0.0(eslint-config-prettier@8.10.0)(eslint@8.45.0)(prettier@3.0.0)
+        version: 5.0.0(eslint-config-prettier@8.10.0)(eslint@8.45.0)(prettier@3.0.3)
       eslint-plugin-react:
         specifier: 7.33.2
         version: 7.33.2(eslint@8.45.0)
@@ -607,8 +607,8 @@ importers:
         specifier: 4.6.0
         version: 4.6.0(eslint@8.45.0)
       prettier:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.3
+        version: 3.0.3
       typescript:
         specifier: 5.2.2
         version: 5.2.2
@@ -1851,7 +1851,7 @@ packages:
     dependencies:
       '@babel/compat-data': 7.22.9
       '@babel/core': 7.22.11
-      '@babel/helper-compilation-targets': 7.22.9(@babel/core@7.22.11)
+      '@babel/helper-compilation-targets': 7.22.10
       '@babel/helper-plugin-utils': 7.22.5
       '@babel/helper-validator-option': 7.22.5
       '@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression': 7.22.5(@babel/core@7.22.11)
@@ -1924,7 +1924,7 @@ packages:
       '@babel/plugin-transform-unicode-regex': 7.22.5(@babel/core@7.22.11)
       '@babel/plugin-transform-unicode-sets-regex': 7.22.5(@babel/core@7.22.11)
       '@babel/preset-modules': 0.1.6(@babel/core@7.22.11)
-      '@babel/types': 7.22.5
+      '@babel/types': 7.22.11
       babel-plugin-polyfill-corejs2: 0.4.5(@babel/core@7.22.11)
       babel-plugin-polyfill-corejs3: 0.8.3(@babel/core@7.22.11)
       babel-plugin-polyfill-regenerator: 0.5.2(@babel/core@7.22.11)
@@ -8404,7 +8404,7 @@ packages:
       eslint: 8.45.0
     dev: true
 
-  /eslint-plugin-prettier@5.0.0(eslint-config-prettier@8.10.0)(eslint@8.45.0)(prettier@3.0.0):
+  /eslint-plugin-prettier@5.0.0(eslint-config-prettier@8.10.0)(eslint@8.45.0)(prettier@3.0.3):
     resolution: {integrity: sha512-AgaZCVuYDXHUGxj/ZGu1u8H8CYgDY3iG6w5kUFw4AzMVXzB7VvbKgYR4nATIN+OvUrghMbiDLeimVjVY5ilq3w==}
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
@@ -8420,7 +8420,7 @@ packages:
     dependencies:
       eslint: 8.45.0
       eslint-config-prettier: 8.10.0(eslint@8.45.0)
-      prettier: 3.0.0
+      prettier: 3.0.3
       prettier-linter-helpers: 1.0.0
       synckit: 0.8.5
 
@@ -13002,8 +13002,8 @@ packages:
     hasBin: true
     dev: true
 
-  /prettier@3.0.0:
-    resolution: {integrity: sha512-zBf5eHpwHOGPC47h0zrPyNn+eAEIdEzfywMoYn2XPi0P44Zp0tSq64rq0xAREh4auw2cJZHo9QUob+NqCQky4g==}
+  /prettier@3.0.3:
+    resolution: {integrity: sha512-L/4pUDMxcNa8R/EthV08Zt42WBO4h1rarVtK0K+QJG0X187OLo7l699jWw0GKuwzkPQ//jMFA/8Xm6Fh3J/DAg==}
     engines: {node: '>=14'}
     hasBin: true
 
