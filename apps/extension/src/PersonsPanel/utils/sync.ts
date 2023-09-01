@@ -20,9 +20,8 @@ export const syncPersonsToStorage = async () => {
 };
 
 export const syncPersonsFirebaseWithStorage = async () => {
-  const { hasPendingPersons } = await chrome.storage.local.get(
-    'hasPendingPersons'
-  );
+  const { hasPendingPersons } =
+    await chrome.storage.local.get('hasPendingPersons');
   const persons = await getPersons();
   if (!hasPendingPersons) {
     return;

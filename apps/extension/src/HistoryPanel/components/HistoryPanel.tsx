@@ -19,7 +19,6 @@ const DateTime = (props: DateTimePickerProps) => (
     maxDate={new Date()}
     withAsterisk
     level="month"
-    nextDisabled
     hasNextLevel={false}
     icon={<AiOutlineClockCircle />}
     {...props}
@@ -50,6 +49,7 @@ const HistoryPanel = memo(function HistoryPanel() {
           form.setFieldValue('startDateTime', new Date(historyStartTime));
         }
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleClear = async (values: typeof form.values) => {
