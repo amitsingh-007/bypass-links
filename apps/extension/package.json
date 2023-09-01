@@ -39,7 +39,7 @@
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.11",
     "@types/chrome": "0.0.244",
     "@types/md5": "2.3.2",
-    "@types/node": "18.16.20",
+    "@types/node": "18.17.12",
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
     "@types/react-router-dom": "5.3.3",

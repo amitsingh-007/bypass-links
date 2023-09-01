@@ -12,8 +12,8 @@ importers:
         specifier: 1.36.1
         version: 1.36.1
       '@types/node':
-        specifier: 18.16.20
-        version: 18.16.20
+        specifier: 18.17.12
+        version: 18.17.12
       cross-env:
         specifier: 7.0.3
         version: 7.0.3
@@ -28,7 +28,7 @@ importers:
         version: 1.10.13
       vercel:
         specifier: 31.0.4
-        version: 31.0.4(@types/node@18.16.20)
+        version: 31.0.4(@types/node@18.17.12)
 
   apps/extension:
     dependencies:
@@ -121,8 +121,8 @@ importers:
         specifier: 2.3.2
         version: 2.3.2
       '@types/node':
-        specifier: 18.16.20
-        version: 18.16.20
+        specifier: 18.17.12
+        version: 18.17.12
       '@types/react':
         specifier: 18.2.21
         version: 18.2.21
@@ -215,7 +215,7 @@ importers:
         version: 9.4.4(typescript@5.2.2)(webpack@5.88.2)
       ts-node:
         specifier: 10.9.1
-        version: 10.9.1(@types/node@18.16.20)(typescript@5.2.2)
+        version: 10.9.1(@types/node@18.17.12)(typescript@5.2.2)
       tsconfig-paths-webpack-plugin:
         specifier: 4.1.0
         version: 4.1.0
@@ -3230,7 +3230,7 @@ packages:
     engines: {node: ^8.13.0 || >=10.10.0}
     dependencies:
       '@grpc/proto-loader': 0.7.8
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
     dev: false
 
   /@grpc/proto-loader@0.6.13:
@@ -3319,7 +3319,7 @@ packages:
     dependencies:
       '@jest/fake-timers': 29.6.1
       '@jest/types': 29.6.1
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
       jest-mock: 29.6.1
     dev: false
 
@@ -3329,7 +3329,7 @@ packages:
     dependencies:
       '@jest/types': 29.6.1
       '@sinonjs/fake-timers': 10.3.0
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
       jest-message-util: 29.6.1
       jest-mock: 29.6.1
       jest-util: 29.6.1
@@ -3347,7 +3347,7 @@ packages:
     dependencies:
       '@types/istanbul-lib-coverage': 2.0.4
       '@types/istanbul-reports': 3.0.1
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
       '@types/yargs': 15.0.15
       chalk: 4.1.2
     dev: false
@@ -3358,7 +3358,7 @@ packages:
     dependencies:
       '@types/istanbul-lib-coverage': 2.0.4
       '@types/istanbul-reports': 3.0.1
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
       '@types/yargs': 16.0.5
       chalk: 4.1.2
     dev: false
@@ -3370,7 +3370,7 @@ packages:
       '@jest/schemas': 29.6.0
       '@types/istanbul-lib-coverage': 2.0.4
       '@types/istanbul-reports': 3.0.1
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
       '@types/yargs': 17.0.24
       chalk: 4.1.2
 
@@ -3840,7 +3840,7 @@ packages:
     engines: {node: '>=16'}
     hasBin: true
     dependencies:
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
       playwright-core: 1.36.1
     optionalDependencies:
       fsevents: 2.3.2
@@ -4648,12 +4648,12 @@ packages:
     resolution: {integrity: sha512-ALYone6pm6QmwZoAgeyNksccT9Q4AWZQ6PvfwR37GT6r6FWUPguq6sUmNGSMV2Wr761oQoBxwGGa6DR5o1DC9g==}
     dependencies:
       '@types/connect': 3.4.35
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
 
   /@types/bonjour@3.5.10:
     resolution: {integrity: sha512-p7ienRMiS41Nu2/igbJxxLDWrSZ0WxM8UQgCeO9KhoVF7cOVFkrKsiDr1EsJIla8vV3oEEjGcz11jc5yimhzZw==}
     dependencies:
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
     dev: true
 
   /@types/cacheable-request@6.0.3:
@@ -4661,7 +4661,7 @@ packages:
     dependencies:
       '@types/http-cache-semantics': 4.0.1
       '@types/keyv': 3.1.4
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
       '@types/responselike': 1.0.0
     dev: true
 
@@ -4686,13 +4686,13 @@ packages:
     resolution: {integrity: sha512-4x5FkPpLipqwthjPsF7ZRbOv3uoLUFkTA9G9v583qi4pACvq0uTELrB8OLUzPWUI4IJIyvM85vzkV1nyiI2Lig==}
     dependencies:
       '@types/express-serve-static-core': 4.17.35
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
     dev: true
 
   /@types/connect@3.4.35:
     resolution: {integrity: sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==}
     dependencies:
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
 
   /@types/cookie@0.4.1:
     resolution: {integrity: sha512-XW/Aa8APYr6jSVVA1y/DEIZX0/GMKLEVekNG727R8cs56ahETkRAy/3DR7+fJyh7oUgGwNQaRfXCun0+KbWY7Q==}
@@ -4741,7 +4741,7 @@ packages:
   /@types/express-serve-static-core@4.17.35:
     resolution: {integrity: sha512-wALWQwrgiB2AWTT91CB62b6Yt0sNHpznUXeZEcnPU3DRdlDIz74x8Qg1UUYKSVFi+va5vKOLYRBI1bRKiLLKIg==}
     dependencies:
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
       '@types/qs': 6.9.7
       '@types/range-parser': 1.2.4
       '@types/send': 0.17.1
@@ -4768,7 +4768,7 @@ packages:
     resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
     dev: true
 
   /@types/glob@8.1.0:
@@ -4776,7 +4776,7 @@ packages:
     requiresBuild: true
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
     dev: false
     optional: true
 
@@ -4815,7 +4815,7 @@ packages:
   /@types/http-proxy@1.17.11:
     resolution: {integrity: sha512-HC8G7c1WmaF2ekqpnFq626xd3Zz0uvaqFmBJNRZCGEZCXkvSdJoNFn/8Ygbd9fKNQj8UzLdCETaI0UWPAjK7IA==}
     dependencies:
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
     dev: true
 
   /@types/istanbul-lib-coverage@2.0.4:
@@ -4840,13 +4840,13 @@ packages:
   /@types/jsonwebtoken@9.0.2:
     resolution: {integrity: sha512-drE6uz7QBKq1fYqqoFKTDRdFCPHd5TCub75BM+D+cMx7NU9hUz7SESLfC2fSCXVFMO5Yj8sOWHuGqPgjc+fz0Q==}
     dependencies:
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
     dev: false
 
   /@types/keyv@3.1.4:
     resolution: {integrity: sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==}
     dependencies:
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
     dev: true
 
   /@types/linkify-it@3.0.2:
@@ -4897,7 +4897,7 @@ packages:
   /@types/node-fetch@2.6.3:
     resolution: {integrity: sha512-ETTL1mOEdq/sxUtgtOhKjyB2Irra4cjxksvcMUR5Zr4n+PxVhsCD9WS46oPbHL3et9Zde7CNRr+WUNlcHvsX+w==}
     dependencies:
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
       form-data: 3.0.1
     dev: true
 
@@ -4905,8 +4905,8 @@ packages:
     resolution: {integrity: sha512-qelS/Ra6sacc4loe/3MSjXNL1dNQ/GjxNHVzuChwMfmk7HuycRLVQN2qNY3XahK+fZc5E2szqQSKUyAF0E+2bg==}
     dev: true
 
-  /@types/node@18.16.20:
-    resolution: {integrity: sha512-nL54VfDjThdP2UXJXZao5wp76CDiDw4zSRO8d4Tk7UgDqNKGKVEQB0/t3ti63NS+YNNkIQDvwEAF04BO+WYu7Q==}
+  /@types/node@18.17.12:
+    resolution: {integrity: sha512-d6xjC9fJ/nSnfDeU0AMDsaJyb1iHsqCSOdi84w4u+SlN/UgQdY5tRhpMzaFYsI4mnpvgTivEaQd0yOUhAtOnEQ==}
 
   /@types/parse-json@4.0.0:
     resolution: {integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==}
@@ -4956,25 +4956,25 @@ packages:
   /@types/readdir-glob@1.1.1:
     resolution: {integrity: sha512-ImM6TmoF8bgOwvehGviEj3tRdRBbQujr1N+0ypaln/GWjaerOB26jb93vsRHmdMtvVQZQebOlqt2HROark87mQ==}
     dependencies:
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
     dev: true
 
   /@types/request-ip@0.0.38:
     resolution: {integrity: sha512-1yeq8UuK/tUBqLXRY24gjeFvrSNaGNcOcZLQjHlnuw8iu+qE/vTQ64TUcLWorr607NKLfFakdoYEXXHXrLLKCw==}
     dependencies:
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
     dev: true
 
   /@types/resolve@1.17.1:
     resolution: {integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==}
     dependencies:
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
     dev: true
 
   /@types/responselike@1.0.0:
     resolution: {integrity: sha512-85Y2BjiufFzaMIlvJDvTTB8Fxl2xfLo4HgmHzVBz08w4wDePCTjYw66PdrolO0kzli3yam/YCgRufyo1DdQVTA==}
     dependencies:
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
     dev: true
 
   /@types/retry@0.12.0:
@@ -4986,7 +4986,7 @@ packages:
     requiresBuild: true
     dependencies:
       '@types/glob': 8.1.0
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
     dev: false
     optional: true
 
@@ -5000,7 +5000,7 @@ packages:
     resolution: {integrity: sha512-Cwo8LE/0rnvX7kIIa3QHCkcuF21c05Ayb0ZfxPiv0W8VRiZiNW/WuRupHKpqqGVGf7SUA44QSOUKaEd9lIrd/Q==}
     dependencies:
       '@types/mime': 1.3.2
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
 
   /@types/serve-index@1.9.1:
     resolution: {integrity: sha512-d/Hs3nWDxNL2xAczmOVZNj92YZCS6RGxfBPjKzuu/XirCgXdpKEb88dYNbrYGint6IVWLNP+yonwVAuRC0T2Dg==}
@@ -5013,12 +5013,12 @@ packages:
     dependencies:
       '@types/http-errors': 2.0.1
       '@types/mime': 3.0.1
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
 
   /@types/sockjs@0.3.33:
     resolution: {integrity: sha512-f0KEEe05NvUnat+boPTZ0dgaLZ4SfSouXUgv5noUiefG2ajgKjmETo9ZJyuqsl7dfl2aHlLJUiki6B4ZYldiiw==}
     dependencies:
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
     dev: true
 
   /@types/stack-utils@2.0.1:
@@ -5044,7 +5044,7 @@ packages:
   /@types/webpack@5.28.2(esbuild@0.17.6)(webpack-cli@5.1.4):
     resolution: {integrity: sha512-7tcxyrIOd7WGimZIcWU6pDsNh2edGGnwYExOvd3l/nMvuxqwVPrFXnnTbYCnplqV9BJoU7Mo2mfFtiH8CNFvYw==}
     dependencies:
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
       tapable: 2.2.1
       webpack: 5.88.2(esbuild@0.17.6)(webpack-cli@5.1.4)
     transitivePeerDependencies:
@@ -5057,7 +5057,7 @@ packages:
   /@types/ws@8.5.5:
     resolution: {integrity: sha512-lwhs8hktwxSjf9UaZ9tG5M03PGogvFaH8gUgLNbN9HKIg0dvv6q+gkSuJ8HN4/VbyxkuLzCjlN7GquQ0gUJfIg==}
     dependencies:
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
     dev: true
 
   /@types/yargs-parser@21.0.0:
@@ -5290,7 +5290,7 @@ packages:
       outdent: 0.8.0
     dev: true
 
-  /@vanilla-extract/integration@6.2.1(@types/node@18.16.20):
+  /@vanilla-extract/integration@6.2.1(@types/node@18.17.12):
     resolution: {integrity: sha512-+xYJz07G7TFAMZGrOqArOsURG+xcYvqctujEkANjw2McCBvGEK505RxQqOuNiA9Mi9hgGdNp2JedSa94f3eoLg==}
     dependencies:
       '@babel/core': 7.22.11
@@ -5304,8 +5304,8 @@ packages:
       lodash: 4.17.21
       mlly: 1.4.0
       outdent: 0.8.0
-      vite: 4.4.6(@types/node@18.16.20)
-      vite-node: 0.28.5(@types/node@18.16.20)
+      vite: 4.4.6(@types/node@18.17.12)
+      vite-node: 0.28.5(@types/node@18.17.12)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -5430,10 +5430,10 @@ packages:
       - supports-color
     dev: true
 
-  /@vercel/remix-builder@1.8.18(@types/node@18.16.20):
+  /@vercel/remix-builder@1.8.18(@types/node@18.17.12):
     resolution: {integrity: sha512-GYIFBe+z3/AuPHhXcpKtMLDj+1LrgcfE3HKka9RuUbfLOcJbfwdFODWHV7c7D5zgEu/KTIGEO6dOJp8GQmPzng==}
     dependencies:
-      '@remix-run/dev': /@vercel/remix-run-dev@1.18.1(@types/node@18.16.20)
+      '@remix-run/dev': /@vercel/remix-run-dev@1.18.1(@types/node@18.17.12)
       '@vercel/build-utils': 6.8.2
       '@vercel/nft': 0.22.5
       '@vercel/static-config': 2.0.17
@@ -5457,7 +5457,7 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@vercel/remix-run-dev@1.18.1(@types/node@18.16.20):
+  /@vercel/remix-run-dev@1.18.1(@types/node@18.17.12):
     resolution: {integrity: sha512-V9RCT+3VDB0wLbwq8Dp0XO6Cc1LxY4tCyxJ5loyX0L8sPBCgQ3/vMre3VKr8jLhjnfUGSrbXADxFM8/bq4ZeDQ==}
     engines: {node: '>=14.0.0'}
     hasBin: true
@@ -5478,7 +5478,7 @@ packages:
       '@babel/types': 7.22.11
       '@npmcli/package-json': 2.0.0
       '@remix-run/server-runtime': 1.18.1
-      '@vanilla-extract/integration': 6.2.1(@types/node@18.16.20)
+      '@vanilla-extract/integration': 6.2.1(@types/node@18.17.12)
       arg: 5.0.2
       cacache: 15.3.0
       chalk: 4.1.2
@@ -8975,7 +8975,7 @@ packages:
       '@fastify/busboy': 1.2.1
       '@firebase/database-compat': 0.3.4
       '@firebase/database-types': 0.10.4
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
       jsonwebtoken: 9.0.1
       jwks-rsa: 3.0.1
       node-forge: 1.3.1
@@ -10397,7 +10397,7 @@ packages:
       '@jest/environment': 29.6.1
       '@jest/fake-timers': 29.6.1
       '@jest/types': 29.6.1
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
       jest-mock: 29.6.1
       jest-util: 29.6.1
     dev: false
@@ -10427,7 +10427,7 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       '@jest/types': 29.6.1
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
       jest-util: 29.6.1
     dev: false
 
@@ -10441,7 +10441,7 @@ packages:
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
       '@jest/types': 27.5.1
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
       chalk: 4.1.2
       ci-info: 3.8.0
       graceful-fs: 4.2.11
@@ -10453,7 +10453,7 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       '@jest/types': 29.6.1
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
       chalk: 4.1.2
       ci-info: 3.8.0
       graceful-fs: 4.2.11
@@ -10475,7 +10475,7 @@ packages:
     resolution: {integrity: sha512-KWYVV1c4i+jbMpaBC+U++4Va0cp8OisU185o73T1vo99hqi7w8tSJfUXYswwqqrjzwxa6KpRK54WhPvwf5w6PQ==}
     engines: {node: '>= 10.13.0'}
     dependencies:
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
       merge-stream: 2.0.0
       supports-color: 7.2.0
     dev: true
@@ -10484,7 +10484,7 @@ packages:
     resolution: {integrity: sha512-7vuh85V5cdDofPyxn58nrPjBktZo0u9x1g8WtjQol+jZDaE+fhN+cIvTj11GndBnMnyfrUOG1sZQxCdjKh+DKg==}
     engines: {node: '>= 10.13.0'}
     dependencies:
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
       merge-stream: 2.0.0
       supports-color: 8.1.1
 
@@ -10492,7 +10492,7 @@ packages:
     resolution: {integrity: sha512-U+Wrbca7S8ZAxAe9L6nb6g8kPdia5hj32Puu5iOqBCMTMWFHXuK6dOV2IFrpedbTV8fjMFLdWNttQTBL6u2MRA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
       jest-util: 29.6.1
       merge-stream: 2.0.0
       supports-color: 8.1.1
@@ -13128,7 +13128,7 @@ packages:
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
       '@types/long': 4.0.2
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
       long: 4.0.0
     dev: false
 
@@ -13147,7 +13147,7 @@ packages:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
       long: 5.2.3
     dev: false
 
@@ -14992,7 +14992,7 @@ packages:
       yn: 3.1.1
     dev: true
 
-  /ts-node@10.9.1(@types/node@18.16.20)(typescript@5.2.2):
+  /ts-node@10.9.1(@types/node@18.17.12)(typescript@5.2.2):
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
     peerDependencies:
@@ -15011,7 +15011,7 @@ packages:
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
       acorn: 8.10.0
       acorn-walk: 8.2.0
       arg: 4.1.3
@@ -15539,7 +15539,7 @@ packages:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
     engines: {node: '>= 0.8'}
 
-  /vercel@31.0.4(@types/node@18.16.20):
+  /vercel@31.0.4(@types/node@18.17.12):
     resolution: {integrity: sha512-KO2r6he/KtCWg7mgdiGVJefe6Y369yfne794/K3mzFjJZo8A1lEt6vB5yy2a79G4SX8VY7JfT2DvfsAlhIb7vQ==}
     engines: {node: '>= 14'}
     hasBin: true
@@ -15551,7 +15551,7 @@ packages:
       '@vercel/node': 2.15.6
       '@vercel/python': 3.1.60
       '@vercel/redwood': 1.1.15
-      '@vercel/remix-builder': 1.8.18(@types/node@18.16.20)
+      '@vercel/remix-builder': 1.8.18(@types/node@18.17.12)
       '@vercel/ruby': 1.3.76
       '@vercel/static-build': 1.3.41
     transitivePeerDependencies:
@@ -15589,7 +15589,7 @@ packages:
       vfile-message: 3.1.4
     dev: true
 
-  /vite-node@0.28.5(@types/node@18.16.20):
+  /vite-node@0.28.5(@types/node@18.17.12):
     resolution: {integrity: sha512-LmXb9saMGlrMZbXTvOveJKwMTBTNUH66c8rJnQ0ZPNX+myPEol64+szRzXtV5ORb0Hb/91yq+/D3oERoyAt6LA==}
     engines: {node: '>=v14.16.0'}
     hasBin: true
@@ -15601,7 +15601,7 @@ packages:
       picocolors: 1.0.0
       source-map: 0.6.1
       source-map-support: 0.5.21
-      vite: 4.4.6(@types/node@18.16.20)
+      vite: 4.4.6(@types/node@18.17.12)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -15613,7 +15613,7 @@ packages:
       - terser
     dev: true
 
-  /vite-node@0.33.0(@types/node@18.16.20):
+  /vite-node@0.33.0(@types/node@18.17.12):
     resolution: {integrity: sha512-19FpHYbwWWxDr73ruNahC+vtEdza52kA90Qb3La98yZ0xULqV8A5JLNPUff0f5zID4984tW7l3DH2przTJUZSw==}
     engines: {node: '>=v14.18.0'}
     hasBin: true
@@ -15623,7 +15623,7 @@ packages:
       mlly: 1.4.0
       pathe: 1.1.1
       picocolors: 1.0.0
-      vite: 4.4.6(@types/node@18.16.20)
+      vite: 4.4.6(@types/node@18.17.12)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -15635,7 +15635,7 @@ packages:
       - terser
     dev: true
 
-  /vite@4.4.6(@types/node@18.16.20):
+  /vite@4.4.6(@types/node@18.17.12):
     resolution: {integrity: sha512-EY6Mm8vJ++S3D4tNAckaZfw3JwG3wa794Vt70M6cNJ6NxT87yhq7EC8Rcap3ahyHdo8AhCmV9PTk+vG1HiYn1A==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -15663,7 +15663,7 @@ packages:
       terser:
         optional: true
     dependencies:
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
       esbuild: 0.18.15
       postcss: 8.4.27
       rollup: 3.26.3
@@ -15704,7 +15704,7 @@ packages:
     dependencies:
       '@types/chai': 4.3.5
       '@types/chai-subset': 1.3.3
-      '@types/node': 18.16.20
+      '@types/node': 18.17.12
       '@vitest/expect': 0.33.0
       '@vitest/runner': 0.33.0
       '@vitest/snapshot': 0.33.0
@@ -15723,8 +15723,8 @@ packages:
       strip-literal: 1.0.1
       tinybench: 2.5.0
       tinypool: 0.6.0
-      vite: 4.4.6(@types/node@18.16.20)
-      vite-node: 0.33.0(@types/node@18.16.20)
+      vite: 4.4.6(@types/node@18.17.12)
+      vite-node: 0.33.0(@types/node@18.17.12)
       why-is-node-running: 2.2.2
     transitivePeerDependencies:
       - less
