@@ -17,7 +17,7 @@
     "@mantine/next": "6.0.17",
     "@trpc/client": "10.35.0",
     "@trpc/server": "10.35.0",
-    "@vercel/analytics": "1.0.1",
+    "@vercel/analytics": "1.0.2",
     "countries-and-timezones": "3.5.1",
     "dayjs": "1.11.9",
     "firebase": "10.1.0",
