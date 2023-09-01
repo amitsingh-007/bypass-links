@@ -29,7 +29,7 @@
     "react-icons": "4.10.1",
     "react-window": "1.8.9",
     "request-ip": "3.3.0",
-    "sharp": "0.32.4"
+    "sharp": "0.32.5"
   },
   "devDependencies": {
     "@babel/core": "7.22.9",
