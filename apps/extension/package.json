@@ -36,7 +36,7 @@
     "@babel/core": "7.22.11",
     "@bypass/configs": "workspace:*",
     "@playwright/test": "1.36.1",
-    "@pmmmwh/react-refresh-webpack-plugin": "0.5.10",
+    "@pmmmwh/react-refresh-webpack-plugin": "0.5.11",
     "@types/chrome": "0.0.241",
     "@types/md5": "2.3.2",
     "@types/node": "18.16.20",
