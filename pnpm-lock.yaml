@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       '@playwright/test':
-        specifier: 1.36.1
-        version: 1.36.1
+        specifier: 1.37.1
+        version: 1.37.1
       '@types/node':
         specifier: 18.17.12
         version: 18.17.12
@@ -109,8 +109,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/configs
       '@playwright/test':
-        specifier: 1.36.1
-        version: 1.36.1
+        specifier: 1.37.1
+        version: 1.37.1
       '@pmmmwh/react-refresh-webpack-plugin':
         specifier: 0.5.11
         version: 0.5.11(@types/webpack@5.28.2)(react-refresh@0.14.0)(webpack-dev-server@4.15.1)(webpack@5.88.2)
@@ -311,8 +311,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/configs
       '@playwright/test':
-        specifier: 1.36.1
-        version: 1.36.1
+        specifier: 1.37.1
+        version: 1.37.1
       '@svgr/webpack':
         specifier: 8.0.1
         version: 8.0.1
@@ -3813,13 +3813,13 @@ packages:
       picocolors: 1.0.0
       tslib: 2.6.2
 
-  /@playwright/test@1.36.1:
-    resolution: {integrity: sha512-YK7yGWK0N3C2QInPU6iaf/L3N95dlGdbsezLya4n0ZCh3IL7VgPGxC6Gnznh9ApWdOmkJeleT2kMTcWPRZvzqg==}
+  /@playwright/test@1.37.1:
+    resolution: {integrity: sha512-bq9zTli3vWJo8S3LwB91U0qDNQDpEXnw7knhxLM0nwDvexQAwx9tO8iKDZSqqneVq+URd/WIoz+BALMqUTgdSg==}
     engines: {node: '>=16'}
     hasBin: true
     dependencies:
       '@types/node': 18.17.12
-      playwright-core: 1.36.1
+      playwright-core: 1.37.1
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
@@ -12678,8 +12678,8 @@ packages:
       pathe: 1.1.1
     dev: true
 
-  /playwright-core@1.36.1:
-    resolution: {integrity: sha512-7+tmPuMcEW4xeCL9cp9KxmYpQYHKkyjwoXRnoeTowaeNat8PoBMk/HwCYhqkH2fRkshfKEOiVus/IhID2Pg8kg==}
+  /playwright-core@1.37.1:
+    resolution: {integrity: sha512-17EuQxlSIYCmEMwzMqusJ2ztDgJePjrbttaefgdsiqeLWidjYz9BxXaTaZWxH1J95SHGk6tjE+dwgWILJoUZfA==}
     engines: {node: '>=16'}
     hasBin: true
     dev: true
