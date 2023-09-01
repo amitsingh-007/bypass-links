@@ -1,5 +1,5 @@
 import { IRedirection } from '@/BackgroundScript/interfaces/redirections';
-import { Draggable } from '@hello-pangea/dnd';
+import { useSortable } from '@dnd-kit/sortable';
 import {
   ActionIcon,
   Center,
@@ -25,6 +25,10 @@ type Props = IRedirection & {
   pos: number;
   handleRemoveRule: (pos: number) => void;
   handleSaveRule: (redirection: IRedirection, pos: number) => void;
+  dndProps?: Pick<
+    ReturnType<typeof useSortable>,
+    'listeners' | 'setNodeRef' | 'attributes'
+  >;
 };
 
 const RedirectionRule = memo(function RedirectionRule({
@@ -34,6 +38,7 @@ const RedirectionRule = memo(function RedirectionRule({
   pos,
   handleRemoveRule,
   handleSaveRule,
+  dndProps,
 }: Props) {
   const startHistoryMonitor = useHistoryStore(
     (state) => state.startHistoryMonitor
@@ -68,68 +73,72 @@ const RedirectionRule = memo(function RedirectionRule({
     isDefault === isDefaultRule;
   const isRuleSaveActive = isSameRule || ruleAlias === DEFAULT_RULE_ALIAS;
 
+  const dndAttrs = dndProps
+    ? {
+        ...dndProps.listeners,
+        ...dndProps.attributes,
+        ref: dndProps.setNodeRef,
+      }
+    : {};
+
   return (
-    <Draggable draggableId={`${alias}_${website}`} index={pos}>
-      {(provided) => (
-        <Center ref={provided.innerRef} {...provided.draggableProps}>
-          <ActionIcon {...provided.dragHandleProps} radius={999} size="lg">
-            <RxDragHandleDots2 size={20} />
-          </ActionIcon>
-          <Group sx={{ flex: 1 }}>
-            <TextInput
-              w="35%"
-              placeholder="Enter Alias"
-              value={ruleAlias}
-              onChange={(e) => setRuleAlias(e.target.value.trim())}
-              icon={<MdShortcut />}
-              error={!ruleAlias}
-            />
-            <TextInput
-              w="60%"
-              placeholder="Enter Website"
-              value={ruleWebsite}
-              onChange={(e) => setRuleWebsite(e.target.value.trim())}
-              icon={<CgWebsite />}
-              error={!ruleWebsite}
-            />
-          </Group>
-          <Checkbox
-            checked={isDefaultRule}
-            onChange={(e) => setIsDefaultRule(e.target.checked)}
-            mr={2}
-            display="flex"
-          />
-          <ActionIcon
-            radius={999}
-            size="lg"
-            disabled={!ruleWebsite}
-            onClick={handleLinkOpen}
-            color="blue.5"
-            sx={ruleWebsite ? undefined : disabledStyles}
-          >
-            <RxExternalLink size={21} />
-          </ActionIcon>
-          <ActionIcon
-            radius={999}
-            size="lg"
-            disabled={isRuleSaveActive}
-            onClick={handleSaveClick}
-            color="teal"
-            sx={isRuleSaveActive ? disabledStyles : undefined}
-          >
-            <GiSaveArrow size={20} />
-          </ActionIcon>
-          <ActionIcon
-            radius={999}
-            size="lg"
-            onClick={handleRemoveClick}
-            color="red"
-          >
-            <MdOutlineDelete size={21} />
-          </ActionIcon>
-        </Center>
-      )}
-    </Draggable>
+    <Center>
+      <ActionIcon radius={999} size="lg" {...dndAttrs}>
+        <RxDragHandleDots2 size={20} />
+      </ActionIcon>
+      <Group sx={{ flex: 1 }}>
+        <TextInput
+          w="35%"
+          placeholder="Enter Alias"
+          value={ruleAlias}
+          onChange={(e) => setRuleAlias(e.target.value.trim())}
+          icon={<MdShortcut />}
+          error={!ruleAlias}
+        />
+        <TextInput
+          w="60%"
+          placeholder="Enter Website"
+          value={ruleWebsite}
+          onChange={(e) => setRuleWebsite(e.target.value.trim())}
+          icon={<CgWebsite />}
+          error={!ruleWebsite}
+        />
+      </Group>
+      <Checkbox
+        checked={isDefaultRule}
+        onChange={(e) => setIsDefaultRule(e.target.checked)}
+        mr={2}
+        display="flex"
+      />
+      <ActionIcon
+        radius={999}
+        size="lg"
+        disabled={!ruleWebsite}
+        onClick={handleLinkOpen}
+        color="blue.5"
+        sx={ruleWebsite ? undefined : disabledStyles}
+      >
+        <RxExternalLink size={21} />
+      </ActionIcon>
+      <ActionIcon
+        radius={999}
+        size="lg"
+        disabled={isRuleSaveActive}
+        onClick={handleSaveClick}
+        color="teal"
+        sx={isRuleSaveActive ? disabledStyles : undefined}
+      >
+        <GiSaveArrow size={20} />
+      </ActionIcon>
+      <ActionIcon
+        radius={999}
+        size="lg"
+        onClick={handleRemoveClick}
+        color="red"
+      >
+        <MdOutlineDelete size={21} />
+      </ActionIcon>
+    </Center>
   );
 });
 

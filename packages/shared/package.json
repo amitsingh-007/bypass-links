@@ -9,15 +9,18 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@dnd-kit/core": "6.0.8",
+    "@dnd-kit/sortable": "7.0.2",
+    "@dnd-kit/utilities": "3.2.1",
     "@mantine/core": "6.0.19",
     "@mantine/hooks": "6.0.19",
     "@mantine/styles": "6.0.19",
+    "@tanstack/react-virtual": "3.0.0-beta.54",
     "md5": "2.3.0",
     "preact": "10.17.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-icons": "4.10.1",
-    "react-window": "1.8.9"
+    "react-icons": "4.10.1"
   },
   "devDependencies": {
     "@babel/core": "7.22.11",
@@ -25,7 +28,6 @@
     "@emotion/react": "11.11.1",
     "@types/md5": "2.3.2",
     "@types/react": "18.2.21",
-    "@types/react-window": "1.8.5",
     "@typescript-eslint/eslint-plugin": "6.5.0",
     "@typescript-eslint/parser": "6.5.0",
     "eslint": "8.48.0",

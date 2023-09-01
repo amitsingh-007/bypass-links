@@ -15,6 +15,8 @@
     "@mantine/core": "6.0.19",
     "@mantine/hooks": "6.0.19",
     "@mantine/next": "6.0.19",
+    "@t3-oss/env-nextjs": "0.6.1",
+    "@tanstack/react-virtual": "3.0.0-beta.54",
     "@trpc/client": "10.38.1",
     "@trpc/server": "10.38.1",
     "@vercel/analytics": "1.0.2",
@@ -27,9 +29,9 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "4.10.1",
-    "react-window": "1.8.9",
     "request-ip": "3.3.0",
-    "sharp": "0.32.5"
+    "sharp": "0.32.5",
+    "zod": "3.21.4"
   },
   "devDependencies": {
     "@babel/core": "7.22.11",
@@ -38,7 +40,6 @@
     "@svgr/webpack": "8.1.0",
     "@types/md5": "2.3.2",
     "@types/react": "18.2.21",
-    "@types/react-window": "1.8.5",
     "@types/request-ip": "0.0.38",
     "@typescript-eslint/eslint-plugin": "6.5.0",
     "@typescript-eslint/parser": "6.5.0",
@@ -60,7 +61,6 @@
     "node-fetch": "3.3.2",
     "prettier": "3.0.3",
     "typescript": "5.2.2",
-    "webpack": "5.88.2",
-    "zod": "3.22.2"
+    "webpack": "5.88.2"
   }
 }

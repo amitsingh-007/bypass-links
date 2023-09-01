@@ -1,14 +1,15 @@
 import { type AppRouter } from '@bypass/trpc';
 import { createTRPCProxyClient, httpBatchLink } from '@trpc/client';
+import { serverEnv } from '@/constants/env/server.mjs';
 
 const getBaseUrl = () => {
   if (typeof window !== 'undefined') {
     return '';
   }
-  if (process.env.VERCEL_URL) {
-    return `https://${process.env.VERCEL_URL}`;
+  if (serverEnv.VERCEL_URL) {
+    return `https://${serverEnv.VERCEL_URL}`;
   }
-  return `http://localhost:${process.env.PORT ?? 3000}`;
+  return `http://localhost:${serverEnv.PORT ?? 3000}`;
 };
 
 export const api = createTRPCProxyClient<AppRouter>({

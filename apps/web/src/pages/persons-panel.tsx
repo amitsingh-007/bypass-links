@@ -59,9 +59,9 @@ const PersonsPage = () => {
         {filteredPersons.length > 0 ? (
           <Persons
             persons={filteredPersons}
-            virtualCell={PersonVirtualCell}
             onLinkOpen={onLinkOpen}
             bookmarkListProps={{ fullscreen: false }}
+            renderPerson={(person) => <PersonVirtualCell person={person} />}
           />
         ) : null}
       </Box>

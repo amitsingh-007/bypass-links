@@ -15,7 +15,7 @@ export const bookmarkRowStyles: Sx = (theme) => ({
     },
   },
   '&[data-is-dragging="true"]': {
-    backgroundColor: theme.colors.red[9],
-    border: `${theme.colors.red[4]} 1px solid`,
+    backgroundColor: theme.colors.violet[9],
+    border: `${theme.colors.violet[4]} 1px solid`,
   },
 });

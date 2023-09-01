@@ -13,6 +13,7 @@ import { AiFillEdit } from 'react-icons/ai';
 import { HiArrowCircleUp } from 'react-icons/hi';
 import { RiBookmark2Fill } from 'react-icons/ri';
 import { RxExternalLink } from 'react-icons/rx';
+import { getSelectedCount } from '../utils';
 
 interface Props {
   contextBookmarks: ContextBookmarks;
@@ -37,7 +38,7 @@ const BookmarkContextMenu = memo<Props>(
     handleScroll,
   }) => {
     const theme = useMantineTheme();
-    const selectedCount = selectedBookmarks.filter(Boolean).length;
+    const selectedCount = getSelectedCount(selectedBookmarks);
 
     const setBookmarkOperation = useBookmarkStore(
       (state) => state.setBookmarkOperation

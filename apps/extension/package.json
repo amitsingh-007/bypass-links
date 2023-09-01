@@ -10,12 +10,16 @@
   "dependencies": {
     "@bypass/shared": "workspace:*",
     "@bypass/trpc": "workspace:*",
+    "@dnd-kit/core": "6.0.8",
+    "@dnd-kit/sortable": "7.0.2",
+    "@dnd-kit/utilities": "3.2.1",
     "@emotion/react": "11.11.1",
-    "@hello-pangea/dnd": "16.3.0",
     "@mantine/core": "6.0.19",
     "@mantine/dates": "6.0.19",
     "@mantine/form": "6.0.19",
     "@mantine/hooks": "6.0.19",
+    "@t3-oss/env-core": "0.6.1",
+    "@tanstack/react-virtual": "3.0.0-beta.54",
     "@trpc/client": "10.38.1",
     "@trpc/server": "10.38.1",
     "compressorjs": "1.2.1",
@@ -29,7 +33,7 @@
     "react-easy-crop": "5.0.0",
     "react-icons": "4.10.1",
     "react-router-dom": "6.15.0",
-    "react-window": "1.8.9",
+    "zod": "3.21.4",
     "zustand": "4.4.1"
   },
   "devDependencies": {
@@ -43,7 +47,6 @@
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
     "@types/react-router-dom": "5.3.3",
-    "@types/react-window": "1.8.5",
     "@types/webpack": "5.28.2",
     "@typescript-eslint/eslint-plugin": "6.5.0",
     "@typescript-eslint/parser": "6.5.0",
@@ -75,7 +78,6 @@
     "typescript": "5.2.2",
     "webpack": "5.88.2",
     "webpack-cli": "5.1.4",
-    "webpack-dev-server": "4.15.1",
-    "zod": "3.22.2"
+    "webpack-dev-server": "4.15.1"
   }
 }
