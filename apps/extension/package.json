@@ -20,7 +20,7 @@
     "@trpc/server": "10.38.1",
     "compressorjs": "1.2.1",
     "dayjs": "1.11.9",
-    "firebase": "10.1.0",
+    "firebase": "10.3.1",
     "md5": "2.3.0",
     "preact": "10.17.1",
     "qrcode.react": "3.1.0",
