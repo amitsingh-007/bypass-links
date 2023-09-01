@@ -38,6 +38,6 @@
     "eslint-plugin-react-hooks": "4.6.0",
     "prettier": "3.0.3",
     "typescript": "5.2.2",
-    "vitest": "0.33.0"
+    "vitest": "0.34.3"
   }
 }
