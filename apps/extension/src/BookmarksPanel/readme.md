@@ -3,7 +3,7 @@
 ```js
 bookmarks : {
     folderList : {
-        foldername_hash : { name, parentHash }
+        foldername_hash : { name, parentHash, isDefault }
      },
     urlList : {
         url_hash : { url, title, taggedPersons, parentHash }

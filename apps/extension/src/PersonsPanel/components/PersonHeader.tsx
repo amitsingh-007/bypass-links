@@ -52,6 +52,7 @@ const PersonHeader = memo<Props>(function PersonHeader({
     <>
       <Header onSearchChange={onSearchChange} text={persons?.length || 0}>
         <Button
+          size="xs"
           radius="xl"
           variant="light"
           leftIcon={<IoIosPersonAdd />}
@@ -61,6 +62,7 @@ const PersonHeader = memo<Props>(function PersonHeader({
           Add
         </Button>
         <Button
+          size="xs"
           radius="xl"
           variant="light"
           leftIcon={<RiUploadCloud2Fill />}

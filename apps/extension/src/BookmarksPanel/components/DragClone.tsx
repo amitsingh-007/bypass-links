@@ -9,10 +9,12 @@ import FolderRow from './FolderRow';
 import BookmarkRow from './BookmarkRow';
 import { getSelectedCount } from '../utils';
 
-const DragClone: React.FC<{
+interface Props {
   selectedBookmarks: ISelectedBookmarks;
   contextBookmarks: ContextBookmarks;
-}> = ({ selectedBookmarks, contextBookmarks }) => {
+}
+
+const DragClone = ({ selectedBookmarks, contextBookmarks }: Props) => {
   const dragCount = getSelectedCount(selectedBookmarks);
 
   if (dragCount > 1) {
@@ -37,10 +39,12 @@ const DragClone: React.FC<{
         <FolderRow
           pos={selectedIndex}
           name={ctx.name}
+          isDefault={ctx.isDefault}
           handleRemove={noOp}
           handleEdit={noOp}
           isEmpty={false}
           resetSelectedBookmarks={noOp}
+          toggleDefaultFolder={noOp}
         />
       ) : (
         <BookmarkRow

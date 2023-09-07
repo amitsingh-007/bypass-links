@@ -15,11 +15,11 @@ import FolderRow, { Props as FolderProps } from './FolderRow';
 export interface Props {
   bookmark: ContextBookmark;
   pos: number;
-  folderNamesList: string[];
   folders: IBookmarksObj['folders'];
   isSelected: boolean;
   handleFolderRemove: FolderProps['handleRemove'];
   handleFolderEdit: FolderProps['handleEdit'];
+  toggleDefaultFolder: (folder: string, isDefault: boolean) => void;
   resetSelectedBookmarks: FolderProps['resetSelectedBookmarks'];
   handleSelectedChange: BookmarkProps['handleSelectedChange'];
 }
@@ -31,6 +31,7 @@ const VirtualRow = memo<Props>(function VirtualRow({
   isSelected,
   handleFolderRemove,
   handleFolderEdit,
+  toggleDefaultFolder,
   resetSelectedBookmarks,
   handleSelectedChange,
 }) {
@@ -56,8 +57,10 @@ const VirtualRow = memo<Props>(function VirtualRow({
           <FolderRow
             pos={pos}
             name={bookmark.name}
+            isDefault={bookmark.isDefault}
             handleRemove={handleFolderRemove}
             handleEdit={handleFolderEdit}
+            toggleDefaultFolder={toggleDefaultFolder}
             isEmpty={isFolderEmpty(folders, bookmark.name)}
             resetSelectedBookmarks={resetSelectedBookmarks}
           />

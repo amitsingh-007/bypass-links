@@ -101,6 +101,7 @@ const BookmarksHeader = memo<Props>(function BookmarksHeader({
         text={contextBookmarks?.length || 0}
       >
         <Button
+          size="xs"
           radius="xl"
           variant="light"
           leftIcon={<FaFolderPlus />}
@@ -110,6 +111,7 @@ const BookmarksHeader = memo<Props>(function BookmarksHeader({
           Add
         </Button>
         <Button
+          size="xs"
           radius="xl"
           variant="light"
           color="teal"
@@ -120,6 +122,7 @@ const BookmarksHeader = memo<Props>(function BookmarksHeader({
           Save
         </Button>
         <Button
+          size="xs"
           radius="xl"
           variant="light"
           leftIcon={<RiUploadCloud2Fill />}

@@ -4,16 +4,27 @@ import { useMantineTheme } from '@mantine/core';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
 import { FaFolderMinus } from 'react-icons/fa';
+import { PiStarBold, PiStarFill } from 'react-icons/pi';
 import { FolderAddEditDialog } from './FolderAddEditDialog';
 
 interface Props extends FolderProps {
   pos: number;
+  isDefault: boolean;
   handleRemove: (pos: number, origName: string) => void;
+  toggleDefaultFolder: (folder: string, newIsDefault: boolean) => void;
   handleEdit: (origName: string, newName: string, pos: number) => void;
 }
 
 const FolderRow = memo<Props>(
-  ({ name: origName, pos, handleRemove, handleEdit, ...restProps }) => {
+  ({
+    name: origName,
+    isDefault,
+    pos,
+    handleRemove,
+    handleEdit,
+    toggleDefaultFolder,
+    ...restProps
+  }) => {
     const theme = useMantineTheme();
     const [openEditDialog, setOpenEditDialog] = useState(false);
     const [menuOptions, setMenuOptions] = useState<IMenuOptions[]>([]);
@@ -25,6 +36,10 @@ const FolderRow = memo<Props>(
     const handleDeleteOptionClick = useCallback(() => {
       handleRemove(pos, origName);
     }, [handleRemove, origName, pos]);
+
+    const handleDefaultOptionClick = useCallback(() => {
+      toggleDefaultFolder(origName, !isDefault);
+    }, [isDefault, origName, toggleDefaultFolder]);
 
     const handleFolderSave = (newName: string) => {
       handleEdit(origName, newName, pos);
@@ -40,6 +55,12 @@ const FolderRow = memo<Props>(
           color: theme.colors.violet[9],
         },
         {
+          onClick: handleDefaultOptionClick,
+          text: isDefault ? 'Remove default' : 'Make default',
+          icon: isDefault ? PiStarFill : PiStarBold,
+          color: isDefault ? theme.colors.yellow[5] : theme.colors.dark[3],
+        },
+        {
           onClick: handleDeleteOptionClick,
           text: 'Delete',
           icon: FaFolderMinus,
@@ -47,7 +68,13 @@ const FolderRow = memo<Props>(
         },
       ];
       setMenuOptions(options);
-    }, [handleDeleteOptionClick, theme.colors, toggleEditDialog]);
+    }, [
+      handleDefaultOptionClick,
+      handleDeleteOptionClick,
+      isDefault,
+      theme.colors,
+      toggleEditDialog,
+    ]);
 
     return (
       <>
