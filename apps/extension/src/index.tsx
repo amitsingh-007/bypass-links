@@ -1,5 +1,6 @@
 import { mantineTheme } from '@bypass/shared';
 import { MantineProvider } from '@mantine/core';
+import { ContextMenuProvider } from 'mantine-contextmenu';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
@@ -10,19 +11,25 @@ import DynamicProvider from './provider/DynamicProvider';
 
 Logging.init();
 
-const container = document.getElementById('root');
-if (container) {
-  const root = createRoot(container);
-  root.render(
+const App = () => {
+  return (
     <StrictMode>
       <BrowserRouter>
         <MantineProvider withGlobalStyles withNormalizeCSS theme={mantineTheme}>
-          <DynamicProvider>
-            <PopupRoutes />
-            <Global />
-          </DynamicProvider>
+          <ContextMenuProvider shadow="md" borderRadius="md">
+            <DynamicProvider>
+              <PopupRoutes />
+              <Global />
+            </DynamicProvider>
+          </ContextMenuProvider>
         </MantineProvider>
       </BrowserRouter>
     </StrictMode>
   );
+};
+
+const container = document.getElementById('root');
+if (container) {
+  const root = createRoot(container);
+  root.render(<App />);
 }

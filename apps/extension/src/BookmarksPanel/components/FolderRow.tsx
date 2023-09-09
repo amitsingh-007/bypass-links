@@ -1,7 +1,7 @@
-import ContextMenu, { IMenuOptions } from '@/components/ContextMenu';
+import ContextMenu, { IMenuOption } from '@/components/ContextMenu';
 import { Folder, FolderProps } from '@bypass/shared';
 import { useMantineTheme } from '@mantine/core';
-import { memo, useCallback, useEffect, useState } from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
 import { FaFolderMinus } from 'react-icons/fa';
 import { FolderAddEditDialog } from './FolderAddEditDialog';
@@ -16,7 +16,6 @@ const FolderRow = memo<Props>(
   ({ name: origName, pos, handleRemove, handleEdit, ...restProps }) => {
     const theme = useMantineTheme();
     const [openEditDialog, setOpenEditDialog] = useState(false);
-    const [menuOptions, setMenuOptions] = useState<IMenuOptions[]>([]);
 
     const toggleEditDialog = useCallback(() => {
       setOpenEditDialog((prev) => !prev);
@@ -31,8 +30,8 @@ const FolderRow = memo<Props>(
       toggleEditDialog();
     };
 
-    useEffect(() => {
-      const options = [
+    const menuOptions = useMemo(() => {
+      const options: IMenuOption[] = [
         {
           onClick: toggleEditDialog,
           text: 'Edit',
@@ -46,7 +45,7 @@ const FolderRow = memo<Props>(
           color: theme.colors.red[9],
         },
       ];
-      setMenuOptions(options);
+      return options;
     }, [handleDeleteOptionClick, theme.colors, toggleEditDialog]);
 
     return (
