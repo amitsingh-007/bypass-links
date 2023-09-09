@@ -1,102 +1,83 @@
-import { HEADER_HEIGHT } from '@bypass/shared';
-import { Box, Menu, useMantineTheme } from '@mantine/core';
-import { useWindowEvent } from '@mantine/hooks';
-import { useState } from 'react';
+import {
+  Box,
+  MantineColor,
+  createStyles,
+  useMantineTheme,
+} from '@mantine/core';
+import { useContextMenu } from 'mantine-contextmenu';
+import { ContextMenuItemOptions } from 'mantine-contextmenu/dist/types';
+import { useMemo, useRef } from 'react';
 import { IconType } from 'react-icons';
 
-export interface IMenuOptions {
+export interface IMenuOption {
   text: string;
   icon: IconType;
   onClick: (id: string) => void;
-  color?: string;
+  color?: MantineColor;
 }
 
 interface Props {
-  options: IMenuOptions[];
+  options: IMenuOption[];
   children: React.ReactNode;
-  mount?: boolean;
-  adjustOffset?: boolean;
 }
 
-const ContextMenu = ({
-  options,
-  mount = true,
-  children,
-  adjustOffset = true,
-}: Props) => {
+const useStyles = createStyles((theme) => ({
+  root: {
+    padding: 4,
+    backgroundColor: theme.colors.dark[6],
+  },
+  item: {
+    borderRadius: 8,
+    padding: '0.375rem 0.5rem',
+    '> div': {
+      lineHeight: 0,
+    },
+  },
+}));
+
+const ContextMenu = ({ options, children }: Props) => {
   const theme = useMantineTheme();
-  const [points, setPoints] = useState({ x: 0, y: 0 });
-  const [id, setId] = useState('');
+  const showContextMenu = useContextMenu();
+  const idRef = useRef('');
+  const { classes } = useStyles();
 
-  useWindowEvent('click', () => setPoints({ x: 0, y: 0 }));
+  const menuOptions = useMemo(() => {
+    return options.map<ContextMenuItemOptions>((option) => {
+      const {
+        text,
+        onClick,
+        icon: Icon,
+        color = theme.colors.blue[8],
+      } = option;
+      const isRedColor = theme.colors.red.includes(color);
 
-  const handleContextMenu: React.MouseEventHandler = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const target = e.target as HTMLElement;
-    setId(target.getAttribute('data-context-id') ?? '');
-    setPoints({
-      x: e.clientX,
-      y: e.clientY - (adjustOffset ? HEADER_HEIGHT : 0),
+      return {
+        key: text,
+        icon: <Icon size="0.875rem" color={color} />,
+        color: isRedColor ? 'red' : undefined,
+        onClick: () => {
+          onClick(idRef.current);
+          idRef.current = '';
+        },
+      };
     });
+  }, [options, theme.colors]);
+
+  const contextMenuHandler = showContextMenu(menuOptions, {
+    classNames: classes,
+  });
+
+  const handleContextMenu: React.MouseEventHandler<HTMLDivElement> = (e) => {
+    const dataCtxId =
+      (e.target as HTMLElement).getAttribute('data-context-id') ?? '';
+    idRef.current = dataCtxId;
+    contextMenuHandler(e);
   };
 
-  const showMenu = mount && points.x !== 0 && points.y !== 0;
-
   return (
-    <>
-      <Box w="100%" h="100%" onContextMenu={handleContextMenu}>
-        {children}
-      </Box>
-      <Box
-        pos="fixed"
-        top={0}
-        left={0}
-        right={0}
-        bottom={0}
-        display={showMenu ? 'block' : 'none'}
-        sx={{ zIndex: 7000 }}
-      >
-        <Box pos="absolute" top={points.y} left={points.x}>
-          <Menu
-            id="context-menu"
-            radius="md"
-            shadow="xl"
-            opened={showMenu}
-            transitionProps={{
-              transition: 'pop-top-left',
-              duration: 200,
-              exitDuration: 0,
-            }}
-          >
-            <Menu.Dropdown>
-              {options.map(
-                ({
-                  text,
-                  icon: Icon,
-                  onClick,
-                  color = theme.colors.blue[8],
-                }) => {
-                  const isRedColor = theme.colors.red.includes(color);
-                  return (
-                    <Menu.Item
-                      key={text}
-                      px="0.5rem"
-                      py="0.375rem"
-                      icon={<Icon color={color} size="0.875rem" />}
-                      color={isRedColor ? 'red' : undefined}
-                      onClick={() => onClick(id)}
-                    >
-                      {text}
-                    </Menu.Item>
-                  );
-                }
-              )}
-            </Menu.Dropdown>
-          </Menu>
-        </Box>
-      </Box>
-    </>
+    <Box w="100%" h="100%" onContextMenu={handleContextMenu}>
+      {children}
+    </Box>
   );
 };
 
