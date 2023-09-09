@@ -4,9 +4,6 @@ import {
   STORAGE_KEYS,
 } from '@bypass/shared';
 
-export const getAllFolderNames = (folderList: IBookmarksObj['folderList']) =>
-  Object.entries(folderList).map(([_key, value]) => atob(value.name));
-
 export const isFolderContainsDir = (
   folders: IBookmarksObj['folders'],
   hash: string

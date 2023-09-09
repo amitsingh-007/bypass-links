@@ -34,11 +34,7 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 import md5 from 'md5';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import useBookmarkDrag from '../hooks/useBookmarkDrag';
-import {
-  getAllFolderNames,
-  isFolderContainsDir,
-  setBookmarksInStorage,
-} from '../utils';
+import { isFolderContainsDir, setBookmarksInStorage } from '../utils';
 import {
   getBookmarksAfterDrag,
   getDestinationIndex,
@@ -178,7 +174,7 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
       // Update current context folder
       setContextBookmarks((prev) => {
         const newValue = [...prev];
-        newValue.unshift({ isDir, name });
+        newValue.unshift({ isDir, name, isDefault: false });
         return newValue;
       });
       // Update data in all folders list
@@ -187,6 +183,7 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
         newValue[nameHash] = {
           name: btoa(name),
           parentHash: md5(folderContext),
+          isDefault: false,
         };
         return newValue;
       });
@@ -309,7 +306,7 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     setSelectedBookmarks([]);
   }, [selectedBookmarks, urlList]);
 
-  const handleFolderEdit = useCallback(
+  const handleFolderRename = useCallback(
     (oldName: string, newName: string, pos: number) => {
       const oldFolderHash = md5(oldName);
       const newFolderHash = md5(newName);
@@ -352,6 +349,36 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
           throw new Error(`Item at pos: ${pos} not a folder`);
         }
         newValue[pos] = { ...curFolder, name: newName };
+        return newValue;
+      });
+      setIsSaveButtonActive(true);
+    },
+    []
+  );
+
+  const handleToggleDefaultFolder = useCallback(
+    (folderName: string, newIsDefault: boolean, pos: number) => {
+      setFolderList((prev) => {
+        const folderHash = md5(folderName);
+        const newValue = { ...prev };
+        // Remove existing default folder
+        Object.values(newValue).forEach((v) => {
+          v.isDefault = false;
+        });
+        // Make new folder as default
+        if (newIsDefault) {
+          newValue[folderHash] = { ...newValue[folderHash], isDefault: true };
+        }
+        return newValue;
+      });
+      // Update current bookmark list
+      setContextBookmarks((prev) => {
+        const newValue = [...prev];
+        const curFolder = newValue[pos];
+        if (!curFolder.isDir) {
+          throw new Error(`Item at pos: ${pos} not a folder`);
+        }
+        newValue[pos] = { ...curFolder, isDefault: newIsDefault };
         return newValue;
       });
       setIsSaveButtonActive(true);
@@ -473,10 +500,6 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
       setSelectedBookmarks,
       handleMoveBookmarks,
     });
-  const folderNamesList = useMemo(
-    () => getAllFolderNames(folderList),
-    [folderList]
-  );
   const curBookmarksCount = filteredContextBookmarks.length;
   const minReqBookmarksToScroll = Math.ceil(bodyHeight / BOOKMARK_ROW_HEIGHT);
   return (
@@ -504,7 +527,7 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
           onSave={handleBookmarkSave}
           onDelete={handleUrlRemove}
           contextBookmarks={contextBookmarks}
-          folderNamesList={folderNamesList}
+          folderList={folderList}
           handleScroll={handleScroll}
           handleSelectedChange={handleSelectedChange}
         />
@@ -551,10 +574,10 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
                           bookmark={filteredContextBookmarks[virtualRow.index]}
                           pos={virtualRow.index}
                           isSelected={selectedBookmarks[virtualRow.index]}
-                          folderNamesList={folderNamesList}
                           folders={folders}
                           handleFolderRemove={handleFolderRemove}
-                          handleFolderEdit={handleFolderEdit}
+                          handleFolderEdit={handleFolderRename}
+                          toggleDefaultFolder={handleToggleDefaultFolder}
                           resetSelectedBookmarks={resetSelectedBookmarks}
                           handleSelectedChange={handleSelectedChange}
                         />

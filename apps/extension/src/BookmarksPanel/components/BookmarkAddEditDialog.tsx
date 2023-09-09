@@ -3,13 +3,16 @@ import { getCurrentTab } from '@/utils/tabs';
 import {
   BOOKMARK_OPERATION,
   ContextBookmarks,
+  DEFAULT_BOOKMARK_FOLDER,
   getBookmarksPanelUrl,
+  getDecodedFolderList,
   IBookmarkOperation,
+  IBookmarksObj,
   IDecodedBookmark,
 } from '@bypass/shared';
 import { Button, Modal, Select, Stack, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { memo, useCallback, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PersonSelect from './PersonSelect';
 
@@ -20,7 +23,7 @@ const HEADING = {
 };
 
 interface Props {
-  folderNamesList: string[];
+  folderList: IBookmarksObj['folderList'];
   curFolder: string;
   contextBookmarks: ContextBookmarks;
   handleScroll: (pos: number) => void;
@@ -48,7 +51,7 @@ interface IForm {
 const validateHandler = (value: string) => (!value?.trim() ? 'Required' : null);
 
 const BookmarkAddEditDialog = memo<Props>(function BookmarkAddEditDialog({
-  folderNamesList,
+  folderList,
   curFolder,
   contextBookmarks,
   handleScroll,
@@ -65,12 +68,23 @@ const BookmarkAddEditDialog = memo<Props>(function BookmarkAddEditDialog({
   );
   const [origTaggedPersons, setOrigTaggedPersons] = useState<string[]>([]);
   const [openDialog, setOpenDialog] = useState(false);
+
+  const { folderNamesList, defaultFolderName } = useMemo(() => {
+    const decodedFolderList = getDecodedFolderList(folderList);
+    const folderNames = decodedFolderList.map((x) => x.name);
+    const defaultFolder = decodedFolderList.find((x) => x.isDefault);
+    return {
+      folderNamesList: folderNames,
+      defaultFolderName: defaultFolder?.name,
+    };
+  }, [folderList]);
+
   const form = useForm<IForm>({
     initialValues: {
       pos: -1,
       url: '',
       title: '',
-      folder: curFolder,
+      folder: DEFAULT_BOOKMARK_FOLDER,
       taggedPersons: [],
     },
     validate: {
@@ -88,13 +102,14 @@ const BookmarkAddEditDialog = memo<Props>(function BookmarkAddEditDialog({
           pos: contextBookmarks.length,
           url: _bmUrl,
           title,
-          folder: curFolder,
+          folder: defaultFolderName || DEFAULT_BOOKMARK_FOLDER,
           taggedPersons: [],
         });
         setOrigTaggedPersons([]);
         setOpenDialog(true);
         return;
       }
+
       let bookmark: Required<IDecodedBookmark> | undefined;
       let pos = -1;
       contextBookmarks.forEach((x, index) => {
@@ -116,7 +131,7 @@ const BookmarkAddEditDialog = memo<Props>(function BookmarkAddEditDialog({
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [contextBookmarks]
+    [contextBookmarks, curFolder, defaultFolderName]
   );
 
   useEffect(() => {

@@ -5,9 +5,10 @@ export interface IEncodedBookmark {
   taggedPersons: string[];
 }
 
-interface IEncodedFolder {
+export interface IEncodedFolder {
   name: string;
   parentHash: string;
+  isDefault?: boolean;
 }
 
 export interface IFolderMetaData {
@@ -22,9 +23,10 @@ export interface IDecodedBookmark {
   taggedPersons: string[];
 }
 
-interface IDecodedFolder {
+export interface IDecodedFolder {
   isDir: true;
   name: string;
+  isDefault: boolean;
 }
 
 export type ContextBookmark = IDecodedBookmark | IDecodedFolder;
