@@ -357,19 +357,31 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
   );
 
   const handleToggleDefaultFolder = useCallback(
-    (folderName: string, newIsDefault: boolean) => {
-      // TODO: handle toggle
-      if (newIsDefault) {
-        setFolderList((prev) => {
-          const folderHash = md5(folderName);
-          const newValue = { ...prev };
-          newValue[folderHash] = {
-            ...newValue[folderHash],
-            isDefault: newIsDefault,
-          };
-          return newValue;
+    (folderName: string, newIsDefault: boolean, pos: number) => {
+      setFolderList((prev) => {
+        const folderHash = md5(folderName);
+        const newValue = { ...prev };
+        // Remove existing default folder
+        Object.values(newValue).forEach((v) => {
+          v.isDefault = false;
         });
-      }
+        // Make new folder as default
+        if (newIsDefault) {
+          newValue[folderHash] = { ...newValue[folderHash], isDefault: true };
+        }
+        return newValue;
+      });
+      // Update current bookmark list
+      setContextBookmarks((prev) => {
+        const newValue = [...prev];
+        const curFolder = newValue[pos];
+        if (!curFolder.isDir) {
+          throw new Error(`Item at pos: ${pos} not a folder`);
+        }
+        newValue[pos] = { ...curFolder, isDefault: newIsDefault };
+        return newValue;
+      });
+      setIsSaveButtonActive(true);
     },
     []
   );

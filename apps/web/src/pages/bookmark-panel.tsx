@@ -7,7 +7,7 @@ import {
   IBookmarksObj,
   STORAGE_KEYS,
   bookmarksMapper,
-  defaultBookmarkFolder,
+  DEFAULT_BOOKMARK_FOLDER,
   getBookmarkId,
   getFilteredContextBookmarks,
   shouldRenderBookmarks,
@@ -23,7 +23,7 @@ export default function BookmarksPage() {
   const router = useRouter();
   const contentRef = useRef<HTMLDivElement>(null);
   const folderContext =
-    (router.query.folderContext as string) ?? defaultBookmarkFolder;
+    (router.query.folderContext as string) ?? DEFAULT_BOOKMARK_FOLDER;
   const [contextBookmarks, setContextBookmarks] = useState<ContextBookmarks>(
     []
   );

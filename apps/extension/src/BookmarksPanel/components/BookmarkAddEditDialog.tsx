@@ -3,6 +3,7 @@ import { getCurrentTab } from '@/utils/tabs';
 import {
   BOOKMARK_OPERATION,
   ContextBookmarks,
+  DEFAULT_BOOKMARK_FOLDER,
   getBookmarksPanelUrl,
   getDecodedFolderList,
   IBookmarkOperation,
@@ -83,7 +84,7 @@ const BookmarkAddEditDialog = memo<Props>(function BookmarkAddEditDialog({
       pos: -1,
       url: '',
       title: '',
-      folder: defaultFolderName || curFolder,
+      folder: DEFAULT_BOOKMARK_FOLDER,
       taggedPersons: [],
     },
     validate: {
@@ -101,13 +102,14 @@ const BookmarkAddEditDialog = memo<Props>(function BookmarkAddEditDialog({
           pos: contextBookmarks.length,
           url: _bmUrl,
           title,
-          folder: curFolder,
+          folder: defaultFolderName || DEFAULT_BOOKMARK_FOLDER,
           taggedPersons: [],
         });
         setOrigTaggedPersons([]);
         setOpenDialog(true);
         return;
       }
+
       let bookmark: Required<IDecodedBookmark> | undefined;
       let pos = -1;
       contextBookmarks.forEach((x, index) => {
@@ -129,7 +131,7 @@ const BookmarkAddEditDialog = memo<Props>(function BookmarkAddEditDialog({
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [contextBookmarks]
+    [contextBookmarks, curFolder, defaultFolderName]
   );
 
   useEffect(() => {

@@ -11,7 +11,11 @@ interface Props extends FolderProps {
   pos: number;
   isDefault: boolean;
   handleRemove: (pos: number, origName: string) => void;
-  toggleDefaultFolder: (folder: string, newIsDefault: boolean) => void;
+  toggleDefaultFolder: (
+    folder: string,
+    newIsDefault: boolean,
+    pos: number
+  ) => void;
   handleEdit: (origName: string, newName: string, pos: number) => void;
 }
 
@@ -37,8 +41,8 @@ const FolderRow = memo<Props>(
     }, [handleRemove, origName, pos]);
 
     const handleDefaultOptionClick = useCallback(() => {
-      toggleDefaultFolder(origName, !isDefault);
-    }, [isDefault, origName, toggleDefaultFolder]);
+      toggleDefaultFolder(origName, !isDefault, pos);
+    }, [isDefault, origName, pos, toggleDefaultFolder]);
 
     const handleFolderSave = (newName: string) => {
       handleEdit(origName, newName, pos);

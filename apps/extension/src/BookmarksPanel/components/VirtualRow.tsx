@@ -19,7 +19,11 @@ export interface Props {
   isSelected: boolean;
   handleFolderRemove: FolderProps['handleRemove'];
   handleFolderEdit: FolderProps['handleEdit'];
-  toggleDefaultFolder: (folder: string, isDefault: boolean) => void;
+  toggleDefaultFolder: (
+    folder: string,
+    isDefault: boolean,
+    pos: number
+  ) => void;
   resetSelectedBookmarks: FolderProps['resetSelectedBookmarks'];
   handleSelectedChange: BookmarkProps['handleSelectedChange'];
 }

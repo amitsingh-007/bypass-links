@@ -1,6 +1,6 @@
 import { ROUTES } from '../../../constants/routes';
 import { serializeObjectToQueryString } from '../../../utils/url';
-import { BOOKMARK_OPERATION, defaultBookmarkFolder } from '../constants';
+import { BOOKMARK_OPERATION, DEFAULT_BOOKMARK_FOLDER } from '../constants';
 import {
   ContextBookmark,
   IBookmarksObj,
@@ -10,7 +10,7 @@ import {
 import { BMPanelQueryParams } from '../interfaces/url';
 
 export const getBookmarksPanelUrl = ({
-  folderContext = defaultBookmarkFolder,
+  folderContext = DEFAULT_BOOKMARK_FOLDER,
   operation = BOOKMARK_OPERATION.NONE,
   bmUrl = '',
 }: Partial<BMPanelQueryParams>) => {
