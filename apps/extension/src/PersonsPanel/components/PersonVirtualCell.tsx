@@ -3,7 +3,7 @@ import { IPerson, Person } from '@bypass/shared';
 import { Box, useMantineTheme } from '@mantine/core';
 import { memo, useCallback, useMemo, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
-import { RiBookmark2Fill } from 'react-icons/ri';
+import { MdOutlineDelete } from 'react-icons/md';
 import AddOrEditPersonDialog from './AddOrEditPersonDialog';
 
 interface Props {
@@ -39,7 +39,7 @@ const PersonVirtualCell = memo<Props>(function PersonVirtualCell({
       {
         onClick: handleDeleteOptionClick,
         text: 'Delete',
-        icon: RiBookmark2Fill,
+        icon: MdOutlineDelete,
         color: theme.colors.red[9],
       },
     ];

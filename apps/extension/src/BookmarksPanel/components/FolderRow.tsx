@@ -1,9 +1,9 @@
 import ContextMenu, { IMenuOption } from '@/components/ContextMenu';
 import { Folder, FolderProps } from '@bypass/shared';
-import { useMantineTheme } from '@mantine/core';
+import { Box, Flex, useMantineTheme } from '@mantine/core';
 import { memo, useCallback, useMemo, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
-import { FaFolderMinus } from 'react-icons/fa';
+import { MdOutlineDelete } from 'react-icons/md';
 import { PiStarBold, PiStarFill } from 'react-icons/pi';
 import { FolderAddEditDialog } from './FolderAddEditDialog';
 
@@ -66,7 +66,7 @@ const FolderRow = memo<Props>(
         {
           onClick: handleDeleteOptionClick,
           text: 'Delete',
-          icon: FaFolderMinus,
+          icon: MdOutlineDelete,
           color: theme.colors.red[9],
         },
       ];
@@ -82,7 +82,22 @@ const FolderRow = memo<Props>(
     return (
       <>
         <ContextMenu options={menuOptions}>
-          <Folder name={origName} {...restProps} />
+          <Box w="100%" h="100%" pos="relative">
+            <Folder name={origName} {...restProps} />
+            {isDefault && (
+              <Flex
+                align="center"
+                sx={{
+                  position: 'absolute',
+                  right: 6,
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                }}
+              >
+                <PiStarFill color={theme.colors.yellow[5]} />
+              </Flex>
+            )}
+          </Box>
         </ContextMenu>
         <FolderAddEditDialog
           headerText="Edit folder"

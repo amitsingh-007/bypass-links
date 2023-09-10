@@ -37,5 +37,10 @@ export const mantineTheme: MantineThemeOverride = {
         zIndex: 1002, // 1 more than Header's zIndex
       },
     },
+    Button: {
+      defaultProps: {
+        variant: 'light',
+      },
+    },
   },
 };

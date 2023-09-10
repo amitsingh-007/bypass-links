@@ -59,7 +59,6 @@ const OpenForumLinks = memo(function OpenForumLinks() {
 
   return (
     <Button
-      variant="light"
       radius="xl"
       loaderPosition="right"
       loading={isFetching}

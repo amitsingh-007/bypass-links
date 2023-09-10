@@ -103,7 +103,6 @@ export default function Web() {
           sx={(theme) => getMediaQuery(theme, { width: ['80%', '40%'] })}
         >
           <Button
-            variant="light"
             radius="xl"
             size="md"
             loading={isLoading}
@@ -122,7 +121,6 @@ export default function Web() {
           ) : (
             <>
               <Button
-                variant="light"
                 radius="xl"
                 size="md"
                 rightIcon={<RiBookMarkFill />}
@@ -132,7 +130,6 @@ export default function Web() {
                 Bookmarks Page
               </Button>
               <Button
-                variant="light"
                 radius="xl"
                 size="md"
                 rightIcon={<FaUserTag />}

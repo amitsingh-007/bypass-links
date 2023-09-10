@@ -1,5 +1,6 @@
 import { ActionIcon, Badge, Flex, Image, Text } from '@mantine/core';
 import { memo, useContext, useEffect, useState } from 'react';
+import { TbUserOff } from 'react-icons/tb';
 import DynamicContext from '../../../provider/DynamicContext';
 import usePerson from '../hooks/usePerson';
 import { IPerson } from '../interfaces/persons';
@@ -43,7 +44,13 @@ const Person = memo<Props>(function Person({ person }) {
       })}
       onClick={openBookmarksList}
     >
-      <Image src={imageUrl} alt={name} height="6.875rem" />
+      <Image
+        src={imageUrl}
+        alt={name}
+        height="6.875rem"
+        withPlaceholder
+        placeholder={<TbUserOff size={30} />}
+      />
       <Flex align="center" w="100%" sx={{ flex: 1 }} pos="relative">
         <Text
           weight={700}

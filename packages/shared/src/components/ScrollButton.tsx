@@ -40,7 +40,6 @@ export const ScrollButton = memo<Props>(function ScrollButton({
       {buttonConfig.map(({ icon, text, onClick }) => (
         <Button
           key={text}
-          variant="light"
           compact
           size="sm"
           color="violet"

@@ -15,7 +15,6 @@ const BookmarksPanelButton = memo(function BookmarksPanelButton() {
 
   return (
     <Button
-      variant="light"
       radius="xl"
       loaderPosition="right"
       disabled={!isSignedIn}
