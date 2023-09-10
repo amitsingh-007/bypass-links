@@ -3,7 +3,7 @@ import { Folder, FolderProps } from '@bypass/shared';
 import { Box, Flex, useMantineTheme } from '@mantine/core';
 import { memo, useCallback, useMemo, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
-import { FaFolderMinus } from 'react-icons/fa';
+import { MdOutlineDelete } from 'react-icons/md';
 import { PiStarBold, PiStarFill } from 'react-icons/pi';
 import { FolderAddEditDialog } from './FolderAddEditDialog';
 
@@ -66,7 +66,7 @@ const FolderRow = memo<Props>(
         {
           onClick: handleDeleteOptionClick,
           text: 'Delete',
-          icon: FaFolderMinus,
+          icon: MdOutlineDelete,
           color: theme.colors.red[9],
         },
       ];

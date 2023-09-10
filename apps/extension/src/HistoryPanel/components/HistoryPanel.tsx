@@ -4,7 +4,8 @@ import { DateTimePicker, DateTimePickerProps } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 import useToastStore from '@store/toast';
 import { memo, useEffect } from 'react';
-import { AiOutlineClear, AiOutlineClockCircle } from 'react-icons/ai';
+import { FaCalendarCheck } from 'react-icons/fa';
+import { MdOutlineDelete } from 'react-icons/md';
 
 interface IForm {
   startDateTime: Date;
@@ -20,7 +21,7 @@ const DateTime = (props: DateTimePickerProps) => (
     withAsterisk
     level="month"
     hasNextLevel={false}
-    icon={<AiOutlineClockCircle />}
+    icon={<FaCalendarCheck />}
     {...props}
   />
 );
@@ -87,9 +88,9 @@ const HistoryPanel = memo(function HistoryPanel() {
           />
           <Button
             radius="xl"
-            leftIcon={<AiOutlineClear />}
             color="red"
             type="submit"
+            leftIcon={<MdOutlineDelete />}
           >
             Clear
           </Button>

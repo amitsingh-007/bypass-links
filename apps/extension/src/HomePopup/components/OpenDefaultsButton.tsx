@@ -3,7 +3,7 @@ import { Button } from '@mantine/core';
 import useAuthStore from '@store/auth';
 import useHistoryStore from '@store/history';
 import { memo, useState } from 'react';
-import { FiExternalLink } from 'react-icons/fi';
+import { RxExternalLink } from 'react-icons/rx';
 
 const OpenDefaultsButton = memo(function OpenDefaultsButton() {
   const startHistoryMonitor = useHistoryStore(
@@ -35,7 +35,7 @@ const OpenDefaultsButton = memo(function OpenDefaultsButton() {
       loading={isFetching}
       disabled={!isSignedIn}
       onClick={handleOpenDefaults}
-      rightIcon={<FiExternalLink />}
+      rightIcon={<RxExternalLink />}
       fullWidth
       color="yellow"
     >

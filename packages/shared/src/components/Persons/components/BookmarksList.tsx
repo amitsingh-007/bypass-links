@@ -15,7 +15,7 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { MdModeEdit } from 'react-icons/md';
+import { AiFillEdit } from 'react-icons/ai';
 import Bookmark from '../../Bookmarks/components/Bookmark';
 import { BOOKMARK_OPERATION } from '../../Bookmarks/constants';
 import { getBookmarksPanelUrl } from '../../Bookmarks/utils/url';
@@ -128,7 +128,7 @@ const BookmarksList = memo<Props>(function BookmarksList({
               }}
               radius={999}
             >
-              <MdModeEdit size="1.125rem" />
+              <AiFillEdit size="1.125rem" />
             </ActionIcon>
             <Box sx={{ flex: 1 }}>
               <Bookmark

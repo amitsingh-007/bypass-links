@@ -11,7 +11,7 @@ import {
 import useHistoryStore from '@store/history';
 import { memo, useState } from 'react';
 import { CgWebsite } from 'react-icons/cg';
-import { GiSaveArrow } from 'react-icons/gi';
+import { IoSave } from 'react-icons/io5';
 import { MdOutlineDelete, MdShortcut } from 'react-icons/md';
 import { RxDragHandleDots2, RxExternalLink } from 'react-icons/rx';
 import { DEFAULT_RULE_ALIAS } from '../constants';
@@ -128,7 +128,7 @@ const RedirectionRule = memo(function RedirectionRule({
         color="teal"
         sx={isRuleSaveActive ? disabledStyles : undefined}
       >
-        <GiSaveArrow size={20} />
+        <IoSave size={18} />
       </ActionIcon>
       <ActionIcon
         radius={999}

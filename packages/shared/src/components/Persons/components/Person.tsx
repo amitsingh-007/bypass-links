@@ -45,7 +45,7 @@ const Person = memo<Props>(function Person({ person }) {
       onClick={openBookmarksList}
     >
       <Image
-        src={`${imageUrl}1`}
+        src={imageUrl}
         alt={name}
         height="6.875rem"
         withPlaceholder

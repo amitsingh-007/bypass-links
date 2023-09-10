@@ -13,7 +13,7 @@ import {
 import { useForm } from '@mantine/form';
 import md5 from 'md5';
 import { memo, useCallback, useEffect, useState } from 'react';
-import { MdModeEdit } from 'react-icons/md';
+import { AiFillEdit } from 'react-icons/ai';
 import ImagePicker from './ImagePicker';
 
 const imageSize = 200;
@@ -128,7 +128,7 @@ const AddOrEditPersonDialog = memo<Props>(function AddOrEditPersonDialog({
                     size={imageSize}
                     onClick={toggleImagePicker}
                   >
-                    <MdModeEdit size="25px" />
+                    <AiFillEdit size="25px" />
                   </ActionIcon>
                 </Box>
               </Box>

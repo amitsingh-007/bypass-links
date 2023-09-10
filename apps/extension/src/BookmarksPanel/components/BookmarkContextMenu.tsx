@@ -10,8 +10,8 @@ import useBookmarkStore from '@store/bookmark';
 import md5 from 'md5';
 import { memo, useCallback } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
-import { HiArrowCircleUp } from 'react-icons/hi';
-import { RiBookmark2Fill } from 'react-icons/ri';
+import { BsArrowUp } from 'react-icons/bs';
+import { MdOutlineDelete } from 'react-icons/md';
 import { RxExternalLink } from 'react-icons/rx';
 import { getSelectedCount } from '../utils';
 
@@ -93,14 +93,14 @@ const BookmarkContextMenu = memo<Props>(function BookmarkContextMenu({
       {
         onClick: handleMoveToTop,
         text: 'Top',
-        icon: HiArrowCircleUp,
+        icon: BsArrowUp,
       },
     ];
     if (selectedCount > 1) {
       menuOptionsList.push({
         onClick: handleBulkUrlRemove,
         text: 'Delete All',
-        icon: RiBookmark2Fill,
+        icon: MdOutlineDelete,
         color: theme.colors.red[9],
       });
     } else {
@@ -114,7 +114,7 @@ const BookmarkContextMenu = memo<Props>(function BookmarkContextMenu({
         {
           onClick: handleDeleteOptionClick,
           text: 'Delete',
-          icon: RiBookmark2Fill,
+          icon: MdOutlineDelete,
           color: theme.colors.red[9],
         }
       );
