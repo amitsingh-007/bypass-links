@@ -41,8 +41,8 @@ const Header = memo<Props>(function Header({
     >
       <Group>
         <Button
+          size="xs"
           radius="xl"
-          variant="light"
           color="red"
           leftIcon={<HiOutlineArrowNarrowLeft />}
           onClick={onBackClick ?? location.goBack}

@@ -1,5 +1,6 @@
 import { getExtVersion, getFileNameFromVersion } from '@bypass/shared';
-import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
+// import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
+import PreactRefreshPlugin from '@prefresh/webpack';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import ESLintPlugin from 'eslint-webpack-plugin';
@@ -11,7 +12,7 @@ import { resolve } from 'path';
 import ReactRefreshTypeScript from 'react-refresh-typescript';
 import TerserPlugin from 'terser-webpack-plugin';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
-import { DefinePlugin, optimize } from 'webpack';
+import { DefinePlugin, HotModuleReplacementPlugin, optimize } from 'webpack';
 import 'webpack-dev-server'; // Required for TS typings
 import { env } from './src/constants/env';
 
@@ -71,14 +72,11 @@ const config = {
         extensions: ['.ts', '.tsx', '.js'],
       }),
     ],
-    // Preact doesn't support hmr, so disable it for dev
-    alias: isProduction
-      ? {
-          react: 'preact/compat',
-          'react-dom': 'preact/compat',
-          'react/jsx-runtime': 'preact/jsx-runtime',
-        }
-      : undefined,
+    alias: {
+      react: 'preact/compat',
+      'react-dom': 'preact/compat',
+      'react/jsx-runtime': 'preact/jsx-runtime',
+    },
   },
   stats: isProduction ? 'normal' : 'errors-warnings',
   devtool: isProduction ? undefined : 'inline-source-map',
@@ -150,11 +148,6 @@ const config = {
         configFile: tsConfigFile,
       },
     }),
-    new ESLintPlugin({
-      files: './src/**/*.{js,ts,tsx}',
-      cache: true,
-      threads: true,
-    }),
     new DefinePlugin({
       PROD_ENV: JSON.stringify(isProduction),
       HOST_NAME: JSON.stringify(HOST_NAME),
@@ -193,7 +186,15 @@ const config = {
         root: PATHS.ROOT,
       },
     }),
-    !isProduction && new ReactRefreshWebpackPlugin(),
+    // !isProduction && new ReactRefreshWebpackPlugin(),
+    !isProduction && new HotModuleReplacementPlugin(),
+    !isProduction && new PreactRefreshPlugin(),
+    isProduction &&
+      new ESLintPlugin({
+        files: './src/**/*.{js,ts,tsx}',
+        cache: true,
+        threads: true,
+      }),
     isProduction &&
       new FileManagerPlugin({
         events: {

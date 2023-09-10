@@ -15,7 +15,6 @@ const PersonsPanelButton = memo(function PersonsPanelButton() {
 
   return (
     <Button
-      variant="light"
       radius="xl"
       loaderPosition="right"
       disabled={!isSignedIn}

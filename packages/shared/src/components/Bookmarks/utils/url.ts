@@ -1,11 +1,16 @@
 import { ROUTES } from '../../../constants/routes';
 import { serializeObjectToQueryString } from '../../../utils/url';
-import { BOOKMARK_OPERATION, defaultBookmarkFolder } from '../constants';
-import { ContextBookmark } from '../interfaces';
+import { BOOKMARK_OPERATION, DEFAULT_BOOKMARK_FOLDER } from '../constants';
+import {
+  ContextBookmark,
+  IBookmarksObj,
+  IDecodedFolder,
+  IEncodedFolder,
+} from '../interfaces';
 import { BMPanelQueryParams } from '../interfaces/url';
 
 export const getBookmarksPanelUrl = ({
-  folderContext = defaultBookmarkFolder,
+  folderContext = DEFAULT_BOOKMARK_FOLDER,
   operation = BOOKMARK_OPERATION.NONE,
   bmUrl = '',
 }: Partial<BMPanelQueryParams>) => {
@@ -19,3 +24,12 @@ export const getBookmarksPanelUrl = ({
 
 export const getBookmarkId = (bookmark: ContextBookmark) =>
   bookmark.isDir ? bookmark.name : bookmark.url;
+
+export const getDecodedFolder = (folder: IEncodedFolder): IDecodedFolder => ({
+  isDir: true,
+  name: atob(folder.name),
+  isDefault: Boolean(folder.isDefault),
+});
+
+export const getDecodedFolderList = (folderList: IBookmarksObj['folderList']) =>
+  Object.entries(folderList).map(([_key, value]) => getDecodedFolder(value));

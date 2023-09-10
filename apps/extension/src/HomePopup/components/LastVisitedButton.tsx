@@ -71,7 +71,6 @@ const LastVisitedButton = memo(function LastVisitedButton() {
       color="gray"
     >
       <Button
-        variant="light"
         radius="xl"
         loaderPosition="right"
         loading={isFetching}

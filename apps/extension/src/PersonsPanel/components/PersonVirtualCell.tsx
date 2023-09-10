@@ -1,9 +1,9 @@
-import ContextMenu, { IMenuOptions } from '@/components/ContextMenu';
+import ContextMenu, { IMenuOption } from '@/components/ContextMenu';
 import { IPerson, Person } from '@bypass/shared';
 import { Box, useMantineTheme } from '@mantine/core';
-import { memo, useCallback, useEffect, useState } from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
-import { RiBookmark2Fill } from 'react-icons/ri';
+import { MdOutlineDelete } from 'react-icons/md';
 import AddOrEditPersonDialog from './AddOrEditPersonDialog';
 
 interface Props {
@@ -19,7 +19,6 @@ const PersonVirtualCell = memo<Props>(function PersonVirtualCell({
 }) {
   const theme = useMantineTheme();
   const [showEditPersonDialog, setShowEditPersonDialog] = useState(false);
-  const [menuOptions, setMenuOptions] = useState<IMenuOptions[]>([]);
 
   const handleDeleteOptionClick = useCallback(() => {
     handlePersonDelete(person);
@@ -29,8 +28,8 @@ const PersonVirtualCell = memo<Props>(function PersonVirtualCell({
     setShowEditPersonDialog(!showEditPersonDialog);
   }, [showEditPersonDialog]);
 
-  useEffect(() => {
-    const options = [
+  const menuOptions = useMemo(() => {
+    const options: IMenuOption[] = [
       {
         onClick: toggleEditPersonDialog,
         text: 'Edit',
@@ -40,12 +39,12 @@ const PersonVirtualCell = memo<Props>(function PersonVirtualCell({
       {
         onClick: handleDeleteOptionClick,
         text: 'Delete',
-        icon: RiBookmark2Fill,
+        icon: MdOutlineDelete,
         color: theme.colors.red[9],
       },
     ];
-    setMenuOptions(options);
-  }, [handleDeleteOptionClick, toggleEditPersonDialog, theme.colors]);
+    return options;
+  }, [handleDeleteOptionClick, theme.colors, toggleEditPersonDialog]);
 
   const handlePersonSave = (updatedPerson: IPerson) => {
     handleEditPerson(updatedPerson);
@@ -54,11 +53,9 @@ const PersonVirtualCell = memo<Props>(function PersonVirtualCell({
 
   return (
     <Box p="0.5rem" h="100%">
-      <Box h="100%">
-        <ContextMenu options={menuOptions}>
-          <Person person={person} />
-        </ContextMenu>
-      </Box>
+      <ContextMenu options={menuOptions}>
+        <Person person={person} />
+      </ContextMenu>
       {showEditPersonDialog && (
         <AddOrEditPersonDialog
           person={person}

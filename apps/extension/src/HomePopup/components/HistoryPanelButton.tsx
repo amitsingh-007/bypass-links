@@ -15,7 +15,6 @@ const HistoryPanelButton = memo(function HistoryPanelButton() {
 
   return (
     <Button
-      variant="light"
       radius="xl"
       loaderPosition="right"
       disabled={!isExtensionActive}

@@ -109,7 +109,6 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
     <Flex w={MAX_PANEL_SIZE.WIDTH} h={MAX_PANEL_SIZE.HEIGHT} direction="column">
       <Header text="Shortcuts">
         <Button
-          variant="light"
           leftIcon={<RiPlayListAddFill />}
           onClick={handleAddRule}
           radius="xl"
@@ -118,7 +117,6 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
           Add
         </Button>
         <Button
-          variant="light"
           leftIcon={<IoSave />}
           onClick={handleSave}
           color="teal"

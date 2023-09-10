@@ -2,7 +2,7 @@ import { getCurrentTab } from '@/utils/tabs';
 import {
   BMPanelQueryParams,
   BOOKMARK_OPERATION,
-  defaultBookmarkFolder,
+  DEFAULT_BOOKMARK_FOLDER,
   getBookmarksPanelUrl,
   getDecodedBookmark,
   IEncodedBookmark,
@@ -58,7 +58,7 @@ const QuickBookmarkButton = memo(function QuickBookmarkButton() {
       const { url } = await getCurrentTab();
       urlParams.operation = BOOKMARK_OPERATION.ADD;
       urlParams.bmUrl = url;
-      urlParams.folderContext = defaultBookmarkFolder;
+      urlParams.folderContext = DEFAULT_BOOKMARK_FOLDER;
     }
     navigate(getBookmarksPanelUrl(urlParams));
   };
@@ -73,7 +73,6 @@ const QuickBookmarkButton = memo(function QuickBookmarkButton() {
       color="gray"
     >
       <Button
-        variant="light"
         radius="xl"
         loaderPosition="right"
         loading={isFetching}

@@ -63,7 +63,6 @@ const Authenticate = memo(function Authenticate() {
   return (
     <>
       <Button
-        variant="light"
         radius="xl"
         loading={isFetching}
         loaderPosition="right"

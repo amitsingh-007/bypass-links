@@ -4,6 +4,7 @@ import {
   IBookmarksObj,
   IFolderMetaData,
 } from '../interfaces';
+import { getDecodedFolder } from '../utils/url';
 
 export const getDecryptedBookmark = (
   bookmark: IEncodedBookmark
@@ -30,10 +31,7 @@ export const bookmarksMapper = (
 ): ContextBookmark => {
   if (isDir) {
     const folder = folderList[hash];
-    return {
-      isDir,
-      name: atob(folder.name),
-    };
+    return getDecodedFolder(folder);
   }
   const bookmark = getDecryptedBookmark(urlList[hash]);
   return {
