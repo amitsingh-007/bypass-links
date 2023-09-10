@@ -57,7 +57,7 @@ const PersonsInner = ({
   });
 
   const handleScroll = (itemNumber: number) =>
-    rowVirtualizer.scrollToIndex(itemNumber, { behavior: 'smooth' });
+    rowVirtualizer.scrollToIndex(itemNumber);
 
   return (
     <>

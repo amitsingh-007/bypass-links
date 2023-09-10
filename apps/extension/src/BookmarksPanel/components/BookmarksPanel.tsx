@@ -118,7 +118,7 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
   }, [contextBookmarks, selectedBookmarks, startHistoryMonitor]);
 
   const handleScroll = (itemNumber: number) =>
-    virtualizer.scrollToIndex(itemNumber, { behavior: 'smooth' });
+    virtualizer.scrollToIndex(itemNumber);
 
   useEffect(() => {
     initBookmarksData();
