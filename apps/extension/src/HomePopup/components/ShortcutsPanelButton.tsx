@@ -15,7 +15,6 @@ const ShortcutsPanelButton = memo(function ShortcutsPanelButton() {
 
   return (
     <Button
-      variant="light"
       radius="xl"
       loaderPosition="right"
       disabled={!isSignedIn}

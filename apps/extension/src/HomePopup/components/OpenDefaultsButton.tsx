@@ -30,7 +30,6 @@ const OpenDefaultsButton = memo(function OpenDefaultsButton() {
 
   return (
     <Button
-      variant="light"
       radius="xl"
       loaderPosition="right"
       loading={isFetching}

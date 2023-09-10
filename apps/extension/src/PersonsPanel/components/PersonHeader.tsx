@@ -54,7 +54,6 @@ const PersonHeader = memo<Props>(function PersonHeader({
         <Button
           size="xs"
           radius="xl"
-          variant="light"
           leftIcon={<IoIosPersonAdd />}
           onClick={toggleAddPersonDialog}
           disabled={isFetching}
@@ -64,7 +63,6 @@ const PersonHeader = memo<Props>(function PersonHeader({
         <Button
           size="xs"
           radius="xl"
-          variant="light"
           leftIcon={<RiUploadCloud2Fill />}
           onClick={onSyncClick}
           loading={isSyncing}

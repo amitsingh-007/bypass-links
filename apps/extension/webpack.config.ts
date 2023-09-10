@@ -150,11 +150,6 @@ const config = {
         configFile: tsConfigFile,
       },
     }),
-    new ESLintPlugin({
-      files: './src/**/*.{js,ts,tsx}',
-      cache: true,
-      threads: true,
-    }),
     new DefinePlugin({
       PROD_ENV: JSON.stringify(isProduction),
       HOST_NAME: JSON.stringify(HOST_NAME),
@@ -193,6 +188,12 @@ const config = {
         root: PATHS.ROOT,
       },
     }),
+    isProduction &&
+      new ESLintPlugin({
+        files: './src/**/*.{js,ts,tsx}',
+        cache: true,
+        threads: true,
+      }),
     !isProduction && new ReactRefreshWebpackPlugin(),
     isProduction &&
       new FileManagerPlugin({

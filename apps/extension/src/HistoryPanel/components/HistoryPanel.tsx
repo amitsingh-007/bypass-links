@@ -87,7 +87,6 @@ const HistoryPanel = memo(function HistoryPanel() {
           />
           <Button
             radius="xl"
-            variant="light"
             leftIcon={<AiOutlineClear />}
             color="red"
             type="submit"

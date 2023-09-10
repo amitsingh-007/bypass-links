@@ -55,7 +55,7 @@ export const FolderAddEditDialog: React.FC<Props> = ({
           {...form.getInputProps('folderName')}
         />
         <Group position="right" mt="md">
-          <Button type="submit" color="teal" variant="light">
+          <Button type="submit" color="teal">
             Save
           </Button>
         </Group>

@@ -73,7 +73,6 @@ const QuickBookmarkButton = memo(function QuickBookmarkButton() {
       color="gray"
     >
       <Button
-        variant="light"
         radius="xl"
         loaderPosition="right"
         loading={isFetching}
