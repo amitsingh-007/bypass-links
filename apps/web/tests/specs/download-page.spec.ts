@@ -29,4 +29,12 @@ test.describe('Download page', () => {
     const downloadPage = new DownloadPage(page);
     await downloadPage.testPageMetaData();
   });
+
+  test('footer elements should exist', async ({ page }) => {
+    expect(page.getByTestId('ext-version')).toBeVisible();
+    expect(page.getByTestId('ext-release-data')).toBeVisible();
+    expect(
+      await page.getByTitle('Bypass Links - Github').getAttribute('href')
+    ).toEqual('https://github.com/amitsingh-007/bypass-links');
+  });
 });
