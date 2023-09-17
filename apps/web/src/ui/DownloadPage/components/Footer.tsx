@@ -8,11 +8,20 @@ import { BsGithub } from 'react-icons/bs';
 import { MdExtension } from 'react-icons/md';
 import { RiTimeFill } from 'react-icons/ri';
 
-const Info = ({ icon: Icon, text }: { icon: IconType; text: string }) => {
+const Info = ({
+  icon: Icon,
+  text,
+  testId,
+}: {
+  icon: IconType;
+  text: string;
+  testId: string;
+}) => {
   return (
     <Flex
       align="center"
       sx={(theme) => getMediaQuery(theme, { marginTop: [0, '0.625rem'] })}
+      data-testid={testId}
     >
       <Box
         sx={(theme) =>
@@ -68,12 +77,17 @@ const Footer = ({
         }
       >
         <Flex direction="column">
-          <Info icon={MdExtension} text={`v ${extVersion}`} />
+          <Info
+            icon={MdExtension}
+            text={`v ${extVersion}`}
+            testId="ext-version"
+          />
           <Info
             icon={RiTimeFill}
             text={dayjs(releaseDate)
               .tz(timezone)
               .format('DD MMMM YYYY hh:mm A')}
+            testId="ext-release-data"
           />
         </Flex>
         <Flex align="center">

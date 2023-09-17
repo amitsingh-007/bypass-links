@@ -70,4 +70,10 @@ export const removeFromFirebase = async ({
 }: Omit<Firebase, 'data'>) =>
   database.ref(getFullDbPath(ref, uid, isAbsolute)).remove();
 
-export const getUser = (uid: string) => auth.getUser(uid);
+/**
+ * AUTH
+ */
+export const getFirebaseUser = (uid: string) => auth.getUser(uid);
+
+export const verifyAuthToken = (idToken: string, checkRevoked?: boolean) =>
+  auth.verifyIdToken(idToken, checkRevoked);

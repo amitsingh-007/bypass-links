@@ -1,7 +1,7 @@
 import { FIREBASE_DB_REF } from '@bypass/shared';
 import { authenticator } from 'otplib';
 import { User2FAInfo } from '../interfaces/firebase';
-import { getUser, saveToFirebase } from './firebaseService';
+import { getFirebaseUser, saveToFirebase } from './firebaseAdminService';
 import { fetchUser2FAInfo } from './userService';
 import { getEnv } from '../constants/env';
 
@@ -28,7 +28,7 @@ export const setup2FA = async (uid: string) => {
       otpAuthUrl: decodeURIComponent(otpAuthUrl),
     };
   }
-  const user = await getUser(uid);
+  const user = await getFirebaseUser(uid);
   const secret = authenticator.generateSecret();
   const otpAuthUrl = authenticator.keyuri(
     user.displayName ?? '',

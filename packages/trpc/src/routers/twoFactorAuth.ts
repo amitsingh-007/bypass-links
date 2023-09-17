@@ -1,7 +1,6 @@
 import { FIREBASE_DB_REF } from '@bypass/shared';
 import { z } from 'zod';
-import { uidType } from '../helpers/validation';
-import { removeFromFirebase } from '../services/firebaseService';
+import { removeFromFirebase } from '../services/firebaseAdminService';
 import {
   authenticate2FA,
   is2FAEnabled,
@@ -10,13 +9,14 @@ import {
 } from '../services/twoFactorAuthService';
 import { fetchUser2FAInfo } from '../services/userService';
 import { t } from '../trpc';
+import { protectedProcedure } from '../procedures';
 
 const twoFactorAuthRouter = t.router({
   // Authenticates the user when they try to login
-  authenticate: t.procedure
+  authenticate: protectedProcedure
     .input(
       z.object({
-        uid: uidType,
+        uid: z.string(),
         totp: z.string(),
       })
     )
@@ -25,10 +25,10 @@ const twoFactorAuthRouter = t.router({
     })),
 
   // Verifies the user code while setting up 2FA
-  verify: t.procedure
+  verify: protectedProcedure
     .input(
       z.object({
-        uid: uidType,
+        uid: z.string(),
         totp: z.string(),
       })
     )
@@ -37,22 +37,26 @@ const twoFactorAuthRouter = t.router({
     })),
 
   // Revoke 2FA for the user
-  revoke: t.procedure.input(uidType).mutation(async ({ input: uid }) => {
-    await removeFromFirebase({
-      ref: FIREBASE_DB_REF.user2FAInfo,
-      uid,
-    });
-    return { isRevoked: true };
-  }),
+  revoke: protectedProcedure
+    .input(z.string())
+    .mutation(async ({ input: uid }) => {
+      await removeFromFirebase({
+        ref: FIREBASE_DB_REF.user2FAInfo,
+        uid,
+      });
+      return { isRevoked: true };
+    }),
 
   // Initializes 2FA for a user for the very first time
-  setup: t.procedure.input(uidType).mutation(async ({ input: uid }) => {
-    const { secretKey, otpAuthUrl } = await setup2FA(uid);
-    return { secretKey, otpAuthUrl };
-  }),
+  setup: protectedProcedure
+    .input(z.string())
+    .mutation(async ({ input: uid }) => {
+      const { secretKey, otpAuthUrl } = await setup2FA(uid);
+      return { secretKey, otpAuthUrl };
+    }),
 
   // Indicates whether 2FA is enabled by the user or not
-  status: t.procedure.input(uidType).query(async ({ input: uid }) => {
+  status: protectedProcedure.input(z.string()).query(async ({ input: uid }) => {
     const user2FAInfo = await fetchUser2FAInfo(uid);
     return { is2FAEnabled: is2FAEnabled(user2FAInfo) };
   }),

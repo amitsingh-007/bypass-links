@@ -1,6 +1,7 @@
 import { type AppRouter } from '@bypass/trpc';
 import { createTRPCProxyClient, httpBatchLink } from '@trpc/client';
 import { serverEnv } from '@/constants/env/server.mjs';
+import { getAuthIdToken } from '@/ui/firebase/auth';
 
 const getBaseUrl = () => {
   if (typeof window !== 'undefined') {
@@ -16,6 +17,9 @@ export const api = createTRPCProxyClient<AppRouter>({
   links: [
     httpBatchLink({
       url: `${getBaseUrl()}/api/trpc`,
+      headers: async () => ({
+        authorization: `Bearer ${await getAuthIdToken()}`,
+      }),
     }),
   ],
 });

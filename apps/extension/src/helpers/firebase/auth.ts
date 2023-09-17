@@ -15,3 +15,5 @@ export const googleSignIn = async (token: string) =>
   signInWithCredential(auth, GoogleAuthProvider.credential(null, token));
 
 export const googleSignOut = () => signOut(auth);
+
+export const getAuthIdToken = () => auth.currentUser?.getIdToken();

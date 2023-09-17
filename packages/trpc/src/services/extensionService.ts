@@ -1,5 +1,5 @@
 import { FIREBASE_DB_ROOT_KEYS } from '@bypass/shared';
-import { getFromFirebase, saveToFirebase } from './firebaseService';
+import { getFromFirebase, saveToFirebase } from './firebaseAdminService';
 import { getAssetsByReleaseId, getLatestRelease } from './githubService';
 
 export const getLatestExtension = async () => {
