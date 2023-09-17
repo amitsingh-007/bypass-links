@@ -1,11 +1,12 @@
 import { getVersionFromFileName } from '@bypass/shared';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
+import { publicProcedure } from '../procedures';
 import { getLatestExtension } from '../services/extensionService';
 import { t } from '../trpc';
 
 const extensionRouter = t.router({
-  latest: t.procedure.input(z.void()).query(async () => {
+  latest: publicProcedure.input(z.void()).query(async () => {
     const extension = await getLatestExtension();
     if (!extension) {
       throw new TRPCError({
