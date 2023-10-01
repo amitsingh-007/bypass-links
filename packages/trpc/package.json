@@ -40,6 +40,6 @@
     "firebase": "10.3.1",
     "prettier": "3.0.3",
     "typescript": "5.2.2",
-    "vitest": "0.34.3"
+    "vitest": "0.34.6"
   }
 }
