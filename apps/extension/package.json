@@ -33,7 +33,7 @@
     "react-dom": "18.2.0",
     "react-easy-crop": "5.0.2",
     "react-icons": "4.10.1",
-    "react-router-dom": "6.15.0",
+    "react-router-dom": "6.16.0",
     "zod": "3.22.2",
     "zustand": "4.4.1"
   },
