@@ -136,8 +136,8 @@ importers:
         specifier: 4.0.0
         version: 4.0.0(@prefresh/babel-plugin@0.5.0)(preact@10.17.1)(webpack@5.88.2)
       '@types/chrome':
-        specifier: 0.0.244
-        version: 0.0.244
+        specifier: 0.0.246
+        version: 0.0.246
       '@types/md5':
         specifier: 2.3.2
         version: 2.3.2
@@ -4056,8 +4056,8 @@ packages:
     resolution: {integrity: sha512-mEo1sAde+UCE6b2hxn332f1g1E8WfYRu6p5SvTKr2ZKC1f7gFJXk4h5PyGP9Dt6gCaG8y8XhwnXWC6Iy2cmBng==}
     dev: true
 
-  /@types/chrome@0.0.244:
-    resolution: {integrity: sha512-pC8kBWuUqGhG6S5d3E44a2f1TA2XHX/sXfCIrrDpA4K65Ozzw3mYQjuvMOTdSUCx4HjJhp4zuZh6fKOH3UdA1g==}
+  /@types/chrome@0.0.246:
+    resolution: {integrity: sha512-MxGxEomGxsJiL9xe/7ZwVgwdn8XVKWbPvxpVQl3nWOjrS0Ce63JsfzxUc4aU3GvRcUPYsfufHmJ17BFyKxeA4g==}
     dependencies:
       '@types/filesystem': 0.0.32
       '@types/har-format': 1.2.11
