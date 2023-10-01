@@ -128,7 +128,7 @@ importers:
         version: 1.37.1
       '@pmmmwh/react-refresh-webpack-plugin':
         specifier: 0.5.11
-        version: 0.5.11(@types/webpack@5.28.2)(react-refresh@0.14.0)(webpack-dev-server@4.15.1)(webpack@5.88.2)
+        version: 0.5.11(@types/webpack@5.28.3)(react-refresh@0.14.0)(webpack-dev-server@4.15.1)(webpack@5.88.2)
       '@prefresh/core':
         specifier: 1.5.1
         version: 1.5.1(preact@10.17.1)
@@ -157,8 +157,8 @@ importers:
         specifier: 5.3.3
         version: 5.3.3
       '@types/webpack':
-        specifier: 5.28.2
-        version: 5.28.2(webpack-cli@5.1.4)
+        specifier: 5.28.3
+        version: 5.28.3(webpack-cli@5.1.4)
       '@typescript-eslint/eslint-plugin':
         specifier: 6.5.0
         version: 6.5.0(@typescript-eslint/parser@6.5.0)(eslint@8.48.0)(typescript@5.2.2)
@@ -3473,7 +3473,7 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /@pmmmwh/react-refresh-webpack-plugin@0.5.11(@types/webpack@5.28.2)(react-refresh@0.14.0)(webpack-dev-server@4.15.1)(webpack@5.88.2):
+  /@pmmmwh/react-refresh-webpack-plugin@0.5.11(@types/webpack@5.28.3)(react-refresh@0.14.0)(webpack-dev-server@4.15.1)(webpack@5.88.2):
     resolution: {integrity: sha512-7j/6vdTym0+qZ6u4XbSAxrWBGYSdCfTzySkj7WAFgDLmSyWlOrWvpyzxlFh5jtw9dn0oL/jtW+06XfFiisN3JQ==}
     engines: {node: '>= 10.13'}
     peerDependencies:
@@ -3499,7 +3499,7 @@ packages:
       webpack-plugin-serve:
         optional: true
     dependencies:
-      '@types/webpack': 5.28.2(webpack-cli@5.1.4)
+      '@types/webpack': 5.28.3(webpack-cli@5.1.4)
       ansi-html-community: 0.0.8
       common-path-prefix: 3.0.0
       core-js-pure: 3.31.1
@@ -4355,8 +4355,8 @@ packages:
     resolution: {integrity: sha512-NfQ4gyz38SL8sDNrSixxU2Os1a5xcdFxipAFxYEuLUlvU2uDwS4NUpsImcf1//SlWItCVMMLiylsxbmNMToV/g==}
     dev: true
 
-  /@types/webpack@5.28.2(webpack-cli@5.1.4):
-    resolution: {integrity: sha512-7tcxyrIOd7WGimZIcWU6pDsNh2edGGnwYExOvd3l/nMvuxqwVPrFXnnTbYCnplqV9BJoU7Mo2mfFtiH8CNFvYw==}
+  /@types/webpack@5.28.3(webpack-cli@5.1.4):
+    resolution: {integrity: sha512-Hd0GBzpP0mO2ZKChw2V7flK45m01/2g9FalpMum2X66uouzG3P1vkxvOtLVzAWLna4N9h0s2sVjND9Slnlef8A==}
     dependencies:
       '@types/node': 18.17.12
       tapable: 2.2.1
