@@ -347,8 +347,8 @@ importers:
         specifier: 18.2.21
         version: 18.2.21
       '@types/request-ip':
-        specifier: 0.0.38
-        version: 0.0.38
+        specifier: 0.0.39
+        version: 0.0.39
       '@typescript-eslint/eslint-plugin':
         specifier: 6.5.0
         version: 6.5.0(@typescript-eslint/parser@6.5.0)(eslint@8.48.0)(typescript@5.2.2)
@@ -592,8 +592,8 @@ importers:
         specifier: 0.9.0
         version: 0.9.0
       '@types/request-ip':
-        specifier: 0.0.38
-        version: 0.0.38
+        specifier: 0.0.39
+        version: 0.0.39
       '@typescript-eslint/eslint-plugin':
         specifier: 6.5.0
         version: 6.5.0(@typescript-eslint/parser@6.5.0)(eslint@8.48.0)(typescript@5.2.2)
@@ -4291,8 +4291,8 @@ packages:
       '@types/node': 18.17.12
     dev: true
 
-  /@types/request-ip@0.0.38:
-    resolution: {integrity: sha512-1yeq8UuK/tUBqLXRY24gjeFvrSNaGNcOcZLQjHlnuw8iu+qE/vTQ64TUcLWorr607NKLfFakdoYEXXHXrLLKCw==}
+  /@types/request-ip@0.0.39:
+    resolution: {integrity: sha512-2vZI+q4ToHvm6Qspi6G+S1f8+dWL23ZnCaauSS4i6LPxR4V//+O44l472aCG5rZtuAQfODihIWWN8z1UK2bOIA==}
     dependencies:
       '@types/node': 18.17.12
     dev: true
