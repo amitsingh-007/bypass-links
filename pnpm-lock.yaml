@@ -102,8 +102,8 @@ importers:
         specifier: 18.2.0
         version: 18.2.0(react@18.2.0)
       react-easy-crop:
-        specifier: 5.0.0
-        version: 5.0.0(react-dom@18.2.0)(react@18.2.0)
+        specifier: 5.0.2
+        version: 5.0.2(react-dom@18.2.0)(react@18.2.0)
       react-icons:
         specifier: 4.10.1
         version: 4.10.1(react@18.2.0)
@@ -10124,8 +10124,8 @@ packages:
       react: 18.2.0
       scheduler: 0.23.0
 
-  /react-easy-crop@5.0.0(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-ppYg3E0jxpDW+HdgLa65lCykZSsGMuusBuKD3HeTMs/Aod4xiWyAH5jZn5iHlllLUV2c0PPT6FznvdNeLhO2wA==}
+  /react-easy-crop@5.0.2(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-j4A/0s0v/Gx5YGXvw3SOFIMmRk5YCdob2ABL5cD00Q9HQPKIz6tkCYLdj0RMO0REPtCAOsZ2ZZLI6fUofiDP6w==}
     peerDependencies:
       react: '>=16.4.0'
       react-dom: '>=16.4.0'
