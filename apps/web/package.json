@@ -34,7 +34,7 @@
     "zod": "3.22.2"
   },
   "devDependencies": {
-    "@babel/core": "7.22.11",
+    "@babel/core": "7.23.0",
     "@bypass/configs": "workspace:*",
     "@playwright/test": "1.37.1",
     "@svgr/webpack": "8.1.0",
