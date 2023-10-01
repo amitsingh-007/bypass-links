@@ -145,8 +145,8 @@ importers:
         specifier: 18.17.12
         version: 18.17.12
       '@types/prefresh__webpack':
-        specifier: 3.3.0
-        version: 3.3.0(webpack-cli@5.1.4)
+        specifier: 3.3.1
+        version: 3.3.1(webpack-cli@5.1.4)
       '@types/react':
         specifier: 18.2.21
         version: 18.2.21
@@ -4235,8 +4235,8 @@ packages:
   /@types/parse-json@4.0.0:
     resolution: {integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==}
 
-  /@types/prefresh__webpack@3.3.0(webpack-cli@5.1.4):
-    resolution: {integrity: sha512-xaAHA+wSic0vvelxcjPlvJiVpSKvnQQgQZ7jg8LR2qqX8rHxFAza+ZJuUgH24CfeK5sBjQHlr47xJ0mG3+DqQA==}
+  /@types/prefresh__webpack@3.3.1(webpack-cli@5.1.4):
+    resolution: {integrity: sha512-i6YgXLx6pFwE5TbSZwcftRPDr63TkQ+ARmcZl/yKhQ3IpbIwhqmoYbXI/QPA+458m43GbTjpBEnDIT0RR5FhKQ==}
     dependencies:
       '@types/node': 18.17.12
       tapable: 2.2.1
