@@ -34,7 +34,7 @@
     "react-easy-crop": "5.0.2",
     "react-icons": "4.11.0",
     "react-router-dom": "6.16.0",
-    "zod": "3.22.3",
+    "zod": "3.22.4",
     "zustand": "4.4.1"
   },
   "devDependencies": {
