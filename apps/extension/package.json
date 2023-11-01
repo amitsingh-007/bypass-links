@@ -40,7 +40,7 @@
   "devDependencies": {
     "@babel/core": "7.23.2",
     "@bypass/configs": "workspace:*",
-    "@playwright/test": "1.38.1",
+    "@playwright/test": "1.39.0",
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.11",
     "@prefresh/core": "1.5.2",
     "@prefresh/webpack": "4.0.0",
