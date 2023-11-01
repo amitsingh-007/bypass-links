@@ -38,7 +38,7 @@
     "@bypass/configs": "workspace:*",
     "@playwright/test": "1.38.1",
     "@svgr/webpack": "8.1.0",
-    "@types/md5": "2.3.3",
+    "@types/md5": "2.3.4",
     "@types/react": "18.2.23",
     "@types/request-ip": "0.0.40",
     "@typescript-eslint/eslint-plugin": "6.7.3",

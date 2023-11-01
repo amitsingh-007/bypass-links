@@ -26,7 +26,7 @@
     "@babel/core": "7.23.2",
     "@bypass/configs": "workspace:*",
     "@emotion/react": "11.11.1",
-    "@types/md5": "2.3.3",
+    "@types/md5": "2.3.4",
     "@types/react": "18.2.23",
     "@typescript-eslint/eslint-plugin": "6.7.3",
     "@typescript-eslint/parser": "6.7.3",
