@@ -90,8 +90,8 @@ importers:
         specifier: 2.3.0
         version: 2.3.0
       preact:
-        specifier: 10.18.0
-        version: 10.18.0
+        specifier: 10.18.1
+        version: 10.18.1
       qrcode.react:
         specifier: 3.1.0
         version: 3.1.0(react@18.2.0)
@@ -131,10 +131,10 @@ importers:
         version: 0.5.11(@types/webpack@5.28.3)(react-refresh@0.14.0)(webpack-dev-server@4.15.1)(webpack@5.88.2)
       '@prefresh/core':
         specifier: 1.5.2
-        version: 1.5.2(preact@10.18.0)
+        version: 1.5.2(preact@10.18.1)
       '@prefresh/webpack':
         specifier: 4.0.0
-        version: 4.0.0(@prefresh/babel-plugin@0.5.0)(preact@10.18.0)(webpack@5.88.2)
+        version: 4.0.0(@prefresh/babel-plugin@0.5.0)(preact@10.18.1)(webpack@5.88.2)
       '@types/chrome':
         specifier: 0.0.248
         version: 0.0.248
@@ -482,8 +482,8 @@ importers:
         specifier: 2.3.0
         version: 2.3.0
       preact:
-        specifier: 10.18.0
-        version: 10.18.0
+        specifier: 10.18.1
+        version: 10.18.1
       react:
         specifier: 18.2.0
         version: 18.2.0
@@ -3485,19 +3485,19 @@ packages:
     resolution: {integrity: sha512-joAwpkUDwo7ZqJnufXRGzUb+udk20RBgfA8oLPBh5aJH2LeStmV1luBfeJTztPdyCscC2j2SmZ/tVxFRMIxAEw==}
     dev: true
 
-  /@prefresh/core@1.5.2(preact@10.18.0):
+  /@prefresh/core@1.5.2(preact@10.18.1):
     resolution: {integrity: sha512-A/08vkaM1FogrCII5PZKCrygxSsc11obExBScm3JF1CryK2uDS3ZXeni7FeKCx1nYdUkj4UcJxzPzc1WliMzZA==}
     peerDependencies:
       preact: ^10.0.0
     dependencies:
-      preact: 10.18.0
+      preact: 10.18.1
     dev: true
 
   /@prefresh/utils@1.2.0:
     resolution: {integrity: sha512-KtC/fZw+oqtwOLUFM9UtiitB0JsVX0zLKNyRTA332sqREqSALIIQQxdUCS1P3xR/jT1e2e8/5rwH6gdcMLEmsQ==}
     dev: true
 
-  /@prefresh/webpack@4.0.0(@prefresh/babel-plugin@0.5.0)(preact@10.18.0)(webpack@5.88.2):
+  /@prefresh/webpack@4.0.0(@prefresh/babel-plugin@0.5.0)(preact@10.18.1)(webpack@5.88.2):
     resolution: {integrity: sha512-Ppr8GNASfq/Zsw/dFOhHz3DYZWfAnqRhz2ryZo4b7VA4x4nQzALYLILK32w9YdSw6WYhIMQdjBkugk6PstcwFg==}
     peerDependencies:
       '@prefresh/babel-plugin': ^0.5.0
@@ -3505,9 +3505,9 @@ packages:
       webpack: ^4.0.0 || ^5.0.0
     dependencies:
       '@prefresh/babel-plugin': 0.5.0
-      '@prefresh/core': 1.5.2(preact@10.18.0)
+      '@prefresh/core': 1.5.2(preact@10.18.1)
       '@prefresh/utils': 1.2.0
-      preact: 10.18.0
+      preact: 10.18.1
       webpack: 5.88.2(webpack-cli@5.1.4)
     dev: true
 
@@ -10244,8 +10244,8 @@ packages:
       source-map-js: 1.0.2
     dev: true
 
-  /preact@10.18.0:
-    resolution: {integrity: sha512-O4dGFmErPd3RNVDvXmCbOW6hetnve6vYtjx5qf51mCUmBS96s66MrNQkEII5UThDGoNF7953ptA+aNupiDxVeg==}
+  /preact@10.18.1:
+    resolution: {integrity: sha512-mKUD7RRkQQM6s7Rkmi7IFkoEHjuFqRQUaXamO61E6Nn7vqF/bo7EZCmSyrUnp2UWHw0O7XjZ2eeXis+m7tf4lg==}
 
   /prebuild-install@7.1.1:
     resolution: {integrity: sha512-jAXscXWMcCK8GgCoHOfIr0ODh5ai8mj63L2nWrjuAgXE6tDyYGnx4/8o/rCgU+B4JSyZBKbeZqzhtwtC3ovxjw==}
