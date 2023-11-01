@@ -63,8 +63,8 @@ importers:
         specifier: 6.0.21
         version: 6.0.21(react@18.2.0)
       '@t3-oss/env-core':
-        specifier: 0.6.1
-        version: 0.6.1(typescript@5.2.2)(zod@3.22.4)
+        specifier: 0.7.1
+        version: 0.7.1(typescript@5.2.2)(zod@3.22.4)
       '@tanstack/react-virtual':
         specifier: 3.0.0-beta.68
         version: 3.0.0-beta.68(react-dom@18.2.0)(react@18.2.0)
@@ -567,8 +567,8 @@ importers:
         specifier: 20.0.2
         version: 20.0.2
       '@t3-oss/env-core':
-        specifier: 0.6.1
-        version: 0.6.1(typescript@5.2.2)(zod@3.22.4)
+        specifier: 0.7.1
+        version: 0.7.1(typescript@5.2.2)(zod@3.22.4)
       '@trpc/server':
         specifier: 10.38.5
         version: 10.38.5
@@ -3917,6 +3917,19 @@ packages:
     peerDependencies:
       typescript: '>=4.7.2'
       zod: ^3.0.0
+    dependencies:
+      typescript: 5.2.2
+      zod: 3.22.4
+    dev: false
+
+  /@t3-oss/env-core@0.7.1(typescript@5.2.2)(zod@3.22.4):
+    resolution: {integrity: sha512-3+SQt39OlmSaRLqYVFv8uRm1BpFepM5TIiMytRqO9cjH+wB77o6BIJdeyM5h5U4qLBMEzOJWCY4MBaU/rLwbYw==}
+    peerDependencies:
+      typescript: '>=4.7.2'
+      zod: ^3.0.0
+    peerDependenciesMeta:
+      typescript:
+        optional: true
     dependencies:
       typescript: 5.2.2
       zod: 3.22.4
