@@ -46,7 +46,7 @@
     "@prefresh/webpack": "4.0.0",
     "@types/chrome": "0.0.248",
     "@types/md5": "2.3.4",
-    "@types/node": "18.18.8",
+    "@types/node": "20.9.0",
     "@types/prefresh__webpack": "3.3.2",
     "@types/react": "18.2.33",
     "@types/react-dom": "18.2.14",
