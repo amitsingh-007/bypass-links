@@ -114,8 +114,8 @@ importers:
         specifier: 3.22.4
         version: 3.22.4
       zustand:
-        specifier: 4.4.5
-        version: 4.4.5(@types/react@18.2.33)(react@18.2.0)
+        specifier: 4.4.7
+        version: 4.4.7(@types/react@18.2.33)(react@18.2.0)
     devDependencies:
       '@babel/core':
         specifier: 7.23.5
@@ -13061,8 +13061,8 @@ packages:
     resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
     dev: false
 
-  /zustand@4.4.5(@types/react@18.2.33)(react@18.2.0):
-    resolution: {integrity: sha512-jgIrBBLKncQW74PA2Lclct3gwD4aPughwGE4FqlXrv3rDqQox7JCn8rwUiFK6ygJcbBAvfTf8fF+ICg7HLD2FQ==}
+  /zustand@4.4.7(@types/react@18.2.33)(react@18.2.0):
+    resolution: {integrity: sha512-QFJWJMdlETcI69paJwhSMJz7PPWjVP8Sjhclxmxmxv/RYI7ZOvR5BHX+ktH0we9gTWQMxcne8q1OY8xxz604gw==}
     engines: {node: '>=12.7.0'}
     peerDependencies:
       '@types/react': '>=16.8'
