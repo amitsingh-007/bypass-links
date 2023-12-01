@@ -35,7 +35,7 @@
     "react-icons": "4.11.0",
     "react-router-dom": "6.18.0",
     "zod": "3.22.4",
-    "zustand": "4.4.5"
+    "zustand": "4.4.7"
   },
   "devDependencies": {
     "@babel/core": "7.23.2",
