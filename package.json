@@ -18,7 +18,7 @@
     "@types/node": "20.9.0",
     "cross-env": "7.0.3",
     "husky": "8.0.3",
-    "lint-staged": "15.0.2",
+    "lint-staged": "15.1.0",
     "turbo": "1.10.16",
     "vercel": "32.5.0"
   }
