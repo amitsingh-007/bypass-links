@@ -23,7 +23,7 @@
     "react-icons": "4.11.0"
   },
   "devDependencies": {
-    "@babel/core": "7.23.2",
+    "@babel/core": "7.23.5",
     "@bypass/configs": "workspace:*",
     "@emotion/react": "11.11.1",
     "@types/md5": "2.3.4",
