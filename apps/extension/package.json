@@ -44,7 +44,7 @@
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.11",
     "@prefresh/core": "1.5.2",
     "@prefresh/webpack": "4.0.0",
-    "@types/chrome": "0.0.248",
+    "@types/chrome": "0.0.253",
     "@types/md5": "2.3.4",
     "@types/node": "20.9.0",
     "@types/prefresh__webpack": "3.3.2",
