@@ -69,11 +69,11 @@ importers:
         specifier: 3.0.0-beta.68
         version: 3.0.0-beta.68(react-dom@18.2.0)(react@18.2.0)
       '@trpc/client':
-        specifier: 10.43.0
-        version: 10.43.0(@trpc/server@10.43.0)
+        specifier: 10.44.1
+        version: 10.44.1(@trpc/server@10.44.1)
       '@trpc/server':
-        specifier: 10.43.0
-        version: 10.43.0
+        specifier: 10.44.1
+        version: 10.44.1
       compressorjs:
         specifier: 1.2.1
         version: 1.2.1
@@ -283,11 +283,11 @@ importers:
         specifier: 3.0.0-beta.68
         version: 3.0.0-beta.68(react-dom@18.2.0)(react@18.2.0)
       '@trpc/client':
-        specifier: 10.43.0
-        version: 10.43.0(@trpc/server@10.43.0)
+        specifier: 10.44.1
+        version: 10.44.1(@trpc/server@10.44.1)
       '@trpc/server':
-        specifier: 10.43.0
-        version: 10.43.0
+        specifier: 10.44.1
+        version: 10.44.1
       '@vercel/analytics':
         specifier: 1.1.1
         version: 1.1.1
@@ -570,8 +570,8 @@ importers:
         specifier: 0.7.1
         version: 0.7.1(typescript@5.2.2)(zod@3.22.4)
       '@trpc/server':
-        specifier: 10.43.0
-        version: 10.43.0
+        specifier: 10.44.1
+        version: 10.44.1
       firebase-admin:
         specifier: 11.11.1
         version: 11.11.1
@@ -3986,16 +3986,17 @@ packages:
     engines: {node: '>= 10'}
     requiresBuild: true
 
-  /@trpc/client@10.43.0(@trpc/server@10.43.0):
-    resolution: {integrity: sha512-8LbSpPHmIseb/Ke+GzL45y0itkKunGQWfxqHf2uy69RSRvER0vj+Gu67L8YD86FBgc/nsX/6GBuJiUet5lIDIw==}
+  /@trpc/client@10.44.1(@trpc/server@10.44.1):
+    resolution: {integrity: sha512-vTWsykNcgz1LnwePVl2fKZnhvzP9N3GaaLYPkfGINo314ZOS0OBqe9x0ytB2LLUnRVTAAZ2WoONzARd8nHiqrA==}
     peerDependencies:
-      '@trpc/server': 10.43.0
+      '@trpc/server': 10.44.1
     dependencies:
-      '@trpc/server': 10.43.0
+      '@trpc/server': 10.44.1
     dev: false
 
-  /@trpc/server@10.43.0:
-    resolution: {integrity: sha512-1/h9KCPkTNNmpN5VKfKO4kPcl/W4Y9VQla4YGg4pydSh/+4b//0IPfvk3Oz4tz/tvWyAUlBKkBVhD3GfDLcAQA==}
+  /@trpc/server@10.44.1:
+    resolution: {integrity: sha512-mF7B+K6LjuboX8I1RZgKE5GA/fJhsJ8tKGK2UBt3Bwik7hepEPb4NJgNr7vO6BK5IYwPdBLRLTctRw6XZx0sRg==}
+    engines: {node: '>=18.0.0'}
     dev: false
 
   /@trysound/sax@0.2.0:
