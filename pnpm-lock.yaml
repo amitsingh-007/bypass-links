@@ -292,8 +292,8 @@ importers:
         specifier: 1.1.1
         version: 1.1.1
       countries-and-timezones:
-        specifier: 3.5.1
-        version: 3.5.1
+        specifier: 3.5.2
+        version: 3.5.2
       dayjs:
         specifier: 1.11.10
         version: 1.11.10
@@ -5951,8 +5951,8 @@ packages:
       path-type: 4.0.0
     dev: true
 
-  /countries-and-timezones@3.5.1:
-    resolution: {integrity: sha512-DlsW+qxiJI6HJ83Yjjmuokgul3KKs0BmraPigFZ1sjWHPZcOTJ0LwB5iewZT9wsMAbmgGSVUdY4nZ4JnHD6NBQ==}
+  /countries-and-timezones@3.5.2:
+    resolution: {integrity: sha512-Ei1yQ37fextyzQinB2waxcNsSzO/gylfPTHLH7mK4nh0ekw//G4lf4cvwMABJNJKyFe7h6Nxl4NX/fT09dSMEg==}
     engines: {node: '>=8.x', npm: '>=5.x'}
     dev: false
 
