@@ -139,8 +139,8 @@ importers:
         specifier: 0.0.253
         version: 0.0.253
       '@types/md5':
-        specifier: 2.3.4
-        version: 2.3.4
+        specifier: 2.3.5
+        version: 2.3.5
       '@types/node':
         specifier: 20.9.0
         version: 20.9.0
@@ -341,8 +341,8 @@ importers:
         specifier: 8.1.0
         version: 8.1.0
       '@types/md5':
-        specifier: 2.3.4
-        version: 2.3.4
+        specifier: 2.3.5
+        version: 2.3.5
       '@types/react':
         specifier: 18.2.33
         version: 18.2.33
@@ -504,8 +504,8 @@ importers:
         specifier: 11.11.1
         version: 11.11.1(@types/react@18.2.33)(react@18.2.0)
       '@types/md5':
-        specifier: 2.3.4
-        version: 2.3.4
+        specifier: 2.3.5
+        version: 2.3.5
       '@types/react':
         specifier: 18.2.33
         version: 18.2.33
@@ -4207,8 +4207,8 @@ packages:
     dev: false
     optional: true
 
-  /@types/md5@2.3.4:
-    resolution: {integrity: sha512-e/L4hvpCK8GavKXmP02QlNilZOj8lpmZGGA9QGMMPZjCUoKgi1B4BvhXcbruIi6r+PqzpcjLfda/tocpHFKqDA==}
+  /@types/md5@2.3.5:
+    resolution: {integrity: sha512-/i42wjYNgE6wf0j2bcTX6kuowmdL/6PE4IVitMpm2eYKBUuYCprdcWVK+xEF0gcV6ufMCRhtxmReGfc6hIK7Jw==}
     dev: true
 
   /@types/mdurl@1.0.2:
