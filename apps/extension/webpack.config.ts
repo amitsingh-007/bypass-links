@@ -51,7 +51,6 @@ const config = {
     asyncChunks: false,
   },
   devServer: {
-    hot: true,
     devMiddleware: {
       writeToDisk: true,
     },

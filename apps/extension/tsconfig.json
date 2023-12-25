@@ -1,5 +1,5 @@
 {
-  "extends": "@bypass/configs/tsconfig.base.json",
+  "extends": "./node_modules/@bypass/configs/tsconfig.base.json",
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {

@@ -20,7 +20,6 @@ const DateTime = (props: DateTimePickerProps) => (
     maxDate={new Date()}
     withAsterisk
     level="month"
-    hasNextLevel={false}
     icon={<FaCalendarCheck />}
     {...props}
   />

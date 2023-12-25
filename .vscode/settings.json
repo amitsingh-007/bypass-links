@@ -6,7 +6,7 @@
     "editor.detectIndentation": false
   },
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": "always"
   },
   "search.exclude": {
     "**/node_modules/**": true,
