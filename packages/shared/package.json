@@ -25,7 +25,7 @@
   "devDependencies": {
     "@babel/core": "7.23.5",
     "@bypass/configs": "workspace:*",
-    "@emotion/react": "11.11.1",
+    "@emotion/react": "11.11.3",
     "@types/md5": "2.3.5",
     "@types/react": "18.2.39",
     "@typescript-eslint/eslint-plugin": "6.15.0",
