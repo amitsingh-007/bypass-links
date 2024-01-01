@@ -39,7 +39,7 @@
     "@playwright/test": "1.40.1",
     "@svgr/webpack": "8.1.0",
     "@types/md5": "2.3.5",
-    "@types/react": "18.2.39",
+    "@types/react": "18.2.46",
     "@types/request-ip": "0.0.41",
     "@typescript-eslint/eslint-plugin": "6.15.0",
     "@typescript-eslint/parser": "6.15.0",
