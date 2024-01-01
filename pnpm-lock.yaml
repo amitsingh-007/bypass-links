@@ -193,8 +193,8 @@ importers:
         specifier: 6.8.0
         version: 6.8.0(eslint@8.54.0)
       eslint-plugin-playwright:
-        specifier: 0.19.0
-        version: 0.19.0(eslint@8.54.0)
+        specifier: 0.20.0
+        version: 0.20.0(eslint@8.54.0)
       eslint-plugin-prettier:
         specifier: 5.0.1
         version: 5.0.1(eslint-config-prettier@9.0.0)(eslint@8.54.0)(prettier@3.1.0)
@@ -386,8 +386,8 @@ importers:
         specifier: 6.8.0
         version: 6.8.0(eslint@8.54.0)
       eslint-plugin-playwright:
-        specifier: 0.19.0
-        version: 0.19.0(eslint@8.54.0)
+        specifier: 0.20.0
+        version: 0.20.0(eslint@8.54.0)
       eslint-plugin-prettier:
         specifier: 5.0.1
         version: 5.0.1(eslint-config-prettier@9.0.0)(eslint@8.54.0)(prettier@3.1.0)
@@ -7327,8 +7327,8 @@ packages:
       object.entries: 1.1.7
       object.fromentries: 2.0.7
 
-  /eslint-plugin-playwright@0.19.0(eslint@8.54.0):
-    resolution: {integrity: sha512-/pk5oDxusdPnsPNo16o7kWk4Pq8e0Jw7vM0xI/G4wDHhYw1ImQpclB3fQGbjKAO1eauGRLWtJAq5l1Xq3oF16A==}
+  /eslint-plugin-playwright@0.20.0(eslint@8.54.0):
+    resolution: {integrity: sha512-JWTSwUyPPipSOm6AK8z78bQXtKRCykvhSGUewcmZuxstSZ5oGsykW2JaRXJQ2IIfzKJToCBeKD2ISc8Li8qVEQ==}
     peerDependencies:
       eslint: '>=7'
       eslint-plugin-jest: '>=25'
