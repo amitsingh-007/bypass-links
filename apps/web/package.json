@@ -22,7 +22,7 @@
     "@vercel/analytics": "1.1.1",
     "countries-and-timezones": "3.5.2",
     "dayjs": "1.11.10",
-    "firebase": "10.7.0",
+    "firebase": "10.7.1",
     "md5": "2.3.0",
     "next": "14.0.3",
     "next-seo": "6.4.0",
