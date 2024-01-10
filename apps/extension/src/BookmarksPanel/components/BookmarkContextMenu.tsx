@@ -122,7 +122,11 @@ const BookmarkContextMenu = memo<Props>(function BookmarkContextMenu({
     return menuOptionsList;
   };
 
-  return <ContextMenu options={getMenuOptions()}>{children}</ContextMenu>;
+  return (
+    <ContextMenu wrapperHeight="initial" options={getMenuOptions()}>
+      {children}
+    </ContextMenu>
+  );
 });
 
 export default BookmarkContextMenu;

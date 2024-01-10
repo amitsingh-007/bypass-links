@@ -13,6 +13,7 @@ import ToggleExtension from '../components/ToggleExtension';
 import ToggleHistory from '../components/ToggleHistory';
 import TwoFactorAuthenticate from '../components/TwoFactorAuthenticate';
 import UserProfile from '../components/UserProfile';
+import styles from './styles/PopupHome.module.css';
 
 const PopupHome = memo(function PopupHome() {
   return (
@@ -23,7 +24,7 @@ const PopupHome = memo(function PopupHome() {
           fw={700}
           c="grape.0"
           mb="0.625rem"
-          sx={{ userSelect: 'none' }}
+          className={styles.heading}
         >
           Bypass Links
         </Text>

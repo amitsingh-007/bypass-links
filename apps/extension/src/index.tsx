@@ -1,3 +1,8 @@
+// !NOTE: maintain below order of css
+import '@mantine/core/styles.css';
+import '@mantine/dates/styles.css';
+import 'mantine-contextmenu/styles.css';
+import './index.css';
 import { mantineTheme } from '@bypass/shared';
 import { MantineProvider } from '@mantine/core';
 import { ContextMenuProvider } from 'mantine-contextmenu';
@@ -15,7 +20,7 @@ const App = () => {
   return (
     <StrictMode>
       <BrowserRouter>
-        <MantineProvider withGlobalStyles withNormalizeCSS theme={mantineTheme}>
+        <MantineProvider defaultColorScheme="dark" theme={mantineTheme}>
           <ContextMenuProvider shadow="md" borderRadius="md">
             <DynamicProvider>
               <PopupRoutes />

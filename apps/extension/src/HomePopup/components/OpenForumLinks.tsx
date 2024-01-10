@@ -60,11 +60,10 @@ const OpenForumLinks = memo(function OpenForumLinks() {
   return (
     <Button
       radius="xl"
-      loaderPosition="right"
       loading={isFetching}
       disabled={!isActive}
       onClick={handleClick}
-      rightIcon={<MdForum />}
+      rightSection={<MdForum />}
       fullWidth
       color="yellow"
     >

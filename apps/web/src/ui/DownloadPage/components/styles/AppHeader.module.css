@@ -1,0 +1,12 @@
+.header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1001;
+  height: 72px;
+  max-height: 72px;
+  background-color: rgba(var(--mantine-color-dark-7), 0.4);
+  border-bottom: 1px solid var(--mantine-color-dark-6);
+  backdrop-filter: blur(8px);
+}

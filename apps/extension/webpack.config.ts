@@ -1,19 +1,23 @@
-import { getExtVersion, getFileNameFromVersion } from '@bypass/shared';
-// import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
+import {
+  getExtVersion,
+  getFileNameFromVersion,
+} from '@bypass/configs/manifest/extensionFile';
 import PreactRefreshPlugin from '@prefresh/webpack';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import ESLintPlugin from 'eslint-webpack-plugin';
 import FileManagerPlugin from 'filemanager-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MergeJsonWebpackPlugin from 'merge-jsons-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { resolve } from 'path';
 import ReactRefreshTypeScript from 'react-refresh-typescript';
 import TerserPlugin from 'terser-webpack-plugin';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
-import { DefinePlugin, HotModuleReplacementPlugin, optimize } from 'webpack';
-import 'webpack-dev-server'; // Required for TS typings
+import { Configuration, DefinePlugin, RuleSetRule, optimize } from 'webpack';
+import 'webpack-dev-server';
 import { env } from './src/constants/env';
 
 const PATHS = {
@@ -26,11 +30,36 @@ const { NODE_ENV, HOST_NAME } = env;
 
 const isProduction = NODE_ENV === 'production';
 
+const getCssLoaders = (cssModules: boolean): RuleSetRule['use'] => [
+  isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
+  {
+    loader: 'css-loader',
+    options: {
+      importLoaders: 1,
+      modules: cssModules
+        ? {
+            localIdentName: isProduction
+              ? '[hash:base64]'
+              : '[name]__[local]--[hash:base64:5]',
+          }
+        : false,
+    },
+  },
+  {
+    loader: 'postcss-loader',
+    options: {
+      postcssOptions: {
+        config: `${PATHS.ROOT}/postcss.config.js`,
+      },
+    },
+  },
+];
+
 const tsConfigFile = `${PATHS.ROOT}/${
   isProduction ? 'tsconfig.production.json' : 'tsconfig.json'
 }`;
 
-const config = {
+const config: Configuration = {
   mode: NODE_ENV,
   name: 'extension',
   entry: {
@@ -51,6 +80,7 @@ const config = {
     asyncChunks: false,
   },
   devServer: {
+    hot: !isProduction,
     devMiddleware: {
       writeToDisk: true,
     },
@@ -63,12 +93,12 @@ const config = {
     },
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js'],
+    extensions: ['.ts', '.tsx', '.js', '.css'],
     modules: [PATHS.SRC, 'node_modules'],
     plugins: [
       new TsconfigPathsPlugin({
         configFile: tsConfigFile,
-        extensions: ['.ts', '.tsx', '.js'],
+        extensions: ['.ts', '.tsx', '.js', '.css'],
       }),
     ],
     alias: {
@@ -106,11 +136,12 @@ const config = {
       new TerserPlugin({
         terserOptions: {
           format: {
-            comments: false,
+            comments: !isProduction,
           },
         },
         extractComments: false,
       }),
+      isProduction && new CssMinimizerPlugin(),
     ],
   },
   module: {
@@ -135,6 +166,15 @@ const config = {
           },
         ],
       },
+      {
+        test: /\.css$/i,
+        exclude: /\.module\.css$/i,
+        use: getCssLoaders(false),
+      },
+      {
+        test: /\.module\.css$/i,
+        use: getCssLoaders(true),
+      },
     ],
   },
   watchOptions: {
@@ -154,6 +194,10 @@ const config = {
     new optimize.LimitChunkCountPlugin({
       maxChunks: 1,
     }),
+    isProduction &&
+      new MiniCssExtractPlugin({
+        filename: 'css/[name].[contenthash].css',
+      }),
     new HtmlWebpackPlugin({
       template: './public/index.html',
       excludeChunks: ['background_script'],
@@ -174,7 +218,7 @@ const config = {
       output: {
         groupBy: [
           {
-            pattern: `../../packages/shared/src/configs/manifest${
+            pattern: `../../packages/configs/manifest/manifest${
               isProduction ? '*' : ''
             }.json`,
             fileName: 'manifest.json',
@@ -185,8 +229,6 @@ const config = {
         root: PATHS.ROOT,
       },
     }),
-    // !isProduction && new ReactRefreshWebpackPlugin(),
-    !isProduction && new HotModuleReplacementPlugin(),
     !isProduction && new PreactRefreshPlugin(),
     isProduction &&
       new ESLintPlugin({
@@ -219,7 +261,7 @@ const config = {
           },
         },
       }),
-  ].filter(Boolean),
+  ],
 };
 
 export default config;

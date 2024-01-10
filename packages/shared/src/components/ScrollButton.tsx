@@ -1,6 +1,7 @@
 import { Button } from '@mantine/core';
 import { memo, useMemo } from 'react';
 import { BsArrowDown, BsArrowUp } from 'react-icons/bs';
+import styles from './styles/ScrollButton.module.css';
 
 interface Props {
   itemsSize: number;
@@ -11,43 +12,43 @@ interface Props {
 export const ScrollButton = memo<Props>(function ScrollButton({
   itemsSize,
   onScroll,
-  minItemsReqToShow: minItemsToScroll = 0,
+  minItemsReqToShow = 0,
 }) {
   const buttonConfig = useMemo(
     () => [
       {
         text: 'Top',
-        icon: <BsArrowUp />,
+        icon: BsArrowUp,
         onClick: () => onScroll(0),
       },
       {
         text: 'Bottom',
-        icon: <BsArrowDown />,
+        icon: BsArrowDown,
         onClick: () => onScroll(itemsSize),
       },
     ],
     [itemsSize, onScroll]
   );
 
-  return minItemsToScroll > 0 && itemsSize <= minItemsToScroll ? null : (
+  if (minItemsReqToShow > 0 && itemsSize <= minItemsReqToShow) {
+    return null;
+  }
+
+  return (
     <Button.Group
       orientation="vertical"
       pos="fixed"
       bottom="0.5625rem"
       right="1rem"
-      sx={{ zIndex: 1 }}
+      className={styles.container}
     >
-      {buttonConfig.map(({ icon, text, onClick }) => (
+      {buttonConfig.map(({ icon: Icon, text, onClick }) => (
         <Button
           key={text}
-          compact
-          size="sm"
           color="violet"
-          leftIcon={icon}
-          styles={{
-            inner: { justifyContent: 'flex-start' },
-            leftIcon: { marginRight: '0.0625rem' },
-          }}
+          size="compact-sm"
+          leftSection={<Icon />}
+          classNames={{ inner: styles.buttonInner }}
           onClick={onClick}
         >
           {text}

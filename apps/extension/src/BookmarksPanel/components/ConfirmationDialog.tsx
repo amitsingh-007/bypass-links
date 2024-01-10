@@ -23,7 +23,7 @@ const ConfirmationDialog = memo<Props>(function ConfirmationDialog({
       title="There are some unsaved changes"
       size="18.75rem"
     >
-      <Group position="right" mt="lg">
+      <Group justify="flex-end" mt="lg">
         <Button color="red" onClick={onOk}>
           Discard
         </Button>

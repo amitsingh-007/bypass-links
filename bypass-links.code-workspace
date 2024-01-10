@@ -5,6 +5,9 @@
       "path": "."
     },
     {
+      "path": "packages/configs"
+    },
+    {
       "path": "packages/shared"
     },
     {
@@ -16,5 +19,9 @@
     {
       "path": "apps/web"
     }
-  ]
+  ],
+  "settings": {
+    // Required for typescript-plugin-css-modules
+    "typescript.tsdk": "extension/node_modules/typescript/lib"
+  }
 }

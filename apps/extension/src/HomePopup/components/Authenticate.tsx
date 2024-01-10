@@ -6,6 +6,7 @@ import useToastStore from '@store/toast';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { RiLoginCircleFill, RiLogoutCircleRFill } from 'react-icons/ri';
 import { signIn, signOut } from '../utils/authentication';
+import styles from './styles/Authenticate.module.css';
 
 const Authenticate = memo(function Authenticate() {
   const isExtensionActive = useExtStore((state) => state.isExtensionActive);
@@ -65,11 +66,12 @@ const Authenticate = memo(function Authenticate() {
       <Button
         radius="xl"
         loading={isFetching}
-        loaderPosition="right"
         disabled={!isExtensionActive}
         onClick={isSignedIn ? handleSignOut : handleSignIn}
         color={isSignedIn ? 'teal' : 'red'}
-        rightIcon={isSignedIn ? <RiLogoutCircleRFill /> : <RiLoginCircleFill />}
+        rightSection={
+          isSignedIn ? <RiLogoutCircleRFill /> : <RiLoginCircleFill />
+        }
         fullWidth
       >
         {isSignedIn ? 'Logout' : 'Login'}
@@ -77,17 +79,19 @@ const Authenticate = memo(function Authenticate() {
       {isFetching && (
         <>
           <LoadingOverlay visible zIndex={100} />
-          <Progress
-            value={(progress * 100) / total}
-            label={message || 'Loading'}
+          <Progress.Root
             size="xl"
             radius="xl"
             w="100%"
             pos="fixed"
             top={0}
             left="50%"
-            sx={{ zIndex: 105, transform: 'translateX(-50%)' }}
-          />
+            className={styles.progress}
+          >
+            <Progress.Section striped animated value={(progress * 100) / total}>
+              <Progress.Label>{message || 'Loading'}</Progress.Label>
+            </Progress.Section>
+          </Progress.Root>
         </>
       )}
     </>

@@ -1,3 +1,4 @@
+import styles from '@/styles/persons-panel.module.css';
 import PersonVirtualCell from '@/ui/PersonsPage/components/PersonVirtualCell';
 import { getFromLocalStorage } from '@/ui/provider/utils';
 import { openNewTab } from '@/ui/utils';
@@ -44,18 +45,13 @@ const PersonsPage = () => {
     [persons, searchText]
   );
   return (
-    <Container
-      size="md"
-      h="100vh"
-      px={0}
-      sx={{ display: 'flex', flexDirection: 'column' }}
-    >
+    <Container size="md" h="100vh" px={0} className={styles.container}>
       <NextSeo title="Persons Panel" noindex nofollow />
       <Header
         onSearchChange={handleSearchTextChange}
         text={`Persons Panel (${filteredPersons?.length || 0})`}
       />
-      <Box sx={{ flex: 1 }}>
+      <Box className={styles.innerContainer}>
         {filteredPersons.length > 0 ? (
           <Persons
             persons={filteredPersons}

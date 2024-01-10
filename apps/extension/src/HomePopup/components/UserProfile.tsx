@@ -7,6 +7,7 @@ import useAuthStore from '@store/auth';
 import { memo, useEffect, useState } from 'react';
 import { MdSettings } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
+import styles from './styles/UserProfile.module.css';
 
 const UserProfile = memo(function UserProfile() {
   const navigate = useNavigate();
@@ -37,19 +38,11 @@ const UserProfile = memo(function UserProfile() {
         color="indigo"
       />
       <Transition mounted={hovered && isSignedIn} transition="fade">
-        {(styles) => (
-          <Box
-            style={styles}
-            sx={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-            }}
-          >
+        {(style) => (
+          <Box style={style} className={styles.settingsIconWrapper}>
             <ActionIcon
               radius="xl"
-              variant="subtle"
+              c="white"
               size="3.125rem"
               onClick={handleOpenSettings}
             >

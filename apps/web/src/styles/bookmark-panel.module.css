@@ -1,0 +1,9 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.innerContainer {
+  flex: 1;
+  overflow: hidden auto;
+}

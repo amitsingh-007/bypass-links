@@ -3,12 +3,13 @@ import CircleIcon from '@ui/icons/circle.svg';
 import { memo } from 'react';
 import Feature from 'src/ui/interfaces/feature';
 import { firstColumn, secondColumn } from '../constants/features';
+import styles from './styles/SalientFeatures.module.css';
 
 const Description = () => (
   <Box pos="relative" mb="2.5rem">
     <Text fw={500} fz="2rem" component="span">
       Why{' '}
-      <Text component="span" color="#7e67ff">
+      <Text component="span" c="#7e67ff" fz="inherit" fw="inherit">
         Bypass Links
       </Text>
     </Text>
@@ -17,7 +18,7 @@ const Description = () => (
       top="1.875rem"
       right="6.5625rem"
       w="8.75rem"
-      sx={{ borderBottom: '30px solid rgba(106,80,255,.4)' }}
+      className={styles.borderBox}
     />
     <Text mt="2.33rem" size="md">
       An easy to use links bypasser and highly customizable & multipurpose
@@ -43,7 +44,7 @@ const FeaturesColumn = ({
           <Text fw="bold" fz="lg">
             {title}
           </Text>
-          <Text fz="md" color="#839bad">
+          <Text fz="md" c="#839bad">
             {content}
           </Text>
         </Box>
@@ -56,13 +57,13 @@ const SalientFeatures = memo(function SalientFeatures() {
   return (
     <Flex mt="9.375rem">
       <Grid>
-        <Grid.Col md={5}>
+        <Grid.Col span={{ base: 12, sm: 5 }}>
           <Description />
         </Grid.Col>
-        <Grid.Col md={3.5}>
+        <Grid.Col span={{ base: 12, sm: 3.5 }}>
           <FeaturesColumn columnData={firstColumn} />
         </Grid.Col>
-        <Grid.Col md={3.5}>
+        <Grid.Col span={{ base: 12, sm: 3.5 }}>
           <FeaturesColumn columnData={secondColumn} />
         </Grid.Col>
       </Grid>

@@ -8,7 +8,6 @@ export * from './components/Bookmarks/components/Bookmark';
 export { default as Folder } from './components/Bookmarks/components/Folder';
 export * from './components/Bookmarks/components/Folder';
 export * from './components/Bookmarks/constants';
-export * from './components/Bookmarks/constants/styles';
 export { default as useBookmark } from './components/Bookmarks/hooks/useBookmark';
 export * from './components/Bookmarks/interfaces';
 export * from './components/Bookmarks/interfaces/url';
@@ -31,6 +30,8 @@ export { default as usePerson } from './components/Persons/hooks/usePerson';
 export { default as Header } from './components/Header';
 export * from './components/ScrollButton';
 export { default as Search } from './components/Search';
+export { default as MultiSelectWithImage } from './components/MultiSelectWithImage';
+export * from './components/MultiSelectWithImage';
 
 // Constants
 export * from './constants';
@@ -53,8 +54,6 @@ export * from './utils/cache';
 export * from './utils/firebase';
 export * from './utils/search';
 export * from './utils/url';
-export * from './utils/extensionFile';
-export * from './utils/mediaQuery';
 
 // Hooks
 export { default as usePlatform } from './hooks/usePlatform';

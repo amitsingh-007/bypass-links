@@ -1,0 +1,11 @@
+.container {
+  gap: 12px;
+}
+
+.folderIcon {
+  border: unset !important;
+}
+
+.name {
+  flex: 1;
+}

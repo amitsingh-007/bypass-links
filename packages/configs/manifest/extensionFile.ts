@@ -1,4 +1,4 @@
-import manifest from '../configs/manifest.json';
+import manifest from './manifest.json';
 
 const FILE_NAME = {
   prefix: 'bypass-links-',

@@ -17,6 +17,7 @@ import usePerson from '../hooks/usePerson';
 import { IPerson } from '../interfaces/persons';
 import { getColumnCount, getReactKey } from '../utils';
 import BookmarksList from './BookmarksList';
+import styles from './styles/Persons.module.css';
 
 interface Props {
   persons: IPerson[];
@@ -73,9 +74,7 @@ const PersonsInner = ({
             left={0}
             w="100%"
             h={virtualRow.size}
-            sx={{
-              transform: `translateY(${virtualRow.start}px)`,
-            }}
+            style={{ transform: `translateY(${virtualRow.start}px)` }}
           >
             {Array(columnCount)
               .fill(0)
@@ -135,7 +134,7 @@ const Persons = memo<Props>(function Persons(props) {
   }, [queryString, persons, resolvePersonImageFromUid]);
 
   return (
-    <Box ref={ref} sx={{ overflow: 'hidden auto' }} w="100%" h="100%">
+    <Box ref={ref} className={styles.personInner} w="100%" h="100%">
       {width > 0 && (
         <PersonsInner
           {...props}

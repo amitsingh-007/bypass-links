@@ -16,10 +16,9 @@ const HistoryPanelButton = memo(function HistoryPanelButton() {
   return (
     <Button
       radius="xl"
-      loaderPosition="right"
       disabled={!isExtensionActive}
       onClick={handleShowHistoryPanel}
-      rightIcon={<RiHistoryFill />}
+      rightSection={<RiHistoryFill />}
       fullWidth
     >
       History

@@ -18,6 +18,7 @@ import md5 from 'md5';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import styles from '@/styles/bookmark-panel.module.css';
 
 export default function BookmarksPage() {
   const router = useRouter();
@@ -69,24 +70,19 @@ export default function BookmarksPage() {
   const handleSearchTextChange = (text: string) => setSearchText(text);
 
   return (
-    <Container
-      size="md"
-      h="100vh"
-      px={0}
-      sx={{ display: 'flex', flexDirection: 'column' }}
-    >
+    <Container size="md" h="100vh" px={0} className={styles.container}>
       <NextSeo title="Bookmarks Panel" noindex nofollow />
       <Header
         onSearchChange={handleSearchTextChange}
         text={`${folderContext} (${contextBookmarks?.length || 0})`}
       />
-      <Box ref={contentRef} sx={{ flex: 1, overflow: 'hidden auto' }}>
+      <Box ref={contentRef} className={styles.innerContainer}>
         {shouldRenderBookmarks(folders, filteredContextBookmarks) ? (
           <Box h={virtualizer.getTotalSize()} w="100%" pos="relative">
             {virtualizer.getVirtualItems().map((virtualRow) => (
               <Box
                 key={virtualRow.key}
-                sx={{ transform: `translateY(${virtualRow.start}px)` }}
+                style={{ transform: `translateY(${virtualRow.start}px)` }}
                 pos="absolute"
                 top={0}
                 left={0}

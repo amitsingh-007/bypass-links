@@ -20,7 +20,7 @@ const DateTime = (props: DateTimePickerProps) => (
     maxDate={new Date()}
     withAsterisk
     level="month"
-    icon={<FaCalendarCheck />}
+    leftSection={<FaCalendarCheck />}
     {...props}
   />
 );
@@ -89,7 +89,7 @@ const HistoryPanel = memo(function HistoryPanel() {
             radius="xl"
             color="red"
             type="submit"
-            leftIcon={<MdOutlineDelete />}
+            leftSection={<MdOutlineDelete />}
           >
             Clear
           </Button>

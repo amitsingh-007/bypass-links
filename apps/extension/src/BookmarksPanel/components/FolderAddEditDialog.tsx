@@ -54,7 +54,7 @@ export const FolderAddEditDialog: React.FC<Props> = ({
           data-autofocus
           {...form.getInputProps('folderName')}
         />
-        <Group position="right" mt="md">
+        <Group justify="end" mt="md">
           <Button type="submit" color="teal">
             Save
           </Button>

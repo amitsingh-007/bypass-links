@@ -1,0 +1,11 @@
+.tooltip {
+  word-wrap: break-word;
+}
+
+.tooltipTextWrapper {
+  flex: 1;
+}
+
+.tooltipText {
+  color: inherit;
+}

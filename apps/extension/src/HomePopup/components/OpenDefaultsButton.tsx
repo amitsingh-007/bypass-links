@@ -31,11 +31,10 @@ const OpenDefaultsButton = memo(function OpenDefaultsButton() {
   return (
     <Button
       radius="xl"
-      loaderPosition="right"
       loading={isFetching}
       disabled={!isSignedIn}
       onClick={handleOpenDefaults}
-      rightIcon={<RxExternalLink />}
+      rightSection={<RxExternalLink />}
       fullWidth
       color="yellow"
     >
