@@ -13,6 +13,7 @@ import {
   __PopoverProps,
   useCombobox,
 } from '@mantine/core';
+import clsx from 'clsx';
 import { useMemo, useState } from 'react';
 import styles from './styles/MultiSelectWithImage.module.css';
 
@@ -67,9 +68,11 @@ const MultiSelectWithImage = ({
   });
   const [search, setSearch] = useState('');
 
+  const getIsSelected = (val: string) => value.includes(val);
+
   const handleValueSelect = (newVal: string) => {
     const newValues = (() => {
-      const isAlreadyExists = value.includes(newVal);
+      const isAlreadyExists = getIsSelected(newVal);
       // Remove if already selected
       if (isAlreadyExists) {
         return value.filter((x) => x !== newVal);
@@ -109,18 +112,24 @@ const MultiSelectWithImage = ({
     .filter((item) =>
       item.label.toLowerCase().includes(search.trim().toLowerCase())
     )
-    .map((item) => (
-      <Combobox.Option
-        key={item.value}
-        value={item.value}
-        active={value.includes(item.value)}
-      >
-        <Group gap="sm">
-          <OptionItem data={item} radius="md" />
-          {value.includes(item.value) ? <CheckIcon size={12} /> : null}
-        </Group>
-      </Combobox.Option>
-    ));
+    .map((item) => {
+      const isSelected = getIsSelected(item.value);
+      return (
+        <Combobox.Option
+          key={item.value}
+          value={item.value}
+          active={isSelected}
+          className={clsx({
+            [styles.selectedOption]: isSelected,
+          })}
+        >
+          <Group gap="sm">
+            <OptionItem data={item} radius="md" />
+            {isSelected ? <CheckIcon size={12} /> : null}
+          </Group>
+        </Combobox.Option>
+      );
+    });
 
   return (
     <Combobox
