@@ -119,7 +119,7 @@ const RedirectionRule = memo(function RedirectionRule({
         onClick={handleSaveClick}
         color="teal"
         className={clsx({
-          [styles.disabled]: !ruleWebsite,
+          [styles.disabled]: isRuleSaveActive,
         })}
       >
         <IoSave size={18} />
