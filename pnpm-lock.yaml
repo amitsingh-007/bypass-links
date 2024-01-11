@@ -310,8 +310,8 @@ importers:
         specifier: 2.1.0
         version: 2.1.0
       countries-and-timezones:
-        specifier: 3.5.2
-        version: 3.5.2
+        specifier: 3.6.0
+        version: 3.6.0
       dayjs:
         specifier: 1.11.10
         version: 1.11.10
@@ -6029,8 +6029,8 @@ packages:
       typescript: 5.3.3
     dev: true
 
-  /countries-and-timezones@3.5.2:
-    resolution: {integrity: sha512-Ei1yQ37fextyzQinB2waxcNsSzO/gylfPTHLH7mK4nh0ekw//G4lf4cvwMABJNJKyFe7h6Nxl4NX/fT09dSMEg==}
+  /countries-and-timezones@3.6.0:
+    resolution: {integrity: sha512-8/nHBCs1eKeQ1jnsZVGdqrLYxS8nPcfJn8PnmxdJXWRLZdXsGFR8gnVhRjatGDBjqmPm7H+FtYpBYTPWd0Eiqg==}
     engines: {node: '>=8.x', npm: '>=5.x'}
     dev: false
 
