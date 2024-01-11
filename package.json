@@ -15,11 +15,11 @@
   },
   "devDependencies": {
     "@playwright/test": "1.40.1",
-    "@types/node": "20.10.1",
+    "@types/node": "20.11.0",
     "cross-env": "7.0.3",
     "husky": "8.0.3",
-    "lint-staged": "15.1.0",
+    "lint-staged": "15.2.0",
     "turbo": "1.11.3",
-    "vercel": "33.0.2"
+    "vercel": "33.1.0"
   }
 }

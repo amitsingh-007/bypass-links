@@ -44,7 +44,7 @@ jobs:
         run: pnpm test
 
       - name: Upload extension
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: extension-file
           path: ./apps/extension/build/bypass-links-*.zip
