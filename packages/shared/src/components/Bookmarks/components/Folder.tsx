@@ -3,6 +3,7 @@ import { memo, useContext } from 'react';
 import { HiFolder } from 'react-icons/hi';
 import DynamicContext from '../../../provider/DynamicContext';
 import { getBookmarksPanelUrl } from '../utils/url';
+import styles from './styles/Folder.module.css';
 
 export interface FolderProps {
   name: string;
@@ -28,8 +29,9 @@ const Folder = memo<FolderProps>(function Folder({
       w="100%"
       h="100%"
       p="0.375rem"
+      className={styles.container}
       opacity={isEmpty ? 0.6 : 1}
-      sx={{ gap: '0.75rem', cursor: isEmpty ? 'not-allowed' : 'inherit' }}
+      style={{ cursor: isEmpty ? 'not-allowed' : 'inherit' }}
       onClick={resetSelectedBookmarks}
       onDoubleClick={handleFolderOpen}
     >
@@ -37,11 +39,11 @@ const Folder = memo<FolderProps>(function Folder({
         size="1.25rem"
         variant="outline"
         color="yellow"
-        sx={{ border: 'unset' }}
+        className={styles.folderIcon}
       >
         <HiFolder size="1.25rem" />
       </ThemeIcon>
-      <Text size="0.9375rem" lineClamp={1} sx={{ flex: 1 }} fw="bold">
+      <Text size="0.9375rem" lineClamp={1} className={styles.name} fw="bold">
         {origName}
       </Text>
     </Center>

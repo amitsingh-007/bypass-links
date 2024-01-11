@@ -16,10 +16,9 @@ const BookmarksPanelButton = memo(function BookmarksPanelButton() {
   return (
     <Button
       radius="xl"
-      loaderPosition="right"
       disabled={!isSignedIn}
       onClick={handleShowEditPanel}
-      rightIcon={<RiBookMarkFill />}
+      rightSection={<RiBookMarkFill />}
       fullWidth
     >
       Bookmarks

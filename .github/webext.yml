@@ -1,6 +1,6 @@
 manifest:
   name: manifest.json
-  dir: './packages/shared/src/configs/'
+  dir: './packages/configs/manifest/'
 workflow:
   name: Build CI
   artifact: extension-file

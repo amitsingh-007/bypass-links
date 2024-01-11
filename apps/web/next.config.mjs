@@ -1,6 +1,7 @@
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const ESLintPlugin = require('eslint-webpack-plugin');
-const nextPWA = require('next-pwa');
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
+import ESLintPlugin from 'eslint-webpack-plugin';
+import nextPWA from 'next-pwa';
+
 import('./src/constants/env/server.mjs');
 
 const isDev = process.env.VERCEL_ENV === 'development';
@@ -51,4 +52,4 @@ const withPWA = nextPWA({
   dest: 'public',
 });
 
-module.exports = withPWA(nextConfig);
+export default withPWA(nextConfig);

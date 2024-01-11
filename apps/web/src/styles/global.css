@@ -1,0 +1,5 @@
+@import '@bypass/shared/styles/global.css';
+
+::selection {
+  background: #6850ff;
+}

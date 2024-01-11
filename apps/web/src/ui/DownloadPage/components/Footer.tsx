@@ -1,4 +1,3 @@
-import { getMediaQuery } from '@bypass/shared';
 import { ActionIcon, Box, Flex, Text } from '@mantine/core';
 import footerImage from '@public/footer.png';
 import dayjs from 'dayjs';
@@ -7,6 +6,7 @@ import { IconType } from 'react-icons';
 import { BsGithub } from 'react-icons/bs';
 import { MdExtension } from 'react-icons/md';
 import { RiTimeFill } from 'react-icons/ri';
+import styles from './styles/Footer.module.css';
 
 const Info = ({
   icon: Icon,
@@ -18,19 +18,8 @@ const Info = ({
   testId: string;
 }) => {
   return (
-    <Flex
-      align="center"
-      sx={(theme) => getMediaQuery(theme, { marginTop: [0, '0.625rem'] })}
-      data-testid={testId}
-    >
-      <Box
-        sx={(theme) =>
-          getMediaQuery(theme, {
-            width: ['1.25rem', '1.5rem'],
-            height: ['1.25rem', '1.5rem'],
-          })
-        }
-      >
+    <Flex align="center" className={styles.infoContainer} data-testid={testId}>
+      <Box className={styles.iconContainer}>
         <Icon size="100%" />
       </Box>
       <Text ml="0.625rem" fw={500} fz="1.1rem">
@@ -54,27 +43,14 @@ const Footer = ({
       pos="relative"
       w="100%"
       justify="space-around"
-      sx={(theme) =>
-        getMediaQuery(theme, {
-          height: ['8.125rem', '18.75rem'],
-        })
-      }
+      className={styles.footerContainer}
     >
-      <Image
-        src={footerImage}
-        alt="footer image"
-        style={{ height: 'inherit', width: 'inherit' }}
-      />
+      <Image src={footerImage} alt="footer image" className={styles.image} />
       <Flex
         pos="absolute"
         justify="space-between"
         w="100%"
-        sx={(theme) =>
-          getMediaQuery(theme, {
-            padding: ['0 1.25rem', '0 12.5rem'],
-            bottom: [0, '7%'],
-          })
-        }
+        className={styles.footerBody}
       >
         <Flex direction="column">
           <Info
@@ -98,8 +74,9 @@ const Footer = ({
             title="Bypass Links - Github"
           >
             <ActionIcon
-              radius={999}
+              radius="xl"
               size="xl"
+              color="gray.2"
               aria-label="Github Repository Link"
             >
               <BsGithub size={28} />

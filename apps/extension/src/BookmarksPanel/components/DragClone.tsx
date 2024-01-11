@@ -1,13 +1,9 @@
-import {
-  ContextBookmarks,
-  ISelectedBookmarks,
-  bookmarkRowStyles,
-  noOp,
-} from '@bypass/shared';
+import { ContextBookmarks, ISelectedBookmarks, noOp } from '@bypass/shared';
+import bookmarkRowStyles from '@bypass/shared/styles/bookmarks/styles.module.css';
 import { Box, Center, Text } from '@mantine/core';
-import FolderRow from './FolderRow';
-import BookmarkRow from './BookmarkRow';
 import { getSelectedCount } from '../utils';
+import BookmarkRow from './BookmarkRow';
+import FolderRow from './FolderRow';
 
 interface Props {
   selectedBookmarks: ISelectedBookmarks;
@@ -23,10 +19,10 @@ const DragClone = ({ selectedBookmarks, contextBookmarks }: Props) => {
         w="100%"
         h="100%"
         py="0.125rem"
-        sx={bookmarkRowStyles}
+        className={bookmarkRowStyles.bookmarkRow}
         data-is-dragging="true"
       >
-        <Text size={15}>{`Currently dragging: ${dragCount} item`}</Text>
+        <Text size="15px">{`Currently dragging: ${dragCount} item`}</Text>
       </Center>
     );
   }
@@ -34,7 +30,7 @@ const DragClone = ({ selectedBookmarks, contextBookmarks }: Props) => {
   const selectedIndex = selectedBookmarks.findIndex(Boolean);
   const ctx = contextBookmarks[selectedIndex];
   return (
-    <Box h="100%" sx={bookmarkRowStyles} data-is-selected>
+    <Box h="100%" className={bookmarkRowStyles.bookmarkRow} data-is-selected>
       {ctx.isDir ? (
         <FolderRow
           pos={selectedIndex}

@@ -5,6 +5,7 @@ import { Button, Center, Modal } from '@mantine/core';
 import useToastStore from '@store/toast';
 import { QRCodeCanvas } from 'qrcode.react';
 import { memo, useEffect, useState } from 'react';
+import styles from './styles/Setup2FA.module.css';
 
 type Props = {
   isOpen: boolean;
@@ -64,7 +65,7 @@ const Setup2FA = memo(function Setup2FA({ isOpen, handleClose }: Props) {
       styles={{ body: { padding: 0 } }}
     >
       <Header text="Setup two factor auth" onBackClick={handleClose} />
-      <Center mt={20} sx={{ flexDirection: 'column' }}>
+      <Center mt={20} className={styles.qrCodeWrapper}>
         <QRCodeCanvas value={optAuthUrl} size={200} includeMargin />
         {!showVerifyToken && (
           <Button mt="2.5rem" radius="xl" onClick={toggleTokenVerify}>

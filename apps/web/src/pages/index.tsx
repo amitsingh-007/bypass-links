@@ -1,6 +1,7 @@
+import styles from '@/styles/home-page.module.css';
 import { seoConfig } from '@/ui/DownloadPage/constants/seo';
 import { getCaller } from '@/utils/caller';
-import { Container, Global } from '@mantine/core';
+import { Box, Container } from '@mantine/core';
 import ct from 'countries-and-timezones';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { NextSeo } from 'next-seo';
@@ -8,19 +9,6 @@ import AppHeader from '../ui/DownloadPage/components/AppHeader';
 import Footer from '../ui/DownloadPage/components/Footer';
 import PageHeader from '../ui/DownloadPage/components/PageHeader';
 import SalientFeatures from '../ui/DownloadPage/components/SalientFeatures';
-
-const pageStyles = {
-  '*': {
-    '::selection': {
-      background: '#6850ff',
-    },
-  },
-  body: {
-    '> *': {
-      background: '#131b21',
-    },
-  },
-};
 
 export const getServerSideProps: GetServerSideProps<{
   downloadLink: string;
@@ -49,8 +37,7 @@ export default function Home({
   userTimezone,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
-    <>
-      <Global styles={pageStyles} />
+    <Box className={styles.container}>
       <NextSeo {...seoConfig} />
       <AppHeader />
       <Container size="xl">
@@ -62,6 +49,6 @@ export default function Home({
         releaseDate={releaseDate}
         extVersion={extVersion}
       />
-    </>
+    </Box>
   );
 }

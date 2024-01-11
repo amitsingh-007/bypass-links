@@ -2,11 +2,11 @@ import {
   BookmarkProps,
   ContextBookmark,
   IBookmarksObj,
-  bookmarkRowStyles,
   getBookmarkId,
   isFolderEmpty,
   useDndSortable,
 } from '@bypass/shared';
+import bookmarkRowStyles from '@bypass/shared/styles/bookmarks/styles.module.css';
 import { Box } from '@mantine/core';
 import { memo } from 'react';
 import BookmarkRow from './BookmarkRow';
@@ -45,18 +45,22 @@ const VirtualRow = memo<Props>(function VirtualRow({
 
   return (
     <Box
-      sx={[
-        containerStyles,
+      style={{
+        ...containerStyles,
         // Added to fix context menu
-        { zIndex: bookmark.isDir ? 1 : 'auto' },
-      ]}
+        zIndex: bookmark.isDir ? 1 : 'auto',
+      }}
       h="100%"
       ref={setNodeRef}
       {...listeners}
       {...attributes}
       tabIndex={0}
     >
-      <Box h="100%" sx={bookmarkRowStyles} data-is-selected={isSelected}>
+      <Box
+        h="100%"
+        className={bookmarkRowStyles.bookmarkRow}
+        data-is-selected={isSelected}
+      >
         {bookmark.isDir ? (
           <FolderRow
             pos={pos}

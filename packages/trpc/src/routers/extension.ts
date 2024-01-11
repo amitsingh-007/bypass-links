@@ -1,4 +1,4 @@
-import { getVersionFromFileName } from '@bypass/shared';
+import { getVersionFromFileName } from '@bypass/configs/manifest/extensionFile';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import { publicProcedure } from '../procedures';

@@ -1,16 +1,11 @@
+import styles from '@/styles/web-ext.module.css';
+import { ITwoFactorAuth } from '@/ui/TwoFactorAuth/interface';
 import { googleSignIn, googleSignOut } from '@/ui/firebase/auth';
 import useWebPreload from '@/ui/hooks/useWebPreload';
 import { useUser } from '@/ui/provider/AuthProvider';
 import { getFromLocalStorage, setToLocalStorage } from '@/ui/provider/utils';
-import { ITwoFactorAuth } from '@/ui/TwoFactorAuth/interface';
 import { api } from '@/utils/api';
-import {
-  getMediaQuery,
-  Header,
-  InputTOTP,
-  ROUTES,
-  STORAGE_KEYS,
-} from '@bypass/shared';
+import { Header, InputTOTP, ROUTES, STORAGE_KEYS } from '@bypass/shared';
 import { Button, Center, Container, Stack } from '@mantine/core';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
@@ -100,16 +95,15 @@ export default function Web() {
       <Center mt="md">
         <Stack
           align={promptTOTPVerify ? 'center' : 'stretch'}
-          sx={(theme) => getMediaQuery(theme, { width: ['80%', '40%'] })}
+          className={styles.stack}
         >
           <Button
             radius="xl"
             size="md"
             loading={isLoading}
-            loaderPosition="right"
             onClick={isLoggedIn ? handleSignOut : handleSignIn}
             color={isLoggedIn ? 'teal' : 'red'}
-            rightIcon={
+            rightSection={
               isLoggedIn ? <RiLogoutCircleRFill /> : <RiLoginCircleFill />
             }
             fullWidth
@@ -123,7 +117,7 @@ export default function Web() {
               <Button
                 radius="xl"
                 size="md"
-                rightIcon={<RiBookMarkFill />}
+                rightSection={<RiBookMarkFill />}
                 onClick={() => router.push(ROUTES.BOOKMARK_PANEL)}
                 disabled={!isLoggedIn || isLoading}
               >
@@ -132,7 +126,7 @@ export default function Web() {
               <Button
                 radius="xl"
                 size="md"
-                rightIcon={<FaUserTag />}
+                rightSection={<FaUserTag />}
                 onClick={() => router.push(ROUTES.PERSONS_PANEL)}
                 disabled={!isLoggedIn || isLoading}
               >

@@ -2,8 +2,11 @@
   "name": "@bypass/shared",
   "version": "1.0.0",
   "private": true,
-  "main": "src/index.ts",
   "types": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./styles/*": "./src/styles/*"
+  },
   "sideEffects": false,
   "scripts": {
     "lint": "eslint ."
@@ -12,10 +15,10 @@
     "@dnd-kit/core": "6.1.0",
     "@dnd-kit/sortable": "8.0.0",
     "@dnd-kit/utilities": "3.2.2",
-    "@mantine/core": "6.0.21",
-    "@mantine/hooks": "6.0.21",
-    "@mantine/styles": "6.0.21",
+    "@mantine/core": "7.4.0",
+    "@mantine/hooks": "7.4.0",
     "@tanstack/react-virtual": "3.0.1",
+    "clsx": "2.1.0",
     "md5": "2.3.0",
     "preact": "10.19.3",
     "react": "18.2.0",
@@ -25,7 +28,6 @@
   "devDependencies": {
     "@babel/core": "7.23.5",
     "@bypass/configs": "workspace:*",
-    "@emotion/react": "11.11.3",
     "@types/md5": "2.3.5",
     "@types/react": "18.2.46",
     "@typescript-eslint/eslint-plugin": "6.17.0",

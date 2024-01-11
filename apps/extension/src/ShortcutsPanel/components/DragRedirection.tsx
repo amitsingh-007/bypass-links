@@ -17,7 +17,7 @@ const DragRedirection = ({ redirection, ...restProps }: Props) => {
     useDndSortable(id);
 
   return (
-    <Box sx={containerStyles} tabIndex={0}>
+    <Box style={containerStyles} tabIndex={0}>
       <RedirectionRule
         {...redirection}
         {...restProps}

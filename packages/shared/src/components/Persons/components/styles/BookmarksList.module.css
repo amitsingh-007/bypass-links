@@ -1,0 +1,16 @@
+.header {
+  display: contents;
+
+  @mixin smaller-than $mantine-breakpoint-sm {
+    display: none;
+  }
+}
+
+.bookmarkContainer {
+  cursor: pointer;
+  user-select: none;
+}
+
+.bookmarkWrapper {
+  flex: 1;
+}

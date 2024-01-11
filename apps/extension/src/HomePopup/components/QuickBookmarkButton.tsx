@@ -74,11 +74,10 @@ const QuickBookmarkButton = memo(function QuickBookmarkButton() {
     >
       <Button
         radius="xl"
-        loaderPosition="right"
         loading={isFetching}
         disabled={!isSignedIn}
         onClick={handleClick}
-        rightIcon={bookmark ? <RiBookmark3Fill /> : <BiBookmarkPlus />}
+        rightSection={bookmark ? <RiBookmark3Fill /> : <BiBookmarkPlus />}
         fullWidth
         color={bookmark ? 'teal' : 'red'}
       >

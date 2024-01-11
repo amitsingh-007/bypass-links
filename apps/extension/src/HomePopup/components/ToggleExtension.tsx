@@ -52,12 +52,9 @@ const ToggleExtension = memo(function ToggleExtension() {
       onChange={handleToggle}
       thumbIcon={
         isActive ? (
-          <BsCheckLg
-            size={8}
-            color={theme.colors.teal[theme.fn.primaryShade()]}
-          />
+          <BsCheckLg size={10} color={theme.colors.teal[6]} strokeWidth={2} />
         ) : (
-          <BsXLg size={8} color={theme.colors.red[theme.fn.primaryShade()]} />
+          <BsXLg size={8} color={theme.colors.red[6]} strokeWidth={2} />
         )
       }
     />

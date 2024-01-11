@@ -98,7 +98,7 @@ const ImagePicker = memo<Props>(function ImagePicker({
         />
       </Box>
       <Box px="1.25rem" pt="1.25rem">
-        <Group sx={{ justifyContent: 'center' }}>
+        <Group justify="center">
           <TextInput
             placeholder="Enter image link"
             onChange={(e) => setInputImageUrl(e.target.value ?? '')}
@@ -118,7 +118,7 @@ const ImagePicker = memo<Props>(function ImagePicker({
             w="40%"
           />
         </Group>
-        <Group mt="1.25rem" sx={{ justifyContent: 'center' }}>
+        <Group mt="1.25rem" justify="center">
           <Button radius="xl" color="teal" onClick={saveCroppedImage}>
             Save Cropped Image
           </Button>

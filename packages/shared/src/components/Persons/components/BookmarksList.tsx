@@ -1,3 +1,4 @@
+import bookmarkRowStyles from '@bypass/shared/styles/bookmarks/styles.module.css';
 import {
   ActionIcon,
   Avatar,
@@ -7,6 +8,7 @@ import {
   Container,
   Modal,
 } from '@mantine/core';
+import clsx from 'clsx';
 import {
   memo,
   useCallback,
@@ -16,17 +18,16 @@ import {
   useState,
 } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
+import DynamicContext from '../../../provider/DynamicContext';
 import Bookmark from '../../Bookmarks/components/Bookmark';
 import { BOOKMARK_OPERATION } from '../../Bookmarks/constants';
-import { getBookmarksPanelUrl } from '../../Bookmarks/utils/url';
-import Header from '../../Header';
-import DynamicContext from '../../../provider/DynamicContext';
-import { bookmarkRowStyles } from '../../Bookmarks/constants/styles';
 import useBookmark from '../../Bookmarks/hooks/useBookmark';
 import { getDecodedBookmark } from '../../Bookmarks/utils';
+import { getBookmarksPanelUrl } from '../../Bookmarks/utils/url';
+import Header from '../../Header';
 import { ModifiedBookmark } from '../interfaces/bookmark';
 import { getFilteredModifiedBookmarks } from '../utils/bookmark';
-import { getMediaQuery } from '../../../utils/mediaQuery';
+import styles from './styles/BookmarksList.module.css';
 
 interface Props {
   name?: string;
@@ -99,12 +100,8 @@ const BookmarksList = memo<Props>(function BookmarksList({
       <Header
         onSearchChange={setSearchText}
         rightContent={
-          <Box
-            sx={(theme) =>
-              getMediaQuery(theme, { display: ['none', 'contents'] })
-            }
-          >
-            <Avatar src={imageUrl} alt={name} radius={999} />
+          <Box className={styles.header}>
+            <Avatar src={imageUrl} alt={name} radius="xl" />
             <Badge size="lg" radius="lg" maw="50%">{`${name} (${
               filteredBookmarks?.length || 0
             })`}</Badge>
@@ -114,23 +111,24 @@ const BookmarksList = memo<Props>(function BookmarksList({
       {filteredBookmarks.length > 0 ? (
         filteredBookmarks.map((bookmark) => (
           <Center
+            key={bookmark.url}
             pos="relative"
             w="100%"
-            sx={[{ cursor: 'pointer', userSelect: 'none' }, bookmarkRowStyles]}
-            key={bookmark.url}
+            className={clsx(
+              bookmarkRowStyles.bookmarkRow,
+              styles.bookmarkContainer
+            )}
           >
             <ActionIcon
               size="2rem"
               title="Edit Bookmark"
               color="red"
-              onClick={() => {
-                handleBookmarkEdit(bookmark);
-              }}
-              radius={999}
+              onClick={() => handleBookmarkEdit(bookmark)}
+              radius="xl"
             >
               <AiFillEdit size="1.125rem" />
             </ActionIcon>
-            <Box sx={{ flex: 1 }}>
+            <Box className={styles.bookmarkWrapper}>
               <Bookmark
                 url={bookmark.url}
                 title={bookmark.title}

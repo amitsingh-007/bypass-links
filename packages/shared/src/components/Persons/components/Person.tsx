@@ -1,10 +1,10 @@
-import { ActionIcon, Badge, Flex, Image, Text } from '@mantine/core';
+import { ActionIcon, Avatar, Badge, Flex, Text } from '@mantine/core';
 import { memo, useContext, useEffect, useState } from 'react';
-import { TbUserOff } from 'react-icons/tb';
 import DynamicContext from '../../../provider/DynamicContext';
 import usePerson from '../hooks/usePerson';
 import { IPerson } from '../interfaces/persons';
 import { getPersonsPanelUrl } from '../utils/urls';
+import styles from './styles/Person.module.css';
 
 interface Props {
   person: IPerson;
@@ -22,9 +22,6 @@ const Person = memo<Props>(function Person({ person }) {
     });
   }, [uid, person, resolvePersonImageFromUid]);
 
-  const taggedUrlsCount =
-    taggedUrls && !!taggedUrls.length ? taggedUrls.length : 0;
-
   const openBookmarksList = () => {
     location.push(getPersonsPanelUrl({ openBookmarksList: uid }));
   };
@@ -36,32 +33,21 @@ const Person = memo<Props>(function Person({ person }) {
       radius="lg"
       w="100%"
       h="100%"
-      sx={(theme) => ({
-        display: 'flex',
-        flexDirection: 'column',
-        overflow: 'hidden',
-        backgroundColor: theme.colors.dark[9],
-      })}
+      className={styles.container}
       onClick={openBookmarksList}
     >
-      <Image
-        src={imageUrl}
-        alt={name}
-        height="6.875rem"
-        withPlaceholder
-        placeholder={<TbUserOff size={30} />}
-      />
-      <Flex align="center" w="100%" sx={{ flex: 1 }} pos="relative">
+      <Avatar src={imageUrl} h={110} w="100%" alt={name} radius="xs" />
+      <Flex align="center" w="100%" pos="relative" className={styles.image}>
         <Text
-          weight={700}
+          fw={700}
           size="sm"
           lineClamp={2}
           px="4px"
           ta="center"
           lh={1.15}
           title={name}
-          color="gray.4"
-          sx={{ flex: 1 }}
+          c="gray.4"
+          className={styles.name}
         >
           {name}
         </Text>
@@ -73,7 +59,7 @@ const Person = memo<Props>(function Person({ person }) {
           top="-25%"
           right="-0.1875rem"
         >
-          {taggedUrlsCount}
+          {taggedUrls?.length ?? 0}
         </Badge>
       </Flex>
     </ActionIcon>

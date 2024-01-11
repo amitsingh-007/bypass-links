@@ -15,6 +15,7 @@ import md5 from 'md5';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
 import ImagePicker from './ImagePicker';
+import styles from './styles/AddOrEditPersonDialog.module.css';
 
 const imageSize = 200;
 
@@ -120,11 +121,11 @@ const AddOrEditPersonDialog = memo<Props>(function AddOrEditPersonDialog({
                   pos="absolute"
                   top="50%"
                   left="50%"
-                  sx={{ transform: 'translate(-50%, -50%)' }}
+                  className={styles.editIconWrapper}
                 >
                   <ActionIcon
+                    c="white"
                     radius="xl"
-                    variant="subtle"
                     size={imageSize}
                     onClick={toggleImagePicker}
                   >

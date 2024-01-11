@@ -1,15 +1,14 @@
 import { UniqueIdentifier } from '@dnd-kit/core';
 import { useSortable } from '@dnd-kit/sortable';
 import { Transform } from '@dnd-kit/utilities';
-import { CSSObject } from '@mantine/styles';
-import { useEffect } from 'react';
+import { CSSProperties, useEffect } from 'react';
 
 const getContainerStyles = (
   isDragging: boolean,
   transform: Transform | null,
   transition: string | undefined
 ) => {
-  const styles: CSSObject = {
+  const styles: CSSProperties = {
     transform: `translate3d(${Math.round(transform?.x ?? 0)}px, ${Math.round(
       transform?.y ?? 0
     )}px, 0) scaleX(${transform?.scaleX ?? 1}) scaleY(${

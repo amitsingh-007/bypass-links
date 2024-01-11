@@ -1,25 +1,15 @@
 import { IRedirection } from '@/BackgroundScript/interfaces/redirections';
 import { useSortable } from '@dnd-kit/sortable';
-import {
-  ActionIcon,
-  Center,
-  Checkbox,
-  Group,
-  Sx,
-  TextInput,
-} from '@mantine/core';
+import { ActionIcon, Center, Checkbox, Group, TextInput } from '@mantine/core';
 import useHistoryStore from '@store/history';
+import clsx from 'clsx';
 import { memo, useState } from 'react';
 import { CgWebsite } from 'react-icons/cg';
 import { IoSave } from 'react-icons/io5';
 import { MdOutlineDelete, MdShortcut } from 'react-icons/md';
 import { RxDragHandleDots2, RxExternalLink } from 'react-icons/rx';
 import { DEFAULT_RULE_ALIAS } from '../constants';
-
-const disabledStyles: Sx = {
-  border: 'unset !important',
-  backgroundColor: 'unset !important',
-};
+import styles from './styles/RedirectionRule.module.css';
 
 type Props = IRedirection & {
   pos: number;
@@ -83,16 +73,16 @@ const RedirectionRule = memo(function RedirectionRule({
 
   return (
     <Center>
-      <ActionIcon radius={999} size="lg" {...dndAttrs}>
+      <ActionIcon c="white" radius="xl" size="lg" {...dndAttrs}>
         <RxDragHandleDots2 size={20} />
       </ActionIcon>
-      <Group sx={{ flex: 1 }}>
+      <Group className={styles.group}>
         <TextInput
           w="35%"
           placeholder="Enter Alias"
           value={ruleAlias}
           onChange={(e) => setRuleAlias(e.target.value.trim())}
-          icon={<MdShortcut />}
+          leftSection={<MdShortcut />}
           error={!ruleAlias}
         />
         <TextInput
@@ -100,7 +90,7 @@ const RedirectionRule = memo(function RedirectionRule({
           placeholder="Enter Website"
           value={ruleWebsite}
           onChange={(e) => setRuleWebsite(e.target.value.trim())}
-          icon={<CgWebsite />}
+          leftSection={<CgWebsite />}
           error={!ruleWebsite}
         />
       </Group>
@@ -111,31 +101,30 @@ const RedirectionRule = memo(function RedirectionRule({
         display="flex"
       />
       <ActionIcon
-        radius={999}
+        radius="xl"
         size="lg"
         disabled={!ruleWebsite}
         onClick={handleLinkOpen}
         color="blue.5"
-        sx={ruleWebsite ? undefined : disabledStyles}
+        className={clsx({
+          [styles.disabled]: !ruleWebsite,
+        })}
       >
         <RxExternalLink size={21} />
       </ActionIcon>
       <ActionIcon
-        radius={999}
+        radius="xl"
         size="lg"
         disabled={isRuleSaveActive}
         onClick={handleSaveClick}
         color="teal"
-        sx={isRuleSaveActive ? disabledStyles : undefined}
+        className={clsx({
+          [styles.disabled]: !ruleWebsite,
+        })}
       >
         <IoSave size={18} />
       </ActionIcon>
-      <ActionIcon
-        radius={999}
-        size="lg"
-        onClick={handleRemoveClick}
-        color="red"
-      >
+      <ActionIcon radius="xl" size="lg" onClick={handleRemoveClick} color="red">
         <MdOutlineDelete size={21} />
       </ActionIcon>
     </Center>
