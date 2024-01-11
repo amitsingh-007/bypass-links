@@ -38,7 +38,7 @@
     "zustand": "4.4.7"
   },
   "devDependencies": {
-    "@babel/core": "7.23.5",
+    "@babel/core": "7.23.7",
     "@bypass/configs": "workspace:*",
     "@playwright/test": "1.40.1",
     "@prefresh/core": "1.5.2",
