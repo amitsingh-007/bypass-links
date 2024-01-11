@@ -1,8 +1,9 @@
 import { ROUTES } from '@/ui/constants/routes';
-import { Center, Header } from '@mantine/core';
+import { Box, Center } from '@mantine/core';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { memo, useEffect, useState } from 'react';
+import styles from './styles/AppHeader.module.css';
 
 const AppHeader = memo(function AppHeader() {
   const router = useRouter();
@@ -15,14 +16,7 @@ const AppHeader = memo(function AppHeader() {
   }, [clickCount, router]);
 
   return (
-    <Header
-      height="4.5rem"
-      pos="sticky"
-      sx={(theme) => ({
-        backdropFilter: 'blur(10px)',
-        backgroundColor: `${theme.colors.dark[7]}66`,
-      })}
-    >
+    <Box className={styles.header}>
       <Center>
         <Image
           src="/bypass_link_192.png"
@@ -33,7 +27,7 @@ const AppHeader = memo(function AppHeader() {
           onClick={() => setClickCount(clickCount + 1)}
         />
       </Center>
-    </Header>
+    </Box>
   );
 });
 

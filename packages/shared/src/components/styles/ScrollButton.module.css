@@ -1,0 +1,11 @@
+.container {
+  z-index: 1;
+}
+
+.buttonInner {
+  justify-content: flex-start;
+
+  > [data-position='left'] {
+    margin-right: 2px;
+  }
+}

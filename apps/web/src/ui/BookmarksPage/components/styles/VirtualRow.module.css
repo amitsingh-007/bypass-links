@@ -1,0 +1,4 @@
+.bookmarkWrapper {
+  cursor: pointer;
+  user-select: none;
+}

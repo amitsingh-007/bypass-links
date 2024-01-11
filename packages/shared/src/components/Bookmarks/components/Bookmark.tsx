@@ -6,6 +6,7 @@ import usePerson from '../../Persons/hooks/usePerson';
 import { IPerson, IPersonWithImage } from '../../Persons/interfaces/persons';
 import Favicon from './Favicon';
 import PersonAvatars from './PersonAvatars';
+import styles from './styles/Bookmark.module.css';
 
 export interface BookmarkProps {
   url: string;
@@ -91,7 +92,7 @@ const Bookmark = memo<BookmarkProps>(function Bookmark({
         withArrow
         arrowSize={6}
         multiline
-        sx={{ wordWrap: 'break-word' }}
+        className={styles.tooltip}
         w="40%"
         lh="1.3"
         transitionProps={{
@@ -106,10 +107,10 @@ const Bookmark = memo<BookmarkProps>(function Bookmark({
         size="0.9375rem"
         lineClamp={1}
         data-context-id={contextId}
-        sx={{ flex: 1 }}
+        className={styles.tooltipTextWrapper}
       >
         {isMobile ? (
-          <Anchor href={url} display="block" sx={{ color: 'inherit' }}>
+          <Anchor href={url} display="block" className={styles.tooltipText}>
             {title}
           </Anchor>
         ) : (

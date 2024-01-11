@@ -6,6 +6,7 @@ import { AiFillEdit } from 'react-icons/ai';
 import { MdOutlineDelete } from 'react-icons/md';
 import { PiStarBold, PiStarFill } from 'react-icons/pi';
 import { FolderAddEditDialog } from './FolderAddEditDialog';
+import styles from './styles/FolderRow.module.css';
 
 interface Props extends FolderProps {
   pos: number;
@@ -85,15 +86,7 @@ const FolderRow = memo<Props>(
           <Box w="100%" h="100%" pos="relative">
             <Folder name={origName} {...restProps} />
             {isDefault && (
-              <Flex
-                align="center"
-                sx={{
-                  position: 'absolute',
-                  right: 6,
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                }}
-              >
+              <Flex align="center" className={styles.defaultIcon}>
                 <PiStarFill color={theme.colors.yellow[5]} />
               </Flex>
             )}

@@ -45,6 +45,7 @@ import BookmarkContextMenu from './BookmarkContextMenu';
 import BookmarksHeader from './BookmarksHeader';
 import DragClone from './DragClone';
 import VirtualRow from './VirtualRow';
+import styles from './styles/BookmarksPanel.module.css';
 
 const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
   folderContext,
@@ -544,7 +545,7 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
             ref={bodyRef}
             h={MAX_PANEL_SIZE.HEIGHT - HEADER_HEIGHT}
             w="100%"
-            sx={{ overflow: 'hidden scroll' }}
+            className={styles.body}
           >
             {shouldRenderBookmarks(folders, filteredContextBookmarks) ? (
               <DndContext
@@ -563,7 +564,9 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
                     {virtualizer.getVirtualItems().map((virtualRow) => (
                       <Box
                         key={virtualRow.key}
-                        sx={{ transform: `translateY(${virtualRow.start}px)` }}
+                        style={{
+                          transform: `translateY(${virtualRow.start}px)`,
+                        }}
                         pos="absolute"
                         top={0}
                         left={0}

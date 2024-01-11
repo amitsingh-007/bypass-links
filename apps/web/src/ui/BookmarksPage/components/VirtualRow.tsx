@@ -1,14 +1,16 @@
 import { openNewTab } from '@/ui/utils';
 import {
   Bookmark,
-  bookmarkRowStyles,
   ContextBookmarks,
   Folder,
   IBookmarksObj,
   isFolderEmpty,
 } from '@bypass/shared';
+import bookmarkRowStyles from '@bypass/shared/styles/bookmarks/styles.module.css';
 import { Flex } from '@mantine/core';
+import clsx from 'clsx';
 import { memo } from 'react';
+import styles from './styles/VirtualRow.module.css';
 
 export interface Props {
   index: number;
@@ -25,8 +27,8 @@ const VirtualRow = memo<Props>(({ index, folders, contextBookmarks }) => {
 
   return (
     <Flex
-      sx={[{ cursor: 'pointer', userSelect: 'none' }, bookmarkRowStyles]}
       h="100%"
+      className={clsx(bookmarkRowStyles.bookmarkRow, styles.bookmarkWrapper)}
     >
       {ctx.isDir ? (
         <Folder name={ctx.name} isEmpty={isFolderEmpty(folders, ctx.name)} />

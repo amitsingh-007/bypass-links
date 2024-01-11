@@ -16,10 +16,9 @@ const PersonsPanelButton = memo(function PersonsPanelButton() {
   return (
     <Button
       radius="xl"
-      loaderPosition="right"
       disabled={!isSignedIn}
       onClick={handleShowPersonsPanel}
-      rightIcon={<FaUserTag />}
+      rightSection={<FaUserTag />}
       fullWidth
     >
       Persons

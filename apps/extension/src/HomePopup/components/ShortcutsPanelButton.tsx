@@ -16,10 +16,9 @@ const ShortcutsPanelButton = memo(function ShortcutsPanelButton() {
   return (
     <Button
       radius="xl"
-      loaderPosition="right"
       disabled={!isSignedIn}
       onClick={handleOpenShortcutsPanel}
-      rightIcon={<GoFileSymlinkFile />}
+      rightSection={<GoFileSymlinkFile />}
       fullWidth
     >
       Shortcuts

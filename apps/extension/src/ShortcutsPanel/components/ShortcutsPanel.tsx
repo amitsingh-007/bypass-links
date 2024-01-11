@@ -20,6 +20,7 @@ import useShortcutDrag from '../hooks/useShortcutDrag';
 import { getRedirectionId, getValidRules } from '../utils';
 import DragClone from './DragClone';
 import DragRedirection from './DragRedirection';
+import styles from './styles/ShortcutsPanel.module.css';
 
 const ShortcutsPanel = memo(function ShortcutsPanel() {
   const displayToast = useToastStore((state) => state.displayToast);
@@ -109,7 +110,7 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
     <Flex w={MAX_PANEL_SIZE.WIDTH} h={MAX_PANEL_SIZE.HEIGHT} direction="column">
       <Header text="Shortcuts">
         <Button
-          leftIcon={<RiPlayListAddFill />}
+          leftSection={<RiPlayListAddFill />}
           onClick={handleAddRule}
           radius="xl"
           disabled={isFetching}
@@ -117,7 +118,7 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
           Add
         </Button>
         <Button
-          leftIcon={<IoSave />}
+          leftSection={<IoSave />}
           onClick={handleSave}
           color="teal"
           radius="xl"
@@ -143,7 +144,7 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
             direction="column"
             gap={10}
             p="0.625rem 0.25rem 0.25rem"
-            sx={{ overflow: 'auto', flex: 1 }}
+            className={styles.redirectionWrapper}
           >
             {redirections?.map((redirection, index) => (
               <DragRedirection

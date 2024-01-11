@@ -24,7 +24,7 @@ const Search = memo<{ onChange: (searchText: string) => void }>(
     return (
       <FocusTrap active={active}>
         <TextInput
-          icon={<GoSearch />}
+          leftSection={<GoSearch />}
           placeholder="Search"
           onChange={(event) => setValue(event.currentTarget.value)}
         />

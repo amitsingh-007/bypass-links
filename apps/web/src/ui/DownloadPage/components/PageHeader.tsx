@@ -1,9 +1,10 @@
 import { Box, Button, Group, Title } from '@mantine/core';
 import ChromeIcon from '@ui/icons/chrome.svg';
 import { memo } from 'react';
+import styles from './styles/PageHeader.module.css';
 
 const PageHeader = memo<{ downloadLink: string }>(({ downloadLink }) => (
-  <Group mt="4.375rem" position="center" sx={{ flexDirection: 'column' }}>
+  <Group mt="4.375rem" justify="center">
     <Title fz={{ base: '2.1875rem', md: '2.8125rem' }} ta="center">
       Have a Link Bypasser and private Bookmarks Panel !
     </Title>
@@ -11,9 +12,10 @@ const PageHeader = memo<{ downloadLink: string }>(({ downloadLink }) => (
       <Button
         component="a"
         href={downloadLink}
+        className={styles.downloadButton}
         radius="xl"
         size="lg"
-        leftIcon={<ChromeIcon height={22} width={22} />}
+        leftSection={<ChromeIcon height={22} width={22} />}
         tt="uppercase"
         fw="bold"
         variant="gradient"

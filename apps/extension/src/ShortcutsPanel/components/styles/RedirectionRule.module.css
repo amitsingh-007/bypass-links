@@ -1,0 +1,8 @@
+.group {
+  flex: 1;
+}
+
+.disabled {
+  border: unset !important;
+  background-color: unset !important;
+}

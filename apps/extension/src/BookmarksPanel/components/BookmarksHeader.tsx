@@ -103,7 +103,7 @@ const BookmarksHeader = memo<Props>(function BookmarksHeader({
         <Button
           size="xs"
           radius="xl"
-          leftIcon={<FaFolderPlus />}
+          leftSection={<FaFolderPlus />}
           onClick={toggleNewFolderDialog}
           disabled={isFetching || isSyncing}
         >
@@ -113,7 +113,7 @@ const BookmarksHeader = memo<Props>(function BookmarksHeader({
           size="xs"
           radius="xl"
           color="teal"
-          leftIcon={<IoSave />}
+          leftSection={<IoSave />}
           onClick={handleSave}
           disabled={disableSave}
         >
@@ -122,7 +122,7 @@ const BookmarksHeader = memo<Props>(function BookmarksHeader({
         <Button
           size="xs"
           radius="xl"
-          leftIcon={<RiUploadCloud2Fill />}
+          leftSection={<RiUploadCloud2Fill />}
           onClick={onSyncClick}
           color="yellow"
           loading={isSyncing}

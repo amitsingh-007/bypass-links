@@ -1,13 +1,13 @@
 import {
   Box,
   MantineColor,
-  createStyles,
+  MantineStyleProps,
   useMantineTheme,
 } from '@mantine/core';
-import { useContextMenu } from 'mantine-contextmenu';
-import { ContextMenuItemOptions } from 'mantine-contextmenu/dist/types';
+import { ContextMenuItemOptions, useContextMenu } from 'mantine-contextmenu';
 import { useMemo, useRef } from 'react';
 import { IconType } from 'react-icons';
+import styles from './styles/ContextMenu.module.css';
 
 export interface IMenuOption {
   text: string;
@@ -17,29 +17,15 @@ export interface IMenuOption {
 }
 
 interface Props {
+  wrapperHeight?: MantineStyleProps['h'];
   options: IMenuOption[];
   children: React.ReactNode;
 }
 
-const useStyles = createStyles((theme) => ({
-  root: {
-    padding: 4,
-    backgroundColor: theme.colors.dark[6],
-  },
-  item: {
-    borderRadius: 8,
-    padding: '0.375rem 0.5rem',
-    '> div': {
-      lineHeight: 0,
-    },
-  },
-}));
-
-const ContextMenu = ({ options, children }: Props) => {
+const ContextMenu = ({ wrapperHeight = '100%', options, children }: Props) => {
   const theme = useMantineTheme();
-  const showContextMenu = useContextMenu();
+  const { showContextMenu } = useContextMenu();
   const idRef = useRef('');
-  const { classes } = useStyles();
 
   const menuOptions = useMemo(() => {
     return options.map<ContextMenuItemOptions>((option) => {
@@ -64,7 +50,10 @@ const ContextMenu = ({ options, children }: Props) => {
   }, [options, theme.colors]);
 
   const contextMenuHandler = showContextMenu(menuOptions, {
-    classNames: classes,
+    classNames: {
+      root: styles.root,
+      item: styles.item,
+    },
   });
 
   const handleContextMenu: React.MouseEventHandler<HTMLDivElement> = (e) => {
@@ -75,7 +64,7 @@ const ContextMenu = ({ options, children }: Props) => {
   };
 
   return (
-    <Box w="100%" h="100%" onContextMenu={handleContextMenu}>
+    <Box w="100%" h={wrapperHeight} onContextMenu={handleContextMenu}>
       {children}
     </Box>
   );

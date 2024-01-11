@@ -93,12 +93,14 @@ const ToggleHistory = memo(function ToggleHistory() {
         isHistoryActive ? (
           <HiOutlineEye
             size={12}
-            color={theme.colors.teal[theme.fn.primaryShade()]}
+            color={theme.colors.teal[6]}
+            strokeWidth={2}
           />
         ) : (
           <HiOutlineEyeOff
             size={12}
-            color={theme.colors.red[theme.fn.primaryShade()]}
+            color={theme.colors.red[6]}
+            strokeWidth={2}
           />
         )
       }

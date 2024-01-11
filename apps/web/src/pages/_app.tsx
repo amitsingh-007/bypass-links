@@ -1,3 +1,6 @@
+// !NOTE: maintain below order of css
+import '@mantine/core/styles.css';
+import '@/styles/global.css';
 import { globalSEOConfig } from '@/ui/constants/globalSEO';
 import { AuthProvider } from '@/ui/provider/AuthProvider';
 import DynamicProvider from '@/ui/provider/DynamicProvider';
@@ -21,7 +24,7 @@ dayjs.extend(timezone);
 const MyApp = ({ Component, pageProps }: AppProps): JSX.Element => {
   return (
     <StrictMode>
-      <MantineProvider withGlobalStyles withNormalizeCSS theme={mantineTheme}>
+      <MantineProvider defaultColorScheme="dark" theme={mantineTheme}>
         <DynamicProvider>
           <AuthProvider>
             <DefaultSeo {...globalSEOConfig} />

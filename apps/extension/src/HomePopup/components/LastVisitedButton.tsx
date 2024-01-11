@@ -72,11 +72,10 @@ const LastVisitedButton = memo(function LastVisitedButton() {
     >
       <Button
         radius="xl"
-        loaderPosition="right"
         loading={isFetching}
         disabled={!isSignedIn}
         onClick={handleUpdateLastVisited}
-        rightIcon={lastVisited ? <FaCalendarCheck /> : <FaCalendarTimes />}
+        rightSection={lastVisited ? <FaCalendarCheck /> : <FaCalendarTimes />}
         fullWidth
         color={lastVisited ? 'teal' : 'red'}
       >

@@ -1,0 +1,23 @@
+.bookmarkRow {
+  box-sizing: border-box;
+  border-radius: var(--mantine-radius-md);
+
+  @mixin hover {
+    background-color: var(--mantine-color-gray-8);
+  }
+}
+
+.bookmarkRow[data-is-selected='true'] {
+  border: var(--mantine-color-violet-4) 1px solid;
+  background-color: var(--mantine-color-violet-9);
+  border-radius: var(--mantine-radius-md);
+
+  @mixin hover {
+    background-color: var(--mantine-color-violet-7);
+  }
+}
+
+.bookmarkRow[data-is-dragging='true'] {
+  background-color: var(--mantine-color-violet-9);
+  border: var(--mantine-color-violet-4) 1px solid;
+}
