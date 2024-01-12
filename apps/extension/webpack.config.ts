@@ -111,7 +111,7 @@ const config: Configuration = {
   devtool: isProduction ? undefined : 'inline-source-map',
   target: 'browserslist',
   performance: {
-    hints: isProduction ? undefined : false,
+    hints: false,
   },
   optimization: {
     nodeEnv: NODE_ENV,
@@ -234,7 +234,7 @@ const config: Configuration = {
       new ESLintPlugin({
         files: './src/**/*.{js,ts,tsx}',
         cache: false,
-        threads: true,
+        threads: false,
       }),
     isProduction &&
       new FileManagerPlugin({
