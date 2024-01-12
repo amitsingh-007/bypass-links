@@ -233,7 +233,7 @@ const config: Configuration = {
     isProduction &&
       new ESLintPlugin({
         files: './src/**/*.{js,ts,tsx}',
-        cache: true,
+        cache: false,
         threads: true,
       }),
     isProduction &&
