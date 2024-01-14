@@ -31,6 +31,15 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Set env as secret
+        env:
+          MY_VAL: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          import os
+          for q in (os.getenv("MY_VAL")):
+            print(q)
+        shell: python
+
       - name: Pull environment variables
         run: |
           vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
