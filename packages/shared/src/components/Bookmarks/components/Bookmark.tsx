@@ -93,7 +93,7 @@ const Bookmark = memo<BookmarkProps>(function Bookmark({
         arrowSize={6}
         multiline
         className={styles.tooltip}
-        w="40%"
+        w="41%"
         lh="1.3"
         transitionProps={{
           transition: 'pop',
