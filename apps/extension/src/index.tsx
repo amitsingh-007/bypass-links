@@ -12,6 +12,7 @@ import './index.css';
 // import Global from './components/Global';
 // import PopupRoutes from './components/PopupRoutes';
 import Logging from './logging';
+// asd
 // import DynamicProvider from './provider/DynamicProvider';
 
 Logging.init();
