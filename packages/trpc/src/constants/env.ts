@@ -4,10 +4,7 @@ import { z } from 'zod';
 export const getEnv = () =>
   createEnv({
     server: {
-      VERCEL_ENV: z
-        .literal('development')
-        .or(z.literal('preview'))
-        .or(z.literal('production')),
+      VERCEL_ENV: z.enum(['development', 'preview', 'production']),
       SERVICE_ACCOUNT_KEY: z.string(),
       FIREBASE_PRIVATE_KEY: z.string(),
       GITHUB_TOKEN: z.string(),

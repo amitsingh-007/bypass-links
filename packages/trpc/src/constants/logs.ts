@@ -3,9 +3,9 @@ import { z } from 'zod';
 export const axiomDataset = 'all-logs';
 
 export const logRequestSchema = z.object({
-  app: z.literal('extension').or(z.literal('web')),
+  app: z.enum(['extension', 'web']),
   isProd: z.boolean(),
-  level: z.literal('info').or(z.literal('error')),
+  level: z.enum(['info', 'error']),
   url: z.string(),
   tabUrl: z.string().optional(),
   message: z.any(),

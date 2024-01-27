@@ -1,5 +1,6 @@
 import Logging from '@/logging';
 import { getIsExtensionActive, setExtStateInStorage } from '@/utils/common';
+import { getCurrentTab } from '@/utils/tabs';
 import { EXTENSION_STATE } from '@constants/index';
 import { getExtensionState } from '@helpers/fetchFromStorage';
 import { bypass } from './bypass';
@@ -40,15 +41,25 @@ chrome.runtime.onStartup.addListener(() => {
 });
 
 const onPageLoad = async (tabId: number, url: string) => {
-  if (!url) {
+  if (!isValidUrl(url)) {
     return;
   }
   const extState = await getExtensionState();
-  if (isValidUrl(url) && getIsExtensionActive(extState)) {
-    const currentTabUrl = new URL(url);
-    bypass(tabId, currentTabUrl);
-    redirect(tabId, currentTabUrl);
+  if (!getIsExtensionActive(extState)) {
+    return;
+  }
+
+  let tab = await getCurrentTab();
+  if (isValidUrl(tab.url)) {
     turnOffInputSuggestions(tabId);
+  }
+  tab = await getCurrentTab();
+  if (isValidUrl(tab.url)) {
+    bypass(tabId, new URL(tab.url as string));
+  }
+  tab = await getCurrentTab();
+  if (isValidUrl(tab.url)) {
+    redirect(tabId, new URL(tab.url as string));
   }
 };
 
@@ -62,7 +73,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo) =>
  * @link https://stackoverflow.com/questions/16949810/how-can-i-run-this-script-when-the-tab-reloads-chrome-extension
  */
 chrome.webNavigation.onCommitted.addListener((details) => {
-  if (['reload'].includes(details.transitionType)) {
+  if (details.transitionType === 'reload') {
     chrome.webNavigation.onCompleted.addListener(function onComplete({
       tabId,
     }) {

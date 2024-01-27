@@ -16,6 +16,10 @@ import { Box, Container } from '@mantine/core';
 import { NextSeo } from 'next-seo';
 import { useEffect, useMemo, useState } from 'react';
 
+export const config = {
+  runtime: 'experimental-edge',
+};
+
 const PersonsPage = () => {
   const [persons, setPersons] = useState<IPerson[]>([]);
   const [searchText, setSearchText] = useState('');
