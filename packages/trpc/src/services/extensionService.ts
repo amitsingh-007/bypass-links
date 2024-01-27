@@ -1,5 +1,5 @@
-import { FIREBASE_DB_ROOT_KEYS } from '@bypass/shared';
-import { getFromFirebase, saveToFirebase } from './firebaseAdminService';
+import { getVersionFromFileName } from '@bypass/configs/manifest/extensionFile';
+import { TRPCError } from '@trpc/server';
 import { getAssetsByReleaseId, getLatestRelease } from './githubService';
 
 export const getLatestExtension = async () => {
@@ -8,17 +8,17 @@ export const getLatestExtension = async () => {
   const [extension] = assets.filter(
     (asset) => asset.content_type === 'application/zip'
   );
-  return extension;
-};
 
-export const backupData = async () => {
-  const snapshot = await getFromFirebase({
-    ref: FIREBASE_DB_ROOT_KEYS.data,
-    isAbsolute: true,
-  });
-  await saveToFirebase({
-    ref: FIREBASE_DB_ROOT_KEYS.backup,
-    data: snapshot.val(),
-    isAbsolute: true,
-  });
+  if (!extension) {
+    throw new TRPCError({
+      code: 'INTERNAL_SERVER_ERROR',
+      message: 'Extension not found',
+    });
+  }
+
+  return {
+    extension: extension.browser_download_url,
+    version: getVersionFromFileName(extension.name),
+    date: extension.updated_at,
+  };
 };

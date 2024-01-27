@@ -20,6 +20,10 @@ import { useRouter } from 'next/router';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styles from '@/styles/bookmark-panel.module.css';
 
+export const config = {
+  runtime: 'experimental-edge',
+};
+
 export default function BookmarksPage() {
   const router = useRouter();
   const contentRef = useRef<HTMLDivElement>(null);

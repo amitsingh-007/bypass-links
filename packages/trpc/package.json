@@ -2,8 +2,24 @@
   "name": "@bypass/trpc",
   "version": "1.0.0",
   "private": true,
-  "main": "src/index.ts",
-  "types": "src/index.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./src/index.ts"
+      ],
+      "edge": [
+        "./src/edgeIndex.ts"
+      ]
+    }
+  },
+  "exports": {
+    ".": {
+      "default": "./src/index.ts"
+    },
+    "./edge": {
+      "default": "./src/edgeIndex.ts"
+    }
+  },
   "sideEffects": false,
   "scripts": {
     "lint": "eslint .",

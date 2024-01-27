@@ -17,6 +17,10 @@ import {
   RiLogoutCircleRFill,
 } from 'react-icons/ri';
 
+export const config = {
+  runtime: 'experimental-edge',
+};
+
 export default function Web() {
   const router = useRouter();
   const { user, isLoggedIn } = useUser();
