@@ -1,7 +1,6 @@
 import { getHostnameAlias } from '@/utils/common';
 import { BYPASS_KEYS, IBypassKeys } from '@constants/index';
 import { IBypass } from '../interfaces/bypass';
-import { bypassForums } from './bypassForums';
 
 export const getDecodedBypass = (bypass: IBypass) =>
   bypass &&
@@ -14,9 +13,9 @@ type IRedirectionMapping = Partial<
   Record<IBypassKeys, (url: URL, tabId: number) => Promise<void>>
 >;
 
+const bypassForums = async () => {};
 const bypassAndHostnameMapping: IRedirectionMapping = {
   [BYPASS_KEYS.FORUMS]: bypassForums,
-  [BYPASS_KEYS.FORUMS_V2]: bypassForums,
 };
 
 export const getBypassExecutor = async (url: URL) => {
