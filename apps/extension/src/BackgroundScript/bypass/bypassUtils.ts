@@ -20,7 +20,6 @@ const bypassAndHostnameMapping: IRedirectionMapping = {
   [BYPASS_KEYS.FORUMS_V2]: bypassForums,
   [BYPASS_KEYS.JUSTPASTEIT]: bypassPageLinks,
   [BYPASS_KEYS.PASTELINK]: bypassPageLinks,
-  [BYPASS_KEYS.RENTRY]: bypassPageLinks,
 };
 
 export const getBypassExecutor = async (url: URL) => {
