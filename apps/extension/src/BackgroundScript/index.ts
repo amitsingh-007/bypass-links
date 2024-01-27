@@ -73,7 +73,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo) =>
  * @link https://stackoverflow.com/questions/16949810/how-can-i-run-this-script-when-the-tab-reloads-chrome-extension
  */
 chrome.webNavigation.onCommitted.addListener((details) => {
-  if (['reload'].includes(details.transitionType)) {
+  if (details.transitionType === 'reload') {
     chrome.webNavigation.onCompleted.addListener(function onComplete({
       tabId,
     }) {

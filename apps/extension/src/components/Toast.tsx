@@ -40,7 +40,7 @@ const Toast = memo(function Toast() {
       {(styles) => (
         <Alert
           radius="md"
-          variant="outline"
+          variant="light"
           withCloseButton
           onClose={hideToast}
           color={COLOR_MAP[severity]}
