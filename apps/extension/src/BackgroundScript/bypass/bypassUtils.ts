@@ -4,7 +4,6 @@ import { IBypass } from '../interfaces/bypass';
 import { bypassBonsai } from './bypassBonsai';
 import { bypassBonsaiLink } from './bypassBonsaiLink';
 import { bypassForums } from './bypassForums';
-import { bypassLinkvertise } from './bypassLinkvertise';
 import { bypassMedium } from './bypassMedium';
 import { bypassPageLinks } from './bypassPageLinks';
 
@@ -20,7 +19,6 @@ type IRedirectionMapping = Partial<
 >;
 
 const bypassAndHostnameMapping: IRedirectionMapping = {
-  [BYPASS_KEYS.LINKVERTISE]: bypassLinkvertise,
   [BYPASS_KEYS.BONSAI]: bypassBonsai,
   [BYPASS_KEYS.BONSAILINK]: bypassBonsaiLink,
   [BYPASS_KEYS.FORUMS]: bypassForums,
