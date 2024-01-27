@@ -1,6 +1,5 @@
 import styles from '@/styles/home-page.module.css';
 import { seoConfig } from '@/ui/DownloadPage/constants/seo';
-// import { getCaller } from '@/utils/caller';
 import { Box, Container } from '@mantine/core';
 import ct from 'countries-and-timezones';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';

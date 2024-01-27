@@ -5,6 +5,7 @@ import { getIsExtensionActive } from '../../utils/common';
 
 const restrictedProtocols = new Set([
   'chrome:', // Chrome browser internal URLs
+  'chrome-native:',
   'edge:', // Edge browser internal URLs
   'about:', // Empty page URLs
   'data:', // Encoded image URLs
@@ -12,9 +13,15 @@ const restrictedProtocols = new Set([
   'chrome-extension:', // Chrome extension URLs
   'content:', // Tampermonkey related URLs
   'file:', // File System URLs
+  'devtools:', // Devtools URLs
+  'blob:', // Blob URLs
+  'webtorrent:', // WebTorrent URLs
+  'magnet:', // Magnet URLs
+  'orion:', // Orion browser internal URLs
 ]);
 const restrictedHosts = new Set([
-  'chrome.google.com', // Chrome web store
+  'chrome.google.com', // Legacy chrome web store
+  'chromewebstore.google.com', // New Chrome web store
   'microsoftedge.microsoft.com', // Microsoft Edge web store
 ]);
 
