@@ -55,11 +55,11 @@ const onPageLoad = async (tabId: number, url: string) => {
   }
   tab = await getCurrentTab();
   if (isValidUrl(tab.url)) {
-    bypass(tabId, new URL(tab.url as string));
+    redirect(tabId, new URL(tab.url as string));
   }
   tab = await getCurrentTab();
   if (isValidUrl(tab.url)) {
-    redirect(tabId, new URL(tab.url as string));
+    bypass(tabId, new URL(tab.url as string));
   }
 };
 
