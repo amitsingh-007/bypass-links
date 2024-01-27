@@ -32,7 +32,6 @@ Head over to [Download Page](https://bypass-links.vercel.app) to download the Ch
 
 ## Currently supported websites
 
-    * justpasteit
     * forums.*
 
 ## For Development [![Code of Conduct](https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat)](https://github.com/amitsingh-007/bypass-links/blob/main/contributing.md) ![GitHub issues](https://img.shields.io/github/issues/amitsingh-007/bypass-links)

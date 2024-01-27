@@ -9,7 +9,6 @@ export type IExtensionState = ObjectValues<typeof EXTENSION_STATE>;
 
 export const BYPASS_KEYS = {
   FORUMS: 'FORUMS',
-  JUSTPASTEIT: 'JUSTPASTEIT',
   FORUMS_V2: 'FORUMS_V2',
 } as const;
 
