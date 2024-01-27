@@ -8,8 +8,6 @@ export const EXTENSION_STATE = {
 export type IExtensionState = ObjectValues<typeof EXTENSION_STATE>;
 
 export const BYPASS_KEYS = {
-  BONSAI: 'BONSAI',
-  BONSAILINK: 'BONSAILINK',
   FORUMS: 'FORUMS',
   JUSTPASTEIT: 'JUSTPASTEIT',
   PASTELINK: 'PASTELINK',

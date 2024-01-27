@@ -33,8 +33,6 @@ Head over to [Download Page](https://bypass-links.vercel.app) to download the Ch
 ## Currently supported websites
 
     * medium
-    * bonsaihd
-    * bonsailink
     * justpasteit
     * pastelink
     * rentry
