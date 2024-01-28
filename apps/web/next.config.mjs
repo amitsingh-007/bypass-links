@@ -14,6 +14,11 @@ const nextConfig = {
   compiler: {
     removeConsole: isDev ? false : { exclude: ['error'] },
   },
+  /**
+   * TODO: remove after app router migration
+   * @link https://github.com/vercel/next.js/issues/30567#issuecomment-958806777
+   */
+  optimizeFonts: false,
   reactStrictMode: true,
   transpilePackages: ['@bypass/shared'],
   webpack: (config, { dev, isServer, webpack }) => {
