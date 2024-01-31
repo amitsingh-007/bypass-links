@@ -44,6 +44,10 @@ export * from './constants/theme';
 // Interfaces
 export * from './interfaces/custom';
 export * from './interfaces/utilityTypes';
+export * from './interfaces/ISettings';
+export * from './interfaces/IBypass';
+export * from './interfaces/ILastVisited';
+export * from './interfaces/IRedirection';
 
 // Provider
 export { default as DynamicContext } from './provider/DynamicContext';

@@ -1,15 +1,29 @@
 import { ITRPCContext } from '../src/@types/trpc';
 import { appRouter } from '../src/index';
-import { getAuthIdToken } from './firebase';
+import { getUser } from './firebase';
 
 const createInnerTRPCContext = async (): Promise<ITRPCContext> => {
-  return {
+  const innerCtx: ITRPCContext = {
     reqMetaData: {
       ip: '',
       userAgent: '',
     },
-    bearerToken: await getAuthIdToken(),
+    user: null,
   };
+  const firebaseUser = getUser();
+  if (!firebaseUser) {
+    return innerCtx;
+  }
+
+  innerCtx.user = {
+    uid: firebaseUser.uid,
+    email: firebaseUser.email ?? undefined,
+    displayName: firebaseUser.displayName ?? undefined,
+    photoURL: firebaseUser.photoURL ?? undefined,
+    disabled: false,
+    emailVerified: true,
+  };
+  return innerCtx;
 };
 
 export const getTrpcCaller = async () => {

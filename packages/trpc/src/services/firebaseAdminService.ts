@@ -49,19 +49,30 @@ const auth = getAuth(firebaseApp);
 /**
  * REALTIME DATABASE
  */
-export const getFromFirebase = async ({
+export const getFromFirebase = async <T extends Record<string, any>>({
   ref,
   uid,
   isAbsolute,
-}: Omit<Firebase, 'data'>) =>
-  database.ref(getFullDbPath(ref, uid, isAbsolute)).once('value');
+}: Omit<Firebase, 'data'>): Promise<T> => {
+  const dbPath = getFullDbPath(ref, uid, isAbsolute);
+  const snapshot = await database.ref(dbPath).once('value');
+  return snapshot.val() || {};
+};
 
 export const saveToFirebase = async ({
   ref,
   uid,
   data,
   isAbsolute,
-}: Firebase) => database.ref(getFullDbPath(ref, uid, isAbsolute)).set(data);
+}: Firebase) => {
+  try {
+    await database.ref(getFullDbPath(ref, uid, isAbsolute)).set(data);
+    return true;
+  } catch (err) {
+    console.log(`Error while saving data to Firebase DB: ${ref}`, err);
+    return false;
+  }
+};
 
 export const removeFromFirebase = async ({
   ref,

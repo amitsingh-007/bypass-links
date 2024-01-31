@@ -5,9 +5,7 @@ import { getAuthIdToken } from '@/helpers/firebase/auth';
 export const api = createTRPCProxyClient<AppRouter>({
   links: [
     loggerLink({
-      enabled: (opts) =>
-        (!PROD_ENV && typeof window !== 'undefined') ||
-        (opts.direction === 'down' && opts.result instanceof Error),
+      enabled: () => true,
     }),
     httpBatchLink({
       url: `${HOST_NAME}/api/trpc`,

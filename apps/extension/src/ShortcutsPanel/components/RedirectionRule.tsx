@@ -1,4 +1,4 @@
-import { IRedirection } from '@/BackgroundScript/interfaces/redirections';
+import { IRedirection } from '@bypass/shared';
 import { useSortable } from '@dnd-kit/sortable';
 import { ActionIcon, Center, Checkbox, Group, TextInput } from '@mantine/core';
 import useHistoryStore from '@store/history';

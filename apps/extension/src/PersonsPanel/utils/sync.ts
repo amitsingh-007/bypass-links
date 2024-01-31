@@ -1,22 +1,20 @@
 import { AuthProgress } from '@/HomePopup/utils/authProgress';
+import { api } from '@/utils/api';
 import {
   addToCache,
   CACHE_BUCKET_KEYS,
-  FIREBASE_DB_REF,
   getCacheObj,
   IPerson,
   PersonImageUrls,
   STORAGE_KEYS,
 } from '@bypass/shared';
 import { getPersonImageUrls, getPersons } from '@helpers/fetchFromStorage';
-import { getFromFirebase, saveToFirebase } from '@helpers/firebase/database';
 import { getImageFromFirebase } from '@helpers/firebase/storage';
 import { getAllDecodedPersons } from '.';
 
 export const syncPersonsToStorage = async () => {
-  const persons = await getFromFirebase<IPerson>(FIREBASE_DB_REF.persons);
+  const persons = await api.firebaseData.personsGet.query();
   await chrome.storage.local.set({ [STORAGE_KEYS.persons]: persons });
-  console.log('Persons is set to', persons);
 };
 
 export const syncPersonsFirebaseWithStorage = async () => {
@@ -26,8 +24,7 @@ export const syncPersonsFirebaseWithStorage = async () => {
   if (!hasPendingPersons) {
     return;
   }
-  console.log('Syncing persons from storage to firebase', persons);
-  const isSaveSuccess = await saveToFirebase(FIREBASE_DB_REF.persons, persons);
+  const isSaveSuccess = await api.firebaseData.personsPost.mutate(persons);
   if (isSaveSuccess) {
     await chrome.storage.local.remove('hasPendingPersons');
   } else {

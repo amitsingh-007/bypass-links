@@ -1,13 +1,11 @@
-import {
-  IMappedRedirections,
-  IRedirection,
-} from '@/BackgroundScript/interfaces/redirections';
+import { IMappedRedirections } from '@/BackgroundScript/interfaces/redirections';
 import { UserInfo } from '@/HomePopup/interfaces/authentication';
-import { LastVisited } from '@/HomePopup/interfaces/lastVisited';
-import { ISettings } from '@/SettingsPanel/interfaces/settings';
 import {
   IBookmarksObj,
+  ILastVisited,
   IPersons,
+  IRedirection,
+  ISettings,
   PersonImageUrls,
   STORAGE_KEYS,
 } from '@bypass/shared';
@@ -38,7 +36,7 @@ export const getMappedRedirections = async (): Promise<IMappedRedirections> => {
   return mappedRedirections || {};
 };
 
-export const getLastVisited = async (): Promise<LastVisited> => {
+export const getLastVisited = async (): Promise<ILastVisited> => {
   const { [STORAGE_KEYS.lastVisited]: lastVisited } =
     await chrome.storage.local.get(STORAGE_KEYS.lastVisited);
   return lastVisited;

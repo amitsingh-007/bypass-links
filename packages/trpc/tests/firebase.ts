@@ -10,6 +10,6 @@ export const anonymousSignIn = () => signInAnonymously(auth);
 
 export const deleteFirebaseUser = (user: User) => deleteUser(user);
 
-export const getAuthIdToken = () => auth.currentUser?.getIdToken(true);
+export const getUser = () => auth.currentUser;
 
 export type { User as FirebaseUser } from 'firebase/auth';
