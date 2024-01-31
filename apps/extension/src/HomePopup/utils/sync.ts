@@ -37,9 +37,7 @@ import { AuthProgress } from './authProgress';
 
 const syncAuthenticationToStorage = async (userProfile: UserInfo) => {
   AuthProgress.start('Checking 2FA status');
-  const { is2FAEnabled } = await api.twoFactorAuth.status.query(
-    userProfile.uid ?? ''
-  );
+  const { is2FAEnabled } = await api.twoFactorAuth.status.query();
   userProfile.is2FAEnabled = is2FAEnabled;
   userProfile.isTOTPVerified = false;
   await chrome.storage.local.set({ [STORAGE_KEYS.userProfile]: userProfile });

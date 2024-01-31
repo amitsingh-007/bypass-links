@@ -19,10 +19,7 @@ const Setup2FA = memo(function Setup2FA({ isOpen, handleClose }: Props) {
   const [showVerifyToken, setShowVerifyToken] = useState(false);
 
   const init2FA = async () => {
-    const userProfile = await getUserProfile();
-    const { otpAuthUrl, secretKey } = await api.twoFactorAuth.setup.mutate(
-      userProfile.uid ?? ''
-    );
+    const { otpAuthUrl, secretKey } = await api.twoFactorAuth.setup.mutate();
     setSecretKey(secretKey);
     setOptAuthUrl(otpAuthUrl);
   };
@@ -37,10 +34,7 @@ const Setup2FA = memo(function Setup2FA({ isOpen, handleClose }: Props) {
 
   const handleTOTPVerify = async (totp: string) => {
     const userProfile = await getUserProfile();
-    const { isVerified } = await api.twoFactorAuth.verify.query({
-      uid: userProfile.uid ?? '',
-      totp,
-    });
+    const { isVerified } = await api.twoFactorAuth.verify.query(totp);
     if (isVerified) {
       userProfile.is2FAEnabled = true;
       await chrome.storage.local.set({

@@ -34,10 +34,7 @@ const TwoFactorAuthenticate = () => {
     if (!user) {
       return;
     }
-    const { isVerified } = await api.twoFactorAuth.authenticate.query({
-      uid: user.uid ?? '',
-      totp,
-    });
+    const { isVerified } = await api.twoFactorAuth.authenticate.query(totp);
     if (isVerified) {
       user.isTOTPVerified = true;
       await chrome.storage.local.set({ [STORAGE_KEYS.userProfile]: user });

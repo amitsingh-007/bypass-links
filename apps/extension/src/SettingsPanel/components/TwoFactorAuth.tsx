@@ -22,9 +22,7 @@ const TwoFactorAuth = memo(function TwoFactorAuth() {
 
   const handle2FARevoke = async () => {
     const userProfile = await getUserProfile();
-    const { isRevoked } = await api.twoFactorAuth.revoke.mutate(
-      userProfile.uid ?? ''
-    );
+    const { isRevoked } = await api.twoFactorAuth.revoke.mutate();
     if (!isRevoked) {
       displayToast({ message: 'Something went wrong', severity: 'error' });
       return;

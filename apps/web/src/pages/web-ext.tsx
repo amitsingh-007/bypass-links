@@ -73,10 +73,7 @@ export default function Web() {
   };
 
   const onVerify = async (totp: string) => {
-    const { isVerified } = await api.twoFactorAuth.authenticate.query({
-      uid: user?.uid ?? '',
-      totp,
-    });
+    const { isVerified } = await api.twoFactorAuth.authenticate.query(totp);
     if (isVerified) {
       const twoFAData = await getFromLocalStorage<ITwoFactorAuth>(
         STORAGE_KEYS.twoFactorAuth
