@@ -29,7 +29,7 @@
     "@babel/core": "7.23.7",
     "@bypass/configs": "workspace:*",
     "@types/md5": "2.3.5",
-    "@types/react": "18.2.47",
+    "@types/react": "18.2.48",
     "@typescript-eslint/eslint-plugin": "6.18.1",
     "@typescript-eslint/parser": "6.18.1",
     "eslint": "8.56.0",
