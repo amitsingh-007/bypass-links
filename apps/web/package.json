@@ -10,8 +10,8 @@
   "dependencies": {
     "@bypass/shared": "workspace:*",
     "@bypass/trpc": "workspace:*",
-    "@mantine/core": "7.4.1",
-    "@mantine/hooks": "7.4.1",
+    "@mantine/core": "7.5.1",
+    "@mantine/hooks": "7.5.1",
     "@t3-oss/env-nextjs": "0.8.0",
     "@tanstack/react-virtual": "3.0.1",
     "@trpc/client": "10.45.0",
