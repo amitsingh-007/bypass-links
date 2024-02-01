@@ -166,8 +166,8 @@ importers:
         specifier: 4.0.0
         version: 4.0.0(webpack@5.89.0)
       copy-webpack-plugin:
-        specifier: 12.0.0
-        version: 12.0.0(webpack@5.89.0)
+        specifier: 12.0.2
+        version: 12.0.2(webpack@5.89.0)
       cross-env:
         specifier: 7.0.3
         version: 7.0.3
@@ -5857,8 +5857,8 @@ packages:
       is-what: 3.14.1
     dev: true
 
-  /copy-webpack-plugin@12.0.0(webpack@5.89.0):
-    resolution: {integrity: sha512-WQfxZKgoRB94/g0BP/cjADvE6jXQKoSk0lFFeIC5HZlE1JuabYPwhQUtOZsGI0cI+QMsi6vhdIDy4eNXKcTgFg==}
+  /copy-webpack-plugin@12.0.2(webpack@5.89.0):
+    resolution: {integrity: sha512-SNwdBeHyII+rWvee/bTnAYyO8vfVdcSTud4EIb6jcZ8inLeWucJE0DnxXQBjlQ5zlteuuvooGQy3LIyGxhvlOA==}
     engines: {node: '>= 18.12.0'}
     peerDependencies:
       webpack: ^5.1.0
