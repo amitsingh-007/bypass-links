@@ -1,6 +1,6 @@
-import { createTRPCProxyClient, httpBatchLink, loggerLink } from '@trpc/client';
+import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import type { AppRouter } from '@bypass/trpc';
-import { getAuthIdToken } from '@/helpers/firebase/auth';
+import { createTRPCProxyClient, httpBatchLink, loggerLink } from '@trpc/client';
 
 export const trpcApi = createTRPCProxyClient<AppRouter>({
   links: [
@@ -9,9 +9,13 @@ export const trpcApi = createTRPCProxyClient<AppRouter>({
     }),
     httpBatchLink({
       url: `${HOST_NAME}/api/trpc`,
-      headers: async () => ({
-        authorization: `Bearer ${await getAuthIdToken()}`,
-      }),
+      headers: async () => {
+        const { getIdToken } = useFirebaseStore.getState();
+
+        return {
+          authorization: `Bearer ${await getIdToken()}`,
+        };
+      },
     }),
   ],
 });

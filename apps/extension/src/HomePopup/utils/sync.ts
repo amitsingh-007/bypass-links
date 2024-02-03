@@ -50,9 +50,7 @@ const resetAuthentication = async () => {
     console.log('User profile not found');
     return;
   }
-  await chrome.identity.removeCachedAuthToken({
-    token: userProfile.googleAuthToken ?? '',
-  });
+  await chrome.identity.clearAllCachedAuthTokens();
   console.log('Removed Google auth token from cache');
   await chrome.storage.local.remove(STORAGE_KEYS.userProfile);
 };
