@@ -1,4 +1,4 @@
-import { api } from '@/utils/api';
+import { trpcApi } from '@/apis/trpcApi';
 import { Header, ISettings } from '@bypass/shared';
 import { getSettings } from '@helpers/fetchFromStorage';
 import { Box, Flex } from '@mantine/core';
@@ -33,7 +33,7 @@ const SettingsPanel = memo(function SettingsPanel() {
   const handleSettingsChange: IHandleSettingsChange = async (newSettings) => {
     const consolidatedSettings = { ...settings, ...newSettings };
     const isSuccess =
-      await api.firebaseData.settingsPost.mutate(consolidatedSettings);
+      await trpcApi.firebaseData.settingsPost.mutate(consolidatedSettings);
     if (isSuccess) {
       await syncSettingsToStorage();
     }

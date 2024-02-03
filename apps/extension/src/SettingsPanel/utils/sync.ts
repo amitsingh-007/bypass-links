@@ -1,8 +1,8 @@
-import { api } from '@/utils/api';
+import { trpcApi } from '@/apis/trpcApi';
 import { STORAGE_KEYS } from '@bypass/shared';
 
 export const syncSettingsToStorage = async () => {
-  const settings = await api.firebaseData.settingsGet.query();
+  const settings = await trpcApi.firebaseData.settingsGet.query();
   await chrome.storage.local.set({ [STORAGE_KEYS.settings]: settings ?? {} });
 };
 

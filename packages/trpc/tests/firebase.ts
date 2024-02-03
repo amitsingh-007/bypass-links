@@ -1,9 +1,8 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import { getFirebasePublicConfig } from '@bypass/shared';
+import { getFirebasePublicConfig } from '@bypass/configs/firebase.config';
 import { initializeApp } from 'firebase/app';
 import { User, deleteUser, getAuth, signInAnonymously } from 'firebase/auth';
 
-const firebaseApp = initializeApp(getFirebasePublicConfig());
+const firebaseApp = initializeApp(getFirebasePublicConfig(PROD_ENV));
 const auth = getAuth(firebaseApp);
 
 export const anonymousSignIn = () => signInAnonymously(auth);

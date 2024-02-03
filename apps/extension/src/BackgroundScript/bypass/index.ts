@@ -1,4 +1,4 @@
-import { api } from '@/utils/api';
+import { trpcApi } from '@/apis/trpcApi';
 import { STORAGE_KEYS } from '@bypass/shared';
 import { getBypassExecutor, getDecodedBypass } from './bypassUtils';
 
@@ -10,7 +10,7 @@ export const bypass = async (tabId: number, url: URL) => {
 };
 
 export const syncBypassToStorage = async () => {
-  const response = await api.firebaseData.bypassGet.query();
+  const response = await trpcApi.firebaseData.bypassGet.query();
   const bypassData = getDecodedBypass(response);
   await chrome.storage.local.set({ [STORAGE_KEYS.bypass]: bypassData });
 };

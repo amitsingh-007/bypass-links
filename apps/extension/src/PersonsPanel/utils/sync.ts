@@ -1,19 +1,19 @@
 import { AuthProgress } from '@/HomePopup/utils/authProgress';
-import { api } from '@/utils/api';
+import { trpcApi } from '@/apis/trpcApi';
 import {
   addToCache,
   CACHE_BUCKET_KEYS,
   getCacheObj,
+  getPersonImageName,
   IPerson,
   PersonImageUrls,
   STORAGE_KEYS,
 } from '@bypass/shared';
 import { getPersonImageUrls, getPersons } from '@helpers/fetchFromStorage';
-import { getImageFromFirebase } from '@helpers/firebase/storage';
 import { getAllDecodedPersons } from '.';
 
 export const syncPersonsToStorage = async () => {
-  const persons = await api.firebaseData.personsGet.query();
+  const persons = await trpcApi.firebaseData.personsGet.query();
   await chrome.storage.local.set({ [STORAGE_KEYS.persons]: persons });
 };
 
@@ -24,7 +24,7 @@ export const syncPersonsFirebaseWithStorage = async () => {
   if (!hasPendingPersons) {
     return;
   }
-  const isSaveSuccess = await api.firebaseData.personsPost.mutate(persons);
+  const isSaveSuccess = await trpcApi.firebaseData.personsPost.mutate(persons);
   if (isSaveSuccess) {
     await chrome.storage.local.remove('hasPendingPersons');
   } else {
@@ -39,12 +39,9 @@ export const resetPersons = async () => {
   ]);
 };
 
-const resolveImageFromPerson = async ({
+const resolveImageFromPerson = async (uid: string) => ({
   uid,
-  imageRef,
-}: Pick<IPerson, 'uid' | 'imageRef'>) => ({
-  uid,
-  imageUrl: await getImageFromFirebase(imageRef),
+  imageUrl: await trpcApi.storage.getDownloadUrl.query(getPersonImageName(uid)),
 });
 
 export const refreshPersonImageUrlsCache = async () => {
@@ -69,12 +66,12 @@ export const cachePersonImagesInStorage = async () => {
   let totalResolved = 0;
   const personImagesList = await Promise.all(
     persons.map(async (person) => {
-      const url = await resolveImageFromPerson(person);
+      const urlData = await resolveImageFromPerson(person.uid);
       totalResolved += 1;
       AuthProgress.update(
         `Caching person urls: ${totalResolved}/${persons.length}`
       );
-      return url;
+      return urlData;
     })
   );
   const personImageUrls = personImagesList.reduce<PersonImageUrls>(
@@ -87,7 +84,6 @@ export const cachePersonImagesInStorage = async () => {
   await chrome.storage.local.set({
     [STORAGE_KEYS.personImageUrls]: personImageUrls,
   });
-  console.log('PersonImageUrls is set to', personImageUrls);
   AuthProgress.finish('Cached person urls');
   AuthProgress.start('Caching person images');
   await cachePersonImages(personImageUrls);
@@ -97,7 +93,7 @@ export const cachePersonImagesInStorage = async () => {
 export const updatePersonCacheAndImageUrls = async (person: IPerson) => {
   // Update person image urls in storage
   const personImageUrls = await getPersonImageUrls();
-  const { uid, imageUrl } = await resolveImageFromPerson(person);
+  const { uid, imageUrl } = await resolveImageFromPerson(person.uid);
   personImageUrls[uid] = imageUrl;
   await chrome.storage.local.set({
     [STORAGE_KEYS.personImageUrls]: personImageUrls,

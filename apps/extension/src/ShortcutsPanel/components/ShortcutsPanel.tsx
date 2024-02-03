@@ -1,6 +1,6 @@
 import { syncRedirectionsToStorage } from '@/BackgroundScript/redirect';
 import { MAX_PANEL_SIZE } from '@/constants';
-import { api } from '@/utils/api';
+import { trpcApi } from '@/apis/trpcApi';
 import { Header, IRedirection } from '@bypass/shared';
 import { DndContext, DragOverlay, closestCenter } from '@dnd-kit/core';
 import {
@@ -52,7 +52,7 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
     setIsFetching(true);
     const validRules = redirections.filter(getValidRules);
     const isSaveSuccess =
-      await api.firebaseData.redirectionsPost.mutate(validRules);
+      await trpcApi.firebaseData.redirectionsPost.mutate(validRules);
     if (isSaveSuccess) {
       syncRedirectionsToStorage();
       setRedirections(validRules);

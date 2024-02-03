@@ -1,5 +1,4 @@
 import {
-  FIREBASE_DB_REF,
   IBookmarksObj,
   IBypass,
   ILastVisited,
@@ -8,17 +7,18 @@ import {
   ISettings,
 } from '@bypass/shared';
 import { IUser } from '../../@types/trpc';
+import { EFirebaseDBRef } from '../../constants/firebase';
 import { getFromFirebase, saveToFirebase } from '../firebaseAdminService';
 
 export const getBookmarks = async (user: IUser) => {
   return getFromFirebase<IBookmarksObj>({
-    ref: FIREBASE_DB_REF.bookmarks,
+    ref: EFirebaseDBRef.bookmarks,
     uid: user.uid,
   });
 };
 export const saveBookmarks = async (bookmarks: IBookmarksObj, user: IUser) => {
   return saveToFirebase({
-    ref: FIREBASE_DB_REF.bookmarks,
+    ref: EFirebaseDBRef.bookmarks,
     uid: user.uid,
     data: bookmarks,
   });
@@ -26,13 +26,13 @@ export const saveBookmarks = async (bookmarks: IBookmarksObj, user: IUser) => {
 
 export const getPersons = async (user: IUser) => {
   return getFromFirebase<IPersons>({
-    ref: FIREBASE_DB_REF.persons,
+    ref: EFirebaseDBRef.persons,
     uid: user.uid,
   });
 };
 export const savePersons = async (persons: IPersons, user: IUser) => {
   return saveToFirebase({
-    ref: FIREBASE_DB_REF.persons,
+    ref: EFirebaseDBRef.persons,
     uid: user.uid,
     data: persons,
   });
@@ -40,13 +40,13 @@ export const savePersons = async (persons: IPersons, user: IUser) => {
 
 export const getSettings = async (user: IUser) => {
   return getFromFirebase<ISettings>({
-    ref: FIREBASE_DB_REF.settings,
+    ref: EFirebaseDBRef.settings,
     uid: user.uid,
   });
 };
 export const saveSettings = async (settings: ISettings, user: IUser) => {
   return saveToFirebase({
-    ref: FIREBASE_DB_REF.settings,
+    ref: EFirebaseDBRef.settings,
     uid: user.uid,
     data: settings,
   });
@@ -54,14 +54,14 @@ export const saveSettings = async (settings: ISettings, user: IUser) => {
 
 export const getBypass = async (user: IUser) => {
   return getFromFirebase<IBypass>({
-    ref: FIREBASE_DB_REF.bypass,
+    ref: EFirebaseDBRef.bypass,
     uid: user.uid,
   });
 };
 
 export const getLastVisited = async (user: IUser) => {
   return getFromFirebase<ILastVisited>({
-    ref: FIREBASE_DB_REF.lastVisited,
+    ref: EFirebaseDBRef.lastVisited,
     uid: user.uid,
   });
 };
@@ -70,7 +70,7 @@ export const saveLastVisited = async (
   user: IUser
 ) => {
   return saveToFirebase({
-    ref: FIREBASE_DB_REF.lastVisited,
+    ref: EFirebaseDBRef.lastVisited,
     uid: user.uid,
     data: lastVisited,
   });
@@ -78,7 +78,7 @@ export const saveLastVisited = async (
 
 export const getRedirections = async (user: IUser) => {
   return getFromFirebase<IRedirection[]>({
-    ref: FIREBASE_DB_REF.redirections,
+    ref: EFirebaseDBRef.redirections,
     uid: user.uid,
   });
 };
@@ -98,7 +98,7 @@ export const saveRedirections = async (
     {}
   );
   return saveToFirebase({
-    ref: FIREBASE_DB_REF.redirections,
+    ref: EFirebaseDBRef.redirections,
     uid: user.uid,
     data: shortcutsObj,
   });

@@ -1,6 +1,4 @@
-import { Header, VoidFunction } from '@bypass/shared';
-import { FIREBASE_STORAGE_REF } from '@constants/index';
-import { uploadImageToFirebase } from '@helpers/firebase/storage';
+import { Header, VoidFunction, getPersonImageName } from '@bypass/shared';
 import {
   Box,
   Button,
@@ -16,12 +14,13 @@ import Cropper from 'react-easy-crop';
 import { Area } from 'react-easy-crop/types';
 import { getCompressedImage } from '../utils/compressImage';
 import getCroppedImg from '../utils/cropImage';
+import { uploadFileToFirebase } from '../utils/uploadImage';
 
 interface Props {
   uid: string;
   isOpen: boolean;
   onDialogClose: VoidFunction;
-  handleImageSave: (imageRef: string) => void;
+  handleImageSave: (fileName: string) => void;
 }
 
 const ImagePicker = memo<Props>(function ImagePicker({
@@ -53,15 +52,15 @@ const ImagePicker = memo<Props>(function ImagePicker({
       return;
     }
     try {
-      const imageRef = `${FIREBASE_STORAGE_REF.persons}/${uid}.jpeg`;
       setIsUploadingImage(true);
       const croppedImage = await getCroppedImg(
         inputImageUrl,
         croppedAreaPixels
       );
+      const fileName = getPersonImageName(uid);
       const compressedImage = await getCompressedImage(croppedImage);
-      await uploadImageToFirebase(compressedImage, imageRef);
-      handleImageSave(imageRef);
+      await uploadFileToFirebase(compressedImage, fileName);
+      handleImageSave(fileName);
       onDialogClose();
     } catch (error) {
       console.error('Error while cropping the image', error);

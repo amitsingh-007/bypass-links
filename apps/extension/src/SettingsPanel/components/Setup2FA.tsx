@@ -1,4 +1,4 @@
-import { api } from '@/utils/api';
+import { trpcApi } from '@/apis/trpcApi';
 import { Header, InputTOTP, STORAGE_KEYS, VoidFunction } from '@bypass/shared';
 import { getUserProfile } from '@helpers/fetchFromStorage';
 import { Button, Center, Modal } from '@mantine/core';
@@ -19,7 +19,8 @@ const Setup2FA = memo(function Setup2FA({ isOpen, handleClose }: Props) {
   const [showVerifyToken, setShowVerifyToken] = useState(false);
 
   const init2FA = async () => {
-    const { otpAuthUrl, secretKey } = await api.twoFactorAuth.setup.mutate();
+    const { otpAuthUrl, secretKey } =
+      await trpcApi.twoFactorAuth.setup.mutate();
     setSecretKey(secretKey);
     setOptAuthUrl(otpAuthUrl);
   };
@@ -34,7 +35,7 @@ const Setup2FA = memo(function Setup2FA({ isOpen, handleClose }: Props) {
 
   const handleTOTPVerify = async (totp: string) => {
     const userProfile = await getUserProfile();
-    const { isVerified } = await api.twoFactorAuth.verify.query(totp);
+    const { isVerified } = await trpcApi.twoFactorAuth.verify.query(totp);
     if (isVerified) {
       userProfile.is2FAEnabled = true;
       await chrome.storage.local.set({

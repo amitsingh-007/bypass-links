@@ -8,6 +8,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@bypass/configs": "workspace:*",
     "@bypass/shared": "workspace:*",
     "@bypass/trpc": "workspace:*",
     "@mantine/core": "7.4.1",
@@ -33,7 +34,6 @@
   },
   "devDependencies": {
     "@babel/core": "7.23.7",
-    "@bypass/configs": "workspace:*",
     "@playwright/test": "1.40.1",
     "@svgr/webpack": "8.1.0",
     "@types/md5": "2.3.5",

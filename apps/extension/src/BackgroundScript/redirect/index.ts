@@ -1,4 +1,4 @@
-import { api } from '@/utils/api';
+import { trpcApi } from '@/apis/trpcApi';
 import { startHistoryWatch } from '@/utils/history';
 import { STORAGE_KEYS } from '@bypass/shared';
 import { getMappedRedirections } from '@helpers/fetchFromStorage';
@@ -14,7 +14,7 @@ export const redirect = async (tabId: number, url: URL) => {
 };
 
 export const syncRedirectionsToStorage = async () => {
-  const redirections = await api.firebaseData.redirectionsGet.query();
+  const redirections = await trpcApi.firebaseData.redirectionsGet.query();
   await chrome.storage.local.set({ [STORAGE_KEYS.redirections]: redirections });
   const mappedRedirections = mapRedirections(redirections);
   await chrome.storage.local.set({

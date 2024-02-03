@@ -23,7 +23,7 @@ export const config = {
 
 export default function Web() {
   const router = useRouter();
-  const { user, isLoggedIn } = useUser();
+  const { isLoggedIn } = useUser();
   const { isLoading, preloadData, clearData } = useWebPreload();
   const [shouldPreloadData, setShouldPreloadData] = useState(false);
   const [promptTOTPVerify, setPromptTOTPVerify] = useState(false);

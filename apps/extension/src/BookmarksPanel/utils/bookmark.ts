@@ -1,5 +1,5 @@
 import { AuthProgress } from '@/HomePopup/utils/authProgress';
-import { api } from '@/utils/api';
+import { trpcApi } from '@/apis/trpcApi';
 import {
   CACHE_BUCKET_KEYS,
   getCacheObj,
@@ -9,7 +9,7 @@ import {
 import { getBookmarks } from '@helpers/fetchFromStorage';
 
 export const syncBookmarksToStorage = async () => {
-  const bookmarks = await api.firebaseData.bookmarksGet.query();
+  const bookmarks = await trpcApi.firebaseData.bookmarksGet.query();
   await chrome.storage.local.set({ [STORAGE_KEYS.bookmarks]: bookmarks });
 };
 
@@ -22,7 +22,8 @@ export const syncBookmarksFirebaseWithStorage = async () => {
     return;
   }
   console.log('Syncing bookmarks from storage to firebase', bookmarks);
-  const isSaveSuccess = await api.firebaseData.bookmarksPost.mutate(bookmarks);
+  const isSaveSuccess =
+    await trpcApi.firebaseData.bookmarksPost.mutate(bookmarks);
   if (isSaveSuccess) {
     await chrome.storage.local.remove('hasPendingBookmarks');
   } else {

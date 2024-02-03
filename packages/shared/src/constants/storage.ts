@@ -1,14 +1,12 @@
-import { FIREBASE_DB_REF } from './firebase';
-
 export const STORAGE_KEYS = {
-  bookmarks: FIREBASE_DB_REF.bookmarks,
-  bypass: FIREBASE_DB_REF.bypass,
-  redirections: FIREBASE_DB_REF.redirections,
-  lastVisited: FIREBASE_DB_REF.lastVisited,
-  persons: FIREBASE_DB_REF.persons,
+  bookmarks: 'bookmarks',
+  bypass: 'bypass',
+  redirections: 'redirections',
+  lastVisited: 'lastVisited',
+  persons: 'persons',
   mappedRedirections: 'mappedRedirections',
   personImageUrls: 'personImageUrls',
-  userProfile: 'userProfile', // only used in ext
+  userProfile: 'userProfile',
   settings: 'settings',
-  twoFactorAuth: 'twoFactorAuth', // only used in web
-};
+  twoFactorAuth: 'twoFactorAuth',
+} as const;

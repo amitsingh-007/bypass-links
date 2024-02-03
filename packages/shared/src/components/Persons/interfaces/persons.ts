@@ -1,7 +1,6 @@
 export interface IPerson {
   uid: string;
   name: string;
-  imageRef: string;
   taggedUrls: string[];
 }
 

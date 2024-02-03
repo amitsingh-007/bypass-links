@@ -1,5 +1,5 @@
 import { ILogRequest } from '@bypass/trpc';
-import { api } from './utils/api';
+import { trpcApi } from './apis/trpcApi';
 import { getCurrentTab } from './utils/tabs';
 
 class Logging {
@@ -32,7 +32,7 @@ class Logging {
         message: data.message ?? 'ERROR_MESSAGE_NOT_FOUND',
         metaData: data.metaData,
       };
-      await api.logging.log.mutate(log);
+      await trpcApi.logging.log.mutate(log);
     } catch (e) {
       console.error('Error while sending log to server', e);
     }

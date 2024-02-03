@@ -1,5 +1,5 @@
 import { syncLastVisitedToStorage } from '@/HomePopup/utils/lastVisited';
-import { api } from '@/utils/api';
+import { trpcApi } from '@/apis/trpcApi';
 import { getCurrentTab } from '@/utils/tabs';
 import { ILastVisited } from '@bypass/shared';
 import { getLastVisited } from '@helpers/fetchFromStorage';
@@ -51,7 +51,7 @@ const LastVisitedButton = memo(function LastVisitedButton() {
     const { hostname } = new URL(currentTab.url);
     lastVisitedObj[md5(hostname)] = Date.now();
     const isSuccess =
-      await api.firebaseData.lastVisitedPost.mutate(lastVisitedObj);
+      await trpcApi.firebaseData.lastVisitedPost.mutate(lastVisitedObj);
     if (isSuccess) {
       await syncLastVisitedToStorage();
     }

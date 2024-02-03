@@ -1,4 +1,4 @@
-import { api } from '@/utils/api';
+import { trpcApi } from '@/apis/trpcApi';
 import { InputTOTP, STORAGE_KEYS } from '@bypass/shared';
 import { getUserProfile } from '@helpers/fetchFromStorage';
 import { Center, Modal } from '@mantine/core';
@@ -34,7 +34,7 @@ const TwoFactorAuthenticate = () => {
     if (!user) {
       return;
     }
-    const { isVerified } = await api.twoFactorAuth.authenticate.query(totp);
+    const { isVerified } = await trpcApi.twoFactorAuth.authenticate.query(totp);
     if (isVerified) {
       user.isTOTPVerified = true;
       await chrome.storage.local.set({ [STORAGE_KEYS.userProfile]: user });

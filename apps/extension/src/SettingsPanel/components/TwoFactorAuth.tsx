@@ -1,4 +1,4 @@
-import { api } from '@/utils/api';
+import { trpcApi } from '@/apis/trpcApi';
 import { STORAGE_KEYS } from '@bypass/shared';
 import { getUserProfile } from '@helpers/fetchFromStorage';
 import { Button, Flex, Text } from '@mantine/core';
@@ -22,7 +22,7 @@ const TwoFactorAuth = memo(function TwoFactorAuth() {
 
   const handle2FARevoke = async () => {
     const userProfile = await getUserProfile();
-    const { isRevoked } = await api.twoFactorAuth.revoke.mutate();
+    const { isRevoked } = await trpcApi.twoFactorAuth.revoke.mutate();
     if (!isRevoked) {
       displayToast({ message: 'Something went wrong', severity: 'error' });
       return;

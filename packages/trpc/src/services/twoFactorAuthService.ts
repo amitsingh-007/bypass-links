@@ -1,7 +1,7 @@
-import { FIREBASE_DB_REF } from '@bypass/shared';
 import { authenticator } from 'otplib';
 import { IUser } from '../@types/trpc';
 import { getEnv } from '../constants/env';
+import { EFirebaseDBRef } from '../constants/firebase';
 import { User2FAInfo } from '../interfaces/firebase';
 import { saveToFirebase } from './firebaseAdminService';
 import { fetchUser2FAInfo } from './userService';
@@ -36,7 +36,7 @@ export const setup2FA = async (user: IUser) => {
     secret
   );
   await saveToFirebase({
-    ref: FIREBASE_DB_REF.user2FAInfo,
+    ref: EFirebaseDBRef.user2FAInfo,
     uid: user.uid,
     data: {
       secretKey: secret,
@@ -56,7 +56,7 @@ export const verify2FA = async (totp: string, user: IUser) => {
   const isVerified = verify2FAToken(secretKey, totp);
   if (isVerified) {
     await saveToFirebase({
-      ref: FIREBASE_DB_REF.user2FAInfo,
+      ref: EFirebaseDBRef.user2FAInfo,
       uid: user.uid,
       data: {
         secretKey,

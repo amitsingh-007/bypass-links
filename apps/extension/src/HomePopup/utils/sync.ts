@@ -24,7 +24,7 @@ import {
   resetSettings,
   syncSettingsToStorage,
 } from '@/SettingsPanel/utils/sync';
-import { api } from '@/utils/api';
+import { trpcApi } from '@/apis/trpcApi';
 import { sendRuntimeMessage } from '@/utils/sendRuntimeMessage';
 import {
   CACHE_BUCKET_KEYS,
@@ -37,7 +37,7 @@ import { AuthProgress } from './authProgress';
 
 const syncAuthenticationToStorage = async (userProfile: UserInfo) => {
   AuthProgress.start('Checking 2FA status');
-  const { is2FAEnabled } = await api.twoFactorAuth.status.query();
+  const { is2FAEnabled } = await trpcApi.twoFactorAuth.status.query();
   userProfile.is2FAEnabled = is2FAEnabled;
   userProfile.isTOTPVerified = false;
   await chrome.storage.local.set({ [STORAGE_KEYS.userProfile]: userProfile });
