@@ -22,6 +22,7 @@ import {
 import { t } from '../trpc';
 
 // TODO: add POST route input validations after firestore
+// TODO: add atomic read/update APIs after firestore
 const firebaseDataRouter = t.router({
   bookmarksGet: protectedProcedure.query(async ({ ctx }) => {
     return getBookmarks(ctx.user);

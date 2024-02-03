@@ -5,5 +5,5 @@ export const uploadFileToFirebase = async (blob: Blob, fileName: string) => {
   formData.append('file', blob, fileName);
 
   const wretch = await wretchApi();
-  await wretch.body(formData).post(null, '/upload-file').text();
+  await wretch.url('/upload-file').body(formData).post().res();
 };
