@@ -4,7 +4,6 @@
 persons : {
     uid,
     name,
-    imageRef,
     taggedUrls : [urlHash1, urlHash2, ...]
 }
 ```

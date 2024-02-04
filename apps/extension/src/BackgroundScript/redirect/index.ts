@@ -1,8 +1,7 @@
+import { trpcApi } from '@/apis/trpcApi';
 import { startHistoryWatch } from '@/utils/history';
-import { FIREBASE_DB_REF, STORAGE_KEYS } from '@bypass/shared';
+import { STORAGE_KEYS } from '@bypass/shared';
 import { getMappedRedirections } from '@helpers/fetchFromStorage';
-import { getFromFirebase } from '@helpers/firebase/database';
-import { IRedirection } from '../interfaces/redirections';
 import { mapRedirections } from '../mapper/redirection';
 
 export const redirect = async (tabId: number, url: URL) => {
@@ -15,15 +14,12 @@ export const redirect = async (tabId: number, url: URL) => {
 };
 
 export const syncRedirectionsToStorage = async () => {
-  const redirections = await getFromFirebase<IRedirection[]>(
-    FIREBASE_DB_REF.redirections
-  );
+  const redirections = await trpcApi.firebaseData.redirectionsGet.query();
   await chrome.storage.local.set({ [STORAGE_KEYS.redirections]: redirections });
   const mappedRedirections = mapRedirections(redirections);
   await chrome.storage.local.set({
     [STORAGE_KEYS.mappedRedirections]: mappedRedirections,
   });
-  console.log(`Redirections is set to`, redirections);
 };
 
 export const resetRedirections = async () => {

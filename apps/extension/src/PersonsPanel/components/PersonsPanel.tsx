@@ -1,7 +1,9 @@
+import { trpcApi } from '@/apis/trpcApi';
 import { MAX_PANEL_SIZE } from '@/constants';
 import {
   decryptionMapper,
   getFilteredPersons,
+  getPersonImageName,
   HEADER_HEIGHT,
   IPerson,
   IPersons,
@@ -9,7 +11,6 @@ import {
   sortAlphabetically,
 } from '@bypass/shared';
 import { getPersons } from '@helpers/fetchFromStorage';
-import { removeImageFromFirebase } from '@helpers/firebase/storage';
 import { Box, Flex } from '@mantine/core';
 import useHistoryStore from '@store/history';
 import useToastStore from '@store/toast';
@@ -40,11 +41,10 @@ const PersonsPanel = () => {
 
   const handleSave = async (_persons: IPerson[]) => {
     const encryptedPersons = _persons.reduce<IPersons>(
-      (obj, { uid, name, imageRef, taggedUrls }) => {
+      (obj, { uid, name, taggedUrls }) => {
         obj[uid] = {
           uid,
           name: btoa(name),
-          imageRef: btoa(encodeURIComponent(imageRef)),
           taggedUrls,
         };
         return obj;
@@ -85,7 +85,7 @@ const PersonsPanel = () => {
     const newPersons = [...persons];
     newPersons.splice(pos, 1);
     setPersons(newPersons);
-    await removeImageFromFirebase(person.imageRef);
+    await trpcApi.storage.removeFile.mutate(getPersonImageName(person.uid));
     await handleSave(newPersons);
     setIsFetching(false);
     displayToast({ message: 'Person deleted successfully' });

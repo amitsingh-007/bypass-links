@@ -1,22 +1,20 @@
-import { getFromFirebase } from '@/ui/firebase/database';
-import { getImageFromFirebase } from '@/ui/firebase/storage';
 import { useUser } from '@/ui/provider/AuthProvider';
 import {
   isExistsInLocalStorage,
   removeFromLocalStorage,
   setToLocalStorage,
 } from '@/ui/provider/utils';
+import { api } from '@/utils/api';
 import {
   CACHE_BUCKET_KEYS,
-  deleteCache,
-  FIREBASE_DB_REF,
-  getCacheObj,
-  isCachePresent,
   PersonImageUrls,
   STORAGE_KEYS,
+  deleteCache,
+  getCacheObj,
+  getPersonImageName,
+  isCachePresent,
   usePerson,
 } from '@bypass/shared';
-import { User } from 'firebase/auth';
 import { useCallback, useState } from 'react';
 
 const cachePersonImages = async (personImageUrls: PersonImageUrls) => {
@@ -29,11 +27,11 @@ const cachePersonImages = async (personImageUrls: PersonImageUrls) => {
   await cache.addAll(imageUrls);
 };
 
-const syncPersonsToStorage = async (user: User) => {
+const syncPersonsToStorage = async () => {
   if (isExistsInLocalStorage(STORAGE_KEYS.persons)) {
     return;
   }
-  const data = await getFromFirebase(FIREBASE_DB_REF.persons, user);
+  const data = await api.firebaseData.personsGet.query();
   await setToLocalStorage(STORAGE_KEYS.persons, data);
 };
 
@@ -55,7 +53,9 @@ const usePreloadPerson = () => {
       persons.map(async (person) => {
         return {
           uid: person.uid,
-          imageUrl: await getImageFromFirebase(person.imageRef, user.uid),
+          imageUrl: await api.storage.getDownloadUrl.query(
+            getPersonImageName(person.uid)
+          ),
         };
       })
     );
@@ -75,7 +75,7 @@ const usePreloadPerson = () => {
       return;
     }
     setIsLoading(true);
-    await syncPersonsToStorage(user);
+    await syncPersonsToStorage();
     await cachePersonAndImages();
     setIsLoading(false);
   }, [cachePersonAndImages, user]);

@@ -1,9 +1,8 @@
-import { FIREBASE_DB_REF, Header } from '@bypass/shared';
+import { trpcApi } from '@/apis/trpcApi';
+import { Header, ISettings } from '@bypass/shared';
 import { getSettings } from '@helpers/fetchFromStorage';
-import { saveToFirebase } from '@helpers/firebase/database';
 import { Box, Flex } from '@mantine/core';
 import { memo, useEffect, useState } from 'react';
-import { ISettings } from '../interfaces/settings';
 import { syncSettingsToStorage } from '../utils/sync';
 import ManageGoogleActivityConsent from './ManageGoogleActivityConsent';
 import TwoFactorAuth from './TwoFactorAuth';
@@ -33,10 +32,8 @@ const SettingsPanel = memo(function SettingsPanel() {
 
   const handleSettingsChange: IHandleSettingsChange = async (newSettings) => {
     const consolidatedSettings = { ...settings, ...newSettings };
-    const isSuccess = await saveToFirebase(
-      FIREBASE_DB_REF.settings,
-      consolidatedSettings
-    );
+    const isSuccess =
+      await trpcApi.firebaseData.settingsPost.mutate(consolidatedSettings);
     if (isSuccess) {
       await syncSettingsToStorage();
     }

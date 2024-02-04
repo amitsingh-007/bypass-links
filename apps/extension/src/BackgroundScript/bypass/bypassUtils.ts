@@ -1,6 +1,6 @@
 import { getHostnameAlias } from '@/utils/common';
+import { IBypass } from '@bypass/shared';
 import { BYPASS_KEYS, IBypassKeys } from '@constants/index';
-import { IBypass } from '../interfaces/bypass';
 
 export const getDecodedBypass = (bypass: IBypass) =>
   bypass &&

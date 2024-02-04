@@ -1,6 +1,6 @@
-import { api } from '@/utils/api';
+import { trpcApi } from '@/apis/trpcApi';
 import { STORAGE_KEYS } from '@bypass/shared';
-import { getUserProfile } from '@helpers/fetchFromStorage';
+import { getUser2FAInfo } from '@helpers/fetchFromStorage';
 import { Button, Flex, Text } from '@mantine/core';
 import useToastStore from '@store/toast';
 import { memo, useEffect, useState } from 'react';
@@ -12,7 +12,7 @@ const TwoFactorAuth = memo(function TwoFactorAuth() {
   const [show2FASetup, setShow2FASetup] = useState(false);
 
   const initSetup2FA = async () => {
-    const userProfile = await getUserProfile();
+    const userProfile = await getUser2FAInfo();
     setIs2FAEnabled(Boolean(userProfile.is2FAEnabled));
   };
 
@@ -21,10 +21,8 @@ const TwoFactorAuth = memo(function TwoFactorAuth() {
   }, [show2FASetup]);
 
   const handle2FARevoke = async () => {
-    const userProfile = await getUserProfile();
-    const { isRevoked } = await api.twoFactorAuth.revoke.mutate(
-      userProfile.uid ?? ''
-    );
+    const userProfile = await getUser2FAInfo();
+    const { isRevoked } = await trpcApi.twoFactorAuth.revoke.mutate();
     if (!isRevoked) {
       displayToast({ message: 'Something went wrong', severity: 'error' });
       return;
@@ -32,7 +30,7 @@ const TwoFactorAuth = memo(function TwoFactorAuth() {
     userProfile.is2FAEnabled = false;
     userProfile.isTOTPVerified = false;
     await chrome.storage.local.set({
-      [STORAGE_KEYS.userProfile]: userProfile,
+      [STORAGE_KEYS.user2FAInfo]: userProfile,
     });
     setIs2FAEnabled(false);
     displayToast({ message: '2FA revoked successfully' });

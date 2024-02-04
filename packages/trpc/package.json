@@ -9,6 +9,9 @@
       ],
       "edge": [
         "./src/edgeIndex.ts"
+      ],
+      "appRouter": [
+        "./src/appRouterIndex.ts"
       ]
     }
   },
@@ -18,6 +21,9 @@
     },
     "./edge": {
       "default": "./src/edgeIndex.ts"
+    },
+    "./appRouter": {
+      "default": "./src/appRouterIndex.ts"
     }
   },
   "sideEffects": false,

@@ -1,5 +1,5 @@
+import { trpcApi } from '@/apis/trpcApi';
 import { IPerson, usePerson, VoidFunction } from '@bypass/shared';
-import { getImageFromFirebase } from '@helpers/firebase/storage';
 import {
   ActionIcon,
   Avatar,
@@ -29,7 +29,6 @@ interface Props {
 interface IForm {
   uid?: string;
   name: string;
-  imageRef?: string;
 }
 
 const AddOrEditPersonDialog = memo<Props>(function AddOrEditPersonDialog({
@@ -46,7 +45,6 @@ const AddOrEditPersonDialog = memo<Props>(function AddOrEditPersonDialog({
     initialValues: {
       uid: person?.uid,
       name: person?.name ?? '',
-      imageRef: person?.imageRef,
     },
     validate: {
       name: (value) => (value ? null : 'Required'),
@@ -70,27 +68,21 @@ const AddOrEditPersonDialog = memo<Props>(function AddOrEditPersonDialog({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initImageUrl, person]);
 
-  const fetchImage = async (ref: string) => {
-    const url = await getImageFromFirebase(ref);
+  const handleImageCropSave = async (fileName: string) => {
+    const url = await trpcApi.storage.getDownloadUrl.query(fileName);
     setImageUrl(url);
-  };
-
-  const handleImageCropSave = async (imageFirebaseRef: string) => {
-    await fetchImage(imageFirebaseRef);
-    form.setFieldValue('imageRef', imageFirebaseRef);
   };
 
   const toggleImagePicker = () => setShowImagePicker(!showImagePicker);
 
   const handleSave = (values: typeof form.values) => {
-    const { uid, name, imageRef } = values;
-    if (!uid || !imageRef) {
+    const { uid, name } = values;
+    if (!uid) {
       return;
     }
     handleSaveClick({
       uid,
       name,
-      imageRef,
       taggedUrls: person?.taggedUrls || [],
     });
   };

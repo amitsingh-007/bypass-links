@@ -24,39 +24,37 @@ import {
   resetSettings,
   syncSettingsToStorage,
 } from '@/SettingsPanel/utils/sync';
-import { api } from '@/utils/api';
+import { trpcApi } from '@/apis/trpcApi';
 import { sendRuntimeMessage } from '@/utils/sendRuntimeMessage';
 import {
   CACHE_BUCKET_KEYS,
-  deleteAllCache,
   STORAGE_KEYS,
+  deleteAllCache,
 } from '@bypass/shared';
-import { getSettings, getUserProfile } from '@helpers/fetchFromStorage';
-import { UserInfo } from '../interfaces/authentication';
+import { getSettings, getUser2FAInfo } from '@helpers/fetchFromStorage';
 import { AuthProgress } from './authProgress';
+import { IUser2FAInfo } from '../interfaces/authentication';
 
-const syncAuthenticationToStorage = async (userProfile: UserInfo) => {
+const syncAuthenticationToStorage = async () => {
   AuthProgress.start('Checking 2FA status');
-  const { is2FAEnabled } = await api.twoFactorAuth.status.query(
-    userProfile.uid ?? ''
-  );
-  userProfile.is2FAEnabled = is2FAEnabled;
-  userProfile.isTOTPVerified = false;
-  await chrome.storage.local.set({ [STORAGE_KEYS.userProfile]: userProfile });
+  const { is2FAEnabled } = await trpcApi.twoFactorAuth.status.query();
+  const user2FAInfo: IUser2FAInfo = {
+    is2FAEnabled,
+    isTOTPVerified: false,
+  };
+  await chrome.storage.local.set({ [STORAGE_KEYS.user2FAInfo]: user2FAInfo });
   AuthProgress.finish('2FA status checked');
 };
 
 const resetAuthentication = async () => {
-  const userProfile = await getUserProfile();
-  if (!userProfile) {
-    console.log('User profile not found');
+  const user2FAInfo = await getUser2FAInfo();
+  if (!user2FAInfo) {
+    console.log('User 2FA info not found');
     return;
   }
-  await chrome.identity.removeCachedAuthToken({
-    token: userProfile.googleAuthToken ?? '',
-  });
+  await chrome.identity.clearAllCachedAuthTokens();
   console.log('Removed Google auth token from cache');
-  await chrome.storage.local.remove(STORAGE_KEYS.userProfile);
+  await chrome.storage.local.remove(STORAGE_KEYS.user2FAInfo);
 };
 
 const syncFirebaseToStorage = async () => {
@@ -97,9 +95,9 @@ const resetStorage = async () => {
   AuthProgress.finish('Storage reset');
 };
 
-export const processPostLogin = async (userProfile: UserInfo) => {
+export const processPostLogin = async () => {
   // First process authentication
-  await syncAuthenticationToStorage(userProfile);
+  await syncAuthenticationToStorage();
   // Then sync remote firebase to storage
   await syncFirebaseToStorage();
   // Then do other processes

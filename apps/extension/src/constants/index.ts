@@ -1,4 +1,4 @@
-import { ObjectValues, STORAGE_KEYS } from '@bypass/shared';
+import { ObjectValues } from '@bypass/shared';
 
 export const EXTENSION_STATE = {
   ACTIVE: 'active',
@@ -13,10 +13,6 @@ export const BYPASS_KEYS = {
 } as const;
 
 export type IBypassKeys = ObjectValues<typeof BYPASS_KEYS>;
-
-export const FIREBASE_STORAGE_REF = {
-  persons: STORAGE_KEYS.persons,
-};
 
 export const MAX_PANEL_SIZE = {
   WIDTH: 800,

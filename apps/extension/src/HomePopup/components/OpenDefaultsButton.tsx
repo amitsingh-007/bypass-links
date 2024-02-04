@@ -1,6 +1,6 @@
+import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { STORAGE_KEYS } from '@bypass/shared';
 import { Button } from '@mantine/core';
-import useAuthStore from '@store/auth';
 import useHistoryStore from '@store/history';
 import { memo, useState } from 'react';
 import { RxExternalLink } from 'react-icons/rx';
@@ -9,7 +9,7 @@ const OpenDefaultsButton = memo(function OpenDefaultsButton() {
   const startHistoryMonitor = useHistoryStore(
     (state) => state.startHistoryMonitor
   );
-  const isSignedIn = useAuthStore((state) => state.isSignedIn);
+  const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const [isFetching, setIsFetching] = useState(false);
 
   const handleOpenDefaults = async () => {

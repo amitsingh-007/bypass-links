@@ -1,4 +1,4 @@
-import { IRedirection } from '@/BackgroundScript/interfaces/redirections';
+import { IRedirection } from '@bypass/shared';
 import {
   Active,
   DndContextProps,
