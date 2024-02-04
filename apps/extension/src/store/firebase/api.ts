@@ -30,7 +30,7 @@ export const signInWithCredential = async (accessToken: string) => {
       photoUrl: res.photoUrl,
       displayName: res.displayName,
       idToken: res.idToken,
-      expiresIn: res.expiresIn,
+      expiresIn: Number(res.expiresIn),
       expiresAtMs: getExpiresAtMs(res.expiresIn),
       refreshToken: res.refreshToken,
     }));
@@ -45,7 +45,7 @@ export const refreshIdToken = async (refreshToken: string) => {
     })
     .fetchError((e) => console.error(e))
     .json<IRefreshTokenResponse>((res) => ({
-      expiresIn: res.expires_in,
+      expiresIn: Number(res.expires_in),
       idToken: res.id_token,
       refreshToken: res.refresh_token,
     }));

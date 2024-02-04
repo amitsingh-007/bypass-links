@@ -4,9 +4,9 @@ export interface IAuthResponse {
   readonly fullName: string;
   readonly photoUrl?: string;
   readonly displayName?: string;
-  readonly idToken: string;
   readonly expiresIn: number;
   readonly expiresAtMs: number;
+  readonly idToken: string;
   readonly refreshToken: string;
 }
 

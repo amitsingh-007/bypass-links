@@ -1,8 +1,4 @@
-export type UserInfo = {
-  googleAuthToken?: string;
-  uid?: string;
-  name?: string;
-  picture?: string;
+export interface IUser2FAInfo {
   is2FAEnabled?: boolean;
   isTOTPVerified?: boolean;
-};
+}

@@ -1,6 +1,6 @@
 import { trpcApi } from '@/apis/trpcApi';
 import { Header, InputTOTP, STORAGE_KEYS, VoidFunction } from '@bypass/shared';
-import { getUserProfile } from '@helpers/fetchFromStorage';
+import { getUser2FAInfo } from '@helpers/fetchFromStorage';
 import { Button, Center, Modal } from '@mantine/core';
 import useToastStore from '@store/toast';
 import { QRCodeCanvas } from 'qrcode.react';
@@ -34,12 +34,12 @@ const Setup2FA = memo(function Setup2FA({ isOpen, handleClose }: Props) {
   };
 
   const handleTOTPVerify = async (totp: string) => {
-    const userProfile = await getUserProfile();
+    const userProfile = await getUser2FAInfo();
     const { isVerified } = await trpcApi.twoFactorAuth.verify.query(totp);
     if (isVerified) {
       userProfile.is2FAEnabled = true;
       await chrome.storage.local.set({
-        [STORAGE_KEYS.userProfile]: userProfile,
+        [STORAGE_KEYS.user2FAInfo]: userProfile,
       });
       handleClose();
     } else {

@@ -1,19 +1,13 @@
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
-import { UserInfo } from '../interfaces/authentication';
 import { AuthProgress } from './authProgress';
 import { processPostLogin, processPostLogout, processPreLogout } from './sync';
 
-const userSignIn = async (): Promise<UserInfo> => {
+const userSignIn = async () => {
   const { firebaseSignIn } = useFirebaseStore.getState();
 
   AuthProgress.start('Logging in user');
-  const response = await firebaseSignIn();
+  await firebaseSignIn();
   AuthProgress.finish('User logged in');
-  return {
-    uid: response.uid,
-    name: response.displayName ?? 'No Name',
-    picture: response?.photoUrl ?? '',
-  };
 };
 
 export const signOut = async (): Promise<boolean> => {
@@ -36,8 +30,8 @@ export const signOut = async (): Promise<boolean> => {
 export const signIn = async (): Promise<boolean> => {
   try {
     AuthProgress.initialize(7);
-    const userProfile = await userSignIn();
-    await processPostLogin(userProfile);
+    await userSignIn();
+    await processPostLogin();
     return true;
   } catch (err) {
     console.error('Error occurred while signing in. ', err);

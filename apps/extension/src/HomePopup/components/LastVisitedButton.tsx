@@ -1,16 +1,16 @@
 import { syncLastVisitedToStorage } from '@/HomePopup/utils/lastVisited';
 import { trpcApi } from '@/apis/trpcApi';
+import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { getCurrentTab } from '@/utils/tabs';
 import { ILastVisited } from '@bypass/shared';
 import { getLastVisited } from '@helpers/fetchFromStorage';
 import { Button, Text, Tooltip } from '@mantine/core';
-import useAuthStore from '@store/auth';
 import md5 from 'md5';
 import { memo, useEffect, useState } from 'react';
 import { FaCalendarCheck, FaCalendarTimes } from 'react-icons/fa';
 
 const LastVisitedButton = memo(function LastVisitedButton() {
-  const isSignedIn = useAuthStore((state) => state.isSignedIn);
+  const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const [isFetching, setIsFetching] = useState(false);
   const [lastVisited, setLastVisited] = useState('');
   const [currentTab, setCurrentTab] = useState<chrome.tabs.Tab | null>(null);

@@ -1,5 +1,5 @@
 import { IMappedRedirections } from '@/BackgroundScript/interfaces/redirections';
-import { UserInfo } from '@/HomePopup/interfaces/authentication';
+import { IUser2FAInfo } from '@/HomePopup/interfaces/authentication';
 import {
   IBookmarksObj,
   ILastVisited,
@@ -42,10 +42,10 @@ export const getLastVisited = async (): Promise<ILastVisited> => {
   return lastVisited;
 };
 
-export const getUserProfile = async (): Promise<UserInfo> => {
-  const { [STORAGE_KEYS.userProfile]: userProfile } =
-    await chrome.storage.local.get(STORAGE_KEYS.userProfile);
-  return userProfile;
+export const getUser2FAInfo = async (): Promise<IUser2FAInfo> => {
+  const { [STORAGE_KEYS.user2FAInfo]: user2FAInfo } =
+    await chrome.storage.local.get(STORAGE_KEYS.user2FAInfo);
+  return user2FAInfo;
 };
 
 export const getSettings = async (): Promise<ISettings> => {

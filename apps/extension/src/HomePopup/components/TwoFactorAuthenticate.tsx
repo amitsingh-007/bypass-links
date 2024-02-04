@@ -1,43 +1,42 @@
 import { trpcApi } from '@/apis/trpcApi';
+import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { InputTOTP, STORAGE_KEYS } from '@bypass/shared';
-import { getUserProfile } from '@helpers/fetchFromStorage';
+import { getUser2FAInfo } from '@helpers/fetchFromStorage';
 import { Center, Modal } from '@mantine/core';
-import useAuthStore from '@store/auth';
 import useToastStore from '@store/toast';
 import { useEffect, useState } from 'react';
-import { UserInfo } from '../interfaces/authentication';
+import { IUser2FAInfo } from '../interfaces/authentication';
 
 const TwoFactorAuthenticate = () => {
   const displayToast = useToastStore((state) => state.displayToast);
-  const isSignedIn = useAuthStore((state) => state.isSignedIn);
+  const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const [promptTOTPVerify, setPromptTOTPVerify] = useState(false);
-  const [user, setUser] = useState<UserInfo | null>(null);
-
-  const initTOTPPrompt = async () => {
-    const userProfile = await getUserProfile();
-    if (userProfile.is2FAEnabled) {
-      setPromptTOTPVerify(!userProfile.isTOTPVerified);
-    }
-  };
+  const [user2FAInfo, setUser2FAInfo] = useState<IUser2FAInfo>();
 
   useEffect(() => {
     if (isSignedIn) {
-      initTOTPPrompt();
+      getUser2FAInfo().then((userProfile) => {
+        if (userProfile.is2FAEnabled) {
+          setPromptTOTPVerify(!userProfile.isTOTPVerified);
+        }
+      });
     }
   }, [isSignedIn]);
 
   useEffect(() => {
-    getUserProfile().then((userProfile) => setUser(userProfile));
+    getUser2FAInfo().then((userProfile) => setUser2FAInfo(userProfile));
   }, [isSignedIn]);
 
   const onVerify = async (totp: string) => {
-    if (!user) {
+    if (!user2FAInfo) {
       return;
     }
     const { isVerified } = await trpcApi.twoFactorAuth.authenticate.query(totp);
     if (isVerified) {
-      user.isTOTPVerified = true;
-      await chrome.storage.local.set({ [STORAGE_KEYS.userProfile]: user });
+      user2FAInfo.isTOTPVerified = true;
+      await chrome.storage.local.set({
+        [STORAGE_KEYS.user2FAInfo]: user2FAInfo,
+      });
       setPromptTOTPVerify(false);
     } else {
       displayToast({

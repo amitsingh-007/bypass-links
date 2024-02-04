@@ -1,3 +1,4 @@
+import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { getCurrentTab } from '@/utils/tabs';
 import {
   BMPanelQueryParams,
@@ -10,7 +11,6 @@ import {
 } from '@bypass/shared';
 import { getBookmarks } from '@helpers/fetchFromStorage';
 import { Button, Text, Tooltip } from '@mantine/core';
-import useAuthStore from '@store/auth';
 import md5 from 'md5';
 import { memo, useEffect, useState } from 'react';
 import { BiBookmarkPlus } from 'react-icons/bi';
@@ -19,7 +19,7 @@ import { useNavigate } from 'react-router-dom';
 
 const QuickBookmarkButton = memo(function QuickBookmarkButton() {
   const navigate = useNavigate();
-  const isSignedIn = useAuthStore((state) => state.isSignedIn);
+  const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const { getFolderFromHash } = useBookmark();
   const [bookmark, setBookmark] = useState<IEncodedBookmark | null>(null);
   const [isFetching, setIsFetching] = useState(false);

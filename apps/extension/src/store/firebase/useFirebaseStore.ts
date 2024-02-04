@@ -6,11 +6,13 @@ import { persist } from 'zustand/middleware';
 
 interface State {
   idpAuth: IAuthResponse | null;
+  isSignedIn: boolean;
 
+  setIsSignedIn: (isSignedIn: boolean) => void;
   setIdpAuth: (idpAuth: IAuthResponse) => void;
   resetIdpAuth: VoidFunction;
 
-  firebaseSignIn: () => Promise<IAuthResponse>;
+  firebaseSignIn: () => Promise<void>;
   firebaseSignOut: () => Promise<void>;
   getIdToken: () => Promise<string | null>;
 }
@@ -21,7 +23,9 @@ const useFirebaseStore = create<State>()(
   persist(
     (set, get) => ({
       idpAuth: null,
+      isSignedIn: false,
 
+      setIsSignedIn: (isSignedIn: boolean) => set(() => ({ isSignedIn })),
       setIdpAuth: (idpAuth: IAuthResponse) => set(() => ({ idpAuth })),
       resetIdpAuth: () => set(() => ({ idpAuth: null })),
 
@@ -36,7 +40,6 @@ const useFirebaseStore = create<State>()(
         }
         const idpAuthRes = await signInWithCredential(accessToken);
         setIdpAuth(idpAuthRes);
-        return idpAuthRes;
       },
 
       firebaseSignOut: async () => {
@@ -69,6 +72,7 @@ const useFirebaseStore = create<State>()(
     }),
     {
       name: '__fbOAuth',
+      partialize: (state) => ({ idpAuth: state.idpAuth }),
     }
   )
 );
