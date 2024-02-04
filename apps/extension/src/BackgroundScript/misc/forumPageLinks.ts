@@ -43,5 +43,5 @@ export const getForumPageLinks = async (
       ? getForumWatchedThreadsLinksFunc
       : getForumPageLinksFunc,
   });
-  return result.filter(Boolean);
+  return result?.filter(Boolean) ?? [];
 };
