@@ -33,7 +33,10 @@ const Person = memo<Props>(function Person({ person }) {
       radius="lg"
       w="100%"
       h="100%"
-      className={styles.container}
+      classNames={{
+        root: styles.container,
+        icon: styles.iconInner,
+      }}
       onClick={openBookmarksList}
     >
       <Avatar src={imageUrl} h={110} w="100%" alt={name} radius="xs" />
