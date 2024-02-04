@@ -2,6 +2,7 @@
   "name": "@bypass/trpc",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "typesVersions": {
     "*": {
       "*": [
@@ -36,7 +37,7 @@
     "@bypass/configs": "workspace:*",
     "@bypass/shared": "workspace:*",
     "@octokit/rest": "20.0.2",
-    "@t3-oss/env-core": "0.7.1",
+    "@t3-oss/env-core": "0.8.0",
     "@trpc/server": "10.45.0",
     "firebase-admin": "12.0.0",
     "otplib": "12.0.1",
@@ -46,13 +47,13 @@
   "devDependencies": {
     "@firebase/app-types": "0.9.0",
     "@types/request-ip": "0.0.41",
-    "@typescript-eslint/eslint-plugin": "6.18.1",
-    "@typescript-eslint/parser": "6.18.1",
-    "dotenv": "16.3.1",
+    "@typescript-eslint/eslint-plugin": "6.20.0",
+    "@typescript-eslint/parser": "6.20.0",
+    "dotenv": "16.4.1",
     "eslint": "8.56.0",
     "eslint-config-airbnb": "19.0.4",
     "eslint-config-airbnb-typescript": "17.1.0",
-    "eslint-config-turbo": "1.11.3",
+    "eslint-config-turbo": "1.12.2",
     "eslint-import-resolver-typescript": "3.6.1",
     "eslint-plugin-import": "2.29.1",
     "eslint-plugin-jsx-a11y": "6.8.0",
@@ -60,8 +61,8 @@
     "eslint-plugin-react": "7.33.2",
     "eslint-plugin-react-hooks": "4.6.0",
     "firebase": "10.7.1",
-    "prettier": "3.1.1",
+    "prettier": "3.2.4",
     "typescript": "5.3.3",
-    "vitest": "1.1.3"
+    "vitest": "1.2.2"
   }
 }
