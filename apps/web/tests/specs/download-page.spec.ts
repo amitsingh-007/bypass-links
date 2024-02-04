@@ -20,16 +20,6 @@ test.describe('Download page', () => {
     expect(download.suggestedFilename()).toMatch(/bypass-links-.+.zip/);
   });
 
-  test('offline mode', async ({ page }, testConfig) => {
-    testConfig.setTimeout(30 * 1000);
-    await page.waitForTimeout(15 * 1000); // Let the SW cache assets
-    const context = page.context();
-    await context.setOffline(true);
-    await page.reload();
-    const downloadPage = new DownloadPage(page);
-    await downloadPage.testPageMetaData();
-  });
-
   test('footer elements should exist', async ({ page }) => {
     expect(page.getByTestId('ext-version')).toBeVisible();
     expect(page.getByTestId('ext-release-data')).toBeVisible();

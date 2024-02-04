@@ -1,6 +1,5 @@
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import ESLintPlugin from 'eslint-webpack-plugin';
-import nextPWA from 'next-pwa';
 
 import('./src/constants/env/server.mjs');
 
@@ -48,13 +47,4 @@ const nextConfig = {
   },
 };
 
-/**
- * Automatically generates a SW file with fetch listener, basic caching, etc.
- * No need to create our own sw.js file. All default options work fine.
- */
-const withPWA = nextPWA({
-  disable: isDev,
-  dest: 'public',
-});
-
-export default withPWA(nextConfig);
+export default nextConfig;
