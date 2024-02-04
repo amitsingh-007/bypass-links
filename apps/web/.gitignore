@@ -2,9 +2,6 @@
 .next/
 tsconfig.tsbuildinfo
 
-# next-pwa
-public/sw*
-public/workbox*
 
 .vercel
 
