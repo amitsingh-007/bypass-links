@@ -1,14 +1,14 @@
-import { FIREBASE_DB_ROOT_KEYS } from '@bypass/shared';
+import { EFirebaseDBRootKeys } from '../constants/firebase';
 import { getFromFirebase, saveToFirebase } from './firebaseAdminService';
 
 export const backupData = async () => {
-  const snapshot = await getFromFirebase({
-    ref: FIREBASE_DB_ROOT_KEYS.data,
+  const data = await getFromFirebase({
+    ref: EFirebaseDBRootKeys.data,
     isAbsolute: true,
   });
   await saveToFirebase({
-    ref: FIREBASE_DB_ROOT_KEYS.backup,
-    data: snapshot.val(),
+    ref: EFirebaseDBRootKeys.backup,
+    data,
     isAbsolute: true,
   });
 };

@@ -1,26 +1,31 @@
 import { TRPCError } from '@trpc/server';
 import { t } from '../trpc';
-import { verifyAuthToken } from '../services/firebaseAdminService';
 
 const verifyAuthMiddleware = t.middleware(async (opts) => {
   const { ctx } = opts;
-  const { bearerToken } = ctx;
-  if (!bearerToken) {
+  const { user } = ctx;
+  if (!user) {
     throw new TRPCError({
       code: 'UNAUTHORIZED',
       message: 'Authentication token not found',
     });
   }
-  try {
-    await verifyAuthToken(bearerToken, true);
-  } catch (e) {
-    console.error(e);
+  if (user.disabled) {
     throw new TRPCError({
-      code: 'UNAUTHORIZED',
-      message: 'Firebase authorization failed',
+      code: 'FORBIDDEN',
+      message: 'User is disabled',
     });
   }
-  return opts.next({ ctx });
+  if (!user.emailVerified) {
+    throw new TRPCError({
+      code: 'FORBIDDEN',
+      message: 'User email is unverified',
+    });
+  }
+
+  return opts.next({
+    ctx: { ...ctx, user }, // for type safety in protected procedures
+  });
 });
 
 export default verifyAuthMiddleware;

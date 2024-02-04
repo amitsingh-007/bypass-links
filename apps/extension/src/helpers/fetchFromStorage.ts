@@ -1,13 +1,11 @@
-import {
-  IMappedRedirections,
-  IRedirection,
-} from '@/BackgroundScript/interfaces/redirections';
-import { UserInfo } from '@/HomePopup/interfaces/authentication';
-import { LastVisited } from '@/HomePopup/interfaces/lastVisited';
-import { ISettings } from '@/SettingsPanel/interfaces/settings';
+import { IMappedRedirections } from '@/BackgroundScript/interfaces/redirections';
+import { IUser2FAInfo } from '@/HomePopup/interfaces/authentication';
 import {
   IBookmarksObj,
+  ILastVisited,
   IPersons,
+  IRedirection,
+  ISettings,
   PersonImageUrls,
   STORAGE_KEYS,
 } from '@bypass/shared';
@@ -38,16 +36,16 @@ export const getMappedRedirections = async (): Promise<IMappedRedirections> => {
   return mappedRedirections || {};
 };
 
-export const getLastVisited = async (): Promise<LastVisited> => {
+export const getLastVisited = async (): Promise<ILastVisited> => {
   const { [STORAGE_KEYS.lastVisited]: lastVisited } =
     await chrome.storage.local.get(STORAGE_KEYS.lastVisited);
   return lastVisited;
 };
 
-export const getUserProfile = async (): Promise<UserInfo> => {
-  const { [STORAGE_KEYS.userProfile]: userProfile } =
-    await chrome.storage.local.get(STORAGE_KEYS.userProfile);
-  return userProfile;
+export const getUser2FAInfo = async (): Promise<IUser2FAInfo> => {
+  const { [STORAGE_KEYS.user2FAInfo]: user2FAInfo } =
+    await chrome.storage.local.get(STORAGE_KEYS.user2FAInfo);
+  return user2FAInfo;
 };
 
 export const getSettings = async (): Promise<ISettings> => {

@@ -23,7 +23,7 @@ export const config = {
 
 export default function Web() {
   const router = useRouter();
-  const { user, isLoggedIn } = useUser();
+  const { isLoggedIn } = useUser();
   const { isLoading, preloadData, clearData } = useWebPreload();
   const [shouldPreloadData, setShouldPreloadData] = useState(false);
   const [promptTOTPVerify, setPromptTOTPVerify] = useState(false);
@@ -73,10 +73,7 @@ export default function Web() {
   };
 
   const onVerify = async (totp: string) => {
-    const { isVerified } = await api.twoFactorAuth.authenticate.query({
-      uid: user?.uid ?? '',
-      totp,
-    });
+    const { isVerified } = await api.twoFactorAuth.authenticate.query(totp);
     if (isVerified) {
       const twoFAData = await getFromLocalStorage<ITwoFactorAuth>(
         STORAGE_KEYS.twoFactorAuth

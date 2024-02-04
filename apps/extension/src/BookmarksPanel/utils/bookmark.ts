@@ -1,21 +1,16 @@
 import { AuthProgress } from '@/HomePopup/utils/authProgress';
+import { trpcApi } from '@/apis/trpcApi';
 import {
   CACHE_BUCKET_KEYS,
-  FIREBASE_DB_REF,
   getCacheObj,
   getFaviconProxyUrl,
-  IBookmarksObj,
   STORAGE_KEYS,
 } from '@bypass/shared';
 import { getBookmarks } from '@helpers/fetchFromStorage';
-import { getFromFirebase, saveToFirebase } from '@helpers/firebase/database';
 
 export const syncBookmarksToStorage = async () => {
-  const bookmarks = await getFromFirebase<IBookmarksObj>(
-    FIREBASE_DB_REF.bookmarks
-  );
+  const bookmarks = await trpcApi.firebaseData.bookmarksGet.query();
   await chrome.storage.local.set({ [STORAGE_KEYS.bookmarks]: bookmarks });
-  console.log(`Bookmarks is set to`, bookmarks);
 };
 
 export const syncBookmarksFirebaseWithStorage = async () => {
@@ -27,10 +22,8 @@ export const syncBookmarksFirebaseWithStorage = async () => {
     return;
   }
   console.log('Syncing bookmarks from storage to firebase', bookmarks);
-  const isSaveSuccess = await saveToFirebase(
-    FIREBASE_DB_REF.bookmarks,
-    bookmarks
-  );
+  const isSaveSuccess =
+    await trpcApi.firebaseData.bookmarksPost.mutate(bookmarks);
   if (isSaveSuccess) {
     await chrome.storage.local.remove('hasPendingBookmarks');
   } else {

@@ -1,6 +1,6 @@
 import { IExtensionState } from '@constants/index';
 import { getExtensionState } from '@helpers/fetchFromStorage';
-import { api } from '../../utils/api';
+import { trpcApi } from '../../apis/trpcApi';
 import { getIsExtensionActive } from '../../utils/common';
 
 const restrictedProtocols = new Set([
@@ -55,7 +55,7 @@ export const setExtensionIcon = async ({
 };
 
 export const checkForUpdates = async () => {
-  const { version: latestVersion } = await api.extension.latest.query();
+  const { version: latestVersion } = await trpcApi.extension.latest.query();
   const { version: currentVersion } = chrome.runtime.getManifest();
   return latestVersion === currentVersion;
 };

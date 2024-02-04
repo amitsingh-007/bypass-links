@@ -1,4 +1,3 @@
-import { getFromFirebase } from '@/ui/firebase/database';
 import { useUser } from '@/ui/provider/AuthProvider';
 import {
   getFromLocalStorage,
@@ -6,24 +5,23 @@ import {
   removeFromLocalStorage,
   setToLocalStorage,
 } from '@/ui/provider/utils';
+import { api } from '@/utils/api';
 import {
   CACHE_BUCKET_KEYS,
+  IBookmarksObj,
+  STORAGE_KEYS,
   deleteCache,
-  FIREBASE_DB_REF,
   getCacheObj,
   getFaviconProxyUrl,
-  IBookmarksObj,
   isCachePresent,
-  STORAGE_KEYS,
 } from '@bypass/shared';
-import { User } from 'firebase/auth';
 import { useCallback, useState } from 'react';
 
-const syncBookmarksToStorage = async (user: User) => {
+const syncBookmarksToStorage = async () => {
   if (isExistsInLocalStorage(STORAGE_KEYS.bookmarks)) {
     return;
   }
-  const data = await getFromFirebase(FIREBASE_DB_REF.bookmarks, user);
+  const data = await api.firebaseData.bookmarksGet.query();
   await setToLocalStorage(STORAGE_KEYS.bookmarks, data);
 };
 
@@ -56,7 +54,7 @@ const usePreloadBookmarks = () => {
       return;
     }
     setIsLoading(true);
-    await syncBookmarksToStorage(user);
+    await syncBookmarksToStorage();
     await cacheBookmarkFavicons();
     setIsLoading(false);
   }, [user]);

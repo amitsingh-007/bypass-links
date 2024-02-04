@@ -1,6 +1,6 @@
-import { getUserProfile } from '@helpers/fetchFromStorage';
+import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { Button, LoadingOverlay, Progress } from '@mantine/core';
-import useAuthStore from '@store/auth';
+import useAuthStore from '@/store/authProgress';
 import useExtStore from '@store/extension';
 import useToastStore from '@store/toast';
 import { memo, useCallback, useEffect, useState } from 'react';
@@ -9,46 +9,41 @@ import { signIn, signOut } from '../utils/authentication';
 import styles from './styles/Authenticate.module.css';
 
 const Authenticate = memo(function Authenticate() {
+  const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
+  const setIsSignedIn = useFirebaseStore((state) => state.setIsSignedIn);
   const isExtensionActive = useExtStore((state) => state.isExtensionActive);
   const displayToast = useToastStore((state) => state.displayToast);
   const authProgress = useAuthStore((state) => state.authProgress);
-  const setSignedInStatus = useAuthStore((state) => state.setSignedInStatus);
   const resetAuthProgress = useAuthStore((state) => state.resetAuthProgress);
   const [isFetching, setIsFetching] = useState(false);
-  const [isSignedIn, setIsSignedIn] = useState(false);
 
   const handleSignIn = async () => {
     setIsFetching(true);
-    const isUserSignedIn = await signIn();
-    setIsSignedIn(isUserSignedIn);
-    setSignedInStatus(isUserSignedIn);
+    const isSignInSuccess = await signIn();
+    setIsSignedIn(isSignInSuccess);
     resetAuthProgress();
     setIsFetching(false);
   };
 
   const handleSignOut = useCallback(async () => {
     setIsFetching(true);
-    const isSignedOut = await signOut();
-    if (!isSignedOut) {
+    const isSignedOutSuccess = await signOut();
+    if (!isSignedOutSuccess) {
       displayToast({
         message: 'Error while logging out',
         severity: 'error',
       });
     } else {
-      const isUserSignedIn = !isSignedOut;
-      setIsSignedIn(isUserSignedIn);
-      setSignedInStatus(isUserSignedIn);
+      setIsSignedIn(!isSignedOutSuccess);
     }
     setIsFetching(false);
     resetAuthProgress();
-  }, [displayToast, resetAuthProgress, setSignedInStatus]);
+  }, [displayToast, resetAuthProgress, setIsSignedIn]);
 
   const init = useCallback(async () => {
-    const userProfile = await getUserProfile();
-    const isUserSignedIn = Boolean(userProfile);
-    setIsSignedIn(isUserSignedIn);
-    setSignedInStatus(isUserSignedIn);
-  }, [setSignedInStatus]);
+    const { idpAuth } = useFirebaseStore.getState();
+    setIsSignedIn(!!idpAuth?.uid);
+  }, [setIsSignedIn]);
 
   useEffect(() => {
     init();

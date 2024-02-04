@@ -1,9 +1,10 @@
-import { FIREBASE_DB_REF } from '@bypass/shared';
 import { authenticator } from 'otplib';
-import { User2FAInfo } from '../interfaces/firebase';
-import { getFirebaseUser, saveToFirebase } from './firebaseAdminService';
-import { fetchUser2FAInfo } from './userService';
+import { IUser } from '../@types/trpc';
 import { getEnv } from '../constants/env';
+import { EFirebaseDBRef } from '../constants/firebase';
+import { User2FAInfo } from '../interfaces/firebase';
+import { saveToFirebase } from './firebaseAdminService';
+import { fetchUser2FAInfo } from './userService';
 
 authenticator.options = { window: 1 };
 
@@ -19,8 +20,8 @@ const is2FASetup = (user2FAInfo: User2FAInfo) =>
 export const is2FAEnabled = (user2FAInfo: User2FAInfo) =>
   is2FASetup(user2FAInfo) && user2FAInfo.is2FAEnabled;
 
-export const setup2FA = async (uid: string) => {
-  const user2FAInfo = await fetchUser2FAInfo(uid);
+export const setup2FA = async (user: IUser) => {
+  const user2FAInfo = await fetchUser2FAInfo(user.uid);
   if (is2FASetup(user2FAInfo)) {
     const { secretKey, otpAuthUrl } = user2FAInfo;
     return {
@@ -28,7 +29,6 @@ export const setup2FA = async (uid: string) => {
       otpAuthUrl: decodeURIComponent(otpAuthUrl),
     };
   }
-  const user = await getFirebaseUser(uid);
   const secret = authenticator.generateSecret();
   const otpAuthUrl = authenticator.keyuri(
     user.displayName ?? '',
@@ -36,8 +36,8 @@ export const setup2FA = async (uid: string) => {
     secret
   );
   await saveToFirebase({
-    ref: FIREBASE_DB_REF.user2FAInfo,
-    uid,
+    ref: EFirebaseDBRef.user2FAInfo,
+    uid: user.uid,
     data: {
       secretKey: secret,
       otpAuthUrl: encodeURIComponent(otpAuthUrl),
@@ -47,14 +47,8 @@ export const setup2FA = async (uid: string) => {
   return { secretKey: secret, otpAuthUrl };
 };
 
-export const verify2FA = async ({
-  uid,
-  totp,
-}: {
-  uid: string;
-  totp: string;
-}) => {
-  const user2FAInfo = await fetchUser2FAInfo(uid);
+export const verify2FA = async (totp: string, user: IUser) => {
+  const user2FAInfo = await fetchUser2FAInfo(user.uid);
   if (!is2FASetup(user2FAInfo)) {
     return false;
   }
@@ -62,8 +56,8 @@ export const verify2FA = async ({
   const isVerified = verify2FAToken(secretKey, totp);
   if (isVerified) {
     await saveToFirebase({
-      ref: FIREBASE_DB_REF.user2FAInfo,
-      uid,
+      ref: EFirebaseDBRef.user2FAInfo,
+      uid: user.uid,
       data: {
         secretKey,
         otpAuthUrl,
@@ -74,14 +68,8 @@ export const verify2FA = async ({
   return isVerified;
 };
 
-export const authenticate2FA = async ({
-  uid,
-  totp,
-}: {
-  uid: string;
-  totp: string;
-}) => {
-  const user2FAInfo = await fetchUser2FAInfo(uid);
+export const authenticate2FA = async (totp: string, user: IUser) => {
+  const user2FAInfo = await fetchUser2FAInfo(user.uid);
   if (!is2FAEnabled(user2FAInfo)) {
     return false;
   }

@@ -6,15 +6,14 @@ import {
 } from '@/ui/provider/utils';
 import { api } from '@/utils/api';
 import { STORAGE_KEYS } from '@bypass/shared';
-import { User } from 'firebase/auth';
 import { useCallback, useState } from 'react';
 import { ITwoFactorAuth } from '../interface';
 
-const sync2FAToStorage = async (user: User) => {
+const sync2FAToStorage = async () => {
   if (isExistsInLocalStorage(STORAGE_KEYS.twoFactorAuth)) {
     return;
   }
-  const { is2FAEnabled } = await api.twoFactorAuth.status.query(user.uid);
+  const { is2FAEnabled } = await api.twoFactorAuth.status.query();
   const data: ITwoFactorAuth = {
     is2FAEnabled,
     isTOTPVerified: false,
@@ -31,7 +30,7 @@ const usePreload2FA = () => {
       return;
     }
     setIsLoading(true);
-    await sync2FAToStorage(user);
+    await sync2FAToStorage();
     setIsLoading(false);
   }, [user]);
 

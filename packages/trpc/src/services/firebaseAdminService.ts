@@ -1,16 +1,14 @@
-import {
-  getFirebasePublicConfig,
-  getFullDbPath,
-  IFirebaseDbRef,
-  IFirebaseDbRootKeys,
-} from '@bypass/shared';
+import { getFirebasePublicConfig } from '@bypass/configs/firebase.config';
 import { cert, getApp, getApps, initializeApp } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
 import { getDatabase } from 'firebase-admin/database';
+import { getDownloadURL, getStorage } from 'firebase-admin/storage';
 import { getEnv } from '../constants/env';
+import { EFirebaseDBRef, EFirebaseDBRootKeys } from '../constants/firebase';
+import { getFullDbPath, getFilePath } from '../utils/firebase';
 
 interface Firebase {
-  ref: IFirebaseDbRef | IFirebaseDbRootKeys;
+  ref: EFirebaseDBRef | EFirebaseDBRootKeys;
   uid?: string;
   isAbsolute?: boolean;
   data: any;
@@ -25,7 +23,7 @@ interface Firebase {
  */
 const { SERVICE_ACCOUNT_KEY, FIREBASE_PRIVATE_KEY } = getEnv();
 
-const firebasePublicConfig = getFirebasePublicConfig();
+const firebasePublicConfig = getFirebasePublicConfig(PROD_ENV);
 
 const getFirebaseCredentials = () => {
   const serviceAccountKey = JSON.parse(SERVICE_ACCOUNT_KEY);
@@ -41,27 +39,40 @@ const firebaseApp =
     : initializeApp({
         credential: getFirebaseCredentials(),
         databaseURL: firebasePublicConfig.databaseURL,
+        storageBucket: firebasePublicConfig.storageBucket,
       });
 
-const database = getDatabase(firebaseApp);
 const auth = getAuth(firebaseApp);
+const database = getDatabase(firebaseApp);
+const storage = getStorage(firebaseApp);
 
 /**
  * REALTIME DATABASE
  */
-export const getFromFirebase = async ({
+export const getFromFirebase = async <T extends Record<string, any>>({
   ref,
   uid,
   isAbsolute,
-}: Omit<Firebase, 'data'>) =>
-  database.ref(getFullDbPath(ref, uid, isAbsolute)).once('value');
+}: Omit<Firebase, 'data'>): Promise<T> => {
+  const dbPath = getFullDbPath(ref, uid, isAbsolute);
+  const snapshot = await database.ref(dbPath).once('value');
+  return snapshot.val() || {};
+};
 
 export const saveToFirebase = async ({
   ref,
   uid,
   data,
   isAbsolute,
-}: Firebase) => database.ref(getFullDbPath(ref, uid, isAbsolute)).set(data);
+}: Firebase) => {
+  try {
+    await database.ref(getFullDbPath(ref, uid, isAbsolute)).set(data);
+    return true;
+  } catch (err) {
+    console.log(`Error while saving data to Firebase DB: ${ref}`, err);
+    return false;
+  }
+};
 
 export const removeFromFirebase = async ({
   ref,
@@ -77,3 +88,26 @@ export const getFirebaseUser = (uid: string) => auth.getUser(uid);
 
 export const verifyAuthToken = (idToken: string, checkRevoked?: boolean) =>
   auth.verifyIdToken(idToken, checkRevoked);
+
+/**
+ * STORAGE
+ */
+export const uploadImageToFirebase = async (uid: string, file: File) => {
+  try {
+    await storage
+      .bucket()
+      .file(getFilePath(uid, file.name))
+      .save(Buffer.from(await file.arrayBuffer()), { contentType: file.type });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getFileFromFirebase = async (uid: string, fileName: string) => {
+  const fileRef = storage.bucket().file(getFilePath(uid, fileName));
+  return getDownloadURL(fileRef);
+};
+
+export const removeFileFromFirebase = async (uid: string, fileName: string) => {
+  await storage.bucket().file(getFilePath(uid, fileName)).delete();
+};

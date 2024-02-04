@@ -2,11 +2,10 @@ import { IPerson, IPersons } from '../interfaces/persons';
 import { hasText } from '../../../utils/search';
 
 export const decodePerson = (person: IPerson): IPerson => {
-  const { uid, imageRef, name, taggedUrls } = person;
+  const { uid, name, taggedUrls } = person;
   return {
     uid,
     name: atob(name),
-    imageRef: decodeURIComponent(atob(imageRef)),
     taggedUrls,
   };
 };
@@ -28,3 +27,5 @@ export const sortAlphabetically = <T extends IPerson>(persons: T[]) => {
 };
 
 export const getColumnCount = (isMobile: boolean) => (isMobile ? 3 : 5);
+
+export const getPersonImageName = (uid: string) => `${uid}.jpeg`;

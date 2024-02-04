@@ -1,9 +1,9 @@
+import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { matchHostnames } from '@/utils/common';
 import { sendRuntimeMessage } from '@/utils/sendRuntimeMessage';
 import { getCurrentTab } from '@/utils/tabs';
 import { BYPASS_KEYS } from '@constants/index';
 import { Button } from '@mantine/core';
-import useAuthStore from '@store/auth';
 import useHistoryStore from '@store/history';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { MdForum } from 'react-icons/md';
@@ -20,7 +20,7 @@ const OpenForumLinks = memo(function OpenForumLinks() {
   const startHistoryMonitor = useHistoryStore(
     (state) => state.startHistoryMonitor
   );
-  const isSignedIn = useAuthStore((state) => state.isSignedIn);
+  const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const [isFetching, setIsFetching] = useState(false);
   const [currentTab, setCurrentTab] = useState<chrome.tabs.Tab | null>(null);
   const [isActive, setIsActive] = useState(false);

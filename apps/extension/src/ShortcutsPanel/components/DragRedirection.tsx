@@ -1,5 +1,4 @@
-import { IRedirection } from '@/BackgroundScript/interfaces/redirections';
-import { useDndSortable } from '@bypass/shared';
+import { IRedirection, useDndSortable } from '@bypass/shared';
 import { Box } from '@mantine/core';
 import { getRedirectionId } from '../utils';
 import RedirectionRule from './RedirectionRule';
@@ -7,8 +6,8 @@ import RedirectionRule from './RedirectionRule';
 interface Props {
   redirection: IRedirection;
   pos: number;
-  handleRemoveRule: any;
-  handleSaveRule: any;
+  handleRemoveRule: (pos: number) => void;
+  handleSaveRule: (redirection: IRedirection, pos: number) => void;
 }
 
 const DragRedirection = ({ redirection, ...restProps }: Props) => {

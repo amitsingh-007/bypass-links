@@ -1,21 +1,20 @@
 import { syncLastVisitedToStorage } from '@/HomePopup/utils/lastVisited';
+import { trpcApi } from '@/apis/trpcApi';
+import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { getCurrentTab } from '@/utils/tabs';
-import { FIREBASE_DB_REF } from '@bypass/shared';
+import { ILastVisited } from '@bypass/shared';
 import { getLastVisited } from '@helpers/fetchFromStorage';
-import { saveToFirebase } from '@helpers/firebase/database';
 import { Button, Text, Tooltip } from '@mantine/core';
-import useAuthStore from '@store/auth';
 import md5 from 'md5';
 import { memo, useEffect, useState } from 'react';
 import { FaCalendarCheck, FaCalendarTimes } from 'react-icons/fa';
-import { LastVisited } from '../interfaces/lastVisited';
 
 const LastVisitedButton = memo(function LastVisitedButton() {
-  const isSignedIn = useAuthStore((state) => state.isSignedIn);
+  const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const [isFetching, setIsFetching] = useState(false);
   const [lastVisited, setLastVisited] = useState('');
   const [currentTab, setCurrentTab] = useState<chrome.tabs.Tab | null>(null);
-  const [lastVisitedObj, setLastVisitedObj] = useState<LastVisited>({});
+  const [lastVisitedObj, setLastVisitedObj] = useState<ILastVisited>({});
 
   const initLastVisited = async () => {
     setIsFetching(true);
@@ -51,10 +50,8 @@ const LastVisitedButton = memo(function LastVisitedButton() {
     }
     const { hostname } = new URL(currentTab.url);
     lastVisitedObj[md5(hostname)] = Date.now();
-    const isSuccess = await saveToFirebase(
-      FIREBASE_DB_REF.lastVisited,
-      lastVisitedObj
-    );
+    const isSuccess =
+      await trpcApi.firebaseData.lastVisitedPost.mutate(lastVisitedObj);
     if (isSuccess) {
       await syncLastVisitedToStorage();
     }

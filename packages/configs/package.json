@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "files": [
+    "manifest/*",
     "eslint.base.js",
     "tsconfig.base.json",
     "lint-staged.base.js",
     "postcss.base.js",
-    "manifest/*"
+    "firebase.config.ts"
   ],
   "peerDependencies": {
     "@typescript-eslint/eslint-plugin": "6.18.1",

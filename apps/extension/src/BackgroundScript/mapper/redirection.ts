@@ -1,4 +1,5 @@
-import { IMappedRedirections, IRedirection } from '../interfaces/redirections';
+import { IRedirection } from '@bypass/shared';
+import { IMappedRedirections } from '../interfaces/redirections';
 
 export const mapRedirections = (
   redirections: IRedirection[]

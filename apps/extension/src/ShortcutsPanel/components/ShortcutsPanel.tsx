@@ -1,14 +1,13 @@
-import { IRedirection } from '@/BackgroundScript/interfaces/redirections';
 import { syncRedirectionsToStorage } from '@/BackgroundScript/redirect';
 import { MAX_PANEL_SIZE } from '@/constants';
-import { FIREBASE_DB_REF, Header } from '@bypass/shared';
+import { trpcApi } from '@/apis/trpcApi';
+import { Header, IRedirection } from '@bypass/shared';
 import { DndContext, DragOverlay, closestCenter } from '@dnd-kit/core';
 import {
   SortableContext,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { getRedirections } from '@helpers/fetchFromStorage';
-import { saveToFirebase } from '@helpers/firebase/database';
 import { Button, Flex, LoadingOverlay } from '@mantine/core';
 import { useElementSize } from '@mantine/hooks';
 import useToastStore from '@store/toast';
@@ -52,22 +51,8 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
   const handleSave = async () => {
     setIsFetching(true);
     const validRules = redirections.filter(getValidRules);
-    console.log('Saving these redirection rules to Firebase', validRules);
-    const shortcutsObj = validRules.reduce<Record<number, IRedirection>>(
-      (obj, { alias, website, isDefault }, index) => {
-        obj[index] = {
-          alias: btoa(alias),
-          website: btoa(website),
-          isDefault,
-        };
-        return obj;
-      },
-      {}
-    );
-    const isSaveSuccess = await saveToFirebase(
-      FIREBASE_DB_REF.redirections,
-      shortcutsObj
-    );
+    const isSaveSuccess =
+      await trpcApi.firebaseData.redirectionsPost.mutate(validRules);
     if (isSaveSuccess) {
       syncRedirectionsToStorage();
       setRedirections(validRules);

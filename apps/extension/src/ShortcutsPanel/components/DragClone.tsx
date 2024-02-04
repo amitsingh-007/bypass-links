@@ -1,5 +1,4 @@
-import { IRedirection } from '@/BackgroundScript/interfaces/redirections';
-import { noOp } from '@bypass/shared';
+import { IRedirection, noOp } from '@bypass/shared';
 import { Active } from '@dnd-kit/core';
 import RedirectionRule from './RedirectionRule';
 
