@@ -10,7 +10,7 @@
     "e2e": "playwright test",
     "lint": "cross-env FORCE_COLOR=1 turbo run lint --continue",
     "precommit": "lint-staged --quiet",
-    "prepare": "husky install",
+    "prepare": "husky",
     "test": "cross-env FORCE_COLOR=1 turbo run test"
   },
   "devDependencies": {
