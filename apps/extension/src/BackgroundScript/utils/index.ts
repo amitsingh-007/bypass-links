@@ -59,3 +59,8 @@ export const checkForUpdates = async () => {
   const { version: currentVersion } = chrome.runtime.getManifest();
   return latestVersion === currentVersion;
 };
+
+export const isValidTabUrl = async (tabId: number) => {
+  const tab = await chrome.tabs.get(tabId);
+  return isValidUrl(tab.url);
+};
