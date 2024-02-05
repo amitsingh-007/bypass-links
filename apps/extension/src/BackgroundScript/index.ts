@@ -1,12 +1,16 @@
 import Logging from '@/logging';
 import { getIsExtensionActive, setExtStateInStorage } from '@/utils/common';
-import { getCurrentTab } from '@/utils/tabs';
 import { EXTENSION_STATE } from '@constants/index';
 import { getExtensionState } from '@helpers/fetchFromStorage';
 import { bypass } from './bypass';
 import turnOffInputSuggestions from './misc/turnOffInputSuggestions';
 import { redirect } from './redirect';
-import { checkForUpdates, isValidUrl, setExtensionIcon } from './utils';
+import {
+  checkForUpdates,
+  isValidTabUrl,
+  isValidUrl,
+  setExtensionIcon,
+} from './utils';
 import { receiveRuntimeMessage } from './utils/receiveRuntimeMessage';
 
 Logging.init();
@@ -49,17 +53,15 @@ const onPageLoad = async (tabId: number, url: string) => {
     return;
   }
 
-  let tab = await getCurrentTab();
-  if (isValidUrl(tab.url)) {
+  // Below if() checks avoid the scenario where url changes after the page is loaded
+  if (await isValidTabUrl(tabId)) {
+    redirect(tabId, new URL(url as string));
+  }
+  if (await isValidTabUrl(tabId)) {
     turnOffInputSuggestions(tabId);
   }
-  tab = await getCurrentTab();
-  if (isValidUrl(tab.url)) {
-    redirect(tabId, new URL(tab.url as string));
-  }
-  tab = await getCurrentTab();
-  if (isValidUrl(tab.url)) {
-    bypass(tabId, new URL(tab.url as string));
+  if (await isValidTabUrl(tabId)) {
+    bypass(tabId, new URL(url as string));
   }
 };
 
