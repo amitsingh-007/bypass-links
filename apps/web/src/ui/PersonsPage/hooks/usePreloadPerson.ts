@@ -6,7 +6,7 @@ import {
 } from '@/ui/provider/utils';
 import { api } from '@/utils/api';
 import {
-  CACHE_BUCKET_KEYS,
+  ECacheBucketKeys,
   PersonImageUrls,
   STORAGE_KEYS,
   deleteCache,
@@ -23,7 +23,7 @@ const cachePersonImages = async (personImageUrls: PersonImageUrls) => {
     return;
   }
   const imageUrls = Object.values(personImageUrls);
-  const cache = await getCacheObj(CACHE_BUCKET_KEYS.person);
+  const cache = await getCacheObj(ECacheBucketKeys.person);
   await cache.addAll(imageUrls);
 };
 
@@ -44,7 +44,7 @@ const usePreloadPerson = () => {
     if (!user) {
       return;
     }
-    const hasPersonCache = await isCachePresent(CACHE_BUCKET_KEYS.person);
+    const hasPersonCache = await isCachePresent(ECacheBucketKeys.person);
     if (hasPersonCache) {
       return;
     }
@@ -84,7 +84,7 @@ const usePreloadPerson = () => {
     setIsLoading(true);
     removeFromLocalStorage(STORAGE_KEYS.persons);
     removeFromLocalStorage(STORAGE_KEYS.personImageUrls);
-    await deleteCache(CACHE_BUCKET_KEYS.person);
+    await deleteCache(ECacheBucketKeys.person);
     setIsLoading(false);
   };
 

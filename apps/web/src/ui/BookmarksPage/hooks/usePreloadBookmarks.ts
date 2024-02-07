@@ -7,7 +7,7 @@ import {
 } from '@/ui/provider/utils';
 import { api } from '@/utils/api';
 import {
-  CACHE_BUCKET_KEYS,
+  ECacheBucketKeys,
   IBookmarksObj,
   STORAGE_KEYS,
   deleteCache,
@@ -26,7 +26,7 @@ const syncBookmarksToStorage = async () => {
 };
 
 const cacheBookmarkFavicons = async () => {
-  const hasFaviconCache = await isCachePresent(CACHE_BUCKET_KEYS.favicon);
+  const hasFaviconCache = await isCachePresent(ECacheBucketKeys.favicon);
   if (hasFaviconCache) {
     return;
   }
@@ -41,7 +41,7 @@ const cacheBookmarkFavicons = async () => {
     getFaviconProxyUrl(decodeURIComponent(atob(url)))
   );
   const uniqueUrls = Array.from(new Set(faviconUrls));
-  const cache = await getCacheObj(CACHE_BUCKET_KEYS.favicon);
+  const cache = await getCacheObj(ECacheBucketKeys.favicon);
   await Promise.all(uniqueUrls.map(async (url) => cache.add(url)));
 };
 
@@ -62,7 +62,7 @@ const usePreloadBookmarks = () => {
   const clearData = async () => {
     setIsLoading(true);
     removeFromLocalStorage(STORAGE_KEYS.bookmarks);
-    await deleteCache(CACHE_BUCKET_KEYS.favicon);
+    await deleteCache(ECacheBucketKeys.favicon);
     setIsLoading(false);
   };
 
