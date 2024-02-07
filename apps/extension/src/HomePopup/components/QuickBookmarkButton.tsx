@@ -2,8 +2,8 @@ import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { getCurrentTab } from '@/utils/tabs';
 import {
   BMPanelQueryParams,
-  BOOKMARK_OPERATION,
   DEFAULT_BOOKMARK_FOLDER,
+  EBookmarkOperation,
   getBookmarksPanelUrl,
   getDecodedBookmark,
   IEncodedBookmark,
@@ -51,12 +51,12 @@ const QuickBookmarkButton = memo(function QuickBookmarkButton() {
     if (bookmark) {
       const { url, parentHash } = bookmark;
       const parent = await getFolderFromHash(parentHash);
-      urlParams.operation = BOOKMARK_OPERATION.EDIT;
+      urlParams.operation = EBookmarkOperation.EDIT;
       urlParams.bmUrl = url;
       urlParams.folderContext = atob(parent.name);
     } else {
       const { url } = await getCurrentTab();
-      urlParams.operation = BOOKMARK_OPERATION.ADD;
+      urlParams.operation = EBookmarkOperation.ADD;
       urlParams.bmUrl = url;
       urlParams.folderContext = DEFAULT_BOOKMARK_FOLDER;
     }

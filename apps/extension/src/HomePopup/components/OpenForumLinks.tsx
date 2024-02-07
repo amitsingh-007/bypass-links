@@ -1,8 +1,8 @@
+import { EBypassKeys } from '@/constants';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { matchHostnames } from '@/utils/common';
 import { sendRuntimeMessage } from '@/utils/sendRuntimeMessage';
 import { getCurrentTab } from '@/utils/tabs';
-import { BYPASS_KEYS } from '@constants/index';
 import { Button } from '@mantine/core';
 import useHistoryStore from '@store/history';
 import { memo, useCallback, useEffect, useState } from 'react';
@@ -11,8 +11,8 @@ import { MdForum } from 'react-icons/md';
 const isCurrentPageForum = async (url = '') => {
   const hostname = url && new URL(url).hostname;
   return (
-    (await matchHostnames(hostname, BYPASS_KEYS.FORUMS)) ||
-    (await matchHostnames(hostname, BYPASS_KEYS.FORUMS_V2))
+    (await matchHostnames(hostname, EBypassKeys.FORUMS)) ||
+    (await matchHostnames(hostname, EBypassKeys.FORUMS_V2))
   );
 };
 

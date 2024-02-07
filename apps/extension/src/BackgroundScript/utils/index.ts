@@ -1,4 +1,4 @@
-import { IExtensionState } from '@constants/index';
+import { EExtensionState } from '@/constants';
 import { getExtensionState } from '@helpers/fetchFromStorage';
 import { trpcApi } from '../../apis/trpcApi';
 import { getIsExtensionActive } from '../../utils/common';
@@ -38,7 +38,7 @@ export const setExtensionIcon = async ({
   hasPendingBookmarks,
   hasPendingPersons,
 }: {
-  extState?: IExtensionState;
+  extState?: EExtensionState;
   hasPendingBookmarks: boolean;
   hasPendingPersons: boolean;
 }) => {

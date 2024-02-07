@@ -1,12 +1,11 @@
 import useBookmarkStore from '@/store/bookmark';
 import { getCurrentTab } from '@/utils/tabs';
 import {
-  BOOKMARK_OPERATION,
   ContextBookmarks,
   DEFAULT_BOOKMARK_FOLDER,
+  EBookmarkOperation,
   getBookmarksPanelUrl,
   getDecodedFolderList,
-  IBookmarkOperation,
   IBookmarksObj,
   IDecodedBookmark,
 } from '@bypass/shared';
@@ -17,9 +16,9 @@ import { useNavigate } from 'react-router-dom';
 import PersonSelect from './PersonSelect';
 
 const HEADING = {
-  [BOOKMARK_OPERATION.NONE]: '',
-  [BOOKMARK_OPERATION.ADD]: 'Add bookmark',
-  [BOOKMARK_OPERATION.EDIT]: 'Edit bookmark',
+  [EBookmarkOperation.NONE]: '',
+  [EBookmarkOperation.ADD]: 'Add bookmark',
+  [EBookmarkOperation.EDIT]: 'Edit bookmark',
 };
 
 interface Props {
@@ -95,8 +94,8 @@ const BookmarkAddEditDialog = memo<Props>(function BookmarkAddEditDialog({
   });
 
   const resolveBookmark = useCallback(
-    async (_operation: IBookmarkOperation, _bmUrl: string) => {
-      if (_operation === BOOKMARK_OPERATION.ADD) {
+    async (_operation: EBookmarkOperation, _bmUrl: string) => {
+      if (_operation === EBookmarkOperation.ADD) {
         const { title = '' } = await getCurrentTab();
         form.setValues({
           pos: contextBookmarks.length,
@@ -135,7 +134,7 @@ const BookmarkAddEditDialog = memo<Props>(function BookmarkAddEditDialog({
   );
 
   useEffect(() => {
-    if (operation !== BOOKMARK_OPERATION.NONE) {
+    if (operation !== EBookmarkOperation.NONE) {
       resolveBookmark(operation, bmUrl);
     }
   }, [bmUrl, operation, resolveBookmark]);
@@ -148,7 +147,7 @@ const BookmarkAddEditDialog = memo<Props>(function BookmarkAddEditDialog({
       });
     }
     const { pos } = form.values;
-    if (operation === BOOKMARK_OPERATION.EDIT) {
+    if (operation === EBookmarkOperation.EDIT) {
       handleScroll(pos);
       handleSelectedChange(pos, true);
     }

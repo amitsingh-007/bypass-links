@@ -1,7 +1,7 @@
 import ContextMenu, { IMenuOption } from '@/components/ContextMenu';
 import {
-  BOOKMARK_OPERATION,
   ContextBookmarks,
+  EBookmarkOperation,
   ISelectedBookmarks,
 } from '@bypass/shared';
 import { useMantineTheme } from '@mantine/core';
@@ -69,7 +69,7 @@ const BookmarkContextMenu = memo<Props>(function BookmarkContextMenu({
   const handleBookmarkEdit = useCallback(
     (id: string) => {
       const { url } = getBookmark(id);
-      setBookmarkOperation(BOOKMARK_OPERATION.EDIT, url);
+      setBookmarkOperation(EBookmarkOperation.EDIT, url);
     },
     [getBookmark, setBookmarkOperation]
   );

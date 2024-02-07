@@ -1,10 +1,10 @@
 import { MAX_PANEL_SIZE } from '@/constants';
 import {
   BMPanelQueryParams,
-  BOOKMARK_OPERATION,
   BOOKMARK_ROW_HEIGHT,
-  CACHE_BUCKET_KEYS,
   ContextBookmarks,
+  EBookmarkOperation,
+  ECacheBucketKeys,
   HEADER_HEIGHT,
   IBookmarksObj,
   ISelectedBookmarks,
@@ -126,7 +126,7 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
   }, [initBookmarksData]);
 
   useEffect(() => {
-    if (!isFetching && operation !== BOOKMARK_OPERATION.NONE) {
+    if (!isFetching && operation !== EBookmarkOperation.NONE) {
       /**
        * Need to call after initBookmarksData,
        * Since EditBookmark internally needs contextBookmarks to be set beforehand
@@ -246,7 +246,7 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
         });
       }
       // Add bookmark favicon in the cache
-      addToCache(CACHE_BUCKET_KEYS.favicon, getFaviconProxyUrl(url));
+      addToCache(ECacheBucketKeys.favicon, getFaviconProxyUrl(url));
       setIsSaveButtonActive(true);
     },
     [updatePersonUrls]
