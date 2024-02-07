@@ -7,14 +7,14 @@ import {
 import { useMantineTheme } from '@mantine/core';
 import useBookmarkStore from '@store/bookmark';
 import md5 from 'md5';
-import { memo, useCallback } from 'react';
+import { PropsWithChildren, memo, useCallback } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
 import { BsArrowUp } from 'react-icons/bs';
 import { MdOutlineDelete } from 'react-icons/md';
 import { RxExternalLink } from 'react-icons/rx';
 import { getSelectedCount } from '../utils';
 
-interface Props {
+type Props = PropsWithChildren<{
   contextBookmarks: ContextBookmarks;
   children: React.ReactNode;
   selectedBookmarks: ISelectedBookmarks;
@@ -23,7 +23,7 @@ interface Props {
   handleUrlRemove: (pos: number, url: string) => void;
   handleMoveBookmarks: (destinationIndex: number) => void;
   handleScroll: (itemNumber: number) => void;
-}
+}>;
 
 const BookmarkContextMenu = memo<Props>(function BookmarkContextMenu({
   children,

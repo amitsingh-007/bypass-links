@@ -1,9 +1,9 @@
 import { DynamicContext } from '@bypass/shared';
 import { useRouter } from 'next/router';
-import { ReactElement, useMemo } from 'react';
+import { PropsWithChildren, useMemo } from 'react';
 import { getFromLocalStorage, setToLocalStorage } from './utils';
 
-const DynamicProvider = ({ children }: { children: ReactElement }) => {
+const DynamicProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
 
   const ctx = useMemo(

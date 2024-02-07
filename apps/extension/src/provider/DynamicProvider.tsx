@@ -1,9 +1,9 @@
 import { DynamicContext } from '@bypass/shared';
-import { useMemo } from 'react';
+import { PropsWithChildren, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getFromChromeStorage, setToChromeStorage } from './utils';
 
-const DynamicProvider = ({ children }: { children: React.ReactNode }) => {
+const DynamicProvider = ({ children }: PropsWithChildren) => {
   const navigate = useNavigate();
   const location = useLocation();
 
