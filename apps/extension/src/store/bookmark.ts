@@ -1,8 +1,4 @@
-import {
-  BOOKMARK_OPERATION,
-  IBookmarkOperation,
-  VoidFunction,
-} from '@bypass/shared';
+import { BOOKMARK_OPERATION, IBookmarkOperation } from '@bypass/shared';
 import { create } from 'zustand';
 
 interface OperationState {

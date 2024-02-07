@@ -1,5 +1,5 @@
 import { trpcApi } from '@/apis/trpcApi';
-import { IPerson, usePerson, VoidFunction } from '@bypass/shared';
+import { IPerson, usePerson } from '@bypass/shared';
 import {
   ActionIcon,
   Avatar,

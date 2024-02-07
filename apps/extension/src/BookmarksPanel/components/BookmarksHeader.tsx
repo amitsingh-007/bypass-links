@@ -1,4 +1,4 @@
-import { ContextBookmarks, Header, VoidFunction } from '@bypass/shared';
+import { ContextBookmarks, Header } from '@bypass/shared';
 import { Button, LoadingOverlay } from '@mantine/core';
 import { useHotkeys } from '@mantine/hooks';
 import useToastStore from '@store/toast';

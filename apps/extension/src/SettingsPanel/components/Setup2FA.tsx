@@ -1,5 +1,5 @@
 import { trpcApi } from '@/apis/trpcApi';
-import { Header, InputTOTP, STORAGE_KEYS, VoidFunction } from '@bypass/shared';
+import { Header, InputTOTP, STORAGE_KEYS } from '@bypass/shared';
 import { getUser2FAInfo } from '@helpers/fetchFromStorage';
 import { Button, Center, Modal } from '@mantine/core';
 import useToastStore from '@store/toast';

@@ -1,4 +1,4 @@
-import { Header, VoidFunction, getPersonImageName } from '@bypass/shared';
+import { Header, getPersonImageName } from '@bypass/shared';
 import {
   Box,
   Button,

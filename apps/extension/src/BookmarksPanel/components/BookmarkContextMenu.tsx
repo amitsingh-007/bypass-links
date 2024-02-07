@@ -3,7 +3,6 @@ import {
   BOOKMARK_OPERATION,
   ContextBookmarks,
   ISelectedBookmarks,
-  VoidFunction,
 } from '@bypass/shared';
 import { useMantineTheme } from '@mantine/core';
 import useBookmarkStore from '@store/bookmark';

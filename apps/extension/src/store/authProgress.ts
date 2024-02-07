@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import { AuthenticationEvent } from '@interfaces/authentication';
-import { VoidFunction } from '@bypass/shared';
 
 interface State {
   authProgress: AuthenticationEvent | null;

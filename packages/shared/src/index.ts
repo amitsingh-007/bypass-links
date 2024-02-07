@@ -41,7 +41,6 @@ export * from './constants/storage';
 export * from './constants/theme';
 
 // Interfaces
-export * from './interfaces/custom';
 export * from './interfaces/utilityTypes';
 export * from './interfaces/ISettings';
 export * from './interfaces/IBypass';
