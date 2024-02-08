@@ -1,11 +1,11 @@
 import { ContextBookmarks, Header } from '@bypass/shared';
 import { Button, LoadingOverlay } from '@mantine/core';
 import { useHotkeys } from '@mantine/hooks';
+import { FaFolderPlus } from '@react-icons/all-files/fa/FaFolderPlus';
+import { IoSave } from '@react-icons/all-files/io5/IoSave';
+import { RiUploadCloud2Fill } from '@react-icons/all-files/ri/RiUploadCloud2Fill';
 import useToastStore from '@store/toast';
 import { memo, useState } from 'react';
-import { FaFolderPlus } from 'react-icons/fa';
-import { IoSave } from 'react-icons/io5';
-import { RiUploadCloud2Fill } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
 import { syncBookmarksFirebaseWithStorage } from '../utils/bookmark';
 import ConfirmationDialog from './ConfirmationDialog';

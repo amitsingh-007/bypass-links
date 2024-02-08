@@ -11,9 +11,9 @@ import {
   TextInput,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { AiFillEdit } from '@react-icons/all-files/ai/AiFillEdit';
 import md5 from 'md5';
 import { memo, useCallback, useEffect, useState } from 'react';
-import { AiFillEdit } from 'react-icons/ai';
 import ImagePicker from './ImagePicker';
 import styles from './styles/AddOrEditPersonDialog.module.css';
 

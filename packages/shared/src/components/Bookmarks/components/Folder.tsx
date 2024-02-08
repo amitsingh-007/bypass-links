@@ -1,6 +1,6 @@
 import { Center, Text, ThemeIcon } from '@mantine/core';
+import { HiFolder } from '@react-icons/all-files/hi/HiFolder';
 import { memo, useContext } from 'react';
-import { HiFolder } from 'react-icons/hi';
 import DynamicContext from '../../../provider/DynamicContext';
 import { getBookmarksPanelUrl } from '../utils/url';
 import styles from './styles/Folder.module.css';

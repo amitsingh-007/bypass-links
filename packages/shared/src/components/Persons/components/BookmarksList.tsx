@@ -8,6 +8,7 @@ import {
   Container,
   Modal,
 } from '@mantine/core';
+import { AiFillEdit } from '@react-icons/all-files/ai/AiFillEdit';
 import clsx from 'clsx';
 import {
   memo,
@@ -17,9 +18,9 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { AiFillEdit } from 'react-icons/ai';
 import DynamicContext from '../../../provider/DynamicContext';
 import Bookmark from '../../Bookmarks/components/Bookmark';
+import { EBookmarkOperation } from '../../Bookmarks/constants';
 import useBookmark from '../../Bookmarks/hooks/useBookmark';
 import { getDecodedBookmark } from '../../Bookmarks/utils';
 import { getBookmarksPanelUrl } from '../../Bookmarks/utils/url';
@@ -27,7 +28,6 @@ import Header from '../../Header';
 import { ModifiedBookmark } from '../interfaces/bookmark';
 import { getFilteredModifiedBookmarks } from '../utils/bookmark';
 import styles from './styles/BookmarksList.module.css';
-import { EBookmarkOperation } from '../../Bookmarks/constants';
 
 interface Props {
   name?: string;

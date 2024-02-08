@@ -2,8 +2,8 @@ import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { ROUTES } from '@bypass/shared';
 import { ActionIcon, Avatar, Box, Transition } from '@mantine/core';
 import { useHover } from '@mantine/hooks';
+import { MdSettings } from '@react-icons/all-files/md/MdSettings';
 import { memo } from 'react';
-import { MdSettings } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import styles from './styles/UserProfile.module.css';
 

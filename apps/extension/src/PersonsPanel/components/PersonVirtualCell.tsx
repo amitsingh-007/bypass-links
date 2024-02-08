@@ -1,9 +1,9 @@
 import ContextMenu, { IMenuOption } from '@/components/ContextMenu';
 import { IPerson, Person } from '@bypass/shared';
 import { Box, useMantineTheme } from '@mantine/core';
+import { AiFillEdit } from '@react-icons/all-files/ai/AiFillEdit';
+import { MdOutlineDelete } from '@react-icons/all-files/md/MdOutlineDelete';
 import { memo, useCallback, useMemo, useState } from 'react';
-import { AiFillEdit } from 'react-icons/ai';
-import { MdOutlineDelete } from 'react-icons/md';
 import AddOrEditPersonDialog from './AddOrEditPersonDialog';
 
 interface Props {

@@ -1,6 +1,6 @@
 import { Avatar, HoverCard, Tooltip } from '@mantine/core';
+import { TbUserOff } from '@react-icons/all-files/tb/TbUserOff';
 import { memo, useContext } from 'react';
-import { TbUserOff } from 'react-icons/tb';
 import DynamicContext from '../../../provider/DynamicContext';
 import { IPersonWithImage } from '../../Persons/interfaces/persons';
 import { getPersonsPanelUrl } from '../../Persons/utils/urls';

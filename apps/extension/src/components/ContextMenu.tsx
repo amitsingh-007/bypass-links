@@ -6,7 +6,7 @@ import {
 } from '@mantine/core';
 import { ContextMenuItemOptions, useContextMenu } from 'mantine-contextmenu';
 import { PropsWithChildren, useMemo, useRef } from 'react';
-import { IconType } from 'react-icons';
+import { IconType } from '@react-icons/all-files';
 import styles from './styles/ContextMenu.module.css';
 
 export interface IMenuOption {

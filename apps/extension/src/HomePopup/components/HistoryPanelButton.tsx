@@ -1,8 +1,8 @@
 import { ROUTES } from '@bypass/shared';
 import { Button } from '@mantine/core';
+import { RiHistoryFill } from '@react-icons/all-files/ri/RiHistoryFill';
 import useExtStore from '@store/extension';
 import { memo } from 'react';
-import { RiHistoryFill } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
 
 const HistoryPanelButton = memo(function HistoryPanelButton() {

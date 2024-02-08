@@ -1,6 +1,6 @@
 import { syncRedirectionsToStorage } from '@/BackgroundScript/redirect';
-import { MAX_PANEL_SIZE } from '@/constants';
 import { trpcApi } from '@/apis/trpcApi';
+import { MAX_PANEL_SIZE } from '@/constants';
 import { Header, IRedirection } from '@bypass/shared';
 import { DndContext, DragOverlay, closestCenter } from '@dnd-kit/core';
 import {
@@ -10,10 +10,10 @@ import {
 import { getRedirections } from '@helpers/fetchFromStorage';
 import { Button, Flex, LoadingOverlay } from '@mantine/core';
 import { useElementSize } from '@mantine/hooks';
+import { IoSave } from '@react-icons/all-files/io5/IoSave';
+import { RiPlayListAddFill } from '@react-icons/all-files/ri/RiPlayListAddFill';
 import useToastStore from '@store/toast';
 import { memo, useEffect, useState } from 'react';
-import { IoSave } from 'react-icons/io5';
-import { RiPlayListAddFill } from 'react-icons/ri';
 import { DEFAULT_RULE_ALIAS } from '../constants';
 import useShortcutDrag from '../hooks/useShortcutDrag';
 import { getRedirectionId, getValidRules } from '../utils';

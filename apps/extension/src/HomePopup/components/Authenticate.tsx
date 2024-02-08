@@ -1,10 +1,11 @@
+import useAuthStore from '@/store/authProgress';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { Button, LoadingOverlay, Progress } from '@mantine/core';
-import useAuthStore from '@/store/authProgress';
+import { RiLoginCircleFill } from '@react-icons/all-files/ri/RiLoginCircleFill';
+import { RiLogoutCircleRFill } from '@react-icons/all-files/ri/RiLogoutCircleRFill';
 import useExtStore from '@store/extension';
 import useToastStore from '@store/toast';
 import { memo, useCallback, useEffect, useState } from 'react';
-import { RiLoginCircleFill, RiLogoutCircleRFill } from 'react-icons/ri';
 import { signIn, signOut } from '../utils/authentication';
 import styles from './styles/Authenticate.module.css';
 

@@ -4,9 +4,9 @@ import { matchHostnames } from '@/utils/common';
 import { sendRuntimeMessage } from '@/utils/sendRuntimeMessage';
 import { getCurrentTab } from '@/utils/tabs';
 import { Button } from '@mantine/core';
+import { MdForum } from '@react-icons/all-files/md/MdForum';
 import useHistoryStore from '@store/history';
 import { memo, useCallback, useEffect, useState } from 'react';
-import { MdForum } from 'react-icons/md';
 
 const isCurrentPageForum = async (url = '') => {
   const hostname = url && new URL(url).hostname;

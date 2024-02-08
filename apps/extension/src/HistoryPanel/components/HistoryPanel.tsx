@@ -2,10 +2,10 @@ import { Header } from '@bypass/shared';
 import { Box, Button, Stack } from '@mantine/core';
 import { DateTimePicker, DateTimePickerProps } from '@mantine/dates';
 import { useForm } from '@mantine/form';
+import { FaCalendarCheck } from '@react-icons/all-files/fa/FaCalendarCheck';
+import { MdOutlineDelete } from '@react-icons/all-files/md/MdOutlineDelete';
 import useToastStore from '@store/toast';
 import { memo, useEffect } from 'react';
-import { FaCalendarCheck } from 'react-icons/fa';
-import { MdOutlineDelete } from 'react-icons/md';
 
 interface IForm {
   startDateTime: Date;

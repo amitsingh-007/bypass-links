@@ -1,7 +1,7 @@
 import { FocusTrap, TextInput } from '@mantine/core';
 import { useDebouncedState, useHotkeys } from '@mantine/hooks';
+import { GoSearch } from '@react-icons/all-files/go/GoSearch';
 import { memo, useEffect, useState } from 'react';
-import { GoSearch } from 'react-icons/go';
 
 const Search = memo<{ onChange: (searchText: string) => void }>(
   function Search({ onChange }) {

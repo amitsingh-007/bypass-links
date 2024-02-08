@@ -11,10 +11,10 @@ import {
 } from '@bypass/shared';
 import { getBookmarks } from '@helpers/fetchFromStorage';
 import { Button, Text, Tooltip } from '@mantine/core';
+import { BiBookmarkPlus } from '@react-icons/all-files/bi/BiBookmarkPlus';
+import { RiBookmark3Fill } from '@react-icons/all-files/ri/RiBookmark3Fill';
 import md5 from 'md5';
 import { memo, useEffect, useState } from 'react';
-import { BiBookmarkPlus } from 'react-icons/bi';
-import { RiBookmark3Fill } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
 
 const QuickBookmarkButton = memo(function QuickBookmarkButton() {

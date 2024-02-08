@@ -1,9 +1,9 @@
 import { Avatar } from '@mantine/core';
+import { RiLinkUnlinkM } from '@react-icons/all-files/ri/RiLinkUnlinkM';
 import { forwardRef, useCallback, useEffect, useState } from 'react';
-import { RiLinkUnlinkM } from 'react-icons/ri';
+import { ECacheBucketKeys } from '../../../constants/cache';
 import { getFaviconProxyUrl } from '../../../utils';
 import { getBlobUrlFromCache } from '../../../utils/cache';
-import { ECacheBucketKeys } from '../../../constants/cache';
 
 interface Props {
   url: string;
