@@ -1,7 +1,7 @@
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { getBookmarksPanelUrl } from '@bypass/shared';
 import { Button } from '@mantine/core';
-import { RiBookmarkFill } from '@react-icons/all-files/ri/RiBookMarkFill';
+import { RiBookmarkFill } from '@react-icons/all-files/ri/RiBookmarkFill';
 import { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
