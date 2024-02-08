@@ -13,7 +13,6 @@
     "@bypass/trpc": "workspace:*",
     "@mantine/core": "7.5.1",
     "@mantine/hooks": "7.5.1",
-    "@react-icons/all-files": "https://github.com/react-icons/react-icons/releases/download/v5.0.1/react-icons-all-files-5.0.1.tgz",
     "@t3-oss/env-nextjs": "0.8.0",
     "@tanstack/react-virtual": "3.0.1",
     "@trpc/client": "10.45.0",
@@ -28,6 +27,7 @@
     "next-seo": "6.4.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-icons": "5.0.1",
     "request-ip": "3.3.0",
     "sharp": "0.33.1",
     "zod": "3.22.4"

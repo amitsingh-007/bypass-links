@@ -1,11 +1,11 @@
 import { ActionIcon, Box, Flex, Text } from '@mantine/core';
 import footerImage from '@public/footer.png';
-import { IconType } from '@react-icons/all-files';
-import { BsGithub } from '@react-icons/all-files/bs/BsGithub';
-import { MdExtension } from '@react-icons/all-files/md/MdExtension';
-import { RiTimeFill } from '@react-icons/all-files/ri/RiTimeFill';
 import dayjs from 'dayjs';
 import Image from 'next/image';
+import { IconType } from 'react-icons';
+import { BsGithub } from 'react-icons/bs';
+import { MdExtension } from 'react-icons/md';
+import { RiTimeFill } from 'react-icons/ri';
 import styles from './styles/Footer.module.css';
 
 const Info = ({

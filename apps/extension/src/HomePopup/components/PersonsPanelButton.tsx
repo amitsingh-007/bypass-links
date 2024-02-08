@@ -1,8 +1,8 @@
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { ROUTES } from '@bypass/shared';
 import { Button } from '@mantine/core';
-import { FaUserTag } from '@react-icons/all-files/fa/FaUserTag';
 import { memo } from 'react';
+import { FaUserTag } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 const PersonsPanelButton = memo(function PersonsPanelButton() {

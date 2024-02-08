@@ -18,13 +18,13 @@
     "@dnd-kit/utilities": "3.2.2",
     "@mantine/core": "7.5.1",
     "@mantine/hooks": "7.5.1",
-    "@react-icons/all-files": "https://github.com/react-icons/react-icons/releases/download/v5.0.1/react-icons-all-files-5.0.1.tgz",
     "@tanstack/react-virtual": "3.0.1",
     "clsx": "2.1.0",
     "md5": "2.3.0",
     "preact": "10.19.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-icons": "5.0.1",
     "wretch": "2.8.0"
   },
   "devDependencies": {

@@ -1,15 +1,13 @@
 import { IRedirection } from '@bypass/shared';
 import { useSortable } from '@dnd-kit/sortable';
 import { ActionIcon, Center, Checkbox, Group, TextInput } from '@mantine/core';
-import { CgWebsite } from '@react-icons/all-files/cg/CgWebsite';
-import { IoSave } from '@react-icons/all-files/io5/IoSave';
-import { MdOutlineDelete } from '@react-icons/all-files/md/MdOutlineDelete';
-import { MdShortcut } from '@react-icons/all-files/md/MdShortcut';
-import { RxDragHandleDots2 } from '@react-icons/all-files/rx/RxDragHandleDots2';
-import { RxExternalLink } from '@react-icons/all-files/rx/RxExternalLink';
 import useHistoryStore from '@store/history';
 import clsx from 'clsx';
 import { memo, useState } from 'react';
+import { CgWebsite } from 'react-icons/cg';
+import { IoSave } from 'react-icons/io5';
+import { MdOutlineDelete, MdShortcut } from 'react-icons/md';
+import { RxDragHandleDots2, RxExternalLink } from 'react-icons/rx';
 import { DEFAULT_RULE_ALIAS } from '../constants';
 import styles from './styles/RedirectionRule.module.css';
 

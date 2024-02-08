@@ -5,13 +5,13 @@ import {
   ISelectedBookmarks,
 } from '@bypass/shared';
 import { useMantineTheme } from '@mantine/core';
-import { AiFillEdit } from '@react-icons/all-files/ai/AiFillEdit';
-import { BsArrowUp } from '@react-icons/all-files/bs/BsArrowUp';
-import { MdOutlineDelete } from '@react-icons/all-files/md/MdOutlineDelete';
-import { RxExternalLink } from '@react-icons/all-files/rx/RxExternalLink';
 import useBookmarkStore from '@store/bookmark';
 import md5 from 'md5';
 import { PropsWithChildren, memo, useCallback } from 'react';
+import { AiFillEdit } from 'react-icons/ai';
+import { BsArrowUp } from 'react-icons/bs';
+import { MdOutlineDelete } from 'react-icons/md';
+import { RxExternalLink } from 'react-icons/rx';
 import { getSelectedCount } from '../utils';
 
 type Props = PropsWithChildren<{

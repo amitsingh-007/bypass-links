@@ -1,10 +1,9 @@
 import { startHistoryWatch } from '@/utils/history';
 import { Switch, useMantineTheme } from '@mantine/core';
-import { HiOutlineEye } from '@react-icons/all-files/hi/HiOutlineEye';
-import { HiOutlineEyeOff } from '@react-icons/all-files/hi/HiOutlineEyeOff';
 import useExtStore from '@store/extension';
 import useHistoryStore from '@store/history';
 import { memo, useCallback, useEffect, useState } from 'react';
+import { HiOutlineEye, HiOutlineEyeOff } from 'react-icons/hi';
 
 const endHistoryWatch = async () => {
   const { historyStartTime } = await chrome.storage.local.get([

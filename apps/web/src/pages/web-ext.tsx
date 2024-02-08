@@ -7,13 +7,15 @@ import { getFromLocalStorage, setToLocalStorage } from '@/ui/provider/utils';
 import { api } from '@/utils/api';
 import { Header, InputTOTP, ROUTES, STORAGE_KEYS } from '@bypass/shared';
 import { Button, Center, Container, Stack } from '@mantine/core';
-import { FaUserTag } from '@react-icons/all-files/fa/FaUserTag';
-import { RiBookmarkFill } from '@react-icons/all-files/ri/RiBookmarkFill';
-import { RiLoginCircleFill } from '@react-icons/all-files/ri/RiLoginCircleFill';
-import { RiLogoutCircleRFill } from '@react-icons/all-files/ri/RiLogoutCircleRFill';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { FaUserTag } from 'react-icons/fa';
+import {
+  RiBookMarkFill,
+  RiLoginCircleFill,
+  RiLogoutCircleRFill,
+} from 'react-icons/ri';
 
 export const config = {
   runtime: 'experimental-edge',
@@ -116,7 +118,7 @@ export default function Web() {
               <Button
                 radius="xl"
                 size="md"
-                rightSection={<RiBookmarkFill />}
+                rightSection={<RiBookMarkFill />}
                 onClick={() => router.push(ROUTES.BOOKMARK_PANEL)}
                 disabled={!isLoggedIn || isLoading}
               >

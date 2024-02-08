@@ -5,10 +5,9 @@ import { getCurrentTab } from '@/utils/tabs';
 import { ILastVisited } from '@bypass/shared';
 import { getLastVisited } from '@helpers/fetchFromStorage';
 import { Button, Text, Tooltip } from '@mantine/core';
-import { FaCalendarCheck } from '@react-icons/all-files/fa/FaCalendarCheck';
-import { FaCalendarTimes } from '@react-icons/all-files/fa/FaCalendarTimes';
 import md5 from 'md5';
 import { memo, useEffect, useState } from 'react';
+import { FaCalendarCheck, FaCalendarTimes } from 'react-icons/fa';
 
 const LastVisitedButton = memo(function LastVisitedButton() {
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);

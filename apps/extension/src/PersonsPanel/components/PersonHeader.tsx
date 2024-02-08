@@ -1,9 +1,9 @@
 import { Header, IPerson } from '@bypass/shared';
 import { Button, LoadingOverlay } from '@mantine/core';
-import { IoIosPersonAdd } from '@react-icons/all-files/io/IoIosPersonAdd';
-import { RiUploadCloud2Fill } from '@react-icons/all-files/ri/RiUploadCloud2Fill';
 import useToastStore from '@store/toast';
 import { memo, useState } from 'react';
+import { IoIosPersonAdd } from 'react-icons/io';
+import { RiUploadCloud2Fill } from 'react-icons/ri';
 import { syncPersonsFirebaseWithStorage } from '../utils/sync';
 import AddOrEditPersonDialog from './AddOrEditPersonDialog';
 

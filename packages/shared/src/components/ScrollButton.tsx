@@ -1,7 +1,6 @@
 import { Button } from '@mantine/core';
-import { BsArrowDown } from '@react-icons/all-files/bs/BsArrowDown';
-import { BsArrowUp } from '@react-icons/all-files/bs/BsArrowUp';
 import { memo, useMemo } from 'react';
+import { BsArrowDown, BsArrowUp } from 'react-icons/bs';
 import styles from './styles/ScrollButton.module.css';
 
 interface Props {
