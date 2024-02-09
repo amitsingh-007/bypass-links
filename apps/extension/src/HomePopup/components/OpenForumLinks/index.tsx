@@ -1,8 +1,8 @@
 import { EBypassKeys } from '@/constants';
+import useCurrentTab from '@/hooks/useCurrentTab';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { matchHostnames } from '@/utils/common';
 import { sendRuntimeMessage } from '@/utils/sendRuntimeMessage';
-import { getCurrentTab } from '@/utils/tabs';
 import useHistoryStore from '@store/history';
 import { memo, useEffect, useState } from 'react';
 import ButtonWithFeedback from './ButtonWithFeedback';
@@ -20,16 +20,8 @@ const OpenForumLinks = memo(function OpenForumLinks() {
     (state) => state.startHistoryMonitor
   );
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
-  const [currentTab, setCurrentTab] = useState<chrome.tabs.Tab>();
+  const currentTab = useCurrentTab();
   const [isForumPage, setIsForumPage] = useState(false);
-
-  useEffect(() => {
-    const initCurrentTab = async () => {
-      const curTab = await getCurrentTab();
-      setCurrentTab(curTab);
-    };
-    initCurrentTab();
-  }, []);
 
   useEffect(() => {
     const initIsActive = async () => {

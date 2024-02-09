@@ -21,7 +21,7 @@ const QuickBookmarkButton = memo(function QuickBookmarkButton() {
   const navigate = useNavigate();
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const { getFolderFromHash } = useBookmark();
-  const [bookmark, setBookmark] = useState<IEncodedBookmark | null>(null);
+  const [bookmark, setBookmark] = useState<IEncodedBookmark>();
   const [isFetching, setIsFetching] = useState(false);
 
   const initBookmark = async () => {

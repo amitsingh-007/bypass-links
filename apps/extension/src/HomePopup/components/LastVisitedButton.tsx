@@ -1,29 +1,28 @@
 import { syncLastVisitedToStorage } from '@/HomePopup/utils/lastVisited';
 import { trpcApi } from '@/apis/trpcApi';
+import useCurrentTab from '@/hooks/useCurrentTab';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
-import { getCurrentTab } from '@/utils/tabs';
 import { ILastVisited } from '@bypass/shared';
 import { getLastVisited } from '@helpers/fetchFromStorage';
 import { Button, Text, Tooltip } from '@mantine/core';
 import md5 from 'md5';
-import { memo, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { FaCalendarCheck, FaCalendarTimes } from 'react-icons/fa';
 
 const LastVisitedButton = memo(function LastVisitedButton() {
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
+  const currentTab = useCurrentTab();
   const [isFetching, setIsFetching] = useState(false);
   const [lastVisited, setLastVisited] = useState('');
-  const [currentTab, setCurrentTab] = useState<chrome.tabs.Tab | null>(null);
   const [lastVisitedObj, setLastVisitedObj] = useState<ILastVisited>({});
 
-  const initLastVisited = async () => {
+  const initLastVisited = useCallback(async () => {
     setIsFetching(true);
     const lastVisitedData = await getLastVisited();
-    const curTab = await getCurrentTab();
-    if (!curTab?.url) {
+    if (!currentTab?.url) {
       return;
     }
-    const { hostname } = new URL(curTab.url);
+    const { hostname } = new URL(currentTab.url);
     const lastVisitedDate = lastVisitedData[md5(hostname)];
     let displayInfo = '';
     if (lastVisitedDate) {
@@ -32,16 +31,15 @@ const LastVisitedButton = memo(function LastVisitedButton() {
     }
     setLastVisited(displayInfo);
     setLastVisitedObj(lastVisitedData);
-    setCurrentTab(curTab);
     setIsFetching(false);
-  };
+  }, [currentTab?.url]);
 
   useEffect(() => {
     if (!isSignedIn) {
       return;
     }
     initLastVisited();
-  }, [isSignedIn, lastVisited]);
+  }, [initLastVisited, isSignedIn, lastVisited]);
 
   const handleUpdateLastVisited = async () => {
     setIsFetching(true);

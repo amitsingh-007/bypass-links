@@ -14,7 +14,7 @@ interface Props {
 }
 
 const useShortcutDrag = ({ redirections, saveRedirectionTemp }: Props) => {
-  const [draggingNode, setDraggingNode] = useState<Active | null>(null);
+  const [draggingNode, setDraggingNode] = useState<Active>();
   const sensors = useSensors(useSensor(PointerSensor));
 
   const onDragStart = useCallback<NonNullable<DndContextProps['onDragStart']>>(
@@ -38,7 +38,7 @@ const useShortcutDrag = ({ redirections, saveRedirectionTemp }: Props) => {
     [redirections, saveRedirectionTemp]
   );
 
-  const onDragCancel = useCallback(() => setDraggingNode(null), []);
+  const onDragCancel = useCallback(() => setDraggingNode(undefined), []);
 
   return {
     sensors,
