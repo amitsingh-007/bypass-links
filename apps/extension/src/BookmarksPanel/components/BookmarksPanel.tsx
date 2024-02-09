@@ -89,25 +89,8 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     getItemKey: (idx) => getBookmarkId(filteredContextBookmarks[idx]),
   });
 
-  const initBookmarksData = useCallback(async () => {
-    setIsSaveButtonActive(false);
-    setIsFetching(true);
-    const {
-      folders: foldersData,
-      urlList: urlListData,
-      folderList: folderListData,
-    } = await getBookmarks();
-    const folderContextHash = md5(folderContext);
-    const modifiedBookmarks = Object.entries(
-      foldersData[folderContextHash]
-    ).map((kvp) => bookmarksMapper(kvp, urlListData, folderListData));
-    setContextBookmarks(modifiedBookmarks);
-    setUrlList(urlListData);
-    setFolderList(folderListData);
-    setFolders(foldersData);
-    setSelectedBookmarks([]);
-    setIsFetching(false);
-  }, [folderContext]);
+  const handleScroll = (itemNumber: number) =>
+    virtualizer.scrollToIndex(itemNumber);
 
   const handleOpenSelectedBookmarks = useCallback(() => {
     startHistoryMonitor();
@@ -118,8 +101,35 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     });
   }, [contextBookmarks, selectedBookmarks, startHistoryMonitor]);
 
-  const handleScroll = (itemNumber: number) =>
-    virtualizer.scrollToIndex(itemNumber);
+  const initBookmarksData = useCallback(async () => {
+    setIsSaveButtonActive(false);
+    setIsFetching(true);
+    const {
+      folders: foldersData,
+      urlList: urlListData,
+      folderList: folderListData,
+    } = await getBookmarks();
+
+    const folderContextHash = md5(folderContext);
+    const modifiedBookmarks = Object.entries(
+      foldersData[folderContextHash]
+    ).map((kvp) => bookmarksMapper(kvp, urlListData, folderListData));
+
+    setContextBookmarks(modifiedBookmarks);
+    setUrlList(urlListData);
+    setFolderList(folderListData);
+    setFolders(foldersData);
+    setSelectedBookmarks([]);
+    setIsFetching(false);
+  }, [folderContext]);
+
+  // Reset scroll on folder change
+  useEffect(() => {
+    if (!isFetching) {
+      handleScroll(0);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFetching]);
 
   useEffect(() => {
     initBookmarksData();

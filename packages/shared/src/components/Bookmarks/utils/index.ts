@@ -22,9 +22,10 @@ export const getFilteredContextBookmarks = (
     if (!searchText) {
       return true;
     }
-    return ctx.isDir
-      ? hasText(searchText, ctx.name)
-      : hasText(searchText, ctx.url) || hasText(searchText, ctx.title);
+    if (ctx.isDir) {
+      return true;
+    }
+    return hasText(searchText, ctx.url) || hasText(searchText, ctx.title);
   });
 
 export const shouldRenderBookmarks = (
