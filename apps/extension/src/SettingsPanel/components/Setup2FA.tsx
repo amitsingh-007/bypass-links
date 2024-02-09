@@ -13,12 +13,12 @@ type Props = {
 
 const Setup2FA = memo(function Setup2FA({ isOpen, handleClose }: Props) {
   const displayToast = useToastStore((state) => state.displayToast);
-  const [optAuthUrl, setOptAuthUrl] = useState('');
+  const [qrcodeUrl, setQrcodeUrl] = useState('');
   const [showVerifyToken, setShowVerifyToken] = useState(false);
 
   useEffect(() => {
     trpcApi.twoFactorAuth.setup.mutate().then(({ qrcode }) => {
-      setOptAuthUrl(qrcode);
+      setQrcodeUrl(qrcode);
     });
   }, []);
 
@@ -55,8 +55,8 @@ const Setup2FA = memo(function Setup2FA({ isOpen, handleClose }: Props) {
       <Header text="Setup two factor auth" onBackClick={handleClose} />
       <Center mt={20} className={styles.qrCodeWrapper}>
         <Center h={200} w={200}>
-          {optAuthUrl ? (
-            <Avatar radius="0" w="100%" h="100%" src={optAuthUrl} />
+          {qrcodeUrl ? (
+            <Avatar radius="0" w="100%" h="100%" src={qrcodeUrl} />
           ) : (
             <Loader variant="oval" size="lg" />
           )}
