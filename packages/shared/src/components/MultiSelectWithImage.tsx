@@ -172,9 +172,8 @@ const MultiSelectWithImage = ({
           <ScrollArea.Autosize
             type="scroll"
             mah={maxDropdownHeight}
-            scrollbarSize={10}
+            scrollbarSize={4}
             offsetScrollbars="y"
-            className={styles.optionsDropdownScrollArea}
           >
             {renderedOptions}
           </ScrollArea.Autosize>

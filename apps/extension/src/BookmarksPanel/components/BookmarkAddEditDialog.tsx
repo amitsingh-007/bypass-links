@@ -207,6 +207,7 @@ const BookmarkAddEditDialog = memo<Props>(function BookmarkAddEditDialog({
             label="Folder"
             data={folderNamesList}
             {...form.getInputProps('folder')}
+            comboboxProps={{ withinPortal: false }}
           />
           <PersonSelect formProps={form.getInputProps('taggedPersons')} />
           <Button color="red" onClick={handleDelete}>
