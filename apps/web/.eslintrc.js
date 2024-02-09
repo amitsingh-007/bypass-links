@@ -1,6 +1,7 @@
 const config = require('@bypass/configs/eslint.base');
 
 module.exports = {
+  ...config,
   root: true,
   extends: [
     'next/core-web-vitals',
@@ -20,9 +21,4 @@ module.exports = {
     ...config.parserOptions,
     tsconfigRootDir: __dirname,
   },
-  plugins: config.plugins,
-  settings: config.settings,
-  ignorePatterns: config.ignorePatterns,
-  rules: config.rules,
-  overrides: config.overrides,
 };

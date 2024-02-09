@@ -1,15 +1,7 @@
 import { trpcApi } from '@/apis/trpcApi';
 import { Header, InputTOTP, STORAGE_KEYS } from '@bypass/shared';
 import { getUser2FAInfo } from '@helpers/fetchFromStorage';
-import {
-  Avatar,
-  Box,
-  Button,
-  Center,
-  Image,
-  Loader,
-  Modal,
-} from '@mantine/core';
+import { Avatar, Button, Center, Loader, Modal } from '@mantine/core';
 import useToastStore from '@store/toast';
 import { memo, useEffect, useState } from 'react';
 import styles from './styles/Setup2FA.module.css';
