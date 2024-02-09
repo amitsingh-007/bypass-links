@@ -1,9 +1,16 @@
 import { trpcApi } from '@/apis/trpcApi';
 import { Header, InputTOTP, STORAGE_KEYS } from '@bypass/shared';
 import { getUser2FAInfo } from '@helpers/fetchFromStorage';
-import { Button, Center, Modal } from '@mantine/core';
+import {
+  Avatar,
+  Box,
+  Button,
+  Center,
+  Image,
+  Loader,
+  Modal,
+} from '@mantine/core';
 import useToastStore from '@store/toast';
-import { QRCodeCanvas } from 'qrcode.react';
 import { memo, useEffect, useState } from 'react';
 import styles from './styles/Setup2FA.module.css';
 
@@ -14,19 +21,13 @@ type Props = {
 
 const Setup2FA = memo(function Setup2FA({ isOpen, handleClose }: Props) {
   const displayToast = useToastStore((state) => state.displayToast);
-  const [, setSecretKey] = useState('');
   const [optAuthUrl, setOptAuthUrl] = useState('');
   const [showVerifyToken, setShowVerifyToken] = useState(false);
 
-  const init2FA = async () => {
-    const { otpAuthUrl, secretKey } =
-      await trpcApi.twoFactorAuth.setup.mutate();
-    setSecretKey(secretKey);
-    setOptAuthUrl(otpAuthUrl);
-  };
-
   useEffect(() => {
-    init2FA();
+    trpcApi.twoFactorAuth.setup.mutate().then(({ qrcode }) => {
+      setOptAuthUrl(qrcode);
+    });
   }, []);
 
   const toggleTokenVerify = () => {
@@ -61,7 +62,13 @@ const Setup2FA = memo(function Setup2FA({ isOpen, handleClose }: Props) {
     >
       <Header text="Setup two factor auth" onBackClick={handleClose} />
       <Center mt={20} className={styles.qrCodeWrapper}>
-        <QRCodeCanvas value={optAuthUrl} size={200} includeMargin />
+        <Center h={200} w={200}>
+          {optAuthUrl ? (
+            <Avatar radius="0" w="100%" h="100%" src={optAuthUrl} />
+          ) : (
+            <Loader variant="oval" size="lg" />
+          )}
+        </Center>
         {!showVerifyToken && (
           <Button mt="2.5rem" radius="xl" onClick={toggleTokenVerify}>
             Scan & Proceed

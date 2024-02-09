@@ -37,8 +37,7 @@ const twoFactorAuthRouter = t.router({
 
   // Initializes 2FA for a user for the very first time
   setup: protectedProcedure.mutation(async ({ ctx }) => {
-    const { secretKey, otpAuthUrl } = await setup2FA(ctx.user);
-    return { secretKey, otpAuthUrl };
+    return setup2FA(ctx.user);
   }),
 
   // Indicates whether 2FA is enabled by the user or not
