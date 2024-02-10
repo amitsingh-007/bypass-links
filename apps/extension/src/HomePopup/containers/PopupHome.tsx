@@ -22,7 +22,7 @@ const PopupHome = memo(function PopupHome() {
         <Text
           fz="xl"
           fw={700}
-          c="grape.0"
+          c="grape.1"
           mb="0.625rem"
           className={styles.heading}
         >
