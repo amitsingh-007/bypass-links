@@ -2,6 +2,7 @@ import { Header, getPersonImageName } from '@bypass/shared';
 import {
   Box,
   Button,
+  Flex,
   Group,
   LoadingOverlay,
   Modal,
@@ -9,10 +10,9 @@ import {
   TextInput,
 } from '@mantine/core';
 import { useDebouncedState } from '@mantine/hooks';
-import { memo, useCallback, useState } from 'react';
-import Cropper from 'react-easy-crop';
-import { Area } from 'react-easy-crop/types';
-import getCroppedImg from '../utils/cropImage';
+import { memo, useRef, useState } from 'react';
+import AvatarEditor from 'react-avatar-editor';
+import wretch from 'wretch';
 import { uploadFileToFirebase } from '../utils/uploadImage';
 
 interface Props {
@@ -30,21 +30,8 @@ const ImagePicker = memo<Props>(function ImagePicker({
 }) {
   const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [inputImageUrl, setInputImageUrl] = useDebouncedState('', 500);
-  const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area>({
-    height: 0,
-    width: 0,
-    x: 0,
-    y: 0,
-  });
-
-  const onCropComplete = useCallback(
-    (_croppedArea: Area, _croppedAreaPixels: Area) => {
-      setCroppedAreaPixels(_croppedAreaPixels);
-    },
-    []
-  );
+  const imageCropperRef = useRef<any>(null);
 
   const saveCroppedImage = async () => {
     if (!inputImageUrl) {
@@ -52,10 +39,8 @@ const ImagePicker = memo<Props>(function ImagePicker({
     }
     try {
       setIsUploadingImage(true);
-      const croppedImage = await getCroppedImg(
-        inputImageUrl,
-        croppedAreaPixels
-      );
+      const canvas = imageCropperRef.current?.getImage().toDataURL();
+      const croppedImage = await wretch().get(canvas).blob();
       const fileName = getPersonImageName(uid);
       await uploadFileToFirebase(croppedImage, fileName);
       handleImageSave(fileName);
@@ -81,19 +66,24 @@ const ImagePicker = memo<Props>(function ImagePicker({
     >
       <LoadingOverlay visible={isUploadingImage} />
       <Header text="Upload Image" onBackClick={onDialogClose} />
-      <Box w="100%" h="24.75rem" pos="relative">
-        <Cropper
-          cropShape="round"
-          showGrid={false}
+      <Flex
+        justify="center"
+        align="center"
+        w="100%"
+        h="24.75rem"
+        pos="relative"
+      >
+        <AvatarEditor
+          ref={imageCropperRef}
           image={inputImageUrl}
-          crop={crop}
-          zoom={zoom}
-          aspect={1}
-          onCropChange={setCrop}
-          onCropComplete={onCropComplete}
-          onZoomChange={setZoom}
+          // When changing this, change in upload API as well
+          width={250}
+          height={250}
+          border={[270, 70]}
+          scale={zoom}
+          rotate={0}
         />
-      </Box>
+      </Flex>
       <Box px="1.25rem" pt="1.25rem">
         <Group justify="center">
           <TextInput

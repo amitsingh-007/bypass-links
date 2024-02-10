@@ -2,10 +2,13 @@ import { fileTypeFromBuffer } from 'file-type';
 import sharp from 'sharp';
 
 const getCompressedImage = async (file: File) => {
-  return sharp(Buffer.from(await file.arrayBuffer()))
-    .resize({ width: 250, withoutEnlargement: true })
-    .jpeg({ quality: file.size < 50 * 1024 ? 100 : 90 })
-    .toBuffer();
+  return (
+    sharp(Buffer.from(await file.arrayBuffer()))
+      // When changing this width, change on client app as well
+      .resize({ width: 250, withoutEnlargement: true })
+      .jpeg({ quality: file.size < 50 * 1024 ? 100 : 90 })
+      .toBuffer()
+  );
 };
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
