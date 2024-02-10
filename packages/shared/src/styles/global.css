@@ -1,6 +1,7 @@
 html,
 body {
   height: auto !important;
+  line-height: unset;
 }
 
 ::-webkit-scrollbar {

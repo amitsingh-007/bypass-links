@@ -1,4 +1,4 @@
-import { Flex, SimpleGrid, Text } from '@mantine/core';
+import { Flex, Text } from '@mantine/core';
 import { memo } from 'react';
 import Authenticate from '../components/Authenticate';
 import BookmarksPanelButton from '../components/BookmarksPanelButton';
@@ -22,7 +22,7 @@ const PopupHome = memo(function PopupHome() {
         <Text
           fz="xl"
           fw={700}
-          c="grape.0"
+          c="grape.1"
           mb="0.625rem"
           className={styles.heading}
         >
@@ -36,7 +36,7 @@ const PopupHome = memo(function PopupHome() {
           <UserProfile />
         </Flex>
         <Authenticate />
-        <SimpleGrid cols={2} mt="1rem" w="max-content">
+        <Flex className={styles.buttonsContainer}>
           <OpenDefaultsButton />
           <QuickBookmarkButton />
           <PersonsPanelButton />
@@ -45,7 +45,7 @@ const PopupHome = memo(function PopupHome() {
           <ShortcutsPanelButton />
           <OpenForumLinks />
           <LastVisitedButton />
-        </SimpleGrid>
+        </Flex>
       </Flex>
       <TwoFactorAuthenticate />
     </>

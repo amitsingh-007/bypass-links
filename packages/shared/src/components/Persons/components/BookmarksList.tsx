@@ -20,7 +20,6 @@ import {
 import { AiFillEdit } from 'react-icons/ai';
 import DynamicContext from '../../../provider/DynamicContext';
 import Bookmark from '../../Bookmarks/components/Bookmark';
-import { BOOKMARK_OPERATION } from '../../Bookmarks/constants';
 import useBookmark from '../../Bookmarks/hooks/useBookmark';
 import { getDecodedBookmark } from '../../Bookmarks/utils';
 import { getBookmarksPanelUrl } from '../../Bookmarks/utils/url';
@@ -28,6 +27,7 @@ import Header from '../../Header';
 import { ModifiedBookmark } from '../interfaces/bookmark';
 import { getFilteredModifiedBookmarks } from '../utils/bookmark';
 import styles from './styles/BookmarksList.module.css';
+import { EBookmarkOperation } from '../../Bookmarks/constants';
 
 interface Props {
   name?: string;
@@ -72,7 +72,7 @@ const BookmarksList = memo<Props>(function BookmarksList({
   const handleBookmarkEdit = async ({ url, parentName }: ModifiedBookmark) => {
     location.push(
       getBookmarksPanelUrl({
-        operation: BOOKMARK_OPERATION.EDIT,
+        operation: EBookmarkOperation.EDIT,
         bmUrl: url,
         folderContext: parentName,
       })

@@ -9,6 +9,7 @@ describe('Two Factor Auth Setup Flow', async () => {
   let user: FirebaseUser;
   let secretKey: string | undefined;
   let otpAuthUrl: string | undefined;
+  let qrcode: string | undefined;
 
   beforeAll(async () => {
     const userCredential = await anonymousSignIn();
@@ -30,14 +31,19 @@ describe('Two Factor Auth Setup Flow', async () => {
     const output = await caller.twoFactorAuth.setup();
     expect(output).toHaveProperty('secretKey');
     expect(output).toHaveProperty('otpAuthUrl');
+    expect(output).toHaveProperty('qrcode');
+    expect(output.otpAuthUrl.startsWith('otpauth://totp/')).toBeTruthy();
+    expect(output.qrcode.startsWith('data:image/png;base64')).toBeTruthy();
+
     secretKey = output.secretKey;
     otpAuthUrl = output.otpAuthUrl;
+    qrcode = output.qrcode;
   });
 
   it('should return already created totp if requested to setup again', async () => {
     const caller = await getTrpcCaller();
     const output = await caller.twoFactorAuth.setup();
-    expect(output).toStrictEqual({ secretKey, otpAuthUrl });
+    expect(output).toStrictEqual({ secretKey, otpAuthUrl, qrcode });
   });
 
   it('should still show totp not setup after setup step', async () => {

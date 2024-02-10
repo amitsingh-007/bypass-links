@@ -26,11 +26,7 @@ import {
 } from '@/SettingsPanel/utils/sync';
 import { trpcApi } from '@/apis/trpcApi';
 import { sendRuntimeMessage } from '@/utils/sendRuntimeMessage';
-import {
-  CACHE_BUCKET_KEYS,
-  STORAGE_KEYS,
-  deleteAllCache,
-} from '@bypass/shared';
+import { ECacheBucketKeys, STORAGE_KEYS, deleteAllCache } from '@bypass/shared';
 import { getSettings, getUser2FAInfo } from '@helpers/fetchFromStorage';
 import { AuthProgress } from './authProgress';
 import { IUser2FAInfo } from '../interfaces/authentication';
@@ -126,7 +122,7 @@ export const processPostLogout = async () => {
   await resetStorage();
   // Refresh browser cache
   AuthProgress.start('Clearing cache');
-  await deleteAllCache([CACHE_BUCKET_KEYS.favicon, CACHE_BUCKET_KEYS.person]);
+  await deleteAllCache([ECacheBucketKeys.favicon, ECacheBucketKeys.person]);
   AuthProgress.finish('Cleared cache');
   if (settings?.hasManageGoogleActivityConsent) {
     // Open Google Search and Google Image tabs

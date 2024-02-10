@@ -1,6 +1,6 @@
+import { EExtensionState } from '@/constants';
 import Logging from '@/logging';
 import { getIsExtensionActive, setExtStateInStorage } from '@/utils/common';
-import { EXTENSION_STATE } from '@constants/index';
 import { getExtensionState } from '@helpers/fetchFromStorage';
 import { bypass } from './bypass';
 import turnOffInputSuggestions from './misc/turnOffInputSuggestions';
@@ -19,7 +19,7 @@ const red = '#FF6B6B';
 
 // First time extension install
 chrome.runtime.onInstalled.addListener(() => {
-  setExtStateInStorage(EXTENSION_STATE.ACTIVE);
+  setExtStateInStorage(EExtensionState.ACTIVE);
 });
 
 // Listen when the browser is opened

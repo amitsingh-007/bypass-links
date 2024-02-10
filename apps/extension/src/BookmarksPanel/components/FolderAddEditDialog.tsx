@@ -1,4 +1,3 @@
-import { VoidFunction } from '@bypass/shared';
 import { Button, Group, Modal, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 

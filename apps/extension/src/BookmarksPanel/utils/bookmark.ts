@@ -1,7 +1,7 @@
 import { AuthProgress } from '@/HomePopup/utils/authProgress';
 import { trpcApi } from '@/apis/trpcApi';
 import {
-  CACHE_BUCKET_KEYS,
+  ECacheBucketKeys,
   getCacheObj,
   getFaviconProxyUrl,
   STORAGE_KEYS,
@@ -50,7 +50,7 @@ export const cacheBookmarkFavicons = async () => {
     getFaviconProxyUrl(decodeURIComponent(atob(url)))
   );
   const uniqueUrls = Array.from(new Set(faviconUrls));
-  const cache = await getCacheObj(CACHE_BUCKET_KEYS.favicon);
+  const cache = await getCacheObj(ECacheBucketKeys.favicon);
   await Promise.all(
     uniqueUrls.map(async (url) => {
       const urlPromise = await cache.add(url);

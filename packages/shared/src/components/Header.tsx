@@ -1,18 +1,18 @@
 import { Badge, Button, Flex, Group } from '@mantine/core';
-import { memo, useContext } from 'react';
+import { memo, useContext, PropsWithChildren } from 'react';
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
 import { HEADER_HEIGHT } from '../constants';
 import DynamicContext from '../provider/DynamicContext';
 import Search from './Search';
 import styles from './styles/Header.module.css';
 
-interface Props {
+type Props = PropsWithChildren<{
   children?: React.ReactNode;
   text?: React.ReactNode;
   onSearchChange?: (text: string) => void;
   rightContent?: React.ReactNode;
   onBackClick?: React.MouseEventHandler<HTMLButtonElement>;
-}
+}>;
 
 const Header = memo<Props>(function Header({
   children,

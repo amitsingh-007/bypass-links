@@ -2,7 +2,7 @@ import { AuthProgress } from '@/HomePopup/utils/authProgress';
 import { trpcApi } from '@/apis/trpcApi';
 import {
   addToCache,
-  CACHE_BUCKET_KEYS,
+  ECacheBucketKeys,
   getCacheObj,
   getPersonImageName,
   IPerson,
@@ -54,7 +54,7 @@ const cachePersonImages = async (personImageUrls: PersonImageUrls) => {
     return;
   }
   const imageUrls = Object.values(personImageUrls);
-  const cache = await getCacheObj(CACHE_BUCKET_KEYS.person);
+  const cache = await getCacheObj(ECacheBucketKeys.person);
   await cache.addAll(imageUrls);
   console.log('Initialized cache for all person urls');
 };
@@ -99,5 +99,5 @@ export const updatePersonCacheAndImageUrls = async (person: IPerson) => {
     [STORAGE_KEYS.personImageUrls]: personImageUrls,
   });
   // Update person image cache
-  await addToCache(CACHE_BUCKET_KEYS.person, imageUrl);
+  await addToCache(ECacheBucketKeys.person, imageUrl);
 };

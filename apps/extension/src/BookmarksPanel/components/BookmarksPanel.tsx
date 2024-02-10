@@ -1,10 +1,10 @@
 import { MAX_PANEL_SIZE } from '@/constants';
 import {
   BMPanelQueryParams,
-  BOOKMARK_OPERATION,
   BOOKMARK_ROW_HEIGHT,
-  CACHE_BUCKET_KEYS,
   ContextBookmarks,
+  EBookmarkOperation,
+  ECacheBucketKeys,
   HEADER_HEIGHT,
   IBookmarksObj,
   ISelectedBookmarks,
@@ -89,25 +89,8 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     getItemKey: (idx) => getBookmarkId(filteredContextBookmarks[idx]),
   });
 
-  const initBookmarksData = useCallback(async () => {
-    setIsSaveButtonActive(false);
-    setIsFetching(true);
-    const {
-      folders: foldersData,
-      urlList: urlListData,
-      folderList: folderListData,
-    } = await getBookmarks();
-    const folderContextHash = md5(folderContext);
-    const modifiedBookmarks = Object.entries(
-      foldersData[folderContextHash]
-    ).map((kvp) => bookmarksMapper(kvp, urlListData, folderListData));
-    setContextBookmarks(modifiedBookmarks);
-    setUrlList(urlListData);
-    setFolderList(folderListData);
-    setFolders(foldersData);
-    setSelectedBookmarks([]);
-    setIsFetching(false);
-  }, [folderContext]);
+  const handleScroll = (itemNumber: number) =>
+    virtualizer.scrollToIndex(itemNumber);
 
   const handleOpenSelectedBookmarks = useCallback(() => {
     startHistoryMonitor();
@@ -118,15 +101,42 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     });
   }, [contextBookmarks, selectedBookmarks, startHistoryMonitor]);
 
-  const handleScroll = (itemNumber: number) =>
-    virtualizer.scrollToIndex(itemNumber);
+  const initBookmarksData = useCallback(async () => {
+    setIsSaveButtonActive(false);
+    setIsFetching(true);
+    const {
+      folders: foldersData,
+      urlList: urlListData,
+      folderList: folderListData,
+    } = await getBookmarks();
+
+    const folderContextHash = md5(folderContext);
+    const modifiedBookmarks = Object.entries(
+      foldersData[folderContextHash]
+    ).map((kvp) => bookmarksMapper(kvp, urlListData, folderListData));
+
+    setContextBookmarks(modifiedBookmarks);
+    setUrlList(urlListData);
+    setFolderList(folderListData);
+    setFolders(foldersData);
+    setSelectedBookmarks([]);
+    setIsFetching(false);
+  }, [folderContext]);
+
+  // Reset scroll on folder change
+  useEffect(() => {
+    if (!isFetching) {
+      handleScroll(0);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFetching]);
 
   useEffect(() => {
     initBookmarksData();
   }, [initBookmarksData]);
 
   useEffect(() => {
-    if (!isFetching && operation !== BOOKMARK_OPERATION.NONE) {
+    if (!isFetching && operation !== EBookmarkOperation.NONE) {
       /**
        * Need to call after initBookmarksData,
        * Since EditBookmark internally needs contextBookmarks to be set beforehand
@@ -246,7 +256,7 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
         });
       }
       // Add bookmark favicon in the cache
-      addToCache(CACHE_BUCKET_KEYS.favicon, getFaviconProxyUrl(url));
+      addToCache(ECacheBucketKeys.favicon, getFaviconProxyUrl(url));
       setIsSaveButtonActive(true);
     },
     [updatePersonUrls]

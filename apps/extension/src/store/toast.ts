@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-import { VoidFunction } from '@bypass/shared';
 
 export type ToastType = 'success' | 'error';
 

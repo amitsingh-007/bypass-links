@@ -78,6 +78,7 @@ const config: Configuration = {
     filename: 'js/[name].js',
     chunkFilename: 'js/[name].js',
     asyncChunks: false,
+    pathinfo: false,
   },
   devServer: {
     hot: !isProduction,
@@ -117,6 +118,7 @@ const config: Configuration = {
     nodeEnv: NODE_ENV,
     chunkIds: 'named',
     minimize: isProduction,
+    sideEffects: true,
     runtimeChunk: 'single',
     usedExports: true,
     splitChunks: {
@@ -135,6 +137,12 @@ const config: Configuration = {
     minimizer: [
       new TerserPlugin({
         terserOptions: {
+          mangle: true,
+          compress: {
+            passes: 3,
+            unused: true,
+            dead_code: true,
+          },
           format: {
             comments: !isProduction,
           },
@@ -153,6 +161,7 @@ const config: Configuration = {
           {
             loader: 'ts-loader',
             options: {
+              onlyCompileBundledFiles: true,
               configFile: tsConfigFile,
               transpileOnly: true,
               ...(!isProduction && {
@@ -178,7 +187,7 @@ const config: Configuration = {
     ],
   },
   watchOptions: {
-    ignored: 'node_modules/**',
+    ignored: ['node_modules/**', '**/*.json'],
   },
   plugins: [
     new CleanWebpackPlugin(),

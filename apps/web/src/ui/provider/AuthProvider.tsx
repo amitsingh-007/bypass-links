@@ -1,7 +1,14 @@
 import { STORAGE_KEYS } from '@bypass/shared';
 import { type User } from 'firebase/auth';
 import { useRouter } from 'next/router';
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import {
+  PropsWithChildren,
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { ROUTES } from '../constants/routes';
 import { ITwoFactorAuth } from '../TwoFactorAuth/interface';
 import { getFromLocalStorage } from './utils';
@@ -16,7 +23,7 @@ const AuthContext = createContext<IAuthContext>({
 
 const RESTRICTED_PATHS = ['/'];
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+export const AuthProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
   const [user, setUser] = useState<IAuthContext['user']>(null);
   const [isInitialized, setIsInitialized] = useState(false);

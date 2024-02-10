@@ -1,6 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { uploadImageToFirebase } from '@bypass/trpc/appRouter';
 import { authorizeUser } from '@/helpers/authorizeUser';
+import { uploadImageToFirebase } from '@bypass/trpc/appRouter';
+import { NextRequest, NextResponse } from 'next/server';
+import { validateAndProccessFile } from './utils';
 
 export async function POST(request: NextRequest) {
   const user = await authorizeUser(request);
@@ -10,7 +11,16 @@ export async function POST(request: NextRequest) {
   if (!file || typeof file !== 'object') {
     return new NextResponse('No image found to upload', { status: 400 });
   }
+  const fileBuffer = await validateAndProccessFile(file);
+  if (!fileBuffer) {
+    return new NextResponse('Invalid file type', { status: 400 });
+  }
 
-  await uploadImageToFirebase(user.uid, file);
+  await uploadImageToFirebase(user.uid, {
+    fileName: file.name,
+    fileType: file.type,
+    buffer: fileBuffer,
+  });
+
   return new NextResponse();
 }

@@ -1,4 +1,3 @@
-import { VoidFunction } from '@bypass/shared';
 import { Button, Group, Modal } from '@mantine/core';
 import { memo } from 'react';
 

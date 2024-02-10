@@ -30,7 +30,7 @@ interface Props {
 type InnerProps = Props & {
   bodyWidth: number;
   bodyRef: MutableRefObject<HTMLDivElement>;
-  personToOpen: IPerson | null;
+  personToOpen: IPerson | undefined;
   personToOpenImage: string;
 };
 
@@ -112,7 +112,7 @@ const PersonsInner = ({
 
 const Persons = memo<Props>(function Persons(props) {
   const { persons } = props;
-  const [personToOpen, setPersonToOpen] = useState<IPerson | null>(null);
+  const [personToOpen, setPersonToOpen] = useState<IPerson>();
   const [personToOpenImage, setPersonToOpenImage] = useState('');
   const { ref, width } = useElementSize();
   const { location } = useContext(DynamicContext);
@@ -124,7 +124,7 @@ const Persons = memo<Props>(function Persons(props) {
     const person =
       (openBookmarksList &&
         persons.find((_person) => _person.uid === openBookmarksList)) ||
-      null;
+      undefined;
     setPersonToOpen(person);
     if (person) {
       resolvePersonImageFromUid(person.uid).then((url) => {

@@ -1,4 +1,4 @@
-import { Center, Text, ThemeIcon } from '@mantine/core';
+import { Center, Text } from '@mantine/core';
 import { memo, useContext } from 'react';
 import { HiFolder } from 'react-icons/hi';
 import DynamicContext from '../../../provider/DynamicContext';
@@ -35,14 +35,7 @@ const Folder = memo<FolderProps>(function Folder({
       onClick={resetSelectedBookmarks}
       onDoubleClick={handleFolderOpen}
     >
-      <ThemeIcon
-        size="1.25rem"
-        variant="outline"
-        color="yellow"
-        className={styles.folderIcon}
-      >
-        <HiFolder size="1.25rem" />
-      </ThemeIcon>
+      <HiFolder size="1.25rem" className={styles.folderIcon} />
       <Text size="0.9375rem" lineClamp={1} className={styles.name} fw="bold">
         {origName}
       </Text>

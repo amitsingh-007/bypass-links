@@ -1,20 +1,22 @@
-import { Header, VoidFunction, getPersonImageName } from '@bypass/shared';
+import { Header, getPersonImageName } from '@bypass/shared';
 import {
   Box,
   Button,
+  Flex,
   Group,
+  Loader,
   LoadingOverlay,
   Modal,
   Slider,
+  Text,
   TextInput,
 } from '@mantine/core';
 import { useDebouncedState } from '@mantine/hooks';
-import { memo, useCallback, useState } from 'react';
-import Cropper from 'react-easy-crop';
-import { Area } from 'react-easy-crop/types';
-import { getCompressedImage } from '../utils/compressImage';
-import getCroppedImg from '../utils/cropImage';
+import { memo, useEffect, useRef, useState } from 'react';
+import AvatarEditor from 'react-avatar-editor';
+import wretch from 'wretch';
 import { uploadFileToFirebase } from '../utils/uploadImage';
+import styles from './styles/ImagePicker.module.css';
 
 interface Props {
   uid: string;
@@ -31,35 +33,28 @@ const ImagePicker = memo<Props>(function ImagePicker({
 }) {
   const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [inputImageUrl, setInputImageUrl] = useDebouncedState('', 500);
-  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [isLoadingImage, setIsLoadingImage] = useState(false);
+  const imageCropperRef = useRef<AvatarEditor>(null);
   const [zoom, setZoom] = useState(1);
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area>({
-    height: 0,
-    width: 0,
-    x: 0,
-    y: 0,
-  });
+  const [rotation, setRotation] = useState(0);
 
-  const onCropComplete = useCallback(
-    (_croppedArea: Area, _croppedAreaPixels: Area) => {
-      setCroppedAreaPixels(_croppedAreaPixels);
-    },
-    []
-  );
+  // Show loader on image url change
+  useEffect(() => {
+    if (inputImageUrl) {
+      setIsLoadingImage(true);
+    }
+  }, [inputImageUrl]);
 
   const saveCroppedImage = async () => {
-    if (!inputImageUrl) {
+    if (!inputImageUrl || !imageCropperRef.current) {
       return;
     }
     try {
       setIsUploadingImage(true);
-      const croppedImage = await getCroppedImg(
-        inputImageUrl,
-        croppedAreaPixels
-      );
+      const canvas = imageCropperRef.current.getImage().toDataURL();
+      const croppedImage = await wretch().get(canvas).blob();
       const fileName = getPersonImageName(uid);
-      const compressedImage = await getCompressedImage(croppedImage);
-      await uploadFileToFirebase(compressedImage, fileName);
+      await uploadFileToFirebase(croppedImage, fileName);
       handleImageSave(fileName);
       onDialogClose();
     } catch (error) {
@@ -69,6 +64,7 @@ const ImagePicker = memo<Props>(function ImagePicker({
     }
   };
 
+  const disableControls = isLoadingImage || !inputImageUrl;
   return (
     <Modal
       opened={isOpen}
@@ -83,42 +79,63 @@ const ImagePicker = memo<Props>(function ImagePicker({
     >
       <LoadingOverlay visible={isUploadingImage} />
       <Header text="Upload Image" onBackClick={onDialogClose} />
-      <Box w="100%" h="24.75rem" pos="relative">
-        <Cropper
-          cropShape="round"
-          showGrid={false}
+      <Flex pos="relative" justify="center" align="center" w="100%" p={4}>
+        {isLoadingImage && <Loader pos="absolute" size="lg" />}
+        <AvatarEditor
+          ref={imageCropperRef}
           image={inputImageUrl}
-          crop={crop}
-          zoom={zoom}
-          aspect={1}
-          onCropChange={setCrop}
-          onCropComplete={onCropComplete}
-          onZoomChange={setZoom}
+          // When changing this, change in upload API as well
+          width={250}
+          height={250}
+          border={[270, 70]}
+          borderRadius={4}
+          scale={zoom}
+          rotate={rotation}
+          className={styles.imageCropperCanvas}
+          onImageReady={() => setIsLoadingImage(false)}
         />
-      </Box>
-      <Box px="1.25rem" pt="1.25rem">
-        <Group justify="center">
+      </Flex>
+      <Box px="1.25rem">
+        <Group justify="center" mt={6}>
           <TextInput
             placeholder="Enter image link"
             onChange={(e) => setInputImageUrl(e.target.value ?? '')}
             data-autofocus
-            w="40%"
+            w="82%"
           />
-          <Slider
-            radius="xl"
-            value={zoom}
-            onChange={setZoom}
-            min={1}
-            max={3}
-            step={0.001}
-            label={(value) => value.toFixed(1)}
-            disabled={!inputImageUrl}
-            color={zoom > 2 ? 'red' : 'blue'}
-            w="40%"
-          />
+          <Box w="40%">
+            <Text size="sm">Zoom</Text>
+            <Slider
+              radius="xl"
+              value={zoom}
+              onChange={setZoom}
+              min={1}
+              max={3}
+              step={0.001}
+              label={(value) => value.toFixed(1)}
+              disabled={disableControls}
+              color={zoom > 2 ? 'red' : 'blue'}
+            />
+          </Box>
+          <Box w="40%">
+            <Text size="sm">Rotate</Text>
+            <Slider
+              radius="xl"
+              value={rotation}
+              onChange={setRotation}
+              min={0}
+              max={360}
+              disabled={disableControls}
+            />
+          </Box>
         </Group>
-        <Group mt="1.25rem" justify="center">
-          <Button radius="xl" color="teal" onClick={saveCroppedImage}>
+        <Group mt={8} justify="center">
+          <Button
+            disabled={disableControls}
+            radius="xl"
+            color="teal"
+            onClick={saveCroppedImage}
+          >
             Save Cropped Image
           </Button>
         </Group>

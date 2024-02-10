@@ -3,7 +3,7 @@
 }
 
 .folderIcon {
-  border: unset !important;
+  color: var(--mantine-color-yellow-4);
 }
 
 .name {

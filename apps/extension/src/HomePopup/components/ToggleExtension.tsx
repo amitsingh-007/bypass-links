@@ -1,5 +1,5 @@
+import { EExtensionState } from '@/constants';
 import { getIsExtensionActive, setExtStateInStorage } from '@/utils/common';
-import { EXTENSION_STATE, IExtensionState } from '@constants/index';
 import { getExtensionState } from '@helpers/fetchFromStorage';
 import { Switch, useMantineTheme } from '@mantine/core';
 import useExtStore from '@store/extension';
@@ -10,12 +10,12 @@ const ToggleExtension = memo(function ToggleExtension() {
   const theme = useMantineTheme();
   const turnOnExtension = useExtStore((state) => state.turnOnExtension);
   const turnOffExtension = useExtStore((state) => state.turnOffExtension);
-  const [extState, setExtState] = useState<IExtensionState>(
-    EXTENSION_STATE.INACTIVE
+  const [extState, setExtState] = useState<EExtensionState>(
+    EExtensionState.INACTIVE
   );
 
   const dispatchActionAndSetState = (
-    _extState: IExtensionState,
+    _extState: EExtensionState,
     isActive: boolean
   ) => {
     setExtState(_extState);
@@ -34,8 +34,8 @@ const ToggleExtension = memo(function ToggleExtension() {
   const handleToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const isActive = event.target.checked;
     const extensionState = isActive
-      ? EXTENSION_STATE.ACTIVE
-      : EXTENSION_STATE.INACTIVE;
+      ? EExtensionState.ACTIVE
+      : EExtensionState.INACTIVE;
     setExtStateInStorage(extensionState);
     dispatchActionAndSetState(extensionState, isActive);
   };

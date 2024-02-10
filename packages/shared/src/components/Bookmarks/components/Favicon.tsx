@@ -1,9 +1,9 @@
 import { Avatar } from '@mantine/core';
 import { forwardRef, useCallback, useEffect, useState } from 'react';
 import { RiLinkUnlinkM } from 'react-icons/ri';
-import { CACHE_BUCKET_KEYS } from '../../../constants/cache';
 import { getFaviconProxyUrl } from '../../../utils';
 import { getBlobUrlFromCache } from '../../../utils/cache';
+import { ECacheBucketKeys } from '../../../constants/cache';
 
 interface Props {
   url: string;
@@ -17,7 +17,7 @@ const Favicon = forwardRef<HTMLDivElement, Props>(function Favicon(
 
   const initFavicon = useCallback(async () => {
     const faviconBlobUrl = await getBlobUrlFromCache(
-      CACHE_BUCKET_KEYS.favicon,
+      ECacheBucketKeys.favicon,
       getFaviconProxyUrl(url)
     );
     setFaviconUrl(faviconBlobUrl);

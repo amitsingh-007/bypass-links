@@ -5,7 +5,7 @@ import {
   useMantineTheme,
 } from '@mantine/core';
 import { ContextMenuItemOptions, useContextMenu } from 'mantine-contextmenu';
-import { useMemo, useRef } from 'react';
+import { PropsWithChildren, useMemo, useRef } from 'react';
 import { IconType } from 'react-icons';
 import styles from './styles/ContextMenu.module.css';
 
@@ -16,11 +16,11 @@ export interface IMenuOption {
   color?: MantineColor;
 }
 
-interface Props {
+type Props = PropsWithChildren<{
   wrapperHeight?: MantineStyleProps['h'];
   options: IMenuOption[];
   children: React.ReactNode;
-}
+}>;
 
 const ContextMenu = ({ wrapperHeight = '100%', options, children }: Props) => {
   const theme = useMantineTheme();

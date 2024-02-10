@@ -1,4 +1,5 @@
 import { authenticator } from 'otplib';
+import qrcode from 'qrcode';
 import { IUser } from '../@types/trpc';
 import { getEnv } from '../constants/env';
 import { EFirebaseDBRef } from '../constants/firebase';
@@ -17,6 +18,8 @@ const verify2FAToken = (secret: string, token: string) =>
 const is2FASetup = (user2FAInfo: User2FAInfo) =>
   Boolean(user2FAInfo && user2FAInfo.secretKey);
 
+const getQrcodeImageUrl = (otpAuthUrl: string) => qrcode.toDataURL(otpAuthUrl);
+
 export const is2FAEnabled = (user2FAInfo: User2FAInfo) =>
   is2FASetup(user2FAInfo) && user2FAInfo.is2FAEnabled;
 
@@ -24,11 +27,14 @@ export const setup2FA = async (user: IUser) => {
   const user2FAInfo = await fetchUser2FAInfo(user.uid);
   if (is2FASetup(user2FAInfo)) {
     const { secretKey, otpAuthUrl } = user2FAInfo;
+    const decodedOtpAuthUrl = decodeURIComponent(otpAuthUrl);
     return {
       secretKey,
-      otpAuthUrl: decodeURIComponent(otpAuthUrl),
+      otpAuthUrl: decodedOtpAuthUrl,
+      qrcode: await getQrcodeImageUrl(decodedOtpAuthUrl),
     };
   }
+
   const secret = authenticator.generateSecret();
   const otpAuthUrl = authenticator.keyuri(
     user.displayName ?? '',
@@ -44,7 +50,11 @@ export const setup2FA = async (user: IUser) => {
       is2FAEnabled: false,
     },
   });
-  return { secretKey: secret, otpAuthUrl };
+  return {
+    secretKey: secret,
+    otpAuthUrl,
+    qrcode: await getQrcodeImageUrl(otpAuthUrl),
+  };
 };
 
 export const verify2FA = async (totp: string, user: IUser) => {
