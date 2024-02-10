@@ -1,4 +1,4 @@
-import { Anchor, Flex, Text, Tooltip } from '@mantine/core';
+import { Flex, Text, Tooltip } from '@mantine/core';
 import md5 from 'md5';
 import { memo, useCallback, useEffect, useState } from 'react';
 import usePlatform from '../../../hooks/usePlatform';
@@ -110,9 +110,9 @@ const Bookmark = memo<BookmarkProps>(function Bookmark({
         className={styles.tooltipTextWrapper}
       >
         {isMobile ? (
-          <Anchor href={url} display="block" className={styles.tooltipText}>
+          <a href={url} title={title} className={styles.tooltipText}>
             {title}
-          </Anchor>
+          </a>
         ) : (
           title
         )}
