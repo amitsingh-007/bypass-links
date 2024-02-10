@@ -92,12 +92,23 @@ export const verifyAuthToken = (idToken: string, checkRevoked?: boolean) =>
 /**
  * STORAGE
  */
-export const uploadImageToFirebase = async (uid: string, file: File) => {
+export const uploadImageToFirebase = async (
+  uid: string,
+  {
+    buffer,
+    fileName,
+    fileType,
+  }: {
+    fileName: string;
+    buffer: Buffer;
+    fileType: string;
+  }
+) => {
   try {
     await storage
       .bucket()
-      .file(getFilePath(uid, file.name))
-      .save(Buffer.from(await file.arrayBuffer()), { contentType: file.type });
+      .file(getFilePath(uid, fileName))
+      .save(buffer, { contentType: fileType });
   } catch (err) {
     console.error(err);
   }

@@ -23,7 +23,6 @@
     "@trpc/client": "10.45.0",
     "@trpc/server": "10.45.0",
     "clsx": "2.1.0",
-    "compressorjs": "1.2.1",
     "dayjs": "1.11.10",
     "mantine-contextmenu": "7.5.0",
     "md5": "2.3.0",

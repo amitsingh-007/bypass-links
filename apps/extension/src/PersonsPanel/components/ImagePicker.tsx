@@ -12,7 +12,6 @@ import { useDebouncedState } from '@mantine/hooks';
 import { memo, useCallback, useState } from 'react';
 import Cropper from 'react-easy-crop';
 import { Area } from 'react-easy-crop/types';
-import { getCompressedImage } from '../utils/compressImage';
 import getCroppedImg from '../utils/cropImage';
 import { uploadFileToFirebase } from '../utils/uploadImage';
 
@@ -58,8 +57,7 @@ const ImagePicker = memo<Props>(function ImagePicker({
         croppedAreaPixels
       );
       const fileName = getPersonImageName(uid);
-      const compressedImage = await getCompressedImage(croppedImage);
-      await uploadFileToFirebase(compressedImage, fileName);
+      await uploadFileToFirebase(croppedImage, fileName);
       handleImageSave(fileName);
       onDialogClose();
     } catch (error) {
