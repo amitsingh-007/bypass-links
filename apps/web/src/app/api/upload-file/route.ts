@@ -1,30 +1,7 @@
 import { authorizeUser } from '@/helpers/authorizeUser';
 import { uploadImageToFirebase } from '@bypass/trpc/appRouter';
-import { fileTypeFromBuffer } from 'file-type';
 import { NextRequest, NextResponse } from 'next/server';
-import sharp from 'sharp';
-
-const getCompressedImage = async (file: File) => {
-  return sharp(Buffer.from(await file.arrayBuffer()))
-    .resize({ width: 250, withoutEnlargement: true })
-    .jpeg({ quality: file.size < 50 * 1024 ? 100 : 90 })
-    .toBuffer();
-};
-
-const validateAndProccessFile = async (file: File) => {
-  const fileTypeRes = await fileTypeFromBuffer(
-    Buffer.from(await file.arrayBuffer())
-  );
-  if (!fileTypeRes) {
-    return null;
-  }
-  switch (true) {
-    case fileTypeRes.mime.startsWith('image/'):
-      return getCompressedImage(file);
-    default:
-      return null;
-  }
-};
+import { validateAndProccessFile } from './utils';
 
 export async function POST(request: NextRequest) {
   const user = await authorizeUser(request);
