@@ -33,7 +33,8 @@ import useToastStore from '@store/toast';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import md5 from 'md5';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
-import useSWR, { useSWRConfig } from 'swr';
+import useSWR from 'swr';
+import useSWRMutation from 'swr/mutation';
 import useBookmarkDrag from '../hooks/useBookmarkDrag';
 import { isFolderContainsDir, setBookmarksInStorage } from '../utils';
 import {
@@ -102,9 +103,14 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
     });
   }, [contextBookmarks, selectedBookmarks, startHistoryMonitor]);
 
-  const { data } = useSWR('/api/user/123', () => getBookmarks());
-  const { mutate } = useSWRConfig();
-  mutate('/api/user/123', data, {});
+  const { data } = useSWR('/api/user/123', async () => getBookmarks());
+  const {
+    data: data1,
+    trigger,
+    isMutating,
+  } = useSWRMutation('/api/todo', async () => getBookmarks);
+  trigger();
+  console.log(data1, isMutating, data);
 
   const initBookmarksData = useCallback(async () => {
     setIsSaveButtonActive(false);
