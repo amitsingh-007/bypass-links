@@ -33,6 +33,7 @@ import useToastStore from '@store/toast';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import md5 from 'md5';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import useSWR, { useSWRConfig } from 'swr';
 import useBookmarkDrag from '../hooks/useBookmarkDrag';
 import { isFolderContainsDir, setBookmarksInStorage } from '../utils';
 import {
@@ -100,6 +101,10 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
       }
     });
   }, [contextBookmarks, selectedBookmarks, startHistoryMonitor]);
+
+  const { data } = useSWR('/api/user/123', () => getBookmarks());
+  const { mutate } = useSWRConfig();
+  mutate('/api/user/123', data, {});
 
   const initBookmarksData = useCallback(async () => {
     setIsSaveButtonActive(false);
@@ -324,11 +329,11 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
       // Update parentHash in urlList
       setUrlList((prev) =>
         Object.entries(prev).reduce<IBookmarksObj['urlList']>(
-          (obj, [hash, data]) => {
-            if (data.parentHash === oldFolderHash) {
-              obj[hash] = { ...data, parentHash: newFolderHash };
+          (obj, [hash, _data]) => {
+            if (_data.parentHash === oldFolderHash) {
+              obj[hash] = { ..._data, parentHash: newFolderHash };
             } else {
-              obj[hash] = data;
+              obj[hash] = _data;
             }
             return obj;
           },
@@ -423,12 +428,12 @@ const BookmarksPanel = memo<BMPanelQueryParams>(function BookmarksPanel({
       const taggedPersonData: IUpdateTaggedPerson[] = [];
       setUrlList((prev) =>
         Object.entries(prev).reduce<IBookmarksObj['urlList']>(
-          (obj, [hash, data]) => {
-            if (data.parentHash !== folderHash) {
-              obj[hash] = data;
+          (obj, [hash, _data]) => {
+            if (_data.parentHash !== folderHash) {
+              obj[hash] = _data;
             } else {
               taggedPersonData.push({
-                prevTaggedPersons: data.taggedPersons,
+                prevTaggedPersons: _data.taggedPersons,
                 newTaggedPersons: [],
                 urlHash: hash,
               });
