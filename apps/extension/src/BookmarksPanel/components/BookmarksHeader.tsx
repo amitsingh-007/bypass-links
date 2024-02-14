@@ -1,4 +1,4 @@
-import { ContextBookmarks, Header } from '@bypass/shared';
+import { Header } from '@bypass/shared';
 import { Button, LoadingOverlay } from '@mantine/core';
 import { useHotkeys } from '@mantine/hooks';
 import useToastStore from '@store/toast';
@@ -7,34 +7,44 @@ import { FaFolderPlus } from 'react-icons/fa';
 import { IoSave } from 'react-icons/io5';
 import { RiUploadCloud2Fill } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
+import { useShallow } from 'zustand/react/shallow';
+import useBookmarkStore from '../store/useBookmarkStore';
 import { syncBookmarksFirebaseWithStorage } from '../utils/bookmark';
 import ConfirmationDialog from './ConfirmationDialog';
 import { FolderAddEditDialog } from './FolderAddEditDialog';
 
 interface Props {
-  isSaveButtonActive: boolean;
-  contextBookmarks: ContextBookmarks;
-  handleSave: VoidFunction;
-  isFetching: boolean;
-  handleCreateNewFolder: (folder: string) => void;
   onSearchChange: (text: string) => void;
+  folderContext: string;
 }
 
-const BookmarksHeader = memo<Props>(function BookmarksHeader({
-  isSaveButtonActive,
-  contextBookmarks,
-  handleSave,
-  isFetching,
-  handleCreateNewFolder,
-  onSearchChange,
-}) {
+const BookmarksHeader = memo<Props>(({ onSearchChange, folderContext }) => {
   const navigate = useNavigate();
   const displayToast = useToastStore((state) => state.displayToast);
+  const {
+    contextBookmarks,
+    isFetching,
+    isSaveButtonActive,
+    handleSave,
+    handleCreateNewFolder,
+  } = useBookmarkStore(
+    useShallow((state) => ({
+      contextBookmarks: state.contextBookmarks,
+      isFetching: state.isFetching,
+      isSaveButtonActive: state.isSaveButtonActive,
+      handleSave: state.handleSave,
+      handleCreateNewFolder: state.handleCreateNewFolder,
+    }))
+  );
   const [openFolderDialog, setOpenFolderDialog] = useState(false);
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
 
   const disableSave = isFetching || !isSaveButtonActive;
+
+  const handleSaveClick = () => {
+    handleSave(folderContext);
+  };
 
   useHotkeys([
     [
@@ -43,7 +53,7 @@ const BookmarksHeader = memo<Props>(function BookmarksHeader({
         event.stopPropagation();
         event.preventDefault();
         if (!disableSave) {
-          handleSave();
+          handleSaveClick();
         }
       },
     ],
@@ -89,7 +99,7 @@ const BookmarksHeader = memo<Props>(function BookmarksHeader({
   };
 
   const handleNewFolderSave = (folderName: string) => {
-    handleCreateNewFolder(folderName);
+    handleCreateNewFolder(folderName, folderContext);
     toggleNewFolderDialog();
   };
 
@@ -114,7 +124,7 @@ const BookmarksHeader = memo<Props>(function BookmarksHeader({
           radius="xl"
           color="teal"
           leftSection={<IoSave />}
-          onClick={handleSave}
+          onClick={handleSaveClick}
           disabled={disableSave}
         >
           Save
@@ -146,5 +156,6 @@ const BookmarksHeader = memo<Props>(function BookmarksHeader({
     </>
   );
 });
+BookmarksHeader.displayName = 'BookmarksHeader';
 
 export default BookmarksHeader;

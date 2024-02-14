@@ -1,16 +1,19 @@
-import { ContextBookmarks, ISelectedBookmarks, noOp } from '@bypass/shared';
+import { noOp } from '@bypass/shared';
 import bookmarkRowStyles from '@bypass/shared/styles/bookmarks/styles.module.css';
 import { Box, Center, Text } from '@mantine/core';
+import { useShallow } from 'zustand/react/shallow';
+import useBookmarkStore from '../store/useBookmarkStore';
 import { getSelectedCount } from '../utils';
 import BookmarkRow from './BookmarkRow';
 import FolderRow from './FolderRow';
 
-interface Props {
-  selectedBookmarks: ISelectedBookmarks;
-  contextBookmarks: ContextBookmarks;
-}
-
-const DragClone = ({ selectedBookmarks, contextBookmarks }: Props) => {
+const DragClone = () => {
+  const { selectedBookmarks, contextBookmarks } = useBookmarkStore(
+    useShallow((state) => ({
+      selectedBookmarks: state.selectedBookmarks,
+      contextBookmarks: state.contextBookmarks,
+    }))
+  );
   const dragCount = getSelectedCount(selectedBookmarks);
 
   if (dragCount > 1) {
