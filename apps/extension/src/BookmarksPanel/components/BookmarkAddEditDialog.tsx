@@ -60,7 +60,6 @@ const BookmarkAddEditDialog = memo<Props>(({ curFolder, handleScroll }) => {
     }))
   );
   const { operation, url: bmUrl } = bookmarkOperation;
-  const [origTaggedPersons, setOrigTaggedPersons] = useState<string[]>([]);
   const [openDialog, setOpenDialog] = useState(false);
 
   const { folderNamesList, defaultFolderName } = useMemo(() => {
@@ -99,7 +98,6 @@ const BookmarkAddEditDialog = memo<Props>(({ curFolder, handleScroll }) => {
           folder: defaultFolderName || DEFAULT_BOOKMARK_FOLDER,
           taggedPersons: [],
         });
-        setOrigTaggedPersons([]);
         setOpenDialog(true);
         return;
       }
@@ -120,7 +118,6 @@ const BookmarkAddEditDialog = memo<Props>(({ curFolder, handleScroll }) => {
           folder: curFolder,
           taggedPersons: bookmark.taggedPersons,
         });
-        setOrigTaggedPersons(bookmark.taggedPersons);
         setOpenDialog(true);
       }
     },
