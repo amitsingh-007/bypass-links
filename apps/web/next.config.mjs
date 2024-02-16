@@ -10,6 +10,12 @@ const isDev = process.env.VERCEL_ENV === 'development';
  **/
 const nextConfig = {
   productionBrowserSourceMaps: true,
+  experimental: {
+    /**
+     * @link https://github.com/vercel/next.js/issues/55682#issuecomment-1739894301
+     */
+    serverMinification: false,
+  },
   compiler: {
     removeConsole: isDev ? false : { exclude: ['error'] },
   },
