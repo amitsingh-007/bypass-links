@@ -64,7 +64,6 @@ const ImagePicker = memo<Props>(function ImagePicker({
     }
   };
 
-  const disableControls = isLoadingImage || !inputImageUrl;
   return (
     <Modal
       opened={isOpen}
@@ -113,7 +112,6 @@ const ImagePicker = memo<Props>(function ImagePicker({
               max={3}
               step={0.001}
               label={(value) => value.toFixed(1)}
-              disabled={disableControls}
               color={zoom > 2 ? 'red' : 'blue'}
             />
           </Box>
@@ -125,17 +123,11 @@ const ImagePicker = memo<Props>(function ImagePicker({
               onChange={setRotation}
               min={0}
               max={360}
-              disabled={disableControls}
             />
           </Box>
         </Group>
         <Group mt={8} justify="center">
-          <Button
-            disabled={disableControls}
-            radius="xl"
-            color="teal"
-            onClick={saveCroppedImage}
-          >
+          <Button radius="xl" color="teal" onClick={saveCroppedImage}>
             Save Cropped Image
           </Button>
         </Group>
