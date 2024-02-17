@@ -51,6 +51,7 @@ module.exports = {
   rules: {
     'no-new': 'off',
     'no-console': 'off',
+    'no-continue': 'off',
     'eol-last': ['error', 'always'],
     'no-trailing-spaces': 'error',
     'import/prefer-default-export': 'off',

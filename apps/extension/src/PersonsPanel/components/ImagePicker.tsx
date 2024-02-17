@@ -12,7 +12,13 @@ import {
   TextInput,
 } from '@mantine/core';
 import { useDebouncedState } from '@mantine/hooks';
-import { memo, useRef, useState } from 'react';
+import {
+  ChangeEventHandler,
+  ClipboardEventHandler,
+  memo,
+  useRef,
+  useState,
+} from 'react';
 import AvatarEditor from 'react-avatar-editor';
 import wretch from 'wretch';
 import { uploadFileToFirebase } from '../utils/uploadImage';
@@ -28,14 +34,43 @@ interface Props {
 const ImagePicker = memo<Props>(
   ({ uid, isOpen, onDialogClose, handleImageSave }) => {
     const [isUploadingImage, setIsUploadingImage] = useState(false);
-    const [inputImageUrl, setInputImageUrl] = useDebouncedState('', 500);
+    const [inputOrFile, setInputOrFile] = useDebouncedState<string | File>(
+      '',
+      500
+    );
     const [isLoadingImage, setIsLoadingImage] = useState(false);
     const imageCropperRef = useRef<AvatarEditor>(null);
     const [zoom, setZoom] = useState(1);
     const [rotation, setRotation] = useState(0);
 
+    const handleImageUrlChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+      setIsLoadingImage(true);
+      setInputOrFile(e.target.value ?? '');
+    };
+
+    const handleImagePaste: ClipboardEventHandler<HTMLInputElement> = async (
+      e
+    ) => {
+      setIsLoadingImage(true);
+      const { items } = e.clipboardData;
+      for (let idx = 0; idx < items.length; idx++) {
+        const isImageType = items[idx].type.indexOf('image/') !== -1;
+        if (!isImageType) {
+          continue;
+        }
+        const imageFile = items[idx].getAsFile();
+        if (!imageFile) {
+          continue;
+        }
+        e.preventDefault();
+        setInputOrFile(imageFile);
+        break;
+      }
+      setIsLoadingImage(false);
+    };
+
     const saveCroppedImage = async () => {
-      if (!inputImageUrl || !imageCropperRef.current) {
+      if (!inputOrFile || !imageCropperRef.current) {
         return;
       }
       try {
@@ -53,7 +88,7 @@ const ImagePicker = memo<Props>(
       }
     };
 
-    const disableControls = isLoadingImage || !inputImageUrl;
+    const disableControls = isLoadingImage || !inputOrFile;
     return (
       <Modal
         opened={isOpen}
@@ -72,7 +107,7 @@ const ImagePicker = memo<Props>(
           {isLoadingImage && <Loader pos="absolute" size="lg" />}
           <AvatarEditor
             ref={imageCropperRef}
-            image={inputImageUrl}
+            image={inputOrFile}
             // When changing this, change in upload API as well
             width={250}
             height={250}
@@ -88,12 +123,11 @@ const ImagePicker = memo<Props>(
           <Group justify="center" mt={6}>
             <TextInput
               placeholder="Enter image url"
-              onChange={(e) => {
-                setIsLoadingImage(true);
-                setInputImageUrl(e.target.value ?? '');
-              }}
-              data-autofocus
               w="82%"
+              data-autofocus
+              value={typeof inputOrFile === 'string' ? inputOrFile : ''}
+              onChange={handleImageUrlChange}
+              onPaste={handleImagePaste}
             />
             <Box w="40%">
               <Text size="sm">Zoom</Text>
