@@ -1,22 +1,17 @@
-import { ISelectedBookmarks } from '@bypass/shared';
 import {
   DndContextProps,
   PointerSensor,
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
-import { Dispatch, SetStateAction, useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
+import useBookmarkStore from '../store/useBookmarkStore';
 
-interface Props {
-  setSelectedBookmarks: Dispatch<SetStateAction<ISelectedBookmarks>>;
-  handleMoveBookmarks: (destinationIndex: number) => void;
-}
-
-const useBookmarkDrag = ({
-  setSelectedBookmarks,
-  handleMoveBookmarks,
-}: Props) => {
+const useBookmarkDrag = () => {
   const [isDragging, setIsDragging] = useState(false);
+  const handleMoveBookmarks = useBookmarkStore(
+    (state) => state.handleMoveBookmarks
+  );
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -28,19 +23,18 @@ const useBookmarkDrag = ({
 
   const onDragStart = useCallback<NonNullable<DndContextProps['onDragStart']>>(
     ({ active }) => {
+      const { selectedBookmarks } = useBookmarkStore.getState();
       const index = active.data.current?.sortable?.index;
-      setSelectedBookmarks((prev) => {
-        const newValue = [...prev];
-        const isCurrentDraggingSelected = newValue[index];
-        if (!isCurrentDraggingSelected) {
-          newValue.fill(false);
-          newValue[index] = true;
-        }
-        return newValue;
-      });
+      const newSelectedBookmarks = [...selectedBookmarks];
+      const isCurrentDraggingSelected = newSelectedBookmarks[index];
+      if (!isCurrentDraggingSelected) {
+        newSelectedBookmarks.fill(false);
+        newSelectedBookmarks[index] = true;
+      }
+      useBookmarkStore.setState({ selectedBookmarks: newSelectedBookmarks });
       setIsDragging(true);
     },
-    [setSelectedBookmarks]
+    []
   );
 
   const onDragEnd = useCallback<NonNullable<DndContextProps['onDragEnd']>>(

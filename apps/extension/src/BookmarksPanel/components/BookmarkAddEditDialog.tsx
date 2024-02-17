@@ -1,18 +1,18 @@
-import useBookmarkStore from '@/store/bookmark';
+import useBookmarkRouteStore from '@/BookmarksPanel/store/useBookmarkRouteStore';
 import { getCurrentTab } from '@/utils/tabs';
 import {
-  ContextBookmarks,
   DEFAULT_BOOKMARK_FOLDER,
   EBookmarkOperation,
   getBookmarksPanelUrl,
   getDecodedFolderList,
-  IBookmarksObj,
   IDecodedBookmark,
 } from '@bypass/shared';
 import { Button, Modal, Select, Stack, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useShallow } from 'zustand/react/shallow';
+import useBookmarkStore from '../store/useBookmarkStore';
 import PersonSelect from './PersonSelect';
 
 const HEADING = {
@@ -22,21 +22,8 @@ const HEADING = {
 };
 
 interface Props {
-  folderList: IBookmarksObj['folderList'];
   curFolder: string;
-  contextBookmarks: ContextBookmarks;
   handleScroll: (pos: number) => void;
-  handleSelectedChange: (pos: number, isOnlySelection: boolean) => void;
-  onSave: (
-    url: string,
-    newTitle: string,
-    folder: string,
-    newFolder: string,
-    pos: number,
-    taggedPersons: string[],
-    newTaggedPersons: string[]
-  ) => void;
-  onDelete: (pos: number, url: string) => void;
 }
 
 interface IForm {
@@ -49,23 +36,30 @@ interface IForm {
 
 const validateHandler = (value: string) => (!value?.trim() ? 'Required' : null);
 
-const BookmarkAddEditDialog = memo<Props>(function BookmarkAddEditDialog({
-  folderList,
-  curFolder,
-  contextBookmarks,
-  handleScroll,
-  handleSelectedChange,
-  onSave,
-  onDelete,
-}) {
+const BookmarkAddEditDialog = memo<Props>(({ curFolder, handleScroll }) => {
   const navigate = useNavigate();
-  const resetBookmarkOperation = useBookmarkStore(
-    (state) => state.resetBookmarkOperation
+  const { bookmarkOperation, resetBookmarkOperation } = useBookmarkRouteStore(
+    useShallow((state) => ({
+      bookmarkOperation: state.bookmarkOperation,
+      resetBookmarkOperation: state.resetBookmarkOperation,
+    }))
   );
-  const { operation, url: bmUrl } = useBookmarkStore(
-    (state) => state.bookmarkOperation
+  const {
+    folderList,
+    contextBookmarks,
+    handleBookmarkSave,
+    handleUrlRemove,
+    handleSelectedChange,
+  } = useBookmarkStore(
+    useShallow((state) => ({
+      contextBookmarks: state.contextBookmarks,
+      folderList: state.folderList,
+      handleBookmarkSave: state.handleBookmarkSave,
+      handleUrlRemove: state.handleUrlRemove,
+      handleSelectedChange: state.handleSelectedChange,
+    }))
   );
-  const [origTaggedPersons, setOrigTaggedPersons] = useState<string[]>([]);
+  const { operation, url: bmUrl } = bookmarkOperation;
   const [openDialog, setOpenDialog] = useState(false);
 
   const { folderNamesList, defaultFolderName } = useMemo(() => {
@@ -104,7 +98,6 @@ const BookmarkAddEditDialog = memo<Props>(function BookmarkAddEditDialog({
           folder: defaultFolderName || DEFAULT_BOOKMARK_FOLDER,
           taggedPersons: [],
         });
-        setOrigTaggedPersons([]);
         setOpenDialog(true);
         return;
       }
@@ -125,7 +118,6 @@ const BookmarkAddEditDialog = memo<Props>(function BookmarkAddEditDialog({
           folder: curFolder,
           taggedPersons: bookmark.taggedPersons,
         });
-        setOrigTaggedPersons(bookmark.taggedPersons);
         setOpenDialog(true);
       }
     },
@@ -158,19 +150,22 @@ const BookmarkAddEditDialog = memo<Props>(function BookmarkAddEditDialog({
 
   const handleDelete = () => {
     const { pos, url } = form.values;
-    onDelete(pos, url);
+    handleUrlRemove(pos, url);
     closeDialog();
   };
 
   const handleSave = (values: typeof form.values) => {
-    onSave(
-      values.url,
-      values.title,
+    const updatedBookmarkData: IDecodedBookmark = {
+      url: values.url,
+      title: values.title,
+      isDir: false,
+      taggedPersons: values.taggedPersons,
+    };
+    handleBookmarkSave(
+      updatedBookmarkData,
       curFolder,
       values.folder,
-      values.pos,
-      origTaggedPersons,
-      values.taggedPersons
+      values.pos
     );
     closeDialog();
   };
@@ -221,5 +216,6 @@ const BookmarkAddEditDialog = memo<Props>(function BookmarkAddEditDialog({
     </Modal>
   );
 });
+BookmarkAddEditDialog.displayName = 'BookmarkAddEditDialog';
 
 export default BookmarkAddEditDialog;

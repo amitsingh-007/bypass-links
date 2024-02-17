@@ -1,7 +1,5 @@
 import {
-  BookmarkProps,
   ContextBookmark,
-  IBookmarksObj,
   getBookmarkId,
   isFolderEmpty,
   useDndSortable,
@@ -9,37 +7,40 @@ import {
 import bookmarkRowStyles from '@bypass/shared/styles/bookmarks/styles.module.css';
 import { Box } from '@mantine/core';
 import { memo } from 'react';
+import { useShallow } from 'zustand/react/shallow';
+import useBookmarkStore from '../store/useBookmarkStore';
 import BookmarkRow from './BookmarkRow';
-import FolderRow, { Props as FolderProps } from './FolderRow';
+import FolderRow from './FolderRow';
 
 export interface Props {
   bookmark: ContextBookmark;
   pos: number;
-  folders: IBookmarksObj['folders'];
   isSelected: boolean;
-  handleFolderRemove: FolderProps['handleRemove'];
-  handleFolderEdit: FolderProps['handleEdit'];
-  toggleDefaultFolder: (
-    folder: string,
-    isDefault: boolean,
-    pos: number
-  ) => void;
-  resetSelectedBookmarks: FolderProps['resetSelectedBookmarks'];
-  handleSelectedChange: BookmarkProps['handleSelectedChange'];
 }
 
 const VirtualRow = memo<Props>(function VirtualRow({
   bookmark,
   pos,
-  folders,
   isSelected,
-  handleFolderRemove,
-  handleFolderEdit,
-  toggleDefaultFolder,
-  resetSelectedBookmarks,
-  handleSelectedChange,
 }) {
   const id = getBookmarkId(bookmark);
+  const {
+    folders,
+    handleFolderRemove,
+    handleFolderRename,
+    handleToggleDefaultFolder,
+    resetSelectedBookmarks,
+    handleSelectedChange,
+  } = useBookmarkStore(
+    useShallow((state) => ({
+      folders: state.folders,
+      handleFolderRemove: state.handleFolderRemove,
+      handleFolderRename: state.handleFolderRename,
+      handleToggleDefaultFolder: state.handleToggleDefaultFolder,
+      resetSelectedBookmarks: state.resetSelectedBookmarks,
+      handleSelectedChange: state.handleSelectedChange,
+    }))
+  );
   const { listeners, setNodeRef, attributes, containerStyles } =
     useDndSortable(id);
 
@@ -67,8 +68,8 @@ const VirtualRow = memo<Props>(function VirtualRow({
             name={bookmark.name}
             isDefault={bookmark.isDefault}
             handleRemove={handleFolderRemove}
-            handleEdit={handleFolderEdit}
-            toggleDefaultFolder={toggleDefaultFolder}
+            handleEdit={handleFolderRename}
+            toggleDefaultFolder={handleToggleDefaultFolder}
             isEmpty={isFolderEmpty(folders, bookmark.name)}
             resetSelectedBookmarks={resetSelectedBookmarks}
           />
