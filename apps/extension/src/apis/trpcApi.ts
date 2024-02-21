@@ -11,9 +11,10 @@ export const trpcApi = createTRPCProxyClient<AppRouter>({
       url: `${HOST_NAME}/api/trpc`,
       headers: async () => {
         const { getIdToken } = useFirebaseStore.getState();
+        const idToken = await getIdToken();
 
         return {
-          authorization: `Bearer ${await getIdToken()}`,
+          authorization: idToken ? `Bearer ${idToken}` : undefined,
         };
       },
     }),
