@@ -24,7 +24,7 @@
     "@trpc/server": "10.45.0",
     "clsx": "2.1.0",
     "dayjs": "1.11.10",
-    "mantine-contextmenu": "7.5.0",
+    "mantine-contextmenu": "7.6.1",
     "md5": "2.3.0",
     "preact": "10.19.3",
     "react": "18.2.0",
