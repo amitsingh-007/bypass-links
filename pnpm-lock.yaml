@@ -78,8 +78,8 @@ importers:
         specifier: 1.11.10
         version: 1.11.10
       mantine-contextmenu:
-        specifier: 7.5.0
-        version: 7.5.0(@mantine/core@7.5.1)(@mantine/hooks@7.5.1)(clsx@2.1.0)(react@18.2.0)
+        specifier: 7.6.1
+        version: 7.6.1(@mantine/core@7.5.1)(@mantine/hooks@7.5.1)(clsx@2.1.0)(react@18.2.0)
       md5:
         specifier: 2.3.0
         version: 2.3.0
@@ -9022,8 +9022,8 @@ packages:
     resolution: {integrity: sha512-s8UhlNe7vPKomQhC1qFelMokr/Sc3AgNbso3n74mVPA5LTZwkB9NlXf4XPamLxJE8h0gh73rM94xvwRT2CVInw==}
     dev: true
 
-  /mantine-contextmenu@7.5.0(@mantine/core@7.5.1)(@mantine/hooks@7.5.1)(clsx@2.1.0)(react@18.2.0):
-    resolution: {integrity: sha512-LWT+cWLfKlWm9iiGIfB1d+19NyM5tsZ3/RSCdGFr48OYUz++5A3aZ6VbBK4vyP670ECl/+aN3qIi+y6tjcWFTQ==}
+  /mantine-contextmenu@7.6.1(@mantine/core@7.5.1)(@mantine/hooks@7.5.1)(clsx@2.1.0)(react@18.2.0):
+    resolution: {integrity: sha512-4OvHQOWHBwIl0wxosG6d0Zjzd3xNXSRLhSRsKHplZUpIM48cgJBDJq3f+oybegKVBc+G8IHQja4Wi9ForVIdEw==}
     peerDependencies:
       '@mantine/core': '>=7'
       '@mantine/hooks': '>=7'
