@@ -28,7 +28,7 @@
     "wretch": "2.8.0"
   },
   "devDependencies": {
-    "@babel/core": "7.23.9",
+    "@babel/core": "7.24.0",
     "@bypass/configs": "workspace:*",
     "@types/md5": "2.3.5",
     "@types/react": "18.2.61",
