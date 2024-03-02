@@ -59,7 +59,7 @@
     "fork-ts-checker-webpack-plugin": "9.0.2",
     "node-fetch": "3.3.2",
     "postcss": "8.4.35",
-    "postcss-preset-mantine": "1.12.3",
+    "postcss-preset-mantine": "1.13.0",
     "postcss-simple-vars": "7.0.1",
     "prettier": "3.2.5",
     "typescript": "5.3.3",
