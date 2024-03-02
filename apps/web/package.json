@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.24.0",
-    "@playwright/test": "1.42.0",
+    "@playwright/test": "1.42.1",
     "@svgr/webpack": "8.1.0",
     "@types/md5": "2.3.5",
     "@types/react": "18.2.61",
