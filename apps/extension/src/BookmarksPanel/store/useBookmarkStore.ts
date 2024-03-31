@@ -153,8 +153,8 @@ const useBookmarkStore = create<State>()((set, get) => ({
   ) => {
     const { contextBookmarks, urlList, folders, addToUpdateTaggedPersons } =
       get();
-    const oldBookmark = contextBookmarks[pos];
-    if (oldBookmark.isDir) {
+    const oldBookmark = contextBookmarks.at(pos); // If undefined, it's a new bookmark
+    if (oldBookmark?.isDir) {
       throw new Error(`Item at pos: ${pos} not a bookmark`);
     }
     const isFolderChange = oldFolder !== newFolder;
@@ -164,7 +164,7 @@ const useBookmarkStore = create<State>()((set, get) => ({
     // Update url in tagged persons
     addToUpdateTaggedPersons(
       urlHash,
-      oldBookmark.taggedPersons,
+      oldBookmark?.taggedPersons ?? [],
       updatedBookmark.taggedPersons
     );
 
