@@ -202,8 +202,8 @@ importers:
         specifier: 4.6.0
         version: 4.6.0(eslint@8.57.0)
       eslint-webpack-plugin:
-        specifier: 4.0.1
-        version: 4.0.1(eslint@8.57.0)(webpack@5.90.3)
+        specifier: 4.1.0
+        version: 4.1.0(eslint@8.57.0)(webpack@5.90.3)
       filemanager-webpack-plugin:
         specifier: 8.0.0
         version: 8.0.0(webpack@5.90.3)
@@ -410,8 +410,8 @@ importers:
         specifier: 5.1.3
         version: 5.1.3(eslint-config-prettier@9.1.0)(eslint@8.57.0)(prettier@3.2.5)
       eslint-webpack-plugin:
-        specifier: 4.0.1
-        version: 4.0.1(eslint@8.57.0)(webpack@5.90.3)
+        specifier: 4.1.0
+        version: 4.1.0(eslint@8.57.0)(webpack@5.90.3)
       fork-ts-checker-webpack-plugin:
         specifier: 9.0.2
         version: 9.0.2(typescript@5.3.3)(webpack@5.90.3)
@@ -7343,8 +7343,8 @@ packages:
     resolution: {integrity: sha512-wpc+LXeiyiisxPlEkUzU6svyS1frIO3Mgxj1fdy7Pm8Ygzguax2N3Fa/D/ag1WqbOprdI+uY6wMUl8/a2G+iag==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
-  /eslint-webpack-plugin@4.0.1(eslint@8.57.0)(webpack@5.90.3):
-    resolution: {integrity: sha512-fUFcXpui/FftGx3NzvWgLZXlLbu+m74sUxGEgxgoxYcUtkIQbS6SdNNZkS99m5ycb23TfoNYrDpp1k/CK5j6Hw==}
+  /eslint-webpack-plugin@4.1.0(eslint@8.57.0)(webpack@5.90.3):
+    resolution: {integrity: sha512-C3wAG2jyockIhN0YRLuKieKj2nx/gnE/VHmoHemD5ifnAtY6ZU+jNPfzPoX4Zd6RIbUyWTiZUh/ofUlBhoAX7w==}
     engines: {node: '>= 14.15.0'}
     peerDependencies:
       eslint: ^8.0.0
