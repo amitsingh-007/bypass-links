@@ -41,7 +41,7 @@
     "@playwright/test": "1.42.1",
     "@prefresh/core": "1.5.2",
     "@prefresh/webpack": "4.0.0",
-    "@types/chrome": "0.0.262",
+    "@types/chrome": "0.0.263",
     "@types/md5": "2.3.5",
     "@types/node": "20.11.24",
     "@types/prefresh__webpack": "3.3.3",
