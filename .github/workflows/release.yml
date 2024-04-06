@@ -165,7 +165,7 @@ jobs:
           echo "asset_name=$file" >> $GITHUB_OUTPUT
 
       - name: Create Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           name: Release ${{ steps.release_tag.outputs.next_release_tag }}
           tag_name: ${{ steps.release_tag.outputs.next_release_tag }}
