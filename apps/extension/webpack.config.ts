@@ -36,6 +36,7 @@ const getCssLoaders = (cssModules: boolean): RuleSetRule['use'] => [
     loader: 'css-loader',
     options: {
       importLoaders: 1,
+      esModule: false,
       modules: cssModules
         ? {
             localIdentName: isProduction
