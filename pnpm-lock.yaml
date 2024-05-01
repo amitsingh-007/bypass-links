@@ -61,7 +61,7 @@ importers:
         version: 7.8.1(react@18.2.0)
       '@t3-oss/env-core':
         specifier: 0.10.1
-        version: 0.10.1(typescript@5.4.5)(zod@3.22.4)
+        version: 0.10.1(typescript@5.4.5)(zod@3.23.5)
       '@tanstack/react-virtual':
         specifier: 3.2.0
         version: 3.2.0(react-dom@18.2.0)(react@18.2.0)
@@ -105,8 +105,8 @@ importers:
         specifier: 2.8.1
         version: 2.8.1
       zod:
-        specifier: 3.22.4
-        version: 3.22.4
+        specifier: 3.23.5
+        version: 3.23.5
       zustand:
         specifier: 4.5.2
         version: 4.5.2(@types/react@18.2.74)(react@18.2.0)
@@ -290,7 +290,7 @@ importers:
         version: 7.8.1(react@18.2.0)
       '@t3-oss/env-nextjs':
         specifier: 0.10.1
-        version: 0.10.1(typescript@5.4.5)(zod@3.22.4)
+        version: 0.10.1(typescript@5.4.5)(zod@3.23.5)
       '@tanstack/react-virtual':
         specifier: 3.2.0
         version: 3.2.0(react-dom@18.2.0)(react@18.2.0)
@@ -343,8 +343,8 @@ importers:
         specifier: 0.33.3
         version: 0.33.3
       zod:
-        specifier: 3.22.4
-        version: 3.22.4
+        specifier: 3.23.5
+        version: 3.23.5
     devDependencies:
       '@babel/core':
         specifier: 7.24.5
@@ -595,7 +595,7 @@ importers:
         version: 20.1.0
       '@t3-oss/env-core':
         specifier: 0.10.1
-        version: 0.10.1(typescript@5.4.5)(zod@3.22.4)
+        version: 0.10.1(typescript@5.4.5)(zod@3.23.5)
       '@trpc/server':
         specifier: 10.45.2
         version: 10.45.2
@@ -612,8 +612,8 @@ importers:
         specifier: 3.3.0
         version: 3.3.0
       zod:
-        specifier: 3.22.4
-        version: 3.22.4
+        specifier: 3.23.5
+        version: 3.23.5
     devDependencies:
       '@firebase/app-types':
         specifier: 0.9.1
@@ -3930,7 +3930,7 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@t3-oss/env-core@0.10.1(typescript@5.4.5)(zod@3.22.4):
+  /@t3-oss/env-core@0.10.1(typescript@5.4.5)(zod@3.23.5):
     resolution: {integrity: sha512-GcKZiCfWks5CTxhezn9k5zWX3sMDIYf6Kaxy2Gx9YEQftFcz8hDRN56hcbylyAO3t4jQnQ5ifLawINsNgCDpOg==}
     peerDependencies:
       typescript: '>=5.0.0'
@@ -3940,10 +3940,10 @@ packages:
         optional: true
     dependencies:
       typescript: 5.4.5
-      zod: 3.22.4
+      zod: 3.23.5
     dev: false
 
-  /@t3-oss/env-nextjs@0.10.1(typescript@5.4.5)(zod@3.22.4):
+  /@t3-oss/env-nextjs@0.10.1(typescript@5.4.5)(zod@3.23.5):
     resolution: {integrity: sha512-iy2qqJLnFh1RjEWno2ZeyTu0ufomkXruUsOZludzDIroUabVvHsrSjtkHqwHp1/pgPUzN3yBRHMILW162X7x2Q==}
     peerDependencies:
       typescript: '>=5.0.0'
@@ -3952,9 +3952,9 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@t3-oss/env-core': 0.10.1(typescript@5.4.5)(zod@3.22.4)
+      '@t3-oss/env-core': 0.10.1(typescript@5.4.5)(zod@3.23.5)
       typescript: 5.4.5
-      zod: 3.22.4
+      zod: 3.23.5
     dev: false
 
   /@tanstack/react-virtual@3.2.0(react-dom@18.2.0)(react@18.2.0):
@@ -13519,8 +13519,8 @@ packages:
       readable-stream: 3.6.2
     dev: true
 
-  /zod@3.22.4:
-    resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
+  /zod@3.23.5:
+    resolution: {integrity: sha512-fkwiq0VIQTksNNA131rDOsVJcns0pfVUjHzLrNBiF/O/Xxb5lQyEXkhZWcJ7npWsYlvs+h0jFWXXy4X46Em1JA==}
     dev: false
 
   /zustand@4.5.2(@types/react@18.2.74)(react@18.2.0):
