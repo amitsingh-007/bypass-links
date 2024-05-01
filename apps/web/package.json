@@ -18,7 +18,7 @@
     "@trpc/client": "10.45.2",
     "@trpc/server": "10.45.2",
     "@vercel/analytics": "1.2.2",
-    "clsx": "2.1.0",
+    "clsx": "2.1.1",
     "countries-and-timezones": "3.6.0",
     "dayjs": "1.11.10",
     "file-type": "19.0.0",

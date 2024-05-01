@@ -22,7 +22,7 @@
     "@tanstack/react-virtual": "3.2.0",
     "@trpc/client": "10.45.2",
     "@trpc/server": "10.45.2",
-    "clsx": "2.1.0",
+    "clsx": "2.1.1",
     "dayjs": "1.11.10",
     "mantine-contextmenu": "7.7.0",
     "md5": "2.3.0",
