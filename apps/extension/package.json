@@ -30,7 +30,7 @@
     "react": "18.2.0",
     "react-avatar-editor": "13.0.2",
     "react-dom": "18.2.0",
-    "react-icons": "5.1.0",
+    "react-icons": "5.2.0",
     "react-router-dom": "6.22.3",
     "wretch": "2.8.1",
     "zod": "3.22.4",
