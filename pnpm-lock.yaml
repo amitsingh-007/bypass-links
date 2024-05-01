@@ -96,8 +96,8 @@ importers:
         specifier: 18.2.0
         version: 18.2.0(react@18.2.0)
       react-icons:
-        specifier: 5.0.1
-        version: 5.0.1(react@18.2.0)
+        specifier: 5.1.0
+        version: 5.1.0(react@18.2.0)
       react-router-dom:
         specifier: 6.22.3
         version: 6.22.3(react-dom@18.2.0)(react@18.2.0)
@@ -334,8 +334,8 @@ importers:
         specifier: 18.2.0
         version: 18.2.0(react@18.2.0)
       react-icons:
-        specifier: 5.0.1
-        version: 5.0.1(react@18.2.0)
+        specifier: 5.1.0
+        version: 5.1.0(react@18.2.0)
       request-ip:
         specifier: 3.3.0
         version: 3.3.0
@@ -518,8 +518,8 @@ importers:
         specifier: 18.2.0
         version: 18.2.0(react@18.2.0)
       react-icons:
-        specifier: 5.0.1
-        version: 5.0.1(react@18.2.0)
+        specifier: 5.1.0
+        version: 5.1.0(react@18.2.0)
       wretch:
         specifier: 2.8.1
         version: 2.8.1
@@ -10970,8 +10970,8 @@ packages:
       scheduler: 0.23.0
     dev: false
 
-  /react-icons@5.0.1(react@18.2.0):
-    resolution: {integrity: sha512-WqLZJ4bLzlhmsvme6iFdgO8gfZP17rfjYEJ2m9RsZjZ+cc4k1hTzknEz63YS1MeT50kVzoa1Nz36f4BEx+Wigw==}
+  /react-icons@5.1.0(react@18.2.0):
+    resolution: {integrity: sha512-D3zug1270S4hbSlIRJ0CUS97QE1yNNKDjzQe3HqY0aefp2CBn9VgzgES27sRR2gOvFK+0CNx/BW0ggOESp6fqQ==}
     peerDependencies:
       react: '*'
     dependencies:
