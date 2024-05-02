@@ -190,8 +190,8 @@ importers:
         specifier: 6.8.0
         version: 6.8.0(eslint@8.57.0)
       eslint-plugin-playwright:
-        specifier: 1.5.4
-        version: 1.5.4(eslint@8.57.0)
+        specifier: 1.6.0
+        version: 1.6.0(eslint@8.57.0)
       eslint-plugin-prettier:
         specifier: 5.1.3
         version: 5.1.3(eslint-config-prettier@9.1.0)(eslint@8.57.0)(prettier@3.2.5)
@@ -404,8 +404,8 @@ importers:
         specifier: 6.8.0
         version: 6.8.0(eslint@8.57.0)
       eslint-plugin-playwright:
-        specifier: 1.5.4
-        version: 1.5.4(eslint@8.57.0)
+        specifier: 1.6.0
+        version: 1.6.0(eslint@8.57.0)
       eslint-plugin-prettier:
         specifier: 5.1.3
         version: 5.1.3(eslint-config-prettier@9.1.0)(eslint@8.57.0)(prettier@3.2.5)
@@ -7376,8 +7376,8 @@ packages:
       object.entries: 1.1.8
       object.fromentries: 2.0.8
 
-  /eslint-plugin-playwright@1.5.4(eslint@8.57.0):
-    resolution: {integrity: sha512-J38Wy3Vc2f9y73J+KRmgXgbYI8TZ3zbz6qBbTj3PhpFndUS572jZ7kqQ3rJ9si5BaMHT7lmZzraO+3UjwIDV4Q==}
+  /eslint-plugin-playwright@1.6.0(eslint@8.57.0):
+    resolution: {integrity: sha512-tI1E/EDbHT4Fx5KvukUG3RTIT0gk44gvTP8bNwxLCFsUXVM98ZJG5zWU6Om5JOzH9FrmN4AhMu/UKyEsu0ZoDA==}
     engines: {node: '>=16.6.0'}
     peerDependencies:
       eslint: '>=8.40.0'
@@ -12401,6 +12401,7 @@ packages:
 
   /tr46@0.0.3:
     resolution: {integrity: sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==}
+    requiresBuild: true
 
   /tree-dump@1.0.1(tslib@2.6.2):
     resolution: {integrity: sha512-WCkcRBVPSlHHq1dc/px9iOfqklvzCbdRwvlNfxGZsrHqf6aZttfPrd7DJTt6oR10dwUfpFFQeVTkPbBIZxX/YA==}
@@ -13085,6 +13086,7 @@ packages:
 
   /webidl-conversions@3.0.1:
     resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
+    requiresBuild: true
 
   /webpack-cli@5.1.4(webpack-dev-server@5.0.4)(webpack@5.91.0):
     resolution: {integrity: sha512-pIDJHIEI9LR0yxHXQ+Qh95k2EvXpWzZ5l+d+jIo+RdSm9MiHfzazIxwwni/p7+x4eJZuvG1AJwgC4TNQ7NRgsg==}
