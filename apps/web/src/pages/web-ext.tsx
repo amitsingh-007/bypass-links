@@ -12,7 +12,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { FaUserTag } from 'react-icons/fa';
 import {
-  RiBookMarkFill,
+  RiBookmarkFill,
   RiLoginCircleFill,
   RiLogoutCircleRFill,
 } from 'react-icons/ri';
@@ -118,7 +118,7 @@ export default function Web() {
               <Button
                 radius="xl"
                 size="md"
-                rightSection={<RiBookMarkFill />}
+                rightSection={<RiBookmarkFill />}
                 onClick={() => router.push(ROUTES.BOOKMARK_PANEL)}
                 disabled={!isLoggedIn || isLoading}
               >

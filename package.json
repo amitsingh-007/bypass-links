@@ -14,11 +14,11 @@
     "test": "turbo run test"
   },
   "devDependencies": {
-    "@playwright/test": "1.43.0",
-    "@types/node": "20.12.5",
+    "@playwright/test": "1.43.1",
+    "@types/node": "20.12.7",
     "husky": "9.0.11",
     "lint-staged": "15.2.2",
-    "turbo": "1.13.2",
-    "vercel": "33.7.0"
+    "turbo": "1.13.3",
+    "vercel": "34.1.8"
   }
 }
