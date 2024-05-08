@@ -2,7 +2,7 @@ import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { getBookmarksPanelUrl } from '@bypass/shared';
 import { Button } from '@mantine/core';
 import { memo } from 'react';
-import { RiBookMarkFill } from 'react-icons/ri';
+import { RiBookmarkFill } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
 
 const BookmarksPanelButton = memo(function BookmarksPanelButton() {
@@ -18,7 +18,7 @@ const BookmarksPanelButton = memo(function BookmarksPanelButton() {
       radius="xl"
       disabled={!isSignedIn}
       onClick={handleShowEditPanel}
-      rightSection={<RiBookMarkFill />}
+      rightSection={<RiBookmarkFill />}
       fullWidth
     >
       Bookmarks
