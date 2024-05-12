@@ -107,6 +107,7 @@ const config: Configuration = {
       react: 'preact/compat',
       'react-dom': 'preact/compat',
       'react/jsx-runtime': 'preact/jsx-runtime',
+      wouter: 'wouter-preact',
     },
   },
   stats: isProduction ? 'normal' : 'errors-warnings',
