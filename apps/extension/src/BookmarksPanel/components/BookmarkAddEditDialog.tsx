@@ -10,7 +10,7 @@ import {
 import { Button, Modal, Select, Stack, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'wouter';
 import { useShallow } from 'zustand/react/shallow';
 import useBookmarkStore from '../store/useBookmarkStore';
 import PersonSelect from './PersonSelect';
@@ -37,7 +37,7 @@ interface IForm {
 const validateHandler = (value: string) => (!value?.trim() ? 'Required' : null);
 
 const BookmarkAddEditDialog = memo<Props>(({ curFolder, handleScroll }) => {
-  const navigate = useNavigate();
+  const [, navigate] = useLocation();
   const { bookmarkOperation, resetBookmarkOperation } = useBookmarkRouteStore(
     useShallow((state) => ({
       bookmarkOperation: state.bookmarkOperation,

@@ -3,10 +3,10 @@ import { ROUTES } from '@bypass/shared';
 import { Button } from '@mantine/core';
 import { memo } from 'react';
 import { FaUserTag } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'wouter';
 
 const PersonsPanelButton = memo(function PersonsPanelButton() {
-  const navigate = useNavigate();
+  const [, navigate] = useLocation();
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
 
   const handleShowPersonsPanel = () => {

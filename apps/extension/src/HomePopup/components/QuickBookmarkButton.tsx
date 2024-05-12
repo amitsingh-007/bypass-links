@@ -15,10 +15,10 @@ import md5 from 'md5';
 import { memo, useEffect, useState } from 'react';
 import { BiBookmarkPlus } from 'react-icons/bi';
 import { RiBookmark3Fill } from 'react-icons/ri';
-import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'wouter';
 
 const QuickBookmarkButton = memo(function QuickBookmarkButton() {
-  const navigate = useNavigate();
+  const [, navigate] = useLocation();
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const { getFolderFromHash } = useBookmark();
   const [bookmark, setBookmark] = useState<IEncodedBookmark>();

@@ -3,10 +3,10 @@ import { Button } from '@mantine/core';
 import useExtStore from '@store/extension';
 import { memo } from 'react';
 import { RiHistoryFill } from 'react-icons/ri';
-import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'wouter';
 
 const HistoryPanelButton = memo(function HistoryPanelButton() {
-  const navigate = useNavigate();
+  const [, navigate] = useLocation();
   const isExtensionActive = useExtStore((state) => state.isExtensionActive);
 
   const handleShowHistoryPanel = () => {

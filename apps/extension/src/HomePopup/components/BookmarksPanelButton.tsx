@@ -3,10 +3,10 @@ import { getBookmarksPanelUrl } from '@bypass/shared';
 import { Button } from '@mantine/core';
 import { memo } from 'react';
 import { RiBookmarkFill } from 'react-icons/ri';
-import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'wouter';
 
 const BookmarksPanelButton = memo(function BookmarksPanelButton() {
-  const navigate = useNavigate();
+  const [, navigate] = useLocation();
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
 
   const handleShowEditPanel = () => {
