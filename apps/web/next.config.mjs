@@ -33,7 +33,7 @@ const nextConfig = {
     });
     config.plugins.push(
       new webpack.DefinePlugin({
-        PROD_ENV: JSON.stringify(!dev),
+        PROD_ENV: JSON.stringify(!isDev),
         HOST_NAME: JSON.stringify(process.env.HOST_NAME),
       })
     );
