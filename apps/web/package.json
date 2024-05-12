@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "cross-env HOST_NAME=https://bypass-links.vercel.app next build",
-    "dev": "cross-env HOST_NAME=http://localhost:3000 next dev",
+    "build": "next build",
+    "dev": "next dev",
     "lint": "eslint ."
   },
   "dependencies": {
@@ -43,7 +43,6 @@
     "@typescript-eslint/eslint-plugin": "7.8.0",
     "@typescript-eslint/parser": "7.8.0",
     "autoprefixer": "10.4.19",
-    "cross-env": "7.0.3",
     "encoding": "0.1.13",
     "eslint": "8.57.0",
     "eslint-config-airbnb": "19.0.4",

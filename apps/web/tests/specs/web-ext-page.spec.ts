@@ -10,5 +10,8 @@ test.describe('Web Ext page', () => {
     await appIcon.click({ clickCount: 5 });
     await page.waitForURL('/web-ext');
     await page.isVisible("text='Bypass Links - Web'");
+
+    await page.reload();
+    await page.isVisible("text='Bypass Links - Web'");
   });
 });
