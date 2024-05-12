@@ -8,7 +8,6 @@ export const getEnv = () =>
       SERVICE_ACCOUNT_KEY: z.string(),
       FIREBASE_PRIVATE_KEY: z.string(),
       GITHUB_TOKEN: z.string(),
-      SITE_NAME: z.string().optional(),
       AXIOM_TOKEN: z.string(),
       AXIOM_ORG_ID: z.string(),
     },
