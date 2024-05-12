@@ -3,11 +3,11 @@ import { ROUTES } from '@bypass/shared';
 import { Button } from '@mantine/core';
 import { memo } from 'react';
 import { GoFileSymlinkFile } from 'react-icons/go';
-import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'wouter';
 
 const ShortcutsPanelButton = memo(function ShortcutsPanelButton() {
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
-  const navigate = useNavigate();
+  const [, navigate] = useLocation();
 
   const handleOpenShortcutsPanel = () => {
     navigate(ROUTES.SHORTCUTS_PANEL);

@@ -1,7 +1,7 @@
 import { ROUTES } from '@bypass/shared';
-import { Route } from 'react-router-dom';
+import { Route } from 'wouter';
 import SettingsPanel from '../components/SettingsPanel';
 
 export const SettingsPanelRoute = (
-  <Route path={ROUTES.SETTINGS_PANEL} element={<SettingsPanel />} />
+  <Route path={ROUTES.SETTINGS_PANEL} component={SettingsPanel} />
 );

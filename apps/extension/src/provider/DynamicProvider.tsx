@@ -1,25 +1,25 @@
 import { DynamicContext } from '@bypass/shared';
 import { PropsWithChildren, useMemo } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useSearch } from 'wouter';
 import { getFromChromeStorage, setToChromeStorage } from './utils';
 
 const DynamicProvider = ({ children }: PropsWithChildren) => {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const [, navigate] = useLocation();
+  const search = useSearch();
 
   const ctx = useMemo(
     () => ({
       location: {
-        push: navigate,
-        query: () => location.search,
-        goBack: () => navigate(-1),
+        push: (url: string) => navigate(url),
+        query: () => search,
+        goBack: () => window.history.back(),
       },
       storage: {
         get: getFromChromeStorage,
         set: setToChromeStorage,
       },
     }),
-    [location.search, navigate]
+    [navigate, search]
   );
 
   return (

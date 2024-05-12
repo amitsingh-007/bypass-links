@@ -4,7 +4,7 @@ import {
   EBookmarkOperation,
   ROUTES,
 } from '@bypass/shared';
-import { Route, useLocation } from 'react-router-dom';
+import { Route, useSearch } from 'wouter';
 import BookmarksPanel from '../components/BookmarksPanel';
 
 const getQueryParams = (qs: string): BMPanelQueryParams => {
@@ -18,11 +18,12 @@ const getQueryParams = (qs: string): BMPanelQueryParams => {
 };
 
 const BookmarksPanelWrapper = () => {
-  const location = useLocation();
-  const queryParams = getQueryParams(location.search);
+  const search = useSearch();
+  const queryParams = getQueryParams(search);
+
   return <BookmarksPanel {...queryParams} />;
 };
 
 export const BookmarksPanelRoute = (
-  <Route path={ROUTES.BOOKMARK_PANEL} element={<BookmarksPanelWrapper />} />
+  <Route path={ROUTES.BOOKMARK_PANEL} component={BookmarksPanelWrapper} />
 );

@@ -4,11 +4,11 @@ import { ActionIcon, Avatar, Box, Transition } from '@mantine/core';
 import { useHover } from '@mantine/hooks';
 import { memo } from 'react';
 import { MdSettings } from 'react-icons/md';
-import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'wouter';
 import styles from './styles/UserProfile.module.css';
 
 const UserProfile = memo(function UserProfile() {
-  const navigate = useNavigate();
+  const [, navigate] = useLocation();
   const { hovered, ref } = useHover();
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const idpAuth = useFirebaseStore((state) => state.idpAuth);

@@ -6,7 +6,7 @@ import { memo, useState } from 'react';
 import { FaFolderPlus } from 'react-icons/fa';
 import { IoSave } from 'react-icons/io5';
 import { RiUploadCloud2Fill } from 'react-icons/ri';
-import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'wouter';
 import { useShallow } from 'zustand/react/shallow';
 import useBookmarkStore from '../store/useBookmarkStore';
 import { syncBookmarksFirebaseWithStorage } from '../utils/bookmark';
@@ -19,7 +19,7 @@ interface Props {
 }
 
 const BookmarksHeader = memo<Props>(({ onSearchChange, folderContext }) => {
-  const navigate = useNavigate();
+  const [, navigate] = useLocation();
   const displayToast = useToastStore((state) => state.displayToast);
   const {
     contextBookmarks,
@@ -60,7 +60,8 @@ const BookmarksHeader = memo<Props>(({ onSearchChange, folderContext }) => {
   ]);
 
   const handleClose = () => {
-    navigate(-1);
+    // navigate(-1);
+    window.history.back();
   };
 
   const onBackClick = () => {
