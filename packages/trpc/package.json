@@ -65,6 +65,6 @@
     "firebase": "10.11.1",
     "prettier": "3.2.5",
     "typescript": "5.4.5",
-    "vitest": "1.5.3"
+    "vitest": "1.6.0"
   }
 }
