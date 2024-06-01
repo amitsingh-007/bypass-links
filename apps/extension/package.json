@@ -38,7 +38,7 @@
     "zustand": "4.5.2"
   },
   "devDependencies": {
-    "@babel/core": "7.24.5",
+    "@babel/core": "7.24.6",
     "@playwright/test": "1.43.1",
     "@prefresh/core": "1.5.2",
     "@prefresh/webpack": "4.0.0",

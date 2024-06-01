@@ -34,7 +34,7 @@
     "zod": "3.23.5"
   },
   "devDependencies": {
-    "@babel/core": "7.24.5",
+    "@babel/core": "7.24.6",
     "@playwright/test": "1.43.1",
     "@svgr/webpack": "8.1.0",
     "@types/md5": "2.3.5",
