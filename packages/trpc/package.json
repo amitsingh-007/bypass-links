@@ -43,7 +43,7 @@
     "otplib": "12.0.1",
     "qrcode": "1.5.3",
     "request-ip": "3.3.0",
-    "zod": "3.23.5"
+    "zod": "3.23.8"
   },
   "devDependencies": {
     "@firebase/app-types": "0.9.2",
