@@ -41,7 +41,7 @@
     "@babel/core": "7.24.6",
     "@playwright/test": "1.43.1",
     "@prefresh/core": "1.5.2",
-    "@prefresh/webpack": "4.0.0",
+    "@prefresh/webpack": "4.0.1",
     "@types/chrome": "0.0.267",
     "@types/md5": "2.3.5",
     "@types/node": "20.12.7",
