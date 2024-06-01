@@ -124,8 +124,8 @@ importers:
         specifier: 1.5.2
         version: 1.5.2(preact@10.21.0)
       '@prefresh/webpack':
-        specifier: 4.0.0
-        version: 4.0.0(@prefresh/babel-plugin@0.5.1)(preact@10.21.0)(webpack@5.91.0)
+        specifier: 4.0.1
+        version: 4.0.1(@prefresh/babel-plugin@0.5.1)(preact@10.21.0)(webpack@5.91.0)
       '@types/chrome':
         specifier: 0.0.267
         version: 0.0.267
@@ -3537,8 +3537,8 @@ packages:
     resolution: {integrity: sha512-KtC/fZw+oqtwOLUFM9UtiitB0JsVX0zLKNyRTA332sqREqSALIIQQxdUCS1P3xR/jT1e2e8/5rwH6gdcMLEmsQ==}
     dev: true
 
-  /@prefresh/webpack@4.0.0(@prefresh/babel-plugin@0.5.1)(preact@10.21.0)(webpack@5.91.0):
-    resolution: {integrity: sha512-Ppr8GNASfq/Zsw/dFOhHz3DYZWfAnqRhz2ryZo4b7VA4x4nQzALYLILK32w9YdSw6WYhIMQdjBkugk6PstcwFg==}
+  /@prefresh/webpack@4.0.1(@prefresh/babel-plugin@0.5.1)(preact@10.21.0)(webpack@5.91.0):
+    resolution: {integrity: sha512-BAzEqkNZSm1B82l8oXp+b69ffCQopjca8yeooczmCBSU6ZGhxWf+G2fmRt02CkcMpnDiHuDNDdsBJqEBKRJzOQ==}
     peerDependencies:
       '@prefresh/babel-plugin': ^0.5.0
       preact: ^10.4.0
