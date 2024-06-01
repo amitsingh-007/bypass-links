@@ -17,7 +17,7 @@
     "@playwright/test": "1.43.1",
     "@types/node": "20.12.7",
     "husky": "9.0.11",
-    "lint-staged": "15.2.2",
+    "lint-staged": "15.2.5",
     "turbo": "1.13.3",
     "vercel": "34.1.8"
   }
