@@ -2,7 +2,7 @@ import { syncLastVisitedToStorage } from '@/HomePopup/utils/lastVisited';
 import { trpcApi } from '@/apis/trpcApi';
 import useCurrentTab from '@/hooks/useCurrentTab';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
-import { ILastVisited } from '@bypass/shared';
+import { getlastVisitedText } from '@/utils/lastVisited';
 import { getLastVisited } from '@helpers/fetchFromStorage';
 import { Button, Text, Tooltip } from '@mantine/core';
 import md5 from 'md5';
@@ -14,23 +14,14 @@ const LastVisitedButton = memo(function LastVisitedButton() {
   const currentTab = useCurrentTab();
   const [isFetching, setIsFetching] = useState(false);
   const [lastVisited, setLastVisited] = useState('');
-  const [lastVisitedObj, setLastVisitedObj] = useState<ILastVisited>({});
 
   const initLastVisited = useCallback(async () => {
-    setIsFetching(true);
-    const lastVisitedData = await getLastVisited();
     if (!currentTab?.url) {
       return;
     }
-    const { hostname } = new URL(currentTab.url);
-    const lastVisitedDate = lastVisitedData[md5(hostname)];
-    let displayInfo = '';
-    if (lastVisitedDate) {
-      const date = new Date(lastVisitedDate);
-      displayInfo = `${date.toDateString()}, ${date.toLocaleTimeString()}`;
-    }
-    setLastVisited(displayInfo);
-    setLastVisitedObj(lastVisitedData);
+    setIsFetching(true);
+    const lastVisitedText = await getlastVisitedText(currentTab.url);
+    setLastVisited(lastVisitedText);
     setIsFetching(false);
   }, [currentTab?.url]);
 
@@ -42,10 +33,11 @@ const LastVisitedButton = memo(function LastVisitedButton() {
   }, [initLastVisited, isSignedIn, lastVisited]);
 
   const handleUpdateLastVisited = async () => {
-    setIsFetching(true);
     if (!currentTab?.url) {
       return;
     }
+    const lastVisitedObj = await getLastVisited();
+    setIsFetching(true);
     const { hostname } = new URL(currentTab.url);
     lastVisitedObj[md5(hostname)] = Date.now();
     const isSuccess =

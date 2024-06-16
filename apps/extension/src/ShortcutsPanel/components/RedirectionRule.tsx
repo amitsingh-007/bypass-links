@@ -1,10 +1,22 @@
+import { getlastVisitedText } from '@/utils/lastVisited';
 import { IRedirection } from '@bypass/shared';
 import { useSortable } from '@dnd-kit/sortable';
-import { ActionIcon, Center, Checkbox, Group, TextInput } from '@mantine/core';
+import {
+  ActionIcon,
+  Center,
+  Checkbox,
+  Flex,
+  Group,
+  Text,
+  TextInput,
+  Tooltip,
+  useMantineTheme,
+} from '@mantine/core';
 import useHistoryStore from '@store/history';
 import clsx from 'clsx';
-import { memo, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { CgWebsite } from 'react-icons/cg';
+import { FaCalendarCheck } from 'react-icons/fa';
 import { IoSave } from 'react-icons/io5';
 import { MdOutlineDelete, MdShortcut } from 'react-icons/md';
 import { RxDragHandleDots2, RxExternalLink } from 'react-icons/rx';
@@ -30,12 +42,22 @@ const RedirectionRule = memo(function RedirectionRule({
   handleSaveRule,
   dndProps,
 }: Props) {
+  const theme = useMantineTheme();
   const startHistoryMonitor = useHistoryStore(
     (state) => state.startHistoryMonitor
   );
   const [ruleAlias, setRuleAlias] = useState(alias);
   const [ruleWebsite, setRuleWebsite] = useState(website);
   const [isDefaultRule, setIsDefaultRule] = useState(isDefault);
+  const [lastVisited, setLastVisited] = useState<string>();
+
+  useEffect(() => {
+    const initLastVisited = async () => {
+      const lastVisitedText = await getlastVisitedText(website);
+      setLastVisited(lastVisitedText);
+    };
+    initLastVisited();
+  }, [website]);
 
   const handleRemoveClick = () => {
     handleRemoveRule(pos);
@@ -91,6 +113,20 @@ const RedirectionRule = memo(function RedirectionRule({
           value={ruleWebsite}
           onChange={(e) => setRuleWebsite(e.target.value.trim())}
           leftSection={<CgWebsite />}
+          rightSection={
+            lastVisited ? (
+              <Tooltip
+                label={<Text>{lastVisited}</Text>}
+                withArrow
+                radius="md"
+                color="gray"
+              >
+                <Flex>
+                  <FaCalendarCheck color={theme.colors.teal[5]} />
+                </Flex>
+              </Tooltip>
+            ) : null
+          }
           error={!ruleWebsite}
         />
       </Group>
