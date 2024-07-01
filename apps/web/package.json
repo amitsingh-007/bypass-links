@@ -57,7 +57,7 @@
     "eslint-webpack-plugin": "4.2.0",
     "fork-ts-checker-webpack-plugin": "9.0.2",
     "node-fetch": "3.3.2",
-    "postcss": "8.4.38",
+    "postcss": "8.4.39",
     "postcss-preset-mantine": "1.15.0",
     "postcss-simple-vars": "7.0.1",
     "prettier": "3.2.5",
