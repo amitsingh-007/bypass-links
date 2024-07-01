@@ -63,7 +63,7 @@
     "eslint-plugin-react": "7.34.2",
     "eslint-plugin-react-hooks": "4.6.2",
     "firebase": "10.12.2",
-    "prettier": "3.2.5",
+    "prettier": "3.3.2",
     "typescript": "5.4.5",
     "vitest": "1.6.0"
   }
