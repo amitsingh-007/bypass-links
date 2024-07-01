@@ -62,6 +62,6 @@
     "postcss-simple-vars": "7.0.1",
     "prettier": "3.2.5",
     "typescript": "5.4.5",
-    "webpack": "5.91.0"
+    "webpack": "5.92.1"
   }
 }
