@@ -18,7 +18,7 @@
     "@dnd-kit/utilities": "3.2.2",
     "@mantine/core": "7.10.1",
     "@mantine/hooks": "7.10.1",
-    "@tanstack/react-virtual": "3.5.0",
+    "@tanstack/react-virtual": "3.8.1",
     "clsx": "2.1.1",
     "md5": "2.3.0",
     "preact": "10.22.0",
