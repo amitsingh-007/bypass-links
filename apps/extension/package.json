@@ -31,7 +31,7 @@
     "react-avatar-editor": "13.0.2",
     "react-dom": "18.3.1",
     "react-icons": "5.2.1",
-    "wouter": "3.2.0",
+    "wouter": "3.3.0",
     "wouter-preact": "3.2.0",
     "wretch": "2.8.1",
     "zod": "3.23.8",
