@@ -33,7 +33,7 @@
     "react-icons": "5.2.1",
     "wouter": "3.2.0",
     "wouter-preact": "3.2.0",
-    "wretch": "2.8.1",
+    "wretch": "2.9.0",
     "zod": "3.23.8",
     "zustand": "4.5.2"
   },
