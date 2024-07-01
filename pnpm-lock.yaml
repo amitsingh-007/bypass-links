@@ -105,8 +105,8 @@ importers:
         specifier: 3.2.0
         version: 3.2.0(preact@10.22.0)
       wretch:
-        specifier: 2.8.1
-        version: 2.8.1
+        specifier: 2.9.0
+        version: 2.9.0
       zod:
         specifier: 3.23.8
         version: 3.23.8
@@ -518,8 +518,8 @@ importers:
         specifier: 5.2.1
         version: 5.2.1(react@18.3.1)
       wretch:
-        specifier: 2.8.1
-        version: 2.8.1
+        specifier: 2.9.0
+        version: 2.9.0
     devDependencies:
       '@babel/core':
         specifier: 7.24.6
@@ -7625,8 +7625,8 @@ packages:
   wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
 
-  wretch@2.8.1:
-    resolution: {integrity: sha512-as9Mta8Nrnu6mL9ApNvmKGWqZtvoQtOILEfjox1BYYBYyUSKUdATVEAlQIMGLSZyzRfNbpUvPKDcGJTGA1b5LA==}
+  wretch@2.9.0:
+    resolution: {integrity: sha512-kKp1xWQO+Vh9I6RJq7Yers2KKrmF7LXB00c9knMDn3IdB7etcQOarrsHArpj1sZ1Dlav8ss6R1DuUpDSTqmQew==}
     engines: {node: '>=14'}
 
   ws@8.17.0:
@@ -15795,7 +15795,7 @@ snapshots:
 
   wrappy@1.0.2: {}
 
-  wretch@2.8.1: {}
+  wretch@2.9.0: {}
 
   ws@8.17.0: {}
 
