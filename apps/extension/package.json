@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.24.6",
-    "@playwright/test": "1.44.1",
+    "@playwright/test": "1.45.0",
     "@prefresh/core": "1.5.2",
     "@prefresh/webpack": "4.0.1",
     "@types/chrome": "0.0.268",
