@@ -78,8 +78,8 @@ importers:
         specifier: 1.11.11
         version: 1.11.11
       mantine-contextmenu:
-        specifier: 7.9.1
-        version: 7.9.1(@mantine/core@7.10.1(@mantine/hooks@7.10.1(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mantine/hooks@7.10.1(react@18.3.1))(clsx@2.1.1)(react@18.3.1)
+        specifier: 7.11.0
+        version: 7.11.0(@mantine/core@7.10.1(@mantine/hooks@7.10.1(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mantine/hooks@7.10.1(react@18.3.1))(clsx@2.1.1)(react@18.3.1)
       md5:
         specifier: 2.3.0
         version: 2.3.0
@@ -5433,8 +5433,8 @@ packages:
   make-error@1.3.6:
     resolution: {integrity: sha512-s8UhlNe7vPKomQhC1qFelMokr/Sc3AgNbso3n74mVPA5LTZwkB9NlXf4XPamLxJE8h0gh73rM94xvwRT2CVInw==}
 
-  mantine-contextmenu@7.9.1:
-    resolution: {integrity: sha512-F176CXsOqnK0hUM9tmXHPVMhWGp2sGS1TNBjotUew/ZWYlo5sNdCsBVrLz2ID4+knZlz3Tm0yNO8kk69oKwzmw==}
+  mantine-contextmenu@7.11.0:
+    resolution: {integrity: sha512-J5/CYeZVwXcUuZA1JL09LHlT4Wa+nhjW5Ics/gZynSalGxSHmSkfI/o+bDcdls2MgWLdvq/hzjgAwQtgY+XjWg==}
     peerDependencies:
       '@mantine/core': '>=7'
       '@mantine/hooks': '>=7'
@@ -13339,7 +13339,7 @@ snapshots:
 
   make-error@1.3.6: {}
 
-  mantine-contextmenu@7.9.1(@mantine/core@7.10.1(@mantine/hooks@7.10.1(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mantine/hooks@7.10.1(react@18.3.1))(clsx@2.1.1)(react@18.3.1):
+  mantine-contextmenu@7.11.0(@mantine/core@7.10.1(@mantine/hooks@7.10.1(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mantine/hooks@7.10.1(react@18.3.1))(clsx@2.1.1)(react@18.3.1):
     dependencies:
       '@mantine/core': 7.10.1(@mantine/hooks@7.10.1(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@mantine/hooks': 7.10.1(react@18.3.1)
