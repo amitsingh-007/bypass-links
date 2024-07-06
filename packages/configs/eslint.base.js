@@ -49,6 +49,7 @@ module.exports = {
   },
   ignorePatterns: ['.eslintrc.js'],
   rules: {
+    'import/extensions': 'off',
     'no-new': 'off',
     'no-console': 'off',
     'no-continue': 'off',

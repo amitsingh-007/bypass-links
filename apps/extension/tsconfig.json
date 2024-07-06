@@ -10,15 +10,19 @@
       "@helpers/*": ["./src/helpers/*"],
       "@interfaces/*": ["./src/interfaces/*"],
       "@store/*": ["./src/store/*"],
-    },
+      // "@mantine/form": ["./node_modules/@mantine/form/lib/index.d.ts"],
+      // "@mantine/hooks": ["./node_modules/@mantine/hooks/lib/index.d.ts"],
+    }
   },
   "include": ["@types", "src", "tests", "webpack.config.ts"],
   "exclude": ["build", "**/node_modules"],
   //Required for webpack config in typescript
   "ts-node": {
     "files": true,
+    "esm": true,
     "compilerOptions": {
-      "module": "CommonJS"
+      "module": "esnext",
+      "moduleResolution": "bundler",
     }
   }
 }

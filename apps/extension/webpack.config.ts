@@ -1,12 +1,12 @@
 import {
   getExtVersion,
   getFileNameFromVersion,
-} from '@bypass/configs/manifest/extensionFile';
+} from '@bypass/configs/manifest/extensionFile.js';
 import PreactRefreshPlugin from '@prefresh/webpack';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import ESLintPlugin from 'eslint-webpack-plugin';
+// import ESLintPlugin from 'eslint-webpack-plugin';
 import FileManagerPlugin from 'filemanager-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
@@ -16,9 +16,16 @@ import { resolve } from 'path';
 import ReactRefreshTypeScript from 'react-refresh-typescript';
 import TerserPlugin from 'terser-webpack-plugin';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
-import { Configuration, DefinePlugin, RuleSetRule, optimize } from 'webpack';
+import webpack, { Configuration, RuleSetRule } from 'webpack';
 import 'webpack-dev-server';
-import { env } from './src/constants/env';
+import { env } from './src/constants/env.js';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const { DefinePlugin, optimize } = webpack;
 
 const PATHS = {
   ROOT: resolve(__dirname),
@@ -50,7 +57,7 @@ const getCssLoaders = (cssModules: boolean): RuleSetRule['use'] => [
     loader: 'postcss-loader',
     options: {
       postcssOptions: {
-        config: `${PATHS.ROOT}/postcss.config.js`,
+        config: `${PATHS.ROOT}/postcss.config.mjs`,
       },
     },
   },
@@ -168,9 +175,9 @@ const config: Configuration = {
               transpileOnly: true,
               ...(!isProduction && {
                 getCustomTransformers: () => ({
-                  before: [!isProduction && ReactRefreshTypeScript()].filter(
-                    Boolean
-                  ),
+                  before: [
+                    !isProduction && ReactRefreshTypeScript(),
+                  ].filter(Boolean),
                 }),
               }),
             },
@@ -241,12 +248,12 @@ const config: Configuration = {
       },
     }),
     !isProduction && new PreactRefreshPlugin(),
-    isProduction &&
-      new ESLintPlugin({
-        files: './src/**/*.{js,ts,tsx}',
-        cache: false,
-        threads: false,
-      }),
+    // isProduction &&
+    //   new ESLintPlugin({
+    //     files: './src/**/*.{js,ts,tsx}',
+    //     cache: false,
+    //     threads: false,
+    //   }),
     isProduction &&
       new FileManagerPlugin({
         events: {

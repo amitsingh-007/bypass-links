@@ -1,5 +1,6 @@
 {
   "name": "@bypass/configs",
+  "type": "module",
   "version": "1.0.0",
   "private": true,
   "files": [
@@ -7,7 +8,7 @@
     "eslint.base.js",
     "tsconfig.base.json",
     "lint-staged.base.js",
-    "postcss.base.js",
+    "postcss.base.mjs",
     "firebase.config.ts"
   ],
   "peerDependencies": {

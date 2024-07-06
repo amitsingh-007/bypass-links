@@ -3,7 +3,7 @@
   "compilerOptions": {
     "module": "esnext",
     "target": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "jsx": "react-jsxdev",
     "lib": ["esnext", "dom", "dom.iterable", "webworker"],
     "allowJs": true,
@@ -19,6 +19,7 @@
     "isolatedModules": true,
     "incremental": true,
     "noEmit": true,
+    "allowImportingTsExtensions": true,
     "plugins": [
       {
         "name": "typescript-plugin-css-modules"
