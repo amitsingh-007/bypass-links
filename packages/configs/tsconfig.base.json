@@ -19,7 +19,6 @@
     "isolatedModules": true,
     "incremental": true,
     "noEmit": true,
-    "allowImportingTsExtensions": true,
     "plugins": [
       {
         "name": "typescript-plugin-css-modules"

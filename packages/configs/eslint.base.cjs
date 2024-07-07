@@ -47,9 +47,8 @@ module.exports = {
     serviceworker: true,
     node: true,
   },
-  ignorePatterns: ['.eslintrc.js'],
+  ignorePatterns: ['.eslintrc.cjs'],
   rules: {
-    'import/extensions': 'off',
     'no-new': 'off',
     'no-console': 'off',
     'no-continue': 'off',
