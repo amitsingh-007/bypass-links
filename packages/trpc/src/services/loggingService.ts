@@ -1,10 +1,10 @@
-import { Client } from '@axiomhq/axiom-node';
-import { axiomDataset, ILogData, ILogRequest } from '../constants/logs';
+import { Axiom } from '@axiomhq/js';
 import { getEnv } from '../constants/env';
+import { axiomDataset, ILogData, ILogRequest } from '../constants/logs';
 
 const getAxiomClient = () => {
   const { AXIOM_TOKEN, AXIOM_ORG_ID } = getEnv();
-  return new Client({
+  return new Axiom({
     token: AXIOM_TOKEN,
     orgId: AXIOM_ORG_ID,
   });
