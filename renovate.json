@@ -9,6 +9,5 @@
     ":maintainLockFilesMonthly",
     "schedule:monthly"
   ],
-  "baseBranches": ["renovate-updates"],
-  "ignoreDeps": ["@t3-oss/env-core", "@t3-oss/env-nextjs"]
+  "baseBranches": ["renovate-updates"]
 }
