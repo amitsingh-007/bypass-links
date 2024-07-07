@@ -2,7 +2,7 @@ import { Axiom } from '@axiomhq/js';
 import { getEnv } from '../constants/env';
 import { axiomDataset, ILogData, ILogRequest } from '../constants/logs';
 
-const getAxiomClient = () => {
+const getAxiom = () => {
   const { AXIOM_TOKEN, AXIOM_ORG_ID } = getEnv();
   return new Axiom({
     token: AXIOM_TOKEN,
@@ -24,6 +24,8 @@ export const logToAxiom = async (
     req: reqMetaData,
   };
   if (data.env === 'production') {
-    await getAxiomClient().ingestEvents(axiomDataset, data);
+    const axiom = getAxiom();
+    axiom.ingest(axiomDataset, data);
+    axiom.flush();
   }
 };
