@@ -84,8 +84,8 @@ importers:
         specifier: 2.3.0
         version: 2.3.0
       preact:
-        specifier: 10.22.0
-        version: 10.22.0
+        specifier: 10.22.1
+        version: 10.22.1
       react:
         specifier: 18.3.1
         version: 18.3.1
@@ -103,7 +103,7 @@ importers:
         version: 3.3.0(react@18.3.1)
       wouter-preact:
         specifier: 3.3.0
-        version: 3.3.0(preact@10.22.0)
+        version: 3.3.0(preact@10.22.1)
       wretch:
         specifier: 2.9.0
         version: 2.9.0
@@ -122,10 +122,10 @@ importers:
         version: 1.45.0
       '@prefresh/core':
         specifier: 1.5.2
-        version: 1.5.2(preact@10.22.0)
+        version: 1.5.2(preact@10.22.1)
       '@prefresh/webpack':
         specifier: 4.0.1
-        version: 4.0.1(@prefresh/babel-plugin@0.5.1)(preact@10.22.0)(webpack@5.92.1(webpack-cli@5.1.4))
+        version: 4.0.1(@prefresh/babel-plugin@0.5.1)(preact@10.22.1)(webpack@5.92.1(webpack-cli@5.1.4))
       '@types/chrome':
         specifier: 0.0.268
         version: 0.0.268
@@ -509,8 +509,8 @@ importers:
         specifier: 2.3.0
         version: 2.3.0
       preact:
-        specifier: 10.22.0
-        version: 10.22.0
+        specifier: 10.22.1
+        version: 10.22.1
       react:
         specifier: 18.3.1
         version: 18.3.1
@@ -6171,8 +6171,8 @@ packages:
     resolution: {integrity: sha512-0vzE+lAiG7hZl1/9I8yzKLx3aR9Xbof3fBHKunvMfOCYAtMhrsnccJY2iTURb9EZd5+pLuiNV9/c/GZJOHsgIw==}
     engines: {node: ^10 || ^12 || >=14}
 
-  preact@10.22.0:
-    resolution: {integrity: sha512-RRurnSjJPj4rp5K6XoP45Ui33ncb7e4H7WiOHVpjbkvqvA3U+N8Z6Qbo0AE6leGYBV66n8EhEaFixvIu3SkxFw==}
+  preact@10.22.1:
+    resolution: {integrity: sha512-jRYbDDgMpIb5LHq3hkI0bbl+l/TQ9UnkdQ0ww+lp+4MMOdqaUYdFc5qeyP+IV8FAd/2Em7drVPeKdQxsiWCf/A==}
 
   prebuild-install@7.1.2:
     resolution: {integrity: sha512-UnNke3IQb6sgarcZIDU3gbMeTp/9SSU1DAIkil7PrqG1vZlBtY5msYccSKSHDqa3hNg436IXK+SNImReuA1wEQ==}
@@ -9388,18 +9388,18 @@ snapshots:
 
   '@prefresh/babel-plugin@0.5.1': {}
 
-  '@prefresh/core@1.5.2(preact@10.22.0)':
+  '@prefresh/core@1.5.2(preact@10.22.1)':
     dependencies:
-      preact: 10.22.0
+      preact: 10.22.1
 
   '@prefresh/utils@1.2.0': {}
 
-  '@prefresh/webpack@4.0.1(@prefresh/babel-plugin@0.5.1)(preact@10.22.0)(webpack@5.92.1(webpack-cli@5.1.4))':
+  '@prefresh/webpack@4.0.1(@prefresh/babel-plugin@0.5.1)(preact@10.22.1)(webpack@5.92.1(webpack-cli@5.1.4))':
     dependencies:
       '@prefresh/babel-plugin': 0.5.1
-      '@prefresh/core': 1.5.2(preact@10.22.0)
+      '@prefresh/core': 1.5.2(preact@10.22.1)
       '@prefresh/utils': 1.2.0
-      preact: 10.22.0
+      preact: 10.22.1
       webpack: 5.92.1(webpack-cli@5.1.4)
 
   '@protobufjs/aspromise@1.1.2': {}
@@ -13974,7 +13974,7 @@ snapshots:
       picocolors: 1.0.1
       source-map-js: 1.2.0
 
-  preact@10.22.0: {}
+  preact@10.22.1: {}
 
   prebuild-install@7.1.2:
     dependencies:
@@ -15554,10 +15554,10 @@ snapshots:
 
   word-wrap@1.2.5: {}
 
-  wouter-preact@3.3.0(preact@10.22.0):
+  wouter-preact@3.3.0(preact@10.22.1):
     dependencies:
       mitt: 3.0.1
-      preact: 10.22.0
+      preact: 10.22.1
       regexparam: 3.0.0
 
   wouter@3.3.0(react@18.3.1):
