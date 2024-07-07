@@ -4,10 +4,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "cross-env NODE_NO_WARNINGS=1 NODE_ENV=production HOST_NAME=https://bypass-links.vercel.app NODE_OPTIONS='--experimental-specifier-resolution=node --loader ts-node/esm' pnpx webpack-cli --config webpack.config.ts",
-    "build2": "cross-env NODE_ENV=production HOST_NAME=https://bypass-links.vercel.app NODE_OPTIONS='--loader ts-node/esm' pnpx webpack-cli --entry ./src/index.tsx --mode production",
-    "build1": "cross-env NODE_ENV=production HOST_NAME=https://bypass-links.vercel.app webpack",
-    "dev": "cross-env NODE_ENV=development HOST_NAME=http://localhost:3000 webpack serve",
+    "build": "cross-env NODE_ENV=production HOST_NAME=https://bypass-links.vercel.app NODE_NO_WARNINGS=1 NODE_OPTIONS='--loader ts-node/esm' webpack",
+    "dev": "cross-env NODE_ENV=development HOST_NAME=http://localhost:3000 NODE_NO_WARNINGS=1 NODE_OPTIONS='--loader ts-node/esm' webpack serve",
     "lint": "eslint ."
   },
   "dependencies": {

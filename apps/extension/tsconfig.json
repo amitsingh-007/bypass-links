@@ -9,9 +9,7 @@
       "@constants/*": ["./src/constants/*"],
       "@helpers/*": ["./src/helpers/*"],
       "@interfaces/*": ["./src/interfaces/*"],
-      "@store/*": ["./src/store/*"],
-      // "@mantine/form": ["./node_modules/@mantine/form/lib/index.d.ts"],
-      // "@mantine/hooks": ["./node_modules/@mantine/hooks/lib/index.d.ts"],
+      "@store/*": ["./src/store/*"]
     }
   },
   "include": ["@types", "src", "tests", "webpack.config.ts"],
@@ -22,7 +20,7 @@
     "esm": true,
     "compilerOptions": {
       "module": "esnext",
-      "moduleResolution": "bundler",
+      "moduleResolution": "bundler"
     }
   }
 }
