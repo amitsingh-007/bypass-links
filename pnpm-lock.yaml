@@ -102,8 +102,8 @@ importers:
         specifier: 3.3.1
         version: 3.3.1(react@18.3.1)
       wouter-preact:
-        specifier: 3.3.0
-        version: 3.3.0(preact@10.22.1)
+        specifier: 3.3.1
+        version: 3.3.1(preact@10.22.1)
       wretch:
         specifier: 2.9.0
         version: 2.9.0
@@ -7497,8 +7497,8 @@ packages:
     resolution: {integrity: sha512-BN22B5eaMMI9UMtjrGd5g5eCYPpCPDUy0FJXbYsaT5zYxjFOckS53SQDE3pWkVoWpHXVb3BrYcEN4Twa55B5cA==}
     engines: {node: '>=0.10.0'}
 
-  wouter-preact@3.3.0:
-    resolution: {integrity: sha512-qLCG5C0VlzmcM9aYjWzw+ayfl+TxKUFxOVlqqkmZ8iLcvyMPwBsU8d5uCuqR1c8FCl31bvGdDBcbQtao1bHd2w==}
+  wouter-preact@3.3.1:
+    resolution: {integrity: sha512-X2Z8FcuRv7Gt7erEQ0hoVMUdOmM1HWF/6iy9YhyxVYluwqkoARP3cWV0TzfZVm8NcAegswW0y9In0ayoFCk5Ew==}
     peerDependencies:
       preact: ^10.0.0
 
@@ -15597,7 +15597,7 @@ snapshots:
 
   word-wrap@1.2.5: {}
 
-  wouter-preact@3.3.0(preact@10.22.1):
+  wouter-preact@3.3.1(preact@10.22.1):
     dependencies:
       mitt: 3.0.1
       preact: 10.22.1
