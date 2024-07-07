@@ -15,7 +15,7 @@
     "test": "turbo run test"
   },
   "devDependencies": {
-    "@playwright/test": "1.45.0",
+    "@playwright/test": "1.45.1",
     "@types/node": "20.14.9",
     "husky": "9.0.11",
     "lint-staged": "15.2.5",
