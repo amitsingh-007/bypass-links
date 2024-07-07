@@ -1,4 +1,4 @@
-const config = require('@bypass/configs/eslint.base');
+const config = require('@bypass/configs/eslint.base.cjs');
 
 module.exports = {
   ...config,

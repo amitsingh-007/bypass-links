@@ -1,6 +1,6 @@
-const postcssConfig = require('@bypass/configs/postcss.base');
+import postcssConfig from '@bypass/configs/postcss.base.mjs';
 
-module.exports = {
+export default {
   ...postcssConfig,
   plugins: {
     ...postcssConfig.plugins,
