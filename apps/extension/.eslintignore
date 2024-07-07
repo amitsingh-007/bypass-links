@@ -1,4 +1,4 @@
 node_modules/
 build/
 **/*.js
-**/*.mjs
+**/*.cjs

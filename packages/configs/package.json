@@ -5,7 +5,7 @@
   "private": true,
   "files": [
     "manifest/*",
-    "eslint.base.js",
+    "eslint.base.cjs",
     "tsconfig.base.json",
     "lint-staged.base.js",
     "postcss.base.mjs",
