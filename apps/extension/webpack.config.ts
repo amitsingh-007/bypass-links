@@ -1,29 +1,35 @@
 import {
   getExtVersion,
   getFileNameFromVersion,
-} from '@bypass/configs/manifest/extensionFile';
+} from '@bypass/configs/manifest/extensionFile.js';
 import PreactRefreshPlugin from '@prefresh/webpack';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import ESLintPlugin from 'eslint-webpack-plugin';
+// import ESLintPlugin from 'eslint-webpack-plugin';
 import FileManagerPlugin from 'filemanager-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MergeJsonWebpackPlugin from 'merge-jsons-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import { resolve } from 'path';
+import { dirname, resolve } from 'path';
 import ReactRefreshTypeScript from 'react-refresh-typescript';
 import TerserPlugin from 'terser-webpack-plugin';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
-import { Configuration, DefinePlugin, RuleSetRule, optimize } from 'webpack';
+import { fileURLToPath } from 'url';
+import webpack, { Configuration, RuleSetRule } from 'webpack';
 import 'webpack-dev-server';
-import { env } from './src/constants/env';
+import { env } from './src/constants/env.js';
+
+const fileName = fileURLToPath(import.meta.url);
+const dirName = dirname(fileName);
+
+const { DefinePlugin, optimize } = webpack;
 
 const PATHS = {
-  ROOT: resolve(__dirname),
-  SRC: resolve(__dirname, 'src'),
-  EXTENSION: resolve(__dirname, 'build'),
+  ROOT: resolve(dirName),
+  SRC: resolve(dirName, 'src'),
+  EXTENSION: resolve(dirName, 'build'),
 };
 
 const { NODE_ENV, HOST_NAME } = env;
@@ -50,7 +56,7 @@ const getCssLoaders = (cssModules: boolean): RuleSetRule['use'] => [
     loader: 'postcss-loader',
     options: {
       postcssOptions: {
-        config: `${PATHS.ROOT}/postcss.config.js`,
+        config: `${PATHS.ROOT}/postcss.config.mjs`,
       },
     },
   },
@@ -241,12 +247,12 @@ const config: Configuration = {
       },
     }),
     !isProduction && new PreactRefreshPlugin(),
-    isProduction &&
-      new ESLintPlugin({
-        files: './src/**/*.{js,ts,tsx}',
-        cache: false,
-        threads: false,
-      }),
+    // isProduction &&
+    //   new ESLintPlugin({
+    //     files: './src/**/*.{js,ts,tsx}',
+    //     cache: false,
+    //     threads: false,
+    //   }),
     isProduction &&
       new FileManagerPlugin({
         events: {

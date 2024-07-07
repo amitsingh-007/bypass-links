@@ -9,16 +9,18 @@
       "@constants/*": ["./src/constants/*"],
       "@helpers/*": ["./src/helpers/*"],
       "@interfaces/*": ["./src/interfaces/*"],
-      "@store/*": ["./src/store/*"],
-    },
+      "@store/*": ["./src/store/*"]
+    }
   },
   "include": ["@types", "src", "tests", "webpack.config.ts"],
   "exclude": ["build", "**/node_modules"],
   //Required for webpack config in typescript
   "ts-node": {
     "files": true,
+    "esm": true,
     "compilerOptions": {
-      "module": "CommonJS"
+      "module": "esnext",
+      "moduleResolution": "bundler"
     }
   }
 }

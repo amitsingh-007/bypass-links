@@ -1,4 +1,4 @@
-import manifest from './manifest.json';
+import manifest from './manifest.json' assert { type: 'json' };
 
 const FILE_NAME = {
   prefix: 'bypass-links-',

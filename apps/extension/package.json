@@ -1,10 +1,11 @@
 {
   "name": "@bypass/extension",
+  "type": "module",
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "cross-env NODE_ENV=production HOST_NAME=https://bypass-links.vercel.app webpack",
-    "dev": "cross-env NODE_ENV=development HOST_NAME=http://localhost:3000 webpack serve",
+    "build": "cross-env NODE_ENV=production HOST_NAME=https://bypass-links.vercel.app NODE_NO_WARNINGS=1 NODE_OPTIONS='--loader ts-node/esm' webpack",
+    "dev": "cross-env NODE_ENV=development HOST_NAME=http://localhost:3000 NODE_NO_WARNINGS=1 NODE_OPTIONS='--loader ts-node/esm' webpack serve",
     "lint": "eslint ."
   },
   "dependencies": {
@@ -85,6 +86,7 @@
     "ts-loader": "9.5.1",
     "ts-node": "10.9.2",
     "tsconfig-paths-webpack-plugin": "4.1.0",
+    "tslib": "2.6.2",
     "typescript": "5.5.2",
     "typescript-plugin-css-modules": "5.1.0",
     "webpack": "5.92.1",
