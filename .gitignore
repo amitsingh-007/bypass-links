@@ -9,6 +9,8 @@
 
 .turbo
 
+**/.env
+
 # playwright
 /test-results/
 /playwright-report/
