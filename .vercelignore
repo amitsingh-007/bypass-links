@@ -2,3 +2,6 @@
 **/node_modules/
 **/.next
 **/build/
+**/.turbo/
+playwright-report
+test-results

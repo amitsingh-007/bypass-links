@@ -2,9 +2,6 @@
 .next/
 tsconfig.tsbuildinfo
 
-
 .vercel
 
 .turbo
-
-.env
