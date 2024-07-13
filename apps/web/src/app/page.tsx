@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: `Bypass Links - ${title}`,
     description,
     siteName: 'Bypass Links',
-    url: HOST_NAME,
+    url: '/',
     images: [{ url: '/bypass_link_192.png' }],
   },
 };

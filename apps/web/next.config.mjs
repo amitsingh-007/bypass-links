@@ -13,7 +13,6 @@ const nextConfig = {
   experimental: {
     // https://mantine.dev/guides/next/#app-router-tree-shaking
     optimizePackageImports: ['@mantine/core', '@mantine/hooks'],
-    missingSuspenseWithCSRBailout: false,
   },
   compiler: {
     removeConsole: isDev ? false : { exclude: ['error'] },

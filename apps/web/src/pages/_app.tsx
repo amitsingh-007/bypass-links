@@ -9,7 +9,6 @@ import { Analytics } from '@vercel/analytics/react';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
-import { DefaultSeo } from 'next-seo';
 import { AppProps } from 'next/dist/shared/lib/router/router';
 import { StrictMode } from 'react';
 

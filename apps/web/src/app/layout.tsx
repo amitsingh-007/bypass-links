@@ -9,10 +9,7 @@ import { ReactNode } from 'react';
 import { Metadata, Viewport } from 'next';
 import ClientLayout from './ClientLayout';
 
-/**
- * Initialize dayjs with timezone plugin
- * timezone plugin requires utc plugin
- */
+// Initialize dayjs with timezone plugin; timzone plugin requires utc plugin
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
@@ -22,7 +19,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    template: 'Bypass Links - %s',
+    template: 'Bypass Links - %s', // Not working
     default: 'Bypass Links',
   },
   keywords: ['Bypass Links', 'Link bypasser', 'Bookmarks panel'],
@@ -54,9 +51,10 @@ const RootLayout = ({ children }: Readonly<{ children: ReactNode }>) => {
           href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@100;200;300;400;500;700;900&display=swap"
           rel="stylesheet"
         />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
       <body>
-        <ClientLayout>{children} </ClientLayout>
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );
