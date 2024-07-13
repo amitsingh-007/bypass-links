@@ -1,3 +1,5 @@
+'use client';
+
 import styles from '@/styles/web-ext.module.css';
 import { ITwoFactorAuth } from '@/ui/TwoFactorAuth/interface';
 import { googleSignIn, googleSignOut } from '@/ui/firebase/auth';
@@ -7,8 +9,7 @@ import { getFromLocalStorage, setToLocalStorage } from '@/ui/provider/utils';
 import { api } from '@/utils/api';
 import { Header, InputTOTP, ROUTES, STORAGE_KEYS } from '@bypass/shared';
 import { Button, Center, Container, Stack } from '@mantine/core';
-import { NextSeo } from 'next-seo';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { FaUserTag } from 'react-icons/fa';
 import {
@@ -17,9 +18,7 @@ import {
   RiLogoutCircleRFill,
 } from 'react-icons/ri';
 
-export const config = {
-  runtime: 'experimental-edge',
-};
+export const runtime = 'edge';
 
 export default function Web() {
   const router = useRouter();
@@ -91,7 +90,6 @@ export default function Web() {
 
   return (
     <Container size="md" px={0}>
-      <NextSeo title="Home" noindex nofollow />
       <Header text="Bypass Links - Web" />
       <Center mt="md">
         <Stack

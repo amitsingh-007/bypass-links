@@ -1,34 +1,33 @@
+'use client';
+
+import styles from '@/styles/bookmark-panel.module.css';
 import VirtualRow from '@/ui/BookmarksPage/components/VirtualRow';
 import { getFromLocalStorage, setToLocalStorage } from '@/ui/provider/utils';
 import {
   BOOKMARK_ROW_HEIGHT,
-  ContextBookmarks,
-  Header,
-  IBookmarksObj,
-  STORAGE_KEYS,
   bookmarksMapper,
+  ContextBookmarks,
   DEFAULT_BOOKMARK_FOLDER,
   getBookmarkId,
   getFilteredContextBookmarks,
+  Header,
+  IBookmarksObj,
   shouldRenderBookmarks,
+  STORAGE_KEYS,
 } from '@bypass/shared';
 import { Box, Container } from '@mantine/core';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import md5 from 'md5';
-import { NextSeo } from 'next-seo';
-import { useRouter } from 'next/router';
+import { useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import styles from '@/styles/bookmark-panel.module.css';
 
-export const config = {
-  runtime: 'experimental-edge',
-};
+export const runtime = 'edge';
 
 export default function BookmarksPage() {
-  const router = useRouter();
+  const searchParams = useSearchParams();
   const contentRef = useRef<HTMLDivElement>(null);
   const folderContext =
-    (router.query.folderContext as string) ?? DEFAULT_BOOKMARK_FOLDER;
+    searchParams?.get('folderContext') ?? DEFAULT_BOOKMARK_FOLDER;
   const [contextBookmarks, setContextBookmarks] = useState<ContextBookmarks>(
     []
   );
@@ -75,7 +74,6 @@ export default function BookmarksPage() {
 
   return (
     <Container size="md" h="100vh" px={0} className={styles.container}>
-      <NextSeo title="Bookmarks Panel" noindex nofollow />
       <Header
         onSearchChange={handleSearchTextChange}
         text={`${folderContext} (${contextBookmarks?.length || 0})`}

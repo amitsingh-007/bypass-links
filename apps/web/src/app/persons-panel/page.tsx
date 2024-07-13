@@ -1,3 +1,5 @@
+'use client';
+
 import styles from '@/styles/persons-panel.module.css';
 import PersonVirtualCell from '@/ui/PersonsPage/components/PersonVirtualCell';
 import { getFromLocalStorage } from '@/ui/provider/utils';
@@ -13,12 +15,9 @@ import {
   STORAGE_KEYS,
 } from '@bypass/shared';
 import { Box, Container } from '@mantine/core';
-import { NextSeo } from 'next-seo';
 import { useEffect, useMemo, useState } from 'react';
 
-export const config = {
-  runtime: 'experimental-edge',
-};
+export const runtime = 'edge';
 
 const PersonsPage = () => {
   const [persons, setPersons] = useState<IPerson[]>([]);
@@ -50,7 +49,6 @@ const PersonsPage = () => {
   );
   return (
     <Container size="md" h="100vh" px={0} className={styles.container}>
-      <NextSeo title="Persons Panel" noindex nofollow />
       <Header
         onSearchChange={handleSearchTextChange}
         text={`Persons Panel (${filteredPersons?.length || 0})`}
