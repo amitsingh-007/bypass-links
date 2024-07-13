@@ -1,7 +1,6 @@
 'use client';
 
 import styles from '@/styles/persons-panel.module.css';
-import PersonVirtualCell from '@/ui/PersonsPage/components/PersonVirtualCell';
 import { getFromLocalStorage } from '@/ui/provider/utils';
 import { openNewTab } from '@/ui/utils';
 import {
@@ -16,6 +15,7 @@ import {
 } from '@bypass/shared';
 import { Box, Container } from '@mantine/core';
 import { useEffect, useMemo, useState } from 'react';
+import PersonVirtualCell from './components/PersonVirtualCell';
 
 export const runtime = 'edge';
 
