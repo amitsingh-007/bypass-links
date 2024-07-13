@@ -1,4 +1,4 @@
-import usePreloadBookmarks from '../BookmarksPage/hooks/usePreloadBookmarks';
+import usePreloadBookmarks from '../../app/bookmark-panel/hooks/usePreloadBookmarks';
 import usePreloadPerson from '../PersonsPage/hooks/usePreloadPerson';
 import { useUser } from '../provider/AuthProvider';
 import usePreload2FA from '../TwoFactorAuth/hooks/usePreload2FA';

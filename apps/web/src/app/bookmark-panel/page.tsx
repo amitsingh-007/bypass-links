@@ -1,7 +1,6 @@
 'use client';
 
 import styles from '@/styles/bookmark-panel.module.css';
-import VirtualRow from '@/ui/BookmarksPage/components/VirtualRow';
 import { getFromLocalStorage, setToLocalStorage } from '@/ui/provider/utils';
 import {
   BOOKMARK_ROW_HEIGHT,
@@ -20,6 +19,7 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 import md5 from 'md5';
 import { useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import VirtualRow from './components/VirtualRow';
 
 export const runtime = 'edge';
 
