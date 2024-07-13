@@ -1,8 +1,10 @@
 import usePreloadBookmarks from '../BookmarksPage/hooks/usePreloadBookmarks';
 import usePreloadPerson from '../PersonsPage/hooks/usePreloadPerson';
+import { useUser } from '../provider/AuthProvider';
 import usePreload2FA from '../TwoFactorAuth/hooks/usePreload2FA';
 
 const useWebPreload = () => {
+  const { isLoginIntialized } = useUser();
   const {
     isLoading: isLoadingBookmarks,
     preloadData: preloadBookmarksData,
@@ -35,8 +37,11 @@ const useWebPreload = () => {
     ]);
   };
 
+  const isDataLoading = isLoadingBookmarks || isLoadingPersons || isLoading2FA;
+  const isLoading = !isLoginIntialized || isDataLoading;
+
   return {
-    isLoading: isLoadingPersons || isLoadingBookmarks || isLoading2FA,
+    isLoading,
     preloadData,
     clearData,
   };

@@ -19,3 +19,5 @@ export const onAuthStateChange = (callback: (user: User | null) => void) =>
   onAuthStateChanged(auth, callback);
 
 export const getAuthIdToken = () => auth.currentUser?.getIdToken(true);
+
+export const getCurrentUser = () => auth.currentUser;

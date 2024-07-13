@@ -15,10 +15,12 @@ import { getFromLocalStorage } from './utils';
 
 interface IAuthContext {
   user: User | null;
+  isLoginIntialized: boolean;
 }
 
 const AuthContext = createContext<IAuthContext>({
   user: null,
+  isLoginIntialized: false,
 });
 
 const RESTRICTED_PATHS = ['/'];
@@ -28,16 +30,25 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [user, setUser] = useState<IAuthContext['user']>(null);
   const [isInitialized, setIsInitialized] = useState(false);
 
-  const ctx = useMemo(() => ({ user }), [user]);
+  const ctx = useMemo(
+    () => ({ user, isLoginIntialized: isInitialized }),
+    [user, isInitialized]
+  );
 
   useEffect(() => {
     if (isInitialized || RESTRICTED_PATHS.includes(router.pathname)) {
       return;
     }
     const initAuth = async () => {
-      const { onAuthStateChange } = await import('../firebase/auth');
-      onAuthStateChange((_user: User | null) => setUser(_user));
+      const { onAuthStateChange, getCurrentUser } = await import(
+        '../firebase/auth'
+      );
+
+      const currentUser = getCurrentUser();
+      setUser(currentUser);
       setIsInitialized(true);
+
+      onAuthStateChange((_user) => setUser(_user));
     };
     initAuth();
   }, [isInitialized, router.pathname]);
@@ -62,10 +73,11 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 };
 
 export const useUser = () => {
-  const { user } = useContext(AuthContext);
+  const { user, isLoginIntialized } = useContext(AuthContext);
 
   return {
     user,
     isLoggedIn: Boolean(user?.uid),
+    isLoginIntialized,
   };
 };
