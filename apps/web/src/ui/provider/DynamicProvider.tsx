@@ -1,16 +1,19 @@
+'use client';
+
 import { DynamicContext } from '@bypass/shared';
-import { useRouter } from 'next/router';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { PropsWithChildren, useMemo } from 'react';
 import { getFromLocalStorage, setToLocalStorage } from './utils';
 
 const DynamicProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const ctx = useMemo(
     () => ({
       location: {
         push: (url: string) => router.push(url),
-        query: () => new URLSearchParams(router.query as any).toString(),
+        query: () => searchParams?.toString() ?? '',
         goBack: router.back,
       },
       storage: {
@@ -18,7 +21,7 @@ const DynamicProvider = ({ children }: PropsWithChildren) => {
         set: setToLocalStorage,
       },
     }),
-    [router]
+    [router, searchParams]
   );
 
   return (

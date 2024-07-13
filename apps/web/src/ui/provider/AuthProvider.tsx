@@ -1,6 +1,6 @@
 import { STORAGE_KEYS } from '@bypass/shared';
 import { type User } from 'firebase/auth';
-import { useRouter } from 'next/router';
+import { useRouter, usePathname } from 'next/navigation';
 import {
   PropsWithChildren,
   createContext,
@@ -27,6 +27,7 @@ const RESTRICTED_PATHS = ['/'];
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
+  const pathname = usePathname();
   const [user, setUser] = useState<IAuthContext['user']>(null);
   const [isInitialized, setIsInitialized] = useState(false);
 
@@ -36,7 +37,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   );
 
   useEffect(() => {
-    if (isInitialized || RESTRICTED_PATHS.includes(router.pathname)) {
+    if (isInitialized || RESTRICTED_PATHS.includes(pathname ?? '')) {
       return;
     }
     const initAuth = async () => {
@@ -51,10 +52,10 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       onAuthStateChange((_user) => setUser(_user));
     };
     initAuth();
-  }, [isInitialized, router.pathname]);
+  }, [isInitialized, pathname]);
 
   useEffect(() => {
-    if (!user || router.pathname === ROUTES.BYPASS_LINKS_WEB) {
+    if (!user || pathname === ROUTES.BYPASS_LINKS_WEB) {
       return;
     }
     getFromLocalStorage<ITwoFactorAuth>(STORAGE_KEYS.twoFactorAuth).then(
@@ -67,7 +68,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         }
       }
     );
-  }, [router, user]);
+  }, [pathname, router, user]);
 
   return <AuthContext.Provider value={ctx}>{children}</AuthContext.Provider>;
 };

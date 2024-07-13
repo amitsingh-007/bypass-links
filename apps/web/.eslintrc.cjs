@@ -12,10 +12,6 @@ module.exports = {
     'plugin:prettier/recommended',
     'next',
   ],
-  env: {
-    ...config.env,
-    commonjs: true,
-  },
   parser: config.parser,
   parserOptions: {
     ...config.parserOptions,

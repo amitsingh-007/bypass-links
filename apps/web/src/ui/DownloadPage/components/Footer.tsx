@@ -6,6 +6,7 @@ import { IconType } from 'react-icons';
 import { BsGithub } from 'react-icons/bs';
 import { MdExtension } from 'react-icons/md';
 import { RiTimeFill } from 'react-icons/ri';
+import { headers } from 'next/headers';
 import styles from './styles/Footer.module.css';
 
 const Info = ({
@@ -32,12 +33,12 @@ const Info = ({
 const Footer = ({
   releaseDate,
   extVersion,
-  timezone,
 }: {
   releaseDate: string;
   extVersion: string;
-  timezone: string;
 }) => {
+  const tz = headers().get('x-vercel-ip-timezone') ?? undefined;
+
   return (
     <Flex
       pos="relative"
@@ -60,9 +61,7 @@ const Footer = ({
           />
           <Info
             icon={RiTimeFill}
-            text={dayjs(releaseDate)
-              .tz(timezone)
-              .format('DD MMMM YYYY hh:mm A')}
+            text={dayjs(releaseDate).tz(tz).format('DD MMMM YYYY hh:mm A')}
             testId="ext-release-data"
           />
         </Flex>

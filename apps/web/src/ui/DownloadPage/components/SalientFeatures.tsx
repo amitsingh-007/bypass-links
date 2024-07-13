@@ -1,4 +1,4 @@
-import { Box, Flex, Grid, Text } from '@mantine/core';
+import { Box, Flex, Grid, GridCol, Text } from '@mantine/core';
 import CircleIcon from '@ui/icons/circle.svg';
 import { memo } from 'react';
 import Feature from 'src/ui/interfaces/feature';
@@ -57,15 +57,15 @@ const SalientFeatures = memo(function SalientFeatures() {
   return (
     <Flex mt="9.375rem">
       <Grid>
-        <Grid.Col span={{ base: 12, sm: 5 }}>
+        <GridCol span={{ base: 12, sm: 5 }}>
           <Description />
-        </Grid.Col>
-        <Grid.Col span={{ base: 12, sm: 3.5 }}>
+        </GridCol>
+        <GridCol span={{ base: 12, sm: 3.5 }}>
           <FeaturesColumn columnData={firstColumn} />
-        </Grid.Col>
-        <Grid.Col span={{ base: 12, sm: 3.5 }}>
+        </GridCol>
+        <GridCol span={{ base: 12, sm: 3.5 }}>
           <FeaturesColumn columnData={secondColumn} />
-        </Grid.Col>
+        </GridCol>
       </Grid>
     </Flex>
   );
