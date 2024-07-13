@@ -18,6 +18,6 @@ export interface ILogData extends Omit<ILogRequest, 'isProd'> {
   env: 'development' | 'production';
   req: {
     ip: string | null;
-    userAgent?: string;
+    userAgent: string | null;
   };
 }

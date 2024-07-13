@@ -1,11 +1,10 @@
 import { TRPCError, initTRPC } from '@trpc/server';
-import { type CreateNextContextOptions } from '@trpc/server/adapters/next';
-import requestIp from 'request-ip';
 import { ITRPCContext } from './@types/trpc';
 import {
   getFirebaseUser,
   verifyAuthToken,
 } from './services/firebaseAdminService';
+import { getAuthBearer, getIpAddress } from './utils/headers';
 
 const getLoggedInUser = async (idToken: string | undefined) => {
   if (!idToken) {
@@ -24,13 +23,12 @@ const getLoggedInUser = async (idToken: string | undefined) => {
 };
 
 export const createTRPCContext = async (
-  opts: CreateNextContextOptions
+  req: Request
 ): Promise<ITRPCContext> => {
-  const { req } = opts;
   const { headers } = req;
-  const ip = requestIp.getClientIp(req);
-  const userAgent = headers['user-agent'];
-  const bearerToken = headers.authorization?.split?.('Bearer ')?.[1];
+  const ip = getIpAddress(req);
+  const userAgent = headers.get('user-agent');
+  const bearerToken = getAuthBearer(req);
   const user = await getLoggedInUser(bearerToken);
 
   return {
