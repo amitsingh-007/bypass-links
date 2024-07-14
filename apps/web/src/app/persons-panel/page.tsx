@@ -1,8 +1,7 @@
 'use client';
 
-import styles from '@/styles/persons-panel.module.css';
-import { getFromLocalStorage } from '@/ui/provider/utils';
-import { openNewTab } from '@/ui/utils';
+import { openNewTab } from '@app/utils';
+import { getFromLocalStorage } from '@app/utils/storage';
 import {
   decryptionMapper,
   getFilteredPersons,
@@ -16,6 +15,7 @@ import {
 import { Box, Container } from '@mantine/core';
 import { useEffect, useMemo, useState } from 'react';
 import PersonVirtualCell from './components/PersonVirtualCell';
+import styles from './page.module.css';
 
 export const runtime = 'edge';
 

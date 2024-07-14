@@ -1,6 +1,6 @@
 'use client';
 
-import { ROUTES } from '@/ui/constants/routes';
+import { ROUTES } from '@app/constants/routes';
 import { Box, Center } from '@mantine/core';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';

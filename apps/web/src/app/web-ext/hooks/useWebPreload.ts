@@ -1,7 +1,7 @@
-import usePreloadBookmarks from '../../app/bookmark-panel/hooks/usePreloadBookmarks';
-import usePreloadPerson from '../../app/persons-panel/hooks/usePreloadPerson';
-import { useUser } from '../provider/AuthProvider';
-import usePreload2FA from '../TwoFactorAuth/hooks/usePreload2FA';
+import usePreloadBookmarks from '@app/bookmark-panel/hooks/usePreloadBookmarks';
+import usePreloadPerson from '@app/persons-panel/hooks/usePreloadPerson';
+import { useUser } from '@app/provider/AuthProvider';
+import usePreload2FA from './usePreload2FA';
 
 const useWebPreload = () => {
   const { isLoginIntialized } = useUser();

@@ -1,13 +1,13 @@
-import { useUser } from '@/ui/provider/AuthProvider';
+import { ITwoFactorAuth } from '@app/types';
+import { useUser } from '@app/provider/AuthProvider';
+import { api } from '@app/utils/api';
 import {
   isExistsInLocalStorage,
   removeFromLocalStorage,
   setToLocalStorage,
-} from '@/ui/provider/utils';
-import { api } from '@/utils/api';
+} from '@app/utils/storage';
 import { STORAGE_KEYS } from '@bypass/shared';
 import { useCallback, useState } from 'react';
-import { ITwoFactorAuth } from '../interface';
 
 const sync2FAToStorage = async () => {
   if (isExistsInLocalStorage(STORAGE_KEYS.twoFactorAuth)) {

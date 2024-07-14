@@ -1,7 +1,6 @@
 'use client';
 
-import styles from '@/styles/bookmark-panel.module.css';
-import { getFromLocalStorage, setToLocalStorage } from '@/ui/provider/utils';
+import { getFromLocalStorage, setToLocalStorage } from '@app/utils/storage';
 import {
   BOOKMARK_ROW_HEIGHT,
   bookmarksMapper,
@@ -20,6 +19,7 @@ import md5 from 'md5';
 import { useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import VirtualRow from './components/VirtualRow';
+import styles from './page.module.css';
 
 export const runtime = 'edge';
 

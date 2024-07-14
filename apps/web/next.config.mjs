@@ -1,7 +1,7 @@
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import ESLintPlugin from 'eslint-webpack-plugin';
 
-import('./src/constants/env/server.mjs');
+import('./src/app/constants/env/server.mjs');
 
 const isDev = process.env.VERCEL_ENV === 'development';
 

@@ -1,10 +1,10 @@
-import ForumIcon from '@ui/icons/forum.svg';
-import GraphIcon from '@ui/icons/graph.svg';
-import HandshakeIcon from '@ui/icons/handshake.svg';
-import MultilingualIcon from '@ui/icons/multilingual.svg';
-import PalmIcon from '@ui/icons/palm.svg';
-import SecurityIcon from '@ui/icons/security.svg';
-import Feature from 'src/ui/interfaces/feature';
+import ForumIcon from '@app/icons/forum.svg';
+import GraphIcon from '@app/icons/graph.svg';
+import HandshakeIcon from '@app/icons/handshake.svg';
+import MultilingualIcon from '@app/icons/multilingual.svg';
+import PalmIcon from '@app/icons/palm.svg';
+import SecurityIcon from '@app/icons/security.svg';
+import Feature from '../components/types/feature';
 
 export const firstColumn: Feature[] = [
   {

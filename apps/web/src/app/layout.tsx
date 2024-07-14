@@ -1,13 +1,13 @@
 // !NOTE: maintain below order of css
 import '@mantine/core/styles.css';
-import '@/styles/global.css';
+import './layout.css';
 import { ColorSchemeScript } from '@mantine/core';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import { ReactNode } from 'react';
 import { Metadata, Viewport } from 'next';
-import ClientLayout from './ClientLayout';
+import AppProviders from './provider/AppProviders';
 
 // Initialize dayjs with timezone plugin; timzone plugin requires utc plugin
 dayjs.extend(utc);
@@ -54,7 +54,7 @@ const RootLayout = ({ children }: Readonly<{ children: ReactNode }>) => {
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
       <body>
-        <ClientLayout>{children}</ClientLayout>
+        <AppProviders>{children}</AppProviders>
       </body>
     </html>
   );

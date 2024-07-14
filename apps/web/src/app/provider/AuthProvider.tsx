@@ -10,8 +10,8 @@ import {
   useState,
 } from 'react';
 import { ROUTES } from '../constants/routes';
-import { ITwoFactorAuth } from '../TwoFactorAuth/interface';
-import { getFromLocalStorage } from './utils';
+import { ITwoFactorAuth } from '../types';
+import { getFromLocalStorage } from '../utils/storage';
 
 interface IAuthContext {
   user: User | null;
@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     }
     const initAuth = async () => {
       const { onAuthStateChange, getCurrentUser } = await import(
-        '../firebase/auth'
+        '../helpers/firebase/auth'
       );
 
       const currentUser = getCurrentUser();

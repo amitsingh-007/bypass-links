@@ -1,7 +1,7 @@
+import { serverEnv } from '@app/constants/env/server.mjs';
+import { getAuthIdToken } from '@app/helpers/firebase/auth';
 import { type AppRouter } from '@bypass/trpc';
 import { createTRPCProxyClient, httpBatchLink, loggerLink } from '@trpc/client';
-import { serverEnv } from '@/constants/env/server.mjs';
-import { getAuthIdToken } from '@/ui/firebase/auth';
 
 const getBaseUrl = () => {
   if (typeof window !== 'undefined') {

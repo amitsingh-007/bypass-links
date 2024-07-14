@@ -1,11 +1,11 @@
-import styles from '@/styles/home-page.module.css';
 import { Box, Container } from '@mantine/core';
 import { Metadata } from 'next';
-import AppHeader from '../ui/DownloadPage/components/AppHeader';
-import Footer from '../ui/DownloadPage/components/Footer';
-import PageHeader from '../ui/DownloadPage/components/PageHeader';
-import SalientFeatures from '../ui/DownloadPage/components/SalientFeatures';
-import { fetchExtensionData } from './utils';
+import AppHeader from './components/AppHeader';
+import Footer from './components/Footer';
+import PageHeader from './components/PageHeader';
+import SalientFeatures from './components/SalientFeatures';
+import styles from './page.module.css';
+import { fetchExtensionData } from './page.utils';
 
 export const runtime = 'edge';
 

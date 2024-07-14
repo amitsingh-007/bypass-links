@@ -1,9 +1,7 @@
-'use client';
-
 import { DynamicContext } from '@bypass/shared';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { PropsWithChildren, useMemo } from 'react';
-import { getFromLocalStorage, setToLocalStorage } from './utils';
+import { getFromLocalStorage, setToLocalStorage } from '../utils/storage';
 
 const DynamicProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();

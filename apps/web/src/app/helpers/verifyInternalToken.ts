@@ -1,4 +1,4 @@
-import { serverEnv } from '@/constants/env/server.mjs';
+import { serverEnv } from '@app/constants/env/server.mjs';
 import { NextRequest } from 'next/server';
 
 export const verifyInternalToken = async (req: NextRequest) => {

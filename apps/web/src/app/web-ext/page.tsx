@@ -1,12 +1,10 @@
 'use client';
 
-import styles from '@/styles/web-ext.module.css';
-import { ITwoFactorAuth } from '@/ui/TwoFactorAuth/interface';
-import { googleSignIn, googleSignOut } from '@/ui/firebase/auth';
-import useWebPreload from '@/ui/hooks/useWebPreload';
-import { useUser } from '@/ui/provider/AuthProvider';
-import { getFromLocalStorage, setToLocalStorage } from '@/ui/provider/utils';
-import { api } from '@/utils/api';
+import { googleSignIn, googleSignOut } from '@app/helpers/firebase/auth';
+import { useUser } from '@app/provider/AuthProvider';
+import { ITwoFactorAuth } from '@app/types';
+import { api } from '@app/utils/api';
+import { getFromLocalStorage, setToLocalStorage } from '@app/utils/storage';
 import { Header, InputTOTP, ROUTES, STORAGE_KEYS } from '@bypass/shared';
 import { Button, Center, Container, Stack } from '@mantine/core';
 import { useRouter } from 'next/navigation';
@@ -17,6 +15,8 @@ import {
   RiLoginCircleFill,
   RiLogoutCircleRFill,
 } from 'react-icons/ri';
+import useWebPreload from './hooks/useWebPreload';
+import styles from './page.module.css';
 
 export const runtime = 'edge';
 

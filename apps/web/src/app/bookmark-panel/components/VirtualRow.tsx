@@ -1,4 +1,4 @@
-import { openNewTab } from '@/ui/utils';
+import { openNewTab } from '@app/utils';
 import {
   Bookmark,
   ContextBookmarks,

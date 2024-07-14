@@ -1,5 +1,5 @@
 import { Box, Button, Group, Title } from '@mantine/core';
-import ChromeIcon from '@ui/icons/chrome.svg';
+import ChromeIcon from '@app/icons/chrome.svg';
 import { memo } from 'react';
 import styles from './styles/PageHeader.module.css';
 
