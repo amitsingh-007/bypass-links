@@ -1,4 +1,4 @@
-import { verifyInternalToken } from '@/helpers/verifyInternalToken';
+import { verifyInternalToken } from '@app/helpers/verifyInternalToken';
 import { backupData } from '@bypass/trpc';
 import { NextRequest, NextResponse } from 'next/server';
 

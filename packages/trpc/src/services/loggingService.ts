@@ -13,7 +13,7 @@ const getAxiom = () => {
 export const logToAxiom = async (
   logReq: ILogRequest,
   reqMetaData: {
-    userAgent?: string;
+    userAgent: string | null;
     ip: string | null;
   }
 ) => {

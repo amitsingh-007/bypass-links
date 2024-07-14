@@ -6,9 +6,10 @@
     "strictNullChecks": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
+      "@app/*": ["src/app/*"],
+      "@ui/*": ["src/ui/*"],
       "@public/*": ["public/*"],
-      "@ui/*": ["src/ui/*"]
+      "@/*": ["src/*"]
     },
     "plugins": [
       {
