@@ -1,4 +1,4 @@
-import { authorizeUser } from '@/helpers/authorizeUser';
+import { authorizeUser } from '@app/helpers/authorizeUser';
 import { uploadImageToFirebase } from '@bypass/trpc/appRouter';
 import { NextRequest, NextResponse } from 'next/server';
 import { validateAndProccessFile } from './utils';

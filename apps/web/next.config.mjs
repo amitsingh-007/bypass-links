@@ -1,7 +1,7 @@
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import ESLintPlugin from 'eslint-webpack-plugin';
 
-import('./src/constants/env/server.mjs');
+import('./src/app/constants/env/server.mjs');
 
 const isDev = process.env.VERCEL_ENV === 'development';
 
@@ -11,21 +11,14 @@ const isDev = process.env.VERCEL_ENV === 'development';
 const nextConfig = {
   productionBrowserSourceMaps: true,
   experimental: {
-    /**
-     * @link https://github.com/vercel/next.js/issues/55682#issuecomment-1739894301
-     */
-    serverMinification: false,
+    // https://mantine.dev/guides/next/#app-router-tree-shaking
+    optimizePackageImports: ['@mantine/core', '@mantine/hooks'],
   },
   compiler: {
     removeConsole: isDev ? false : { exclude: ['error'] },
   },
-  /**
-   * TODO: remove after app router migration
-   * @link https://github.com/vercel/next.js/issues/30567#issuecomment-958806777
-   */
-  optimizeFonts: false,
   reactStrictMode: true,
-  transpilePackages: ['@bypass/shared'],
+  transpilePackages: ['@bypass/shared', '@bypass/trpc'],
   webpack: (config, { dev, isServer, webpack }) => {
     config.module.rules.push({
       test: /\.svg$/,
@@ -47,8 +40,6 @@ const nextConfig = {
         })
       );
     }
-    // https://github.com/firebase/firebase-admin-node/issues/84
-    config.externals.push('firebase-admin');
     return config;
   },
 };
