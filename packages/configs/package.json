@@ -6,7 +6,7 @@
   "files": [
     "manifest/*",
     "tsconfig.base.json",
-    "lint-staged.base.mjs",
+    "lint-staged.base.js",
     "postcss.base.mjs",
     "firebase.config.ts"
   ],

@@ -27,6 +27,7 @@ const firebasePublicConfig = getFirebasePublicConfig(PROD_ENV);
 
 const getFirebaseCredentials = () => {
   const serviceAccountKey = JSON.parse(SERVICE_ACCOUNT_KEY);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   return cert({
     ...serviceAccountKey,
     private_key: FIREBASE_PRIVATE_KEY,

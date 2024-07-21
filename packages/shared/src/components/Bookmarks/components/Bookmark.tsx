@@ -18,7 +18,7 @@ export interface BookmarkProps {
   onOpenLink: (url: string) => void;
 }
 
-const getPersonsFromUids = async (uids: string[], persons: IPerson[]) => {
+const getPersonsFromUids = (uids: string[], persons: IPerson[]) => {
   if (!uids || !persons) {
     return [];
   }
@@ -43,7 +43,7 @@ const Bookmark = memo<BookmarkProps>(function Bookmark({
 
   const initImageUrl = useCallback(async () => {
     const allPersons = await getAllDecodedPersons();
-    const persons = await getPersonsFromUids(taggedPersons, allPersons);
+    const persons = getPersonsFromUids(taggedPersons, allPersons);
     const newPersonsWithImageUrls = await getPersonsWithImageUrl(persons);
     setPersonsWithImageUrls(newPersonsWithImageUrls);
   }, [getAllDecodedPersons, getPersonsWithImageUrl, taggedPersons]);

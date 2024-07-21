@@ -40,14 +40,11 @@ const Authenticate = memo(function Authenticate() {
     resetAuthProgress();
   }, [displayToast, resetAuthProgress, setIsSignedIn]);
 
-  const init = useCallback(async () => {
+  // Init
+  useEffect(() => {
     const { idpAuth } = useFirebaseStore.getState();
     setIsSignedIn(!!idpAuth?.uid);
   }, [setIsSignedIn]);
-
-  useEffect(() => {
-    init();
-  }, [init]);
 
   useEffect(() => {
     if (isSignedIn && !isExtensionActive) {

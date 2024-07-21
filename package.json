@@ -9,12 +9,13 @@
     "dev": "turbo run dev",
     "dev:env": "vercel env pull apps/web/.env && vercel env pull packages/trpc/.env",
     "e2e": "playwright test",
-    "lint": "turbo run lint",
+    "lint": "turbo run lint --continue",
     "precommit": "lint-staged --quiet",
     "prepare": "husky",
     "test": "turbo run test"
   },
   "devDependencies": {
+    "@bypass/configs": "workspace:*",
     "@eslint/compat": "1.1.1",
     "@eslint/eslintrc": "3.1.0",
     "@eslint/js": "9.7.0",

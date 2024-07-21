@@ -1,4 +1,4 @@
-import { getBookmarks } from '@/helpers/fetchFromStorage';
+import { getBookmarks } from '@helpers/fetchFromStorage';
 import usePersonStore from '@/store/person';
 import useToastStore from '@/store/toast';
 import {

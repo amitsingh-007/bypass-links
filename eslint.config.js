@@ -12,7 +12,7 @@ import { FlatCompat } from '@eslint/eslintrc';
 import playwright from 'eslint-plugin-playwright';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 
-// !NOTE: Add types to eslint-mocked-types.d.ts if getting TS error for imports
+// !NOTE: Add types to eslint-mocked-types.d.ts if getting TS error for plugins
 
 /**
  * TODO: Plugins not yet working
@@ -50,17 +50,15 @@ function legacyPlugin(name, alias = name) {
 }
 
 export default tseslint.config(
-  // TODO: typed checks
   eslint.configs.recommended,
-  ...tseslint.configs.strict,
-  // ...tseslint.configs.recommendedTypeChecked,
+  ...tseslint.configs.strictTypeChecked,
   {
     languageOptions: {
       parserOptions: {
         project: [
-          './tsconfig.json',
           './packages/*/tsconfig.json',
           './apps/*/tsconfig.json',
+          './tsconfig.json',
         ],
         tsconfigRootDir: import.meta.dirname,
       },
@@ -139,9 +137,24 @@ export default tseslint.config(
   // configure & override all rules
   {
     rules: {
+      'playwright/expect-expect': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-extraneous-class': 'off',
       '@typescript-eslint/no-dynamic-delete': 'off',
+      '@typescript-eslint/no-unnecessary-condition': 'off',
+      '@typescript-eslint/no-floating-promises': 'off',
+      '@typescript-eslint/no-confusing-void-expression': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/restrict-template-expressions': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-misused-promises': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
+      '@typescript-eslint/no-base-to-string': [
+        'error',
+        {
+          ignoredTypeNames: ['TRPCError'],
+        },
+      ],
       '@typescript-eslint/no-unused-vars': [
         'warn',
         {
@@ -150,7 +163,6 @@ export default tseslint.config(
           argsIgnorePattern: '^_',
         },
       ],
-      'playwright/expect-expect': 'off',
     },
   },
   // prettier eslint config.

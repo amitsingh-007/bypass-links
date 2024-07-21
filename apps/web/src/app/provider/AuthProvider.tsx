@@ -58,16 +58,15 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     if (!user || pathname === ROUTES.BYPASS_LINKS_WEB) {
       return;
     }
-    getFromLocalStorage<ITwoFactorAuth>(STORAGE_KEYS.twoFactorAuth).then(
-      (twoFAData) => {
-        if (!twoFAData) {
-          return;
-        }
-        if (twoFAData.is2FAEnabled && !twoFAData.isTOTPVerified) {
-          router.replace(ROUTES.BYPASS_LINKS_WEB);
-        }
-      }
+    const twoFAData = getFromLocalStorage<ITwoFactorAuth>(
+      STORAGE_KEYS.twoFactorAuth
     );
+    if (!twoFAData) {
+      return;
+    }
+    if (twoFAData.is2FAEnabled && !twoFAData.isTOTPVerified) {
+      router.replace(ROUTES.BYPASS_LINKS_WEB);
+    }
   }, [pathname, router, user]);
 
   return <AuthContext.Provider value={ctx}>{children}</AuthContext.Provider>;

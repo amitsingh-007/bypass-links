@@ -69,7 +69,7 @@ const BookmarksList = memo<Props>(function BookmarksList({
     setBookmarks(fetchedBookmarks);
   }, [getBookmarkFromHash, getFolderFromHash, taggedUrls]);
 
-  const handleBookmarkEdit = async ({ url, parentName }: ModifiedBookmark) => {
+  const handleBookmarkEdit = ({ url, parentName }: ModifiedBookmark) => {
     location.push(
       getBookmarksPanelUrl({
         operation: EBookmarkOperation.EDIT,

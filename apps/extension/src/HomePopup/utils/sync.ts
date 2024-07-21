@@ -27,7 +27,11 @@ import {
 import { trpcApi } from '@/apis/trpcApi';
 import { sendRuntimeMessage } from '@/utils/sendRuntimeMessage';
 import { ECacheBucketKeys, STORAGE_KEYS, deleteAllCache } from '@bypass/shared';
-import { getSettings, getUser2FAInfo } from '@helpers/fetchFromStorage';
+import {
+  getHistoryTime,
+  getSettings,
+  getUser2FAInfo,
+} from '@helpers/fetchFromStorage';
 import { AuthProgress } from './authProgress';
 import { IUser2FAInfo } from '../interfaces/authentication';
 
@@ -114,21 +118,24 @@ export const processPreLogout = async () => {
 
 export const processPostLogout = async () => {
   const settings = await getSettings();
-  const { historyStartTime } = await chrome.storage.local.get([
-    'historyStartTime',
-  ]);
-  const historyWatchTime = Date.now() - historyStartTime;
+  const historyStartTime = await getHistoryTime();
   // Reset storage
   await resetStorage();
   // Refresh browser cache
   AuthProgress.start('Clearing cache');
-  await deleteAllCache([ECacheBucketKeys.favicon, ECacheBucketKeys.person]);
+  deleteAllCache([ECacheBucketKeys.favicon, ECacheBucketKeys.person]);
   AuthProgress.finish('Cleared cache');
   if (settings?.hasManageGoogleActivityConsent) {
     // Open Google Search and Google Image tabs
     await chrome.tabs.create({ url: 'https://www.google.com/' });
     await chrome.tabs.create({ url: 'https://www.google.com/imghp' });
     // Clear activity from google account
-    await sendRuntimeMessage({ key: 'manageGoogleActivity', historyWatchTime });
+    if (historyStartTime) {
+      const historyWatchTime = Date.now() - historyStartTime;
+      await sendRuntimeMessage({
+        key: 'manageGoogleActivity',
+        historyWatchTime,
+      });
+    }
   }
 };

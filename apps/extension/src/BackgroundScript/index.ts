@@ -12,6 +12,7 @@ import {
   setExtensionIcon,
 } from './utils';
 import { receiveRuntimeMessage } from './utils/receiveRuntimeMessage';
+import { RuntimeInput } from '@/utils/sendRuntimeMessage';
 
 Logging.init();
 
@@ -55,13 +56,13 @@ const onPageLoad = async (tabId: number, url: string) => {
 
   // Below if() checks avoid the scenario where url changes after the page is loaded
   if (await isValidTabUrl(tabId)) {
-    redirect(tabId, new URL(url as string));
+    redirect(tabId, new URL(url));
   }
   if (await isValidTabUrl(tabId)) {
     turnOffInputSuggestions(tabId);
   }
   if (await isValidTabUrl(tabId)) {
-    bypass(tabId, new URL(url as string));
+    bypass(tabId, new URL(url));
   }
 };
 
@@ -87,7 +88,7 @@ chrome.webNavigation.onCommitted.addListener((details) => {
 
 // Listen to dispatched messages
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
-  receiveRuntimeMessage(message, sendResponse);
+  receiveRuntimeMessage(message as RuntimeInput, sendResponse);
   return true;
 });
 

@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { getTrpcCaller } from '../test-helpers';
 
-describe('extension router test', async () => {
-  const caller = await getTrpcCaller();
+describe('extension router test', () => {
+  const caller = getTrpcCaller();
 
   it('should have expected response', async () => {
     const output = await caller.extension.latest();

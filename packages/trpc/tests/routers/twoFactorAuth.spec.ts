@@ -5,7 +5,7 @@ import { getTrpcCaller } from '../test-helpers';
 
 const getRandomTotp = () => Math.floor(Math.random() * 1000000).toString();
 
-describe('Two Factor Auth Setup Flow', async () => {
+describe('Two Factor Auth Setup Flow', () => {
   let user: FirebaseUser;
   let secretKey: string | undefined;
   let otpAuthUrl: string | undefined;
@@ -21,13 +21,13 @@ describe('Two Factor Auth Setup Flow', async () => {
   });
 
   it('should have expected response', async () => {
-    const caller = await getTrpcCaller();
+    const caller = getTrpcCaller();
     const output = await caller.twoFactorAuth.status();
     expect(output).toStrictEqual({ is2FAEnabled: false });
   });
 
   it('should create new totp for the first time', async () => {
-    const caller = await getTrpcCaller();
+    const caller = getTrpcCaller();
     const output = await caller.twoFactorAuth.setup();
     expect(output).toHaveProperty('secretKey');
     expect(output).toHaveProperty('otpAuthUrl');
@@ -41,57 +41,57 @@ describe('Two Factor Auth Setup Flow', async () => {
   });
 
   it('should return already created totp if requested to setup again', async () => {
-    const caller = await getTrpcCaller();
+    const caller = getTrpcCaller();
     const output = await caller.twoFactorAuth.setup();
     expect(output).toStrictEqual({ secretKey, otpAuthUrl, qrcode });
   });
 
   it('should still show totp not setup after setup step', async () => {
-    const caller = await getTrpcCaller();
+    const caller = getTrpcCaller();
     const output = await caller.twoFactorAuth.status();
     expect(output).toStrictEqual({ is2FAEnabled: false });
   });
 
   it('should not verify if user enters wrong totp token', async () => {
-    const caller = await getTrpcCaller();
+    const caller = getTrpcCaller();
     const output = await caller.twoFactorAuth.verify(getRandomTotp());
     expect(output).toStrictEqual({ isVerified: false });
   });
 
   it('should verify if user enters correct totp token', async () => {
-    const caller = await getTrpcCaller();
+    const caller = getTrpcCaller();
     const correctToken = authenticator.generate(secretKey ?? '');
     const output = await caller.twoFactorAuth.verify(correctToken);
     expect(output).toStrictEqual({ isVerified: true });
   });
 
   it('should show totp as setup after successfully verifying', async () => {
-    const caller = await getTrpcCaller();
+    const caller = getTrpcCaller();
     const output = await caller.twoFactorAuth.status();
     expect(output).toStrictEqual({ is2FAEnabled: true });
   });
 
   it('should not authenticate the user if wrong totp token is entered', async () => {
-    const caller = await getTrpcCaller();
+    const caller = getTrpcCaller();
     const output = await caller.twoFactorAuth.authenticate(getRandomTotp());
     expect(output).toStrictEqual({ isVerified: false });
   });
 
   it('should authenticate the user if correct totp token is entered', async () => {
-    const caller = await getTrpcCaller();
+    const caller = getTrpcCaller();
     const token = authenticator.generate(secretKey ?? '');
     const output = await caller.twoFactorAuth.authenticate(token);
     expect(output).toStrictEqual({ isVerified: true });
   });
 
   it('should revoke the totp status', async () => {
-    const caller = await getTrpcCaller();
+    const caller = getTrpcCaller();
     const output = await caller.twoFactorAuth.revoke();
     expect(output).toStrictEqual({ isRevoked: true });
   });
 
   it('should show totp not setup after being revoked', async () => {
-    const caller = await getTrpcCaller();
+    const caller = getTrpcCaller();
     const output = await caller.twoFactorAuth.status();
     expect(output).toStrictEqual({ is2FAEnabled: false });
   });

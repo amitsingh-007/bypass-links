@@ -9,7 +9,7 @@ import AddOrEditPersonDialog from './AddOrEditPersonDialog';
 
 interface Props {
   isFetching: boolean;
-  handleAddPerson: any;
+  handleAddPerson: (person: IPerson) => Promise<void>;
   persons: IPerson[];
   onSearchChange: (text: string) => void;
 }

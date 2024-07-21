@@ -1,4 +1,4 @@
-import { getLastVisited } from '@/helpers/fetchFromStorage';
+import { getLastVisited } from '@helpers/fetchFromStorage';
 import md5 from 'md5';
 
 export const getlastVisitedText = async (url: string) => {

@@ -1,3 +1,4 @@
+import { getHistoryTime } from '@helpers/fetchFromStorage';
 import { startHistoryWatch } from '@/utils/history';
 import { Switch, useMantineTheme } from '@mantine/core';
 import useExtStore from '@store/extension';
@@ -6,9 +7,7 @@ import { memo, useCallback, useEffect, useState } from 'react';
 import { HiOutlineEye, HiOutlineEyeOff } from 'react-icons/hi';
 
 const endHistoryWatch = async () => {
-  const { historyStartTime } = await chrome.storage.local.get([
-    'historyStartTime',
-  ]);
+  const historyStartTime = await getHistoryTime();
   if (!historyStartTime) {
     console.log('Nothing to clear.');
     return;
@@ -50,11 +49,9 @@ const ToggleHistory = memo(function ToggleHistory() {
 
   // Init toggle on mount
   useEffect(() => {
-    chrome.storage.local
-      .get(['historyStartTime'])
-      .then(({ historyStartTime }) => {
-        setIsHistoryActive(!!historyStartTime);
-      });
+    getHistoryTime().then((historyStartTime) => {
+      setIsHistoryActive(!!historyStartTime);
+    });
   }, []);
 
   // Turn off history when extension is off
@@ -74,7 +71,7 @@ const ToggleHistory = memo(function ToggleHistory() {
   const handleToggle = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const isActive = event.target.checked;
     if (isActive) {
-      turnOnHistory();
+      await turnOnHistory();
     } else {
       turnOffHistory();
     }

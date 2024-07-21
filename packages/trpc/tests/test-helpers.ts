@@ -2,7 +2,7 @@ import { ITRPCContext } from '../src/@types/trpc';
 import { appRouter } from '../src/index';
 import { getUser } from './firebase';
 
-const createInnerTRPCContext = async (): Promise<ITRPCContext> => {
+const createInnerTRPCContext = (): ITRPCContext => {
   const innerCtx: ITRPCContext = {
     reqMetaData: {
       ip: '',
@@ -26,7 +26,7 @@ const createInnerTRPCContext = async (): Promise<ITRPCContext> => {
   return innerCtx;
 };
 
-export const getTrpcCaller = async () => {
-  const ctx = await createInnerTRPCContext();
+export const getTrpcCaller = () => {
+  const ctx = createInnerTRPCContext();
   return appRouter.createCaller(ctx);
 };

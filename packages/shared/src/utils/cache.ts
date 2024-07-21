@@ -38,7 +38,7 @@ export const deleteCache = async (bucketKey: string) => {
   await caches.delete(bucketKey);
 };
 
-export const deleteAllCache = async (bucketKeys: ECacheBucketKeys[]) => {
+export const deleteAllCache = (bucketKeys: ECacheBucketKeys[]) => {
   bucketKeys.forEach(async (cacheBucketKey) => {
     await deleteCache(cacheBucketKey);
   });

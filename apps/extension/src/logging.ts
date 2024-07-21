@@ -9,7 +9,7 @@ class Logging {
     'Frame with ID 0 was removed',
   ];
 
-  private static ignoreError = (err: string) => {
+  private static ignoreError = (err: any) => {
     if (typeof err !== 'string') {
       return false;
     }
@@ -38,7 +38,7 @@ class Logging {
     }
   };
 
-  static parseObject = (obj?: object | null) =>
+  static parseObject = (obj?: any) =>
     obj
       ? JSON.parse(JSON.stringify(obj, Object.getOwnPropertyNames(obj)))
       : obj;

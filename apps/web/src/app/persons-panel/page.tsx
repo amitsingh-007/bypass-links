@@ -24,15 +24,14 @@ const PersonsPage = () => {
   const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
-    getFromLocalStorage<IPersons>(STORAGE_KEYS.persons).then((_persons) => {
-      if (!_persons) {
-        return;
-      }
-      const decryptedPersons = Object.entries(_persons || {}).map(
-        decryptionMapper
-      );
-      setPersons(sortAlphabetically(decryptedPersons));
-    });
+    const _persons = getFromLocalStorage<IPersons>(STORAGE_KEYS.persons);
+    if (!_persons) {
+      return;
+    }
+    const decryptedPersons = Object.entries(_persons || {}).map(
+      decryptionMapper
+    );
+    setPersons(sortAlphabetically(decryptedPersons));
   }, []);
 
   const handleSearchTextChange = (text: string) => {

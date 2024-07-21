@@ -22,7 +22,7 @@ const syncBookmarksToStorage = async () => {
     return;
   }
   const data = await api.firebaseData.bookmarksGet.query();
-  await setToLocalStorage(STORAGE_KEYS.bookmarks, data);
+  setToLocalStorage(STORAGE_KEYS.bookmarks, data);
 };
 
 const cacheBookmarkFavicons = async () => {
@@ -30,9 +30,7 @@ const cacheBookmarkFavicons = async () => {
   if (hasFaviconCache) {
     return;
   }
-  const bookmarks = await getFromLocalStorage<IBookmarksObj>(
-    STORAGE_KEYS.bookmarks
-  );
+  const bookmarks = getFromLocalStorage<IBookmarksObj>(STORAGE_KEYS.bookmarks);
   if (!bookmarks) {
     return;
   }

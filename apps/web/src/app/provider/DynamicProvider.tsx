@@ -12,11 +12,13 @@ const DynamicProvider = ({ children }: PropsWithChildren) => {
       location: {
         push: (url: string) => router.push(url),
         query: () => searchParams?.toString() ?? '',
-        goBack: router.back,
+        goBack: () => router.back(),
       },
       storage: {
-        get: getFromLocalStorage,
-        set: setToLocalStorage,
+        // eslint-disable-next-line @typescript-eslint/require-await, @typescript-eslint/no-unnecessary-type-assertion
+        get: async (key: string) => getFromLocalStorage(key) as any,
+        // eslint-disable-next-line @typescript-eslint/require-await
+        set: async (key: string, value: any) => setToLocalStorage(key, value),
       },
     }),
     [router, searchParams]
