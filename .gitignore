@@ -1,17 +1,10 @@
 **/node_modules
-
-# vercel
 .vercel/
-
-**/.eslintcache
-
 **/.DS_Store
-
-.turbo
-
+**/.turbo
 **/.env
-
-# playwright
-/test-results/
-/playwright-report/
-/playwright/.cache/
+test-results/
+playwright-report/
+**/tsconfig.tsbuildinfo
+apps/web/.next/
+apps/extension/build/

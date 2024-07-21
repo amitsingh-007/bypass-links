@@ -12,6 +12,7 @@
     "**/node_modules/**": true,
     "**/pnpm-lock.yaml": true,
     "**/.eslintcache": true,
-    "**/.turbo/**": true
+    "**/.turbo/**": true,
+    "**/.next/**": true
   }
 }

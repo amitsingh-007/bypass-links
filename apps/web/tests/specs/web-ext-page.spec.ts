@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
@@ -9,9 +9,9 @@ test.describe('Web Ext page', () => {
     const appIcon = page.getByAltText('app-icon');
     await appIcon.click({ clickCount: 5 });
     await page.waitForURL('/web-ext');
-    await page.isVisible("text='Bypass Links - Web'");
+    await expect(page.getByText('Bypass Links - Web')).toBeVisible();
 
     await page.reload();
-    await page.isVisible("text='Bypass Links - Web'");
+    await expect(page.getByText('Bypass Links - Web')).toBeVisible();
   });
 });

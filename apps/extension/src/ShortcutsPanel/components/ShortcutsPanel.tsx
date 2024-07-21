@@ -1,6 +1,6 @@
+import { trpcApi } from '@/apis/trpcApi';
 import { syncRedirectionsToStorage } from '@/BackgroundScript/redirect';
 import { MAX_PANEL_SIZE } from '@/constants';
-import { trpcApi } from '@/apis/trpcApi';
 import { Header, IRedirection } from '@bypass/shared';
 import { DndContext, DragOverlay, closestCenter } from '@dnd-kit/core';
 import {

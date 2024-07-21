@@ -6,7 +6,7 @@ import PreactRefreshPlugin from '@prefresh/webpack';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-// import ESLintPlugin from 'eslint-webpack-plugin';
+import ESLintPlugin from 'eslint-webpack-plugin';
 import FileManagerPlugin from 'filemanager-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
@@ -247,12 +247,13 @@ const config: Configuration = {
       },
     }),
     !isProduction && new PreactRefreshPlugin(),
-    // isProduction &&
-    //   new ESLintPlugin({
-    //     files: './src/**/*.{js,ts,tsx}',
-    //     cache: false,
-    //     threads: false,
-    //   }),
+    new ESLintPlugin({
+      extensions: ['ts', 'tsx'],
+      cache: !isProduction,
+      threads: !isProduction,
+      lintDirtyModulesOnly: !isProduction,
+      configType: 'flat',
+    }),
     isProduction &&
       new FileManagerPlugin({
         events: {

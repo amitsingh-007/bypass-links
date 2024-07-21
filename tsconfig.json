@@ -1,0 +1,5 @@
+{
+  "extends": "./packages/configs/tsconfig.base.json",
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "playwright-report", "test-results", ".turbo"]
+}

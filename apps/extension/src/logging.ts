@@ -38,7 +38,7 @@ class Logging {
     }
   };
 
-  static parseObject = (obj?: Object | null) =>
+  static parseObject = (obj?: object | null) =>
     obj
       ? JSON.parse(JSON.stringify(obj, Object.getOwnPropertyNames(obj)))
       : obj;
