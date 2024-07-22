@@ -40,13 +40,6 @@ const nextConfig = {
     if (dev) {
       config.plugins.push(new ForkTsCheckerWebpackPlugin());
     }
-    console.log('amit--------------------------', {
-      extensions: ['ts', 'tsx'],
-      cache: isDev,
-      threads: isDev,
-      lintDirtyModulesOnly: isDev,
-      configType: 'flat',
-    });
     return config;
   },
 };

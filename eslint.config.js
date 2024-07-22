@@ -104,7 +104,7 @@ export default tseslint.config(
   //         './tsconfig.json',
   //         './packages/*/tsconfig.json',
   //         './apps/*/tsconfig.json',
-  //       ],
+  //       ] or project: true, ref: https://typescript-eslint.io/getting-started/typed-linting/
   //       tsconfigRootDir: import.meta.dirname,
   //     },
   //   },
