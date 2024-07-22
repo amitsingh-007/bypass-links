@@ -37,6 +37,9 @@ jobs:
           vercel env pull apps/web/.env --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
           vercel env pull packages/trpc/.env --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
 
+      - name: Linting
+        run: pnpm lint
+
       - name: Building
         run: pnpm build
 
