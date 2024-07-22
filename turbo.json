@@ -1,6 +1,5 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "ui": "tui",
   "globalDependencies": ["**/.env", "eslint.config.js", ".github/**"],
   "globalEnv": [
     "NODE_ENV",

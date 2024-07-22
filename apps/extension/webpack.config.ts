@@ -118,7 +118,7 @@ const config: Configuration = {
   },
   stats: isProduction ? 'normal' : 'errors-warnings',
   devtool: isProduction ? undefined : 'inline-source-map',
-  target: 'browserslist',
+  target: 'browserslist:defaults',
   performance: {
     hints: false,
   },
