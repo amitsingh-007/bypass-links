@@ -1,5 +1,4 @@
 import { fixupPluginRules } from '@eslint/compat';
-import { includeIgnoreFile } from '@eslint/compat';
 import eslint from '@eslint/js';
 import eslintPluginReactHooks from 'eslint-plugin-react-hooks';
 import globals from 'globals';
@@ -11,6 +10,7 @@ import { fileURLToPath } from 'url';
 import { FlatCompat } from '@eslint/eslintrc';
 import playwright from 'eslint-plugin-playwright';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import gitignore from 'eslint-config-flat-gitignore';
 
 // !NOTE: Add types to eslint-mocked-types.d.ts if getting TS error for plugins
 
@@ -50,6 +50,7 @@ function legacyPlugin(name, alias = name) {
 }
 
 export default tseslint.config(
+  gitignore(),
   eslint.configs.recommended,
   ...tseslint.configs.strictTypeChecked,
   {
@@ -64,8 +65,6 @@ export default tseslint.config(
     files: ['**/*.js'],
     ...tseslint.configs.disableTypeChecked,
   },
-  // ignore .gitignore files
-  includeIgnoreFile(path.resolve(PATHS.ROOT, '.gitignore')),
   {
     ignores: ['**/*.js', '**/*.mjs', '**/*.cjs', 'apps/web/.next/'],
   },
