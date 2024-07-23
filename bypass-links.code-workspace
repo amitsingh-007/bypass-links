@@ -2,26 +2,29 @@
   "folders": [
     {
       "name": "Bypass Links",
-      "path": "."
+      "path": ".",
     },
     {
-      "path": "packages/configs"
+      "path": "packages/configs",
     },
     {
-      "path": "packages/shared"
+      "path": "packages/shared",
     },
     {
-      "path": "packages/trpc"
+      "path": "packages/trpc",
     },
     {
-      "path": "apps/extension"
+      "path": "apps/extension",
     },
     {
-      "path": "apps/web"
-    }
+      "path": "apps/web",
+    },
   ],
   "settings": {
     // Required for typescript-plugin-css-modules
-    "typescript.tsdk": "extension/node_modules/typescript/lib"
-  }
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "search.exclude": {
+      "build/**": true,
+    },
+  },
 }
