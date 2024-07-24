@@ -4,12 +4,12 @@ import {
   chromium,
   type BrowserContext,
 } from '@playwright/test';
-import path, { dirname } from 'path';
-import { fileURLToPath } from 'url';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { tempDir } from '../../../../scripts/global-teardown';
 
 const fileName = fileURLToPath(import.meta.url);
-const dirName = dirname(fileName);
+const dirName = path.dirname(fileName);
 
 export const test = base.extend<{
   context: BrowserContext;

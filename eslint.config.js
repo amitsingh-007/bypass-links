@@ -5,12 +5,13 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 import reactRecommended from 'eslint-plugin-react/configs/recommended.js';
 import reactJsxRuntime from 'eslint-plugin-react/configs/jsx-runtime.js';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { FlatCompat } from '@eslint/eslintrc';
 import playwright from 'eslint-plugin-playwright';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import gitignore from 'eslint-config-flat-gitignore';
+import eslintPluginUnicorn from 'eslint-plugin-unicorn';
 
 // !NOTE: Add types to eslint-mocked-types.d.ts if getting TS error for plugins
 
@@ -68,6 +69,7 @@ export default tseslint.config(
   {
     ignores: ['**/*.js', '**/*.mjs', '**/*.cjs', 'apps/web/.next/'],
   },
+  eslintPluginUnicorn.configs['flat/recommended'],
   // react eslint config
   {
     files: ['**/*.{ts,tsx}'],
@@ -158,6 +160,14 @@ export default tseslint.config(
           argsIgnorePattern: '^_',
         },
       ],
+      'unicorn/prevent-abbreviations': 'off',
+      'unicorn/filename-case': 'off',
+      'unicorn/no-null': 'off',
+      'unicorn/no-array-for-each': 'off',
+      'unicorn/no-array-reduce': 'off',
+      'unicorn/prefer-ternary': 'off',
+      'unicorn/prefer-query-selector': 'off',
+      'unicorn/prefer-dom-node-dataset': 'off',
     },
   },
   // prettier eslint config.

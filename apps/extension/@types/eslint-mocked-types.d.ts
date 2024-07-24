@@ -18,3 +18,8 @@ declare module '@eslint/eslintrc' {
   export default mocked;
   export const FlatCompat: any;
 }
+
+declare module 'eslint-plugin-unicorn' {
+  const mocked: any;
+  export default mocked;
+}

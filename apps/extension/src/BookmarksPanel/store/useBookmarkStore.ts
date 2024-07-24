@@ -373,14 +373,14 @@ const useBookmarkStore = create<State>()((set, get) => ({
     const newUrlList = Object.entries(urlList).reduce<IBookmarksObj['urlList']>(
       (obj, [hash, data]) => {
         const decodedBookmark = getDecryptedBookmark(data);
-        if (data.parentHash !== folderHash) {
-          obj[hash] = data;
-        } else {
+        if (data.parentHash === folderHash) {
           taggedPersonData.push({
             prevTaggedPersons: decodedBookmark.taggedPersons,
             newTaggedPersons: [],
             urlHash: hash,
           });
+        } else {
+          obj[hash] = data;
         }
         return obj;
       },

@@ -106,7 +106,7 @@ export const processPostLogin = async () => {
     AuthProgress.start('Caching bookmark favicons');
     await cacheBookmarkFavicons();
     AuthProgress.finish('Cached bookmark favicons');
-  } catch (e) {
+  } catch {
     AuthProgress.finish('Caching failed');
   }
 };

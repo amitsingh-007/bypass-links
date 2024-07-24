@@ -69,8 +69,8 @@ export const saveToFirebase = async ({
   try {
     await database.ref(getFullDbPath(ref, uid, isAbsolute)).set(data);
     return true;
-  } catch (err) {
-    console.log(`Error while saving data to Firebase DB: ${ref}`, err);
+  } catch (error) {
+    console.log(`Error while saving data to Firebase DB: ${ref}`, error);
     return false;
   }
 };
@@ -110,8 +110,8 @@ export const uploadImageToFirebase = async (
       .bucket()
       .file(getFilePath(uid, fileName))
       .save(buffer, { contentType: fileType });
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.error(error);
   }
 };
 

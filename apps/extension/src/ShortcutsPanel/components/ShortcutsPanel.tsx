@@ -50,7 +50,7 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
 
   const handleSave = async () => {
     setIsFetching(true);
-    const validRules = redirections.filter(getValidRules);
+    const validRules = redirections.filter((x) => getValidRules(x));
     const isSaveSuccess =
       await trpcApi.firebaseData.redirectionsPost.mutate(validRules);
     if (isSaveSuccess) {
@@ -121,7 +121,7 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
         onDragCancel={onDragCancel}
       >
         <SortableContext
-          items={redirections.map(getRedirectionId)}
+          items={redirections.map((x) => getRedirectionId(x))}
           strategy={verticalListSortingStrategy}
         >
           <Flex

@@ -1,6 +1,6 @@
 import { trpcApi } from '@/apis/trpcApi';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
-import { InputTOTP, STORAGE_KEYS } from '@bypass/shared';
+import { InputTOTP, noOp, STORAGE_KEYS } from '@bypass/shared';
 import { getUser2FAInfo } from '@helpers/fetchFromStorage';
 import { Center, Modal } from '@mantine/core';
 import useToastStore from '@store/toast';
@@ -50,7 +50,7 @@ const TwoFactorAuthenticate = () => {
     <Modal
       opened={promptTOTPVerify}
       fullScreen
-      onClose={() => undefined}
+      onClose={noOp}
       withCloseButton={false}
       closeOnClickOutside={false}
       closeOnEscape={false}

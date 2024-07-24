@@ -34,7 +34,7 @@ interface IForm {
   taggedPersons: string[];
 }
 
-const validateHandler = (value: string) => (!value?.trim() ? 'Required' : null);
+const validateHandler = (value: string) => (value?.trim() ? null : 'Required');
 
 const BookmarkAddEditDialog = memo<Props>(({ curFolder, handleScroll }) => {
   const [, navigate] = useLocation();

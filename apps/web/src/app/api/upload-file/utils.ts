@@ -29,9 +29,11 @@ export const validateAndProccessFile = async (file: File) => {
 
   // Process the file
   switch (true) {
-    case fileTypeRes.mime.startsWith('image/'):
+    case fileTypeRes.mime.startsWith('image/'): {
       return getCompressedImage(file);
-    default:
+    }
+    default: {
       return null;
+    }
   }
 };

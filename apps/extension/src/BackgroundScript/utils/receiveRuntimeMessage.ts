@@ -11,17 +11,20 @@ export const receiveRuntimeMessage = (
   sendMessage: <T extends RuntimeKeys>(data: RuntimeOutput[T]) => void
 ) => {
   switch (message.key) {
-    case 'forumPageLinks':
+    case 'forumPageLinks': {
       getForumPageLinks(message.tabId, message.url).then((forumPageLinks) => {
         sendMessage<'forumPageLinks'>({ forumPageLinks });
       });
       break;
-    case 'manageGoogleActivity':
+    }
+    case 'manageGoogleActivity': {
       manageGoogleActivity(message.historyWatchTime).then(() => {
         sendMessage<'manageGoogleActivity'>({ isSuccess: true });
       });
       break;
-    default:
+    }
+    default: {
       throw new Error(`Runtime message type not implemented: ${message}`);
+    }
   }
 };

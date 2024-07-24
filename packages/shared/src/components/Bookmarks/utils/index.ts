@@ -11,7 +11,7 @@ export const isFolderEmpty = (
   name: string
 ) => {
   const folder = folders[md5(name)];
-  return !folder || folder.length < 1;
+  return !folder || folder.length === 0;
 };
 
 export const getFilteredContextBookmarks = (

@@ -3,7 +3,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { FirebaseUser, anonymousSignIn, deleteFirebaseUser } from '../firebase';
 import { getTrpcCaller } from '../test-helpers';
 
-const getRandomTotp = () => Math.floor(Math.random() * 1000000).toString();
+const getRandomTotp = () => Math.floor(Math.random() * 1_000_000).toString();
 
 describe('Two Factor Auth Setup Flow', () => {
   let user: FirebaseUser;

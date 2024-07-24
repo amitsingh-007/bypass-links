@@ -9,7 +9,7 @@ const PersonAvatars = memo<{ persons: IPersonWithImage[] }>(
   function PersonAvatars({ persons }) {
     const { location } = useContext(DynamicContext);
 
-    return persons.length ? (
+    return persons.length > 0 ? (
       <Avatar.Group spacing="xs">
         {persons.map(({ imageUrl, uid, name }) => (
           <HoverCard

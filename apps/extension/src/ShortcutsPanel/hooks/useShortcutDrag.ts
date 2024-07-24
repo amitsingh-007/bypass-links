@@ -29,7 +29,7 @@ const useShortcutDrag = ({ redirections, saveRedirectionTemp }: Props) => {
       }
       const sourceIndex = active.data.current?.sortable?.index;
       const destIndex = over.data.current?.sortable?.index;
-      const newRedirections = Array.from(redirections);
+      const newRedirections = [...redirections];
       const draggedRedirection = redirections[sourceIndex];
       newRedirections.splice(Number(sourceIndex), 1);
       newRedirections.splice(Number(destIndex), 0, draggedRedirection);

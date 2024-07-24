@@ -76,7 +76,7 @@ const PersonsInner = ({
             h={virtualRow.size}
             style={{ transform: `translateY(${virtualRow.start}px)` }}
           >
-            {Array(columnCount)
+            {Array.from({ length: columnCount })
               .fill(0)
               .map((_, columnIndex) => {
                 const personIndex = getReactKey(

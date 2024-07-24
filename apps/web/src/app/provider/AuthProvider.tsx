@@ -23,7 +23,7 @@ const AuthContext = createContext<IAuthContext>({
   isLoginIntialized: false,
 });
 
-const RESTRICTED_PATHS = ['/'];
+const RESTRICTED_PATHS = new Set(['/']);
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   );
 
   useEffect(() => {
-    if (isInitialized || RESTRICTED_PATHS.includes(pathname ?? '')) {
+    if (isInitialized || RESTRICTED_PATHS.has(pathname)) {
       return;
     }
     const initAuth = async () => {
