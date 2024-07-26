@@ -42,7 +42,7 @@
     "@typescript-eslint/parser": "7.15.0",
     "autoprefixer": "10.4.19",
     "encoding": "0.1.13",
-    "eslint": "8.57.0",
+    "eslint": "9.8.0",
     "eslint-config-airbnb": "19.0.4",
     "eslint-config-airbnb-typescript": "18.0.0",
     "eslint-config-next": "14.2.4",
