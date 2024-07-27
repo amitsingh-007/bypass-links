@@ -33,7 +33,7 @@ const useDndSortable = (id: UniqueIdentifier) => {
 
   useEffect(() => {
     if (!isDragging) {
-      return undefined;
+      return;
     }
     document.body.style.cursor = 'grabbing';
     return () => {

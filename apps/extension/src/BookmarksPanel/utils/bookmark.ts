@@ -49,7 +49,7 @@ export const cacheBookmarkFavicons = async () => {
   const faviconUrls = Object.values(urlList).map(({ url }) =>
     getFaviconProxyUrl(decodeURIComponent(atob(url)))
   );
-  const uniqueUrls = Array.from(new Set(faviconUrls));
+  const uniqueUrls = [...new Set(faviconUrls)];
   const cache = await getCacheObj(ECacheBucketKeys.favicon);
   await Promise.all(
     uniqueUrls.map(async (url) => {

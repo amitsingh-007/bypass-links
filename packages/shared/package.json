@@ -6,8 +6,12 @@
   "types": "src/index.ts",
   "exports": {
     ".": "./src/index.ts",
-    "./styles/*": "./src/styles/*"
+    "./styles/*": "./src/styles/*",
+    "./types/*": "./src/@types/*"
   },
+  "files": [
+    "@types/reset.d.ts"
+  ],
   "sideEffects": false,
   "scripts": {
     "lint": "eslint ."
@@ -31,21 +35,9 @@
   "devDependencies": {
     "@babel/core": "7.24.7",
     "@bypass/configs": "workspace:*",
+    "@total-typescript/ts-reset": "0.5.1",
     "@types/md5": "2.3.5",
     "@types/react": "18.3.3",
-    "@typescript-eslint/eslint-plugin": "7.15.0",
-    "@typescript-eslint/parser": "7.15.0",
-    "eslint": "8.57.0",
-    "eslint-config-airbnb": "19.0.4",
-    "eslint-config-airbnb-typescript": "18.0.0",
-    "eslint-config-turbo": "2.0.6",
-    "eslint-import-resolver-typescript": "3.6.1",
-    "eslint-plugin-import": "2.29.1",
-    "eslint-plugin-jsx-a11y": "6.9.0",
-    "eslint-plugin-prettier": "5.1.3",
-    "eslint-plugin-react": "7.34.3",
-    "eslint-plugin-react-hooks": "4.6.2",
-    "prettier": "3.3.2",
     "tslib": "2.6.3",
     "typescript": "5.5.3"
   }

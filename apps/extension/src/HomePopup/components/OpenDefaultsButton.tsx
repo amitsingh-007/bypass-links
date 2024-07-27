@@ -1,5 +1,5 @@
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
-import { STORAGE_KEYS } from '@bypass/shared';
+import { getRedirections } from '@helpers/fetchFromStorage';
 import { Button } from '@mantine/core';
 import useHistoryStore from '@store/history';
 import { memo, useState } from 'react';
@@ -15,14 +15,13 @@ const OpenDefaultsButton = memo(function OpenDefaultsButton() {
   const handleOpenDefaults = async () => {
     setIsFetching(true);
     startHistoryMonitor();
-    const { [STORAGE_KEYS.redirections]: redirections } =
-      await chrome.storage.local.get([STORAGE_KEYS.redirections]);
+    const redirections = await getRedirections();
     const defaults = redirections.filter(
       ({ isDefault }: { isDefault: boolean }) => isDefault
     );
     defaults
-      .filter((data: any) => data && data.alias && data.website)
-      .forEach(({ website }: any) => {
+      .filter((data) => data && data.alias && data.website)
+      .forEach(({ website }) => {
         chrome.tabs.create({ url: atob(website), active: false });
       });
     setIsFetching(false);

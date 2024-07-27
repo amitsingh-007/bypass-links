@@ -1,4 +1,5 @@
 import { createContext } from 'react';
+import { noOp } from '../utils';
 
 interface IDynamicContext {
   location: {
@@ -14,9 +15,9 @@ interface IDynamicContext {
 
 const DynamicContext = createContext<IDynamicContext>({
   location: {
-    push: () => undefined,
+    push: noOp,
     query: () => '',
-    goBack: () => undefined,
+    goBack: noOp,
   },
   storage: {
     get: () => Promise.resolve<any>({}),

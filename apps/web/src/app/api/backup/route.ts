@@ -3,7 +3,7 @@ import { backupData } from '@bypass/trpc';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
-  await verifyInternalToken(req);
+  verifyInternalToken(req);
 
   await backupData();
   return NextResponse.json({ status: 'Firebase backup successful' });

@@ -145,7 +145,9 @@ const BookmarksPanel = memo<BMPanelQueryParams>(
                   onDragCancel={onDragCancel}
                 >
                   <SortableContext
-                    items={filteredContextBookmarks.map(getBookmarkId)}
+                    items={filteredContextBookmarks.map((x) =>
+                      getBookmarkId(x)
+                    )}
                     strategy={verticalListSortingStrategy}
                     disabled={!!searchText}
                   >

@@ -18,12 +18,12 @@ export interface Props {
   contextBookmarks: ContextBookmarks;
 }
 
+const onOpenLink = (_url: string) => {
+  openNewTab(_url);
+};
+
 const VirtualRow = memo<Props>(({ index, folders, contextBookmarks }) => {
   const ctx = contextBookmarks[index];
-
-  const onOpenLink = (_url: string) => {
-    openNewTab(_url);
-  };
 
   return (
     <Flex

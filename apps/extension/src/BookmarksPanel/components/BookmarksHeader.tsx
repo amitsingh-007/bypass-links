@@ -17,6 +17,10 @@ interface Props {
   folderContext: string;
 }
 
+const handleClose = () => {
+  window.history.back();
+};
+
 const BookmarksHeader = memo<Props>(({ onSearchChange, folderContext }) => {
   const displayToast = useToastStore((state) => state.displayToast);
   const {
@@ -57,11 +61,6 @@ const BookmarksHeader = memo<Props>(({ onSearchChange, folderContext }) => {
     ],
   ]);
 
-  const handleClose = () => {
-    // navigate(-1);
-    window.history.back();
-  };
-
   const onBackClick = () => {
     if (isSaveButtonActive) {
       setOpenConfirmationDialog(true);
@@ -78,8 +77,8 @@ const BookmarksHeader = memo<Props>(({ onSearchChange, folderContext }) => {
     try {
       await syncBookmarksFirebaseWithStorage();
       displayToast({ message: 'Bookmarks synced successfully' });
-    } catch (ex: any) {
-      console.error('Bookmarks sync failed', ex);
+    } catch (error: any) {
+      console.error('Bookmarks sync failed', error);
       displayToast({
         message: 'Bookmarks sync failed',
         severity: 'error',

@@ -22,7 +22,7 @@ const syncBookmarksToStorage = async () => {
     return;
   }
   const data = await api.firebaseData.bookmarksGet.query();
-  await setToLocalStorage(STORAGE_KEYS.bookmarks, data);
+  setToLocalStorage(STORAGE_KEYS.bookmarks, data);
 };
 
 const cacheBookmarkFavicons = async () => {
@@ -30,9 +30,7 @@ const cacheBookmarkFavicons = async () => {
   if (hasFaviconCache) {
     return;
   }
-  const bookmarks = await getFromLocalStorage<IBookmarksObj>(
-    STORAGE_KEYS.bookmarks
-  );
+  const bookmarks = getFromLocalStorage<IBookmarksObj>(STORAGE_KEYS.bookmarks);
   if (!bookmarks) {
     return;
   }
@@ -40,7 +38,7 @@ const cacheBookmarkFavicons = async () => {
   const faviconUrls = Object.values(urlList).map(({ url }) =>
     getFaviconProxyUrl(decodeURIComponent(atob(url)))
   );
-  const uniqueUrls = Array.from(new Set(faviconUrls));
+  const uniqueUrls = [...new Set(faviconUrls)];
   const cache = await getCacheObj(ECacheBucketKeys.favicon);
   await Promise.all(uniqueUrls.map(async (url) => cache.add(url)));
 };

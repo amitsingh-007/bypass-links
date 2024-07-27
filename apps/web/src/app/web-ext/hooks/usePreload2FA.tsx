@@ -18,7 +18,7 @@ const sync2FAToStorage = async () => {
     is2FAEnabled,
     isTOTPVerified: false,
   };
-  await setToLocalStorage(STORAGE_KEYS.twoFactorAuth, data);
+  setToLocalStorage(STORAGE_KEYS.twoFactorAuth, data);
 };
 
 const usePreload2FA = () => {
@@ -34,7 +34,7 @@ const usePreload2FA = () => {
     setIsLoading(false);
   }, [user]);
 
-  const clearData = async () => {
+  const clearData = () => {
     setIsLoading(true);
     removeFromLocalStorage(STORAGE_KEYS.twoFactorAuth);
     setIsLoading(false);

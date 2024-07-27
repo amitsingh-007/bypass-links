@@ -1,9 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": [
-    "**/.env",
-    ".github/**"
-  ],
+  "globalDependencies": ["**/.env", "eslint.config.js", ".github/**"],
   "globalEnv": [
     "NODE_ENV",
     "HOST_NAME",
@@ -17,14 +14,8 @@
   ],
   "tasks": {
     "build": {
-      "dependsOn": [
-        "lint",
-        "^build"
-      ],
-      "outputs": [
-        "build/**",
-        ".next/**"
-      ]
+      "dependsOn": ["lint", "^build"],
+      "outputs": ["build/**", ".next/**"]
     },
     "dev": {
       "cache": false

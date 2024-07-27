@@ -26,7 +26,7 @@ const getSeparatedPersons = (prevPersons: string[], newPersons: string[]) => {
 };
 
 const updateUrlsInTaggedPersons = async (updates: IUpdateTaggedPerson[]) => {
-  if (!updates || !updates.length) {
+  if (!updates?.length) {
     return;
   }
   const persons = await getPersons();
@@ -36,13 +36,13 @@ const updateUrlsInTaggedPersons = async (updates: IUpdateTaggedPerson[]) => {
       newTaggedPersons
     );
     // Do nothing if no change
-    if (!removedPersons.length && !addedPersons.length) {
+    if (removedPersons.length === 0 && addedPersons.length === 0) {
       return;
     }
     // Remove urlHash for removed persons
     removedPersons.forEach((personUid) => {
       const { taggedUrls } = persons[personUid];
-      if (!taggedUrls || taggedUrls.length < 1) {
+      if (!taggedUrls?.length) {
         throw new Error(`No taggedUrls found against uid: ${personUid}`);
       }
       persons[personUid].taggedUrls = taggedUrls.filter(

@@ -6,7 +6,6 @@ test.describe('Home Popup', () => {
     // Content script loaded
     await page.isVisible('Bypass Links');
     const isSWInitialized = await backgroundSW.evaluate(
-      // eslint-disable-next-line no-restricted-globals
       () => self.SW_INITIALIZED
     );
     // Background SW loaded

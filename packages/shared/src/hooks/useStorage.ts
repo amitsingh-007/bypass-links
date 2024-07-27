@@ -1,6 +1,9 @@
 import { useCallback, useContext } from 'react';
 import DynamicContext from '../provider/DynamicContext';
-import { IPersons } from '../components/Persons/interfaces/persons';
+import {
+  IPersons,
+  PersonImageUrls,
+} from '../components/Persons/interfaces/persons';
 import { STORAGE_KEYS } from '../constants/storage';
 import { IBookmarksObj } from '../components/Bookmarks/interfaces';
 
@@ -18,7 +21,7 @@ const useStorage = () => {
   );
 
   const getPersonImageUrls = useCallback(
-    () => storage.get<any>(STORAGE_KEYS.personImageUrls),
+    () => storage.get<PersonImageUrls>(STORAGE_KEYS.personImageUrls),
     [storage]
   );
 

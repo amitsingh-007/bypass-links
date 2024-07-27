@@ -12,7 +12,7 @@ const automate = () => {
     return;
   }
   const menuOption = [...menuOptions].find(
-    (option) => option.innerText === 'Delete activity by'
+    (option) => option.textContent === 'Delete activity by'
   );
   menuOption?.click();
   setTimeout(() => {
@@ -23,7 +23,7 @@ const automate = () => {
       return;
     }
     const option = [...timeRangeOptions].find(
-      (_option) => _option.innerText === 'Last hour'
+      (_option) => _option.textContent === 'Last hour'
     );
     option?.dispatchEvent(
       new MouseEvent('mousedown', {
@@ -56,7 +56,7 @@ export const manageGoogleActivity = async (historyWatchTime: number) => {
       if (historyWatchTime <= 60 * 60 * 1000) {
         setTimeout(() => {
           chrome.tabs.remove(tabId);
-        }, 10000);
+        }, 10_000);
       }
     }
   });

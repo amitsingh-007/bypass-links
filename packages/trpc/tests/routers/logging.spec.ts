@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { getTrpcCaller } from '../test-helpers';
 
-describe('logging router test', async () => {
-  const caller = await getTrpcCaller();
+describe('logging router test', () => {
+  const caller = getTrpcCaller();
 
   it('should execute without errors', async () => {
     await expect(

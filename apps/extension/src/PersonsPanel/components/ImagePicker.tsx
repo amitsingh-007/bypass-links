@@ -48,17 +48,15 @@ const ImagePicker = memo<Props>(
       setInputOrFile(e.target.value ?? '');
     };
 
-    const handleImagePaste: ClipboardEventHandler<HTMLInputElement> = async (
-      e
-    ) => {
+    const handleImagePaste: ClipboardEventHandler<HTMLInputElement> = (e) => {
       setIsLoadingImage(true);
       const { items } = e.clipboardData;
-      for (let idx = 0; idx < items.length; idx++) {
-        const isImageType = items[idx].type.indexOf('image/') !== -1;
+      for (const item of items) {
+        const isImageType = item.type.includes('image/');
         if (!isImageType) {
           continue;
         }
-        const imageFile = items[idx].getAsFile();
+        const imageFile = item.getAsFile();
         if (!imageFile) {
           continue;
         }

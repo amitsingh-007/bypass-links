@@ -13,8 +13,8 @@ const getLoggedInUser = async (idToken: string | undefined) => {
   try {
     const { uid } = await verifyAuthToken(idToken, true);
     return await getFirebaseUser(uid);
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    console.error(error);
     throw new TRPCError({
       code: 'UNAUTHORIZED',
       message: 'Firebase authorization failed',

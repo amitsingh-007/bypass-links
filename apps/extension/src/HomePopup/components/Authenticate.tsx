@@ -28,26 +28,23 @@ const Authenticate = memo(function Authenticate() {
   const handleSignOut = useCallback(async () => {
     setIsFetching(true);
     const isSignedOutSuccess = await signOut();
-    if (!isSignedOutSuccess) {
+    if (isSignedOutSuccess) {
+      setIsSignedIn(!isSignedOutSuccess);
+    } else {
       displayToast({
         message: 'Error while logging out',
         severity: 'error',
       });
-    } else {
-      setIsSignedIn(!isSignedOutSuccess);
     }
     setIsFetching(false);
     resetAuthProgress();
   }, [displayToast, resetAuthProgress, setIsSignedIn]);
 
-  const init = useCallback(async () => {
+  // Init
+  useEffect(() => {
     const { idpAuth } = useFirebaseStore.getState();
     setIsSignedIn(!!idpAuth?.uid);
   }, [setIsSignedIn]);
-
-  useEffect(() => {
-    init();
-  }, [init]);
 
   useEffect(() => {
     if (isSignedIn && !isExtensionActive) {
