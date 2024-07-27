@@ -1,4 +1,3 @@
-**/.env.local
 **/node_modules/
 **/.next
 **/build/
@@ -6,3 +5,7 @@
 playwright-report
 test-results
 **/.env
+**/.env.local
+
+# Need this for eslint
+!.gitignore 
