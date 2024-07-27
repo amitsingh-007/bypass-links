@@ -461,6 +461,9 @@ importers:
       '@babel/core':
         specifier: 7.24.7
         version: 7.24.7
+      '@total-typescript/ts-reset':
+        specifier: 0.5.1
+        version: 0.5.1
       '@types/md5':
         specifier: 2.3.5
         version: 2.3.5
@@ -2271,6 +2274,9 @@ packages:
   '@tootallnate/once@2.0.0':
     resolution: {integrity: sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==}
     engines: {node: '>= 10'}
+
+  '@total-typescript/ts-reset@0.5.1':
+    resolution: {integrity: sha512-AqlrT8YA1o7Ff5wPfMOL0pvL+1X+sw60NN6CcOCqs658emD6RfiXhF7Gu9QcfKBH7ELY2nInLhKSCWVoNL70MQ==}
 
   '@trpc/client@10.45.2':
     resolution: {integrity: sha512-ykALM5kYWTLn1zYuUOZ2cPWlVfrXhc18HzBDyRhoPYN0jey4iQHEFSEowfnhg1RvYnrAVjNBgHNeSAXjrDbGwg==}
@@ -9394,6 +9400,8 @@ snapshots:
   '@tokenizer/token@0.3.0': {}
 
   '@tootallnate/once@2.0.0': {}
+
+  '@total-typescript/ts-reset@0.5.1': {}
 
   '@trpc/client@10.45.2(@trpc/server@10.45.2)':
     dependencies:

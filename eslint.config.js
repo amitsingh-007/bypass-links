@@ -170,7 +170,6 @@ export default tseslint.config(
       'unicorn/prefer-dom-node-dataset': 'off',
     },
   },
-  // prettier eslint config.
-  // ? NOTE: always keep this at last
+  // ? NOTE: always keep this at last; prettier eslint config.
   eslintPluginPrettierRecommended
 );
