@@ -47,7 +47,12 @@ const Header = memo<Props>(function Header({
       <Group justify="flex-end">
         {onSearchChange ? <Search onChange={onSearchChange} /> : null}
         {text ? (
-          <Badge size="lg" radius="lg" className={styles.badge}>
+          <Badge
+            data-testid="header-badge"
+            size="lg"
+            radius="lg"
+            className={styles.badge}
+          >
             {text}
           </Badge>
         ) : null}

@@ -9,9 +9,13 @@ test.describe('Web Ext page', () => {
     const appIcon = page.getByAltText('app-icon');
     await appIcon.click({ clickCount: 5 });
     await page.waitForURL('/web-ext');
-    await expect(page.getByText('Bypass Links - Web')).toBeVisible();
+    await expect(page.getByTestId('header-badge')).toHaveText(
+      'Bypass Links - Web'
+    );
 
     await page.reload();
-    await expect(page.getByText('Bypass Links - Web')).toBeVisible();
+    await expect(page.getByTestId('header-badge')).toHaveText(
+      'Bypass Links - Web'
+    );
   });
 });
