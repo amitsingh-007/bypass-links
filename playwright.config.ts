@@ -1,5 +1,5 @@
 import type { PlaywrightTestConfig } from '@playwright/test';
-import { resolve } from 'path';
+import path from 'node:path';
 
 const ciBaseUrl = process.env.PLAYWRIGHT_TEST_BASE_URL;
 const isCI = Boolean(ciBaseUrl);
@@ -11,7 +11,7 @@ const config: PlaywrightTestConfig = {
   retries: isCI ? 2 : 1,
   fullyParallel: true,
   reporter: [['github'], ['html', { open: isCI ? 'never' : 'always' }]],
-  globalSetup: resolve('./scripts/global-teardown'),
+  globalSetup: path.resolve('./scripts/global-teardown'),
   use: {
     navigationTimeout: 30 * 1000,
     actionTimeout: 10 * 1000,
