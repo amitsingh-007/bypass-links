@@ -1,4 +1,3 @@
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+# ! NOTE: If getting error while comitting, follow this: https://github.com/amitsingh-007/bypass-links/blob/main/contributing.md#setup-on-local
 
 pnpm precommit
