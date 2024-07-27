@@ -8,7 +8,7 @@
 
 - Fork this repository.
 - Run `pnpm install` in the root folder.
-- Intialize husky as specified [here]("https://typicode.github.io/husky/how-to.html#solution") to make git hooks work in GUIs(eg GitHub Desktop)
+- Intialize husky as specified [here](https://typicode.github.io/husky/how-to.html#solution) to make git hooks work in GUIs(eg GitHub Desktop)
 - Useful commands:
   - Run `pnpm dev:env` to pull env variables.
   - Run `pnpm dev` to start dev server for local development.
@@ -19,6 +19,6 @@
 
 ## Guidelines for development
 
-- Install [prettier]("https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode") and enable for this workplace, with default settings.
+- Install [prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) and enable for this workplace, with default settings.
 - Follow `pascalCase` for this project.
 - Attach comments to complex logic, if required.
