@@ -4,5 +4,7 @@
   "regions": ["bom1"],
   "installCommand": "pnpm install",
   "buildCommand": "pnpm build --filter=@bypass/web",
+  "framework": "others",
+  "outputDirectory": "apps/web/.next",
   "ignoreCommand": "npx turbo-ignore"
 }
