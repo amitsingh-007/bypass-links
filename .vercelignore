@@ -5,3 +5,6 @@
 **/.turbo/
 playwright-report
 test-results
+
+# Need this for eslint
+!.gitignore 

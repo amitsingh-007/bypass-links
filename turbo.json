@@ -10,7 +10,8 @@
     "FIREBASE_BACKUP_CRON_JOB_API_KEY",
     "VERCEL_ENV",
     "AXIOM_TOKEN",
-    "AXIOM_ORG_ID"
+    "AXIOM_ORG_ID",
+    "PLAYWRIGHT_TEST_BASE_URL"
   ],
   "tasks": {
     "build": {
