@@ -23,7 +23,7 @@ const AuthContext = createContext<IAuthContext>({
   isLoginIntialized: false,
 });
 
-const RESTRICTED_PATHS = ['/'];
+const RESTRICTED_PATHS = new Set(['/']);
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   );
 
   useEffect(() => {
-    if (isInitialized || RESTRICTED_PATHS.includes(pathname ?? '')) {
+    if (isInitialized || RESTRICTED_PATHS.has(pathname)) {
       return;
     }
     const initAuth = async () => {
@@ -58,16 +58,15 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     if (!user || pathname === ROUTES.BYPASS_LINKS_WEB) {
       return;
     }
-    getFromLocalStorage<ITwoFactorAuth>(STORAGE_KEYS.twoFactorAuth).then(
-      (twoFAData) => {
-        if (!twoFAData) {
-          return;
-        }
-        if (twoFAData.is2FAEnabled && !twoFAData.isTOTPVerified) {
-          router.replace(ROUTES.BYPASS_LINKS_WEB);
-        }
-      }
+    const twoFAData = getFromLocalStorage<ITwoFactorAuth>(
+      STORAGE_KEYS.twoFactorAuth
     );
+    if (!twoFAData) {
+      return;
+    }
+    if (twoFAData.is2FAEnabled && !twoFAData.isTOTPVerified) {
+      router.replace(ROUTES.BYPASS_LINKS_WEB);
+    }
   }, [pathname, router, user]);
 
   return <AuthContext.Provider value={ctx}>{children}</AuthContext.Provider>;

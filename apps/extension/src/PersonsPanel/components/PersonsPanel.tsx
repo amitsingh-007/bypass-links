@@ -31,8 +31,8 @@ const PersonsPanel = () => {
 
   useEffect(() => {
     getPersons().then((_persons) => {
-      const decryptedPersons = Object.entries(_persons || {}).map(
-        decryptionMapper
+      const decryptedPersons = Object.entries(_persons || {}).map((x) =>
+        decryptionMapper(x)
       );
       setPersons(sortAlphabetically(decryptedPersons));
       setIsFetching(false);

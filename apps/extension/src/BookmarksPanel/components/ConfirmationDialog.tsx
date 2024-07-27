@@ -1,3 +1,4 @@
+import { noOp } from '@bypass/shared';
 import { Button, Group, Modal } from '@mantine/core';
 import { memo } from 'react';
 
@@ -14,7 +15,7 @@ const ConfirmationDialog = memo<Props>(function ConfirmationDialog({
 }) {
   return (
     <Modal
-      onClose={() => undefined}
+      onClose={noOp}
       withCloseButton={false}
       closeOnEscape={false}
       centered

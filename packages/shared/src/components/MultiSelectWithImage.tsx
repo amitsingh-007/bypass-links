@@ -151,7 +151,7 @@ const MultiSelectWithImage = ({
                 onFocus={() => combobox.openDropdown()}
                 onBlur={() => combobox.closeDropdown()}
                 value={search}
-                placeholder={value.length ? '' : placeholder}
+                placeholder={value.length > 0 ? '' : placeholder}
                 onChange={(e) => {
                   combobox.updateSelectedOptionIndex();
                   setSearch(e.currentTarget.value);
@@ -159,7 +159,10 @@ const MultiSelectWithImage = ({
                 onKeyDown={(e) => {
                   if (e.key === 'Backspace' && search.length === 0) {
                     e.preventDefault();
-                    handleValueRemove(value[value.length - 1]);
+                    const lastChar = value.at(-1);
+                    if (lastChar) {
+                      handleValueRemove(lastChar);
+                    }
                   }
                 }}
               />

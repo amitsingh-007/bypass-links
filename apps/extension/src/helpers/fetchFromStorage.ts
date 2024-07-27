@@ -73,3 +73,9 @@ export const getBookmarks = async (): Promise<IBookmarksObj> => {
     await chrome.storage.local.get(STORAGE_KEYS.bookmarks);
   return bookmarks;
 };
+
+export const getHistoryTime = async (): Promise<number | undefined> => {
+  const { historyStartTime } =
+    await chrome.storage.local.get('historyStartTime');
+  return historyStartTime;
+};

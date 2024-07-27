@@ -9,7 +9,7 @@ import AddOrEditPersonDialog from './AddOrEditPersonDialog';
 
 interface Props {
   isFetching: boolean;
-  handleAddPerson: any;
+  handleAddPerson: (person: IPerson) => Promise<void>;
   persons: IPerson[];
   onSearchChange: (text: string) => void;
 }
@@ -41,8 +41,8 @@ const PersonHeader = memo<Props>(function PersonHeader({
     try {
       await syncPersonsFirebaseWithStorage();
       displayToast({ message: 'Persons synced successfully' });
-    } catch (ex) {
-      console.error('Persons synced failed', ex);
+    } catch (error) {
+      console.error('Persons synced failed', error);
       displayToast({ message: 'Persons synced failed', severity: 'error' });
     }
     setIsSyncing(false);

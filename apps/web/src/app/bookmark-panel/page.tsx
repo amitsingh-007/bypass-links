@@ -45,8 +45,8 @@ export default function BookmarksPage() {
     getItemKey: (idx) => getBookmarkId(filteredContextBookmarks[idx]),
   });
 
-  const initBookmarksData = useCallback(async () => {
-    const bookmarksData = await getFromLocalStorage<IBookmarksObj>(
+  const initBookmarksData = useCallback(() => {
+    const bookmarksData = getFromLocalStorage<IBookmarksObj>(
       STORAGE_KEYS.bookmarks
     );
     if (!bookmarksData) {

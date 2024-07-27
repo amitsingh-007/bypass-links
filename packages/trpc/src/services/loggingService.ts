@@ -26,6 +26,6 @@ export const logToAxiom = async (
   if (data.env === 'production') {
     const axiom = getAxiom();
     axiom.ingest(axiomDataset, data);
-    axiom.flush();
+    await axiom.flush();
   }
 };

@@ -27,8 +27,8 @@ export default function Web() {
   const [shouldPreloadData, setShouldPreloadData] = useState(false);
   const [promptTOTPVerify, setPromptTOTPVerify] = useState(false);
 
-  const initTOTPPrompt = async () => {
-    const twoFAData = await getFromLocalStorage<ITwoFactorAuth>(
+  const initTOTPPrompt = () => {
+    const twoFAData = getFromLocalStorage<ITwoFactorAuth>(
       STORAGE_KEYS.twoFactorAuth
     );
     if (!twoFAData) {
@@ -74,14 +74,14 @@ export default function Web() {
   const onVerify = async (totp: string) => {
     const { isVerified } = await api.twoFactorAuth.authenticate.query(totp);
     if (isVerified) {
-      const twoFAData = await getFromLocalStorage<ITwoFactorAuth>(
+      const twoFAData = getFromLocalStorage<ITwoFactorAuth>(
         STORAGE_KEYS.twoFactorAuth
       );
       if (!twoFAData) {
         return;
       }
       twoFAData.isTOTPVerified = true;
-      await setToLocalStorage(STORAGE_KEYS.twoFactorAuth, twoFAData);
+      setToLocalStorage(STORAGE_KEYS.twoFactorAuth, twoFAData);
       setPromptTOTPVerify(false);
     } else {
       alert('Entered TOTP is incorrect');

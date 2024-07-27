@@ -19,28 +19,27 @@ import styles from './page.module.css';
 
 export const runtime = 'edge';
 
+const onLinkOpen = (url: string) => {
+  openNewTab(url);
+};
+
 const PersonsPage = () => {
   const [persons, setPersons] = useState<IPerson[]>([]);
   const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
-    getFromLocalStorage<IPersons>(STORAGE_KEYS.persons).then((_persons) => {
-      if (!_persons) {
-        return;
-      }
-      const decryptedPersons = Object.entries(_persons || {}).map(
-        decryptionMapper
-      );
-      setPersons(sortAlphabetically(decryptedPersons));
-    });
+    const _persons = getFromLocalStorage<IPersons>(STORAGE_KEYS.persons);
+    if (!_persons) {
+      return;
+    }
+    const decryptedPersons = Object.entries(_persons || {}).map((x) =>
+      decryptionMapper(x)
+    );
+    setPersons(sortAlphabetically(decryptedPersons));
   }, []);
 
   const handleSearchTextChange = (text: string) => {
     setSearchText(text);
-  };
-
-  const onLinkOpen = (url: string) => {
-    openNewTab(url);
   };
 
   const filteredPersons = useMemo(

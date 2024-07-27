@@ -21,8 +21,8 @@ export const signOut = async (): Promise<boolean> => {
     AuthProgress.finish('User logged out');
     await processPostLogout();
     return true;
-  } catch (err) {
-    console.error('Error occurred while signing out.', err);
+  } catch (error) {
+    console.error('Error occurred while signing out.', error);
     return false;
   }
 };
@@ -33,8 +33,8 @@ export const signIn = async (): Promise<boolean> => {
     await userSignIn();
     await processPostLogin();
     return true;
-  } catch (err) {
-    console.error('Error occurred while signing in. ', err);
+  } catch (error) {
+    console.error('Error occurred while signing in.', error);
     console.log('Reverting due to login error...');
     await signOut();
     return false;

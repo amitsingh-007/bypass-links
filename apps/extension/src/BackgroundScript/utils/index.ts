@@ -39,8 +39,8 @@ export const setExtensionIcon = async ({
   hasPendingPersons,
 }: {
   extState?: EExtensionState;
-  hasPendingBookmarks: boolean;
-  hasPendingPersons: boolean;
+  hasPendingBookmarks?: boolean;
+  hasPendingPersons?: boolean;
 }) => {
   let icon: string;
   if (hasPendingBookmarks === true || hasPendingPersons === true) {

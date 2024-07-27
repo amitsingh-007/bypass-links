@@ -42,7 +42,8 @@ const useBookmarkDrag = () => {
       if (!over || active.id === over.id) {
         return;
       }
-      handleMoveBookmarks(over.data.current?.sortable?.index);
+      const destinationIndex = Number(over.data.current?.sortable?.index);
+      handleMoveBookmarks(destinationIndex);
       setIsDragging(false);
     },
     [handleMoveBookmarks]

@@ -9,7 +9,7 @@ class Logging {
     'Frame with ID 0 was removed',
   ];
 
-  private static ignoreError = (err: string) => {
+  private static ignoreError = (err: any) => {
     if (typeof err !== 'string') {
       return false;
     }
@@ -21,6 +21,7 @@ class Logging {
       if (this.ignoreError(data.message?.message || data.message)) {
         return;
       }
+      const tab = await getCurrentTab();
       const { version } = chrome.runtime.getManifest();
       data.metaData.manifestVersion = version;
       const log: ILogRequest = {
@@ -28,22 +29,23 @@ class Logging {
         isProd: PROD_ENV,
         level: 'error',
         url: globalThis.location.href,
-        tabUrl: (await getCurrentTab())?.url,
+        tabUrl: tab?.url,
         message: data.message ?? 'ERROR_MESSAGE_NOT_FOUND',
         metaData: data.metaData,
       };
       await trpcApi.logging.log.mutate(log);
-    } catch (e) {
-      console.error('Error while sending log to server', e);
+    } catch (error) {
+      console.error('Error while sending log to server', error);
     }
   };
 
-  static parseObject = (obj?: Object | null) =>
+  static parseObject = (obj?: any) =>
     obj
       ? JSON.parse(JSON.stringify(obj, Object.getOwnPropertyNames(obj)))
       : obj;
 
   static init = () => {
+    // eslint-disable-next-line unicorn/prefer-add-event-listener
     globalThis.onerror = (errorMsg, url, line, column, error) => {
       this.sendToLog({
         message: errorMsg,

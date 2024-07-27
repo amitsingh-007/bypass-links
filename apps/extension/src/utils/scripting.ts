@@ -5,6 +5,7 @@ const getExecuteScriptError = async (
   err: unknown,
   options: chrome.scripting.ScriptInjection<any, any>
 ) => {
+  const tab = await getCurrentTab();
   const error =
     typeof err === 'object' ? Logging.parseObject(err) : { reason: err };
   const executor =
@@ -17,7 +18,7 @@ const getExecuteScriptError = async (
   return {
     ...error,
     ...executor,
-    instantUrl: (await getCurrentTab())?.url,
+    instantUrl: tab?.url,
     method: 'executeScript()',
   };
 };
@@ -25,8 +26,8 @@ const getExecuteScriptError = async (
 const executeScript = (async (options) => {
   try {
     return await chrome.scripting.executeScript(options);
-  } catch (e) {
-    const errorObj = await getExecuteScriptError(e, options);
+  } catch (error) {
+    const errorObj = await getExecuteScriptError(error, options);
     throw errorObj;
   }
 }) satisfies typeof chrome.scripting.executeScript;

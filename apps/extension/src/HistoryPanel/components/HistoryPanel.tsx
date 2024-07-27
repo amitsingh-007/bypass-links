@@ -1,3 +1,4 @@
+import { getHistoryTime } from '@helpers/fetchFromStorage';
 import { Header } from '@bypass/shared';
 import { Box, Button, Stack } from '@mantine/core';
 import { DateTimePicker, DateTimePickerProps } from '@mantine/dates';
@@ -42,13 +43,11 @@ const HistoryPanel = memo(function HistoryPanel() {
   });
 
   useEffect(() => {
-    chrome.storage.local
-      .get(['historyStartTime'])
-      .then(({ historyStartTime }) => {
-        if (historyStartTime) {
-          form.setFieldValue('startDateTime', new Date(historyStartTime));
-        }
-      });
+    getHistoryTime().then((historyStartTime) => {
+      if (historyStartTime) {
+        form.setFieldValue('startDateTime', new Date(historyStartTime));
+      }
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

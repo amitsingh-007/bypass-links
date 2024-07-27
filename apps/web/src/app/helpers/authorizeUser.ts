@@ -10,7 +10,7 @@ export const authorizeUser = async (request: NextRequest) => {
   try {
     const { uid } = await verifyAuthToken(idToken, true);
     return await getFirebaseUser(uid);
-  } catch (e) {
+  } catch {
     throw new Error('Unauthorized user');
   }
 };

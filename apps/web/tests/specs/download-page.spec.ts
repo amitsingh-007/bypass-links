@@ -21,10 +21,11 @@ test.describe('Download page', () => {
   });
 
   test('footer elements should exist', async ({ page }) => {
-    expect(page.getByTestId('ext-version')).toBeVisible();
-    expect(page.getByTestId('ext-release-data')).toBeVisible();
-    expect(
-      await page.getByTitle('Bypass Links - Github').getAttribute('href')
-    ).toEqual('https://github.com/amitsingh-007/bypass-links');
+    await expect(page.getByTestId('ext-version')).toBeVisible();
+    await expect(page.getByTestId('ext-release-data')).toBeVisible();
+    await expect(page.getByTitle('Bypass Links - Github')).toHaveAttribute(
+      'href',
+      'https://github.com/amitsingh-007/bypass-links'
+    );
   });
 });

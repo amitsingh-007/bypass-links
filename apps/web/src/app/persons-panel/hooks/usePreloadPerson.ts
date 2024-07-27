@@ -32,7 +32,7 @@ const syncPersonsToStorage = async () => {
     return;
   }
   const data = await api.firebaseData.personsGet.query();
-  await setToLocalStorage(STORAGE_KEYS.persons, data);
+  setToLocalStorage(STORAGE_KEYS.persons, data);
 };
 
 const usePreloadPerson = () => {
@@ -66,7 +66,7 @@ const usePreloadPerson = () => {
       },
       {}
     );
-    await setToLocalStorage(STORAGE_KEYS.personImageUrls, personImageUrls);
+    setToLocalStorage(STORAGE_KEYS.personImageUrls, personImageUrls);
     await cachePersonImages(personImageUrls);
   }, [getAllDecodedPersons, user]);
 
