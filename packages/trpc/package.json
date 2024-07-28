@@ -3,29 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "typesVersions": {
-    "*": {
-      "*": [
-        "./src/index.ts"
-      ],
-      "edge": [
-        "./src/edgeIndex.ts"
-      ],
-      "appRouter": [
-        "./src/appRouterIndex.ts"
-      ]
-    }
-  },
   "exports": {
-    ".": {
-      "default": "./src/index.ts"
-    },
-    "./edge": {
-      "default": "./src/edgeIndex.ts"
-    },
-    "./appRouter": {
-      "default": "./src/appRouterIndex.ts"
-    }
+    ".": "./src/index.ts",
+    "./edge": "./src/edgeIndex.ts",
+    "./appRouter": "./src/appRouterIndex.ts"
   },
   "sideEffects": false,
   "scripts": {
@@ -49,7 +30,6 @@
     "@types/qrcode": "1.5.5",
     "dotenv": "16.4.5",
     "firebase": "10.12.3",
-    "postcss": "8.4.39",
     "typescript": "5.5.3",
     "vitest": "1.6.0"
   }

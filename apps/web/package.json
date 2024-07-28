@@ -33,20 +33,18 @@
     "zod": "3.23.8"
   },
   "devDependencies": {
-    "@babel/core": "7.24.7",
     "@playwright/test": "1.45.1",
     "@svgr/webpack": "8.1.0",
     "@types/md5": "2.3.5",
     "@types/react": "18.3.3",
     "autoprefixer": "10.4.19",
-    "encoding": "0.1.13",
     "eslint-webpack-plugin": "4.2.0",
     "fork-ts-checker-webpack-plugin": "9.0.2",
-    "node-fetch": "3.3.2",
     "postcss": "8.4.39",
     "postcss-preset-mantine": "1.15.0",
     "postcss-simple-vars": "7.0.1",
     "typescript": "5.5.3",
+    "typescript-plugin-css-modules": "5.1.0",
     "webpack": "5.92.1"
   }
 }

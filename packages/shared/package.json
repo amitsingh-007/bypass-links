@@ -3,15 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "types": "src/index.ts",
   "exports": {
     ".": "./src/index.ts",
     "./styles/*": "./src/styles/*",
     "./types/*": "./src/@types/*"
   },
-  "files": [
-    "@types/reset.d.ts"
-  ],
   "sideEffects": false,
   "scripts": {
     "lint": "eslint ."
@@ -28,17 +24,13 @@
     "md5": "2.3.0",
     "preact": "10.22.1",
     "react": "18.3.1",
-    "react-dom": "18.3.1",
-    "react-icons": "5.2.1",
-    "wretch": "2.9.0"
+    "react-icons": "5.2.1"
   },
   "devDependencies": {
-    "@babel/core": "7.24.7",
     "@bypass/configs": "workspace:*",
     "@total-typescript/ts-reset": "0.5.1",
     "@types/md5": "2.3.5",
     "@types/react": "18.3.3",
-    "tslib": "2.6.3",
     "typescript": "5.5.3"
   }
 }
