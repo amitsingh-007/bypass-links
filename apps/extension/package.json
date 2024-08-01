@@ -18,7 +18,7 @@
     "@mantine/dates": "7.11.2",
     "@mantine/form": "7.11.2",
     "@mantine/hooks": "7.11.2",
-    "@t3-oss/env-core": "0.10.1",
+    "@t3-oss/env-core": "0.11.0",
     "@tanstack/react-virtual": "3.8.4",
     "@trpc/client": "10.45.2",
     "@trpc/server": "10.45.2",
