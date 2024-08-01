@@ -450,8 +450,8 @@ importers:
   packages/trpc:
     dependencies:
       '@axiomhq/js':
-        specifier: 1.0.0
-        version: 1.0.0
+        specifier: 1.1.0
+        version: 1.1.0
       '@bypass/configs':
         specifier: workspace:*
         version: link:../configs
@@ -508,8 +508,8 @@ packages:
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
     engines: {node: '>=6.0.0'}
 
-  '@axiomhq/js@1.0.0':
-    resolution: {integrity: sha512-4xf0b/KFVFmNvjxK4lHHuwioQ6TPr+PZLqEdMl/vcot1RqFwDnjaOEOp0/VPhyTgdE0di8bl/hOsu33bHMM27w==}
+  '@axiomhq/js@1.1.0':
+    resolution: {integrity: sha512-vDRLDs4dTnBixDt535UqVtBNssKArSe2EOYeD0pTwfiLDJ5UBSRBoXTTQSMcPSnuUYpSZzsdASyb1xUIkaEtJQ==}
     engines: {node: '>=16'}
 
   '@babel/code-frame@7.24.7':
@@ -7376,7 +7376,7 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
 
-  '@axiomhq/js@1.0.0':
+  '@axiomhq/js@1.1.0':
     dependencies:
       fetch-retry: 6.0.0
       uuid: 8.3.2
