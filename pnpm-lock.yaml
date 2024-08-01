@@ -238,8 +238,8 @@ importers:
         specifier: 8.1.1
         version: 8.1.1(postcss@8.4.39)(typescript@5.5.3)(webpack@5.92.1(webpack-cli@5.1.4))
       postcss-preset-mantine:
-        specifier: 1.15.0
-        version: 1.15.0(postcss@8.4.39)
+        specifier: 1.17.0
+        version: 1.17.0(postcss@8.4.39)
       postcss-simple-vars:
         specifier: 7.0.1
         version: 7.0.1(postcss@8.4.39)
@@ -374,8 +374,8 @@ importers:
         specifier: 8.4.39
         version: 8.4.39
       postcss-preset-mantine:
-        specifier: 1.15.0
-        version: 1.15.0(postcss@8.4.39)
+        specifier: 1.17.0
+        version: 1.17.0(postcss@8.4.39)
       postcss-simple-vars:
         specifier: 7.0.1
         version: 7.0.1(postcss@8.4.39)
@@ -5864,8 +5864,8 @@ packages:
     peerDependencies:
       postcss: ^8.4.31
 
-  postcss-preset-mantine@1.15.0:
-    resolution: {integrity: sha512-OKPs6uoORSXlU/GFH1ZtFaslecHBPwuoSikdL5W3WKJm4ZPAQM0mw9x9m3toa/Mo1JhoBmYMM28i+zEdav5Edg==}
+  postcss-preset-mantine@1.17.0:
+    resolution: {integrity: sha512-ji1PMDBUf2Vsx/HE5faMSs1+ff6qE6YRulTr4Ja+6HD3gop8rSMTCYdpN7KrdsEg079kfBKkO/PaKhG9uR0zwQ==}
     peerDependencies:
       postcss: '>=8.0.0'
 
@@ -13463,7 +13463,7 @@ snapshots:
       postcss: 8.4.39
       postcss-value-parser: 4.2.0
 
-  postcss-preset-mantine@1.15.0(postcss@8.4.39):
+  postcss-preset-mantine@1.17.0(postcss@8.4.39):
     dependencies:
       postcss: 8.4.39
       postcss-mixins: 9.0.4(postcss@8.4.39)

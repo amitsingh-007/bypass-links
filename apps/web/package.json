@@ -41,7 +41,7 @@
     "eslint-webpack-plugin": "4.2.0",
     "fork-ts-checker-webpack-plugin": "9.0.2",
     "postcss": "8.4.39",
-    "postcss-preset-mantine": "1.15.0",
+    "postcss-preset-mantine": "1.17.0",
     "postcss-simple-vars": "7.0.1",
     "typescript": "5.5.3",
     "typescript-plugin-css-modules": "5.1.0",
