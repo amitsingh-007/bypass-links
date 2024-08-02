@@ -1,10 +1,11 @@
-**/.env.local
 **/node_modules/
 **/.next
 **/build/
 **/.turbo/
 playwright-report
 test-results
+**/.env
+**/.env.local
 
 # Need this for eslint
 !.gitignore 

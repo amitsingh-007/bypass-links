@@ -253,6 +253,7 @@ const config: Configuration = {
       threads: !isProduction,
       lintDirtyModulesOnly: !isProduction,
       configType: 'flat',
+      emitWarning: false,
     }),
     isProduction &&
       new FileManagerPlugin({
