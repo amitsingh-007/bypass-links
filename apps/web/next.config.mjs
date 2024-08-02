@@ -28,17 +28,19 @@ const nextConfig = {
       new webpack.DefinePlugin({
         PROD_ENV: JSON.stringify(!isDev),
         HOST_NAME: JSON.stringify(process.env.HOST_NAME),
-      }),
-      new ESLintPlugin({
-        extensions: ['ts', 'tsx'],
-        cache: isDev,
-        threads: isDev,
-        lintDirtyModulesOnly: isDev,
-        configType: 'flat',
       })
     );
     if (dev) {
-      config.plugins.push(new ForkTsCheckerWebpackPlugin());
+      config.plugins.push(
+        new ForkTsCheckerWebpackPlugin(),
+        new ESLintPlugin({
+          extensions: ['ts', 'tsx'],
+          cache: isDev,
+          threads: isDev,
+          lintDirtyModulesOnly: isDev,
+          configType: 'flat',
+        })
+      );
     }
     return config;
   },
