@@ -1,8 +1,8 @@
-import { IRedirection } from '@bypass/shared';
+import { IRedirections } from '@bypass/shared';
 import { IMappedRedirections } from '../interfaces/redirections';
 
 export const mapRedirections = (
-  redirections: IRedirection[]
+  redirections: IRedirections
 ): IMappedRedirections =>
   redirections &&
   redirections.reduce<IMappedRedirections>((obj, { alias, website }) => {

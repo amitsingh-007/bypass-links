@@ -50,7 +50,7 @@ const storage = getStorage(firebaseApp);
 /**
  * REALTIME DATABASE
  */
-export const getFromFirebase = async <T extends Record<string, any>>({
+export const getFromFirebase = async <T = any>({
   ref,
   uid,
   isAbsolute,

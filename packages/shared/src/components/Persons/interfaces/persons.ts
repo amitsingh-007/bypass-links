@@ -1,10 +1,9 @@
-export interface IPerson {
-  uid: string;
-  name: string;
-  taggedUrls: string[];
-}
+import { z } from 'zod';
+import { PersonSchema, PersonsSchema } from '../schema';
 
-export type IPersons = Record<string, IPerson>;
+export type IPerson = z.infer<typeof PersonSchema>;
+
+export type IPersons = z.infer<typeof PersonsSchema>;
 
 export interface IUpdateTaggedPerson {
   prevTaggedPersons: string[];
