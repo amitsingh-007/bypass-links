@@ -5,7 +5,7 @@ import {
   DEFAULT_BOOKMARK_FOLDER,
   EBookmarkOperation,
   getBookmarksPanelUrl,
-  getDecodedBookmark,
+  getDecryptedBookmark,
   IEncodedBookmark,
   useBookmark,
 } from '@bypass/shared';
@@ -32,7 +32,7 @@ const QuickBookmarkButton = memo(function QuickBookmarkButton() {
     if (bookmarks) {
       const encodedBookmark = bookmarks.urlList[md5(url)];
       if (encodedBookmark) {
-        const decodedBookmark = getDecodedBookmark(encodedBookmark);
+        const decodedBookmark = getDecryptedBookmark(encodedBookmark);
         setBookmark(decodedBookmark);
       }
     }
@@ -53,7 +53,7 @@ const QuickBookmarkButton = memo(function QuickBookmarkButton() {
       const parent = await getFolderFromHash(parentHash);
       urlParams.operation = EBookmarkOperation.EDIT;
       urlParams.bmUrl = url;
-      urlParams.folderContext = atob(parent.name);
+      urlParams.folderContext = parent.name;
     } else {
       const { url } = await getCurrentTab();
       urlParams.operation = EBookmarkOperation.ADD;

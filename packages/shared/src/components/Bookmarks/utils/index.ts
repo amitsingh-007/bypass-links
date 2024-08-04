@@ -4,6 +4,7 @@ import {
   ContextBookmarks,
   IEncodedBookmark,
   IBookmarksObj,
+  IEncodedFolder,
 } from '../interfaces';
 
 export const isFolderEmpty = (
@@ -33,9 +34,33 @@ export const shouldRenderBookmarks = (
   contextBookmarks: ContextBookmarks
 ) => folders && contextBookmarks && contextBookmarks.length > 0;
 
-export const getDecodedBookmark = (bookmark: IEncodedBookmark) => ({
+export const getEncryptedBookmark = (
+  bookmark: IEncodedBookmark
+): IEncodedBookmark => ({
+  url: btoa(encodeURIComponent(bookmark.url)),
+  title: btoa(encodeURIComponent(bookmark.title)),
+  taggedPersons: bookmark.taggedPersons || [],
+  parentHash: bookmark.parentHash,
+});
+
+export const getDecryptedBookmark = (
+  bookmark: IEncodedBookmark
+): IEncodedBookmark => ({
   url: decodeURIComponent(atob(bookmark.url)),
   title: decodeURIComponent(atob(bookmark.title)),
+  taggedPersons: bookmark.taggedPersons || [],
   parentHash: bookmark.parentHash,
-  taggedPersons: bookmark.taggedPersons,
 });
+
+export const getEncryptedFolder = (folder: IEncodedFolder): IEncodedFolder => ({
+  ...folder,
+  name: btoa(folder.name),
+});
+
+export const getDecryptedFolder = (folder: IEncodedFolder): IEncodedFolder => ({
+  ...folder,
+  name: atob(folder.name),
+});
+
+export const getDecodedFolderList = (folderList: IBookmarksObj['folderList']) =>
+  Object.entries(folderList).map(([_key, value]) => getDecryptedFolder(value));

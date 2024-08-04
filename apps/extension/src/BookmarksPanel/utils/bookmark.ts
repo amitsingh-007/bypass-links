@@ -3,6 +3,7 @@ import { trpcApi } from '@/apis/trpcApi';
 import {
   ECacheBucketKeys,
   getCacheObj,
+  getDecryptedBookmark,
   getFaviconProxyUrl,
   STORAGE_KEYS,
 } from '@bypass/shared';
@@ -54,9 +55,10 @@ export const cacheBookmarkFavicons = async () => {
   AuthProgress.start('Caching favicons');
   const { urlList } = bookmarks;
   let totalResolved = 0;
-  const faviconUrls = Object.values(urlList).map(({ url }) =>
-    getFaviconProxyUrl(decodeURIComponent(atob(url)))
-  );
+  const faviconUrls = Object.values(urlList).map((item) => {
+    const bookmark = getDecryptedBookmark(item);
+    return getFaviconProxyUrl(bookmark.url);
+  });
   const uniqueUrls = [...new Set(faviconUrls)];
   const cache = await getCacheObj(ECacheBucketKeys.favicon);
   await Promise.all(

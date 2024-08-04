@@ -20,16 +20,16 @@ import {
 import { AiFillEdit } from 'react-icons/ai';
 import DynamicContext from '../../../provider/DynamicContext';
 import Bookmark from '../../Bookmarks/components/Bookmark';
+import { EBookmarkOperation } from '../../Bookmarks/constants';
 import useBookmark from '../../Bookmarks/hooks/useBookmark';
-import { getDecodedBookmark } from '../../Bookmarks/utils';
+import { getDecryptedBookmark } from '../../Bookmarks/utils';
 import { getBookmarksPanelUrl } from '../../Bookmarks/utils/url';
 import Header from '../../Header';
+import usePerson from '../hooks/usePerson';
 import { ModifiedBookmark } from '../interfaces/bookmark';
+import { IPerson } from '../interfaces/persons';
 import { getFilteredModifiedBookmarks } from '../utils/bookmark';
 import styles from './styles/BookmarksList.module.css';
-import { EBookmarkOperation } from '../../Bookmarks/constants';
-import usePerson from '../hooks/usePerson';
-import { IPerson } from '../interfaces/persons';
 
 interface Props {
   personToOpen: IPerson | undefined;
@@ -59,10 +59,10 @@ const BookmarksList = memo<Props>(function BookmarksList({
       taggedUrls.map(async (urlHash) => {
         const bookmark = await getBookmarkFromHash(urlHash);
         const parent = await getFolderFromHash(bookmark.parentHash);
-        const decodedBookmark = getDecodedBookmark(bookmark);
+        const decodedBookmark = getDecryptedBookmark(bookmark);
         return {
           ...decodedBookmark,
-          parentName: atob(parent.name),
+          parentName: parent.name,
         } satisfies ModifiedBookmark;
       })
     );

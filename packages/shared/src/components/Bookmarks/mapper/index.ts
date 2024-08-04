@@ -1,28 +1,5 @@
-import {
-  ContextBookmark,
-  IEncodedBookmark,
-  IBookmarksObj,
-  IFolderMetaData,
-} from '../interfaces';
-import { getDecodedFolder } from '../utils/url';
-
-export const getDecryptedBookmark = (
-  bookmark: IEncodedBookmark
-): IEncodedBookmark => ({
-  url: decodeURIComponent(atob(bookmark.url)),
-  title: decodeURIComponent(atob(bookmark.title)),
-  taggedPersons: bookmark.taggedPersons || [],
-  parentHash: bookmark.parentHash,
-});
-
-export const getEncryptedBookmark = (
-  bookmark: IEncodedBookmark
-): IEncodedBookmark => ({
-  url: btoa(encodeURIComponent(bookmark.url)),
-  title: btoa(encodeURIComponent(bookmark.title)),
-  taggedPersons: bookmark.taggedPersons || [],
-  parentHash: bookmark.parentHash,
-});
+import { ContextBookmark, IBookmarksObj, IFolderMetaData } from '../interfaces';
+import { getDecryptedBookmark, getDecryptedFolder } from '../utils';
 
 export const bookmarksMapper = (
   [_key, { isDir, hash }]: [string, IFolderMetaData],
@@ -30,9 +7,14 @@ export const bookmarksMapper = (
   folderList: IBookmarksObj['folderList']
 ): ContextBookmark => {
   if (isDir) {
-    const folder = folderList[hash];
-    return getDecodedFolder(folder);
+    const folder = getDecryptedFolder(folderList[hash]);
+    return {
+      isDir,
+      name: folder.name,
+      isDefault: Boolean(folder.isDefault),
+    };
   }
+
   const bookmark = getDecryptedBookmark(urlList[hash]);
   return {
     isDir,

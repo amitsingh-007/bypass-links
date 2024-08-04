@@ -20,7 +20,6 @@ export { default as Person } from './components/Persons/components/Person';
 export { default as Persons } from './components/Persons/components/Persons';
 export * from './components/Persons/interfaces/bookmark';
 export * from './components/Persons/interfaces/persons';
-export * from './components/Persons/mapper';
 export * from './components/Persons/utils';
 export * from './components/Persons/utils/bookmark';
 export * from './components/Persons/utils/urls';

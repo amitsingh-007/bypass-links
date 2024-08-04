@@ -4,7 +4,7 @@ import { DEFAULT_BOOKMARK_FOLDER, EBookmarkOperation } from '../constants';
 import {
   ContextBookmark,
   IBookmarksObj,
-  IDecodedFolder,
+  ITransformedFolder,
   IEncodedFolder,
 } from '../interfaces';
 import { BMPanelQueryParams } from '../interfaces/url';
@@ -24,12 +24,3 @@ export const getBookmarksPanelUrl = ({
 
 export const getBookmarkId = (bookmark: ContextBookmark) =>
   bookmark.isDir ? bookmark.name : bookmark.url;
-
-export const getDecodedFolder = (folder: IEncodedFolder): IDecodedFolder => ({
-  isDir: true,
-  name: atob(folder.name),
-  isDefault: Boolean(folder.isDefault),
-});
-
-export const getDecodedFolderList = (folderList: IBookmarksObj['folderList']) =>
-  Object.entries(folderList).map(([_key, value]) => getDecodedFolder(value));

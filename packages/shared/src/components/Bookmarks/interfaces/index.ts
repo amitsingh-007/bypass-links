@@ -14,20 +14,20 @@ export type IFolderMetaData = z.infer<typeof FolderMetaDataSchema>;
 
 export type IBookmarksObj = z.infer<typeof BookmarksObjSchema>;
 
-export interface IDecodedBookmark {
+export interface ITransformedBookmark {
   isDir: false;
   url: string;
   title: string;
   taggedPersons: string[];
 }
 
-export interface IDecodedFolder {
+export interface ITransformedFolder {
   isDir: true;
   name: string;
   isDefault: boolean;
 }
 
-export type ContextBookmark = IDecodedBookmark | IDecodedFolder;
+export type ContextBookmark = ITransformedBookmark | ITransformedFolder;
 
 export type ContextBookmarks = ContextBookmark[];
 

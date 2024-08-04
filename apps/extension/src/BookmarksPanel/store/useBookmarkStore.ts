@@ -4,13 +4,14 @@ import {
   ContextBookmarks,
   ECacheBucketKeys,
   IBookmarksObj,
-  IDecodedBookmark,
+  ITransformedBookmark,
   ISelectedBookmarks,
   addToCache,
   bookmarksMapper,
   getBookmarkId,
   getEncryptedBookmark,
   getFaviconProxyUrl,
+  getEncryptedFolder,
 } from '@bypass/shared';
 import md5 from 'md5';
 import { create } from 'zustand';
@@ -37,7 +38,7 @@ interface State {
   resetSelectedBookmarks: () => void;
   handleCreateNewFolder: (name: string, folderContext: string) => void;
   handleBookmarkSave: (
-    updatedBookmark: IDecodedBookmark,
+    updatedBookmark: ITransformedBookmark,
     oldFolder: string,
     newFolder: string,
     pos: number
@@ -106,11 +107,11 @@ const useBookmarkStore = create<State>()((set, get) => ({
     newContextBookmarks.unshift({ isDir, name, isDefault: false });
     // Update data in all folders list
     const newFolderList = { ...folderList };
-    newFolderList[nameHash] = {
-      name: btoa(name),
+    newFolderList[nameHash] = getEncryptedFolder({
+      name,
       parentHash: md5(folderContext),
       isDefault: false,
-    };
+    });
 
     set({
       contextBookmarks: newContextBookmarks,
@@ -120,7 +121,7 @@ const useBookmarkStore = create<State>()((set, get) => ({
   },
 
   handleBookmarkSave: (
-    updatedBookmark: IDecodedBookmark,
+    updatedBookmark: ITransformedBookmark,
     oldFolder: string,
     newFolder: string,
     pos: number
@@ -234,10 +235,10 @@ const useBookmarkStore = create<State>()((set, get) => ({
 
     // Update name in folderList
     const newFolderList = { ...folderList };
-    newFolderList[newFolderHash] = {
+    newFolderList[newFolderHash] = getEncryptedFolder({
       ...newFolderList[oldFolderHash],
-      name: btoa(newName),
-    };
+      name: newName,
+    });
     delete newFolderList[oldFolderHash];
 
     // Update in folders

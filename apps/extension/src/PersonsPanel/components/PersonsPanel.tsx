@@ -1,7 +1,8 @@
 import { trpcApi } from '@/apis/trpcApi';
 import { MAX_PANEL_SIZE } from '@/constants';
 import {
-  decryptionMapper,
+  getDecryptedPerson,
+  getEncryptedPerson,
   getFilteredPersons,
   getPersonImageName,
   HEADER_HEIGHT,
@@ -33,8 +34,8 @@ const PersonsPanel = () => {
 
   useEffect(() => {
     getPersons().then((_persons) => {
-      const decryptedPersons = Object.entries(_persons || {}).map((x) =>
-        decryptionMapper(x)
+      const decryptedPersons = Object.values(_persons || {}).map((x) =>
+        getDecryptedPerson(x)
       );
       setPersons(sortAlphabetically(decryptedPersons));
       setIsFetching(false);
@@ -42,11 +43,8 @@ const PersonsPanel = () => {
   }, []);
 
   const handleSave = async (_persons: IPerson[]) => {
-    const encryptedPersons = _persons.reduce<IPersons>((obj, { uid, name }) => {
-      obj[uid] = {
-        uid,
-        name: btoa(name),
-      };
+    const encryptedPersons = _persons.reduce<IPersons>((obj, person) => {
+      obj[person.uid] = getEncryptedPerson(person);
       return obj;
     }, {});
     await setPersonsInStorage(encryptedPersons);
