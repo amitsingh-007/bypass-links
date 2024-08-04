@@ -6,7 +6,7 @@ import {
 import {
   cacheBookmarkFavicons,
   resetBookmarks,
-  syncBookmarksFirebaseWithStorage,
+  syncBookmarksAndPersonsFirebaseWithStorage,
   syncBookmarksToStorage,
 } from '@/BookmarksPanel/utils/bookmark';
 import {
@@ -17,7 +17,6 @@ import {
   cachePersonImagesInStorage,
   refreshPersonImageUrlsCache,
   resetPersons,
-  syncPersonsFirebaseWithStorage,
   syncPersonsToStorage,
 } from '@/PersonsPanel/utils/sync';
 import {
@@ -32,8 +31,8 @@ import {
   getSettings,
   getUser2FAInfo,
 } from '@helpers/fetchFromStorage';
-import { AuthProgress } from './authProgress';
 import { IUser2FAInfo } from '../interfaces/authentication';
+import { AuthProgress } from './authProgress';
 
 const syncAuthenticationToStorage = async () => {
   AuthProgress.start('Checking 2FA status');
@@ -71,10 +70,7 @@ const syncFirebaseToStorage = async () => {
 };
 
 export const syncStorageToFirebase = async () => {
-  await Promise.all([
-    syncBookmarksFirebaseWithStorage(),
-    syncPersonsFirebaseWithStorage(),
-  ]);
+  await syncBookmarksAndPersonsFirebaseWithStorage();
 };
 
 const resetStorage = async () => {

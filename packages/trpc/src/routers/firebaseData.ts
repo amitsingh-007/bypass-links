@@ -1,4 +1,5 @@
 import {
+  BookmarksAndPersonsValidationSchema,
   BookmarksObjSchema,
   BypassSchema,
   LastVisitedSchema,
@@ -15,9 +16,8 @@ import {
   getPersons,
   getRedirections,
   getSettings,
-  saveBookmarks,
+  saveBookmarksAndPersons,
   saveLastVisited,
-  savePersons,
   saveRedirections,
   saveSettings,
 } from '../services/firebase/realtimeDBService';
@@ -29,23 +29,18 @@ const firebaseDataRouter = t.router({
     .query(async ({ ctx }) => {
       return getBookmarks(ctx.user);
     }),
-  bookmarksPost: protectedProcedure
-    .input(BookmarksObjSchema)
-    .output(z.boolean())
-    .mutation(async ({ input, ctx }) => {
-      return saveBookmarks(input, ctx.user);
-    }),
 
   personsGet: protectedProcedure
     .output(PersonsSchema)
     .query(async ({ ctx }) => {
       return getPersons(ctx.user);
     }),
-  personsPost: protectedProcedure
-    .input(PersonsSchema)
+
+  bookmarkAndPersonSave: protectedProcedure
+    .input(BookmarksAndPersonsValidationSchema)
     .output(z.boolean())
     .mutation(async ({ input, ctx }) => {
-      return savePersons(input, ctx.user);
+      return saveBookmarksAndPersons(input.bookmarks, input.persons, ctx.user);
     }),
 
   settingsGet: protectedProcedure

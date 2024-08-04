@@ -1,5 +1,5 @@
 import { Header, IPerson } from '@bypass/shared';
-import { Button } from '@mantine/core';
+import { Button, LoadingOverlay } from '@mantine/core';
 import { memo, useState } from 'react';
 import { IoIosPersonAdd } from 'react-icons/io';
 import AddOrEditPersonDialog from './AddOrEditPersonDialog';
@@ -23,8 +23,8 @@ const PersonHeader = memo<Props>(function PersonHeader({
     setShowAddPersonDialog(!showAddPersonDialog);
   };
 
-  const handlePersonSave = (person: IPerson) => {
-    handleAddPerson(person);
+  const handlePersonSave = async (person: IPerson) => {
+    await handleAddPerson(person);
     toggleAddPersonDialog();
   };
 
@@ -40,6 +40,7 @@ const PersonHeader = memo<Props>(function PersonHeader({
         >
           Add
         </Button>
+        {isFetching && <LoadingOverlay w="100%" visible zIndex={100} />}
       </Header>
       {showAddPersonDialog && (
         <AddOrEditPersonDialog

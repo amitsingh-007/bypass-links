@@ -38,8 +38,20 @@ export const savePersons = async (persons: IPersons, user: IUser) => {
   });
 };
 
+export const saveBookmarksAndPersons = async (
+  bookmarks: IBookmarksObj,
+  persons: IPersons,
+  user: IUser
+) => {
+  const [isBookmarksSaved, isPersonsSaved] = await Promise.all([
+    saveBookmarks(bookmarks, user),
+    savePersons(persons, user),
+  ]);
+  return isBookmarksSaved && isPersonsSaved;
+};
+
 export const getSettings = async (user: IUser) => {
-  return getFromFirebase<ISettings>({
+  return getFromFirebase({
     ref: EFirebaseDBRef.settings,
     uid: user.uid,
   });
