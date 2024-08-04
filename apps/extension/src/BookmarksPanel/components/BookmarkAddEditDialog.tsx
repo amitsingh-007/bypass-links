@@ -14,6 +14,7 @@ import { useLocation } from 'wouter';
 import { useShallow } from 'zustand/react/shallow';
 import useBookmarkStore from '../store/useBookmarkStore';
 import PersonSelect from './PersonSelect';
+import md5 from 'md5';
 
 const HEADING = {
   [EBookmarkOperation.NONE]: '',
@@ -156,6 +157,7 @@ const BookmarkAddEditDialog = memo<Props>(({ curFolder, handleScroll }) => {
 
   const handleSave = (values: typeof form.values) => {
     const updatedBookmarkData: ITransformedBookmark = {
+      id: md5(values.url),
       url: values.url,
       title: values.title,
       isDir: false,

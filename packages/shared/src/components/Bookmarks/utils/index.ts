@@ -37,19 +37,17 @@ export const shouldRenderBookmarks = (
 export const getEncryptedBookmark = (
   bookmark: IEncodedBookmark
 ): IEncodedBookmark => ({
+  ...bookmark,
   url: btoa(encodeURIComponent(bookmark.url)),
   title: btoa(encodeURIComponent(bookmark.title)),
-  taggedPersons: bookmark.taggedPersons || [],
-  parentHash: bookmark.parentHash,
 });
 
 export const getDecryptedBookmark = (
   bookmark: IEncodedBookmark
 ): IEncodedBookmark => ({
+  ...bookmark,
   url: decodeURIComponent(atob(bookmark.url)),
   title: decodeURIComponent(atob(bookmark.title)),
-  taggedPersons: bookmark.taggedPersons || [],
-  parentHash: bookmark.parentHash,
 });
 
 export const getEncryptedFolder = (folder: IEncodedFolder): IEncodedFolder => ({

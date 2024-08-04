@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { PersonsSchema } from '../../Persons/schema';
 
 export const EncodedBookmarkSchema = z.object({
+  id: z.string(),
   url: z.string(),
   title: z.string(),
   parentHash: z.string(),
@@ -9,6 +10,7 @@ export const EncodedBookmarkSchema = z.object({
 });
 
 export const EncodedFolderSchema = z.object({
+  id: z.string(),
   name: z.string(),
   parentHash: z.string(),
   isDefault: z.boolean().optional(),

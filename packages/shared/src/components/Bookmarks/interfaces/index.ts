@@ -15,6 +15,7 @@ export type IFolderMetaData = z.infer<typeof FolderMetaDataSchema>;
 export type IBookmarksObj = z.infer<typeof BookmarksObjSchema>;
 
 export interface ITransformedBookmark {
+  id: string;
   isDir: false;
   url: string;
   title: string;
@@ -22,6 +23,7 @@ export interface ITransformedBookmark {
 }
 
 export interface ITransformedFolder {
+  id: string;
   isDir: true;
   name: string;
   isDefault: boolean;

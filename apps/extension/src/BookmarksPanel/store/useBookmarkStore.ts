@@ -104,10 +104,16 @@ const useBookmarkStore = create<State>()((set, get) => ({
 
     // Update current context folder
     const newContextBookmarks = [...contextBookmarks];
-    newContextBookmarks.unshift({ isDir, name, isDefault: false });
+    newContextBookmarks.unshift({
+      id: nameHash,
+      isDir,
+      name,
+      isDefault: false,
+    });
     // Update data in all folders list
     const newFolderList = { ...folderList };
     newFolderList[nameHash] = getEncryptedFolder({
+      id: nameHash,
       name,
       parentHash: md5(folderContext),
       isDefault: false,
@@ -138,6 +144,7 @@ const useBookmarkStore = create<State>()((set, get) => ({
     // Update urlList with new values
     const newUrlList = { ...urlList };
     newUrlList[urlHash] = getEncryptedBookmark({
+      id: urlHash,
       url: updatedBookmark.url,
       title: updatedBookmark.title,
       taggedPersons: [...updatedBookmark.taggedPersons],
