@@ -1,5 +1,4 @@
 import { getBookmarks } from '@helpers/fetchFromStorage';
-import usePersonStore from '@/store/person';
 import useToastStore from '@/store/toast';
 import {
   ContextBookmarks,
@@ -7,11 +6,9 @@ import {
   IBookmarksObj,
   IDecodedBookmark,
   ISelectedBookmarks,
-  IUpdateTaggedPerson,
   addToCache,
   bookmarksMapper,
   getBookmarkId,
-  getDecryptedBookmark,
   getEncryptedBookmark,
   getFaviconProxyUrl,
 } from '@bypass/shared';
@@ -33,15 +30,9 @@ interface State {
   selectedBookmarks: ISelectedBookmarks;
   isFetching: boolean;
   isSaveButtonActive: boolean;
-  updateTaggedPersons: IUpdateTaggedPerson[];
 
   // Actions
   loadData: (folderContext: string) => Promise<void>;
-  addToUpdateTaggedPersons: (
-    urlHash: string,
-    prevTaggedPersons: string[],
-    newTaggedPersons: string[]
-  ) => void;
   handleSelectedChange: (pos: number, isOnlySelection: boolean) => void;
   resetSelectedBookmarks: () => void;
   handleCreateNewFolder: (name: string, folderContext: string) => void;
@@ -93,23 +84,6 @@ const useBookmarkStore = create<State>()((set, get) => ({
     });
   },
 
-  addToUpdateTaggedPersons: (
-    urlHash: string,
-    prevTaggedPersons: string[] = [],
-    newTaggedPersons: string[] = []
-  ) => {
-    const { updateTaggedPersons } = get();
-    const newData = [
-      ...updateTaggedPersons,
-      {
-        prevTaggedPersons,
-        newTaggedPersons,
-        urlHash,
-      },
-    ];
-    set({ updateTaggedPersons: newData });
-  },
-
   handleSelectedChange: (pos: number, isOnlySelection: boolean) => {
     const { selectedBookmarks } = get();
     const newData = [...selectedBookmarks];
@@ -151,8 +125,7 @@ const useBookmarkStore = create<State>()((set, get) => ({
     newFolder: string,
     pos: number
   ) => {
-    const { contextBookmarks, urlList, folders, addToUpdateTaggedPersons } =
-      get();
+    const { contextBookmarks, urlList, folders } = get();
     const oldBookmark = contextBookmarks.at(pos); // If undefined, it's a new bookmark
     if (oldBookmark?.isDir) {
       throw new Error(`Item at pos: ${pos} not a bookmark`);
@@ -160,13 +133,6 @@ const useBookmarkStore = create<State>()((set, get) => ({
     const isFolderChange = oldFolder !== newFolder;
     const urlHash = md5(updatedBookmark.url);
     const newFolderHash = md5(newFolder);
-
-    // Update url in tagged persons
-    addToUpdateTaggedPersons(
-      urlHash,
-      oldBookmark?.taggedPersons ?? [],
-      updatedBookmark.taggedPersons
-    );
 
     // Update urlList with new values
     const newUrlList = { ...urlList };
@@ -203,15 +169,12 @@ const useBookmarkStore = create<State>()((set, get) => ({
   },
 
   handleUrlRemove: (pos: number, url: string) => {
-    const { contextBookmarks, urlList, addToUpdateTaggedPersons } = get();
+    const { contextBookmarks, urlList } = get();
     const urlHash = md5(url);
     const contextBookmark = contextBookmarks[pos];
     if (contextBookmark.isDir) {
       throw new Error(`Item at pos: ${pos} not a bookmark`);
     }
-
-    // Update url in tagged persons
-    addToUpdateTaggedPersons(urlHash, contextBookmark.taggedPersons, []);
 
     // Remove from current context folder
     const newContextBookmarks = [...contextBookmarks];
@@ -232,18 +195,11 @@ const useBookmarkStore = create<State>()((set, get) => ({
   handleBulkUrlRemove: () => {
     const { urlList, contextBookmarks, selectedBookmarks } = get();
     const newUrlList = { ...urlList };
-    const taggedPersonData: IUpdateTaggedPerson[] = [];
 
     // Remove from current context folder
     const filteredBookmarks = contextBookmarks.filter((bookmark, index) => {
       if (selectedBookmarks[index] && !bookmark.isDir) {
         const urlHash = md5(bookmark.url);
-        // Update url in tagged persons
-        taggedPersonData.push({
-          prevTaggedPersons: bookmark.taggedPersons || [],
-          newTaggedPersons: [],
-          urlHash,
-        });
         // Remove from all urls list
         delete newUrlList[urlHash];
         return false;
@@ -255,7 +211,6 @@ const useBookmarkStore = create<State>()((set, get) => ({
       urlList: newUrlList,
       isSaveButtonActive: true,
       selectedBookmarks: [],
-      updateTaggedPersons: taggedPersonData,
     });
   },
 
@@ -343,13 +298,7 @@ const useBookmarkStore = create<State>()((set, get) => ({
   },
 
   handleFolderRemove: (pos: number, name: string) => {
-    const {
-      contextBookmarks,
-      folderList,
-      urlList,
-      folders,
-      updateTaggedPersons,
-    } = get();
+    const { contextBookmarks, folderList, urlList, folders } = get();
     const { displayToast } = useToastStore.getState();
     const folderHash = md5(name);
     if (isFolderContainsDir(folders, folderHash)) {
@@ -369,17 +318,9 @@ const useBookmarkStore = create<State>()((set, get) => ({
     delete newFolderList[folderHash];
 
     // Remove all urls inside the folder and update all urls in tagged persons
-    const taggedPersonData: IUpdateTaggedPerson[] = [];
     const newUrlList = Object.entries(urlList).reduce<IBookmarksObj['urlList']>(
       (obj, [hash, data]) => {
-        const decodedBookmark = getDecryptedBookmark(data);
-        if (data.parentHash === folderHash) {
-          taggedPersonData.push({
-            prevTaggedPersons: decodedBookmark.taggedPersons,
-            newTaggedPersons: [],
-            urlHash: hash,
-          });
-        } else {
+        if (data.parentHash !== folderHash) {
           obj[hash] = data;
         }
         return obj;
@@ -396,26 +337,15 @@ const useBookmarkStore = create<State>()((set, get) => ({
       folderList: newFolderList,
       urlList: newUrlList,
       folders: newFolders,
-      updateTaggedPersons: [...updateTaggedPersons, ...taggedPersonData],
       isSaveButtonActive: true,
     });
   },
 
   handleSave: async (folderContext: string) => {
-    const {
-      folders,
-      urlList,
-      folderList,
-      contextBookmarks,
-      updateTaggedPersons,
-      loadData,
-    } = get();
-    const { updateTaggedPersonUrls } = usePersonStore.getState();
+    const { folders, urlList, folderList, contextBookmarks, loadData } = get();
     const { displayToast } = useToastStore.getState();
 
     set({ isFetching: true });
-    // Update url in tagged persons
-    updateTaggedPersonUrls(updateTaggedPersons);
 
     // Form folders obj for current context folder
     const newFolders = { ...folders };

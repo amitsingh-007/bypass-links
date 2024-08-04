@@ -9,6 +9,7 @@ import {
   IPersons,
   Persons,
   sortAlphabetically,
+  usePerson,
 } from '@bypass/shared';
 import { getPersons } from '@helpers/fetchFromStorage';
 import { Box, Flex } from '@mantine/core';
@@ -25,6 +26,7 @@ const PersonsPanel = () => {
     (state) => state.startHistoryMonitor
   );
   const displayToast = useToastStore((state) => state.displayToast);
+  const { getPersonTaggedUrls } = usePerson();
   const [persons, setPersons] = useState<IPerson[]>([]);
   const [isFetching, setIsFetching] = useState(true);
   const [searchText, setSearchText] = useState('');
@@ -40,17 +42,13 @@ const PersonsPanel = () => {
   }, []);
 
   const handleSave = async (_persons: IPerson[]) => {
-    const encryptedPersons = _persons.reduce<IPersons>(
-      (obj, { uid, name, taggedUrls }) => {
-        obj[uid] = {
-          uid,
-          name: btoa(name),
-          taggedUrls,
-        };
-        return obj;
-      },
-      {}
-    );
+    const encryptedPersons = _persons.reduce<IPersons>((obj, { uid, name }) => {
+      obj[uid] = {
+        uid,
+        name: btoa(name),
+      };
+      return obj;
+    }, {});
     await setPersonsInStorage(encryptedPersons);
   };
 
@@ -77,7 +75,8 @@ const PersonsPanel = () => {
 
   const handlePersonDelete = async (person: IPerson) => {
     const pos = getPersonPos(persons, person);
-    if (persons[pos].taggedUrls?.length > 0) {
+    const taggedUrls = await getPersonTaggedUrls(person.uid);
+    if (taggedUrls.length > 0) {
       console.error('Cant delete a person with tagged urls');
       return;
     }

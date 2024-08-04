@@ -99,10 +99,8 @@ const PersonsInner = ({
         ))}
       </Box>
       <BookmarksList
-        isOpen={Boolean(personToOpen)}
-        name={personToOpen?.name}
+        personToOpen={personToOpen}
         imageUrl={personToOpenImage}
-        taggedUrls={personToOpen?.taggedUrls}
         onLinkOpen={onLinkOpen}
         {...bookmarkListProps}
       />

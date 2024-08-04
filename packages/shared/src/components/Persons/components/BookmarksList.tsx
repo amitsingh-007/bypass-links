@@ -28,30 +28,30 @@ import { ModifiedBookmark } from '../interfaces/bookmark';
 import { getFilteredModifiedBookmarks } from '../utils/bookmark';
 import styles from './styles/BookmarksList.module.css';
 import { EBookmarkOperation } from '../../Bookmarks/constants';
+import usePerson from '../hooks/usePerson';
+import { IPerson } from '../interfaces/persons';
 
 interface Props {
-  name?: string;
+  personToOpen: IPerson | undefined;
   imageUrl: string;
-  taggedUrls?: string[];
   onLinkOpen: (url: string) => void;
   fullscreen: boolean;
-  isOpen: boolean;
 }
 
 const BookmarksList = memo<Props>(function BookmarksList({
-  name,
+  personToOpen,
   imageUrl,
-  taggedUrls,
   onLinkOpen,
   fullscreen,
-  isOpen,
 }) {
   const { location } = useContext(DynamicContext);
   const { getBookmarkFromHash, getFolderFromHash } = useBookmark();
+  const { getPersonTaggedUrls } = usePerson();
   const [bookmarks, setBookmarks] = useState<ModifiedBookmark[]>([]);
   const [searchText, setSearchText] = useState('');
 
   const initBookmarks = useCallback(async () => {
+    const taggedUrls = await getPersonTaggedUrls(personToOpen?.uid ?? '');
     if (!taggedUrls?.length) {
       return;
     }
@@ -67,7 +67,12 @@ const BookmarksList = memo<Props>(function BookmarksList({
       })
     );
     setBookmarks(fetchedBookmarks);
-  }, [getBookmarkFromHash, getFolderFromHash, taggedUrls]);
+  }, [
+    getBookmarkFromHash,
+    getFolderFromHash,
+    getPersonTaggedUrls,
+    personToOpen?.uid,
+  ]);
 
   const handleBookmarkEdit = ({ url, parentName }: ModifiedBookmark) => {
     location.push(
@@ -101,7 +106,7 @@ const BookmarksList = memo<Props>(function BookmarksList({
         onSearchChange={setSearchText}
         rightContent={
           <Box className={styles.header}>
-            <Avatar src={imageUrl} alt={name} radius="xl" />
+            <Avatar src={imageUrl} alt={personToOpen?.name} radius="xl" />
             <Badge size="lg" radius="lg" maw="50%">{`${name} (${
               filteredBookmarks?.length || 0
             })`}</Badge>
@@ -151,7 +156,7 @@ const BookmarksList = memo<Props>(function BookmarksList({
 
   return (
     <Modal
-      opened={isOpen}
+      opened={!!personToOpen}
       onClose={handleClose}
       fullScreen
       zIndex={1002}

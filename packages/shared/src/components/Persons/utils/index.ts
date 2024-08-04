@@ -2,11 +2,10 @@ import { IPerson, IPersons } from '../interfaces/persons';
 import { hasText } from '../../../utils/search';
 
 export const decodePerson = (person: IPerson): IPerson => {
-  const { uid, name, taggedUrls } = person;
+  const { uid, name } = person;
   return {
     uid,
     name: atob(name),
-    taggedUrls,
   };
 };
 
