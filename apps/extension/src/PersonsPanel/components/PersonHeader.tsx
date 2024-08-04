@@ -1,10 +1,7 @@
 import { Header, IPerson } from '@bypass/shared';
-import { Button, LoadingOverlay } from '@mantine/core';
-import useToastStore from '@store/toast';
+import { Button } from '@mantine/core';
 import { memo, useState } from 'react';
 import { IoIosPersonAdd } from 'react-icons/io';
-import { RiUploadCloud2Fill } from 'react-icons/ri';
-import { syncPersonsFirebaseWithStorage } from '../utils/sync';
 import AddOrEditPersonDialog from './AddOrEditPersonDialog';
 
 interface Props {
@@ -20,8 +17,6 @@ const PersonHeader = memo<Props>(function PersonHeader({
   persons,
   onSearchChange,
 }) {
-  const displayToast = useToastStore((state) => state.displayToast);
-  const [isSyncing, setIsSyncing] = useState(false);
   const [showAddPersonDialog, setShowAddPersonDialog] = useState(false);
 
   const toggleAddPersonDialog = () => {
@@ -31,21 +26,6 @@ const PersonHeader = memo<Props>(function PersonHeader({
   const handlePersonSave = (person: IPerson) => {
     handleAddPerson(person);
     toggleAddPersonDialog();
-  };
-
-  const onSyncClick = async () => {
-    if (isSyncing) {
-      return;
-    }
-    setIsSyncing(true);
-    try {
-      await syncPersonsFirebaseWithStorage();
-      displayToast({ message: 'Persons synced successfully' });
-    } catch (error) {
-      console.error('Persons synced failed', error);
-      displayToast({ message: 'Persons synced failed', severity: 'error' });
-    }
-    setIsSyncing(false);
   };
 
   return (
@@ -60,17 +40,6 @@ const PersonHeader = memo<Props>(function PersonHeader({
         >
           Add
         </Button>
-        <Button
-          size="xs"
-          radius="xl"
-          leftSection={<RiUploadCloud2Fill />}
-          onClick={onSyncClick}
-          loading={isSyncing}
-          color="yellow"
-          disabled={!isSyncing && isFetching}
-        >
-          Sync
-        </Button>
       </Header>
       {showAddPersonDialog && (
         <AddOrEditPersonDialog
@@ -79,7 +48,6 @@ const PersonHeader = memo<Props>(function PersonHeader({
           handleSaveClick={handlePersonSave}
         />
       )}
-      <LoadingOverlay visible={isSyncing || isFetching} />
     </>
   );
 });

@@ -70,13 +70,11 @@ const syncFirebaseToStorage = async () => {
   AuthProgress.finish('Synced storage with firebase');
 };
 
-const syncStorageToFirebase = async () => {
-  AuthProgress.start('Syncing firebase with storage');
+export const syncStorageToFirebase = async () => {
   await Promise.all([
     syncBookmarksFirebaseWithStorage(),
     syncPersonsFirebaseWithStorage(),
   ]);
-  AuthProgress.finish('Synced firebase with storage');
 };
 
 const resetStorage = async () => {
@@ -113,7 +111,9 @@ export const processPostLogin = async () => {
 
 export const processPreLogout = async () => {
   // Sync changes to firebase before logout, cant sync after logout
+  AuthProgress.start('Syncing firebase with storage');
   await syncStorageToFirebase();
+  AuthProgress.finish('Synced firebase with storage');
 };
 
 export const processPostLogout = async () => {
