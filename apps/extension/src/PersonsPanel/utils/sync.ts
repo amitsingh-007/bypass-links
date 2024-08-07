@@ -9,27 +9,12 @@ import {
   PersonImageUrls,
   STORAGE_KEYS,
 } from '@bypass/shared';
-import { getPersonImageUrls, getPersons } from '@helpers/fetchFromStorage';
+import { getPersonImageUrls } from '@helpers/fetchFromStorage';
 import { getAllDecodedPersons } from '.';
 
 export const syncPersonsToStorage = async () => {
   const persons = await trpcApi.firebaseData.personsGet.query();
   await chrome.storage.local.set({ [STORAGE_KEYS.persons]: persons });
-};
-
-export const syncPersonsFirebaseWithStorage = async () => {
-  const { hasPendingPersons } =
-    await chrome.storage.local.get('hasPendingPersons');
-  const persons = await getPersons();
-  if (!hasPendingPersons) {
-    return;
-  }
-  const isSaveSuccess = await trpcApi.firebaseData.personsPost.mutate(persons);
-  if (isSaveSuccess) {
-    await chrome.storage.local.remove('hasPendingPersons');
-  } else {
-    throw new Error('Error while syncing persons from storage to firebase');
-  }
 };
 
 export const resetPersons = async () => {

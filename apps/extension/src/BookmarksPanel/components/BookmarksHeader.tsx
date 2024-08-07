@@ -1,14 +1,11 @@
 import { Header } from '@bypass/shared';
-import { Button, LoadingOverlay } from '@mantine/core';
+import { Button } from '@mantine/core';
 import { useHotkeys } from '@mantine/hooks';
-import useToastStore from '@store/toast';
 import { memo, useState } from 'react';
 import { FaFolderPlus } from 'react-icons/fa';
 import { IoSave } from 'react-icons/io5';
-import { RiUploadCloud2Fill } from 'react-icons/ri';
 import { useShallow } from 'zustand/react/shallow';
 import useBookmarkStore from '../store/useBookmarkStore';
-import { syncBookmarksFirebaseWithStorage } from '../utils/bookmark';
 import ConfirmationDialog from './ConfirmationDialog';
 import { FolderAddEditDialog } from './FolderAddEditDialog';
 
@@ -22,7 +19,6 @@ const handleClose = () => {
 };
 
 const BookmarksHeader = memo<Props>(({ onSearchChange, folderContext }) => {
-  const displayToast = useToastStore((state) => state.displayToast);
   const {
     contextBookmarks,
     isFetching,
@@ -40,7 +36,6 @@ const BookmarksHeader = memo<Props>(({ onSearchChange, folderContext }) => {
   );
   const [openFolderDialog, setOpenFolderDialog] = useState(false);
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
-  const [isSyncing, setIsSyncing] = useState(false);
 
   const disableSave = isFetching || !isSaveButtonActive;
 
@@ -69,24 +64,6 @@ const BookmarksHeader = memo<Props>(({ onSearchChange, folderContext }) => {
     }
   };
 
-  const onSyncClick = async () => {
-    if (isSyncing) {
-      return;
-    }
-    setIsSyncing(true);
-    try {
-      await syncBookmarksFirebaseWithStorage();
-      displayToast({ message: 'Bookmarks synced successfully' });
-    } catch (error: any) {
-      console.error('Bookmarks sync failed', error);
-      displayToast({
-        message: 'Bookmarks sync failed',
-        severity: 'error',
-      });
-    }
-    setIsSyncing(false);
-  };
-
   const toggleNewFolderDialog = () => setOpenFolderDialog(!openFolderDialog);
 
   const handleConfirmationDialogClose = () => setOpenConfirmationDialog(false);
@@ -113,7 +90,7 @@ const BookmarksHeader = memo<Props>(({ onSearchChange, folderContext }) => {
           radius="xl"
           leftSection={<FaFolderPlus />}
           onClick={toggleNewFolderDialog}
-          disabled={isFetching || isSyncing}
+          disabled={isFetching}
         >
           Add
         </Button>
@@ -127,17 +104,6 @@ const BookmarksHeader = memo<Props>(({ onSearchChange, folderContext }) => {
         >
           Save
         </Button>
-        <Button
-          size="xs"
-          radius="xl"
-          leftSection={<RiUploadCloud2Fill />}
-          onClick={onSyncClick}
-          color="yellow"
-          loading={isSyncing}
-          disabled={!isSyncing && isFetching}
-        >
-          Sync
-        </Button>
       </Header>
       <FolderAddEditDialog
         headerText="Add folder"
@@ -150,7 +116,6 @@ const BookmarksHeader = memo<Props>(({ onSearchChange, folderContext }) => {
         onOk={handleConfirmationDialogOk}
         isOpen={openConfirmationDialog}
       />
-      <LoadingOverlay visible={isSyncing} />
     </>
   );
 });

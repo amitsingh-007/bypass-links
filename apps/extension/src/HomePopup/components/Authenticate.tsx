@@ -70,7 +70,7 @@ const Authenticate = memo(function Authenticate() {
       </Button>
       {isFetching && (
         <>
-          <LoadingOverlay visible zIndex={100} />
+          <LoadingOverlay w="100%" visible zIndex={100} />
           <Progress.Root
             size="xl"
             radius="xl"

@@ -5,7 +5,7 @@ import {
   IBookmarksObj,
   ILastVisited,
   IPersons,
-  IRedirection,
+  IRedirections,
   ISettings,
   PersonImageUrls,
   STORAGE_KEYS,
@@ -23,7 +23,7 @@ export const getHostnames = async (): Promise<Record<string, EBypassKeys>> => {
   return bypass || {};
 };
 
-export const getRedirections = async (): Promise<IRedirection[]> => {
+export const getRedirections = async (): Promise<IRedirections> => {
   const { [STORAGE_KEYS.redirections]: redirections } =
     await chrome.storage.local.get(STORAGE_KEYS.redirections);
   return redirections;

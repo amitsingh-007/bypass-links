@@ -83,7 +83,6 @@ const AddOrEditPersonDialog = memo<Props>(function AddOrEditPersonDialog({
     handleSaveClick({
       uid,
       name,
-      taggedUrls: person?.taggedUrls || [],
     });
   };
 

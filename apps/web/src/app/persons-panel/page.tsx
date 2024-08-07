@@ -3,7 +3,7 @@
 import { openNewTab } from '@app/utils';
 import { getFromLocalStorage } from '@app/utils/storage';
 import {
-  decryptionMapper,
+  getDecryptedPerson,
   getFilteredPersons,
   Header,
   IPerson,
@@ -32,8 +32,8 @@ const PersonsPage = () => {
     if (!_persons) {
       return;
     }
-    const decryptedPersons = Object.entries(_persons || {}).map((x) =>
-      decryptionMapper(x)
+    const decryptedPersons = Object.values(_persons || {}).map((x) =>
+      getDecryptedPerson(x)
     );
     setPersons(sortAlphabetically(decryptedPersons));
   }, []);
