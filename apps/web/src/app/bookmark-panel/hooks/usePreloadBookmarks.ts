@@ -12,6 +12,7 @@ import {
   STORAGE_KEYS,
   deleteCache,
   getCacheObj,
+  getDecryptedBookmark,
   getFaviconProxyUrl,
   isCachePresent,
 } from '@bypass/shared';
@@ -35,9 +36,10 @@ const cacheBookmarkFavicons = async () => {
     return;
   }
   const { urlList } = bookmarks;
-  const faviconUrls = Object.values(urlList).map(({ url }) =>
-    getFaviconProxyUrl(decodeURIComponent(atob(url)))
-  );
+  const faviconUrls = Object.values(urlList).map((item) => {
+    const bookmark = getDecryptedBookmark(item);
+    return getFaviconProxyUrl(bookmark.url);
+  });
   const uniqueUrls = [...new Set(faviconUrls)];
   const cache = await getCacheObj(ECacheBucketKeys.favicon);
   await Promise.all(uniqueUrls.map(async (url) => cache.add(url)));

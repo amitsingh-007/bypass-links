@@ -1,48 +1,36 @@
-export interface IEncodedBookmark {
-  url: string;
-  title: string;
-  parentHash: string;
-  taggedPersons: string[];
-}
+import { z } from 'zod';
+import {
+  EncodedBookmarkSchema,
+  EncodedFolderSchema,
+  FolderMetaDataSchema,
+  BookmarksObjSchema,
+} from '../schema';
 
-export interface IEncodedFolder {
-  name: string;
-  parentHash: string;
-  isDefault?: boolean;
-}
+export type IEncodedBookmark = z.infer<typeof EncodedBookmarkSchema>;
 
-export interface IFolderMetaData {
-  isDir: boolean;
-  hash: string;
-}
+export type IEncodedFolder = z.infer<typeof EncodedFolderSchema>;
 
-export interface IDecodedBookmark {
+export type IFolderMetaData = z.infer<typeof FolderMetaDataSchema>;
+
+export type IBookmarksObj = z.infer<typeof BookmarksObjSchema>;
+
+export interface ITransformedBookmark {
+  id: string;
   isDir: false;
   url: string;
   title: string;
   taggedPersons: string[];
 }
 
-export interface IDecodedFolder {
+export interface ITransformedFolder {
+  id: string;
   isDir: true;
   name: string;
   isDefault: boolean;
 }
 
-export type ContextBookmark = IDecodedBookmark | IDecodedFolder;
+export type ContextBookmark = ITransformedBookmark | ITransformedFolder;
 
 export type ContextBookmarks = ContextBookmark[];
-
-export interface IBookmarksObj {
-  folderList: {
-    [foldername_hash: string]: IEncodedFolder;
-  };
-  urlList: {
-    [url_hash: string]: IEncodedBookmark;
-  };
-  folders: {
-    [foldername_hash: string]: IFolderMetaData[];
-  };
-}
 
 export type ISelectedBookmarks = boolean[];

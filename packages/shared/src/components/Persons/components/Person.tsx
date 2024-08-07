@@ -1,4 +1,4 @@
-import { ActionIcon, Avatar, Badge, Flex, Text } from '@mantine/core';
+import { ActionIcon, Avatar, Flex, Text } from '@mantine/core';
 import { memo, useContext, useEffect, useState } from 'react';
 import DynamicContext from '../../../provider/DynamicContext';
 import usePerson from '../hooks/usePerson';
@@ -12,7 +12,7 @@ interface Props {
 
 const Person = memo<Props>(function Person({ person }) {
   const { location } = useContext(DynamicContext);
-  const { uid, name, taggedUrls } = person;
+  const { uid, name } = person;
   const { resolvePersonImageFromUid } = usePerson();
   const [imageUrl, setImageUrl] = useState('');
 
@@ -40,7 +40,7 @@ const Person = memo<Props>(function Person({ person }) {
       onClick={openBookmarksList}
     >
       <Avatar src={imageUrl} h={110} w="100%" alt={name} radius="xs" />
-      <Flex align="center" w="100%" pos="relative" className={styles.image}>
+      <Flex align="center" w="100%" className={styles.image}>
         <Text
           fw={700}
           size="sm"
@@ -54,16 +54,6 @@ const Person = memo<Props>(function Person({ person }) {
         >
           {name}
         </Text>
-        <Badge
-          color="dark"
-          variant="filled"
-          radius="xl"
-          pos="absolute"
-          top="-25%"
-          right="-0.1875rem"
-        >
-          {taggedUrls?.length ?? 0}
-        </Badge>
       </Flex>
     </ActionIcon>
   );

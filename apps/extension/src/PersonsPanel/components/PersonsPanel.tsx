@@ -1,7 +1,8 @@
 import { trpcApi } from '@/apis/trpcApi';
 import { MAX_PANEL_SIZE } from '@/constants';
 import {
-  decryptionMapper,
+  getDecryptedPerson,
+  getEncryptedPerson,
   getFilteredPersons,
   getPersonImageName,
   HEADER_HEIGHT,
@@ -9,6 +10,7 @@ import {
   IPersons,
   Persons,
   sortAlphabetically,
+  usePerson,
 } from '@bypass/shared';
 import { getPersons } from '@helpers/fetchFromStorage';
 import { Box, Flex } from '@mantine/core';
@@ -25,14 +27,15 @@ const PersonsPanel = () => {
     (state) => state.startHistoryMonitor
   );
   const displayToast = useToastStore((state) => state.displayToast);
+  const { getPersonTaggedUrls } = usePerson();
   const [persons, setPersons] = useState<IPerson[]>([]);
   const [isFetching, setIsFetching] = useState(true);
   const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
     getPersons().then((_persons) => {
-      const decryptedPersons = Object.entries(_persons || {}).map((x) =>
-        decryptionMapper(x)
+      const decryptedPersons = Object.values(_persons || {}).map((x) =>
+        getDecryptedPerson(x)
       );
       setPersons(sortAlphabetically(decryptedPersons));
       setIsFetching(false);
@@ -40,17 +43,10 @@ const PersonsPanel = () => {
   }, []);
 
   const handleSave = async (_persons: IPerson[]) => {
-    const encryptedPersons = _persons.reduce<IPersons>(
-      (obj, { uid, name, taggedUrls }) => {
-        obj[uid] = {
-          uid,
-          name: btoa(name),
-          taggedUrls,
-        };
-        return obj;
-      },
-      {}
-    );
+    const encryptedPersons = _persons.reduce<IPersons>((obj, person) => {
+      obj[person.uid] = getEncryptedPerson(person);
+      return obj;
+    }, {});
     await setPersonsInStorage(encryptedPersons);
   };
 
@@ -77,7 +73,8 @@ const PersonsPanel = () => {
 
   const handlePersonDelete = async (person: IPerson) => {
     const pos = getPersonPos(persons, person);
-    if (persons[pos].taggedUrls?.length > 0) {
+    const taggedUrls = await getPersonTaggedUrls(person.uid);
+    if (taggedUrls.length > 0) {
       console.error('Cant delete a person with tagged urls');
       return;
     }

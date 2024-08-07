@@ -3,29 +3,38 @@ import { trpcApi } from '@/apis/trpcApi';
 import {
   ECacheBucketKeys,
   getCacheObj,
+  getDecryptedBookmark,
   getFaviconProxyUrl,
   STORAGE_KEYS,
 } from '@bypass/shared';
-import { getBookmarks } from '@helpers/fetchFromStorage';
+import { getBookmarks, getPersons } from '@helpers/fetchFromStorage';
 
 export const syncBookmarksToStorage = async () => {
   const bookmarks = await trpcApi.firebaseData.bookmarksGet.query();
   await chrome.storage.local.set({ [STORAGE_KEYS.bookmarks]: bookmarks });
 };
 
-export const syncBookmarksFirebaseWithStorage = async () => {
-  const { hasPendingBookmarks } = await chrome.storage.local.get(
-    'hasPendingBookmarks'
-  );
-  const bookmarks = await getBookmarks();
-  if (!hasPendingBookmarks) {
+export const syncBookmarksAndPersonsFirebaseWithStorage = async () => {
+  const { hasPendingBookmarks, hasPendingPersons } =
+    await chrome.storage.local.get([
+      'hasPendingBookmarks',
+      'hasPendingPersons',
+    ]);
+  if (!hasPendingBookmarks && !hasPendingPersons) {
     return;
   }
+  const bookmarks = await getBookmarks();
+  const persons = await getPersons();
   console.log('Syncing bookmarks from storage to firebase', bookmarks);
-  const isSaveSuccess =
-    await trpcApi.firebaseData.bookmarksPost.mutate(bookmarks);
+  console.log('Syncing persons from storage to firebase', persons);
+  const isSaveSuccess = await trpcApi.firebaseData.bookmarkAndPersonSave.mutate(
+    { bookmarks, persons }
+  );
   if (isSaveSuccess) {
-    await chrome.storage.local.remove('hasPendingBookmarks');
+    await chrome.storage.local.remove([
+      'hasPendingBookmarks',
+      'hasPendingPersons',
+    ]);
   } else {
     throw new Error('Error while syncing bookmarks from storage to firebase');
   }
@@ -46,9 +55,10 @@ export const cacheBookmarkFavicons = async () => {
   AuthProgress.start('Caching favicons');
   const { urlList } = bookmarks;
   let totalResolved = 0;
-  const faviconUrls = Object.values(urlList).map(({ url }) =>
-    getFaviconProxyUrl(decodeURIComponent(atob(url)))
-  );
+  const faviconUrls = Object.values(urlList).map((item) => {
+    const bookmark = getDecryptedBookmark(item);
+    return getFaviconProxyUrl(bookmark.url);
+  });
   const uniqueUrls = [...new Set(faviconUrls)];
   const cache = await getCacheObj(ECacheBucketKeys.favicon);
   await Promise.all(

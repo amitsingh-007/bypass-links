@@ -1,4 +1,4 @@
-import { IRedirection } from '@bypass/shared';
+import { IRedirections } from '@bypass/shared';
 import {
   Active,
   DndContextProps,
@@ -9,8 +9,8 @@ import {
 import { useCallback, useState } from 'react';
 
 interface Props {
-  redirections: IRedirection[];
-  saveRedirectionTemp: (redirections: IRedirection[]) => void;
+  redirections: IRedirections;
+  saveRedirectionTemp: (redirections: IRedirections) => void;
 }
 
 const useShortcutDrag = ({ redirections, saveRedirectionTemp }: Props) => {

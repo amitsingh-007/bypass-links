@@ -6,7 +6,7 @@ import {
 import {
   cacheBookmarkFavicons,
   resetBookmarks,
-  syncBookmarksFirebaseWithStorage,
+  syncBookmarksAndPersonsFirebaseWithStorage,
   syncBookmarksToStorage,
 } from '@/BookmarksPanel/utils/bookmark';
 import {
@@ -17,7 +17,6 @@ import {
   cachePersonImagesInStorage,
   refreshPersonImageUrlsCache,
   resetPersons,
-  syncPersonsFirebaseWithStorage,
   syncPersonsToStorage,
 } from '@/PersonsPanel/utils/sync';
 import {
@@ -32,8 +31,8 @@ import {
   getSettings,
   getUser2FAInfo,
 } from '@helpers/fetchFromStorage';
-import { AuthProgress } from './authProgress';
 import { IUser2FAInfo } from '../interfaces/authentication';
+import { AuthProgress } from './authProgress';
 
 const syncAuthenticationToStorage = async () => {
   AuthProgress.start('Checking 2FA status');
@@ -70,13 +69,8 @@ const syncFirebaseToStorage = async () => {
   AuthProgress.finish('Synced storage with firebase');
 };
 
-const syncStorageToFirebase = async () => {
-  AuthProgress.start('Syncing firebase with storage');
-  await Promise.all([
-    syncBookmarksFirebaseWithStorage(),
-    syncPersonsFirebaseWithStorage(),
-  ]);
-  AuthProgress.finish('Synced firebase with storage');
+export const syncStorageToFirebase = async () => {
+  await syncBookmarksAndPersonsFirebaseWithStorage();
 };
 
 const resetStorage = async () => {
@@ -113,7 +107,9 @@ export const processPostLogin = async () => {
 
 export const processPreLogout = async () => {
   // Sync changes to firebase before logout, cant sync after logout
+  AuthProgress.start('Syncing firebase with storage');
   await syncStorageToFirebase();
+  AuthProgress.finish('Synced firebase with storage');
 };
 
 export const processPostLogout = async () => {

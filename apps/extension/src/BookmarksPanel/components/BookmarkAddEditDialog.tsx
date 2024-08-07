@@ -5,7 +5,7 @@ import {
   EBookmarkOperation,
   getBookmarksPanelUrl,
   getDecodedFolderList,
-  IDecodedBookmark,
+  ITransformedBookmark,
 } from '@bypass/shared';
 import { Button, Modal, Select, Stack, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
@@ -14,6 +14,7 @@ import { useLocation } from 'wouter';
 import { useShallow } from 'zustand/react/shallow';
 import useBookmarkStore from '../store/useBookmarkStore';
 import PersonSelect from './PersonSelect';
+import md5 from 'md5';
 
 const HEADING = {
   [EBookmarkOperation.NONE]: '',
@@ -102,7 +103,7 @@ const BookmarkAddEditDialog = memo<Props>(({ curFolder, handleScroll }) => {
         return;
       }
 
-      let bookmark: Required<IDecodedBookmark> | undefined;
+      let bookmark: Required<ITransformedBookmark> | undefined;
       let pos = -1;
       contextBookmarks.forEach((x, index) => {
         if (!x.isDir && x.url === _bmUrl) {
@@ -155,7 +156,8 @@ const BookmarkAddEditDialog = memo<Props>(({ curFolder, handleScroll }) => {
   };
 
   const handleSave = (values: typeof form.values) => {
-    const updatedBookmarkData: IDecodedBookmark = {
+    const updatedBookmarkData: ITransformedBookmark = {
+      id: md5(values.url),
       url: values.url,
       title: values.title,
       isDir: false,

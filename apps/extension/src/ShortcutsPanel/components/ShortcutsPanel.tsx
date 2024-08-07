@@ -1,7 +1,7 @@
 import { trpcApi } from '@/apis/trpcApi';
 import { syncRedirectionsToStorage } from '@/BackgroundScript/redirect';
 import { MAX_PANEL_SIZE } from '@/constants';
-import { Header, IRedirection } from '@bypass/shared';
+import { Header, IRedirection, IRedirections } from '@bypass/shared';
 import { DndContext, DragOverlay, closestCenter } from '@dnd-kit/core';
 import {
   SortableContext,
@@ -23,7 +23,7 @@ import styles from './styles/ShortcutsPanel.module.css';
 
 const ShortcutsPanel = memo(function ShortcutsPanel() {
   const displayToast = useToastStore((state) => state.displayToast);
-  const [redirections, setRedirections] = useState<IRedirection[]>([]);
+  const [redirections, setRedirections] = useState<IRedirections>([]);
   const [isFetching, setIsFetching] = useState(true);
   const [isSaveActive, setIsSaveActive] = useState(false);
   const { ref, width } = useElementSize();
@@ -43,7 +43,7 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
     });
   }, []);
 
-  const saveRedirectionTemp = (newRedirections: IRedirection[]) => {
+  const saveRedirectionTemp = (newRedirections: IRedirections) => {
     setRedirections(newRedirections);
     setIsSaveActive(true);
   };

@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import useStorage from '../../../hooks/useStorage';
+import { getDecryptedFolder } from '../utils';
 
 const useBookmark = () => {
   const { getBookmarks } = useStorage();
@@ -21,7 +22,7 @@ const useBookmark = () => {
       if (!bookmarks) {
         throw new Error('No bookmarks found for getFolderFromHash');
       }
-      return bookmarks.folderList[hash];
+      return getDecryptedFolder(bookmarks.folderList[hash]);
     },
     [getBookmarks]
   );

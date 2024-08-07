@@ -1,19 +1,24 @@
 import { IPerson, IPersons } from '../interfaces/persons';
 import { hasText } from '../../../utils/search';
 
-export const decodePerson = (person: IPerson): IPerson => {
-  const { uid, name, taggedUrls } = person;
+export const getDecryptedPerson = (person: IPerson): IPerson => {
   return {
-    uid,
-    name: atob(name),
-    taggedUrls,
+    ...person,
+    name: atob(person.name),
+  };
+};
+
+export const getEncryptedPerson = (person: IPerson): IPerson => {
+  return {
+    ...person,
+    name: btoa(person.name),
   };
 };
 
 export const decodePersons = (persons: IPersons) =>
-  Object.entries(persons)
+  Object.values(persons)
     .filter(Boolean)
-    .map(([_key, person]) => decodePerson(person));
+    .map((person) => getDecryptedPerson(person));
 
 export const getReactKey = (row: number, column: number, size: number) =>
   row * size + column;

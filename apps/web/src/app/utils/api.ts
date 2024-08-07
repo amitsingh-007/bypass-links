@@ -16,10 +16,12 @@ const getBaseUrl = () => {
 export const api = createTRPCProxyClient<AppRouter>({
   links: [
     loggerLink({
-      enabled: (opts) =>
-        (process.env.VERCEL_ENV === 'development' &&
-          typeof window !== 'undefined') ||
-        (opts.direction === 'down' && opts.result instanceof Error),
+      enabled: (opts) => {
+        if (!PROD_ENV) {
+          return true;
+        }
+        return opts.direction === 'down' && opts.result instanceof Error;
+      },
     }),
     httpBatchLink({
       url: `${getBaseUrl()}/api/trpc`,

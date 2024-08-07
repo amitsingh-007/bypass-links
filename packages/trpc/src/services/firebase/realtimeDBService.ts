@@ -1,9 +1,9 @@
 import {
   IBookmarksObj,
-  IBypass,
   ILastVisited,
   IPersons,
   IRedirection,
+  IRedirections,
   ISettings,
 } from '@bypass/shared';
 import { IUser } from '../../@types/trpc';
@@ -11,7 +11,7 @@ import { EFirebaseDBRef } from '../../constants/firebase';
 import { getFromFirebase, saveToFirebase } from '../firebaseAdminService';
 
 export const getBookmarks = async (user: IUser) => {
-  return getFromFirebase<IBookmarksObj>({
+  return getFromFirebase({
     ref: EFirebaseDBRef.bookmarks,
     uid: user.uid,
   });
@@ -25,7 +25,7 @@ export const saveBookmarks = async (bookmarks: IBookmarksObj, user: IUser) => {
 };
 
 export const getPersons = async (user: IUser) => {
-  return getFromFirebase<IPersons>({
+  return getFromFirebase({
     ref: EFirebaseDBRef.persons,
     uid: user.uid,
   });
@@ -38,8 +38,20 @@ export const savePersons = async (persons: IPersons, user: IUser) => {
   });
 };
 
+export const saveBookmarksAndPersons = async (
+  bookmarks: IBookmarksObj,
+  persons: IPersons,
+  user: IUser
+) => {
+  const [isBookmarksSaved, isPersonsSaved] = await Promise.all([
+    saveBookmarks(bookmarks, user),
+    savePersons(persons, user),
+  ]);
+  return isBookmarksSaved && isPersonsSaved;
+};
+
 export const getSettings = async (user: IUser) => {
-  return getFromFirebase<ISettings>({
+  return getFromFirebase({
     ref: EFirebaseDBRef.settings,
     uid: user.uid,
   });
@@ -53,14 +65,14 @@ export const saveSettings = async (settings: ISettings, user: IUser) => {
 };
 
 export const getBypass = async (user: IUser) => {
-  return getFromFirebase<IBypass>({
+  return getFromFirebase({
     ref: EFirebaseDBRef.bypass,
     uid: user.uid,
   });
 };
 
 export const getLastVisited = async (user: IUser) => {
-  return getFromFirebase<ILastVisited>({
+  return getFromFirebase({
     ref: EFirebaseDBRef.lastVisited,
     uid: user.uid,
   });
@@ -77,13 +89,13 @@ export const saveLastVisited = async (
 };
 
 export const getRedirections = async (user: IUser) => {
-  return getFromFirebase<IRedirection[]>({
+  return getFromFirebase({
     ref: EFirebaseDBRef.redirections,
     uid: user.uid,
   });
 };
 export const saveRedirections = async (
-  redirections: IRedirection[],
+  redirections: IRedirections,
   user: IUser
 ) => {
   const shortcutsObj = redirections.reduce<Record<number, IRedirection>>(

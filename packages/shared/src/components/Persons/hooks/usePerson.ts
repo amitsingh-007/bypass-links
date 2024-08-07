@@ -6,7 +6,7 @@ import { decodePersons } from '../utils';
 import { ECacheBucketKeys } from '../../../constants/cache';
 
 const usePerson = () => {
-  const { getPersons, getPersonImageUrls } = useStorage();
+  const { getBookmarks, getPersons, getPersonImageUrls } = useStorage();
 
   const getAllDecodedPersons = useCallback(async () => {
     const persons = await getPersons();
@@ -41,10 +41,28 @@ const usePerson = () => {
     [resolvePersonImageFromUid]
   );
 
+  const getPersonTaggedUrls = useCallback(
+    async (personId: string) => {
+      const bookmarks = await getBookmarks();
+      if (!bookmarks?.urlList) {
+        return [];
+      }
+      const taggedUrls = [];
+      for (const [bmId, bookmark] of Object.entries(bookmarks.urlList)) {
+        if (bookmark.taggedPersons.includes(personId)) {
+          taggedUrls.push(bmId);
+        }
+      }
+      return taggedUrls;
+    },
+    [getBookmarks]
+  );
+
   return {
     getAllDecodedPersons,
     resolvePersonImageFromUid,
     getPersonsWithImageUrl,
+    getPersonTaggedUrls,
   };
 };
 
