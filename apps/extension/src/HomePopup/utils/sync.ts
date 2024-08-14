@@ -123,8 +123,11 @@ export const processPostLogout = async () => {
   AuthProgress.finish('Cleared cache');
   if (settings?.hasManageGoogleActivityConsent) {
     // Open Google Search and Google Image tabs
-    await chrome.tabs.create({ url: 'https://www.google.com/' });
-    await chrome.tabs.create({ url: 'https://www.google.com/imghp' });
+    await chrome.tabs.create({ url: 'https://www.google.com/', active: false });
+    await chrome.tabs.create({
+      url: 'https://www.google.com/imghp',
+      active: false,
+    });
     // Clear activity from google account
     if (historyStartTime) {
       const historyWatchTime = Date.now() - historyStartTime;
