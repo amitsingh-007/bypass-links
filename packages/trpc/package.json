@@ -14,7 +14,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@axiomhq/js": "1.1.0",
+    "@axiomhq/js": "1.1.1",
     "@bypass/configs": "workspace:*",
     "@bypass/shared": "workspace:*",
     "@octokit/rest": "21.0.1",
