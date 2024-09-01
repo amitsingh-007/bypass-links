@@ -19,7 +19,7 @@
     "@mantine/form": "7.12.2",
     "@mantine/hooks": "7.12.2",
     "@t3-oss/env-core": "0.11.1",
-    "@tanstack/react-virtual": "3.8.4",
+    "@tanstack/react-virtual": "3.10.6",
     "@trpc/client": "10.45.2",
     "@trpc/server": "10.45.2",
     "clsx": "2.1.1",
