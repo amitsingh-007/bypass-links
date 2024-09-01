@@ -29,7 +29,7 @@
     "@firebase/app-types": "0.9.2",
     "@types/qrcode": "1.5.5",
     "dotenv": "16.4.5",
-    "firebase": "10.12.4",
+    "firebase": "10.13.1",
     "typescript": "5.5.4",
     "vitest": "2.0.5"
   }
