@@ -37,7 +37,7 @@
     "@svgr/webpack": "8.1.0",
     "@types/md5": "2.3.5",
     "@types/react": "18.3.5",
-    "autoprefixer": "10.4.19",
+    "autoprefixer": "10.4.20",
     "eslint-webpack-plugin": "4.2.0",
     "fork-ts-checker-webpack-plugin": "9.0.2",
     "postcss": "8.4.40",
