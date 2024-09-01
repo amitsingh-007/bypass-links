@@ -114,8 +114,8 @@ importers:
         specifier: 7.11.2
         version: 7.11.2(react@18.3.1)
       '@t3-oss/env-core':
-        specifier: 0.11.0
-        version: 0.11.0(typescript@5.5.4)(zod@3.23.8)
+        specifier: 0.11.1
+        version: 0.11.1(typescript@5.5.4)(zod@3.23.8)
       '@tanstack/react-virtual':
         specifier: 3.8.4
         version: 3.8.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -465,8 +465,8 @@ importers:
         specifier: 21.0.1
         version: 21.0.1
       '@t3-oss/env-core':
-        specifier: 0.11.0
-        version: 0.11.0(typescript@5.5.4)(zod@3.23.8)
+        specifier: 0.11.1
+        version: 0.11.1(typescript@5.5.4)(zod@3.23.8)
       '@trpc/server':
         specifier: 10.45.2
         version: 10.45.2
@@ -2221,6 +2221,15 @@ packages:
 
   '@t3-oss/env-core@0.11.0':
     resolution: {integrity: sha512-PSalC5bG0a7XbyoLydiQdAnx3gICX6IQNctvh+TyLrdFxsxgocdj9Ui7sd061UlBzi+z4aIGjnem1kZx9QtUgQ==}
+    peerDependencies:
+      typescript: '>=5.0.0'
+      zod: ^3.0.0
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
+  '@t3-oss/env-core@0.11.1':
+    resolution: {integrity: sha512-MaxOwEoG1ntCFoKJsS7nqwgcxLW1SJw238AJwfJeaz3P/8GtkxXZsPPolsz1AdYvUTbe3XvqZ/VCdfjt+3zmKw==}
     peerDependencies:
       typescript: '>=5.0.0'
       zod: ^3.0.0
@@ -9328,6 +9337,12 @@ snapshots:
       tslib: 2.6.3
 
   '@t3-oss/env-core@0.11.0(typescript@5.5.4)(zod@3.23.8)':
+    dependencies:
+      zod: 3.23.8
+    optionalDependencies:
+      typescript: 5.5.4
+
+  '@t3-oss/env-core@0.11.1(typescript@5.5.4)(zod@3.23.8)':
     dependencies:
       zod: 3.23.8
     optionalDependencies:
