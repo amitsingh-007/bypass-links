@@ -40,7 +40,7 @@
     "autoprefixer": "10.4.20",
     "eslint-webpack-plugin": "4.2.0",
     "fork-ts-checker-webpack-plugin": "9.0.2",
-    "postcss": "8.4.40",
+    "postcss": "8.4.42",
     "postcss-preset-mantine": "1.17.0",
     "postcss-simple-vars": "7.0.1",
     "typescript": "5.5.4",
