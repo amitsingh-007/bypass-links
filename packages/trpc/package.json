@@ -17,7 +17,7 @@
     "@axiomhq/js": "1.1.1",
     "@bypass/configs": "workspace:*",
     "@bypass/shared": "workspace:*",
-    "@octokit/rest": "21.0.1",
+    "@octokit/rest": "21.0.2",
     "@t3-oss/env-core": "0.11.1",
     "@trpc/server": "10.45.2",
     "firebase-admin": "12.4.0",
