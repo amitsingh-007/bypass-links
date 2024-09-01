@@ -117,8 +117,8 @@ importers:
         specifier: 0.11.1
         version: 0.11.1(typescript@5.5.4)(zod@3.23.8)
       '@tanstack/react-virtual':
-        specifier: 3.8.4
-        version: 3.8.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 3.10.6
+        version: 3.10.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@trpc/client':
         specifier: 10.45.2
         version: 10.45.2(@trpc/server@10.45.2)
@@ -301,8 +301,8 @@ importers:
         specifier: 0.11.1
         version: 0.11.1(typescript@5.5.4)(zod@3.23.8)
       '@tanstack/react-virtual':
-        specifier: 3.8.4
-        version: 3.8.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 3.10.6
+        version: 3.10.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@trpc/client':
         specifier: 10.45.2
         version: 10.45.2(@trpc/server@10.45.2)
@@ -413,8 +413,8 @@ importers:
         specifier: 7.12.2
         version: 7.12.2(react@18.3.1)
       '@tanstack/react-virtual':
-        specifier: 3.8.4
-        version: 3.8.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 3.10.6
+        version: 3.10.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       clsx:
         specifier: 2.1.1
         version: 2.1.1
@@ -2223,14 +2223,14 @@ packages:
       typescript:
         optional: true
 
-  '@tanstack/react-virtual@3.8.4':
-    resolution: {integrity: sha512-Dq0VQr3QlTS2qL35g360QaJWBt7tCn/0xw4uZ0dHXPLO1Ak4Z4nVX4vuj1Npg1b/jqNMDToRtR5OIxM2NXRBWg==}
+  '@tanstack/react-virtual@3.10.6':
+    resolution: {integrity: sha512-xaSy6uUxB92O8mngHZ6CvbhGuqxQ5lIZWCBy+FjhrbHmOwc6BnOnKkYm2FsB1/BpKw/+FVctlMbEtI+F6I1aJg==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
 
-  '@tanstack/virtual-core@3.8.4':
-    resolution: {integrity: sha512-iO5Ujgw3O1yIxWDe9FgUPNkGjyT657b1WNX52u+Wv1DyBFEpdCdGkuVaky0M3hHFqNWjAmHWTn4wgj9rTr7ZQg==}
+  '@tanstack/virtual-core@3.10.6':
+    resolution: {integrity: sha512-1giLc4dzgEKLMx5pgKjL6HlG5fjZMgCjzlKAlpr7yoUtetVPELgER1NtephAI910nMwfPTHNyWKSFmJdHkz2Cw==}
 
   '@tokenizer/token@0.3.0':
     resolution: {integrity: sha512-OvjF+z51L3ov0OyAU0duzsYuvO01PH7x4t6DJx+guahgTnBHkhJdG7soQeTSFLWN3efnHyibZ4Z8l2EuWwJN3A==}
@@ -9304,13 +9304,13 @@ snapshots:
     optionalDependencies:
       typescript: 5.5.4
 
-  '@tanstack/react-virtual@3.8.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@tanstack/react-virtual@3.10.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@tanstack/virtual-core': 3.8.4
+      '@tanstack/virtual-core': 3.10.6
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  '@tanstack/virtual-core@3.8.4': {}
+  '@tanstack/virtual-core@3.10.6': {}
 
   '@tokenizer/token@0.3.0': {}
 
