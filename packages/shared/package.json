@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "@bypass/configs": "workspace:*",
-    "@total-typescript/ts-reset": "0.5.1",
+    "@total-typescript/ts-reset": "0.6.0",
     "@types/md5": "2.3.5",
     "@types/react": "18.3.5",
     "typescript": "5.5.4"
