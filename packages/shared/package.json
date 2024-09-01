@@ -32,7 +32,7 @@
     "@bypass/configs": "workspace:*",
     "@total-typescript/ts-reset": "0.5.1",
     "@types/md5": "2.3.5",
-    "@types/react": "18.3.3",
+    "@types/react": "18.3.5",
     "typescript": "5.5.4"
   }
 }
