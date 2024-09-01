@@ -190,8 +190,8 @@ importers:
         specifier: 18.3.5
         version: 18.3.5
       '@types/react-avatar-editor':
-        specifier: 13.0.2
-        version: 13.0.2
+        specifier: 13.0.3
+        version: 13.0.3
       '@types/react-dom':
         specifier: 18.3.0
         version: 18.3.0
@@ -2398,8 +2398,8 @@ packages:
   '@types/range-parser@1.2.7':
     resolution: {integrity: sha512-hKormJbkJqzQGhziax5PItDUTMAM9uE2XXQmM37dyd4hVM+5aVl7oVxMVUiVQn2oCQFN/LKCZdvSM0pFRqbSmQ==}
 
-  '@types/react-avatar-editor@13.0.2':
-    resolution: {integrity: sha512-vnGU4sx5TDB9JMCuw+kB3+jfDNMhVlpBbgMRZG9NzVnaBb5xUjVV4VmHdD2O8gj/pb5GN+QXKk7jan09aMjG2A==}
+  '@types/react-avatar-editor@13.0.3':
+    resolution: {integrity: sha512-icRAOKLKjkIsExFAiFSquztByJwpyTKEgnBRYSuLG2V81bM3LtQZi7hRS+Hr+4AXreq0yNRjVZiMOVeEeh6DLg==}
 
   '@types/react-dom@18.3.0':
     resolution: {integrity: sha512-EhwApuTmMBmXuFOikhQLIBUn6uFg81SwLMOAUgodJF14SOBOCMdU04gDoYi0WOJJHD144TL32z4yDqCW3dnkQg==}
@@ -9513,7 +9513,7 @@ snapshots:
 
   '@types/range-parser@1.2.7': {}
 
-  '@types/react-avatar-editor@13.0.2':
+  '@types/react-avatar-editor@13.0.3':
     dependencies:
       '@types/react': 18.3.5
 
