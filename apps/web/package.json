@@ -45,6 +45,6 @@
     "postcss-simple-vars": "7.0.1",
     "typescript": "5.5.4",
     "typescript-plugin-css-modules": "5.1.0",
-    "webpack": "5.94.0"
+    "webpack": "5.95.0"
   }
 }
