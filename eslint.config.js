@@ -12,6 +12,7 @@ import playwright from 'eslint-plugin-playwright';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import gitignore from 'eslint-config-flat-gitignore';
 import eslintPluginUnicorn from 'eslint-plugin-unicorn';
+import eslintPluginImportX from 'eslint-plugin-import-x';
 
 // !NOTE: Add types to eslint-mocked-types.d.ts if getting TS error for plugins
 
@@ -54,6 +55,39 @@ export default tseslint.config(
   gitignore(),
   eslint.configs.recommended,
   ...tseslint.configs.strictTypeChecked,
+  eslintPluginImportX.flatConfigs.recommended,
+  eslintPluginImportX.flatConfigs.typescript,
+  // eslintPluginImportX.flatConfigs.react,
+  {
+    // languageOptions: {
+    //   ecmaVersion: 'latest',
+    //   sourceType: 'module',
+    //   parserOptions: {
+    //     project: [
+    //       './tsconfig.json',
+    //       './packages/*/tsconfig.json',
+    //       './apps/*/tsconfig.json',
+    //     ], //or project: true, ref: https://typescript-eslint.io/getting-started/typed-linting/
+    //     tsconfigRootDir: import.meta.dirname,
+    //   },
+    // },
+    settings: {
+      'import/resolver': {
+        typescript: {
+          alwaysTryTypes: true,
+          project: [
+            './packages/*/tsconfig.json',
+            './apps/*/tsconfig.json',
+            './tsconfig.json',
+          ],
+          // tsconfigRootDir: import.meta.dirname,
+        },
+      },
+    },
+    // plugins: {
+    //   import: legacyPlugin('eslint-plugin-import', 'import'),
+    // },
+  },
   {
     languageOptions: {
       parserOptions: {
@@ -174,6 +208,7 @@ export default tseslint.config(
       'unicorn/prefer-ternary': 'off',
       'unicorn/prefer-query-selector': 'off',
       'unicorn/prefer-dom-node-dataset': 'off',
+      'import-x/order': 'error',
     },
   },
   // ? NOTE: always keep this at last; prettier eslint config.
