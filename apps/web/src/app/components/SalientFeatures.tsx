@@ -1,6 +1,6 @@
 import { Box, Flex, Grid, GridCol, Text } from '@mantine/core';
 import CircleIcon from '@app/icons/circle.svg';
-import { memo } from 'react';
+import React, { memo } from 'react';
 import { firstColumn, secondColumn } from '../constants/features';
 import styles from './styles/SalientFeatures.module.css';
 import Feature from './types/feature';
@@ -35,7 +35,7 @@ const FeaturesColumn = ({
   columnData,
 }: {
   columnData: Feature[];
-}): JSX.Element => {
+}): React.JSX.Element => {
   return (
     <>
       {columnData.map(({ title, content, icon: Icon }) => (

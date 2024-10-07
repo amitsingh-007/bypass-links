@@ -107,7 +107,7 @@ const BookmarksList = memo<Props>(function BookmarksList({
         rightContent={
           <Box className={styles.header}>
             <Avatar src={imageUrl} alt={personToOpen?.name} radius="xl" />
-            <Badge size="lg" radius="lg" maw="50%">{`${name} (${
+            <Badge size="lg" radius="lg" maw="50%">{`${personToOpen?.name} (${
               filteredBookmarks?.length || 0
             })`}</Badge>
           </Box>
