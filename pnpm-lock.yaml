@@ -175,8 +175,8 @@ importers:
         specifier: 4.0.1
         version: 4.0.1(@prefresh/babel-plugin@0.5.1)(preact@10.24.1)(webpack@5.95.0(webpack-cli@5.1.4))
       '@types/chrome':
-        specifier: 0.0.273
-        version: 0.0.273
+        specifier: 0.0.279
+        version: 0.0.279
       '@types/md5':
         specifier: 2.3.5
         version: 2.3.5
@@ -2293,8 +2293,8 @@ packages:
   '@types/caseless@0.12.5':
     resolution: {integrity: sha512-hWtVTC2q7hc7xZ/RLbxapMvDMgUnDvKvMOpKal4DrMyfGBUfB1oKaZlIRr6mJL+If3bAP6sV/QneGzF6tJjZDg==}
 
-  '@types/chrome@0.0.273':
-    resolution: {integrity: sha512-6Wp4GO07GLvti13Rf/RpYG+0COSJDOLE4iq3g1+whn1SNGUVnv6vbXqSa/WFbuVpvN1lcBLiZ40+gSeWmKb+eA==}
+  '@types/chrome@0.0.279':
+    resolution: {integrity: sha512-wl0IxQ2OQiMazPZM5LimHQ7Jwd72/O8UvvzyptplXT2S4eUqXH5C0n8S+v8PtKhyX89p0igCPpNy3Bwksyk57g==}
 
   '@types/connect-history-api-fallback@1.5.4':
     resolution: {integrity: sha512-n6Cr2xS1h4uAulPRdlw6Jl6s1oG8KrVilPN2yUITEs+K48EzMJJ3W1xy8K5eWuFvjp3R74AOIGSmp2UfBJ8HFw==}
@@ -9352,7 +9352,7 @@ snapshots:
   '@types/caseless@0.12.5':
     optional: true
 
-  '@types/chrome@0.0.273':
+  '@types/chrome@0.0.279':
     dependencies:
       '@types/filesystem': 0.0.36
       '@types/har-format': 1.2.16
