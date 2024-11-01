@@ -19,7 +19,7 @@
     "@trpc/client": "10.45.2",
     "@trpc/server": "10.45.2",
     "@vercel/analytics": "1.3.2",
-    "@vercel/speed-insights": "1.0.12",
+    "@vercel/speed-insights": "1.0.14",
     "clsx": "2.1.1",
     "dayjs": "1.11.13",
     "file-type": "19.5.0",
