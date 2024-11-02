@@ -16,7 +16,7 @@ export const test = base.extend<{
   backgroundSW: Worker;
 }>({
   context: async ({}, use) => {
-    const pathToExtension = path.resolve(dirName, '../../build');
+    const pathToExtension = path.resolve(dirName, '../../chrome-build');
     const browserContext = await chromium.launchPersistentContext(tempDir, {
       headless: false,
       channel: 'chrome',

@@ -32,11 +32,17 @@ jobs:
       - name: Building Extension
         run: pnpm build --filter=@bypass/extension
 
-      - name: Uploading extension
+      - name: Uploading Chrome extension
         uses: actions/upload-artifact@v4
         with:
-          name: extension-folder
-          path: ./apps/extension/build
+          name: chrome-extension-folder
+          path: ./apps/extension/chrome-build
+
+      - name: Uploading Firefox extension
+        uses: actions/upload-artifact@v4
+        with:
+          name: firefox-extension-folder
+          path: ./apps/extension/firefox-build
 
       - name: Deploy Preview (Vercel)
         uses: amondnet/vercel-action@v25
@@ -77,11 +83,11 @@ jobs:
           key: cache-playwright-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: cache-playwright-
 
-      - name: Download artifacts
+      - name: Download Chrome extension
         uses: actions/download-artifact@v4
         with:
-          name: extension-folder
-          path: ./apps/extension/build
+          name: chrome-extension-folder
+          path: ./apps/extension/chrome-build
 
       - name: Install dependencies
         run: pnpm install
@@ -144,11 +150,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Download artifacts
+      - name: Download Chrome extension
         uses: actions/download-artifact@v4
         with:
-          name: extension-folder
-          path: ./apps/extension/build/
+          name: chrome-extension-folder
+          path: ./apps/extension/chrome-build/
+
+      - name: Download Firefox extension
+        uses: actions/download-artifact@v4
+        with:
+          name: firefox-extension-folder
+          path: ./apps/extension/firefox-build/
 
       - name: Generate Release Tag
         id: release_tag
@@ -161,7 +173,7 @@ jobs:
       - name: Get Release Asset Name
         id: asset_name
         run: |
-          file=$(find ./apps/extension/build/bypass-links-*.zip  -printf "%f\n")
+          file=$(find ./apps/extension/chrome-build/bypass-links-*.zip  -printf "%f\n")
           echo "asset_name=$file" >> $GITHUB_OUTPUT
 
       - name: Create Release
@@ -171,4 +183,6 @@ jobs:
           tag_name: ${{ steps.release_tag.outputs.next_release_tag }}
           token: ${{secrets.GITHUB_TOKEN}}
           generate_release_notes: true
-          files: ./apps/extension/build/${{ steps.asset_name.outputs.asset_name }}
+          files: |
+            ./apps/extension/chrome-build/${{ steps.asset_name.outputs.asset_name }}
+            ./apps/extension/firefox-build/${{ steps.asset_name.outputs.asset_name }}

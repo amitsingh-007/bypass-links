@@ -13,7 +13,7 @@
     }
   },
   "include": ["@types", "src", "tests", "webpack.config.ts"],
-  "exclude": ["build", "node_modules", ".turbo"],
+  "exclude": ["chrome-build", "firefox-build", "node_modules", ".turbo"],
   //Required for webpack config in typescript
   "ts-node": {
     "files": true,

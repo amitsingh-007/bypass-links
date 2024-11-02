@@ -19,7 +19,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    template: 'Bypass Links - %s', // Not working
+    template: 'Bypass Links - %s', // NOTE: Not working
     default: 'Bypass Links',
   },
   keywords: ['Bypass Links', 'Link bypasser', 'Bookmarks panel'],

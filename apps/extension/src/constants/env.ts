@@ -5,6 +5,7 @@ export const env = createEnv({
   server: {
     NODE_ENV: z.enum(['development', 'production']),
     HOST_NAME: z.string(),
+    ENV: z.enum(['chrome', 'firefox']),
   },
   runtimeEnv: process.env,
 });
