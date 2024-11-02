@@ -26,8 +26,8 @@ const dirName = path.dirname(fileName);
 
 const { DefinePlugin, optimize } = webpack;
 
-const { NODE_ENV, HOST_NAME, ENV } = env;
-const isChromeBuild = ENV === 'chrome';
+const { NODE_ENV, HOST_NAME, EXT_BROWSER } = env;
+const isChromeBuild = EXT_BROWSER === 'chrome';
 const isProduction = NODE_ENV === 'production';
 
 const PATHS = {
@@ -42,10 +42,10 @@ const getManifestFilesToMerge = () => {
   const basePath = '../../packages/configs/manifest';
   const files = [
     `${basePath}/manifest.base.json`,
-    `${basePath}/manifest.${ENV}.json`,
+    `${basePath}/manifest.${EXT_BROWSER}.json`,
   ];
   if (isProduction) {
-    files.push(`${basePath}/manifest.${ENV}.prod.json`);
+    files.push(`${basePath}/manifest.${EXT_BROWSER}.prod.json`);
   }
   return `{${files.join(',')}}`;
 };
