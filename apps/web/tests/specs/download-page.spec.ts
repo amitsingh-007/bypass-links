@@ -11,13 +11,30 @@ test.describe('Download page', () => {
     await downloadPage.testPageMetaData();
   });
 
-  test('extension download', async ({ page }, testConfig) => {
+  test('chrome extension download', async ({ page }, testConfig) => {
     testConfig.setTimeout(30 * 1000);
     const downloadPromise = page.waitForEvent('download');
-    const downloadButton = page.locator('a', { hasText: 'Download Now' });
+    const downloadButton = page.locator('a', {
+      hasText: 'Download for Chrome',
+    });
     await downloadButton.click();
     const download = await downloadPromise;
-    expect(download.suggestedFilename()).toMatch(/bypass-links-.+.zip/);
+    expect(download.suggestedFilename()).toMatch(
+      /^chrome-bypass-links-.+.zip$/
+    );
+  });
+
+  test('firefox extension download', async ({ page }, testConfig) => {
+    testConfig.setTimeout(30 * 1000);
+    const downloadPromise = page.waitForEvent('download');
+    const downloadButton = page.locator('a', {
+      hasText: 'Download for Firefox',
+    });
+    await downloadButton.click();
+    const download = await downloadPromise;
+    expect(download.suggestedFilename()).toMatch(
+      /^firefox-bypass-links-.+.zip$/
+    );
   });
 
   test('footer elements should exist', async ({ page }) => {

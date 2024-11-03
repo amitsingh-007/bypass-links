@@ -30,16 +30,16 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const { downloadLink, releaseDate, extVersion } = await fetchExtensionData();
+  const { chrome, firefox } = await fetchExtensionData();
 
   return (
     <Box className={styles.container}>
       <AppHeader />
       <Container size="xl">
-        <PageHeader downloadLink={downloadLink} />
+        <PageHeader chrome={chrome} firefox={firefox} />
         <SalientFeatures />
       </Container>
-      <Footer releaseDate={releaseDate} extVersion={extVersion} />
+      <Footer releaseDate={chrome.date} extVersion={chrome.version} />
     </Box>
   );
 }

@@ -11,14 +11,7 @@
       "@public/*": ["public/*"],
       "@/*": ["src/*"]
     },
-    "plugins": [
-      {
-        "name": "next"
-      },
-      {
-        "name": "typescript-plugin-css-modules"
-      }
-    ]
+    "plugins": [{ "name": "next" }]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules", ".next", ".turbo", ".vercel"]
