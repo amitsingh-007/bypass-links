@@ -16,7 +16,7 @@ describe('extension router test', () => {
         firefox: {
           version: expect.any(String),
           date: expect.any(String),
-          downloadLink1: expect.any(String),
+          downloadLink: expect.any(String),
         },
       })
     );
