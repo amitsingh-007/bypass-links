@@ -1,9 +1,7 @@
-import ChromeIcon from '@app/icons/chrome.svg';
-import FirefoxIcon from '@app/icons/firefox.svg';
 import { Button, Flex, Group, Title } from '@mantine/core';
+import Image from 'next/image';
 import { memo } from 'react';
 import styles from './styles/PageHeader.module.css';
-import Image from 'next/image';
 
 interface IExtData {
   version: string;
