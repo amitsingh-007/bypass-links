@@ -44,7 +44,8 @@
   "packageManager": "pnpm@9.11.0",
   "pnpm": {
     "patchedDependencies": {
-      "@dnd-kit/core@6.1.0": "patches/@dnd-kit__core@6.1.0.patch"
+      "@dnd-kit/core@6.1.0": "patches/@dnd-kit__core@6.1.0.patch",
+      "mantine-contextmenu@7.11.3": "patches/mantine-contextmenu@7.11.3.patch"
     }
   }
 }

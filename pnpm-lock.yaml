@@ -8,6 +8,9 @@ patchedDependencies:
   '@dnd-kit/core@6.1.0':
     hash: ii5lvumtli4yfmacrxy35nbace
     path: patches/@dnd-kit__core@6.1.0.patch
+  mantine-contextmenu@7.11.3:
+    hash: 73xu7uri3w5u2zfwk53whlvz6q
+    path: patches/mantine-contextmenu@7.11.3.patch
 
 importers:
 
@@ -135,7 +138,7 @@ importers:
         version: 2.1.1
       mantine-contextmenu:
         specifier: 7.11.3
-        version: 7.11.3(@mantine/core@7.13.1(@mantine/hooks@7.13.1(react@18.3.1))(@types/react@18.3.10)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mantine/hooks@7.13.1(react@18.3.1))(clsx@2.1.1)(react@18.3.1)
+        version: 7.11.3(patch_hash=73xu7uri3w5u2zfwk53whlvz6q)(@mantine/core@7.13.1(@mantine/hooks@7.13.1(react@18.3.1))(@types/react@18.3.10)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mantine/hooks@7.13.1(react@18.3.1))(clsx@2.1.1)(react@18.3.1)
       md5:
         specifier: 2.3.0
         version: 2.3.0
@@ -12703,7 +12706,7 @@ snapshots:
 
   make-error@1.3.6: {}
 
-  mantine-contextmenu@7.11.3(@mantine/core@7.13.1(@mantine/hooks@7.13.1(react@18.3.1))(@types/react@18.3.10)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mantine/hooks@7.13.1(react@18.3.1))(clsx@2.1.1)(react@18.3.1):
+  mantine-contextmenu@7.11.3(patch_hash=73xu7uri3w5u2zfwk53whlvz6q)(@mantine/core@7.13.1(@mantine/hooks@7.13.1(react@18.3.1))(@types/react@18.3.10)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mantine/hooks@7.13.1(react@18.3.1))(clsx@2.1.1)(react@18.3.1):
     dependencies:
       '@mantine/core': 7.13.1(@mantine/hooks@7.13.1(react@18.3.1))(@types/react@18.3.10)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@mantine/hooks': 7.13.1(react@18.3.1)
