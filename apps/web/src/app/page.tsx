@@ -11,7 +11,7 @@ export const runtime = 'edge';
 
 const title = 'Skip Links, Ads, Timers & ReCaptchas';
 const description =
-  'Chrome extension to Bypass links to skip ads, links, timers, captchas and private Bookmarks Panel';
+  'Web extension to Bypass links to skip ads, links, timers, captchas and private Bookmarks Panel';
 
 export const metadata: Metadata = {
   title,

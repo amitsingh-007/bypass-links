@@ -43,8 +43,14 @@ jobs:
       - name: Run tests
         run: pnpm test
 
-      - name: Upload extension
+      - name: Upload Chrome extension
         uses: actions/upload-artifact@v4
         with:
-          name: extension-file
-          path: ./apps/extension/build/bypass-links-*.zip
+          name: chrome-extension-file
+          path: ./apps/extension/chrome-build/bypass-links-*.zip
+
+      - name: Upload Firefox extension
+        uses: actions/upload-artifact@v4
+        with:
+          name: firefox-extension-file
+          path: ./apps/extension/firefox-build/bypass-links-*.zip

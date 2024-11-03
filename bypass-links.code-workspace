@@ -24,7 +24,8 @@
     // Required for typescript-plugin-css-modules
     "typescript.tsdk": "node_modules/typescript/lib",
     "search.exclude": {
-      "build/**": true,
+      "chrome-build/**": true,
+      "firefox-build/**": true,
     },
   },
 }

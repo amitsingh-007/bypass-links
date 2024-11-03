@@ -1,3 +1,3 @@
 #### Check if the Pull Request fulfils these requirements
 
-- [ ] Does `manifest.json` requires version change?
+- [ ] Does `manifest.base.json` requires version change?

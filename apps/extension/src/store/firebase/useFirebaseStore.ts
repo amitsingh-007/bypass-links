@@ -1,6 +1,7 @@
 import { IAuthResponse } from '@/interfaces/firebase';
 import { refreshIdToken, signInWithCredential } from '@/store/firebase/api';
 import { getExpiresAtMs } from '@/store/firebase/utils';
+import { sendRuntimeMessage } from '@/utils/sendRuntimeMessage';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -30,14 +31,20 @@ const useFirebaseStore = create<State>()(
       resetIdpAuth: () => set(() => ({ idpAuth: null })),
 
       firebaseSignIn: async () => {
-        const { setIdpAuth } = get();
-        await chrome.identity.clearAllCachedAuthTokens();
-        const { token: accessToken } = await chrome.identity.getAuthToken({
-          interactive: true,
-        });
+        let accessToken = localStorage.getItem('access_token');
         if (!accessToken) {
-          throw new Error('Google auth token not found');
+          const { accessToken: _accessToken } = await sendRuntimeMessage({
+            key: 'launchAuthFlow',
+          });
+          accessToken = _accessToken;
         }
+
+        if (!accessToken) {
+          return;
+        }
+
+        const { setIdpAuth } = get();
+        localStorage.removeItem('access_token');
         const idpAuthRes = await signInWithCredential(accessToken);
         setIdpAuth(idpAuthRes);
       },
@@ -45,7 +52,9 @@ const useFirebaseStore = create<State>()(
       firebaseSignOut: async () => {
         const { resetIdpAuth } = get();
         resetIdpAuth();
-        await chrome.identity.clearAllCachedAuthTokens();
+        if (IS_CHROME) {
+          await chrome.identity.clearAllCachedAuthTokens();
+        }
       },
 
       getIdToken: async () => {

@@ -26,15 +26,29 @@ const dirName = path.dirname(fileName);
 
 const { DefinePlugin, optimize } = webpack;
 
+const { NODE_ENV, HOST_NAME, EXT_BROWSER } = env;
+const isChromeBuild = EXT_BROWSER === 'chrome';
+const isProduction = NODE_ENV === 'production';
+
 const PATHS = {
   ROOT: path.resolve(dirName),
   SRC: path.resolve(dirName, 'src'),
-  EXTENSION: path.resolve(dirName, 'build'),
+  EXTENSION: isChromeBuild
+    ? path.resolve(dirName, 'chrome-build')
+    : path.resolve(dirName, 'firefox-build'),
 };
 
-const { NODE_ENV, HOST_NAME } = env;
-
-const isProduction = NODE_ENV === 'production';
+const getManifestFilesToMerge = () => {
+  const basePath = '../../packages/configs/manifest';
+  const files = [
+    `${basePath}/manifest.base.json`,
+    `${basePath}/manifest.${EXT_BROWSER}.json`,
+  ];
+  if (isProduction) {
+    files.push(`${basePath}/manifest.${EXT_BROWSER}.prod.json`);
+  }
+  return `{${files.join(',')}}`;
+};
 
 const getCssLoaders = (cssModules: boolean): RuleSetRule['use'] => [
   isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
@@ -207,6 +221,7 @@ const config: Configuration = {
     new DefinePlugin({
       PROD_ENV: JSON.stringify(isProduction),
       HOST_NAME: JSON.stringify(HOST_NAME),
+      IS_CHROME: JSON.stringify(isChromeBuild),
     }),
     new optimize.LimitChunkCountPlugin({
       maxChunks: 1,
@@ -226,8 +241,10 @@ const config: Configuration = {
           to: `${PATHS.EXTENSION}/assets`,
         },
         {
-          from: `${PATHS.SRC}/BackgroundScript/service-worker.js`,
-          to: PATHS.EXTENSION,
+          from: isChromeBuild
+            ? `${PATHS.SRC}/BackgroundScript/chrome-service-worker.js`
+            : `${PATHS.SRC}/BackgroundScript/firefox-bg-script.js`,
+          to: `${PATHS.EXTENSION}/service-worker.js`,
         },
       ],
     }),
@@ -235,9 +252,7 @@ const config: Configuration = {
       output: {
         groupBy: [
           {
-            pattern: `../../packages/configs/manifest/manifest${
-              isProduction ? '*' : ''
-            }.json`,
+            pattern: getManifestFilesToMerge(),
             fileName: 'manifest.json',
           },
         ],

@@ -7,6 +7,9 @@ export type RuntimeInput =
   | {
       key: 'manageGoogleActivity';
       historyWatchTime: number;
+    }
+  | {
+      key: 'launchAuthFlow';
     };
 
 export type RuntimeOutput = {
@@ -15,6 +18,9 @@ export type RuntimeOutput = {
   };
   manageGoogleActivity: {
     isSuccess: boolean;
+  };
+  launchAuthFlow: {
+    accessToken: string | null;
   };
 };
 

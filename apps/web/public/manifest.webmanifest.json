@@ -1,7 +1,7 @@
 {
   "short_name": "Bypass-Links",
   "name": "Bypass-Links",
-  "description": "Free to use Chrome extension to bypass links, ads, timers, recaptchas, etc from various sites.",
+  "description": "Free to use web extension to bypass links, ads, timers, recaptchas, etc from various sites.",
   "icons": [
     {
       "src": "/bypass_link_192.png",

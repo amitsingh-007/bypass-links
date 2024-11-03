@@ -1,6 +1,7 @@
 **/node_modules/
 **/.next
-**/build/
+**/chrome-build/
+**/firefox-build/
 **/.turbo/
 playwright-report
 test-results

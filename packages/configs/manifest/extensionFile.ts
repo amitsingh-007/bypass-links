@@ -1,4 +1,4 @@
-import manifest from './manifest.json' assert { type: 'json' };
+import manifest from './manifest.base.json' assert { type: 'json' };
 
 const FILE_NAME = {
   prefix: 'bypass-links-',
@@ -11,7 +11,7 @@ export const getFileNameFromVersion = (extVersion: string) =>
   `${FILE_NAME.prefix}${extVersion}${FILE_NAME.suffix}`;
 
 export const getVersionFromFileName = (fileName: string) =>
-  fileName.substring(
+  fileName.slice(
     fileName.indexOf(FILE_NAME.prefix) + FILE_NAME.prefix.length,
     fileName.lastIndexOf(FILE_NAME.suffix)
   );

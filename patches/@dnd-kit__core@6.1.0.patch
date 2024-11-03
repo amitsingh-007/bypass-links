@@ -1,0 +1,14 @@
+diff --git a/dist/core.esm.js b/dist/core.esm.js
+index ed699d949590dfa64fc3158fcd0249b3516eaa78..5cf04e75e9bba94738c33f2eb376b510dec80c16 100644
+--- a/dist/core.esm.js
++++ b/dist/core.esm.js
+@@ -1435,7 +1435,8 @@ class AbstractPointerSensor {
+       passive: false
+     });
+     this.listeners.add(events.end.name, this.handleEnd);
+-    this.windowListeners.add(EventName.Resize, this.handleCancel);
++    // !NOTE: Commenting this will make dnd work in Firefox addon popup
++    // this.windowListeners.add(EventName.Resize, this.handleCancel);
+     this.windowListeners.add(EventName.DragStart, preventDefault);
+     this.windowListeners.add(EventName.VisibilityChange, this.handleCancel);
+     this.windowListeners.add(EventName.ContextMenu, preventDefault);

@@ -7,4 +7,5 @@ test-results/
 playwright-report/
 **/tsconfig.tsbuildinfo
 apps/web/.next/
-apps/extension/build/
+apps/extension/chrome-build/
+apps/extension/firefox-build/

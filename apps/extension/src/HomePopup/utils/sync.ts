@@ -51,7 +51,9 @@ const resetAuthentication = async () => {
     console.log('User 2FA info not found');
     return;
   }
-  await chrome.identity.clearAllCachedAuthTokens();
+  if (IS_CHROME) {
+    await chrome.identity.clearAllCachedAuthTokens();
+  }
   console.log('Removed Google auth token from cache');
   await chrome.storage.local.remove(STORAGE_KEYS.user2FAInfo);
 };
