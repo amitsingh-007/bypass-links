@@ -1,9 +1,9 @@
 manifest:
-  name: manifest.json
+  name: manifest.base.json
   dir: './packages/configs/manifest/'
 workflow:
   name: Build CI
-  artifact: extension-file
+  artifact: chrome-extension-file
 branches-ignore:
   - renovate/**
 comment-threshold: 512

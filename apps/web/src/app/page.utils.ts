@@ -13,5 +13,5 @@ export const fetchExtensionData = unstable_cache(
     };
   },
   [],
-  { revalidate: PROD_ENV ? 5 : Infinity }
+  { revalidate: PROD_ENV ? 5 : 60 }
 );

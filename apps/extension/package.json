@@ -4,8 +4,12 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "cross-env NODE_ENV=production HOST_NAME=https://bypass-links.vercel.app NODE_NO_WARNINGS=1 NODE_OPTIONS='--loader ts-node/esm' webpack",
-    "dev": "cross-env NODE_ENV=development HOST_NAME=http://localhost:3000 NODE_NO_WARNINGS=1 NODE_OPTIONS='--loader ts-node/esm' webpack serve",
+    "build:chrome": "cross-env NODE_ENV=production EXT_BROWSER=chrome HOST_NAME=https://bypass-links.vercel.app NODE_NO_WARNINGS=1 NODE_OPTIONS='--loader ts-node/esm' webpack",
+    "build:firefox": "cross-env NODE_ENV=production EXT_BROWSER=firefox HOST_NAME=https://bypass-links.vercel.app NODE_NO_WARNINGS=1 NODE_OPTIONS='--loader ts-node/esm' webpack",
+    "build": "pnpm run /^build:.*/",
+    "dev:chrome": "cross-env NODE_ENV=development EXT_BROWSER=chrome HOST_NAME=http://localhost:3000 NODE_NO_WARNINGS=1 NODE_OPTIONS='--loader ts-node/esm' webpack serve",
+    "dev:firefox": "cross-env NODE_ENV=development EXT_BROWSER=firefox HOST_NAME=http://localhost:3000 NODE_NO_WARNINGS=1 NODE_OPTIONS='--loader ts-node/esm' webpack serve",
+    "dev": "pnpm run dev:firefox",
     "lint": "eslint . --quiet"
   },
   "dependencies": {
@@ -41,6 +45,7 @@
     "@prefresh/core": "1.5.2",
     "@prefresh/webpack": "4.0.1",
     "@types/chrome": "0.0.273",
+    "@types/firefox-webext-browser": "120.0.4",
     "@types/md5": "2.3.5",
     "@types/node": "20.16.10",
     "@types/prefresh__webpack": "3.3.3",

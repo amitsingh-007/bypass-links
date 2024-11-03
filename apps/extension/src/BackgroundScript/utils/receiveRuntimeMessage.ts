@@ -5,6 +5,7 @@ import {
 } from '@/utils/sendRuntimeMessage';
 import { manageGoogleActivity } from '../automation/manageGoogleActivity';
 import { getForumPageLinks } from '../misc/forumPageLinks';
+import { launchAuthFlow } from '../misc/launchAuthFlow';
 
 export const receiveRuntimeMessage = (
   message: RuntimeInput,
@@ -20,6 +21,12 @@ export const receiveRuntimeMessage = (
     case 'manageGoogleActivity': {
       manageGoogleActivity(message.historyWatchTime).then(() => {
         sendMessage<'manageGoogleActivity'>({ isSuccess: true });
+      });
+      break;
+    }
+    case 'launchAuthFlow': {
+      launchAuthFlow().then((accessToken) => {
+        sendMessage<'launchAuthFlow'>({ accessToken });
       });
       break;
     }
