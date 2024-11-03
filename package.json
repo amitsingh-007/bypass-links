@@ -41,5 +41,10 @@
     "typescript-eslint": "8.8.0",
     "vercel": "37.6.0"
   },
-  "packageManager": "pnpm@9.11.0"
+  "packageManager": "pnpm@9.11.0",
+  "pnpm": {
+    "patchedDependencies": {
+      "@dnd-kit/core@6.1.0": "patches/@dnd-kit__core@6.1.0.patch"
+    }
+  }
 }
