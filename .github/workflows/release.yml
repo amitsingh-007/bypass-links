@@ -177,9 +177,9 @@ jobs:
           echo "asset_name=$file" >> $GITHUB_OUTPUT
 
       - name: Rename assets
-          run: |
-            cp ./apps/extension/chrome-build/${{ steps.asset_name.outputs.asset_name }} ./apps/extension/chrome-build/chrome-${{ steps.asset_name.outputs.asset_name }}
-            cp ./apps/extension/firefox-build/${{ steps.asset_name.outputs.asset_name }} ./apps/extension/firefox-build/firefox-${{ steps.asset_name.outputs.asset_name }}
+        run: |
+          cp ./apps/extension/chrome-build/${{ steps.asset_name.outputs.asset_name }} ./apps/extension/chrome-build/chrome-${{ steps.asset_name.outputs.asset_name }}
+          cp ./apps/extension/firefox-build/${{ steps.asset_name.outputs.asset_name }} ./apps/extension/firefox-build/firefox-${{ steps.asset_name.outputs.asset_name }}
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
