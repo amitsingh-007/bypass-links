@@ -6,8 +6,19 @@ describe('extension router test', () => {
 
   it('should have expected response', async () => {
     const output = await caller.extension.latest();
-    expect(output).toHaveProperty('extension');
-    expect(output).toHaveProperty('date');
-    expect(output).toHaveProperty('version');
+    expect(output).toEqual(
+      expect.objectContaining({
+        chrome: {
+          version: expect.any(String),
+          date: expect.any(String),
+          downloadLink: expect.any(String),
+        },
+        firefox: {
+          version: expect.any(String),
+          date: expect.any(String),
+          downloadLink: expect.any(String),
+        },
+      })
+    );
   });
 });

@@ -55,7 +55,9 @@ export const setExtensionIcon = async ({
 };
 
 export const checkForUpdates = async () => {
-  const { version: latestVersion } = await trpcApi.extension.latest.query();
+  const { chrome: chromeData, firefox } =
+    await trpcApi.extension.latest.query();
+  const latestVersion = IS_CHROME ? chromeData.version : firefox.version;
   const { version: currentVersion } = chrome.runtime.getManifest();
   return latestVersion === currentVersion;
 };

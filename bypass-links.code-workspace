@@ -21,7 +21,6 @@
     },
   ],
   "settings": {
-    // Required for typescript-plugin-css-modules
     "typescript.tsdk": "node_modules/typescript/lib",
     "search.exclude": {
       "chrome-build/**": true,
