@@ -174,6 +174,7 @@ export default tseslint.config(
       'unicorn/prefer-ternary': 'off',
       'unicorn/prefer-query-selector': 'off',
       'unicorn/prefer-dom-node-dataset': 'off',
+      'unicorn/prefer-global-this': 'off',
     },
   },
   // ? NOTE: always keep this at last; prettier eslint config.
