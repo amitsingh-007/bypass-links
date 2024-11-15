@@ -7,7 +7,9 @@ import { mapRedirections } from '../mapper/redirection';
 export const redirect = async (tabId: number, url: URL) => {
   const redirections = await getMappedRedirections();
   const redirectUrl = redirections[btoa(url.href)];
+  console.log('logging 3', tabId, url);
   if (redirectUrl) {
+    console.log('logging 4', redirectUrl);
     await chrome.tabs.update(tabId, { url: atob(redirectUrl) });
     await startHistoryWatch();
   }

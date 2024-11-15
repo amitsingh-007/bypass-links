@@ -56,6 +56,7 @@ const onPageLoad = async (tabId: number, url: string) => {
 
   // Below if() checks avoid the scenario where url changes after the page is loaded
   if (await isValidTabUrl(tabId)) {
+    console.log('logging 2', tabId, url);
     redirect(tabId, new URL(url));
   }
   if (await isValidTabUrl(tabId)) {

@@ -64,5 +64,6 @@ export const checkForUpdates = async () => {
 
 export const isValidTabUrl = async (tabId: number) => {
   const tab = await chrome.tabs.get(tabId);
+  console.log('logging 1', tab.url);
   return isValidUrl(tab.url);
 };
