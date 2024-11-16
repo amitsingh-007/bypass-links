@@ -13,11 +13,8 @@ import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 import gitignore from 'eslint-config-flat-gitignore';
 import eslintPluginUnicorn from 'eslint-plugin-unicorn';
 
-// !NOTE: Add types to eslint-mocked-types.d.ts if getting TS error for plugins
-
 /**
  * TODO: Plugins not yet working
- * 1. eslint-plugin-import
  * 2. airbnb and airbnb-typescript
  * 3. @next/eslint-plugin-next
  * 4. next/core-web-vitals
@@ -95,37 +92,6 @@ export default tseslint.config(
   },
   // turborepo eslint config
   ...compat.extends('turbo'),
-  // ...compat.extends('plugin:import/typescript'),
-  // {
-  //   languageOptions: {
-  //     ecmaVersion: 'latest',
-  //     sourceType: 'module',
-  //     parserOptions: {
-  //       project: [
-  //         './tsconfig.json',
-  //         './packages/*/tsconfig.json',
-  //         './apps/*/tsconfig.json',
-  //       ] or project: true, ref: https://typescript-eslint.io/getting-started/typed-linting/
-  //       tsconfigRootDir: import.meta.dirname,
-  //     },
-  //   },
-  //   settings: {
-  //     'import/resolver': {
-  //       typescript: {
-  //         alwaysTryTypes: true,
-  //         project: [
-  //           './tsconfig.json',
-  //           './packages/*/tsconfig.json',
-  //           './apps/*/tsconfig.json',
-  //         ],
-  //         tsconfigRootDir: import.meta.dirname,
-  //       },
-  //     },
-  //   },
-  //   plugins: {
-  //     import: legacyPlugin('eslint-plugin-import', 'import'),
-  //   },
-  // },
   // playwright eslint config
   {
     ...playwright.configs['flat/recommended'],
