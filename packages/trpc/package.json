@@ -30,7 +30,7 @@
     "@types/qrcode": "1.5.5",
     "dotenv": "16.4.5",
     "firebase": "11.0.1",
-    "type-fest": "4.26.1",
+    "type-fest": "4.29.0",
     "typescript": "5.6.3",
     "vitest": "2.1.4"
   }
