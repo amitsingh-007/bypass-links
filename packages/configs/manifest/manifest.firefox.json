@@ -8,6 +8,7 @@
     "client_id": "824508694893-au6kqkj4c45plrsrv311h8rdnahsd61m.apps.googleusercontent.com"
   },
   "background": {
-    "scripts": ["service-worker.js"]
+    "scripts": ["service-worker.js"],
+    "persistent": true
   }
 }
