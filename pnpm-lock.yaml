@@ -458,8 +458,8 @@ importers:
   packages/trpc:
     dependencies:
       '@axiomhq/js':
-        specifier: 1.2.0
-        version: 1.2.0
+        specifier: 1.3.0
+        version: 1.3.0
       '@bypass/configs':
         specifier: workspace:*
         version: link:../configs
@@ -519,8 +519,8 @@ packages:
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
     engines: {node: '>=6.0.0'}
 
-  '@axiomhq/js@1.2.0':
-    resolution: {integrity: sha512-ALvNo8YeDwE7EHWr9TGijdfo/gbmgTB5XHHBcIcu6Ra+A9+2ltBO5UvTzvSSGPaxn4neEyh+8ESzEBJVEjNAnA==}
+  '@axiomhq/js@1.3.0':
+    resolution: {integrity: sha512-CSen0n307OLH1+M4ub1l1VbnP2Ub6++atyPLzF63pT6cuR9fQRWQKjBr74ID1DA1SXjGeRR78oMSk0KRFH8RjA==}
     engines: {node: '>=16'}
 
   '@babel/code-frame@7.26.2':
@@ -6981,6 +6981,10 @@ packages:
     resolution: {integrity: sha512-8XkAphELsDnEGrDxUOHB3RGvXz6TeuYSGEZBOjtTtPm2lwhGBjLgOzLHB63IUWfBpNucQjND6d3AOudO+H3RWQ==}
     hasBin: true
 
+  uuid@11.0.3:
+    resolution: {integrity: sha512-d0z310fCWv5dJwnX1Y/MncBAqGMKEzlBb1AOf7z9K8ALnd0utBX/msg/fA0+sbyN1ihbMsLhrBlnl1ak7Wa0rg==}
+    hasBin: true
+
   uuid@3.3.2:
     resolution: {integrity: sha512-yXJmeNaw3DnnKAOKJE51sL/ZaYfWJRl1pK9dr19YFCu0ObS231AB1/LbqTKRAQ5kw8A90rA6fr4riOUpTZvQZA==}
     deprecated: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
@@ -7326,10 +7330,10 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
 
-  '@axiomhq/js@1.2.0':
+  '@axiomhq/js@1.3.0':
     dependencies:
       fetch-retry: 6.0.0
-      uuid: 8.3.2
+      uuid: 11.0.3
 
   '@babel/code-frame@7.26.2':
     dependencies:
@@ -14506,6 +14510,8 @@ snapshots:
   utils-merge@1.0.1: {}
 
   uuid@10.0.0: {}
+
+  uuid@11.0.3: {}
 
   uuid@3.3.2: {}
 
