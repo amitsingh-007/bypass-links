@@ -18,6 +18,8 @@ import TerserPlugin from 'terser-webpack-plugin';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import { fileURLToPath } from 'node:url';
 import webpack, { Configuration, RuleSetRule } from 'webpack';
+import * as lightningcss from 'lightningcss';
+import browserslist from 'browserslist';
 import 'webpack-dev-server';
 import { env } from './src/constants/env.js';
 
@@ -171,7 +173,16 @@ const config: Configuration = {
         },
         extractComments: false,
       }),
-      isProduction && new CssMinimizerPlugin(),
+      isProduction &&
+        new CssMinimizerPlugin({
+          minify: CssMinimizerPlugin.lightningCssMinify,
+          minimizerOptions: {
+            // @ts-expect-error lightningcss expects targets
+            targets: lightningcss.browserslistToTargets(
+              browserslist('defaults')
+            ),
+          },
+        }),
     ],
   },
   module: {

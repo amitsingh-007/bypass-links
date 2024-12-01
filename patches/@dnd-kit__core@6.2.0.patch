@@ -1,11 +1,11 @@
 diff --git a/dist/core.esm.js b/dist/core.esm.js
-index ed699d949590dfa64fc3158fcd0249b3516eaa78..5cf04e75e9bba94738c33f2eb376b510dec80c16 100644
+index a2ea504093367cf66be3c0149bd9d27536b9f492..42a4fb781d47eaa06542a600058f67b1458d3a06 100644
 --- a/dist/core.esm.js
 +++ b/dist/core.esm.js
-@@ -1435,7 +1435,8 @@ class AbstractPointerSensor {
-       passive: false
-     });
-     this.listeners.add(events.end.name, this.handleEnd);
+@@ -1440,7 +1440,8 @@ class AbstractPointerSensor {
+       this.listeners.add(events.cancel.name, this.handleCancel);
+     }
+ 
 -    this.windowListeners.add(EventName.Resize, this.handleCancel);
 +    // !NOTE: Commenting this will make dnd work in Firefox addon popup
 +    // this.windowListeners.add(EventName.Resize, this.handleCancel);
