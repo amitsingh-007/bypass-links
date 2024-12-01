@@ -209,6 +209,9 @@ importers:
       '@types/webpack':
         specifier: 5.28.5
         version: 5.28.5(webpack-cli@5.1.4)
+      browserslist:
+        specifier: 4.24.2
+        version: 4.24.2
       clean-webpack-plugin:
         specifier: 4.0.0
         version: 4.0.0(webpack@5.96.1)
@@ -223,7 +226,7 @@ importers:
         version: 7.1.2(webpack@5.96.1)
       css-minimizer-webpack-plugin:
         specifier: 7.0.0
-        version: 7.0.0(webpack@5.96.1)
+        version: 7.0.0(lightningcss@1.28.2)(webpack@5.96.1)
       eslint-webpack-plugin:
         specifier: 4.2.0
         version: 4.2.0(eslint@9.16.0(jiti@1.21.6))(webpack@5.96.1)
@@ -236,6 +239,9 @@ importers:
       html-webpack-plugin:
         specifier: 5.6.3
         version: 5.6.3(webpack@5.96.1)
+      lightningcss:
+        specifier: 1.28.2
+        version: 1.28.2
       merge-jsons-webpack-plugin:
         specifier: 2.0.1
         version: 2.0.1
@@ -508,7 +514,7 @@ importers:
         version: 5.7.2
       vitest:
         specifier: 2.1.6
-        version: 2.1.6(@edge-runtime/vm@3.2.0)(@types/node@22.10.1)(jiti@1.21.6)(sugarss@4.0.1(postcss@8.4.49))(terser@5.36.0)(yaml@2.5.1)
+        version: 2.1.6(@edge-runtime/vm@3.2.0)(@types/node@22.10.1)(jiti@1.21.6)(lightningcss@1.28.2)(sugarss@4.0.1(postcss@8.4.49))(terser@5.36.0)(yaml@2.5.1)
 
 packages:
 
@@ -3514,6 +3520,11 @@ packages:
     resolution: {integrity: sha512-2sJGJTaXIIaR1w4iJSNoN0hnMY7Gpc/n8D4qSCJw8QqFWXf7cuAgnEHxBpweaVcPevC2l3KpjYCx3NypQQgaJg==}
     engines: {node: '>= 0.8', npm: 1.2.8000 || >= 1.4.16}
 
+  detect-libc@1.0.3:
+    resolution: {integrity: sha512-pGjwhsmsp4kL2RTz08wcOlGN83otlqHeD/Z5T8GXZB+/YcpQ/dgo+lbU8ZsGxV0HIvqqxo9l7mqYwyYMD9bKDg==}
+    engines: {node: '>=0.10'}
+    hasBin: true
+
   detect-libc@2.0.3:
     resolution: {integrity: sha512-bwy0MGW55bG41VqxxypOsdSdGqLwXPI/focwgTYCFMbdUiBAxLg9CFzG08sz2aqzknwiX7Hkl0bQENjg8iLByw==}
     engines: {node: '>=8'}
@@ -4887,6 +4898,70 @@ packages:
   levn@0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
     engines: {node: '>= 0.8.0'}
+
+  lightningcss-darwin-arm64@1.28.2:
+    resolution: {integrity: sha512-/8cPSqZiusHSS+WQz0W4NuaqFjquys1x+NsdN/XOHb+idGHJSoJ7SoQTVl3DZuAgtPZwFZgRfb/vd1oi8uX6+g==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [arm64]
+    os: [darwin]
+
+  lightningcss-darwin-x64@1.28.2:
+    resolution: {integrity: sha512-R7sFrXlgKjvoEG8umpVt/yutjxOL0z8KWf0bfPT3cYMOW4470xu5qSHpFdIOpRWwl3FKNMUdbKtMUjYt0h2j4g==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [x64]
+    os: [darwin]
+
+  lightningcss-freebsd-x64@1.28.2:
+    resolution: {integrity: sha512-l2qrCT+x7crAY+lMIxtgvV10R8VurzHAoUZJaVFSlHrN8kRLTvEg9ObojIDIexqWJQvJcVVV3vfzsEynpiuvgA==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [x64]
+    os: [freebsd]
+
+  lightningcss-linux-arm-gnueabihf@1.28.2:
+    resolution: {integrity: sha512-DKMzpICBEKnL53X14rF7hFDu8KKALUJtcKdFUCW5YOlGSiwRSgVoRjM97wUm/E0NMPkzrTi/rxfvt7ruNK8meg==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [arm]
+    os: [linux]
+
+  lightningcss-linux-arm64-gnu@1.28.2:
+    resolution: {integrity: sha512-nhfjYkfymWZSxdtTNMWyhFk2ImUm0X7NAgJWFwnsYPOfmtWQEapzG/DXZTfEfMjSzERNUNJoQjPAbdqgB+sjiw==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [arm64]
+    os: [linux]
+
+  lightningcss-linux-arm64-musl@1.28.2:
+    resolution: {integrity: sha512-1SPG1ZTNnphWvAv8RVOymlZ8BDtAg69Hbo7n4QxARvkFVCJAt0cgjAw1Fox0WEhf4PwnyoOBaVH0Z5YNgzt4dA==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [arm64]
+    os: [linux]
+
+  lightningcss-linux-x64-gnu@1.28.2:
+    resolution: {integrity: sha512-ZhQy0FcO//INWUdo/iEdbefntTdpPVQ0XJwwtdbBuMQe+uxqZoytm9M+iqR9O5noWFaxK+nbS2iR/I80Q2Ofpg==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [x64]
+    os: [linux]
+
+  lightningcss-linux-x64-musl@1.28.2:
+    resolution: {integrity: sha512-alb/j1NMrgQmSFyzTbN1/pvMPM+gdDw7YBuQ5VSgcFDypN3Ah0BzC2dTZbzwzaMdUVDszX6zH5MzjfVN1oGuww==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [x64]
+    os: [linux]
+
+  lightningcss-win32-arm64-msvc@1.28.2:
+    resolution: {integrity: sha512-WnwcjcBeAt0jGdjlgbT9ANf30pF0C/QMb1XnLnH272DQU8QXh+kmpi24R55wmWBwaTtNAETZ+m35ohyeMiNt+g==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [arm64]
+    os: [win32]
+
+  lightningcss-win32-x64-msvc@1.28.2:
+    resolution: {integrity: sha512-3piBifyT3avz22o6mDKywQC/OisH2yDK+caHWkiMsF82i3m5wDBadyCjlCQ5VNgzYkxrWZgiaxHDdd5uxsi0/A==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [x64]
+    os: [win32]
+
+  lightningcss@1.28.2:
+    resolution: {integrity: sha512-ePLRrbt3fgjXI5VFZOLbvkLD5ZRuxGKm+wJ3ujCqBtL3NanDHPo/5zicR5uEKAPiIjBYF99BM4K4okvMznjkVA==}
+    engines: {node: '>= 12.0.0'}
 
   lilconfig@3.1.2:
     resolution: {integrity: sha512-eop+wDAvpItUys0FWkHIKeC9ybYrTGbU41U5K7+bttZZeohvnY7M9dZ5kB21GNWiFT2q1OoPTvncPCgSOVO5ow==}
@@ -9571,13 +9646,13 @@ snapshots:
       chai: 5.1.2
       tinyrainbow: 1.2.0
 
-  '@vitest/mocker@2.1.6(vite@6.0.1(@types/node@22.10.1)(jiti@1.21.6)(sugarss@4.0.1(postcss@8.4.49))(terser@5.36.0)(yaml@2.5.1))':
+  '@vitest/mocker@2.1.6(vite@6.0.1(@types/node@22.10.1)(jiti@1.21.6)(lightningcss@1.28.2)(sugarss@4.0.1(postcss@8.4.49))(terser@5.36.0)(yaml@2.5.1))':
     dependencies:
       '@vitest/spy': 2.1.6
       estree-walker: 3.0.3
       magic-string: 0.30.14
     optionalDependencies:
-      vite: 6.0.1(@types/node@22.10.1)(jiti@1.21.6)(sugarss@4.0.1(postcss@8.4.49))(terser@5.36.0)(yaml@2.5.1)
+      vite: 6.0.1(@types/node@22.10.1)(jiti@1.21.6)(lightningcss@1.28.2)(sugarss@4.0.1(postcss@8.4.49))(terser@5.36.0)(yaml@2.5.1)
 
   '@vitest/pretty-format@2.1.6':
     dependencies:
@@ -10368,7 +10443,7 @@ snapshots:
     optionalDependencies:
       webpack: 5.96.1(webpack-cli@5.1.4)
 
-  css-minimizer-webpack-plugin@7.0.0(webpack@5.96.1):
+  css-minimizer-webpack-plugin@7.0.0(lightningcss@1.28.2)(webpack@5.96.1):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
       cssnano: 7.0.6(postcss@8.4.49)
@@ -10377,6 +10452,8 @@ snapshots:
       schema-utils: 4.2.0
       serialize-javascript: 6.0.2
       webpack: 5.96.1(webpack-cli@5.1.4)
+    optionalDependencies:
+      lightningcss: 1.28.2
 
   css-select@4.3.0:
     dependencies:
@@ -10556,6 +10633,8 @@ snapshots:
   depd@2.0.0: {}
 
   destroy@1.2.0: {}
+
+  detect-libc@1.0.3: {}
 
   detect-libc@2.0.3: {}
 
@@ -12200,6 +12279,51 @@ snapshots:
     dependencies:
       prelude-ls: 1.2.1
       type-check: 0.4.0
+
+  lightningcss-darwin-arm64@1.28.2:
+    optional: true
+
+  lightningcss-darwin-x64@1.28.2:
+    optional: true
+
+  lightningcss-freebsd-x64@1.28.2:
+    optional: true
+
+  lightningcss-linux-arm-gnueabihf@1.28.2:
+    optional: true
+
+  lightningcss-linux-arm64-gnu@1.28.2:
+    optional: true
+
+  lightningcss-linux-arm64-musl@1.28.2:
+    optional: true
+
+  lightningcss-linux-x64-gnu@1.28.2:
+    optional: true
+
+  lightningcss-linux-x64-musl@1.28.2:
+    optional: true
+
+  lightningcss-win32-arm64-msvc@1.28.2:
+    optional: true
+
+  lightningcss-win32-x64-msvc@1.28.2:
+    optional: true
+
+  lightningcss@1.28.2:
+    dependencies:
+      detect-libc: 1.0.3
+    optionalDependencies:
+      lightningcss-darwin-arm64: 1.28.2
+      lightningcss-darwin-x64: 1.28.2
+      lightningcss-freebsd-x64: 1.28.2
+      lightningcss-linux-arm-gnueabihf: 1.28.2
+      lightningcss-linux-arm64-gnu: 1.28.2
+      lightningcss-linux-arm64-musl: 1.28.2
+      lightningcss-linux-x64-gnu: 1.28.2
+      lightningcss-linux-x64-musl: 1.28.2
+      lightningcss-win32-arm64-msvc: 1.28.2
+      lightningcss-win32-x64-msvc: 1.28.2
 
   lilconfig@3.1.2: {}
 
@@ -14198,13 +14322,13 @@ snapshots:
       - encoding
       - supports-color
 
-  vite-node@2.1.6(@types/node@22.10.1)(jiti@1.21.6)(sugarss@4.0.1(postcss@8.4.49))(terser@5.36.0)(yaml@2.5.1):
+  vite-node@2.1.6(@types/node@22.10.1)(jiti@1.21.6)(lightningcss@1.28.2)(sugarss@4.0.1(postcss@8.4.49))(terser@5.36.0)(yaml@2.5.1):
     dependencies:
       cac: 6.7.14
       debug: 4.3.7
       es-module-lexer: 1.5.4
       pathe: 1.1.2
-      vite: 6.0.1(@types/node@22.10.1)(jiti@1.21.6)(sugarss@4.0.1(postcss@8.4.49))(terser@5.36.0)(yaml@2.5.1)
+      vite: 6.0.1(@types/node@22.10.1)(jiti@1.21.6)(lightningcss@1.28.2)(sugarss@4.0.1(postcss@8.4.49))(terser@5.36.0)(yaml@2.5.1)
     transitivePeerDependencies:
       - '@types/node'
       - jiti
@@ -14219,7 +14343,7 @@ snapshots:
       - tsx
       - yaml
 
-  vite@6.0.1(@types/node@22.10.1)(jiti@1.21.6)(sugarss@4.0.1(postcss@8.4.49))(terser@5.36.0)(yaml@2.5.1):
+  vite@6.0.1(@types/node@22.10.1)(jiti@1.21.6)(lightningcss@1.28.2)(sugarss@4.0.1(postcss@8.4.49))(terser@5.36.0)(yaml@2.5.1):
     dependencies:
       esbuild: 0.24.0
       postcss: 8.4.49
@@ -14228,14 +14352,15 @@ snapshots:
       '@types/node': 22.10.1
       fsevents: 2.3.3
       jiti: 1.21.6
+      lightningcss: 1.28.2
       sugarss: 4.0.1(postcss@8.4.49)
       terser: 5.36.0
       yaml: 2.5.1
 
-  vitest@2.1.6(@edge-runtime/vm@3.2.0)(@types/node@22.10.1)(jiti@1.21.6)(sugarss@4.0.1(postcss@8.4.49))(terser@5.36.0)(yaml@2.5.1):
+  vitest@2.1.6(@edge-runtime/vm@3.2.0)(@types/node@22.10.1)(jiti@1.21.6)(lightningcss@1.28.2)(sugarss@4.0.1(postcss@8.4.49))(terser@5.36.0)(yaml@2.5.1):
     dependencies:
       '@vitest/expect': 2.1.6
-      '@vitest/mocker': 2.1.6(vite@6.0.1(@types/node@22.10.1)(jiti@1.21.6)(sugarss@4.0.1(postcss@8.4.49))(terser@5.36.0)(yaml@2.5.1))
+      '@vitest/mocker': 2.1.6(vite@6.0.1(@types/node@22.10.1)(jiti@1.21.6)(lightningcss@1.28.2)(sugarss@4.0.1(postcss@8.4.49))(terser@5.36.0)(yaml@2.5.1))
       '@vitest/pretty-format': 2.1.6
       '@vitest/runner': 2.1.6
       '@vitest/snapshot': 2.1.6
@@ -14251,8 +14376,8 @@ snapshots:
       tinyexec: 0.3.1
       tinypool: 1.0.2
       tinyrainbow: 1.2.0
-      vite: 6.0.1(@types/node@22.10.1)(jiti@1.21.6)(sugarss@4.0.1(postcss@8.4.49))(terser@5.36.0)(yaml@2.5.1)
-      vite-node: 2.1.6(@types/node@22.10.1)(jiti@1.21.6)(sugarss@4.0.1(postcss@8.4.49))(terser@5.36.0)(yaml@2.5.1)
+      vite: 6.0.1(@types/node@22.10.1)(jiti@1.21.6)(lightningcss@1.28.2)(sugarss@4.0.1(postcss@8.4.49))(terser@5.36.0)(yaml@2.5.1)
+      vite-node: 2.1.6(@types/node@22.10.1)(jiti@1.21.6)(lightningcss@1.28.2)(sugarss@4.0.1(postcss@8.4.49))(terser@5.36.0)(yaml@2.5.1)
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@edge-runtime/vm': 3.2.0
