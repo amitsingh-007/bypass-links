@@ -18,11 +18,13 @@ const restrictedProtocols = new Set([
   'webtorrent:', // WebTorrent URLs
   'magnet:', // Magnet URLs
   'orion:', // Orion browser internal URLs
+  'moz-extension:', // Firefox extension URLs
 ]);
 const restrictedHosts = new Set([
   'chrome.google.com', // Legacy chrome web store
   'chromewebstore.google.com', // New Chrome web store
   'microsoftedge.microsoft.com', // Microsoft Edge web store
+  'addons.mozilla.org', // Firefox addon store
 ]);
 
 export const isValidUrl = (_url?: string): boolean => {
