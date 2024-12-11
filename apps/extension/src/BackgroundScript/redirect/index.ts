@@ -5,6 +5,9 @@ import { getMappedRedirections } from '@helpers/fetchFromStorage';
 import { mapRedirections } from '../mapper/redirection';
 
 export const redirect = async (tabId: number, url: URL) => {
+  // Firefox sometimes changes protocol to https
+  url.protocol = 'http:';
+
   const redirections = await getMappedRedirections();
   const redirectUrl = redirections[btoa(url.href)];
   if (redirectUrl) {
