@@ -13,6 +13,11 @@ import {
 } from './utils';
 import { receiveRuntimeMessage } from './utils/receiveRuntimeMessage';
 import { RuntimeInput } from '@/utils/sendRuntimeMessage';
+import hearbeatFirefoxBackgroundPage from './utils/keepAliveSW';
+
+if (!IS_CHROME) {
+  hearbeatFirefoxBackgroundPage();
+}
 
 Logging.init();
 
