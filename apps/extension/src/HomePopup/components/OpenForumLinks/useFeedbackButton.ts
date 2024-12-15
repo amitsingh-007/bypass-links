@@ -10,7 +10,7 @@ const SUCCESS_TIMEOUT_MS = 3000;
 
 const useFeedbackButton = (handler: () => Promise<void>) => {
   const [buttonState, setButtonState] = useState(EButtonState.INITIAL);
-  const timeoutRef = useRef<NodeJS.Timeout>();
+  const timeoutRef = useRef<NodeJS.Timeout>(undefined);
 
   useEffect(() => {
     if (buttonState === EButtonState.SUCCESS) {
