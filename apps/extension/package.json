@@ -37,7 +37,7 @@
     "wouter": "3.3.5",
     "wouter-preact": "3.3.5",
     "wretch": "2.11.0",
-    "zod": "3.23.8",
+    "zod": "3.24.1",
     "zustand": "5.0.2"
   },
   "devDependencies": {
