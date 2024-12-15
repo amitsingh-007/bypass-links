@@ -44,6 +44,6 @@
     "postcss-preset-mantine": "1.17.0",
     "postcss-simple-vars": "7.0.1",
     "typescript": "5.7.2",
-    "webpack": "5.96.1"
+    "webpack": "5.97.1"
   }
 }
