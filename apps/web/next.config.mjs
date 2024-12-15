@@ -15,7 +15,7 @@ const nextConfig = {
     optimizePackageImports: ['@mantine/core', '@mantine/hooks'],
   },
   compiler: {
-    removeConsole: isDev ? false : { exclude: ['error'] },
+    removeConsole: false,
   },
   reactStrictMode: true,
   transpilePackages: ['@bypass/shared', '@bypass/trpc'],

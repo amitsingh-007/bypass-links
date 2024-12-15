@@ -42,7 +42,7 @@ const Footer = ({
       'x-vercel-ip-timezone'
     ) ?? undefined;
 
-  console.log('Vercel timezone:---------------------------------', tz);
+  console.error('Vercel timezone:---------------------------------', tz);
 
   return (
     <Flex
