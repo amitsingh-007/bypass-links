@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@bypass/configs": "workspace:*",
-    "@eslint/compat": "1.2.3",
+    "@eslint/compat": "1.2.4",
     "@eslint/eslintrc": "3.2.0",
     "@eslint/js": "9.17.0",
     "@playwright/test": "1.49.1",
