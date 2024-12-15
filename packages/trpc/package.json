@@ -23,7 +23,7 @@
     "firebase-admin": "13.0.1",
     "otplib": "12.0.1",
     "qrcode": "1.5.4",
-    "zod": "3.23.8"
+    "zod": "3.24.1"
   },
   "devDependencies": {
     "@firebase/app-types": "0.9.3",
