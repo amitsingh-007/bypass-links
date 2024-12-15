@@ -41,7 +41,7 @@
     "zustand": "5.0.1"
   },
   "devDependencies": {
-    "@playwright/test": "1.49.0",
+    "@playwright/test": "1.49.1",
     "@prefresh/core": "1.5.3",
     "@prefresh/webpack": "4.0.1",
     "@types/chrome": "0.0.287",
