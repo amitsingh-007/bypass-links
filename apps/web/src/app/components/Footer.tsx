@@ -42,6 +42,8 @@ const Footer = ({
       'x-vercel-ip-timezone'
     ) ?? undefined;
 
+  console.log('Vercel timezone:---------------------------------', tz);
+
   return (
     <Flex
       pos="relative"
