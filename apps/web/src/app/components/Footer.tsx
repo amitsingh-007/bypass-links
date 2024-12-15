@@ -30,17 +30,15 @@ const Info = ({
   );
 };
 
-const Footer = ({
+const Footer = async ({
   releaseDate,
   extVersion,
 }: {
   releaseDate: string;
   extVersion: string;
 }) => {
-  const tz =
-    (headers() as unknown as UnsafeUnwrappedHeaders).get(
-      'x-vercel-ip-timezone'
-    ) ?? undefined;
+  const headersList = await headers();
+  const tz = headersList.get('x-vercel-ip-timezone') ?? undefined;
 
   console.error('Vercel timezone:---------------------------------', tz);
 
