@@ -1,8 +1,8 @@
 diff --git a/dist/core.esm.js b/dist/core.esm.js
-index a2ea504093367cf66be3c0149bd9d27536b9f492..42a4fb781d47eaa06542a600058f67b1458d3a06 100644
+index 1577c253774e3c37eafa4f267f1944426deee405..e3be5438693269cba18a7062cdb59c5a6210a166 100644
 --- a/dist/core.esm.js
 +++ b/dist/core.esm.js
-@@ -1440,7 +1440,8 @@ class AbstractPointerSensor {
+@@ -1441,7 +1441,8 @@ class AbstractPointerSensor {
        this.listeners.add(events.cancel.name, this.handleCancel);
      }
  
