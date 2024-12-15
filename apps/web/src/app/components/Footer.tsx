@@ -6,7 +6,7 @@ import { IconType } from 'react-icons';
 import { BsGithub } from 'react-icons/bs';
 import { MdExtension } from 'react-icons/md';
 import { RiTimeFill } from 'react-icons/ri';
-import { headers } from 'next/headers';
+import { headers, type UnsafeUnwrappedHeaders } from 'next/headers';
 import styles from './styles/Footer.module.css';
 
 const Info = ({
@@ -37,7 +37,10 @@ const Footer = ({
   releaseDate: string;
   extVersion: string;
 }) => {
-  const tz = headers().get('x-vercel-ip-timezone') ?? undefined;
+  const tz =
+    (headers() as unknown as UnsafeUnwrappedHeaders).get(
+      'x-vercel-ip-timezone'
+    ) ?? undefined;
 
   return (
     <Flex
