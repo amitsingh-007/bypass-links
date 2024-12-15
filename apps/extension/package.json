@@ -38,7 +38,7 @@
     "wouter-preact": "3.3.5",
     "wretch": "2.11.0",
     "zod": "3.23.8",
-    "zustand": "5.0.1"
+    "zustand": "5.0.2"
   },
   "devDependencies": {
     "@playwright/test": "1.49.0",
