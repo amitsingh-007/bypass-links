@@ -19,6 +19,7 @@ const restrictedProtocols = new Set([
   'magnet:', // Magnet URLs
   'orion:', // Orion browser internal URLs
   'moz-extension:', // Firefox extension URLs
+  'view-source:', // View page source URLs
 ]);
 const restrictedHosts = new Set([
   'chrome.google.com', // Legacy chrome web store

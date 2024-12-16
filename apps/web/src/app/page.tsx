@@ -7,8 +7,6 @@ import SalientFeatures from './components/SalientFeatures';
 import styles from './page.module.css';
 import { fetchExtensionData } from './page.utils';
 
-export const runtime = 'edge';
-
 const title = 'Skip Links, Ads, Timers & ReCaptchas';
 const description =
   'Web extension to Bypass links to skip ads, links, timers, captchas and private Bookmarks Panel';

@@ -21,8 +21,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import VirtualRow from './components/VirtualRow';
 import styles from './page.module.css';
 
-export const runtime = 'edge';
-
 export default function BookmarksPage() {
   const searchParams = useSearchParams();
   const contentRef = useRef<HTMLDivElement>(null);

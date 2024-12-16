@@ -18,8 +18,6 @@ import {
 import useWebPreload from './hooks/useWebPreload';
 import styles from './page.module.css';
 
-export const runtime = 'edge';
-
 export default function Web() {
   const router = useRouter();
   const { isLoggedIn } = useUser();

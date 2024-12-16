@@ -11,7 +11,7 @@ const Toast = memo(function Toast() {
   const toast = useToastStore((state) => state.toast);
   const hideToast = useToastStore((state) => state.hideToast);
   const [open, setOpen] = useState(false);
-  const timerRef = useRef<NodeJS.Timeout | undefined>();
+  const timerRef = useRef<NodeJS.Timeout>(undefined);
 
   useEffect(() => {
     const { message, duration = 3000 } = toast;
