@@ -16,7 +16,7 @@ const nextConfig = {
     dynamicIO: true,
   },
   compiler: {
-    removeConsole: false,
+    removeConsole: isDev ? false : { exclude: ['error'] },
   },
   reactStrictMode: true,
   transpilePackages: ['@bypass/shared', '@bypass/trpc'],
