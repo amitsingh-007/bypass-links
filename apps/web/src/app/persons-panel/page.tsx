@@ -17,8 +17,6 @@ import { useEffect, useMemo, useState } from 'react';
 import PersonVirtualCell from './components/PersonVirtualCell';
 import styles from './page.module.css';
 
-export const runtime = 'edge';
-
 const onLinkOpen = (url: string) => {
   openNewTab(url);
 };

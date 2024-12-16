@@ -1,12 +1,12 @@
 import { ActionIcon, Box, Flex, Text } from '@mantine/core';
 import footerImage from '@public/footer.png';
 import dayjs from 'dayjs';
+import { headers } from 'next/headers';
 import Image from 'next/image';
 import { IconType } from 'react-icons';
 import { BsGithub } from 'react-icons/bs';
 import { MdExtension } from 'react-icons/md';
 import { RiTimeFill } from 'react-icons/ri';
-import { headers, type UnsafeUnwrappedHeaders } from 'next/headers';
 import styles from './styles/Footer.module.css';
 
 const Info = ({
@@ -30,17 +30,15 @@ const Info = ({
   );
 };
 
-const Footer = ({
+const Footer = async ({
   releaseDate,
   extVersion,
 }: {
   releaseDate: string;
   extVersion: string;
 }) => {
-  const tz =
-    (headers() as unknown as UnsafeUnwrappedHeaders).get(
-      'x-vercel-ip-timezone'
-    ) ?? undefined;
+  const headersList = await headers();
+  const tz = headersList.get('x-vercel-ip-timezone') ?? undefined;
 
   return (
     <Flex
