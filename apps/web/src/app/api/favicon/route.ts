@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
   if (!url) {
     return new NextResponse('URL not found', { status: 400 });
   }
-  const response = await fetch(getFaviconUrl(url), { cache: 'no-store' });
+  const response = await fetch(getFaviconUrl(url));
   const imageBlob = await response.blob();
   const imageBuffer = Buffer.from(await imageBlob.arrayBuffer());
 
