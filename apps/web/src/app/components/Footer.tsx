@@ -1,12 +1,12 @@
 import { ActionIcon, Box, Flex, Text } from '@mantine/core';
 import footerImage from '@public/footer.png';
 import dayjs from 'dayjs';
+import { headers } from 'next/headers';
 import Image from 'next/image';
 import { IconType } from 'react-icons';
 import { BsGithub } from 'react-icons/bs';
 import { MdExtension } from 'react-icons/md';
 import { RiTimeFill } from 'react-icons/ri';
-import { headers, type UnsafeUnwrappedHeaders } from 'next/headers';
 import styles from './styles/Footer.module.css';
 
 const Info = ({
@@ -39,8 +39,6 @@ const Footer = async ({
 }) => {
   const headersList = await headers();
   const tz = headersList.get('x-vercel-ip-timezone') ?? undefined;
-
-  console.error('Vercel timezone:---------------------------------', tz);
 
   return (
     <Flex

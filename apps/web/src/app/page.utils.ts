@@ -10,5 +10,5 @@ export const fetchExtensionData = async () => {
   cacheTag('extensions-release-cache');
   cacheLife({ revalidate: 60 });
 
-  await getLatestExtension();
+  return await getLatestExtension();
 };
