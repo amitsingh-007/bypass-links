@@ -1,6 +1,5 @@
 import { getlastVisitedText } from '@/utils/lastVisited';
 import { IRedirection } from '@bypass/shared';
-import { useSortable } from '@dnd-kit/sortable';
 import {
   ActionIcon,
   Center,
@@ -27,10 +26,6 @@ type Props = IRedirection & {
   pos: number;
   handleRemoveRule: (pos: number) => void;
   handleSaveRule: (redirection: IRedirection, pos: number) => void;
-  dndProps?: Pick<
-    ReturnType<typeof useSortable>,
-    'listeners' | 'setNodeRef' | 'attributes'
-  >;
 };
 
 const RedirectionRule = memo(function RedirectionRule({
@@ -40,7 +35,6 @@ const RedirectionRule = memo(function RedirectionRule({
   pos,
   handleRemoveRule,
   handleSaveRule,
-  dndProps,
 }: Props) {
   const theme = useMantineTheme();
   const startHistoryMonitor = useHistoryStore(
@@ -85,17 +79,9 @@ const RedirectionRule = memo(function RedirectionRule({
     isDefault === isDefaultRule;
   const isRuleSaveActive = isSameRule || ruleAlias === DEFAULT_RULE_ALIAS;
 
-  const dndAttrs = dndProps
-    ? {
-        ...dndProps.listeners,
-        ...dndProps.attributes,
-        ref: dndProps.setNodeRef,
-      }
-    : {};
-
   return (
     <Center>
-      <ActionIcon c="white" radius="xl" size="lg" {...dndAttrs}>
+      <ActionIcon c="white" radius="xl" size="lg">
         <RxDragHandleDots2 size={20} />
       </ActionIcon>
       <Group className={styles.group}>
