@@ -18,14 +18,18 @@ import { CgWebsite } from 'react-icons/cg';
 import { FaCalendarCheck } from 'react-icons/fa';
 import { IoSave } from 'react-icons/io5';
 import { MdOutlineDelete, MdShortcut } from 'react-icons/md';
-import { RxDragHandleDots2, RxExternalLink } from 'react-icons/rx';
+import { RxExternalLink } from 'react-icons/rx';
 import { DEFAULT_RULE_ALIAS } from '../constants';
 import styles from './styles/RedirectionRule.module.css';
+import { ReorderButton } from './ReorderButton';
 
 type Props = IRedirection & {
   pos: number;
+  total: number;
   handleRemoveRule: (pos: number) => void;
   handleSaveRule: (redirection: IRedirection, pos: number) => void;
+  handleRuleMoveUp: (pos: number) => void;
+  handleRuleMoveDown: (pos: number) => void;
 };
 
 const RedirectionRule = memo(function RedirectionRule({
@@ -33,8 +37,11 @@ const RedirectionRule = memo(function RedirectionRule({
   website,
   isDefault,
   pos,
+  total,
   handleRemoveRule,
   handleSaveRule,
+  handleRuleMoveUp,
+  handleRuleMoveDown,
 }: Props) {
   const theme = useMantineTheme();
   const startHistoryMonitor = useHistoryStore(
@@ -81,9 +88,12 @@ const RedirectionRule = memo(function RedirectionRule({
 
   return (
     <Center>
-      <ActionIcon c="white" radius="xl" size="lg">
-        <RxDragHandleDots2 size={20} />
-      </ActionIcon>
+      <ReorderButton
+        pos={pos}
+        total={total}
+        handleRuleMoveUp={handleRuleMoveUp}
+        handleRuleMoveDown={handleRuleMoveDown}
+      />
       <Group className={styles.group}>
         <TextInput
           w="35%"

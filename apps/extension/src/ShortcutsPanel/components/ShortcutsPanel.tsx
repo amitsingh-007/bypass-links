@@ -76,6 +76,24 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
     saveRedirectionTemp([...redirections]);
   };
 
+  const handleRuleMoveUp = (pos: number) => {
+    if (pos === 0) {
+      return;
+    }
+    const newRedirs = [...redirections];
+    [newRedirs[pos], newRedirs[pos - 1]] = [newRedirs[pos - 1], newRedirs[pos]];
+    saveRedirectionTemp(newRedirs);
+  };
+
+  const handleRuleMoveDown = (pos: number) => {
+    if (pos >= redirections.length - 1) {
+      return;
+    }
+    const newRedirs = [...redirections];
+    [newRedirs[pos], newRedirs[pos + 1]] = [newRedirs[pos + 1], newRedirs[pos]];
+    saveRedirectionTemp(newRedirs);
+  };
+
   return (
     <Flex w={MAX_PANEL_SIZE.WIDTH} h={MAX_PANEL_SIZE.HEIGHT} direction="column">
       <Header text="Shortcuts">
@@ -109,8 +127,11 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
             <RedirectionRule
               {...redirection}
               pos={index}
+              total={redirections.length}
               handleRemoveRule={handleRemoveRule}
               handleSaveRule={handleSaveRule}
+              handleRuleMoveUp={handleRuleMoveUp}
+              handleRuleMoveDown={handleRuleMoveDown}
             />
           </Box>
         ))}
