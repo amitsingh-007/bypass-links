@@ -2,31 +2,22 @@ import { trpcApi } from '@/apis/trpcApi';
 import { syncRedirectionsToStorage } from '@/BackgroundScript/redirect';
 import { MAX_PANEL_SIZE } from '@/constants';
 import { Header, IRedirection, IRedirections } from '@bypass/shared';
-import { DndContext, DragOverlay, closestCenter } from '@dnd-kit/core';
-import {
-  SortableContext,
-  verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
 import { getRedirections } from '@helpers/fetchFromStorage';
-import { Button, Flex, LoadingOverlay } from '@mantine/core';
-import { useElementSize } from '@mantine/hooks';
+import { Box, Button, Flex, LoadingOverlay } from '@mantine/core';
 import useToastStore from '@store/toast';
 import { memo, useEffect, useState } from 'react';
 import { IoSave } from 'react-icons/io5';
 import { RiPlayListAddFill } from 'react-icons/ri';
 import { DEFAULT_RULE_ALIAS } from '../constants';
-import useShortcutDrag from '../hooks/useShortcutDrag';
-import { getRedirectionId, getValidRules } from '../utils';
-import DragClone from './DragClone';
-import DragRedirection from './DragRedirection';
+import { getValidRules } from '../utils';
 import styles from './styles/ShortcutsPanel.module.css';
+import RedirectionRule from './RedirectionRule';
 
 const ShortcutsPanel = memo(function ShortcutsPanel() {
   const displayToast = useToastStore((state) => state.displayToast);
   const [redirections, setRedirections] = useState<IRedirections>([]);
   const [isFetching, setIsFetching] = useState(true);
   const [isSaveActive, setIsSaveActive] = useState(false);
-  const { ref, width } = useElementSize();
 
   useEffect(() => {
     getRedirections().then((_redirections) => {
@@ -85,12 +76,6 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
     saveRedirectionTemp([...redirections]);
   };
 
-  const { sensors, draggingNode, onDragStart, onDragEnd, onDragCancel } =
-    useShortcutDrag({
-      redirections,
-      saveRedirectionTemp,
-    });
-
   return (
     <Flex w={MAX_PANEL_SIZE.WIDTH} h={MAX_PANEL_SIZE.HEIGHT} direction="column">
       <Header text="Shortcuts">
@@ -113,45 +98,24 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
           Save
         </Button>
       </Header>
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragStart={onDragStart}
-        onDragEnd={onDragEnd}
-        onDragCancel={onDragCancel}
+      <Flex
+        direction="column"
+        gap={10}
+        p="0.625rem 0.25rem 0.25rem"
+        className={styles.redirectionWrapper}
       >
-        <SortableContext
-          items={redirections.map((x) => getRedirectionId(x))}
-          strategy={verticalListSortingStrategy}
-        >
-          <Flex
-            ref={ref}
-            direction="column"
-            gap={10}
-            p="0.625rem 0.25rem 0.25rem"
-            className={styles.redirectionWrapper}
-          >
-            {redirections?.map((redirection, index) => (
-              <DragRedirection
-                key={getRedirectionId(redirection)}
-                redirection={redirection}
-                pos={index}
-                handleRemoveRule={handleRemoveRule}
-                handleSaveRule={handleSaveRule}
-              />
-            ))}
-            <LoadingOverlay visible={isFetching} />
-          </Flex>
-        </SortableContext>
-        <DragOverlay style={{ width }}>
-          {!!draggingNode && (
-            <DragClone
-              redirections={redirections}
-              draggingNode={draggingNode}
+        {redirections?.map((redirection, index) => (
+          <Box key={`${redirection.alias}_${redirection.website}`} tabIndex={0}>
+            <RedirectionRule
+              {...redirection}
+              pos={index}
+              handleRemoveRule={handleRemoveRule}
+              handleSaveRule={handleSaveRule}
             />
-          )}
-        </DragOverlay>
-      </DndContext>
+          </Box>
+        ))}
+        <LoadingOverlay visible={isFetching} />
+      </Flex>
     </Flex>
   );
 });
