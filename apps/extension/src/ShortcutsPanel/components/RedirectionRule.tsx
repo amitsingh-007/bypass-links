@@ -1,6 +1,5 @@
 import { getlastVisitedText } from '@/utils/lastVisited';
 import { IRedirection } from '@bypass/shared';
-import { useSortable } from '@dnd-kit/sortable';
 import {
   ActionIcon,
   Center,
@@ -19,18 +18,19 @@ import { CgWebsite } from 'react-icons/cg';
 import { FaCalendarCheck } from 'react-icons/fa';
 import { IoSave } from 'react-icons/io5';
 import { MdOutlineDelete, MdShortcut } from 'react-icons/md';
-import { RxDragHandleDots2, RxExternalLink } from 'react-icons/rx';
+import { RxExternalLink } from 'react-icons/rx';
 import { DEFAULT_RULE_ALIAS } from '../constants';
 import styles from './styles/RedirectionRule.module.css';
+import { ReorderButton } from './ReorderButton';
 
 type Props = IRedirection & {
   pos: number;
+  total: number;
+  highlight: boolean;
   handleRemoveRule: (pos: number) => void;
   handleSaveRule: (redirection: IRedirection, pos: number) => void;
-  dndProps?: Pick<
-    ReturnType<typeof useSortable>,
-    'listeners' | 'setNodeRef' | 'attributes'
-  >;
+  handleRuleMoveUp: (pos: number) => void;
+  handleRuleMoveDown: (pos: number) => void;
 };
 
 const RedirectionRule = memo(function RedirectionRule({
@@ -38,9 +38,12 @@ const RedirectionRule = memo(function RedirectionRule({
   website,
   isDefault,
   pos,
+  total,
+  highlight,
   handleRemoveRule,
   handleSaveRule,
-  dndProps,
+  handleRuleMoveUp,
+  handleRuleMoveDown,
 }: Props) {
   const theme = useMantineTheme();
   const startHistoryMonitor = useHistoryStore(
@@ -85,19 +88,14 @@ const RedirectionRule = memo(function RedirectionRule({
     isDefault === isDefaultRule;
   const isRuleSaveActive = isSameRule || ruleAlias === DEFAULT_RULE_ALIAS;
 
-  const dndAttrs = dndProps
-    ? {
-        ...dndProps.listeners,
-        ...dndProps.attributes,
-        ref: dndProps.setNodeRef,
-      }
-    : {};
-
   return (
     <Center>
-      <ActionIcon c="white" radius="xl" size="lg" {...dndAttrs}>
-        <RxDragHandleDots2 size={20} />
-      </ActionIcon>
+      <ReorderButton
+        pos={pos}
+        total={total}
+        handleRuleMoveUp={handleRuleMoveUp}
+        handleRuleMoveDown={handleRuleMoveDown}
+      />
       <Group className={styles.group}>
         <TextInput
           w="35%"
@@ -106,6 +104,7 @@ const RedirectionRule = memo(function RedirectionRule({
           onChange={(e) => setRuleAlias(e.target.value.trim())}
           leftSection={<MdShortcut />}
           error={!ruleAlias}
+          classNames={{ input: highlight ? styles.highlight : undefined }}
         />
         <TextInput
           w="60%"
@@ -128,6 +127,7 @@ const RedirectionRule = memo(function RedirectionRule({
             ) : null
           }
           error={!ruleWebsite}
+          classNames={{ input: highlight ? styles.highlight : undefined }}
         />
       </Group>
       <Checkbox

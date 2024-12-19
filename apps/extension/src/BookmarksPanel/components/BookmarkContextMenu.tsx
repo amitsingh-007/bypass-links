@@ -6,11 +6,12 @@ import md5 from 'md5';
 import { PropsWithChildren, memo, useCallback } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
 import { BsArrowUp } from 'react-icons/bs';
-import { MdOutlineDelete } from 'react-icons/md';
+import { MdOutlineDelete, MdOutlineContentPasteGo } from 'react-icons/md';
 import { RxExternalLink } from 'react-icons/rx';
+import { TbCut } from 'react-icons/tb';
 import { useShallow } from 'zustand/react/shallow';
 import useBookmarkStore from '../store/useBookmarkStore';
-import { getSelectedCount } from '../utils';
+import { getCutCount, getSelectedCount } from '../utils';
 
 type Props = PropsWithChildren<{
   children: React.ReactNode;
@@ -26,20 +27,27 @@ const BookmarkContextMenu = memo<Props>(
     const {
       contextBookmarks,
       selectedBookmarks,
+      cutBookmarks,
       handleUrlRemove,
       handleBulkUrlRemove,
       handleMoveBookmarks,
+      handleCutBookmarks,
+      handlePasteBookmarks,
     } = useBookmarkStore(
       useShallow((state) => ({
         contextBookmarks: state.contextBookmarks,
         selectedBookmarks: state.selectedBookmarks,
+        cutBookmarks: state.cutBookmarks,
         handleUrlRemove: state.handleUrlRemove,
         handleBulkUrlRemove: state.handleBulkUrlRemove,
         handleMoveBookmarks: state.handleMoveBookmarks,
+        handleCutBookmarks: state.handleCutBookmarks,
+        handlePasteBookmarks: state.handlePasteBookmarks,
       }))
     );
     const theme = useMantineTheme();
     const selectedCount = getSelectedCount(selectedBookmarks);
+    const cutCount = getCutCount(cutBookmarks);
 
     const getBookmark = useCallback(
       (id: string) => {
@@ -94,7 +102,24 @@ const BookmarkContextMenu = memo<Props>(
           text: 'Top',
           icon: BsArrowUp,
         },
+        {
+          onClick: handleCutBookmarks,
+          text: 'Cut',
+          icon: TbCut,
+        },
       ];
+      if (cutCount > 0 && selectedCount === 1) {
+        menuOptionsList.push({
+          onClick: () => {
+            const selectedIdx = selectedBookmarks.findIndex(Boolean);
+            if (selectedIdx !== -1) {
+              handlePasteBookmarks(selectedIdx + 1);
+            }
+          },
+          text: `Paste (${cutCount})`,
+          icon: MdOutlineContentPasteGo,
+        });
+      }
       if (selectedCount > 1) {
         menuOptionsList.push({
           onClick: handleBulkUrlRemove,

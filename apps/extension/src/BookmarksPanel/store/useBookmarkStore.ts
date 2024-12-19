@@ -16,11 +16,7 @@ import {
 import md5 from 'md5';
 import { create } from 'zustand';
 import { isFolderContainsDir, setBookmarksInStorage } from '../utils';
-import {
-  getBookmarksAfterDrag,
-  getDestinationIndex,
-  getSelectedBookmarksAfterDrag,
-} from '../utils/manipulate';
+import { processBookmarksMove } from '../utils/manipulate';
 
 interface State {
   // State
@@ -29,6 +25,7 @@ interface State {
   folderList: IBookmarksObj['folderList'];
   folders: IBookmarksObj['folders'];
   selectedBookmarks: ISelectedBookmarks;
+  cutBookmarks: ISelectedBookmarks;
   isFetching: boolean;
   isSaveButtonActive: boolean;
 
@@ -36,6 +33,7 @@ interface State {
   loadData: (folderContext: string) => Promise<void>;
   handleSelectedChange: (pos: number, isOnlySelection: boolean) => void;
   resetSelectedBookmarks: () => void;
+  handleCutBookmarks: () => void;
   handleCreateNewFolder: (name: string, folderContext: string) => void;
   handleBookmarkSave: (
     updatedBookmark: ITransformedBookmark,
@@ -54,6 +52,7 @@ interface State {
   handleFolderRemove: (pos: number, name: string) => void;
   handleSave: (folderContext: string) => Promise<void>;
   handleMoveBookmarks: (destinationIndex: number) => void;
+  handlePasteBookmarks: (destinationIndex: number) => void;
 }
 
 const useBookmarkStore = create<State>()((set, get) => ({
@@ -62,6 +61,7 @@ const useBookmarkStore = create<State>()((set, get) => ({
   folderList: {},
   folders: {},
   selectedBookmarks: [],
+  cutBookmarks: [],
   isFetching: true,
   isSaveButtonActive: false,
   updateTaggedPersons: [],
@@ -80,6 +80,7 @@ const useBookmarkStore = create<State>()((set, get) => ({
       urlList,
       folderList,
       folders,
+      cutBookmarks: [],
       selectedBookmarks: [],
       isFetching: false,
     });
@@ -96,6 +97,13 @@ const useBookmarkStore = create<State>()((set, get) => ({
   },
 
   resetSelectedBookmarks: () => set({ selectedBookmarks: [] }),
+
+  handleCutBookmarks: () => {
+    const { selectedBookmarks } = get();
+    set({ cutBookmarks: [...selectedBookmarks] });
+  },
+
+  resetCutBookmarks: () => set({ cutBookmarks: [] }),
 
   handleCreateNewFolder: (name: string, folderContext: string) => {
     const { contextBookmarks, folderList } = get();
@@ -378,21 +386,31 @@ const useBookmarkStore = create<State>()((set, get) => ({
 
   handleMoveBookmarks: (destinationIndex: number) => {
     const { selectedBookmarks, contextBookmarks } = get();
-
-    const destIndex = getDestinationIndex(destinationIndex, selectedBookmarks);
-    const newContextBookmarks = getBookmarksAfterDrag(
-      contextBookmarks,
+    const { newContextBookmarks, newSelectedBookmarks } = processBookmarksMove(
+      destinationIndex,
       selectedBookmarks,
-      destIndex
-    );
-    const newSelectedBookmarks = getSelectedBookmarksAfterDrag(
-      [...selectedBookmarks],
-      destIndex
+      contextBookmarks
     );
 
     set({
       contextBookmarks: newContextBookmarks,
       selectedBookmarks: newSelectedBookmarks,
+      isSaveButtonActive: true,
+    });
+  },
+
+  handlePasteBookmarks: (destinationIndex: number) => {
+    const { cutBookmarks, contextBookmarks } = get();
+    const { newContextBookmarks, newSelectedBookmarks } = processBookmarksMove(
+      destinationIndex,
+      cutBookmarks,
+      contextBookmarks
+    );
+
+    set({
+      contextBookmarks: newContextBookmarks,
+      selectedBookmarks: newSelectedBookmarks,
+      cutBookmarks: [],
       isSaveButtonActive: true,
     });
   },

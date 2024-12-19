@@ -56,4 +56,3 @@ export * from './utils/url';
 
 // Hooks
 export { default as usePlatform } from './hooks/usePlatform';
-export { default as useDndSortable } from './hooks/useDndSortable';

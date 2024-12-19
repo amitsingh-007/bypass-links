@@ -1,6 +1,6 @@
 import { ContextBookmarks, ISelectedBookmarks } from '@bypass/shared';
 
-export const getDestinationIndex = (
+const getDestinationIndex = (
   destIndex: number,
   selectedBookmarks: ISelectedBookmarks
 ) => {
@@ -12,7 +12,7 @@ export const getDestinationIndex = (
     : destIndex - draggedBookmarksBeforeDestIndex + 1;
 };
 
-export const getBookmarksAfterDrag = (
+const getBookmarksAfterDrag = (
   bookmarks: ContextBookmarks,
   selectedBookmarks: ISelectedBookmarks,
   destIndex: number
@@ -35,7 +35,7 @@ export const getBookmarksAfterDrag = (
   return notDraggedBookmarks;
 };
 
-export const getSelectedBookmarksAfterDrag = (
+const getSelectedBookmarksAfterDrag = (
   selectedBookmarks: ISelectedBookmarks,
   destIndex: number
 ) => {
@@ -45,4 +45,29 @@ export const getSelectedBookmarksAfterDrag = (
     selectedBookmarksInNewOrder[i] = true;
   }
   return [...selectedBookmarksInNewOrder];
+};
+
+/**
+ * This is called for both moving to top/bottom and pasting
+ */
+export const processBookmarksMove = (
+  destinationIndex: number,
+  selectedBookmarks: ISelectedBookmarks,
+  contextBookmarks: ContextBookmarks
+) => {
+  const destIndex = getDestinationIndex(destinationIndex, selectedBookmarks);
+  const newContextBookmarks = getBookmarksAfterDrag(
+    contextBookmarks,
+    selectedBookmarks,
+    destIndex
+  );
+  const newSelectedBookmarks = getSelectedBookmarksAfterDrag(
+    [...selectedBookmarks],
+    destIndex
+  );
+
+  return {
+    newContextBookmarks,
+    newSelectedBookmarks,
+  };
 };

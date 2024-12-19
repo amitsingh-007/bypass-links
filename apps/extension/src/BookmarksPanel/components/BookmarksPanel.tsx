@@ -10,23 +10,16 @@ import {
   getFilteredContextBookmarks,
   shouldRenderBookmarks,
 } from '@bypass/shared';
-import { DndContext, DragOverlay, closestCenter } from '@dnd-kit/core';
-import {
-  SortableContext,
-  verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
 import { Box, Flex } from '@mantine/core';
 import { useElementSize } from '@mantine/hooks';
 import useHistoryStore from '@store/history';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
-import useBookmarkDrag from '../hooks/useBookmarkDrag';
 import useBookmarkStore from '../store/useBookmarkStore';
 import BookmarkAddEditDialog from './BookmarkAddEditDialog';
 import BookmarkContextMenu from './BookmarkContextMenu';
 import BookmarksHeader from './BookmarksHeader';
-import DragClone from './DragClone';
 import VirtualRow from './VirtualRow';
 import styles from './styles/BookmarksPanel.module.css';
 
@@ -43,6 +36,7 @@ const BookmarksPanel = memo<BMPanelQueryParams>(
       contextBookmarks,
       folders,
       selectedBookmarks,
+      cutBookmarks,
       isFetching,
       loadData,
     } = useBookmarkStore(
@@ -50,6 +44,7 @@ const BookmarksPanel = memo<BMPanelQueryParams>(
         contextBookmarks: state.contextBookmarks,
         folders: state.folders,
         selectedBookmarks: state.selectedBookmarks,
+        cutBookmarks: state.cutBookmarks,
         isFetching: state.isFetching,
         loadData: state.loadData,
       }))
@@ -66,8 +61,6 @@ const BookmarksPanel = memo<BMPanelQueryParams>(
       getScrollElement: () => bodyRef.current,
       getItemKey: (idx) => getBookmarkId(filteredContextBookmarks[idx]),
     });
-    const { sensors, isDragging, onDragStart, onDragEnd, onDragCancel } =
-      useBookmarkDrag();
 
     const handleScroll = (itemNumber: number) =>
       virtualizer.scrollToIndex(itemNumber);
@@ -137,46 +130,26 @@ const BookmarksPanel = memo<BMPanelQueryParams>(
               className={styles.body}
             >
               {shouldRenderBookmarks(folders, filteredContextBookmarks) ? (
-                <DndContext
-                  sensors={sensors}
-                  collisionDetection={closestCenter}
-                  onDragStart={onDragStart}
-                  onDragEnd={onDragEnd}
-                  onDragCancel={onDragCancel}
-                >
-                  <SortableContext
-                    items={filteredContextBookmarks.map((x) =>
-                      getBookmarkId(x)
-                    )}
-                    strategy={verticalListSortingStrategy}
-                    disabled={!!searchText}
-                  >
-                    <Box h={virtualizer.getTotalSize()} w="100%" pos="relative">
-                      {virtualizer.getVirtualItems().map((virtualRow) => (
-                        <Box
-                          key={virtualRow.key}
-                          style={{
-                            transform: `translateY(${virtualRow.start}px)`,
-                          }}
-                          pos="absolute"
-                          top={0}
-                          left={0}
-                          w="100%"
-                          h={virtualRow.size}
-                        >
-                          <VirtualRow
-                            bookmark={
-                              filteredContextBookmarks[virtualRow.index]
-                            }
-                            pos={virtualRow.index}
-                            isSelected={selectedBookmarks[virtualRow.index]}
-                          />
-                        </Box>
-                      ))}
+                <Box h={virtualizer.getTotalSize()} w="100%" pos="relative">
+                  {virtualizer.getVirtualItems().map((virtualRow) => (
+                    <Box
+                      key={virtualRow.key}
+                      style={{ transform: `translateY(${virtualRow.start}px)` }}
+                      pos="absolute"
+                      top={0}
+                      left={0}
+                      w="100%"
+                      h={virtualRow.size}
+                    >
+                      <VirtualRow
+                        bookmark={filteredContextBookmarks[virtualRow.index]}
+                        pos={virtualRow.index}
+                        isSelected={selectedBookmarks[virtualRow.index]}
+                        isCut={cutBookmarks[virtualRow.index]}
+                      />
                     </Box>
-                  </SortableContext>
-                  <DragOverlay>{isDragging && <DragClone />}</DragOverlay>
-                </DndContext>
+                  ))}
+                </Box>
               ) : null}
             </Box>
           </BookmarkContextMenu>
