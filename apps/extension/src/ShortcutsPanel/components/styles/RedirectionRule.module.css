@@ -8,6 +8,6 @@
 }
 
 .highlight {
-  border: 1px solid var(--mantine-color-yellow-3);
+  border: 1px solid var(--mantine-color-yellow-2);
   border-style: dashed;
 }
