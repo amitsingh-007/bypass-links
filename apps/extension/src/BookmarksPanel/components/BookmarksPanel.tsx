@@ -36,6 +36,7 @@ const BookmarksPanel = memo<BMPanelQueryParams>(
       contextBookmarks,
       folders,
       selectedBookmarks,
+      cutBookmarks,
       isFetching,
       loadData,
     } = useBookmarkStore(
@@ -43,6 +44,7 @@ const BookmarksPanel = memo<BMPanelQueryParams>(
         contextBookmarks: state.contextBookmarks,
         folders: state.folders,
         selectedBookmarks: state.selectedBookmarks,
+        cutBookmarks: state.cutBookmarks,
         isFetching: state.isFetching,
         loadData: state.loadData,
       }))
@@ -143,6 +145,7 @@ const BookmarksPanel = memo<BMPanelQueryParams>(
                         bookmark={filteredContextBookmarks[virtualRow.index]}
                         pos={virtualRow.index}
                         isSelected={selectedBookmarks[virtualRow.index]}
+                        isCut={cutBookmarks[virtualRow.index]}
                       />
                     </Box>
                   ))}

@@ -8,11 +8,16 @@
 }
 
 .bookmarkRow[data-is-selected='true'] {
-  /* border: var(--mantine-color-violet-6) 2px solid; */
   background-color: var(--mantine-color-violet-7);
   border-radius: var(--mantine-radius-sm);
 
   @mixin hover {
     background-color: var(--mantine-color-violet-9);
   }
+}
+
+.bookmarkRow[data-is-cut='true'] {
+  border: 1px solid var(--mantine-color-violet-2);
+  border-style: dotted;
+  opacity: 0.5;
 }

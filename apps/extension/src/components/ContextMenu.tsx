@@ -39,6 +39,7 @@ const ContextMenu = ({ wrapperHeight = '100%', options, children }: Props) => {
 
       return {
         key: text,
+        title: text,
         icon: <Icon size="0.875rem" color={color} />,
         color: isRedColor ? 'red' : undefined,
         onClick: () => {

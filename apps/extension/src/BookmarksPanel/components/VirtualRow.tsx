@@ -13,12 +13,14 @@ export interface Props {
   bookmark: ContextBookmark;
   pos: number;
   isSelected: boolean;
+  isCut: boolean;
 }
 
 const VirtualRow = memo<Props>(function VirtualRow({
   bookmark,
   pos,
   isSelected,
+  isCut,
 }) {
   const {
     folders,
@@ -45,6 +47,7 @@ const VirtualRow = memo<Props>(function VirtualRow({
       // Added to fix context menu
       style={{ zIndex: bookmark.isDir ? 1 : 'auto' }}
       data-is-selected={isSelected}
+      data-is-cut={isCut}
     >
       {bookmark.isDir ? (
         <FolderRow
