@@ -9,13 +9,14 @@ import { memo, useEffect, useState } from 'react';
 import { IoSave } from 'react-icons/io5';
 import { RiPlayListAddFill } from 'react-icons/ri';
 import { DEFAULT_RULE_ALIAS } from '../constants';
-import { getValidRules } from '../utils';
+import { getValidRules, isMatchingRule } from '../utils';
 import styles from './styles/ShortcutsPanel.module.css';
 import RedirectionRule from './RedirectionRule';
 
 const ShortcutsPanel = memo(function ShortcutsPanel() {
   const displayToast = useToastStore((state) => state.displayToast);
   const [redirections, setRedirections] = useState<IRedirections>([]);
+  const [searchText, setSearchText] = useState('');
   const [isFetching, setIsFetching] = useState(true);
   const [isSaveActive, setIsSaveActive] = useState(false);
 
@@ -96,7 +97,7 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
 
   return (
     <Flex w={MAX_PANEL_SIZE.WIDTH} h={MAX_PANEL_SIZE.HEIGHT} direction="column">
-      <Header text="Shortcuts">
+      <Header text="Shortcuts" onSearchChange={setSearchText}>
         <Button
           leftSection={<RiPlayListAddFill />}
           onClick={handleAddRule}
@@ -128,6 +129,7 @@ const ShortcutsPanel = memo(function ShortcutsPanel() {
               {...redirection}
               pos={index}
               total={redirections.length}
+              highlight={isMatchingRule(redirection, searchText)}
               handleRemoveRule={handleRemoveRule}
               handleSaveRule={handleSaveRule}
               handleRuleMoveUp={handleRuleMoveUp}

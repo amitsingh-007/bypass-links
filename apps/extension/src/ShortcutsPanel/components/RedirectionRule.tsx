@@ -26,6 +26,7 @@ import { ReorderButton } from './ReorderButton';
 type Props = IRedirection & {
   pos: number;
   total: number;
+  highlight: boolean;
   handleRemoveRule: (pos: number) => void;
   handleSaveRule: (redirection: IRedirection, pos: number) => void;
   handleRuleMoveUp: (pos: number) => void;
@@ -38,6 +39,7 @@ const RedirectionRule = memo(function RedirectionRule({
   isDefault,
   pos,
   total,
+  highlight,
   handleRemoveRule,
   handleSaveRule,
   handleRuleMoveUp,
@@ -102,6 +104,7 @@ const RedirectionRule = memo(function RedirectionRule({
           onChange={(e) => setRuleAlias(e.target.value.trim())}
           leftSection={<MdShortcut />}
           error={!ruleAlias}
+          classNames={{ input: highlight ? styles.highlight : undefined }}
         />
         <TextInput
           w="60%"
@@ -124,6 +127,7 @@ const RedirectionRule = memo(function RedirectionRule({
             ) : null
           }
           error={!ruleWebsite}
+          classNames={{ input: highlight ? styles.highlight : undefined }}
         />
       </Group>
       <Checkbox
