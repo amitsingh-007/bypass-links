@@ -94,10 +94,10 @@ jobs:
 
       - name: Install Playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: npx playwright install --with-deps
+        run: pnpm playwright install --with-deps
 
       - name: Run Playwright tests
-        run: xvfb-run --auto-servernum -- npx playwright test
+        run: xvfb-run --auto-servernum -- pnpm playwright test
         env:
           PLAYWRIGHT_TEST_BASE_URL: ${{ needs.Build.outputs.preview_url }}
 

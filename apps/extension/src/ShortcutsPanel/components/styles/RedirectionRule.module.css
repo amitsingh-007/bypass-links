@@ -6,3 +6,8 @@
   border: unset !important;
   background-color: unset !important;
 }
+
+.highlight {
+  border: 1px solid var(--mantine-color-yellow-2);
+  border-style: dashed;
+}

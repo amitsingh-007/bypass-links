@@ -1,0 +1,4 @@
+.container {
+  cursor: pointer;
+  user-select: none;
+}
