@@ -12,7 +12,7 @@
       "@store/*": ["./src/store/*"]
     }
   },
-  "include": ["@types", "src", "tests", "webpack.config.ts"],
+  "include": ["@types", "src", "tests", "webpack.config.ts", "scripts"],
   "exclude": ["chrome-build", "firefox-build", "node_modules", ".turbo"],
   //Required for webpack config in typescript
   "ts-node": {

@@ -1,13 +1,7 @@
-import {
-  getExtVersion,
-  getFileNameFromVersion,
-} from '@bypass/configs/manifest/extensionFile.js';
-import PreactRefreshPlugin from '@prefresh/webpack';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import ESLintPlugin from 'eslint-webpack-plugin';
-import FileManagerPlugin from 'filemanager-webpack-plugin';
+// import ESLintPlugin from 'eslint-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MergeJsonWebpackPlugin from 'merge-jsons-webpack-plugin';
@@ -272,40 +266,14 @@ const config: Configuration = {
         root: PATHS.ROOT,
       },
     }),
-    !isProduction && new PreactRefreshPlugin(),
-    new ESLintPlugin({
-      extensions: ['ts', 'tsx'],
-      cache: !isProduction,
-      threads: !isProduction,
-      lintDirtyModulesOnly: !isProduction,
-      configType: 'flat',
-      emitWarning: false,
-    }),
-    isProduction &&
-      new FileManagerPlugin({
-        events: {
-          onEnd: {
-            archive: [
-              {
-                source: PATHS.EXTENSION,
-                destination: `${PATHS.EXTENSION}/${getFileNameFromVersion(
-                  getExtVersion()
-                )}`,
-                format: 'zip',
-                options: {
-                  zlib: {
-                    level: 9,
-                  },
-                  globOptions: {
-                    dot: true,
-                    ignore: ['*.zip'], // ignore the output .zip file
-                  },
-                },
-              },
-            ],
-          },
-        },
-      }),
+    // new ESLintPlugin({
+    //   extensions: ['ts', 'tsx'],
+    //   cache: !isProduction,
+    //   threads: !isProduction,
+    //   lintDirtyModulesOnly: !isProduction,
+    //   configType: 'flat',
+    //   emitWarning: false,
+    // }),
   ],
 };
 
