@@ -12,6 +12,7 @@ import { TbCut } from 'react-icons/tb';
 import { useShallow } from 'zustand/react/shallow';
 import useBookmarkStore from '../store/useBookmarkStore';
 import { getCutCount, getSelectedCount } from '../utils';
+import { useHotkeys } from '@mantine/hooks';
 
 type Props = PropsWithChildren<{
   children: React.ReactNode;
@@ -48,6 +49,17 @@ const BookmarkContextMenu = memo<Props>(
     const theme = useMantineTheme();
     const selectedCount = getSelectedCount(selectedBookmarks);
     const cutCount = getCutCount(cutBookmarks);
+
+    useHotkeys([
+      [
+        'mod+x',
+        (event) => {
+          event.stopPropagation();
+          event.preventDefault();
+          handleCutBookmarks();
+        },
+      ],
+    ]);
 
     const getBookmark = useCallback(
       (id: string) => {

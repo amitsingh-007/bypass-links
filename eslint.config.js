@@ -38,7 +38,13 @@ export default tseslint.config(
     ...tseslint.configs.disableTypeChecked,
   },
   {
-    ignores: ['**/*.js', '**/*.mjs', '**/*.cjs', 'apps/web/.next/'],
+    ignores: [
+      '**/*.js',
+      '**/*.mjs',
+      '**/*.cjs',
+      'apps/web/.next/',
+      'apps/extension/scripts',
+    ],
   },
   eslintPluginUnicorn.configs['flat/recommended'],
   // react eslint config

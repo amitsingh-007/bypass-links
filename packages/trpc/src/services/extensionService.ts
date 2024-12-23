@@ -15,22 +15,15 @@ const mapExtension = (extension: TGitHubAsset, isChrome: boolean) => ({
 export const getLatestExtension = async () => {
   const { data: latestRelease } = await getLatestRelease();
   const { data: assets = [] } = await getAssetsByReleaseId(latestRelease.id);
-  const extensions = assets.filter(
+
+  const chromeAsset = assets.find(
     (asset) => asset.content_type === 'application/zip'
   );
+  const firefoxAsset = assets.find(
+    (asset) => asset.content_type === 'application/x-xpinstall'
+  );
 
-  let chrome;
-  let firefox;
-
-  for (const extension of extensions) {
-    if (extension.name.startsWith('chrome-')) {
-      chrome = mapExtension(extension, true);
-    } else if (extension.name.startsWith('firefox-')) {
-      firefox = mapExtension(extension, false);
-    }
-  }
-
-  if (!chrome || !firefox) {
+  if (!chromeAsset || !firefoxAsset) {
     throw new TRPCError({
       code: 'INTERNAL_SERVER_ERROR',
       message: 'Extensions not found',
@@ -38,7 +31,7 @@ export const getLatestExtension = async () => {
   }
 
   return {
-    chrome,
-    firefox,
+    chrome: mapExtension(chromeAsset, true),
+    firefox: mapExtension(firefoxAsset, false),
   };
 };
