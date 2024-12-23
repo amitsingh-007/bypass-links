@@ -38,7 +38,7 @@ jobs:
           name: extensions-folder
           path: |
             ./apps/extension/chrome-build
-            ./apps/extension/fireofx-build
+            ./apps/extension/firefox-build
 
       - name: Deploy Preview (Vercel)
         uses: amondnet/vercel-action@v25
