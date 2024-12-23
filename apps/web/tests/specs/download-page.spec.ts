@@ -33,7 +33,7 @@ test.describe('Download page', () => {
     await downloadButton.click();
     const download = await downloadPromise;
     expect(download.suggestedFilename()).toMatch(
-      /^firefox-bypass-links-.+.zip$/
+      /^firefox-bypass-links-.+.xpi$/
     );
   });
 
