@@ -111,11 +111,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Download extensions
-        uses: actions/download-artifact@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
         with:
-          name: extensions-folder
-          path: ./apps/extension
+          version: 9
+
+      - name: Setting up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
 
       - name: Start deployment
         uses: bobheadxi/deployments@v1.5.0
@@ -144,6 +152,12 @@ jobs:
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
           env_url: ${{ steps.vercel-action.outputs.preview-url }}
           env: ${{ steps.deployment.outputs.env }}
+
+      - name: Download extensions
+        uses: actions/download-artifact@v4
+        with:
+          name: extensions-folder
+          path: ./apps/extension
 
       - name: Package extensions
         run: |
