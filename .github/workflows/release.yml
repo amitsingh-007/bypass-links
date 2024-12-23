@@ -184,7 +184,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: packaged-extensions
-          path: ./apps/extension
+          path: ./apps/extension/build
 
       - name: Generate Release Tag
         id: release_tag
