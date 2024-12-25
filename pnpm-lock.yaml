@@ -167,6 +167,12 @@ importers:
       '@playwright/test':
         specifier: 1.49.1
         version: 1.49.1
+      '@prefresh/core':
+        specifier: 1.5.3
+        version: 1.5.3(preact@10.25.2)
+      '@prefresh/webpack':
+        specifier: 4.0.1
+        version: 4.0.1(@prefresh/babel-plugin@0.5.1)(preact@10.25.2)(webpack@5.97.1)
       '@types/archiver':
         specifier: 6.0.3
         version: 6.0.3
@@ -251,9 +257,6 @@ importers:
       react-refresh:
         specifier: 0.16.0
         version: 0.16.0
-      react-refresh-typescript:
-        specifier: 2.0.9
-        version: 2.0.9(react-refresh@0.16.0)(typescript@5.7.2)
       style-loader:
         specifier: 4.0.0
         version: 4.0.0(webpack@5.97.1)
@@ -445,9 +448,6 @@ importers:
 
   packages/trpc:
     dependencies:
-      '@axiomhq/js':
-        specifier: 1.3.0
-        version: 1.3.0
       '@bypass/configs':
         specifier: workspace:*
         version: link:../configs
@@ -503,10 +503,6 @@ packages:
   '@ampproject/remapping@2.3.0':
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
     engines: {node: '>=6.0.0'}
-
-  '@axiomhq/js@1.3.0':
-    resolution: {integrity: sha512-CSen0n307OLH1+M4ub1l1VbnP2Ub6++atyPLzF63pT6cuR9fQRWQKjBr74ID1DA1SXjGeRR78oMSk0KRFH8RjA==}
-    engines: {node: '>=16'}
 
   '@babel/code-frame@7.26.2':
     resolution: {integrity: sha512-RJlIHRueQgwWitWgF8OdFYGZX328Ax5BCemNGlqHfplnRT9ESi8JkFlvaVYbS+UubVY6dpv87Fs2u5M29iNFVQ==}
@@ -1956,6 +1952,24 @@ packages:
   '@pnpm/npm-conf@2.3.1':
     resolution: {integrity: sha512-c83qWb22rNRuB0UaVCI0uRPNRr8Z0FWnEIvT47jiHAmOIUHbBOg5XvV7pM5x+rKn9HRpjxquDbXYSXr3fAKFcw==}
     engines: {node: '>=12'}
+
+  '@prefresh/babel-plugin@0.5.1':
+    resolution: {integrity: sha512-uG3jGEAysxWoyG3XkYfjYHgaySFrSsaEb4GagLzYaxlydbuREtaX+FTxuIidp241RaLl85XoHg9Ej6E4+V1pcg==}
+
+  '@prefresh/core@1.5.3':
+    resolution: {integrity: sha512-nDzxj0tA1/M6APNAWqaxkZ+3sTdPHESa+gol4+Bw7rMc2btWdkLoNH7j9rGhUb8SThC0Vz0VoXtq+U+9azGLHg==}
+    peerDependencies:
+      preact: ^10.0.0
+
+  '@prefresh/utils@1.2.0':
+    resolution: {integrity: sha512-KtC/fZw+oqtwOLUFM9UtiitB0JsVX0zLKNyRTA332sqREqSALIIQQxdUCS1P3xR/jT1e2e8/5rwH6gdcMLEmsQ==}
+
+  '@prefresh/webpack@4.0.1':
+    resolution: {integrity: sha512-BAzEqkNZSm1B82l8oXp+b69ffCQopjca8yeooczmCBSU6ZGhxWf+G2fmRt02CkcMpnDiHuDNDdsBJqEBKRJzOQ==}
+    peerDependencies:
+      '@prefresh/babel-plugin': ^0.5.0
+      preact: ^10.4.0
+      webpack: ^4.0.0 || ^5.0.0
 
   '@protobufjs/aspromise@1.1.2':
     resolution: {integrity: sha512-j+gKExEuLmKwvz3OgROXtrJ2UG2x8Ch2YZUxahh+s1F2HZ+wAceUNLkvy6zKCPVRkU++ZWQrdxsUeQXmcg4uoQ==}
@@ -4357,9 +4371,6 @@ packages:
   fd-slicer@1.1.0:
     resolution: {integrity: sha512-cE1qsB/VwyQozZ+q1dGxR8LBYNZeofhEdUNGSMbQD3Gw2lAzX9Zb3uIU6Ebc/Fmyjo9AWWfnn0AUCHqtevs/8g==}
 
-  fetch-retry@6.0.0:
-    resolution: {integrity: sha512-BUFj1aMubgib37I3v4q78fYo63Po7t4HUPTpQ6/QE6yK6cIQrP+W43FYToeTEyg5m2Y7eFUtijUuAv/PDlWuag==}
-
   file-entry-cache@6.0.1:
     resolution: {integrity: sha512-7Gps/XWymbLk2QLYK4NzpMOrYjMhdIxXuIvy2QBsLE6ljuodKvdkWs/cpyJJ3CVIVpH0Oi1Hvg1ovbMzLdFBBg==}
     engines: {node: ^10.12.0 || >=12.0.0}
@@ -6492,12 +6503,6 @@ packages:
       react: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
       react-dom: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
 
-  react-refresh-typescript@2.0.9:
-    resolution: {integrity: sha512-chAnOO4vpxm/3WkgOVmti+eN8yUtkJzeGkOigV6UA9eDFz12W34e/SsYe2H5+RwYJ3+sfSZkVbiXcG1chEBxlg==}
-    peerDependencies:
-      react-refresh: 0.10.x || 0.11.x || 0.12.x || 0.13.x || 0.14.x
-      typescript: ^4.8 || ^5.0
-
   react-refresh@0.16.0:
     resolution: {integrity: sha512-FPvF2XxTSikpJxcr+bHut2H4gJ17+18Uy20D5/F+SKzFap62R3cM5wH6b8WN3LyGSYeQilLEcJcR1fjBSI2S1A==}
     engines: {node: '>=0.10.0'}
@@ -7963,11 +7968,6 @@ snapshots:
     dependencies:
       '@jridgewell/gen-mapping': 0.3.8
       '@jridgewell/trace-mapping': 0.3.25
-
-  '@axiomhq/js@1.3.0':
-    dependencies:
-      fetch-retry: 6.0.0
-      uuid: 11.0.3
 
   '@babel/code-frame@7.26.2':
     dependencies:
@@ -9651,6 +9651,22 @@ snapshots:
       '@pnpm/config.env-replace': 1.1.0
       '@pnpm/network.ca-file': 1.0.2
       config-chain: 1.1.13
+
+  '@prefresh/babel-plugin@0.5.1': {}
+
+  '@prefresh/core@1.5.3(preact@10.25.2)':
+    dependencies:
+      preact: 10.25.2
+
+  '@prefresh/utils@1.2.0': {}
+
+  '@prefresh/webpack@4.0.1(@prefresh/babel-plugin@0.5.1)(preact@10.25.2)(webpack@5.97.1)':
+    dependencies:
+      '@prefresh/babel-plugin': 0.5.1
+      '@prefresh/core': 1.5.3(preact@10.25.2)
+      '@prefresh/utils': 1.2.0
+      preact: 10.25.2
+      webpack: 5.97.1(webpack-cli@5.1.4)
 
   '@protobufjs/aspromise@1.1.2': {}
 
@@ -12451,8 +12467,6 @@ snapshots:
     dependencies:
       pend: 1.2.0
 
-  fetch-retry@6.0.0: {}
-
   file-entry-cache@6.0.1:
     dependencies:
       flat-cache: 3.2.0
@@ -14631,11 +14645,6 @@ snapshots:
     dependencies:
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
-
-  react-refresh-typescript@2.0.9(react-refresh@0.16.0)(typescript@5.7.2):
-    dependencies:
-      react-refresh: 0.16.0
-      typescript: 5.7.2
 
   react-refresh@0.16.0: {}
 

@@ -1,16 +1,9 @@
 import { EExtensionState } from '@/constants';
-import Logging from '@/logging';
 import { getIsExtensionActive, setExtStateInStorage } from '@/utils/common';
 import { getExtensionState } from '@helpers/fetchFromStorage';
-import { bypass } from './bypass';
 import turnOffInputSuggestions from './misc/turnOffInputSuggestions';
-import { redirect } from './redirect';
-import {
-  checkForUpdates,
-  isValidTabUrl,
-  isValidUrl,
-  setExtensionIcon,
-} from './utils';
+import { redirect } from './redirections';
+import { isValidTabUrl, isValidUrl, setExtensionIcon } from './utils';
 import { receiveRuntimeMessage } from './utils/receiveRuntimeMessage';
 import { RuntimeInput } from '@/utils/sendRuntimeMessage';
 import hearbeatFirefoxBackgroundPage from './utils/keepAliveSW';
@@ -18,10 +11,6 @@ import hearbeatFirefoxBackgroundPage from './utils/keepAliveSW';
 if (!IS_CHROME) {
   hearbeatFirefoxBackgroundPage();
 }
-
-Logging.init();
-
-const red = '#FF6B6B';
 
 // First time extension install
 chrome.runtime.onInstalled.addListener(() => {
@@ -39,15 +28,6 @@ chrome.runtime.onStartup.addListener(() => {
         hasPendingPersons,
       });
     });
-  checkForUpdates().then((isUsingLatest) => {
-    if (!isUsingLatest) {
-      chrome.action.setBadgeText({ text: '!' });
-      chrome.action.setBadgeBackgroundColor({ color: red });
-      chrome.action.setTitle({
-        title: 'You are using older version of Bypass Links',
-      });
-    }
-  });
 });
 
 const onPageLoad = async (tabId: number, url: string) => {
@@ -65,9 +45,6 @@ const onPageLoad = async (tabId: number, url: string) => {
   }
   if (await isValidTabUrl(tabId)) {
     turnOffInputSuggestions(tabId);
-  }
-  if (await isValidTabUrl(tabId)) {
-    bypass(tabId, new URL(url));
   }
 };
 

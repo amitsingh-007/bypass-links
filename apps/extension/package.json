@@ -40,6 +40,8 @@
   },
   "devDependencies": {
     "@playwright/test": "1.49.1",
+    "@prefresh/core": "1.5.3",
+    "@prefresh/webpack": "4.0.1",
     "@types/archiver": "6.0.3",
     "@types/chrome": "0.0.287",
     "@types/firefox-webext-browser": "120.0.4",
@@ -68,7 +70,6 @@
     "postcss-preset-mantine": "1.17.0",
     "postcss-simple-vars": "7.0.1",
     "react-refresh": "0.16.0",
-    "react-refresh-typescript": "2.0.9",
     "terser-webpack-plugin": "5.3.11",
     "style-loader": "4.0.0",
     "ts-loader": "9.5.1",

@@ -1,8 +1,8 @@
 import { startHistoryWatch } from '@/utils/history';
 import useHistoryStore from '@store/history';
-import { memo, useEffect } from 'react';
+import { useEffect } from 'react';
 
-const StoreListener = memo(function StoreListener() {
+const StoreListener = () => {
   const monitorHistory = useHistoryStore((state) => state.monitorHistory);
 
   useEffect(() => {
@@ -12,6 +12,6 @@ const StoreListener = memo(function StoreListener() {
   }, [monitorHistory]);
 
   return null;
-});
+};
 
 export default StoreListener;

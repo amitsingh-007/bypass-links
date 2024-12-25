@@ -1,8 +1,8 @@
 export type RuntimeInput =
   | {
-      key: 'forumPageLinks';
-      tabId: number | undefined;
-      url: string | undefined;
+      key: 'openWebsiteLinks';
+      tabId: number;
+      url: string;
     }
   | {
       key: 'manageGoogleActivity';
@@ -13,7 +13,7 @@ export type RuntimeInput =
     };
 
 export type RuntimeOutput = {
-  forumPageLinks: {
+  openWebsiteLinks: {
     forumPageLinks: string[];
   };
   manageGoogleActivity: {

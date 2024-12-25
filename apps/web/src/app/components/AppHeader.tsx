@@ -4,10 +4,10 @@ import { ROUTES } from '@app/constants/routes';
 import { Box, Center } from '@mantine/core';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { memo, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './styles/AppHeader.module.css';
 
-const AppHeader = memo(function AppHeader() {
+const AppHeader = () => {
   const router = useRouter();
   const [clickCount, setClickCount] = useState(0);
 
@@ -31,6 +31,6 @@ const AppHeader = memo(function AppHeader() {
       </Center>
     </Box>
   );
-});
+};
 
 export default AppHeader;

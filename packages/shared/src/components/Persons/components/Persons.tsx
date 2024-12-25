@@ -1,14 +1,7 @@
 import { Box, Flex } from '@mantine/core';
 import { useElementSize } from '@mantine/hooks';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import {
-  MutableRefObject,
-  ReactNode,
-  memo,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import { ReactNode, RefObject, useContext, useEffect, useState } from 'react';
 import usePlatform from '../../../hooks/usePlatform';
 import DynamicContext from '../../../provider/DynamicContext';
 import { deserializeQueryStringToObject } from '../../../utils/url';
@@ -29,7 +22,7 @@ interface Props {
 
 type InnerProps = Props & {
   bodyWidth: number;
-  bodyRef: MutableRefObject<HTMLDivElement>;
+  bodyRef: RefObject<HTMLDivElement>;
   personToOpen: IPerson | undefined;
   personToOpenImage: string;
 };
@@ -108,7 +101,7 @@ const PersonsInner = ({
   );
 };
 
-const Persons = memo<Props>(function Persons(props) {
+const Persons = (props: Props) => {
   const { persons } = props;
   const [personToOpen, setPersonToOpen] = useState<IPerson>();
   const [personToOpenImage, setPersonToOpenImage] = useState('');
@@ -144,6 +137,6 @@ const Persons = memo<Props>(function Persons(props) {
       )}
     </Box>
   );
-});
+};
 
 export default Persons;

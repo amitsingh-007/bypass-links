@@ -1,21 +1,17 @@
-import { EBypassKeys } from '@/constants';
 import useCurrentTab from '@/hooks/useCurrentTab';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
-import { matchHostnames } from '@/utils/common';
 import { sendRuntimeMessage } from '@/utils/sendRuntimeMessage';
 import useHistoryStore from '@store/history';
-import { memo, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ButtonWithFeedback from './ButtonWithFeedback';
+import { isForumPage } from '@/BackgroundScript/websites';
 
 const isCurrentPageForum = async (url = '') => {
   const hostname = url && new URL(url).hostname;
-  return (
-    (await matchHostnames(hostname, EBypassKeys.FORUMS)) ||
-    (await matchHostnames(hostname, EBypassKeys.FORUMS_V2))
-  );
+  return isForumPage(hostname);
 };
 
-const OpenForumLinks = memo(function OpenForumLinks() {
+const OpenForumLinks = () => {
   const startHistoryMonitor = useHistoryStore(
     (state) => state.startHistoryMonitor
   );
@@ -32,15 +28,16 @@ const OpenForumLinks = memo(function OpenForumLinks() {
   }, [currentTab?.url, isSignedIn]);
 
   const openForumlinks = async () => {
+    if (!currentTab?.id || !currentTab?.url) {
+      return;
+    }
     startHistoryMonitor();
     const { forumPageLinks } = await sendRuntimeMessage({
-      key: 'forumPageLinks',
-      tabId: currentTab?.id,
-      url: currentTab?.url,
+      key: 'openWebsiteLinks',
+      tabId: currentTab.id,
+      url: currentTab.url,
     });
-    forumPageLinks.forEach((url) => {
-      chrome.tabs.create({ url, active: false });
-    });
+    forumPageLinks.forEach((url) => chrome.tabs.create({ url, active: false }));
   };
 
   return (
@@ -49,6 +46,6 @@ const OpenForumLinks = memo(function OpenForumLinks() {
       isForumPage={isForumPage}
     />
   );
-});
+};
 
 export default OpenForumLinks;

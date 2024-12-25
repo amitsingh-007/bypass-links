@@ -1,11 +1,10 @@
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { getBookmarksPanelUrl } from '@bypass/shared';
 import { Button } from '@mantine/core';
-import { memo } from 'react';
 import { RiBookmarkFill } from 'react-icons/ri';
 import { useLocation } from 'wouter';
 
-const BookmarksPanelButton = memo(function BookmarksPanelButton() {
+const BookmarksPanelButton = () => {
   const [, navigate] = useLocation();
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
 
@@ -24,6 +23,6 @@ const BookmarksPanelButton = memo(function BookmarksPanelButton() {
       Bookmarks
     </Button>
   );
-});
+};
 
 export default BookmarksPanelButton;

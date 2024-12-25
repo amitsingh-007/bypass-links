@@ -1,6 +1,6 @@
 import { Box, Flex, Grid, GridCol, Text } from '@mantine/core';
 import CircleIcon from '@app/icons/circle.svg';
-import React, { memo } from 'react';
+import React from 'react';
 import { firstColumn, secondColumn } from '../constants/features';
 import styles from './styles/SalientFeatures.module.css';
 import Feature from './types/feature';
@@ -53,7 +53,7 @@ const FeaturesColumn = ({
   );
 };
 
-const SalientFeatures = memo(function SalientFeatures() {
+const SalientFeatures = () => {
   return (
     <Flex mt="9.375rem">
       <Grid>
@@ -69,6 +69,6 @@ const SalientFeatures = memo(function SalientFeatures() {
       </Grid>
     </Flex>
   );
-});
+};
 
 export default SalientFeatures;

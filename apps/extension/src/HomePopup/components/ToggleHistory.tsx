@@ -3,7 +3,7 @@ import { startHistoryWatch } from '@/utils/history';
 import { Switch, useMantineTheme } from '@mantine/core';
 import useExtStore from '@store/extension';
 import useHistoryStore from '@store/history';
-import { memo, useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { HiOutlineEye, HiOutlineEyeOff } from 'react-icons/hi';
 
 const endHistoryWatch = async () => {
@@ -23,7 +23,7 @@ const endHistoryWatch = async () => {
   console.log('History clear successful.');
 };
 
-const ToggleHistory = memo(function ToggleHistory() {
+const ToggleHistory = () => {
   const theme = useMantineTheme();
   const resetHistoryMonitor = useHistoryStore(
     (state) => state.resetHistoryMonitor
@@ -103,6 +103,6 @@ const ToggleHistory = memo(function ToggleHistory() {
       }
     />
   );
-});
+};
 
 export default ToggleHistory;

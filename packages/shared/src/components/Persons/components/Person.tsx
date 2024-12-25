@@ -10,7 +10,7 @@ interface Props {
   person: IPerson;
 }
 
-const Person = memo<Props>(function Person({ person }) {
+const Person = memo<Props>(({ person }) => {
   const { location } = useContext(DynamicContext);
   const { uid, name } = person;
   const { resolvePersonImageFromUid } = usePerson();

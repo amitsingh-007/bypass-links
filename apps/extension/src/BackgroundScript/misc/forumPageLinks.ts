@@ -1,6 +1,7 @@
+import { getWebistes } from '@/helpers/fetchFromStorage';
 import scripting from '@/utils/scripting';
 
-const getForumPageLinksFunc = () => {
+const getForum_1_2_LinksFunc = () => {
   const unreadRows = document.querySelectorAll(
     '.block-row.block-row--separated:not(.block-row--alt).is-unread'
   );
@@ -10,7 +11,7 @@ const getForumPageLinksFunc = () => {
   );
 };
 
-const getForumWatchedThreadsLinksFunc = () => {
+const getForum_1_2_WatchedThreadsLinksFunc = () => {
   const unreadRows = document.querySelectorAll(
     '.structItemContainer > .structItem.is-unread > .structItem-cell--main'
   );
@@ -28,20 +29,46 @@ const getForumWatchedThreadsLinksFunc = () => {
   });
 };
 
+const getForum_3_LinksFunc = () => {
+  const recentPostsNode = [
+    ...document.querySelectorAll<HTMLUListElement>('.recent-posts'),
+  ].at(-1);
+  const recentPostLinks =
+    recentPostsNode?.querySelectorAll<HTMLAnchorElement>('.post-thumb > a');
+  return [...(recentPostLinks || [])].map((link) => link.href);
+};
+
 export const getForumPageLinks = async (
-  tabId?: number,
-  url?: string
+  tabId: number,
+  url: string
 ): Promise<string[]> => {
-  if (!tabId || !url) {
-    throw new Error('No tabId/url found in getForumPageLinks()');
+  const websites = await getWebistes();
+  let executor: () => (string | undefined)[];
+
+  switch (true) {
+    case url.includes(websites.FORUM_1):
+    case url.includes(websites.FORUM_2): {
+      const { pathname } = new URL(url);
+      const isWatchThreadsPage = pathname === '/watched/threads';
+      executor = isWatchThreadsPage
+        ? getForum_1_2_WatchedThreadsLinksFunc
+        : getForum_1_2_LinksFunc;
+      break;
+    }
+
+    case url.includes(websites.FORUM_3): {
+      executor = getForum_3_LinksFunc;
+      break;
+    }
+
+    default: {
+      throw new Error('Not a forum page');
+    }
   }
-  const { pathname } = new URL(url);
-  const isWatchThreadsPage = pathname === '/watched/threads';
+
   const [{ result }] = await scripting.executeScript({
     target: { tabId },
-    func: isWatchThreadsPage
-      ? getForumWatchedThreadsLinksFunc
-      : getForumPageLinksFunc,
+    func: executor,
   });
   return result?.filter(Boolean) ?? [];
 };

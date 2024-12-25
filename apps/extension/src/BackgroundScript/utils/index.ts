@@ -1,6 +1,5 @@
 import { EExtensionState } from '@/constants';
 import { getExtensionState } from '@helpers/fetchFromStorage';
-import { trpcApi } from '../../apis/trpcApi';
 import { getIsExtensionActive } from '../../utils/common';
 
 const restrictedProtocols = new Set([
@@ -28,14 +27,6 @@ const restrictedHosts = new Set([
   'addons.mozilla.org', // Firefox addon store
 ]);
 
-export const isValidUrl = (_url?: string): boolean => {
-  if (!_url) return false;
-  const url = new URL(_url);
-  return (
-    !restrictedHosts.has(url.hostname) && !restrictedProtocols.has(url.protocol)
-  );
-};
-
 export const setExtensionIcon = async ({
   extState,
   hasPendingBookmarks,
@@ -57,12 +48,12 @@ export const setExtensionIcon = async ({
   await chrome.action.setIcon({ path: icon });
 };
 
-export const checkForUpdates = async () => {
-  const { chrome: chromeData, firefox } =
-    await trpcApi.extension.latest.query();
-  const latestVersion = IS_CHROME ? chromeData.version : firefox.version;
-  const { version: currentVersion } = chrome.runtime.getManifest();
-  return latestVersion === currentVersion;
+export const isValidUrl = (_url?: string): boolean => {
+  if (!_url) return false;
+  const url = new URL(_url);
+  return (
+    !restrictedHosts.has(url.hostname) && !restrictedProtocols.has(url.protocol)
+  );
 };
 
 export const isValidTabUrl = async (tabId: number) => {

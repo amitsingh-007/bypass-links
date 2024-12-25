@@ -10,10 +10,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import Global from './components/Global';
 import PopupRoutes from './components/PopupRoutes';
-import Logging from './logging';
 import DynamicProvider from './provider/DynamicProvider';
-
-Logging.init();
 
 const App = () => {
   return (

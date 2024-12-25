@@ -1,6 +1,6 @@
 export enum EFirebaseDBRef {
   bookmarks = 'bookmarks',
-  bypass = 'bypass',
+  websites = 'websites',
   lastVisited = 'lastVisited',
   persons = 'persons',
   redirections = 'redirections',

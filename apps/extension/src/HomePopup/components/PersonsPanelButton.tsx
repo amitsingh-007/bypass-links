@@ -1,11 +1,10 @@
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { ROUTES } from '@bypass/shared';
 import { Button } from '@mantine/core';
-import { memo } from 'react';
 import { FaUserTag } from 'react-icons/fa';
 import { useLocation } from 'wouter';
 
-const PersonsPanelButton = memo(function PersonsPanelButton() {
+const PersonsPanelButton = () => {
   const [, navigate] = useLocation();
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
 
@@ -24,6 +23,6 @@ const PersonsPanelButton = memo(function PersonsPanelButton() {
       Persons
     </Button>
   );
-});
+};
 
 export default PersonsPanelButton;

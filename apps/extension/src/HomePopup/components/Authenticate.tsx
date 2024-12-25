@@ -3,12 +3,12 @@ import { Button, LoadingOverlay, Progress } from '@mantine/core';
 import useAuthStore from '@/store/authProgress';
 import useExtStore from '@store/extension';
 import useToastStore from '@store/toast';
-import { memo, useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { RiLoginCircleFill, RiLogoutCircleRFill } from 'react-icons/ri';
 import { signIn, signOut } from '../utils/authentication';
 import styles from './styles/Authenticate.module.css';
 
-const Authenticate = memo(function Authenticate() {
+const Authenticate = () => {
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const setIsSignedIn = useFirebaseStore((state) => state.setIsSignedIn);
   const isExtensionActive = useExtStore((state) => state.isExtensionActive);
@@ -88,6 +88,6 @@ const Authenticate = memo(function Authenticate() {
       )}
     </>
   );
-});
+};
 
 export default Authenticate;

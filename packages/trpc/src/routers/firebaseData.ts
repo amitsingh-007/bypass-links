@@ -1,21 +1,21 @@
 import {
   BookmarksAndPersonsValidationSchema,
   BookmarksObjSchema,
-  BypassSchema,
   LastVisitedSchema,
   PersonsSchema,
   RedirectionsSchema,
   SettingsSchema,
+  WebsitesSchema,
 } from '@bypass/shared/schema';
 import { z } from 'zod';
 import { protectedProcedure } from '../procedures';
 import {
   getBookmarks,
-  getBypass,
   getLastVisited,
   getPersons,
   getRedirections,
   getSettings,
+  getWebsites,
   saveBookmarksAndPersons,
   saveLastVisited,
   saveRedirections,
@@ -55,9 +55,11 @@ const firebaseDataRouter = t.router({
       return saveSettings(input, ctx.user);
     }),
 
-  bypassGet: protectedProcedure.output(BypassSchema).query(async ({ ctx }) => {
-    return getBypass(ctx.user);
-  }),
+  websitesGet: protectedProcedure
+    .output(WebsitesSchema)
+    .query(async ({ ctx }) => {
+      return getWebsites(ctx.user);
+    }),
 
   lastVisitedGet: protectedProcedure
     .output(LastVisitedSchema)

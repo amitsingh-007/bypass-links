@@ -165,6 +165,5 @@ const BookmarkContextMenu = memo<Props>(
     );
   }
 );
-BookmarkContextMenu.displayName = 'BookmarkContextMenu';
 
 export default BookmarkContextMenu;

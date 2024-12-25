@@ -1,3 +1,4 @@
+import PreactRefreshPlugin from '@prefresh/webpack';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
@@ -7,7 +8,6 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MergeJsonWebpackPlugin from 'merge-jsons-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import path from 'node:path';
-import ReactRefreshTypeScript from 'react-refresh-typescript';
 import TerserPlugin from 'terser-webpack-plugin';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import { fileURLToPath } from 'node:url';
@@ -191,13 +191,6 @@ const config: Configuration = {
               onlyCompileBundledFiles: true,
               configFile: tsConfigFile,
               transpileOnly: true,
-              ...(!isProduction && {
-                getCustomTransformers: () => ({
-                  before: [!isProduction && ReactRefreshTypeScript()].filter(
-                    Boolean
-                  ),
-                }),
-              }),
             },
           },
         ],
@@ -266,6 +259,7 @@ const config: Configuration = {
         root: PATHS.ROOT,
       },
     }),
+    !isProduction && new PreactRefreshPlugin(),
     // new ESLintPlugin({
     //   extensions: ['ts', 'tsx'],
     //   cache: !isProduction,

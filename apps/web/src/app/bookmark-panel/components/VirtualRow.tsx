@@ -43,6 +43,5 @@ const VirtualRow = memo<Props>(({ index, folders, contextBookmarks }) => {
     </Flex>
   );
 });
-VirtualRow.displayName = 'VirtualRow';
 
 export default VirtualRow;

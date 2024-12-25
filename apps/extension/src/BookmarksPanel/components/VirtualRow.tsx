@@ -1,7 +1,6 @@
 import { ContextBookmark, isFolderEmpty } from '@bypass/shared';
 import bookmarkRowStyles from '@bypass/shared/styles/bookmarks/styles.module.css';
 import { Box } from '@mantine/core';
-import { memo } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import useBookmarkStore from '../store/useBookmarkStore';
 import BookmarkRow from './BookmarkRow';
@@ -16,12 +15,7 @@ export interface Props {
   isCut: boolean;
 }
 
-const VirtualRow = memo<Props>(function VirtualRow({
-  bookmark,
-  pos,
-  isSelected,
-  isCut,
-}) {
+const VirtualRow = ({ bookmark, pos, isSelected, isCut }: Props) => {
   const {
     folders,
     handleFolderRemove,
@@ -72,6 +66,6 @@ const VirtualRow = memo<Props>(function VirtualRow({
       )}
     </Box>
   );
-});
+};
 
 export default VirtualRow;

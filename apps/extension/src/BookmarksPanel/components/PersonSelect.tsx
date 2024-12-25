@@ -4,11 +4,9 @@ import {
   sortAlphabetically,
   usePerson,
 } from '@bypass/shared';
-import { memo, useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
-const PersonSelect = memo<{ formProps: any }>(function PersonSelect({
-  formProps,
-}) {
+const PersonSelect = ({ formProps }: { formProps: any }) => {
   const { getAllDecodedPersons, getPersonsWithImageUrl } = usePerson();
   const [personList, setPersonList] = useState<IOptionData[]>([]);
 
@@ -40,6 +38,6 @@ const PersonSelect = memo<{ formProps: any }>(function PersonSelect({
       {...formProps}
     />
   );
-});
+};
 
 export default PersonSelect;

@@ -1,9 +1,8 @@
 import Toast from '@components/Toast';
 import { useWindowEvent } from '@mantine/hooks';
-import { memo } from 'react';
 import StoreListener from './StoreListener';
 
-const Global = memo(function Global() {
+const Global = () => {
   // Prevent extension popup close on Escape click
   useWindowEvent('keydown', (e) => e.key === 'Escape' && e.preventDefault());
 
@@ -13,6 +12,6 @@ const Global = memo(function Global() {
       <Toast />
     </>
   );
-});
+};
 
 export default Global;

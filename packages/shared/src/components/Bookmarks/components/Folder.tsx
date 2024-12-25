@@ -11,36 +11,34 @@ export interface FolderProps {
   resetSelectedBookmarks?: React.MouseEventHandler<HTMLDivElement>;
 }
 
-const Folder = memo<FolderProps>(function Folder({
-  name: origName,
-  isEmpty,
-  resetSelectedBookmarks,
-}) {
-  const { location } = useContext(DynamicContext);
+const Folder = memo<FolderProps>(
+  ({ name: origName, isEmpty, resetSelectedBookmarks }) => {
+    const { location } = useContext(DynamicContext);
 
-  const handleFolderOpen = () => {
-    if (!isEmpty) {
-      location.push(getBookmarksPanelUrl({ folderContext: origName }));
-    }
-  };
+    const handleFolderOpen = () => {
+      if (!isEmpty) {
+        location.push(getBookmarksPanelUrl({ folderContext: origName }));
+      }
+    };
 
-  return (
-    <Center
-      w="100%"
-      h="100%"
-      p="0.375rem"
-      className={styles.container}
-      opacity={isEmpty ? 0.6 : 1}
-      style={{ cursor: isEmpty ? 'not-allowed' : 'inherit' }}
-      onClick={resetSelectedBookmarks}
-      onDoubleClick={handleFolderOpen}
-    >
-      <HiFolder size="1.25rem" className={styles.folderIcon} />
-      <Text size="0.9375rem" lineClamp={1} className={styles.name} fw="bold">
-        {origName}
-      </Text>
-    </Center>
-  );
-});
+    return (
+      <Center
+        w="100%"
+        h="100%"
+        p="0.375rem"
+        className={styles.container}
+        opacity={isEmpty ? 0.6 : 1}
+        style={{ cursor: isEmpty ? 'not-allowed' : 'inherit' }}
+        onClick={resetSelectedBookmarks}
+        onDoubleClick={handleFolderOpen}
+      >
+        <HiFolder size="1.25rem" className={styles.folderIcon} />
+        <Text size="0.9375rem" lineClamp={1} className={styles.name} fw="bold">
+          {origName}
+        </Text>
+      </Center>
+    );
+  }
+);
 
 export default Folder;

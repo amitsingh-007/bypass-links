@@ -8,11 +8,7 @@ interface Props {
   isOpen: boolean;
 }
 
-const ConfirmationDialog = memo<Props>(function ConfirmationDialog({
-  onClose,
-  onOk,
-  isOpen,
-}) {
+const ConfirmationDialog = memo<Props>(({ onClose, onOk, isOpen }) => {
   return (
     <Modal
       onClose={noOp}
