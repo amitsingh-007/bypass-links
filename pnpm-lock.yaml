@@ -448,9 +448,6 @@ importers:
 
   packages/trpc:
     dependencies:
-      '@axiomhq/js':
-        specifier: 1.3.0
-        version: 1.3.0
       '@bypass/configs':
         specifier: workspace:*
         version: link:../configs
@@ -506,10 +503,6 @@ packages:
   '@ampproject/remapping@2.3.0':
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
     engines: {node: '>=6.0.0'}
-
-  '@axiomhq/js@1.3.0':
-    resolution: {integrity: sha512-CSen0n307OLH1+M4ub1l1VbnP2Ub6++atyPLzF63pT6cuR9fQRWQKjBr74ID1DA1SXjGeRR78oMSk0KRFH8RjA==}
-    engines: {node: '>=16'}
 
   '@babel/code-frame@7.26.2':
     resolution: {integrity: sha512-RJlIHRueQgwWitWgF8OdFYGZX328Ax5BCemNGlqHfplnRT9ESi8JkFlvaVYbS+UubVY6dpv87Fs2u5M29iNFVQ==}
@@ -4378,9 +4371,6 @@ packages:
   fd-slicer@1.1.0:
     resolution: {integrity: sha512-cE1qsB/VwyQozZ+q1dGxR8LBYNZeofhEdUNGSMbQD3Gw2lAzX9Zb3uIU6Ebc/Fmyjo9AWWfnn0AUCHqtevs/8g==}
 
-  fetch-retry@6.0.0:
-    resolution: {integrity: sha512-BUFj1aMubgib37I3v4q78fYo63Po7t4HUPTpQ6/QE6yK6cIQrP+W43FYToeTEyg5m2Y7eFUtijUuAv/PDlWuag==}
-
   file-entry-cache@6.0.1:
     resolution: {integrity: sha512-7Gps/XWymbLk2QLYK4NzpMOrYjMhdIxXuIvy2QBsLE6ljuodKvdkWs/cpyJJ3CVIVpH0Oi1Hvg1ovbMzLdFBBg==}
     engines: {node: ^10.12.0 || >=12.0.0}
@@ -7978,11 +7968,6 @@ snapshots:
     dependencies:
       '@jridgewell/gen-mapping': 0.3.8
       '@jridgewell/trace-mapping': 0.3.25
-
-  '@axiomhq/js@1.3.0':
-    dependencies:
-      fetch-retry: 6.0.0
-      uuid: 11.0.3
 
   '@babel/code-frame@7.26.2':
     dependencies:
@@ -12481,8 +12466,6 @@ snapshots:
   fd-slicer@1.1.0:
     dependencies:
       pend: 1.2.0
-
-  fetch-retry@6.0.0: {}
 
   file-entry-cache@6.0.1:
     dependencies:
