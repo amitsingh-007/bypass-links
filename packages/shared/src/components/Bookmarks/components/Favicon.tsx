@@ -9,37 +9,36 @@ interface Props {
   url: string;
 }
 
-const Favicon = forwardRef<HTMLDivElement, Props>(function Favicon(
-  { url, ...mantineTooltipProps },
-  ref
-) {
-  const [faviconUrl, setFaviconUrl] = useState('');
+const Favicon = forwardRef<HTMLDivElement, Props>(
+  ({ url, ...mantineTooltipProps }, ref) => {
+    const [faviconUrl, setFaviconUrl] = useState('');
 
-  const initFavicon = useCallback(async () => {
-    const faviconBlobUrl = await getBlobUrlFromCache(
-      ECacheBucketKeys.favicon,
-      getFaviconProxyUrl(url)
+    const initFavicon = useCallback(async () => {
+      const faviconBlobUrl = await getBlobUrlFromCache(
+        ECacheBucketKeys.favicon,
+        getFaviconProxyUrl(url)
+      );
+      setFaviconUrl(faviconBlobUrl);
+    }, [url]);
+
+    useEffect(() => {
+      initFavicon();
+    }, [initFavicon, url]);
+
+    return (
+      <Avatar
+        ref={ref}
+        radius="xs"
+        size="1.25rem"
+        src={faviconUrl}
+        alt={faviconUrl}
+        color="red"
+        {...mantineTooltipProps}
+      >
+        <RiLinkUnlinkM size={14} />
+      </Avatar>
     );
-    setFaviconUrl(faviconBlobUrl);
-  }, [url]);
-
-  useEffect(() => {
-    initFavicon();
-  }, [initFavicon, url]);
-
-  return (
-    <Avatar
-      ref={ref}
-      radius="xs"
-      size="1.25rem"
-      src={faviconUrl}
-      alt={faviconUrl}
-      color="red"
-      {...mantineTooltipProps}
-    >
-      <RiLinkUnlinkM size={14} />
-    </Avatar>
-  );
-});
+  }
+);
 
 export default Favicon;

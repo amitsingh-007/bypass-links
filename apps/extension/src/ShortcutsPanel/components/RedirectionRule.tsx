@@ -13,7 +13,7 @@ import {
 } from '@mantine/core';
 import useHistoryStore from '@store/history';
 import clsx from 'clsx';
-import { memo, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CgWebsite } from 'react-icons/cg';
 import { FaCalendarCheck } from 'react-icons/fa';
 import { IoSave } from 'react-icons/io5';
@@ -33,7 +33,7 @@ type Props = IRedirection & {
   handleRuleMoveDown: (pos: number) => void;
 };
 
-const RedirectionRule = memo(function RedirectionRule({
+const RedirectionRule = ({
   alias,
   website,
   isDefault,
@@ -44,7 +44,7 @@ const RedirectionRule = memo(function RedirectionRule({
   handleSaveRule,
   handleRuleMoveUp,
   handleRuleMoveDown,
-}: Props) {
+}: Props) => {
   const theme = useMantineTheme();
   const startHistoryMonitor = useHistoryStore(
     (state) => state.startHistoryMonitor
@@ -165,6 +165,6 @@ const RedirectionRule = memo(function RedirectionRule({
       </ActionIcon>
     </Center>
   );
-});
+};
 
 export default RedirectionRule;

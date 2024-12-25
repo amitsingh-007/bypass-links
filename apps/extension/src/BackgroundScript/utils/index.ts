@@ -27,14 +27,6 @@ const restrictedHosts = new Set([
   'addons.mozilla.org', // Firefox addon store
 ]);
 
-export const isValidUrl = (_url?: string): boolean => {
-  if (!_url) return false;
-  const url = new URL(_url);
-  return (
-    !restrictedHosts.has(url.hostname) && !restrictedProtocols.has(url.protocol)
-  );
-};
-
 export const setExtensionIcon = async ({
   extState,
   hasPendingBookmarks,
@@ -54,6 +46,14 @@ export const setExtensionIcon = async ({
       : 'assets/bypass_link_off_32.png';
   }
   await chrome.action.setIcon({ path: icon });
+};
+
+export const isValidUrl = (_url?: string): boolean => {
+  if (!_url) return false;
+  const url = new URL(_url);
+  return (
+    !restrictedHosts.has(url.hostname) && !restrictedProtocols.has(url.protocol)
+  );
 };
 
 export const isValidTabUrl = async (tabId: number) => {

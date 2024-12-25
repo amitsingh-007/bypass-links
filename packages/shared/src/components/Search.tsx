@@ -4,7 +4,7 @@ import { memo, useEffect, useState } from 'react';
 import { GoSearch } from 'react-icons/go';
 
 const Search = memo<{ onChange: (searchText: string) => void }>(
-  function Search({ onChange }) {
+  ({ onChange }) => {
     const [value, setValue] = useDebouncedState('', 200);
     const [active, setActive] = useState(false);
 

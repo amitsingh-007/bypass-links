@@ -2,7 +2,7 @@ import { trpcApi } from '@/apis/trpcApi';
 import { Header, ISettings } from '@bypass/shared';
 import { getSettings } from '@helpers/fetchFromStorage';
 import { Box, Flex } from '@mantine/core';
-import { memo, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { syncSettingsToStorage } from '../utils/sync';
 import ManageGoogleActivityConsent from './ManageGoogleActivityConsent';
 import TwoFactorAuth from './TwoFactorAuth';
@@ -15,7 +15,7 @@ export type IHandleSettingsChange = <K extends keyof ISettings>(newSettings: {
   [P in K]: ISettings[P];
 }) => Promise<void>;
 
-const SettingsPanel = memo(function SettingsPanel() {
+const SettingsPanel = () => {
   const [isUpdatingSettings, setIsUpdatingSettings] = useState(false);
   const [settings, setSettings] = useState<ISettings>(defaultSettings);
 
@@ -55,6 +55,6 @@ const SettingsPanel = memo(function SettingsPanel() {
       </Flex>
     </Box>
   );
-});
+};
 
 export default SettingsPanel;

@@ -1,11 +1,10 @@
 import { ROUTES } from '@bypass/shared';
 import { Button } from '@mantine/core';
 import useExtStore from '@store/extension';
-import { memo } from 'react';
 import { RiHistoryFill } from 'react-icons/ri';
 import { useLocation } from 'wouter';
 
-const HistoryPanelButton = memo(function HistoryPanelButton() {
+const HistoryPanelButton = () => {
   const [, navigate] = useLocation();
   const isExtensionActive = useExtStore((state) => state.isExtensionActive);
 
@@ -24,6 +23,6 @@ const HistoryPanelButton = memo(function HistoryPanelButton() {
       History
     </Button>
   );
-});
+};
 
 export default HistoryPanelButton;

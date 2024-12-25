@@ -2,7 +2,7 @@ import { trpcApi } from '@/apis/trpcApi';
 import { startHistoryWatch } from '@/utils/history';
 import { STORAGE_KEYS } from '@bypass/shared';
 import { getMappedRedirections } from '@helpers/fetchFromStorage';
-import { mapRedirections } from '../mapper/redirection';
+import { mapRedirections } from './mapper';
 
 export const redirect = async (tabId: number, url: URL) => {
   // Firefox sometimes changes protocol to https

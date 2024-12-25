@@ -1,13 +1,13 @@
 import { Alert, AlertProps, Transition } from '@mantine/core';
 import useToastStore, { ToastType } from '@store/toast';
-import { memo, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const COLOR_MAP: Record<ToastType, AlertProps['color']> = {
   success: 'teal',
   error: 'red',
 };
 
-const Toast = memo(function Toast() {
+const Toast = () => {
   const toast = useToastStore((state) => state.toast);
   const hideToast = useToastStore((state) => state.hideToast);
   const [open, setOpen] = useState(false);
@@ -63,6 +63,6 @@ const Toast = memo(function Toast() {
       )}
     </Transition>
   );
-});
+};
 
 export default Toast;

@@ -3,10 +3,10 @@ import { getIsExtensionActive, setExtStateInStorage } from '@/utils/common';
 import { getExtensionState } from '@helpers/fetchFromStorage';
 import { Switch, useMantineTheme } from '@mantine/core';
 import useExtStore from '@store/extension';
-import { memo, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BsCheckLg, BsXLg } from 'react-icons/bs';
 
-const ToggleExtension = memo(function ToggleExtension() {
+const ToggleExtension = () => {
   const theme = useMantineTheme();
   const turnOnExtension = useExtStore((state) => state.turnOnExtension);
   const turnOffExtension = useExtStore((state) => state.turnOffExtension);
@@ -59,6 +59,6 @@ const ToggleExtension = memo(function ToggleExtension() {
       }
     />
   );
-});
+};
 
 export default ToggleExtension;

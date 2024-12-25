@@ -103,7 +103,6 @@ const FolderRow = memo<Props>(
     );
   }
 );
-FolderRow.displayName = 'FolderRow';
 
 export type { Props };
 export default FolderRow;

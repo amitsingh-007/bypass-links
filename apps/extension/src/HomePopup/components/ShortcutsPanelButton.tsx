@@ -1,11 +1,10 @@
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { ROUTES } from '@bypass/shared';
 import { Button } from '@mantine/core';
-import { memo } from 'react';
 import { GoFileSymlinkFile } from 'react-icons/go';
 import { useLocation } from 'wouter';
 
-const ShortcutsPanelButton = memo(function ShortcutsPanelButton() {
+const ShortcutsPanelButton = () => {
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const [, navigate] = useLocation();
 
@@ -24,6 +23,6 @@ const ShortcutsPanelButton = memo(function ShortcutsPanelButton() {
       Shortcuts
     </Button>
   );
-});
+};
 
 export default ShortcutsPanelButton;

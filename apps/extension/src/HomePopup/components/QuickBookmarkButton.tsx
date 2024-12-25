@@ -12,12 +12,12 @@ import {
 import { getBookmarks } from '@helpers/fetchFromStorage';
 import { Button, Text, Tooltip } from '@mantine/core';
 import md5 from 'md5';
-import { memo, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BiBookmarkPlus } from 'react-icons/bi';
 import { RiBookmark3Fill } from 'react-icons/ri';
 import { useLocation } from 'wouter';
 
-const QuickBookmarkButton = memo(function QuickBookmarkButton() {
+const QuickBookmarkButton = () => {
   const [, navigate] = useLocation();
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const { getFolderFromHash } = useBookmark();
@@ -85,6 +85,6 @@ const QuickBookmarkButton = memo(function QuickBookmarkButton() {
       </Button>
     </Tooltip>
   );
-});
+};
 
 export default QuickBookmarkButton;

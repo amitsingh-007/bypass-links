@@ -63,6 +63,5 @@ const PageHeader = memo<Props>(({ chrome, firefox }) => (
     </Flex>
   </Group>
 ));
-PageHeader.displayName = 'PageHeader';
 
 export default PageHeader;

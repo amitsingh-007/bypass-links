@@ -119,6 +119,5 @@ const BookmarksHeader = memo<Props>(({ onSearchChange, folderContext }) => {
     </>
   );
 });
-BookmarksHeader.displayName = 'BookmarksHeader';
 
 export default BookmarksHeader;

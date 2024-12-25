@@ -1,9 +1,8 @@
 import { EExtensionState } from '@/constants';
 import { getIsExtensionActive, setExtStateInStorage } from '@/utils/common';
 import { getExtensionState } from '@helpers/fetchFromStorage';
-import { bypass } from './bypass';
 import turnOffInputSuggestions from './misc/turnOffInputSuggestions';
-import { redirect } from './redirect';
+import { redirect } from './redirections';
 import { isValidTabUrl, isValidUrl, setExtensionIcon } from './utils';
 import { receiveRuntimeMessage } from './utils/receiveRuntimeMessage';
 import { RuntimeInput } from '@/utils/sendRuntimeMessage';
@@ -46,9 +45,6 @@ const onPageLoad = async (tabId: number, url: string) => {
   }
   if (await isValidTabUrl(tabId)) {
     turnOffInputSuggestions(tabId);
-  }
-  if (await isValidTabUrl(tabId)) {
-    bypass(tabId, new URL(url));
   }
 };
 

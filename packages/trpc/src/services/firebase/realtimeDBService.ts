@@ -64,9 +64,9 @@ export const saveSettings = async (settings: ISettings, user: IUser) => {
   });
 };
 
-export const getBypass = async (user: IUser) => {
+export const getWebsites = async (user: IUser) => {
   return getFromFirebase({
-    ref: EFirebaseDBRef.bypass,
+    ref: EFirebaseDBRef.websites,
     uid: user.uid,
   });
 };

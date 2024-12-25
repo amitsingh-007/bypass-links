@@ -1,5 +1,4 @@
 import { Flex, Text } from '@mantine/core';
-import { memo } from 'react';
 import Authenticate from '../components/Authenticate';
 import BookmarksPanelButton from '../components/BookmarksPanelButton';
 import HistoryPanelButton from '../components/HistoryPanelButton';
@@ -17,7 +16,7 @@ import styles from './styles/PopupHome.module.css';
 import SyncButton from '../components/SyncButton';
 import useExtensionOutdated from '../hooks/useExtensionOutdated';
 
-const PopupHome = memo(() => {
+const PopupHome = () => {
   useExtensionOutdated();
 
   return (
@@ -55,6 +54,6 @@ const PopupHome = memo(() => {
       <TwoFactorAuthenticate />
     </>
   );
-});
+};
 
 export default PopupHome;

@@ -2,10 +2,10 @@ import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { getRedirections } from '@helpers/fetchFromStorage';
 import { Button } from '@mantine/core';
 import useHistoryStore from '@store/history';
-import { memo, useState } from 'react';
+import { useState } from 'react';
 import { RxExternalLink } from 'react-icons/rx';
 
-const OpenDefaultsButton = memo(function OpenDefaultsButton() {
+const OpenDefaultsButton = () => {
   const startHistoryMonitor = useHistoryStore(
     (state) => state.startHistoryMonitor
   );
@@ -40,6 +40,6 @@ const OpenDefaultsButton = memo(function OpenDefaultsButton() {
       Defaults
     </Button>
   );
-});
+};
 
 export default OpenDefaultsButton;

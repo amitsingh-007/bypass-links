@@ -1,8 +1,7 @@
-import { resetBypass, syncBypassToStorage } from '@/BackgroundScript/bypass';
 import {
   resetRedirections,
   syncRedirectionsToStorage,
-} from '@/BackgroundScript/redirect';
+} from '@/BackgroundScript/redirections';
 import {
   cacheBookmarkFavicons,
   resetBookmarks,
@@ -33,6 +32,10 @@ import {
 } from '@helpers/fetchFromStorage';
 import { IUser2FAInfo } from '../interfaces/authentication';
 import { AuthProgress } from './authProgress';
+import {
+  resetWebsites,
+  syncWebsitesToStorage,
+} from '@/BackgroundScript/websites/storageSync';
 
 const syncAuthenticationToStorage = async () => {
   AuthProgress.start('Checking 2FA status');
@@ -62,7 +65,7 @@ const syncFirebaseToStorage = async () => {
   AuthProgress.start('Syncing storage with firebase');
   await Promise.all([
     syncRedirectionsToStorage(),
-    syncBypassToStorage(),
+    syncWebsitesToStorage(),
     syncBookmarksToStorage(),
     syncLastVisitedToStorage(),
     syncPersonsToStorage(),
@@ -80,7 +83,7 @@ const resetStorage = async () => {
   await Promise.all([
     resetAuthentication(),
     resetRedirections(),
-    resetBypass(),
+    resetWebsites(),
     resetBookmarks(),
     resetLastVisited(),
     resetPersons(),

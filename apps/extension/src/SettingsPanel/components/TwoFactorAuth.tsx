@@ -3,10 +3,10 @@ import { STORAGE_KEYS } from '@bypass/shared';
 import { getUser2FAInfo } from '@helpers/fetchFromStorage';
 import { Button, Flex, Text } from '@mantine/core';
 import useToastStore from '@store/toast';
-import { memo, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Setup2FA from './Setup2FA';
 
-const TwoFactorAuth = memo(function TwoFactorAuth() {
+const TwoFactorAuth = () => {
   const displayToast = useToastStore((state) => state.displayToast);
   const [is2FAEnabled, setIs2FAEnabled] = useState(false);
   const [show2FASetup, setShow2FASetup] = useState(false);
@@ -61,6 +61,6 @@ const TwoFactorAuth = memo(function TwoFactorAuth() {
       <Setup2FA handleClose={handleClose2FASetup} isOpen={show2FASetup} />
     </Flex>
   );
-});
+};
 
 export default TwoFactorAuth;

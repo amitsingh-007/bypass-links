@@ -9,14 +9,7 @@ import {
   Modal,
 } from '@mantine/core';
 import clsx from 'clsx';
-import {
-  memo,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
 import DynamicContext from '../../../provider/DynamicContext';
 import Bookmark from '../../Bookmarks/components/Bookmark';
@@ -38,12 +31,12 @@ interface Props {
   fullscreen: boolean;
 }
 
-const BookmarksList = memo<Props>(function BookmarksList({
+const BookmarksList = ({
   personToOpen,
   imageUrl,
   onLinkOpen,
   fullscreen,
-}) {
+}: Props) => {
   const { location } = useContext(DynamicContext);
   const { getBookmarkFromHash, getFolderFromHash } = useBookmark();
   const { getPersonTaggedUrls } = usePerson();
@@ -176,6 +169,6 @@ const BookmarksList = memo<Props>(function BookmarksList({
       )}
     </Modal>
   );
-});
+};
 
 export default BookmarksList;

@@ -3,7 +3,7 @@ import { Header, InputTOTP, STORAGE_KEYS } from '@bypass/shared';
 import { getUser2FAInfo } from '@helpers/fetchFromStorage';
 import { Avatar, Button, Center, Loader, Modal } from '@mantine/core';
 import useToastStore from '@store/toast';
-import { memo, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './styles/Setup2FA.module.css';
 
 type Props = {
@@ -11,7 +11,7 @@ type Props = {
   handleClose: VoidFunction;
 };
 
-const Setup2FA = memo(function Setup2FA({ isOpen, handleClose }: Props) {
+const Setup2FA = ({ isOpen, handleClose }: Props) => {
   const displayToast = useToastStore((state) => state.displayToast);
   const [qrcodeUrl, setQrcodeUrl] = useState('');
   const [showVerifyToken, setShowVerifyToken] = useState(false);
@@ -74,6 +74,6 @@ const Setup2FA = memo(function Setup2FA({ isOpen, handleClose }: Props) {
       )}
     </Modal>
   );
-});
+};
 
 export default Setup2FA;

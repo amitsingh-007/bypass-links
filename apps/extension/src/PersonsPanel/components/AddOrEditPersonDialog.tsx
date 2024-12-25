@@ -12,7 +12,7 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import md5 from 'md5';
-import { memo, useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
 import ImagePicker from './ImagePicker';
 import styles from './styles/AddOrEditPersonDialog.module.css';
@@ -31,12 +31,12 @@ interface IForm {
   name: string;
 }
 
-const AddOrEditPersonDialog = memo<Props>(function AddOrEditPersonDialog({
+const AddOrEditPersonDialog = ({
   person,
   isOpen,
   onClose,
   handleSaveClick,
-}) {
+}: Props) => {
   const { resolvePersonImageFromUid } = usePerson();
   const [imageUrl, setImageUrl] = useState('');
   const [showImagePicker, setShowImagePicker] = useState(false);
@@ -148,6 +148,6 @@ const AddOrEditPersonDialog = memo<Props>(function AddOrEditPersonDialog({
       )}
     </>
   );
-});
+};
 
 export default AddOrEditPersonDialog;

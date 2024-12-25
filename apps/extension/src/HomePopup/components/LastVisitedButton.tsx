@@ -6,10 +6,10 @@ import { getlastVisitedText } from '@/utils/lastVisited';
 import { getLastVisited } from '@helpers/fetchFromStorage';
 import { Button, Text, Tooltip } from '@mantine/core';
 import md5 from 'md5';
-import { memo, useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FaCalendarCheck, FaCalendarTimes } from 'react-icons/fa';
 
-const LastVisitedButton = memo(function LastVisitedButton() {
+const LastVisitedButton = () => {
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const currentTab = useCurrentTab();
   const [isFetching, setIsFetching] = useState(false);
@@ -70,6 +70,6 @@ const LastVisitedButton = memo(function LastVisitedButton() {
       </Button>
     </Tooltip>
   );
-});
+};
 
 export default LastVisitedButton;

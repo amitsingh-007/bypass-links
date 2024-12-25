@@ -4,7 +4,7 @@ import { Box, Button, Stack } from '@mantine/core';
 import { DateTimePicker, DateTimePickerProps } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 import useToastStore from '@store/toast';
-import { memo, useEffect } from 'react';
+import { useEffect } from 'react';
 import { FaCalendarCheck } from 'react-icons/fa';
 import { MdOutlineDelete } from 'react-icons/md';
 
@@ -26,7 +26,7 @@ const DateTime = (props: DateTimePickerProps) => (
   />
 );
 
-const HistoryPanel = memo(function HistoryPanel() {
+const HistoryPanel = () => {
   const displayToast = useToastStore((state) => state.displayToast);
 
   const form = useForm<IForm>({
@@ -96,6 +96,6 @@ const HistoryPanel = memo(function HistoryPanel() {
       </form>
     </Box>
   );
-});
+};
 
 export default HistoryPanel;

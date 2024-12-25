@@ -1,12 +1,13 @@
 import { IMappedRedirections } from '@/BackgroundScript/interfaces/redirections';
 import { IUser2FAInfo } from '@/HomePopup/interfaces/authentication';
-import { EBypassKeys, EExtensionState } from '@/constants';
+import { EExtensionState } from '@/constants';
 import {
   IBookmarksObj,
   ILastVisited,
   IPersons,
   IRedirections,
   ISettings,
+  IWebsites,
   PersonImageUrls,
   STORAGE_KEYS,
 } from '@bypass/shared';
@@ -16,11 +17,11 @@ export const getExtensionState = async (): Promise<EExtensionState> => {
   return extState;
 };
 
-export const getHostnames = async (): Promise<Record<string, EBypassKeys>> => {
-  const { [STORAGE_KEYS.bypass]: bypass } = await chrome.storage.local.get(
-    STORAGE_KEYS.bypass
+export const getWebistes = async (): Promise<IWebsites> => {
+  const { [STORAGE_KEYS.websites]: websites } = await chrome.storage.local.get(
+    STORAGE_KEYS.websites
   );
-  return bypass || {};
+  return websites || {};
 };
 
 export const getRedirections = async (): Promise<IRedirections> => {
