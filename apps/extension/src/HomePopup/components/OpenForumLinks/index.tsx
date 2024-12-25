@@ -28,15 +28,16 @@ const OpenForumLinks = () => {
   }, [currentTab?.url, isSignedIn]);
 
   const openForumlinks = async () => {
+    if (!currentTab?.id || !currentTab?.url) {
+      return;
+    }
     startHistoryMonitor();
     const { forumPageLinks } = await sendRuntimeMessage({
-      key: 'forumPageLinks',
-      tabId: currentTab?.id,
-      url: currentTab?.url,
+      key: 'openWebsiteLinks',
+      tabId: currentTab.id,
+      url: currentTab.url,
     });
-    forumPageLinks.forEach((url) => {
-      chrome.tabs.create({ url, active: false });
-    });
+    forumPageLinks.forEach((url) => chrome.tabs.create({ url, active: false }));
   };
 
   return (

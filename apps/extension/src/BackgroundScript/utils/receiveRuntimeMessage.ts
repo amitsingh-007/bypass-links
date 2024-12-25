@@ -12,9 +12,9 @@ export const receiveRuntimeMessage = (
   sendMessage: <T extends RuntimeKeys>(data: RuntimeOutput[T]) => void
 ) => {
   switch (message.key) {
-    case 'forumPageLinks': {
+    case 'openWebsiteLinks': {
       getForumPageLinks(message.tabId, message.url).then((forumPageLinks) => {
-        sendMessage<'forumPageLinks'>({ forumPageLinks });
+        sendMessage<'openWebsiteLinks'>({ forumPageLinks });
       });
       break;
     }
