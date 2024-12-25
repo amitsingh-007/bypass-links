@@ -15,8 +15,11 @@ import TwoFactorAuthenticate from '../components/TwoFactorAuthenticate';
 import UserProfile from '../components/UserProfile';
 import styles from './styles/PopupHome.module.css';
 import SyncButton from '../components/SyncButton';
+import useExtensionOutdated from '../hooks/useExtensionOutdated';
 
-const PopupHome = memo(function PopupHome() {
+const PopupHome = memo(() => {
+  useExtensionOutdated();
+
   return (
     <>
       <Flex direction="column" align="center" w={300} p="0.5rem 1rem 1rem">

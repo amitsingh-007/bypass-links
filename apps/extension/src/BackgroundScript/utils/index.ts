@@ -1,6 +1,5 @@
 import { EExtensionState } from '@/constants';
 import { getExtensionState } from '@helpers/fetchFromStorage';
-import { trpcApi } from '../../apis/trpcApi';
 import { getIsExtensionActive } from '../../utils/common';
 
 const restrictedProtocols = new Set([
@@ -55,14 +54,6 @@ export const setExtensionIcon = async ({
       : 'assets/bypass_link_off_32.png';
   }
   await chrome.action.setIcon({ path: icon });
-};
-
-export const checkForUpdates = async () => {
-  const { chrome: chromeData, firefox } =
-    await trpcApi.extension.latest.query();
-  const latestVersion = IS_CHROME ? chromeData.version : firefox.version;
-  const { version: currentVersion } = chrome.runtime.getManifest();
-  return latestVersion === currentVersion;
 };
 
 export const isValidTabUrl = async (tabId: number) => {
