@@ -1,4 +1,4 @@
 export const getFaviconProxyUrl = (url: string) =>
-  `${HOST_NAME}/api/favicon?url=${new URL(url).origin}`;
+  `https://favicon.yandex.net/favicon/${new URL(url).hostname}`;
 
 export const noOp = () => {};

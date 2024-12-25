@@ -167,6 +167,12 @@ importers:
       '@playwright/test':
         specifier: 1.49.1
         version: 1.49.1
+      '@prefresh/core':
+        specifier: 1.5.3
+        version: 1.5.3(preact@10.25.2)
+      '@prefresh/webpack':
+        specifier: 4.0.1
+        version: 4.0.1(@prefresh/babel-plugin@0.5.1)(preact@10.25.2)(webpack@5.97.1)
       '@types/archiver':
         specifier: 6.0.3
         version: 6.0.3
@@ -251,9 +257,6 @@ importers:
       react-refresh:
         specifier: 0.16.0
         version: 0.16.0
-      react-refresh-typescript:
-        specifier: 2.0.9
-        version: 2.0.9(react-refresh@0.16.0)(typescript@5.7.2)
       style-loader:
         specifier: 4.0.0
         version: 4.0.0(webpack@5.97.1)
@@ -1956,6 +1959,24 @@ packages:
   '@pnpm/npm-conf@2.3.1':
     resolution: {integrity: sha512-c83qWb22rNRuB0UaVCI0uRPNRr8Z0FWnEIvT47jiHAmOIUHbBOg5XvV7pM5x+rKn9HRpjxquDbXYSXr3fAKFcw==}
     engines: {node: '>=12'}
+
+  '@prefresh/babel-plugin@0.5.1':
+    resolution: {integrity: sha512-uG3jGEAysxWoyG3XkYfjYHgaySFrSsaEb4GagLzYaxlydbuREtaX+FTxuIidp241RaLl85XoHg9Ej6E4+V1pcg==}
+
+  '@prefresh/core@1.5.3':
+    resolution: {integrity: sha512-nDzxj0tA1/M6APNAWqaxkZ+3sTdPHESa+gol4+Bw7rMc2btWdkLoNH7j9rGhUb8SThC0Vz0VoXtq+U+9azGLHg==}
+    peerDependencies:
+      preact: ^10.0.0
+
+  '@prefresh/utils@1.2.0':
+    resolution: {integrity: sha512-KtC/fZw+oqtwOLUFM9UtiitB0JsVX0zLKNyRTA332sqREqSALIIQQxdUCS1P3xR/jT1e2e8/5rwH6gdcMLEmsQ==}
+
+  '@prefresh/webpack@4.0.1':
+    resolution: {integrity: sha512-BAzEqkNZSm1B82l8oXp+b69ffCQopjca8yeooczmCBSU6ZGhxWf+G2fmRt02CkcMpnDiHuDNDdsBJqEBKRJzOQ==}
+    peerDependencies:
+      '@prefresh/babel-plugin': ^0.5.0
+      preact: ^10.4.0
+      webpack: ^4.0.0 || ^5.0.0
 
   '@protobufjs/aspromise@1.1.2':
     resolution: {integrity: sha512-j+gKExEuLmKwvz3OgROXtrJ2UG2x8Ch2YZUxahh+s1F2HZ+wAceUNLkvy6zKCPVRkU++ZWQrdxsUeQXmcg4uoQ==}
@@ -6492,12 +6513,6 @@ packages:
       react: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
       react-dom: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
 
-  react-refresh-typescript@2.0.9:
-    resolution: {integrity: sha512-chAnOO4vpxm/3WkgOVmti+eN8yUtkJzeGkOigV6UA9eDFz12W34e/SsYe2H5+RwYJ3+sfSZkVbiXcG1chEBxlg==}
-    peerDependencies:
-      react-refresh: 0.10.x || 0.11.x || 0.12.x || 0.13.x || 0.14.x
-      typescript: ^4.8 || ^5.0
-
   react-refresh@0.16.0:
     resolution: {integrity: sha512-FPvF2XxTSikpJxcr+bHut2H4gJ17+18Uy20D5/F+SKzFap62R3cM5wH6b8WN3LyGSYeQilLEcJcR1fjBSI2S1A==}
     engines: {node: '>=0.10.0'}
@@ -9651,6 +9666,22 @@ snapshots:
       '@pnpm/config.env-replace': 1.1.0
       '@pnpm/network.ca-file': 1.0.2
       config-chain: 1.1.13
+
+  '@prefresh/babel-plugin@0.5.1': {}
+
+  '@prefresh/core@1.5.3(preact@10.25.2)':
+    dependencies:
+      preact: 10.25.2
+
+  '@prefresh/utils@1.2.0': {}
+
+  '@prefresh/webpack@4.0.1(@prefresh/babel-plugin@0.5.1)(preact@10.25.2)(webpack@5.97.1)':
+    dependencies:
+      '@prefresh/babel-plugin': 0.5.1
+      '@prefresh/core': 1.5.3(preact@10.25.2)
+      '@prefresh/utils': 1.2.0
+      preact: 10.25.2
+      webpack: 5.97.1(webpack-cli@5.1.4)
 
   '@protobufjs/aspromise@1.1.2': {}
 
@@ -14631,11 +14662,6 @@ snapshots:
     dependencies:
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
-
-  react-refresh-typescript@2.0.9(react-refresh@0.16.0)(typescript@5.7.2):
-    dependencies:
-      react-refresh: 0.16.0
-      typescript: 5.7.2
 
   react-refresh@0.16.0: {}
 
