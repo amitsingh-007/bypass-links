@@ -13,9 +13,8 @@ const Search = memo<{ onChange: (searchText: string) => void }>(
     useHotkeys([
       [
         'mod+f',
-        (event) => {
-          event.stopPropagation();
-          event.preventDefault();
+        (e) => {
+          e.stopPropagation();
           setActive(true);
         },
       ],

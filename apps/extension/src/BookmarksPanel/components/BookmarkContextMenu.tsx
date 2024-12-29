@@ -33,7 +33,7 @@ const BookmarkContextMenu = memo<Props>(
       handleBulkUrlRemove,
       handleMoveBookmarks,
       handleCutBookmarks,
-      handlePasteBookmarks,
+      handlePasteSelectedBookmarks,
     } = useBookmarkStore(
       useShallow((state) => ({
         contextBookmarks: state.contextBookmarks,
@@ -43,7 +43,7 @@ const BookmarkContextMenu = memo<Props>(
         handleBulkUrlRemove: state.handleBulkUrlRemove,
         handleMoveBookmarks: state.handleMoveBookmarks,
         handleCutBookmarks: state.handleCutBookmarks,
-        handlePasteBookmarks: state.handlePasteBookmarks,
+        handlePasteSelectedBookmarks: state.handlePasteSelectedBookmarks,
       }))
     );
     const theme = useMantineTheme();
@@ -53,10 +53,16 @@ const BookmarkContextMenu = memo<Props>(
     useHotkeys([
       [
         'mod+x',
-        (event) => {
-          event.stopPropagation();
-          event.preventDefault();
+        (e) => {
+          e.stopPropagation();
           handleCutBookmarks();
+        },
+      ],
+      [
+        'mod+v',
+        (e) => {
+          e.stopPropagation();
+          handlePasteSelectedBookmarks();
         },
       ],
     ]);
@@ -122,12 +128,7 @@ const BookmarkContextMenu = memo<Props>(
       ];
       if (cutCount > 0 && selectedCount === 1) {
         menuOptionsList.push({
-          onClick: () => {
-            const selectedIdx = selectedBookmarks.findIndex(Boolean);
-            if (selectedIdx !== -1) {
-              handlePasteBookmarks(selectedIdx + 1);
-            }
-          },
+          onClick: handlePasteSelectedBookmarks,
           text: `Paste (${cutCount})`,
           icon: MdOutlineContentPasteGo,
         });

@@ -52,7 +52,7 @@ interface State {
   handleFolderRemove: (pos: number, name: string) => void;
   handleSave: (folderContext: string) => Promise<void>;
   handleMoveBookmarks: (destinationIndex: number) => void;
-  handlePasteBookmarks: (destinationIndex: number) => void;
+  handlePasteSelectedBookmarks: () => void;
 }
 
 const useBookmarkStore = create<State>()((set, get) => ({
@@ -399,10 +399,14 @@ const useBookmarkStore = create<State>()((set, get) => ({
     });
   },
 
-  handlePasteBookmarks: (destinationIndex: number) => {
-    const { cutBookmarks, contextBookmarks } = get();
+  handlePasteSelectedBookmarks: () => {
+    const { cutBookmarks, contextBookmarks, selectedBookmarks } = get();
+    const selectedIdx = selectedBookmarks.findIndex(Boolean);
+    if (selectedIdx === -1) {
+      return;
+    }
     const { newContextBookmarks, newSelectedBookmarks } = processBookmarksMove(
-      destinationIndex,
+      selectedIdx,
       cutBookmarks,
       contextBookmarks
     );
