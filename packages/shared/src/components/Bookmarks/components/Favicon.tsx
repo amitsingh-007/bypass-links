@@ -1,5 +1,5 @@
 import { Avatar } from '@mantine/core';
-import { forwardRef, useCallback, useEffect, useState } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import { RiLinkUnlinkM } from 'react-icons/ri';
 import { getFaviconProxyUrl } from '../../../utils';
 import { getBlobUrlFromCache } from '../../../utils/cache';
@@ -9,29 +9,38 @@ interface Props {
   url: string;
 }
 
+const urlMap = new Map<string, string>();
+
+const getBlobUrl = async (url: string) => {
+  const proxyUrl = getFaviconProxyUrl(url);
+
+  const blobStr = urlMap.get(proxyUrl);
+  if (blobStr) {
+    return blobStr;
+  }
+
+  const blobUrl = await getBlobUrlFromCache(ECacheBucketKeys.favicon, proxyUrl);
+  urlMap.set(proxyUrl, blobUrl);
+  return blobUrl;
+};
+
 const Favicon = forwardRef<HTMLDivElement, Props>(
   ({ url, ...mantineTooltipProps }, ref) => {
     const [faviconUrl, setFaviconUrl] = useState('');
 
-    const initFavicon = useCallback(async () => {
-      const faviconBlobUrl = await getBlobUrlFromCache(
-        ECacheBucketKeys.favicon,
-        getFaviconProxyUrl(url)
-      );
-      setFaviconUrl(faviconBlobUrl);
-    }, [url]);
-
     useEffect(() => {
+      const initFavicon = async () => {
+        setFaviconUrl(await getBlobUrl(url));
+      };
       initFavicon();
-    }, [initFavicon, url]);
+    }, [url]);
 
     return (
       <Avatar
         ref={ref}
         radius="xs"
-        size="1.25rem"
+        size={17}
         src={faviconUrl}
-        alt={faviconUrl}
         color="red"
         {...mantineTooltipProps}
       >
