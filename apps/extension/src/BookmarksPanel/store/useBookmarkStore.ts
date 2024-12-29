@@ -51,7 +51,6 @@ interface State {
   ) => void;
   handleFolderRemove: (pos: number, name: string) => void;
   handleSave: (folderContext: string) => Promise<void>;
-  handleMoveBookmarks: (destinationIndex: number) => void;
   handlePasteSelectedBookmarks: () => void;
 }
 
@@ -381,21 +380,6 @@ const useBookmarkStore = create<State>()((set, get) => ({
     displayToast({
       message: 'Saved temporarily',
       duration: 1500,
-    });
-  },
-
-  handleMoveBookmarks: (destinationIndex: number) => {
-    const { selectedBookmarks, contextBookmarks } = get();
-    const { newContextBookmarks, newSelectedBookmarks } = processBookmarksMove(
-      destinationIndex,
-      selectedBookmarks,
-      contextBookmarks
-    );
-
-    set({
-      contextBookmarks: newContextBookmarks,
-      selectedBookmarks: newSelectedBookmarks,
-      isSaveButtonActive: true,
     });
   },
 

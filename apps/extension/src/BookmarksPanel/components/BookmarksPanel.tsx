@@ -124,7 +124,6 @@ const BookmarksPanel = ({
         />
         <BookmarkContextMenu
           handleOpenSelectedBookmarks={handleOpenSelectedBookmarks}
-          handleScroll={handleScroll}
         >
           <Box
             ref={bodyRef}

@@ -5,7 +5,6 @@ import { useMantineTheme } from '@mantine/core';
 import md5 from 'md5';
 import { PropsWithChildren, memo, useCallback } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
-import { BsArrowUp } from 'react-icons/bs';
 import { MdOutlineDelete, MdOutlineContentPasteGo } from 'react-icons/md';
 import { RxExternalLink } from 'react-icons/rx';
 import { TbCut } from 'react-icons/tb';
@@ -17,11 +16,10 @@ import { useHotkeys } from '@mantine/hooks';
 type Props = PropsWithChildren<{
   children: React.ReactNode;
   handleOpenSelectedBookmarks: VoidFunction;
-  handleScroll: (itemNumber: number) => void;
 }>;
 
 const BookmarkContextMenu = memo<Props>(
-  ({ children, handleOpenSelectedBookmarks, handleScroll }) => {
+  ({ children, handleOpenSelectedBookmarks }) => {
     const setBookmarkOperation = useBookmarkRouteStore(
       (state) => state.setBookmarkOperation
     );
@@ -31,7 +29,6 @@ const BookmarkContextMenu = memo<Props>(
       cutBookmarks,
       handleUrlRemove,
       handleBulkUrlRemove,
-      handleMoveBookmarks,
       handleCutBookmarks,
       handlePasteSelectedBookmarks,
     } = useBookmarkStore(
@@ -41,7 +38,6 @@ const BookmarkContextMenu = memo<Props>(
         cutBookmarks: state.cutBookmarks,
         handleUrlRemove: state.handleUrlRemove,
         handleBulkUrlRemove: state.handleBulkUrlRemove,
-        handleMoveBookmarks: state.handleMoveBookmarks,
         handleCutBookmarks: state.handleCutBookmarks,
         handlePasteSelectedBookmarks: state.handlePasteSelectedBookmarks,
       }))
@@ -100,11 +96,6 @@ const BookmarkContextMenu = memo<Props>(
       [getBookmark, setBookmarkOperation]
     );
 
-    const handleMoveToTop = useCallback(() => {
-      handleMoveBookmarks(0);
-      handleScroll(0);
-    }, [handleMoveBookmarks, handleScroll]);
-
     const getMenuOptions = () => {
       const menuOptionsList: IMenuOption[] = [
         {
@@ -114,11 +105,6 @@ const BookmarkContextMenu = memo<Props>(
           }in new tab`,
           icon: RxExternalLink,
           color: theme.colors.yellow[9],
-        },
-        {
-          onClick: handleMoveToTop,
-          text: 'Top',
-          icon: BsArrowUp,
         },
         {
           onClick: handleCutBookmarks,
