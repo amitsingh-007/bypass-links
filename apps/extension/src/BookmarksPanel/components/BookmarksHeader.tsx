@@ -46,9 +46,8 @@ const BookmarksHeader = memo<Props>(({ onSearchChange, folderContext }) => {
   useHotkeys([
     [
       'mod+s',
-      (event) => {
-        event.stopPropagation();
-        event.preventDefault();
+      (e) => {
+        e.stopPropagation();
         if (!disableSave) {
           handleSaveClick();
         }

@@ -40,7 +40,7 @@ const Toast = () => {
       {(styles) => (
         <Alert
           radius="md"
-          variant="light"
+          variant="filled"
           withCloseButton
           onClose={hideToast}
           color={COLOR_MAP[severity]}

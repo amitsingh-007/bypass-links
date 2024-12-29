@@ -11,10 +11,9 @@ import {
   shouldRenderBookmarks,
 } from '@bypass/shared';
 import { Box, Flex } from '@mantine/core';
-import { useElementSize } from '@mantine/hooks';
 import useHistoryStore from '@store/history';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import useBookmarkStore from '../store/useBookmarkStore';
 import BookmarkAddEditDialog from './BookmarkAddEditDialog';
@@ -28,7 +27,6 @@ const BookmarksPanel = ({
   operation,
   bmUrl,
 }: BMPanelQueryParams) => {
-  const { ref: bodyRef, height: bodyHeight } = useElementSize();
   const startHistoryMonitor = useHistoryStore(
     (state) => state.startHistoryMonitor
   );
@@ -52,6 +50,7 @@ const BookmarksPanel = ({
       loadData: state.loadData,
     }))
   );
+  const bodyRef = useRef<HTMLDivElement>(null);
   const [searchText, setSearchText] = useState('');
   const filteredContextBookmarks = useMemo(
     () => getFilteredContextBookmarks(contextBookmarks, searchText),
@@ -100,15 +99,10 @@ const BookmarksPanel = ({
   }, [bmUrl, isFetching, operation, setBookmarkOperation]);
 
   const curBookmarksCount = filteredContextBookmarks.length;
-  const minReqBookmarksToScroll = Math.ceil(bodyHeight / BOOKMARK_ROW_HEIGHT);
 
   return (
     <>
-      <ScrollButton
-        itemsSize={curBookmarksCount}
-        onScroll={handleScroll}
-        minItemsReqToShow={minReqBookmarksToScroll}
-      />
+      <ScrollButton itemsSize={curBookmarksCount} onScroll={handleScroll} />
       <Flex
         direction="column"
         w={MAX_PANEL_SIZE.WIDTH}
@@ -124,7 +118,6 @@ const BookmarksPanel = ({
         />
         <BookmarkContextMenu
           handleOpenSelectedBookmarks={handleOpenSelectedBookmarks}
-          handleScroll={handleScroll}
         >
           <Box
             ref={bodyRef}

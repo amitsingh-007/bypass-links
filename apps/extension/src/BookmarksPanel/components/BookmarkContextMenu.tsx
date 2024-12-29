@@ -5,7 +5,6 @@ import { useMantineTheme } from '@mantine/core';
 import md5 from 'md5';
 import { PropsWithChildren, memo, useCallback } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
-import { BsArrowUp } from 'react-icons/bs';
 import { MdOutlineDelete, MdOutlineContentPasteGo } from 'react-icons/md';
 import { RxExternalLink } from 'react-icons/rx';
 import { TbCut } from 'react-icons/tb';
@@ -17,11 +16,10 @@ import { useHotkeys } from '@mantine/hooks';
 type Props = PropsWithChildren<{
   children: React.ReactNode;
   handleOpenSelectedBookmarks: VoidFunction;
-  handleScroll: (itemNumber: number) => void;
 }>;
 
 const BookmarkContextMenu = memo<Props>(
-  ({ children, handleOpenSelectedBookmarks, handleScroll }) => {
+  ({ children, handleOpenSelectedBookmarks }) => {
     const setBookmarkOperation = useBookmarkRouteStore(
       (state) => state.setBookmarkOperation
     );
@@ -31,9 +29,8 @@ const BookmarkContextMenu = memo<Props>(
       cutBookmarks,
       handleUrlRemove,
       handleBulkUrlRemove,
-      handleMoveBookmarks,
       handleCutBookmarks,
-      handlePasteBookmarks,
+      handlePasteSelectedBookmarks,
     } = useBookmarkStore(
       useShallow((state) => ({
         contextBookmarks: state.contextBookmarks,
@@ -41,9 +38,8 @@ const BookmarkContextMenu = memo<Props>(
         cutBookmarks: state.cutBookmarks,
         handleUrlRemove: state.handleUrlRemove,
         handleBulkUrlRemove: state.handleBulkUrlRemove,
-        handleMoveBookmarks: state.handleMoveBookmarks,
         handleCutBookmarks: state.handleCutBookmarks,
-        handlePasteBookmarks: state.handlePasteBookmarks,
+        handlePasteSelectedBookmarks: state.handlePasteSelectedBookmarks,
       }))
     );
     const theme = useMantineTheme();
@@ -53,10 +49,16 @@ const BookmarkContextMenu = memo<Props>(
     useHotkeys([
       [
         'mod+x',
-        (event) => {
-          event.stopPropagation();
-          event.preventDefault();
+        (e) => {
+          e.stopPropagation();
           handleCutBookmarks();
+        },
+      ],
+      [
+        'mod+v',
+        (e) => {
+          e.stopPropagation();
+          handlePasteSelectedBookmarks();
         },
       ],
     ]);
@@ -94,11 +96,6 @@ const BookmarkContextMenu = memo<Props>(
       [getBookmark, setBookmarkOperation]
     );
 
-    const handleMoveToTop = useCallback(() => {
-      handleMoveBookmarks(0);
-      handleScroll(0);
-    }, [handleMoveBookmarks, handleScroll]);
-
     const getMenuOptions = () => {
       const menuOptionsList: IMenuOption[] = [
         {
@@ -110,11 +107,6 @@ const BookmarkContextMenu = memo<Props>(
           color: theme.colors.yellow[9],
         },
         {
-          onClick: handleMoveToTop,
-          text: 'Top',
-          icon: BsArrowUp,
-        },
-        {
           onClick: handleCutBookmarks,
           text: 'Cut',
           icon: TbCut,
@@ -122,12 +114,7 @@ const BookmarkContextMenu = memo<Props>(
       ];
       if (cutCount > 0 && selectedCount === 1) {
         menuOptionsList.push({
-          onClick: () => {
-            const selectedIdx = selectedBookmarks.findIndex(Boolean);
-            if (selectedIdx !== -1) {
-              handlePasteBookmarks(selectedIdx + 1);
-            }
-          },
+          onClick: handlePasteSelectedBookmarks,
           text: `Paste (${cutCount})`,
           icon: MdOutlineContentPasteGo,
         });

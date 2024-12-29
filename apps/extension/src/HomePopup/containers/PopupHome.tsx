@@ -21,7 +21,7 @@ const PopupHome = () => {
 
   return (
     <>
-      <Flex direction="column" align="center" w={300} p="0.5rem 1rem 1rem">
+      <Flex direction="column" align="center" w={305} p="0.5rem 1rem 1rem">
         <Text
           fz="xl"
           fw={700}
