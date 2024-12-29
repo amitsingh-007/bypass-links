@@ -204,7 +204,10 @@ const BookmarkAddEditDialog = ({ curFolder, handleScroll }: Props) => {
             label="Folder"
             data={folderNamesList}
             {...form.getInputProps('folder')}
-            comboboxProps={{ withinPortal: false }}
+            comboboxProps={{
+              withinPortal: false,
+              transitionProps: { transition: 'pop' },
+            }}
           />
           <PersonSelect formProps={form.getInputProps('taggedPersons')} />
           <Button color="red" onClick={handleDelete}>

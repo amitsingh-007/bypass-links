@@ -1,10 +1,27 @@
+import { sortAlphabetically, usePerson } from '@bypass/shared';
 import {
-  IOptionData,
-  MultiSelectWithImage,
-  sortAlphabetically,
-  usePerson,
-} from '@bypass/shared';
+  Avatar,
+  Group,
+  MultiSelect,
+  MultiSelectProps,
+  Text,
+} from '@mantine/core';
 import { useCallback, useEffect, useState } from 'react';
+
+interface IOptionData {
+  label: string;
+  value: string;
+  image: string;
+}
+
+const renderMultiSelectOption: MultiSelectProps['renderOption'] = ({
+  option,
+}) => (
+  <Group gap="sm">
+    <Avatar src={(option as IOptionData).image} radius="md" />
+    <Text size="sm">{option.label}</Text>
+  </Group>
+);
 
 const PersonSelect = ({ formProps }: { formProps: any }) => {
   const { getAllDecodedPersons, getPersonsWithImageUrl } = usePerson();
@@ -28,13 +45,19 @@ const PersonSelect = ({ formProps }: { formProps: any }) => {
   }, [initPersonList]);
 
   return (
-    <MultiSelectWithImage
-      options={personList}
+    <MultiSelect
+      data={personList}
       label="Tagged Persons"
       placeholder="Persons"
-      nothingFound="No person with this name"
+      nothingFoundMessage="No person with this name"
       maxDropdownHeight={210}
-      comboboxProps={{ position: 'top' }}
+      comboboxProps={{
+        position: 'top',
+        withinPortal: false,
+        transitionProps: { transition: 'pop' },
+      }}
+      hidePickedOptions
+      renderOption={renderMultiSelectOption}
       {...formProps}
     />
   );
