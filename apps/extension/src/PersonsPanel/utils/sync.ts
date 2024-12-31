@@ -1,4 +1,3 @@
-import { AuthProgress } from '@/HomePopup/utils/authProgress';
 import { trpcApi } from '@/apis/trpcApi';
 import {
   addToCache,
@@ -11,6 +10,7 @@ import {
 } from '@bypass/shared';
 import { getPersonImageUrls } from '@helpers/fetchFromStorage';
 import { getAllDecodedPersons } from '.';
+import { nprogress } from '@mantine/nprogress';
 
 export const syncPersonsToStorage = async () => {
   const persons = await trpcApi.firebaseData.personsGet.query();
@@ -45,19 +45,10 @@ const cachePersonImages = async (personImageUrls: PersonImageUrls) => {
 };
 
 export const cachePersonImagesInStorage = async () => {
-  AuthProgress.start('Caching person urls');
   await refreshPersonImageUrlsCache();
   const persons = await getAllDecodedPersons();
-  let totalResolved = 0;
   const personImagesList = await Promise.all(
-    persons.map(async (person) => {
-      const urlData = await resolveImageFromPerson(person.uid);
-      totalResolved += 1;
-      AuthProgress.update(
-        `Caching person urls: ${totalResolved}/${persons.length}`
-      );
-      return urlData;
-    })
+    persons.map((person) => resolveImageFromPerson(person.uid))
   );
   const personImageUrls = personImagesList.reduce<PersonImageUrls>(
     (obj, { uid, imageUrl }) => {
@@ -69,10 +60,9 @@ export const cachePersonImagesInStorage = async () => {
   await chrome.storage.local.set({
     [STORAGE_KEYS.personImageUrls]: personImageUrls,
   });
-  AuthProgress.finish('Cached person urls');
-  AuthProgress.start('Caching person images');
+  nprogress.increment();
   await cachePersonImages(personImageUrls);
-  AuthProgress.finish('Cached person images');
+  nprogress.increment();
 };
 
 export const updatePersonCacheAndImageUrls = async (person: IPerson) => {

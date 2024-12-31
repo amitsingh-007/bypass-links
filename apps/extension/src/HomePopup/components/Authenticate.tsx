@@ -1,32 +1,50 @@
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
-import { Button, LoadingOverlay, Progress } from '@mantine/core';
-import useAuthStore from '@/store/authProgress';
+import { Button, LoadingOverlay } from '@mantine/core';
 import useExtStore from '@store/extension';
 import useToastStore from '@store/toast';
 import { useCallback, useEffect, useState } from 'react';
 import { RiLoginCircleFill, RiLogoutCircleRFill } from 'react-icons/ri';
 import { signIn, signOut } from '../utils/authentication';
-import styles from './styles/Authenticate.module.css';
+import { nprogress, nprogressStore } from '@mantine/nprogress';
+import {
+  SIGN_IN_TOTAL_STEPS,
+  SIGN_OUT_TOTAL_STEPS,
+} from '../constants/progress';
+
+const initializeProgress = (totalSteps: number) => {
+  nprogressStore.setState((state) => ({
+    ...state,
+    step: 100 / totalSteps,
+  }));
+  nprogress.reset();
+};
+
+const resetProgress = () => {
+  nprogress.complete();
+};
 
 const Authenticate = () => {
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const setIsSignedIn = useFirebaseStore((state) => state.setIsSignedIn);
   const isExtensionActive = useExtStore((state) => state.isExtensionActive);
   const displayToast = useToastStore((state) => state.displayToast);
-  const authProgress = useAuthStore((state) => state.authProgress);
-  const resetAuthProgress = useAuthStore((state) => state.resetAuthProgress);
   const [isFetching, setIsFetching] = useState(false);
 
   const handleSignIn = async () => {
     setIsFetching(true);
+    initializeProgress(SIGN_IN_TOTAL_STEPS);
+
     const isSignInSuccess = await signIn();
     setIsSignedIn(isSignInSuccess);
-    resetAuthProgress();
+
+    resetProgress();
     setIsFetching(false);
   };
 
   const handleSignOut = useCallback(async () => {
     setIsFetching(true);
+    initializeProgress(SIGN_OUT_TOTAL_STEPS);
+
     const isSignedOutSuccess = await signOut();
     if (isSignedOutSuccess) {
       setIsSignedIn(!isSignedOutSuccess);
@@ -36,9 +54,10 @@ const Authenticate = () => {
         severity: 'error',
       });
     }
+
     setIsFetching(false);
-    resetAuthProgress();
-  }, [displayToast, resetAuthProgress, setIsSignedIn]);
+    resetProgress();
+  }, [displayToast, setIsSignedIn]);
 
   // Init
   useEffect(() => {
@@ -52,7 +71,6 @@ const Authenticate = () => {
     }
   }, [handleSignOut, isExtensionActive, isSignedIn]);
 
-  const { message, progress = 7, total = 1 } = authProgress || {};
   return (
     <>
       <Button
@@ -68,24 +86,7 @@ const Authenticate = () => {
       >
         {isSignedIn ? 'Logout' : 'Login'}
       </Button>
-      {isFetching && (
-        <>
-          <LoadingOverlay w="100%" visible zIndex={100} />
-          <Progress.Root
-            size="xl"
-            radius="xl"
-            w="100%"
-            pos="fixed"
-            top={0}
-            left="50%"
-            className={styles.progress}
-          >
-            <Progress.Section striped animated value={(progress * 100) / total}>
-              <Progress.Label>{message || 'Loading'}</Progress.Label>
-            </Progress.Section>
-          </Progress.Root>
-        </>
-      )}
+      {isFetching && <LoadingOverlay w="100%" visible zIndex={100} />}
     </>
   );
 };

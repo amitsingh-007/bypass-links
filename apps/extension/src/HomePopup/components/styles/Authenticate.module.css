@@ -1,4 +1,0 @@
-.progress {
-  z-index: var(--mantine-z-index-overlay);
-  transform: translateX(-50%);
-}

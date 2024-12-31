@@ -20,6 +20,7 @@
     "@mantine/dates": "7.15.1",
     "@mantine/form": "7.15.1",
     "@mantine/hooks": "7.15.1",
+    "@mantine/nprogress": "7.15.2",
     "@t3-oss/env-core": "0.11.1",
     "@tanstack/react-virtual": "3.11.1",
     "@trpc/client": "10.45.2",

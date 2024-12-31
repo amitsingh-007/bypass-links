@@ -1,4 +1,3 @@
-import { AuthProgress } from '@/HomePopup/utils/authProgress';
 import { trpcApi } from '@/apis/trpcApi';
 import {
   ECacheBucketKeys,
@@ -8,6 +7,7 @@ import {
   STORAGE_KEYS,
 } from '@bypass/shared';
 import { getBookmarks, getPersons } from '@helpers/fetchFromStorage';
+import { nprogress } from '@mantine/nprogress';
 
 export const syncBookmarksToStorage = async () => {
   const bookmarks = await trpcApi.firebaseData.bookmarksGet.query();
@@ -52,25 +52,14 @@ export const cacheBookmarkFavicons = async () => {
   if (!bookmarks) {
     return;
   }
-  AuthProgress.start('Caching favicons');
   const { urlList } = bookmarks;
-  let totalResolved = 0;
   const faviconUrls = Object.values(urlList).map((item) => {
     const bookmark = getDecryptedBookmark(item);
     return getFaviconProxyUrl(bookmark.url);
   });
   const uniqueUrls = [...new Set(faviconUrls)];
   const cache = await getCacheObj(ECacheBucketKeys.favicon);
-  await Promise.all(
-    uniqueUrls.map(async (url) => {
-      const urlPromise = await cache.add(url);
-      totalResolved += 1;
-      AuthProgress.update(
-        `Caching favicons: ${totalResolved}/${uniqueUrls.length}`
-      );
-      return urlPromise;
-    })
-  );
+  await Promise.all(uniqueUrls.map((url) => cache.add(url)));
   console.log('Initialized cache for all bookmark urls');
-  AuthProgress.finish('Cached favicons');
+  nprogress.increment();
 };
