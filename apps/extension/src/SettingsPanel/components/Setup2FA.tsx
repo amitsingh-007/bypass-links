@@ -2,9 +2,9 @@ import { trpcApi } from '@/apis/trpcApi';
 import { Header, InputTOTP, STORAGE_KEYS } from '@bypass/shared';
 import { getUser2FAInfo } from '@helpers/fetchFromStorage';
 import { Avatar, Button, Center, Loader, Modal } from '@mantine/core';
-import useToastStore from '@store/toast';
 import { useEffect, useState } from 'react';
 import styles from './styles/Setup2FA.module.css';
+import { notifications } from '@mantine/notifications';
 
 type Props = {
   isOpen: boolean;
@@ -12,7 +12,6 @@ type Props = {
 };
 
 const Setup2FA = ({ isOpen, handleClose }: Props) => {
-  const displayToast = useToastStore((state) => state.displayToast);
   const [qrcodeUrl, setQrcodeUrl] = useState('');
   const [showVerifyToken, setShowVerifyToken] = useState(false);
 
@@ -36,9 +35,9 @@ const Setup2FA = ({ isOpen, handleClose }: Props) => {
       });
       handleClose();
     } else {
-      displayToast({
+      notifications.show({
         message: 'Entered TOTP is incorrect',
-        severity: 'error',
+        color: 'red',
       });
     }
   };

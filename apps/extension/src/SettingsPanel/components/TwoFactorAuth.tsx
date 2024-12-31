@@ -2,12 +2,11 @@ import { trpcApi } from '@/apis/trpcApi';
 import { STORAGE_KEYS } from '@bypass/shared';
 import { getUser2FAInfo } from '@helpers/fetchFromStorage';
 import { Button, Flex, Text } from '@mantine/core';
-import useToastStore from '@store/toast';
 import { useEffect, useState } from 'react';
 import Setup2FA from './Setup2FA';
+import { notifications } from '@mantine/notifications';
 
 const TwoFactorAuth = () => {
-  const displayToast = useToastStore((state) => state.displayToast);
   const [is2FAEnabled, setIs2FAEnabled] = useState(false);
   const [show2FASetup, setShow2FASetup] = useState(false);
 
@@ -24,7 +23,7 @@ const TwoFactorAuth = () => {
     const userProfile = await getUser2FAInfo();
     const { isRevoked } = await trpcApi.twoFactorAuth.revoke.mutate();
     if (!isRevoked) {
-      displayToast({ message: 'Something went wrong', severity: 'error' });
+      notifications.show({ message: 'Something went wrong', color: 'red' });
       return;
     }
     userProfile.is2FAEnabled = false;
@@ -33,7 +32,7 @@ const TwoFactorAuth = () => {
       [STORAGE_KEYS.user2FAInfo]: userProfile,
     });
     setIs2FAEnabled(false);
-    displayToast({ message: '2FA revoked successfully' });
+    notifications.show({ message: '2FA revoked successfully' });
   };
 
   const handle2FASetupClick = () => {
