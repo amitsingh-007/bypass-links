@@ -1,5 +1,4 @@
 import { getBookmarks } from '@helpers/fetchFromStorage';
-import useToastStore from '@/store/toast';
 import {
   ContextBookmarks,
   ECacheBucketKeys,
@@ -17,6 +16,7 @@ import md5 from 'md5';
 import { create } from 'zustand';
 import { isFolderContainsDir, setBookmarksInStorage } from '../utils';
 import { processBookmarksMove } from '../utils/manipulate';
+import { notifications } from '@mantine/notifications';
 
 interface State {
   // State
@@ -314,12 +314,11 @@ const useBookmarkStore = create<State>()((set, get) => ({
 
   handleFolderRemove: (pos: number, name: string) => {
     const { contextBookmarks, folderList, urlList, folders } = get();
-    const { displayToast } = useToastStore.getState();
     const folderHash = md5(name);
     if (isFolderContainsDir(folders, folderHash)) {
-      displayToast({
-        message: 'Remove inner folders first.',
-        severity: 'error',
+      notifications.show({
+        message: 'Remove inner folders first',
+        color: 'red',
       });
       return;
     }
@@ -358,7 +357,6 @@ const useBookmarkStore = create<State>()((set, get) => ({
 
   handleSave: async (folderContext: string) => {
     const { folders, urlList, folderList, contextBookmarks, loadData } = get();
-    const { displayToast } = useToastStore.getState();
 
     set({ isFetching: true });
 
@@ -377,10 +375,7 @@ const useBookmarkStore = create<State>()((set, get) => ({
     await loadData(folderContext);
 
     set({ isFetching: false, isSaveButtonActive: false });
-    displayToast({
-      message: 'Saved temporarily',
-      duration: 1500,
-    });
+    notifications.show({ message: 'Saved temporarily' });
   },
 
   handlePasteSelectedBookmarks: () => {

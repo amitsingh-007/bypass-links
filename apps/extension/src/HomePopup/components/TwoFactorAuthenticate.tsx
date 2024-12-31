@@ -3,12 +3,11 @@ import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { InputTOTP, noOp, STORAGE_KEYS } from '@bypass/shared';
 import { getUser2FAInfo } from '@helpers/fetchFromStorage';
 import { Center, Modal } from '@mantine/core';
-import useToastStore from '@store/toast';
 import { useEffect, useState } from 'react';
 import { IUser2FAInfo } from '../interfaces/authentication';
+import { notifications } from '@mantine/notifications';
 
 const TwoFactorAuthenticate = () => {
-  const displayToast = useToastStore((state) => state.displayToast);
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const [promptTOTPVerify, setPromptTOTPVerify] = useState(false);
   const [user2FAInfo, setUser2FAInfo] = useState<IUser2FAInfo>();
@@ -39,9 +38,9 @@ const TwoFactorAuthenticate = () => {
       });
       setPromptTOTPVerify(false);
     } else {
-      displayToast({
+      notifications.show({
         message: 'Entered TOTP is incorrect',
-        severity: 'error',
+        color: 'red',
       });
     }
   };

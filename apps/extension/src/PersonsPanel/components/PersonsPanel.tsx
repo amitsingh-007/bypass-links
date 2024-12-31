@@ -15,18 +15,17 @@ import {
 import { getPersons } from '@helpers/fetchFromStorage';
 import { Box, Flex } from '@mantine/core';
 import useHistoryStore from '@store/history';
-import useToastStore from '@store/toast';
 import { useEffect, useMemo, useState } from 'react';
 import { getPersonPos, setPersonsInStorage } from '../utils';
 import { updatePersonCacheAndImageUrls } from '../utils/sync';
 import PersonHeader from './PersonHeader';
 import PersonVirtualCell from './PersonVirtualCell';
+import { notifications } from '@mantine/notifications';
 
 const PersonsPanel = () => {
   const startHistoryMonitor = useHistoryStore(
     (state) => state.startHistoryMonitor
   );
-  const displayToast = useToastStore((state) => state.displayToast);
   const { getPersonTaggedUrls } = usePerson();
   const [persons, setPersons] = useState<IPerson[]>([]);
   const [isFetching, setIsFetching] = useState(true);
@@ -68,7 +67,7 @@ const PersonsPanel = () => {
     setPersons(sortedPersons);
     await handleSave(sortedPersons);
     setIsFetching(false);
-    displayToast({ message: 'Person added/updated successfully' });
+    notifications.show({ message: 'Person added/updated successfully' });
   };
 
   const handlePersonDelete = async (person: IPerson) => {
@@ -85,7 +84,7 @@ const PersonsPanel = () => {
     await trpcApi.storage.removeFile.mutate(getPersonImageName(person.uid));
     await handleSave(newPersons);
     setIsFetching(false);
-    displayToast({ message: 'Person deleted successfully' });
+    notifications.show({ message: 'Person deleted successfully' });
   };
 
   const handleSearchTextChange = (text: string) => {

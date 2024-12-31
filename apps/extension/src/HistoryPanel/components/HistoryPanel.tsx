@@ -3,10 +3,10 @@ import { Header } from '@bypass/shared';
 import { Box, Button, Stack } from '@mantine/core';
 import { DateTimePicker, DateTimePickerProps } from '@mantine/dates';
 import { useForm } from '@mantine/form';
-import useToastStore from '@store/toast';
 import { useEffect } from 'react';
 import { FaCalendarCheck } from 'react-icons/fa';
 import { MdOutlineDelete } from 'react-icons/md';
+import { notifications } from '@mantine/notifications';
 
 interface IForm {
   startDateTime: Date;
@@ -27,8 +27,6 @@ const DateTime = (props: DateTimePickerProps) => (
 );
 
 const HistoryPanel = () => {
-  const displayToast = useToastStore((state) => state.displayToast);
-
   const form = useForm<IForm>({
     initialValues: {
       startDateTime: currentDate,
@@ -57,9 +55,9 @@ const HistoryPanel = () => {
       throw new Error('start/end date time not found');
     }
     if (startDateTime > endDateTime) {
-      displayToast({
+      notifications.show({
         message: "Start date time can't be greater than end date time",
-        severity: 'error',
+        color: 'red',
       });
       return;
     }
@@ -68,7 +66,7 @@ const HistoryPanel = () => {
       endTime: endDateTime.valueOf(),
     });
     chrome.storage.local.remove('historyStartTime');
-    displayToast({ message: 'History cleared successfully' });
+    notifications.show({ message: 'History cleared successfully' });
   };
 
   return (

@@ -31,21 +31,20 @@ import {
   getUser2FAInfo,
 } from '@helpers/fetchFromStorage';
 import { IUser2FAInfo } from '../interfaces/authentication';
-import { AuthProgress } from './authProgress';
 import {
   resetWebsites,
   syncWebsitesToStorage,
 } from '@/BackgroundScript/websites/storageSync';
+import { nprogress } from '@mantine/nprogress';
 
 const syncAuthenticationToStorage = async () => {
-  AuthProgress.start('Checking 2FA status');
   const { is2FAEnabled } = await trpcApi.twoFactorAuth.status.query();
   const user2FAInfo: IUser2FAInfo = {
     is2FAEnabled,
     isTOTPVerified: false,
   };
   await chrome.storage.local.set({ [STORAGE_KEYS.user2FAInfo]: user2FAInfo });
-  AuthProgress.finish('2FA status checked');
+  nprogress.increment();
 };
 
 const resetAuthentication = async () => {
@@ -62,7 +61,6 @@ const resetAuthentication = async () => {
 };
 
 const syncFirebaseToStorage = async () => {
-  AuthProgress.start('Syncing storage with firebase');
   await Promise.all([
     syncRedirectionsToStorage(),
     syncWebsitesToStorage(),
@@ -71,7 +69,7 @@ const syncFirebaseToStorage = async () => {
     syncPersonsToStorage(),
     syncSettingsToStorage(),
   ]);
-  AuthProgress.finish('Synced storage with firebase');
+  nprogress.increment();
 };
 
 export const syncStorageToFirebase = async () => {
@@ -79,7 +77,6 @@ export const syncStorageToFirebase = async () => {
 };
 
 const resetStorage = async () => {
-  AuthProgress.start('Resetting storage');
   await Promise.all([
     resetAuthentication(),
     resetRedirections(),
@@ -91,7 +88,7 @@ const resetStorage = async () => {
     refreshPersonImageUrlsCache(),
   ]);
   console.log('Storage reset successful');
-  AuthProgress.finish('Storage reset');
+  nprogress.increment();
 };
 
 export const processPostLogin = async () => {
@@ -102,19 +99,16 @@ export const processPostLogin = async () => {
   // Then do other processes
   try {
     await cachePersonImagesInStorage();
-    AuthProgress.start('Caching bookmark favicons');
     await cacheBookmarkFavicons();
-    AuthProgress.finish('Cached bookmark favicons');
-  } catch {
-    AuthProgress.finish('Caching failed');
+  } finally {
+    nprogress.increment();
   }
 };
 
 export const processPreLogout = async () => {
   // Sync changes to firebase before logout, cant sync after logout
-  AuthProgress.start('Syncing firebase with storage');
   await syncStorageToFirebase();
-  AuthProgress.finish('Synced firebase with storage');
+  nprogress.increment();
 };
 
 export const processPostLogout = async () => {
@@ -123,9 +117,8 @@ export const processPostLogout = async () => {
   // Reset storage
   await resetStorage();
   // Refresh browser cache
-  AuthProgress.start('Clearing cache');
   deleteAllCache([ECacheBucketKeys.favicon, ECacheBucketKeys.person]);
-  AuthProgress.finish('Cleared cache');
+  nprogress.increment();
   if (settings?.hasManageGoogleActivityConsent) {
     // Open Google Search and Google Image tabs
     await chrome.tabs.create({ url: 'https://www.google.com/', active: false });

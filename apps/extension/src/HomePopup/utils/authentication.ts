@@ -1,24 +1,20 @@
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
-import { AuthProgress } from './authProgress';
 import { processPostLogin, processPostLogout, processPreLogout } from './sync';
+import { nprogress } from '@mantine/nprogress';
 
 const userSignIn = async () => {
   const { firebaseSignIn } = useFirebaseStore.getState();
-
-  AuthProgress.start('Logging in user');
   await firebaseSignIn();
-  AuthProgress.finish('User logged in');
+  nprogress.increment();
 };
 
 export const signOut = async (): Promise<boolean> => {
   const { firebaseSignOut } = useFirebaseStore.getState();
 
   try {
-    AuthProgress.initialize(4);
     await processPreLogout();
-    AuthProgress.start('Logging out user');
     await firebaseSignOut();
-    AuthProgress.finish('User logged out');
+    nprogress.increment();
     await processPostLogout();
     return true;
   } catch (error) {
@@ -29,7 +25,6 @@ export const signOut = async (): Promise<boolean> => {
 
 export const signIn = async (): Promise<boolean> => {
   try {
-    AuthProgress.initialize(7);
     await userSignIn();
     await processPostLogin();
     return true;
