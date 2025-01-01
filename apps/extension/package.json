@@ -27,7 +27,7 @@
     "@trpc/client": "10.45.2",
     "@trpc/server": "10.45.2",
     "clsx": "2.1.1",
-    "mantine-contextmenu": "7.14.2",
+    "mantine-contextmenu": "7.15.1",
     "md5": "2.3.0",
     "preact": "10.25.2",
     "react": "19.0.0",
