@@ -470,8 +470,8 @@ importers:
         specifier: 10.45.2
         version: 10.45.2
       firebase-admin:
-        specifier: 13.0.1
-        version: 13.0.1
+        specifier: 13.0.2
+        version: 13.0.2
       otplib:
         specifier: 12.0.1
         version: 12.0.1
@@ -4436,8 +4436,8 @@ packages:
     resolution: {integrity: sha512-78/PXT1wlLLDgTzDs7sjq9hzz0vXD+zn+7wypEe4fXQxCmdmqfGsEPQxmiCSQI3ajFV91bVSsvNtrJRiW6nGng==}
     engines: {node: '>=10'}
 
-  firebase-admin@13.0.1:
-    resolution: {integrity: sha512-sKQ/Yw8o/WdC9qTKvuLMBjTbdcBISIXW4+M9PXk0bNjxEbZf1Er7EVq47eRb5+bnKof10xlns6zAIbj4tmSexg==}
+  firebase-admin@13.0.2:
+    resolution: {integrity: sha512-YWVpoN+tZVSRXF0qC0gojoF5bSqvBRbnBk8+xUtFiguM2L4vB7f0moAwV1VVWDDHvTnvQ68OyTMpdp6wKo/clw==}
     engines: {node: '>=18'}
 
   firebase@11.1.0:
@@ -12574,7 +12574,7 @@ snapshots:
       locate-path: 6.0.0
       path-exists: 4.0.0
 
-  firebase-admin@13.0.1:
+  firebase-admin@13.0.2:
     dependencies:
       '@fastify/busboy': 3.1.0
       '@firebase/database-compat': 2.0.1
