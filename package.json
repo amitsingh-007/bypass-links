@@ -41,10 +41,5 @@
     "typescript-eslint": "8.19.0",
     "vercel": "39.2.2"
   },
-  "packageManager": "pnpm@9.15.2",
-  "pnpm": {
-    "patchedDependencies": {
-      "mantine-contextmenu@7.14.2": "patches/mantine-contextmenu@7.14.2.patch"
-    }
-  }
+  "packageManager": "pnpm@9.15.2"
 }
