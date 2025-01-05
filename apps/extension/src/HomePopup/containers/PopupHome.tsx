@@ -12,9 +12,9 @@ import ToggleExtension from '../components/ToggleExtension';
 import ToggleHistory from '../components/ToggleHistory';
 import TwoFactorAuthenticate from '../components/TwoFactorAuthenticate';
 import UserProfile from '../components/UserProfile';
-import styles from './styles/PopupHome.module.css';
 import SyncButton from '../components/SyncButton';
 import useExtensionOutdated from '../hooks/useExtensionOutdated';
+import { buttonsContainerClass, headingClass } from './styles/PopupHome.css';
 
 const PopupHome = () => {
   useExtensionOutdated();
@@ -27,7 +27,7 @@ const PopupHome = () => {
           fw={700}
           c="grape.1"
           mb="0.625rem"
-          className={styles.heading}
+          className={headingClass}
         >
           Bypass Links
         </Text>
@@ -38,7 +38,7 @@ const PopupHome = () => {
           </Flex>
           <UserProfile />
         </Flex>
-        <Flex className={styles.buttonsContainer}>
+        <Flex className={buttonsContainerClass}>
           <Authenticate />
           <SyncButton />
           <OpenDefaultsButton />

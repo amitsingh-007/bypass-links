@@ -7,7 +7,13 @@ import { IconType } from 'react-icons';
 import { BsGithub } from 'react-icons/bs';
 import { MdExtension } from 'react-icons/md';
 import { RiTimeFill } from 'react-icons/ri';
-import styles from './styles/Footer.module.css';
+import {
+  iconContainerClass,
+  infoContainerClass,
+  footerBodyClass,
+  footerContainerClass,
+  imageClass,
+} from './styles/Footer.css';
 
 const Info = ({
   icon: Icon,
@@ -19,8 +25,8 @@ const Info = ({
   testId: string;
 }) => {
   return (
-    <Flex align="center" className={styles.infoContainer} data-testid={testId}>
-      <Box className={styles.iconContainer}>
+    <Flex align="center" className={infoContainerClass} data-testid={testId}>
+      <Box className={iconContainerClass}>
         <Icon size="100%" />
       </Box>
       <Text ml="0.625rem" fw={500} fz="1.1rem">
@@ -45,14 +51,14 @@ const Footer = async ({
       pos="relative"
       w="100%"
       justify="space-around"
-      className={styles.footerContainer}
+      className={footerContainerClass}
     >
-      <Image src={footerImage} alt="footer image" className={styles.image} />
+      <Image src={footerImage} alt="footer image" className={imageClass} />
       <Flex
         pos="absolute"
         justify="space-between"
         w="100%"
-        className={styles.footerBody}
+        className={footerBodyClass}
       >
         <Flex direction="column">
           <Info

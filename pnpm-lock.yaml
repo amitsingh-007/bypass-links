@@ -330,6 +330,9 @@ importers:
       '@trpc/server':
         specifier: 10.45.2
         version: 10.45.2
+      '@vanilla-extract/css':
+        specifier: 1.17.0
+        version: 1.17.0
       '@vercel/analytics':
         specifier: 1.4.1
         version: 1.4.1(next@15.1.1-canary.23(@babel/core@7.26.0)(@opentelemetry/api@1.9.0)(@playwright/test@1.49.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)
@@ -384,7 +387,7 @@ importers:
         version: 19.0.2
       '@vanilla-extract/next-plugin':
         specifier: 2.4.8
-        version: 2.4.8(@types/node@22.10.2)(next@15.1.1-canary.23(@babel/core@7.26.0)(@opentelemetry/api@1.9.0)(@playwright/test@1.49.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(sugarss@4.0.1(postcss@8.4.49))(terser@5.37.0)(webpack@5.97.1)
+        version: 2.4.8(@types/node@22.10.2)(next@15.1.1-canary.23(@babel/core@7.26.0)(@opentelemetry/api@1.9.0)(@playwright/test@1.49.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(webpack@5.97.1)
       autoprefixer:
         specifier: 10.4.20
         version: 10.4.20(postcss@8.4.49)
@@ -10404,7 +10407,7 @@ snapshots:
       - supports-color
       - terser
 
-  '@vanilla-extract/next-plugin@2.4.8(@types/node@22.10.2)(next@15.1.1-canary.23(@babel/core@7.26.0)(@opentelemetry/api@1.9.0)(@playwright/test@1.49.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(sugarss@4.0.1(postcss@8.4.49))(terser@5.37.0)(webpack@5.97.1)':
+  '@vanilla-extract/next-plugin@2.4.8(@types/node@22.10.2)(next@15.1.1-canary.23(@babel/core@7.26.0)(@opentelemetry/api@1.9.0)(@playwright/test@1.49.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(webpack@5.97.1)':
     dependencies:
       '@vanilla-extract/webpack-plugin': 2.3.16(@types/node@22.10.2)(lightningcss@1.28.2)(sugarss@4.0.1(postcss@8.4.49))(terser@5.37.0)(webpack@5.97.1)
       next: 15.1.1-canary.23(@babel/core@7.26.0)(@opentelemetry/api@1.9.0)(@playwright/test@1.49.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
