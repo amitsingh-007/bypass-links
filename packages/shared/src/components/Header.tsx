@@ -4,7 +4,7 @@ import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
 import { HEADER_HEIGHT } from '../constants';
 import DynamicContext from '../provider/DynamicContext';
 import Search from './Search';
-import styles from './styles/Header.module.css';
+import { badgeClass, containerClass } from './styles/Header.css';
 
 type Props = PropsWithChildren<{
   children?: React.ReactNode;
@@ -27,7 +27,7 @@ const Header = memo<Props>(
     return (
       <Flex
         component="header"
-        className={styles.container}
+        className={containerClass}
         style={{ height: HEADER_HEIGHT }}
         py={0}
         px={10}
@@ -52,7 +52,7 @@ const Header = memo<Props>(
               data-testid="header-badge"
               size="lg"
               radius="lg"
-              className={styles.badge}
+              className={badgeClass}
             >
               {text}
             </Badge>

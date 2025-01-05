@@ -9,7 +9,7 @@
     "build": "pnpm run /^build:.*/",
     "dev:chrome": "cross-env NODE_ENV=development EXT_BROWSER=chrome HOST_NAME=http://localhost:3000 NODE_NO_WARNINGS=1 NODE_OPTIONS='--loader ts-node/esm' webpack serve",
     "dev:firefox": "cross-env NODE_ENV=development EXT_BROWSER=firefox HOST_NAME=http://localhost:3000 NODE_NO_WARNINGS=1 NODE_OPTIONS='--loader ts-node/esm' webpack serve",
-    "dev": "pnpm run dev:firefox",
+    "dev": "pnpm run dev:chrome",
     "lint": "eslint . --quiet"
   },
   "dependencies": {
@@ -22,6 +22,7 @@
     "@mantine/hooks": "7.15.2",
     "@mantine/notifications": "7.15.2",
     "@mantine/nprogress": "7.15.2",
+    "@mantine/vanilla-extract": "7.15.2",
     "@t3-oss/env-core": "0.11.1",
     "@tanstack/react-virtual": "3.11.2",
     "@trpc/client": "10.45.2",
@@ -34,6 +35,7 @@
     "react-avatar-editor": "13.0.2",
     "react-dom": "19.0.0",
     "react-icons": "5.4.0",
+    "@vanilla-extract/css": "1.17.0",
     "wouter": "3.3.5",
     "wouter-preact": "3.3.5",
     "wretch": "2.11.0",
@@ -78,6 +80,7 @@
     "ts-node": "10.9.2",
     "tsconfig-paths-webpack-plugin": "4.2.0",
     "typescript": "5.7.2",
+    "@vanilla-extract/webpack-plugin": "2.3.16",
     "web-ext": "8.3.0",
     "webpack": "5.97.1",
     "webpack-cli": "6.0.1",

@@ -1,5 +1,6 @@
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import ESLintPlugin from 'eslint-webpack-plugin';
+import { createVanillaExtractPlugin } from '@vanilla-extract/next-plugin';
 
 import('./src/app/constants/env/server.mjs');
 
@@ -47,4 +48,5 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+const withVanillaExtract = createVanillaExtractPlugin();
+export default withVanillaExtract(nextConfig);

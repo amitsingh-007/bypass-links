@@ -14,6 +14,7 @@
     "@bypass/trpc": "workspace:*",
     "@mantine/core": "7.15.2",
     "@mantine/hooks": "7.15.2",
+    "@mantine/vanilla-extract": "7.15.2",
     "@t3-oss/env-nextjs": "0.11.1",
     "@tanstack/react-virtual": "3.11.2",
     "@trpc/client": "10.45.2",
@@ -44,6 +45,7 @@
     "postcss-preset-mantine": "1.17.0",
     "postcss-simple-vars": "7.0.1",
     "typescript": "5.7.2",
+    "@vanilla-extract/next-plugin": "2.4.8",
     "webpack": "5.97.1"
   }
 }
