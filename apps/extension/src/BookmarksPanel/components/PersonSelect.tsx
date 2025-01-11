@@ -51,6 +51,7 @@ const PersonSelect = ({ formProps }: { formProps: any }) => {
       placeholder="Persons"
       nothingFoundMessage="No person with this name"
       maxDropdownHeight={210}
+      searchable
       comboboxProps={{
         position: 'top',
         withinPortal: false,
