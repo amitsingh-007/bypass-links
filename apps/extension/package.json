@@ -9,7 +9,7 @@
     "build": "pnpm run /^build:.*/",
     "dev:chrome": "cross-env NODE_ENV=development EXT_BROWSER=chrome HOST_NAME=http://localhost:3000 NODE_NO_WARNINGS=1 NODE_OPTIONS='--loader ts-node/esm' webpack serve",
     "dev:firefox": "cross-env NODE_ENV=development EXT_BROWSER=firefox HOST_NAME=http://localhost:3000 NODE_NO_WARNINGS=1 NODE_OPTIONS='--loader ts-node/esm' webpack serve",
-    "dev": "pnpm run dev:firefox",
+    "dev": "pnpm run dev:chrome",
     "lint": "eslint . --quiet"
   },
   "dependencies": {

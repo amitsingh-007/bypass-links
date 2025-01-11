@@ -200,7 +200,7 @@ const BookmarkAddEditDialog = ({ curFolder, handleScroll }: Props) => {
           />
           <Select
             withAsterisk
-            maxDropdownHeight={120}
+            maxDropdownHeight={148}
             label="Folder"
             data={folderNamesList}
             {...form.getInputProps('folder')}
