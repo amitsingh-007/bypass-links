@@ -81,11 +81,6 @@ export default tseslint.config(
   {
     rules: {
       'playwright/expect-expect': 'off',
-      /**
-       * TODO: Remove once this is closed
-       * @link https://github.com/typescript-eslint/typescript-eslint/issues/9902#issuecomment-2316722449
-       */
-      '@typescript-eslint/no-deprecated': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-extraneous-class': 'off',
       '@typescript-eslint/no-dynamic-delete': 'off',

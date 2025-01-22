@@ -28,5 +28,6 @@ const createInnerTRPCContext = (): ITRPCContext => {
 
 export const getTrpcCaller = () => {
   const ctx = createInnerTRPCContext();
+  // eslint-disable-next-line @typescript-eslint/no-deprecated
   return appRouter.createCaller(ctx);
 };
