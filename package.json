@@ -31,6 +31,7 @@
     "eslint-plugin-playwright": "2.1.0",
     "eslint-plugin-prettier": "5.2.1",
     "eslint-plugin-react": "7.37.3",
+    "eslint-plugin-react-hooks": "5.1.0",
     "eslint-plugin-unicorn": "56.0.1",
     "globals": "15.14.0",
     "husky": "9.1.7",
@@ -41,5 +42,5 @@
     "typescript-eslint": "8.19.0",
     "vercel": "39.2.2"
   },
-  "packageManager": "pnpm@9.15.2"
+  "packageManager": "pnpm@10.0.0"
 }
