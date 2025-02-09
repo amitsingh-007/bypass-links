@@ -25,7 +25,9 @@ const getForum_1_2_WatchedThreadsLinksFunc = () => {
     const lastPageLink = row.querySelector<HTMLAnchorElement>(
       '.structItem-pageJump > a:last-child'
     )?.href;
-    return lastPageLink;
+    return lastPageLink?.endsWith('/unread')
+      ? `${lastPageLink}?new=1`
+      : lastPageLink;
   });
 };
 
