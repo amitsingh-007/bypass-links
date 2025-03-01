@@ -153,8 +153,8 @@ importers:
         specifier: 5.4.0
         version: 5.4.0(react@19.0.0)
       wouter:
-        specifier: 3.3.5
-        version: 3.3.5(react@19.0.0)
+        specifier: 3.6.0
+        version: 3.6.0(react@19.0.0)
       wouter-preact:
         specifier: 3.3.5
         version: 3.3.5(preact@10.26.4)
@@ -7796,8 +7796,8 @@ packages:
     peerDependencies:
       preact: ^10.0.0
 
-  wouter@3.3.5:
-    resolution: {integrity: sha512-bx3fLQAMn+EhYbBdY3W1gw9ZfO/uchudxYMwOIBzF3HVgqNEEIT199vEoh7FLTC0Vz5+rpMO6NdFsOkGX1QQCw==}
+  wouter@3.6.0:
+    resolution: {integrity: sha512-l11eR4urCc+CbY8+pV8HKFHxEqMgffss9aVB1XwiSkLDtH3cI6XpCa50cOzREzL0KwQqrwCVE5dCyeNcCgFpPg==}
     peerDependencies:
       react: '>=16.8.0'
 
@@ -16131,7 +16131,7 @@ snapshots:
       preact: 10.26.4
       regexparam: 3.0.0
 
-  wouter@3.3.5(react@19.0.0):
+  wouter@3.6.0(react@19.0.0):
     dependencies:
       mitt: 3.0.1
       react: 19.0.0
