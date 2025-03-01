@@ -493,8 +493,8 @@ importers:
         specifier: 11.4.0
         version: 11.4.0
       type-fest:
-        specifier: 4.31.0
-        version: 4.31.0
+        specifier: 4.35.0
+        version: 4.35.0
       typescript:
         specifier: 5.7.3
         version: 5.7.3
@@ -7360,6 +7360,10 @@ packages:
     resolution: {integrity: sha512-yCxltHW07Nkhv/1F6wWBr8kz+5BGMfP+RbRSYFnegVb0qV/UMT0G0ElBloPVerqn4M2ZV80Ir1FtCcYv1cT6vQ==}
     engines: {node: '>=16'}
 
+  type-fest@4.35.0:
+    resolution: {integrity: sha512-2/AwEFQDFEy30iOLjrvHDIH7e4HEWH+f1Yl1bI5XMqzuoCUqwYCdxachgsgv0og/JdVZUhbfjcJAoHj5L1753A==}
+    engines: {node: '>=16'}
+
   type-is@1.6.18:
     resolution: {integrity: sha512-TkRKr9sUTxEH8MdfuCSP7VizJyzRNMjj2J2do2Jr3Kym598JVdEksuzPQCnlFPW4ky9Q+iA+ma9BGm06XQBy8g==}
     engines: {node: '>= 0.6'}
@@ -10879,7 +10883,7 @@ snapshots:
       chalk: 5.4.1
       cli-boxes: 3.0.0
       string-width: 7.2.0
-      type-fest: 4.31.0
+      type-fest: 4.35.0
       widest-line: 5.0.0
       wrap-ansi: 9.0.0
 
@@ -11575,7 +11579,7 @@ snapshots:
 
   dot-prop@9.0.0:
     dependencies:
-      type-fest: 4.31.0
+      type-fest: 4.35.0
 
   dotenv@16.0.3: {}
 
@@ -15557,6 +15561,8 @@ snapshots:
   type-fest@3.13.1: {}
 
   type-fest@4.31.0: {}
+
+  type-fest@4.35.0: {}
 
   type-is@1.6.18:
     dependencies:
