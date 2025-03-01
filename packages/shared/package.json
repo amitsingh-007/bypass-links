@@ -29,7 +29,7 @@
     "@bypass/configs": "workspace:*",
     "@total-typescript/ts-reset": "0.6.1",
     "@types/md5": "2.3.5",
-    "@types/react": "19.0.8",
+    "@types/react": "19.0.10",
     "typescript": "5.7.3"
   }
 }
