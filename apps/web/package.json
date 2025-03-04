@@ -38,7 +38,7 @@
     "@types/md5": "2.3.5",
     "@types/react": "19.0.10",
     "autoprefixer": "10.4.20",
-    "eslint-webpack-plugin": "4.2.0",
+    "eslint-webpack-plugin": "5.0.0",
     "fork-ts-checker-webpack-plugin": "9.0.2",
     "postcss": "8.5.3",
     "postcss-preset-mantine": "1.17.0",
