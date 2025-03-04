@@ -10,6 +10,7 @@ import playwright from 'eslint-plugin-playwright';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import gitignore from 'eslint-config-flat-gitignore';
 import eslintPluginUnicorn from 'eslint-plugin-unicorn';
+import turbo from 'eslint-plugin-turbo';
 
 /**
  * TODO: Plugins not yet working
@@ -71,7 +72,7 @@ export default tseslint.config(
     },
   },
   // turborepo eslint config
-  ...compat.extends('turbo'),
+  turbo.configs['flat/recommended'],
   // playwright eslint config
   {
     ...playwright.configs['flat/recommended'],
