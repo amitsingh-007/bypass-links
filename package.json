@@ -19,7 +19,7 @@
     "@eslint/compat": "1.2.6",
     "@eslint/eslintrc": "3.3.0",
     "@eslint/js": "9.21.0",
-    "@playwright/test": "1.49.1",
+    "@playwright/test": "1.50.1",
     "@types/eslint__js": "9.14.0",
     "@types/node": "22.13.7",
     "eslint": "9.21.0",
