@@ -47,7 +47,7 @@ export default tseslint.config(
       'apps/extension/scripts',
     ],
   },
-  eslintPluginUnicorn.configs['flat/recommended'],
+  eslintPluginUnicorn.configs['recommended'],
   // react eslint config
   {
     files: ['**/*.{ts,tsx}'],
