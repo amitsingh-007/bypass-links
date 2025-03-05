@@ -14,10 +14,8 @@ import turbo from 'eslint-plugin-turbo';
 
 /**
  * TODO: Plugins not yet working
- * 2. airbnb and airbnb-typescript
- * 3. @next/eslint-plugin-next
- * 4. next/core-web-vitals
- * @link https://typescript-eslint.io/troubleshooting/typed-linting/performance/#eslint-plugin-import
+ * 1. @next/eslint-plugin-next
+ * 2. next/core-web-vitals
  */
 
 const compat = new FlatCompat();

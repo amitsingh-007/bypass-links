@@ -22,8 +22,6 @@
     "@playwright/test": "1.50.1",
     "@types/node": "22.13.7",
     "eslint": "9.21.0",
-    "eslint-config-airbnb": "19.0.4",
-    "eslint-config-airbnb-typescript": "18.0.0",
     "eslint-config-flat-gitignore": "2.1.0",
     "eslint-config-prettier": "10.0.2",
     "eslint-plugin-playwright": "2.2.0",
