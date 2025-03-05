@@ -10,13 +10,12 @@ import playwright from 'eslint-plugin-playwright';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import gitignore from 'eslint-config-flat-gitignore';
 import eslintPluginUnicorn from 'eslint-plugin-unicorn';
+import turbo from 'eslint-plugin-turbo';
 
 /**
  * TODO: Plugins not yet working
- * 2. airbnb and airbnb-typescript
- * 3. @next/eslint-plugin-next
- * 4. next/core-web-vitals
- * @link https://typescript-eslint.io/troubleshooting/typed-linting/performance/#eslint-plugin-import
+ * 1. @next/eslint-plugin-next
+ * 2. next/core-web-vitals
  */
 
 const compat = new FlatCompat();
@@ -46,7 +45,7 @@ export default tseslint.config(
       'apps/extension/scripts',
     ],
   },
-  eslintPluginUnicorn.configs['flat/recommended'],
+  eslintPluginUnicorn.configs['recommended'],
   // react eslint config
   {
     files: ['**/*.{ts,tsx}'],
@@ -71,7 +70,7 @@ export default tseslint.config(
     },
   },
   // turborepo eslint config
-  ...compat.extends('turbo'),
+  turbo.configs['flat/recommended'],
   // playwright eslint config
   {
     ...playwright.configs['flat/recommended'],
@@ -81,11 +80,6 @@ export default tseslint.config(
   {
     rules: {
       'playwright/expect-expect': 'off',
-      /**
-       * TODO: Remove once this is closed
-       * @link https://github.com/typescript-eslint/typescript-eslint/issues/9902#issuecomment-2316722449
-       */
-      '@typescript-eslint/no-deprecated': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-extraneous-class': 'off',
       '@typescript-eslint/no-dynamic-delete': 'off',

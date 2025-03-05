@@ -2,7 +2,7 @@ import PreactRefreshPlugin from '@prefresh/webpack';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-// import ESLintPlugin from 'eslint-webpack-plugin';
+import ESLintPlugin from 'eslint-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MergeJsonWebpackPlugin from 'merge-jsons-webpack-plugin';
@@ -27,6 +27,7 @@ const isChromeBuild = EXT_BROWSER === 'chrome';
 const isProduction = NODE_ENV === 'production';
 
 const PATHS = {
+  MONOREPO_ROOT: path.resolve(dirName, '..', '..'),
   ROOT: path.resolve(dirName),
   SRC: path.resolve(dirName, 'src'),
   EXTENSION: isChromeBuild
@@ -260,14 +261,12 @@ const config: Configuration = {
       },
     }),
     !isProduction && new PreactRefreshPlugin(),
-    // new ESLintPlugin({
-    //   extensions: ['ts', 'tsx'],
-    //   cache: !isProduction,
-    //   threads: !isProduction,
-    //   lintDirtyModulesOnly: !isProduction,
-    //   configType: 'flat',
-    //   emitWarning: false,
-    // }),
+    new ESLintPlugin({
+      extensions: ['ts', 'tsx'],
+      threads: true,
+      emitWarning: false,
+      eslintPath: path.resolve(PATHS.MONOREPO_ROOT, 'node_modules/eslint'),
+    }),
   ],
 };
 
