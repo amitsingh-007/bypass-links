@@ -1,5 +1,4 @@
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
-import ESLintPlugin from 'eslint-webpack-plugin';
 
 import('./src/app/constants/env/server.mjs');
 
@@ -32,16 +31,7 @@ const nextConfig = {
       })
     );
     if (dev) {
-      config.plugins.push(
-        new ForkTsCheckerWebpackPlugin(),
-        new ESLintPlugin({
-          extensions: ['ts', 'tsx'],
-          cache: isDev,
-          threads: isDev,
-          lintDirtyModulesOnly: isDev,
-          configType: 'flat',
-        })
-      );
+      config.plugins.push(new ForkTsCheckerWebpackPlugin());
     }
     return config;
   },
