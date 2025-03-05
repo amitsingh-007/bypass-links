@@ -1,5 +1,6 @@
 import { ITRPCContext } from '../src/@types/trpc';
 import { appRouter } from '../src/index';
+import { t } from '../src/trpc';
 import { getUser } from './firebase';
 
 const createInnerTRPCContext = (): ITRPCContext => {
@@ -28,6 +29,5 @@ const createInnerTRPCContext = (): ITRPCContext => {
 
 export const getTrpcCaller = () => {
   const ctx = createInnerTRPCContext();
-  // eslint-disable-next-line @typescript-eslint/no-deprecated
-  return appRouter.createCaller(ctx);
+  return t.createCallerFactory(appRouter)(ctx);
 };
