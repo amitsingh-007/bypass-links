@@ -15,7 +15,7 @@
     "@mantine/core": "7.17.3",
     "@mantine/hooks": "7.17.3",
     "@t3-oss/env-nextjs": "0.12.0",
-    "@tanstack/react-virtual": "3.11.3",
+    "@tanstack/react-virtual": "3.13.6",
     "@trpc/client": "10.45.2",
     "@trpc/server": "10.45.2",
     "@vercel/analytics": "1.5.0",
