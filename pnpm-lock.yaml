@@ -166,8 +166,8 @@ importers:
         specifier: 1.5.3
         version: 1.5.3(preact@10.26.4)
       '@prefresh/webpack':
-        specifier: 4.0.1
-        version: 4.0.1(@prefresh/babel-plugin@0.5.1)(preact@10.26.4)(webpack@5.98.0)
+        specifier: 4.0.2
+        version: 4.0.2(@prefresh/babel-plugin@0.5.1)(preact@10.26.4)(webpack@5.98.0)
       '@types/archiver':
         specifier: 6.0.3
         version: 6.0.3
@@ -1986,8 +1986,8 @@ packages:
   '@prefresh/utils@1.2.0':
     resolution: {integrity: sha512-KtC/fZw+oqtwOLUFM9UtiitB0JsVX0zLKNyRTA332sqREqSALIIQQxdUCS1P3xR/jT1e2e8/5rwH6gdcMLEmsQ==}
 
-  '@prefresh/webpack@4.0.1':
-    resolution: {integrity: sha512-BAzEqkNZSm1B82l8oXp+b69ffCQopjca8yeooczmCBSU6ZGhxWf+G2fmRt02CkcMpnDiHuDNDdsBJqEBKRJzOQ==}
+  '@prefresh/webpack@4.0.2':
+    resolution: {integrity: sha512-mHVIYtXj3FfdX2V2NyMLnrtIJ3IZ/bwWQycTZpdRyUY6kYbPwFLTO8XbABDKUGwecXNj5jHFJJK+knwIjN2+ug==}
     peerDependencies:
       '@prefresh/babel-plugin': ^0.5.0
       preact: ^10.4.0
@@ -9475,7 +9475,7 @@ snapshots:
 
   '@prefresh/utils@1.2.0': {}
 
-  '@prefresh/webpack@4.0.1(@prefresh/babel-plugin@0.5.1)(preact@10.26.4)(webpack@5.98.0)':
+  '@prefresh/webpack@4.0.2(@prefresh/babel-plugin@0.5.1)(preact@10.26.4)(webpack@5.98.0)':
     dependencies:
       '@prefresh/babel-plugin': 0.5.1
       '@prefresh/core': 1.5.3(preact@10.26.4)
