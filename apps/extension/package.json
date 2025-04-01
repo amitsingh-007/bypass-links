@@ -72,7 +72,7 @@
     "postcss-preset-mantine": "1.17.0",
     "postcss-simple-vars": "7.0.1",
     "react-refresh": "0.16.0",
-    "terser-webpack-plugin": "5.3.12",
+    "terser-webpack-plugin": "5.3.14",
     "style-loader": "4.0.0",
     "ts-loader": "9.5.2",
     "ts-node": "10.9.2",
