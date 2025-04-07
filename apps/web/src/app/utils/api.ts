@@ -1,7 +1,7 @@
 import { serverEnv } from '@app/constants/env/server.mjs';
 import { getAuthIdToken } from '@app/helpers/firebase/auth';
 import { type AppRouter } from '@bypass/trpc';
-import { createTRPCProxyClient, httpBatchLink, loggerLink } from '@trpc/client';
+import { createTRPCClient, httpBatchLink, loggerLink } from '@trpc/client';
 
 const getBaseUrl = () => {
   if (typeof window !== 'undefined') {
@@ -13,7 +13,7 @@ const getBaseUrl = () => {
   return `http://localhost:${serverEnv.PORT ?? 3000}`;
 };
 
-export const api = createTRPCProxyClient<AppRouter>({
+export const api = createTRPCClient<AppRouter>({
   links: [
     loggerLink({
       enabled: (opts) => {

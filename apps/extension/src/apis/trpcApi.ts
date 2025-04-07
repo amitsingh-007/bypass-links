@@ -1,8 +1,8 @@
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import type { AppRouter } from '@bypass/trpc';
-import { createTRPCProxyClient, httpBatchLink, loggerLink } from '@trpc/client';
+import { createTRPCClient, httpBatchLink, loggerLink } from '@trpc/client';
 
-export const trpcApi = createTRPCProxyClient<AppRouter>({
+export const trpcApi = createTRPCClient<AppRouter>({
   links: [
     loggerLink({
       enabled: () => true,

@@ -6,8 +6,8 @@ Following are the supported node versions:
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 20.x.x   | :white_check_mark: |
-| < 20.x.x   | :x: |
+| 22.x.x   | :white_check_mark: |
+| < 22.x.x   | :x: |
 
 Following are the supported browser versions:
 

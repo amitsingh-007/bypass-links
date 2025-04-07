@@ -18,8 +18,8 @@
     "@bypass/shared": "workspace:*",
     "@octokit/rest": "21.1.1",
     "@t3-oss/env-core": "0.12.0",
-    "@trpc/server": "10.45.2",
-    "firebase-admin": "13.1.0",
+    "@trpc/server": "11.0.2",
+    "firebase-admin": "13.2.0",
     "otplib": "12.0.1",
     "qrcode": "1.5.4",
     "zod": "3.24.2"
@@ -28,9 +28,9 @@
     "@firebase/app-types": "0.9.3",
     "@types/qrcode": "1.5.5",
     "dotenv": "16.4.7",
-    "firebase": "11.4.0",
-    "type-fest": "4.35.0",
+    "firebase": "11.6.0",
+    "type-fest": "4.38.0",
     "typescript": "5.8.2",
-    "vitest": "3.0.7"
+    "vitest": "3.1.1"
   }
 }
