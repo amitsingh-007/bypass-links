@@ -5,6 +5,7 @@ import useHistoryStore from '@store/history';
 import { useEffect, useState } from 'react';
 import ButtonWithFeedback from './ButtonWithFeedback';
 import { isForumPage } from '@/BackgroundScript/websites';
+import { sleep } from '@bypass/shared';
 
 const isCurrentPageForum = async (url = '') => {
   const hostname = url && new URL(url).hostname;
@@ -37,6 +38,11 @@ const OpenForumLinks = () => {
       tabId: currentTab.id,
       url: currentTab.url,
     });
+
+    for (const url of forumPageLinks) {
+      await chrome.tabs.create({ url, active: false });
+      await sleep(1000); // 1sec
+    }
     forumPageLinks.forEach((url) => chrome.tabs.create({ url, active: false }));
   };
 
