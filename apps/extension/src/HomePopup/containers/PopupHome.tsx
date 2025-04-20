@@ -12,7 +12,6 @@ import ToggleHistory from '../components/ToggleHistory';
 import TwoFactorAuthenticate from '../components/TwoFactorAuthenticate';
 import UserProfile from '../components/UserProfile';
 import styles from './styles/PopupHome.module.css';
-import SyncButton from '../components/SyncButton';
 import useExtensionOutdated from '../hooks/useExtensionOutdated';
 
 const PopupHome = () => {
@@ -39,7 +38,6 @@ const PopupHome = () => {
         </Flex>
         <Flex className={styles.buttonsContainer}>
           <Authenticate />
-          <SyncButton />
           <OpenDefaultsButton />
           <QuickBookmarkButton />
           <PersonsPanelButton />

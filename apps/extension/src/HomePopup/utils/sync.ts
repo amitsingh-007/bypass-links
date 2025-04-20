@@ -62,7 +62,7 @@ const syncFirebaseToStorage = async () => {
   nprogress.increment();
 };
 
-export const syncStorageToFirebase = async () => {
+const syncStorageToFirebase = async () => {
   await syncBookmarksAndPersonsFirebaseWithStorage();
 };
 
