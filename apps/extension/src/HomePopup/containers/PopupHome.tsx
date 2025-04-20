@@ -44,10 +44,10 @@ const PopupHome = () => {
         <Flex className={styles.buttonsContainer}>
           <Authenticate />
           <OpenDefaultsButton />
+          <ShortcutsPanelButton />
           <QuickBookmarkButton />
           <PersonsPanelButton />
           <BookmarksPanelButton />
-          <ShortcutsPanelButton />
           <OpenForumLinks />
           <LastVisitedButton />
         </Flex>
