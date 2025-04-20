@@ -1,13 +1,19 @@
 import { getFirebasePublicConfig } from '@bypass/configs/firebase.config';
 import { initializeApp } from 'firebase/app';
-import { User, deleteUser, getAuth, signInAnonymously } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getEnv } from '../src/constants/env';
 
 const firebaseApp = initializeApp(getFirebasePublicConfig(PROD_ENV));
 const auth = getAuth(firebaseApp);
 
-export const anonymousSignIn = () => signInAnonymously(auth);
-
-export const deleteFirebaseUser = (user: User) => deleteUser(user);
+export const testUserSignIn = async () => {
+  const env = getEnv();
+  return signInWithEmailAndPassword(
+    auth,
+    env.FIREBASE_TEST_USER_EMAIL,
+    env.FIREBASE_TEST_USER_PASSWORD
+  );
+};
 
 export const getUser = () => auth.currentUser;
 

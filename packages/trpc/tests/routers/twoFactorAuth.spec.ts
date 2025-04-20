@@ -1,23 +1,17 @@
 import { authenticator } from 'otplib';
-import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import { FirebaseUser, anonymousSignIn, deleteFirebaseUser } from '../firebase';
+import { beforeAll, describe, expect, it } from 'vitest';
+import { testUserSignIn } from '../firebase';
 import { getTrpcCaller } from '../test-helpers';
 
 const getRandomTotp = () => Math.floor(Math.random() * 1_000_000).toString();
 
 describe('Two Factor Auth Setup Flow', () => {
-  let user: FirebaseUser;
   let secretKey: string | undefined;
   let otpAuthUrl: string | undefined;
   let qrcode: string | undefined;
 
   beforeAll(async () => {
-    const userCredential = await anonymousSignIn();
-    user = userCredential.user;
-  });
-
-  afterAll(async () => {
-    await deleteFirebaseUser(user);
+    await testUserSignIn();
   });
 
   it('should have expected response', async () => {
