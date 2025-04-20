@@ -17,7 +17,6 @@
     "@bypass/shared": "workspace:*",
     "@bypass/trpc": "workspace:*",
     "@mantine/core": "7.17.3",
-    "@mantine/dates": "7.17.3",
     "@mantine/form": "7.17.3",
     "@mantine/hooks": "7.17.3",
     "@mantine/notifications": "7.17.3",

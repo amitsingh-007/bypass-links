@@ -1,6 +1,5 @@
 // !NOTE: maintain below order of css
 import '@mantine/core/styles.css';
-import '@mantine/dates/styles.css';
 import 'mantine-contextmenu/styles.css';
 import './index.css';
 import { mantineTheme } from '@bypass/shared';

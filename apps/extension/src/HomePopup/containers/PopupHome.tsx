@@ -1,7 +1,6 @@
 import { Flex, Text } from '@mantine/core';
 import Authenticate from '../components/Authenticate';
 import BookmarksPanelButton from '../components/BookmarksPanelButton';
-import HistoryPanelButton from '../components/HistoryPanelButton';
 import LastVisitedButton from '../components/LastVisitedButton';
 import OpenDefaultsButton from '../components/OpenDefaultsButton';
 import OpenForumLinks from '../components/OpenForumLinks';
@@ -45,7 +44,6 @@ const PopupHome = () => {
           <QuickBookmarkButton />
           <PersonsPanelButton />
           <BookmarksPanelButton />
-          <HistoryPanelButton />
           <ShortcutsPanelButton />
           <OpenForumLinks />
           <LastVisitedButton />
