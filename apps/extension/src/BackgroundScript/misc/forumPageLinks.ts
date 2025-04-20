@@ -40,6 +40,18 @@ const getForum_3_LinksFunc = () => {
   return [...(recentPostLinks || [])].map((link) => link.href);
 };
 
+const getForum_4_LinksFunc = () => {
+  const unreadPosts = document.querySelectorAll<HTMLLinkElement>(
+    'ol.cForumTopicTable > li.ipsDataItem_unread'
+  );
+  return [...(unreadPosts || [])].map((li) => {
+    const postLink = li.querySelector<HTMLAnchorElement>(
+      '.ipsContained_container a'
+    );
+    return postLink?.href;
+  });
+};
+
 export const getForumPageLinks = async (
   tabId: number,
   url: string
@@ -60,6 +72,11 @@ export const getForumPageLinks = async (
 
     case url.includes(websites.FORUM_3): {
       executor = getForum_3_LinksFunc;
+      break;
+    }
+
+    case url.includes(websites.FORUM_4): {
+      executor = getForum_4_LinksFunc;
       break;
     }
 

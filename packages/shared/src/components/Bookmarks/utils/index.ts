@@ -62,3 +62,6 @@ export const getDecryptedFolder = (folder: IEncodedFolder): IEncodedFolder => ({
 
 export const getDecodedFolderList = (folderList: IBookmarksObj['folderList']) =>
   Object.entries(folderList).map(([_key, value]) => getDecryptedFolder(value));
+
+export const getDefaultFolder = (folders: IEncodedFolder[]) =>
+  folders.find((x) => x.isDefault);

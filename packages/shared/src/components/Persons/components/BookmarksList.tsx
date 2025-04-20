@@ -21,7 +21,10 @@ import Header from '../../Header';
 import usePerson from '../hooks/usePerson';
 import { ModifiedBookmark } from '../interfaces/bookmark';
 import { IPerson } from '../interfaces/persons';
-import { getFilteredModifiedBookmarks } from '../utils/bookmark';
+import {
+  getFilteredModifiedBookmarks,
+  getOrderedBookmarksList,
+} from '../utils/bookmark';
 import styles from './styles/BookmarksList.module.css';
 
 interface Props {
@@ -38,7 +41,8 @@ const BookmarksList = ({
   fullscreen,
 }: Props) => {
   const { location } = useContext(DynamicContext);
-  const { getBookmarkFromHash, getFolderFromHash } = useBookmark();
+  const { getBookmarkFromHash, getFolderFromHash, getDefaultOrRootFolderUrls } =
+    useBookmark();
   const { getPersonTaggedUrls } = usePerson();
   const [bookmarks, setBookmarks] = useState<ModifiedBookmark[]>([]);
   const [searchText, setSearchText] = useState('');
@@ -59,9 +63,17 @@ const BookmarksList = ({
         } satisfies ModifiedBookmark;
       })
     );
-    setBookmarks(fetchedBookmarks);
+
+    const defaultUrls = await getDefaultOrRootFolderUrls();
+    const orderedBookmarks = getOrderedBookmarksList(
+      fetchedBookmarks,
+      defaultUrls
+    );
+
+    setBookmarks(orderedBookmarks);
   }, [
     getBookmarkFromHash,
+    getDefaultOrRootFolderUrls,
     getFolderFromHash,
     getPersonTaggedUrls,
     personToOpen?.uid,

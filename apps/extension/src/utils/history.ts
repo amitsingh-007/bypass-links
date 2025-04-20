@@ -1,9 +1,9 @@
+import { getHistoryTime } from '@/helpers/fetchFromStorage';
+
 const THIRTY_SECONDS = 30 * 1000; // in milliseconds
 
 const isHistoryAlreadyActive = async () => {
-  const { historyStartTime } = await chrome.storage.local.get([
-    'historyStartTime',
-  ]);
+  const historyStartTime = await getHistoryTime();
   return Boolean(historyStartTime);
 };
 

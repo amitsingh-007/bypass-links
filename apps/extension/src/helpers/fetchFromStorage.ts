@@ -6,7 +6,6 @@ import {
   ILastVisited,
   IPersons,
   IRedirections,
-  ISettings,
   IWebsites,
   PersonImageUrls,
   STORAGE_KEYS,
@@ -47,13 +46,6 @@ export const getUser2FAInfo = async (): Promise<IUser2FAInfo> => {
   const { [STORAGE_KEYS.user2FAInfo]: user2FAInfo } =
     await chrome.storage.local.get(STORAGE_KEYS.user2FAInfo);
   return user2FAInfo;
-};
-
-export const getSettings = async (): Promise<ISettings> => {
-  const { [STORAGE_KEYS.settings]: settings } = await chrome.storage.local.get(
-    STORAGE_KEYS.settings
-  );
-  return settings;
 };
 
 export const getPersons = async (): Promise<IPersons> => {

@@ -27,5 +27,11 @@ export const mantineTheme: MantineThemeOverride = {
         variant: 'subtle',
       },
     },
+    Switch: {
+      defaultProps: {
+        onLabel: 'ON',
+        offLabel: 'OFF',
+      },
+    },
   },
 };

@@ -1,7 +1,6 @@
 import { Flex, Text } from '@mantine/core';
 import Authenticate from '../components/Authenticate';
 import BookmarksPanelButton from '../components/BookmarksPanelButton';
-import HistoryPanelButton from '../components/HistoryPanelButton';
 import LastVisitedButton from '../components/LastVisitedButton';
 import OpenDefaultsButton from '../components/OpenDefaultsButton';
 import OpenForumLinks from '../components/OpenForumLinks';
@@ -13,8 +12,11 @@ import ToggleHistory from '../components/ToggleHistory';
 import TwoFactorAuthenticate from '../components/TwoFactorAuthenticate';
 import UserProfile from '../components/UserProfile';
 import styles from './styles/PopupHome.module.css';
-import SyncButton from '../components/SyncButton';
 import useExtensionOutdated from '../hooks/useExtensionOutdated';
+
+const handleOpenAsPage = () => {
+  chrome.tabs.create({ url: window.location.href });
+};
 
 const PopupHome = () => {
   useExtensionOutdated();
@@ -28,6 +30,7 @@ const PopupHome = () => {
           c="grape.1"
           mb="0.625rem"
           className={styles.heading}
+          onClick={handleOpenAsPage}
         >
           Bypass Links
         </Text>
@@ -40,13 +43,11 @@ const PopupHome = () => {
         </Flex>
         <Flex className={styles.buttonsContainer}>
           <Authenticate />
-          <SyncButton />
           <OpenDefaultsButton />
+          <ShortcutsPanelButton />
           <QuickBookmarkButton />
           <PersonsPanelButton />
           <BookmarksPanelButton />
-          <HistoryPanelButton />
-          <ShortcutsPanelButton />
           <OpenForumLinks />
           <LastVisitedButton />
         </Flex>

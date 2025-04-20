@@ -31,7 +31,7 @@ const PersonAvatars = memo<{ persons: IPersonWithImage[] }>(({ persons }) => {
             <Avatar radius="xl" size="1.75rem" src={imageUrl} />
           </HoverCard.Target>
           <HoverCard.Dropdown>
-            <Tooltip label={name} position="right" color="gray">
+            <Tooltip label={name} position="right" color="gray" opened>
               <Avatar
                 ml={0}
                 radius="xl"

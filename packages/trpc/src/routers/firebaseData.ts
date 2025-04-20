@@ -4,7 +4,6 @@ import {
   LastVisitedSchema,
   PersonsSchema,
   RedirectionsSchema,
-  SettingsSchema,
   WebsitesSchema,
 } from '@bypass/shared/schema';
 import { z } from 'zod';
@@ -14,12 +13,10 @@ import {
   getLastVisited,
   getPersons,
   getRedirections,
-  getSettings,
   getWebsites,
   saveBookmarksAndPersons,
   saveLastVisited,
   saveRedirections,
-  saveSettings,
 } from '../services/firebase/realtimeDBService';
 import { t } from '../trpc';
 
@@ -41,18 +38,6 @@ const firebaseDataRouter = t.router({
     .output(z.boolean())
     .mutation(async ({ input, ctx }) => {
       return saveBookmarksAndPersons(input.bookmarks, input.persons, ctx.user);
-    }),
-
-  settingsGet: protectedProcedure
-    .output(SettingsSchema)
-    .query(async ({ ctx }) => {
-      return getSettings(ctx.user);
-    }),
-  settingsPost: protectedProcedure
-    .input(SettingsSchema)
-    .output(z.boolean())
-    .mutation(async ({ input, ctx }) => {
-      return saveSettings(input, ctx.user);
     }),
 
   websitesGet: protectedProcedure

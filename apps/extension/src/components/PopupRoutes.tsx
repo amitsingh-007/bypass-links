@@ -1,5 +1,4 @@
 import { BookmarksPanelRoute } from '@/BookmarksPanel/routes';
-import { HistoryPanelRoute } from '@/HistoryPanel/routes';
 import { HomePageRoute } from '@/HomePopup/routes';
 import { PersonsPanelRoute } from '@/PersonsPanel/routes';
 import { SettingsPanelRoute } from '@/SettingsPanel/routes';
@@ -14,7 +13,6 @@ const PopupRoutes = () => (
       {ShortcutsPanelRoute}
       {BookmarksPanelRoute}
       {PersonsPanelRoute}
-      {HistoryPanelRoute}
       {SettingsPanelRoute}
     </Switch>
   </Suspense>
