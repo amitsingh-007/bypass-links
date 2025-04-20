@@ -8,7 +8,7 @@ import AddOrEditPersonDialog from './AddOrEditPersonDialog';
 
 interface Props {
   person: IPerson;
-  handleEditPerson: (person: IPerson) => void;
+  handleEditPerson: (person: IPerson) => Promise<void>;
   handlePersonDelete: (person: IPerson) => void;
 }
 
@@ -43,8 +43,8 @@ const PersonVirtualCell = memo<Props>(
       return options;
     }, [handleDeleteOptionClick, theme.colors, toggleEditPersonDialog]);
 
-    const handlePersonSave = (updatedPerson: IPerson) => {
-      handleEditPerson(updatedPerson);
+    const handlePersonSave = async (updatedPerson: IPerson) => {
+      await handleEditPerson(updatedPerson);
       toggleEditPersonDialog();
     };
 
