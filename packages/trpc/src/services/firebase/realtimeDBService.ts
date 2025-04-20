@@ -4,7 +4,6 @@ import {
   IPersons,
   IRedirection,
   IRedirections,
-  ISettings,
 } from '@bypass/shared';
 import { IUser } from '../../@types/trpc';
 import { EFirebaseDBRef } from '../../constants/firebase';
@@ -48,20 +47,6 @@ export const saveBookmarksAndPersons = async (
     savePersons(persons, user),
   ]);
   return isBookmarksSaved && isPersonsSaved;
-};
-
-export const getSettings = async (user: IUser) => {
-  return getFromFirebase({
-    ref: EFirebaseDBRef.settings,
-    uid: user.uid,
-  });
-};
-export const saveSettings = async (settings: ISettings, user: IUser) => {
-  return saveToFirebase({
-    ref: EFirebaseDBRef.settings,
-    uid: user.uid,
-    data: settings,
-  });
 };
 
 export const getWebsites = async (user: IUser) => {

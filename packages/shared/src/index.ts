@@ -38,7 +38,6 @@ export * from './constants/storage';
 export * from './constants/theme';
 
 // Interfaces
-export * from './interfaces/ISettings';
 export * from './interfaces/IWebsites';
 export * from './interfaces/ILastVisited';
 export * from './interfaces/IRedirection';
