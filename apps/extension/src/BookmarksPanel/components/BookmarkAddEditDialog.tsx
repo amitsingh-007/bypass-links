@@ -5,6 +5,7 @@ import {
   EBookmarkOperation,
   getBookmarksPanelUrl,
   getDecodedFolderList,
+  getDefaultFolder,
   ITransformedBookmark,
 } from '@bypass/shared';
 import { Button, Modal, Select, Stack, TextInput } from '@mantine/core';
@@ -66,7 +67,7 @@ const BookmarkAddEditDialog = ({ curFolder, handleScroll }: Props) => {
   const { folderNamesList, defaultFolderName } = useMemo(() => {
     const decodedFolderList = getDecodedFolderList(folderList);
     const folderNames = decodedFolderList.map((x) => x.name);
-    const defaultFolder = decodedFolderList.find((x) => x.isDefault);
+    const defaultFolder = getDefaultFolder(decodedFolderList);
     return {
       folderNamesList: folderNames,
       defaultFolderName: defaultFolder?.name,

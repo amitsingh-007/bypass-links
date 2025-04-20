@@ -79,8 +79,6 @@ const ToggleHistory = () => {
 
   return (
     <Switch
-      onLabel="ON"
-      offLabel="OFF"
       size="md"
       label="History"
       checked={isHistoryActive}
