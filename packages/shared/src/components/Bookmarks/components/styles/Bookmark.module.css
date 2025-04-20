@@ -1,5 +1,6 @@
 .tooltip {
   word-wrap: break-word;
+  z-index: var(--mantine-z-index-max) !important;
 }
 
 .tooltipTextWrapper {
