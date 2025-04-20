@@ -23,13 +23,8 @@ import {
   syncSettingsToStorage,
 } from '@/SettingsPanel/utils/sync';
 import { trpcApi } from '@/apis/trpcApi';
-import { sendRuntimeMessage } from '@/utils/sendRuntimeMessage';
 import { ECacheBucketKeys, STORAGE_KEYS, deleteAllCache } from '@bypass/shared';
-import {
-  getHistoryTime,
-  getSettings,
-  getUser2FAInfo,
-} from '@helpers/fetchFromStorage';
+import { getSettings, getUser2FAInfo } from '@helpers/fetchFromStorage';
 import { IUser2FAInfo } from '../interfaces/authentication';
 import {
   resetWebsites,
@@ -113,26 +108,21 @@ export const processPreLogout = async () => {
 
 export const processPostLogout = async () => {
   const settings = await getSettings();
-  const historyStartTime = await getHistoryTime();
   // Reset storage
   await resetStorage();
   // Refresh browser cache
   deleteAllCache([ECacheBucketKeys.favicon, ECacheBucketKeys.person]);
   nprogress.increment();
   if (settings?.hasManageGoogleActivityConsent) {
-    // Open Google Search and Google Image tabs
+    // Open Google Search, Google Image & Google Data tabs
     await chrome.tabs.create({ url: 'https://www.google.com/', active: false });
     await chrome.tabs.create({
       url: 'https://www.google.com/imghp',
       active: false,
     });
-    // Clear activity from google account
-    if (historyStartTime) {
-      const historyWatchTime = Date.now() - historyStartTime;
-      await sendRuntimeMessage({
-        key: 'manageGoogleActivity',
-        historyWatchTime,
-      });
-    }
+    await chrome.tabs.create({
+      url: 'https://myactivity.google.com/activitycontrols/webandapp',
+      active: false,
+    });
   }
 };
