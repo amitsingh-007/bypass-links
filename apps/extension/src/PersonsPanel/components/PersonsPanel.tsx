@@ -4,18 +4,20 @@ import {
   getDecryptedPerson,
   getEncryptedPerson,
   getFilteredPersons,
+  getOrderedPersons,
   getPersonImageName,
   HEADER_HEIGHT,
   IPerson,
   IPersons,
   Persons,
   sortAlphabetically,
+  useBookmark,
   usePerson,
 } from '@bypass/shared';
 import { getPersons } from '@helpers/fetchFromStorage';
 import { Box, Flex } from '@mantine/core';
 import useHistoryStore from '@store/history';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getPersonPos, setPersonsInStorage } from '../utils';
 import { updatePersonCacheAndImageUrls } from '../utils/sync';
 import PersonHeader from './PersonHeader';
@@ -27,9 +29,14 @@ const PersonsPanel = () => {
     (state) => state.startHistoryMonitor
   );
   const { getPersonTaggedUrls } = usePerson();
+  const { getDefaultOrRootFolderUrls } = useBookmark();
   const [persons, setPersons] = useState<IPerson[]>([]);
+  const [filteredAndOrderedPersons, setFilteredAndOrderedPersons] = useState<
+    IPerson[]
+  >([]);
   const [isFetching, setIsFetching] = useState(true);
   const [searchText, setSearchText] = useState('');
+  const [orderByRecency, setOrderByRecency] = useState(false);
 
   useEffect(() => {
     getPersons().then((_persons) => {
@@ -40,6 +47,17 @@ const PersonsPanel = () => {
       setIsFetching(false);
     });
   }, []);
+
+  useEffect(() => {
+    const filterAndOrder = async () => {
+      const urls = await getDefaultOrRootFolderUrls();
+      const orderedPersons = orderByRecency
+        ? getOrderedPersons(persons, urls)
+        : persons;
+      return getFilteredPersons(orderedPersons, searchText);
+    };
+    filterAndOrder().then((p) => setFilteredAndOrderedPersons(p));
+  }, [getDefaultOrRootFolderUrls, orderByRecency, persons, searchText]);
 
   const handleSave = async (_persons: IPerson[]) => {
     const encryptedPersons = _persons.reduce<IPersons>((obj, person) => {
@@ -91,28 +109,27 @@ const PersonsPanel = () => {
     setSearchText(text);
   };
 
+  const toggleOrderByRecency = () => setOrderByRecency((prev) => !prev);
+
   const onLinkOpen = (url: string) => {
     startHistoryMonitor();
     chrome.tabs.create({ url, active: false });
   };
-
-  const filteredPersons = useMemo(
-    () => getFilteredPersons(persons, searchText),
-    [persons, searchText]
-  );
 
   return (
     <Flex direction="column" w={MAX_PANEL_SIZE.WIDTH} h={MAX_PANEL_SIZE.HEIGHT}>
       <PersonHeader
         isFetching={isFetching}
         handleAddPerson={handleAddOrEditPerson}
-        persons={filteredPersons}
+        persons={filteredAndOrderedPersons}
         onSearchChange={handleSearchTextChange}
+        orderByRecency={orderByRecency}
+        toggleOrderByRecency={toggleOrderByRecency}
       />
       <Box pos="relative" h={MAX_PANEL_SIZE.HEIGHT - HEADER_HEIGHT}>
-        {filteredPersons.length > 0 ? (
+        {filteredAndOrderedPersons.length > 0 ? (
           <Persons
-            persons={filteredPersons}
+            persons={filteredAndOrderedPersons}
             onLinkOpen={onLinkOpen}
             bookmarkListProps={{ fullscreen: true }}
             scrollButton

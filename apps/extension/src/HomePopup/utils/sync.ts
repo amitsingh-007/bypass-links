@@ -18,18 +18,9 @@ import {
   resetPersons,
   syncPersonsToStorage,
 } from '@/PersonsPanel/utils/sync';
-import {
-  resetSettings,
-  syncSettingsToStorage,
-} from '@/SettingsPanel/utils/sync';
 import { trpcApi } from '@/apis/trpcApi';
-import { sendRuntimeMessage } from '@/utils/sendRuntimeMessage';
 import { ECacheBucketKeys, STORAGE_KEYS, deleteAllCache } from '@bypass/shared';
-import {
-  getHistoryTime,
-  getSettings,
-  getUser2FAInfo,
-} from '@helpers/fetchFromStorage';
+import { getUser2FAInfo } from '@helpers/fetchFromStorage';
 import { IUser2FAInfo } from '../interfaces/authentication';
 import {
   resetWebsites,
@@ -67,12 +58,11 @@ const syncFirebaseToStorage = async () => {
     syncBookmarksToStorage(),
     syncLastVisitedToStorage(),
     syncPersonsToStorage(),
-    syncSettingsToStorage(),
   ]);
   nprogress.increment();
 };
 
-export const syncStorageToFirebase = async () => {
+const syncStorageToFirebase = async () => {
   await syncBookmarksAndPersonsFirebaseWithStorage();
 };
 
@@ -84,7 +74,6 @@ const resetStorage = async () => {
     resetBookmarks(),
     resetLastVisited(),
     resetPersons(),
-    resetSettings(),
     refreshPersonImageUrlsCache(),
   ]);
   console.log('Storage reset successful');
@@ -112,27 +101,19 @@ export const processPreLogout = async () => {
 };
 
 export const processPostLogout = async () => {
-  const settings = await getSettings();
-  const historyStartTime = await getHistoryTime();
   // Reset storage
   await resetStorage();
   // Refresh browser cache
   deleteAllCache([ECacheBucketKeys.favicon, ECacheBucketKeys.person]);
   nprogress.increment();
-  if (settings?.hasManageGoogleActivityConsent) {
-    // Open Google Search and Google Image tabs
-    await chrome.tabs.create({ url: 'https://www.google.com/', active: false });
-    await chrome.tabs.create({
-      url: 'https://www.google.com/imghp',
-      active: false,
-    });
-    // Clear activity from google account
-    if (historyStartTime) {
-      const historyWatchTime = Date.now() - historyStartTime;
-      await sendRuntimeMessage({
-        key: 'manageGoogleActivity',
-        historyWatchTime,
-      });
-    }
-  }
+  // Open Google Search, Google Image & Google Data tabs
+  await chrome.tabs.create({ url: 'https://www.google.com/', active: false });
+  await chrome.tabs.create({
+    url: 'https://www.google.com/imghp',
+    active: false,
+  });
+  await chrome.tabs.create({
+    url: 'https://myactivity.google.com/activitycontrols/webandapp',
+    active: false,
+  });
 };

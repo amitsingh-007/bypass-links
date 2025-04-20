@@ -43,8 +43,6 @@ const ToggleExtension = () => {
   const isActive = getIsExtensionActive(extState);
   return (
     <Switch
-      onLabel="ON"
-      offLabel="OFF"
       size="md"
       label="Enable"
       color="teal"

@@ -1,17 +1,10 @@
-import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import { beforeAll, describe, expect, it } from 'vitest';
 import { getTrpcCaller } from '../test-helpers';
-import { anonymousSignIn, deleteFirebaseUser, FirebaseUser } from '../firebase';
+import { testUserSignIn } from '../firebase';
 
 describe('extension router test', () => {
-  let user: FirebaseUser;
-
   beforeAll(async () => {
-    const userCredential = await anonymousSignIn();
-    user = userCredential.user;
-  });
-
-  afterAll(async () => {
-    await deleteFirebaseUser(user);
+    await testUserSignIn();
   });
 
   it('should have expected response', async () => {

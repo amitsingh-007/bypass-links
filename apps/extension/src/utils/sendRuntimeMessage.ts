@@ -5,19 +5,12 @@ export type RuntimeInput =
       url: string;
     }
   | {
-      key: 'manageGoogleActivity';
-      historyWatchTime: number;
-    }
-  | {
       key: 'launchAuthFlow';
     };
 
 export type RuntimeOutput = {
   openWebsiteLinks: {
     forumPageLinks: string[];
-  };
-  manageGoogleActivity: {
-    isSuccess: boolean;
   };
   launchAuthFlow: {
     accessToken: string | null;

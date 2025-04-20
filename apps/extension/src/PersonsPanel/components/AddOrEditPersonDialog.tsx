@@ -23,7 +23,7 @@ interface Props {
   person?: IPerson;
   isOpen: boolean;
   onClose: VoidFunction;
-  handleSaveClick: (person: IPerson) => void;
+  handleSaveClick: (person: IPerson) => Promise<void>;
 }
 
 interface IForm {
@@ -40,6 +40,7 @@ const AddOrEditPersonDialog = ({
   const { resolvePersonImageFromUid } = usePerson();
   const [imageUrl, setImageUrl] = useState('');
   const [showImagePicker, setShowImagePicker] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<IForm>({
     initialValues: {
@@ -75,15 +76,18 @@ const AddOrEditPersonDialog = ({
 
   const toggleImagePicker = () => setShowImagePicker(!showImagePicker);
 
-  const handleSave = (values: typeof form.values) => {
+  const handleSave = async (values: typeof form.values) => {
     const { uid, name } = values;
     if (!uid) {
       return;
     }
-    handleSaveClick({
+
+    setIsLoading(true);
+    await handleSaveClick({
       uid,
       name,
     });
+    setIsLoading(false);
   };
 
   const { uid } = form.values;
@@ -132,7 +136,7 @@ const AddOrEditPersonDialog = ({
               data-autofocus
               {...form.getInputProps('name')}
             />
-            <Button type="submit" color="teal">
+            <Button type="submit" color="teal" loading={isLoading}>
               Save
             </Button>
           </Stack>
