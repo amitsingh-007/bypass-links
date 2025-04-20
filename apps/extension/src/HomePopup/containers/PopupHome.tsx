@@ -14,6 +14,10 @@ import UserProfile from '../components/UserProfile';
 import styles from './styles/PopupHome.module.css';
 import useExtensionOutdated from '../hooks/useExtensionOutdated';
 
+const handleOpenAsPage = () => {
+  chrome.tabs.create({ url: window.location.href });
+};
+
 const PopupHome = () => {
   useExtensionOutdated();
 
@@ -26,6 +30,7 @@ const PopupHome = () => {
           c="grape.1"
           mb="0.625rem"
           className={styles.heading}
+          onClick={handleOpenAsPage}
         >
           Bypass Links
         </Text>
