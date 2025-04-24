@@ -24,7 +24,7 @@
     "@t3-oss/env-core": "0.12.0",
     "@tanstack/react-virtual": "3.13.6",
     "@trpc/client": "11.0.2",
-    "@trpc/server": "11.0.2",
+    "@trpc/server": "11.1.1",
     "clsx": "2.1.1",
     "mantine-contextmenu": "7.17.1",
     "md5": "2.3.0",
