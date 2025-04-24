@@ -112,10 +112,10 @@ importers:
         version: 3.13.6(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@trpc/client':
         specifier: 11.0.2
-        version: 11.0.2(@trpc/server@11.0.2(typescript@5.8.2))(typescript@5.8.2)
+        version: 11.0.2(@trpc/server@11.1.1(typescript@5.8.2))(typescript@5.8.2)
       '@trpc/server':
-        specifier: 11.0.2
-        version: 11.0.2(typescript@5.8.2)
+        specifier: 11.1.1
+        version: 11.1.1(typescript@5.8.2)
       clsx:
         specifier: 2.1.1
         version: 2.1.1
@@ -305,10 +305,10 @@ importers:
         version: 3.13.6(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@trpc/client':
         specifier: 11.0.2
-        version: 11.0.2(@trpc/server@11.0.2(typescript@5.8.2))(typescript@5.8.2)
+        version: 11.0.2(@trpc/server@11.1.1(typescript@5.8.2))(typescript@5.8.2)
       '@trpc/server':
-        specifier: 11.0.2
-        version: 11.0.2(typescript@5.8.2)
+        specifier: 11.1.1
+        version: 11.1.1(typescript@5.8.2)
       '@vercel/analytics':
         specifier: 1.5.0
         version: 1.5.0(next@15.3.0-canary.40(@babel/core@7.26.10)(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
@@ -450,8 +450,8 @@ importers:
         specifier: 0.12.0
         version: 0.12.0(typescript@5.8.2)(zod@3.24.2)
       '@trpc/server':
-        specifier: 11.0.2
-        version: 11.0.2(typescript@5.8.2)
+        specifier: 11.1.1
+        version: 11.1.1(typescript@5.8.2)
       firebase-admin:
         specifier: 13.2.0
         version: 13.2.0
@@ -2287,8 +2287,8 @@ packages:
       '@trpc/server': 11.0.2
       typescript: '>=5.7.2'
 
-  '@trpc/server@11.0.2':
-    resolution: {integrity: sha512-PIcm8UWFyE0AnIYjxsyc1zfVa6X10m9Opm1SJ2ou9Vu8dlXO6rMtmafLUXJsMeQk/3ecxObFtEiZIX8TvB3eCg==}
+  '@trpc/server@11.1.1':
+    resolution: {integrity: sha512-ZjPN3ypBHvGMAlMgeZPrxlRcH/3dn4AK0s5Ph1z+E6uiAvIQVCj7ZoMlXeeBsIy4THGDAk953jHVW2kMnlbb4g==}
     peerDependencies:
       typescript: '>=5.7.2'
 
@@ -9698,12 +9698,12 @@ snapshots:
 
   '@total-typescript/ts-reset@0.6.1': {}
 
-  '@trpc/client@11.0.2(@trpc/server@11.0.2(typescript@5.8.2))(typescript@5.8.2)':
+  '@trpc/client@11.0.2(@trpc/server@11.1.1(typescript@5.8.2))(typescript@5.8.2)':
     dependencies:
-      '@trpc/server': 11.0.2(typescript@5.8.2)
+      '@trpc/server': 11.1.1(typescript@5.8.2)
       typescript: 5.8.2
 
-  '@trpc/server@11.0.2(typescript@5.8.2)':
+  '@trpc/server@11.1.1(typescript@5.8.2)':
     dependencies:
       typescript: 5.8.2
 
