@@ -38,7 +38,7 @@
     "@types/md5": "2.3.5",
     "@types/react": "19.0.12",
     "autoprefixer": "10.4.21",
-    "fork-ts-checker-webpack-plugin": "9.0.3",
+    "fork-ts-checker-webpack-plugin": "9.1.0",
     "postcss": "8.5.3",
     "postcss-preset-mantine": "1.17.0",
     "postcss-simple-vars": "7.0.1",
