@@ -217,8 +217,8 @@ importers:
         specifier: 7.0.2
         version: 7.0.2(lightningcss@1.29.3)(webpack@5.98.0)
       eslint-webpack-plugin:
-        specifier: 5.0.0
-        version: 5.0.0(eslint@8.57.1)(webpack@5.98.0)
+        specifier: 5.0.1
+        version: 5.0.1(eslint@8.57.1)(webpack@5.98.0)
       fork-ts-checker-webpack-plugin:
         specifier: 9.0.3
         version: 9.0.3(typescript@5.8.2)(webpack@5.98.0)
@@ -4069,8 +4069,8 @@ packages:
     resolution: {integrity: sha512-UyLnSehNt62FFhSwjZlHmeokpRK59rcz29j+F1/aDgbkbRTk7wIc9XzdoasMUbRNKDM0qQt/+BJ4BrpFeABemw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  eslint-webpack-plugin@5.0.0:
-    resolution: {integrity: sha512-iDhXf2r55KO1UhMfpus8oGp93wdNF+934q5kEkwa7qn3BH9f51QEC11xQidt+8jfqRnEYYZa2/8lhac7U/vqWw==}
+  eslint-webpack-plugin@5.0.1:
+    resolution: {integrity: sha512-Ur100Vi+z0uP7j4Z8Ccah0pXmNHhl3f7P2hCYZj3mZCOSc33G5c1R/vZ4KCapwWikPgRyD4dkangx6JW3KaVFQ==}
     engines: {node: '>= 18.12.0'}
     peerDependencies:
       eslint: ^8.0.0 || ^9.0.0
@@ -11758,7 +11758,7 @@ snapshots:
 
   eslint-visitor-keys@4.2.0: {}
 
-  eslint-webpack-plugin@5.0.0(eslint@8.57.1)(webpack@5.98.0):
+  eslint-webpack-plugin@5.0.1(eslint@8.57.1)(webpack@5.98.0):
     dependencies:
       '@types/eslint': 9.6.1
       eslint: 8.57.1
