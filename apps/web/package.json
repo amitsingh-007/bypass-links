@@ -33,7 +33,7 @@
     "zod": "3.24.2"
   },
   "devDependencies": {
-    "@playwright/test": "1.51.1",
+    "@playwright/test": "1.52.0",
     "@svgr/webpack": "8.1.0",
     "@types/md5": "2.3.5",
     "@types/react": "19.0.12",
