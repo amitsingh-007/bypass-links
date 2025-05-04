@@ -1,8 +1,3 @@
-declare module 'eslint-plugin-react-hooks' {
-  const mocked: any;
-  export default mocked;
-}
-
 declare module 'eslint-plugin-react/configs/recommended.js' {
   const mocked: any;
   export default mocked;
