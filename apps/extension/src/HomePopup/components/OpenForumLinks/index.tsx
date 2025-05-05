@@ -43,7 +43,6 @@ const OpenForumLinks = () => {
       await chrome.tabs.create({ url, active: false });
       await sleep(1000); // 1sec
     }
-    forumPageLinks.forEach((url) => chrome.tabs.create({ url, active: false }));
   };
 
   return (
