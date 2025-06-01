@@ -27,23 +27,17 @@ const xoConfig: FlatXoConfig = [
       'unicorn/prefer-query-selector': 'off',
       '@typescript-eslint/no-confusing-void-expression': [
         'error',
-        {
-          ignoreArrowShorthand: true,
-        },
+        { ignoreArrowShorthand: true },
       ],
       '@typescript-eslint/no-base-to-string': [
         'error',
-        {
-          ignoredTypeNames: ['TRPCError'],
-        },
+        { ignoredTypeNames: ['TRPCError'] },
       ],
       '@typescript-eslint/restrict-template-expressions': [
         'error',
-        {
-          allow: ['TRPCError', 'Date'],
-        },
+        { allow: ['TRPCError', 'Date'] },
       ],
-      '@typescript-eslint/consistent-type-definitions': 'off', // TODO: turn on later
+      '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
       '@stylistic/padding-line-between-statements': 'off', // TODO: turn on later
       'unicorn/prevent-abbreviations': 'off', // TODO: turn on later
       'object-shorthand': 'off', // TODO: turn on later

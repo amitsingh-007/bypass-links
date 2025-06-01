@@ -6,10 +6,10 @@ import { notifications } from '@mantine/notifications';
 import styles from './styles/Setup2FA.module.css';
 import { trpcApi } from '@/apis/trpcApi';
 
-type Props = {
+interface Props {
   isOpen: boolean;
   handleClose: VoidFunction;
-};
+}
 
 function Setup2FA({ isOpen, handleClose }: Props) {
   const [qrcodeUrl, setQrcodeUrl] = useState('');

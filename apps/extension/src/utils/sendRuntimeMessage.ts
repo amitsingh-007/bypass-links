@@ -8,14 +8,14 @@ export type RuntimeInput =
       key: 'launchAuthFlow';
     };
 
-export type RuntimeOutput = {
+export interface RuntimeOutput {
   openWebsiteLinks: {
     forumPageLinks: string[];
   };
   launchAuthFlow: {
     accessToken: string | null;
   };
-};
+}
 
 export type RuntimeKeys = RuntimeInput['key'];
 
