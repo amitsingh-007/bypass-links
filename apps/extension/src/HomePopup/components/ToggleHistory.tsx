@@ -1,10 +1,9 @@
 import { getHistoryTime } from '@helpers/fetchFromStorage';
 import { startHistoryWatch } from '@/utils/history';
-import { Switch, useMantineTheme } from '@mantine/core';
+import { Switch } from '@mantine/core';
 import useExtStore from '@store/extension';
 import useHistoryStore from '@store/history';
 import { useCallback, useEffect, useState } from 'react';
-import { HiOutlineEye, HiOutlineEyeOff } from 'react-icons/hi';
 
 const endHistoryWatch = async () => {
   const historyStartTime = await getHistoryTime();
@@ -24,7 +23,6 @@ const endHistoryWatch = async () => {
 };
 
 const ToggleHistory = () => {
-  const theme = useMantineTheme();
   const resetHistoryMonitor = useHistoryStore(
     (state) => state.resetHistoryMonitor
   );
@@ -84,21 +82,6 @@ const ToggleHistory = () => {
       checked={isHistoryActive}
       onChange={handleToggle}
       disabled={!isExtensionActive}
-      thumbIcon={
-        isHistoryActive ? (
-          <HiOutlineEye
-            size={12}
-            color={theme.colors.teal[6]}
-            strokeWidth={2}
-          />
-        ) : (
-          <HiOutlineEyeOff
-            size={12}
-            color={theme.colors.red[6]}
-            strokeWidth={2}
-          />
-        )
-      }
     />
   );
 };
