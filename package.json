@@ -37,7 +37,7 @@
     "turbo": "2.5.4",
     "typescript": "5.8.3",
     "typescript-eslint": "8.33.0",
-    "vercel": "41.7.8"
+    "vercel": "42.3.0"
   },
   "packageManager": "pnpm@10.11.0"
 }
