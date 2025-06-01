@@ -105,8 +105,8 @@ importers:
         specifier: 7.17.3
         version: 7.17.3(@mantine/core@7.17.3(@mantine/hooks@7.17.3(react@19.1.0))(@types/react@19.1.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(@mantine/hooks@7.17.3(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@t3-oss/env-core':
-        specifier: 0.13.4
-        version: 0.13.4(arktype@2.1.20)(typescript@5.8.3)(zod@3.24.3)
+        specifier: 0.13.6
+        version: 0.13.6(arktype@2.1.20)(typescript@5.8.3)(zod@3.24.3)
       '@tanstack/react-virtual':
         specifier: 3.13.6
         version: 3.13.6(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -447,8 +447,8 @@ importers:
         specifier: 21.1.1
         version: 21.1.1
       '@t3-oss/env-core':
-        specifier: 0.13.4
-        version: 0.13.4(arktype@2.1.20)(typescript@5.8.3)(zod@3.24.3)
+        specifier: 0.13.6
+        version: 0.13.6(arktype@2.1.20)(typescript@5.8.3)(zod@3.24.3)
       '@trpc/server':
         specifier: 11.1.2
         version: 11.1.2(typescript@5.8.3)
@@ -2356,6 +2356,23 @@ packages:
       valibot: ^1.0.0-beta.7 || ^1.0.0
       zod: ^3.24.0 || ^4.0.0-beta.0
     peerDependenciesMeta:
+      typescript:
+        optional: true
+      valibot:
+        optional: true
+      zod:
+        optional: true
+
+  '@t3-oss/env-core@0.13.6':
+    resolution: {integrity: sha512-rH7FgcB1YGbv/tvv7mdJAxnNvRkK/gEqdVYBwO1AVvaWOTNuftqskxkEYyhM2O+lkNPJmTq5YBE7H+Unl7CLjg==}
+    peerDependencies:
+      arktype: ^2.1.0
+      typescript: '>=5.0.0'
+      valibot: ^1.0.0-beta.7 || ^1.0.0
+      zod: ^3.24.0 || ^4.0.0-beta.0
+    peerDependenciesMeta:
+      arktype:
+        optional: true
       typescript:
         optional: true
       valibot:
@@ -5901,6 +5918,7 @@ packages:
 
   path-match@1.2.4:
     resolution: {integrity: sha512-UWlehEdqu36jmh4h5CWJ7tARp1OEVKGHKm6+dg9qMq5RKUTV5WJrGgaZ3dN2m7WFAXDbjlHzvJvL/IUpy84Ktw==}
+    deprecated: This package is archived and no longer maintained. For support, visit https://github.com/expressjs/express/discussions
 
   path-parse@1.0.7:
     resolution: {integrity: sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==}
@@ -9839,6 +9857,12 @@ snapshots:
     dependencies:
       arktype: 2.1.20
     optionalDependencies:
+      typescript: 5.8.3
+      zod: 3.24.3
+
+  '@t3-oss/env-core@0.13.6(arktype@2.1.20)(typescript@5.8.3)(zod@3.24.3)':
+    optionalDependencies:
+      arktype: 2.1.20
       typescript: 5.8.3
       zod: 3.24.3
 
