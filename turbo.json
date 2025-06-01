@@ -1,10 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": [
-    "**/.env",
-    "TODO:                                          // eslint.config.js",
-    ".github/**"
-  ],
+  "globalDependencies": ["**/.env", "xo.config.ts", ".github/**"],
   "globalEnv": [
     "EXT_BROWSER",
     "NODE_ENV",

@@ -26,7 +26,7 @@ export const getFilteredContextBookmarks = (
     if (ctx.isDir) {
       return true;
     }
-    return hasText(searchText, ctx.url) || hasText(searchText, ctx.title);
+    return hasText(searchText, ctx.url) ?? hasText(searchText, ctx.title);
   });
 
 export const shouldRenderBookmarks = (

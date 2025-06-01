@@ -6,6 +6,7 @@ import { getDownloadURL, getStorage } from 'firebase-admin/storage';
 import { getEnv } from '../constants/env';
 import { EFirebaseDBRef, EFirebaseDBRootKeys } from '../constants/firebase';
 import { getFullDbPath, getFilePath } from '../utils/firebase';
+import type { Buffer } from 'node:buffer';
 
 interface Firebase {
   ref: EFirebaseDBRef | EFirebaseDBRootKeys;
@@ -56,7 +57,7 @@ export const getFromFirebase = async <T = any>({
 }: Omit<Firebase, 'data'>): Promise<T> => {
   const dbPath = getFullDbPath(ref, uid, isAbsolute);
   const snapshot = await database.ref(dbPath).once('value');
-  return snapshot.val() || {};
+  return snapshot.val() ?? {};
 };
 
 export const saveToFirebase = async ({
@@ -84,10 +85,12 @@ export const removeFromFirebase = async ({
 /**
  * AUTH
  */
-export const getFirebaseUser = (uid: string) => auth.getUser(uid);
+export const getFirebaseUser = async (uid: string) => auth.getUser(uid);
 
-export const verifyAuthToken = (idToken: string, checkRevoked?: boolean) =>
-  auth.verifyIdToken(idToken, checkRevoked);
+export const verifyAuthToken = async (
+  idToken: string,
+  checkRevoked?: boolean
+) => auth.verifyIdToken(idToken, checkRevoked);
 
 /**
  * STORAGE

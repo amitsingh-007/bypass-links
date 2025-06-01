@@ -1,3 +1,4 @@
+/* eslint-disable n/prefer-global/buffer */
 import { fileTypeFromBuffer } from 'file-type';
 import sharp from 'sharp';
 

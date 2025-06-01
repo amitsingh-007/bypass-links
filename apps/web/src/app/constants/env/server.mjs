@@ -1,5 +1,6 @@
 import { createEnv } from '@t3-oss/env-nextjs';
 import { z } from 'zod';
+import process from 'node:process';
 
 export const serverEnv = createEnv({
   server: {

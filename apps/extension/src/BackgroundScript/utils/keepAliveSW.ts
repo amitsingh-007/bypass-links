@@ -13,7 +13,7 @@ let alivePort: chrome.runtime.Port | null = null;
 
 const hearbeatFirefoxBackgroundPage = () => {
   setInterval(() => {
-    if (alivePort == null) {
+    if (alivePort === null) {
       alivePort = chrome.runtime.connect({ name: INTERNAL_STAYALIVE_PORT });
 
       alivePort.onDisconnect.addListener(() => {

@@ -1,5 +1,5 @@
 import { FullConfig } from '@playwright/test';
-import fs from 'fs';
+import fs from 'node:fs';
 
 export const tempDir = '/tmp/playwright-temp';
 

@@ -20,7 +20,7 @@ export const getWebistes = async (): Promise<IWebsites> => {
   const { [STORAGE_KEYS.websites]: websites } = await chrome.storage.local.get(
     STORAGE_KEYS.websites
   );
-  return websites || {};
+  return websites ?? {};
 };
 
 export const getRedirections = async (): Promise<IRedirections> => {
@@ -33,7 +33,7 @@ export const getMappedRedirections = async (): Promise<IMappedRedirections> => {
   const { mappedRedirections } = await chrome.storage.local.get([
     STORAGE_KEYS.mappedRedirections,
   ]);
-  return mappedRedirections || {};
+  return mappedRedirections ?? {};
 };
 
 export const getLastVisited = async (): Promise<ILastVisited> => {

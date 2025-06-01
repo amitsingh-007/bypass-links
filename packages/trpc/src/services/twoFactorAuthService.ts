@@ -16,9 +16,10 @@ const verify2FAToken = (secret: string, token: string) =>
   authenticator.verify({ token, secret });
 
 const is2FASetup = (user2FAInfo: User2FAInfo) =>
-  Boolean(user2FAInfo && user2FAInfo.secretKey);
+  Boolean(user2FAInfo?.secretKey);
 
-const getQrcodeImageUrl = (otpAuthUrl: string) => qrcode.toDataURL(otpAuthUrl);
+const getQrcodeImageUrl = async (otpAuthUrl: string) =>
+  qrcode.toDataURL(otpAuthUrl);
 
 export const is2FAEnabled = (user2FAInfo: User2FAInfo) =>
   is2FASetup(user2FAInfo) && user2FAInfo.is2FAEnabled;

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import {
   Worker,
   test as base,
@@ -32,9 +33,7 @@ export const test = base.extend<{
   },
   backgroundSW: async ({ context }, use) => {
     let [background] = context.serviceWorkers();
-    if (!background) {
-      background = await context.waitForEvent('serviceworker');
-    }
+    background ||= await context.waitForEvent('serviceworker');
     await use(background);
   },
 });

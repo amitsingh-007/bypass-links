@@ -3,5 +3,7 @@ export const getFaviconProxyUrl = (url: string) =>
 
 export const noOp = () => {};
 
-export const sleep = (ms: number) =>
-  new Promise((resolve) => setTimeout(resolve, ms));
+export const sleep = async (ms: number) =>
+  new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });

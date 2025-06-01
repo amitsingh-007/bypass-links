@@ -1,4 +1,5 @@
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
+import process from 'node:process';
 
 import('./src/app/constants/env/server.mjs');
 
@@ -19,7 +20,7 @@ const nextConfig = {
   },
   reactStrictMode: true,
   transpilePackages: ['@bypass/shared', '@bypass/trpc'],
-  webpack: (config, { dev, isServer, webpack }) => {
+  webpack: (config, { dev, webpack }) => {
     config.module.rules.push({
       test: /\.svg$/,
       use: ['@svgr/webpack'],

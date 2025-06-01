@@ -162,7 +162,7 @@ const useBookmarkStore = create<State>()((set, get) => ({
     // Update folders and current context folder content based on dir change
     if (isFolderChange) {
       const newFolders = { ...folders };
-      newFolders[newFolderHash] = newFolders[newFolderHash] || []; // to handle empty folders
+      newFolders[newFolderHash] ||= []; // To handle empty folders
       newFolders[newFolderHash].push({ isDir: false, hash: urlHash });
 
       const newContextBookmarks = [...contextBookmarks];

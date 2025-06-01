@@ -11,17 +11,17 @@ const useStorage = () => {
   const { storage } = useContext(DynamicContext);
 
   const getBookmarks = useCallback(
-    () => storage.get<IBookmarksObj>(STORAGE_KEYS.bookmarks),
+    async () => storage.get<IBookmarksObj>(STORAGE_KEYS.bookmarks),
     [storage]
   );
 
   const getPersons = useCallback(
-    () => storage.get<IPersons>(STORAGE_KEYS.persons),
+    async () => storage.get<IPersons>(STORAGE_KEYS.persons),
     [storage]
   );
 
   const getPersonImageUrls = useCallback(
-    () => storage.get<PersonImageUrls>(STORAGE_KEYS.personImageUrls),
+    async () => storage.get<PersonImageUrls>(STORAGE_KEYS.personImageUrls),
     [storage]
   );
 

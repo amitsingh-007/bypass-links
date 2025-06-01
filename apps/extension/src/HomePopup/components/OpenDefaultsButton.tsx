@@ -20,7 +20,7 @@ const OpenDefaultsButton = () => {
       ({ isDefault }: { isDefault: boolean }) => isDefault
     );
     defaults
-      .filter((data) => data && data.alias && data.website)
+      .filter((data) => data?.alias && data.website)
       .forEach(({ website }) => {
         chrome.tabs.create({ url: atob(website), active: false });
       });

@@ -48,7 +48,7 @@ const ToggleHistory = () => {
   // Init toggle on mount
   useEffect(() => {
     getHistoryTime().then((historyStartTime) => {
-      setIsHistoryActive(!!historyStartTime);
+      setIsHistoryActive(Boolean(historyStartTime));
     });
   }, []);
 

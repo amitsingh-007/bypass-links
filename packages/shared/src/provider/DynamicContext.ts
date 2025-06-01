@@ -20,8 +20,8 @@ const DynamicContext = createContext<IDynamicContext>({
     goBack: noOp,
   },
   storage: {
-    get: () => Promise.resolve<any>({}),
-    set: () => Promise.resolve(),
+    get: async () => Promise.resolve<any>({}),
+    set: async () => Promise.resolve(),
   },
 });
 

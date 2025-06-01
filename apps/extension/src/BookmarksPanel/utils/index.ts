@@ -7,7 +7,7 @@ import {
 export const isFolderContainsDir = (
   folders: IBookmarksObj['folders'],
   hash: string
-) => folders[hash] && folders[hash].some(({ isDir }) => isDir);
+) => folders[hash]?.some(({ isDir }) => isDir);
 
 export const getSelectedCount = (selectedBookmarks: ISelectedBookmarks) =>
   selectedBookmarks.filter(Boolean).length;

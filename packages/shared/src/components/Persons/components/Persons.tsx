@@ -112,10 +112,7 @@ const Persons = (props: Props) => {
 
   useEffect(() => {
     const { openBookmarksList } = deserializeQueryStringToObject(queryString);
-    const person =
-      (openBookmarksList &&
-        persons.find((_person) => _person.uid === openBookmarksList)) ||
-      undefined;
+    const person = persons.find((_person) => _person.uid === openBookmarksList);
     setPersonToOpen(person);
     if (person) {
       resolvePersonImageFromUid(person.uid).then((url) => {

@@ -61,7 +61,7 @@ const Authenticate = () => {
   // Init
   useEffect(() => {
     const { idpAuth } = useFirebaseStore.getState();
-    setIsSignedIn(!!idpAuth?.uid);
+    setIsSignedIn(Boolean(idpAuth?.uid));
   }, [setIsSignedIn]);
 
   useEffect(() => {

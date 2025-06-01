@@ -23,8 +23,5 @@ export const receiveRuntimeMessage = (
       });
       break;
     }
-    default: {
-      throw new Error(`Runtime message type not implemented: ${message}`);
-    }
   }
 };

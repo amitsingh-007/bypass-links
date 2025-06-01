@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   },
 };
 
-const Layout = ({ children }: Readonly<{ children: ReactNode }>) => {
+const Layout = async ({ children }: { children: ReactNode }) => {
   return children;
 };
 

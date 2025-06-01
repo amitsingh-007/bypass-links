@@ -161,7 +161,7 @@ const BookmarksList = ({
 
   return (
     <Modal
-      opened={!!personToOpen}
+      opened={Boolean(personToOpen)}
       onClose={handleClose}
       fullScreen
       zIndex={1002}

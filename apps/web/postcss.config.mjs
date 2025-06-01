@@ -1,9 +1,11 @@
-import postcssConfig from '@bypass/configs/postcss.base.mjs';
+import basePostcssConfig from '@bypass/configs/postcss.base.mjs';
 
-export default {
-  ...postcssConfig,
+const postcssConfig = {
+  ...basePostcssConfig,
   plugins: {
-    ...postcssConfig.plugins,
+    ...basePostcssConfig.plugins,
     autoprefixer: {},
   },
 };
+
+export default postcssConfig;

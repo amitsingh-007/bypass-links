@@ -1,5 +1,6 @@
 import type { PlaywrightTestConfig } from '@playwright/test';
 import path from 'node:path';
+import process from 'node:process';
 
 const ciBaseUrl = process.env.PLAYWRIGHT_TEST_BASE_URL;
 const isCI = Boolean(ciBaseUrl);
@@ -26,7 +27,7 @@ const config: PlaywrightTestConfig = {
       name: '@bypass/web',
       testDir: './apps/web/tests',
       use: {
-        baseURL: ciBaseUrl || 'http://localhost:3000',
+        baseURL: ciBaseUrl ?? 'http://localhost:3000',
       },
     },
     {

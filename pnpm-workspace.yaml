@@ -1,3 +1,11 @@
 packages:
-  - 'packages/*'
-  - 'apps/*'
+  - packages/*
+  - apps/*
+onlyBuiltDependencies:
+  - '@firebase/util'
+  - '@vercel/speed-insights'
+  - esbuild
+  - protobufjs
+  - sharp
+  - spawn-sync
+  - unrs-resolver

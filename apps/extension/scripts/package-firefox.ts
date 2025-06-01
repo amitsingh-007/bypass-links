@@ -2,16 +2,18 @@ import path from 'node:path';
 // @ts-expect-error no types provided
 import webExt from 'web-ext';
 import fs from 'node:fs';
+import process from 'node:process';
 import {
   getExtVersion,
   getFileNameFromVersion,
 } from '@bypass/configs/manifest/extensionFile';
 import { PATHS } from './constant';
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 const { downloadedFiles } = await webExt.cmd.sign({
   amoBaseUrl: 'https://addons.mozilla.org/api/v5/',
-  apiKey: process.env['FIREFOX_API_KEY'],
-  apiSecret: process.env['FIREFOX_API_SECRET'],
+  apiKey: process.env.FIREFOX_API_KEY,
+  apiSecret: process.env.FIREFOX_API_SECRET,
   sourceDir: PATHS.FIREFOX_BUILD,
   artifactsDir: PATHS.BUILD_DIR,
   channel: 'unlisted',

@@ -15,6 +15,7 @@ const DynamicProvider = ({ children }: PropsWithChildren) => {
         goBack: () => router.back(),
       },
       storage: {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
         get: async (key: string) => getFromLocalStorage(key) as any,
         set: async (key: string, value: any) => setToLocalStorage(key, value),
       },

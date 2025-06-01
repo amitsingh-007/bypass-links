@@ -97,7 +97,7 @@ const BookmarkAddEditDialog = ({ curFolder, handleScroll }: Props) => {
           pos: contextBookmarks.length,
           url: _bmUrl,
           title,
-          folder: defaultFolderName || DEFAULT_BOOKMARK_FOLDER,
+          folder: defaultFolderName ?? DEFAULT_BOOKMARK_FOLDER,
           taggedPersons: [],
         });
         setOpenDialog(true);

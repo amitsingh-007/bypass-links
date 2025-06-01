@@ -49,7 +49,7 @@ const onPageLoad = async (tabId: number, url: string) => {
 };
 
 // Listen tab url change
-chrome.tabs.onUpdated.addListener((tabId, changeInfo) =>
+chrome.tabs.onUpdated.addListener(async (tabId, changeInfo) =>
   onPageLoad(tabId, changeInfo?.url ?? '')
 );
 

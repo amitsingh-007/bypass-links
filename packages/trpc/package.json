@@ -10,7 +10,6 @@
   },
   "sideEffects": false,
   "scripts": {
-    "lint": "eslint . --quiet",
     "test": "vitest run"
   },
   "dependencies": {
