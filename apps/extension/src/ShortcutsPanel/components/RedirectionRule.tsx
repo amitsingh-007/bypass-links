@@ -101,22 +101,21 @@ function RedirectionRule({
           w="35%"
           placeholder="Enter Alias"
           value={ruleAlias}
-          onChange={(e) => setRuleAlias(e.target.value.trim())}
           leftSection={<MdShortcut />}
           error={!ruleAlias}
           classNames={{ input: highlight ? styles.highlight : undefined }}
+          onChange={(e) => setRuleAlias(e.target.value.trim())}
         />
         <TextInput
           w="60%"
           placeholder="Enter Website"
           value={ruleWebsite}
-          onChange={(e) => setRuleWebsite(e.target.value.trim())}
           leftSection={<CgWebsite />}
           rightSection={
             lastVisited ? (
               <Tooltip
-                label={<Text>{lastVisited}</Text>}
                 withArrow
+                label={<Text>{lastVisited}</Text>}
                 radius="md"
                 color="gray"
               >
@@ -128,23 +127,24 @@ function RedirectionRule({
           }
           error={!ruleWebsite}
           classNames={{ input: highlight ? styles.highlight : undefined }}
+          onChange={(e) => setRuleWebsite(e.target.value.trim())}
         />
       </Group>
       <Checkbox
         checked={isDefaultRule}
-        onChange={(e) => setIsDefaultRule(e.target.checked)}
         mr={2}
         display="flex"
+        onChange={(e) => setIsDefaultRule(e.target.checked)}
       />
       <ActionIcon
         radius="xl"
         size="lg"
         disabled={!ruleWebsite}
-        onClick={handleLinkOpen}
         color="blue.5"
         className={clsx({
           [styles.disabled]: !ruleWebsite,
         })}
+        onClick={handleLinkOpen}
       >
         <RxExternalLink size={21} />
       </ActionIcon>
@@ -152,15 +152,15 @@ function RedirectionRule({
         radius="xl"
         size="lg"
         disabled={isRuleSaveActive}
-        onClick={handleSaveClick}
         color="teal"
         className={clsx({
           [styles.disabled]: isRuleSaveActive,
         })}
+        onClick={handleSaveClick}
       >
         <IoSave size={18} />
       </ActionIcon>
-      <ActionIcon radius="xl" size="lg" onClick={handleRemoveClick} color="red">
+      <ActionIcon radius="xl" size="lg" color="red" onClick={handleRemoveClick}>
         <MdOutlineDelete size={21} />
       </ActionIcon>
     </Center>

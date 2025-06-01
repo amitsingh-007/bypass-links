@@ -122,17 +122,16 @@ function PersonsPanel() {
         isFetching={isFetching}
         handleAddPerson={handleAddOrEditPerson}
         persons={filteredAndOrderedPersons}
-        onSearchChange={handleSearchTextChange}
         orderByRecency={orderByRecency}
         toggleOrderByRecency={toggleOrderByRecency}
+        onSearchChange={handleSearchTextChange}
       />
       <Box pos="relative" h={MAX_PANEL_SIZE.HEIGHT - HEADER_HEIGHT}>
         {filteredAndOrderedPersons.length > 0 ? (
           <Persons
-            persons={filteredAndOrderedPersons}
-            onLinkOpen={onLinkOpen}
-            bookmarkListProps={{ fullscreen: true }}
             scrollButton
+            persons={filteredAndOrderedPersons}
+            bookmarkListProps={{ fullscreen: true }}
             renderPerson={(person) => (
               <PersonVirtualCell
                 person={person}
@@ -140,6 +139,7 @@ function PersonsPanel() {
                 handlePersonDelete={handlePersonDelete}
               />
             )}
+            onLinkOpen={onLinkOpen}
           />
         ) : null}
       </Box>

@@ -19,6 +19,7 @@ const xoConfig: FlatXoConfig = [
       'react/prop-types': 'off',
       'import-x/extensions': 'off',
       '@typescript-eslint/no-dynamic-delete': 'off',
+      '@typescript-eslint/no-floating-promises': 'off',
       'unicorn/filename-case': 'off',
       'unicorn/no-array-for-each': 'off',
       'unicorn/no-array-reduce': 'off',
@@ -42,8 +43,6 @@ const xoConfig: FlatXoConfig = [
           allow: ['TRPCError', 'Date'],
         },
       ],
-      '@typescript-eslint/no-floating-promises': 'off', // TODO: turn on later maybe?????????????
-      'react/jsx-sort-props': 'off', // TODO: turn on later
       '@typescript-eslint/consistent-type-definitions': 'off', // TODO: turn on later
       '@stylistic/padding-line-between-statements': 'off', // TODO: turn on later
       'unicorn/prevent-abbreviations': 'off', // TODO: turn on later
@@ -67,6 +66,9 @@ const xoConfig: FlatXoConfig = [
       'unicorn/no-useless-promise-resolve-reject': 'off', // TODO: turn on later
       'unicorn/prefer-dom-node-dataset': 'off', // TODO: turn on later
       '@typescript-eslint/switch-exhaustiveness-check': 'off', // TODO: turn on later
+      // eslint warning
+      // @next/eslint-plugin-next
+      // next/core-web-vitals
     },
   },
 ];

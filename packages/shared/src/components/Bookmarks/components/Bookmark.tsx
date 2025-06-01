@@ -84,18 +84,18 @@ const Bookmark = memo<BookmarkProps>(
         align="center"
         gap="0.75rem"
         px="0.375rem"
+        data-context-id={contextId}
         onDoubleClick={handleOpenLink}
         onClick={handleSelectionChange}
         onContextMenu={onRightClick}
-        data-context-id={contextId}
       >
         <Tooltip
+          withArrow
+          multiline
           label={url}
           color="violet.5"
           position="right"
-          withArrow
           arrowSize={6}
-          multiline
           className={styles.tooltip}
           w="40%"
           lh="1.3"

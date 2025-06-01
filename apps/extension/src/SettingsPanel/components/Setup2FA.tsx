@@ -44,12 +44,12 @@ function Setup2FA({ isOpen, handleClose }: Props) {
 
   return (
     <Modal
-      opened={isOpen}
-      onClose={handleClose}
       fullScreen
+      opened={isOpen}
       zIndex={1002}
       withCloseButton={false}
       styles={{ body: { padding: 0 } }}
+      onClose={handleClose}
     >
       <Header text="Setup two factor auth" onBackClick={handleClose} />
       <Center mt={20} className={styles.qrCodeWrapper}>

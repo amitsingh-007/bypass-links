@@ -108,7 +108,6 @@ function BookmarksList({
   const renderContent = () => (
     <>
       <Header
-        onSearchChange={setSearchText}
         rightContent={
           <Box className={styles.header}>
             <Avatar src={imageUrl} alt={personToOpen?.name} radius="xl" />
@@ -117,6 +116,7 @@ function BookmarksList({
             })`}</Badge>
           </Box>
         }
+        onSearchChange={setSearchText}
       />
       {filteredBookmarks.length > 0 ? (
         filteredBookmarks.map((bookmark) => (
@@ -133,8 +133,8 @@ function BookmarksList({
               size="2rem"
               title="Edit Bookmark"
               color="red"
-              onClick={() => handleBookmarkEdit(bookmark)}
               radius="xl"
+              onClick={() => handleBookmarkEdit(bookmark)}
             >
               <AiFillEdit size="1.125rem" />
             </ActionIcon>
@@ -161,9 +161,8 @@ function BookmarksList({
 
   return (
     <Modal
-      opened={Boolean(personToOpen)}
-      onClose={handleClose}
       fullScreen
+      opened={Boolean(personToOpen)}
       zIndex={1002}
       withCloseButton={false}
       styles={{
@@ -171,6 +170,7 @@ function BookmarksList({
         title: { flex: 1, marginRight: 0 },
         header: { marginBottom: 0 },
       }}
+      onClose={handleClose}
     >
       {fullscreen ? (
         renderContent()

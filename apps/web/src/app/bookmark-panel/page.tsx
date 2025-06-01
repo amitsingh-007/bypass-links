@@ -73,8 +73,8 @@ export default function BookmarksPage() {
   return (
     <Container size="md" h="100vh" px={0} className={styles.container}>
       <Header
-        onSearchChange={handleSearchTextChange}
         text={`${folderContext} (${contextBookmarks?.length || 0})`}
+        onSearchChange={handleSearchTextChange}
       />
       <Box ref={contentRef} className={styles.innerContainer}>
         {shouldRenderBookmarks(folders, filteredContextBookmarks) ? (

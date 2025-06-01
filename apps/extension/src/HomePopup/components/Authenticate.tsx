@@ -73,19 +73,19 @@ function Authenticate() {
   return (
     <>
       <Button
+        fullWidth
         radius="xl"
         loading={isFetching}
         disabled={!isExtensionActive}
-        onClick={isSignedIn ? handleSignOut : handleSignIn}
         color={isSignedIn ? 'teal' : 'red'}
         rightSection={
           isSignedIn ? <RiLogoutCircleRFill /> : <RiLoginCircleFill />
         }
-        fullWidth
+        onClick={isSignedIn ? handleSignOut : handleSignIn}
       >
         {isSignedIn ? 'Logout' : 'Login'}
       </Button>
-      {isFetching && <LoadingOverlay w="100%" visible zIndex={100} />}
+      {isFetching && <LoadingOverlay visible w="100%" zIndex={100} />}
     </>
   );
 }

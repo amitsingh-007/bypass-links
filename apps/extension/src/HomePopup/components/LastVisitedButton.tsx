@@ -51,20 +51,20 @@ function LastVisitedButton() {
 
   return (
     <Tooltip
+      withArrow
       label={<Text>{lastVisited}</Text>}
       disabled={!lastVisited}
-      withArrow
       radius="md"
       color="gray"
     >
       <Button
+        fullWidth
         radius="xl"
         loading={isFetching}
         disabled={!isSignedIn}
-        onClick={handleUpdateLastVisited}
         rightSection={lastVisited ? <FaCalendarCheck /> : <FaCalendarTimes />}
-        fullWidth
         color={lastVisited ? 'teal' : 'red'}
+        onClick={handleUpdateLastVisited}
       >
         Visited
       </Button>

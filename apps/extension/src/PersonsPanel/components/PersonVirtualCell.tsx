@@ -57,8 +57,8 @@ const PersonVirtualCell = memo<Props>(
           <AddOrEditPersonDialog
             person={person}
             isOpen={showEditPersonDialog}
-            onClose={toggleEditPersonDialog}
             handleSaveClick={handlePersonSave}
+            onClose={toggleEditPersonDialog}
           />
         )}
       </Box>

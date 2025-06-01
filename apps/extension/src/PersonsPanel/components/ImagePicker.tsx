@@ -87,15 +87,15 @@ function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
   const disableControls = isLoadingImage || !inputOrFile;
   return (
     <Modal
-      opened={isOpen}
-      onClose={onDialogClose}
       fullScreen
+      opened={isOpen}
       zIndex={1002}
       withCloseButton={false}
       styles={{
         body: { padding: 'unset' },
         content: { '> div': { maxHeight: 'unset' } },
       }}
+      onClose={onDialogClose}
     >
       <LoadingOverlay visible={isUploadingImage} />
       <Header text="Upload Image" onBackClick={onDialogClose} />
@@ -118,9 +118,9 @@ function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
       <Box px="1.25rem">
         <Group justify="center" mt={6}>
           <TextInput
+            data-autofocus
             placeholder="Enter image url"
             w="82%"
-            data-autofocus
             value={typeof inputOrFile === 'string' ? inputOrFile : ''}
             onChange={handleImageUrlChange}
             onPaste={handleImagePaste}
@@ -130,13 +130,13 @@ function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
             <Slider
               radius="xl"
               value={zoom}
-              onChange={setZoom}
               min={1}
               max={3}
               step={0.001}
               label={(value) => value.toFixed(1)}
               disabled={disableControls}
               color={zoom > 2 ? 'red' : 'blue'}
+              onChange={setZoom}
             />
           </Box>
           <Box w="40%">
@@ -144,10 +144,10 @@ function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
             <Slider
               radius="xl"
               value={rotation}
-              onChange={setRotation}
               min={0}
               max={360}
               disabled={disableControls}
+              onChange={setRotation}
             />
           </Box>
         </Group>

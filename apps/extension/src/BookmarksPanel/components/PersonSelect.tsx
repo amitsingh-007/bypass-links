@@ -46,18 +46,18 @@ function PersonSelect({ formProps }: { formProps: any }) {
 
   return (
     <MultiSelect
+      searchable
+      hidePickedOptions
       data={personList}
       label="Tagged Persons"
       placeholder="Persons"
       nothingFoundMessage="No person with this name"
       maxDropdownHeight={210}
-      searchable
       comboboxProps={{
         position: 'top',
         withinPortal: false,
         transitionProps: { transition: 'pop' },
       }}
-      hidePickedOptions
       renderOption={renderMultiSelectOption}
       {...formProps}
     />

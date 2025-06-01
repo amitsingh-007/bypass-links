@@ -14,11 +14,11 @@ function BookmarksPanelButton() {
 
   return (
     <Button
+      fullWidth
       radius="xl"
       disabled={!isSignedIn}
-      onClick={handleShowEditPanel}
       rightSection={<RiBookmarkFill />}
-      fullWidth
+      onClick={handleShowEditPanel}
     >
       Bookmarks
     </Button>

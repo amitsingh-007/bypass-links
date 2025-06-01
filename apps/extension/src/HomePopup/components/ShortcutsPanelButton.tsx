@@ -14,11 +14,11 @@ function ShortcutsPanelButton() {
 
   return (
     <Button
+      fullWidth
       radius="xl"
       disabled={!isSignedIn}
-      onClick={handleOpenShortcutsPanel}
       rightSection={<GoFileSymlinkFile />}
-      fullWidth
+      onClick={handleOpenShortcutsPanel}
     >
       Shortcuts
     </Button>

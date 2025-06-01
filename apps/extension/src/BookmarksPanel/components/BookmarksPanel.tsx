@@ -108,8 +108,8 @@ function BookmarksPanel({
         h={MAX_PANEL_SIZE.HEIGHT}
       >
         <BookmarksHeader
-          onSearchChange={setSearchText}
           folderContext={folderContext}
+          onSearchChange={setSearchText}
         />
         <BookmarkAddEditDialog
           curFolder={folderContext}

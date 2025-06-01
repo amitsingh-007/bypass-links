@@ -14,12 +14,12 @@ function ButtonWithFeedback({ openAllLinks, isForumPage }: Props) {
   if (isForumPage && buttonState === EButtonState.SUCCESS) {
     return (
       <Button
-        radius="xl"
-        onClick={onClick}
-        rightSection={<CheckIcon size={14} />}
         fullWidth
+        radius="xl"
+        rightSection={<CheckIcon size={14} />}
         color="teal"
         className={styles.successButton}
+        onClick={onClick}
       >
         Success
       </Button>
@@ -28,13 +28,13 @@ function ButtonWithFeedback({ openAllLinks, isForumPage }: Props) {
 
   return (
     <Button
+      fullWidth
       radius="xl"
       loading={buttonState === EButtonState.LOADING}
       disabled={!isForumPage}
-      onClick={onClick}
       rightSection={<MdForum />}
-      fullWidth
       color="yellow"
+      onClick={onClick}
     >
       Forum
     </Button>

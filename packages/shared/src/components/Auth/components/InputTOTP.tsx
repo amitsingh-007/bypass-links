@@ -27,9 +27,9 @@ function InputTOTP({
         autoFocus
         length={6}
         type="number"
-        onChange={handleTOTPChange}
         disabled={state.isVerifying}
         error={state.hasError}
+        onChange={handleTOTPChange}
       />
     </Flex>
   );

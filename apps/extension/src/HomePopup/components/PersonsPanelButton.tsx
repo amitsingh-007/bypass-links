@@ -14,11 +14,11 @@ function PersonsPanelButton() {
 
   return (
     <Button
+      fullWidth
       radius="xl"
       disabled={!isSignedIn}
-      onClick={handleShowPersonsPanel}
       rightSection={<FaUserTag />}
-      fullWidth
+      onClick={handleShowPersonsPanel}
     >
       Persons
     </Button>

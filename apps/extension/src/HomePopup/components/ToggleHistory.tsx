@@ -80,8 +80,8 @@ function ToggleHistory() {
       size="md"
       label="History"
       checked={isHistoryActive}
-      onChange={handleToggle}
       disabled={!isExtensionActive}
+      onChange={handleToggle}
     />
   );
 }

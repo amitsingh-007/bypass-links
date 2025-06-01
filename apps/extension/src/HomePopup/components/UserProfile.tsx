@@ -17,7 +17,7 @@ function UserProfile() {
   };
 
   return (
-    <Box pos="relative" ref={ref}>
+    <Box ref={ref} pos="relative">
       <Avatar
         radius="xl"
         size="3.125rem"

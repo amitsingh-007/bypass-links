@@ -93,13 +93,13 @@ function AddOrEditPersonDialog({
   return (
     <>
       <Modal
+        centered
         closeOnClickOutside={false}
         closeOnEscape={false}
-        centered
         opened={isOpen}
-        onClose={onClose}
         title={person ? 'Edit Person' : 'Add Person'}
         padding="2.5rem"
+        onClose={onClose}
       >
         <form onSubmit={form.onSubmit(handleSave)}>
           <Stack>
@@ -130,9 +130,9 @@ function AddOrEditPersonDialog({
             </Center>
             <TextInput
               withAsterisk
+              data-autofocus
               label="Name"
               placeholder="Enter name"
-              data-autofocus
               {...form.getInputProps('name')}
             />
             <Button type="submit" color="teal" loading={isLoading}>
@@ -145,8 +145,8 @@ function AddOrEditPersonDialog({
         <ImagePicker
           uid={uid}
           isOpen={showImagePicker}
-          onDialogClose={toggleImagePicker}
           handleImageSave={handleImageCropSave}
+          onDialogClose={toggleImagePicker}
         />
       )}
     </>

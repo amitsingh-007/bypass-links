@@ -96,19 +96,19 @@ function ShortcutsPanel() {
       <Header text="Shortcuts" onSearchChange={setSearchText}>
         <Button
           leftSection={<RiPlayListAddFill />}
-          onClick={handleAddRule}
           radius="xl"
           disabled={isFetching}
+          onClick={handleAddRule}
         >
           Add
         </Button>
         <Button
           leftSection={<IoSave />}
-          onClick={handleSave}
           color="teal"
           radius="xl"
           loading={isFetching}
           disabled={!isSaveActive}
+          onClick={handleSave}
         >
           Save
         </Button>

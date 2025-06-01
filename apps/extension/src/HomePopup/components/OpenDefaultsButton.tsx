@@ -29,13 +29,13 @@ function OpenDefaultsButton() {
 
   return (
     <Button
+      fullWidth
       radius="xl"
       loading={isFetching}
       disabled={!isSignedIn}
-      onClick={handleOpenDefaults}
       rightSection={<RxExternalLink />}
-      fullWidth
       color="yellow"
+      onClick={handleOpenDefaults}
     >
       Defaults
     </Button>

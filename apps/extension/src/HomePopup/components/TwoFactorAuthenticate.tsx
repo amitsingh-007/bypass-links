@@ -47,12 +47,12 @@ function TwoFactorAuthenticate() {
 
   return (
     <Modal
-      opened={promptTOTPVerify}
       fullScreen
-      onClose={noOp}
+      opened={promptTOTPVerify}
       withCloseButton={false}
       closeOnClickOutside={false}
       closeOnEscape={false}
+      onClose={noOp}
     >
       <Center h="100%">
         <InputTOTP handleVerify={onVerify} />

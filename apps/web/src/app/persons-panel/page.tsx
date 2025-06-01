@@ -47,16 +47,16 @@ function PersonsPage() {
   return (
     <Container size="md" h="100vh" px={0} className={styles.container}>
       <Header
-        onSearchChange={handleSearchTextChange}
         text={`Persons Panel (${filteredPersons?.length || 0})`}
+        onSearchChange={handleSearchTextChange}
       />
       <Box className={styles.innerContainer}>
         {filteredPersons.length > 0 ? (
           <Persons
             persons={filteredPersons}
-            onLinkOpen={onLinkOpen}
             bookmarkListProps={{ fullscreen: false }}
             renderPerson={(person) => <PersonVirtualCell person={person} />}
+            onLinkOpen={onLinkOpen}
           />
         ) : null}
       </Box>

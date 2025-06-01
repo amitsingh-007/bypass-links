@@ -80,16 +80,16 @@ const BookmarksHeader = memo<Props>(({ onSearchChange, folderContext }) => {
   return (
     <>
       <Header
+        text={contextBookmarks?.length || 0}
         onBackClick={onBackClick}
         onSearchChange={onSearchChange}
-        text={contextBookmarks?.length || 0}
       >
         <Button
           size="xs"
           radius="xl"
           leftSection={<FaFolderPlus />}
-          onClick={toggleNewFolderDialog}
           disabled={isFetching}
+          onClick={toggleNewFolderDialog}
         >
           Add
         </Button>
@@ -98,8 +98,8 @@ const BookmarksHeader = memo<Props>(({ onSearchChange, folderContext }) => {
           radius="xl"
           color="teal"
           leftSection={<IoSave />}
-          onClick={handleSaveClick}
           disabled={disableSave}
+          onClick={handleSaveClick}
         >
           Save
         </Button>
@@ -111,9 +111,9 @@ const BookmarksHeader = memo<Props>(({ onSearchChange, folderContext }) => {
         onClose={toggleNewFolderDialog}
       />
       <ConfirmationDialog
+        isOpen={openConfirmationDialog}
         onClose={handleConfirmationDialogClose}
         onOk={handleConfirmationDialogOk}
-        isOpen={openConfirmationDialog}
       />
     </>
   );

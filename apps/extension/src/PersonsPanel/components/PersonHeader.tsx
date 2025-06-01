@@ -36,13 +36,13 @@ const PersonHeader = memo<Props>(
 
     return (
       <>
-        <Header onSearchChange={onSearchChange} text={persons?.length || 0}>
+        <Header text={persons?.length || 0} onSearchChange={onSearchChange}>
           <Button
             size="xs"
             radius="xl"
             leftSection={<IoIosPersonAdd />}
-            onClick={toggleAddPersonDialog}
             disabled={isFetching}
+            onClick={toggleAddPersonDialog}
           >
             Add
           </Button>
@@ -54,13 +54,13 @@ const PersonHeader = memo<Props>(
             checked={orderByRecency}
             onChange={toggleOrderByRecency}
           />
-          {isFetching && <LoadingOverlay w="100%" visible zIndex={100} />}
+          {isFetching && <LoadingOverlay visible w="100%" zIndex={100} />}
         </Header>
         {showAddPersonDialog && (
           <AddOrEditPersonDialog
             isOpen={showAddPersonDialog}
-            onClose={toggleAddPersonDialog}
             handleSaveClick={handlePersonSave}
+            onClose={toggleAddPersonDialog}
           />
         )}
       </>

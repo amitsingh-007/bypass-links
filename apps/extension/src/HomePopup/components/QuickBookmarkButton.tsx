@@ -65,21 +65,21 @@ function QuickBookmarkButton() {
 
   return (
     <Tooltip
-      label={<Text size="xs">{bookmark?.title}</Text>}
-      disabled={!bookmark}
       withArrow
       multiline
+      label={<Text size="xs">{bookmark?.title}</Text>}
+      disabled={!bookmark}
       radius="md"
       color="gray"
     >
       <Button
+        fullWidth
         radius="xl"
         loading={isFetching}
         disabled={!isSignedIn}
-        onClick={handleClick}
         rightSection={bookmark ? <RiBookmark3Fill /> : <BiBookmarkPlus />}
-        fullWidth
         color={bookmark ? 'teal' : 'red'}
+        onClick={handleClick}
       >
         {bookmark ? 'Unpin' : 'Pin'}
       </Button>

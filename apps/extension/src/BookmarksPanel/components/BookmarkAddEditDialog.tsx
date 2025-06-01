@@ -174,28 +174,28 @@ function BookmarkAddEditDialog({ curFolder, handleScroll }: Props) {
 
   return (
     <Modal
+      centered
       closeOnClickOutside={false}
       closeOnEscape={false}
-      centered
       opened={openDialog}
-      onClose={closeDialog}
       title={HEADING[operation]}
+      onClose={closeDialog}
     >
       <form onSubmit={form.onSubmit(handleSave)}>
         <Stack>
           <TextInput
             withAsterisk
+            data-autofocus
             label="Title"
             placeholder="Enter bookmark title"
-            data-autofocus
             {...form.getInputProps('title')}
           />
           <TextInput
             withAsterisk
-            label="Url"
-            placeholder="Url"
             data-autofocus
             readOnly
+            label="Url"
+            placeholder="Url"
             {...form.getInputProps('url')}
           />
           <Select

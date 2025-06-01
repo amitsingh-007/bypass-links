@@ -14,11 +14,11 @@ const PersonAvatars = memo<{ persons: IPersonWithImage[] }>(({ persons }) => {
         <HoverCard
           key={uid}
           withArrow
+          returnFocus
           arrowSize={8}
           offset={1}
           shadow="xl"
           radius="xl"
-          returnFocus
           transitionProps={{
             transition: 'pop',
             duration: 450,
@@ -31,7 +31,7 @@ const PersonAvatars = memo<{ persons: IPersonWithImage[] }>(({ persons }) => {
             <Avatar radius="xl" size="1.75rem" src={imageUrl} />
           </HoverCard.Target>
           <HoverCard.Dropdown>
-            <Tooltip label={name} position="right" color="gray" opened>
+            <Tooltip opened label={name} position="right" color="gray">
               <Avatar
                 ml={0}
                 radius="xl"

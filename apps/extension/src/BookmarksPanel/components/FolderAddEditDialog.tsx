@@ -39,7 +39,7 @@ export function FolderAddEditDialog({
   };
 
   return (
-    <Modal centered opened={isOpen} onClose={handleClose} title={headerText}>
+    <Modal centered opened={isOpen} title={headerText} onClose={handleClose}>
       <form
         onSubmit={form.onSubmit((values) => {
           handleSave(values.folderName);
@@ -48,9 +48,9 @@ export function FolderAddEditDialog({
       >
         <TextInput
           withAsterisk
+          data-autofocus
           label="Folder"
           placeholder="Enter folder name"
-          data-autofocus
           {...form.getInputProps('folderName')}
         />
         <Group justify="end" mt="md">
