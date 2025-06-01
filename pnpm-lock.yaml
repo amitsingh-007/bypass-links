@@ -111,11 +111,11 @@ importers:
         specifier: 3.13.6
         version: 3.13.6(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@trpc/client':
-        specifier: 11.1.2
-        version: 11.1.2(@trpc/server@11.1.2(typescript@5.8.3))(typescript@5.8.3)
+        specifier: 11.1.4
+        version: 11.1.4(@trpc/server@11.1.4(typescript@5.8.3))(typescript@5.8.3)
       '@trpc/server':
-        specifier: 11.1.2
-        version: 11.1.2(typescript@5.8.3)
+        specifier: 11.1.4
+        version: 11.1.4(typescript@5.8.3)
       clsx:
         specifier: 2.1.1
         version: 2.1.1
@@ -304,11 +304,11 @@ importers:
         specifier: 3.13.6
         version: 3.13.6(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@trpc/client':
-        specifier: 11.1.2
-        version: 11.1.2(@trpc/server@11.1.2(typescript@5.8.3))(typescript@5.8.3)
+        specifier: 11.1.4
+        version: 11.1.4(@trpc/server@11.1.4(typescript@5.8.3))(typescript@5.8.3)
       '@trpc/server':
-        specifier: 11.1.2
-        version: 11.1.2(typescript@5.8.3)
+        specifier: 11.1.4
+        version: 11.1.4(typescript@5.8.3)
       '@vercel/analytics':
         specifier: 1.5.0
         version: 1.5.0(next@15.3.3(@babel/core@7.27.1)(@opentelemetry/api@1.9.0)(@playwright/test@1.52.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
@@ -450,8 +450,8 @@ importers:
         specifier: 0.13.6
         version: 0.13.6(arktype@2.1.20)(typescript@5.8.3)(zod@3.24.3)
       '@trpc/server':
-        specifier: 11.1.2
-        version: 11.1.2(typescript@5.8.3)
+        specifier: 11.1.4
+        version: 11.1.4(typescript@5.8.3)
       firebase-admin:
         specifier: 13.4.0
         version: 13.4.0
@@ -2312,14 +2312,14 @@ packages:
   '@total-typescript/ts-reset@0.6.1':
     resolution: {integrity: sha512-cka47fVSo6lfQDIATYqb/vO1nvFfbPw7uWLayIXIhGETj0wcOOlrlkobOMDNQOFr9QOafegUPq13V2+6vtD7yg==}
 
-  '@trpc/client@11.1.2':
-    resolution: {integrity: sha512-RpifJOAv+ql9gF3oafa3dLCF01AzWu2DzejvehAPG2IlwHxopKoYXaImJ8zPwRkZokuWiKz5v65HjElmi8TlrQ==}
+  '@trpc/client@11.1.4':
+    resolution: {integrity: sha512-QDaIdwhZlHKMhDAr5m4dJNAYkX4ydo63Up0M01mGcdpnOOmGlvGMRWzdVSLIvGc1JasPSvC15RsgrjMzXpElzw==}
     peerDependencies:
-      '@trpc/server': 11.1.2
+      '@trpc/server': 11.1.4
       typescript: '>=5.7.2'
 
-  '@trpc/server@11.1.2':
-    resolution: {integrity: sha512-Oi9zWHG0ZDkbDo4sYkduoV7q4sIe6UwjrRLC91vNMYQK+PVgpbTCmK1laRwewAGu0zaayqcGDosANjceOIC3GA==}
+  '@trpc/server@11.1.4':
+    resolution: {integrity: sha512-X3TSLwQQh5+zi+yY7BnnmUUwVNdeBj3BAt580sAJ+Qd5PvDhz1gSNHGOAlOLulCFn6g/JHf8n+DbnPF/Gb63SA==}
     peerDependencies:
       typescript: '>=5.7.2'
 
@@ -9715,12 +9715,12 @@ snapshots:
 
   '@total-typescript/ts-reset@0.6.1': {}
 
-  '@trpc/client@11.1.2(@trpc/server@11.1.2(typescript@5.8.3))(typescript@5.8.3)':
+  '@trpc/client@11.1.4(@trpc/server@11.1.4(typescript@5.8.3))(typescript@5.8.3)':
     dependencies:
-      '@trpc/server': 11.1.2(typescript@5.8.3)
+      '@trpc/server': 11.1.4(typescript@5.8.3)
       typescript: 5.8.3
 
-  '@trpc/server@11.1.2(typescript@5.8.3)':
+  '@trpc/server@11.1.4(typescript@5.8.3)':
     dependencies:
       typescript: 5.8.3
 
