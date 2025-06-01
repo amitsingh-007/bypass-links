@@ -141,8 +141,8 @@ importers:
         specifier: 5.5.0
         version: 5.5.0(react@19.1.0)
       wouter:
-        specifier: 3.7.0
-        version: 3.7.0(react@19.1.0)
+        specifier: 3.7.1
+        version: 3.7.1(react@19.1.0)
       wouter-preact:
         specifier: 3.6.1
         version: 3.6.1(preact@10.26.5)
@@ -5901,6 +5901,7 @@ packages:
 
   path-match@1.2.4:
     resolution: {integrity: sha512-UWlehEdqu36jmh4h5CWJ7tARp1OEVKGHKm6+dg9qMq5RKUTV5WJrGgaZ3dN2m7WFAXDbjlHzvJvL/IUpy84Ktw==}
+    deprecated: This package is archived and no longer maintained. For support, visit https://github.com/expressjs/express/discussions
 
   path-parse@1.0.7:
     resolution: {integrity: sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==}
@@ -7676,8 +7677,8 @@ packages:
     peerDependencies:
       preact: ^10.0.0
 
-  wouter@3.7.0:
-    resolution: {integrity: sha512-ElkqESy10WgRRbdd22uQkSSO6LmG6vxI50pxPKry2TLebbdXvgtp7rJ48KafjUvsKcQQmIewxgRCGixPfk58tw==}
+  wouter@3.7.1:
+    resolution: {integrity: sha512-od5LGmndSUzntZkE2R5CHhoiJ7YMuTIbiXsa0Anytc2RATekgv4sfWRAxLEULBrp7ADzinWQw8g470lkT8+fOw==}
     peerDependencies:
       react: '>=16.8.0'
 
@@ -15816,7 +15817,7 @@ snapshots:
       preact: 10.26.5
       regexparam: 3.0.0
 
-  wouter@3.7.0(react@19.1.0):
+  wouter@3.7.1(react@19.1.0):
     dependencies:
       mitt: 3.0.1
       react: 19.1.0
