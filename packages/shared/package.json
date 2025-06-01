@@ -11,7 +11,7 @@
   },
   "sideEffects": false,
   "scripts": {
-    "lint": "eslint . --quiet"
+    "lint": "TODO all lint commands                        eslint . --quiet"
   },
   "peerDependencies": {
     "@bypass/configs": "workspace:*",

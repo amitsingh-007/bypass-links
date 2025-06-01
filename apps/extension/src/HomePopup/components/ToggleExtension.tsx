@@ -26,7 +26,6 @@ const ToggleExtension = () => {
       const isActive = getIsExtensionActive(_extState);
       dispatchActionAndSetState(_extState, isActive);
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleToggle = (event: React.ChangeEvent<HTMLInputElement>) => {

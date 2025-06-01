@@ -66,7 +66,6 @@ const AddOrEditPersonDialog = ({
     } else {
       form.setFieldValue('uid', md5(Date.now().toString()));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initImageUrl, person]);
 
   const handleImageCropSave = async (fileName: string) => {

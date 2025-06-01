@@ -260,13 +260,13 @@ const config: Configuration = {
         root: PATHS.ROOT,
       },
     }),
-    !isProduction && new PreactRefreshPlugin(),
-    new ESLintPlugin({
-      extensions: ['ts', 'tsx'],
-      threads: true,
-      emitWarning: false,
-      eslintPath: path.resolve(PATHS.MONOREPO_ROOT, 'node_modules/eslint'),
-    }),
+    // !isProduction && new PreactRefreshPlugin(),
+    // new ESLintPlugin({
+    //   extensions: ['ts', 'tsx'],
+    //   threads: true,
+    //   emitWarning: false,
+    //   eslintPath: path.resolve(PATHS.MONOREPO_ROOT, 'node_modules/eslint'),
+    // }),
   ],
 };
 
