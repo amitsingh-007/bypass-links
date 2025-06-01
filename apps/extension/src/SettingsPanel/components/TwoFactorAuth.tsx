@@ -6,7 +6,7 @@ import { notifications } from '@mantine/notifications';
 import Setup2FA from './Setup2FA';
 import { trpcApi } from '@/apis/trpcApi';
 
-const TwoFactorAuth = () => {
+function TwoFactorAuth() {
   const [is2FAEnabled, setIs2FAEnabled] = useState(false);
   const [show2FASetup, setShow2FASetup] = useState(false);
 
@@ -60,6 +60,6 @@ const TwoFactorAuth = () => {
       <Setup2FA handleClose={handleClose2FASetup} isOpen={show2FASetup} />
     </Flex>
   );
-};
+}
 
 export default TwoFactorAuth;

@@ -6,16 +6,18 @@ import { PersonsPanelRoute } from '@/PersonsPanel/routes';
 import { SettingsPanelRoute } from '@/SettingsPanel/routes';
 import { ShortcutsPanelRoute } from '@/ShortcutsPanel/routes';
 
-const PopupRoutes = () => (
-  <Suspense fallback={null}>
-    <Switch>
-      {HomePageRoute}
-      {ShortcutsPanelRoute}
-      {BookmarksPanelRoute}
-      {PersonsPanelRoute}
-      {SettingsPanelRoute}
-    </Switch>
-  </Suspense>
-);
+function PopupRoutes() {
+  return (
+    <Suspense fallback={null}>
+      <Switch>
+        {HomePageRoute}
+        {ShortcutsPanelRoute}
+        {BookmarksPanelRoute}
+        {PersonsPanelRoute}
+        {SettingsPanelRoute}
+      </Switch>
+    </Suspense>
+  );
+}
 
 export default PopupRoutes;

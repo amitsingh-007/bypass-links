@@ -14,7 +14,7 @@ interface Props {
   firefox: IExtData;
 }
 
-const DownloadButton = ({
+function DownloadButton({
   logo,
   text,
   downloadLink,
@@ -22,7 +22,7 @@ const DownloadButton = ({
   logo: string;
   text: string;
   downloadLink: string;
-}) => {
+}) {
   return (
     <Button
       component="a"
@@ -38,7 +38,7 @@ const DownloadButton = ({
       {text}
     </Button>
   );
-};
+}
 
 const PageHeader = memo<Props>(({ chrome, firefox }) => (
   <Group mt="4.375rem" justify="center">

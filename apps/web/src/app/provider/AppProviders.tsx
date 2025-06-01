@@ -8,7 +8,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import { AuthProvider } from './AuthProvider';
 import DynamicProvider from './DynamicProvider';
 
-const AppProviders = ({ children }: { children: React.ReactNode }) => {
+function AppProviders({ children }: { children: React.ReactNode }) {
   return (
     <Suspense>
       <StrictMode>
@@ -24,6 +24,6 @@ const AppProviders = ({ children }: { children: React.ReactNode }) => {
       </StrictMode>
     </Suspense>
   );
-};
+}
 
 export default AppProviders;

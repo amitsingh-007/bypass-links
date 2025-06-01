@@ -33,7 +33,7 @@ type InnerProps = Props & {
   personToOpenImage: string;
 };
 
-const PersonsInner = ({
+function PersonsInner({
   persons,
   onLinkOpen,
   scrollButton = false,
@@ -43,7 +43,7 @@ const PersonsInner = ({
   personToOpen,
   personToOpenImage,
   renderPerson,
-}: InnerProps) => {
+}: InnerProps) {
   const isMobile = usePlatform();
   const columnCount = getColumnCount(isMobile);
   const rowCount = Math.ceil(persons.length / columnCount);
@@ -105,9 +105,9 @@ const PersonsInner = ({
       />
     </>
   );
-};
+}
 
-const Persons = (props: Props) => {
+function Persons(props: Props) {
   const { persons } = props;
   const [personToOpen, setPersonToOpen] = useState<IPerson>();
   const [personToOpenImage, setPersonToOpenImage] = useState('');
@@ -140,6 +140,6 @@ const Persons = (props: Props) => {
       )}
     </Box>
   );
-};
+}
 
 export default Persons;

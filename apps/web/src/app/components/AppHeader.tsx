@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import styles from './styles/AppHeader.module.css';
 
-const AppHeader = () => {
+function AppHeader() {
   const router = useRouter();
   const [clickCount, setClickCount] = useState(0);
 
@@ -31,6 +31,6 @@ const AppHeader = () => {
       </Center>
     </Box>
   );
-};
+}
 
 export default AppHeader;

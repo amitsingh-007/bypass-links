@@ -5,37 +5,39 @@ import { firstColumn, secondColumn } from '../constants/features';
 import styles from './styles/SalientFeatures.module.css';
 import type Feature from './types/feature';
 
-const Description = () => (
-  <Box pos="relative" mb="2.5rem">
-    <Text fw={500} fz="2rem" component="span">
-      Why{' '}
-      <Text component="span" c="#7e67ff" fz="inherit" fw="inherit">
-        Bypass Links
+function Description() {
+  return (
+    <Box pos="relative" mb="2.5rem">
+      <Text fw={500} fz="2rem" component="span">
+        Why{' '}
+        <Text component="span" c="#7e67ff" fz="inherit" fw="inherit">
+          Bypass Links
+        </Text>
       </Text>
-    </Text>
-    <Box
-      pos="absolute"
-      top="1.875rem"
-      right="6.5625rem"
-      w="8.75rem"
-      className={styles.borderBox}
-    />
-    <Text mt="2.33rem" size="md">
-      An easy to use links bypasser and highly customizable & multipurpose
-      bookmarks panel with person tagging panel, website last visited feature
-      and many more ...
-    </Text>
-    <Box pos="relative" top="1.125rem" right="6.25rem">
-      <CircleIcon />
+      <Box
+        pos="absolute"
+        top="1.875rem"
+        right="6.5625rem"
+        w="8.75rem"
+        className={styles.borderBox}
+      />
+      <Text mt="2.33rem" size="md">
+        An easy to use links bypasser and highly customizable & multipurpose
+        bookmarks panel with person tagging panel, website last visited feature
+        and many more ...
+      </Text>
+      <Box pos="relative" top="1.125rem" right="6.25rem">
+        <CircleIcon />
+      </Box>
     </Box>
-  </Box>
-);
+  );
+}
 
-const FeaturesColumn = ({
+function FeaturesColumn({
   columnData,
 }: {
   columnData: Feature[];
-}): React.JSX.Element => {
+}): React.JSX.Element {
   return (
     <>
       {columnData.map(({ title, content, icon: Icon }) => (
@@ -51,9 +53,9 @@ const FeaturesColumn = ({
       ))}
     </>
   );
-};
+}
 
-const SalientFeatures = () => {
+function SalientFeatures() {
   return (
     <Flex mt="9.375rem">
       <Grid>
@@ -69,6 +71,6 @@ const SalientFeatures = () => {
       </Grid>
     </Flex>
   );
-};
+}
 
 export default SalientFeatures;

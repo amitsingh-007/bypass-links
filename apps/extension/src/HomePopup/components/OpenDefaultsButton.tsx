@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { RxExternalLink } from 'react-icons/rx';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 
-const OpenDefaultsButton = () => {
+function OpenDefaultsButton() {
   const startHistoryMonitor = useHistoryStore(
     (state) => state.startHistoryMonitor
   );
@@ -40,6 +40,6 @@ const OpenDefaultsButton = () => {
       Defaults
     </Button>
   );
-};
+}
 
 export default OpenDefaultsButton;

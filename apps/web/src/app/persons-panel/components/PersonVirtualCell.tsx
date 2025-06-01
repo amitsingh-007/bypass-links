@@ -5,12 +5,12 @@ interface Props {
   person: IPerson;
 }
 
-const PersonVirtualCell = ({ person }: Props) => {
+function PersonVirtualCell({ person }: Props) {
   return (
     <Box p="0.75rem" h="100%">
       <Person person={person} />
     </Box>
   );
-};
+}
 
 export default PersonVirtualCell;

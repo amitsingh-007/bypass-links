@@ -30,12 +30,7 @@ interface Props {
   handleImageSave: (fileName: string) => void;
 }
 
-const ImagePicker = ({
-  uid,
-  isOpen,
-  onDialogClose,
-  handleImageSave,
-}: Props) => {
+function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
   const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [inputOrFile, setInputOrFile] = useDebouncedState<string | File>(
     '',
@@ -169,6 +164,6 @@ const ImagePicker = ({
       </Box>
     </Modal>
   );
-};
+}
 
 export default ImagePicker;

@@ -8,7 +8,7 @@ interface Props {
   isForumPage: boolean;
 }
 
-const ButtonWithFeedback = ({ openAllLinks, isForumPage }: Props) => {
+function ButtonWithFeedback({ openAllLinks, isForumPage }: Props) {
   const { buttonState, onClick } = useFeedbackButton(openAllLinks);
 
   if (isForumPage && buttonState === EButtonState.SUCCESS) {
@@ -39,6 +39,6 @@ const ButtonWithFeedback = ({ openAllLinks, isForumPage }: Props) => {
       Forum
     </Button>
   );
-};
+}
 
 export default ButtonWithFeedback;

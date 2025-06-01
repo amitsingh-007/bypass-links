@@ -7,7 +7,7 @@ import { type IUser2FAInfo } from '../interfaces/authentication';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { trpcApi } from '@/apis/trpcApi';
 
-const TwoFactorAuthenticate = () => {
+function TwoFactorAuthenticate() {
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const [promptTOTPVerify, setPromptTOTPVerify] = useState(false);
   const [user2FAInfo, setUser2FAInfo] = useState<IUser2FAInfo>();
@@ -59,6 +59,6 @@ const TwoFactorAuthenticate = () => {
       </Center>
     </Modal>
   );
-};
+}
 
 export default TwoFactorAuthenticate;

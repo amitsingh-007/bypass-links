@@ -33,7 +33,7 @@ type Props = IRedirection & {
   handleRuleMoveDown: (pos: number) => void;
 };
 
-const RedirectionRule = ({
+function RedirectionRule({
   alias,
   website,
   isDefault,
@@ -44,7 +44,7 @@ const RedirectionRule = ({
   handleSaveRule,
   handleRuleMoveUp,
   handleRuleMoveDown,
-}: Props) => {
+}: Props) {
   const theme = useMantineTheme();
   const startHistoryMonitor = useHistoryStore(
     (state) => state.startHistoryMonitor
@@ -165,6 +165,6 @@ const RedirectionRule = ({
       </ActionIcon>
     </Center>
   );
-};
+}
 
 export default RedirectionRule;

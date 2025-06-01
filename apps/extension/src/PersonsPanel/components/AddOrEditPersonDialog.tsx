@@ -31,12 +31,12 @@ interface IForm {
   name: string;
 }
 
-const AddOrEditPersonDialog = ({
+function AddOrEditPersonDialog({
   person,
   isOpen,
   onClose,
   handleSaveClick,
-}: Props) => {
+}: Props) {
   const { resolvePersonImageFromUid } = usePerson();
   const [imageUrl, setImageUrl] = useState('');
   const [showImagePicker, setShowImagePicker] = useState(false);
@@ -151,6 +151,6 @@ const AddOrEditPersonDialog = ({
       )}
     </>
   );
-};
+}
 
 export default AddOrEditPersonDialog;

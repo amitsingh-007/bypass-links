@@ -17,7 +17,7 @@ import { useLocation } from 'wouter';
 import { getCurrentTab } from '@/utils/tabs';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 
-const QuickBookmarkButton = () => {
+function QuickBookmarkButton() {
   const [, navigate] = useLocation();
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const { getFolderFromHash } = useBookmark();
@@ -85,6 +85,6 @@ const QuickBookmarkButton = () => {
       </Button>
     </Tooltip>
   );
-};
+}
 
 export default QuickBookmarkButton;

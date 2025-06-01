@@ -23,7 +23,7 @@ const renderMultiSelectOption: MultiSelectProps['renderOption'] = ({
   </Group>
 );
 
-const PersonSelect = ({ formProps }: { formProps: any }) => {
+function PersonSelect({ formProps }: { formProps: any }) {
   const { getAllDecodedPersons, getPersonsWithImageUrl } = usePerson();
   const [personList, setPersonList] = useState<IOptionData[]>([]);
 
@@ -62,6 +62,6 @@ const PersonSelect = ({ formProps }: { formProps: any }) => {
       {...formProps}
     />
   );
-};
+}
 
 export default PersonSelect;

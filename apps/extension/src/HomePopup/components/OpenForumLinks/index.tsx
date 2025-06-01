@@ -12,7 +12,7 @@ const isCurrentPageForum = async (url = '') => {
   return isForumPage(hostname);
 };
 
-const OpenForumLinks = () => {
+function OpenForumLinks() {
   const startHistoryMonitor = useHistoryStore(
     (state) => state.startHistoryMonitor
   );
@@ -51,6 +51,6 @@ const OpenForumLinks = () => {
       isForumPage={isForumPage}
     />
   );
-};
+}
 
 export default OpenForumLinks;

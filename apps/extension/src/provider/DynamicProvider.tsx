@@ -3,7 +3,7 @@ import { type PropsWithChildren, useMemo } from 'react';
 import { useLocation, useSearch } from 'wouter';
 import { getFromChromeStorage, setToChromeStorage } from './utils';
 
-const DynamicProvider = ({ children }: PropsWithChildren) => {
+function DynamicProvider({ children }: PropsWithChildren) {
   const [, navigate] = useLocation();
   const search = useSearch();
 
@@ -25,6 +25,6 @@ const DynamicProvider = ({ children }: PropsWithChildren) => {
   return (
     <DynamicContext.Provider value={ctx}>{children}</DynamicContext.Provider>
   );
-};
+}
 
 export default DynamicProvider;

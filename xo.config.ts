@@ -42,8 +42,6 @@ const xoConfig: FlatXoConfig = [
           allow: ['TRPCError', 'Date'],
         },
       ],
-      // '@typescript-eslint/consistent-type-imports': 'off', // TODO: turn on later
-      'react/function-component-definition': 'off', // TODO: turn on later maybe?????????????
       '@typescript-eslint/no-floating-promises': 'off', // TODO: turn on later maybe?????????????
       'react/jsx-sort-props': 'off', // TODO: turn on later
       '@typescript-eslint/consistent-type-definitions': 'off', // TODO: turn on later

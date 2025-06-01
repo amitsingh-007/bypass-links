@@ -9,13 +9,13 @@ interface Props {
   onClose: VoidFunction;
 }
 
-export const FolderAddEditDialog: React.FC<Props> = ({
+export function FolderAddEditDialog({
   origName = '',
   headerText,
   handleSave,
   isOpen,
   onClose,
-}) => {
+}: Props) {
   const form = useForm({
     initialValues: {
       folderName: origName,
@@ -61,4 +61,4 @@ export const FolderAddEditDialog: React.FC<Props> = ({
       </form>
     </Modal>
   );
-};
+}

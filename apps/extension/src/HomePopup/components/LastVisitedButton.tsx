@@ -9,7 +9,7 @@ import useCurrentTab from '@/hooks/useCurrentTab';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { getlastVisitedText } from '@/utils/lastVisited';
 
-const LastVisitedButton = () => {
+function LastVisitedButton() {
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const currentTab = useCurrentTab();
   const [isFetching, setIsFetching] = useState(false);
@@ -70,6 +70,6 @@ const LastVisitedButton = () => {
       </Button>
     </Tooltip>
   );
-};
+}
 
 export default LastVisitedButton;

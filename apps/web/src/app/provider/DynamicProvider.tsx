@@ -3,7 +3,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { type PropsWithChildren, useMemo } from 'react';
 import { getFromLocalStorage, setToLocalStorage } from '../utils/storage';
 
-const DynamicProvider = ({ children }: PropsWithChildren) => {
+function DynamicProvider({ children }: PropsWithChildren) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -26,6 +26,6 @@ const DynamicProvider = ({ children }: PropsWithChildren) => {
   return (
     <DynamicContext.Provider value={ctx}>{children}</DynamicContext.Provider>
   );
-};
+}
 
 export default DynamicProvider;

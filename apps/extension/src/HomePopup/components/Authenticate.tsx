@@ -23,7 +23,7 @@ const resetProgress = () => {
   nprogress.complete();
 };
 
-const Authenticate = () => {
+function Authenticate() {
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const setIsSignedIn = useFirebaseStore((state) => state.setIsSignedIn);
   const isExtensionActive = useExtStore((state) => state.isExtensionActive);
@@ -88,6 +88,6 @@ const Authenticate = () => {
       {isFetching && <LoadingOverlay w="100%" visible zIndex={100} />}
     </>
   );
-};
+}
 
 export default Authenticate;

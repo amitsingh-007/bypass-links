@@ -22,11 +22,11 @@ import styles from './styles/BookmarksPanel.module.css';
 import useBookmarkRouteStore from '@/BookmarksPanel/store/useBookmarkRouteStore';
 import { MAX_PANEL_SIZE } from '@/constants';
 
-const BookmarksPanel = ({
+function BookmarksPanel({
   folderContext,
   operation,
   bmUrl,
-}: BMPanelQueryParams) => {
+}: BMPanelQueryParams) {
   const startHistoryMonitor = useHistoryStore(
     (state) => state.startHistoryMonitor
   );
@@ -151,6 +151,6 @@ const BookmarksPanel = ({
       </Flex>
     </>
   );
-};
+}
 
 export default BookmarksPanel;

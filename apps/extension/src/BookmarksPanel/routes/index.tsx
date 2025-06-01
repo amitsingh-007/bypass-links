@@ -17,12 +17,12 @@ const getQueryParams = (qs: string): BMPanelQueryParams => {
   };
 };
 
-const BookmarksPanelWrapper = () => {
+function BookmarksPanelWrapper() {
   const search = useSearch();
   const queryParams = getQueryParams(search);
 
   return <BookmarksPanel {...queryParams} />;
-};
+}
 
 export const BookmarksPanelRoute = (
   <Route path={ROUTES.BOOKMARK_PANEL} component={BookmarksPanelWrapper} />

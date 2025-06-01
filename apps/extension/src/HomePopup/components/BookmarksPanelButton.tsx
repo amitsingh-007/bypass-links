@@ -4,7 +4,7 @@ import { RiBookmarkFill } from 'react-icons/ri';
 import { useLocation } from 'wouter';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 
-const BookmarksPanelButton = () => {
+function BookmarksPanelButton() {
   const [, navigate] = useLocation();
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
 
@@ -23,6 +23,6 @@ const BookmarksPanelButton = () => {
       Bookmarks
     </Button>
   );
-};
+}
 
 export default BookmarksPanelButton;

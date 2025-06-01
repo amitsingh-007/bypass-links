@@ -4,7 +4,7 @@ import { GoFileSymlinkFile } from 'react-icons/go';
 import { useLocation } from 'wouter';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 
-const ShortcutsPanelButton = () => {
+function ShortcutsPanelButton() {
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const [, navigate] = useLocation();
 
@@ -23,6 +23,6 @@ const ShortcutsPanelButton = () => {
       Shortcuts
     </Button>
   );
-};
+}
 
 export default ShortcutsPanelButton;

@@ -25,7 +25,7 @@ type Props = PropsWithChildren<{
   children: React.ReactNode;
 }>;
 
-const ContextMenu = ({ wrapperHeight = '100%', options, children }: Props) => {
+function ContextMenu({ wrapperHeight = '100%', options, children }: Props) {
   const theme = useMantineTheme();
   const { showContextMenu } = useContextMenu();
   const idRef = useRef('');
@@ -72,6 +72,6 @@ const ContextMenu = ({ wrapperHeight = '100%', options, children }: Props) => {
       {children}
     </Box>
   );
-};
+}
 
 export default ContextMenu;

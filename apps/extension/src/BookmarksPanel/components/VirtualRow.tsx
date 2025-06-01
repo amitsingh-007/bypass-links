@@ -15,7 +15,7 @@ export interface Props {
   isCut: boolean;
 }
 
-const VirtualRow = ({ bookmark, pos, isSelected, isCut }: Props) => {
+function VirtualRow({ bookmark, pos, isSelected, isCut }: Props) {
   const {
     folders,
     handleFolderRemove,
@@ -66,6 +66,6 @@ const VirtualRow = ({ bookmark, pos, isSelected, isCut }: Props) => {
       )}
     </Box>
   );
-};
+}
 
 export default VirtualRow;

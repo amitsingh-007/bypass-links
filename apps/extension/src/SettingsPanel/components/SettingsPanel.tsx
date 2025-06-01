@@ -2,7 +2,7 @@ import { Header } from '@bypass/shared';
 import { Box, Flex } from '@mantine/core';
 import TwoFactorAuth from './TwoFactorAuth';
 
-const SettingsPanel = () => {
+function SettingsPanel() {
   return (
     <Box w="25rem" h="25rem">
       <Header text="Settings" />
@@ -11,6 +11,6 @@ const SettingsPanel = () => {
       </Flex>
     </Box>
   );
-};
+}
 
 export default SettingsPanel;

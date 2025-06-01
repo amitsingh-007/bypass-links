@@ -34,12 +34,12 @@ interface Props {
   fullscreen: boolean;
 }
 
-const BookmarksList = ({
+function BookmarksList({
   personToOpen,
   imageUrl,
   onLinkOpen,
   fullscreen,
-}: Props) => {
+}: Props) {
   const { location } = useContext(DynamicContext);
   const { getBookmarkFromHash, getFolderFromHash, getDefaultOrRootFolderUrls } =
     useBookmark();
@@ -181,6 +181,6 @@ const BookmarksList = ({
       )}
     </Modal>
   );
-};
+}
 
 export default BookmarksList;

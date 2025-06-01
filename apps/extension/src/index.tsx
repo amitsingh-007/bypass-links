@@ -11,7 +11,7 @@ import Global from './components/Global';
 import PopupRoutes from './components/PopupRoutes';
 import DynamicProvider from './provider/DynamicProvider';
 
-const App = () => {
+function App() {
   return (
     <StrictMode>
       <MantineProvider defaultColorScheme="dark" theme={mantineTheme}>
@@ -24,7 +24,7 @@ const App = () => {
       </MantineProvider>
     </StrictMode>
   );
-};
+}
 
 const container = document.getElementById('root');
 if (container) {

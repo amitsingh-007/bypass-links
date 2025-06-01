@@ -4,7 +4,7 @@ import { FaUserTag } from 'react-icons/fa';
 import { useLocation } from 'wouter';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 
-const PersonsPanelButton = () => {
+function PersonsPanelButton() {
   const [, navigate] = useLocation();
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
 
@@ -23,6 +23,6 @@ const PersonsPanelButton = () => {
       Persons
     </Button>
   );
-};
+}
 
 export default PersonsPanelButton;

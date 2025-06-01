@@ -13,7 +13,7 @@ import { MAX_PANEL_SIZE } from '@/constants';
 import { syncRedirectionsToStorage } from '@/BackgroundScript/redirections';
 import { trpcApi } from '@/apis/trpcApi';
 
-const ShortcutsPanel = () => {
+function ShortcutsPanel() {
   const [redirections, setRedirections] = useState<IRedirections>([]);
   const [searchText, setSearchText] = useState('');
   const [isFetching, setIsFetching] = useState(true);
@@ -137,6 +137,6 @@ const ShortcutsPanel = () => {
       </Flex>
     </Flex>
   );
-};
+}
 
 export default ShortcutsPanel;

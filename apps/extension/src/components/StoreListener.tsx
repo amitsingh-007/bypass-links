@@ -2,7 +2,7 @@ import useHistoryStore from '@store/history';
 import { useEffect } from 'react';
 import { startHistoryWatch } from '@/utils/history';
 
-const StoreListener = () => {
+function StoreListener() {
   const monitorHistory = useHistoryStore((state) => state.monitorHistory);
 
   useEffect(() => {
@@ -12,6 +12,6 @@ const StoreListener = () => {
   }, [monitorHistory]);
 
   return null;
-};
+}
 
 export default StoreListener;

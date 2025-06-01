@@ -11,7 +11,7 @@ type Props = {
   handleClose: VoidFunction;
 };
 
-const Setup2FA = ({ isOpen, handleClose }: Props) => {
+function Setup2FA({ isOpen, handleClose }: Props) {
   const [qrcodeUrl, setQrcodeUrl] = useState('');
   const [showVerifyToken, setShowVerifyToken] = useState(false);
 
@@ -73,6 +73,6 @@ const Setup2FA = ({ isOpen, handleClose }: Props) => {
       )}
     </Modal>
   );
-};
+}
 
 export default Setup2FA;

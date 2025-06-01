@@ -22,7 +22,7 @@ const endHistoryWatch = async () => {
   console.log('History clear successful.');
 };
 
-const ToggleHistory = () => {
+function ToggleHistory() {
   const resetHistoryMonitor = useHistoryStore(
     (state) => state.resetHistoryMonitor
   );
@@ -84,6 +84,6 @@ const ToggleHistory = () => {
       disabled={!isExtensionActive}
     />
   );
-};
+}
 
 export default ToggleHistory;

@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { getIsExtensionActive, setExtStateInStorage } from '@/utils/common';
 import { EExtensionState } from '@/constants';
 
-const ToggleExtension = () => {
+function ToggleExtension() {
   const turnOnExtension = useExtStore((state) => state.turnOnExtension);
   const turnOffExtension = useExtStore((state) => state.turnOffExtension);
   const [extState, setExtState] = useState<EExtensionState>(
@@ -47,6 +47,6 @@ const ToggleExtension = () => {
       onChange={handleToggle}
     />
   );
-};
+}
 
 export default ToggleExtension;

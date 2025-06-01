@@ -24,7 +24,7 @@ import PersonVirtualCell from './PersonVirtualCell';
 import { MAX_PANEL_SIZE } from '@/constants';
 import { trpcApi } from '@/apis/trpcApi';
 
-const PersonsPanel = () => {
+function PersonsPanel() {
   const startHistoryMonitor = useHistoryStore(
     (state) => state.startHistoryMonitor
   );
@@ -145,6 +145,6 @@ const PersonsPanel = () => {
       </Box>
     </Flex>
   );
-};
+}
 
 export default PersonsPanel;

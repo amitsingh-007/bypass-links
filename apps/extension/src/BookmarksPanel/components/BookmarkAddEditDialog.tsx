@@ -38,7 +38,7 @@ interface IForm {
 
 const validateHandler = (value: string) => (value?.trim() ? null : 'Required');
 
-const BookmarkAddEditDialog = ({ curFolder, handleScroll }: Props) => {
+function BookmarkAddEditDialog({ curFolder, handleScroll }: Props) {
   const [, navigate] = useLocation();
   const { bookmarkOperation, resetBookmarkOperation } = useBookmarkRouteStore(
     useShallow((state) => ({
@@ -220,6 +220,6 @@ const BookmarkAddEditDialog = ({ curFolder, handleScroll }: Props) => {
       </form>
     </Modal>
   );
-};
+}
 
 export default BookmarkAddEditDialog;

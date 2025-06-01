@@ -25,7 +25,7 @@ const AuthContext = createContext<IAuthContext>({
 
 const RESTRICTED_PATHS = new Set(['/']);
 
-export const AuthProvider = ({ children }: PropsWithChildren) => {
+export function AuthProvider({ children }: PropsWithChildren) {
   const router = useRouter();
   const pathname = usePathname();
   const [user, setUser] = useState<IAuthContext['user']>(null);
@@ -70,7 +70,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   }, [pathname, router, user]);
 
   return <AuthContext.Provider value={ctx}>{children}</AuthContext.Provider>;
-};
+}
 
 export const useUser = () => {
   const { user, isLoginIntialized } = useContext(AuthContext);

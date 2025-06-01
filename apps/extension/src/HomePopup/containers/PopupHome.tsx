@@ -18,7 +18,7 @@ const handleOpenAsPage = () => {
   chrome.tabs.create({ url: window.location.href });
 };
 
-const PopupHome = () => {
+function PopupHome() {
   useExtensionOutdated();
 
   return (
@@ -55,6 +55,6 @@ const PopupHome = () => {
       <TwoFactorAuthenticate />
     </>
   );
-};
+}
 
 export default PopupHome;

@@ -2,11 +2,11 @@ import { Flex, Loader, PinInput } from '@mantine/core';
 import { useState } from 'react';
 import { TOTP_LENGTH } from '../constants';
 
-const InputTOTP = ({
+function InputTOTP({
   handleVerify,
 }: {
   handleVerify: (totp: string) => Promise<void>;
-}) => {
+}) {
   const [state, setState] = useState({ isVerifying: false, hasError: false });
 
   const handleTOTPChange = async (inputTotp: string) => {
@@ -33,6 +33,6 @@ const InputTOTP = ({
       />
     </Flex>
   );
-};
+}
 
 export default InputTOTP;
