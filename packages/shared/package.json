@@ -15,8 +15,8 @@
   },
   "peerDependencies": {
     "@bypass/configs": "workspace:*",
-    "@mantine/core": "7.17.7",
-    "@mantine/hooks": "7.17.7",
+    "@mantine/core": "8.0.2",
+    "@mantine/hooks": "8.0.2",
     "@tanstack/react-virtual": "3.13.9",
     "clsx": "2.1.1",
     "md5": "2.3.0",
