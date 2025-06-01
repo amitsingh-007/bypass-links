@@ -45,7 +45,7 @@ function ContextMenu({ wrapperHeight = '100%', options, children }: Props) {
         title: text,
         icon: <Icon size="0.875rem" color={color} />,
         color: isRedColor ? 'red' : undefined,
-        onClick: () => {
+        onClick() {
           onClick(idRef.current);
           idRef.current = '';
         },

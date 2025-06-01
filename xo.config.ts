@@ -18,12 +18,14 @@ const xoConfig: FlatXoConfig = [
       'react/prefer-read-only-props': 'off',
       'react/prop-types': 'off',
       'import-x/extensions': 'off',
+      '@stylistic/padding-line-between-statements': 'off',
       '@typescript-eslint/no-dynamic-delete': 'off',
       '@typescript-eslint/no-floating-promises': 'off',
       'unicorn/filename-case': 'off',
       'unicorn/no-array-for-each': 'off',
       'unicorn/no-array-reduce': 'off',
       'unicorn/prefer-ternary': 'off',
+      'unicorn/prevent-abbreviations': 'off',
       'unicorn/prefer-query-selector': 'off',
       '@typescript-eslint/no-confusing-void-expression': [
         'error',
@@ -38,10 +40,8 @@ const xoConfig: FlatXoConfig = [
         { allow: ['TRPCError', 'Date'] },
       ],
       '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
-      '@stylistic/padding-line-between-statements': 'off', // TODO: turn on later
-      'unicorn/prevent-abbreviations': 'off', // TODO: turn on later
-      'object-shorthand': 'off', // TODO: turn on later
-      '@typescript-eslint/naming-convention': 'off', // TODO: turn on later maybe?????????????
+
+      // '@typescript-eslint/naming-convention': 'off', // TODO: turn on later maybe?????????????
       '@typescript-eslint/no-unsafe-assignment': 'off', // TODO: turn on later
       '@typescript-eslint/consistent-type-exports': 'off', // TODO: turn on later
       '@typescript-eslint/no-unsafe-return': 'off', // TODO: turn on later

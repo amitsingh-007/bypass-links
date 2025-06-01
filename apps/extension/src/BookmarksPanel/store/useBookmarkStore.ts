@@ -65,7 +65,7 @@ const useBookmarkStore = create<State>()((set, get) => ({
   isSaveButtonActive: false,
   updateTaggedPersons: [],
 
-  loadData: async (folderContext: string) => {
+  async loadData(folderContext: string) {
     set({ isSaveButtonActive: false, isFetching: true });
     const { folders, urlList, folderList } = await getBookmarks();
     const folderContextHash = md5(folderContext);
@@ -85,7 +85,7 @@ const useBookmarkStore = create<State>()((set, get) => ({
     });
   },
 
-  handleSelectedChange: (pos: number, isOnlySelection: boolean) => {
+  handleSelectedChange(pos: number, isOnlySelection: boolean) {
     const { selectedBookmarks } = get();
     const newData = [...selectedBookmarks];
     if (isOnlySelection) {
@@ -97,14 +97,14 @@ const useBookmarkStore = create<State>()((set, get) => ({
 
   resetSelectedBookmarks: () => set({ selectedBookmarks: [] }),
 
-  handleCutBookmarks: () => {
+  handleCutBookmarks() {
     const { selectedBookmarks } = get();
     set({ cutBookmarks: [...selectedBookmarks] });
   },
 
   resetCutBookmarks: () => set({ cutBookmarks: [] }),
 
-  handleCreateNewFolder: (name: string, folderContext: string) => {
+  handleCreateNewFolder(name: string, folderContext: string) {
     const { contextBookmarks, folderList } = get();
     const isDir = true;
     const nameHash = md5(name);
@@ -133,12 +133,12 @@ const useBookmarkStore = create<State>()((set, get) => ({
     });
   },
 
-  handleBookmarkSave: (
+  handleBookmarkSave(
     updatedBookmark: ITransformedBookmark,
     oldFolder: string,
     newFolder: string,
     pos: number
-  ) => {
+  ) {
     const { contextBookmarks, urlList, folders } = get();
     const oldBookmark = contextBookmarks.at(pos); // If undefined, it's a new bookmark
     if (oldBookmark?.isDir) {
@@ -183,7 +183,7 @@ const useBookmarkStore = create<State>()((set, get) => ({
     set({ isSaveButtonActive: true });
   },
 
-  handleUrlRemove: (pos: number, url: string) => {
+  handleUrlRemove(pos: number, url: string) {
     const { contextBookmarks, urlList } = get();
     const urlHash = md5(url);
     const contextBookmark = contextBookmarks[pos];
@@ -207,7 +207,7 @@ const useBookmarkStore = create<State>()((set, get) => ({
     });
   },
 
-  handleBulkUrlRemove: () => {
+  handleBulkUrlRemove() {
     const { urlList, contextBookmarks, selectedBookmarks } = get();
     const newUrlList = { ...urlList };
 
@@ -229,7 +229,7 @@ const useBookmarkStore = create<State>()((set, get) => ({
     });
   },
 
-  handleFolderRename: (oldName: string, newName: string, pos: number) => {
+  handleFolderRename(oldName: string, newName: string, pos: number) {
     const { folderList, urlList, folders, contextBookmarks } = get();
     const oldFolderHash = md5(oldName);
     const newFolderHash = md5(newName);
@@ -276,11 +276,11 @@ const useBookmarkStore = create<State>()((set, get) => ({
     });
   },
 
-  handleToggleDefaultFolder: (
+  handleToggleDefaultFolder(
     folderName: string,
     newIsDefault: boolean,
     pos: number
-  ) => {
+  ) {
     const { folderList, contextBookmarks } = get();
 
     const folderHash = md5(folderName);
@@ -312,7 +312,7 @@ const useBookmarkStore = create<State>()((set, get) => ({
     });
   },
 
-  handleFolderRemove: (pos: number, name: string) => {
+  handleFolderRemove(pos: number, name: string) {
     const { contextBookmarks, folderList, urlList, folders } = get();
     const folderHash = md5(name);
     if (isFolderContainsDir(folders, folderHash)) {
@@ -355,7 +355,7 @@ const useBookmarkStore = create<State>()((set, get) => ({
     });
   },
 
-  handleSave: async (folderContext: string) => {
+  async handleSave(folderContext: string) {
     const { folders, urlList, folderList, contextBookmarks, loadData } = get();
 
     set({ isFetching: true });
@@ -378,7 +378,7 @@ const useBookmarkStore = create<State>()((set, get) => ({
     notifications.show({ message: 'Saved temporarily' });
   },
 
-  handlePasteSelectedBookmarks: () => {
+  handlePasteSelectedBookmarks() {
     const { cutBookmarks, contextBookmarks, selectedBookmarks } = get();
     const selectedIdx = selectedBookmarks.findIndex(Boolean);
     if (selectedIdx === -1) {

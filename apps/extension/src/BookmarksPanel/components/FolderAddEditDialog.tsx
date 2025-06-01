@@ -21,7 +21,7 @@ export function FolderAddEditDialog({
       folderName: origName,
     },
     validate: {
-      folderName: (value) => {
+      folderName(value) {
         if (!value) {
           return "Can't be empty";
         }

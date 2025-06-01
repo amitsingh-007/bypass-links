@@ -30,7 +30,7 @@ const useFirebaseStore = create<State>()(
       setIdpAuth: (idpAuth: IAuthResponse) => set(() => ({ idpAuth })),
       resetIdpAuth: () => set(() => ({ idpAuth: null })),
 
-      firebaseSignIn: async () => {
+      async firebaseSignIn() {
         let accessToken = localStorage.getItem('access_token');
         if (!accessToken) {
           const { accessToken: _accessToken } = await sendRuntimeMessage({
@@ -49,7 +49,7 @@ const useFirebaseStore = create<State>()(
         setIdpAuth(idpAuthRes);
       },
 
-      firebaseSignOut: async () => {
+      async firebaseSignOut() {
         const { resetIdpAuth } = get();
         resetIdpAuth();
         if (IS_CHROME) {
@@ -57,7 +57,7 @@ const useFirebaseStore = create<State>()(
         }
       },
 
-      getIdToken: async () => {
+      async getIdToken() {
         const { idpAuth, setIdpAuth } = get();
         if (!idpAuth) {
           return null;

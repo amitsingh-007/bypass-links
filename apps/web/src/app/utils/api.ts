@@ -16,7 +16,7 @@ const getBaseUrl = () => {
 export const api = createTRPCClient<AppRouter>({
   links: [
     loggerLink({
-      enabled: (opts) => {
+      enabled(opts) {
         if (!PROD_ENV) {
           return true;
         }

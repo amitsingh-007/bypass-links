@@ -20,7 +20,7 @@ const nextConfig = {
   },
   reactStrictMode: true,
   transpilePackages: ['@bypass/shared', '@bypass/trpc'],
-  webpack: (config, { dev, webpack }) => {
+  webpack(config, { dev, webpack }) {
     config.module.rules.push({
       test: /\.svg$/,
       use: ['@svgr/webpack'],
