@@ -1,7 +1,7 @@
 import path from 'node:path';
-// @ts-expect-error no types provided
 import fs from 'node:fs';
 import process from 'node:process';
+// @ts-expect-error no types provided
 import webExt from 'web-ext';
 import {
   getExtVersion,

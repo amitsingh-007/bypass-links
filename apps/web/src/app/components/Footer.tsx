@@ -30,7 +30,7 @@ function Info({
   );
 }
 
-function Footer({
+async function Footer({
   releaseDate,
   extVersion,
 }: {

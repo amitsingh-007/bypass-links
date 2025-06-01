@@ -21,6 +21,8 @@ const xoConfig: FlatXoConfig = [
       '@stylistic/padding-line-between-statements': 'off',
       '@typescript-eslint/no-dynamic-delete': 'off',
       '@typescript-eslint/no-floating-promises': 'off',
+      '@typescript-eslint/naming-convention': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
       'unicorn/filename-case': 'off',
       'unicorn/no-array-for-each': 'off',
       'unicorn/no-array-reduce': 'off',
@@ -41,9 +43,6 @@ const xoConfig: FlatXoConfig = [
       ],
       '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
 
-      // '@typescript-eslint/naming-convention': 'off', // TODO: turn on later maybe?????????????
-      '@typescript-eslint/no-unsafe-assignment': 'off', // TODO: turn on later
-      '@typescript-eslint/consistent-type-exports': 'off', // TODO: turn on later
       '@typescript-eslint/no-unsafe-return': 'off', // TODO: turn on later
       camelcase: 'off', // TODO: turn on later
       'import-x/no-unassigned-import': 'off', // TODO: turn on later
@@ -60,9 +59,13 @@ const xoConfig: FlatXoConfig = [
       'unicorn/no-useless-promise-resolve-reject': 'off', // TODO: turn on later
       'unicorn/prefer-dom-node-dataset': 'off', // TODO: turn on later
       '@typescript-eslint/switch-exhaustiveness-check': 'off', // TODO: turn on later
+      'unicorn/prefer-node-protocol': 'off', // TODO: turn on later
       // eslint warning
       // @next/eslint-plugin-next
       // next/core-web-vitals
+      // all ts-expect-error
+      // all todo
+      // all eslint ignored comment
     },
   },
 ];

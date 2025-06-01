@@ -9,8 +9,8 @@ export { default as Folder } from './components/Bookmarks/components/Folder';
 export * from './components/Bookmarks/components/Folder';
 export * from './components/Bookmarks/constants';
 export { default as useBookmark } from './components/Bookmarks/hooks/useBookmark';
-export * from './components/Bookmarks/interfaces';
-export * from './components/Bookmarks/interfaces/url';
+export type * from './components/Bookmarks/interfaces';
+export type * from './components/Bookmarks/interfaces/url';
 export * from './components/Bookmarks/mapper';
 export * from './components/Bookmarks/utils';
 export * from './components/Bookmarks/utils/url';
@@ -18,8 +18,8 @@ export * from './components/Bookmarks/utils/url';
 // Person
 export { default as Person } from './components/Persons/components/Person';
 export { default as Persons } from './components/Persons/components/Persons';
-export * from './components/Persons/interfaces/bookmark';
-export * from './components/Persons/interfaces/persons';
+export type * from './components/Persons/interfaces/bookmark';
+export type * from './components/Persons/interfaces/persons';
 export * from './components/Persons/utils';
 export * from './components/Persons/utils/bookmark';
 export * from './components/Persons/utils/urls';
@@ -38,9 +38,9 @@ export * from './constants/storage';
 export * from './constants/theme';
 
 // Interfaces
-export * from './interfaces/IWebsites';
-export * from './interfaces/ILastVisited';
-export * from './interfaces/IRedirection';
+export type * from './interfaces/IWebsites';
+export type * from './interfaces/ILastVisited';
+export type * from './interfaces/IRedirection';
 
 // Provider
 export { default as DynamicContext } from './provider/DynamicContext';
