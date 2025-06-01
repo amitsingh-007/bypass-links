@@ -1,5 +1,4 @@
 import { type FlatXoConfig } from 'xo';
-import reactPlugin from 'eslint-plugin-react';
 
 const xoConfig: FlatXoConfig = [
   {
@@ -7,13 +6,13 @@ const xoConfig: FlatXoConfig = [
     react: true,
     space: true,
   },
-  reactPlugin.configs.flat['jsx-runtime'],
   {
     ignores: ['apps/web/next-env.d.ts'],
   },
   {
     rules: {
       'no-alert': 'off',
+      'react/react-in-jsx-scope': 'off',
       'react/boolean-prop-naming': 'off',
       'import-x/extensions': 'off',
       'unicorn/filename-case': 'off',

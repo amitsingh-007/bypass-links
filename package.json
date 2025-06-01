@@ -18,7 +18,6 @@
     "@bypass/configs": "workspace:*",
     "@playwright/test": "1.52.0",
     "@types/node": "22.15.29",
-    "eslint-plugin-react": "7.37.5",
     "husky": "9.1.7",
     "lint-staged": "16.1.0",
     "prettier": "3.5.3",

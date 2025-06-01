@@ -17,9 +17,6 @@ importers:
       '@types/node':
         specifier: 22.15.29
         version: 22.15.29
-      eslint-plugin-react:
-        specifier: 7.37.5
-        version: 7.37.5(eslint@9.28.0(jiti@1.21.7))
       husky:
         specifier: 9.1.7
         version: 9.1.7
@@ -180,9 +177,6 @@ importers:
       css-minimizer-webpack-plugin:
         specifier: 7.0.2
         version: 7.0.2(lightningcss@1.30.1)(webpack@5.99.9)
-      eslint-webpack-plugin:
-        specifier: 5.0.1
-        version: 5.0.1(eslint@8.57.1)(webpack@5.99.9)
       fork-ts-checker-webpack-plugin:
         specifier: 9.1.0
         version: 9.1.0(typescript@5.8.3)(webpack@5.99.9)
@@ -4264,13 +4258,6 @@ packages:
   eslint-visitor-keys@4.2.0:
     resolution: {integrity: sha512-UyLnSehNt62FFhSwjZlHmeokpRK59rcz29j+F1/aDgbkbRTk7wIc9XzdoasMUbRNKDM0qQt/+BJ4BrpFeABemw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
-
-  eslint-webpack-plugin@5.0.1:
-    resolution: {integrity: sha512-Ur100Vi+z0uP7j4Z8Ccah0pXmNHhl3f7P2hCYZj3mZCOSc33G5c1R/vZ4KCapwWikPgRyD4dkangx6JW3KaVFQ==}
-    engines: {node: '>= 18.12.0'}
-    peerDependencies:
-      eslint: ^8.0.0 || ^9.0.0
-      webpack: ^5.0.0
 
   eslint@8.57.1:
     resolution: {integrity: sha512-ypowyDxpVSYpkXr9WPv2PAZCtNip1Mv5KTW0SCurXv/9iOpcrH9PaqUElksqEB6pChqHGDRCFTyrZlGhnLNGiA==}
@@ -12258,16 +12245,6 @@ snapshots:
   eslint-visitor-keys@3.4.3: {}
 
   eslint-visitor-keys@4.2.0: {}
-
-  eslint-webpack-plugin@5.0.1(eslint@8.57.1)(webpack@5.99.9):
-    dependencies:
-      '@types/eslint': 9.6.1
-      eslint: 8.57.1
-      jest-worker: 29.7.0
-      micromatch: 4.0.8
-      normalize-path: 3.0.0
-      schema-utils: 4.3.2
-      webpack: 5.99.9(webpack-cli@6.0.1)
 
   eslint@8.57.1:
     dependencies:

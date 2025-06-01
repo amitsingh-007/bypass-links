@@ -2,7 +2,6 @@ import PreactRefreshPlugin from '@prefresh/webpack';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import ESLintPlugin from 'eslint-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MergeJsonWebpackPlugin from 'merge-jsons-webpack-plugin';
@@ -260,13 +259,7 @@ const config: Configuration = {
         root: PATHS.ROOT,
       },
     }),
-    // !isProduction && new PreactRefreshPlugin(),
-    // new ESLintPlugin({
-    //   extensions: ['ts', 'tsx'],
-    //   threads: true,
-    //   emitWarning: false,
-    //   eslintPath: path.resolve(PATHS.MONOREPO_ROOT, 'node_modules/eslint'),
-    // }),
+    !isProduction && new PreactRefreshPlugin(),
   ],
 };
 

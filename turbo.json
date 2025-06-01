@@ -16,13 +16,13 @@
   ],
   "tasks": {
     "build": {
-      "dependsOn": ["lint"],
+      "dependsOn": ["//#lint"],
       "outputs": ["chrome-build/**", "firefox-build/**", ".next/**"]
     },
     "dev": {
       "cache": false
     },
-    "lint": {},
+    "//#lint": {},
     "test": {
       "outputs": []
     }
