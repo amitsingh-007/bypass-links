@@ -1,8 +1,8 @@
-import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { ROUTES } from '@bypass/shared';
 import { Button } from '@mantine/core';
 import { FaUserTag } from 'react-icons/fa';
 import { useLocation } from 'wouter';
+import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 
 const PersonsPanelButton = () => {
   const [, navigate] = useLocation();

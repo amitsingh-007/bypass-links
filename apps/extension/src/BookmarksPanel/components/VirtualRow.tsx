@@ -2,10 +2,10 @@ import { ContextBookmark, isFolderEmpty } from '@bypass/shared';
 import bookmarkRowStyles from '@bypass/shared/styles/bookmarks/styles.module.css';
 import { Box } from '@mantine/core';
 import { useShallow } from 'zustand/react/shallow';
+import clsx from 'clsx';
 import useBookmarkStore from '../store/useBookmarkStore';
 import BookmarkRow from './BookmarkRow';
 import FolderRow from './FolderRow';
-import clsx from 'clsx';
 import styles from './styles/VirtualRow.module.css';
 
 export interface Props {

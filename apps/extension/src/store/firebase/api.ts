@@ -1,8 +1,8 @@
-import { IAuthResponse, IRefreshTokenResponse } from '@/interfaces/firebase';
 import { getFirebasePublicConfig } from '@bypass/configs/firebase.config';
 import wretch from 'wretch';
 import QueryStringAddon from 'wretch/addons/queryString';
 import { getExpiresAtMs } from './utils';
+import { IAuthResponse, IRefreshTokenResponse } from '@/interfaces/firebase';
 
 const firebaseConfig = getFirebasePublicConfig(PROD_ENV);
 

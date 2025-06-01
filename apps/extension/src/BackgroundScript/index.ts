@@ -1,12 +1,12 @@
-import { EExtensionState } from '@/constants';
-import { getIsExtensionActive, setExtStateInStorage } from '@/utils/common';
 import { getExtensionState } from '@helpers/fetchFromStorage';
 import turnOffInputSuggestions from './misc/turnOffInputSuggestions';
 import { redirect } from './redirections';
 import { isValidTabUrl, isValidUrl, setExtensionIcon } from './utils';
 import { receiveRuntimeMessage } from './utils/receiveRuntimeMessage';
-import { RuntimeInput } from '@/utils/sendRuntimeMessage';
 import hearbeatFirefoxBackgroundPage from './utils/keepAliveSW';
+import { RuntimeInput } from '@/utils/sendRuntimeMessage';
+import { getIsExtensionActive, setExtStateInStorage } from '@/utils/common';
+import { EExtensionState } from '@/constants';
 
 if (!IS_CHROME) {
   hearbeatFirefoxBackgroundPage();

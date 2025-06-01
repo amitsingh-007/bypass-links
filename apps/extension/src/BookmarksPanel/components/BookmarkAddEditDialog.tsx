@@ -1,5 +1,3 @@
-import useBookmarkRouteStore from '@/BookmarksPanel/store/useBookmarkRouteStore';
-import { getCurrentTab } from '@/utils/tabs';
 import {
   DEFAULT_BOOKMARK_FOLDER,
   EBookmarkOperation,
@@ -13,9 +11,11 @@ import { useForm } from '@mantine/form';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'wouter';
 import { useShallow } from 'zustand/react/shallow';
+import md5 from 'md5';
 import useBookmarkStore from '../store/useBookmarkStore';
 import PersonSelect from './PersonSelect';
-import md5 from 'md5';
+import { getCurrentTab } from '@/utils/tabs';
+import useBookmarkRouteStore from '@/BookmarksPanel/store/useBookmarkRouteStore';
 
 const HEADING = {
   [EBookmarkOperation.NONE]: '',

@@ -1,10 +1,10 @@
-import { trpcApi } from '@/apis/trpcApi';
 import { STORAGE_KEYS } from '@bypass/shared';
 import { getUser2FAInfo } from '@helpers/fetchFromStorage';
 import { Button, Flex, Text } from '@mantine/core';
 import { useEffect, useState } from 'react';
-import Setup2FA from './Setup2FA';
 import { notifications } from '@mantine/notifications';
+import Setup2FA from './Setup2FA';
+import { trpcApi } from '@/apis/trpcApi';
 
 const TwoFactorAuth = () => {
   const [is2FAEnabled, setIs2FAEnabled] = useState(false);

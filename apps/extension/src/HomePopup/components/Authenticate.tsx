@@ -1,15 +1,15 @@
-import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { Button, LoadingOverlay } from '@mantine/core';
 import useExtStore from '@store/extension';
 import { useCallback, useEffect, useState } from 'react';
 import { RiLoginCircleFill, RiLogoutCircleRFill } from 'react-icons/ri';
-import { signIn, signOut } from '../utils/authentication';
 import { nprogress, nprogressStore } from '@mantine/nprogress';
+import { notifications } from '@mantine/notifications';
+import { signIn, signOut } from '../utils/authentication';
 import {
   SIGN_IN_TOTAL_STEPS,
   SIGN_OUT_TOTAL_STEPS,
 } from '../constants/progress';
-import { notifications } from '@mantine/notifications';
+import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 
 const initializeProgress = (totalSteps: number) => {
   nprogressStore.setState((state) => ({

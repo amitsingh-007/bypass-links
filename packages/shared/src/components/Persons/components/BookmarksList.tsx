@@ -1,4 +1,3 @@
-import bookmarkRowStyles from '@bypass/shared/styles/bookmarks/styles.module.css';
 import {
   ActionIcon,
   Avatar,
@@ -26,6 +25,7 @@ import {
   getOrderedBookmarksList,
 } from '../utils/bookmark';
 import styles from './styles/BookmarksList.module.css';
+import bookmarkRowStyles from '@bypass/shared/styles/bookmarks/styles.module.css';
 
 interface Props {
   personToOpen: IPerson | undefined;

@@ -1,5 +1,3 @@
-import { MAX_PANEL_SIZE } from '@/constants';
-import useBookmarkRouteStore from '@/BookmarksPanel/store/useBookmarkRouteStore';
 import {
   BMPanelQueryParams,
   BOOKMARK_ROW_HEIGHT,
@@ -21,6 +19,8 @@ import BookmarkContextMenu from './BookmarkContextMenu';
 import BookmarksHeader from './BookmarksHeader';
 import VirtualRow from './VirtualRow';
 import styles from './styles/BookmarksPanel.module.css';
+import useBookmarkRouteStore from '@/BookmarksPanel/store/useBookmarkRouteStore';
+import { MAX_PANEL_SIZE } from '@/constants';
 
 const BookmarksPanel = ({
   folderContext,

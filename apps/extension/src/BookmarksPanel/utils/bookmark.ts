@@ -1,4 +1,3 @@
-import { trpcApi } from '@/apis/trpcApi';
 import {
   ECacheBucketKeys,
   getCacheObj,
@@ -8,6 +7,7 @@ import {
 } from '@bypass/shared';
 import { getBookmarks, getPersons } from '@helpers/fetchFromStorage';
 import { nprogress } from '@mantine/nprogress';
+import { trpcApi } from '@/apis/trpcApi';
 
 export const syncBookmarksToStorage = async () => {
   const bookmarks = await trpcApi.firebaseData.bookmarksGet.query();

@@ -1,10 +1,10 @@
-import ContextMenu, { IMenuOption } from '@/components/ContextMenu';
 import { IPerson, Person } from '@bypass/shared';
 import { Box, useMantineTheme } from '@mantine/core';
 import { memo, useCallback, useMemo, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
 import { MdOutlineDelete } from 'react-icons/md';
 import AddOrEditPersonDialog from './AddOrEditPersonDialog';
+import ContextMenu, { IMenuOption } from '@/components/ContextMenu';
 
 interface Props {
   person: IPerson;

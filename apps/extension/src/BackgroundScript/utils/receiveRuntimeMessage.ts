@@ -1,10 +1,10 @@
+import { getForumPageLinks } from '../misc/forumPageLinks';
+import { launchAuthFlow } from '../misc/launchAuthFlow';
 import {
   RuntimeInput,
   RuntimeKeys,
   RuntimeOutput,
 } from '@/utils/sendRuntimeMessage';
-import { getForumPageLinks } from '../misc/forumPageLinks';
-import { launchAuthFlow } from '../misc/launchAuthFlow';
 
 export const receiveRuntimeMessage = (
   message: RuntimeInput,

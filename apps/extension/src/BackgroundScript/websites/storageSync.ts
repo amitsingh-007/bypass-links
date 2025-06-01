@@ -1,5 +1,5 @@
-import { trpcApi } from '@/apis/trpcApi';
 import { IWebsites, STORAGE_KEYS } from '@bypass/shared';
+import { trpcApi } from '@/apis/trpcApi';
 
 const getDecodedWebsites = (encodedWebsites: IWebsites) => {
   return Object.entries(encodedWebsites).reduce((acc, [key, value]) => {

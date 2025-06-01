@@ -1,4 +1,3 @@
-import { getlastVisitedText } from '@/utils/lastVisited';
 import { IRedirection } from '@bypass/shared';
 import {
   ActionIcon,
@@ -22,6 +21,7 @@ import { RxExternalLink } from 'react-icons/rx';
 import { DEFAULT_RULE_ALIAS } from '../constants';
 import styles from './styles/RedirectionRule.module.css';
 import { ReorderButton } from './ReorderButton';
+import { getlastVisitedText } from '@/utils/lastVisited';
 
 type Props = IRedirection & {
   pos: number;

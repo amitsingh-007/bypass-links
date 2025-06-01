@@ -1,6 +1,6 @@
-import useFirebaseStore from '@/store/firebase/useFirebaseStore';
-import { processPostLogin, processPostLogout, processPreLogout } from './sync';
 import { nprogress } from '@mantine/nprogress';
+import { processPostLogin, processPostLogout, processPreLogout } from './sync';
+import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 
 const userSignIn = async () => {
   const { firebaseSignIn } = useFirebaseStore.getState();

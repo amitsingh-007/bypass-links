@@ -1,6 +1,3 @@
-import { IMappedRedirections } from '@/BackgroundScript/interfaces/redirections';
-import { IUser2FAInfo } from '@/HomePopup/interfaces/authentication';
-import { EExtensionState } from '@/constants';
 import {
   IBookmarksObj,
   ILastVisited,
@@ -10,6 +7,9 @@ import {
   PersonImageUrls,
   STORAGE_KEYS,
 } from '@bypass/shared';
+import { IMappedRedirections } from '@/BackgroundScript/interfaces/redirections';
+import { IUser2FAInfo } from '@/HomePopup/interfaces/authentication';
+import { EExtensionState } from '@/constants';
 
 export const getExtensionState = async (): Promise<EExtensionState> => {
   const { extState } = await chrome.storage.local.get('extState');

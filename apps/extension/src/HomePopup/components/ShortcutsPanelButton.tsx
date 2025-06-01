@@ -1,8 +1,8 @@
-import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { ROUTES } from '@bypass/shared';
 import { Button } from '@mantine/core';
 import { GoFileSymlinkFile } from 'react-icons/go';
 import { useLocation } from 'wouter';
+import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 
 const ShortcutsPanelButton = () => {
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);

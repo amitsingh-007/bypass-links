@@ -1,9 +1,9 @@
-import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { getRedirections } from '@helpers/fetchFromStorage';
 import { Button } from '@mantine/core';
 import useHistoryStore from '@store/history';
 import { useState } from 'react';
 import { RxExternalLink } from 'react-icons/rx';
+import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 
 const OpenDefaultsButton = () => {
   const startHistoryMonitor = useHistoryStore(

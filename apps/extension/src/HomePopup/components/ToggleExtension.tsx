@@ -1,9 +1,9 @@
-import { EExtensionState } from '@/constants';
-import { getIsExtensionActive, setExtStateInStorage } from '@/utils/common';
 import { getExtensionState } from '@helpers/fetchFromStorage';
 import { Switch } from '@mantine/core';
 import useExtStore from '@store/extension';
 import { useEffect, useState } from 'react';
+import { getIsExtensionActive, setExtStateInStorage } from '@/utils/common';
+import { EExtensionState } from '@/constants';
 
 const ToggleExtension = () => {
   const turnOnExtension = useExtStore((state) => state.turnOnExtension);

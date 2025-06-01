@@ -1,10 +1,10 @@
-import { useWindowEvent } from '@mantine/hooks';
-import StoreListener from './StoreListener';
-import { NavigationProgress } from '@mantine/nprogress';
-import { Notifications } from '@mantine/notifications';
-import styles from './styles/Global.module.css';
 import '@mantine/nprogress/styles.css';
 import '@mantine/notifications/styles.css';
+import { useWindowEvent } from '@mantine/hooks';
+import { NavigationProgress } from '@mantine/nprogress';
+import { Notifications } from '@mantine/notifications';
+import StoreListener from './StoreListener';
+import styles from './styles/Global.module.css';
 
 const Global = () => {
   // Prevent extension popup close on Escape click

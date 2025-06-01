@@ -1,4 +1,3 @@
-import { trpcApi } from '@/apis/trpcApi';
 import { IPerson, usePerson } from '@bypass/shared';
 import {
   ActionIcon,
@@ -16,6 +15,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
 import ImagePicker from './ImagePicker';
 import styles from './styles/AddOrEditPersonDialog.module.css';
+import { trpcApi } from '@/apis/trpcApi';
 
 const imageSize = 200;
 

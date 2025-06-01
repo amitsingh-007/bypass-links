@@ -1,6 +1,6 @@
-import type { PlaywrightTestConfig } from '@playwright/test';
 import path from 'node:path';
 import process from 'node:process';
+import type { PlaywrightTestConfig } from '@playwright/test';
 
 const ciBaseUrl = process.env.PLAYWRIGHT_TEST_BASE_URL;
 const isCI = Boolean(ciBaseUrl);

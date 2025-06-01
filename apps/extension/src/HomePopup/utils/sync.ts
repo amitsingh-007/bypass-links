@@ -1,3 +1,7 @@
+import { ECacheBucketKeys, STORAGE_KEYS, deleteAllCache } from '@bypass/shared';
+import { getUser2FAInfo } from '@helpers/fetchFromStorage';
+import { nprogress } from '@mantine/nprogress';
+import { IUser2FAInfo } from '../interfaces/authentication';
 import {
   resetRedirections,
   syncRedirectionsToStorage,
@@ -19,14 +23,10 @@ import {
   syncPersonsToStorage,
 } from '@/PersonsPanel/utils/sync';
 import { trpcApi } from '@/apis/trpcApi';
-import { ECacheBucketKeys, STORAGE_KEYS, deleteAllCache } from '@bypass/shared';
-import { getUser2FAInfo } from '@helpers/fetchFromStorage';
-import { IUser2FAInfo } from '../interfaces/authentication';
 import {
   resetWebsites,
   syncWebsitesToStorage,
 } from '@/BackgroundScript/websites/storageSync';
-import { nprogress } from '@mantine/nprogress';
 
 const syncAuthenticationToStorage = async () => {
   const { is2FAEnabled } = await trpcApi.twoFactorAuth.status.query();

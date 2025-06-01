@@ -1,7 +1,6 @@
+import process from 'node:process';
 import { createEnv } from '@t3-oss/env-nextjs';
 import { z } from 'zod';
-// eslint-disable-next-line unicorn/prefer-node-protocol
-import process from 'process';
 
 export const serverEnv = createEnv({
   server: {

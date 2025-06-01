@@ -1,7 +1,7 @@
+import { useEffect } from 'react';
 import { trpcApi } from '@/apis/trpcApi';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import useOutdatedExtensionStore from '@/store/outdatedExtension';
-import { useEffect } from 'react';
 
 const checkForUpdates = async () => {
   const { chrome: chromeData, firefox } =

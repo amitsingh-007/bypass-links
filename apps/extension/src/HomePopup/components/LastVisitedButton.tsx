@@ -1,13 +1,13 @@
-import { syncLastVisitedToStorage } from '@/HomePopup/utils/lastVisited';
-import { trpcApi } from '@/apis/trpcApi';
-import useCurrentTab from '@/hooks/useCurrentTab';
-import useFirebaseStore from '@/store/firebase/useFirebaseStore';
-import { getlastVisitedText } from '@/utils/lastVisited';
 import { getLastVisited } from '@helpers/fetchFromStorage';
 import { Button, Text, Tooltip } from '@mantine/core';
 import md5 from 'md5';
 import { useCallback, useEffect, useState } from 'react';
 import { FaCalendarCheck, FaCalendarTimes } from 'react-icons/fa';
+import { syncLastVisitedToStorage } from '@/HomePopup/utils/lastVisited';
+import { trpcApi } from '@/apis/trpcApi';
+import useCurrentTab from '@/hooks/useCurrentTab';
+import useFirebaseStore from '@/store/firebase/useFirebaseStore';
+import { getlastVisitedText } from '@/utils/lastVisited';
 
 const LastVisitedButton = () => {
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);

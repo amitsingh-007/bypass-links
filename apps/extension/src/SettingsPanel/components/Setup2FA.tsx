@@ -1,10 +1,10 @@
-import { trpcApi } from '@/apis/trpcApi';
 import { Header, InputTOTP, STORAGE_KEYS } from '@bypass/shared';
 import { getUser2FAInfo } from '@helpers/fetchFromStorage';
 import { Avatar, Button, Center, Loader, Modal } from '@mantine/core';
 import { useEffect, useState } from 'react';
-import styles from './styles/Setup2FA.module.css';
 import { notifications } from '@mantine/notifications';
+import styles from './styles/Setup2FA.module.css';
+import { trpcApi } from '@/apis/trpcApi';
 
 type Props = {
   isOpen: boolean;

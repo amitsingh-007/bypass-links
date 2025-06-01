@@ -1,11 +1,11 @@
-import { trpcApi } from '@/apis/trpcApi';
-import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { InputTOTP, noOp, STORAGE_KEYS } from '@bypass/shared';
 import { getUser2FAInfo } from '@helpers/fetchFromStorage';
 import { Center, Modal } from '@mantine/core';
 import { useEffect, useState } from 'react';
-import { IUser2FAInfo } from '../interfaces/authentication';
 import { notifications } from '@mantine/notifications';
+import { IUser2FAInfo } from '../interfaces/authentication';
+import useFirebaseStore from '@/store/firebase/useFirebaseStore';
+import { trpcApi } from '@/apis/trpcApi';
 
 const TwoFactorAuthenticate = () => {
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);

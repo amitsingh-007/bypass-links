@@ -1,10 +1,10 @@
-import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { ROUTES } from '@bypass/shared';
 import { ActionIcon, Avatar, Box, Transition } from '@mantine/core';
 import { useHover } from '@mantine/hooks';
 import { MdSettings } from 'react-icons/md';
 import { useLocation } from 'wouter';
 import styles from './styles/UserProfile.module.css';
+import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 
 const UserProfile = () => {
   const [, navigate] = useLocation();

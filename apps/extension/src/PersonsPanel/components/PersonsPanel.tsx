@@ -1,5 +1,3 @@
-import { trpcApi } from '@/apis/trpcApi';
-import { MAX_PANEL_SIZE } from '@/constants';
 import {
   getDecryptedPerson,
   getEncryptedPerson,
@@ -18,11 +16,13 @@ import { getPersons } from '@helpers/fetchFromStorage';
 import { Box, Flex } from '@mantine/core';
 import useHistoryStore from '@store/history';
 import { useEffect, useState } from 'react';
+import { notifications } from '@mantine/notifications';
 import { getPersonPos, setPersonsInStorage } from '../utils';
 import { updatePersonCacheAndImageUrls } from '../utils/sync';
 import PersonHeader from './PersonHeader';
 import PersonVirtualCell from './PersonVirtualCell';
-import { notifications } from '@mantine/notifications';
+import { MAX_PANEL_SIZE } from '@/constants';
+import { trpcApi } from '@/apis/trpcApi';
 
 const PersonsPanel = () => {
   const startHistoryMonitor = useHistoryStore(

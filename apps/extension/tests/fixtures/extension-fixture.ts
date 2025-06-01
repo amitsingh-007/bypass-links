@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import {
   Worker,
   test as base,
   chromium,
   type BrowserContext,
 } from '@playwright/test';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { tempDir } from '../../../../scripts/global-teardown';
 
 const fileName = fileURLToPath(import.meta.url);

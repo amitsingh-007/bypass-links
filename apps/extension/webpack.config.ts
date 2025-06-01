@@ -1,3 +1,5 @@
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import PreactRefreshPlugin from '@prefresh/webpack';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
@@ -6,10 +8,8 @@ import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MergeJsonWebpackPlugin from 'merge-jsons-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import path from 'node:path';
 import TerserPlugin from 'terser-webpack-plugin';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
-import { fileURLToPath } from 'node:url';
 import webpack, { Configuration, RuleSetRule } from 'webpack';
 import * as lightningcss from 'lightningcss';
 import browserslist from 'browserslist';

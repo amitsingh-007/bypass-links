@@ -14,9 +14,9 @@ import {
 } from '@bypass/shared';
 import md5 from 'md5';
 import { create } from 'zustand';
+import { notifications } from '@mantine/notifications';
 import { isFolderContainsDir, setBookmarksInStorage } from '../utils';
 import { processBookmarksMove } from '../utils/manipulate';
-import { notifications } from '@mantine/notifications';
 
 interface State {
   // State

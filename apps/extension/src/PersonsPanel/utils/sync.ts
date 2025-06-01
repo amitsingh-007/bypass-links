@@ -1,4 +1,3 @@
-import { trpcApi } from '@/apis/trpcApi';
 import {
   addToCache,
   ECacheBucketKeys,
@@ -9,8 +8,9 @@ import {
   STORAGE_KEYS,
 } from '@bypass/shared';
 import { getPersonImageUrls } from '@helpers/fetchFromStorage';
-import { getAllDecodedPersons } from '.';
 import { nprogress } from '@mantine/nprogress';
+import { getAllDecodedPersons } from '.';
+import { trpcApi } from '@/apis/trpcApi';
 
 export const syncPersonsToStorage = async () => {
   const persons = await trpcApi.firebaseData.personsGet.query();

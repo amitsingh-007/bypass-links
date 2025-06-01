@@ -1,6 +1,6 @@
-import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import type { AppRouter } from '@bypass/trpc';
 import { createTRPCClient, httpBatchLink, loggerLink } from '@trpc/client';
+import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 
 export const trpcApi = createTRPCClient<AppRouter>({
   links: [

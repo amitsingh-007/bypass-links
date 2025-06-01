@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
+import md5 from 'md5';
 import useStorage from '../../../hooks/useStorage';
 import { getDecryptedFolder, getDefaultFolder } from '../utils';
-import md5 from 'md5';
 import { DEFAULT_BOOKMARK_FOLDER } from '../constants';
 
 const useBookmark = () => {

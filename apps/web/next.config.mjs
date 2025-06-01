@@ -1,5 +1,5 @@
-import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import process from 'node:process';
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
 import('./src/app/constants/env/server.mjs');
 

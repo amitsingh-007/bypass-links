@@ -1,3 +1,4 @@
+import type { Buffer } from 'node:buffer';
 import { getFirebasePublicConfig } from '@bypass/configs/firebase.config';
 import { cert, getApp, getApps, initializeApp } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
@@ -6,7 +7,6 @@ import { getDownloadURL, getStorage } from 'firebase-admin/storage';
 import { getEnv } from '../constants/env';
 import { EFirebaseDBRef, EFirebaseDBRootKeys } from '../constants/firebase';
 import { getFullDbPath, getFilePath } from '../utils/firebase';
-import type { Buffer } from 'node:buffer';
 
 interface Firebase {
   ref: EFirebaseDBRef | EFirebaseDBRootKeys;

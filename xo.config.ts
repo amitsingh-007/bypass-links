@@ -41,7 +41,6 @@ const xoConfig: FlatXoConfig = [
           allow: ['TRPCError', 'Date'],
         },
       ],
-      'import-x/order': 'off', // TODO: turn on later
       'react/prefer-read-only-props': 'off', // TODO: turn on later
       '@typescript-eslint/consistent-type-imports': 'off', // TODO: turn on later
       'react/function-component-definition': 'off', // TODO: turn on later maybe?????????????

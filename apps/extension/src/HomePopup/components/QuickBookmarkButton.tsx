@@ -1,5 +1,3 @@
-import useFirebaseStore from '@/store/firebase/useFirebaseStore';
-import { getCurrentTab } from '@/utils/tabs';
 import {
   BMPanelQueryParams,
   DEFAULT_BOOKMARK_FOLDER,
@@ -16,6 +14,8 @@ import { useEffect, useState } from 'react';
 import { BiBookmarkPlus } from 'react-icons/bi';
 import { RiBookmark3Fill } from 'react-icons/ri';
 import { useLocation } from 'wouter';
+import { getCurrentTab } from '@/utils/tabs';
+import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 
 const QuickBookmarkButton = () => {
   const [, navigate] = useLocation();

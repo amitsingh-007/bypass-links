@@ -1,17 +1,17 @@
-import { trpcApi } from '@/apis/trpcApi';
-import { syncRedirectionsToStorage } from '@/BackgroundScript/redirections';
-import { MAX_PANEL_SIZE } from '@/constants';
 import { Header, IRedirection, IRedirections } from '@bypass/shared';
 import { getRedirections } from '@helpers/fetchFromStorage';
 import { Box, Button, Flex, LoadingOverlay } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { IoSave } from 'react-icons/io5';
 import { RiPlayListAddFill } from 'react-icons/ri';
+import { notifications } from '@mantine/notifications';
 import { DEFAULT_RULE_ALIAS } from '../constants';
 import { getValidRules, isMatchingRule } from '../utils';
 import styles from './styles/ShortcutsPanel.module.css';
 import RedirectionRule from './RedirectionRule';
-import { notifications } from '@mantine/notifications';
+import { MAX_PANEL_SIZE } from '@/constants';
+import { syncRedirectionsToStorage } from '@/BackgroundScript/redirections';
+import { trpcApi } from '@/apis/trpcApi';
 
 const ShortcutsPanel = () => {
   const [redirections, setRedirections] = useState<IRedirections>([]);

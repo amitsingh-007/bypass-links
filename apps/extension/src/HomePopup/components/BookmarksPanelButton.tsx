@@ -1,8 +1,8 @@
-import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { getBookmarksPanelUrl } from '@bypass/shared';
 import { Button } from '@mantine/core';
 import { RiBookmarkFill } from 'react-icons/ri';
 import { useLocation } from 'wouter';
+import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 
 const BookmarksPanelButton = () => {
   const [, navigate] = useLocation();
