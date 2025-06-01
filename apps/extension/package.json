@@ -34,7 +34,7 @@
     "react-dom": "19.1.0",
     "react-icons": "5.5.0",
     "wouter": "3.7.1",
-    "wouter-preact": "3.6.1",
+    "wouter-preact": "3.7.1",
     "wretch": "2.11.0",
     "zod": "3.24.3",
     "zustand": "5.0.5"
