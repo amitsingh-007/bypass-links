@@ -27,7 +27,7 @@
   "devDependencies": {
     "@firebase/app-types": "0.9.3",
     "@types/qrcode": "1.5.5",
-    "dotenv": "16.4.7",
+    "dotenv": "16.5.0",
     "firebase": "11.6.1",
     "type-fest": "4.41.0",
     "typescript": "5.8.3",
