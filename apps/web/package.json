@@ -39,7 +39,7 @@
     "@types/react": "19.1.2",
     "autoprefixer": "10.4.21",
     "fork-ts-checker-webpack-plugin": "9.1.0",
-    "postcss": "8.5.3",
+    "postcss": "8.5.4",
     "postcss-preset-mantine": "1.17.0",
     "postcss-simple-vars": "7.0.1",
     "typescript": "5.8.3",
