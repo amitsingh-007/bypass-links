@@ -1,10 +1,10 @@
 import {
-  BMPanelQueryParams,
+  type BMPanelQueryParams,
   DEFAULT_BOOKMARK_FOLDER,
   EBookmarkOperation,
   getBookmarksPanelUrl,
   getDecryptedBookmark,
-  IEncodedBookmark,
+  type IEncodedBookmark,
   useBookmark,
 } from '@bypass/shared';
 import { getBookmarks } from '@helpers/fetchFromStorage';

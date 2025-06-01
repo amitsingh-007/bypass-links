@@ -1,9 +1,9 @@
 import { authenticator } from 'otplib';
 import qrcode from 'qrcode';
-import { IUser } from '../@types/trpc';
+import { type IUser } from '../@types/trpc';
 import { getEnv } from '../constants/env';
 import { EFirebaseDBRef } from '../constants/firebase';
-import { User2FAInfo } from '../interfaces/firebase';
+import { type User2FAInfo } from '../interfaces/firebase';
 import { saveToFirebase } from './firebaseAdminService';
 import { fetchUser2FAInfo } from './userService';
 

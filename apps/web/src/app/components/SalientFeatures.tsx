@@ -3,7 +3,7 @@ import CircleIcon from '@app/icons/circle.svg';
 import React from 'react';
 import { firstColumn, secondColumn } from '../constants/features';
 import styles from './styles/SalientFeatures.module.css';
-import Feature from './types/feature';
+import type Feature from './types/feature';
 
 const Description = () => (
   <Box pos="relative" mb="2.5rem">

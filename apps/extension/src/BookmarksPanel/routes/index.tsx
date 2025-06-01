@@ -1,7 +1,7 @@
 import {
-  BMPanelQueryParams,
+  type BMPanelQueryParams,
   deserializeQueryStringToObject,
-  EBookmarkOperation,
+  type EBookmarkOperation,
   ROUTES,
 } from '@bypass/shared';
 import { Route, useSearch } from 'wouter';

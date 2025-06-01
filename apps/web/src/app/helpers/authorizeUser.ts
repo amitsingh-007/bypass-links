@@ -1,5 +1,5 @@
 import { getFirebaseUser, verifyAuthToken } from '@bypass/trpc/appRouter';
-import { NextRequest } from 'next/server';
+import { type NextRequest } from 'next/server';
 
 export const authorizeUser = async (request: NextRequest) => {
   const bearerToken = request.headers.get('Authorization');

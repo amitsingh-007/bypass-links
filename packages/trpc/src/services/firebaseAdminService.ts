@@ -5,7 +5,10 @@ import { getAuth } from 'firebase-admin/auth';
 import { getDatabase } from 'firebase-admin/database';
 import { getDownloadURL, getStorage } from 'firebase-admin/storage';
 import { getEnv } from '../constants/env';
-import { EFirebaseDBRef, EFirebaseDBRootKeys } from '../constants/firebase';
+import {
+  type EFirebaseDBRef,
+  type EFirebaseDBRootKeys,
+} from '../constants/firebase';
 import { getFullDbPath, getFilePath } from '../utils/firebase';
 
 interface Firebase {

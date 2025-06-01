@@ -2,7 +2,7 @@ import { ActionIcon, Avatar, Flex, Text } from '@mantine/core';
 import { memo, useContext, useEffect, useState } from 'react';
 import DynamicContext from '../../../provider/DynamicContext';
 import usePerson from '../hooks/usePerson';
-import { IPerson } from '../interfaces/persons';
+import { type IPerson } from '../interfaces/persons';
 import { getPersonsPanelUrl } from '../utils/urls';
 import styles from './styles/Person.module.css';
 

@@ -4,7 +4,7 @@ import { redirect } from './redirections';
 import { isValidTabUrl, isValidUrl, setExtensionIcon } from './utils';
 import { receiveRuntimeMessage } from './utils/receiveRuntimeMessage';
 import hearbeatFirefoxBackgroundPage from './utils/keepAliveSW';
-import { RuntimeInput } from '@/utils/sendRuntimeMessage';
+import { type RuntimeInput } from '@/utils/sendRuntimeMessage';
 import { getIsExtensionActive, setExtStateInStorage } from '@/utils/common';
 import { EExtensionState } from '@/constants';
 

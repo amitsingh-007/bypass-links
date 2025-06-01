@@ -12,17 +12,18 @@ const xoConfig: FlatXoConfig = [
   {
     rules: {
       'no-alert': 'off',
+      'promise/prefer-await-to-then': 'off',
       'react/react-in-jsx-scope': 'off',
       'react/boolean-prop-naming': 'off',
+      'react/prefer-read-only-props': 'off',
+      'react/prop-types': 'off',
       'import-x/extensions': 'off',
+      '@typescript-eslint/no-dynamic-delete': 'off',
       'unicorn/filename-case': 'off',
       'unicorn/no-array-for-each': 'off',
       'unicorn/no-array-reduce': 'off',
       'unicorn/prefer-ternary': 'off',
       'unicorn/prefer-query-selector': 'off',
-      'promise/prefer-await-to-then': 'off',
-      '@typescript-eslint/no-dynamic-delete': 'off',
-      'react/prop-types': 'off',
       '@typescript-eslint/no-confusing-void-expression': [
         'error',
         {
@@ -41,8 +42,7 @@ const xoConfig: FlatXoConfig = [
           allow: ['TRPCError', 'Date'],
         },
       ],
-      'react/prefer-read-only-props': 'off', // TODO: turn on later
-      '@typescript-eslint/consistent-type-imports': 'off', // TODO: turn on later
+      // '@typescript-eslint/consistent-type-imports': 'off', // TODO: turn on later
       'react/function-component-definition': 'off', // TODO: turn on later maybe?????????????
       '@typescript-eslint/no-floating-promises': 'off', // TODO: turn on later maybe?????????????
       'react/jsx-sort-props': 'off', // TODO: turn on later

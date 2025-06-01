@@ -1,5 +1,5 @@
 import { DynamicContext } from '@bypass/shared';
-import { PropsWithChildren, useMemo } from 'react';
+import { type PropsWithChildren, useMemo } from 'react';
 import { useLocation, useSearch } from 'wouter';
 import { getFromChromeStorage, setToChromeStorage } from './utils';
 

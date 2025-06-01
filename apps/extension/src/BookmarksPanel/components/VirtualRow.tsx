@@ -1,4 +1,4 @@
-import { ContextBookmark, isFolderEmpty } from '@bypass/shared';
+import { type ContextBookmark, isFolderEmpty } from '@bypass/shared';
 import bookmarkRowStyles from '@bypass/shared/styles/bookmarks/styles.module.css';
 import { Box } from '@mantine/core';
 import { useShallow } from 'zustand/react/shallow';

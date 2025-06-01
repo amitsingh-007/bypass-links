@@ -1,15 +1,15 @@
 import {
-  IBookmarksObj,
-  ILastVisited,
-  IPersons,
-  IRedirections,
-  IWebsites,
-  PersonImageUrls,
+  type IBookmarksObj,
+  type ILastVisited,
+  type IPersons,
+  type IRedirections,
+  type IWebsites,
+  type PersonImageUrls,
   STORAGE_KEYS,
 } from '@bypass/shared';
-import { IMappedRedirections } from '@/BackgroundScript/interfaces/redirections';
-import { IUser2FAInfo } from '@/HomePopup/interfaces/authentication';
-import { EExtensionState } from '@/constants';
+import { type IMappedRedirections } from '@/BackgroundScript/interfaces/redirections';
+import { type IUser2FAInfo } from '@/HomePopup/interfaces/authentication';
+import { type EExtensionState } from '@/constants';
 
 export const getExtensionState = async (): Promise<EExtensionState> => {
   const { extState } = await chrome.storage.local.get('extState');

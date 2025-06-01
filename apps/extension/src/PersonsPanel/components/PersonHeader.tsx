@@ -1,4 +1,4 @@
-import { Header, IPerson } from '@bypass/shared';
+import { Header, type IPerson } from '@bypass/shared';
 import { Button, LoadingOverlay, Switch } from '@mantine/core';
 import { memo, useState } from 'react';
 import { IoIosPersonAdd } from 'react-icons/io';

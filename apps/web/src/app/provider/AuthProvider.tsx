@@ -2,7 +2,7 @@ import { STORAGE_KEYS } from '@bypass/shared';
 import { type User } from 'firebase/auth';
 import { useRouter, usePathname } from 'next/navigation';
 import {
-  PropsWithChildren,
+  type PropsWithChildren,
   createContext,
   useContext,
   useEffect,
@@ -10,7 +10,7 @@ import {
   useState,
 } from 'react';
 import { ROUTES } from '../constants/routes';
-import { ITwoFactorAuth } from '../types';
+import { type ITwoFactorAuth } from '../types';
 import { getFromLocalStorage } from '../utils/storage';
 
 interface IAuthContext {

@@ -1,5 +1,5 @@
 import { Box, Container } from '@mantine/core';
-import { Metadata } from 'next';
+import { type Metadata } from 'next';
 import AppHeader from './components/AppHeader';
 import Footer from './components/Footer';
 import PageHeader from './components/PageHeader';

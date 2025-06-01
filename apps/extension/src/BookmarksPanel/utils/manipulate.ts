@@ -1,4 +1,4 @@
-import { ContextBookmarks, ISelectedBookmarks } from '@bypass/shared';
+import { type ContextBookmarks, type ISelectedBookmarks } from '@bypass/shared';
 
 const getDestinationIndex = (
   destIndex: number,

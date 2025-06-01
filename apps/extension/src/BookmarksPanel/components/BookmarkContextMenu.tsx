@@ -1,7 +1,7 @@
 import { EBookmarkOperation } from '@bypass/shared';
 import { useMantineTheme } from '@mantine/core';
 import md5 from 'md5';
-import { PropsWithChildren, memo, useCallback } from 'react';
+import { type PropsWithChildren, memo, useCallback } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
 import { MdOutlineDelete, MdOutlineContentPasteGo } from 'react-icons/md';
 import { RxExternalLink } from 'react-icons/rx';
@@ -11,7 +11,7 @@ import { useHotkeys } from '@mantine/hooks';
 import useBookmarkStore from '../store/useBookmarkStore';
 import { getCutCount, getSelectedCount } from '../utils';
 import useBookmarkRouteStore from '@/BookmarksPanel/store/useBookmarkRouteStore';
-import ContextMenu, { IMenuOption } from '@/components/ContextMenu';
+import ContextMenu, { type IMenuOption } from '@/components/ContextMenu';
 
 type Props = PropsWithChildren<{
   children: React.ReactNode;

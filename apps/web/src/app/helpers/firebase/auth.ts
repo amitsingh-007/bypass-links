@@ -4,7 +4,7 @@ import {
   onAuthStateChanged,
   signInWithPopup,
   signOut,
-  User,
+  type User,
 } from 'firebase/auth';
 import firebaseApp from '.';
 

@@ -1,4 +1,4 @@
-import { IPerson, Person } from '@bypass/shared';
+import { type IPerson, Person } from '@bypass/shared';
 import { Box } from '@mantine/core';
 
 interface Props {

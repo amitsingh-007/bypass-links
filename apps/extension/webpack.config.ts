@@ -10,7 +10,7 @@ import MergeJsonWebpackPlugin from 'merge-jsons-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
-import webpack, { Configuration, RuleSetRule } from 'webpack';
+import webpack, { type Configuration, type RuleSetRule } from 'webpack';
 import * as lightningcss from 'lightningcss';
 import browserslist from 'browserslist';
 import 'webpack-dev-server';

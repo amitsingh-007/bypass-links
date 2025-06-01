@@ -1,11 +1,11 @@
 import { useCallback, useContext } from 'react';
 import DynamicContext from '../provider/DynamicContext';
 import {
-  IPersons,
-  PersonImageUrls,
+  type IPersons,
+  type PersonImageUrls,
 } from '../components/Persons/interfaces/persons';
 import { STORAGE_KEYS } from '../constants/storage';
-import { IBookmarksObj } from '../components/Bookmarks/interfaces';
+import { type IBookmarksObj } from '../components/Bookmarks/interfaces';
 
 const useStorage = () => {
   const { storage } = useContext(DynamicContext);

@@ -3,7 +3,10 @@ import md5 from 'md5';
 import { memo, useCallback, useEffect, useState } from 'react';
 import usePlatform from '../../../hooks/usePlatform';
 import usePerson from '../../Persons/hooks/usePerson';
-import { IPerson, IPersonWithImage } from '../../Persons/interfaces/persons';
+import {
+  type IPerson,
+  type IPersonWithImage,
+} from '../../Persons/interfaces/persons';
 import Favicon from './Favicon';
 import PersonAvatars from './PersonAvatars';
 import styles from './styles/Bookmark.module.css';

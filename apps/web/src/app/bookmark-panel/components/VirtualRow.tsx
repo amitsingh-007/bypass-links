@@ -1,9 +1,9 @@
 import { openNewTab } from '@app/utils';
 import {
   Bookmark,
-  ContextBookmarks,
+  type ContextBookmarks,
   Folder,
-  IBookmarksObj,
+  type IBookmarksObj,
   isFolderEmpty,
 } from '@bypass/shared';
 import bookmarkRowStyles from '@bypass/shared/styles/bookmarks/styles.module.css';

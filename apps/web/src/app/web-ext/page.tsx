@@ -2,7 +2,7 @@
 
 import { googleSignIn, googleSignOut } from '@app/helpers/firebase/auth';
 import { useUser } from '@app/provider/AuthProvider';
-import { ITwoFactorAuth } from '@app/types';
+import { type ITwoFactorAuth } from '@app/types';
 import { api } from '@app/utils/api';
 import { getFromLocalStorage, setToLocalStorage } from '@app/utils/storage';
 import { Header, InputTOTP, ROUTES, STORAGE_KEYS } from '@bypass/shared';

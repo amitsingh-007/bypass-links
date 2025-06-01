@@ -4,8 +4,8 @@ import { ColorSchemeScript } from '@mantine/core';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
-import { ReactNode } from 'react';
-import { Metadata, Viewport } from 'next';
+import { type ReactNode } from 'react';
+import { type Metadata, type Viewport } from 'next';
 import './layout.css';
 import AppProviders from './provider/AppProviders';
 

@@ -1,12 +1,15 @@
 import {
   Box,
-  MantineColor,
-  MantineStyleProps,
+  type MantineColor,
+  type MantineStyleProps,
   useMantineTheme,
 } from '@mantine/core';
-import { ContextMenuItemOptions, useContextMenu } from 'mantine-contextmenu';
-import { PropsWithChildren, useMemo, useRef } from 'react';
-import { IconType } from 'react-icons';
+import {
+  type ContextMenuItemOptions,
+  useContextMenu,
+} from 'mantine-contextmenu';
+import { type PropsWithChildren, useMemo, useRef } from 'react';
+import { type IconType } from 'react-icons';
 import styles from './styles/ContextMenu.module.css';
 
 export interface IMenuOption {

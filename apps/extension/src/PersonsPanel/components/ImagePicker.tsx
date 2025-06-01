@@ -13,8 +13,8 @@ import {
 } from '@mantine/core';
 import { useDebouncedState } from '@mantine/hooks';
 import {
-  ChangeEventHandler,
-  ClipboardEventHandler,
+  type ChangeEventHandler,
+  type ClipboardEventHandler,
   useRef,
   useState,
 } from 'react';

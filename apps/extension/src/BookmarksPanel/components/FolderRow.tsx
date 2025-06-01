@@ -1,4 +1,4 @@
-import { Folder, FolderProps } from '@bypass/shared';
+import { Folder, type FolderProps } from '@bypass/shared';
 import { Box, Flex, useMantineTheme } from '@mantine/core';
 import { memo, useCallback, useMemo, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
@@ -6,7 +6,7 @@ import { MdOutlineDelete } from 'react-icons/md';
 import { PiStarBold, PiStarFill } from 'react-icons/pi';
 import { FolderAddEditDialog } from './FolderAddEditDialog';
 import styles from './styles/FolderRow.module.css';
-import ContextMenu, { IMenuOption } from '@/components/ContextMenu';
+import ContextMenu, { type IMenuOption } from '@/components/ContextMenu';
 
 interface Props extends FolderProps {
   pos: number;

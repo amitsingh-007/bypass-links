@@ -1,4 +1,4 @@
-import { EBookmarkOperation } from '../constants';
+import { type EBookmarkOperation } from '../constants';
 
 export interface BMPanelQueryParams {
   folderContext: string;

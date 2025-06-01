@@ -1,5 +1,5 @@
 import {
-  BMPanelQueryParams,
+  type BMPanelQueryParams,
   BOOKMARK_ROW_HEIGHT,
   EBookmarkOperation,
   HEADER_HEIGHT,

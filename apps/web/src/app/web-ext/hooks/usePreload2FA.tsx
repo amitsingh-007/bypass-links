@@ -1,4 +1,4 @@
-import { ITwoFactorAuth } from '@app/types';
+import { type ITwoFactorAuth } from '@app/types';
 import { useUser } from '@app/provider/AuthProvider';
 import { api } from '@app/utils/api';
 import {

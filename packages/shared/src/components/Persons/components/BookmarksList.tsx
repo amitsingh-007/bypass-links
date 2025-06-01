@@ -18,8 +18,8 @@ import { getDecryptedBookmark } from '../../Bookmarks/utils';
 import { getBookmarksPanelUrl } from '../../Bookmarks/utils/url';
 import Header from '../../Header';
 import usePerson from '../hooks/usePerson';
-import { ModifiedBookmark } from '../interfaces/bookmark';
-import { IPerson } from '../interfaces/persons';
+import { type ModifiedBookmark } from '../interfaces/bookmark';
+import { type IPerson } from '../interfaces/persons';
 import {
   getFilteredModifiedBookmarks,
   getOrderedBookmarksList,

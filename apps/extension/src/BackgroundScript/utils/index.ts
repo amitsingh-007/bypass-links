@@ -1,6 +1,6 @@
 import { getExtensionState } from '@helpers/fetchFromStorage';
 import { getIsExtensionActive } from '../../utils/common';
-import { EExtensionState } from '@/constants';
+import { type EExtensionState } from '@/constants';
 
 const restrictedProtocols = new Set([
   'chrome:', // Chrome browser internal URLs

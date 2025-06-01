@@ -3,8 +3,8 @@ import {
   ECacheBucketKeys,
   getCacheObj,
   getPersonImageName,
-  IPerson,
-  PersonImageUrls,
+  type IPerson,
+  type PersonImageUrls,
   STORAGE_KEYS,
 } from '@bypass/shared';
 import { getPersonImageUrls } from '@helpers/fetchFromStorage';

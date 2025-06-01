@@ -3,7 +3,7 @@ import footerImage from '@public/footer.png';
 import dayjs from 'dayjs';
 import { headers } from 'next/headers';
 import Image from 'next/image';
-import { IconType } from 'react-icons';
+import { type IconType } from 'react-icons';
 import { BsGithub } from 'react-icons/bs';
 import { MdExtension } from 'react-icons/md';
 import { RiTimeFill } from 'react-icons/ri';

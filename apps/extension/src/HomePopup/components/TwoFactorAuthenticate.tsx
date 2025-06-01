@@ -3,7 +3,7 @@ import { getUser2FAInfo } from '@helpers/fetchFromStorage';
 import { Center, Modal } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { notifications } from '@mantine/notifications';
-import { IUser2FAInfo } from '../interfaces/authentication';
+import { type IUser2FAInfo } from '../interfaces/authentication';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { trpcApi } from '@/apis/trpcApi';
 

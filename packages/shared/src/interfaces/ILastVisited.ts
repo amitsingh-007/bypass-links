@@ -1,4 +1,4 @@
-import { z } from 'zod';
-import { LastVisitedSchema } from '../schema/lastVisitedSchema';
+import { type z } from 'zod';
+import { type LastVisitedSchema } from '../schema/lastVisitedSchema';
 
 export type ILastVisited = z.infer<typeof LastVisitedSchema>;

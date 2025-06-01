@@ -1,6 +1,6 @@
 import {
-  IBookmarksObj,
-  ISelectedBookmarks,
+  type IBookmarksObj,
+  type ISelectedBookmarks,
   STORAGE_KEYS,
 } from '@bypass/shared';
 

@@ -1,10 +1,10 @@
 import md5 from 'md5';
 import { hasText } from '../../../utils/search';
 import {
-  ContextBookmarks,
-  IEncodedBookmark,
-  IBookmarksObj,
-  IEncodedFolder,
+  type ContextBookmarks,
+  type IEncodedBookmark,
+  type IBookmarksObj,
+  type IEncodedFolder,
 } from '../interfaces';
 
 export const isFolderEmpty = (

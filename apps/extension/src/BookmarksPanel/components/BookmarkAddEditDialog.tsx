@@ -4,7 +4,7 @@ import {
   getBookmarksPanelUrl,
   getDecodedFolderList,
   getDefaultFolder,
-  ITransformedBookmark,
+  type ITransformedBookmark,
 } from '@bypass/shared';
 import { Button, Modal, Select, Stack, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';

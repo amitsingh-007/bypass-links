@@ -1,10 +1,10 @@
 import { getBookmarks } from '@helpers/fetchFromStorage';
 import {
-  ContextBookmarks,
+  type ContextBookmarks,
   ECacheBucketKeys,
-  IBookmarksObj,
-  ITransformedBookmark,
-  ISelectedBookmarks,
+  type IBookmarksObj,
+  type ITransformedBookmark,
+  type ISelectedBookmarks,
   addToCache,
   bookmarksMapper,
   getBookmarkId,

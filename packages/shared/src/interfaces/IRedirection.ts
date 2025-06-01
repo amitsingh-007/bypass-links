@@ -1,7 +1,7 @@
-import { z } from 'zod';
+import { type z } from 'zod';
 import {
-  RedirectionSchema,
-  RedirectionsSchema,
+  type RedirectionSchema,
+  type RedirectionsSchema,
 } from '../schema/redirectionSchema';
 
 export type IRedirection = z.infer<typeof RedirectionSchema>;

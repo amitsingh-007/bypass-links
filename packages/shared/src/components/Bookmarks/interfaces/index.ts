@@ -1,9 +1,9 @@
-import { z } from 'zod';
+import { type z } from 'zod';
 import {
-  EncodedBookmarkSchema,
-  EncodedFolderSchema,
-  FolderMetaDataSchema,
-  BookmarksObjSchema,
+  type EncodedBookmarkSchema,
+  type EncodedFolderSchema,
+  type FolderMetaDataSchema,
+  type BookmarksObjSchema,
 } from '../schema';
 
 export type IEncodedBookmark = z.infer<typeof EncodedBookmarkSchema>;

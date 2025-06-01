@@ -3,7 +3,7 @@ import {
   Avatar,
   Group,
   MultiSelect,
-  MultiSelectProps,
+  type MultiSelectProps,
   Text,
 } from '@mantine/core';
 import { useCallback, useEffect, useState } from 'react';

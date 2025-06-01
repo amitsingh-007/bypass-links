@@ -1,4 +1,4 @@
-import { Header, IRedirection, IRedirections } from '@bypass/shared';
+import { Header, type IRedirection, type IRedirections } from '@bypass/shared';
 import { getRedirections } from '@helpers/fetchFromStorage';
 import { Box, Button, Flex, LoadingOverlay } from '@mantine/core';
 import { useEffect, useState } from 'react';

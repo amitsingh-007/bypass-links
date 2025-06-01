@@ -1,4 +1,4 @@
-import { IRedirection } from '@bypass/shared';
+import { type IRedirection } from '@bypass/shared';
 import {
   ActionIcon,
   Center,

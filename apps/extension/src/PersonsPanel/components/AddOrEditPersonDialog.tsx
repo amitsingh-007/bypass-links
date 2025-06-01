@@ -1,4 +1,4 @@
-import { IPerson, usePerson } from '@bypass/shared';
+import { type IPerson, usePerson } from '@bypass/shared';
 import {
   ActionIcon,
   Avatar,

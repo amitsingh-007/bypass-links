@@ -4,12 +4,12 @@ import { getFromLocalStorage, setToLocalStorage } from '@app/utils/storage';
 import {
   BOOKMARK_ROW_HEIGHT,
   bookmarksMapper,
-  ContextBookmarks,
+  type ContextBookmarks,
   DEFAULT_BOOKMARK_FOLDER,
   getBookmarkId,
   getFilteredContextBookmarks,
   Header,
-  IBookmarksObj,
+  type IBookmarksObj,
   shouldRenderBookmarks,
   STORAGE_KEYS,
 } from '@bypass/shared';

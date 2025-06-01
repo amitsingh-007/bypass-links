@@ -1,13 +1,19 @@
 import { Box, Flex } from '@mantine/core';
 import { useElementSize } from '@mantine/hooks';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { ReactNode, RefObject, useContext, useEffect, useState } from 'react';
+import {
+  type ReactNode,
+  type RefObject,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import usePlatform from '../../../hooks/usePlatform';
 import DynamicContext from '../../../provider/DynamicContext';
 import { deserializeQueryStringToObject } from '../../../utils/url';
 import { ScrollButton } from '../../ScrollButton';
 import usePerson from '../hooks/usePerson';
-import { IPerson } from '../interfaces/persons';
+import { type IPerson } from '../interfaces/persons';
 import { getColumnCount, getReactKey } from '../utils';
 import BookmarksList from './BookmarksList';
 import styles from './styles/Persons.module.css';

@@ -1,4 +1,4 @@
-import { z } from 'zod';
-import { WebsitesSchema } from '../schema/websitesSchema';
+import { type z } from 'zod';
+import { type WebsitesSchema } from '../schema/websitesSchema';
 
 export type IWebsites = z.infer<typeof WebsitesSchema>;

@@ -1,7 +1,7 @@
 import { ECacheBucketKeys, STORAGE_KEYS, deleteAllCache } from '@bypass/shared';
 import { getUser2FAInfo } from '@helpers/fetchFromStorage';
 import { nprogress } from '@mantine/nprogress';
-import { IUser2FAInfo } from '../interfaces/authentication';
+import { type IUser2FAInfo } from '../interfaces/authentication';
 import {
   resetRedirections,
   syncRedirectionsToStorage,
