@@ -81,6 +81,7 @@ function BookmarksPanel({
     if (!isFetching) {
       handleScroll(0);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFetching]);
 
   useEffect(() => {

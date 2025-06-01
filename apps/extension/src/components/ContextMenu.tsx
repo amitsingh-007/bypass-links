@@ -61,8 +61,7 @@ function ContextMenu({ wrapperHeight = '100%', options, children }: Props) {
   });
 
   const handleContextMenu: React.MouseEventHandler<HTMLDivElement> = (e) => {
-    const dataCtxId =
-      (e.target as HTMLElement).getAttribute('data-context-id') ?? '';
+    const dataCtxId = (e.target as HTMLElement).dataset.contextId ?? '';
     idRef.current = dataCtxId;
     contextMenuHandler(e);
   };

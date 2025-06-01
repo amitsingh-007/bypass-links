@@ -9,7 +9,6 @@ import {
 } from '@bypass/configs/manifest/extensionFile';
 import { PATHS } from './constant';
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 const { downloadedFiles } = await webExt.cmd.sign({
   amoBaseUrl: 'https://addons.mozilla.org/api/v5/',
   apiKey: process.env.FIREFOX_API_KEY,

@@ -123,6 +123,7 @@ function BookmarkAddEditDialog({ curFolder, handleScroll }: Props) {
         setOpenDialog(true);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [contextBookmarks, curFolder, defaultFolderName]
   );
 

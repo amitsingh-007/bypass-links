@@ -7,28 +7,50 @@ const xoConfig: FlatXoConfig = [
     space: true,
   },
   {
-    ignores: ['apps/web/next-env.d.ts'],
-  },
-  {
     rules: {
+      camelcase: 'off',
       'no-alert': 'off',
+      'no-undef': 'off',
+      'no-restricted-globals': 'off',
+      'no-await-in-loop': 'off',
       'promise/prefer-await-to-then': 'off',
+
       'react/react-in-jsx-scope': 'off',
       'react/boolean-prop-naming': 'off',
       'react/prefer-read-only-props': 'off',
       'react/prop-types': 'off',
+      'react/jsx-no-leaked-render': 'off',
+
       'import-x/extensions': 'off',
+      'import-x/no-unassigned-import': 'off',
+
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
+      '@typescript-eslint/no-unsafe-argument': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
       '@stylistic/padding-line-between-statements': 'off',
       '@typescript-eslint/no-dynamic-delete': 'off',
       '@typescript-eslint/no-floating-promises': 'off',
       '@typescript-eslint/naming-convention': 'off',
-      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-restricted-types': 'off',
+      '@typescript-eslint/triple-slash-reference': 'off',
+
       'unicorn/filename-case': 'off',
       'unicorn/no-array-for-each': 'off',
       'unicorn/no-array-reduce': 'off',
       'unicorn/prefer-ternary': 'off',
       'unicorn/prevent-abbreviations': 'off',
       'unicorn/prefer-query-selector': 'off',
+      'unicorn/prefer-global-this': 'off',
+      'unicorn/prefer-top-level-await': 'off',
+      'unicorn/prefer-node-protocol': 'off',
+
+      // @next/eslint-plugin-next
+      // next/core-web-vitals
+    },
+  },
+  {
+    rules: {
       '@typescript-eslint/no-confusing-void-expression': [
         'error',
         { ignoreArrowShorthand: true },
@@ -41,31 +63,14 @@ const xoConfig: FlatXoConfig = [
         'error',
         { allow: ['TRPCError', 'Date'] },
       ],
+      '@typescript-eslint/switch-exhaustiveness-check': [
+        'error',
+        {
+          considerDefaultExhaustiveForUnions: true,
+          requireDefaultForNonUnion: true,
+        },
+      ],
       '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
-
-      '@typescript-eslint/no-unsafe-return': 'off', // TODO: turn on later
-      camelcase: 'off', // TODO: turn on later
-      'import-x/no-unassigned-import': 'off', // TODO: turn on later
-      '@typescript-eslint/no-unsafe-argument': 'off', // TODO: turn on later
-      'unicorn/prefer-global-this': 'off', // TODO: turn on later
-      'no-undef': 'off', // TODO: turn on later
-      'unicorn/prefer-top-level-await': 'off', // TODO: turn on later
-      'no-empty-pattern': 'off', // TODO: turn on later
-      '@typescript-eslint/no-restricted-types': 'off', // TODO: turn on later
-      'no-restricted-globals': 'off', // TODO: turn on later
-      '@typescript-eslint/no-empty-function': 'off', // TODO: turn on later
-      'react/jsx-no-leaked-render': 'off', // TODO: turn on later
-      'no-await-in-loop': 'off', // TODO: turn on later
-      'unicorn/no-useless-promise-resolve-reject': 'off', // TODO: turn on later
-      'unicorn/prefer-dom-node-dataset': 'off', // TODO: turn on later
-      '@typescript-eslint/switch-exhaustiveness-check': 'off', // TODO: turn on later
-      'unicorn/prefer-node-protocol': 'off', // TODO: turn on later
-      // eslint warning
-      // @next/eslint-plugin-next
-      // next/core-web-vitals
-      // all ts-expect-error
-      // all todo
-      // all eslint ignored comment
     },
   },
 ];
