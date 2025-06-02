@@ -1,10 +1,23 @@
 import { type FlatXoConfig } from 'xo';
+// https://github.com/vercel/next.js/pull/78109
+// @ts-expect-error TODO: types will ship later
+import { flatConfig } from '@next/eslint-plugin-next';
 
 const xoConfig: FlatXoConfig = [
   {
     prettier: true,
     react: true,
     space: true,
+  },
+  {
+    // Contains next eslint rules also
+    ...flatConfig.coreWebVitals,
+    settings: {
+      next: {
+        rootDir: 'apps/web/',
+      },
+    },
+    files: 'apps/web/**/*.{ts,tsx}',
   },
   {
     rules: {
@@ -44,9 +57,6 @@ const xoConfig: FlatXoConfig = [
       'unicorn/prefer-global-this': 'off',
       'unicorn/prefer-top-level-await': 'off',
       'unicorn/prefer-node-protocol': 'off',
-
-      // @next/eslint-plugin-next
-      // next/core-web-vitals
     },
   },
   {
