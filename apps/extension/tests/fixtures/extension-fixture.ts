@@ -16,7 +16,8 @@ export const test = base.extend<{
   context: BrowserContext;
   backgroundSW: Worker;
 }>({
-  async context(_, use) {
+  // eslint-disable-next-line no-empty-pattern
+  async context({}, use) {
     const pathToExtension = path.resolve(dirName, '../../chrome-build');
     const browserContext = await chromium.launchPersistentContext(tempDir, {
       headless: false,
