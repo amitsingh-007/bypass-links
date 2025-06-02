@@ -1,4 +1,4 @@
-import { ITRPCContext } from '../src/@types/trpc';
+import { type ITRPCContext } from '../src/@types/trpc';
 import { appRouter } from '../src/index';
 import { t } from '../src/trpc';
 import { getUser } from './firebase';

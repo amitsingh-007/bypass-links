@@ -1,17 +1,16 @@
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import PreactRefreshPlugin from '@prefresh/webpack';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import ESLintPlugin from 'eslint-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MergeJsonWebpackPlugin from 'merge-jsons-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import path from 'node:path';
 import TerserPlugin from 'terser-webpack-plugin';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
-import { fileURLToPath } from 'node:url';
-import webpack, { Configuration, RuleSetRule } from 'webpack';
+import webpack, { type Configuration, type RuleSetRule } from 'webpack';
 import * as lightningcss from 'lightningcss';
 import browserslist from 'browserslist';
 import 'webpack-dev-server';
@@ -261,12 +260,6 @@ const config: Configuration = {
       },
     }),
     !isProduction && new PreactRefreshPlugin(),
-    new ESLintPlugin({
-      extensions: ['ts', 'tsx'],
-      threads: true,
-      emitWarning: false,
-      eslintPath: path.resolve(PATHS.MONOREPO_ROOT, 'node_modules/eslint'),
-    }),
   ],
 };
 

@@ -1,9 +1,9 @@
 import { authenticator } from 'otplib';
 import qrcode from 'qrcode';
-import { IUser } from '../@types/trpc';
+import { type IUser } from '../@types/trpc';
 import { getEnv } from '../constants/env';
 import { EFirebaseDBRef } from '../constants/firebase';
-import { User2FAInfo } from '../interfaces/firebase';
+import { type User2FAInfo } from '../interfaces/firebase';
 import { saveToFirebase } from './firebaseAdminService';
 import { fetchUser2FAInfo } from './userService';
 
@@ -16,9 +16,10 @@ const verify2FAToken = (secret: string, token: string) =>
   authenticator.verify({ token, secret });
 
 const is2FASetup = (user2FAInfo: User2FAInfo) =>
-  Boolean(user2FAInfo && user2FAInfo.secretKey);
+  Boolean(user2FAInfo?.secretKey);
 
-const getQrcodeImageUrl = (otpAuthUrl: string) => qrcode.toDataURL(otpAuthUrl);
+const getQrcodeImageUrl = async (otpAuthUrl: string) =>
+  qrcode.toDataURL(otpAuthUrl);
 
 export const is2FAEnabled = (user2FAInfo: User2FAInfo) =>
   is2FASetup(user2FAInfo) && user2FAInfo.is2FAEnabled;

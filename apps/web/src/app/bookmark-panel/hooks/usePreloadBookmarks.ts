@@ -8,7 +8,7 @@ import {
 } from '@app/utils/storage';
 import {
   ECacheBucketKeys,
-  IBookmarksObj,
+  type IBookmarksObj,
   STORAGE_KEYS,
   deleteCache,
   getCacheObj,

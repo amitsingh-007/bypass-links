@@ -11,13 +11,13 @@ interface Props {
 const ConfirmationDialog = memo<Props>(({ onClose, onOk, isOpen }) => {
   return (
     <Modal
-      onClose={noOp}
+      centered
       withCloseButton={false}
       closeOnEscape={false}
-      centered
       opened={isOpen}
       title="There are some unsaved changes"
       size="18.75rem"
+      onClose={noOp}
     >
       <Group justify="flex-end" mt="lg">
         <Button color="red" onClick={onOk}>

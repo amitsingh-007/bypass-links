@@ -1,6 +1,6 @@
 import { hasText } from '../../../utils/search';
-import { IEncodedBookmark } from '../../Bookmarks/interfaces';
-import { ModifiedBookmark } from '../interfaces/bookmark';
+import { type IEncodedBookmark } from '../../Bookmarks/interfaces';
+import { type ModifiedBookmark } from '../interfaces/bookmark';
 
 export const getFilteredModifiedBookmarks = (
   bookmarks: ModifiedBookmark[],
@@ -8,7 +8,7 @@ export const getFilteredModifiedBookmarks = (
 ) =>
   bookmarks?.filter(
     ({ url, title }) =>
-      !searchText || hasText(searchText, url) || hasText(searchText, title)
+      (!searchText || hasText(searchText, url)) ?? hasText(searchText, title)
   );
 
 export const getOrderedBookmarksList = (

@@ -1,5 +1,5 @@
-import { trpcApi } from '@/apis/trpcApi';
 import { STORAGE_KEYS } from '@bypass/shared';
+import { trpcApi } from '@/apis/trpcApi';
 
 export const syncLastVisitedToStorage = async () => {
   const lastVisited = await trpcApi.firebaseData.lastVisitedGet.query();

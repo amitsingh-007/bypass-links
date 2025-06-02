@@ -1,5 +1,4 @@
-import { trpcApi } from '@/apis/trpcApi';
-import { IPerson, usePerson } from '@bypass/shared';
+import { type IPerson, usePerson } from '@bypass/shared';
 import {
   ActionIcon,
   Avatar,
@@ -16,6 +15,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
 import ImagePicker from './ImagePicker';
 import styles from './styles/AddOrEditPersonDialog.module.css';
+import { trpcApi } from '@/apis/trpcApi';
 
 const imageSize = 200;
 
@@ -31,12 +31,12 @@ interface IForm {
   name: string;
 }
 
-const AddOrEditPersonDialog = ({
+function AddOrEditPersonDialog({
   person,
   isOpen,
   onClose,
   handleSaveClick,
-}: Props) => {
+}: Props) {
   const { resolvePersonImageFromUid } = usePerson();
   const [imageUrl, setImageUrl] = useState('');
   const [showImagePicker, setShowImagePicker] = useState(false);
@@ -94,13 +94,13 @@ const AddOrEditPersonDialog = ({
   return (
     <>
       <Modal
+        centered
         closeOnClickOutside={false}
         closeOnEscape={false}
-        centered
         opened={isOpen}
-        onClose={onClose}
         title={person ? 'Edit Person' : 'Add Person'}
         padding="2.5rem"
+        onClose={onClose}
       >
         <form onSubmit={form.onSubmit(handleSave)}>
           <Stack>
@@ -131,9 +131,9 @@ const AddOrEditPersonDialog = ({
             </Center>
             <TextInput
               withAsterisk
+              data-autofocus
               label="Name"
               placeholder="Enter name"
-              data-autofocus
               {...form.getInputProps('name')}
             />
             <Button type="submit" color="teal" loading={isLoading}>
@@ -146,12 +146,12 @@ const AddOrEditPersonDialog = ({
         <ImagePicker
           uid={uid}
           isOpen={showImagePicker}
-          onDialogClose={toggleImagePicker}
           handleImageSave={handleImageCropSave}
+          onDialogClose={toggleImagePicker}
         />
       )}
     </>
   );
-};
+}
 
 export default AddOrEditPersonDialog;

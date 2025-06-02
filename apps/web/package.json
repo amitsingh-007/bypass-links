@@ -5,8 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "next build",
-    "dev": "next dev",
-    "lint": "eslint . --quiet"
+    "dev": "next dev"
   },
   "dependencies": {
     "@bypass/configs": "workspace:*",

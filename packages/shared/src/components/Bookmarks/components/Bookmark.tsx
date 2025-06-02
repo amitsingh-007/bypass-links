@@ -3,7 +3,10 @@ import md5 from 'md5';
 import { memo, useCallback, useEffect, useState } from 'react';
 import usePlatform from '../../../hooks/usePlatform';
 import usePerson from '../../Persons/hooks/usePerson';
-import { IPerson, IPersonWithImage } from '../../Persons/interfaces/persons';
+import {
+  type IPerson,
+  type IPersonWithImage,
+} from '../../Persons/interfaces/persons';
 import Favicon from './Favicon';
 import PersonAvatars from './PersonAvatars';
 import styles from './styles/Bookmark.module.css';
@@ -81,18 +84,18 @@ const Bookmark = memo<BookmarkProps>(
         align="center"
         gap="0.75rem"
         px="0.375rem"
+        data-context-id={contextId}
         onDoubleClick={handleOpenLink}
         onClick={handleSelectionChange}
         onContextMenu={onRightClick}
-        data-context-id={contextId}
       >
         <Tooltip
+          withArrow
+          multiline
           label={url}
           color="violet.5"
           position="right"
-          withArrow
           arrowSize={6}
-          multiline
           className={styles.tooltip}
           w="40%"
           lh="1.3"

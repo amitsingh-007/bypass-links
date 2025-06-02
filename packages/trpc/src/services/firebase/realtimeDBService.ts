@@ -1,11 +1,11 @@
 import {
-  IBookmarksObj,
-  ILastVisited,
-  IPersons,
-  IRedirection,
-  IRedirections,
+  type IBookmarksObj,
+  type ILastVisited,
+  type IPersons,
+  type IRedirection,
+  type IRedirections,
 } from '@bypass/shared';
-import { IUser } from '../../@types/trpc';
+import { type IUser } from '../../@types/trpc';
 import { EFirebaseDBRef } from '../../constants/firebase';
 import { getFromFirebase, saveToFirebase } from '../firebaseAdminService';
 

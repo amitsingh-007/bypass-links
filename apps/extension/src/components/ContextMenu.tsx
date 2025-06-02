@@ -1,12 +1,15 @@
 import {
   Box,
-  MantineColor,
-  MantineStyleProps,
+  type MantineColor,
+  type MantineStyleProps,
   useMantineTheme,
 } from '@mantine/core';
-import { ContextMenuItemOptions, useContextMenu } from 'mantine-contextmenu';
-import { PropsWithChildren, useMemo, useRef } from 'react';
-import { IconType } from 'react-icons';
+import {
+  type ContextMenuItemOptions,
+  useContextMenu,
+} from 'mantine-contextmenu';
+import { type PropsWithChildren, useMemo, useRef } from 'react';
+import { type IconType } from 'react-icons';
 import styles from './styles/ContextMenu.module.css';
 
 export interface IMenuOption {
@@ -22,7 +25,7 @@ type Props = PropsWithChildren<{
   children: React.ReactNode;
 }>;
 
-const ContextMenu = ({ wrapperHeight = '100%', options, children }: Props) => {
+function ContextMenu({ wrapperHeight = '100%', options, children }: Props) {
   const theme = useMantineTheme();
   const { showContextMenu } = useContextMenu();
   const idRef = useRef('');
@@ -42,7 +45,7 @@ const ContextMenu = ({ wrapperHeight = '100%', options, children }: Props) => {
         title: text,
         icon: <Icon size="0.875rem" color={color} />,
         color: isRedColor ? 'red' : undefined,
-        onClick: () => {
+        onClick() {
           onClick(idRef.current);
           idRef.current = '';
         },
@@ -58,8 +61,7 @@ const ContextMenu = ({ wrapperHeight = '100%', options, children }: Props) => {
   });
 
   const handleContextMenu: React.MouseEventHandler<HTMLDivElement> = (e) => {
-    const dataCtxId =
-      (e.target as HTMLElement).getAttribute('data-context-id') ?? '';
+    const dataCtxId = (e.target as HTMLElement).dataset.contextId ?? '';
     idRef.current = dataCtxId;
     contextMenuHandler(e);
   };
@@ -69,6 +71,6 @@ const ContextMenu = ({ wrapperHeight = '100%', options, children }: Props) => {
       {children}
     </Box>
   );
-};
+}
 
 export default ContextMenu;

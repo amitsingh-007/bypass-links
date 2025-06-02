@@ -1,5 +1,5 @@
 import { EFirebaseDBRef } from '../constants/firebase';
-import { User2FAInfo } from '../interfaces/firebase';
+import { type User2FAInfo } from '../interfaces/firebase';
 import { getFromFirebase } from './firebaseAdminService';
 
 export const fetchUser2FAInfo = async (uid: string) => {

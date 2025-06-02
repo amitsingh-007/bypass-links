@@ -1,16 +1,16 @@
-import { trpcApi } from '@/apis/trpcApi';
 import {
   addToCache,
   ECacheBucketKeys,
   getCacheObj,
   getPersonImageName,
-  IPerson,
-  PersonImageUrls,
+  type IPerson,
+  type PersonImageUrls,
   STORAGE_KEYS,
 } from '@bypass/shared';
 import { getPersonImageUrls } from '@helpers/fetchFromStorage';
-import { getAllDecodedPersons } from '.';
 import { nprogress } from '@mantine/nprogress';
+import { getAllDecodedPersons } from '.';
+import { trpcApi } from '@/apis/trpcApi';
 
 export const syncPersonsToStorage = async () => {
   const persons = await trpcApi.firebaseData.personsGet.query();
@@ -48,7 +48,7 @@ export const cachePersonImagesInStorage = async () => {
   await refreshPersonImageUrlsCache();
   const persons = await getAllDecodedPersons();
   const personImagesList = await Promise.all(
-    persons.map((person) => resolveImageFromPerson(person.uid))
+    persons.map(async (person) => resolveImageFromPerson(person.uid))
   );
   const personImageUrls = personImagesList.reduce<PersonImageUrls>(
     (obj, { uid, imageUrl }) => {

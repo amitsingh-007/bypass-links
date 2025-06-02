@@ -1,5 +1,5 @@
-import { Metadata } from 'next';
-import { ReactNode } from 'react';
+import { type Metadata } from 'next';
+import { type ReactNode } from 'react';
 
 export const metadata: Metadata = {
   title: 'Persons Panel',
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   },
 };
 
-const Layout = ({ children }: Readonly<{ children: ReactNode }>) => {
+const Layout = async ({ children }: Readonly<{ children: ReactNode }>) => {
   return children;
 };
 

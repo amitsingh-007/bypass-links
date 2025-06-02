@@ -1,18 +1,18 @@
+import useHistoryStore from '@store/history';
+import { useEffect, useState } from 'react';
+import { sleep } from '@bypass/shared';
+import ButtonWithFeedback from './ButtonWithFeedback';
 import useCurrentTab from '@/hooks/useCurrentTab';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { sendRuntimeMessage } from '@/utils/sendRuntimeMessage';
-import useHistoryStore from '@store/history';
-import { useEffect, useState } from 'react';
-import ButtonWithFeedback from './ButtonWithFeedback';
 import { isForumPage } from '@/BackgroundScript/websites';
-import { sleep } from '@bypass/shared';
 
 const isCurrentPageForum = async (url = '') => {
   const hostname = url && new URL(url).hostname;
   return isForumPage(hostname);
 };
 
-const OpenForumLinks = () => {
+function OpenForumLinks() {
   const startHistoryMonitor = useHistoryStore(
     (state) => state.startHistoryMonitor
   );
@@ -51,6 +51,6 @@ const OpenForumLinks = () => {
       isForumPage={isForumPage}
     />
   );
-};
+}
 
 export default OpenForumLinks;

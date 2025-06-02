@@ -9,8 +9,7 @@
     "build": "pnpm run /^build:.*/",
     "dev:chrome": "cross-env NODE_ENV=development EXT_BROWSER=chrome HOST_NAME=http://localhost:3000 NODE_NO_WARNINGS=1 NODE_OPTIONS='--loader ts-node/esm' webpack serve",
     "dev:firefox": "cross-env NODE_ENV=development EXT_BROWSER=firefox HOST_NAME=http://localhost:3000 NODE_NO_WARNINGS=1 NODE_OPTIONS='--loader ts-node/esm' webpack serve",
-    "dev": "pnpm run dev:chrome",
-    "lint": "eslint . --quiet"
+    "dev": "pnpm run dev:chrome"
   },
   "dependencies": {
     "@bypass/configs": "workspace:*",
@@ -60,7 +59,6 @@
     "cross-env": "7.0.3",
     "css-loader": "7.1.2",
     "css-minimizer-webpack-plugin": "7.0.2",
-    "eslint-webpack-plugin": "5.0.1",
     "fork-ts-checker-webpack-plugin": "9.1.0",
     "html-webpack-plugin": "5.6.3",
     "lightningcss": "1.30.1",

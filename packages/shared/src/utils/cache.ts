@@ -1,4 +1,4 @@
-import { ECacheBucketKeys } from '../constants/cache';
+import { type ECacheBucketKeys } from '../constants/cache';
 
 export const getCacheObj = async (cacheBucketKey: string) =>
   caches.open(cacheBucketKey);

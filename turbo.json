@@ -1,6 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": ["**/.env", "eslint.config.js", ".github/**"],
+  "globalDependencies": ["**/.env", "xo.config.ts", ".github/**"],
   "globalEnv": [
     "EXT_BROWSER",
     "NODE_ENV",
@@ -16,13 +16,13 @@
   ],
   "tasks": {
     "build": {
-      "dependsOn": ["lint"],
+      "dependsOn": ["//#lint"],
       "outputs": ["chrome-build/**", "firefox-build/**", ".next/**"]
     },
     "dev": {
       "cache": false
     },
-    "lint": {},
+    "//#lint": {},
     "test": {
       "outputs": []
     }

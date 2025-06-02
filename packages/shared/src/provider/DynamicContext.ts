@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { noOp } from '../utils';
+import { asyncNoOp, noOp } from '../utils';
 
 interface IDynamicContext {
   location: {
@@ -20,8 +20,8 @@ const DynamicContext = createContext<IDynamicContext>({
     goBack: noOp,
   },
   storage: {
-    get: () => Promise.resolve<any>({}),
-    set: () => Promise.resolve(),
+    get: async () => undefined,
+    set: asyncNoOp,
   },
 });
 

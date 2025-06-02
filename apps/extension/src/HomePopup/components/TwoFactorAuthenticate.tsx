@@ -1,13 +1,13 @@
-import { trpcApi } from '@/apis/trpcApi';
-import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { InputTOTP, noOp, STORAGE_KEYS } from '@bypass/shared';
 import { getUser2FAInfo } from '@helpers/fetchFromStorage';
 import { Center, Modal } from '@mantine/core';
 import { useEffect, useState } from 'react';
-import { IUser2FAInfo } from '../interfaces/authentication';
 import { notifications } from '@mantine/notifications';
+import { type IUser2FAInfo } from '../interfaces/authentication';
+import useFirebaseStore from '@/store/firebase/useFirebaseStore';
+import { trpcApi } from '@/apis/trpcApi';
 
-const TwoFactorAuthenticate = () => {
+function TwoFactorAuthenticate() {
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const [promptTOTPVerify, setPromptTOTPVerify] = useState(false);
   const [user2FAInfo, setUser2FAInfo] = useState<IUser2FAInfo>();
@@ -47,18 +47,18 @@ const TwoFactorAuthenticate = () => {
 
   return (
     <Modal
-      opened={promptTOTPVerify}
       fullScreen
-      onClose={noOp}
+      opened={promptTOTPVerify}
       withCloseButton={false}
       closeOnClickOutside={false}
       closeOnEscape={false}
+      onClose={noOp}
     >
       <Center h="100%">
         <InputTOTP handleVerify={onVerify} />
       </Center>
     </Modal>
   );
-};
+}
 
 export default TwoFactorAuthenticate;

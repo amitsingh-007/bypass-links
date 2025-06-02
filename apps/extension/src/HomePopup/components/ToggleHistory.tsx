@@ -1,9 +1,9 @@
 import { getHistoryTime } from '@helpers/fetchFromStorage';
-import { startHistoryWatch } from '@/utils/history';
 import { Switch } from '@mantine/core';
 import useExtStore from '@store/extension';
 import useHistoryStore from '@store/history';
 import { useCallback, useEffect, useState } from 'react';
+import { startHistoryWatch } from '@/utils/history';
 
 const endHistoryWatch = async () => {
   const historyStartTime = await getHistoryTime();
@@ -22,7 +22,7 @@ const endHistoryWatch = async () => {
   console.log('History clear successful.');
 };
 
-const ToggleHistory = () => {
+function ToggleHistory() {
   const resetHistoryMonitor = useHistoryStore(
     (state) => state.resetHistoryMonitor
   );
@@ -48,7 +48,7 @@ const ToggleHistory = () => {
   // Init toggle on mount
   useEffect(() => {
     getHistoryTime().then((historyStartTime) => {
-      setIsHistoryActive(!!historyStartTime);
+      setIsHistoryActive(Boolean(historyStartTime));
     });
   }, []);
 
@@ -80,10 +80,10 @@ const ToggleHistory = () => {
       size="md"
       label="History"
       checked={isHistoryActive}
-      onChange={handleToggle}
       disabled={!isExtensionActive}
+      onChange={handleToggle}
     />
   );
-};
+}
 
 export default ToggleHistory;

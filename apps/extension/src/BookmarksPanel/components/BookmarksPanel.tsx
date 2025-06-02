@@ -1,7 +1,5 @@
-import { MAX_PANEL_SIZE } from '@/constants';
-import useBookmarkRouteStore from '@/BookmarksPanel/store/useBookmarkRouteStore';
 import {
-  BMPanelQueryParams,
+  type BMPanelQueryParams,
   BOOKMARK_ROW_HEIGHT,
   EBookmarkOperation,
   HEADER_HEIGHT,
@@ -21,12 +19,14 @@ import BookmarkContextMenu from './BookmarkContextMenu';
 import BookmarksHeader from './BookmarksHeader';
 import VirtualRow from './VirtualRow';
 import styles from './styles/BookmarksPanel.module.css';
+import useBookmarkRouteStore from '@/BookmarksPanel/store/useBookmarkRouteStore';
+import { MAX_PANEL_SIZE } from '@/constants';
 
-const BookmarksPanel = ({
+function BookmarksPanel({
   folderContext,
   operation,
   bmUrl,
-}: BMPanelQueryParams) => {
+}: BMPanelQueryParams) {
   const startHistoryMonitor = useHistoryStore(
     (state) => state.startHistoryMonitor
   );
@@ -109,8 +109,8 @@ const BookmarksPanel = ({
         h={MAX_PANEL_SIZE.HEIGHT}
       >
         <BookmarksHeader
-          onSearchChange={setSearchText}
           folderContext={folderContext}
+          onSearchChange={setSearchText}
         />
         <BookmarkAddEditDialog
           curFolder={folderContext}
@@ -152,6 +152,6 @@ const BookmarksPanel = ({
       </Flex>
     </>
   );
-};
+}
 
 export default BookmarksPanel;

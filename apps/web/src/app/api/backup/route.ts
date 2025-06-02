@@ -1,6 +1,6 @@
 import { verifyInternalToken } from '@app/helpers/verifyInternalToken';
 import { backupData } from '@bypass/trpc';
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
   verifyInternalToken(req);

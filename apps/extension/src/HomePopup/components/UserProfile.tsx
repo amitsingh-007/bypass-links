@@ -1,12 +1,12 @@
-import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { ROUTES } from '@bypass/shared';
 import { ActionIcon, Avatar, Box, Transition } from '@mantine/core';
 import { useHover } from '@mantine/hooks';
 import { MdSettings } from 'react-icons/md';
 import { useLocation } from 'wouter';
 import styles from './styles/UserProfile.module.css';
+import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 
-const UserProfile = () => {
+function UserProfile() {
   const [, navigate] = useLocation();
   const { hovered, ref } = useHover();
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
@@ -17,7 +17,7 @@ const UserProfile = () => {
   };
 
   return (
-    <Box pos="relative" ref={ref}>
+    <Box ref={ref} pos="relative">
       <Avatar
         radius="xl"
         size="3.125rem"
@@ -41,6 +41,6 @@ const UserProfile = () => {
       </Transition>
     </Box>
   );
-};
+}
 
 export default UserProfile;

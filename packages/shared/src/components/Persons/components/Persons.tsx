@@ -1,13 +1,19 @@
 import { Box, Flex } from '@mantine/core';
 import { useElementSize } from '@mantine/hooks';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { ReactNode, RefObject, useContext, useEffect, useState } from 'react';
+import {
+  type ReactNode,
+  type RefObject,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import usePlatform from '../../../hooks/usePlatform';
 import DynamicContext from '../../../provider/DynamicContext';
 import { deserializeQueryStringToObject } from '../../../utils/url';
 import { ScrollButton } from '../../ScrollButton';
 import usePerson from '../hooks/usePerson';
-import { IPerson } from '../interfaces/persons';
+import { type IPerson } from '../interfaces/persons';
 import { getColumnCount, getReactKey } from '../utils';
 import BookmarksList from './BookmarksList';
 import styles from './styles/Persons.module.css';
@@ -27,7 +33,7 @@ type InnerProps = Props & {
   personToOpenImage: string;
 };
 
-const PersonsInner = ({
+function PersonsInner({
   persons,
   onLinkOpen,
   scrollButton = false,
@@ -37,7 +43,7 @@ const PersonsInner = ({
   personToOpen,
   personToOpenImage,
   renderPerson,
-}: InnerProps) => {
+}: InnerProps) {
   const isMobile = usePlatform();
   const columnCount = getColumnCount(isMobile);
   const rowCount = Math.ceil(persons.length / columnCount);
@@ -99,9 +105,9 @@ const PersonsInner = ({
       />
     </>
   );
-};
+}
 
-const Persons = (props: Props) => {
+function Persons(props: Props) {
   const { persons } = props;
   const [personToOpen, setPersonToOpen] = useState<IPerson>();
   const [personToOpenImage, setPersonToOpenImage] = useState('');
@@ -112,10 +118,7 @@ const Persons = (props: Props) => {
 
   useEffect(() => {
     const { openBookmarksList } = deserializeQueryStringToObject(queryString);
-    const person =
-      (openBookmarksList &&
-        persons.find((_person) => _person.uid === openBookmarksList)) ||
-      undefined;
+    const person = persons.find((_person) => _person.uid === openBookmarksList);
     setPersonToOpen(person);
     if (person) {
       resolvePersonImageFromUid(person.uid).then((url) => {
@@ -137,6 +140,6 @@ const Persons = (props: Props) => {
       )}
     </Box>
   );
-};
+}
 
 export default Persons;

@@ -7,7 +7,7 @@ import {
 } from '@app/utils/storage';
 import {
   ECacheBucketKeys,
-  PersonImageUrls,
+  type PersonImageUrls,
   STORAGE_KEYS,
   deleteCache,
   getCacheObj,

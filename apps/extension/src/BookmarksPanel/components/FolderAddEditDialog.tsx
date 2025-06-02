@@ -9,19 +9,19 @@ interface Props {
   onClose: VoidFunction;
 }
 
-export const FolderAddEditDialog: React.FC<Props> = ({
+export function FolderAddEditDialog({
   origName = '',
   headerText,
   handleSave,
   isOpen,
   onClose,
-}) => {
+}: Props) {
   const form = useForm({
     initialValues: {
       folderName: origName,
     },
     validate: {
-      folderName: (value) => {
+      folderName(value) {
         if (!value) {
           return "Can't be empty";
         }
@@ -39,7 +39,7 @@ export const FolderAddEditDialog: React.FC<Props> = ({
   };
 
   return (
-    <Modal centered opened={isOpen} onClose={handleClose} title={headerText}>
+    <Modal centered opened={isOpen} title={headerText} onClose={handleClose}>
       <form
         onSubmit={form.onSubmit((values) => {
           handleSave(values.folderName);
@@ -48,9 +48,9 @@ export const FolderAddEditDialog: React.FC<Props> = ({
       >
         <TextInput
           withAsterisk
+          data-autofocus
           label="Folder"
           placeholder="Enter folder name"
-          data-autofocus
           {...form.getInputProps('folderName')}
         />
         <Group justify="end" mt="md">
@@ -61,4 +61,4 @@ export const FolderAddEditDialog: React.FC<Props> = ({
       </form>
     </Modal>
   );
-};
+}

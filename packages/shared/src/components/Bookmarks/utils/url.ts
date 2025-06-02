@@ -1,8 +1,8 @@
 import { ROUTES } from '../../../constants/routes';
 import { serializeObjectToQueryString } from '../../../utils/url';
 import { DEFAULT_BOOKMARK_FOLDER, EBookmarkOperation } from '../constants';
-import { ContextBookmark } from '../interfaces';
-import { BMPanelQueryParams } from '../interfaces/url';
+import { type ContextBookmark } from '../interfaces';
+import { type BMPanelQueryParams } from '../interfaces/url';
 
 export const getBookmarksPanelUrl = ({
   folderContext = DEFAULT_BOOKMARK_FOLDER,

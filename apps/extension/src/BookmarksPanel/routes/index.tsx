@@ -1,7 +1,7 @@
 import {
-  BMPanelQueryParams,
+  type BMPanelQueryParams,
   deserializeQueryStringToObject,
-  EBookmarkOperation,
+  type EBookmarkOperation,
   ROUTES,
 } from '@bypass/shared';
 import { Route, useSearch } from 'wouter';
@@ -17,12 +17,12 @@ const getQueryParams = (qs: string): BMPanelQueryParams => {
   };
 };
 
-const BookmarksPanelWrapper = () => {
+function BookmarksPanelWrapper() {
   const search = useSearch();
   const queryParams = getQueryParams(search);
 
   return <BookmarksPanel {...queryParams} />;
-};
+}
 
 export const BookmarksPanelRoute = (
   <Route path={ROUTES.BOOKMARK_PANEL} component={BookmarksPanelWrapper} />

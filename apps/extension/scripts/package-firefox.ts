@@ -1,7 +1,8 @@
 import path from 'node:path';
+import fs from 'node:fs';
+import process from 'node:process';
 // @ts-expect-error no types provided
 import webExt from 'web-ext';
-import fs from 'node:fs';
 import {
   getExtVersion,
   getFileNameFromVersion,
@@ -10,8 +11,8 @@ import { PATHS } from './constant';
 
 const { downloadedFiles } = await webExt.cmd.sign({
   amoBaseUrl: 'https://addons.mozilla.org/api/v5/',
-  apiKey: process.env['FIREFOX_API_KEY'],
-  apiSecret: process.env['FIREFOX_API_SECRET'],
+  apiKey: process.env.FIREFOX_API_KEY,
+  apiSecret: process.env.FIREFOX_API_SECRET,
   sourceDir: PATHS.FIREFOX_BUILD,
   artifactsDir: PATHS.BUILD_DIR,
   channel: 'unlisted',

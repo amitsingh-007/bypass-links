@@ -13,8 +13,8 @@ import {
 } from '@mantine/core';
 import { useDebouncedState } from '@mantine/hooks';
 import {
-  ChangeEventHandler,
-  ClipboardEventHandler,
+  type ChangeEventHandler,
+  type ClipboardEventHandler,
   useRef,
   useState,
 } from 'react';
@@ -30,12 +30,7 @@ interface Props {
   handleImageSave: (fileName: string) => void;
 }
 
-const ImagePicker = ({
-  uid,
-  isOpen,
-  onDialogClose,
-  handleImageSave,
-}: Props) => {
+function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
   const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [inputOrFile, setInputOrFile] = useDebouncedState<string | File>(
     '',
@@ -92,15 +87,15 @@ const ImagePicker = ({
   const disableControls = isLoadingImage || !inputOrFile;
   return (
     <Modal
-      opened={isOpen}
-      onClose={onDialogClose}
       fullScreen
+      opened={isOpen}
       zIndex={1002}
       withCloseButton={false}
       styles={{
         body: { padding: 'unset' },
         content: { '> div': { maxHeight: 'unset' } },
       }}
+      onClose={onDialogClose}
     >
       <LoadingOverlay visible={isUploadingImage} />
       <Header text="Upload Image" onBackClick={onDialogClose} />
@@ -123,9 +118,9 @@ const ImagePicker = ({
       <Box px="1.25rem">
         <Group justify="center" mt={6}>
           <TextInput
+            data-autofocus
             placeholder="Enter image url"
             w="82%"
-            data-autofocus
             value={typeof inputOrFile === 'string' ? inputOrFile : ''}
             onChange={handleImageUrlChange}
             onPaste={handleImagePaste}
@@ -135,13 +130,13 @@ const ImagePicker = ({
             <Slider
               radius="xl"
               value={zoom}
-              onChange={setZoom}
               min={1}
               max={3}
               step={0.001}
               label={(value) => value.toFixed(1)}
               disabled={disableControls}
               color={zoom > 2 ? 'red' : 'blue'}
+              onChange={setZoom}
             />
           </Box>
           <Box w="40%">
@@ -149,10 +144,10 @@ const ImagePicker = ({
             <Slider
               radius="xl"
               value={rotation}
-              onChange={setRotation}
               min={0}
               max={360}
               disabled={disableControls}
+              onChange={setRotation}
             />
           </Box>
         </Group>
@@ -169,6 +164,6 @@ const ImagePicker = ({
       </Box>
     </Modal>
   );
-};
+}
 
 export default ImagePicker;

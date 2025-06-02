@@ -6,8 +6,8 @@ import {
   getDecryptedPerson,
   getFilteredPersons,
   Header,
-  IPerson,
-  IPersons,
+  type IPerson,
+  type IPersons,
   Persons,
   sortAlphabetically,
   STORAGE_KEYS,
@@ -21,7 +21,7 @@ const onLinkOpen = (url: string) => {
   openNewTab(url);
 };
 
-const PersonsPage = () => {
+function PersonsPage() {
   const [persons, setPersons] = useState<IPerson[]>([]);
   const [searchText, setSearchText] = useState('');
 
@@ -47,21 +47,21 @@ const PersonsPage = () => {
   return (
     <Container size="md" h="100vh" px={0} className={styles.container}>
       <Header
-        onSearchChange={handleSearchTextChange}
         text={`Persons Panel (${filteredPersons?.length || 0})`}
+        onSearchChange={handleSearchTextChange}
       />
       <Box className={styles.innerContainer}>
         {filteredPersons.length > 0 ? (
           <Persons
             persons={filteredPersons}
-            onLinkOpen={onLinkOpen}
             bookmarkListProps={{ fullscreen: false }}
             renderPerson={(person) => <PersonVirtualCell person={person} />}
+            onLinkOpen={onLinkOpen}
           />
         ) : null}
       </Box>
     </Container>
   );
-};
+}
 
 export default PersonsPage;

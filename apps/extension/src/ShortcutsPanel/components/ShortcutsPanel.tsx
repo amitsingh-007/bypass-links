@@ -1,19 +1,19 @@
-import { trpcApi } from '@/apis/trpcApi';
-import { syncRedirectionsToStorage } from '@/BackgroundScript/redirections';
-import { MAX_PANEL_SIZE } from '@/constants';
-import { Header, IRedirection, IRedirections } from '@bypass/shared';
+import { Header, type IRedirection, type IRedirections } from '@bypass/shared';
 import { getRedirections } from '@helpers/fetchFromStorage';
 import { Box, Button, Flex, LoadingOverlay } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { IoSave } from 'react-icons/io5';
 import { RiPlayListAddFill } from 'react-icons/ri';
+import { notifications } from '@mantine/notifications';
 import { DEFAULT_RULE_ALIAS } from '../constants';
 import { getValidRules, isMatchingRule } from '../utils';
 import styles from './styles/ShortcutsPanel.module.css';
 import RedirectionRule from './RedirectionRule';
-import { notifications } from '@mantine/notifications';
+import { MAX_PANEL_SIZE } from '@/constants';
+import { syncRedirectionsToStorage } from '@/BackgroundScript/redirections';
+import { trpcApi } from '@/apis/trpcApi';
 
-const ShortcutsPanel = () => {
+function ShortcutsPanel() {
   const [redirections, setRedirections] = useState<IRedirections>([]);
   const [searchText, setSearchText] = useState('');
   const [isFetching, setIsFetching] = useState(true);
@@ -96,19 +96,19 @@ const ShortcutsPanel = () => {
       <Header text="Shortcuts" onSearchChange={setSearchText}>
         <Button
           leftSection={<RiPlayListAddFill />}
-          onClick={handleAddRule}
           radius="xl"
           disabled={isFetching}
+          onClick={handleAddRule}
         >
           Add
         </Button>
         <Button
           leftSection={<IoSave />}
-          onClick={handleSave}
           color="teal"
           radius="xl"
           loading={isFetching}
           disabled={!isSaveActive}
+          onClick={handleSave}
         >
           Save
         </Button>
@@ -137,6 +137,6 @@ const ShortcutsPanel = () => {
       </Flex>
     </Flex>
   );
-};
+}
 
 export default ShortcutsPanel;

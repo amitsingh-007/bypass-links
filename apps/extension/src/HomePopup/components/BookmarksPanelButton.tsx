@@ -1,10 +1,10 @@
-import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { getBookmarksPanelUrl } from '@bypass/shared';
 import { Button } from '@mantine/core';
 import { RiBookmarkFill } from 'react-icons/ri';
 import { useLocation } from 'wouter';
+import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 
-const BookmarksPanelButton = () => {
+function BookmarksPanelButton() {
   const [, navigate] = useLocation();
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
 
@@ -14,15 +14,15 @@ const BookmarksPanelButton = () => {
 
   return (
     <Button
+      fullWidth
       radius="xl"
       disabled={!isSignedIn}
-      onClick={handleShowEditPanel}
       rightSection={<RiBookmarkFill />}
-      fullWidth
+      onClick={handleShowEditPanel}
     >
       Bookmarks
     </Button>
   );
-};
+}
 
 export default BookmarksPanelButton;

@@ -1,13 +1,13 @@
 import {
-  IBookmarksObj,
-  ISelectedBookmarks,
+  type IBookmarksObj,
+  type ISelectedBookmarks,
   STORAGE_KEYS,
 } from '@bypass/shared';
 
 export const isFolderContainsDir = (
   folders: IBookmarksObj['folders'],
   hash: string
-) => folders[hash] && folders[hash].some(({ isDir }) => isDir);
+) => folders[hash]?.some(({ isDir }) => isDir);
 
 export const getSelectedCount = (selectedBookmarks: ISelectedBookmarks) =>
   selectedBookmarks.filter(Boolean).length;

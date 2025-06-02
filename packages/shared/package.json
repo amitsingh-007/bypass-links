@@ -10,9 +10,6 @@
     "./types/*": "./src/@types/*"
   },
   "sideEffects": false,
-  "scripts": {
-    "lint": "eslint . --quiet"
-  },
   "peerDependencies": {
     "@bypass/configs": "workspace:*",
     "@mantine/core": "8.0.2",

@@ -1,6 +1,6 @@
-import { IPerson, IPersons } from '../interfaces/persons';
+import { type IPerson, type IPersons } from '../interfaces/persons';
 import { hasText } from '../../../utils/search';
-import { IEncodedBookmark } from '../../Bookmarks/interfaces';
+import { type IEncodedBookmark } from '../../Bookmarks/interfaces';
 
 export const getDecryptedPerson = (person: IPerson): IPerson => {
   return {

@@ -1,4 +1,4 @@
-import { MantineThemeOverride } from '@mantine/core';
+import { type MantineThemeOverride } from '@mantine/core';
 
 export const mantineTheme: MantineThemeOverride = {
   fontFamily: 'Google Sans',

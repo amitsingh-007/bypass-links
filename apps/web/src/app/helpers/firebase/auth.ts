@@ -4,7 +4,7 @@ import {
   onAuthStateChanged,
   signInWithPopup,
   signOut,
-  User,
+  type User,
 } from 'firebase/auth';
 import firebaseApp from '.';
 
@@ -13,11 +13,11 @@ const provider = new GoogleAuthProvider();
 
 export const googleSignIn = async () => signInWithPopup(auth, provider);
 
-export const googleSignOut = () => signOut(auth);
+export const googleSignOut = async () => signOut(auth);
 
 export const onAuthStateChange = (callback: (user: User | null) => void) =>
   onAuthStateChanged(auth, callback);
 
-export const getAuthIdToken = () => auth.currentUser?.getIdToken(true);
+export const getAuthIdToken = async () => auth.currentUser?.getIdToken(true);
 
 export const getCurrentUser = () => auth.currentUser;

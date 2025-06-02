@@ -1,15 +1,15 @@
-import { IMappedRedirections } from '@/BackgroundScript/interfaces/redirections';
-import { IUser2FAInfo } from '@/HomePopup/interfaces/authentication';
-import { EExtensionState } from '@/constants';
 import {
-  IBookmarksObj,
-  ILastVisited,
-  IPersons,
-  IRedirections,
-  IWebsites,
-  PersonImageUrls,
+  type IBookmarksObj,
+  type ILastVisited,
+  type IPersons,
+  type IRedirections,
+  type IWebsites,
+  type PersonImageUrls,
   STORAGE_KEYS,
 } from '@bypass/shared';
+import { type IMappedRedirections } from '@/BackgroundScript/interfaces/redirections';
+import { type IUser2FAInfo } from '@/HomePopup/interfaces/authentication';
+import { type EExtensionState } from '@/constants';
 
 export const getExtensionState = async (): Promise<EExtensionState> => {
   const { extState } = await chrome.storage.local.get('extState');
@@ -20,7 +20,7 @@ export const getWebistes = async (): Promise<IWebsites> => {
   const { [STORAGE_KEYS.websites]: websites } = await chrome.storage.local.get(
     STORAGE_KEYS.websites
   );
-  return websites || {};
+  return websites ?? {};
 };
 
 export const getRedirections = async (): Promise<IRedirections> => {
@@ -33,7 +33,7 @@ export const getMappedRedirections = async (): Promise<IMappedRedirections> => {
   const { mappedRedirections } = await chrome.storage.local.get([
     STORAGE_KEYS.mappedRedirections,
   ]);
-  return mappedRedirections || {};
+  return mappedRedirections ?? {};
 };
 
 export const getLastVisited = async (): Promise<ILastVisited> => {

@@ -1,5 +1,5 @@
 import { serverEnv } from '@app/constants/env/server.mjs';
-import { NextRequest } from 'next/server';
+import { type NextRequest } from 'next/server';
 
 export const verifyInternalToken = (req: NextRequest) => {
   const bearerToken = req.headers.get('Authorization');

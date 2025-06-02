@@ -1,4 +1,8 @@
-import { ContextBookmark, IBookmarksObj, IFolderMetaData } from '../interfaces';
+import {
+  type ContextBookmark,
+  type IBookmarksObj,
+  type IFolderMetaData,
+} from '../interfaces';
 import { getDecryptedBookmark, getDecryptedFolder } from '../utils';
 
 export const bookmarksMapper = (

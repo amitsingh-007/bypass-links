@@ -1,21 +1,21 @@
-import useBookmarkRouteStore from '@/BookmarksPanel/store/useBookmarkRouteStore';
-import { getCurrentTab } from '@/utils/tabs';
 import {
   DEFAULT_BOOKMARK_FOLDER,
   EBookmarkOperation,
   getBookmarksPanelUrl,
   getDecodedFolderList,
   getDefaultFolder,
-  ITransformedBookmark,
+  type ITransformedBookmark,
 } from '@bypass/shared';
 import { Button, Modal, Select, Stack, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'wouter';
 import { useShallow } from 'zustand/react/shallow';
+import md5 from 'md5';
 import useBookmarkStore from '../store/useBookmarkStore';
 import PersonSelect from './PersonSelect';
-import md5 from 'md5';
+import { getCurrentTab } from '@/utils/tabs';
+import useBookmarkRouteStore from '@/BookmarksPanel/store/useBookmarkRouteStore';
 
 const HEADING = {
   [EBookmarkOperation.NONE]: '',
@@ -38,7 +38,7 @@ interface IForm {
 
 const validateHandler = (value: string) => (value?.trim() ? null : 'Required');
 
-const BookmarkAddEditDialog = ({ curFolder, handleScroll }: Props) => {
+function BookmarkAddEditDialog({ curFolder, handleScroll }: Props) {
   const [, navigate] = useLocation();
   const { bookmarkOperation, resetBookmarkOperation } = useBookmarkRouteStore(
     useShallow((state) => ({
@@ -97,7 +97,7 @@ const BookmarkAddEditDialog = ({ curFolder, handleScroll }: Props) => {
           pos: contextBookmarks.length,
           url: _bmUrl,
           title,
-          folder: defaultFolderName || DEFAULT_BOOKMARK_FOLDER,
+          folder: defaultFolderName ?? DEFAULT_BOOKMARK_FOLDER,
           taggedPersons: [],
         });
         setOpenDialog(true);
@@ -175,28 +175,28 @@ const BookmarkAddEditDialog = ({ curFolder, handleScroll }: Props) => {
 
   return (
     <Modal
+      centered
       closeOnClickOutside={false}
       closeOnEscape={false}
-      centered
       opened={openDialog}
-      onClose={closeDialog}
       title={HEADING[operation]}
+      onClose={closeDialog}
     >
       <form onSubmit={form.onSubmit(handleSave)}>
         <Stack>
           <TextInput
             withAsterisk
+            data-autofocus
             label="Title"
             placeholder="Enter bookmark title"
-            data-autofocus
             {...form.getInputProps('title')}
           />
           <TextInput
             withAsterisk
-            label="Url"
-            placeholder="Url"
             data-autofocus
             readOnly
+            label="Url"
+            placeholder="Url"
             {...form.getInputProps('url')}
           />
           <Select
@@ -221,6 +221,6 @@ const BookmarkAddEditDialog = ({ curFolder, handleScroll }: Props) => {
       </form>
     </Modal>
   );
-};
+}
 
 export default BookmarkAddEditDialog;

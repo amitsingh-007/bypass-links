@@ -1,6 +1,6 @@
 import fs from 'node:fs';
-import archiver from 'archiver';
 import path from 'node:path';
+import archiver from 'archiver';
 import {
   getExtVersion,
   getFileNameFromVersion,

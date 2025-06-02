@@ -1,4 +1,3 @@
-import { trpcApi } from '@/apis/trpcApi';
 import {
   ECacheBucketKeys,
   getCacheObj,
@@ -8,6 +7,7 @@ import {
 } from '@bypass/shared';
 import { getBookmarks, getPersons } from '@helpers/fetchFromStorage';
 import { nprogress } from '@mantine/nprogress';
+import { trpcApi } from '@/apis/trpcApi';
 
 export const syncBookmarksToStorage = async () => {
   const bookmarks = await trpcApi.firebaseData.bookmarksGet.query();
@@ -59,7 +59,7 @@ export const cacheBookmarkFavicons = async () => {
   });
   const uniqueUrls = [...new Set(faviconUrls)];
   const cache = await getCacheObj(ECacheBucketKeys.favicon);
-  await Promise.all(uniqueUrls.map((url) => cache.add(url)));
+  await Promise.all(uniqueUrls.map(async (url) => cache.add(url)));
   console.log('Initialized cache for all bookmark urls');
   nprogress.increment();
 };

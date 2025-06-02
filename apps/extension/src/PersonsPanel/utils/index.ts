@@ -1,4 +1,9 @@
-import { decodePersons, IPerson, IPersons, STORAGE_KEYS } from '@bypass/shared';
+import {
+  decodePersons,
+  type IPerson,
+  type IPersons,
+  STORAGE_KEYS,
+} from '@bypass/shared';
 import { getPersons } from '@helpers/fetchFromStorage';
 
 export const setPersonsInStorage = async (persons: IPersons) => {

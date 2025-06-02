@@ -37,7 +37,7 @@ const getForum_3_LinksFunc = () => {
   ].at(-1);
   const recentPostLinks =
     recentPostsNode?.querySelectorAll<HTMLAnchorElement>('.post-thumb > a');
-  return [...(recentPostLinks || [])].map((link) => link.href);
+  return [...(recentPostLinks ?? [])].map((link) => link.href);
 };
 
 const getForum_4_LinksFunc = () => {
@@ -57,7 +57,7 @@ export const getForumPageLinks = async (
   url: string
 ): Promise<string[]> => {
   const websites = await getWebistes();
-  let executor: () => (string | undefined)[];
+  let executor: () => Array<string | undefined>;
 
   switch (true) {
     case url.includes(websites.FORUM_1):

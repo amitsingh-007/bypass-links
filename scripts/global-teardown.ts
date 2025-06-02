@@ -1,5 +1,5 @@
-import { FullConfig } from '@playwright/test';
-import fs from 'fs';
+import fs from 'node:fs';
+import { type FullConfig } from '@playwright/test';
 
 export const tempDir = '/tmp/playwright-temp';
 

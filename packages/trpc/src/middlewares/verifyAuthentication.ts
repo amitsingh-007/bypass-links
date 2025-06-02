@@ -24,7 +24,7 @@ const verifyAuthMiddleware = t.middleware(async (opts) => {
   }
 
   return opts.next({
-    ctx: { ...ctx, user }, // for type safety in protected procedures
+    ctx: { ...ctx, user }, // For type safety in protected procedures
   });
 });
 

@@ -1,17 +1,17 @@
-import { trpcApi } from '@/apis/trpcApi';
 import { Header, InputTOTP, STORAGE_KEYS } from '@bypass/shared';
 import { getUser2FAInfo } from '@helpers/fetchFromStorage';
 import { Avatar, Button, Center, Loader, Modal } from '@mantine/core';
 import { useEffect, useState } from 'react';
-import styles from './styles/Setup2FA.module.css';
 import { notifications } from '@mantine/notifications';
+import styles from './styles/Setup2FA.module.css';
+import { trpcApi } from '@/apis/trpcApi';
 
-type Props = {
+interface Props {
   isOpen: boolean;
   handleClose: VoidFunction;
-};
+}
 
-const Setup2FA = ({ isOpen, handleClose }: Props) => {
+function Setup2FA({ isOpen, handleClose }: Props) {
   const [qrcodeUrl, setQrcodeUrl] = useState('');
   const [showVerifyToken, setShowVerifyToken] = useState(false);
 
@@ -44,12 +44,12 @@ const Setup2FA = ({ isOpen, handleClose }: Props) => {
 
   return (
     <Modal
-      opened={isOpen}
-      onClose={handleClose}
       fullScreen
+      opened={isOpen}
       zIndex={1002}
       withCloseButton={false}
       styles={{ body: { padding: 0 } }}
+      onClose={handleClose}
     >
       <Header text="Setup two factor auth" onBackClick={handleClose} />
       <Center mt={20} className={styles.qrCodeWrapper}>
@@ -73,6 +73,6 @@ const Setup2FA = ({ isOpen, handleClose }: Props) => {
       )}
     </Modal>
   );
-};
+}
 
 export default Setup2FA;

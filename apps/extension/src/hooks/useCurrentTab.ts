@@ -1,5 +1,5 @@
-import { getCurrentTab } from '@/utils/tabs';
 import { useEffect, useState } from 'react';
+import { getCurrentTab } from '@/utils/tabs';
 
 const useCurrentTab = () => {
   const [tab, setTab] = useState<chrome.tabs.Tab>();

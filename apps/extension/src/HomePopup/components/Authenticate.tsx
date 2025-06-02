@@ -1,15 +1,15 @@
-import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { Button, LoadingOverlay } from '@mantine/core';
 import useExtStore from '@store/extension';
 import { useCallback, useEffect, useState } from 'react';
 import { RiLoginCircleFill, RiLogoutCircleRFill } from 'react-icons/ri';
-import { signIn, signOut } from '../utils/authentication';
 import { nprogress, nprogressStore } from '@mantine/nprogress';
+import { notifications } from '@mantine/notifications';
+import { signIn, signOut } from '../utils/authentication';
 import {
   SIGN_IN_TOTAL_STEPS,
   SIGN_OUT_TOTAL_STEPS,
 } from '../constants/progress';
-import { notifications } from '@mantine/notifications';
+import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 
 const initializeProgress = (totalSteps: number) => {
   nprogressStore.setState((state) => ({
@@ -23,7 +23,7 @@ const resetProgress = () => {
   nprogress.complete();
 };
 
-const Authenticate = () => {
+function Authenticate() {
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const setIsSignedIn = useFirebaseStore((state) => state.setIsSignedIn);
   const isExtensionActive = useExtStore((state) => state.isExtensionActive);
@@ -61,7 +61,7 @@ const Authenticate = () => {
   // Init
   useEffect(() => {
     const { idpAuth } = useFirebaseStore.getState();
-    setIsSignedIn(!!idpAuth?.uid);
+    setIsSignedIn(Boolean(idpAuth?.uid));
   }, [setIsSignedIn]);
 
   useEffect(() => {
@@ -73,21 +73,21 @@ const Authenticate = () => {
   return (
     <>
       <Button
+        fullWidth
         radius="xl"
         loading={isFetching}
         disabled={!isExtensionActive}
-        onClick={isSignedIn ? handleSignOut : handleSignIn}
         color={isSignedIn ? 'teal' : 'red'}
         rightSection={
           isSignedIn ? <RiLogoutCircleRFill /> : <RiLoginCircleFill />
         }
-        fullWidth
+        onClick={isSignedIn ? handleSignOut : handleSignIn}
       >
         {isSignedIn ? 'Logout' : 'Login'}
       </Button>
-      {isFetching && <LoadingOverlay w="100%" visible zIndex={100} />}
+      {isFetching && <LoadingOverlay visible w="100%" zIndex={100} />}
     </>
   );
-};
+}
 
 export default Authenticate;

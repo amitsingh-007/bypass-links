@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import styles from './styles/AppHeader.module.css';
 
-const AppHeader = () => {
+function AppHeader() {
   const router = useRouter();
   const [clickCount, setClickCount] = useState(0);
 
@@ -21,16 +21,16 @@ const AppHeader = () => {
     <Box className={styles.header}>
       <Center>
         <Image
+          priority
           src="/bypass_link_192.png"
           alt="app-icon"
           height={70}
           width={70}
-          priority
           onClick={() => setClickCount(clickCount + 1)}
         />
       </Center>
     </Box>
   );
-};
+}
 
 export default AppHeader;

@@ -8,12 +8,12 @@ interface Props {
   handleRuleMoveDown: (pos: number) => void;
 }
 
-export const ReorderButton = ({
+export function ReorderButton({
   pos,
   total,
   handleRuleMoveUp,
   handleRuleMoveDown,
-}: Props) => {
+}: Props) {
   return (
     <Button.Group orientation="horizontal" ml={2} mr={10}>
       <Button
@@ -39,4 +39,4 @@ export const ReorderButton = ({
       </Button>
     </Button.Group>
   );
-};
+}

@@ -2,7 +2,7 @@
 
 import { googleSignIn, googleSignOut } from '@app/helpers/firebase/auth';
 import { useUser } from '@app/provider/AuthProvider';
-import { ITwoFactorAuth } from '@app/types';
+import { type ITwoFactorAuth } from '@app/types';
 import { api } from '@app/utils/api';
 import { getFromLocalStorage, setToLocalStorage } from '@app/utils/storage';
 import { Header, InputTOTP, ROUTES, STORAGE_KEYS } from '@bypass/shared';
@@ -95,15 +95,15 @@ export default function Web() {
           className={styles.stack}
         >
           <Button
+            fullWidth
             radius="xl"
             size="md"
             loading={isLoading}
-            onClick={isLoggedIn ? handleSignOut : handleSignIn}
             color={isLoggedIn ? 'teal' : 'red'}
             rightSection={
               isLoggedIn ? <RiLogoutCircleRFill /> : <RiLoginCircleFill />
             }
-            fullWidth
+            onClick={isLoggedIn ? handleSignOut : handleSignIn}
           >
             {isLoggedIn ? 'Logout' : 'Login'}
           </Button>
@@ -115,8 +115,8 @@ export default function Web() {
                 radius="xl"
                 size="md"
                 rightSection={<RiBookmarkFill />}
-                onClick={() => router.push(ROUTES.BOOKMARK_PANEL)}
                 disabled={!isLoggedIn || isLoading}
+                onClick={() => router.push(ROUTES.BOOKMARK_PANEL)}
               >
                 Bookmarks Page
               </Button>
@@ -124,8 +124,8 @@ export default function Web() {
                 radius="xl"
                 size="md"
                 rightSection={<FaUserTag />}
-                onClick={() => router.push(ROUTES.PERSONS_PANEL)}
                 disabled={!isLoggedIn || isLoading}
+                onClick={() => router.push(ROUTES.PERSONS_PANEL)}
               >
                 Persons Page
               </Button>

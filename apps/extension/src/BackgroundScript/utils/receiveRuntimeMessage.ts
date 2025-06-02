@@ -1,10 +1,10 @@
-import {
-  RuntimeInput,
-  RuntimeKeys,
-  RuntimeOutput,
-} from '@/utils/sendRuntimeMessage';
 import { getForumPageLinks } from '../misc/forumPageLinks';
 import { launchAuthFlow } from '../misc/launchAuthFlow';
+import {
+  type RuntimeInput,
+  type RuntimeKeys,
+  type RuntimeOutput,
+} from '@/utils/sendRuntimeMessage';
 
 export const receiveRuntimeMessage = (
   message: RuntimeInput,
@@ -22,9 +22,6 @@ export const receiveRuntimeMessage = (
         sendMessage<'launchAuthFlow'>({ accessToken });
       });
       break;
-    }
-    default: {
-      throw new Error(`Runtime message type not implemented: ${message}`);
     }
   }
 };

@@ -1,15 +1,15 @@
-import { syncLastVisitedToStorage } from '@/HomePopup/utils/lastVisited';
-import { trpcApi } from '@/apis/trpcApi';
-import useCurrentTab from '@/hooks/useCurrentTab';
-import useFirebaseStore from '@/store/firebase/useFirebaseStore';
-import { getlastVisitedText } from '@/utils/lastVisited';
 import { getLastVisited } from '@helpers/fetchFromStorage';
 import { Button, Text, Tooltip } from '@mantine/core';
 import md5 from 'md5';
 import { useCallback, useEffect, useState } from 'react';
 import { FaCalendarCheck, FaCalendarTimes } from 'react-icons/fa';
+import { syncLastVisitedToStorage } from '@/HomePopup/utils/lastVisited';
+import { trpcApi } from '@/apis/trpcApi';
+import useCurrentTab from '@/hooks/useCurrentTab';
+import useFirebaseStore from '@/store/firebase/useFirebaseStore';
+import { getlastVisitedText } from '@/utils/lastVisited';
 
-const LastVisitedButton = () => {
+function LastVisitedButton() {
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const currentTab = useCurrentTab();
   const [isFetching, setIsFetching] = useState(false);
@@ -51,25 +51,25 @@ const LastVisitedButton = () => {
 
   return (
     <Tooltip
+      withArrow
       label={<Text>{lastVisited}</Text>}
       disabled={!lastVisited}
-      withArrow
       radius="md"
       color="gray"
     >
       <Button
+        fullWidth
         radius="xl"
         loading={isFetching}
         disabled={!isSignedIn}
-        onClick={handleUpdateLastVisited}
         rightSection={lastVisited ? <FaCalendarCheck /> : <FaCalendarTimes />}
-        fullWidth
         color={lastVisited ? 'teal' : 'red'}
+        onClick={handleUpdateLastVisited}
       >
         Visited
       </Button>
     </Tooltip>
   );
-};
+}
 
 export default LastVisitedButton;

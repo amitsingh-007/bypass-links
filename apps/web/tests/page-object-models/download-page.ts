@@ -1,11 +1,7 @@
-import { expect, Page } from '@playwright/test';
+import { expect, type Page } from '@playwright/test';
 
 export class DownloadPage {
-  readonly page: Page;
-
-  constructor(page: Page) {
-    this.page = page;
-  }
+  constructor(readonly page: Page) {}
 
   async testPageMetaData() {
     await expect(this.page).toHaveTitle('Skip Links, Ads, Timers & ReCaptchas');

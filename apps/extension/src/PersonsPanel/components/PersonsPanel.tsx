@@ -1,5 +1,3 @@
-import { trpcApi } from '@/apis/trpcApi';
-import { MAX_PANEL_SIZE } from '@/constants';
 import {
   getDecryptedPerson,
   getEncryptedPerson,
@@ -7,8 +5,8 @@ import {
   getOrderedPersons,
   getPersonImageName,
   HEADER_HEIGHT,
-  IPerson,
-  IPersons,
+  type IPerson,
+  type IPersons,
   Persons,
   sortAlphabetically,
   useBookmark,
@@ -18,13 +16,15 @@ import { getPersons } from '@helpers/fetchFromStorage';
 import { Box, Flex } from '@mantine/core';
 import useHistoryStore from '@store/history';
 import { useEffect, useState } from 'react';
+import { notifications } from '@mantine/notifications';
 import { getPersonPos, setPersonsInStorage } from '../utils';
 import { updatePersonCacheAndImageUrls } from '../utils/sync';
 import PersonHeader from './PersonHeader';
 import PersonVirtualCell from './PersonVirtualCell';
-import { notifications } from '@mantine/notifications';
+import { MAX_PANEL_SIZE } from '@/constants';
+import { trpcApi } from '@/apis/trpcApi';
 
-const PersonsPanel = () => {
+function PersonsPanel() {
   const startHistoryMonitor = useHistoryStore(
     (state) => state.startHistoryMonitor
   );
@@ -122,17 +122,16 @@ const PersonsPanel = () => {
         isFetching={isFetching}
         handleAddPerson={handleAddOrEditPerson}
         persons={filteredAndOrderedPersons}
-        onSearchChange={handleSearchTextChange}
         orderByRecency={orderByRecency}
         toggleOrderByRecency={toggleOrderByRecency}
+        onSearchChange={handleSearchTextChange}
       />
       <Box pos="relative" h={MAX_PANEL_SIZE.HEIGHT - HEADER_HEIGHT}>
         {filteredAndOrderedPersons.length > 0 ? (
           <Persons
-            persons={filteredAndOrderedPersons}
-            onLinkOpen={onLinkOpen}
-            bookmarkListProps={{ fullscreen: true }}
             scrollButton
+            persons={filteredAndOrderedPersons}
+            bookmarkListProps={{ fullscreen: true }}
             renderPerson={(person) => (
               <PersonVirtualCell
                 person={person}
@@ -140,11 +139,12 @@ const PersonsPanel = () => {
                 handlePersonDelete={handlePersonDelete}
               />
             )}
+            onLinkOpen={onLinkOpen}
           />
         ) : null}
       </Box>
     </Flex>
   );
-};
+}
 
 export default PersonsPanel;

@@ -1,4 +1,3 @@
-import bookmarkRowStyles from '@bypass/shared/styles/bookmarks/styles.module.css';
 import {
   ActionIcon,
   Avatar,
@@ -19,13 +18,14 @@ import { getDecryptedBookmark } from '../../Bookmarks/utils';
 import { getBookmarksPanelUrl } from '../../Bookmarks/utils/url';
 import Header from '../../Header';
 import usePerson from '../hooks/usePerson';
-import { ModifiedBookmark } from '../interfaces/bookmark';
-import { IPerson } from '../interfaces/persons';
+import { type ModifiedBookmark } from '../interfaces/bookmark';
+import { type IPerson } from '../interfaces/persons';
 import {
   getFilteredModifiedBookmarks,
   getOrderedBookmarksList,
 } from '../utils/bookmark';
 import styles from './styles/BookmarksList.module.css';
+import bookmarkRowStyles from '@bypass/shared/styles/bookmarks/styles.module.css';
 
 interface Props {
   personToOpen: IPerson | undefined;
@@ -34,12 +34,12 @@ interface Props {
   fullscreen: boolean;
 }
 
-const BookmarksList = ({
+function BookmarksList({
   personToOpen,
   imageUrl,
   onLinkOpen,
   fullscreen,
-}: Props) => {
+}: Props) {
   const { location } = useContext(DynamicContext);
   const { getBookmarkFromHash, getFolderFromHash, getDefaultOrRootFolderUrls } =
     useBookmark();
@@ -108,7 +108,6 @@ const BookmarksList = ({
   const renderContent = () => (
     <>
       <Header
-        onSearchChange={setSearchText}
         rightContent={
           <Box className={styles.header}>
             <Avatar src={imageUrl} alt={personToOpen?.name} radius="xl" />
@@ -117,6 +116,7 @@ const BookmarksList = ({
             })`}</Badge>
           </Box>
         }
+        onSearchChange={setSearchText}
       />
       {filteredBookmarks.length > 0 ? (
         filteredBookmarks.map((bookmark) => (
@@ -133,8 +133,8 @@ const BookmarksList = ({
               size="2rem"
               title="Edit Bookmark"
               color="red"
-              onClick={() => handleBookmarkEdit(bookmark)}
               radius="xl"
+              onClick={() => handleBookmarkEdit(bookmark)}
             >
               <AiFillEdit size="1.125rem" />
             </ActionIcon>
@@ -161,9 +161,8 @@ const BookmarksList = ({
 
   return (
     <Modal
-      opened={!!personToOpen}
-      onClose={handleClose}
       fullScreen
+      opened={Boolean(personToOpen)}
       zIndex={1002}
       withCloseButton={false}
       styles={{
@@ -171,6 +170,7 @@ const BookmarksList = ({
         title: { flex: 1, marginRight: 0 },
         header: { marginBottom: 0 },
       }}
+      onClose={handleClose}
     >
       {fullscreen ? (
         renderContent()
@@ -181,6 +181,6 @@ const BookmarksList = ({
       )}
     </Modal>
   );
-};
+}
 
 export default BookmarksList;

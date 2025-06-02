@@ -3,13 +3,13 @@ import footerImage from '@public/footer.png';
 import dayjs from 'dayjs';
 import { headers } from 'next/headers';
 import Image from 'next/image';
-import { IconType } from 'react-icons';
+import { type IconType } from 'react-icons';
 import { BsGithub } from 'react-icons/bs';
 import { MdExtension } from 'react-icons/md';
 import { RiTimeFill } from 'react-icons/ri';
 import styles from './styles/Footer.module.css';
 
-const Info = ({
+function Info({
   icon: Icon,
   text,
   testId,
@@ -17,7 +17,7 @@ const Info = ({
   icon: IconType;
   text: string;
   testId: string;
-}) => {
+}) {
   return (
     <Flex align="center" className={styles.infoContainer} data-testid={testId}>
       <Box className={styles.iconContainer}>
@@ -28,15 +28,15 @@ const Info = ({
       </Text>
     </Flex>
   );
-};
+}
 
-const Footer = async ({
+async function Footer({
   releaseDate,
   extVersion,
 }: {
   releaseDate: string;
   extVersion: string;
-}) => {
+}) {
   const headersList = await headers();
   const tz = headersList.get('x-vercel-ip-timezone') ?? undefined;
 
@@ -86,6 +86,6 @@ const Footer = async ({
       </Flex>
     </Flex>
   );
-};
+}
 
 export default Footer;

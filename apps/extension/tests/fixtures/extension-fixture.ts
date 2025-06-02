@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import {
-  Worker,
+  type Worker,
   test as base,
   chromium,
   type BrowserContext,
 } from '@playwright/test';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { tempDir } from '../../../../scripts/global-teardown';
 
 const fileName = fileURLToPath(import.meta.url);
@@ -16,7 +16,8 @@ export const test = base.extend<{
   context: BrowserContext;
   backgroundSW: Worker;
 }>({
-  context: async ({}, use) => {
+  // eslint-disable-next-line no-empty-pattern
+  async context({}, use) {
     const pathToExtension = path.resolve(dirName, '../../chrome-build');
     const browserContext = await chromium.launchPersistentContext(tempDir, {
       headless: false,
@@ -31,11 +32,9 @@ export const test = base.extend<{
     await use(browserContext);
     await browserContext.close();
   },
-  backgroundSW: async ({ context }, use) => {
+  async backgroundSW({ context }, use) {
     let [background] = context.serviceWorkers();
-    if (!background) {
-      background = await context.waitForEvent('serviceworker');
-    }
+    background ||= await context.waitForEvent('serviceworker');
     await use(background);
   },
 });

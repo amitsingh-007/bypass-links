@@ -1,4 +1,4 @@
-import { Bookmark, BookmarkProps } from '@bypass/shared';
+import { Bookmark, type BookmarkProps } from '@bypass/shared';
 import useHistoryStore from '@store/history';
 import { memo } from 'react';
 

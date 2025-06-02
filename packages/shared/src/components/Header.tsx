@@ -1,5 +1,5 @@
 import { Badge, Button, Flex, Group } from '@mantine/core';
-import { memo, useContext, PropsWithChildren } from 'react';
+import { memo, useContext, type PropsWithChildren } from 'react';
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
 import { HEADER_HEIGHT } from '../constants';
 import DynamicContext from '../provider/DynamicContext';

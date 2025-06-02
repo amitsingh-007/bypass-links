@@ -30,11 +30,8 @@ const useWebPreload = () => {
   };
 
   const clearData = async () => {
-    await Promise.all([
-      clearBookmarksData(),
-      clearPersonData(),
-      clear2FAData(),
-    ]);
+    await Promise.all([clearBookmarksData(), clearPersonData()]);
+    clear2FAData();
   };
 
   const isDataLoading = isLoadingBookmarks || isLoadingPersons || isLoading2FA;

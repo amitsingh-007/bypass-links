@@ -4,7 +4,7 @@ import HandshakeIcon from '@app/icons/handshake.svg';
 import MultilingualIcon from '@app/icons/multilingual.svg';
 import PalmIcon from '@app/icons/palm.svg';
 import SecurityIcon from '@app/icons/security.svg';
-import Feature from '../components/types/feature';
+import type Feature from '../components/types/feature';
 
 export const firstColumn: Feature[] = [
   {

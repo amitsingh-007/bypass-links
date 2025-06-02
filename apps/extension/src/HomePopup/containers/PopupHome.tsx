@@ -11,14 +11,14 @@ import ToggleExtension from '../components/ToggleExtension';
 import ToggleHistory from '../components/ToggleHistory';
 import TwoFactorAuthenticate from '../components/TwoFactorAuthenticate';
 import UserProfile from '../components/UserProfile';
-import styles from './styles/PopupHome.module.css';
 import useExtensionOutdated from '../hooks/useExtensionOutdated';
+import styles from './styles/PopupHome.module.css';
 
 const handleOpenAsPage = () => {
   chrome.tabs.create({ url: window.location.href });
 };
 
-const PopupHome = () => {
+function PopupHome() {
   useExtensionOutdated();
 
   return (
@@ -55,6 +55,6 @@ const PopupHome = () => {
       <TwoFactorAuthenticate />
     </>
   );
-};
+}
 
 export default PopupHome;

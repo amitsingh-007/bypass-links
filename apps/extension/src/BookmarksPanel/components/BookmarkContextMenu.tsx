@@ -1,17 +1,17 @@
-import ContextMenu, { IMenuOption } from '@/components/ContextMenu';
-import useBookmarkRouteStore from '@/BookmarksPanel/store/useBookmarkRouteStore';
 import { EBookmarkOperation } from '@bypass/shared';
 import { useMantineTheme } from '@mantine/core';
 import md5 from 'md5';
-import { PropsWithChildren, memo, useCallback } from 'react';
+import { type PropsWithChildren, memo, useCallback } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
 import { MdOutlineDelete, MdOutlineContentPasteGo } from 'react-icons/md';
 import { RxExternalLink } from 'react-icons/rx';
 import { TbCut } from 'react-icons/tb';
 import { useShallow } from 'zustand/react/shallow';
+import { useHotkeys } from '@mantine/hooks';
 import useBookmarkStore from '../store/useBookmarkStore';
 import { getCutCount, getSelectedCount } from '../utils';
-import { useHotkeys } from '@mantine/hooks';
+import useBookmarkRouteStore from '@/BookmarksPanel/store/useBookmarkRouteStore';
+import ContextMenu, { type IMenuOption } from '@/components/ContextMenu';
 
 type Props = PropsWithChildren<{
   children: React.ReactNode;

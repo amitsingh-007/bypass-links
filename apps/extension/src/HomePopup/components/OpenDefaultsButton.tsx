@@ -1,11 +1,11 @@
-import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { getRedirections } from '@helpers/fetchFromStorage';
 import { Button } from '@mantine/core';
 import useHistoryStore from '@store/history';
 import { useState } from 'react';
 import { RxExternalLink } from 'react-icons/rx';
+import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 
-const OpenDefaultsButton = () => {
+function OpenDefaultsButton() {
   const startHistoryMonitor = useHistoryStore(
     (state) => state.startHistoryMonitor
   );
@@ -20,7 +20,7 @@ const OpenDefaultsButton = () => {
       ({ isDefault }: { isDefault: boolean }) => isDefault
     );
     defaults
-      .filter((data) => data && data.alias && data.website)
+      .filter((data) => data?.alias && data.website)
       .forEach(({ website }) => {
         chrome.tabs.create({ url: atob(website), active: false });
       });
@@ -29,17 +29,17 @@ const OpenDefaultsButton = () => {
 
   return (
     <Button
+      fullWidth
       radius="xl"
       loading={isFetching}
       disabled={!isSignedIn}
-      onClick={handleOpenDefaults}
       rightSection={<RxExternalLink />}
-      fullWidth
       color="yellow"
+      onClick={handleOpenDefaults}
     >
       Defaults
     </Button>
   );
-};
+}
 
 export default OpenDefaultsButton;

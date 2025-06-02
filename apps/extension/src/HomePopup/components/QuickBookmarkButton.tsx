@@ -1,12 +1,10 @@
-import useFirebaseStore from '@/store/firebase/useFirebaseStore';
-import { getCurrentTab } from '@/utils/tabs';
 import {
-  BMPanelQueryParams,
+  type BMPanelQueryParams,
   DEFAULT_BOOKMARK_FOLDER,
   EBookmarkOperation,
   getBookmarksPanelUrl,
   getDecryptedBookmark,
-  IEncodedBookmark,
+  type IEncodedBookmark,
   useBookmark,
 } from '@bypass/shared';
 import { getBookmarks } from '@helpers/fetchFromStorage';
@@ -16,8 +14,10 @@ import { useEffect, useState } from 'react';
 import { BiBookmarkPlus } from 'react-icons/bi';
 import { RiBookmark3Fill } from 'react-icons/ri';
 import { useLocation } from 'wouter';
+import { getCurrentTab } from '@/utils/tabs';
+import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 
-const QuickBookmarkButton = () => {
+function QuickBookmarkButton() {
   const [, navigate] = useLocation();
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const { getFolderFromHash } = useBookmark();
@@ -65,26 +65,26 @@ const QuickBookmarkButton = () => {
 
   return (
     <Tooltip
-      label={<Text size="xs">{bookmark?.title}</Text>}
-      disabled={!bookmark}
       withArrow
       multiline
+      label={<Text size="xs">{bookmark?.title}</Text>}
+      disabled={!bookmark}
       radius="md"
       color="gray"
     >
       <Button
+        fullWidth
         radius="xl"
         loading={isFetching}
         disabled={!isSignedIn}
-        onClick={handleClick}
         rightSection={bookmark ? <RiBookmark3Fill /> : <BiBookmarkPlus />}
-        fullWidth
         color={bookmark ? 'teal' : 'red'}
+        onClick={handleClick}
       >
         {bookmark ? 'Unpin' : 'Pin'}
       </Button>
     </Tooltip>
   );
-};
+}
 
 export default QuickBookmarkButton;
