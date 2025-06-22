@@ -1,9 +1,9 @@
 import { type MantineThemeOverride } from '@mantine/core';
 
 export const mantineTheme: MantineThemeOverride = {
-  fontFamily: 'Google Sans',
+  fontFamily: 'Google Sans, sans-serif',
   headings: {
-    fontFamily: 'Google Sans',
+    fontFamily: 'Google Sans, sans-serif',
   },
   cursorType: 'pointer',
   components: {
