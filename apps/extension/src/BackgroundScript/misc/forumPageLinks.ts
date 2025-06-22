@@ -46,7 +46,7 @@ const getForum_4_LinksFunc = () => {
   );
   return [...(unreadPosts || [])].map((li) => {
     const postLink = li.querySelector<HTMLAnchorElement>(
-      '.ipsContained_container a'
+      '.ipsContained_container .ipsContained a'
     );
     return postLink?.href;
   });
