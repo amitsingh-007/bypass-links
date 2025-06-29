@@ -8,7 +8,7 @@ export const getFilteredModifiedBookmarks = (
 ) =>
   bookmarks?.filter(
     ({ url, title }) =>
-      (!searchText || hasText(searchText, url)) ?? hasText(searchText, title)
+      !searchText || hasText(searchText, url) || hasText(searchText, title)
   );
 
 export const getOrderedBookmarksList = (
