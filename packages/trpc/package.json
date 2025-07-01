@@ -16,7 +16,7 @@
     "@bypass/configs": "workspace:*",
     "@bypass/shared": "workspace:*",
     "@octokit/rest": "22.0.0",
-    "@t3-oss/env-core": "0.13.6",
+    "@t3-oss/env-core": "0.13.8",
     "@trpc/server": "11.1.4",
     "firebase-admin": "13.4.0",
     "otplib": "12.0.1",
