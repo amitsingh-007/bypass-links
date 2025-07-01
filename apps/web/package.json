@@ -13,7 +13,7 @@
     "@bypass/trpc": "workspace:*",
     "@mantine/core": "8.0.2",
     "@mantine/hooks": "8.0.2",
-    "@t3-oss/env-nextjs": "0.13.6",
+    "@t3-oss/env-nextjs": "0.13.8",
     "@tanstack/react-virtual": "3.13.9",
     "@trpc/client": "11.1.4",
     "@trpc/server": "11.1.4",

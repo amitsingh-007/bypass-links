@@ -259,8 +259,8 @@ importers:
         specifier: 8.0.2
         version: 8.0.2(react@19.1.0)
       '@t3-oss/env-nextjs':
-        specifier: 0.13.6
-        version: 0.13.6(typescript@5.8.3)(zod@3.25.45)
+        specifier: 0.13.8
+        version: 0.13.8(typescript@5.8.3)(zod@3.25.45)
       '@tanstack/react-virtual':
         specifier: 3.13.9
         version: 3.13.9(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -2239,23 +2239,6 @@ packages:
   '@swc/helpers@0.5.15':
     resolution: {integrity: sha512-JQ5TuMi45Owi4/BIMAJBoSQoOJu12oOk/gADqlcUL9JEdHB8vyjUSsxqeNXnmXHjYKMi2WcYtezGEEhqUI/E2g==}
 
-  '@t3-oss/env-core@0.13.6':
-    resolution: {integrity: sha512-rH7FgcB1YGbv/tvv7mdJAxnNvRkK/gEqdVYBwO1AVvaWOTNuftqskxkEYyhM2O+lkNPJmTq5YBE7H+Unl7CLjg==}
-    peerDependencies:
-      arktype: ^2.1.0
-      typescript: '>=5.0.0'
-      valibot: ^1.0.0-beta.7 || ^1.0.0
-      zod: ^3.24.0 || ^4.0.0-beta.0
-    peerDependenciesMeta:
-      arktype:
-        optional: true
-      typescript:
-        optional: true
-      valibot:
-        optional: true
-      zod:
-        optional: true
-
   '@t3-oss/env-core@0.13.8':
     resolution: {integrity: sha512-L1inmpzLQyYu4+Q1DyrXsGJYCXbtXjC4cICw1uAKv0ppYPQv656lhZPU91Qd1VS6SO/bou1/q5ufVzBGbNsUpw==}
     peerDependencies:
@@ -2273,8 +2256,8 @@ packages:
       zod:
         optional: true
 
-  '@t3-oss/env-nextjs@0.13.6':
-    resolution: {integrity: sha512-KcA5U8L+Be4OuR5YxmrBzkeo7WsKkEFJDwcAgYFwcBgxxc3oJBdTB7KPQfVrx7wjtX5aDr2jZ0LG55yEXqQi9A==}
+  '@t3-oss/env-nextjs@0.13.8':
+    resolution: {integrity: sha512-QmTLnsdQJ8BiQad2W2nvV6oUpH4oMZMqnFEjhVpzU0h3sI9hn8zb8crjWJ1Amq453mGZs6A4v4ihIeBFDOrLeQ==}
     peerDependencies:
       arktype: ^2.1.0
       typescript: '>=5.0.0'
@@ -10023,19 +10006,14 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  '@t3-oss/env-core@0.13.6(typescript@5.8.3)(zod@3.25.45)':
-    optionalDependencies:
-      typescript: 5.8.3
-      zod: 3.25.45
-
   '@t3-oss/env-core@0.13.8(typescript@5.8.3)(zod@3.25.45)':
     optionalDependencies:
       typescript: 5.8.3
       zod: 3.25.45
 
-  '@t3-oss/env-nextjs@0.13.6(typescript@5.8.3)(zod@3.25.45)':
+  '@t3-oss/env-nextjs@0.13.8(typescript@5.8.3)(zod@3.25.45)':
     dependencies:
-      '@t3-oss/env-core': 0.13.6(typescript@5.8.3)(zod@3.25.45)
+      '@t3-oss/env-core': 0.13.8(typescript@5.8.3)(zod@3.25.45)
     optionalDependencies:
       typescript: 5.8.3
       zod: 3.25.45
