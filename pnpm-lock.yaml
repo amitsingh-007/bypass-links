@@ -69,8 +69,8 @@ importers:
         specifier: 8.0.2
         version: 8.0.2(@mantine/core@8.0.2(@mantine/hooks@8.0.2(react@19.1.0))(@types/react@19.1.6)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(@mantine/hooks@8.0.2(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@t3-oss/env-core':
-        specifier: 0.13.6
-        version: 0.13.6(typescript@5.8.3)(zod@3.25.45)
+        specifier: 0.13.8
+        version: 0.13.8(typescript@5.8.3)(zod@3.25.45)
       '@tanstack/react-virtual':
         specifier: 3.13.9
         version: 3.13.9(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -408,8 +408,8 @@ importers:
         specifier: 22.0.0
         version: 22.0.0
       '@t3-oss/env-core':
-        specifier: 0.13.6
-        version: 0.13.6(typescript@5.8.3)(zod@3.25.45)
+        specifier: 0.13.8
+        version: 0.13.8(typescript@5.8.3)(zod@3.25.45)
       '@trpc/server':
         specifier: 11.1.4
         version: 11.1.4(typescript@5.8.3)
@@ -2241,6 +2241,23 @@ packages:
 
   '@t3-oss/env-core@0.13.6':
     resolution: {integrity: sha512-rH7FgcB1YGbv/tvv7mdJAxnNvRkK/gEqdVYBwO1AVvaWOTNuftqskxkEYyhM2O+lkNPJmTq5YBE7H+Unl7CLjg==}
+    peerDependencies:
+      arktype: ^2.1.0
+      typescript: '>=5.0.0'
+      valibot: ^1.0.0-beta.7 || ^1.0.0
+      zod: ^3.24.0 || ^4.0.0-beta.0
+    peerDependenciesMeta:
+      arktype:
+        optional: true
+      typescript:
+        optional: true
+      valibot:
+        optional: true
+      zod:
+        optional: true
+
+  '@t3-oss/env-core@0.13.8':
+    resolution: {integrity: sha512-L1inmpzLQyYu4+Q1DyrXsGJYCXbtXjC4cICw1uAKv0ppYPQv656lhZPU91Qd1VS6SO/bou1/q5ufVzBGbNsUpw==}
     peerDependencies:
       arktype: ^2.1.0
       typescript: '>=5.0.0'
@@ -9991,6 +10008,11 @@ snapshots:
       tslib: 2.8.1
 
   '@t3-oss/env-core@0.13.6(typescript@5.8.3)(zod@3.25.45)':
+    optionalDependencies:
+      typescript: 5.8.3
+      zod: 3.25.45
+
+  '@t3-oss/env-core@0.13.8(typescript@5.8.3)(zod@3.25.45)':
     optionalDependencies:
       typescript: 5.8.3
       zod: 3.25.45
