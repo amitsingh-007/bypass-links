@@ -18,7 +18,7 @@
     "@bypass/configs": "workspace:*",
     "@next/eslint-plugin-next": "15.3.3",
     "@playwright/test": "1.52.0",
-    "@types/node": "22.15.29",
+    "@types/node": "22.15.34",
     "husky": "9.1.7",
     "lint-staged": "16.1.0",
     "prettier": "3.5.3",
