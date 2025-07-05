@@ -16,20 +16,20 @@
     "@bypass/configs": "workspace:*",
     "@bypass/shared": "workspace:*",
     "@octokit/rest": "22.0.0",
-    "@t3-oss/env-core": "0.13.6",
-    "@trpc/server": "11.1.4",
+    "@t3-oss/env-core": "0.13.8",
+    "@trpc/server": "11.4.3",
     "firebase-admin": "13.4.0",
     "otplib": "12.0.1",
     "qrcode": "1.5.4",
-    "zod": "3.25.45"
+    "zod": "3.25.67"
   },
   "devDependencies": {
     "@firebase/app-types": "0.9.3",
     "@types/qrcode": "1.5.5",
-    "dotenv": "16.5.0",
-    "firebase": "11.8.1",
+    "dotenv": "17.0.1",
+    "firebase": "11.10.0",
     "type-fest": "4.41.0",
     "typescript": "5.8.3",
-    "vitest": "3.1.4"
+    "vitest": "3.2.4"
   }
 }

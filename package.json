@@ -16,16 +16,16 @@
   },
   "devDependencies": {
     "@bypass/configs": "workspace:*",
-    "@next/eslint-plugin-next": "15.3.3",
+    "@next/eslint-plugin-next": "15.3.4",
     "@playwright/test": "1.52.0",
-    "@types/node": "22.15.29",
+    "@types/node": "22.15.34",
     "husky": "9.1.7",
-    "lint-staged": "16.1.0",
-    "prettier": "3.5.3",
+    "lint-staged": "16.1.2",
+    "prettier": "3.6.2",
     "turbo": "2.5.4",
     "typescript": "5.8.3",
-    "vercel": "42.3.0",
-    "xo": "1.0.5"
+    "vercel": "44.2.12",
+    "xo": "1.1.1"
   },
   "packageManager": "pnpm@10.12.4"
 }
