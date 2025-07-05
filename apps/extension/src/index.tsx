@@ -10,6 +10,7 @@ import './index.css';
 import Global from './components/Global';
 import PopupRoutes from './components/PopupRoutes';
 import DynamicProvider from './provider/DynamicProvider';
+import AsyncFontLoader from './components/AsyncFontLoader';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <DynamicProvider>
             <PopupRoutes />
             <Global />
+            <AsyncFontLoader />
           </DynamicProvider>
         </ContextMenuProvider>
       </MantineProvider>
