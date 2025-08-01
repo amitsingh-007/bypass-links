@@ -27,5 +27,5 @@
     "vercel": "44.2.12",
     "xo": "1.1.1"
   },
-  "packageManager": "pnpm@10.12.4"
+  "packageManager": "pnpm@10.14.0"
 }
