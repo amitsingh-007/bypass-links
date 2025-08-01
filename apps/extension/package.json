@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@playwright/test": "1.52.0",
-    "@prefresh/core": "1.5.3",
+    "@prefresh/core": "1.5.5",
     "@prefresh/webpack": "4.0.2",
     "@types/archiver": "6.0.3",
     "@types/chrome": "0.0.328",
