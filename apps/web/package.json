@@ -29,7 +29,7 @@
     "react-dom": "19.1.0",
     "react-icons": "5.5.0",
     "sharp": "0.34.3",
-    "zod": "3.25.67"
+    "zod": "3.25.76"
   },
   "devDependencies": {
     "@playwright/test": "1.52.0",
