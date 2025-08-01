@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@bypass/configs": "workspace:*",
-    "@next/eslint-plugin-next": "15.3.4",
+    "@next/eslint-plugin-next": "15.4.5",
     "@playwright/test": "1.54.2",
     "@types/node": "22.15.34",
     "husky": "9.1.7",
