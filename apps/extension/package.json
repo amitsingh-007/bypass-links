@@ -41,7 +41,7 @@
   "devDependencies": {
     "@playwright/test": "1.54.2",
     "@prefresh/core": "1.5.5",
-    "@prefresh/webpack": "4.0.2",
+    "@prefresh/webpack": "4.0.3",
     "@types/archiver": "6.0.3",
     "@types/chrome": "0.0.328",
     "@types/firefox-webext-browser": "120.0.4",
