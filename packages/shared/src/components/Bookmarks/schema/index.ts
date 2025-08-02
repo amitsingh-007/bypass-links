@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod/mini';
 import { PersonsSchema } from '../../Persons/schema';
 
 export const EncodedBookmarkSchema = z.object({
@@ -6,14 +6,14 @@ export const EncodedBookmarkSchema = z.object({
   url: z.string(),
   title: z.string(),
   parentHash: z.string(),
-  taggedPersons: z.array(z.string()).default([]),
+  taggedPersons: z._default(z.array(z.string()), []),
 });
 
 export const EncodedFolderSchema = z.object({
   id: z.string(),
   name: z.string(),
   parentHash: z.string(),
-  isDefault: z.boolean().optional(),
+  isDefault: z.optional(z.boolean()),
 });
 
 export const FolderMetaDataSchema = z.object({
@@ -22,9 +22,9 @@ export const FolderMetaDataSchema = z.object({
 });
 
 export const BookmarksObjSchema = z.object({
-  folderList: z.record(EncodedFolderSchema),
-  urlList: z.record(EncodedBookmarkSchema),
-  folders: z.record(z.array(FolderMetaDataSchema)),
+  folderList: z.record(z.string(), EncodedFolderSchema),
+  urlList: z.record(z.string(), EncodedBookmarkSchema),
+  folders: z.record(z.string(), z.array(FolderMetaDataSchema)),
 });
 
 export const BookmarksAndPersonsValidationSchema = z

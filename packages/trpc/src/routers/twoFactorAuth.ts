@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod/mini';
 import { EFirebaseDBRef } from '../constants/firebase';
 import { protectedProcedure } from '../procedures';
 import { removeFromFirebase } from '../services/firebaseAdminService';

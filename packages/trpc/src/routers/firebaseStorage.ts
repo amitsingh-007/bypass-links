@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod/mini';
 import { protectedProcedure } from '../procedures';
 import { t } from '../trpc';
 import {
