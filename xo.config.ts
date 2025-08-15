@@ -1,7 +1,8 @@
 import { type FlatXoConfig } from 'xo';
+import nextPlugin from '@next/eslint-plugin-next';
 // https://github.com/vercel/next.js/pull/78109
 // @ts-expect-error TODO: types will ship later
-import { flatConfig } from '@next/eslint-plugin-next';
+const { flatConfig } = nextPlugin;
 
 const xoConfig: FlatXoConfig = [
   {
@@ -60,6 +61,7 @@ const xoConfig: FlatXoConfig = [
     },
   },
   {
+    files: ['**/*.{ts,tsx}'],
     rules: {
       '@typescript-eslint/no-confusing-void-expression': [
         'error',
