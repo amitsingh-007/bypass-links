@@ -4,11 +4,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build:chrome": "EXT_BROWSER=chrome NODE_NO_WARNINGS=1 NODE_OPTIONS='--loader ts-node/esm' webpack",
-    "build:firefox": "EXT_BROWSER=firefox NODE_NO_WARNINGS=1 NODE_OPTIONS='--loader ts-node/esm' webpack",
+    "build:chrome": "EXT_BROWSER=chrome webpack",
+    "build:firefox": "EXT_BROWSER=firefox webpack",
     "build": "pnpm run /^build:.*/",
-    "dev:chrome": "EXT_BROWSER=chrome  NODE_NO_WARNINGS=1 NODE_OPTIONS='--loader ts-node/esm' webpack serve",
-    "dev:firefox": "EXT_BROWSER=firefox  NODE_NO_WARNINGS=1 NODE_OPTIONS='--loader ts-node/esm' webpack serve",
+    "dev:chrome": "EXT_BROWSER=chrome webpack serve",
+    "dev:firefox": "EXT_BROWSER=firefox webpack serve",
     "dev": "pnpm run dev:chrome"
   },
   "dependencies": {
