@@ -4,7 +4,7 @@ import { cert, getApp, getApps, initializeApp } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
 import { getDatabase } from 'firebase-admin/database';
 import { getDownloadURL, getStorage } from 'firebase-admin/storage';
-import { getEnv } from '../constants/env';
+import { env } from '../constants/env';
 import {
   type EFirebaseDBRef,
   type EFirebaseDBRootKeys,
@@ -25,15 +25,13 @@ interface Firebase {
  * SERVICE_ACCOUNT_KEY: contains the credentials json except the private_key
  * FIREBASE_PRIVATE_KEY: contains the private key
  */
-const { SERVICE_ACCOUNT_KEY, FIREBASE_PRIVATE_KEY } = getEnv();
-
 const firebasePublicConfig = getFirebasePublicConfig(PROD_ENV);
 
 const getFirebaseCredentials = () => {
-  const serviceAccountKey = JSON.parse(SERVICE_ACCOUNT_KEY);
+  const serviceAccountKey = JSON.parse(env.SERVICE_ACCOUNT_KEY);
   return cert({
     ...serviceAccountKey,
-    private_key: FIREBASE_PRIVATE_KEY,
+    private_key: env.FIREBASE_PRIVATE_KEY,
   });
 };
 

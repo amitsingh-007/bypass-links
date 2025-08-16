@@ -2,13 +2,12 @@ import process from 'node:process';
 import path from 'node:path';
 import dotenv from 'dotenv';
 import { defineConfig } from 'vitest/config';
-import { getEnv } from './src/constants/env';
 
 const projectRoot = path.dirname(path.dirname(process.cwd()));
-dotenv.config({ path: path.join(projectRoot, '.env') });
+dotenv.config({ path: path.join(projectRoot, '.env'), override: true });
+const { env } = await import('./src/constants/env');
 
-const { NODE_ENV } = getEnv();
-const isDev = NODE_ENV === 'development';
+const isDev = env.NODE_ENV === 'development';
 
 export default defineConfig({
   define: {

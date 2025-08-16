@@ -20,7 +20,7 @@ import dotenv from 'dotenv';
 // Load .env
 const projectRoot = path.dirname(path.dirname(process.cwd()));
 dotenv.config({ path: path.join(projectRoot, '.env') });
-const { env } = await import('./src/constants/env.js');
+const { env } = await import('./src/constants/env.ts');
 
 const fileName = fileURLToPath(import.meta.url);
 const dirName = path.dirname(fileName);
