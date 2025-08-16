@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod/mini';
 
 export const WebsitesSchema = z.object({
   FORUM_1: z.string(),

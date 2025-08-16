@@ -1,4 +1,4 @@
-import { type z } from 'zod';
+import { type z } from 'zod/mini';
 import {
   type EncodedBookmarkSchema,
   type EncodedFolderSchema,

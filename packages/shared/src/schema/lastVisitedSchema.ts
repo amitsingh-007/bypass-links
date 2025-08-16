@@ -1,3 +1,3 @@
-import { z } from 'zod';
+import { z } from 'zod/mini';
 
-export const LastVisitedSchema = z.record(z.number());
+export const LastVisitedSchema = z.record(z.string(), z.number());

@@ -11,8 +11,8 @@
     "@bypass/configs": "workspace:*",
     "@bypass/shared": "workspace:*",
     "@bypass/trpc": "workspace:*",
-    "@mantine/core": "8.1.2",
-    "@mantine/hooks": "8.1.2",
+    "@mantine/core": "8.2.2",
+    "@mantine/hooks": "8.2.2",
     "@t3-oss/env-nextjs": "0.13.8",
     "@tanstack/react-virtual": "3.13.12",
     "@trpc/client": "11.4.3",
@@ -22,26 +22,26 @@
     "clsx": "2.1.1",
     "dayjs": "1.11.13",
     "file-type": "21.0.0",
-    "firebase": "11.10.0",
+    "firebase": "12.0.0",
     "md5": "2.3.0",
-    "next": "15.4.0-canary.104",
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
+    "next": "15.4.2-canary.27",
+    "react": "19.1.1",
+    "react-dom": "19.1.1",
     "react-icons": "5.5.0",
-    "sharp": "0.34.2",
-    "zod": "3.25.67"
+    "sharp": "0.34.3",
+    "zod": "4.0.14"
   },
   "devDependencies": {
-    "@playwright/test": "1.52.0",
+    "@playwright/test": "1.54.2",
     "@svgr/webpack": "8.1.0",
     "@types/md5": "2.3.5",
-    "@types/react": "19.1.8",
+    "@types/react": "19.1.9",
     "autoprefixer": "10.4.21",
     "fork-ts-checker-webpack-plugin": "9.1.0",
     "postcss": "8.5.6",
     "postcss-preset-mantine": "1.18.0",
     "postcss-simple-vars": "7.0.1",
     "typescript": "5.8.3",
-    "webpack": "5.99.9"
+    "webpack": "5.101.0"
   }
 }
