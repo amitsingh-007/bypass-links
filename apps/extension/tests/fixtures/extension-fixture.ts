@@ -21,7 +21,6 @@ export const test = base.extend<{
     const pathToExtension = path.resolve(dirName, '../../chrome-build');
     const browserContext = await chromium.launchPersistentContext(tempDir, {
       headless: false,
-      channel: 'chrome',
       args: [
         `--disable-extensions-except=${pathToExtension}`,
         `--load-extension=${pathToExtension}`,
