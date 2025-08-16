@@ -9,7 +9,7 @@ const projectRoot = path.dirname(path.dirname(process.cwd()));
 loadEnvConfig(projectRoot);
 import('./src/app/constants/env/server.ts');
 
-const isDev = process.env.VERCEL_ENV === 'development';
+const isDev = process.env.NODE_ENV === 'development';
 
 const nextConfig: NextConfig = {
   productionBrowserSourceMaps: true,

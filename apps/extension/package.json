@@ -4,11 +4,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build:chrome": "cross-env NODE_ENV=production EXT_BROWSER=chrome HOST_NAME=https://bypass-links.vercel.app NODE_NO_WARNINGS=1 NODE_OPTIONS='--loader ts-node/esm' webpack",
-    "build:firefox": "cross-env NODE_ENV=production EXT_BROWSER=firefox HOST_NAME=https://bypass-links.vercel.app NODE_NO_WARNINGS=1 NODE_OPTIONS='--loader ts-node/esm' webpack",
+    "build:chrome": "EXT_BROWSER=chrome NODE_NO_WARNINGS=1 NODE_OPTIONS='--loader ts-node/esm' webpack",
+    "build:firefox": "EXT_BROWSER=firefox NODE_NO_WARNINGS=1 NODE_OPTIONS='--loader ts-node/esm' webpack",
     "build": "pnpm run /^build:.*/",
-    "dev:chrome": "cross-env NODE_ENV=development EXT_BROWSER=chrome HOST_NAME=http://localhost:3000 NODE_NO_WARNINGS=1 NODE_OPTIONS='--loader ts-node/esm' webpack serve",
-    "dev:firefox": "cross-env NODE_ENV=development EXT_BROWSER=firefox HOST_NAME=http://localhost:3000 NODE_NO_WARNINGS=1 NODE_OPTIONS='--loader ts-node/esm' webpack serve",
+    "dev:chrome": "EXT_BROWSER=chrome  NODE_NO_WARNINGS=1 NODE_OPTIONS='--loader ts-node/esm' webpack serve",
+    "dev:firefox": "EXT_BROWSER=firefox  NODE_NO_WARNINGS=1 NODE_OPTIONS='--loader ts-node/esm' webpack serve",
     "dev": "pnpm run dev:chrome"
   },
   "dependencies": {
@@ -56,9 +56,9 @@
     "browserslist": "4.25.1",
     "clean-webpack-plugin": "4.0.0",
     "copy-webpack-plugin": "13.0.0",
-    "cross-env": "10.0.0",
     "css-loader": "7.1.2",
     "css-minimizer-webpack-plugin": "7.0.2",
+    "dotenv": "17.2.1",
     "fork-ts-checker-webpack-plugin": "9.1.0",
     "html-webpack-plugin": "5.6.3",
     "lightningcss": "1.30.1",
