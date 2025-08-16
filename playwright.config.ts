@@ -20,7 +20,6 @@ const config: PlaywrightTestConfig = {
     video: 'on-first-retry',
     trace: 'retain-on-failure',
     headless: true,
-    channel: 'chrome',
   },
   projects: [
     {
