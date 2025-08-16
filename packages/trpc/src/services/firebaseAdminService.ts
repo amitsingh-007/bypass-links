@@ -28,7 +28,7 @@ interface Firebase {
 const firebasePublicConfig = getFirebasePublicConfig(PROD_ENV);
 
 const getFirebaseCredentials = () => {
-  const serviceAccountKey = JSON.parse(env.SERVICE_ACCOUNT_KEY);
+  const serviceAccountKey = JSON.parse(atob(env.SERVICE_ACCOUNT_KEY));
   return cert({
     ...serviceAccountKey,
     private_key: env.FIREBASE_PRIVATE_KEY,

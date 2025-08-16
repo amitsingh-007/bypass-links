@@ -1,12 +1,11 @@
 import process from 'node:process';
 import path from 'node:path';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
-import { loadEnvConfig } from '@next/env';
 import { type NextConfig } from 'next';
 
 // Load root .env
 const projectRoot = path.dirname(path.dirname(process.cwd()));
-loadEnvConfig(projectRoot);
+process.loadEnvFile(path.join(projectRoot, '.env'));
 import('./src/app/constants/env/server.ts');
 
 const isDev = process.env.NODE_ENV === 'development';

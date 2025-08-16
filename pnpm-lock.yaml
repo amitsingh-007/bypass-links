@@ -177,9 +177,6 @@ importers:
       css-minimizer-webpack-plugin:
         specifier: 7.0.2
         version: 7.0.2(lightningcss@1.30.1)(webpack@5.101.0)
-      dotenv:
-        specifier: 17.2.1
-        version: 17.2.1
       fork-ts-checker-webpack-plugin:
         specifier: 9.1.0
         version: 9.1.0(typescript@5.8.3)(webpack@5.101.0)
@@ -310,9 +307,6 @@ importers:
         specifier: 4.0.14
         version: 4.0.14
     devDependencies:
-      '@next/env':
-        specifier: 15.4.6
-        version: 15.4.6
       '@playwright/test':
         specifier: 1.54.2
         version: 1.54.2
@@ -435,9 +429,6 @@ importers:
       '@types/qrcode':
         specifier: 1.5.5
         version: 1.5.5
-      dotenv:
-        specifier: 17.2.1
-        version: 17.2.1
       firebase:
         specifier: 12.0.0
         version: 12.0.0
@@ -1842,9 +1833,6 @@ packages:
 
   '@next/env@15.4.2-canary.27':
     resolution: {integrity: sha512-fWTmf0f+9ZAMpTqiPQZyst7UMlwGAn+6x3EFgaSl+TqZbOCcVjHDwsPF/zFU932jshs9109HttaRnpJMW3vaoQ==}
-
-  '@next/env@15.4.6':
-    resolution: {integrity: sha512-yHDKVTcHrZy/8TWhj0B23ylKv5ypocuCwey9ZqPyv4rPdUdRzpGCkSi03t04KBPyU96kxVtUqx6O3nE1kpxASQ==}
 
   '@next/eslint-plugin-next@15.4.5':
     resolution: {integrity: sha512-YhbrlbEt0m4jJnXHMY/cCUDBAWgd5SaTa5mJjzOt82QwflAFfW/h3+COp2TfVSzhmscIZ5sg2WXt3MLziqCSCw==}
@@ -3899,10 +3887,6 @@ packages:
   dot-prop@9.0.0:
     resolution: {integrity: sha512-1gxPBJpI/pcjQhKgIU91II6Wkay+dLcN3M6rf2uwP8hRur3HtQXjVrdAK3sjC0piaEuxzMwjXChcETiJl47lAQ==}
     engines: {node: '>=18'}
-
-  dotenv@17.2.1:
-    resolution: {integrity: sha512-kQhDYKZecqnM0fCnzI5eIv5L4cAe/iRI+HqMbO/hbRdTAeXDG+M9FjipUxNfbARuEg4iHIbhnhs78BCHNbSxEQ==}
-    engines: {node: '>=12'}
 
   dunder-proto@1.0.1:
     resolution: {integrity: sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==}
@@ -9722,8 +9706,6 @@ snapshots:
 
   '@next/env@15.4.2-canary.27': {}
 
-  '@next/env@15.4.6': {}
-
   '@next/eslint-plugin-next@15.4.5':
     dependencies:
       fast-glob: 3.3.1
@@ -11912,8 +11894,6 @@ snapshots:
   dot-prop@9.0.0:
     dependencies:
       type-fest: 4.41.0
-
-  dotenv@17.2.1: {}
 
   dunder-proto@1.0.1:
     dependencies:

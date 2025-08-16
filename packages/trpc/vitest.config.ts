@@ -1,10 +1,10 @@
 import process from 'node:process';
 import path from 'node:path';
-import dotenv from 'dotenv';
 import { defineConfig } from 'vitest/config';
 
+delete process.env.NODE_ENV;
 const projectRoot = path.dirname(path.dirname(process.cwd()));
-dotenv.config({ path: path.join(projectRoot, '.env'), override: true });
+process.loadEnvFile(path.join(projectRoot, '.env'));
 const { env } = await import('./src/constants/env');
 
 const isDev = env.NODE_ENV === 'development';

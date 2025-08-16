@@ -15,11 +15,10 @@ import webpack, { type Configuration, type RuleSetRule } from 'webpack';
 import * as lightningcss from 'lightningcss';
 import browserslist from 'browserslist';
 import 'webpack-dev-server';
-import dotenv from 'dotenv';
 
 // Load .env
 const projectRoot = path.dirname(path.dirname(process.cwd()));
-dotenv.config({ path: path.join(projectRoot, '.env') });
+process.loadEnvFile(path.join(projectRoot, '.env'));
 const { env } = await import('./src/constants/env.ts');
 
 const fileName = fileURLToPath(import.meta.url);
