@@ -30,8 +30,7 @@ jobs:
         run: pnpm install
 
       - name: Pull environment variables
-        run: |
-          pnpm vercel env pull .env --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+        run: pnpm vercel env pull .env --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Building
         run: pnpm build
