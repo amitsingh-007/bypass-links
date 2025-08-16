@@ -4,7 +4,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/');
 });
 
-test.describe.skip('Web Ext page', () => {
+test.describe('Web Ext page', () => {
   test('opens web-ext page by clicking header', async ({ page }) => {
     const appIcon = page.getByAltText('app-icon');
     await appIcon.click({ clickCount: 5 });
