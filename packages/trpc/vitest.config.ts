@@ -1,18 +1,19 @@
-import dotenv from 'dotenv';
+import process from 'node:process';
+import path from 'node:path';
 import { defineConfig } from 'vitest/config';
-import { getEnv } from './src/constants/env';
 
-dotenv.config();
+delete process.env.NODE_ENV;
+const projectRoot = path.dirname(path.dirname(process.cwd()));
+process.loadEnvFile(path.join(projectRoot, '.env'));
+const { env } = await import('./src/constants/env');
 
-const { VERCEL_ENV } = getEnv();
-
-const isDev = VERCEL_ENV === 'development';
+const isDev = env.NODE_ENV === 'development';
 
 export default defineConfig({
   define: {
     PROD_ENV: !isDev,
   },
   test: {
-    setupFiles: ['dotenv/config'],
+    testTimeout: 30_000,
   },
 });

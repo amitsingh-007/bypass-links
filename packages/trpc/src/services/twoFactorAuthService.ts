@@ -1,16 +1,13 @@
 import { authenticator } from 'otplib';
 import qrcode from 'qrcode';
 import { type IUser } from '../@types/trpc';
-import { getEnv } from '../constants/env';
+import { env } from '../constants/env';
 import { EFirebaseDBRef } from '../constants/firebase';
 import { type User2FAInfo } from '../interfaces/firebase';
 import { saveToFirebase } from './firebaseAdminService';
 import { fetchUser2FAInfo } from './userService';
 
 authenticator.options = { window: 1 };
-
-const get2FATitle = () =>
-  getEnv().VERCEL_ENV === 'development' ? 'Bypass Links - Dev' : 'Bypass Links';
 
 const verify2FAToken = (secret: string, token: string) =>
   authenticator.verify({ token, secret });
@@ -37,9 +34,11 @@ export const setup2FA = async (user: IUser) => {
   }
 
   const secret = authenticator.generateSecret();
+  const title =
+    env.NODE_ENV === 'development' ? 'Bypass Links - Dev' : 'Bypass Links';
   const otpAuthUrl = authenticator.keyuri(
     user.displayName ?? '',
-    get2FATitle(),
+    title,
     secret
   );
   await saveToFirebase({

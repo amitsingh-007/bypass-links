@@ -2,7 +2,7 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "regions": ["bom1"],
-  "installCommand": "cd ../.. && pnpm install",
+  "installCommand": "cd ../.. && pnpm install --prod=false",
   "buildCommand": "cd ../.. && pnpm build --filter=@bypass/web",
   "ignoreCommand": "npx turbo-ignore"
 }
