@@ -12,6 +12,7 @@
     "allowUnreachableCode": false,
     "noImplicitReturns": true,
     "importHelpers": true,
+    "allowImportingTsExtensions": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,

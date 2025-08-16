@@ -1,19 +1,22 @@
 import process from 'node:process';
+import path from 'node:path';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
+import { loadEnvConfig } from '@next/env';
+import { type NextConfig } from 'next';
 
-import('./src/app/constants/env/server.mjs');
+// Load root .env
+const projectRoot = path.dirname(path.dirname(process.cwd()));
+loadEnvConfig(projectRoot);
+import('./src/app/constants/env/server.ts');
 
 const isDev = process.env.VERCEL_ENV === 'development';
 
-/**
- * @type {import('next').NextConfig}
- **/
-const nextConfig = {
+const nextConfig: NextConfig = {
   productionBrowserSourceMaps: true,
   experimental: {
     // https://mantine.dev/guides/next/#app-router-tree-shaking
     optimizePackageImports: ['@mantine/core', '@mantine/hooks'],
-    dynamicIO: true,
+    cacheComponents: true,
   },
   compiler: {
     removeConsole: isDev ? false : { exclude: ['error'] },

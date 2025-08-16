@@ -310,6 +310,9 @@ importers:
         specifier: 4.0.14
         version: 4.0.14
     devDependencies:
+      '@next/env':
+        specifier: 15.4.6
+        version: 15.4.6
       '@playwright/test':
         specifier: 1.54.2
         version: 1.54.2
@@ -1842,6 +1845,9 @@ packages:
 
   '@next/env@15.4.2-canary.27':
     resolution: {integrity: sha512-fWTmf0f+9ZAMpTqiPQZyst7UMlwGAn+6x3EFgaSl+TqZbOCcVjHDwsPF/zFU932jshs9109HttaRnpJMW3vaoQ==}
+
+  '@next/env@15.4.6':
+    resolution: {integrity: sha512-yHDKVTcHrZy/8TWhj0B23ylKv5ypocuCwey9ZqPyv4rPdUdRzpGCkSi03t04KBPyU96kxVtUqx6O3nE1kpxASQ==}
 
   '@next/eslint-plugin-next@15.4.5':
     resolution: {integrity: sha512-YhbrlbEt0m4jJnXHMY/cCUDBAWgd5SaTa5mJjzOt82QwflAFfW/h3+COp2TfVSzhmscIZ5sg2WXt3MLziqCSCw==}
@@ -9725,6 +9731,8 @@ snapshots:
     optional: true
 
   '@next/env@15.4.2-canary.27': {}
+
+  '@next/env@15.4.6': {}
 
   '@next/eslint-plugin-next@15.4.5':
     dependencies:
