@@ -22,6 +22,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Pull environment variables
+        run: pnpm vercel env pull .env --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+
       - name: Building extension
         run: pnpm build --filter=@bypass/extension
 
