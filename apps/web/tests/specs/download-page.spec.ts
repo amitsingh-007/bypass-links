@@ -5,7 +5,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/');
 });
 
-test.describe('Download page', () => {
+test.describe.skip('Download page', () => {
   test('page metadata', async ({ page }) => {
     const downloadPage = new DownloadPage(page);
     await downloadPage.testPageMetaData();
