@@ -8,7 +8,7 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "dev:env": "vercel env pull apps/web/.env && vercel env pull packages/trpc/.env",
-    "e2e": "xvfb-run -a playwright test",
+    "e2e": "playwright test",
     "lint": "xo",
     "precommit": "lint-staged --quiet",
     "prepare": "husky",
