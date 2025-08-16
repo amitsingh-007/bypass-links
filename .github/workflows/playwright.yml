@@ -4,6 +4,9 @@ on: workflow_dispatch
 jobs:
   Build:
     runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
     outputs:
       preview_url: ${{ steps.vercel-action.outputs.preview-url }}
     steps:
