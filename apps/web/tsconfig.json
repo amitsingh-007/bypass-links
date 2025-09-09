@@ -1,7 +1,7 @@
 {
   "extends": "@bypass/configs/tsconfig.base.json",
   "compilerOptions": {
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "skipLibCheck": true,
     "strictNullChecks": true,
     "baseUrl": ".",

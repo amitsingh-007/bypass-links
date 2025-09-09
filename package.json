@@ -7,7 +7,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "dev:env": "vercel env pull apps/web/.env && vercel env pull packages/trpc/.env",
+    "dev:env": "vercel env pull .env",
     "e2e": "playwright test",
     "lint": "xo",
     "precommit": "lint-staged --quiet",
@@ -16,16 +16,16 @@
   },
   "devDependencies": {
     "@bypass/configs": "workspace:*",
-    "@next/eslint-plugin-next": "15.4.5",
-    "@playwright/test": "1.54.2",
-    "@types/node": "22.15.34",
+    "@next/eslint-plugin-next": "15.5.2",
+    "@playwright/test": "1.55.0",
+    "@types/node": "22.18.1",
     "husky": "9.1.7",
     "lint-staged": "16.1.2",
     "prettier": "3.6.2",
-    "turbo": "2.5.5",
-    "typescript": "5.8.3",
-    "vercel": "44.6.6",
-    "xo": "1.2.1"
+    "turbo": "2.5.6",
+    "typescript": "5.9.2",
+    "vercel": "47.0.6",
+    "xo": "1.2.2"
   },
-  "packageManager": "pnpm@10.14.0"
+  "packageManager": "pnpm@10.15.1"
 }
