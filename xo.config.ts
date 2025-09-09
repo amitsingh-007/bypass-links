@@ -21,6 +21,9 @@ const xoConfig: FlatXoConfig = [
     files: 'apps/web/**/*.{ts,tsx}',
   },
   {
+    ignores: ['apps/web/next-env.d.ts'],
+  },
+  {
     rules: {
       camelcase: 'off',
       'no-alert': 'off',
