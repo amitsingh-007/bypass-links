@@ -23,7 +23,7 @@
     "lint-staged": "16.1.2",
     "prettier": "3.6.2",
     "turbo": "2.5.6",
-    "typescript": "5.8.3",
+    "typescript": "5.9.2",
     "vercel": "47.0.6",
     "xo": "1.2.2"
   },
