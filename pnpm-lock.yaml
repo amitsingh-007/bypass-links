@@ -70,7 +70,7 @@ importers:
         version: 8.2.2(@mantine/core@8.2.2(@mantine/hooks@8.2.2(react@19.1.1))(@types/react@19.1.9)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(@mantine/hooks@8.2.2(react@19.1.1))(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       '@t3-oss/env-core':
         specifier: 0.13.8
-        version: 0.13.8(typescript@5.8.3)(zod@4.0.14)
+        version: 0.13.8(typescript@5.8.3)(zod@4.1.5)
       '@tanstack/react-virtual':
         specifier: 3.13.12
         version: 3.13.12(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -114,8 +114,8 @@ importers:
         specifier: 2.11.0
         version: 2.11.0
       zod:
-        specifier: 4.0.14
-        version: 4.0.14
+        specifier: 4.1.5
+        version: 4.1.5
       zustand:
         specifier: 5.0.7
         version: 5.0.7(@types/react@19.1.9)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1))
@@ -257,7 +257,7 @@ importers:
         version: 8.2.2(react@19.1.1)
       '@t3-oss/env-nextjs':
         specifier: 0.13.8
-        version: 0.13.8(typescript@5.8.3)(zod@4.0.14)
+        version: 0.13.8(typescript@5.8.3)(zod@4.1.5)
       '@tanstack/react-virtual':
         specifier: 3.13.12
         version: 3.13.12(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -304,8 +304,8 @@ importers:
         specifier: 0.34.3
         version: 0.34.3
       zod:
-        specifier: 4.0.14
-        version: 4.0.14
+        specifier: 4.1.5
+        version: 4.1.5
     devDependencies:
       '@playwright/test':
         specifier: 1.54.2
@@ -374,8 +374,8 @@ importers:
         specifier: 5.5.0
         version: 5.5.0(react@19.1.1)
       zod:
-        specifier: 4.0.14
-        version: 4.0.14
+        specifier: 4.1.5
+        version: 4.1.5
     devDependencies:
       '@bypass/configs':
         specifier: workspace:*
@@ -406,7 +406,7 @@ importers:
         version: 22.0.0
       '@t3-oss/env-core':
         specifier: 0.13.8
-        version: 0.13.8(typescript@5.8.3)(zod@4.0.14)
+        version: 0.13.8(typescript@5.8.3)(zod@4.1.5)
       '@trpc/server':
         specifier: 11.4.3
         version: 11.4.3(typescript@5.8.3)
@@ -420,8 +420,8 @@ importers:
         specifier: 1.5.4
         version: 1.5.4
       zod:
-        specifier: 4.0.14
-        version: 4.0.14
+        specifier: 4.1.5
+        version: 4.1.5
     devDependencies:
       '@firebase/app-types':
         specifier: 0.9.3
@@ -8049,8 +8049,8 @@ packages:
     resolution: {integrity: sha512-zK7YHHz4ZXpW89AHXUPbQVGKI7uvkd3hzusTdotCg1UxyaVtg0zFJSTfW/Dq5f7OBBVnq6cZIaC8Ti4hb6dtCA==}
     engines: {node: '>= 14'}
 
-  zod@4.0.14:
-    resolution: {integrity: sha512-nGFJTnJN6cM2v9kXL+SOBq3AtjQby3Mv5ySGFof5UGRHrRioSJ5iG680cYNjE/yWk671nROcpPj4hAS8nyLhSw==}
+  zod@4.1.5:
+    resolution: {integrity: sha512-rcUUZqlLJgBC33IT3PNMgsCq6TzLQEG/Ei/KTCU0PedSWRMAXoOUN+4t/0H+Q8bdnLPdqUYnvboJT0bn/229qg==}
 
   zustand@5.0.7:
     resolution: {integrity: sha512-Ot6uqHDW/O2VdYsKLLU8GQu8sCOM1LcoE8RwvLv9uuRT9s6SOHCKs0ZEOhxg+I1Ld+A1Q5lwx+UlKXXUoCZITg==}
@@ -10095,17 +10095,17 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  '@t3-oss/env-core@0.13.8(typescript@5.8.3)(zod@4.0.14)':
+  '@t3-oss/env-core@0.13.8(typescript@5.8.3)(zod@4.1.5)':
     optionalDependencies:
       typescript: 5.8.3
-      zod: 4.0.14
+      zod: 4.1.5
 
-  '@t3-oss/env-nextjs@0.13.8(typescript@5.8.3)(zod@4.0.14)':
+  '@t3-oss/env-nextjs@0.13.8(typescript@5.8.3)(zod@4.1.5)':
     dependencies:
-      '@t3-oss/env-core': 0.13.8(typescript@5.8.3)(zod@4.0.14)
+      '@t3-oss/env-core': 0.13.8(typescript@5.8.3)(zod@4.1.5)
     optionalDependencies:
       typescript: 5.8.3
-      zod: 4.0.14
+      zod: 4.1.5
 
   '@tanstack/react-virtual@3.13.12(react-dom@19.1.1(react@19.1.1))(react@19.1.1)':
     dependencies:
@@ -16531,7 +16531,7 @@ snapshots:
       compress-commons: 6.0.2
       readable-stream: 4.7.0
 
-  zod@4.0.14: {}
+  zod@4.1.5: {}
 
   zustand@5.0.7(@types/react@19.1.9)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1)):
     optionalDependencies:
