@@ -35,7 +35,7 @@
     "@playwright/test": "1.54.2",
     "@svgr/webpack": "8.1.0",
     "@types/md5": "2.3.5",
-    "@types/react": "19.1.9",
+    "@types/react": "19.1.12",
     "autoprefixer": "10.4.21",
     "fork-ts-checker-webpack-plugin": "9.1.0",
     "postcss": "8.5.6",
