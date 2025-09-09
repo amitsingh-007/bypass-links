@@ -20,7 +20,7 @@
     "@playwright/test": "1.54.2",
     "@types/node": "22.15.34",
     "husky": "9.1.7",
-    "lint-staged": "16.1.2",
+    "lint-staged": "16.1.6",
     "prettier": "3.6.2",
     "turbo": "2.5.5",
     "typescript": "5.8.3",
