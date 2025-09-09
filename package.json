@@ -24,7 +24,7 @@
     "prettier": "3.6.2",
     "turbo": "2.5.6",
     "typescript": "5.8.3",
-    "vercel": "44.6.6",
+    "vercel": "44.7.3",
     "xo": "1.2.2"
   },
   "packageManager": "pnpm@10.15.1"
