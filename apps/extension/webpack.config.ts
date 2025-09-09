@@ -1,3 +1,4 @@
+import process from 'node:process';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import PreactRefreshPlugin from '@prefresh/webpack';
@@ -14,7 +15,11 @@ import webpack, { type Configuration, type RuleSetRule } from 'webpack';
 import * as lightningcss from 'lightningcss';
 import browserslist from 'browserslist';
 import 'webpack-dev-server';
-import { env } from './src/constants/env.js';
+
+// Load .env
+const projectRoot = path.dirname(path.dirname(process.cwd()));
+process.loadEnvFile(path.join(projectRoot, '.env'));
+const { env } = await import('./src/constants/env.ts');
 
 const fileName = fileURLToPath(import.meta.url);
 const dirName = path.dirname(fileName);

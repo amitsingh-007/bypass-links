@@ -1,4 +1,4 @@
-import { serverEnv } from '@app/constants/env/server.mjs';
+import { serverEnv } from '@app/constants/env/server';
 import { getAuthIdToken } from '@app/helpers/firebase/auth';
 import { type AppRouter } from '@bypass/trpc';
 import { createTRPCClient, httpBatchLink, loggerLink } from '@trpc/client';

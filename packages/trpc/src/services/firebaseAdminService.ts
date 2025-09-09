@@ -4,7 +4,7 @@ import { cert, getApp, getApps, initializeApp } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
 import { getDatabase } from 'firebase-admin/database';
 import { getDownloadURL, getStorage } from 'firebase-admin/storage';
-import { getEnv } from '../constants/env';
+import { env } from '../constants/env';
 import {
   type EFirebaseDBRef,
   type EFirebaseDBRootKeys,
@@ -18,30 +18,13 @@ interface Firebase {
   data: any;
 }
 
-/**
- * We split the credentials json that we get from firebase admin because:
- * Vercel stringifies the json and JSON.parse fails on the private key.
- *
- * SERVICE_ACCOUNT_KEY: contains the credentials json except the private_key
- * FIREBASE_PRIVATE_KEY: contains the private key
- */
-const { SERVICE_ACCOUNT_KEY, FIREBASE_PRIVATE_KEY } = getEnv();
-
 const firebasePublicConfig = getFirebasePublicConfig(PROD_ENV);
-
-const getFirebaseCredentials = () => {
-  const serviceAccountKey = JSON.parse(SERVICE_ACCOUNT_KEY);
-  return cert({
-    ...serviceAccountKey,
-    private_key: FIREBASE_PRIVATE_KEY,
-  });
-};
 
 const firebaseApp =
   getApps().length > 0
     ? getApp()
     : initializeApp({
-        credential: getFirebaseCredentials(),
+        credential: cert({ ...JSON.parse(atob(env.FIREBASE_SERVICE_ACCOUNT)) }),
         databaseURL: firebasePublicConfig.databaseURL,
         storageBucket: firebasePublicConfig.storageBucket,
       });
