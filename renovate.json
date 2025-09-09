@@ -9,5 +9,5 @@
     ":maintainLockFilesMonthly",
     "schedule:monthly"
   ],
-  "baseBranches": ["renovate-updates"]
+  "baseBranchPatterns": ["renovate-updates"]
 }
