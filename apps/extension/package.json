@@ -75,7 +75,7 @@
     "tsconfig-paths-webpack-plugin": "4.2.0",
     "typescript": "5.8.3",
     "web-ext": "8.9.0",
-    "webpack": "5.101.0",
+    "webpack": "5.101.3",
     "webpack-cli": "6.0.1",
     "webpack-dev-server": "5.2.2"
   }
