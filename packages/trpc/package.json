@@ -27,7 +27,7 @@
     "@firebase/app-types": "0.9.3",
     "@types/qrcode": "1.5.5",
     "firebase": "12.3.0",
-    "type-fest": "4.41.0",
+    "type-fest": "5.0.1",
     "typescript": "5.9.3",
     "vitest": "3.2.4"
   }
