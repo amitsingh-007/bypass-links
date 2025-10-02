@@ -1,7 +1,7 @@
 import { type FlatXoConfig } from 'xo';
 import nextPlugin from '@next/eslint-plugin-next';
 // https://github.com/vercel/next.js/pull/78109
-// @ts-expect-error TODO: types will ship later
+// @ts-expect-error TODO: types will ship later1
 const { flatConfig } = nextPlugin;
 
 const xoConfig: FlatXoConfig = [
