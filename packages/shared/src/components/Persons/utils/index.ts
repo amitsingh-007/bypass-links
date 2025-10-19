@@ -1,8 +1,4 @@
-import {
-  IPersonWithImage,
-  type IPerson,
-  type IPersons,
-} from '../interfaces/persons';
+import { type IPerson, type IPersons } from '../interfaces/persons';
 import { hasText } from '../../../utils/search';
 import { type IEncodedBookmark } from '../../Bookmarks/interfaces';
 
