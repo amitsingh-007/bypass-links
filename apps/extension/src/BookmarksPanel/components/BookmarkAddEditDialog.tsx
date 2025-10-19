@@ -186,14 +186,12 @@ function BookmarkAddEditDialog({ curFolder, handleScroll }: Props) {
         <Stack>
           <TextInput
             withAsterisk
-            data-autofocus
             label="Title"
             placeholder="Enter bookmark title"
             {...form.getInputProps('title')}
           />
           <TextInput
             withAsterisk
-            data-autofocus
             readOnly
             label="Url"
             placeholder="Url"

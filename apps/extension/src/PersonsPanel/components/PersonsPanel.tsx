@@ -2,7 +2,7 @@ import {
   getDecryptedPerson,
   getEncryptedPerson,
   getFilteredPersons,
-  getOrderedPersons,
+  sortByRecency,
   getPersonImageName,
   HEADER_HEIGHT,
   type IPerson,
@@ -36,7 +36,7 @@ function PersonsPanel() {
   >([]);
   const [isFetching, setIsFetching] = useState(true);
   const [searchText, setSearchText] = useState('');
-  const [orderByRecency, setOrderByRecency] = useState(false);
+  const [orderByRecency, setOrderByRecency] = useState(true);
 
   useEffect(() => {
     getPersons().then((_persons) => {
@@ -52,7 +52,7 @@ function PersonsPanel() {
     const filterAndOrder = async () => {
       const urls = await getDefaultOrRootFolderUrls();
       const orderedPersons = orderByRecency
-        ? getOrderedPersons(persons, urls)
+        ? sortByRecency(persons, urls)
         : persons;
       return getFilteredPersons(orderedPersons, searchText);
     };
