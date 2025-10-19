@@ -16,7 +16,7 @@ export const getEncryptedPerson = (person: IPerson): IPerson => {
   };
 };
 
-export const decodePersons = (persons: IPersons) =>
+export const decodePersons = (persons: IPersons): IPerson[] =>
   Object.values(persons)
     .filter(Boolean)
     .map((person) => getDecryptedPerson(person));
@@ -24,8 +24,8 @@ export const decodePersons = (persons: IPersons) =>
 export const getReactKey = (row: number, column: number, size: number) =>
   row * size + column;
 
-export const getOrderedPersons = (
-  persons: IPerson[],
+export const sortByRecency = <T extends IPerson>(
+  persons: T[],
   urls: IEncodedBookmark[]
 ) => {
   const personPriorityMap: Record<string, number> = {};
@@ -42,13 +42,13 @@ export const getOrderedPersons = (
   });
 };
 
-export const getFilteredPersons = (persons: IPerson[], searchText: string) =>
-  persons.filter(({ name }) => !searchText || hasText(searchText, name));
-
 export const sortAlphabetically = <T extends IPerson>(persons: T[]) => {
   const sortedPersons = persons.sort((a, b) => a.name.localeCompare(b.name));
   return [...sortedPersons];
 };
+
+export const getFilteredPersons = (persons: IPerson[], searchText: string) =>
+  persons.filter(({ name }) => !searchText || hasText(searchText, name));
 
 export const getColumnCount = (isMobile: boolean) => (isMobile ? 3 : 5);
 
