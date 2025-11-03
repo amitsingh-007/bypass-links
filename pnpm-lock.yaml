@@ -427,8 +427,8 @@ importers:
         specifier: 0.9.3
         version: 0.9.3
       '@types/qrcode':
-        specifier: 1.5.5
-        version: 1.5.5
+        specifier: 1.5.6
+        version: 1.5.6
       firebase:
         specifier: 12.3.0
         version: 12.3.0
@@ -2577,8 +2577,8 @@ packages:
   '@types/prefresh__webpack@3.3.3':
     resolution: {integrity: sha512-XcX9gusoh6VK9YSv3uJlE9fJu81opBR1vWGGdrI1WNmL+CB5Jj8q+NGcuaRXD/QgaQRSuJEUdmhD6iy9HUJL9w==}
 
-  '@types/qrcode@1.5.5':
-    resolution: {integrity: sha512-CdfBi/e3Qk+3Z/fXYShipBT13OJ2fDO2Q2w5CIP5anLTLIndQG9z6P1cnm+8zCWSpm5dnxMFd/uREtb0EXuQzg==}
+  '@types/qrcode@1.5.6':
+    resolution: {integrity: sha512-te7NQcV2BOvdj2b1hCAHzAoMNuj65kNBMz0KBaxM6c3VGBOhU0dURQKOtH8CFNI/dsKkwlv32p26qYQTWoB5bw==}
 
   '@types/qs@6.14.0':
     resolution: {integrity: sha512-eOunJqu0K1923aExK6y8p6fsihYEn/BYuQ4g0CxAAgFc4b/ZLN4CrsRZ55srTdqoiLzU2B2evC+apEIxprEzkQ==}
@@ -10538,7 +10538,7 @@ snapshots:
       - uglify-js
       - webpack-cli
 
-  '@types/qrcode@1.5.5':
+  '@types/qrcode@1.5.6':
     dependencies:
       '@types/node': 22.19.0
 
