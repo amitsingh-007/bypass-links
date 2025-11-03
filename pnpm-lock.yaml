@@ -139,8 +139,8 @@ importers:
         specifier: 120.0.5
         version: 120.0.5
       '@types/md5':
-        specifier: 2.3.5
-        version: 2.3.5
+        specifier: 2.3.6
+        version: 2.3.6
       '@types/node':
         specifier: 22.19.0
         version: 22.19.0
@@ -314,8 +314,8 @@ importers:
         specifier: 8.1.0
         version: 8.1.0(typescript@5.9.3)
       '@types/md5':
-        specifier: 2.3.5
-        version: 2.3.5
+        specifier: 2.3.6
+        version: 2.3.6
       '@types/react':
         specifier: 19.1.12
         version: 19.1.12
@@ -384,8 +384,8 @@ importers:
         specifier: 0.6.1
         version: 0.6.1
       '@types/md5':
-        specifier: 2.3.5
-        version: 2.3.5
+        specifier: 2.3.6
+        version: 2.3.6
       '@types/react':
         specifier: 19.1.12
         version: 19.1.12
@@ -2549,8 +2549,8 @@ packages:
   '@types/long@4.0.2':
     resolution: {integrity: sha512-MqTGEo5bj5t157U6fA/BiDynNkn0YknVdh48CMPkTSpFTVmvao5UQmm7uEF6xBEo7qIMAlY/JSleYaE6VOdpaA==}
 
-  '@types/md5@2.3.5':
-    resolution: {integrity: sha512-/i42wjYNgE6wf0j2bcTX6kuowmdL/6PE4IVitMpm2eYKBUuYCprdcWVK+xEF0gcV6ufMCRhtxmReGfc6hIK7Jw==}
+  '@types/md5@2.3.6':
+    resolution: {integrity: sha512-WD69gNXtRBnpknfZcb4TRQ0XJQbUPZcai/Qdhmka3sxUR3Et8NrXoeAoknG/LghYHTf4ve795rInVYHBTQdNVA==}
 
   '@types/mime@1.3.5':
     resolution: {integrity: sha512-/pyBZWSLD2n0dcHE3hq8s8ZvcETHtEuF+3E7XVt0Ig2nvsVQXdghHVcEkIWjy9A0wKfTn97a/PSDYohKIlnP/w==}
@@ -10505,7 +10505,7 @@ snapshots:
   '@types/long@4.0.2':
     optional: true
 
-  '@types/md5@2.3.5': {}
+  '@types/md5@2.3.6': {}
 
   '@types/mime@1.3.5': {}
 
