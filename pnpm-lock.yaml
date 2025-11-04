@@ -136,8 +136,8 @@ importers:
         specifier: 0.1.27
         version: 0.1.27
       '@types/firefox-webext-browser':
-        specifier: 120.0.5
-        version: 120.0.5
+        specifier: 143.0.0
+        version: 143.0.0
       '@types/md5':
         specifier: 2.3.6
         version: 2.3.6
@@ -2657,8 +2657,8 @@ packages:
   '@types/filewriter@0.0.33':
     resolution: {integrity: sha512-xFU8ZXTw4gd358lb2jw25nxY9QAgqn2+bKKjKOYfNCzN4DKCFetK7sPtrlpg66Ywe3vWY9FNxprZawAh9wfJ3g==}
 
-  '@types/firefox-webext-browser@120.0.5':
-    resolution: {integrity: sha512-imn8ecga0HQWcOSvxy9i0lD+7vpHgkj1NVLvXS1lNHqHt03Z4QwazeEdoWe+C9JXpmVyKiRanb+z9D/w001tRg==}
+  '@types/firefox-webext-browser@143.0.0':
+    resolution: {integrity: sha512-865dYKMOP0CllFyHmgXV4IQgVL51OSQQCwSoihQ17EwugePKFSAZRc0EI+y7Ly4q7j5KyURlA7LgRpFieO4JOw==}
 
   '@types/glob@7.2.0':
     resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}
@@ -10769,7 +10769,7 @@ snapshots:
 
   '@types/filewriter@0.0.33': {}
 
-  '@types/firefox-webext-browser@120.0.5': {}
+  '@types/firefox-webext-browser@143.0.0': {}
 
   '@types/glob@7.2.0':
     dependencies:
