@@ -37,7 +37,7 @@ jobs:
         run: pnpm build --filter=@bypass/extension
 
       - name: Uploading extensions
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: extensions-folder
           path: |
@@ -82,7 +82,7 @@ jobs:
           restore-keys: cache-playwright-
 
       - name: Download extensions
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: extensions-folder
           path: ./apps/extension
@@ -100,7 +100,7 @@ jobs:
           PLAYWRIGHT_TEST_BASE_URL: ${{ needs.Build.outputs.preview_url }}
 
       - name: Upload Playwright test report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: always()
         with:
           name: playwright-report
@@ -154,7 +154,7 @@ jobs:
           env: ${{ steps.deployment.outputs.env }}
 
       - name: Download extensions
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: extensions-folder
           path: ./apps/extension
@@ -168,7 +168,7 @@ jobs:
           FIREFOX_API_SECRET: ${{ secrets.FIREFOX_API_SECRET }}
 
       - name: Uploading packaged extensions
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: packaged-extensions
           path: ./apps/extension/build
@@ -181,7 +181,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Download packaged extensions
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: packaged-extensions
           path: ./apps/extension/build

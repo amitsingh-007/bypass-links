@@ -42,13 +42,13 @@ jobs:
         run: pnpx tsx ./apps/extension/scripts/package-chrome.ts
 
       - name: Upload Chrome extension
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: chrome-extension-file
           path: ./apps/extension/build/chrome-bypass-links-*.zip
 
       - name: Upload Firefox extension
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: firefox-extension-folder
           path: ./apps/extension/firefox-build/
