@@ -111,8 +111,8 @@ importers:
         specifier: 3.7.1
         version: 3.7.1(preact@10.27.2)
       wretch:
-        specifier: 3.0.2
-        version: 3.0.2
+        specifier: 3.0.5
+        version: 3.0.5
       zod:
         specifier: 4.1.12
         version: 4.1.12
@@ -8297,8 +8297,8 @@ packages:
   wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
 
-  wretch@3.0.2:
-    resolution: {integrity: sha512-IFLEBoKw+BbmYPnuqJxX8tTwzVfj09aCSOVoeEQGqAruvbwF99s5p967Va7uDyjjO/WiACmxg23hluzMsE7lhw==}
+  wretch@3.0.5:
+    resolution: {integrity: sha512-hXbnbeWaBVbSfuq0ppDhygZ0iCQqVKzuBxa7GsLKDGtgZIzzc2z+7Qn8N8Kwdykz+ryi0iSOoo3Kyx8KRMd3TA==}
     engines: {node: '>=22'}
 
   ws@8.18.3:
@@ -17090,7 +17090,7 @@ snapshots:
 
   wrappy@1.0.2: {}
 
-  wretch@3.0.2: {}
+  wretch@3.0.5: {}
 
   ws@8.18.3: {}
 
