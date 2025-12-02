@@ -28,7 +28,7 @@
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-icons": "5.5.0",
-    "sharp": "0.34.4",
+    "sharp": "0.34.5",
     "zod": "4.1.12"
   },
   "devDependencies": {
