@@ -15,15 +15,15 @@ jobs:
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
 
       - name: Setting up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: '22'
+          node-version: '24'
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -42,13 +42,13 @@ jobs:
         run: pnpx tsx ./apps/extension/scripts/package-chrome.ts
 
       - name: Upload Chrome extension
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: chrome-extension-file
           path: ./apps/extension/build/chrome-bypass-links-*.zip
 
       - name: Upload Firefox extension
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: firefox-extension-folder
           path: ./apps/extension/firefox-build/

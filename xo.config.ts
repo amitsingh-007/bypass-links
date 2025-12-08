@@ -1,8 +1,5 @@
 import { type FlatXoConfig } from 'xo';
 import nextPlugin from '@next/eslint-plugin-next';
-// https://github.com/vercel/next.js/pull/78109
-// @ts-expect-error TODO: types will ship later
-const { flatConfig } = nextPlugin;
 
 const xoConfig: FlatXoConfig = [
   {
@@ -11,8 +8,11 @@ const xoConfig: FlatXoConfig = [
     space: true,
   },
   {
-    // Contains next eslint rules also
-    ...flatConfig.coreWebVitals,
+    plugins: { '@next/next': nextPlugin },
+    rules: {
+      ...nextPlugin.configs.recommended.rules,
+      ...nextPlugin.configs['core-web-vitals'].rules,
+    },
     settings: {
       next: {
         rootDir: 'apps/web/',

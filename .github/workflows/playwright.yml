@@ -11,15 +11,15 @@ jobs:
       preview_url: ${{ steps.vercel-action.outputs.preview-url }}
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
 
       - name: Setting up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: '22'
+          node-version: '24'
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -32,7 +32,7 @@ jobs:
         run: pnpm build --filter=@bypass/extension
 
       - name: Uploading Chrome extension
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: chrome-extension-folder
           path: ./apps/extension/chrome-build
@@ -52,15 +52,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
 
       - name: Setting up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: '22'
+          node-version: '24'
           cache: 'pnpm'
 
       - name: Cache playwright binaries
@@ -75,7 +75,7 @@ jobs:
           restore-keys: cache-playwright-
 
       - name: Download Chrome extension
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: chrome-extension-folder
           path: ./apps/extension/chrome-build/
@@ -92,7 +92,7 @@ jobs:
         env:
           PLAYWRIGHT_TEST_BASE_URL: ${{ needs.Build.outputs.preview_url }}
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         if: always()
         with:
           name: playwright-report

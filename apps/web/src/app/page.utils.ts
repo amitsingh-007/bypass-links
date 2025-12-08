@@ -1,8 +1,5 @@
 import { getLatestExtension } from '@bypass/trpc/edge';
-import {
-  unstable_cacheLife as cacheLife,
-  unstable_cacheTag as cacheTag,
-} from 'next/cache';
+import { cacheLife, cacheTag } from 'next/cache';
 import 'server-only';
 
 export const fetchExtensionData = async () => {

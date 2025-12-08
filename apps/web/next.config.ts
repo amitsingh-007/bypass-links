@@ -14,16 +14,18 @@ const isDev = process.env.NODE_ENV === 'development';
 
 const nextConfig: NextConfig = {
   productionBrowserSourceMaps: true,
+  cacheComponents: true,
+  reactStrictMode: true,
+  reactCompiler: true,
   experimental: {
     // https://mantine.dev/guides/next/#app-router-tree-shaking
     optimizePackageImports: ['@mantine/core', '@mantine/hooks'],
-    cacheComponents: true,
   },
   compiler: {
     removeConsole: isDev ? false : { exclude: ['error'] },
   },
-  reactStrictMode: true,
   transpilePackages: ['@bypass/shared', '@bypass/trpc'],
+  // TODO: migrate to turbopack
   webpack(config, { dev, webpack }) {
     config.module.rules.push({
       test: /\.svg$/,

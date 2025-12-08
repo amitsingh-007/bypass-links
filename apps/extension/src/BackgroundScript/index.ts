@@ -20,7 +20,11 @@ chrome.runtime.onInstalled.addListener(() => {
 // Listen when the browser is opened
 chrome.runtime.onStartup.addListener(() => {
   chrome.storage.local
-    .get(['extState', 'hasPendingBookmarks', 'hasPendingPersons'])
+    .get<{
+      extState: EExtensionState;
+      hasPendingBookmarks: boolean;
+      hasPendingPersons: boolean;
+    }>(['extState', 'hasPendingBookmarks', 'hasPendingPersons'])
     .then(async ({ extState, hasPendingBookmarks, hasPendingPersons }) => {
       await setExtensionIcon({
         extState,
@@ -82,9 +86,9 @@ chrome.storage.onChanged.addListener((changedObj, storageType) => {
   const { extState, hasPendingBookmarks, hasPendingPersons } = changedObj;
   if (extState || hasPendingBookmarks || hasPendingPersons) {
     setExtensionIcon({
-      extState: extState?.newValue,
-      hasPendingBookmarks: hasPendingBookmarks?.newValue,
-      hasPendingPersons: hasPendingPersons?.newValue,
+      extState: extState?.newValue as EExtensionState,
+      hasPendingBookmarks: hasPendingBookmarks?.newValue as boolean,
+      hasPendingPersons: hasPendingPersons?.newValue as boolean,
     });
   }
 });
