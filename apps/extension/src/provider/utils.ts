@@ -1,4 +1,4 @@
-export const getFromChromeStorage = async (key: string) => {
+export const getFromChromeStorage = async (key: string): Promise<any> => {
   const data = await chrome.storage.local.get(key);
   return data ? data[key] : null;
 };
