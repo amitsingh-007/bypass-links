@@ -331,9 +331,6 @@ importers:
       babel-plugin-react-compiler:
         specifier: 1.0.0
         version: 1.0.0
-      fork-ts-checker-webpack-plugin:
-        specifier: 9.1.0
-        version: 9.1.0(typescript@5.9.3)(webpack@5.102.1)
       postcss:
         specifier: 8.5.6
         version: 8.5.6
@@ -346,9 +343,6 @@ importers:
       typescript:
         specifier: 5.9.3
         version: 5.9.3
-      webpack:
-        specifier: 5.102.1
-        version: 5.102.1(webpack-cli@6.0.1)
 
   packages/configs:
     dependencies:

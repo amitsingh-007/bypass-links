@@ -1,6 +1,5 @@
 import process from 'node:process';
 import path from 'node:path';
-import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import { type NextConfig } from 'next';
 
 // Load root .env only if not running on Vercel
@@ -37,17 +36,6 @@ const nextConfig: NextConfig = {
       },
     },
   },
-  // TODO: migrate to turbopack
-  // webpack(config, { dev, webpack }) {
-  //   config.module.rules.push({
-  //     test: /\.svg$/,
-  //     use: ['@svgr/webpack'],
-  //   });
-  //   if (dev) {
-  //     config.plugins.push(new ForkTsCheckerWebpackPlugin());
-  //   }
-  //   return config;
-  // },
 };
 
 export default nextConfig;
