@@ -1,6 +1,7 @@
 import { serverEnv } from '@app/constants/env/server';
 import { getAuthIdToken } from '@app/helpers/firebase/auth';
 import { type AppRouter } from '@bypass/trpc';
+import { GLOBALS } from '@bypass/shared';
 import { createTRPCClient, httpBatchLink, loggerLink } from '@trpc/client';
 
 const getBaseUrl = () => {
@@ -17,7 +18,7 @@ export const api = createTRPCClient<AppRouter>({
   links: [
     loggerLink({
       enabled(opts) {
-        if (process.env.NEXT_PUBLIC_PROD_ENV !== 'true') {
+        if (!GLOBALS.PROD_ENV) {
           return true;
         }
         return opts.direction === 'down' && opts.result instanceof Error;

@@ -1,3 +1,5 @@
+import { GLOBALS } from '@bypass/shared';
+
 const getChromeAccessToken = async () => {
   const { token: accessToken } = await chrome.identity.getAuthToken({
     interactive: true,
@@ -30,12 +32,11 @@ const getFirefoxAccessToken = async () => {
 };
 
 export const launchAuthFlow = async () => {
-  const accessToken =
-    process.env.NEXT_PUBLIC_IS_CHROME === 'true'
-      ? await getChromeAccessToken()
-      : await getFirefoxAccessToken();
+  const accessToken = GLOBALS.IS_CHROME
+    ? await getChromeAccessToken()
+    : await getFirefoxAccessToken();
 
-  if (process.env.NEXT_PUBLIC_IS_CHROME !== 'true') {
+  if (!GLOBALS.IS_CHROME) {
     localStorage.setItem('access_token', accessToken ?? '');
   }
 

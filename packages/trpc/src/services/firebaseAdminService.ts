@@ -4,6 +4,7 @@ import { cert, getApp, getApps, initializeApp } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
 import { getDatabase } from 'firebase-admin/database';
 import { getDownloadURL, getStorage } from 'firebase-admin/storage';
+import { GLOBALS } from '@bypass/shared';
 import { env } from '../constants/env';
 import {
   type EFirebaseDBRef,
@@ -18,9 +19,7 @@ interface Firebase {
   data: any;
 }
 
-const firebasePublicConfig = getFirebasePublicConfig(
-  process.env.NEXT_PUBLIC_PROD_ENV === 'true'
-);
+const firebasePublicConfig = getFirebasePublicConfig(GLOBALS.PROD_ENV);
 
 const firebaseApp =
   getApps().length > 0

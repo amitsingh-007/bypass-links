@@ -1,3 +1,5 @@
+'use client';
+
 import { Center, Text } from '@mantine/core';
 import { memo, useContext } from 'react';
 import { HiFolder } from 'react-icons/hi';
