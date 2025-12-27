@@ -1,6 +1,8 @@
 import { getFirebasePublicConfig } from '@bypass/configs/firebase.config';
 import { initializeApp } from 'firebase/app';
 
-const firebaseApp = initializeApp(getFirebasePublicConfig(PROD_ENV));
+const firebaseApp = initializeApp(
+  getFirebasePublicConfig(process.env.NEXT_PUBLIC_PROD_ENV === 'true')
+);
 
 export default firebaseApp;

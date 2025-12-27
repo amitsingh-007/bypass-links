@@ -8,7 +8,7 @@ import { type RuntimeInput } from '@/utils/sendRuntimeMessage';
 import { getIsExtensionActive, setExtStateInStorage } from '@/utils/common';
 import { EExtensionState } from '@/constants';
 
-if (!IS_CHROME) {
+if (process.env.NEXT_PUBLIC_IS_CHROME !== 'true') {
   hearbeatFirefoxBackgroundPage();
 }
 

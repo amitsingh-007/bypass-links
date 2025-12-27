@@ -30,11 +30,12 @@ const getFirefoxAccessToken = async () => {
 };
 
 export const launchAuthFlow = async () => {
-  const accessToken = IS_CHROME
-    ? await getChromeAccessToken()
-    : await getFirefoxAccessToken();
+  const accessToken =
+    process.env.NEXT_PUBLIC_IS_CHROME === 'true'
+      ? await getChromeAccessToken()
+      : await getFirefoxAccessToken();
 
-  if (!IS_CHROME) {
+  if (process.env.NEXT_PUBLIC_IS_CHROME !== 'true') {
     localStorage.setItem('access_token', accessToken ?? '');
   }
 

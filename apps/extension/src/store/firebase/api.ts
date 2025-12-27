@@ -7,7 +7,9 @@ import {
   type IRefreshTokenResponse,
 } from '@/interfaces/firebase';
 
-const firebaseConfig = getFirebasePublicConfig(PROD_ENV);
+const firebaseConfig = getFirebasePublicConfig(
+  process.env.NEXT_PUBLIC_PROD_ENV === 'true'
+);
 
 const identityApi = wretch('https://identitytoolkit.googleapis.com/v1')
   .addon(QueryStringAddon)
@@ -22,7 +24,7 @@ export const signInWithCredential = async (accessToken: string) => {
     .url('/accounts:signInWithIdp')
     .post({
       postBody: `access_token=${accessToken}&providerId=google.com`,
-      requestUri: new URL(HOST_NAME).origin,
+      requestUri: new URL(process.env.NEXT_PUBLIC_HOST_NAME ?? '').origin,
       returnSecureToken: true,
     })
     .fetchError((e) => console.error(e))

@@ -17,7 +17,7 @@ export const api = createTRPCClient<AppRouter>({
   links: [
     loggerLink({
       enabled(opts) {
-        if (!PROD_ENV) {
+        if (process.env.NEXT_PUBLIC_PROD_ENV !== 'true') {
           return true;
         }
         return opts.direction === 'down' && opts.result instanceof Error;

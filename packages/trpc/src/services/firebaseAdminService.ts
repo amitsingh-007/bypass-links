@@ -18,7 +18,9 @@ interface Firebase {
   data: any;
 }
 
-const firebasePublicConfig = getFirebasePublicConfig(PROD_ENV);
+const firebasePublicConfig = getFirebasePublicConfig(
+  process.env.NEXT_PUBLIC_PROD_ENV === 'true'
+);
 
 const firebaseApp =
   getApps().length > 0

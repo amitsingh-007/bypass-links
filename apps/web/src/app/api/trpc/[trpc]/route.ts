@@ -8,11 +8,12 @@ const handler = async (req: NextRequest) => {
     req,
     router: appRouter,
     createContext: async () => createTRPCContext(req),
-    onError: PROD_ENV
-      ? undefined
-      : ({ path, error }) => {
-          console.error(`tRPC failed on ${path}: ${error}`);
-        },
+    onError:
+      process.env.NEXT_PUBLIC_PROD_ENV === 'true'
+        ? undefined
+        : ({ path, error }) => {
+            console.error(`tRPC failed on ${path}: ${error}`);
+          },
   });
 };
 export { handler as GET, handler as POST };

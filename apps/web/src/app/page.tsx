@@ -15,9 +15,9 @@ export const metadata: Metadata = {
   title,
   description,
   alternates: {
-    canonical: HOST_NAME,
+    canonical: process.env.NEXT_PUBLIC_HOST_NAME,
   },
-  metadataBase: new URL(HOST_NAME),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_HOST_NAME || ''),
   openGraph: {
     title: `Bypass Links - ${title}`,
     description,

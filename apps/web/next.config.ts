@@ -25,23 +25,29 @@ const nextConfig: NextConfig = {
     removeConsole: isDev ? false : { exclude: ['error'] },
   },
   transpilePackages: ['@bypass/shared', '@bypass/trpc'],
-  // TODO: migrate to turbopack
-  webpack(config, { dev, webpack }) {
-    config.module.rules.push({
-      test: /\.svg$/,
-      use: ['@svgr/webpack'],
-    });
-    config.plugins.push(
-      new webpack.DefinePlugin({
-        PROD_ENV: JSON.stringify(!isDev),
-        HOST_NAME: JSON.stringify(process.env.HOST_NAME),
-      })
-    );
-    if (dev) {
-      config.plugins.push(new ForkTsCheckerWebpackPlugin());
-    }
-    return config;
+  env: {
+    NEXT_PUBLIC_PROD_ENV: JSON.stringify(!isDev),
+    NEXT_PUBLIC_HOST_NAME: process.env.HOST_NAME,
   },
+  turbopack: {
+    rules: {
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+        as: '*.js',
+      },
+    },
+  },
+  // TODO: migrate to turbopack
+  // webpack(config, { dev, webpack }) {
+  //   config.module.rules.push({
+  //     test: /\.svg$/,
+  //     use: ['@svgr/webpack'],
+  //   });
+  //   if (dev) {
+  //     config.plugins.push(new ForkTsCheckerWebpackPlugin());
+  //   }
+  //   return config;
+  // },
 };
 
 export default nextConfig;

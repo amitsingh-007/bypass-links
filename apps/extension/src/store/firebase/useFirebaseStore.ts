@@ -52,7 +52,7 @@ const useFirebaseStore = create<State>()(
       async firebaseSignOut() {
         const { resetIdpAuth } = get();
         resetIdpAuth();
-        if (IS_CHROME) {
+        if (process.env.NEXT_PUBLIC_IS_CHROME === 'true') {
           await chrome.identity.clearAllCachedAuthTokens();
         }
       },

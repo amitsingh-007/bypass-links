@@ -8,7 +8,7 @@ export const trpcApi = createTRPCClient<AppRouter>({
       enabled: () => true,
     }),
     httpBatchLink({
-      url: `${HOST_NAME}/api/trpc`,
+      url: `${process.env.NEXT_PUBLIC_HOST_NAME}/api/trpc`,
       async headers() {
         const { getIdToken } = useFirebaseStore.getState();
         const idToken = await getIdToken();

@@ -32,6 +32,7 @@ const xoConfig: FlatXoConfig = [
       'no-await-in-loop': 'off',
       'promise/prefer-await-to-then': 'off',
       'capitalized-comments': 'off',
+      'n/prefer-global/process': 'off',
 
       'react/react-in-jsx-scope': 'off',
       'react/boolean-prop-naming': 'off',
