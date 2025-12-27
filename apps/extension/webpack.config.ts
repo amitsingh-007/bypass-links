@@ -223,9 +223,9 @@ const config: Configuration = {
     }),
     new DefinePlugin({
       'process.env': JSON.stringify({
-        NEXT_PUBLIC_PROD_ENV: isProduction,
+        NEXT_PUBLIC_PROD_ENV: JSON.stringify(isProduction),
         NEXT_PUBLIC_HOST_NAME: HOST_NAME,
-        NEXT_PUBLIC_IS_CHROME: isChromeBuild,
+        NEXT_PUBLIC_IS_CHROME: JSON.stringify(isChromeBuild),
       }),
     }),
     new optimize.LimitChunkCountPlugin({
