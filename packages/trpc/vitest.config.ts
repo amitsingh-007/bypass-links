@@ -11,7 +11,7 @@ const isDev = env.NODE_ENV === 'development';
 
 export default defineConfig({
   define: {
-    PROD_ENV: !isDev,
+    'process.env.NEXT_PUBLIC_PROD_ENV': JSON.stringify(!isDev),
   },
   test: {
     testTimeout: 30_000,

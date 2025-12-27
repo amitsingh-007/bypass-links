@@ -1,3 +1,5 @@
+'use client';
+
 import { Flex, Text, Tooltip } from '@mantine/core';
 import md5 from 'md5';
 import { memo, useCallback, useEffect, useState } from 'react';

@@ -1,4 +1,9 @@
-import { ECacheBucketKeys, STORAGE_KEYS, deleteAllCache } from '@bypass/shared';
+import {
+  ECacheBucketKeys,
+  STORAGE_KEYS,
+  deleteAllCache,
+  GLOBALS,
+} from '@bypass/shared';
 import { getUser2FAInfo } from '@helpers/fetchFromStorage';
 import { nprogress } from '@mantine/nprogress';
 import { type IUser2FAInfo } from '../interfaces/authentication';
@@ -44,7 +49,7 @@ const resetAuthentication = async () => {
     console.log('User 2FA info not found');
     return;
   }
-  if (IS_CHROME) {
+  if (GLOBALS.IS_CHROME) {
     await chrome.identity.clearAllCachedAuthTokens();
   }
   console.log('Removed Google auth token from cache');

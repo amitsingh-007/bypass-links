@@ -1,9 +1,10 @@
 import { getFirebasePublicConfig } from '@bypass/configs/firebase.config';
 import { initializeApp } from 'firebase/app';
+import { GLOBALS } from '@bypass/shared';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { env } from '../src/constants/env';
 
-const firebaseApp = initializeApp(getFirebasePublicConfig(PROD_ENV));
+const firebaseApp = initializeApp(getFirebasePublicConfig(GLOBALS.PROD_ENV));
 const auth = getAuth(firebaseApp);
 
 export const testUserSignIn = async () => {

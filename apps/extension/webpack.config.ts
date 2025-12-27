@@ -222,9 +222,11 @@ const config: Configuration = {
       },
     }),
     new DefinePlugin({
-      PROD_ENV: JSON.stringify(isProduction),
-      HOST_NAME: JSON.stringify(HOST_NAME),
-      IS_CHROME: JSON.stringify(isChromeBuild),
+      'process.env': JSON.stringify({
+        NEXT_PUBLIC_PROD_ENV: JSON.stringify(isProduction),
+        NEXT_PUBLIC_HOST_NAME: HOST_NAME,
+        NEXT_PUBLIC_IS_CHROME: JSON.stringify(isChromeBuild),
+      }),
     }),
     new optimize.LimitChunkCountPlugin({
       maxChunks: 1,

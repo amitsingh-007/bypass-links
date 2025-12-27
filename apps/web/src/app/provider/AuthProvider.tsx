@@ -23,7 +23,7 @@ const AuthContext = createContext<IAuthContext>({
   isLoginIntialized: false,
 });
 
-const RESTRICTED_PATHS = new Set(['/']);
+const RESTRICTED_PATHS = new Set([ROUTES.HOMEPAGE]);
 
 export function AuthProvider({ children }: PropsWithChildren) {
   const router = useRouter();

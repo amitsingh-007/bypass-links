@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { GLOBALS } from '@bypass/shared';
 import { trpcApi } from '@/apis/trpcApi';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import useOutdatedExtensionStore from '@/store/outdatedExtension';
@@ -6,7 +7,9 @@ import useOutdatedExtensionStore from '@/store/outdatedExtension';
 const checkForUpdates = async () => {
   const { chrome: chromeData, firefox } =
     await trpcApi.extension.latest.query();
-  const latestVersion = IS_CHROME ? chromeData.version : firefox.version;
+  const latestVersion = GLOBALS.IS_CHROME
+    ? chromeData.version
+    : firefox.version;
   const { version: currentVersion } = chrome.runtime.getManifest();
   return latestVersion === currentVersion;
 };

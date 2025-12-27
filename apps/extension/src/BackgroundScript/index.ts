@@ -1,4 +1,5 @@
 import { getExtensionState } from '@helpers/fetchFromStorage';
+import { GLOBALS } from '@bypass/shared';
 import turnOffInputSuggestions from './misc/turnOffInputSuggestions';
 import { redirect } from './redirections';
 import { isValidTabUrl, isValidUrl, setExtensionIcon } from './utils';
@@ -8,7 +9,7 @@ import { type RuntimeInput } from '@/utils/sendRuntimeMessage';
 import { getIsExtensionActive, setExtStateInStorage } from '@/utils/common';
 import { EExtensionState } from '@/constants';
 
-if (!IS_CHROME) {
+if (!GLOBALS.IS_CHROME) {
   hearbeatFirefoxBackgroundPage();
 }
 
