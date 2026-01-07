@@ -93,8 +93,8 @@ importers:
         specifier: 2.3.0
         version: 2.3.0
       preact:
-        specifier: 10.27.2
-        version: 10.27.2
+        specifier: 10.27.3
+        version: 10.27.3
       react:
         specifier: 19.2.0
         version: 19.2.0
@@ -112,7 +112,7 @@ importers:
         version: 3.7.1(react@19.2.0)
       wouter-preact:
         specifier: 3.7.1
-        version: 3.7.1(preact@10.27.2)
+        version: 3.7.1(preact@10.27.3)
       wretch:
         specifier: 3.0.5
         version: 3.0.5
@@ -128,10 +128,10 @@ importers:
         version: 1.55.1
       '@prefresh/core':
         specifier: 1.5.9
-        version: 1.5.9(preact@10.27.2)
+        version: 1.5.9(preact@10.27.3)
       '@prefresh/webpack':
         specifier: 4.0.6
-        version: 4.0.6(@prefresh/babel-plugin@0.5.2)(preact@10.27.2)(webpack@5.102.1)
+        version: 4.0.6(@prefresh/babel-plugin@0.5.2)(preact@10.27.3)(webpack@5.102.1)
       '@types/archiver':
         specifier: 7.0.0
         version: 7.0.0
@@ -6124,6 +6124,7 @@ packages:
   next@16.0.7:
     resolution: {integrity: sha512-3mBRJyPxT4LOxAJI6IsXeFtKfiJUbjCLgvXO02fV8Wy/lIhPvP94Fe7dGhUgHXcQy4sSuYwQNcOLhIfOm0rL0A==}
     engines: {node: '>=20.9.0'}
+    deprecated: This version has a security vulnerability. Please upgrade to a patched version. See https://nextjs.org/blog/security-update-2025-12-11 for more details.
     hasBin: true
     peerDependencies:
       '@opentelemetry/api': ^1.1.0
@@ -6791,6 +6792,9 @@ packages:
 
   preact@10.27.2:
     resolution: {integrity: sha512-5SYSgFKSyhCbk6SrXyMpqjb5+MQBgfvEKE/OC+PujcY34sOpqtr+0AZQtPYx5IA6VxynQ7rUPCtKzyovpj9Bpg==}
+
+  preact@10.27.3:
+    resolution: {integrity: sha512-ZieIP3zQHiQsNF3BA+SNVS8dcuRIg/nsxlkFbCMBLS2L1Ww4Bkxd9n6Md2A1crfTZsEbQPADV0neYmh/EElgeQ==}
 
   prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
@@ -8176,6 +8180,7 @@ packages:
   whatwg-encoding@3.1.1:
     resolution: {integrity: sha512-6qN4hJdMwfYBtE3YBTTHhoeuUrDBPZmbQaxWAqSALV/MeEnR5z1xd8UKud2RAkFoPkmB+hli1TZSnyi84xz1vQ==}
     engines: {node: '>=18'}
+    deprecated: Use @exodus/bytes instead for a more spec-conformant and faster implementation
 
   whatwg-mimetype@4.0.0:
     resolution: {integrity: sha512-QaKxh0eNIi2mE9p2vEdzfagOKHCcj1pJ56EEHGQOVxp8r9/iszLUUV7v89x9O1p/T+NlTM5W7jW6+cz4Fq1YVg==}
@@ -10290,18 +10295,18 @@ snapshots:
 
   '@prefresh/babel-plugin@0.5.2': {}
 
-  '@prefresh/core@1.5.9(preact@10.27.2)':
+  '@prefresh/core@1.5.9(preact@10.27.3)':
     dependencies:
-      preact: 10.27.2
+      preact: 10.27.3
 
   '@prefresh/utils@1.2.1': {}
 
-  '@prefresh/webpack@4.0.6(@prefresh/babel-plugin@0.5.2)(preact@10.27.2)(webpack@5.102.1)':
+  '@prefresh/webpack@4.0.6(@prefresh/babel-plugin@0.5.2)(preact@10.27.3)(webpack@5.102.1)':
     dependencies:
       '@prefresh/babel-plugin': 0.5.2
-      '@prefresh/core': 1.5.9(preact@10.27.2)
+      '@prefresh/core': 1.5.9(preact@10.27.3)
       '@prefresh/utils': 1.2.1
-      preact: 10.27.2
+      preact: 10.27.3
       webpack: 5.102.1(webpack-cli@6.0.1)
 
   '@protobufjs/aspromise@1.1.2': {}
@@ -15228,6 +15233,8 @@ snapshots:
 
   preact@10.27.2: {}
 
+  preact@10.27.3: {}
+
   prelude-ls@1.2.1: {}
 
   prettier-linter-helpers@1.0.0:
@@ -16960,10 +16967,10 @@ snapshots:
 
   word-wrap@1.2.5: {}
 
-  wouter-preact@3.7.1(preact@10.27.2):
+  wouter-preact@3.7.1(preact@10.27.3):
     dependencies:
       mitt: 3.0.1
-      preact: 10.27.2
+      preact: 10.27.3
       regexparam: 3.0.0
 
   wouter@3.7.1(react@19.2.0):
