@@ -42,14 +42,9 @@ const getForum_3_LinksFunc = () => {
 
 const getForum_4_LinksFunc = () => {
   const unreadPosts = document.querySelectorAll<HTMLLinkElement>(
-    'ol.cForumTopicTable > li.ipsDataItem_unread'
+    'div.tthumb_gal_item a.tthumb_grid_unread'
   );
-  return [...(unreadPosts || [])].map((li) => {
-    const postLink = li.querySelector<HTMLAnchorElement>(
-      '.ipsContained_container .ipsContained a'
-    );
-    return postLink?.href;
-  });
+  return [...(unreadPosts || [])].map((a) => a.href);
 };
 
 export const getForumPageLinks = async (
