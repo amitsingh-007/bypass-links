@@ -35,21 +35,21 @@ const getForum_3_LinksFunc = () => {
   const recentPostsNode = [
     ...document.querySelectorAll<HTMLUListElement>('.recent-posts'),
   ].at(-1);
+
+  if (!recentPostsNode) {
+    return [];
+  }
+
   const recentPostLinks =
-    recentPostsNode?.querySelectorAll<HTMLAnchorElement>('.post-thumb > a');
-  return [...(recentPostLinks ?? [])].map((link) => link.href);
+    recentPostsNode.querySelectorAll<HTMLAnchorElement>('.post-thumb > a');
+  return [...recentPostLinks].map((link) => link.href);
 };
 
 const getForum_4_LinksFunc = () => {
-  const unreadPosts = document.querySelectorAll<HTMLLinkElement>(
-    'ol.cForumTopicTable > li.ipsDataItem_unread'
+  const unreadPosts = document.querySelectorAll<HTMLAnchorElement>(
+    'div.tthumb_gal_item a.tthumb_grid_unread'
   );
-  return [...(unreadPosts || [])].map((li) => {
-    const postLink = li.querySelector<HTMLAnchorElement>(
-      '.ipsContained_container .ipsContained a'
-    );
-    return postLink?.href;
-  });
+  return [...unreadPosts].map((a) => a.href);
 };
 
 export const getForumPageLinks = async (
