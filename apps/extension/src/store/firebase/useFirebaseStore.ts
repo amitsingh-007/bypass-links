@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { GLOBALS } from '@bypass/shared';
+import { TEST_AUTH_DATA_KEY } from '../../../tests/constants';
 import { type IAuthResponse } from '@/interfaces/firebase';
 import { refreshIdToken, signInWithCredential } from '@/store/firebase/api';
 import { getExpiresAtMs } from '@/store/firebase/utils';
@@ -35,9 +36,9 @@ const useFirebaseStore = create<State>()(
         const { setIdpAuth } = get();
 
         // Test mode: use pre-injected auth data
-        const testAuthData = localStorage.getItem('__test_auth_data');
+        const testAuthData = localStorage.getItem(TEST_AUTH_DATA_KEY);
         if (testAuthData) {
-          localStorage.removeItem('__test_auth_data');
+          localStorage.removeItem(TEST_AUTH_DATA_KEY);
           const authData = JSON.parse(testAuthData) as IAuthResponse;
           setIdpAuth(authData);
           return;
