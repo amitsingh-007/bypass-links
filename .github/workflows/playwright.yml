@@ -50,6 +50,9 @@ jobs:
     needs: [Build]
     timeout-minutes: 10
     runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v5
