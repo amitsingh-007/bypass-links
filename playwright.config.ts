@@ -2,6 +2,8 @@ import path from 'node:path';
 import process from 'node:process';
 import type { PlaywrightTestConfig } from '@playwright/test';
 
+process.loadEnvFile(path.join(process.cwd(), '.env'));
+
 const ciBaseUrl = process.env.PLAYWRIGHT_TEST_BASE_URL;
 const isCI = Boolean(ciBaseUrl);
 
@@ -12,7 +14,6 @@ const config: PlaywrightTestConfig = {
   retries: isCI ? 2 : 1,
   fullyParallel: true,
   reporter: [['github'], ['html', { open: isCI ? 'never' : 'always' }]],
-  globalSetup: path.resolve('./scripts/global-teardown'),
   use: {
     navigationTimeout: 30 * 1000,
     actionTimeout: 10 * 1000,

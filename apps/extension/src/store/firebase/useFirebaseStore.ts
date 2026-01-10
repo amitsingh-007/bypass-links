@@ -32,6 +32,17 @@ const useFirebaseStore = create<State>()(
       resetIdpAuth: () => set(() => ({ idpAuth: null })),
 
       async firebaseSignIn() {
+        const { setIdpAuth } = get();
+
+        // Test mode: use pre-injected auth data
+        const testAuthData = localStorage.getItem('__test_auth_data');
+        if (testAuthData) {
+          localStorage.removeItem('__test_auth_data');
+          const authData = JSON.parse(testAuthData) as IAuthResponse;
+          setIdpAuth(authData);
+          return;
+        }
+
         let accessToken = localStorage.getItem('access_token');
         if (!accessToken) {
           const { accessToken: _accessToken } = await sendRuntimeMessage({
@@ -44,7 +55,6 @@ const useFirebaseStore = create<State>()(
           return;
         }
 
-        const { setIdpAuth } = get();
         localStorage.removeItem('access_token');
         const idpAuthRes = await signInWithCredential(accessToken);
         setIdpAuth(idpAuthRes);
