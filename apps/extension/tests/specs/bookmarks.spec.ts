@@ -13,20 +13,18 @@ test.describe.serial('Bookmarks Panel', () => {
 
     test('should create a new folder', async ({ bookmarksPage }) => {
       // Click the add folder button in the header
-      const addButton = bookmarksPage.getByRole('button', { name: /add/i });
+      const addButton = bookmarksPage.getByRole('button', { name: 'Add' });
       await addButton.click();
 
       // Wait for "Add folder" dialog to open
-      const dialog = bookmarksPage.getByRole('dialog', { name: /add folder/i });
+      const dialog = bookmarksPage.getByRole('dialog', { name: 'Add folder' });
       await expect(dialog).toBeVisible();
 
       // Fill folder name
-      await dialog
-        .getByPlaceholder(/enter folder name/i)
-        .fill(TEST_FOLDER_NAME);
+      await dialog.getByPlaceholder('Enter folder name').fill(TEST_FOLDER_NAME);
 
       // Click Save button in the dialog
-      await dialog.getByRole('button', { name: /save/i }).click();
+      await dialog.getByRole('button', { name: 'Save' }).click();
 
       // Wait for dialog to close
       await expect(dialog).toBeHidden();
@@ -63,16 +61,16 @@ test.describe.serial('Bookmarks Panel', () => {
 
     test('should rename a folder and undo', async ({ bookmarksPage }) => {
       // Create a temporary folder just for this test
-      const addButton = bookmarksPage.getByRole('button', { name: /add/i });
+      const addButton = bookmarksPage.getByRole('button', { name: 'Add' });
       await addButton.click();
 
-      const dialog = bookmarksPage.getByRole('dialog', { name: /add folder/i });
+      const dialog = bookmarksPage.getByRole('dialog', { name: 'Add folder' });
       await expect(dialog).toBeVisible();
 
       await dialog
-        .getByPlaceholder(/enter folder name/i)
+        .getByPlaceholder('Enter folder name')
         .fill('Temp Rename Folder');
-      await dialog.getByRole('button', { name: /save/i }).click();
+      await dialog.getByRole('button', { name: 'Save' }).click();
 
       await expect(dialog).toBeHidden();
 
@@ -139,7 +137,7 @@ test.describe.serial('Bookmarks Panel', () => {
       await expect(dialog).toBeVisible();
 
       // Verify it's the bookmark edit dialog by checking for bookmark-specific fields
-      const titleInput = dialog.getByPlaceholder(/enter bookmark title/i);
+      const titleInput = dialog.getByPlaceholder('Enter bookmark title');
       await expect(titleInput).toBeVisible();
       const currentTitle = await titleInput.inputValue();
       expect(currentTitle).toBeTruthy();
@@ -175,7 +173,7 @@ test.describe.serial('Bookmarks Panel', () => {
       await expect(dialog).toBeVisible();
 
       // Look for Tagged Persons field
-      const personLabel = dialog.getByText(/tagged persons/i);
+      const personLabel = dialog.getByText('Tagged Persons');
       await expect(personLabel).toBeVisible();
 
       // Close dialog
@@ -266,7 +264,7 @@ test.describe.serial('Bookmarks Panel', () => {
       // Click "Open" option (should show "Open all (2)" or "Open in new tab")
       const openOption = bookmarksPage.locator(
         '.mantine-contextmenu-item-button-title',
-        { hasText: /open/i }
+        { hasText: 'Open' }
       );
       await openOption.waitFor({ state: 'attached' });
 
@@ -409,20 +407,20 @@ test.describe.serial('Bookmarks Panel', () => {
       }
 
       // Make a change (create a new folder via Add button)
-      const addButton = bookmarksPage.getByRole('button', { name: /add/i });
+      const addButton = bookmarksPage.getByRole('button', { name: 'Add' });
       await addButton.click();
 
       // Wait for folder dialog to open
-      const dialog = bookmarksPage.getByRole('dialog', { name: /add folder/i });
+      const dialog = bookmarksPage.getByRole('dialog', { name: 'Add folder' });
       await expect(dialog).toBeVisible();
 
       // Fill folder name
       await dialog
-        .getByPlaceholder(/enter folder name/i)
+        .getByPlaceholder('Enter folder name')
         .fill('Persistence Test Folder');
 
       // Save folder
-      await dialog.getByRole('button', { name: /save/i }).click();
+      await dialog.getByRole('button', { name: 'Save' }).click();
 
       // Wait for dialog to close
       await expect(dialog).toBeHidden();
