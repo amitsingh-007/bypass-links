@@ -260,51 +260,47 @@ test.describe.serial('Bookmarks Panel', () => {
       });
     });
 
-    test.describe('Bookmark Movement', () => {
-      test('should cut and paste bookmark using keyboard shortcuts', async ({
-        bookmarksPage,
-      }) => {
-        // Select a specific bookmark by title
-        const bookmarkRow = bookmarksPage
-          .locator('div[data-context-id]')
-          .filter({ hasText: TEST_BOOKMARKS.REACT_DOCS });
-        await expect(bookmarkRow).toBeVisible();
-        await bookmarkRow.click();
+    test('should cut and paste bookmark using keyboard shortcuts', async ({
+      bookmarksPage,
+    }) => {
+      // Select a specific bookmark by title
+      const bookmarkRow = bookmarksPage
+        .locator('div[data-context-id]')
+        .filter({ hasText: TEST_BOOKMARKS.REACT_DOCS });
+      await expect(bookmarkRow).toBeVisible();
+      await bookmarkRow.click();
 
-        // Cut the bookmark (Cmd+X)
-        await bookmarksPage.keyboard.press('Meta+x');
+      // Cut the bookmark (Cmd+X)
+      await bookmarksPage.keyboard.press('Meta+x');
 
-        // Wait a moment for cut to register
-        await bookmarksPage.waitForTimeout(300);
+      // Wait a moment for cut to register
+      await bookmarksPage.waitForTimeout(300);
 
-        // The cut bookmark should still be visible but may have different styling
-        // Paste it back in place (Cmd+V)
-        await bookmarksPage.keyboard.press('Meta+v');
+      // The cut bookmark should still be visible but may have different styling
+      // Paste it back in place (Cmd+V)
+      await bookmarksPage.keyboard.press('Meta+v');
 
-        // Verify the bookmark is still visible (paste restored it)
-        await expect(bookmarkRow).toBeVisible();
-      });
+      // Verify the bookmark is still visible (paste restored it)
+      await expect(bookmarkRow).toBeVisible();
     });
 
-    test.describe('Folder with Bookmarks', () => {
-      test('should open folder with at least one bookmark', async ({
-        bookmarksPage,
-      }) => {
-        // Use "Main" folder which has bookmarks
-        const mainFolder = bookmarksPage.locator('[data-folder-name="Main"]');
-        await expect(mainFolder).toBeVisible();
-        await mainFolder.click();
+    test('should open folder with at least one bookmark', async ({
+      bookmarksPage,
+    }) => {
+      // Use "Main" folder which has bookmarks
+      const mainFolder = bookmarksPage.locator('[data-folder-name="Main"]');
+      await expect(mainFolder).toBeVisible();
+      await mainFolder.click();
 
-        // Wait for navigation
-        await bookmarksPage.waitForTimeout(500);
+      // Wait for navigation
+      await bookmarksPage.waitForTimeout(500);
 
-        // We should either see bookmarks or an empty state
-        const bookmarks = bookmarksPage.locator('div[data-context-id]');
-        const bookmarkCount = await bookmarks.count();
+      // We should either see bookmarks or an empty state
+      const bookmarks = bookmarksPage.locator('div[data-context-id]');
+      const bookmarkCount = await bookmarks.count();
 
-        // Main folder likely has bookmarks
-        expect(bookmarkCount).toBeGreaterThanOrEqual(0);
-      });
+      // Main folder likely has bookmarks
+      expect(bookmarkCount).toBeGreaterThanOrEqual(0);
     });
 
     test('should delete bookmark via context menu', async ({
@@ -335,137 +331,131 @@ test.describe.serial('Bookmarks Panel', () => {
     });
   });
 
-  test.describe('Person Panel', () => {
-    test('should open person panel by clicking tagged person avatar', async ({
-      bookmarksPage,
-    }) => {
-      // Find an avatar within a person group (identified by data-group-context-id)
-      // to avoid overlapping with website favicons which also use .mantine-Avatar-root
-      const avatarGroup = bookmarksPage.locator('[data-group-context-id]');
-      // Get the first visible avatar group
-      const visibleAvatarGroup = avatarGroup.first();
-      const avatar = visibleAvatarGroup.locator('.mantine-Avatar-root').first();
-      await expect(avatar).toBeVisible({ timeout: 10_000 });
+  test('should open person panel by clicking tagged person avatar', async ({
+    bookmarksPage,
+  }) => {
+    // Find an avatar within a person group (identified by data-group-context-id)
+    // to avoid overlapping with website favicons which also use .mantine-Avatar-root
+    const avatarGroup = bookmarksPage.locator('[data-group-context-id]');
+    // Get the first visible avatar group
+    const visibleAvatarGroup = avatarGroup.first();
+    const avatar = visibleAvatarGroup.locator('.mantine-Avatar-root').first();
+    await expect(avatar).toBeVisible({ timeout: 10_000 });
 
-      // Hover over the avatar to show HoverCard
-      await avatar.hover();
+    // Hover over the avatar to show HoverCard
+    await avatar.hover();
 
-      // Wait for the dropdown to appear and be fully visible
-      const dropdown = bookmarksPage
-        .locator('.mantine-HoverCard-dropdown')
-        .filter({ hasText: '' })
-        .first();
-      await expect(dropdown).toBeVisible({ timeout: 10_000 });
+    // Wait for the dropdown to appear and be fully visible
+    const dropdown = bookmarksPage
+      .locator('.mantine-HoverCard-dropdown')
+      .filter({ hasText: '' })
+      .first();
+    await expect(dropdown).toBeVisible({ timeout: 10_000 });
 
-      // Click the larger avatar in the dropdown/hovercard to navigate
-      const dropdownAvatar = dropdown.locator('img').first();
-      await dropdownAvatar.waitFor({ state: 'visible', timeout: 5000 });
-      const personName = (await dropdownAvatar.getAttribute('alt')) ?? '';
-      await dropdownAvatar.evaluate((el) => (el as HTMLElement).click());
+    // Click the larger avatar in the dropdown/hovercard to navigate
+    const dropdownAvatar = dropdown.locator('img').first();
+    await dropdownAvatar.waitFor({ state: 'visible', timeout: 5000 });
+    const personName = (await dropdownAvatar.getAttribute('alt')) ?? '';
+    await dropdownAvatar.evaluate((el) => (el as HTMLElement).click());
 
-      // Verify person panel opens and URL is correct
-      await bookmarksPage.waitForURL(/persons-panel/);
-      const url = bookmarksPage.url();
-      expect(url).toContain('persons-panel');
-      expect(url).toContain('openBookmarksList=');
+    // Verify person panel opens and URL is correct
+    await bookmarksPage.waitForURL(/persons-panel/);
+    const url = bookmarksPage.url();
+    expect(url).toContain('persons-panel');
+    expect(url).toContain('openBookmarksList=');
 
-      // Verify the person's bookmarks list is open inside the person panel
-      // Look for the badge in the header that shows "Name (Count)"
-      const headerBadge = bookmarksPage
-        .locator('.mantine-Badge-label')
-        .filter({ hasText: personName });
-      await expect(headerBadge).toBeVisible({ timeout: 10_000 });
+    // Verify the person's bookmarks list is open inside the person panel
+    // Look for the badge in the header that shows "Name (Count)"
+    const headerBadge = bookmarksPage
+      .locator('.mantine-Badge-label')
+      .filter({ hasText: personName });
+    await expect(headerBadge).toBeVisible({ timeout: 10_000 });
 
-      const badgeText = (await headerBadge.textContent()) ?? '';
-      // It should be in format "Name (N)"
-      expect(badgeText).toContain(personName);
-      const countMatch = /\((\d+)\)/.exec(badgeText);
-      if (countMatch) {
-        const count = Number.parseInt(countMatch[1], 10);
-        expect(count).toBeGreaterThan(0);
-      }
+    const badgeText = (await headerBadge.textContent()) ?? '';
+    // It should be in format "Name (N)"
+    expect(badgeText).toContain(personName);
+    const countMatch = /\((\d+)\)/.exec(badgeText);
+    if (countMatch) {
+      const count = Number.parseInt(countMatch[1], 10);
+      expect(count).toBeGreaterThan(0);
+    }
 
-      // Assert that at least one bookmark is visible in the list
-      const editButtons = bookmarksPage.getByTitle('Edit Bookmark');
-      const rowCount = await editButtons.count();
-      expect(rowCount).toBeGreaterThan(0);
-      await expect(editButtons.first()).toBeVisible();
+    // Assert that at least one bookmark is visible in the list
+    const editButtons = bookmarksPage.getByTitle('Edit Bookmark');
+    const rowCount = await editButtons.count();
+    expect(rowCount).toBeGreaterThan(0);
+    await expect(editButtons.first()).toBeVisible();
 
-      // Navigate back to bookmarks
-      await navigateBack(bookmarksPage);
-    });
+    // Navigate back to bookmarks
+    await navigateBack(bookmarksPage);
   });
 
-  test.describe('Save & Persistence', () => {
-    test('should save changes and verify in extension storage', async ({
-      bookmarksPage,
-    }) => {
-      // Ensure we are in bookmarks panel
-      const bookmarksButton = bookmarksPage.getByRole('button', {
-        name: 'Bookmarks',
-      });
-      if (await bookmarksButton.isVisible()) {
-        await bookmarksButton.click();
-      }
-
-      // Make a change (create a new folder via Add button)
-      const addButton = bookmarksPage.getByRole('button', { name: 'Add' });
-      await addButton.click();
-
-      // Wait for folder dialog to open
-      const dialog = bookmarksPage.getByRole('dialog', { name: 'Add folder' });
-      await expect(dialog).toBeVisible();
-
-      // Fill folder name
-      await dialog
-        .getByPlaceholder('Enter folder name')
-        .fill('Persistence Test Folder');
-
-      // Save folder
-      await dialog.getByRole('button', { name: 'Save' }).click();
-
-      // Wait for dialog to close
-      await expect(dialog).toBeHidden();
-
-      // Click the main save button to persist to storage
-      await clickSaveButton(bookmarksPage);
-
-      // Wait for save to complete
-      await bookmarksPage.waitForTimeout(1000);
-
-      // The test passes if we got here without errors
-      expect(true).toBe(true);
+  test('should save changes and verify in extension storage', async ({
+    bookmarksPage,
+  }) => {
+    // Ensure we are in bookmarks panel
+    const bookmarksButton = bookmarksPage.getByRole('button', {
+      name: 'Bookmarks',
     });
+    if (await bookmarksButton.isVisible()) {
+      await bookmarksButton.click();
+    }
+
+    // Make a change (create a new folder via Add button)
+    const addButton = bookmarksPage.getByRole('button', { name: 'Add' });
+    await addButton.click();
+
+    // Wait for folder dialog to open
+    const dialog = bookmarksPage.getByRole('dialog', { name: 'Add folder' });
+    await expect(dialog).toBeVisible();
+
+    // Fill folder name
+    await dialog
+      .getByPlaceholder('Enter folder name')
+      .fill('Persistence Test Folder');
+
+    // Save folder
+    await dialog.getByRole('button', { name: 'Save' }).click();
+
+    // Wait for dialog to close
+    await expect(dialog).toBeHidden();
+
+    // Click the main save button to persist to storage
+    await clickSaveButton(bookmarksPage);
+
+    // Wait for save to complete
+    await bookmarksPage.waitForTimeout(1000);
+
+    // The test passes if we got here without errors
+    expect(true).toBe(true);
   });
 
-  test.describe('Cleanup - Delete Folder', () => {
-    test('should delete a folder', async ({ bookmarksPage }) => {
-      // Ensure we are in bookmarks panel
-      const bookmarksButton = bookmarksPage.getByRole('button', {
-        name: 'Bookmarks',
-      });
-      if (await bookmarksButton.isVisible()) {
-        await bookmarksButton.click();
-      }
-
-      const folderName = 'Persistence Test Folder';
-      const folderRow = bookmarksPage.locator(
-        `[data-folder-name="${folderName}"]`
-      );
-      await expect(folderRow).toBeVisible({ timeout: 10_000 });
-
-      // Now delete the folder
-      await folderRow.click({ button: 'right' });
-
-      const deleteOption = bookmarksPage.locator(
-        '.mantine-contextmenu-item-button-title',
-        { hasText: 'Delete' }
-      );
-      await deleteOption.waitFor({ state: 'attached' });
-      await deleteOption.evaluate((el) => (el as HTMLElement).click());
-
-      // Verify folder is removed
-      await expect(folderRow).not.toBeVisible();
+  test('should delete a folder', async ({ bookmarksPage }) => {
+    // Ensure we are in bookmarks panel
+    const bookmarksButton = bookmarksPage.getByRole('button', {
+      name: 'Bookmarks',
     });
+    if (await bookmarksButton.isVisible()) {
+      await bookmarksButton.click();
+    }
+
+    const folderName = 'Persistence Test Folder';
+    const folderRow = bookmarksPage.locator(
+      `[data-folder-name="${folderName}"]`
+    );
+    await expect(folderRow).toBeVisible({ timeout: 10_000 });
+
+    // Now delete the folder
+    await folderRow.click({ button: 'right' });
+
+    const deleteOption = bookmarksPage.locator(
+      '.mantine-contextmenu-item-button-title',
+      { hasText: 'Delete' }
+    );
+    await deleteOption.waitFor({ state: 'attached' });
+    await deleteOption.evaluate((el) => (el as HTMLElement).click());
+
+    // Verify folder is removed
+    await expect(folderRow).not.toBeVisible();
   });
 });
