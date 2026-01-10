@@ -1,4 +1,5 @@
 import { test, expect } from '../fixtures/bookmark-fixture';
+import { TEST_BOOKMARKS } from '../constants';
 import { clickSaveButton, navigateBack } from '../utils/test-utils';
 
 /**
@@ -88,20 +89,19 @@ test.describe.serial('Bookmarks Panel', () => {
     test('should find and select an existing bookmark', async ({
       bookmarksPage,
     }) => {
-      const EXISTING_BOOKMARK_PREFIX = 'React';
-      // Find an existing bookmark that starts with our prefix
-      const bookmark = bookmarksPage.locator(
-        `text=/${EXISTING_BOOKMARK_PREFIX}/i`
-      );
-      const count = await bookmark.count();
-      expect(count).toBeGreaterThan(0);
+      // Find a specific bookmark by title (using div to target only the parent row)
+      const bookmark = bookmarksPage
+        .locator('div[data-context-id]')
+        .filter({ hasText: TEST_BOOKMARKS.REACT_DOCS });
+      await expect(bookmark).toBeVisible();
 
       // Verify bookmark has properties
-      const title = (await bookmark.first().textContent()) ?? '';
+      const title = (await bookmark.textContent()) ?? '';
       expect(title).toBeTruthy();
+      expect(title).toContain(TEST_BOOKMARKS.REACT_DOCS);
 
       // Click to select it
-      await bookmark.first().click();
+      await bookmark.click();
     });
 
     test('should edit bookmark via context menu', async ({ bookmarksPage }) => {
@@ -114,8 +114,10 @@ test.describe.serial('Bookmarks Panel', () => {
         await bookmarksPage.waitForTimeout(500);
       }
 
-      // Use data-context-id selector which is specific to bookmarks (not folders)
-      const bookmarkRow = bookmarksPage.locator('[data-context-id]').first();
+      // Select a specific bookmark by title
+      const bookmarkRow = bookmarksPage
+        .locator('div[data-context-id]')
+        .filter({ hasText: TEST_BOOKMARKS.REACT_DOCS });
       await expect(bookmarkRow).toBeVisible();
 
       // Right-click to open context menu
@@ -156,8 +158,10 @@ test.describe.serial('Bookmarks Panel', () => {
     test('should verify person select in edit dialog', async ({
       bookmarksPage,
     }) => {
-      // Use data-context-id selector which is specific to bookmarks (not folders)
-      const bookmarkRow = bookmarksPage.locator('[data-context-id]').first();
+      // Select a specific bookmark by title
+      const bookmarkRow = bookmarksPage
+        .locator('div[data-context-id]')
+        .filter({ hasText: TEST_BOOKMARKS.REACT_DOCS });
       await bookmarkRow.click({ button: 'right' });
 
       const editOption = bookmarksPage.locator(
@@ -186,10 +190,127 @@ test.describe.serial('Bookmarks Panel', () => {
       await expect(dialog).toBeHidden();
     });
 
+    test.describe('Bookmark Navigation', () => {
+      test('should open bookmark by double-clicking', async ({
+        bookmarksPage,
+        context,
+      }) => {
+        // Get initial page count
+        const initialPages = context.pages().length;
+
+        // Select a specific bookmark by title
+        const bookmarkRow = bookmarksPage
+          .locator('div[data-context-id]')
+          .filter({ hasText: TEST_BOOKMARKS.REACT_DOCS });
+        await expect(bookmarkRow).toBeVisible();
+
+        // Double-click to open bookmark and wait for new tab
+        const [newPage] = await Promise.all([
+          context.waitForEvent('page', { timeout: 15_000 }),
+          bookmarkRow.dblclick(),
+        ]);
+
+        // Verify new tab opened
+        expect(newPage).toBeTruthy();
+        expect(context.pages().length).toBeGreaterThan(initialPages);
+      });
+
+      test('should open multiple bookmarks via context menu', async ({
+        bookmarksPage,
+        context,
+      }) => {
+        // Navigate to Main folder which has multiple bookmarks
+        const mainFolder = bookmarksPage.locator('[data-folder-name="Main"]');
+        await mainFolder.click();
+        await bookmarksPage.waitForTimeout(500);
+
+        // Get initial page count
+        const initialPages = context.pages().length;
+
+        // Select any two visible bookmarks
+        const bookmarkRows = bookmarksPage.locator('div[data-context-id]');
+
+        // Select first bookmark
+        const firstBookmark = bookmarkRows.first();
+        await firstBookmark.click();
+
+        // Ctrl+click second bookmark to add to selection
+        const secondBookmark = bookmarkRows.nth(1);
+        await secondBookmark.click({ modifiers: ['Meta'] });
+
+        // Right-click to open context menu
+        await firstBookmark.click({ button: 'right' });
+
+        // Click "Open" option (should show "Open all (2)" or "Open in new tab")
+        const openOption = bookmarksPage.locator(
+          '.mantine-contextmenu-item-button-title',
+          { hasText: 'Open' }
+        );
+        await openOption.waitFor({ state: 'attached' });
+
+        // Wait for at least one new tab to open
+        const [newPage] = await Promise.all([
+          context.waitForEvent('page', { timeout: 15_000 }),
+          openOption.evaluate((el) => (el as HTMLElement).click()),
+        ]);
+
+        // Verify new tabs opened
+        expect(newPage).toBeTruthy();
+        expect(context.pages().length).toBeGreaterThan(initialPages);
+      });
+    });
+
+    test.describe('Bookmark Movement', () => {
+      test('should cut and paste bookmark using keyboard shortcuts', async ({
+        bookmarksPage,
+      }) => {
+        // Select a specific bookmark by title
+        const bookmarkRow = bookmarksPage
+          .locator('div[data-context-id]')
+          .filter({ hasText: TEST_BOOKMARKS.REACT_DOCS });
+        await expect(bookmarkRow).toBeVisible();
+        await bookmarkRow.click();
+
+        // Cut the bookmark (Cmd+X)
+        await bookmarksPage.keyboard.press('Meta+x');
+
+        // Wait a moment for cut to register
+        await bookmarksPage.waitForTimeout(300);
+
+        // The cut bookmark should still be visible but may have different styling
+        // Paste it back in place (Cmd+V)
+        await bookmarksPage.keyboard.press('Meta+v');
+
+        // Verify the bookmark is still visible (paste restored it)
+        await expect(bookmarkRow).toBeVisible();
+      });
+    });
+
+    test.describe('Folder with Bookmarks', () => {
+      test('should open folder with at least one bookmark', async ({
+        bookmarksPage,
+      }) => {
+        // Use "Main" folder which has bookmarks
+        const mainFolder = bookmarksPage.locator('[data-folder-name="Main"]');
+        await expect(mainFolder).toBeVisible();
+        await mainFolder.click();
+
+        // Wait for navigation
+        await bookmarksPage.waitForTimeout(500);
+
+        // We should either see bookmarks or an empty state
+        const bookmarks = bookmarksPage.locator('div[data-context-id]');
+        const bookmarkCount = await bookmarks.count();
+
+        // Main folder likely has bookmarks
+        expect(bookmarkCount).toBeGreaterThanOrEqual(0);
+      });
+    });
+
     test('should delete bookmark via context menu', async ({
       bookmarksPage,
     }) => {
-      const bookmarkRows = bookmarksPage.locator('[data-context-id]');
+      const bookmarkRows = bookmarksPage.locator('div[data-context-id]');
       // Count bookmarks before
       const bookmarksBefore = await bookmarkRows.count();
 
@@ -214,124 +335,16 @@ test.describe.serial('Bookmarks Panel', () => {
     });
   });
 
-  test.describe('Bookmark Navigation', () => {
-    test('should open bookmark by double-clicking', async ({
-      bookmarksPage,
-      context,
-    }) => {
-      // Get initial page count
-      const initialPages = context.pages().length;
-
-      // Use data-context-id selector which is specific to bookmarks (not folders)
-      const bookmarkRow = bookmarksPage.locator('[data-context-id]').first();
-      await expect(bookmarkRow).toBeVisible();
-
-      // Double-click to open bookmark and wait for new tab
-      const [newPage] = await Promise.all([
-        context.waitForEvent('page', { timeout: 15_000 }),
-        bookmarkRow.dblclick(),
-      ]);
-
-      // Verify new tab opened
-      expect(newPage).toBeTruthy();
-      expect(context.pages().length).toBeGreaterThan(initialPages);
-    });
-
-    test('should open multiple bookmarks via context menu', async ({
-      bookmarksPage,
-      context,
-    }) => {
-      // Get initial page count
-      const initialPages = context.pages().length;
-
-      // Use data-context-id selector which is specific to bookmarks (not folders)
-      const bookmarkRows = bookmarksPage.locator('[data-context-id]');
-
-      // Select first bookmark
-      const firstBookmark = bookmarkRows.first();
-      await firstBookmark.click();
-
-      // Ctrl+click second bookmark to add to selection
-      const secondBookmark = bookmarkRows.nth(1);
-      await secondBookmark.click({ modifiers: ['Meta'] });
-
-      // Right-click to open context menu
-      await firstBookmark.click({ button: 'right' });
-
-      // Click "Open" option (should show "Open all (2)" or "Open in new tab")
-      const openOption = bookmarksPage.locator(
-        '.mantine-contextmenu-item-button-title',
-        { hasText: 'Open' }
-      );
-      await openOption.waitFor({ state: 'attached' });
-
-      // Wait for at least one new tab to open
-      const [newPage] = await Promise.all([
-        context.waitForEvent('page', { timeout: 15_000 }),
-        openOption.evaluate((el) => (el as HTMLElement).click()),
-      ]);
-
-      // Verify new tabs opened
-      expect(newPage).toBeTruthy();
-      expect(context.pages().length).toBeGreaterThan(initialPages);
-    });
-  });
-
-  test.describe('Bookmark Movement', () => {
-    test('should cut and paste bookmark using keyboard shortcuts', async ({
-      bookmarksPage,
-    }) => {
-      // Select a bookmark
-      const bookmarkRow = bookmarksPage.locator('[data-context-id]').first();
-      await expect(bookmarkRow).toBeVisible();
-      await bookmarkRow.click();
-
-      // Cut the bookmark (Cmd+X)
-      await bookmarksPage.keyboard.press('Meta+x');
-
-      // Wait a moment for cut to register
-      await bookmarksPage.waitForTimeout(300);
-
-      // The cut bookmark should still be visible but may have different styling
-      // Paste it back in place (Cmd+V)
-      await bookmarksPage.keyboard.press('Meta+v');
-
-      // Verify the bookmark is still visible (paste restored it)
-      await expect(bookmarkRow).toBeVisible();
-    });
-  });
-
-  test.describe('Folder with Bookmarks', () => {
-    test('should open folder with at least one bookmark', async ({
-      bookmarksPage,
-    }) => {
-      // Use "Main" folder which has bookmarks
-      const mainFolder = bookmarksPage.locator('[data-folder-name="Main"]');
-      await expect(mainFolder).toBeVisible();
-      await mainFolder.click();
-
-      // Wait for navigation
-      await bookmarksPage.waitForTimeout(500);
-
-      // We should either see bookmarks or an empty state
-      const bookmarks = bookmarksPage.locator('[data-context-id]');
-      const bookmarkCount = await bookmarks.count();
-
-      // Main folder likely has bookmarks
-      expect(bookmarkCount).toBeGreaterThanOrEqual(0);
-    });
-  });
-
   test.describe('Person Panel', () => {
     test('should open person panel by clicking tagged person avatar', async ({
       bookmarksPage,
     }) => {
       // Find an avatar within a person group (identified by data-group-context-id)
       // to avoid overlapping with website favicons which also use .mantine-Avatar-root
-      const avatarGroup = bookmarksPage
-        .locator('[data-group-context-id]')
-        .first();
-      const avatar = avatarGroup.locator('.mantine-Avatar-root').first();
+      const avatarGroup = bookmarksPage.locator('[data-group-context-id]');
+      // Get the first visible avatar group
+      const visibleAvatarGroup = avatarGroup.first();
+      const avatar = visibleAvatarGroup.locator('.mantine-Avatar-root').first();
       await expect(avatar).toBeVisible({ timeout: 10_000 });
 
       // Hover over the avatar to show HoverCard
@@ -340,7 +353,7 @@ test.describe.serial('Bookmarks Panel', () => {
       // Wait for the dropdown to appear and be fully visible
       const dropdown = bookmarksPage
         .locator('.mantine-HoverCard-dropdown')
-        .filter({ visible: true })
+        .filter({ hasText: '' })
         .first();
       await expect(dropdown).toBeVisible({ timeout: 10_000 });
 
@@ -360,8 +373,7 @@ test.describe.serial('Bookmarks Panel', () => {
       // Look for the badge in the header that shows "Name (Count)"
       const headerBadge = bookmarksPage
         .locator('.mantine-Badge-label')
-        .filter({ hasText: personName })
-        .first();
+        .filter({ hasText: personName });
       await expect(headerBadge).toBeVisible({ timeout: 10_000 });
 
       const badgeText = (await headerBadge.textContent()) ?? '';
@@ -375,9 +387,9 @@ test.describe.serial('Bookmarks Panel', () => {
 
       // Assert that at least one bookmark is visible in the list
       const editButtons = bookmarksPage.getByTitle('Edit Bookmark');
-      await expect(editButtons.first()).toBeVisible();
       const rowCount = await editButtons.count();
       expect(rowCount).toBeGreaterThan(0);
+      await expect(editButtons.first()).toBeVisible();
 
       // Navigate back to bookmarks
       await navigateBack(bookmarksPage);
