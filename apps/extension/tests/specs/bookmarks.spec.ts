@@ -7,38 +7,35 @@ import { clickSaveButton, navigateBack } from '../utils/test-utils';
  * These tests run sequentially with a single login at the start.
  * The browser context persists across all tests in this describe block.
  */
-test.describe.serial('Bookmarks Panel - Authenticated', () => {
+test.describe.serial('Bookmarks Panel', () => {
   test.describe('Folder Operations', () => {
     const TEST_FOLDER_NAME = 'E2E Test Folder';
+
     test('should create a new folder', async ({ bookmarksPage }) => {
-      // Click the add folder button (with folder icon in header)
+      // Click the add folder button in the header
       const addButton = bookmarksPage.getByRole('button', { name: /add/i });
       await addButton.click();
 
       // Wait for "Add folder" dialog to open
-      await bookmarksPage.waitForSelector('[role="dialog"]', {
-        state: 'visible',
-      });
+      const dialog = bookmarksPage.getByRole('dialog', { name: /add folder/i });
+      await expect(dialog).toBeVisible();
 
-      // Fill folder name (placeholder is "Enter folder name")
-      const folderNameInput =
-        bookmarksPage.getByPlaceholder('Enter folder name');
-      await folderNameInput.fill(TEST_FOLDER_NAME);
+      // Fill folder name
+      await dialog
+        .getByPlaceholder(/enter folder name/i)
+        .fill(TEST_FOLDER_NAME);
 
       // Click Save button in the dialog
-      const dialog = bookmarksPage.getByLabel('Add folder');
-      const saveButton = dialog.getByRole('button', { name: 'Save' });
-      await saveButton.click();
+      await dialog.getByRole('button', { name: /save/i }).click();
 
       // Wait for dialog to close
-      await bookmarksPage.waitForSelector('[role="dialog"]', {
-        state: 'hidden',
-      });
+      await expect(dialog).toBeHidden();
 
       // Verify folder appears in list
-      await expect(
-        bookmarksPage.getByText(TEST_FOLDER_NAME).first()
-      ).toBeVisible();
+      const folderItem = bookmarksPage
+        .locator('[class*="Folder-module__container"]')
+        .filter({ hasText: TEST_FOLDER_NAME });
+      await expect(folderItem).toBeVisible();
     });
 
     test('should not open empty folder (or show empty state)', async ({
@@ -48,7 +45,10 @@ test.describe.serial('Bookmarks Panel - Authenticated', () => {
       const emptyFolderName = 'Empty folder';
 
       // Click on the empty folder
-      const folder = bookmarksPage.getByText(emptyFolderName).first();
+      const folder = bookmarksPage
+        .locator('[class*="Folder-module__container"]')
+        .filter({ hasText: emptyFolderName })
+        .first();
       await expect(folder).toBeVisible();
       await folder.click();
 
@@ -66,25 +66,21 @@ test.describe.serial('Bookmarks Panel - Authenticated', () => {
       const addButton = bookmarksPage.getByRole('button', { name: /add/i });
       await addButton.click();
 
-      await bookmarksPage.waitForSelector('[role="dialog"]', {
-        state: 'visible',
-      });
+      const dialog = bookmarksPage.getByRole('dialog', { name: /add folder/i });
+      await expect(dialog).toBeVisible();
 
-      const folderNameInput =
-        bookmarksPage.getByPlaceholder('Enter folder name');
-      await folderNameInput.fill('Temp Rename Folder');
+      await dialog
+        .getByPlaceholder(/enter folder name/i)
+        .fill('Temp Rename Folder');
+      await dialog.getByRole('button', { name: /save/i }).click();
 
-      const dialog = bookmarksPage.getByLabel('Add folder');
-      await dialog.getByRole('button', { name: 'Save' }).click();
-
-      await bookmarksPage.waitForSelector('[role="dialog"]', {
-        state: 'hidden',
-      });
+      await expect(dialog).toBeHidden();
 
       // Verify folder was created
-      await expect(
-        bookmarksPage.getByText('Temp Rename Folder').first()
-      ).toBeVisible();
+      const folderItem = bookmarksPage
+        .locator('[class*="Folder-module__container"]')
+        .filter({ hasText: 'Temp Rename Folder' });
+      await expect(folderItem).toBeVisible();
 
       // Note: Rename test would modify data, so we skip actual rename
       // to avoid affecting other tests
@@ -112,8 +108,16 @@ test.describe.serial('Bookmarks Panel - Authenticated', () => {
     });
 
     test('should edit bookmark via context menu', async ({ bookmarksPage }) => {
-      // Use an existing bookmark from the test account
-      // Get any bookmark with data-context-id (the bookmark row)
+      // Ensure we're at the bookmarks root by clicking the Bookmarks button
+      const bookmarksButton = bookmarksPage.getByRole('button', {
+        name: 'Bookmarks',
+      });
+      if (await bookmarksButton.isVisible()) {
+        await bookmarksButton.click();
+        await bookmarksPage.waitForTimeout(500);
+      }
+
+      // Use data-context-id selector which is specific to bookmarks (not folders)
       const bookmarkRow = bookmarksPage.locator('[data-context-id]').first();
       await expect(bookmarkRow).toBeVisible();
 
@@ -127,22 +131,21 @@ test.describe.serial('Bookmarks Panel - Authenticated', () => {
       );
       await editOption.waitFor({ state: 'attached', timeout: 5000 });
 
-      // Use evaluate to click to bypass actionability checks (visiblity/viewport)
+      // Use evaluate to click to bypass actionability checks
       await editOption.evaluate((el) => (el as HTMLElement).click());
 
-      // Wait for dialog to open
-      await bookmarksPage.waitForSelector('[role="dialog"]', {
-        state: 'visible',
-      });
+      // Wait for dialog to open - use generic dialog role first
+      const dialog = bookmarksPage.getByRole('dialog');
+      await expect(dialog).toBeVisible();
 
-      // Verify title input is visible and has value
-      const titleInput = bookmarksPage.getByLabel('Title');
+      // Verify it's the bookmark edit dialog by checking for bookmark-specific fields
+      const titleInput = dialog.getByPlaceholder(/enter bookmark title/i);
       await expect(titleInput).toBeVisible();
       const currentTitle = await titleInput.inputValue();
       expect(currentTitle).toBeTruthy();
 
-      // Close dialog without saving (click close button or press Escape)
-      const closeButton = bookmarksPage.locator('.mantine-Modal-close');
+      // Close dialog without saving
+      const closeButton = dialog.locator('button.mantine-Modal-close');
       if (await closeButton.isVisible()) {
         await closeButton.click();
       } else {
@@ -150,16 +153,13 @@ test.describe.serial('Bookmarks Panel - Authenticated', () => {
       }
 
       // Wait for dialog to close
-      await bookmarksPage.waitForSelector('[role="dialog"]', {
-        state: 'hidden',
-        timeout: 5000,
-      });
+      await expect(dialog).toBeHidden();
     });
 
     test('should verify person select in edit dialog', async ({
       bookmarksPage,
     }) => {
-      // Open edit dialog for a bookmark
+      // Use data-context-id selector which is specific to bookmarks (not folders)
       const bookmarkRow = bookmarksPage.locator('[data-context-id]').first();
       await bookmarkRow.click({ button: 'right' });
 
@@ -171,38 +171,35 @@ test.describe.serial('Bookmarks Panel - Authenticated', () => {
       await editOption.evaluate((el) => (el as HTMLElement).click());
 
       // Wait for dialog
-      await bookmarksPage.waitForSelector('[role="dialog"]', {
-        state: 'visible',
-      });
+      const dialog = bookmarksPage.getByRole('dialog');
+      await expect(dialog).toBeVisible();
 
-      // Look for Tagged Persons field (MultiSelect)
-      const personLabel = bookmarksPage.getByText('Tagged Persons');
+      // Look for Tagged Persons field
+      const personLabel = dialog.getByText(/tagged persons/i);
       await expect(personLabel).toBeVisible();
 
       // Close dialog
-      const closeButton = bookmarksPage.locator('.mantine-Modal-close');
+      const closeButton = dialog.locator('button.mantine-Modal-close');
       if (await closeButton.isVisible()) {
         await closeButton.click();
       } else {
         await bookmarksPage.keyboard.press('Escape');
       }
 
-      await bookmarksPage.waitForSelector('[role="dialog"]', {
-        state: 'hidden',
-        timeout: 5000,
-      });
+      await expect(dialog).toBeHidden();
     });
 
     test('should delete bookmark via context menu', async ({
       bookmarksPage,
     }) => {
+      const bookmarkRows = bookmarksPage.locator(
+        '[class*="styles-module__bookmarkRow"]'
+      );
       // Count bookmarks before
-      const bookmarksBefore = await bookmarksPage
-        .locator('[data-context-id]')
-        .count();
+      const bookmarksBefore = await bookmarkRows.count();
 
-      // Get the last bookmark (to avoid messing with important ones)
-      const lastBookmark = bookmarksPage.locator('[data-context-id]').last();
+      // Get the last bookmark
+      const lastBookmark = bookmarkRows.last();
       await lastBookmark.click({ button: 'right' });
 
       // Click Delete option
@@ -217,9 +214,7 @@ test.describe.serial('Bookmarks Panel - Authenticated', () => {
       await bookmarksPage.waitForTimeout(500);
 
       // Count bookmarks after - should be one less
-      const bookmarksAfter = await bookmarksPage
-        .locator('[data-context-id]')
-        .count();
+      const bookmarksAfter = await bookmarkRows.count();
       expect(bookmarksAfter).toBeLessThan(bookmarksBefore);
     });
   });
@@ -232,13 +227,13 @@ test.describe.serial('Bookmarks Panel - Authenticated', () => {
       // Get initial page count
       const initialPages = context.pages().length;
 
-      // Get first bookmark with data-context-id
+      // Use data-context-id selector which is specific to bookmarks (not folders)
       const bookmarkRow = bookmarksPage.locator('[data-context-id]').first();
       await expect(bookmarkRow).toBeVisible();
 
       // Double-click to open bookmark and wait for new tab
       const [newPage] = await Promise.all([
-        context.waitForEvent('page'),
+        context.waitForEvent('page', { timeout: 15_000 }),
         bookmarkRow.dblclick(),
       ]);
 
@@ -254,12 +249,15 @@ test.describe.serial('Bookmarks Panel - Authenticated', () => {
       // Get initial page count
       const initialPages = context.pages().length;
 
+      // Use data-context-id selector which is specific to bookmarks (not folders)
+      const bookmarkRows = bookmarksPage.locator('[data-context-id]');
+
       // Select first bookmark
-      const firstBookmark = bookmarksPage.locator('[data-context-id]').first();
+      const firstBookmark = bookmarkRows.first();
       await firstBookmark.click();
 
       // Ctrl+click second bookmark to add to selection
-      const secondBookmark = bookmarksPage.locator('[data-context-id]').nth(1);
+      const secondBookmark = bookmarkRows.nth(1);
       await secondBookmark.click({ modifiers: ['Meta'] });
 
       // Right-click to open context menu
@@ -274,7 +272,7 @@ test.describe.serial('Bookmarks Panel - Authenticated', () => {
 
       // Wait for at least one new tab to open
       const [newPage] = await Promise.all([
-        context.waitForEvent('page'),
+        context.waitForEvent('page', { timeout: 15_000 }),
         openOption.evaluate((el) => (el as HTMLElement).click()),
       ]);
 
@@ -288,8 +286,10 @@ test.describe.serial('Bookmarks Panel - Authenticated', () => {
     test('should cut and paste bookmark using keyboard shortcuts', async ({
       bookmarksPage,
     }) => {
-      // Select a bookmark (first one with data-context-id)
-      const bookmarkRow = bookmarksPage.locator('[data-context-id]').first();
+      // Select a bookmark
+      const bookmarkRow = bookmarksPage
+        .locator('[class*="styles-module__bookmarkRow"]')
+        .first();
       await expect(bookmarkRow).toBeVisible();
       await bookmarkRow.click();
 
@@ -312,8 +312,11 @@ test.describe.serial('Bookmarks Panel - Authenticated', () => {
     test('should open folder with at least one bookmark', async ({
       bookmarksPage,
     }) => {
-      // Use "Main" folder which has bookmarks (seen in screenshot)
-      const mainFolder = bookmarksPage.getByText('Main').first();
+      // Use "Main" folder which has bookmarks
+      const mainFolder = bookmarksPage
+        .locator('[class*="Folder-module__container"]')
+        .filter({ hasText: 'Main' })
+        .first();
       await expect(mainFolder).toBeVisible();
       await mainFolder.click();
 
@@ -321,10 +324,12 @@ test.describe.serial('Bookmarks Panel - Authenticated', () => {
       await bookmarksPage.waitForTimeout(500);
 
       // We should either see bookmarks or an empty state
-      const bookmarks = bookmarksPage.locator('[data-context-id]');
+      const bookmarks = bookmarksPage.locator(
+        '[class*="styles-module__bookmarkRow"]'
+      );
       const bookmarkCount = await bookmarks.count();
 
-      // Main folder likely has bookmarks based on screenshot
+      // Main folder likely has bookmarks
       expect(bookmarkCount).toBeGreaterThanOrEqual(0);
     });
   });
@@ -408,23 +413,19 @@ test.describe.serial('Bookmarks Panel - Authenticated', () => {
       await addButton.click();
 
       // Wait for folder dialog to open
-      await bookmarksPage.waitForSelector('[role="dialog"]', {
-        state: 'visible',
-      });
+      const dialog = bookmarksPage.getByRole('dialog', { name: /add folder/i });
+      await expect(dialog).toBeVisible();
 
       // Fill folder name
-      const folderNameInput =
-        bookmarksPage.getByPlaceholder('Enter folder name');
-      await folderNameInput.fill('Persistence Test Folder');
+      await dialog
+        .getByPlaceholder(/enter folder name/i)
+        .fill('Persistence Test Folder');
 
       // Save folder
-      const dialog = bookmarksPage.getByLabel('Add folder');
-      await dialog.getByRole('button', { name: 'Save' }).click();
+      await dialog.getByRole('button', { name: /save/i }).click();
 
       // Wait for dialog to close
-      await bookmarksPage.waitForSelector('[role="dialog"]', {
-        state: 'hidden',
-      });
+      await expect(dialog).toBeHidden();
 
       // Click the main save button to persist to storage
       await clickSaveButton(bookmarksPage);
@@ -448,7 +449,10 @@ test.describe.serial('Bookmarks Panel - Authenticated', () => {
       }
 
       const folderName = 'Persistence Test Folder';
-      const folderRow = bookmarksPage.getByText(folderName).first();
+      const folderRow = bookmarksPage
+        .locator('[class*="Folder-module__container"]')
+        .filter({ hasText: folderName })
+        .first();
       await expect(folderRow).toBeVisible({ timeout: 10_000 });
 
       // Now delete the folder
@@ -462,7 +466,7 @@ test.describe.serial('Bookmarks Panel - Authenticated', () => {
       await deleteOption.evaluate((el) => (el as HTMLElement).click());
 
       // Verify folder is removed
-      await expect(bookmarksPage.getByText(folderName)).not.toBeVisible();
+      await expect(folderRow).not.toBeVisible();
     });
   });
 });
