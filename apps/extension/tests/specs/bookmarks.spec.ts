@@ -8,10 +8,8 @@ import { clickSaveButton, navigateBack } from '../utils/test-utils';
  * The browser context persists across all tests in this describe block.
  */
 test.describe.serial('Bookmarks Panel - Authenticated', () => {
-  // Test data
-  const TEST_FOLDER_NAME = 'E2E Test Folder';
-
   test.describe('Folder Operations', () => {
+    const TEST_FOLDER_NAME = 'E2E Test Folder';
     test('should create a new folder', async ({ bookmarksPage }) => {
       // Click the add folder button (with folder icon in header)
       const addButton = bookmarksPage.getByRole('button', { name: /add/i });
@@ -58,10 +56,6 @@ test.describe.serial('Bookmarks Panel - Authenticated', () => {
       // Wait a moment for any navigation
       await bookmarksPage.waitForTimeout(500);
 
-      // Check for empty state or we're viewing folder contents
-      const emptyState = bookmarksPage.getByText(/no bookmarks|empty/i);
-      const isEmptyVisible = await emptyState.isVisible().catch(() => false);
-
       // If we entered the folder, we should see an empty state or no items
       // If not, the folder click was ignored (which is also acceptable)
       expect(true).toBe(true); // Test passes if no error occurred
@@ -98,12 +92,10 @@ test.describe.serial('Bookmarks Panel - Authenticated', () => {
   });
 
   test.describe('Bookmark CRUD Operations', () => {
-    // Use an existing bookmark from the test account
-    const EXISTING_BOOKMARK_PREFIX = 'React'; // Match existing bookmarks
-
     test('should find and select an existing bookmark', async ({
       bookmarksPage,
     }) => {
+      const EXISTING_BOOKMARK_PREFIX = 'React';
       // Find an existing bookmark that starts with our prefix
       const bookmark = bookmarksPage.locator(
         `text=/${EXISTING_BOOKMARK_PREFIX}/i`
@@ -441,13 +433,10 @@ test.describe.serial('Bookmarks Panel - Authenticated', () => {
       await bookmarksPage.waitForTimeout(1000);
 
       // The test passes if we got here without errors
-      // This verifies the create folder -> save workflow works
       expect(true).toBe(true);
     });
   });
 
-  // Note: Cleanup test skipped - depends on folder created in rename test
-  // which was modified to be self-contained. Cleanup handled via worker teardown.
   test.describe('Cleanup - Delete Folder', () => {
     test('should delete a folder', async ({ bookmarksPage }) => {
       // Ensure we are in bookmarks panel
