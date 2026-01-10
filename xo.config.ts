@@ -74,7 +74,7 @@ const xoConfig: FlatXoConfig = [
       ],
       '@typescript-eslint/no-base-to-string': [
         'error',
-        { ignoredTypeNames: ['TRPCError'] },
+        { ignoredTypeNames: ['TRPCError', 'URL', 'URLSearchParams'] },
       ],
       '@typescript-eslint/restrict-template-expressions': [
         'error',
