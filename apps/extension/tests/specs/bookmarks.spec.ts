@@ -30,9 +30,9 @@ test.describe.serial('Bookmarks Panel', () => {
       await expect(dialog).toBeHidden();
 
       // Verify folder appears in list
-      const folderItem = bookmarksPage
-        .locator('[class*="Folder-module__container"]')
-        .filter({ hasText: TEST_FOLDER_NAME });
+      const folderItem = bookmarksPage.locator(
+        `[data-folder-name="${TEST_FOLDER_NAME}"]`
+      );
       await expect(folderItem).toBeVisible();
     });
 
@@ -43,10 +43,9 @@ test.describe.serial('Bookmarks Panel', () => {
       const emptyFolderName = 'Empty folder';
 
       // Click on the empty folder
-      const folder = bookmarksPage
-        .locator('[class*="Folder-module__container"]')
-        .filter({ hasText: emptyFolderName })
-        .first();
+      const folder = bookmarksPage.locator(
+        `[data-folder-name="${emptyFolderName}"]`
+      );
       await expect(folder).toBeVisible();
       await folder.click();
 
@@ -75,9 +74,9 @@ test.describe.serial('Bookmarks Panel', () => {
       await expect(dialog).toBeHidden();
 
       // Verify folder was created
-      const folderItem = bookmarksPage
-        .locator('[class*="Folder-module__container"]')
-        .filter({ hasText: 'Temp Rename Folder' });
+      const folderItem = bookmarksPage.locator(
+        '[data-folder-name="Temp Rename Folder"]'
+      );
       await expect(folderItem).toBeVisible();
 
       // Note: Rename test would modify data, so we skip actual rename
@@ -190,9 +189,7 @@ test.describe.serial('Bookmarks Panel', () => {
     test('should delete bookmark via context menu', async ({
       bookmarksPage,
     }) => {
-      const bookmarkRows = bookmarksPage.locator(
-        '[class*="styles-module__bookmarkRow"]'
-      );
+      const bookmarkRows = bookmarksPage.locator('[data-context-id]');
       // Count bookmarks before
       const bookmarksBefore = await bookmarkRows.count();
 
@@ -285,9 +282,7 @@ test.describe.serial('Bookmarks Panel', () => {
       bookmarksPage,
     }) => {
       // Select a bookmark
-      const bookmarkRow = bookmarksPage
-        .locator('[class*="styles-module__bookmarkRow"]')
-        .first();
+      const bookmarkRow = bookmarksPage.locator('[data-context-id]').first();
       await expect(bookmarkRow).toBeVisible();
       await bookmarkRow.click();
 
@@ -311,10 +306,7 @@ test.describe.serial('Bookmarks Panel', () => {
       bookmarksPage,
     }) => {
       // Use "Main" folder which has bookmarks
-      const mainFolder = bookmarksPage
-        .locator('[class*="Folder-module__container"]')
-        .filter({ hasText: 'Main' })
-        .first();
+      const mainFolder = bookmarksPage.locator('[data-folder-name="Main"]');
       await expect(mainFolder).toBeVisible();
       await mainFolder.click();
 
@@ -322,9 +314,7 @@ test.describe.serial('Bookmarks Panel', () => {
       await bookmarksPage.waitForTimeout(500);
 
       // We should either see bookmarks or an empty state
-      const bookmarks = bookmarksPage.locator(
-        '[class*="styles-module__bookmarkRow"]'
-      );
+      const bookmarks = bookmarksPage.locator('[data-context-id]');
       const bookmarkCount = await bookmarks.count();
 
       // Main folder likely has bookmarks
@@ -447,10 +437,9 @@ test.describe.serial('Bookmarks Panel', () => {
       }
 
       const folderName = 'Persistence Test Folder';
-      const folderRow = bookmarksPage
-        .locator('[class*="Folder-module__container"]')
-        .filter({ hasText: folderName })
-        .first();
+      const folderRow = bookmarksPage.locator(
+        `[data-folder-name="${folderName}"]`
+      );
       await expect(folderRow).toBeVisible({ timeout: 10_000 });
 
       // Now delete the folder

@@ -28,6 +28,7 @@ const Folder = memo<FolderProps>(
         w="100%"
         h="100%"
         p="0.375rem"
+        data-folder-name={origName}
         className={styles.container}
         opacity={isEmpty ? 0.6 : 1}
         style={{ cursor: isEmpty ? 'not-allowed' : 'inherit' }}
