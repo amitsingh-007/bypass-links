@@ -2,13 +2,13 @@
 import wretch from 'wretch';
 import QueryStringAddon from 'wretch/addons/queryString';
 import { getFirebasePublicConfig } from '../../../../packages/configs/firebase.config';
-import { GLOBALS } from '../../../../packages/shared/src/constants/globals';
-import { env } from '../../../../packages/trpc/src/constants/env';
 import { test as base } from './extension-fixture';
 import { type IAuthResponse } from '@/interfaces/firebase';
 import { getExpiresAtMs } from '@/store/firebase/utils';
 
-const firebaseConfig = getFirebasePublicConfig(GLOBALS.PROD_ENV);
+const isCI = Boolean(process.env.PLAYWRIGHT_TEST_BASE_URL);
+const firebaseConfig = getFirebasePublicConfig(isCI);
+
 const identityApi = wretch('https://identitytoolkit.googleapis.com/v1')
   .addon(QueryStringAddon)
   .query({
@@ -19,8 +19,8 @@ const signInWithEmailAndPassword = async (): Promise<IAuthResponse> => {
   return identityApi
     .url('/accounts:signInWithPassword')
     .post({
-      email: env.FIREBASE_TEST_USER_EMAIL,
-      password: env.FIREBASE_TEST_USER_PASSWORD,
+      email: process.env.FIREBASE_TEST_USER_EMAIL,
+      password: process.env.FIREBASE_TEST_USER_PASSWORD,
       returnSecureToken: true,
     })
     .json<IAuthResponse>((res) => ({
