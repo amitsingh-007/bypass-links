@@ -29,9 +29,14 @@ const PersonAvatars = memo<{ persons: IPersonWithImage[]; contextId: string }>(
             styles={{ dropdown: { padding: 0, cursor: 'pointer' } }}
           >
             <HoverCard.Target>
-              <Avatar radius="xl" size="1.75rem" src={imageUrl} />
+              <Avatar
+                radius="xl"
+                size="1.75rem"
+                src={imageUrl}
+                data-person-uid={uid}
+              />
             </HoverCard.Target>
-            <HoverCard.Dropdown>
+            <HoverCard.Dropdown data-person-dropdown={uid}>
               <Tooltip opened label={name} position="right" color="gray">
                 <Avatar
                   ml={0}
@@ -39,6 +44,8 @@ const PersonAvatars = memo<{ persons: IPersonWithImage[]; contextId: string }>(
                   size="4.375rem"
                   src={imageUrl}
                   alt={name}
+                  data-person-name={name}
+                  data-person-uid={uid}
                   onClick={() =>
                     location.push(
                       getPersonsPanelUrl({ openBookmarksList: uid })

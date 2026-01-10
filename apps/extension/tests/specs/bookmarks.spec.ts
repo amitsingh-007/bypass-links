@@ -335,28 +335,23 @@ test.describe.serial('Bookmarks Panel', () => {
     bookmarksPage,
   }) => {
     // Find an avatar within a person group (identified by data-group-context-id)
-    // to avoid overlapping with website favicons which also use .mantine-Avatar-root
     const avatarGroup = bookmarksPage.locator('[data-group-context-id]');
-    // Get the first visible avatar group
-    const visibleAvatarGroup = avatarGroup.first();
-    const avatar = visibleAvatarGroup.locator('.mantine-Avatar-root').first();
+    const avatar = avatarGroup.locator('[data-person-uid]').first();
     await expect(avatar).toBeVisible({ timeout: 10_000 });
 
     // Hover over the avatar to show HoverCard
     await avatar.hover();
 
-    // Wait for the dropdown to appear and be fully visible
-    const dropdown = bookmarksPage
-      .locator('.mantine-HoverCard-dropdown')
-      .filter({ hasText: '' })
-      .first();
+    // Wait for the dropdown to appear - use data attribute selector
+    const dropdown = bookmarksPage.locator('[data-person-dropdown]');
     await expect(dropdown).toBeVisible({ timeout: 10_000 });
 
-    // Click the larger avatar in the dropdown/hovercard to navigate
-    const dropdownAvatar = dropdown.locator('img').first();
+    // Click the avatar in the dropdown to navigate - use data-person-name attribute
+    const dropdownAvatar = dropdown.locator('[data-person-name]');
     await dropdownAvatar.waitFor({ state: 'visible', timeout: 5000 });
-    const personName = (await dropdownAvatar.getAttribute('alt')) ?? '';
-    await dropdownAvatar.evaluate((el) => (el as HTMLElement).click());
+    const personName =
+      (await dropdownAvatar.getAttribute('data-person-name')) ?? '';
+    await dropdownAvatar.click();
 
     // Verify person panel opens and URL is correct
     await bookmarksPage.waitForURL(/persons-panel/);
