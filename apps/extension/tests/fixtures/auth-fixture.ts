@@ -2,6 +2,7 @@
 import wretch from 'wretch';
 import QueryStringAddon from 'wretch/addons/queryString';
 import { getFirebasePublicConfig } from '../../../../packages/configs/firebase.config';
+import { TEST_AUTH_DATA_KEY } from '../constants';
 import { test as base } from './extension-fixture';
 import { type IAuthResponse } from '@/interfaces/firebase';
 import { getExpiresAtMs } from '@/store/firebase/utils';
@@ -48,9 +49,15 @@ export const test = base.extend<{
   async login({ context }, use) {
     const authData = await signInWithEmailAndPassword();
 
-    await context.addInitScript((authDataJson: string) => {
-      window.localStorage.setItem('__test_auth_data', authDataJson);
-    }, JSON.stringify(authData));
+    await context.addInitScript(
+      ({ authDataJson, key }) => {
+        window.localStorage.setItem(key, authDataJson);
+      },
+      {
+        authDataJson: JSON.stringify(authData),
+        key: TEST_AUTH_DATA_KEY,
+      }
+    );
 
     await use();
   },

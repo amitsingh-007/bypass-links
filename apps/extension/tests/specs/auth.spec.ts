@@ -16,10 +16,10 @@ test('should be logged in with firebase token', async ({
   const logoutButton = page.getByRole('button', { name: 'Logout' });
   await expect(logoutButton).toBeVisible({ timeout: 30_000 });
 
-  const localStorage = await page.evaluate(() =>
+  const fbOAuthData = await page.evaluate(() =>
     window.localStorage.getItem('__fbOAuth')
   );
-  expect(localStorage).toBeTruthy();
-  const parsed = JSON.parse(localStorage!);
+  expect(fbOAuthData).toBeTruthy();
+  const parsed = JSON.parse(fbOAuthData!);
   expect(parsed.state.idpAuth.email).toBeTruthy();
 });
