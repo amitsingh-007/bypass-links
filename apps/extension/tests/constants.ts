@@ -19,4 +19,5 @@ export const TEST_BOOKMARKS = {
 export const TEST_FOLDERS = {
   MAIN: 'Main',
   EMPTY: 'Empty folder',
+  OTHER_BOOKMARKS: 'Other bookmarks',
 } as const;
