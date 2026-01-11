@@ -243,31 +243,6 @@ export const searchAndVerify = async (
   }
 };
 
-interface CompleteDialogFlowOptions {
-  inputs: Array<{ placeholder: string; value: string }>;
-  saveButtonName?: string;
-}
-
-/**
- * Complete a dialog flow: open, fill inputs, and save.
- */
-export const completeDialogFlow = async (
-  page: Page,
-  buttonName: string | RegExp,
-  dialogName: string,
-  options: CompleteDialogFlowOptions
-) => {
-  const { inputs, saveButtonName = 'Save' } = options;
-  const dialog = await openDialog(page, buttonName, dialogName);
-
-  for (const { placeholder, value } of inputs) {
-    await fillDialogInput(dialog, placeholder, value);
-  }
-
-  await clickDialogButton(dialog, saveButtonName);
-  await expect(dialog).toBeHidden();
-};
-
 /**
  * Right-click on element and select a context menu option.
  */
