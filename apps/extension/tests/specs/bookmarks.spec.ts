@@ -9,6 +9,7 @@ import {
   navigateBack,
   openDialog,
   openFolder,
+  rightClickAndSelectOption,
   waitForDebounce,
 } from '../utils/test-utils';
 
@@ -87,19 +88,12 @@ test.describe.serial('Bookmarks Panel', () => {
     test('should edit bookmark via context menu', async ({ bookmarksPage }) => {
       await ensureAtRoot(bookmarksPage);
 
-      const bookmarkRow = bookmarksPage
-        .locator('div[data-context-id]')
-        .filter({ hasText: TEST_BOOKMARKS.REACT_DOCS });
-      await expect(bookmarkRow).toBeVisible();
-
-      await bookmarkRow.click({ button: 'right' });
-
-      const editOption = bookmarksPage.locator(
-        '.mantine-contextmenu-item-button-title',
-        { hasText: 'Edit' }
+      await rightClickAndSelectOption(
+        bookmarksPage,
+        'div[data-context-id]',
+        TEST_BOOKMARKS.REACT_DOCS,
+        'Edit'
       );
-      await editOption.waitFor({ state: 'attached', timeout: 5000 });
-      await editOption.evaluate((el) => (el as HTMLElement).click());
 
       const dialog = bookmarksPage.getByRole('dialog');
       await expect(dialog).toBeVisible();
@@ -122,12 +116,12 @@ test.describe.serial('Bookmarks Panel', () => {
     test('should verify person select in edit dialog', async ({
       bookmarksPage,
     }) => {
-      const bookmarkRow = bookmarksPage
-        .locator('div[data-context-id]')
-        .filter({ hasText: TEST_BOOKMARKS.REACT_DOCS });
-      await bookmarkRow.click({ button: 'right' });
-
-      await clickContextMenuItem(bookmarksPage, 'Edit');
+      await rightClickAndSelectOption(
+        bookmarksPage,
+        'div[data-context-id]',
+        TEST_BOOKMARKS.REACT_DOCS,
+        'Edit'
+      );
 
       const dialog = bookmarksPage.getByRole('dialog');
       await expect(dialog).toBeVisible();
@@ -399,17 +393,18 @@ test.describe.serial('Bookmarks Panel', () => {
       const countBefore = await bookmarkRows.count();
       expect(countBefore).toBeGreaterThan(1);
 
-      const bookmarkToCut = bookmarksPage
-        .locator('div[data-context-id]')
-        .filter({ hasText: TEST_BOOKMARKS.GITHUB });
-      await expect(bookmarkToCut).toBeVisible();
-
-      await bookmarkToCut.click({ button: 'right' });
-
-      await clickContextMenuItem(bookmarksPage, 'Cut');
+      await rightClickAndSelectOption(
+        bookmarksPage,
+        'div[data-context-id]',
+        TEST_BOOKMARKS.GITHUB,
+        'Cut'
+      );
 
       await waitForDebounce(bookmarksPage);
 
+      const bookmarkToCut = bookmarksPage
+        .locator('div[data-context-id]')
+        .filter({ hasText: TEST_BOOKMARKS.GITHUB });
       await expect(bookmarkToCut).toBeVisible();
 
       const firstBookmark = bookmarkRows.first();

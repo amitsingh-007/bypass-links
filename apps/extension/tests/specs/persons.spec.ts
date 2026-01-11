@@ -1,7 +1,7 @@
 import { test, expect } from '../fixtures/persons-fixture';
 import { TEST_PERSONS } from '../constants';
 import {
-  clickContextMenuItem,
+  changeImageInDialog,
   clickDialogButton,
   closeDialog,
   countElements,
@@ -9,10 +9,10 @@ import {
   getBadgeCount,
   navigateBack,
   openDialog,
-  openImagePicker,
   openPersonCard,
+  rightClickAndSelectOption,
+  searchAndVerify,
   toggleSwitch,
-  uploadImage,
   waitForDebounce,
 } from '../utils/test-utils';
 
@@ -27,24 +27,21 @@ import {
 test.describe.serial('Persons Panel', () => {
   test.describe('Search Person', () => {
     test('should search and filter persons', async ({ personsPage }) => {
+      await searchAndVerify(
+        personsPage,
+        'John',
+        [TEST_PERSONS.JOHN_NATHAN],
+        [TEST_PERSONS.AKASH_KUMAR_SINGH]
+      );
+
       const searchInput = personsPage.getByPlaceholder('Search');
-      await searchInput.fill('John');
-      await waitForDebounce(personsPage);
-
-      const johnCard = personsPage
-        .locator('[data-person-uid]')
-        .filter({ hasText: TEST_PERSONS.JOHN_NATHAN });
-      await expect(johnCard).toBeVisible();
-
-      const akashCard = personsPage
-        .locator('[data-person-uid]')
-        .filter({ hasText: TEST_PERSONS.AKASH_KUMAR_SINGH });
-      await expect(akashCard).not.toBeVisible();
-
       await searchInput.clear();
       await waitForDebounce(personsPage);
-
-      await expect(akashCard).toBeVisible();
+      await expect(
+        personsPage
+          .locator('[data-person-uid]')
+          .filter({ hasText: TEST_PERSONS.AKASH_KUMAR_SINGH })
+      ).toBeVisible();
     });
 
     test('should clear search and show all persons', async ({
@@ -91,12 +88,8 @@ test.describe.serial('Persons Panel', () => {
       const TEST_IMAGE_URL = 'https://picsum.photos/200';
 
       const dialog = await openDialog(personsPage, 'Add', 'Add Person');
-
       await fillDialogInput(dialog, 'Enter name', TEST_PERSON_NAME);
-
-      const imagePickerDialog = await openImagePicker(personsPage, dialog);
-      await uploadImage(personsPage, imagePickerDialog, TEST_IMAGE_URL);
-
+      await changeImageInDialog(personsPage, dialog, TEST_IMAGE_URL);
       await clickDialogButton(dialog, 'Save');
       await expect(dialog).toBeHidden();
 
@@ -112,11 +105,12 @@ test.describe('Edit Person', () => {
   test('should edit person name', async ({ personsPage }) => {
     const EDITED_PREFIX = '(Edited) ';
 
-    const johnCard = personsPage
-      .locator('[data-person-uid]')
-      .filter({ hasText: TEST_PERSONS.JOHN_NATHAN });
-    await johnCard.click({ button: 'right' });
-    await clickContextMenuItem(personsPage, 'Edit');
+    await rightClickAndSelectOption(
+      personsPage,
+      '[data-person-uid]',
+      TEST_PERSONS.JOHN_NATHAN,
+      'Edit'
+    );
 
     const dialog = personsPage.getByRole('dialog', { name: 'Edit Person' });
     await expect(dialog).toBeVisible();
@@ -135,8 +129,12 @@ test.describe('Edit Person', () => {
       .filter({ hasText: EDITED_PREFIX + TEST_PERSONS.JOHN_NATHAN });
     await expect(editedJohnCard).toBeVisible();
 
-    await editedJohnCard.click({ button: 'right' });
-    await clickContextMenuItem(personsPage, 'Edit');
+    await rightClickAndSelectOption(
+      personsPage,
+      '[data-person-uid]',
+      EDITED_PREFIX + TEST_PERSONS.JOHN_NATHAN,
+      'Edit'
+    );
 
     const dialog2 = personsPage.getByRole('dialog', { name: 'Edit Person' });
     await expect(dialog2).toBeVisible();
@@ -156,11 +154,12 @@ test.describe('Edit Person', () => {
   test('should verify avatar image is visible in edit dialog', async ({
     personsPage,
   }) => {
-    const akashCard = personsPage
-      .locator('[data-person-uid]')
-      .filter({ hasText: TEST_PERSONS.AKASH_KUMAR_SINGH });
-    await akashCard.click({ button: 'right' });
-    await clickContextMenuItem(personsPage, 'Edit');
+    await rightClickAndSelectOption(
+      personsPage,
+      '[data-person-uid]',
+      TEST_PERSONS.AKASH_KUMAR_SINGH,
+      'Edit'
+    );
 
     const dialog = personsPage.getByRole('dialog', { name: 'Edit Person' });
     await expect(dialog).toBeVisible();
@@ -174,17 +173,17 @@ test.describe('Edit Person', () => {
   test('should change person image', async ({ personsPage }) => {
     const NEW_IMAGE_URL = 'https://picsum.photos/250';
 
-    const donaldCard = personsPage
-      .locator('[data-person-uid]')
-      .filter({ hasText: TEST_PERSONS.DONALD });
-    await donaldCard.click({ button: 'right' });
-    await clickContextMenuItem(personsPage, 'Edit');
+    await rightClickAndSelectOption(
+      personsPage,
+      '[data-person-uid]',
+      TEST_PERSONS.DONALD,
+      'Edit'
+    );
 
     const dialog = personsPage.getByRole('dialog', { name: 'Edit Person' });
     await expect(dialog).toBeVisible();
 
-    const imagePickerDialog = await openImagePicker(personsPage, dialog);
-    await uploadImage(personsPage, imagePickerDialog, NEW_IMAGE_URL);
+    await changeImageInDialog(personsPage, dialog, NEW_IMAGE_URL);
 
     await clickDialogButton(dialog, 'Save');
     await expect(dialog).toBeHidden();

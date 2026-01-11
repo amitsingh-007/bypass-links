@@ -208,3 +208,75 @@ export const ensureAtRoot = async (page: Page) => {
     await page.waitForTimeout(500);
   }
 };
+
+/**
+ * Search and verify elements are visible/not visible.
+ */
+export const searchAndVerify = async (
+  page: Page,
+  searchText: string,
+  visibleTexts: string[],
+  hiddenTexts: string[] = [],
+  selector = '[data-person-uid]'
+) => {
+  const searchInput = page.getByPlaceholder('Search');
+  await searchInput.fill(searchText);
+  await waitForDebounce(page);
+
+  for (const text of visibleTexts) {
+    const element = page.locator(selector).filter({ hasText: text });
+    await expect(element).toBeVisible();
+  }
+
+  for (const text of hiddenTexts) {
+    const element = page.locator(selector).filter({ hasText: text });
+    await expect(element).not.toBeVisible();
+  }
+};
+
+/**
+ * Complete a dialog flow: open, fill inputs, and save.
+ */
+export const completeDialogFlow = async (
+  page: Page,
+  buttonName: string | RegExp,
+  dialogName: string,
+  inputs: Array<{ placeholder: string; value: string }>,
+  saveButtonName = 'Save'
+) => {
+  const dialog = await openDialog(page, buttonName, dialogName);
+
+  for (const { placeholder, value } of inputs) {
+    await fillDialogInput(dialog, placeholder, value);
+  }
+
+  await clickDialogButton(dialog, saveButtonName);
+  await expect(dialog).toBeHidden();
+};
+
+/**
+ * Right-click on element and select a context menu option.
+ */
+export const rightClickAndSelectOption = async (
+  page: Page,
+  elementSelector: string,
+  filterText: string,
+  menuItemText: string
+) => {
+  const element = page.locator(elementSelector).filter({ hasText: filterText });
+  await expect(element).toBeVisible();
+  await element.click({ button: 'right' });
+  await clickContextMenuItem(page, menuItemText);
+};
+
+/**
+ * Change image in dialog: open picker, upload, save.
+ */
+export const changeImageInDialog = async (
+  page: Page,
+  dialog: ReturnType<Page['getByRole']>,
+  imageUrl: string
+) => {
+  const imagePickerDialog = await openImagePicker(page, dialog);
+  await uploadImage(page, imagePickerDialog, imageUrl);
+};
