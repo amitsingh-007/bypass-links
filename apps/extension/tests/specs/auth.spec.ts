@@ -1,4 +1,5 @@
 import { test, expect } from '../fixtures/auth-fixture';
+import { TEST_TIMEOUTS } from '../constants';
 
 test('should be logged in with firebase token', async ({
   page,
@@ -10,11 +11,11 @@ test('should be logged in with firebase token', async ({
   await page.waitForLoadState('networkidle');
 
   const loginButton = page.getByRole('button', { name: 'Login' });
-  await expect(loginButton).toBeVisible({ timeout: 10_000 });
+  await expect(loginButton).toBeVisible({ timeout: TEST_TIMEOUTS.LONG_WAIT });
   await loginButton.click({ force: true });
 
   const logoutButton = page.getByRole('button', { name: 'Logout' });
-  await expect(logoutButton).toBeVisible({ timeout: 30_000 });
+  await expect(logoutButton).toBeVisible({ timeout: TEST_TIMEOUTS.UPLOAD });
 
   const fbOAuthData = await page.evaluate(() =>
     window.localStorage.getItem('__fbOAuth')

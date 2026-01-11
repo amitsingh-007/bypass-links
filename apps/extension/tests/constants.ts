@@ -32,3 +32,16 @@ export const TEST_PERSONS = {
   AURELIAN:
     'Aurelian Thaddeus Montgomery Everheart-Winchester Delacroix Van Albrecht IV',
 } as const;
+
+/**
+ * Timeout constants used across test files to avoid magic numbers.
+ */
+export const TEST_TIMEOUTS = {
+  DEBOUNCE: 300,
+  PAGE_LOAD: 500,
+  NAVIGATION: 1000,
+  IMAGE_LOAD: 5000,
+  LONG_WAIT: 10_000,
+  PAGE_OPEN: 15_000,
+  UPLOAD: 30_000,
+} as const;

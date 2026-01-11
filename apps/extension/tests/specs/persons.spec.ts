@@ -1,5 +1,5 @@
 import { test, expect } from '../fixtures/persons-fixture';
-import { TEST_PERSONS } from '../constants';
+import { TEST_PERSONS, TEST_TIMEOUTS } from '../constants';
 import { PersonsPanel } from '../utils/persons-panel';
 
 /**
@@ -144,7 +144,7 @@ test.describe('Search Tagged Bookmarks', () => {
     expect(noResultsBookmarks).toBe(0);
 
     await searchInput.clear();
-    await personsPage.waitForTimeout(300);
+    await personsPage.waitForTimeout(TEST_TIMEOUTS.DEBOUNCE);
 
     const allBookmarksAfter = await panel.getEditButtons();
     const countAfter = await allBookmarksAfter.count();
@@ -160,7 +160,7 @@ test.describe('Open Tagged Bookmark', () => {
   }) => {
     const panel = new PersonsPanel(personsPage);
     await panel.openPersonCard(TEST_PERSONS.DONALD);
-    await personsPage.waitForTimeout(500);
+    await personsPage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
     const editButtons = await panel.getEditButtons();
     await expect(editButtons.first()).toBeVisible();
@@ -203,14 +203,14 @@ test.describe('Navigate Between Persons', () => {
   test('should navigate between multiple persons', async ({ personsPage }) => {
     const panel = new PersonsPanel(personsPage);
     await panel.openPersonCard(TEST_PERSONS.JOHN_NATHAN);
-    await personsPage.waitForTimeout(500);
+    await personsPage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
     await panel.verifyBadgeVisible(TEST_PERSONS.JOHN_NATHAN);
 
     await panel.navigateBack();
 
     await panel.openPersonCard(TEST_PERSONS.AKASH_KUMAR_SINGH);
-    await personsPage.waitForTimeout(500);
+    await personsPage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
     await panel.verifyBadgeVisible(TEST_PERSONS.AKASH_KUMAR_SINGH);
 

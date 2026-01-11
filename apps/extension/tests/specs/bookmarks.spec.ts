@@ -1,5 +1,5 @@
 import { test, expect } from '../fixtures/bookmark-fixture';
-import { TEST_BOOKMARKS, TEST_FOLDERS } from '../constants';
+import { TEST_BOOKMARKS, TEST_FOLDERS, TEST_TIMEOUTS } from '../constants';
 import { BookmarksPanel } from '../utils/bookmarks-panel';
 
 /**
@@ -31,7 +31,7 @@ test.describe.serial('Bookmarks Panel', () => {
       const emptyFolderName = 'Empty folder';
 
       await panel.openFolder(emptyFolderName);
-      await bookmarksPage.waitForTimeout(500);
+      await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
       expect(true).toBe(true);
     });
@@ -122,7 +122,7 @@ test.describe.serial('Bookmarks Panel', () => {
         await expect(bookmarkRow).toBeVisible();
 
         const [newPage] = await Promise.all([
-          context.waitForEvent('page', { timeout: 15_000 }),
+          context.waitForEvent('page', { timeout: TEST_TIMEOUTS.PAGE_OPEN }),
           bookmarkRow.dblclick(),
         ]);
 
@@ -156,7 +156,7 @@ test.describe.serial('Bookmarks Panel', () => {
         await openOption.waitFor({ state: 'attached' });
 
         const [newPage] = await Promise.all([
-          context.waitForEvent('page', { timeout: 15_000 }),
+          context.waitForEvent('page', { timeout: TEST_TIMEOUTS.PAGE_OPEN }),
           openOption.evaluate((el) => (el as HTMLElement).click()),
         ]);
 
@@ -172,7 +172,7 @@ test.describe.serial('Bookmarks Panel', () => {
       await panel.selectBookmark(TEST_BOOKMARKS.REACT_DOCS);
 
       await bookmarksPage.keyboard.press('Meta+x');
-      await bookmarksPage.waitForTimeout(300);
+      await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.DEBOUNCE);
 
       await bookmarksPage.keyboard.press('Meta+v');
 
@@ -206,7 +206,7 @@ test.describe.serial('Bookmarks Panel', () => {
 
       await panel.clickContextMenuItem('Delete');
 
-      await bookmarksPage.waitForTimeout(500);
+      await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
       const bookmarksAfter = await bookmarkRows.count();
       expect(bookmarksAfter).toBeLessThan(bookmarksBefore);
@@ -247,7 +247,7 @@ test.describe.serial('Bookmarks Panel', () => {
 
     await panel.clickSaveButton();
 
-    await bookmarksPage.waitForTimeout(1000);
+    await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.NAVIGATION);
 
     expect(true).toBe(true);
   });
@@ -273,10 +273,10 @@ test.describe.serial('Bookmarks Panel', () => {
       await expect(filteredBookmark).toBeVisible();
 
       await searchInput.clear();
-      await bookmarksPage.waitForTimeout(300);
+      await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.DEBOUNCE);
 
       await searchInput.fill('material');
-      await bookmarksPage.waitForTimeout(300);
+      await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.DEBOUNCE);
 
       const urlFilteredBookmark = bookmarksPage
         .locator('div[data-context-id]')
@@ -299,7 +299,7 @@ test.describe.serial('Bookmarks Panel', () => {
 
       const searchInput = bookmarksPage.getByPlaceholder('Search');
       await searchInput.fill('nonexistentterm');
-      await bookmarksPage.waitForTimeout(300);
+      await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.DEBOUNCE);
 
       await expect(folder).toBeVisible();
 
@@ -319,13 +319,13 @@ test.describe.serial('Bookmarks Panel', () => {
       );
       await expect(mainFolder).toBeVisible();
       await mainFolder.click();
-      await bookmarksPage.waitForTimeout(500);
+      await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
       const countBefore = await panel.getBookmarkCount();
       expect(countBefore).toBeGreaterThan(1);
 
       await panel.cutBookmark(TEST_BOOKMARKS.GITHUB);
-      await bookmarksPage.waitForTimeout(300);
+      await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.DEBOUNCE);
 
       const bookmarkToCut = bookmarksPage
         .locator('div[data-context-id]')
@@ -360,7 +360,7 @@ test.describe.serial('Bookmarks Panel', () => {
       await panel.openFolderWithNestedFolders(TEST_FOLDERS.OTHER_BOOKMARKS);
       await panel.clickContextMenuItem('Delete');
 
-      await bookmarksPage.waitForTimeout(500);
+      await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
       const toast = bookmarksPage.getByText('Remove inner folders first');
       await expect(toast).toBeVisible();
@@ -380,7 +380,7 @@ test.describe.serial('Bookmarks Panel', () => {
     const folderRow = bookmarksPage.locator(
       `[data-folder-name="${folderName}"]`
     );
-    await expect(folderRow).toBeVisible({ timeout: 10_000 });
+    await expect(folderRow).toBeVisible({ timeout: TEST_TIMEOUTS.LONG_WAIT });
 
     await folderRow.click({ button: 'right' });
 

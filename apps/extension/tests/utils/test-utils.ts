@@ -1,4 +1,5 @@
 import { expect, type Page } from '@playwright/test';
+import { TEST_TIMEOUTS } from '../constants';
 
 /**
  * Click the main Save button (for persisting changes to storage).
@@ -29,7 +30,7 @@ export const openPersonCard = async (page: Page, personName: string) => {
     .filter({ hasText: personName });
   await expect(personCard).toBeVisible();
   await personCard.click();
-  await page.waitForTimeout(500);
+  await page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 };
 
 /**
@@ -103,7 +104,10 @@ export const clickContextMenuItem = async (page: Page, itemText: string) => {
 /**
  * Wait for debounced updates to apply (default 300ms).
  */
-export const waitForDebounce = async (page: Page, ms = 300) => {
+export const waitForDebounce = async (
+  page: Page,
+  ms = TEST_TIMEOUTS.DEBOUNCE
+) => {
   await page.waitForTimeout(ms);
 };
 
@@ -143,7 +147,7 @@ export const uploadImage = async (
   const imageUrlInput = imagePickerDialog.getByPlaceholder('Enter image url');
   await imageUrlInput.fill(imageUrl);
 
-  await page.waitForTimeout(5000);
+  await page.waitForTimeout(TEST_TIMEOUTS.IMAGE_LOAD);
 
   const saveCroppedButton = page.getByTestId('save-cropped-image');
   await expect(saveCroppedButton).toBeEnabled();
@@ -152,7 +156,7 @@ export const uploadImage = async (
   const uploadOverlay = page.getByTestId('uploading-overlay');
   await expect(uploadOverlay).toBeVisible();
 
-  await expect(imagePickerDialog).toBeHidden({ timeout: 30_000 });
+  await expect(imagePickerDialog).toBeHidden({ timeout: TEST_TIMEOUTS.UPLOAD });
 };
 
 /**
@@ -181,7 +185,7 @@ export const getBadgeCount = async (
 export const toggleSwitch = async (page: Page, labelText: string) => {
   const label = page.locator('label').filter({ hasText: labelText });
   await label.click();
-  await page.waitForTimeout(500);
+  await page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 };
 
 /**
@@ -195,7 +199,7 @@ export const openFolder = async (
   const folder = page.locator(selector, { hasText: folderName });
   await expect(folder).toBeVisible();
   await folder.click();
-  await page.waitForTimeout(500);
+  await page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 };
 
 /**
@@ -205,7 +209,7 @@ export const ensureAtRoot = async (page: Page) => {
   const bookmarksButton = page.getByRole('button', { name: 'Bookmarks' });
   if (await bookmarksButton.isVisible()) {
     await bookmarksButton.click();
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
   }
 };
 

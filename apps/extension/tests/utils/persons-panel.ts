@@ -1,4 +1,5 @@
 import { expect, type Page } from '@playwright/test';
+import { TEST_TIMEOUTS } from '../constants';
 import {
   changeImageInDialog,
   clickDialogButton,
@@ -125,7 +126,7 @@ export class PersonsPanel {
 
   async verifyBadgeCount(personName: string, expectedCount?: number) {
     await openPersonCard(this.page, personName);
-    await this.page.waitForTimeout(500);
+    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
     const badgeCount = await getBadgeCount(this.page, personName);
 
@@ -145,7 +146,7 @@ export class PersonsPanel {
 
   async searchWithinBookmarks(searchTerm: string, personName: string) {
     await openPersonCard(this.page, personName);
-    await this.page.waitForTimeout(500);
+    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
     const searchInput = this.page
       .locator('.mantine-Modal-content')
@@ -170,7 +171,7 @@ export class PersonsPanel {
   }
 
   async verifyRecencySwitchExists() {
-    await this.page.waitForTimeout(500);
+    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
     const recencySwitch = this.page.getByRole('switch', { name: 'Recency' });
     const count = await recencySwitch.count();

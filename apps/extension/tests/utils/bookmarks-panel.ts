@@ -1,4 +1,5 @@
 import { expect, type Page } from '@playwright/test';
+import { TEST_TIMEOUTS } from '../constants';
 import {
   countElements,
   fillDialogInput,
@@ -54,7 +55,7 @@ export class BookmarksPanel {
     });
     if (await bookmarksButton.isVisible()) {
       await bookmarksButton.click();
-      await this.page.waitForTimeout(500);
+      await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
     }
   }
 
@@ -119,7 +120,7 @@ export class BookmarksPanel {
       .filter({ hasText: bookmarkTitle });
     await bookmarkRow.click({ button: 'right' });
     await this.clickContextMenuItem('Delete');
-    await this.page.waitForTimeout(500);
+    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
   }
 
   async selectBookmark(bookmarkTitle: string) {
@@ -178,18 +179,21 @@ export class BookmarksPanel {
   async hoverAvatar() {
     const avatarGroup = this.page.locator('[data-group-context-id]');
     const avatar = avatarGroup.locator('[data-person-uid]').first();
-    await expect(avatar).toBeVisible({ timeout: 10_000 });
+    await expect(avatar).toBeVisible({ timeout: TEST_TIMEOUTS.LONG_WAIT });
     await avatar.hover();
 
     const dropdown = this.page.locator('[data-person-dropdown]');
-    await expect(dropdown).toBeVisible({ timeout: 10_000 });
+    await expect(dropdown).toBeVisible({ timeout: TEST_TIMEOUTS.LONG_WAIT });
 
     return { dropdown, avatar };
   }
 
   async clickPersonInDropdown(dropdown: ReturnType<Page['locator']>) {
     const dropdownAvatar = dropdown.locator('[data-person-name]');
-    await dropdownAvatar.waitFor({ state: 'visible', timeout: 5000 });
+    await dropdownAvatar.waitFor({
+      state: 'visible',
+      timeout: TEST_TIMEOUTS.IMAGE_LOAD,
+    });
     const personName =
       (await dropdownAvatar.getAttribute('data-person-name')) ?? '';
     await dropdownAvatar.click();
