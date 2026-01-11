@@ -452,6 +452,43 @@ test.describe('Toggle Recency', () => {
     });
     const count = await recencySwitch.count();
     expect(count).toBeGreaterThan(0);
+
+    // Get person names in current order before toggle
+    const personCardsBefore = personsPage.locator('[data-person-uid]');
+    const personCount = await personCardsBefore.count();
+    const personNamesBefore: string[] = [];
+    for (let i = 0; i < personCount; i++) {
+      const text = await personCardsBefore.nth(i).textContent();
+      if (text) {
+        personNamesBefore.push(text.trim());
+      }
+    }
+
+    // Toggle the recency switch (click on label instead of hidden input)
+    const recencyLabel = personsPage
+      .locator('label')
+      .filter({ hasText: 'Recency' });
+    await recencyLabel.click();
+
+    // Wait for reordering to complete
+    await personsPage.waitForTimeout(500);
+
+    // Get person names in new order after toggle
+    const personCardsAfter = personsPage.locator('[data-person-uid]');
+    const personNamesAfter: string[] = [];
+    for (let i = 0; i < personCount; i++) {
+      const text = await personCardsAfter.nth(i).textContent();
+      if (text) {
+        personNamesAfter.push(text.trim());
+      }
+    }
+
+    // Verify the order has changed
+    expect(personNamesBefore).not.toEqual(personNamesAfter);
+
+    // Toggle back to restore original state for other tests
+    await recencyLabel.click();
+    await personsPage.waitForTimeout(500);
   });
 });
 
