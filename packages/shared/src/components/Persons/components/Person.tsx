@@ -33,6 +33,8 @@ const Person = memo<Props>(({ person }) => {
       radius="lg"
       w="100%"
       h="100%"
+      data-person-uid={uid}
+      data-person-name={name}
       classNames={{
         root: styles.container,
         icon: styles.iconInner,

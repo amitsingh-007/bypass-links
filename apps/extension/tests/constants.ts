@@ -21,3 +21,14 @@ export const TEST_FOLDERS = {
   EMPTY: 'Empty folder',
   OTHER_BOOKMARKS: 'Other bookmarks',
 } as const;
+
+/**
+ * Known person names in the test account (guaranteed to exist).
+ */
+export const TEST_PERSONS = {
+  JOHN_NATHAN: 'John Nathan',
+  AKASH_KUMAR_SINGH: 'Akash Kumar Singh',
+  DONALD: 'Donald',
+  AURELIAN:
+    'Aurelian Thaddeus Montgomery Everheart-Winchester Delacroix Van Albrecht IV',
+} as const;
