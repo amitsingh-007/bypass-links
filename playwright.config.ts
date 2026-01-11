@@ -33,6 +33,7 @@ const config = defineConfig({
     {
       name: '@bypass/extension',
       testDir: './apps/extension/tests',
+      workers: 1,
       use: {
         baseURL: 'chrome-extension://chadipececickdfjckjkjpehlhnkclmb',
       },
