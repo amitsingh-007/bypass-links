@@ -7,6 +7,8 @@ import { clickSaveButton, navigateBack } from '../utils/test-utils';
  *
  * These tests run sequentially with a single login at the start.
  * The browser context persists across all tests in this describe block.
+ *
+ * IMPORTANT: Test order matters! Do not reorder tests without understanding dependencies.
  */
 test.describe.serial('Bookmarks Panel', () => {
   test.describe('Folder Operations', () => {
@@ -510,120 +512,124 @@ test.describe.serial('Bookmarks Panel', () => {
     });
   });
 
-  test('should move bookmark using cut from context menu and paste in different folder', async ({
-    bookmarksPage,
-  }) => {
-    // Ensure we're at bookmarks root
-    const bookmarksButton = bookmarksPage.getByRole('button', {
-      name: 'Bookmarks',
-    });
-    if (await bookmarksButton.isVisible()) {
-      await bookmarksButton.click();
+  test.describe('Bookmark Move Operations', () => {
+    test('should move bookmark using cut from context menu and paste', async ({
+      bookmarksPage,
+    }) => {
+      // Ensure we're at bookmarks root
+      const bookmarksButton = bookmarksPage.getByRole('button', {
+        name: 'Bookmarks',
+      });
+      if (await bookmarksButton.isVisible()) {
+        await bookmarksButton.click();
+        await bookmarksPage.waitForTimeout(500);
+      }
+
+      // Navigate to Main folder
+      const mainFolder = bookmarksPage.locator(
+        `[data-folder-name="${TEST_FOLDERS.MAIN}"]`
+      );
+      await expect(mainFolder).toBeVisible();
+      await mainFolder.click();
       await bookmarksPage.waitForTimeout(500);
-    }
 
-    // Navigate to Main folder
-    const mainFolder = bookmarksPage.locator(
-      `[data-folder-name="${TEST_FOLDERS.MAIN}"]`
-    );
-    await expect(mainFolder).toBeVisible();
-    await mainFolder.click();
-    await bookmarksPage.waitForTimeout(500);
+      // Get the bookmark count before cut
+      const bookmarkRows = bookmarksPage.locator('div[data-context-id]');
+      const countBefore = await bookmarkRows.count();
+      expect(countBefore).toBeGreaterThan(1);
 
-    // Get the bookmark count before cut
-    const bookmarkRows = bookmarksPage.locator('div[data-context-id]');
-    const countBefore = await bookmarkRows.count();
-    expect(countBefore).toBeGreaterThan(1);
+      // Get a specific bookmark to cut
+      const bookmarkToCut = bookmarksPage
+        .locator('div[data-context-id]')
+        .filter({ hasText: TEST_BOOKMARKS.GITHUB });
+      await expect(bookmarkToCut).toBeVisible();
 
-    // Get a specific bookmark to cut
-    const bookmarkToCut = bookmarksPage
-      .locator('div[data-context-id]')
-      .filter({ hasText: TEST_BOOKMARKS.GITHUB });
-    await expect(bookmarkToCut).toBeVisible();
+      // Right-click to open context menu
+      await bookmarkToCut.click({ button: 'right' });
 
-    // Right-click to open context menu
-    await bookmarkToCut.click({ button: 'right' });
+      // Click Cut option
+      const cutOption = bookmarksPage.locator(
+        '.mantine-contextmenu-item-button-title',
+        { hasText: 'Cut' }
+      );
+      await cutOption.waitFor({ state: 'attached' });
+      await cutOption.evaluate((el) => (el as HTMLElement).click());
 
-    // Click Cut option
-    const cutOption = bookmarksPage.locator(
-      '.mantine-contextmenu-item-button-title',
-      { hasText: 'Cut' }
-    );
-    await cutOption.waitFor({ state: 'attached' });
-    await cutOption.evaluate((el) => (el as HTMLElement).click());
+      // Wait for cut to register
+      await bookmarksPage.waitForTimeout(300);
 
-    // Wait for cut to register
-    await bookmarksPage.waitForTimeout(300);
+      // The bookmark should still be visible but now marked as "cut" (via data-is-cut)
+      await expect(bookmarkToCut).toBeVisible();
 
-    // The bookmark should still be visible but now marked as "cut" (via data-is-cut)
-    await expect(bookmarkToCut).toBeVisible();
+      // Select the first bookmark (different from cut one) as the paste target
+      const firstBookmark = bookmarkRows.first();
+      await firstBookmark.click();
 
-    // Select the first bookmark (different from cut one) as the paste target
-    const firstBookmark = bookmarkRows.first();
-    await firstBookmark.click();
+      // Right-click to open context menu for paste
+      await firstBookmark.click({ button: 'right' });
 
-    // Right-click to open context menu for paste
-    await firstBookmark.click({ button: 'right' });
+      // Look for Paste option (should show "Paste (1)")
+      const pasteOption = bookmarksPage.locator(
+        '.mantine-contextmenu-item-button-title',
+        { hasText: 'Paste' }
+      );
+      await pasteOption.waitFor({ state: 'attached' });
+      await pasteOption.evaluate((el) => (el as HTMLElement).click());
 
-    // Look for Paste option (should show "Paste (1)")
-    const pasteOption = bookmarksPage.locator(
-      '.mantine-contextmenu-item-button-title',
-      { hasText: 'Paste' }
-    );
-    await pasteOption.waitFor({ state: 'attached' });
-    await pasteOption.evaluate((el) => (el as HTMLElement).click());
+      // Wait for paste to complete
+      await bookmarksPage.waitForTimeout(300);
 
-    // Wait for paste to complete
-    await bookmarksPage.waitForTimeout(300);
+      // Verify the cut bookmark is still visible (moved to new position)
+      const pastedBookmark = bookmarksPage
+        .locator('div[data-context-id]')
+        .filter({ hasText: TEST_BOOKMARKS.GITHUB });
+      await expect(pastedBookmark).toBeVisible();
 
-    // Verify the cut bookmark is still visible (moved to new position)
-    const pastedBookmark = bookmarksPage
-      .locator('div[data-context-id]')
-      .filter({ hasText: TEST_BOOKMARKS.GITHUB });
-    await expect(pastedBookmark).toBeVisible();
-
-    // Verify count is same (moved, not duplicated)
-    const countAfter = await bookmarkRows.count();
-    expect(countAfter).toBe(countBefore);
+      // Verify count is same (moved, not duplicated)
+      const countAfter = await bookmarkRows.count();
+      expect(countAfter).toBe(countBefore);
+    });
   });
 
-  test('should not delete folder with nested folders and show toast', async ({
-    bookmarksPage,
-  }) => {
-    // Ensure we're at bookmarks root
-    const bookmarksButton = bookmarksPage.getByRole('button', {
-      name: 'Bookmarks',
+  test.describe('Folder Delete Restrictions', () => {
+    test('should not delete folder with nested folders and show toast', async ({
+      bookmarksPage,
+    }) => {
+      // Ensure we're at bookmarks root
+      const bookmarksButton = bookmarksPage.getByRole('button', {
+        name: 'Bookmarks',
+      });
+      if (await bookmarksButton.isVisible()) {
+        await bookmarksButton.click();
+      }
+
+      // "Other bookmarks" folder contains nested folders
+      const folderWithNested = bookmarksPage.locator(
+        `[data-folder-name="${TEST_FOLDERS.OTHER_BOOKMARKS}"]`
+      );
+      await expect(folderWithNested).toBeVisible();
+
+      // Right-click to open context menu
+      await folderWithNested.click({ button: 'right' });
+
+      // Click Delete option
+      const deleteOption = bookmarksPage.locator(
+        '.mantine-contextmenu-item-button-title',
+        { hasText: 'Delete' }
+      );
+      await deleteOption.waitFor({ state: 'attached' });
+      await deleteOption.evaluate((el) => (el as HTMLElement).click());
+
+      // Wait for toast notification
+      await bookmarksPage.waitForTimeout(500);
+
+      // Verify toast message appears
+      const toast = bookmarksPage.getByText('Remove inner folders first');
+      await expect(toast).toBeVisible();
+
+      // Verify folder is still there (wasn't deleted)
+      await expect(folderWithNested).toBeVisible();
     });
-    if (await bookmarksButton.isVisible()) {
-      await bookmarksButton.click();
-    }
-
-    // "Other bookmarks" folder contains nested folders
-    const folderWithNested = bookmarksPage.locator(
-      `[data-folder-name="${TEST_FOLDERS.OTHER_BOOKMARKS}"]`
-    );
-    await expect(folderWithNested).toBeVisible();
-
-    // Right-click to open context menu
-    await folderWithNested.click({ button: 'right' });
-
-    // Click Delete option
-    const deleteOption = bookmarksPage.locator(
-      '.mantine-contextmenu-item-button-title',
-      { hasText: 'Delete' }
-    );
-    await deleteOption.waitFor({ state: 'attached' });
-    await deleteOption.evaluate((el) => (el as HTMLElement).click());
-
-    // Wait for toast notification
-    await bookmarksPage.waitForTimeout(500);
-
-    // Verify toast message appears
-    const toast = bookmarksPage.getByText('Remove inner folders first');
-    await expect(toast).toBeVisible();
-
-    // Verify folder is still there (wasn't deleted)
-    await expect(folderWithNested).toBeVisible();
   });
 
   test('should delete a folder', async ({ bookmarksPage }) => {
