@@ -3,7 +3,7 @@ import { test, expect } from '../fixtures/auth-fixture';
 test('should be logged in with firebase token', async ({
   page,
   extensionId,
-  login,
+  login: _login,
 }) => {
   const extUrl = `chrome-extension://${extensionId}/index.html`;
   await page.goto(extUrl);

@@ -209,16 +209,25 @@ export const ensureAtRoot = async (page: Page) => {
   }
 };
 
+interface SearchAndVerifyOptions {
+  visibleTexts: string[];
+  hiddenTexts?: string[];
+  selector?: string;
+}
+
 /**
  * Search and verify elements are visible/not visible.
  */
 export const searchAndVerify = async (
   page: Page,
   searchText: string,
-  visibleTexts: string[],
-  hiddenTexts: string[] = [],
-  selector = '[data-person-uid]'
+  options: SearchAndVerifyOptions
 ) => {
+  const {
+    visibleTexts,
+    hiddenTexts = [],
+    selector = '[data-person-uid]',
+  } = options;
   const searchInput = page.getByPlaceholder('Search');
   await searchInput.fill(searchText);
   await waitForDebounce(page);
@@ -234,6 +243,11 @@ export const searchAndVerify = async (
   }
 };
 
+interface CompleteDialogFlowOptions {
+  inputs: Array<{ placeholder: string; value: string }>;
+  saveButtonName?: string;
+}
+
 /**
  * Complete a dialog flow: open, fill inputs, and save.
  */
@@ -241,9 +255,9 @@ export const completeDialogFlow = async (
   page: Page,
   buttonName: string | RegExp,
   dialogName: string,
-  inputs: Array<{ placeholder: string; value: string }>,
-  saveButtonName = 'Save'
+  options: CompleteDialogFlowOptions
 ) => {
+  const { inputs, saveButtonName = 'Save' } = options;
   const dialog = await openDialog(page, buttonName, dialogName);
 
   for (const { placeholder, value } of inputs) {

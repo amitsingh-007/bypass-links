@@ -6,7 +6,6 @@ import {
   type BrowserContext,
   type Page,
   type Worker,
-  test as base,
   chromium,
 } from '@playwright/test';
 import wretch from 'wretch';

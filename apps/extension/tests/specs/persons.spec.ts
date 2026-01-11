@@ -27,12 +27,10 @@ import {
 test.describe.serial('Persons Panel', () => {
   test.describe('Search Person', () => {
     test('should search and filter persons', async ({ personsPage }) => {
-      await searchAndVerify(
-        personsPage,
-        'John',
-        [TEST_PERSONS.JOHN_NATHAN],
-        [TEST_PERSONS.AKASH_KUMAR_SINGH]
-      );
+      await searchAndVerify(personsPage, 'John', {
+        visibleTexts: [TEST_PERSONS.JOHN_NATHAN],
+        hiddenTexts: [TEST_PERSONS.AKASH_KUMAR_SINGH],
+      });
 
       const searchInput = personsPage.getByPlaceholder('Search');
       await searchInput.clear();
