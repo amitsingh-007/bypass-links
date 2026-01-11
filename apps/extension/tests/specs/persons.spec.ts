@@ -90,11 +90,77 @@ test.describe.serial('Persons Panel', () => {
         await closeButton.click();
       }
     });
+
+    test('should add person with name and image', async ({ personsPage }) => {
+      const TEST_PERSON_NAME = 'E2E Test Person';
+      const TEST_IMAGE_URL = 'https://picsum.photos/200';
+
+      // Click add person button
+      const addButton = personsPage.getByRole('button', {
+        name: 'Add',
+        exact: true,
+      });
+      await addButton.click();
+
+      // Wait for "Add Person" dialog to open
+      const dialog = personsPage.getByRole('dialog', { name: 'Add Person' });
+      await expect(dialog).toBeVisible();
+
+      // Fill person name
+      const nameInput = dialog.getByPlaceholder('Enter name');
+      await nameInput.fill(TEST_PERSON_NAME);
+
+      // Click on edit icon to open ImagePicker
+      const editIcon = dialog.locator('.mantine-ActionIcon-root');
+      await editIcon.click();
+
+      // Wait for ImagePicker dialog to open
+      const imagePickerDialog = personsPage
+        .locator('.mantine-Modal-inner')
+        .filter({ hasText: 'Upload Image' });
+      await expect(imagePickerDialog).toBeVisible();
+
+      // Enter image URL
+      const imageUrlInput =
+        imagePickerDialog.getByPlaceholder('Enter image url');
+      await imageUrlInput.fill(TEST_IMAGE_URL);
+
+      // Wait for image to load (debounce is 500ms + AvatarEditor loading time)
+      await personsPage.waitForTimeout(5000);
+
+      // Click "Save Cropped Image" button
+      const saveCroppedButton = personsPage.getByTestId('save-cropped-image');
+      await expect(saveCroppedButton).toBeEnabled();
+      await saveCroppedButton.click();
+
+      // Wait for upload overlay to appear
+      const uploadOverlay = personsPage.getByTestId('uploading-overlay');
+      await expect(uploadOverlay).toBeVisible();
+
+      // Wait for upload to complete and overlay to disappear (may take time for upload)
+      await expect(imagePickerDialog).toBeHidden({ timeout: 30_000 });
+      await expect(imagePickerDialog).toBeHidden();
+
+      // Click Save button in Add Person dialog
+      const saveButton = dialog.getByRole('button', { name: 'Save' });
+      await saveButton.click();
+
+      // Wait for dialog to close
+      await expect(dialog).toBeHidden();
+
+      // Verify person appears in the list
+      const newPersonCard = personsPage
+        .locator('[data-person-uid]')
+        .filter({ hasText: TEST_PERSON_NAME });
+      await expect(newPersonCard).toBeVisible();
+    });
   });
 });
 
 test.describe('Edit Person', () => {
   test('should edit person name', async ({ personsPage }) => {
+    const EDITED_PREFIX = '(Edited) ';
+
     // Right-click on person to open context menu
     const johnCard = personsPage
       .locator('[data-person-uid]')
@@ -118,11 +184,48 @@ test.describe('Edit Person', () => {
     const originalName = await nameInput.inputValue();
     expect(originalName).toBe(TEST_PERSONS.JOHN_NATHAN);
 
-    // Close dialog without saving
-    const closeButton = dialog.locator('button.mantine-Modal-close');
-    if (await closeButton.isVisible()) {
-      await closeButton.click();
-    }
+    // Append "(Edited)" prefix to the name
+    await nameInput.fill(EDITED_PREFIX + TEST_PERSONS.JOHN_NATHAN);
+
+    // Click Save button
+    const saveButton = dialog.getByRole('button', { name: 'Save' });
+    await saveButton.click();
+
+    // Wait for dialog to close
+    await expect(dialog).toBeHidden();
+
+    // Verify the name is updated in the person card
+    const editedJohnCard = personsPage
+      .locator('[data-person-uid]')
+      .filter({ hasText: EDITED_PREFIX + TEST_PERSONS.JOHN_NATHAN });
+    await expect(editedJohnCard).toBeVisible();
+
+    // Revert the name back to original
+    await editedJohnCard.click({ button: 'right' });
+
+    const editOption2 = personsPage.locator(
+      '.mantine-contextmenu-item-button-title',
+      { hasText: 'Edit' }
+    );
+    await editOption2.waitFor({ state: 'attached' });
+    await editOption2.evaluate((el) => (el as HTMLElement).click());
+
+    const dialog2 = personsPage.getByRole('dialog', { name: 'Edit Person' });
+    await expect(dialog2).toBeVisible();
+
+    const nameInput2 = dialog2.getByPlaceholder('Enter name');
+    await nameInput2.fill(TEST_PERSONS.JOHN_NATHAN);
+
+    const saveButton2 = dialog2.getByRole('button', { name: 'Save' });
+    await saveButton2.click();
+
+    await expect(dialog2).toBeHidden();
+
+    // Verify name is reverted
+    const revertedJohnCard = personsPage
+      .locator('[data-person-uid]')
+      .filter({ hasText: TEST_PERSONS.JOHN_NATHAN });
+    await expect(revertedJohnCard).toBeVisible();
   });
 
   test('should verify avatar image is visible in edit dialog', async ({
@@ -155,6 +258,70 @@ test.describe('Edit Person', () => {
     if (await closeButton.isVisible()) {
       await closeButton.click();
     }
+  });
+
+  test('should change person image', async ({ personsPage }) => {
+    const NEW_IMAGE_URL = 'https://picsum.photos/250';
+
+    // Right-click on person to open context menu
+    const donaldCard = personsPage
+      .locator('[data-person-uid]')
+      .filter({ hasText: TEST_PERSONS.DONALD });
+    await donaldCard.click({ button: 'right' });
+
+    // Click Edit option
+    const editOption = personsPage.locator(
+      '.mantine-contextmenu-item-button-title',
+      { hasText: 'Edit' }
+    );
+    await editOption.waitFor({ state: 'attached' });
+    await editOption.evaluate((el) => (el as HTMLElement).click());
+
+    // Wait for dialog to open
+    const dialog = personsPage.getByRole('dialog', { name: 'Edit Person' });
+    await expect(dialog).toBeVisible();
+
+    // Click on edit icon to open ImagePicker
+    const editIcon = dialog.locator('.mantine-ActionIcon-root');
+    await editIcon.click();
+
+    // Wait for ImagePicker dialog to open
+    const imagePickerDialog = personsPage
+      .locator('.mantine-Modal-inner')
+      .filter({ hasText: 'Upload Image' });
+    await expect(imagePickerDialog).toBeVisible();
+
+    // Enter new image URL
+    const imageUrlInput = imagePickerDialog.getByPlaceholder('Enter image url');
+    await imageUrlInput.fill(NEW_IMAGE_URL);
+
+    // Wait for image to load
+    await personsPage.waitForTimeout(5000);
+
+    // Click "Save Cropped Image" button
+    const saveCroppedButton = personsPage.getByTestId('save-cropped-image');
+    await expect(saveCroppedButton).toBeEnabled();
+    await saveCroppedButton.click();
+
+    // Wait for upload overlay to appear
+    const uploadOverlay = personsPage.getByTestId('uploading-overlay');
+    await expect(uploadOverlay).toBeVisible();
+
+    // Wait for upload to complete and overlay to disappear
+    await expect(imagePickerDialog).toBeHidden({ timeout: 30_000 });
+
+    // Click Save button in Edit Person dialog
+    const saveButton = dialog.getByRole('button', { name: 'Save' });
+    await saveButton.click();
+
+    // Wait for dialog to close
+    await expect(dialog).toBeHidden();
+
+    // Verify image was updated (check that avatar is still visible)
+    const donaldCardAfter = personsPage
+      .locator('[data-person-uid]')
+      .filter({ hasText: TEST_PERSONS.DONALD });
+    await expect(donaldCardAfter).toBeVisible();
   });
 });
 
