@@ -1,6 +1,16 @@
 import { test, expect } from '../fixtures/bookmark-fixture';
 import { TEST_BOOKMARKS, TEST_FOLDERS } from '../constants';
-import { clickSaveButton, navigateBack } from '../utils/test-utils';
+import {
+  clickContextMenuItem,
+  clickSaveButton,
+  ensureAtRoot,
+  fillDialogInput,
+  getBadgeCount,
+  navigateBack,
+  openDialog,
+  openFolder,
+  waitForDebounce,
+} from '../utils/test-utils';
 
 /**
  * Bookmarks Panel E2E Tests
@@ -15,24 +25,14 @@ test.describe.serial('Bookmarks Panel', () => {
     const TEST_FOLDER_NAME = 'E2E Test Folder';
 
     test('should create a new folder', async ({ bookmarksPage }) => {
-      // Click the add folder button in the header
-      const addButton = bookmarksPage.getByRole('button', { name: 'Add' });
-      await addButton.click();
+      const dialog = await openDialog(bookmarksPage, 'Add', 'Add folder');
 
-      // Wait for "Add folder" dialog to open
-      const dialog = bookmarksPage.getByRole('dialog', { name: 'Add folder' });
-      await expect(dialog).toBeVisible();
+      await fillDialogInput(dialog, 'Enter folder name', TEST_FOLDER_NAME);
 
-      // Fill folder name
-      await dialog.getByPlaceholder('Enter folder name').fill(TEST_FOLDER_NAME);
-
-      // Click Save button in the dialog
       await dialog.getByRole('button', { name: 'Save' }).click();
 
-      // Wait for dialog to close
       await expect(dialog).toBeHidden();
 
-      // Verify folder appears in list
       const folderItem = bookmarksPage.locator(
         `[data-folder-name="${TEST_FOLDER_NAME}"]`
       );
@@ -42,48 +42,26 @@ test.describe.serial('Bookmarks Panel', () => {
     test('should not open empty folder (or show empty state)', async ({
       bookmarksPage,
     }) => {
-      // Use the existing "Empty folder" from the test account
       const emptyFolderName = 'Empty folder';
 
-      // Click on the empty folder
-      const folder = bookmarksPage.locator(
-        `[data-folder-name="${emptyFolderName}"]`
-      );
-      await expect(folder).toBeVisible();
-      await folder.click();
-
-      // Either navigation is prevented, or we see an empty state
-      // Wait a moment for any navigation
+      await openFolder(bookmarksPage, emptyFolderName);
       await bookmarksPage.waitForTimeout(500);
 
-      // If we entered the folder, we should see an empty state or no items
-      // If not, the folder click was ignored (which is also acceptable)
-      expect(true).toBe(true); // Test passes if no error occurred
+      expect(true).toBe(true);
     });
 
     test('should rename a folder and undo', async ({ bookmarksPage }) => {
-      // Create a temporary folder just for this test
-      const addButton = bookmarksPage.getByRole('button', { name: 'Add' });
-      await addButton.click();
+      const dialog = await openDialog(bookmarksPage, 'Add', 'Add folder');
 
-      const dialog = bookmarksPage.getByRole('dialog', { name: 'Add folder' });
-      await expect(dialog).toBeVisible();
-
-      await dialog
-        .getByPlaceholder('Enter folder name')
-        .fill('Temp Rename Folder');
+      await fillDialogInput(dialog, 'Enter folder name', 'Temp Rename Folder');
       await dialog.getByRole('button', { name: 'Save' }).click();
 
       await expect(dialog).toBeHidden();
 
-      // Verify folder was created
       const folderItem = bookmarksPage.locator(
         '[data-folder-name="Temp Rename Folder"]'
       );
       await expect(folderItem).toBeVisible();
-
-      // Note: Rename test would modify data, so we skip actual rename
-      // to avoid affecting other tests
     });
   });
 
@@ -107,45 +85,30 @@ test.describe.serial('Bookmarks Panel', () => {
     });
 
     test('should edit bookmark via context menu', async ({ bookmarksPage }) => {
-      // Ensure we're at the bookmarks root by clicking the Bookmarks button
-      const bookmarksButton = bookmarksPage.getByRole('button', {
-        name: 'Bookmarks',
-      });
-      if (await bookmarksButton.isVisible()) {
-        await bookmarksButton.click();
-        await bookmarksPage.waitForTimeout(500);
-      }
+      await ensureAtRoot(bookmarksPage);
 
-      // Select a specific bookmark by title
       const bookmarkRow = bookmarksPage
         .locator('div[data-context-id]')
         .filter({ hasText: TEST_BOOKMARKS.REACT_DOCS });
       await expect(bookmarkRow).toBeVisible();
 
-      // Right-click to open context menu
       await bookmarkRow.click({ button: 'right' });
 
-      // Wait for context menu item to be attached
       const editOption = bookmarksPage.locator(
         '.mantine-contextmenu-item-button-title',
         { hasText: 'Edit' }
       );
       await editOption.waitFor({ state: 'attached', timeout: 5000 });
-
-      // Use evaluate to click to bypass actionability checks
       await editOption.evaluate((el) => (el as HTMLElement).click());
 
-      // Wait for dialog to open - use generic dialog role first
       const dialog = bookmarksPage.getByRole('dialog');
       await expect(dialog).toBeVisible();
 
-      // Verify it's the bookmark edit dialog by checking for bookmark-specific fields
       const titleInput = dialog.getByPlaceholder('Enter bookmark title');
       await expect(titleInput).toBeVisible();
       const currentTitle = await titleInput.inputValue();
       expect(currentTitle).toBeTruthy();
 
-      // Close dialog without saving
       const closeButton = dialog.locator('button.mantine-Modal-close');
       if (await closeButton.isVisible()) {
         await closeButton.click();
@@ -153,35 +116,25 @@ test.describe.serial('Bookmarks Panel', () => {
         await bookmarksPage.keyboard.press('Escape');
       }
 
-      // Wait for dialog to close
       await expect(dialog).toBeHidden();
     });
 
     test('should verify person select in edit dialog', async ({
       bookmarksPage,
     }) => {
-      // Select a specific bookmark by title
       const bookmarkRow = bookmarksPage
         .locator('div[data-context-id]')
         .filter({ hasText: TEST_BOOKMARKS.REACT_DOCS });
       await bookmarkRow.click({ button: 'right' });
 
-      const editOption = bookmarksPage.locator(
-        '.mantine-contextmenu-item-button-title',
-        { hasText: 'Edit' }
-      );
-      await editOption.waitFor({ state: 'attached' });
-      await editOption.evaluate((el) => (el as HTMLElement).click());
+      await clickContextMenuItem(bookmarksPage, 'Edit');
 
-      // Wait for dialog
       const dialog = bookmarksPage.getByRole('dialog');
       await expect(dialog).toBeVisible();
 
-      // Look for Tagged Persons field
       const personLabel = dialog.getByText('Tagged Persons');
       await expect(personLabel).toBeVisible();
 
-      // Close dialog
       const closeButton = dialog.locator('button.mantine-Modal-close');
       if (await closeButton.isVisible()) {
         await closeButton.click();
@@ -289,19 +242,11 @@ test.describe.serial('Bookmarks Panel', () => {
     test('should open folder with at least one bookmark', async ({
       bookmarksPage,
     }) => {
-      // Use "Main" folder which has bookmarks
-      const mainFolder = bookmarksPage.locator('[data-folder-name="Main"]');
-      await expect(mainFolder).toBeVisible();
-      await mainFolder.click();
+      await openFolder(bookmarksPage, 'Main');
 
-      // Wait for navigation
-      await bookmarksPage.waitForTimeout(500);
-
-      // We should either see bookmarks or an empty state
       const bookmarks = bookmarksPage.locator('div[data-context-id]');
       const bookmarkCount = await bookmarks.count();
 
-      // Main folder likely has bookmarks
       expect(bookmarkCount).toBeGreaterThanOrEqual(0);
     });
 
@@ -309,25 +254,15 @@ test.describe.serial('Bookmarks Panel', () => {
       bookmarksPage,
     }) => {
       const bookmarkRows = bookmarksPage.locator('div[data-context-id]');
-      // Count bookmarks before
       const bookmarksBefore = await bookmarkRows.count();
 
-      // Get the last bookmark
       const lastBookmark = bookmarkRows.last();
       await lastBookmark.click({ button: 'right' });
 
-      // Click Delete option
-      const deleteOption = bookmarksPage.locator(
-        '.mantine-contextmenu-item-button-title',
-        { hasText: 'Delete' }
-      );
-      await deleteOption.waitFor({ state: 'attached' });
-      await deleteOption.evaluate((el) => (el as HTMLElement).click());
+      await clickContextMenuItem(bookmarksPage, 'Delete');
 
-      // Wait a moment for deletion to process
       await bookmarksPage.waitForTimeout(500);
 
-      // Count bookmarks after - should be one less
       const bookmarksAfter = await bookmarkRows.count();
       expect(bookmarksAfter).toBeLessThan(bookmarksBefore);
     });
@@ -336,94 +271,58 @@ test.describe.serial('Bookmarks Panel', () => {
   test('should open person panel by clicking tagged person avatar', async ({
     bookmarksPage,
   }) => {
-    // Find an avatar within a person group (identified by data-group-context-id)
     const avatarGroup = bookmarksPage.locator('[data-group-context-id]');
     const avatar = avatarGroup.locator('[data-person-uid]').first();
     await expect(avatar).toBeVisible({ timeout: 10_000 });
 
-    // Hover over the avatar to show HoverCard
     await avatar.hover();
 
-    // Wait for the dropdown to appear - use data attribute selector
     const dropdown = bookmarksPage.locator('[data-person-dropdown]');
     await expect(dropdown).toBeVisible({ timeout: 10_000 });
 
-    // Click the avatar in the dropdown to navigate - use data-person-name attribute
     const dropdownAvatar = dropdown.locator('[data-person-name]');
     await dropdownAvatar.waitFor({ state: 'visible', timeout: 5000 });
     const personName =
       (await dropdownAvatar.getAttribute('data-person-name')) ?? '';
     await dropdownAvatar.click();
 
-    // Verify person panel opens and URL is correct
     await bookmarksPage.waitForURL(/persons-panel/);
     const url = bookmarksPage.url();
     expect(url).toContain('persons-panel');
     expect(url).toContain('openBookmarksList=');
 
-    // Verify the person's bookmarks list is open inside the person panel
-    // Look for the badge in the header that shows "Name (Count)"
-    const headerBadge = bookmarksPage
-      .locator('.mantine-Badge-label')
-      .filter({ hasText: personName });
-    await expect(headerBadge).toBeVisible({ timeout: 10_000 });
+    const badgeCount = await getBadgeCount(bookmarksPage, personName);
+    expect(badgeCount).toBeGreaterThan(0);
 
-    const badgeText = (await headerBadge.textContent()) ?? '';
-    // It should be in format "Name (N)"
-    expect(badgeText).toContain(personName);
-    const countMatch = /\((\d+)\)/.exec(badgeText);
-    if (countMatch) {
-      const count = Number.parseInt(countMatch[1], 10);
-      expect(count).toBeGreaterThan(0);
-    }
-
-    // Assert that at least one bookmark is visible in the list
     const editButtons = bookmarksPage.getByTitle('Edit Bookmark');
     const rowCount = await editButtons.count();
     expect(rowCount).toBeGreaterThan(0);
     await expect(editButtons.first()).toBeVisible();
 
-    // Navigate back to bookmarks
     await navigateBack(bookmarksPage);
   });
 
   test('should save changes and verify in extension storage', async ({
     bookmarksPage,
   }) => {
-    // Ensure we are in bookmarks panel
-    const bookmarksButton = bookmarksPage.getByRole('button', {
-      name: 'Bookmarks',
-    });
-    if (await bookmarksButton.isVisible()) {
-      await bookmarksButton.click();
-    }
+    await ensureAtRoot(bookmarksPage);
 
-    // Make a change (create a new folder via Add button)
-    const addButton = bookmarksPage.getByRole('button', { name: 'Add' });
-    await addButton.click();
+    const dialog = await openDialog(bookmarksPage, 'Add', 'Add folder');
 
-    // Wait for folder dialog to open
-    const dialog = bookmarksPage.getByRole('dialog', { name: 'Add folder' });
-    await expect(dialog).toBeVisible();
+    await fillDialogInput(
+      dialog,
+      'Enter folder name',
+      'Persistence Test Folder'
+    );
 
-    // Fill folder name
-    await dialog
-      .getByPlaceholder('Enter folder name')
-      .fill('Persistence Test Folder');
-
-    // Save folder
     await dialog.getByRole('button', { name: 'Save' }).click();
 
-    // Wait for dialog to close
     await expect(dialog).toBeHidden();
 
-    // Click the main save button to persist to storage
     await clickSaveButton(bookmarksPage);
 
-    // Wait for save to complete
     await bookmarksPage.waitForTimeout(1000);
 
-    // The test passes if we got here without errors
     expect(true).toBe(true);
   });
 
@@ -431,83 +330,54 @@ test.describe.serial('Bookmarks Panel', () => {
     test('should search bookmarks by title or URL', async ({
       bookmarksPage,
     }) => {
-      // Ensure we're at bookmarks root
-      const bookmarksButton = bookmarksPage.getByRole('button', {
-        name: 'Bookmarks',
-      });
-      if (await bookmarksButton.isVisible()) {
-        await bookmarksButton.click();
-      }
+      await ensureAtRoot(bookmarksPage);
 
-      // Navigate to Main folder which has bookmarks
-      const mainFolder = bookmarksPage.locator(
-        `[data-folder-name="${TEST_FOLDERS.MAIN}"]`
-      );
-      await mainFolder.click();
-      await bookmarksPage.waitForTimeout(500);
+      await openFolder(bookmarksPage, TEST_FOLDERS.MAIN);
 
-      // Get initial bookmark count
       const bookmarkRows = bookmarksPage.locator('div[data-context-id]');
       const initialCount = await bookmarkRows.count();
       expect(initialCount).toBeGreaterThan(0);
 
-      // Search by bookmark title (partial match)
       const searchInput = bookmarksPage.getByPlaceholder('Search');
       await searchInput.fill('ButtonGroup');
 
-      // Wait for search filter to apply (debounced)
-      await bookmarksPage.waitForTimeout(300);
+      await waitForDebounce(bookmarksPage);
 
-      // Verify filtered results - should find the bookmark containing "ButtonGroup"
       const filteredBookmark = bookmarksPage
         .locator('div[data-context-id]')
         .filter({ hasText: TEST_BOOKMARKS.GITHUB });
       await expect(filteredBookmark).toBeVisible();
 
-      // Clear search
       await searchInput.clear();
-      await bookmarksPage.waitForTimeout(300);
+      await waitForDebounce(bookmarksPage);
 
-      // Search by URL (partial match - "material")
       await searchInput.fill('material');
-      await bookmarksPage.waitForTimeout(300);
+      await waitForDebounce(bookmarksPage);
 
-      // Should find bookmark with "Material-UI" in title (which has material-ui URL)
       const urlFilteredBookmark = bookmarksPage
         .locator('div[data-context-id]')
         .filter({ hasText: TEST_BOOKMARKS.REACT_DOCS });
       await expect(urlFilteredBookmark).toBeVisible();
 
-      // Clear search
       await searchInput.clear();
     });
 
     test('should keep folders visible when searching', async ({
       bookmarksPage,
     }) => {
-      // Ensure we're at bookmarks root (which has folders)
-      const bookmarksButton = bookmarksPage.getByRole('button', {
-        name: 'Bookmarks',
-      });
-      if (await bookmarksButton.isVisible()) {
-        await bookmarksButton.click();
-      }
+      await ensureAtRoot(bookmarksPage);
 
-      // Verify a folder is visible
       const folder = bookmarksPage.locator(
         `[data-folder-name="${TEST_FOLDERS.MAIN}"]`
       );
       await expect(folder).toBeVisible();
 
-      // Search for something that won't match folder name
       const searchInput = bookmarksPage.getByPlaceholder('Search');
       await searchInput.fill('nonexistentterm');
-      await bookmarksPage.waitForTimeout(300);
+      await waitForDebounce(bookmarksPage);
 
-      // Folders should still be visible (search only filters bookmarks, not folders)
       await expect(folder).toBeVisible();
 
-      // Clear search
       await searchInput.clear();
     });
   });
@@ -516,16 +386,8 @@ test.describe.serial('Bookmarks Panel', () => {
     test('should move bookmark using cut from context menu and paste', async ({
       bookmarksPage,
     }) => {
-      // Ensure we're at bookmarks root
-      const bookmarksButton = bookmarksPage.getByRole('button', {
-        name: 'Bookmarks',
-      });
-      if (await bookmarksButton.isVisible()) {
-        await bookmarksButton.click();
-        await bookmarksPage.waitForTimeout(500);
-      }
+      await ensureAtRoot(bookmarksPage);
 
-      // Navigate to Main folder
       const mainFolder = bookmarksPage.locator(
         `[data-folder-name="${TEST_FOLDERS.MAIN}"]`
       );
@@ -533,42 +395,28 @@ test.describe.serial('Bookmarks Panel', () => {
       await mainFolder.click();
       await bookmarksPage.waitForTimeout(500);
 
-      // Get the bookmark count before cut
       const bookmarkRows = bookmarksPage.locator('div[data-context-id]');
       const countBefore = await bookmarkRows.count();
       expect(countBefore).toBeGreaterThan(1);
 
-      // Get a specific bookmark to cut
       const bookmarkToCut = bookmarksPage
         .locator('div[data-context-id]')
         .filter({ hasText: TEST_BOOKMARKS.GITHUB });
       await expect(bookmarkToCut).toBeVisible();
 
-      // Right-click to open context menu
       await bookmarkToCut.click({ button: 'right' });
 
-      // Click Cut option
-      const cutOption = bookmarksPage.locator(
-        '.mantine-contextmenu-item-button-title',
-        { hasText: 'Cut' }
-      );
-      await cutOption.waitFor({ state: 'attached' });
-      await cutOption.evaluate((el) => (el as HTMLElement).click());
+      await clickContextMenuItem(bookmarksPage, 'Cut');
 
-      // Wait for cut to register
-      await bookmarksPage.waitForTimeout(300);
+      await waitForDebounce(bookmarksPage);
 
-      // The bookmark should still be visible but now marked as "cut" (via data-is-cut)
       await expect(bookmarkToCut).toBeVisible();
 
-      // Select the first bookmark (different from cut one) as the paste target
       const firstBookmark = bookmarkRows.first();
       await firstBookmark.click();
 
-      // Right-click to open context menu for paste
       await firstBookmark.click({ button: 'right' });
 
-      // Look for Paste option (should show "Paste (1)")
       const pasteOption = bookmarksPage.locator(
         '.mantine-contextmenu-item-button-title',
         { hasText: 'Paste' }
@@ -576,16 +424,13 @@ test.describe.serial('Bookmarks Panel', () => {
       await pasteOption.waitFor({ state: 'attached' });
       await pasteOption.evaluate((el) => (el as HTMLElement).click());
 
-      // Wait for paste to complete
-      await bookmarksPage.waitForTimeout(300);
+      await waitForDebounce(bookmarksPage);
 
-      // Verify the cut bookmark is still visible (moved to new position)
       const pastedBookmark = bookmarksPage
         .locator('div[data-context-id]')
         .filter({ hasText: TEST_BOOKMARKS.GITHUB });
       await expect(pastedBookmark).toBeVisible();
 
-      // Verify count is same (moved, not duplicated)
       const countAfter = await bookmarkRows.count();
       expect(countAfter).toBe(countBefore);
     });
@@ -595,51 +440,28 @@ test.describe.serial('Bookmarks Panel', () => {
     test('should not delete folder with nested folders and show toast', async ({
       bookmarksPage,
     }) => {
-      // Ensure we're at bookmarks root
-      const bookmarksButton = bookmarksPage.getByRole('button', {
-        name: 'Bookmarks',
-      });
-      if (await bookmarksButton.isVisible()) {
-        await bookmarksButton.click();
-      }
+      await ensureAtRoot(bookmarksPage);
 
-      // "Other bookmarks" folder contains nested folders
       const folderWithNested = bookmarksPage.locator(
         `[data-folder-name="${TEST_FOLDERS.OTHER_BOOKMARKS}"]`
       );
       await expect(folderWithNested).toBeVisible();
 
-      // Right-click to open context menu
       await folderWithNested.click({ button: 'right' });
 
-      // Click Delete option
-      const deleteOption = bookmarksPage.locator(
-        '.mantine-contextmenu-item-button-title',
-        { hasText: 'Delete' }
-      );
-      await deleteOption.waitFor({ state: 'attached' });
-      await deleteOption.evaluate((el) => (el as HTMLElement).click());
+      await clickContextMenuItem(bookmarksPage, 'Delete');
 
-      // Wait for toast notification
       await bookmarksPage.waitForTimeout(500);
 
-      // Verify toast message appears
       const toast = bookmarksPage.getByText('Remove inner folders first');
       await expect(toast).toBeVisible();
 
-      // Verify folder is still there (wasn't deleted)
       await expect(folderWithNested).toBeVisible();
     });
   });
 
   test('should delete a folder', async ({ bookmarksPage }) => {
-    // Ensure we are in bookmarks panel
-    const bookmarksButton = bookmarksPage.getByRole('button', {
-      name: 'Bookmarks',
-    });
-    if (await bookmarksButton.isVisible()) {
-      await bookmarksButton.click();
-    }
+    await ensureAtRoot(bookmarksPage);
 
     const folderName = 'Persistence Test Folder';
     const folderRow = bookmarksPage.locator(
@@ -647,17 +469,10 @@ test.describe.serial('Bookmarks Panel', () => {
     );
     await expect(folderRow).toBeVisible({ timeout: 10_000 });
 
-    // Now delete the folder
     await folderRow.click({ button: 'right' });
 
-    const deleteOption = bookmarksPage.locator(
-      '.mantine-contextmenu-item-button-title',
-      { hasText: 'Delete' }
-    );
-    await deleteOption.waitFor({ state: 'attached' });
-    await deleteOption.evaluate((el) => (el as HTMLElement).click());
+    await clickContextMenuItem(bookmarksPage, 'Delete');
 
-    // Verify folder is removed
     await expect(folderRow).not.toBeVisible();
   });
 });

@@ -31,3 +31,180 @@ export const openPersonCard = async (page: Page, personName: string) => {
   await personCard.click();
   await page.waitForTimeout(500);
 };
+
+/**
+ * Open a dialog by clicking a button and waiting for the dialog to appear.
+ */
+export const openDialog = async (
+  page: Page,
+  buttonName: string | RegExp,
+  dialogName: string
+) => {
+  const addButton = page.getByRole('button', { name: buttonName, exact: true });
+  await addButton.click();
+
+  const dialog = page.getByRole('dialog', { name: dialogName });
+  await expect(dialog).toBeVisible();
+
+  return dialog;
+};
+
+/**
+ * Fill an input inside a dialog by placeholder text.
+ */
+export const fillDialogInput = async (
+  dialog: ReturnType<Page['getByRole']>,
+  placeholder: string,
+  value: string
+) => {
+  const input = dialog.getByPlaceholder(placeholder);
+  await input.fill(value);
+};
+
+/**
+ * Click a button inside a dialog by its name.
+ */
+export const clickDialogButton = async (
+  dialog: ReturnType<Page['getByRole']>,
+  name: string
+) => {
+  const button = dialog.getByRole('button', { name });
+  await button.click();
+};
+
+/**
+ * Close a dialog via the close button or Escape key.
+ */
+export const closeDialog = async (
+  page: Page,
+  dialog: ReturnType<Page['getByRole']>
+) => {
+  const closeButton = dialog.locator('button.mantine-Modal-close');
+  if (await closeButton.isVisible()) {
+    await closeButton.click();
+  } else {
+    await page.keyboard.press('Escape');
+  }
+
+  await expect(dialog).toBeHidden();
+};
+
+/**
+ * Click a specific context menu option by text.
+ */
+export const clickContextMenuItem = async (page: Page, itemText: string) => {
+  const menuItem = page.locator('.mantine-contextmenu-item-button-title', {
+    hasText: itemText,
+  });
+  await menuItem.waitFor({ state: 'attached' });
+  await menuItem.evaluate((el) => (el as HTMLElement).click());
+};
+
+/**
+ * Wait for debounced updates to apply (default 300ms).
+ */
+export const waitForDebounce = async (page: Page, ms = 300) => {
+  await page.waitForTimeout(ms);
+};
+
+/**
+ * Count elements matching a selector.
+ */
+export const countElements = async (page: Page, selector: string) => {
+  return page.locator(selector).count();
+};
+
+/**
+ * Open ImagePicker dialog by clicking edit icon.
+ */
+export const openImagePicker = async (
+  page: Page,
+  dialog: ReturnType<Page['getByRole']>
+) => {
+  const editIcon = dialog.locator('.mantine-ActionIcon-root');
+  await editIcon.click();
+
+  const imagePickerDialog = page
+    .locator('.mantine-Modal-inner')
+    .filter({ hasText: 'Upload Image' });
+  await expect(imagePickerDialog).toBeVisible();
+
+  return imagePickerDialog;
+};
+
+/**
+ * Upload an image by entering URL, waiting for load, and saving.
+ */
+export const uploadImage = async (
+  page: Page,
+  imagePickerDialog: ReturnType<Page['locator']>,
+  imageUrl: string
+) => {
+  const imageUrlInput = imagePickerDialog.getByPlaceholder('Enter image url');
+  await imageUrlInput.fill(imageUrl);
+
+  await page.waitForTimeout(5000);
+
+  const saveCroppedButton = page.getByTestId('save-cropped-image');
+  await expect(saveCroppedButton).toBeEnabled();
+  await saveCroppedButton.click();
+
+  const uploadOverlay = page.getByTestId('uploading-overlay');
+  await expect(uploadOverlay).toBeVisible();
+
+  await expect(imagePickerDialog).toBeHidden({ timeout: 30_000 });
+};
+
+/**
+ * Parse count from badge text in format "Name (N)".
+ */
+export const getBadgeCount = async (
+  page: Page,
+  name: string
+): Promise<number> => {
+  const badge = page.locator('.mantine-Badge-label').filter({ hasText: name });
+  await expect(badge).toBeVisible();
+
+  const badgeText = (await badge.textContent()) ?? '';
+  const countMatch = /\((\d+)\)/.exec(badgeText);
+
+  if (!countMatch) {
+    return 0;
+  }
+
+  return Number.parseInt(countMatch[1], 10);
+};
+
+/**
+ * Toggle a switch by clicking its label.
+ */
+export const toggleSwitch = async (page: Page, labelText: string) => {
+  const label = page.locator('label').filter({ hasText: labelText });
+  await label.click();
+  await page.waitForTimeout(500);
+};
+
+/**
+ * Open a folder by clicking on it.
+ */
+export const openFolder = async (
+  page: Page,
+  folderName: string,
+  selector = '[data-folder-name]'
+) => {
+  const folder = page.locator(selector, { hasText: folderName });
+  await expect(folder).toBeVisible();
+  await folder.click();
+  await page.waitForTimeout(500);
+};
+
+/**
+ * Navigate to bookmarks root panel.
+ */
+export const ensureAtRoot = async (page: Page) => {
+  const bookmarksButton = page.getByRole('button', { name: 'Bookmarks' });
+  if (await bookmarksButton.isVisible()) {
+    await bookmarksButton.click();
+    await page.waitForTimeout(500);
+  }
+};
