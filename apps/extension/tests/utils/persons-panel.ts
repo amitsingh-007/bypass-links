@@ -3,6 +3,7 @@ import { TEST_TIMEOUTS } from '../constants';
 import {
   changeImageInDialog,
   clickDialogButton,
+  clickContextMenuItem,
   closeDialog,
   countElements,
   fillDialogInput,
@@ -104,6 +105,26 @@ export class PersonsPanel {
       .locator('[data-person-uid]')
       .filter({ hasText: personName });
     await expect(personCardAfter).toBeVisible();
+  }
+
+  async deletePerson(personName: string) {
+    const personCard = this.page
+      .locator('[data-person-uid]')
+      .filter({ hasText: personName });
+    await expect(personCard).toBeVisible();
+
+    await personCard.click({ button: 'right' });
+    await clickContextMenuItem(this.page, 'Delete');
+
+    // Wait for success notification to appear and verify
+    const notification = this.page.getByText('Person deleted successfully');
+    await expect(notification).toBeVisible();
+
+    // Wait for deletion to complete
+    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
+
+    // Verify person is no longer visible
+    await expect(personCard).not.toBeVisible();
   }
 
   async verifyAvatarVisibleInEditDialog(personName: string) {

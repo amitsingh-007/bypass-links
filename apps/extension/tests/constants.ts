@@ -34,6 +34,11 @@ export const TEST_PERSONS = {
 } as const;
 
 /**
+ * Name of the test person created and deleted during E2E tests.
+ */
+export const TEST_PERSON_NAME = 'E2E Test Person';
+
+/**
  * Timeout constants used across test files to avoid magic numbers.
  */
 export const TEST_TIMEOUTS = {

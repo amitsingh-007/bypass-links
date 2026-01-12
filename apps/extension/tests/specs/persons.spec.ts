@@ -1,6 +1,7 @@
 import { test, expect } from '../fixtures/persons-fixture';
-import { TEST_PERSONS, TEST_TIMEOUTS } from '../constants';
+import { TEST_PERSON_NAME, TEST_PERSONS, TEST_TIMEOUTS } from '../constants';
 import { PersonsPanel } from '../utils/persons-panel';
+import { clickContextMenuItem } from '../utils/test-utils';
 
 /**
  * Persons Panel E2E Tests
@@ -65,10 +66,46 @@ test.describe.serial('Persons Panel', () => {
 
     test('should add person with name and image', async ({ personsPage }) => {
       const panel = new PersonsPanel(personsPage);
-      const TEST_PERSON_NAME = 'E2E Test Person';
       const TEST_IMAGE_URL = 'https://picsum.photos/200';
 
       await panel.addPerson(TEST_PERSON_NAME, TEST_IMAGE_URL);
+    });
+  });
+
+  test.describe('Delete Person', () => {
+    test('should delete the test person created earlier', async ({
+      personsPage,
+    }) => {
+      const panel = new PersonsPanel(personsPage);
+
+      // First verify the person exists
+      await panel.verifyPersonCardVisible(TEST_PERSON_NAME);
+
+      // Delete the person (this verifies the notification)
+      await panel.deletePerson(TEST_PERSON_NAME);
+    });
+
+    test('should show error when deleting person with tagged bookmarks', async ({
+      personsPage,
+    }) => {
+      // Try to delete a person who has tagged bookmarks
+      // John Nathan has bookmarks tagged (verified in existing tests)
+      const personCard = personsPage
+        .locator('[data-person-uid]')
+        .filter({ hasText: TEST_PERSONS.JOHN_NATHAN });
+      await expect(personCard).toBeVisible();
+
+      await personCard.click({ button: 'right' });
+      await clickContextMenuItem(personsPage, 'Delete');
+
+      // Verify error notification is shown
+      const notification = personsPage.getByText(
+        'Cannot delete a person with tagged bookmarks'
+      );
+      await expect(notification).toBeVisible();
+
+      // Verify the person still exists (not deleted)
+      await expect(personCard).toBeVisible();
     });
   });
 });

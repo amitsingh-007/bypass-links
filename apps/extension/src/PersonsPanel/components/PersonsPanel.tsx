@@ -92,7 +92,10 @@ function PersonsPanel() {
     const pos = getPersonPos(persons, person);
     const taggedUrls = await getPersonTaggedUrls(person.uid);
     if (taggedUrls.length > 0) {
-      console.error('Cant delete a person with tagged urls');
+      notifications.show({
+        message: 'Cannot delete a person with tagged bookmarks',
+        color: 'red',
+      });
       return;
     }
     setIsFetching(true);
