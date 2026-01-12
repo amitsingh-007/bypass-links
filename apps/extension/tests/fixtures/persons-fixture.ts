@@ -25,7 +25,8 @@ export const test = base.extend<
   }
 >({
   sharedContext: [
-    async (_, use) => {
+    // eslint-disable-next-line no-empty-pattern
+    async ({}, use) => {
       const { browserContext, userDataDir } = await createSharedContext();
       await use(browserContext);
       await browserContext.close();

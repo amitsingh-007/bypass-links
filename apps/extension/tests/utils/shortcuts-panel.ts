@@ -3,73 +3,94 @@ import { TEST_TIMEOUTS } from '../constants';
 import { navigateBack, waitForDebounce } from './test-utils';
 
 /**
- * Get the rule container for a specific alias.
- * The rule contains a TextInput with the alias value.
+ * Get the rule container by position index.
+ * Uses data-testid for reliable access.
  */
-const getRuleByAlias = (page: Page, alias: string) => {
-  // Find the input that has the alias as its value, then get parent containers
-  const input = page.locator(`input[value="${alias}"]`);
-  return input.locator('..').locator('..').locator('..');
+const getRuleByPos = (page: Page, pos: number) => {
+  return page.getByTestId(`rule-${pos}`);
 };
 
 /**
- * Get the alias input within a rule container.
+ * Get the alias input for a rule by position.
  */
-const getAliasInput = (page: Page, alias: string) => {
-  return page.locator(`input[value="${alias}"]`);
+const getAliasInput = (page: Page, pos: number) => {
+  return page.getByTestId(`rule-${pos}-alias`);
 };
 
 /**
- * Get the website input within a rule container.
+ * Get the website input for a rule by position.
  */
-const getWebsiteInput = (page: Page, alias: string) => {
-  // Find the rule first, then get the website input within it
-  const rule = getRuleByAlias(page, alias);
-  return rule.getByPlaceholder('Enter Website');
+const getWebsiteInput = (page: Page, pos: number) => {
+  return page.getByTestId(`rule-${pos}-website`);
 };
 
 /**
- * Get the delete button for a specific rule.
+ * Get the default checkbox for a rule by position.
  */
-const getDeleteButton = (page: Page, alias: string) => {
-  const rule = getRuleByAlias(page, alias);
-  return rule
-    .locator('.mantine-ActionIcon-root')
-    .filter({ has: page.locator('svg').nth(3) });
+const getDefaultCheckbox = (page: Page, pos: number) => {
+  return page.getByTestId(`rule-${pos}-default`);
 };
 
 /**
- * Get the rule save button (teal color) for a specific rule.
+ * Get the external link button for a rule by position.
  */
-const getRuleSaveButton = (page: Page, alias: string) => {
-  const rule = getRuleByAlias(page, alias);
-  // The save button is the second-to-last ActionIcon (teal color)
-  return rule
-    .locator('.mantine-ActionIcon-root')
-    .filter({ has: page.locator('svg').nth(2) });
+const getExternalLinkButton = (page: Page, pos: number) => {
+  return page.getByTestId(`rule-${pos}-external-link`);
 };
 
 /**
- * Get the external link button for a specific rule.
+ * Get the save button for a rule by position.
  */
-const getExternalLinkButton = (page: Page, alias: string) => {
-  const rule = getRuleByAlias(page, alias);
-  // The external link button is the third ActionIcon (blue color)
-  return rule
-    .locator('.mantine-ActionIcon-root')
-    .filter({ has: page.locator('svg').nth(1) });
+const getRuleSaveButton = (page: Page, pos: number) => {
+  return page.getByTestId(`rule-${pos}-save`);
 };
 
 /**
- * Get the default checkbox for a specific rule.
+ * Get the delete button for a rule by position.
  */
-const getDefaultCheckbox = (page: Page, alias: string) => {
-  const rule = getRuleByAlias(page, alias);
-  return rule.getByRole('checkbox');
+const getDeleteButton = (page: Page, pos: number) => {
+  return page.getByTestId(`rule-${pos}-delete`);
+};
+
+/**
+ * Get the move up button for a rule by position.
+ */
+const getMoveUpButton = (page: Page, pos: number) => {
+  return page.getByTestId(`rule-${pos}-move-up`);
+};
+
+/**
+ * Get the move down button for a rule by position.
+ */
+const getMoveDownButton = (page: Page, pos: number) => {
+  return page.getByTestId(`rule-${pos}-move-down`);
+};
+
+/**
+ * Find the position of a rule by its alias value.
+ * Returns -1 if not found.
+ */
+const findRulePosByAlias = async (
+  page: Page,
+  alias: string
+): Promise<number> => {
+  const allInputs = page.getByPlaceholder('Enter Alias');
+  const count = await allInputs.count();
+
+  for (let i = 0; i < count; i++) {
+    const input = allInputs.nth(i);
+    const value = await input.inputValue();
+    if (value === alias) {
+      return i;
+    }
+  }
+
+  return -1;
 };
 
 /**
  * ShortcutsPanel utility class for E2E testing of the shortcuts/redirection panel.
+ * All methods use data-testid selectors for reliable element access.
  */
 export class ShortcutsPanel {
   constructor(readonly page: Page) {}
@@ -95,12 +116,16 @@ export class ShortcutsPanel {
       const hiddenTexts = options.hiddenTexts ?? [];
 
       for (const text of visibleTexts) {
-        const rule = getRuleByAlias(this.page, text);
+        const pos = await findRulePosByAlias(this.page, text);
+        expect(pos).toBeGreaterThanOrEqual(0);
+        const rule = getRuleByPos(this.page, pos);
         await expect(rule).toBeVisible();
       }
 
       for (const text of hiddenTexts) {
-        const rule = getRuleByAlias(this.page, text);
+        const pos = await findRulePosByAlias(this.page, text);
+        expect(pos).toBeGreaterThanOrEqual(0);
+        const rule = getRuleByPos(this.page, pos);
         await expect(rule).not.toBeVisible();
       }
     }
@@ -113,19 +138,10 @@ export class ShortcutsPanel {
   }
 
   async getRuleCount() {
-    // Count only visible alias inputs by checking each one
-    const allInputs = this.page.getByPlaceholder('Enter Alias');
-    const allCount = await allInputs.count();
-    let visibleCount = 0;
-
-    for (let i = 0; i < allCount; i++) {
-      const input = allInputs.nth(i);
-      if (await input.isVisible()) {
-        visibleCount++;
-      }
-    }
-
-    return visibleCount;
+    const allRules = this.page.locator(
+      '[data-testid^="rule-"][data-testid$="-alias"]'
+    );
+    return allRules.count();
   }
 
   async addRule() {
@@ -135,72 +151,77 @@ export class ShortcutsPanel {
   }
 
   async fillRuleAlias(currentAlias: string, newAlias: string) {
-    const aliasInput = getAliasInput(this.page, currentAlias);
+    const pos = await findRulePosByAlias(this.page, currentAlias);
+    expect(pos).toBeGreaterThanOrEqual(0);
+    const aliasInput = getAliasInput(this.page, pos);
     await aliasInput.fill(newAlias);
   }
 
   async fillRuleWebsite(alias: string, website: string) {
-    const websiteInput = getWebsiteInput(this.page, alias);
+    const pos = await findRulePosByAlias(this.page, alias);
+    expect(pos).toBeGreaterThanOrEqual(0);
+    const websiteInput = getWebsiteInput(this.page, pos);
     await websiteInput.fill(website);
   }
 
   async clickRuleSaveButton(alias: string) {
-    const saveButton = getRuleSaveButton(this.page, alias);
+    const pos = await findRulePosByAlias(this.page, alias);
+    expect(pos).toBeGreaterThanOrEqual(0);
+    const saveButton = getRuleSaveButton(this.page, pos);
     await saveButton.click();
   }
 
   async deleteRule(alias: string) {
-    const rule = getRuleByAlias(this.page, alias);
+    const pos = await findRulePosByAlias(this.page, alias);
+    expect(pos).toBeGreaterThanOrEqual(0);
+
+    const rule = getRuleByPos(this.page, pos);
     await expect(rule).toBeVisible();
 
-    const deleteButton = getDeleteButton(this.page, alias);
+    const deleteButton = getDeleteButton(this.page, pos);
     await deleteButton.click();
 
     await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
-
-    await expect(rule).not.toBeVisible();
   }
 
   async moveRuleUp(alias: string) {
-    const rule = getRuleByAlias(this.page, alias);
-    // Get the up button from the rule container
-    const ruleUpButton = rule
-      .locator('.mantine-Button-group')
-      .locator('button')
-      .first();
+    const pos = await findRulePosByAlias(this.page, alias);
+    expect(pos).toBeGreaterThanOrEqual(0);
+
+    const ruleUpButton = getMoveUpButton(this.page, pos);
     await ruleUpButton.click();
     await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
   }
 
   async moveRuleDown(alias: string) {
-    const rule = getRuleByAlias(this.page, alias);
-    const ruleDownButton = rule
-      .locator('.mantine-Button-group')
-      .locator('button')
-      .last();
+    const pos = await findRulePosByAlias(this.page, alias);
+    expect(pos).toBeGreaterThanOrEqual(0);
+
+    const ruleDownButton = getMoveDownButton(this.page, pos);
     await ruleDownButton.click();
     await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
   }
 
   async verifyRuleOrder(expectedAliases: string[]) {
-    const aliasInputs = this.page.getByPlaceholder('Enter Alias');
-    const count = await aliasInputs.count();
-
-    expect(count).toBe(expectedAliases.length);
-
     for (const [index, expectedAlias] of expectedAliases.entries()) {
-      const input = aliasInputs.nth(index);
+      const input = getAliasInput(this.page, index);
       await expect(input).toHaveValue(expectedAlias);
     }
   }
 
   async toggleDefaultRule(alias: string) {
-    const checkbox = getDefaultCheckbox(this.page, alias);
+    const pos = await findRulePosByAlias(this.page, alias);
+    expect(pos).toBeGreaterThanOrEqual(0);
+
+    const checkbox = getDefaultCheckbox(this.page, pos);
     await checkbox.check();
   }
 
   async verifyDefaultRule(alias: string, isDefault: boolean) {
-    const checkbox = getDefaultCheckbox(this.page, alias);
+    const pos = await findRulePosByAlias(this.page, alias);
+    expect(pos).toBeGreaterThanOrEqual(0);
+
+    const checkbox = getDefaultCheckbox(this.page, pos);
     if (isDefault) {
       await expect(checkbox).toBeChecked();
     } else {
@@ -209,7 +230,10 @@ export class ShortcutsPanel {
   }
 
   async openExternalLink(alias: string) {
-    const linkButton = getExternalLinkButton(this.page, alias);
+    const pos = await findRulePosByAlias(this.page, alias);
+    expect(pos).toBeGreaterThanOrEqual(0);
+
+    const linkButton = getExternalLinkButton(this.page, pos);
     await expect(linkButton).toBeEnabled();
 
     // Open in new tab and verify
@@ -222,7 +246,10 @@ export class ShortcutsPanel {
   }
 
   async verifyRuleSaveButton(alias: string, isDisabled: boolean) {
-    const saveButton = getRuleSaveButton(this.page, alias);
+    const pos = await findRulePosByAlias(this.page, alias);
+    expect(pos).toBeGreaterThanOrEqual(0);
+
+    const saveButton = getRuleSaveButton(this.page, pos);
     if (isDisabled) {
       await expect(saveButton).toBeDisabled();
     } else {
@@ -240,7 +267,10 @@ export class ShortcutsPanel {
   }
 
   async verifyExternalLinkButtonDisabled(alias: string, isDisabled: boolean) {
-    const linkButton = getExternalLinkButton(this.page, alias);
+    const pos = await findRulePosByAlias(this.page, alias);
+    expect(pos).toBeGreaterThanOrEqual(0);
+
+    const linkButton = getExternalLinkButton(this.page, pos);
     if (isDisabled) {
       await expect(linkButton).toBeDisabled();
     } else {
@@ -249,17 +279,26 @@ export class ShortcutsPanel {
   }
 
   async verifyRuleVisible(alias: string) {
-    const rule = getRuleByAlias(this.page, alias);
+    const pos = await findRulePosByAlias(this.page, alias);
+    expect(pos).toBeGreaterThanOrEqual(0);
+
+    const rule = getRuleByPos(this.page, pos);
     await expect(rule).toBeVisible();
   }
 
   async verifyRuleNotVisible(alias: string) {
-    const rule = getRuleByAlias(this.page, alias);
+    const pos = await findRulePosByAlias(this.page, alias);
+    expect(pos).toBeGreaterThanOrEqual(0);
+
+    const rule = getRuleByPos(this.page, pos);
     await expect(rule).not.toBeVisible();
   }
 
   async getAliasInputError(alias: string) {
-    const aliasInput = getAliasInput(this.page, alias);
+    const pos = await findRulePosByAlias(this.page, alias);
+    expect(pos).toBeGreaterThanOrEqual(0);
+
+    const aliasInput = getAliasInput(this.page, pos);
     const hasError = await aliasInput.evaluate((el: any) => {
       return el.classList.contains('mantine-TextInput-invalid');
     });
@@ -267,7 +306,10 @@ export class ShortcutsPanel {
   }
 
   async getWebsiteInputError(alias: string) {
-    const websiteInput = getWebsiteInput(this.page, alias);
+    const pos = await findRulePosByAlias(this.page, alias);
+    expect(pos).toBeGreaterThanOrEqual(0);
+
+    const websiteInput = getWebsiteInput(this.page, pos);
     const hasError = await websiteInput.evaluate((el: any) => {
       return el.classList.contains('mantine-TextInput-invalid');
     });

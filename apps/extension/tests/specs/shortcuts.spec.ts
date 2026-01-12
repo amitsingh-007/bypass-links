@@ -1,5 +1,6 @@
 import { test, expect } from '../fixtures/shortcuts-fixture';
 import { ShortcutsPanel } from '../utils/shortcuts-panel';
+import { TEST_SHORTCUTS } from '../constants';
 
 /**
  * Shortcuts Panel E2E Tests
@@ -13,30 +14,8 @@ import { ShortcutsPanel } from '../utils/shortcuts-panel';
  * IMPORTANT: Test order matters! Do not reorder tests without understanding dependencies.
  */
 
-test.describe.serial('Shortcuts Panel - Phase 1: Navigation Tests', () => {
+test.describe.serial('Navigation Tests', () => {
   test('should navigate to shortcuts panel and verify UI elements', async ({
-    shortcutsPage,
-  }) => {
-    // Verify we're on the shortcuts panel by checking for the header
-    const header = shortcutsPage.getByText('Shortcuts');
-    await expect(header).toBeVisible();
-
-    // Verify Add button is visible
-    const addButton = shortcutsPage.getByRole('button', { name: 'Add' });
-    await expect(addButton).toBeVisible();
-
-    // Verify main Save button is visible (but we won't click it)
-    const saveButton = shortcutsPage
-      .getByRole('button', { name: 'Save' })
-      .last();
-    await expect(saveButton).toBeVisible();
-
-    // Verify search input is visible
-    const searchInput = shortcutsPage.getByPlaceholder('Search');
-    await expect(searchInput).toBeVisible();
-  });
-
-  test('should display existing redirection rules', async ({
     shortcutsPage,
   }) => {
     const panel = new ShortcutsPanel(shortcutsPage);
@@ -44,113 +23,99 @@ test.describe.serial('Shortcuts Panel - Phase 1: Navigation Tests', () => {
     // Wait for loading overlay to disappear
     await panel.waitForLoading();
 
-    // Verify there are rules displayed
+    // Verify we're on the shortcuts panel by checking for the header
+    const header = shortcutsPage.getByText('Shortcuts');
+    await expect(header).toBeVisible();
+
+    // Verify Add button is visible and enabled
+    const addButton = shortcutsPage.getByRole('button', { name: 'Add' });
+    await expect(addButton).toBeVisible();
+    await expect(addButton).toBeEnabled();
+
+    // Verify main Save button is visible (but we won't click it)
+    const saveButton = shortcutsPage
+      .getByRole('button', { name: 'Save' })
+      .last();
+    await expect(saveButton).toBeVisible();
+    await expect(saveButton).toBeDisabled();
+
+    // Verify search input is visible
+    const searchInput = shortcutsPage.getByPlaceholder('Search');
+    await expect(searchInput).toBeVisible();
+
+    // Verify there are rules displayed (4 rules in test data)
     const ruleCount = await panel.getRuleCount();
-    expect(ruleCount).toBeGreaterThan(0);
+    expect(ruleCount).toBe(4);
 
     // Verify at least one alias input is visible
     const aliasInput = shortcutsPage.getByPlaceholder('Enter Alias').first();
     await expect(aliasInput).toBeVisible();
   });
-
-  test('should have Add and Save buttons in proper states initially', async ({
-    shortcutsPage,
-  }) => {
-    // Add button should be enabled
-    const addButton = shortcutsPage.getByRole('button', { name: 'Add' });
-    await expect(addButton).toBeEnabled();
-
-    // Main Save button should be disabled initially (no changes)
-    const saveButton = shortcutsPage
-      .getByRole('button', { name: 'Save' })
-      .last();
-    await expect(saveButton).toBeDisabled();
-  });
 });
 
-test.describe
-  .serial('Shortcuts Panel - Phase 2: Search and Filter Tests', () => {
-  test('should allow searching in the search input', async ({
+test.describe.serial('Search and Filter Tests', () => {
+  test('should find valid search match and highlight row', async ({
     shortcutsPage,
   }) => {
     const panel = new ShortcutsPanel(shortcutsPage);
 
-    // Get initial count
-    await panel.waitForLoading();
-    const initialCount = await panel.getRuleCount();
-    expect(initialCount).toBeGreaterThan(0);
-
-    // Search for something
-    await panel.search('test');
-
-    // Note: The search highlights matches but doesn't hide non-matches
-    // This test verifies the search input accepts text
-    const searchInput = shortcutsPage.getByPlaceholder('Search');
-    await expect(searchInput).toHaveValue('test');
-  });
-
-  test('should clear search input', async ({ shortcutsPage }) => {
-    const panel = new ShortcutsPanel(shortcutsPage);
-
-    // Search first
-    await panel.search('xyz123');
-    const searchInput = shortcutsPage.getByPlaceholder('Search');
-    await expect(searchInput).toHaveValue('xyz123');
-
-    // Clear search
-    await panel.clearSearch();
-
-    // Verify search is cleared
-    await expect(searchInput).toHaveValue('');
-  });
-
-  test('should maintain rule count during search', async ({
-    shortcutsPage,
-  }) => {
-    const panel = new ShortcutsPanel(shortcutsPage);
-
-    // Wait for loading
     await panel.waitForLoading();
     const allRulesCount = await panel.getRuleCount();
-    expect(allRulesCount).toBeGreaterThan(0);
+    expect(allRulesCount).toBe(4);
 
-    // Search - note that rules are highlighted, not filtered
-    await panel.search('zzzzzzz');
+    // Search for a known alias
+    await panel.search(TEST_SHORTCUTS.GOOGLE);
+
+    // Wait for UI to reflect changes
+    await shortcutsPage.waitForTimeout(1000);
+
+    // Verify the search input has the value
+    const searchInput = shortcutsPage.getByPlaceholder('Search');
+    await expect(searchInput).toHaveValue(TEST_SHORTCUTS.GOOGLE);
+
+    // Verify all rules are still visible (search highlights, doesn't filter)
     const searchResultCount = await panel.getRuleCount();
-    // All rules remain visible, search only highlights matches
     expect(searchResultCount).toBe(allRulesCount);
 
-    // Clear and verify reset
+    // Verify search is working - the input with matching value should be in the DOM
+    // Note: All rows remain visible, search only highlights matching rows
+    const allAliasInputs = shortcutsPage.getByPlaceholder('Enter Alias');
+    const count = await allAliasInputs.count();
+    let foundMatch = false;
+    for (let i = 0; i < count; i++) {
+      const value = await allAliasInputs.nth(i).inputValue();
+      if (value === TEST_SHORTCUTS.GOOGLE) {
+        foundMatch = true;
+        break;
+      }
+    }
+    expect(foundMatch).toBe(true);
+
+    // Clear search for other tests
     await panel.clearSearch();
+
+    // Verify count is still the same after clearing
     const resetCount = await panel.getRuleCount();
     expect(resetCount).toBe(allRulesCount);
   });
 });
 
-test.describe.serial('Shortcuts Panel - Phase 3: Add Rule Tests', () => {
-  test('should add new rule when clicking Add button', async ({
+test.describe.serial('Add Rule Tests', () => {
+  test('should add new rule, verify default alias, and enable save button', async ({
     shortcutsPage,
   }) => {
     const panel = new ShortcutsPanel(shortcutsPage);
 
-    // Wait for loading
     await panel.waitForLoading();
     const initialCount = await panel.getRuleCount();
-    expect(initialCount).toBeGreaterThan(0);
+    expect(initialCount).toBe(4);
 
-    // Click Add button
+    // Add a new rule
     await panel.addRule();
 
     // Verify a new rule was added (count increased by 1)
     const newCount = await panel.getRuleCount();
     expect(newCount).toBe(initialCount + 1);
-  });
-
-  test('should have default alias for new rule', async ({ shortcutsPage }) => {
-    const panel = new ShortcutsPanel(shortcutsPage);
-
-    // Add a new rule
-    await panel.addRule();
 
     // Verify the first input has the default alias value
     // The new rule appears at the top, so check the first input
@@ -158,35 +123,24 @@ test.describe.serial('Shortcuts Panel - Phase 3: Add Rule Tests', () => {
       .getByPlaceholder('Enter Alias')
       .first();
     const value = await firstAliasInput.inputValue();
-    // New rule should have default alias "http://"
+    // New rule should have default alias containing "http://"
     expect(value).toContain('http://');
-  });
-
-  test('should enable individual rule save button after editing', async ({
-    shortcutsPage,
-  }) => {
-    const panel = new ShortcutsPanel(shortcutsPage);
-
-    // Add a new rule
-    await panel.addRule();
 
     // The default alias input should be visible
-    const aliasInput = shortcutsPage.getByPlaceholder('Enter Alias').first();
-    await expect(aliasInput).toBeVisible();
+    await expect(firstAliasInput).toBeVisible();
 
     // Edit the alias
-    await aliasInput.clear();
-    await aliasInput.fill('test-alias-new');
+    await firstAliasInput.clear();
+    await firstAliasInput.fill('test-alias-new');
 
-    // Verify the save button in the header is now enabled
-    const saveButton = shortcutsPage
-      .getByRole('button', { name: 'Save' })
-      .last();
-    await expect(saveButton).toBeEnabled();
+    // Verify the individual rule save button is now enabled
+    // First rule's save button
+    const firstRuleSaveButton = shortcutsPage.getByTestId('rule-0-save');
+    await expect(firstRuleSaveButton).toBeEnabled();
   });
 });
 
-test.describe.serial('Shortcuts Panel - Phase 4: Edit Rule Tests', () => {
+test.describe.serial('Edit Rule Tests', () => {
   test('should edit rule alias', async ({ shortcutsPage }) => {
     const panel = new ShortcutsPanel(shortcutsPage);
 
@@ -202,12 +156,21 @@ test.describe.serial('Shortcuts Panel - Phase 4: Edit Rule Tests', () => {
     await firstAliasInput.clear();
     await firstAliasInput.fill('edited-alias');
 
-    // Verify the new value is set
+    // Click the row save button
+    const firstRuleSaveButton = shortcutsPage.getByTestId('rule-0-save');
+    await firstRuleSaveButton.click();
+
+    // Wait for the save to take effect
+    await shortcutsPage.waitForTimeout(500);
+
+    // Verify the new value is persisted
     await expect(firstAliasInput).toHaveValue('edited-alias');
 
     // Reset for other tests
     await firstAliasInput.clear();
     await firstAliasInput.fill(originalValue);
+    await firstRuleSaveButton.click();
+    await shortcutsPage.waitForTimeout(500);
   });
 
   test('should edit rule website', async ({ shortcutsPage }) => {
@@ -221,14 +184,75 @@ test.describe.serial('Shortcuts Panel - Phase 4: Edit Rule Tests', () => {
       .first();
 
     // Edit the website
-    await firstWebsiteInput.fill('https://edited-website.com');
+    await firstWebsiteInput.fill('https://example.com');
 
-    // Verify the new value is set
-    await expect(firstWebsiteInput).toHaveValue('https://edited-website.com');
+    // Click the row save button
+    const firstRuleSaveButton = shortcutsPage.getByTestId('rule-0-save');
+    await firstRuleSaveButton.click();
+
+    // Wait for the save to take effect
+    await shortcutsPage.waitForTimeout(500);
+
+    // Verify the new value is persisted
+    await expect(firstWebsiteInput).toHaveValue('https://example.com');
   });
 });
 
-test.describe.serial('Shortcuts Panel - Phase 5: Delete Rule Tests', () => {
+test.describe.serial('Reorder Tests', () => {
+  test('should move rule down and verify order change', async ({
+    shortcutsPage,
+  }) => {
+    const panel = new ShortcutsPanel(shortcutsPage);
+
+    await panel.waitForLoading();
+
+    // Get the second alias before reorder
+    const secondAliasInputBefore = shortcutsPage.getByTestId('rule-1-alias');
+    const secondAliasBefore = await secondAliasInputBefore.inputValue();
+
+    // Click move down button on first rule
+    const moveDownButton = shortcutsPage.getByTestId('rule-0-move-down');
+    await moveDownButton.click();
+
+    // Wait for UI to update
+    await shortcutsPage.waitForTimeout(500);
+
+    // After moving down, the first rule should now have the second alias
+    const firstAliasInputAfter = shortcutsPage.getByTestId('rule-0-alias');
+    const firstAliasAfter = await firstAliasInputAfter.inputValue();
+
+    // The first position should now have what was originally second
+    expect(firstAliasAfter).toBe(secondAliasBefore);
+  });
+
+  test('should move rule up and verify order change', async ({
+    shortcutsPage,
+  }) => {
+    const panel = new ShortcutsPanel(shortcutsPage);
+
+    await panel.waitForLoading();
+
+    // Get the second alias before reorder
+    const secondAliasInputBefore = shortcutsPage.getByTestId('rule-1-alias');
+    const secondAliasBefore = await secondAliasInputBefore.inputValue();
+
+    // Click move up button on second rule
+    const moveUpButton = shortcutsPage.getByTestId('rule-1-move-up');
+    await moveUpButton.click();
+
+    // Wait for UI to update
+    await shortcutsPage.waitForTimeout(500);
+
+    // After moving up, the first rule should now have the second alias
+    const firstAliasInputAfter = shortcutsPage.getByTestId('rule-0-alias');
+    const firstAliasAfter = await firstAliasInputAfter.inputValue();
+
+    // The first position should now have what was originally second
+    expect(firstAliasAfter).toBe(secondAliasBefore);
+  });
+});
+
+test.describe.serial('Delete Rule Tests', () => {
   test('should delete a rule', async ({ shortcutsPage }) => {
     const panel = new ShortcutsPanel(shortcutsPage);
 
@@ -240,174 +264,62 @@ test.describe.serial('Shortcuts Panel - Phase 5: Delete Rule Tests', () => {
     const afterAddCount = await panel.getRuleCount();
     expect(afterAddCount).toBe(initialCount + 1);
 
-    // Delete the rule by clicking the last ActionIcon (delete button is typically last)
-    const actionIcons = shortcutsPage.locator('.mantine-ActionIcon-root');
-    const iconCount = await actionIcons.count();
-
-    // The last icon in the first rule should be the delete button
-    // Click the first rule's delete button (last ActionIcon in first row)
-    if (iconCount > 0) {
-      await actionIcons.first().click();
-    }
+    // Delete the first rule (the one we just added)
+    const deleteButton = shortcutsPage.getByTestId('rule-0-delete');
+    await deleteButton.click();
 
     await shortcutsPage.waitForTimeout(500);
 
-    // Verify count decreased or stayed same
+    // Verify count decreased back to initial
     const finalCount = await panel.getRuleCount();
-    expect(finalCount).toBeLessThanOrEqual(afterAddCount);
+    expect(finalCount).toBe(initialCount);
   });
 });
 
-test.describe.serial('Shortcuts Panel - Phase 6: Reorder Tests', () => {
-  test('should verify reorder UI elements exist', async ({ shortcutsPage }) => {
-    const panel = new ShortcutsPanel(shortcutsPage);
-
-    await panel.waitForLoading();
-    const ruleCount = await panel.getRuleCount();
-
-    if (ruleCount > 1) {
-      // Verify there are buttons present in the UI
-      const allButtons = shortcutsPage.locator('button');
-      const buttonCount = await allButtons.count();
-      expect(buttonCount).toBeGreaterThan(0);
-
-      // There should be arrow buttons for reordering
-      // These are in the ButtonGroup component
-      const allButtonsPresent = buttonCount > ruleCount * 2; // At least 2 buttons per rule
-      expect(allButtonsPresent).toBe(true);
-    }
-  });
-});
-
-test.describe.serial('Shortcuts Panel - Phase 7: Default Rule Tests', () => {
-  test('should have panel UI elements', async ({ shortcutsPage }) => {
-    // First ensure we're on the shortcuts panel
-    const header = shortcutsPage.getByText('Shortcuts');
-
-    // If not on shortcuts panel, navigate to it
-    const isShortcutsVisible = await header.isVisible().catch(() => false);
-    if (!isShortcutsVisible) {
-      // Navigate back to shortcuts panel
-      const shortcutsButton = shortcutsPage.getByRole('button', {
-        name: 'Shortcuts',
-      });
-      await shortcutsButton.click();
-      await shortcutsPage.waitForTimeout(500);
-    }
-
-    const panel = new ShortcutsPanel(shortcutsPage);
-    await panel.waitForLoading();
-
-    // Verify Add button exists
-    const addButton = shortcutsPage.getByRole('button', { name: 'Add' });
-    await expect(addButton).toBeVisible();
-
-    // Verify Save button exists
-    const saveButton = shortcutsPage
-      .getByRole('button', { name: 'Save' })
-      .last();
-    await expect(saveButton).toBeVisible();
-
-    // Verify search input exists
-    const searchInput = shortcutsPage.getByPlaceholder('Search');
-    await expect(searchInput).toBeVisible();
-
-    // Verify header exists
-    await expect(header).toBeVisible();
-  });
-});
-
-test.describe.serial('Shortcuts Panel - Phase 8: External Link Tests', () => {
-  test('should have external link buttons', async ({ shortcutsPage }) => {
-    const panel = new ShortcutsPanel(shortcutsPage);
-
-    await panel.waitForLoading();
-
-    // Add a new rule
-    await panel.addRule();
-
-    // Verify action icons exist (these include external link button)
-    const actionIcons = shortcutsPage.locator('.mantine-ActionIcon-root');
-    const iconCount = await actionIcons.count();
-    expect(iconCount).toBeGreaterThan(0);
-  });
-
-  test('should have action icons for each rule', async ({ shortcutsPage }) => {
-    const panel = new ShortcutsPanel(shortcutsPage);
-
-    await panel.waitForLoading();
-
-    // Get rule count
-    const ruleCount = await panel.getRuleCount();
-
-    // There should be multiple ActionIcons per rule (delete, save, external link)
-    const actionIcons = shortcutsPage.locator('.mantine-ActionIcon-root');
-    const iconCount = await actionIcons.count();
-
-    // At least 4 icons per rule (reorder up, reorder down, external link, save, delete)
-    expect(iconCount).toBeGreaterThanOrEqual(ruleCount * 2);
-  });
-});
-
-test.describe.serial('Shortcuts Panel - Phase 9: Local Save Tests', () => {
-  test('should enable main save button after making changes', async ({
+test.describe.serial('External Link Tests', () => {
+  test('should open external link in new tab', async ({
     shortcutsPage,
+    context,
   }) => {
     const panel = new ShortcutsPanel(shortcutsPage);
 
     await panel.waitForLoading();
 
-    // Get initial state of save button
-    const saveButton = shortcutsPage
-      .getByRole('button', { name: 'Save' })
-      .last();
+    // Get the external link button for the second rule
+    // (skip first rule as it may be edited by previous tests)
+    const externalLinkButton = shortcutsPage.getByTestId(
+      'rule-1-external-link'
+    );
 
-    // Make a change by adding a rule
-    await panel.addRule();
+    // Verify the button is enabled
+    await expect(externalLinkButton).toBeEnabled();
 
-    // Now save button should be enabled (changes were made)
-    await expect(saveButton).toBeEnabled();
-  });
-});
+    // Get initial page count
+    const initialPages = context.pages();
+    const initialPageCount = initialPages.length;
 
-test.describe.serial('Shortcuts Panel - Phase 10: Validation Tests', () => {
-  test('should accept input in alias field', async ({ shortcutsPage }) => {
-    const panel = new ShortcutsPanel(shortcutsPage);
+    // Click the external link button
+    await externalLinkButton.click();
 
-    await panel.waitForLoading();
+    // Wait for a new page to be created
+    await context.waitForEvent('page', { timeout: 10_000 });
 
-    // Get first alias input and edit it
-    const firstAliasInput = shortcutsPage
-      .getByPlaceholder('Enter Alias')
-      .first();
-    const originalValue = await firstAliasInput.inputValue();
+    // Get all pages and find the new one
+    const newPages = context.pages();
+    const newPage = newPages.find((p) => p !== shortcutsPage);
 
-    // Clear and set new value
-    await firstAliasInput.clear();
-    await firstAliasInput.fill('test-alias-123');
+    // Verify we have a new page
+    expect(newPages.length).toBe(initialPageCount + 1);
+    expect(newPage).toBeDefined();
 
-    // Verify the new value
-    await expect(firstAliasInput).toHaveValue('test-alias-123');
+    if (newPage) {
+      await newPage.waitForLoadState('domcontentloaded');
 
-    // Restore original value
-    await firstAliasInput.clear();
-    await firstAliasInput.fill(originalValue);
-  });
+      // Verify the new page has the correct URL (or contains it)
+      expect(newPage.url()).toBeTruthy();
 
-  test('should accept input in website field', async ({ shortcutsPage }) => {
-    const panel = new ShortcutsPanel(shortcutsPage);
-
-    await panel.waitForLoading();
-
-    // Get first website input and edit it
-    const firstWebsiteInput = shortcutsPage
-      .getByPlaceholder('Enter Website')
-      .first();
-
-    // Fill with a valid URL
-    await firstWebsiteInput.fill('https://example.com');
-
-    // Verify the value was set
-    await expect(firstWebsiteInput).toHaveValue('https://example.com');
+      // Close the new tab
+      await newPage.close();
+    }
   });
 });

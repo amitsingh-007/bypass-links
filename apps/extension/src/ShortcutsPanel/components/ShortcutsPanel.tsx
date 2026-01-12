@@ -120,7 +120,11 @@ function ShortcutsPanel() {
         className={styles.redirectionWrapper}
       >
         {redirections?.map((redirection, index) => (
-          <Box key={`${redirection.alias}_${redirection.website}`} tabIndex={0}>
+          <Box
+            key={`${redirection.alias}_${redirection.website}`}
+            tabIndex={0}
+            data-testid={`rule-${index}`}
+          >
             <RedirectionRule
               {...redirection}
               pos={index}
