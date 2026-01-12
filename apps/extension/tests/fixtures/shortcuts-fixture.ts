@@ -14,7 +14,7 @@ import {
 
 export const test = base.extend<
   {
-    bookmarksPage: Page;
+    shortcutsPage: Page;
     context: BrowserContext;
   },
   {
@@ -56,14 +56,14 @@ export const test = base.extend<
       const page = await authenticateAndNavigate(
         sharedContext,
         sharedExtensionId,
-        'bookmarks'
+        'shortcuts'
       );
       await use(page);
     },
     { scope: 'worker' },
   ],
 
-  async bookmarksPage({ sharedPage }, use) {
+  async shortcutsPage({ sharedPage }, use) {
     await use(sharedPage);
   },
 

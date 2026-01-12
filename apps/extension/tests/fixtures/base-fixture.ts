@@ -83,7 +83,7 @@ export const getExtensionId = async (
 export const authenticateAndNavigate = async (
   sharedContext: BrowserContext,
   sharedExtensionId: string,
-  panelName: 'bookmarks' | 'persons'
+  panelName: 'bookmarks' | 'persons' | 'shortcuts'
 ): Promise<Page> => {
   const authData = await signInWithEmailAndPassword();
 

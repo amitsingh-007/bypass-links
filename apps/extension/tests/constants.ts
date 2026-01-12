@@ -5,8 +5,7 @@
 export const TEST_AUTH_DATA_KEY = '__test_auth_data';
 
 /**
- * Known bookmark titles in the test account (guaranteed to exist).
- * These can be used for precise selectors instead of .first()
+ * Known bookmark titles in the test account
  */
 export const TEST_BOOKMARKS = {
   REACT_DOCS: 'Bottom Navigation React component - Material-UI1',
@@ -23,7 +22,7 @@ export const TEST_FOLDERS = {
 } as const;
 
 /**
- * Known person names in the test account (guaranteed to exist).
+ * Known person names in the test account
  */
 export const TEST_PERSONS = {
   JOHN_NATHAN: 'John Nathan',
@@ -37,6 +36,29 @@ export const TEST_PERSONS = {
  * Name of the test person created and deleted during E2E tests.
  */
 export const TEST_PERSON_NAME = 'E2E Test Person';
+
+/**
+ * Known redirection rule aliases in the test account
+ */
+export const TEST_SHORTCUTS = {
+  GOOGLE: 'http://g/',
+  MANTINE: 'http://c/',
+  TWITCH: 'http://t/',
+  YOUTUBE: 'http://y/',
+} as const;
+
+/**
+ * Test redirection rule for create/delete tests.
+ */
+export const TEST_SHORTCUT = {
+  ALIAS: 'e2e-test-alias',
+  WEBSITE: 'https://example.com',
+} as const;
+
+/**
+ * Default rule alias that indicates an incomplete rule.
+ */
+export const DEFAULT_RULE_ALIAS = 'http://///';
 
 /**
  * Timeout constants used across test files to avoid magic numbers.
