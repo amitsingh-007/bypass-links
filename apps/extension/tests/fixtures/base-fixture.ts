@@ -83,7 +83,7 @@ export const getExtensionId = async (
 export const authenticateAndNavigate = async (
   sharedContext: BrowserContext,
   sharedExtensionId: string,
-  panelName: 'bookmarks' | 'persons' | 'shortcuts'
+  panelName?: 'bookmarks' | 'persons' | 'shortcuts' | 'home'
 ): Promise<Page> => {
   const authData = await signInWithEmailAndPassword();
 
@@ -108,12 +108,13 @@ export const authenticateAndNavigate = async (
   const logoutButton = page.getByRole('button', { name: 'Logout' });
   await logoutButton.waitFor({ state: 'visible', timeout: 30_000 });
 
-  const panelButton = page.getByRole('button', {
-    name: new RegExp(panelName, 'i'),
-  });
-  await panelButton.click();
-
-  await page.waitForLoadState('networkidle');
+  if (panelName && panelName !== 'home') {
+    const panelButton = page.getByRole('button', {
+      name: new RegExp(panelName, 'i'),
+    });
+    await panelButton.click();
+    await page.waitForLoadState('networkidle');
+  }
 
   return page;
 };

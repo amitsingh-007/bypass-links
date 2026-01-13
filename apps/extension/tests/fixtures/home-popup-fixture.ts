@@ -1,0 +1,87 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+import {
+  type BrowserContext,
+  type Page,
+  type Worker,
+  test as base,
+} from '@playwright/test';
+import {
+  authenticateAndNavigate,
+  createSharedBackgroundSW,
+  createSharedContext,
+  getExtensionId,
+} from './base-fixture';
+
+export const test = base.extend<
+  {
+    homePage: Page;
+    unauthPage: Page;
+    context: BrowserContext;
+  },
+  {
+    sharedContext: BrowserContext;
+    sharedBackgroundSW: Worker;
+    sharedExtensionId: string;
+    sharedPage: Page;
+  }
+>({
+  sharedContext: [
+    // eslint-disable-next-line no-empty-pattern
+    async ({}, use) => {
+      const { browserContext, userDataDir } = await createSharedContext();
+      await use(browserContext);
+      await browserContext.close();
+      const fsPromises = await import('node:fs/promises');
+      await fsPromises.rm(userDataDir, { recursive: true, force: true });
+    },
+    { scope: 'worker' },
+  ],
+
+  sharedBackgroundSW: [
+    async ({ sharedContext }, use) => {
+      const background = await createSharedBackgroundSW(sharedContext);
+      await use(background);
+    },
+    { scope: 'worker' },
+  ],
+
+  sharedExtensionId: [
+    async ({ sharedBackgroundSW }, use) => {
+      const id = await getExtensionId(sharedBackgroundSW);
+      await use(id);
+    },
+    { scope: 'worker' },
+  ],
+
+  sharedPage: [
+    async ({ sharedContext, sharedExtensionId }, use) => {
+      const page = await authenticateAndNavigate(
+        sharedContext,
+        sharedExtensionId,
+        'home'
+      );
+      await use(page);
+    },
+    { scope: 'worker' },
+  ],
+
+  async homePage({ sharedPage }, use) {
+    await use(sharedPage);
+  },
+
+  async context({ sharedContext }, use) {
+    await use(sharedContext);
+  },
+
+  async unauthPage({ sharedContext, sharedExtensionId }, use) {
+    // Create a new page without authentication
+    const page = await sharedContext.newPage();
+    const extUrl = `chrome-extension://${sharedExtensionId}/index.html`;
+    await page.goto(extUrl);
+    await page.waitForLoadState('networkidle');
+    await use(page);
+    await page.close();
+  },
+});
+
+export const { expect } = test;
