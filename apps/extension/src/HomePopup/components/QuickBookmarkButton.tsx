@@ -79,6 +79,7 @@ function QuickBookmarkButton() {
         disabled={!isSignedIn}
         rightSection={bookmark ? <RiBookmark3Fill /> : <BiBookmarkPlus />}
         color={bookmark ? 'teal' : 'red'}
+        data-testid="quick-bookmark-button"
         onClick={handleClick}
       >
         {bookmark ? 'Unpin' : 'Pin'}

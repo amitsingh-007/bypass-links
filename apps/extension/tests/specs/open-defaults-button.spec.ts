@@ -40,10 +40,10 @@ test.describe.serial('Signed In', () => {
       .map((p) => p.url())
       .filter((url) => !url.startsWith('about:'));
 
-    // Verify 2 default tabs were opened (Google and Twitch)
+    // Verify 2 default tabs were opened (Google and Mantine)
     homeExpect(urls).toHaveLength(2);
     homeExpect(urls).toContain('https://www.google.com/');
-    homeExpect(urls).toContain('https://www.twitch.tv/');
+    homeExpect(urls).toContain('https://mantine.dev/');
 
     // Clean up: close new tabs
     for (const newPage of newPages) {
