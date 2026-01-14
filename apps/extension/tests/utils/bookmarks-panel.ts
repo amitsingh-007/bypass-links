@@ -5,7 +5,6 @@ import {
   fillDialogInput,
   openDialog,
   openFolder,
-  rightClickAndSelectOption,
   searchAndVerify,
   waitForDebounce,
 } from './test-utils';
@@ -25,7 +24,7 @@ export class BookmarksPanel {
       await searchAndVerify(this.page, query, {
         visibleTexts: options.visibleTexts ?? [],
         hiddenTexts: options.hiddenTexts ?? [],
-        selector: 'div[data-context-id]',
+        selector: '[data-testid="bookmark-item"]',
       });
     }
   }
@@ -71,7 +70,7 @@ export class BookmarksPanel {
   }
 
   async deleteFolder(folderName: string) {
-    const folderRow = this.page.locator(`[data-folder-name="${folderName}"]`);
+    const folderRow = this.page.getByTestId(`folder-item-${folderName}`);
     await expect(folderRow).toBeVisible();
     await folderRow.click({ button: 'right' });
     await this.clickContextMenuItem('Delete');
@@ -79,12 +78,10 @@ export class BookmarksPanel {
   }
 
   async openEditBookmarkDialog(bookmarkTitle: string) {
-    await rightClickAndSelectOption(
-      this.page,
-      'div[data-context-id]',
-      bookmarkTitle,
-      'Edit'
-    );
+    const element = this.page.getByTestId(`bookmark-item-${bookmarkTitle}`);
+    await expect(element).toBeVisible();
+    await element.click({ button: 'right' });
+    await this.clickContextMenuItem('Edit');
     return this.page.getByRole('dialog');
   }
 
@@ -92,12 +89,10 @@ export class BookmarksPanel {
     bookmarkTitle: string,
     menuItemText: string
   ) {
-    await rightClickAndSelectOption(
-      this.page,
-      'div[data-context-id]',
-      bookmarkTitle,
-      menuItemText
-    );
+    const element = this.page.getByTestId(`bookmark-item-${bookmarkTitle}`);
+    await expect(element).toBeVisible();
+    await element.click({ button: 'right' });
+    await this.clickContextMenuItem(menuItemText);
   }
 
   async cutBookmark(bookmarkTitle: string) {
@@ -115,26 +110,20 @@ export class BookmarksPanel {
   }
 
   async deleteBookmark(bookmarkTitle: string) {
-    const bookmarkRow = this.page
-      .locator('div[data-context-id]')
-      .filter({ hasText: bookmarkTitle });
+    const bookmarkRow = this.page.getByTestId(`bookmark-item-${bookmarkTitle}`);
     await bookmarkRow.click({ button: 'right' });
     await this.clickContextMenuItem('Delete');
     await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
   }
 
   async selectBookmark(bookmarkTitle: string) {
-    const bookmark = this.page
-      .locator('div[data-context-id]')
-      .filter({ hasText: bookmarkTitle });
+    const bookmark = this.page.getByTestId(`bookmark-item-${bookmarkTitle}`);
     await expect(bookmark).toBeVisible();
     await bookmark.click();
   }
 
   async openBookmarkByDoubleClick(bookmarkTitle: string) {
-    const bookmarkRow = this.page
-      .locator('div[data-context-id]')
-      .filter({ hasText: bookmarkTitle });
+    const bookmarkRow = this.page.getByTestId(`bookmark-item-${bookmarkTitle}`);
     await expect(bookmarkRow).toBeVisible();
     await bookmarkRow.dblclick();
   }
@@ -165,13 +154,11 @@ export class BookmarksPanel {
   }
 
   async getBookmarkCount() {
-    return countElements(this.page, 'div[data-context-id]');
+    return countElements(this.page, '[data-testid^="bookmark-item-"]');
   }
 
   async openFolderWithNestedFolders(folderName: string) {
-    const folderWithNested = this.page.locator(
-      `[data-folder-name="${folderName}"]`
-    );
+    const folderWithNested = this.page.getByTestId(`folder-item-${folderName}`);
     await expect(folderWithNested).toBeVisible();
     await folderWithNested.click({ button: 'right' });
   }
@@ -194,9 +181,11 @@ export class BookmarksPanel {
       state: 'visible',
       timeout: TEST_TIMEOUTS.IMAGE_LOAD,
     });
+    // Wait for element to be stable before clicking
+    await this.page.waitForTimeout(300);
     const personName =
       (await dropdownAvatar.getAttribute('data-person-name')) ?? '';
-    await dropdownAvatar.click();
+    await dropdownAvatar.click({ force: true });
     return personName;
   }
 

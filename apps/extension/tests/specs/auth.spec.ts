@@ -10,11 +10,11 @@ test('should be logged in with firebase token', async ({
   await page.goto(extUrl);
   await page.waitForLoadState('networkidle');
 
-  const loginButton = page.getByRole('button', { name: 'Login' });
+  const loginButton = page.getByTestId('login-button');
   await expect(loginButton).toBeVisible({ timeout: TEST_TIMEOUTS.LONG_WAIT });
   await loginButton.click({ force: true });
 
-  const logoutButton = page.getByRole('button', { name: 'Logout' });
+  const logoutButton = page.getByTestId('logout-button');
   await expect(logoutButton).toBeVisible({ timeout: TEST_TIMEOUTS.UPLOAD });
 
   const fbOAuthData = await page.evaluate(() =>

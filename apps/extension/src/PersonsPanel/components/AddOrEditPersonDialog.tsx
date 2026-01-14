@@ -100,6 +100,11 @@ function AddOrEditPersonDialog({
         opened={isOpen}
         title={person ? 'Edit Person' : 'Add Person'}
         padding="2.5rem"
+        closeButtonProps={
+          {
+            'data-testid': 'modal-close-button',
+          } as React.ComponentProps<'button'>
+        }
         onClose={onClose}
       >
         <form onSubmit={form.onSubmit(handleSave)}>

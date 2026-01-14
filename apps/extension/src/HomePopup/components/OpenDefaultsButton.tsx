@@ -33,6 +33,7 @@ function OpenDefaultsButton() {
       radius="xl"
       loading={isFetching}
       disabled={!isSignedIn}
+      data-testid="open-defaults-button"
       rightSection={<RxExternalLink />}
       color="yellow"
       onClick={handleOpenDefaults}

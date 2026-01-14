@@ -87,6 +87,7 @@ const Bookmark = memo<BookmarkProps>(
         gap="0.75rem"
         px="0.375rem"
         data-context-id={contextId}
+        data-testid={`bookmark-item-${title}`}
         onDoubleClick={handleOpenLink}
         onClick={handleSelectionChange}
         onContextMenu={onRightClick}

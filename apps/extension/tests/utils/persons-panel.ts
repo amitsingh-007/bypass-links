@@ -11,7 +11,6 @@ import {
   navigateBack,
   openDialog,
   openPersonCard,
-  rightClickAndSelectOption,
   searchAndVerify,
   toggleSwitch,
   waitForDebounce,
@@ -32,7 +31,7 @@ export class PersonsPanel {
       await searchAndVerify(this.page, query, {
         visibleTexts: options.visibleTexts ?? [],
         hiddenTexts: options.hiddenTexts ?? [],
-        selector: '[data-person-uid]',
+        selector: '[data-testid^="person-item-"]',
       });
     }
   }
@@ -44,7 +43,7 @@ export class PersonsPanel {
   }
 
   async getPersonCount() {
-    return countElements(this.page, '[data-person-uid]');
+    return countElements(this.page, '[data-testid^="person-item-"]');
   }
 
   async openAddPersonDialog() {
@@ -62,19 +61,15 @@ export class PersonsPanel {
     await clickDialogButton(dialog, 'Save');
     await expect(dialog).toBeHidden();
 
-    const newPersonCard = this.page
-      .locator('[data-person-uid]')
-      .filter({ hasText: name });
+    const newPersonCard = this.page.getByTestId(`person-item-${name}`);
     await expect(newPersonCard).toBeVisible();
   }
 
   async openEditPersonDialog(personName: string) {
-    await rightClickAndSelectOption(
-      this.page,
-      '[data-person-uid]',
-      personName,
-      'Edit'
-    );
+    const personCard = this.page.getByTestId(`person-item-${personName}`);
+    await expect(personCard).toBeVisible();
+    await personCard.click({ button: 'right' });
+    await clickContextMenuItem(this.page, 'Edit');
     return this.page.getByRole('dialog', { name: 'Edit Person' });
   }
 
@@ -86,9 +81,7 @@ export class PersonsPanel {
     await clickDialogButton(dialog, 'Save');
     await expect(dialog).toBeHidden();
 
-    const editedPersonCard = this.page
-      .locator('[data-person-uid]')
-      .filter({ hasText: newName });
+    const editedPersonCard = this.page.getByTestId(`person-item-${newName}`);
     await expect(editedPersonCard).toBeVisible();
   }
 
@@ -101,16 +94,12 @@ export class PersonsPanel {
     await clickDialogButton(dialog, 'Save');
     await expect(dialog).toBeHidden();
 
-    const personCardAfter = this.page
-      .locator('[data-person-uid]')
-      .filter({ hasText: personName });
+    const personCardAfter = this.page.getByTestId(`person-item-${personName}`);
     await expect(personCardAfter).toBeVisible();
   }
 
   async deletePerson(personName: string) {
-    const personCard = this.page
-      .locator('[data-person-uid]')
-      .filter({ hasText: personName });
+    const personCard = this.page.getByTestId(`person-item-${personName}`);
     await expect(personCard).toBeVisible();
 
     await personCard.click({ button: 'right' });
@@ -206,7 +195,7 @@ export class PersonsPanel {
   }
 
   async getPersonNames(): Promise<string[]> {
-    const personCards = this.page.locator('[data-person-uid]');
+    const personCards = this.page.locator('[data-testid^="person-item-"]');
     const personCount = await personCards.count();
     const personNames: string[] = [];
     for (let i = 0; i < personCount; i++) {
@@ -230,9 +219,7 @@ export class PersonsPanel {
   }
 
   async verifyPersonCardVisible(personName: string) {
-    const personCard = this.page
-      .locator('[data-person-uid]')
-      .filter({ hasText: personName });
+    const personCard = this.page.getByTestId(`person-item-${personName}`);
     await expect(personCard).toBeVisible();
   }
 }

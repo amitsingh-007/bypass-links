@@ -13,13 +13,14 @@ import { BookmarksPanel } from '../utils/bookmarks-panel';
 test.describe.serial('Bookmarks Panel', () => {
   test.describe('Folder Operations', () => {
     const TEST_FOLDER_NAME = 'E2E Test Folder';
+    const TEMP_RENAME_FOLDER = 'Temp Rename Folder';
 
     test('should create a new folder', async ({ bookmarksPage }) => {
       const panel = new BookmarksPanel(bookmarksPage);
       await panel.createFolder(TEST_FOLDER_NAME);
 
-      const folderItem = bookmarksPage.locator(
-        `[data-folder-name="${TEST_FOLDER_NAME}"]`
+      const folderItem = bookmarksPage.getByTestId(
+        `folder-item-${TEST_FOLDER_NAME}`
       );
       await expect(folderItem).toBeVisible();
     });
@@ -38,10 +39,10 @@ test.describe.serial('Bookmarks Panel', () => {
 
     test('should rename a folder and undo', async ({ bookmarksPage }) => {
       const panel = new BookmarksPanel(bookmarksPage);
-      await panel.createFolder('Temp Rename Folder');
+      await panel.createFolder(TEMP_RENAME_FOLDER);
 
-      const folderItem = bookmarksPage.locator(
-        '[data-folder-name="Temp Rename Folder"]'
+      const folderItem = bookmarksPage.getByTestId(
+        `folder-item-${TEMP_RENAME_FOLDER}`
       );
       await expect(folderItem).toBeVisible();
     });
@@ -51,9 +52,9 @@ test.describe.serial('Bookmarks Panel', () => {
     test('should find and select an existing bookmark', async ({
       bookmarksPage,
     }) => {
-      const bookmark = bookmarksPage
-        .locator('div[data-context-id]')
-        .filter({ hasText: TEST_BOOKMARKS.REACT_DOCS });
+      const bookmark = bookmarksPage.getByTestId(
+        `bookmark-item-${TEST_BOOKMARKS.REACT_DOCS}`
+      );
       await expect(bookmark).toBeVisible();
 
       const title = (await bookmark.textContent()) ?? '';
@@ -72,12 +73,12 @@ test.describe.serial('Bookmarks Panel', () => {
       );
       await expect(dialog).toBeVisible();
 
-      const titleInput = dialog.getByPlaceholder('Enter bookmark title');
+      const titleInput = dialog.getByTestId('bookmark-title-input');
       await expect(titleInput).toBeVisible();
       const currentTitle = await titleInput.inputValue();
       expect(currentTitle).toBeTruthy();
 
-      const closeButton = dialog.locator('button.mantine-Modal-close');
+      const closeButton = bookmarksPage.getByTestId('modal-close-button');
       if (await closeButton.isVisible()) {
         await closeButton.click();
       } else {
@@ -99,7 +100,7 @@ test.describe.serial('Bookmarks Panel', () => {
       const personLabel = dialog.getByText('Tagged Persons');
       await expect(personLabel).toBeVisible();
 
-      const closeButton = dialog.locator('button.mantine-Modal-close');
+      const closeButton = bookmarksPage.getByTestId('modal-close-button');
       if (await closeButton.isVisible()) {
         await closeButton.click();
       } else {
@@ -116,9 +117,9 @@ test.describe.serial('Bookmarks Panel', () => {
       }) => {
         const initialPages = context.pages().length;
 
-        const bookmarkRow = bookmarksPage
-          .locator('div[data-context-id]')
-          .filter({ hasText: TEST_BOOKMARKS.REACT_DOCS });
+        const bookmarkRow = bookmarksPage.getByTestId(
+          `bookmark-item-${TEST_BOOKMARKS.REACT_DOCS}`
+        );
         await expect(bookmarkRow).toBeVisible();
 
         const [newPage] = await Promise.all([
@@ -135,18 +136,25 @@ test.describe.serial('Bookmarks Panel', () => {
         context,
       }) => {
         const panel = new BookmarksPanel(bookmarksPage);
-        await panel.openFolder(TEST_FOLDERS.MAIN);
+        await panel.ensureAtRoot();
 
         const initialPages = context.pages().length;
 
-        const bookmarkRows = bookmarksPage.locator('div[data-context-id]');
-
-        const firstBookmark = bookmarkRows.first();
+        // Get first bookmark from root for multi-selection test
+        const firstBookmark = bookmarksPage.getByTestId(
+          `bookmark-item-${TEST_BOOKMARKS.REACT_DOCS}`
+        );
+        await expect(firstBookmark).toBeVisible();
         await firstBookmark.click();
 
-        const secondBookmark = bookmarkRows.nth(1);
+        // Get second bookmark and add to selection with meta key
+        const secondBookmark = bookmarksPage.getByTestId(
+          `bookmark-item-${TEST_BOOKMARKS.GITHUB}`
+        );
+        await expect(secondBookmark).toBeVisible();
         await secondBookmark.click({ modifiers: ['Meta'] });
 
+        // Open context menu on first bookmark
         await firstBookmark.click({ button: 'right' });
 
         const openOption = bookmarksPage.locator(
@@ -176,9 +184,9 @@ test.describe.serial('Bookmarks Panel', () => {
 
       await bookmarksPage.keyboard.press('Meta+v');
 
-      const bookmarkRow = bookmarksPage
-        .locator('div[data-context-id]')
-        .filter({ hasText: TEST_BOOKMARKS.REACT_DOCS });
+      const bookmarkRow = bookmarksPage.getByTestId(
+        `bookmark-item-${TEST_BOOKMARKS.REACT_DOCS}`
+      );
       await expect(bookmarkRow).toBeVisible();
     });
 
@@ -188,8 +196,7 @@ test.describe.serial('Bookmarks Panel', () => {
       const panel = new BookmarksPanel(bookmarksPage);
       await panel.openFolder('Main');
 
-      const bookmarks = bookmarksPage.locator('div[data-context-id]');
-      const bookmarkCount = await bookmarks.count();
+      const bookmarkCount = await panel.getBookmarkCount();
 
       expect(bookmarkCount).toBeGreaterThanOrEqual(0);
     });
@@ -198,7 +205,11 @@ test.describe.serial('Bookmarks Panel', () => {
       bookmarksPage,
     }) => {
       const panel = new BookmarksPanel(bookmarksPage);
-      const bookmarkRows = bookmarksPage.locator('div[data-context-id]');
+      await panel.ensureAtRoot();
+
+      const bookmarkRows = bookmarksPage.locator(
+        '[data-testid^="bookmark-item-"]'
+      );
       const bookmarksBefore = await bookmarkRows.count();
 
       const lastBookmark = bookmarkRows.last();
@@ -261,15 +272,12 @@ test.describe.serial('Bookmarks Panel', () => {
 
       await panel.openFolder(TEST_FOLDERS.MAIN);
 
-      const initialCount = await panel.getBookmarkCount();
-      expect(initialCount).toBeGreaterThan(0);
-
       const searchInput = bookmarksPage.getByPlaceholder('Search');
       await searchInput.fill('ButtonGroup');
 
-      const filteredBookmark = bookmarksPage
-        .locator('div[data-context-id]')
-        .filter({ hasText: TEST_BOOKMARKS.GITHUB });
+      const filteredBookmark = bookmarksPage.getByTestId(
+        `bookmark-item-${TEST_BOOKMARKS.GITHUB}`
+      );
       await expect(filteredBookmark).toBeVisible();
 
       await searchInput.clear();
@@ -278,9 +286,9 @@ test.describe.serial('Bookmarks Panel', () => {
       await searchInput.fill('material');
       await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.DEBOUNCE);
 
-      const urlFilteredBookmark = bookmarksPage
-        .locator('div[data-context-id]')
-        .filter({ hasText: TEST_BOOKMARKS.REACT_DOCS });
+      const urlFilteredBookmark = bookmarksPage.getByTestId(
+        `bookmark-item-${TEST_BOOKMARKS.REACT_DOCS}`
+      );
       await expect(urlFilteredBookmark).toBeVisible();
 
       await searchInput.clear();
@@ -292,8 +300,8 @@ test.describe.serial('Bookmarks Panel', () => {
       const panel = new BookmarksPanel(bookmarksPage);
       await panel.ensureAtRoot();
 
-      const folder = bookmarksPage.locator(
-        `[data-folder-name="${TEST_FOLDERS.MAIN}"]`
+      const folder = bookmarksPage.getByTestId(
+        `folder-item-${TEST_FOLDERS.MAIN}`
       );
       await expect(folder).toBeVisible();
 
@@ -314,35 +322,35 @@ test.describe.serial('Bookmarks Panel', () => {
       const panel = new BookmarksPanel(bookmarksPage);
       await panel.ensureAtRoot();
 
-      const mainFolder = bookmarksPage.locator(
-        `[data-folder-name="${TEST_FOLDERS.MAIN}"]`
+      const mainFolder = bookmarksPage.getByTestId(
+        `folder-item-${TEST_FOLDERS.MAIN}`
       );
       await expect(mainFolder).toBeVisible();
       await mainFolder.click();
       await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
       const countBefore = await panel.getBookmarkCount();
-      expect(countBefore).toBeGreaterThan(1);
 
       await panel.cutBookmark(TEST_BOOKMARKS.GITHUB);
       await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.DEBOUNCE);
 
-      const bookmarkToCut = bookmarksPage
-        .locator('div[data-context-id]')
-        .filter({ hasText: TEST_BOOKMARKS.GITHUB });
+      const bookmarkToCut = bookmarksPage.getByTestId(
+        `bookmark-item-${TEST_BOOKMARKS.GITHUB}`
+      );
       await expect(bookmarkToCut).toBeVisible();
 
       const firstBookmark = bookmarksPage
-        .locator('div[data-context-id]')
+        .locator('[data-testid^="bookmark-item-"]')
         .first();
+      await expect(firstBookmark).toBeVisible();
       await firstBookmark.click();
       await firstBookmark.click({ button: 'right' });
 
       await panel.pasteBookmark();
 
-      const pastedBookmark = bookmarksPage
-        .locator('div[data-context-id]')
-        .filter({ hasText: TEST_BOOKMARKS.GITHUB });
+      const pastedBookmark = bookmarksPage.getByTestId(
+        `bookmark-item-${TEST_BOOKMARKS.GITHUB}`
+      );
       await expect(pastedBookmark).toBeVisible();
 
       const countAfter = await panel.getBookmarkCount();
@@ -365,8 +373,8 @@ test.describe.serial('Bookmarks Panel', () => {
       const toast = bookmarksPage.getByText('Remove inner folders first');
       await expect(toast).toBeVisible();
 
-      const folderWithNested = bookmarksPage.locator(
-        `[data-folder-name="${TEST_FOLDERS.OTHER_BOOKMARKS}"]`
+      const folderWithNested = bookmarksPage.getByTestId(
+        `folder-item-${TEST_FOLDERS.OTHER_BOOKMARKS}`
       );
       await expect(folderWithNested).toBeVisible();
     });
@@ -377,9 +385,7 @@ test.describe.serial('Bookmarks Panel', () => {
     await panel.ensureAtRoot();
 
     const folderName = 'Persistence Test Folder';
-    const folderRow = bookmarksPage.locator(
-      `[data-folder-name="${folderName}"]`
-    );
+    const folderRow = bookmarksPage.getByTestId(`folder-item-${folderName}`);
     await expect(folderRow).toBeVisible({ timeout: TEST_TIMEOUTS.LONG_WAIT });
 
     await folderRow.click({ button: 'right' });

@@ -25,9 +25,7 @@ export const navigateBack = async (page: Page) => {
  * Open a person's tagged bookmarks by clicking on the person card.
  */
 export const openPersonCard = async (page: Page, personName: string) => {
-  const personCard = page
-    .locator('[data-person-uid]')
-    .filter({ hasText: personName });
+  const personCard = page.getByTestId(`person-item-${personName}`);
   await expect(personCard).toBeVisible();
   await personCard.click();
   await page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
@@ -80,7 +78,7 @@ export const closeDialog = async (
   page: Page,
   dialog: ReturnType<Page['getByRole']>
 ) => {
-  const closeButton = dialog.locator('button.mantine-Modal-close');
+  const closeButton = page.getByTestId('modal-close-button');
   if (await closeButton.isVisible()) {
     await closeButton.click();
   } else {
@@ -191,12 +189,8 @@ export const toggleSwitch = async (page: Page, labelText: string) => {
 /**
  * Open a folder by clicking on it.
  */
-export const openFolder = async (
-  page: Page,
-  folderName: string,
-  selector = '[data-folder-name]'
-) => {
-  const folder = page.locator(selector, { hasText: folderName });
+export const openFolder = async (page: Page, folderName: string) => {
+  const folder = page.getByTestId(`folder-item-${folderName}`);
   await expect(folder).toBeVisible();
   await folder.click();
   await page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
@@ -230,7 +224,7 @@ export const searchAndVerify = async (
   const {
     visibleTexts,
     hiddenTexts = [],
-    selector = '[data-person-uid]',
+    selector = '[data-testid^="person-item-"]',
   } = options;
   const searchInput = page.getByPlaceholder('Search');
   await searchInput.fill(searchText);

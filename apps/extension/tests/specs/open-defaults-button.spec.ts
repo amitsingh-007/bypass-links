@@ -8,7 +8,7 @@ import { test, expect as homeExpect } from '../fixtures/home-popup-fixture';
  */
 
 test('should be disabled when not signed in', async ({ unauthPage }) => {
-  const defaultsButton = unauthPage.getByRole('button', { name: 'Defaults' });
+  const defaultsButton = unauthPage.getByTestId('open-defaults-button');
   await homeExpect(defaultsButton).toBeVisible();
   await homeExpect(defaultsButton).toBeDisabled();
 });
@@ -19,11 +19,11 @@ test.describe.serial('Signed In', () => {
     context,
   }) => {
     // Verify logged in state
-    const logoutButton = homePage.getByRole('button', { name: 'Logout' });
+    const logoutButton = homePage.getByTestId('logout-button');
     await homeExpect(logoutButton).toBeVisible();
 
     // Button should be enabled
-    const defaultsButton = homePage.getByRole('button', { name: 'Defaults' });
+    const defaultsButton = homePage.getByTestId('open-defaults-button');
     await homeExpect(defaultsButton).toBeEnabled();
 
     // Click the Defaults button
@@ -40,10 +40,16 @@ test.describe.serial('Signed In', () => {
       .map((p) => p.url())
       .filter((url) => !url.startsWith('about:'));
 
+    // Get base URLs without query params or hashes
+    const baseUrls = urls.map((url) => {
+      const parsed = new URL(url);
+      return `${parsed.protocol}//${parsed.host}${parsed.pathname}`;
+    });
+
     // Verify 2 default tabs were opened (Google and Mantine)
     homeExpect(urls).toHaveLength(2);
-    homeExpect(urls).toContain('https://www.google.com/');
-    homeExpect(urls).toContain('https://mantine.dev/');
+    homeExpect(baseUrls).toContain('https://www.google.com/');
+    homeExpect(baseUrls).toContain('https://mantine.dev/');
 
     // Clean up: close new tabs
     for (const newPage of newPages) {

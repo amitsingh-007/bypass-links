@@ -22,9 +22,7 @@ test.describe.serial('Persons Panel', () => {
 
       await panel.clearSearch();
       await expect(
-        personsPage
-          .locator('[data-person-uid]')
-          .filter({ hasText: TEST_PERSONS.AKASH_KUMAR_SINGH })
+        personsPage.getByTestId(`person-item-${TEST_PERSONS.AKASH_KUMAR_SINGH}`)
       ).toBeVisible();
     });
 
@@ -90,9 +88,9 @@ test.describe.serial('Persons Panel', () => {
     }) => {
       // Try to delete a person who has tagged bookmarks
       // John Nathan has bookmarks tagged (verified in existing tests)
-      const personCard = personsPage
-        .locator('[data-person-uid]')
-        .filter({ hasText: TEST_PERSONS.JOHN_NATHAN });
+      const personCard = personsPage.getByTestId(
+        `person-item-${TEST_PERSONS.JOHN_NATHAN}`
+      );
       await expect(personCard).toBeVisible();
 
       await personCard.click({ button: 'right' });

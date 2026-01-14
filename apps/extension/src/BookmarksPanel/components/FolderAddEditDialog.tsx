@@ -39,7 +39,17 @@ export function FolderAddEditDialog({
   };
 
   return (
-    <Modal centered opened={isOpen} title={headerText} onClose={handleClose}>
+    <Modal
+      centered
+      opened={isOpen}
+      title={headerText}
+      closeButtonProps={
+        {
+          'data-testid': 'modal-close-button',
+        } as React.ComponentProps<'button'>
+      }
+      onClose={handleClose}
+    >
       <form
         onSubmit={form.onSubmit((values) => {
           handleSave(values.folderName);

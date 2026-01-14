@@ -35,6 +35,7 @@ const Person = memo<Props>(({ person }) => {
       h="100%"
       data-person-uid={uid}
       data-person-name={name}
+      data-testid={`person-item-${name}`}
       classNames={{
         root: styles.container,
         icon: styles.iconInner,
