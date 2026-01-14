@@ -222,4 +222,59 @@ export class PersonsPanel {
     const personCard = this.page.getByTestId(`person-item-${personName}`);
     await expect(personCard).toBeVisible();
   }
+
+  // ============ Verification Helpers ============
+
+  async verifyPersonNotExists(personName: string) {
+    const personCard = this.page.getByTestId(`person-item-${personName}`);
+    await expect(personCard).not.toBeVisible();
+  }
+
+  async verifyPersonExists(personName: string) {
+    await this.verifyPersonCardVisible(personName);
+  }
+
+  // ============ Selector Encapsulation ============
+
+  getPersonCardElement(personName: string) {
+    return this.page.getByTestId(`person-item-${personName}`);
+  }
+
+  getSearchInput() {
+    return this.page.getByPlaceholder('Search');
+  }
+
+  getAddPersonButton() {
+    return this.page.getByRole('button', { name: 'Add' });
+  }
+
+  getPersonCards() {
+    return this.page.locator('[data-testid^="person-item-"]');
+  }
+
+  getRecencySwitch() {
+    return this.page.getByRole('switch', { name: 'Recency' });
+  }
+
+  // ============ Composite Operations ============
+
+  async clickPersonContextMenu(personName: string, menuItemText: string) {
+    const personCard = this.getPersonCardElement(personName);
+    await expect(personCard).toBeVisible();
+    await personCard.click({ button: 'right' });
+    await clickContextMenuItem(this.page, menuItemText);
+  }
+
+  async addPersonWithNameOnly(name: string) {
+    return this.addPerson(name);
+  }
+
+  async toggleRecencyAndWait() {
+    await this.toggleRecency();
+    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
+  }
+
+  async getPersonBadgeCount(personName: string): Promise<number> {
+    return this.verifyBadgeCount(personName);
+  }
 }

@@ -1,7 +1,6 @@
 import { test, expect } from '../fixtures/persons-fixture';
 import { TEST_PERSON_NAME, TEST_PERSONS, TEST_TIMEOUTS } from '../constants';
 import { PersonsPanel } from '../utils/persons-panel';
-import { clickContextMenuItem } from '../utils/test-utils';
 
 /**
  * Persons Panel E2E Tests
@@ -21,9 +20,7 @@ test.describe.serial('Persons Panel', () => {
       });
 
       await panel.clearSearch();
-      await expect(
-        personsPage.getByTestId(`person-item-${TEST_PERSONS.AKASH_KUMAR_SINGH}`)
-      ).toBeVisible();
+      await panel.verifyPersonExists(TEST_PERSONS.AKASH_KUMAR_SINGH);
     });
 
     test('should clear search and show all persons', async ({
@@ -77,7 +74,7 @@ test.describe.serial('Persons Panel', () => {
       const panel = new PersonsPanel(personsPage);
 
       // First verify the person exists
-      await panel.verifyPersonCardVisible(TEST_PERSON_NAME);
+      await panel.verifyPersonExists(TEST_PERSON_NAME);
 
       // Delete the person (this verifies the notification)
       await panel.deletePerson(TEST_PERSON_NAME);
@@ -86,15 +83,10 @@ test.describe.serial('Persons Panel', () => {
     test('should show error when deleting person with tagged bookmarks', async ({
       personsPage,
     }) => {
+      const panel = new PersonsPanel(personsPage);
       // Try to delete a person who has tagged bookmarks
       // John Nathan has bookmarks tagged (verified in existing tests)
-      const personCard = personsPage.getByTestId(
-        `person-item-${TEST_PERSONS.JOHN_NATHAN}`
-      );
-      await expect(personCard).toBeVisible();
-
-      await personCard.click({ button: 'right' });
-      await clickContextMenuItem(personsPage, 'Delete');
+      await panel.clickPersonContextMenu(TEST_PERSONS.JOHN_NATHAN, 'Delete');
 
       // Verify error notification is shown
       const notification = personsPage.getByText(
@@ -103,7 +95,7 @@ test.describe.serial('Persons Panel', () => {
       await expect(notification).toBeVisible();
 
       // Verify the person still exists (not deleted)
-      await expect(personCard).toBeVisible();
+      await panel.verifyPersonExists(TEST_PERSONS.JOHN_NATHAN);
     });
   });
 });

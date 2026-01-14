@@ -242,21 +242,6 @@ export const searchAndVerify = async (
 };
 
 /**
- * Right-click on element and select a context menu option.
- */
-export const rightClickAndSelectOption = async (
-  page: Page,
-  elementSelector: string,
-  filterText: string,
-  menuItemText: string
-) => {
-  const element = page.locator(elementSelector).filter({ hasText: filterText });
-  await expect(element).toBeVisible();
-  await element.click({ button: 'right' });
-  await clickContextMenuItem(page, menuItemText);
-};
-
-/**
  * Change image in dialog: open picker, upload, save.
  */
 export const changeImageInDialog = async (
@@ -266,36 +251,6 @@ export const changeImageInDialog = async (
 ) => {
   const imagePickerDialog = await openImagePicker(page, dialog);
   await uploadImage(page, imagePickerDialog, imageUrl);
-};
-
-/**
- * Search browser history for items matching specific URLs
- */
-export const getHistoryItems = async (
-  page: Page,
-  urls?: string[]
-): Promise<chrome.history.HistoryItem[]> => {
-  return page.evaluate(async (urlsToCheck) => {
-    return new Promise<chrome.history.HistoryItem[]>((resolve) => {
-      chrome.history.search(
-        {
-          text: '',
-          maxResults: 1000,
-          startTime: 0,
-        },
-        (results) => {
-          if (urlsToCheck) {
-            const filtered = results.filter((item) =>
-              urlsToCheck.some((url) => item.url?.includes(url))
-            );
-            resolve(filtered);
-          } else {
-            resolve(results);
-          }
-        }
-      );
-    });
-  }, urls);
 };
 
 /**

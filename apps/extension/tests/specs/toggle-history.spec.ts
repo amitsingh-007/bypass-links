@@ -1,6 +1,7 @@
 import { test, expect as homeExpect } from '../fixtures/home-popup-fixture';
 import { TEST_TIMEOUTS, TEST_SITES } from '../constants';
-import { getHistoryItems, getStorageItem } from '../utils/test-utils';
+import { getStorageItem } from '../utils/test-utils';
+import { getHistoryItems } from './toggle-history.spec.utils';
 
 /**
  * ToggleHistory E2E Tests

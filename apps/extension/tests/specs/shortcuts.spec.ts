@@ -24,23 +24,21 @@ test.describe.serial('Navigation Tests', () => {
     await panel.waitForLoading();
 
     // Verify we're on the shortcuts panel by checking for the header
-    const header = shortcutsPage.getByText('Shortcuts');
+    const header = panel.getHeaderElement();
     await expect(header).toBeVisible();
 
     // Verify Add button is visible and enabled
-    const addButton = shortcutsPage.getByRole('button', { name: 'Add' });
+    const addButton = panel.getAddRuleButton();
     await expect(addButton).toBeVisible();
     await expect(addButton).toBeEnabled();
 
     // Verify main Save button is visible (but we won't click it)
-    const saveButton = shortcutsPage
-      .getByRole('button', { name: 'Save' })
-      .last();
+    const saveButton = panel.getMainSaveButton();
     await expect(saveButton).toBeVisible();
     await expect(saveButton).toBeDisabled();
 
     // Verify search input is visible
-    const searchInput = shortcutsPage.getByPlaceholder('Search');
+    const searchInput = panel.getSearchInput();
     await expect(searchInput).toBeVisible();
 
     // Verify there are rules displayed (4 rules in test data)
@@ -48,7 +46,7 @@ test.describe.serial('Navigation Tests', () => {
     expect(ruleCount).toBe(4);
 
     // Verify at least one alias input is visible
-    const aliasInput = shortcutsPage.getByPlaceholder('Enter Alias').first();
+    const aliasInput = panel.getAliasInputs().first();
     await expect(aliasInput).toBeVisible();
   });
 });
@@ -70,7 +68,7 @@ test.describe.serial('Search and Filter Tests', () => {
     await shortcutsPage.waitForTimeout(1000);
 
     // Verify the search input has the value
-    const searchInput = shortcutsPage.getByPlaceholder('Search');
+    const searchInput = panel.getSearchInput();
     await expect(searchInput).toHaveValue(TEST_SHORTCUTS.GOOGLE);
 
     // Verify all rules are still visible (search highlights, doesn't filter)
@@ -79,7 +77,7 @@ test.describe.serial('Search and Filter Tests', () => {
 
     // Verify search is working - the input with matching value should be in the DOM
     // Note: All rows remain visible, search only highlights matching rows
-    const allAliasInputs = shortcutsPage.getByPlaceholder('Enter Alias');
+    const allAliasInputs = panel.getAliasInputs();
     const count = await allAliasInputs.count();
     let foundMatch = false;
     for (let i = 0; i < count; i++) {
@@ -119,9 +117,7 @@ test.describe.serial('Add Rule Tests', () => {
 
     // Verify the first input has the default alias value
     // The new rule appears at the top, so check the first input
-    const firstAliasInput = shortcutsPage
-      .getByPlaceholder('Enter Alias')
-      .first();
+    const firstAliasInput = panel.getAliasInputs().first();
     const value = await firstAliasInput.inputValue();
     // New rule should have default alias containing "http://"
     expect(value).toContain('http://');
@@ -147,9 +143,7 @@ test.describe.serial('Edit Rule Tests', () => {
     await panel.waitForLoading();
 
     // Get the first alias input
-    const firstAliasInput = shortcutsPage
-      .getByPlaceholder('Enter Alias')
-      .first();
+    const firstAliasInput = panel.getAliasInputs().first();
     const originalValue = await firstAliasInput.inputValue();
 
     // Edit the alias
@@ -179,9 +173,7 @@ test.describe.serial('Edit Rule Tests', () => {
     await panel.waitForLoading();
 
     // Get the first website input
-    const firstWebsiteInput = shortcutsPage
-      .getByPlaceholder('Enter Website')
-      .first();
+    const firstWebsiteInput = panel.getWebsiteInputs().first();
 
     // Edit the website
     await firstWebsiteInput.fill('https://example.com');
@@ -218,7 +210,7 @@ test.describe.serial('Reorder Tests', () => {
     await shortcutsPage.waitForTimeout(500);
 
     // After moving down, the first rule should now have the second alias
-    const firstAliasInputAfter = shortcutsPage.getByTestId('rule-0-alias');
+    const firstAliasInputAfter = panel.getAliasInputs().first();
     const firstAliasAfter = await firstAliasInputAfter.inputValue();
 
     // The first position should now have what was originally second
@@ -244,7 +236,7 @@ test.describe.serial('Reorder Tests', () => {
     await shortcutsPage.waitForTimeout(500);
 
     // After moving up, the first rule should now have the second alias
-    const firstAliasInputAfter = shortcutsPage.getByTestId('rule-0-alias');
+    const firstAliasInputAfter = panel.getAliasInputs().first();
     const firstAliasAfter = await firstAliasInputAfter.inputValue();
 
     // The first position should now have what was originally second

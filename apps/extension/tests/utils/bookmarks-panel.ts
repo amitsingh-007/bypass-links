@@ -1,8 +1,11 @@
 import { expect, type Page } from '@playwright/test';
 import { TEST_TIMEOUTS } from '../constants';
 import {
+  clickContextMenuItem as clickContextMenuItemUtil,
   countElements,
   fillDialogInput,
+  getBadgeCount as getBadgeCountUtil,
+  navigateBack as navigateBackUtil,
   openDialog,
   openFolder,
   searchAndVerify,
@@ -40,12 +43,7 @@ export class BookmarksPanel {
   }
 
   async navigateBack() {
-    const backButton = this.page
-      .locator('[aria-label="back"]')
-      .or(this.page.getByRole('button', { name: /back/i }))
-      .filter({ visible: true })
-      .first();
-    await backButton.click({ force: true });
+    await navigateBackUtil(this.page);
   }
 
   async ensureAtRoot() {
@@ -138,19 +136,12 @@ export class BookmarksPanel {
   }
 
   async clickSaveButton() {
-    const saveButton = this.page.getByRole('button', { name: /save/i }).last();
+    const saveButton = this.getSaveButton();
     await saveButton.click();
   }
 
   async clickContextMenuItem(itemText: string) {
-    const menuItem = this.page.locator(
-      '.mantine-contextmenu-item-button-title',
-      {
-        hasText: itemText,
-      }
-    );
-    await menuItem.waitFor({ state: 'attached' });
-    await menuItem.evaluate((el) => (el as HTMLElement).click());
+    await clickContextMenuItemUtil(this.page, itemText);
   }
 
   async getBookmarkCount() {
@@ -190,22 +181,73 @@ export class BookmarksPanel {
   }
 
   async getBadgeCount(name: string): Promise<number> {
-    const badge = this.page
-      .locator('.mantine-Badge-label')
-      .filter({ hasText: name });
-    await expect(badge).toBeVisible();
-
-    const badgeText = (await badge.textContent()) ?? '';
-    const countMatch = /\((\d+)\)/.exec(badgeText);
-
-    if (!countMatch) {
-      return 0;
-    }
-
-    return Number.parseInt(countMatch[1], 10);
+    return getBadgeCountUtil(this.page, name);
   }
 
   async getEditButtons() {
     return this.page.getByTitle('Edit Bookmark');
+  }
+
+  // ============ Verification Helpers ============
+
+  async verifyBookmarkExists(bookmarkTitle: string) {
+    const bookmark = this.page.getByTestId(`bookmark-item-${bookmarkTitle}`);
+    await expect(bookmark).toBeVisible();
+  }
+
+  async verifyFolderExists(folderName: string) {
+    const folder = this.page.getByTestId(`folder-item-${folderName}`);
+    await expect(folder).toBeVisible();
+  }
+
+  async verifyBookmarkNotExists(bookmarkTitle: string) {
+    const bookmark = this.page.getByTestId(`bookmark-item-${bookmarkTitle}`);
+    await expect(bookmark).not.toBeVisible();
+  }
+
+  async verifyFolderNotExists(folderName: string) {
+    const folder = this.page.getByTestId(`folder-item-${folderName}`);
+    await expect(folder).not.toBeVisible();
+  }
+
+  // ============ Selector Encapsulation ============
+
+  getBookmarkElement(bookmarkTitle: string) {
+    return this.page.getByTestId(`bookmark-item-${bookmarkTitle}`);
+  }
+
+  getFolderElement(folderName: string) {
+    return this.page.getByTestId(`folder-item-${folderName}`);
+  }
+
+  getSearchInput() {
+    return this.page.getByPlaceholder('Search');
+  }
+
+  getSaveButton() {
+    return this.page.getByRole('button', { name: /save/i }).last();
+  }
+
+  getBookmarkItems() {
+    return this.page.locator('[data-testid^="bookmark-item-"]');
+  }
+
+  getFolderItems() {
+    return this.page.locator('[data-testid^="folder-item-"]');
+  }
+
+  getDialogCloseButton() {
+    return this.page.getByTestId('modal-close-button');
+  }
+
+  // ============ Composite Operations ============
+
+  async closeDialog() {
+    const closeButton = this.getDialogCloseButton();
+    if (await closeButton.isVisible()) {
+      await closeButton.click();
+    } else {
+      await this.page.keyboard.press('Escape');
+    }
   }
 }

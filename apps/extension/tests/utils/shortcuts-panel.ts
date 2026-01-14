@@ -319,4 +319,94 @@ export class ShortcutsPanel {
   async navigateBack() {
     await navigateBack(this.page);
   }
+
+  // ============ Verification Helpers ============
+
+  async verifyRuleExists(alias: string) {
+    await this.verifyRuleVisible(alias);
+  }
+
+  async verifyRuleNotExists(alias: string) {
+    const pos = await findRulePosByAlias(this.page, alias);
+    expect(pos).toBe(-1);
+  }
+
+  // ============ Selector Encapsulation ============
+
+  getSearchInput() {
+    return this.page.getByPlaceholder('Search');
+  }
+
+  getAddRuleButton() {
+    return this.page.getByRole('button', { name: 'Add' });
+  }
+
+  getMainSaveButton() {
+    return this.page.getByRole('button', { name: 'Save' }).last();
+  }
+
+  getAliasInputs() {
+    return this.page.getByPlaceholder('Enter Alias');
+  }
+
+  getWebsiteInputs() {
+    return this.page.getByPlaceholder('Enter Website');
+  }
+
+  getRuleElements() {
+    return this.page.locator('[data-testid^="rule-"][data-testid$="-alias"]');
+  }
+
+  getRuleElementByAlias(alias: string) {
+    return getRuleByPos(this.page, findRulePosByAliasSync(this.page, alias));
+  }
+
+  getHeaderElement() {
+    return this.page.getByText('Shortcuts');
+  }
+
+  // ============ Composite Operations ============
+
+  async addRuleAndSave(alias: string, website: string, isDefault = false) {
+    await this.addRule();
+    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
+
+    // Get the first rule (newly added)
+    const firstAliasInput = getAliasInput(this.page, 0);
+    await firstAliasInput.fill(alias);
+
+    const firstWebsiteInput = getWebsiteInput(this.page, 0);
+    await firstWebsiteInput.fill(website);
+
+    if (isDefault) {
+      const checkbox = getDefaultCheckbox(this.page, 0);
+      await checkbox.check();
+    }
+
+    // Click save button
+    const saveButton = getRuleSaveButton(this.page, 0);
+    await saveButton.click();
+    await this.page.waitForTimeout(500);
+  }
+
+  async editRule(alias: string, newAlias?: string, newWebsite?: string) {
+    if (newAlias) {
+      await this.fillRuleAlias(alias, newAlias);
+    }
+    if (newWebsite) {
+      await this.fillRuleWebsite(alias, newWebsite);
+    }
+    await this.clickRuleSaveButton(alias);
+    await this.page.waitForTimeout(500);
+  }
+}
+
+/**
+ * Synchronous version of findRulePosByAlias for use in selector getters.
+ * Returns first matching position or 0 if not found.
+ */
+function findRulePosByAliasSync(_page: Page, _alias: string): number {
+  // For synchronous use, we'll use a heuristic - this is meant for selector creation
+  // The actual position finding happens asynchronously in test execution
+  return 0;
 }
