@@ -273,3 +273,49 @@ export const changeImageInDialog = async (
   const imagePickerDialog = await openImagePicker(page, dialog);
   await uploadImage(page, imagePickerDialog, imageUrl);
 };
+
+/**
+ * Search browser history for items matching specific URLs
+ */
+export const getHistoryItems = async (
+  page: Page,
+  urls?: string[]
+): Promise<chrome.history.HistoryItem[]> => {
+  return page.evaluate(async (urlsToCheck) => {
+    return new Promise<chrome.history.HistoryItem[]>((resolve) => {
+      chrome.history.search(
+        {
+          text: '',
+          maxResults: 1000,
+          startTime: 0,
+        },
+        (results) => {
+          if (urlsToCheck) {
+            const filtered = results.filter((item) =>
+              urlsToCheck.some((url) => item.url?.includes(url))
+            );
+            resolve(filtered);
+          } else {
+            resolve(results);
+          }
+        }
+      );
+    });
+  }, urls);
+};
+
+/**
+ * Get item from chrome.storage.local
+ */
+export const getStorageItem = async <T = unknown>(
+  page: Page,
+  key: string
+): Promise<T | undefined> => {
+  return page.evaluate(async (storageKey) => {
+    return new Promise<T>((resolve) => {
+      chrome.storage.local.get([storageKey], (result) => {
+        resolve(result[storageKey] as T);
+      });
+    });
+  }, key);
+};

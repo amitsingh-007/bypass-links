@@ -56,6 +56,15 @@ export const TEST_SHORTCUT = {
 } as const;
 
 /**
+ * Test websites for history tracking tests
+ */
+export const TEST_SITES = {
+  EXAMPLE_COM: 'https://example.com',
+  EXAMPLE_ORG: 'https://example.org',
+  EXAMPLE_NET: 'https://example.net',
+} as const;
+
+/**
  * Default rule alias that indicates an incomplete rule.
  */
 export const DEFAULT_RULE_ALIAS = 'http://///';
