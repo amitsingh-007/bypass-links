@@ -65,6 +65,26 @@ export const createSharedContext = async () => {
   return { browserContext, userDataDir };
 };
 
+/**
+ * Create an isolated browser context for unauthenticated tests.
+ * This ensures no auth state leaks from the shared context.
+ */
+export const createUnauthContext = async (extensionPath: string) => {
+  const userDataDir = await fs.promises.mkdtemp(
+    path.join(os.tmpdir(), 'chrome-unauth-profile-')
+  );
+  const browserContext = await chromium.launchPersistentContext(userDataDir, {
+    headless: false,
+    args: [
+      `--disable-extensions-except=${extensionPath}`,
+      `--load-extension=${extensionPath}`,
+      '--disable-dev-shm-usage',
+      '--no-sandbox',
+    ],
+  });
+  return { browserContext, userDataDir };
+};
+
 export const createSharedBackgroundSW = async (
   sharedContext: BrowserContext
 ): Promise<Worker> => {

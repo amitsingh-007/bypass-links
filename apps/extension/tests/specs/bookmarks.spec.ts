@@ -102,13 +102,18 @@ test.describe.serial('Bookmarks Panel', () => {
         const bookmarkRow = panel.getBookmarkElement(TEST_BOOKMARKS.REACT_DOCS);
         await expect(bookmarkRow).toBeVisible();
 
-        const [newPage] = await Promise.all([
-          context.waitForEvent('page', { timeout: TEST_TIMEOUTS.PAGE_OPEN }),
-          bookmarkRow.dblclick(),
-        ]);
+        // Set up the event listener before triggering the action
+        const pagePromise = context.waitForEvent('page', {
+          timeout: TEST_TIMEOUTS.PAGE_OPEN,
+        });
+        await bookmarkRow.dblclick();
+        const newPage = await pagePromise;
 
         expect(newPage).toBeTruthy();
         expect(context.pages().length).toBeGreaterThan(initialPages);
+
+        // Clean up the new page
+        await newPage.close();
       });
 
       test('should open multiple bookmarks via context menu', async ({
@@ -141,13 +146,21 @@ test.describe.serial('Bookmarks Panel', () => {
         );
         await openOption.waitFor({ state: 'attached' });
 
-        const [newPage] = await Promise.all([
-          context.waitForEvent('page', { timeout: TEST_TIMEOUTS.PAGE_OPEN }),
-          openOption.evaluate((el) => (el as HTMLElement).click()),
-        ]);
+        // Set up the event listener before triggering the action
+        const pagePromise = context.waitForEvent('page', {
+          timeout: TEST_TIMEOUTS.PAGE_OPEN,
+        });
+        await openOption.evaluate((el) => (el as HTMLElement).click());
+        const newPage = await pagePromise;
 
         expect(newPage).toBeTruthy();
         expect(context.pages().length).toBeGreaterThan(initialPages);
+
+        // Clean up new pages
+        const newPages = context.pages().slice(initialPages);
+        for (const newPage of newPages) {
+          await newPage.close();
+        }
       });
     });
 

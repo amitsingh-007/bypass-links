@@ -245,7 +245,7 @@ export class BookmarksPanel {
   async closeDialog() {
     const closeButton = this.getDialogCloseButton();
     if (await closeButton.isVisible()) {
-      await closeButton.click();
+      await closeButton.click({ force: true });
     } else {
       await this.page.keyboard.press('Escape');
     }

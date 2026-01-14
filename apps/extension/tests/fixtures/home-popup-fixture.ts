@@ -1,4 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import {
   type BrowserContext,
   type Page,
@@ -9,8 +11,12 @@ import {
   authenticateAndNavigate,
   createSharedBackgroundSW,
   createSharedContext,
+  createUnauthContext,
   getExtensionId,
 } from './base-fixture';
+
+const fileName = fileURLToPath(import.meta.url);
+const dirName = path.dirname(fileName);
 
 export const test = base.extend<
   {
@@ -23,8 +29,18 @@ export const test = base.extend<
     sharedBackgroundSW: Worker;
     sharedExtensionId: string;
     sharedPage: Page;
+    extensionPath: string;
   }
 >({
+  extensionPath: [
+    // eslint-disable-next-line no-empty-pattern
+    async ({}, use) => {
+      const pathToExtension = path.resolve(dirName, '../../chrome-build');
+      await use(pathToExtension);
+    },
+    { scope: 'worker' },
+  ],
+
   sharedContext: [
     // eslint-disable-next-line no-empty-pattern
     async ({}, use) => {
@@ -73,14 +89,28 @@ export const test = base.extend<
     await use(sharedContext);
   },
 
-  async unauthPage({ sharedContext, sharedExtensionId }, use) {
+  async unauthPage({ extensionPath }, use) {
+    // Create a completely separate context without any authentication
+    const { browserContext: unauthContext, userDataDir } =
+      await createUnauthContext(extensionPath);
+
+    // Get extension ID from the new context
+    let [background] = unauthContext.serviceWorkers();
+    background ||= await unauthContext.waitForEvent('serviceworker');
+    const extensionId = background.url().split('/')[2];
+
     // Create a new page without authentication
-    const page = await sharedContext.newPage();
-    const extUrl = `chrome-extension://${sharedExtensionId}/index.html`;
+    const page = await unauthContext.newPage();
+    const extUrl = `chrome-extension://${extensionId}/index.html`;
     await page.goto(extUrl);
     await page.waitForLoadState('networkidle');
+
     await use(page);
+
     await page.close();
+    await unauthContext.close();
+    const fsPromises = await import('node:fs/promises');
+    await fsPromises.rm(userDataDir, { recursive: true, force: true });
   },
 });
 

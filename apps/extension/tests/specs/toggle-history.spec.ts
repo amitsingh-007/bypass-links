@@ -18,6 +18,13 @@ test.describe.serial('History Tracking Workflow', () => {
       .locator('label')
       .filter({ hasText: 'History' });
 
+    // Ensure history tracking starts in OFF state
+    const isChecked = await toggleSwitch.isChecked();
+    if (isChecked) {
+      await toggleLabel.click();
+      await homePage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
+    }
+
     // Verify initial state is off
     await homeExpect(toggleSwitch).not.toBeChecked();
 

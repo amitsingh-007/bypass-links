@@ -145,10 +145,11 @@ export const uploadImage = async (
   const imageUrlInput = imagePickerDialog.getByPlaceholder('Enter image url');
   await imageUrlInput.fill(imageUrl);
 
-  await page.waitForTimeout(TEST_TIMEOUTS.IMAGE_LOAD);
-
   const saveCroppedButton = page.getByTestId('save-cropped-image');
-  await expect(saveCroppedButton).toBeEnabled();
+  // Wait for the button to become enabled (image loaded and processed)
+  await expect(saveCroppedButton).toBeEnabled({
+    timeout: TEST_TIMEOUTS.UPLOAD,
+  });
   await saveCroppedButton.click();
 
   const uploadOverlay = page.getByTestId('uploading-overlay');
