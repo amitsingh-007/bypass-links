@@ -93,8 +93,8 @@ importers:
         specifier: 2.3.0
         version: 2.3.0
       preact:
-        specifier: 10.27.2
-        version: 10.27.2
+        specifier: 10.27.3
+        version: 10.27.3
       react:
         specifier: 19.2.0
         version: 19.2.0
@@ -112,7 +112,7 @@ importers:
         version: 3.7.1(react@19.2.0)
       wouter-preact:
         specifier: 3.7.1
-        version: 3.7.1(preact@10.27.2)
+        version: 3.7.1(preact@10.27.3)
       wretch:
         specifier: 3.0.5
         version: 3.0.5
@@ -128,10 +128,10 @@ importers:
         version: 1.55.1
       '@prefresh/core':
         specifier: 1.5.9
-        version: 1.5.9(preact@10.27.2)
+        version: 1.5.9(preact@10.27.3)
       '@prefresh/webpack':
         specifier: 4.0.6
-        version: 4.0.6(@prefresh/babel-plugin@0.5.2)(preact@10.27.2)(webpack@5.102.1)
+        version: 4.0.6(@prefresh/babel-plugin@0.5.2)(preact@10.27.3)(webpack@5.102.1)
       '@types/archiver':
         specifier: 7.0.0
         version: 7.0.0
@@ -368,8 +368,8 @@ importers:
         specifier: 2.3.0
         version: 2.3.0
       preact:
-        specifier: 10.27.2
-        version: 10.27.2
+        specifier: 10.27.3
+        version: 10.27.3
       react:
         specifier: 19.2.0
         version: 19.2.0
@@ -2121,12 +2121,15 @@ packages:
 
   '@otplib/plugin-crypto@12.0.1':
     resolution: {integrity: sha512-qPuhN3QrT7ZZLcLCyKOSNhuijUi9G5guMRVrxq63r9YNOxxQjPm59gVxLM+7xGnHnM6cimY57tuKsjK7y9LM1g==}
+    deprecated: Please upgrade to v13 of otplib. Refer to otplib docs for migration paths
 
   '@otplib/plugin-thirty-two@12.0.1':
     resolution: {integrity: sha512-MtT+uqRso909UkbrrYpJ6XFjj9D+x2Py7KjTO9JDPhL0bJUYVu5kFP4TFZW4NFAywrAtFRxOVY261u0qwb93gA==}
+    deprecated: Please upgrade to v13 of otplib. Refer to otplib docs for migration paths
 
   '@otplib/preset-default@12.0.1':
     resolution: {integrity: sha512-xf1v9oOJRyXfluBhMdpOkr+bsE+Irt+0D5uHtvg6x1eosfmHCsCC6ej/m7FXiWqdo0+ZUI6xSKDhJwc8yfiOPQ==}
+    deprecated: Please upgrade to v13 of otplib. Refer to otplib docs for migration paths
 
   '@otplib/preset-v11@12.0.1':
     resolution: {integrity: sha512-9hSetMI7ECqbFiKICrNa4w70deTUfArtwXykPUvSHWOdzOlfa9ajglu7mNCntlvxycTiOAXkQGwjQCzzDEMRMg==}
@@ -6805,8 +6808,8 @@ packages:
     resolution: {integrity: sha512-dM0jVuXJPsDN6DvRpea484tCUaMiXWjuCn++HGTqUWzGDjv5tZkEZldAJ/UMlqRYGFrD/etByo4/xOuC/snX2A==}
     engines: {node: '>=20'}
 
-  preact@10.27.2:
-    resolution: {integrity: sha512-5SYSgFKSyhCbk6SrXyMpqjb5+MQBgfvEKE/OC+PujcY34sOpqtr+0AZQtPYx5IA6VxynQ7rUPCtKzyovpj9Bpg==}
+  preact@10.27.3:
+    resolution: {integrity: sha512-ZieIP3zQHiQsNF3BA+SNVS8dcuRIg/nsxlkFbCMBLS2L1Ww4Bkxd9n6Md2A1crfTZsEbQPADV0neYmh/EElgeQ==}
 
   prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
@@ -10308,18 +10311,18 @@ snapshots:
 
   '@prefresh/babel-plugin@0.5.2': {}
 
-  '@prefresh/core@1.5.9(preact@10.27.2)':
+  '@prefresh/core@1.5.9(preact@10.27.3)':
     dependencies:
-      preact: 10.27.2
+      preact: 10.27.3
 
   '@prefresh/utils@1.2.1': {}
 
-  '@prefresh/webpack@4.0.6(@prefresh/babel-plugin@0.5.2)(preact@10.27.2)(webpack@5.102.1)':
+  '@prefresh/webpack@4.0.6(@prefresh/babel-plugin@0.5.2)(preact@10.27.3)(webpack@5.102.1)':
     dependencies:
       '@prefresh/babel-plugin': 0.5.2
-      '@prefresh/core': 1.5.9(preact@10.27.2)
+      '@prefresh/core': 1.5.9(preact@10.27.3)
       '@prefresh/utils': 1.2.1
-      preact: 10.27.2
+      preact: 10.27.3
       webpack: 5.102.1(webpack-cli@6.0.1)
 
   '@protobufjs/aspromise@1.1.2': {}
@@ -15253,7 +15256,7 @@ snapshots:
 
   powershell-utils@0.1.0: {}
 
-  preact@10.27.2: {}
+  preact@10.27.3: {}
 
   prelude-ls@1.2.1: {}
 
@@ -16990,10 +16993,10 @@ snapshots:
 
   word-wrap@1.2.5: {}
 
-  wouter-preact@3.7.1(preact@10.27.2):
+  wouter-preact@3.7.1(preact@10.27.3):
     dependencies:
       mitt: 3.0.1
-      preact: 10.27.2
+      preact: 10.27.3
       regexparam: 3.0.0
 
   wouter@3.7.1(react@19.2.0):
