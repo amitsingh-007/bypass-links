@@ -2,7 +2,7 @@ name: Deploy CI
 on:
   push:
     branches:
-      - 'main'
+      - "main"
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
@@ -24,8 +24,8 @@ jobs:
       - name: Setting up Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: '24'
-          cache: 'pnpm'
+          node-version: "24"
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install
@@ -70,8 +70,8 @@ jobs:
       - name: Setting up Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: '24'
-          cache: 'pnpm'
+          node-version: "24"
+          cache: "pnpm"
 
       - name: Cache Playwright binaries
         uses: actions/cache@v4
@@ -92,6 +92,9 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+
+      - name: Pull environment variables
+        run: pnpm vercel env pull .env --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Install Playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
@@ -122,8 +125,8 @@ jobs:
       - name: Setting up Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: '24'
-          cache: 'pnpm'
+          node-version: "24"
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install
@@ -143,7 +146,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
-          vercel-args: '--prod'
+          vercel-args: "--prod"
 
       - name: Finish deployment
         uses: bobheadxi/deployments@v1.5.0
@@ -194,8 +197,8 @@ jobs:
         uses: amitsingh-007/next-release-tag@v6.3.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          tag_prefix: 'v'
-          tag_template: 'yy.mm.i'
+          tag_prefix: "v"
+          tag_template: "yy.mm.i"
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
