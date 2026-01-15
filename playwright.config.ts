@@ -13,7 +13,7 @@ const config = defineConfig({
   forbidOnly: isCI,
   retries: isCI ? 2 : 1,
   fullyParallel: true,
-  reporter: [['github'], ['html', { open: isCI ? 'never' : 'always' }]],
+  reporter: [['github'], ['html', { open: 'never' }]],
   use: {
     navigationTimeout: 30 * 1000,
     actionTimeout: 10 * 1000,
