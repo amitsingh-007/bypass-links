@@ -30,6 +30,7 @@ function PopupHome() {
           c="grape.1"
           mb="0.625rem"
           className={styles.heading}
+          data-testid="home-popup-heading"
           onClick={handleOpenAsPage}
         >
           Bypass Links

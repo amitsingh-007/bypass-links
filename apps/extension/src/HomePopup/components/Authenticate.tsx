@@ -78,6 +78,7 @@ function Authenticate() {
         loading={isFetching}
         disabled={!isExtensionActive}
         color={isSignedIn ? 'teal' : 'red'}
+        data-testid={isSignedIn ? 'logout-button' : 'login-button'}
         rightSection={
           isSignedIn ? <RiLogoutCircleRFill /> : <RiLoginCircleFill />
         }

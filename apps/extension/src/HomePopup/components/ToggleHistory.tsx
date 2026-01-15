@@ -81,6 +81,7 @@ function ToggleHistory() {
       label="History"
       checked={isHistoryActive}
       disabled={!isExtensionActive}
+      data-testid="toggle-history-switch"
       onChange={handleToggle}
     />
   );
