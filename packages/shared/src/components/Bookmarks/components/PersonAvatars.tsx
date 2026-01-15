@@ -9,7 +9,7 @@ const PersonAvatars = memo<{ persons: IPersonWithImage[] }>(({ persons }) => {
   const { location } = useContext(DynamicContext);
 
   return persons.length > 0 ? (
-    <Avatar.Group spacing="xs">
+    <Avatar.Group spacing="xs" data-testid="avatar-group">
       {persons.map(({ imageUrl, uid, name }) => (
         <HoverCard
           key={uid}
@@ -28,9 +28,14 @@ const PersonAvatars = memo<{ persons: IPersonWithImage[] }>(({ persons }) => {
           styles={{ dropdown: { padding: 0, cursor: 'pointer' } }}
         >
           <HoverCard.Target>
-            <Avatar radius="xl" size="1.75rem" src={imageUrl} />
+            <Avatar
+              radius="xl"
+              size="1.75rem"
+              src={imageUrl}
+              data-testid={`avatar-${uid}`}
+            />
           </HoverCard.Target>
-          <HoverCard.Dropdown>
+          <HoverCard.Dropdown data-testid={`person-dropdown-${uid}`}>
             <Tooltip opened label={name} position="right" color="gray">
               <Avatar
                 ml={0}
@@ -38,6 +43,7 @@ const PersonAvatars = memo<{ persons: IPersonWithImage[] }>(({ persons }) => {
                 size="4.375rem"
                 src={imageUrl}
                 alt={name}
+                data-testid={`dropdown-avatar-${name}`}
                 onClick={() =>
                   location.push(getPersonsPanelUrl({ openBookmarksList: uid }))
                 }
@@ -53,4 +59,5 @@ const PersonAvatars = memo<{ persons: IPersonWithImage[] }>(({ persons }) => {
     </Avatar>
   );
 });
+
 export default PersonAvatars;

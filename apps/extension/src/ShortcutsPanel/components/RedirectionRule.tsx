@@ -104,6 +104,7 @@ function RedirectionRule({
           leftSection={<MdShortcut />}
           error={!ruleAlias}
           classNames={{ input: highlight ? styles.highlight : undefined }}
+          data-testid={`rule-${pos}-alias`}
           onChange={(e) => setRuleAlias(e.target.value.trim())}
         />
         <TextInput
@@ -127,6 +128,7 @@ function RedirectionRule({
           }
           error={!ruleWebsite}
           classNames={{ input: highlight ? styles.highlight : undefined }}
+          data-testid={`rule-${pos}-website`}
           onChange={(e) => setRuleWebsite(e.target.value.trim())}
         />
       </Group>
@@ -134,6 +136,7 @@ function RedirectionRule({
         checked={isDefaultRule}
         mr={2}
         display="flex"
+        data-testid={`rule-${pos}-default`}
         onChange={(e) => setIsDefaultRule(e.target.checked)}
       />
       <ActionIcon
@@ -144,6 +147,7 @@ function RedirectionRule({
         className={clsx({
           [styles.disabled]: !ruleWebsite,
         })}
+        data-testid={`rule-${pos}-external-link`}
         onClick={handleLinkOpen}
       >
         <RxExternalLink size={21} />
@@ -156,11 +160,18 @@ function RedirectionRule({
         className={clsx({
           [styles.disabled]: isRuleSaveActive,
         })}
+        data-testid={`rule-${pos}-save`}
         onClick={handleSaveClick}
       >
         <IoSave size={18} />
       </ActionIcon>
-      <ActionIcon radius="xl" size="lg" color="red" onClick={handleRemoveClick}>
+      <ActionIcon
+        radius="xl"
+        size="lg"
+        color="red"
+        data-testid={`rule-${pos}-delete`}
+        onClick={handleRemoveClick}
+      >
         <MdOutlineDelete size={21} />
       </ActionIcon>
     </Center>

@@ -64,6 +64,7 @@ function LastVisitedButton() {
         disabled={!isSignedIn}
         rightSection={lastVisited ? <FaCalendarCheck /> : <FaCalendarTimes />}
         color={lastVisited ? 'teal' : 'red'}
+        data-testid="last-visited-button"
         onClick={handleUpdateLastVisited}
       >
         Visited

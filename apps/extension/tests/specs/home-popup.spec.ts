@@ -4,7 +4,7 @@ test.describe('Home Popup', () => {
   test('load extension', async ({ page, backgroundSW }) => {
     await page.goto('/index.html');
     // Content script loaded
-    await page.isVisible('Bypass Links');
+    await expect(page.getByTestId('home-popup-heading')).toBeVisible();
     const isSWInitialized = await backgroundSW.evaluate(
       () => self.SW_INITIALIZED
     );

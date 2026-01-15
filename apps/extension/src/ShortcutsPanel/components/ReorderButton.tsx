@@ -23,6 +23,7 @@ export function ReorderButton({
         pr={2}
         mr={1}
         disabled={pos === 0}
+        data-testid={`rule-${pos}-move-up`}
         onClick={() => handleRuleMoveUp(pos)}
       >
         <BsArrowUp size={12} strokeWidth={1.1} />
@@ -33,6 +34,7 @@ export function ReorderButton({
         pl={2}
         pr={2}
         disabled={pos === total - 1}
+        data-testid={`rule-${pos}-move-down`}
         onClick={() => handleRuleMoveDown(pos)}
       >
         <BsArrowDown size={12} strokeWidth={1.1} />

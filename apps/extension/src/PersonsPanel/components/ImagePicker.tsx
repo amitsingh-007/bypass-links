@@ -79,6 +79,7 @@ function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
       onDialogClose();
     } catch (error) {
       console.error('Error while cropping the image', error);
+      throw error;
     } finally {
       setIsUploadingImage(false);
     }
@@ -97,13 +98,17 @@ function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
       }}
       onClose={onDialogClose}
     >
-      <LoadingOverlay visible={isUploadingImage} />
+      <LoadingOverlay
+        visible={isUploadingImage}
+        data-testid="uploading-overlay"
+      />
       <Header text="Upload Image" onBackClick={onDialogClose} />
       <Flex pos="relative" justify="center" align="center" w="100%" p={4}>
         {isLoadingImage && <Loader pos="absolute" size="lg" />}
         <AvatarEditor
           ref={imageCropperRef}
           image={inputOrFile}
+          crossOrigin="anonymous"
           // When changing this, change in upload API as well
           width={250}
           height={250}
@@ -153,6 +158,7 @@ function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
         </Group>
         <Group mt={8} justify="center">
           <Button
+            data-testid="save-cropped-image"
             disabled={disableControls}
             radius="xl"
             color="teal"

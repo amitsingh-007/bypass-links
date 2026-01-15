@@ -180,6 +180,11 @@ function BookmarkAddEditDialog({ curFolder, handleScroll }: Props) {
       closeOnEscape={false}
       opened={openDialog}
       title={HEADING[operation]}
+      closeButtonProps={
+        {
+          'data-testid': 'modal-close-button',
+        } as React.ComponentProps<'button'>
+      }
       onClose={closeDialog}
     >
       <form onSubmit={form.onSubmit(handleSave)}>
@@ -188,6 +193,7 @@ function BookmarkAddEditDialog({ curFolder, handleScroll }: Props) {
             withAsterisk
             label="Title"
             placeholder="Enter bookmark title"
+            data-testid="bookmark-title-input"
             {...form.getInputProps('title')}
           />
           <TextInput
@@ -212,7 +218,7 @@ function BookmarkAddEditDialog({ curFolder, handleScroll }: Props) {
           <Button color="red" onClick={handleDelete}>
             Delete
           </Button>
-          <Button type="submit" color="teal">
+          <Button type="submit" color="teal" data-testid="dialog-save-button">
             Save
           </Button>
         </Stack>
