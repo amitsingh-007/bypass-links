@@ -109,7 +109,7 @@ const Bookmark = memo<BookmarkProps>(
         >
           <Favicon url={url} />
         </Tooltip>
-        <PersonAvatars persons={personsWithImageUrls} contextId={contextId} />
+        <PersonAvatars persons={personsWithImageUrls} />
         <Text
           size="0.9375rem"
           lineClamp={1}

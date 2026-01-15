@@ -155,27 +155,29 @@ export class BookmarksPanel {
   }
 
   async hoverAvatar() {
-    const avatarGroup = this.page.locator('[data-group-context-id]');
-    const avatar = avatarGroup.locator('[data-person-uid]').first();
+    const avatarGroup = this.page.getByTestId('avatar-group');
+    const avatar = avatarGroup.locator('[data-testid^="avatar-"]').first();
     await expect(avatar).toBeVisible({ timeout: TEST_TIMEOUTS.LONG_WAIT });
     await avatar.hover();
 
-    const dropdown = this.page.locator('[data-person-dropdown]');
+    const dropdown = this.page.locator('[data-testid^="person-dropdown-"]');
     await expect(dropdown).toBeVisible({ timeout: TEST_TIMEOUTS.LONG_WAIT });
 
     return { dropdown, avatar };
   }
 
   async clickPersonInDropdown(dropdown: ReturnType<Page['locator']>) {
-    const dropdownAvatar = dropdown.locator('[data-person-name]');
+    const dropdownAvatar = dropdown.locator(
+      '[data-testid^="dropdown-avatar-"]'
+    );
     await dropdownAvatar.waitFor({
       state: 'visible',
       timeout: TEST_TIMEOUTS.IMAGE_LOAD,
     });
     // Wait for element to be stable before clicking
     await this.page.waitForTimeout(300);
-    const personName =
-      (await dropdownAvatar.getAttribute('data-person-name')) ?? '';
+    const testId = (await dropdownAvatar.getAttribute('data-testid')) ?? '';
+    const personName = testId.replace('dropdown-avatar-', '');
     await dropdownAvatar.click({ force: true });
     return personName;
   }

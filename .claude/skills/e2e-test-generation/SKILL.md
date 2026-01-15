@@ -12,8 +12,9 @@ metadata:
 ## What I do
 
 - Create Playwright E2E tests for the Chrome extension
-- Add semantic selectors (role-based, data attributes) instead of class selectors
-- Add data attributes to components when needed for robust test selectors
+- Use `data-testid` and `getByTestId()` as the primary test selector pattern
+- Add semantic selectors (role-based, data-testid) instead of class selectors
+- Add `data-testid` attributes to components when needed for robust test selectors
 - Define test constants for reusable test data in `apps/extension/tests/constants.ts`
 - Follow project conventions: test.describe for 2+ tests, exact text matches, no evaluate() for clicks
 - Use project fixtures: `import { test, expect } from '../fixtures/bookmark-fixture'`
@@ -31,25 +32,29 @@ I will ask clarifying questions if:
 
 ## Selector Priority (use in this order)
 
-1. **Accessible Role Selectors** (highest priority)
+1. **data-testid with getByTestId()** (highest priority - standard for this project)
+
+   ```typescript
+   bookmarksPage.getByTestId('folder-item-Main');
+   bookmarksPage.getByTestId('bookmark-item-React Docs');
+   bookmarksPage.getByTestId('person-item-John Doe');
+
+   // For dynamic patterns, use locator with ^=
+   bookmarksPage.locator('[data-testid^="bookmark-item-"]');
+   ```
+
+2. **Accessible Role Selectors** (when data-testid not available)
 
    ```typescript
    bookmarksPage.getByRole('button', { name: 'Add' });
    bookmarksPage.getByRole('dialog', { name: 'Add folder' });
    ```
 
-2. **Data Attribute Selectors**
-
-   ```typescript
-   bookmarksPage.locator('[data-folder-name="Main"]');
-   bookmarksPage.locator('div[data-context-id]').filter({ hasText: 'text' });
-   ```
-
 3. **Placeholder/Label Selectors**
 
    ```typescript
    dialog.getByPlaceholder('Enter folder name');
-   bookmarksPage.getByLabel('Username');
+   bookmarksPage.getByLabel('History');
    ```
 
 4. **Title/Alt Selectors**
@@ -67,17 +72,18 @@ I will ask clarifying questions if:
 ## Selector Anti-Patterns (NEVER use)
 
 - Class selectors: `[class*="Folder-module__container"]`, `.mantine-HoverCard-dropdown`
+- Custom data attributes (other than `data-testid`): `data-folder-name`, `data-context-id`, etc.
 - Regex for simple text: `{ name: /add/i }` → use `{ name: 'Add' }`
 - Positional selectors when specific selection is possible: `.first()`, `.nth()`
 - Generic CSS selectors without semantic meaning
-- Generic element selectors: `img`, `div`, `span` (use data attributes instead)
+- Generic element selectors: `img`, `div`, `span` (use `data-testid` instead)
 - `.evaluate()` for clicks (use direct `.click()` instead)
 
 ## When Positional Selectors Are OK
 
-- Generic UI elements without unique identifiers (when data attributes can't be added)
+- Generic UI elements without unique `data-testid` attributes
 - Tests that need "any" element rather than a specific one
-- Temporary UI elements (tooltips, context menus) where adding data attributes is impractical
+- Temporary UI elements (tooltips, context menus) where adding `data-testid` is impractical
 
 ## Coding Style Guidelines
 
@@ -145,13 +151,14 @@ playwright test apps/extension/tests/specs/<your-test-file>.spec.ts
 
 ## Checklist Before Committing
 
-- [ ] Tests use semantic selectors (roles, data attributes)
+- [ ] Tests use `getByTestId()` with `data-testid` as primary selector
+- [ ] Tests use semantic selectors (roles) when `data-testid` not available
 - [ ] No regex for simple text matches
 - [ ] No class-based selectors
-- [ ] No generic element selectors without data attributes
+- [ ] No custom data attributes (only `data-testid`)
 - [ ] Avoid `.evaluate()` for clicks (use direct `.click()`)
 - [ ] Test constants defined for reusable data
-- [ ] Data attributes added to components if needed
+- [ ] `data-testid` attributes added to components if needed
 - [ ] Only use `test.describe` for 2+ tests
 - [ ] Clear, descriptive test names
 - [ ] All tests pass locally
