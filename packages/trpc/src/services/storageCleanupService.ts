@@ -30,7 +30,7 @@ export const cleanupStorage = async (uid: string): Promise<void> => {
   }
 
   const deletePromises = orphanedImages.map(async (imageUid) =>
-    deletePersonImageFromFirebase(uid, imageUid)
+    deletePersonImageFromFirebase(uid, `${imageUid}.jpeg`)
   );
   await Promise.all(deletePromises);
 };
