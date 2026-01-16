@@ -112,3 +112,22 @@ export const getFileFromFirebase = async (uid: string, fileName: string) => {
 export const removeFileFromFirebase = async (uid: string, fileName: string) => {
   await storage.bucket().file(getFilePath(uid, fileName)).delete();
 };
+
+export const listFilesFromFirebase = async (uid: string) => {
+  const prefix = `${uid}/persons/`;
+  const [files] = await storage.bucket().getFiles({ prefix });
+
+  return files;
+};
+
+export const deletePersonImageFromFirebase = async (
+  uid: string,
+  imageUid: string
+): Promise<void> => {
+  const bucket = storage.bucket();
+  const [file] = await bucket.file(`${uid}/persons/${imageUid}`).get();
+
+  if (file) {
+    await file.delete();
+  }
+};
