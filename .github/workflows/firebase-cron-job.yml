@@ -1,6 +1,7 @@
 name: Firebase Backup Cron Job
 on:
   schedule:
+    # Every day at 6 AM UTC
     - cron: '0 6 * * *'
 jobs:
   cron:
@@ -9,5 +10,5 @@ jobs:
       - name: Invoking cron job API
         run: |
           curl -f -s -X POST \
-            -H "Authorization: Bearer ${{ secrets.FIREBASE_BACKUP_CRON_JOB_API_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.FIREBASE_CRON_JOB_API_KEY }}" \
             'https://bypass-links.vercel.app/api/backup' | grep -q 'Firebase backup successful'

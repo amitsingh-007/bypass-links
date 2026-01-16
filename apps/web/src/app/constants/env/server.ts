@@ -4,7 +4,8 @@ import { z } from 'zod/mini';
 
 export const serverEnv = createEnv({
   server: {
-    FIREBASE_BACKUP_CRON_JOB_API_KEY: z.string(),
+    FIREBASE_CRON_JOB_API_KEY: z.string(),
+    FIREBASE_TEST_USER_ID: z.string(),
     HOST_NAME: z.string(),
     VERCEL_URL: z.optional(z.string()),
     PORT: z.optional(z.string()),

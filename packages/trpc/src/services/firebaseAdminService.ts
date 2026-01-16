@@ -10,7 +10,7 @@ import {
   type EFirebaseDBRef,
   type EFirebaseDBRootKeys,
 } from '../constants/firebase';
-import { getFullDbPath, getFilePath } from '../utils/firebase';
+import { getFullDbPath, getFilePath, getBucketPath } from '../utils/firebase';
 
 interface Firebase {
   ref: EFirebaseDBRef | EFirebaseDBRootKeys;
@@ -111,4 +111,19 @@ export const getFileFromFirebase = async (uid: string, fileName: string) => {
 
 export const removeFileFromFirebase = async (uid: string, fileName: string) => {
   await storage.bucket().file(getFilePath(uid, fileName)).delete();
+};
+
+export const listFilesFromFirebase = async (uid: string) => {
+  const [files] = await storage
+    .bucket()
+    .getFiles({ prefix: getBucketPath(uid) });
+
+  return files;
+};
+
+export const deletePersonImageFromFirebase = async (
+  uid: string,
+  imageUid: string
+): Promise<void> => {
+  await storage.bucket().file(getFilePath(uid, imageUid)).delete();
 };

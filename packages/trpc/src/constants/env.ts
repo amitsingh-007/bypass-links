@@ -9,6 +9,7 @@ export const env = createEnv({
     GITHUB_TOKEN: z.string(),
     FIREBASE_TEST_USER_EMAIL: z.string(),
     FIREBASE_TEST_USER_PASSWORD: z.string(),
+    FIREBASE_TEST_USER_ID: z.string(),
   },
   runtimeEnv: process.env,
 });
