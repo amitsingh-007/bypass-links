@@ -11,5 +11,7 @@ export const getFullDbPath = (
   return `/${EFirebaseDBRootKeys.data}/${uid}/${ref}`;
 };
 
+export const getBucketPath = (uid: string) => `${uid}/persons`;
+
 export const getFilePath = (uid: string, fileName: string) =>
-  `${uid}/persons/${fileName}`;
+  `${getBucketPath(uid)}/${fileName}`;

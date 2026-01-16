@@ -1,0 +1,16 @@
+name: Firebase Cleanup Cron Job
+on:
+  schedule:
+    # First day of every month
+    - cron: '0 0 1 * *'
+  workflow_dispatch:
+
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run storage cleanup
+        run: |
+          curl -f -s -X POST \
+            -H "Authorization: Bearer ${{ secrets.FIREBASE_CRON_JOB_API_KEY }}" \
+            'https://bypass-links.vercel.app/api/storage-cleanup' | grep -q 'Cleanup successful'
