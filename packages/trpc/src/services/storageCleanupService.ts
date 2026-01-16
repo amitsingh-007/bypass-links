@@ -29,9 +29,8 @@ export const cleanupStorage = async (uid: string): Promise<void> => {
     return;
   }
 
-  await Promise.all(
-    orphanedImages.map(async (imageUid) => {
-      await deletePersonImageFromFirebase(uid, imageUid);
-    })
+  const deletePromises = orphanedImages.map(async (imageUid) =>
+    deletePersonImageFromFirebase(uid, imageUid)
   );
+  await Promise.all(deletePromises);
 };

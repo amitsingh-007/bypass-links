@@ -125,10 +125,5 @@ export const deletePersonImageFromFirebase = async (
   uid: string,
   imageUid: string
 ): Promise<void> => {
-  const bucket = storage.bucket();
-  const [file] = await bucket.file(`${uid}/persons/${imageUid}`).get();
-
-  if (file) {
-    await file.delete();
-  }
+  await storage.bucket().file(getFilePath(uid, imageUid)).delete();
 };
