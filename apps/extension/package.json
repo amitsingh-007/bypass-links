@@ -9,7 +9,8 @@
     "build": "pnpm run build:chrome",
     "dev:chrome": "EXT_BROWSER=chrome webpack serve",
     "dev:firefox": "EXT_BROWSER=firefox webpack serve",
-    "dev": "pnpm run dev:chrome"
+    "dev": "pnpm run dev:chrome",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@bypass/configs": "workspace:*",

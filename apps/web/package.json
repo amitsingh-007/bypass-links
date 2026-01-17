@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "build": "next build",
-    "dev": "next dev"
+    "dev": "next dev",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@bypass/configs": "workspace:*",
