@@ -2,6 +2,7 @@
   "extends": "./node_modules/@bypass/configs/tsconfig.base.json",
   "compilerOptions": {
     "sourceMap": true, // Required for webpack source maps to work
+    "lib": ["esnext", "dom", "dom.iterable", "webworker"],
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],

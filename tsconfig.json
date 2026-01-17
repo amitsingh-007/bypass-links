@@ -1,5 +1,12 @@
 {
   "extends": "@bypass/configs/tsconfig.base.json",
-  "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "playwright-report", "test-results", ".turbo"]
+  "include": ["*.ts"],
+  "exclude": [
+    "node_modules",
+    "playwright-report",
+    "test-results",
+    ".turbo",
+    "apps",
+    "packages"
+  ]
 }
