@@ -1,6 +1,12 @@
 import { test, expect } from '../fixtures/bookmark-fixture';
-import { TEST_BOOKMARKS, TEST_FOLDERS, TEST_TIMEOUTS } from '../constants';
+import {
+  TEST_BOOKMARKS,
+  TEST_FOLDERS,
+  TEST_PERSONS,
+  TEST_TIMEOUTS,
+} from '../constants';
 import { BookmarksPanel } from '../utils/bookmarks-panel';
+import { PersonsPanel } from '../utils/persons-panel';
 
 /**
  * Bookmarks Panel E2E Tests
@@ -346,6 +352,116 @@ test.describe.serial('Bookmarks Panel', () => {
       await expect(toast).toBeVisible();
 
       await panel.verifyFolderExists(TEST_FOLDERS.OTHER_BOOKMARKS);
+    });
+  });
+
+  test.describe('Bookmark Person Tagging', () => {
+    test('should add a person to bookmark and verify in person panel', async ({
+      bookmarksPage,
+    }) => {
+      const bookmarksPanel = new BookmarksPanel(bookmarksPage);
+      const personsPanel = new PersonsPanel(bookmarksPage);
+
+      await bookmarksPanel.ensureAtRoot();
+      await bookmarksPanel.openFolder(TEST_FOLDERS.MAIN);
+
+      const currentUrl = bookmarksPage.url();
+      const extensionBaseUrl = currentUrl.split('/bookmark-panel')[0];
+      await bookmarksPage.goto(`${extensionBaseUrl}/index.html`);
+      await bookmarksPage.waitForLoadState('networkidle');
+
+      await bookmarksPage.getByRole('button', { name: 'Persons' }).click();
+      await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
+
+      const initialCount = await personsPanel.verifyBadgeCount(
+        TEST_PERSONS.AKASH_KUMAR_SINGH
+      );
+
+      await bookmarksPage.goto(`${extensionBaseUrl}/index.html`);
+      await bookmarksPage.waitForLoadState('networkidle');
+      await bookmarksPage.getByRole('button', { name: 'Bookmarks' }).click();
+      await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
+      await bookmarksPanel.openFolder(TEST_FOLDERS.MAIN);
+
+      await bookmarksPanel.addPersonToBookmark(
+        TEST_BOOKMARKS.GITHUB,
+        TEST_PERSONS.AKASH_KUMAR_SINGH
+      );
+
+      await bookmarksPanel.clickSaveButton();
+      await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.NAVIGATION);
+
+      await bookmarksPage.goto(`${extensionBaseUrl}/index.html`);
+      await bookmarksPage.waitForLoadState('networkidle');
+      await bookmarksPage.getByRole('button', { name: 'Persons' }).click();
+      await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
+
+      const newCount = await personsPanel.verifyBadgeCount(
+        TEST_PERSONS.AKASH_KUMAR_SINGH
+      );
+      expect(newCount).toBe(initialCount + 1);
+
+      const editButtons = await personsPanel.getEditButtons();
+      const count = await editButtons.count();
+      expect(count).toBe(newCount);
+    });
+
+    test('should remove a person from bookmark and verify in person panel', async ({
+      bookmarksPage,
+    }) => {
+      const bookmarksPanel = new BookmarksPanel(bookmarksPage);
+      const personsPanel = new PersonsPanel(bookmarksPage);
+
+      const currentUrl = bookmarksPage.url();
+      const extensionBaseUrl = currentUrl.split('/persons-panel')[0];
+
+      await bookmarksPage.goto(`${extensionBaseUrl}/index.html`);
+      await bookmarksPage.waitForLoadState('networkidle');
+      await bookmarksPage.getByRole('button', { name: 'Bookmarks' }).click();
+      await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
+      await bookmarksPanel.openFolder(TEST_FOLDERS.MAIN);
+
+      await bookmarksPage.goto(`${extensionBaseUrl}/index.html`);
+      await bookmarksPage.waitForLoadState('networkidle');
+      await bookmarksPage.getByRole('button', { name: 'Persons' }).click();
+      await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
+
+      const countBefore = await personsPanel.verifyBadgeCount(
+        TEST_PERSONS.AKASH_KUMAR_SINGH
+      );
+
+      await bookmarksPage.goto(`${extensionBaseUrl}/index.html`);
+      await bookmarksPage.waitForLoadState('networkidle');
+      await bookmarksPage.getByRole('button', { name: 'Bookmarks' }).click();
+      await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
+      await bookmarksPanel.openFolder(TEST_FOLDERS.MAIN);
+
+      await bookmarksPanel.removePersonFromBookmark(
+        TEST_BOOKMARKS.GITHUB,
+        TEST_PERSONS.AKASH_KUMAR_SINGH
+      );
+
+      await bookmarksPanel.clickSaveButton();
+      await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.NAVIGATION);
+
+      await bookmarksPage.goto(`${extensionBaseUrl}/index.html`);
+      await bookmarksPage.waitForLoadState('networkidle');
+      await bookmarksPage.getByRole('button', { name: 'Persons' }).click();
+      await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
+
+      const countAfter = await personsPanel.verifyBadgeCount(
+        TEST_PERSONS.AKASH_KUMAR_SINGH
+      );
+      expect(countAfter).toBe(countBefore - 1);
+
+      const editButtons = await personsPanel.getEditButtons();
+      const count = await editButtons.count();
+      expect(count).toBe(countAfter);
+
+      await bookmarksPage.goto(`${extensionBaseUrl}/index.html`);
+      await bookmarksPage.waitForLoadState('networkidle');
+      await bookmarksPage.getByRole('button', { name: 'Bookmarks' }).click();
+      await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
     });
   });
 

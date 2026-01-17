@@ -252,4 +252,40 @@ export class BookmarksPanel {
       await this.page.keyboard.press('Escape');
     }
   }
+
+  async addPersonToBookmark(bookmarkTitle: string, personName: string) {
+    const dialog = await this.openEditBookmarkDialog(bookmarkTitle);
+    await expect(dialog).toBeVisible();
+
+    const multiSelect = dialog.getByPlaceholder('Persons');
+    await multiSelect.click();
+
+    const personOption = this.page.getByRole('option', { name: personName });
+    await expect(personOption).toBeVisible({
+      timeout: TEST_TIMEOUTS.LONG_WAIT,
+    });
+    await personOption.click();
+
+    const saveButton = dialog.getByTestId('dialog-save-button');
+    await saveButton.click();
+
+    await expect(dialog).toBeHidden();
+  }
+
+  async removePersonFromBookmark(bookmarkTitle: string, personName: string) {
+    const dialog = await this.openEditBookmarkDialog(bookmarkTitle);
+    await expect(dialog).toBeVisible();
+
+    const personPill = dialog.locator('.mantine-MultiSelect-pill', {
+      hasText: personName,
+    });
+    await expect(personPill).toBeVisible();
+    const removeButton = personPill.locator('button');
+    await removeButton.click();
+
+    const saveButton = dialog.getByTestId('dialog-save-button');
+    await saveButton.click();
+
+    await expect(dialog).toBeHidden();
+  }
 }
