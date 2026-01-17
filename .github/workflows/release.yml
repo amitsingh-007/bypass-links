@@ -88,7 +88,7 @@ jobs:
         uses: actions/download-artifact@v6
         with:
           name: extensions-folder
-          path: ./apps/extension
+          path: ./apps/extension/chrome-build/
 
       - name: Install dependencies
         run: pnpm install
@@ -163,7 +163,7 @@ jobs:
         uses: actions/download-artifact@v6
         with:
           name: extensions-folder
-          path: ./apps/extension
+          path: ./apps/extension/chrome-build/
 
       - name: Package extensions
         run: |
