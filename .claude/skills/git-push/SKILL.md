@@ -27,7 +27,12 @@ I automate the complete Git workflow for getting changes from your working direc
 Use this when you have **staged changes** ready to be committed and turned into a PR.
 
 I will ask clarifying questions if:
-- No changes are staged (nothing to commit)
+- No changes are staged (nothing to commit) - I will ABORT and tell you to stage files yourself. I will NOT offer to stage files for you.
+
+**Important behaviors**:
+- I never ask whether to commit staged or all files - I always commit ONLY staged changes
+- If there are no staged changes, I ABORT and do NOT offer to stage files for you
+- I do not run `git add` - the user must stage files themselves
 
 ## Prerequisites
 

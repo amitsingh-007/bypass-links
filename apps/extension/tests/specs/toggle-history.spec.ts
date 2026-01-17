@@ -1,5 +1,5 @@
 import { test, expect as homeExpect } from '../fixtures/home-popup-fixture';
-import { TEST_TIMEOUTS, TEST_SITES } from '../constants';
+import { TEST_SITES } from '../constants';
 import { getStorageItem } from '../utils/test-utils';
 import { getHistoryItems } from './toggle-history.spec.utils';
 
@@ -22,7 +22,6 @@ test.describe.serial('History Tracking Workflow', () => {
     const isChecked = await toggleSwitch.isChecked();
     if (isChecked) {
       await toggleLabel.click();
-      await homePage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
     }
 
     // Verify initial state is off
@@ -30,7 +29,6 @@ test.describe.serial('History Tracking Workflow', () => {
 
     // Turn on history tracking by clicking the label
     await toggleLabel.click();
-    await homePage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
     // Verify switch is now checked
     await homeExpect(toggleSwitch).toBeChecked();
@@ -71,7 +69,6 @@ test.describe.serial('History Tracking Workflow', () => {
 
     // Turn off history tracking by clicking the label
     await toggleLabel.click();
-    await homePage.waitForTimeout(TEST_TIMEOUTS.LONG_WAIT);
 
     // Verify switch is now unchecked
     await homeExpect(toggleSwitch).not.toBeChecked();
@@ -88,7 +85,9 @@ test.describe.serial('History Tracking Workflow', () => {
     homeExpect(historyAfter).toHaveLength(0);
   });
 
-  test('should verify history toggle is turned on', async ({ homePage }) => {
+  test('should verify history toggle is turned on when opening bookmarks', async ({
+    homePage,
+  }) => {
     const toggleLabel = homePage
       .locator('label')
       .filter({ hasText: 'History' });
@@ -101,7 +100,6 @@ test.describe.serial('History Tracking Workflow', () => {
 
     // Turn it ON by clicking the label
     await toggleLabel.click();
-    await homePage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
     // Verify switch is now checked
     await homeExpect(toggleSwitch).toBeChecked();
