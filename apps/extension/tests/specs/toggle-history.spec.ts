@@ -87,4 +87,23 @@ test.describe.serial('History Tracking Workflow', () => {
     const historyAfter = await getHistoryItems(homePage, sites);
     homeExpect(historyAfter).toHaveLength(0);
   });
+
+  test('should verify history toggle is turned on', async ({ homePage }) => {
+    const toggleLabel = homePage
+      .locator('label')
+      .filter({ hasText: 'History' });
+    await homeExpect(toggleLabel).toBeVisible();
+
+    const toggleSwitch = homePage.getByTestId('toggle-history-switch');
+
+    // Previous test sets the toggle to OFF state, so we expect it to be unchecked
+    await homeExpect(toggleSwitch).not.toBeChecked();
+
+    // Turn it ON by clicking the label
+    await toggleLabel.click();
+    await homePage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
+
+    // Verify switch is now checked
+    await homeExpect(toggleSwitch).toBeChecked();
+  });
 });
