@@ -24,7 +24,7 @@ test.describe('Download page', () => {
     );
   });
 
-  test('firefox extension download', async ({ page }, testConfig) => {
+  test.skip('firefox extension download', async ({ page }, testConfig) => {
     testConfig.setTimeout(30 * 1000);
     const downloadPromise = page.waitForEvent('download');
     const downloadButton = page.locator('a', {
