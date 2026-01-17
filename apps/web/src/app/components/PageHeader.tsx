@@ -11,7 +11,6 @@ interface IExtData {
 
 interface Props {
   chrome: IExtData;
-  firefox: IExtData;
 }
 
 function DownloadButton({
@@ -40,7 +39,7 @@ function DownloadButton({
   );
 }
 
-const PageHeader = memo<Props>(({ chrome, firefox }) => (
+const PageHeader = memo<Props>(({ chrome }) => (
   <Group mt="4.375rem" justify="center">
     <Title fz={{ base: '2.1875rem', md: '2.8125rem' }} ta="center">
       Have a Link Bypasser and private Bookmarks Panel !
@@ -54,11 +53,6 @@ const PageHeader = memo<Props>(({ chrome, firefox }) => (
         logo="chrome.svg"
         text="Download for Chrome"
         downloadLink={chrome.downloadLink}
-      />
-      <DownloadButton
-        logo="firefox.svg"
-        text="Download for Firefox"
-        downloadLink={firefox.downloadLink}
       />
     </Flex>
   </Group>

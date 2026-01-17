@@ -32,6 +32,6 @@ export const getLatestExtension = async () => {
 
   return {
     chrome: mapExtension(chromeAsset, true),
-    firefox: mapExtension(firefoxAsset, false),
+    // firefox: mapExtension(firefoxAsset, false),
   };
 };

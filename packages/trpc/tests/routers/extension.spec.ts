@@ -17,11 +17,6 @@ describe('extension router test', () => {
           date: expect.any(String),
           downloadLink: expect.any(String),
         },
-        firefox: {
-          version: expect.any(String),
-          date: expect.any(String),
-          downloadLink: expect.any(String),
-        },
       })
     );
   });
