@@ -1,4 +1,4 @@
-import { type IPersons } from '@bypass/shared';
+import type { IPersons } from '@bypass/shared';
 import { EFirebaseDBRef } from '../constants/firebase';
 import {
   deletePersonImageFromFirebase,

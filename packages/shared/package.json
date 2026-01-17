@@ -9,6 +9,9 @@
     "./schema": "./src/schemaIndex.ts",
     "./types/*": "./src/@types/*"
   },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
   "sideEffects": false,
   "peerDependencies": {
     "@bypass/configs": "workspace:*",

@@ -5,7 +5,7 @@
     "target": "esnext",
     "moduleResolution": "bundler",
     "jsx": "react-jsxdev",
-    "lib": ["esnext", "dom", "dom.iterable", "webworker"],
+    "lib": ["esnext", "dom", "dom.iterable"],
     "allowJs": true,
     "checkJs": true,
     "strict": true,
@@ -19,6 +19,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "incremental": true,
-    "noEmit": true
+    "noEmit": true,
+    "skipLibCheck": true
   }
 }

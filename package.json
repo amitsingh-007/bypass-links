@@ -10,6 +10,8 @@
     "dev:env": "vercel env pull .env",
     "e2e": "playwright test",
     "lint": "xo",
+    "typecheck": "tsc --noEmit",
+    "typecheck:all": "turbo run typecheck",
     "precommit": "lint-staged --quiet",
     "prepare": "husky",
     "test": "turbo run test"
