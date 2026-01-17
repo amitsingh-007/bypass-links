@@ -1,5 +1,5 @@
 import { test, expect as homeExpect } from '../fixtures/home-popup-fixture';
-import { TEST_TIMEOUTS, TEST_SITES } from '../constants';
+import { TEST_SITES } from '../constants';
 import { getStorageItem } from '../utils/test-utils';
 import { getHistoryItems } from './toggle-history.spec.utils';
 
@@ -22,7 +22,6 @@ test.describe.serial('History Tracking Workflow', () => {
     const isChecked = await toggleSwitch.isChecked();
     if (isChecked) {
       await toggleLabel.click();
-      await homePage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
     }
 
     // Verify initial state is off
@@ -30,7 +29,6 @@ test.describe.serial('History Tracking Workflow', () => {
 
     // Turn on history tracking by clicking the label
     await toggleLabel.click();
-    await homePage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
     // Verify switch is now checked
     await homeExpect(toggleSwitch).toBeChecked();
@@ -71,7 +69,6 @@ test.describe.serial('History Tracking Workflow', () => {
 
     // Turn off history tracking by clicking the label
     await toggleLabel.click();
-    await homePage.waitForTimeout(TEST_TIMEOUTS.LONG_WAIT);
 
     // Verify switch is now unchecked
     await homeExpect(toggleSwitch).not.toBeChecked();
@@ -86,5 +83,25 @@ test.describe.serial('History Tracking Workflow', () => {
     // Verify the test sites are deleted from browser history
     const historyAfter = await getHistoryItems(homePage, sites);
     homeExpect(historyAfter).toHaveLength(0);
+  });
+
+  test('should verify history toggle is turned on when opening bookmarks', async ({
+    homePage,
+  }) => {
+    const toggleLabel = homePage
+      .locator('label')
+      .filter({ hasText: 'History' });
+    await homeExpect(toggleLabel).toBeVisible();
+
+    const toggleSwitch = homePage.getByTestId('toggle-history-switch');
+
+    // Previous test sets the toggle to OFF state, so we expect it to be unchecked
+    await homeExpect(toggleSwitch).not.toBeChecked();
+
+    // Turn it ON by clicking the label
+    await toggleLabel.click();
+
+    // Verify switch is now checked
+    await homeExpect(toggleSwitch).toBeChecked();
   });
 });
