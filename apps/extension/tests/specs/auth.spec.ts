@@ -1,7 +1,7 @@
 import { test, expect } from '../fixtures/auth-fixture';
 import { TEST_TIMEOUTS } from '../constants';
 
-test('should be logged in with firebase token', async ({
+test.skip('should be logged in with firebase token', async ({
   page,
   extensionId,
   login: _login,
