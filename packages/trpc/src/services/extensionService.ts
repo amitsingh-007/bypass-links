@@ -19,11 +19,11 @@ export const getLatestExtension = async () => {
   const chromeAsset = assets.find(
     (asset) => asset.content_type === 'application/zip'
   );
-  const firefoxAsset = assets.find(
-    (asset) => asset.content_type === 'application/x-xpinstall'
-  );
+  // const firefoxAsset = assets.find(
+  //   (asset) => asset.content_type === 'application/x-xpinstall'
+  // );
 
-  if (!chromeAsset || !firefoxAsset) {
+  if (!chromeAsset) {
     throw new TRPCError({
       code: 'INTERNAL_SERVER_ERROR',
       message: 'Extensions not found',
