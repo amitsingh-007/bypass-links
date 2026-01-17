@@ -16,7 +16,7 @@
   "tasks": {
     "build": {
       "dependsOn": ["//#lint"],
-      "outputs": ["chrome-build/**", "firefox-build/**", ".next/**"]
+      "outputs": ["chrome-build/**", ".next/**"]
     },
     "dev": {
       "cache": false
