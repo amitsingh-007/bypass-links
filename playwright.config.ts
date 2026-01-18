@@ -30,13 +30,35 @@ const config = defineConfig({
         baseURL: ciBaseUrl ?? 'http://localhost:3000',
       },
     },
+    /**
+     * Extension Setup: Runs once per test run to authenticate and cache storage/profile.
+     * This avoids repeating the login flow and data sync for every specimen.
+     */
+    {
+      name: 'extension-setup',
+      testMatch: 'auth.setup.ts',
+      testDir: './apps/extension/tests',
+    },
+    /**
+     * Extension Tests: Run in parallel across spec files.
+     * Each spec file gets an isolated copy of the authenticated Chrome profile.
+     */
     {
       name: '@bypass/extension',
-      testDir: './apps/extension/tests',
-      workers: 1,
+      testDir: './apps/extension/tests/specs',
+      dependencies: ['extension-setup'],
+      teardown: 'extension-teardown',
       use: {
         baseURL: 'chrome-extension://chadipececickdfjckjkjpehlhnkclmb',
       },
+    },
+    /**
+     * Extension Teardown: Cleans up the .cache directory after all tests in the project complete.
+     */
+    {
+      name: 'extension-teardown',
+      testMatch: 'global-teardown.ts',
+      testDir: './apps/extension/tests',
     },
   ],
 });
