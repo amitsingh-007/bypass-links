@@ -47,7 +47,7 @@ I auto-generate branch names based on commit type:
 |-----------------------|-------------|
 | `feat: add dark mode` | `f-add-dark-mode` |
 | `fix: resolve login bug` | `b-resolve-login-bug` |
-| `feat!: breaking change` | `h-breaking-change` |
+| `hotfix: critical security patch` | `h-critical-security-patch` |
 
 ## How I create PRs
 

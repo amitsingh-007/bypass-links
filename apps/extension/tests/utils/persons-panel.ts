@@ -137,7 +137,11 @@ export class PersonsPanel {
     await navigateBack(this.page);
   }
 
-  async verifyBadgeCount(personName: string, expectedCount?: number) {
+  async verifyBadgeCount(
+    personName: string,
+    expectedCount?: number,
+    options?: { keepOpen?: boolean }
+  ) {
     await openPersonCard(this.page, personName);
     await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
@@ -153,7 +157,9 @@ export class PersonsPanel {
       expect(badgeCount).toBe(expectedCount);
     }
 
-    await navigateBack(this.page);
+    if (!options?.keepOpen) {
+      await navigateBack(this.page);
+    }
     return badgeCount;
   }
 

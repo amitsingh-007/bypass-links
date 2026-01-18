@@ -77,7 +77,7 @@ test.describe.serial('Bookmarks Panel', () => {
       const currentTitle = await titleInput.inputValue();
       expect(currentTitle).toBeTruthy();
 
-      await panel.closeDialog();
+      await panel.closeDialog(dialog);
       await expect(dialog).toBeHidden();
     });
 
@@ -93,7 +93,7 @@ test.describe.serial('Bookmarks Panel', () => {
       const personLabel = dialog.getByText('Tagged Persons');
       await expect(personLabel).toBeVisible();
 
-      await panel.closeDialog();
+      await panel.closeDialog(dialog);
       await expect(dialog).toBeHidden();
     });
 
@@ -397,13 +397,17 @@ test.describe.serial('Bookmarks Panel', () => {
       await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
       const newCount = await personsPanel.verifyBadgeCount(
-        TEST_PERSONS.AKASH_KUMAR_SINGH
+        TEST_PERSONS.AKASH_KUMAR_SINGH,
+        undefined,
+        { keepOpen: true }
       );
       expect(newCount).toBe(initialCount + 1);
 
       const editButtons = await personsPanel.getEditButtons();
       const count = await editButtons.count();
       expect(count).toBe(newCount);
+
+      await personsPanel.navigateBack();
     });
 
     test('should remove a person from bookmark and verify in person panel', async ({
@@ -450,13 +454,17 @@ test.describe.serial('Bookmarks Panel', () => {
       await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
       const countAfter = await personsPanel.verifyBadgeCount(
-        TEST_PERSONS.AKASH_KUMAR_SINGH
+        TEST_PERSONS.AKASH_KUMAR_SINGH,
+        undefined,
+        { keepOpen: true }
       );
       expect(countAfter).toBe(countBefore - 1);
 
       const editButtons = await personsPanel.getEditButtons();
       const count = await editButtons.count();
       expect(count).toBe(countAfter);
+
+      await personsPanel.navigateBack();
 
       await bookmarksPage.goto(`${extensionBaseUrl}/index.html`);
       await bookmarksPage.waitForLoadState('networkidle');

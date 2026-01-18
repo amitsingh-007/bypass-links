@@ -80,7 +80,7 @@ export class BookmarksPanel {
     await expect(element).toBeVisible();
     await element.click({ button: 'right' });
     await this.clickContextMenuItem('Edit');
-    return this.page.getByRole('dialog');
+    return this.page.getByRole('dialog', { name: 'Edit bookmark' });
   }
 
   async openBookmarkContextMenuItem(
@@ -244,13 +244,18 @@ export class BookmarksPanel {
 
   // ============ Composite Operations ============
 
-  async closeDialog() {
+  async closeDialog(dialog?: ReturnType<Page['getByRole']>) {
     const closeButton = this.getDialogCloseButton();
-    if (await closeButton.isVisible()) {
+    if (await closeButton.isVisible({ timeout: 2000 })) {
       await closeButton.click({ force: true });
     } else {
       await this.page.keyboard.press('Escape');
     }
+    // Wait for the specific dialog to close if provided, otherwise wait for the edit bookmark dialog
+    const dialogToWait =
+      dialog ?? this.page.getByRole('dialog', { name: 'Edit bookmark' });
+
+    await expect(dialogToWait).toBeHidden({ timeout: 10_000 });
   }
 
   async addPersonToBookmark(bookmarkTitle: string, personName: string) {
