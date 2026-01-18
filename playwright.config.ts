@@ -31,12 +31,23 @@ const config = defineConfig({
       },
     },
     {
-      name: '@bypass/extension',
+      name: 'extension-setup',
+      testMatch: /auth\.setup\.ts/,
       testDir: './apps/extension/tests',
-      workers: 1,
+    },
+    {
+      name: '@bypass/extension',
+      testDir: './apps/extension/tests/specs',
+      dependencies: ['extension-setup'],
+      teardown: 'extension-teardown',
       use: {
         baseURL: 'chrome-extension://chadipececickdfjckjkjpehlhnkclmb',
       },
+    },
+    {
+      name: 'extension-teardown',
+      testMatch: /global-teardown\.ts/,
+      testDir: './apps/extension/tests',
     },
   ],
 });
