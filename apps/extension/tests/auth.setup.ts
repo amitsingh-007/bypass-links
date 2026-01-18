@@ -111,8 +111,6 @@ setup('authenticate and cache extension storage', async () => {
   const logoutButton = page.getByRole('button', { name: 'Logout' });
   await logoutButton.waitFor({ state: 'visible', timeout: 30_000 });
 
-  console.log('✅ Login complete, waiting for data and cache sync...');
-
   // Step 7: Extract all chrome.storage.local data
   const chromeStorageData = await page.evaluate(async () => {
     return new Promise<Record<string, unknown>>((resolve) => {
@@ -135,9 +133,6 @@ setup('authenticate and cache extension storage', async () => {
     return data;
   });
 
-  // Step 10: Get cache storage keys for logging
-  const cacheKeys = await page.evaluate(async () => caches.keys());
-
   // Step 11: Save storage data to file (for localStorage/chrome.storage injection)
   await fs.promises.writeFile(
     EXTENSION_STORAGE_PATH,
@@ -151,16 +146,6 @@ setup('authenticate and cache extension storage', async () => {
       2
     )
   );
-
-  console.log('✅ Extension storage cached');
-  console.log(
-    `   chrome.storage.local keys: ${Object.keys(chromeStorageData).join(', ')}`
-  );
-  console.log(
-    `   localStorage keys: ${Object.keys(localStorageData).join(', ')}`
-  );
-  console.log(`   Cache Storage buckets: ${cacheKeys.join(', ')}`);
-  console.log(`   Chrome profile saved to: ${CHROME_PROFILE_DIR}`);
 
   // Step 12: Close browser (profile is saved to disk)
   await browserContext.close();

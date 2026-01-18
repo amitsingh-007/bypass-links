@@ -14,6 +14,5 @@ teardown('clean up cache directory', async () => {
       .catch(() => false)
   ) {
     await fs.promises.rm(AUTH_CACHE_DIR, { recursive: true, force: true });
-    console.log('🧹 Cleaned up .cache directory');
   }
 });
