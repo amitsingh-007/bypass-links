@@ -1,6 +1,10 @@
 import path from 'node:path';
 import process from 'node:process';
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from '@playwright/test';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 process.loadEnvFile(path.join(process.cwd(), '.env'));
 
@@ -14,6 +18,14 @@ const config = defineConfig({
   retries: isCI ? 2 : 1,
   fullyParallel: true,
   reporter: [['github'], ['html', { open: 'never' }]],
+  globalSetup: path.resolve(
+    __dirname,
+    './apps/extension/tests/global-setup.ts'
+  ),
+  globalTeardown: path.resolve(
+    __dirname,
+    './apps/extension/tests/global-teardown.ts'
+  ),
   use: {
     navigationTimeout: 30 * 1000,
     actionTimeout: 10 * 1000,

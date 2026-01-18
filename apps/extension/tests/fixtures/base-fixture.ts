@@ -8,45 +8,11 @@ import {
   type Worker,
   chromium,
 } from '@playwright/test';
-import wretch from 'wretch';
-import QueryStringAddon from 'wretch/addons/queryString';
-import { getFirebasePublicConfig } from '../../../../packages/configs/firebase.config';
 import { TEST_AUTH_DATA_KEY } from '../constants';
 import type { IAuthResponse } from '@/interfaces/firebase';
-import { getExpiresAtMs } from '@/store/firebase/utils';
 
 const fileName = fileURLToPath(import.meta.url);
 const dirName = path.dirname(fileName);
-
-const isCI = Boolean(process.env.PLAYWRIGHT_TEST_BASE_URL);
-const firebaseConfig = getFirebasePublicConfig(isCI);
-
-const identityApi = wretch('https://identitytoolkit.googleapis.com/v1')
-  .addon(QueryStringAddon)
-  .query({
-    key: firebaseConfig.apiKey,
-  });
-
-export const signInWithEmailAndPassword = async (): Promise<IAuthResponse> => {
-  return identityApi
-    .url('/accounts:signInWithPassword')
-    .post({
-      email: process.env.FIREBASE_TEST_USER_EMAIL,
-      password: process.env.FIREBASE_TEST_USER_PASSWORD,
-      returnSecureToken: true,
-    })
-    .json<IAuthResponse>((res) => ({
-      uid: res.localId,
-      email: res.email,
-      fullName: res.displayName,
-      photoUrl: '',
-      displayName: res.displayName,
-      idToken: res.idToken,
-      expiresIn: Number(res.expiresIn),
-      expiresAtMs: getExpiresAtMs(res.expiresIn),
-      refreshToken: res.refreshToken,
-    }));
-};
 
 export const createSharedContext = async () => {
   const pathToExtension = path.resolve(dirName, '../../chrome-build');
@@ -100,30 +66,40 @@ export const getExtensionId = async (
   return url.split('/')[2];
 };
 
-export const authenticateAndNavigate = async (
+const SESSION_FILE = path.join(process.cwd(), '.cache', 'auth-session.json');
+
+/**
+ * Authenticate using session file and navigate.
+ * Assumes globalSetup has created the session file.
+ */
+export const authenticateAndNavigateWithSession = async (
   sharedContext: BrowserContext,
   sharedExtensionId: string,
   panelName?: 'bookmarks' | 'persons' | 'shortcuts' | 'home'
 ): Promise<Page> => {
-  const authData = await signInWithEmailAndPassword();
+  const fsPromises = await import('node:fs/promises');
 
-  await sharedContext.addInitScript(
-    ({ authDataJson, key }) => {
-      window.localStorage.setItem(key, authDataJson);
-    },
-    {
-      authDataJson: JSON.stringify(authData),
-      key: TEST_AUTH_DATA_KEY,
-    }
-  );
+  const sessionData = await fsPromises.readFile(SESSION_FILE, 'utf8');
+  const authData = JSON.parse(sessionData) as IAuthResponse;
 
   const page = await sharedContext.newPage();
   const extUrl = `chrome-extension://${sharedExtensionId}/index.html`;
   await page.goto(extUrl);
   await page.waitForLoadState('networkidle');
 
+  // Set localStorage directly on the page before clicking login
+  await page.evaluate(
+    ({ authDataJson, key }) => {
+      window.localStorage.setItem(key, authDataJson);
+    },
+    { authDataJson: JSON.stringify(authData), key: TEST_AUTH_DATA_KEY }
+  );
+
   const loginButton = page.getByRole('button', { name: 'Login' });
   await loginButton.click({ force: true });
+
+  // Wait a bit for the auth to process
+  await page.waitForTimeout(2000);
 
   const logoutButton = page.getByRole('button', { name: 'Logout' });
   await logoutButton.waitFor({ state: 'visible', timeout: 30_000 });

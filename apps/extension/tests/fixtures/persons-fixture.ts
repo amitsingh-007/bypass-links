@@ -6,7 +6,7 @@ import {
   test as base,
 } from '@playwright/test';
 import {
-  authenticateAndNavigate,
+  authenticateAndNavigateWithSession,
   createSharedBackgroundSW,
   createSharedContext,
   getExtensionId,
@@ -54,7 +54,7 @@ export const test = base.extend<
 
   sharedPage: [
     async ({ sharedContext, sharedExtensionId }, use) => {
-      const page = await authenticateAndNavigate(
+      const page = await authenticateAndNavigateWithSession(
         sharedContext,
         sharedExtensionId,
         'persons'
