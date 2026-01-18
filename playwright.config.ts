@@ -15,7 +15,7 @@ const config = defineConfig({
   globalTimeout: 30 * 60 * 1000,
   expect: { timeout: 5000 },
   forbidOnly: isCI,
-  retries: isCI ? 2 : 1,
+  retries: 1,
   fullyParallel: true,
   reporter: [['github'], ['html', { open: 'never' }]],
   globalSetup: path.resolve(
