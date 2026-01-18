@@ -91,6 +91,9 @@ export class PersonsPanel {
 
     await changeImageInDialog(this.page, dialog, newImageUrl);
 
+    // Wait for dialog to stabilize after image picker closes
+    await waitForDebounce(this.page);
+
     await clickDialogButton(dialog, 'Save');
     await expect(dialog).toBeHidden();
 
