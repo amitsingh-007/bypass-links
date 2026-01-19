@@ -110,7 +110,6 @@ test.describe.serial('Bookmarks Panel', () => {
       );
 
       await panel.navigateToPersonsPanel();
-      await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.NAVIGATION);
 
       const personsPanel = new PersonsPanel(bookmarksPage);
       await personsPanel.verifyBookmarkInPersonList(
@@ -134,7 +133,6 @@ test.describe.serial('Bookmarks Panel', () => {
       );
 
       await panel.navigateToPersonsPanel();
-      await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.NAVIGATION);
 
       const personsPanel = new PersonsPanel(bookmarksPage);
       await personsPanel.verifyBookmarkNotInPersonList(
@@ -297,8 +295,6 @@ test.describe.serial('Bookmarks Panel', () => {
     await panel.createFolder('Persistence Test Folder');
 
     await panel.clickSaveButton();
-
-    await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.NAVIGATION);
 
     expect(true).toBe(true);
   });

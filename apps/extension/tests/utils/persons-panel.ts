@@ -236,7 +236,6 @@ export class PersonsPanel {
 
   async verifyBookmarkInPersonList(personName: string, bookmarkTitle: string) {
     await openPersonCard(this.page, personName);
-    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
     const bookmarkItem = this.page.getByTestId(
       `bookmark-item-${bookmarkTitle}`
@@ -251,7 +250,6 @@ export class PersonsPanel {
     bookmarkTitle: string
   ) {
     await openPersonCard(this.page, personName);
-    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
     const bookmarkItem = this.page.getByTestId(
       `bookmark-item-${bookmarkTitle}`
