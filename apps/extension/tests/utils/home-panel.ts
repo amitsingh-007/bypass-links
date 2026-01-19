@@ -1,5 +1,4 @@
 import { expect, type Page } from '@playwright/test';
-import { TEST_TIMEOUTS } from '../constants';
 import { getStorageItem, toggleSwitch } from './test-utils';
 
 export class PopupHomePanel {
@@ -21,6 +20,7 @@ export class PopupHomePanel {
     const isChecked = await this.isHistoryEnabled();
     if (isChecked !== enabled) {
       await toggleSwitch(this.page, 'History');
+      await expect(this.historyToggle).toBeChecked({ checked: enabled });
     }
   }
 
@@ -29,13 +29,13 @@ export class PopupHomePanel {
       name: 'Bookmarks',
     });
     await bookmarksButton.click();
-    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
+    await expect(this.page.getByPlaceholder('Search')).toBeVisible();
   }
 
   async navigateToPersons() {
     const personsButton = this.page.getByRole('button', { name: 'Persons' });
     await personsButton.click();
-    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
+    await expect(this.page.getByPlaceholder('Search')).toBeVisible();
   }
 
   async verifyHistoryStartTime() {
