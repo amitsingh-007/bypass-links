@@ -1,6 +1,12 @@
 import { test, expect } from '../fixtures/bookmark-fixture';
-import { TEST_BOOKMARKS, TEST_FOLDERS, TEST_TIMEOUTS } from '../constants';
+import {
+  TEST_BOOKMARKS,
+  TEST_FOLDERS,
+  TEST_PERSONS,
+  TEST_TIMEOUTS,
+} from '../constants';
 import { BookmarksPanel } from '../utils/bookmarks-panel';
+import { PersonsPanel } from '../utils/persons-panel';
 
 /**
  * Bookmarks Panel E2E Tests
@@ -89,6 +95,54 @@ test.describe.serial('Bookmarks Panel', () => {
 
       await panel.closeDialog();
       await expect(dialog).toBeHidden();
+    });
+
+    test('should add person tag to bookmark and verify in person list', async ({
+      bookmarksPage,
+    }) => {
+      const panel = new BookmarksPanel(bookmarksPage);
+      await panel.ensureAtRoot();
+      await panel.openFolder(TEST_FOLDERS.MAIN);
+
+      await panel.addPersonToBookmark(
+        TEST_BOOKMARKS.REACT_DOCS,
+        TEST_PERSONS.JOHN_NATHAN
+      );
+
+      await panel.navigateToPersonsPanel();
+      await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.NAVIGATION);
+
+      const personsPanel = new PersonsPanel(bookmarksPage);
+      await personsPanel.verifyBookmarkInPersonList(
+        TEST_PERSONS.JOHN_NATHAN,
+        TEST_BOOKMARKS.REACT_DOCS
+      );
+
+      await panel.ensureAtRoot();
+    });
+
+    test('should remove person tag from bookmark and verify removal', async ({
+      bookmarksPage,
+    }) => {
+      const panel = new BookmarksPanel(bookmarksPage);
+      await panel.ensureAtRoot();
+      await panel.openFolder(TEST_FOLDERS.MAIN);
+
+      await panel.removePersonFromBookmark(
+        TEST_BOOKMARKS.REACT_DOCS,
+        TEST_PERSONS.JOHN_NATHAN
+      );
+
+      await panel.navigateToPersonsPanel();
+      await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.NAVIGATION);
+
+      const personsPanel = new PersonsPanel(bookmarksPage);
+      await personsPanel.verifyBookmarkNotInPersonList(
+        TEST_PERSONS.JOHN_NATHAN,
+        TEST_BOOKMARKS.REACT_DOCS
+      );
+
+      await panel.ensureAtRoot();
     });
 
     test.describe('Bookmark Navigation', () => {

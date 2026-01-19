@@ -234,6 +234,33 @@ export class PersonsPanel {
     await this.verifyPersonCardVisible(personName);
   }
 
+  async verifyBookmarkInPersonList(personName: string, bookmarkTitle: string) {
+    await openPersonCard(this.page, personName);
+    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
+
+    const bookmarkItem = this.page.getByTestId(
+      `bookmark-item-${bookmarkTitle}`
+    );
+    await expect(bookmarkItem).toBeVisible();
+
+    await navigateBack(this.page);
+  }
+
+  async verifyBookmarkNotInPersonList(
+    personName: string,
+    bookmarkTitle: string
+  ) {
+    await openPersonCard(this.page, personName);
+    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
+
+    const bookmarkItem = this.page.getByTestId(
+      `bookmark-item-${bookmarkTitle}`
+    );
+    await expect(bookmarkItem).not.toBeVisible();
+
+    await navigateBack(this.page);
+  }
+
   // ============ Selector Encapsulation ============
 
   getPersonCardElement(personName: string) {

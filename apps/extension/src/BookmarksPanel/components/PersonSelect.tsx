@@ -68,6 +68,7 @@ function PersonSelect({ formProps }: { formProps: any }) {
       data-autofocus
       hidePickedOptions
       data={personList}
+      data-testid="person-select"
       label={
         <Flex align="center" gap={8}>
           Tagged Persons

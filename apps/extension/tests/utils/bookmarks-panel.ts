@@ -47,13 +47,14 @@ export class BookmarksPanel {
   }
 
   async ensureAtRoot() {
+    await this.page.goto('/index.html');
+    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
+
     const bookmarksButton = this.page.getByRole('button', {
       name: 'Bookmarks',
     });
-    if (await bookmarksButton.isVisible()) {
-      await bookmarksButton.click();
-      await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
-    }
+    await bookmarksButton.click();
+    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
   }
 
   async openAddFolderDialog() {
@@ -188,6 +189,58 @@ export class BookmarksPanel {
 
   async getEditButtons() {
     return this.page.getByTitle('Edit Bookmark');
+  }
+
+  async addPersonToBookmark(bookmarkTitle: string, personName: string) {
+    const dialog = await this.openEditBookmarkDialog(bookmarkTitle);
+    await expect(dialog).toBeVisible();
+
+    const personSelect = dialog.getByTestId('person-select');
+    await personSelect.click({ force: true });
+    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
+
+    const option = this.page.getByRole('option', { name: personName });
+    await option.click();
+    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
+
+    const saveButton = dialog.getByRole('button', { name: 'Save' });
+    await saveButton.click();
+    await expect(dialog).toBeHidden();
+
+    await this.clickSaveButton();
+    await this.page.waitForTimeout(TEST_TIMEOUTS.LONG_WAIT);
+  }
+
+  async removePersonFromBookmark(bookmarkTitle: string, personName: string) {
+    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
+
+    const dialog = await this.openEditBookmarkDialog(bookmarkTitle);
+    await expect(dialog).toBeVisible();
+
+    const pillToRemove = dialog.locator('.mantine-MultiSelect-pill', {
+      hasText: personName,
+    });
+    await expect(pillToRemove).toBeVisible();
+
+    const removeButton = pillToRemove.locator('button');
+    await removeButton.click();
+    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
+
+    const saveButton = dialog.getByRole('button', { name: 'Save' });
+    await saveButton.click();
+    await expect(dialog).toBeHidden();
+
+    await this.clickSaveButton();
+    await this.page.waitForTimeout(TEST_TIMEOUTS.LONG_WAIT);
+  }
+
+  async navigateToPersonsPanel() {
+    await this.page.goto('/index.html');
+    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
+
+    const personsButton = this.page.getByRole('button', { name: 'Persons' });
+    await personsButton.click();
+    await this.page.waitForTimeout(TEST_TIMEOUTS.NAVIGATION);
   }
 
   // ============ Verification Helpers ============
