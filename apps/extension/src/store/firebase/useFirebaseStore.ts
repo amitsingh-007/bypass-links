@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { GLOBALS } from '@bypass/shared';
-import { TEST_AUTH_DATA_KEY } from '../../../tests/constants';
+import { TEST_AUTH_DATA_KEY } from '@/constants';
 import { type IAuthResponse } from '@/interfaces/firebase';
 import { refreshIdToken, signInWithCredential } from '@/store/firebase/api';
 import { getExpiresAtMs } from '@/store/firebase/utils';

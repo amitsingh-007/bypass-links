@@ -1,6 +1,7 @@
-import { test, expect as homeExpect } from '../fixtures/home-popup-fixture';
-import { TEST_TIMEOUTS, TEST_SITES } from '../constants';
-import { getStorageItem } from '../utils/test-utils';
+import { test, expect } from '../fixtures/home-popup-fixture';
+import { TEST_TIMEOUTS, TEST_SITES, TEST_BOOKMARKS } from '../constants';
+import { BookmarksPanel } from '../utils/bookmarks-panel';
+import { PopupHomePanel } from '../utils/home-panel';
 import { getHistoryItems } from './toggle-history.spec.utils';
 
 /**
@@ -12,45 +13,29 @@ import { getHistoryItems } from './toggle-history.spec.utils';
 
 test.describe.serial('History Tracking Workflow', () => {
   test('should turn on history tracking', async ({ homePage }) => {
-    const toggleSwitch = homePage.getByTestId('toggle-history-switch');
-    // Mantine Switch input is hidden, need to click the label
-    const toggleLabel = homePage
-      .locator('label')
-      .filter({ hasText: 'History' });
+    const homePanel = new PopupHomePanel(homePage);
 
     // Ensure history tracking starts in OFF state
-    const isChecked = await toggleSwitch.isChecked();
-    if (isChecked) {
-      await toggleLabel.click();
-      await homePage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
-    }
+    await homePanel.setHistoryEnabled(false);
 
     // Verify initial state is off
-    await homeExpect(toggleSwitch).not.toBeChecked();
+    await expect(homePanel.historyToggle).not.toBeChecked();
 
-    // Turn on history tracking by clicking the label
-    await toggleLabel.click();
-    await homePage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
+    // Turn on history tracking
+    await homePanel.setHistoryEnabled(true);
 
     // Verify switch is now checked
-    await homeExpect(toggleSwitch).toBeChecked();
+    await expect(homePanel.historyToggle).toBeChecked();
 
     // Verify historyStartTime is set in chrome.storage.local
-    const historyStartTime = await getStorageItem<string>(
-      homePage,
-      'historyStartTime'
-    );
-    homeExpect(historyStartTime).toBeDefined();
+    await homePanel.verifyHistoryStartTime();
   });
 
   test('should visit test sites and delete tracked history when turned off', async ({
     homePage,
     context,
   }) => {
-    const toggleSwitch = homePage.getByTestId('toggle-history-switch');
-    const toggleLabel = homePage
-      .locator('label')
-      .filter({ hasText: 'History' });
+    const homePanel = new PopupHomePanel(homePage);
     const sites = [
       TEST_SITES.EXAMPLE_COM,
       TEST_SITES.EXAMPLE_ORG,
@@ -67,24 +52,58 @@ test.describe.serial('History Tracking Workflow', () => {
 
     // Verify the sites are in browser history
     const historyBefore = await getHistoryItems(homePage, sites);
-    homeExpect(historyBefore.length).toBeGreaterThan(0);
+    expect(historyBefore.length).toBeGreaterThan(0);
 
-    // Turn off history tracking by clicking the label
-    await toggleLabel.click();
+    // Turn off history tracking
+    await homePanel.setHistoryEnabled(false);
     await homePage.waitForTimeout(TEST_TIMEOUTS.LONG_WAIT);
 
     // Verify switch is now unchecked
-    await homeExpect(toggleSwitch).not.toBeChecked();
+    await expect(homePanel.historyToggle).not.toBeChecked();
 
     // Verify historyStartTime is removed from storage
-    const historyStartTime = await getStorageItem<string>(
-      homePage,
-      'historyStartTime'
-    );
-    homeExpect(historyStartTime).toBeUndefined();
+    await homePanel.verifyHistoryStartTimeNotExists();
 
     // Verify the test sites are deleted from browser history
     const historyAfter = await getHistoryItems(homePage, sites);
-    homeExpect(historyAfter).toHaveLength(0);
+    expect(historyAfter).toHaveLength(0);
+  });
+
+  test('should turn on history tracking when a bookmark is opened', async ({
+    homePage,
+    context,
+  }) => {
+    const homePanel = new PopupHomePanel(homePage);
+
+    // Ensure history tracking starts in OFF state
+    await homePanel.setHistoryEnabled(false);
+    await expect(homePanel.historyToggle).not.toBeChecked();
+
+    // Navigate to Bookmarks Panel
+    await homePanel.navigateToBookmarks();
+
+    const panel = new BookmarksPanel(homePage);
+
+    // Double-click to open bookmark and wait for new tab
+    const bookmarkRow = panel.getBookmarkElement(TEST_BOOKMARKS.REACT_DOCS);
+    await expect(bookmarkRow).toBeVisible();
+
+    const pagePromise = context.waitForEvent('page', {
+      timeout: TEST_TIMEOUTS.PAGE_OPEN,
+    });
+    await bookmarkRow.dblclick();
+    const newPage = await pagePromise;
+    expect(newPage).toBeTruthy();
+    await newPage.close();
+
+    // Navigate back to Home page to verify the toggle
+    await panel.navigateBack();
+    await homePage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
+
+    // Verify history tracking is now ON
+    await expect(homePanel.historyToggle).toBeChecked();
+
+    // Verify historyStartTime is set in storage
+    await homePanel.verifyHistoryStartTime();
   });
 });
