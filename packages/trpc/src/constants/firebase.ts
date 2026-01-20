@@ -9,5 +9,4 @@ export enum EFirebaseDBRef {
 
 export enum EFirebaseDBRootKeys {
   data = 'data',
-  backup = 'backup',
 }
