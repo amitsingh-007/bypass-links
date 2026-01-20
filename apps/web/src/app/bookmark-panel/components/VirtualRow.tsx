@@ -34,6 +34,7 @@ const VirtualRow = memo<Props>(({ index, folders, contextBookmarks }) => {
         <Folder name={ctx.name} isEmpty={isFolderEmpty(folders, ctx.name)} />
       ) : (
         <Bookmark
+          id={ctx.id}
           url={ctx.url}
           title={ctx.title}
           taggedPersons={ctx.taggedPersons}

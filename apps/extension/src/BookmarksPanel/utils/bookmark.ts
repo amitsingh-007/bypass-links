@@ -4,6 +4,9 @@ import {
   getDecryptedBookmark,
   getFaviconProxyUrl,
   STORAGE_KEYS,
+  type ContextBookmarks,
+  type IBookmarksObj,
+  type ITransformedBookmark,
 } from '@bypass/shared';
 import { getBookmarks, getPersons } from '@helpers/fetchFromStorage';
 import { nprogress } from '@mantine/nprogress';
@@ -62,4 +65,30 @@ export const cacheBookmarkFavicons = async () => {
   await Promise.all(uniqueUrls.map(async (url) => cache.add(url)));
   console.log('Initialized cache for all bookmark urls');
   nprogress.increment();
+};
+
+export const findBookmarkById = (
+  contextBookmarks: ContextBookmarks,
+  id: string
+): ITransformedBookmark | undefined =>
+  contextBookmarks.find(
+    (bm): bm is ITransformedBookmark => !bm.isDir && bm.id === id
+  );
+
+export const findBookmarkByUrl = (
+  urlList: IBookmarksObj['urlList'],
+  url: string
+) =>
+  Object.values(urlList).find((encodedBookmark) => {
+    const bookmark = getDecryptedBookmark(encodedBookmark);
+    return bookmark.url === url;
+  });
+
+export const isDuplicateUrl = (
+  urlList: IBookmarksObj['urlList'],
+  url: string,
+  excludeBookmarkId: string
+): boolean => {
+  const bookmark = findBookmarkByUrl(urlList, url);
+  return Boolean(bookmark) && bookmark?.id !== excludeBookmarkId;
 };

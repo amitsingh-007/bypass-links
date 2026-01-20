@@ -9,11 +9,11 @@ import {
 } from '@bypass/shared';
 import { getBookmarks } from '@helpers/fetchFromStorage';
 import { Button, Text, Tooltip } from '@mantine/core';
-import md5 from 'md5';
 import { useEffect, useState } from 'react';
 import { BiBookmarkPlus } from 'react-icons/bi';
 import { RiBookmark3Fill } from 'react-icons/ri';
 import { useLocation } from 'wouter';
+import { findBookmarkByUrl } from '@/BookmarksPanel/utils/bookmark';
 import { getCurrentTab } from '@/utils/tabs';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 
@@ -30,7 +30,7 @@ function QuickBookmarkButton() {
     const url = currentTab?.url ?? '';
     const bookmarks = await getBookmarks();
     if (bookmarks) {
-      const encodedBookmark = bookmarks.urlList[md5(url)];
+      const encodedBookmark = findBookmarkByUrl(bookmarks.urlList, url);
       if (encodedBookmark) {
         const decodedBookmark = getDecryptedBookmark(encodedBookmark);
         setBookmark(decodedBookmark);

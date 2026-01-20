@@ -124,6 +124,7 @@ export class BookmarksPanel {
     const bookmarkRow = this.page.getByTestId(`bookmark-item-${bookmarkTitle}`);
     await expect(bookmarkRow).toBeVisible();
     await bookmarkRow.dblclick();
+    await this.page.waitForTimeout(1000);
   }
 
   async openBookmarksViaContextMenu() {
@@ -300,5 +301,37 @@ export class BookmarksPanel {
     } else {
       await this.page.keyboard.press('Escape');
     }
+  }
+
+  // ============ URL Editing Helpers ============
+
+  getUrlInput() {
+    return this.page.getByTestId('bookmark-url-input');
+  }
+
+  async editBookmarkUrl(bookmarkTitle: string, newUrl: string) {
+    const dialog = await this.openEditBookmarkDialog(bookmarkTitle);
+    await expect(dialog).toBeVisible();
+
+    const urlInput = this.getUrlInput();
+    await urlInput.clear();
+    await urlInput.fill(newUrl);
+
+    const saveButton = dialog.getByTestId('dialog-save-button');
+    await saveButton.click();
+
+    return dialog;
+  }
+
+  async verifyUrlInputEditable() {
+    const urlInput = this.getUrlInput();
+    await expect(urlInput).toBeVisible();
+    const isReadonly = await urlInput.getAttribute('readonly');
+    expect(isReadonly).toBeNull();
+  }
+
+  async verifyErrorNotification(message: string) {
+    const notification = this.page.getByText(message);
+    await expect(notification).toBeVisible();
   }
 }

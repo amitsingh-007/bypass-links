@@ -260,6 +260,83 @@ test.describe.serial('Bookmarks Panel', () => {
       const bookmarksAfter = await bookmarkRows.count();
       expect(bookmarksAfter).toBeLessThan(bookmarksBefore);
     });
+
+    test.describe('Bookmark URL Editing', () => {
+      test('should edit bookmark URL successfully', async ({
+        bookmarksPage,
+        context,
+      }) => {
+        const panel = new BookmarksPanel(bookmarksPage);
+        await panel.ensureAtRoot();
+        await panel.openFolder(TEST_FOLDERS.MAIN);
+
+        const dialog = await panel.openEditBookmarkDialog(
+          TEST_BOOKMARKS.REACT_DOCS
+        );
+        await expect(dialog).toBeVisible();
+
+        const urlInput = panel.getUrlInput();
+        const originalUrl = await urlInput.inputValue();
+
+        // Change URL to a real one
+        const newUrl = 'https://www.google.com/';
+        await urlInput.clear();
+        await urlInput.fill(newUrl);
+
+        // Save
+        const saveButton = dialog.getByTestId('dialog-save-button');
+        await saveButton.click();
+        await expect(dialog).toBeHidden();
+
+        // Verify URL was updated by double-clicking and checking new tab
+        const [newPage] = await Promise.all([
+          context.waitForEvent('page'),
+          panel.openBookmarkByDoubleClick(TEST_BOOKMARKS.REACT_DOCS),
+        ]);
+        await newPage.waitForLoadState();
+        expect(newPage.url()).toContain('google.com');
+        await newPage.close();
+
+        // Restore original URL
+        const restoreDialog = await panel.openEditBookmarkDialog(
+          TEST_BOOKMARKS.REACT_DOCS
+        );
+        await panel.getUrlInput().clear();
+        await panel.getUrlInput().fill(originalUrl);
+        await restoreDialog.getByTestId('dialog-save-button').click();
+        await expect(restoreDialog).toBeHidden();
+      });
+
+      test('should prevent duplicate URL on edit', async ({
+        bookmarksPage,
+      }) => {
+        const panel = new BookmarksPanel(bookmarksPage);
+        await panel.ensureAtRoot();
+        await panel.openFolder(TEST_FOLDERS.MAIN);
+
+        // Get URL of second bookmark
+        await panel.openEditBookmarkDialog(TEST_BOOKMARKS.GITHUB);
+        const existingUrl = await panel.getUrlInput().inputValue();
+        await panel.closeDialog();
+
+        // Try to change first bookmark's URL to the existing URL
+        const dialog = await panel.editBookmarkUrl(
+          TEST_BOOKMARKS.REACT_DOCS,
+          existingUrl
+        );
+
+        // Should show error notification
+        await panel.verifyErrorNotification(
+          'A bookmark with this URL already exists'
+        );
+
+        // Dialog should remain open
+        await expect(dialog).toBeVisible();
+
+        // Close dialog
+        await panel.closeDialog();
+      });
+    });
   });
 
   test('should open person panel by clicking tagged person avatar', async ({

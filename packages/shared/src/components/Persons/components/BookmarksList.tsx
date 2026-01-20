@@ -140,6 +140,7 @@ function BookmarksList({
             </ActionIcon>
             <Box className={styles.bookmarkWrapper}>
               <Bookmark
+                id={bookmark.id}
                 url={bookmark.url}
                 title={bookmark.title}
                 taggedPersons={bookmark.taggedPersons}
