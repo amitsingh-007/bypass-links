@@ -15,7 +15,6 @@ import { getFullDbPath, getFilePath, getBucketPath } from '../utils/firebase';
 interface Firebase {
   ref: EFirebaseDBRef | EFirebaseDBRootKeys;
   uid?: string;
-  isAbsolute?: boolean;
   data: any;
 }
 
@@ -40,21 +39,15 @@ const storage = getStorage(firebaseApp);
 export const getFromFirebase = async <T = any>({
   ref,
   uid,
-  isAbsolute,
 }: Omit<Firebase, 'data'>): Promise<T> => {
-  const dbPath = getFullDbPath(ref, uid, isAbsolute);
+  const dbPath = getFullDbPath(ref, uid);
   const snapshot = await database.ref(dbPath).once('value');
   return snapshot.val() ?? {};
 };
 
-export const saveToFirebase = async ({
-  ref,
-  uid,
-  data,
-  isAbsolute,
-}: Firebase) => {
+export const saveToFirebase = async ({ ref, uid, data }: Firebase) => {
   try {
-    await database.ref(getFullDbPath(ref, uid, isAbsolute)).set(data);
+    await database.ref(getFullDbPath(ref, uid)).set(data);
     return true;
   } catch (error) {
     console.log(`Error while saving data to Firebase DB: ${ref}`, error);
@@ -65,9 +58,7 @@ export const saveToFirebase = async ({
 export const removeFromFirebase = async ({
   ref,
   uid,
-  isAbsolute,
-}: Omit<Firebase, 'data'>) =>
-  database.ref(getFullDbPath(ref, uid, isAbsolute)).remove();
+}: Omit<Firebase, 'data'>) => database.ref(getFullDbPath(ref, uid)).remove();
 
 /**
  * AUTH
