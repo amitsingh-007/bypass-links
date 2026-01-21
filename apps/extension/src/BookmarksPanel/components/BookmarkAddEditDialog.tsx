@@ -11,7 +11,6 @@ import { useForm } from '@mantine/form';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'wouter';
 import { useShallow } from 'zustand/react/shallow';
-import md5 from 'md5';
 import useBookmarkStore from '../store/useBookmarkStore';
 import PersonSelect from './PersonSelect';
 import { getCurrentTab } from '@/utils/tabs';
@@ -29,6 +28,7 @@ interface Props {
 }
 
 interface IForm {
+  id: string;
   pos: number;
   url: string;
   title: string;
@@ -37,6 +37,16 @@ interface IForm {
 }
 
 const validateHandler = (value: string) => (value?.trim() ? null : 'Required');
+
+const validateUrl = (value: string) => {
+  if (!value?.trim()) {
+    return 'Required';
+  }
+  if (!URL.canParse(value)) {
+    return 'Invalid URL format';
+  }
+  return null;
+};
 
 function BookmarkAddEditDialog({ curFolder, handleScroll }: Props) {
   const [, navigate] = useLocation();
@@ -76,6 +86,7 @@ function BookmarkAddEditDialog({ curFolder, handleScroll }: Props) {
 
   const form = useForm<IForm>({
     initialValues: {
+      id: '',
       pos: -1,
       url: '',
       title: '',
@@ -83,7 +94,7 @@ function BookmarkAddEditDialog({ curFolder, handleScroll }: Props) {
       taggedPersons: [],
     },
     validate: {
-      url: validateHandler,
+      url: validateUrl,
       title: validateHandler,
       folder: validateHandler,
     },
@@ -94,6 +105,7 @@ function BookmarkAddEditDialog({ curFolder, handleScroll }: Props) {
       if (_operation === EBookmarkOperation.ADD) {
         const { title = '' } = await getCurrentTab();
         form.setValues({
+          id: crypto.randomUUID(),
           pos: contextBookmarks.length,
           url: _bmUrl,
           title,
@@ -114,6 +126,7 @@ function BookmarkAddEditDialog({ curFolder, handleScroll }: Props) {
       });
       if (bookmark) {
         form.setValues({
+          id: bookmark.id,
           pos,
           url: bookmark.url,
           title: bookmark.title,
@@ -151,26 +164,26 @@ function BookmarkAddEditDialog({ curFolder, handleScroll }: Props) {
   };
 
   const handleDelete = () => {
-    const { pos, url } = form.values;
-    handleUrlRemove(pos, url);
+    handleUrlRemove(form.values.id);
     closeDialog();
   };
 
   const handleSave = (values: typeof form.values) => {
     const updatedBookmarkData: ITransformedBookmark = {
-      id: md5(values.url),
+      id: values.id,
       url: values.url,
       title: values.title,
       isDir: false,
       taggedPersons: values.taggedPersons,
     };
-    handleBookmarkSave(
+    const isSaved = handleBookmarkSave(
       updatedBookmarkData,
       curFolder,
-      values.folder,
-      values.pos
+      values.folder
     );
-    closeDialog();
+    if (isSaved) {
+      closeDialog();
+    }
   };
 
   return (
@@ -198,9 +211,9 @@ function BookmarkAddEditDialog({ curFolder, handleScroll }: Props) {
           />
           <TextInput
             withAsterisk
-            readOnly
             label="Url"
-            placeholder="Url"
+            placeholder="Enter bookmark URL"
+            data-testid="bookmark-url-input"
             {...form.getInputProps('url')}
           />
           <Select

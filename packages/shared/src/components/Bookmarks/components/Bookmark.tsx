@@ -1,7 +1,6 @@
 'use client';
 
 import { Flex, Text, Tooltip } from '@mantine/core';
-import md5 from 'md5';
 import { memo, useCallback, useEffect, useState } from 'react';
 import usePlatform from '../../../hooks/usePlatform';
 import usePerson from '../../Persons/hooks/usePerson';
@@ -14,6 +13,7 @@ import PersonAvatars from './PersonAvatars';
 import styles from './styles/Bookmark.module.css';
 
 export interface BookmarkProps {
+  id: string;
   url: string;
   title: string;
   taggedPersons: string[];
@@ -32,6 +32,7 @@ const getPersonsFromUids = (uids: string[], persons: IPerson[]) => {
 
 const Bookmark = memo<BookmarkProps>(
   ({
+    id,
     url,
     title,
     pos = 0,
@@ -40,7 +41,6 @@ const Bookmark = memo<BookmarkProps>(
     handleSelectedChange,
     onOpenLink,
   }) => {
-    const contextId = md5(url);
     const [personsWithImageUrls, setPersonsWithImageUrls] = useState<
       IPersonWithImage[]
     >([]);
@@ -86,7 +86,7 @@ const Bookmark = memo<BookmarkProps>(
         align="center"
         gap="0.75rem"
         px="0.375rem"
-        data-context-id={contextId}
+        data-context-id={id}
         data-testid={`bookmark-item-${title}`}
         onDoubleClick={handleOpenLink}
         onClick={handleSelectionChange}
@@ -113,7 +113,7 @@ const Bookmark = memo<BookmarkProps>(
         <Text
           size="0.9375rem"
           lineClamp={1}
-          data-context-id={contextId}
+          data-context-id={id}
           className={styles.tooltipTextWrapper}
         >
           {isMobile ? (
