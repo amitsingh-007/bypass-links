@@ -1,6 +1,5 @@
 import { EBookmarkOperation } from '@bypass/shared';
 import { useMantineTheme } from '@mantine/core';
-import md5 from 'md5';
 import { type PropsWithChildren, memo, useCallback } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
 import { MdOutlineDelete, MdOutlineContentPasteGo } from 'react-icons/md';
@@ -10,6 +9,7 @@ import { useShallow } from 'zustand/react/shallow';
 import { useHotkeys } from '@mantine/hooks';
 import useBookmarkStore from '../store/useBookmarkStore';
 import { getCutCount, getSelectedCount } from '../utils';
+import { findBookmarkById } from '../utils/bookmark';
 import useBookmarkRouteStore from '@/BookmarksPanel/store/useBookmarkRouteStore';
 import ContextMenu, { type IMenuOption } from '@/components/ContextMenu';
 
@@ -65,33 +65,26 @@ const BookmarkContextMenu = memo<Props>(
 
     const getBookmark = useCallback(
       (id: string) => {
-        const selectedIndex = contextBookmarks.findIndex(
-          (bookmark) => !bookmark.isDir && md5(bookmark.url ?? '') === id
-        );
-        const selectedBookmark = contextBookmarks[selectedIndex];
-        if (!selectedBookmark || selectedBookmark.isDir) {
+        const bookmark = findBookmarkById(contextBookmarks, id);
+        if (!bookmark) {
           throw new Error(`Bookmark not found for id: ${id}`);
         }
-        return {
-          pos: selectedIndex,
-          url: selectedBookmark.url ?? '',
-        };
+        return bookmark;
       },
       [contextBookmarks]
     );
 
     const handleDeleteOptionClick = useCallback(
       (id: string) => {
-        const { pos, url } = getBookmark(id);
-        handleUrlRemove(pos, url);
+        handleUrlRemove(id);
       },
-      [getBookmark, handleUrlRemove]
+      [handleUrlRemove]
     );
 
     const handleBookmarkEdit = useCallback(
       (id: string) => {
-        const { url } = getBookmark(id);
-        setBookmarkOperation(EBookmarkOperation.EDIT, url);
+        const bookmark = getBookmark(id);
+        setBookmarkOperation(EBookmarkOperation.EDIT, bookmark.url);
       },
       [getBookmark, setBookmarkOperation]
     );

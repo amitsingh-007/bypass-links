@@ -56,6 +56,7 @@ function VirtualRow({ bookmark, pos, isSelected, isCut }: Props) {
         />
       ) : (
         <BookmarkRow
+          id={bookmark.id}
           pos={pos}
           url={bookmark.url}
           title={bookmark.title}
