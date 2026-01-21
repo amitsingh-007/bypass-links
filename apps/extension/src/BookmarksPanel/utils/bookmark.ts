@@ -83,12 +83,3 @@ export const findBookmarkByUrl = (
     const bookmark = getDecryptedBookmark(encodedBookmark);
     return bookmark.url === url;
   });
-
-export const isDuplicateUrl = (
-  urlList: IBookmarksObj['urlList'],
-  url: string,
-  excludeBookmarkId: string
-): boolean => {
-  const bookmark = findBookmarkByUrl(urlList, url);
-  return Boolean(bookmark) && bookmark?.id !== excludeBookmarkId;
-};

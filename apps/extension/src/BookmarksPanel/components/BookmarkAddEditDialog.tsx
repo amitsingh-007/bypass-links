@@ -11,7 +11,6 @@ import { useForm } from '@mantine/form';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'wouter';
 import { useShallow } from 'zustand/react/shallow';
-import md5 from 'md5';
 import useBookmarkStore from '../store/useBookmarkStore';
 import PersonSelect from './PersonSelect';
 import { getCurrentTab } from '@/utils/tabs';
@@ -38,6 +37,16 @@ interface IForm {
 }
 
 const validateHandler = (value: string) => (value?.trim() ? null : 'Required');
+
+const validateUrl = (value: string) => {
+  if (!value?.trim()) {
+    return 'Required';
+  }
+  if (!URL.canParse(value)) {
+    return 'Invalid URL format';
+  }
+  return null;
+};
 
 function BookmarkAddEditDialog({ curFolder, handleScroll }: Props) {
   const [, navigate] = useLocation();
@@ -85,7 +94,7 @@ function BookmarkAddEditDialog({ curFolder, handleScroll }: Props) {
       taggedPersons: [],
     },
     validate: {
-      url: validateHandler,
+      url: validateUrl,
       title: validateHandler,
       folder: validateHandler,
     },
@@ -96,7 +105,7 @@ function BookmarkAddEditDialog({ curFolder, handleScroll }: Props) {
       if (_operation === EBookmarkOperation.ADD) {
         const { title = '' } = await getCurrentTab();
         form.setValues({
-          id: md5(_bmUrl),
+          id: crypto.randomUUID(),
           pos: contextBookmarks.length,
           url: _bmUrl,
           title,

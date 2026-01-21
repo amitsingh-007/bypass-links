@@ -15,7 +15,7 @@ import md5 from 'md5';
 import { create } from 'zustand';
 import { notifications } from '@mantine/notifications';
 import { isFolderContainsDir, setBookmarksInStorage } from '../utils';
-import { findBookmarkById, isDuplicateUrl } from '../utils/bookmark';
+import { findBookmarkById, findBookmarkByUrl } from '../utils/bookmark';
 import { processBookmarksMove } from '../utils/manipulate';
 
 interface State {
@@ -149,12 +149,21 @@ const useBookmarkStore = create<State>()((set, get) => ({
     const isNewBookmark = !oldBookmarkData;
 
     // Check for duplicate URL
-    if (isDuplicateUrl(urlList, updatedBookmark.url, updatedBookmark.id)) {
-      notifications.show({
-        message: 'A bookmark with this URL already exists',
-        color: 'red',
-      });
-      return false;
+    const existingBookmarkWithUrl = findBookmarkByUrl(
+      urlList,
+      updatedBookmark.url
+    );
+    if (existingBookmarkWithUrl) {
+      // It's a duplicate if it's a new bookmark, OR if it's an existing bookmark with a different ID.
+      const isDupe =
+        isNewBookmark || existingBookmarkWithUrl.id !== updatedBookmark.id;
+      if (isDupe) {
+        notifications.show({
+          message: 'A bookmark with this URL already exists',
+          color: 'red',
+        });
+        return false;
+      }
     }
 
     const isFolderChange = oldFolder !== newFolder;

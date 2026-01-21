@@ -336,6 +336,35 @@ test.describe.serial('Bookmarks Panel', () => {
         // Close dialog
         await panel.closeDialog();
       });
+
+      test('should allow reusing edited URL for new bookmark', async ({
+        bookmarksPage,
+      }) => {
+        const panel = new BookmarksPanel(bookmarksPage);
+        await panel.ensureAtRoot();
+        await panel.openFolder(TEST_FOLDERS.MAIN);
+
+        // Get original URL of first bookmark
+        await panel.openEditBookmarkDialog(TEST_BOOKMARKS.REACT_DOCS);
+        const originalUrl = await panel.getUrlInput().inputValue();
+        await panel.closeDialog();
+
+        // Edit first bookmark to a new URL
+        const newUrl = 'https://edited-unique-test.example.com';
+        await panel.editBookmarkUrl(TEST_BOOKMARKS.REACT_DOCS, newUrl);
+
+        // Verify bookmark still exists after URL change
+        await panel.verifyBookmarkExists(TEST_BOOKMARKS.REACT_DOCS);
+
+        // Restore the original URL for cleanup
+        const restoreDialog = await panel.openEditBookmarkDialog(
+          TEST_BOOKMARKS.REACT_DOCS
+        );
+        await panel.getUrlInput().clear();
+        await panel.getUrlInput().fill(originalUrl);
+        await restoreDialog.getByTestId('dialog-save-button').click();
+        await expect(restoreDialog).toBeHidden();
+      });
     });
   });
 

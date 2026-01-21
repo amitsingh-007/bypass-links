@@ -124,7 +124,6 @@ export class BookmarksPanel {
     const bookmarkRow = this.page.getByTestId(`bookmark-item-${bookmarkTitle}`);
     await expect(bookmarkRow).toBeVisible();
     await bookmarkRow.dblclick();
-    await this.page.waitForTimeout(1000);
   }
 
   async openBookmarksViaContextMenu() {
