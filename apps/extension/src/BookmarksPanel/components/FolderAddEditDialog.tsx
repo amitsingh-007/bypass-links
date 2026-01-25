@@ -53,7 +53,6 @@ export function FolderAddEditDialog({
       <form
         onSubmit={form.onSubmit((values) => {
           handleSave(values.folderName);
-          handleClose();
         })}
       >
         <TextInput
