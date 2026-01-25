@@ -1,8 +1,7 @@
 import { useCallback } from 'react';
-import md5 from 'md5';
 import useStorage from '../../../hooks/useStorage';
 import { getDecryptedFolder, getDefaultFolder } from '../utils';
-import { DEFAULT_BOOKMARK_FOLDER } from '../constants';
+import { ROOT_FOLDER_ID } from '../constants';
 
 const useBookmark = () => {
   const { getBookmarks } = useStorage();
@@ -36,9 +35,7 @@ const useBookmark = () => {
     }
     const folderList = Object.values(bookmarks.folderList);
     const defaultFolder = getDefaultFolder(folderList);
-    const parentHash = defaultFolder
-      ? defaultFolder.id
-      : md5(DEFAULT_BOOKMARK_FOLDER);
+    const parentHash = defaultFolder?.id ?? ROOT_FOLDER_ID;
 
     return Object.values(bookmarks.folders[parentHash])
       .filter((bookmark) => !bookmark.isDir)

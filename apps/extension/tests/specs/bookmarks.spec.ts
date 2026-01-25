@@ -202,6 +202,7 @@ test.describe.serial('Bookmarks Panel', () => {
         const pagePromise = context.waitForEvent('page', {
           timeout: TEST_TIMEOUTS.PAGE_OPEN,
         });
+        // eslint-disable-next-line max-nested-callbacks
         await openOption.evaluate((el) => (el as HTMLElement).click());
         const newPage = await pagePromise;
 

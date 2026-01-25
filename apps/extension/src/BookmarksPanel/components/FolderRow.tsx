@@ -9,22 +9,18 @@ import styles from './styles/FolderRow.module.css';
 import ContextMenu, { type IMenuOption } from '@/components/ContextMenu';
 
 interface Props extends FolderProps {
-  pos: number;
   isDefault: boolean;
-  handleRemove: (pos: number, origName: string) => void;
-  toggleDefaultFolder: (
-    folder: string,
-    newIsDefault: boolean,
-    pos: number
-  ) => void;
-  handleEdit: (origName: string, newName: string, pos: number) => void;
+  handleRemove: (folderId: string) => void;
+  toggleDefaultFolder: (folderId: string, newIsDefault: boolean) => void;
+  handleEdit: (folderId: string, newName: string) => void;
 }
 
 const FolderRow = memo<Props>(
   ({
+    id,
     name: origName,
     isDefault,
-    pos,
+
     handleRemove,
     handleEdit,
     toggleDefaultFolder,
@@ -38,15 +34,15 @@ const FolderRow = memo<Props>(
     }, []);
 
     const handleDeleteOptionClick = useCallback(() => {
-      handleRemove(pos, origName);
-    }, [handleRemove, origName, pos]);
+      handleRemove(id);
+    }, [handleRemove, id]);
 
     const handleDefaultOptionClick = useCallback(() => {
-      toggleDefaultFolder(origName, !isDefault, pos);
-    }, [isDefault, origName, pos, toggleDefaultFolder]);
+      toggleDefaultFolder(id, !isDefault);
+    }, [id, isDefault, toggleDefaultFolder]);
 
     const handleFolderSave = (newName: string) => {
-      handleEdit(origName, newName, pos);
+      handleEdit(id, newName);
       toggleEditDialog();
     };
 
@@ -84,7 +80,7 @@ const FolderRow = memo<Props>(
       <>
         <ContextMenu options={menuOptions}>
           <Box w="100%" h="100%" pos="relative">
-            <Folder name={origName} {...restProps} />
+            <Folder id={id} name={origName} {...restProps} />
             {isDefault && (
               <Flex align="center" className={styles.defaultIcon}>
                 <PiStarFill color={theme.colors.yellow[5]} />

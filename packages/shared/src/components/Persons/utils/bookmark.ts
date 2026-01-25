@@ -1,9 +1,9 @@
 import { hasText } from '../../../utils/search';
 import { type IEncodedBookmark } from '../../Bookmarks/interfaces';
-import { type ModifiedBookmark } from '../interfaces/bookmark';
+import { type IBookmarkWithFolder } from '../interfaces/bookmark';
 
 export const getFilteredModifiedBookmarks = (
-  bookmarks: ModifiedBookmark[],
+  bookmarks: IBookmarkWithFolder[],
   searchText: string
 ) =>
   bookmarks?.filter(
@@ -12,7 +12,7 @@ export const getFilteredModifiedBookmarks = (
   );
 
 export const getOrderedBookmarksList = (
-  bookmarks: ModifiedBookmark[],
+  bookmarks: IBookmarkWithFolder[],
   urls: IEncodedBookmark[]
 ) => {
   const bookmarkPriorityMap = urls.reduce<Record<string, number>>(

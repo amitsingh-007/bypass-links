@@ -4,7 +4,6 @@ import {
   EBookmarkOperation,
   HEADER_HEIGHT,
   ScrollButton,
-  getBookmarkId,
   getFilteredContextBookmarks,
   shouldRenderBookmarks,
 } from '@bypass/shared';
@@ -22,11 +21,7 @@ import styles from './styles/BookmarksPanel.module.css';
 import useBookmarkRouteStore from '@/BookmarksPanel/store/useBookmarkRouteStore';
 import { MAX_PANEL_SIZE } from '@/constants';
 
-function BookmarksPanel({
-  folderContext,
-  operation,
-  bmUrl,
-}: BMPanelQueryParams) {
+function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
   const startHistoryMonitor = useHistoryStore(
     (state) => state.startHistoryMonitor
   );
@@ -61,7 +56,7 @@ function BookmarksPanel({
     estimateSize: () => BOOKMARK_ROW_HEIGHT,
     overscan: 5,
     getScrollElement: () => bodyRef.current,
-    getItemKey: (idx) => getBookmarkId(filteredContextBookmarks[idx]),
+    getItemKey: (idx) => filteredContextBookmarks[idx].id,
   });
 
   const handleScroll = (itemNumber: number) =>
@@ -85,8 +80,8 @@ function BookmarksPanel({
   }, [isFetching]);
 
   useEffect(() => {
-    loadData(folderContext);
-  }, [folderContext, loadData]);
+    loadData(folderId);
+  }, [folderId, loadData]);
 
   useEffect(() => {
     if (!isFetching && operation !== EBookmarkOperation.NONE) {
@@ -108,12 +103,9 @@ function BookmarksPanel({
         w={MAX_PANEL_SIZE.WIDTH}
         h={MAX_PANEL_SIZE.HEIGHT}
       >
-        <BookmarksHeader
-          folderContext={folderContext}
-          onSearchChange={setSearchText}
-        />
+        <BookmarksHeader folderId={folderId} onSearchChange={setSearchText} />
         <BookmarkAddEditDialog
-          curFolder={folderContext}
+          curFolderId={folderId}
           handleScroll={handleScroll}
         />
         <BookmarkContextMenu

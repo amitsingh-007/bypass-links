@@ -109,10 +109,7 @@ const config: Configuration = {
     },
     client: {
       logging: 'warn',
-      overlay: {
-        errors: true,
-        warnings: false,
-      },
+      overlay: false,
     },
   },
   resolve: {
