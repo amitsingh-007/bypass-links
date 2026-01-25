@@ -9,7 +9,6 @@ import styles from './styles/FolderRow.module.css';
 import ContextMenu, { type IMenuOption } from '@/components/ContextMenu';
 
 interface Props extends FolderProps {
-  pos: number;
   isDefault: boolean;
   handleRemove: (folderId: string) => void;
   toggleDefaultFolder: (folderId: string, newIsDefault: boolean) => void;

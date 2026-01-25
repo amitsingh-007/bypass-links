@@ -46,7 +46,6 @@ function VirtualRow({ bookmark, pos, isSelected, isCut }: Props) {
       {bookmark.isDir ? (
         <FolderRow
           id={bookmark.id}
-          pos={pos}
           name={bookmark.name}
           isDefault={bookmark.isDefault}
           handleRemove={handleFolderRemove}
