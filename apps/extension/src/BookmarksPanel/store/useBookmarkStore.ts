@@ -294,18 +294,12 @@ const useBookmarkStore = create<State>()((set, get) => ({
   handleToggleDefaultFolder(folderId: string, newIsDefault: boolean) {
     const { folderList, contextBookmarks } = get();
 
-    const newFolderList = { ...folderList };
-    // Remove existing default folder
-    Object.values(newFolderList).forEach((v) => {
-      v.isDefault = false;
-    });
-    // Make new folder as default
-    if (newIsDefault) {
-      newFolderList[folderId] = {
-        ...newFolderList[folderId],
-        isDefault: true,
-      };
-    }
+    const newFolderList = Object.fromEntries(
+      Object.entries(folderList).map(([id, folder]) => [
+        id,
+        { ...folder, isDefault: newIsDefault && id === folderId },
+      ])
+    );
 
     // Update current bookmark list
     const newContextBookmarks = contextBookmarks.map((folder) =>
