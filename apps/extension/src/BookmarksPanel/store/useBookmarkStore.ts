@@ -301,10 +301,10 @@ const useBookmarkStore = create<State>()((set, get) => ({
       ])
     );
 
-    // Update current bookmark list
+    // Update current bookmark list - remove default from all folders, then set new default
     const newContextBookmarks = contextBookmarks.map((folder) =>
-      folder.isDir && folder.id === folderId
-        ? { ...folder, isDefault: newIsDefault }
+      folder.isDir
+        ? { ...folder, isDefault: newIsDefault && folder.id === folderId }
         : folder
     );
 
