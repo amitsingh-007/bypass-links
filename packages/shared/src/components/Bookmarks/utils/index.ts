@@ -1,4 +1,3 @@
-import md5 from 'md5';
 import { hasText } from '../../../utils/search';
 import {
   type ContextBookmarks,
@@ -6,12 +5,13 @@ import {
   type IBookmarksObj,
   type IEncodedFolder,
 } from '../interfaces';
+import { ROOT_FOLDER_ID, ROOT_FOLDER_NAME } from '../constants';
 
 export const isFolderEmpty = (
   folders: IBookmarksObj['folders'],
-  name: string
+  folderId: string
 ) => {
-  const folder = folders[md5(name)];
+  const folder = folders[folderId];
   return !folder || folder.length === 0;
 };
 
@@ -65,3 +65,14 @@ export const getDecodedFolderList = (folderList: IBookmarksObj['folderList']) =>
 
 export const getDefaultFolder = (folders: IEncodedFolder[]) =>
   folders.find((x) => x.isDefault);
+
+export const getFolderName = (
+  folderList: IBookmarksObj['folderList'],
+  folderId: string
+) => {
+  if (folderId === ROOT_FOLDER_ID) {
+    return ROOT_FOLDER_NAME;
+  }
+  const folder = folderList[folderId];
+  return folder ? getDecryptedFolder(folder).name : 'Not Found';
+};

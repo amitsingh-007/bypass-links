@@ -11,7 +11,6 @@ import {
   getFaviconProxyUrl,
   getEncryptedFolder,
 } from '@bypass/shared';
-import md5 from 'md5';
 import { create } from 'zustand';
 import { notifications } from '@mantine/notifications';
 import { isFolderContainsDir, setBookmarksInStorage } from '../utils';
@@ -30,26 +29,22 @@ interface State {
   isSaveButtonActive: boolean;
 
   // Actions
-  loadData: (folderContext: string) => Promise<void>;
+  loadData: (folderId: string) => Promise<void>;
   handleSelectedChange: (pos: number, isOnlySelection: boolean) => void;
   resetSelectedBookmarks: () => void;
   handleCutBookmarks: () => void;
-  handleCreateNewFolder: (name: string, folderContext: string) => void;
+  handleCreateNewFolder: (name: string, parentFolderId: string) => void;
   handleBookmarkSave: (
     updatedBookmark: ITransformedBookmark,
-    oldFolder: string,
-    newFolder: string
+    oldFolderId: string,
+    newFolderId: string
   ) => boolean;
   handleUrlRemove: (bookmarkId: string) => void;
   handleBulkUrlRemove: () => void;
-  handleFolderRename: (oldName: string, newName: string, pos: number) => void;
-  handleToggleDefaultFolder: (
-    folderName: string,
-    newIsDefault: boolean,
-    pos: number
-  ) => void;
-  handleFolderRemove: (pos: number, name: string) => void;
-  handleSave: (folderContext: string) => Promise<void>;
+  handleFolderRename: (folderId: string, newName: string) => void;
+  handleToggleDefaultFolder: (folderId: string, newIsDefault: boolean) => void;
+  handleFolderRemove: (folderId: string) => void;
+  handleSave: (currentFolderId: string) => Promise<void>;
   handlePasteSelectedBookmarks: () => void;
 }
 
@@ -66,13 +61,12 @@ const useBookmarkStore = create<State>()((set, get) => ({
   isSaveButtonActive: false,
   updateTaggedPersons: [],
 
-  async loadData(folderContext: string) {
+  async loadData(folderId: string) {
     set({ isSaveButtonActive: false, isFetching: true });
     const { folders, urlList, folderList } = await getBookmarks();
-    const folderContextHash = md5(folderContext);
 
-    const modifiedBookmarks = Object.entries(folders[folderContextHash]).map(
-      (kvp) => bookmarksMapper(kvp, urlList, folderList)
+    const modifiedBookmarks = Object.entries(folders[folderId]).map((kvp) =>
+      bookmarksMapper(kvp, urlList, folderList)
     );
 
     set({
@@ -105,25 +99,25 @@ const useBookmarkStore = create<State>()((set, get) => ({
 
   resetCutBookmarks: () => set({ cutBookmarks: [] }),
 
-  handleCreateNewFolder(name: string, folderContext: string) {
+  handleCreateNewFolder(name: string, parentFolderId: string) {
     const { contextBookmarks, folderList } = get();
     const isDir = true;
-    const nameHash = md5(name);
+    const newFolderId = crypto.randomUUID();
 
     // Update current context folder
     const newContextBookmarks = [...contextBookmarks];
     newContextBookmarks.unshift({
-      id: nameHash,
+      id: newFolderId,
       isDir,
       name,
       isDefault: false,
     });
     // Update data in all folders list
     const newFolderList = { ...folderList };
-    newFolderList[nameHash] = getEncryptedFolder({
-      id: nameHash,
+    newFolderList[newFolderId] = getEncryptedFolder({
+      id: newFolderId,
       name,
-      parentHash: md5(folderContext),
+      parentHash: parentFolderId,
       isDefault: false,
     });
 
@@ -136,8 +130,8 @@ const useBookmarkStore = create<State>()((set, get) => ({
 
   handleBookmarkSave(
     updatedBookmark: ITransformedBookmark,
-    oldFolder: string,
-    newFolder: string
+    oldFolderId: string,
+    newFolderId: string
   ) {
     const { contextBookmarks, urlList, folders } = get();
 
@@ -166,8 +160,7 @@ const useBookmarkStore = create<State>()((set, get) => ({
       }
     }
 
-    const isFolderChange = oldFolder !== newFolder;
-    const newFolderHash = md5(newFolder);
+    const isFolderChange = oldFolderId !== newFolderId;
 
     // Update urlList - key is always bookmark.id
     const newUrlList = { ...urlList };
@@ -176,15 +169,15 @@ const useBookmarkStore = create<State>()((set, get) => ({
       url: updatedBookmark.url,
       title: updatedBookmark.title,
       taggedPersons: [...updatedBookmark.taggedPersons],
-      parentHash: newFolderHash,
+      parentHash: newFolderId,
     });
     set({ urlList: newUrlList });
 
     // Update folders and current context folder content based on folder change
     if (isFolderChange) {
       const newFolders = { ...folders };
-      newFolders[newFolderHash] ||= []; // To handle empty folders
-      newFolders[newFolderHash].push({
+      newFolders[newFolderId] ||= []; // To handle empty folders
+      newFolders[newFolderId].push({
         isDir: false,
         hash: updatedBookmark.id,
       });
@@ -275,61 +268,32 @@ const useBookmarkStore = create<State>()((set, get) => ({
     });
   },
 
-  handleFolderRename(oldName: string, newName: string, pos: number) {
-    const { folderList, urlList, folders, contextBookmarks } = get();
-    const oldFolderHash = md5(oldName);
-    const newFolderHash = md5(newName);
-
-    // Update parentHash in urlList
-    const newUrlList = Object.entries(urlList).reduce<IBookmarksObj['urlList']>(
-      (obj, [hash, data]) => {
-        if (data.parentHash === oldFolderHash) {
-          obj[hash] = { ...data, parentHash: newFolderHash };
-        } else {
-          obj[hash] = data;
-        }
-        return obj;
-      },
-      {}
-    );
-
+  handleFolderRename(folderId: string, newName: string) {
+    const { folderList, contextBookmarks } = get();
     // Update name in folderList
     const newFolderList = { ...folderList };
-    newFolderList[newFolderHash] = getEncryptedFolder({
-      ...newFolderList[oldFolderHash],
+    newFolderList[folderId] = getEncryptedFolder({
+      ...newFolderList[folderId],
       name: newName,
     });
-    delete newFolderList[oldFolderHash];
 
-    // Update in folders
-    const newFolders = { ...folders };
-    newFolders[newFolderHash] = newFolders[oldFolderHash];
-    delete newFolders[oldFolderHash];
+    // Update current folder context if needed
+    const newContextBookmarks = contextBookmarks.map((folder) =>
+      folder.isDir && folder.id === folderId
+        ? { ...folder, name: newName }
+        : folder
+    );
 
-    // Update current folder
-    const newContextBookmarks = [...contextBookmarks];
-    const curFolder = newContextBookmarks[pos];
-    if (!curFolder.isDir) {
-      throw new Error(`Item at pos: ${pos} not a folder`);
-    }
-    newContextBookmarks[pos] = { ...curFolder, name: newName };
     set({
-      urlList: newUrlList,
       folderList: newFolderList,
-      folders: newFolders,
       contextBookmarks: newContextBookmarks,
       isSaveButtonActive: true,
     });
   },
 
-  handleToggleDefaultFolder(
-    folderName: string,
-    newIsDefault: boolean,
-    pos: number
-  ) {
+  handleToggleDefaultFolder(folderId: string, newIsDefault: boolean) {
     const { folderList, contextBookmarks } = get();
 
-    const folderHash = md5(folderName);
     const newFolderList = { ...folderList };
     // Remove existing default folder
     Object.values(newFolderList).forEach((v) => {
@@ -337,19 +301,18 @@ const useBookmarkStore = create<State>()((set, get) => ({
     });
     // Make new folder as default
     if (newIsDefault) {
-      newFolderList[folderHash] = {
-        ...newFolderList[folderHash],
+      newFolderList[folderId] = {
+        ...newFolderList[folderId],
         isDefault: true,
       };
     }
 
     // Update current bookmark list
-    const newContextBookmarks = [...contextBookmarks];
-    const curFolder = newContextBookmarks[pos];
-    if (!curFolder.isDir) {
-      throw new Error(`Item at pos: ${pos} not a folder`);
-    }
-    newContextBookmarks[pos] = { ...curFolder, isDefault: newIsDefault };
+    const newContextBookmarks = contextBookmarks.map((folder) =>
+      folder.isDir && folder.id === folderId
+        ? { ...folder, isDefault: newIsDefault }
+        : folder
+    );
 
     set({
       folderList: newFolderList,
@@ -358,10 +321,9 @@ const useBookmarkStore = create<State>()((set, get) => ({
     });
   },
 
-  handleFolderRemove(pos: number, name: string) {
+  handleFolderRemove(folderId: string) {
     const { contextBookmarks, folderList, urlList, folders } = get();
-    const folderHash = md5(name);
-    if (isFolderContainsDir(folders, folderHash)) {
+    if (isFolderContainsDir(folders, folderId)) {
       notifications.show({
         message: 'Remove inner folders first',
         color: 'red',
@@ -370,17 +332,18 @@ const useBookmarkStore = create<State>()((set, get) => ({
     }
 
     // Remove from current context folder
-    const newContextBookmarks = [...contextBookmarks];
-    newContextBookmarks.splice(pos, 1);
+    const newContextBookmarks = contextBookmarks.filter(
+      (bookmark) => bookmark.id !== folderId
+    );
 
     // Remove from all folders list
     const newFolderList = { ...folderList };
-    delete newFolderList[folderHash];
+    delete newFolderList[folderId];
 
     // Remove all urls inside the folder and update all urls in tagged persons
     const newUrlList = Object.entries(urlList).reduce<IBookmarksObj['urlList']>(
       (obj, [hash, data]) => {
-        if (data.parentHash !== folderHash) {
+        if (data.parentHash !== folderId) {
           obj[hash] = data;
         }
         return obj;
@@ -390,7 +353,7 @@ const useBookmarkStore = create<State>()((set, get) => ({
 
     // Remove its data from folders
     const newFolders = { ...folders };
-    delete newFolders[folderHash];
+    delete newFolders[folderId];
 
     set({
       contextBookmarks: newContextBookmarks,
@@ -401,18 +364,16 @@ const useBookmarkStore = create<State>()((set, get) => ({
     });
   },
 
-  async handleSave(folderContext: string) {
+  async handleSave(currentFolderId: string) {
     const { folders, urlList, folderList, contextBookmarks, loadData } = get();
 
     set({ isFetching: true });
 
     // Form folders obj for current context folder
     const newFolders = { ...folders };
-    newFolders[md5(folderContext)] = contextBookmarks.map((x) => ({
+    newFolders[currentFolderId] = contextBookmarks.map((x) => ({
       isDir: x.isDir,
-      // For folders: use md5(name) as hash (to match folderList keys)
-      // For bookmarks: use x.id (which is the urlList key)
-      hash: x.isDir ? md5(x.name) : x.id,
+      hash: x.id,
     }));
     const bookmarksObj: IBookmarksObj = {
       folderList,
@@ -420,7 +381,7 @@ const useBookmarkStore = create<State>()((set, get) => ({
       folders: newFolders,
     };
     await setBookmarksInStorage(bookmarksObj);
-    await loadData(folderContext);
+    await loadData(currentFolderId);
 
     set({ isFetching: false, isSaveButtonActive: false });
     notifications.show({ message: 'Saved temporarily' });

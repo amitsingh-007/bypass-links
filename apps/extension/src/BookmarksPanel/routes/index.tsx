@@ -8,10 +8,9 @@ import { Route, useSearch } from 'wouter';
 import BookmarksPanel from '../components/BookmarksPanel';
 
 const getQueryParams = (qs: string): BMPanelQueryParams => {
-  const { folderContext, bmUrl, operation } =
-    deserializeQueryStringToObject(qs);
+  const { folderId, bmUrl, operation } = deserializeQueryStringToObject(qs);
   return {
-    folderContext,
+    folderId,
     operation: operation as EBookmarkOperation,
     bmUrl,
   };

@@ -31,7 +31,11 @@ const VirtualRow = memo<Props>(({ index, folders, contextBookmarks }) => {
       className={clsx(bookmarkRowStyles.bookmarkRow, styles.bookmarkWrapper)}
     >
       {ctx.isDir ? (
-        <Folder name={ctx.name} isEmpty={isFolderEmpty(folders, ctx.name)} />
+        <Folder
+          id={ctx.id}
+          name={ctx.name}
+          isEmpty={isFolderEmpty(folders, ctx.id)}
+        />
       ) : (
         <Bookmark
           id={ctx.id}
