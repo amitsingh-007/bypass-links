@@ -1,9 +1,9 @@
 import {
-  DEFAULT_BOOKMARK_FOLDER,
   EBookmarkOperation,
   getBookmarksPanelUrl,
   getDecodedFolderList,
   getDefaultFolder,
+  ROOT_FOLDER_ID,
   type ITransformedBookmark,
 } from '@bypass/shared';
 import { Button, Modal, Select, Stack, TextInput } from '@mantine/core';
@@ -23,7 +23,7 @@ const HEADING = {
 };
 
 interface Props {
-  curFolder: string;
+  curFolderId: string;
   handleScroll: (pos: number) => void;
 }
 
@@ -32,7 +32,7 @@ interface IForm {
   pos: number;
   url: string;
   title: string;
-  folder: string;
+  folderId: string;
   taggedPersons: string[];
 }
 
@@ -48,7 +48,7 @@ const validateUrl = (value: string) => {
   return null;
 };
 
-function BookmarkAddEditDialog({ curFolder, handleScroll }: Props) {
+function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
   const [, navigate] = useLocation();
   const { bookmarkOperation, resetBookmarkOperation } = useBookmarkRouteStore(
     useShallow((state) => ({
@@ -74,13 +74,16 @@ function BookmarkAddEditDialog({ curFolder, handleScroll }: Props) {
   const { operation, url: bmUrl } = bookmarkOperation;
   const [openDialog, setOpenDialog] = useState(false);
 
-  const { folderNamesList, defaultFolderName } = useMemo(() => {
+  const { folderOptions, defaultFolderId } = useMemo(() => {
     const decodedFolderList = getDecodedFolderList(folderList);
-    const folderNames = decodedFolderList.map((x) => x.name);
+    const options = decodedFolderList.map((x) => ({
+      value: x.id,
+      label: x.name,
+    }));
     const defaultFolder = getDefaultFolder(decodedFolderList);
     return {
-      folderNamesList: folderNames,
-      defaultFolderName: defaultFolder?.name,
+      folderOptions: options,
+      defaultFolderId: defaultFolder?.id,
     };
   }, [folderList]);
 
@@ -90,13 +93,13 @@ function BookmarkAddEditDialog({ curFolder, handleScroll }: Props) {
       pos: -1,
       url: '',
       title: '',
-      folder: DEFAULT_BOOKMARK_FOLDER,
+      folderId: ROOT_FOLDER_ID,
       taggedPersons: [],
     },
     validate: {
       url: validateUrl,
       title: validateHandler,
-      folder: validateHandler,
+      folderId: validateHandler,
     },
   });
 
@@ -109,7 +112,7 @@ function BookmarkAddEditDialog({ curFolder, handleScroll }: Props) {
           pos: contextBookmarks.length,
           url: _bmUrl,
           title,
-          folder: defaultFolderName ?? DEFAULT_BOOKMARK_FOLDER,
+          folderId: defaultFolderId ?? ROOT_FOLDER_ID,
           taggedPersons: [],
         });
         setOpenDialog(true);
@@ -130,14 +133,14 @@ function BookmarkAddEditDialog({ curFolder, handleScroll }: Props) {
           pos,
           url: bookmark.url,
           title: bookmark.title,
-          folder: curFolder,
+          folderId: curFolderId,
           taggedPersons: bookmark.taggedPersons,
         });
         setOpenDialog(true);
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [contextBookmarks, curFolder, defaultFolderName]
+    [contextBookmarks, curFolderId, defaultFolderId]
   );
 
   useEffect(() => {
@@ -149,7 +152,7 @@ function BookmarkAddEditDialog({ curFolder, handleScroll }: Props) {
   const closeDialog = () => {
     // Remove qs before closing and mark current as selected
     if (openDialog) {
-      navigate(getBookmarksPanelUrl({ folderContext: curFolder }), {
+      navigate(getBookmarksPanelUrl({ folderId: curFolderId }), {
         replace: true,
       });
     }
@@ -178,8 +181,8 @@ function BookmarkAddEditDialog({ curFolder, handleScroll }: Props) {
     };
     const isSaved = handleBookmarkSave(
       updatedBookmarkData,
-      curFolder,
-      values.folder
+      curFolderId,
+      values.folderId
     );
     if (isSaved) {
       closeDialog();
@@ -220,8 +223,8 @@ function BookmarkAddEditDialog({ curFolder, handleScroll }: Props) {
             withAsterisk
             maxDropdownHeight={148}
             label="Folder"
-            data={folderNamesList}
-            {...form.getInputProps('folder')}
+            data={folderOptions}
+            {...form.getInputProps('folderId')}
             comboboxProps={{
               withinPortal: false,
               transitionProps: { transition: 'pop' },

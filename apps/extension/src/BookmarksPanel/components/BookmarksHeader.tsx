@@ -11,14 +11,14 @@ import { FolderAddEditDialog } from './FolderAddEditDialog';
 
 interface Props {
   onSearchChange: (text: string) => void;
-  folderContext: string;
+  folderId: string;
 }
 
 const handleClose = () => {
   window.history.back();
 };
 
-const BookmarksHeader = memo<Props>(({ onSearchChange, folderContext }) => {
+const BookmarksHeader = memo<Props>(({ onSearchChange, folderId }) => {
   const {
     contextBookmarks,
     isFetching,
@@ -40,7 +40,7 @@ const BookmarksHeader = memo<Props>(({ onSearchChange, folderContext }) => {
   const disableSave = isFetching || !isSaveButtonActive;
 
   const handleSaveClick = () => {
-    handleSave(folderContext);
+    handleSave(folderId);
   };
 
   useHotkeys([
@@ -73,7 +73,7 @@ const BookmarksHeader = memo<Props>(({ onSearchChange, folderContext }) => {
   };
 
   const handleNewFolderSave = (folderName: string) => {
-    handleCreateNewFolder(folderName, folderContext);
+    handleCreateNewFolder(folderName, folderId);
     toggleNewFolderDialog();
   };
 

@@ -1,6 +1,6 @@
 import {
   type BMPanelQueryParams,
-  DEFAULT_BOOKMARK_FOLDER,
+  ROOT_FOLDER_ID,
   EBookmarkOperation,
   getBookmarksPanelUrl,
   getDecryptedBookmark,
@@ -53,12 +53,12 @@ function QuickBookmarkButton() {
       const parent = await getFolderFromHash(parentHash);
       urlParams.operation = EBookmarkOperation.EDIT;
       urlParams.bmUrl = url;
-      urlParams.folderContext = parent.name;
+      urlParams.folderId = parent.id;
     } else {
       const { url } = await getCurrentTab();
       urlParams.operation = EBookmarkOperation.ADD;
       urlParams.bmUrl = url;
-      urlParams.folderContext = DEFAULT_BOOKMARK_FOLDER;
+      urlParams.folderId = ROOT_FOLDER_ID;
     }
     navigate(getBookmarksPanelUrl(urlParams));
   };

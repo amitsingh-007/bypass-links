@@ -5,7 +5,7 @@
 **/.env
 test-results/
 playwright-report/
-**/tsconfig.tsbuildinfo
+**/tsconfig*.tsbuildinfo
 apps/web/.next/
 apps/extension/build/
 apps/extension/chrome-build/

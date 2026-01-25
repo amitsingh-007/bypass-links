@@ -38,7 +38,7 @@ test.describe.serial('Signed In', () => {
     const url = homePage.url();
     homeExpect(url).toContain('operation=add');
     homeExpect(url).toContain('bmUrl=');
-    homeExpect(url).toContain('folderContext=Bookmarks+bar');
+    homeExpect(url).toContain('folderId=f3deb0d15f736b649e3c78a3ab28f830');
 
     // Fill bookmark details
     const dialog = homePage.getByRole('dialog');

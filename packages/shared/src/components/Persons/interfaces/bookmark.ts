@@ -1,5 +1,6 @@
 import { type IEncodedBookmark } from '../../Bookmarks/interfaces';
 
-export interface ModifiedBookmark extends IEncodedBookmark {
+export interface IBookmarkWithFolder extends IEncodedBookmark {
   parentName: string;
+  parentId: string;
 }

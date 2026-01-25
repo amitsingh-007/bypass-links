@@ -18,7 +18,7 @@ import { getDecryptedBookmark } from '../../Bookmarks/utils';
 import { getBookmarksPanelUrl } from '../../Bookmarks/utils/url';
 import Header from '../../Header';
 import usePerson from '../hooks/usePerson';
-import { type ModifiedBookmark } from '../interfaces/bookmark';
+import { type IBookmarkWithFolder } from '../interfaces/bookmark';
 import { type IPerson } from '../interfaces/persons';
 import {
   getFilteredModifiedBookmarks,
@@ -44,7 +44,7 @@ function BookmarksList({
   const { getBookmarkFromHash, getFolderFromHash, getDefaultOrRootFolderUrls } =
     useBookmark();
   const { getPersonTaggedUrls } = usePerson();
-  const [bookmarks, setBookmarks] = useState<ModifiedBookmark[]>([]);
+  const [bookmarks, setBookmarks] = useState<IBookmarkWithFolder[]>([]);
   const [searchText, setSearchText] = useState('');
 
   const initBookmarks = useCallback(async () => {
@@ -60,7 +60,8 @@ function BookmarksList({
         return {
           ...decodedBookmark,
           parentName: parent.name,
-        } satisfies ModifiedBookmark;
+          parentId: parent.id,
+        } satisfies IBookmarkWithFolder;
       })
     );
 
@@ -79,12 +80,12 @@ function BookmarksList({
     personToOpen?.uid,
   ]);
 
-  const handleBookmarkEdit = ({ url, parentName }: ModifiedBookmark) => {
+  const handleBookmarkEdit = ({ url, parentId }: IBookmarkWithFolder) => {
     location.push(
       getBookmarksPanelUrl({
         operation: EBookmarkOperation.EDIT,
         bmUrl: url,
-        folderContext: parentName,
+        folderId: parentId,
       })
     );
   };

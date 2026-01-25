@@ -8,18 +8,19 @@ import { getBookmarksPanelUrl } from '../utils/url';
 import styles from './styles/Folder.module.css';
 
 export interface FolderProps {
+  id: string;
   name: string;
   isEmpty: boolean;
   resetSelectedBookmarks?: React.MouseEventHandler<HTMLDivElement>;
 }
 
 const Folder = memo<FolderProps>(
-  ({ name: origName, isEmpty, resetSelectedBookmarks }) => {
+  ({ id, name: origName, isEmpty, resetSelectedBookmarks }) => {
     const { location } = useContext(DynamicContext);
 
     const handleFolderOpen = () => {
       if (!isEmpty) {
-        location.push(getBookmarksPanelUrl({ folderContext: origName }));
+        location.push(getBookmarksPanelUrl({ folderId: id }));
       }
     };
 
