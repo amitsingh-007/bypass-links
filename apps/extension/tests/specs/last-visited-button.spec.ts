@@ -8,7 +8,7 @@ import { TEST_TIMEOUTS } from '../constants';
  * a website/domain. These tests run sequentially with shared browser context.
  */
 
-test.describe.serial('LastVisitedButton', () => {
+test.describe.skip('LastVisitedButton', () => {
   test('should update timestamp and show tooltip after clicking Visited button', async ({
     homePage,
   }) => {

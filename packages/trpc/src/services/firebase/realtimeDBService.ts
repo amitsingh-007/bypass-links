@@ -1,13 +1,16 @@
 import {
   type IBookmarksObj,
-  type ILastVisited,
   type IPersons,
   type IRedirection,
   type IRedirections,
 } from '@bypass/shared';
 import { type IUser } from '../../@types/trpc';
 import { EFirebaseDBRef } from '../../constants/firebase';
-import { getFromFirebase, saveToFirebase } from '../firebaseAdminService';
+import {
+  getFromFirebase,
+  saveToFirebase,
+  upsertToFirebase,
+} from '../firebaseAdminService';
 
 export const getBookmarks = async (user: IUser) => {
   return getFromFirebase({
@@ -62,15 +65,18 @@ export const getLastVisited = async (user: IUser) => {
     uid: user.uid,
   });
 };
-export const saveLastVisited = async (
-  lastVisited: ILastVisited,
-  user: IUser
-) => {
-  return saveToFirebase({
+
+export const upsertLastVisited = async (hash: string, user: IUser) => {
+  const timestamp = Date.now();
+  const success = await upsertToFirebase({
     ref: EFirebaseDBRef.lastVisited,
     uid: user.uid,
-    data: lastVisited,
+    data: { [hash]: timestamp },
   });
+  if (!success) {
+    throw new Error('Failed to upsert lastVisited entry to Firebase');
+  }
+  return { hash, timestamp };
 };
 
 export const getRedirections = async (user: IUser) => {

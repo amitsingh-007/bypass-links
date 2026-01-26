@@ -45,12 +45,33 @@ export const getFromFirebase = async <T = any>({
   return snapshot.val() ?? {};
 };
 
+/**
+ * Saves data to Firebase Realtime Database using `.set()` which replaces the entire object at the path.
+ * Use this when you want to completely replace the existing data.
+ */
 export const saveToFirebase = async ({ ref, uid, data }: Firebase) => {
   try {
     await database.ref(getFullDbPath(ref, uid)).set(data);
     return true;
   } catch (error) {
     console.log(`Error while saving data to Firebase DB: ${ref}`, error);
+    return false;
+  }
+};
+
+/**
+ * Updates data in Firebase Realtime Database using `.update()` which merges/partially updates the object.
+ * - Provided keys are updated with new values
+ * - New keys that don't exist are inserted (upsert)
+ * - Existing keys not provided remain unchanged
+ * Use this for efficient single-entry updates.
+ */
+export const upsertToFirebase = async ({ ref, uid, data }: Firebase) => {
+  try {
+    await database.ref(getFullDbPath(ref, uid)).update(data);
+    return true;
+  } catch (error) {
+    console.log(`Error while upserting data to Firebase DB: ${ref}`, error);
     return false;
   }
 };

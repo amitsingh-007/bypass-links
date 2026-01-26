@@ -1,9 +1,8 @@
 import { getLastVisited } from '@helpers/fetchFromStorage';
+import { sha256Hash, STORAGE_KEYS } from '@bypass/shared';
 import { Button, Text, Tooltip } from '@mantine/core';
-import md5 from 'md5';
 import { useCallback, useEffect, useState } from 'react';
 import { FaCalendarCheck, FaCalendarTimes } from 'react-icons/fa';
-import { syncLastVisitedToStorage } from '@/HomePopup/utils/lastVisited';
 import { trpcApi } from '@/apis/trpcApi';
 import useCurrentTab from '@/hooks/useCurrentTab';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
@@ -30,21 +29,25 @@ function LastVisitedButton() {
       return;
     }
     initLastVisited();
-  }, [initLastVisited, isSignedIn, lastVisited]);
+  }, [initLastVisited, isSignedIn]);
 
   const handleUpdateLastVisited = async () => {
     if (!currentTab?.url) {
       return;
     }
-    const lastVisitedObj = await getLastVisited();
     setIsFetching(true);
     const { hostname } = new URL(currentTab.url);
-    lastVisitedObj[md5(hostname)] = Date.now();
-    const isSuccess =
-      await trpcApi.firebaseData.lastVisitedPost.mutate(lastVisitedObj);
-    if (isSuccess) {
-      await syncLastVisitedToStorage();
-    }
+    const hash = await sha256Hash(hostname);
+    const result = await trpcApi.firebaseData.upsertLastVisited.mutate({
+      hash,
+    });
+    // Patch local storage with just this entry
+    const lastVisitedObj = await getLastVisited();
+    lastVisitedObj[result.hash] = result.timestamp;
+    await chrome.storage.local.set({
+      [STORAGE_KEYS.lastVisited]: lastVisitedObj,
+    });
+    // Update local state
     await initLastVisited();
     setIsFetching(false);
   };
