@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Bypass Links is an open-source browser extension (Chrome) that bypasses intermediary links on various websites, avoiding reCaptchas, timers, ads, and pop-ups. It also includes utility features like history monitoring, bookmarks with person tagging, and 2FA.
+Bypass Links is an open-source browser extension (Chrome) that bypasses intermediary links on various websites, avoiding reCaptchas, timers, ads, and pop-ups. It also includes utility features like history monitoring and bookmarks with person tagging.
 
 ## Package Manager
 

@@ -4,7 +4,6 @@ export enum EFirebaseDBRef {
   lastVisited = 'lastVisited',
   persons = 'persons',
   redirections = 'redirections',
-  user2FAInfo = 'userInfo/twoFactorAuth',
 }
 
 export enum EFirebaseDBRootKeys {

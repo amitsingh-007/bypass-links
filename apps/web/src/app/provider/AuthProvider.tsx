@@ -1,6 +1,5 @@
-import { STORAGE_KEYS } from '@bypass/shared';
 import { type User } from 'firebase/auth';
-import { useRouter, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import {
   type PropsWithChildren,
   createContext,
@@ -10,8 +9,6 @@ import {
   useState,
 } from 'react';
 import { ROUTES } from '../constants/routes';
-import { type ITwoFactorAuth } from '../types';
-import { getFromLocalStorage } from '../utils/storage';
 
 interface IAuthContext {
   user: User | null;
@@ -26,7 +23,6 @@ const AuthContext = createContext<IAuthContext>({
 const RESTRICTED_PATHS = new Set([ROUTES.HOMEPAGE]);
 
 export function AuthProvider({ children }: PropsWithChildren) {
-  const router = useRouter();
   const pathname = usePathname();
   const [user, setUser] = useState<IAuthContext['user']>(null);
   const [isInitialized, setIsInitialized] = useState(false);
@@ -53,21 +49,6 @@ export function AuthProvider({ children }: PropsWithChildren) {
     };
     initAuth();
   }, [isInitialized, pathname]);
-
-  useEffect(() => {
-    if (!user || pathname === ROUTES.BYPASS_LINKS_WEB) {
-      return;
-    }
-    const twoFAData = getFromLocalStorage<ITwoFactorAuth>(
-      STORAGE_KEYS.twoFactorAuth
-    );
-    if (!twoFAData) {
-      return;
-    }
-    if (twoFAData.is2FAEnabled && !twoFAData.isTOTPVerified) {
-      router.replace(ROUTES.BYPASS_LINKS_WEB);
-    }
-  }, [pathname, router, user]);
 
   return <AuthContext.Provider value={ctx}>{children}</AuthContext.Provider>;
 }

@@ -1,5 +1,5 @@
 {
   "extends": "@bypass/configs/tsconfig.base.json",
-  "include": ["src", "tests", "vitest.config.ts"],
+  "include": ["src"],
   "exclude": ["node_modules", ".turbo"]
 }

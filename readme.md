@@ -2,7 +2,7 @@
 
 ⚠️ Not open for new signups ⚠️
 
-An open-source `web extension` which bypasses links on various websites and lets you use the direct URL for your resource. This will help you bypass reCaptchas, unnecessary timers, countdowns, ads, pop-ups, and surveys, avoid unnecessary third-party installs, etc. It is also a fully-fledged utility extension with features like history monitor, bookmarks panel with person tagging system. We encode data at the client before sending it to the server. It also has two-factor authentication.
+An open-source `web extension` which bypasses links on various websites and lets you use the direct URL for your resource. This will help you bypass reCaptchas, unnecessary timers, countdowns, ads, pop-ups, and surveys, avoid unnecessary third-party installs, etc. It is also a fully-fledged utility extension with features like history monitor and bookmarks panel with person tagging system. We encode data at the client before sending it to the server.
 
 ## Download link ![GitHub all releases](https://img.shields.io/github/downloads/amitsingh-007/bypass-links/total?color=success)
 
@@ -23,8 +23,6 @@ Head over to [Download Page](https://bypass-links.vercel.app) to download the Ch
 - Mark any website as visited with a timestamp for quick access to the last visited time.
 
 - Bypass link shorteners and timers on supported pages.
-
-- TOTP-based two-factor authentication supported.
 
 - Manipulate browser history.
 
