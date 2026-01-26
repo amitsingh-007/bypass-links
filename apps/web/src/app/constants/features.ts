@@ -1,7 +1,6 @@
 import ForumIcon from '@app/icons/forum.svg';
 import GraphIcon from '@app/icons/graph.svg';
 import HandshakeIcon from '@app/icons/handshake.svg';
-import MultilingualIcon from '@app/icons/multilingual.svg';
 import PalmIcon from '@app/icons/palm.svg';
 import SecurityIcon from '@app/icons/security.svg';
 import type Feature from '../components/types/feature';
@@ -35,13 +34,6 @@ export const secondColumn: Feature[] = [
     title: 'Enhanced Privacy',
     content:
       'All data is first encoded at user device before sending to the server',
-  },
-  {
-    icon: MultilingualIcon,
-    altIconText: 'multilingual-logo',
-    title: 'Google Login with TOTP',
-    content:
-      'Save your tagged bookmarks in your profile with optional TOTP feature',
   },
   {
     icon: GraphIcon,

@@ -7,9 +7,6 @@ export const env = createEnv({
     NODE_ENV: z.enum(['development', 'production']),
     FIREBASE_SERVICE_ACCOUNT: z.string(),
     GITHUB_TOKEN: z.string(),
-    FIREBASE_TEST_USER_EMAIL: z.string(),
-    FIREBASE_TEST_USER_PASSWORD: z.string(),
-    FIREBASE_TEST_USER_ID: z.string(),
   },
   runtimeEnv: process.env,
 });

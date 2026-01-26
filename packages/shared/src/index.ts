@@ -1,7 +1,3 @@
-// Auth
-export { default as InputTOTP } from './components/Auth/components/InputTOTP';
-export * from './components/Auth/constants';
-
 // Bookmark
 export { default as Bookmark } from './components/Bookmarks/components/Bookmark';
 export * from './components/Bookmarks/components/Bookmark';
