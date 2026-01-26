@@ -6,6 +6,4 @@ export const STORAGE_KEYS = {
   redirections: 'redirections',
   mappedRedirections: 'mappedRedirections',
   personImageUrls: 'personImageUrls',
-  user2FAInfo: 'user2FAInfo',
-  twoFactorAuth: 'twoFactorAuth',
 } as const;

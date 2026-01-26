@@ -76,11 +76,6 @@ export const upsertToFirebase = async ({ ref, uid, data }: Firebase) => {
   }
 };
 
-export const removeFromFirebase = async ({
-  ref,
-  uid,
-}: Omit<Firebase, 'data'>) => database.ref(getFullDbPath(ref, uid)).remove();
-
 /**
  * AUTH
  */

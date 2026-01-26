@@ -8,7 +8,6 @@ import {
   STORAGE_KEYS,
 } from '@bypass/shared';
 import { type IMappedRedirections } from '@/BackgroundScript/interfaces/redirections';
-import { type IUser2FAInfo } from '@/HomePopup/interfaces/authentication';
 import { type EExtensionState } from '@/constants';
 
 export const getExtensionState = async () => {
@@ -39,12 +38,6 @@ export const getLastVisited = async () => {
   const { [STORAGE_KEYS.lastVisited]: lastVisited } =
     await chrome.storage.local.get(STORAGE_KEYS.lastVisited);
   return lastVisited as ILastVisited;
-};
-
-export const getUser2FAInfo = async () => {
-  const { [STORAGE_KEYS.user2FAInfo]: user2FAInfo } =
-    await chrome.storage.local.get(STORAGE_KEYS.user2FAInfo);
-  return user2FAInfo as IUser2FAInfo;
 };
 
 export const getPersons = async () => {
