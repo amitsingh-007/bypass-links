@@ -6,6 +6,7 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import deepmerge from 'deepmerge';
 import MergeJsonWebpackPlugin from 'merge-json-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
@@ -38,34 +39,16 @@ const PATHS = {
     : path.resolve(dirName, 'firefox-build'),
 };
 
-// Deep merge function for manifest JSON merging
-const deepMerge = (
-  target: Record<string, unknown>,
-  source: Record<string, unknown>
-): Record<string, unknown> => {
-  const output = { ...target };
-
-  for (const key in source) {
-    if (Object.hasOwn(source, key)) {
-      if (
-        typeof source[key] === 'object' &&
-        source[key] !== null &&
-        !Array.isArray(source[key]) &&
-        typeof output[key] === 'object' &&
-        output[key] !== null &&
-        !Array.isArray(output[key])
-      ) {
-        output[key] = deepMerge(
-          output[key] as Record<string, unknown>,
-          source[key] as Record<string, unknown>
-        );
-      } else {
-        output[key] = source[key];
-      }
-    }
+const getManifestFilesToMerge = (): string[] => {
+  const basePath = '../../packages/configs/manifest';
+  const files = [
+    `${basePath}/manifest.base.json`,
+    `${basePath}/manifest.${EXT_BROWSER}.json`,
+  ];
+  if (isProduction) {
+    files.push(`${basePath}/manifest.${EXT_BROWSER}.prod.json`);
   }
-
-  return output;
+  return files;
 };
 
 const getCssLoaders = (cssModules: boolean): RuleSetRule['use'] => [
@@ -267,18 +250,10 @@ const config: Configuration = {
       ],
     }),
     new MergeJsonWebpackPlugin({
-      mergeFn: deepMerge,
+      mergeFn: deepmerge,
       groups: [
         {
-          files: [
-            '../../packages/configs/manifest/manifest.base.json',
-            `../../packages/configs/manifest/manifest.${EXT_BROWSER}.json`,
-            ...(isProduction
-              ? [
-                  `../../packages/configs/manifest/manifest.${EXT_BROWSER}.prod.json`,
-                ]
-              : []),
-          ],
+          files: getManifestFilesToMerge(),
           to: 'manifest.json',
         },
       ],

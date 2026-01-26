@@ -171,6 +171,9 @@ importers:
       css-minimizer-webpack-plugin:
         specifier: 7.0.2
         version: 7.0.2(lightningcss@1.30.2)(webpack@5.102.1)
+      deepmerge:
+        specifier: 4.3.1
+        version: 4.3.1
       fork-ts-checker-webpack-plugin:
         specifier: 9.1.0
         version: 9.1.0(typescript@5.9.3)(webpack@5.102.1)
