@@ -15,8 +15,8 @@ import {
   getRedirections,
   getWebsites,
   saveBookmarksAndPersons,
-  saveLastVisited,
   saveRedirections,
+  upsertLastVisited,
 } from '../services/firebase/realtimeDBService';
 import { t } from '../trpc';
 
@@ -51,11 +51,11 @@ const firebaseDataRouter = t.router({
     .query(async ({ ctx }) => {
       return getLastVisited(ctx.user);
     }),
-  lastVisitedPost: protectedProcedure
-    .input(LastVisitedSchema)
-    .output(z.boolean())
+  upsertLastVisited: protectedProcedure
+    .input(z.object({ hash: z.string() }))
+    .output(z.object({ hash: z.string(), timestamp: z.number() }))
     .mutation(async ({ input, ctx }) => {
-      return saveLastVisited(input, ctx.user);
+      return upsertLastVisited(input.hash, ctx.user);
     }),
 
   redirectionsGet: protectedProcedure
