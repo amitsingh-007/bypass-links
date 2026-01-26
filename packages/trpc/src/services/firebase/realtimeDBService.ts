@@ -68,11 +68,14 @@ export const getLastVisited = async (user: IUser) => {
 
 export const upsertLastVisited = async (hash: string, user: IUser) => {
   const timestamp = Date.now();
-  await upsertToFirebase({
+  const success = await upsertToFirebase({
     ref: EFirebaseDBRef.lastVisited,
     uid: user.uid,
     data: { [hash]: timestamp },
   });
+  if (!success) {
+    throw new Error('Failed to upsert lastVisited entry to Firebase');
+  }
   return { hash, timestamp };
 };
 
