@@ -2,14 +2,6 @@ import { expect, type Page } from '@playwright/test';
 import { TEST_TIMEOUTS } from '../constants';
 
 /**
- * Click the main Save button (for persisting changes to storage).
- */
-export const clickSaveButton = async (page: Page) => {
-  const saveButton = page.getByRole('button', { name: /save/i }).last();
-  await saveButton.click();
-};
-
-/**
  * Navigate back from current folder or panel.
  */
 export const navigateBack = async (page: Page) => {
@@ -195,17 +187,6 @@ export const openFolder = async (page: Page, folderName: string) => {
   await expect(folder).toBeVisible();
   await folder.click();
   await page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
-};
-
-/**
- * Navigate to bookmarks root panel.
- */
-export const ensureAtRoot = async (page: Page) => {
-  const bookmarksButton = page.getByRole('button', { name: 'Bookmarks' });
-  if (await bookmarksButton.isVisible()) {
-    await bookmarksButton.click();
-    await page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
-  }
 };
 
 interface SearchAndVerifyOptions {

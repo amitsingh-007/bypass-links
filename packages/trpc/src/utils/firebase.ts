@@ -1,3 +1,4 @@
+import filenamify from 'filenamify';
 import { EFirebaseDBRootKeys } from '../constants/firebase';
 
 export const getFullDbPath = (ref: string, uid?: string) => {
@@ -6,5 +7,7 @@ export const getFullDbPath = (ref: string, uid?: string) => {
 
 export const getBucketPath = (uid: string) => `${uid}/persons`;
 
-export const getFilePath = (uid: string, fileName: string) =>
-  `${getBucketPath(uid)}/${fileName}`;
+export const getFilePath = (uid: string, fileName: string) => {
+  const sanitized = filenamify(fileName);
+  return `${getBucketPath(uid)}/${sanitized}`;
+};

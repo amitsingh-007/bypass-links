@@ -44,14 +44,6 @@ export const TEST_SHORTCUTS = {
 } as const;
 
 /**
- * Test redirection rule for create/delete tests.
- */
-export const TEST_SHORTCUT = {
-  ALIAS: 'e2e-test-alias',
-  WEBSITE: 'https://example.com',
-} as const;
-
-/**
  * Test websites for history tracking tests
  */
 export const TEST_SITES = {

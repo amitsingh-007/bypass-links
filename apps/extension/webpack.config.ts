@@ -2,12 +2,11 @@ import process from 'node:process';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import PreactRefreshPlugin from '@prefresh/webpack';
-import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import MergeJsonWebpackPlugin from 'merge-jsons-webpack-plugin';
+import MergeJsonWebpackPlugin from 'merge-json-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
@@ -37,18 +36,6 @@ const PATHS = {
   EXTENSION: isChromeBuild
     ? path.resolve(dirName, 'chrome-build')
     : path.resolve(dirName, 'firefox-build'),
-};
-
-const getManifestFilesToMerge = () => {
-  const basePath = '../../packages/configs/manifest';
-  const files = [
-    `${basePath}/manifest.base.json`,
-    `${basePath}/manifest.${EXT_BROWSER}.json`,
-  ];
-  if (isProduction) {
-    files.push(`${basePath}/manifest.${EXT_BROWSER}.prod.json`);
-  }
-  return `{${files.join(',')}}`;
 };
 
 const getCssLoaders = (cssModules: boolean): RuleSetRule['use'] => [
@@ -212,7 +199,6 @@ const config: Configuration = {
     ignored: ['node_modules/**', '**/*.json'],
   },
   plugins: [
-    new CleanWebpackPlugin(),
     new ForkTsCheckerWebpackPlugin({
       typescript: {
         configFile: tsConfigFile,
@@ -251,17 +237,20 @@ const config: Configuration = {
       ],
     }),
     new MergeJsonWebpackPlugin({
-      output: {
-        groupBy: [
-          {
-            pattern: getManifestFilesToMerge(),
-            fileName: 'manifest.json',
-          },
-        ],
-      },
-      globOptions: {
-        root: PATHS.ROOT,
-      },
+      groups: [
+        {
+          files: [
+            '../../packages/configs/manifest/manifest.base.json',
+            `../../packages/configs/manifest/manifest.${EXT_BROWSER}.json`,
+            ...(isProduction
+              ? [
+                  `../../packages/configs/manifest/manifest.${EXT_BROWSER}.prod.json`,
+                ]
+              : []),
+          ],
+          to: 'manifest.json',
+        },
+      ],
     }),
     !isProduction && new PreactRefreshPlugin(),
   ],
