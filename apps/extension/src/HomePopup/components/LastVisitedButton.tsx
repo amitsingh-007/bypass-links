@@ -1,6 +1,6 @@
 import { getLastVisited } from '@helpers/fetchFromStorage';
+import { sha256Hash } from '@bypass/shared';
 import { Button, Text, Tooltip } from '@mantine/core';
-import md5 from 'md5';
 import { useCallback, useEffect, useState } from 'react';
 import { FaCalendarCheck, FaCalendarTimes } from 'react-icons/fa';
 import { syncLastVisitedToStorage } from '@/HomePopup/utils/lastVisited';
@@ -30,7 +30,7 @@ function LastVisitedButton() {
       return;
     }
     initLastVisited();
-  }, [initLastVisited, isSignedIn, lastVisited]);
+  }, [initLastVisited, isSignedIn]);
 
   const handleUpdateLastVisited = async () => {
     if (!currentTab?.url) {
@@ -39,7 +39,8 @@ function LastVisitedButton() {
     const lastVisitedObj = await getLastVisited();
     setIsFetching(true);
     const { hostname } = new URL(currentTab.url);
-    lastVisitedObj[md5(hostname)] = Date.now();
+    const hash = await sha256Hash(hostname);
+    lastVisitedObj[hash] = Date.now();
     const isSuccess =
       await trpcApi.firebaseData.lastVisitedPost.mutate(lastVisitedObj);
     if (isSuccess) {

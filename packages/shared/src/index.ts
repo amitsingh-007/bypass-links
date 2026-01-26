@@ -49,6 +49,7 @@ export { default as DynamicContext } from './provider/DynamicContext';
 // Utils
 export * from './utils';
 export * from './utils/cache';
+export * from './utils/hash';
 export * from './utils/search';
 export * from './utils/url';
 

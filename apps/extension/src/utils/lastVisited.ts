@@ -1,5 +1,5 @@
 import { getLastVisited } from '@helpers/fetchFromStorage';
-import md5 from 'md5';
+import { sha256Hash } from '@bypass/shared';
 
 export const getlastVisitedText = async (url: string) => {
   const lastVisitedData = await getLastVisited();
@@ -7,7 +7,8 @@ export const getlastVisitedText = async (url: string) => {
     return '';
   }
   const { hostname } = new URL(url);
-  const lastVisitedDate = lastVisitedData[md5(hostname)];
+  const hash = await sha256Hash(hostname);
+  const lastVisitedDate = lastVisitedData[hash];
   if (!lastVisitedDate) {
     return '';
   }
