@@ -10,7 +10,6 @@ import {
   TextInput,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import md5 from 'md5';
 import { useCallback, useEffect, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
 import ImagePicker from './ImagePicker';
@@ -64,7 +63,7 @@ function AddOrEditPersonDialog({
     if (person) {
       initImageUrl(person.uid);
     } else {
-      form.setFieldValue('uid', md5(Date.now().toString()));
+      form.setFieldValue('uid', crypto.randomUUID());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initImageUrl, person]);
