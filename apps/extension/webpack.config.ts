@@ -38,6 +38,36 @@ const PATHS = {
     : path.resolve(dirName, 'firefox-build'),
 };
 
+// Deep merge function for manifest JSON merging
+const deepMerge = (
+  target: Record<string, unknown>,
+  source: Record<string, unknown>
+): Record<string, unknown> => {
+  const output = { ...target };
+
+  for (const key in source) {
+    if (Object.hasOwn(source, key)) {
+      if (
+        typeof source[key] === 'object' &&
+        source[key] !== null &&
+        !Array.isArray(source[key]) &&
+        typeof output[key] === 'object' &&
+        output[key] !== null &&
+        !Array.isArray(output[key])
+      ) {
+        output[key] = deepMerge(
+          output[key] as Record<string, unknown>,
+          source[key] as Record<string, unknown>
+        );
+      } else {
+        output[key] = source[key];
+      }
+    }
+  }
+
+  return output;
+};
+
 const getCssLoaders = (cssModules: boolean): RuleSetRule['use'] => [
   isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
   {
@@ -237,6 +267,7 @@ const config: Configuration = {
       ],
     }),
     new MergeJsonWebpackPlugin({
+      mergeFn: deepMerge,
       groups: [
         {
           files: [
