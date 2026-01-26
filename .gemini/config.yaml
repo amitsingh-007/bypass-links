@@ -1,0 +1,5 @@
+# Configuration for Gemini Code Assist GitHub bot for code review
+code_review:
+  pull_request_opened:
+    summary: false
+    include_drafts: false
