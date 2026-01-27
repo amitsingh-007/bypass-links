@@ -1,5 +1,15 @@
-# Configuration for Gemini Code Assist GitHub bot for code review
+# Refer: https://developers.google.com/gemini-code-assist/docs/customize-gemini-behavior-github#add-configuration-files
+
+have_fun: false
+memory_config:
+  disabled: false
 code_review:
+  disable: false
+  comment_severity_threshold: MEDIUM
+  max_review_comments: -1
   pull_request_opened:
+    help: false
     summary: false
-    include_drafts: false
+    code_review: true
+    include_drafts: true
+ignore_patterns: []

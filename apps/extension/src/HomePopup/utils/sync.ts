@@ -29,7 +29,6 @@ const resetAuthentication = async () => {
   if (GLOBALS.IS_CHROME) {
     await chrome.identity.clearAllCachedAuthTokens();
   }
-  console.log('Removed Google auth token from cache');
 };
 
 const syncFirebaseToStorage = async () => {
@@ -57,7 +56,6 @@ const resetStorage = async () => {
     resetPersons(),
     refreshPersonImageUrlsCache(),
   ]);
-  console.log('Storage reset successful');
   nprogress.increment();
 };
 
