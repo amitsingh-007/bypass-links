@@ -54,7 +54,7 @@ export const saveToFirebase = async ({ ref, uid, data }: Firebase) => {
     await database.ref(getFullDbPath(ref, uid)).set(data);
     return true;
   } catch (error) {
-    console.log(`Error while saving data to Firebase DB: ${ref}`, error);
+    console.error(`Error while saving data to Firebase DB: ${ref}`, error);
     return false;
   }
 };
@@ -71,7 +71,7 @@ export const upsertToFirebase = async ({ ref, uid, data }: Firebase) => {
     await database.ref(getFullDbPath(ref, uid)).update(data);
     return true;
   } catch (error) {
-    console.log(`Error while upserting data to Firebase DB: ${ref}`, error);
+    console.error(`Error while upserting data to Firebase DB: ${ref}`, error);
     return false;
   }
 };

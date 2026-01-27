@@ -28,8 +28,6 @@ export const syncBookmarksAndPersonsFirebaseWithStorage = async () => {
   }
   const bookmarks = await getBookmarks();
   const persons = await getPersons();
-  console.log('Syncing bookmarks from storage to firebase', bookmarks);
-  console.log('Syncing persons from storage to firebase', persons);
   const isSaveSuccess = await trpcApi.firebaseData.bookmarkAndPersonSave.mutate(
     { bookmarks, persons }
   );
