@@ -1,5 +1,3 @@
-export { TEST_AUTH_DATA_KEY } from '../src/constants';
-
 export {
   TEST_BOOKMARKS,
   TEST_FOLDERS,
@@ -9,4 +7,5 @@ export {
   TEST_SITES,
   TEST_TIMEOUTS,
   DEFAULT_RULE_ALIAS,
+  TEST_CREDENTIALS_KEY,
 } from '@bypass/shared/tests';
