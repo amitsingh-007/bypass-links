@@ -46,31 +46,6 @@ test.describe('View Bookmarks and Folders', () => {
     const backToRootCount = await panel.getBookmarkCount();
     expect(backToRootCount).toBe(rootCount);
   });
-
-  test.skip('should open empty folder and display empty state', async ({
-    authenticatedPage,
-  }) => {
-    const panel = new BookmarksPanel(authenticatedPage);
-    // The test account has an "Empty folder" that should be accessible
-    const emptyFolderName = 'Empty folder';
-
-    // Verify folder exists at root
-    await panel.verifyFolderExists(emptyFolderName);
-
-    // Open the empty folder
-    await panel.openFolder(emptyFolderName);
-
-    // Verify empty state message is displayed
-    const emptyState = panel.getEmptyState();
-    await expect(emptyState).toBeVisible();
-
-    // Verify bookmark count is 0
-    const count = await panel.getBookmarkCount();
-    expect(count).toBe(0);
-
-    // Navigate back to root
-    await panel.navigateBack();
-  });
 });
 
 test.describe('Search Functionality', () => {
@@ -181,44 +156,36 @@ test.describe('Person Avatars', () => {
     await expect(dropdown).toBeVisible({ timeout: TEST_TIMEOUTS.LONG_WAIT });
   });
 
-  test.skip('should display person names and badge counts in dropdown', async ({
+  test('should display person name in dropdown', async ({
     authenticatedPage,
   }) => {
     const panel = new BookmarksPanel(authenticatedPage);
     const dropdown = await panel.hoverAvatar();
 
-    // Verify dropdown has a badge count element
-    const badge = dropdown.locator('[data-testid="person-badge-count"]');
-    await expect(badge).toBeVisible();
+    // Verify person avatar is displayed in dropdown
+    const avatar = dropdown.locator('[data-testid^="dropdown-avatar-"]');
+    await expect(avatar).toBeVisible();
+
+    // Get the person name from the data-testid attribute
+    const testId = (await avatar.getAttribute('data-testid')) ?? '';
+    const personName = testId.replace('dropdown-avatar-', '');
+    expect(personName).toBeTruthy();
   });
 
-  test.skip('should navigate to persons panel when clicking person in dropdown', async ({
+  test('should navigate to persons panel when clicking person in dropdown', async ({
     authenticatedPage,
   }) => {
     const panel = new BookmarksPanel(authenticatedPage);
     const dropdown = await panel.hoverAvatar();
 
-    // Click on the person dropdown item and verify navigation
-    await dropdown.click();
+    // Click on the person in dropdown and verify navigation
+    const personName = await panel.clickPersonInDropdownAndGetName(dropdown);
+    expect(personName).toBeTruthy();
 
+    // Verify URL contains persons-panel path
+    await authenticatedPage.waitForURL(/persons-panel/);
     const currentUrl = panel.getCurrentUrl();
-    expect(currentUrl).toContain('/persons/');
-  });
-
-  test.skip('should display correct badge count for each person', async ({
-    authenticatedPage,
-  }) => {
-    const panel = new BookmarksPanel(authenticatedPage);
-    const dropdown = await panel.hoverAvatar();
-
-    // Get badge count directly from the visible dropdown
-    const badge = dropdown.locator('[data-testid="person-badge-count"]');
-    const text = await badge.textContent();
-    const match = text?.match(/\((\d+)\)/);
-    const badgeCount = match ? Number.parseInt(match[1], 10) : 0;
-
-    // Badge count should be a non-negative number
-    expect(badgeCount).toBeGreaterThanOrEqual(0);
+    expect(currentUrl).toContain('persons-panel');
   });
 });
 
@@ -258,5 +225,37 @@ test.describe('Bookmark Count Badge', () => {
       ? Number.parseInt(folderCountMatch[1], 10)
       : 0;
     expect(folderBadgeCount).toBeGreaterThanOrEqual(0);
+  });
+});
+
+test.describe('Empty Folder Behavior', () => {
+  test('should show not-allowed cursor on empty folder and prevent navigation', async ({
+    authenticatedPage,
+  }) => {
+    const panel = new BookmarksPanel(authenticatedPage);
+    await panel.getEmptyFolder(TEST_FOLDERS.EMPTY);
+    await panel.verifyEmptyFolderCannotOpen(TEST_FOLDERS.EMPTY);
+  });
+});
+
+test.describe('Bookmark Display Features', () => {
+  test('should display favicon for bookmarks', async ({
+    authenticatedPage,
+  }) => {
+    const panel = new BookmarksPanel(authenticatedPage);
+    const favicon = panel.getFaviconElement(TEST_BOOKMARKS.REACT_DOCS);
+    await expect(favicon).toBeVisible();
+  });
+
+  test('should show URL tooltip on bookmark hover', async ({
+    authenticatedPage,
+  }) => {
+    const panel = new BookmarksPanel(authenticatedPage);
+    const tooltip = await panel.hoverBookmarkForTooltip(
+      TEST_BOOKMARKS.REACT_DOCS
+    );
+    const tooltipText = await tooltip.textContent();
+    expect(tooltipText).toBeTruthy();
+    expect(tooltipText).toContain('material');
   });
 });
