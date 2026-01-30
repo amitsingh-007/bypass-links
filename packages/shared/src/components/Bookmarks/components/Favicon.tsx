@@ -42,6 +42,7 @@ const Favicon = forwardRef<HTMLDivElement, Props>(
         size={17}
         src={faviconUrl}
         color="red"
+        data-testid="bookmark-favicon"
         {...mantineTooltipProps}
       >
         <RiLinkUnlinkM size={14} />

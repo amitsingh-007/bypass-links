@@ -13,7 +13,7 @@ const config = defineConfig({
   forbidOnly: isCI,
   retries: isCI ? 2 : 1,
   fullyParallel: true,
-  reporter: [['github'], ['html', { open: 'never' }]],
+  reporter: isCI ? [['github']] : [['list'], ['html', { open: 'never' }]],
   use: {
     navigationTimeout: 30 * 1000,
     actionTimeout: 10 * 1000,
@@ -26,9 +26,40 @@ const config = defineConfig({
     {
       name: '@bypass/web',
       testDir: './apps/web/tests',
+      testIgnore: ['**/auth.setup.ts', 'specs/**/*'],
       use: {
         baseURL: ciBaseUrl ?? 'http://localhost:3000',
       },
+    },
+    /**
+     * Web App Setup: Runs once per test run to authenticate and cache storage.
+     * This avoids repeating the login flow and data sync for every test.
+     */
+    {
+      name: 'web-auth-setup',
+      testMatch: 'auth.setup.ts',
+      testDir: './apps/web/tests',
+    },
+    /**
+     * Web App Tests with Auth: Run with authenticated session.
+     * Each spec file gets an isolated copy of the authenticated browser context.
+     */
+    {
+      name: '@bypass/web-with-auth',
+      testDir: './apps/web/tests/specs',
+      dependencies: ['web-auth-setup'],
+      teardown: 'web-teardown',
+      use: {
+        baseURL: ciBaseUrl ?? 'http://localhost:3000',
+      },
+    },
+    /**
+     * Web App Teardown: Cleans up the .cache directory after all tests in the project complete.
+     */
+    {
+      name: 'web-teardown',
+      testMatch: 'global-teardown.ts',
+      testDir: './apps/web/tests',
     },
     /**
      * Extension Setup: Runs once per test run to authenticate and cache storage/profile.

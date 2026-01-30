@@ -1,5 +1,5 @@
+import { TEST_TIMEOUTS } from '@bypass/shared/tests';
 import { test, expect } from '../fixtures/auth-fixture';
-import { TEST_TIMEOUTS } from '../constants';
 
 test('should call extension.latest API and return expected response structure', async ({
   page,

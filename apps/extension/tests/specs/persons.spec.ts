@@ -1,5 +1,9 @@
+import {
+  TEST_PERSON_NAME,
+  TEST_PERSONS,
+  TEST_TIMEOUTS,
+} from '@bypass/shared/tests';
 import { test, expect } from '../fixtures/persons-fixture';
-import { TEST_PERSON_NAME, TEST_PERSONS, TEST_TIMEOUTS } from '../constants';
 import { PersonsPanel } from '../utils/persons-panel';
 
 /**

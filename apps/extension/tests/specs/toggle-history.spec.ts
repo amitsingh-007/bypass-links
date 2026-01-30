@@ -1,5 +1,9 @@
+import {
+  TEST_TIMEOUTS,
+  TEST_SITES,
+  TEST_BOOKMARKS,
+} from '@bypass/shared/tests';
 import { test, expect } from '../fixtures/home-popup-fixture';
-import { TEST_TIMEOUTS, TEST_SITES, TEST_BOOKMARKS } from '../constants';
 import { BookmarksPanel } from '../utils/bookmarks-panel';
 import { PopupHomePanel } from '../utils/home-panel';
 import { getHistoryItems } from './toggle-history.spec.utils';
