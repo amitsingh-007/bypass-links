@@ -136,6 +136,13 @@ export class BookmarksPanel {
     return this.page.getByTestId('header-badge');
   }
 
+  async getBadgeCount(): Promise<number> {
+    const badge = this.getBookmarkCountBadge();
+    const badgeText = await badge.textContent();
+    const match = /\((\d+)\)/.exec(badgeText ?? '');
+    return match ? Number.parseInt(match[1], 10) : 0;
+  }
+
   getAvatarGroup(): Locator {
     return this.page.getByTestId('avatar-group');
   }

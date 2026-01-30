@@ -70,6 +70,7 @@ test.describe('Search Functionality', () => {
   test('should clear search and show all', async ({ authenticatedPage }) => {
     const panel = new BookmarksPanel(authenticatedPage);
     const countBefore = await panel.getBookmarkCount();
+    expect(countBefore).toBeGreaterThan(0);
     await panel.search('nonexistent');
     await panel.clearSearch();
     const countAfter = await panel.getBookmarkCount();
@@ -101,21 +102,13 @@ test.describe('Search Functionality', () => {
     const panel = new BookmarksPanel(authenticatedPage);
     const rootBadge = panel.getBookmarkCountBadge();
     await expect(rootBadge).toBeVisible();
-    const rootBadgeText = await rootBadge.textContent();
-    const rootCountMatch = /\((\d+)\)/.exec(rootBadgeText ?? '');
-    const rootBadgeCount = rootCountMatch
-      ? Number.parseInt(rootCountMatch[1], 10)
-      : 0;
+    const rootBadgeCount = await panel.getBadgeCount();
 
     // Search for something
     await panel.search('React');
     const searchBadge = panel.getBookmarkCountBadge();
     await expect(searchBadge).toBeVisible();
-    const searchBadgeText = await searchBadge.textContent();
-    const searchCountMatch = /\((\d+)\)/.exec(searchBadgeText ?? '');
-    const searchBadgeCount = searchCountMatch
-      ? Number.parseInt(searchCountMatch[1], 10)
-      : 0;
+    const searchBadgeCount = await panel.getBadgeCount();
 
     // Search count should be different from root count
     expect(searchBadgeCount).toBeLessThanOrEqual(rootBadgeCount);
@@ -202,11 +195,7 @@ test.describe('Bookmark Count Badge', () => {
     const panel = new BookmarksPanel(authenticatedPage);
     const badge = panel.getBookmarkCountBadge();
     await expect(badge).toBeVisible();
-    const badgeText = await badge.textContent();
-    expect(badgeText).toMatch(/\(\d+\)/);
-    const countMatch = /\((\d+)\)/.exec(badgeText ?? '');
-    const badgeCount = countMatch ? Number.parseInt(countMatch[1], 10) : 0;
-    // Badge should show at least 1 bookmark
+    const badgeCount = await panel.getBadgeCount();
     expect(badgeCount).toBeGreaterThan(0);
   });
 
@@ -222,14 +211,7 @@ test.describe('Bookmark Count Badge', () => {
     await panel.openFolder(TEST_FOLDERS.MAIN);
     const folderBadge = panel.getBookmarkCountBadge();
     await expect(folderBadge).toBeVisible();
-    const folderBadgeText = await folderBadge.textContent();
-    expect(folderBadgeText).toMatch(/\(\d+\)/);
-
-    // Verify badge is still showing a count after navigation
-    const folderCountMatch = /\((\d+)\)/.exec(folderBadgeText ?? '');
-    const folderBadgeCount = folderCountMatch
-      ? Number.parseInt(folderCountMatch[1], 10)
-      : 0;
+    const folderBadgeCount = await panel.getBadgeCount();
     expect(folderBadgeCount).toBeGreaterThan(0);
   });
 });
