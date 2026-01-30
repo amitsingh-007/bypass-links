@@ -1,5 +1,3 @@
-export { TEST_AUTH_DATA_KEY } from '../src/constants';
-
 /**
  * Known bookmark titles in the test account
  */
@@ -67,5 +65,5 @@ export const TEST_TIMEOUTS = {
   IMAGE_LOAD: 5000,
   LONG_WAIT: 10_000,
   PAGE_OPEN: 15_000,
-  UPLOAD: 30_000,
+  AUTH: 30_000,
 } as const;

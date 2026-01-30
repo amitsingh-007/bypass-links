@@ -1,10 +1,10 @@
-import { test, expect } from '../fixtures/bookmark-fixture';
 import {
   TEST_BOOKMARKS,
   TEST_FOLDERS,
   TEST_PERSONS,
   TEST_TIMEOUTS,
-} from '../constants';
+} from '@bypass/shared/tests';
+import { test, expect } from '../fixtures/bookmark-fixture';
 import { BookmarksPanel } from '../utils/bookmarks-panel';
 import { PersonsPanel } from '../utils/persons-panel';
 
@@ -33,11 +33,13 @@ test.describe.serial('Bookmarks Panel', () => {
     }) => {
       const panel = new BookmarksPanel(bookmarksPage);
       const emptyFolderName = 'Empty folder';
+      const initialUrl = bookmarksPage.url();
 
       await panel.openFolder(emptyFolderName);
       await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
-      expect(true).toBe(true);
+      // Empty folder should not navigate - URL should remain the same
+      expect(bookmarksPage.url()).toBe(initialUrl);
     });
 
     test('should rename a folder and undo', async ({ bookmarksPage }) => {
@@ -399,11 +401,13 @@ test.describe.serial('Bookmarks Panel', () => {
     const panel = new BookmarksPanel(bookmarksPage);
     await panel.ensureAtRoot();
 
-    await panel.createFolder('Persistence Test Folder');
+    const folderName = 'Persistence Test Folder';
+    await panel.createFolder(folderName);
 
     await panel.clickSaveButton();
 
-    expect(true).toBe(true);
+    // Verify folder still exists after save (persisted to storage)
+    await panel.verifyFolderExists(folderName);
   });
 
   test.describe('Search Functionality', () => {

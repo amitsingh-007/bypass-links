@@ -1,8 +1,13 @@
 'use client';
 
-import { googleSignIn, googleSignOut } from '@app/helpers/firebase/auth';
+import {
+  googleSignIn,
+  googleSignOut,
+  emailAndPasswordSignIn,
+} from '@app/helpers/firebase/auth';
 import { useUser } from '@app/provider/AuthProvider';
 import { Header, ROUTES } from '@bypass/shared';
+import { TEST_CREDENTIALS_KEY } from '@app/constants';
 import { Button, Center, Container, Stack } from '@mantine/core';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -37,7 +42,16 @@ export default function Web() {
   }, [isLoading, preloadData, shouldPreloadData, isLoggedIn]);
 
   const handleSignIn = async () => {
-    await googleSignIn();
+    const testCredentialsJson = localStorage.getItem(TEST_CREDENTIALS_KEY);
+    if (testCredentialsJson) {
+      const testCredentials = JSON.parse(testCredentialsJson);
+      await emailAndPasswordSignIn(
+        testCredentials.email,
+        testCredentials.password
+      );
+    } else {
+      await googleSignIn();
+    }
     setShouldPreloadData(true);
   };
 

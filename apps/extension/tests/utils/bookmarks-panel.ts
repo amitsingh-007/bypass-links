@@ -1,5 +1,5 @@
 import { expect, type Page } from '@playwright/test';
-import { TEST_TIMEOUTS } from '../constants';
+import { TEST_TIMEOUTS } from '@bypass/shared/tests';
 import {
   clickContextMenuItem as clickContextMenuItemUtil,
   countElements,
@@ -176,10 +176,10 @@ export class BookmarksPanel {
       timeout: TEST_TIMEOUTS.IMAGE_LOAD,
     });
     // Wait for element to be stable before clicking
-    await this.page.waitForTimeout(300);
+    await this.page.waitForTimeout(TEST_TIMEOUTS.DEBOUNCE);
     const testId = (await dropdownAvatar.getAttribute('data-testid')) ?? '';
     const personName = testId.replace('dropdown-avatar-', '');
-    await dropdownAvatar.click({ force: true });
+    await dropdownAvatar.click();
     return personName;
   }
 
@@ -296,7 +296,7 @@ export class BookmarksPanel {
   async closeDialog() {
     const closeButton = this.getDialogCloseButton();
     if (await closeButton.isVisible()) {
-      await closeButton.click({ force: true });
+      await closeButton.click();
     } else {
       await this.page.keyboard.press('Escape');
     }
