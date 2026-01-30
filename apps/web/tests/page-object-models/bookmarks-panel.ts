@@ -7,27 +7,33 @@ export class BookmarksPanel {
   async search(query: string) {
     const searchInput = this.getSearchInput();
     await searchInput.fill(query);
-    await this.page.waitForTimeout(TEST_TIMEOUTS.DEBOUNCE);
+    // Wait for debounce by checking the search input value is set
+    await expect(searchInput).toHaveValue(query);
   }
 
   async clearSearch() {
     const searchInput = this.getSearchInput();
     await searchInput.clear();
-    await this.page.waitForTimeout(TEST_TIMEOUTS.DEBOUNCE);
+    // Wait for clear by checking the search input is empty
+    await expect(searchInput).toHaveValue('');
   }
 
   async openFolder(folderName: string) {
     const folder = this.getFolderElement(folderName);
     await expect(folder).toBeVisible();
+    const initialUrl = this.page.url();
     await folder.dblclick();
-    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
+    // Wait for navigation by checking URL changed
+    await expect.poll(() => this.page.url()).not.toBe(initialUrl);
   }
 
   async navigateBack() {
     const backButton = this.page.getByRole('button', { name: 'Back' });
     await expect(backButton).toBeVisible();
+    const initialUrl = this.page.url();
     await backButton.click();
-    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
+    // Wait for navigation by checking URL changed
+    await expect.poll(() => this.page.url()).not.toBe(initialUrl);
   }
 
   async openBookmarkByDoubleClick(title: string) {
@@ -77,7 +83,7 @@ export class BookmarksPanel {
     const folder = this.getFolderElement(folderName);
     const initialUrl = this.page.url();
     await folder.dblclick();
-    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
+    // Verify URL hasn't changed (folder doesn't navigate)
     expect(this.page.url()).toBe(initialUrl);
   }
 
@@ -89,10 +95,11 @@ export class BookmarksPanel {
       state: 'visible',
       timeout: TEST_TIMEOUTS.IMAGE_LOAD,
     });
-    await this.page.waitForTimeout(300);
+    // Wait for element to be stable before clicking
+    await expect(dropdownAvatar).toBeEnabled();
     const testId = (await dropdownAvatar.getAttribute('data-testid')) ?? '';
     const personName = testId.replace('dropdown-avatar-', '');
-    await dropdownAvatar.click({ force: true });
+    await dropdownAvatar.click();
     return personName;
   }
 
@@ -123,10 +130,6 @@ export class BookmarksPanel {
 
   getSearchInput(): Locator {
     return this.page.getByPlaceholder('Search');
-  }
-
-  getHeaderTitle(): Locator {
-    return this.page.getByTestId('header-badge');
   }
 
   getBookmarkCountBadge(): Locator {

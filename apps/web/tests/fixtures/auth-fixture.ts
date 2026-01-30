@@ -34,7 +34,11 @@ export const test = base.extend<
 
     await page.goto(`${webUrl}/bookmark-panel`, { waitUntil: 'networkidle' });
 
-    await use(page);
+    try {
+      await use(page);
+    } finally {
+      await page.close();
+    }
   },
 });
 

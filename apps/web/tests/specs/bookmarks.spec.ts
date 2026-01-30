@@ -9,7 +9,7 @@ test.describe('Basic Navigation', () => {
     const panel = new BookmarksPanel(authenticatedPage);
     await expect(panel.getSearchInput()).toBeVisible();
 
-    const headerBadge = panel.getHeaderTitle();
+    const headerBadge = panel.getBookmarkCountBadge();
     await expect(headerBadge).toBeVisible();
     const text = await headerBadge.textContent();
     expect(text).toMatch(/.+\(\d+\)/);
@@ -36,7 +36,6 @@ test.describe('View Bookmarks and Folders', () => {
 
     await panel.openFolder(TEST_FOLDERS.MAIN);
     const folderCount = await panel.getBookmarkCount();
-    expect(folderCount).toBeGreaterThanOrEqual(0);
     // Folder count should be different from root count
     expect(folderCount).not.toBe(rootCount);
 
@@ -127,12 +126,15 @@ test.describe('Open Bookmarks', () => {
   }) => {
     const panel = new BookmarksPanel(authenticatedPage);
     const initialPages = context.pages();
+
+    // Listen for new page event before triggering the action
+    const pagePromise = context.waitForEvent('page');
     await panel.openBookmarkByDoubleClick(TEST_BOOKMARKS.REACT_DOCS);
-    await authenticatedPage.waitForTimeout(TEST_TIMEOUTS.PAGE_OPEN);
-    const finalPages = context.pages();
-    expect(finalPages.length).toBeGreaterThan(initialPages.length);
-    const newPage = finalPages.at(-1);
-    await newPage?.close();
+    const newPage = await pagePromise;
+
+    // Verify new page was created
+    expect(context.pages().length).toBeGreaterThan(initialPages.length);
+    await newPage.close();
   });
 });
 

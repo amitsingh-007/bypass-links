@@ -6,7 +6,7 @@ import {
   emailAndPasswordSignIn,
 } from '@app/helpers/firebase/auth';
 import { useUser } from '@app/provider/AuthProvider';
-import { Header, ROUTES } from '@bypass/shared';
+import { Header, ROUTES, TEST_CREDENTIALS_KEY } from '@bypass/shared';
 import { Button, Center, Container, Stack } from '@mantine/core';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -41,7 +41,7 @@ export default function Web() {
   }, [isLoading, preloadData, shouldPreloadData, isLoggedIn]);
 
   const handleSignIn = async () => {
-    const testCredentialsJson = localStorage.getItem('__test_credentials__');
+    const testCredentialsJson = localStorage.getItem(TEST_CREDENTIALS_KEY);
     if (testCredentialsJson) {
       const testCredentials = JSON.parse(testCredentialsJson);
       await emailAndPasswordSignIn(
