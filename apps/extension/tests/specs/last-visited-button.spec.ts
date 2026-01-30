@@ -1,5 +1,5 @@
+import { TEST_TIMEOUTS } from '@bypass/shared/tests';
 import { test, expect as homeExpect } from '../fixtures/home-popup-fixture';
-import { TEST_TIMEOUTS } from '../constants';
 
 /**
  * LastVisitedButton E2E Tests

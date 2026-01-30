@@ -6,7 +6,7 @@ import { chromium, expect, test as setup } from '@playwright/test';
 import wretch from 'wretch';
 import QueryStringAddon from 'wretch/addons/queryString';
 import { getFirebasePublicConfig } from '../../../packages/configs/firebase.config';
-import { TEST_AUTH_DATA_KEY } from './constants';
+import { TEST_AUTH_DATA_KEY } from '../src/constants';
 import {
   AUTH_CACHE_DIR,
   CHROME_PROFILE_DIR,

@@ -6,7 +6,8 @@ import {
   emailAndPasswordSignIn,
 } from '@app/helpers/firebase/auth';
 import { useUser } from '@app/provider/AuthProvider';
-import { Header, ROUTES, TEST_CREDENTIALS_KEY } from '@bypass/shared';
+import { Header, ROUTES } from '@bypass/shared';
+import { TEST_CREDENTIALS_KEY } from '@app/constants';
 import { Button, Center, Container, Stack } from '@mantine/core';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';

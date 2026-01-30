@@ -1,5 +1,5 @@
+import { TEST_TIMEOUTS } from '@bypass/shared/tests';
 import { test, expect } from '../fixtures/auth-fixture';
-import { TEST_TIMEOUTS } from '../constants';
 
 test.skip('should be logged in with firebase token', async ({
   page,
@@ -15,7 +15,7 @@ test.skip('should be logged in with firebase token', async ({
   await loginButton.click({ force: true });
 
   const logoutButton = page.getByTestId('logout-button');
-  await expect(logoutButton).toBeVisible({ timeout: TEST_TIMEOUTS.UPLOAD });
+  await expect(logoutButton).toBeVisible({ timeout: TEST_TIMEOUTS.AUTH });
 
   const fbOAuthData = await page.evaluate(() =>
     window.localStorage.getItem('__fbOAuth')

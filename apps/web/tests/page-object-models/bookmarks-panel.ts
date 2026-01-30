@@ -1,5 +1,5 @@
 import { expect, type Page, type Locator } from '@playwright/test';
-import { TEST_TIMEOUTS } from '../constants';
+import { TEST_TIMEOUTS } from '@bypass/shared/tests';
 
 export class BookmarksPanel {
   constructor(readonly page: Page) {}

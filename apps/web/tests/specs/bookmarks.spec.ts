@@ -1,5 +1,9 @@
+import {
+  TEST_BOOKMARKS,
+  TEST_FOLDERS,
+  TEST_TIMEOUTS,
+} from '@bypass/shared/tests';
 import { test, expect } from '../fixtures/auth-fixture';
-import { TEST_BOOKMARKS, TEST_FOLDERS, TEST_TIMEOUTS } from '../constants';
 import { BookmarksPanel } from '../page-object-models/bookmarks-panel';
 
 test.describe('Basic Navigation', () => {
@@ -132,8 +136,8 @@ test.describe('Open Bookmarks', () => {
     await panel.openBookmarkByDoubleClick(TEST_BOOKMARKS.REACT_DOCS);
     const newPage = await pagePromise;
 
-    // Verify new page was created
-    expect(context.pages().length).toBeGreaterThan(initialPages.length);
+    // Verify exactly one new page was created
+    expect(context.pages().length).toBe(initialPages.length + 1);
     await newPage.close();
   });
 });

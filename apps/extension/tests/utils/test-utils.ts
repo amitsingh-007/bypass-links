@@ -1,5 +1,5 @@
 import { expect, type Page } from '@playwright/test';
-import { TEST_TIMEOUTS } from '../constants';
+import { TEST_TIMEOUTS } from '@bypass/shared/tests';
 
 /**
  * Navigate back from current folder or panel.
@@ -140,14 +140,14 @@ export const uploadImage = async (
   const saveCroppedButton = page.getByTestId('save-cropped-image');
   // Wait for the button to become enabled (image loaded and processed)
   await expect(saveCroppedButton).toBeEnabled({
-    timeout: TEST_TIMEOUTS.UPLOAD,
+    timeout: TEST_TIMEOUTS.AUTH,
   });
   await saveCroppedButton.click();
 
   const uploadOverlay = page.getByTestId('uploading-overlay');
   await expect(uploadOverlay).toBeVisible();
 
-  await expect(imagePickerDialog).toBeHidden({ timeout: TEST_TIMEOUTS.UPLOAD });
+  await expect(imagePickerDialog).toBeHidden({ timeout: TEST_TIMEOUTS.AUTH });
 };
 
 /**

@@ -1,6 +1,6 @@
+import { TEST_SHORTCUTS } from '@bypass/shared/tests';
 import { test, expect } from '../fixtures/shortcuts-fixture';
 import { ShortcutsPanel } from '../utils/shortcuts-panel';
-import { TEST_SHORTCUTS } from '../constants';
 
 /**
  * Shortcuts Panel E2E Tests
