@@ -89,7 +89,7 @@ setup('authenticate and cache extension storage', async () => {
 
   const loginButton = page.getByRole('button', { name: 'Login' });
   await loginButton.waitFor({ state: 'visible', timeout: 20_000 });
-  await loginButton.click({ force: true });
+  await loginButton.click();
 
   const logoutButton = page.getByRole('button', { name: 'Logout' });
   await expect(logoutButton).toBeVisible({ timeout: 30_000 });

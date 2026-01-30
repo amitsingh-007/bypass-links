@@ -12,7 +12,7 @@ test.skip('should be logged in with firebase token', async ({
 
   const loginButton = page.getByTestId('login-button');
   await expect(loginButton).toBeVisible({ timeout: TEST_TIMEOUTS.LONG_WAIT });
-  await loginButton.click({ force: true });
+  await loginButton.click();
 
   const logoutButton = page.getByTestId('logout-button');
   await expect(logoutButton).toBeVisible({ timeout: TEST_TIMEOUTS.AUTH });

@@ -230,7 +230,7 @@ test.describe('Bookmark Count Badge', () => {
     const folderBadgeCount = folderCountMatch
       ? Number.parseInt(folderCountMatch[1], 10)
       : 0;
-    expect(folderBadgeCount).toBeGreaterThanOrEqual(0);
+    expect(folderBadgeCount).toBeGreaterThan(0);
   });
 });
 
