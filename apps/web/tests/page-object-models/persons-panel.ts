@@ -5,15 +5,11 @@ export class PersonsPanel {
   constructor(readonly page: Page) {}
 
   async search(query: string) {
-    const searchInput = this.getSearchInput();
-    await searchInput.fill(query);
-    await expect(searchInput).toHaveValue(query);
+    await this.setSearchInput(this.getSearchInput(), query);
   }
 
   async clearSearch() {
-    const searchInput = this.getSearchInput();
-    await searchInput.clear();
-    await expect(searchInput).toHaveValue('');
+    await this.clearSearchInput(this.getSearchInput());
   }
 
   async getPersonCount(): Promise<number> {
@@ -83,16 +79,12 @@ export class PersonsPanel {
 
   async searchWithinBookmarks(query: string) {
     const modal = this.getModal();
-    const searchInput = modal.getByPlaceholder('Search');
-    await searchInput.fill(query);
-    await expect(searchInput).toHaveValue(query);
+    await this.setSearchInput(modal.getByPlaceholder('Search'), query);
   }
 
   async clearSearchWithinBookmarks() {
     const modal = this.getModal();
-    const searchInput = modal.getByPlaceholder('Search');
-    await searchInput.clear();
-    await expect(searchInput).toHaveValue('');
+    await this.clearSearchInput(modal.getByPlaceholder('Search'));
   }
 
   async closeModal() {
@@ -145,5 +137,15 @@ export class PersonsPanel {
 
   private getModal(): Locator {
     return this.page.getByTestId('bookmarks-list-modal');
+  }
+
+  private async setSearchInput(searchInput: Locator, query: string) {
+    await searchInput.fill(query);
+    await expect(searchInput).toHaveValue(query);
+  }
+
+  private async clearSearchInput(searchInput: Locator) {
+    await searchInput.clear();
+    await expect(searchInput).toHaveValue('');
   }
 }
