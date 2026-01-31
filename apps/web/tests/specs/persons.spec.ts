@@ -75,13 +75,19 @@ test.describe('Persons Panel', () => {
 
       await panel.search('NonExistentPerson123');
 
-      const countAfter = await panel.getPersonCount();
-      expect(countAfter).toBe(0);
+      // Wait for search results to update using auto-retrying assertion
+      await expect(async () => {
+        const countAfter = await panel.getPersonCount();
+        expect(countAfter).toBe(0);
+      }).toPass();
 
       await panel.clearSearch();
 
-      const countRestored = await panel.getPersonCount();
-      expect(countRestored).toBe(countBefore);
+      // Wait for search results to restore using auto-retrying assertion
+      await expect(async () => {
+        const countRestored = await panel.getPersonCount();
+        expect(countRestored).toBe(countBefore);
+      }).toPass();
     });
   });
 
@@ -156,8 +162,11 @@ test.describe('Persons Panel', () => {
 
       await panel.clearSearchWithinBookmarks();
 
-      const countAfter = await panel.getBookmarkCountInModalFromList();
-      expect(countAfter).toBe(countBefore);
+      // Wait for search results to restore using auto-retrying assertion
+      await expect(async () => {
+        const countAfter = await panel.getBookmarkCountInModalFromList();
+        expect(countAfter).toBe(countBefore);
+      }).toPass();
 
       await panel.closeModal();
     });

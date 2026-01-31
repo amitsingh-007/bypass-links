@@ -7,19 +7,13 @@ export class PersonsPanel {
   async search(query: string) {
     const searchInput = this.getSearchInput();
     await searchInput.fill(query);
-    // Wait for debounce - input value is set and debounce completes
     await expect(searchInput).toHaveValue(query);
-    // Wait for debounce to complete (Search component uses 200ms debounce)
-    await this.page.waitForTimeout(TEST_TIMEOUTS.DEBOUNCE);
   }
 
   async clearSearch() {
     const searchInput = this.getSearchInput();
     await searchInput.clear();
-    // Wait for debounce - input is cleared and debounce completes
     await expect(searchInput).toHaveValue('');
-    // Wait for debounce to complete (Search component uses 200ms debounce)
-    await this.page.waitForTimeout(TEST_TIMEOUTS.DEBOUNCE);
   }
 
   async getPersonCount(): Promise<number> {
@@ -91,20 +85,14 @@ export class PersonsPanel {
     const modal = this.getModal();
     const searchInput = modal.getByPlaceholder('Search');
     await searchInput.fill(query);
-    // Wait for debounce - input value is set and debounce completes
     await expect(searchInput).toHaveValue(query);
-    // Wait for debounce to complete (Search component uses 200ms debounce)
-    await this.page.waitForTimeout(TEST_TIMEOUTS.DEBOUNCE);
   }
 
   async clearSearchWithinBookmarks() {
     const modal = this.getModal();
     const searchInput = modal.getByPlaceholder('Search');
     await searchInput.clear();
-    // Wait for debounce - input is cleared and debounce completes
     await expect(searchInput).toHaveValue('');
-    // Wait for debounce to complete (Search component uses 200ms debounce)
-    await this.page.waitForTimeout(TEST_TIMEOUTS.DEBOUNCE);
   }
 
   async closeModal() {
@@ -112,7 +100,6 @@ export class PersonsPanel {
     const closeButton = modal.getByRole('button', { name: 'Back' });
     await expect(closeButton).toBeVisible();
     await closeButton.click();
-    // Wait for modal to be closed
     await this.verifyModalClosed();
   }
 
@@ -135,7 +122,6 @@ export class PersonsPanel {
 
   async verifyPersonNameInBadge(name: string) {
     const modal = this.getModal();
-    // Check that the person name appears in the bookmark count badge
     const badge = modal.getByTestId('person-bookmark-count-badge');
     await expect(badge).toBeVisible();
     await expect(badge).toContainText(name);
