@@ -83,9 +83,8 @@ export const closeDialog = async (
  * Click a specific context menu option by text.
  */
 export const clickContextMenuItem = async (page: Page, itemText: string) => {
-  const menuItem = page.locator('.mantine-contextmenu-item-button-title', {
-    hasText: itemText,
-  });
+  const className = `context-menu-item-${itemText.toLowerCase().replaceAll(/\s+/g, '-')}`;
+  const menuItem = page.locator(`.${className}`);
   await menuItem.waitFor({ state: 'attached' });
   await menuItem.evaluate((el) => (el as HTMLElement).click());
 };

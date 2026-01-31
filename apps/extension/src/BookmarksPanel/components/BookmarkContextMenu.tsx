@@ -96,6 +96,7 @@ const BookmarkContextMenu = memo<Props>(
           text: `Open ${
             selectedCount > 1 ? `all (${selectedCount}) ` : ''
           }in new tab`,
+          action: 'Open',
           icon: RxExternalLink,
           color: theme.colors.yellow[9],
         },

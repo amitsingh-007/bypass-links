@@ -193,17 +193,13 @@ test.describe.serial('Bookmarks Panel', () => {
         // Open context menu on first bookmark
         await firstBookmark.click({ button: 'right' });
 
-        const openOption = bookmarksPage.locator(
-          '.mantine-contextmenu-item-button-title',
-          { hasText: 'Open' }
-        );
+        const openOption = bookmarksPage.locator('.context-menu-item-open');
         await openOption.waitFor({ state: 'attached' });
 
         // Set up the event listener before triggering the action
         const pagePromise = context.waitForEvent('page', {
           timeout: TEST_TIMEOUTS.PAGE_OPEN,
         });
-        // eslint-disable-next-line max-nested-callbacks
         await openOption.evaluate((el) => (el as HTMLElement).click());
         const newPage = await pagePromise;
 

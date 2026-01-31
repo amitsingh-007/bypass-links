@@ -90,10 +90,7 @@ export class BookmarksPanel {
   }
 
   async pasteBookmark() {
-    const pasteOption = this.page.locator(
-      '.mantine-contextmenu-item-button-title',
-      { hasText: 'Paste' }
-    );
+    const pasteOption = this.page.locator('.context-menu-item-paste');
     await pasteOption.waitFor({ state: 'attached' });
     await pasteOption.evaluate((el) => (el as HTMLElement).click());
     await waitForDebounce(this.page);
@@ -293,13 +290,6 @@ export class BookmarksPanel {
     await saveButton.click();
 
     return dialog;
-  }
-
-  async verifyUrlInputEditable() {
-    const urlInput = this.getUrlInput();
-    await expect(urlInput).toBeVisible();
-    const isReadonly = await urlInput.getAttribute('readonly');
-    expect(isReadonly).toBeNull();
   }
 
   async verifyErrorNotification(message: string) {
