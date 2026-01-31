@@ -29,10 +29,6 @@ export const test = base.extend<
 
   async authenticatedPage({ sharedContext }, use) {
     const page = await sharedContext.newPage();
-    const webUrl =
-      process.env.PLAYWRIGHT_TEST_BASE_URL ?? 'http://localhost:3000';
-
-    await page.goto(`${webUrl}/bookmark-panel`, { waitUntil: 'networkidle' });
 
     try {
       await use(page);

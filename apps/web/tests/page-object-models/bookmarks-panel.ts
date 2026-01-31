@@ -43,7 +43,15 @@ export class BookmarksPanel {
   }
 
   async getBookmarkCount(): Promise<number> {
-    return this.page.locator('[data-testid^="bookmark-item-"]').count();
+    // Wait for at least one bookmark to be visible before counting
+    const bookmarkLocator = this.page.locator(
+      '[data-testid^="bookmark-item-"]'
+    );
+    await bookmarkLocator
+      .first()
+      .waitFor({ state: 'visible', timeout: TEST_TIMEOUTS.LONG_WAIT })
+      .catch(() => null);
+    return bookmarkLocator.count();
   }
 
   async hoverAvatar(): Promise<Locator> {
@@ -138,9 +146,11 @@ export class BookmarksPanel {
 
   async getBadgeCount(): Promise<number> {
     const badge = this.getBookmarkCountBadge();
+    await expect(badge).toBeVisible();
     const badgeText = await badge.textContent();
     const match = /\((\d+)\)/.exec(badgeText ?? '');
-    return match ? Number.parseInt(match[1], 10) : 0;
+    const count = match ? Number.parseInt(match[1], 10) : 0;
+    return count;
   }
 
   getAvatarGroup(): Locator {
