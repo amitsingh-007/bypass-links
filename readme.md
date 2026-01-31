@@ -1,4 +1,4 @@
-# Summary [![Deploy CI](https://github.com/amitsingh-007/bypass-links/actions/workflows/release.yml/badge.svg)](https://github.com/amitsingh-007/bypass-links/actions/workflows/release.yml) [![CodeQL](https://github.com/amitsingh-007/bypass-links/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/amitsingh-007/bypass-links/actions/workflows/codeql-analysis.yml) ![Vercel](https://therealsujitk-vercel-badge.vercel.app/?app=bypass-links) ![GitHub](https://img.shields.io/github/license/amitsingh-007/bypass-links?color=blue)
+# Summary [![Deploy CI](https://github.com/amitsingh-007/bypass-links/actions/workflows/release.yml/badge.svg)](https://github.com/amitsingh-007/bypass-links/actions/workflows/release.yml) ![Vercel](https://therealsujitk-vercel-badge.vercel.app/?app=bypass-links) ![GitHub](https://img.shields.io/github/license/amitsingh-007/bypass-links?color=blue)
 
 ⚠️ Not open for new signups ⚠️
 
