@@ -54,6 +54,10 @@ test.describe('Bookmarks Panel', () => {
       const rootCount = await panel.getBookmarkCount();
 
       await panel.openFolder(TEST_FOLDERS.MAIN);
+      // Wait for folder content to load before getting count
+      await expect(
+        authenticatedPage.locator('[data-testid^="bookmark-item-"]').first()
+      ).toBeVisible();
       const folderCount = await panel.getBookmarkCount();
       // Folder count should be different from root count
       expect(folderCount).not.toBe(rootCount);

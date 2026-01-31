@@ -357,36 +357,4 @@ export class ShortcutsPanel {
   }
 
   // ============ Composite Operations ============
-
-  async addRuleAndSave(alias: string, website: string, isDefault = false) {
-    await this.addRule();
-
-    // Get the first rule (newly added)
-    const firstAliasInput = getAliasInput(this.page, 0);
-    await firstAliasInput.fill(alias);
-
-    const firstWebsiteInput = getWebsiteInput(this.page, 0);
-    await firstWebsiteInput.fill(website);
-
-    if (isDefault) {
-      const checkbox = getDefaultCheckbox(this.page, 0);
-      await checkbox.check();
-    }
-
-    // Click save button
-    const saveButton = getRuleSaveButton(this.page, 0);
-    await saveButton.click();
-    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
-  }
-
-  async editRule(alias: string, newAlias?: string, newWebsite?: string) {
-    if (newAlias) {
-      await this.fillRuleAlias(alias, newAlias);
-    }
-    if (newWebsite) {
-      await this.fillRuleWebsite(alias, newWebsite);
-    }
-    await this.clickRuleSaveButton(alias);
-    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
-  }
 }

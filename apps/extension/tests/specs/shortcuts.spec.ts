@@ -269,57 +269,44 @@ test.describe.serial('External Link Tests', () => {
     context,
   }) => {
     const panel = new ShortcutsPanel(shortcutsPage);
-
     await panel.waitForLoading();
-
-    // Get the external link button for the second rule
-    // (skip first rule as it may be edited by previous tests)
-    const externalLinkButton = shortcutsPage.getByTestId(
-      'rule-1-external-link'
-    );
 
     // Get the website URL from the second rule to validate against later
     const websiteInput = shortcutsPage.getByTestId('rule-1-website');
     const expectedWebsite = await websiteInput.inputValue();
+    expect(expectedWebsite.length).toBeGreaterThan(0);
 
-    // Verify the button is enabled
+    // Get the external link button for the second rule
+    const externalLinkButton = shortcutsPage.getByTestId(
+      'rule-1-external-link'
+    );
     await expect(externalLinkButton).toBeEnabled();
 
-    // Get initial page count
-    const initialPages = context.pages();
-    const initialPageCount = initialPages.length;
+    // Click and wait for new page to open
+    const [newPage] = await Promise.all([
+      context.waitForEvent('page', { timeout: 10_000 }),
+      externalLinkButton.click(),
+    ]);
 
-    // Click the external link button
-    await externalLinkButton.click();
+    // Wait for navigation to complete
+    await expect
+      .poll(() => newPage.url(), {
+        timeout: 10_000,
+        message: 'Page should navigate from about:blank to actual URL',
+      })
+      .not.toBe('about:blank');
 
-    // Wait for a new page to be created
-    await context.waitForEvent('page', { timeout: 10_000 });
+    // Verify the URL matches expected website (ignoring www. prefix)
+    const newPageUrl = newPage.url();
+    expect(newPageUrl).toMatch(/^https?:\/\/.+/);
 
-    // Get all pages and find the new one
-    const newPages = context.pages();
-    const newPage = newPages.find((p) => p !== shortcutsPage);
+    const actualHostname = new URL(newPageUrl).hostname.replace(/^www\./, '');
+    const expectedHostname = new URL(expectedWebsite).hostname.replace(
+      /^www\./,
+      ''
+    );
+    expect(actualHostname).toBe(expectedHostname);
 
-    // Verify we have a new page
-    expect(newPages.length).toBe(initialPageCount + 1);
-    expect(newPage).toBeDefined();
-
-    if (newPage) {
-      await newPage.waitForLoadState('domcontentloaded');
-
-      // Verify the new page URL was set (extension popup creates page with target URL)
-      const newPageUrl = newPage.url();
-      expect(typeof newPageUrl).toBe('string');
-      expect(newPageUrl.length).toBeGreaterThan(0);
-
-      // If page navigated to actual URL (not about:blank), verify it matches expected
-      if (newPageUrl !== 'about:blank') {
-        expect(newPageUrl).toMatch(/^https?:\/\/.+/);
-        // Verify the new page URL contains the expected website from the rule
-        expect(newPageUrl).toContain(expectedWebsite);
-      }
-
-      // Close the new tab
-      await newPage.close();
-    }
+    await newPage.close();
   });
 });

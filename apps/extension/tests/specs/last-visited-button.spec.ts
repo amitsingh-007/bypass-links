@@ -52,6 +52,10 @@ test.describe.serial('LastVisitedButton', () => {
       .poll(
         async () => {
           const updatedTooltipText = await tooltip.textContent();
+          // First assert tooltip is not null (visible), then compare
+          if (updatedTooltipText === null) {
+            return false;
+          }
           return updatedTooltipText !== initialTooltipText;
         },
         {

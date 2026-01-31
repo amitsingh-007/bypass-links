@@ -257,8 +257,8 @@ test.describe.serial('Bookmarks Panel', () => {
 
       await panel.clickContextMenuItem('Delete');
 
-      const bookmarksAfter = await bookmarkRows.count();
-      expect(bookmarksAfter).toBeLessThan(bookmarksBefore);
+      // Wait for the bookmark count to decrease using auto-retrying assertion
+      await expect(bookmarkRows).toHaveCount(bookmarksBefore - 1);
     });
 
     test.describe('Bookmark URL Editing', () => {
