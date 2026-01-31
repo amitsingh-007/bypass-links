@@ -200,7 +200,7 @@ test.describe.serial('Bookmarks Panel', () => {
         const pagePromise = context.waitForEvent('page', {
           timeout: TEST_TIMEOUTS.PAGE_OPEN,
         });
-        await openOption.evaluate((el) => (el as HTMLElement).click());
+        await openOption.click();
         const newPage = await pagePromise;
 
         expect(newPage).toBeTruthy();
@@ -208,8 +208,8 @@ test.describe.serial('Bookmarks Panel', () => {
 
         // Clean up new pages
         const newPages = context.pages().slice(initialPages);
-        for (const newPage of newPages) {
-          await newPage.close();
+        for (const page of newPages) {
+          await page.close();
         }
       });
     });
