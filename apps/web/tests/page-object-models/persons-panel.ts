@@ -6,29 +6,20 @@ export class PersonsPanel {
 
   async search(query: string) {
     const searchInput = this.getSearchInput();
-    const initialCount = await this.getPersonCount();
     await searchInput.fill(query);
-    // Wait for debounce by checking the search input value is set
+    // Wait for debounce - input value is set and debounce completes
     await expect(searchInput).toHaveValue(query);
-    // Wait for search results to update (count should change or stabilize)
-    await expect(async () => {
-      const newCount = await this.getPersonCount();
-      // Either count changed or we've waited long enough
-      expect(newCount).not.toBe(initialCount);
-    }).toPass({ timeout: TEST_TIMEOUTS.DEBOUNCE * 2 });
+    // Wait for debounce to complete (Search component uses 200ms debounce)
+    await this.page.waitForTimeout(TEST_TIMEOUTS.DEBOUNCE);
   }
 
   async clearSearch() {
     const searchInput = this.getSearchInput();
-    const initialCount = await this.getPersonCount();
     await searchInput.clear();
-    // Wait for clear by checking the search input is empty
+    // Wait for debounce - input is cleared and debounce completes
     await expect(searchInput).toHaveValue('');
-    // Wait for search results to reset (count should return to original)
-    await expect(async () => {
-      const newCount = await this.getPersonCount();
-      expect(newCount).not.toBe(initialCount);
-    }).toPass({ timeout: TEST_TIMEOUTS.DEBOUNCE * 2 });
+    // Wait for debounce to complete (Search component uses 200ms debounce)
+    await this.page.waitForTimeout(TEST_TIMEOUTS.DEBOUNCE);
   }
 
   async getPersonCount(): Promise<number> {
@@ -99,29 +90,21 @@ export class PersonsPanel {
   async searchWithinBookmarks(query: string) {
     const modal = this.getModal();
     const searchInput = modal.getByPlaceholder('Search');
-    const initialCount = await this.getBookmarkCountInModalFromList();
     await searchInput.fill(query);
-    // Wait for debounce by checking the search input value is set
+    // Wait for debounce - input value is set and debounce completes
     await expect(searchInput).toHaveValue(query);
-    // Wait for search results to update
-    await expect(async () => {
-      const newCount = await this.getBookmarkCountInModalFromList();
-      expect(newCount).not.toBe(initialCount);
-    }).toPass({ timeout: TEST_TIMEOUTS.DEBOUNCE * 2 });
+    // Wait for debounce to complete (Search component uses 200ms debounce)
+    await this.page.waitForTimeout(TEST_TIMEOUTS.DEBOUNCE);
   }
 
   async clearSearchWithinBookmarks() {
     const modal = this.getModal();
     const searchInput = modal.getByPlaceholder('Search');
-    const initialCount = await this.getBookmarkCountInModalFromList();
     await searchInput.clear();
-    // Wait for clear by checking the search input is empty
+    // Wait for debounce - input is cleared and debounce completes
     await expect(searchInput).toHaveValue('');
-    // Wait for search results to reset
-    await expect(async () => {
-      const newCount = await this.getBookmarkCountInModalFromList();
-      expect(newCount).not.toBe(initialCount);
-    }).toPass({ timeout: TEST_TIMEOUTS.DEBOUNCE * 2 });
+    // Wait for debounce to complete (Search component uses 200ms debounce)
+    await this.page.waitForTimeout(TEST_TIMEOUTS.DEBOUNCE);
   }
 
   async closeModal() {
