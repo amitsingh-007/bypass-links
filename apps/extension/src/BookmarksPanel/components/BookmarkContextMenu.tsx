@@ -104,12 +104,14 @@ const BookmarkContextMenu = memo<Props>(
           onClick: handleCutBookmarks,
           text: 'Cut',
           icon: TbCut,
+          action: 'Cut',
         },
       ];
       if (cutCount > 0 && selectedCount === 1) {
         menuOptionsList.push({
           onClick: handlePasteSelectedBookmarks,
           text: `Paste (${cutCount})`,
+          action: 'Paste',
           icon: MdOutlineContentPasteGo,
         });
       }
