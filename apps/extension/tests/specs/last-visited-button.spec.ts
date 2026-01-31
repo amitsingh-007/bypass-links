@@ -45,24 +45,10 @@ test.describe.serial('LastVisitedButton', () => {
 
     // Hover to get updated timestamp
     await lastVisitedButton.hover();
-    await homePage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
-    // Poll until the tooltip text changes from initial (with 5 second timeout)
-    await homeExpect
-      .poll(
-        async () => {
-          const updatedTooltipText = await tooltip.textContent();
-          // First assert tooltip is not null (visible), then compare
-          if (updatedTooltipText === null) {
-            return false;
-          }
-          return updatedTooltipText !== initialTooltipText;
-        },
-        {
-          timeout: 5000,
-          message: 'Tooltip timestamp should change from initial value',
-        }
-      )
-      .toBe(true);
+    // Wait for tooltip text to change from initial value (auto-retrying)
+    await homeExpect(tooltip).not.toHaveText(initialTooltipText!, {
+      timeout: 5000,
+    });
   });
 });

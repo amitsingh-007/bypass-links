@@ -247,19 +247,10 @@ test.describe.serial('Delete Rule Tests', () => {
     const deleteButton = shortcutsPage.getByTestId('rule-0-delete');
     await deleteButton.click();
 
-    // Verify count decreased back to initial with retry
-    await expect
-      .poll(
-        async () => {
-          const finalCount = await panel.getRuleCount();
-          return finalCount === initialCount;
-        },
-        {
-          timeout: 3000,
-          message: 'Rule count should decrease back to initial after delete',
-        }
-      )
-      .toBe(true);
+    // Verify count decreased back to initial
+    await expect(panel.getRuleElements()).toHaveCount(initialCount, {
+      timeout: 3000,
+    });
   });
 });
 

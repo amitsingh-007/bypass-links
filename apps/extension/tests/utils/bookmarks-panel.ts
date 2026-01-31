@@ -67,14 +67,6 @@ export class BookmarksPanel {
     await expect(dialog).toBeHidden();
   }
 
-  async deleteFolder(folderName: string) {
-    const folderRow = this.page.getByTestId(`folder-item-${folderName}`);
-    await expect(folderRow).toBeVisible();
-    await folderRow.click({ button: 'right' });
-    await this.clickContextMenuItem('Delete');
-    await expect(folderRow).not.toBeVisible();
-  }
-
   async openEditBookmarkDialog(bookmarkTitle: string) {
     const element = this.page.getByTestId(`bookmark-item-${bookmarkTitle}`);
     await expect(element).toBeVisible();
@@ -280,10 +272,6 @@ export class BookmarksPanel {
 
   getBookmarkItems() {
     return this.page.locator('[data-testid^="bookmark-item-"]');
-  }
-
-  getFolderItems() {
-    return this.page.locator('[data-testid^="folder-item-"]');
   }
 
   getDialogCloseButton() {

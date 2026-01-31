@@ -269,18 +269,6 @@ export class PersonsPanel {
     return this.page.getByPlaceholder('Search');
   }
 
-  getAddPersonButton() {
-    return this.page.getByRole('button', { name: 'Add' });
-  }
-
-  getPersonCards() {
-    return this.page.locator('[data-testid^="person-item-"]');
-  }
-
-  getRecencySwitch() {
-    return this.page.getByRole('switch', { name: 'Recency' });
-  }
-
   // ============ Composite Operations ============
 
   async clickPersonContextMenu(personName: string, menuItemText: string) {
@@ -288,18 +276,5 @@ export class PersonsPanel {
     await expect(personCard).toBeVisible();
     await personCard.click({ button: 'right' });
     await clickContextMenuItem(this.page, menuItemText);
-  }
-
-  async addPersonWithNameOnly(name: string) {
-    return this.addPerson(name);
-  }
-
-  async toggleRecencyAndWait() {
-    await this.toggleRecency();
-    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
-  }
-
-  async getPersonBadgeCount(personName: string): Promise<number> {
-    return this.verifyBadgeCount(personName);
   }
 }

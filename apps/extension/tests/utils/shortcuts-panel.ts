@@ -25,13 +25,6 @@ const getWebsiteInput = (page: Page, pos: number) => {
 };
 
 /**
- * Get the default checkbox for a rule by position.
- */
-const getDefaultCheckbox = (page: Page, pos: number) => {
-  return page.getByTestId(`rule-${pos}-default`);
-};
-
-/**
  * Get the external link button for a rule by position.
  */
 const getExternalLinkButton = (page: Page, pos: number) => {
@@ -50,20 +43,6 @@ const getRuleSaveButton = (page: Page, pos: number) => {
  */
 const getDeleteButton = (page: Page, pos: number) => {
   return page.getByTestId(`rule-${pos}-delete`);
-};
-
-/**
- * Get the move up button for a rule by position.
- */
-const getMoveUpButton = (page: Page, pos: number) => {
-  return page.getByTestId(`rule-${pos}-move-up`);
-};
-
-/**
- * Get the move down button for a rule by position.
- */
-const getMoveDownButton = (page: Page, pos: number) => {
-  return page.getByTestId(`rule-${pos}-move-down`);
 };
 
 /**
@@ -137,11 +116,12 @@ export class ShortcutsPanel {
     await waitForDebounce(this.page);
   }
 
+  getRuleElements() {
+    return this.page.locator('[data-testid^="rule-"][data-testid$="-alias"]');
+  }
+
   async getRuleCount() {
-    const allRules = this.page.locator(
-      '[data-testid^="rule-"][data-testid$="-alias"]'
-    );
-    return allRules.count();
+    return this.getRuleElements().count();
   }
 
   async addRule() {
@@ -181,46 +161,10 @@ export class ShortcutsPanel {
     await deleteButton.click();
   }
 
-  async moveRuleUp(alias: string) {
-    const pos = await findRulePosByAlias(this.page, alias);
-    expect(pos).toBeGreaterThanOrEqual(0);
-
-    const ruleUpButton = getMoveUpButton(this.page, pos);
-    await ruleUpButton.click();
-  }
-
-  async moveRuleDown(alias: string) {
-    const pos = await findRulePosByAlias(this.page, alias);
-    expect(pos).toBeGreaterThanOrEqual(0);
-
-    const ruleDownButton = getMoveDownButton(this.page, pos);
-    await ruleDownButton.click();
-  }
-
   async verifyRuleOrder(expectedAliases: string[]) {
     for (const [index, expectedAlias] of expectedAliases.entries()) {
       const input = getAliasInput(this.page, index);
       await expect(input).toHaveValue(expectedAlias);
-    }
-  }
-
-  async toggleDefaultRule(alias: string) {
-    const pos = await findRulePosByAlias(this.page, alias);
-    expect(pos).toBeGreaterThanOrEqual(0);
-
-    const checkbox = getDefaultCheckbox(this.page, pos);
-    await checkbox.check();
-  }
-
-  async verifyDefaultRule(alias: string, isDefault: boolean) {
-    const pos = await findRulePosByAlias(this.page, alias);
-    expect(pos).toBeGreaterThanOrEqual(0);
-
-    const checkbox = getDefaultCheckbox(this.page, pos);
-    if (isDefault) {
-      await expect(checkbox).toBeChecked();
-    } else {
-      await expect(checkbox).not.toBeChecked();
     }
   }
 
@@ -261,54 +205,12 @@ export class ShortcutsPanel {
     }
   }
 
-  async verifyExternalLinkButtonDisabled(alias: string, isDisabled: boolean) {
-    const pos = await findRulePosByAlias(this.page, alias);
-    expect(pos).toBeGreaterThanOrEqual(0);
-
-    const linkButton = getExternalLinkButton(this.page, pos);
-    if (isDisabled) {
-      await expect(linkButton).toBeDisabled();
-    } else {
-      await expect(linkButton).toBeEnabled();
-    }
-  }
-
   async verifyRuleVisible(alias: string) {
     const pos = await findRulePosByAlias(this.page, alias);
     expect(pos).toBeGreaterThanOrEqual(0);
 
     const rule = getRuleByPos(this.page, pos);
     await expect(rule).toBeVisible();
-  }
-
-  async verifyRuleNotVisible(alias: string) {
-    const pos = await findRulePosByAlias(this.page, alias);
-    expect(pos).toBeGreaterThanOrEqual(0);
-
-    const rule = getRuleByPos(this.page, pos);
-    await expect(rule).not.toBeVisible();
-  }
-
-  async getAliasInputError(alias: string) {
-    const pos = await findRulePosByAlias(this.page, alias);
-    expect(pos).toBeGreaterThanOrEqual(0);
-
-    const aliasInput = getAliasInput(this.page, pos);
-    const hasError = await aliasInput.evaluate((el: any) => {
-      return el.classList.contains('mantine-TextInput-invalid');
-    });
-    return hasError;
-  }
-
-  async getWebsiteInputError(alias: string) {
-    const pos = await findRulePosByAlias(this.page, alias);
-    expect(pos).toBeGreaterThanOrEqual(0);
-
-    const websiteInput = getWebsiteInput(this.page, pos);
-    const hasError = await websiteInput.evaluate((el: any) => {
-      return el.classList.contains('mantine-TextInput-invalid');
-    });
-    return hasError;
   }
 
   async navigateBack() {
@@ -346,10 +248,6 @@ export class ShortcutsPanel {
 
   getWebsiteInputs() {
     return this.page.getByPlaceholder('Enter Website');
-  }
-
-  getRuleElements() {
-    return this.page.locator('[data-testid^="rule-"][data-testid$="-alias"]');
   }
 
   getHeaderElement() {

@@ -69,20 +69,10 @@ test.describe.serial('Signed In', () => {
     await homePage.goto('/index.html');
     await homePage.waitForLoadState('networkidle');
 
-    // Poll for the button state to stabilize (bookmark saved)
-    await homeExpect
-      .poll(
-        async () => {
-          const button = homePage.getByTestId('quick-bookmark-button');
-          const text = await button.textContent();
-          return text?.includes('Unpin') ?? false;
-        },
-        {
-          timeout: TEST_TIMEOUTS.NAVIGATION,
-          message: 'Button should show Unpin after saving bookmark',
-        }
-      )
-      .toBe(true);
+    // Wait for button to show Unpin state (bookmark saved)
+    await homeExpect(
+      homePage.getByTestId('quick-bookmark-button')
+    ).toContainText('Unpin', { timeout: TEST_TIMEOUTS.NAVIGATION });
   });
 
   test('should show Unpin and delete bookmark', async ({ homePage }) => {
