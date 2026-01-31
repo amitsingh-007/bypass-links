@@ -69,7 +69,7 @@ export class PersonsPanel {
     const personCard = this.page.getByTestId(`person-item-${personName}`);
     await expect(personCard).toBeVisible();
     await personCard.click({ button: 'right' });
-    await clickContextMenuItem(this.page, 'Edit');
+    await clickContextMenuItem(this.page, 'edit');
     return this.page.getByRole('dialog', { name: 'Edit Person' });
   }
 
@@ -103,7 +103,7 @@ export class PersonsPanel {
     await expect(personCard).toBeVisible();
 
     await personCard.click({ button: 'right' });
-    await clickContextMenuItem(this.page, 'Delete');
+    await clickContextMenuItem(this.page, 'delete');
 
     // Wait for success notification to appear and verify
     const notification = this.page.getByText('Person deleted successfully');

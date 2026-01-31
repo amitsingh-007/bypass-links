@@ -251,7 +251,7 @@ test.describe.serial('Bookmarks Panel', () => {
       const lastBookmark = bookmarkRows.last();
       await lastBookmark.click({ button: 'right' });
 
-      await panel.clickContextMenuItem('Delete');
+      await panel.clickContextMenuItem('delete');
 
       // Wait for the bookmark count to decrease using auto-retrying assertion
       await expect(bookmarkRows).toHaveCount(bookmarksBefore - 1);
@@ -487,7 +487,7 @@ test.describe.serial('Bookmarks Panel', () => {
       await panel.ensureAtRoot();
 
       await panel.openFolderWithNestedFolders(TEST_FOLDERS.OTHER_BOOKMARKS);
-      await panel.clickContextMenuItem('Delete');
+      await panel.clickContextMenuItem('delete');
 
       const toast = bookmarksPage.getByText('Remove inner folders first');
       await expect(toast).toBeVisible();
@@ -506,7 +506,7 @@ test.describe.serial('Bookmarks Panel', () => {
 
     await folderRow.click({ button: 'right' });
 
-    await panel.clickContextMenuItem('Delete');
+    await panel.clickContextMenuItem('delete');
 
     await panel.verifyFolderNotExists(folderName);
   });

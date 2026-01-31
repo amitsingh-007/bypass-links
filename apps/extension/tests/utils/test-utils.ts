@@ -80,10 +80,10 @@ export const closeDialog = async (
 };
 
 /**
- * Click a specific context menu option by text.
+ * Click a specific context menu option by id.
  */
-export const clickContextMenuItem = async (page: Page, itemText: string) => {
-  const className = `context-menu-item-${itemText.toLowerCase().replaceAll(/\s+/g, '-')}`;
+export const clickContextMenuItem = async (page: Page, id: string) => {
+  const className = `context-menu-item-${id}`;
   const menuItem = page.locator(`.${className}`);
   await menuItem.waitFor({ state: 'attached' });
   await menuItem.evaluate((el) => (el as HTMLElement).click());

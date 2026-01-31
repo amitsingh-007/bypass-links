@@ -71,18 +71,15 @@ export class BookmarksPanel {
     const element = this.page.getByTestId(`bookmark-item-${bookmarkTitle}`);
     await expect(element).toBeVisible();
     await element.click({ button: 'right' });
-    await this.clickContextMenuItem('Edit');
+    await this.clickContextMenuItem('edit');
     return this.page.getByRole('dialog');
   }
 
-  async openBookmarkContextMenuItem(
-    bookmarkTitle: string,
-    menuItemText: string
-  ) {
+  async openBookmarkContextMenuItem(bookmarkTitle: string, menuItemId: string) {
     const element = this.page.getByTestId(`bookmark-item-${bookmarkTitle}`);
     await expect(element).toBeVisible();
     await element.click({ button: 'right' });
-    await this.clickContextMenuItem(menuItemText);
+    await this.clickContextMenuItem(menuItemId);
   }
 
   async cutBookmark(bookmarkTitle: string) {
@@ -114,8 +111,8 @@ export class BookmarksPanel {
     await expect(this.page.getByText('Saved temporarily')).toBeVisible();
   }
 
-  async clickContextMenuItem(itemText: string) {
-    await clickContextMenuItemUtil(this.page, itemText);
+  async clickContextMenuItem(itemId: string) {
+    await clickContextMenuItemUtil(this.page, itemId);
   }
 
   async getBookmarkCount() {

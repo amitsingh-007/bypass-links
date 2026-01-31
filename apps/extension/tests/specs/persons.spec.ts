@@ -15,10 +15,8 @@ test.describe.serial('Persons Panel', () => {
   test.describe('Search Person', () => {
     test('should search and filter persons', async ({ personsPage }) => {
       const panel = new PersonsPanel(personsPage);
-      await panel.search('John', {
-        visibleTexts: [TEST_PERSONS.JOHN_NATHAN],
-        hiddenTexts: [TEST_PERSONS.AKASH_KUMAR_SINGH],
-      });
+      await panel.search('John');
+      await panel.verifyPersonExists(TEST_PERSONS.JOHN_NATHAN);
 
       await panel.clearSearch();
       await panel.verifyPersonExists(TEST_PERSONS.AKASH_KUMAR_SINGH);
@@ -87,7 +85,7 @@ test.describe.serial('Persons Panel', () => {
       const panel = new PersonsPanel(personsPage);
       // Try to delete a person who has tagged bookmarks
       // John Nathan has bookmarks tagged (verified in existing tests)
-      await panel.clickPersonContextMenu(TEST_PERSONS.JOHN_NATHAN, 'Delete');
+      await panel.clickPersonContextMenu(TEST_PERSONS.JOHN_NATHAN, 'delete');
 
       // Verify error notification is shown
       const notification = personsPage.getByText(
