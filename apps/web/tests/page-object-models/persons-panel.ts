@@ -141,12 +141,6 @@ export class PersonsPanel {
     await expect(badge).toContainText(name);
   }
 
-  async verifyBookmarkExists(title: string) {
-    const modal = this.getModal();
-    const bookmark = modal.getByTestId(`bookmark-item-${title}`);
-    await expect(bookmark).toBeVisible();
-  }
-
   getFolderBadges(): Locator {
     // Returns badges showing folder names (violet badges in bookmark rows)
     // These are distinct from the person bookmark count badge
@@ -161,10 +155,6 @@ export class PersonsPanel {
 
   getSearchInput(): Locator {
     return this.page.getByPlaceholder('Search');
-  }
-
-  getPersonCard(name: string): Locator {
-    return this.page.getByTestId(`person-item-${name}`);
   }
 
   private getModal(): Locator {
