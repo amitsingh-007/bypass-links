@@ -147,7 +147,6 @@ export class ShortcutsPanel {
   async addRule() {
     const addButton = this.page.getByRole('button', { name: 'Add' });
     await addButton.click();
-    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
   }
 
   async fillRuleAlias(currentAlias: string, newAlias: string) {
@@ -180,8 +179,6 @@ export class ShortcutsPanel {
 
     const deleteButton = getDeleteButton(this.page, pos);
     await deleteButton.click();
-
-    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
   }
 
   async moveRuleUp(alias: string) {
@@ -190,7 +187,6 @@ export class ShortcutsPanel {
 
     const ruleUpButton = getMoveUpButton(this.page, pos);
     await ruleUpButton.click();
-    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
   }
 
   async moveRuleDown(alias: string) {
@@ -199,7 +195,6 @@ export class ShortcutsPanel {
 
     const ruleDownButton = getMoveDownButton(this.page, pos);
     await ruleDownButton.click();
-    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
   }
 
   async verifyRuleOrder(expectedAliases: string[]) {
@@ -357,10 +352,6 @@ export class ShortcutsPanel {
     return this.page.locator('[data-testid^="rule-"][data-testid$="-alias"]');
   }
 
-  getRuleElementByAlias(alias: string) {
-    return getRuleByPos(this.page, findRulePosByAliasSync(this.page, alias));
-  }
-
   getHeaderElement() {
     return this.page.getByText('Shortcuts');
   }
@@ -369,7 +360,6 @@ export class ShortcutsPanel {
 
   async addRuleAndSave(alias: string, website: string, isDefault = false) {
     await this.addRule();
-    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
     // Get the first rule (newly added)
     const firstAliasInput = getAliasInput(this.page, 0);
@@ -386,7 +376,7 @@ export class ShortcutsPanel {
     // Click save button
     const saveButton = getRuleSaveButton(this.page, 0);
     await saveButton.click();
-    await this.page.waitForTimeout(500);
+    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
   }
 
   async editRule(alias: string, newAlias?: string, newWebsite?: string) {
@@ -397,16 +387,6 @@ export class ShortcutsPanel {
       await this.fillRuleWebsite(alias, newWebsite);
     }
     await this.clickRuleSaveButton(alias);
-    await this.page.waitForTimeout(500);
+    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
   }
-}
-
-/**
- * Synchronous version of findRulePosByAlias for use in selector getters.
- * Returns first matching position or 0 if not found.
- */
-function findRulePosByAliasSync(_page: Page, _alias: string): number {
-  // For synchronous use, we'll use a heuristic - this is meant for selector creation
-  // The actual position finding happens asynchronously in test execution
-  return 0;
 }

@@ -39,9 +39,6 @@ test.describe.serial('LastVisitedButton', () => {
     // Move away from tooltip
     await homePage.mouse.move(0, 0);
 
-    // Wait 1 second to ensure timestamp difference
-    await homePage.waitForTimeout(1000);
-
     // Click again to update timestamp
     await lastVisitedButton.click();
     await homePage.waitForTimeout(TEST_TIMEOUTS.NAVIGATION);
@@ -50,10 +47,18 @@ test.describe.serial('LastVisitedButton', () => {
     await lastVisitedButton.hover();
     await homePage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
-    // Get the updated tooltip text
-    const updatedTooltipText = await tooltip.textContent();
-
-    // Verify timestamp has changed (not equal to initial)
-    homeExpect(updatedTooltipText).not.toBe(initialTooltipText);
+    // Poll until the tooltip text changes from initial (with 5 second timeout)
+    await homeExpect
+      .poll(
+        async () => {
+          const updatedTooltipText = await tooltip.textContent();
+          return updatedTooltipText !== initialTooltipText;
+        },
+        {
+          timeout: 5000,
+          message: 'Tooltip timestamp should change from initial value',
+        }
+      )
+      .toBe(true);
   });
 });

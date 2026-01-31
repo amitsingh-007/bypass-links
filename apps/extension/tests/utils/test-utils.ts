@@ -20,7 +20,6 @@ export const openPersonCard = async (page: Page, personName: string) => {
   const personCard = page.getByTestId(`person-item-${personName}`);
   await expect(personCard).toBeVisible();
   await personCard.click();
-  await page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 };
 
 /**
@@ -176,7 +175,6 @@ export const getBadgeCount = async (
 export const toggleSwitch = async (page: Page, labelText: string) => {
   const label = page.locator('label').filter({ hasText: labelText });
   await label.click();
-  await page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 };
 
 /**
@@ -186,7 +184,6 @@ export const openFolder = async (page: Page, folderName: string) => {
   const folder = page.getByTestId(`folder-item-${folderName}`);
   await expect(folder).toBeVisible();
   await folder.click();
-  await page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 };
 
 interface SearchAndVerifyOptions {

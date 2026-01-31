@@ -36,7 +36,6 @@ test.describe.serial('Bookmarks Panel', () => {
       const initialUrl = bookmarksPage.url();
 
       await panel.openFolder(emptyFolderName);
-      await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
       // Empty folder should not navigate - URL should remain the same
       expect(bookmarksPage.url()).toBe(initialUrl);
@@ -258,8 +257,6 @@ test.describe.serial('Bookmarks Panel', () => {
 
       await panel.clickContextMenuItem('Delete');
 
-      await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
-
       const bookmarksAfter = await bookmarkRows.count();
       expect(bookmarksAfter).toBeLessThan(bookmarksBefore);
     });
@@ -426,10 +423,8 @@ test.describe.serial('Bookmarks Panel', () => {
       await expect(filteredBookmark).toBeVisible();
 
       await searchInput.clear();
-      await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.DEBOUNCE);
 
       await searchInput.fill('material');
-      await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.DEBOUNCE);
 
       const urlFilteredBookmark = panel.getBookmarkElement(
         TEST_BOOKMARKS.REACT_DOCS
@@ -450,7 +445,6 @@ test.describe.serial('Bookmarks Panel', () => {
 
       const searchInput = panel.getSearchInput();
       await searchInput.fill('nonexistentterm');
-      await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.DEBOUNCE);
 
       await expect(folder).toBeVisible();
 
@@ -468,12 +462,10 @@ test.describe.serial('Bookmarks Panel', () => {
       const mainFolder = panel.getFolderElement(TEST_FOLDERS.MAIN);
       await expect(mainFolder).toBeVisible();
       await mainFolder.click();
-      await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
       const countBefore = await panel.getBookmarkCount();
 
       await panel.cutBookmark(TEST_BOOKMARKS.GITHUB);
-      await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.DEBOUNCE);
 
       await panel.verifyBookmarkExists(TEST_BOOKMARKS.GITHUB);
 
@@ -500,8 +492,6 @@ test.describe.serial('Bookmarks Panel', () => {
 
       await panel.openFolderWithNestedFolders(TEST_FOLDERS.OTHER_BOOKMARKS);
       await panel.clickContextMenuItem('Delete');
-
-      await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
       const toast = bookmarksPage.getByText('Remove inner folders first');
       await expect(toast).toBeVisible();

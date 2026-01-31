@@ -111,7 +111,6 @@ export class BookmarksPanel {
     const bookmarkRow = this.page.getByTestId(`bookmark-item-${bookmarkTitle}`);
     await bookmarkRow.click({ button: 'right' });
     await this.clickContextMenuItem('Delete');
-    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
   }
 
   async selectBookmark(bookmarkTitle: string) {

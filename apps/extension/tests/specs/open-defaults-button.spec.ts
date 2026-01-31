@@ -1,3 +1,4 @@
+import { TEST_TIMEOUTS } from '@bypass/shared/tests';
 import { test, expect as homeExpect } from '../fixtures/home-popup-fixture';
 
 /**
@@ -29,8 +30,8 @@ test.describe.serial('Signed In', () => {
     // Click the Defaults button
     await defaultsButton.click();
 
-    // Wait a moment for tabs to open, then check
-    await homePage.waitForTimeout(2000);
+    // Wait for tabs to open and load
+    await homePage.waitForTimeout(TEST_TIMEOUTS.NAVIGATION);
 
     const allPages = context.pages();
     const newPages = allPages.filter((p) => p !== homePage);

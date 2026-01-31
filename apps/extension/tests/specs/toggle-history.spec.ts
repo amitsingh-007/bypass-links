@@ -102,7 +102,6 @@ test.describe.serial('History Tracking Workflow', () => {
 
     // Navigate back to Home page to verify the toggle
     await panel.navigateBack();
-    await homePage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
     // Verify history tracking is now ON
     await expect(homePanel.historyToggle).toBeChecked();
