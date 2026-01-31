@@ -225,11 +225,6 @@ export class PersonsPanel {
 
   // ============ Verification Helpers ============
 
-  async verifyPersonNotExists(personName: string) {
-    const personCard = this.page.getByTestId(`person-item-${personName}`);
-    await expect(personCard).not.toBeVisible();
-  }
-
   async verifyPersonExists(personName: string) {
     await this.verifyPersonCardVisible(personName);
   }

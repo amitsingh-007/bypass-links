@@ -96,12 +96,6 @@ export class BookmarksPanel {
     await waitForDebounce(this.page);
   }
 
-  async deleteBookmark(bookmarkTitle: string) {
-    const bookmarkRow = this.page.getByTestId(`bookmark-item-${bookmarkTitle}`);
-    await bookmarkRow.click({ button: 'right' });
-    await this.clickContextMenuItem('Delete');
-  }
-
   async selectBookmark(bookmarkTitle: string) {
     const bookmark = this.page.getByTestId(`bookmark-item-${bookmarkTitle}`);
     await expect(bookmark).toBeVisible();
