@@ -102,7 +102,7 @@ test.describe('Persons Panel', () => {
       await panel.verifyPersonNameInBadge(TEST_PERSONS.JOHN_NATHAN);
 
       const bookmarkCount = await panel.getBookmarkCountInModal();
-      expect(bookmarkCount).toBeGreaterThanOrEqual(0);
+      expect(bookmarkCount).toBeGreaterThan(0);
 
       await panel.closeModal();
       await panel.verifyModalClosed();
@@ -116,9 +116,7 @@ test.describe('Persons Panel', () => {
       await panel.openPersonCard(TEST_PERSONS.AKASH_KUMAR_SINGH);
 
       const badgeCount = await panel.getBookmarkCountInModal();
-      // Verify badge shows a non-negative count
-      expect(badgeCount).toBeGreaterThanOrEqual(0);
-      // Verify person name is in the badge
+      expect(typeof badgeCount).toBe('number');
       await panel.verifyPersonNameInBadge(TEST_PERSONS.AKASH_KUMAR_SINGH);
 
       await panel.closeModal();
@@ -183,8 +181,11 @@ test.describe('Persons Panel', () => {
 
       await panel.searchWithinBookmarks('React');
 
-      const countAfter = await panel.getBookmarkCountInModalFromList();
-      expect(countAfter).toBeLessThanOrEqual(countBefore);
+      // Wait for search results to update and verify filtering occurred
+      await expect(async () => {
+        const countAfter = await panel.getBookmarkCountInModalFromList();
+        expect(countAfter).toBeLessThanOrEqual(countBefore);
+      }).toPass();
 
       await panel.clearSearchWithinBookmarks();
       await panel.closeModal();

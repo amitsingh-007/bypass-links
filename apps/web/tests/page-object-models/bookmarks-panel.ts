@@ -43,15 +43,7 @@ export class BookmarksPanel {
   }
 
   async getBookmarkCount(): Promise<number> {
-    // Wait for at least one bookmark to be visible before counting
-    const bookmarkLocator = this.page.locator(
-      '[data-testid^="bookmark-item-"]'
-    );
-    await bookmarkLocator
-      .first()
-      .waitFor({ state: 'visible', timeout: TEST_TIMEOUTS.LONG_WAIT })
-      .catch(() => null);
-    return bookmarkLocator.count();
+    return this.page.locator('[data-testid^="bookmark-item-"]').count();
   }
 
   async hoverAvatar(): Promise<Locator> {
