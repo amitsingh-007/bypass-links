@@ -5,10 +5,12 @@ import { PersonsPanel } from '../page-object-models/persons-panel';
 test.describe('Persons Panel', () => {
   test.beforeEach(async ({ authenticatedPage }) => {
     await authenticatedPage.goto('/persons-panel');
-    // Wait for persons to load from localStorage
-    await expect(
-      authenticatedPage.locator('[data-testid^="person-item-"]').first()
-    ).toBeVisible();
+    // Wait for persons to load by checking header badge shows count > 0
+    const panel = new PersonsPanel(authenticatedPage);
+    await expect(async () => {
+      const count = await panel.getHeaderPersonCount();
+      expect(count).toBeGreaterThan(0);
+    }).toPass();
   });
 
   test.describe('Basic Navigation', () => {
