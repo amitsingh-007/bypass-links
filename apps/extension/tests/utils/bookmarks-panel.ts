@@ -117,15 +117,6 @@ export class BookmarksPanel {
     await bookmarkRow.dblclick();
   }
 
-  async openBookmarksViaContextMenu() {
-    const openOption = this.page.locator(
-      '.mantine-contextmenu-item-button-title',
-      { hasText: 'Open' }
-    );
-    await openOption.waitFor({ state: 'attached' });
-    await openOption.evaluate((el) => (el as HTMLElement).click());
-  }
-
   async clickSaveButton() {
     const saveButton = this.getSaveButton();
     await saveButton.click();
@@ -240,11 +231,6 @@ export class BookmarksPanel {
   async verifyFolderExists(folderName: string) {
     const folder = this.page.getByTestId(`folder-item-${folderName}`);
     await expect(folder).toBeVisible();
-  }
-
-  async verifyBookmarkNotExists(bookmarkTitle: string) {
-    const bookmark = this.page.getByTestId(`bookmark-item-${bookmarkTitle}`);
-    await expect(bookmark).not.toBeVisible();
   }
 
   async verifyFolderNotExists(folderName: string) {

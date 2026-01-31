@@ -39,6 +39,9 @@ test.describe.serial('LastVisitedButton', () => {
     // Move away from tooltip
     await homePage.mouse.move(0, 0);
 
+    // Wait 1.1s to ensure timestamps differ (second-precision)
+    await homePage.waitForTimeout(1100);
+
     // Click again to update timestamp
     await lastVisitedButton.click();
     await homePage.waitForTimeout(TEST_TIMEOUTS.NAVIGATION);

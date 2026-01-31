@@ -61,10 +61,6 @@ export class BookmarksPanel {
     return dropdown;
   }
 
-  getEmptyState(): Locator {
-    return this.page.getByText(/no bookmarks/i);
-  }
-
   getCurrentUrl(): string {
     return this.page.url();
   }

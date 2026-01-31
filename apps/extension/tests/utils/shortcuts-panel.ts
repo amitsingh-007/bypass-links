@@ -1,6 +1,6 @@
 import { expect, type Page } from '@playwright/test';
 import { TEST_TIMEOUTS } from '@bypass/shared/tests';
-import { navigateBack, waitForDebounce } from './test-utils';
+import { waitForDebounce } from './test-utils';
 
 /**
  * Get the rule container by position index.
@@ -82,32 +82,10 @@ export class ShortcutsPanel {
     });
   }
 
-  async search(
-    query: string,
-    options?: { visibleTexts?: string[]; hiddenTexts?: string[] }
-  ) {
+  async search(query: string) {
     const searchInput = this.page.getByPlaceholder('Search');
     await searchInput.fill(query);
     await waitForDebounce(this.page);
-
-    if (options?.visibleTexts ?? options?.hiddenTexts) {
-      const visibleTexts = options.visibleTexts ?? [];
-      const hiddenTexts = options.hiddenTexts ?? [];
-
-      for (const text of visibleTexts) {
-        const pos = await findRulePosByAlias(this.page, text);
-        expect(pos).toBeGreaterThanOrEqual(0);
-        const rule = getRuleByPos(this.page, pos);
-        await expect(rule).toBeVisible();
-      }
-
-      for (const text of hiddenTexts) {
-        const pos = await findRulePosByAlias(this.page, text);
-        expect(pos).toBeGreaterThanOrEqual(0);
-        const rule = getRuleByPos(this.page, pos);
-        await expect(rule).not.toBeVisible();
-      }
-    }
   }
 
   async clearSearch() {
@@ -161,13 +139,6 @@ export class ShortcutsPanel {
     await deleteButton.click();
   }
 
-  async verifyRuleOrder(expectedAliases: string[]) {
-    for (const [index, expectedAlias] of expectedAliases.entries()) {
-      const input = getAliasInput(this.page, index);
-      await expect(input).toHaveValue(expectedAlias);
-    }
-  }
-
   async openExternalLink(alias: string) {
     const pos = await findRulePosByAlias(this.page, alias);
     expect(pos).toBeGreaterThanOrEqual(0);
@@ -196,25 +167,12 @@ export class ShortcutsPanel {
     }
   }
 
-  async verifyMainSaveButtonDisabled(isDisabled: boolean) {
-    const saveButton = this.page.getByRole('button', { name: 'Save' }).last();
-    if (isDisabled) {
-      await expect(saveButton).toBeDisabled();
-    } else {
-      await expect(saveButton).toBeEnabled();
-    }
-  }
-
   async verifyRuleVisible(alias: string) {
     const pos = await findRulePosByAlias(this.page, alias);
     expect(pos).toBeGreaterThanOrEqual(0);
 
     const rule = getRuleByPos(this.page, pos);
     await expect(rule).toBeVisible();
-  }
-
-  async navigateBack() {
-    await navigateBack(this.page);
   }
 
   // ============ Verification Helpers ============
