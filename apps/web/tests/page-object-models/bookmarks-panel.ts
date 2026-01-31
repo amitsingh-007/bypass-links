@@ -46,6 +46,23 @@ export class BookmarksPanel {
     return this.page.locator('[data-testid^="bookmark-item-"]').count();
   }
 
+  async waitForBookmarkCount(): Promise<number> {
+    const bookmarkLocator = this.page.locator(
+      '[data-testid^="bookmark-item-"]'
+    );
+    // Wait for at least one bookmark or empty state
+    await Promise.race([
+      bookmarkLocator
+        .first()
+        .waitFor({ state: 'visible', timeout: TEST_TIMEOUTS.LONG_WAIT }),
+      this.getEmptyState().waitFor({
+        state: 'visible',
+        timeout: TEST_TIMEOUTS.LONG_WAIT,
+      }),
+    ]);
+    return bookmarkLocator.count();
+  }
+
   async hoverAvatar(): Promise<Locator> {
     const avatarGroup = this.getAvatarGroup();
     const avatar = avatarGroup.locator('[data-testid^="avatar-"]').first();
@@ -138,9 +155,11 @@ export class BookmarksPanel {
 
   async getBadgeCount(): Promise<number> {
     const badge = this.getBookmarkCountBadge();
+    await expect(badge).toBeVisible();
     const badgeText = await badge.textContent();
     const match = /\((\d+)\)/.exec(badgeText ?? '');
-    return match ? Number.parseInt(match[1], 10) : 0;
+    const count = match ? Number.parseInt(match[1], 10) : 0;
+    return count;
   }
 
   getAvatarGroup(): Locator {

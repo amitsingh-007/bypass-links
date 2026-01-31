@@ -46,10 +46,13 @@ function BookmarksList({
   const { getPersonTaggedUrls } = usePerson();
   const [bookmarks, setBookmarks] = useState<IBookmarkWithFolder[]>([]);
   const [searchText, setSearchText] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const initBookmarks = useCallback(async () => {
+    setIsLoading(true);
     const taggedUrls = await getPersonTaggedUrls(personToOpen?.uid ?? '');
     if (!taggedUrls?.length) {
+      setIsLoading(false);
       return;
     }
     const fetchedBookmarks = await Promise.all(
@@ -72,6 +75,7 @@ function BookmarksList({
     );
 
     setBookmarks(orderedBookmarks);
+    setIsLoading(false);
   }, [
     getBookmarkFromHash,
     getDefaultOrRootFolderUrls,
@@ -98,6 +102,7 @@ function BookmarksList({
     initBookmarks();
     return () => {
       setBookmarks([]);
+      setIsLoading(false);
     };
   }, [initBookmarks]);
 
@@ -112,14 +117,21 @@ function BookmarksList({
         rightContent={
           <Box className={styles.header}>
             <Avatar src={imageUrl} alt={personToOpen?.name} radius="xl" />
-            <Badge size="lg" radius="lg" maw="50%">{`${personToOpen?.name} (${
-              filteredBookmarks?.length || 0
-            })`}</Badge>
+            <Badge
+              data-testid="person-bookmark-count-badge"
+              size="lg"
+              radius="lg"
+              maw="50%"
+            >{`${personToOpen?.name} (${filteredBookmarks?.length || 0})`}</Badge>
           </Box>
         }
         onSearchChange={setSearchText}
       />
-      {filteredBookmarks.length > 0 ? (
+      {isLoading ? (
+        <Center h="12.5rem" data-testid="bookmarks-loading">
+          <Box>Loading bookmarks...</Box>
+        </Center>
+      ) : filteredBookmarks.length > 0 ? (
         filteredBookmarks.map((bookmark) => (
           <Center
             key={bookmark.url}
@@ -148,13 +160,13 @@ function BookmarksList({
                 onOpenLink={onLinkOpen}
               />
             </Box>
-            <Badge size="sm" color="violet">
+            <Badge data-testid="folder-name-badge" size="sm" color="violet">
               {bookmark.parentName}
             </Badge>
           </Center>
         ))
       ) : (
-        <Box ta="center" mt="1.875rem">
+        <Box ta="center" mt="1.875rem" data-testid="no-bookmarks-message">
           No tagged bookmarks found
         </Box>
       )}
@@ -167,6 +179,7 @@ function BookmarksList({
       opened={Boolean(personToOpen)}
       zIndex={1002}
       withCloseButton={false}
+      data-testid="bookmarks-list-modal"
       styles={{
         body: { padding: 0 },
         title: { flex: 1, marginRight: 0 },
