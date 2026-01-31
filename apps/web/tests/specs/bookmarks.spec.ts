@@ -9,6 +9,16 @@ import { BookmarksPanel } from '../page-object-models/bookmarks-panel';
 test.describe('Bookmarks Panel', () => {
   test.beforeEach(async ({ authenticatedPage }) => {
     await authenticatedPage.goto('/bookmark-panel');
+    // Wait for bookmarks to load or empty state to appear
+    await Promise.race([
+      authenticatedPage
+        .locator('[data-testid^="bookmark-item-"]')
+        .first()
+        .waitFor({ state: 'visible', timeout: TEST_TIMEOUTS.LONG_WAIT }),
+      authenticatedPage
+        .getByText(/no bookmarks/i)
+        .waitFor({ state: 'visible', timeout: TEST_TIMEOUTS.LONG_WAIT }),
+    ]);
   });
 
   test.describe('Basic Navigation', () => {
@@ -78,8 +88,11 @@ test.describe('Bookmarks Panel', () => {
       expect(countBefore).toBeGreaterThan(0);
       await panel.search('nonexistent');
       await panel.clearSearch();
-      const countAfter = await panel.getBookmarkCount();
-      expect(countAfter).toBe(countBefore);
+      // Wait for search results to restore using auto-retrying assertion
+      await expect(async () => {
+        const countAfter = await panel.getBookmarkCount();
+        expect(countAfter).toBe(countBefore);
+      }).toPass();
     });
 
     test('should keep folders visible when searching', async ({
@@ -113,10 +126,13 @@ test.describe('Bookmarks Panel', () => {
       await panel.search('React');
       const searchBadge = panel.getBookmarkCountBadge();
       await expect(searchBadge).toBeVisible();
-      const searchBadgeCount = await panel.getBadgeCount();
 
-      // Search count should be different from root count
-      expect(searchBadgeCount).toBeLessThanOrEqual(rootBadgeCount);
+      // Wait for search results to update and verify badge count changed
+      await expect(async () => {
+        const searchBadgeCount = await panel.getBadgeCount();
+        expect(searchBadgeCount).toBeLessThanOrEqual(rootBadgeCount);
+      }).toPass();
+
       await panel.clearSearch();
     });
   });
