@@ -83,7 +83,7 @@ export class BookmarksPanel {
   }
 
   async cutBookmark(bookmarkTitle: string) {
-    await this.openBookmarkContextMenuItem(bookmarkTitle, 'Cut');
+    await this.openBookmarkContextMenuItem(bookmarkTitle, 'cut');
   }
 
   async pasteBookmark() {

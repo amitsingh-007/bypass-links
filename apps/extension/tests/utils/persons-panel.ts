@@ -109,10 +109,7 @@ export class PersonsPanel {
     const notification = this.page.getByText('Person deleted successfully');
     await expect(notification).toBeVisible();
 
-    // Wait for deletion to complete
-    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
-
-    // Verify person is no longer visible
+    // Verify person is no longer visible (auto-retrying assertion)
     await expect(personCard).not.toBeVisible();
   }
 
@@ -266,10 +263,10 @@ export class PersonsPanel {
 
   // ============ Composite Operations ============
 
-  async clickPersonContextMenu(personName: string, menuItemText: string) {
+  async clickPersonContextMenu(personName: string, menuItemId: string) {
     const personCard = this.getPersonCardElement(personName);
     await expect(personCard).toBeVisible();
     await personCard.click({ button: 'right' });
-    await clickContextMenuItem(this.page, menuItemText);
+    await clickContextMenuItem(this.page, menuItemId);
   }
 }
