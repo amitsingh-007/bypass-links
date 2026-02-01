@@ -172,18 +172,16 @@ test.describe('Bookmarks Panel', () => {
     // Verify badge at root
     const badge = panel.getBookmarkCountBadge();
     await expect(badge).toBeVisible();
-    const badgeCount = await panel.getBadgeCount();
-    expect(badgeCount).toBeGreaterThan(0);
+    const rootBadgeCount = await panel.getBadgeCount();
+    expect(rootBadgeCount).toBeGreaterThan(0);
 
     // Navigate to folder and verify badge updates
-    const rootBadgeText = await badge.textContent();
-    expect(rootBadgeText).toMatch(/\(\d+\)/);
-
     await panel.openFolder(TEST_FOLDERS.MAIN);
     const folderBadge = panel.getBookmarkCountBadge();
     await expect(folderBadge).toBeVisible();
     const folderBadgeCount = await panel.getBadgeCount();
     expect(folderBadgeCount).toBeGreaterThan(0);
+    expect(folderBadgeCount).not.toBe(rootBadgeCount);
   });
 
   test('should show not-allowed cursor on empty folder and prevent navigation', async ({

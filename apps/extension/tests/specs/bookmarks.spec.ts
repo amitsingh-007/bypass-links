@@ -161,7 +161,7 @@ test.describe.serial('Bookmarks Panel', () => {
 
       await firstBookmark.click({ button: 'right' });
       const openOption = bookmarksPage.locator('.context-menu-item-open');
-      await openOption.waitFor({ state: 'attached' });
+      await openOption.waitFor({ state: 'visible' });
 
       const multiPagePromise = context.waitForEvent('page', {
         timeout: TEST_TIMEOUTS.PAGE_OPEN,
@@ -170,6 +170,7 @@ test.describe.serial('Bookmarks Panel', () => {
       const multiNewPage = await multiPagePromise;
 
       expect(multiNewPage).toBeTruthy();
+      expect(context.pages().length).toBeGreaterThan(initialPages);
 
       // Clean up all new pages
       const allNewPages = context.pages().slice(initialPages);

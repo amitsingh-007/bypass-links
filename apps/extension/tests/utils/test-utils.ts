@@ -85,6 +85,7 @@ export const closeDialog = async (
 export const clickContextMenuItem = async (page: Page, id: string) => {
   const className = `context-menu-item-${id}`;
   const menuItem = page.locator(`.${className}`);
+  await expect(menuItem).toBeVisible();
   await menuItem.click();
 };
 
