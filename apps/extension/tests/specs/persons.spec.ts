@@ -15,11 +15,10 @@ test.describe.serial('Persons Panel', () => {
   test('should search, filter, and clear persons', async ({ personsPage }) => {
     const panel = new PersonsPanel(personsPage);
 
-    // Ensure we start with cleared search and wait for debounce
+    // Ensure we start with cleared search
     await panel.clearSearch();
-    await waitForDebounce(personsPage);
 
-    // Get initial count after ensuring page is loaded
+    // Get initial count
     const allPersonsBefore = await panel.getPersonCount();
     expect(allPersonsBefore).toBeGreaterThan(0);
 
@@ -29,18 +28,15 @@ test.describe.serial('Persons Panel', () => {
 
     // Clear search and verify all persons shown
     await panel.clearSearch();
-    await waitForDebounce(personsPage);
     await panel.verifyPersonExists(TEST_PERSONS.AKASH_KUMAR_SINGH);
 
     // Search for non-existent person
     await panel.search('NonExistentPerson');
-    await waitForDebounce(personsPage);
     const noResultsPersons = await panel.getPersonCount();
     expect(noResultsPersons).toBe(0);
 
     // Clear and verify count restored
     await panel.clearSearch();
-    await waitForDebounce(personsPage);
     const allPersonsAfter = await panel.getPersonCount();
     expect(allPersonsAfter).toBe(allPersonsBefore);
   });
@@ -141,13 +137,13 @@ test.describe.serial('Persons Panel', () => {
     expect(rowCount).toBeGreaterThan(0);
 
     await panel.navigateBack();
-    await waitForDebounce(personsPage);
   });
 
   test('should display correct bookmark count in badge', async ({
     personsPage,
   }) => {
     const panel = new PersonsPanel(personsPage);
+    await panel.ensureAtRoot();
     const badgeCount = await panel.verifyBadgeCount(
       TEST_PERSONS.AKASH_KUMAR_SINGH
     );
@@ -156,6 +152,7 @@ test.describe.serial('Persons Panel', () => {
 
   test('should search within tagged bookmarks', async ({ personsPage }) => {
     const panel = new PersonsPanel(personsPage);
+    await panel.ensureAtRoot();
     const { allBookmarksBefore, noResultsBookmarks, searchInput } =
       await panel.searchWithinBookmarks(
         'nonexistentbookmark123',
@@ -173,24 +170,24 @@ test.describe.serial('Persons Panel', () => {
     expect(countAfter).toBe(allBookmarksBefore);
 
     await panel.navigateBack();
-    await waitForDebounce(personsPage);
   });
 
   test('should display bookmarks with edit buttons', async ({
     personsPage,
   }) => {
     const panel = new PersonsPanel(personsPage);
+    await panel.ensureAtRoot();
     await panel.openPersonCard(TEST_PERSONS.DONALD);
 
     const editButtons = await panel.getEditButtons();
     await expect(editButtons.first()).toBeVisible();
 
     await panel.navigateBack();
-    await waitForDebounce(personsPage);
   });
 
   test('should verify recency switch exists', async ({ personsPage }) => {
     const panel = new PersonsPanel(personsPage);
+    await panel.ensureAtRoot();
     await panel.verifyRecencySwitchExists();
 
     const personNamesBefore = await panel.getPersonNames();
@@ -208,6 +205,7 @@ test.describe.serial('Persons Panel', () => {
     personsPage,
   }) => {
     const panel = new PersonsPanel(personsPage);
+    await panel.ensureAtRoot();
     const personCount = await panel.getPersonCount();
     expect(personCount).toBeGreaterThan(0);
 

@@ -59,7 +59,9 @@ export class PersonsPanel {
     }
 
     await clickDialogButton(dialog, 'Save');
-    await expect(dialog).toBeHidden();
+    await waitForDebounce(this.page);
+    // Wait for dialog to close with longer timeout
+    await expect(dialog).toBeHidden({ timeout: TEST_TIMEOUTS.LONG_WAIT });
 
     const newPersonCard = this.page.getByTestId(`person-item-${name}`);
     await expect(newPersonCard).toBeVisible();
@@ -125,6 +127,18 @@ export class PersonsPanel {
 
   async openPersonCard(personName: string) {
     await openPersonCard(this.page, personName);
+  }
+
+  async ensureAtRoot() {
+    await this.page.goto('/index.html');
+    const personsButton = this.page.getByRole('button', { name: 'Persons' });
+    await expect(personsButton).toBeVisible();
+    await personsButton.click();
+    await expect(this.page.getByPlaceholder('Search')).toBeVisible();
+    // Wait for at least one person to be visible
+    await expect(
+      this.page.locator('[data-testid^="person-item-"]').first()
+    ).toBeVisible();
   }
 
   async navigateBack() {
