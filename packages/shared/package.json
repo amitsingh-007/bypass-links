@@ -18,7 +18,7 @@
     "@bypass/configs": "workspace:*",
     "@mantine/core": "8.3.6",
     "@mantine/hooks": "8.3.6",
-    "@tanstack/react-virtual": "3.13.12",
+    "@tanstack/react-virtual": "3.13.18",
     "clsx": "2.1.1",
     "preact": "10.27.3",
     "react": "19.2.0",

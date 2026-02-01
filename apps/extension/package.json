@@ -22,7 +22,7 @@
     "@mantine/notifications": "8.3.6",
     "@mantine/nprogress": "8.3.6",
     "@t3-oss/env-core": "0.13.8",
-    "@tanstack/react-virtual": "3.13.12",
+    "@tanstack/react-virtual": "3.13.18",
     "@trpc/client": "11.7.1",
     "@trpc/server": "11.8.0",
     "clsx": "2.1.1",
