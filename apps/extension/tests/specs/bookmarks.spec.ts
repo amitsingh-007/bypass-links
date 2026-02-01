@@ -322,31 +322,29 @@ test.describe.serial('Bookmarks Panel', () => {
     await panel.ensureAtRoot();
     await panel.openFolder(TEST_FOLDERS.MAIN);
 
-    const searchInput = panel.getSearchInput();
-
     // Test search by title
-    await searchInput.fill('ButtonGroup');
+    await panel.search('ButtonGroup');
     const titleFilteredBookmark = panel.getBookmarkElement(
       TEST_BOOKMARKS.GITHUB
     );
     await expect(titleFilteredBookmark).toBeVisible();
-    await searchInput.clear();
+    await panel.clearSearch();
 
     // Test search by URL
-    await searchInput.fill('material');
+    await panel.search('material');
     const urlFilteredBookmark = panel.getBookmarkElement(
       TEST_BOOKMARKS.REACT_DOCS
     );
     await expect(urlFilteredBookmark).toBeVisible();
-    await searchInput.clear();
+    await panel.clearSearch();
 
     // Test folders remain visible during search
     await panel.ensureAtRoot();
     const folder = panel.getFolderElement(TEST_FOLDERS.MAIN);
     await expect(folder).toBeVisible();
-    await searchInput.fill('nonexistentterm');
+    await panel.search('nonexistentterm');
     await expect(folder).toBeVisible();
-    await searchInput.clear();
+    await panel.clearSearch();
   });
 
   test('should move bookmark using cut from context menu and paste', async ({
