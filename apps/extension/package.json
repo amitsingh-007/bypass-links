@@ -39,7 +39,7 @@
     "zustand": "5.0.10"
   },
   "devDependencies": {
-    "@playwright/test": "1.55.1",
+    "@playwright/test": "1.58.1",
     "@prefresh/core": "1.5.9",
     "@prefresh/webpack": "4.0.6",
     "@types/archiver": "7.0.0",
