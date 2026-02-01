@@ -58,7 +58,7 @@
     "css-minimizer-webpack-plugin": "7.0.2",
     "deepmerge": "4.3.1",
     "fork-ts-checker-webpack-plugin": "9.1.0",
-    "html-webpack-plugin": "5.6.4",
+    "html-webpack-plugin": "5.6.6",
     "lightningcss": "1.30.2",
     "merge-json-webpack-plugin": "6.2.1",
     "mini-css-extract-plugin": "2.9.4",

@@ -178,8 +178,8 @@ importers:
         specifier: 9.1.0
         version: 9.1.0(typescript@5.9.3)(webpack@5.102.1)
       html-webpack-plugin:
-        specifier: 5.6.4
-        version: 5.6.4(webpack@5.102.1)
+        specifier: 5.6.6
+        version: 5.6.6(webpack@5.102.1)
       lightningcss:
         specifier: 1.30.2
         version: 1.30.2
@@ -4835,8 +4835,8 @@ packages:
     engines: {node: '>=12'}
     hasBin: true
 
-  html-webpack-plugin@5.6.4:
-    resolution: {integrity: sha512-V/PZeWsqhfpE27nKeX9EO2sbR+D17A+tLf6qU+ht66jdUsN0QLKJN27Z+1+gHrVMKgndBahes0PU6rRihDgHTw==}
+  html-webpack-plugin@5.6.6:
+    resolution: {integrity: sha512-bLjW01UTrvoWTJQL5LsMRo1SypHW80FTm12OJRSnr3v6YHNhfe+1r0MYUZJMACxnCHURVnBWRwAsWs2yPU9Ezw==}
     engines: {node: '>=10.13.0'}
     peerDependencies:
       '@rspack/core': 0.x || 1.x
@@ -12942,7 +12942,7 @@ snapshots:
       relateurl: 0.2.7
       terser: 5.44.1
 
-  html-webpack-plugin@5.6.4(webpack@5.102.1):
+  html-webpack-plugin@5.6.6(webpack@5.102.1):
     dependencies:
       '@types/html-minifier-terser': 6.1.0
       html-minifier-terser: 6.1.0
