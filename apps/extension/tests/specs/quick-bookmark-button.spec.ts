@@ -64,11 +64,15 @@ test.describe.serial('Signed In', () => {
       .filter({ hasText: 'Save' })
       .nth(saveButtons - 1)
       .click();
-    await homePage.waitForTimeout(TEST_TIMEOUTS.NAVIGATION);
 
     // Navigate back to home to prepare for next test
     await homePage.goto('/index.html');
     await homePage.waitForLoadState('networkidle');
+
+    // Wait for button to show Unpin state (bookmark saved)
+    await homeExpect(
+      homePage.getByTestId('quick-bookmark-button')
+    ).toContainText('Unpin', { timeout: TEST_TIMEOUTS.NAVIGATION });
   });
 
   test('should show Unpin and delete bookmark', async ({ homePage }) => {
@@ -117,12 +121,12 @@ test.describe.serial('Signed In', () => {
       .filter({ hasText: 'Save' })
       .nth(saveButtons - 1)
       .click();
-    await homePage.waitForTimeout(TEST_TIMEOUTS.NAVIGATION);
 
     // Navigate back to home and verify it shows Pin again (unpinned)
     await homePage.goto('/index.html');
     await homePage.waitForLoadState('networkidle');
 
+    // Wait for button state to stabilize (bookmark deleted)
     const unpinButton = homePage.getByTestId('quick-bookmark-button');
     await homeExpect(unpinButton).toContainText('Pin');
   });

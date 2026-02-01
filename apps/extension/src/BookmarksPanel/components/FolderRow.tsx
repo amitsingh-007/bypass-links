@@ -51,18 +51,21 @@ const FolderRow = memo<Props>(
         {
           onClick: toggleEditDialog,
           text: 'Edit',
+          id: 'edit',
           icon: AiFillEdit,
           color: theme.colors.violet[9],
         },
         {
           onClick: handleDefaultOptionClick,
           text: isDefault ? 'Remove default' : 'Make default',
+          id: isDefault ? 'remove-default' : 'make-default',
           icon: isDefault ? PiStarFill : PiStarBold,
           color: isDefault ? theme.colors.yellow[5] : theme.colors.dark[3],
         },
         {
           onClick: handleDeleteOptionClick,
           text: 'Delete',
+          id: 'delete',
           icon: MdOutlineDelete,
           color: theme.colors.red[9],
         },

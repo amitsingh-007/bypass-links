@@ -8,10 +8,6 @@ export class PopupHomePanel {
     return this.page.getByTestId('toggle-history-switch');
   }
 
-  get historyLabel() {
-    return this.page.locator('label').filter({ hasText: 'History' });
-  }
-
   async isHistoryEnabled() {
     return this.historyToggle.isChecked();
   }
@@ -29,12 +25,6 @@ export class PopupHomePanel {
       name: 'Bookmarks',
     });
     await bookmarksButton.click();
-    await expect(this.page.getByPlaceholder('Search')).toBeVisible();
-  }
-
-  async navigateToPersons() {
-    const personsButton = this.page.getByRole('button', { name: 'Persons' });
-    await personsButton.click();
     await expect(this.page.getByPlaceholder('Search')).toBeVisible();
   }
 

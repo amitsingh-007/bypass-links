@@ -2,6 +2,8 @@ import { TEST_SHORTCUTS } from '@bypass/shared/tests';
 import { test, expect } from '../fixtures/shortcuts-fixture';
 import { ShortcutsPanel } from '../utils/shortcuts-panel';
 
+const EXPECTED_RULE_COUNT = Object.keys(TEST_SHORTCUTS).length;
+
 /**
  * Shortcuts Panel E2E Tests
  *
@@ -14,7 +16,7 @@ import { ShortcutsPanel } from '../utils/shortcuts-panel';
  * IMPORTANT: Test order matters! Do not reorder tests without understanding dependencies.
  */
 
-test.describe.serial('Navigation Tests', () => {
+test.describe.serial('Shortcuts Panel', () => {
   test('should navigate to shortcuts panel and verify UI elements', async ({
     shortcutsPage,
   }) => {
@@ -41,31 +43,26 @@ test.describe.serial('Navigation Tests', () => {
     const searchInput = panel.getSearchInput();
     await expect(searchInput).toBeVisible();
 
-    // Verify there are rules displayed (4 rules in test data)
+    // Verify there are rules displayed (TEST_SHORTCUTS rules in test data)
     const ruleCount = await panel.getRuleCount();
-    expect(ruleCount).toBe(4);
+    expect(ruleCount).toBe(EXPECTED_RULE_COUNT);
 
     // Verify at least one alias input is visible
     const aliasInput = panel.getAliasInputs().first();
     await expect(aliasInput).toBeVisible();
   });
-});
 
-test.describe.serial('Search and Filter Tests', () => {
-  test('should find valid search match and highlight row', async ({
+  test('should search and highlight matching rules', async ({
     shortcutsPage,
   }) => {
     const panel = new ShortcutsPanel(shortcutsPage);
 
     await panel.waitForLoading();
     const allRulesCount = await panel.getRuleCount();
-    expect(allRulesCount).toBe(4);
+    expect(allRulesCount).toBe(EXPECTED_RULE_COUNT);
 
     // Search for a known alias
     await panel.search(TEST_SHORTCUTS.GOOGLE);
-
-    // Wait for UI to reflect changes
-    await shortcutsPage.waitForTimeout(1000);
 
     // Verify the search input has the value
     const searchInput = panel.getSearchInput();
@@ -96,17 +93,15 @@ test.describe.serial('Search and Filter Tests', () => {
     const resetCount = await panel.getRuleCount();
     expect(resetCount).toBe(allRulesCount);
   });
-});
 
-test.describe.serial('Add Rule Tests', () => {
-  test('should add new rule, verify default alias, and enable save button', async ({
+  test('should add new rule and verify default alias', async ({
     shortcutsPage,
   }) => {
     const panel = new ShortcutsPanel(shortcutsPage);
 
     await panel.waitForLoading();
     const initialCount = await panel.getRuleCount();
-    expect(initialCount).toBe(4);
+    expect(initialCount).toBe(EXPECTED_RULE_COUNT);
 
     // Add a new rule
     await panel.addRule();
@@ -134,10 +129,8 @@ test.describe.serial('Add Rule Tests', () => {
     const firstRuleSaveButton = shortcutsPage.getByTestId('rule-0-save');
     await expect(firstRuleSaveButton).toBeEnabled();
   });
-});
 
-test.describe.serial('Edit Rule Tests', () => {
-  test('should edit rule alias', async ({ shortcutsPage }) => {
+  test('should edit rule alias and website', async ({ shortcutsPage }) => {
     const panel = new ShortcutsPanel(shortcutsPage);
 
     await panel.waitForLoading();
@@ -154,9 +147,6 @@ test.describe.serial('Edit Rule Tests', () => {
     const firstRuleSaveButton = shortcutsPage.getByTestId('rule-0-save');
     await firstRuleSaveButton.click();
 
-    // Wait for the save to take effect
-    await shortcutsPage.waitForTimeout(500);
-
     // Verify the new value is persisted
     await expect(firstAliasInput).toHaveValue('edited-alias');
 
@@ -164,87 +154,47 @@ test.describe.serial('Edit Rule Tests', () => {
     await firstAliasInput.clear();
     await firstAliasInput.fill(originalValue);
     await firstRuleSaveButton.click();
-    await shortcutsPage.waitForTimeout(500);
-  });
 
-  test('should edit rule website', async ({ shortcutsPage }) => {
-    const panel = new ShortcutsPanel(shortcutsPage);
-
-    await panel.waitForLoading();
-
-    // Get the first website input
-    const firstWebsiteInput = panel.getWebsiteInputs().first();
+    // Verify reset value persisted
+    await expect(firstAliasInput).toHaveValue(originalValue);
 
     // Edit the website
+    const firstWebsiteInput = panel.getWebsiteInputs().first();
     await firstWebsiteInput.fill('https://example.com');
-
-    // Click the row save button
-    const firstRuleSaveButton = shortcutsPage.getByTestId('rule-0-save');
     await firstRuleSaveButton.click();
-
-    // Wait for the save to take effect
-    await shortcutsPage.waitForTimeout(500);
 
     // Verify the new value is persisted
     await expect(firstWebsiteInput).toHaveValue('https://example.com');
   });
-});
 
-test.describe.serial('Reorder Tests', () => {
-  test('should move rule down and verify order change', async ({
-    shortcutsPage,
-  }) => {
+  test('should reorder rules up and down', async ({ shortcutsPage }) => {
     const panel = new ShortcutsPanel(shortcutsPage);
 
     await panel.waitForLoading();
 
-    // Get the second alias before reorder
-    const secondAliasInputBefore = shortcutsPage.getByTestId('rule-1-alias');
-    const secondAliasBefore = await secondAliasInputBefore.inputValue();
+    // Get the first and second aliases before reorder
+    const firstAliasInputBefore = shortcutsPage.getByTestId('rule-0-alias');
+    const firstAliasBefore = await firstAliasInputBefore.inputValue();
 
     // Click move down button on first rule
     const moveDownButton = shortcutsPage.getByTestId('rule-0-move-down');
     await moveDownButton.click();
 
-    // Wait for UI to update
-    await shortcutsPage.waitForTimeout(500);
+    // After moving down, the second rule should now have the first alias
+    const secondAliasInputAfter = shortcutsPage.getByTestId('rule-1-alias');
 
-    // After moving down, the first rule should now have the second alias
-    const firstAliasInputAfter = panel.getAliasInputs().first();
-    const firstAliasAfter = await firstAliasInputAfter.inputValue();
+    // Verify the reorder - second rule now has the first alias
+    await expect(secondAliasInputAfter).toHaveValue(firstAliasBefore);
 
-    // The first position should now have what was originally second
-    expect(firstAliasAfter).toBe(secondAliasBefore);
-  });
-
-  test('should move rule up and verify order change', async ({
-    shortcutsPage,
-  }) => {
-    const panel = new ShortcutsPanel(shortcutsPage);
-
-    await panel.waitForLoading();
-
-    // Get the second alias before reorder
-    const secondAliasInputBefore = shortcutsPage.getByTestId('rule-1-alias');
-    const secondAliasBefore = await secondAliasInputBefore.inputValue();
-
-    // Click move up button on second rule
+    // Move it back up using the up button on the second rule
     const moveUpButton = shortcutsPage.getByTestId('rule-1-move-up');
     await moveUpButton.click();
 
-    // Wait for UI to update
-    await shortcutsPage.waitForTimeout(500);
-
-    // After moving up, the first rule should now have the second alias
-    const firstAliasInputAfter = panel.getAliasInputs().first();
-    const firstAliasAfter = await firstAliasInputAfter.inputValue();
-
-    // The first position should now have what was originally second
-    expect(firstAliasAfter).toBe(secondAliasBefore);
+    // Verify it's back to original order - first rule has first alias again
+    const firstAliasInputFinal = shortcutsPage.getByTestId('rule-0-alias');
+    await expect(firstAliasInputFinal).toHaveValue(firstAliasBefore);
   });
-});
 
-test.describe.serial('Delete Rule Tests', () => {
   test('should delete a rule', async ({ shortcutsPage }) => {
     const panel = new ShortcutsPanel(shortcutsPage);
 
@@ -260,58 +210,55 @@ test.describe.serial('Delete Rule Tests', () => {
     const deleteButton = shortcutsPage.getByTestId('rule-0-delete');
     await deleteButton.click();
 
-    await shortcutsPage.waitForTimeout(500);
-
     // Verify count decreased back to initial
-    const finalCount = await panel.getRuleCount();
-    expect(finalCount).toBe(initialCount);
+    await expect(panel.getRuleElements()).toHaveCount(initialCount, {
+      timeout: 3000,
+    });
   });
-});
 
-test.describe.serial('External Link Tests', () => {
   test('should open external link in new tab', async ({
     shortcutsPage,
     context,
   }) => {
     const panel = new ShortcutsPanel(shortcutsPage);
-
     await panel.waitForLoading();
 
+    // Get the website URL from the second rule to validate against later
+    const websiteInput = shortcutsPage.getByTestId('rule-1-website');
+    const expectedWebsite = await websiteInput.inputValue();
+    expect(expectedWebsite.length).toBeGreaterThan(0);
+
     // Get the external link button for the second rule
-    // (skip first rule as it may be edited by previous tests)
     const externalLinkButton = shortcutsPage.getByTestId(
       'rule-1-external-link'
     );
-
-    // Verify the button is enabled
     await expect(externalLinkButton).toBeEnabled();
 
-    // Get initial page count
-    const initialPages = context.pages();
-    const initialPageCount = initialPages.length;
+    // Click and wait for new page to open
+    const [newPage] = await Promise.all([
+      context.waitForEvent('page', { timeout: 10_000 }),
+      externalLinkButton.click(),
+    ]);
 
-    // Click the external link button
-    await externalLinkButton.click();
+    // Wait for navigation to complete
+    await expect
+      .poll(() => newPage.url(), {
+        timeout: 10_000,
+        message: 'Page should navigate from about:blank to actual URL',
+      })
+      .not.toBe('about:blank');
 
-    // Wait for a new page to be created
-    await context.waitForEvent('page', { timeout: 10_000 });
+    // Verify the URL matches expected website (ignoring www. prefix)
+    const newPageUrl = newPage.url();
+    expect(newPageUrl).toMatch(/^https?:\/\/.+/);
 
-    // Get all pages and find the new one
-    const newPages = context.pages();
-    const newPage = newPages.find((p) => p !== shortcutsPage);
+    const actualHostname = new URL(newPageUrl).hostname.replace(/^www\./, '');
+    const expectedHostname = new URL(expectedWebsite).hostname.replace(
+      /^www\./,
+      ''
+    );
+    expect(actualHostname).toBe(expectedHostname);
 
-    // Verify we have a new page
-    expect(newPages.length).toBe(initialPageCount + 1);
-    expect(newPage).toBeDefined();
-
-    if (newPage) {
-      await newPage.waitForLoadState('domcontentloaded');
-
-      // Verify the new page has the correct URL (or contains it)
-      expect(newPage.url()).toBeTruthy();
-
-      // Close the new tab
-      await newPage.close();
-    }
+    await newPage.close();
   });
 });

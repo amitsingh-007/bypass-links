@@ -96,6 +96,7 @@ const BookmarkContextMenu = memo<Props>(
           text: `Open ${
             selectedCount > 1 ? `all (${selectedCount}) ` : ''
           }in new tab`,
+          id: 'open',
           icon: RxExternalLink,
           color: theme.colors.yellow[9],
         },
@@ -103,12 +104,14 @@ const BookmarkContextMenu = memo<Props>(
           onClick: handleCutBookmarks,
           text: 'Cut',
           icon: TbCut,
+          id: 'cut',
         },
       ];
       if (cutCount > 0 && selectedCount === 1) {
         menuOptionsList.push({
           onClick: handlePasteSelectedBookmarks,
           text: `Paste (${cutCount})`,
+          id: 'paste',
           icon: MdOutlineContentPasteGo,
         });
       }
@@ -116,6 +119,7 @@ const BookmarkContextMenu = memo<Props>(
         menuOptionsList.push({
           onClick: handleBulkUrlRemove,
           text: 'Delete All',
+          id: 'delete-all',
           icon: MdOutlineDelete,
           color: theme.colors.red[9],
         });
@@ -124,12 +128,14 @@ const BookmarkContextMenu = memo<Props>(
           {
             onClick: handleBookmarkEdit,
             text: 'Edit',
+            id: 'edit',
             icon: AiFillEdit,
             color: theme.colors.violet[9],
           },
           {
             onClick: handleDeleteOptionClick,
             text: 'Delete',
+            id: 'delete',
             icon: MdOutlineDelete,
             color: theme.colors.red[9],
           }

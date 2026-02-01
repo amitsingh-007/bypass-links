@@ -30,12 +30,14 @@ const PersonVirtualCell = memo<Props>(
         {
           onClick: toggleEditPersonDialog,
           text: 'Edit',
+          id: 'edit',
           icon: AiFillEdit,
           color: theme.colors.violet[9],
         },
         {
           onClick: handleDeleteOptionClick,
           text: 'Delete',
+          id: 'delete',
           icon: MdOutlineDelete,
           color: theme.colors.red[9],
         },

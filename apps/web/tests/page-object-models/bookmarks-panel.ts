@@ -46,23 +46,6 @@ export class BookmarksPanel {
     return this.page.locator('[data-testid^="bookmark-item-"]').count();
   }
 
-  async waitForBookmarkCount(): Promise<number> {
-    const bookmarkLocator = this.page.locator(
-      '[data-testid^="bookmark-item-"]'
-    );
-    // Wait for at least one bookmark or empty state
-    await Promise.race([
-      bookmarkLocator
-        .first()
-        .waitFor({ state: 'visible', timeout: TEST_TIMEOUTS.LONG_WAIT }),
-      this.getEmptyState().waitFor({
-        state: 'visible',
-        timeout: TEST_TIMEOUTS.LONG_WAIT,
-      }),
-    ]);
-    return bookmarkLocator.count();
-  }
-
   async hoverAvatar(): Promise<Locator> {
     const avatarGroup = this.getAvatarGroup();
     const avatar = avatarGroup.locator('[data-testid^="avatar-"]').first();
@@ -76,10 +59,6 @@ export class BookmarksPanel {
     await expect(dropdown).toBeVisible({ timeout: TEST_TIMEOUTS.LONG_WAIT });
 
     return dropdown;
-  }
-
-  getEmptyState(): Locator {
-    return this.page.getByText(/no bookmarks/i);
   }
 
   getCurrentUrl(): string {

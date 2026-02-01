@@ -1,3 +1,4 @@
+import { TEST_TIMEOUTS } from '@bypass/shared/tests';
 import { test, expect as homeExpect } from '../fixtures/home-popup-fixture';
 
 /**
@@ -26,11 +27,19 @@ test.describe.serial('Signed In', () => {
     const defaultsButton = homePage.getByTestId('open-defaults-button');
     await homeExpect(defaultsButton).toBeEnabled();
 
+    // Get initial page count before clicking
+    const initialPageCount = context.pages().length;
+
     // Click the Defaults button
     await defaultsButton.click();
 
-    // Wait a moment for tabs to open, then check
-    await homePage.waitForTimeout(2000);
+    // Poll for the expected number of pages to be opened (initial + 2 new tabs)
+    await homeExpect
+      .poll(() => context.pages().length, {
+        timeout: TEST_TIMEOUTS.PAGE_OPEN,
+        message: 'Should open 2 new tabs',
+      })
+      .toBe(initialPageCount + 2);
 
     const allPages = context.pages();
     const newPages = allPages.filter((p) => p !== homePage);

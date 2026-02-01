@@ -51,6 +51,7 @@ This is a **Turbo + pnpm monorepo** with the following structure:
 ## Build System
 
 Turbo manages task dependencies defined in `turbo.json`:
+
 - `build` tasks depend on `//#lint` and `//#typecheck` completing first
 - Extension builds use `EXT_BROWSER` environment variable (chrome/firefox)
 
@@ -77,3 +78,17 @@ Playwright tests use a unique setup/teardown pattern for extension testing:
 - Use workspace protocol (`workspace:*`) for internal dependencies
 - Shared types and utilities go in `packages/shared`
 - tRPC procedures are defined in `packages/trpc`
+
+## Development Guidelines
+
+- Ask any questions instead of assuming things when in plan mode
+
+## Post-Change Verification
+
+After making changes, run the following commands:
+
+```bash
+pnpm lint
+pnpm typecheck:all
+timeout 180 xvfb-run -a pnpm e2e <relative-filepath>
+```

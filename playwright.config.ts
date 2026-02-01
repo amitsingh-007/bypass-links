@@ -6,13 +6,14 @@ process.loadEnvFile(path.join(process.cwd(), '.env'));
 
 const ciBaseUrl = process.env.PLAYWRIGHT_TEST_BASE_URL;
 const isCI = Boolean(ciBaseUrl);
+const isVM = process.env.IS_VM === 'true'; // Manually set in .env for VM environments
 
 const config = defineConfig({
   globalTimeout: 30 * 60 * 1000,
   expect: { timeout: 5000 },
   forbidOnly: isCI,
   retries: isCI ? 2 : 1,
-  fullyParallel: true,
+  fullyParallel: !isVM,
   reporter: isCI ? [['github']] : [['list'], ['html', { open: 'never' }]],
   use: {
     navigationTimeout: 30 * 1000,

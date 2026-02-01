@@ -17,6 +17,7 @@ export interface IMenuOption {
   icon: IconType;
   onClick: (id: string) => void;
   color?: MantineColor;
+  id: string;
 }
 
 type Props = PropsWithChildren<{
@@ -37,12 +38,15 @@ function ContextMenu({ wrapperHeight = '100%', options, children }: Props) {
         onClick,
         icon: Icon,
         color = theme.colors.blue[8],
+        id,
       } = option;
       const isRedColor = theme.colors.red.includes(color);
+      const className = `context-menu-item-${id}`;
 
       return {
         key: text,
         title: text,
+        className,
         icon: <Icon size="0.875rem" color={color} />,
         color: isRedColor ? 'red' : undefined,
         onClick() {
