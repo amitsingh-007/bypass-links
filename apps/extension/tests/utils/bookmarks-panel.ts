@@ -87,9 +87,7 @@ export class BookmarksPanel {
   }
 
   async pasteBookmark() {
-    const pasteOption = this.page.locator('.context-menu-item-paste');
-    await pasteOption.waitFor({ state: 'attached' });
-    await pasteOption.evaluate((el) => (el as HTMLElement).click());
+    await this.clickContextMenuItem('paste');
     await waitForDebounce(this.page);
   }
 
