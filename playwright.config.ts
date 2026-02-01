@@ -12,7 +12,6 @@ const config = defineConfig({
   expect: { timeout: 5000 },
   forbidOnly: isCI,
   retries: isCI ? 2 : 1,
-  fullyParallel: true,
   reporter: isCI ? [['github']] : [['list'], ['html', { open: 'never' }]],
   use: {
     navigationTimeout: 30 * 1000,

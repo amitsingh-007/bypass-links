@@ -16,7 +16,7 @@ const EXPECTED_RULE_COUNT = Object.keys(TEST_SHORTCUTS).length;
  * IMPORTANT: Test order matters! Do not reorder tests without understanding dependencies.
  */
 
-test.describe.serial('Navigation Tests', () => {
+test.describe.serial('Shortcuts Panel', () => {
   test('should navigate to shortcuts panel and verify UI elements', async ({
     shortcutsPage,
   }) => {
@@ -51,10 +51,8 @@ test.describe.serial('Navigation Tests', () => {
     const aliasInput = panel.getAliasInputs().first();
     await expect(aliasInput).toBeVisible();
   });
-});
 
-test.describe.serial('Search and Filter Tests', () => {
-  test('should find valid search match and highlight row', async ({
+  test('should search and highlight matching rules', async ({
     shortcutsPage,
   }) => {
     const panel = new ShortcutsPanel(shortcutsPage);
@@ -95,10 +93,8 @@ test.describe.serial('Search and Filter Tests', () => {
     const resetCount = await panel.getRuleCount();
     expect(resetCount).toBe(allRulesCount);
   });
-});
 
-test.describe.serial('Add Rule Tests', () => {
-  test('should add new rule, verify default alias, and enable save button', async ({
+  test('should add new rule and verify default alias', async ({
     shortcutsPage,
   }) => {
     const panel = new ShortcutsPanel(shortcutsPage);
@@ -133,10 +129,8 @@ test.describe.serial('Add Rule Tests', () => {
     const firstRuleSaveButton = shortcutsPage.getByTestId('rule-0-save');
     await expect(firstRuleSaveButton).toBeEnabled();
   });
-});
 
-test.describe.serial('Edit Rule Tests', () => {
-  test('should edit rule alias', async ({ shortcutsPage }) => {
+  test('should edit rule alias and website', async ({ shortcutsPage }) => {
     const panel = new ShortcutsPanel(shortcutsPage);
 
     await panel.waitForLoading();
@@ -163,75 +157,44 @@ test.describe.serial('Edit Rule Tests', () => {
 
     // Verify reset value persisted
     await expect(firstAliasInput).toHaveValue(originalValue);
-  });
-
-  test('should edit rule website', async ({ shortcutsPage }) => {
-    const panel = new ShortcutsPanel(shortcutsPage);
-
-    await panel.waitForLoading();
-
-    // Get the first website input
-    const firstWebsiteInput = panel.getWebsiteInputs().first();
 
     // Edit the website
+    const firstWebsiteInput = panel.getWebsiteInputs().first();
     await firstWebsiteInput.fill('https://example.com');
-
-    // Click the row save button
-    const firstRuleSaveButton = shortcutsPage.getByTestId('rule-0-save');
     await firstRuleSaveButton.click();
 
     // Verify the new value is persisted
     await expect(firstWebsiteInput).toHaveValue('https://example.com');
   });
-});
 
-test.describe.serial('Reorder Tests', () => {
-  test('should move rule down and verify order change', async ({
-    shortcutsPage,
-  }) => {
+  test('should reorder rules up and down', async ({ shortcutsPage }) => {
     const panel = new ShortcutsPanel(shortcutsPage);
 
     await panel.waitForLoading();
 
-    // Get the second alias before reorder
-    const secondAliasInputBefore = shortcutsPage.getByTestId('rule-1-alias');
-    const secondAliasBefore = await secondAliasInputBefore.inputValue();
+    // Get the first and second aliases before reorder
+    const firstAliasInputBefore = shortcutsPage.getByTestId('rule-0-alias');
+    const firstAliasBefore = await firstAliasInputBefore.inputValue();
 
     // Click move down button on first rule
     const moveDownButton = shortcutsPage.getByTestId('rule-0-move-down');
     await moveDownButton.click();
 
-    // After moving down, the first rule should now have the second alias
-    const firstAliasInputAfter = panel.getAliasInputs().first();
+    // After moving down, the second rule should now have the first alias
+    const secondAliasInputAfter = shortcutsPage.getByTestId('rule-1-alias');
 
-    // Verify the reorder
-    await expect(firstAliasInputAfter).toHaveValue(secondAliasBefore);
-  });
+    // Verify the reorder - second rule now has the first alias
+    await expect(secondAliasInputAfter).toHaveValue(firstAliasBefore);
 
-  test('should move rule up and verify order change', async ({
-    shortcutsPage,
-  }) => {
-    const panel = new ShortcutsPanel(shortcutsPage);
-
-    await panel.waitForLoading();
-
-    // Get the second alias before reorder
-    const secondAliasInputBefore = shortcutsPage.getByTestId('rule-1-alias');
-    const secondAliasBefore = await secondAliasInputBefore.inputValue();
-
-    // Click move up button on second rule
+    // Move it back up using the up button on the second rule
     const moveUpButton = shortcutsPage.getByTestId('rule-1-move-up');
     await moveUpButton.click();
 
-    // After moving up, the first rule should now have the second alias
-    const firstAliasInputAfter = panel.getAliasInputs().first();
-
-    // Verify the reorder
-    await expect(firstAliasInputAfter).toHaveValue(secondAliasBefore);
+    // Verify it's back to original order - first rule has first alias again
+    const firstAliasInputFinal = shortcutsPage.getByTestId('rule-0-alias');
+    await expect(firstAliasInputFinal).toHaveValue(firstAliasBefore);
   });
-});
 
-test.describe.serial('Delete Rule Tests', () => {
   test('should delete a rule', async ({ shortcutsPage }) => {
     const panel = new ShortcutsPanel(shortcutsPage);
 
@@ -252,9 +215,7 @@ test.describe.serial('Delete Rule Tests', () => {
       timeout: 3000,
     });
   });
-});
 
-test.describe.serial('External Link Tests', () => {
   test('should open external link in new tab', async ({
     shortcutsPage,
     context,
