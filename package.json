@@ -29,7 +29,7 @@
     "vercel": "48.12.1",
     "xo": "1.2.3"
   },
-  "packageManager": "pnpm@10.24.0",
+  "packageManager": "pnpm@10.28.2",
   "pnpm": {
     "overrides": {
       "eslint": "9.39.2"
