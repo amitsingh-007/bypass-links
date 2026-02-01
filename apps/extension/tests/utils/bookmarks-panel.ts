@@ -67,51 +67,28 @@ export class BookmarksPanel {
     await expect(dialog).toBeHidden();
   }
 
-  async deleteFolder(folderName: string) {
-    const folderRow = this.page.getByTestId(`folder-item-${folderName}`);
-    await expect(folderRow).toBeVisible();
-    await folderRow.click({ button: 'right' });
-    await this.clickContextMenuItem('Delete');
-    await expect(folderRow).not.toBeVisible();
-  }
-
   async openEditBookmarkDialog(bookmarkTitle: string) {
     const element = this.page.getByTestId(`bookmark-item-${bookmarkTitle}`);
     await expect(element).toBeVisible();
     await element.click({ button: 'right' });
-    await this.clickContextMenuItem('Edit');
+    await this.clickContextMenuItem('edit');
     return this.page.getByRole('dialog');
   }
 
-  async openBookmarkContextMenuItem(
-    bookmarkTitle: string,
-    menuItemText: string
-  ) {
+  async openBookmarkContextMenuItem(bookmarkTitle: string, menuItemId: string) {
     const element = this.page.getByTestId(`bookmark-item-${bookmarkTitle}`);
     await expect(element).toBeVisible();
     await element.click({ button: 'right' });
-    await this.clickContextMenuItem(menuItemText);
+    await this.clickContextMenuItem(menuItemId);
   }
 
   async cutBookmark(bookmarkTitle: string) {
-    await this.openBookmarkContextMenuItem(bookmarkTitle, 'Cut');
+    await this.openBookmarkContextMenuItem(bookmarkTitle, 'cut');
   }
 
   async pasteBookmark() {
-    const pasteOption = this.page.locator(
-      '.mantine-contextmenu-item-button-title',
-      { hasText: 'Paste' }
-    );
-    await pasteOption.waitFor({ state: 'attached' });
-    await pasteOption.evaluate((el) => (el as HTMLElement).click());
+    await this.clickContextMenuItem('paste');
     await waitForDebounce(this.page);
-  }
-
-  async deleteBookmark(bookmarkTitle: string) {
-    const bookmarkRow = this.page.getByTestId(`bookmark-item-${bookmarkTitle}`);
-    await bookmarkRow.click({ button: 'right' });
-    await this.clickContextMenuItem('Delete');
-    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
   }
 
   async selectBookmark(bookmarkTitle: string) {
@@ -126,23 +103,14 @@ export class BookmarksPanel {
     await bookmarkRow.dblclick();
   }
 
-  async openBookmarksViaContextMenu() {
-    const openOption = this.page.locator(
-      '.mantine-contextmenu-item-button-title',
-      { hasText: 'Open' }
-    );
-    await openOption.waitFor({ state: 'attached' });
-    await openOption.evaluate((el) => (el as HTMLElement).click());
-  }
-
   async clickSaveButton() {
     const saveButton = this.getSaveButton();
     await saveButton.click();
     await expect(this.page.getByText('Saved temporarily')).toBeVisible();
   }
 
-  async clickContextMenuItem(itemText: string) {
-    await clickContextMenuItemUtil(this.page, itemText);
+  async clickContextMenuItem(itemId: string) {
+    await clickContextMenuItemUtil(this.page, itemId);
   }
 
   async getBookmarkCount() {
@@ -251,11 +219,6 @@ export class BookmarksPanel {
     await expect(folder).toBeVisible();
   }
 
-  async verifyBookmarkNotExists(bookmarkTitle: string) {
-    const bookmark = this.page.getByTestId(`bookmark-item-${bookmarkTitle}`);
-    await expect(bookmark).not.toBeVisible();
-  }
-
   async verifyFolderNotExists(folderName: string) {
     const folder = this.page.getByTestId(`folder-item-${folderName}`);
     await expect(folder).not.toBeVisible();
@@ -281,10 +244,6 @@ export class BookmarksPanel {
 
   getBookmarkItems() {
     return this.page.locator('[data-testid^="bookmark-item-"]');
-  }
-
-  getFolderItems() {
-    return this.page.locator('[data-testid^="folder-item-"]');
   }
 
   getDialogCloseButton() {
@@ -320,13 +279,6 @@ export class BookmarksPanel {
     await saveButton.click();
 
     return dialog;
-  }
-
-  async verifyUrlInputEditable() {
-    const urlInput = this.getUrlInput();
-    await expect(urlInput).toBeVisible();
-    const isReadonly = await urlInput.getAttribute('readonly');
-    expect(isReadonly).toBeNull();
   }
 
   async verifyErrorNotification(message: string) {

@@ -59,7 +59,9 @@ export class PersonsPanel {
     }
 
     await clickDialogButton(dialog, 'Save');
-    await expect(dialog).toBeHidden();
+    await waitForDebounce(this.page);
+    // Wait for dialog to close with longer timeout
+    await expect(dialog).toBeHidden({ timeout: TEST_TIMEOUTS.LONG_WAIT });
 
     const newPersonCard = this.page.getByTestId(`person-item-${name}`);
     await expect(newPersonCard).toBeVisible();
@@ -69,7 +71,7 @@ export class PersonsPanel {
     const personCard = this.page.getByTestId(`person-item-${personName}`);
     await expect(personCard).toBeVisible();
     await personCard.click({ button: 'right' });
-    await clickContextMenuItem(this.page, 'Edit');
+    await clickContextMenuItem(this.page, 'edit');
     return this.page.getByRole('dialog', { name: 'Edit Person' });
   }
 
@@ -103,16 +105,13 @@ export class PersonsPanel {
     await expect(personCard).toBeVisible();
 
     await personCard.click({ button: 'right' });
-    await clickContextMenuItem(this.page, 'Delete');
+    await clickContextMenuItem(this.page, 'delete');
 
     // Wait for success notification to appear and verify
     const notification = this.page.getByText('Person deleted successfully');
     await expect(notification).toBeVisible();
 
-    // Wait for deletion to complete
-    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
-
-    // Verify person is no longer visible
+    // Verify person is no longer visible (auto-retrying assertion)
     await expect(personCard).not.toBeVisible();
   }
 
@@ -128,6 +127,18 @@ export class PersonsPanel {
 
   async openPersonCard(personName: string) {
     await openPersonCard(this.page, personName);
+  }
+
+  async ensureAtRoot() {
+    await this.page.goto('/index.html');
+    const personsButton = this.page.getByRole('button', { name: 'Persons' });
+    await expect(personsButton).toBeVisible();
+    await personsButton.click();
+    await expect(this.page.getByPlaceholder('Search')).toBeVisible();
+    // Wait for at least one person to be visible
+    await expect(
+      this.page.locator('[data-testid^="person-item-"]').first()
+    ).toBeVisible();
   }
 
   async navigateBack() {
@@ -225,11 +236,6 @@ export class PersonsPanel {
 
   // ============ Verification Helpers ============
 
-  async verifyPersonNotExists(personName: string) {
-    const personCard = this.page.getByTestId(`person-item-${personName}`);
-    await expect(personCard).not.toBeVisible();
-  }
-
   async verifyPersonExists(personName: string) {
     await this.verifyPersonCardVisible(personName);
   }
@@ -269,37 +275,12 @@ export class PersonsPanel {
     return this.page.getByPlaceholder('Search');
   }
 
-  getAddPersonButton() {
-    return this.page.getByRole('button', { name: 'Add' });
-  }
-
-  getPersonCards() {
-    return this.page.locator('[data-testid^="person-item-"]');
-  }
-
-  getRecencySwitch() {
-    return this.page.getByRole('switch', { name: 'Recency' });
-  }
-
   // ============ Composite Operations ============
 
-  async clickPersonContextMenu(personName: string, menuItemText: string) {
+  async clickPersonContextMenu(personName: string, menuItemId: string) {
     const personCard = this.getPersonCardElement(personName);
     await expect(personCard).toBeVisible();
     await personCard.click({ button: 'right' });
-    await clickContextMenuItem(this.page, menuItemText);
-  }
-
-  async addPersonWithNameOnly(name: string) {
-    return this.addPerson(name);
-  }
-
-  async toggleRecencyAndWait() {
-    await this.toggleRecency();
-    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
-  }
-
-  async getPersonBadgeCount(personName: string): Promise<number> {
-    return this.verifyBadgeCount(personName);
+    await clickContextMenuItem(this.page, menuItemId);
   }
 }

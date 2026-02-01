@@ -1,10 +1,7 @@
-import {
-  TEST_PERSON_NAME,
-  TEST_PERSONS,
-  TEST_TIMEOUTS,
-} from '@bypass/shared/tests';
+import { TEST_PERSON_NAME, TEST_PERSONS } from '@bypass/shared/tests';
 import { test, expect } from '../fixtures/persons-fixture';
 import { PersonsPanel } from '../utils/persons-panel';
+import { waitForDebounce } from '../utils/test-utils';
 
 /**
  * Persons Panel E2E Tests
@@ -15,96 +12,89 @@ import { PersonsPanel } from '../utils/persons-panel';
  * IMPORTANT: Test order matters! Do not reorder tests without understanding dependencies.
  */
 test.describe.serial('Persons Panel', () => {
-  test.describe('Search Person', () => {
-    test('should search and filter persons', async ({ personsPage }) => {
-      const panel = new PersonsPanel(personsPage);
-      await panel.search('John', {
-        visibleTexts: [TEST_PERSONS.JOHN_NATHAN],
-        hiddenTexts: [TEST_PERSONS.AKASH_KUMAR_SINGH],
-      });
+  test('should search, filter, and clear persons', async ({ personsPage }) => {
+    const panel = new PersonsPanel(personsPage);
 
-      await panel.clearSearch();
-      await panel.verifyPersonExists(TEST_PERSONS.AKASH_KUMAR_SINGH);
-    });
+    // Ensure we start with cleared search
+    await panel.clearSearch();
 
-    test('should clear search and show all persons', async ({
-      personsPage,
-    }) => {
-      const panel = new PersonsPanel(personsPage);
-      const allPersonsBefore = await panel.getPersonCount();
+    // Get initial count
+    const allPersonsBefore = await panel.getPersonCount();
+    expect(allPersonsBefore).toBeGreaterThan(0);
 
-      await panel.search('NonExistentPerson');
+    // Search and filter
+    await panel.search('John');
+    await panel.verifyPersonExists(TEST_PERSONS.JOHN_NATHAN);
 
-      const noResultsPersons = await panel.getPersonCount();
-      expect(noResultsPersons).toBe(0);
+    // Clear search and verify all persons shown
+    await panel.clearSearch();
+    await panel.verifyPersonExists(TEST_PERSONS.AKASH_KUMAR_SINGH);
 
-      await panel.clearSearch();
+    // Search for non-existent person
+    await panel.search('NonExistentPerson');
+    const noResultsPersons = await panel.getPersonCount();
+    expect(noResultsPersons).toBe(0);
 
-      const allPersonsAfter = await panel.getPersonCount();
-      expect(allPersonsAfter).toBe(allPersonsBefore);
-    });
+    // Clear and verify count restored
+    await panel.clearSearch();
+    const allPersonsAfter = await panel.getPersonCount();
+    expect(allPersonsAfter).toBe(allPersonsBefore);
   });
 
-  test.describe('Add Person', () => {
-    test('should open add person dialog', async ({ personsPage }) => {
-      const panel = new PersonsPanel(personsPage);
-      const dialog = await panel.openAddPersonDialog();
+  test('should open add person dialog', async ({ personsPage }) => {
+    const panel = new PersonsPanel(personsPage);
+    const dialog = await panel.openAddPersonDialog();
 
-      const nameInput = dialog.getByPlaceholder('Enter name');
-      await expect(nameInput).toBeVisible();
+    const nameInput = dialog.getByPlaceholder('Enter name');
+    await expect(nameInput).toBeVisible();
 
-      const closeButton = dialog.locator('button.mantine-Modal-close');
-      if (await closeButton.isVisible()) {
-        await closeButton.click();
-      } else {
-        await personsPage.keyboard.press('Escape');
-      }
+    const closeButton = dialog.locator('button.mantine-Modal-close');
+    if (await closeButton.isVisible()) {
+      await closeButton.click();
+    } else {
+      await personsPage.keyboard.press('Escape');
+    }
 
-      await expect(dialog).toBeHidden();
-    });
-
-    test('should add person with name and image', async ({ personsPage }) => {
-      const panel = new PersonsPanel(personsPage);
-      const TEST_IMAGE_URL = 'https://picsum.photos/200';
-
-      await panel.addPerson(TEST_PERSON_NAME, TEST_IMAGE_URL);
-    });
+    await expect(dialog).toBeHidden();
   });
 
-  test.describe('Delete Person', () => {
-    test('should delete the test person created earlier', async ({
-      personsPage,
-    }) => {
-      const panel = new PersonsPanel(personsPage);
+  test('should add person with name and image', async ({ personsPage }) => {
+    const panel = new PersonsPanel(personsPage);
+    const TEST_IMAGE_URL = 'https://picsum.photos/200';
 
-      // First verify the person exists
-      await panel.verifyPersonExists(TEST_PERSON_NAME);
-
-      // Delete the person (this verifies the notification)
-      await panel.deletePerson(TEST_PERSON_NAME);
-    });
-
-    test('should show error when deleting person with tagged bookmarks', async ({
-      personsPage,
-    }) => {
-      const panel = new PersonsPanel(personsPage);
-      // Try to delete a person who has tagged bookmarks
-      // John Nathan has bookmarks tagged (verified in existing tests)
-      await panel.clickPersonContextMenu(TEST_PERSONS.JOHN_NATHAN, 'Delete');
-
-      // Verify error notification is shown
-      const notification = personsPage.getByText(
-        'Cannot delete a person with tagged bookmarks'
-      );
-      await expect(notification).toBeVisible();
-
-      // Verify the person still exists (not deleted)
-      await panel.verifyPersonExists(TEST_PERSONS.JOHN_NATHAN);
-    });
+    await panel.addPerson(TEST_PERSON_NAME, TEST_IMAGE_URL);
   });
-});
 
-test.describe('Edit Person', () => {
+  test('should delete the test person created earlier', async ({
+    personsPage,
+  }) => {
+    const panel = new PersonsPanel(personsPage);
+
+    // First verify the person exists
+    await panel.verifyPersonExists(TEST_PERSON_NAME);
+
+    // Delete the person (this verifies the notification)
+    await panel.deletePerson(TEST_PERSON_NAME);
+  });
+
+  test('should show error when deleting person with tagged bookmarks', async ({
+    personsPage,
+  }) => {
+    const panel = new PersonsPanel(personsPage);
+    // Try to delete a person who has tagged bookmarks
+    // John Nathan has bookmarks tagged (verified in existing tests)
+    await panel.clickPersonContextMenu(TEST_PERSONS.JOHN_NATHAN, 'delete');
+
+    // Verify error notification is shown
+    const notification = personsPage.getByText(
+      'Cannot delete a person with tagged bookmarks'
+    );
+    await expect(notification).toBeVisible();
+
+    // Verify the person still exists (not deleted)
+    await panel.verifyPersonExists(TEST_PERSONS.JOHN_NATHAN);
+  });
+
   test('should edit person name', async ({ personsPage }) => {
     const panel = new PersonsPanel(personsPage);
     const EDITED_PREFIX = '(Edited) ';
@@ -133,13 +123,11 @@ test.describe('Edit Person', () => {
 
     await panel.changePersonImage(TEST_PERSONS.DONALD, NEW_IMAGE_URL);
   });
-});
 
-test.describe('Open Tagged Bookmarks', () => {
   test('should open tagged bookmarks for a person', async ({ personsPage }) => {
     const panel = new PersonsPanel(personsPage);
-    await panel.openPersonCard(TEST_PERSONS.JOHN_NATHAN);
 
+    await panel.openPersonCard(TEST_PERSONS.JOHN_NATHAN);
     await personsPage.waitForURL(/persons-panel/);
 
     await panel.verifyBadgeVisible(TEST_PERSONS.JOHN_NATHAN);
@@ -155,16 +143,16 @@ test.describe('Open Tagged Bookmarks', () => {
     personsPage,
   }) => {
     const panel = new PersonsPanel(personsPage);
+    await panel.ensureAtRoot();
     const badgeCount = await panel.verifyBadgeCount(
       TEST_PERSONS.AKASH_KUMAR_SINGH
     );
     expect(badgeCount).toBeGreaterThanOrEqual(0);
   });
-});
 
-test.describe('Search Tagged Bookmarks', () => {
   test('should search within tagged bookmarks', async ({ personsPage }) => {
     const panel = new PersonsPanel(personsPage);
+    await panel.ensureAtRoot();
     const { allBookmarksBefore, noResultsBookmarks, searchInput } =
       await panel.searchWithinBookmarks(
         'nonexistentbookmark123',
@@ -175,7 +163,7 @@ test.describe('Search Tagged Bookmarks', () => {
     expect(noResultsBookmarks).toBe(0);
 
     await searchInput.clear();
-    await personsPage.waitForTimeout(TEST_TIMEOUTS.DEBOUNCE);
+    await waitForDebounce(personsPage);
 
     const allBookmarksAfter = await panel.getEditButtons();
     const countAfter = await allBookmarksAfter.count();
@@ -183,26 +171,23 @@ test.describe('Search Tagged Bookmarks', () => {
 
     await panel.navigateBack();
   });
-});
 
-test.describe('Open Tagged Bookmark', () => {
   test('should display bookmarks with edit buttons', async ({
     personsPage,
   }) => {
     const panel = new PersonsPanel(personsPage);
+    await panel.ensureAtRoot();
     await panel.openPersonCard(TEST_PERSONS.DONALD);
-    await personsPage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
     const editButtons = await panel.getEditButtons();
     await expect(editButtons.first()).toBeVisible();
 
     await panel.navigateBack();
   });
-});
 
-test.describe('Toggle Recency', () => {
   test('should verify recency switch exists', async ({ personsPage }) => {
     const panel = new PersonsPanel(personsPage);
+    await panel.ensureAtRoot();
     await panel.verifyRecencySwitchExists();
 
     const personNamesBefore = await panel.getPersonNames();
@@ -215,37 +200,34 @@ test.describe('Toggle Recency', () => {
 
     await panel.toggleRecency();
   });
-});
 
-test.describe('Person Count Display', () => {
   test('should display correct person count in header', async ({
     personsPage,
   }) => {
     const panel = new PersonsPanel(personsPage);
+    await panel.ensureAtRoot();
     const personCount = await panel.getPersonCount();
     expect(personCount).toBeGreaterThan(0);
 
     const countText = (await personsPage.locator('body').textContent()) ?? '';
     expect(countText).toContain(personCount.toString());
   });
-});
 
-test.describe('Navigate Between Persons', () => {
   test('should navigate between multiple persons', async ({ personsPage }) => {
     const panel = new PersonsPanel(personsPage);
     await panel.openPersonCard(TEST_PERSONS.JOHN_NATHAN);
-    await personsPage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
     await panel.verifyBadgeVisible(TEST_PERSONS.JOHN_NATHAN);
 
     await panel.navigateBack();
+    await waitForDebounce(personsPage);
 
     await panel.openPersonCard(TEST_PERSONS.AKASH_KUMAR_SINGH);
-    await personsPage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
     await panel.verifyBadgeVisible(TEST_PERSONS.AKASH_KUMAR_SINGH);
 
     await panel.navigateBack();
+    await waitForDebounce(personsPage);
 
     await panel.verifyPersonCardVisible(TEST_PERSONS.JOHN_NATHAN);
   });

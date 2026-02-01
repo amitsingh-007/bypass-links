@@ -20,7 +20,6 @@ export const openPersonCard = async (page: Page, personName: string) => {
   const personCard = page.getByTestId(`person-item-${personName}`);
   await expect(personCard).toBeVisible();
   await personCard.click();
-  await page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 };
 
 /**
@@ -81,14 +80,13 @@ export const closeDialog = async (
 };
 
 /**
- * Click a specific context menu option by text.
+ * Click a specific context menu option by id.
  */
-export const clickContextMenuItem = async (page: Page, itemText: string) => {
-  const menuItem = page.locator('.mantine-contextmenu-item-button-title', {
-    hasText: itemText,
-  });
-  await menuItem.waitFor({ state: 'attached' });
-  await menuItem.evaluate((el) => (el as HTMLElement).click());
+export const clickContextMenuItem = async (page: Page, id: string) => {
+  const className = `context-menu-item-${id}`;
+  const menuItem = page.locator(`.${className}`);
+  await expect(menuItem).toBeVisible();
+  await menuItem.click();
 };
 
 /**
@@ -176,7 +174,6 @@ export const getBadgeCount = async (
 export const toggleSwitch = async (page: Page, labelText: string) => {
   const label = page.locator('label').filter({ hasText: labelText });
   await label.click();
-  await page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 };
 
 /**
@@ -186,7 +183,6 @@ export const openFolder = async (page: Page, folderName: string) => {
   const folder = page.getByTestId(`folder-item-${folderName}`);
   await expect(folder).toBeVisible();
   await folder.click();
-  await page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 };
 
 interface SearchAndVerifyOptions {
