@@ -201,7 +201,7 @@ test.describe.serial('Bookmarks Panel', () => {
 
       const bookmarkCount = await panel.getBookmarkCount();
 
-      expect(bookmarkCount).toBeGreaterThanOrEqual(0);
+      expect(bookmarkCount).toBeGreaterThanOrEqual(1);
     });
 
     test('should delete bookmark via context menu', async ({
