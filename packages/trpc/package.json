@@ -20,7 +20,7 @@
     "@trpc/server": "11.8.0",
     "filenamify": "7.0.1",
     "firebase-admin": "13.6.0",
-    "zod": "4.1.13"
+    "zod": "4.3.6"
   },
   "devDependencies": {
     "@firebase/app-types": "0.9.3",
