@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@firebase/app-types": "0.9.3",
-    "firebase": "12.5.0",
+    "firebase": "12.8.0",
     "type-fest": "5.4.3",
     "typescript": "5.9.3"
   }
