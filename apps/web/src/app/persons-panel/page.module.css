@@ -11,9 +11,12 @@
   --switch-height: 28px !important;
 }
 
-.orderBySwitchLabelWrapper {
-  display: block;
+.orderBySwitchBody {
+  display: flex;
+  align-items: center;
+}
 
+.orderBySwitchLabelWrapper {
   @mixin smaller-than $mantine-breakpoint-sm {
     display: none;
   }

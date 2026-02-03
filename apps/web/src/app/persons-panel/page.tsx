@@ -73,6 +73,7 @@ function PersonsPage() {
           classNames={{
             root: styles.orderBySwitch,
             labelWrapper: styles.orderBySwitchLabelWrapper,
+            body: styles.orderBySwitchBody,
           }}
           checked={orderByRecency}
           onChange={() => setOrderByRecency((prev) => !prev)}
