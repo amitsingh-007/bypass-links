@@ -10,10 +10,12 @@ import {
   type IPersons,
   Persons,
   sortAlphabetically,
+  sortByRecency,
   STORAGE_KEYS,
+  useBookmark,
 } from '@bypass/shared';
-import { Box, Container } from '@mantine/core';
-import { useEffect, useMemo, useState } from 'react';
+import { Box, Container, Switch, useMantineTheme } from '@mantine/core';
+import { useEffect, useState } from 'react';
 import PersonVirtualCell from './components/PersonVirtualCell';
 import styles from './page.module.css';
 
@@ -23,7 +25,13 @@ const onLinkOpen = (url: string) => {
 
 function PersonsPage() {
   const [persons, setPersons] = useState<IPerson[]>([]);
+  const [filteredAndOrderedPersons, setFilteredAndOrderedPersons] = useState<
+    IPerson[]
+  >([]);
   const [searchText, setSearchText] = useState('');
+  const [orderByRecency, setOrderByRecency] = useState(true);
+  const { getDefaultOrRootFolderUrls } = useBookmark();
+  const theme = useMantineTheme();
 
   useEffect(() => {
     const _persons = getFromLocalStorage<IPersons>(STORAGE_KEYS.persons);
@@ -33,27 +41,53 @@ function PersonsPage() {
     const decryptedPersons = Object.values(_persons || {}).map((x) =>
       getDecryptedPerson(x)
     );
-    setPersons(sortAlphabetically(decryptedPersons));
+    const alphabeticallySorted = sortAlphabetically(decryptedPersons);
+    setPersons(alphabeticallySorted);
   }, []);
+
+  useEffect(() => {
+    const filterAndOrder = async () => {
+      const urls = await getDefaultOrRootFolderUrls();
+      const orderedPersons = orderByRecency
+        ? sortByRecency(persons, urls)
+        : persons;
+      return getFilteredPersons(orderedPersons, searchText);
+    };
+    filterAndOrder().then((p) => setFilteredAndOrderedPersons(p));
+  }, [getDefaultOrRootFolderUrls, orderByRecency, persons, searchText]);
 
   const handleSearchTextChange = (text: string) => {
     setSearchText(text);
   };
-
-  const filteredPersons = useMemo(
-    () => getFilteredPersons(persons, searchText),
-    [persons, searchText]
-  );
   return (
     <Container size="md" h="100vh" px={0} className={styles.container}>
       <Header
-        text={`Persons Panel (${filteredPersons?.length || 0})`}
+        text={`Persons Panel (${filteredAndOrderedPersons?.length || 0})`}
         onSearchChange={handleSearchTextChange}
-      />
+      >
+        <Switch
+          size="md"
+          label="Recency"
+          color="yellow"
+          classNames={{
+            root: styles.orderBySwitch,
+          }}
+          styles={{
+            labelWrapper: {
+              display: 'none',
+              [`@media (min-width: ${theme.breakpoints.sm})`]: {
+                display: 'block',
+              },
+            },
+          }}
+          checked={orderByRecency}
+          onChange={() => setOrderByRecency((prev) => !prev)}
+        />
+      </Header>
       <Box className={styles.innerContainer}>
-        {filteredPersons.length > 0 ? (
+        {filteredAndOrderedPersons.length > 0 ? (
           <Persons
-            persons={filteredPersons}
+            persons={filteredAndOrderedPersons}
             bookmarkListProps={{ fullscreen: false }}
             renderPerson={(person) => <PersonVirtualCell person={person} />}
             onLinkOpen={onLinkOpen}

@@ -6,3 +6,7 @@
 .innerContainer {
   flex: 1;
 }
+
+.orderBySwitch {
+  --switch-height: 28px !important;
+}

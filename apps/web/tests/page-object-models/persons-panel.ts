@@ -131,6 +131,33 @@ export class PersonsPanel {
     return modal.getByTestId('no-bookmarks-message');
   }
 
+  async verifyRecencySwitchExists() {
+    const recencySwitch = this.page
+      .locator('label')
+      .filter({ hasText: 'Recency' });
+    await expect(recencySwitch).toBeVisible();
+  }
+
+  async toggleRecency() {
+    const recencySwitch = this.page
+      .locator('label')
+      .filter({ hasText: 'Recency' });
+    await recencySwitch.click();
+  }
+
+  async getPersonNames(): Promise<string[]> {
+    const personCards = this.page.locator('[data-testid^="person-item-"]');
+    const personCount = await personCards.count();
+    const personNames: string[] = [];
+    for (let i = 0; i < personCount; i++) {
+      const text = await personCards.nth(i).textContent();
+      if (text) {
+        personNames.push(text.trim());
+      }
+    }
+    return personNames;
+  }
+
   getSearchInput(): Locator {
     return this.page.getByPlaceholder('Search');
   }
