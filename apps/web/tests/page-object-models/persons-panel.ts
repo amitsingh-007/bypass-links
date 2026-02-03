@@ -132,30 +132,17 @@ export class PersonsPanel {
   }
 
   async verifyRecencySwitchExists() {
-    const recencySwitch = this.page
-      .locator('label')
-      .filter({ hasText: 'Recency' });
-    await expect(recencySwitch).toBeVisible();
+    await expect(this.getRecencySwitch()).toBeVisible();
   }
 
   async toggleRecency() {
-    const recencySwitch = this.page
-      .locator('label')
-      .filter({ hasText: 'Recency' });
-    await recencySwitch.click();
+    await this.getRecencySwitch().click();
   }
 
   async getPersonNames(): Promise<string[]> {
     const personCards = this.page.locator('[data-testid^="person-item-"]');
-    const personCount = await personCards.count();
-    const personNames: string[] = [];
-    for (let i = 0; i < personCount; i++) {
-      const text = await personCards.nth(i).textContent();
-      if (text) {
-        personNames.push(text.trim());
-      }
-    }
-    return personNames;
+    const names = await personCards.allTextContents();
+    return names.map((name) => name.trim());
   }
 
   getSearchInput(): Locator {
@@ -164,6 +151,10 @@ export class PersonsPanel {
 
   private getModal(): Locator {
     return this.page.getByTestId('bookmarks-list-modal');
+  }
+
+  private getRecencySwitch(): Locator {
+    return this.page.locator('[data-testid="recency-switch"]').locator('..');
   }
 
   private async setSearchInput(searchInput: Locator, query: string) {

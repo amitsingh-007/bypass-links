@@ -46,14 +46,15 @@ function PersonsPage() {
   }, []);
 
   useEffect(() => {
-    const filterAndOrder = async () => {
+    const updatePersons = async () => {
       const urls = await getDefaultOrRootFolderUrls();
       const orderedPersons = orderByRecency
         ? sortByRecency(persons, urls)
         : persons;
-      return getFilteredPersons(orderedPersons, searchText);
+      const filtered = getFilteredPersons(orderedPersons, searchText);
+      setFilteredAndOrderedPersons(filtered);
     };
-    filterAndOrder().then((p) => setFilteredAndOrderedPersons(p));
+    updatePersons();
   }, [getDefaultOrRootFolderUrls, orderByRecency, persons, searchText]);
 
   const handleSearchTextChange = (text: string) => {
@@ -69,6 +70,7 @@ function PersonsPage() {
           size="md"
           label="Recency"
           color="yellow"
+          data-testid="recency-switch"
           classNames={{
             root: styles.orderBySwitch,
           }}
