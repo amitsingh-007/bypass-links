@@ -6,3 +6,18 @@
 .innerContainer {
   flex: 1;
 }
+
+.orderBySwitch {
+  --switch-height: 28px !important;
+}
+
+.orderBySwitchBody {
+  display: flex;
+  align-items: center;
+}
+
+.orderBySwitchLabelWrapper {
+  @mixin smaller-than $mantine-breakpoint-sm {
+    display: none;
+  }
+}

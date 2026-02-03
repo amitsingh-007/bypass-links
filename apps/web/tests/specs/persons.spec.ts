@@ -160,4 +160,31 @@ test.describe('Persons Panel', () => {
     await panel.verifyPersonExists(TEST_PERSONS.JOHN_NATHAN);
     await panel.verifyPersonExists(TEST_PERSONS.AKASH_KUMAR_SINGH);
   });
+
+  test('should toggle recency switch and verify person order changes', async ({
+    authenticatedPage,
+  }) => {
+    const panel = new PersonsPanel(authenticatedPage);
+
+    // Verify recency switch exists
+    await panel.verifyRecencySwitchExists();
+
+    // Get initial order of persons
+    const personNamesBefore = await panel.getPersonNames();
+    expect(personNamesBefore.length).toBeGreaterThan(0);
+
+    // Toggle recency switch
+    await panel.toggleRecency();
+
+    // Get new order of persons
+    const personNamesAfter = await panel.getPersonNames();
+
+    // Verify order changed
+    expect(personNamesBefore).not.toEqual(personNamesAfter);
+
+    // Toggle back to restore original order
+    await panel.toggleRecency();
+    const personNamesRestored = await panel.getPersonNames();
+    expect(personNamesRestored).toEqual(personNamesBefore);
+  });
 });
