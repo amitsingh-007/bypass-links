@@ -10,3 +10,11 @@
 .orderBySwitch {
   --switch-height: 28px !important;
 }
+
+.orderBySwitchLabelWrapper {
+  display: block;
+
+  @mixin smaller-than $mantine-breakpoint-sm {
+    display: none;
+  }
+}

@@ -14,7 +14,7 @@ import {
   STORAGE_KEYS,
   useBookmark,
 } from '@bypass/shared';
-import { Box, Container, Switch, useMantineTheme } from '@mantine/core';
+import { Box, Container, Switch } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import PersonVirtualCell from './components/PersonVirtualCell';
 import styles from './page.module.css';
@@ -31,7 +31,6 @@ function PersonsPage() {
   const [searchText, setSearchText] = useState('');
   const [orderByRecency, setOrderByRecency] = useState(true);
   const { getDefaultOrRootFolderUrls } = useBookmark();
-  const theme = useMantineTheme();
 
   useEffect(() => {
     const _persons = getFromLocalStorage<IPersons>(STORAGE_KEYS.persons);
@@ -73,14 +72,7 @@ function PersonsPage() {
           data-testid="recency-switch"
           classNames={{
             root: styles.orderBySwitch,
-          }}
-          styles={{
-            labelWrapper: {
-              display: 'none',
-              [`@media (min-width: ${theme.breakpoints.sm})`]: {
-                display: 'block',
-              },
-            },
+            labelWrapper: styles.orderBySwitchLabelWrapper,
           }}
           checked={orderByRecency}
           onChange={() => setOrderByRecency((prev) => !prev)}
