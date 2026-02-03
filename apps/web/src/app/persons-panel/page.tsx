@@ -69,7 +69,7 @@ function PersonsPage() {
           size="md"
           label="Recency"
           color="yellow"
-          data-testid="recency-switch"
+          wrapperProps={{ 'data-testid': 'recency-switch' }}
           classNames={{
             root: styles.orderBySwitch,
             labelWrapper: styles.orderBySwitchLabelWrapper,

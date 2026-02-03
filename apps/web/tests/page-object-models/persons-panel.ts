@@ -154,7 +154,7 @@ export class PersonsPanel {
   }
 
   private getRecencySwitch(): Locator {
-    return this.page.locator('[data-testid="recency-switch"]').locator('..');
+    return this.page.locator('[data-testid="recency-switch"]');
   }
 
   private async setSearchInput(searchInput: Locator, query: string) {
