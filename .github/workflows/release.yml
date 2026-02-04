@@ -16,7 +16,7 @@ jobs:
       preview_url: ${{ steps.vercel-action.outputs.preview-url }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -37,7 +37,7 @@ jobs:
         run: pnpm build --filter=@bypass/extension
 
       - name: Uploading extensions
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: extensions-folder
           path: |
@@ -62,7 +62,7 @@ jobs:
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -74,7 +74,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Cache Playwright binaries
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: playwright-cache
         with:
           path: |
@@ -85,7 +85,7 @@ jobs:
           restore-keys: cache-playwright-
 
       - name: Download extensions
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: extensions-folder
           path: ./apps/extension/chrome-build/
@@ -106,7 +106,7 @@ jobs:
           PLAYWRIGHT_TEST_BASE_URL: ${{ needs.Build.outputs.preview_url }}
 
       - name: Upload Playwright test report
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         if: always()
         with:
           name: playwright-report
@@ -117,7 +117,7 @@ jobs:
     needs: [Playwright]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -160,7 +160,7 @@ jobs:
           env: ${{ steps.deployment.outputs.env }}
 
       - name: Download extensions
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: extensions-folder
           path: ./apps/extension/chrome-build/
@@ -174,7 +174,7 @@ jobs:
           FIREFOX_API_SECRET: ${{ secrets.FIREFOX_API_SECRET }}
 
       - name: Uploading packaged extensions
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: packaged-extensions
           path: ./apps/extension/build
@@ -184,10 +184,10 @@ jobs:
     needs: [Deploy]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Download packaged extensions
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: packaged-extensions
           path: ./apps/extension/build

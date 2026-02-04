@@ -37,9 +37,8 @@ export function AuthProvider({ children }: PropsWithChildren) {
       return;
     }
     const initAuth = async () => {
-      const { onAuthStateChange, getCurrentUser } = await import(
-        '../helpers/firebase/auth'
-      );
+      const { onAuthStateChange, getCurrentUser } =
+        await import('../helpers/firebase/auth');
 
       const currentUser = getCurrentUser();
       setUser(currentUser);

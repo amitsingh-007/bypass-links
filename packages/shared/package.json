@@ -16,19 +16,19 @@
   "sideEffects": false,
   "peerDependencies": {
     "@bypass/configs": "workspace:*",
-    "@mantine/core": "8.3.6",
-    "@mantine/hooks": "8.3.6",
-    "@tanstack/react-virtual": "3.13.12",
+    "@mantine/core": "8.3.14",
+    "@mantine/hooks": "8.3.14",
+    "@tanstack/react-virtual": "3.13.18",
     "clsx": "2.1.1",
-    "preact": "10.27.2",
-    "react": "19.2.0",
+    "preact": "10.28.3",
+    "react": "19.2.4",
     "react-icons": "5.5.0",
-    "zod": "4.1.13"
+    "zod": "4.3.6"
   },
   "devDependencies": {
     "@bypass/configs": "workspace:*",
     "@total-typescript/ts-reset": "0.6.1",
-    "@types/react": "19.2.7",
+    "@types/react": "19.2.10",
     "typescript": "5.9.3"
   }
 }
