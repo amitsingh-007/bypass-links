@@ -1,19 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import {
-  type BrowserContext,
-  type Page,
-  type Worker,
-  test as base,
-} from '@playwright/test';
-import {
-  authenticateAndNavigate,
-  createSharedBackgroundSW,
-  createSharedContext,
-  createUnauthContext,
-  getExtensionId,
-} from './base-fixture';
+import { type BrowserContext, type Page, type Worker } from '@playwright/test';
+import { authenticateAndNavigate, createUnauthContext } from './base-fixture';
+import { test as base } from './extension-base-fixture';
 
 const fileName = fileURLToPath(import.meta.url);
 const dirName = path.dirname(fileName);
@@ -25,11 +15,9 @@ export const test = base.extend<
     context: BrowserContext;
   },
   {
-    sharedContext: BrowserContext;
-    sharedBackgroundSW: Worker;
-    sharedExtensionId: string;
     sharedPage: Page;
     extensionPath: string;
+    _sharedBackgroundSW: Worker;
   }
 >({
   extensionPath: [
@@ -41,41 +29,21 @@ export const test = base.extend<
     { scope: 'worker' },
   ],
 
-  sharedContext: [
-    // eslint-disable-next-line no-empty-pattern
-    async ({}, use) => {
-      const { browserContext, userDataDir } = await createSharedContext();
-      await use(browserContext);
-      await browserContext.close();
-      const fsPromises = await import('node:fs/promises');
-      await fsPromises.rm(userDataDir, { recursive: true, force: true });
-    },
-    { scope: 'worker' },
-  ],
-
-  sharedBackgroundSW: [
-    async ({ sharedContext }, use) => {
-      const background = await createSharedBackgroundSW(sharedContext);
-      await use(background);
-    },
-    { scope: 'worker' },
-  ],
-
-  sharedExtensionId: [
+  // Include sharedBackgroundSW in worker scope to pass to authenticateAndNavigate
+  _sharedBackgroundSW: [
     async ({ sharedBackgroundSW }, use) => {
-      const id = await getExtensionId(sharedBackgroundSW);
-      await use(id);
+      await use(sharedBackgroundSW);
     },
     { scope: 'worker' },
   ],
 
   sharedPage: [
-    async ({ sharedContext, sharedExtensionId, sharedBackgroundSW }, use) => {
+    async ({ sharedContext, sharedExtensionId, _sharedBackgroundSW }, use) => {
       const page = await authenticateAndNavigate(
         sharedContext,
         sharedExtensionId,
         'home',
-        sharedBackgroundSW
+        _sharedBackgroundSW
       );
       await use(page);
     },
@@ -115,4 +83,4 @@ export const test = base.extend<
   },
 });
 
-export const { expect } = test;
+export { expect } from './extension-base-fixture';
