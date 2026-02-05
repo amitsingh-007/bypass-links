@@ -13,7 +13,10 @@ export const rmDirWithRetry = async (
       if (i === retries - 1) {
         throw error;
       }
-      await new Promise((resolve) => setTimeout(resolve, delay));
+
+      await new Promise((resolve) => {
+        setTimeout(resolve, delay);
+      });
     }
   }
 };
