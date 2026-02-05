@@ -97,7 +97,8 @@ export const getExtensionId = async (
 export const authenticateAndNavigate = async (
   sharedContext: BrowserContext,
   sharedExtensionId: string,
-  panelName?: 'bookmarks' | 'persons' | 'shortcuts' | 'home'
+  panelName?: 'bookmarks' | 'persons' | 'shortcuts' | 'home',
+  sharedBackgroundSW?: Worker
 ): Promise<Page> => {
   const cachedData = await loadCachedStorageData();
 
@@ -112,13 +113,26 @@ export const authenticateAndNavigate = async (
   );
 
   // Step 2: Inject chrome.storage.local via Background Service Worker (so it's ready before page load)
-  const [background] = sharedContext.serviceWorkers();
-  if (background) {
-    await background.evaluate(
-      async (chromeStorageData) => chrome.storage.local.set(chromeStorageData),
-      cachedData.chromeStorage
-    );
+  // Use the provided background worker if it's still valid, otherwise get/create one
+  let background: Worker;
+  try {
+    // Try to use the passed background worker
+    if (sharedBackgroundSW) {
+      // Verify it's still valid by checking if we can access its url
+      sharedBackgroundSW.url();
+      background = sharedBackgroundSW;
+    } else {
+      throw new Error('No shared background worker provided');
+    }
+  } catch {
+    // If the shared worker is closed/invalid, get a fresh one
+    [background] = sharedContext.serviceWorkers();
+    background ||= await sharedContext.waitForEvent('serviceworker');
   }
+  await background.evaluate(
+    async (chromeStorageData) => chrome.storage.local.set(chromeStorageData),
+    cachedData.chromeStorage
+  );
 
   // Step 3: Create page and navigate to extension
   const page = await sharedContext.newPage();

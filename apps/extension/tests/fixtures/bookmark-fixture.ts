@@ -53,11 +53,12 @@ export const test = base.extend<
   ],
 
   sharedPage: [
-    async ({ sharedContext, sharedExtensionId }, use) => {
+    async ({ sharedContext, sharedExtensionId, sharedBackgroundSW }, use) => {
       const page = await authenticateAndNavigate(
         sharedContext,
         sharedExtensionId,
-        'bookmarks'
+        'bookmarks',
+        sharedBackgroundSW
       );
       await use(page);
     },
