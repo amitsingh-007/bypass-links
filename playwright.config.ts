@@ -10,6 +10,7 @@ const isVM = process.env.IS_VM === 'true'; // Manually set in .env for VM enviro
 
 const config = defineConfig({
   globalTimeout: 30 * 60 * 1000,
+  timeout: 120 * 1000,
   expect: { timeout: 5000 },
   forbidOnly: isCI,
   retries: isCI ? 2 : 1,

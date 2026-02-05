@@ -36,7 +36,7 @@ setup('authenticate and cache web storage', async () => {
   const webUrl =
     process.env.PLAYWRIGHT_TEST_BASE_URL ?? 'http://localhost:3000';
 
-  await page.goto(`${webUrl}/web-ext`, { waitUntil: 'networkidle' });
+  await page.goto(`${webUrl}/web-ext`);
 
   const loginButton = page.getByRole('button', { name: 'Login' });
   await expect(loginButton).toBeVisible({ timeout: TEST_TIMEOUTS.AUTH });

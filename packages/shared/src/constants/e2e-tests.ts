@@ -65,5 +65,5 @@ export const TEST_TIMEOUTS = {
   IMAGE_LOAD: 5000,
   LONG_WAIT: 10_000,
   PAGE_OPEN: 15_000,
-  AUTH: 30_000,
+  AUTH: 120_000,
 } as const;

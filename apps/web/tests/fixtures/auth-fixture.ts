@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { test as base, type BrowserContext, type Page } from '@playwright/test';
+import { rmDirWithRetry } from '../utils/fs-utils';
 import { createSharedContext } from './base-fixture';
 
 export const test = base.extend<
@@ -17,8 +18,7 @@ export const test = base.extend<
       const { browserContext, userDataDir } = await createSharedContext();
       await use(browserContext);
       await browserContext.close();
-      const fsPromises = await import('node:fs/promises');
-      await fsPromises.rm(userDataDir, { recursive: true, force: true });
+      await rmDirWithRetry(userDataDir);
     },
     { scope: 'worker' },
   ],
