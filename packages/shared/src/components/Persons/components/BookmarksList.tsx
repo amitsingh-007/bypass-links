@@ -144,12 +144,13 @@ function BookmarksList({
               styles.bookmarkContainer
             )}
           >
-            {showEditButton !== false && (
+            {showEditButton && (
               <ActionIcon
                 size="2rem"
                 title="Edit Bookmark"
                 color="red"
                 radius="xl"
+                data-testid="edit-bookmark-button"
                 onClick={() => handleBookmarkEdit(bookmark)}
               >
                 <AiFillEdit size="1.125rem" />

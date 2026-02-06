@@ -150,7 +150,7 @@ export class PersonsPanel {
   }
 
   getEditButtons(): Locator {
-    return this.getModal().getByTitle('Edit Bookmark');
+    return this.getModal().getByTestId('edit-bookmark-button');
   }
 
   async verifyEditButtonsHidden() {
