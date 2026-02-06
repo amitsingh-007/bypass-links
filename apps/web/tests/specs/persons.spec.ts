@@ -187,4 +187,14 @@ test.describe('Persons Panel', () => {
     const personNamesRestored = await panel.getPersonNames();
     expect(personNamesRestored).toEqual(personNamesBefore);
   });
+
+  test('should hide edit bookmark buttons in readonly web app', async ({
+    authenticatedPage,
+  }) => {
+    const panel = new PersonsPanel(authenticatedPage);
+
+    await panel.openPersonCard(TEST_PERSONS.JOHN_NATHAN);
+    await panel.verifyEditButtonsHidden();
+    await panel.closeModal();
+  });
 });

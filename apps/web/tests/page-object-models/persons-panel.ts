@@ -149,6 +149,15 @@ export class PersonsPanel {
     return this.page.getByPlaceholder('Search');
   }
 
+  getEditButtons(): Locator {
+    return this.getModal().getByTestId('edit-bookmark-button');
+  }
+
+  async verifyEditButtonsHidden() {
+    const editButtons = this.getEditButtons();
+    await expect(editButtons).not.toBeVisible();
+  }
+
   private getModal(): Locator {
     return this.page.getByTestId('bookmarks-list-modal');
   }
