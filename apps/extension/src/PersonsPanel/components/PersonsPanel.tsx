@@ -134,7 +134,7 @@ function PersonsPanel() {
           <Persons
             scrollButton
             persons={filteredAndOrderedPersons}
-            bookmarkListProps={{ fullscreen: true }}
+            bookmarkListProps={{ fullscreen: true, showEditButton: true }}
             renderPerson={(person) => (
               <PersonVirtualCell
                 person={person}
