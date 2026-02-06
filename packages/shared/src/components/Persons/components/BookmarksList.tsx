@@ -32,6 +32,7 @@ interface Props {
   imageUrl: string;
   onLinkOpen: (url: string) => void;
   fullscreen: boolean;
+  showEditButton?: boolean;
 }
 
 function BookmarksList({
@@ -39,6 +40,7 @@ function BookmarksList({
   imageUrl,
   onLinkOpen,
   fullscreen,
+  showEditButton,
 }: Props) {
   const { location } = useContext(DynamicContext);
   const { getBookmarkFromHash, getFolderFromHash, getDefaultOrRootFolderUrls } =
@@ -142,15 +144,17 @@ function BookmarksList({
               styles.bookmarkContainer
             )}
           >
-            <ActionIcon
-              size="2rem"
-              title="Edit Bookmark"
-              color="red"
-              radius="xl"
-              onClick={() => handleBookmarkEdit(bookmark)}
-            >
-              <AiFillEdit size="1.125rem" />
-            </ActionIcon>
+            {showEditButton !== false && (
+              <ActionIcon
+                size="2rem"
+                title="Edit Bookmark"
+                color="red"
+                radius="xl"
+                onClick={() => handleBookmarkEdit(bookmark)}
+              >
+                <AiFillEdit size="1.125rem" />
+              </ActionIcon>
+            )}
             <Box className={styles.bookmarkWrapper}>
               <Bookmark
                 id={bookmark.id}

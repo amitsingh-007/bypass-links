@@ -83,7 +83,7 @@ function PersonsPage() {
         {filteredAndOrderedPersons.length > 0 ? (
           <Persons
             persons={filteredAndOrderedPersons}
-            bookmarkListProps={{ fullscreen: false }}
+            bookmarkListProps={{ fullscreen: false, showEditButton: false }}
             renderPerson={(person) => <PersonVirtualCell person={person} />}
             onLinkOpen={onLinkOpen}
           />
