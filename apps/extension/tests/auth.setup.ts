@@ -106,6 +106,8 @@ setup('authenticate and cache extension storage', async () => {
     return data;
   });
 
+  delete localStorageData.__outdatedCheck;
+
   await fs.promises.writeFile(
     EXTENSION_STORAGE_PATH,
     JSON.stringify(

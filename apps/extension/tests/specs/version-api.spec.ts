@@ -4,6 +4,7 @@ import { test, expect } from '../fixtures/auth-fixture';
 test('should call extension.latest API and return expected response structure', async ({
   page,
   extensionId,
+  login: _login,
 }) => {
   const apiPromise = page.waitForResponse(
     (response) =>
