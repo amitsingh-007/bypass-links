@@ -1,4 +1,5 @@
 import { expect, type Page } from '@playwright/test';
+import { ROUTES } from '@bypass/shared';
 import { TEST_TIMEOUTS } from '@bypass/shared/tests';
 import {
   changeImageInDialog,
@@ -130,7 +131,7 @@ export class PersonsPanel {
   }
 
   async ensureAtRoot() {
-    await this.page.goto('/popup.html');
+    await this.page.goto(ROUTES.HOMEPAGE);
     const personsButton = this.page.getByRole('button', { name: 'Persons' });
     await expect(personsButton).toBeVisible();
     await personsButton.click();
