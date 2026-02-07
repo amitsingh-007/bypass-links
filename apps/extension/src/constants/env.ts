@@ -4,7 +4,6 @@ import { createEnv } from '@t3-oss/env-core';
 import { z } from 'zod/mini';
 
 const monorepoRoot = path.dirname(path.dirname(process.cwd()));
-
 process.loadEnvFile?.(path.join(monorepoRoot, '.env'));
 
 export const env = createEnv({
