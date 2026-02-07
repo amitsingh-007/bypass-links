@@ -12,6 +12,7 @@ const config = defineConfig({
   expect: { timeout: 5000 },
   forbidOnly: isCI,
   retries: isCI ? 2 : 1,
+  workers: isCI ? 1 : undefined,
   fullyParallel: true,
   reporter: isCI ? [['github']] : [['list'], ['html', { open: 'never' }]],
   use: {

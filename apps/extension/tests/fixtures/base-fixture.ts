@@ -76,7 +76,9 @@ export const createSharedBackgroundSW = async (
   sharedContext: BrowserContext
 ): Promise<Worker> => {
   let [background] = sharedContext.serviceWorkers();
-  background ||= await sharedContext.waitForEvent('serviceworker');
+  background ||= await sharedContext.waitForEvent('serviceworker', {
+    timeout: 20_000,
+  });
   return background;
 };
 
@@ -109,8 +111,14 @@ export const authenticateAndNavigate = async (
   );
 
   // Step 2: Inject chrome.storage.local via Background Service Worker (so it's ready before page load)
-  const [background] = sharedContext.serviceWorkers();
-  if (background) {
+  let background = await createSharedBackgroundSW(sharedContext);
+  try {
+    await background.evaluate(
+      async (chromeStorageData) => chrome.storage.local.set(chromeStorageData),
+      cachedData.chromeStorage
+    );
+  } catch {
+    background = await createSharedBackgroundSW(sharedContext);
     await background.evaluate(
       async (chromeStorageData) => chrome.storage.local.set(chromeStorageData),
       cachedData.chromeStorage
