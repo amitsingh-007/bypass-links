@@ -124,9 +124,12 @@ test.describe('Bookmarks Panel', () => {
     const initialPages = context.pages();
 
     // Listen for new page event before triggering the action
-    const pagePromise = context.waitForEvent('page');
-    await panel.openBookmarkByDoubleClick(TEST_BOOKMARKS.REACT_DOCS);
-    const newPage = await pagePromise;
+    const [newPage] = await Promise.all([
+      authenticatedPage.waitForEvent('popup', {
+        timeout: TEST_TIMEOUTS.PAGE_OPEN,
+      }),
+      panel.openBookmarkByDoubleClick(TEST_BOOKMARKS.REACT_DOCS),
+    ]);
 
     // Verify exactly one new page was created
     expect(context.pages().length).toBe(initialPages.length + 1);

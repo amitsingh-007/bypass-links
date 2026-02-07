@@ -139,11 +139,10 @@ test.describe.serial('Bookmarks Panel', () => {
       const bookmarkRow = panel.getBookmarkElement(TEST_BOOKMARKS.REACT_DOCS);
       await expect(bookmarkRow).toBeVisible();
 
-      const pagePromise = context.waitForEvent('page', {
-        timeout: TEST_TIMEOUTS.PAGE_OPEN,
-      });
-      await bookmarkRow.dblclick();
-      const newPage = await pagePromise;
+      const [newPage] = await Promise.all([
+        context.waitForEvent('page', { timeout: TEST_TIMEOUTS.PAGE_OPEN }),
+        bookmarkRow.dblclick(),
+      ]);
 
       expect(newPage).toBeTruthy();
       expect(context.pages().length).toBeGreaterThan(initialPages);
@@ -163,11 +162,10 @@ test.describe.serial('Bookmarks Panel', () => {
       const openOption = bookmarksPage.locator('.context-menu-item-open');
       await expect(openOption).toBeVisible();
 
-      const multiPagePromise = context.waitForEvent('page', {
-        timeout: TEST_TIMEOUTS.PAGE_OPEN,
-      });
-      await openOption.click();
-      const multiNewPage = await multiPagePromise;
+      const [multiNewPage] = await Promise.all([
+        context.waitForEvent('page', { timeout: TEST_TIMEOUTS.PAGE_OPEN }),
+        openOption.click(),
+      ]);
 
       expect(multiNewPage).toBeTruthy();
       expect(context.pages().length).toBeGreaterThan(initialPages);

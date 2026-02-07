@@ -98,8 +98,7 @@ export const test = base.extend<
     // Create a new page without authentication
     const page = await unauthContext.newPage();
     const extUrl = `chrome-extension://${extensionId}/popup.html`;
-    await page.goto(extUrl);
-    await page.waitForLoadState('networkidle');
+    await page.goto(extUrl, { waitUntil: 'domcontentloaded' });
 
     await use(page);
 
