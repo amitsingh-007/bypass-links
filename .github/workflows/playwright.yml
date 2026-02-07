@@ -1,5 +1,11 @@
 name: Playwright Tests
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      vercel_url:
+        description: 'Optional Vercel preview URL (skip Vercel deployment if provided)'
+        required: false
+        type: string
 
 jobs:
   Build:
@@ -8,7 +14,7 @@ jobs:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
     outputs:
-      preview_url: ${{ steps.vercel-action.outputs.preview-url }}
+      preview_url: ${{ steps.preview-url.outputs.url }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v6
@@ -38,6 +44,7 @@ jobs:
           path: ./apps/extension/.output/chrome-mv3
 
       - name: Deploy Preview (Vercel)
+        if: ${{ !inputs.vercel_url }}
         uses: amondnet/vercel-action@v25
         id: vercel-action
         with:
@@ -45,6 +52,10 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
           github-comment: false
+
+      - name: Set preview URL
+        id: preview-url
+        run: echo "url=${{ inputs.vercel_url || steps.vercel-action.outputs.preview-url }}" >> $GITHUB_OUTPUT
 
   Playwright:
     needs: [Build]
