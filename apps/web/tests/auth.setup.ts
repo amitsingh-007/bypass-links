@@ -11,7 +11,8 @@ const testCredentials = JSON.stringify({
   password: process.env.FIREBASE_TEST_USER_PASSWORD,
 });
 
-setup('authenticate and cache web storage', async (_fixtures, testInfo) => {
+// eslint-disable-next-line no-empty-pattern
+setup('authenticate and cache web storage', async ({}, testInfo) => {
   await fs.promises.mkdir(AUTH_CACHE_DIR, { recursive: true });
   const headless = testInfo.project.use?.headless ?? true;
 

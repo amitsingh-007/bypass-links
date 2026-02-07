@@ -42,89 +42,87 @@ const signInWithEmailAndPassword = async (): Promise<IAuthResponse> => {
     }));
 };
 
-setup(
-  'authenticate and cache extension storage',
-  async (_fixtures, testInfo) => {
-    const authData = await signInWithEmailAndPassword();
+// eslint-disable-next-line no-empty-pattern
+setup('authenticate and cache extension storage', async ({}, testInfo) => {
+  const authData = await signInWithEmailAndPassword();
 
-    await fs.promises.mkdir(AUTH_CACHE_DIR, { recursive: true });
-    await fs.promises.rm(CHROME_PROFILE_DIR, { recursive: true, force: true });
+  await fs.promises.mkdir(AUTH_CACHE_DIR, { recursive: true });
+  await fs.promises.rm(CHROME_PROFILE_DIR, { recursive: true, force: true });
 
-    const pathToExtension = getExtensionPath();
+  const pathToExtension = getExtensionPath();
 
-    const headless = testInfo.project.use?.headless ?? true;
-    const browserContext = await chromium.launchPersistentContext(
-      CHROME_PROFILE_DIR,
-      {
-        channel: 'chromium',
-        headless,
-        args: [
-          `--disable-extensions-except=${pathToExtension}`,
-          `--load-extension=${pathToExtension}`,
-          '--disable-dev-shm-usage',
-          '--no-sandbox',
-        ],
+  const headless = testInfo.project.use?.headless ?? true;
+  const browserContext = await chromium.launchPersistentContext(
+    CHROME_PROFILE_DIR,
+    {
+      channel: 'chromium',
+      headless,
+      args: [
+        `--disable-extensions-except=${pathToExtension}`,
+        `--load-extension=${pathToExtension}`,
+        '--disable-dev-shm-usage',
+        '--no-sandbox',
+      ],
+    }
+  );
+
+  let [background] = browserContext.serviceWorkers();
+  background ||= await browserContext.waitForEvent('serviceworker', {
+    timeout: 20_000,
+  });
+  const extensionId = background.url().split('/')[2];
+
+  await browserContext.addInitScript(
+    ({ authDataJson, key }) => {
+      window.localStorage.setItem(key, authDataJson);
+    },
+    {
+      authDataJson: JSON.stringify(authData),
+      key: TEST_AUTH_DATA_KEY,
+    }
+  );
+
+  const page = await browserContext.newPage();
+  const extUrl = `chrome-extension://${extensionId}/popup.html`;
+  await page.goto(extUrl, { waitUntil: 'domcontentloaded' });
+
+  const loginButton = page.getByRole('button', { name: 'Login' });
+  await loginButton.waitFor({ state: 'visible', timeout: 20_000 });
+  await loginButton.click();
+
+  const logoutButton = page.getByRole('button', { name: 'Logout' });
+  await expect(logoutButton).toBeVisible({ timeout: 30_000 });
+  await expect(logoutButton).toBeEnabled({ timeout: 30_000 });
+
+  const chromeStorageData = await page.evaluate(async () =>
+    chrome.storage.local.get(null)
+  );
+
+  const localStorageData = await page.evaluate(() => {
+    const data: Record<string, string> = {};
+    for (let i = 0; i < window.localStorage.length; i++) {
+      const key = window.localStorage.key(i);
+      if (key) {
+        data[key] = window.localStorage.getItem(key) ?? '';
       }
-    );
+    }
+    return data;
+  });
 
-    let [background] = browserContext.serviceWorkers();
-    background ||= await browserContext.waitForEvent('serviceworker', {
-      timeout: 20_000,
-    });
-    const extensionId = background.url().split('/')[2];
+  delete localStorageData.__outdatedCheck;
 
-    await browserContext.addInitScript(
-      ({ authDataJson, key }) => {
-        window.localStorage.setItem(key, authDataJson);
+  await fs.promises.writeFile(
+    EXTENSION_STORAGE_PATH,
+    JSON.stringify(
+      {
+        chromeStorage: chromeStorageData,
+        localStorage: localStorageData,
+        extensionId,
       },
-      {
-        authDataJson: JSON.stringify(authData),
-        key: TEST_AUTH_DATA_KEY,
-      }
-    );
+      null,
+      2
+    )
+  );
 
-    const page = await browserContext.newPage();
-    const extUrl = `chrome-extension://${extensionId}/popup.html`;
-    await page.goto(extUrl, { waitUntil: 'domcontentloaded' });
-
-    const loginButton = page.getByRole('button', { name: 'Login' });
-    await loginButton.waitFor({ state: 'visible', timeout: 20_000 });
-    await loginButton.click();
-
-    const logoutButton = page.getByRole('button', { name: 'Logout' });
-    await expect(logoutButton).toBeVisible({ timeout: 30_000 });
-    await expect(logoutButton).toBeEnabled({ timeout: 30_000 });
-
-    const chromeStorageData = await page.evaluate(async () =>
-      chrome.storage.local.get(null)
-    );
-
-    const localStorageData = await page.evaluate(() => {
-      const data: Record<string, string> = {};
-      for (let i = 0; i < window.localStorage.length; i++) {
-        const key = window.localStorage.key(i);
-        if (key) {
-          data[key] = window.localStorage.getItem(key) ?? '';
-        }
-      }
-      return data;
-    });
-
-    delete localStorageData.__outdatedCheck;
-
-    await fs.promises.writeFile(
-      EXTENSION_STORAGE_PATH,
-      JSON.stringify(
-        {
-          chromeStorage: chromeStorageData,
-          localStorage: localStorageData,
-          extensionId,
-        },
-        null,
-        2
-      )
-    );
-
-    await browserContext.close();
-  }
-);
+  await browserContext.close();
+});
