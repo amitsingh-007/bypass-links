@@ -10,4 +10,6 @@ apps/web/.next/
 apps/extension/build/
 apps/extension/.output/
 apps/extension/.wxt/
+apps/extension/dev/
+apps/extension/help/
 .cache/

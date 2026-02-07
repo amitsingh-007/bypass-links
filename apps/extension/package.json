@@ -6,7 +6,7 @@
   "scripts": {
     "build:chrome": "wxt build",
     "build": "pnpm run build:chrome",
-    "dev:chrome": "wxt dev",
+    "dev:chrome": "wxt --mode=development",
     "dev": "pnpm run dev:chrome",
     "typecheck": "tsc --project tsconfig.production.json --noEmit"
   },
