@@ -1,5 +1,4 @@
 import deepmerge from 'deepmerge';
-import { type PluginOption } from 'vite';
 import preact from '@preact/preset-vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { defineConfig } from 'wxt';
@@ -26,7 +25,10 @@ export default defineConfig({
     const isProduction = configEnv.mode === 'production';
 
     return {
-      plugins: [tsconfigPaths(), preact()] as PluginOption[],
+      plugins: [tsconfigPaths(), preact()],
+      build: {
+        target: 'esnext',
+      },
       resolve: {
         alias: {
           react: 'preact/compat',

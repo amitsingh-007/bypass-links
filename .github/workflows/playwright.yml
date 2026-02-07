@@ -55,7 +55,10 @@ jobs:
 
       - name: Set preview URL
         id: preview-url
-        run: echo "url=${{ inputs.vercel_url || steps.vercel-action.outputs.preview-url }}" >> $GITHUB_OUTPUT
+        env:
+          VERCEL_INPUT: ${{ inputs.vercel_url }}
+          VERCEL_OUTPUT: ${{ steps.vercel-action.outputs.preview-url }}
+        run: echo "url=${VERCEL_INPUT:-$VERCEL_OUTPUT}" >> "$GITHUB_OUTPUT"
 
   Playwright:
     needs: [Build]
@@ -105,7 +108,7 @@ jobs:
         run: pnpm playwright install --with-deps
 
       - name: Run Playwright tests
-        run: pnpm playwright test
+        run: pnpm e2e
         env:
           PLAYWRIGHT_TEST_BASE_URL: ${{ needs.Build.outputs.preview_url }}
 

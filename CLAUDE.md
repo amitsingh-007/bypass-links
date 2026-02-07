@@ -89,5 +89,5 @@ After making changes, run the following commands:
 ```bash
 pnpm lint
 pnpm typecheck:all
-timeout 180 xvfb-run -a pnpm e2e <relative-filepath>
+pnpm e2e <relative-filepath>
 ```
