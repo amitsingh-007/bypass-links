@@ -72,12 +72,59 @@ export const createUnauthContext = async (extensionPath: string) => {
   return { browserContext, userDataDir };
 };
 
+/**
+ * Try to get the background service worker from the context.
+ * Uses an extended timeout to handle CI environments with high CPU load.
+ */
+const getBackgroundServiceWorker = async (
+  context: BrowserContext
+): Promise<Worker | undefined> => {
+  let [serviceWorker] = context.serviceWorkers();
+  if (!serviceWorker) {
+    try {
+      serviceWorker = await context.waitForEvent('serviceworker', {
+        timeout: 10_000,
+      });
+    } catch {
+      [serviceWorker] = context.serviceWorkers();
+    }
+  }
+  return serviceWorker;
+};
+
+/**
+ * Retry getting the service worker multiple times with exponential backoff.
+ * This is a workaround for Playwright issue #39075 where it fails to attach
+ * to MV3 extension service workers, especially under CPU load in CI.
+ * See: https://github.com/microsoft/playwright/issues/39075
+ */
+const getBackgroundServiceWorkerWithRetry = async (
+  context: BrowserContext,
+  maxRetries = 3
+): Promise<Worker> => {
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    const serviceWorker = await getBackgroundServiceWorker(context);
+    if (serviceWorker) {
+      return serviceWorker;
+    }
+
+    if (attempt < maxRetries - 1) {
+      const delay = Math.min(1000 * 2 ** attempt, 5000);
+      await new Promise((resolve) => {
+        void setTimeout(resolve, delay);
+      });
+    }
+  }
+
+  throw new Error(
+    `Failed to get background service worker after ${maxRetries} attempts.`
+  );
+};
+
 export const createSharedBackgroundSW = async (
   sharedContext: BrowserContext
 ): Promise<Worker> => {
-  let [background] = sharedContext.serviceWorkers();
-  background ||= await sharedContext.waitForEvent('serviceworker');
-  return background;
+  return getBackgroundServiceWorkerWithRetry(sharedContext);
 };
 
 export const getExtensionId = async (
@@ -109,7 +156,10 @@ export const authenticateAndNavigate = async (
   );
 
   // Step 2: Inject chrome.storage.local via Background Service Worker (so it's ready before page load)
-  const [background] = sharedContext.serviceWorkers();
+  const background = await getBackgroundServiceWorkerWithRetry(
+    sharedContext,
+    5
+  );
   if (background) {
     await background.evaluate(
       async (chromeStorageData) => chrome.storage.local.set(chromeStorageData),

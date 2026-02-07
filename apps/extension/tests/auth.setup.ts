@@ -11,6 +11,7 @@ import {
   EXTENSION_STORAGE_PATH,
 } from './auth-constants';
 import { getExtensionPath } from './utils/extension-path';
+import { createSharedBackgroundSW } from './fixtures/base-fixture';
 import type { IAuthResponse } from '@/interfaces/firebase';
 import { getExpiresAtMs } from '@/store/firebase/utils';
 
@@ -63,10 +64,7 @@ setup('authenticate and cache extension storage', async () => {
     }
   );
 
-  let [background] = browserContext.serviceWorkers();
-  background ||= await browserContext.waitForEvent('serviceworker', {
-    timeout: 20_000,
-  });
+  const background = await createSharedBackgroundSW(browserContext);
   const extensionId = background.url().split('/')[2];
 
   await browserContext.addInitScript(

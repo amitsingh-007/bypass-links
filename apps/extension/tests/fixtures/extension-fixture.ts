@@ -9,6 +9,7 @@ import {
   type BrowserContext,
 } from '@playwright/test';
 import { getExtensionPath } from '../utils/extension-path';
+import { createSharedBackgroundSW } from './base-fixture';
 
 export const test = base.extend<{
   context: BrowserContext;
@@ -34,8 +35,7 @@ export const test = base.extend<{
     await fs.promises.rm(userDataDir, { recursive: true, force: true });
   },
   async backgroundSW({ context }, use) {
-    let [background] = context.serviceWorkers();
-    background ||= await context.waitForEvent('serviceworker');
+    const background = await createSharedBackgroundSW(context);
     await use(background);
   },
 });

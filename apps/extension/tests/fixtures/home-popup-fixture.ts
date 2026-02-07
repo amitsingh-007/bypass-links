@@ -91,8 +91,9 @@ export const test = base.extend<
       await createUnauthContext(extensionPath);
 
     // Get extension ID from the new context
-    let [background] = unauthContext.serviceWorkers();
-    background ||= await unauthContext.waitForEvent('serviceworker');
+    // Import the robust service worker getter from base-fixture
+    const { createSharedBackgroundSW } = await import('./base-fixture');
+    const background = await createSharedBackgroundSW(unauthContext);
     const extensionId = background.url().split('/')[2];
 
     // Create a new page without authentication
