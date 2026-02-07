@@ -1,6 +1,4 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import {
   type BrowserContext,
   type Page,
@@ -15,9 +13,6 @@ import {
   createUnauthContext,
   getExtensionId,
 } from './base-fixture';
-
-const fileName = fileURLToPath(import.meta.url);
-const dirName = path.dirname(fileName);
 
 export const test = base.extend<
   {
@@ -36,7 +31,7 @@ export const test = base.extend<
   extensionPath: [
     // eslint-disable-next-line no-empty-pattern
     async ({}, use) => {
-      const pathToExtension = getExtensionPath(dirName);
+      const pathToExtension = getExtensionPath();
       await use(pathToExtension);
     },
     { scope: 'worker' },

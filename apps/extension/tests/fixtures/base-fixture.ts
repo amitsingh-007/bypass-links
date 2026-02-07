@@ -1,7 +1,6 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import {
   type BrowserContext,
   type Page,
@@ -10,9 +9,6 @@ import {
 } from '@playwright/test';
 import { CHROME_PROFILE_DIR, EXTENSION_STORAGE_PATH } from '../auth-constants';
 import { getExtensionPath } from '../utils/extension-path';
-
-const fileName = fileURLToPath(import.meta.url);
-const dirName = path.dirname(fileName);
 
 interface CachedStorageData {
   chromeStorage: Record<string, unknown>;
@@ -34,7 +30,7 @@ export const loadCachedStorageData = async (): Promise<CachedStorageData> => {
  * This preserves Cache Storage data (person-cache, favicon-cache) from auth setup.
  */
 export const createSharedContext = async () => {
-  const pathToExtension = getExtensionPath(dirName);
+  const pathToExtension = getExtensionPath();
 
   // Copy the cached profile to a temp directory (to avoid locking issues)
   const userDataDir = await fs.promises.mkdtemp(

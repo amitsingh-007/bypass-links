@@ -1,7 +1,5 @@
 import fs from 'node:fs';
-import path from 'node:path';
 import process from 'node:process';
-import { fileURLToPath } from 'node:url';
 import { chromium, expect, test as setup } from '@playwright/test';
 import wretch from 'wretch';
 import QueryStringAddon from 'wretch/addons/queryString';
@@ -15,9 +13,6 @@ import {
 import { getExtensionPath } from './utils/extension-path';
 import type { IAuthResponse } from '@/interfaces/firebase';
 import { getExpiresAtMs } from '@/store/firebase/utils';
-
-const fileName = fileURLToPath(import.meta.url);
-const dirName = path.dirname(fileName);
 
 const isCI = Boolean(process.env.PLAYWRIGHT_TEST_BASE_URL);
 const firebaseConfig = getFirebasePublicConfig(isCI);
@@ -53,7 +48,7 @@ setup('authenticate and cache extension storage', async () => {
   await fs.promises.mkdir(AUTH_CACHE_DIR, { recursive: true });
   await fs.promises.rm(CHROME_PROFILE_DIR, { recursive: true, force: true });
 
-  const pathToExtension = getExtensionPath(dirName);
+  const pathToExtension = getExtensionPath();
 
   const browserContext = await chromium.launchPersistentContext(
     CHROME_PROFILE_DIR,

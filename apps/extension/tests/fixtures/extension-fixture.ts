@@ -2,7 +2,6 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import {
   type Worker,
   test as base,
@@ -11,16 +10,13 @@ import {
 } from '@playwright/test';
 import { getExtensionPath } from '../utils/extension-path';
 
-const fileName = fileURLToPath(import.meta.url);
-const dirName = path.dirname(fileName);
-
 export const test = base.extend<{
   context: BrowserContext;
   backgroundSW: Worker;
 }>({
   // eslint-disable-next-line no-empty-pattern
   async context({}, use) {
-    const pathToExtension = getExtensionPath(dirName);
+    const pathToExtension = getExtensionPath();
     const userDataDir = await fs.promises.mkdtemp(
       path.join(os.tmpdir(), 'chrome-profile-')
     );
