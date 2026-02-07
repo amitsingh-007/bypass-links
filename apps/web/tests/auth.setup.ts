@@ -13,11 +13,13 @@ const testCredentials = JSON.stringify({
 
 setup('authenticate and cache web storage', async () => {
   await fs.promises.mkdir(AUTH_CACHE_DIR, { recursive: true });
+  const headless = process.env.PW_HEADLESS !== 'false';
 
   const browserContext = await chromium.launchPersistentContext(
     path.join(AUTH_CACHE_DIR, 'web-profile'),
     {
-      headless: false,
+      channel: 'chromium',
+      headless,
       args: ['--disable-dev-shm-usage', '--no-sandbox'],
     }
   );
