@@ -9,6 +9,7 @@ import {
   chromium,
   type BrowserContext,
 } from '@playwright/test';
+import { getExtensionPath } from '../utils/extension-path';
 
 const fileName = fileURLToPath(import.meta.url);
 const dirName = path.dirname(fileName);
@@ -19,7 +20,7 @@ export const test = base.extend<{
 }>({
   // eslint-disable-next-line no-empty-pattern
   async context({}, use) {
-    const pathToExtension = path.resolve(dirName, '../../.output/chrome-mv3');
+    const pathToExtension = getExtensionPath(dirName);
     const userDataDir = await fs.promises.mkdtemp(
       path.join(os.tmpdir(), 'chrome-profile-')
     );

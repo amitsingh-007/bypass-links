@@ -9,6 +9,7 @@ import {
   chromium,
 } from '@playwright/test';
 import { CHROME_PROFILE_DIR, EXTENSION_STORAGE_PATH } from '../auth-constants';
+import { getExtensionPath } from '../utils/extension-path';
 
 const fileName = fileURLToPath(import.meta.url);
 const dirName = path.dirname(fileName);
@@ -33,7 +34,7 @@ export const loadCachedStorageData = async (): Promise<CachedStorageData> => {
  * This preserves Cache Storage data (person-cache, favicon-cache) from auth setup.
  */
 export const createSharedContext = async () => {
-  const pathToExtension = path.resolve(dirName, '../../.output/chrome-mv3');
+  const pathToExtension = getExtensionPath(dirName);
 
   // Copy the cached profile to a temp directory (to avoid locking issues)
   const userDataDir = await fs.promises.mkdtemp(

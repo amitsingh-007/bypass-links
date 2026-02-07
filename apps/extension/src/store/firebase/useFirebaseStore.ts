@@ -15,7 +15,7 @@ interface State {
   setIdpAuth: (idpAuth: IAuthResponse) => void;
   resetIdpAuth: VoidFunction;
 
-  firebaseSignIn: () => Promise<boolean>;
+  firebaseSignIn: () => Promise<void>;
   firebaseSignOut: () => Promise<void>;
   getIdToken: () => Promise<string | null>;
 }
@@ -41,7 +41,7 @@ const useFirebaseStore = create<State>()(
           localStorage.removeItem(TEST_AUTH_DATA_KEY);
           const authData = JSON.parse(testAuthData) as IAuthResponse;
           setIdpAuth(authData);
-          return true;
+          return;
         }
 
         let accessToken = localStorage.getItem('access_token');
@@ -53,13 +53,12 @@ const useFirebaseStore = create<State>()(
         }
 
         if (!accessToken) {
-          return false;
+          return;
         }
 
         localStorage.removeItem('access_token');
         const idpAuthRes = await signInWithCredential(accessToken);
         setIdpAuth(idpAuthRes);
-        return false;
       },
 
       async firebaseSignOut() {

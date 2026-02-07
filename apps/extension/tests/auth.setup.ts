@@ -12,6 +12,7 @@ import {
   CHROME_PROFILE_DIR,
   EXTENSION_STORAGE_PATH,
 } from './auth-constants';
+import { getExtensionPath } from './utils/extension-path';
 import type { IAuthResponse } from '@/interfaces/firebase';
 import { getExpiresAtMs } from '@/store/firebase/utils';
 
@@ -52,7 +53,7 @@ setup('authenticate and cache extension storage', async () => {
   await fs.promises.mkdir(AUTH_CACHE_DIR, { recursive: true });
   await fs.promises.rm(CHROME_PROFILE_DIR, { recursive: true, force: true });
 
-  const pathToExtension = path.resolve(dirName, '../.output/chrome-mv3');
+  const pathToExtension = getExtensionPath(dirName);
 
   const browserContext = await chromium.launchPersistentContext(
     CHROME_PROFILE_DIR,

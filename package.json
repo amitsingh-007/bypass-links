@@ -9,7 +9,7 @@
     "dev": "turbo run dev",
     "dev:env": "vercel env pull .env",
     "e2e": "playwright test",
-    "lint": "xo --no-cache --verbose",
+    "lint": "xo",
     "typecheck": "tsc --noEmit",
     "typecheck:all": "turbo run typecheck",
     "precommit": "lint-staged --quiet",

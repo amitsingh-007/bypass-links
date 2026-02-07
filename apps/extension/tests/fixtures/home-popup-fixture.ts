@@ -7,6 +7,7 @@ import {
   type Worker,
   test as base,
 } from '@playwright/test';
+import { getExtensionPath } from '../utils/extension-path';
 import {
   authenticateAndNavigate,
   createSharedBackgroundSW,
@@ -35,7 +36,7 @@ export const test = base.extend<
   extensionPath: [
     // eslint-disable-next-line no-empty-pattern
     async ({}, use) => {
-      const pathToExtension = path.resolve(dirName, '../../.output/chrome-mv3');
+      const pathToExtension = getExtensionPath(dirName);
       await use(pathToExtension);
     },
     { scope: 'worker' },

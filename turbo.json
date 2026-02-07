@@ -16,7 +16,7 @@
   "tasks": {
     "build": {
       "dependsOn": ["//#lint", "//#typecheck"],
-      "outputs": ["apps/extension/.output/**", ".next/**"]
+      "outputs": [".output/chrome-mv3/**", ".next/**"]
     },
     "dev": {
       "cache": false
