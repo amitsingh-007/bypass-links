@@ -5,7 +5,6 @@ import { startHistoryWatch } from '@/utils/history';
 import { trpcApi } from '@/apis/trpcApi';
 
 export const redirect = async (tabId: number, url: URL) => {
-  // Firefox sometimes changes protocol to https
   url.protocol = 'http:';
 
   const redirections = await getMappedRedirections();

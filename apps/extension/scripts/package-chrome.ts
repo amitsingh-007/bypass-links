@@ -12,7 +12,7 @@ fs.mkdirSync(PATHS.BUILD_DIR, { recursive: true }); // Ensure output directory e
 const output = fs.createWriteStream(
   path.join(
     PATHS.BUILD_DIR,
-    `chrome-${getFileNameFromVersion(getExtVersion(), true)}`
+    `chrome-${getFileNameFromVersion(getExtVersion())}`
   )
 );
 const archive = archiver('zip', { zlib: { level: 9 } });

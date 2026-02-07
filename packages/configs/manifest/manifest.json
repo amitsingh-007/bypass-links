@@ -1,10 +1,11 @@
 {
-  "version": "22.34.0",
+  "version": "23.0.0",
   "manifest_version": 3,
   "short_name": "Bypass Links",
   "name": "Bypass Links",
   "author": "Amit Singh",
   "description": "Bypass links from various sites to required links, with added functionality of Bookmarks Manager, Tagging Panel.",
+  "key": "fdnekjijeofacghkammknogmiapepano",
   "action": {
     "default_icon": "assets/bypass_link_on_32.png",
     "default_popup": "index.html",
@@ -15,7 +16,11 @@
     "48": "assets/bypass_link_on_48.png"
   },
   "oauth2": {
+    "client_id": "824508694893-7dnmhd6c6ge8l7v1a625h15pfr0us2pc.apps.googleusercontent.com",
     "scopes": ["https://www.googleapis.com/auth/userinfo.email"]
+  },
+  "background": {
+    "service_worker": "service-worker.js"
   },
   "permissions": [
     "storage",

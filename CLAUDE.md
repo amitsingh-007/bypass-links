@@ -42,7 +42,7 @@ pnpm e2e              # Run Playwright E2E tests
 
 This is a **Turbo + pnpm monorepo** with the following structure:
 
-- **apps/extension** - Browser extension (Webpack, React with Preact, Wouter for routing)
+- **apps/extension** - Browser extension (WXT, React with Preact, Wouter for routing)
 - **apps/web** - Next.js web interface for downloads and admin
 - **packages/shared** - Shared React components, types, utilities, and stores (Zustand)
 - **packages/configs** - Shared TypeScript, ESLint (XO), and build configs
@@ -53,7 +53,6 @@ This is a **Turbo + pnpm monorepo** with the following structure:
 Turbo manages task dependencies defined in `turbo.json`:
 
 - `build` tasks depend on `//#lint` and `//#typecheck` completing first
-- Extension builds use `EXT_BROWSER` environment variable (chrome/firefox)
 
 ## E2E Testing
 

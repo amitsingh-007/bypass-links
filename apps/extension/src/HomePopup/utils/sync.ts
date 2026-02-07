@@ -1,4 +1,4 @@
-import { ECacheBucketKeys, deleteAllCache, GLOBALS } from '@bypass/shared';
+import { ECacheBucketKeys, deleteAllCache } from '@bypass/shared';
 import { nprogress } from '@mantine/nprogress';
 import {
   resetRedirections,
@@ -26,9 +26,7 @@ import {
 } from '@/BackgroundScript/websites/storageSync';
 
 const resetAuthentication = async () => {
-  if (GLOBALS.IS_CHROME) {
-    await chrome.identity.clearAllCachedAuthTokens();
-  }
+  await chrome.identity.clearAllCachedAuthTokens();
 };
 
 const syncFirebaseToStorage = async () => {

@@ -6,9 +6,9 @@ import { getAssetsByReleaseId, getLatestRelease } from './githubService';
 type TGitHubResponse = AsyncReturnType<typeof getAssetsByReleaseId>['data'];
 type TGitHubAsset = TGitHubResponse[number];
 
-const mapExtension = (extension: TGitHubAsset, isChrome: boolean) => ({
+const mapExtension = (extension: TGitHubAsset) => ({
   downloadLink: extension.browser_download_url,
-  version: getVersionFromFileName(extension.name, isChrome),
+  version: getVersionFromFileName(extension.name),
   date: extension.updated_at,
 });
 
@@ -19,19 +19,15 @@ export const getLatestExtension = async () => {
   const chromeAsset = assets.find(
     (asset) => asset.content_type === 'application/zip'
   );
-  // const firefoxAsset = assets.find(
-  //   (asset) => asset.content_type === 'application/x-xpinstall'
-  // );
 
   if (!chromeAsset) {
     throw new TRPCError({
       code: 'INTERNAL_SERVER_ERROR',
-      message: 'Extensions not found',
+      message: 'Extension not found',
     });
   }
 
   return {
-    chrome: mapExtension(chromeAsset, true),
-    // firefox: mapExtension(firefoxAsset, false),
+    chrome: mapExtension(chromeAsset),
   };
 };

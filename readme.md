@@ -6,7 +6,7 @@ An open-source `web extension` which bypasses links on various websites and lets
 
 ## Download link ![GitHub all releases](https://img.shields.io/github/downloads/amitsingh-007/bypass-links/total?color=success)
 
-Head over to [Download Page](https://bypass-links.vercel.app) to download the Chrome and Firefox extension.
+Head over to [Download Page](https://bypass-links.vercel.app) to download the extension.
 
 ## Salient features
 

@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { GLOBALS } from '@bypass/shared';
 import { TEST_AUTH_DATA_KEY } from '@/constants';
 import { type IAuthResponse } from '@/interfaces/firebase';
 import { refreshIdToken, signInWithCredential } from '@/store/firebase/api';
@@ -64,9 +63,7 @@ const useFirebaseStore = create<State>()(
       async firebaseSignOut() {
         const { resetIdpAuth } = get();
         resetIdpAuth();
-        if (GLOBALS.IS_CHROME) {
-          await chrome.identity.clearAllCachedAuthTokens();
-        }
+        await chrome.identity.clearAllCachedAuthTokens();
       },
 
       async getIdToken() {

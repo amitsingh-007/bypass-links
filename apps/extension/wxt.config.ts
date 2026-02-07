@@ -5,9 +5,8 @@ import { loadEnv, type PluginOption } from 'vite';
 import preact from '@preact/preset-vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { defineConfig } from 'wxt';
-import manifestBase from '../../packages/configs/manifest/manifest.base.json' assert { type: 'json' };
-import manifestChrome from '../../packages/configs/manifest/manifest.chrome.json' assert { type: 'json' };
-import manifestChromeProd from '../../packages/configs/manifest/manifest.chrome.prod.json' assert { type: 'json' };
+import manifestExt from '../../packages/configs/manifest/manifest.json' assert { type: 'json' };
+import manifestProd from '../../packages/configs/manifest/manifest.prod.json' assert { type: 'json' };
 
 const fileName = fileURLToPath(import.meta.url);
 const dirName = path.dirname(fileName);
@@ -16,9 +15,8 @@ const monorepoRoot = path.resolve(dirName, '..', '..');
 const getMergedManifest = (mode: string) => {
   const isProduction = mode === 'production';
   const mergedManifest = deepmerge.all([
-    manifestBase,
-    manifestChrome,
-    ...(isProduction ? [manifestChromeProd] : []),
+    manifestExt,
+    ...(isProduction ? [manifestProd] : []),
   ]);
 
   delete (mergedManifest as { background?: unknown }).background;
@@ -59,7 +57,6 @@ export default defineConfig({
         'process.env': JSON.stringify({
           NEXT_PUBLIC_PROD_ENV: JSON.stringify(isProduction),
           NEXT_PUBLIC_HOST_NAME: hostName,
-          NEXT_PUBLIC_IS_CHROME: JSON.stringify(true),
         }),
       },
     };

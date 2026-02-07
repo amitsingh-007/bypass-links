@@ -1,5 +1,5 @@
 manifest:
-  name: manifest.base.json
+  name: manifest.json
   dir: './packages/configs/manifest/'
 workflow:
   name: Build CI
