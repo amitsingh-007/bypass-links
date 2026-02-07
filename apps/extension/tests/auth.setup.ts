@@ -52,7 +52,7 @@ setup('authenticate and cache extension storage', async () => {
   await fs.promises.mkdir(AUTH_CACHE_DIR, { recursive: true });
   await fs.promises.rm(CHROME_PROFILE_DIR, { recursive: true, force: true });
 
-  const pathToExtension = path.resolve(dirName, '../chrome-build');
+  const pathToExtension = path.resolve(dirName, '../.output/chrome-mv3');
 
   const browserContext = await chromium.launchPersistentContext(
     CHROME_PROFILE_DIR,
@@ -84,8 +84,8 @@ setup('authenticate and cache extension storage', async () => {
   );
 
   const page = await browserContext.newPage();
-  const extUrl = `chrome-extension://${extensionId}/index.html`;
-  await page.goto(extUrl, { waitUntil: 'networkidle' });
+  const extUrl = `chrome-extension://${extensionId}/popup.html`;
+  await page.goto(extUrl, { waitUntil: 'domcontentloaded' });
 
   const loginButton = page.getByRole('button', { name: 'Login' });
   await loginButton.waitFor({ state: 'visible', timeout: 20_000 });

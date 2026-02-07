@@ -19,7 +19,7 @@ export const test = base.extend<{
 }>({
   // eslint-disable-next-line no-empty-pattern
   async context({}, use) {
-    const pathToExtension = path.resolve(dirName, '../../chrome-build');
+    const pathToExtension = path.resolve(dirName, '../../.output/chrome-mv3');
     const userDataDir = await fs.promises.mkdtemp(
       path.join(os.tmpdir(), 'chrome-profile-')
     );

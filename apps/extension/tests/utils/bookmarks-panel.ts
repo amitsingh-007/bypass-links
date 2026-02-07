@@ -47,7 +47,7 @@ export class BookmarksPanel {
   }
 
   async ensureAtRoot() {
-    await this.page.goto('/index.html');
+    await this.page.goto('/popup.html');
     const bookmarksButton = this.page.getByRole('button', {
       name: 'Bookmarks',
     });
@@ -200,7 +200,7 @@ export class BookmarksPanel {
   }
 
   async navigateToPersonsPanel() {
-    await this.page.goto('/index.html');
+    await this.page.goto('/popup.html');
     const personsButton = this.page.getByRole('button', { name: 'Persons' });
     await expect(personsButton).toBeVisible();
     await personsButton.click();

@@ -35,7 +35,7 @@ export const test = base.extend<
   extensionPath: [
     // eslint-disable-next-line no-empty-pattern
     async ({}, use) => {
-      const pathToExtension = path.resolve(dirName, '../../chrome-build');
+      const pathToExtension = path.resolve(dirName, '../../.output/chrome-mv3');
       await use(pathToExtension);
     },
     { scope: 'worker' },
@@ -101,7 +101,7 @@ export const test = base.extend<
 
     // Create a new page without authentication
     const page = await unauthContext.newPage();
-    const extUrl = `chrome-extension://${extensionId}/index.html`;
+    const extUrl = `chrome-extension://${extensionId}/popup.html`;
     await page.goto(extUrl);
     await page.waitForLoadState('networkidle');
 

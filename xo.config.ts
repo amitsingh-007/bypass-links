@@ -21,7 +21,12 @@ const xoConfig: FlatXoConfig = [
     files: 'apps/web/**/*.{ts,tsx}',
   },
   {
-    ignores: ['apps/web/next-env.d.ts'],
+    ignores: [
+      'apps/web/next-env.d.ts',
+      'apps/extension/.output/**',
+      'apps/extension/chrome-build/**',
+      'apps/extension/firefox-build/**',
+    ],
   },
   {
     rules: {

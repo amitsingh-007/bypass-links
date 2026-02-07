@@ -1,7 +1,7 @@
 {
   "extends": "./node_modules/@bypass/configs/tsconfig.base.json",
   "compilerOptions": {
-    "sourceMap": true, // Required for webpack source maps to work
+    "sourceMap": true,
     "lib": ["esnext", "dom", "dom.iterable", "webworker"],
     "baseUrl": ".",
     "paths": {
@@ -13,15 +13,6 @@
       "@store/*": ["./src/store/*"]
     }
   },
-  "include": ["@types", "src", "tests", "webpack.config.ts", "scripts"],
-  "exclude": ["chrome-build", "firefox-build", "node_modules", ".turbo"],
-  //Required for webpack config in typescript
-  "ts-node": {
-    "files": true,
-    "esm": true,
-    "compilerOptions": {
-      "module": "esnext",
-      "moduleResolution": "bundler"
-    }
-  }
+  "include": ["@types", "scripts", "src", "tests", "wxt.config.ts"],
+  "exclude": [".output", "node_modules", ".turbo"]
 }

@@ -6,7 +6,7 @@ test.skip('should be logged in with firebase token', async ({
   extensionId,
   login: _login,
 }) => {
-  const extUrl = `chrome-extension://${extensionId}/index.html`;
+  const extUrl = `chrome-extension://${extensionId}/popup.html`;
   await page.goto(extUrl);
   await page.waitForLoadState('networkidle');
 

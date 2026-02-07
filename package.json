@@ -9,7 +9,7 @@
     "dev": "turbo run dev",
     "dev:env": "vercel env pull .env",
     "e2e": "playwright test",
-    "lint": "xo",
+    "lint": "xo --no-cache --verbose",
     "typecheck": "tsc --noEmit",
     "typecheck:all": "turbo run typecheck",
     "precommit": "lint-staged --quiet",
@@ -32,7 +32,8 @@
   "packageManager": "pnpm@10.28.2",
   "pnpm": {
     "overrides": {
-      "eslint": "9.39.2"
+      "eslint": "9.39.2",
+      "vite": "7.3.1"
     }
   }
 }

@@ -25,7 +25,7 @@ pnpm build            # Build all workspaces
 
 # Extension-specific builds
 cd apps/extension
-pnpm build:chrome     # Build Chrome extension to chrome-build/
+pnpm build:chrome     # Build Chrome extension to .output/chrome-mv3
 pnpm dev:chrome       # Chrome dev server with hot reload
 
 # Code Quality

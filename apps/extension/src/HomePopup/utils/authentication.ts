@@ -4,8 +4,9 @@ import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 
 const userSignIn = async () => {
   const { firebaseSignIn } = useFirebaseStore.getState();
-  await firebaseSignIn();
+  const isTestAuth = await firebaseSignIn();
   nprogress.increment();
+  return isTestAuth;
 };
 
 export const signOut = async (): Promise<boolean> => {
@@ -25,8 +26,10 @@ export const signOut = async (): Promise<boolean> => {
 
 export const signIn = async (): Promise<boolean> => {
   try {
-    await userSignIn();
-    await processPostLogin();
+    const isTestAuth = await userSignIn();
+    if (!isTestAuth) {
+      await processPostLogin();
+    }
     return true;
   } catch (error) {
     console.error('Error occurred while signing in.', error);

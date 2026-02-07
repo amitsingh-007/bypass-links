@@ -40,9 +40,7 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: extensions-folder
-          path: |
-            ./apps/extension/chrome-build
-            # ./apps/extension/firefox-build
+          path: ./apps/extension/.output/chrome-mv3
 
       - name: Deploy Preview (Vercel)
         uses: amondnet/vercel-action@v25
@@ -88,7 +86,7 @@ jobs:
         uses: actions/download-artifact@v7
         with:
           name: extensions-folder
-          path: ./apps/extension/chrome-build/
+          path: ./apps/extension/.output/chrome-mv3/
 
       - name: Install dependencies
         run: pnpm install
@@ -163,15 +161,11 @@ jobs:
         uses: actions/download-artifact@v7
         with:
           name: extensions-folder
-          path: ./apps/extension/chrome-build/
+          path: ./apps/extension/.output/chrome-mv3/
 
       - name: Package extensions
         run: |
           pnpx tsx ./apps/extension/scripts/package-chrome.ts
-          # pnpx tsx ./apps/extension/scripts/package-firefox.ts
-        env:
-          FIREFOX_API_KEY: ${{ secrets.FIREFOX_API_KEY }}
-          FIREFOX_API_SECRET: ${{ secrets.FIREFOX_API_SECRET }}
 
       - name: Uploading packaged extensions
         uses: actions/upload-artifact@v6
@@ -209,4 +203,3 @@ jobs:
           generate_release_notes: true
           files: |
             ./apps/extension/build/chrome-*.zip
-            # ./apps/extension/build/firefox-*.xpi

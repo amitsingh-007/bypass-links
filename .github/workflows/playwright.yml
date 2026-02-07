@@ -35,7 +35,7 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: chrome-extension-folder
-          path: ./apps/extension/chrome-build
+          path: ./apps/extension/.output/chrome-mv3
 
       - name: Deploy Preview (Vercel)
         uses: amondnet/vercel-action@v25
@@ -81,7 +81,7 @@ jobs:
         uses: actions/download-artifact@v7
         with:
           name: chrome-extension-folder
-          path: ./apps/extension/chrome-build/
+          path: ./apps/extension/.output/chrome-mv3/
 
       - name: Install dependencies
         run: pnpm install

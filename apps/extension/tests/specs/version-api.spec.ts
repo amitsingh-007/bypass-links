@@ -13,7 +13,7 @@ test('should call extension.latest API and return expected response structure', 
     { timeout: TEST_TIMEOUTS.PAGE_OPEN }
   );
 
-  await page.goto(`chrome-extension://${extensionId}/index.html`);
+  await page.goto(`chrome-extension://${extensionId}/popup.html`);
   const apiResponse = await apiPromise;
 
   const responseJson = await apiResponse.json();

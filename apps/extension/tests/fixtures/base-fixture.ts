@@ -33,7 +33,7 @@ export const loadCachedStorageData = async (): Promise<CachedStorageData> => {
  * This preserves Cache Storage data (person-cache, favicon-cache) from auth setup.
  */
 export const createSharedContext = async () => {
-  const pathToExtension = path.resolve(dirName, '../../chrome-build');
+  const pathToExtension = path.resolve(dirName, '../../.output/chrome-mv3');
 
   // Copy the cached profile to a temp directory (to avoid locking issues)
   const userDataDir = await fs.promises.mkdtemp(
@@ -122,7 +122,7 @@ export const authenticateAndNavigate = async (
 
   // Step 3: Create page and navigate to extension
   const page = await sharedContext.newPage();
-  const extUrl = `chrome-extension://${sharedExtensionId}/index.html`;
+  const extUrl = `chrome-extension://${sharedExtensionId}/popup.html`;
   await page.goto(extUrl);
   await page.waitForLoadState('networkidle');
 
