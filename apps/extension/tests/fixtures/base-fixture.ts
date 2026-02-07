@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import process from 'node:process';
 import {
   type BrowserContext,
   type Page,
@@ -30,6 +31,7 @@ export const loadCachedStorageData = async (): Promise<CachedStorageData> => {
  */
 export const createSharedContext = async () => {
   const pathToExtension = getExtensionPath();
+  const headless = process.env.PW_HEADLESS !== 'false';
 
   // Copy the cached profile to a temp directory (to avoid locking issues)
   const userDataDir = await fs.promises.mkdtemp(
@@ -40,7 +42,8 @@ export const createSharedContext = async () => {
   await fs.promises.cp(CHROME_PROFILE_DIR, userDataDir, { recursive: true });
 
   const browserContext = await chromium.launchPersistentContext(userDataDir, {
-    headless: false,
+    channel: 'chromium',
+    headless,
     args: [
       `--disable-extensions-except=${pathToExtension}`,
       `--load-extension=${pathToExtension}`,
@@ -56,11 +59,13 @@ export const createSharedContext = async () => {
  * This ensures no auth state leaks from the shared context.
  */
 export const createUnauthContext = async (extensionPath: string) => {
+  const headless = process.env.PW_HEADLESS !== 'false';
   const userDataDir = await fs.promises.mkdtemp(
     path.join(os.tmpdir(), 'chrome-unauth-profile-')
   );
   const browserContext = await chromium.launchPersistentContext(userDataDir, {
-    headless: false,
+    channel: 'chromium',
+    headless,
     args: [
       `--disable-extensions-except=${extensionPath}`,
       `--load-extension=${extensionPath}`,

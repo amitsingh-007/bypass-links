@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import process from 'node:process';
 import {
   type Worker,
   test as base,
@@ -17,11 +18,13 @@ export const test = base.extend<{
   // eslint-disable-next-line no-empty-pattern
   async context({}, use) {
     const pathToExtension = getExtensionPath();
+    const headless = process.env.PW_HEADLESS !== 'false';
     const userDataDir = await fs.promises.mkdtemp(
       path.join(os.tmpdir(), 'chrome-profile-')
     );
     const browserContext = await chromium.launchPersistentContext(userDataDir, {
-      headless: false,
+      channel: 'chromium',
+      headless,
       args: [
         `--disable-extensions-except=${pathToExtension}`,
         `--load-extension=${pathToExtension}`,

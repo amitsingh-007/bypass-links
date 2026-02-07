@@ -49,11 +49,13 @@ setup('authenticate and cache extension storage', async () => {
   await fs.promises.rm(CHROME_PROFILE_DIR, { recursive: true, force: true });
 
   const pathToExtension = getExtensionPath();
+  const headless = process.env.PW_HEADLESS !== 'false';
 
   const browserContext = await chromium.launchPersistentContext(
     CHROME_PROFILE_DIR,
     {
-      headless: false,
+      channel: 'chromium',
+      headless,
       args: [
         `--disable-extensions-except=${pathToExtension}`,
         `--load-extension=${pathToExtension}`,
