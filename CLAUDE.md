@@ -25,8 +25,8 @@ pnpm build            # Build all workspaces
 
 # Extension-specific builds
 cd apps/extension
-pnpm build:chrome     # Build Chrome extension to .output/chrome-mv3
-pnpm dev:chrome       # Chrome dev server with hot reload
+pnpm build            # Build Chrome extension to .output/chrome-mv3
+pnpm dev              # Chrome dev server with hot reload
 
 # Code Quality
 pnpm lint             # Lint all files (XO linter)

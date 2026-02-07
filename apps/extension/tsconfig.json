@@ -14,5 +14,5 @@
     }
   },
   "include": ["@types", "scripts", "src", "tests", "wxt.config.ts"],
-  "exclude": [".output", "node_modules", ".turbo"]
+  "exclude": [".output", ".wxt", "node_modules", ".turbo"]
 }
