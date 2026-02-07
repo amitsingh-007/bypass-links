@@ -105,7 +105,7 @@ jobs:
         run: pnpm playwright install --with-deps
 
       - name: Run Playwright tests
-        run: xvfb-run --auto-servernum -- pnpm playwright test
+        run: pnpm playwright test
         env:
           PLAYWRIGHT_TEST_BASE_URL: ${{ needs.Build.outputs.preview_url }}
 

@@ -42,7 +42,8 @@ const signInWithEmailAndPassword = async (): Promise<IAuthResponse> => {
     }));
 };
 
-setup('authenticate and cache extension storage', async () => {
+// eslint-disable-next-line no-empty-pattern
+setup('authenticate and cache extension storage', async ({}, testInfo) => {
   const authData = await signInWithEmailAndPassword();
 
   await fs.promises.mkdir(AUTH_CACHE_DIR, { recursive: true });
@@ -50,10 +51,12 @@ setup('authenticate and cache extension storage', async () => {
 
   const pathToExtension = getExtensionPath();
 
+  const headless = testInfo.project.use?.headless ?? true;
   const browserContext = await chromium.launchPersistentContext(
     CHROME_PROFILE_DIR,
     {
-      headless: false,
+      channel: 'chromium',
+      headless,
       args: [
         `--disable-extensions-except=${pathToExtension}`,
         `--load-extension=${pathToExtension}`,

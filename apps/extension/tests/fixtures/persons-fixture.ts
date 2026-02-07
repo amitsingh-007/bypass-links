@@ -26,8 +26,10 @@ export const test = base.extend<
 >({
   sharedContext: [
     // eslint-disable-next-line no-empty-pattern
-    async ({}, use) => {
-      const { browserContext, userDataDir } = await createSharedContext();
+    async ({}, use, testInfo) => {
+      const { browserContext, userDataDir } = await createSharedContext({
+        headless: testInfo.project.use?.headless ?? true,
+      });
       await use(browserContext);
       await browserContext.close();
       const fsPromises = await import('node:fs/promises');

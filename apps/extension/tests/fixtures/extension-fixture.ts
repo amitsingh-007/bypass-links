@@ -15,13 +15,15 @@ export const test = base.extend<{
   backgroundSW: Worker;
 }>({
   // eslint-disable-next-line no-empty-pattern
-  async context({}, use) {
+  async context({}, use, testInfo) {
     const pathToExtension = getExtensionPath();
+    const headless = testInfo.project.use?.headless ?? true;
     const userDataDir = await fs.promises.mkdtemp(
       path.join(os.tmpdir(), 'chrome-profile-')
     );
     const browserContext = await chromium.launchPersistentContext(userDataDir, {
-      headless: false,
+      channel: 'chromium',
+      headless,
       args: [
         `--disable-extensions-except=${pathToExtension}`,
         `--load-extension=${pathToExtension}`,
