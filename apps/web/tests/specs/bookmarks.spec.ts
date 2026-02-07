@@ -125,7 +125,7 @@ test.describe('Bookmarks Panel', () => {
 
     // Listen for new page event before triggering the action
     const [newPage] = await Promise.all([
-      context.waitForEvent('page', { timeout: 20_000 }),
+      context.waitForEvent('page'),
       panel.openBookmarkByDoubleClick(TEST_BOOKMARKS.REACT_DOCS),
     ]);
 

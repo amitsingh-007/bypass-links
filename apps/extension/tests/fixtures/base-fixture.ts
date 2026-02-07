@@ -13,7 +13,6 @@ import { getExtensionPath } from '../utils/extension-path';
 interface CachedStorageData {
   chromeStorage: Record<string, unknown>;
   localStorage: Record<string, string>;
-  extensionId: string;
 }
 
 /**
@@ -76,9 +75,7 @@ export const createSharedBackgroundSW = async (
   sharedContext: BrowserContext
 ): Promise<Worker> => {
   let [background] = sharedContext.serviceWorkers();
-  background ||= await sharedContext.waitForEvent('serviceworker', {
-    timeout: 20_000,
-  });
+  background ||= await sharedContext.waitForEvent('serviceworker');
   return background;
 };
 
@@ -110,38 +107,30 @@ export const authenticateAndNavigate = async (
     { localStorageData: cachedData.localStorage }
   );
 
-  // Step 2: Inject chrome.storage.local via Background Service Worker (so it's ready before page load)
-  let background = await createSharedBackgroundSW(sharedContext);
-  try {
-    await background.evaluate(
-      async (chromeStorageData) => chrome.storage.local.set(chromeStorageData),
-      cachedData.chromeStorage
-    );
-  } catch {
-    background = await createSharedBackgroundSW(sharedContext);
-    await background.evaluate(
-      async (chromeStorageData) => chrome.storage.local.set(chromeStorageData),
-      cachedData.chromeStorage
-    );
-  }
-
-  // Step 3: Create page and navigate to extension
+  // Step 2: Create page and navigate to extension
   const page = await sharedContext.newPage();
   const extUrl = `chrome-extension://${sharedExtensionId}/popup.html`;
-  await page.goto(extUrl);
-  await page.waitForLoadState('networkidle');
+  await page.goto(extUrl, { waitUntil: 'domcontentloaded' });
 
-  // Step 4: Verify we're logged in (logout button should be visible)
+  // Step 3: Inject chrome.storage.local via extension page (avoid MV3 worker hangs)
+  await page.evaluate(async (chromeStorageData) => {
+    await chrome.storage.local.set(chromeStorageData);
+  }, cachedData.chromeStorage);
+
+  // Step 4: Reload to ensure storage is applied before UI checks
+  await page.reload({ waitUntil: 'domcontentloaded' });
+
+  // Step 5: Verify we're logged in (logout button should be visible)
   const logoutButton = page.getByRole('button', { name: 'Logout' });
   await logoutButton.waitFor({ state: 'visible', timeout: 10_000 });
 
-  // Step 5: Navigate to requested panel
+  // Step 6: Navigate to requested panel
   if (panelName && panelName !== 'home') {
     const panelButton = page.getByRole('button', {
       name: new RegExp(panelName, 'i'),
     });
     await panelButton.click();
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('domcontentloaded');
   }
 
   return page;
