@@ -8,7 +8,6 @@
   "key": "fdnekjijeofacghkammknogmiapepano",
   "action": {
     "default_icon": "assets/bypass_link_on_32.png",
-    "default_popup": "index.html",
     "default_title": "Bypass Links"
   },
   "icons": {
@@ -18,9 +17,6 @@
   "oauth2": {
     "client_id": "824508694893-7dnmhd6c6ge8l7v1a625h15pfr0us2pc.apps.googleusercontent.com",
     "scopes": ["https://www.googleapis.com/auth/userinfo.email"]
-  },
-  "background": {
-    "service_worker": "service-worker.js"
   },
   "permissions": [
     "storage",

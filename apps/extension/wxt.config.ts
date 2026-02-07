@@ -1,52 +1,34 @@
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import deepmerge from 'deepmerge';
-import { loadEnv, type PluginOption } from 'vite';
+import { type PluginOption } from 'vite';
 import preact from '@preact/preset-vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { defineConfig } from 'wxt';
 import manifestExt from '../../packages/configs/manifest/manifest.json' assert { type: 'json' };
 import manifestProd from '../../packages/configs/manifest/manifest.prod.json' assert { type: 'json' };
 
-const fileName = fileURLToPath(import.meta.url);
-const dirName = path.dirname(fileName);
-const monorepoRoot = path.resolve(dirName, '..', '..');
-
-const getMergedManifest = (mode: string) => {
-  const isProduction = mode === 'production';
-  const mergedManifest = deepmerge.all([
-    manifestExt,
-    ...(isProduction ? [manifestProd] : []),
-  ]);
-
-  delete (mergedManifest as { background?: unknown }).background;
-
-  return {
-    ...mergedManifest,
-    action: {
-      ...(mergedManifest as { action?: Record<string, unknown> }).action,
-      default_popup: 'popup.html',
-    },
-  };
-};
-
 export default defineConfig({
   srcDir: 'src',
   browser: 'chrome',
   manifestVersion: 3,
-  manifest({ mode }) {
-    return getMergedManifest(mode);
+  dev: {
+    server: {
+      port: 3001,
+    },
   },
-  vite(configEnv) {
-    const env = loadEnv(configEnv.mode, monorepoRoot, '');
-    const hostName = env.HOST_NAME ?? process.env.HOST_NAME ?? '';
+  manifest({ mode }) {
+    return deepmerge.all([
+      manifestExt,
+      ...(mode === 'production' ? [manifestProd] : []),
+    ]);
+  },
+  async vite(configEnv) {
+    const { env } = await import('./src/constants/env');
     const isProduction = configEnv.mode === 'production';
 
     return {
       plugins: [tsconfigPaths(), preact()] as PluginOption[],
       resolve: {
         alias: {
-          '@': path.resolve(dirName, 'src'),
           react: 'preact/compat',
           'react-dom': 'preact/compat',
           'react/jsx-runtime': 'preact/jsx-runtime',
@@ -56,7 +38,7 @@ export default defineConfig({
       define: {
         'process.env': JSON.stringify({
           NEXT_PUBLIC_PROD_ENV: JSON.stringify(isProduction),
-          NEXT_PUBLIC_HOST_NAME: hostName,
+          NEXT_PUBLIC_HOST_NAME: env.HOST_NAME,
         }),
       },
     };

@@ -1,19 +1,12 @@
-export type RuntimeInput =
-  | {
-      key: 'openWebsiteLinks';
-      tabId: number;
-      url: string;
-    }
-  | {
-      key: 'launchAuthFlow';
-    };
+export interface RuntimeInput {
+  key: 'openWebsiteLinks';
+  tabId: number;
+  url: string;
+}
 
 export interface RuntimeOutput {
   openWebsiteLinks: {
     forumPageLinks: string[];
-  };
-  launchAuthFlow: {
-    accessToken: string | null;
   };
 }
 

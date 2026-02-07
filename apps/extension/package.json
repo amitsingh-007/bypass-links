@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "build": "wxt build",
-    "dev": "wxt . --port 3001",
+    "dev": "wxt",
     "typecheck": "tsc --project tsconfig.production.json --noEmit"
   },
   "dependencies": {
@@ -44,12 +44,10 @@
     "@types/react-avatar-editor": "13.0.4",
     "@types/react-dom": "19.2.3",
     "archiver": "7.0.1",
-    "browserslist": "4.28.1",
     "deepmerge": "4.3.1",
     "postcss": "8.5.6",
     "postcss-preset-mantine": "1.18.0",
     "postcss-simple-vars": "7.0.1",
-    "ts-node": "10.9.2",
     "typescript": "5.9.3",
     "vite": "7.3.1",
     "vite-tsconfig-paths": "5.1.4",

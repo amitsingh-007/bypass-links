@@ -1,5 +1,4 @@
 import { getForumPageLinks } from '../misc/forumPageLinks';
-import { launchAuthFlow } from '../misc/launchAuthFlow';
 import {
   type RuntimeInput,
   type RuntimeKeys,
@@ -14,12 +13,6 @@ export const receiveRuntimeMessage = (
     case 'openWebsiteLinks': {
       getForumPageLinks(message.tabId, message.url).then((forumPageLinks) => {
         sendMessage<'openWebsiteLinks'>({ forumPageLinks });
-      });
-      break;
-    }
-    case 'launchAuthFlow': {
-      launchAuthFlow().then((accessToken) => {
-        sendMessage<'launchAuthFlow'>({ accessToken });
       });
       break;
     }
