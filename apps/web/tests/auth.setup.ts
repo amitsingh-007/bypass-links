@@ -11,9 +11,9 @@ const testCredentials = JSON.stringify({
   password: process.env.FIREBASE_TEST_USER_PASSWORD,
 });
 
-setup('authenticate and cache web storage', async () => {
+setup('authenticate and cache web storage', async (_fixtures, testInfo) => {
   await fs.promises.mkdir(AUTH_CACHE_DIR, { recursive: true });
-  const headless = process.env.PW_HEADLESS !== 'false';
+  const headless = testInfo.project.use?.headless ?? true;
 
   const browserContext = await chromium.launchPersistentContext(
     path.join(AUTH_CACHE_DIR, 'web-profile'),

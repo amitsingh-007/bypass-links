@@ -2,7 +2,6 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import process from 'node:process';
 import {
   type Worker,
   test as base,
@@ -16,9 +15,9 @@ export const test = base.extend<{
   backgroundSW: Worker;
 }>({
   // eslint-disable-next-line no-empty-pattern
-  async context({}, use) {
+  async context({}, use, testInfo) {
     const pathToExtension = getExtensionPath();
-    const headless = process.env.PW_HEADLESS !== 'false';
+    const headless = testInfo.project.use?.headless ?? true;
     const userDataDir = await fs.promises.mkdtemp(
       path.join(os.tmpdir(), 'chrome-profile-')
     );

@@ -162,16 +162,17 @@ test.describe.serial('Bookmarks Panel', () => {
       const openOption = bookmarksPage.locator('.context-menu-item-open');
       await expect(openOption).toBeVisible();
 
-      const [multiNewPage] = await Promise.all([
-        context.waitForEvent('page', { timeout: TEST_TIMEOUTS.PAGE_OPEN }),
-        openOption.click(),
-      ]);
+      await openOption.click();
+      await expect
+        .poll(() => context.pages().length, {
+          timeout: TEST_TIMEOUTS.PAGE_OPEN,
+        })
+        .toBeGreaterThan(initialPages);
 
-      expect(multiNewPage).toBeTruthy();
-      expect(context.pages().length).toBeGreaterThan(initialPages);
+      const allNewPages = context.pages().slice(initialPages);
+      expect(allNewPages.length).toBeGreaterThan(0);
 
       // Clean up all new pages
-      const allNewPages = context.pages().slice(initialPages);
       for (const page of allNewPages) {
         await page.close();
       }

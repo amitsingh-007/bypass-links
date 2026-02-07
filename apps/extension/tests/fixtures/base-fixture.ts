@@ -1,7 +1,6 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import process from 'node:process';
 import {
   type BrowserContext,
   type Page,
@@ -29,9 +28,11 @@ export const loadCachedStorageData = async (): Promise<CachedStorageData> => {
  * Create a shared browser context that reuses the cached Chrome profile.
  * This preserves Cache Storage data (person-cache, favicon-cache) from auth setup.
  */
-export const createSharedContext = async () => {
+export const createSharedContext = async (
+  options: { headless?: boolean } = {}
+) => {
   const pathToExtension = getExtensionPath();
-  const headless = process.env.PW_HEADLESS !== 'false';
+  const headless = options.headless ?? true;
 
   // Copy the cached profile to a temp directory (to avoid locking issues)
   const userDataDir = await fs.promises.mkdtemp(
@@ -58,8 +59,11 @@ export const createSharedContext = async () => {
  * Create an isolated browser context for unauthenticated tests.
  * This ensures no auth state leaks from the shared context.
  */
-export const createUnauthContext = async (extensionPath: string) => {
-  const headless = process.env.PW_HEADLESS !== 'false';
+export const createUnauthContext = async (
+  extensionPath: string,
+  options: { headless?: boolean } = {}
+) => {
+  const headless = options.headless ?? true;
   const userDataDir = await fs.promises.mkdtemp(
     path.join(os.tmpdir(), 'chrome-unauth-profile-')
   );

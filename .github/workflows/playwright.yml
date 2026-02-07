@@ -108,7 +108,6 @@ jobs:
         run: pnpm playwright test
         env:
           PLAYWRIGHT_TEST_BASE_URL: ${{ needs.Build.outputs.preview_url }}
-          PW_HEADLESS: true
 
       - uses: actions/upload-artifact@v6
         if: always()
