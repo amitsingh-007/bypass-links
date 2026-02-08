@@ -42,4 +42,4 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: chrome-extension-file
-          path: ./apps/extension/.output/chrome-bypass-links-*.zip
+          path: ./.output/chrome-bypass-links-*.zip
