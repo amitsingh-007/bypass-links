@@ -40,7 +40,7 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: extensions-folder
-          path: ./apps/extension/.output/chrome-mv3
+          path: ./apps/extension/.output
 
       - name: Deploy Preview (Vercel)
         uses: amondnet/vercel-action@v25
@@ -86,7 +86,7 @@ jobs:
         uses: actions/download-artifact@v7
         with:
           name: extensions-folder
-          path: ./apps/extension/.output/chrome-mv3/
+          path: ./apps/extension/.output
 
       - name: Install dependencies
         run: pnpm install
@@ -161,17 +161,13 @@ jobs:
         uses: actions/download-artifact@v7
         with:
           name: extensions-folder
-          path: ./apps/extension/.output/chrome-mv3/
+          path: ./apps/extension/.output
 
-      - name: Package extensions
-        run: |
-          pnpx tsx ./apps/extension/scripts/package-chrome.ts
-
-      - name: Uploading packaged extensions
+      - name: Uploading extensions
         uses: actions/upload-artifact@v6
         with:
           name: packaged-extensions
-          path: ./apps/extension/build
+          path: ./apps/extension/.output
 
   Create_Release:
     runs-on: ubuntu-latest
@@ -184,7 +180,7 @@ jobs:
         uses: actions/download-artifact@v7
         with:
           name: packaged-extensions
-          path: ./apps/extension/build
+          path: ./apps/extension/.output
 
       - name: Generate Release Tag
         id: release_tag
@@ -202,4 +198,4 @@ jobs:
           token: ${{secrets.GITHUB_TOKEN}}
           generate_release_notes: true
           files: |
-            ./apps/extension/build/chrome-*.zip
+            ./apps/extension/.output/chrome-*.zip

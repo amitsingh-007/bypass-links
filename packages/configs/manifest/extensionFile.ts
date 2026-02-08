@@ -1,14 +1,7 @@
-import manifest from './manifest.json' with { type: 'json' };
-
 const FILE_NAME = {
   prefix: 'bypass-links-',
   suffix: '.zip',
 };
-
-export const getExtVersion = () => manifest.version;
-
-export const getFileNameFromVersion = (extVersion: string) =>
-  `${FILE_NAME.prefix}${extVersion}${FILE_NAME.suffix}`;
 
 export const getVersionFromFileName = (fileName: string) =>
   fileName.slice(

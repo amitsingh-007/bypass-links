@@ -14,6 +14,9 @@ export default defineConfig({
       port: 3001,
     },
   },
+  zip: {
+    artifactTemplate: 'chrome-bypass-links-{{version}}.zip',
+  },
   manifest({ mode }) {
     return deepmerge.all([
       manifestDev,
