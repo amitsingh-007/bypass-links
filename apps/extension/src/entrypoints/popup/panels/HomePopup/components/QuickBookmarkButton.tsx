@@ -7,7 +7,6 @@ import {
   type IEncodedBookmark,
   useBookmark,
 } from '@bypass/shared';
-import { getBookmarks } from '@helpers/fetchFromStorage';
 import { Button, Text, Tooltip } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { BiBookmarkPlus } from 'react-icons/bi';
@@ -16,6 +15,7 @@ import { useLocation } from 'wouter';
 import { findBookmarkByUrl } from '../../BookmarksPanel/utils/bookmark';
 import { getCurrentTab } from '@/utils/tabs';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
+import { getBookmarks } from '@/storage';
 
 function QuickBookmarkButton() {
   const [, navigate] = useLocation();

@@ -1,8 +1,5 @@
-import {
-  type IBookmarksObj,
-  type ISelectedBookmarks,
-  STORAGE_KEYS,
-} from '@bypass/shared';
+import { type IBookmarksObj, type ISelectedBookmarks } from '@bypass/shared';
+import { bookmarksItem, hasPendingBookmarksItem } from '@/storage/items';
 
 export const isFolderContainsDir = (
   folders: IBookmarksObj['folders'],
@@ -16,8 +13,6 @@ export const getCutCount = (cutBookmarks: ISelectedBookmarks) =>
   cutBookmarks.filter(Boolean).length;
 
 export const setBookmarksInStorage = async (bookmarksObj: IBookmarksObj) => {
-  await browser.storage.local.set({
-    [STORAGE_KEYS.bookmarks]: bookmarksObj,
-    hasPendingBookmarks: true,
-  });
+  await bookmarksItem.setValue(bookmarksObj);
+  await hasPendingBookmarksItem.setValue(true);
 };

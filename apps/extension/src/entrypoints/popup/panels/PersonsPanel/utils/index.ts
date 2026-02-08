@@ -4,7 +4,7 @@ import {
   type IPersons,
   STORAGE_KEYS,
 } from '@bypass/shared';
-import { getPersons } from '@helpers/fetchFromStorage';
+import { getPersons } from '@/storage';
 
 export const setPersonsInStorage = async (persons: IPersons) => {
   await browser.storage.local.set({

@@ -1,0 +1,57 @@
+import { storage } from 'wxt/utils/storage';
+import type {
+  IBookmarksObj,
+  IPersons,
+  ILastVisited,
+  PersonImageUrls,
+  IRedirections,
+  IWebsites,
+} from '@bypass/shared';
+import type { IMappedRedirections } from '@/entrypoints/background/interfaces/redirections';
+import type { EExtensionState } from '@/constants';
+
+export const bookmarksItem =
+  storage.defineItem<IBookmarksObj>('local:bookmarks');
+
+export const websitesItem = storage.defineItem<IWebsites>('local:websites');
+
+export const lastVisitedItem =
+  storage.defineItem<ILastVisited>('local:lastVisited');
+
+export const personsItem = storage.defineItem<IPersons>('local:persons');
+
+export const redirectionsItem =
+  storage.defineItem<IRedirections>('local:redirections');
+
+export const mappedRedirectionsItem = storage.defineItem<IMappedRedirections>(
+  'local:mappedRedirections'
+);
+
+export const personImageUrlsItem = storage.defineItem<PersonImageUrls>(
+  'local:personImageUrls'
+);
+
+export const extStateItem = storage.defineItem<EExtensionState>(
+  'local:extState',
+  {
+    fallback: 'ACTIVE' as EExtensionState,
+  }
+);
+
+export const hasPendingBookmarksItem = storage.defineItem<boolean>(
+  'local:hasPendingBookmarks',
+  {
+    fallback: false,
+  }
+);
+
+export const hasPendingPersonsItem = storage.defineItem<boolean>(
+  'local:hasPendingPersons',
+  {
+    fallback: false,
+  }
+);
+
+export const historyStartTimeItem = storage.defineItem<number>(
+  'local:historyStartTime'
+);

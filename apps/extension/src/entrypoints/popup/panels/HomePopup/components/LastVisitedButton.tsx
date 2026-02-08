@@ -1,5 +1,4 @@
-import { getLastVisited } from '@helpers/fetchFromStorage';
-import { sha256Hash, STORAGE_KEYS } from '@bypass/shared';
+import { sha256Hash } from '@bypass/shared';
 import { Button, Text, Tooltip } from '@mantine/core';
 import { useCallback, useEffect, useState } from 'react';
 import { FaCalendarCheck, FaCalendarTimes } from 'react-icons/fa';
@@ -7,6 +6,8 @@ import useCurrentTab from '@popup/hooks/useCurrentTab';
 import { trpcApi } from '@/apis/trpcApi';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { getlastVisitedText } from '@/utils/lastVisited';
+import { lastVisitedItem } from '@/storage/items';
+import { getLastVisited } from '@/storage';
 
 function LastVisitedButton() {
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
@@ -44,9 +45,7 @@ function LastVisitedButton() {
     // Patch local storage with just this entry
     const lastVisitedObj = await getLastVisited();
     lastVisitedObj[result.hash] = result.timestamp;
-    await browser.storage.local.set({
-      [STORAGE_KEYS.lastVisited]: lastVisitedObj,
-    });
+    await lastVisitedItem.setValue(lastVisitedObj);
     // Update local state
     await initLastVisited();
     setIsFetching(false);

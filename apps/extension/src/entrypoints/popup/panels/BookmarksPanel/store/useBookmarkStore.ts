@@ -1,4 +1,3 @@
-import { getBookmarks } from '@helpers/fetchFromStorage';
 import {
   type ContextBookmarks,
   ECacheBucketKeys,
@@ -16,6 +15,7 @@ import { notifications } from '@mantine/notifications';
 import { isFolderContainsDir, setBookmarksInStorage } from '../utils';
 import { findBookmarkById, findBookmarkByUrl } from '../utils/bookmark';
 import { processBookmarksMove } from '../utils/manipulate';
+import { getBookmarks } from '@/storage';
 
 interface State {
   // State

@@ -12,7 +12,6 @@ import {
   useBookmark,
   usePerson,
 } from '@bypass/shared';
-import { getPersons } from '@helpers/fetchFromStorage';
 import { Box, Flex } from '@mantine/core';
 import useHistoryStore from '@store/history';
 import { useEffect, useState } from 'react';
@@ -23,6 +22,7 @@ import PersonHeader from './PersonHeader';
 import PersonVirtualCell from './PersonVirtualCell';
 import { MAX_PANEL_SIZE } from '@/constants';
 import { trpcApi } from '@/apis/trpcApi';
+import { getPersons } from '@/storage';
 
 function PersonsPanel() {
   const startHistoryMonitor = useHistoryStore(

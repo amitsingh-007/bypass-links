@@ -1,4 +1,4 @@
-import { getExtensionState } from '@helpers/fetchFromStorage';
+import { getExtensionState } from '@/storage';
 import { getIsExtensionActive } from '@/utils/common';
 import { type EExtensionState } from '@/constants';
 

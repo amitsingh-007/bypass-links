@@ -1,9 +1,10 @@
-import { getExtensionState } from '@helpers/fetchFromStorage';
 import { Switch } from '@mantine/core';
 import useExtStore from '@store/extension';
 import { useEffect, useState } from 'react';
-import { getIsExtensionActive, setExtStateInStorage } from '@/utils/common';
+import { getIsExtensionActive } from '@/utils/common';
 import { EExtensionState } from '@/constants';
+import { extStateItem } from '@/storage/items';
+import { getExtensionState } from '@/storage';
 
 function ToggleExtension() {
   const turnOnExtension = useExtStore((state) => state.turnOnExtension);
@@ -34,7 +35,7 @@ function ToggleExtension() {
     const extensionState = isActive
       ? EExtensionState.ACTIVE
       : EExtensionState.INACTIVE;
-    setExtStateInStorage(extensionState);
+    extStateItem.setValue(extensionState);
     dispatchActionAndSetState(extensionState, isActive);
   };
 

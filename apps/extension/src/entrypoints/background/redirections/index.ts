@@ -1,8 +1,8 @@
-import { STORAGE_KEYS } from '@bypass/shared';
-import { getMappedRedirections } from '@helpers/fetchFromStorage';
 import { mapRedirections } from './mapper';
+import { getMappedRedirections } from '@/storage';
 import { startHistoryWatch } from '@/utils/history';
 import { trpcApi } from '@/apis/trpcApi';
+import { redirectionsItem, mappedRedirectionsItem } from '@/storage/items';
 
 export const redirect = async (tabId: number, url: URL) => {
   url.protocol = 'http:';
@@ -17,18 +17,12 @@ export const redirect = async (tabId: number, url: URL) => {
 
 export const syncRedirectionsToStorage = async () => {
   const redirections = await trpcApi.firebaseData.redirectionsGet.query();
-  await browser.storage.local.set({
-    [STORAGE_KEYS.redirections]: redirections,
-  });
+  await redirectionsItem.setValue(redirections);
   const mappedRedirections = mapRedirections(redirections);
-  await browser.storage.local.set({
-    [STORAGE_KEYS.mappedRedirections]: mappedRedirections,
-  });
+  await mappedRedirectionsItem.setValue(mappedRedirections);
 };
 
 export const resetRedirections = async () => {
-  await browser.storage.local.remove([
-    STORAGE_KEYS.redirections,
-    STORAGE_KEYS.mappedRedirections,
-  ]);
+  await redirectionsItem.removeValue();
+  await mappedRedirectionsItem.removeValue();
 };

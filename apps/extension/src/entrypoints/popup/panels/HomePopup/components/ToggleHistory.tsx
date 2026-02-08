@@ -1,9 +1,10 @@
-import { getHistoryTime } from '@helpers/fetchFromStorage';
 import { Switch } from '@mantine/core';
 import useExtStore from '@store/extension';
 import useHistoryStore from '@store/history';
 import { useCallback, useEffect, useState } from 'react';
 import { startHistoryWatch } from '@/utils/history';
+import { historyStartTimeItem } from '@/storage/items';
+import { getHistoryTime } from '@/storage';
 
 const endHistoryWatch = async () => {
   const historyStartTime = await getHistoryTime();
@@ -18,7 +19,7 @@ const endHistoryWatch = async () => {
     startTime: historyStartTime,
     endTime: historyEndTime,
   });
-  browser.storage.local.remove('historyStartTime');
+  await historyStartTimeItem.removeValue();
   console.log('History clear successful.');
 };
 

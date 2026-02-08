@@ -1,17 +1,22 @@
 import { defineBackground } from 'wxt/utils/define-background';
-import { getExtensionState } from '@helpers/fetchFromStorage';
 import turnOffInputSuggestions from './misc/turnOffInputSuggestions';
 import { redirect } from './redirections';
 import { isValidTabUrl, isValidUrl, setExtensionIcon } from './utils';
 import { receiveRuntimeMessage } from './utils/receiveRuntimeMessage';
 import { type RuntimeInput } from '@/utils/sendRuntimeMessage';
-import { getIsExtensionActive, setExtStateInStorage } from '@/utils/common';
+import { getIsExtensionActive } from '@/utils/common';
 import { EExtensionState } from '@/constants';
+import { getExtensionState } from '@/storage';
+import {
+  extStateItem,
+  hasPendingBookmarksItem,
+  hasPendingPersonsItem,
+} from '@/storage/items';
 
 export default defineBackground(() => {
   // First time extension install
   browser.runtime.onInstalled.addListener(() => {
-    setExtStateInStorage(EExtensionState.ACTIVE);
+    extStateItem.setValue(EExtensionState.ACTIVE);
   });
 
   // Listen when the browser is opened
@@ -75,18 +80,27 @@ export default defineBackground(() => {
     return true;
   });
 
-  // Listen to browser storage changes
-  browser.storage.onChanged.addListener((changedObj, storageType) => {
-    if (storageType !== 'local') {
-      return;
-    }
-    const { extState, hasPendingBookmarks, hasPendingPersons } = changedObj;
-    if (extState || hasPendingBookmarks || hasPendingPersons) {
-      setExtensionIcon({
-        extState: extState?.newValue as EExtensionState,
-        hasPendingBookmarks: hasPendingBookmarks?.newValue as boolean,
-        hasPendingPersons: hasPendingPersons?.newValue as boolean,
-      });
-    }
+  extStateItem.watch(async (newValue) => {
+    setExtensionIcon({
+      extState: newValue,
+      hasPendingBookmarks: await hasPendingBookmarksItem.getValue(),
+      hasPendingPersons: await hasPendingPersonsItem.getValue(),
+    });
+  });
+
+  hasPendingBookmarksItem.watch(async (newValue) => {
+    setExtensionIcon({
+      extState: await extStateItem.getValue(),
+      hasPendingBookmarks: newValue,
+      hasPendingPersons: await hasPendingPersonsItem.getValue(),
+    });
+  });
+
+  hasPendingPersonsItem.watch(async (newValue) => {
+    setExtensionIcon({
+      extState: await extStateItem.getValue(),
+      hasPendingBookmarks: await hasPendingBookmarksItem.getValue(),
+      hasPendingPersons: newValue,
+    });
   });
 });

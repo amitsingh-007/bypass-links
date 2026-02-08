@@ -3,26 +3,27 @@ import {
   getCacheObj,
   getDecryptedBookmark,
   getFaviconProxyUrl,
-  STORAGE_KEYS,
   type ContextBookmarks,
   type IBookmarksObj,
   type ITransformedBookmark,
 } from '@bypass/shared';
-import { getBookmarks, getPersons } from '@helpers/fetchFromStorage';
 import { nprogress } from '@mantine/nprogress';
 import { trpcApi } from '@/apis/trpcApi';
+import {
+  bookmarksItem,
+  hasPendingBookmarksItem,
+  hasPendingPersonsItem,
+} from '@/storage/items';
+import { getBookmarks, getPersons } from '@/storage';
 
 export const syncBookmarksToStorage = async () => {
   const bookmarks = await trpcApi.firebaseData.bookmarksGet.query();
-  await browser.storage.local.set({ [STORAGE_KEYS.bookmarks]: bookmarks });
+  await bookmarksItem.setValue(bookmarks);
 };
 
 export const syncBookmarksAndPersonsFirebaseWithStorage = async () => {
-  const { hasPendingBookmarks, hasPendingPersons } =
-    await browser.storage.local.get([
-      'hasPendingBookmarks',
-      'hasPendingPersons',
-    ]);
+  const hasPendingBookmarks = await hasPendingBookmarksItem.getValue();
+  const hasPendingPersons = await hasPendingPersonsItem.getValue();
   if (!hasPendingBookmarks && !hasPendingPersons) {
     return;
   }
@@ -32,20 +33,16 @@ export const syncBookmarksAndPersonsFirebaseWithStorage = async () => {
     { bookmarks, persons }
   );
   if (isSaveSuccess) {
-    await browser.storage.local.remove([
-      'hasPendingBookmarks',
-      'hasPendingPersons',
-    ]);
+    await hasPendingBookmarksItem.removeValue();
+    await hasPendingPersonsItem.removeValue();
   } else {
     throw new Error('Error while syncing bookmarks from storage to firebase');
   }
 };
 
 export const resetBookmarks = async () => {
-  await browser.storage.local.remove([
-    STORAGE_KEYS.bookmarks,
-    'hasPendingBookmarks',
-  ]);
+  await bookmarksItem.removeValue();
+  await hasPendingBookmarksItem.removeValue();
 };
 
 export const cacheBookmarkFavicons = async () => {

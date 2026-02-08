@@ -1,4 +1,4 @@
-import { getWebistes } from '@helpers/fetchFromStorage';
+import { getWebistes } from '@/storage';
 import scripting from '@/utils/scripting';
 
 const getForum_1_2_LinksFunc = () => {

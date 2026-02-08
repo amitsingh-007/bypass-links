@@ -1,11 +1,11 @@
-import { STORAGE_KEYS } from '@bypass/shared';
 import { trpcApi } from '@/apis/trpcApi';
+import { lastVisitedItem } from '@/storage/items';
 
 export const syncLastVisitedToStorage = async () => {
   const lastVisited = await trpcApi.firebaseData.lastVisitedGet.query();
-  await browser.storage.local.set({ [STORAGE_KEYS.lastVisited]: lastVisited });
+  await lastVisitedItem.setValue(lastVisited);
 };
 
 export const resetLastVisited = async () => {
-  await browser.storage.local.remove(STORAGE_KEYS.lastVisited);
+  await lastVisitedItem.removeValue();
 };

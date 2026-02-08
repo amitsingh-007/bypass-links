@@ -1,5 +1,4 @@
 import { Header, type IRedirection, type IRedirections } from '@bypass/shared';
-import { getRedirections } from '@helpers/fetchFromStorage';
 import { Box, Button, Flex, LoadingOverlay } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { IoSave } from 'react-icons/io5';
@@ -12,6 +11,7 @@ import styles from './styles/ShortcutsPanel.module.css';
 import RedirectionRule from './RedirectionRule';
 import { MAX_PANEL_SIZE } from '@/constants';
 import { trpcApi } from '@/apis/trpcApi';
+import { getRedirections } from '@/storage';
 
 function ShortcutsPanel() {
   const [redirections, setRedirections] = useState<IRedirections>([]);
@@ -21,8 +21,8 @@ function ShortcutsPanel() {
 
   useEffect(() => {
     getRedirections().then((_redirections) => {
-      const modifiedRedirections = Object.entries(_redirections).map(
-        ([_key, { alias, website, isDefault }]) =>
+      const modifiedRedirections = _redirections.map(
+        ({ alias, website, isDefault }) =>
           ({
             alias: atob(alias),
             website: atob(website),

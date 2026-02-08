@@ -1,21 +1,22 @@
-import { type IWebsites, STORAGE_KEYS } from '@bypass/shared';
+import { type IWebsites } from '@bypass/shared';
 import { trpcApi } from '@/apis/trpcApi';
+import { websitesItem } from '@/storage/items';
 
-const getDecodedWebsites = (encodedWebsites: IWebsites) => {
+const getDecodedWebsites = (encodedWebsites: IWebsites): IWebsites => {
   return Object.entries(encodedWebsites).reduce((acc, [key, value]) => {
     return {
       ...acc,
       [key]: decodeURIComponent(atob(value)),
     };
-  }, {});
+  }, {} as IWebsites);
 };
 
 export const syncWebsitesToStorage = async () => {
   const response = await trpcApi.firebaseData.websitesGet.query();
   const websitesData = getDecodedWebsites(response);
-  await browser.storage.local.set({ [STORAGE_KEYS.websites]: websitesData });
+  await websitesItem.setValue(websitesData);
 };
 
 export const resetWebsites = async () => {
-  await browser.storage.local.remove(STORAGE_KEYS.websites);
+  await websitesItem.removeValue();
 };

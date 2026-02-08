@@ -1,9 +1,9 @@
-import { getHistoryTime } from '@/helpers/fetchFromStorage';
+import { historyStartTimeItem } from '@/storage/items';
 
 const THIRTY_SECONDS = 30 * 1000; // In milliseconds
 
 const isHistoryAlreadyActive = async () => {
-  const historyStartTime = await getHistoryTime();
+  const historyStartTime = await historyStartTimeItem.getValue();
   return Boolean(historyStartTime);
 };
 
@@ -11,7 +11,5 @@ export const startHistoryWatch = async () => {
   if (await isHistoryAlreadyActive()) {
     return;
   }
-  await browser.storage.local.set({
-    historyStartTime: Date.now() - THIRTY_SECONDS,
-  });
+  await historyStartTimeItem.setValue(Date.now() - THIRTY_SECONDS);
 };

@@ -5,23 +5,25 @@ import {
   getPersonImageName,
   type IPerson,
   type PersonImageUrls,
-  STORAGE_KEYS,
 } from '@bypass/shared';
-import { getPersonImageUrls } from '@helpers/fetchFromStorage';
 import { nprogress } from '@mantine/nprogress';
 import { getAllDecodedPersons } from '.';
 import { trpcApi } from '@/apis/trpcApi';
+import {
+  personsItem,
+  personImageUrlsItem,
+  hasPendingPersonsItem,
+} from '@/storage/items';
+import { getPersonImageUrls } from '@/storage';
 
 export const syncPersonsToStorage = async () => {
   const persons = await trpcApi.firebaseData.personsGet.query();
-  await browser.storage.local.set({ [STORAGE_KEYS.persons]: persons });
+  await personsItem.setValue(persons);
 };
 
 export const resetPersons = async () => {
-  await browser.storage.local.remove([
-    STORAGE_KEYS.persons,
-    'hasPendingPersons',
-  ]);
+  await personsItem.removeValue();
+  await hasPendingPersonsItem.removeValue();
 };
 
 const resolveImageFromPerson = async (uid: string) => ({
@@ -30,7 +32,7 @@ const resolveImageFromPerson = async (uid: string) => ({
 });
 
 export const refreshPersonImageUrlsCache = async () => {
-  await browser.storage.local.remove(STORAGE_KEYS.personImageUrls);
+  await personImageUrlsItem.removeValue();
 };
 
 const cachePersonImages = async (personImageUrls: PersonImageUrls) => {
@@ -57,9 +59,7 @@ export const cachePersonImagesInStorage = async () => {
     },
     {}
   );
-  await browser.storage.local.set({
-    [STORAGE_KEYS.personImageUrls]: personImageUrls,
-  });
+  await personImageUrlsItem.setValue(personImageUrls);
   nprogress.increment();
   await cachePersonImages(personImageUrls);
   nprogress.increment();
@@ -70,9 +70,7 @@ export const updatePersonCacheAndImageUrls = async (person: IPerson) => {
   const personImageUrls = await getPersonImageUrls();
   const { uid, imageUrl } = await resolveImageFromPerson(person.uid);
   personImageUrls[uid] = imageUrl;
-  await browser.storage.local.set({
-    [STORAGE_KEYS.personImageUrls]: personImageUrls,
-  });
+  await personImageUrlsItem.setValue(personImageUrls);
   // Update person image cache
   await addToCache(ECacheBucketKeys.person, imageUrl);
 };
