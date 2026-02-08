@@ -1,24 +1,22 @@
-import { serverEnv } from '@app/constants/env/server';
 import { getAuthIdToken } from '@app/helpers/firebase/auth';
 import { type AppRouter } from '@bypass/trpc';
-import { GLOBALS } from '@bypass/shared';
 import { createTRPCClient, httpBatchLink, loggerLink } from '@trpc/client';
 
 const getBaseUrl = () => {
   if (typeof window !== 'undefined') {
     return '';
   }
-  if (serverEnv.VERCEL_URL) {
-    return `https://${serverEnv.VERCEL_URL}`;
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
   }
-  return `http://localhost:${serverEnv.PORT ?? 3000}`;
+  return `http://localhost:${process.env.PORT ?? 3000}`;
 };
 
 export const api = createTRPCClient<AppRouter>({
   links: [
     loggerLink({
       enabled(opts) {
-        if (!GLOBALS.PROD_ENV) {
+        if (process.env.NODE_ENV !== 'production') {
           return true;
         }
         return opts.direction === 'down' && opts.result instanceof Error;

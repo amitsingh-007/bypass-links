@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { getCurrentTab } from '@/utils/tabs';
 
 const useCurrentTab = () => {
-  const [tab, setTab] = useState<Awaited<ReturnType<typeof getCurrentTab>>>();
+  const [tab, setTab] = useState<Browser.tabs.Tab>();
 
   useEffect(() => {
     getCurrentTab().then((curTab) => {
-      setTab(curTab ?? undefined);
+      setTab(curTab);
     });
   }, []);
 

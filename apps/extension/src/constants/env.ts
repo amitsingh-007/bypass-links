@@ -1,14 +1,12 @@
-import process from 'node:process';
-import path from 'node:path';
 import { createEnv } from '@t3-oss/env-core';
+import { wxt } from '@t3-oss/env-core/presets-zod';
 import { z } from 'zod/mini';
 
-const monorepoRoot = path.dirname(path.dirname(process.cwd()));
-process.loadEnvFile?.(path.join(monorepoRoot, '.env'));
-
 export const env = createEnv({
-  server: {
-    HOST_NAME: z.string(),
+  clientPrefix: 'NEXT_PUBLIC_',
+  client: {
+    NEXT_PUBLIC_HOST_NAME: z.string(),
   },
-  runtimeEnv: process.env,
+  runtimeEnv: import.meta.env,
+  extends: [wxt()],
 });
