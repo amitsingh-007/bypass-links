@@ -1,9 +1,7 @@
-import deepmerge from 'deepmerge';
 import preact from '@preact/preset-vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { defineConfig } from 'wxt';
-import manifestDev from '../../packages/configs/manifest/manifest.json' with { type: 'json' };
-import manifestProd from '../../packages/configs/manifest/manifest.prod.json' with { type: 'json' };
+import { devManifest, prodOAuth2 } from './src/constants/manifest';
 
 export default defineConfig({
   srcDir: 'src',
@@ -17,12 +15,10 @@ export default defineConfig({
   zip: {
     artifactTemplate: 'chrome-bypass-links-{{version}}.zip',
   },
-  manifest({ mode }) {
-    return deepmerge.all([
-      manifestDev,
-      ...(mode === 'production' ? [manifestProd] : []),
-    ]);
-  },
+  manifest: ({ mode }) => ({
+    ...devManifest,
+    ...(mode === 'production' && { oauth2: prodOAuth2 }),
+  }),
   async vite(configEnv) {
     const { env } = await import('./src/constants/env');
     const isProduction = configEnv.mode === 'production';
