@@ -2,7 +2,7 @@
   "$schema": "https://turbo.build/schema.json",
   "globalDependencies": ["**/.env", "xo.config.ts", ".github/**"],
   "globalEnv": [
-    "HOST_NAME",
+    "NEXT_PUBLIC_HOST_NAME",
     "GITHUB_TOKEN",
     "FIREBASE_SERVICE_ACCOUNT",
     "FIREBASE_CRON_JOB_API_KEY",

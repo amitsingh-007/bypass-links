@@ -1,6 +1,6 @@
 manifest:
-  name: manifest.json
-  dir: './packages/configs/manifest/'
+  name: package.json
+  dir: './apps/extension'
 workflow:
   name: Build CI
   artifact: chrome-extension-file

@@ -1,16 +1,9 @@
-import {
-  decodePersons,
-  type IPerson,
-  type IPersons,
-  STORAGE_KEYS,
-} from '@bypass/shared';
-import { personsItem } from '@/storage/items';
+import { decodePersons, type IPerson, type IPersons } from '@bypass/shared';
+import { personsItem, hasPendingPersonsItem } from '@/storage/items';
 
 export const setPersonsInStorage = async (persons: IPersons) => {
-  await browser.storage.local.set({
-    [STORAGE_KEYS.persons]: persons,
-    hasPendingPersons: true,
-  });
+  await personsItem.setValue(persons);
+  await hasPendingPersonsItem.setValue(true);
 };
 
 export const getAllDecodedPersons = async () => {

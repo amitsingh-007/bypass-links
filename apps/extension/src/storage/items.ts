@@ -8,7 +8,7 @@ import type {
   IWebsites,
 } from '@bypass/shared';
 import type { IMappedRedirections } from '@/entrypoints/background/interfaces/redirections';
-import type { EExtensionState } from '@/constants';
+import { EExtensionState } from '@/constants';
 
 export const bookmarksItem = storage.defineItem<IBookmarksObj>(
   'local:bookmarks',
@@ -45,7 +45,7 @@ export const personImageUrlsItem = storage.defineItem<PersonImageUrls>(
 
 export const extStateItem = storage.defineItem<EExtensionState>(
   'local:extState',
-  { fallback: 'ACTIVE' as EExtensionState }
+  { fallback: EExtensionState.ACTIVE }
 );
 
 export const hasPendingBookmarksItem = storage.defineItem<boolean>(
