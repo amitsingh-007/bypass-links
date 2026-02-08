@@ -174,9 +174,6 @@ importers:
       '@mantine/hooks':
         specifier: 8.3.14
         version: 8.3.14(react@19.2.4)
-      '@next/env':
-        specifier: 16.1.6
-        version: 16.1.6
       '@t3-oss/env-nextjs':
         specifier: 0.13.10
         version: 0.13.10(typescript@5.9.3)(zod@4.3.6)
@@ -229,6 +226,9 @@ importers:
         specifier: 4.3.6
         version: 4.3.6
     devDependencies:
+      '@next/env':
+        specifier: 16.1.6
+        version: 16.1.6
       '@playwright/test':
         specifier: 1.58.1
         version: 1.58.1
