@@ -41,6 +41,7 @@ jobs:
         with:
           name: extensions-folder
           path: ./apps/extension/.output
+          include-hidden-files: true
 
       - name: Deploy Preview (Vercel)
         uses: amondnet/vercel-action@v25
@@ -168,6 +169,7 @@ jobs:
         with:
           name: packaged-extensions
           path: ./apps/extension/.output
+          include-hidden-files: true
 
   Create_Release:
     runs-on: ubuntu-latest

@@ -34,7 +34,6 @@ pnpm typecheck        # Type check root only
 pnpm typecheck:all    # Type check all workspaces
 
 # Testing
-pnpm test             # Run all tests
 pnpm e2e              # Run Playwright E2E tests
 ```
 

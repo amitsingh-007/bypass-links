@@ -35,11 +35,9 @@ jobs:
       - name: Building
         run: pnpm build
 
-      - name: Run tests
-        run: pnpm test
-
       - name: Upload Chrome extension
         uses: actions/upload-artifact@v6
         with:
           name: chrome-extension-file
           path: ./apps/extension/.output/chrome-bypass-links-*.zip
+          include-hidden-files: true

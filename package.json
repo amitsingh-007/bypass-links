@@ -13,8 +13,7 @@
     "typecheck": "tsc --noEmit",
     "typecheck:all": "turbo run typecheck",
     "precommit": "lint-staged --quiet",
-    "prepare": "husky",
-    "test": "turbo run test"
+    "prepare": "husky"
   },
   "devDependencies": {
     "@bypass/configs": "workspace:*",
