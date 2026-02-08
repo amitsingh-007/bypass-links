@@ -3,7 +3,7 @@ import { sha256Hash, STORAGE_KEYS } from '@bypass/shared';
 import { Button, Text, Tooltip } from '@mantine/core';
 import { useCallback, useEffect, useState } from 'react';
 import { FaCalendarCheck, FaCalendarTimes } from 'react-icons/fa';
-import useCurrentTab from '../../../hooks/useCurrentTab';
+import useCurrentTab from '@popup/hooks/useCurrentTab';
 import { trpcApi } from '@/apis/trpcApi';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { getlastVisitedText } from '@/utils/lastVisited';

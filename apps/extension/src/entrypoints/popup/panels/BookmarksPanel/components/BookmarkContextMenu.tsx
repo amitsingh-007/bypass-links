@@ -7,11 +7,11 @@ import { RxExternalLink } from 'react-icons/rx';
 import { TbCut } from 'react-icons/tb';
 import { useShallow } from 'zustand/react/shallow';
 import { useHotkeys } from '@mantine/hooks';
+import ContextMenu, { type IMenuOption } from '@popup/components/ContextMenu';
 import useBookmarkStore from '../store/useBookmarkStore';
+import useBookmarkRouteStore from '../store/useBookmarkRouteStore';
 import { getCutCount, getSelectedCount } from '../utils';
 import { findBookmarkById } from '../utils/bookmark';
-import useBookmarkRouteStore from '../store/useBookmarkRouteStore';
-import ContextMenu, { type IMenuOption } from '../../../components/ContextMenu';
 
 type Props = PropsWithChildren<{
   children: React.ReactNode;

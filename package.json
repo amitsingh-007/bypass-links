@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run dev",
+    "dev": "turbo run dev --ui=tui",
     "env": "vercel env pull .env",
     "e2e": "playwright test",
     "lint": "xo",

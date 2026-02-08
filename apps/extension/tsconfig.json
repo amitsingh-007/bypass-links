@@ -7,10 +7,8 @@
     "paths": {
       "@/*": ["./src/*"],
       "@background/*": ["./src/entrypoints/background/*"],
-      "@components/*": ["./src/components/*"],
-      "@constants/*": ["./src/constants/*"],
       "@helpers/*": ["./src/helpers/*"],
-      "@interfaces/*": ["./src/interfaces/*"],
+      "@popup/*": ["./src/entrypoints/popup/*"],
       "@store/*": ["./src/store/*"]
     }
   },
