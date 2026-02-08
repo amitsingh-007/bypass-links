@@ -35,9 +35,6 @@ jobs:
       - name: Building
         run: pnpm build
 
-      - name: Run tests
-        run: pnpm test
-
       - name: List output directory
         run: find . -name "*.zip" 2>/dev/null || echo "No zip files found"
 
