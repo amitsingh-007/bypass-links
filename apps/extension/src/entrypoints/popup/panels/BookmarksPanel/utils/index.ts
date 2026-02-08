@@ -16,7 +16,7 @@ export const getCutCount = (cutBookmarks: ISelectedBookmarks) =>
   cutBookmarks.filter(Boolean).length;
 
 export const setBookmarksInStorage = async (bookmarksObj: IBookmarksObj) => {
-  await chrome.storage.local.set({
+  await browser.storage.local.set({
     [STORAGE_KEYS.bookmarks]: bookmarksObj,
     hasPendingBookmarks: true,
   });

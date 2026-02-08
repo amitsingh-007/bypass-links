@@ -9,7 +9,7 @@ const BookmarkRow = memo<Omit<BookmarkProps, 'onOpenLink'>>((props) => {
 
   const onOpenLink = (url: string) => {
     startHistoryMonitor();
-    chrome.tabs.create({ url, active: false });
+    browser.tabs.create({ url, active: false });
   };
 
   return <Bookmark {...props} onOpenLink={onOpenLink} />;

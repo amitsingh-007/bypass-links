@@ -1,5 +1,5 @@
 export const getCurrentTab = async () => {
-  const [currentTab] = await chrome.tabs.query({
+  const [currentTab] = await browser.tabs.query({
     active: true,
     currentWindow: true,
   });

@@ -45,7 +45,7 @@ export const setExtensionIcon = async ({
       ? 'assets/bypass_link_on_32.png'
       : 'assets/bypass_link_off_32.png';
   }
-  await chrome.action.setIcon({ path: icon });
+  await browser.action.setIcon({ path: icon });
 };
 
 export const isValidUrl = (_url?: string): boolean => {
@@ -57,6 +57,6 @@ export const isValidUrl = (_url?: string): boolean => {
 };
 
 export const isValidTabUrl = async (tabId: number) => {
-  const tab = await chrome.tabs.get(tabId);
+  const tab = await browser.tabs.get(tabId);
   return isValidUrl(tab.url);
 };

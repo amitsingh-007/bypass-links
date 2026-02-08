@@ -22,7 +22,7 @@ function OpenDefaultsButton() {
     defaults
       .filter((data) => data?.alias && data.website)
       .forEach(({ website }) => {
-        chrome.tabs.create({ url: atob(website), active: false });
+        browser.tabs.create({ url: atob(website), active: false });
       });
     setIsFetching(false);
   };

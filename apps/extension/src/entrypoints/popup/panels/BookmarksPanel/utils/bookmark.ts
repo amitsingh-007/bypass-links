@@ -14,12 +14,12 @@ import { trpcApi } from '@/apis/trpcApi';
 
 export const syncBookmarksToStorage = async () => {
   const bookmarks = await trpcApi.firebaseData.bookmarksGet.query();
-  await chrome.storage.local.set({ [STORAGE_KEYS.bookmarks]: bookmarks });
+  await browser.storage.local.set({ [STORAGE_KEYS.bookmarks]: bookmarks });
 };
 
 export const syncBookmarksAndPersonsFirebaseWithStorage = async () => {
   const { hasPendingBookmarks, hasPendingPersons } =
-    await chrome.storage.local.get([
+    await browser.storage.local.get([
       'hasPendingBookmarks',
       'hasPendingPersons',
     ]);
@@ -32,7 +32,7 @@ export const syncBookmarksAndPersonsFirebaseWithStorage = async () => {
     { bookmarks, persons }
   );
   if (isSaveSuccess) {
-    await chrome.storage.local.remove([
+    await browser.storage.local.remove([
       'hasPendingBookmarks',
       'hasPendingPersons',
     ]);
@@ -42,7 +42,7 @@ export const syncBookmarksAndPersonsFirebaseWithStorage = async () => {
 };
 
 export const resetBookmarks = async () => {
-  await chrome.storage.local.remove([
+  await browser.storage.local.remove([
     STORAGE_KEYS.bookmarks,
     'hasPendingBookmarks',
   ]);

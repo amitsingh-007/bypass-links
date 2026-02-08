@@ -7,7 +7,7 @@ import {
 import { getPersons } from '@helpers/fetchFromStorage';
 
 export const setPersonsInStorage = async (persons: IPersons) => {
-  await chrome.storage.local.set({
+  await browser.storage.local.set({
     [STORAGE_KEYS.persons]: persons,
     hasPendingPersons: true,
   });

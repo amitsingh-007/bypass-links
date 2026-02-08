@@ -23,7 +23,7 @@ import {
 import { resetLastVisited, syncLastVisitedToStorage } from './lastVisited';
 
 const resetAuthentication = async () => {
-  await chrome.identity.clearAllCachedAuthTokens();
+  await browser.identity.clearAllCachedAuthTokens();
 };
 
 const syncFirebaseToStorage = async () => {
@@ -79,12 +79,12 @@ export const processPostLogout = async () => {
   deleteAllCache([ECacheBucketKeys.favicon, ECacheBucketKeys.person]);
   nprogress.increment();
   // Open Google Search, Google Image & Google Data tabs
-  await chrome.tabs.create({ url: 'https://www.google.com/', active: false });
-  await chrome.tabs.create({
+  await browser.tabs.create({ url: 'https://www.google.com/', active: false });
+  await browser.tabs.create({
     url: 'https://www.google.com/imghp',
     active: false,
   });
-  await chrome.tabs.create({
+  await browser.tabs.create({
     url: 'https://myactivity.google.com/activitycontrols/webandapp',
     active: false,
   });

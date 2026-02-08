@@ -11,7 +11,7 @@ export const startHistoryWatch = async () => {
   if (await isHistoryAlreadyActive()) {
     return;
   }
-  await chrome.storage.local.set({
+  await browser.storage.local.set({
     historyStartTime: Date.now() - THIRTY_SECONDS,
   });
 };

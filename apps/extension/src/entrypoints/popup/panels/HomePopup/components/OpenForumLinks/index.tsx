@@ -40,7 +40,7 @@ function OpenForumLinks() {
     });
 
     for (const url of forumPageLinks) {
-      await chrome.tabs.create({ url, active: false });
+      await browser.tabs.create({ url, active: false });
       await sleep(1000); // 1sec
     }
   };

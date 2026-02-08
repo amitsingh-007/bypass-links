@@ -14,7 +14,7 @@ import useExtensionOutdated from '../hooks/useExtensionOutdated';
 import styles from './styles/PopupHome.module.css';
 
 const handleOpenAsPage = () => {
-  chrome.tabs.create({ url: window.location.href });
+  browser.tabs.create({ url: window.location.href });
 };
 
 function PopupHome() {

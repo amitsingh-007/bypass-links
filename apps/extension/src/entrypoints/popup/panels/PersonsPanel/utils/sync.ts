@@ -14,11 +14,11 @@ import { trpcApi } from '@/apis/trpcApi';
 
 export const syncPersonsToStorage = async () => {
   const persons = await trpcApi.firebaseData.personsGet.query();
-  await chrome.storage.local.set({ [STORAGE_KEYS.persons]: persons });
+  await browser.storage.local.set({ [STORAGE_KEYS.persons]: persons });
 };
 
 export const resetPersons = async () => {
-  await chrome.storage.local.remove([
+  await browser.storage.local.remove([
     STORAGE_KEYS.persons,
     'hasPendingPersons',
   ]);
@@ -30,7 +30,7 @@ const resolveImageFromPerson = async (uid: string) => ({
 });
 
 export const refreshPersonImageUrlsCache = async () => {
-  await chrome.storage.local.remove(STORAGE_KEYS.personImageUrls);
+  await browser.storage.local.remove(STORAGE_KEYS.personImageUrls);
 };
 
 const cachePersonImages = async (personImageUrls: PersonImageUrls) => {
@@ -57,7 +57,7 @@ export const cachePersonImagesInStorage = async () => {
     },
     {}
   );
-  await chrome.storage.local.set({
+  await browser.storage.local.set({
     [STORAGE_KEYS.personImageUrls]: personImageUrls,
   });
   nprogress.increment();
@@ -70,7 +70,7 @@ export const updatePersonCacheAndImageUrls = async (person: IPerson) => {
   const personImageUrls = await getPersonImageUrls();
   const { uid, imageUrl } = await resolveImageFromPerson(person.uid);
   personImageUrls[uid] = imageUrl;
-  await chrome.storage.local.set({
+  await browser.storage.local.set({
     [STORAGE_KEYS.personImageUrls]: personImageUrls,
   });
   // Update person image cache

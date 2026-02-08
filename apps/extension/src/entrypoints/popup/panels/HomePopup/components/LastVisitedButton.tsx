@@ -44,7 +44,7 @@ function LastVisitedButton() {
     // Patch local storage with just this entry
     const lastVisitedObj = await getLastVisited();
     lastVisitedObj[result.hash] = result.timestamp;
-    await chrome.storage.local.set({
+    await browser.storage.local.set({
       [STORAGE_KEYS.lastVisited]: lastVisitedObj,
     });
     // Update local state

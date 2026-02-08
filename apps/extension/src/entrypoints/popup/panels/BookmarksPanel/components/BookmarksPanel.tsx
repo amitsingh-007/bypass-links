@@ -66,7 +66,7 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
     startHistoryMonitor();
     contextBookmarks.forEach((bookmark, index) => {
       if (selectedBookmarks[index] && !bookmark.isDir) {
-        chrome.tabs.create({ url: bookmark.url, active: false });
+        browser.tabs.create({ url: bookmark.url, active: false });
       }
     });
   }, [contextBookmarks, selectedBookmarks, startHistoryMonitor]);

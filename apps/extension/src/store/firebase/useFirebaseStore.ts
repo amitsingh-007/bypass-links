@@ -42,7 +42,7 @@ const useFirebaseStore = create<State>()(
           return;
         }
 
-        const { token: accessToken } = await chrome.identity.getAuthToken({
+        const { token: accessToken } = await browser.identity.getAuthToken({
           interactive: true,
         });
 
@@ -56,7 +56,7 @@ const useFirebaseStore = create<State>()(
       async firebaseSignOut() {
         const { resetIdpAuth } = get();
         resetIdpAuth();
-        await chrome.identity.clearAllCachedAuthTokens();
+        await browser.identity.clearAllCachedAuthTokens();
       },
 
       async getIdToken() {

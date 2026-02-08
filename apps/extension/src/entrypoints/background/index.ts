@@ -10,13 +10,13 @@ import { EExtensionState } from '@/constants';
 
 export default defineBackground(() => {
   // First time extension install
-  chrome.runtime.onInstalled.addListener(() => {
+  browser.runtime.onInstalled.addListener(() => {
     setExtStateInStorage(EExtensionState.ACTIVE);
   });
 
   // Listen when the browser is opened
-  chrome.runtime.onStartup.addListener(() => {
-    chrome.storage.local
+  browser.runtime.onStartup.addListener(() => {
+    browser.storage.local
       .get<{
         extState: EExtensionState;
         hasPendingBookmarks: boolean;
@@ -50,33 +50,33 @@ export default defineBackground(() => {
   };
 
   // Listen tab url change
-  chrome.tabs.onUpdated.addListener(async (tabId, changeInfo) =>
+  browser.tabs.onUpdated.addListener(async (tabId, changeInfo) =>
     onPageLoad(tabId, changeInfo?.url ?? '')
   );
 
   /**
-   * NOTE: Can remove chrome.tabs.onUpdated in favor of this
+   * NOTE: Can remove browser.tabs.onUpdated in favor of this
    * @link https://stackoverflow.com/questions/16949810/how-can-i-run-this-script-when-the-tab-reloads-chrome-extension
    */
-  chrome.webNavigation.onCommitted.addListener((details) => {
+  browser.webNavigation.onCommitted.addListener((details) => {
     if (details.transitionType === 'reload') {
-      chrome.webNavigation.onCompleted.addListener(function onComplete({
+      browser.webNavigation.onCompleted.addListener(function onComplete({
         tabId,
       }) {
         onPageLoad(tabId, details.url);
-        chrome.webNavigation.onCompleted.removeListener(onComplete);
+        browser.webNavigation.onCompleted.removeListener(onComplete);
       });
     }
   });
 
   // Listen to dispatched messages
-  chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
+  browser.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     receiveRuntimeMessage(message as RuntimeInput, sendResponse);
     return true;
   });
 
-  // Listen to chrome storage changes
-  chrome.storage.onChanged.addListener((changedObj, storageType) => {
+  // Listen to browser storage changes
+  browser.storage.onChanged.addListener((changedObj, storageType) => {
     if (storageType !== 'local') {
       return;
     }

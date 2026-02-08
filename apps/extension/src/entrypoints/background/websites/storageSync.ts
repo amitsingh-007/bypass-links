@@ -13,9 +13,9 @@ const getDecodedWebsites = (encodedWebsites: IWebsites) => {
 export const syncWebsitesToStorage = async () => {
   const response = await trpcApi.firebaseData.websitesGet.query();
   const websitesData = getDecodedWebsites(response);
-  await chrome.storage.local.set({ [STORAGE_KEYS.websites]: websitesData });
+  await browser.storage.local.set({ [STORAGE_KEYS.websites]: websitesData });
 };
 
 export const resetWebsites = async () => {
-  await chrome.storage.local.remove(STORAGE_KEYS.websites);
+  await browser.storage.local.remove(STORAGE_KEYS.websites);
 };

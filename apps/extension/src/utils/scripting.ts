@@ -1,11 +1,11 @@
 const executeScript = (async (options) => {
   try {
-    return await chrome.scripting.executeScript(options);
+    return await browser.scripting.executeScript(options);
   } catch (error) {
     console.error('executeScript error with options', options, error);
     throw error;
   }
-}) satisfies typeof chrome.scripting.executeScript;
+}) satisfies typeof browser.scripting.executeScript;
 
 const scripting = {
   executeScript,

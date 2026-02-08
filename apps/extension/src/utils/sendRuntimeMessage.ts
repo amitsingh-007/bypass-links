@@ -15,5 +15,5 @@ export type RuntimeKeys = RuntimeInput['key'];
 export const sendRuntimeMessage = async <T extends RuntimeKeys>(
   input: { key: T } & RuntimeInput
 ) => {
-  return chrome.runtime.sendMessage<any, RuntimeOutput[T]>(input);
+  return browser.runtime.sendMessage<any, RuntimeOutput[T]>(input);
 };

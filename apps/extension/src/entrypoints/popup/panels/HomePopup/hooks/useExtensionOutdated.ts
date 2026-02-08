@@ -5,7 +5,7 @@ import useOutdatedExtensionStore from '@/store/outdatedExtension';
 
 const checkForUpdates = async () => {
   const { chrome: chromeData } = await trpcApi.extension.latest.query();
-  const { version: currentVersion } = chrome.runtime.getManifest();
+  const { version: currentVersion } = browser.runtime.getManifest();
   return chromeData.version === currentVersion;
 };
 
@@ -31,9 +31,9 @@ const useExtensionOutdated = () => {
     }
     checkForUpdates().then((isUsingLatest) => {
       if (!isUsingLatest) {
-        chrome.action.setBadgeText({ text: '!' });
-        chrome.action.setBadgeBackgroundColor({ color: red });
-        chrome.action.setTitle({
+        browser.action.setBadgeText({ text: '!' });
+        browser.action.setBadgeBackgroundColor({ color: red });
+        browser.action.setTitle({
           title: 'You are using older version of Bypass Links',
         });
       }

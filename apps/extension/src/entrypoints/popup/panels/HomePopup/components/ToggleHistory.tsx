@@ -14,11 +14,11 @@ const endHistoryWatch = async () => {
   const historyEndTime = Date.now();
   console.log(`Start DateTime is: ${new Date(historyStartTime)}`);
   console.log(`End DateTime is: ${new Date(historyEndTime)}`);
-  await chrome.history.deleteRange({
+  await browser.history.deleteRange({
     startTime: historyStartTime,
     endTime: historyEndTime,
   });
-  chrome.storage.local.remove('historyStartTime');
+  browser.storage.local.remove('historyStartTime');
   console.log('History clear successful.');
 };
 

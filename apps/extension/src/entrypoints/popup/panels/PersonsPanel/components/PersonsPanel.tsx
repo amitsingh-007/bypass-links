@@ -116,7 +116,7 @@ function PersonsPanel() {
 
   const onLinkOpen = (url: string) => {
     startHistoryMonitor();
-    chrome.tabs.create({ url, active: false });
+    browser.tabs.create({ url, active: false });
   };
 
   return (

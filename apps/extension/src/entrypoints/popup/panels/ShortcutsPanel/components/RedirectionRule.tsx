@@ -79,7 +79,7 @@ function RedirectionRule({
 
   const handleLinkOpen = () => {
     startHistoryMonitor();
-    chrome.tabs.create({ url: ruleWebsite, active: false });
+    browser.tabs.create({ url: ruleWebsite, active: false });
   };
 
   const isSameRule =
