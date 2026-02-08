@@ -13,17 +13,14 @@ import {
   resetBookmarks,
   syncBookmarksAndPersonsFirebaseWithStorage,
   syncBookmarksToStorage,
-} from '@/BookmarksPanel/utils/bookmark';
-import {
-  resetLastVisited,
-  syncLastVisitedToStorage,
-} from '@/HomePopup/utils/lastVisited';
+} from '../../BookmarksPanel/utils/bookmark';
 import {
   cachePersonImagesInStorage,
   refreshPersonImageUrlsCache,
   resetPersons,
   syncPersonsToStorage,
-} from '@/PersonsPanel/utils/sync';
+} from '../../PersonsPanel/utils/sync';
+import { resetLastVisited, syncLastVisitedToStorage } from './lastVisited';
 
 const resetAuthentication = async () => {
   await chrome.identity.clearAllCachedAuthTokens();

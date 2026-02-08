@@ -11,10 +11,10 @@ import { useForm } from '@mantine/form';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'wouter';
 import { useShallow } from 'zustand/react/shallow';
+import useBookmarkRouteStore from '../store/useBookmarkRouteStore';
 import useBookmarkStore from '../store/useBookmarkStore';
 import PersonSelect from './PersonSelect';
 import { getCurrentTab } from '@/utils/tabs';
-import useBookmarkRouteStore from '@/BookmarksPanel/store/useBookmarkRouteStore';
 
 const HEADING = {
   [EBookmarkOperation.NONE]: '',

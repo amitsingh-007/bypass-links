@@ -7,10 +7,10 @@ import { ContextMenuProvider } from 'mantine-contextmenu';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
-import Global from '@/components/Global';
-import PopupRoutes from '@/components/PopupRoutes';
-import DynamicProvider from '@/provider/DynamicProvider';
-import AsyncFontLoader from '@/components/AsyncFontLoader';
+import AsyncFontLoader from './components/AsyncFontLoader';
+import Global from './components/Global';
+import PopupRoutes from './components/PopupRoutes';
+import DynamicProvider from './provider/DynamicProvider';
 
 function App() {
   return (

@@ -10,8 +10,8 @@ import { useHotkeys } from '@mantine/hooks';
 import useBookmarkStore from '../store/useBookmarkStore';
 import { getCutCount, getSelectedCount } from '../utils';
 import { findBookmarkById } from '../utils/bookmark';
-import useBookmarkRouteStore from '@/BookmarksPanel/store/useBookmarkRouteStore';
-import ContextMenu, { type IMenuOption } from '@/components/ContextMenu';
+import useBookmarkRouteStore from '../store/useBookmarkRouteStore';
+import ContextMenu, { type IMenuOption } from '../../../components/ContextMenu';
 
 type Props = PropsWithChildren<{
   children: React.ReactNode;

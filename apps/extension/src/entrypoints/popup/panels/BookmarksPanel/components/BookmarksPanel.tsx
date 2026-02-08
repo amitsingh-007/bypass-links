@@ -12,13 +12,13 @@ import useHistoryStore from '@store/history';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
+import useBookmarkRouteStore from '../store/useBookmarkRouteStore';
 import useBookmarkStore from '../store/useBookmarkStore';
 import BookmarkAddEditDialog from './BookmarkAddEditDialog';
 import BookmarkContextMenu from './BookmarkContextMenu';
 import BookmarksHeader from './BookmarksHeader';
 import VirtualRow from './VirtualRow';
 import styles from './styles/BookmarksPanel.module.css';
-import useBookmarkRouteStore from '@/BookmarksPanel/store/useBookmarkRouteStore';
 import { MAX_PANEL_SIZE } from '@/constants';
 
 function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {

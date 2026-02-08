@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react';
 import { BiBookmarkPlus } from 'react-icons/bi';
 import { RiBookmark3Fill } from 'react-icons/ri';
 import { useLocation } from 'wouter';
-import { findBookmarkByUrl } from '@/BookmarksPanel/utils/bookmark';
+import { findBookmarkByUrl } from '../../BookmarksPanel/utils/bookmark';
 import { getCurrentTab } from '@/utils/tabs';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 

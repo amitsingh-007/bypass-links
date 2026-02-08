@@ -2,8 +2,8 @@ import useHistoryStore from '@store/history';
 import { useEffect, useState } from 'react';
 import { sleep } from '@bypass/shared';
 import { isForumPage } from '@background/websites';
+import useCurrentTab from '../../../../hooks/useCurrentTab';
 import ButtonWithFeedback from './ButtonWithFeedback';
-import useCurrentTab from '@/hooks/useCurrentTab';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { sendRuntimeMessage } from '@/utils/sendRuntimeMessage';
 

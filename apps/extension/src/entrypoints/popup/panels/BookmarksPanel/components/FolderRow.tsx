@@ -4,9 +4,9 @@ import { memo, useCallback, useMemo, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
 import { MdOutlineDelete } from 'react-icons/md';
 import { PiStarBold, PiStarFill } from 'react-icons/pi';
+import ContextMenu, { type IMenuOption } from '../../../components/ContextMenu';
 import { FolderAddEditDialog } from './FolderAddEditDialog';
 import styles from './styles/FolderRow.module.css';
-import ContextMenu, { type IMenuOption } from '@/components/ContextMenu';
 
 interface Props extends FolderProps {
   isDefault: boolean;
