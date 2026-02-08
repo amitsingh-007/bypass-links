@@ -44,4 +44,5 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: chrome-extension-file
-          path: ./apps/extension/.output/
+          path: ./apps/extension/.output
+          include-hidden-files: true
