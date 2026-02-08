@@ -20,21 +20,18 @@ export default defineBackground({
       extStateItem.setValue(EExtensionState.ACTIVE);
     });
 
-    // Listen when the browser is opened
-    browser.runtime.onStartup.addListener(() => {
-      browser.storage.local
-        .get<{
-          extState: EExtensionState;
-          hasPendingBookmarks: boolean;
-          hasPendingPersons: boolean;
-        }>(['extState', 'hasPendingBookmarks', 'hasPendingPersons'])
-        .then(async ({ extState, hasPendingBookmarks, hasPendingPersons }) => {
-          await setExtensionIcon({
-            extState,
-            hasPendingBookmarks,
-            hasPendingPersons,
-          });
-        });
+    browser.runtime.onStartup.addListener(async () => {
+      const [extState, hasPendingBookmarks, hasPendingPersons] =
+        await Promise.all([
+          extStateItem.getValue(),
+          hasPendingBookmarksItem.getValue(),
+          hasPendingPersonsItem.getValue(),
+        ]);
+      await setExtensionIcon({
+        extState,
+        hasPendingBookmarks,
+        hasPendingPersons,
+      });
     });
 
     const onPageLoad = async (tabId: number, url: string) => {
@@ -81,28 +78,16 @@ export default defineBackground({
       return true;
     });
 
-    extStateItem.watch(async (newValue) => {
-      setExtensionIcon({
-        extState: newValue,
+    const updateIcon = async () => {
+      await setExtensionIcon({
+        extState: await extStateItem.getValue(),
         hasPendingBookmarks: await hasPendingBookmarksItem.getValue(),
         hasPendingPersons: await hasPendingPersonsItem.getValue(),
       });
-    });
+    };
 
-    hasPendingBookmarksItem.watch(async (newValue) => {
-      setExtensionIcon({
-        extState: await extStateItem.getValue(),
-        hasPendingBookmarks: newValue,
-        hasPendingPersons: await hasPendingPersonsItem.getValue(),
-      });
-    });
-
-    hasPendingPersonsItem.watch(async (newValue) => {
-      setExtensionIcon({
-        extState: await extStateItem.getValue(),
-        hasPendingBookmarks: await hasPendingBookmarksItem.getValue(),
-        hasPendingPersons: newValue,
-      });
-    });
+    extStateItem.watch(updateIcon);
+    hasPendingBookmarksItem.watch(updateIcon);
+    hasPendingPersonsItem.watch(updateIcon);
   },
 });
