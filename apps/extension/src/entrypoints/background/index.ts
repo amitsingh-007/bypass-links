@@ -79,15 +79,31 @@ export default defineBackground({
     });
 
     const updateIcon = async () => {
+      const [extState, hasPendingBookmarks, hasPendingPersons] =
+        await Promise.all([
+          extStateItem.getValue(),
+          hasPendingBookmarksItem.getValue(),
+          hasPendingPersonsItem.getValue(),
+        ]);
       await setExtensionIcon({
-        extState: await extStateItem.getValue(),
-        hasPendingBookmarks: await hasPendingBookmarksItem.getValue(),
-        hasPendingPersons: await hasPendingPersonsItem.getValue(),
+        extState,
+        hasPendingBookmarks,
+        hasPendingPersons,
       });
     };
 
-    extStateItem.watch(updateIcon);
-    hasPendingBookmarksItem.watch(updateIcon);
-    hasPendingPersonsItem.watch(updateIcon);
+    browser.storage.onChanged.addListener((changes, areaName) => {
+      if (areaName !== 'local') {
+        return;
+      }
+      const changedKeys = Object.keys(changes);
+      if (
+        changedKeys.includes('extState') ||
+        changedKeys.includes('hasPendingBookmarks') ||
+        changedKeys.includes('hasPendingPersons')
+      ) {
+        void updateIcon();
+      }
+    });
   },
 });

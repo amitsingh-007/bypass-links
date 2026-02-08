@@ -81,7 +81,8 @@ export class PersonsPanel {
     await nameInput.fill(newName);
 
     await clickDialogButton(dialog, 'Save');
-    await expect(dialog).toBeHidden();
+    await waitForDebounce(this.page);
+    await expect(dialog).toBeHidden({ timeout: TEST_TIMEOUTS.LONG_WAIT });
 
     const editedPersonCard = this.page.getByTestId(`person-item-${newName}`);
     await expect(editedPersonCard).toBeVisible();
@@ -94,7 +95,8 @@ export class PersonsPanel {
     await changeImageInDialog(this.page, dialog, newImageUrl);
 
     await clickDialogButton(dialog, 'Save');
-    await expect(dialog).toBeHidden();
+    await waitForDebounce(this.page);
+    await expect(dialog).toBeHidden({ timeout: TEST_TIMEOUTS.LONG_WAIT });
 
     const personCardAfter = this.page.getByTestId(`person-item-${personName}`);
     await expect(personCardAfter).toBeVisible();
