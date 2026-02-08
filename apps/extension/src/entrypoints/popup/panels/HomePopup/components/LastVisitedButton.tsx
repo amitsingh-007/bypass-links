@@ -7,7 +7,6 @@ import { trpcApi } from '@/apis/trpcApi';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { getlastVisitedText } from '@/utils/lastVisited';
 import { lastVisitedItem } from '@/storage/items';
-import { getLastVisited } from '@/storage';
 
 function LastVisitedButton() {
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
@@ -43,7 +42,7 @@ function LastVisitedButton() {
       hash,
     });
     // Patch local storage with just this entry
-    const lastVisitedObj = await getLastVisited();
+    const lastVisitedObj = await lastVisitedItem.getValue();
     lastVisitedObj[result.hash] = result.timestamp;
     await lastVisitedItem.setValue(lastVisitedObj);
     // Update local state

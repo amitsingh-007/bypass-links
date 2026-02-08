@@ -1,4 +1,4 @@
-import { getWebistes } from '@/storage';
+import { websitesItem } from '@/storage/items';
 import scripting from '@/utils/scripting';
 
 const getForum_1_2_LinksFunc = () => {
@@ -56,7 +56,7 @@ export const getForumPageLinks = async (
   tabId: number,
   url: string
 ): Promise<string[]> => {
-  const websites = await getWebistes();
+  const websites = await websitesItem.getValue();
   let executor: () => Array<string | undefined>;
 
   switch (true) {

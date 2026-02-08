@@ -11,10 +11,10 @@ import { nprogress } from '@mantine/nprogress';
 import { trpcApi } from '@/apis/trpcApi';
 import {
   bookmarksItem,
+  personsItem,
   hasPendingBookmarksItem,
   hasPendingPersonsItem,
 } from '@/storage/items';
-import { getBookmarks, getPersons } from '@/storage';
 
 export const syncBookmarksToStorage = async () => {
   const bookmarks = await trpcApi.firebaseData.bookmarksGet.query();
@@ -27,8 +27,8 @@ export const syncBookmarksAndPersonsFirebaseWithStorage = async () => {
   if (!hasPendingBookmarks && !hasPendingPersons) {
     return;
   }
-  const bookmarks = await getBookmarks();
-  const persons = await getPersons();
+  const bookmarks = await bookmarksItem.getValue();
+  const persons = await personsItem.getValue();
   const isSaveSuccess = await trpcApi.firebaseData.bookmarkAndPersonSave.mutate(
     { bookmarks, persons }
   );
@@ -46,7 +46,7 @@ export const resetBookmarks = async () => {
 };
 
 export const cacheBookmarkFavicons = async () => {
-  const bookmarks = await getBookmarks();
+  const bookmarks = await bookmarksItem.getValue();
   if (!bookmarks) {
     return;
   }

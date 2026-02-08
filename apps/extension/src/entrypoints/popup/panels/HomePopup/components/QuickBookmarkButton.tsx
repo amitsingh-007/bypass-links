@@ -15,7 +15,7 @@ import { useLocation } from 'wouter';
 import { findBookmarkByUrl } from '../../BookmarksPanel/utils/bookmark';
 import { getCurrentTab } from '@/utils/tabs';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
-import { getBookmarks } from '@/storage';
+import { bookmarksItem } from '@/storage/items';
 
 function QuickBookmarkButton() {
   const [, navigate] = useLocation();
@@ -28,7 +28,7 @@ function QuickBookmarkButton() {
     setIsFetching(true);
     const currentTab = await getCurrentTab();
     const url = currentTab?.url ?? '';
-    const bookmarks = await getBookmarks();
+    const bookmarks = await bookmarksItem.getValue();
     if (bookmarks) {
       const encodedBookmark = findBookmarkByUrl(bookmarks.urlList, url);
       if (encodedBookmark) {

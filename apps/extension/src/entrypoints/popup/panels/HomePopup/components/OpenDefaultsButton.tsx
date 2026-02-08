@@ -3,7 +3,7 @@ import useHistoryStore from '@store/history';
 import { useState } from 'react';
 import { RxExternalLink } from 'react-icons/rx';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
-import { getRedirections } from '@/storage';
+import { redirectionsItem } from '@/storage/items';
 
 function OpenDefaultsButton() {
   const startHistoryMonitor = useHistoryStore(
@@ -15,7 +15,7 @@ function OpenDefaultsButton() {
   const handleOpenDefaults = async () => {
     setIsFetching(true);
     startHistoryMonitor();
-    const redirections = await getRedirections();
+    const redirections = await redirectionsItem.getValue();
     const defaults = redirections.filter(
       ({ isDefault }: { isDefault: boolean }) => isDefault
     );

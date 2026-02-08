@@ -15,7 +15,7 @@ import { notifications } from '@mantine/notifications';
 import { isFolderContainsDir, setBookmarksInStorage } from '../utils';
 import { findBookmarkById, findBookmarkByUrl } from '../utils/bookmark';
 import { processBookmarksMove } from '../utils/manipulate';
-import { getBookmarks } from '@/storage';
+import { bookmarksItem } from '@/storage/items';
 
 interface State {
   // State
@@ -63,7 +63,7 @@ const useBookmarkStore = create<State>()((set, get) => ({
 
   async loadData(folderId: string) {
     set({ isSaveButtonActive: false, isFetching: true });
-    const { folders, urlList, folderList } = await getBookmarks();
+    const { folders, urlList, folderList } = await bookmarksItem.getValue();
 
     const modifiedBookmarks = Object.entries(folders[folderId]).map((kvp) =>
       bookmarksMapper(kvp, urlList, folderList)

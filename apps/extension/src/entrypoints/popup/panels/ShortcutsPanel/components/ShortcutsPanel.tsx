@@ -11,7 +11,7 @@ import styles from './styles/ShortcutsPanel.module.css';
 import RedirectionRule from './RedirectionRule';
 import { MAX_PANEL_SIZE } from '@/constants';
 import { trpcApi } from '@/apis/trpcApi';
-import { getRedirections } from '@/storage';
+import { redirectionsItem } from '@/storage/items';
 
 function ShortcutsPanel() {
   const [redirections, setRedirections] = useState<IRedirections>([]);
@@ -20,7 +20,7 @@ function ShortcutsPanel() {
   const [isSaveActive, setIsSaveActive] = useState(false);
 
   useEffect(() => {
-    getRedirections().then((_redirections) => {
+    redirectionsItem.getValue().then((_redirections) => {
       const modifiedRedirections = _redirections.map(
         ({ alias, website, isDefault }) =>
           ({

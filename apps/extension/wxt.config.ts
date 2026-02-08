@@ -15,9 +15,7 @@ export default defineConfig({
   browser: 'chrome',
   manifestVersion: 3,
   dev: {
-    server: {
-      port: 3001,
-    },
+    server: { port: 3001 },
   },
   zip: {
     artifactTemplate: 'chrome-bypass-links-{{version}}.zip',
@@ -31,9 +29,7 @@ export default defineConfig({
       envDir,
       envPrefix: 'NEXT_PUBLIC_',
       plugins: [tsconfigPaths(), preact()],
-      build: {
-        target: 'esnext',
-      },
+      build: { target: 'esnext' },
       resolve: {
         alias: { wouter: 'wouter-preact' },
       },

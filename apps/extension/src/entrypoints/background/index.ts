@@ -6,7 +6,6 @@ import { receiveRuntimeMessage } from './utils/receiveRuntimeMessage';
 import { type RuntimeInput } from '@/utils/sendRuntimeMessage';
 import { getIsExtensionActive } from '@/utils/common';
 import { EExtensionState } from '@/constants';
-import { getExtensionState } from '@/storage';
 import {
   extStateItem,
   hasPendingBookmarksItem,
@@ -42,7 +41,7 @@ export default defineBackground({
       if (!isValidUrl(url)) {
         return;
       }
-      const extState = await getExtensionState();
+      const extState = await extStateItem.getValue();
       if (!getIsExtensionActive(extState)) {
         return;
       }

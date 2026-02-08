@@ -4,10 +4,9 @@ import useHistoryStore from '@store/history';
 import { useCallback, useEffect, useState } from 'react';
 import { startHistoryWatch } from '@/utils/history';
 import { historyStartTimeItem } from '@/storage/items';
-import { getHistoryTime } from '@/storage';
 
 const endHistoryWatch = async () => {
-  const historyStartTime = await getHistoryTime();
+  const historyStartTime = await historyStartTimeItem.getValue();
   if (!historyStartTime) {
     console.log('Nothing to clear.');
     return;
@@ -48,7 +47,7 @@ function ToggleHistory() {
 
   // Init toggle on mount
   useEffect(() => {
-    getHistoryTime().then((historyStartTime) => {
+    historyStartTimeItem.getValue().then((historyStartTime) => {
       setIsHistoryActive(Boolean(historyStartTime));
     });
   }, []);

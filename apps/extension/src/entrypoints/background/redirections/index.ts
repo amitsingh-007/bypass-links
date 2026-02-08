@@ -1,5 +1,4 @@
 import { mapRedirections } from './mapper';
-import { getMappedRedirections } from '@/storage';
 import { startHistoryWatch } from '@/utils/history';
 import { trpcApi } from '@/apis/trpcApi';
 import { redirectionsItem, mappedRedirectionsItem } from '@/storage/items';
@@ -7,7 +6,7 @@ import { redirectionsItem, mappedRedirectionsItem } from '@/storage/items';
 export const redirect = async (tabId: number, url: URL) => {
   url.protocol = 'http:';
 
-  const redirections = await getMappedRedirections();
+  const redirections = await mappedRedirectionsItem.getValue();
   const redirectUrl = redirections[btoa(url.href)];
   if (redirectUrl) {
     await browser.tabs.update(tabId, { url: atob(redirectUrl) });

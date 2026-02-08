@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { getIsExtensionActive } from '@/utils/common';
 import { EExtensionState } from '@/constants';
 import { extStateItem } from '@/storage/items';
-import { getExtensionState } from '@/storage';
 
 function ToggleExtension() {
   const turnOnExtension = useExtStore((state) => state.turnOnExtension);
@@ -23,7 +22,7 @@ function ToggleExtension() {
   };
 
   useEffect(() => {
-    getExtensionState().then((_extState) => {
+    extStateItem.getValue().then((_extState) => {
       const isActive = getIsExtensionActive(_extState);
       dispatchActionAndSetState(_extState, isActive);
     });

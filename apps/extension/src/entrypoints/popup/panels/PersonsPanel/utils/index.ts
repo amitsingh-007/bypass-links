@@ -4,7 +4,7 @@ import {
   type IPersons,
   STORAGE_KEYS,
 } from '@bypass/shared';
-import { getPersons } from '@/storage';
+import { personsItem } from '@/storage/items';
 
 export const setPersonsInStorage = async (persons: IPersons) => {
   await browser.storage.local.set({
@@ -14,7 +14,7 @@ export const setPersonsInStorage = async (persons: IPersons) => {
 };
 
 export const getAllDecodedPersons = async () => {
-  const persons = await getPersons();
+  const persons = await personsItem.getValue();
   return decodePersons(persons);
 };
 

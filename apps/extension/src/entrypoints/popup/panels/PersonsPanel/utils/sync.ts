@@ -14,7 +14,6 @@ import {
   personImageUrlsItem,
   hasPendingPersonsItem,
 } from '@/storage/items';
-import { getPersonImageUrls } from '@/storage';
 
 export const syncPersonsToStorage = async () => {
   const persons = await trpcApi.firebaseData.personsGet.query();
@@ -67,7 +66,7 @@ export const cachePersonImagesInStorage = async () => {
 
 export const updatePersonCacheAndImageUrls = async (person: IPerson) => {
   // Update person image urls in storage
-  const personImageUrls = await getPersonImageUrls();
+  const personImageUrls = await personImageUrlsItem.getValue();
   const { uid, imageUrl } = await resolveImageFromPerson(person.uid);
   personImageUrls[uid] = imageUrl;
   await personImageUrlsItem.setValue(personImageUrls);

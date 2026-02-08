@@ -22,7 +22,7 @@ import PersonHeader from './PersonHeader';
 import PersonVirtualCell from './PersonVirtualCell';
 import { MAX_PANEL_SIZE } from '@/constants';
 import { trpcApi } from '@/apis/trpcApi';
-import { getPersons } from '@/storage';
+import { personsItem } from '@/storage/items';
 
 function PersonsPanel() {
   const startHistoryMonitor = useHistoryStore(
@@ -39,7 +39,7 @@ function PersonsPanel() {
   const [orderByRecency, setOrderByRecency] = useState(true);
 
   useEffect(() => {
-    getPersons().then((_persons) => {
+    personsItem.getValue().then((_persons) => {
       const decryptedPersons = Object.values(_persons || {}).map((x) =>
         getDecryptedPerson(x)
       );

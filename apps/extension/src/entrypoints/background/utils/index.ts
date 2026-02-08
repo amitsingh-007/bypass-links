@@ -1,4 +1,4 @@
-import { getExtensionState } from '@/storage';
+import { extStateItem } from '@/storage/items';
 import { getIsExtensionActive } from '@/utils/common';
 import { type EExtensionState } from '@/constants';
 
@@ -40,7 +40,7 @@ export const setExtensionIcon = async ({
   if (hasPendingBookmarks === true || hasPendingPersons === true) {
     icon = 'assets/bypass_link_pending_32.png';
   } else {
-    const newExtState = extState ?? (await getExtensionState());
+    const newExtState = extState ?? (await extStateItem.getValue());
     icon = getIsExtensionActive(newExtState)
       ? 'assets/bypass_link_on_32.png'
       : 'assets/bypass_link_off_32.png';
