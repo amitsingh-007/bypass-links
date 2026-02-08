@@ -1,7 +1,5 @@
 import fs from 'node:fs';
-import path from 'node:path';
 import process from 'node:process';
-import { fileURLToPath } from 'node:url';
 import { chromium, expect, test as setup } from '@playwright/test';
 import wretch from 'wretch';
 import QueryStringAddon from 'wretch/addons/queryString';
@@ -12,11 +10,9 @@ import {
   CHROME_PROFILE_DIR,
   EXTENSION_STORAGE_PATH,
 } from './auth-constants';
+import { getExtensionPath } from './utils/extension-path';
 import type { IAuthResponse } from '@/interfaces/firebase';
 import { getExpiresAtMs } from '@/store/firebase/utils';
-
-const fileName = fileURLToPath(import.meta.url);
-const dirName = path.dirname(fileName);
 
 const isCI = Boolean(process.env.PLAYWRIGHT_TEST_BASE_URL);
 const firebaseConfig = getFirebasePublicConfig(isCI);
@@ -46,18 +42,21 @@ const signInWithEmailAndPassword = async (): Promise<IAuthResponse> => {
     }));
 };
 
-setup('authenticate and cache extension storage', async () => {
+// eslint-disable-next-line no-empty-pattern
+setup('authenticate and cache extension storage', async ({}, testInfo) => {
   const authData = await signInWithEmailAndPassword();
 
   await fs.promises.mkdir(AUTH_CACHE_DIR, { recursive: true });
   await fs.promises.rm(CHROME_PROFILE_DIR, { recursive: true, force: true });
 
-  const pathToExtension = path.resolve(dirName, '../chrome-build');
+  const pathToExtension = getExtensionPath();
 
+  const headless = testInfo.project.use?.headless ?? true;
   const browserContext = await chromium.launchPersistentContext(
     CHROME_PROFILE_DIR,
     {
-      headless: false,
+      channel: 'chromium',
+      headless,
       args: [
         `--disable-extensions-except=${pathToExtension}`,
         `--load-extension=${pathToExtension}`,
@@ -84,8 +83,8 @@ setup('authenticate and cache extension storage', async () => {
   );
 
   const page = await browserContext.newPage();
-  const extUrl = `chrome-extension://${extensionId}/index.html`;
-  await page.goto(extUrl, { waitUntil: 'networkidle' });
+  const extUrl = `chrome-extension://${extensionId}/popup.html`;
+  await page.goto(extUrl, { waitUntil: 'domcontentloaded' });
 
   const loginButton = page.getByRole('button', { name: 'Login' });
   await loginButton.waitFor({ state: 'visible', timeout: 20_000 });
@@ -96,7 +95,7 @@ setup('authenticate and cache extension storage', async () => {
   await expect(logoutButton).toBeEnabled({ timeout: 30_000 });
 
   const chromeStorageData = await page.evaluate(async () =>
-    chrome.storage.local.get(null)
+    browser.storage.local.get(null)
   );
 
   const localStorageData = await page.evaluate(() => {
@@ -109,6 +108,8 @@ setup('authenticate and cache extension storage', async () => {
     }
     return data;
   });
+
+  delete localStorageData.__outdatedCheck;
 
   await fs.promises.writeFile(
     EXTENSION_STORAGE_PATH,

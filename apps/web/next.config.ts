@@ -1,15 +1,14 @@
-import process from 'node:process';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { loadEnvConfig } from '@next/env';
 import { type NextConfig } from 'next';
 
-// Load root .env only if not running on Vercel
-if (!process.env.VERCEL) {
-  const projectRoot = path.dirname(path.dirname(process.cwd()));
-  process.loadEnvFile(path.join(projectRoot, '.env'));
-}
-import('./src/app/constants/env/server.ts');
-
+const monorepoRoot = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  '../..'
+);
 const isDev = process.env.NODE_ENV === 'development';
+loadEnvConfig(monorepoRoot, isDev);
 
 const nextConfig: NextConfig = {
   productionBrowserSourceMaps: true,
@@ -24,10 +23,6 @@ const nextConfig: NextConfig = {
     removeConsole: isDev ? false : { exclude: ['error'] },
   },
   transpilePackages: ['@bypass/shared', '@bypass/trpc'],
-  env: {
-    NEXT_PUBLIC_PROD_ENV: JSON.stringify(!isDev),
-    NEXT_PUBLIC_HOST_NAME: process.env.HOST_NAME,
-  },
   turbopack: {
     rules: {
       '*.svg': {

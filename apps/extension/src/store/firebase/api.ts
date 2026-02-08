@@ -1,14 +1,14 @@
 import { getFirebasePublicConfig } from '@bypass/configs/firebase.config';
-import { GLOBALS } from '@bypass/shared';
 import wretch from 'wretch';
 import QueryStringAddon from 'wretch/addons/queryString';
 import { getExpiresAtMs } from './utils';
+import { env } from '@/constants/env';
 import {
   type IAuthResponse,
   type IRefreshTokenResponse,
 } from '@/interfaces/firebase';
 
-const firebaseConfig = getFirebasePublicConfig(GLOBALS.PROD_ENV);
+const firebaseConfig = getFirebasePublicConfig(import.meta.env.PROD);
 
 const identityApi = wretch('https://identitytoolkit.googleapis.com/v1')
   .addon(QueryStringAddon)
@@ -23,7 +23,7 @@ export const signInWithCredential = async (accessToken: string) => {
     .url('/accounts:signInWithIdp')
     .post({
       postBody: `access_token=${accessToken}&providerId=google.com`,
-      requestUri: new URL(GLOBALS.HOST_NAME).origin,
+      requestUri: new URL(env.NEXT_PUBLIC_HOST_NAME).origin,
       returnSecureToken: true,
     })
     .fetchError((e) => console.error(e))

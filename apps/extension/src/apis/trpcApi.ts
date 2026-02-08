@@ -1,6 +1,6 @@
 import type { AppRouter } from '@bypass/trpc';
-import { GLOBALS } from '@bypass/shared';
 import { createTRPCClient, httpBatchLink, loggerLink } from '@trpc/client';
+import { env } from '@/constants/env';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 
 export const trpcApi = createTRPCClient<AppRouter>({
@@ -9,7 +9,7 @@ export const trpcApi = createTRPCClient<AppRouter>({
       enabled: () => true,
     }),
     httpBatchLink({
-      url: `${GLOBALS.HOST_NAME}/api/trpc`,
+      url: `${env.NEXT_PUBLIC_HOST_NAME}/api/trpc`,
       async headers() {
         const { getIdToken } = useFirebaseStore.getState();
         const idToken = await getIdToken();

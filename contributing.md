@@ -10,7 +10,7 @@
 - Run `pnpm install` in the root folder.
 - Intialize husky as specified [here](https://typicode.github.io/husky/how-to.html#solution) to make git hooks work in GUIs(eg GitHub Desktop)
 - Useful commands:
-  - Run `pnpm dev:env` to pull env variables.
+  - Run `pnpm run env` to pull env variables.
   - Run `pnpm dev` to start dev server for local development.
   - Run `pnpm build` for production build.
   - Run `pnpm lint` to lint all files.

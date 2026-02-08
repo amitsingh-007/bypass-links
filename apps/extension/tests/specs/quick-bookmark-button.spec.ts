@@ -66,7 +66,7 @@ test.describe.serial('Signed In', () => {
       .click();
 
     // Navigate back to home to prepare for next test
-    await homePage.goto('/index.html');
+    await homePage.goto('/popup.html');
     await homePage.waitForLoadState('networkidle');
 
     // Wait for button to show Unpin state (bookmark saved)
@@ -76,7 +76,7 @@ test.describe.serial('Signed In', () => {
   });
 
   test('should show Unpin and delete bookmark', async ({ homePage }) => {
-    // We're already on index.html from the previous test's navigation
+    // We're already on popup.html from the previous test's navigation
 
     // Verify logged in state
     const logoutButton = homePage.getByRole('button', { name: 'Logout' });
@@ -94,7 +94,7 @@ test.describe.serial('Signed In', () => {
     const url = homePage.url();
     homeExpect(url).toContain('operation=edit');
     homeExpect(url).toContain('bmUrl=');
-    homeExpect(url).toContain('index.html');
+    homeExpect(url).toContain('popup.html');
 
     // Verify dialog opens with the bookmark we created
     const dialog = homePage.getByRole('dialog');
@@ -123,7 +123,7 @@ test.describe.serial('Signed In', () => {
       .click();
 
     // Navigate back to home and verify it shows Pin again (unpinned)
-    await homePage.goto('/index.html');
+    await homePage.goto('/popup.html');
     await homePage.waitForLoadState('networkidle');
 
     // Wait for button state to stabilize (bookmark deleted)

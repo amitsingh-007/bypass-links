@@ -6,8 +6,8 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run dev",
-    "dev:env": "vercel env pull .env",
+    "dev": "turbo run dev --ui=tui",
+    "env": "vercel env pull .env",
     "e2e": "playwright test",
     "lint": "xo",
     "typecheck": "tsc --noEmit",
@@ -29,10 +29,5 @@
     "vercel": "50.10.1",
     "xo": "1.2.3"
   },
-  "packageManager": "pnpm@10.28.2",
-  "pnpm": {
-    "overrides": {
-      "eslint": "9.39.2"
-    }
-  }
+  "packageManager": "pnpm@10.28.2"
 }

@@ -3,29 +3,18 @@ import type { Page } from '@playwright/test';
 /**
  * Search browser history for items matching specific URLs
  */
-export const getHistoryItems = async (
-  page: Page,
-  urls?: string[]
-): Promise<chrome.history.HistoryItem[]> => {
+export const getHistoryItems = async (page: Page, urls?: string[]) => {
   return page.evaluate(async (urlsToCheck) => {
-    return new Promise<chrome.history.HistoryItem[]>((resolve) => {
-      chrome.history.search(
-        {
-          text: '',
-          maxResults: 1000,
-          startTime: 0,
-        },
-        (results) => {
-          if (urlsToCheck) {
-            const filtered = results.filter((item) =>
-              urlsToCheck.some((url) => item.url?.includes(url))
-            );
-            resolve(filtered);
-          } else {
-            resolve(results);
-          }
-        }
-      );
+    const results = await browser.history.search({
+      text: '',
+      maxResults: 1000,
+      startTime: 0,
     });
+    if (!urlsToCheck) {
+      return results;
+    }
+    return results.filter((item) =>
+      urlsToCheck.some((url) => item.url?.includes(url))
+    );
   }, urls);
 };

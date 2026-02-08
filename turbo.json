@@ -2,9 +2,7 @@
   "$schema": "https://turbo.build/schema.json",
   "globalDependencies": ["**/.env", "xo.config.ts", ".github/**"],
   "globalEnv": [
-    "EXT_BROWSER",
-    "NODE_ENV",
-    "HOST_NAME",
+    "NEXT_PUBLIC_HOST_NAME",
     "GITHUB_TOKEN",
     "FIREBASE_SERVICE_ACCOUNT",
     "FIREBASE_CRON_JOB_API_KEY",
@@ -16,10 +14,12 @@
   "tasks": {
     "build": {
       "dependsOn": ["//#lint", "//#typecheck"],
-      "outputs": ["chrome-build/**", "firefox-build/**", ".next/**"]
+      "outputs": [".output/**", ".next/**"]
     },
     "dev": {
-      "cache": false
+      "cache": false,
+      "persistent": true,
+      "interactive": true
     },
     "//#lint": {},
     "//#typecheck": {},

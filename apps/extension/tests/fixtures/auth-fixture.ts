@@ -19,6 +19,7 @@ export const test = base.extend<{
         for (const [key, value] of Object.entries(localStorageData)) {
           window.localStorage.setItem(key, value);
         }
+        window.localStorage.removeItem('__outdatedCheck');
       },
       { localStorageData: cachedData.localStorage }
     );

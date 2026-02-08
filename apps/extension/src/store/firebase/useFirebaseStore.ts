@@ -1,11 +1,9 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { GLOBALS } from '@bypass/shared';
 import { TEST_AUTH_DATA_KEY } from '@/constants';
 import { type IAuthResponse } from '@/interfaces/firebase';
 import { refreshIdToken, signInWithCredential } from '@/store/firebase/api';
 import { getExpiresAtMs } from '@/store/firebase/utils';
-import { sendRuntimeMessage } from '@/utils/sendRuntimeMessage';
 
 interface State {
   idpAuth: IAuthResponse | null;
@@ -44,19 +42,13 @@ const useFirebaseStore = create<State>()(
           return;
         }
 
-        let accessToken = localStorage.getItem('access_token');
-        if (!accessToken) {
-          const { accessToken: _accessToken } = await sendRuntimeMessage({
-            key: 'launchAuthFlow',
-          });
-          accessToken = _accessToken;
-        }
+        const { token: accessToken } = await browser.identity.getAuthToken({
+          interactive: true,
+        });
 
         if (!accessToken) {
           return;
         }
-
-        localStorage.removeItem('access_token');
         const idpAuthRes = await signInWithCredential(accessToken);
         setIdpAuth(idpAuthRes);
       },
@@ -64,9 +56,7 @@ const useFirebaseStore = create<State>()(
       async firebaseSignOut() {
         const { resetIdpAuth } = get();
         resetIdpAuth();
-        if (GLOBALS.IS_CHROME) {
-          await chrome.identity.clearAllCachedAuthTokens();
-        }
+        await browser.identity.clearAllCachedAuthTokens();
       },
 
       async getIdToken() {

@@ -24,19 +24,6 @@ test.describe('Download page', () => {
     );
   });
 
-  test.skip('firefox extension download', async ({ page }, testConfig) => {
-    testConfig.setTimeout(30 * 1000);
-    const downloadPromise = page.waitForEvent('download');
-    const downloadButton = page.locator('a', {
-      hasText: 'Download for Firefox',
-    });
-    await downloadButton.click();
-    const download = await downloadPromise;
-    expect(download.suggestedFilename()).toMatch(
-      /^firefox-bypass-links-.+.xpi$/
-    );
-  });
-
   test('footer elements should exist', async ({ page }) => {
     await expect(page.getByTestId('ext-version')).toBeVisible();
     await expect(page.getByTestId('ext-release-data')).toBeVisible();

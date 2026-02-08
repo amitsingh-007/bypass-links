@@ -1,8 +1,8 @@
-import { getLastVisited } from '@helpers/fetchFromStorage';
 import { sha256Hash } from '@bypass/shared';
+import { lastVisitedItem } from '@/storage/items';
 
 export const getlastVisitedText = async (url: string) => {
-  const lastVisitedData = await getLastVisited();
+  const lastVisitedData = await lastVisitedItem.getValue();
   if (!URL.canParse(url)) {
     return '';
   }

@@ -1,6 +1,6 @@
 import { Box, Container } from '@mantine/core';
-import { GLOBALS } from '@bypass/shared';
 import { type Metadata } from 'next';
+import { clientEnv } from './constants/env/client';
 import AppHeader from './components/AppHeader';
 import Footer from './components/Footer';
 import PageHeader from './components/PageHeader';
@@ -16,9 +16,9 @@ export const metadata: Metadata = {
   title,
   description,
   alternates: {
-    canonical: GLOBALS.HOST_NAME,
+    canonical: clientEnv.NEXT_PUBLIC_HOST_NAME,
   },
-  metadataBase: new URL(GLOBALS.HOST_NAME),
+  metadataBase: new URL(clientEnv.NEXT_PUBLIC_HOST_NAME),
   openGraph: {
     title: `Bypass Links - ${title}`,
     description,

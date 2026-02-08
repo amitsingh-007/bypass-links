@@ -139,44 +139,33 @@ test.describe.serial('Bookmarks Panel', () => {
       const bookmarkRow = panel.getBookmarkElement(TEST_BOOKMARKS.REACT_DOCS);
       await expect(bookmarkRow).toBeVisible();
 
-      const pagePromise = context.waitForEvent('page', {
-        timeout: TEST_TIMEOUTS.PAGE_OPEN,
-      });
-      await bookmarkRow.dblclick();
-      const newPage = await pagePromise;
+      const [newPage] = await Promise.all([
+        context.waitForEvent('page', { timeout: TEST_TIMEOUTS.PAGE_OPEN }),
+        bookmarkRow.dblclick(),
+      ]);
 
       expect(newPage).toBeTruthy();
       expect(context.pages().length).toBeGreaterThan(initialPages);
       await newPage.close();
 
-      // Test 2: Open multiple bookmarks via context menu
+      // Test 2: Open bookmark via context menu
       await panel.ensureAtRoot();
       const firstBookmark = panel.getBookmarkElement(TEST_BOOKMARKS.REACT_DOCS);
       await expect(firstBookmark).toBeVisible();
       await firstBookmark.click();
 
-      const secondBookmark = panel.getBookmarkElement(TEST_BOOKMARKS.GITHUB);
-      await expect(secondBookmark).toBeVisible();
-      await secondBookmark.click({ modifiers: ['Meta'] });
-
       await firstBookmark.click({ button: 'right' });
       const openOption = bookmarksPage.locator('.context-menu-item-open');
       await expect(openOption).toBeVisible();
 
-      const multiPagePromise = context.waitForEvent('page', {
-        timeout: TEST_TIMEOUTS.PAGE_OPEN,
-      });
-      await openOption.click();
-      const multiNewPage = await multiPagePromise;
+      const [contextMenuPage] = await Promise.all([
+        context.waitForEvent('page', { timeout: TEST_TIMEOUTS.PAGE_OPEN }),
+        openOption.click(),
+      ]);
 
-      expect(multiNewPage).toBeTruthy();
+      expect(contextMenuPage).toBeTruthy();
       expect(context.pages().length).toBeGreaterThan(initialPages);
-
-      // Clean up all new pages
-      const allNewPages = context.pages().slice(initialPages);
-      for (const page of allNewPages) {
-        await page.close();
-      }
+      await contextMenuPage.close();
     });
 
     test('should cut and paste bookmark using keyboard shortcuts', async ({

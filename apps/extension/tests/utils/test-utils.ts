@@ -232,17 +232,14 @@ export const changeImageInDialog = async (
 };
 
 /**
- * Get item from chrome.storage.local
+ * Get item from browser.storage.local
  */
 export const getStorageItem = async <T = unknown>(
   page: Page,
   key: string
 ): Promise<T | undefined> => {
   return page.evaluate(async (storageKey) => {
-    return new Promise<T>((resolve) => {
-      chrome.storage.local.get([storageKey], (result) => {
-        resolve(result[storageKey] as T);
-      });
-    });
+    const result = await browser.storage.local.get([storageKey]);
+    return result[storageKey] as T;
   }, key);
 };

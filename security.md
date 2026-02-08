@@ -14,7 +14,6 @@ Following are the supported browser versions:
 | Version | Supported          |
 | ------- | ------------------ |
 | Last 3 Chrome versions   | :white_check_mark: |
-| Last 2 Firefox versions   | :white_check_mark: |
 | Any other browser version(might work)  | :white_check_mark:/:x: |
 
 ## Reporting a Vulnerability

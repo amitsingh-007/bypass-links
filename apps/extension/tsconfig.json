@@ -1,27 +1,25 @@
 {
-  "extends": "./node_modules/@bypass/configs/tsconfig.base.json",
+  "extends": "@bypass/configs/tsconfig.base.json",
   "compilerOptions": {
-    "sourceMap": true, // Required for webpack source maps to work
+    "sourceMap": true,
     "lib": ["esnext", "dom", "dom.iterable", "webworker"],
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@components/*": ["./src/components/*"],
-      "@constants/*": ["./src/constants/*"],
+      "@background/*": ["./src/entrypoints/background/*"],
       "@helpers/*": ["./src/helpers/*"],
-      "@interfaces/*": ["./src/interfaces/*"],
+      "@popup/*": ["./src/entrypoints/popup/*"],
       "@store/*": ["./src/store/*"]
     }
   },
-  "include": ["@types", "src", "tests", "webpack.config.ts", "scripts"],
-  "exclude": ["chrome-build", "firefox-build", "node_modules", ".turbo"],
-  //Required for webpack config in typescript
-  "ts-node": {
-    "files": true,
-    "esm": true,
-    "compilerOptions": {
-      "module": "esnext",
-      "moduleResolution": "bundler"
-    }
-  }
+  "include": [
+    "@types",
+    "scripts",
+    "src",
+    "tests",
+    "wxt.config.ts",
+    ".wxt/wxt.d.ts",
+    ".wxt/types/*.d.ts"
+  ],
+  "exclude": [".output", ".wxt/tsconfig.json", "node_modules", ".turbo"]
 }

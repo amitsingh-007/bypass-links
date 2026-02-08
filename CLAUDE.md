@@ -18,15 +18,15 @@ pnpm install
 
 # Development
 pnpm dev              # Start all dev servers
-pnpm dev:env          # Pull Vercel environment variables to .env
+pnpm run env          # Pull Vercel environment variables to .env
 
 # Building (turbo orchestrates with dependency graph)
 pnpm build            # Build all workspaces
 
 # Extension-specific builds
 cd apps/extension
-pnpm build:chrome     # Build Chrome extension to chrome-build/
-pnpm dev:chrome       # Chrome dev server with hot reload
+pnpm build            # Build Chrome extension to .output/chrome-mv3
+pnpm dev              # Chrome dev server with hot reload
 
 # Code Quality
 pnpm lint             # Lint all files (XO linter)
@@ -42,7 +42,7 @@ pnpm e2e              # Run Playwright E2E tests
 
 This is a **Turbo + pnpm monorepo** with the following structure:
 
-- **apps/extension** - Browser extension (Webpack, React with Preact, Wouter for routing)
+- **apps/extension** - Browser extension (WXT, React with Preact, Wouter for routing)
 - **apps/web** - Next.js web interface for downloads and admin
 - **packages/shared** - Shared React components, types, utilities, and stores (Zustand)
 - **packages/configs** - Shared TypeScript, ESLint (XO), and build configs
@@ -53,7 +53,6 @@ This is a **Turbo + pnpm monorepo** with the following structure:
 Turbo manages task dependencies defined in `turbo.json`:
 
 - `build` tasks depend on `//#lint` and `//#typecheck` completing first
-- Extension builds use `EXT_BROWSER` environment variable (chrome/firefox)
 
 ## E2E Testing
 
@@ -82,6 +81,7 @@ Playwright tests use a unique setup/teardown pattern for extension testing:
 ## Development Guidelines
 
 - Ask any questions instead of assuming things when in plan mode
+- Never automatically commit or push changes unless explicitly asked
 
 ## Post-Change Verification
 
@@ -90,5 +90,5 @@ After making changes, run the following commands:
 ```bash
 pnpm lint
 pnpm typecheck:all
-timeout 180 xvfb-run -a pnpm e2e <relative-filepath>
+pnpm e2e <relative-filepath>
 ```

@@ -1,9 +1,0 @@
-{
-  "key": "fdnekjijeofacghkammknogmiapepano",
-  "oauth2": {
-    "client_id": "824508694893-7dnmhd6c6ge8l7v1a625h15pfr0us2pc.apps.googleusercontent.com"
-  },
-  "background": {
-    "service_worker": "service-worker.js"
-  }
-}

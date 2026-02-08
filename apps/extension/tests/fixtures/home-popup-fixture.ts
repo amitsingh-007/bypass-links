@@ -1,12 +1,11 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import {
   type BrowserContext,
   type Page,
   type Worker,
   test as base,
 } from '@playwright/test';
+import { getExtensionPath } from '../utils/extension-path';
 import {
   authenticateAndNavigate,
   createSharedBackgroundSW,
@@ -14,9 +13,6 @@ import {
   createUnauthContext,
   getExtensionId,
 } from './base-fixture';
-
-const fileName = fileURLToPath(import.meta.url);
-const dirName = path.dirname(fileName);
 
 export const test = base.extend<
   {
@@ -35,7 +31,7 @@ export const test = base.extend<
   extensionPath: [
     // eslint-disable-next-line no-empty-pattern
     async ({}, use) => {
-      const pathToExtension = path.resolve(dirName, '../../chrome-build');
+      const pathToExtension = getExtensionPath();
       await use(pathToExtension);
     },
     { scope: 'worker' },
@@ -43,8 +39,10 @@ export const test = base.extend<
 
   sharedContext: [
     // eslint-disable-next-line no-empty-pattern
-    async ({}, use) => {
-      const { browserContext, userDataDir } = await createSharedContext();
+    async ({}, use, testInfo) => {
+      const { browserContext, userDataDir } = await createSharedContext({
+        headless: testInfo.project.use?.headless ?? true,
+      });
       await use(browserContext);
       await browserContext.close();
       const fsPromises = await import('node:fs/promises');
@@ -89,10 +87,12 @@ export const test = base.extend<
     await use(sharedContext);
   },
 
-  async unauthPage({ extensionPath }, use) {
+  async unauthPage({ extensionPath }, use, testInfo) {
     // Create a completely separate context without any authentication
     const { browserContext: unauthContext, userDataDir } =
-      await createUnauthContext(extensionPath);
+      await createUnauthContext(extensionPath, {
+        headless: testInfo.project.use?.headless ?? true,
+      });
 
     // Get extension ID from the new context
     let [background] = unauthContext.serviceWorkers();
@@ -101,9 +101,8 @@ export const test = base.extend<
 
     // Create a new page without authentication
     const page = await unauthContext.newPage();
-    const extUrl = `chrome-extension://${extensionId}/index.html`;
-    await page.goto(extUrl);
-    await page.waitForLoadState('networkidle');
+    const extUrl = `chrome-extension://${extensionId}/popup.html`;
+    await page.goto(extUrl, { waitUntil: 'domcontentloaded' });
 
     await use(page);
 

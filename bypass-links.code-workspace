@@ -23,8 +23,7 @@
   "settings": {
     "typescript.tsdk": "node_modules/typescript/lib",
     "search.exclude": {
-      "chrome-build/**": true,
-      "firefox-build/**": true,
+      ".output/**": true,
     },
   },
 }

@@ -1,7 +1,6 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import {
   type BrowserContext,
   type Page,
@@ -9,14 +8,11 @@ import {
   chromium,
 } from '@playwright/test';
 import { CHROME_PROFILE_DIR, EXTENSION_STORAGE_PATH } from '../auth-constants';
-
-const fileName = fileURLToPath(import.meta.url);
-const dirName = path.dirname(fileName);
+import { getExtensionPath } from '../utils/extension-path';
 
 interface CachedStorageData {
   chromeStorage: Record<string, unknown>;
   localStorage: Record<string, string>;
-  extensionId: string;
 }
 
 /**
@@ -32,8 +28,11 @@ export const loadCachedStorageData = async (): Promise<CachedStorageData> => {
  * Create a shared browser context that reuses the cached Chrome profile.
  * This preserves Cache Storage data (person-cache, favicon-cache) from auth setup.
  */
-export const createSharedContext = async () => {
-  const pathToExtension = path.resolve(dirName, '../../chrome-build');
+export const createSharedContext = async (
+  options: { headless?: boolean } = {}
+) => {
+  const pathToExtension = getExtensionPath();
+  const headless = options.headless ?? true;
 
   // Copy the cached profile to a temp directory (to avoid locking issues)
   const userDataDir = await fs.promises.mkdtemp(
@@ -44,7 +43,8 @@ export const createSharedContext = async () => {
   await fs.promises.cp(CHROME_PROFILE_DIR, userDataDir, { recursive: true });
 
   const browserContext = await chromium.launchPersistentContext(userDataDir, {
-    headless: false,
+    channel: 'chromium',
+    headless,
     args: [
       `--disable-extensions-except=${pathToExtension}`,
       `--load-extension=${pathToExtension}`,
@@ -59,12 +59,17 @@ export const createSharedContext = async () => {
  * Create an isolated browser context for unauthenticated tests.
  * This ensures no auth state leaks from the shared context.
  */
-export const createUnauthContext = async (extensionPath: string) => {
+export const createUnauthContext = async (
+  extensionPath: string,
+  options: { headless?: boolean } = {}
+) => {
+  const headless = options.headless ?? true;
   const userDataDir = await fs.promises.mkdtemp(
     path.join(os.tmpdir(), 'chrome-unauth-profile-')
   );
   const browserContext = await chromium.launchPersistentContext(userDataDir, {
-    headless: false,
+    channel: 'chromium',
+    headless,
     args: [
       `--disable-extensions-except=${extensionPath}`,
       `--load-extension=${extensionPath}`,
@@ -111,32 +116,30 @@ export const authenticateAndNavigate = async (
     { localStorageData: cachedData.localStorage }
   );
 
-  // Step 2: Inject chrome.storage.local via Background Service Worker (so it's ready before page load)
-  const [background] = sharedContext.serviceWorkers();
-  if (background) {
-    await background.evaluate(
-      async (chromeStorageData) => chrome.storage.local.set(chromeStorageData),
-      cachedData.chromeStorage
-    );
-  }
-
-  // Step 3: Create page and navigate to extension
+  // Step 2: Create page and navigate to extension
   const page = await sharedContext.newPage();
-  const extUrl = `chrome-extension://${sharedExtensionId}/index.html`;
-  await page.goto(extUrl);
-  await page.waitForLoadState('networkidle');
+  const extUrl = `chrome-extension://${sharedExtensionId}/popup.html`;
+  await page.goto(extUrl, { waitUntil: 'domcontentloaded' });
 
-  // Step 4: Verify we're logged in (logout button should be visible)
+  // Step 3: Inject browser.storage.local via extension page (avoid MV3 worker hangs)
+  await page.evaluate(async (chromeStorageData) => {
+    await browser.storage.local.set(chromeStorageData);
+  }, cachedData.chromeStorage);
+
+  // Step 4: Reload to ensure storage is applied before UI checks
+  await page.reload({ waitUntil: 'domcontentloaded' });
+
+  // Step 5: Verify we're logged in (logout button should be visible)
   const logoutButton = page.getByRole('button', { name: 'Logout' });
   await logoutButton.waitFor({ state: 'visible', timeout: 10_000 });
 
-  // Step 5: Navigate to requested panel
+  // Step 6: Navigate to requested panel
   if (panelName && panelName !== 'home') {
     const panelButton = page.getByRole('button', {
       name: new RegExp(panelName, 'i'),
     });
     await panelButton.click();
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('domcontentloaded');
   }
 
   return page;

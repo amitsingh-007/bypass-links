@@ -1,12 +1,12 @@
-import process from 'node:process';
 import { createEnv } from '@t3-oss/env-core';
+import { wxt } from '@t3-oss/env-core/presets-zod';
 import { z } from 'zod/mini';
 
 export const env = createEnv({
-  server: {
-    NODE_ENV: z.enum(['development', 'production']),
-    HOST_NAME: z.string(),
-    EXT_BROWSER: z.enum(['chrome', 'firefox']),
+  clientPrefix: 'NEXT_PUBLIC_',
+  client: {
+    NEXT_PUBLIC_HOST_NAME: z.string(),
   },
-  runtimeEnv: process.env,
+  runtimeEnv: import.meta.env,
+  extends: [wxt()],
 });

@@ -1,0 +1,20 @@
+import { getForumPageLinks } from '../misc/forumPageLinks';
+import {
+  type RuntimeInput,
+  type RuntimeKeys,
+  type RuntimeOutput,
+} from '@/utils/sendRuntimeMessage';
+
+export const receiveRuntimeMessage = (
+  message: RuntimeInput,
+  sendMessage: <T extends RuntimeKeys>(data: RuntimeOutput[T]) => void
+) => {
+  switch (message.key) {
+    case 'openWebsiteLinks': {
+      getForumPageLinks(message.tabId, message.url).then((forumPageLinks) => {
+        sendMessage<'openWebsiteLinks'>({ forumPageLinks });
+      });
+      break;
+    }
+  }
+};
