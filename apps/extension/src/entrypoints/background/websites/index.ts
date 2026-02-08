@@ -1,4 +1,4 @@
-import { getWebistes } from '@/helpers/fetchFromStorage';
+import { getWebistes } from '@helpers/fetchFromStorage';
 
 export const isForumPage = async (hostname: string) => {
   const websites = await getWebistes();

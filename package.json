@@ -7,7 +7,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "dev:env": "vercel env pull .env",
+    "env": "vercel env pull .env",
     "e2e": "playwright test",
     "lint": "xo",
     "typecheck": "tsc --noEmit",

@@ -3,7 +3,7 @@ import { nprogress } from '@mantine/nprogress';
 import {
   resetRedirections,
   syncRedirectionsToStorage,
-} from '@/BackgroundScript/redirections';
+} from '@/entrypoints/background/redirections';
 import {
   cacheBookmarkFavicons,
   resetBookmarks,
@@ -23,7 +23,7 @@ import {
 import {
   resetWebsites,
   syncWebsitesToStorage,
-} from '@/BackgroundScript/websites/storageSync';
+} from '@/entrypoints/background/websites/storageSync';
 
 const resetAuthentication = async () => {
   await chrome.identity.clearAllCachedAuthTokens();

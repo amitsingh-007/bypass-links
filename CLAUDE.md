@@ -18,7 +18,7 @@ pnpm install
 
 # Development
 pnpm dev              # Start all dev servers
-pnpm dev:env          # Pull Vercel environment variables to .env
+pnpm run env          # Pull Vercel environment variables to .env
 
 # Building (turbo orchestrates with dependency graph)
 pnpm build            # Build all workspaces

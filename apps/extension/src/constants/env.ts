@@ -8,7 +8,6 @@ process.loadEnvFile?.(path.join(monorepoRoot, '.env'));
 
 export const env = createEnv({
   server: {
-    NODE_ENV: z.enum(['development', 'production']),
     HOST_NAME: z.string(),
   },
   runtimeEnv: process.env,

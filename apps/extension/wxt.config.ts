@@ -2,7 +2,7 @@ import deepmerge from 'deepmerge';
 import preact from '@preact/preset-vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { defineConfig } from 'wxt';
-import manifestExt from '../../packages/configs/manifest/manifest.json' with { type: 'json' };
+import manifestDev from '../../packages/configs/manifest/manifest.json' with { type: 'json' };
 import manifestProd from '../../packages/configs/manifest/manifest.prod.json' with { type: 'json' };
 
 export default defineConfig({
@@ -16,7 +16,7 @@ export default defineConfig({
   },
   manifest({ mode }) {
     return deepmerge.all([
-      manifestExt,
+      manifestDev,
       ...(mode === 'production' ? [manifestProd] : []),
     ]);
   },
@@ -30,12 +30,7 @@ export default defineConfig({
         target: 'esnext',
       },
       resolve: {
-        alias: {
-          react: 'preact/compat',
-          'react-dom': 'preact/compat',
-          'react/jsx-runtime': 'preact/jsx-runtime',
-          wouter: 'wouter-preact',
-        },
+        alias: { wouter: 'wouter-preact' },
       },
       define: {
         'process.env.NEXT_PUBLIC_PROD_ENV': JSON.stringify(

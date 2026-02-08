@@ -4,7 +4,6 @@ import { z } from 'zod/mini';
 
 export const env = createEnv({
   server: {
-    NODE_ENV: z.enum(['development', 'production']),
     FIREBASE_SERVICE_ACCOUNT: z.string(),
     GITHUB_TOKEN: z.string(),
   },

@@ -5,7 +5,7 @@ import ButtonWithFeedback from './ButtonWithFeedback';
 import useCurrentTab from '@/hooks/useCurrentTab';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { sendRuntimeMessage } from '@/utils/sendRuntimeMessage';
-import { isForumPage } from '@/BackgroundScript/websites';
+import { isForumPage } from '@/entrypoints/background/websites';
 
 const isCurrentPageForum = async (url = '') => {
   const hostname = url && new URL(url).hostname;
