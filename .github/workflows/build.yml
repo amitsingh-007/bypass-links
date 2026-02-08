@@ -38,8 +38,13 @@ jobs:
       - name: Run tests
         run: pnpm test
 
+      - name: List output directory
+        run: find . -name "*.zip" 2>/dev/null || echo "No zip files found"
+
+      
+
       - name: Upload Chrome extension
         uses: actions/upload-artifact@v6
         with:
           name: chrome-extension-file
-          path: ./.output/chrome-bypass-links-*.zip
+          path: ./apps/extension/.output/chrome-bypass-links-*.zip
