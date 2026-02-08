@@ -81,6 +81,7 @@ Playwright tests use a unique setup/teardown pattern for extension testing:
 ## Development Guidelines
 
 - Ask any questions instead of assuming things when in plan mode
+- Never automatically commit or push changes unless explicitly asked
 
 ## Post-Change Verification
 

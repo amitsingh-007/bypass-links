@@ -7,7 +7,7 @@ import {
   type PersonImageUrls,
   STORAGE_KEYS,
 } from '@bypass/shared';
-import { type IMappedRedirections } from '@/entrypoints/background/interfaces/redirections';
+import { type IMappedRedirections } from '@background/interfaces/redirections';
 import { type EExtensionState } from '@/constants';
 
 export const getExtensionState = async () => {

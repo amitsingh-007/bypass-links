@@ -5,12 +5,12 @@ import { useEffect, useState } from 'react';
 import { IoSave } from 'react-icons/io5';
 import { RiPlayListAddFill } from 'react-icons/ri';
 import { notifications } from '@mantine/notifications';
+import { syncRedirectionsToStorage } from '@background/redirections';
 import { DEFAULT_RULE_ALIAS } from '../constants';
 import { getValidRules, isMatchingRule } from '../utils';
 import styles from './styles/ShortcutsPanel.module.css';
 import RedirectionRule from './RedirectionRule';
 import { MAX_PANEL_SIZE } from '@/constants';
-import { syncRedirectionsToStorage } from '@/entrypoints/background/redirections';
 import { trpcApi } from '@/apis/trpcApi';
 
 function ShortcutsPanel() {
