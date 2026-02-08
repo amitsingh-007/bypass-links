@@ -37,7 +37,6 @@
   "devDependencies": {
     "@playwright/test": "1.58.1",
     "@preact/preset-vite": "2.10.3",
-    "@types/chrome": "0.1.36",
     "@types/node": "24.10.9",
     "@types/react": "19.2.10",
     "@types/react-avatar-editor": "13.0.4",

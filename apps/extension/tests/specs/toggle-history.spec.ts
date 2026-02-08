@@ -31,7 +31,7 @@ test.describe.serial('History Tracking Workflow', () => {
     // Verify switch is now checked
     await expect(homePanel.historyToggle).toBeChecked();
 
-    // Verify historyStartTime is set in chrome.storage.local
+    // Verify historyStartTime is set in browser.storage.local
     await homePanel.verifyHistoryStartTime();
   });
 
