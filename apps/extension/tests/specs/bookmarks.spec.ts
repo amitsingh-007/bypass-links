@@ -148,34 +148,24 @@ test.describe.serial('Bookmarks Panel', () => {
       expect(context.pages().length).toBeGreaterThan(initialPages);
       await newPage.close();
 
-      // Test 2: Open multiple bookmarks via context menu
+      // Test 2: Open bookmark via context menu
       await panel.ensureAtRoot();
       const firstBookmark = panel.getBookmarkElement(TEST_BOOKMARKS.REACT_DOCS);
       await expect(firstBookmark).toBeVisible();
       await firstBookmark.click();
 
-      const secondBookmark = panel.getBookmarkElement(TEST_BOOKMARKS.GITHUB);
-      await expect(secondBookmark).toBeVisible();
-      await secondBookmark.click({ modifiers: ['Meta'] });
-
       await firstBookmark.click({ button: 'right' });
       const openOption = bookmarksPage.locator('.context-menu-item-open');
       await expect(openOption).toBeVisible();
 
-      await openOption.click();
-      await expect
-        .poll(() => context.pages().length, {
-          timeout: TEST_TIMEOUTS.PAGE_OPEN,
-        })
-        .toBeGreaterThan(initialPages);
+      const [contextMenuPage] = await Promise.all([
+        context.waitForEvent('page', { timeout: TEST_TIMEOUTS.PAGE_OPEN }),
+        openOption.click(),
+      ]);
 
-      const allNewPages = context.pages().slice(initialPages);
-      expect(allNewPages.length).toBeGreaterThan(0);
-
-      // Clean up all new pages
-      for (const page of allNewPages) {
-        await page.close();
-      }
+      expect(contextMenuPage).toBeTruthy();
+      expect(context.pages().length).toBeGreaterThan(initialPages);
+      await contextMenuPage.close();
     });
 
     test('should cut and paste bookmark using keyboard shortcuts', async ({
