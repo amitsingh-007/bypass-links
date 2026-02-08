@@ -17,7 +17,9 @@
       "outputs": [".output/**", ".next/**"]
     },
     "dev": {
-      "cache": false
+      "cache": false,
+      "persistent": true,
+      "interactive": true
     },
     "//#lint": {},
     "//#typecheck": {},
