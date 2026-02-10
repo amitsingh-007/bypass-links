@@ -1,5 +1,5 @@
 import { ROUTES } from '@bypass/shared';
-import { Button } from '@mantine/core';
+import { Button } from '@bypass/ui';
 import { FaUserTag } from 'react-icons/fa';
 import { useLocation } from 'wouter';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
@@ -14,13 +14,13 @@ function PersonsPanelButton() {
 
   return (
     <Button
-      fullWidth
-      radius="xl"
+      className="w-full"
+      variant="secondary"
       disabled={!isSignedIn}
-      rightSection={<FaUserTag />}
       onClick={handleShowPersonsPanel}
     >
       Persons
+      <FaUserTag className="ml-2 size-4" />
     </Button>
   );
 }

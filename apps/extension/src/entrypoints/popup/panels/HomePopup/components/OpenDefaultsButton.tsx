@@ -1,4 +1,4 @@
-import { Button } from '@mantine/core';
+import { Button, Spinner } from '@bypass/ui';
 import useHistoryStore from '@store/history';
 import { useState } from 'react';
 import { RxExternalLink } from 'react-icons/rx';
@@ -29,16 +29,15 @@ function OpenDefaultsButton() {
 
   return (
     <Button
-      fullWidth
-      radius="xl"
-      loading={isFetching}
-      disabled={!isSignedIn}
+      className="w-full"
+      variant="secondary"
+      disabled={!isSignedIn || isFetching}
       data-testid="open-defaults-button"
-      rightSection={<RxExternalLink />}
-      color="yellow"
       onClick={handleOpenDefaults}
     >
+      {isFetching && <Spinner className="mr-2 size-4 animate-spin" />}
       Defaults
+      <RxExternalLink className="ml-2 size-4" />
     </Button>
   );
 }

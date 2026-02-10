@@ -7,7 +7,8 @@ import {
   type IEncodedBookmark,
   useBookmark,
 } from '@bypass/shared';
-import { Button, Text, Tooltip } from '@mantine/core';
+import { Button, Spinner } from '@bypass/ui';
+import { Text, Tooltip } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { BiBookmarkPlus } from 'react-icons/bi';
 import { RiBookmark3Fill } from 'react-icons/ri';
@@ -73,16 +74,19 @@ function QuickBookmarkButton() {
       color="gray"
     >
       <Button
-        fullWidth
-        radius="xl"
-        loading={isFetching}
-        disabled={!isSignedIn}
-        rightSection={bookmark ? <RiBookmark3Fill /> : <BiBookmarkPlus />}
-        color={bookmark ? 'teal' : 'red'}
+        className="w-full"
+        variant={bookmark ? 'default' : 'outline'}
+        disabled={!isSignedIn || isFetching}
         data-testid="quick-bookmark-button"
         onClick={handleClick}
       >
+        {isFetching && <Spinner className="mr-2 size-4 animate-spin" />}
         {bookmark ? 'Unpin' : 'Pin'}
+        {bookmark ? (
+          <RiBookmark3Fill className="ml-2 size-4" />
+        ) : (
+          <BiBookmarkPlus className="ml-2 size-4" />
+        )}
       </Button>
     </Tooltip>
   );

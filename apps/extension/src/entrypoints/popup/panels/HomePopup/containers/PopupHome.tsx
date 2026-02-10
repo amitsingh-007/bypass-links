@@ -1,4 +1,3 @@
-import { Flex, Text } from '@mantine/core';
 import Authenticate from '../components/Authenticate';
 import BookmarksPanelButton from '../components/BookmarksPanelButton';
 import LastVisitedButton from '../components/LastVisitedButton';
@@ -11,7 +10,6 @@ import ToggleExtension from '../components/ToggleExtension';
 import ToggleHistory from '../components/ToggleHistory';
 import UserProfile from '../components/UserProfile';
 import useExtensionOutdated from '../hooks/useExtensionOutdated';
-import styles from './styles/PopupHome.module.css';
 
 const handleOpenAsPage = () => {
   browser.tabs.create({ url: window.location.href });
@@ -21,26 +19,22 @@ function PopupHome() {
   useExtensionOutdated();
 
   return (
-    <Flex direction="column" align="center" w={305} p="0.5rem 1rem 1rem">
-      <Text
-        fz="xl"
-        fw={700}
-        c="grape.1"
-        mb="0.625rem"
-        className={styles.heading}
+    <div className="flex w-[310px] flex-col items-center px-4 pt-2 pb-4">
+      <div
+        className="text-primary mb-2.5 cursor-pointer text-xl font-bold select-none"
         data-testid="home-popup-heading"
         onClick={handleOpenAsPage}
       >
         Bypass Links
-      </Text>
-      <Flex justify="space-between" align="center" gap="2.5rem" mb="1rem">
-        <Flex direction="column" gap="0.5rem">
+      </div>
+      <div className="mb-4 flex items-center justify-between gap-10">
+        <div className="flex flex-col gap-2">
           <ToggleExtension />
           <ToggleHistory />
-        </Flex>
+        </div>
         <UserProfile />
-      </Flex>
-      <Flex className={styles.buttonsContainer}>
+      </div>
+      <div className="mt-4 flex w-full flex-wrap justify-between gap-4 gap-y-2 [&>*]:w-[46.5%]">
         <Authenticate />
         <OpenDefaultsButton />
         <ShortcutsPanelButton />
@@ -49,8 +43,8 @@ function PopupHome() {
         <BookmarksPanelButton />
         <OpenForumLinks />
         <LastVisitedButton />
-      </Flex>
-    </Flex>
+      </div>
+    </div>
   );
 }
 

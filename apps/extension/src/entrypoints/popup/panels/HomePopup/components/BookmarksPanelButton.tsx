@@ -1,5 +1,5 @@
 import { getBookmarksPanelUrl } from '@bypass/shared';
-import { Button } from '@mantine/core';
+import { Button } from '@bypass/ui';
 import { RiBookmarkFill } from 'react-icons/ri';
 import { useLocation } from 'wouter';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
@@ -14,13 +14,13 @@ function BookmarksPanelButton() {
 
   return (
     <Button
-      fullWidth
-      radius="xl"
+      className="w-full"
+      variant="secondary"
       disabled={!isSignedIn}
-      rightSection={<RiBookmarkFill />}
       onClick={handleShowEditPanel}
     >
       Bookmarks
+      <RiBookmarkFill className="ml-2 size-4" />
     </Button>
   );
 }

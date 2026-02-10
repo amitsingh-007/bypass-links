@@ -74,7 +74,7 @@ function Authenticate() {
   return (
     <>
       <Button
-        className="w-full rounded-xl"
+        className="w-full"
         variant={isSignedIn ? 'default' : 'outline'}
         disabled={!isExtensionActive || isFetching}
         data-testid={isSignedIn ? 'logout-button' : 'login-button'}

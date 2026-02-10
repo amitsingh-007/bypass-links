@@ -1,4 +1,5 @@
-import { Button, CheckIcon } from '@mantine/core';
+import { Button, Spinner } from '@bypass/ui';
+import { CheckIcon } from '@mantine/core';
 import { MdForum } from 'react-icons/md';
 import useFeedbackButton, { EButtonState } from './useFeedbackButton';
 import styles from './styles/ButtonWithFeedback.module.css';
@@ -14,29 +15,28 @@ function ButtonWithFeedback({ openAllLinks, isForumPage }: Props) {
   if (isForumPage && buttonState === EButtonState.SUCCESS) {
     return (
       <Button
-        fullWidth
-        radius="xl"
-        rightSection={<CheckIcon size={14} />}
-        color="teal"
-        className={styles.successButton}
+        className={`w-full ${styles.successButton}`}
+        variant="default"
         onClick={onClick}
       >
         Success
+        <CheckIcon className="ml-2 size-4" />
       </Button>
     );
   }
 
   return (
     <Button
-      fullWidth
-      radius="xl"
-      loading={buttonState === EButtonState.LOADING}
-      disabled={!isForumPage}
-      rightSection={<MdForum />}
-      color="yellow"
+      className="w-full"
+      variant="secondary"
+      disabled={!isForumPage || buttonState === EButtonState.LOADING}
       onClick={onClick}
     >
+      {buttonState === EButtonState.LOADING && (
+        <Spinner className="mr-2 size-4 animate-spin" />
+      )}
       Forum
+      <MdForum className="ml-2 size-4" />
     </Button>
   );
 }
