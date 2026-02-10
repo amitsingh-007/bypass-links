@@ -1,7 +1,8 @@
 import { Button, Spinner } from '@bypass/ui';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Login02Icon, Logout02Icon } from '@hugeicons/core-free-icons';
 import useExtStore from '@store/extension';
 import { useCallback, useEffect, useState } from 'react';
-import { RiLoginCircleFill, RiLogoutCircleRFill } from 'react-icons/ri';
 import { toast } from 'sonner';
 import { signIn, signOut } from '../utils/authentication';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
@@ -63,11 +64,11 @@ function Authenticate() {
         <Spinner className="mr-2 size-4 animate-spin" />
       )}
       {isSignedIn ? 'Logout' : 'Login'}
-      {isSignedIn ? (
-        <RiLogoutCircleRFill className="ml-2 size-4" />
-      ) : (
-        <RiLoginCircleFill className="ml-2 size-4" />
-      )}
+      <HugeiconsIcon
+        icon={isSignedIn ? Logout02Icon : Login02Icon}
+        strokeWidth={2}
+        className="ml-2 size-4"
+      />
     </Button>
   );
 }

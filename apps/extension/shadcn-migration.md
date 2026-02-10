@@ -7,3 +7,4 @@
 5. Once you add a shadcn component using CLI, never modify it.
 5. Remember we are using baseui with shadcn, not radixui. Also we are using tailwindcss v4.
 6. Run pnpm lint and pnpm typecheck:all after changes are done.
+7. Use icons from hugeicons package.

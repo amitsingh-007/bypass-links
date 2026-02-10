@@ -1,6 +1,9 @@
 import { Button, Spinner } from '@bypass/ui';
-import { CheckIcon } from '@mantine/core';
-import { MdForum } from 'react-icons/md';
+import { HugeiconsIcon } from '@hugeicons/react';
+import {
+  CheckmarkBadge02Icon,
+  WebDesign01Icon,
+} from '@hugeicons/core-free-icons';
 import useFeedbackButton, { EButtonState } from './useFeedbackButton';
 
 interface Props {
@@ -14,12 +17,16 @@ function ButtonWithFeedback({ openAllLinks, isForumPage }: Props) {
   if (isForumPage && buttonState === EButtonState.SUCCESS) {
     return (
       <Button
-        className="w-full border-2 border-teal-500"
+        className="w-full border-teal-600 bg-teal-600 hover:border-teal-700 hover:bg-teal-700"
         variant="default"
         onClick={onClick}
       >
         Success
-        <CheckIcon className="ml-2 size-4" />
+        <HugeiconsIcon
+          icon={CheckmarkBadge02Icon}
+          strokeWidth={2}
+          className="ml-2 size-4"
+        />
       </Button>
     );
   }
@@ -35,7 +42,11 @@ function ButtonWithFeedback({ openAllLinks, isForumPage }: Props) {
         <Spinner className="mr-2 size-4 animate-spin" />
       )}
       Forum
-      <MdForum className="ml-2 size-4" />
+      <HugeiconsIcon
+        icon={WebDesign01Icon}
+        strokeWidth={2}
+        className="ml-2 size-4"
+      />
     </Button>
   );
 }

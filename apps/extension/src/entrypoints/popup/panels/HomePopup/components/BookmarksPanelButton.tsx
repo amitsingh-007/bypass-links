@@ -1,6 +1,7 @@
 import { getBookmarksPanelUrl } from '@bypass/shared';
 import { Button } from '@bypass/ui';
-import { RiBookmarkFill } from 'react-icons/ri';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { CollectionsBookmarkIcon } from '@hugeicons/core-free-icons';
 import { useLocation } from 'wouter';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 
@@ -20,7 +21,11 @@ function BookmarksPanelButton() {
       onClick={handleShowEditPanel}
     >
       Bookmarks
-      <RiBookmarkFill className="ml-2 size-4" />
+      <HugeiconsIcon
+        icon={CollectionsBookmarkIcon}
+        strokeWidth={2}
+        className="ml-2 size-4"
+      />
     </Button>
   );
 }

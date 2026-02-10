@@ -6,8 +6,12 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@bypass/ui';
+import { HugeiconsIcon } from '@hugeicons/react';
+import {
+  CalendarAdd01Icon,
+  Appointment01Icon,
+} from '@hugeicons/core-free-icons';
 import { useCallback, useEffect, useState } from 'react';
-import { FaCalendarCheck, FaCalendarTimes } from 'react-icons/fa';
 import useCurrentTab from '@popup/hooks/useCurrentTab';
 import { trpcApi } from '@/apis/trpcApi';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
@@ -68,11 +72,11 @@ function LastVisitedButton() {
         >
           {isFetching && <Spinner className="mr-2 size-4 animate-spin" />}
           Visited
-          {lastVisited ? (
-            <FaCalendarCheck className="ml-2 size-4" />
-          ) : (
-            <FaCalendarTimes className="ml-2 size-4" />
-          )}
+          <HugeiconsIcon
+            icon={lastVisited ? Appointment01Icon : CalendarAdd01Icon}
+            strokeWidth={2}
+            className="ml-2 size-4"
+          />
         </Button>
       </TooltipTrigger>
       {lastVisited && (

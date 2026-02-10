@@ -1,6 +1,7 @@
 import { ROUTES } from '@bypass/shared';
 import { Button } from '@bypass/ui';
-import { GoFileSymlinkFile } from 'react-icons/go';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { CommandIcon } from '@hugeicons/core-free-icons';
 import { useLocation } from 'wouter';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 
@@ -20,7 +21,11 @@ function ShortcutsPanelButton() {
       onClick={handleOpenShortcutsPanel}
     >
       Shortcuts
-      <GoFileSymlinkFile className="ml-2 size-4" />
+      <HugeiconsIcon
+        icon={CommandIcon}
+        strokeWidth={2}
+        className="ml-2 size-4"
+      />
     </Button>
   );
 }

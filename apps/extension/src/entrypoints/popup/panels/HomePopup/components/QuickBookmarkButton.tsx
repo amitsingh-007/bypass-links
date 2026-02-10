@@ -14,9 +14,12 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@bypass/ui';
+import { HugeiconsIcon } from '@hugeicons/react';
+import {
+  BookmarkRemove01Icon,
+  BookmarkAdd01Icon,
+} from '@hugeicons/core-free-icons';
 import { useEffect, useState } from 'react';
-import { BiBookmarkPlus } from 'react-icons/bi';
-import { RiBookmark3Fill } from 'react-icons/ri';
 import { useLocation } from 'wouter';
 import { findBookmarkByUrl } from '../../BookmarksPanel/utils/bookmark';
 import { getCurrentTab } from '@/utils/tabs';
@@ -81,11 +84,11 @@ function QuickBookmarkButton() {
         >
           {isFetching && <Spinner className="mr-2 size-4 animate-spin" />}
           {bookmark ? 'Unpin' : 'Pin'}
-          {bookmark ? (
-            <RiBookmark3Fill className="ml-2 size-4" />
-          ) : (
-            <BiBookmarkPlus className="ml-2 size-4" />
-          )}
+          <HugeiconsIcon
+            icon={bookmark ? BookmarkRemove01Icon : BookmarkAdd01Icon}
+            strokeWidth={2}
+            className="ml-2 size-4"
+          />
         </Button>
       </TooltipTrigger>
       {bookmark && (

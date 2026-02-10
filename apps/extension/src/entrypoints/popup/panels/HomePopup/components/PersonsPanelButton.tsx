@@ -1,6 +1,7 @@
 import { ROUTES } from '@bypass/shared';
 import { Button } from '@bypass/ui';
-import { FaUserTag } from 'react-icons/fa';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { UserAiIcon } from '@hugeicons/core-free-icons';
 import { useLocation } from 'wouter';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 
@@ -20,7 +21,11 @@ function PersonsPanelButton() {
       onClick={handleShowPersonsPanel}
     >
       Persons
-      <FaUserTag className="ml-2 size-4" />
+      <HugeiconsIcon
+        icon={UserAiIcon}
+        strokeWidth={2}
+        className="ml-2 size-4"
+      />
     </Button>
   );
 }
