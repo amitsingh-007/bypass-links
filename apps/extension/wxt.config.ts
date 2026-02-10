@@ -31,6 +31,9 @@ export default defineConfig({
       envPrefix: 'NEXT_PUBLIC_',
       plugins: [tsconfigPaths(), preact(), tailwindcss()],
       build: { target: 'esnext' },
+      resolve: {
+        alias: { wouter: 'wouter-preact' },
+      },
     };
   },
 });
