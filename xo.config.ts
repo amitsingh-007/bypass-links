@@ -25,6 +25,7 @@ const xoConfig: FlatXoConfig = [
       'apps/web/next-env.d.ts',
       'apps/extension/.output/**',
       'apps/extension/.wxt/**',
+      'packages/ui/**',
     ],
   },
   {

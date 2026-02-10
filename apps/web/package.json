@@ -33,7 +33,6 @@
     "zod": "4.3.6"
   },
   "devDependencies": {
-    "@next/env": "16.1.6",
     "@playwright/test": "1.58.1",
     "@svgr/webpack": "8.1.0",
     "@types/react": "19.2.10",

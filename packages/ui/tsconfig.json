@@ -1,0 +1,16 @@
+{
+  "extends": "@bypass/configs/tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["esnext", "dom", "dom.iterable", "webworker"],
+    "baseUrl": ".",
+    "paths": {
+      "@bypass/ui/components": ["./src/components"],
+      "@bypass/ui/lib/utils": ["./src/lib/utils"],
+      "@bypass/ui/components/ui": ["./src/components/ui"],
+      "@bypass/ui/lib": ["./src/lib"],
+      "@bypass/ui/hooks": ["./src/hooks"]
+    }
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", ".turbo"]
+}

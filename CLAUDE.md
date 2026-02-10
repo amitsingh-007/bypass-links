@@ -44,6 +44,7 @@ This is a **Turbo + pnpm monorepo** with the following structure:
 - **apps/extension** - Browser extension (WXT, React with Preact, Wouter for routing)
 - **apps/web** - Next.js web interface for downloads and admin
 - **packages/shared** - Shared React components, types, utilities, and stores (Zustand)
+- **packages/ui** - Shared UI components using shadcn/ui (Radix UI primitives + Tailwind CSS)
 - **packages/configs** - Shared TypeScript, ESLint (XO), and build configs
 - **packages/trpc** - tRPC router with Firebase backend (type-safe API)
 
@@ -64,7 +65,8 @@ Playwright tests use a unique setup/teardown pattern for extension testing:
 ## Key Technologies
 
 - **Frontend**: React, Preact (extension), Next.js (web)
-- **UI**: Mantine (design system)
+- **UI**: Mantine (legacy), shadcn/ui (new components in `packages/ui`)
+- **Styling**: Tailwind CSS (for shadcn components)
 - **State**: Zustand
 - **API**: tRPC for type-safe client-server communication
 - **Backend**: Firebase with Admin SDK
@@ -76,6 +78,25 @@ Playwright tests use a unique setup/teardown pattern for extension testing:
 - Use workspace protocol (`workspace:*`) for internal dependencies
 - Shared types and utilities go in `packages/shared`
 - tRPC procedures are defined in `packages/trpc`
+
+## shadcn/ui Components
+
+shadcn/ui components are managed in the `packages/ui` workspace. This project uses the **Base UI** version of shadcn, not the Radix UI primitives.
+
+For the latest shadcn documentation and component reference, see: https://ui.shadcn.com/llms.txt
+
+```bash
+# Add a new shadcn component
+cd packages/ui
+pnpm dlx shadcn@latest add [component-name]
+
+# Example: add button component
+pnpm dlx shadcn@latest add button
+```
+
+All new UI components should be added to `packages/ui` and exported from `packages/ui/src/index.ts` for use across apps.
+
+**IMPORTANT**: Never modify files inside `packages/ui` unless explicitly asked. The UI package contains shadcn/ui components that should remain unchanged unless adding new components or making approved modifications.
 
 ## Development Guidelines
 

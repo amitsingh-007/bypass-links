@@ -1,4 +1,5 @@
-import { Button, LoadingOverlay } from '@mantine/core';
+import { LoadingOverlay } from '@mantine/core';
+import { Button, Spinner } from '@bypass/ui';
 import useExtStore from '@store/extension';
 import { useCallback, useEffect, useState } from 'react';
 import { RiLoginCircleFill, RiLogoutCircleRFill } from 'react-icons/ri';
@@ -73,18 +74,19 @@ function Authenticate() {
   return (
     <>
       <Button
-        fullWidth
-        radius="xl"
-        loading={isFetching}
-        disabled={!isExtensionActive}
-        color={isSignedIn ? 'teal' : 'red'}
+        className="w-full rounded-xl"
+        variant={isSignedIn ? 'default' : 'outline'}
+        disabled={!isExtensionActive || isFetching}
         data-testid={isSignedIn ? 'logout-button' : 'login-button'}
-        rightSection={
-          isSignedIn ? <RiLogoutCircleRFill /> : <RiLoginCircleFill />
-        }
         onClick={isSignedIn ? handleSignOut : handleSignIn}
       >
+        {isFetching && <Spinner className="mr-2 size-4 animate-spin" />}
         {isSignedIn ? 'Logout' : 'Login'}
+        {isSignedIn ? (
+          <RiLogoutCircleRFill className="ml-2 size-4" />
+        ) : (
+          <RiLoginCircleFill className="ml-2 size-4" />
+        )}
       </Button>
       {isFetching && <LoadingOverlay visible w="100%" zIndex={100} />}
     </>

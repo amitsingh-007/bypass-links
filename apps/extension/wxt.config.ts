@@ -2,6 +2,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import preact from '@preact/preset-vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
+import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'wxt';
 import { devManifest, prodOAuth2 } from './src/constants/manifest';
 
@@ -28,11 +29,8 @@ export default defineConfig({
     return {
       envDir,
       envPrefix: 'NEXT_PUBLIC_',
-      plugins: [tsconfigPaths(), preact()],
+      plugins: [tsconfigPaths(), preact(), tailwindcss()],
       build: { target: 'esnext' },
-      resolve: {
-        alias: { wouter: 'wouter-preact' },
-      },
     };
   },
 });

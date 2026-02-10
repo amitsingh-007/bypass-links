@@ -1,14 +1,16 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { loadEnvConfig } from '@next/env';
 import { type NextConfig } from 'next';
 
-const monorepoRoot = path.resolve(
-  path.dirname(fileURLToPath(import.meta.url)),
-  '../..'
-);
+if (!process.env.VERCEL) {
+  const monorepoRoot = path.resolve(
+    path.dirname(fileURLToPath(import.meta.url)),
+    '../..'
+  );
+  process.loadEnvFile(path.join(monorepoRoot, '.env'));
+}
+
 const isDev = process.env.NODE_ENV === 'development';
-loadEnvConfig(monorepoRoot, isDev);
 
 const nextConfig: NextConfig = {
   productionBrowserSourceMaps: true,
