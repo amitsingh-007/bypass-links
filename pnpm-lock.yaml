@@ -89,9 +89,6 @@ importers:
       '@t3-oss/env-core':
         specifier: 0.13.8
         version: 0.13.8(typescript@5.9.3)(zod@4.3.6)
-      '@tailwindcss/vite':
-        specifier: 4.1.18
-        version: 4.1.18(vite@7.3.1(@types/node@24.10.9)(jiti@2.6.1)(lightningcss@1.30.2)(sugarss@5.0.1(postcss@8.5.6))(tsx@4.21.0)(yaml@2.8.2))
       '@tanstack/react-virtual':
         specifier: 3.13.18
         version: 3.13.18(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -125,9 +122,6 @@ importers:
       react-icons:
         specifier: 5.5.0
         version: 5.5.0(react@19.2.4)
-      shadcn:
-        specifier: 3.8.4
-        version: 3.8.4(@types/node@24.10.9)(typescript@5.9.3)
       tailwind-merge:
         specifier: 3.4.0
         version: 3.4.0
@@ -159,6 +153,9 @@ importers:
       '@preact/preset-vite':
         specifier: 2.10.3
         version: 2.10.3(@babel/core@7.29.0)(preact@10.28.3)(rollup@4.57.1)(vite@7.3.1(@types/node@24.10.9)(jiti@2.6.1)(lightningcss@1.30.2)(sugarss@5.0.1(postcss@8.5.6))(tsx@4.21.0)(yaml@2.8.2))
+      '@tailwindcss/vite':
+        specifier: 4.1.18
+        version: 4.1.18(vite@7.3.1(@types/node@24.10.9)(jiti@2.6.1)(lightningcss@1.30.2)(sugarss@5.0.1(postcss@8.5.6))(tsx@4.21.0)(yaml@2.8.2))
       '@types/node':
         specifier: 24.10.9
         version: 24.10.9
@@ -180,6 +177,9 @@ importers:
       postcss-simple-vars:
         specifier: 7.0.1
         version: 7.0.1(postcss@8.5.6)
+      shadcn:
+        specifier: 3.8.4
+        version: 3.8.4(@types/node@24.10.9)(typescript@5.9.3)
       typescript:
         specifier: 5.9.3
         version: 5.9.3
@@ -405,9 +405,6 @@ importers:
       react-dom:
         specifier: 19.2.4
         version: 19.2.4(react@19.2.4)
-      shadcn:
-        specifier: 3.8.4
-        version: 3.8.4(@types/node@24.10.9)(typescript@5.9.3)
       tailwind-merge:
         specifier: 3.4.0
         version: 3.4.0
@@ -424,6 +421,9 @@ importers:
       '@types/react-dom':
         specifier: 19.2.3
         version: 19.2.3(@types/react@19.2.10)
+      shadcn:
+        specifier: 3.8.4
+        version: 3.8.4(@types/node@24.10.9)(typescript@5.9.3)
 
 packages:
 

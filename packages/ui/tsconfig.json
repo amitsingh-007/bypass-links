@@ -1,7 +1,6 @@
 {
   "extends": "@bypass/configs/tsconfig.base.json",
   "compilerOptions": {
-    "lib": ["esnext", "dom", "dom.iterable", "webworker"],
     "baseUrl": ".",
     "paths": {
       "@bypass/ui/components": ["./src/components"],
