@@ -21,13 +21,13 @@ function PopupHome() {
   return (
     <div className="flex w-77.5 flex-col items-center px-4 pt-2 pb-4">
       <div
-        className="text-primary mb-2.5 cursor-pointer text-xl font-bold select-none"
+        className="mb-4 cursor-pointer text-xl select-none"
         data-testid="home-popup-heading"
         onClick={handleOpenAsPage}
       >
         Bypass Links
       </div>
-      <div className="mb-4 flex items-center justify-between gap-10">
+      <div className="mb-4 flex items-center justify-between gap-16">
         <div className="flex flex-col gap-2">
           <ToggleExtension />
           <ToggleHistory />

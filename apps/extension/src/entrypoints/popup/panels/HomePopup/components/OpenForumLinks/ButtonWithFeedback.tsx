@@ -2,7 +2,6 @@ import { Button, Spinner } from '@bypass/ui';
 import { CheckIcon } from '@mantine/core';
 import { MdForum } from 'react-icons/md';
 import useFeedbackButton, { EButtonState } from './useFeedbackButton';
-import styles from './styles/ButtonWithFeedback.module.css';
 
 interface Props {
   openAllLinks: () => Promise<void>;
@@ -15,7 +14,7 @@ function ButtonWithFeedback({ openAllLinks, isForumPage }: Props) {
   if (isForumPage && buttonState === EButtonState.SUCCESS) {
     return (
       <Button
-        className={`w-full ${styles.successButton}`}
+        className="w-full border-2 border-teal-500"
         variant="default"
         onClick={onClick}
       >
