@@ -19,7 +19,7 @@ function PopupHome() {
   useExtensionOutdated();
 
   return (
-    <div className="flex w-[310px] flex-col items-center px-4 pt-2 pb-4">
+    <div className="flex w-77.5 flex-col items-center px-4 pt-2 pb-4">
       <div
         className="text-primary mb-2.5 cursor-pointer text-xl font-bold select-none"
         data-testid="home-popup-heading"
@@ -34,7 +34,7 @@ function PopupHome() {
         </div>
         <UserProfile />
       </div>
-      <div className="mt-4 flex w-full flex-wrap justify-between gap-4 gap-y-2 [&>*]:w-[46.5%]">
+      <div className="mt-4 flex w-full flex-wrap justify-between gap-4 gap-y-2 *:w-[46.5%]">
         <Authenticate />
         <OpenDefaultsButton />
         <ShortcutsPanelButton />

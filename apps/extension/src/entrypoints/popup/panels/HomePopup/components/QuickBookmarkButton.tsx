@@ -7,8 +7,13 @@ import {
   type IEncodedBookmark,
   useBookmark,
 } from '@bypass/shared';
-import { Button, Spinner } from '@bypass/ui';
-import { Text, Tooltip } from '@mantine/core';
+import {
+  Button,
+  Spinner,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@bypass/ui';
 import { useEffect, useState } from 'react';
 import { BiBookmarkPlus } from 'react-icons/bi';
 import { RiBookmark3Fill } from 'react-icons/ri';
@@ -65,29 +70,29 @@ function QuickBookmarkButton() {
   };
 
   return (
-    <Tooltip
-      withArrow
-      multiline
-      label={<Text size="xs">{bookmark?.title}</Text>}
-      disabled={!bookmark}
-      radius="md"
-      color="gray"
-    >
-      <Button
-        className="w-full"
-        variant={bookmark ? 'default' : 'outline'}
-        disabled={!isSignedIn || isFetching}
-        data-testid="quick-bookmark-button"
-        onClick={handleClick}
-      >
-        {isFetching && <Spinner className="mr-2 size-4 animate-spin" />}
-        {bookmark ? 'Unpin' : 'Pin'}
-        {bookmark ? (
-          <RiBookmark3Fill className="ml-2 size-4" />
-        ) : (
-          <BiBookmarkPlus className="ml-2 size-4" />
-        )}
-      </Button>
+    <Tooltip>
+      <TooltipTrigger>
+        <Button
+          className="w-full"
+          variant={bookmark ? 'default' : 'outline'}
+          disabled={!isSignedIn || isFetching}
+          data-testid="quick-bookmark-button"
+          onClick={handleClick}
+        >
+          {isFetching && <Spinner className="mr-2 size-4 animate-spin" />}
+          {bookmark ? 'Unpin' : 'Pin'}
+          {bookmark ? (
+            <RiBookmark3Fill className="ml-2 size-4" />
+          ) : (
+            <BiBookmarkPlus className="ml-2 size-4" />
+          )}
+        </Button>
+      </TooltipTrigger>
+      {bookmark && (
+        <TooltipContent>
+          <p className="text-xs">{bookmark.title}</p>
+        </TooltipContent>
+      )}
     </Tooltip>
   );
 }

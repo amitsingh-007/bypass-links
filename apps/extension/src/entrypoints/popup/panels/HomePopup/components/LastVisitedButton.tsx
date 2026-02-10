@@ -1,6 +1,11 @@
 import { sha256Hash } from '@bypass/shared';
-import { Button, Spinner } from '@bypass/ui';
-import { Text, Tooltip } from '@mantine/core';
+import {
+  Button,
+  Spinner,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@bypass/ui';
 import { useCallback, useEffect, useState } from 'react';
 import { FaCalendarCheck, FaCalendarTimes } from 'react-icons/fa';
 import useCurrentTab from '@popup/hooks/useCurrentTab';
@@ -52,28 +57,29 @@ function LastVisitedButton() {
   };
 
   return (
-    <Tooltip
-      withArrow
-      label={<Text>{lastVisited}</Text>}
-      disabled={!lastVisited}
-      radius="md"
-      color="gray"
-    >
-      <Button
-        className="w-full"
-        variant={lastVisited ? 'default' : 'outline'}
-        disabled={!isSignedIn || isFetching}
-        data-testid="last-visited-button"
-        onClick={handleUpdateLastVisited}
-      >
-        {isFetching && <Spinner className="mr-2 size-4 animate-spin" />}
-        Visited
-        {lastVisited ? (
-          <FaCalendarCheck className="ml-2 size-4" />
-        ) : (
-          <FaCalendarTimes className="ml-2 size-4" />
-        )}
-      </Button>
+    <Tooltip>
+      <TooltipTrigger>
+        <Button
+          className="w-full"
+          variant={lastVisited ? 'default' : 'outline'}
+          disabled={!isSignedIn || isFetching}
+          data-testid="last-visited-button"
+          onClick={handleUpdateLastVisited}
+        >
+          {isFetching && <Spinner className="mr-2 size-4 animate-spin" />}
+          Visited
+          {lastVisited ? (
+            <FaCalendarCheck className="ml-2 size-4" />
+          ) : (
+            <FaCalendarTimes className="ml-2 size-4" />
+          )}
+        </Button>
+      </TooltipTrigger>
+      {lastVisited && (
+        <TooltipContent>
+          <p>{lastVisited}</p>
+        </TooltipContent>
+      )}
     </Tooltip>
   );
 }
