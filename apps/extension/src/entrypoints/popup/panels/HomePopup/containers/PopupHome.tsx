@@ -1,3 +1,4 @@
+import { Progress, Spinner } from '@bypass/ui';
 import Authenticate from '../components/Authenticate';
 import BookmarksPanelButton from '../components/BookmarksPanelButton';
 import LastVisitedButton from '../components/LastVisitedButton';
@@ -10,6 +11,7 @@ import ToggleExtension from '../components/ToggleExtension';
 import ToggleHistory from '../components/ToggleHistory';
 import UserProfile from '../components/UserProfile';
 import useExtensionOutdated from '../hooks/useExtensionOutdated';
+import useProgressStore from '@/store/progress';
 
 const handleOpenAsPage = () => {
   browser.tabs.create({ url: window.location.href });
@@ -17,9 +19,20 @@ const handleOpenAsPage = () => {
 
 function PopupHome() {
   useExtensionOutdated();
+  const { isLoading, progress } = useProgressStore();
 
   return (
-    <div className="flex w-77.5 flex-col items-center px-4 pt-2 pb-4">
+    <div className="relative flex w-77.5 flex-col items-center px-4 pt-2 pb-4">
+      {isLoading && (
+        <>
+          <div className="absolute top-0 right-0 left-0 z-50">
+            <Progress value={progress} />
+          </div>
+          <div className="bg-background/80 absolute inset-0 z-40 flex items-center justify-center">
+            <Spinner className="size-8 animate-spin" />
+          </div>
+        </>
+      )}
       <div
         className="mb-4 cursor-pointer text-xl select-none"
         data-testid="home-popup-heading"

@@ -1,7 +1,5 @@
-import '@mantine/nprogress/styles.css';
 import '@mantine/notifications/styles.css';
 import { useWindowEvent } from '@mantine/hooks';
-import { NavigationProgress } from '@mantine/nprogress';
 import { Notifications } from '@mantine/notifications';
 import StoreListener from './StoreListener';
 import styles from './styles/Global.module.css';
@@ -13,7 +11,6 @@ function Global() {
   return (
     <>
       <StoreListener />
-      <NavigationProgress size={6} />
       <Notifications
         position="bottom-left"
         containerWidth="fit-content"
