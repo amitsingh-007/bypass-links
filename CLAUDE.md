@@ -112,3 +112,7 @@ pnpm lint
 pnpm typecheck:all
 pnpm e2e <relative-filepath>
 ```
+
+## IMPORTANT
+
+If you are migrating Mantine to Shadcn, strictly follow apps/extension/shadcn-migration.md
