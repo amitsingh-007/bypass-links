@@ -19,7 +19,7 @@ const useProgressStore = create<ProgressState>()((set, get) => ({
   stopLoading() {
     setTimeout(() => {
       set(() => ({ isLoading: false, progress: 0 }));
-    }, 300);
+    }, 300); // 300ms delay allows users to see progress at 100% before overlay disappears
   },
   setProgress(progress: number) {
     set(() => ({ progress }));

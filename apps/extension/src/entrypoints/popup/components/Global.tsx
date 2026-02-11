@@ -1,6 +1,7 @@
 import '@mantine/notifications/styles.css';
 import { useWindowEvent } from '@mantine/hooks';
 import { Notifications } from '@mantine/notifications';
+import { Toaster } from '@bypass/ui';
 import StoreListener from './StoreListener';
 import styles from './styles/Global.module.css';
 
@@ -17,6 +18,7 @@ function Global() {
         autoClose={2000}
         classNames={{ notification: styles.notification }}
       />
+      <Toaster />
     </>
   );
 }
