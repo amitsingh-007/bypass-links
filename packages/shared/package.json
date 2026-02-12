@@ -16,9 +16,11 @@
   "sideEffects": false,
   "peerDependencies": {
     "@bypass/configs": "workspace:*",
+    "@bypass/ui": "workspace:*",
     "@mantine/core": "8.3.14",
     "@mantine/hooks": "8.3.14",
     "@tanstack/react-virtual": "3.13.18",
+    "ahooks": "3.9.6",
     "clsx": "2.1.1",
     "preact": "10.28.3",
     "react": "19.2.4",

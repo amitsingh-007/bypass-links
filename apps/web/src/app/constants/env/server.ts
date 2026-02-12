@@ -1,16 +1,5 @@
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import * as nextEnv from '@next/env';
 import { createEnv } from '@t3-oss/env-nextjs';
 import { z } from 'zod/mini';
-
-const { loadEnvConfig } = nextEnv;
-const monorepoRoot = path.resolve(
-  path.dirname(fileURLToPath(import.meta.url)),
-  '../../../../../../'
-);
-const isDev = process.env.NODE_ENV === 'development';
-loadEnvConfig(monorepoRoot, isDev);
 
 export const serverEnv = createEnv({
   server: {

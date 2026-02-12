@@ -1,6 +1,7 @@
 import { ROUTES } from '@bypass/shared';
-import { Button } from '@mantine/core';
-import { GoFileSymlinkFile } from 'react-icons/go';
+import { Button } from '@bypass/ui';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { CommandIcon } from '@hugeicons/core-free-icons';
 import { useLocation } from 'wouter';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 
@@ -14,13 +15,17 @@ function ShortcutsPanelButton() {
 
   return (
     <Button
-      fullWidth
-      radius="xl"
+      className="w-full"
+      variant="secondary"
       disabled={!isSignedIn}
-      rightSection={<GoFileSymlinkFile />}
       onClick={handleOpenShortcutsPanel}
     >
       Shortcuts
+      <HugeiconsIcon
+        icon={CommandIcon}
+        strokeWidth={2}
+        className="ml-2 size-4"
+      />
     </Button>
   );
 }

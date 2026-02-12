@@ -7,10 +7,19 @@ import {
   type IEncodedBookmark,
   useBookmark,
 } from '@bypass/shared';
-import { Button, Text, Tooltip } from '@mantine/core';
+import {
+  Button,
+  Spinner,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@bypass/ui';
+import { HugeiconsIcon } from '@hugeicons/react';
+import {
+  BookmarkRemove01Icon,
+  BookmarkAdd01Icon,
+} from '@hugeicons/core-free-icons';
 import { useEffect, useState } from 'react';
-import { BiBookmarkPlus } from 'react-icons/bi';
-import { RiBookmark3Fill } from 'react-icons/ri';
 import { useLocation } from 'wouter';
 import { findBookmarkByUrl } from '../../BookmarksPanel/utils/bookmark';
 import { getCurrentTab } from '@/utils/tabs';
@@ -64,26 +73,29 @@ function QuickBookmarkButton() {
   };
 
   return (
-    <Tooltip
-      withArrow
-      multiline
-      label={<Text size="xs">{bookmark?.title}</Text>}
-      disabled={!bookmark}
-      radius="md"
-      color="gray"
-    >
-      <Button
-        fullWidth
-        radius="xl"
-        loading={isFetching}
-        disabled={!isSignedIn}
-        rightSection={bookmark ? <RiBookmark3Fill /> : <BiBookmarkPlus />}
-        color={bookmark ? 'teal' : 'red'}
-        data-testid="quick-bookmark-button"
-        onClick={handleClick}
-      >
-        {bookmark ? 'Unpin' : 'Pin'}
-      </Button>
+    <Tooltip>
+      <TooltipTrigger>
+        <Button
+          className="w-full"
+          variant={bookmark ? 'default' : 'outline'}
+          disabled={!isSignedIn || isFetching}
+          data-testid="quick-bookmark-button"
+          onClick={handleClick}
+        >
+          {isFetching && <Spinner className="mr-2 size-4 animate-spin" />}
+          {bookmark ? 'Unpin' : 'Pin'}
+          <HugeiconsIcon
+            icon={bookmark ? BookmarkRemove01Icon : BookmarkAdd01Icon}
+            strokeWidth={2}
+            className="ml-2 size-4"
+          />
+        </Button>
+      </TooltipTrigger>
+      {bookmark && (
+        <TooltipContent>
+          <p className="text-xs">{bookmark.title}</p>
+        </TooltipContent>
+      )}
     </Tooltip>
   );
 }

@@ -1,7 +1,17 @@
 import { sha256Hash } from '@bypass/shared';
-import { Button, Text, Tooltip } from '@mantine/core';
+import {
+  Button,
+  Spinner,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@bypass/ui';
+import { HugeiconsIcon } from '@hugeicons/react';
+import {
+  CalendarAdd01Icon,
+  Appointment01Icon,
+} from '@hugeicons/core-free-icons';
 import { useCallback, useEffect, useState } from 'react';
-import { FaCalendarCheck, FaCalendarTimes } from 'react-icons/fa';
 import useCurrentTab from '@popup/hooks/useCurrentTab';
 import { trpcApi } from '@/apis/trpcApi';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
@@ -51,25 +61,29 @@ function LastVisitedButton() {
   };
 
   return (
-    <Tooltip
-      withArrow
-      label={<Text>{lastVisited}</Text>}
-      disabled={!lastVisited}
-      radius="md"
-      color="gray"
-    >
-      <Button
-        fullWidth
-        radius="xl"
-        loading={isFetching}
-        disabled={!isSignedIn}
-        rightSection={lastVisited ? <FaCalendarCheck /> : <FaCalendarTimes />}
-        color={lastVisited ? 'teal' : 'red'}
-        data-testid="last-visited-button"
-        onClick={handleUpdateLastVisited}
-      >
-        Visited
-      </Button>
+    <Tooltip>
+      <TooltipTrigger>
+        <Button
+          className="w-full"
+          variant={lastVisited ? 'default' : 'outline'}
+          disabled={!isSignedIn || isFetching}
+          data-testid="last-visited-button"
+          onClick={handleUpdateLastVisited}
+        >
+          {isFetching && <Spinner className="mr-2 size-4 animate-spin" />}
+          Visited
+          <HugeiconsIcon
+            icon={lastVisited ? Appointment01Icon : CalendarAdd01Icon}
+            strokeWidth={2}
+            className="ml-2 size-4"
+          />
+        </Button>
+      </TooltipTrigger>
+      {lastVisited && (
+        <TooltipContent>
+          <p>{lastVisited}</p>
+        </TooltipContent>
+      )}
     </Tooltip>
   );
 }

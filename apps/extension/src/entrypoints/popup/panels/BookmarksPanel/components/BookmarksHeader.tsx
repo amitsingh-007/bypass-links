@@ -1,7 +1,7 @@
 import { Header } from '@bypass/shared';
-import { Button } from '@mantine/core';
-import { useHotkeys } from '@mantine/hooks';
-import { memo, useState } from 'react';
+import { Button } from '@bypass/ui';
+import { useKeyPress } from 'ahooks';
+import { memo, useRef, useState } from 'react';
 import { FaFolderPlus } from 'react-icons/fa';
 import { IoSave } from 'react-icons/io5';
 import { useShallow } from 'zustand/react/shallow';
@@ -36,6 +36,7 @@ const BookmarksHeader = memo<Props>(({ onSearchChange, folderId }) => {
   );
   const [openFolderDialog, setOpenFolderDialog] = useState(false);
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   const disableSave = isFetching || !isSaveButtonActive;
 
@@ -43,17 +44,12 @@ const BookmarksHeader = memo<Props>(({ onSearchChange, folderId }) => {
     handleSave(folderId);
   };
 
-  useHotkeys([
-    [
-      'mod+s',
-      (e) => {
-        e.stopPropagation();
-        if (!disableSave) {
-          handleSaveClick();
-        }
-      },
-    ],
-  ]);
+  useKeyPress('meta.s', (event) => {
+    event.preventDefault();
+    if (!disableSave) {
+      handleSaveClick();
+    }
+  });
 
   const onBackClick = () => {
     if (isSaveButtonActive) {
@@ -81,26 +77,28 @@ const BookmarksHeader = memo<Props>(({ onSearchChange, folderId }) => {
     <>
       <Header
         text={contextBookmarks?.length || 0}
+        searchInputRef={searchInputRef}
         onBackClick={onBackClick}
         onSearchChange={onSearchChange}
       >
         <Button
-          size="xs"
-          radius="xl"
-          leftSection={<FaFolderPlus />}
+          size="sm"
+          variant="outline"
+          className="h-8 rounded-full px-3 text-xs"
           disabled={isFetching}
           onClick={toggleNewFolderDialog}
         >
+          <FaFolderPlus className="mr-1 size-4" />
           Add
         </Button>
         <Button
-          size="xs"
-          radius="xl"
-          color="teal"
-          leftSection={<IoSave />}
+          size="sm"
+          variant="default"
+          className="h-8 rounded-full bg-teal-500 px-3 text-xs text-white hover:bg-teal-600"
           disabled={disableSave}
           onClick={handleSaveClick}
         >
+          <IoSave className="mr-1 size-4" />
           Save
         </Button>
       </Header>

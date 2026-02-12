@@ -1,5 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
+  "ui": "tui",
   "globalDependencies": ["**/.env", "xo.config.ts", ".github/**"],
   "globalEnv": [
     "NEXT_PUBLIC_HOST_NAME",
@@ -14,7 +15,7 @@
   "tasks": {
     "build": {
       "dependsOn": ["//#lint", "//#typecheck"],
-      "outputs": [".output/**", ".next/**"]
+      "outputs": [".output/**", ".next/**", "!.next/cache/**"]
     },
     "dev": {
       "cache": false,

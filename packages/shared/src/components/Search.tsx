@@ -1,35 +1,40 @@
-import { FocusTrap, TextInput } from '@mantine/core';
-import { useDebouncedState, useHotkeys } from '@mantine/hooks';
-import { memo, useEffect, useState } from 'react';
+import { InputGroup, InputGroupAddon, InputGroupInput } from '@bypass/ui';
+import { useDebounce, useKeyPress } from 'ahooks';
+import { memo, useEffect, useState, forwardRef } from 'react';
 import { GoSearch } from 'react-icons/go';
 
-const Search = memo<{ onChange: (searchText: string) => void }>(
-  ({ onChange }) => {
-    const [value, setValue] = useDebouncedState('', 200);
-    const [active, setActive] = useState(false);
+interface SearchProps {
+  onChange: (searchText: string) => void;
+}
 
-    useEffect(() => onChange(value), [onChange, value]);
+const Search = forwardRef<HTMLInputElement, SearchProps>((props, ref) => {
+  const { onChange } = props;
+  const [inputValue, setInputValue] = useState('');
+  const debouncedValue = useDebounce(inputValue, { wait: 200 });
 
-    useHotkeys([
-      [
-        'mod+f',
-        (e) => {
-          e.stopPropagation();
-          setActive(true);
-        },
-      ],
-    ]);
+  useEffect(() => {
+    onChange(debouncedValue);
+  }, [debouncedValue, onChange]);
 
-    return (
-      <FocusTrap active={active}>
-        <TextInput
-          leftSection={<GoSearch />}
-          placeholder="Search"
-          onChange={(event) => setValue(event.currentTarget.value)}
-        />
-      </FocusTrap>
-    );
-  }
-);
+  useKeyPress('meta.f', (event) => {
+    event.preventDefault();
+    if (typeof ref === 'object' && ref?.current) {
+      ref.current.focus();
+    }
+  });
 
-export default Search;
+  return (
+    <InputGroup className="w-32 sm:w-40">
+      <InputGroupAddon>
+        <GoSearch className="text-muted-foreground size-4" />
+      </InputGroupAddon>
+      <InputGroupInput
+        ref={ref}
+        placeholder="Search"
+        onChange={(event) => setInputValue(event.currentTarget.value)}
+      />
+    </InputGroup>
+  );
+});
+
+export default memo(Search);

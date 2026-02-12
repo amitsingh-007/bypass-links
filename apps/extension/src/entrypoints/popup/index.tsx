@@ -1,7 +1,8 @@
 // !NOTE: maintain below order of css
-import '@mantine/core/styles.css';
-import 'mantine-contextmenu/styles.css';
+// import '@mantine/core/styles.css';
+// import 'mantine-contextmenu/styles.css';
 import { mantineTheme } from '@bypass/shared';
+import { TooltipProvider } from '@bypass/ui';
 import { MantineProvider } from '@mantine/core';
 import { ContextMenuProvider } from 'mantine-contextmenu';
 import { StrictMode } from 'react';
@@ -17,11 +18,13 @@ function App() {
     <StrictMode>
       <MantineProvider defaultColorScheme="dark" theme={mantineTheme}>
         <ContextMenuProvider shadow="md" borderRadius="md">
-          <DynamicProvider>
-            <PopupRoutes />
-            <Global />
-            <AsyncFontLoader />
-          </DynamicProvider>
+          <TooltipProvider>
+            <DynamicProvider>
+              <PopupRoutes />
+              <Global />
+              <AsyncFontLoader />
+            </DynamicProvider>
+          </TooltipProvider>
         </ContextMenuProvider>
       </MantineProvider>
     </StrictMode>

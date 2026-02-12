@@ -1,5 +1,12 @@
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  Button,
+} from '@bypass/ui';
 import { noOp } from '@bypass/shared';
-import { Button, Group, Modal } from '@mantine/core';
 import { memo } from 'react';
 
 interface Props {
@@ -10,24 +17,26 @@ interface Props {
 
 const ConfirmationDialog = memo<Props>(({ onClose, onOk, isOpen }) => {
   return (
-    <Modal
-      centered
-      withCloseButton={false}
-      closeOnEscape={false}
-      opened={isOpen}
-      title="There are some unsaved changes"
-      size="18.75rem"
-      onClose={noOp}
-    >
-      <Group justify="flex-end" mt="lg">
-        <Button color="red" onClick={onOk}>
-          Discard
-        </Button>
-        <Button color="teal" onClick={onClose}>
-          Cancel
-        </Button>
-      </Group>
-    </Modal>
+    <Dialog open={isOpen} onOpenChange={noOp}>
+      <DialogContent className="sm:max-w-75" showCloseButton={false}>
+        <DialogHeader>
+          <DialogTitle>There are some unsaved changes</DialogTitle>
+        </DialogHeader>
+        <DialogFooter className="flex flex-row justify-end gap-2">
+          <Button variant="destructive" size="sm" onClick={onOk}>
+            Discard
+          </Button>
+          <Button
+            variant="default"
+            size="sm"
+            className="bg-teal-500 text-white hover:bg-teal-600"
+            onClick={onClose}
+          >
+            Cancel
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 });
 
