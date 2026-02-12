@@ -1,18 +1,18 @@
-import { Badge, Button, Flex, Group } from '@mantine/core';
-import { memo, useContext, type PropsWithChildren } from 'react';
+import { Badge, Button } from '@bypass/ui';
+import { memo, useContext, type RefObject } from 'react';
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
 import { HEADER_HEIGHT } from '../constants';
 import DynamicContext from '../provider/DynamicContext';
 import Search from './Search';
-import styles from './styles/Header.module.css';
 
-type Props = PropsWithChildren<{
+interface Props {
   children?: React.ReactNode;
   text?: React.ReactNode;
   onSearchChange?: (text: string) => void;
   rightContent?: React.ReactNode;
   onBackClick?: React.MouseEventHandler<HTMLButtonElement>;
-}>;
+  searchInputRef?: RefObject<HTMLInputElement | null>;
+}
 
 const Header = memo<Props>(
   ({
@@ -21,45 +21,43 @@ const Header = memo<Props>(
     onSearchChange,
     rightContent: RightContent = null,
     onBackClick,
+    searchInputRef,
   }) => {
     const { location } = useContext(DynamicContext);
 
     return (
-      <Flex
-        component="header"
-        className={styles.container}
+      <header
+        className="border-border flex items-center justify-between border-b px-2.5"
         style={{ height: HEADER_HEIGHT }}
-        py={0}
-        px={10}
-        justify="space-between"
       >
-        <Group>
+        <div className="flex items-center gap-2">
           <Button
-            size="xs"
-            radius="xl"
-            color="red"
-            leftSection={<HiOutlineArrowNarrowLeft />}
+            size="sm"
+            variant="outline"
+            className="h-8 rounded-full border-red-500 px-3 text-xs text-red-500 hover:bg-red-50 hover:text-red-500"
             onClick={onBackClick ?? location.goBack}
           >
+            <HiOutlineArrowNarrowLeft className="size-4" />
             Back
           </Button>
           {children}
-        </Group>
-        <Group justify="flex-end">
-          {onSearchChange ? <Search onChange={onSearchChange} /> : null}
+        </div>
+        <div className="flex items-center justify-end gap-2">
+          {onSearchChange ? (
+            <Search ref={searchInputRef} onChange={onSearchChange} />
+          ) : null}
           {text ? (
             <Badge
               data-testid="header-badge"
-              size="lg"
-              radius="lg"
-              className={styles.badge}
+              variant="secondary"
+              className="hidden sm:inline-flex"
             >
               {text}
             </Badge>
           ) : null}
           {RightContent}
-        </Group>
-      </Flex>
+        </div>
+      </header>
     );
   }
 );
