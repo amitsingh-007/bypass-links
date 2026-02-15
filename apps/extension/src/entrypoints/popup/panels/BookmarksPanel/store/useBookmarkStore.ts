@@ -11,7 +11,7 @@ import {
   getEncryptedFolder,
 } from '@bypass/shared';
 import { create } from 'zustand';
-import { notifications } from '@mantine/notifications';
+import { toast } from 'sonner';
 import { isFolderContainsDir, setBookmarksInStorage } from '../utils';
 import { findBookmarkById, findBookmarkByUrl } from '../utils/bookmark';
 import { processBookmarksMove } from '../utils/manipulate';
@@ -152,10 +152,7 @@ const useBookmarkStore = create<State>()((set, get) => ({
       const isDupe =
         isNewBookmark || existingBookmarkWithUrl.id !== updatedBookmark.id;
       if (isDupe) {
-        notifications.show({
-          message: 'A bookmark with this URL already exists',
-          color: 'red',
-        });
+        toast.error('A bookmark with this URL already exists');
         return false;
       }
     }
@@ -318,10 +315,7 @@ const useBookmarkStore = create<State>()((set, get) => ({
   handleFolderRemove(folderId: string) {
     const { contextBookmarks, folderList, urlList, folders } = get();
     if (isFolderContainsDir(folders, folderId)) {
-      notifications.show({
-        message: 'Remove inner folders first',
-        color: 'red',
-      });
+      toast.error('Remove inner folders first');
       return;
     }
 
@@ -378,7 +372,7 @@ const useBookmarkStore = create<State>()((set, get) => ({
     await loadData(currentFolderId);
 
     set({ isFetching: false, isSaveButtonActive: false });
-    notifications.show({ message: 'Saved temporarily' });
+    toast.success('Saved temporarily');
   },
 
   handlePasteSelectedBookmarks() {
