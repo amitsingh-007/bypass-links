@@ -1,7 +1,7 @@
-import { Button } from '@mantine/core';
-import { memo, useMemo } from 'react';
-import { BsArrowDown, BsArrowUp } from 'react-icons/bs';
-import styles from './styles/ScrollButton.module.css';
+import { Button, ButtonGroup } from '@bypass/ui';
+import { ArrowUp01Icon, ArrowDown01Icon } from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { memo } from 'react';
 
 interface Props {
   itemsSize: number;
@@ -9,46 +9,28 @@ interface Props {
 }
 
 export const ScrollButton = memo<Props>(({ itemsSize, onScroll }) => {
-  const buttonConfig = useMemo(
-    () => [
-      {
-        text: 'Top',
-        icon: BsArrowUp,
-        onClick: () => onScroll(0),
-      },
-      {
-        text: 'Bottom',
-        icon: BsArrowDown,
-        onClick: () => onScroll(itemsSize),
-      },
-    ],
-    [itemsSize, onScroll]
-  );
-
   if (itemsSize === 0) {
     return null;
   }
 
   return (
-    <Button.Group
-      orientation="vertical"
-      pos="fixed"
-      bottom="0.5625rem"
-      right="1rem"
-      className={styles.container}
-    >
-      {buttonConfig.map(({ icon: Icon, text, onClick }) => (
-        <Button
-          key={text}
-          color="violet"
-          size="compact-sm"
-          leftSection={<Icon />}
-          classNames={{ inner: styles.buttonInner }}
-          onClick={onClick}
-        >
-          {text}
-        </Button>
-      ))}
-    </Button.Group>
+    <ButtonGroup orientation="vertical" className="fixed right-3 bottom-3 z-10">
+      <Button
+        variant="secondary"
+        size="sm"
+        className="bg-secondary/20 justify-start backdrop-blur-sm"
+        onClick={() => onScroll(0)}
+      >
+        <HugeiconsIcon icon={ArrowUp01Icon} />
+      </Button>
+      <Button
+        variant="secondary"
+        size="sm"
+        className="bg-secondary/20 justify-start backdrop-blur-sm"
+        onClick={() => onScroll(itemsSize)}
+      >
+        <HugeiconsIcon icon={ArrowDown01Icon} />
+      </Button>
+    </ButtonGroup>
   );
 });

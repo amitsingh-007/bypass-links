@@ -92,17 +92,25 @@ pnpm dlx shadcn@latest add context-menu
 
 ---
 
-## Phase 5: Scroll Buttons
+## Phase 5: Scroll Buttons ✅ COMPLETE
 
-**Components to migrate:**
+**Components migrated:**
 
-- `ScrollButton` (from @bypass/shared) - Uses Button
-- Scroll navigation functionality
+- `ScrollButton` (from @bypass/shared) - Migrated to use shadcn ButtonGroup, Button, and Hugeicons
+- Replaced react-icons (BsArrowUp, BsArrowDown) with Hugeicons (ArrowUp01Icon, ArrowDown01Icon)
+- Replaced Mantine Button.Group with shadcn ButtonGroup
+- Replaced violet color with secondary variant
+- Converted to Tailwind classes for positioning
+
+**CSS files removed:**
+
+- `ScrollButton.module.css`
 
 **Installations:**
 
 ```bash
-# No new installations needed - button already available
+cd packages/ui
+pnpm dlx shadcn@latest add button-group
 ```
 
 ---

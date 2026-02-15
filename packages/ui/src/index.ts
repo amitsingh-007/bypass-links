@@ -1,6 +1,7 @@
 export * from './components/ui/avatar';
 export * from './components/ui/badge';
 export * from './components/ui/button';
+export * from './components/ui/button-group';
 export * from './components/ui/context-menu';
 export * from './components/ui/dialog';
 export * from './components/ui/hover-card';
