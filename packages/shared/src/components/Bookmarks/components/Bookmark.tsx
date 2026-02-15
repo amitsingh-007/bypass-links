@@ -85,7 +85,7 @@ const Bookmark = memo<BookmarkProps>(
 
     return (
       <div
-        className="flex h-full w-full items-center gap-3 px-1.5"
+        className="flex size-full items-center gap-3 px-1.5"
         data-context-id={id}
         data-testid={`bookmark-item-${title}`}
         onDoubleClick={handleOpenLink}
@@ -99,7 +99,7 @@ const Bookmark = memo<BookmarkProps>(
             </TooltipTrigger>
             <TooltipContent
               side="right"
-              className="w-auto max-w-[500px] text-xs leading-relaxed break-all"
+              className="w-auto max-w-[500px] text-xs/relaxed break-all"
             >
               {url}
             </TooltipContent>

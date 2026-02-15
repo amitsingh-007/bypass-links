@@ -83,8 +83,8 @@ export const closeDialog = async (
  * Click a specific context menu option by id.
  */
 export const clickContextMenuItem = async (page: Page, id: string) => {
-  const className = `context-menu-item-${id}`;
-  const menuItem = page.locator(`.${className}`);
+  const itemClass = `context-menu-item-${id}`;
+  const menuItem = page.locator(`.${itemClass}`);
   await expect(menuItem).toBeVisible();
   await menuItem.click();
 };

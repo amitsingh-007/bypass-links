@@ -35,7 +35,7 @@ const PersonAvatars = memo<{ persons: IPersonWithImage[] }>(({ persons }) => {
           <HoverCardTrigger delay={0} closeDelay={0}>
             <Avatar
               size="sm"
-              className="ring-background size-7 cursor-pointer ring-1"
+              className="size-7 cursor-pointer ring-1 ring-background"
               data-testid={`avatar-${uid}`}
             >
               <AvatarImage src={imageUrl} alt={name} />

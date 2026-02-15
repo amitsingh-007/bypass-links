@@ -84,7 +84,7 @@ function PersonSelect({ value, onChange }: PersonSelectProps) {
       <div className="flex items-center justify-between">
         <span className="text-sm font-medium">Tagged Persons</span>
         <div className="flex items-center gap-2">
-          <span className="text-muted-foreground text-xs">Sort by recency</span>
+          <span className="text-xs text-muted-foreground">Sort by recency</span>
           <Switch
             checked={orderByRecency}
             size="sm"
@@ -134,7 +134,7 @@ function PersonSelect({ value, onChange }: PersonSelectProps) {
               ))}
             </ComboboxList>
             {!hasResults && (
-              <div className="text-muted-foreground py-2 text-center text-sm">
+              <div className="py-2 text-center text-sm text-muted-foreground">
                 No persons found
               </div>
             )}

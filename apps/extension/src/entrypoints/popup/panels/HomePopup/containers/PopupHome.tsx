@@ -25,10 +25,15 @@ function PopupHome() {
     <div className="relative flex w-77.5 flex-col items-center px-4 pt-2 pb-4">
       {isLoading && (
         <>
-          <div className="absolute top-0 right-0 left-0 z-50">
+          <div className="absolute inset-x-0 top-0 z-50">
             <Progress value={progress} />
           </div>
-          <div className="bg-background/80 absolute inset-0 z-40 flex items-center justify-center">
+          <div
+            className="
+              absolute inset-0 z-40 flex items-center justify-center
+              bg-background/80
+            "
+          >
             <Spinner className="size-8 animate-spin" />
           </div>
         </>

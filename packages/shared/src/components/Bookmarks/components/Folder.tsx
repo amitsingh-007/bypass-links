@@ -27,7 +27,7 @@ const Folder = memo<FolderProps>(
     return (
       <div
         className={cn(
-          'flex h-full w-full items-center justify-center gap-3 p-1.5',
+          'flex size-full items-center justify-center gap-3 p-1.5',
           isEmpty && 'cursor-not-allowed opacity-60'
         )}
         data-testid={`folder-item-${origName}`}

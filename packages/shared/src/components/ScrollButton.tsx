@@ -18,7 +18,7 @@ export const ScrollButton = memo<Props>(({ itemsSize, onScroll }) => {
       <Button
         variant="secondary"
         size="sm"
-        className="bg-secondary/20 justify-start backdrop-blur-sm"
+        className="justify-start bg-secondary/20 backdrop-blur-sm"
         onClick={() => onScroll(0)}
       >
         <HugeiconsIcon icon={ArrowUp01Icon} />
@@ -26,7 +26,7 @@ export const ScrollButton = memo<Props>(({ itemsSize, onScroll }) => {
       <Button
         variant="secondary"
         size="sm"
-        className="bg-secondary/20 justify-start backdrop-blur-sm"
+        className="justify-start bg-secondary/20 backdrop-blur-sm"
         onClick={() => onScroll(itemsSize)}
       >
         <HugeiconsIcon icon={ArrowDown01Icon} />

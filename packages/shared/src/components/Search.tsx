@@ -25,9 +25,14 @@ const Search = forwardRef<HTMLInputElement, SearchProps>((props, ref) => {
   });
 
   return (
-    <InputGroup className="w-32 sm:w-40">
+    <InputGroup
+      className="
+        w-32
+        sm:w-40
+      "
+    >
       <InputGroupAddon>
-        <GoSearch className="text-muted-foreground size-4" />
+        <GoSearch className="size-4 text-muted-foreground" />
       </InputGroupAddon>
       <InputGroupInput
         ref={ref}
