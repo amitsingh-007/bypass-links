@@ -1,11 +1,10 @@
 'use client';
 
-import { Center, Text } from '@mantine/core';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Folder01Icon } from '@hugeicons/core-free-icons';
 import { memo, useContext } from 'react';
-import { HiFolder } from 'react-icons/hi';
 import DynamicContext from '../../../provider/DynamicContext';
 import { getBookmarksPanelUrl } from '../utils/url';
-import styles from './styles/Folder.module.css';
 
 export interface FolderProps {
   id: string;
@@ -25,22 +24,21 @@ const Folder = memo<FolderProps>(
     };
 
     return (
-      <Center
-        w="100%"
-        h="100%"
-        p="0.375rem"
+      <div
+        className="flex h-full w-full items-center justify-center gap-3 p-1.5"
         data-testid={`folder-item-${origName}`}
-        className={styles.container}
-        opacity={isEmpty ? 0.6 : 1}
-        style={{ cursor: isEmpty ? 'not-allowed' : 'inherit' }}
+        style={{
+          opacity: isEmpty ? 0.6 : 1,
+          cursor: isEmpty ? 'not-allowed' : 'inherit',
+        }}
         onClick={resetSelectedBookmarks}
         onDoubleClick={handleFolderOpen}
       >
-        <HiFolder size="1.25rem" className={styles.folderIcon} />
-        <Text size="0.9375rem" lineClamp={1} className={styles.name} fw="bold">
+        <HugeiconsIcon icon={Folder01Icon} className="size-5 text-yellow-400" />
+        <span className="flex-1 truncate text-[0.9375rem] font-bold">
           {origName}
-        </Text>
-      </Center>
+        </span>
+      </div>
     );
   }
 );

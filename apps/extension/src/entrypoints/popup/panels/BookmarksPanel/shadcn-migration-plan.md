@@ -49,13 +49,18 @@ Phase-wise migration plan to migrate `BookmarksPanel` from Mantine to Shadcn com
 
 ---
 
-## Phase 3: Folders in Bookmarks List
+## Phase 3: Folders in Bookmarks List ✅ COMPLETE
 
-**Components to migrate:**
+**Components migrated:**
 
-- `FolderRow.tsx` - Uses Box, Flex, useMantineTheme
-- `Folder` (from @bypass/shared) - Uses Center, Text
-- Folder styling with star icon for default folders
+- `FolderRow.tsx` - Migrated Box, Flex to div with Tailwind classes, removed useMantineTheme
+- `Folder` (from @bypass/shared) - Migrated Center to div with Tailwind, Text to span, HiFolder to Hugeicons
+- Folder styling updated with Tailwind classes and Hugeicons star icon for default folders
+
+**CSS files removed:**
+
+- `FolderRow.module.css`
+- `Folder.module.css`
 
 **Installations:**
 

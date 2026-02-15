@@ -1,12 +1,12 @@
 import { Folder, type FolderProps } from '@bypass/shared';
-import { Box, Flex, useMantineTheme } from '@mantine/core';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { StarIcon } from '@hugeicons/core-free-icons';
 import { memo, useCallback, useMemo, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
 import { MdOutlineDelete } from 'react-icons/md';
 import { PiStarBold, PiStarFill } from 'react-icons/pi';
 import ContextMenu, { type IMenuOption } from '@popup/components/ContextMenu';
 import { FolderAddEditDialog } from './FolderAddEditDialog';
-import styles from './styles/FolderRow.module.css';
 
 interface Props extends FolderProps {
   isDefault: boolean;
@@ -26,7 +26,6 @@ const FolderRow = memo<Props>(
     toggleDefaultFolder,
     ...restProps
   }) => {
-    const theme = useMantineTheme();
     const [openEditDialog, setOpenEditDialog] = useState(false);
 
     const toggleEditDialog = useCallback(() => {
@@ -53,21 +52,21 @@ const FolderRow = memo<Props>(
           text: 'Edit',
           id: 'edit',
           icon: AiFillEdit,
-          color: theme.colors.violet[9],
+          color: 'violet.9',
         },
         {
           onClick: handleDefaultOptionClick,
           text: isDefault ? 'Remove default' : 'Make default',
           id: isDefault ? 'remove-default' : 'make-default',
           icon: isDefault ? PiStarFill : PiStarBold,
-          color: isDefault ? theme.colors.yellow[5] : theme.colors.dark[3],
+          color: isDefault ? 'yellow.5' : 'dark.3',
         },
         {
           onClick: handleDeleteOptionClick,
           text: 'Delete',
           id: 'delete',
           icon: MdOutlineDelete,
-          color: theme.colors.red[9],
+          color: 'red.9',
         },
       ];
       return options;
@@ -75,21 +74,20 @@ const FolderRow = memo<Props>(
       handleDefaultOptionClick,
       handleDeleteOptionClick,
       isDefault,
-      theme.colors,
       toggleEditDialog,
     ]);
 
     return (
       <>
         <ContextMenu options={menuOptions}>
-          <Box w="100%" h="100%" pos="relative">
+          <div className="relative h-full w-full">
             <Folder id={id} name={origName} {...restProps} />
             {isDefault && (
-              <Flex align="center" className={styles.defaultIcon}>
-                <PiStarFill color={theme.colors.yellow[5]} />
-              </Flex>
+              <div className="absolute top-1/2 right-1.5 flex -translate-y-1/2 items-center text-yellow-500">
+                <HugeiconsIcon icon={StarIcon} className="size-4" />
+              </div>
             )}
-          </Box>
+          </div>
         </ContextMenu>
         <FolderAddEditDialog
           headerText="Edit folder"

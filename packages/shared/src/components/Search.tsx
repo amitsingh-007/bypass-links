@@ -18,6 +18,7 @@ const Search = forwardRef<HTMLInputElement, SearchProps>((props, ref) => {
 
   useKeyPress('meta.f', (event) => {
     event.preventDefault();
+    event.stopPropagation();
     if (typeof ref === 'object' && ref?.current) {
       ref.current.focus();
     }

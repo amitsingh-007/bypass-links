@@ -2,7 +2,6 @@
 // import '@mantine/core/styles.css';
 // import 'mantine-contextmenu/styles.css';
 import '@bypass/ui/styles/globals.css';
-import { mantineTheme } from '@bypass/shared';
 import { TooltipProvider } from '@bypass/ui';
 import { MantineProvider } from '@mantine/core';
 import { ContextMenuProvider } from 'mantine-contextmenu';
@@ -16,7 +15,7 @@ import DynamicProvider from './provider/DynamicProvider';
 function App() {
   return (
     <StrictMode>
-      <MantineProvider defaultColorScheme="dark" theme={mantineTheme}>
+      <MantineProvider>
         <ContextMenuProvider shadow="md" borderRadius="md">
           <TooltipProvider>
             <DynamicProvider>

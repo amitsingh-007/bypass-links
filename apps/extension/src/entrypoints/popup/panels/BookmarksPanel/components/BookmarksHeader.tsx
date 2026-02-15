@@ -46,6 +46,7 @@ const BookmarksHeader = memo<Props>(({ onSearchChange, folderId }) => {
 
   useKeyPress('meta.s', (event) => {
     event.preventDefault();
+    event.stopPropagation();
     if (!disableSave) {
       handleSaveClick();
     }
