@@ -1,5 +1,3 @@
-import scripting from '@/utils/scripting';
-
 const turnOffAutocomplete = () => {
   document
     .querySelectorAll('input')
@@ -7,7 +5,7 @@ const turnOffAutocomplete = () => {
 };
 
 const turnOffInputSuggestions = (tabId: number) => {
-  scripting.executeScript({
+  browser.scripting.executeScript({
     target: { tabId },
     func: turnOffAutocomplete,
   });

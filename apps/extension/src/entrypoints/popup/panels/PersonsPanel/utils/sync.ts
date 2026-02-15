@@ -1,7 +1,7 @@
 import {
+  addAllToCache,
   addToCache,
   ECacheBucketKeys,
-  getCacheObj,
   getPersonImageName,
   type IPerson,
   type PersonImageUrls,
@@ -41,8 +41,7 @@ const cachePersonImages = async (personImageUrls: PersonImageUrls) => {
     return;
   }
   const imageUrls = Object.values(personImageUrls);
-  const cache = await getCacheObj(ECacheBucketKeys.person);
-  await cache.addAll(imageUrls);
+  await addAllToCache(ECacheBucketKeys.person, imageUrls);
   console.log('Initialized cache for all person urls');
 };
 

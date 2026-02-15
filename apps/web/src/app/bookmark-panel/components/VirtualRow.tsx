@@ -6,7 +6,6 @@ import {
   type IBookmarksObj,
   isFolderEmpty,
 } from '@bypass/shared';
-import bookmarkRowStyles from '@bypass/shared/styles/bookmarks/styles.module.css';
 import { Flex } from '@mantine/core';
 import clsx from 'clsx';
 import { memo } from 'react';
@@ -28,7 +27,10 @@ const VirtualRow = memo<Props>(({ index, folders, contextBookmarks }) => {
   return (
     <Flex
       h="100%"
-      className={clsx(bookmarkRowStyles.bookmarkRow, styles.bookmarkWrapper)}
+      className={clsx(
+        'hover:bg-muted box-border rounded-md',
+        styles.bookmarkWrapper
+      )}
     >
       {ctx.isDir ? (
         <Folder

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getCurrentTab } from '@/utils/tabs';
+import { getCurrentTab } from '@popup/utils/tabs';
 
 const useCurrentTab = () => {
   const [tab, setTab] = useState<Browser.tabs.Tab>();

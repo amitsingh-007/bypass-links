@@ -21,8 +21,8 @@ import {
 } from '@hugeicons/core-free-icons';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
+import { getCurrentTab } from '@popup/utils/tabs';
 import { findBookmarkByUrl } from '../../BookmarksPanel/utils/bookmark';
-import { getCurrentTab } from '@/utils/tabs';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { bookmarksItem } from '@/storage/items';
 

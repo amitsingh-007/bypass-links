@@ -25,7 +25,6 @@ import {
   getOrderedBookmarksList,
 } from '../utils/bookmark';
 import styles from './styles/BookmarksList.module.css';
-import bookmarkRowStyles from '@bypass/shared/styles/bookmarks/styles.module.css';
 
 interface Props {
   personToOpen: IPerson | undefined;
@@ -140,7 +139,7 @@ function BookmarksList({
             pos="relative"
             w="100%"
             className={clsx(
-              bookmarkRowStyles.bookmarkRow,
+              'hover:bg-muted box-border rounded-md',
               styles.bookmarkContainer
             )}
           >

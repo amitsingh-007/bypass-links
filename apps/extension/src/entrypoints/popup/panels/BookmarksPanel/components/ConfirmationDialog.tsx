@@ -8,6 +8,7 @@ import {
 } from '@bypass/ui';
 import { noOp } from '@bypass/shared';
 import { memo } from 'react';
+import { handleEscapeKey } from '@popup/utils/dialog';
 
 interface Props {
   onClose: VoidFunction;
@@ -18,20 +19,19 @@ interface Props {
 const ConfirmationDialog = memo<Props>(({ onClose, onOk, isOpen }) => {
   return (
     <Dialog open={isOpen} onOpenChange={noOp}>
-      <DialogContent className="sm:max-w-75" showCloseButton={false}>
-        <DialogHeader>
+      <DialogContent
+        className="sm:max-w-80"
+        showCloseButton={false}
+        onKeyDown={handleEscapeKey}
+      >
+        <DialogHeader className="py-2">
           <DialogTitle>There are some unsaved changes</DialogTitle>
         </DialogHeader>
-        <DialogFooter className="flex flex-row justify-end gap-2">
-          <Button variant="destructive" size="sm" onClick={onOk}>
+        <DialogFooter className="flex flex-row justify-end gap-2 p-2">
+          <Button variant="destructive" onClick={onOk}>
             Discard
           </Button>
-          <Button
-            variant="default"
-            size="sm"
-            className="bg-teal-500 text-white hover:bg-teal-600"
-            onClick={onClose}
-          >
+          <Button variant="default" onClick={onClose}>
             Cancel
           </Button>
         </DialogFooter>

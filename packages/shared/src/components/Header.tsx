@@ -1,6 +1,7 @@
 import { Badge, Button } from '@bypass/ui';
+import { ArrowLeft01Icon } from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
 import { memo, useContext, type RefObject } from 'react';
-import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
 import { HEADER_HEIGHT } from '../constants';
 import DynamicContext from '../provider/DynamicContext';
 import Search from './Search';
@@ -31,13 +32,8 @@ const Header = memo<Props>(
         style={{ height: HEADER_HEIGHT }}
       >
         <div className="flex items-center gap-2">
-          <Button
-            size="sm"
-            variant="outline"
-            className="h-8 rounded-full border-red-500 px-3 text-xs text-red-500 hover:bg-red-50 hover:text-red-500"
-            onClick={onBackClick ?? location.goBack}
-          >
-            <HiOutlineArrowNarrowLeft className="size-4" />
+          <Button variant="outline" onClick={onBackClick ?? location.goBack}>
+            <HugeiconsIcon icon={ArrowLeft01Icon} className="size-4" />
             Back
           </Button>
           {children}
@@ -50,7 +46,7 @@ const Header = memo<Props>(
             <Badge
               data-testid="header-badge"
               variant="secondary"
-              className="hidden sm:inline-flex"
+              className="hidden h-8 sm:inline-flex"
             >
               {text}
             </Badge>
