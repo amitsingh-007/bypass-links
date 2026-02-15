@@ -1,7 +1,7 @@
 import { Header } from '@bypass/shared';
 import { Button } from '@bypass/ui';
 import { useKeyPress } from 'ahooks';
-import { memo, useRef, useState } from 'react';
+import { memo, useState } from 'react';
 import { BookmarkCheck01Icon, FolderAddIcon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { useShallow } from 'zustand/react/shallow';
@@ -36,7 +36,6 @@ const BookmarksHeader = memo<Props>(({ onSearchChange, folderId }) => {
   );
   const [openFolderDialog, setOpenFolderDialog] = useState(false);
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
-  const searchInputRef = useRef<HTMLInputElement>(null);
 
   const disableSave = isFetching || !isSaveButtonActive;
 
@@ -77,12 +76,11 @@ const BookmarksHeader = memo<Props>(({ onSearchChange, folderId }) => {
     <>
       <Header
         text={contextBookmarks?.length || 0}
-        searchInputRef={searchInputRef}
         onBackClick={onBackClick}
         onSearchChange={onSearchChange}
       >
         <Button
-          variant="outline"
+          variant="secondary"
           disabled={isFetching}
           onClick={toggleNewFolderDialog}
         >

@@ -1,14 +1,13 @@
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@bypass/ui';
 import { useDebounce, useKeyPress } from 'ahooks';
-import { memo, useEffect, useState, forwardRef } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { GoSearch } from 'react-icons/go';
 
 interface SearchProps {
   onChange: (searchText: string) => void;
 }
 
-const Search = forwardRef<HTMLInputElement, SearchProps>((props, ref) => {
-  const { onChange } = props;
+const Search = memo<SearchProps>(({ onChange }) => {
   const [inputValue, setInputValue] = useState('');
   const debouncedValue = useDebounce(inputValue, { wait: 200 });
 
@@ -16,12 +15,10 @@ const Search = forwardRef<HTMLInputElement, SearchProps>((props, ref) => {
     onChange(debouncedValue);
   }, [debouncedValue, onChange]);
 
-  useKeyPress('meta.f', (event) => {
+  useKeyPress(['meta.f'], (event) => {
     event.preventDefault();
     event.stopPropagation();
-    if (typeof ref === 'object' && ref?.current) {
-      ref.current.focus();
-    }
+    document.getElementById('search-input')?.focus();
   });
 
   return (
@@ -35,7 +32,7 @@ const Search = forwardRef<HTMLInputElement, SearchProps>((props, ref) => {
         <GoSearch className="size-4 text-muted-foreground" />
       </InputGroupAddon>
       <InputGroupInput
-        ref={ref}
+        id="search-input"
         placeholder="Search"
         onChange={(event) => setInputValue(event.currentTarget.value)}
       />
@@ -43,4 +40,4 @@ const Search = forwardRef<HTMLInputElement, SearchProps>((props, ref) => {
   );
 });
 
-export default memo(Search);
+export default Search;

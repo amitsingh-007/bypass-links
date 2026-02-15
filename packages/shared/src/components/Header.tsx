@@ -1,7 +1,7 @@
 import { Badge, Button } from '@bypass/ui';
 import { ArrowLeft01Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { memo, useContext, type RefObject } from 'react';
+import { memo, useContext } from 'react';
 import { HEADER_HEIGHT } from '../constants';
 import DynamicContext from '../provider/DynamicContext';
 import Search from './Search';
@@ -12,7 +12,6 @@ interface Props {
   onSearchChange?: (text: string) => void;
   rightContent?: React.ReactNode;
   onBackClick?: React.MouseEventHandler<HTMLButtonElement>;
-  searchInputRef?: RefObject<HTMLInputElement | null>;
 }
 
 const Header = memo<Props>(
@@ -22,7 +21,6 @@ const Header = memo<Props>(
     onSearchChange,
     rightContent: RightContent = null,
     onBackClick,
-    searchInputRef,
   }) => {
     const { location } = useContext(DynamicContext);
 
@@ -41,9 +39,7 @@ const Header = memo<Props>(
           {children}
         </div>
         <div className="flex items-center justify-end gap-2">
-          {onSearchChange ? (
-            <Search ref={searchInputRef} onChange={onSearchChange} />
-          ) : null}
+          {onSearchChange ? <Search onChange={onSearchChange} /> : null}
           {text ? (
             <Badge
               data-testid="header-badge"
