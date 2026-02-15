@@ -5,7 +5,7 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from '@bypass/ui';
-import { useMemo, useRef, type PropsWithChildren } from 'react';
+import { useMemo, useRef } from 'react';
 
 export interface IMenuOption {
   text: string;
@@ -15,10 +15,10 @@ export interface IMenuOption {
   id: string;
 }
 
-type Props = PropsWithChildren<{
+interface Props {
   options: IMenuOption[];
   children: React.ReactNode;
-}>;
+}
 
 function ContextMenuWrapper({ options, children }: Props) {
   const idRef = useRef('');

@@ -64,7 +64,10 @@ function PersonSelect({ value, onChange }: PersonSelectProps) {
 
   const toggleOrderByRecency = () => setOrderByRecency((prev) => !prev);
 
-  const selectedPersons = personList.filter((p) => value.includes(p.value));
+  const selectedPersons = useMemo(
+    () => personList.filter((p) => value.includes(p.value)),
+    [personList, value]
+  );
 
   // Filter persons based on search query
   const filteredPersonList = useMemo(() => {
@@ -96,6 +99,7 @@ function PersonSelect({ value, onChange }: PersonSelectProps) {
           onValueChange={(newValue) => {
             if (Array.isArray(newValue)) {
               onChange(newValue);
+              setSearchQuery('');
             }
           }}
         >

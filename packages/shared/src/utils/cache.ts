@@ -19,8 +19,11 @@ export const addToCache = async (
   try {
     const response = await wretch(url).get().res();
     await cache.put(url, response);
-  } catch {
+  } catch (error) {
     // Ignore favicons (404) not found
+    if (error instanceof Error) {
+      console.debug('Failed to cache favicon:', url, error.message);
+    }
   }
 };
 
@@ -55,10 +58,10 @@ export const deleteCache = async (bucketKey: string) => {
   await caches.delete(bucketKey);
 };
 
-export const deleteAllCache = (cacheBucketKeys: ECacheBucketKeys[]) => {
-  cacheBucketKeys.forEach(async (cacheBucketKey) => {
-    await deleteCache(cacheBucketKey);
-  });
+export const deleteAllCache = async (cacheBucketKeys: ECacheBucketKeys[]) => {
+  await Promise.all(
+    cacheBucketKeys.map(async (cacheBucketKey) => deleteCache(cacheBucketKey))
+  );
   console.log('Cleared all cache inside the buckets', cacheBucketKeys);
 };
 

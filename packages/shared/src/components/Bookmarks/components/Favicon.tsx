@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Unlink02Icon } from '@hugeicons/core-free-icons';
 import { Avatar, AvatarFallback, AvatarImage } from '@bypass/ui';
@@ -8,6 +8,7 @@ import { ECacheBucketKeys } from '../../../constants/cache';
 
 interface Props {
   url: string;
+  ref?: React.Ref<HTMLDivElement>;
 }
 
 const urlMap = new Map<string, string>();
@@ -25,7 +26,7 @@ const getBlobUrl = async (url: string) => {
   return blobUrl;
 };
 
-const Favicon = forwardRef<HTMLDivElement, Props>(({ url }, ref) => {
+function Favicon({ url, ref }: Props) {
   const [faviconUrl, setFaviconUrl] = useState('');
 
   useEffect(() => {
@@ -43,6 +44,6 @@ const Favicon = forwardRef<HTMLDivElement, Props>(({ url }, ref) => {
       </AvatarFallback>
     </Avatar>
   );
-});
+}
 
 export default Favicon;

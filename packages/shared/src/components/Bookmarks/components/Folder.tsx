@@ -3,6 +3,7 @@
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Folder01Icon } from '@hugeicons/core-free-icons';
 import { memo, useContext } from 'react';
+import { cn } from '@bypass/ui/lib/utils';
 import DynamicContext from '../../../provider/DynamicContext';
 import { getBookmarksPanelUrl } from '../utils/url';
 
@@ -25,12 +26,11 @@ const Folder = memo<FolderProps>(
 
     return (
       <div
-        className="flex h-full w-full items-center justify-center gap-3 p-1.5"
+        className={cn(
+          'flex h-full w-full items-center justify-center gap-3 p-1.5',
+          isEmpty && 'cursor-not-allowed opacity-60'
+        )}
         data-testid={`folder-item-${origName}`}
-        style={{
-          opacity: isEmpty ? 0.6 : 1,
-          cursor: isEmpty ? 'not-allowed' : 'inherit',
-        }}
         onClick={resetSelectedBookmarks}
         onDoubleClick={handleFolderOpen}
       >
