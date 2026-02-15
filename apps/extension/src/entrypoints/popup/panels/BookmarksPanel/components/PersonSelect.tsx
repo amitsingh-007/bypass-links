@@ -6,14 +6,18 @@ import {
 } from '@bypass/shared';
 import {
   Avatar,
-  Flex,
-  Group,
-  MultiSelect,
-  type MultiSelectProps,
+  AvatarImage,
+  Combobox,
+  ComboboxChips,
+  ComboboxChip,
+  ComboboxChipsInput,
+  ComboboxContent,
+  ComboboxItem,
+  ComboboxList,
   Switch,
-  Text,
-} from '@mantine/core';
-import { useCallback, useEffect, useState } from 'react';
+  useComboboxAnchor,
+} from '@bypass/ui';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 interface IOptionData {
   label: string;
@@ -21,20 +25,18 @@ interface IOptionData {
   image: string;
 }
 
-const renderMultiSelectOption: MultiSelectProps['renderOption'] = ({
-  option,
-}) => (
-  <Group gap="sm">
-    <Avatar src={(option as IOptionData).image} radius="md" />
-    <Text size="sm">{option.label}</Text>
-  </Group>
-);
+interface PersonSelectProps {
+  value: string[];
+  onChange: (value: string[]) => void;
+}
 
-function PersonSelect({ formProps }: { formProps: any }) {
+function PersonSelect({ value, onChange }: PersonSelectProps) {
   const { getDefaultOrRootFolderUrls } = useBookmark();
   const { getAllDecodedPersons, getPersonsWithImageUrl } = usePerson();
   const [personList, setPersonList] = useState<IOptionData[]>([]);
   const [orderByRecency, setOrderByRecency] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
+  const anchorRef = useComboboxAnchor();
 
   const initPersonList = useCallback(async () => {
     const decodedPersons = await getAllDecodedPersons();
@@ -62,35 +64,80 @@ function PersonSelect({ formProps }: { formProps: any }) {
 
   const toggleOrderByRecency = () => setOrderByRecency((prev) => !prev);
 
+  const selectedPersons = personList.filter((p) => value.includes(p.value));
+
+  // Filter persons based on search query
+  const filteredPersonList = useMemo(() => {
+    if (!searchQuery.trim()) return personList;
+    return personList.filter((person) =>
+      person.label.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [personList, searchQuery]);
+
+  const hasResults = filteredPersonList.length > 0;
+
   return (
-    <MultiSelect
-      searchable
-      data-autofocus
-      hidePickedOptions
-      data={personList}
-      data-testid="person-select"
-      label={
-        <Flex align="center" gap={8}>
-          Tagged Persons
+    <div className="flex flex-col gap-2">
+      <div className="flex items-center justify-between">
+        <span className="text-sm font-medium">Tagged Persons</span>
+        <div className="flex items-center gap-2">
+          <span className="text-muted-foreground text-xs">Sort by recency</span>
           <Switch
-            size="xs"
-            color="yellow"
             checked={orderByRecency}
-            onChange={toggleOrderByRecency}
+            size="sm"
+            onCheckedChange={toggleOrderByRecency}
           />
-        </Flex>
-      }
-      placeholder="Persons"
-      nothingFoundMessage="No person with this name"
-      maxDropdownHeight={210}
-      comboboxProps={{
-        position: 'top',
-        withinPortal: false,
-        transitionProps: { transition: 'pop' },
-      }}
-      renderOption={renderMultiSelectOption}
-      {...formProps}
-    />
+        </div>
+      </div>
+      <div ref={anchorRef} className="w-full">
+        <Combobox
+          multiple
+          value={value}
+          onValueChange={(newValue) => {
+            if (Array.isArray(newValue)) {
+              onChange(newValue);
+            }
+          }}
+        >
+          <ComboboxChips className="w-full" data-testid="person-select">
+            {selectedPersons.map((person) => (
+              <ComboboxChip key={person.value}>
+                <div className="flex items-center gap-1">
+                  <Avatar size="sm" className="size-5!">
+                    <AvatarImage src={person.image} alt={person.label} />
+                  </Avatar>
+                  <span className="truncate">{person.label}</span>
+                </div>
+              </ComboboxChip>
+            ))}
+            <ComboboxChipsInput
+              placeholder="Search persons..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </ComboboxChips>
+          <ComboboxContent anchor={anchorRef.current} className="max-h-60 p-1">
+            <ComboboxList className="p-1">
+              {filteredPersonList.map((person) => (
+                <ComboboxItem key={person.value} value={person.value}>
+                  <div className="flex items-center gap-2">
+                    <Avatar size="sm" className="size-5!">
+                      <AvatarImage src={person.image} alt={person.label} />
+                    </Avatar>
+                    <span className="flex-1">{person.label}</span>
+                  </div>
+                </ComboboxItem>
+              ))}
+            </ComboboxList>
+            {!hasResults && (
+              <div className="text-muted-foreground py-2 text-center text-sm">
+                No persons found
+              </div>
+            )}
+          </ComboboxContent>
+        </Combobox>
+      </div>
+    </div>
   );
 }
 

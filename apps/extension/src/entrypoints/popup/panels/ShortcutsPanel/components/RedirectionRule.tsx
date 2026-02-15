@@ -18,10 +18,10 @@ import { FaCalendarCheck } from 'react-icons/fa';
 import { IoSave } from 'react-icons/io5';
 import { MdOutlineDelete, MdShortcut } from 'react-icons/md';
 import { RxExternalLink } from 'react-icons/rx';
+import { getlastVisitedText } from '@popup/utils/lastVisited';
 import { DEFAULT_RULE_ALIAS } from '../constants';
 import styles from './styles/RedirectionRule.module.css';
 import { ReorderButton } from './ReorderButton';
-import { getlastVisitedText } from '@/utils/lastVisited';
 
 type Props = IRedirection & {
   pos: number;

@@ -48,12 +48,12 @@ const BookmarkContextMenu = memo<Props>(
     const cutCount = getCutCount(cutBookmarks);
 
     // Keyboard shortcuts using ahooks useKeyPress
-    useKeyPress('ctrl.x', (e) => {
+    useKeyPress(['meta.x'], (e) => {
       e.stopPropagation();
       handleCutBookmarks();
     });
 
-    useKeyPress('ctrl.v', (e) => {
+    useKeyPress(['meta.v'], (e) => {
       e.stopPropagation();
       handlePasteSelectedBookmarks();
     });

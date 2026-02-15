@@ -46,7 +46,7 @@ const Header = memo<Props>(
             <Badge
               data-testid="header-badge"
               variant="secondary"
-              className="hidden sm:inline-flex"
+              className="hidden h-8 sm:inline-flex"
             >
               {text}
             </Badge>

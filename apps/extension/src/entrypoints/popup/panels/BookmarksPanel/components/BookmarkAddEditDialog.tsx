@@ -1,3 +1,25 @@
+import { z } from 'zod';
+import { useForm } from '@tanstack/react-form';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useLocation } from 'wouter';
+import { useShallow } from 'zustand/react/shallow';
+import {
+  Button,
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  Field,
+  FieldError,
+  FieldLabel,
+  Input,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@bypass/ui';
 import {
   EBookmarkOperation,
   getBookmarksPanelUrl,
@@ -6,15 +28,11 @@ import {
   ROOT_FOLDER_ID,
   type ITransformedBookmark,
 } from '@bypass/shared';
-import { Button, Modal, Select, Stack, TextInput } from '@mantine/core';
-import { useForm } from '@mantine/form';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useLocation } from 'wouter';
-import { useShallow } from 'zustand/react/shallow';
+import { getCurrentTab } from '@popup/utils/tabs';
+import { handleEscapeKey } from '@popup/utils/dialog';
 import useBookmarkRouteStore from '../store/useBookmarkRouteStore';
 import useBookmarkStore from '../store/useBookmarkStore';
 import PersonSelect from './PersonSelect';
-import { getCurrentTab } from '@/utils/tabs';
 
 const HEADING = {
   [EBookmarkOperation.NONE]: '',
@@ -27,26 +45,19 @@ interface Props {
   handleScroll: (pos: number) => void;
 }
 
-interface IForm {
-  id: string;
-  pos: number;
-  url: string;
-  title: string;
-  folderId: string;
-  taggedPersons: string[];
-}
-
-const validateHandler = (value: string) => (value?.trim() ? null : 'Required');
-
-const validateUrl = (value: string) => {
-  if (!value?.trim()) {
-    return 'Required';
-  }
-  if (!URL.canParse(value)) {
-    return 'Invalid URL format';
-  }
-  return null;
-};
+const formSchema = z.object({
+  id: z.string(),
+  pos: z.number(),
+  url: z
+    .string()
+    .min(1, 'Required')
+    .refine((val) => URL.canParse(val), {
+      message: 'Invalid URL format',
+    }),
+  title: z.string().min(1, 'Required'),
+  folderId: z.string().min(1, 'Required'),
+  taggedPersons: z.array(z.string()),
+});
 
 function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
   const [, navigate] = useLocation();
@@ -87,19 +98,34 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
     };
   }, [folderList]);
 
-  const form = useForm<IForm>({
-    initialValues: {
+  const form = useForm({
+    defaultValues: {
       id: '',
       pos: -1,
       url: '',
       title: '',
       folderId: ROOT_FOLDER_ID,
-      taggedPersons: [],
+      taggedPersons: [] as string[],
     },
-    validate: {
-      url: validateUrl,
-      title: validateHandler,
-      folderId: validateHandler,
+    validators: {
+      onSubmit: formSchema,
+    },
+    async onSubmit({ value }) {
+      const updatedBookmarkData: ITransformedBookmark = {
+        id: value.id,
+        url: value.url,
+        title: value.title,
+        isDir: false,
+        taggedPersons: value.taggedPersons,
+      };
+      const isSaved = handleBookmarkSave(
+        updatedBookmarkData,
+        curFolderId,
+        value.folderId
+      );
+      if (isSaved) {
+        closeDialog();
+      }
     },
   });
 
@@ -107,14 +133,12 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
     async (_operation: EBookmarkOperation, _bmUrl: string) => {
       if (_operation === EBookmarkOperation.ADD) {
         const { title = '' } = await getCurrentTab();
-        form.setValues({
-          id: crypto.randomUUID(),
-          pos: contextBookmarks.length,
-          url: _bmUrl,
-          title,
-          folderId: defaultFolderId ?? ROOT_FOLDER_ID,
-          taggedPersons: [],
-        });
+        form.setFieldValue('id', crypto.randomUUID());
+        form.setFieldValue('pos', contextBookmarks.length);
+        form.setFieldValue('url', _bmUrl);
+        form.setFieldValue('title', title);
+        form.setFieldValue('folderId', defaultFolderId ?? ROOT_FOLDER_ID);
+        form.setFieldValue('taggedPersons', []);
         setOpenDialog(true);
         return;
       }
@@ -128,14 +152,12 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
         }
       });
       if (bookmark) {
-        form.setValues({
-          id: bookmark.id,
-          pos,
-          url: bookmark.url,
-          title: bookmark.title,
-          folderId: curFolderId,
-          taggedPersons: bookmark.taggedPersons,
-        });
+        form.setFieldValue('id', bookmark.id);
+        form.setFieldValue('pos', pos);
+        form.setFieldValue('url', bookmark.url);
+        form.setFieldValue('title', bookmark.title);
+        form.setFieldValue('folderId', curFolderId);
+        form.setFieldValue('taggedPersons', bookmark.taggedPersons);
         setOpenDialog(true);
       }
     },
@@ -150,13 +172,12 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
   }, [bmUrl, operation, resolveBookmark]);
 
   const closeDialog = () => {
-    // Remove qs before closing and mark current as selected
     if (openDialog) {
       navigate(getBookmarksPanelUrl({ folderId: curFolderId }), {
         replace: true,
       });
     }
-    const { pos } = form.values;
+    const pos = form.getFieldValue('pos');
     if (operation === EBookmarkOperation.EDIT) {
       handleScroll(pos);
       handleSelectedChange(pos, true);
@@ -167,79 +188,113 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
   };
 
   const handleDelete = () => {
-    handleUrlRemove(form.values.id);
+    handleUrlRemove(form.getFieldValue('id'));
     closeDialog();
   };
 
-  const handleSave = (values: typeof form.values) => {
-    const updatedBookmarkData: ITransformedBookmark = {
-      id: values.id,
-      url: values.url,
-      title: values.title,
-      isDir: false,
-      taggedPersons: values.taggedPersons,
-    };
-    const isSaved = handleBookmarkSave(
-      updatedBookmarkData,
-      curFolderId,
-      values.folderId
-    );
-    if (isSaved) {
-      closeDialog();
-    }
-  };
-
   return (
-    <Modal
-      centered
-      closeOnClickOutside={false}
-      closeOnEscape={false}
-      opened={openDialog}
-      title={HEADING[operation]}
-      closeButtonProps={
-        {
-          'data-testid': 'modal-close-button',
-        } as React.ComponentProps<'button'>
-      }
-      onClose={closeDialog}
-    >
-      <form onSubmit={form.onSubmit(handleSave)}>
-        <Stack>
-          <TextInput
-            withAsterisk
-            label="Title"
-            placeholder="Enter bookmark title"
-            data-testid="bookmark-title-input"
-            {...form.getInputProps('title')}
-          />
-          <TextInput
-            withAsterisk
-            label="Url"
-            placeholder="Enter bookmark URL"
-            data-testid="bookmark-url-input"
-            {...form.getInputProps('url')}
-          />
-          <Select
-            withAsterisk
-            maxDropdownHeight={148}
-            label="Folder"
-            data={folderOptions}
-            {...form.getInputProps('folderId')}
-            comboboxProps={{
-              withinPortal: false,
-              transitionProps: { transition: 'pop' },
+    <Dialog open={openDialog} onOpenChange={closeDialog}>
+      <DialogContent className="sm:max-w-lg" onKeyDown={handleEscapeKey}>
+        <DialogHeader>
+          <DialogTitle>{HEADING[operation]}</DialogTitle>
+        </DialogHeader>
+        <form
+          className="flex flex-col gap-4"
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+        >
+          <form.Field name="title">
+            {(field) => (
+              <Field>
+                <FieldLabel>
+                  Title <span className="text-destructive">*</span>
+                </FieldLabel>
+                <Input
+                  data-testid="bookmark-title-input"
+                  placeholder="Enter bookmark title"
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                />
+                <FieldError errors={field.state.meta.errors} />
+              </Field>
+            )}
+          </form.Field>
+
+          <form.Field name="url">
+            {(field) => (
+              <Field>
+                <FieldLabel>
+                  URL <span className="text-destructive">*</span>
+                </FieldLabel>
+                <Input
+                  data-testid="bookmark-url-input"
+                  placeholder="Enter bookmark URL"
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                />
+                <FieldError errors={field.state.meta.errors} />
+              </Field>
+            )}
+          </form.Field>
+
+          <form.Field name="folderId">
+            {(field) => {
+              const selectedFolder = folderOptions.find(
+                (opt) => opt.value === field.state.value
+              );
+              return (
+                <Field>
+                  <FieldLabel>
+                    Folder <span className="text-destructive">*</span>
+                  </FieldLabel>
+                  <Select
+                    value={field.state.value}
+                    onValueChange={(value) => field.handleChange(value ?? '')}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select folder">
+                        {selectedFolder?.label ?? 'Select folder'}
+                      </SelectValue>
+                    </SelectTrigger>
+                    <SelectContent>
+                      {folderOptions.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FieldError errors={field.state.meta.errors} />
+                </Field>
+              );
             }}
-          />
-          <PersonSelect formProps={form.getInputProps('taggedPersons')} />
-          <Button color="red" onClick={handleDelete}>
-            Delete
-          </Button>
-          <Button type="submit" color="teal" data-testid="dialog-save-button">
-            Save
-          </Button>
-        </Stack>
-      </form>
-    </Modal>
+          </form.Field>
+
+          <form.Field name="taggedPersons">
+            {(field) => (
+              <PersonSelect
+                value={field.state.value}
+                onChange={field.handleChange}
+              />
+            )}
+          </form.Field>
+
+          <DialogFooter className="flex flex-col gap-2 p-2 sm:flex-row">
+            <Button type="button" variant="destructive" onClick={handleDelete}>
+              Delete
+            </Button>
+            <Button data-testid="dialog-save-button" type="submit">
+              Save
+            </Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 }
 

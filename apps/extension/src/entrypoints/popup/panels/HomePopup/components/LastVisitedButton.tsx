@@ -12,10 +12,10 @@ import {
   Appointment01Icon,
 } from '@hugeicons/core-free-icons';
 import { useCallback, useEffect, useState } from 'react';
+import { getlastVisitedText } from '@popup/utils/lastVisited';
 import useCurrentTab from '@popup/hooks/useCurrentTab';
 import { trpcApi } from '@/apis/trpcApi';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
-import { getlastVisitedText } from '@/utils/lastVisited';
 import { lastVisitedItem } from '@/storage/items';
 
 function LastVisitedButton() {

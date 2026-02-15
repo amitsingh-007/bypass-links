@@ -115,18 +115,28 @@ pnpm dlx shadcn@latest add button-group
 
 ---
 
-## Phase 6: Add/Edit Bookmarks Modal
+## Phase 6: Add/Edit Bookmarks Modal ✅ COMPLETE
 
-**Components to migrate:**
+**Components migrated:**
 
-- `BookmarkAddEditDialog.tsx` - Uses Modal, TextInput, Select, Stack, Button, useForm
-- `PersonSelect.tsx` - Uses MultiSelect, Avatar, Switch, Flex, Text
-- Replace @mantine/form with TanStack Form
+- `BookmarkAddEditDialog.tsx` - Migrated to shadcn Dialog, TanStack Form, and shadcn Select
+  - Replaced Mantine Modal with shadcn Dialog
+  - Replaced Mantine TextInput with shadcn Input
+  - Replaced Mantine Select with shadcn Select
+  - Replaced Mantine Stack with Tailwind flex classes
+  - Replaced @mantine/form with TanStack Form + Zod validation
+  - Used shadcn Field and FieldLabel for form field structure
+  - Used shadcn Button with proper variants (destructive for Delete)
+- `PersonSelect.tsx` - Migrated from Mantine MultiSelect to custom component
+  - Replaced Mantine MultiSelect with custom list-based selection UI
+  - Used shadcn Avatar, AvatarImage, AvatarFallback for person images
+  - Used shadcn Switch for recency toggle
+  - Removed Mantine Group, Flex, Text dependencies
 
 **Installations:**
 
 ```bash
-pnpm add @tanstack/react-form
+pnpm add @tanstack/react-form -w
 
 cd packages/ui
 pnpm dlx shadcn@latest add field
