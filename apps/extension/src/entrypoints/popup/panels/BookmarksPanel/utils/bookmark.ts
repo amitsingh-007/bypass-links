@@ -1,6 +1,6 @@
 import {
   ECacheBucketKeys,
-  getCacheObj,
+  addAllToCache,
   getDecryptedBookmark,
   getFaviconProxyUrl,
   type ContextBookmarks,
@@ -56,10 +56,8 @@ export const cacheBookmarkFavicons = async () => {
     const bookmark = getDecryptedBookmark(item);
     return getFaviconProxyUrl(bookmark.url);
   });
-  const uniqueUrls = [...new Set(faviconUrls)];
-  const cache = await getCacheObj(ECacheBucketKeys.favicon);
-  await Promise.all(uniqueUrls.map(async (url) => cache.add(url)));
-  console.log('Initialized cache for all bookmark urls');
+  await addAllToCache(ECacheBucketKeys.favicon, faviconUrls);
+  console.log('Bookmark favicons cached');
   const { incrementProgress } = useProgressStore.getState();
   incrementProgress(SIGN_IN_TOTAL_STEPS);
 };

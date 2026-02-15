@@ -31,12 +31,7 @@ const Header = memo<Props>(
         style={{ height: HEADER_HEIGHT }}
       >
         <div className="flex items-center gap-2">
-          <Button
-            size="sm"
-            variant="outline"
-            className="h-8 rounded-full border-red-500 px-3 text-xs text-red-500 hover:bg-red-50 hover:text-red-500"
-            onClick={onBackClick ?? location.goBack}
-          >
+          <Button variant="outline" onClick={onBackClick ?? location.goBack}>
             <HiOutlineArrowNarrowLeft className="size-4" />
             Back
           </Button>

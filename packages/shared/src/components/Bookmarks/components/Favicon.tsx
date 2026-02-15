@@ -1,6 +1,7 @@
-import { Avatar } from '@mantine/core';
 import { forwardRef, useEffect, useState } from 'react';
-import { RiLinkUnlinkM } from 'react-icons/ri';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Unlink02Icon } from '@hugeicons/core-free-icons';
+import { Avatar, AvatarFallback, AvatarImage } from '@bypass/ui';
 import { getFaviconProxyUrl } from '../../../utils';
 import { getBlobUrlFromCache } from '../../../utils/cache';
 import { ECacheBucketKeys } from '../../../constants/cache';
@@ -24,31 +25,24 @@ const getBlobUrl = async (url: string) => {
   return blobUrl;
 };
 
-const Favicon = forwardRef<HTMLDivElement, Props>(
-  ({ url, ...mantineTooltipProps }, ref) => {
-    const [faviconUrl, setFaviconUrl] = useState('');
+const Favicon = forwardRef<HTMLDivElement, Props>(({ url }, ref) => {
+  const [faviconUrl, setFaviconUrl] = useState('');
 
-    useEffect(() => {
-      const initFavicon = async () => {
-        setFaviconUrl(await getBlobUrl(url));
-      };
-      initFavicon();
-    }, [url]);
+  useEffect(() => {
+    const initFavicon = async () => {
+      setFaviconUrl(await getBlobUrl(url));
+    };
+    initFavicon();
+  }, [url]);
 
-    return (
-      <Avatar
-        ref={ref}
-        radius="xs"
-        size={17}
-        src={faviconUrl}
-        color="red"
-        data-testid="bookmark-favicon"
-        {...mantineTooltipProps}
-      >
-        <RiLinkUnlinkM size={14} />
-      </Avatar>
-    );
-  }
-);
+  return (
+    <Avatar ref={ref} size="sm" data-testid="bookmark-favicon">
+      <AvatarImage src={faviconUrl} />
+      <AvatarFallback>
+        <HugeiconsIcon icon={Unlink02Icon} className="size-3.5" />
+      </AvatarFallback>
+    </Avatar>
+  );
+});
 
 export default Favicon;

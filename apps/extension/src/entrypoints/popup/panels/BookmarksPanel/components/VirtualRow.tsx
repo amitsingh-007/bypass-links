@@ -1,12 +1,9 @@
 import { type ContextBookmark, isFolderEmpty } from '@bypass/shared';
-import bookmarkRowStyles from '@bypass/shared/styles/bookmarks/styles.module.css';
-import { Box } from '@mantine/core';
 import { useShallow } from 'zustand/react/shallow';
 import clsx from 'clsx';
 import useBookmarkStore from '../store/useBookmarkStore';
 import BookmarkRow from './BookmarkRow';
 import FolderRow from './FolderRow';
-import styles from './styles/VirtualRow.module.css';
 
 export interface Props {
   bookmark: ContextBookmark;
@@ -35,9 +32,14 @@ function VirtualRow({ bookmark, pos, isSelected, isCut }: Props) {
   );
 
   return (
-    <Box
-      h="100%"
-      className={clsx(bookmarkRowStyles.bookmarkRow, styles.container)}
+    <div
+      className={clsx(
+        'box-border h-full cursor-pointer rounded-md select-none',
+        'hover:bg-muted',
+        'data-[is-selected=true]:bg-primary data-[is-selected=true]:text-primary-foreground',
+        'data-[is-selected=true]:hover:bg-primary/90',
+        'data-[is-cut=true]:border-border data-[is-cut=true]:border data-[is-cut=true]:border-dashed data-[is-cut=true]:opacity-50'
+      )}
       // Added to fix context menu
       style={{ zIndex: bookmark.isDir ? 1 : 'auto' }}
       data-is-selected={isSelected}
@@ -65,7 +67,7 @@ function VirtualRow({ bookmark, pos, isSelected, isCut }: Props) {
           handleSelectedChange={handleSelectedChange}
         />
       )}
-    </Box>
+    </div>
   );
 }
 

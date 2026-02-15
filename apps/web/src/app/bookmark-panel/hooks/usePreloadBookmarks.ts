@@ -8,10 +8,10 @@ import {
 } from '@app/utils/storage';
 import {
   ECacheBucketKeys,
+  addAllToCache,
   type IBookmarksObj,
   STORAGE_KEYS,
   deleteCache,
-  getCacheObj,
   getDecryptedBookmark,
   getFaviconProxyUrl,
   isCachePresent,
@@ -40,9 +40,7 @@ const cacheBookmarkFavicons = async () => {
     const bookmark = getDecryptedBookmark(item);
     return getFaviconProxyUrl(bookmark.url);
   });
-  const uniqueUrls = [...new Set(faviconUrls)];
-  const cache = await getCacheObj(ECacheBucketKeys.favicon);
-  await Promise.all(uniqueUrls.map(async (url) => cache.add(url)));
+  await addAllToCache(ECacheBucketKeys.favicon, faviconUrls);
 };
 
 const usePreloadBookmarks = () => {

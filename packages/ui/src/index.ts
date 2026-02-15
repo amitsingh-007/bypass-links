@@ -2,6 +2,7 @@ export * from './components/ui/avatar';
 export * from './components/ui/badge';
 export * from './components/ui/button';
 export * from './components/ui/dialog';
+export * from './components/ui/hover-card';
 export * from './components/ui/input';
 export * from './components/ui/input-group';
 export * from './components/ui/label';

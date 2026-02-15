@@ -1,13 +1,13 @@
 // !NOTE: maintain below order of css
 // import '@mantine/core/styles.css';
 // import 'mantine-contextmenu/styles.css';
+import '@bypass/ui/styles/globals.css';
 import { mantineTheme } from '@bypass/shared';
 import { TooltipProvider } from '@bypass/ui';
 import { MantineProvider } from '@mantine/core';
 import { ContextMenuProvider } from 'mantine-contextmenu';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import './index.css';
 import AsyncFontLoader from './components/AsyncFontLoader';
 import Global from './components/Global';
 import PopupRoutes from './components/PopupRoutes';

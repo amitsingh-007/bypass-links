@@ -310,6 +310,12 @@ importers:
       '@bypass/ui':
         specifier: workspace:*
         version: link:../ui
+      '@hugeicons/core-free-icons':
+        specifier: 3.1.1
+        version: 3.1.1
+      '@hugeicons/react':
+        specifier: 1.1.5
+        version: 1.1.5(react@19.2.4)
       '@mantine/core':
         specifier: 8.3.14
         version: 8.3.14(@mantine/hooks@8.3.14(react@19.2.4))(@types/react@19.2.10)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -334,6 +340,9 @@ importers:
       react-icons:
         specifier: 5.5.0
         version: 5.5.0(react@19.2.4)
+      wretch:
+        specifier: 3.0.6
+        version: 3.0.6
       zod:
         specifier: 4.3.6
         version: 4.3.6

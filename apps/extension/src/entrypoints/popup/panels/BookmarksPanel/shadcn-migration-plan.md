@@ -22,22 +22,30 @@ Phase-wise migration plan to migrate `BookmarksPanel` from Mantine to Shadcn com
 
 ---
 
-## Phase 2: Bookmarks in Bookmarks List
+## Phase 2: Bookmarks in Bookmarks List ✅ COMPLETE
 
-**Components to migrate:**
+**Components migrated:**
 
-- `BookmarkRow.tsx` - Wraps shared Bookmark component
-- `Bookmark` (from @bypass/shared) - Uses Flex, Text, Tooltip
-- `PersonAvatars` (from @bypass/shared) - Uses Avatar, HoverCard, Tooltip
-- `VirtualRow.tsx` - Uses Box
-- `BookmarksPanel.tsx` - Uses Box, Flex for layout
+- `BookmarkRow.tsx` - No changes needed (wraps shared Bookmark)
+- `Bookmark` (from @bypass/shared) - Migrated to shadcn Tooltip and Tailwind classes
+- `PersonAvatars` (from @bypass/shared) - Migrated to shadcn Avatar, HoverCard, Tooltip
+- `Favicon` (from @bypass/shared) - Migrated to shadcn Avatar
+- `VirtualRow.tsx` - Migrated Box to div with Tailwind classes
+- `BookmarksPanel.tsx` - Migrated Box, Flex to div with Tailwind classes
 
-**Installations:**
+**CSS files removed:**
 
-```bash
-cd packages/ui
-pnpm dlx shadcn@latest add hover-card
-```
+- `Bookmark.module.css`
+- `VirtualRow.module.css`
+- `BookmarksPanel.module.css`
+
+**CSS files updated:**
+
+- `packages/shared/src/styles/bookmarks/styles.module.css` - Converted Mantine variables to standard CSS
+
+**Installed:**
+
+- `hover-card` shadcn component
 
 ---
 

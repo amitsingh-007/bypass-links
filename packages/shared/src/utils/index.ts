@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 export const getFaviconProxyUrl = (url: string) =>
-  `https://favicon.yandex.net/favicon/${new URL(url).hostname}`;
+  `https://www.google.com/s2/favicons?domain=${new URL(url).hostname}&sz=32`;
 
 export const noOp = () => {};
 export const asyncNoOp = async () => {};
