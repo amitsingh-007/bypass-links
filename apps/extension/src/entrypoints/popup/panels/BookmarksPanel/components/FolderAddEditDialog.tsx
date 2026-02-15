@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod/mini';
 import { useForm } from '@tanstack/react-form';
 import {
   Button,
@@ -22,12 +22,7 @@ interface Props {
 }
 
 const formSchema = z.object({
-  folderName: z
-    .string()
-    .min(1, "Can't be empty")
-    .refine((val) => val !== '', {
-      message: "Can't be empty",
-    }),
+  folderName: z.string().check(z.minLength(1, 'Required')),
 });
 
 export function FolderAddEditDialog({

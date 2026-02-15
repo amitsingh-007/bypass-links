@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod/mini';
 import { useForm } from '@tanstack/react-form';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'wouter';
@@ -48,14 +48,9 @@ interface Props {
 const formSchema = z.object({
   id: z.string(),
   pos: z.number(),
-  url: z
-    .string()
-    .min(1, 'Required')
-    .refine((val) => URL.canParse(val), {
-      message: 'Invalid URL format',
-    }),
-  title: z.string().min(1, 'Required'),
-  folderId: z.string().min(1, 'Required'),
+  url: z.url('Invalid URL format'),
+  title: z.string().check(z.minLength(1, 'Required')),
+  folderId: z.string().check(z.minLength(1, 'Required')),
   taggedPersons: z.array(z.string()),
 });
 
