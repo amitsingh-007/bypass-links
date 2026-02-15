@@ -2,8 +2,8 @@ import { Header } from '@bypass/shared';
 import { Button } from '@bypass/ui';
 import { useKeyPress } from 'ahooks';
 import { memo, useRef, useState } from 'react';
-import { FaFolderPlus } from 'react-icons/fa';
-import { IoSave } from 'react-icons/io5';
+import { BookmarkCheck01Icon, FolderAddIcon } from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
 import { useShallow } from 'zustand/react/shallow';
 import useBookmarkStore from '../store/useBookmarkStore';
 import ConfirmationDialog from './ConfirmationDialog';
@@ -87,7 +87,7 @@ const BookmarksHeader = memo<Props>(({ onSearchChange, folderId }) => {
           disabled={isFetching}
           onClick={toggleNewFolderDialog}
         >
-          <FaFolderPlus className="mr-1 size-4" />
+          <HugeiconsIcon icon={FolderAddIcon} className="mr-1 size-4" />
           Add
         </Button>
         <Button
@@ -95,7 +95,7 @@ const BookmarksHeader = memo<Props>(({ onSearchChange, folderId }) => {
           disabled={disableSave}
           onClick={handleSaveClick}
         >
-          <IoSave className="mr-1 size-4" />
+          <HugeiconsIcon icon={BookmarkCheck01Icon} className="mr-1 size-4" />
           Save
         </Button>
       </Header>

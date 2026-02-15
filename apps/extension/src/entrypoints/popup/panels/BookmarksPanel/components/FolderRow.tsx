@@ -1,10 +1,12 @@
 import { Folder, type FolderProps } from '@bypass/shared';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { StarIcon } from '@hugeicons/core-free-icons';
+import {
+  FolderEditIcon,
+  FolderRemoveIcon,
+  StarIcon,
+  StarOffIcon,
+} from '@hugeicons/core-free-icons';
 import { memo, useCallback, useMemo, useState } from 'react';
-import { AiFillEdit } from 'react-icons/ai';
-import { MdOutlineDelete } from 'react-icons/md';
-import { PiStarBold, PiStarFill } from 'react-icons/pi';
 import ContextMenu, { type IMenuOption } from '@popup/components/ContextMenu';
 import { FolderAddEditDialog } from './FolderAddEditDialog';
 
@@ -51,22 +53,20 @@ const FolderRow = memo<Props>(
           onClick: toggleEditDialog,
           text: 'Edit',
           id: 'edit',
-          icon: AiFillEdit,
-          color: 'violet.9',
+          icon: FolderEditIcon,
         },
         {
           onClick: handleDefaultOptionClick,
           text: isDefault ? 'Remove default' : 'Make default',
           id: isDefault ? 'remove-default' : 'make-default',
-          icon: isDefault ? PiStarFill : PiStarBold,
-          color: isDefault ? 'yellow.5' : 'dark.3',
+          icon: isDefault ? StarOffIcon : StarIcon,
         },
         {
           onClick: handleDeleteOptionClick,
           text: 'Delete',
           id: 'delete',
-          icon: MdOutlineDelete,
-          color: 'red.9',
+          icon: FolderRemoveIcon,
+          variant: 'destructive',
         },
       ];
       return options;

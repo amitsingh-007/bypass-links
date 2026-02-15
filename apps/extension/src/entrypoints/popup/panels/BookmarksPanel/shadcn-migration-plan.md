@@ -70,19 +70,24 @@ Phase-wise migration plan to migrate `BookmarksPanel` from Mantine to Shadcn com
 
 ---
 
-## Phase 4: Context Menu
+## Phase 4: Context Menu ✅ COMPLETE
 
-**Components to migrate:**
+**Components migrated:**
 
-- `ContextMenu.tsx` (shared component) - Uses Box, useMantineTheme, mantine-contextmenu
-- `BookmarkContextMenu.tsx` - Uses useHotkeys, useMantineTheme
-- Replace mantine-contextmenu library
+- `ContextMenu.tsx` - Migrated to shadcn Context Menu component with Hugeicons
+- `BookmarkContextMenu.tsx` - Migrated to Hugeicons, replaced useHotkeys with ahooks useKeyPress
+- `PersonVirtualCell.tsx` - Migrated to Hugeicons, removed Mantine dependencies
+- Deleted mantine-contextmenu library usage
+
+**CSS files removed:**
+
+- `ContextMenu.module.css`
 
 **Installations:**
 
 ```bash
 cd packages/ui
-pnpm dlx shadcn@latest add dropdown-menu
+pnpm dlx shadcn@latest add context-menu
 ```
 
 ---
