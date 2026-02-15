@@ -1,5 +1,6 @@
 import { type FlatXoConfig } from 'xo';
 import nextPlugin from '@next/eslint-plugin-next';
+import betterTailwindcssPlugin from 'eslint-plugin-better-tailwindcss';
 
 const xoConfig: FlatXoConfig = [
   {
@@ -19,6 +20,22 @@ const xoConfig: FlatXoConfig = [
       },
     },
     files: 'apps/web/**/*.{ts,tsx}',
+  },
+  {
+    plugins: { 'better-tailwindcss': betterTailwindcssPlugin },
+    rules: {
+      ...betterTailwindcssPlugin.configs['recommended-error'].rules,
+      'better-tailwindcss/enforce-consistent-line-wrapping': [
+        'error',
+        { strictness: 'loose' }, // Prevent conflicts with Prettier
+      ],
+    },
+    settings: {
+      'better-tailwindcss': {
+        entryPoint: 'packages/ui/src/styles/globals.css',
+      },
+    },
+    files: ['**/*.{ts,tsx}'],
   },
   {
     ignores: [

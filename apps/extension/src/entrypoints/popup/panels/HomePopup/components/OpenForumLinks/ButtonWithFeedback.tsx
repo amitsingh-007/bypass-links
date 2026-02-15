@@ -17,7 +17,10 @@ function ButtonWithFeedback({ openAllLinks, isForumPage }: Props) {
   if (isForumPage && buttonState === EButtonState.SUCCESS) {
     return (
       <Button
-        className="w-full border-teal-600 bg-teal-600 hover:border-teal-700 hover:bg-teal-700"
+        className="
+          w-full border-teal-600 bg-teal-600
+          hover:border-teal-700 hover:bg-teal-700
+        "
         variant="default"
         onClick={onClick}
       >

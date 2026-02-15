@@ -279,7 +279,12 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
             )}
           </form.Field>
 
-          <DialogFooter className="flex flex-col gap-2 p-2 sm:flex-row">
+          <DialogFooter
+            className="
+              flex flex-col gap-2 p-2
+              sm:flex-row
+            "
+          >
             <Button type="button" variant="destructive" onClick={handleDelete}>
               Delete
             </Button>

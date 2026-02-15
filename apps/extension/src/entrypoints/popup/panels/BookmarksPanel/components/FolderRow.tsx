@@ -79,10 +79,15 @@ const FolderRow = memo<Props>(
     return (
       <>
         <ContextMenu options={menuOptions}>
-          <div className="relative h-full w-full">
+          <div className="relative size-full">
             <Folder id={id} name={origName} {...restProps} />
             {isDefault && (
-              <div className="absolute top-1/2 right-1.5 flex -translate-y-1/2 items-center text-yellow-500">
+              <div
+                className="
+                  absolute top-1/2 right-1.5 flex -translate-y-1/2 items-center
+                  text-yellow-500
+                "
+              >
                 <HugeiconsIcon icon={StarIcon} className="size-4" />
               </div>
             )}

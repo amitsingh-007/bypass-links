@@ -48,7 +48,7 @@ function ContextMenuWrapper({ options, children }: Props) {
   return (
     <ContextMenu>
       <ContextMenuTrigger
-        className="h-full w-full"
+        className="size-full"
         onContextMenu={handleContextMenu}
       >
         {children}

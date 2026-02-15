@@ -28,7 +28,9 @@ const Header = memo<Props>(
 
     return (
       <header
-        className="border-border flex items-center justify-between border-b px-2.5"
+        className="
+          flex items-center justify-between border-b border-border px-2.5
+        "
         style={{ height: HEADER_HEIGHT }}
       >
         <div className="flex items-center gap-2">
@@ -46,7 +48,10 @@ const Header = memo<Props>(
             <Badge
               data-testid="header-badge"
               variant="secondary"
-              className="hidden h-8 sm:inline-flex"
+              className="
+                hidden h-8
+                sm:inline-flex
+              "
             >
               {text}
             </Badge>

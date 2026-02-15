@@ -139,7 +139,10 @@ function BookmarksList({
             pos="relative"
             w="100%"
             className={clsx(
-              'hover:bg-muted box-border rounded-md',
+              `
+                box-border rounded-md
+                hover:bg-muted
+              `,
               styles.bookmarkContainer
             )}
           >
