@@ -44,7 +44,6 @@ const FolderRow = memo<Props>(
 
     const handleFolderSave = (newName: string) => {
       handleEdit(id, newName);
-      toggleEditDialog();
     };
 
     const menuOptions = useMemo(() => {

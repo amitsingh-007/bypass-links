@@ -71,7 +71,6 @@ const BookmarksHeader = memo<Props>(({ onSearchChange, folderId }) => {
 
   const handleNewFolderSave = (folderName: string) => {
     handleCreateNewFolder(folderName, folderId);
-    toggleNewFolderDialog();
   };
 
   return (
