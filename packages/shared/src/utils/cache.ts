@@ -1,5 +1,8 @@
+import pLimit from 'p-limit';
 import wretch from 'wretch';
 import { type ECacheBucketKeys } from '../constants/cache';
+
+const limit = pLimit(20);
 
 export const getCacheObj = async (cacheBucketKey: string) =>
   caches.open(cacheBucketKey);
@@ -32,9 +35,10 @@ export const addAllToCache = async (
   urls: string[]
 ) => {
   const uniqueUrls = [...new Set(urls)];
-  await Promise.all(
-    uniqueUrls.map(async (url) => addToCache(cacheBucketKey, url))
+  const cachePromises = uniqueUrls.map(async (url) =>
+    limit(async () => addToCache(cacheBucketKey, url))
   );
+  await Promise.all(cachePromises);
 };
 
 const getFromCache = async (cacheBucketKey: ECacheBucketKeys, url: string) => {

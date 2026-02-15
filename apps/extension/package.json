@@ -29,6 +29,7 @@
     "@trpc/client": "11.9.0",
     "@trpc/server": "11.9.0",
     "ahooks": "3.9.6",
+    "p-limit": "7.3.0",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
     "mantine-contextmenu": "8.3.13",
