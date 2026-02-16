@@ -29,11 +29,11 @@
   - `Flex` and `Text` → Tailwind classes
   - Deleted `Person.module.css` ✅
 
-## Phase 3: Context Menu (`PersonVirtualCell.tsx`)
+## Phase 3: Context Menu (`PersonVirtualCell.tsx`) ✅ COMPLETE
 
 - **NO CHANGES** - Already uses migrated components + Hugeicons
 
-## Phase 4: Add/Edit Person Modal (`AddOrEditPersonDialog.tsx`)
+## Phase 4: Add/Edit Person Modal (`AddOrEditPersonDialog.tsx`) ✅ COMPLETE
 
 - `Modal` → `Dialog`, `DialogContent`, `DialogHeader`, `DialogTitle` from `@bypass/ui`
 - `Stack` → `<div className="flex flex-col gap-4">`
@@ -46,7 +46,7 @@
 - `@mantine/form` → `@tanstack/react-form` + `zod`
 - `AiFillEdit` → `PencilEdit01Icon` from `@hugeicons/core-free-icons`
 - Convert CSS module to Tailwind
-- **Delete**: `AddOrEditPersonDialog.module.css`
+- **Delete**: `AddOrEditPersonDialog.module.css` ✅
 
 ## Phase 5: Image Upload Modal (`ImagePicker.tsx`)
 

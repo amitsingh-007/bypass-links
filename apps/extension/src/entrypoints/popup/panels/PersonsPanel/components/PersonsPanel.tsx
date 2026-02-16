@@ -69,8 +69,9 @@ function PersonsPanel() {
   const handleAddOrEditPerson = async (person: IPerson) => {
     setIsFetching(true);
     const pos = getPersonPos(persons, person);
+    const isNewPerson = pos === -1;
     const newPersons = [...persons];
-    if (pos === -1) {
+    if (isNewPerson) {
       // Add person
       newPersons.push(person);
     } else {
@@ -84,7 +85,9 @@ function PersonsPanel() {
     setPersons(sortedPersons);
     await handleSave(sortedPersons);
     setIsFetching(false);
-    toast.success('Person added/updated successfully');
+    toast.success(
+      `${person.name} ${isNewPerson ? 'added' : 'updated'} successfully`
+    );
   };
 
   const handlePersonDelete = async (person: IPerson) => {

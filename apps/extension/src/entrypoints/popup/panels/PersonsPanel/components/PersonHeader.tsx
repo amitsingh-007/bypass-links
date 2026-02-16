@@ -1,5 +1,5 @@
 import { Header, type IPerson } from '@bypass/shared';
-import { Button, Spinner, Switch } from '@bypass/ui';
+import { Button, Switch } from '@bypass/ui';
 import { UserAdd01Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { memo, useState } from 'react';
@@ -52,16 +52,6 @@ const PersonHeader = memo<Props>(
             />
             <span className="text-sm">Recency</span>
           </div>
-          {isFetching && (
-            <div
-              className="
-                absolute inset-0 z-50 flex items-center justify-center
-                bg-white/80
-              "
-            >
-              <Spinner className="size-6" />
-            </div>
-          )}
         </Header>
         {showAddPersonDialog && (
           <AddOrEditPersonDialog
