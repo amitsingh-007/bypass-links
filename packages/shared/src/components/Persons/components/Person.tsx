@@ -1,10 +1,9 @@
-import { ActionIcon, Avatar, Flex, Text } from '@mantine/core';
+import { Avatar, AvatarImage, Button } from '@bypass/ui';
 import { memo, useContext, useEffect, useState } from 'react';
 import DynamicContext from '../../../provider/DynamicContext';
 import usePerson from '../hooks/usePerson';
 import { type IPerson } from '../interfaces/persons';
 import { getPersonsPanelUrl } from '../utils/urls';
-import styles from './styles/Person.module.css';
 
 interface Props {
   person: IPerson;
@@ -27,36 +26,36 @@ const Person = memo<Props>(({ person }) => {
   };
 
   return (
-    <ActionIcon
-      variant="outline"
-      color="dark"
-      radius="lg"
-      w="100%"
-      h="100%"
+    <Button
+      variant="secondary"
       data-testid={`person-item-${name}`}
-      classNames={{
-        root: styles.container,
-        icon: styles.iconInner,
-      }}
+      className="
+        size-full flex-col overflow-hidden rounded-xl p-0 whitespace-normal
+        transition-opacity
+        hover:opacity-80
+      "
       onClick={openBookmarksList}
     >
-      <Avatar src={imageUrl} h={110} w="100%" alt={name} radius="xs" />
-      <Flex align="center" w="100%" className={styles.image}>
-        <Text
-          fw={700}
-          size="sm"
-          lineClamp={2}
-          px="4px"
-          ta="center"
-          lh={1.15}
+      <Avatar
+        className="
+          h-[110px] w-full
+          after:rounded-none
+        "
+      >
+        <AvatarImage src={imageUrl} alt={name} className="rounded-none" />
+      </Avatar>
+      <div className="flex flex-1 items-center justify-center px-1">
+        <span
+          className="
+            line-clamp-2 w-full text-center text-sm/tight font-bold
+            wrap-break-word text-gray-400
+          "
           title={name}
-          c="gray.4"
-          className={styles.name}
         >
           {name}
-        </Text>
-      </Flex>
-    </ActionIcon>
+        </span>
+      </div>
+    </Button>
   );
 });
 

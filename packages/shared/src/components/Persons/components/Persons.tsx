@@ -1,4 +1,3 @@
-import { Box, Flex } from '@mantine/core';
 import { useElementSize } from '@mantine/hooks';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import {
@@ -16,7 +15,6 @@ import usePerson from '../hooks/usePerson';
 import { type IPerson } from '../interfaces/persons';
 import { getColumnCount, getReactKey } from '../utils';
 import BookmarksList from './BookmarksList';
-import styles from './styles/Persons.module.css';
 
 interface Props {
   persons: IPerson[];
@@ -64,16 +62,18 @@ function PersonsInner({
       {scrollButton && (
         <ScrollButton itemsSize={rowCount} onScroll={handleScroll} />
       )}
-      <Box h={rowVirtualizer.getTotalSize()} w="100%" pos="relative">
+      <div
+        className="relative w-full"
+        style={{ height: rowVirtualizer.getTotalSize() }}
+      >
         {rowVirtualizer.getVirtualItems().map((virtualRow) => (
-          <Flex
+          <div
             key={virtualRow.key}
-            pos="absolute"
-            top={0}
-            left={0}
-            w="100%"
-            h={virtualRow.size}
-            style={{ transform: `translateY(${virtualRow.start}px)` }}
+            className="absolute top-0 left-0 flex w-full pl-1.5"
+            style={{
+              height: virtualRow.size,
+              transform: `translateY(${virtualRow.start}px)`,
+            }}
           >
             {Array.from({ length: columnCount })
               .fill(0)
@@ -89,14 +89,14 @@ function PersonsInner({
                 const person = persons[personIndex];
 
                 return (
-                  <Box key={person.uid} w={columnDimension}>
+                  <div key={person.uid} style={{ width: columnDimension }}>
                     {renderPerson(person)}
-                  </Box>
+                  </div>
                 );
               })}
-          </Flex>
+          </div>
         ))}
-      </Box>
+      </div>
       <BookmarksList
         personToOpen={personToOpen}
         imageUrl={personToOpenImage}
@@ -128,7 +128,7 @@ function Persons(props: Props) {
   }, [queryString, persons, resolvePersonImageFromUid]);
 
   return (
-    <Box ref={ref} className={styles.personInner} w="100%" h="100%">
+    <div ref={ref} className="size-full overflow-hidden overflow-y-auto">
       {width > 0 && (
         <PersonsInner
           {...props}
@@ -138,7 +138,7 @@ function Persons(props: Props) {
           personToOpenImage={personToOpenImage}
         />
       )}
-    </Box>
+    </div>
   );
 }
 

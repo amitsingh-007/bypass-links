@@ -40,7 +40,7 @@ const Header = memo<Props>(
         </div>
         <div className="flex items-center justify-end gap-2">
           {onSearchChange ? <Search onChange={onSearchChange} /> : null}
-          {text ? (
+          {text === null ? null : (
             <Badge
               data-testid="header-badge"
               variant="secondary"
@@ -51,7 +51,7 @@ const Header = memo<Props>(
             >
               {text}
             </Badge>
-          ) : null}
+          )}
           {RightContent}
         </div>
       </header>
