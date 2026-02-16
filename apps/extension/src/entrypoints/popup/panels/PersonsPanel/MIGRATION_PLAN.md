@@ -1,21 +1,33 @@
 # PersonsPanel Mantine → Shadcn Migration Plan
 
-## Phase 1: Header (`PersonHeader.tsx`)
+## Phase 1: Header (`PersonHeader.tsx`) ✅ COMPLETE
 
 - `Button` from @mantine/core → `Button` from `@bypass/ui`
 - `Switch` from @mantine/core → `Switch` from `@bypass/ui`
 - `LoadingOverlay` → `Spinner` from `@bypass/ui` (conditional render)
 - `IoIosPersonAdd` → `UserAdd01Icon` (or similar) from `@hugeicons/core-free-icons`
 - Convert CSS module to Tailwind
-- **Delete**: `PersonHeader.module.css`
+- **Delete**: `PersonHeader.module.css` ✅
 
-## Phase 2: Persons Panel (`PersonsPanel.tsx`)
+## Phase 2: Persons Panel (`PersonsPanel.tsx`) ✅ COMPLETE
 
 - `Flex` → `<div className="flex flex-col">`
 - `Box` → `<div>`
 - `notifications` from @mantine/notifications → `toast` from `sonner`
   - `notifications.show({ message })` → `toast.success(message)`
   - `notifications.show({ message, color: 'red' })` → `toast.error(message)`
+
+### Additional Changes in Phase 2:
+
+- `Persons.tsx` component: Migrated from Mantine to Tailwind
+  - `Box` → `<div>`
+  - `Flex` → `<div className="flex">`
+  - Deleted `Persons.module.css` ✅
+- `Person.tsx` component: Migrated from Mantine to Tailwind
+  - `ActionIcon` → `Button` from `@bypass/ui`
+  - `Avatar` → `Avatar` from `@bypass/ui`
+  - `Flex` and `Text` → Tailwind classes
+  - Deleted `Person.module.css` ✅
 
 ## Phase 3: Context Menu (`PersonVirtualCell.tsx`)
 

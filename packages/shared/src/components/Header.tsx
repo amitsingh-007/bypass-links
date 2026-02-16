@@ -40,7 +40,7 @@ const Header = memo<Props>(
         </div>
         <div className="flex items-center justify-end gap-2">
           {onSearchChange ? <Search onChange={onSearchChange} /> : null}
-          {text === null ? null : (
+          {text !== undefined && (
             <Badge
               data-testid="header-badge"
               variant="secondary"
