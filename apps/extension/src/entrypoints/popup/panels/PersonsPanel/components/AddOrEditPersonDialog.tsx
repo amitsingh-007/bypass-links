@@ -49,8 +49,8 @@ function AddOrEditPersonDialog({
 
   const form = useForm({
     defaultValues: {
-      uid: person?.uid ?? crypto.randomUUID(),
-      name: person?.name ?? '',
+      uid: '',
+      name: '',
     },
     validators: {
       onSubmit: formSchema,
@@ -81,13 +81,18 @@ function AddOrEditPersonDialog({
   useEffect(() => {
     if (person) {
       initImageUrl(person.uid);
-      form.setFieldValue('uid', person.uid);
-      form.setFieldValue('name', person.name);
+      form.reset({
+        uid: person.uid,
+        name: person.name,
+      });
     } else {
-      form.setFieldValue('name', '');
+      setImageUrl('');
+      form.reset({
+        uid: crypto.randomUUID(),
+        name: '',
+      });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initImageUrl, person]);
+  }, [form, initImageUrl, person]);
 
   const handleImageCropSave = async (fileName: string) => {
     const url = await trpcApi.storage.getDownloadUrl.query(fileName);
