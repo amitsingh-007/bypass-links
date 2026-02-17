@@ -1,5 +1,5 @@
 import { z } from 'zod/mini';
-import { type IPerson, usePerson } from '@bypass/shared';
+import { noOp, type IPerson, usePerson } from '@bypass/shared';
 import {
   Avatar,
   AvatarFallback,
@@ -15,7 +15,7 @@ import {
   Input,
   Spinner,
 } from '@bypass/ui';
-import { useForm } from '@tanstack/react-form';
+import { useForm, useStore } from '@tanstack/react-form';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { UserWarning03Icon } from '@hugeicons/core-free-icons';
 import { useCallback, useEffect, useState } from 'react';
@@ -84,8 +84,6 @@ function AddOrEditPersonDialog({
       form.setFieldValue('uid', person.uid);
       form.setFieldValue('name', person.name);
     } else {
-      const newUid = crypto.randomUUID();
-      form.setFieldValue('uid', newUid);
       form.setFieldValue('name', '');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -98,12 +96,12 @@ function AddOrEditPersonDialog({
 
   const toggleImagePicker = () => setShowImagePicker(!showImagePicker);
 
-  const uid = form.getFieldValue('uid');
+  const uid = useStore(form.store, (state) => state.values.uid);
 
   return (
     <>
-      <Dialog open={isOpen} onOpenChange={isLoading ? undefined : onClose}>
-        <DialogContent>
+      <Dialog open={isOpen} onOpenChange={isLoading ? noOp : onClose}>
+        <DialogContent showCloseButton={!isLoading}>
           <DialogHeader>
             <DialogTitle>{person ? 'Edit Person' : 'Add Person'}</DialogTitle>
           </DialogHeader>

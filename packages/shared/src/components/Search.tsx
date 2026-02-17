@@ -25,7 +25,9 @@ const Search = memo<SearchProps>(({ onChange }) => {
     ];
 
     const visibleSearchInputs = searchInputs.filter(
-      (input) => input.offsetParent !== null && !input.disabled
+      (input) =>
+        (input.checkVisibility?.() ?? input.offsetParent !== null) &&
+        !input.disabled
     );
 
     const targetInput = visibleSearchInputs.at(-1);
