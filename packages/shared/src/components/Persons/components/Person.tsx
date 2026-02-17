@@ -39,7 +39,7 @@ const Person = memo<Props>(({ person }) => {
       <Avatar
         className="
           h-[110px] w-full
-          after:rounded-none
+          after:rounded-none after:border-none
         "
       >
         <AvatarImage src={imageUrl} alt={name} className="rounded-none" />

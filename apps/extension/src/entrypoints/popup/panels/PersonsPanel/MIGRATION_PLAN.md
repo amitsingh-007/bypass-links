@@ -48,20 +48,20 @@
 - Convert CSS module to Tailwind
 - **Delete**: `AddOrEditPersonDialog.module.css` ✅
 
-## Phase 5: Image Upload Modal (`ImagePicker.tsx`)
+## Phase 5: Image Upload Modal (`ImagePicker.tsx`) ✅ COMPLETE
 
-- **Prerequisite**: Add Slider to @bypass/ui: `cd packages/ui && pnpm dlx shadcn@latest add slider`
-- `Modal` (fullScreen) → `Dialog` with full-screen styling
-- `Flex`, `Box`, `Group` → Tailwind flex/position classes
-- `Loader` → `Spinner` from `@bypass/ui`
-- `LoadingOverlay` → Custom overlay with `Spinner`
-- `TextInput` → `Input` from `@bypass/ui`
-- `Text` → Tailwind typography (`<span className="text-sm">`)
-- `Slider` → `Slider` from `@bypass/ui` (after adding)
-- `Button` → `Button` from `@bypass/ui`
-- `useDebouncedState` → Custom hook with `useState` + `useEffect`
-- Convert CSS module to Tailwind
-- **Delete**: `ImagePicker.module.css`
+- **Prerequisite**: Add Slider to @bypass/ui: `cd packages/ui && pnpm dlx shadcn@latest add slider` ✅
+- `Modal` (fullScreen) → `Dialog` with full-screen styling ✅
+- `Flex`, `Box`, `Group` → Tailwind flex/position classes ✅
+- `Loader` → `Spinner` from `@bypass/ui` ✅
+- `LoadingOverlay` → Custom overlay with `Spinner` ✅
+- `TextInput` → `Input` from `@bypass/ui` ✅
+- `Text` → Tailwind typography (`<span className="text-sm">`) ✅
+- `Slider` → `Slider` from `@bypass/ui` (after adding) ✅
+- `Button` → `Button` from `@bypass/ui` ✅
+- `useDebouncedState` → Custom hook with `useState` + `useEffect` ✅
+- Convert CSS module to Tailwind ✅
+- **Delete**: `ImagePicker.module.css` ✅
 
 ## Phase 6: Cleanup
 

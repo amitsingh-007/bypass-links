@@ -12,6 +12,7 @@ import {
   useBookmark,
   usePerson,
 } from '@bypass/shared';
+import { Spinner } from '@bypass/ui';
 import useHistoryStore from '@store/history';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
@@ -138,6 +139,15 @@ function PersonsPanel() {
         className="relative"
         style={{ height: MAX_PANEL_SIZE.HEIGHT - HEADER_HEIGHT }}
       >
+        {isFetching && (
+          <div
+            className="
+              absolute inset-0 z-50 flex items-center justify-center bg-black/50
+            "
+          >
+            <Spinner className="size-8" />
+          </div>
+        )}
         {filteredAndOrderedPersons.length > 0 ? (
           <Persons
             scrollButton
