@@ -47,7 +47,7 @@ const PersonVirtualCell = memo<Props>(
     };
 
     return (
-      <div className="h-full p-2">
+      <div className="h-full p-1.5">
         <ContextMenu options={menuOptions}>
           <Person person={person} />
         </ContextMenu>

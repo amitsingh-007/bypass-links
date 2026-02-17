@@ -1,17 +1,15 @@
 import { Header, getPersonImageName } from '@bypass/shared';
 import {
-  Box,
   Button,
-  Flex,
-  Group,
-  Loader,
-  LoadingOverlay,
-  Modal,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  Input,
   Slider,
-  Text,
-  TextInput,
-} from '@mantine/core';
-import { useDebouncedState } from '@mantine/hooks';
+  Spinner,
+} from '@bypass/ui';
+import { useDebounce } from 'ahooks';
 import {
   type ChangeEventHandler,
   type ClipboardEventHandler,
@@ -21,7 +19,6 @@ import {
 import AvatarEditor from 'react-avatar-editor';
 import wretch from 'wretch';
 import { uploadFileToFirebase } from '../utils/uploadImage';
-import styles from './styles/ImagePicker.module.css';
 
 interface Props {
   uid: string;
@@ -32,10 +29,8 @@ interface Props {
 
 function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
   const [isUploadingImage, setIsUploadingImage] = useState(false);
-  const [inputOrFile, setInputOrFile] = useDebouncedState<string | File>(
-    '',
-    500
-  );
+  const [inputOrFileValue, setInputOrFileValue] = useState<string | File>('');
+  const inputOrFile = useDebounce(inputOrFileValue, { wait: 500 });
   const [isLoadingImage, setIsLoadingImage] = useState(false);
   const imageCropperRef = useRef<AvatarEditor>(null);
   const [zoom, setZoom] = useState(1);
@@ -43,12 +38,12 @@ function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
 
   const handleImageUrlChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setIsLoadingImage(true);
-    setInputOrFile(e.target.value ?? '');
+    setInputOrFileValue(e.target.value ?? '');
   };
 
   const handleImagePaste: ClipboardEventHandler<HTMLInputElement> = (e) => {
-    setIsLoadingImage(true);
     const { items } = e.clipboardData;
+    // First check for image files
     for (const item of items) {
       const isImageType = item.type.includes('image/');
       if (!isImageType) {
@@ -59,10 +54,17 @@ function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
         continue;
       }
       e.preventDefault();
-      setInputOrFile(imageFile);
-      break;
+      setIsLoadingImage(true);
+      setInputOrFileValue(imageFile);
+      return;
     }
-    setIsLoadingImage(false);
+    // If no image file, try to get text/URL
+    const textData = e.clipboardData.getData('text');
+    if (textData) {
+      e.preventDefault();
+      setIsLoadingImage(true);
+      setInputOrFileValue(textData);
+    }
   };
 
   const saveCroppedImage = async () => {
@@ -86,89 +88,107 @@ function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
   };
 
   const disableControls = isLoadingImage || !inputOrFile;
+
   return (
-    <Modal
-      fullScreen
-      opened={isOpen}
-      zIndex={1002}
-      withCloseButton={false}
-      styles={{
-        body: { padding: 'unset' },
-        content: { '> div': { maxHeight: 'unset' } },
-      }}
-      onClose={onDialogClose}
-    >
-      <LoadingOverlay
-        visible={isUploadingImage}
-        data-testid="uploading-overlay"
-      />
-      <Header text="Upload Image" onBackClick={onDialogClose} />
-      <Flex pos="relative" justify="center" align="center" w="100%" p={4}>
-        {isLoadingImage && <Loader pos="absolute" size="lg" />}
-        <AvatarEditor
-          ref={imageCropperRef}
-          image={inputOrFile}
-          crossOrigin="anonymous"
-          // When changing this, change in upload API as well
-          width={250}
-          height={250}
-          border={[270, 70]}
-          borderRadius={4}
-          scale={zoom}
-          rotate={rotation}
-          className={styles.imageCropperCanvas}
-          onImageReady={() => setIsLoadingImage(false)}
-        />
-      </Flex>
-      <Box px="1.25rem">
-        <Group justify="center" mt={6}>
-          <TextInput
-            data-autofocus
-            placeholder="Enter image url"
-            w="82%"
-            value={typeof inputOrFile === 'string' ? inputOrFile : ''}
-            onChange={handleImageUrlChange}
-            onPaste={handleImagePaste}
-          />
-          <Box w="40%">
-            <Text size="sm">Zoom</Text>
-            <Slider
-              radius="xl"
-              value={zoom}
-              min={1}
-              max={3}
-              step={0.001}
-              label={(value) => value.toFixed(1)}
-              disabled={disableControls}
-              color={zoom > 2 ? 'red' : 'blue'}
-              onChange={setZoom}
+    <Dialog open={isOpen} onOpenChange={(open) => !open && onDialogClose()}>
+      <DialogContent
+        className="
+          inset-0! block max-w-none! translate-0! overflow-hidden rounded-none
+          p-0
+        "
+        showCloseButton={false}
+      >
+        <div className="size-full bg-background">
+          {isUploadingImage && (
+            <div
+              className="
+                absolute inset-0 z-50 flex items-center justify-center
+                bg-black/50
+              "
+              data-testid="uploading-overlay"
+            >
+              <Spinner className="size-8" />
+            </div>
+          )}
+          <DialogHeader className="border-b border-border px-0">
+            <DialogTitle className="sr-only">Upload Image</DialogTitle>
+          </DialogHeader>
+          <Header text="Upload Image" onBackClick={onDialogClose} />
+          <div className="relative flex w-full items-center justify-center p-4">
+            {isLoadingImage && (
+              <div className="absolute">
+                <Spinner className="size-8" />
+              </div>
+            )}
+            <AvatarEditor
+              ref={imageCropperRef}
+              image={inputOrFile}
+              crossOrigin="anonymous"
+              // When changing this, change in upload API as well
+              width={250}
+              height={250}
+              border={[270, 70]}
+              borderRadius={4}
+              scale={zoom}
+              rotate={rotation}
+              className="rounded-xl bg-black"
+              onImageReady={() => setIsLoadingImage(false)}
             />
-          </Box>
-          <Box w="40%">
-            <Text size="sm">Rotate</Text>
-            <Slider
-              radius="xl"
-              value={rotation}
-              min={0}
-              max={360}
-              disabled={disableControls}
-              onChange={setRotation}
-            />
-          </Box>
-        </Group>
-        <Group mt={8} justify="center">
-          <Button
-            data-testid="save-cropped-image"
-            disabled={disableControls}
-            radius="xl"
-            color="teal"
-            onClick={saveCroppedImage}
-          >
-            Save Cropped Image
-          </Button>
-        </Group>
-      </Box>
-    </Modal>
+          </div>
+          <div className="px-5">
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
+              <Input
+                placeholder="Enter image url"
+                className="w-[82%]"
+                value={
+                  typeof inputOrFileValue === 'string' ? inputOrFileValue : ''
+                }
+                onChange={handleImageUrlChange}
+                onPaste={handleImagePaste}
+              />
+              <div className="w-[40%]">
+                <span className="mb-2 block text-sm">Zoom</span>
+                <Slider
+                  value={[zoom]}
+                  min={1}
+                  max={3}
+                  step={0.001}
+                  disabled={disableControls}
+                  thumbAlignment="center"
+                  onValueChange={(value) => {
+                    const val = Array.isArray(value) ? value[0] : value;
+                    setZoom(val ?? 1);
+                  }}
+                />
+              </div>
+              <div className="w-[40%]">
+                <span className="mb-2 block text-sm">Rotate</span>
+                <Slider
+                  value={[rotation]}
+                  min={0}
+                  max={360}
+                  disabled={disableControls}
+                  thumbAlignment="center"
+                  onValueChange={(value) => {
+                    const val = Array.isArray(value) ? value[0] : value;
+                    setRotation(val ?? 0);
+                  }}
+                />
+              </div>
+            </div>
+            <div className="mt-8 flex justify-center">
+              <Button
+                data-testid="save-cropped-image"
+                disabled={disableControls}
+                onClick={saveCroppedImage}
+              >
+                Save Cropped Image
+              </Button>
+            </div>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }
 

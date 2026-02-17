@@ -1,22 +1,28 @@
-import { type IPerson, usePerson } from '@bypass/shared';
+import { z } from 'zod/mini';
+import { noOp, type IPerson, usePerson } from '@bypass/shared';
 import {
-  ActionIcon,
   Avatar,
-  Box,
+  AvatarFallback,
+  AvatarImage,
   Button,
-  Center,
-  Modal,
-  Stack,
-  TextInput,
-} from '@mantine/core';
-import { useForm } from '@mantine/form';
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  Field,
+  FieldError,
+  FieldLabel,
+  Input,
+  Spinner,
+} from '@bypass/ui';
+import { useForm, useStore } from '@tanstack/react-form';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { UserWarning03Icon } from '@hugeicons/core-free-icons';
 import { useCallback, useEffect, useState } from 'react';
-import { AiFillEdit } from 'react-icons/ai';
 import ImagePicker from './ImagePicker';
-import styles from './styles/AddOrEditPersonDialog.module.css';
 import { trpcApi } from '@/apis/trpcApi';
 
-const imageSize = 200;
+const IMAGE_SIZE = 200;
 
 interface Props {
   person?: IPerson;
@@ -25,10 +31,10 @@ interface Props {
   handleSaveClick: (person: IPerson) => Promise<void>;
 }
 
-interface IForm {
-  uid?: string;
-  name: string;
-}
+const formSchema = z.object({
+  uid: z.string(),
+  name: z.string().check(z.minLength(1, 'Required')),
+});
 
 function AddOrEditPersonDialog({
   person,
@@ -41,13 +47,26 @@ function AddOrEditPersonDialog({
   const [showImagePicker, setShowImagePicker] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const form = useForm<IForm>({
-    initialValues: {
-      uid: person?.uid,
-      name: person?.name ?? '',
+  const form = useForm({
+    defaultValues: {
+      uid: '',
+      name: '',
     },
-    validate: {
-      name: (value) => (value ? null : 'Required'),
+    validators: {
+      onSubmit: formSchema,
+    },
+    async onSubmit({ value }) {
+      const { uid, name } = value;
+      if (!uid) {
+        return;
+      }
+
+      setIsLoading(true);
+      await handleSaveClick({
+        uid,
+        name,
+      });
+      setIsLoading(false);
     },
   });
 
@@ -62,11 +81,18 @@ function AddOrEditPersonDialog({
   useEffect(() => {
     if (person) {
       initImageUrl(person.uid);
+      form.reset({
+        uid: person.uid,
+        name: person.name,
+      });
     } else {
-      form.setFieldValue('uid', crypto.randomUUID());
+      setImageUrl('');
+      form.reset({
+        uid: crypto.randomUUID(),
+        name: '',
+      });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initImageUrl, person]);
+  }, [form, initImageUrl, person]);
 
   const handleImageCropSave = async (fileName: string) => {
     const url = await trpcApi.storage.getDownloadUrl.query(fileName);
@@ -75,77 +101,77 @@ function AddOrEditPersonDialog({
 
   const toggleImagePicker = () => setShowImagePicker(!showImagePicker);
 
-  const handleSave = async (values: typeof form.values) => {
-    const { uid, name } = values;
-    if (!uid) {
-      return;
-    }
+  const uid = useStore(form.store, (state) => state.values.uid);
 
-    setIsLoading(true);
-    await handleSaveClick({
-      uid,
-      name,
-    });
-    setIsLoading(false);
-  };
-
-  const { uid } = form.values;
   return (
     <>
-      <Modal
-        centered
-        closeOnClickOutside={false}
-        closeOnEscape={false}
-        opened={isOpen}
-        title={person ? 'Edit Person' : 'Add Person'}
-        padding="2.5rem"
-        closeButtonProps={
-          {
-            'data-testid': 'modal-close-button',
-          } as React.ComponentProps<'button'>
-        }
-        onClose={onClose}
-      >
-        <form onSubmit={form.onSubmit(handleSave)}>
-          <Stack>
-            <Center>
-              <Box pos="relative">
+      <Dialog open={isOpen} onOpenChange={isLoading ? noOp : onClose}>
+        <DialogContent showCloseButton={!isLoading}>
+          <DialogHeader>
+            <DialogTitle>{person ? 'Edit Person' : 'Add Person'}</DialogTitle>
+          </DialogHeader>
+          <form
+            className="flex flex-col gap-4"
+            onSubmit={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              form.handleSubmit();
+            }}
+          >
+            <div className="flex justify-center">
+              <div className="relative">
                 <Avatar
-                  alt={imageUrl || 'No Image'}
-                  src={imageUrl}
-                  size={imageSize}
-                  radius="xl"
-                />
-                <Box
-                  pos="absolute"
-                  top="50%"
-                  left="50%"
-                  className={styles.editIconWrapper}
+                  className="
+                    rounded-xl
+                    after:rounded-none after:border-0
+                  "
+                  style={{ width: IMAGE_SIZE, height: IMAGE_SIZE }}
                 >
-                  <ActionIcon
-                    c="white"
-                    radius="xl"
-                    size={imageSize}
-                    onClick={toggleImagePicker}
-                  >
-                    <AiFillEdit size="25px" />
-                  </ActionIcon>
-                </Box>
-              </Box>
-            </Center>
-            <TextInput
-              withAsterisk
-              data-autofocus
-              label="Name"
-              placeholder="Enter name"
-              {...form.getInputProps('name')}
-            />
-            <Button type="submit" color="teal" loading={isLoading}>
+                  <AvatarImage
+                    src={imageUrl}
+                    alt={imageUrl ?? 'No Image'}
+                    className="rounded-xl"
+                  />
+                  <AvatarFallback className="rounded-xl">
+                    <HugeiconsIcon icon={UserWarning03Icon} size={48} />
+                  </AvatarFallback>
+                </Avatar>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  className="absolute inset-0 rounded-xl border-0"
+                  style={{ width: IMAGE_SIZE, height: IMAGE_SIZE }}
+                  onClick={toggleImagePicker}
+                />
+              </div>
+            </div>
+
+            <form.Field name="name">
+              {(field) => (
+                <Field>
+                  <FieldLabel>
+                    Name <span className="text-destructive">*</span>
+                  </FieldLabel>
+                  <Input
+                    data-autofocus
+                    placeholder="Enter name"
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                  />
+                  <FieldError errors={field.state.meta.errors} />
+                </Field>
+              )}
+            </form.Field>
+
+            <Button type="submit" disabled={isLoading}>
+              {isLoading && <Spinner className="mr-2 size-4 animate-spin" />}
               Save
             </Button>
-          </Stack>
-        </form>
-      </Modal>
+          </form>
+        </DialogContent>
+      </Dialog>
+
       {uid && (
         <ImagePicker
           uid={uid}
