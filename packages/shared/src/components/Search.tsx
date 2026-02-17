@@ -17,8 +17,20 @@ const Search = memo<SearchProps>(({ onChange }) => {
 
   useKeyPress(['meta.f'], (event) => {
     event.preventDefault();
-    event.stopPropagation();
-    document.getElementById('search-input')?.focus();
+
+    const searchInputs = [
+      ...document.querySelectorAll<HTMLInputElement>(
+        'input[data-search-input="true"]'
+      ),
+    ];
+
+    const visibleSearchInputs = searchInputs.filter(
+      (input) => input.offsetParent !== null && !input.disabled
+    );
+
+    const targetInput = visibleSearchInputs.at(-1);
+
+    targetInput?.focus();
   });
 
   return (
@@ -32,7 +44,7 @@ const Search = memo<SearchProps>(({ onChange }) => {
         <GoSearch className="size-4 text-muted-foreground" />
       </InputGroupAddon>
       <InputGroupInput
-        id="search-input"
+        data-search-input="true"
         placeholder="Search"
         onChange={(event) => setInputValue(event.currentTarget.value)}
       />

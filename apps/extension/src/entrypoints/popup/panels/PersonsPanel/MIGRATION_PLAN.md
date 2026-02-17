@@ -63,8 +63,34 @@
 - Convert CSS module to Tailwind ✅
 - **Delete**: `ImagePicker.module.css` ✅
 
-## Phase 6: Cleanup
+## Phase 6: Bookmarks List Modal (`BookmarksList.tsx`) ✅ COMPLETE
 
-- Remove all @mantine/\* imports
-- Delete `components/styles/` directory
-- Run `pnpm lint` && `pnpm typecheck:all`
+- `Modal` (fullScreen) → `Dialog`, `DialogContent` from `@bypass/ui` (same pattern as ImagePicker) ✅
+- `Avatar` → `Avatar`, `AvatarImage` from `@bypass/ui` ✅
+- `Badge` → `Badge` from `@bypass/ui` ✅
+  - `size="lg"` → removed, use default ✅
+  - `size="sm"` → removed, use default ✅
+  - `color="violet"` → `variant="secondary"` ✅
+  - `radius="lg"` → default is rounded-4xl in shadcn ✅
+- `ActionIcon` → `Button` with `variant="ghost"` size="icon" from `@bypass/ui` ✅
+- `Box` → `<div>` with Tailwind classes ✅
+- `Center` → `<div className="flex items-center justify-center">` ✅
+- `Container` → `<div className="mx-auto max-w-2xl px-0">` ✅
+- `AiFillEdit` → `PencilEdit01Icon` from `@hugeicons/core-free-icons` ✅
+- `clsx` → removed, use template literals with Tailwind ✅
+- Convert CSS module to Tailwind: ✅
+  - `.header` → `contents max-sm:hidden` ✅
+  - `.bookmarkContainer` → `relative flex w-full items-center justify-center rounded-md box-border cursor-pointer select-none hover:bg-muted` ✅
+  - `.bookmarkWrapper` → `flex-1` ✅
+- **Delete**: `BookmarksList.module.css` ✅
+
+## Phase 7: Cleanup ✅ COMPLETE
+
+- Remove all @mantine/\* imports from all Persons components ✅
+- Delete `components/styles/` directory ✅
+- Run `pnpm lint` ✅
+- Run `pnpm typecheck:all` ✅
+
+## Migration Complete! 🎉
+
+All PersonsPanel components have been successfully migrated from Mantine to shadcn/ui.

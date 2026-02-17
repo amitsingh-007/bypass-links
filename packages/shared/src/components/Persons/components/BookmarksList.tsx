@@ -1,15 +1,16 @@
 import {
-  ActionIcon,
   Avatar,
+  AvatarImage,
   Badge,
-  Box,
-  Center,
-  Container,
-  Modal,
-} from '@mantine/core';
-import clsx from 'clsx';
+  Button,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@bypass/ui';
+import { BookEditIcon } from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { AiFillEdit } from 'react-icons/ai';
 import DynamicContext from '../../../provider/DynamicContext';
 import Bookmark from '../../Bookmarks/components/Bookmark';
 import { EBookmarkOperation } from '../../Bookmarks/constants';
@@ -24,7 +25,6 @@ import {
   getFilteredModifiedBookmarks,
   getOrderedBookmarksList,
 } from '../utils/bookmark';
-import styles from './styles/BookmarksList.module.css';
 
 interface Props {
   personToOpen: IPerson | undefined;
@@ -116,49 +116,54 @@ function BookmarksList({
     <>
       <Header
         rightContent={
-          <Box className={styles.header}>
-            <Avatar src={imageUrl} alt={personToOpen?.name} radius="xl" />
+          <div
+            className="
+              contents
+              max-sm:hidden
+            "
+          >
+            <Avatar>
+              <AvatarImage src={imageUrl} alt={personToOpen?.name} />
+            </Avatar>
             <Badge
               data-testid="person-bookmark-count-badge"
-              size="lg"
-              radius="lg"
-              maw="50%"
+              className="h-8 max-w-[50%]"
+              variant="secondary"
             >{`${personToOpen?.name} (${filteredBookmarks?.length || 0})`}</Badge>
-          </Box>
+          </div>
         }
         onSearchChange={setSearchText}
       />
       {isLoading ? (
-        <Center h="12.5rem" data-testid="bookmarks-loading">
-          <Box>Loading bookmarks...</Box>
-        </Center>
+        <div
+          className="flex h-50 items-center justify-center"
+          data-testid="bookmarks-loading"
+        >
+          <div>Loading bookmarks...</div>
+        </div>
       ) : filteredBookmarks.length > 0 ? (
         filteredBookmarks.map((bookmark) => (
-          <Center
+          <div
             key={bookmark.url}
-            pos="relative"
-            w="100%"
-            className={clsx(
-              `
-                box-border rounded-md
-                hover:bg-muted
-              `,
-              styles.bookmarkContainer
-            )}
+            className="
+              relative box-border flex h-8 w-full cursor-pointer items-center
+              justify-center rounded-md select-none
+              hover:bg-muted
+            "
+            data-testid="bookmark-container"
           >
             {showEditButton && (
-              <ActionIcon
-                size="2rem"
+              <Button
+                variant="secondary"
+                size="icon-sm"
                 title="Edit Bookmark"
-                color="red"
-                radius="xl"
                 data-testid="edit-bookmark-button"
                 onClick={() => handleBookmarkEdit(bookmark)}
               >
-                <AiFillEdit size="1.125rem" />
-              </ActionIcon>
+                <HugeiconsIcon icon={BookEditIcon} className="size-3.5" />
+              </Button>
             )}
-            <Box className={styles.bookmarkWrapper}>
+            <div className="flex-1">
               <Bookmark
                 id={bookmark.id}
                 url={bookmark.url}
@@ -166,42 +171,42 @@ function BookmarksList({
                 taggedPersons={bookmark.taggedPersons}
                 onOpenLink={onLinkOpen}
               />
-            </Box>
-            <Badge data-testid="folder-name-badge" size="sm" color="violet">
+            </div>
+            <Badge data-testid="folder-name-badge" variant="secondary">
               {bookmark.parentName}
             </Badge>
-          </Center>
+          </div>
         ))
       ) : (
-        <Box ta="center" mt="1.875rem" data-testid="no-bookmarks-message">
+        <div className="mt-7.5 text-center" data-testid="no-bookmarks-message">
           No tagged bookmarks found
-        </Box>
+        </div>
       )}
     </>
   );
 
   return (
-    <Modal
-      fullScreen
-      opened={Boolean(personToOpen)}
-      zIndex={1002}
-      withCloseButton={false}
-      data-testid="bookmarks-list-modal"
-      styles={{
-        body: { padding: 0 },
-        title: { flex: 1, marginRight: 0 },
-        header: { marginBottom: 0 },
-      }}
-      onClose={handleClose}
+    <Dialog
+      open={Boolean(personToOpen)}
+      onOpenChange={(open) => !open && handleClose()}
     >
-      {fullscreen ? (
-        renderContent()
-      ) : (
-        <Container size="md" px={0}>
-          {renderContent()}
-        </Container>
-      )}
-    </Modal>
+      <DialogContent
+        className="
+          inset-0! block max-w-none! translate-0! overflow-hidden rounded-none
+          p-0
+        "
+        showCloseButton={false}
+      >
+        <DialogHeader className="border-b border-border px-0">
+          <DialogTitle className="sr-only">Bookmarks</DialogTitle>
+        </DialogHeader>
+        {fullscreen ? (
+          renderContent()
+        ) : (
+          <div className="mx-auto max-w-2xl px-0">{renderContent()}</div>
+        )}
+      </DialogContent>
+    </Dialog>
   );
 }
 
