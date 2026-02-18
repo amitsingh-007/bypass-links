@@ -1,10 +1,11 @@
-import { useElementSize } from '@mantine/hooks';
+import { useSize } from 'ahooks';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import {
   type ReactNode,
   type RefObject,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from 'react';
 import usePlatform from '../../../hooks/usePlatform';
@@ -26,7 +27,7 @@ interface Props {
 
 type InnerProps = Props & {
   bodyWidth: number;
-  bodyRef: RefObject<HTMLDivElement>;
+  bodyRef: RefObject<HTMLDivElement | null>;
   personToOpen: IPerson | undefined;
   personToOpenImage: string;
 };
@@ -111,7 +112,9 @@ function Persons(props: Props) {
   const { persons } = props;
   const [personToOpen, setPersonToOpen] = useState<IPerson>();
   const [personToOpenImage, setPersonToOpenImage] = useState('');
-  const { ref, width } = useElementSize();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const size = useSize(containerRef);
+  const width = size?.width ?? 0;
   const { location } = useContext(DynamicContext);
   const queryString = location.query();
   const { resolvePersonImageFromUid } = usePerson();
@@ -128,12 +131,15 @@ function Persons(props: Props) {
   }, [queryString, persons, resolvePersonImageFromUid]);
 
   return (
-    <div ref={ref} className="size-full overflow-hidden overflow-y-auto">
+    <div
+      ref={containerRef}
+      className="size-full overflow-hidden overflow-y-auto"
+    >
       {width > 0 && (
         <PersonsInner
           {...props}
           bodyWidth={width}
-          bodyRef={ref}
+          bodyRef={containerRef}
           personToOpen={personToOpen}
           personToOpenImage={personToOpenImage}
         />

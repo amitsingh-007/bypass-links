@@ -45,7 +45,7 @@ const PersonAvatars = memo<{ persons: IPersonWithImage[] }>(({ persons }) => {
             side="top"
             align="center"
             sideOffset={4}
-            className="z-50 h-auto w-auto cursor-pointer rounded-full p-0.5"
+            className="z-50 size-auto cursor-pointer rounded-full p-0.5"
             data-testid={`person-dropdown-${uid}`}
           >
             <TooltipProvider>
