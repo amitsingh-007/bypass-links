@@ -10,6 +10,7 @@
     "./styles/globals.css": "./src/styles/globals.css",
     "./components/ui/*": "./src/components/ui/*.tsx"
   },
+  "sideEffects": false,
   "devDependencies": {
     "@types/react": "19.2.10",
     "@types/react-dom": "19.2.3",

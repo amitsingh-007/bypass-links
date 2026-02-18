@@ -1,7 +1,8 @@
-import { useMediaQuery } from '@mantine/hooks';
+import { useResponsive } from 'ahooks';
 
 const usePlatform = () => {
-  const isMobile = useMediaQuery('(max-width: 768px)');
+  const responsive = useResponsive();
+  const isMobile = !responsive?.md;
 
   return Boolean(isMobile);
 };

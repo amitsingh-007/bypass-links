@@ -71,21 +71,6 @@ importers:
       '@hugeicons/react':
         specifier: 1.1.5
         version: 1.1.5(react@19.2.4)
-      '@mantine/core':
-        specifier: 8.3.14
-        version: 8.3.14(@mantine/hooks@8.3.14(react@19.2.4))(@types/react@19.2.10)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      '@mantine/form':
-        specifier: 8.3.14
-        version: 8.3.14(react@19.2.4)
-      '@mantine/hooks':
-        specifier: 8.3.14
-        version: 8.3.14(react@19.2.4)
-      '@mantine/notifications':
-        specifier: 8.3.14
-        version: 8.3.14(@mantine/core@8.3.14(@mantine/hooks@8.3.14(react@19.2.4))(@types/react@19.2.10)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@mantine/hooks@8.3.14(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      '@mantine/nprogress':
-        specifier: 8.3.14
-        version: 8.3.14(@mantine/core@8.3.14(@mantine/hooks@8.3.14(react@19.2.4))(@types/react@19.2.10)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@mantine/hooks@8.3.14(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@t3-oss/env-core':
         specifier: 0.13.8
         version: 0.13.8(typescript@5.9.3)(valibot@1.2.0(typescript@5.9.3))(zod@4.3.6)
@@ -110,9 +95,6 @@ importers:
       clsx:
         specifier: 2.1.1
         version: 2.1.1
-      mantine-contextmenu:
-        specifier: 8.3.13
-        version: 8.3.13(@mantine/core@8.3.14(@mantine/hooks@8.3.14(react@19.2.4))(@types/react@19.2.10)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@mantine/hooks@8.3.14(react@19.2.4))(clsx@2.1.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       next-themes:
         specifier: 0.4.6
         version: 0.4.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -183,15 +165,6 @@ importers:
       '@types/react-dom':
         specifier: 19.2.3
         version: 19.2.3(@types/react@19.2.10)
-      postcss:
-        specifier: 8.5.6
-        version: 8.5.6
-      postcss-preset-mantine:
-        specifier: 1.18.0
-        version: 1.18.0(postcss@8.5.6)
-      postcss-simple-vars:
-        specifier: 7.0.1
-        version: 7.0.1(postcss@8.5.6)
       shadcn:
         specifier: 3.8.4
         version: 3.8.4(@types/node@24.10.9)(typescript@5.9.3)
@@ -325,9 +298,6 @@ importers:
       '@mantine/core':
         specifier: 8.3.14
         version: 8.3.14(@mantine/hooks@8.3.14(react@19.2.4))(@types/react@19.2.10)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      '@mantine/hooks':
-        specifier: 8.3.14
-        version: 8.3.14(react@19.2.4)
       '@tanstack/react-virtual':
         specifier: 3.13.18
         version: 3.13.18(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -2040,34 +2010,8 @@ packages:
       react: ^18.x || ^19.x
       react-dom: ^18.x || ^19.x
 
-  '@mantine/form@8.3.14':
-    resolution: {integrity: sha512-LJUeab+oF+YzATrm/K03Z/QoVVYlaolWqLUZZj7XexNA4hS2/ycKyWT07YhGkdHTLXkf3DUtrg1sS77K7Oje8A==}
-    peerDependencies:
-      react: ^18.x || ^19.x
-
   '@mantine/hooks@8.3.14':
     resolution: {integrity: sha512-0SbHnGEuHcF2QyjzBBcqidpjNmIb6n7TC3obnhkBToYhUTbMcJSK/8ei/yHtAelridJH4CPeohRlQdc0HajHyQ==}
-    peerDependencies:
-      react: ^18.x || ^19.x
-
-  '@mantine/notifications@8.3.14':
-    resolution: {integrity: sha512-+ia97wrcU9Zfv+jXYvgr2GdISqKTHbQE9nnEIZvGUBPAqKr9b2JAsaXQS/RsAdoXUI+kKDEtH2fyVYS7zrSi/Q==}
-    peerDependencies:
-      '@mantine/core': 8.3.14
-      '@mantine/hooks': 8.3.14
-      react: ^18.x || ^19.x
-      react-dom: ^18.x || ^19.x
-
-  '@mantine/nprogress@8.3.14':
-    resolution: {integrity: sha512-JFdewXIyRZoBA4ErKp/ac3YLLfyxFgYXoeXVTshwgaWy3elEGu8fis1G2nxpAnWNMB+Ory9Zq//HGfzFaIXP0w==}
-    peerDependencies:
-      '@mantine/core': 8.3.14
-      '@mantine/hooks': 8.3.14
-      react: ^18.x || ^19.x
-      react-dom: ^18.x || ^19.x
-
-  '@mantine/store@8.3.14':
-    resolution: {integrity: sha512-bgW+fYHDOp7Pk4+lcEm3ZF7dD/sIMKHyR985cOqSHAYJPRcVFb+zcEK/SWoFZqlyA4qh08CNrASOaod8N0XKfA==}
     peerDependencies:
       react: ^18.x || ^19.x
 
@@ -4167,9 +4111,6 @@ packages:
     resolution: {integrity: sha512-35mSku4ZXK0vfCuHEDAwt55dg2jNajHZ1odvF+8SSr82EsZY4QmXfuWso8oEd8zRhVObSN18aM0CjSdoBX7zIw==}
     engines: {node: '>=0.10.0'}
 
-  dom-helpers@5.2.1:
-    resolution: {integrity: sha512-nRCa7CK3VTrM2NmGkIy4cbK7IZlgBE/PYMn55rrXefr5xXDP0LdtfPnblFDoVdcAfslJ7or6iqAUnx0CCGIWQA==}
-
   dom-serializer@2.0.0:
     resolution: {integrity: sha512-wIkAryiqt/nV5EQKqQpo3SToSOV9J0DnbJqwK7Wv/Trc92zIAYZ4FlMu+JPFW1DfGFt81ZTCGgDEabffXeLyJg==}
 
@@ -5511,10 +5452,6 @@ packages:
     resolution: {integrity: sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==}
     engines: {node: '>=6'}
 
-  klona@2.0.6:
-    resolution: {integrity: sha512-dhG34DXATL5hSxJbIexCft8FChFXtmskoZYnoPWjXQuebWYCNkVeV3KkGegCK9CP1oswI/vQibS2GY7Em/sJJA==}
-    engines: {node: '>= 8'}
-
   kolorist@1.8.0:
     resolution: {integrity: sha512-Y+60/zizpJ3HRH8DCss+q95yr6145JXZo46OTpFvDZWLfRCE4qChOyk1b26nMaNpfHHgxagk9dXT5OP0Tfe+dQ==}
 
@@ -5738,15 +5675,6 @@ packages:
 
   make-error@1.3.6:
     resolution: {integrity: sha512-s8UhlNe7vPKomQhC1qFelMokr/Sc3AgNbso3n74mVPA5LTZwkB9NlXf4XPamLxJE8h0gh73rM94xvwRT2CVInw==}
-
-  mantine-contextmenu@8.3.13:
-    resolution: {integrity: sha512-Idbgaou23M18NxCnPfC1A5l6ShS43UbYwJ4u5z6N30HRXXzUPe479/v50H/UfTZQUbBsrl+qnaYjogIvU3boog==}
-    peerDependencies:
-      '@mantine/core': '>=8.3'
-      '@mantine/hooks': '>=8.3'
-      clsx: '>=2'
-      react: '>=19'
-      react-dom: '>=19'
 
   many-keys-map@2.0.1:
     resolution: {integrity: sha512-DHnZAD4phTbZ+qnJdjoNEVU1NecYoSdbOOoVmTDH46AuxDkEVh3MxTVpXq10GtcTC6mndN9dkv1rNfpjRcLnOw==}
@@ -6550,12 +6478,6 @@ packages:
     engines: {node: '>=10'}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-
-  react-transition-group@4.4.5:
-    resolution: {integrity: sha512-pZcd1MCJoiKiBR2NRxeCRg13uCXbydPnmB4EOeRrY7480qNWO8IIgQG6zlDkm6uRMsURXPuKq0GWtiM59a5Q6g==}
-    peerDependencies:
-      react: '>=16.6.0'
-      react-dom: '>=16.6.0'
 
   react@19.2.4:
     resolution: {integrity: sha512-9nfp2hYpCwOjAN+8TZFGhtWEwgvWHXqESH8qT89AT/lWklpLON22Lc8pEtnpsZz7VmawabSU0gCjnj8aC0euHQ==}
@@ -9547,34 +9469,7 @@ snapshots:
     transitivePeerDependencies:
       - '@types/react'
 
-  '@mantine/form@8.3.14(react@19.2.4)':
-    dependencies:
-      fast-deep-equal: 3.1.3
-      klona: 2.0.6
-      react: 19.2.4
-
   '@mantine/hooks@8.3.14(react@19.2.4)':
-    dependencies:
-      react: 19.2.4
-
-  '@mantine/notifications@8.3.14(@mantine/core@8.3.14(@mantine/hooks@8.3.14(react@19.2.4))(@types/react@19.2.10)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@mantine/hooks@8.3.14(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
-    dependencies:
-      '@mantine/core': 8.3.14(@mantine/hooks@8.3.14(react@19.2.4))(@types/react@19.2.10)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      '@mantine/hooks': 8.3.14(react@19.2.4)
-      '@mantine/store': 8.3.14(react@19.2.4)
-      react: 19.2.4
-      react-dom: 19.2.4(react@19.2.4)
-      react-transition-group: 4.4.5(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-
-  '@mantine/nprogress@8.3.14(@mantine/core@8.3.14(@mantine/hooks@8.3.14(react@19.2.4))(@types/react@19.2.10)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@mantine/hooks@8.3.14(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
-    dependencies:
-      '@mantine/core': 8.3.14(@mantine/hooks@8.3.14(react@19.2.4))(@types/react@19.2.10)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      '@mantine/hooks': 8.3.14(react@19.2.4)
-      '@mantine/store': 8.3.14(react@19.2.4)
-      react: 19.2.4
-      react-dom: 19.2.4(react@19.2.4)
-
-  '@mantine/store@8.3.14(react@19.2.4)':
     dependencies:
       react: 19.2.4
 
@@ -11593,11 +11488,6 @@ snapshots:
     dependencies:
       esutils: 2.0.3
 
-  dom-helpers@5.2.1:
-    dependencies:
-      '@babel/runtime': 7.28.6
-      csstype: 3.2.3
-
   dom-serializer@2.0.0:
     dependencies:
       domelementtype: 2.3.0
@@ -13203,8 +13093,6 @@ snapshots:
 
   kleur@4.1.5: {}
 
-  klona@2.0.6: {}
-
   kolorist@1.8.0: {}
 
   ky@1.14.3: {}
@@ -13414,14 +13302,6 @@ snapshots:
       source-map-js: 1.2.1
 
   make-error@1.3.6: {}
-
-  mantine-contextmenu@8.3.13(@mantine/core@8.3.14(@mantine/hooks@8.3.14(react@19.2.4))(@types/react@19.2.10)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@mantine/hooks@8.3.14(react@19.2.4))(clsx@2.1.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
-    dependencies:
-      '@mantine/core': 8.3.14(@mantine/hooks@8.3.14(react@19.2.4))(@types/react@19.2.10)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      '@mantine/hooks': 8.3.14(react@19.2.4)
-      clsx: 2.1.1
-      react: 19.2.4
-      react-dom: 19.2.4(react@19.2.4)
 
   many-keys-map@2.0.1: {}
 
@@ -14240,15 +14120,6 @@ snapshots:
       use-latest: 1.3.0(@types/react@19.2.10)(react@19.2.4)
     transitivePeerDependencies:
       - '@types/react'
-
-  react-transition-group@4.4.5(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
-    dependencies:
-      '@babel/runtime': 7.28.6
-      dom-helpers: 5.2.1
-      loose-envify: 1.4.0
-      prop-types: 15.8.1
-      react: 19.2.4
-      react-dom: 19.2.4(react@19.2.4)
 
   react@19.2.4: {}
 
