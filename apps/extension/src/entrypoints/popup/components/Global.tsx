@@ -4,11 +4,7 @@ import StoreListener from './StoreListener';
 
 function Global() {
   // Prevent extension popup close on Escape click
-  useEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      e.preventDefault();
-    }
-  });
+  useEventListener('keydown', (e) => e.key === 'Escape' && e.preventDefault());
 
   return (
     <>
