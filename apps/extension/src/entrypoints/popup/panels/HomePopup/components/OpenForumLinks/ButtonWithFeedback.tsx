@@ -42,7 +42,7 @@ function ButtonWithFeedback({ openAllLinks, isForumPage }: Props) {
       onClick={onClick}
     >
       {buttonState === EButtonState.LOADING && (
-        <Spinner className="mr-2 size-4 animate-spin" />
+        <Spinner className="mr-2 size-4" />
       )}
       Forum
       <HugeiconsIcon

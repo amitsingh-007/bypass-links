@@ -36,7 +36,7 @@ function OpenDefaultsButton() {
       data-testid="open-defaults-button"
       onClick={handleOpenDefaults}
     >
-      {isFetching && <Spinner className="mr-2 size-4 animate-spin" />}
+      {isFetching && <Spinner className="mr-2 size-4" />}
       Defaults
       <HugeiconsIcon
         icon={LinkSquare02Icon}

@@ -165,7 +165,7 @@ function AddOrEditPersonDialog({
             </form.Field>
 
             <Button type="submit" disabled={isLoading}>
-              {isLoading && <Spinner className="mr-2 size-4 animate-spin" />}
+              {isLoading && <Spinner className="mr-2 size-4" />}
               Save
             </Button>
           </form>
