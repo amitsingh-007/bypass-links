@@ -34,7 +34,7 @@ function PopupHome() {
               bg-background/80
             "
           >
-            <Spinner className="size-8 animate-spin" />
+            <Spinner className="size-8" />
           </div>
         </>
       )}

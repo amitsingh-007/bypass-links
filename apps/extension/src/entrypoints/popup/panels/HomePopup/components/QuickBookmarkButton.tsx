@@ -82,7 +82,7 @@ function QuickBookmarkButton() {
           data-testid="quick-bookmark-button"
           onClick={handleClick}
         >
-          {isFetching && <Spinner className="mr-2 size-4 animate-spin" />}
+          {isFetching && <Spinner className="mr-2 size-4" />}
           {bookmark ? 'Unpin' : 'Pin'}
           <HugeiconsIcon
             icon={bookmark ? BookmarkRemove01Icon : BookmarkAdd01Icon}

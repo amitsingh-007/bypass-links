@@ -7,7 +7,6 @@ import {
   Switch,
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from '@bypass/ui';
 import useHistoryStore from '@store/history';
@@ -85,7 +84,11 @@ function RedirectionRule({
     alias === ruleAlias &&
     website === ruleWebsite &&
     isDefault === isDefaultRule;
-  const isRuleSaveActive = isSameRule || ruleAlias === DEFAULT_RULE_ALIAS;
+  const isSaveDisabled =
+    isSameRule ||
+    ruleAlias === DEFAULT_RULE_ALIAS ||
+    !ruleAlias ||
+    !ruleWebsite;
 
   return (
     <div className="flex items-center justify-center">
@@ -103,35 +106,35 @@ function RedirectionRule({
           <InputGroupInput
             placeholder="Enter Alias"
             value={ruleAlias}
+            aria-invalid={!ruleAlias}
             data-testid={`rule-${pos}-alias`}
             onChange={(e) => setRuleAlias(e.target.value.trim())}
           />
         </InputGroup>
-        <InputGroup className="w-[72%]">
+        <InputGroup className="flex-1">
           <InputGroupAddon>
             <HugeiconsIcon icon={Link01Icon} />
           </InputGroupAddon>
           <InputGroupInput
             placeholder="Enter Website"
             value={ruleWebsite}
+            aria-invalid={!ruleWebsite}
             data-testid={`rule-${pos}-website`}
             onChange={(e) => setRuleWebsite(e.target.value.trim())}
           />
           {lastVisited && (
             <InputGroupAddon align="inline-end">
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger>
-                    <HugeiconsIcon
-                      icon={CalendarCheckOut02Icon}
-                      className="size-4.5 text-primary"
-                    />
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>{lastVisited}</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <HugeiconsIcon
+                    icon={CalendarCheckOut02Icon}
+                    className="size-4.5 text-primary"
+                  />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{lastVisited}</p>
+                </TooltipContent>
+              </Tooltip>
             </InputGroupAddon>
           )}
         </InputGroup>
@@ -155,7 +158,7 @@ function RedirectionRule({
         </Button>
         <Button
           size="icon-sm"
-          disabled={isRuleSaveActive}
+          disabled={isSaveDisabled}
           data-testid={`rule-${pos}-save`}
           onClick={handleSaveClick}
         >

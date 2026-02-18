@@ -1,5 +1,5 @@
 import { Header, type IRedirection, type IRedirections } from '@bypass/shared';
-import { Button, Spinner } from '@bypass/ui';
+import { Button, Spinner, TooltipProvider } from '@bypass/ui';
 import { Link01Icon, Download03Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { useEffect, useState } from 'react';
@@ -91,67 +91,70 @@ function ShortcutsPanel() {
   };
 
   return (
-    <div
-      className="flex flex-col"
-      style={{
-        width: MAX_PANEL_SIZE.WIDTH,
-        height: MAX_PANEL_SIZE.HEIGHT,
-      }}
-    >
-      <Header onSearchChange={setSearchText}>
-        <Button
-          disabled={isFetching}
-          variant="secondary"
-          onClick={handleAddRule}
-        >
-          <HugeiconsIcon icon={Link01Icon} />
-          Add
-        </Button>
-        <Button disabled={!isSaveActive || isFetching} onClick={handleSave}>
-          {isFetching && <Spinner className="mr-2 size-4 animate-spin" />}
-          <HugeiconsIcon icon={Download03Icon} />
-          Save
-        </Button>
-      </Header>
+    <TooltipProvider>
       <div
-        className="
-          relative flex flex-1 flex-col gap-2 overflow-auto px-1 pt-2 pb-1
-        "
+        className="flex flex-col"
+        style={{
+          width: MAX_PANEL_SIZE.WIDTH,
+          height: MAX_PANEL_SIZE.HEIGHT,
+        }}
       >
-        {redirections?.map((redirection, index) => {
-          const isMatch = isMatchingRule(redirection, searchText);
-          return (
-            <div
-              key={`${redirection.alias}_${redirection.website}`}
-              tabIndex={0}
-              data-testid={`rule-${index}`}
-              data-search-active={searchText.length > 0}
-              data-match={isMatch}
-              className="data-[search-active=true]:data-[match=false]:hidden"
-            >
-              <RedirectionRule
-                {...redirection}
-                pos={index}
-                total={redirections.length}
-                handleRemoveRule={handleRemoveRule}
-                handleSaveRule={handleSaveRule}
-                handleRuleMoveUp={handleRuleMoveUp}
-                handleRuleMoveDown={handleRuleMoveDown}
-              />
-            </div>
-          );
-        })}
-        {isFetching && (
-          <div
-            className="
-              absolute inset-0 z-50 flex items-center justify-center bg-black/50
-            "
+        <Header onSearchChange={setSearchText}>
+          <Button
+            disabled={isFetching}
+            variant="secondary"
+            onClick={handleAddRule}
           >
-            <Spinner className="size-8" />
-          </div>
-        )}
+            <HugeiconsIcon icon={Link01Icon} />
+            Add
+          </Button>
+          <Button disabled={!isSaveActive || isFetching} onClick={handleSave}>
+            {isFetching && <Spinner className="mr-2 size-4" />}
+            <HugeiconsIcon icon={Download03Icon} />
+            Save
+          </Button>
+        </Header>
+        <div
+          className="
+            relative flex flex-1 flex-col gap-2 overflow-auto px-1 pt-2 pb-1
+          "
+        >
+          {redirections?.map((redirection, index) => {
+            const isMatch = isMatchingRule(redirection, searchText);
+            return (
+              <div
+                key={`${redirection.alias}_${redirection.website}`}
+                tabIndex={0}
+                data-testid={`rule-${index}`}
+                data-search-active={searchText.length > 0}
+                data-match={isMatch}
+                className="data-[search-active=true]:data-[match=false]:hidden"
+              >
+                <RedirectionRule
+                  {...redirection}
+                  pos={index}
+                  total={redirections.length}
+                  handleRemoveRule={handleRemoveRule}
+                  handleSaveRule={handleSaveRule}
+                  handleRuleMoveUp={handleRuleMoveUp}
+                  handleRuleMoveDown={handleRuleMoveDown}
+                />
+              </div>
+            );
+          })}
+          {isFetching && (
+            <div
+              className="
+                absolute inset-0 z-50 flex items-center justify-center
+                bg-black/50
+              "
+            >
+              <Spinner className="size-8" />
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </TooltipProvider>
   );
 }
 

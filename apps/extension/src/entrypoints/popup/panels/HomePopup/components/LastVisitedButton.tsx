@@ -70,7 +70,7 @@ function LastVisitedButton() {
           data-testid="last-visited-button"
           onClick={handleUpdateLastVisited}
         >
-          {isFetching && <Spinner className="mr-2 size-4 animate-spin" />}
+          {isFetching && <Spinner className="mr-2 size-4" />}
           Visited
           <HugeiconsIcon
             icon={lastVisited ? Appointment01Icon : CalendarAdd01Icon}

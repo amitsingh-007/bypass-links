@@ -60,9 +60,7 @@ function Authenticate() {
       data-testid={isSignedIn ? 'logout-button' : 'login-button'}
       onClick={isSignedIn ? handleSignOut : handleSignIn}
     >
-      {(isFetching || isLoading) && (
-        <Spinner className="mr-2 size-4 animate-spin" />
-      )}
+      {(isFetching || isLoading) && <Spinner className="mr-2 size-4" />}
       {isSignedIn ? 'Logout' : 'Login'}
       <HugeiconsIcon
         icon={isSignedIn ? Logout02Icon : Login02Icon}
