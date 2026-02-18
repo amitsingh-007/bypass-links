@@ -1,5 +1,5 @@
 import { type IPerson, Person } from '@bypass/shared';
-import { Delete04Icon, Edit01Icon } from '@hugeicons/core-free-icons';
+import { Delete02Icon, Edit01Icon } from '@hugeicons/core-free-icons';
 import { memo, useCallback, useMemo, useState } from 'react';
 import ContextMenu, { type IMenuOption } from '@popup/components/ContextMenu';
 import AddOrEditPersonDialog from './AddOrEditPersonDialog';
@@ -34,7 +34,7 @@ const PersonVirtualCell = memo<Props>(
           onClick: handleDeleteOptionClick,
           text: 'Delete',
           id: 'delete',
-          icon: Delete04Icon,
+          icon: Delete02Icon,
           variant: 'destructive',
         },
       ];

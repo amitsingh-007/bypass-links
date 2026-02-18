@@ -1,32 +1,33 @@
 import { type IRedirection } from '@bypass/shared';
 import {
-  ActionIcon,
-  Center,
-  Checkbox,
-  Flex,
-  Group,
-  Text,
-  TextInput,
+  Button,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+  Switch,
   Tooltip,
-  useMantineTheme,
-} from '@mantine/core';
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@bypass/ui';
 import useHistoryStore from '@store/history';
-import clsx from 'clsx';
 import { useEffect, useState } from 'react';
-import { CgWebsite } from 'react-icons/cg';
-import { FaCalendarCheck } from 'react-icons/fa';
-import { IoSave } from 'react-icons/io5';
-import { MdOutlineDelete, MdShortcut } from 'react-icons/md';
-import { RxExternalLink } from 'react-icons/rx';
+import {
+  CalendarCheckOut02Icon,
+  Delete02Icon,
+  Download03Icon,
+  Link01Icon,
+  LinkForwardIcon,
+  LinkSquare02Icon,
+} from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
 import { getlastVisitedText } from '@popup/utils/lastVisited';
 import { DEFAULT_RULE_ALIAS } from '../constants';
-import styles from './styles/RedirectionRule.module.css';
 import { ReorderButton } from './ReorderButton';
 
 type Props = IRedirection & {
   pos: number;
   total: number;
-  highlight: boolean;
   handleRemoveRule: (pos: number) => void;
   handleSaveRule: (redirection: IRedirection, pos: number) => void;
   handleRuleMoveUp: (pos: number) => void;
@@ -39,13 +40,11 @@ function RedirectionRule({
   isDefault,
   pos,
   total,
-  highlight,
   handleRemoveRule,
   handleSaveRule,
   handleRuleMoveUp,
   handleRuleMoveDown,
 }: Props) {
-  const theme = useMantineTheme();
   const startHistoryMonitor = useHistoryStore(
     (state) => state.startHistoryMonitor
   );
@@ -89,92 +88,89 @@ function RedirectionRule({
   const isRuleSaveActive = isSameRule || ruleAlias === DEFAULT_RULE_ALIAS;
 
   return (
-    <Center>
+    <div className="flex items-center justify-center">
       <ReorderButton
         pos={pos}
         total={total}
         handleRuleMoveUp={handleRuleMoveUp}
         handleRuleMoveDown={handleRuleMoveDown}
       />
-      <Group className={styles.group}>
-        <TextInput
-          w="35%"
-          placeholder="Enter Alias"
-          value={ruleAlias}
-          leftSection={<MdShortcut />}
-          error={!ruleAlias}
-          classNames={{ input: highlight ? styles.highlight : undefined }}
-          data-testid={`rule-${pos}-alias`}
-          onChange={(e) => setRuleAlias(e.target.value.trim())}
+      <div className="flex flex-1 gap-2">
+        <InputGroup className="w-[25%]">
+          <InputGroupAddon>
+            <HugeiconsIcon icon={LinkForwardIcon} />
+          </InputGroupAddon>
+          <InputGroupInput
+            placeholder="Enter Alias"
+            value={ruleAlias}
+            data-testid={`rule-${pos}-alias`}
+            onChange={(e) => setRuleAlias(e.target.value.trim())}
+          />
+        </InputGroup>
+        <InputGroup className="w-[72%]">
+          <InputGroupAddon>
+            <HugeiconsIcon icon={Link01Icon} />
+          </InputGroupAddon>
+          <InputGroupInput
+            placeholder="Enter Website"
+            value={ruleWebsite}
+            data-testid={`rule-${pos}-website`}
+            onChange={(e) => setRuleWebsite(e.target.value.trim())}
+          />
+          {lastVisited && (
+            <InputGroupAddon align="inline-end">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <HugeiconsIcon
+                      icon={CalendarCheckOut02Icon}
+                      className="size-4.5 text-primary"
+                    />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{lastVisited}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </InputGroupAddon>
+          )}
+        </InputGroup>
+      </div>
+      <div className="mx-2 flex items-center">
+        <Switch
+          checked={isDefaultRule}
+          data-testid={`rule-${pos}-default`}
+          onCheckedChange={setIsDefaultRule}
         />
-        <TextInput
-          w="60%"
-          placeholder="Enter Website"
-          value={ruleWebsite}
-          leftSection={<CgWebsite />}
-          rightSection={
-            lastVisited ? (
-              <Tooltip
-                withArrow
-                label={<Text>{lastVisited}</Text>}
-                radius="md"
-                color="gray"
-              >
-                <Flex>
-                  <FaCalendarCheck color={theme.colors.teal[5]} />
-                </Flex>
-              </Tooltip>
-            ) : null
-          }
-          error={!ruleWebsite}
-          classNames={{ input: highlight ? styles.highlight : undefined }}
-          data-testid={`rule-${pos}-website`}
-          onChange={(e) => setRuleWebsite(e.target.value.trim())}
-        />
-      </Group>
-      <Checkbox
-        checked={isDefaultRule}
-        mr={2}
-        display="flex"
-        data-testid={`rule-${pos}-default`}
-        onChange={(e) => setIsDefaultRule(e.target.checked)}
-      />
-      <ActionIcon
-        radius="xl"
-        size="lg"
-        disabled={!ruleWebsite}
-        color="blue.5"
-        className={clsx({
-          [styles.disabled]: !ruleWebsite,
-        })}
-        data-testid={`rule-${pos}-external-link`}
-        onClick={handleLinkOpen}
-      >
-        <RxExternalLink size={21} />
-      </ActionIcon>
-      <ActionIcon
-        radius="xl"
-        size="lg"
-        disabled={isRuleSaveActive}
-        color="teal"
-        className={clsx({
-          [styles.disabled]: isRuleSaveActive,
-        })}
-        data-testid={`rule-${pos}-save`}
-        onClick={handleSaveClick}
-      >
-        <IoSave size={18} />
-      </ActionIcon>
-      <ActionIcon
-        radius="xl"
-        size="lg"
-        color="red"
-        data-testid={`rule-${pos}-delete`}
-        onClick={handleRemoveClick}
-      >
-        <MdOutlineDelete size={21} />
-      </ActionIcon>
-    </Center>
+      </div>
+      <div className="flex items-center gap-1">
+        <Button
+          variant="secondary"
+          size="icon-sm"
+          disabled={!ruleWebsite}
+          data-testid={`rule-${pos}-external-link`}
+          onClick={handleLinkOpen}
+        >
+          <HugeiconsIcon icon={LinkSquare02Icon} />
+        </Button>
+        <Button
+          size="icon-sm"
+          disabled={isRuleSaveActive}
+          data-testid={`rule-${pos}-save`}
+          onClick={handleSaveClick}
+        >
+          <HugeiconsIcon icon={Download03Icon} />
+        </Button>
+        <Button
+          variant="destructive"
+          size="icon-sm"
+          data-testid={`rule-${pos}-delete`}
+          onClick={handleRemoveClick}
+        >
+          <HugeiconsIcon icon={Delete02Icon} />
+        </Button>
+      </div>
+    </div>
   );
 }
 

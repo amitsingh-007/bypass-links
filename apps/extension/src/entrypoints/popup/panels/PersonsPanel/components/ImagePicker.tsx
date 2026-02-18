@@ -110,7 +110,7 @@ function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
               <Spinner className="size-8" />
             </div>
           )}
-          <DialogHeader className="border-b border-border px-0">
+          <DialogHeader className="px-0">
             <DialogTitle className="sr-only">Upload Image</DialogTitle>
           </DialogHeader>
           <Header text="Upload Image" onBackClick={onDialogClose} />

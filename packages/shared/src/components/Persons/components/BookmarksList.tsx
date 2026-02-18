@@ -197,7 +197,7 @@ function BookmarksList({
         "
         showCloseButton={false}
       >
-        <DialogHeader className="border-b border-border px-0">
+        <DialogHeader className="px-0">
           <DialogTitle className="sr-only">Bookmarks</DialogTitle>
         </DialogHeader>
         {fullscreen ? (
