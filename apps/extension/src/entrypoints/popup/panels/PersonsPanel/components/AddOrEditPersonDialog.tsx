@@ -171,15 +171,12 @@ function AddOrEditPersonDialog({
           </form>
         </DialogContent>
       </Dialog>
-
-      {uid && (
-        <ImagePicker
-          uid={uid}
-          isOpen={showImagePicker}
-          handleImageSave={handleImageCropSave}
-          onDialogClose={toggleImagePicker}
-        />
-      )}
+      <ImagePicker
+        uid={uid}
+        isOpen={showImagePicker}
+        handleImageSave={handleImageCropSave}
+        onDialogClose={toggleImagePicker}
+      />
     </>
   );
 }

@@ -117,7 +117,6 @@ export const getFileFromFirebase = async (uid: string, fileName: string) => {
   try {
     return await getDownloadURL(fileRef);
   } catch (error) {
-    console.log('amit', fileName, getFilePath(uid, fileName));
     console.error(error);
     throw error;
   }
