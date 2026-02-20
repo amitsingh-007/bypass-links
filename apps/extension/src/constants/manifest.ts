@@ -32,7 +32,6 @@ export const devManifest: UserManifest = {
   ],
   host_permissions: ['<all_urls>'],
   content_security_policy: {
-    extension_pages:
-      "object-src 'self'; font-src 'self' https://cdn.jsdelivr.net",
+    extension_pages: "script-src 'self'",
   },
 };
