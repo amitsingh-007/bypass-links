@@ -1,3 +1,4 @@
+import { ScrollArea } from '@bypass/ui';
 import { useSize } from 'ahooks';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import {
@@ -113,6 +114,7 @@ function Persons(props: Props) {
   const [personToOpen, setPersonToOpen] = useState<IPerson>();
   const [personToOpenImage, setPersonToOpenImage] = useState('');
   const containerRef = useRef<HTMLDivElement>(null);
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
   const size = useSize(containerRef);
   const width = size?.width ?? 0;
   const { location } = useContext(DynamicContext);
@@ -131,20 +133,21 @@ function Persons(props: Props) {
   }, [queryString, persons, resolvePersonImageFromUid]);
 
   return (
-    <div
+    <ScrollArea
       ref={containerRef}
-      className="size-full overflow-hidden overflow-y-auto"
+      viewportRef={scrollAreaRef}
+      className="size-full"
     >
       {width > 0 && (
         <PersonsInner
           {...props}
           bodyWidth={width}
-          bodyRef={containerRef}
+          bodyRef={scrollAreaRef}
           personToOpen={personToOpen}
           personToOpenImage={personToOpenImage}
         />
       )}
-    </div>
+    </ScrollArea>
   );
 }
 
