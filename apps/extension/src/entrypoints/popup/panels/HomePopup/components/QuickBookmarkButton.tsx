@@ -76,8 +76,8 @@ function QuickBookmarkButton() {
     <Tooltip>
       <TooltipTrigger>
         <Button
-          className="w-full"
-          variant={bookmark ? 'default' : 'outline'}
+          className="w-full font-medium"
+          variant={bookmark ? 'destructive' : 'outline'}
           disabled={!isSignedIn || isFetching}
           data-testid="quick-bookmark-button"
           onClick={handleClick}

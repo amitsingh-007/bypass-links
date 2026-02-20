@@ -54,7 +54,7 @@ function Authenticate() {
 
   return (
     <Button
-      className="w-full"
+      className="w-full font-medium"
       variant={isSignedIn ? 'default' : 'outline'}
       disabled={!isExtensionActive || isFetching || isLoading}
       data-testid={isSignedIn ? 'logout-button' : 'login-button'}

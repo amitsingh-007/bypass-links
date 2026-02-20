@@ -114,7 +114,13 @@ export const uploadImageToFirebase = async (
 
 export const getFileFromFirebase = async (uid: string, fileName: string) => {
   const fileRef = storage.bucket().file(getFilePath(uid, fileName));
-  return getDownloadURL(fileRef);
+  try {
+    return await getDownloadURL(fileRef);
+  } catch (error) {
+    console.log('amit', fileName, getFilePath(uid, fileName));
+    console.error(error);
+    throw error;
+  }
 };
 
 export const removeFileFromFirebase = async (uid: string, fileName: string) => {

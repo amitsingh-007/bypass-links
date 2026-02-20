@@ -15,7 +15,7 @@ function ShortcutsPanelButton() {
 
   return (
     <Button
-      className="w-full"
+      className="w-full font-medium"
       variant="secondary"
       disabled={!isSignedIn}
       onClick={handleOpenShortcutsPanel}

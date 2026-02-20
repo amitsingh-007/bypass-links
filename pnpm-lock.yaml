@@ -62,9 +62,6 @@ importers:
       '@bypass/ui':
         specifier: workspace:*
         version: link:../../packages/ui
-      '@fontsource-variable/geist':
-        specifier: 5.2.8
-        version: 5.2.8
       '@hugeicons/core-free-icons':
         specifier: 3.1.1
         version: 3.1.1
@@ -387,9 +384,6 @@ importers:
       '@bypass/configs':
         specifier: workspace:*
         version: link:../configs
-      '@fontsource-variable/geist':
-        specifier: 5.2.8
-        version: 5.2.8
       '@hugeicons/core-free-icons':
         specifier: 3.1.1
         version: 3.1.1
@@ -1706,9 +1700,6 @@ packages:
 
   '@floating-ui/utils@0.2.10':
     resolution: {integrity: sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ==}
-
-  '@fontsource-variable/geist@5.2.8':
-    resolution: {integrity: sha512-cJ6m9e+8MQ5dCYJsLylfZrgBh6KkG4bOLckB35Tr9J/EqdkEM6QllH5PxqP1dhTvFup+HtMRPuz9xOjxXJggxw==}
 
   '@google-cloud/firestore@7.11.6':
     resolution: {integrity: sha512-EW/O8ktzwLfyWBOsNuhRoMi8lrC3clHM5LVFhGvO1HCsLozCOOXRAlHrYBoE6HL42Sc8yYMuCb2XqcnJ4OOEpw==}
@@ -9196,8 +9187,6 @@ snapshots:
       tabbable: 6.4.0
 
   '@floating-ui/utils@0.2.10': {}
-
-  '@fontsource-variable/geist@5.2.8': {}
 
   '@google-cloud/firestore@7.11.6':
     dependencies:

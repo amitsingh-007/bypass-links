@@ -30,7 +30,7 @@ function OpenDefaultsButton() {
 
   return (
     <Button
-      className="w-full"
+      className="w-full font-medium"
       variant="secondary"
       disabled={!isSignedIn || isFetching}
       data-testid="open-defaults-button"

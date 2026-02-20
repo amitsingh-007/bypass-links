@@ -18,7 +18,7 @@ function ButtonWithFeedback({ openAllLinks, isForumPage }: Props) {
     return (
       <Button
         className="
-          w-full border-teal-600 bg-teal-600
+          w-full border-teal-600 bg-teal-600 font-medium
           hover:border-teal-700 hover:bg-teal-700
         "
         variant="default"
@@ -36,7 +36,7 @@ function ButtonWithFeedback({ openAllLinks, isForumPage }: Props) {
 
   return (
     <Button
-      className="w-full"
+      className="w-full font-medium"
       variant="secondary"
       disabled={!isForumPage || buttonState === EButtonState.LOADING}
       onClick={onClick}
