@@ -39,7 +39,7 @@ function PopupHome() {
         </>
       )}
       <div
-        className="mb-4 cursor-pointer text-xl select-none"
+        className="mb-4 cursor-pointer text-xl font-medium select-none"
         data-testid="home-popup-heading"
         onClick={handleOpenAsPage}
       >

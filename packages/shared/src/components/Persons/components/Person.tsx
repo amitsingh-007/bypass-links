@@ -30,8 +30,8 @@ const Person = memo<Props>(({ person }) => {
       variant="secondary"
       data-testid={`person-item-${name}`}
       className="
-        size-full flex-col overflow-hidden rounded-xl p-0 whitespace-normal
-        transition-opacity
+        size-full flex-col gap-0 overflow-hidden rounded-xl p-0
+        whitespace-normal transition-opacity
         hover:opacity-80
       "
       onClick={openBookmarksList}
@@ -47,7 +47,7 @@ const Person = memo<Props>(({ person }) => {
       <div className="flex flex-1 items-center justify-center px-1">
         <span
           className="
-            line-clamp-2 w-full text-center text-sm/tight font-bold
+            line-clamp-2 w-full text-center text-sm/tight font-semibold
             wrap-break-word text-gray-400
           "
           title={name}

@@ -32,7 +32,11 @@ const Header = memo<Props>(
         style={{ height: HEADER_HEIGHT }}
       >
         <div className="flex items-center gap-2">
-          <Button variant="outline" onClick={onBackClick ?? location.goBack}>
+          <Button
+            variant="outline"
+            className="font-medium"
+            onClick={onBackClick ?? location.goBack}
+          >
             <HugeiconsIcon icon={ArrowLeft01Icon} className="size-4" />
             Back
           </Button>

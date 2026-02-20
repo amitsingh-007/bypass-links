@@ -81,6 +81,7 @@ const BookmarksHeader = memo<Props>(({ onSearchChange, folderId }) => {
       >
         <Button
           variant="secondary"
+          className="font-medium"
           disabled={isFetching}
           onClick={toggleNewFolderDialog}
         >
@@ -89,6 +90,7 @@ const BookmarksHeader = memo<Props>(({ onSearchChange, folderId }) => {
         </Button>
         <Button
           variant="default"
+          className="font-medium"
           disabled={disableSave}
           onClick={handleSaveClick}
         >

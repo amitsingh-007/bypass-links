@@ -7,6 +7,7 @@ import {
   getFilteredContextBookmarks,
   shouldRenderBookmarks,
 } from '@bypass/shared';
+import { ScrollArea } from '@bypass/ui';
 import useHistoryStore from '@store/history';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -43,7 +44,7 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
       loadData: state.loadData,
     }))
   );
-  const bodyRef = useRef<HTMLDivElement>(null);
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
   const [searchText, setSearchText] = useState('');
   const filteredContextBookmarks = useMemo(
     () => getFilteredContextBookmarks(contextBookmarks, searchText),
@@ -53,7 +54,7 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
     count: filteredContextBookmarks.length,
     estimateSize: () => BOOKMARK_ROW_HEIGHT,
     overscan: 5,
-    getScrollElement: () => bodyRef.current,
+    getScrollElement: () => scrollAreaRef.current,
     getItemKey: (idx) => filteredContextBookmarks[idx].id,
   });
 
@@ -108,9 +109,9 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
         <BookmarkContextMenu
           handleOpenSelectedBookmarks={handleOpenSelectedBookmarks}
         >
-          <div
-            ref={bodyRef}
-            className="w-full overflow-hidden overflow-y-auto"
+          <ScrollArea
+            viewportRef={scrollAreaRef}
+            className="w-full"
             style={{ height: MAX_PANEL_SIZE.HEIGHT - HEADER_HEIGHT }}
           >
             {shouldRenderBookmarks(folders, filteredContextBookmarks) ? (
@@ -137,7 +138,7 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
                 ))}
               </div>
             ) : null}
-          </div>
+          </ScrollArea>
         </BookmarkContextMenu>
       </div>
     </>

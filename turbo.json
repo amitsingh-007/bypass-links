@@ -1,6 +1,5 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "ui": "tui",
   "globalDependencies": ["**/.env", "xo.config.ts", ".github/**"],
   "globalEnv": [
     "NEXT_PUBLIC_HOST_NAME",
@@ -19,8 +18,7 @@
     },
     "dev": {
       "cache": false,
-      "persistent": true,
-      "interactive": true
+      "persistent": true
     },
     "//#lint": {},
     "//#typecheck": {},

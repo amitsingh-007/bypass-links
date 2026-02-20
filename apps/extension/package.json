@@ -1,7 +1,7 @@
 {
   "name": "@bypass/extension",
   "type": "module",
-  "version": "23.0.0",
+  "version": "24.0.0",
   "private": true,
   "description": "Bypass links from various sites to required links, with added functionality of Bookmarks Manager, Tagging Panel.",
   "scripts": {
@@ -15,7 +15,6 @@
     "@bypass/shared": "workspace:*",
     "@bypass/trpc": "workspace:*",
     "@bypass/ui": "workspace:*",
-    "@fontsource-variable/geist": "5.2.8",
     "@hugeicons/core-free-icons": "3.1.1",
     "@hugeicons/react": "1.1.5",
     "@t3-oss/env-core": "0.13.8",

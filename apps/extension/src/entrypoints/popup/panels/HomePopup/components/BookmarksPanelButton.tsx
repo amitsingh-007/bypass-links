@@ -15,7 +15,7 @@ function BookmarksPanelButton() {
 
   return (
     <Button
-      className="w-full"
+      className="w-full font-medium"
       variant="secondary"
       disabled={!isSignedIn}
       onClick={handleShowEditPanel}

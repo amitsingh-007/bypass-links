@@ -106,7 +106,7 @@ const Bookmark = memo<BookmarkProps>(
           </Tooltip>
         </TooltipProvider>
         <PersonAvatars persons={personsWithImageUrls} />
-        <div className="flex-1 truncate text-[15px]" data-context-id={id}>
+        <div className="flex-1 truncate text-sm" data-context-id={id}>
           {isMobile ? (
             <a href={url} title={title} className="text-inherit no-underline">
               {title}

@@ -40,6 +40,7 @@ const PersonHeader = memo<Props>(
           <Button
             disabled={isFetching}
             variant="secondary"
+            className="font-medium"
             onClick={toggleAddPersonDialog}
           >
             <HugeiconsIcon icon={UserAdd01Icon} />
