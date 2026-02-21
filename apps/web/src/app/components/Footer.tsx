@@ -72,7 +72,7 @@ async function Footer({
           <Info
             icon={Clock01Icon}
             text={dayjs(releaseDate).tz(tz).format('DD MMMM YYYY hh:mm A')}
-            testId="ext-release-data"
+            testId="ext-release-date"
           />
         </div>
         <div className="flex items-center">

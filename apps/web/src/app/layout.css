@@ -4,8 +4,12 @@
 
 @theme inline {
   --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  /* Same as MAX_PANEL_SIZE in extension app */
+  --max-width-panel: 800px;
 }
 
-::selection {
-  background: var(--primary);
+@layer base {
+  ::selection {
+    background: var(--primary);
+  }
 }

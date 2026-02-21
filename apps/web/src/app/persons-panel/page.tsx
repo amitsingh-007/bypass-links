@@ -59,7 +59,7 @@ function PersonsPage() {
     setSearchText(text);
   };
   return (
-    <div className="mx-auto flex h-screen max-w-3xl flex-col px-0">
+    <div className="max-w-panel mx-auto flex h-screen flex-col px-0">
       <Header
         text={`Persons Panel (${filteredAndOrderedPersons?.length || 0})`}
         onSearchChange={handleSearchTextChange}

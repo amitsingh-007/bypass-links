@@ -6,7 +6,6 @@ import {
   type IBookmarksObj,
   isFolderEmpty,
 } from '@bypass/shared';
-import clsx from 'clsx';
 import { memo } from 'react';
 
 export interface Props {
@@ -24,12 +23,10 @@ const VirtualRow = memo<Props>(({ index, folders, contextBookmarks }) => {
 
   return (
     <div
-      className={clsx(
-        `
-          box-border h-full cursor-pointer rounded-md select-none
-          hover:bg-muted
-        `
-      )}
+      className="
+        h-full cursor-pointer rounded-md select-none
+        hover:bg-muted
+      "
     >
       {ctx.isDir ? (
         <Folder

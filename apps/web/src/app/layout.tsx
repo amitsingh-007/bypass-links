@@ -4,6 +4,7 @@ import utc from 'dayjs/plugin/utc';
 import { type ReactNode } from 'react';
 import { type Metadata, type Viewport } from 'next';
 import { Manrope } from 'next/font/google';
+import clsx from 'clsx';
 import './layout.css';
 import AppProviders from './provider/AppProviders';
 
@@ -46,13 +47,7 @@ export const metadata: Metadata = {
 
 function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html
-      lang="en"
-      className={`
-        dark
-        ${manrope.variable}
-      `}
-    >
+    <html lang="en" className={clsx('dark', manrope.variable)}>
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>

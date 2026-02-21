@@ -18,8 +18,8 @@ function AppHeader() {
   return (
     <header
       className="
-        sticky inset-x-0 top-0 z-1001 h-[72px] max-h-[72px] border-b
-        border-white/10 backdrop-blur-sm
+        sticky inset-x-0 top-0 z-1001 h-[72px] border-b border-white/10
+        backdrop-blur-sm
       "
     >
       <div className="flex h-full items-center justify-center">

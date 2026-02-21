@@ -201,9 +201,6 @@ importers:
       '@t3-oss/env-nextjs':
         specifier: 0.13.10
         version: 0.13.10(typescript@5.9.3)(valibot@1.2.0(typescript@5.9.3))(zod@4.3.6)
-      '@tailwindcss/postcss':
-        specifier: 4.1.18
-        version: 4.1.18
       '@tanstack/react-virtual':
         specifier: 3.13.18
         version: 3.13.18(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -246,9 +243,6 @@ importers:
       sharp:
         specifier: 0.34.5
         version: 0.34.5
-      tailwindcss:
-        specifier: 4.1.18
-        version: 4.1.18
       zod:
         specifier: 4.3.6
         version: 4.3.6
@@ -259,6 +253,9 @@ importers:
       '@svgr/webpack':
         specifier: 8.1.0
         version: 8.1.0(typescript@5.9.3)
+      '@tailwindcss/postcss':
+        specifier: 4.1.18
+        version: 4.1.18
       '@types/react':
         specifier: 19.2.10
         version: 19.2.10
@@ -271,6 +268,9 @@ importers:
       postcss:
         specifier: 8.5.6
         version: 8.5.6
+      tailwindcss:
+        specifier: 4.1.18
+        version: 4.1.18
       typescript:
         specifier: 5.9.3
         version: 5.9.3

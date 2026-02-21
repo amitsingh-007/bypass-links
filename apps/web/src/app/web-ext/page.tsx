@@ -7,7 +7,7 @@ import {
 } from '@app/helpers/firebase/auth';
 import { useUser } from '@app/provider/AuthProvider';
 import { Header, ROUTES } from '@bypass/shared';
-import { Button } from '@bypass/ui';
+import { Button, Spinner } from '@bypass/ui';
 import { TEST_CREDENTIALS_KEY } from '@app/constants';
 import {
   Bookmark01Icon,
@@ -62,7 +62,7 @@ export default function Web() {
   };
 
   return (
-    <div className="mx-auto max-w-3xl px-0">
+    <div className="max-w-panel mx-auto px-0">
       <Header text="Bypass Links - Web" />
       <div className="mt-4 flex items-center justify-center">
         <div
@@ -78,6 +78,7 @@ export default function Web() {
             onClick={isLoggedIn ? handleSignOut : handleSignIn}
           >
             <span className="flex items-center justify-center gap-2">
+              {isLoading && <Spinner className="mr-2 size-4" />}
               {isLoggedIn ? 'Logout' : 'Login'}
               <HugeiconsIcon
                 icon={isLoggedIn ? Logout02Icon : Login02Icon}
