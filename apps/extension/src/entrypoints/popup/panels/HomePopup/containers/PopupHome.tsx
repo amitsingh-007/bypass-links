@@ -52,7 +52,7 @@ function PopupHome() {
         </div>
         <UserProfile />
       </div>
-      <div className="mt-4 grid w-full grid-cols-2 justify-between gap-x-3 gap-y-3">
+      <div className="mt-4 grid w-full grid-cols-2 justify-between gap-3">
         <Authenticate />
         <OpenDefaultsButton />
         <ShortcutsPanelButton />
