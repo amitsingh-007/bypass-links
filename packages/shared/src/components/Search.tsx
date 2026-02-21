@@ -1,7 +1,8 @@
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@bypass/ui';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Search02Icon } from '@hugeicons/core-free-icons';
 import { useDebounce, useKeyPress } from 'ahooks';
 import { memo, useEffect, useState } from 'react';
-import { GoSearch } from 'react-icons/go';
 
 interface SearchProps {
   onChange: (searchText: string) => void;
@@ -43,7 +44,10 @@ const Search = memo<SearchProps>(({ onChange }) => {
       "
     >
       <InputGroupAddon>
-        <GoSearch className="size-4 text-muted-foreground" />
+        <HugeiconsIcon
+          icon={Search02Icon}
+          className="size-4 text-muted-foreground"
+        />
       </InputGroupAddon>
       <InputGroupInput
         data-search-input="true"

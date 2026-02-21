@@ -31,7 +31,6 @@ export * from './constants';
 export * from './constants/cache';
 export * from './constants/routes';
 export * from './constants/storage';
-export * from './constants/theme';
 
 // Interfaces
 export type * from './interfaces/IWebsites';

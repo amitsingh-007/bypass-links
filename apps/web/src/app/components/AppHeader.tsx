@@ -1,11 +1,9 @@
 'use client';
 
 import { ROUTES } from '@app/constants/routes';
-import { Box, Center } from '@mantine/core';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import styles from './styles/AppHeader.module.css';
 
 function AppHeader() {
   const router = useRouter();
@@ -18,8 +16,13 @@ function AppHeader() {
   }, [clickCount, router]);
 
   return (
-    <Box className={styles.header}>
-      <Center>
+    <header
+      className="
+        sticky inset-x-0 top-0 z-1001 h-[72px] border-b border-white/10
+        backdrop-blur-sm
+      "
+    >
+      <div className="flex h-full items-center justify-center">
         <Image
           priority
           src="/bypass_link_192.png"
@@ -28,8 +31,8 @@ function AppHeader() {
           width={70}
           onClick={() => setClickCount(clickCount + 1)}
         />
-      </Center>
-    </Box>
+      </div>
+    </header>
   );
 }
 

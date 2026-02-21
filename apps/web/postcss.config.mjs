@@ -1,9 +1,6 @@
-import basePostcssConfig from '@bypass/configs/postcss.base.mjs';
-
 const postcssConfig = {
-  ...basePostcssConfig,
   plugins: {
-    ...basePostcssConfig.plugins,
+    '@tailwindcss/postcss': {},
     autoprefixer: {},
   },
 };

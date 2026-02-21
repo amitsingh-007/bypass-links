@@ -1,5 +1,15 @@
-/* @import '@bypass/shared/styles/global.css'; */
+@import '@bypass/ui/styles/globals.css';
 
-::selection {
-  background: #6850ff;
+@source '../**/*.{ts,tsx}';
+
+@theme inline {
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  /* Same as MAX_PANEL_SIZE in extension app */
+  --max-width-panel: 800px;
+}
+
+@layer base {
+  ::selection {
+    background: var(--primary);
+  }
 }

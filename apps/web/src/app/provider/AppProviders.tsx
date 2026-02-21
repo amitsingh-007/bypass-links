@@ -1,7 +1,6 @@
 'use client';
 
-import { mantineTheme } from '@bypass/shared';
-import { MantineProvider } from '@mantine/core';
+import { TooltipProvider } from '@bypass/ui';
 import { Analytics } from '@vercel/analytics/react';
 import { StrictMode, Suspense } from 'react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
@@ -12,7 +11,7 @@ function AppProviders({ children }: { children: React.ReactNode }) {
   return (
     <Suspense>
       <StrictMode>
-        <MantineProvider defaultColorScheme="dark" theme={mantineTheme}>
+        <TooltipProvider>
           <DynamicProvider>
             <AuthProvider>
               {children}
@@ -20,7 +19,7 @@ function AppProviders({ children }: { children: React.ReactNode }) {
               <SpeedInsights />
             </AuthProvider>
           </DynamicProvider>
-        </MantineProvider>
+        </TooltipProvider>
       </StrictMode>
     </Suspense>
   );

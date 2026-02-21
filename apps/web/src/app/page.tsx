@@ -1,11 +1,9 @@
-import { Box, Container } from '@mantine/core';
 import { type Metadata } from 'next';
 import { clientEnv } from './constants/env/client';
 import AppHeader from './components/AppHeader';
 import Footer from './components/Footer';
 import PageHeader from './components/PageHeader';
 import SalientFeatures from './components/SalientFeatures';
-import styles from './page.module.css';
 import { fetchExtensionData } from './page.utils';
 
 const title = 'Skip Links, Ads, Timers & ReCaptchas';
@@ -32,13 +30,13 @@ export default async function Home() {
   const { chrome } = await fetchExtensionData();
 
   return (
-    <Box className={styles.container}>
+    <div className="bg-[#131b21]">
       <AppHeader />
-      <Container size="xl">
+      <div className="mx-auto max-w-7xl">
         <PageHeader chrome={chrome} />
         <SalientFeatures />
-      </Container>
+      </div>
       <Footer releaseDate={chrome.date} extVersion={chrome.version} />
-    </Box>
+    </div>
   );
 }

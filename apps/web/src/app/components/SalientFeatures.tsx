@@ -1,35 +1,29 @@
-import { Box, Flex, Grid, GridCol, Text } from '@mantine/core';
 import CircleIcon from '@app/icons/circle.svg';
 import React from 'react';
 import { firstColumn, secondColumn } from '../constants/features';
-import styles from './styles/SalientFeatures.module.css';
 import type Feature from './types/feature';
 
 function Description() {
   return (
-    <Box pos="relative" mb="2.5rem">
-      <Text fw={500} fz="2rem" component="span">
-        Why{' '}
-        <Text component="span" c="#7e67ff" fz="inherit" fw="inherit">
-          Bypass Links
-        </Text>
-      </Text>
-      <Box
-        pos="absolute"
-        top="1.875rem"
-        right="6.5625rem"
-        w="8.75rem"
-        className={styles.borderBox}
+    <div className="relative mb-10">
+      <span className="text-3xl font-medium">
+        Why <span className="text-[#7e67ff]">Bypass Links</span>
+      </span>
+      <div
+        className="
+          absolute top-7.5 right-26.25 w-35 border-b-30
+          border-b-[rgba(106,80,255,0.4)]
+        "
       />
-      <Text mt="2.33rem" size="md">
+      <p className="mt-9 text-base">
         An easy to use links bypasser and highly customizable & multipurpose
         bookmarks panel with person tagging panel, website last visited feature
         and many more ...
-      </Text>
-      <Box pos="relative" top="1.125rem" right="6.25rem">
+      </p>
+      <div className="relative top-4.5 -right-25">
         <CircleIcon />
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 }
 
@@ -41,15 +35,11 @@ function FeaturesColumn({
   return (
     <>
       {columnData.map(({ title, content, icon: Icon }) => (
-        <Box key={title} mb="4.375rem">
+        <div key={title} className="mb-17.5">
           <Icon height={35} width={35} />
-          <Text fw="bold" fz="lg">
-            {title}
-          </Text>
-          <Text fz="md" c="#839bad">
-            {content}
-          </Text>
-        </Box>
+          <p className="text-lg font-bold">{title}</p>
+          <p className="text-base text-[#839bad]">{content}</p>
+        </div>
       ))}
     </>
   );
@@ -57,19 +47,34 @@ function FeaturesColumn({
 
 function SalientFeatures() {
   return (
-    <Flex mt="9.375rem">
-      <Grid>
-        <GridCol span={{ base: 12, sm: 5 }}>
+    <div className="mt-37.5 flex">
+      <div className="grid grid-cols-12">
+        <div
+          className="
+            col-span-12
+            sm:col-span-5
+          "
+        >
           <Description />
-        </GridCol>
-        <GridCol span={{ base: 12, sm: 3.5 }}>
+        </div>
+        <div
+          className="
+            col-span-12
+            sm:col-span-3
+          "
+        >
           <FeaturesColumn columnData={firstColumn} />
-        </GridCol>
-        <GridCol span={{ base: 12, sm: 3.5 }}>
+        </div>
+        <div
+          className="
+            col-span-12
+            sm:col-span-3
+          "
+        >
           <FeaturesColumn columnData={secondColumn} />
-        </GridCol>
-      </Grid>
-    </Flex>
+        </div>
+      </div>
+    </div>
   );
 }
 

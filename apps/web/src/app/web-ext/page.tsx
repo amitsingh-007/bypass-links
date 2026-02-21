@@ -7,18 +7,18 @@ import {
 } from '@app/helpers/firebase/auth';
 import { useUser } from '@app/provider/AuthProvider';
 import { Header, ROUTES } from '@bypass/shared';
+import { Button, Spinner } from '@bypass/ui';
 import { TEST_CREDENTIALS_KEY } from '@app/constants';
-import { Button, Center, Container, Stack } from '@mantine/core';
+import {
+  Bookmark01Icon,
+  Login02Icon,
+  Logout02Icon,
+  UserGroupIcon,
+} from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { FaUserTag } from 'react-icons/fa';
-import {
-  RiBookmarkFill,
-  RiLoginCircleFill,
-  RiLogoutCircleRFill,
-} from 'react-icons/ri';
 import useWebPreload from './hooks/useWebPreload';
-import styles from './page.module.css';
 
 export default function Web() {
   const router = useRouter();
@@ -62,43 +62,52 @@ export default function Web() {
   };
 
   return (
-    <Container size="md" px={0}>
+    <div className="max-w-panel mx-auto px-0">
       <Header text="Bypass Links - Web" />
-      <Center mt="md">
-        <Stack align="stretch" className={styles.stack}>
+      <div className="mt-4 flex items-center justify-center">
+        <div
+          className="
+            flex w-1/2 flex-col items-stretch gap-2
+            max-sm:w-[80%]
+          "
+        >
           <Button
-            fullWidth
-            radius="xl"
-            size="md"
-            loading={isLoading}
-            color={isLoggedIn ? 'teal' : 'red'}
-            rightSection={
-              isLoggedIn ? <RiLogoutCircleRFill /> : <RiLoginCircleFill />
-            }
+            className="w-full"
+            variant={isLoggedIn ? 'destructive' : 'secondary'}
+            disabled={isLoading}
             onClick={isLoggedIn ? handleSignOut : handleSignIn}
           >
-            {isLoggedIn ? 'Logout' : 'Login'}
+            <span className="flex items-center justify-center gap-2">
+              {isLoading && <Spinner className="mr-2 size-4" />}
+              {isLoggedIn ? 'Logout' : 'Login'}
+              <HugeiconsIcon
+                icon={isLoggedIn ? Logout02Icon : Login02Icon}
+                className="size-4"
+              />
+            </span>
           </Button>
           <Button
-            radius="xl"
-            size="md"
-            rightSection={<RiBookmarkFill />}
+            variant="secondary"
             disabled={!isLoggedIn || isLoading}
             onClick={() => router.push(ROUTES.BOOKMARK_PANEL)}
           >
-            Bookmarks Page
+            <span className="flex items-center justify-center gap-2">
+              Bookmarks Page
+              <HugeiconsIcon icon={Bookmark01Icon} className="size-4" />
+            </span>
           </Button>
           <Button
-            radius="xl"
-            size="md"
-            rightSection={<FaUserTag />}
+            variant="secondary"
             disabled={!isLoggedIn || isLoading}
             onClick={() => router.push(ROUTES.PERSONS_PANEL)}
           >
-            Persons Page
+            <span className="flex items-center justify-center gap-2">
+              Persons Page
+              <HugeiconsIcon icon={UserGroupIcon} className="size-4" />
+            </span>
           </Button>
-        </Stack>
-      </Center>
-    </Container>
+        </div>
+      </div>
+    </div>
   );
 }

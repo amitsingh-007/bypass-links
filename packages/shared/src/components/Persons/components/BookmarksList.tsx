@@ -147,7 +147,7 @@ function BookmarksList({
             key={bookmark.url}
             className="
               relative box-border flex h-8 w-full cursor-pointer items-center
-              justify-center rounded-md select-none
+              gap-2 rounded-md px-2 select-none
               hover:bg-muted
             "
             data-testid="bookmark-container"
@@ -163,7 +163,7 @@ function BookmarksList({
                 <HugeiconsIcon icon={BookEditIcon} className="size-3.5" />
               </Button>
             )}
-            <div className="flex-1">
+            <div className="min-w-0 flex-1">
               <Bookmark
                 id={bookmark.id}
                 url={bookmark.url}
@@ -172,7 +172,11 @@ function BookmarksList({
                 onOpenLink={onLinkOpen}
               />
             </div>
-            <Badge data-testid="folder-name-badge" variant="secondary">
+            <Badge
+              data-testid="folder-name-badge"
+              variant="secondary"
+              className="shrink-0"
+            >
               {bookmark.parentName}
             </Badge>
           </div>
@@ -191,6 +195,7 @@ function BookmarksList({
       onOpenChange={(open) => !open && handleClose()}
     >
       <DialogContent
+        data-testid="bookmarks-list-modal"
         className="
           inset-0! block max-w-none! translate-0! overflow-hidden rounded-none
           p-0
@@ -203,7 +208,7 @@ function BookmarksList({
         {fullscreen ? (
           renderContent()
         ) : (
-          <div className="mx-auto max-w-2xl px-0">{renderContent()}</div>
+          <div className="max-w-panel mx-auto px-0">{renderContent()}</div>
         )}
       </DialogContent>
     </Dialog>

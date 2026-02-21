@@ -9,11 +9,13 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@base-ui/react": "1.1.0",
     "@bypass/configs": "workspace:*",
     "@bypass/shared": "workspace:*",
     "@bypass/trpc": "workspace:*",
-    "@mantine/core": "8.3.14",
-    "@mantine/hooks": "8.3.14",
+    "@bypass/ui": "workspace:*",
+    "@hugeicons/core-free-icons": "3.1.1",
+    "@hugeicons/react": "1.1.5",
     "@t3-oss/env-nextjs": "0.13.10",
     "@tanstack/react-virtual": "3.13.18",
     "@trpc/client": "11.9.0",
@@ -28,7 +30,6 @@
     "next": "16.1.6",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "react-icons": "5.5.0",
     "sharp": "0.34.5",
     "zod": "4.3.6"
   },
@@ -39,8 +40,8 @@
     "autoprefixer": "10.4.24",
     "babel-plugin-react-compiler": "1.0.0",
     "postcss": "8.5.6",
-    "postcss-preset-mantine": "1.18.0",
-    "postcss-simple-vars": "7.0.1",
+    "tailwindcss": "4.1.18",
+    "@tailwindcss/postcss": "4.1.18",
     "typescript": "5.9.3"
   }
 }
