@@ -1,6 +1,3 @@
-// !NOTE: maintain below order of css
-import '@mantine/core/styles.css';
-import { ColorSchemeScript } from '@mantine/core';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
@@ -42,11 +39,10 @@ export const metadata: Metadata = {
 
 function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <ColorSchemeScript defaultColorScheme="dark" />
         <link
           href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@100;200;300;400;500;700;900&display=swap"
           rel="stylesheet"

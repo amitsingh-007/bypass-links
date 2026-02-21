@@ -1,5 +1,7 @@
-/* @import '@bypass/shared/styles/global.css'; */
+@import '@bypass/ui/styles/globals.css';
+
+@source '../**/*.{ts,tsx}';
 
 ::selection {
-  background: #6850ff;
+  background: var(--primary);
 }

@@ -17,14 +17,10 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   reactStrictMode: true,
   reactCompiler: true,
-  experimental: {
-    // https://mantine.dev/guides/next/#app-router-tree-shaking
-    optimizePackageImports: ['@mantine/core', '@mantine/hooks'],
-  },
   compiler: {
     removeConsole: isDev ? false : { exclude: ['error'] },
   },
-  transpilePackages: ['@bypass/shared', '@bypass/trpc'],
+  transpilePackages: ['@bypass/shared', '@bypass/trpc', '@bypass/ui'],
   turbopack: {
     rules: {
       '*.svg': {

@@ -168,7 +168,7 @@ export class PersonsPanel {
     const avatar = dialog.locator('img');
     await expect(avatar).toBeVisible();
 
-    const closeButton = this.page.locator('[data-slot="dialog-close"]');
+    const closeButton = dialog.locator('[data-slot="dialog-close"]');
     await closeButton.click();
     await expect(dialog).toBeHidden();
   }

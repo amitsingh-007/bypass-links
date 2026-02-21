@@ -29,6 +29,7 @@ const xoConfig: FlatXoConfig = [
         'error',
         { strictness: 'loose' }, // Prevent conflicts with Prettier
       ],
+      'better-tailwindcss/no-unknown-classes': ['error', { ignore: ['dark'] }],
     },
     settings: {
       'better-tailwindcss': {
