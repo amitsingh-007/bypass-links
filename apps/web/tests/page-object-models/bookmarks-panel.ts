@@ -108,8 +108,8 @@ export class BookmarksPanel {
     // Hover over the favicon area to trigger the tooltip
     const favicon = this.getFaviconElement(bookmarkTitle);
     await favicon.hover();
-    // Wait for tooltip to appear - Mantine renders tooltip with role="tooltip"
-    const tooltip = this.page.locator('[role="tooltip"]').first();
+    // Wait for tooltip to appear - shadcn renders tooltip with data-slot="tooltip-content"
+    const tooltip = this.page.locator('[data-slot="tooltip-content"]').first();
     await expect(tooltip).toBeVisible({ timeout: TEST_TIMEOUTS.LONG_WAIT });
     return tooltip;
   }

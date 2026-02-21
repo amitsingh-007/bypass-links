@@ -195,6 +195,7 @@ function BookmarksList({
       onOpenChange={(open) => !open && handleClose()}
     >
       <DialogContent
+        data-testid="bookmarks-list-modal"
         className="
           inset-0! block max-w-none! translate-0! overflow-hidden rounded-none
           p-0
