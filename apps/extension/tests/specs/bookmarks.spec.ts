@@ -155,7 +155,7 @@ test.describe.serial('Bookmarks Panel', () => {
       await firstBookmark.click();
 
       await firstBookmark.click({ button: 'right' });
-      const openOption = bookmarksPage.locator('.context-menu-item-open');
+      const openOption = bookmarksPage.getByTestId('context-menu-item-open');
       await expect(openOption).toBeVisible();
 
       const [contextMenuPage] = await Promise.all([

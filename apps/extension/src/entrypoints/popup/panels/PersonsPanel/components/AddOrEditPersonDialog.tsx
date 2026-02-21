@@ -18,7 +18,7 @@ import {
 import { useForm, useStore } from '@tanstack/react-form';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { UserWarning03Icon } from '@hugeicons/core-free-icons';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import ImagePicker from './ImagePicker';
 import { trpcApi } from '@/apis/trpcApi';
 
@@ -43,14 +43,15 @@ function AddOrEditPersonDialog({
   handleSaveClick,
 }: Props) {
   const { resolvePersonImageFromUid } = usePerson();
+  const initialUid = useRef(crypto.randomUUID());
   const [imageUrl, setImageUrl] = useState('');
   const [showImagePicker, setShowImagePicker] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm({
     defaultValues: {
-      uid: '',
-      name: '',
+      uid: person?.uid ?? initialUid.current,
+      name: person?.name ?? '',
     },
     validators: {
       onSubmit: formSchema,
@@ -79,6 +80,10 @@ function AddOrEditPersonDialog({
   );
 
   useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
     if (person) {
       initImageUrl(person.uid);
       form.reset({
@@ -92,7 +97,7 @@ function AddOrEditPersonDialog({
         name: '',
       });
     }
-  }, [form, initImageUrl, person]);
+  }, [form, initImageUrl, isOpen, person]);
 
   const handleImageCropSave = async (fileName: string) => {
     const url = await trpcApi.storage.getDownloadUrl.query(fileName);
@@ -139,6 +144,7 @@ function AddOrEditPersonDialog({
                 <Button
                   type="button"
                   variant="ghost"
+                  data-testid="change-avatar-button"
                   className="absolute inset-0 rounded-xl border-0"
                   style={{ width: IMAGE_SIZE, height: IMAGE_SIZE }}
                   onClick={toggleImagePicker}

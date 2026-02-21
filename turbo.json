@@ -13,14 +13,14 @@
   ],
   "tasks": {
     "build": {
-      "dependsOn": ["//#lint", "//#typecheck"],
+      "dependsOn": ["//#lint:ci", "//#typecheck"],
       "outputs": [".output/**", ".next/**", "!.next/cache/**"]
     },
     "dev": {
       "cache": false,
       "persistent": true
     },
-    "//#lint": {},
+    "//#lint:ci": {},
     "//#typecheck": {},
     "typecheck": {
       "outputs": []

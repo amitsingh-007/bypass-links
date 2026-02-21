@@ -6,7 +6,7 @@ import {
 import { test, expect } from '../fixtures/home-popup-fixture';
 import { BookmarksPanel } from '../utils/bookmarks-panel';
 import { PopupHomePanel } from '../utils/home-panel';
-import { getHistoryItems } from './toggle-history.spec.utils';
+import { getHistoryItems } from '../utils/history-utils';
 
 /**
  * ToggleHistory E2E Tests
