@@ -25,9 +25,10 @@ function ContextMenuWrapper({ options, children }: Props) {
 
   const menuOptions = useMemo(() => {
     return options.map((option) => {
-      const { text, onClick, icon, variant } = option;
+      const { id, text, onClick, icon, variant } = option;
 
       return {
+        id,
         key: text,
         title: text,
         icon,
@@ -57,6 +58,7 @@ function ContextMenuWrapper({ options, children }: Props) {
         {menuOptions.map((option) => (
           <ContextMenuItem
             key={option.key}
+            data-testid={`context-menu-item-${option.id}`}
             className="gap-2"
             variant={option.variant}
             onClick={option.onClick}

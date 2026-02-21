@@ -14,15 +14,6 @@ export const navigateBack = async (page: Page) => {
 };
 
 /**
- * Open a person's tagged bookmarks by clicking on the person card.
- */
-export const openPersonCard = async (page: Page, personName: string) => {
-  const personCard = page.getByTestId(`person-item-${personName}`);
-  await expect(personCard).toBeVisible();
-  await personCard.click();
-};
-
-/**
  * Open a dialog by clicking a button and waiting for the dialog to appear.
  */
 export const openDialog = async (
@@ -63,28 +54,10 @@ export const clickDialogButton = async (
 };
 
 /**
- * Close a dialog via the close button or Escape key.
- */
-export const closeDialog = async (
-  page: Page,
-  dialog: ReturnType<Page['getByRole']>
-) => {
-  const closeButton = page.getByTestId('modal-close-button');
-  if (await closeButton.isVisible()) {
-    await closeButton.click();
-  } else {
-    await page.keyboard.press('Escape');
-  }
-
-  await expect(dialog).toBeHidden();
-};
-
-/**
  * Click a specific context menu option by id.
  */
 export const clickContextMenuItem = async (page: Page, id: string) => {
-  const itemClass = `context-menu-item-${id}`;
-  const menuItem = page.locator(`.${itemClass}`);
+  const menuItem = page.getByTestId(`context-menu-item-${id}`);
   await expect(menuItem).toBeVisible();
   await menuItem.click();
 };
@@ -104,76 +77,6 @@ export const waitForDebounce = async (
  */
 export const countElements = async (page: Page, selector: string) => {
   return page.locator(selector).count();
-};
-
-/**
- * Open ImagePicker dialog by clicking edit icon.
- */
-export const openImagePicker = async (
-  page: Page,
-  dialog: ReturnType<Page['getByRole']>
-) => {
-  const editIcon = dialog.locator('.mantine-ActionIcon-root');
-  await editIcon.click();
-
-  const imagePickerDialog = page
-    .locator('.mantine-Modal-inner')
-    .filter({ hasText: 'Upload Image' });
-  await expect(imagePickerDialog).toBeVisible();
-
-  return imagePickerDialog;
-};
-
-/**
- * Upload an image by entering URL, waiting for load, and saving.
- */
-export const uploadImage = async (
-  page: Page,
-  imagePickerDialog: ReturnType<Page['locator']>,
-  imageUrl: string
-) => {
-  const imageUrlInput = imagePickerDialog.getByPlaceholder('Enter image url');
-  await imageUrlInput.fill(imageUrl);
-
-  const saveCroppedButton = page.getByTestId('save-cropped-image');
-  // Wait for the button to become enabled (image loaded and processed)
-  await expect(saveCroppedButton).toBeEnabled({
-    timeout: TEST_TIMEOUTS.AUTH,
-  });
-  await saveCroppedButton.click();
-
-  const uploadOverlay = page.getByTestId('uploading-overlay');
-  await expect(uploadOverlay).toBeVisible();
-
-  await expect(imagePickerDialog).toBeHidden({ timeout: TEST_TIMEOUTS.AUTH });
-};
-
-/**
- * Parse count from badge text in format "Name (N)".
- */
-export const getBadgeCount = async (
-  page: Page,
-  name: string
-): Promise<number> => {
-  const badge = page.locator('.mantine-Badge-label').filter({ hasText: name });
-  await expect(badge).toBeVisible();
-
-  const badgeText = (await badge.textContent()) ?? '';
-  const countMatch = /\((\d+)\)/.exec(badgeText);
-
-  if (!countMatch) {
-    return 0;
-  }
-
-  return Number.parseInt(countMatch[1], 10);
-};
-
-/**
- * Toggle a switch by clicking its label.
- */
-export const toggleSwitch = async (page: Page, labelText: string) => {
-  const label = page.locator('label').filter({ hasText: labelText });
-  await label.click();
 };
 
 /**
@@ -220,18 +123,6 @@ export const searchAndVerify = async (
 };
 
 /**
- * Change image in dialog: open picker, upload, save.
- */
-export const changeImageInDialog = async (
-  page: Page,
-  dialog: ReturnType<Page['getByRole']>,
-  imageUrl: string
-) => {
-  const imagePickerDialog = await openImagePicker(page, dialog);
-  await uploadImage(page, imagePickerDialog, imageUrl);
-};
-
-/**
  * Get item from browser.storage.local
  */
 export const getStorageItem = async <T = unknown>(
@@ -242,4 +133,31 @@ export const getStorageItem = async <T = unknown>(
     const result = await browser.storage.local.get([storageKey]);
     return result[storageKey] as T;
   }, key);
+};
+
+/**
+ * Parse count from badge text in format "Name (N)".
+ */
+export const getBadgeCount = async (
+  page: Page,
+  name: string
+): Promise<number> => {
+  const badge = page.getByTestId('person-bookmark-count-badge');
+  await expect(badge).toBeVisible();
+
+  const badgeText = (await badge.textContent()) ?? '';
+
+  if (!badgeText.includes(name)) {
+    throw new Error(
+      `Expected badge to contain "${name}" but got "${badgeText}"`
+    );
+  }
+
+  const countMatch = /\((\d+)\)/.exec(badgeText);
+
+  if (!countMatch) {
+    return 0;
+  }
+
+  return Number.parseInt(countMatch[1], 10);
 };

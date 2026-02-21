@@ -1,5 +1,6 @@
 import { TEST_TIMEOUTS } from '@bypass/shared/tests';
 import { test, expect as homeExpect } from '../fixtures/home-popup-fixture';
+import { waitForDebounce } from '../utils/test-utils';
 
 /**
  * LastVisitedButton E2E Tests
@@ -25,13 +26,15 @@ test.describe.serial('LastVisitedButton', () => {
     await lastVisitedButton.click();
     await homePage.waitForTimeout(TEST_TIMEOUTS.NAVIGATION);
 
-    // Hover to capture initial timestamp from tooltip
+    // Move away then hover to trigger tooltip fresh
+    await homePage.mouse.move(0, 0);
+    await waitForDebounce(homePage);
     await lastVisitedButton.hover();
     await homePage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
     // Get the tooltip element and capture its text
     const tooltip = homePage
-      .locator('.mantine-Tooltip-tooltip')
+      .locator('[data-slot="tooltip-content"]')
       .filter({ hasText: /,/ });
     const initialTooltipText = await tooltip.textContent();
     homeExpect(initialTooltipText).toBeTruthy();
@@ -46,7 +49,9 @@ test.describe.serial('LastVisitedButton', () => {
     await lastVisitedButton.click();
     await homePage.waitForTimeout(TEST_TIMEOUTS.NAVIGATION);
 
-    // Hover to get updated timestamp
+    // Move away then hover to trigger tooltip fresh
+    await homePage.mouse.move(0, 0);
+    await waitForDebounce(homePage);
     await lastVisitedButton.hover();
 
     // Wait for tooltip text to change from initial value (auto-retrying)

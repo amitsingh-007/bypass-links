@@ -124,6 +124,10 @@ test.describe.serial('Shortcuts Panel', () => {
     await firstAliasInput.clear();
     await firstAliasInput.fill('test-alias-new');
 
+    // Also fill in the website (save button is disabled without website)
+    const firstWebsiteInput = panel.getWebsiteInputs().first();
+    await firstWebsiteInput.fill('https://test-website.com');
+
     // Verify the individual rule save button is now enabled
     // First rule's save button
     const firstRuleSaveButton = shortcutsPage.getByTestId('rule-0-save');

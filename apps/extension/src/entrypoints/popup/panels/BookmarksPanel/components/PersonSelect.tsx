@@ -105,7 +105,10 @@ function PersonSelect({ value, onChange }: PersonSelectProps) {
         >
           <ComboboxChips className="w-full" data-testid="person-select">
             {selectedPersons.map((person) => (
-              <ComboboxChip key={person.value}>
+              <ComboboxChip
+                key={person.value}
+                data-testid={`person-chip-${person.label}`}
+              >
                 <div className="flex items-center gap-1">
                   <Avatar size="sm" className="size-5!">
                     <AvatarImage src={person.image} alt={person.label} />

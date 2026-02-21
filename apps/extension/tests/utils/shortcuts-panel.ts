@@ -10,7 +10,7 @@ export class ShortcutsPanel {
   constructor(readonly page: Page) {}
 
   async waitForLoading() {
-    const loadingOverlay = this.page.locator('.mantine-LoadingOverlay-root');
+    const loadingOverlay = this.page.getByTestId('loading-overlay');
     await loadingOverlay.waitFor({
       state: 'hidden',
       timeout: TEST_TIMEOUTS.LONG_WAIT,
@@ -65,7 +65,7 @@ export class ShortcutsPanel {
   }
 
   getHeaderElement() {
-    return this.page.getByText('Shortcuts');
+    return this.page.getByRole('button', { name: 'Back' });
   }
 
   // ============ Composite Operations ============

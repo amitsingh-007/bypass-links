@@ -48,6 +48,7 @@ const PersonHeader = memo<Props>(
           </Button>
           <div className="flex items-center gap-2">
             <Switch
+              data-testid="recency-switch"
               checked={orderByRecency}
               onCheckedChange={toggleOrderByRecency}
             />

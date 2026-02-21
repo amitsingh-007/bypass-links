@@ -44,7 +44,7 @@ This is a **Turbo + pnpm monorepo** with the following structure:
 - **apps/extension** - Browser extension (WXT, React with Preact, Wouter for routing)
 - **apps/web** - Next.js web interface for downloads and admin
 - **packages/shared** - Shared React components, types, utilities, and stores (Zustand)
-- **packages/ui** - Shared UI components using shadcn/ui (Radix UI primitives + Tailwind CSS)
+- **packages/ui** - Shared UI components using shadcn/ui Base UI + Tailwind CSS
 - **packages/configs** - Shared TypeScript, ESLint (XO), and build configs
 - **packages/trpc** - tRPC router with Firebase backend (type-safe API)
 

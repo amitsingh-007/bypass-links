@@ -81,7 +81,7 @@ export const processPostLogout = async () => {
   await resetStorage();
   incrementProgress(SIGN_OUT_TOTAL_STEPS);
   // Refresh browser cache
-  deleteAllCache([ECacheBucketKeys.favicon, ECacheBucketKeys.person]);
+  await deleteAllCache([ECacheBucketKeys.favicon, ECacheBucketKeys.person]);
   incrementProgress(SIGN_OUT_TOTAL_STEPS);
   // Open Google Search, Google Image & Google Data tabs
   await browser.tabs.create({ url: 'https://www.google.com/', active: false });

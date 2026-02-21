@@ -67,6 +67,9 @@ export const test = base.extend<
   ],
 
   async personsPage({ sharedPage }, use) {
+    await expect(
+      sharedPage.locator('[data-testid^="person-item-"]').first()
+    ).toBeVisible();
     await use(sharedPage);
   },
 

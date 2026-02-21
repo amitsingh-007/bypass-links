@@ -170,7 +170,10 @@ export class BookmarksPanel {
     await option.click();
     await expect(dialog.getByText(personName)).toBeVisible();
 
-    const saveButton = dialog.getByRole('button', { name: 'Save' });
+    // Close the dropdown by pressing Escape before clicking save
+    await this.page.keyboard.press('Escape');
+
+    const saveButton = dialog.getByTestId('dialog-save-button');
     await saveButton.click();
     await expect(dialog).toBeHidden();
 
@@ -182,16 +185,15 @@ export class BookmarksPanel {
     const dialog = await this.openEditBookmarkDialog(bookmarkTitle);
     await expect(dialog).toBeVisible();
 
-    const pillToRemove = dialog.locator('.mantine-MultiSelect-pill', {
-      hasText: personName,
-    });
-    await expect(pillToRemove).toBeVisible();
+    const chipToRemove = dialog.getByTestId(`person-chip-${personName}`);
+    await expect(chipToRemove).toBeVisible();
 
-    const removeButton = pillToRemove.locator('button');
-    await removeButton.click();
-    await expect(pillToRemove).not.toBeVisible();
+    // Focus the chip and use keyboard to remove it (Backspace or Delete key)
+    await chipToRemove.click();
+    await this.page.keyboard.press('Backspace');
+    await expect(chipToRemove).not.toBeVisible();
 
-    const saveButton = dialog.getByRole('button', { name: 'Save' });
+    const saveButton = dialog.getByTestId('dialog-save-button');
     await saveButton.click();
     await expect(dialog).toBeHidden();
 

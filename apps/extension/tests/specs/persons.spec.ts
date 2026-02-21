@@ -48,7 +48,7 @@ test.describe.serial('Persons Panel', () => {
     const nameInput = dialog.getByPlaceholder('Enter name');
     await expect(nameInput).toBeVisible();
 
-    const closeButton = dialog.locator('button.mantine-Modal-close');
+    const closeButton = personsPage.locator('[data-slot="dialog-close"]');
     if (await closeButton.isVisible()) {
       await closeButton.click();
     } else {
@@ -188,17 +188,20 @@ test.describe.serial('Persons Panel', () => {
   test('should verify recency switch exists', async ({ personsPage }) => {
     const panel = new PersonsPanel(personsPage);
     await panel.ensureAtRoot();
-    await panel.verifyRecencySwitchExists();
+
+    const recencySwitch = personsPage.getByTestId('recency-switch');
+    await expect(recencySwitch).toBeVisible();
 
     const personNamesBefore = await panel.getPersonNames();
 
-    await panel.toggleRecency();
+    await recencySwitch.click();
+    await waitForDebounce(personsPage);
 
     const personNamesAfter = await panel.getPersonNames();
 
     expect(personNamesBefore).not.toEqual(personNamesAfter);
 
-    await panel.toggleRecency();
+    await recencySwitch.click();
   });
 
   test('should display correct person count in header', async ({
