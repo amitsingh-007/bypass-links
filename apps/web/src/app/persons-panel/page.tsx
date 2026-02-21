@@ -14,10 +14,9 @@ import {
   STORAGE_KEYS,
   useBookmark,
 } from '@bypass/shared';
-import { Box, Container, Switch } from '@mantine/core';
+import { Switch } from '@bypass/ui';
 import { useEffect, useState } from 'react';
 import PersonVirtualCell from './components/PersonVirtualCell';
-import styles from './page.module.css';
 
 const onLinkOpen = (url: string) => {
   openNewTab(url);
@@ -60,26 +59,28 @@ function PersonsPage() {
     setSearchText(text);
   };
   return (
-    <Container size="md" h="100vh" px={0} className={styles.container}>
+    <div className="mx-auto flex h-screen max-w-3xl flex-col px-0">
       <Header
         text={`Persons Panel (${filteredAndOrderedPersons?.length || 0})`}
         onSearchChange={handleSearchTextChange}
       >
-        <Switch
-          size="md"
-          label="Recency"
-          color="yellow"
-          wrapperProps={{ 'data-testid': 'recency-switch' }}
-          classNames={{
-            root: styles.orderBySwitch,
-            labelWrapper: styles.orderBySwitchLabelWrapper,
-            body: styles.orderBySwitchBody,
-          }}
-          checked={orderByRecency}
-          onChange={() => setOrderByRecency((prev) => !prev)}
-        />
+        <div className="flex items-center gap-2">
+          <Switch
+            data-testid="recency-switch"
+            checked={orderByRecency}
+            onCheckedChange={() => setOrderByRecency((prev) => !prev)}
+          />
+          <span
+            className="
+              hidden text-sm
+              sm:block
+            "
+          >
+            Recency
+          </span>
+        </div>
       </Header>
-      <Box className={styles.innerContainer}>
+      <div className="min-h-0 flex-1">
         {filteredAndOrderedPersons.length > 0 ? (
           <Persons
             persons={filteredAndOrderedPersons}
@@ -88,8 +89,8 @@ function PersonsPage() {
             onLinkOpen={onLinkOpen}
           />
         ) : null}
-      </Box>
-    </Container>
+      </div>
+    </div>
   );
 }
 

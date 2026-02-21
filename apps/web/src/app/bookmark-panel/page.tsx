@@ -13,16 +13,15 @@ import {
   shouldRenderBookmarks,
   STORAGE_KEYS,
 } from '@bypass/shared';
-import { Box, Container } from '@mantine/core';
+import { ScrollArea } from '@bypass/ui';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import VirtualRow from './components/VirtualRow';
-import styles from './page.module.css';
 
 export default function BookmarksPage() {
   const searchParams = useSearchParams();
-  const contentRef = useRef<HTMLDivElement>(null);
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
   const folderId = searchParams?.get('folderId') ?? ROOT_FOLDER_ID;
   const [folderName, setFolderName] = useState('');
   const [contextBookmarks, setContextBookmarks] = useState<ContextBookmarks>(
@@ -38,7 +37,7 @@ export default function BookmarksPage() {
     count: filteredContextBookmarks.length,
     estimateSize: () => BOOKMARK_ROW_HEIGHT,
     overscan: 10,
-    getScrollElement: () => contentRef.current,
+    getScrollElement: () => scrollAreaRef.current,
     getItemKey: (idx) => filteredContextBookmarks[idx].id,
   });
 
@@ -70,34 +69,36 @@ export default function BookmarksPage() {
   const handleSearchTextChange = (text: string) => setSearchText(text);
 
   return (
-    <Container size="md" h="100vh" px={0} className={styles.container}>
+    <div className="mx-auto flex h-screen max-w-3xl flex-col px-0">
       <Header
         text={`${folderName} (${contextBookmarks?.length || 0})`}
         onSearchChange={handleSearchTextChange}
       />
-      <Box ref={contentRef} className={styles.innerContainer}>
+      <ScrollArea viewportRef={scrollAreaRef} className="flex-1">
         {shouldRenderBookmarks(folders, filteredContextBookmarks) ? (
-          <Box h={virtualizer.getTotalSize()} w="100%" pos="relative">
+          <div
+            style={{ height: virtualizer.getTotalSize() }}
+            className="relative w-full"
+          >
             {virtualizer.getVirtualItems().map((virtualRow) => (
-              <Box
+              <div
                 key={virtualRow.key}
-                style={{ transform: `translateY(${virtualRow.start}px)` }}
-                pos="absolute"
-                top={0}
-                left={0}
-                w="100%"
-                h={virtualRow.size}
+                style={{
+                  transform: `translateY(${virtualRow.start}px)`,
+                  height: virtualRow.size,
+                }}
+                className="absolute top-0 left-0 w-full"
               >
                 <VirtualRow
                   index={virtualRow.index}
                   folders={folders}
                   contextBookmarks={filteredContextBookmarks}
                 />
-              </Box>
+              </div>
             ))}
-          </Box>
+          </div>
         ) : null}
-      </Box>
-    </Container>
+      </ScrollArea>
+    </div>
   );
 }

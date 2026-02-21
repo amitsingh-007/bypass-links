@@ -1,32 +1,41 @@
-import { ActionIcon, Box, Flex, Text } from '@mantine/core';
+import {
+  GithubIcon,
+  PuzzleIcon,
+  Clock01Icon,
+} from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
 import footerImage from '@public/footer.png';
 import dayjs from 'dayjs';
 import { headers } from 'next/headers';
 import Image from 'next/image';
-import { type IconType } from 'react-icons';
-import { BsGithub } from 'react-icons/bs';
-import { MdExtension } from 'react-icons/md';
-import { RiTimeFill } from 'react-icons/ri';
-import styles from './styles/Footer.module.css';
 
 function Info({
-  icon: Icon,
+  icon,
   text,
   testId,
 }: {
-  icon: IconType;
+  icon: typeof GithubIcon;
   text: string;
   testId: string;
 }) {
   return (
-    <Flex align="center" className={styles.infoContainer} data-testid={testId}>
-      <Box className={styles.iconContainer}>
-        <Icon size="100%" />
-      </Box>
-      <Text ml="0.625rem" fw={500} fz="1.1rem">
-        {text}
-      </Text>
-    </Flex>
+    <div
+      className="
+        mt-2.5 flex items-center
+        sm:mt-0
+      "
+      data-testid={testId}
+    >
+      <div
+        className="
+          size-6
+          sm:size-5
+        "
+      >
+        <HugeiconsIcon icon={icon} size="100%" />
+      </div>
+      <span className="ml-2.5 text-lg font-medium">{text}</span>
+    </div>
   );
 }
 
@@ -41,50 +50,49 @@ async function Footer({
   const tz = headersList.get('x-vercel-ip-timezone') ?? undefined;
 
   return (
-    <Flex
-      pos="relative"
-      w="100%"
-      justify="space-around"
-      className={styles.footerContainer}
+    <div
+      className="
+        relative flex h-[300px] w-full justify-around
+        sm:h-[130px]
+      "
     >
-      <Image src={footerImage} alt="footer image" className={styles.image} />
-      <Flex
-        pos="absolute"
-        justify="space-between"
-        w="100%"
-        className={styles.footerBody}
+      <Image src={footerImage} alt="footer image" className="size-full" />
+      <div
+        className="
+          absolute bottom-[7%] flex w-full justify-between px-[200px]
+          sm:bottom-0 sm:px-5
+        "
       >
-        <Flex direction="column">
+        <div className="flex flex-col">
           <Info
-            icon={MdExtension}
+            icon={PuzzleIcon}
             text={`v ${extVersion}`}
             testId="ext-version"
           />
           <Info
-            icon={RiTimeFill}
+            icon={Clock01Icon}
             text={dayjs(releaseDate).tz(tz).format('DD MMMM YYYY hh:mm A')}
             testId="ext-release-data"
           />
-        </Flex>
-        <Flex align="center">
-          <Box
-            component="a"
+        </div>
+        <div className="flex items-center">
+          <a
             target="_blank"
             href="https://github.com/amitsingh-007/bypass-links"
             title="Bypass Links - Github"
+            className="
+              flex size-12 items-center justify-center rounded-full bg-gray-200
+              text-gray-800 transition-colors
+              hover:bg-gray-300
+            "
+            aria-label="Github Repository Link"
+            rel="noreferrer"
           >
-            <ActionIcon
-              radius="xl"
-              size="xl"
-              color="gray.2"
-              aria-label="Github Repository Link"
-            >
-              <BsGithub size={28} />
-            </ActionIcon>
-          </Box>
-        </Flex>
-      </Flex>
-    </Flex>
+            <HugeiconsIcon icon={GithubIcon} size={28} />
+          </a>
+        </div>
+      </div>
+    </div>
   );
 }
 

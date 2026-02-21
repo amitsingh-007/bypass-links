@@ -2,6 +2,10 @@
 
 @source '../**/*.{ts,tsx}';
 
+@theme inline {
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+}
+
 ::selection {
   background: var(--primary);
 }

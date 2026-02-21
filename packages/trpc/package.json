@@ -23,7 +23,6 @@
     "zod": "4.3.6"
   },
   "devDependencies": {
-    "@firebase/app-types": "0.9.3",
     "firebase": "12.8.0",
     "type-fest": "5.4.3",
     "typescript": "5.9.3"

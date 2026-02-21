@@ -3,8 +3,15 @@ import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import { type ReactNode } from 'react';
 import { type Metadata, type Viewport } from 'next';
+import { Manrope } from 'next/font/google';
 import './layout.css';
 import AppProviders from './provider/AppProviders';
+
+// eslint-disable-next-line new-cap
+const manrope = Manrope({
+  subsets: ['latin'],
+  variable: '--font-manrope',
+});
 
 // Initialize dayjs with timezone plugin; timzone plugin requires utc plugin
 dayjs.extend(utc);
@@ -39,17 +46,17 @@ export const metadata: Metadata = {
 
 function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="en" className="dark">
+    <html
+      lang="en"
+      className={`
+        dark
+        ${manrope.variable}
+      `}
+    >
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@100;200;300;400;500;700;900&display=swap"
-          rel="stylesheet"
-        />
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
-      <body>
+      <body className="font-sans">
         <AppProviders>{children}</AppProviders>
       </body>
     </html>
