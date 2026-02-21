@@ -65,8 +65,10 @@ Playwright tests use a unique setup/teardown pattern for extension testing:
 ## Key Technologies
 
 - **Frontend**: React, Preact (extension), Next.js (web)
-- **UI**: Mantine (legacy), shadcn/ui (new components in `packages/ui`)
-- **Styling**: Tailwind CSS (for shadcn components)
+- **UI**: shadcn/ui (Base UI) via `packages/ui` and `@bypass/ui`
+- **Styling**: Tailwind CSS v4
+- **Icons**: Hugeicons (`@hugeicons/core-free-icons`, `@hugeicons/react`)
+- **Forms**: TanStack React Form + zod/mini validation
 - **State**: Zustand
 - **API**: tRPC for type-safe client-server communication
 - **Backend**: Firebase with Admin SDK
