@@ -6,7 +6,7 @@ import PageHeader from './components/PageHeader';
 import SalientFeatures from './components/SalientFeatures';
 import { fetchExtensionData } from './page.utils';
 
-const title = 'Skip Links, Ads, Timers & ReCaptchas';
+const title = 'Bypass Links';
 const description =
   'Web extension to Bypass links to skip ads, links, timers, captchas and private Bookmarks Panel';
 
@@ -30,12 +30,12 @@ export default async function Home() {
   const { chrome } = await fetchExtensionData();
 
   return (
-    <div className="bg-[#131b21]">
+    <div className="flex min-h-screen flex-col">
       <AppHeader />
-      <div className="mx-auto max-w-7xl">
+      <main className="mx-auto w-full max-w-7xl flex-1 px-4">
         <PageHeader chrome={chrome} />
         <SalientFeatures />
-      </div>
+      </main>
       <Footer releaseDate={chrome.date} extVersion={chrome.version} />
     </div>
   );

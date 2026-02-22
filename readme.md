@@ -8,27 +8,27 @@ An open-source `web extension` which bypasses links on various websites and lets
 
 Head over to [Download Page](https://bypass-links.vercel.app) to download the extension.
 
-## Salient features
+## Key features
 
-- A fully customizable and full-feature packed bookmarks panel same as offered by Google Chrome with extra features.
+- A fully customizable bookmarks panel with all the capabilities you expect plus extras like person tagging.
 
-- A person panel which enables tagging any bookmark with multiple person to search by a person quickly.
+- Tag bookmarks with multiple people to filter and find items by person in seconds.
 
-- A fully customized shortcuts panel with shortcut rules to create custom shortcuts for frequently visited websites.
+- Create custom shortcut rules for frequently visited sites and launch them quickly from a personalized shortcuts panel.
 
-- Open a pre-selected set of frequently visited websites in a single click.
+- Open a pre-selected group of frequently visited websites in a single click.
 
-- Open all unvisited links in watched threads of supported forums websites.
+- Browse supported forums and automatically open only the links you have not visited yet.
 
-- Mark any website as visited with a timestamp for quick access to the last visited time.
+- Mark any site as visited with a timestamp so you can quickly see when you last accessed it.
 
-- Bypass link shorteners and timers on supported pages.
+- Bypass link shorteners, timers, and unnecessary intermediaries on supported pages.
 
-- Manipulate browser history.
+- Manage browser history directly from the extension.
 
-- Turn off autosuggestions for any page.
+- Turn off autofill and autosuggestions on any page to reduce clutter.
 
-- Full dark theme support with modern UI.
+- Full dark theme support with a modern, clean UI.
 
 ## Currently supported websites
 

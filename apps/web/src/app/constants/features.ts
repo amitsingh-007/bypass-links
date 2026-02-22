@@ -1,45 +1,51 @@
-import ForumIcon from '@app/icons/forum.svg';
-import GraphIcon from '@app/icons/graph.svg';
-import HandshakeIcon from '@app/icons/handshake.svg';
-import PalmIcon from '@app/icons/palm.svg';
-import SecurityIcon from '@app/icons/security.svg';
+import {
+  CollectionsBookmarkIcon,
+  CommandIcon,
+  ComputerIcon,
+  Link01Icon,
+  Shield01Icon,
+  Touch01Icon,
+} from '@hugeicons/core-free-icons';
 import type Feature from '../components/types/feature';
 
 export const firstColumn: Feature[] = [
   {
-    icon: HandshakeIcon,
-    altIconText: 'circle-logo',
-    title: 'Easy to use',
-    content: 'Easy to use and straight-forward user interface to operate on',
-  },
-  {
-    icon: PalmIcon,
-    altIconText: 'palm-logo',
-    title: 'Automate Browser Actions',
+    icon: Touch01Icon,
+    title: 'Simple to Use',
     content:
-      'Automate some browser actions like history monitor, turn off autofill, etc',
+      'Clean, straightforward interface that is easy to set up and navigate',
   },
   {
-    icon: ForumIcon,
-    altIconText: 'forum-logo',
-    title: 'Forum Surfing Support',
-    content: 'Surf supported forums and open unvisited links',
+    icon: ComputerIcon,
+    title: 'Browser Utility Controls',
+    content:
+      'Automate history tracking and turn off autofill on specific websites to reduce clutter',
+  },
+  {
+    icon: Link01Icon,
+    title: 'Forum Link Tracking',
+    content:
+      'Browse supported forums and open only links you have not visited yet',
   },
 ];
 
 export const secondColumn: Feature[] = [
   {
-    icon: SecurityIcon,
-    altIconText: 'security-logo',
-    title: 'Enhanced Privacy',
+    icon: Shield01Icon,
+    title: 'Privacy-First Sync',
     content:
-      'All data is first encoded at user device before sending to the server',
+      'Your data is encoded on your device before it is sent to the server',
   },
   {
-    icon: GraphIcon,
-    altIconText: 'graph-logo',
-    title: 'Continuously Updated',
+    icon: CollectionsBookmarkIcon,
+    title: 'Bookmarks & Person Tagging',
     content:
-      'Continuously updated with new features and also fixing vulnerabilities',
+      'Full-featured bookmarks panel with person tagging to organize and filter by people',
+  },
+  {
+    icon: CommandIcon,
+    title: 'Custom Shortcut Rules',
+    content:
+      'Create personalized shortcut rules for frequently visited websites and launch them quickly',
   },
 ];

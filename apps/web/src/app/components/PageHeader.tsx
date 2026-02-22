@@ -1,5 +1,5 @@
-import Image from 'next/image';
-import { memo } from 'react';
+import { ChromeIcon } from '@hugeicons/core-free-icons';
+import { HugeiconsIcon, type IconSvgElement } from '@hugeicons/react';
 
 interface IExtData {
   version: string;
@@ -8,57 +8,55 @@ interface IExtData {
 }
 
 interface Props {
-  chrome: IExtData;
-}
-
-function DownloadButton({
-  logo,
-  text,
-  downloadLink,
-}: {
-  logo: string;
+  icon: IconSvgElement;
   text: string;
   downloadLink: string;
-}) {
+}
+
+function DownloadButton({ icon, text, downloadLink }: Props) {
   return (
     <a
       href={downloadLink}
       className="
-        inline-flex items-center justify-center gap-2 rounded-full
-        bg-linear-to-r from-[#6850ff] to-[#a750ff] px-6 py-3 text-base
-        font-medium text-white transition-all
-        hover:from-[#6850ff]/90 hover:to-[#a750ff]/90
+        inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-lg
+        border border-transparent bg-primary bg-clip-padding px-5 text-base
+        font-medium text-primary-foreground transition-all outline-none
+        hover:bg-primary/80
+        focus-visible:border-ring focus-visible:ring-3
+        focus-visible:ring-ring/50
+        [&_svg]:pointer-events-none [&_svg]:shrink-0
       "
     >
-      <Image src={logo} alt={text} height={22} width={22} />
+      <HugeiconsIcon icon={icon} size={20} />
       {text}
     </a>
   );
 }
 
-const PageHeader = memo<Props>(({ chrome }) => (
-  <div className="mt-17.5 flex flex-col items-center">
-    <h1
-      className="
-        text-center text-[2.1875rem] font-bold
-        md:text-[2.8125rem]
-      "
-    >
-      Have a Link Bypasser and private Bookmarks Panel !
-    </h1>
-    <div
-      className="
-        mt-2 flex flex-col gap-5
-        md:mt-5 md:flex-row md:gap-[120px]
-      "
-    >
-      <DownloadButton
-        logo="chrome.svg"
-        text="Download for Chrome"
-        downloadLink={chrome.downloadLink}
-      />
-    </div>
-  </div>
-));
+function PageHeader({ chrome }: { chrome: IExtData }) {
+  return (
+    <section className="flex flex-col items-center justify-center py-24 text-center">
+      <h1
+        className="
+          max-w-3xl text-5xl/tight font-bold
+          md:text-6xl
+        "
+      >
+        Skip the Wait. Bypass Links Instantly.
+      </h1>
+      <p className="mt-6 max-w-xl text-lg text-muted-foreground">
+        Automate link bypassing, skip ads and captchas, and manage bookmarks
+        with person tagging. All in one extension.
+      </p>
+      <div className="mt-10">
+        <DownloadButton
+          icon={ChromeIcon}
+          text="Download for Chrome"
+          downloadLink={chrome.downloadLink}
+        />
+      </div>
+    </section>
+  );
+}
 
 export default PageHeader;
