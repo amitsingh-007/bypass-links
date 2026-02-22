@@ -25,7 +25,7 @@ export interface BookmarkProps {
   isSelected?: boolean;
   handleSelectedChange?: (pos: number, isOnlySelection: boolean) => void;
   onOpenLink: (url: string) => void;
-  getFaviconUrl?: (url: string) => string;
+  getFaviconUrl: (url: string) => string;
 }
 
 const getPersonsFromUids = (uids: string[], persons: IPerson[]) => {

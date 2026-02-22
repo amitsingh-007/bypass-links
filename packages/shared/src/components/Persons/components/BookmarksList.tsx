@@ -32,6 +32,7 @@ interface Props {
   onLinkOpen: (url: string) => void;
   fullscreen: boolean;
   showEditButton?: boolean;
+  getFaviconUrl: (url: string) => string;
 }
 
 function BookmarksList({
@@ -40,6 +41,7 @@ function BookmarksList({
   onLinkOpen,
   fullscreen,
   showEditButton,
+  getFaviconUrl,
 }: Props) {
   const { location } = useContext(DynamicContext);
   const { getBookmarkFromHash, getFolderFromHash, getDefaultOrRootFolderUrls } =
@@ -169,6 +171,7 @@ function BookmarksList({
                 url={bookmark.url}
                 title={bookmark.title}
                 taggedPersons={bookmark.taggedPersons}
+                getFaviconUrl={getFaviconUrl}
                 onOpenLink={onLinkOpen}
               />
             </div>

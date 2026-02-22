@@ -2,14 +2,13 @@ import { useEffect, useState } from 'react';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Unlink02Icon } from '@hugeicons/core-free-icons';
 import { Avatar, AvatarFallback, AvatarImage } from '@bypass/ui';
-import { getGoogleFaviconUrl } from '../../../utils';
 import { getBlobUrlFromCache } from '../../../utils/cache';
 import { ECacheBucketKeys } from '../../../constants/cache';
 
 interface Props {
   url: string;
   ref?: React.Ref<HTMLDivElement>;
-  getFaviconUrl?: (url: string) => string;
+  getFaviconUrl: (url: string) => string;
 }
 
 const urlMap = new Map<string, string>();
@@ -25,7 +24,7 @@ const getBlobUrl = async (proxyUrl: string) => {
   return blobUrl;
 };
 
-function Favicon({ url, ref, getFaviconUrl = getGoogleFaviconUrl }: Props) {
+function Favicon({ url, ref, getFaviconUrl }: Props) {
   const [faviconUrl, setFaviconUrl] = useState('');
 
   useEffect(() => {

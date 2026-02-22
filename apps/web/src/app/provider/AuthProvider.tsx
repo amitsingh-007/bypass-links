@@ -1,4 +1,4 @@
-import { type User } from 'firebase/auth';
+import { type Unsubscribe, type User } from 'firebase/auth';
 import { usePathname } from 'next/navigation';
 import {
   type PropsWithChildren,
@@ -36,15 +36,18 @@ export function AuthProvider({ children }: PropsWithChildren) {
     if (isInitialized || RESTRICTED_PATHS.has(pathname)) {
       return;
     }
+    let unsubscribe: Unsubscribe;
     const initAuth = async () => {
       const { onAuthStateChange } = await import('../helpers/firebase/auth');
-
-      onAuthStateChange((_user) => {
+      unsubscribe = onAuthStateChange((_user) => {
         setUser(_user);
         setIsInitialized(true);
       });
     };
     initAuth();
+    return () => {
+      unsubscribe?.();
+    };
   }, [isInitialized, pathname]);
 
   return <AuthContext.Provider value={ctx}>{children}</AuthContext.Provider>;

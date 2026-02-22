@@ -4,6 +4,7 @@ import {
   getFilteredPersons,
   sortByRecency,
   getPersonImageName,
+  getGoogleFaviconUrl,
   HEADER_HEIGHT,
   type IPerson,
   type IPersons,
@@ -153,7 +154,11 @@ function PersonsPanel() {
           <Persons
             scrollButton
             persons={filteredAndOrderedPersons}
-            bookmarkListProps={{ fullscreen: true, showEditButton: true }}
+            bookmarkListProps={{
+              fullscreen: true,
+              showEditButton: true,
+              getFaviconUrl: getGoogleFaviconUrl,
+            }}
             renderPerson={(person) => (
               <PersonVirtualCell
                 person={person}
