@@ -1,14 +1,7 @@
 import { ScrollArea } from '@bypass/ui';
 import { useSize } from 'ahooks';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import {
-  type ReactNode,
-  type RefObject,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { type ReactNode, useContext, useEffect, useRef, useState } from 'react';
 import usePlatform from '../../../hooks/usePlatform';
 import DynamicContext from '../../../provider/DynamicContext';
 import { deserializeQueryStringToObject } from '../../../utils/url';
@@ -28,7 +21,7 @@ interface Props {
 
 type InnerProps = Props & {
   bodyWidth: number;
-  bodyRef: RefObject<HTMLDivElement | null>;
+  scrollElement: HTMLDivElement | null;
   personToOpen: IPerson | undefined;
   personToOpenImage: string;
 };
@@ -39,7 +32,7 @@ function PersonsInner({
   scrollButton = false,
   bookmarkListProps,
   bodyWidth,
-  bodyRef,
+  scrollElement,
   personToOpen,
   personToOpenImage,
   renderPerson,
@@ -53,7 +46,7 @@ function PersonsInner({
     count: Math.ceil(persons.length / columnCount),
     estimateSize: () => rowDimension,
     overscan: 2,
-    getScrollElement: () => bodyRef.current,
+    getScrollElement: () => scrollElement,
   });
 
   const handleScroll = (itemNumber: number) =>
@@ -115,8 +108,11 @@ function Persons(props: Props) {
   const [personToOpenImage, setPersonToOpenImage] = useState('');
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const [scrollElement, setScrollElement] = useState<HTMLDivElement | null>(
+    null
+  );
   const size = useSize(containerRef);
-  const width = size?.width ?? 0;
+  const bodyWidth = size?.width ?? 0;
   const { location } = useContext(DynamicContext);
   const queryString = location.query();
   const { resolvePersonImageFromUid } = usePerson();
@@ -132,17 +128,22 @@ function Persons(props: Props) {
     }
   }, [queryString, persons, resolvePersonImageFromUid]);
 
+  useEffect(() => {
+    if (!scrollElement) {
+      setScrollElement(scrollAreaRef.current);
+    }
+  }, [scrollElement]);
   return (
     <ScrollArea
       ref={containerRef}
       viewportRef={scrollAreaRef}
       className="size-full"
     >
-      {width > 0 && (
+      {bodyWidth > 0 && (
         <PersonsInner
           {...props}
-          bodyWidth={width}
-          bodyRef={scrollAreaRef}
+          bodyWidth={bodyWidth}
+          scrollElement={scrollElement}
           personToOpen={personToOpen}
           personToOpenImage={personToOpenImage}
         />
