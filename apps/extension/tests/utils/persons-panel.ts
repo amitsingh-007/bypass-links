@@ -1,20 +1,64 @@
 import { expect, type Page } from '@playwright/test';
 import { TEST_TIMEOUTS } from '@bypass/shared/tests';
 import {
-  changeImageInDialog,
   clickDialogButton,
   clickContextMenuItem,
-  closeDialog,
   countElements,
   fillDialogInput,
   getBadgeCount,
   navigateBack,
   openDialog,
-  openPersonCard,
   searchAndVerify,
-  toggleSwitch,
   waitForDebounce,
 } from './test-utils';
+
+const openPersonCard = async (page: Page, personName: string) => {
+  const personCard = page.getByTestId(`person-item-${personName}`);
+  await expect(personCard).toBeVisible();
+  await personCard.click();
+};
+
+const openImagePicker = async (
+  page: Page,
+  dialog: ReturnType<Page['getByRole']>
+) => {
+  const changeAvatarButton = dialog.getByTestId('change-avatar-button');
+  await changeAvatarButton.click();
+
+  const imagePickerDialog = page.getByRole('dialog', { name: 'Upload Image' });
+  await expect(imagePickerDialog).toBeVisible();
+
+  return imagePickerDialog;
+};
+
+const uploadImage = async (
+  page: Page,
+  imagePickerDialog: ReturnType<Page['getByRole']>,
+  imageUrl: string
+) => {
+  const imageUrlInput = imagePickerDialog.getByPlaceholder('Enter image url');
+  await imageUrlInput.fill(imageUrl);
+
+  const saveCroppedButton = page.getByTestId('save-cropped-image');
+  await expect(saveCroppedButton).toBeEnabled({
+    timeout: TEST_TIMEOUTS.AUTH,
+  });
+  await saveCroppedButton.click();
+
+  const uploadOverlay = page.getByTestId('uploading-overlay');
+  await expect(uploadOverlay).toBeVisible();
+
+  await expect(imagePickerDialog).toBeHidden({ timeout: TEST_TIMEOUTS.AUTH });
+};
+
+const changeImageInDialog = async (
+  page: Page,
+  dialog: ReturnType<Page['getByRole']>,
+  imageUrl: string
+) => {
+  const imagePickerDialog = await openImagePicker(page, dialog);
+  await uploadImage(page, imagePickerDialog, imageUrl);
+};
 
 export class PersonsPanel {
   constructor(readonly page: Page) {}
@@ -124,7 +168,9 @@ export class PersonsPanel {
     const avatar = dialog.locator('img');
     await expect(avatar).toBeVisible();
 
-    await closeDialog(this.page, dialog);
+    const closeButton = dialog.locator('[data-slot="dialog-close"]');
+    await closeButton.click();
+    await expect(dialog).toBeHidden();
   }
 
   async openPersonCard(personName: string) {
@@ -171,9 +217,8 @@ export class PersonsPanel {
     await openPersonCard(this.page, personName);
     await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
-    const searchInput = this.page
-      .locator('.mantine-Modal-content')
-      .getByPlaceholder('Search');
+    const dialog = this.page.getByRole('dialog');
+    const searchInput = dialog.getByPlaceholder('Search');
 
     const allBookmarksBefore = await this.page
       .getByTitle('Edit Bookmark')
@@ -193,20 +238,6 @@ export class PersonsPanel {
     };
   }
 
-  async verifyRecencySwitchExists() {
-    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
-
-    const recencySwitch = this.page.getByRole('switch', { name: 'Recency' });
-    const count = await recencySwitch.count();
-    expect(count).toBeGreaterThan(0);
-
-    return recencySwitch;
-  }
-
-  async toggleRecency() {
-    await toggleSwitch(this.page, 'Recency');
-  }
-
   async getPersonNames(): Promise<string[]> {
     const personCards = this.page.locator('[data-testid^="person-item-"]');
     const personCount = await personCards.count();
@@ -221,10 +252,9 @@ export class PersonsPanel {
   }
 
   async verifyBadgeVisible(badgeName: string) {
-    const badge = this.page
-      .locator('.mantine-Badge-label')
-      .filter({ hasText: badgeName });
+    const badge = this.page.getByTestId('person-bookmark-count-badge');
     await expect(badge).toBeVisible();
+    await expect(badge).toContainText(badgeName);
   }
 
   async getEditButtons() {

@@ -1,9 +1,9 @@
 import { Header } from '@bypass/shared';
-import { Button } from '@mantine/core';
-import { useHotkeys } from '@mantine/hooks';
+import { Button } from '@bypass/ui';
+import { useKeyPress } from 'ahooks';
 import { memo, useState } from 'react';
-import { FaFolderPlus } from 'react-icons/fa';
-import { IoSave } from 'react-icons/io5';
+import { BookmarkCheck01Icon, FolderAddIcon } from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
 import { useShallow } from 'zustand/react/shallow';
 import useBookmarkStore from '../store/useBookmarkStore';
 import ConfirmationDialog from './ConfirmationDialog';
@@ -43,17 +43,13 @@ const BookmarksHeader = memo<Props>(({ onSearchChange, folderId }) => {
     handleSave(folderId);
   };
 
-  useHotkeys([
-    [
-      'mod+s',
-      (e) => {
-        e.stopPropagation();
-        if (!disableSave) {
-          handleSaveClick();
-        }
-      },
-    ],
-  ]);
+  useKeyPress('meta.s', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (!disableSave) {
+      handleSaveClick();
+    }
+  });
 
   const onBackClick = () => {
     if (isSaveButtonActive) {
@@ -74,7 +70,6 @@ const BookmarksHeader = memo<Props>(({ onSearchChange, folderId }) => {
 
   const handleNewFolderSave = (folderName: string) => {
     handleCreateNewFolder(folderName, folderId);
-    toggleNewFolderDialog();
   };
 
   return (
@@ -85,22 +80,21 @@ const BookmarksHeader = memo<Props>(({ onSearchChange, folderId }) => {
         onSearchChange={onSearchChange}
       >
         <Button
-          size="xs"
-          radius="xl"
-          leftSection={<FaFolderPlus />}
+          variant="secondary"
+          className="font-medium"
           disabled={isFetching}
           onClick={toggleNewFolderDialog}
         >
+          <HugeiconsIcon icon={FolderAddIcon} className="mr-1 size-4" />
           Add
         </Button>
         <Button
-          size="xs"
-          radius="xl"
-          color="teal"
-          leftSection={<IoSave />}
+          variant="default"
+          className="font-medium"
           disabled={disableSave}
           onClick={handleSaveClick}
         >
+          <HugeiconsIcon icon={BookmarkCheck01Icon} className="mr-1 size-4" />
           Save
         </Button>
       </Header>

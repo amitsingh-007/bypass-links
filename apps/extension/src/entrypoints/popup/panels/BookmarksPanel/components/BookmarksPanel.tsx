@@ -7,7 +7,7 @@ import {
   getFilteredContextBookmarks,
   shouldRenderBookmarks,
 } from '@bypass/shared';
-import { Box, Flex } from '@mantine/core';
+import { ScrollArea } from '@bypass/ui';
 import useHistoryStore from '@store/history';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -18,7 +18,6 @@ import BookmarkAddEditDialog from './BookmarkAddEditDialog';
 import BookmarkContextMenu from './BookmarkContextMenu';
 import BookmarksHeader from './BookmarksHeader';
 import VirtualRow from './VirtualRow';
-import styles from './styles/BookmarksPanel.module.css';
 import { MAX_PANEL_SIZE } from '@/constants';
 
 function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
@@ -45,7 +44,7 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
       loadData: state.loadData,
     }))
   );
-  const bodyRef = useRef<HTMLDivElement>(null);
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
   const [searchText, setSearchText] = useState('');
   const filteredContextBookmarks = useMemo(
     () => getFilteredContextBookmarks(contextBookmarks, searchText),
@@ -55,7 +54,7 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
     count: filteredContextBookmarks.length,
     estimateSize: () => BOOKMARK_ROW_HEIGHT,
     overscan: 5,
-    getScrollElement: () => bodyRef.current,
+    getScrollElement: () => scrollAreaRef.current,
     getItemKey: (idx) => filteredContextBookmarks[idx].id,
   });
 
@@ -98,10 +97,9 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
   return (
     <>
       <ScrollButton itemsSize={curBookmarksCount} onScroll={handleScroll} />
-      <Flex
-        direction="column"
-        w={MAX_PANEL_SIZE.WIDTH}
-        h={MAX_PANEL_SIZE.HEIGHT}
+      <div
+        className="flex flex-col"
+        style={{ width: MAX_PANEL_SIZE.WIDTH, height: MAX_PANEL_SIZE.HEIGHT }}
       >
         <BookmarksHeader folderId={folderId} onSearchChange={setSearchText} />
         <BookmarkAddEditDialog
@@ -111,23 +109,24 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
         <BookmarkContextMenu
           handleOpenSelectedBookmarks={handleOpenSelectedBookmarks}
         >
-          <Box
-            ref={bodyRef}
-            h={MAX_PANEL_SIZE.HEIGHT - HEADER_HEIGHT}
-            w="100%"
-            className={styles.body}
+          <ScrollArea
+            viewportRef={scrollAreaRef}
+            className="w-full"
+            style={{ height: MAX_PANEL_SIZE.HEIGHT - HEADER_HEIGHT }}
           >
             {shouldRenderBookmarks(folders, filteredContextBookmarks) ? (
-              <Box h={virtualizer.getTotalSize()} w="100%" pos="relative">
+              <div
+                className="relative w-full"
+                style={{ height: virtualizer.getTotalSize() }}
+              >
                 {virtualizer.getVirtualItems().map((virtualRow) => (
-                  <Box
+                  <div
                     key={virtualRow.key}
-                    style={{ transform: `translateY(${virtualRow.start}px)` }}
-                    pos="absolute"
-                    top={0}
-                    left={0}
-                    w="100%"
-                    h={virtualRow.size}
+                    className="absolute top-0 left-0 w-full"
+                    style={{
+                      transform: `translateY(${virtualRow.start}px)`,
+                      height: virtualRow.size,
+                    }}
                   >
                     <VirtualRow
                       bookmark={filteredContextBookmarks[virtualRow.index]}
@@ -135,13 +134,13 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
                       isSelected={selectedBookmarks[virtualRow.index]}
                       isCut={cutBookmarks[virtualRow.index]}
                     />
-                  </Box>
+                  </div>
                 ))}
-              </Box>
+              </div>
             ) : null}
-          </Box>
+          </ScrollArea>
         </BookmarkContextMenu>
-      </Flex>
+      </div>
     </>
   );
 }

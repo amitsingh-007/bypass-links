@@ -1,12 +1,12 @@
 import {
+  addAllToCache,
   addToCache,
   ECacheBucketKeys,
-  getCacheObj,
   getPersonImageName,
   type IPerson,
   type PersonImageUrls,
 } from '@bypass/shared';
-import { nprogress } from '@mantine/nprogress';
+import { SIGN_IN_TOTAL_STEPS } from '../../HomePopup/constants/progress';
 import { getAllDecodedPersons } from '.';
 import { trpcApi } from '@/apis/trpcApi';
 import {
@@ -14,6 +14,7 @@ import {
   personImageUrlsItem,
   hasPendingPersonsItem,
 } from '@/storage/items';
+import useProgressStore from '@/store/progress';
 
 export const syncPersonsToStorage = async () => {
   const persons = await trpcApi.firebaseData.personsGet.query();
@@ -40,8 +41,7 @@ const cachePersonImages = async (personImageUrls: PersonImageUrls) => {
     return;
   }
   const imageUrls = Object.values(personImageUrls);
-  const cache = await getCacheObj(ECacheBucketKeys.person);
-  await cache.addAll(imageUrls);
+  await addAllToCache(ECacheBucketKeys.person, imageUrls);
   console.log('Initialized cache for all person urls');
 };
 
@@ -59,9 +59,10 @@ export const cachePersonImagesInStorage = async () => {
     {}
   );
   await personImageUrlsItem.setValue(personImageUrls);
-  nprogress.increment();
+  const { incrementProgress } = useProgressStore.getState();
+  incrementProgress(SIGN_IN_TOTAL_STEPS);
   await cachePersonImages(personImageUrls);
-  nprogress.increment();
+  incrementProgress(SIGN_IN_TOTAL_STEPS);
 };
 
 export const updatePersonCacheAndImageUrls = async (person: IPerson) => {

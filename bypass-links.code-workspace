@@ -5,7 +5,13 @@
       "path": ".",
     },
     {
-      "path": "packages/configs",
+      "path": "apps/extension",
+    },
+    {
+      "path": "apps/web",
+    },
+    {
+      "path": "packages/ui",
     },
     {
       "path": "packages/shared",
@@ -13,17 +19,8 @@
     {
       "path": "packages/trpc",
     },
-    {
-      "path": "apps/extension",
-    },
-    {
-      "path": "apps/web",
-    },
   ],
   "settings": {
     "typescript.tsdk": "node_modules/typescript/lib",
-    "search.exclude": {
-      ".output/**": true,
-    },
   },
 }

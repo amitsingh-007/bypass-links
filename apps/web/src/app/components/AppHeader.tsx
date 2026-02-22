@@ -1,11 +1,12 @@
 'use client';
 
 import { ROUTES } from '@app/constants/routes';
-import { Box, Center } from '@mantine/core';
+import { GithubIcon, ChromeIcon } from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Button } from '@bypass/ui';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import styles from './styles/AppHeader.module.css';
 
 function AppHeader() {
   const router = useRouter();
@@ -18,18 +19,74 @@ function AppHeader() {
   }, [clickCount, router]);
 
   return (
-    <Box className={styles.header}>
-      <Center>
-        <Image
-          priority
-          src="/bypass_link_192.png"
-          alt="app-icon"
-          height={70}
-          width={70}
+    <header
+      className="
+        sticky top-0 z-50 border-b-2 border-primary/20 bg-linear-to-r
+        from-primary/5 via-background to-primary/5
+      "
+    >
+      <div
+        className="
+          mx-auto flex h-16 max-w-7xl items-center justify-between px-6
+        "
+      >
+        <button
+          type="button"
+          className="group flex items-center gap-3"
           onClick={() => setClickCount(clickCount + 1)}
-        />
-      </Center>
-    </Box>
+        >
+          <div
+            className="
+              rounded-lg bg-primary/10 p-1.5 transition-colors
+              group-hover:bg-primary/20
+            "
+          >
+            <Image
+              priority
+              src="/bypass_link_192.png"
+              alt="Bypass Links"
+              height={24}
+              width={24}
+            />
+          </div>
+          <div className="flex flex-col items-start leading-tight">
+            <span className="text-base font-bold tracking-tight">
+              Bypass Links
+            </span>
+            <span
+              className="
+                text-[10px] font-medium tracking-widest text-muted-foreground
+                uppercase
+              "
+            >
+              Skip the wait
+            </span>
+          </div>
+        </button>
+        <div className="flex items-center gap-2">
+          <a
+            href="https://github.com/bypass-links/bypass-links"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="
+              flex size-8 items-center justify-center rounded-lg border
+              border-border bg-background text-muted-foreground transition-all
+              hover:border-primary/30 hover:text-foreground
+            "
+          >
+            <HugeiconsIcon icon={GithubIcon} size={16} />
+          </a>
+          <Button size="default">
+            <HugeiconsIcon
+              data-icon="inline-start"
+              icon={ChromeIcon}
+              size={16}
+            />
+            Download
+          </Button>
+        </div>
+      </div>
+    </header>
   );
 }
 

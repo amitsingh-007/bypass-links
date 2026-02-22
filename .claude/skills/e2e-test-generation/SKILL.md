@@ -71,7 +71,7 @@ I will ask clarifying questions if:
 
 ## Selector Anti-Patterns (NEVER use)
 
-- Class selectors: `[class*="Folder-module__container"]`, `.mantine-HoverCard-dropdown`
+- Class selectors: `[class*="Folder-module__container"]`, `.some-generated-class`
 - Custom data attributes (other than `data-testid`): `data-folder-name`, `data-context-id`, etc.
 - Regex for simple text: `{ name: /add/i }` → use `{ name: 'Add' }`
 - Positional selectors when specific selection is possible: `.first()`, `.nth()`
@@ -116,12 +116,9 @@ await expect(dialog).toBeHidden();
 
 ```typescript
 await element.click({ button: 'right' });
-const editOption = bookmarksPage.locator(
-  '.mantine-contextmenu-item-button-title',
-  { hasText: 'Edit' }
-);
-await editOption.waitFor({ state: 'attached' });
-await editOption.evaluate((el) => (el as HTMLElement).click());
+const editOption = bookmarksPage.getByTestId('context-menu-item-edit');
+await expect(editOption).toBeVisible();
+await editOption.click();
 ```
 
 **Multi-select with keyboard:**

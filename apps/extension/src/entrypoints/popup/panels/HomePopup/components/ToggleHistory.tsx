@@ -1,4 +1,4 @@
-import { Switch } from '@mantine/core';
+import { Switch } from '@bypass/ui';
 import useExtStore from '@store/extension';
 import useHistoryStore from '@store/history';
 import { useCallback, useEffect, useState } from 'react';
@@ -66,9 +66,8 @@ function ToggleHistory() {
     }
   }, [monitorHistory, turnOnHistory]);
 
-  const handleToggle = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const isActive = event.target.checked;
-    if (isActive) {
+  const handleToggle = async (checked: boolean) => {
+    if (checked) {
       await turnOnHistory();
     } else {
       turnOffHistory();
@@ -76,14 +75,15 @@ function ToggleHistory() {
   };
 
   return (
-    <Switch
-      size="md"
-      label="History"
-      checked={isHistoryActive}
-      disabled={!isExtensionActive}
-      data-testid="toggle-history-switch"
-      onChange={handleToggle}
-    />
+    <div className="flex items-center gap-2">
+      <Switch
+        checked={isHistoryActive}
+        disabled={!isExtensionActive}
+        data-testid="toggle-history-switch"
+        onCheckedChange={handleToggle}
+      />
+      <span className="text-sm">History</span>
+    </div>
   );
 }
 

@@ -1,13 +1,8 @@
-// !NOTE: maintain below order of css
-import '@mantine/core/styles.css';
-import 'mantine-contextmenu/styles.css';
-import { mantineTheme } from '@bypass/shared';
-import { MantineProvider } from '@mantine/core';
-import { ContextMenuProvider } from 'mantine-contextmenu';
+import '@bypass/ui/styles/globals.css';
+import { TooltipProvider } from '@bypass/ui';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import './index.css';
-import AsyncFontLoader from './components/AsyncFontLoader';
+import './fonts.css';
 import Global from './components/Global';
 import PopupRoutes from './components/PopupRoutes';
 import DynamicProvider from './provider/DynamicProvider';
@@ -15,15 +10,12 @@ import DynamicProvider from './provider/DynamicProvider';
 function App() {
   return (
     <StrictMode>
-      <MantineProvider defaultColorScheme="dark" theme={mantineTheme}>
-        <ContextMenuProvider shadow="md" borderRadius="md">
-          <DynamicProvider>
-            <PopupRoutes />
-            <Global />
-            <AsyncFontLoader />
-          </DynamicProvider>
-        </ContextMenuProvider>
-      </MantineProvider>
+      <TooltipProvider>
+        <DynamicProvider>
+          <PopupRoutes />
+          <Global />
+        </DynamicProvider>
+      </TooltipProvider>
     </StrictMode>
   );
 }

@@ -1,5 +1,6 @@
-import { Button } from '@mantine/core';
-import { BsArrowDown, BsArrowUp } from 'react-icons/bs';
+import { Button, ButtonGroup } from '@bypass/ui';
+import { ArrowDown01Icon, ArrowUp01Icon } from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
 
 interface Props {
   pos: number;
@@ -15,30 +16,25 @@ export function ReorderButton({
   handleRuleMoveDown,
 }: Props) {
   return (
-    <Button.Group orientation="horizontal" ml={2} mr={10}>
+    <ButtonGroup className="mx-2">
       <Button
-        variant="light"
-        h="full"
-        pl={2}
-        pr={2}
-        mr={1}
+        variant="secondary"
+        size="icon-sm"
         disabled={pos === 0}
         data-testid={`rule-${pos}-move-up`}
         onClick={() => handleRuleMoveUp(pos)}
       >
-        <BsArrowUp size={12} strokeWidth={1.1} />
+        <HugeiconsIcon icon={ArrowUp01Icon} />
       </Button>
       <Button
-        variant="light"
-        h="full"
-        pl={2}
-        pr={2}
+        variant="secondary"
+        size="icon-sm"
         disabled={pos === total - 1}
         data-testid={`rule-${pos}-move-down`}
         onClick={() => handleRuleMoveDown(pos)}
       >
-        <BsArrowDown size={12} strokeWidth={1.1} />
+        <HugeiconsIcon icon={ArrowDown01Icon} />
       </Button>
-    </Button.Group>
+    </ButtonGroup>
   );
 }

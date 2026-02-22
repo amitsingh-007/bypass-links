@@ -1,4 +1,4 @@
-import { Flex, Text } from '@mantine/core';
+import { Progress, Spinner } from '@bypass/ui';
 import Authenticate from '../components/Authenticate';
 import BookmarksPanelButton from '../components/BookmarksPanelButton';
 import LastVisitedButton from '../components/LastVisitedButton';
@@ -11,7 +11,7 @@ import ToggleExtension from '../components/ToggleExtension';
 import ToggleHistory from '../components/ToggleHistory';
 import UserProfile from '../components/UserProfile';
 import useExtensionOutdated from '../hooks/useExtensionOutdated';
-import styles from './styles/PopupHome.module.css';
+import useProgressStore from '@/store/progress';
 
 const handleOpenAsPage = () => {
   browser.tabs.create({ url: window.location.href });
@@ -19,28 +19,40 @@ const handleOpenAsPage = () => {
 
 function PopupHome() {
   useExtensionOutdated();
+  const { isLoading, progress } = useProgressStore();
 
   return (
-    <Flex direction="column" align="center" w={305} p="0.5rem 1rem 1rem">
-      <Text
-        fz="xl"
-        fw={700}
-        c="grape.1"
-        mb="0.625rem"
-        className={styles.heading}
+    <div className="relative flex w-77.5 flex-col items-center px-4 pt-2 pb-4">
+      {isLoading && (
+        <>
+          <div className="absolute inset-x-0 top-0 z-50">
+            <Progress value={progress} />
+          </div>
+          <div
+            className="
+              absolute inset-0 z-40 flex items-center justify-center
+              bg-background/80
+            "
+          >
+            <Spinner className="size-8" />
+          </div>
+        </>
+      )}
+      <div
+        className="mb-4 cursor-pointer text-xl font-medium select-none"
         data-testid="home-popup-heading"
         onClick={handleOpenAsPage}
       >
         Bypass Links
-      </Text>
-      <Flex justify="space-between" align="center" gap="2.5rem" mb="1rem">
-        <Flex direction="column" gap="0.5rem">
+      </div>
+      <div className="mb-4 flex items-center justify-between gap-16">
+        <div className="flex flex-col gap-2">
           <ToggleExtension />
           <ToggleHistory />
-        </Flex>
+        </div>
         <UserProfile />
-      </Flex>
-      <Flex className={styles.buttonsContainer}>
+      </div>
+      <div className="mt-4 grid w-full grid-cols-2 justify-between gap-3">
         <Authenticate />
         <OpenDefaultsButton />
         <ShortcutsPanelButton />
@@ -49,8 +61,8 @@ function PopupHome() {
         <BookmarksPanelButton />
         <OpenForumLinks />
         <LastVisitedButton />
-      </Flex>
-    </Flex>
+      </div>
+    </div>
   );
 }
 

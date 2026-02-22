@@ -1,13 +1,12 @@
 import { Header, type IRedirection, type IRedirections } from '@bypass/shared';
-import { Box, Button, Flex, LoadingOverlay } from '@mantine/core';
+import { Button, Spinner } from '@bypass/ui';
+import { Link01Icon, Download03Icon } from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
 import { useEffect, useState } from 'react';
-import { IoSave } from 'react-icons/io5';
-import { RiPlayListAddFill } from 'react-icons/ri';
-import { notifications } from '@mantine/notifications';
+import { toast } from 'sonner';
 import { syncRedirectionsToStorage } from '@background/redirections';
 import { DEFAULT_RULE_ALIAS } from '../constants';
 import { getValidRules, isMatchingRule } from '../utils';
-import styles from './styles/ShortcutsPanel.module.css';
 import RedirectionRule from './RedirectionRule';
 import { MAX_PANEL_SIZE } from '@/constants';
 import { trpcApi } from '@/apis/trpcApi';
@@ -47,7 +46,7 @@ function ShortcutsPanel() {
     if (isSaveSuccess) {
       syncRedirectionsToStorage();
       setRedirections(validRules);
-      notifications.show({ message: 'Saved successfully' });
+      toast.success('Saved successfully');
     }
     setIsSaveActive(false);
     setIsFetching(false);
@@ -92,54 +91,68 @@ function ShortcutsPanel() {
   };
 
   return (
-    <Flex w={MAX_PANEL_SIZE.WIDTH} h={MAX_PANEL_SIZE.HEIGHT} direction="column">
-      <Header text="Shortcuts" onSearchChange={setSearchText}>
+    <div
+      className="flex flex-col"
+      style={{
+        width: MAX_PANEL_SIZE.WIDTH,
+        height: MAX_PANEL_SIZE.HEIGHT,
+      }}
+    >
+      <Header onSearchChange={setSearchText}>
         <Button
-          leftSection={<RiPlayListAddFill />}
-          radius="xl"
           disabled={isFetching}
+          variant="secondary"
           onClick={handleAddRule}
         >
+          <HugeiconsIcon icon={Link01Icon} />
           Add
         </Button>
-        <Button
-          leftSection={<IoSave />}
-          color="teal"
-          radius="xl"
-          loading={isFetching}
-          disabled={!isSaveActive}
-          onClick={handleSave}
-        >
+        <Button disabled={!isSaveActive || isFetching} onClick={handleSave}>
+          {isFetching && <Spinner className="mr-2 size-4" />}
+          <HugeiconsIcon icon={Download03Icon} />
           Save
         </Button>
       </Header>
-      <Flex
-        direction="column"
-        gap={10}
-        p="0.625rem 0.25rem 0.25rem"
-        className={styles.redirectionWrapper}
+      <div
+        className="
+          relative flex flex-1 flex-col gap-2 overflow-auto px-1 pt-2 pb-1
+        "
       >
-        {redirections?.map((redirection, index) => (
-          <Box
-            key={`${redirection.alias}_${redirection.website}`}
-            tabIndex={0}
-            data-testid={`rule-${index}`}
+        {redirections?.map((redirection, index) => {
+          const isMatch = isMatchingRule(redirection, searchText);
+          return (
+            <div
+              key={`${redirection.alias}_${redirection.website}`}
+              tabIndex={0}
+              data-testid={`rule-${index}`}
+              data-search-active={searchText.length > 0}
+              data-match={isMatch}
+              className="data-[search-active=true]:data-[match=false]:hidden"
+            >
+              <RedirectionRule
+                {...redirection}
+                pos={index}
+                total={redirections.length}
+                handleRemoveRule={handleRemoveRule}
+                handleSaveRule={handleSaveRule}
+                handleRuleMoveUp={handleRuleMoveUp}
+                handleRuleMoveDown={handleRuleMoveDown}
+              />
+            </div>
+          );
+        })}
+        {isFetching && (
+          <div
+            data-testid="loading-overlay"
+            className="
+              absolute inset-0 z-50 flex items-center justify-center bg-black/50
+            "
           >
-            <RedirectionRule
-              {...redirection}
-              pos={index}
-              total={redirections.length}
-              highlight={isMatchingRule(redirection, searchText)}
-              handleRemoveRule={handleRemoveRule}
-              handleSaveRule={handleSaveRule}
-              handleRuleMoveUp={handleRuleMoveUp}
-              handleRuleMoveDown={handleRuleMoveDown}
-            />
-          </Box>
-        ))}
-        <LoadingOverlay visible={isFetching} />
-      </Flex>
-    </Flex>
+            <Spinner className="size-8" />
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
 

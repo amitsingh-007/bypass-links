@@ -1,7 +1,12 @@
 'use client';
 
-import { Flex, Text, Tooltip } from '@mantine/core';
 import { memo, useCallback, useEffect, useState } from 'react';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@bypass/ui';
 import usePlatform from '../../../hooks/usePlatform';
 import usePerson from '../../Persons/hooks/usePerson';
 import {
@@ -10,7 +15,6 @@ import {
 } from '../../Persons/interfaces/persons';
 import Favicon from './Favicon';
 import PersonAvatars from './PersonAvatars';
-import styles from './styles/Bookmark.module.css';
 
 export interface BookmarkProps {
   id: string;
@@ -80,51 +84,38 @@ const Bookmark = memo<BookmarkProps>(
     };
 
     return (
-      <Flex
-        w="100%"
-        h="100%"
-        align="center"
-        gap="0.75rem"
-        px="0.375rem"
+      <div
+        className="flex size-full items-center gap-3 px-1.5"
         data-context-id={id}
         data-testid={`bookmark-item-${title}`}
         onDoubleClick={handleOpenLink}
         onClick={handleSelectionChange}
         onContextMenu={onRightClick}
       >
-        <Tooltip
-          withArrow
-          multiline
-          label={url}
-          color="violet.5"
-          position="right"
-          arrowSize={6}
-          className={styles.tooltip}
-          w="40%"
-          lh="1.3"
-          transitionProps={{
-            transition: 'pop',
-            duration: 300,
-          }}
-        >
-          <Favicon url={url} />
-        </Tooltip>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <Favicon url={url} />
+            </TooltipTrigger>
+            <TooltipContent
+              side="right"
+              className="w-auto max-w-[500px] text-xs/relaxed break-all"
+            >
+              {url}
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
         <PersonAvatars persons={personsWithImageUrls} />
-        <Text
-          size="0.9375rem"
-          lineClamp={1}
-          data-context-id={id}
-          className={styles.tooltipTextWrapper}
-        >
+        <div className="flex-1 truncate text-sm" data-context-id={id}>
           {isMobile ? (
-            <a href={url} title={title} className={styles.tooltipText}>
+            <a href={url} title={title} className="text-inherit no-underline">
               {title}
             </a>
           ) : (
             title
           )}
-        </Text>
-      </Flex>
+        </div>
+      </div>
     );
   }
 );

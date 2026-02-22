@@ -1,6 +1,18 @@
-import { Avatar, HoverCard, Tooltip } from '@mantine/core';
 import { memo, useContext } from 'react';
-import { TbUserOff } from 'react-icons/tb';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { UserWarning03Icon } from '@hugeicons/core-free-icons';
+import {
+  Avatar,
+  AvatarGroup,
+  AvatarImage,
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@bypass/ui';
 import DynamicContext from '../../../provider/DynamicContext';
 import { type IPersonWithImage } from '../../Persons/interfaces/persons';
 import { getPersonsPanelUrl } from '../../Persons/utils/urls';
@@ -8,55 +20,56 @@ import { getPersonsPanelUrl } from '../../Persons/utils/urls';
 const PersonAvatars = memo<{ persons: IPersonWithImage[] }>(({ persons }) => {
   const { location } = useContext(DynamicContext);
 
-  return persons.length > 0 ? (
-    <Avatar.Group spacing="xs" data-testid="avatar-group">
+  if (persons.length === 0) {
+    return (
+      <Avatar size="sm" className="flex size-7 items-center justify-center">
+        <HugeiconsIcon icon={UserWarning03Icon} className="size-4" />
+      </Avatar>
+    );
+  }
+
+  return (
+    <AvatarGroup data-testid="avatar-group">
       {persons.map(({ imageUrl, uid, name }) => (
-        <HoverCard
-          key={uid}
-          withArrow
-          returnFocus
-          arrowSize={8}
-          offset={1}
-          shadow="xl"
-          radius="xl"
-          transitionProps={{
-            transition: 'pop',
-            duration: 450,
-            exitDuration: 0,
-          }}
-          position="top"
-          styles={{ dropdown: { padding: 0, cursor: 'pointer' } }}
-        >
-          <HoverCard.Target>
+        <HoverCard key={uid}>
+          <HoverCardTrigger delay={0} closeDelay={0}>
             <Avatar
-              radius="xl"
-              size="1.75rem"
-              src={imageUrl}
+              size="sm"
+              className="size-7 cursor-pointer ring-1 ring-background"
               data-testid={`avatar-${uid}`}
-            />
-          </HoverCard.Target>
-          <HoverCard.Dropdown data-testid={`person-dropdown-${uid}`}>
-            <Tooltip opened label={name} position="right" color="gray">
-              <Avatar
-                ml={0}
-                radius="xl"
-                size="4.375rem"
-                src={imageUrl}
-                alt={name}
-                data-testid={`dropdown-avatar-${name}`}
-                onClick={() =>
-                  location.push(getPersonsPanelUrl({ openBookmarksList: uid }))
-                }
-              />
-            </Tooltip>
-          </HoverCard.Dropdown>
+            >
+              <AvatarImage src={imageUrl} alt={name} />
+            </Avatar>
+          </HoverCardTrigger>
+          <HoverCardContent
+            side="top"
+            align="center"
+            sideOffset={4}
+            className="z-50 size-auto cursor-pointer rounded-full p-0.5"
+            data-testid={`person-dropdown-${uid}`}
+          >
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger className="flex items-center justify-center">
+                  <Avatar
+                    className="size-20"
+                    data-testid={`dropdown-avatar-${name}`}
+                    onClick={() =>
+                      location.push(
+                        getPersonsPanelUrl({ openBookmarksList: uid })
+                      )
+                    }
+                  >
+                    <AvatarImage src={imageUrl} alt={name} />
+                  </Avatar>
+                </TooltipTrigger>
+                <TooltipContent side="right">{name}</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </HoverCardContent>
         </HoverCard>
       ))}
-    </Avatar.Group>
-  ) : (
-    <Avatar radius="xl" size="1.75rem" color="red">
-      <TbUserOff size="1.125rem" />
-    </Avatar>
+    </AvatarGroup>
   );
 });
 

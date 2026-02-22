@@ -1,5 +1,5 @@
 import { expect, type Page } from '@playwright/test';
-import { getStorageItem, toggleSwitch } from './test-utils';
+import { getStorageItem } from './test-utils';
 
 export class PopupHomePanel {
   constructor(readonly page: Page) {}
@@ -15,7 +15,7 @@ export class PopupHomePanel {
   async setHistoryEnabled(enabled: boolean) {
     const isChecked = await this.isHistoryEnabled();
     if (isChecked !== enabled) {
-      await toggleSwitch(this.page, 'History');
+      await this.historyToggle.click();
       await expect(this.historyToggle).toBeChecked({ checked: enabled });
     }
   }

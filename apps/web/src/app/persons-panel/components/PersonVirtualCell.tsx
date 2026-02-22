@@ -1,5 +1,4 @@
 import { type IPerson, Person } from '@bypass/shared';
-import { Box } from '@mantine/core';
 
 interface Props {
   person: IPerson;
@@ -7,9 +6,9 @@ interface Props {
 
 function PersonVirtualCell({ person }: Props) {
   return (
-    <Box p="0.75rem" h="100%">
+    <div className="h-full p-1.5">
       <Person person={person} />
-    </Box>
+    </div>
   );
 }
 

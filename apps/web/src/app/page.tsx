@@ -1,14 +1,12 @@
-import { Box, Container } from '@mantine/core';
 import { type Metadata } from 'next';
 import { clientEnv } from './constants/env/client';
 import AppHeader from './components/AppHeader';
 import Footer from './components/Footer';
 import PageHeader from './components/PageHeader';
 import SalientFeatures from './components/SalientFeatures';
-import styles from './page.module.css';
 import { fetchExtensionData } from './page.utils';
 
-const title = 'Skip Links, Ads, Timers & ReCaptchas';
+const title = 'Bypass Links';
 const description =
   'Web extension to Bypass links to skip ads, links, timers, captchas and private Bookmarks Panel';
 
@@ -32,13 +30,13 @@ export default async function Home() {
   const { chrome } = await fetchExtensionData();
 
   return (
-    <Box className={styles.container}>
+    <div className="flex min-h-screen flex-col">
       <AppHeader />
-      <Container size="xl">
+      <main className="mx-auto w-full max-w-7xl flex-1 px-4">
         <PageHeader chrome={chrome} />
         <SalientFeatures />
-      </Container>
+      </main>
       <Footer releaseDate={chrome.date} extVersion={chrome.version} />
-    </Box>
+    </div>
   );
 }

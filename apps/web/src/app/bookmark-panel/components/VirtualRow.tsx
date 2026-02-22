@@ -6,11 +6,7 @@ import {
   type IBookmarksObj,
   isFolderEmpty,
 } from '@bypass/shared';
-import bookmarkRowStyles from '@bypass/shared/styles/bookmarks/styles.module.css';
-import { Flex } from '@mantine/core';
-import clsx from 'clsx';
 import { memo } from 'react';
-import styles from './styles/VirtualRow.module.css';
 
 export interface Props {
   index: number;
@@ -26,9 +22,11 @@ const VirtualRow = memo<Props>(({ index, folders, contextBookmarks }) => {
   const ctx = contextBookmarks[index];
 
   return (
-    <Flex
-      h="100%"
-      className={clsx(bookmarkRowStyles.bookmarkRow, styles.bookmarkWrapper)}
+    <div
+      className="
+        h-full cursor-pointer rounded-md select-none
+        hover:bg-muted
+      "
     >
       {ctx.isDir ? (
         <Folder
@@ -45,7 +43,7 @@ const VirtualRow = memo<Props>(({ index, folders, contextBookmarks }) => {
           onOpenLink={onOpenLink}
         />
       )}
-    </Flex>
+    </div>
   );
 });
 

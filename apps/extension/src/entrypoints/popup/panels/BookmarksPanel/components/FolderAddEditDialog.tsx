@@ -1,5 +1,17 @@
-import { Button, Group, Modal, TextInput } from '@mantine/core';
-import { useForm } from '@mantine/form';
+import { z } from 'zod/mini';
+import { useForm } from '@tanstack/react-form';
+import {
+  Button,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  Field,
+  FieldError,
+  FieldLabel,
+  Input,
+} from '@bypass/ui';
+import { handleEscapeKey } from '@popup/utils/dialog';
 
 interface Props {
   origName?: string;
@@ -9,6 +21,10 @@ interface Props {
   onClose: VoidFunction;
 }
 
+const formSchema = z.object({
+  folderName: z.string().check(z.minLength(1, 'Required')),
+});
+
 export function FolderAddEditDialog({
   origName = '',
   headerText,
@@ -17,19 +33,23 @@ export function FolderAddEditDialog({
   onClose,
 }: Props) {
   const form = useForm({
-    initialValues: {
+    defaultValues: {
       folderName: origName,
     },
-    validate: {
-      folderName(value) {
-        if (!value) {
-          return "Can't be empty";
-        }
-        if (value === origName) {
-          return "Can't be same as before";
-        }
-        return null;
-      },
+    validators: {
+      onSubmit: formSchema,
+    },
+    onSubmit({ value, formApi }) {
+      if (value.folderName === origName) {
+        formApi.setFieldMeta('folderName', (meta) => ({
+          ...meta,
+          errors: ["Can't be same as before"],
+        }));
+        return;
+      }
+      handleSave(value.folderName);
+      formApi.reset();
+      onClose();
     },
   });
 
@@ -39,35 +59,44 @@ export function FolderAddEditDialog({
   };
 
   return (
-    <Modal
-      centered
-      opened={isOpen}
-      title={headerText}
-      closeButtonProps={
-        {
-          'data-testid': 'modal-close-button',
-        } as React.ComponentProps<'button'>
-      }
-      onClose={handleClose}
-    >
-      <form
-        onSubmit={form.onSubmit((values) => {
-          handleSave(values.folderName);
-        })}
-      >
-        <TextInput
-          withAsterisk
-          data-autofocus
-          label="Folder"
-          placeholder="Enter folder name"
-          {...form.getInputProps('folderName')}
-        />
-        <Group justify="end" mt="md">
-          <Button type="submit" color="teal">
-            Save
-          </Button>
-        </Group>
-      </form>
-    </Modal>
+    <Dialog open={isOpen} onOpenChange={handleClose}>
+      <DialogContent className="sm:max-w-md" onKeyDown={handleEscapeKey}>
+        <DialogHeader>
+          <DialogTitle>{headerText}</DialogTitle>
+        </DialogHeader>
+        <form
+          className="flex flex-col gap-4"
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+        >
+          <form.Field name="folderName">
+            {(field) => (
+              <Field>
+                <FieldLabel>
+                  Folder <span className="text-destructive">*</span>
+                </FieldLabel>
+                <Input
+                  data-autofocus
+                  data-testid="folder-name-input"
+                  placeholder="Enter folder name"
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                />
+                <FieldError errors={field.state.meta.errors} />
+              </Field>
+            )}
+          </form.Field>
+          <div className="flex justify-end gap-2 pt-2">
+            <Button data-testid="dialog-save-button" type="submit">
+              Save
+            </Button>
+          </div>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 }

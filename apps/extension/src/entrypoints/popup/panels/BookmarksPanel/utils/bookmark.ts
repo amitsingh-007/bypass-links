@@ -1,13 +1,13 @@
 import {
   ECacheBucketKeys,
-  getCacheObj,
+  addAllToCache,
   getDecryptedBookmark,
   getFaviconProxyUrl,
   type ContextBookmarks,
   type IBookmarksObj,
   type ITransformedBookmark,
 } from '@bypass/shared';
-import { nprogress } from '@mantine/nprogress';
+import { SIGN_IN_TOTAL_STEPS } from '../../HomePopup/constants/progress';
 import { trpcApi } from '@/apis/trpcApi';
 import {
   bookmarksItem,
@@ -15,6 +15,7 @@ import {
   hasPendingBookmarksItem,
   hasPendingPersonsItem,
 } from '@/storage/items';
+import useProgressStore from '@/store/progress';
 
 export const syncBookmarksToStorage = async () => {
   const bookmarks = await trpcApi.firebaseData.bookmarksGet.query();
@@ -55,11 +56,10 @@ export const cacheBookmarkFavicons = async () => {
     const bookmark = getDecryptedBookmark(item);
     return getFaviconProxyUrl(bookmark.url);
   });
-  const uniqueUrls = [...new Set(faviconUrls)];
-  const cache = await getCacheObj(ECacheBucketKeys.favicon);
-  await Promise.all(uniqueUrls.map(async (url) => cache.add(url)));
-  console.log('Initialized cache for all bookmark urls');
-  nprogress.increment();
+  await addAllToCache(ECacheBucketKeys.favicon, faviconUrls);
+  console.log('Bookmark favicons cached');
+  const { incrementProgress } = useProgressStore.getState();
+  incrementProgress(SIGN_IN_TOTAL_STEPS);
 };
 
 export const findBookmarkById = (

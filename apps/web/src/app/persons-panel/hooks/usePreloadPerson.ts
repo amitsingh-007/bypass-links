@@ -7,10 +7,10 @@ import {
 } from '@app/utils/storage';
 import {
   ECacheBucketKeys,
+  addAllToCache,
   type PersonImageUrls,
   STORAGE_KEYS,
   deleteCache,
-  getCacheObj,
   getPersonImageName,
   isCachePresent,
   usePerson,
@@ -23,8 +23,7 @@ const cachePersonImages = async (personImageUrls: PersonImageUrls) => {
     return;
   }
   const imageUrls = Object.values(personImageUrls);
-  const cache = await getCacheObj(ECacheBucketKeys.person);
-  await cache.addAll(imageUrls);
+  await addAllToCache(ECacheBucketKeys.person, imageUrls);
 };
 
 const syncPersonsToStorage = async () => {

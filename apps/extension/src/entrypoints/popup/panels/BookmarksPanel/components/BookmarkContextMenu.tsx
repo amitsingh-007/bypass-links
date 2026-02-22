@@ -1,12 +1,14 @@
 import { EBookmarkOperation } from '@bypass/shared';
-import { useMantineTheme } from '@mantine/core';
-import { type PropsWithChildren, memo, useCallback } from 'react';
-import { AiFillEdit } from 'react-icons/ai';
-import { MdOutlineDelete, MdOutlineContentPasteGo } from 'react-icons/md';
-import { RxExternalLink } from 'react-icons/rx';
-import { TbCut } from 'react-icons/tb';
+import {
+  BookEditIcon,
+  BookmarkRemove01Icon,
+  FileExportIcon,
+  FilePasteIcon,
+  LinkSquare02Icon,
+} from '@hugeicons/core-free-icons';
+import { useKeyPress } from 'ahooks';
+import { memo, useCallback, type PropsWithChildren } from 'react';
 import { useShallow } from 'zustand/react/shallow';
-import { useHotkeys } from '@mantine/hooks';
 import ContextMenu, { type IMenuOption } from '@popup/components/ContextMenu';
 import useBookmarkStore from '../store/useBookmarkStore';
 import useBookmarkRouteStore from '../store/useBookmarkRouteStore';
@@ -42,26 +44,19 @@ const BookmarkContextMenu = memo<Props>(
         handlePasteSelectedBookmarks: state.handlePasteSelectedBookmarks,
       }))
     );
-    const theme = useMantineTheme();
     const selectedCount = getSelectedCount(selectedBookmarks);
     const cutCount = getCutCount(cutBookmarks);
 
-    useHotkeys([
-      [
-        'mod+x',
-        (e) => {
-          e.stopPropagation();
-          handleCutBookmarks();
-        },
-      ],
-      [
-        'mod+v',
-        (e) => {
-          e.stopPropagation();
-          handlePasteSelectedBookmarks();
-        },
-      ],
-    ]);
+    // Keyboard shortcuts using ahooks useKeyPress
+    useKeyPress(['meta.x'], (e) => {
+      e.stopPropagation();
+      handleCutBookmarks();
+    });
+
+    useKeyPress(['meta.v'], (e) => {
+      e.stopPropagation();
+      handlePasteSelectedBookmarks();
+    });
 
     const getBookmark = useCallback(
       (id: string) => {
@@ -89,7 +84,7 @@ const BookmarkContextMenu = memo<Props>(
       [getBookmark, setBookmarkOperation]
     );
 
-    const getMenuOptions = () => {
+    const getMenuOptions = (): IMenuOption[] => {
       const menuOptionsList: IMenuOption[] = [
         {
           onClick: handleOpenSelectedBookmarks,
@@ -97,13 +92,12 @@ const BookmarkContextMenu = memo<Props>(
             selectedCount > 1 ? `all (${selectedCount}) ` : ''
           }in new tab`,
           id: 'open',
-          icon: RxExternalLink,
-          color: theme.colors.yellow[9],
+          icon: LinkSquare02Icon,
         },
         {
           onClick: handleCutBookmarks,
           text: 'Cut',
-          icon: TbCut,
+          icon: FileExportIcon,
           id: 'cut',
         },
       ];
@@ -112,7 +106,7 @@ const BookmarkContextMenu = memo<Props>(
           onClick: handlePasteSelectedBookmarks,
           text: `Paste (${cutCount})`,
           id: 'paste',
-          icon: MdOutlineContentPasteGo,
+          icon: FilePasteIcon,
         });
       }
       if (selectedCount > 1) {
@@ -120,8 +114,8 @@ const BookmarkContextMenu = memo<Props>(
           onClick: handleBulkUrlRemove,
           text: 'Delete All',
           id: 'delete-all',
-          icon: MdOutlineDelete,
-          color: theme.colors.red[9],
+          icon: BookmarkRemove01Icon,
+          variant: 'destructive',
         });
       } else {
         menuOptionsList.push(
@@ -129,26 +123,21 @@ const BookmarkContextMenu = memo<Props>(
             onClick: handleBookmarkEdit,
             text: 'Edit',
             id: 'edit',
-            icon: AiFillEdit,
-            color: theme.colors.violet[9],
+            icon: BookEditIcon,
           },
           {
             onClick: handleDeleteOptionClick,
             text: 'Delete',
             id: 'delete',
-            icon: MdOutlineDelete,
-            color: theme.colors.red[9],
+            icon: BookmarkRemove01Icon,
+            variant: 'destructive',
           }
         );
       }
       return menuOptionsList;
     };
 
-    return (
-      <ContextMenu wrapperHeight="initial" options={getMenuOptions()}>
-        {children}
-      </ContextMenu>
-    );
+    return <ContextMenu options={getMenuOptions()}>{children}</ContextMenu>;
   }
 );
 

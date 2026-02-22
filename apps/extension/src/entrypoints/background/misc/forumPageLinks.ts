@@ -1,5 +1,4 @@
 import { websitesItem } from '@/storage/items';
-import scripting from '@/utils/scripting';
 
 const getForum_1_2_LinksFunc = () => {
   const unreadRows = document.querySelectorAll(
@@ -85,7 +84,7 @@ export const getForumPageLinks = async (
     }
   }
 
-  const [{ result }] = await scripting.executeScript({
+  const [{ result }] = await browser.scripting.executeScript({
     target: { tabId },
     func: executor,
   });

@@ -1,7 +1,0 @@
-.stack {
-  width: 40%;
-
-  @mixin smaller-than $mantine-breakpoint-sm {
-    width: 80%;
-  }
-}

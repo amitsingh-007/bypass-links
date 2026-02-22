@@ -1,4 +1,4 @@
-import { Switch } from '@mantine/core';
+import { Switch } from '@bypass/ui';
 import useExtStore from '@store/extension';
 import { useEffect, useState } from 'react';
 import { getIsExtensionActive } from '@/utils/common';
@@ -29,24 +29,20 @@ function ToggleExtension() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const isActive = event.target.checked;
-    const extensionState = isActive
+  const handleToggle = (checked: boolean) => {
+    const extensionState = checked
       ? EExtensionState.ACTIVE
       : EExtensionState.INACTIVE;
     extStateItem.setValue(extensionState);
-    dispatchActionAndSetState(extensionState, isActive);
+    dispatchActionAndSetState(extensionState, checked);
   };
 
   const isActive = getIsExtensionActive(extState);
   return (
-    <Switch
-      size="md"
-      label="Enable"
-      color="teal"
-      checked={isActive}
-      onChange={handleToggle}
-    />
+    <div className="flex items-center gap-2">
+      <Switch checked={isActive} onCheckedChange={handleToggle} />
+      <span className="text-sm">Enable</span>
+    </div>
   );
 }
 

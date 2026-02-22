@@ -1,8 +1,6 @@
 import { type IPerson, Person } from '@bypass/shared';
-import { Box, useMantineTheme } from '@mantine/core';
+import { Delete02Icon, Edit01Icon } from '@hugeicons/core-free-icons';
 import { memo, useCallback, useMemo, useState } from 'react';
-import { AiFillEdit } from 'react-icons/ai';
-import { MdOutlineDelete } from 'react-icons/md';
 import ContextMenu, { type IMenuOption } from '@popup/components/ContextMenu';
 import AddOrEditPersonDialog from './AddOrEditPersonDialog';
 
@@ -14,7 +12,6 @@ interface Props {
 
 const PersonVirtualCell = memo<Props>(
   ({ person, handleEditPerson, handlePersonDelete }) => {
-    const theme = useMantineTheme();
     const [showEditPersonDialog, setShowEditPersonDialog] = useState(false);
 
     const handleDeleteOptionClick = useCallback(() => {
@@ -31,19 +28,18 @@ const PersonVirtualCell = memo<Props>(
           onClick: toggleEditPersonDialog,
           text: 'Edit',
           id: 'edit',
-          icon: AiFillEdit,
-          color: theme.colors.violet[9],
+          icon: Edit01Icon,
         },
         {
           onClick: handleDeleteOptionClick,
           text: 'Delete',
           id: 'delete',
-          icon: MdOutlineDelete,
-          color: theme.colors.red[9],
+          icon: Delete02Icon,
+          variant: 'destructive',
         },
       ];
       return options;
-    }, [handleDeleteOptionClick, theme.colors, toggleEditPersonDialog]);
+    }, [handleDeleteOptionClick, toggleEditPersonDialog]);
 
     const handlePersonSave = async (updatedPerson: IPerson) => {
       await handleEditPerson(updatedPerson);
@@ -51,7 +47,7 @@ const PersonVirtualCell = memo<Props>(
     };
 
     return (
-      <Box p="0.5rem" h="100%">
+      <div className="h-full p-1.5">
         <ContextMenu options={menuOptions}>
           <Person person={person} />
         </ContextMenu>
@@ -63,7 +59,7 @@ const PersonVirtualCell = memo<Props>(
             onClose={toggleEditPersonDialog}
           />
         )}
-      </Box>
+      </div>
     );
   }
 );

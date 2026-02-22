@@ -12,10 +12,10 @@ import {
   useBookmark,
   usePerson,
 } from '@bypass/shared';
-import { Box, Flex } from '@mantine/core';
+import { Spinner } from '@bypass/ui';
 import useHistoryStore from '@store/history';
 import { useEffect, useState } from 'react';
-import { notifications } from '@mantine/notifications';
+import { toast } from 'sonner';
 import { getPersonPos, setPersonsInStorage } from '../utils';
 import { updatePersonCacheAndImageUrls } from '../utils/sync';
 import PersonHeader from './PersonHeader';
@@ -70,8 +70,9 @@ function PersonsPanel() {
   const handleAddOrEditPerson = async (person: IPerson) => {
     setIsFetching(true);
     const pos = getPersonPos(persons, person);
+    const isNewPerson = pos === -1;
     const newPersons = [...persons];
-    if (pos === -1) {
+    if (isNewPerson) {
       // Add person
       newPersons.push(person);
     } else {
@@ -85,17 +86,16 @@ function PersonsPanel() {
     setPersons(sortedPersons);
     await handleSave(sortedPersons);
     setIsFetching(false);
-    notifications.show({ message: 'Person added/updated successfully' });
+    toast.success(
+      `${person.name} ${isNewPerson ? 'added' : 'updated'} successfully`
+    );
   };
 
   const handlePersonDelete = async (person: IPerson) => {
     const pos = getPersonPos(persons, person);
     const taggedUrls = await getPersonTaggedUrls(person.uid);
     if (taggedUrls.length > 0) {
-      notifications.show({
-        message: 'Cannot delete a person with tagged bookmarks',
-        color: 'red',
-      });
+      toast.error('Cannot delete a person with tagged bookmarks');
       return;
     }
     setIsFetching(true);
@@ -105,7 +105,7 @@ function PersonsPanel() {
     await trpcApi.storage.removeFile.mutate(getPersonImageName(person.uid));
     await handleSave(newPersons);
     setIsFetching(false);
-    notifications.show({ message: 'Person deleted successfully' });
+    toast.success('Person deleted successfully');
   };
 
   const handleSearchTextChange = (text: string) => {
@@ -120,7 +120,13 @@ function PersonsPanel() {
   };
 
   return (
-    <Flex direction="column" w={MAX_PANEL_SIZE.WIDTH} h={MAX_PANEL_SIZE.HEIGHT}>
+    <div
+      className="flex flex-col"
+      style={{
+        width: MAX_PANEL_SIZE.WIDTH,
+        height: MAX_PANEL_SIZE.HEIGHT,
+      }}
+    >
       <PersonHeader
         isFetching={isFetching}
         handleAddPerson={handleAddOrEditPerson}
@@ -129,7 +135,20 @@ function PersonsPanel() {
         toggleOrderByRecency={toggleOrderByRecency}
         onSearchChange={handleSearchTextChange}
       />
-      <Box pos="relative" h={MAX_PANEL_SIZE.HEIGHT - HEADER_HEIGHT}>
+      <div
+        className="relative"
+        style={{ height: MAX_PANEL_SIZE.HEIGHT - HEADER_HEIGHT }}
+      >
+        {isFetching && (
+          <div
+            data-testid="loading-overlay"
+            className="
+              absolute inset-0 z-50 flex items-center justify-center bg-black/50
+            "
+          >
+            <Spinner className="size-8" />
+          </div>
+        )}
         {filteredAndOrderedPersons.length > 0 ? (
           <Persons
             scrollButton
@@ -145,8 +164,8 @@ function PersonsPanel() {
             onLinkOpen={onLinkOpen}
           />
         ) : null}
-      </Box>
-    </Flex>
+      </div>
+    </div>
   );
 }
 
