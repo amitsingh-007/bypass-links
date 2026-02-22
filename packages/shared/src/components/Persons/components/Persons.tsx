@@ -3,7 +3,7 @@ import { useSize } from 'ahooks';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import {
   type ReactNode,
-  type RefObject,
+  useCallback,
   useContext,
   useEffect,
   useRef,
@@ -28,7 +28,7 @@ interface Props {
 
 type InnerProps = Props & {
   bodyWidth: number;
-  bodyRef: RefObject<HTMLDivElement | null>;
+  scrollElement: HTMLDivElement | null;
   personToOpen: IPerson | undefined;
   personToOpenImage: string;
 };
@@ -39,7 +39,7 @@ function PersonsInner({
   scrollButton = false,
   bookmarkListProps,
   bodyWidth,
-  bodyRef,
+  scrollElement,
   personToOpen,
   personToOpenImage,
   renderPerson,
@@ -53,7 +53,7 @@ function PersonsInner({
     count: Math.ceil(persons.length / columnCount),
     estimateSize: () => rowDimension,
     overscan: 2,
-    getScrollElement: () => bodyRef.current,
+    getScrollElement: () => scrollElement,
   });
 
   const handleScroll = (itemNumber: number) =>
@@ -114,9 +114,14 @@ function Persons(props: Props) {
   const [personToOpen, setPersonToOpen] = useState<IPerson>();
   const [personToOpenImage, setPersonToOpenImage] = useState('');
   const containerRef = useRef<HTMLDivElement>(null);
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const [scrollElement, setScrollElement] = useState<HTMLDivElement | null>(
+    null
+  );
+  const handleViewportRef = useCallback((node: HTMLDivElement | null) => {
+    setScrollElement(node);
+  }, []);
   const size = useSize(containerRef);
-  const width = size?.width ?? 0;
+  const bodyWidth = size?.width ?? 0;
   const { location } = useContext(DynamicContext);
   const queryString = location.query();
   const { resolvePersonImageFromUid } = usePerson();
@@ -135,14 +140,14 @@ function Persons(props: Props) {
   return (
     <ScrollArea
       ref={containerRef}
-      viewportRef={scrollAreaRef}
+      viewportRef={handleViewportRef}
       className="size-full"
     >
-      {width > 0 && (
+      {bodyWidth > 0 && (
         <PersonsInner
           {...props}
-          bodyWidth={width}
-          bodyRef={scrollAreaRef}
+          bodyWidth={bodyWidth}
+          scrollElement={scrollElement}
           personToOpen={personToOpen}
           personToOpenImage={personToOpenImage}
         />
