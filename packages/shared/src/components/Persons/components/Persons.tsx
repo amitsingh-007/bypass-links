@@ -1,7 +1,14 @@
 import { ScrollArea } from '@bypass/ui';
 import { useSize } from 'ahooks';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { type ReactNode, useContext, useEffect, useRef, useState } from 'react';
+import {
+  type ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import usePlatform from '../../../hooks/usePlatform';
 import DynamicContext from '../../../provider/DynamicContext';
 import { deserializeQueryStringToObject } from '../../../utils/url';
@@ -107,10 +114,12 @@ function Persons(props: Props) {
   const [personToOpen, setPersonToOpen] = useState<IPerson>();
   const [personToOpenImage, setPersonToOpenImage] = useState('');
   const containerRef = useRef<HTMLDivElement>(null);
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
   const [scrollElement, setScrollElement] = useState<HTMLDivElement | null>(
     null
   );
+  const handleViewportRef = useCallback((node: HTMLDivElement | null) => {
+    setScrollElement(node);
+  }, []);
   const size = useSize(containerRef);
   const bodyWidth = size?.width ?? 0;
   const { location } = useContext(DynamicContext);
@@ -128,15 +137,10 @@ function Persons(props: Props) {
     }
   }, [queryString, persons, resolvePersonImageFromUid]);
 
-  useEffect(() => {
-    if (!scrollElement) {
-      setScrollElement(scrollAreaRef.current);
-    }
-  }, [scrollElement]);
   return (
     <ScrollArea
       ref={containerRef}
-      viewportRef={scrollAreaRef}
+      viewportRef={handleViewportRef}
       className="size-full"
     >
       {bodyWidth > 0 && (
