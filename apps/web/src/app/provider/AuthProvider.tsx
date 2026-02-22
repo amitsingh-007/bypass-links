@@ -37,14 +37,12 @@ export function AuthProvider({ children }: PropsWithChildren) {
       return;
     }
     const initAuth = async () => {
-      const { onAuthStateChange, getCurrentUser } =
-        await import('../helpers/firebase/auth');
+      const { onAuthStateChange } = await import('../helpers/firebase/auth');
 
-      const currentUser = getCurrentUser();
-      setUser(currentUser);
-      setIsInitialized(true);
-
-      onAuthStateChange((_user) => setUser(_user));
+      onAuthStateChange((_user) => {
+        setUser(_user);
+        setIsInitialized(true);
+      });
     };
     initAuth();
   }, [isInitialized, pathname]);

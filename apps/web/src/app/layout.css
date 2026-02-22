@@ -7,9 +7,3 @@
   /* Same as MAX_PANEL_SIZE in extension app */
   --max-width-panel: 800px;
 }
-
-@layer base {
-  ::selection {
-    background: var(--primary);
-  }
-}

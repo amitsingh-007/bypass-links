@@ -25,6 +25,7 @@ export interface BookmarkProps {
   isSelected?: boolean;
   handleSelectedChange?: (pos: number, isOnlySelection: boolean) => void;
   onOpenLink: (url: string) => void;
+  getFaviconUrl?: (url: string) => string;
 }
 
 const getPersonsFromUids = (uids: string[], persons: IPerson[]) => {
@@ -44,6 +45,7 @@ const Bookmark = memo<BookmarkProps>(
     isSelected,
     handleSelectedChange,
     onOpenLink,
+    getFaviconUrl,
   }) => {
     const [personsWithImageUrls, setPersonsWithImageUrls] = useState<
       IPersonWithImage[]
@@ -95,7 +97,7 @@ const Bookmark = memo<BookmarkProps>(
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger>
-              <Favicon url={url} />
+              <Favicon url={url} getFaviconUrl={getFaviconUrl} />
             </TooltipTrigger>
             <TooltipContent
               side="right"

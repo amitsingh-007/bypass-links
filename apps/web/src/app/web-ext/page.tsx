@@ -25,6 +25,7 @@ export default function Web() {
   const { isLoggedIn } = useUser();
   const { isLoading, preloadData, clearData } = useWebPreload();
   const [shouldPreloadData, setShouldPreloadData] = useState(false);
+  const [isSigningOut, setIsSigningOut] = useState(false);
 
   /**
    * Preload data only when:
@@ -56,9 +57,11 @@ export default function Web() {
   };
 
   const handleSignOut = async () => {
+    setIsSigningOut(true);
     await googleSignOut();
     await clearData();
     setShouldPreloadData(false);
+    setIsSigningOut(false);
   };
 
   return (
@@ -67,18 +70,20 @@ export default function Web() {
       <div className="mt-4 flex items-center justify-center">
         <div
           className="
-            flex w-1/2 flex-col items-stretch gap-2
+            flex w-1/2 flex-col items-stretch gap-3
             max-sm:w-[80%]
           "
         >
           <Button
-            className="w-full"
+            className="w-full py-5"
             variant={isLoggedIn ? 'destructive' : 'secondary'}
             disabled={isLoading}
             onClick={isLoggedIn ? handleSignOut : handleSignIn}
           >
-            <span className="flex items-center justify-center gap-2">
-              {isLoading && <Spinner className="mr-2 size-4" />}
+            <span className="flex items-center justify-center gap-2 font-semibold">
+              {isLoading && !isSigningOut && (
+                <Spinner className="mr-2 size-4 self-center" />
+              )}
               {isLoggedIn ? 'Logout' : 'Login'}
               <HugeiconsIcon
                 icon={isLoggedIn ? Logout02Icon : Login02Icon}
@@ -87,21 +92,23 @@ export default function Web() {
             </span>
           </Button>
           <Button
+            className="py-5"
             variant="secondary"
             disabled={!isLoggedIn || isLoading}
             onClick={() => router.push(ROUTES.BOOKMARK_PANEL)}
           >
-            <span className="flex items-center justify-center gap-2">
+            <span className="flex items-center justify-center gap-2 font-semibold">
               Bookmarks Page
               <HugeiconsIcon icon={Bookmark01Icon} className="size-4" />
             </span>
           </Button>
           <Button
+            className="py-5"
             variant="secondary"
             disabled={!isLoggedIn || isLoading}
             onClick={() => router.push(ROUTES.PERSONS_PANEL)}
           >
-            <span className="flex items-center justify-center gap-2">
+            <span className="flex items-center justify-center gap-2 font-semibold">
               Persons Page
               <HugeiconsIcon icon={UserGroupIcon} className="size-4" />
             </span>

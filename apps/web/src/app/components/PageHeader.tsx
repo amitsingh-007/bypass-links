@@ -20,7 +20,7 @@ function DownloadButton({ icon, text, downloadLink }: Props) {
       className="
         inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-lg
         border border-transparent bg-primary bg-clip-padding px-5 text-base
-        font-medium text-primary-foreground transition-all outline-none
+        font-semibold text-primary-foreground transition-all outline-none
         hover:bg-primary/80
         focus-visible:border-ring focus-visible:ring-3
         focus-visible:ring-ring/50

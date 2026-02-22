@@ -13,7 +13,7 @@ import {
   STORAGE_KEYS,
   deleteCache,
   getDecryptedBookmark,
-  getFaviconProxyUrl,
+  getYandexFaviconUrl,
   isCachePresent,
 } from '@bypass/shared';
 import { useCallback, useState } from 'react';
@@ -38,7 +38,7 @@ const cacheBookmarkFavicons = async () => {
   const { urlList } = bookmarks;
   const faviconUrls = Object.values(urlList).map((item) => {
     const bookmark = getDecryptedBookmark(item);
-    return getFaviconProxyUrl(bookmark.url);
+    return getYandexFaviconUrl(bookmark.url);
   });
   await addAllToCache(ECacheBucketKeys.favicon, faviconUrls);
 };

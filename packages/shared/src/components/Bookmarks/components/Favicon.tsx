@@ -2,20 +2,19 @@ import { useEffect, useState } from 'react';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Unlink02Icon } from '@hugeicons/core-free-icons';
 import { Avatar, AvatarFallback, AvatarImage } from '@bypass/ui';
-import { getFaviconProxyUrl } from '../../../utils';
+import { getGoogleFaviconUrl } from '../../../utils';
 import { getBlobUrlFromCache } from '../../../utils/cache';
 import { ECacheBucketKeys } from '../../../constants/cache';
 
 interface Props {
   url: string;
   ref?: React.Ref<HTMLDivElement>;
+  getFaviconUrl?: (url: string) => string;
 }
 
 const urlMap = new Map<string, string>();
 
-const getBlobUrl = async (url: string) => {
-  const proxyUrl = getFaviconProxyUrl(url);
-
+const getBlobUrl = async (proxyUrl: string) => {
   const blobStr = urlMap.get(proxyUrl);
   if (blobStr) {
     return blobStr;
@@ -26,15 +25,16 @@ const getBlobUrl = async (url: string) => {
   return blobUrl;
 };
 
-function Favicon({ url, ref }: Props) {
+function Favicon({ url, ref, getFaviconUrl = getGoogleFaviconUrl }: Props) {
   const [faviconUrl, setFaviconUrl] = useState('');
 
   useEffect(() => {
     const initFavicon = async () => {
-      setFaviconUrl(await getBlobUrl(url));
+      const proxyUrl = getFaviconUrl(url);
+      setFaviconUrl(await getBlobUrl(proxyUrl));
     };
     initFavicon();
-  }, [url]);
+  }, [url, getFaviconUrl]);
 
   return (
     <Avatar ref={ref} size="sm" data-testid="bookmark-favicon">
