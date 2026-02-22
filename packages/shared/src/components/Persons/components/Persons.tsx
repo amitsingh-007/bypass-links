@@ -48,7 +48,7 @@ function PersonsInner({
   const columnCount = getColumnCount(isMobile);
   const rowCount = Math.ceil(persons.length / columnCount);
   const columnDimension = (bodyWidth - 12) / columnCount; // Adjust scrollbar width
-  const rowDimension = columnDimension + (isMobile ? 40 : 2);
+  const rowDimension = columnDimension + (isMobile ? 20 : 2);
   const rowVirtualizer = useVirtualizer({
     count: Math.ceil(persons.length / columnCount),
     estimateSize: () => rowDimension,
