@@ -7,7 +7,7 @@ import { test, expect as homeExpect } from '../fixtures/home-popup-fixture';
  * a website/domain. These tests run sequentially with shared browser context.
  */
 
-test.describe.serial('LastVisitedButton', () => {
+test.describe('LastVisitedButton', () => {
   test('should update timestamp and show tooltip after clicking Visited button', async ({
     homePage,
   }) => {

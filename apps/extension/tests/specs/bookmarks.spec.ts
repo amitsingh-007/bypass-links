@@ -18,7 +18,7 @@ import { PersonsPanel } from '../utils/persons-panel';
  *
  * IMPORTANT: Test order matters! Do not reorder tests without understanding dependencies.
  */
-test.describe.serial('Bookmarks Panel', () => {
+test.describe('Bookmarks Panel', () => {
   test.describe('Folder Operations', () => {
     const TEST_FOLDER_NAME = 'E2E Test Folder';
     const TEMP_RENAME_FOLDER = 'Temp Rename Folder';
@@ -310,7 +310,7 @@ test.describe.serial('Bookmarks Panel', () => {
     const panel = new BookmarksPanel(bookmarksPage);
     await panel.ensureAtRoot();
 
-    const folderName = 'Persistence Test Folder';
+    const folderName = 'Persistence Save Test Folder';
     await panel.createFolder(folderName);
 
     await panel.clickSaveButton();
@@ -399,7 +399,9 @@ test.describe.serial('Bookmarks Panel', () => {
     const panel = new BookmarksPanel(bookmarksPage);
     await panel.ensureAtRoot();
 
-    const folderName = 'Persistence Test Folder';
+    const folderName = 'Delete Test Folder';
+    await panel.createFolder(folderName);
+
     const folderRow = panel.getFolderElement(folderName);
     await expect(folderRow).toBeVisible();
 

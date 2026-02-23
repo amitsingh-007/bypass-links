@@ -13,7 +13,7 @@ test('should be disabled when not signed in', async ({ unauthPage }) => {
   await homeExpect(defaultsButton).toBeDisabled();
 });
 
-test.describe.serial('Signed In', () => {
+test.describe('Signed In', () => {
   test('should be enabled and open default tabs in background', async ({
     homePage,
     context,

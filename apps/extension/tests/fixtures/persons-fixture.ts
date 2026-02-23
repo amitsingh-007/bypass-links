@@ -6,10 +6,10 @@ import {
   test as base,
 } from '@playwright/test';
 import {
-  authenticateAndNavigate,
   createSharedBackgroundSW,
   createSharedContext,
   getExtensionId,
+  openExtensionPanelPage,
 } from './base-fixture';
 
 export const test = base.extend<
@@ -56,20 +56,20 @@ export const test = base.extend<
 
   sharedPage: [
     async ({ sharedContext, sharedExtensionId }, use) => {
-      const page = await authenticateAndNavigate(
+      const page = await openExtensionPanelPage(
         sharedContext,
         sharedExtensionId,
         'persons'
       );
+      await expect(
+        page.locator('[data-testid^="person-item-"]').first()
+      ).toBeVisible();
       await use(page);
     },
     { scope: 'worker' },
   ],
 
   async personsPage({ sharedPage }, use) {
-    await expect(
-      sharedPage.locator('[data-testid^="person-item-"]').first()
-    ).toBeVisible();
     await use(sharedPage);
   },
 

@@ -6,10 +6,10 @@ import {
   test as base,
 } from '@playwright/test';
 import {
-  authenticateAndNavigate,
   createSharedBackgroundSW,
   createSharedContext,
   getExtensionId,
+  openExtensionPanelPage,
 } from './base-fixture';
 
 export const test = base.extend<
@@ -56,7 +56,7 @@ export const test = base.extend<
 
   sharedPage: [
     async ({ sharedContext, sharedExtensionId }, use) => {
-      const page = await authenticateAndNavigate(
+      const page = await openExtensionPanelPage(
         sharedContext,
         sharedExtensionId,
         'bookmarks'

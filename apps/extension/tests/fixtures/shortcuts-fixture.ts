@@ -6,10 +6,10 @@ import {
   test as base,
 } from '@playwright/test';
 import {
-  authenticateAndNavigate,
   createSharedBackgroundSW,
   createSharedContext,
   getExtensionId,
+  openExtensionPanelPage,
 } from './base-fixture';
 
 export const test = base.extend<
@@ -21,7 +21,6 @@ export const test = base.extend<
     sharedContext: BrowserContext;
     sharedBackgroundSW: Worker;
     sharedExtensionId: string;
-    sharedPage: Page;
   }
 >({
   sharedContext: [
@@ -54,20 +53,17 @@ export const test = base.extend<
     { scope: 'worker' },
   ],
 
-  sharedPage: [
-    async ({ sharedContext, sharedExtensionId }, use) => {
-      const page = await authenticateAndNavigate(
-        sharedContext,
-        sharedExtensionId,
-        'shortcuts'
-      );
+  async shortcutsPage({ sharedContext, sharedExtensionId }, use) {
+    const page = await openExtensionPanelPage(
+      sharedContext,
+      sharedExtensionId,
+      'shortcuts'
+    );
+    try {
       await use(page);
-    },
-    { scope: 'worker' },
-  ],
-
-  async shortcutsPage({ sharedPage }, use) {
-    await use(sharedPage);
+    } finally {
+      await page.close();
+    }
   },
 
   async context({ sharedContext }, use) {

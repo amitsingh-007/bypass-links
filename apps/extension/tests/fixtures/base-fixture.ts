@@ -148,3 +148,32 @@ export const authenticateAndNavigate = async (
 
   return page;
 };
+
+/**
+ * Open extension popup (or a panel) using existing authenticated context state.
+ */
+export const openExtensionPanelPage = async (
+  sharedContext: BrowserContext,
+  sharedExtensionId: string,
+  panelName?: 'bookmarks' | 'persons' | 'shortcuts' | 'home'
+): Promise<Page> => {
+  const page = await sharedContext.newPage();
+  const extUrl = `chrome-extension://${sharedExtensionId}/popup.html`;
+  await page.goto(extUrl, { waitUntil: 'domcontentloaded' });
+
+  const logoutButton = page.getByRole('button', { name: 'Logout' });
+  await logoutButton.waitFor({
+    state: 'visible',
+    timeout: TEST_TIMEOUTS.AUTH,
+  });
+
+  if (panelName && panelName !== 'home') {
+    const panelButton = page.getByRole('button', {
+      name: new RegExp(panelName, 'i'),
+    });
+    await panelButton.click();
+    await page.waitForLoadState('domcontentloaded');
+  }
+
+  return page;
+};

@@ -16,7 +16,7 @@ import { PersonsPanel } from '../utils/persons-panel';
  *
  * IMPORTANT: Test order matters! Do not reorder tests without understanding dependencies.
  */
-test.describe.serial('Persons Panel', () => {
+test.describe('Persons Panel', () => {
   const TEST_IMAGE_DATA_URL =
     'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/w8AAgMBgN0m4ZUAAAAASUVORK5CYII=';
 
@@ -72,12 +72,15 @@ test.describe.serial('Persons Panel', () => {
     personsPage,
   }) => {
     const panel = new PersonsPanel(personsPage);
+    const personToDelete = `${TEST_PERSON_NAME}-delete-${Date.now()}`;
+
+    await panel.addPerson(personToDelete, TEST_IMAGE_DATA_URL);
 
     // First verify the person exists
-    await panel.verifyPersonExists(TEST_PERSON_NAME);
+    await panel.verifyPersonExists(personToDelete);
 
     // Delete the person (this verifies the notification)
-    await panel.deletePerson(TEST_PERSON_NAME);
+    await panel.deletePerson(personToDelete);
   });
 
   test('should show error when deleting person with tagged bookmarks', async ({

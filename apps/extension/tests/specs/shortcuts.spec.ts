@@ -21,7 +21,8 @@ const EXPECTED_RULE_COUNT = Object.keys(TEST_SHORTCUTS).length;
  * IMPORTANT: Test order matters! Do not reorder tests without understanding dependencies.
  */
 
-test.describe.serial('Shortcuts Panel', () => {
+test.describe('Shortcuts Panel', () => {
+  test.describe.configure({ mode: 'parallel' });
   test('should navigate to shortcuts panel and verify UI elements', async ({
     shortcutsPage,
   }) => {
@@ -166,11 +167,17 @@ test.describe.serial('Shortcuts Panel', () => {
 
     // Edit the website
     const firstWebsiteInput = panel.getWebsiteInputs().first();
+    const originalWebsite = await firstWebsiteInput.inputValue();
     await firstWebsiteInput.fill('https://example.com');
     await firstRuleSaveButton.click();
 
     // Verify the new value is persisted
     await expect(firstWebsiteInput).toHaveValue('https://example.com');
+
+    // Reset website for other tests
+    await firstWebsiteInput.fill(originalWebsite);
+    await firstRuleSaveButton.click();
+    await expect(firstWebsiteInput).toHaveValue(originalWebsite);
   });
 
   test('should reorder rules up and down', async ({ shortcutsPage }) => {
