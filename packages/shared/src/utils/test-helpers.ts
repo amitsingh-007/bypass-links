@@ -113,9 +113,10 @@ export const getNumericBadgeValue = async (
   await expect(badge).toBeVisible();
 
   const text = (await badge.textContent()) ?? '';
-  const countFromParentheses = parseBadgeCount(text);
-  if (countFromParentheses > 0 || !options?.fallbackToAnyNumber) {
-    return countFromParentheses;
+  const parenthesesMatch = /\((\d+)\)/.exec(text);
+  const fallbackToAnyNumber = options?.fallbackToAnyNumber ?? false;
+  if (parenthesesMatch !== null || !fallbackToAnyNumber) {
+    return Number.parseInt(parenthesesMatch?.[1] ?? '0', 10);
   }
 
   const firstNumberMatch = /\b(\d+)\b/.exec(text);

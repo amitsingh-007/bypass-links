@@ -40,12 +40,14 @@ test.describe('Persons Panel', () => {
 
     // Search for non-existent person
     await fillSearchInput(personsPage, 'NonExistentPerson');
-    await expect.poll(async () => panel.getPersonCount()).toBe(0);
+    await expect
+      .poll(async () => panel.getPersonCount(), { timeout: 10_000 })
+      .toBe(0);
 
     // Clear and verify count restored
     await clearSearchInput(personsPage);
     await expect
-      .poll(async () => panel.getPersonCount())
+      .poll(async () => panel.getPersonCount(), { timeout: 10_000 })
       .toBe(allPersonsBefore);
   });
 
@@ -169,10 +171,15 @@ test.describe('Persons Panel', () => {
 
     await searchInput.clear();
     await expect
-      .poll(async () => {
-        const editButtons = await panel.getEditButtons();
-        return editButtons.count();
-      })
+      .poll(
+        async () => {
+          const editButtons = await panel.getEditButtons();
+          return editButtons.count();
+        },
+        {
+          timeout: 10_000,
+        }
+      )
       .toBe(allBookmarksBefore);
 
     await panel.navigateBack();

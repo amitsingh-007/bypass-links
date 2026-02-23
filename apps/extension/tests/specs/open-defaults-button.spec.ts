@@ -49,32 +49,30 @@ test.describe('Signed In', () => {
           const currentPages = context
             .pages()
             .filter((page) => page !== homePage);
+
           return currentPages
             .map((page) => page.url())
-            .filter((url) => url.startsWith('http'))
+            .filter(
+              (url) =>
+                url.startsWith('http') || url.startsWith('chrome-error://')
+            )
             .map((url) => {
+              if (url.startsWith('chrome-error://')) {
+                return url;
+              }
+
               const parsed = new URL(url);
               return `${parsed.protocol}//${parsed.host}${parsed.pathname}`;
             });
         },
-        {
-          timeout: 15_000,
-        }
+        { timeout: 15_000 }
       )
-      .toEqual(homeExpect.arrayContaining(['https://www.google.com/']));
-
-    const baseUrls = context
-      .pages()
-      .filter((page) => page !== homePage)
-      .map((page) => page.url())
-      .filter(
-        (url) => url.startsWith('http') || url.startsWith('chrome-error://')
+      .toEqual(
+        homeExpect.arrayContaining([
+          'https://www.google.com/',
+          homeExpect.stringMatching(/mantine\.dev|^chrome-error:\/\//),
+        ])
       );
-    homeExpect(baseUrls).toEqual(
-      homeExpect.arrayContaining([
-        homeExpect.stringMatching(/mantine\.dev|^chrome-error:\/\//),
-      ])
-    );
 
     // Clean up: close new tabs
     for (const newPage of newPages) {

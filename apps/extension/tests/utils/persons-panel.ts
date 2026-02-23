@@ -195,20 +195,14 @@ export class PersonsPanel {
 
     const bookmarks = dialog.getByTitle('Edit Bookmark');
 
-    let allBookmarksBefore = await bookmarks.count();
-    if (allBookmarksBefore === 0) {
-      await expect
-        .poll(async () => bookmarks.count(), { timeout: 3000 })
-        .toBeGreaterThan(0)
-        .catch(() => undefined);
-      allBookmarksBefore = await bookmarks.count();
-    }
+    await expect
+      .poll(async () => bookmarks.count(), { timeout: 5000 })
+      .toBeGreaterThan(0);
+    const allBookmarksBefore = await bookmarks.count();
 
     await searchInput.fill(searchTerm);
 
-    if (allBookmarksBefore > 0) {
-      await expect.poll(async () => bookmarks.count()).toBe(0);
-    }
+    await expect.poll(async () => bookmarks.count(), { timeout: 5000 }).toBe(0);
 
     const noResultsBookmarks = await bookmarks.count();
     return {

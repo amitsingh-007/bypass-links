@@ -56,6 +56,7 @@ test.describe('LastVisitedButton', () => {
     await lastVisitedButton.hover();
 
     // Wait for tooltip text to change from initial value (auto-retrying)
+    await homeExpect(tooltip).toBeVisible();
     await homeExpect(tooltip).not.toHaveText(initialTooltipText);
   });
 });

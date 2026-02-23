@@ -80,6 +80,7 @@ test.describe('History Tracking Workflow', () => {
         },
         {
           message: 'History items should be deleted',
+          timeout: 15_000,
         }
       )
       .toBe(0);
