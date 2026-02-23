@@ -7,11 +7,11 @@ import {
 } from '@playwright/test';
 import { getExtensionPath } from '../utils/extension-path';
 import {
-  authenticateAndNavigate,
   createSharedBackgroundSW,
   createSharedContext,
   createUnauthContext,
   getExtensionId,
+  openExtensionPanelPage,
 } from './base-fixture';
 
 export const test = base.extend<
@@ -24,7 +24,6 @@ export const test = base.extend<
     sharedContext: BrowserContext;
     sharedBackgroundSW: Worker;
     sharedExtensionId: string;
-    sharedPage: Page;
     extensionPath: string;
   }
 >({
@@ -67,20 +66,17 @@ export const test = base.extend<
     { scope: 'worker' },
   ],
 
-  sharedPage: [
-    async ({ sharedContext, sharedExtensionId }, use) => {
-      const page = await authenticateAndNavigate(
-        sharedContext,
-        sharedExtensionId,
-        'home'
-      );
+  async homePage({ sharedContext, sharedExtensionId }, use) {
+    const page = await openExtensionPanelPage(
+      sharedContext,
+      sharedExtensionId,
+      'home'
+    );
+    try {
       await use(page);
-    },
-    { scope: 'worker' },
-  ],
-
-  async homePage({ sharedPage }, use) {
-    await use(sharedPage);
+    } finally {
+      await page.close();
+    }
   },
 
   async context({ sharedContext }, use) {

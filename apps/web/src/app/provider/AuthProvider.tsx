@@ -9,6 +9,7 @@ import {
   useState,
 } from 'react';
 import { ROUTES } from '../constants/routes';
+import { onAuthStateChange } from '../helpers/firebase/auth';
 
 interface IAuthContext {
   user: User | null;
@@ -32,22 +33,20 @@ export function AuthProvider({ children }: PropsWithChildren) {
     [user, isInitialized]
   );
 
+  const isRestrictedPath = RESTRICTED_PATHS.has(pathname);
+
   useEffect(() => {
-    if (isInitialized || RESTRICTED_PATHS.has(pathname)) {
+    if (isRestrictedPath) {
       return;
     }
-    const initAuth = async () => {
-      const { onAuthStateChange, getCurrentUser } =
-        await import('../helpers/firebase/auth');
 
-      const currentUser = getCurrentUser();
-      setUser(currentUser);
+    const unsubscribe = onAuthStateChange((_user) => {
+      setUser(_user);
       setIsInitialized(true);
+    });
 
-      onAuthStateChange((_user) => setUser(_user));
-    };
-    initAuth();
-  }, [isInitialized, pathname]);
+    return unsubscribe;
+  }, [isRestrictedPath]);
 
   return <AuthContext.Provider value={ctx}>{children}</AuthContext.Provider>;
 }

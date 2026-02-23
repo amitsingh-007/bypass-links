@@ -1,7 +1,7 @@
 import {
-  TEST_TIMEOUTS,
   TEST_SITES,
   TEST_BOOKMARKS,
+  openNewPageFromAction,
 } from '@bypass/shared/tests';
 import { test, expect } from '../fixtures/home-popup-fixture';
 import { BookmarksPanel } from '../utils/bookmarks-panel';
@@ -15,7 +15,8 @@ import { getHistoryItems } from '../utils/history-utils';
  * When turned off, it deletes the tracked history range from Chrome's history.
  */
 
-test.describe.serial('History Tracking Workflow', () => {
+test.describe('History Tracking Workflow', () => {
+  test.describe.configure({ mode: 'parallel' });
   test('should turn on history tracking', async ({ homePage }) => {
     const homePanel = new PopupHomePanel(homePage);
 
@@ -46,11 +47,14 @@ test.describe.serial('History Tracking Workflow', () => {
       TEST_SITES.EXAMPLE_NET,
     ];
 
+    // Ensure tracking is enabled for this test run.
+    await homePanel.setHistoryEnabled(true);
+    await expect(homePanel.historyToggle).toBeChecked();
+
     // Visit each site in a new tab
     for (const site of sites) {
       const newPage = await context.newPage();
-      await newPage.goto(site);
-      await newPage.waitForLoadState('networkidle');
+      await newPage.goto(site, { waitUntil: 'domcontentloaded' });
       await newPage.close();
     }
 
@@ -60,7 +64,6 @@ test.describe.serial('History Tracking Workflow', () => {
 
     // Turn off history tracking
     await homePanel.setHistoryEnabled(false);
-    await homePage.waitForTimeout(TEST_TIMEOUTS.LONG_WAIT);
 
     // Verify switch is now unchecked
     await expect(homePanel.historyToggle).not.toBeChecked();
@@ -68,9 +71,19 @@ test.describe.serial('History Tracking Workflow', () => {
     // Verify historyStartTime is removed from storage
     await homePanel.verifyHistoryStartTimeNotExists();
 
-    // Verify the test sites are deleted from browser history
-    const historyAfter = await getHistoryItems(homePage, sites);
-    expect(historyAfter).toHaveLength(0);
+    // Verify the test sites are deleted from browser history (with retry)
+    await expect
+      .poll(
+        async () => {
+          const historyAfter = await getHistoryItems(homePage, sites);
+          return historyAfter.length;
+        },
+        {
+          message: 'History items should be deleted',
+          timeout: 15_000,
+        }
+      )
+      .toBe(0);
   });
 
   test('should turn on history tracking when a bookmark is opened', async ({
@@ -92,12 +105,9 @@ test.describe.serial('History Tracking Workflow', () => {
     const bookmarkRow = panel.getBookmarkElement(TEST_BOOKMARKS.REACT_DOCS);
     await expect(bookmarkRow).toBeVisible();
 
-    const pagePromise = context.waitForEvent('page', {
-      timeout: TEST_TIMEOUTS.PAGE_OPEN,
+    const newPage = await openNewPageFromAction(context, async () => {
+      await bookmarkRow.dblclick();
     });
-    await bookmarkRow.dblclick();
-    const newPage = await pagePromise;
-    expect(newPage).toBeTruthy();
     await newPage.close();
 
     // Navigate back to Home page to verify the toggle

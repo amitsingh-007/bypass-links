@@ -22,7 +22,11 @@ interface Props {
   persons: IPerson[];
   onLinkOpen: (url: string) => void;
   scrollButton?: boolean;
-  bookmarkListProps: { fullscreen: boolean; showEditButton?: boolean };
+  bookmarkListProps: {
+    fullscreen: boolean;
+    showEditButton?: boolean;
+    getFaviconUrl: (url: string) => string;
+  };
   renderPerson: (person: IPerson) => ReactNode;
 }
 

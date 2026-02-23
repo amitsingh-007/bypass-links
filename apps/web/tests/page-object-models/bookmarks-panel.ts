@@ -1,22 +1,11 @@
 import { expect, type Page, type Locator } from '@playwright/test';
-import { TEST_TIMEOUTS } from '@bypass/shared/tests';
+import {
+  clickDropdownPersonAndGetName,
+  getNumericBadgeValue,
+} from '@bypass/shared/tests';
 
 export class BookmarksPanel {
   constructor(readonly page: Page) {}
-
-  async search(query: string) {
-    const searchInput = this.getSearchInput();
-    await searchInput.fill(query);
-    // Wait for debounce by checking the search input value is set
-    await expect(searchInput).toHaveValue(query);
-  }
-
-  async clearSearch() {
-    const searchInput = this.getSearchInput();
-    await searchInput.clear();
-    // Wait for clear by checking the search input is empty
-    await expect(searchInput).toHaveValue('');
-  }
 
   async openFolder(folderName: string) {
     const folder = this.getFolderElement(folderName);
@@ -49,14 +38,14 @@ export class BookmarksPanel {
   async hoverAvatar(): Promise<Locator> {
     const avatarGroup = this.getAvatarGroup();
     const avatar = avatarGroup.locator('[data-testid^="avatar-"]').first();
-    await expect(avatar).toBeVisible({ timeout: TEST_TIMEOUTS.LONG_WAIT });
+    await expect(avatar).toBeVisible();
     await avatar.hover();
 
     // Return the first visible dropdown
     const dropdown = this.page
       .locator('[data-testid^="person-dropdown-"]')
       .first();
-    await expect(dropdown).toBeVisible({ timeout: TEST_TIMEOUTS.LONG_WAIT });
+    await expect(dropdown).toBeVisible();
 
     return dropdown;
   }
@@ -84,19 +73,7 @@ export class BookmarksPanel {
   }
 
   async clickPersonInDropdownAndGetName(dropdown: Locator): Promise<string> {
-    const dropdownAvatar = dropdown.locator(
-      '[data-testid^="dropdown-avatar-"]'
-    );
-    await dropdownAvatar.waitFor({
-      state: 'visible',
-      timeout: TEST_TIMEOUTS.IMAGE_LOAD,
-    });
-    // Wait for element to be stable before clicking
-    await expect(dropdownAvatar).toBeEnabled();
-    const testId = (await dropdownAvatar.getAttribute('data-testid')) ?? '';
-    const personName = testId.replace('dropdown-avatar-', '');
-    await dropdownAvatar.click();
-    return personName;
+    return clickDropdownPersonAndGetName(dropdown);
   }
 
   getFaviconElement(bookmarkTitle: string): Locator {
@@ -110,7 +87,7 @@ export class BookmarksPanel {
     await favicon.hover();
     // Wait for tooltip to appear - shadcn renders tooltip with data-slot="tooltip-content"
     const tooltip = this.page.locator('[data-slot="tooltip-content"]').first();
-    await expect(tooltip).toBeVisible({ timeout: TEST_TIMEOUTS.LONG_WAIT });
+    await expect(tooltip).toBeVisible();
     return tooltip;
   }
 
@@ -133,12 +110,9 @@ export class BookmarksPanel {
   }
 
   async getBadgeCount(): Promise<number> {
-    const badge = this.getBookmarkCountBadge();
-    await expect(badge).toBeVisible();
-    const badgeText = await badge.textContent();
-    const match = /\((\d+)\)/.exec(badgeText ?? '');
-    const count = match ? Number.parseInt(match[1], 10) : 0;
-    return count;
+    return getNumericBadgeValue(this.page, 'header-badge', {
+      fallbackToAnyNumber: true,
+    });
   }
 
   getAvatarGroup(): Locator {

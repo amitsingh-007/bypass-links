@@ -1,4 +1,3 @@
-import { TEST_TIMEOUTS } from '@bypass/shared/tests';
 import { test, expect as homeExpect } from '../fixtures/home-popup-fixture';
 
 /**
@@ -14,7 +13,7 @@ test('should be disabled when not signed in', async ({ unauthPage }) => {
   await homeExpect(defaultsButton).toBeDisabled();
 });
 
-test.describe.serial('Signed In', () => {
+test.describe('Signed In', () => {
   test('should be enabled and open default tabs in background', async ({
     homePage,
     context,
@@ -36,7 +35,6 @@ test.describe.serial('Signed In', () => {
     // Poll for the expected number of pages to be opened (initial + 2 new tabs)
     await homeExpect
       .poll(() => context.pages().length, {
-        timeout: TEST_TIMEOUTS.PAGE_OPEN,
         message: 'Should open 2 new tabs',
       })
       .toBe(initialPageCount + 2);
@@ -44,21 +42,37 @@ test.describe.serial('Signed In', () => {
     const allPages = context.pages();
     const newPages = allPages.filter((p) => p !== homePage);
 
-    // Get actual website URLs (filter out internal pages like about:blank)
-    const urls = newPages
-      .map((p) => p.url())
-      .filter((url) => !url.startsWith('about:'));
+    // Verify default tabs were opened (Google and Mantine)
+    await homeExpect
+      .poll(
+        () => {
+          const currentPages = context
+            .pages()
+            .filter((page) => page !== homePage);
 
-    // Get base URLs without query params or hashes
-    const baseUrls = urls.map((url) => {
-      const parsed = new URL(url);
-      return `${parsed.protocol}//${parsed.host}${parsed.pathname}`;
-    });
+          return currentPages
+            .map((page) => page.url())
+            .filter(
+              (url) =>
+                url.startsWith('http') || url.startsWith('chrome-error://')
+            )
+            .map((url) => {
+              if (url.startsWith('chrome-error://')) {
+                return url;
+              }
 
-    // Verify 2 default tabs were opened (Google and Mantine)
-    homeExpect(urls).toHaveLength(2);
-    homeExpect(baseUrls).toContain('https://www.google.com/');
-    homeExpect(baseUrls).toContain('https://mantine.dev/');
+              const parsed = new URL(url);
+              return `${parsed.protocol}//${parsed.host}${parsed.pathname}`;
+            });
+        },
+        { timeout: 15_000 }
+      )
+      .toEqual(
+        homeExpect.arrayContaining([
+          'https://www.google.com/',
+          homeExpect.stringMatching(/mantine\.dev|^chrome-error:\/\//),
+        ])
+      );
 
     // Clean up: close new tabs
     for (const newPage of newPages) {

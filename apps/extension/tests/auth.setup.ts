@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import process from 'node:process';
 import { chromium, expect, test as setup } from '@playwright/test';
+import { TEST_TIMEOUTS } from '@bypass/shared/tests';
 import wretch from 'wretch';
 import QueryStringAddon from 'wretch/addons/queryString';
 import { getFirebasePublicConfig } from '../../../packages/configs/firebase.config';
@@ -20,6 +21,8 @@ const firebaseConfig = getFirebasePublicConfig(isCI);
 const identityApi = wretch('https://identitytoolkit.googleapis.com/v1')
   .addon(QueryStringAddon)
   .query({ key: firebaseConfig.apiKey });
+
+setup.setTimeout(60_000);
 
 const signInWithEmailAndPassword = async (): Promise<IAuthResponse> => {
   return identityApi
@@ -68,7 +71,7 @@ setup('authenticate and cache extension storage', async ({}, testInfo) => {
 
   let [background] = browserContext.serviceWorkers();
   background ||= await browserContext.waitForEvent('serviceworker', {
-    timeout: 20_000,
+    timeout: TEST_TIMEOUTS.AUTH,
   });
   const extensionId = background.url().split('/')[2];
 
@@ -87,12 +90,12 @@ setup('authenticate and cache extension storage', async ({}, testInfo) => {
   await page.goto(extUrl, { waitUntil: 'domcontentloaded' });
 
   const loginButton = page.getByRole('button', { name: 'Login' });
-  await loginButton.waitFor({ state: 'visible', timeout: 20_000 });
+  await loginButton.waitFor({ state: 'visible', timeout: TEST_TIMEOUTS.AUTH });
   await loginButton.click();
 
   const logoutButton = page.getByRole('button', { name: 'Logout' });
-  await expect(logoutButton).toBeVisible({ timeout: 30_000 });
-  await expect(logoutButton).toBeEnabled({ timeout: 30_000 });
+  await expect(logoutButton).toBeVisible({ timeout: TEST_TIMEOUTS.AUTH });
+  await expect(logoutButton).toBeEnabled({ timeout: TEST_TIMEOUTS.AUTH });
 
   const chromeStorageData = await page.evaluate(async () =>
     browser.storage.local.get(null)

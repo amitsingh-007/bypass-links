@@ -1,4 +1,3 @@
-import { TEST_TIMEOUTS } from '@bypass/shared/tests';
 import { test, expect } from '../fixtures/auth-fixture';
 
 test('should call extension.latest API and return expected response structure', async ({
@@ -9,8 +8,7 @@ test('should call extension.latest API and return expected response structure', 
   const apiPromise = page.waitForResponse(
     (response) =>
       response.url().includes('/api/trpc/extension.latest') &&
-      response.status() === 200,
-    { timeout: TEST_TIMEOUTS.PAGE_OPEN }
+      response.status() === 200
   );
 
   await page.goto(`chrome-extension://${extensionId}/popup.html`);

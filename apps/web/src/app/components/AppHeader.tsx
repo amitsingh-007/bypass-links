@@ -1,9 +1,8 @@
 'use client';
 
 import { ROUTES } from '@app/constants/routes';
-import { GithubIcon, ChromeIcon } from '@hugeicons/core-free-icons';
+import { GithubIcon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { Button } from '@bypass/ui';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -63,28 +62,18 @@ function AppHeader() {
             </span>
           </div>
         </button>
-        <div className="flex items-center gap-2">
-          <a
-            href="https://github.com/bypass-links/bypass-links"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="
-              flex size-8 items-center justify-center rounded-lg border
-              border-border bg-background text-muted-foreground transition-all
-              hover:border-primary/30 hover:text-foreground
-            "
-          >
-            <HugeiconsIcon icon={GithubIcon} size={16} />
-          </a>
-          <Button size="default">
-            <HugeiconsIcon
-              data-icon="inline-start"
-              icon={ChromeIcon}
-              size={16}
-            />
-            Download
-          </Button>
-        </div>
+        <a
+          href="https://github.com/bypass-links/bypass-links"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="
+            flex size-8 items-center justify-center rounded-lg border
+            border-border bg-background text-muted-foreground transition-all
+            hover:border-primary/30 hover:text-foreground
+          "
+        >
+          <HugeiconsIcon icon={GithubIcon} size={16} />
+        </a>
       </div>
     </header>
   );

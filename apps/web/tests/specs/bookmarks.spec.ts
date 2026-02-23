@@ -1,7 +1,9 @@
 import {
   TEST_BOOKMARKS,
   TEST_FOLDERS,
-  TEST_TIMEOUTS,
+  fillSearchInput,
+  clearSearchInput,
+  openNewPageFromAction,
 } from '@bypass/shared/tests';
 import { test, expect } from '../fixtures/auth-fixture';
 import { BookmarksPanel } from '../page-object-models/bookmarks-panel';
@@ -14,10 +16,10 @@ test.describe('Bookmarks Panel', () => {
       authenticatedPage
         .locator('[data-testid^="bookmark-item-"]')
         .first()
-        .waitFor({ state: 'visible', timeout: TEST_TIMEOUTS.LONG_WAIT }),
+        .waitFor({ state: 'visible' }),
       authenticatedPage
         .getByText(/no bookmarks/i)
-        .waitFor({ state: 'visible', timeout: TEST_TIMEOUTS.LONG_WAIT }),
+        .waitFor({ state: 'visible' }),
     ]);
   });
 
@@ -74,28 +76,28 @@ test.describe('Bookmarks Panel', () => {
     const rootBadgeCount = await panel.getBadgeCount();
 
     // Search by title
-    await panel.search('ButtonGroup');
+    await fillSearchInput(authenticatedPage, 'ButtonGroup');
     await panel.verifyBookmarkExists(TEST_BOOKMARKS.GITHUB);
 
     // Clear and search by URL
-    await panel.clearSearch();
-    await panel.search('material');
+    await clearSearchInput(authenticatedPage);
+    await fillSearchInput(authenticatedPage, 'material');
     await panel.verifyBookmarkExists(TEST_BOOKMARKS.REACT_DOCS);
 
     // Clear and verify count restored
-    await panel.clearSearch();
+    await clearSearchInput(authenticatedPage);
     await expect(async () => {
       const countAfter = await panel.getBookmarkCount();
       expect(countAfter).toBe(countBefore);
     }).toPass();
 
     // Search for React and verify badge count updates
-    await panel.search('React');
+    await fillSearchInput(authenticatedPage, 'React');
     const searchBadgeCount = await panel.getBadgeCount();
     expect(searchBadgeCount).toBeLessThanOrEqual(rootBadgeCount);
 
     // Clear search
-    await panel.clearSearch();
+    await clearSearchInput(authenticatedPage);
   });
 
   test('should keep folders visible when searching and filter results', async ({
@@ -104,16 +106,16 @@ test.describe('Bookmarks Panel', () => {
     const panel = new BookmarksPanel(authenticatedPage);
 
     // Verify folders stay visible during search
-    await panel.search('nonexistent');
+    await fillSearchInput(authenticatedPage, 'nonexistent');
     await panel.verifyFolderExists(TEST_FOLDERS.MAIN);
 
     // Clear and verify filtering works
-    await panel.clearSearch();
-    await panel.search('React');
+    await clearSearchInput(authenticatedPage);
+    await fillSearchInput(authenticatedPage, 'React');
     const count = await panel.getBookmarkCount();
     expect(count).toBeGreaterThan(0);
 
-    await panel.clearSearch();
+    await clearSearchInput(authenticatedPage);
   });
 
   test('should open bookmark by double-clicking', async ({
@@ -121,18 +123,9 @@ test.describe('Bookmarks Panel', () => {
     context,
   }) => {
     const panel = new BookmarksPanel(authenticatedPage);
-    const initialPages = context.pages();
-
-    // Listen for new page event before triggering the action
-    const [newPage] = await Promise.all([
-      authenticatedPage.waitForEvent('popup', {
-        timeout: TEST_TIMEOUTS.PAGE_OPEN,
-      }),
-      panel.openBookmarkByDoubleClick(TEST_BOOKMARKS.REACT_DOCS),
-    ]);
-
-    // Verify exactly one new page was created
-    expect(context.pages().length).toBe(initialPages.length + 1);
+    const newPage = await openNewPageFromAction(context, async () => {
+      await panel.openBookmarkByDoubleClick(TEST_BOOKMARKS.REACT_DOCS);
+    });
     await newPage.close();
   });
 
@@ -141,27 +134,18 @@ test.describe('Bookmarks Panel', () => {
   }) => {
     // Verify avatars are displayed
     const avatarGroups = authenticatedPage.getByTestId('avatar-group');
-    await expect(avatarGroups.first()).toBeVisible({
-      timeout: TEST_TIMEOUTS.LONG_WAIT,
-    });
+    await expect(avatarGroups.first()).toBeVisible();
 
     const panel = new BookmarksPanel(authenticatedPage);
 
     // Hover and verify dropdown
     const dropdown = await panel.hoverAvatar();
-    await expect(dropdown).toBeVisible({ timeout: TEST_TIMEOUTS.LONG_WAIT });
-
-    // Verify person name in dropdown
-    const avatar = dropdown.locator('[data-testid^="dropdown-avatar-"]');
-    await expect(avatar).toBeVisible();
-    const testId = (await avatar.getAttribute('data-testid')) ?? '';
-    const personName = testId.replace('dropdown-avatar-', '');
-    expect(personName).toBeTruthy();
+    await expect(dropdown).toBeVisible();
 
     // Click and verify navigation
     const clickedPersonName =
       await panel.clickPersonInDropdownAndGetName(dropdown);
-    expect(clickedPersonName).toBeTruthy();
+    expect(clickedPersonName).not.toBe('');
     await authenticatedPage.waitForURL(/persons-panel/);
     const currentUrl = panel.getCurrentUrl();
     expect(currentUrl).toContain('persons-panel');
@@ -209,7 +193,10 @@ test.describe('Bookmarks Panel', () => {
       TEST_BOOKMARKS.REACT_DOCS
     );
     const tooltipText = await tooltip.textContent();
-    expect(tooltipText).toBeTruthy();
+    expect(tooltipText).not.toBeNull();
+    if (!tooltipText) {
+      throw new Error('Expected bookmark tooltip text to be present');
+    }
     expect(tooltipText).toContain('material');
   });
 });

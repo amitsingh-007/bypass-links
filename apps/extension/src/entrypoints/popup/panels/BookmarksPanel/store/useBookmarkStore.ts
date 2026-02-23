@@ -7,7 +7,7 @@ import {
   addToCache,
   bookmarksMapper,
   getEncryptedBookmark,
-  getFaviconProxyUrl,
+  getGoogleFaviconUrl,
   getEncryptedFolder,
 } from '@bypass/shared';
 import { create } from 'zustand';
@@ -200,7 +200,7 @@ const useBookmarkStore = create<State>()((set, get) => ({
     // Cache favicon for new URL
     addToCache(
       ECacheBucketKeys.favicon,
-      getFaviconProxyUrl(updatedBookmark.url)
+      getGoogleFaviconUrl(updatedBookmark.url)
     );
     set({ isSaveButtonActive: true });
     return true;

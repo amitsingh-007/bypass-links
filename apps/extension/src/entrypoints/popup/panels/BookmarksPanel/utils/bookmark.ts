@@ -2,7 +2,7 @@ import {
   ECacheBucketKeys,
   addAllToCache,
   getDecryptedBookmark,
-  getFaviconProxyUrl,
+  getGoogleFaviconUrl,
   type ContextBookmarks,
   type IBookmarksObj,
   type ITransformedBookmark,
@@ -54,7 +54,7 @@ export const cacheBookmarkFavicons = async () => {
   const { urlList } = bookmarks;
   const faviconUrls = Object.values(urlList).map((item) => {
     const bookmark = getDecryptedBookmark(item);
-    return getFaviconProxyUrl(bookmark.url);
+    return getGoogleFaviconUrl(bookmark.url);
   });
   await addAllToCache(ECacheBucketKeys.favicon, faviconUrls);
   console.log('Bookmark favicons cached');

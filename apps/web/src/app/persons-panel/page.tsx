@@ -5,6 +5,7 @@ import { getFromLocalStorage } from '@app/utils/storage';
 import {
   getDecryptedPerson,
   getFilteredPersons,
+  getYandexFaviconUrl,
   Header,
   type IPerson,
   type IPersons,
@@ -84,7 +85,11 @@ function PersonsPage() {
         {filteredAndOrderedPersons.length > 0 ? (
           <Persons
             persons={filteredAndOrderedPersons}
-            bookmarkListProps={{ fullscreen: false, showEditButton: false }}
+            bookmarkListProps={{
+              fullscreen: false,
+              showEditButton: false,
+              getFaviconUrl: getYandexFaviconUrl,
+            }}
             renderPerson={(person) => <PersonVirtualCell person={person} />}
             onLinkOpen={onLinkOpen}
           />

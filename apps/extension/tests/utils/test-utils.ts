@@ -1,5 +1,10 @@
 import { expect, type Page } from '@playwright/test';
-import { TEST_TIMEOUTS } from '@bypass/shared/tests';
+import {
+  fillSearchInput as fillSearchInputShared,
+  parseBadgeCount,
+} from '@bypass/shared/tests';
+
+// Re-export shared utilities for convenience
 
 /**
  * Navigate back from current folder or panel.
@@ -63,16 +68,6 @@ export const clickContextMenuItem = async (page: Page, id: string) => {
 };
 
 /**
- * Wait for debounced updates to apply (default 300ms).
- */
-export const waitForDebounce = async (
-  page: Page,
-  ms = TEST_TIMEOUTS.DEBOUNCE
-) => {
-  await page.waitForTimeout(ms);
-};
-
-/**
  * Count elements matching a selector.
  */
 export const countElements = async (page: Page, selector: string) => {
@@ -107,9 +102,7 @@ export const searchAndVerify = async (
     hiddenTexts = [],
     selector = '[data-testid^="person-item-"]',
   } = options;
-  const searchInput = page.getByPlaceholder('Search');
-  await searchInput.fill(searchText);
-  await waitForDebounce(page);
+  await fillSearchInputShared(page, searchText);
 
   for (const text of visibleTexts) {
     const element = page.locator(selector).filter({ hasText: text });
@@ -136,7 +129,7 @@ export const getStorageItem = async <T = unknown>(
 };
 
 /**
- * Parse count from badge text in format "Name (N)".
+ * Get badge count from person bookmark count badge.
  */
 export const getBadgeCount = async (
   page: Page,
@@ -153,11 +146,14 @@ export const getBadgeCount = async (
     );
   }
 
-  const countMatch = /\((\d+)\)/.exec(badgeText);
-
-  if (!countMatch) {
-    return 0;
-  }
-
-  return Number.parseInt(countMatch[1], 10);
+  return parseBadgeCount(badgeText);
 };
+
+export {
+  clickDropdownPersonAndGetName,
+  closeDialog,
+  clearSearchInput,
+  fillSearchInput,
+  getNumericBadgeValue,
+  parseBadgeCount,
+} from '@bypass/shared/tests';
