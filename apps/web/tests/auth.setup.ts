@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 import { chromium, expect, test as setup } from '@playwright/test';
+import { TEST_TIMEOUTS } from '@bypass/shared/tests';
 import { TEST_CREDENTIALS_KEY } from '../src/app/constants';
 import { AUTH_CACHE_DIR, WEB_STORAGE_PATH } from './auth-constants';
 
@@ -41,22 +42,27 @@ setup('authenticate and cache web storage', async ({}, testInfo) => {
   await page.goto(`${webUrl}/web-ext`, { waitUntil: 'networkidle' });
 
   const loginButton = page.getByRole('button', { name: 'Login' });
-  await expect(loginButton).toBeVisible();
+  await expect(loginButton).toBeVisible({ timeout: TEST_TIMEOUTS.AUTH });
   await loginButton.click();
 
   const logoutButton = page.getByRole('button', { name: 'Logout' });
-  await expect(logoutButton).toBeVisible();
-  await expect(logoutButton).toBeEnabled();
+  await expect(logoutButton).toBeVisible({ timeout: TEST_TIMEOUTS.AUTH });
+  await expect(logoutButton).toBeEnabled({ timeout: TEST_TIMEOUTS.AUTH });
 
   const bookmarksPageButton = page.getByRole('button', {
     name: 'Bookmarks Page',
   });
-  await expect(bookmarksPageButton).toBeEnabled();
-
-  await page.waitForFunction(() => {
-    const bookmarks = localStorage.getItem('bookmarks');
-    return bookmarks !== null;
+  await expect(bookmarksPageButton).toBeEnabled({
+    timeout: TEST_TIMEOUTS.AUTH,
   });
+
+  await page.waitForFunction(
+    () => {
+      const bookmarks = localStorage.getItem('bookmarks');
+      return bookmarks !== null;
+    },
+    { timeout: TEST_TIMEOUTS.AUTH }
+  );
 
   const localStorageData = await page.evaluate(() => {
     const data: Record<string, string> = {};
