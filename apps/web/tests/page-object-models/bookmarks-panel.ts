@@ -4,20 +4,6 @@ import { TEST_TIMEOUTS } from '@bypass/shared/tests';
 export class BookmarksPanel {
   constructor(readonly page: Page) {}
 
-  async search(query: string) {
-    const searchInput = this.getSearchInput();
-    await searchInput.fill(query);
-    // Wait for debounce by checking the search input value is set
-    await expect(searchInput).toHaveValue(query);
-  }
-
-  async clearSearch() {
-    const searchInput = this.getSearchInput();
-    await searchInput.clear();
-    // Wait for clear by checking the search input is empty
-    await expect(searchInput).toHaveValue('');
-  }
-
   async openFolder(folderName: string) {
     const folder = this.getFolderElement(folderName);
     await expect(folder).toBeVisible();

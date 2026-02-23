@@ -3,6 +3,7 @@ import { TEST_TIMEOUTS } from '@bypass/shared/tests';
 import {
   clickDialogButton,
   clickContextMenuItem,
+  closeDialog,
   countElements,
   fillDialogInput,
   getBadgeCount,
@@ -168,9 +169,7 @@ export class PersonsPanel {
     const avatar = dialog.locator('img');
     await expect(avatar).toBeVisible();
 
-    const closeButton = dialog.locator('[data-slot="dialog-close"]');
-    await closeButton.click();
-    await expect(dialog).toBeHidden();
+    await closeDialog(this.page, dialog);
   }
 
   async openPersonCard(personName: string) {

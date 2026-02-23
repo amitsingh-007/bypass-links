@@ -2,6 +2,8 @@ import {
   TEST_BOOKMARKS,
   TEST_FOLDERS,
   TEST_TIMEOUTS,
+  fillSearchInput,
+  clearSearchInput,
 } from '@bypass/shared/tests';
 import { test, expect } from '../fixtures/auth-fixture';
 import { BookmarksPanel } from '../page-object-models/bookmarks-panel';
@@ -74,28 +76,28 @@ test.describe('Bookmarks Panel', () => {
     const rootBadgeCount = await panel.getBadgeCount();
 
     // Search by title
-    await panel.search('ButtonGroup');
+    await fillSearchInput(authenticatedPage, 'ButtonGroup');
     await panel.verifyBookmarkExists(TEST_BOOKMARKS.GITHUB);
 
     // Clear and search by URL
-    await panel.clearSearch();
-    await panel.search('material');
+    await clearSearchInput(authenticatedPage);
+    await fillSearchInput(authenticatedPage, 'material');
     await panel.verifyBookmarkExists(TEST_BOOKMARKS.REACT_DOCS);
 
     // Clear and verify count restored
-    await panel.clearSearch();
+    await clearSearchInput(authenticatedPage);
     await expect(async () => {
       const countAfter = await panel.getBookmarkCount();
       expect(countAfter).toBe(countBefore);
     }).toPass();
 
     // Search for React and verify badge count updates
-    await panel.search('React');
+    await fillSearchInput(authenticatedPage, 'React');
     const searchBadgeCount = await panel.getBadgeCount();
     expect(searchBadgeCount).toBeLessThanOrEqual(rootBadgeCount);
 
     // Clear search
-    await panel.clearSearch();
+    await clearSearchInput(authenticatedPage);
   });
 
   test('should keep folders visible when searching and filter results', async ({
@@ -104,16 +106,16 @@ test.describe('Bookmarks Panel', () => {
     const panel = new BookmarksPanel(authenticatedPage);
 
     // Verify folders stay visible during search
-    await panel.search('nonexistent');
+    await fillSearchInput(authenticatedPage, 'nonexistent');
     await panel.verifyFolderExists(TEST_FOLDERS.MAIN);
 
     // Clear and verify filtering works
-    await panel.clearSearch();
-    await panel.search('React');
+    await clearSearchInput(authenticatedPage);
+    await fillSearchInput(authenticatedPage, 'React');
     const count = await panel.getBookmarkCount();
     expect(count).toBeGreaterThan(0);
 
-    await panel.clearSearch();
+    await clearSearchInput(authenticatedPage);
   });
 
   test('should open bookmark by double-clicking', async ({

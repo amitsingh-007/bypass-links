@@ -1,7 +1,11 @@
-import { TEST_PERSON_NAME, TEST_PERSONS } from '@bypass/shared/tests';
+import {
+  TEST_PERSON_NAME,
+  TEST_PERSONS,
+  closeDialog,
+  waitForDebounce,
+} from '@bypass/shared/tests';
 import { test, expect } from '../fixtures/persons-fixture';
 import { PersonsPanel } from '../utils/persons-panel';
-import { waitForDebounce } from '../utils/test-utils';
 
 /**
  * Persons Panel E2E Tests
@@ -48,12 +52,7 @@ test.describe.serial('Persons Panel', () => {
     const nameInput = dialog.getByPlaceholder('Enter name');
     await expect(nameInput).toBeVisible();
 
-    const closeButton = personsPage.locator('[data-slot="dialog-close"]');
-    if (await closeButton.isVisible()) {
-      await closeButton.click();
-    } else {
-      await personsPage.keyboard.press('Escape');
-    }
+    await closeDialog(personsPage, dialog);
 
     await expect(dialog).toBeHidden();
   });

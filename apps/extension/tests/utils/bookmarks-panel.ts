@@ -2,6 +2,7 @@ import { expect, type Page } from '@playwright/test';
 import { TEST_TIMEOUTS } from '@bypass/shared/tests';
 import {
   clickContextMenuItem as clickContextMenuItemUtil,
+  closeDialog,
   countElements,
   fillDialogInput,
   getBadgeCount as getBadgeCountUtil,
@@ -248,19 +249,10 @@ export class BookmarksPanel {
     return this.page.locator('[data-testid^="bookmark-item-"]');
   }
 
-  getDialogCloseButton() {
-    return this.page.getByTestId('modal-close-button');
-  }
-
   // ============ Composite Operations ============
 
   async closeDialog() {
-    const closeButton = this.getDialogCloseButton();
-    if (await closeButton.isVisible()) {
-      await closeButton.click();
-    } else {
-      await this.page.keyboard.press('Escape');
-    }
+    await closeDialog(this.page);
   }
 
   // ============ URL Editing Helpers ============
