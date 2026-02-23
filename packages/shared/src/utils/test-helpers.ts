@@ -1,5 +1,4 @@
 import { expect, type Page } from '@playwright/test';
-import { TEST_TIMEOUTS } from '../constants/e2e-tests';
 
 /**
  * Close a shadcn dialog using the close button or Escape key.
@@ -18,7 +17,7 @@ export const closeDialog = async (
     await page.keyboard.press('Escape');
   }
 
-  await expect(targetDialog).toBeHidden({ timeout: TEST_TIMEOUTS.LONG_WAIT });
+  await expect(targetDialog).toBeHidden();
 };
 
 /**
@@ -50,17 +49,7 @@ export const verifyModalVisible = async (page: Page, modalTestId?: string) => {
 };
 
 /**
- * Wait for debounced updates to apply (default 300ms).
- */
-export const waitForDebounce = async (
-  page: Page,
-  ms = TEST_TIMEOUTS.DEBOUNCE
-) => {
-  await page.waitForTimeout(ms);
-};
-
-/**
- * Fill a search input and wait for debounce.
+ * Fill a search input.
  */
 export const fillSearchInput = async (
   page: Page,
@@ -70,17 +59,15 @@ export const fillSearchInput = async (
   const searchInput = page.getByPlaceholder(placeholder);
   await searchInput.fill(query);
   await expect(searchInput).toHaveValue(query);
-  await waitForDebounce(page);
 };
 
 /**
- * Clear a search input and wait for debounce.
+ * Clear a search input.
  */
 export const clearSearchInput = async (page: Page, placeholder = 'Search') => {
   const searchInput = page.getByPlaceholder(placeholder);
   await searchInput.clear();
   await expect(searchInput).toHaveValue('');
-  await waitForDebounce(page);
 };
 
 /**

@@ -215,9 +215,7 @@ test.describe.serial('Shortcuts Panel', () => {
     await deleteButton.click();
 
     // Verify count decreased back to initial
-    await expect(panel.getRuleElements()).toHaveCount(initialCount, {
-      timeout: 3000,
-    });
+    await expect(panel.getRuleElements()).toHaveCount(initialCount);
   });
 
   test('should open external link in new tab', async ({
@@ -240,14 +238,13 @@ test.describe.serial('Shortcuts Panel', () => {
 
     // Click and wait for new page to open
     const [newPage] = await Promise.all([
-      context.waitForEvent('page', { timeout: 10_000 }),
+      context.waitForEvent('page'),
       externalLinkButton.click(),
     ]);
 
     // Wait for navigation to complete
     await expect
       .poll(() => newPage.url(), {
-        timeout: 10_000,
         message: 'Page should navigate from about:blank to actual URL',
       })
       .not.toBe('about:blank');

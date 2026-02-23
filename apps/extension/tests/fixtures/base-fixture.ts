@@ -131,7 +131,7 @@ export const authenticateAndNavigate = async (
 
   // Step 5: Verify we're logged in (logout button should be visible)
   const logoutButton = page.getByRole('button', { name: 'Logout' });
-  await logoutButton.waitFor({ state: 'visible', timeout: 10_000 });
+  await logoutButton.waitFor({ state: 'visible' });
 
   // Step 6: Navigate to requested panel
   if (panelName && panelName !== 'home') {

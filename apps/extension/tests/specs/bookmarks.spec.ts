@@ -2,7 +2,6 @@ import {
   TEST_BOOKMARKS,
   TEST_FOLDERS,
   TEST_PERSONS,
-  TEST_TIMEOUTS,
 } from '@bypass/shared/tests';
 import { test, expect } from '../fixtures/bookmark-fixture';
 import { BookmarksPanel } from '../utils/bookmarks-panel';
@@ -140,7 +139,7 @@ test.describe.serial('Bookmarks Panel', () => {
       await expect(bookmarkRow).toBeVisible();
 
       const [newPage] = await Promise.all([
-        context.waitForEvent('page', { timeout: TEST_TIMEOUTS.PAGE_OPEN }),
+        context.waitForEvent('page'),
         bookmarkRow.dblclick(),
       ]);
 
@@ -159,7 +158,7 @@ test.describe.serial('Bookmarks Panel', () => {
       await expect(openOption).toBeVisible();
 
       const [contextMenuPage] = await Promise.all([
-        context.waitForEvent('page', { timeout: TEST_TIMEOUTS.PAGE_OPEN }),
+        context.waitForEvent('page'),
         openOption.click(),
       ]);
 
@@ -175,8 +174,6 @@ test.describe.serial('Bookmarks Panel', () => {
       await panel.selectBookmark(TEST_BOOKMARKS.REACT_DOCS);
 
       await bookmarksPage.keyboard.press('Meta+x');
-      await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.DEBOUNCE);
-
       await bookmarksPage.keyboard.press('Meta+v');
 
       await panel.verifyBookmarkExists(TEST_BOOKMARKS.REACT_DOCS);
@@ -386,7 +383,7 @@ test.describe.serial('Bookmarks Panel', () => {
 
     const folderName = 'Persistence Test Folder';
     const folderRow = panel.getFolderElement(folderName);
-    await expect(folderRow).toBeVisible({ timeout: TEST_TIMEOUTS.LONG_WAIT });
+    await expect(folderRow).toBeVisible();
 
     await folderRow.click({ button: 'right' });
 

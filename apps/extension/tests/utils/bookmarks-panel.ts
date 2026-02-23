@@ -1,5 +1,4 @@
 import { expect, type Page } from '@playwright/test';
-import { TEST_TIMEOUTS } from '@bypass/shared/tests';
 import {
   clickContextMenuItem as clickContextMenuItemUtil,
   closeDialog,
@@ -10,7 +9,6 @@ import {
   openDialog,
   openFolder,
   searchAndVerify,
-  waitForDebounce,
 } from './test-utils';
 
 export class BookmarksPanel {
@@ -22,7 +20,6 @@ export class BookmarksPanel {
   ) {
     const searchInput = this.page.getByPlaceholder('Search');
     await searchInput.fill(query);
-    await waitForDebounce(this.page);
 
     if (options?.visibleTexts ?? options?.hiddenTexts) {
       await searchAndVerify(this.page, query, {
@@ -36,7 +33,6 @@ export class BookmarksPanel {
   async clearSearch() {
     const searchInput = this.page.getByPlaceholder('Search');
     await searchInput.clear();
-    await waitForDebounce(this.page);
   }
 
   async openFolder(folderName: string) {
@@ -89,7 +85,6 @@ export class BookmarksPanel {
 
   async pasteBookmark() {
     await this.clickContextMenuItem('paste');
-    await waitForDebounce(this.page);
   }
 
   async selectBookmark(bookmarkTitle: string) {
@@ -127,11 +122,11 @@ export class BookmarksPanel {
   async hoverAvatar() {
     const avatarGroup = this.page.getByTestId('avatar-group');
     const avatar = avatarGroup.locator('[data-testid^="avatar-"]').first();
-    await expect(avatar).toBeVisible({ timeout: TEST_TIMEOUTS.LONG_WAIT });
+    await expect(avatar).toBeVisible();
     await avatar.hover();
 
     const dropdown = this.page.locator('[data-testid^="person-dropdown-"]');
-    await expect(dropdown).toBeVisible({ timeout: TEST_TIMEOUTS.LONG_WAIT });
+    await expect(dropdown).toBeVisible();
 
     return { dropdown, avatar };
   }
@@ -140,12 +135,7 @@ export class BookmarksPanel {
     const dropdownAvatar = dropdown.locator(
       '[data-testid^="dropdown-avatar-"]'
     );
-    await dropdownAvatar.waitFor({
-      state: 'visible',
-      timeout: TEST_TIMEOUTS.IMAGE_LOAD,
-    });
-    // Wait for element to be stable before clicking
-    await this.page.waitForTimeout(TEST_TIMEOUTS.DEBOUNCE);
+    await dropdownAvatar.waitFor({ state: 'visible' });
     const testId = (await dropdownAvatar.getAttribute('data-testid')) ?? '';
     const personName = testId.replace('dropdown-avatar-', '');
     await dropdownAvatar.click();

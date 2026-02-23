@@ -67,9 +67,7 @@ setup('authenticate and cache extension storage', async ({}, testInfo) => {
   );
 
   let [background] = browserContext.serviceWorkers();
-  background ||= await browserContext.waitForEvent('serviceworker', {
-    timeout: 20_000,
-  });
+  background ||= await browserContext.waitForEvent('serviceworker');
   const extensionId = background.url().split('/')[2];
 
   await browserContext.addInitScript(
@@ -87,12 +85,12 @@ setup('authenticate and cache extension storage', async ({}, testInfo) => {
   await page.goto(extUrl, { waitUntil: 'domcontentloaded' });
 
   const loginButton = page.getByRole('button', { name: 'Login' });
-  await loginButton.waitFor({ state: 'visible', timeout: 20_000 });
+  await loginButton.waitFor({ state: 'visible' });
   await loginButton.click();
 
   const logoutButton = page.getByRole('button', { name: 'Logout' });
-  await expect(logoutButton).toBeVisible({ timeout: 30_000 });
-  await expect(logoutButton).toBeEnabled({ timeout: 30_000 });
+  await expect(logoutButton).toBeVisible();
+  await expect(logoutButton).toBeEnabled();
 
   const chromeStorageData = await page.evaluate(async () =>
     browser.storage.local.get(null)

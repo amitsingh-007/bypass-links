@@ -152,7 +152,6 @@ export const getBadgeCount = async (
 export {
   closeDialog,
   clearSearchInput,
-  waitForDebounce,
   fillSearchInput,
   parseBadgeCount,
 } from '@bypass/shared/tests';

@@ -1,6 +1,4 @@
-import { TEST_TIMEOUTS } from '@bypass/shared/tests';
 import { test, expect as homeExpect } from '../fixtures/home-popup-fixture';
-import { waitForDebounce } from '../utils/test-utils';
 
 /**
  * LastVisitedButton E2E Tests
@@ -24,39 +22,37 @@ test.describe.serial('LastVisitedButton', () => {
 
     // Click to set initial timestamp
     await lastVisitedButton.click();
-    await homePage.waitForTimeout(TEST_TIMEOUTS.NAVIGATION);
 
     // Move away then hover to trigger tooltip fresh
     await homePage.mouse.move(0, 0);
-    await waitForDebounce(homePage);
     await lastVisitedButton.hover();
-    await homePage.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
     // Get the tooltip element and capture its text
     const tooltip = homePage
       .locator('[data-slot="tooltip-content"]')
       .filter({ hasText: /,/ });
+    await homeExpect(tooltip).toBeVisible();
     const initialTooltipText = await tooltip.textContent();
     homeExpect(initialTooltipText).toBeTruthy();
 
     // Move away from tooltip
     await homePage.mouse.move(0, 0);
 
-    // Wait 1.1s to ensure timestamps differ (second-precision)
-    await homePage.waitForTimeout(1100);
+    // Wait until the next second tick to ensure timestamp precision changes.
+    const firstClickTime = Date.now();
+    await homeExpect
+      .poll(() => Date.now())
+      .toBeGreaterThanOrEqual(firstClickTime + 1000);
 
     // Click again to update timestamp
     await lastVisitedButton.click();
-    await homePage.waitForTimeout(TEST_TIMEOUTS.NAVIGATION);
 
     // Move away then hover to trigger tooltip fresh
     await homePage.mouse.move(0, 0);
-    await waitForDebounce(homePage);
+    await homeExpect(tooltip).toBeHidden();
     await lastVisitedButton.hover();
 
     // Wait for tooltip text to change from initial value (auto-retrying)
-    await homeExpect(tooltip).not.toHaveText(initialTooltipText!, {
-      timeout: 5000,
-    });
+    await homeExpect(tooltip).not.toHaveText(initialTooltipText!);
   });
 });

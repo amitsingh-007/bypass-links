@@ -1,4 +1,3 @@
-import { TEST_TIMEOUTS } from '@bypass/shared/tests';
 import { test, expect as homeExpect } from '../fixtures/home-popup-fixture';
 
 /**
@@ -72,7 +71,7 @@ test.describe.serial('Signed In', () => {
     // Wait for button to show Unpin state (bookmark saved)
     await homeExpect(
       homePage.getByTestId('quick-bookmark-button')
-    ).toContainText('Unpin', { timeout: TEST_TIMEOUTS.NAVIGATION });
+    ).toContainText('Unpin');
   });
 
   test('should show Unpin and delete bookmark', async ({ homePage }) => {

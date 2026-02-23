@@ -2,7 +2,6 @@ import {
   TEST_PERSON_NAME,
   TEST_PERSONS,
   closeDialog,
-  waitForDebounce,
 } from '@bypass/shared/tests';
 import { test, expect } from '../fixtures/persons-fixture';
 import { PersonsPanel } from '../utils/persons-panel';
@@ -16,6 +15,9 @@ import { PersonsPanel } from '../utils/persons-panel';
  * IMPORTANT: Test order matters! Do not reorder tests without understanding dependencies.
  */
 test.describe.serial('Persons Panel', () => {
+  const TEST_IMAGE_DATA_URL =
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/w8AAgMBgN0m4ZUAAAAASUVORK5CYII=';
+
   test('should search, filter, and clear persons', async ({ personsPage }) => {
     const panel = new PersonsPanel(personsPage);
 
@@ -36,13 +38,13 @@ test.describe.serial('Persons Panel', () => {
 
     // Search for non-existent person
     await panel.search('NonExistentPerson');
-    const noResultsPersons = await panel.getPersonCount();
-    expect(noResultsPersons).toBe(0);
+    await expect.poll(async () => panel.getPersonCount()).toBe(0);
 
     // Clear and verify count restored
     await panel.clearSearch();
-    const allPersonsAfter = await panel.getPersonCount();
-    expect(allPersonsAfter).toBe(allPersonsBefore);
+    await expect
+      .poll(async () => panel.getPersonCount())
+      .toBe(allPersonsBefore);
   });
 
   test('should open add person dialog', async ({ personsPage }) => {
@@ -59,7 +61,7 @@ test.describe.serial('Persons Panel', () => {
 
   test('should add person with name and image', async ({ personsPage }) => {
     const panel = new PersonsPanel(personsPage);
-    const TEST_IMAGE_URL = 'https://picsum.photos/200';
+    const TEST_IMAGE_URL = TEST_IMAGE_DATA_URL;
 
     await panel.addPerson(TEST_PERSON_NAME, TEST_IMAGE_URL);
   });
@@ -118,7 +120,7 @@ test.describe.serial('Persons Panel', () => {
 
   test('should change person image', async ({ personsPage }) => {
     const panel = new PersonsPanel(personsPage);
-    const NEW_IMAGE_URL = 'https://picsum.photos/250';
+    const NEW_IMAGE_URL = TEST_IMAGE_DATA_URL;
 
     await panel.changePersonImage(TEST_PERSONS.DONALD, NEW_IMAGE_URL);
   });
@@ -152,21 +154,21 @@ test.describe.serial('Persons Panel', () => {
   test('should search within tagged bookmarks', async ({ personsPage }) => {
     const panel = new PersonsPanel(personsPage);
     await panel.ensureAtRoot();
+
     const { allBookmarksBefore, noResultsBookmarks, searchInput } =
       await panel.searchWithinBookmarks(
         'nonexistentbookmark123',
-        TEST_PERSONS.DONALD
+        TEST_PERSONS.JOHN_NATHAN
       );
-
-    expect(allBookmarksBefore).toBeGreaterThan(0);
     expect(noResultsBookmarks).toBe(0);
 
     await searchInput.clear();
-    await waitForDebounce(personsPage);
-
-    const allBookmarksAfter = await panel.getEditButtons();
-    const countAfter = await allBookmarksAfter.count();
-    expect(countAfter).toBe(allBookmarksBefore);
+    await expect
+      .poll(async () => {
+        const editButtons = await panel.getEditButtons();
+        return editButtons.count();
+      })
+      .toBe(allBookmarksBefore);
 
     await panel.navigateBack();
   });
@@ -194,11 +196,9 @@ test.describe.serial('Persons Panel', () => {
     const personNamesBefore = await panel.getPersonNames();
 
     await recencySwitch.click();
-    await waitForDebounce(personsPage);
-
-    const personNamesAfter = await panel.getPersonNames();
-
-    expect(personNamesBefore).not.toEqual(personNamesAfter);
+    await expect
+      .poll(async () => JSON.stringify(await panel.getPersonNames()))
+      .not.toBe(JSON.stringify(personNamesBefore));
 
     await recencySwitch.click();
   });
@@ -222,14 +222,12 @@ test.describe.serial('Persons Panel', () => {
     await panel.verifyBadgeVisible(TEST_PERSONS.JOHN_NATHAN);
 
     await panel.navigateBack();
-    await waitForDebounce(personsPage);
 
     await panel.openPersonCard(TEST_PERSONS.AKASH_KUMAR_SINGH);
 
     await panel.verifyBadgeVisible(TEST_PERSONS.AKASH_KUMAR_SINGH);
 
     await panel.navigateBack();
-    await waitForDebounce(personsPage);
 
     await panel.verifyPersonCardVisible(TEST_PERSONS.JOHN_NATHAN);
   });

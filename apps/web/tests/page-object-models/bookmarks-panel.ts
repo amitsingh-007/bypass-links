@@ -1,5 +1,4 @@
 import { expect, type Page, type Locator } from '@playwright/test';
-import { TEST_TIMEOUTS } from '@bypass/shared/tests';
 
 export class BookmarksPanel {
   constructor(readonly page: Page) {}
@@ -35,14 +34,14 @@ export class BookmarksPanel {
   async hoverAvatar(): Promise<Locator> {
     const avatarGroup = this.getAvatarGroup();
     const avatar = avatarGroup.locator('[data-testid^="avatar-"]').first();
-    await expect(avatar).toBeVisible({ timeout: TEST_TIMEOUTS.LONG_WAIT });
+    await expect(avatar).toBeVisible();
     await avatar.hover();
 
     // Return the first visible dropdown
     const dropdown = this.page
       .locator('[data-testid^="person-dropdown-"]')
       .first();
-    await expect(dropdown).toBeVisible({ timeout: TEST_TIMEOUTS.LONG_WAIT });
+    await expect(dropdown).toBeVisible();
 
     return dropdown;
   }
@@ -75,7 +74,6 @@ export class BookmarksPanel {
     );
     await dropdownAvatar.waitFor({
       state: 'visible',
-      timeout: TEST_TIMEOUTS.IMAGE_LOAD,
     });
     // Wait for element to be stable before clicking
     await expect(dropdownAvatar).toBeEnabled();
@@ -96,7 +94,7 @@ export class BookmarksPanel {
     await favicon.hover();
     // Wait for tooltip to appear - shadcn renders tooltip with data-slot="tooltip-content"
     const tooltip = this.page.locator('[data-slot="tooltip-content"]').first();
-    await expect(tooltip).toBeVisible({ timeout: TEST_TIMEOUTS.LONG_WAIT });
+    await expect(tooltip).toBeVisible();
     return tooltip;
   }
 

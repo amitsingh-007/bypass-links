@@ -1,5 +1,5 @@
 import { expect, type Locator, type Page } from '@playwright/test';
-import { TEST_TIMEOUTS, parseBadgeCount } from '@bypass/shared/tests';
+import { parseBadgeCount } from '@bypass/shared/tests';
 
 export class PersonsPanel {
   constructor(readonly page: Page) {}
@@ -35,22 +35,20 @@ export class PersonsPanel {
     await this.waitForBookmarksToLoad();
   }
 
-  async waitForBookmarksToLoad(timeout = TEST_TIMEOUTS.LONG_WAIT) {
+  async waitForBookmarksToLoad() {
     const modal = this.getModal();
     // First wait for loading to complete
     await modal
       .locator('[data-testid="bookmarks-loading"]')
-      .waitFor({ state: 'hidden', timeout })
+      .waitFor({ state: 'hidden' })
       .catch(() => null); // Loading indicator may not appear if loading is fast
     // Then wait for either bookmarks to appear OR the "no bookmarks" message
     await Promise.race([
       modal
         .locator('[data-testid^="bookmark-item-"]')
         .first()
-        .waitFor({ state: 'visible', timeout }),
-      modal
-        .getByTestId('no-bookmarks-message')
-        .waitFor({ state: 'visible', timeout }),
+        .waitFor({ state: 'visible' }),
+      modal.getByTestId('no-bookmarks-message').waitFor({ state: 'visible' }),
     ]);
   }
 

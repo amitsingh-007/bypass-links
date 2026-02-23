@@ -1,7 +1,6 @@
 import {
   TEST_BOOKMARKS,
   TEST_FOLDERS,
-  TEST_TIMEOUTS,
   fillSearchInput,
   clearSearchInput,
 } from '@bypass/shared/tests';
@@ -16,10 +15,10 @@ test.describe('Bookmarks Panel', () => {
       authenticatedPage
         .locator('[data-testid^="bookmark-item-"]')
         .first()
-        .waitFor({ state: 'visible', timeout: TEST_TIMEOUTS.LONG_WAIT }),
+        .waitFor({ state: 'visible' }),
       authenticatedPage
         .getByText(/no bookmarks/i)
-        .waitFor({ state: 'visible', timeout: TEST_TIMEOUTS.LONG_WAIT }),
+        .waitFor({ state: 'visible' }),
     ]);
   });
 
@@ -127,9 +126,7 @@ test.describe('Bookmarks Panel', () => {
 
     // Listen for new page event before triggering the action
     const [newPage] = await Promise.all([
-      authenticatedPage.waitForEvent('popup', {
-        timeout: TEST_TIMEOUTS.PAGE_OPEN,
-      }),
+      authenticatedPage.waitForEvent('popup'),
       panel.openBookmarkByDoubleClick(TEST_BOOKMARKS.REACT_DOCS),
     ]);
 
@@ -143,15 +140,13 @@ test.describe('Bookmarks Panel', () => {
   }) => {
     // Verify avatars are displayed
     const avatarGroups = authenticatedPage.getByTestId('avatar-group');
-    await expect(avatarGroups.first()).toBeVisible({
-      timeout: TEST_TIMEOUTS.LONG_WAIT,
-    });
+    await expect(avatarGroups.first()).toBeVisible();
 
     const panel = new BookmarksPanel(authenticatedPage);
 
     // Hover and verify dropdown
     const dropdown = await panel.hoverAvatar();
-    await expect(dropdown).toBeVisible({ timeout: TEST_TIMEOUTS.LONG_WAIT });
+    await expect(dropdown).toBeVisible();
 
     // Verify person name in dropdown
     const avatar = dropdown.locator('[data-testid^="dropdown-avatar-"]');

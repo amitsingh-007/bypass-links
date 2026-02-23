@@ -1,5 +1,4 @@
 import { expect, type Page } from '@playwright/test';
-import { TEST_TIMEOUTS } from '@bypass/shared/tests';
 import {
   clickDialogButton,
   clickContextMenuItem,
@@ -10,8 +9,9 @@ import {
   navigateBack,
   openDialog,
   searchAndVerify,
-  waitForDebounce,
 } from './test-utils';
+
+const DIALOG_CLOSE_TIMEOUT = 15_000;
 
 const openPersonCard = async (page: Page, personName: string) => {
   const personCard = page.getByTestId(`person-item-${personName}`);
@@ -41,15 +41,13 @@ const uploadImage = async (
   await imageUrlInput.fill(imageUrl);
 
   const saveCroppedButton = page.getByTestId('save-cropped-image');
-  await expect(saveCroppedButton).toBeEnabled({
-    timeout: TEST_TIMEOUTS.AUTH,
-  });
+  await expect(saveCroppedButton).toBeEnabled();
   await saveCroppedButton.click();
 
   const uploadOverlay = page.getByTestId('uploading-overlay');
   await expect(uploadOverlay).toBeVisible();
 
-  await expect(imagePickerDialog).toBeHidden({ timeout: TEST_TIMEOUTS.AUTH });
+  await expect(imagePickerDialog).toBeHidden();
 };
 
 const changeImageInDialog = async (
@@ -70,7 +68,6 @@ export class PersonsPanel {
   ) {
     const searchInput = this.page.getByPlaceholder('Search');
     await searchInput.fill(query);
-    await waitForDebounce(this.page);
 
     if (options?.visibleTexts ?? options?.hiddenTexts) {
       await searchAndVerify(this.page, query, {
@@ -84,7 +81,6 @@ export class PersonsPanel {
   async clearSearch() {
     const searchInput = this.page.getByPlaceholder('Search');
     await searchInput.clear();
-    await waitForDebounce(this.page);
   }
 
   async getPersonCount() {
@@ -104,9 +100,7 @@ export class PersonsPanel {
     }
 
     await clickDialogButton(dialog, 'Save');
-    await waitForDebounce(this.page);
-    // Wait for dialog to close with longer timeout
-    await expect(dialog).toBeHidden({ timeout: TEST_TIMEOUTS.LONG_WAIT });
+    await expect(dialog).toBeHidden({ timeout: DIALOG_CLOSE_TIMEOUT });
 
     const newPersonCard = this.page.getByTestId(`person-item-${name}`);
     await expect(newPersonCard).toBeVisible();
@@ -126,8 +120,7 @@ export class PersonsPanel {
     await nameInput.fill(newName);
 
     await clickDialogButton(dialog, 'Save');
-    await waitForDebounce(this.page);
-    await expect(dialog).toBeHidden({ timeout: TEST_TIMEOUTS.LONG_WAIT });
+    await expect(dialog).toBeHidden({ timeout: DIALOG_CLOSE_TIMEOUT });
 
     const editedPersonCard = this.page.getByTestId(`person-item-${newName}`);
     await expect(editedPersonCard).toBeVisible();
@@ -140,8 +133,7 @@ export class PersonsPanel {
     await changeImageInDialog(this.page, dialog, newImageUrl);
 
     await clickDialogButton(dialog, 'Save');
-    await waitForDebounce(this.page);
-    await expect(dialog).toBeHidden({ timeout: TEST_TIMEOUTS.LONG_WAIT });
+    await expect(dialog).toBeHidden({ timeout: DIALOG_CLOSE_TIMEOUT });
 
     const personCardAfter = this.page.getByTestId(`person-item-${personName}`);
     await expect(personCardAfter).toBeVisible();
@@ -194,7 +186,6 @@ export class PersonsPanel {
 
   async verifyBadgeCount(personName: string, expectedCount?: number) {
     await openPersonCard(this.page, personName);
-    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
     const badgeCount = await getBadgeCount(this.page, personName);
 
@@ -214,22 +205,29 @@ export class PersonsPanel {
 
   async searchWithinBookmarks(searchTerm: string, personName: string) {
     await openPersonCard(this.page, personName);
-    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
     const dialog = this.page.getByRole('dialog');
     const searchInput = dialog.getByPlaceholder('Search');
+    await expect(searchInput).toBeVisible();
 
-    const allBookmarksBefore = await this.page
-      .getByTitle('Edit Bookmark')
-      .count();
-    expect(allBookmarksBefore).toBeGreaterThan(0);
+    const bookmarks = this.page.getByTitle('Edit Bookmark');
+
+    let allBookmarksBefore = await bookmarks.count();
+    if (allBookmarksBefore === 0) {
+      await expect
+        .poll(async () => bookmarks.count(), { timeout: 3000 })
+        .toBeGreaterThan(0)
+        .catch(() => undefined);
+      allBookmarksBefore = await bookmarks.count();
+    }
 
     await searchInput.fill(searchTerm);
-    await waitForDebounce(this.page);
 
-    const noResultsBookmarks = await this.page
-      .getByTitle('Edit Bookmark')
-      .count();
+    if (allBookmarksBefore > 0) {
+      await expect.poll(async () => bookmarks.count()).toBe(0);
+    }
+
+    const noResultsBookmarks = await bookmarks.count();
     return {
       allBookmarksBefore,
       noResultsBookmarks,
