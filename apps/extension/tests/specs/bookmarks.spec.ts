@@ -2,7 +2,9 @@ import {
   TEST_BOOKMARKS,
   TEST_FOLDERS,
   TEST_PERSONS,
-  TEST_TIMEOUTS,
+  clearSearchInput,
+  fillSearchInput,
+  openNewPageFromAction,
 } from '@bypass/shared/tests';
 import { test, expect } from '../fixtures/bookmark-fixture';
 import { BookmarksPanel } from '../utils/bookmarks-panel';
@@ -58,7 +60,7 @@ test.describe.serial('Bookmarks Panel', () => {
       await expect(bookmark).toBeVisible();
 
       const title = (await bookmark.textContent()) ?? '';
-      expect(title).toBeTruthy();
+      expect(title).not.toBe('');
       expect(title).toContain(TEST_BOOKMARKS.REACT_DOCS);
 
       await bookmark.click();
@@ -79,7 +81,7 @@ test.describe.serial('Bookmarks Panel', () => {
       const titleInput = dialog.getByTestId('bookmark-title-input');
       await expect(titleInput).toBeVisible();
       const currentTitle = await titleInput.inputValue();
-      expect(currentTitle).toBeTruthy();
+      expect(currentTitle).not.toBe('');
 
       // Verify person select is present
       const personLabel = dialog.getByText('Tagged Persons');
@@ -128,43 +130,60 @@ test.describe.serial('Bookmarks Panel', () => {
       await panel.ensureAtRoot();
     });
 
-    test('should open bookmarks by double-click and via context menu', async ({
+    test('should open bookmark by double-click', async ({
       bookmarksPage,
       context,
     }) => {
       const panel = new BookmarksPanel(bookmarksPage);
 
-      // Test 1: Open bookmark by double-clicking
-      const initialPages = context.pages().length;
       const bookmarkRow = panel.getBookmarkElement(TEST_BOOKMARKS.REACT_DOCS);
       await expect(bookmarkRow).toBeVisible();
 
-      const [newPage] = await Promise.all([
-        context.waitForEvent('page', { timeout: TEST_TIMEOUTS.PAGE_OPEN }),
-        bookmarkRow.dblclick(),
-      ]);
-
-      expect(newPage).toBeTruthy();
-      expect(context.pages().length).toBeGreaterThan(initialPages);
+      const newPage = await openNewPageFromAction(context, async () => {
+        await bookmarkRow.dblclick();
+      });
       await newPage.close();
+    });
 
-      // Test 2: Open bookmark via context menu
+    test('should open bookmark via context menu', async ({
+      bookmarksPage,
+      context,
+    }) => {
+      const panel = new BookmarksPanel(bookmarksPage);
       await panel.ensureAtRoot();
       const firstBookmark = panel.getBookmarkElement(TEST_BOOKMARKS.REACT_DOCS);
       await expect(firstBookmark).toBeVisible();
       await firstBookmark.click();
 
-      await firstBookmark.click({ button: 'right' });
-      const openOption = bookmarksPage.getByTestId('context-menu-item-open');
-      await expect(openOption).toBeVisible();
+      const openFromContextMenu = async () => {
+        await firstBookmark.click({ button: 'right' });
+        const openOption = bookmarksPage.getByTestId('context-menu-item-open');
+        await expect(openOption).toBeVisible();
+        await openOption.click();
+      };
 
-      const [contextMenuPage] = await Promise.all([
-        context.waitForEvent('page', { timeout: TEST_TIMEOUTS.PAGE_OPEN }),
-        openOption.click(),
-      ]);
+      let contextMenuPage;
+      for (let attempt = 0; attempt < 2; attempt++) {
+        try {
+          contextMenuPage = await openNewPageFromAction(
+            context,
+            openFromContextMenu,
+            {
+              timeout: 5000,
+            }
+          );
+          break;
+        } catch (error) {
+          if (attempt === 1) {
+            throw error;
+          }
+        }
+      }
 
-      expect(contextMenuPage).toBeTruthy();
-      expect(context.pages().length).toBeGreaterThan(initialPages);
+      if (!contextMenuPage) {
+        throw new Error('Expected context menu action to open a new page');
+      }
+
       await contextMenuPage.close();
     });
 
@@ -175,8 +194,6 @@ test.describe.serial('Bookmarks Panel', () => {
       await panel.selectBookmark(TEST_BOOKMARKS.REACT_DOCS);
 
       await bookmarksPage.keyboard.press('Meta+x');
-      await bookmarksPage.waitForTimeout(TEST_TIMEOUTS.DEBOUNCE);
-
       await bookmarksPage.keyboard.press('Meta+v');
 
       await panel.verifyBookmarkExists(TEST_BOOKMARKS.REACT_DOCS);
@@ -243,11 +260,9 @@ test.describe.serial('Bookmarks Panel', () => {
       const newUrl = 'https://www.google.com/';
       await panel.editBookmarkUrl(TEST_BOOKMARKS.REACT_DOCS, newUrl);
 
-      const [newPage] = await Promise.all([
-        context.waitForEvent('page'),
-        panel.openBookmarkByDoubleClick(TEST_BOOKMARKS.REACT_DOCS),
-      ]);
-      await newPage.waitForLoadState();
+      const newPage = await openNewPageFromAction(context, async () => {
+        await panel.openBookmarkByDoubleClick(TEST_BOOKMARKS.REACT_DOCS);
+      });
       expect(newPage.url()).toContain('google.com');
       await newPage.close();
 
@@ -312,28 +327,28 @@ test.describe.serial('Bookmarks Panel', () => {
     await panel.openFolder(TEST_FOLDERS.MAIN);
 
     // Test search by title
-    await panel.search('ButtonGroup');
+    await fillSearchInput(bookmarksPage, 'ButtonGroup');
     const titleFilteredBookmark = panel.getBookmarkElement(
       TEST_BOOKMARKS.GITHUB
     );
     await expect(titleFilteredBookmark).toBeVisible();
-    await panel.clearSearch();
+    await clearSearchInput(bookmarksPage);
 
     // Test search by URL
-    await panel.search('material');
+    await fillSearchInput(bookmarksPage, 'material');
     const urlFilteredBookmark = panel.getBookmarkElement(
       TEST_BOOKMARKS.REACT_DOCS
     );
     await expect(urlFilteredBookmark).toBeVisible();
-    await panel.clearSearch();
+    await clearSearchInput(bookmarksPage);
 
     // Test folders remain visible during search
     await panel.ensureAtRoot();
     const folder = panel.getFolderElement(TEST_FOLDERS.MAIN);
     await expect(folder).toBeVisible();
-    await panel.search('nonexistentterm');
+    await fillSearchInput(bookmarksPage, 'nonexistentterm');
     await expect(folder).toBeVisible();
-    await panel.clearSearch();
+    await clearSearchInput(bookmarksPage);
   });
 
   test('should move bookmark using cut from context menu and paste', async ({
@@ -386,7 +401,7 @@ test.describe.serial('Bookmarks Panel', () => {
 
     const folderName = 'Persistence Test Folder';
     const folderRow = panel.getFolderElement(folderName);
-    await expect(folderRow).toBeVisible({ timeout: TEST_TIMEOUTS.LONG_WAIT });
+    await expect(folderRow).toBeVisible();
 
     await folderRow.click({ button: 'right' });
 

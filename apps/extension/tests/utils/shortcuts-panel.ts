@@ -1,6 +1,4 @@
 import { type Page } from '@playwright/test';
-import { TEST_TIMEOUTS } from '@bypass/shared/tests';
-import { waitForDebounce } from './test-utils';
 
 /**
  * ShortcutsPanel utility class for E2E testing of the shortcuts/redirection panel.
@@ -11,22 +9,7 @@ export class ShortcutsPanel {
 
   async waitForLoading() {
     const loadingOverlay = this.page.getByTestId('loading-overlay');
-    await loadingOverlay.waitFor({
-      state: 'hidden',
-      timeout: TEST_TIMEOUTS.LONG_WAIT,
-    });
-  }
-
-  async search(query: string) {
-    const searchInput = this.page.getByPlaceholder('Search');
-    await searchInput.fill(query);
-    await waitForDebounce(this.page);
-  }
-
-  async clearSearch() {
-    const searchInput = this.page.getByPlaceholder('Search');
-    await searchInput.clear();
-    await waitForDebounce(this.page);
+    await loadingOverlay.waitFor({ state: 'hidden' });
   }
 
   getRuleElements() {

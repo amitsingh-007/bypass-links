@@ -1,27 +1,17 @@
 import { expect, type Locator, type Page } from '@playwright/test';
-import { TEST_TIMEOUTS } from '@bypass/shared/tests';
+import { getNumericBadgeValue, parseBadgeCount } from '@bypass/shared/tests';
 
 export class PersonsPanel {
   constructor(readonly page: Page) {}
-
-  async search(query: string) {
-    await this.setSearchInput(this.getSearchInput(), query);
-  }
-
-  async clearSearch() {
-    await this.clearSearchInput(this.getSearchInput());
-  }
 
   async getPersonCount(): Promise<number> {
     return this.page.locator('[data-testid^="person-item-"]').count();
   }
 
   async getHeaderPersonCount(): Promise<number> {
-    const headerBadge = this.page.getByTestId('header-badge');
-    await expect(headerBadge).toBeVisible();
-    const headerText = await headerBadge.textContent();
-    const match = /\((\d+)\)/.exec(headerText ?? '');
-    return match ? Number.parseInt(match[1], 10) : 0;
+    return getNumericBadgeValue(this.page, 'header-badge', {
+      fallbackToAnyNumber: true,
+    });
   }
 
   async verifyPersonExists(name: string) {
@@ -44,22 +34,20 @@ export class PersonsPanel {
     await this.waitForBookmarksToLoad();
   }
 
-  async waitForBookmarksToLoad(timeout = TEST_TIMEOUTS.LONG_WAIT) {
+  async waitForBookmarksToLoad() {
     const modal = this.getModal();
     // First wait for loading to complete
     await modal
       .locator('[data-testid="bookmarks-loading"]')
-      .waitFor({ state: 'hidden', timeout })
+      .waitFor({ state: 'hidden' })
       .catch(() => null); // Loading indicator may not appear if loading is fast
     // Then wait for either bookmarks to appear OR the "no bookmarks" message
     await Promise.race([
       modal
         .locator('[data-testid^="bookmark-item-"]')
         .first()
-        .waitFor({ state: 'visible', timeout }),
-      modal
-        .getByTestId('no-bookmarks-message')
-        .waitFor({ state: 'visible', timeout }),
+        .waitFor({ state: 'visible' }),
+      modal.getByTestId('no-bookmarks-message').waitFor({ state: 'visible' }),
     ]);
   }
 
@@ -68,8 +56,7 @@ export class PersonsPanel {
     const badge = modal.getByTestId('person-bookmark-count-badge');
     await expect(badge).toBeVisible();
     const badgeText = await badge.textContent();
-    const match = /\((\d+)\)/.exec(badgeText ?? '');
-    return match ? Number.parseInt(match[1], 10) : 0;
+    return parseBadgeCount(badgeText ?? '');
   }
 
   async getBookmarkCountInModalFromList(): Promise<number> {
@@ -79,12 +66,16 @@ export class PersonsPanel {
 
   async searchWithinBookmarks(query: string) {
     const modal = this.getModal();
-    await this.setSearchInput(modal.getByPlaceholder('Search'), query);
+    const searchInput = modal.getByPlaceholder('Search');
+    await searchInput.fill(query);
+    await expect(searchInput).toHaveValue(query);
   }
 
   async clearSearchWithinBookmarks() {
     const modal = this.getModal();
-    await this.clearSearchInput(modal.getByPlaceholder('Search'));
+    const searchInput = modal.getByPlaceholder('Search');
+    await searchInput.clear();
+    await expect(searchInput).toHaveValue('');
   }
 
   async closeModal() {
@@ -105,11 +96,9 @@ export class PersonsPanel {
   }
 
   async verifyModalClosed() {
-    // When modal is closed, the Back button should not be visible
-    // Mantine keeps the modal in DOM but hides it with CSS
+    // With shadcn, modals are removed from DOM when closed (unlike Mantine)
     const modal = this.getModal();
-    const backButton = modal.getByRole('button', { name: 'Back' });
-    await expect(backButton).not.toBeVisible();
+    await expect(modal).not.toBeAttached();
   }
 
   async verifyPersonNameInBadge(name: string) {
@@ -164,15 +153,5 @@ export class PersonsPanel {
 
   private getRecencySwitch(): Locator {
     return this.page.locator('[data-testid="recency-switch"]');
-  }
-
-  private async setSearchInput(searchInput: Locator, query: string) {
-    await searchInput.fill(query);
-    await expect(searchInput).toHaveValue(query);
-  }
-
-  private async clearSearchInput(searchInput: Locator) {
-    await searchInput.clear();
-    await expect(searchInput).toHaveValue('');
   }
 }

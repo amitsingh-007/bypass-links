@@ -1,4 +1,8 @@
-import { TEST_PERSONS } from '@bypass/shared/tests';
+import {
+  TEST_PERSONS,
+  fillSearchInput,
+  clearSearchInput,
+} from '@bypass/shared/tests';
 import { test, expect } from '../fixtures/auth-fixture';
 import { PersonsPanel } from '../page-object-models/persons-panel';
 
@@ -41,23 +45,23 @@ test.describe('Persons Panel', () => {
     expect(countBefore).toBeGreaterThan(0);
 
     // Search for John and verify filtering
-    await panel.search('John');
+    await fillSearchInput(authenticatedPage, 'John');
     await panel.verifyPersonExists(TEST_PERSONS.JOHN_NATHAN);
     await panel.verifyPersonNotVisible(TEST_PERSONS.AKASH_KUMAR_SINGH);
 
     // Clear search and verify all shown
-    await panel.clearSearch();
+    await clearSearchInput(authenticatedPage);
     await panel.verifyPersonExists(TEST_PERSONS.AKASH_KUMAR_SINGH);
 
     // Search for non-existent person
-    await panel.search('NonExistentPerson123');
+    await fillSearchInput(authenticatedPage, 'NonExistentPerson123');
     await expect(async () => {
       const countAfter = await panel.getPersonCount();
       expect(countAfter).toBe(0);
     }).toPass();
 
     // Clear search and verify count restored
-    await panel.clearSearch();
+    await clearSearchInput(authenticatedPage);
     await expect(async () => {
       const countRestored = await panel.getPersonCount();
       expect(countRestored).toBe(countBefore);

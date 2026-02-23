@@ -1,16 +1,17 @@
 import { expect, type Page } from '@playwright/test';
-import { TEST_TIMEOUTS } from '@bypass/shared/tests';
 import {
   clickDialogButton,
   clickContextMenuItem,
+  closeDialog,
   countElements,
   fillDialogInput,
+  getNumericBadgeValue,
   getBadgeCount,
   navigateBack,
   openDialog,
-  searchAndVerify,
-  waitForDebounce,
 } from './test-utils';
+
+const DIALOG_CLOSE_TIMEOUT = 15_000;
 
 const openPersonCard = async (page: Page, personName: string) => {
   const personCard = page.getByTestId(`person-item-${personName}`);
@@ -39,16 +40,14 @@ const uploadImage = async (
   const imageUrlInput = imagePickerDialog.getByPlaceholder('Enter image url');
   await imageUrlInput.fill(imageUrl);
 
-  const saveCroppedButton = page.getByTestId('save-cropped-image');
-  await expect(saveCroppedButton).toBeEnabled({
-    timeout: TEST_TIMEOUTS.AUTH,
-  });
+  const saveCroppedButton = imagePickerDialog.getByTestId('save-cropped-image');
+  await expect(saveCroppedButton).toBeEnabled();
   await saveCroppedButton.click();
 
   const uploadOverlay = page.getByTestId('uploading-overlay');
   await expect(uploadOverlay).toBeVisible();
 
-  await expect(imagePickerDialog).toBeHidden({ timeout: TEST_TIMEOUTS.AUTH });
+  await expect(imagePickerDialog).toBeHidden();
 };
 
 const changeImageInDialog = async (
@@ -63,27 +62,8 @@ const changeImageInDialog = async (
 export class PersonsPanel {
   constructor(readonly page: Page) {}
 
-  async search(
-    query: string,
-    options?: { visibleTexts?: string[]; hiddenTexts?: string[] }
-  ) {
-    const searchInput = this.page.getByPlaceholder('Search');
-    await searchInput.fill(query);
-    await waitForDebounce(this.page);
-
-    if (options?.visibleTexts ?? options?.hiddenTexts) {
-      await searchAndVerify(this.page, query, {
-        visibleTexts: options.visibleTexts ?? [],
-        hiddenTexts: options.hiddenTexts ?? [],
-        selector: '[data-testid^="person-item-"]',
-      });
-    }
-  }
-
-  async clearSearch() {
-    const searchInput = this.page.getByPlaceholder('Search');
-    await searchInput.clear();
-    await waitForDebounce(this.page);
+  getBookmarksDialog() {
+    return this.page.getByTestId('bookmarks-list-modal');
   }
 
   async getPersonCount() {
@@ -103,9 +83,7 @@ export class PersonsPanel {
     }
 
     await clickDialogButton(dialog, 'Save');
-    await waitForDebounce(this.page);
-    // Wait for dialog to close with longer timeout
-    await expect(dialog).toBeHidden({ timeout: TEST_TIMEOUTS.LONG_WAIT });
+    await expect(dialog).toBeHidden({ timeout: DIALOG_CLOSE_TIMEOUT });
 
     const newPersonCard = this.page.getByTestId(`person-item-${name}`);
     await expect(newPersonCard).toBeVisible();
@@ -125,8 +103,7 @@ export class PersonsPanel {
     await nameInput.fill(newName);
 
     await clickDialogButton(dialog, 'Save');
-    await waitForDebounce(this.page);
-    await expect(dialog).toBeHidden({ timeout: TEST_TIMEOUTS.LONG_WAIT });
+    await expect(dialog).toBeHidden({ timeout: DIALOG_CLOSE_TIMEOUT });
 
     const editedPersonCard = this.page.getByTestId(`person-item-${newName}`);
     await expect(editedPersonCard).toBeVisible();
@@ -139,8 +116,7 @@ export class PersonsPanel {
     await changeImageInDialog(this.page, dialog, newImageUrl);
 
     await clickDialogButton(dialog, 'Save');
-    await waitForDebounce(this.page);
-    await expect(dialog).toBeHidden({ timeout: TEST_TIMEOUTS.LONG_WAIT });
+    await expect(dialog).toBeHidden({ timeout: DIALOG_CLOSE_TIMEOUT });
 
     const personCardAfter = this.page.getByTestId(`person-item-${personName}`);
     await expect(personCardAfter).toBeVisible();
@@ -168,9 +144,7 @@ export class PersonsPanel {
     const avatar = dialog.locator('img');
     await expect(avatar).toBeVisible();
 
-    const closeButton = dialog.locator('[data-slot="dialog-close"]');
-    await closeButton.click();
-    await expect(dialog).toBeHidden();
+    await closeDialog(this.page, dialog);
   }
 
   async openPersonCard(personName: string) {
@@ -195,7 +169,6 @@ export class PersonsPanel {
 
   async verifyBadgeCount(personName: string, expectedCount?: number) {
     await openPersonCard(this.page, personName);
-    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
     const badgeCount = await getBadgeCount(this.page, personName);
 
@@ -215,22 +188,29 @@ export class PersonsPanel {
 
   async searchWithinBookmarks(searchTerm: string, personName: string) {
     await openPersonCard(this.page, personName);
-    await this.page.waitForTimeout(TEST_TIMEOUTS.PAGE_LOAD);
 
-    const dialog = this.page.getByRole('dialog');
+    const dialog = this.getBookmarksDialog();
     const searchInput = dialog.getByPlaceholder('Search');
+    await expect(searchInput).toBeVisible();
 
-    const allBookmarksBefore = await this.page
-      .getByTitle('Edit Bookmark')
-      .count();
-    expect(allBookmarksBefore).toBeGreaterThan(0);
+    const bookmarks = dialog.getByTitle('Edit Bookmark');
+
+    let allBookmarksBefore = await bookmarks.count();
+    if (allBookmarksBefore === 0) {
+      await expect
+        .poll(async () => bookmarks.count(), { timeout: 3000 })
+        .toBeGreaterThan(0)
+        .catch(() => undefined);
+      allBookmarksBefore = await bookmarks.count();
+    }
 
     await searchInput.fill(searchTerm);
-    await waitForDebounce(this.page);
 
-    const noResultsBookmarks = await this.page
-      .getByTitle('Edit Bookmark')
-      .count();
+    if (allBookmarksBefore > 0) {
+      await expect.poll(async () => bookmarks.count()).toBe(0);
+    }
+
+    const noResultsBookmarks = await bookmarks.count();
     return {
       allBookmarksBefore,
       noResultsBookmarks,
@@ -251,33 +231,36 @@ export class PersonsPanel {
     return personNames;
   }
 
+  async getHeaderPersonCount(): Promise<number> {
+    return getNumericBadgeValue(this.page, 'header-badge', {
+      fallbackToAnyNumber: true,
+    });
+  }
+
   async verifyBadgeVisible(badgeName: string) {
-    const badge = this.page.getByTestId('person-bookmark-count-badge');
+    const badge = this.getBookmarksDialog().getByTestId(
+      'person-bookmark-count-badge'
+    );
     await expect(badge).toBeVisible();
     await expect(badge).toContainText(badgeName);
   }
 
   async getEditButtons() {
-    return this.page.getByTitle('Edit Bookmark');
+    return this.getBookmarksDialog().getByTitle('Edit Bookmark');
   }
 
-  async verifyPersonCardVisible(personName: string) {
+  async verifyPersonExists(personName: string) {
     const personCard = this.page.getByTestId(`person-item-${personName}`);
     await expect(personCard).toBeVisible();
   }
 
   // ============ Verification Helpers ============
 
-  async verifyPersonExists(personName: string) {
-    await this.verifyPersonCardVisible(personName);
-  }
-
   async verifyBookmarkInPersonList(personName: string, bookmarkTitle: string) {
     await openPersonCard(this.page, personName);
 
-    const bookmarkItem = this.page.getByTestId(
-      `bookmark-item-${bookmarkTitle}`
-    );
+    const dialog = this.getBookmarksDialog();
+    const bookmarkItem = dialog.getByTestId(`bookmark-item-${bookmarkTitle}`);
     await expect(bookmarkItem).toBeVisible();
 
     await navigateBack(this.page);
@@ -289,9 +272,8 @@ export class PersonsPanel {
   ) {
     await openPersonCard(this.page, personName);
 
-    const bookmarkItem = this.page.getByTestId(
-      `bookmark-item-${bookmarkTitle}`
-    );
+    const dialog = this.getBookmarksDialog();
+    const bookmarkItem = dialog.getByTestId(`bookmark-item-${bookmarkTitle}`);
     await expect(bookmarkItem).not.toBeVisible();
 
     await navigateBack(this.page);

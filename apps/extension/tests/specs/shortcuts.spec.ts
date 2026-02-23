@@ -1,4 +1,9 @@
-import { TEST_SHORTCUTS } from '@bypass/shared/tests';
+import {
+  TEST_SHORTCUTS,
+  clearSearchInput,
+  fillSearchInput,
+  openNewPageFromAction,
+} from '@bypass/shared/tests';
 import { test, expect } from '../fixtures/shortcuts-fixture';
 import { ShortcutsPanel } from '../utils/shortcuts-panel';
 
@@ -62,7 +67,7 @@ test.describe.serial('Shortcuts Panel', () => {
     expect(allRulesCount).toBe(EXPECTED_RULE_COUNT);
 
     // Search for a known alias
-    await panel.search(TEST_SHORTCUTS.GOOGLE);
+    await fillSearchInput(shortcutsPage, TEST_SHORTCUTS.GOOGLE);
 
     // Verify the search input has the value
     const searchInput = panel.getSearchInput();
@@ -76,18 +81,15 @@ test.describe.serial('Shortcuts Panel', () => {
     // Note: All rows remain visible, search only highlights matching rows
     const allAliasInputs = panel.getAliasInputs();
     const count = await allAliasInputs.count();
-    let foundMatch = false;
-    for (let i = 0; i < count; i++) {
-      const value = await allAliasInputs.nth(i).inputValue();
-      if (value === TEST_SHORTCUTS.GOOGLE) {
-        foundMatch = true;
-        break;
-      }
-    }
-    expect(foundMatch).toBe(true);
+    const aliasValues = await Promise.all(
+      Array.from({ length: count }, async (_, index) =>
+        allAliasInputs.nth(index).inputValue()
+      )
+    );
+    expect(aliasValues).toContain(TEST_SHORTCUTS.GOOGLE);
 
     // Clear search for other tests
-    await panel.clearSearch();
+    await clearSearchInput(shortcutsPage);
 
     // Verify count is still the same after clearing
     const resetCount = await panel.getRuleCount();
@@ -215,9 +217,7 @@ test.describe.serial('Shortcuts Panel', () => {
     await deleteButton.click();
 
     // Verify count decreased back to initial
-    await expect(panel.getRuleElements()).toHaveCount(initialCount, {
-      timeout: 3000,
-    });
+    await expect(panel.getRuleElements()).toHaveCount(initialCount);
   });
 
   test('should open external link in new tab', async ({
@@ -238,16 +238,13 @@ test.describe.serial('Shortcuts Panel', () => {
     );
     await expect(externalLinkButton).toBeEnabled();
 
-    // Click and wait for new page to open
-    const [newPage] = await Promise.all([
-      context.waitForEvent('page', { timeout: 10_000 }),
-      externalLinkButton.click(),
-    ]);
+    const newPage = await openNewPageFromAction(context, async () => {
+      await externalLinkButton.click();
+    });
 
     // Wait for navigation to complete
     await expect
       .poll(() => newPage.url(), {
-        timeout: 10_000,
         message: 'Page should navigate from about:blank to actual URL',
       })
       .not.toBe('about:blank');

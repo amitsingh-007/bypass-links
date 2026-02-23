@@ -7,6 +7,7 @@ import {
   type Worker,
   chromium,
 } from '@playwright/test';
+import { TEST_TIMEOUTS } from '@bypass/shared/tests';
 import { CHROME_PROFILE_DIR, EXTENSION_STORAGE_PATH } from '../auth-constants';
 import { getExtensionPath } from '../utils/extension-path';
 
@@ -131,7 +132,10 @@ export const authenticateAndNavigate = async (
 
   // Step 5: Verify we're logged in (logout button should be visible)
   const logoutButton = page.getByRole('button', { name: 'Logout' });
-  await logoutButton.waitFor({ state: 'visible', timeout: 10_000 });
+  await logoutButton.waitFor({
+    state: 'visible',
+    timeout: TEST_TIMEOUTS.AUTH,
+  });
 
   // Step 6: Navigate to requested panel
   if (panelName && panelName !== 'home') {
