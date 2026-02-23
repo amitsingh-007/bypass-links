@@ -33,8 +33,10 @@ export function AuthProvider({ children }: PropsWithChildren) {
     [user, isInitialized]
   );
 
+  const isRestrictedPath = RESTRICTED_PATHS.has(pathname);
+
   useEffect(() => {
-    if (RESTRICTED_PATHS.has(pathname)) {
+    if (isRestrictedPath) {
       return;
     }
 
@@ -44,7 +46,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
     });
 
     return unsubscribe;
-  }, [pathname]);
+  }, [isRestrictedPath]);
 
   return <AuthContext.Provider value={ctx}>{children}</AuthContext.Provider>;
 }
