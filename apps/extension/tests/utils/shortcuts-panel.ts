@@ -12,16 +12,6 @@ export class ShortcutsPanel {
     await loadingOverlay.waitFor({ state: 'hidden' });
   }
 
-  async search(query: string) {
-    const searchInput = this.page.getByPlaceholder('Search');
-    await searchInput.fill(query);
-  }
-
-  async clearSearch() {
-    const searchInput = this.page.getByPlaceholder('Search');
-    await searchInput.clear();
-  }
-
   getRuleElements() {
     return this.page.locator('[data-testid^="rule-"][data-testid$="-alias"]');
   }

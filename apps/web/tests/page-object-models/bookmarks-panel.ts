@@ -1,4 +1,8 @@
 import { expect, type Page, type Locator } from '@playwright/test';
+import {
+  clickDropdownPersonAndGetName,
+  getNumericBadgeValue,
+} from '@bypass/shared/tests';
 
 export class BookmarksPanel {
   constructor(readonly page: Page) {}
@@ -69,18 +73,7 @@ export class BookmarksPanel {
   }
 
   async clickPersonInDropdownAndGetName(dropdown: Locator): Promise<string> {
-    const dropdownAvatar = dropdown.locator(
-      '[data-testid^="dropdown-avatar-"]'
-    );
-    await dropdownAvatar.waitFor({
-      state: 'visible',
-    });
-    // Wait for element to be stable before clicking
-    await expect(dropdownAvatar).toBeEnabled();
-    const testId = (await dropdownAvatar.getAttribute('data-testid')) ?? '';
-    const personName = testId.replace('dropdown-avatar-', '');
-    await dropdownAvatar.click();
-    return personName;
+    return clickDropdownPersonAndGetName(dropdown);
   }
 
   getFaviconElement(bookmarkTitle: string): Locator {
@@ -117,12 +110,9 @@ export class BookmarksPanel {
   }
 
   async getBadgeCount(): Promise<number> {
-    const badge = this.getBookmarkCountBadge();
-    await expect(badge).toBeVisible();
-    const badgeText = await badge.textContent();
-    const match = /\((\d+)\)/.exec(badgeText ?? '');
-    const count = match ? Number.parseInt(match[1], 10) : 0;
-    return count;
+    return getNumericBadgeValue(this.page, 'header-badge', {
+      fallbackToAnyNumber: true,
+    });
   }
 
   getAvatarGroup(): Locator {

@@ -22,6 +22,8 @@ const identityApi = wretch('https://identitytoolkit.googleapis.com/v1')
   .addon(QueryStringAddon)
   .query({ key: firebaseConfig.apiKey });
 
+setup.setTimeout(60_000);
+
 const signInWithEmailAndPassword = async (): Promise<IAuthResponse> => {
   return identityApi
     .url('/accounts:signInWithPassword')

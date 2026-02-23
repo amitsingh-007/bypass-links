@@ -1,4 +1,8 @@
-import { TEST_SITES, TEST_BOOKMARKS } from '@bypass/shared/tests';
+import {
+  TEST_SITES,
+  TEST_BOOKMARKS,
+  openNewPageFromAction,
+} from '@bypass/shared/tests';
 import { test, expect } from '../fixtures/home-popup-fixture';
 import { BookmarksPanel } from '../utils/bookmarks-panel';
 import { PopupHomePanel } from '../utils/home-panel';
@@ -96,10 +100,9 @@ test.describe.serial('History Tracking Workflow', () => {
     const bookmarkRow = panel.getBookmarkElement(TEST_BOOKMARKS.REACT_DOCS);
     await expect(bookmarkRow).toBeVisible();
 
-    const pagePromise = context.waitForEvent('page');
-    await bookmarkRow.dblclick();
-    const newPage = await pagePromise;
-    expect(newPage).toBeTruthy();
+    const newPage = await openNewPageFromAction(context, async () => {
+      await bookmarkRow.dblclick();
+    });
     await newPage.close();
 
     // Navigate back to Home page to verify the toggle

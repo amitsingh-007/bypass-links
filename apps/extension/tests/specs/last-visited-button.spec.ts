@@ -33,7 +33,10 @@ test.describe.serial('LastVisitedButton', () => {
       .filter({ hasText: /,/ });
     await homeExpect(tooltip).toBeVisible();
     const initialTooltipText = await tooltip.textContent();
-    homeExpect(initialTooltipText).toBeTruthy();
+    homeExpect(initialTooltipText).not.toBeNull();
+    if (!initialTooltipText) {
+      throw new Error('Expected last visited tooltip text to be present');
+    }
 
     // Move away from tooltip
     await homePage.mouse.move(0, 0);
@@ -53,6 +56,6 @@ test.describe.serial('LastVisitedButton', () => {
     await lastVisitedButton.hover();
 
     // Wait for tooltip text to change from initial value (auto-retrying)
-    await homeExpect(tooltip).not.toHaveText(initialTooltipText!);
+    await homeExpect(tooltip).not.toHaveText(initialTooltipText);
   });
 });

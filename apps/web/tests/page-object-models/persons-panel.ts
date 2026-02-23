@@ -1,5 +1,5 @@
 import { expect, type Locator, type Page } from '@playwright/test';
-import { parseBadgeCount } from '@bypass/shared/tests';
+import { getNumericBadgeValue, parseBadgeCount } from '@bypass/shared/tests';
 
 export class PersonsPanel {
   constructor(readonly page: Page) {}
@@ -9,10 +9,9 @@ export class PersonsPanel {
   }
 
   async getHeaderPersonCount(): Promise<number> {
-    const headerBadge = this.page.getByTestId('header-badge');
-    await expect(headerBadge).toBeVisible();
-    const headerText = await headerBadge.textContent();
-    return parseBadgeCount(headerText ?? '');
+    return getNumericBadgeValue(this.page, 'header-badge', {
+      fallbackToAnyNumber: true,
+    });
   }
 
   async verifyPersonExists(name: string) {

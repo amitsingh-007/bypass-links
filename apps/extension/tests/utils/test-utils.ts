@@ -150,8 +150,10 @@ export const getBadgeCount = async (
 };
 
 export {
+  clickDropdownPersonAndGetName,
   closeDialog,
   clearSearchInput,
   fillSearchInput,
+  getNumericBadgeValue,
   parseBadgeCount,
 } from '@bypass/shared/tests';

@@ -3,6 +3,7 @@ import {
   TEST_FOLDERS,
   fillSearchInput,
   clearSearchInput,
+  openNewPageFromAction,
 } from '@bypass/shared/tests';
 import { test, expect } from '../fixtures/auth-fixture';
 import { BookmarksPanel } from '../page-object-models/bookmarks-panel';
@@ -122,16 +123,9 @@ test.describe('Bookmarks Panel', () => {
     context,
   }) => {
     const panel = new BookmarksPanel(authenticatedPage);
-    const initialPages = context.pages();
-
-    // Listen for new page event before triggering the action
-    const [newPage] = await Promise.all([
-      authenticatedPage.waitForEvent('popup'),
-      panel.openBookmarkByDoubleClick(TEST_BOOKMARKS.REACT_DOCS),
-    ]);
-
-    // Verify exactly one new page was created
-    expect(context.pages().length).toBe(initialPages.length + 1);
+    const newPage = await openNewPageFromAction(context, async () => {
+      await panel.openBookmarkByDoubleClick(TEST_BOOKMARKS.REACT_DOCS);
+    });
     await newPage.close();
   });
 
@@ -148,17 +142,10 @@ test.describe('Bookmarks Panel', () => {
     const dropdown = await panel.hoverAvatar();
     await expect(dropdown).toBeVisible();
 
-    // Verify person name in dropdown
-    const avatar = dropdown.locator('[data-testid^="dropdown-avatar-"]');
-    await expect(avatar).toBeVisible();
-    const testId = (await avatar.getAttribute('data-testid')) ?? '';
-    const personName = testId.replace('dropdown-avatar-', '');
-    expect(personName).toBeTruthy();
-
     // Click and verify navigation
     const clickedPersonName =
       await panel.clickPersonInDropdownAndGetName(dropdown);
-    expect(clickedPersonName).toBeTruthy();
+    expect(clickedPersonName).not.toBe('');
     await authenticatedPage.waitForURL(/persons-panel/);
     const currentUrl = panel.getCurrentUrl();
     expect(currentUrl).toContain('persons-panel');
@@ -206,7 +193,10 @@ test.describe('Bookmarks Panel', () => {
       TEST_BOOKMARKS.REACT_DOCS
     );
     const tooltipText = await tooltip.textContent();
-    expect(tooltipText).toBeTruthy();
+    expect(tooltipText).not.toBeNull();
+    if (!tooltipText) {
+      throw new Error('Expected bookmark tooltip text to be present');
+    }
     expect(tooltipText).toContain('material');
   });
 });

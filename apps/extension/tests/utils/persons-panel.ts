@@ -5,10 +5,10 @@ import {
   closeDialog,
   countElements,
   fillDialogInput,
+  getNumericBadgeValue,
   getBadgeCount,
   navigateBack,
   openDialog,
-  searchAndVerify,
 } from './test-utils';
 
 const DIALOG_CLOSE_TIMEOUT = 15_000;
@@ -40,7 +40,7 @@ const uploadImage = async (
   const imageUrlInput = imagePickerDialog.getByPlaceholder('Enter image url');
   await imageUrlInput.fill(imageUrl);
 
-  const saveCroppedButton = page.getByTestId('save-cropped-image');
+  const saveCroppedButton = imagePickerDialog.getByTestId('save-cropped-image');
   await expect(saveCroppedButton).toBeEnabled();
   await saveCroppedButton.click();
 
@@ -62,25 +62,8 @@ const changeImageInDialog = async (
 export class PersonsPanel {
   constructor(readonly page: Page) {}
 
-  async search(
-    query: string,
-    options?: { visibleTexts?: string[]; hiddenTexts?: string[] }
-  ) {
-    const searchInput = this.page.getByPlaceholder('Search');
-    await searchInput.fill(query);
-
-    if (options?.visibleTexts ?? options?.hiddenTexts) {
-      await searchAndVerify(this.page, query, {
-        visibleTexts: options.visibleTexts ?? [],
-        hiddenTexts: options.hiddenTexts ?? [],
-        selector: '[data-testid^="person-item-"]',
-      });
-    }
-  }
-
-  async clearSearch() {
-    const searchInput = this.page.getByPlaceholder('Search');
-    await searchInput.clear();
+  getBookmarksDialog() {
+    return this.page.getByTestId('bookmarks-list-modal');
   }
 
   async getPersonCount() {
@@ -206,11 +189,11 @@ export class PersonsPanel {
   async searchWithinBookmarks(searchTerm: string, personName: string) {
     await openPersonCard(this.page, personName);
 
-    const dialog = this.page.getByRole('dialog');
+    const dialog = this.getBookmarksDialog();
     const searchInput = dialog.getByPlaceholder('Search');
     await expect(searchInput).toBeVisible();
 
-    const bookmarks = this.page.getByTitle('Edit Bookmark');
+    const bookmarks = dialog.getByTitle('Edit Bookmark');
 
     let allBookmarksBefore = await bookmarks.count();
     if (allBookmarksBefore === 0) {
@@ -248,33 +231,36 @@ export class PersonsPanel {
     return personNames;
   }
 
+  async getHeaderPersonCount(): Promise<number> {
+    return getNumericBadgeValue(this.page, 'header-badge', {
+      fallbackToAnyNumber: true,
+    });
+  }
+
   async verifyBadgeVisible(badgeName: string) {
-    const badge = this.page.getByTestId('person-bookmark-count-badge');
+    const badge = this.getBookmarksDialog().getByTestId(
+      'person-bookmark-count-badge'
+    );
     await expect(badge).toBeVisible();
     await expect(badge).toContainText(badgeName);
   }
 
   async getEditButtons() {
-    return this.page.getByTitle('Edit Bookmark');
+    return this.getBookmarksDialog().getByTitle('Edit Bookmark');
   }
 
-  async verifyPersonCardVisible(personName: string) {
+  async verifyPersonExists(personName: string) {
     const personCard = this.page.getByTestId(`person-item-${personName}`);
     await expect(personCard).toBeVisible();
   }
 
   // ============ Verification Helpers ============
 
-  async verifyPersonExists(personName: string) {
-    await this.verifyPersonCardVisible(personName);
-  }
-
   async verifyBookmarkInPersonList(personName: string, bookmarkTitle: string) {
     await openPersonCard(this.page, personName);
 
-    const bookmarkItem = this.page.getByTestId(
-      `bookmark-item-${bookmarkTitle}`
-    );
+    const dialog = this.getBookmarksDialog();
+    const bookmarkItem = dialog.getByTestId(`bookmark-item-${bookmarkTitle}`);
     await expect(bookmarkItem).toBeVisible();
 
     await navigateBack(this.page);
@@ -286,9 +272,8 @@ export class PersonsPanel {
   ) {
     await openPersonCard(this.page, personName);
 
-    const bookmarkItem = this.page.getByTestId(
-      `bookmark-item-${bookmarkTitle}`
-    );
+    const dialog = this.getBookmarksDialog();
+    const bookmarkItem = dialog.getByTestId(`bookmark-item-${bookmarkTitle}`);
     await expect(bookmarkItem).not.toBeVisible();
 
     await navigateBack(this.page);

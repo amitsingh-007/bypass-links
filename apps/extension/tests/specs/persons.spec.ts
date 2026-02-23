@@ -1,7 +1,9 @@
 import {
   TEST_PERSON_NAME,
   TEST_PERSONS,
+  clearSearchInput,
   closeDialog,
+  fillSearchInput,
 } from '@bypass/shared/tests';
 import { test, expect } from '../fixtures/persons-fixture';
 import { PersonsPanel } from '../utils/persons-panel';
@@ -22,26 +24,26 @@ test.describe.serial('Persons Panel', () => {
     const panel = new PersonsPanel(personsPage);
 
     // Ensure we start with cleared search
-    await panel.clearSearch();
+    await clearSearchInput(personsPage);
 
     // Get initial count
     const allPersonsBefore = await panel.getPersonCount();
     expect(allPersonsBefore).toBeGreaterThan(0);
 
     // Search and filter
-    await panel.search('John');
+    await fillSearchInput(personsPage, 'John');
     await panel.verifyPersonExists(TEST_PERSONS.JOHN_NATHAN);
 
     // Clear search and verify all persons shown
-    await panel.clearSearch();
+    await clearSearchInput(personsPage);
     await panel.verifyPersonExists(TEST_PERSONS.AKASH_KUMAR_SINGH);
 
     // Search for non-existent person
-    await panel.search('NonExistentPerson');
+    await fillSearchInput(personsPage, 'NonExistentPerson');
     await expect.poll(async () => panel.getPersonCount()).toBe(0);
 
     // Clear and verify count restored
-    await panel.clearSearch();
+    await clearSearchInput(personsPage);
     await expect
       .poll(async () => panel.getPersonCount())
       .toBe(allPersonsBefore);
@@ -211,8 +213,8 @@ test.describe.serial('Persons Panel', () => {
     const personCount = await panel.getPersonCount();
     expect(personCount).toBeGreaterThan(0);
 
-    const countText = (await personsPage.locator('body').textContent()) ?? '';
-    expect(countText).toContain(personCount.toString());
+    const headerCount = await panel.getHeaderPersonCount();
+    expect(headerCount).toBe(personCount);
   });
 
   test('should navigate between multiple persons', async ({ personsPage }) => {
@@ -229,6 +231,6 @@ test.describe.serial('Persons Panel', () => {
 
     await panel.navigateBack();
 
-    await panel.verifyPersonCardVisible(TEST_PERSONS.JOHN_NATHAN);
+    await panel.verifyPersonExists(TEST_PERSONS.JOHN_NATHAN);
   });
 });

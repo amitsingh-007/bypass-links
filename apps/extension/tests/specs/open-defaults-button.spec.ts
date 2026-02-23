@@ -70,12 +70,11 @@ test.describe.serial('Signed In', () => {
       .filter(
         (url) => url.startsWith('http') || url.startsWith('chrome-error://')
       );
-    homeExpect(
-      baseUrls.some(
-        (url) =>
-          url.includes('mantine.dev') || url.startsWith('chrome-error://')
-      )
-    ).toBeTruthy();
+    homeExpect(baseUrls).toEqual(
+      homeExpect.arrayContaining([
+        homeExpect.stringMatching(/mantine\.dev|^chrome-error:\/\//),
+      ])
+    );
 
     // Clean up: close new tabs
     for (const newPage of newPages) {

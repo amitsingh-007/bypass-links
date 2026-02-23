@@ -1,5 +1,6 @@
 import { expect, type Page } from '@playwright/test';
 import {
+  clickDropdownPersonAndGetName,
   clickContextMenuItem as clickContextMenuItemUtil,
   closeDialog,
   countElements,
@@ -8,32 +9,10 @@ import {
   navigateBack as navigateBackUtil,
   openDialog,
   openFolder,
-  searchAndVerify,
 } from './test-utils';
 
 export class BookmarksPanel {
   constructor(readonly page: Page) {}
-
-  async search(
-    query: string,
-    options?: { visibleTexts?: string[]; hiddenTexts?: string[] }
-  ) {
-    const searchInput = this.page.getByPlaceholder('Search');
-    await searchInput.fill(query);
-
-    if (options?.visibleTexts ?? options?.hiddenTexts) {
-      await searchAndVerify(this.page, query, {
-        visibleTexts: options.visibleTexts ?? [],
-        hiddenTexts: options.hiddenTexts ?? [],
-        selector: '[data-testid="bookmark-item"]',
-      });
-    }
-  }
-
-  async clearSearch() {
-    const searchInput = this.page.getByPlaceholder('Search');
-    await searchInput.clear();
-  }
 
   async openFolder(folderName: string) {
     await openFolder(this.page, folderName);
@@ -132,14 +111,7 @@ export class BookmarksPanel {
   }
 
   async clickPersonInDropdown(dropdown: ReturnType<Page['locator']>) {
-    const dropdownAvatar = dropdown.locator(
-      '[data-testid^="dropdown-avatar-"]'
-    );
-    await dropdownAvatar.waitFor({ state: 'visible' });
-    const testId = (await dropdownAvatar.getAttribute('data-testid')) ?? '';
-    const personName = testId.replace('dropdown-avatar-', '');
-    await dropdownAvatar.click();
-    return personName;
+    return clickDropdownPersonAndGetName(dropdown);
   }
 
   async getBadgeCount(name: string): Promise<number> {

@@ -1,4 +1,11 @@
-import { expect, type Page } from '@playwright/test';
+import {
+  expect,
+  type BrowserContext,
+  type Locator,
+  type Page,
+} from '@playwright/test';
+
+type TestIdScope = Pick<Page, 'getByTestId'>;
 
 /**
  * Close a shadcn dialog using the close button or Escape key.
@@ -92,4 +99,75 @@ export const clickButtonByName = async (
 export const parseBadgeCount = (badgeText: string): number => {
   const match = /\((\d+)\)/.exec(badgeText);
   return match ? Number.parseInt(match[1], 10) : 0;
+};
+
+/**
+ * Read a numeric badge value from a test id.
+ */
+export const getNumericBadgeValue = async (
+  scope: TestIdScope,
+  testId: string,
+  options?: { fallbackToAnyNumber?: boolean }
+): Promise<number> => {
+  const badge = scope.getByTestId(testId);
+  await expect(badge).toBeVisible();
+
+  const text = (await badge.textContent()) ?? '';
+  const countFromParentheses = parseBadgeCount(text);
+  if (countFromParentheses > 0 || !options?.fallbackToAnyNumber) {
+    return countFromParentheses;
+  }
+
+  const firstNumberMatch = /\b(\d+)\b/.exec(text);
+  return firstNumberMatch ? Number.parseInt(firstNumberMatch[1], 10) : 0;
+};
+
+/**
+ * Click the first person avatar in a dropdown and return person name.
+ */
+export const clickDropdownPersonAndGetName = async (
+  dropdown: Locator
+): Promise<string> => {
+  const dropdownAvatar = dropdown.locator('[data-testid^="dropdown-avatar-"]');
+  await expect(dropdownAvatar).toBeVisible();
+  await expect(dropdownAvatar).toBeEnabled();
+
+  const testId = (await dropdownAvatar.getAttribute('data-testid')) ?? '';
+  const personName = testId.replace('dropdown-avatar-', '');
+
+  if (!personName) {
+    throw new Error('Expected dropdown avatar test id to include person name');
+  }
+
+  await dropdownAvatar.click();
+  return personName;
+};
+
+/**
+ * Run an action that should open a new page and return it.
+ */
+export const openNewPageFromAction = async (
+  context: BrowserContext,
+  action: () => Promise<void>,
+  options?: { timeout?: number }
+): Promise<Page> => {
+  const existingPages = context.pages();
+  const existingPageSet = new Set(existingPages);
+
+  await action();
+
+  await expect
+    .poll(() => context.pages().length, { timeout: options?.timeout ?? 10_000 })
+    .toBeGreaterThan(existingPages.length);
+
+  const newPage = context.pages().find((page) => !existingPageSet.has(page));
+  if (!newPage) {
+    throw new Error('Expected action to open a new page');
+  }
+
+  await expect
+    .poll(() => newPage.url(), { timeout: options?.timeout ?? 10_000 })
+    .not.toBe('about:blank');
+
+  return newPage;
 };
