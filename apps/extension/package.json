@@ -15,7 +15,7 @@
     "@bypass/shared": "workspace:*",
     "@bypass/trpc": "workspace:*",
     "@bypass/ui": "workspace:*",
-    "@hugeicons/core-free-icons": "3.1.1",
+    "@hugeicons/core-free-icons": "3.3.0",
     "@hugeicons/react": "1.1.5",
     "@t3-oss/env-core": "0.13.8",
     "@tanstack/react-form": "1.28.3",

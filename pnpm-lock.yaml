@@ -63,8 +63,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ui
       '@hugeicons/core-free-icons':
-        specifier: 3.1.1
-        version: 3.1.1
+        specifier: 3.3.0
+        version: 3.3.0
       '@hugeicons/react':
         specifier: 1.1.5
         version: 1.1.5(react@19.2.4)
@@ -193,8 +193,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ui
       '@hugeicons/core-free-icons':
-        specifier: 3.1.1
-        version: 3.1.1
+        specifier: 3.3.0
+        version: 3.3.0
       '@hugeicons/react':
         specifier: 1.1.5
         version: 1.1.5(react@19.2.4)
@@ -284,8 +284,8 @@ importers:
         specifier: workspace:*
         version: link:../ui
       '@hugeicons/core-free-icons':
-        specifier: 3.1.1
-        version: 3.1.1
+        specifier: 3.3.0
+        version: 3.3.0
       '@hugeicons/react':
         specifier: 1.1.5
         version: 1.1.5(react@19.2.4)
@@ -376,8 +376,8 @@ importers:
         specifier: workspace:*
         version: link:../configs
       '@hugeicons/core-free-icons':
-        specifier: 3.1.1
-        version: 3.1.1
+        specifier: 3.3.0
+        version: 3.3.0
       '@hugeicons/react':
         specifier: 1.1.5
         version: 1.1.5(react@19.2.4)
@@ -1329,8 +1329,8 @@ packages:
     peerDependencies:
       hono: ^4
 
-  '@hugeicons/core-free-icons@3.1.1':
-    resolution: {integrity: sha512-UpS2lUQFi5sKyJSWwM6rO+BnPLvVz1gsyCpPHeZyVuZqi89YH8ksliza4cwaODqKOZyeXmG8juo1ty4QtQofkg==}
+  '@hugeicons/core-free-icons@3.3.0':
+    resolution: {integrity: sha512-qYyr4JQ2eQIHTSTbITvnJvs6ERNK64D9gpwZnf2IyuG0exzqfyABLO/oTB71FB3RZPfu1GbwycdiGSo46apjMQ==}
 
   '@hugeicons/react@1.1.5':
     resolution: {integrity: sha512-JX/iDz3oO7hWdVqbjwFwRrAjHk8h2vI+mBkNzp4JcXG3t4idoupfjon73nLOA7cr27m0M8hrRC1Q2h6nEBGKVA==}
@@ -6360,10 +6360,12 @@ packages:
   tar@6.2.1:
     resolution: {integrity: sha512-DZ4yORTwrbTj/7MZYq2w+/ZFdI6OZ/f9SFHR+71gIVUZhOQPHzVCLpvRnPgyaMpfWxxk/4ONva3GQSyNIKRv6A==}
     engines: {node: '>=10'}
+    deprecated: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   tar@7.5.7:
     resolution: {integrity: sha512-fov56fJiRuThVFXD6o6/Q354S7pnWMJIVlDBYijsTNx6jKSE4pvrDTs6lUnmGvNyfJwFQQwWy3owKz1ucIhveQ==}
     engines: {node: '>=18'}
+    deprecated: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   teeny-request@9.0.0:
     resolution: {integrity: sha512-resvxdc6Mgb7YEThw6G6bExlXKkv6+YbuzGg9xuXxSgxJF7Ozs+o8Y9+2R3sArdWdW8nOokoQb1yrpFB0pQK2g==}
@@ -8004,7 +8006,7 @@ snapshots:
     dependencies:
       hono: 4.11.9
 
-  '@hugeicons/core-free-icons@3.1.1': {}
+  '@hugeicons/core-free-icons@3.3.0': {}
 
   '@hugeicons/react@1.1.5(react@19.2.4)':
     dependencies:
