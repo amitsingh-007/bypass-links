@@ -25,7 +25,7 @@
     "husky": "9.1.7",
     "lint-staged": "16.2.7",
     "prettier": "3.8.1",
-    "turbo": "2.8.1",
+    "turbo": "2.8.12",
     "typescript": "5.9.3",
     "vercel": "50.10.1",
     "xo": "1.2.3"
