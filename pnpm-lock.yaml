@@ -21,8 +21,8 @@ importers:
         specifier: 24.10.9
         version: 24.10.9
       eslint-plugin-better-tailwindcss:
-        specifier: 4.2.0
-        version: 4.2.0(eslint@9.39.2(jiti@2.6.1))(tailwindcss@4.1.18)(typescript@5.9.3)
+        specifier: 4.3.1
+        version: 4.3.1(eslint@9.39.2(jiti@2.6.1))(tailwindcss@4.1.18)(typescript@5.9.3)
       husky:
         specifier: 9.1.7
         version: 9.1.7
@@ -3779,8 +3779,8 @@ packages:
     peerDependencies:
       eslint: '>=9'
 
-  eslint-plugin-better-tailwindcss@4.2.0:
-    resolution: {integrity: sha512-hgoVkeMgcmvD3E470jbSLSBNWqk37d3MDMFEtefYM7wXIgkYpBwfPk2qAPrAhAdMvK7i2JbGX0m1Gd/OrlbcRA==}
+  eslint-plugin-better-tailwindcss@4.3.1:
+    resolution: {integrity: sha512-b6xM31GukKz0WlgMD0tQdY/rLjf/9mWIk8EcA45ngOKJPPQf1C482xZtBlT357jyunQE2mOk4NlPcL4i9Pr85A==}
     engines: {node: ^20.19.0 || ^22.12.0 || >=23.0.0}
     peerDependencies:
       eslint: ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0
@@ -6360,10 +6360,12 @@ packages:
   tar@6.2.1:
     resolution: {integrity: sha512-DZ4yORTwrbTj/7MZYq2w+/ZFdI6OZ/f9SFHR+71gIVUZhOQPHzVCLpvRnPgyaMpfWxxk/4ONva3GQSyNIKRv6A==}
     engines: {node: '>=10'}
+    deprecated: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   tar@7.5.7:
     resolution: {integrity: sha512-fov56fJiRuThVFXD6o6/Q354S7pnWMJIVlDBYijsTNx6jKSE4pvrDTs6lUnmGvNyfJwFQQwWy3owKz1ucIhveQ==}
     engines: {node: '>=18'}
+    deprecated: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   teeny-request@9.0.0:
     resolution: {integrity: sha512-resvxdc6Mgb7YEThw6G6bExlXKkv6+YbuzGg9xuXxSgxJF7Ozs+o8Y9+2R3sArdWdW8nOokoQb1yrpFB0pQK2g==}
@@ -10423,7 +10425,7 @@ snapshots:
       pkg-dir: 5.0.0
       resolve-from: 5.0.0
 
-  eslint-plugin-better-tailwindcss@4.2.0(eslint@9.39.2(jiti@2.6.1))(tailwindcss@4.1.18)(typescript@5.9.3):
+  eslint-plugin-better-tailwindcss@4.3.1(eslint@9.39.2(jiti@2.6.1))(tailwindcss@4.1.18)(typescript@5.9.3):
     dependencies:
       '@eslint/css-tree': 3.6.9
       '@valibot/to-json-schema': 1.5.0(valibot@1.2.0(typescript@5.9.3))
