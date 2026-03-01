@@ -38,7 +38,7 @@ jobs:
         run: pnpm build --filter=@bypass/extension
 
       - name: Uploading Chrome extension
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: chrome-extension-folder
           path: ./apps/extension/.output/chrome-mv3
@@ -92,7 +92,7 @@ jobs:
           restore-keys: cache-playwright-
 
       - name: Download Chrome extension
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: chrome-extension-folder
           path: ./apps/extension/.output/chrome-mv3/
@@ -112,7 +112,7 @@ jobs:
         env:
           PLAYWRIGHT_TEST_BASE_URL: ${{ needs.Build.outputs.preview_url }}
 
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: playwright-report
