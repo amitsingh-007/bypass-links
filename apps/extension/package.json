@@ -10,7 +10,7 @@
     "typecheck": "tsc --project tsconfig.production.json --noEmit"
   },
   "dependencies": {
-    "@base-ui/react": "1.1.0",
+    "@base-ui/react": "1.2.0",
     "@bypass/configs": "workspace:*",
     "@bypass/shared": "workspace:*",
     "@bypass/trpc": "workspace:*",
