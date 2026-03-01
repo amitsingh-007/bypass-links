@@ -20,7 +20,7 @@
     "@bypass/configs": "workspace:*",
     "@next/eslint-plugin-next": "16.1.6",
     "@playwright/test": "1.58.2",
-    "@types/node": "24.10.9",
+    "@types/node": "24.11.0",
     "eslint-plugin-better-tailwindcss": "4.3.1",
     "husky": "9.1.7",
     "lint-staged": "16.3.0",
