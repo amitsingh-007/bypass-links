@@ -160,8 +160,8 @@ importers:
         specifier: 19.2.3
         version: 19.2.3(@types/react@19.2.10)
       shadcn:
-        specifier: 3.8.4
-        version: 3.8.4(@types/node@24.10.9)(typescript@5.9.3)
+        specifier: 3.8.5
+        version: 3.8.5(@types/node@24.10.9)(typescript@5.9.3)
       typescript:
         specifier: 5.9.3
         version: 5.9.3
@@ -419,8 +419,8 @@ importers:
         specifier: 19.2.3
         version: 19.2.3(@types/react@19.2.10)
       shadcn:
-        specifier: 3.8.4
-        version: 3.8.4(@types/node@24.10.9)(typescript@5.9.3)
+        specifier: 3.8.5
+        version: 3.8.5(@types/node@24.10.9)(typescript@5.9.3)
 
 packages:
 
@@ -6048,8 +6048,8 @@ packages:
   setprototypeof@1.2.0:
     resolution: {integrity: sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==}
 
-  shadcn@3.8.4:
-    resolution: {integrity: sha512-pSad/m1+PGzB0aLsRBV0EkyGg9al1nJqYUuucg6d8v8xZspPZ5/ehGNEp5M4b1KQYqdO5/gGPbkhVbgmXqG9Pw==}
+  shadcn@3.8.5:
+    resolution: {integrity: sha512-jPRx44e+eyeV7xwY3BLJXcfrks00+M0h5BGB9l6DdcBW4BpAj4x3lVmVy0TXPEs2iHEisxejr62sZAAw6B1EVA==}
     hasBin: true
 
   sharp@0.34.5:
@@ -12905,7 +12905,7 @@ snapshots:
 
   setprototypeof@1.2.0: {}
 
-  shadcn@3.8.4(@types/node@24.10.9)(typescript@5.9.3):
+  shadcn@3.8.5(@types/node@24.10.9)(typescript@5.9.3):
     dependencies:
       '@antfu/ni': 25.0.0
       '@babel/core': 7.29.0
