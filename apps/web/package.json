@@ -34,7 +34,7 @@
     "zod": "4.3.6"
   },
   "devDependencies": {
-    "@playwright/test": "1.58.1",
+    "@playwright/test": "1.58.2",
     "@types/react": "19.2.10",
     "autoprefixer": "10.4.24",
     "babel-plugin-react-compiler": "1.0.0",
