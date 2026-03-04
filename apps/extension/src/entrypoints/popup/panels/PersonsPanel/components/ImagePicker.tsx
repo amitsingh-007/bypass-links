@@ -9,13 +9,13 @@ import {
   Slider,
   Spinner,
 } from '@bypass/ui';
-import { useDebounce } from 'ahooks';
 import {
   type ChangeEventHandler,
   type ClipboardEventHandler,
   useRef,
   useState,
 } from 'react';
+import { useDebouncedValue } from '@mantine/hooks';
 import AvatarEditor from 'react-avatar-editor';
 import wretch from 'wretch';
 import { uploadFileToFirebase } from '../utils/uploadImage';
@@ -30,15 +30,16 @@ interface Props {
 function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
   const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [inputOrFileValue, setInputOrFileValue] = useState<string | File>('');
-  const inputOrFile = useDebounce(inputOrFileValue, { wait: 500 });
+  const [debouncedInputUrl] = useDebouncedValue(inputOrFileValue, 500);
   const [isLoadingImage, setIsLoadingImage] = useState(false);
   const imageCropperRef = useRef<AvatarEditor>(null);
   const [zoom, setZoom] = useState(1);
   const [rotation, setRotation] = useState(0);
 
   const handleImageUrlChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-    setIsLoadingImage(true);
-    setInputOrFileValue(e.target.value ?? '');
+    const nextValue = e.target.value ?? '';
+    setInputOrFileValue(nextValue);
+    setIsLoadingImage(nextValue.trim().length > 0);
   };
 
   const handleImagePaste: ClipboardEventHandler<HTMLInputElement> = (e) => {
@@ -68,7 +69,7 @@ function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
   };
 
   const saveCroppedImage = async () => {
-    if (!inputOrFile || !imageCropperRef.current) {
+    if (!debouncedInputUrl || !imageCropperRef.current) {
       return;
     }
     try {
@@ -87,7 +88,7 @@ function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
     }
   };
 
-  const disableControls = isLoadingImage || !inputOrFile;
+  const disableControls = isLoadingImage || !debouncedInputUrl;
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onDialogClose()}>
@@ -122,7 +123,7 @@ function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
             )}
             <AvatarEditor
               ref={imageCropperRef}
-              image={inputOrFile}
+              image={debouncedInputUrl}
               crossOrigin="anonymous"
               // When changing this, change in upload API as well
               width={250}

@@ -1,8 +1,9 @@
 import { Header, type IPerson } from '@bypass/shared';
 import { Button, Switch } from '@bypass/ui';
+import { useDisclosure } from '@mantine/hooks';
 import { UserAdd01Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { memo, useState } from 'react';
+import { memo } from 'react';
 import AddOrEditPersonDialog from './AddOrEditPersonDialog';
 
 interface Props {
@@ -23,15 +24,11 @@ const PersonHeader = memo<Props>(
     orderByRecency,
     toggleOrderByRecency,
   }) => {
-    const [showAddPersonDialog, setShowAddPersonDialog] = useState(false);
-
-    const toggleAddPersonDialog = () => {
-      setShowAddPersonDialog(!showAddPersonDialog);
-    };
+    const [showAddPersonDialog, addPersonDialogHandlers] = useDisclosure(false);
 
     const handlePersonSave = async (person: IPerson) => {
       await handleAddPerson(person);
-      toggleAddPersonDialog();
+      addPersonDialogHandlers.close();
     };
 
     return (
@@ -41,7 +38,7 @@ const PersonHeader = memo<Props>(
             disabled={isFetching}
             variant="secondary"
             className="font-medium"
-            onClick={toggleAddPersonDialog}
+            onClick={addPersonDialogHandlers.open}
           >
             <HugeiconsIcon icon={UserAdd01Icon} />
             Add
@@ -59,7 +56,7 @@ const PersonHeader = memo<Props>(
           <AddOrEditPersonDialog
             isOpen={showAddPersonDialog}
             handleSaveClick={handlePersonSave}
-            onClose={toggleAddPersonDialog}
+            onClose={addPersonDialogHandlers.close}
           />
         )}
       </>

@@ -1,6 +1,7 @@
 import { type IPerson, Person } from '@bypass/shared';
+import { useDisclosure } from '@mantine/hooks';
 import { Delete02Icon, Edit01Icon } from '@hugeicons/core-free-icons';
-import { memo, useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 import ContextMenu, { type IMenuOption } from '@popup/components/ContextMenu';
 import AddOrEditPersonDialog from './AddOrEditPersonDialog';
 
@@ -12,20 +13,17 @@ interface Props {
 
 const PersonVirtualCell = memo<Props>(
   ({ person, handleEditPerson, handlePersonDelete }) => {
-    const [showEditPersonDialog, setShowEditPersonDialog] = useState(false);
+    const [showEditPersonDialog, editPersonDialogHandlers] =
+      useDisclosure(false);
 
     const handleDeleteOptionClick = useCallback(() => {
       handlePersonDelete(person);
     }, [handlePersonDelete, person]);
 
-    const toggleEditPersonDialog = useCallback(() => {
-      setShowEditPersonDialog(!showEditPersonDialog);
-    }, [showEditPersonDialog]);
-
     const menuOptions = useMemo(() => {
       const options: IMenuOption[] = [
         {
-          onClick: toggleEditPersonDialog,
+          onClick: editPersonDialogHandlers.open,
           text: 'Edit',
           id: 'edit',
           icon: Edit01Icon,
@@ -39,11 +37,11 @@ const PersonVirtualCell = memo<Props>(
         },
       ];
       return options;
-    }, [handleDeleteOptionClick, toggleEditPersonDialog]);
+    }, [editPersonDialogHandlers, handleDeleteOptionClick]);
 
     const handlePersonSave = async (updatedPerson: IPerson) => {
       await handleEditPerson(updatedPerson);
-      toggleEditPersonDialog();
+      editPersonDialogHandlers.close();
     };
 
     return (
@@ -56,7 +54,7 @@ const PersonVirtualCell = memo<Props>(
             person={person}
             isOpen={showEditPersonDialog}
             handleSaveClick={handlePersonSave}
-            onClose={toggleEditPersonDialog}
+            onClose={editPersonDialogHandlers.close}
           />
         )}
       </div>

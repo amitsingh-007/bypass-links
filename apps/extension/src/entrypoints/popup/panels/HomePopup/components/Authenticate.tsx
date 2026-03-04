@@ -3,7 +3,7 @@ import { HugeiconsIcon } from '@hugeicons/react';
 import { Login02Icon, Logout02Icon } from '@hugeicons/core-free-icons';
 import useExtStore from '@store/extension';
 import { useCallback, useEffect, useState } from 'react';
-import { toast } from 'sonner';
+import { toast } from 'react-hot-toast';
 import { signIn, signOut } from '../utils/authentication';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import useProgressStore from '@/store/progress';

@@ -1,10 +1,10 @@
 import { Toaster } from '@bypass/ui';
-import { useEventListener } from 'ahooks';
+import { useHotkeys } from '@mantine/hooks';
 import StoreListener from './StoreListener';
 
 function Global() {
   // Prevent extension popup close on Escape click
-  useEventListener('keydown', (e) => e.key === 'Escape' && e.preventDefault());
+  useHotkeys([['Escape', (e) => e.preventDefault()]]);
 
   return (
     <>

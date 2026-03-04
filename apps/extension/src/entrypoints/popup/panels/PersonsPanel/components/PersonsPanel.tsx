@@ -16,7 +16,7 @@ import {
 import { Spinner } from '@bypass/ui';
 import useHistoryStore from '@store/history';
 import { useEffect, useState } from 'react';
-import { toast } from 'sonner';
+import { toast } from 'react-hot-toast';
 import { getPersonPos, setPersonsInStorage } from '../utils';
 import { updatePersonCacheAndImageUrls } from '../utils/sync';
 import PersonHeader from './PersonHeader';

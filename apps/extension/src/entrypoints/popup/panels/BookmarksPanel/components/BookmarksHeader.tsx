@@ -1,7 +1,7 @@
 import { Header } from '@bypass/shared';
 import { Button } from '@bypass/ui';
-import { useKeyPress } from 'ahooks';
-import { memo, useState } from 'react';
+import { useDisclosure, useHotkeys } from '@mantine/hooks';
+import { memo } from 'react';
 import { BookmarkCheck01Icon, FolderAddIcon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { useShallow } from 'zustand/react/shallow';
@@ -34,8 +34,9 @@ const BookmarksHeader = memo<Props>(({ onSearchChange, folderId }) => {
       handleCreateNewFolder: state.handleCreateNewFolder,
     }))
   );
-  const [openFolderDialog, setOpenFolderDialog] = useState(false);
-  const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
+  const [openFolderDialog, folderDialogHandlers] = useDisclosure(false);
+  const [openConfirmationDialog, confirmationDialogHandlers] =
+    useDisclosure(false);
 
   const disableSave = isFetching || !isSaveButtonActive;
 
@@ -43,29 +44,32 @@ const BookmarksHeader = memo<Props>(({ onSearchChange, folderId }) => {
     handleSave(folderId);
   };
 
-  useKeyPress('meta.s', (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    if (!disableSave) {
-      handleSaveClick();
-    }
-  });
+  useHotkeys([
+    [
+      'mod+S',
+      (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!disableSave) {
+          handleSaveClick();
+        }
+      },
+    ],
+  ]);
 
   const onBackClick = () => {
     if (isSaveButtonActive) {
-      setOpenConfirmationDialog(true);
+      confirmationDialogHandlers.open();
     } else {
       handleClose();
     }
   };
 
-  const toggleNewFolderDialog = () => setOpenFolderDialog(!openFolderDialog);
-
-  const handleConfirmationDialogClose = () => setOpenConfirmationDialog(false);
+  const handleConfirmationDialogClose = confirmationDialogHandlers.close;
 
   const handleConfirmationDialogOk = () => {
     handleClose();
-    setOpenConfirmationDialog(false);
+    confirmationDialogHandlers.close();
   };
 
   const handleNewFolderSave = (folderName: string) => {
@@ -83,7 +87,7 @@ const BookmarksHeader = memo<Props>(({ onSearchChange, folderId }) => {
           variant="secondary"
           className="font-medium"
           disabled={isFetching}
-          onClick={toggleNewFolderDialog}
+          onClick={folderDialogHandlers.open}
         >
           <HugeiconsIcon icon={FolderAddIcon} className="mr-1 size-4" />
           Add
@@ -102,7 +106,7 @@ const BookmarksHeader = memo<Props>(({ onSearchChange, folderId }) => {
         headerText="Add folder"
         handleSave={handleNewFolderSave}
         isOpen={openFolderDialog}
-        onClose={toggleNewFolderDialog}
+        onClose={folderDialogHandlers.close}
       />
       <ConfirmationDialog
         isOpen={openConfirmationDialog}
