@@ -47,7 +47,6 @@ const BookmarkContextMenu = memo<Props>(
     const selectedCount = getSelectedCount(selectedBookmarks);
     const cutCount = getCutCount(cutBookmarks);
 
-    // Keyboard shortcuts using ahooks useKeyPress
     useHotkeys([
       [
         'mod+X',
