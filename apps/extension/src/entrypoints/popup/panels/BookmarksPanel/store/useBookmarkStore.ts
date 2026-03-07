@@ -11,7 +11,7 @@ import {
   getEncryptedFolder,
 } from '@bypass/shared';
 import { create } from 'zustand';
-import { toast } from 'react-hot-toast';
+import { toast } from 'sonner';
 import { isFolderContainsDir, setBookmarksInStorage } from '../utils';
 import { findBookmarkById, findBookmarkByUrl } from '../utils/bookmark';
 import { processBookmarksMove } from '../utils/manipulate';

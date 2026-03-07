@@ -3,7 +3,7 @@ import { Button, Spinner } from '@bypass/ui';
 import { Link01Icon, Download03Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { useEffect, useState } from 'react';
-import { toast } from 'react-hot-toast';
+import { toast } from 'sonner';
 import { syncRedirectionsToStorage } from '@background/redirections';
 import { DEFAULT_RULE_ALIAS } from '../constants';
 import { getValidRules, isMatchingRule } from '../utils';

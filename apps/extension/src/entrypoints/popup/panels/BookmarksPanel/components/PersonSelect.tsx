@@ -7,20 +7,17 @@ import {
 import {
   Avatar,
   AvatarImage,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+  Combobox,
+  ComboboxChips,
+  ComboboxChip,
+  ComboboxChipsInput,
+  ComboboxContent,
+  ComboboxItem,
+  ComboboxList,
   Switch,
+  useComboboxAnchor,
 } from '@bypass/ui';
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-  type ReactNode,
-} from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 interface IOptionData {
   label: string;
@@ -38,6 +35,8 @@ function PersonSelect({ value, onChange }: PersonSelectProps) {
   const { getAllDecodedPersons, getPersonsWithImageUrl } = usePerson();
   const [personList, setPersonList] = useState<IOptionData[]>([]);
   const [orderByRecency, setOrderByRecency] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
+  const anchorRef = useComboboxAnchor();
 
   const initPersonList = useCallback(async () => {
     const decodedPersons = await getAllDecodedPersons();
@@ -65,42 +64,20 @@ function PersonSelect({ value, onChange }: PersonSelectProps) {
 
   const toggleOrderByRecency = () => setOrderByRecency((prev) => !prev);
 
-  const selectedPersons = useMemo(() => {
-    const selected = new Set(value);
-    return personList.filter((person) => selected.has(person.value));
-  }, [personList, value]);
+  const selectedPersons = useMemo(
+    () => personList.filter((p) => value.includes(p.value)),
+    [personList, value]
+  );
 
-  const getSelectedLabel = (selectedValue: unknown): ReactNode => {
-    const selectedItems = Array.isArray(selectedValue)
-      ? (selectedValue as IOptionData[])
-      : selectedValue
-        ? [selectedValue as IOptionData]
-        : [];
-
-    if (selectedItems.length === 0) {
-      return 'Select persons';
-    }
-
-    if (selectedItems.length > 2) {
-      return `${selectedItems.length} persons selected`;
-    }
-
-    return (
-      <div className="flex min-w-0 items-center gap-1.5">
-        {selectedItems.map((person) => (
-          <span
-            key={person.value}
-            className="flex min-w-0 items-center gap-1.5"
-          >
-            <Avatar size="sm" className="size-5! shrink-0">
-              <AvatarImage src={person.image} alt={person.label} />
-            </Avatar>
-            <span className="truncate">{person.label}</span>
-          </span>
-        ))}
-      </div>
+  // Filter persons based on search query
+  const filteredPersonList = useMemo(() => {
+    if (!searchQuery.trim()) return personList;
+    return personList.filter((person) =>
+      person.label.toLowerCase().includes(searchQuery.toLowerCase())
     );
-  };
+  }, [personList, searchQuery]);
+
+  const hasResults = filteredPersonList.length > 0;
 
   return (
     <div className="flex flex-col gap-2">
@@ -115,36 +92,57 @@ function PersonSelect({ value, onChange }: PersonSelectProps) {
           />
         </div>
       </div>
-      <div className="w-full">
-        <Select
+      <div ref={anchorRef} className="w-full">
+        <Combobox
           multiple
-          value={selectedPersons}
-          isItemEqualToValue={(item, selectedItem) =>
-            item.value === selectedItem.value
-          }
+          value={value}
           onValueChange={(newValue) => {
-            if (!Array.isArray(newValue)) {
-              onChange([]);
-              return;
+            if (Array.isArray(newValue)) {
+              onChange(newValue);
+              setSearchQuery('');
             }
-
-            onChange(newValue.map((person) => person.value));
           }}
         >
-          <SelectTrigger className="w-full" data-testid="person-select">
-            <SelectValue>{getSelectedLabel}</SelectValue>
-          </SelectTrigger>
-          <SelectContent className="max-h-60 p-1">
-            {personList.map((person) => (
-              <SelectItem key={person.value} value={person}>
-                <Avatar size="sm" className="size-5!">
-                  <AvatarImage src={person.image} alt={person.label} />
-                </Avatar>
-                <span className="flex-1">{person.label}</span>
-              </SelectItem>
+          <ComboboxChips className="w-full" data-testid="person-select">
+            {selectedPersons.map((person) => (
+              <ComboboxChip
+                key={person.value}
+                data-testid={`person-chip-${person.label}`}
+              >
+                <div className="flex items-center gap-1">
+                  <Avatar size="sm" className="size-5!">
+                    <AvatarImage src={person.image} alt={person.label} />
+                  </Avatar>
+                  <span className="truncate">{person.label}</span>
+                </div>
+              </ComboboxChip>
             ))}
-          </SelectContent>
-        </Select>
+            <ComboboxChipsInput
+              placeholder="Search persons..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </ComboboxChips>
+          <ComboboxContent anchor={anchorRef.current} className="max-h-60 p-1">
+            <ComboboxList className="p-1">
+              {filteredPersonList.map((person) => (
+                <ComboboxItem key={person.value} value={person.value}>
+                  <div className="flex items-center gap-2">
+                    <Avatar size="sm" className="size-5!">
+                      <AvatarImage src={person.image} alt={person.label} />
+                    </Avatar>
+                    <span className="flex-1">{person.label}</span>
+                  </div>
+                </ComboboxItem>
+              ))}
+            </ComboboxList>
+            {!hasResults && (
+              <div className="py-2 text-center text-sm text-muted-foreground">
+                No persons found
+              </div>
+            )}
+          </ComboboxContent>
+        </Combobox>
       </div>
     </div>
   );
