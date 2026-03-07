@@ -37,7 +37,7 @@ const PersonVirtualCell = memo<Props>(
         },
       ];
       return options;
-    }, [editPersonDialogHandlers, handleDeleteOptionClick]);
+    }, [editPersonDialogHandlers.open, handleDeleteOptionClick]);
 
     const handlePersonSave = async (updatedPerson: IPerson) => {
       await handleEditPerson(updatedPerson);
