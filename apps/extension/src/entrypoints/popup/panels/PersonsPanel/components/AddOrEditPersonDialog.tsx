@@ -15,6 +15,7 @@ import {
   Input,
   Spinner,
 } from '@bypass/ui';
+import { useDisclosure } from '@mantine/hooks';
 import { useForm, useStore } from '@tanstack/react-form';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { UserWarning03Icon } from '@hugeicons/core-free-icons';
@@ -45,7 +46,7 @@ function AddOrEditPersonDialog({
   const { resolvePersonImageFromUid } = usePerson();
   const initialUid = useRef(crypto.randomUUID());
   const [imageUrl, setImageUrl] = useState('');
-  const [showImagePicker, setShowImagePicker] = useState(false);
+  const [showImagePicker, imagePickerHandlers] = useDisclosure(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm({
@@ -104,8 +105,6 @@ function AddOrEditPersonDialog({
     setImageUrl(url);
   };
 
-  const toggleImagePicker = () => setShowImagePicker(!showImagePicker);
-
   const uid = useStore(form.store, (state) => state.values.uid);
 
   return (
@@ -147,7 +146,7 @@ function AddOrEditPersonDialog({
                   data-testid="change-avatar-button"
                   className="absolute inset-0 rounded-xl border-0"
                   style={{ width: IMAGE_SIZE, height: IMAGE_SIZE }}
-                  onClick={toggleImagePicker}
+                  onClick={imagePickerHandlers.open}
                 />
               </div>
             </div>
@@ -181,7 +180,7 @@ function AddOrEditPersonDialog({
         uid={uid}
         isOpen={showImagePicker}
         handleImageSave={handleImageCropSave}
-        onDialogClose={toggleImagePicker}
+        onDialogClose={imagePickerHandlers.close}
       />
     </>
   );

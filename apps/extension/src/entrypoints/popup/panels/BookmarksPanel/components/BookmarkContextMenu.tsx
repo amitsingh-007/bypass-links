@@ -6,7 +6,7 @@ import {
   FilePasteIcon,
   LinkSquare02Icon,
 } from '@hugeicons/core-free-icons';
-import { useKeyPress } from 'ahooks';
+import { useHotkeys } from '@mantine/hooks';
 import { memo, useCallback, type PropsWithChildren } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import ContextMenu, { type IMenuOption } from '@popup/components/ContextMenu';
@@ -47,16 +47,22 @@ const BookmarkContextMenu = memo<Props>(
     const selectedCount = getSelectedCount(selectedBookmarks);
     const cutCount = getCutCount(cutBookmarks);
 
-    // Keyboard shortcuts using ahooks useKeyPress
-    useKeyPress(['meta.x'], (e) => {
-      e.stopPropagation();
-      handleCutBookmarks();
-    });
-
-    useKeyPress(['meta.v'], (e) => {
-      e.stopPropagation();
-      handlePasteSelectedBookmarks();
-    });
+    useHotkeys([
+      [
+        'mod+X',
+        (e) => {
+          e.stopPropagation();
+          handleCutBookmarks();
+        },
+      ],
+      [
+        'mod+V',
+        (e) => {
+          e.stopPropagation();
+          handlePasteSelectedBookmarks();
+        },
+      ],
+    ]);
 
     const getBookmark = useCallback(
       (id: string) => {

@@ -1,12 +1,11 @@
 import { ScrollArea } from '@bypass/ui';
-import { useSize } from 'ahooks';
+import { useElementSize } from '@mantine/hooks';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import {
   type ReactNode,
   useCallback,
   useContext,
   useEffect,
-  useRef,
   useState,
 } from 'react';
 import usePlatform from '../../../hooks/usePlatform';
@@ -117,15 +116,14 @@ function Persons(props: Props) {
   const { persons } = props;
   const [personToOpen, setPersonToOpen] = useState<IPerson>();
   const [personToOpenImage, setPersonToOpenImage] = useState('');
-  const containerRef = useRef<HTMLDivElement>(null);
+  const { ref: containerRef, width: bodyWidth } =
+    useElementSize<HTMLDivElement>();
   const [scrollElement, setScrollElement] = useState<HTMLDivElement | null>(
     null
   );
   const handleViewportRef = useCallback((node: HTMLDivElement | null) => {
     setScrollElement(node);
   }, []);
-  const size = useSize(containerRef);
-  const bodyWidth = size?.width ?? 0;
   const { location } = useContext(DynamicContext);
   const queryString = location.query();
   const { resolvePersonImageFromUid } = usePerson();

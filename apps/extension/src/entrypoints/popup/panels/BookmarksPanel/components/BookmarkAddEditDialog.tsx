@@ -1,6 +1,7 @@
 import { z } from 'zod/mini';
 import { useForm } from '@tanstack/react-form';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useDisclosure } from '@mantine/hooks';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useLocation } from 'wouter';
 import { useShallow } from 'zustand/react/shallow';
 import {
@@ -78,7 +79,7 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
     }))
   );
   const { operation, url: bmUrl } = bookmarkOperation;
-  const [openDialog, setOpenDialog] = useState(false);
+  const [openDialog, dialogHandlers] = useDisclosure(false);
 
   const { folderOptions, defaultFolderId } = useMemo(() => {
     const decodedFolderList = getDecodedFolderList(folderList);
@@ -134,7 +135,7 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
         form.setFieldValue('title', title);
         form.setFieldValue('folderId', defaultFolderId ?? ROOT_FOLDER_ID);
         form.setFieldValue('taggedPersons', []);
-        setOpenDialog(true);
+        dialogHandlers.open();
         return;
       }
 
@@ -153,7 +154,7 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
         form.setFieldValue('title', bookmark.title);
         form.setFieldValue('folderId', curFolderId);
         form.setFieldValue('taggedPersons', bookmark.taggedPersons);
-        setOpenDialog(true);
+        dialogHandlers.open();
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -179,7 +180,7 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
     }
     form.reset();
     resetBookmarkOperation();
-    setOpenDialog(false);
+    dialogHandlers.close();
   };
 
   const handleDelete = () => {

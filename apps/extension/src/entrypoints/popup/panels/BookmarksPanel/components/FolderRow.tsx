@@ -1,4 +1,5 @@
 import { Folder, type FolderProps } from '@bypass/shared';
+import { useDisclosure } from '@mantine/hooks';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
   FolderEditIcon,
@@ -6,7 +7,7 @@ import {
   StarIcon,
   StarOffIcon,
 } from '@hugeicons/core-free-icons';
-import { memo, useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 import ContextMenu, { type IMenuOption } from '@popup/components/ContextMenu';
 import { FolderAddEditDialog } from './FolderAddEditDialog';
 
@@ -28,11 +29,7 @@ const FolderRow = memo<Props>(
     toggleDefaultFolder,
     ...restProps
   }) => {
-    const [openEditDialog, setOpenEditDialog] = useState(false);
-
-    const toggleEditDialog = useCallback(() => {
-      setOpenEditDialog((prev) => !prev);
-    }, []);
+    const [openEditDialog, editDialogHandlers] = useDisclosure(false);
 
     const handleDeleteOptionClick = useCallback(() => {
       handleRemove(id);
@@ -49,7 +46,7 @@ const FolderRow = memo<Props>(
     const menuOptions = useMemo(() => {
       const options: IMenuOption[] = [
         {
-          onClick: toggleEditDialog,
+          onClick: editDialogHandlers.open,
           text: 'Edit',
           id: 'edit',
           icon: FolderEditIcon,
@@ -72,8 +69,8 @@ const FolderRow = memo<Props>(
     }, [
       handleDefaultOptionClick,
       handleDeleteOptionClick,
+      editDialogHandlers.open,
       isDefault,
-      toggleEditDialog,
     ]);
 
     return (
@@ -98,7 +95,7 @@ const FolderRow = memo<Props>(
           origName={origName}
           handleSave={handleFolderSave}
           isOpen={openEditDialog}
-          onClose={toggleEditDialog}
+          onClose={editDialogHandlers.close}
         />
       </>
     );

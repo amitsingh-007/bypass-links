@@ -148,13 +148,15 @@ export class BookmarksPanel {
     const dialog = await this.openEditBookmarkDialog(bookmarkTitle);
     await expect(dialog).toBeVisible();
 
-    const chipToRemove = dialog.getByTestId(`person-chip-${personName}`);
-    await expect(chipToRemove).toBeVisible();
+    const personSelect = dialog.getByTestId('person-select');
+    await personSelect.click();
 
-    // Focus the chip and use keyboard to remove it (Backspace or Delete key)
-    await chipToRemove.click();
-    await this.page.keyboard.press('Backspace');
-    await expect(chipToRemove).not.toBeVisible();
+    const option = this.page.getByRole('option', { name: personName });
+    await expect(option).toBeVisible();
+    await option.click();
+
+    // Close dropdown before saving
+    await this.page.keyboard.press('Escape');
 
     const saveButton = dialog.getByTestId('dialog-save-button');
     await saveButton.click();
