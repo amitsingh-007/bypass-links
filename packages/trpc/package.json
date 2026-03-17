@@ -15,16 +15,16 @@
   "dependencies": {
     "@bypass/configs": "workspace:*",
     "@bypass/shared": "workspace:*",
-    "@octokit/rest": "22.0.1",
-    "@t3-oss/env-core": "0.13.10",
-    "@trpc/server": "11.10.0",
-    "filenamify": "7.0.1",
-    "firebase-admin": "13.7.0",
-    "zod": "4.3.6"
+    "@octokit/rest": "catalog:",
+    "@t3-oss/env-core": "catalog:",
+    "@trpc/server": "catalog:",
+    "filenamify": "catalog:",
+    "firebase-admin": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
-    "firebase": "12.10.0",
-    "type-fest": "5.4.4",
-    "typescript": "5.9.3"
+    "firebase": "catalog:",
+    "type-fest": "catalog:",
+    "typescript": "catalog:"
   }
 }
