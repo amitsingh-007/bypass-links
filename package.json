@@ -14,7 +14,8 @@
     "typecheck": "tsc --noEmit",
     "typecheck:all": "turbo run typecheck",
     "precommit": "lint-staged --quiet",
-    "prepare": "husky"
+    "prepare": "husky",
+    "update:shadcn": "cd packages/ui && for file in src/components/ui/*.tsx; do pnpx shadcn@latest add -y -o $(basename \"$file\" .tsx); done"
   },
   "devDependencies": {
     "@bypass/configs": "workspace:*",
