@@ -1,26 +1,20 @@
 ---
 name: e2e-test-generation
 description: Create E2E tests for Chrome extension using Playwright
-license: MIT
-compatibility: opencode
-metadata:
-  audience: developers
-  framework: playwright
-  target: extension
 ---
 
-## What I do
+# E2E Test Generation
 
 - Create Playwright E2E tests for the Chrome extension
 - Use `data-testid` and `getByTestId()` as the primary test selector pattern
 - Add semantic selectors (role-based, data-testid) instead of class selectors
 - Add `data-testid` attributes to components when needed for robust test selectors
-- Define test constants for reusable test data in `apps/extension/tests/constants.ts`
+- Reuse shared test constants from `@bypass/shared/tests` and add local constants only when test-specific
 - Follow project conventions: test.describe for 2+ tests, exact text matches, no evaluate() for clicks
 - Use project fixtures: `import { test, expect } from '../fixtures/bookmark-fixture'`
 - Run the generated test file after making changes
 
-## When to use me
+## When to Use This Skill
 
 Use this when you need to create new E2E tests or update existing tests for the Chrome extension.
 
@@ -32,14 +26,10 @@ I will ask clarifying questions if:
 
 ## Selector Priority (use in this order)
 
-1. **data-testid with getByTestId()** (highest priority - standard for this project)
+1. **data-testid with getByTestId()** (project standard, including dynamic patterns)
 
    ```typescript
    bookmarksPage.getByTestId('folder-item-Main');
-   bookmarksPage.getByTestId('bookmark-item-React Docs');
-   bookmarksPage.getByTestId('person-item-John Doe');
-
-   // For dynamic patterns, use locator with ^=
    bookmarksPage.locator('[data-testid^="bookmark-item-"]');
    ```
 
@@ -57,40 +47,35 @@ I will ask clarifying questions if:
    bookmarksPage.getByLabel('History');
    ```
 
-4. **Title/Alt Selectors**
+4. **Text Content** (transient UI only: toasts, notifications, short labels)
+
+   ```typescript
+   bookmarksPage.getByText('Remove inner folders first');
+   ```
+
+5. **Title/Alt Selectors** (fallback when better selectors are unavailable)
 
    ```typescript
    bookmarksPage.getByTitle('Edit Bookmark');
    bookmarksPage.getByAltText('User avatar');
    ```
 
-5. **Text Content** (use sparingly)
-   ```typescript
-   bookmarksPage.getByText('Tagged Persons');
-   ```
-
 ## Selector Anti-Patterns (NEVER use)
 
 - Class selectors: `[class*="Folder-module__container"]`, `.some-generated-class`
 - Custom data attributes (other than `data-testid`): `data-folder-name`, `data-context-id`, etc.
-- Regex for simple text: `{ name: /add/i }` → use `{ name: 'Add' }`
-- Positional selectors when specific selection is possible: `.first()`, `.nth()`
+- Unnecessary regex for stable labels: `{ name: /add/i }` when `{ name: 'Add' }` is sufficient
+- Positional selectors when a stable semantic selector is available: `.first()`, `.nth()`
 - Generic CSS selectors without semantic meaning
 - Generic element selectors: `img`, `div`, `span` (use `data-testid` instead)
 - `.evaluate()` for clicks (use direct `.click()` instead)
 
-## When Positional Selectors Are OK
-
-- Generic UI elements without unique `data-testid` attributes
-- Tests that need "any" element rather than a specific one
-- Temporary UI elements (tooltips, context menus) where adding `data-testid` is impractical
-
 ## Coding Style Guidelines
 
-- **Exact text matches**: Use `{ name: 'Add' }` not `{ name: /add/i }`
-- **Specific selectors**: Target parent div to avoid duplicate elements
-- **Test constants**: Define constants in `apps/extension/tests/constants.ts` for reusable data
+- **Test constants**: Reuse `@bypass/shared/tests` constants first; keep local constants scoped to a spec when needed
 - **Group tests**: Only use `test.describe` for 2+ tests
+- **Test names**: Use clear names that describe behavior under test
+- **Determinism**: Prefer explicit waits on visible UI state over brittle timing assumptions
 - **Clear comments**: Explain "why", not "what"
 
 ## Common Patterns
@@ -140,23 +125,16 @@ expect(newPage).toBeTruthy();
 
 ## After Test Creation
 
-Run the generated test file to verify it works:
+Run the test file to verify it works:
 
 ```bash
-playwright test apps/extension/tests/specs/<your-test-file>.spec.ts
+pnpm e2e apps/extension/tests/specs/<your-test-file>.spec.ts
 ```
 
-## Checklist Before Committing
+## Rules Before Committing
 
-- [ ] Tests use `getByTestId()` with `data-testid` as primary selector
-- [ ] Tests use semantic selectors (roles) when `data-testid` not available
-- [ ] No regex for simple text matches
-- [ ] No class-based selectors
-- [ ] No custom data attributes (only `data-testid`)
-- [ ] Avoid `.evaluate()` for clicks (use direct `.click()`)
-- [ ] Test constants defined for reusable data
-- [ ] `data-testid` attributes added to components if needed
-- [ ] Only use `test.describe` for 2+ tests
-- [ ] Clear, descriptive test names
-- [ ] All tests pass locally
-- [ ] Tests are deterministic (no flaky behavior)
+- Follow selector priority and anti-pattern guidance above
+- Reuse shared constants from `@bypass/shared/tests` where possible
+- Use `test.describe` only for 2+ related tests
+- Keep test names clear and behavior-focused
+- Ensure tests pass locally and are deterministic

@@ -1,6 +1,6 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance for coding agents working with this repository.
 
 ## Project Overview
 
@@ -52,15 +52,18 @@ This is a **Turbo + pnpm monorepo** with the following structure:
 
 Turbo manages task dependencies defined in `turbo.json`:
 
-- `build` tasks depend on `//#lint` and `//#typecheck` completing first
+- `build` tasks depend on `//#lint:ci` and `//#typecheck` completing first
 
 ## E2E Testing
 
-Playwright tests use a unique setup/teardown pattern for extension testing:
+Playwright tests use setup/teardown projects for both web and extension flows:
 
-1. **extension-setup** (`apps/extension/tests/auth.setup.ts`) - Runs once per test run to authenticate and cache the Chrome profile
-2. **@bypass/extension** (`apps/extension/tests/specs/`) - Parallel tests using cached authenticated profile
-3. **extension-teardown** (`apps/extension/tests/global-teardown.ts`) - Cleans up .cache directory
+1. **web-auth-setup** (`apps/web/tests/auth.setup.ts`) - Runs once per test run to authenticate and cache storage
+2. **@bypass/web-with-auth** (`apps/web/tests/specs/`) - Runs web specs with cached authenticated storage
+3. **web-teardown** (`apps/web/tests/global-teardown.ts`) - Cleans up `.cache` after web tests complete
+4. **extension-setup** (`apps/extension/tests/auth.setup.ts`) - Runs once per test run to authenticate and cache the Chrome profile
+5. **@bypass/extension** (`apps/extension/tests/specs/`) - Parallel extension tests using cached authenticated profile
+6. **extension-teardown** (`apps/extension/tests/global-teardown.ts`) - Cleans up `.cache` after extension tests complete
 
 ## Key Technologies
 
@@ -105,6 +108,10 @@ All new UI components should be added to `packages/ui` and exported from `packag
 - Ask any questions instead of assuming things when in plan mode
 - Never automatically commit or push changes unless explicitly asked
 
+## Specialized Skills
+
+- Domain-specific agent skills live in `.agents/skills/`
+
 ## Post-Change Verification
 
 After making changes, run the following commands:
@@ -114,7 +121,3 @@ pnpm lint
 pnpm typecheck:all
 pnpm e2e <relative-filepath>
 ```
-
-## IMPORTANT
-
-If you are migrating Mantine to Shadcn, strictly follow apps/extension/shadcn-migration.md
