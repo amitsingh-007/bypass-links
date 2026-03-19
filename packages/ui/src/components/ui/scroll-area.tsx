@@ -7,7 +7,7 @@ type ScrollAreaProps = ScrollAreaPrimitive.Root.Props & {
   viewportRef?: React.Ref<HTMLDivElement>
 }
 
-// Manually added viewportRef and ref after shadcn installation. Keep this after upating the components
+// Manually added viewportRef and ref after shadcn installation. Keep this after updating the components
 const ScrollArea = React.forwardRef<HTMLDivElement, ScrollAreaProps>(
   ({ className, children, viewportRef, ...props }, ref) => {
     return (
