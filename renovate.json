@@ -2,12 +2,15 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended",
+    "abandonments:recommended",
+    "security:minimumReleaseAgeNpm",
+    "schedule:monthly",
+    ":configMigration",
     ":disableRateLimiting",
     ":rebaseStalePrs",
     ":updateNotScheduled",
     ":automergeMinor",
-    ":maintainLockFilesMonthly",
-    "schedule:monthly"
+    ":maintainLockFilesMonthly"
   ],
   "baseBranchPatterns": ["renovate-updates"]
 }

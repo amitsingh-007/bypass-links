@@ -17,22 +17,22 @@
   "peerDependencies": {
     "@bypass/configs": "workspace:*",
     "@bypass/ui": "workspace:*",
-    "@hugeicons/core-free-icons": "3.3.0",
-    "@hugeicons/react": "1.1.5",
-    "@mantine/hooks": "8.3.15",
-    "@tanstack/react-virtual": "3.13.18",
-    "clsx": "2.1.1",
-    "p-limit": "7.3.0",
-    "preact": "10.28.4",
-    "react": "19.2.4",
-    "wretch": "3.0.6",
-    "zod": "4.3.6"
+    "@hugeicons/core-free-icons": "catalog:",
+    "@hugeicons/react": "catalog:",
+    "@mantine/hooks": "catalog:",
+    "@tanstack/react-virtual": "catalog:",
+    "clsx": "catalog:",
+    "p-limit": "catalog:",
+    "preact": "catalog:",
+    "react": "catalog:",
+    "wretch": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@bypass/configs": "workspace:*",
-    "@playwright/test": "1.58.2",
-    "@total-typescript/ts-reset": "0.6.1",
-    "@types/react": "19.2.14",
-    "typescript": "5.9.3"
+    "@playwright/test": "catalog:",
+    "@total-typescript/ts-reset": "catalog:",
+    "@types/react": "catalog:",
+    "typescript": "catalog:"
   }
 }

@@ -4,6 +4,198 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+catalogs:
+  default:
+    '@base-ui/react':
+      specifier: 1.2.0
+      version: 1.2.0
+    '@hugeicons/core-free-icons':
+      specifier: 3.3.0
+      version: 3.3.0
+    '@hugeicons/react':
+      specifier: 1.1.5
+      version: 1.1.5
+    '@mantine/hooks':
+      specifier: 8.3.15
+      version: 8.3.15
+    '@next/eslint-plugin-next':
+      specifier: 16.1.6
+      version: 16.1.6
+    '@octokit/rest':
+      specifier: 22.0.1
+      version: 22.0.1
+    '@playwright/test':
+      specifier: 1.58.2
+      version: 1.58.2
+    '@preact/preset-vite':
+      specifier: 2.10.3
+      version: 2.10.3
+    '@t3-oss/env-core':
+      specifier: 0.13.10
+      version: 0.13.10
+    '@t3-oss/env-nextjs':
+      specifier: 0.13.10
+      version: 0.13.10
+    '@tailwindcss/postcss':
+      specifier: 4.2.1
+      version: 4.2.1
+    '@tailwindcss/vite':
+      specifier: 4.2.1
+      version: 4.2.1
+    '@tanstack/react-form':
+      specifier: 1.28.3
+      version: 1.28.3
+    '@tanstack/react-virtual':
+      specifier: 3.13.18
+      version: 3.13.18
+    '@total-typescript/ts-reset':
+      specifier: 0.6.1
+      version: 0.6.1
+    '@trpc/client':
+      specifier: 11.10.0
+      version: 11.10.0
+    '@trpc/server':
+      specifier: 11.10.0
+      version: 11.10.0
+    '@types/node':
+      specifier: 24.11.0
+      version: 24.11.0
+    '@types/react':
+      specifier: 19.2.14
+      version: 19.2.14
+    '@types/react-avatar-editor':
+      specifier: 13.0.4
+      version: 13.0.4
+    '@types/react-dom':
+      specifier: 19.2.3
+      version: 19.2.3
+    '@vercel/analytics':
+      specifier: 1.6.1
+      version: 1.6.1
+    '@vercel/speed-insights':
+      specifier: 1.3.1
+      version: 1.3.1
+    autoprefixer:
+      specifier: 10.4.27
+      version: 10.4.27
+    babel-plugin-react-compiler:
+      specifier: 1.0.0
+      version: 1.0.0
+    class-variance-authority:
+      specifier: 0.7.1
+      version: 0.7.1
+    clsx:
+      specifier: 2.1.1
+      version: 2.1.1
+    dayjs:
+      specifier: 1.11.19
+      version: 1.11.19
+    eslint-plugin-better-tailwindcss:
+      specifier: 4.3.1
+      version: 4.3.1
+    file-type:
+      specifier: 21.3.0
+      version: 21.3.0
+    filenamify:
+      specifier: 7.0.1
+      version: 7.0.1
+    firebase:
+      specifier: 12.10.0
+      version: 12.10.0
+    firebase-admin:
+      specifier: 13.7.0
+      version: 13.7.0
+    husky:
+      specifier: 9.1.7
+      version: 9.1.7
+    lint-staged:
+      specifier: 16.3.0
+      version: 16.3.0
+    next:
+      specifier: 16.1.6
+      version: 16.1.6
+    next-themes:
+      specifier: 0.4.6
+      version: 0.4.6
+    p-limit:
+      specifier: 7.3.0
+      version: 7.3.0
+    postcss:
+      specifier: 8.5.6
+      version: 8.5.6
+    preact:
+      specifier: 10.28.4
+      version: 10.28.4
+    prettier:
+      specifier: 3.8.1
+      version: 3.8.1
+    react:
+      specifier: 19.2.4
+      version: 19.2.4
+    react-avatar-editor:
+      specifier: 13.0.2
+      version: 13.0.2
+    react-dom:
+      specifier: 19.2.4
+      version: 19.2.4
+    shadcn:
+      specifier: 3.8.5
+      version: 3.8.5
+    sharp:
+      specifier: 0.34.5
+      version: 0.34.5
+    sonner:
+      specifier: 2.0.7
+      version: 2.0.7
+    tailwind-merge:
+      specifier: 3.5.0
+      version: 3.5.0
+    tailwindcss:
+      specifier: 4.2.1
+      version: 4.2.1
+    turbo:
+      specifier: 2.8.12
+      version: 2.8.12
+    tw-animate-css:
+      specifier: 1.4.0
+      version: 1.4.0
+    type-fest:
+      specifier: 5.4.4
+      version: 5.4.4
+    typescript:
+      specifier: 5.9.3
+      version: 5.9.3
+    vercel:
+      specifier: 50.25.4
+      version: 50.25.4
+    vite:
+      specifier: 7.3.1
+      version: 7.3.1
+    vite-tsconfig-paths:
+      specifier: 6.1.1
+      version: 6.1.1
+    wouter:
+      specifier: 3.9.0
+      version: 3.9.0
+    wouter-preact:
+      specifier: 3.9.0
+      version: 3.9.0
+    wretch:
+      specifier: 3.0.6
+      version: 3.0.6
+    wxt:
+      specifier: 0.20.18
+      version: 0.20.18
+    xo:
+      specifier: 1.2.3
+      version: 1.2.3
+    zod:
+      specifier: 4.3.6
+      version: 4.3.6
+    zustand:
+      specifier: 5.0.11
+      version: 5.0.11
+
 importers:
 
   .:
@@ -12,43 +204,43 @@ importers:
         specifier: workspace:*
         version: link:packages/configs
       '@next/eslint-plugin-next':
-        specifier: 16.1.6
+        specifier: 'catalog:'
         version: 16.1.6
       '@playwright/test':
-        specifier: 1.58.2
+        specifier: 'catalog:'
         version: 1.58.2
       '@types/node':
-        specifier: 24.11.0
+        specifier: 'catalog:'
         version: 24.11.0
       eslint-plugin-better-tailwindcss:
-        specifier: 4.3.1
+        specifier: 'catalog:'
         version: 4.3.1(eslint@9.39.2(jiti@2.6.1))(tailwindcss@4.2.1)(typescript@5.9.3)
       husky:
-        specifier: 9.1.7
+        specifier: 'catalog:'
         version: 9.1.7
       lint-staged:
-        specifier: 16.3.0
+        specifier: 'catalog:'
         version: 16.3.0
       prettier:
-        specifier: 3.8.1
+        specifier: 'catalog:'
         version: 3.8.1
       turbo:
-        specifier: 2.8.12
+        specifier: 'catalog:'
         version: 2.8.12
       typescript:
-        specifier: 5.9.3
+        specifier: 'catalog:'
         version: 5.9.3
       vercel:
-        specifier: 50.25.4
+        specifier: 'catalog:'
         version: 50.25.4(rollup@4.57.1)(typescript@5.9.3)
       xo:
-        specifier: 1.2.3
+        specifier: 'catalog:'
         version: 1.2.3(@types/eslint@8.56.12)(@typescript-eslint/utils@8.54.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(jiti@2.6.1)(typescript@5.9.3)
 
   apps/extension:
     dependencies:
       '@base-ui/react':
-        specifier: 1.2.0
+        specifier: 'catalog:'
         version: 1.2.0(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@bypass/configs':
         specifier: workspace:*
@@ -63,122 +255,122 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ui
       '@hugeicons/core-free-icons':
-        specifier: 3.3.0
+        specifier: 'catalog:'
         version: 3.3.0
       '@hugeicons/react':
-        specifier: 1.1.5
+        specifier: 'catalog:'
         version: 1.1.5(react@19.2.4)
       '@mantine/hooks':
-        specifier: 8.3.15
+        specifier: 'catalog:'
         version: 8.3.15(react@19.2.4)
       '@t3-oss/env-core':
-        specifier: 0.13.10
+        specifier: 'catalog:'
         version: 0.13.10(typescript@5.9.3)(valibot@1.2.0(typescript@5.9.3))(zod@4.3.6)
       '@tanstack/react-form':
-        specifier: 1.28.3
+        specifier: 'catalog:'
         version: 1.28.3(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@tanstack/react-virtual':
-        specifier: 3.13.18
+        specifier: 'catalog:'
         version: 3.13.18(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@trpc/client':
-        specifier: 11.10.0
+        specifier: 'catalog:'
         version: 11.10.0(@trpc/server@11.10.0(typescript@5.9.3))(typescript@5.9.3)
       '@trpc/server':
-        specifier: 11.10.0
+        specifier: 'catalog:'
         version: 11.10.0(typescript@5.9.3)
       class-variance-authority:
-        specifier: 0.7.1
+        specifier: 'catalog:'
         version: 0.7.1
       clsx:
-        specifier: 2.1.1
+        specifier: 'catalog:'
         version: 2.1.1
       next-themes:
-        specifier: 0.4.6
+        specifier: 'catalog:'
         version: 0.4.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       p-limit:
-        specifier: 7.3.0
+        specifier: 'catalog:'
         version: 7.3.0
       preact:
-        specifier: 10.28.4
+        specifier: 'catalog:'
         version: 10.28.4
       react:
-        specifier: 19.2.4
+        specifier: 'catalog:'
         version: 19.2.4
       react-avatar-editor:
-        specifier: 13.0.2
+        specifier: 'catalog:'
         version: 13.0.2(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       react-dom:
-        specifier: 19.2.4
+        specifier: 'catalog:'
         version: 19.2.4(react@19.2.4)
       sonner:
-        specifier: 2.0.7
+        specifier: 'catalog:'
         version: 2.0.7(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       tailwind-merge:
-        specifier: 3.5.0
+        specifier: 'catalog:'
         version: 3.5.0
       tailwindcss:
-        specifier: 4.2.1
+        specifier: 'catalog:'
         version: 4.2.1
       tw-animate-css:
-        specifier: 1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       wouter:
-        specifier: 3.9.0
+        specifier: 'catalog:'
         version: 3.9.0(react@19.2.4)
       wouter-preact:
-        specifier: 3.9.0
+        specifier: 'catalog:'
         version: 3.9.0(preact@10.28.4)
       wretch:
-        specifier: 3.0.6
+        specifier: 'catalog:'
         version: 3.0.6
       zod:
-        specifier: 4.3.6
+        specifier: 'catalog:'
         version: 4.3.6
       zustand:
-        specifier: 5.0.11
+        specifier: 'catalog:'
         version: 5.0.11(@types/react@19.2.14)(react@19.2.4)(use-sync-external-store@1.6.0(react@19.2.4))
     devDependencies:
       '@playwright/test':
-        specifier: 1.58.2
+        specifier: 'catalog:'
         version: 1.58.2
       '@preact/preset-vite':
-        specifier: 2.10.3
+        specifier: 'catalog:'
         version: 2.10.3(@babel/core@7.29.0)(preact@10.28.4)(rollup@4.57.1)(vite@7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.6))(tsx@4.21.0)(yaml@2.8.2))
       '@tailwindcss/vite':
-        specifier: 4.2.1
+        specifier: 'catalog:'
         version: 4.2.1(vite@7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.6))(tsx@4.21.0)(yaml@2.8.2))
       '@types/node':
-        specifier: 24.11.0
+        specifier: 'catalog:'
         version: 24.11.0
       '@types/react':
-        specifier: 19.2.14
+        specifier: 'catalog:'
         version: 19.2.14
       '@types/react-avatar-editor':
-        specifier: 13.0.4
+        specifier: 'catalog:'
         version: 13.0.4
       '@types/react-dom':
-        specifier: 19.2.3
+        specifier: 'catalog:'
         version: 19.2.3(@types/react@19.2.14)
       shadcn:
-        specifier: 3.8.5
+        specifier: 'catalog:'
         version: 3.8.5(@types/node@24.11.0)(typescript@5.9.3)
       typescript:
-        specifier: 5.9.3
+        specifier: 'catalog:'
         version: 5.9.3
       vite:
-        specifier: 7.3.1
+        specifier: 'catalog:'
         version: 7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.6))(tsx@4.21.0)(yaml@2.8.2)
       vite-tsconfig-paths:
-        specifier: 6.1.1
+        specifier: 'catalog:'
         version: 6.1.1(typescript@5.9.3)(vite@7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.6))(tsx@4.21.0)(yaml@2.8.2))
       wxt:
-        specifier: 0.20.18
+        specifier: 'catalog:'
         version: 0.20.18(@types/node@24.11.0)(eslint@9.39.2(jiti@2.6.1))(jiti@2.6.1)(lightningcss@1.31.1)(rollup@4.57.1)(sugarss@5.0.1(postcss@8.5.6))(tsx@4.21.0)(yaml@2.8.2)
 
   apps/web:
     dependencies:
       '@base-ui/react':
-        specifier: 1.2.0
+        specifier: 'catalog:'
         version: 1.2.0(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@bypass/configs':
         specifier: workspace:*
@@ -193,92 +385,92 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ui
       '@hugeicons/core-free-icons':
-        specifier: 3.3.0
+        specifier: 'catalog:'
         version: 3.3.0
       '@hugeicons/react':
-        specifier: 1.1.5
+        specifier: 'catalog:'
         version: 1.1.5(react@19.2.4)
       '@mantine/hooks':
-        specifier: 8.3.15
+        specifier: 'catalog:'
         version: 8.3.15(react@19.2.4)
       '@t3-oss/env-nextjs':
-        specifier: 0.13.10
+        specifier: 'catalog:'
         version: 0.13.10(typescript@5.9.3)(valibot@1.2.0(typescript@5.9.3))(zod@4.3.6)
       '@tanstack/react-virtual':
-        specifier: 3.13.18
+        specifier: 'catalog:'
         version: 3.13.18(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@trpc/client':
-        specifier: 11.10.0
+        specifier: 'catalog:'
         version: 11.10.0(@trpc/server@11.10.0(typescript@5.9.3))(typescript@5.9.3)
       '@trpc/server':
-        specifier: 11.10.0
+        specifier: 'catalog:'
         version: 11.10.0(typescript@5.9.3)
       '@vercel/analytics':
-        specifier: 1.6.1
+        specifier: 'catalog:'
         version: 1.6.1(next@16.1.6(@opentelemetry/api@1.9.0)(@playwright/test@1.58.2)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
       '@vercel/speed-insights':
-        specifier: 1.3.1
+        specifier: 'catalog:'
         version: 1.3.1(next@16.1.6(@opentelemetry/api@1.9.0)(@playwright/test@1.58.2)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
       clsx:
-        specifier: 2.1.1
+        specifier: 'catalog:'
         version: 2.1.1
       dayjs:
-        specifier: 1.11.19
+        specifier: 'catalog:'
         version: 1.11.19
       file-type:
-        specifier: 21.3.0
+        specifier: 'catalog:'
         version: 21.3.0
       firebase:
-        specifier: 12.10.0
+        specifier: 'catalog:'
         version: 12.10.0
       firebase-admin:
-        specifier: 13.7.0
+        specifier: 'catalog:'
         version: 13.7.0
       next:
-        specifier: 16.1.6
+        specifier: 'catalog:'
         version: 16.1.6(@opentelemetry/api@1.9.0)(@playwright/test@1.58.2)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       react:
-        specifier: 19.2.4
+        specifier: 'catalog:'
         version: 19.2.4
       react-dom:
-        specifier: 19.2.4
+        specifier: 'catalog:'
         version: 19.2.4(react@19.2.4)
       sharp:
-        specifier: 0.34.5
+        specifier: 'catalog:'
         version: 0.34.5
       zod:
-        specifier: 4.3.6
+        specifier: 'catalog:'
         version: 4.3.6
     devDependencies:
       '@playwright/test':
-        specifier: 1.58.2
+        specifier: 'catalog:'
         version: 1.58.2
       '@tailwindcss/postcss':
-        specifier: 4.2.1
+        specifier: 'catalog:'
         version: 4.2.1
       '@types/react':
-        specifier: 19.2.14
+        specifier: 'catalog:'
         version: 19.2.14
       autoprefixer:
-        specifier: 10.4.27
+        specifier: 'catalog:'
         version: 10.4.27(postcss@8.5.6)
       babel-plugin-react-compiler:
-        specifier: 1.0.0
+        specifier: 'catalog:'
         version: 1.0.0
       postcss:
-        specifier: 8.5.6
+        specifier: 'catalog:'
         version: 8.5.6
       tailwindcss:
-        specifier: 4.2.1
+        specifier: 'catalog:'
         version: 4.2.1
       typescript:
-        specifier: 5.9.3
+        specifier: 'catalog:'
         version: 5.9.3
 
   packages/configs:
     dependencies:
       typescript:
-        specifier: 5.9.3
+        specifier: 'catalog:'
         version: 5.9.3
 
   packages/shared:
@@ -287,50 +479,50 @@ importers:
         specifier: workspace:*
         version: link:../ui
       '@hugeicons/core-free-icons':
-        specifier: 3.3.0
+        specifier: 'catalog:'
         version: 3.3.0
       '@hugeicons/react':
-        specifier: 1.1.5
+        specifier: 'catalog:'
         version: 1.1.5(react@19.2.4)
       '@mantine/hooks':
-        specifier: 8.3.15
+        specifier: 'catalog:'
         version: 8.3.15(react@19.2.4)
       '@tanstack/react-virtual':
-        specifier: 3.13.18
+        specifier: 'catalog:'
         version: 3.13.18(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       clsx:
-        specifier: 2.1.1
+        specifier: 'catalog:'
         version: 2.1.1
       p-limit:
-        specifier: 7.3.0
+        specifier: 'catalog:'
         version: 7.3.0
       preact:
-        specifier: 10.28.4
+        specifier: 'catalog:'
         version: 10.28.4
       react:
-        specifier: 19.2.4
+        specifier: 'catalog:'
         version: 19.2.4
       wretch:
-        specifier: 3.0.6
+        specifier: 'catalog:'
         version: 3.0.6
       zod:
-        specifier: 4.3.6
+        specifier: 'catalog:'
         version: 4.3.6
     devDependencies:
       '@bypass/configs':
         specifier: workspace:*
         version: link:../configs
       '@playwright/test':
-        specifier: 1.58.2
+        specifier: 'catalog:'
         version: 1.58.2
       '@total-typescript/ts-reset':
-        specifier: 0.6.1
+        specifier: 'catalog:'
         version: 0.6.1
       '@types/react':
-        specifier: 19.2.14
+        specifier: 'catalog:'
         version: 19.2.14
       typescript:
-        specifier: 5.9.3
+        specifier: 'catalog:'
         version: 5.9.3
 
   packages/trpc:
@@ -342,87 +534,87 @@ importers:
         specifier: workspace:*
         version: link:../shared
       '@octokit/rest':
-        specifier: 22.0.1
+        specifier: 'catalog:'
         version: 22.0.1
       '@t3-oss/env-core':
-        specifier: 0.13.10
+        specifier: 'catalog:'
         version: 0.13.10(typescript@5.9.3)(valibot@1.2.0(typescript@5.9.3))(zod@4.3.6)
       '@trpc/server':
-        specifier: 11.10.0
+        specifier: 'catalog:'
         version: 11.10.0(typescript@5.9.3)
       filenamify:
-        specifier: 7.0.1
+        specifier: 'catalog:'
         version: 7.0.1
       firebase-admin:
-        specifier: 13.7.0
+        specifier: 'catalog:'
         version: 13.7.0
       zod:
-        specifier: 4.3.6
+        specifier: 'catalog:'
         version: 4.3.6
     devDependencies:
       firebase:
-        specifier: 12.10.0
+        specifier: 'catalog:'
         version: 12.10.0
       type-fest:
-        specifier: 5.4.4
+        specifier: 'catalog:'
         version: 5.4.4
       typescript:
-        specifier: 5.9.3
+        specifier: 'catalog:'
         version: 5.9.3
 
   packages/ui:
     dependencies:
       '@base-ui/react':
-        specifier: 1.2.0
+        specifier: 'catalog:'
         version: 1.2.0(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@bypass/configs':
         specifier: workspace:*
         version: link:../configs
       '@hugeicons/core-free-icons':
-        specifier: 3.3.0
+        specifier: 'catalog:'
         version: 3.3.0
       '@hugeicons/react':
-        specifier: 1.1.5
+        specifier: 'catalog:'
         version: 1.1.5(react@19.2.4)
       class-variance-authority:
-        specifier: 0.7.1
+        specifier: 'catalog:'
         version: 0.7.1
       clsx:
-        specifier: 2.1.1
+        specifier: 'catalog:'
         version: 2.1.1
       next-themes:
-        specifier: 0.4.6
+        specifier: 'catalog:'
         version: 0.4.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       preact:
-        specifier: 10.28.4
+        specifier: 'catalog:'
         version: 10.28.4
       react:
-        specifier: 19.2.4
+        specifier: 'catalog:'
         version: 19.2.4
       react-dom:
-        specifier: 19.2.4
+        specifier: 'catalog:'
         version: 19.2.4(react@19.2.4)
       sonner:
-        specifier: 2.0.7
+        specifier: 'catalog:'
         version: 2.0.7(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       tailwind-merge:
-        specifier: 3.5.0
+        specifier: 'catalog:'
         version: 3.5.0
       tailwindcss:
-        specifier: 4.2.1
+        specifier: 'catalog:'
         version: 4.2.1
       tw-animate-css:
-        specifier: 1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
     devDependencies:
       '@types/react':
-        specifier: 19.2.14
+        specifier: 'catalog:'
         version: 19.2.14
       '@types/react-dom':
-        specifier: 19.2.3
+        specifier: 'catalog:'
         version: 19.2.3(@types/react@19.2.14)
       shadcn:
-        specifier: 3.8.5
+        specifier: 'catalog:'
         version: 3.8.5(@types/node@24.11.0)(typescript@5.9.3)
 
 packages:
@@ -1136,10 +1328,6 @@ packages:
       '@react-native-async-storage/async-storage':
         optional: true
 
-  '@firebase/component@0.7.0':
-    resolution: {integrity: sha512-wR9En2A+WESUHexjmRHkqtaVH94WLNKt6rmeqZhSLBybg4Wyf0Umk04SZsS6sBq4102ZsDBFwoqMqJYj2IoDSg==}
-    engines: {node: '>=20.0.0'}
-
   '@firebase/component@0.7.1':
     resolution: {integrity: sha512-mFzsm7CLHR60o08S23iLUY8m/i6kLpOK87wdEFPLhdlCahaxKmWOwSVGiWoENYSmFJJoDhrR3gKSCxz7ENdIww==}
     engines: {node: '>=20.0.0'}
@@ -1149,23 +1337,12 @@ packages:
     peerDependencies:
       '@firebase/app': 0.x
 
-  '@firebase/database-compat@2.1.0':
-    resolution: {integrity: sha512-8nYc43RqxScsePVd1qe1xxvWNf0OBnbwHxmXJ7MHSuuTVYFO3eLyLW3PiCKJ9fHnmIz4p4LbieXwz+qtr9PZDg==}
-    engines: {node: '>=20.0.0'}
-
   '@firebase/database-compat@2.1.1':
     resolution: {integrity: sha512-heAEVZ9Z8c8PnBUcmGh91JHX0cXcVa1yESW/xkLuwaX7idRFyLiN8sl73KXpR8ZArGoPXVQDanBnk6SQiekRCQ==}
     engines: {node: '>=20.0.0'}
 
-  '@firebase/database-types@1.0.16':
-    resolution: {integrity: sha512-xkQLQfU5De7+SPhEGAXFBnDryUWhhlFXelEg2YeZOQMCdoe7dL64DDAd77SQsR+6uoXIZY5MB4y/inCs4GTfcw==}
-
   '@firebase/database-types@1.0.17':
     resolution: {integrity: sha512-4eWaM5fW3qEIHjGzfi3cf0Jpqi1xQsAdT6rSDE1RZPrWu8oGjgrq6ybMjobtyHQFgwGCykBm4YM89qDzc+uG/w==}
-
-  '@firebase/database@1.1.0':
-    resolution: {integrity: sha512-gM6MJFae3pTyNLoc9VcJNuaUDej0ctdjn3cVtILo3D5lpp0dmUHHLFN/pUKe7ImyeB1KAvRlEYxvIHNF04Filg==}
-    engines: {node: '>=20.0.0'}
 
   '@firebase/database@1.1.1':
     resolution: {integrity: sha512-LwIXe8+mVHY5LBPulWECOOIEXDiatyECp/BOlu0gOhe+WOcKjWHROaCbLlkFTgHMY7RHr5MOxkLP/tltWAH3dA==}
@@ -1279,10 +1456,6 @@ packages:
     engines: {node: '>=20.0.0'}
     peerDependencies:
       '@firebase/app': 0.x
-
-  '@firebase/util@1.13.0':
-    resolution: {integrity: sha512-0AZUyYUfpMNcztR5l09izHwXkZpghLgCUaAGjtMwXnCg3bj4ml5VgiwqOMOxJ+Nw4qN/zJAaOQBcJ7KGkWStqQ==}
-    engines: {node: '>=20.0.0'}
 
   '@firebase/util@1.14.0':
     resolution: {integrity: sha512-/gnejm7MKkVIXnSJGpc9L2CvvvzJvtDPeAEq5jAwgVlf/PeNxot+THx/bpD20wQ8uL5sz0xqgXy1nisOYMU+mw==}
@@ -3186,9 +3359,6 @@ packages:
     resolution: {integrity: sha512-8WB3Jcas3swSvjIeA2yvCJ+Miyz5l1ZmB6HFb9R1317dt9LCQoswg/BGrmAmkWVEszSrrg4RwmO46qIm2OEnSA==}
     engines: {node: '>=16'}
 
-  caniuse-lite@1.0.30001769:
-    resolution: {integrity: sha512-BCfFL1sHijQlBGWBMuJyhZUhzo7wer5sVj9hqekB/7xn0Ypy+pER/edCYQm4exbXj4WiySGp40P8UuTh6w1srg==}
-
   caniuse-lite@1.0.30001776:
     resolution: {integrity: sha512-sg01JDPzZ9jGshqKSckOQthXnYwOEP50jeVFhaSFbZcOy05TiuuaffDOfcwtCisJ9kNQuLBFibYywv2Bgm9osw==}
 
@@ -3252,10 +3422,6 @@ packages:
   cli-spinners@3.4.0:
     resolution: {integrity: sha512-bXfOC4QcT1tKXGorxL3wbJm6XJPDqEnij2gQ2m7ESQuE+/z9YFIWnl/5RpTiKWbMq3EVKR4fRLJGn6DVfu0mpw==}
     engines: {node: '>=18.20'}
-
-  cli-truncate@5.1.1:
-    resolution: {integrity: sha512-SroPvNHxUnk+vIW/dOSfNqdy1sPEFkrTk6TUtqLCnBlo3N7TNYYkzzN7uSD6+jVjrdO4+p8nH7JzH6cIvUem6A==}
-    engines: {node: '>=20'}
 
   cli-truncate@5.2.0:
     resolution: {integrity: sha512-xRwvIOMGrfOAnM1JYtqQImuaNtDEv9v6oIYAs4LIHwTiKee8uwvIi363igssOC0O5U04i4AlENs79LQLu9tEMw==}
@@ -4238,10 +4404,6 @@ packages:
   get-caller-file@2.0.5:
     resolution: {integrity: sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==}
     engines: {node: 6.* || 8.* || >= 10.*}
-
-  get-east-asian-width@1.4.0:
-    resolution: {integrity: sha512-QZjmEOC+IT1uk6Rx0sX22V6uHWVwbdbxf1faPqJ1QhLdGgsRGCZoyaQBm/piRdJy/D2um6hM1UP7ZEeQ4EkP+Q==}
-    engines: {node: '>=18'}
 
   get-east-asian-width@1.5.0:
     resolution: {integrity: sha512-CQ+bEO+Tva/qlmw24dCejulK5pMzVnUOFOijVogd3KQs07HnRIgp8TGipvCCRT06xeYEbpbgwaCxglFyiuIcmA==}
@@ -6294,10 +6456,6 @@ packages:
     resolution: {integrity: sha512-tsaTIkKW9b4N+AEj+SVA+WhJzV7/zMhcSu78mLKWSk7cXMOSHsBKFWUs0fWwq8QyK3MgJBQRX6Gbi4kYbdvGkQ==}
     engines: {node: '>=18'}
 
-  string-width@8.1.1:
-    resolution: {integrity: sha512-KpqHIdDL9KwYk22wEOg/VIqYbrnLeSApsKT/bSj6Ez7pn3CftUiLAv2Lccpq1ALcpLV9UX1Ppn92npZWu2w/aw==}
-    engines: {node: '>=20'}
-
   string-width@8.2.0:
     resolution: {integrity: sha512-6hJPQ8N0V0P3SNmP6h2J99RLuzrWz2gvT7VnK5tKvrNqJoyS9W4/Fb8mo31UiPvy00z7DQXkP2hnKBVav76thw==}
     engines: {node: '>=20'}
@@ -7759,11 +7917,6 @@ snapshots:
       '@firebase/util': 1.14.0
       tslib: 2.8.1
 
-  '@firebase/component@0.7.0':
-    dependencies:
-      '@firebase/util': 1.13.0
-      tslib: 2.8.1
-
   '@firebase/component@0.7.1':
     dependencies:
       '@firebase/util': 1.14.0
@@ -7778,15 +7931,6 @@ snapshots:
       '@firebase/util': 1.14.0
       tslib: 2.8.1
 
-  '@firebase/database-compat@2.1.0':
-    dependencies:
-      '@firebase/component': 0.7.0
-      '@firebase/database': 1.1.0
-      '@firebase/database-types': 1.0.16
-      '@firebase/logger': 0.5.0
-      '@firebase/util': 1.13.0
-      tslib: 2.8.1
-
   '@firebase/database-compat@2.1.1':
     dependencies:
       '@firebase/component': 0.7.1
@@ -7796,25 +7940,10 @@ snapshots:
       '@firebase/util': 1.14.0
       tslib: 2.8.1
 
-  '@firebase/database-types@1.0.16':
-    dependencies:
-      '@firebase/app-types': 0.9.3
-      '@firebase/util': 1.13.0
-
   '@firebase/database-types@1.0.17':
     dependencies:
       '@firebase/app-types': 0.9.3
       '@firebase/util': 1.14.0
-
-  '@firebase/database@1.1.0':
-    dependencies:
-      '@firebase/app-check-interop-types': 0.3.3
-      '@firebase/auth-interop-types': 0.2.4
-      '@firebase/component': 0.7.0
-      '@firebase/logger': 0.5.0
-      '@firebase/util': 1.13.0
-      faye-websocket: 0.11.4
-      tslib: 2.8.1
 
   '@firebase/database@1.1.1':
     dependencies:
@@ -7996,10 +8125,6 @@ snapshots:
       '@firebase/app': 0.14.9
       '@firebase/component': 0.7.1
       '@firebase/util': 1.14.0
-      tslib: 2.8.1
-
-  '@firebase/util@1.13.0':
-    dependencies:
       tslib: 2.8.1
 
   '@firebase/util@1.14.0':
@@ -9797,7 +9922,7 @@ snapshots:
   browserslist@4.28.1:
     dependencies:
       baseline-browser-mapping: 2.9.19
-      caniuse-lite: 1.0.30001769
+      caniuse-lite: 1.0.30001776
       electron-to-chromium: 1.5.286
       node-releases: 2.0.27
       update-browserslist-db: 1.2.3(browserslist@4.28.1)
@@ -9858,8 +9983,6 @@ snapshots:
 
   camelcase@8.0.0: {}
 
-  caniuse-lite@1.0.30001769: {}
-
   caniuse-lite@1.0.30001776: {}
 
   chalk@4.1.2:
@@ -9915,11 +10038,6 @@ snapshots:
   cli-spinners@2.9.2: {}
 
   cli-spinners@3.4.0: {}
-
-  cli-truncate@5.1.1:
-    dependencies:
-      slice-ansi: 7.1.2
-      string-width: 8.1.1
 
   cli-truncate@5.2.0:
     dependencies:
@@ -10944,8 +11062,8 @@ snapshots:
   firebase-admin@13.7.0:
     dependencies:
       '@fastify/busboy': 3.2.0
-      '@firebase/database-compat': 2.1.0
-      '@firebase/database-types': 1.0.16
+      '@firebase/database-compat': 2.1.1
+      '@firebase/database-types': 1.0.17
       farmhash-modern: 1.1.0
       fast-deep-equal: 3.1.3
       google-auth-library: 10.6.1
@@ -11148,8 +11266,6 @@ snapshots:
   gensync@1.0.0-beta.2: {}
 
   get-caller-file@2.0.5: {}
-
-  get-east-asian-width@1.4.0: {}
 
   get-east-asian-width@1.5.0: {}
 
@@ -11555,7 +11671,7 @@ snapshots:
 
   is-fullwidth-code-point@5.1.0:
     dependencies:
-      get-east-asian-width: 1.4.0
+      get-east-asian-width: 1.5.0
 
   is-generator-function@1.1.2:
     dependencies:
@@ -11940,7 +12056,7 @@ snapshots:
 
   listr2@9.0.5:
     dependencies:
-      cli-truncate: 5.1.1
+      cli-truncate: 5.2.0
       colorette: 2.0.20
       eventemitter3: 5.0.4
       log-update: 6.1.0
@@ -12189,7 +12305,7 @@ snapshots:
       '@next/env': 16.1.6
       '@swc/helpers': 0.5.15
       baseline-browser-mapping: 2.9.19
-      caniuse-lite: 1.0.30001769
+      caniuse-lite: 1.0.30001776
       postcss: 8.4.31
       react: 19.2.4
       react-dom: 19.2.4(react@19.2.4)
@@ -12414,7 +12530,7 @@ snapshots:
       is-unicode-supported: 2.1.0
       log-symbols: 7.0.1
       stdin-discarder: 0.3.1
-      string-width: 8.1.1
+      string-width: 8.2.0
 
   os-paths@4.4.0: {}
 
@@ -13344,12 +13460,7 @@ snapshots:
   string-width@7.2.0:
     dependencies:
       emoji-regex: 10.6.0
-      get-east-asian-width: 1.4.0
-      strip-ansi: 7.1.2
-
-  string-width@8.1.1:
-    dependencies:
-      get-east-asian-width: 1.4.0
+      get-east-asian-width: 1.5.0
       strip-ansi: 7.1.2
 
   string-width@8.2.0:
