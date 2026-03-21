@@ -31,9 +31,7 @@ const getBackgroundWorker = async (
   context: BrowserContext
 ): Promise<Worker> => {
   let [background] = context.serviceWorkers();
-  background ||= await context.waitForEvent('serviceworker', {
-    timeout: 1000,
-  });
+  background ||= await context.waitForEvent('serviceworker');
   return background;
 };
 
@@ -115,6 +113,7 @@ const createBackgroundEnv = async (
       ),
     async openTab(url: string) {
       const page = await context.newPage();
+      // Shortcut URLs like http://bt/ fail DNS but the extension intercepts them via webRequest
       await page
         .goto(url, { waitUntil: 'commit', timeout: 5000 })
         .catch(() => undefined);

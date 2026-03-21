@@ -40,23 +40,18 @@ test.describe.serial('Background Service Worker Navigation', () => {
     await sharedBackground.ensureActiveState();
     await sharedBackground.clearHistoryStartTime();
 
-    let historyStartTime: number | undefined;
-    for (let attempt = 0; attempt < 2; attempt++) {
-      const page = await sharedBackground.openTab(TEST_SHORTCUTS.BROWSERTEST);
-      try {
-        await expect.poll(() => page.url()).toContain('https://html5test.com');
+    const page = await sharedBackground.openTab(TEST_SHORTCUTS.BROWSERTEST);
+    try {
+      await expect.poll(() => page.url()).toContain('https://html5test.com');
 
-        historyStartTime =
-          await sharedBackground.readStorage<number>('historyStartTime');
-        if (historyStartTime !== undefined) {
-          break;
-        }
-      } finally {
-        await page.close();
-      }
+      await expect
+        .poll(async () =>
+          sharedBackground.readStorage<number>('historyStartTime')
+        )
+        .toBeDefined();
+    } finally {
+      await page.close();
     }
-
-    expect(historyStartTime).toBeDefined();
   });
 
   test('reloading BROWSERTEST still redirects through webNavigation reload path', async ({
