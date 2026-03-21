@@ -24,7 +24,7 @@ interface Props {
   uid: string;
   isOpen: boolean;
   onDialogClose: VoidFunction;
-  handleImageSave: (fileName: string) => void;
+  handleImageSave: (fileName: string) => Promise<void> | void;
 }
 
 function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
@@ -78,8 +78,8 @@ function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
       const croppedImage = await wretch().get(canvas).blob();
       const fileName = getPersonImageName(uid);
       await uploadFileToFirebase(croppedImage, fileName);
-      handleImageSave(fileName);
       onDialogClose();
+      void handleImageSave(fileName);
     } catch (error) {
       console.error('Error while cropping the image', error);
       throw error;
@@ -137,16 +137,25 @@ function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
             />
           </div>
           <div className="px-5">
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
+            <div className="mx-auto mt-3 flex w-[85%] items-center gap-4">
               <Input
                 placeholder="Enter image url"
-                className="w-[82%]"
+                className="flex-1"
                 value={
                   typeof inputOrFileValue === 'string' ? inputOrFileValue : ''
                 }
                 onChange={handleImageUrlChange}
                 onPaste={handleImagePaste}
               />
+              <Button
+                data-testid="save-cropped-image"
+                disabled={disableControls}
+                onClick={saveCroppedImage}
+              >
+                Save Image
+              </Button>
+            </div>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-6">
               <div className="w-[40%]">
                 <span className="mb-2 block text-sm">Zoom</span>
                 <Slider
@@ -176,15 +185,6 @@ function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
                   }}
                 />
               </div>
-            </div>
-            <div className="mt-8 flex justify-center">
-              <Button
-                data-testid="save-cropped-image"
-                disabled={disableControls}
-                onClick={saveCroppedImage}
-              >
-                Save Cropped Image
-              </Button>
             </div>
           </div>
         </div>
