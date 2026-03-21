@@ -27,14 +27,6 @@ interface BaseBackgroundEnv {
   openTab: (url: string) => Promise<Page>;
 }
 
-const getBackgroundWorker = async (
-  context: BrowserContext
-): Promise<Worker> => {
-  let [background] = context.serviceWorkers();
-  background ||= await context.waitForEvent('serviceworker');
-  return background;
-};
-
 const readStorageFromWorker = async <T = unknown>(
   backgroundSW: Worker,
   key: string
@@ -73,7 +65,7 @@ const createBackgroundEnv = async (
     let lastError: unknown;
     for (let attempt = 0; attempt < 8; attempt++) {
       try {
-        const backgroundSW = await getBackgroundWorker(context);
+        const backgroundSW = await createSharedBackgroundSW(context);
         return await operation(backgroundSW);
       } catch (error) {
         lastError = error;
@@ -146,7 +138,7 @@ export const test = base.extend<{
     });
 
     try {
-      const backgroundSW = await getBackgroundWorker(context);
+      const backgroundSW = await createSharedBackgroundSW(context);
       const extensionId = backgroundSW.url().split('/')[2];
       const env = await createBackgroundEnv(context, extensionId);
 
