@@ -11,22 +11,20 @@ const getForum_1_2_LinksFunc = () => {
 };
 
 const getForum_1_2_WatchedThreadsLinksFunc = () => {
-  const unreadRows = document.querySelectorAll(
-    '.structItemContainer > .structItem.is-unread > .structItem-cell--main'
+  const allPosts = document.querySelectorAll(
+    '.structItemContainer .structItem-cell--main'
   );
-  return [...unreadRows].map((row) => {
-    const topicLink = row.querySelector<HTMLAnchorElement>(
-      '.structItem-title > a:not(.labelLink), [data-preview-url]'
-    )?.href;
-    if (topicLink) {
-      return topicLink;
-    }
+  return [...allPosts].map((row) => {
     const lastPageLink = row.querySelector<HTMLAnchorElement>(
       '.structItem-pageJump > a:last-child'
     )?.href;
-    return lastPageLink?.endsWith('/unread')
-      ? `${lastPageLink}?new=1`
-      : lastPageLink;
+    if (lastPageLink) {
+      return lastPageLink;
+    }
+
+    return row.querySelector<HTMLAnchorElement>(
+      '.structItem-title > [data-preview-url]'
+    )?.href;
   });
 };
 
