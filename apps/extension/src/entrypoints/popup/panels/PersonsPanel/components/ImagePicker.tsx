@@ -79,7 +79,7 @@ function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
       const fileName = getPersonImageName(uid);
       await uploadFileToFirebase(croppedImage, fileName);
       onDialogClose();
-      void handleImageSave(fileName);
+      await handleImageSave(fileName);
     } catch (error) {
       console.error('Error while cropping the image', error);
       throw error;

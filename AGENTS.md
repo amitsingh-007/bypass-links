@@ -114,7 +114,7 @@ All new UI components should be added to `packages/ui` and exported from `packag
 
 ## Post-Change Verification
 
-After making changes, run the following commands:
+Always after making changes, run the following commands:
 
 ```bash
 pnpm lint
