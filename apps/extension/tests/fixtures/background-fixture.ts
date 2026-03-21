@@ -145,14 +145,16 @@ export const test = base.extend<{
       ],
     });
 
-    const backgroundSW = await getBackgroundWorker(context);
-    const extensionId = backgroundSW.url().split('/')[2];
-    const env = await createBackgroundEnv(context, extensionId);
+    try {
+      const backgroundSW = await getBackgroundWorker(context);
+      const extensionId = backgroundSW.url().split('/')[2];
+      const env = await createBackgroundEnv(context, extensionId);
 
-    await use(env);
-
-    await context.close();
-    await fs.rm(userDataDir, { recursive: true, force: true });
+      await use(env);
+    } finally {
+      await context.close();
+      await fs.rm(userDataDir, { recursive: true, force: true });
+    }
   },
 
   // eslint-disable-next-line no-empty-pattern
@@ -161,14 +163,16 @@ export const test = base.extend<{
       headless: testInfo.project.use?.headless ?? true,
     });
 
-    const backgroundSW = await createSharedBackgroundSW(browserContext);
-    const extensionId = await getExtensionId(backgroundSW);
-    const env = await createBackgroundEnv(browserContext, extensionId);
+    try {
+      const backgroundSW = await createSharedBackgroundSW(browserContext);
+      const extensionId = await getExtensionId(backgroundSW);
+      const env = await createBackgroundEnv(browserContext, extensionId);
 
-    await use(env);
-
-    await browserContext.close();
-    await fs.rm(userDataDir, { recursive: true, force: true });
+      await use(env);
+    } finally {
+      await browserContext.close();
+      await fs.rm(userDataDir, { recursive: true, force: true });
+    }
   },
 });
 
