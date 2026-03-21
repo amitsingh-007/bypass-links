@@ -39,6 +39,9 @@ export const TEST_SHORTCUTS = {
   MANTINE: 'http://c/',
   TWITCH: 'http://t/',
   YOUTUBE: 'http://y/',
+  // Rules for background tests
+  WIKIPEDIA: 'http://hah/',
+  BROWSERTEST: 'http://bt/',
 } as const;
 
 /**
