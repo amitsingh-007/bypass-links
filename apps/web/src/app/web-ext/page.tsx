@@ -76,7 +76,7 @@ export default function Web() {
         >
           <Button
             className="w-full py-5"
-            variant={isLoggedIn ? 'destructive' : 'secondary'}
+            variant={isLoggedIn ? 'default' : 'secondary'}
             disabled={isLoading}
             onClick={isLoggedIn ? handleSignOut : handleSignIn}
           >

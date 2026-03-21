@@ -9,6 +9,7 @@ import {
   test as base,
   type Worker,
 } from '@playwright/test';
+import { TEST_TIMEOUTS } from '@bypass/shared/tests';
 import { getExtensionPath } from '../utils/extension-path';
 import {
   createSharedBackgroundSW,
@@ -107,7 +108,7 @@ const createBackgroundEnv = async (
       const page = await context.newPage();
       // Shortcut URLs like http://bt/ fail DNS but the extension intercepts them via webRequest
       await page
-        .goto(url, { waitUntil: 'commit', timeout: 5000 })
+        .goto(url, { waitUntil: 'commit', timeout: TEST_TIMEOUTS.NAVIGATION })
         .catch(() => undefined);
       return page;
     },

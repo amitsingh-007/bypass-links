@@ -46,6 +46,7 @@ function AddOrEditPersonDialog({
   const { resolvePersonImageFromUid } = usePerson();
   const initialUid = useRef(crypto.randomUUID());
   const [imageUrl, setImageUrl] = useState('');
+  const [isAvatarImageLoading, setIsAvatarImageLoading] = useState(false);
   const [showImagePicker, imagePickerHandlers] = useDisclosure(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -75,6 +76,7 @@ function AddOrEditPersonDialog({
   const initImageUrl = useCallback(
     async (uid: string) => {
       const image = await resolvePersonImageFromUid(uid);
+      setIsAvatarImageLoading(Boolean(image));
       setImageUrl(image);
     },
     [resolvePersonImageFromUid]
@@ -92,6 +94,7 @@ function AddOrEditPersonDialog({
         name: person.name,
       });
     } else {
+      setIsAvatarImageLoading(false);
       setImageUrl('');
       form.reset({
         uid: crypto.randomUUID(),
@@ -101,6 +104,7 @@ function AddOrEditPersonDialog({
   }, [form, initImageUrl, isOpen, person]);
 
   const handleImageCropSave = async (fileName: string) => {
+    setIsAvatarImageLoading(true);
     const url = await trpcApi.storage.getDownloadUrl.query(fileName);
     setImageUrl(url);
   };
@@ -126,7 +130,7 @@ function AddOrEditPersonDialog({
               <div className="relative">
                 <Avatar
                   className="
-                    rounded-xl
+                    overflow-hidden rounded-xl
                     after:rounded-none after:border-0
                   "
                   style={{ width: IMAGE_SIZE, height: IMAGE_SIZE }}
@@ -134,9 +138,15 @@ function AddOrEditPersonDialog({
                   <AvatarImage
                     src={imageUrl}
                     alt={imageUrl ?? 'No Image'}
-                    className="rounded-xl"
+                    className={
+                      isAvatarImageLoading && imageUrl
+                        ? 'absolute inset-0 rounded-xl opacity-0'
+                        : 'absolute inset-0 rounded-xl opacity-100'
+                    }
+                    onLoad={() => setIsAvatarImageLoading(false)}
+                    onError={() => setIsAvatarImageLoading(false)}
                   />
-                  <AvatarFallback className="rounded-xl">
+                  <AvatarFallback className="absolute inset-0 rounded-xl">
                     <HugeiconsIcon icon={UserWarning03Icon} size={48} />
                   </AvatarFallback>
                 </Avatar>

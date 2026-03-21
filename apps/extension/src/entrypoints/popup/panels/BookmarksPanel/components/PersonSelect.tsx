@@ -6,6 +6,7 @@ import {
 } from '@bypass/shared';
 import {
   Avatar,
+  AvatarFallback,
   AvatarImage,
   Combobox,
   ComboboxChips,
@@ -14,10 +15,19 @@ import {
   ComboboxContent,
   ComboboxItem,
   ComboboxList,
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
   Switch,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
   useComboboxAnchor,
 } from '@bypass/ui';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { UserWarning03Icon } from '@hugeicons/core-free-icons';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 
 interface IOptionData {
   label: string;
@@ -29,6 +39,42 @@ interface PersonSelectProps {
   value: string[];
   onChange: (value: string[]) => void;
 }
+
+interface AvatarWithPreviewProps {
+  person: IOptionData;
+}
+
+const AvatarWithPreview = memo<AvatarWithPreviewProps>(({ person }) => (
+  <HoverCard>
+    <HoverCardTrigger delay={0} closeDelay={0}>
+      <Avatar size="sm" className="size-6!">
+        <AvatarImage src={person.image} alt={person.label} />
+        <AvatarFallback>
+          <HugeiconsIcon icon={UserWarning03Icon} className="size-3" />
+        </AvatarFallback>
+      </Avatar>
+    </HoverCardTrigger>
+    <HoverCardContent
+      side="top"
+      align="center"
+      sideOffset={4}
+      className="z-50 size-auto rounded-full p-0.5"
+      data-testid={`person-avatar-preview-${person.value}`}
+    >
+      <Tooltip>
+        <TooltipTrigger className="flex items-center justify-center">
+          <Avatar className="size-20">
+            <AvatarImage src={person.image} alt={person.label} />
+            <AvatarFallback>
+              <HugeiconsIcon icon={UserWarning03Icon} className="size-6" />
+            </AvatarFallback>
+          </Avatar>
+        </TooltipTrigger>
+        <TooltipContent side="right">{person.label}</TooltipContent>
+      </Tooltip>
+    </HoverCardContent>
+  </HoverCard>
+));
 
 function PersonSelect({ value, onChange }: PersonSelectProps) {
   const { getDefaultOrRootFolderUrls } = useBookmark();
@@ -80,71 +126,79 @@ function PersonSelect({ value, onChange }: PersonSelectProps) {
   const hasResults = filteredPersonList.length > 0;
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className="flex items-center justify-between">
-        <span className="text-sm font-medium">Tagged Persons</span>
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-muted-foreground">Sort by recency</span>
-          <Switch
-            checked={orderByRecency}
-            size="sm"
-            onCheckedChange={toggleOrderByRecency}
-          />
-        </div>
-      </div>
-      <div ref={anchorRef} className="w-full">
-        <Combobox
-          multiple
-          value={value}
-          onValueChange={(newValue) => {
-            if (Array.isArray(newValue)) {
-              onChange(newValue);
-              setSearchQuery('');
-            }
-          }}
-        >
-          <ComboboxChips className="w-full" data-testid="person-select">
-            {selectedPersons.map((person) => (
-              <ComboboxChip
-                key={person.value}
-                data-testid={`person-chip-${person.label}`}
-              >
-                <div className="flex items-center gap-1">
-                  <Avatar size="sm" className="size-5!">
-                    <AvatarImage src={person.image} alt={person.label} />
-                  </Avatar>
-                  <span className="truncate">{person.label}</span>
-                </div>
-              </ComboboxChip>
-            ))}
-            <ComboboxChipsInput
-              placeholder="Search persons..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+    <TooltipProvider>
+      <div className="flex flex-col gap-2">
+        <div className="flex items-center justify-between">
+          <span className="text-sm font-medium">Tagged Persons</span>
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-muted-foreground">
+              Sort by recency
+            </span>
+            <Switch
+              checked={orderByRecency}
+              size="sm"
+              onCheckedChange={toggleOrderByRecency}
             />
-          </ComboboxChips>
-          <ComboboxContent anchor={anchorRef.current} className="max-h-60 p-1">
-            <ComboboxList className="p-1">
-              {filteredPersonList.map((person) => (
-                <ComboboxItem key={person.value} value={person.value}>
-                  <div className="flex items-center gap-2">
+          </div>
+        </div>
+        <div ref={anchorRef} className="w-full">
+          <Combobox
+            multiple
+            value={value}
+            onValueChange={(newValue) => {
+              if (Array.isArray(newValue)) {
+                onChange(newValue);
+                setSearchQuery('');
+              }
+            }}
+          >
+            <ComboboxChips className="w-full" data-testid="person-select">
+              {selectedPersons.map((person) => (
+                <ComboboxChip
+                  key={person.value}
+                  data-testid={`person-chip-${person.label}`}
+                >
+                  <div className="flex items-center gap-1">
                     <Avatar size="sm" className="size-5!">
                       <AvatarImage src={person.image} alt={person.label} />
+                      <AvatarFallback>
+                        <HugeiconsIcon
+                          icon={UserWarning03Icon}
+                          className="size-3"
+                        />
+                      </AvatarFallback>
                     </Avatar>
-                    <span className="flex-1">{person.label}</span>
+                    <span className="truncate">{person.label}</span>
                   </div>
-                </ComboboxItem>
+                </ComboboxChip>
               ))}
-            </ComboboxList>
-            {!hasResults && (
-              <div className="py-2 text-center text-sm text-muted-foreground">
-                No persons found
-              </div>
-            )}
-          </ComboboxContent>
-        </Combobox>
+              <ComboboxChipsInput
+                placeholder="Search persons..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </ComboboxChips>
+            <ComboboxContent anchor={anchorRef.current} className="p-0">
+              <ComboboxList className="max-h-60 p-1 py-2">
+                {filteredPersonList.map((person) => (
+                  <ComboboxItem key={person.value} value={person.value}>
+                    <div className="flex items-center gap-2">
+                      <AvatarWithPreview person={person} />
+                      <span className="flex-1">{person.label}</span>
+                    </div>
+                  </ComboboxItem>
+                ))}
+              </ComboboxList>
+              {!hasResults && (
+                <div className="py-2 text-center text-sm text-muted-foreground">
+                  No persons found
+                </div>
+              )}
+            </ComboboxContent>
+          </Combobox>
+        </div>
       </div>
-    </div>
+    </TooltipProvider>
   );
 }
 
