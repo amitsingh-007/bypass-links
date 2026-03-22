@@ -2,10 +2,10 @@
 **/.next
 **/.output/
 **/.turbo/
-playwright-report
-test-results
+.playwright
 **/.env
 **/.env.local
 
 # Need this for eslint
+
 !.gitignore

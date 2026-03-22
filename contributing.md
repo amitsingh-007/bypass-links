@@ -19,6 +19,6 @@
 
 ## Guidelines for development
 
-- Install [prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) and enable for this workplace, with default settings.
-- Follow `pascalCase` for this project.
-- Attach comments to complex logic, if required.
+- Install [prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+- Install [xo](https://marketplace.visualstudio.com/items?itemName=samverschueren.linter-xo)
+- Follow the linting rules defined in the project.
