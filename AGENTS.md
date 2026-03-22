@@ -60,10 +60,10 @@ Playwright tests use setup/teardown projects for both web and extension flows:
 
 1. **web-auth-setup** (`apps/web/tests/auth.setup.ts`) - Runs once per test run to authenticate and cache storage
 2. **@bypass/web-with-auth** (`apps/web/tests/specs/`) - Runs web specs with cached authenticated storage
-3. **web-teardown** (`apps/web/tests/global-teardown.ts`) - Cleans up `.cache` after web tests complete
+3. **web-teardown** (`apps/web/tests/global-teardown.ts`) - Cleans up `.playwright/.cache` after web tests complete
 4. **extension-setup** (`apps/extension/tests/auth.setup.ts`) - Runs once per test run to authenticate and cache the Chrome profile
 5. **@bypass/extension** (`apps/extension/tests/specs/`) - Parallel extension tests using cached authenticated profile
-6. **extension-teardown** (`apps/extension/tests/global-teardown.ts`) - Cleans up `.cache` after extension tests complete
+6. **extension-teardown** (`apps/extension/tests/global-teardown.ts`) - Cleans up `.playwright/.cache` after extension tests complete
 
 ## Key Technologies
 

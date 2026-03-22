@@ -1,0 +1,6 @@
+pre-commit:
+  parallel: true
+  commands:
+    xo:
+      glob: '*.{js,mjs,ts,tsx}'
+      run: pnpm xo {staged_files}

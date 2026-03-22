@@ -6,7 +6,6 @@
   "files": [
     "manifest/*",
     "tsconfig.base.json",
-    "lint-staged.base.js",
     "firebase.config.ts"
   ],
   "peerDependencies": {

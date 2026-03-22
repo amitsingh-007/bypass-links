@@ -6,6 +6,7 @@ process.loadEnvFile(path.join(process.cwd(), '.env'));
 
 const ciBaseUrl = process.env.PLAYWRIGHT_TEST_BASE_URL;
 const isCI = Boolean(ciBaseUrl);
+const ARTIFACTS_DIR = '.playwright';
 
 const config = defineConfig({
   globalTimeout: 30 * 60 * 1000,
@@ -13,7 +14,19 @@ const config = defineConfig({
   forbidOnly: isCI,
   retries: isCI ? 2 : 1,
   fullyParallel: true,
-  reporter: isCI ? [['github']] : [['list'], ['html', { open: 'never' }]],
+  outputDir: path.join(ARTIFACTS_DIR, 'test-results'),
+  reporter: isCI
+    ? [['github']]
+    : [
+        ['list'],
+        [
+          'html',
+          {
+            open: 'never',
+            outputFolder: path.join(ARTIFACTS_DIR, 'playwright-report'),
+          },
+        ],
+      ],
   use: {
     navigationTimeout: 30 * 1000,
     actionTimeout: 10 * 1000,
@@ -54,7 +67,7 @@ const config = defineConfig({
       },
     },
     /**
-     * Web App Teardown: Cleans up the .cache directory after all tests in the project complete.
+     * Web App Teardown: Cleans up the auth cache directory after all tests in the project complete.
      */
     {
       name: 'web-teardown',
@@ -84,7 +97,7 @@ const config = defineConfig({
       },
     },
     /**
-     * Extension Teardown: Cleans up the .cache directory after all tests in the project complete.
+     * Extension Teardown: Cleans up the auth cache directory after all tests in the project complete.
      */
     {
       name: 'extension-teardown',
