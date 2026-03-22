@@ -13,7 +13,7 @@
     "lint:ci": "xo",
     "typecheck": "tsc --noEmit",
     "typecheck:all": "turbo run typecheck",
-    "prepare": "lefthook install --reset-hooks-path",
+    "prepare": "pnpx is-ci || lefthook install --reset-hooks-path",
     "update:shadcn": "cd packages/ui && for file in src/components/ui/*.tsx; do pnpx shadcn@latest add -y -o $(basename \"$file\" .tsx); done"
   },
   "devDependencies": {
