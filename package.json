@@ -13,8 +13,7 @@
     "lint:ci": "xo",
     "typecheck": "tsc --noEmit",
     "typecheck:all": "turbo run typecheck",
-    "precommit": "lint-staged --quiet",
-    "prepare": "husky",
+    "prepare": "lefthook install --reset-hooks-path",
     "update:shadcn": "cd packages/ui && for file in src/components/ui/*.tsx; do pnpx shadcn@latest add -y -o $(basename \"$file\" .tsx); done"
   },
   "devDependencies": {
@@ -23,8 +22,7 @@
     "@playwright/test": "catalog:",
     "@types/node": "catalog:",
     "eslint-plugin-better-tailwindcss": "catalog:",
-    "husky": "catalog:",
-    "lint-staged": "catalog:",
+    "lefthook": "catalog:",
     "prettier": "catalog:",
     "turbo": "catalog:",
     "typescript": "catalog:",

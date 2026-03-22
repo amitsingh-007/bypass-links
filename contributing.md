@@ -8,7 +8,8 @@
 
 - Fork this repository.
 - Run `pnpm install` in the root folder.
-- Intialize husky as specified [here](https://typicode.github.io/husky/how-to.html#solution) to make git hooks work in GUIs(eg GitHub Desktop)
+- Verify git hooks are installed by running `pnpm lefthook check-install` in the root folder.
+- If hooks are missing, run `pnpm lefthook install` to reinstall them.
 - Useful commands:
   - Run `pnpm run env` to pull env variables.
   - Run `pnpm dev` to start dev server for local development.
