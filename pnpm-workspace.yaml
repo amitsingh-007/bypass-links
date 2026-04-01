@@ -12,7 +12,7 @@ catalog:
   '@next/eslint-plugin-next': 16.1.6
   '@octokit/rest': 22.0.1
   '@playwright/test': 1.58.2
-  '@preact/preset-vite': 2.10.3
+  '@preact/preset-vite': 2.10.5
   '@t3-oss/env-core': 0.13.10
   '@t3-oss/env-nextjs': 0.13.10
   '@tailwindcss/postcss': 4.2.1
