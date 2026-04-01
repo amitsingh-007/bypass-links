@@ -7,7 +7,7 @@ failIfNoMatch: true
 catalog:
   '@base-ui/react': 1.2.0
   '@hugeicons/core-free-icons': 3.3.0
-  '@hugeicons/react': 1.1.5
+  '@hugeicons/react': 1.1.6
   '@mantine/hooks': 8.3.15
   '@next/eslint-plugin-next': 16.1.6
   '@octokit/rest': 22.0.1
