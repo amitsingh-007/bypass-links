@@ -3,6 +3,7 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "sourceMap": false
   }
 }
