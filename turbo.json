@@ -1,20 +1,18 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": ["**/.env", "xo.config.ts", ".github/**"],
+  "noUpdateNotifier": true,
+  "cacheMaxAge": "7d",
+  "globalDependencies": [".env", "xo.config.ts", ".github/**"],
   "globalEnv": [
-    "NEXT_PUBLIC_HOST_NAME",
+    "NEXT_PUBLIC_*",
+    "FIREBASE_*",
     "GITHUB_TOKEN",
-    "FIREBASE_SERVICE_ACCOUNT",
-    "FIREBASE_CRON_JOB_API_KEY",
-    "FIREBASE_TEST_USER_EMAIL",
-    "FIREBASE_TEST_USER_PASSWORD",
-    "FIREBASE_TEST_USER_ID",
     "PLAYWRIGHT_TEST_BASE_URL"
   ],
   "tasks": {
     "build": {
       "dependsOn": ["//#lint:ci", "//#typecheck"],
-      "outputs": [".output/**", ".next/**", "!.next/cache/**"]
+      "outputs": [".output/**", ".next/**", "!.next/cache/**", "!.next/dev/**"]
     },
     "dev": {
       "cache": false,
