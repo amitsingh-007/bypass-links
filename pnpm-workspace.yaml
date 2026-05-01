@@ -5,7 +5,7 @@ catalogMode: strict
 cleanupUnusedCatalogs: true
 failIfNoMatch: true
 catalog:
-  '@base-ui/react': 1.2.0
+  '@base-ui/react': 1.4.1
   '@hugeicons/core-free-icons': 3.3.0
   '@hugeicons/react': 1.1.6
   '@mantine/hooks': 8.3.18
