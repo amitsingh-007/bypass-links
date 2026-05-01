@@ -63,7 +63,7 @@ catalog:
   wouter: 3.9.0
   wouter-preact: 3.9.0
   wretch: 3.0.7
-  wxt: 0.20.18
+  wxt: 0.20.25
   xo: 1.2.3
   zod: 4.3.6
   zustand: 5.0.12
