@@ -118,8 +118,8 @@ catalogs:
       specifier: 7.3.0
       version: 7.3.0
     postcss:
-      specifier: 8.5.8
-      version: 8.5.8
+      specifier: 8.5.12
+      version: 8.5.12
     preact:
       specifier: 10.28.4
       version: 10.28.4
@@ -329,10 +329,10 @@ importers:
         version: 1.58.2
       '@preact/preset-vite':
         specifier: 'catalog:'
-        version: 2.10.5(@babel/core@7.29.0)(preact@10.28.4)(rollup@4.57.1)(vite@7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.8))(tsx@4.21.0)(yaml@2.8.2))
+        version: 2.10.5(@babel/core@7.29.0)(preact@10.28.4)(rollup@4.57.1)(vite@7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.12))(tsx@4.21.0)(yaml@2.8.2))
       '@tailwindcss/vite':
         specifier: 'catalog:'
-        version: 4.2.1(vite@7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.8))(tsx@4.21.0)(yaml@2.8.2))
+        version: 4.2.1(vite@7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.12))(tsx@4.21.0)(yaml@2.8.2))
       '@types/node':
         specifier: 'catalog:'
         version: 24.11.0
@@ -353,13 +353,13 @@ importers:
         version: 5.9.3
       vite:
         specifier: 'catalog:'
-        version: 7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.8))(tsx@4.21.0)(yaml@2.8.2)
+        version: 7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.12))(tsx@4.21.0)(yaml@2.8.2)
       vite-tsconfig-paths:
         specifier: 'catalog:'
-        version: 6.1.1(typescript@5.9.3)(vite@7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.8))(tsx@4.21.0)(yaml@2.8.2))
+        version: 6.1.1(typescript@5.9.3)(vite@7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.12))(tsx@4.21.0)(yaml@2.8.2))
       wxt:
         specifier: 'catalog:'
-        version: 0.20.18(@types/node@24.11.0)(eslint@9.39.2(jiti@2.6.1))(jiti@2.6.1)(lightningcss@1.31.1)(rollup@4.57.1)(sugarss@5.0.1(postcss@8.5.8))(tsx@4.21.0)(yaml@2.8.2)
+        version: 0.20.18(@types/node@24.11.0)(eslint@9.39.2(jiti@2.6.1))(jiti@2.6.1)(lightningcss@1.31.1)(rollup@4.57.1)(sugarss@5.0.1(postcss@8.5.12))(tsx@4.21.0)(yaml@2.8.2)
 
   apps/web:
     dependencies:
@@ -447,13 +447,13 @@ importers:
         version: 19.2.14
       autoprefixer:
         specifier: 'catalog:'
-        version: 10.4.27(postcss@8.5.8)
+        version: 10.4.27(postcss@8.5.12)
       babel-plugin-react-compiler:
         specifier: 'catalog:'
         version: 1.0.0
       postcss:
         specifier: 'catalog:'
-        version: 8.5.8
+        version: 8.5.12
       tailwindcss:
         specifier: 'catalog:'
         version: 4.2.1
@@ -5951,12 +5951,12 @@ packages:
     resolution: {integrity: sha512-PS08Iboia9mts/2ygV3eLpY5ghnUcfLV/EXTOW1E2qYxJKGGBUtNjN76FYHnMs36RmARn41bC0AZmn+rR0OVpQ==}
     engines: {node: ^10 || ^12 || >=14}
 
-  postcss@8.5.6:
-    resolution: {integrity: sha512-3Ybi1tAuwAP9s0r1UQ2J4n5Y0G05bJkpUIO0/bI9MhwmD70S5aTWbXGBwxHrelT+XM1k6dM0pk+SwNkpTRN7Pg==}
+  postcss@8.5.12:
+    resolution: {integrity: sha512-W62t/Se6rA0Az3DfCL0AqJwXuKwBeYg6nOaIgzP+xZ7N5BFCI7DYi1qs6ygUYT6rvfi6t9k65UMLJC+PHZpDAA==}
     engines: {node: ^10 || ^12 || >=14}
 
-  postcss@8.5.8:
-    resolution: {integrity: sha512-OW/rX8O/jXnm82Ey1k44pObPtdblfiuWnrd8X7GJ7emImCOstunGbXUpp7HdBrFQX6rJzn3sPT397Wp5aCwCHg==}
+  postcss@8.5.6:
+    resolution: {integrity: sha512-3Ybi1tAuwAP9s0r1UQ2J4n5Y0G05bJkpUIO0/bI9MhwmD70S5aTWbXGBwxHrelT+XM1k6dM0pk+SwNkpTRN7Pg==}
     engines: {node: ^10 || ^12 || >=14}
 
   powershell-utils@0.1.0:
@@ -8666,19 +8666,19 @@ snapshots:
       '@pnpm/network.ca-file': 1.0.2
       config-chain: 1.1.13
 
-  '@preact/preset-vite@2.10.5(@babel/core@7.29.0)(preact@10.28.4)(rollup@4.57.1)(vite@7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.8))(tsx@4.21.0)(yaml@2.8.2))':
+  '@preact/preset-vite@2.10.5(@babel/core@7.29.0)(preact@10.28.4)(rollup@4.57.1)(vite@7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.12))(tsx@4.21.0)(yaml@2.8.2))':
     dependencies:
       '@babel/core': 7.29.0
       '@babel/plugin-transform-react-jsx': 7.28.6(@babel/core@7.29.0)
       '@babel/plugin-transform-react-jsx-development': 7.27.1(@babel/core@7.29.0)
-      '@prefresh/vite': 2.4.11(preact@10.28.4)(vite@7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.8))(tsx@4.21.0)(yaml@2.8.2))
+      '@prefresh/vite': 2.4.11(preact@10.28.4)(vite@7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.12))(tsx@4.21.0)(yaml@2.8.2))
       '@rollup/pluginutils': 5.3.0(rollup@4.57.1)
       babel-plugin-transform-hook-names: 1.0.2(@babel/core@7.29.0)
       debug: 4.4.3
       magic-string: 0.30.21
       picocolors: 1.1.1
-      vite: 7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.8))(tsx@4.21.0)(yaml@2.8.2)
-      vite-prerender-plugin: 0.5.12(vite@7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.8))(tsx@4.21.0)(yaml@2.8.2))
+      vite: 7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.12))(tsx@4.21.0)(yaml@2.8.2)
+      vite-prerender-plugin: 0.5.12(vite@7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.12))(tsx@4.21.0)(yaml@2.8.2))
       zimmerframe: 1.1.4
     transitivePeerDependencies:
       - preact
@@ -8693,7 +8693,7 @@ snapshots:
 
   '@prefresh/utils@1.2.1': {}
 
-  '@prefresh/vite@2.4.11(preact@10.28.4)(vite@7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.8))(tsx@4.21.0)(yaml@2.8.2))':
+  '@prefresh/vite@2.4.11(preact@10.28.4)(vite@7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.12))(tsx@4.21.0)(yaml@2.8.2))':
     dependencies:
       '@babel/core': 7.29.0
       '@prefresh/babel-plugin': 0.5.2
@@ -8701,7 +8701,7 @@ snapshots:
       '@prefresh/utils': 1.2.1
       '@rollup/pluginutils': 4.2.1
       preact: 10.28.4
-      vite: 7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.8))(tsx@4.21.0)(yaml@2.8.2)
+      vite: 7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.12))(tsx@4.21.0)(yaml@2.8.2)
     transitivePeerDependencies:
       - supports-color
 
@@ -8979,15 +8979,15 @@ snapshots:
       '@alloc/quick-lru': 5.2.0
       '@tailwindcss/node': 4.2.1
       '@tailwindcss/oxide': 4.2.1
-      postcss: 8.5.8
+      postcss: 8.5.12
       tailwindcss: 4.2.1
 
-  '@tailwindcss/vite@4.2.1(vite@7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.8))(tsx@4.21.0)(yaml@2.8.2))':
+  '@tailwindcss/vite@4.2.1(vite@7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.12))(tsx@4.21.0)(yaml@2.8.2))':
     dependencies:
       '@tailwindcss/node': 4.2.1
       '@tailwindcss/oxide': 4.2.1
       tailwindcss: 4.2.1
-      vite: 7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.8))(tsx@4.21.0)(yaml@2.8.2)
+      vite: 7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.12))(tsx@4.21.0)(yaml@2.8.2)
 
   '@tanstack/devtools-event-client@0.4.3': {}
 
@@ -9821,13 +9821,13 @@ snapshots:
       stubborn-fs: 2.0.0
       when-exit: 2.1.5
 
-  autoprefixer@10.4.27(postcss@8.5.8):
+  autoprefixer@10.4.27(postcss@8.5.12):
     dependencies:
       browserslist: 4.28.1
       caniuse-lite: 1.0.30001776
       fraction.js: 5.3.4
       picocolors: 1.1.1
-      postcss: 8.5.8
+      postcss: 8.5.12
       postcss-value-parser: 4.2.0
 
   available-typed-arrays@1.0.7:
@@ -12762,13 +12762,13 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  postcss@8.5.6:
+  postcss@8.5.12:
     dependencies:
       nanoid: 3.3.11
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  postcss@8.5.8:
+  postcss@8.5.6:
     dependencies:
       nanoid: 3.3.11
       picocolors: 1.1.1
@@ -13572,9 +13572,9 @@ snapshots:
       client-only: 0.0.1
       react: 19.2.4
 
-  sugarss@5.0.1(postcss@8.5.8):
+  sugarss@5.0.1(postcss@8.5.12):
     dependencies:
-      postcss: 8.5.8
+      postcss: 8.5.12
     optional: true
 
   supports-color@7.2.0:
@@ -13971,13 +13971,13 @@ snapshots:
       - supports-color
       - typescript
 
-  vite-node@5.3.0(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.8))(tsx@4.21.0)(yaml@2.8.2):
+  vite-node@5.3.0(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.12))(tsx@4.21.0)(yaml@2.8.2):
     dependencies:
       cac: 6.7.14
       es-module-lexer: 2.0.0
       obug: 2.1.1
       pathe: 2.0.3
-      vite: 7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.8))(tsx@4.21.0)(yaml@2.8.2)
+      vite: 7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.12))(tsx@4.21.0)(yaml@2.8.2)
     transitivePeerDependencies:
       - '@types/node'
       - jiti
@@ -13991,7 +13991,7 @@ snapshots:
       - tsx
       - yaml
 
-  vite-prerender-plugin@0.5.12(vite@7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.8))(tsx@4.21.0)(yaml@2.8.2)):
+  vite-prerender-plugin@0.5.12(vite@7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.12))(tsx@4.21.0)(yaml@2.8.2)):
     dependencies:
       kolorist: 1.8.0
       magic-string: 0.30.21
@@ -13999,19 +13999,19 @@ snapshots:
       simple-code-frame: 1.3.0
       source-map: 0.7.6
       stack-trace: 1.0.0-pre2
-      vite: 7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.8))(tsx@4.21.0)(yaml@2.8.2)
+      vite: 7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.12))(tsx@4.21.0)(yaml@2.8.2)
 
-  vite-tsconfig-paths@6.1.1(typescript@5.9.3)(vite@7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.8))(tsx@4.21.0)(yaml@2.8.2)):
+  vite-tsconfig-paths@6.1.1(typescript@5.9.3)(vite@7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.12))(tsx@4.21.0)(yaml@2.8.2)):
     dependencies:
       debug: 4.4.3
       globrex: 0.1.2
       tsconfck: 3.1.6(typescript@5.9.3)
-      vite: 7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.8))(tsx@4.21.0)(yaml@2.8.2)
+      vite: 7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.12))(tsx@4.21.0)(yaml@2.8.2)
     transitivePeerDependencies:
       - supports-color
       - typescript
 
-  vite@7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.8))(tsx@4.21.0)(yaml@2.8.2):
+  vite@7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.12))(tsx@4.21.0)(yaml@2.8.2):
     dependencies:
       esbuild: 0.27.3
       fdir: 6.5.0(picomatch@4.0.3)
@@ -14024,7 +14024,7 @@ snapshots:
       fsevents: 2.3.3
       jiti: 2.6.1
       lightningcss: 1.31.1
-      sugarss: 5.0.1(postcss@8.5.8)
+      sugarss: 5.0.1(postcss@8.5.12)
       tsx: 4.21.0
       yaml: 2.8.2
 
@@ -14203,7 +14203,7 @@ snapshots:
       is-wsl: 3.1.0
       powershell-utils: 0.1.0
 
-  wxt@0.20.18(@types/node@24.11.0)(eslint@9.39.2(jiti@2.6.1))(jiti@2.6.1)(lightningcss@1.31.1)(rollup@4.57.1)(sugarss@5.0.1(postcss@8.5.8))(tsx@4.21.0)(yaml@2.8.2):
+  wxt@0.20.18(@types/node@24.11.0)(eslint@9.39.2(jiti@2.6.1))(jiti@2.6.1)(lightningcss@1.31.1)(rollup@4.57.1)(sugarss@5.0.1(postcss@8.5.12))(tsx@4.21.0)(yaml@2.8.2):
     dependencies:
       '@1natsu/wait-element': 4.1.2
       '@aklinker1/rollup-plugin-visualizer': 5.12.0(rollup@4.57.1)
@@ -14247,8 +14247,8 @@ snapshots:
       publish-browser-extension: 4.0.4
       scule: 1.3.0
       unimport: 5.6.0
-      vite: 7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.8))(tsx@4.21.0)(yaml@2.8.2)
-      vite-node: 5.3.0(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.8))(tsx@4.21.0)(yaml@2.8.2)
+      vite: 7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.12))(tsx@4.21.0)(yaml@2.8.2)
+      vite-node: 5.3.0(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(sugarss@5.0.1(postcss@8.5.12))(tsx@4.21.0)(yaml@2.8.2)
       web-ext-run: 0.2.4
     optionalDependencies:
       eslint: 9.39.2(jiti@2.6.1)
