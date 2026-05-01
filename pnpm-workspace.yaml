@@ -45,9 +45,9 @@ catalog:
   postcss: 8.5.12
   preact: 10.28.4
   prettier: 3.8.3
-  react: 19.2.4
+  react: 19.2.5
   react-avatar-editor: 14.0.0
-  react-dom: 19.2.4
+  react-dom: 19.2.5
   shadcn: 3.8.5
   sharp: 0.34.5
   sonner: 2.0.7
