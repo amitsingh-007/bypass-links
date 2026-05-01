@@ -178,8 +178,8 @@ catalogs:
       specifier: 3.9.0
       version: 3.9.0
     wretch:
-      specifier: 3.0.6
-      version: 3.0.6
+      specifier: 3.0.7
+      version: 3.0.7
     wxt:
       specifier: 0.20.18
       version: 0.20.18
@@ -316,7 +316,7 @@ importers:
         version: 3.9.0(preact@10.28.4)
       wretch:
         specifier: 'catalog:'
-        version: 3.0.6
+        version: 3.0.7
       zod:
         specifier: 'catalog:'
         version: 4.3.6
@@ -498,7 +498,7 @@ importers:
         version: 19.2.4
       wretch:
         specifier: 'catalog:'
-        version: 3.0.6
+        version: 3.0.7
       zod:
         specifier: 'catalog:'
         version: 4.3.6
@@ -7110,8 +7110,8 @@ packages:
   wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
 
-  wretch@3.0.6:
-    resolution: {integrity: sha512-qshuQ0s5973Mu9mL5PG6QYG/bD0jihX9bovq7jgGE8r6ndH+JPOzzxihh/gaanKKsrFvvIdZ+KN4BoFyTj4PWg==}
+  wretch@3.0.7:
+    resolution: {integrity: sha512-1zvhHLcwjGx5OMGHcdkuVmHWd/8NQ0gS4oV6+Er1YTnav4QTMTDl7ZI5QklELNVsX1BDNQk2kUrhoUSILomelg==}
     engines: {node: '>=22'}
 
   wsl-utils@0.1.0:
@@ -14192,7 +14192,7 @@ snapshots:
 
   wrappy@1.0.2: {}
 
-  wretch@3.0.6: {}
+  wretch@3.0.7: {}
 
   wsl-utils@0.1.0:
     dependencies:
