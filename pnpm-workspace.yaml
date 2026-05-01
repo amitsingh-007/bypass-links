@@ -22,7 +22,7 @@ catalog:
   '@total-typescript/ts-reset': 0.6.1
   '@trpc/client': 11.10.0
   '@trpc/server': 11.10.0
-  '@types/node': 24.11.0
+  '@types/node': 24.12.2
   '@types/react': 19.2.14
   '@types/react-avatar-editor': 13.0.4
   '@types/react-dom': 19.2.3
