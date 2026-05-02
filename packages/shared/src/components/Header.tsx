@@ -27,7 +27,8 @@ const Header = memo<Props>(
     return (
       <header
         className="
-          flex items-center justify-between border-b border-border px-2.5
+          flex shrink-0 items-center justify-between border-b border-border
+          px-2.5
         "
         style={{ height: HEADER_HEIGHT }}
       >
