@@ -45,7 +45,7 @@ jobs:
 
       - name: Deploy Preview (Vercel)
         if: ${{ !inputs.vercel_url }}
-        uses: amondnet/vercel-action@v25
+        uses: amondnet/vercel-action@v42
         id: vercel-action
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
