@@ -24,6 +24,7 @@
     "eslint-plugin-better-tailwindcss": "catalog:",
     "lefthook": "catalog:",
     "prettier": "catalog:",
+    "tailwindcss": "catalog:",
     "turbo": "catalog:",
     "typescript": "catalog:",
     "vercel": "catalog:",

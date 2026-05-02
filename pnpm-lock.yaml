@@ -218,6 +218,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      tailwindcss:
+        specifier: 'catalog:'
+        version: 4.2.4
       turbo:
         specifier: 'catalog:'
         version: 2.9.6
