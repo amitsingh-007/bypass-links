@@ -18,7 +18,7 @@ export const getBookmarks = async (user: IUser) => {
     uid: user.uid,
   });
 };
-export const saveBookmarks = async (bookmarks: IBookmarksObj, user: IUser) => {
+const saveBookmarks = async (bookmarks: IBookmarksObj, user: IUser) => {
   return saveToFirebase({
     ref: EFirebaseDBRef.bookmarks,
     uid: user.uid,
@@ -32,7 +32,7 @@ export const getPersons = async (user: IUser) => {
     uid: user.uid,
   });
 };
-export const savePersons = async (persons: IPersons, user: IUser) => {
+const savePersons = async (persons: IPersons, user: IUser) => {
   return saveToFirebase({
     ref: EFirebaseDBRef.persons,
     uid: user.uid,

@@ -5,7 +5,7 @@ import useBookmarkStore from '../store/useBookmarkStore';
 import BookmarkRow from './BookmarkRow';
 import FolderRow from './FolderRow';
 
-export interface Props {
+interface Props {
   bookmark: ContextBookmark;
   pos: number;
   isSelected: boolean;

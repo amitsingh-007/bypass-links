@@ -116,14 +116,14 @@ export const searchAndVerify = async (
 };
 
 /**
- * Get item from browser.storage.local
+ * Get item from chrome.storage.local
  */
 export const getStorageItem = async <T = unknown>(
   page: Page,
   key: string
 ): Promise<T | undefined> => {
   return page.evaluate(async (storageKey) => {
-    const result = await browser.storage.local.get([storageKey]);
+    const result = await chrome.storage.local.get([storageKey]);
     return result[storageKey] as T;
   }, key);
 };

@@ -9,7 +9,7 @@ import {
 } from '@bypass/shared';
 import { memo } from 'react';
 
-export interface Props {
+interface Props {
   index: number;
   folders: IBookmarksObj['folders'];
   contextBookmarks: ContextBookmarks;

@@ -98,7 +98,7 @@ setup('authenticate and cache extension storage', async ({}, testInfo) => {
   await expect(logoutButton).toBeEnabled({ timeout: TEST_TIMEOUTS.AUTH });
 
   const chromeStorageData = await page.evaluate(async () =>
-    browser.storage.local.get(null)
+    chrome.storage.local.get(null)
   );
 
   const localStorageData = await page.evaluate(() => {

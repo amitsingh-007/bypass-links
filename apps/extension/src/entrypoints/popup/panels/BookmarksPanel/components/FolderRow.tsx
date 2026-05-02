@@ -102,5 +102,4 @@ const FolderRow = memo<Props>(
   }
 );
 
-export type { Props };
 export default FolderRow;

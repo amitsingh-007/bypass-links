@@ -21,8 +21,6 @@ export const onAuthStateChange = (callback: (user: User | null) => void) =>
 
 export const getAuthIdToken = async () => auth.currentUser?.getIdToken(true);
 
-export const getCurrentUser = () => auth.currentUser;
-
 export const emailAndPasswordSignIn = async (
   email: string,
   password: string
