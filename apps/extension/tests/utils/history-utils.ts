@@ -5,7 +5,7 @@ import type { Page } from '@playwright/test';
  */
 export const getHistoryItems = async (page: Page, urls?: string[]) => {
   return page.evaluate(async (urlsToCheck) => {
-    const results = await browser.history.search({
+    const results = await chrome.history.search({
       text: '',
       maxResults: 1000,
       startTime: 0,
@@ -13,7 +13,7 @@ export const getHistoryItems = async (page: Page, urls?: string[]) => {
     if (!urlsToCheck) {
       return results;
     }
-    return results.filter((item) =>
+    return results.filter((item: { url?: string }) =>
       urlsToCheck.some((url) => item.url?.includes(url))
     );
   }, urls);

@@ -124,7 +124,7 @@ export const authenticateAndNavigate = async (
 
   // Step 3: Inject browser.storage.local via extension page (avoid MV3 worker hangs)
   await page.evaluate(async (chromeStorageData) => {
-    await browser.storage.local.set(chromeStorageData);
+    await chrome.storage.local.set(chromeStorageData);
   }, cachedData.chromeStorage);
 
   // Step 4: Reload to ensure storage is applied before UI checks

@@ -33,7 +33,7 @@ const readStorageFromWorker = async <T = unknown>(
   key: string
 ): Promise<T | undefined> => {
   return backgroundSW.evaluate(async (storageKey) => {
-    const storage = await browser.storage.local.get([storageKey]);
+    const storage = await chrome.storage.local.get([storageKey]);
     return storage[storageKey] as T | undefined;
   }, key);
 };
@@ -43,7 +43,7 @@ const writeStorageFromWorker = async (
   values: Record<string, unknown>
 ) => {
   await backgroundSW.evaluate(async (storageValues) => {
-    await browser.storage.local.set(storageValues);
+    await chrome.storage.local.set(storageValues);
   }, values);
 };
 
@@ -52,7 +52,7 @@ const removeStorageFromWorker = async (
   keys: string | string[]
 ) => {
   await backgroundSW.evaluate(async (storageKeys) => {
-    await browser.storage.local.remove(storageKeys);
+    await chrome.storage.local.remove(storageKeys);
   }, keys);
 };
 

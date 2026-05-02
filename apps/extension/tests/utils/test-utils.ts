@@ -123,7 +123,7 @@ export const getStorageItem = async <T = unknown>(
   key: string
 ): Promise<T | undefined> => {
   return page.evaluate(async (storageKey) => {
-    const result = await browser.storage.local.get([storageKey]);
+    const result = await chrome.storage.local.get([storageKey]);
     return result[storageKey] as T;
   }, key);
 };
