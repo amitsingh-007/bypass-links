@@ -12,7 +12,7 @@
   "scripts": {
     "typecheck": "tsc --noEmit"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@bypass/configs": "workspace:*",
     "@bypass/shared": "workspace:*",
     "@octokit/rest": "catalog:",
