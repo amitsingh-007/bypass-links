@@ -57,6 +57,9 @@ catalogs:
     '@trpc/server':
       specifier: 11.10.0
       version: 11.10.0
+    '@types/chrome':
+      specifier: 0.1.40
+      version: 0.1.40
     '@types/node':
       specifier: 24.12.2
       version: 24.12.2
@@ -336,6 +339,9 @@ importers:
       '@tailwindcss/vite':
         specifier: 'catalog:'
         version: 4.2.4(vite@7.3.2(@types/node@24.12.2)(jiti@2.6.1)(lightningcss@1.32.0)(sugarss@5.0.1(postcss@8.5.12))(tsx@4.21.0)(yaml@2.8.2))
+      '@types/chrome':
+        specifier: 'catalog:'
+        version: 0.1.40
       '@types/node':
         specifier: 'catalog:'
         version: 24.12.2
@@ -2680,6 +2686,9 @@ packages:
 
   '@types/caseless@0.12.5':
     resolution: {integrity: sha512-hWtVTC2q7hc7xZ/RLbxapMvDMgUnDvKvMOpKal4DrMyfGBUfB1oKaZlIRr6mJL+If3bAP6sV/QneGzF6tJjZDg==}
+
+  '@types/chrome@0.1.40':
+    resolution: {integrity: sha512-UnfyRAe8ORu9HSuTH0EqyOEUin3JrWW9Nl/gDXezNfTUrfIoxw+WRZgKOxGz0t5BnjbfXBnS2eCYfW2PxH1wcA==}
 
   '@types/eslint@8.56.12':
     resolution: {integrity: sha512-03ruubjWyOHlmljCVoxSuNDdmfZDzsrrz0P2LeJsOXr+ZwFQ+0yQIwNCwt/GYhV7Z31fgtXJTAEs+FYlEL851g==}
@@ -9220,6 +9229,11 @@ snapshots:
 
   '@types/caseless@0.12.5':
     optional: true
+
+  '@types/chrome@0.1.40':
+    dependencies:
+      '@types/filesystem': 0.0.36
+      '@types/har-format': 1.2.16
 
   '@types/eslint@8.56.12':
     dependencies:
