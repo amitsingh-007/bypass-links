@@ -2,6 +2,16 @@ packages:
   - packages/*
   - apps/*
 
+allowBuilds:
+  '@firebase/util': false
+  esbuild: false
+  lefthook: false
+  msw: false
+  protobufjs: false
+  sharp: false
+  spawn-sync: false
+  unrs-resolver: false
+
 catalog:
   '@base-ui/react': 1.4.1
   '@hugeicons/core-free-icons': 3.3.0
