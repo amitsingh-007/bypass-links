@@ -184,8 +184,8 @@ catalogs:
       specifier: 3.0.8
       version: 3.0.8
     wxt:
-      specifier: 0.20.25
-      version: 0.20.25
+      specifier: 0.20.26
+      version: 0.20.26
     xo:
       specifier: 1.2.3
       version: 1.2.3
@@ -368,7 +368,7 @@ importers:
         version: 6.1.1(typescript@5.9.3)(vite@7.3.3(@types/node@24.12.2)(jiti@2.7.0)(lightningcss@1.32.0)(tsx@4.21.0))
       wxt:
         specifier: 'catalog:'
-        version: 0.20.25(@types/node@24.12.2)(eslint@9.39.4(jiti@2.7.0))(jiti@2.7.0)(rollup@4.60.3)(tsx@4.21.0)
+        version: 0.20.26(@types/node@24.12.2)(eslint@9.39.4(jiti@2.7.0))(jiti@2.7.0)(rollup@4.60.3)(tsx@4.21.0)
 
   apps/web:
     dependencies:
@@ -7380,8 +7380,8 @@ packages:
     resolution: {integrity: sha512-g/eziiSUNBSsdDJtCLB8bdYEUMj4jR7AGeUo96p/3dTafgjHhpF4RiCFPiRILwjQoDXx5MqkBr4fwWtR3Ky4Wg==}
     engines: {node: '>=20'}
 
-  wxt@0.20.25:
-    resolution: {integrity: sha512-ca+8Yt0Auzn9tX0ZW2Kzocb9yM8F/RoOjcYQ0fHkwcSc7/IUkqV2+1JUNn1SMSNAS4Gr3YQHAn/pi3q+jIGRqw==}
+  wxt@0.20.26:
+    resolution: {integrity: sha512-PMGz7sAlONJgwBkOriInXOoEU6/jlGKrhSFvZfiBPHZocyYPfnw1lod9rGDra957H83WO+TnGjYwJiGYciSIqA==}
     engines: {bun: '>=1.2.0', node: '>=20.12.0'}
     hasBin: true
     peerDependencies:
@@ -10397,7 +10397,7 @@ snapshots:
 
   chrome-launcher@1.2.0:
     dependencies:
-      '@types/node': 24.12.2
+      '@types/node': 25.6.2
       escape-string-regexp: 4.0.0
       is-wsl: 2.2.0
       lighthouse-logger: 2.0.2
@@ -13265,7 +13265,7 @@ snapshots:
       jsonwebtoken: 9.0.3
       listr2: 10.2.1
       ofetch: 1.5.1
-      zod: 4.3.6
+      zod: 4.4.3
 
   pump@3.0.4:
     dependencies:
@@ -14495,7 +14495,7 @@ snapshots:
     dependencies:
       lightningcss: 1.32.0
       picomatch: 4.0.4
-      postcss: 8.5.14
+      postcss: 8.5.15
       rolldown: 1.0.0-rc.18
       tinyglobby: 0.2.16
     optionalDependencies:
@@ -14668,7 +14668,7 @@ snapshots:
       is-wsl: 3.1.1
       powershell-utils: 0.1.0
 
-  wxt@0.20.25(@types/node@24.12.2)(eslint@9.39.4(jiti@2.7.0))(jiti@2.7.0)(rollup@4.60.3)(tsx@4.21.0):
+  wxt@0.20.26(@types/node@24.12.2)(eslint@9.39.4(jiti@2.7.0))(jiti@2.7.0)(rollup@4.60.3)(tsx@4.21.0):
     dependencies:
       '@1natsu/wait-element': 4.2.0
       '@aklinker1/rollup-plugin-visualizer': 5.12.0(rollup@4.60.3)
