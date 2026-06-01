@@ -41,7 +41,7 @@ catalog:
   babel-plugin-react-compiler: 1.0.0
   class-variance-authority: 0.7.1
   clsx: 2.1.1
-  dayjs: 1.11.20
+  dayjs: 1.11.21
   eslint-plugin-better-tailwindcss: 4.4.1
   file-type: 21.3.4
   filenamify: 7.0.1
