@@ -75,7 +75,7 @@ catalog:
   wxt: 0.20.25
   xo: 1.2.3
   zod: 4.3.6
-  zustand: 5.0.12
+  zustand: 5.0.14
 
 catalogMode: strict
 
