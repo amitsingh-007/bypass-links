@@ -67,7 +67,7 @@ catalog:
   type-fest: 5.4.4
   typescript: 5.9.3
   vercel: 53.1.0
-  vite: 7.3.2
+  vite: 7.3.3
   vite-tsconfig-paths: 6.1.1
   wouter: 3.9.0
   wouter-preact: 3.9.0
