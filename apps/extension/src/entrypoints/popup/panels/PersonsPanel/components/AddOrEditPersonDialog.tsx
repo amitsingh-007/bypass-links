@@ -16,7 +16,8 @@ import {
   Spinner,
 } from '@bypass/ui';
 import { useDisclosure } from '@mantine/hooks';
-import { useForm, useStore } from '@tanstack/react-form';
+import { useForm } from '@tanstack/react-form';
+import { useSelector } from '@tanstack/react-store';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { UserWarning03Icon } from '@hugeicons/core-free-icons';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -109,7 +110,7 @@ function AddOrEditPersonDialog({
     setImageUrl(url);
   };
 
-  const uid = useStore(form.store, (state) => state.values.uid);
+  const uid = useSelector(form.store, (state) => state.values.uid);
 
   return (
     <>
