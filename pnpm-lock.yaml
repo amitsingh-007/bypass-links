@@ -124,8 +124,8 @@ catalogs:
       specifier: 8.5.15
       version: 8.5.15
     preact:
-      specifier: 10.28.4
-      version: 10.28.4
+      specifier: 10.29.4
+      version: 10.29.4
     prettier:
       specifier: 3.8.3
       version: 3.8.3
@@ -292,7 +292,7 @@ importers:
         version: 7.3.0
       preact:
         specifier: 'catalog:'
-        version: 10.28.4
+        version: 10.29.4
       react:
         specifier: 'catalog:'
         version: 19.2.5
@@ -319,7 +319,7 @@ importers:
         version: 3.9.0(react@19.2.5)
       wouter-preact:
         specifier: 'catalog:'
-        version: 3.9.0(preact@10.28.4)
+        version: 3.9.0(preact@10.29.4)
       wretch:
         specifier: 'catalog:'
         version: 3.0.8
@@ -335,7 +335,7 @@ importers:
         version: 1.60.0
       '@preact/preset-vite':
         specifier: 'catalog:'
-        version: 2.10.5(@babel/core@7.29.0)(preact@10.28.4)(rollup@4.60.3)(vite@7.3.3(@types/node@24.12.4)(jiti@2.7.0)(lightningcss@1.32.0)(tsx@4.21.0))
+        version: 2.10.5(@babel/core@7.29.0)(preact@10.29.4)(rollup@4.60.3)(vite@7.3.3(@types/node@24.12.4)(jiti@2.7.0)(lightningcss@1.32.0)(tsx@4.21.0))
       '@tailwindcss/vite':
         specifier: 'catalog:'
         version: 4.2.4(vite@7.3.3(@types/node@24.12.4)(jiti@2.7.0)(lightningcss@1.32.0)(tsx@4.21.0))
@@ -501,7 +501,7 @@ importers:
         version: 7.3.0
       preact:
         specifier: 'catalog:'
-        version: 10.28.4
+        version: 10.29.4
       react:
         specifier: 'catalog:'
         version: 19.2.5
@@ -590,7 +590,7 @@ importers:
         version: 0.4.6(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       preact:
         specifier: 'catalog:'
-        version: 10.28.4
+        version: 10.29.4
       react:
         specifier: 'catalog:'
         version: 19.2.5
@@ -6157,8 +6157,8 @@ packages:
     resolution: {integrity: sha512-dM0jVuXJPsDN6DvRpea484tCUaMiXWjuCn++HGTqUWzGDjv5tZkEZldAJ/UMlqRYGFrD/etByo4/xOuC/snX2A==}
     engines: {node: '>=20'}
 
-  preact@10.28.4:
-    resolution: {integrity: sha512-uKFfOHWuSNpRFVTnljsCluEFq57OKT+0QdOiQo8XWnQ/pSvg7OpX5eNOejELXJMWy+BwM2nobz0FkvzmnpCNsQ==}
+  preact@10.29.4:
+    resolution: {integrity: sha512-GMpwh9+NJ8tSmqwIaVyFRQkiKfBEzQ+k7r7tle4W+kaJ+7wJiB9hFz9BixAomMtenPPSBfM4bZhXozGxhf0uFQ==}
 
   prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
@@ -6675,6 +6675,7 @@ packages:
 
   stream-to-promise@2.2.0:
     resolution: {integrity: sha512-HAGUASw8NT0k8JvIVutB2Y/9iBk7gpgEyAudXwNJmZERdMITGdajOa4VJfD/kNiA3TppQpTP4J+CtcHwdzKBAw==}
+    deprecated: Deprecated. Use node:stream/promises and node:stream/consumers instead.
 
   streamx@2.25.0:
     resolution: {integrity: sha512-0nQuG6jf1w+wddNEEXCF4nTg3LtufWINB5eFEN+5TNZW7KWJp6x87+JFL43vaAUPyCfH1wID+mNVyW6OHtFamg==}
@@ -6942,6 +6943,7 @@ packages:
   tsconfck@3.1.6:
     resolution: {integrity: sha512-ks6Vjr/jEw0P1gmOVwutM3B7fWxoWBL2KRDb1JfqGVawBmO5UsvmWOQFGHBPl5yxYz4eERr19E6L7NMv+Fej4w==}
     engines: {node: ^18 || >=20}
+    deprecated: unmaintained
     hasBin: true
     peerDependencies:
       typescript: ^5.0.0
@@ -8980,12 +8982,12 @@ snapshots:
       '@pnpm/network.ca-file': 1.0.2
       config-chain: 1.1.13
 
-  '@preact/preset-vite@2.10.5(@babel/core@7.29.0)(preact@10.28.4)(rollup@4.60.3)(vite@7.3.3(@types/node@24.12.4)(jiti@2.7.0)(lightningcss@1.32.0)(tsx@4.21.0))':
+  '@preact/preset-vite@2.10.5(@babel/core@7.29.0)(preact@10.29.4)(rollup@4.60.3)(vite@7.3.3(@types/node@24.12.4)(jiti@2.7.0)(lightningcss@1.32.0)(tsx@4.21.0))':
     dependencies:
       '@babel/core': 7.29.0
       '@babel/plugin-transform-react-jsx': 7.28.6(@babel/core@7.29.0)
       '@babel/plugin-transform-react-jsx-development': 7.27.1(@babel/core@7.29.0)
-      '@prefresh/vite': 2.4.12(preact@10.28.4)(vite@7.3.3(@types/node@24.12.4)(jiti@2.7.0)(lightningcss@1.32.0)(tsx@4.21.0))
+      '@prefresh/vite': 2.4.12(preact@10.29.4)(vite@7.3.3(@types/node@24.12.4)(jiti@2.7.0)(lightningcss@1.32.0)(tsx@4.21.0))
       '@rollup/pluginutils': 5.3.0(rollup@4.60.3)
       babel-plugin-transform-hook-names: 1.0.2(@babel/core@7.29.0)
       debug: 4.4.3
@@ -9001,20 +9003,20 @@ snapshots:
 
   '@prefresh/babel-plugin@0.5.3': {}
 
-  '@prefresh/core@1.5.9(preact@10.28.4)':
+  '@prefresh/core@1.5.9(preact@10.29.4)':
     dependencies:
-      preact: 10.28.4
+      preact: 10.29.4
 
   '@prefresh/utils@1.2.1': {}
 
-  '@prefresh/vite@2.4.12(preact@10.28.4)(vite@7.3.3(@types/node@24.12.4)(jiti@2.7.0)(lightningcss@1.32.0)(tsx@4.21.0))':
+  '@prefresh/vite@2.4.12(preact@10.29.4)(vite@7.3.3(@types/node@24.12.4)(jiti@2.7.0)(lightningcss@1.32.0)(tsx@4.21.0))':
     dependencies:
       '@babel/core': 7.29.0
       '@prefresh/babel-plugin': 0.5.3
-      '@prefresh/core': 1.5.9(preact@10.28.4)
+      '@prefresh/core': 1.5.9(preact@10.29.4)
       '@prefresh/utils': 1.2.1
       '@rollup/pluginutils': 4.2.1
-      preact: 10.28.4
+      preact: 10.29.4
       vite: 7.3.3(@types/node@24.12.4)(jiti@2.7.0)(lightningcss@1.32.0)(tsx@4.21.0)
     transitivePeerDependencies:
       - supports-color
@@ -13172,7 +13174,7 @@ snapshots:
 
   powershell-utils@0.1.0: {}
 
-  preact@10.28.4: {}
+  preact@10.29.4: {}
 
   prelude-ls@1.2.1: {}
 
@@ -14624,10 +14626,10 @@ snapshots:
 
   word-wrap@1.2.5: {}
 
-  wouter-preact@3.9.0(preact@10.28.4):
+  wouter-preact@3.9.0(preact@10.29.4):
     dependencies:
       mitt: 3.0.1
-      preact: 10.28.4
+      preact: 10.29.4
       regexparam: 3.0.0
 
   wouter@3.9.0(react@19.2.5):
