@@ -190,8 +190,8 @@ catalogs:
       specifier: 1.2.3
       version: 1.2.3
     zod:
-      specifier: 4.3.6
-      version: 4.3.6
+      specifier: 4.4.3
+      version: 4.4.3
     zustand:
       specifier: 5.0.14
       version: 5.0.14
@@ -265,7 +265,7 @@ importers:
         version: 8.3.18(react@19.2.5)
       '@t3-oss/env-core':
         specifier: 'catalog:'
-        version: 0.13.11(typescript@5.9.3)(valibot@1.4.0(typescript@5.9.3))(zod@4.3.6)
+        version: 0.13.11(typescript@5.9.3)(valibot@1.4.0(typescript@5.9.3))(zod@4.4.3)
       '@tanstack/react-form':
         specifier: 'catalog:'
         version: 1.33.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
@@ -325,7 +325,7 @@ importers:
         version: 3.0.9
       zod:
         specifier: 'catalog:'
-        version: 4.3.6
+        version: 4.4.3
       zustand:
         specifier: 'catalog:'
         version: 5.0.14(@types/react@19.2.14)(react@19.2.5)(use-sync-external-store@1.6.0(react@19.2.5))
@@ -398,7 +398,7 @@ importers:
         version: 8.3.18(react@19.2.5)
       '@t3-oss/env-nextjs':
         specifier: 'catalog:'
-        version: 0.13.11(typescript@5.9.3)(valibot@1.4.0(typescript@5.9.3))(zod@4.3.6)
+        version: 0.13.11(typescript@5.9.3)(valibot@1.4.0(typescript@5.9.3))(zod@4.4.3)
       '@tanstack/react-virtual':
         specifier: 'catalog:'
         version: 3.13.26(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
@@ -443,7 +443,7 @@ importers:
         version: 0.35.3(@types/node@24.12.4)
       zod:
         specifier: 'catalog:'
-        version: 4.3.6
+        version: 4.4.3
     devDependencies:
       '@playwright/test':
         specifier: 'catalog:'
@@ -510,7 +510,7 @@ importers:
         version: 3.0.9
       zod:
         specifier: 'catalog:'
-        version: 4.3.6
+        version: 4.4.3
     devDependencies:
       '@bypass/configs':
         specifier: workspace:*
@@ -541,7 +541,7 @@ importers:
         version: 22.0.1
       '@t3-oss/env-core':
         specifier: 'catalog:'
-        version: 0.13.11(typescript@5.9.3)(valibot@1.4.0(typescript@5.9.3))(zod@4.3.6)
+        version: 0.13.11(typescript@5.9.3)(valibot@1.4.0(typescript@5.9.3))(zod@4.4.3)
       '@trpc/server':
         specifier: 'catalog:'
         version: 11.10.0(typescript@5.9.3)
@@ -553,7 +553,7 @@ importers:
         version: 13.7.0
       zod:
         specifier: 'catalog:'
-        version: 4.3.6
+        version: 4.4.3
     devDependencies:
       firebase:
         specifier: 'catalog:'
@@ -7698,9 +7698,6 @@ packages:
   zod@3.25.76:
     resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
 
-  zod@4.3.6:
-    resolution: {integrity: sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg==}
-
   zod@4.4.3:
     resolution: {integrity: sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==}
 
@@ -9588,19 +9585,19 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  '@t3-oss/env-core@0.13.11(typescript@5.9.3)(valibot@1.4.0(typescript@5.9.3))(zod@4.3.6)':
+  '@t3-oss/env-core@0.13.11(typescript@5.9.3)(valibot@1.4.0(typescript@5.9.3))(zod@4.4.3)':
     optionalDependencies:
       typescript: 5.9.3
       valibot: 1.4.0(typescript@5.9.3)
-      zod: 4.3.6
+      zod: 4.4.3
 
-  '@t3-oss/env-nextjs@0.13.11(typescript@5.9.3)(valibot@1.4.0(typescript@5.9.3))(zod@4.3.6)':
+  '@t3-oss/env-nextjs@0.13.11(typescript@5.9.3)(valibot@1.4.0(typescript@5.9.3))(zod@4.4.3)':
     dependencies:
-      '@t3-oss/env-core': 0.13.11(typescript@5.9.3)(valibot@1.4.0(typescript@5.9.3))(zod@4.3.6)
+      '@t3-oss/env-core': 0.13.11(typescript@5.9.3)(valibot@1.4.0(typescript@5.9.3))(zod@4.4.3)
     optionalDependencies:
       typescript: 5.9.3
       valibot: 1.4.0(typescript@5.9.3)
-      zod: 4.3.6
+      zod: 4.4.3
 
   '@tailwindcss/node@4.2.4':
     dependencies:
@@ -13604,7 +13601,7 @@ snapshots:
       jsonwebtoken: 9.0.3
       listr2: 10.2.1
       ofetch: 1.5.1
-      zod: 4.3.6
+      zod: 4.4.3
 
   pump@3.0.4:
     dependencies:
@@ -15235,8 +15232,6 @@ snapshots:
   zod@3.24.4: {}
 
   zod@3.25.76: {}
-
-  zod@4.3.6: {}
 
   zod@4.4.3: {}
 
