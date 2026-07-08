@@ -181,8 +181,8 @@ catalogs:
       specifier: 3.9.0
       version: 3.9.0
     wretch:
-      specifier: 3.0.8
-      version: 3.0.8
+      specifier: 3.0.9
+      version: 3.0.9
     wxt:
       specifier: 0.20.25
       version: 0.20.25
@@ -322,7 +322,7 @@ importers:
         version: 3.9.0(preact@10.28.4)
       wretch:
         specifier: 'catalog:'
-        version: 3.0.8
+        version: 3.0.9
       zod:
         specifier: 'catalog:'
         version: 4.3.6
@@ -507,7 +507,7 @@ importers:
         version: 19.2.5
       wretch:
         specifier: 'catalog:'
-        version: 3.0.8
+        version: 3.0.9
       zod:
         specifier: 'catalog:'
         version: 4.3.6
@@ -6675,6 +6675,7 @@ packages:
 
   stream-to-promise@2.2.0:
     resolution: {integrity: sha512-HAGUASw8NT0k8JvIVutB2Y/9iBk7gpgEyAudXwNJmZERdMITGdajOa4VJfD/kNiA3TppQpTP4J+CtcHwdzKBAw==}
+    deprecated: Deprecated. Use node:stream/promises and node:stream/consumers instead.
 
   streamx@2.25.0:
     resolution: {integrity: sha512-0nQuG6jf1w+wddNEEXCF4nTg3LtufWINB5eFEN+5TNZW7KWJp6x87+JFL43vaAUPyCfH1wID+mNVyW6OHtFamg==}
@@ -6942,6 +6943,7 @@ packages:
   tsconfck@3.1.6:
     resolution: {integrity: sha512-ks6Vjr/jEw0P1gmOVwutM3B7fWxoWBL2KRDb1JfqGVawBmO5UsvmWOQFGHBPl5yxYz4eERr19E6L7NMv+Fej4w==}
     engines: {node: ^18 || >=20}
+    deprecated: unmaintained
     hasBin: true
     peerDependencies:
       typescript: ^5.0.0
@@ -7368,8 +7370,8 @@ packages:
   wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
 
-  wretch@3.0.8:
-    resolution: {integrity: sha512-HDDFvyELFUVZFiw4hb/QfMkuh+xwHwJoRjCCTDO+E9ik3TrRJSVI7MmzSKQemimeDH9EwIRmQuh4HTgEcVcYVw==}
+  wretch@3.0.9:
+    resolution: {integrity: sha512-RXJQp5aOBfHQaDCLRyFXQooWDBOHrQxVgCH/6OFaFPBKjeUiXMQ3NV1b8qqI7CR+v4meVBWYs242P8n+rWRjzA==}
     engines: {node: '>=22'}
 
   wsl-utils@0.1.0:
@@ -14657,7 +14659,7 @@ snapshots:
 
   wrappy@1.0.2: {}
 
-  wretch@3.0.8: {}
+  wretch@3.0.9: {}
 
   wsl-utils@0.1.0:
     dependencies:
