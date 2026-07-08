@@ -175,8 +175,8 @@ catalogs:
       specifier: 6.1.1
       version: 6.1.1
     wouter:
-      specifier: 3.9.0
-      version: 3.9.0
+      specifier: 3.10.0
+      version: 3.10.0
     wouter-preact:
       specifier: 3.9.0
       version: 3.9.0
@@ -316,7 +316,7 @@ importers:
         version: 1.4.0
       wouter:
         specifier: 'catalog:'
-        version: 3.9.0(react@19.2.5)
+        version: 3.10.0(react@19.2.5)
       wouter-preact:
         specifier: 'catalog:'
         version: 3.9.0(preact@10.28.4)
@@ -7553,8 +7553,8 @@ packages:
     peerDependencies:
       preact: ^10.0.0
 
-  wouter@3.9.0:
-    resolution: {integrity: sha512-sF/od/PIgqEQBQcrN7a2x3MX6MQE6nW0ygCfy9hQuUkuB28wEZuu/6M5GyqkrrEu9M6jxdkgE12yDFsQMKos4Q==}
+  wouter@3.10.0:
+    resolution: {integrity: sha512-zTfddD80zc2/J5l8JKcdvzOK6AwP0kpyHEI3DxRN2bn8U1oJPnrSVm8v+X3WwDamvLAOxTO7ZvkxkpRWlyeJ1Q==}
     peerDependencies:
       react: '>=16.8.0'
 
@@ -15013,7 +15013,7 @@ snapshots:
       preact: 10.28.4
       regexparam: 3.0.0
 
-  wouter@3.9.0(react@19.2.5):
+  wouter@3.10.0(react@19.2.5):
     dependencies:
       mitt: 3.0.1
       react: 19.2.5
