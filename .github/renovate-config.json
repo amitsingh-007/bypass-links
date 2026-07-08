@@ -1,5 +1,4 @@
 {
   "onboarding": false,
-  "requireConfig": "optional",
-  "branchPrefix": "renovate-action/"
+  "requireConfig": "optional"
 }
