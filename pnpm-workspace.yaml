@@ -52,7 +52,7 @@ catalog:
   next-themes: 0.4.6
   p-limit: 7.3.0
   postcss: 8.5.16
-  preact: 10.28.4
+  preact: 10.29.4
   prettier: 3.9.4
   react: 19.2.6
   react-avatar-editor: 14.0.0
