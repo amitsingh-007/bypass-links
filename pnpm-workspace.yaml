@@ -44,7 +44,7 @@ catalog:
   dayjs: 1.11.21
   eslint-plugin-better-tailwindcss: 4.4.1
   file-type: 21.3.4
-  filenamify: 7.0.1
+  filenamify: 7.0.2
   firebase: 12.12.1
   firebase-admin: 13.7.0
   lefthook: 2.1.8
