@@ -58,7 +58,7 @@ catalog:
   react-avatar-editor: 14.0.0
   react-dom: 19.2.5
   shadcn: 3.8.5
-  sharp: 0.34.5
+  sharp: 0.35.3
   sonner: 2.0.7
   tailwind-merge: 3.5.0
   tailwindcss: 4.2.4
