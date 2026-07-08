@@ -6,6 +6,7 @@ workflow:
   artifact: chrome-extension-file
 branches-ignore:
   - renovate/**
+  - renovate-action/**
 comment-threshold: 1024
 auto-assign:
   - amitsingh-007
