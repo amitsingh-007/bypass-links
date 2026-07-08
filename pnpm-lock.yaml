@@ -13,8 +13,8 @@ catalogs:
       specifier: 3.3.0
       version: 3.3.0
     '@hugeicons/react':
-      specifier: 1.1.6
-      version: 1.1.6
+      specifier: 1.1.9
+      version: 1.1.9
     '@mantine/hooks':
       specifier: 8.3.18
       version: 8.3.18
@@ -259,7 +259,7 @@ importers:
         version: 3.3.0
       '@hugeicons/react':
         specifier: 'catalog:'
-        version: 1.1.6(react@19.2.5)
+        version: 1.1.9(react@19.2.5)
       '@mantine/hooks':
         specifier: 'catalog:'
         version: 8.3.18(react@19.2.5)
@@ -392,7 +392,7 @@ importers:
         version: 3.3.0
       '@hugeicons/react':
         specifier: 'catalog:'
-        version: 1.1.6(react@19.2.5)
+        version: 1.1.9(react@19.2.5)
       '@mantine/hooks':
         specifier: 'catalog:'
         version: 8.3.18(react@19.2.5)
@@ -486,7 +486,7 @@ importers:
         version: 3.3.0
       '@hugeicons/react':
         specifier: 'catalog:'
-        version: 1.1.6(react@19.2.5)
+        version: 1.1.9(react@19.2.5)
       '@mantine/hooks':
         specifier: 'catalog:'
         version: 8.3.18(react@19.2.5)
@@ -578,7 +578,7 @@ importers:
         version: 3.3.0
       '@hugeicons/react':
         specifier: 'catalog:'
-        version: 1.1.6(react@19.2.5)
+        version: 1.1.9(react@19.2.5)
       class-variance-authority:
         specifier: 'catalog:'
         version: 0.7.1
@@ -1556,8 +1556,8 @@ packages:
   '@hugeicons/core-free-icons@3.3.0':
     resolution: {integrity: sha512-qYyr4JQ2eQIHTSTbITvnJvs6ERNK64D9gpwZnf2IyuG0exzqfyABLO/oTB71FB3RZPfu1GbwycdiGSo46apjMQ==}
 
-  '@hugeicons/react@1.1.6':
-    resolution: {integrity: sha512-c2LhXJMAW5wN1pC/smBXG0YPqUON6ceR/ZdXHCjEI9KvB+hjtqYjmzIxok5hAQOeXGz0WtORgCQMzqewFKAZwg==}
+  '@hugeicons/react@1.1.9':
+    resolution: {integrity: sha512-O+lWSWjbijoAvMCxn4K2bQWCGN5+mP1y5j+X99j23mXMj+s0X25fs71T6t9YJLaBodwmZdaewD27dzS/PiboQw==}
     peerDependencies:
       react: '>=16.0.0'
 
@@ -6675,6 +6675,7 @@ packages:
 
   stream-to-promise@2.2.0:
     resolution: {integrity: sha512-HAGUASw8NT0k8JvIVutB2Y/9iBk7gpgEyAudXwNJmZERdMITGdajOa4VJfD/kNiA3TppQpTP4J+CtcHwdzKBAw==}
+    deprecated: Deprecated. Use node:stream/promises and node:stream/consumers instead.
 
   streamx@2.25.0:
     resolution: {integrity: sha512-0nQuG6jf1w+wddNEEXCF4nTg3LtufWINB5eFEN+5TNZW7KWJp6x87+JFL43vaAUPyCfH1wID+mNVyW6OHtFamg==}
@@ -6942,6 +6943,7 @@ packages:
   tsconfck@3.1.6:
     resolution: {integrity: sha512-ks6Vjr/jEw0P1gmOVwutM3B7fWxoWBL2KRDb1JfqGVawBmO5UsvmWOQFGHBPl5yxYz4eERr19E6L7NMv+Fej4w==}
     engines: {node: ^18 || >=20}
+    deprecated: unmaintained
     hasBin: true
     peerDependencies:
       typescript: ^5.0.0
@@ -8524,7 +8526,7 @@ snapshots:
 
   '@hugeicons/core-free-icons@3.3.0': {}
 
-  '@hugeicons/react@1.1.6(react@19.2.5)':
+  '@hugeicons/react@1.1.9(react@19.2.5)':
     dependencies:
       react: 19.2.5
 
