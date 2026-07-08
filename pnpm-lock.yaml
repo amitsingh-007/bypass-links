@@ -175,8 +175,8 @@ catalogs:
       specifier: 6.1.1
       version: 6.1.1
     wouter:
-      specifier: 3.9.0
-      version: 3.9.0
+      specifier: 3.10.0
+      version: 3.10.0
     wouter-preact:
       specifier: 3.9.0
       version: 3.9.0
@@ -316,7 +316,7 @@ importers:
         version: 1.4.0
       wouter:
         specifier: 'catalog:'
-        version: 3.9.0(react@19.2.5)
+        version: 3.10.0(react@19.2.5)
       wouter-preact:
         specifier: 'catalog:'
         version: 3.9.0(preact@10.28.4)
@@ -6675,6 +6675,7 @@ packages:
 
   stream-to-promise@2.2.0:
     resolution: {integrity: sha512-HAGUASw8NT0k8JvIVutB2Y/9iBk7gpgEyAudXwNJmZERdMITGdajOa4VJfD/kNiA3TppQpTP4J+CtcHwdzKBAw==}
+    deprecated: Deprecated. Use node:stream/promises and node:stream/consumers instead.
 
   streamx@2.25.0:
     resolution: {integrity: sha512-0nQuG6jf1w+wddNEEXCF4nTg3LtufWINB5eFEN+5TNZW7KWJp6x87+JFL43vaAUPyCfH1wID+mNVyW6OHtFamg==}
@@ -6942,6 +6943,7 @@ packages:
   tsconfck@3.1.6:
     resolution: {integrity: sha512-ks6Vjr/jEw0P1gmOVwutM3B7fWxoWBL2KRDb1JfqGVawBmO5UsvmWOQFGHBPl5yxYz4eERr19E6L7NMv+Fej4w==}
     engines: {node: ^18 || >=20}
+    deprecated: unmaintained
     hasBin: true
     peerDependencies:
       typescript: ^5.0.0
@@ -7348,8 +7350,8 @@ packages:
     peerDependencies:
       preact: ^10.0.0
 
-  wouter@3.9.0:
-    resolution: {integrity: sha512-sF/od/PIgqEQBQcrN7a2x3MX6MQE6nW0ygCfy9hQuUkuB28wEZuu/6M5GyqkrrEu9M6jxdkgE12yDFsQMKos4Q==}
+  wouter@3.10.0:
+    resolution: {integrity: sha512-zTfddD80zc2/J5l8JKcdvzOK6AwP0kpyHEI3DxRN2bn8U1oJPnrSVm8v+X3WwDamvLAOxTO7ZvkxkpRWlyeJ1Q==}
     peerDependencies:
       react: '>=16.8.0'
 
@@ -14630,7 +14632,7 @@ snapshots:
       preact: 10.28.4
       regexparam: 3.0.0
 
-  wouter@3.9.0(react@19.2.5):
+  wouter@3.10.0(react@19.2.5):
     dependencies:
       mitt: 3.0.1
       react: 19.2.5
