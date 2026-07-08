@@ -70,7 +70,7 @@ catalog:
   vite: 7.3.6
   vite-tsconfig-paths: 6.1.1
   wouter: 3.10.0
-  wouter-preact: 3.9.0
+  wouter-preact: 3.10.0
   wretch: 3.0.9
   wxt: 0.20.26
   xo: 1.2.3
