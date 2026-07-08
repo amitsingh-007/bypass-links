@@ -1,4 +1,5 @@
 {
   "onboarding": false,
-  "requireConfig": "optional"
+  "requireConfig": "optional",
+  "repositories": ["amitsingh-007/bypass-links"]
 }
