@@ -20,6 +20,7 @@
     "@mantine/hooks": "catalog:",
     "@t3-oss/env-core": "catalog:",
     "@tanstack/react-form": "catalog:",
+    "@tanstack/react-store": "catalog:",
     "@tanstack/react-virtual": "catalog:",
     "@trpc/client": "catalog:",
     "@trpc/server": "catalog:",

@@ -45,6 +45,9 @@ catalogs:
     '@tanstack/react-form':
       specifier: 1.33.0
       version: 1.33.0
+    '@tanstack/react-store':
+      specifier: 0.11.0
+      version: 0.11.0
     '@tanstack/react-virtual':
       specifier: 3.14.5
       version: 3.14.5
@@ -269,6 +272,9 @@ importers:
       '@tanstack/react-form':
         specifier: 'catalog:'
         version: 1.33.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      '@tanstack/react-store':
+        specifier: 'catalog:'
+        version: 0.11.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       '@tanstack/react-virtual':
         specifier: 'catalog:'
         version: 3.14.5(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
