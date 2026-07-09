@@ -44,7 +44,7 @@ catalog:
   clsx: 2.1.1
   dayjs: 1.11.21
   eslint-plugin-better-tailwindcss: 4.6.1
-  file-type: 21.3.4
+  file-type: 22.0.1
   filenamify: 7.0.2
   firebase: 12.15.0
   firebase-admin: 13.10.0
