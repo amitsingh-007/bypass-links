@@ -16,7 +16,7 @@ catalog:
   '@base-ui/react': 1.6.0
   '@hugeicons/core-free-icons': 4.2.2
   '@hugeicons/react': 1.1.9
-  '@mantine/hooks': 8.3.18
+  '@mantine/hooks': 9.4.1
   '@next/eslint-plugin-next': 16.2.10
   '@octokit/rest': 22.0.1
   '@playwright/test': 1.61.1
