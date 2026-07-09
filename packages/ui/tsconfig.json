@@ -1,7 +1,6 @@
 {
   "extends": "@bypass/configs/tsconfig.base.json",
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
       "@bypass/ui/components": ["./src/components"],
       "@bypass/ui/lib/utils": ["./src/lib/utils"],
