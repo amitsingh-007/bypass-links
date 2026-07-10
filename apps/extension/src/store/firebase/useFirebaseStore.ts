@@ -51,6 +51,9 @@ const useFirebaseStore = create<State>()(
         }
         const idpAuthRes = await signInWithCredential(accessToken);
         if (!idpAuthRes) {
+          console.error(
+            'Firebase sign-in failed: signInWithCredential returned no response'
+          );
           return;
         }
         setIdpAuth(idpAuthRes);
@@ -76,6 +79,9 @@ const useFirebaseStore = create<State>()(
         }
         const refreshedTokenData = await refreshIdToken(idpAuth.refreshToken);
         if (!refreshedTokenData) {
+          console.error(
+            'Firebase token refresh failed: refreshIdToken returned no response'
+          );
           return null;
         }
         const newIdpAuth: IAuthResponse = {

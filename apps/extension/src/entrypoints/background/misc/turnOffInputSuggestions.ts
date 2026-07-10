@@ -1,7 +1,16 @@
 const turnOffAutocomplete = () => {
-  document
-    .querySelectorAll('input')
-    .forEach((ele) => ele.setAttribute('autocomplete', 'off'));
+  const apply = () =>
+    document
+      .querySelectorAll('input')
+      .forEach((ele) => ele.setAttribute('autocomplete', 'off'));
+
+  apply();
+
+  const observer = new MutationObserver(apply);
+  observer.observe(document.documentElement, {
+    subtree: true,
+    childList: true,
+  });
 };
 
 const turnOffInputSuggestions = (tabId: number) => {

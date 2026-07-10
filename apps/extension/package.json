@@ -49,7 +49,6 @@
     "@types/react-avatar-editor": "catalog:",
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "catalog:",
-    "@vitejs/devtools": "catalog:",
     "shadcn": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",

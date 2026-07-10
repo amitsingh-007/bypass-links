@@ -177,6 +177,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Download packaged extensions
         uses: actions/download-artifact@v8
