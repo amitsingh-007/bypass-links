@@ -1,6 +1,6 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import preact from '@preact/preset-vite';
+import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'wxt';
 import { devManifest, prodOAuth2 } from './src/constants/manifest';
@@ -28,10 +28,9 @@ export default defineConfig({
     return {
       envDir,
       envPrefix: 'NEXT_PUBLIC_',
-      plugins: [preact(), tailwindcss()],
+      plugins: [react(), tailwindcss()],
       build: { target: 'esnext' },
       resolve: {
-        alias: { wouter: 'wouter-preact' },
         tsconfigPaths: true,
       },
     };

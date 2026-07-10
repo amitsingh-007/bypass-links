@@ -41,7 +41,7 @@ pnpm e2e              # Run Playwright E2E tests
 
 This is a **Turbo + pnpm monorepo** with the following structure:
 
-- **apps/extension** - Browser extension (WXT, React with Preact, Wouter for routing)
+- **apps/extension** - Browser extension (WXT, React, Wouter for routing)
 - **apps/web** - Next.js web interface for downloads and admin
 - **packages/shared** - Shared React components, types, utilities, and stores (Zustand)
 - **packages/ui** - Shared UI components using shadcn/ui Base UI + Tailwind CSS
@@ -67,7 +67,7 @@ Playwright tests use setup/teardown projects for both web and extension flows:
 
 ## Key Technologies
 
-- **Frontend**: React, Preact (extension), Next.js (web)
+- **Frontend**: React, Next.js (web)
 - **UI**: shadcn/ui (Base UI) via `packages/ui` and `@bypass/ui`
 - **Styling**: Tailwind CSS v4
 - **Icons**: Hugeicons (`@hugeicons/core-free-icons`, `@hugeicons/react`)
