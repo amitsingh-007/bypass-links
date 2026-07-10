@@ -16,8 +16,8 @@ catalogs:
       specifier: 1.1.9
       version: 1.1.9
     '@mantine/hooks':
-      specifier: 8.3.18
-      version: 8.3.18
+      specifier: 9.4.1
+      version: 9.4.1
     '@next/eslint-plugin-next':
       specifier: 16.2.10
       version: 16.2.10
@@ -262,7 +262,7 @@ importers:
         version: 1.1.9(react@19.2.6)
       '@mantine/hooks':
         specifier: 'catalog:'
-        version: 8.3.18(react@19.2.6)
+        version: 9.4.1(react@19.2.6)
       '@t3-oss/env-core':
         specifier: 'catalog:'
         version: 0.13.11(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
@@ -395,7 +395,7 @@ importers:
         version: 1.1.9(react@19.2.6)
       '@mantine/hooks':
         specifier: 'catalog:'
-        version: 8.3.18(react@19.2.6)
+        version: 9.4.1(react@19.2.6)
       '@t3-oss/env-nextjs':
         specifier: 'catalog:'
         version: 0.13.11(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
@@ -489,7 +489,7 @@ importers:
         version: 1.1.9(react@19.2.6)
       '@mantine/hooks':
         specifier: 'catalog:'
-        version: 8.3.18(react@19.2.6)
+        version: 9.4.1(react@19.2.6)
       '@tanstack/react-virtual':
         specifier: 'catalog:'
         version: 3.14.5(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
@@ -1900,10 +1900,10 @@ packages:
   '@js-sdsl/ordered-map@4.4.2':
     resolution: {integrity: sha512-iUKgm52T8HOE/makSxjqoWhe95ZJA1/G1sYsGev2JDKUSS14KAgg1LHb+Ba+IPow0xflbnSkOsZcO08C7w1gYw==}
 
-  '@mantine/hooks@8.3.18':
-    resolution: {integrity: sha512-QoWr9+S8gg5050TQ06aTSxtlpGjYOpIllRbjYYXlRvZeTsUqiTbVfvQROLexu4rEaK+yy9Wwriwl9PMRgbLqPw==}
+  '@mantine/hooks@9.4.1':
+    resolution: {integrity: sha512-eTI8wmzPx3r98zgKIEuvukmoGTHBhmtI6+9E6o2DbTmEU2eM1bCdjE2vFdf0op2AlRO0KEYEcZhNQi4T/SJk0A==}
     peerDependencies:
-      react: ^18.x || ^19.x
+      react: ^19.2.0
 
   '@mapbox/node-pre-gyp@2.0.3':
     resolution: {integrity: sha512-uwPAhccfFJlsfCxMYTwOdVfOz3xqyj8xYL3zJj8f0pb30tLohnnFPhLuqp4/qoEz8sNxe4SESZedcBojRefIzg==}
@@ -8895,7 +8895,7 @@ snapshots:
   '@js-sdsl/ordered-map@4.4.2':
     optional: true
 
-  '@mantine/hooks@8.3.18(react@19.2.6)':
+  '@mantine/hooks@9.4.1(react@19.2.6)':
     dependencies:
       react: 19.2.6
 
