@@ -50,6 +50,9 @@ const useFirebaseStore = create<State>()(
           return;
         }
         const idpAuthRes = await signInWithCredential(accessToken);
+        if (!idpAuthRes) {
+          return;
+        }
         setIdpAuth(idpAuthRes);
       },
 
@@ -72,6 +75,9 @@ const useFirebaseStore = create<State>()(
           return idpAuth.idToken;
         }
         const refreshedTokenData = await refreshIdToken(idpAuth.refreshToken);
+        if (!refreshedTokenData) {
+          return null;
+        }
         const newIdpAuth: IAuthResponse = {
           ...idpAuth,
           ...refreshedTokenData,

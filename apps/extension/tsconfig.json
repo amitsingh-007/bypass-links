@@ -2,8 +2,8 @@
   "extends": "@bypass/configs/tsconfig.base.json",
   "compilerOptions": {
     "sourceMap": true,
-    "lib": ["esnext", "dom", "dom.iterable", "webworker"],
-    "baseUrl": ".",
+    "lib": ["esnext", "dom", "webworker"],
+    "types": ["node", "chrome"],
     "paths": {
       "@/*": ["./src/*"],
       "@background/*": ["./src/entrypoints/background/*"],
