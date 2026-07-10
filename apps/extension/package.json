@@ -54,7 +54,6 @@
     "shadcn": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
-    "vite-tsconfig-paths": "catalog:",
     "wxt": "catalog:"
   }
 }
