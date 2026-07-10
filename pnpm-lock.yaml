@@ -136,8 +136,8 @@ catalogs:
       specifier: 19.2.6
       version: 19.2.6
     react-avatar-editor:
-      specifier: 14.0.0
-      version: 14.0.0
+      specifier: 15.1.0
+      version: 15.1.0
     react-dom:
       specifier: 19.2.6
       version: 19.2.6
@@ -301,7 +301,7 @@ importers:
         version: 19.2.6
       react-avatar-editor:
         specifier: 'catalog:'
-        version: 14.0.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+        version: 15.1.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       react-dom:
         specifier: 'catalog:'
         version: 19.2.6(react@19.2.6)
@@ -6456,8 +6456,8 @@ packages:
   re2js@0.4.3:
     resolution: {integrity: sha512-EuNmh7jurhHEE8Ge/lBo9JuMLb3qf866Xjjfyovw3wPc7+hlqDkZq4LwhrCQMEI+ARWfrKrHozEndzlpNT0WDg==}
 
-  react-avatar-editor@14.0.0:
-    resolution: {integrity: sha512-NaQM3oo4u0a1/Njjutc2FjwKX35vQV+t6S8hovsbAlMpBN1ntIwP/g+Yr9eDIIfaNtRXL0AqboTnPmRxhD/i8A==}
+  react-avatar-editor@15.1.0:
+    resolution: {integrity: sha512-Zto7u9l6Wd5LPPtjeFJ+7uwoT4bs01OSgkN2kxD18lWl8IiZ0GY3nWCbKPx4qIU7Au1vENsMJm19rfVWHHayaQ==}
     peerDependencies:
       react: ^0.14.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^0.14.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
@@ -13576,7 +13576,7 @@ snapshots:
 
   re2js@0.4.3: {}
 
-  react-avatar-editor@14.0.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6):
+  react-avatar-editor@15.1.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6):
     dependencies:
       react: 19.2.6
       react-dom: 19.2.6(react@19.2.6)
