@@ -32,7 +32,7 @@ function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
   const [inputOrFileValue, setInputOrFileValue] = useState<string | File>('');
   const [debouncedInputUrl] = useDebouncedValue(inputOrFileValue, 500);
   const [isLoadingImage, setIsLoadingImage] = useState(false);
-  const imageCropperRef = useRef<AvatarEditorRef | null>(null);
+  const imageCropperRef = useRef<AvatarEditorRef>(null);
   const [zoom, setZoom] = useState(1);
   const [rotation, setRotation] = useState(0);
 
