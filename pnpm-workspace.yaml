@@ -74,6 +74,7 @@ catalog:
   xo: 1.2.3
   zod: 4.4.3
   zustand: 5.0.14
+  '@vitejs/devtools': ^0.3.4
 
 catalogMode: strict
 

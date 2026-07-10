@@ -21,6 +21,7 @@
     "@next/eslint-plugin-next": "catalog:",
     "@playwright/test": "catalog:",
     "@types/node": "catalog:",
+    "@vitejs/devtools": "catalog:",
     "eslint-plugin-better-tailwindcss": "catalog:",
     "lefthook": "catalog:",
     "prettier": "catalog:",
