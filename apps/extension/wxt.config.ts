@@ -28,8 +28,8 @@ export default defineConfig({
     return {
       envDir,
       envPrefix: 'NEXT_PUBLIC_',
+
       plugins: [react(), tailwindcss()],
-      devtools: true,
       build: { target: 'esnext' },
       resolve: {
         tsconfigPaths: true,
