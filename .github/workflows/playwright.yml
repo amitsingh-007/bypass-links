@@ -34,15 +34,6 @@ jobs:
       - name: Pull environment variables
         run: pnpm vercel env pull .env --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
 
-      - name: Building extension
-        run: pnpm build --filter=@bypass/extension
-
-      - name: Uploading Chrome extension
-        uses: actions/upload-artifact@v7
-        with:
-          name: chrome-extension-folder
-          path: ./apps/extension/.output/chrome-mv3
-
       - name: Deploy Preview (Vercel)
         if: ${{ !inputs.vercel_url }}
         uses: amondnet/vercel-action@v42
@@ -59,6 +50,18 @@ jobs:
           VERCEL_INPUT: ${{ inputs.vercel_url }}
           VERCEL_OUTPUT: ${{ steps.vercel-action.outputs.preview-url }}
         run: echo "url=${VERCEL_INPUT:-$VERCEL_OUTPUT}" >> "$GITHUB_OUTPUT"
+
+      - name: Point extension at the preview deployment
+        run: sed -i "s#^NEXT_PUBLIC_HOST_NAME=.*#NEXT_PUBLIC_HOST_NAME=${{ steps.preview-url.outputs.url }}#" .env
+
+      - name: Building extension
+        run: pnpm build --filter=@bypass/extension
+
+      - name: Uploading Chrome extension
+        uses: actions/upload-artifact@v7
+        with:
+          name: chrome-extension-folder
+          path: ./apps/extension/.output/chrome-mv3
 
   Playwright:
     needs: [Build]
@@ -116,4 +119,8 @@ jobs:
         if: always()
         with:
           name: playwright-report
-          path: .playwright/playwright-report/
+          path: |
+            .playwright/playwright-report/
+            .playwright/test-results/
+          include-hidden-files: true
+          if-no-files-found: ignore

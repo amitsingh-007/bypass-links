@@ -20,6 +20,7 @@ allowBuilds:
   unrs-resolver: false
 
 catalog:
+  '@babel/core': 8.0.1
   '@base-ui/react': 1.6.0
   '@hugeicons/core-free-icons': 4.2.2
   '@hugeicons/react': 1.1.9
@@ -27,6 +28,7 @@ catalog:
   '@next/eslint-plugin-next': 16.2.10
   '@octokit/rest': 22.0.1
   '@playwright/test': 1.61.1
+  '@rolldown/plugin-babel': 0.2.3
   '@t3-oss/env-core': 0.13.11
   '@t3-oss/env-nextjs': 0.13.11
   '@tailwindcss/postcss': 4.3.2
@@ -51,6 +53,7 @@ catalog:
   clsx: 2.1.1
   dayjs: 1.11.21
   eslint-plugin-better-tailwindcss: 4.6.1
+  eslint-plugin-react-compiler: 19.1.0-rc.2
   file-type: 22.0.1
   filenamify: 7.0.2
   firebase: 12.15.0

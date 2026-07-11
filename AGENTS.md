@@ -103,7 +103,7 @@ All new UI components should be added to `packages/ui` and exported from `packag
 
 **IMPORTANT**: Never modify files inside `packages/ui` unless explicitly asked. The UI package contains shadcn/ui components that should remain unchanged unless adding new components or making approved modifications.
 
-## Development Guidelines
+## IMPORTANT: Development Guidelines
 
 - Ask any questions instead of assuming things when in plan mode
 - Never automatically commit or push changes unless explicitly asked

@@ -5,7 +5,7 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from '@bypass/ui';
-import { useMemo, useRef } from 'react';
+import { useRef } from 'react';
 
 export interface IMenuOption {
   text: string;
@@ -23,23 +23,21 @@ interface Props {
 function ContextMenuWrapper({ options, children }: Props) {
   const idRef = useRef('');
 
-  const menuOptions = useMemo(() => {
-    return options.map((option) => {
-      const { id, text, onClick, icon, variant } = option;
+  const menuOptions = options.map((option) => {
+    const { id, text, onClick, icon, variant } = option;
 
-      return {
-        id,
-        key: text,
-        title: text,
-        icon,
-        variant,
-        onClick() {
-          onClick(idRef.current);
-          idRef.current = '';
-        },
-      };
-    });
-  }, [options]);
+    return {
+      id,
+      key: text,
+      title: text,
+      icon,
+      variant,
+      onClick() {
+        onClick(idRef.current);
+        idRef.current = '';
+      },
+    };
+  });
 
   const handleContextMenu = (e: React.MouseEvent) => {
     const dataCtxId = (e.target as HTMLElement).dataset.contextId ?? '';

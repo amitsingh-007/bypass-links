@@ -27,7 +27,7 @@ import {
 } from '@bypass/ui';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { UserWarning03Icon } from '@hugeicons/core-free-icons';
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 interface IOptionData {
   label: string;
@@ -44,37 +44,39 @@ interface AvatarWithPreviewProps {
   person: IOptionData;
 }
 
-const AvatarWithPreview = memo<AvatarWithPreviewProps>(({ person }) => (
-  <HoverCard>
-    <HoverCardTrigger delay={0} closeDelay={0}>
-      <Avatar size="sm" className="size-6!">
-        <AvatarImage src={person.image} alt={person.label} />
-        <AvatarFallback>
-          <HugeiconsIcon icon={UserWarning03Icon} className="size-3" />
-        </AvatarFallback>
-      </Avatar>
-    </HoverCardTrigger>
-    <HoverCardContent
-      side="top"
-      align="center"
-      sideOffset={4}
-      className="z-50 size-auto rounded-full p-0.5"
-      data-testid={`person-avatar-preview-${person.value}`}
-    >
-      <Tooltip>
-        <TooltipTrigger className="flex items-center justify-center">
-          <Avatar className="size-20">
-            <AvatarImage src={person.image} alt={person.label} />
-            <AvatarFallback>
-              <HugeiconsIcon icon={UserWarning03Icon} className="size-6" />
-            </AvatarFallback>
-          </Avatar>
-        </TooltipTrigger>
-        <TooltipContent side="right">{person.label}</TooltipContent>
-      </Tooltip>
-    </HoverCardContent>
-  </HoverCard>
-));
+function AvatarWithPreview({ person }: AvatarWithPreviewProps) {
+  return (
+    <HoverCard>
+      <HoverCardTrigger delay={0} closeDelay={0}>
+        <Avatar size="sm" className="size-6!">
+          <AvatarImage src={person.image} alt={person.label} />
+          <AvatarFallback>
+            <HugeiconsIcon icon={UserWarning03Icon} className="size-3" />
+          </AvatarFallback>
+        </Avatar>
+      </HoverCardTrigger>
+      <HoverCardContent
+        side="top"
+        align="center"
+        sideOffset={4}
+        className="z-50 size-auto rounded-full p-0.5"
+        data-testid={`person-avatar-preview-${person.value}`}
+      >
+        <Tooltip>
+          <TooltipTrigger className="flex items-center justify-center">
+            <Avatar className="size-20">
+              <AvatarImage src={person.image} alt={person.label} />
+              <AvatarFallback>
+                <HugeiconsIcon icon={UserWarning03Icon} className="size-6" />
+              </AvatarFallback>
+            </Avatar>
+          </TooltipTrigger>
+          <TooltipContent side="right">{person.label}</TooltipContent>
+        </Tooltip>
+      </HoverCardContent>
+    </HoverCard>
+  );
+}
 
 function PersonSelect({ value, onChange }: PersonSelectProps) {
   const { getDefaultOrRootFolderUrls } = useBookmark();
@@ -110,18 +112,14 @@ function PersonSelect({ value, onChange }: PersonSelectProps) {
 
   const toggleOrderByRecency = () => setOrderByRecency((prev) => !prev);
 
-  const selectedPersons = useMemo(
-    () => personList.filter((p) => value.includes(p.value)),
-    [personList, value]
-  );
+  const selectedPersons = personList.filter((p) => value.includes(p.value));
 
   // Filter persons based on search query
-  const filteredPersonList = useMemo(() => {
-    if (!searchQuery.trim()) return personList;
-    return personList.filter((person) =>
-      person.label.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  }, [personList, searchQuery]);
+  const filteredPersonList = searchQuery.trim()
+    ? personList.filter((person) =>
+        person.label.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : personList;
 
   const hasResults = filteredPersonList.length > 0;
 

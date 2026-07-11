@@ -7,7 +7,6 @@ import {
   StarIcon,
   StarOffIcon,
 } from '@hugeicons/core-free-icons';
-import { memo, useCallback, useMemo } from 'react';
 import ContextMenu, { type IMenuOption } from '@popup/components/ContextMenu';
 import { FolderAddEditDialog } from './FolderAddEditDialog';
 
@@ -18,88 +17,78 @@ interface Props extends FolderProps {
   handleEdit: (folderId: string, newName: string) => void;
 }
 
-const FolderRow = memo<Props>(
-  ({
-    id,
-    name: origName,
-    isDefault,
+function FolderRow({
+  id,
+  name: origName,
+  isDefault,
 
-    handleRemove,
-    handleEdit,
-    toggleDefaultFolder,
-    ...restProps
-  }) => {
-    const [openEditDialog, editDialogHandlers] = useDisclosure(false);
+  handleRemove,
+  handleEdit,
+  toggleDefaultFolder,
+  ...restProps
+}: Props) {
+  const [openEditDialog, editDialogHandlers] = useDisclosure(false);
 
-    const handleDeleteOptionClick = useCallback(() => {
-      handleRemove(id);
-    }, [handleRemove, id]);
+  const handleDeleteOptionClick = () => {
+    handleRemove(id);
+  };
 
-    const handleDefaultOptionClick = useCallback(() => {
-      toggleDefaultFolder(id, !isDefault);
-    }, [id, isDefault, toggleDefaultFolder]);
+  const handleDefaultOptionClick = () => {
+    toggleDefaultFolder(id, !isDefault);
+  };
 
-    const handleFolderSave = (newName: string) => {
-      handleEdit(id, newName);
-    };
+  const handleFolderSave = (newName: string) => {
+    handleEdit(id, newName);
+  };
 
-    const menuOptions = useMemo(() => {
-      const options: IMenuOption[] = [
-        {
-          onClick: editDialogHandlers.open,
-          text: 'Edit',
-          id: 'edit',
-          icon: FolderEditIcon,
-        },
-        {
-          onClick: handleDefaultOptionClick,
-          text: isDefault ? 'Remove default' : 'Make default',
-          id: isDefault ? 'remove-default' : 'make-default',
-          icon: isDefault ? StarOffIcon : StarIcon,
-        },
-        {
-          onClick: handleDeleteOptionClick,
-          text: 'Delete',
-          id: 'delete',
-          icon: FolderRemoveIcon,
-          variant: 'destructive',
-        },
-      ];
-      return options;
-    }, [
-      handleDefaultOptionClick,
-      handleDeleteOptionClick,
-      editDialogHandlers.open,
-      isDefault,
-    ]);
+  const menuOptions: IMenuOption[] = [
+    {
+      onClick: editDialogHandlers.open,
+      text: 'Edit',
+      id: 'edit',
+      icon: FolderEditIcon,
+    },
+    {
+      onClick: handleDefaultOptionClick,
+      text: isDefault ? 'Remove default' : 'Make default',
+      id: isDefault ? 'remove-default' : 'make-default',
+      icon: isDefault ? StarOffIcon : StarIcon,
+    },
+    {
+      onClick: handleDeleteOptionClick,
+      text: 'Delete',
+      id: 'delete',
+      icon: FolderRemoveIcon,
+      variant: 'destructive',
+    },
+  ];
 
-    return (
-      <>
-        <ContextMenu options={menuOptions}>
-          <div className="relative size-full">
-            <Folder id={id} name={origName} {...restProps} />
-            {isDefault && (
-              <div
-                className="
-                  absolute top-1/2 right-1.5 flex -translate-y-1/2 items-center
-                  text-yellow-500
-                "
-              >
-                <HugeiconsIcon icon={StarIcon} className="size-4" />
-              </div>
-            )}
-          </div>
-        </ContextMenu>
-        <FolderAddEditDialog
-          headerText="Edit folder"
-          origName={origName}
-          handleSave={handleFolderSave}
-          isOpen={openEditDialog}
-          onClose={editDialogHandlers.close}
-        />
-      </>
-    );
-  }
-);
+  return (
+    <>
+      <ContextMenu options={menuOptions}>
+        <div className="relative size-full">
+          <Folder id={id} name={origName} {...restProps} />
+          {isDefault && (
+            <div
+              className="
+                absolute top-1/2 right-1.5 flex -translate-y-1/2 items-center
+                text-yellow-500
+              "
+            >
+              <HugeiconsIcon icon={StarIcon} className="size-4" />
+            </div>
+          )}
+        </div>
+      </ContextMenu>
+      <FolderAddEditDialog
+        headerText="Edit folder"
+        origName={origName}
+        handleSave={handleFolderSave}
+        isOpen={openEditDialog}
+        onClose={editDialogHandlers.close}
+      />
+    </>
+  );
+}
 
 export default FolderRow;

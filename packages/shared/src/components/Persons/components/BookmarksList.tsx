@@ -10,7 +10,7 @@ import {
 } from '@bypass/ui';
 import { BookEditIcon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import DynamicContext from '../../../provider/DynamicContext';
 import Bookmark from '../../Bookmarks/components/Bookmark';
 import { EBookmarkOperation } from '../../Bookmarks/constants';
@@ -109,10 +109,7 @@ function BookmarksList({
     };
   }, [initBookmarks]);
 
-  const filteredBookmarks = useMemo(
-    () => getFilteredModifiedBookmarks(bookmarks, searchText),
-    [bookmarks, searchText]
-  );
+  const filteredBookmarks = getFilteredModifiedBookmarks(bookmarks, searchText);
 
   const renderContent = () => (
     <>
