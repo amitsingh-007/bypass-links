@@ -117,3 +117,11 @@ jobs:
         with:
           name: playwright-report
           path: .playwright/playwright-report/
+
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: playwright-test-results
+          path: .playwright/test-results/
+          include-hidden-files: true
+          if-no-files-found: ignore
