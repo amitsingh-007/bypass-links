@@ -46,10 +46,7 @@ jobs:
 
       - name: Set preview URL
         id: preview-url
-        env:
-          VERCEL_INPUT: ${{ inputs.vercel_url }}
-          VERCEL_OUTPUT: ${{ steps.vercel-action.outputs.preview-url }}
-        run: echo "url=${VERCEL_INPUT:-$VERCEL_OUTPUT}" >> "$GITHUB_OUTPUT"
+        run: echo "url=${{ inputs.vercel_url || steps.vercel-action.outputs.preview-url }}" >> "$GITHUB_OUTPUT"
 
       - name: Point extension at the preview deployment
         run: sed -i "s#^NEXT_PUBLIC_HOST_NAME=.*#NEXT_PUBLIC_HOST_NAME=${{ steps.preview-url.outputs.url }}#" .env
