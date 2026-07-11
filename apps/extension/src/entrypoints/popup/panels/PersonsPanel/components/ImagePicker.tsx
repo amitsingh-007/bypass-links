@@ -16,7 +16,7 @@ import {
   useState,
 } from 'react';
 import { useDebouncedValue } from '@mantine/hooks';
-import AvatarEditor from 'react-avatar-editor';
+import AvatarEditor, { type AvatarEditorRef } from 'react-avatar-editor';
 import wretch from 'wretch';
 import { uploadFileToFirebase } from '../utils/uploadImage';
 
@@ -32,7 +32,7 @@ function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
   const [inputOrFileValue, setInputOrFileValue] = useState<string | File>('');
   const [debouncedInputUrl] = useDebouncedValue(inputOrFileValue, 500);
   const [isLoadingImage, setIsLoadingImage] = useState(false);
-  const imageCropperRef = useRef<AvatarEditor>(null);
+  const imageCropperRef = useRef<AvatarEditorRef>(null);
   const [zoom, setZoom] = useState(1);
   const [rotation, setRotation] = useState(0);
 
@@ -121,20 +121,21 @@ function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
                 <Spinner className="size-8" />
               </div>
             )}
-            <AvatarEditor
-              ref={imageCropperRef}
-              image={debouncedInputUrl}
-              crossOrigin="anonymous"
-              // When changing this, change in upload API as well
-              width={250}
-              height={250}
-              border={[270, 70]}
-              borderRadius={4}
-              scale={zoom}
-              rotate={rotation}
-              className="rounded-xl bg-black"
-              onImageReady={() => setIsLoadingImage(false)}
-            />
+            <div className="rounded-xl bg-black">
+              <AvatarEditor
+                ref={imageCropperRef}
+                image={debouncedInputUrl}
+                crossOrigin="anonymous"
+                // When changing this, change in upload API as well
+                width={250}
+                height={250}
+                border={[270, 70]}
+                borderRadius={4}
+                scale={zoom}
+                rotate={rotation}
+                onImageReady={() => setIsLoadingImage(false)}
+              />
+            </div>
           </div>
           <div className="px-5">
             <div className="mx-auto mt-3 flex w-[85%] items-center gap-4">

@@ -16,10 +16,10 @@ jobs:
       preview_url: ${{ steps.vercel-action.outputs.preview-url }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
 
       - name: Setting up Node.js
         uses: actions/setup-node@v6
@@ -61,10 +61,10 @@ jobs:
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
 
       - name: Setting up Node.js
         uses: actions/setup-node@v6
@@ -73,7 +73,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Cache Playwright binaries
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         id: playwright-cache
         with:
           path: |
@@ -116,10 +116,10 @@ jobs:
     needs: [Playwright]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
 
       - name: Setting up Node.js
         uses: actions/setup-node@v6
@@ -176,7 +176,9 @@ jobs:
     needs: [Deploy]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Download packaged extensions
         uses: actions/download-artifact@v8
@@ -186,14 +188,14 @@ jobs:
 
       - name: Generate Release Tag
         id: release_tag
-        uses: amitsingh-007/next-release-tag@v6.3.0
+        uses: amitsingh-007/next-release-tag@v6.5.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           tag_prefix: 'v'
           tag_template: 'yy.mm.i'
 
       - name: Create Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           name: Release ${{ steps.release_tag.outputs.next_release_tag }}
           tag_name: ${{ steps.release_tag.outputs.next_release_tag }}

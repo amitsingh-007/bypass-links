@@ -4,12 +4,11 @@
     "jsx": "react-jsx",
     "skipLibCheck": true,
     "strictNullChecks": true,
-    "baseUrl": ".",
     "paths": {
-      "@app/*": ["src/app/*"],
-      "@ui/*": ["src/ui/*"],
-      "@public/*": ["public/*"],
-      "@/*": ["src/*"]
+      "@app/*": ["./src/app/*"],
+      "@ui/*": ["./src/ui/*"],
+      "@public/*": ["./public/*"],
+      "@/*": ["./src/*"]
     },
     "plugins": [{ "name": "next" }]
   },

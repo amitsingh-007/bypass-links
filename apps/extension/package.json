@@ -1,7 +1,7 @@
 {
   "name": "@bypass/extension",
   "type": "module",
-  "version": "24.9.0",
+  "version": "24.10.0",
   "private": true,
   "description": "Bypass links from various sites to required links, with added functionality of Bookmarks Manager, Tagging Panel.",
   "scripts": {
@@ -20,6 +20,7 @@
     "@mantine/hooks": "catalog:",
     "@t3-oss/env-core": "catalog:",
     "@tanstack/react-form": "catalog:",
+    "@tanstack/react-store": "catalog:",
     "@tanstack/react-virtual": "catalog:",
     "@trpc/client": "catalog:",
     "@trpc/server": "catalog:",
@@ -27,7 +28,6 @@
     "clsx": "catalog:",
     "next-themes": "catalog:",
     "p-limit": "catalog:",
-    "preact": "catalog:",
     "react": "catalog:",
     "react-avatar-editor": "catalog:",
     "react-dom": "catalog:",
@@ -36,24 +36,22 @@
     "tailwindcss": "catalog:",
     "tw-animate-css": "catalog:",
     "wouter": "catalog:",
-    "wouter-preact": "catalog:",
     "wretch": "catalog:",
     "zod": "catalog:",
     "zustand": "catalog:"
   },
   "devDependencies": {
     "@playwright/test": "catalog:",
-    "@preact/preset-vite": "catalog:",
     "@tailwindcss/vite": "catalog:",
     "@types/chrome": "catalog:",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-avatar-editor": "catalog:",
     "@types/react-dom": "catalog:",
+    "@vitejs/plugin-react": "catalog:",
     "shadcn": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
-    "vite-tsconfig-paths": "catalog:",
     "wxt": "catalog:"
   }
 }

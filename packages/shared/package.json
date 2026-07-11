@@ -23,7 +23,6 @@
     "@tanstack/react-virtual": "catalog:",
     "clsx": "catalog:",
     "p-limit": "catalog:",
-    "preact": "catalog:",
     "react": "catalog:",
     "wretch": "catalog:",
     "zod": "catalog:"

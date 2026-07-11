@@ -2,70 +2,85 @@ packages:
   - packages/*
   - apps/*
 
+# TODO: firebase-admin@14 -> jwks-rsa@4 require()s ESM-only jose@6, which crashes with
+# ERR_REQUIRE_ESM in the Next/Turbopack serverless runtime. Pin jose under jwks-rsa
+# to the dual CJS/ESM 4.15.9 (API-identical for importJWK/exportSPKI).
+# Remove once auth0/node-jwks-rsa#508 ships. See firebase/firebase-admin-node#3181.
+overrides:
+  jwks-rsa>jose: 4.15.9
+
+allowBuilds:
+  '@firebase/util': false
+  esbuild: false
+  lefthook: false
+  msw: false
+  protobufjs: false
+  sharp: false
+  spawn-sync: false
+  unrs-resolver: false
+
 catalog:
-  '@base-ui/react': 1.4.1
-  '@hugeicons/core-free-icons': 3.3.0
-  '@hugeicons/react': 1.1.6
-  '@mantine/hooks': 8.3.18
-  '@next/eslint-plugin-next': 16.1.6
+  '@base-ui/react': 1.6.0
+  '@hugeicons/core-free-icons': 4.2.2
+  '@hugeicons/react': 1.1.9
+  '@mantine/hooks': 9.4.1
+  '@next/eslint-plugin-next': 16.2.10
   '@octokit/rest': 22.0.1
-  '@playwright/test': 1.59.1
-  '@preact/preset-vite': 2.10.5
+  '@playwright/test': 1.61.1
   '@t3-oss/env-core': 0.13.11
   '@t3-oss/env-nextjs': 0.13.11
-  '@tailwindcss/postcss': 4.2.4
-  '@tailwindcss/vite': 4.2.4
-  '@tanstack/react-form': 1.29.1
-  '@tanstack/react-virtual': 3.13.24
+  '@tailwindcss/postcss': 4.3.2
+  '@tailwindcss/vite': 4.3.2
+  '@tanstack/react-form': 1.33.0
+  '@tanstack/react-store': 0.11.0
+  '@tanstack/react-virtual': 3.14.5
   '@total-typescript/ts-reset': 0.6.1
-  '@trpc/client': 11.10.0
-  '@trpc/server': 11.10.0
-  '@types/chrome': 0.1.40
-  '@types/node': 24.12.2
-  '@types/react': 19.2.14
+  '@trpc/client': 11.18.0
+  '@trpc/server': 11.18.0
+  '@types/chrome': 0.2.2
+  '@types/node': 24.13.2
+  '@types/react': 19.2.15
   '@types/react-avatar-editor': 13.0.4
   '@types/react-dom': 19.2.3
-  '@vercel/analytics': 1.6.1
-  '@vercel/speed-insights': 1.3.1
-  autoprefixer: 10.5.0
+  '@vitejs/plugin-react': 6.0.3
+  '@vercel/analytics': 2.0.1
+  '@vercel/speed-insights': 2.0.0
+  autoprefixer: 10.5.2
   babel-plugin-react-compiler: 1.0.0
   class-variance-authority: 0.7.1
   clsx: 2.1.1
-  dayjs: 1.11.20
-  eslint-plugin-better-tailwindcss: 4.4.1
-  file-type: 21.3.4
-  filenamify: 7.0.1
-  firebase: 12.12.1
-  firebase-admin: 13.7.0
-  lefthook: 2.1.6
-  next: 16.1.6
+  dayjs: 1.11.21
+  eslint-plugin-better-tailwindcss: 4.6.1
+  file-type: 22.0.1
+  filenamify: 7.0.2
+  firebase: 12.15.0
+  firebase-admin: 14.1.0
+  lefthook: 2.1.9
+  next: 16.2.10
   next-themes: 0.4.6
   p-limit: 7.3.0
-  postcss: 8.5.12
-  preact: 10.28.4
-  prettier: 3.8.3
-  react: 19.2.5
-  react-avatar-editor: 14.0.0
-  react-dom: 19.2.5
-  shadcn: 3.8.5
-  sharp: 0.34.5
+  postcss: 8.5.16
+  prettier: 3.9.4
+  react: 19.2.6
+  react-avatar-editor: 15.1.0
+  react-dom: 19.2.6
+  shadcn: 4.13.0
+  sharp: 0.35.3
   sonner: 2.0.7
-  tailwind-merge: 3.5.0
-  tailwindcss: 4.2.4
-  turbo: 2.9.6
+  tailwind-merge: 3.6.0
+  tailwindcss: 4.3.2
+  turbo: 2.10.3
   tw-animate-css: 1.4.0
-  type-fest: 5.4.4
-  typescript: 5.9.3
-  vercel: 53.1.0
-  vite: 7.3.2
-  vite-tsconfig-paths: 6.1.1
-  wouter: 3.9.0
-  wouter-preact: 3.9.0
-  wretch: 3.0.7
-  wxt: 0.20.25
+  type-fest: 5.8.0
+  typescript: 6.0.3
+  vercel: 54.20.1
+  vite: 8.1.3
+  wouter: 3.10.0
+  wretch: 3.0.9
+  wxt: 0.20.26
   xo: 1.2.3
-  zod: 4.3.6
-  zustand: 5.0.12
+  zod: 4.4.3
+  zustand: 5.0.14
 
 catalogMode: strict
 
