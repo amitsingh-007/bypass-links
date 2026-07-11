@@ -34,15 +34,6 @@ jobs:
       - name: Pull environment variables
         run: pnpm vercel env pull .env --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
 
-      - name: Building extension
-        run: pnpm build --filter=@bypass/extension
-
-      - name: Uploading Chrome extension
-        uses: actions/upload-artifact@v7
-        with:
-          name: chrome-extension-folder
-          path: ./apps/extension/.output/chrome-mv3
-
       - name: Deploy Preview (Vercel)
         if: ${{ !inputs.vercel_url }}
         uses: amondnet/vercel-action@v42
@@ -59,6 +50,31 @@ jobs:
           VERCEL_INPUT: ${{ inputs.vercel_url }}
           VERCEL_OUTPUT: ${{ steps.vercel-action.outputs.preview-url }}
         run: echo "url=${VERCEL_INPUT:-$VERCEL_OUTPUT}" >> "$GITHUB_OUTPUT"
+
+      # Point the extension's API host at the deployment under test (the preview)
+      # instead of production, so e2e exercises this build's backend — including
+      # /api/upload-file. Without this the extension always calls prod.
+      - name: Point extension at the preview deployment
+        env:
+          PREVIEW_URL: ${{ steps.preview-url.outputs.url }}
+        run: |
+          if [ -n "$PREVIEW_URL" ]; then
+            if grep -q '^NEXT_PUBLIC_HOST_NAME=' .env; then
+              sed -i "s#^NEXT_PUBLIC_HOST_NAME=.*#NEXT_PUBLIC_HOST_NAME=${PREVIEW_URL}#" .env
+            else
+              echo "NEXT_PUBLIC_HOST_NAME=${PREVIEW_URL}" >> .env
+            fi
+            echo "Extension API host set to: ${PREVIEW_URL}"
+          fi
+
+      - name: Building extension
+        run: pnpm build --filter=@bypass/extension
+
+      - name: Uploading Chrome extension
+        uses: actions/upload-artifact@v7
+        with:
+          name: chrome-extension-folder
+          path: ./apps/extension/.output/chrome-mv3
 
   Playwright:
     needs: [Build]
