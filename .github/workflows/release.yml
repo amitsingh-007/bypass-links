@@ -33,6 +33,15 @@ jobs:
       - name: Pull environment variables
         run: pnpm vercel env pull .env --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
 
+      - name: Deploy Preview (Vercel)
+        uses: amondnet/vercel-action@v42
+        id: vercel-action
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
+          github-comment: false
+
       - name: Building Extension
         run: pnpm build --filter=@bypass/extension
 
@@ -43,14 +52,17 @@ jobs:
           path: ./apps/extension/.output
           include-hidden-files: true
 
-      - name: Deploy Preview (Vercel)
-        uses: amondnet/vercel-action@v42
-        id: vercel-action
+      - name: Point extension at the preview deployment
+        run: sed -i "s#^NEXT_PUBLIC_HOST_NAME=.*#NEXT_PUBLIC_HOST_NAME=${{ steps.vercel-action.outputs.preview-url }}#" .env
+
+      - name: Building extension for e2e
+        run: pnpm build --filter=@bypass/extension
+
+      - name: Uploading e2e extension
+        uses: actions/upload-artifact@v7
         with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
-          github-comment: false
+          name: chrome-extension-folder
+          path: ./apps/extension/.output/chrome-mv3
 
   Playwright:
     needs: [Build]
@@ -83,17 +95,17 @@ jobs:
           key: cache-playwright-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: cache-playwright-
 
+      - name: Download extension
+        uses: actions/download-artifact@v8
+        with:
+          name: chrome-extension-folder
+          path: ./apps/extension/.output/chrome-mv3/
+
       - name: Install dependencies
         run: pnpm install
 
       - name: Pull environment variables
         run: pnpm vercel env pull .env --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Point extension at the preview deployment
-        run: sed -i "s#^NEXT_PUBLIC_HOST_NAME=.*#NEXT_PUBLIC_HOST_NAME=${{ needs.Build.outputs.preview_url }}#" .env
-
-      - name: Building extension
-        run: pnpm build --filter=@bypass/extension
 
       - name: Install Playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
