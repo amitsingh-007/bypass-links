@@ -9,6 +9,7 @@
     "GITHUB_TOKEN",
     "PLAYWRIGHT_TEST_BASE_URL"
   ],
+  "globalPassThroughEnv": ["COREPACK_HOME", "ENABLE_EXPERIMENTAL_COREPACK"],
   "tasks": {
     "build": {
       "dependsOn": ["//#lint:ci", "//#typecheck"],
