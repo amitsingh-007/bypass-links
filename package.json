@@ -4,9 +4,6 @@
   "type": "module",
   "description": "An easy-to-use Open-Source `Browser Extension` which bypasses links on various websites and lets you use the direct url for your resource. This will help you to bypass recaptchas, unnecessary timers, countdowns, ads, popups, surveys, avoid unnecessary third party installs.",
   "private": true,
-  "engines": {
-    "node": ">=24"
-  },
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
