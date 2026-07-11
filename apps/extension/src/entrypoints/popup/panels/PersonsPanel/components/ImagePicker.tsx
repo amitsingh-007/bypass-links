@@ -68,34 +68,13 @@ function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
     }
   };
 
-  // react-avatar-editor paints onto its canvas asynchronously, so getImage()
-  // can throw for a frame or two even after onImageReady has fired — a race the
-  // React Compiler's render-timing changes make easy to hit. Retry across a few
-  // animation frames before giving up.
-  const getCroppedDataUrl = async () => {
-    for (let attempt = 0; attempt < 10; attempt += 1) {
-      const editor = imageCropperRef.current;
-      if (editor) {
-        try {
-          return editor.getImage().toDataURL();
-        } catch {
-          // Canvas not ready yet — wait a frame and retry.
-        }
-      }
-      await new Promise((resolve) => {
-        requestAnimationFrame(() => resolve(null));
-      });
-    }
-    throw new Error('Avatar editor image was not ready for cropping');
-  };
-
   const saveCroppedImage = async () => {
     if (!debouncedInputUrl || !imageCropperRef.current) {
       return;
     }
     try {
       setIsUploadingImage(true);
-      const canvas = await getCroppedDataUrl();
+      const canvas = imageCropperRef.current.getImage().toDataURL();
       const croppedImage = await wretch().get(canvas).blob();
       const fileName = getPersonImageName(uid);
       await uploadFileToFirebase(croppedImage, fileName);
