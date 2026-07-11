@@ -53,12 +53,14 @@ function ShortcutsPanel() {
   };
 
   const handleAddRule = () => {
-    redirections.unshift({
-      alias: DEFAULT_RULE_ALIAS,
-      website: '',
-      isDefault: false,
-    });
-    saveRedirectionTemp([...redirections]);
+    saveRedirectionTemp([
+      {
+        alias: DEFAULT_RULE_ALIAS,
+        website: '',
+        isDefault: false,
+      },
+      ...redirections,
+    ]);
   };
 
   const handleRemoveRule = (pos: number) => {
@@ -68,8 +70,9 @@ function ShortcutsPanel() {
   };
 
   const handleSaveRule = (redirection: IRedirection, pos: number) => {
-    redirections[pos] = redirection;
-    saveRedirectionTemp([...redirections]);
+    const newRedirections = [...redirections];
+    newRedirections[pos] = redirection;
+    saveRedirectionTemp(newRedirections);
   };
 
   const handleRuleMoveUp = (pos: number) => {

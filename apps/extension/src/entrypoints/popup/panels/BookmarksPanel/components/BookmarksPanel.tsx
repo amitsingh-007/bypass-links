@@ -58,8 +58,10 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
     getItemKey: (idx) => filteredContextBookmarks[idx].id,
   });
 
-  const handleScroll = (itemNumber: number) =>
-    virtualizer.scrollToIndex(itemNumber);
+  const handleScroll = useCallback(
+    (itemNumber: number) => virtualizer.scrollToIndex(itemNumber),
+    [virtualizer]
+  );
 
   const handleOpenSelectedBookmarks = useCallback(() => {
     startHistoryMonitor();
@@ -75,8 +77,7 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
     if (!isFetching) {
       handleScroll(0);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isFetching]);
+  }, [isFetching, handleScroll]);
 
   useEffect(() => {
     loadData(folderId);

@@ -1,6 +1,7 @@
 import { type FlatXoConfig } from 'xo';
 import nextPlugin from '@next/eslint-plugin-next';
 import betterTailwindcssPlugin from 'eslint-plugin-better-tailwindcss';
+import reactCompilerPlugin from 'eslint-plugin-react-compiler';
 
 const xoConfig: FlatXoConfig = [
   {
@@ -40,6 +41,15 @@ const xoConfig: FlatXoConfig = [
       },
     },
     files: ['**/*.{ts,tsx}'],
+  },
+  {
+    plugins: { 'react-compiler': reactCompilerPlugin },
+    rules: {
+      'react-compiler/react-compiler': 'error',
+    },
+    // packages/ui is globally ignored below (shadcn-generated); the React
+    // Compiler still processes it at build time via the extension's Vite config.
+    files: ['apps/extension/**/*.{ts,tsx}', 'packages/shared/**/*.{ts,tsx}'],
   },
   {
     ignores: [

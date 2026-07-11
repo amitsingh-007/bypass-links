@@ -41,7 +41,9 @@
     "zustand": "catalog:"
   },
   "devDependencies": {
+    "@babel/core": "catalog:",
     "@playwright/test": "catalog:",
+    "@rolldown/plugin-babel": "catalog:",
     "@tailwindcss/vite": "catalog:",
     "@types/chrome": "catalog:",
     "@types/node": "catalog:",
@@ -49,6 +51,7 @@
     "@types/react-avatar-editor": "catalog:",
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "catalog:",
+    "babel-plugin-react-compiler": "catalog:",
     "shadcn": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",

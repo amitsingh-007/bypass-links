@@ -22,6 +22,7 @@
     "@playwright/test": "catalog:",
     "@types/node": "catalog:",
     "eslint-plugin-better-tailwindcss": "catalog:",
+    "eslint-plugin-react-compiler": "catalog:",
     "lefthook": "catalog:",
     "prettier": "catalog:",
     "tailwindcss": "catalog:",
