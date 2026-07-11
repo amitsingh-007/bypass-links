@@ -11,14 +11,14 @@ const envDir = path.resolve(
   '../..'
 );
 
-// React Compiler mis-optimizes the Persons image-crop flow (react-avatar-editor
-// + nested base-ui dialogs), leaving the "Upload Image" dialog stuck open on
-// save — see issue #4061. Exclude that subtree from compilation; the compiler
-// stays enabled for the rest of the extension.
+// Keep React Compiler off third-party node_modules. Compiling @base-ui/react
+// broke its dialog close behaviour, leaving the Persons "Upload Image" dialog
+// stuck open on save — see issue #4061. The compiler still runs on the
+// extension's own src and the @bypass/* workspace packages (real paths).
 const reactCompiler = reactCompilerPreset();
 reactCompiler.rolldown.filter = {
   ...reactCompiler.rolldown.filter,
-  id: { exclude: [/\/PersonsPanel\//] },
+  id: { exclude: [/\/node_modules\//] },
 };
 
 export default defineConfig({
