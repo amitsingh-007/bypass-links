@@ -28,6 +28,12 @@ interface Props {
 }
 
 function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
+  // Opt out of React Compiler: this component drives the react-avatar-editor
+  // class component via an imperative ref (imageCropperRef.getImage()), which
+  // the compiler's memoization breaks — the crop/upload flow stops closing the
+  // dialog. See issue #4061.
+  'use no memo';
+
   const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [inputOrFileValue, setInputOrFileValue] = useState<string | File>('');
   const [debouncedInputUrl] = useDebouncedValue(inputOrFileValue, 500);
