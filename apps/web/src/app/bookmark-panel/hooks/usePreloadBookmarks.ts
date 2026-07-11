@@ -52,9 +52,12 @@ const usePreloadBookmarks = () => {
       return;
     }
     setIsLoading(true);
-    await syncBookmarksToStorage();
-    await cacheBookmarkFavicons();
-    setIsLoading(false);
+    try {
+      await syncBookmarksToStorage();
+      await cacheBookmarkFavicons();
+    } finally {
+      setIsLoading(false);
+    }
   }, [user]);
 
   const clearData = async () => {

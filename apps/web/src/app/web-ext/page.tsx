@@ -36,9 +36,13 @@ export default function Web() {
   useEffect(() => {
     const preload = isLoggedIn && shouldPreloadData && !isLoading;
     if (preload) {
-      preloadData().then(() => {
-        setShouldPreloadData(false);
-      });
+      preloadData()
+        .catch((error: unknown) => {
+          console.error('Failed to preload web data', error);
+        })
+        .finally(() => {
+          setShouldPreloadData(false);
+        });
     }
   }, [isLoading, preloadData, shouldPreloadData, isLoggedIn]);
 

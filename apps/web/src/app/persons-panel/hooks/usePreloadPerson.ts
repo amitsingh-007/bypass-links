@@ -74,9 +74,12 @@ const usePreloadPerson = () => {
       return;
     }
     setIsLoading(true);
-    await syncPersonsToStorage();
-    await cachePersonAndImages();
-    setIsLoading(false);
+    try {
+      await syncPersonsToStorage();
+      await cachePersonAndImages();
+    } finally {
+      setIsLoading(false);
+    }
   }, [cachePersonAndImages, user]);
 
   const clearData = async () => {
