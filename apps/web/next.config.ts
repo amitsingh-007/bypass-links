@@ -12,6 +12,13 @@ if (!process.env.VERCEL) {
 
 const isDev = process.env.NODE_ENV === 'development';
 
+// TODO: The build runs via `next build --webpack` (see package.json) instead of
+// the Turbopack default. Turbopack emits hash-suffixed external-module
+// references that don't resolve under pnpm's symlinked node_modules on Vercel,
+// so sharp's native binary fails to load in /api/upload-file (ERR_DLOPEN_FAILED)
+// and the endpoint 500s. webpack traces the native module correctly.
+// Tracking: https://github.com/vercel/next.js/issues/87737
+// Once fixed upstream, drop `--webpack` to switch the build back to Turbopack.
 const nextConfig: NextConfig = {
   productionBrowserSourceMaps: true,
   cacheComponents: true,
