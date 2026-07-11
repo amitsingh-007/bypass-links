@@ -51,20 +51,12 @@ jobs:
           VERCEL_OUTPUT: ${{ steps.vercel-action.outputs.preview-url }}
         run: echo "url=${VERCEL_INPUT:-$VERCEL_OUTPUT}" >> "$GITHUB_OUTPUT"
 
-      # Point the extension's API host at the deployment under test (the preview)
-      # instead of production, so e2e exercises this build's backend — including
-      # /api/upload-file. Without this the extension always calls prod.
       - name: Point extension at the preview deployment
         env:
           PREVIEW_URL: ${{ steps.preview-url.outputs.url }}
         run: |
           if [ -n "$PREVIEW_URL" ]; then
-            if grep -q '^NEXT_PUBLIC_HOST_NAME=' .env; then
-              sed -i "s#^NEXT_PUBLIC_HOST_NAME=.*#NEXT_PUBLIC_HOST_NAME=${PREVIEW_URL}#" .env
-            else
-              echo "NEXT_PUBLIC_HOST_NAME=${PREVIEW_URL}" >> .env
-            fi
-            echo "Extension API host set to: ${PREVIEW_URL}"
+            sed -i "s#^NEXT_PUBLIC_HOST_NAME=.*#NEXT_PUBLIC_HOST_NAME=${PREVIEW_URL}#" .env
           fi
 
       - name: Building extension
@@ -132,12 +124,8 @@ jobs:
         if: always()
         with:
           name: playwright-report
-          path: .playwright/playwright-report/
-
-      - uses: actions/upload-artifact@v7
-        if: always()
-        with:
-          name: playwright-test-results
-          path: .playwright/test-results/
+          path: |
+            .playwright/playwright-report/
+            .playwright/test-results/
           include-hidden-files: true
           if-no-files-found: ignore

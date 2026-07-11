@@ -53,14 +53,15 @@ function ShortcutsPanel() {
   };
 
   const handleAddRule = () => {
-    saveRedirectionTemp([
+    const newRedirections = [
       {
         alias: DEFAULT_RULE_ALIAS,
         website: '',
         isDefault: false,
       },
       ...redirections,
-    ]);
+    ];
+    saveRedirectionTemp(newRedirections);
   };
 
   const handleRemoveRule = (pos: number) => {

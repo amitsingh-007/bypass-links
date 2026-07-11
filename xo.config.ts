@@ -47,8 +47,7 @@ const xoConfig: FlatXoConfig = [
     rules: {
       'react-compiler/react-compiler': 'error',
     },
-    // packages/ui is globally ignored below (shadcn-generated); the React
-    // Compiler still processes it at build time via the extension's Vite config.
+    // packages/ui is globally ignored below, but the compiler still compiles it at build.
     files: ['apps/extension/**/*.{ts,tsx}', 'packages/shared/**/*.{ts,tsx}'],
   },
   {
