@@ -2,6 +2,16 @@ packages:
   - packages/*
   - apps/*
 
+# firebase-admin@14 -> jwks-rsa@4 require()s ESM-only jose@6, which crashes with
+# ERR_REQUIRE_ESM in the Next/Turbopack serverless runtime. Pin jose under jwks-rsa
+# to the dual CJS/ESM 4.15.9 (API-identical for importJWK/exportSPKI).
+# NOTE: also duplicated in package.json#pnpm.overrides because local pnpm 11 reads
+# overrides only from here (bakes them into the lockfile) while Vercel's pnpm 9 reads
+# them only from package.json; both must match or the frozen install fails.
+# Remove both once auth0/node-jwks-rsa#508 ships. See firebase/firebase-admin-node#3181.
+overrides:
+  jwks-rsa>jose: 4.15.9
+
 allowBuilds:
   '@firebase/util': false
   esbuild: false
@@ -47,7 +57,7 @@ catalog:
   file-type: 22.0.1
   filenamify: 7.0.2
   firebase: 12.15.0
-  firebase-admin: 13.10.0
+  firebase-admin: 14.1.0
   lefthook: 2.1.9
   next: 16.2.10
   next-themes: 0.4.6
