@@ -1,14 +1,13 @@
 import { Button, ButtonGroup } from '@bypass/ui';
 import { ArrowUp01Icon, ArrowDown01Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { memo } from 'react';
 
 interface Props {
   itemsSize: number;
   onScroll: (itemNumber: number) => void;
 }
 
-export const ScrollButton = memo<Props>(({ itemsSize, onScroll }) => {
+export function ScrollButton({ itemsSize, onScroll }: Props) {
   if (itemsSize === 0) {
     return null;
   }
@@ -33,4 +32,4 @@ export const ScrollButton = memo<Props>(({ itemsSize, onScroll }) => {
       </Button>
     </ButtonGroup>
   );
-});
+}

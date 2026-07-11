@@ -8,6 +8,10 @@ packages:
 # Remove once auth0/node-jwks-rsa#508 ships. See firebase/firebase-admin-node#3181.
 overrides:
   jwks-rsa>jose: 4.15.9
+  # TODO: xo@1.2.3 pulls eslint-plugin-react-hooks@5.2.0, whose exhaustive-deps rule stubs out
+  # useEffectEvent support (isUseEffectEventIdentifier returns false), so effect events are
+  # wrongly flagged as missing deps. v6 aligns with React 19.2 and lints useEffectEvent correctly.
+  eslint-config-xo-react>eslint-plugin-react-hooks: 6.1.1
 
 allowBuilds:
   '@firebase/util': false

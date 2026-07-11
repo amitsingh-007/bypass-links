@@ -5,9 +5,15 @@ const useCurrentTab = () => {
   const [tab, setTab] = useState<Browser.tabs.Tab>();
 
   useEffect(() => {
+    let ignore = false;
     getCurrentTab().then((curTab) => {
-      setTab(curTab);
+      if (!ignore) {
+        setTab(curTab);
+      }
     });
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   return tab;

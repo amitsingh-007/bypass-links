@@ -1,7 +1,7 @@
 import { Switch } from '@bypass/ui';
 import useExtStore from '@store/extension';
 import useHistoryStore from '@store/history';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useEffectEvent, useState } from 'react';
 import { startHistoryWatch } from '@/utils/history';
 import { historyStartTimeItem } from '@/storage/items';
 
@@ -30,20 +30,22 @@ function ToggleHistory() {
   const isExtensionActive = useExtStore((state) => state.isExtensionActive);
   const [isHistoryActive, setIsHistoryActive] = useState(false);
 
-  const turnOffHistory = useCallback(() => {
+  const turnOffHistory = () => {
     if (isHistoryActive) {
       endHistoryWatch();
       setIsHistoryActive(false);
     }
-  }, [isHistoryActive]);
+  };
+  const onExtensionInactive = useEffectEvent(turnOffHistory);
 
-  const turnOnHistory = useCallback(async () => {
+  const turnOnHistory = async () => {
     if (!isHistoryActive) {
       resetHistoryMonitor();
       await startHistoryWatch();
       setIsHistoryActive(true);
     }
-  }, [isHistoryActive, resetHistoryMonitor]);
+  };
+  const onMonitorHistory = useEffectEvent(turnOnHistory);
 
   // Init toggle on mount
   useEffect(() => {
@@ -55,16 +57,16 @@ function ToggleHistory() {
   // Turn off history when extension is off
   useEffect(() => {
     if (!isExtensionActive) {
-      turnOffHistory();
+      onExtensionInactive();
     }
-  }, [isExtensionActive, turnOffHistory]);
+  }, [isExtensionActive]);
 
   // Turn on history on store change
   useEffect(() => {
     if (monitorHistory) {
-      turnOnHistory();
+      onMonitorHistory();
     }
-  }, [monitorHistory, turnOnHistory]);
+  }, [monitorHistory]);
 
   const handleToggle = async (checked: boolean) => {
     if (checked) {

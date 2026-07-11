@@ -7,7 +7,6 @@ import {
   Button,
 } from '@bypass/ui';
 import { noOp } from '@bypass/shared';
-import { memo } from 'react';
 import { handleEscapeKey } from '@popup/utils/dialog';
 
 interface Props {
@@ -16,7 +15,7 @@ interface Props {
   isOpen: boolean;
 }
 
-const ConfirmationDialog = memo<Props>(({ onClose, onOk, isOpen }) => {
+function ConfirmationDialog({ onClose, onOk, isOpen }: Props) {
   return (
     <Dialog open={isOpen} onOpenChange={noOp}>
       <DialogContent
@@ -38,6 +37,6 @@ const ConfirmationDialog = memo<Props>(({ onClose, onOk, isOpen }) => {
       </DialogContent>
     </Dialog>
   );
-});
+}
 
 export default ConfirmationDialog;

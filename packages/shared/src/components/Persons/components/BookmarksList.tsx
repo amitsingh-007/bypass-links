@@ -10,7 +10,7 @@ import {
 } from '@bypass/ui';
 import { BookEditIcon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { use, useCallback, useEffect, useState } from 'react';
 import DynamicContext from '../../../provider/DynamicContext';
 import Bookmark from '../../Bookmarks/components/Bookmark';
 import { EBookmarkOperation } from '../../Bookmarks/constants';
@@ -43,7 +43,7 @@ function BookmarksList({
   showEditButton,
   getFaviconUrl,
 }: Props) {
-  const { location } = useContext(DynamicContext);
+  const { location } = use(DynamicContext);
   const { getBookmarkFromHash, getFolderFromHash, getDefaultOrRootFolderUrls } =
     useBookmark();
   const { getPersonTaggedUrls } = usePerson();
