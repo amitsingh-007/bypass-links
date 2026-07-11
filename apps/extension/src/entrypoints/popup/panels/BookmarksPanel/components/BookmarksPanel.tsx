@@ -10,7 +10,7 @@ import {
 import { ScrollArea } from '@bypass/ui';
 import useHistoryStore from '@store/history';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import useBookmarkRouteStore from '../store/useBookmarkRouteStore';
 import useBookmarkStore from '../store/useBookmarkStore';
@@ -46,9 +46,9 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
   );
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const [searchText, setSearchText] = useState('');
-  const filteredContextBookmarks = useMemo(
-    () => getFilteredContextBookmarks(contextBookmarks, searchText),
-    [contextBookmarks, searchText]
+  const filteredContextBookmarks = getFilteredContextBookmarks(
+    contextBookmarks,
+    searchText
   );
   const virtualizer = useVirtualizer({
     count: filteredContextBookmarks.length,
@@ -63,14 +63,14 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
     [virtualizer]
   );
 
-  const handleOpenSelectedBookmarks = useCallback(() => {
+  const handleOpenSelectedBookmarks = () => {
     startHistoryMonitor();
     contextBookmarks.forEach((bookmark, index) => {
       if (selectedBookmarks[index] && !bookmark.isDir) {
         browser.tabs.create({ url: bookmark.url, active: false });
       }
     });
-  }, [contextBookmarks, selectedBookmarks, startHistoryMonitor]);
+  };
 
   // Reset scroll on folder change
   useEffect(() => {
