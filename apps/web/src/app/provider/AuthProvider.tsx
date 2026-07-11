@@ -3,7 +3,7 @@ import { usePathname } from 'next/navigation';
 import {
   type PropsWithChildren,
   createContext,
-  useContext,
+  use,
   useEffect,
   useMemo,
   useState,
@@ -52,7 +52,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
 }
 
 export const useUser = () => {
-  const { user, isLoginIntialized } = useContext(AuthContext);
+  const { user, isLoginIntialized } = use(AuthContext);
 
   return {
     user,

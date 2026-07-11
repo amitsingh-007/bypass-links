@@ -83,6 +83,7 @@ Playwright tests use setup/teardown projects for both web and extension flows:
 - Use workspace protocol (`workspace:*`) for internal dependencies
 - Shared types and utilities go in `packages/shared`
 - tRPC procedures are defined in `packages/trpc`
+- Add comments only when needed, and keep them short. Explain the reasoning (the "why"), not what the code does. Only elaborate for edge cases or logic that is tricky or hard to follow.
 
 ## shadcn/ui Components
 

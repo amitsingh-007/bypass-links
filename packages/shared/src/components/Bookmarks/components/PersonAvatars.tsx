@@ -1,4 +1,4 @@
-import { memo, useContext } from 'react';
+import { use } from 'react';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { UserWarning03Icon } from '@hugeicons/core-free-icons';
 import {
@@ -17,8 +17,8 @@ import DynamicContext from '../../../provider/DynamicContext';
 import { type IPersonWithImage } from '../../Persons/interfaces/persons';
 import { getPersonsPanelUrl } from '../../Persons/utils/urls';
 
-const PersonAvatars = memo<{ persons: IPersonWithImage[] }>(({ persons }) => {
-  const { location } = useContext(DynamicContext);
+function PersonAvatars({ persons }: { persons: IPersonWithImage[] }) {
+  const { location } = use(DynamicContext);
 
   if (persons.length === 0) {
     return (
@@ -71,6 +71,6 @@ const PersonAvatars = memo<{ persons: IPersonWithImage[] }>(({ persons }) => {
       ))}
     </AvatarGroup>
   );
-});
+}
 
 export default PersonAvatars;

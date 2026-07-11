@@ -1,5 +1,5 @@
 import { Avatar, AvatarImage, Button } from '@bypass/ui';
-import { memo, useContext, useEffect, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import DynamicContext from '../../../provider/DynamicContext';
 import usePerson from '../hooks/usePerson';
 import { type IPerson } from '../interfaces/persons';
@@ -9,8 +9,8 @@ interface Props {
   person: IPerson;
 }
 
-const Person = memo<Props>(({ person }) => {
-  const { location } = useContext(DynamicContext);
+function Person({ person }: Props) {
+  const { location } = use(DynamicContext);
   const { uid, name } = person;
   const { resolvePersonImageFromUid } = usePerson();
   const [imageUrl, setImageUrl] = useState('');
@@ -19,7 +19,7 @@ const Person = memo<Props>(({ person }) => {
     resolvePersonImageFromUid(uid).then((url) => {
       setImageUrl(url);
     });
-  }, [uid, person, resolvePersonImageFromUid]);
+  }, [uid, resolvePersonImageFromUid]);
 
   const openBookmarksList = () => {
     location.push(getPersonsPanelUrl({ openBookmarksList: uid }));
@@ -57,6 +57,6 @@ const Person = memo<Props>(({ person }) => {
       </div>
     </Button>
   );
-});
+}
 
 export default Person;

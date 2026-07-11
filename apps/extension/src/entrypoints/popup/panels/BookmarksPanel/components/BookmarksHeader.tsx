@@ -1,7 +1,6 @@
 import { Header } from '@bypass/shared';
 import { Button } from '@bypass/ui';
 import { useDisclosure, useHotkeys } from '@mantine/hooks';
-import { memo } from 'react';
 import { BookmarkCheck01Icon, FolderAddIcon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { useShallow } from 'zustand/react/shallow';
@@ -18,7 +17,7 @@ const handleClose = () => {
   window.history.back();
 };
 
-const BookmarksHeader = memo<Props>(({ onSearchChange, folderId }) => {
+function BookmarksHeader({ onSearchChange, folderId }: Props) {
   const {
     contextBookmarks,
     isFetching,
@@ -115,6 +114,6 @@ const BookmarksHeader = memo<Props>(({ onSearchChange, folderId }) => {
       />
     </>
   );
-});
+}
 
 export default BookmarksHeader;
