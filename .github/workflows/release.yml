@@ -83,17 +83,17 @@ jobs:
           key: cache-playwright-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: cache-playwright-
 
-      - name: Download extensions
-        uses: actions/download-artifact@v8
-        with:
-          name: extensions-folder
-          path: ./apps/extension/.output
-
       - name: Install dependencies
         run: pnpm install
 
       - name: Pull environment variables
         run: pnpm vercel env pull .env --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Point extension at the preview deployment
+        run: sed -i "s#^NEXT_PUBLIC_HOST_NAME=.*#NEXT_PUBLIC_HOST_NAME=${{ needs.Build.outputs.preview_url }}#" .env
+
+      - name: Building extension
+        run: pnpm build --filter=@bypass/extension
 
       - name: Install Playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
