@@ -1,6 +1,7 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import react from '@vitejs/plugin-react';
+import babel from '@rolldown/plugin-babel';
+import react, { reactCompilerPreset } from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'wxt';
 import { devManifest, prodOAuth2 } from './src/constants/manifest';
@@ -29,7 +30,13 @@ export default defineConfig({
       envDir,
       envPrefix: 'NEXT_PUBLIC_',
 
-      plugins: [react(), tailwindcss()],
+      plugins: [
+        react(),
+        babel({
+          presets: [reactCompilerPreset()],
+        }),
+        tailwindcss(),
+      ],
       build: { target: 'esnext' },
       resolve: {
         tsconfigPaths: true,
