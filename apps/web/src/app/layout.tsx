@@ -8,7 +8,6 @@ import clsx from 'clsx';
 import './layout.css';
 import AppProviders from './provider/AppProviders';
 
-// eslint-disable-next-line new-cap
 const manrope = Manrope({
   subsets: ['latin'],
   variable: '--font-manrope',

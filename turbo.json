@@ -2,7 +2,12 @@
   "$schema": "https://turbo.build/schema.json",
   "noUpdateNotifier": true,
   "cacheMaxAge": "7d",
-  "globalDependencies": [".env", "xo.config.ts", ".github/**"],
+  "globalDependencies": [
+    ".env",
+    ".oxlintrc.json",
+    ".oxfmtrc.json",
+    ".github/**"
+  ],
   "globalEnv": [
     "NEXT_PUBLIC_*",
     "FIREBASE_*",

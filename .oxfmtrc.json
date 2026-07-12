@@ -1,0 +1,18 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "singleQuote": true,
+  "tabWidth": 2,
+  "printWidth": 80,
+  "trailingComma": "es5",
+  "bracketSpacing": true,
+  "endOfLine": "lf",
+  "sortPackageJson": false,
+  "sortTailwindcss": false,
+  "sortImports": false,
+  "ignorePatterns": [
+    "packages/ui/src",
+    "**/.output/**",
+    "**/.next/**",
+    "**/.wxt/**"
+  ]
+}

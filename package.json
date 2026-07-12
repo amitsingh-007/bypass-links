@@ -9,8 +9,10 @@
     "dev": "turbo run dev",
     "env": "vercel env pull .env",
     "e2e": "playwright test",
-    "lint": "xo --fix",
-    "lint:ci": "xo",
+    "lint": "oxlint --fix",
+    "lint:ci": "oxlint",
+    "format": "oxfmt",
+    "format:check": "oxfmt --check",
     "typecheck": "tsc --noEmit",
     "typecheck:all": "turbo run typecheck",
     "prepare": "pnpx is-ci || lefthook install --reset-hooks-path",
@@ -18,18 +20,17 @@
   },
   "devDependencies": {
     "@bypass/configs": "workspace:*",
-    "@next/eslint-plugin-next": "catalog:",
     "@playwright/test": "catalog:",
     "@types/node": "catalog:",
-    "eslint-plugin-better-tailwindcss": "catalog:",
-    "eslint-plugin-react-compiler": "catalog:",
     "lefthook": "catalog:",
-    "prettier": "catalog:",
+    "oxfmt": "catalog:",
+    "oxlint": "catalog:",
+    "oxlint-tailwindcss": "catalog:",
+    "oxlint-tsgolint": "catalog:",
     "tailwindcss": "catalog:",
     "turbo": "catalog:",
     "typescript": "catalog:",
-    "vercel": "catalog:",
-    "xo": "catalog:"
+    "vercel": "catalog:"
   },
   "packageManager": "pnpm@11.10.0"
 }

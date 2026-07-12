@@ -1,0 +1,85 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "unicorn", "oxc", "react", "import", "promise"],
+  "jsPlugins": ["oxlint-tailwindcss"],
+  "categories": {
+    "correctness": "error"
+  },
+  "settings": {
+    "next": {
+      "rootDir": "apps/web/"
+    },
+    "tailwindcss": {
+      "entryPoint": "packages/ui/src/styles/globals.css"
+    }
+  },
+  "options": {
+    "typeAware": true,
+    "reportUnusedDisableDirectives": "warn"
+  },
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+
+    "typescript/no-unsafe-assignment": "off",
+    "typescript/no-unsafe-return": "off",
+    "typescript/no-unsafe-argument": "off",
+    "typescript/no-unsafe-call": "off",
+    "typescript/no-dynamic-delete": "off",
+    "typescript/triple-slash-reference": "off",
+
+    "typescript/no-floating-promises": "off",
+    "typescript/no-useless-default-assignment": "off",
+    "typescript/unbound-method": "off",
+
+    "typescript/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "typescript/consistent-type-definitions": ["error", "interface"],
+    "typescript/no-confusing-void-expression": [
+      "error",
+      { "ignoreArrowShorthand": true }
+    ],
+    "typescript/no-base-to-string": [
+      "error",
+      { "ignoredTypeNames": ["TRPCError", "URL", "URLSearchParams"] }
+    ],
+    "typescript/restrict-template-expressions": [
+      "error",
+      { "allow": ["TRPCError", "Date"] }
+    ],
+    "typescript/switch-exhaustiveness-check": [
+      "error",
+      {
+        "considerDefaultExhaustiveForUnions": true,
+        "requireDefaultForNonUnion": true
+      }
+    ],
+
+    "tailwindcss/no-unknown-classes": [
+      "error",
+      { "allowlist": ["max-w-panel"] }
+    ],
+    "tailwindcss/no-conflicting-classes": "error",
+    "tailwindcss/no-duplicate-classes": "error",
+    "tailwindcss/no-deprecated-classes": "error"
+  },
+  "overrides": [
+    {
+      "files": ["apps/web/**/*.{ts,tsx}"],
+      "plugins": ["nextjs"]
+    },
+    {
+      "files": [
+        "apps/extension/**/*.{ts,tsx}",
+        "packages/shared/**/*.{ts,tsx}"
+      ],
+      "rules": {
+        "react/react-compiler": "warn"
+      }
+    }
+  ],
+  "ignorePatterns": [
+    "apps/web/next-env.d.ts",
+    "apps/extension/.output/**",
+    "apps/extension/.wxt/**",
+    "packages/ui/**"
+  ]
+}

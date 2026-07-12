@@ -1,6 +1,15 @@
 pre-commit:
-  parallel: true
+  parallel: false
   commands:
-    xo:
+    # Run lint --fix first, then formatter last so oxfmt owns final formatting
+    # (avoids lint-fix vs format write races). stage_fixed re-stages any edits.
+    oxlint:
+      priority: 1
       glob: '*.{js,mjs,ts,tsx}'
-      run: pnpm xo {staged_files}
+      run: pnpm oxlint --fix {staged_files}
+      stage_fixed: true
+    oxfmt:
+      priority: 2
+      glob: '*.{js,mjs,ts,tsx}'
+      run: pnpm oxfmt {staged_files}
+      stage_fixed: true
