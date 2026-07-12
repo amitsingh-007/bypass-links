@@ -3,14 +3,19 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "sideEffects": false,
   "exports": {
     ".": "./src/index.ts",
     "./edge": "./src/edgeIndex.ts",
     "./appRouter": "./src/appRouterIndex.ts"
   },
-  "sideEffects": false,
   "scripts": {
     "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "firebase": "catalog:",
+    "type-fest": "catalog:",
+    "typescript": "catalog:"
   },
   "peerDependencies": {
     "@bypass/configs": "workspace:*",
@@ -21,10 +26,5 @@
     "filenamify": "catalog:",
     "firebase-admin": "catalog:",
     "zod": "catalog:"
-  },
-  "devDependencies": {
-    "firebase": "catalog:",
-    "type-fest": "catalog:",
-    "typescript": "catalog:"
   }
 }

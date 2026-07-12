@@ -1,8 +1,7 @@
 pre-commit:
   parallel: false
   commands:
-    # Run lint --fix first, then formatter last so oxfmt owns final formatting
-    # (avoids lint-fix vs format write races). stage_fixed re-stages any edits.
+    # lint --fix first, then oxfmt last (avoids write races); stage_fixed re-stages edits
     oxlint:
       priority: 1
       glob: '*.{js,mjs,ts,tsx}'

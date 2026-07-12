@@ -1,8 +1,9 @@
 {
   "name": "@bypass/ui",
-  "type": "module",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
+  "sideEffects": false,
   "exports": {
     ".": "./src/index.ts",
     "./lib": "./src/lib/index.ts",
@@ -10,7 +11,6 @@
     "./styles/globals.css": "./src/styles/globals.css",
     "./components/ui/*": "./src/components/ui/*.tsx"
   },
-  "sideEffects": false,
   "devDependencies": {
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",

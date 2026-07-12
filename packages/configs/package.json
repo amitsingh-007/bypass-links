@@ -1,6 +1,5 @@
 {
   "name": "@bypass/configs",
-  "type": "module",
   "version": "1.0.0",
   "private": true,
   "files": [
@@ -8,10 +7,11 @@
     "tsconfig.base.json",
     "firebase.config.ts"
   ],
-  "peerDependencies": {
-    "typescript": "catalog:"
-  },
+  "type": "module",
   "scripts": {
     "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "typescript": "catalog:"
   }
 }

@@ -6,7 +6,7 @@
   "trailingComma": "es5",
   "bracketSpacing": true,
   "endOfLine": "lf",
-  "sortPackageJson": false,
+  "sortPackageJson": true,
   "sortTailwindcss": {
     "stylesheet": "packages/ui/src/styles/globals.css",
     "functions": ["clsx", "cn", "cva"]

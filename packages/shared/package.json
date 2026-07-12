@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "sideEffects": false,
   "exports": {
     ".": "./src/index.ts",
     "./styles/*": "./src/styles/*",
@@ -13,7 +14,13 @@
   "scripts": {
     "typecheck": "tsc --noEmit"
   },
-  "sideEffects": false,
+  "devDependencies": {
+    "@bypass/configs": "workspace:*",
+    "@playwright/test": "catalog:",
+    "@total-typescript/ts-reset": "catalog:",
+    "@types/react": "catalog:",
+    "typescript": "catalog:"
+  },
   "peerDependencies": {
     "@bypass/configs": "workspace:*",
     "@bypass/ui": "workspace:*",
@@ -26,12 +33,5 @@
     "react": "catalog:",
     "wretch": "catalog:",
     "zod": "catalog:"
-  },
-  "devDependencies": {
-    "@bypass/configs": "workspace:*",
-    "@playwright/test": "catalog:",
-    "@total-typescript/ts-reset": "catalog:",
-    "@types/react": "catalog:",
-    "typescript": "catalog:"
   }
 }
