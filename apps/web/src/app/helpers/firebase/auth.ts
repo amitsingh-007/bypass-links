@@ -15,9 +15,7 @@ import firebaseApp from '.';
 const auth = getAuth(firebaseApp);
 const provider = new GoogleAuthProvider();
 
-// Popups are unreliable on mobile web (silently blocked on iOS Safari), so
-// Firebase recommends redirect there. Fire-and-forget: the redirect result is
-// picked up via getGoogleRedirectResult after the page reloads.
+// Popups are silently blocked on iOS Safari, so use redirect on mobile.
 export const googleSignIn = async (isMobile: boolean): Promise<void> => {
   if (isMobile) {
     await signInWithRedirect(auth, provider);

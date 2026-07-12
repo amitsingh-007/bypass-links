@@ -34,8 +34,7 @@ export default function Web() {
 
   const isMobile = os === 'ios' || os === 'android';
 
-  // Mobile sign-in uses a redirect, which reloads the page and loses the
-  // shouldPreloadData state set in handleSignIn — recover it on return.
+  // Complete the mobile redirect sign-in and re-trigger preload after reload.
   useEffect(() => {
     getGoogleRedirectResult()
       .then((result) => {
