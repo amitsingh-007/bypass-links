@@ -29,6 +29,12 @@ const nextConfig: NextConfig = {
     removeConsole: isDev ? false : { exclude: ['error'] },
   },
   transpilePackages: ['@bypass/shared', '@bypass/trpc', '@bypass/ui'],
+  experimental: {
+    // TODO: TypeScript 7's native package drops the JS compiler API that Next's
+    // default backend uses; this runs the local `tsc` (via tsc --showConfig)
+    // for type info + tsconfig paths instead. Requires Next >= 16.3.
+    useTypeScriptCli: true,
+  },
 };
 
 export default nextConfig;
