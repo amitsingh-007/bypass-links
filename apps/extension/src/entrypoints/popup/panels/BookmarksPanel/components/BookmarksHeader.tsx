@@ -43,18 +43,26 @@ function BookmarksHeader({ onSearchChange, folderId }: Props) {
     handleSave(folderId);
   };
 
-  useHotkeys([
+  useHotkeys(
     [
-      'mod+S',
-      (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        if (!disableSave) {
-          handleSaveClick();
-        }
-      },
+      [
+        'mod+S',
+        (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          // Skip when focus is inside a dialog (e.g. the add/edit bookmark
+          // form) so an in-progress edit isn't excluded from the saved snapshot.
+          if (document.activeElement?.closest('[role="dialog"]')) {
+            return;
+          }
+          if (!disableSave) {
+            handleSaveClick();
+          }
+        },
+      ],
     ],
-  ]);
+    [] // fire even when focus is inside an input
+  );
 
   const onBackClick = () => {
     if (isSaveButtonActive) {
