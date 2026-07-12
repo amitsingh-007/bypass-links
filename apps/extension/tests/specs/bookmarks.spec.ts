@@ -101,6 +101,7 @@ test.describe('Bookmarks Panel', () => {
         TEST_BOOKMARKS.REACT_DOCS
       );
       const titleInput = dialog.getByTestId('bookmark-title-input');
+      await expect(titleInput).toHaveValue(TEST_BOOKMARKS.REACT_DOCS);
       await expect(titleInput).toBeFocused();
 
       const selection = await titleInput.evaluate((el) => ({
@@ -456,7 +457,7 @@ test.describe('Bookmarks Panel', () => {
     await search.click();
     await expect(search).toBeFocused();
 
-    await bookmarksPage.keyboard.press('Meta+s');
+    await bookmarksPage.keyboard.press('ControlOrMeta+s');
 
     await expect(bookmarksPage.getByText('Saved temporarily')).toBeVisible();
   });

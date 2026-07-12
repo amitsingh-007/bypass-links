@@ -50,6 +50,11 @@ function BookmarksHeader({ onSearchChange, folderId }: Props) {
         (e) => {
           e.preventDefault();
           e.stopPropagation();
+          // Skip when focus is inside a dialog (e.g. the add/edit bookmark
+          // form) so an in-progress edit isn't excluded from the saved snapshot.
+          if (document.activeElement?.closest('[role="dialog"]')) {
+            return;
+          }
           if (!disableSave) {
             handleSaveClick();
           }
