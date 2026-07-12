@@ -15,13 +15,15 @@ import firebaseApp from '.';
 const auth = getAuth(firebaseApp);
 const provider = new GoogleAuthProvider();
 
-// Safari mobile blocks the cross-origin popup flow silently, so redirect there.
-export const googleSignIn = async (isMobile: boolean) => {
+// Popups are unreliable on mobile web (silently blocked on iOS Safari), so
+// Firebase recommends redirect there. Fire-and-forget: the redirect result is
+// picked up via getGoogleRedirectResult after the page reloads.
+export const googleSignIn = async (isMobile: boolean): Promise<void> => {
   if (isMobile) {
     await signInWithRedirect(auth, provider);
-    return null;
+    return;
   }
-  return signInWithPopup(auth, provider);
+  await signInWithPopup(auth, provider);
 };
 
 export const getGoogleRedirectResult = async () => getRedirectResult(auth);
