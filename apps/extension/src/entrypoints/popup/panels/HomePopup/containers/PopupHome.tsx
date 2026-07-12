@@ -1,4 +1,7 @@
 import { Progress, Spinner } from '@bypass/ui';
+
+import useProgressStore from '@/store/progress';
+
 import Authenticate from '../components/Authenticate';
 import BookmarksPanelButton from '../components/BookmarksPanelButton';
 import LastVisitedButton from '../components/LastVisitedButton';
@@ -11,7 +14,6 @@ import ToggleExtension from '../components/ToggleExtension';
 import ToggleHistory from '../components/ToggleHistory';
 import UserProfile from '../components/UserProfile';
 import useExtensionOutdated from '../hooks/useExtensionOutdated';
-import useProgressStore from '@/store/progress';
 
 const handleOpenAsPage = () => {
   browser.tabs.create({ url: window.location.href });

@@ -1,6 +1,5 @@
 'use client';
 
-import { getFromLocalStorage, setToLocalStorage } from '@app/utils/storage';
 import {
   BOOKMARK_ROW_HEIGHT,
   bookmarksMapper,
@@ -17,6 +16,9 @@ import { ScrollArea } from '@bypass/ui';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
+
+import { getFromLocalStorage, setToLocalStorage } from '@app/utils/storage';
+
 import VirtualRow from './components/VirtualRow';
 
 export default function BookmarksPage() {

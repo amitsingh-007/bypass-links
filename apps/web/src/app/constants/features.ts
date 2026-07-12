@@ -6,6 +6,7 @@ import {
   Shield01Icon,
   Touch01Icon,
 } from '@hugeicons/core-free-icons';
+
 import type Feature from '../components/types/feature';
 
 export const firstColumn: Feature[] = [

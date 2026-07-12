@@ -1,6 +1,6 @@
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@bypass/ui';
-import { HugeiconsIcon } from '@hugeicons/react';
 import { Search02Icon } from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
 import { useDebouncedState, useHotkeys } from '@mantine/hooks';
 import { useEffect, useEffectEvent } from 'react';
 

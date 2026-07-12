@@ -1,9 +1,10 @@
 import { Switch } from '@bypass/ui';
-import useExtStore from '@store/extension';
 import { useCallback, useEffect, useState } from 'react';
-import { getIsExtensionActive } from '@/utils/common';
+
 import { EExtensionState } from '@/constants';
 import { extStateItem } from '@/storage/items';
+import { getIsExtensionActive } from '@/utils/common';
+import useExtStore from '@store/extension';
 
 function ToggleExtension() {
   const turnOnExtension = useExtStore((state) => state.turnOnExtension);

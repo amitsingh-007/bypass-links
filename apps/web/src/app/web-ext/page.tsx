@@ -1,14 +1,7 @@
 'use client';
 
-import {
-  googleSignIn,
-  googleSignOut,
-  emailAndPasswordSignIn,
-} from '@app/helpers/firebase/auth';
-import { useUser } from '@app/provider/AuthProvider';
 import { Header, ROUTES } from '@bypass/shared';
 import { Button, Spinner } from '@bypass/ui';
-import { TEST_CREDENTIALS_KEY } from '@app/constants';
 import {
   Bookmark01Icon,
   Login02Icon,
@@ -18,6 +11,15 @@ import {
 import { HugeiconsIcon } from '@hugeicons/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+
+import { TEST_CREDENTIALS_KEY } from '@app/constants';
+import {
+  googleSignIn,
+  googleSignOut,
+  emailAndPasswordSignIn,
+} from '@app/helpers/firebase/auth';
+import { useUser } from '@app/provider/AuthProvider';
+
 import useWebPreload from './hooks/useWebPreload';
 
 export default function Web() {

@@ -1,9 +1,10 @@
 import { useCallback } from 'react';
+
+import { ECacheBucketKeys } from '../../../constants/cache';
 import useStorage from '../../../hooks/useStorage';
 import { getBlobUrlFromCache } from '../../../utils/cache';
 import { type IPerson, type IPersonWithImage } from '../interfaces/persons';
 import { decodePersons } from '../utils';
-import { ECacheBucketKeys } from '../../../constants/cache';
 
 const usePerson = () => {
   const { getBookmarks, getPersons, getPersonImageUrls } = useStorage();

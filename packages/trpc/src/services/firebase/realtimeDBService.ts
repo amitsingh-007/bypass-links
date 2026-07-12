@@ -4,6 +4,7 @@ import {
   type IRedirection,
   type IRedirections,
 } from '@bypass/shared';
+
 import { type IUser } from '../../@types/trpc';
 import { EFirebaseDBRef } from '../../constants/firebase';
 import {

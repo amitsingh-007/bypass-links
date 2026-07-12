@@ -1,4 +1,5 @@
 import filenamify from 'filenamify';
+
 import { EFirebaseDBRootKeys } from '../constants/firebase';
 
 export const getFullDbPath = (ref: string, uid?: string) => {

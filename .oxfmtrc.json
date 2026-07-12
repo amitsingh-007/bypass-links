@@ -8,7 +8,18 @@
   "endOfLine": "lf",
   "sortPackageJson": false,
   "sortTailwindcss": false,
-  "sortImports": false,
+  "sortImports": {
+    "internalPattern": [
+      "@/",
+      "@app/",
+      "@ui/",
+      "@public/",
+      "@background/",
+      "@helpers/",
+      "@popup/",
+      "@store/"
+    ]
+  },
   "ignorePatterns": [
     "packages/ui/src",
     "**/.output/**",

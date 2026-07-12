@@ -1,5 +1,6 @@
 import pLimit from 'p-limit';
 import wretch from 'wretch';
+
 import { type ECacheBucketKeys } from '../constants/cache';
 
 const limit = pLimit(20);

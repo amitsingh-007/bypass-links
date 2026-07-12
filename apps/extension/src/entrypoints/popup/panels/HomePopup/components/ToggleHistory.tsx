@@ -1,9 +1,10 @@
 import { Switch } from '@bypass/ui';
+import { useEffect, useEffectEvent, useState } from 'react';
+
+import { historyStartTimeItem } from '@/storage/items';
+import { startHistoryWatch } from '@/utils/history';
 import useExtStore from '@store/extension';
 import useHistoryStore from '@store/history';
-import { useEffect, useEffectEvent, useState } from 'react';
-import { startHistoryWatch } from '@/utils/history';
-import { historyStartTimeItem } from '@/storage/items';
 
 const endHistoryWatch = async () => {
   const historyStartTime = await historyStartTimeItem.getValue();

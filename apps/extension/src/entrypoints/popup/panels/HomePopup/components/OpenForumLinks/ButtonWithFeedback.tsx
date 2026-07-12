@@ -1,9 +1,10 @@
 import { Button, Spinner } from '@bypass/ui';
-import { HugeiconsIcon } from '@hugeicons/react';
 import {
   CheckmarkBadge02Icon,
   WebDesign01Icon,
 } from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
+
 import useFeedbackButton, { EButtonState } from './useFeedbackButton';
 
 interface Props {

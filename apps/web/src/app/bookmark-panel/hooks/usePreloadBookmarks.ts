@@ -1,11 +1,3 @@
-import { useUser } from '@app/provider/AuthProvider';
-import { api } from '@app/utils/api';
-import {
-  getFromLocalStorage,
-  isExistsInLocalStorage,
-  removeFromLocalStorage,
-  setToLocalStorage,
-} from '@app/utils/storage';
 import {
   ECacheBucketKeys,
   addAllToCache,
@@ -17,6 +9,15 @@ import {
   isCachePresent,
 } from '@bypass/shared';
 import { useCallback, useState } from 'react';
+
+import { useUser } from '@app/provider/AuthProvider';
+import { api } from '@app/utils/api';
+import {
+  getFromLocalStorage,
+  isExistsInLocalStorage,
+  removeFromLocalStorage,
+  setToLocalStorage,
+} from '@app/utils/storage';
 
 const syncBookmarksToStorage = async () => {
   if (isExistsInLocalStorage(STORAGE_KEYS.bookmarks)) {

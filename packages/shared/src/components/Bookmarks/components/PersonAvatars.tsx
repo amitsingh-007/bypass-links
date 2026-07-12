@@ -1,6 +1,3 @@
-import { use } from 'react';
-import { HugeiconsIcon } from '@hugeicons/react';
-import { UserWarning03Icon } from '@hugeicons/core-free-icons';
 import {
   Avatar,
   AvatarGroup,
@@ -13,6 +10,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@bypass/ui';
+import { UserWarning03Icon } from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { use } from 'react';
+
 import DynamicContext from '../../../provider/DynamicContext';
 import { type IPersonWithImage } from '../../Persons/interfaces/persons';
 import { getPersonsPanelUrl } from '../../Persons/utils/urls';

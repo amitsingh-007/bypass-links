@@ -1,5 +1,6 @@
 import { Avatar, AvatarImage, Button } from '@bypass/ui';
 import { use, useEffect, useState } from 'react';
+
 import DynamicContext from '../../../provider/DynamicContext';
 import usePerson from '../hooks/usePerson';
 import { type IPerson } from '../interfaces/persons';

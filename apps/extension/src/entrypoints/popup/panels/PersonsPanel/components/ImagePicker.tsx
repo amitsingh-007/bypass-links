@@ -9,15 +9,16 @@ import {
   Slider,
   Spinner,
 } from '@bypass/ui';
+import { useDebouncedValue } from '@mantine/hooks';
 import {
   type ChangeEventHandler,
   type ClipboardEventHandler,
   useRef,
   useState,
 } from 'react';
-import { useDebouncedValue } from '@mantine/hooks';
 import AvatarEditor, { type AvatarEditorRef } from 'react-avatar-editor';
 import wretch from 'wretch';
+
 import { uploadFileToFirebase } from '../utils/uploadImage';
 
 interface Props {

@@ -1,7 +1,8 @@
 import { useCallback } from 'react';
+
 import useStorage from '../../../hooks/useStorage';
-import { getDecryptedFolder, getDefaultFolder } from '../utils';
 import { ROOT_FOLDER_ID } from '../constants';
+import { getDecryptedFolder, getDefaultFolder } from '../utils';
 
 const useBookmark = () => {
   const { getBookmarks } = useStorage();

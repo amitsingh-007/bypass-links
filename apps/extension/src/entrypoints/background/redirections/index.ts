@@ -1,7 +1,8 @@
-import { mapRedirections } from './mapper';
-import { startHistoryWatch } from '@/utils/history';
 import { trpcApi } from '@/apis/trpcApi';
 import { redirectionsItem, mappedRedirectionsItem } from '@/storage/items';
+import { startHistoryWatch } from '@/utils/history';
+
+import { mapRedirections } from './mapper';
 
 export const redirect = async (tabId: number, url: URL) => {
   url.protocol = 'http:';

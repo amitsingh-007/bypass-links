@@ -6,17 +6,18 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@bypass/ui';
-import { HugeiconsIcon } from '@hugeicons/react';
 import {
   CalendarAdd01Icon,
   Appointment01Icon,
 } from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
 import { useCallback, useEffect, useState } from 'react';
-import { getlastVisitedText } from '@popup/utils/lastVisited';
-import useCurrentTab from '@popup/hooks/useCurrentTab';
+
 import { trpcApi } from '@/apis/trpcApi';
-import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { lastVisitedItem } from '@/storage/items';
+import useFirebaseStore from '@/store/firebase/useFirebaseStore';
+import useCurrentTab from '@popup/hooks/useCurrentTab';
+import { getlastVisitedText } from '@popup/utils/lastVisited';
 
 function LastVisitedButton() {
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);

@@ -1,11 +1,11 @@
 import { hasText } from '../../../utils/search';
+import { ROOT_FOLDER_ID, ROOT_FOLDER_NAME } from '../constants';
 import {
   type ContextBookmarks,
   type IEncodedBookmark,
   type IBookmarksObj,
   type IEncodedFolder,
 } from '../interfaces';
-import { ROOT_FOLDER_ID, ROOT_FOLDER_NAME } from '../constants';
 
 export const isFolderEmpty = (
   folders: IBookmarksObj['folders'],

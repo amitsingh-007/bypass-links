@@ -1,8 +1,9 @@
 import { ROUTES } from '@bypass/shared';
 import { Button } from '@bypass/ui';
-import { HugeiconsIcon } from '@hugeicons/react';
 import { UserAiIcon } from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
 import { useLocation } from 'wouter';
+
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 
 function PersonsPanelButton() {

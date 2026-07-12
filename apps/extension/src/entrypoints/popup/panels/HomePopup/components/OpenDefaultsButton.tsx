@@ -1,10 +1,11 @@
 import { Button, Spinner } from '@bypass/ui';
-import { HugeiconsIcon } from '@hugeicons/react';
 import { LinkSquare02Icon } from '@hugeicons/core-free-icons';
-import useHistoryStore from '@store/history';
+import { HugeiconsIcon } from '@hugeicons/react';
 import { useState } from 'react';
-import useFirebaseStore from '@/store/firebase/useFirebaseStore';
+
 import { redirectionsItem } from '@/storage/items';
+import useFirebaseStore from '@/store/firebase/useFirebaseStore';
+import useHistoryStore from '@store/history';
 
 function OpenDefaultsButton() {
   const startHistoryMonitor = useHistoryStore(

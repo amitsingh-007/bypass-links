@@ -1,11 +1,12 @@
 'use client';
 
-import { ROUTES } from '@app/constants/routes';
 import { GithubIcon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+
+import { ROUTES } from '@app/constants/routes';
 
 function AppHeader() {
   const router = useRouter();

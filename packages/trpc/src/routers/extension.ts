@@ -1,4 +1,5 @@
 import { z } from 'zod/mini';
+
 import { protectedProcedure } from '../procedures';
 import { getLatestExtension } from '../services/extensionService';
 import { t } from '../trpc';

@@ -1,4 +1,3 @@
-import { openNewTab } from '@app/utils';
 import {
   Bookmark,
   type ContextBookmarks,
@@ -8,6 +7,8 @@ import {
   isFolderEmpty,
 } from '@bypass/shared';
 import { memo } from 'react';
+
+import { openNewTab } from '@app/utils';
 
 interface Props {
   index: number;

@@ -1,4 +1,5 @@
 import { TRPCError, initTRPC } from '@trpc/server';
+
 import { type ITRPCContext } from './@types/trpc';
 import {
   getFirebaseUser,

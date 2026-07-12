@@ -1,8 +1,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
-import { chromium, expect, test as setup } from '@playwright/test';
+
 import { TEST_TIMEOUTS } from '@bypass/shared/tests';
+import { chromium, expect, test as setup } from '@playwright/test';
+
 import { TEST_CREDENTIALS_KEY } from '../src/app/constants';
 import { AUTH_CACHE_DIR, WEB_STORAGE_PATH } from './auth-constants';
 

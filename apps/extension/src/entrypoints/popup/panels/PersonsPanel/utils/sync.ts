@@ -6,8 +6,7 @@ import {
   type IPerson,
   type PersonImageUrls,
 } from '@bypass/shared';
-import { SIGN_IN_TOTAL_STEPS } from '../../HomePopup/constants/progress';
-import { getAllDecodedPersons } from '.';
+
 import { trpcApi } from '@/apis/trpcApi';
 import {
   personsItem,
@@ -15,6 +14,9 @@ import {
   hasPendingPersonsItem,
 } from '@/storage/items';
 import useProgressStore from '@/store/progress';
+
+import { getAllDecodedPersons } from '.';
+import { SIGN_IN_TOTAL_STEPS } from '../../HomePopup/constants/progress';
 
 export const syncPersonsToStorage = async () => {
   const persons = await trpcApi.firebaseData.personsGet.query();

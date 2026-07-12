@@ -1,4 +1,5 @@
 import { type z } from 'zod/mini';
+
 import {
   type RedirectionSchema,
   type RedirectionsSchema,

@@ -1,9 +1,10 @@
 import { type Metadata } from 'next';
-import { clientEnv } from './constants/env/client';
+
 import AppHeader from './components/AppHeader';
 import Footer from './components/Footer';
 import PageHeader from './components/PageHeader';
 import SalientFeatures from './components/SalientFeatures';
+import { clientEnv } from './constants/env/client';
 import { fetchExtensionData } from './page.utils';
 
 const title = 'Bypass Links';

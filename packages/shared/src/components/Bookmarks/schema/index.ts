@@ -1,4 +1,5 @@
 import { z } from 'zod/mini';
+
 import { PersonsSchema } from '../../Persons/schema';
 
 export const EncodedBookmarkSchema = z.object({

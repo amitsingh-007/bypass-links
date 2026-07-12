@@ -1,5 +1,6 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+
 import { type NextConfig } from 'next';
 
 if (!process.env.VERCEL) {

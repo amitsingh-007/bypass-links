@@ -1,3 +1,4 @@
+import { noOp } from '@bypass/shared';
 import {
   Dialog,
   DialogContent,
@@ -6,7 +7,7 @@ import {
   DialogTitle,
   Button,
 } from '@bypass/ui';
-import { noOp } from '@bypass/shared';
+
 import { handleEscapeKey } from '@popup/utils/dialog';
 
 interface Props {

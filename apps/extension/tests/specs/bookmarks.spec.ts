@@ -6,6 +6,7 @@ import {
   fillSearchInput,
   openNewPageFromAction,
 } from '@bypass/shared/tests';
+
 import { test, expect } from '../fixtures/bookmark-fixture';
 import { BookmarksPanel } from '../utils/bookmarks-panel';
 import { PersonsPanel } from '../utils/persons-panel';

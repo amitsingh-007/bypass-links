@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import { Switch } from 'wouter';
+
 import { BookmarksPanelRoute } from '../panels/BookmarksPanel/routes';
 import { HomePageRoute } from '../panels/HomePopup/routes';
 import { PersonsPanelRoute } from '../panels/PersonsPanel/routes';

@@ -1,4 +1,5 @@
 import { type IRedirections } from '@bypass/shared';
+
 import { type IMappedRedirections } from '../interfaces/redirections';
 
 export const mapRedirections = (

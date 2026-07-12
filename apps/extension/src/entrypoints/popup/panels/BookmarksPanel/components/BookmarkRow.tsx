@@ -3,6 +3,7 @@ import {
   getGoogleFaviconUrl,
   type BookmarkProps,
 } from '@bypass/shared';
+
 import useHistoryStore from '@store/history';
 
 function BookmarkRow(

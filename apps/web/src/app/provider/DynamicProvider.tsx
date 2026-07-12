@@ -1,6 +1,7 @@
 import { DynamicContext } from '@bypass/shared';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { type PropsWithChildren, useMemo } from 'react';
+
 import { getFromLocalStorage, setToLocalStorage } from '../utils/storage';
 
 function DynamicProvider({ children }: PropsWithChildren) {

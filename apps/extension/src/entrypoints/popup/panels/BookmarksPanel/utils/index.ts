@@ -1,4 +1,5 @@
 import { type IBookmarksObj, type ISelectedBookmarks } from '@bypass/shared';
+
 import { bookmarksItem, hasPendingBookmarksItem } from '@/storage/items';
 
 export const isFolderContainsDir = (

@@ -1,5 +1,6 @@
 import { Toaster } from '@bypass/ui';
 import { useHotkeys } from '@mantine/hooks';
+
 import StoreListener from './StoreListener';
 
 function Global() {

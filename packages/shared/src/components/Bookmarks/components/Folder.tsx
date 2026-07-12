@@ -1,9 +1,10 @@
 'use client';
 
-import { HugeiconsIcon } from '@hugeicons/react';
-import { Folder01Icon } from '@hugeicons/core-free-icons';
-import { use } from 'react';
 import { cn } from '@bypass/ui/lib/utils';
+import { Folder01Icon } from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { use } from 'react';
+
 import DynamicContext from '../../../provider/DynamicContext';
 import { getBookmarksPanelUrl } from '../utils/url';
 

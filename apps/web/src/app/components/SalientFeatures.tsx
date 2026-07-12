@@ -1,5 +1,6 @@
-import { firstColumn, secondColumn } from '@app/constants/features';
 import { HugeiconsIcon } from '@hugeicons/react';
+
+import { firstColumn, secondColumn } from '@app/constants/features';
 
 const allFeatures = [...firstColumn, ...secondColumn];
 

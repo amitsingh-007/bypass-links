@@ -4,13 +4,15 @@ import { Link01Icon, Download03Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
+
+import { trpcApi } from '@/apis/trpcApi';
+import { MAX_PANEL_SIZE } from '@/constants';
+import { redirectionsItem } from '@/storage/items';
 import { syncRedirectionsToStorage } from '@background/redirections';
+
 import { DEFAULT_RULE_ALIAS } from '../constants';
 import { getValidRules, isMatchingRule } from '../utils';
 import RedirectionRule from './RedirectionRule';
-import { MAX_PANEL_SIZE } from '@/constants';
-import { trpcApi } from '@/apis/trpcApi';
-import { redirectionsItem } from '@/storage/items';
 
 function ShortcutsPanel() {
   const [redirections, setRedirections] = useState<IRedirections>([]);

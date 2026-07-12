@@ -9,9 +9,11 @@ import {
 import { useHotkeys } from '@mantine/hooks';
 import { type PropsWithChildren } from 'react';
 import { useShallow } from 'zustand/react/shallow';
+
 import ContextMenu, { type IMenuOption } from '@popup/components/ContextMenu';
-import useBookmarkStore from '../store/useBookmarkStore';
+
 import useBookmarkRouteStore from '../store/useBookmarkRouteStore';
+import useBookmarkStore from '../store/useBookmarkStore';
 import { getCutCount, getSelectedCount } from '../utils';
 import { findBookmarkById } from '../utils/bookmark';
 

@@ -1,7 +1,8 @@
-import { verifyInternalToken } from '@app/helpers/verifyInternalToken';
 import { cleanupStorage } from '@bypass/trpc';
-import { serverEnv } from '@app/constants/env/server';
 import { type NextRequest, NextResponse } from 'next/server';
+
+import { serverEnv } from '@app/constants/env/server';
+import { verifyInternalToken } from '@app/helpers/verifyInternalToken';
 
 export async function POST(req: NextRequest) {
   verifyInternalToken(req);

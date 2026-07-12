@@ -1,6 +1,6 @@
 import { t } from '../trpc';
-import firebaseDataRouter from './firebaseData';
 import extensionRouter from './extension';
+import firebaseDataRouter from './firebaseData';
 import firebaseStorageRouter from './firebaseStorage';
 
 export const appRouter = t.router({

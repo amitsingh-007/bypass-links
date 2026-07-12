@@ -9,8 +9,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@bypass/ui';
-import useHistoryStore from '@store/history';
-import { useEffect, useState } from 'react';
 import {
   CalendarCheckOut02Icon,
   Delete02Icon,
@@ -20,7 +18,11 @@ import {
   LinkSquare02Icon,
 } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
+import { useEffect, useState } from 'react';
+
 import { getlastVisitedText } from '@popup/utils/lastVisited';
+import useHistoryStore from '@store/history';
+
 import { DEFAULT_RULE_ALIAS } from '../constants';
 import { ReorderButton } from './ReorderButton';
 

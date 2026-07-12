@@ -14,17 +14,19 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@bypass/ui';
-import { HugeiconsIcon } from '@hugeicons/react';
 import {
   BookmarkRemove01Icon,
   BookmarkAdd01Icon,
 } from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
-import { getCurrentTab } from '@popup/utils/tabs';
-import { findBookmarkByUrl } from '../../BookmarksPanel/utils/bookmark';
-import useFirebaseStore from '@/store/firebase/useFirebaseStore';
+
 import { bookmarksItem } from '@/storage/items';
+import useFirebaseStore from '@/store/firebase/useFirebaseStore';
+import { getCurrentTab } from '@popup/utils/tabs';
+
+import { findBookmarkByUrl } from '../../BookmarksPanel/utils/bookmark';
 
 function QuickBookmarkButton() {
   const [, navigate] = useLocation();

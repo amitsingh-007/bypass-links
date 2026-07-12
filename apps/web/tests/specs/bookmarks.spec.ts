@@ -5,6 +5,7 @@ import {
   clearSearchInput,
   openNewPageFromAction,
 } from '@bypass/shared/tests';
+
 import { test, expect } from '../fixtures/auth-fixture';
 import { BookmarksPanel } from '../page-object-models/bookmarks-panel';
 

@@ -1,13 +1,15 @@
 import { Folder, type FolderProps } from '@bypass/shared';
-import { useDisclosure } from '@mantine/hooks';
-import { HugeiconsIcon } from '@hugeicons/react';
 import {
   FolderEditIcon,
   FolderRemoveIcon,
   StarIcon,
   StarOffIcon,
 } from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { useDisclosure } from '@mantine/hooks';
+
 import ContextMenu, { type IMenuOption } from '@popup/components/ContextMenu';
+
 import { FolderAddEditDialog } from './FolderAddEditDialog';
 
 interface Props extends FolderProps {

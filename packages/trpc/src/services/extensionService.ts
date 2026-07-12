@@ -1,6 +1,7 @@
 import { getVersionFromFileName } from '@bypass/configs/manifest/extensionFile';
 import { TRPCError } from '@trpc/server';
 import { type AsyncReturnType } from 'type-fest';
+
 import { getAssetsByReleaseId, getLatestRelease } from './githubService';
 
 type TGitHubResponse = AsyncReturnType<typeof getAssetsByReleaseId>['data'];

@@ -1,6 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@bypass/ui';
-import { HugeiconsIcon } from '@hugeicons/react';
 import { UserWarning03Icon } from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
+
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 
 function UserProfile() {

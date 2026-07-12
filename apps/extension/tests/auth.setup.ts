@@ -1,9 +1,14 @@
 import fs from 'node:fs';
 import process from 'node:process';
-import { chromium, expect, test as setup } from '@playwright/test';
+
 import { TEST_TIMEOUTS } from '@bypass/shared/tests';
+import { chromium, expect, test as setup } from '@playwright/test';
 import wretch from 'wretch';
 import QueryStringAddon from 'wretch/addons/queryString';
+
+import type { IAuthResponse } from '@/interfaces/firebase';
+import { getExpiresAtMs } from '@/store/firebase/utils';
+
 import { getFirebasePublicConfig } from '../../../packages/configs/firebase.config';
 import { TEST_AUTH_DATA_KEY } from '../src/constants';
 import {
@@ -12,8 +17,6 @@ import {
   EXTENSION_STORAGE_PATH,
 } from './auth-constants';
 import { getExtensionPath } from './utils/extension-path';
-import type { IAuthResponse } from '@/interfaces/firebase';
-import { getExpiresAtMs } from '@/store/firebase/utils';
 
 const isCI = Boolean(process.env.PLAYWRIGHT_TEST_BASE_URL);
 const firebaseConfig = getFirebasePublicConfig(isCI);

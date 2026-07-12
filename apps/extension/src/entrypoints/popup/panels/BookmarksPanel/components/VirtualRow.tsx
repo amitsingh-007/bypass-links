@@ -1,6 +1,7 @@
 import { type ContextBookmark, isFolderEmpty } from '@bypass/shared';
-import { useShallow } from 'zustand/react/shallow';
 import clsx from 'clsx';
+import { useShallow } from 'zustand/react/shallow';
+
 import useBookmarkStore from '../store/useBookmarkStore';
 import BookmarkRow from './BookmarkRow';
 import FolderRow from './FolderRow';

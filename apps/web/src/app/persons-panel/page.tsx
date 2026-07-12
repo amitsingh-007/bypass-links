@@ -1,7 +1,5 @@
 'use client';
 
-import { openNewTab } from '@app/utils';
-import { getFromLocalStorage } from '@app/utils/storage';
 import {
   getDecryptedPerson,
   getFilteredPersons,
@@ -17,6 +15,10 @@ import {
 } from '@bypass/shared';
 import { Switch } from '@bypass/ui';
 import { useEffect, useState } from 'react';
+
+import { openNewTab } from '@app/utils';
+import { getFromLocalStorage } from '@app/utils/storage';
+
 import PersonVirtualCell from './components/PersonVirtualCell';
 
 const onLinkOpen = (url: string) => {

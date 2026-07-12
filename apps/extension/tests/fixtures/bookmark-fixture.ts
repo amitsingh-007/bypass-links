@@ -4,6 +4,7 @@ import {
   type Worker,
   test as base,
 } from '@playwright/test';
+
 import {
   createSharedBackgroundSW,
   createSharedContext,

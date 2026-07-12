@@ -3,6 +3,7 @@ import {
   fillSearchInput,
   clearSearchInput,
 } from '@bypass/shared/tests';
+
 import { test, expect } from '../fixtures/auth-fixture';
 import { PersonsPanel } from '../page-object-models/persons-panel';
 

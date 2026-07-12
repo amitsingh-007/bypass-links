@@ -10,12 +10,14 @@ import {
   getGoogleFaviconUrl,
   getEncryptedFolder,
 } from '@bypass/shared';
-import { create } from 'zustand';
 import { toast } from 'sonner';
+import { create } from 'zustand';
+
+import { bookmarksItem } from '@/storage/items';
+
 import { isFolderContainsDir, setBookmarksInStorage } from '../utils';
 import { findBookmarkById, findBookmarkByUrl } from '../utils/bookmark';
 import { processBookmarksMove } from '../utils/manipulate';
-import { bookmarksItem } from '@/storage/items';
 
 interface State {
   // State

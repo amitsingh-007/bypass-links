@@ -1,11 +1,13 @@
-import useHistoryStore from '@store/history';
-import { useEffect, useState } from 'react';
 import { sleep } from '@bypass/shared';
-import { isForumPage } from '@background/websites';
-import useCurrentTab from '@popup/hooks/useCurrentTab';
-import ButtonWithFeedback from './ButtonWithFeedback';
+import { useEffect, useState } from 'react';
+
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { sendRuntimeMessage } from '@/utils/sendRuntimeMessage';
+import { isForumPage } from '@background/websites';
+import useCurrentTab from '@popup/hooks/useCurrentTab';
+import useHistoryStore from '@store/history';
+
+import ButtonWithFeedback from './ButtonWithFeedback';
 
 const isCurrentPageForum = async (url = '') => {
   const hostname = url && new URL(url).hostname;

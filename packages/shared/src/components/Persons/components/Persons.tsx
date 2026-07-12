@@ -2,6 +2,7 @@ import { ScrollArea } from '@bypass/ui';
 import { useElementSize } from '@mantine/hooks';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { type ReactNode, use, useCallback, useEffect, useState } from 'react';
+
 import usePlatform from '../../../hooks/usePlatform';
 import DynamicContext from '../../../provider/DynamicContext';
 import { deserializeQueryStringToObject } from '../../../utils/url';

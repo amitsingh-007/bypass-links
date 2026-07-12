@@ -1,6 +1,6 @@
+import { type EExtensionState } from '@/constants';
 import { extStateItem } from '@/storage/items';
 import { getIsExtensionActive } from '@/utils/common';
-import { type EExtensionState } from '@/constants';
 
 const restrictedProtocols = new Set([
   'chrome:', // Chrome browser internal URLs

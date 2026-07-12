@@ -1,12 +1,14 @@
 import { Button, Spinner } from '@bypass/ui';
-import { HugeiconsIcon } from '@hugeicons/react';
 import { Login02Icon, Logout02Icon } from '@hugeicons/core-free-icons';
-import useExtStore from '@store/extension';
+import { HugeiconsIcon } from '@hugeicons/react';
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'sonner';
-import { signIn, signOut } from '../utils/authentication';
+
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import useProgressStore from '@/store/progress';
+import useExtStore from '@store/extension';
+
+import { signIn, signOut } from '../utils/authentication';
 
 function Authenticate() {
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);

@@ -1,12 +1,14 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+
 import {
   type Worker,
   test as base,
   chromium,
   type BrowserContext,
 } from '@playwright/test';
+
 import { getExtensionPath } from '../utils/extension-path';
 
 export const test = base.extend<{

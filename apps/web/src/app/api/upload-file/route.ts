@@ -1,6 +1,8 @@
-import { authorizeUser } from '@app/helpers/authorizeUser';
 import { uploadImageToFirebase } from '@bypass/trpc/appRouter';
 import { type NextRequest, NextResponse } from 'next/server';
+
+import { authorizeUser } from '@app/helpers/authorizeUser';
+
 import { validateAndProccessFile } from './utils';
 
 export async function POST(request: NextRequest) {

@@ -1,5 +1,3 @@
-import { z } from 'zod/mini';
-import { useForm } from '@tanstack/react-form';
 import {
   Button,
   Dialog,
@@ -11,6 +9,9 @@ import {
   FieldLabel,
   Input,
 } from '@bypass/ui';
+import { useForm } from '@tanstack/react-form';
+import { z } from 'zod/mini';
+
 import { handleEscapeKey } from '@popup/utils/dialog';
 
 interface Props {
