@@ -74,12 +74,7 @@ export default function Web() {
     <div className="max-w-panel mx-auto px-0">
       <Header text="Bypass Links - Web" />
       <div className="mt-4 flex items-center justify-center">
-        <div
-          className="
-            flex w-1/2 flex-col items-stretch gap-3
-            max-sm:w-[80%]
-          "
-        >
+        <div className="flex w-1/2 flex-col items-stretch gap-3 max-sm:w-[80%]">
           <Button
             className="w-full py-5"
             variant={isLoggedIn ? 'default' : 'secondary'}

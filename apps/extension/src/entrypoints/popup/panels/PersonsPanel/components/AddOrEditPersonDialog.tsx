@@ -132,10 +132,7 @@ function AddOrEditPersonDialog({
             <div className="flex justify-center">
               <div className="relative">
                 <Avatar
-                  className="
-                    overflow-hidden rounded-xl
-                    after:rounded-none after:border-0
-                  "
+                  className="overflow-hidden rounded-xl after:rounded-none after:border-0"
                   style={{ width: IMAGE_SIZE, height: IMAGE_SIZE }}
                 >
                   <AvatarImage

@@ -42,12 +42,7 @@ function Search({ onChange }: SearchProps) {
   ]);
 
   return (
-    <InputGroup
-      className="
-        w-32
-        sm:w-40
-      "
-    >
+    <InputGroup className="w-32 sm:w-40">
       <InputGroupAddon>
         <HugeiconsIcon
           icon={Search02Icon}

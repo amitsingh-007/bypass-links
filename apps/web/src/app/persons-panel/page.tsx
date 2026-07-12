@@ -73,14 +73,7 @@ function PersonsPage() {
             checked={orderByRecency}
             onCheckedChange={() => setOrderByRecency((prev) => !prev)}
           />
-          <span
-            className="
-              hidden text-sm
-              sm:block
-            "
-          >
-            Recency
-          </span>
+          <span className="hidden text-sm sm:block">Recency</span>
         </div>
       </Header>
       <div className="min-h-0 flex-1">

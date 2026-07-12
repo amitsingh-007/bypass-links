@@ -30,27 +30,15 @@ function Person({ person }: Props) {
     <Button
       variant="secondary"
       data-testid={`person-item-${name}`}
-      className="
-        size-full flex-col gap-0 overflow-hidden rounded-xl p-0
-        whitespace-normal transition-opacity
-        hover:opacity-80
-      "
+      className="size-full flex-col gap-0 overflow-hidden rounded-xl p-0 whitespace-normal transition-opacity hover:opacity-80"
       onClick={openBookmarksList}
     >
-      <Avatar
-        className="
-          h-[110px] w-full
-          after:rounded-none after:border-none
-        "
-      >
+      <Avatar className="h-[110px] w-full after:rounded-none after:border-none">
         <AvatarImage src={imageUrl} alt={name} className="rounded-none" />
       </Avatar>
       <div className="flex flex-1 items-center justify-center px-1">
         <span
-          className="
-            line-clamp-2 w-full text-center text-sm/tight font-semibold
-            wrap-break-word text-gray-400
-          "
+          className="line-clamp-2 w-full text-center text-sm/tight font-semibold wrap-break-word text-gray-400"
           title={name}
         >
           {name}

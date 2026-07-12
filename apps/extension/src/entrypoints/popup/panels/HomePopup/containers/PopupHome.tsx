@@ -30,12 +30,7 @@ function PopupHome() {
           <div className="absolute inset-x-0 top-0 z-50">
             <Progress value={progress} />
           </div>
-          <div
-            className="
-              absolute inset-0 z-40 flex items-center justify-center
-              bg-background/80
-            "
-          >
+          <div className="absolute inset-0 z-40 flex items-center justify-center bg-background/80">
             <Spinner className="size-8" />
           </div>
         </>

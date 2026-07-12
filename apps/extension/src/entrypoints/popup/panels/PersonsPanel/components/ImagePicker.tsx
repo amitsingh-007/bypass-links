@@ -94,19 +94,13 @@ function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onDialogClose()}>
       <DialogContent
-        className="
-          inset-0! block max-w-none! translate-0! overflow-hidden rounded-none
-          p-0
-        "
+        className="inset-0! block max-w-none! translate-0! overflow-hidden rounded-none p-0"
         showCloseButton={false}
       >
         <div className="size-full bg-background">
           {isUploadingImage && (
             <div
-              className="
-                absolute inset-0 z-50 flex items-center justify-center
-                bg-black/50
-              "
+              className="absolute inset-0 z-50 flex items-center justify-center bg-black/50"
               data-testid="uploading-overlay"
             >
               <Spinner className="size-8" />

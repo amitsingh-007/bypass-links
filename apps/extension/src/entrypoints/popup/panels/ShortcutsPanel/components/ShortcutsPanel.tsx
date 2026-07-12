@@ -119,11 +119,7 @@ function ShortcutsPanel() {
           Save
         </Button>
       </Header>
-      <div
-        className="
-          relative flex flex-1 flex-col gap-2 overflow-auto px-1 pt-2 pb-1
-        "
-      >
+      <div className="relative flex flex-1 flex-col gap-2 overflow-auto px-1 pt-2 pb-1">
         {redirections?.map((redirection, index) => {
           const isMatch = isMatchingRule(redirection, searchText);
           return (
@@ -150,9 +146,7 @@ function ShortcutsPanel() {
         {isFetching && (
           <div
             data-testid="loading-overlay"
-            className="
-              absolute inset-0 z-50 flex items-center justify-center bg-black/50
-            "
+            className="absolute inset-0 z-50 flex items-center justify-center bg-black/50"
           >
             <Spinner className="size-8" />
           </div>

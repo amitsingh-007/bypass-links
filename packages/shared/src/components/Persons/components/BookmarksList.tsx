@@ -116,12 +116,7 @@ function BookmarksList({
     <>
       <Header
         rightContent={
-          <div
-            className="
-              contents
-              max-sm:hidden
-            "
-          >
+          <div className="contents max-sm:hidden">
             <Avatar>
               <AvatarImage src={imageUrl} alt={personToOpen?.name} />
             </Avatar>
@@ -145,11 +140,7 @@ function BookmarksList({
         filteredBookmarks.map((bookmark) => (
           <div
             key={bookmark.url}
-            className="
-              relative box-border flex h-8 w-full cursor-pointer items-center
-              gap-2 rounded-md px-2 select-none
-              hover:bg-muted
-            "
+            className="relative box-border flex h-8 w-full cursor-pointer items-center gap-2 rounded-md px-2 select-none hover:bg-muted"
             data-testid="bookmark-container"
           >
             {showEditButton && (
@@ -197,10 +188,7 @@ function BookmarksList({
     >
       <DialogContent
         data-testid="bookmarks-list-modal"
-        className="
-          inset-0! block max-w-none! translate-0! overflow-hidden rounded-none
-          p-0
-        "
+        className="inset-0! block max-w-none! translate-0! overflow-hidden rounded-none p-0"
         showCloseButton={false}
       >
         <DialogHeader className="px-0">

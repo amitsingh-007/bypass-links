@@ -24,12 +24,7 @@ const VirtualRow = memo<Props>(({ index, folders, contextBookmarks }) => {
   const ctx = contextBookmarks[index];
 
   return (
-    <div
-      className="
-        h-full cursor-pointer rounded-md select-none
-        hover:bg-muted
-      "
-    >
+    <div className="h-full cursor-pointer rounded-md select-none hover:bg-muted">
       {ctx.isDir ? (
         <Folder
           id={ctx.id}
