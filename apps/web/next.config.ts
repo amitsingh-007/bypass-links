@@ -29,6 +29,9 @@ const nextConfig: NextConfig = {
     removeConsole: isDev ? false : { exclude: ['error'] },
   },
   transpilePackages: ['@bypass/shared', '@bypass/trpc', '@bypass/ui'],
+  // Next 16.3 auto-generates apps/web/AGENTS.md + CLAUDE.md; the repo maintains a
+  // single root AGENTS.md, so disable the per-app generation.
+  agentRules: false,
   experimental: {
     // TODO: TypeScript 7's native package drops the JS compiler API that Next's
     // default backend uses; this runs the local `tsc` (via tsc --showConfig)

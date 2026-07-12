@@ -7,6 +7,18 @@ import { HugeiconsIcon } from '@hugeicons/react';
 import dayjs from 'dayjs';
 import { headers } from 'next/headers';
 
+// Footer reads per-request headers (timezone), so it streams inside a
+// <Suspense> boundary; this placeholder reserves its height meanwhile.
+export function FooterSkeleton() {
+  return (
+    <footer className="border-t bg-muted/30">
+      <div className="mx-auto max-w-7xl px-4 py-6">
+        <div className="h-12" />
+      </div>
+    </footer>
+  );
+}
+
 function Info({
   icon,
   text,
