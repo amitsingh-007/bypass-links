@@ -43,18 +43,21 @@ function BookmarksHeader({ onSearchChange, folderId }: Props) {
     handleSave(folderId);
   };
 
-  useHotkeys([
+  useHotkeys(
     [
-      'mod+S',
-      (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        if (!disableSave) {
-          handleSaveClick();
-        }
-      },
+      [
+        'mod+S',
+        (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          if (!disableSave) {
+            handleSaveClick();
+          }
+        },
+      ],
     ],
-  ]);
+    [] // fire even when focus is inside an input
+  );
 
   const onBackClick = () => {
     if (isSaveButtonActive) {

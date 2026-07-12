@@ -91,6 +91,28 @@ test.describe('Bookmarks Panel', () => {
       await expect(dialog).toBeHidden();
     });
 
+    test('should focus the title input with caret at start when opening the edit modal', async ({
+      bookmarksPage,
+    }) => {
+      const panel = new BookmarksPanel(bookmarksPage);
+      await panel.ensureAtRoot();
+
+      const dialog = await panel.openEditBookmarkDialog(
+        TEST_BOOKMARKS.REACT_DOCS
+      );
+      const titleInput = dialog.getByTestId('bookmark-title-input');
+      await expect(titleInput).toBeFocused();
+
+      const selection = await titleInput.evaluate((el) => ({
+        start: (el as HTMLInputElement).selectionStart,
+        end: (el as HTMLInputElement).selectionEnd,
+      }));
+      expect(selection.start).toBe(0);
+      expect(selection.end).toBe(0);
+
+      await panel.closeDialog();
+    });
+
     test('should add and remove person tag from bookmark', async ({
       bookmarksPage,
     }) => {
@@ -419,5 +441,23 @@ test.describe('Bookmarks Panel', () => {
     await panel.clickContextMenuItem('delete');
 
     await panel.verifyFolderNotExists(folderName);
+  });
+
+  test('should save via Cmd+S while focus is in the search input', async ({
+    bookmarksPage,
+  }) => {
+    const panel = new BookmarksPanel(bookmarksPage);
+    await panel.ensureAtRoot();
+
+    // Create a pending change so the Save button is active
+    await panel.createFolder('Cmd S Save Test Folder');
+
+    const search = panel.getSearchInput();
+    await search.click();
+    await expect(search).toBeFocused();
+
+    await bookmarksPage.keyboard.press('Meta+s');
+
+    await expect(bookmarksPage.getByText('Saved temporarily')).toBeVisible();
   });
 });

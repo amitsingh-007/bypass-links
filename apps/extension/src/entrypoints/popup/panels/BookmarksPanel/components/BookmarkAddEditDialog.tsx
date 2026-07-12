@@ -1,7 +1,7 @@
 import { z } from 'zod/mini';
 import { useForm } from '@tanstack/react-form';
 import { useDisclosure } from '@mantine/hooks';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useLocation } from 'wouter';
 import { useShallow } from 'zustand/react/shallow';
 import {
@@ -80,6 +80,17 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
   );
   const { operation, url: bmUrl } = bookmarkOperation;
   const [openDialog, dialogHandlers] = useDisclosure(false);
+  const titleInputRef = useRef<HTMLInputElement>(null);
+
+  const focusCaretAtTitleStart = () => {
+    const input = titleInputRef.current;
+    if (!input) {
+      return true; // fallback to default focus behavior
+    }
+    input.focus();
+    input.setSelectionRange(0, 0);
+    return false; // focus already handled; don't let base-ui override it
+  };
 
   const { folderOptions, defaultFolderId } = useMemo(() => {
     const decodedFolderList = getDecodedFolderList(folderList);
@@ -189,7 +200,11 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
 
   return (
     <Dialog open={openDialog} onOpenChange={closeDialog}>
-      <DialogContent className="sm:max-w-lg" onKeyDown={handleEscapeKey}>
+      <DialogContent
+        className="sm:max-w-lg"
+        initialFocus={focusCaretAtTitleStart}
+        onKeyDown={handleEscapeKey}
+      >
         <DialogHeader>
           <DialogTitle>{HEADING[operation]}</DialogTitle>
         </DialogHeader>
@@ -208,6 +223,7 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
                   Title <span className="text-destructive">*</span>
                 </FieldLabel>
                 <Input
+                  ref={titleInputRef}
                   data-testid="bookmark-title-input"
                   placeholder="Enter bookmark title"
                   value={field.state.value}
