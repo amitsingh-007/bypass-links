@@ -7,6 +7,7 @@ import {
   signOut,
   type User,
 } from 'firebase/auth';
+
 import firebaseApp from '.';
 
 const auth = getAuth(firebaseApp);

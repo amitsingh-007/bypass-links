@@ -25,8 +25,8 @@ import {
   TooltipTrigger,
   useComboboxAnchor,
 } from '@bypass/ui';
-import { HugeiconsIcon } from '@hugeicons/react';
 import { UserWarning03Icon } from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
 import { useCallback, useEffect, useState } from 'react';
 
 interface IOptionData {

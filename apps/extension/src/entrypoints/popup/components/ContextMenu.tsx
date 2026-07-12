@@ -1,10 +1,10 @@
-import { HugeiconsIcon } from '@hugeicons/react';
 import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
 } from '@bypass/ui';
+import { HugeiconsIcon } from '@hugeicons/react';
 import { useRef } from 'react';
 
 export interface IMenuOption {

@@ -1,8 +1,8 @@
-import { expect, type Page, type Locator } from '@playwright/test';
 import {
   clickDropdownPersonAndGetName,
   getNumericBadgeValue,
 } from '@bypass/shared/tests';
+import { expect, type Page, type Locator } from '@playwright/test';
 
 export class BookmarksPanel {
   constructor(readonly page: Page) {}

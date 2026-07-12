@@ -7,6 +7,18 @@ import { HugeiconsIcon } from '@hugeicons/react';
 import dayjs from 'dayjs';
 import { headers } from 'next/headers';
 
+// Footer reads per-request headers (timezone), so it streams inside a
+// <Suspense> boundary; this placeholder reserves its height meanwhile.
+export function FooterSkeleton() {
+  return (
+    <footer className="border-t bg-muted/30">
+      <div className="mx-auto max-w-7xl px-4 py-6">
+        <div className="h-12" />
+      </div>
+    </footer>
+  );
+}
+
 function Info({
   icon,
   text,
@@ -36,11 +48,7 @@ async function Footer({
 
   return (
     <footer className="border-t bg-muted/30">
-      <div
-        className="
-          mx-auto flex max-w-7xl items-center justify-between px-4 py-6
-        "
-      >
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-6">
         <div className="flex flex-col gap-2">
           <Info
             icon={PuzzleIcon}
@@ -57,11 +65,7 @@ async function Footer({
           target="_blank"
           href="https://github.com/amitsingh-007/bypass-links"
           title="Bypass Links - Github"
-          className="
-            flex size-10 shrink-0 items-center justify-center rounded-full
-            bg-muted transition-colors
-            hover:bg-muted/80
-          "
+          className="flex size-10 shrink-0 items-center justify-center rounded-full bg-muted transition-colors hover:bg-muted/80"
           aria-label="Github Repository Link"
           rel="noreferrer"
         >

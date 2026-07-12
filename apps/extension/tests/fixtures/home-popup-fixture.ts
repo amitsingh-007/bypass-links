@@ -1,10 +1,10 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import {
   type BrowserContext,
   type Page,
   type Worker,
   test as base,
 } from '@playwright/test';
+
 import { getExtensionPath } from '../utils/extension-path';
 import {
   createSharedBackgroundSW,

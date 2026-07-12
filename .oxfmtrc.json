@@ -1,0 +1,32 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "singleQuote": true,
+  "tabWidth": 2,
+  "printWidth": 80,
+  "trailingComma": "es5",
+  "bracketSpacing": true,
+  "endOfLine": "lf",
+  "sortPackageJson": true,
+  "sortTailwindcss": {
+    "stylesheet": "packages/ui/src/styles/globals.css",
+    "functions": ["clsx", "cn", "cva"]
+  },
+  "sortImports": {
+    "internalPattern": [
+      "@/",
+      "@app/",
+      "@ui/",
+      "@public/",
+      "@background/",
+      "@helpers/",
+      "@popup/",
+      "@store/"
+    ]
+  },
+  "ignorePatterns": [
+    "packages/ui/src",
+    "**/.output/**",
+    "**/.next/**",
+    "**/.wxt/**"
+  ]
+}

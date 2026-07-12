@@ -5,6 +5,7 @@ import {
   ROUTES,
 } from '@bypass/shared';
 import { Route, useSearch } from 'wouter';
+
 import BookmarksPanel from '../components/BookmarksPanel';
 
 const getQueryParams = (qs: string): BMPanelQueryParams => {

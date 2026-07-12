@@ -1,10 +1,11 @@
+import useFirebaseStore from '@/store/firebase/useFirebaseStore';
+import useProgressStore from '@/store/progress';
+
 import {
   SIGN_IN_TOTAL_STEPS,
   SIGN_OUT_TOTAL_STEPS,
 } from '../constants/progress';
 import { processPostLogin, processPostLogout, processPreLogout } from './sync';
-import useFirebaseStore from '@/store/firebase/useFirebaseStore';
-import useProgressStore from '@/store/progress';
 
 const userSignIn = async () => {
   const { firebaseSignIn } = useFirebaseStore.getState();

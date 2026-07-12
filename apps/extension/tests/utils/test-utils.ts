@@ -1,8 +1,8 @@
-import { expect, type Page } from '@playwright/test';
 import {
   fillSearchInput as fillSearchInputShared,
   parseBadgeCount,
 } from '@bypass/shared/tests';
+import { expect, type Page } from '@playwright/test';
 
 // Re-export shared utilities for convenience
 

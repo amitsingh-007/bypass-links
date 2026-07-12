@@ -1,5 +1,5 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { test as base, type BrowserContext, type Page } from '@playwright/test';
+
 import { createSharedContext } from './base-fixture';
 
 export const test = base.extend<

@@ -2,6 +2,7 @@ import { Badge, Button } from '@bypass/ui';
 import { ArrowLeft01Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { use } from 'react';
+
 import { HEADER_HEIGHT } from '../constants';
 import DynamicContext from '../provider/DynamicContext';
 import Search from './Search';
@@ -25,9 +26,7 @@ function Header({
 
   return (
     <header
-      className="
-        flex shrink-0 items-center justify-between border-b border-border px-2.5
-      "
+      className="flex shrink-0 items-center justify-between border-b border-border px-2.5"
       style={{ height: HEADER_HEIGHT }}
     >
       <div className="flex items-center gap-2">
@@ -47,10 +46,7 @@ function Header({
           <Badge
             data-testid="header-badge"
             variant="secondary"
-            className="
-              hidden h-8
-              sm:inline-flex
-            "
+            className="hidden h-8 sm:inline-flex"
           >
             {text}
           </Badge>

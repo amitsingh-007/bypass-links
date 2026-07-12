@@ -1,7 +1,9 @@
 import { type IPerson, Person } from '@bypass/shared';
-import { useDisclosure } from '@mantine/hooks';
 import { Delete02Icon, Edit01Icon } from '@hugeicons/core-free-icons';
+import { useDisclosure } from '@mantine/hooks';
+
 import ContextMenu, { type IMenuOption } from '@popup/components/ContextMenu';
+
 import AddOrEditPersonDialog from './AddOrEditPersonDialog';
 
 interface Props {

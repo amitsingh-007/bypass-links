@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import { getCurrentTab } from '@popup/utils/tabs';
 
 const useCurrentTab = () => {

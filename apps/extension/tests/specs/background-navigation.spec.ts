@@ -1,5 +1,6 @@
 import { TEST_SHORTCUTS } from '@bypass/shared/tests';
 import type { Page } from '@playwright/test';
+
 import { test, expect } from '../fixtures/background-fixture';
 
 const allInputsAutocompleteOff = async (page: Page) => {

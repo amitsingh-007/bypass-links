@@ -1,9 +1,10 @@
-import { getForumPageLinks } from '../misc/forumPageLinks';
 import {
   type RuntimeInput,
   type RuntimeKeys,
   type RuntimeOutput,
 } from '@/utils/sendRuntimeMessage';
+
+import { getForumPageLinks } from '../misc/forumPageLinks';
 
 export const receiveRuntimeMessage = (
   message: RuntimeInput,

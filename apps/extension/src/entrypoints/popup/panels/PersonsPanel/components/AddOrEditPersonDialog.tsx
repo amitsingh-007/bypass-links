@@ -1,4 +1,3 @@
-import { z } from 'zod/mini';
 import { noOp, type IPerson, usePerson } from '@bypass/shared';
 import {
   Avatar,
@@ -15,14 +14,17 @@ import {
   Input,
   Spinner,
 } from '@bypass/ui';
+import { UserWarning03Icon } from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
 import { useDisclosure } from '@mantine/hooks';
 import { useForm } from '@tanstack/react-form';
 import { useSelector } from '@tanstack/react-store';
-import { HugeiconsIcon } from '@hugeicons/react';
-import { UserWarning03Icon } from '@hugeicons/core-free-icons';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import ImagePicker from './ImagePicker';
+import { z } from 'zod/mini';
+
 import { trpcApi } from '@/apis/trpcApi';
+
+import ImagePicker from './ImagePicker';
 
 const IMAGE_SIZE = 200;
 
@@ -130,10 +132,7 @@ function AddOrEditPersonDialog({
             <div className="flex justify-center">
               <div className="relative">
                 <Avatar
-                  className="
-                    overflow-hidden rounded-xl
-                    after:rounded-none after:border-0
-                  "
+                  className="overflow-hidden rounded-xl after:rounded-none after:border-0"
                   style={{ width: IMAGE_SIZE, height: IMAGE_SIZE }}
                 >
                   <AvatarImage

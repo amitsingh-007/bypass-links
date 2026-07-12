@@ -1,8 +1,9 @@
 import { Header, type IPerson } from '@bypass/shared';
 import { Button, Switch } from '@bypass/ui';
-import { useDisclosure } from '@mantine/hooks';
 import { UserAdd01Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
+import { useDisclosure } from '@mantine/hooks';
+
 import AddOrEditPersonDialog from './AddOrEditPersonDialog';
 
 interface Props {

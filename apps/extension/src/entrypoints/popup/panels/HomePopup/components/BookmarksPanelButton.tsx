@@ -1,8 +1,9 @@
 import { getBookmarksPanelUrl } from '@bypass/shared';
 import { Button } from '@bypass/ui';
-import { HugeiconsIcon } from '@hugeicons/react';
 import { CollectionsBookmarkIcon } from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
 import { useLocation } from 'wouter';
+
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 
 function BookmarksPanelButton() {

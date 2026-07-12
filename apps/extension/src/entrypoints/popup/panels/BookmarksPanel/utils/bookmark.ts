@@ -7,7 +7,7 @@ import {
   type IBookmarksObj,
   type ITransformedBookmark,
 } from '@bypass/shared';
-import { SIGN_IN_TOTAL_STEPS } from '../../HomePopup/constants/progress';
+
 import { trpcApi } from '@/apis/trpcApi';
 import {
   bookmarksItem,
@@ -16,6 +16,8 @@ import {
   hasPendingPersonsItem,
 } from '@/storage/items';
 import useProgressStore from '@/store/progress';
+
+import { SIGN_IN_TOTAL_STEPS } from '../../HomePopup/constants/progress';
 
 export const syncBookmarksToStorage = async () => {
   const bookmarks = await trpcApi.firebaseData.bookmarksGet.query();

@@ -1,6 +1,6 @@
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@bypass/ui';
-import { HugeiconsIcon } from '@hugeicons/react';
 import { Search02Icon } from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
 import { useDebouncedState, useHotkeys } from '@mantine/hooks';
 import { useEffect, useEffectEvent } from 'react';
 
@@ -42,12 +42,7 @@ function Search({ onChange }: SearchProps) {
   ]);
 
   return (
-    <InputGroup
-      className="
-        w-32
-        sm:w-40
-      "
-    >
+    <InputGroup className="w-32 sm:w-40">
       <InputGroupAddon>
         <HugeiconsIcon
           icon={Search02Icon}

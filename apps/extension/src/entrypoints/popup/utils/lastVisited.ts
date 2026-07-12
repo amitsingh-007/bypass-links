@@ -1,4 +1,5 @@
 import { sha256Hash } from '@bypass/shared';
+
 import { lastVisitedItem } from '@/storage/items';
 
 export const getlastVisitedText = async (url: string) => {

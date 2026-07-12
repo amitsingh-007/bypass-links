@@ -29,7 +29,10 @@ pnpm build            # Build Chrome extension to .output/chrome-mv3
 pnpm dev              # Chrome dev server with hot reload
 
 # Code Quality
-pnpm lint             # Lint all files (XO linter)
+pnpm lint             # Lint all files (oxlint, type-aware) with autofix
+pnpm lint:ci          # Lint without autofix (CI)
+pnpm format           # Format all files (oxfmt)
+pnpm format:check     # Check formatting without writing (oxfmt --check)
 pnpm typecheck        # Type check root only
 pnpm typecheck:all    # Type check all workspaces
 
@@ -45,7 +48,7 @@ This is a **Turbo + pnpm monorepo** with the following structure:
 - **apps/web** - Next.js web interface for downloads and admin
 - **packages/shared** - Shared React components, types, utilities, and stores (Zustand)
 - **packages/ui** - Shared UI components using shadcn/ui Base UI + Tailwind CSS
-- **packages/configs** - Shared TypeScript, ESLint (XO), and build configs
+- **packages/configs** - Shared TypeScript and build configs
 - **packages/trpc** - tRPC router with Firebase backend (type-safe API)
 
 ## Build System
@@ -76,7 +79,9 @@ Playwright tests use setup/teardown projects for both web and extension flows:
 - **API**: tRPC for type-safe client-server communication
 - **Backend**: Firebase with Admin SDK
 - **Testing**: Playwright
-- **Linting**: XO with custom config
+- **Linting**: oxlint (type-aware via oxlint-tsgolint), config in `.oxlintrc.json`
+- **Formatting**: oxfmt, config in `.oxfmtrc.json`
+- **Tailwind linting**: `oxlint-tailwindcss` (native oxlint plugin)
 
 ## Code Patterns
 
@@ -119,6 +124,7 @@ Always after making changes, run the following commands:
 
 ```bash
 pnpm lint
+pnpm format:check
 pnpm typecheck:all
 pnpm e2e <relative-filepath>
 ```

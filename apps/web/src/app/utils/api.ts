@@ -1,6 +1,7 @@
-import { getAuthIdToken } from '@app/helpers/firebase/auth';
 import { type AppRouter } from '@bypass/trpc';
 import { createTRPCClient, httpBatchLink, loggerLink } from '@trpc/client';
+
+import { getAuthIdToken } from '@app/helpers/firebase/auth';
 
 const getBaseUrl = () => {
   if (typeof window !== 'undefined') {

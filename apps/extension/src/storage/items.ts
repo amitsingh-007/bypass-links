@@ -1,4 +1,3 @@
-import { storage } from 'wxt/utils/storage';
 import type {
   IBookmarksObj,
   IPersons,
@@ -7,8 +6,10 @@ import type {
   IRedirections,
   IWebsites,
 } from '@bypass/shared';
-import type { IMappedRedirections } from '@/entrypoints/background/interfaces/redirections';
+import { storage } from 'wxt/utils/storage';
+
 import { EExtensionState } from '@/constants';
+import type { IMappedRedirections } from '@/entrypoints/background/interfaces/redirections';
 
 export const bookmarksItem = storage.defineItem<IBookmarksObj>(
   'local:bookmarks',

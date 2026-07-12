@@ -1,14 +1,14 @@
+import clsx from 'clsx';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
-import { type ReactNode } from 'react';
 import { type Metadata, type Viewport } from 'next';
 import { Manrope } from 'next/font/google';
-import clsx from 'clsx';
+import { type ReactNode } from 'react';
+
 import './layout.css';
 import AppProviders from './provider/AppProviders';
 
-// eslint-disable-next-line new-cap
 const manrope = Manrope({
   subsets: ['latin'],
   variable: '--font-manrope',

@@ -1,4 +1,7 @@
 import { Progress, Spinner } from '@bypass/ui';
+
+import useProgressStore from '@/store/progress';
+
 import Authenticate from '../components/Authenticate';
 import BookmarksPanelButton from '../components/BookmarksPanelButton';
 import LastVisitedButton from '../components/LastVisitedButton';
@@ -11,7 +14,6 @@ import ToggleExtension from '../components/ToggleExtension';
 import ToggleHistory from '../components/ToggleHistory';
 import UserProfile from '../components/UserProfile';
 import useExtensionOutdated from '../hooks/useExtensionOutdated';
-import useProgressStore from '@/store/progress';
 
 const handleOpenAsPage = () => {
   browser.tabs.create({ url: window.location.href });
@@ -28,12 +30,7 @@ function PopupHome() {
           <div className="absolute inset-x-0 top-0 z-50">
             <Progress value={progress} />
           </div>
-          <div
-            className="
-              absolute inset-0 z-40 flex items-center justify-center
-              bg-background/80
-            "
-          >
+          <div className="absolute inset-0 z-40 flex items-center justify-center bg-background/80">
             <Spinner className="size-8" />
           </div>
         </>

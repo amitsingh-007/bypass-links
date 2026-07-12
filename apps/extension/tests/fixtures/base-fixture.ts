@@ -1,13 +1,15 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+
+import { TEST_TIMEOUTS } from '@bypass/shared/tests';
 import {
   type BrowserContext,
   type Page,
   type Worker,
   chromium,
 } from '@playwright/test';
-import { TEST_TIMEOUTS } from '@bypass/shared/tests';
+
 import { CHROME_PROFILE_DIR, EXTENSION_STORAGE_PATH } from '../auth-constants';
 import { getExtensionPath } from '../utils/extension-path';
 

@@ -1,6 +1,7 @@
 import { DynamicContext } from '@bypass/shared';
 import { type PropsWithChildren, useMemo } from 'react';
 import { useLocation, useSearch } from 'wouter';
+
 import { getFromChromeStorage, setToChromeStorage } from './utils';
 
 function DynamicProvider({ children }: PropsWithChildren) {

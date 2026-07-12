@@ -1,4 +1,5 @@
 import { type IRedirection } from '@bypass/shared';
+
 import { DEFAULT_RULE_ALIAS } from '../constants';
 
 export const getValidRules = (obj: IRedirection) =>

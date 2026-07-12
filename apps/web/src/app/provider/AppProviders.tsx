@@ -2,8 +2,9 @@
 
 import { TooltipProvider } from '@bypass/ui';
 import { Analytics } from '@vercel/analytics/react';
-import { StrictMode, Suspense } from 'react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { StrictMode, Suspense } from 'react';
+
 import { AuthProvider } from './AuthProvider';
 import DynamicProvider from './DynamicProvider';
 

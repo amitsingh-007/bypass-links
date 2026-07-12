@@ -1,4 +1,6 @@
 import { ECacheBucketKeys, deleteAllCache } from '@bypass/shared';
+
+import useProgressStore from '@/store/progress';
 import {
   resetRedirections,
   syncRedirectionsToStorage,
@@ -7,6 +9,7 @@ import {
   resetWebsites,
   syncWebsitesToStorage,
 } from '@background/websites/storageSync';
+
 import {
   cacheBookmarkFavicons,
   resetBookmarks,
@@ -24,7 +27,6 @@ import {
   SIGN_OUT_TOTAL_STEPS,
 } from '../constants/progress';
 import { resetLastVisited, syncLastVisitedToStorage } from './lastVisited';
-import useProgressStore from '@/store/progress';
 
 const resetAuthentication = async () => {
   await browser.identity.clearAllCachedAuthTokens();

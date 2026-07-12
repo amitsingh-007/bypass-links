@@ -1,5 +1,6 @@
 import type { AppRouter } from '@bypass/trpc';
 import { createTRPCClient, httpBatchLink, loggerLink } from '@trpc/client';
+
 import { env } from '@/constants/env';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 

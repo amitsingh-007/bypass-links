@@ -1,7 +1,8 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
+
+import { TEST_TIMEOUTS } from '@bypass/shared/tests';
 import {
   chromium,
   type BrowserContext,
@@ -9,14 +10,15 @@ import {
   test as base,
   type Worker,
 } from '@playwright/test';
-import { TEST_TIMEOUTS } from '@bypass/shared/tests';
+
+import { EExtensionState } from '@/constants';
+
 import { getExtensionPath } from '../utils/extension-path';
 import {
   createSharedBackgroundSW,
   createSharedContext,
   getExtensionId,
 } from './base-fixture';
-import { EExtensionState } from '@/constants';
 
 interface BaseBackgroundEnv {
   extensionId: string;

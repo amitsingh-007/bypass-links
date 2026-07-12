@@ -1,16 +1,18 @@
 import { defineBackground } from 'wxt/utils/define-background';
-import turnOffInputSuggestions from './misc/turnOffInputSuggestions';
-import { redirect } from './redirections';
-import { isValidTabUrl, isValidUrl, setExtensionIcon } from './utils';
-import { receiveRuntimeMessage } from './utils/receiveRuntimeMessage';
-import { type RuntimeInput } from '@/utils/sendRuntimeMessage';
-import { getIsExtensionActive } from '@/utils/common';
+
 import { EExtensionState } from '@/constants';
 import {
   extStateItem,
   hasPendingBookmarksItem,
   hasPendingPersonsItem,
 } from '@/storage/items';
+import { getIsExtensionActive } from '@/utils/common';
+import { type RuntimeInput } from '@/utils/sendRuntimeMessage';
+
+import turnOffInputSuggestions from './misc/turnOffInputSuggestions';
+import { redirect } from './redirections';
+import { isValidTabUrl, isValidUrl, setExtensionIcon } from './utils';
+import { receiveRuntimeMessage } from './utils/receiveRuntimeMessage';
 
 export default defineBackground({
   type: 'module',

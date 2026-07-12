@@ -1,10 +1,3 @@
-import { useUser } from '@app/provider/AuthProvider';
-import { api } from '@app/utils/api';
-import {
-  isExistsInLocalStorage,
-  removeFromLocalStorage,
-  setToLocalStorage,
-} from '@app/utils/storage';
 import {
   ECacheBucketKeys,
   addAllToCache,
@@ -16,6 +9,14 @@ import {
   usePerson,
 } from '@bypass/shared';
 import { useCallback, useState } from 'react';
+
+import { useUser } from '@app/provider/AuthProvider';
+import { api } from '@app/utils/api';
+import {
+  isExistsInLocalStorage,
+  removeFromLocalStorage,
+  setToLocalStorage,
+} from '@app/utils/storage';
 
 const cachePersonImages = async (personImageUrls: PersonImageUrls) => {
   if (!personImageUrls) {

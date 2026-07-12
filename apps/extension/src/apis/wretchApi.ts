@@ -1,4 +1,5 @@
 import wretch from 'wretch';
+
 import { env } from '@/constants/env';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 

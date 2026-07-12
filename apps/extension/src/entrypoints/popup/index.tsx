@@ -2,6 +2,7 @@ import '@bypass/ui/styles/globals.css';
 import { TooltipProvider } from '@bypass/ui';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+
 import './fonts.css';
 import Global from './components/Global';
 import PopupRoutes from './components/PopupRoutes';

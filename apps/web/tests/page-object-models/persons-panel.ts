@@ -1,5 +1,5 @@
-import { expect, type Locator, type Page } from '@playwright/test';
 import { getNumericBadgeValue, parseBadgeCount } from '@bypass/shared/tests';
+import { expect, type Locator, type Page } from '@playwright/test';
 
 export class PersonsPanel {
   constructor(readonly page: Page) {}

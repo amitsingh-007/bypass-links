@@ -1,5 +1,6 @@
-import { serverEnv } from '@app/constants/env/server';
 import { type NextRequest } from 'next/server';
+
+import { serverEnv } from '@app/constants/env/server';
 
 export const verifyInternalToken = (req: NextRequest) => {
   const bearerToken = req.headers.get('Authorization');

@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
-import { HugeiconsIcon } from '@hugeicons/react';
-import { Unlink02Icon } from '@hugeicons/core-free-icons';
 import { Avatar, AvatarFallback, AvatarImage } from '@bypass/ui';
-import { getBlobUrlFromCache } from '../../../utils/cache';
+import { Unlink02Icon } from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { useEffect, useState } from 'react';
+
 import { ECacheBucketKeys } from '../../../constants/cache';
+import { getBlobUrlFromCache } from '../../../utils/cache';
 
 interface Props {
   url: string;

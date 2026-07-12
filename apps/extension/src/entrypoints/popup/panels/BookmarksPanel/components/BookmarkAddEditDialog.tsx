@@ -1,9 +1,11 @@
-import { z } from 'zod/mini';
-import { useForm } from '@tanstack/react-form';
-import { useDisclosure } from '@mantine/hooks';
-import { useCallback, useEffect, useMemo, useRef } from 'react';
-import { useLocation } from 'wouter';
-import { useShallow } from 'zustand/react/shallow';
+import {
+  EBookmarkOperation,
+  getBookmarksPanelUrl,
+  getDecodedFolderList,
+  getDefaultFolder,
+  ROOT_FOLDER_ID,
+  type ITransformedBookmark,
+} from '@bypass/shared';
 import {
   Button,
   Dialog,
@@ -21,16 +23,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@bypass/ui';
-import {
-  EBookmarkOperation,
-  getBookmarksPanelUrl,
-  getDecodedFolderList,
-  getDefaultFolder,
-  ROOT_FOLDER_ID,
-  type ITransformedBookmark,
-} from '@bypass/shared';
-import { getCurrentTab } from '@popup/utils/tabs';
+import { useDisclosure } from '@mantine/hooks';
+import { useForm } from '@tanstack/react-form';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useLocation } from 'wouter';
+import { z } from 'zod/mini';
+import { useShallow } from 'zustand/react/shallow';
+
 import { handleEscapeKey } from '@popup/utils/dialog';
+import { getCurrentTab } from '@popup/utils/tabs';
+
 import useBookmarkRouteStore from '../store/useBookmarkRouteStore';
 import useBookmarkStore from '../store/useBookmarkStore';
 import PersonSelect from './PersonSelect';
@@ -295,12 +297,7 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
             )}
           </form.Field>
 
-          <DialogFooter
-            className="
-              flex flex-col gap-2 p-2
-              sm:flex-row
-            "
-          >
+          <DialogFooter className="flex flex-col gap-2 p-2 sm:flex-row">
             <Button type="button" variant="destructive" onClick={handleDelete}>
               Delete
             </Button>

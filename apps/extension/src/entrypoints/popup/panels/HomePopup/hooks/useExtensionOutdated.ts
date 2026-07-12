@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+
 import { trpcApi } from '@/apis/trpcApi';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import useOutdatedExtensionStore from '@/store/outdatedExtension';

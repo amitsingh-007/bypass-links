@@ -3,10 +3,11 @@ import {
   TEST_BOOKMARKS,
   openNewPageFromAction,
 } from '@bypass/shared/tests';
+
 import { test, expect } from '../fixtures/home-popup-fixture';
 import { BookmarksPanel } from '../utils/bookmarks-panel';
-import { PopupHomePanel } from '../utils/home-panel';
 import { getHistoryItems } from '../utils/history-utils';
+import { PopupHomePanel } from '../utils/home-panel';
 
 /**
  * ToggleHistory E2E Tests

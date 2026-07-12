@@ -1,4 +1,5 @@
 import { decodePersons, type IPerson, type IPersons } from '@bypass/shared';
+
 import { personsItem, hasPendingPersonsItem } from '@/storage/items';
 
 export const setPersonsInStorage = async (persons: IPersons) => {

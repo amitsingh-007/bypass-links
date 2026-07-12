@@ -1,12 +1,13 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@bypass/ui';
+import { useCallback, useEffect, useState } from 'react';
+
 import usePlatform from '../../../hooks/usePlatform';
 import usePerson from '../../Persons/hooks/usePerson';
 import {

@@ -36,12 +36,12 @@
   },
   "devDependencies": {
     "@playwright/test": "catalog:",
+    "@tailwindcss/postcss": "catalog:",
     "@types/react": "catalog:",
     "autoprefixer": "catalog:",
     "babel-plugin-react-compiler": "catalog:",
     "postcss": "catalog:",
     "tailwindcss": "catalog:",
-    "@tailwindcss/postcss": "catalog:",
     "typescript": "catalog:"
   }
 }

@@ -1,6 +1,5 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-import { test as base } from './extension-fixture';
 import { loadCachedStorageData } from './base-fixture';
+import { test as base } from './extension-fixture';
 
 export const test = base.extend<{
   login: void;
