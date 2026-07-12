@@ -19,6 +19,5 @@
 
 ## Guidelines for development
 
-- Install [prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
-- Install [xo](https://marketplace.visualstudio.com/items?itemName=samverschueren.linter-xo)
+- Install the [Oxc](https://marketplace.visualstudio.com/items?itemName=oxc.oxc-vscode) extension (oxlint + oxfmt); VS Code will recommend it automatically.
 - Follow the linting rules defined in the project.

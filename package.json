@@ -27,7 +27,6 @@
     "oxlint": "catalog:",
     "oxlint-tailwindcss": "catalog:",
     "oxlint-tsgolint": "catalog:",
-    "tailwindcss": "catalog:",
     "turbo": "catalog:",
     "typescript": "catalog:",
     "vercel": "catalog:"

@@ -1,5 +1,0 @@
-# Commits listed here are skipped by `git blame` (mass-reformat / mechanical changes).
-# Enable locally with: git config blame.ignoreRevsFile .git-blame-ignore-revs
-#
-# Add the SHA of the one-time "oxfmt reformat" commit (and the import/tailwind
-# sort commits) below, one per line, after they land.

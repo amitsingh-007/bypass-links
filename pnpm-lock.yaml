@@ -227,9 +227,6 @@ importers:
       oxlint-tsgolint:
         specifier: 'catalog:'
         version: 0.24.0
-      tailwindcss:
-        specifier: 'catalog:'
-        version: 4.3.2
       turbo:
         specifier: 'catalog:'
         version: 2.10.3
