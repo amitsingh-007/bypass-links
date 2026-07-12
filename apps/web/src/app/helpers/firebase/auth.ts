@@ -1,9 +1,11 @@
 import {
   getAuth,
+  getRedirectResult,
   GoogleAuthProvider,
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signInWithPopup,
+  signInWithRedirect,
   signOut,
   type User,
 } from 'firebase/auth';
@@ -13,7 +15,16 @@ import firebaseApp from '.';
 const auth = getAuth(firebaseApp);
 const provider = new GoogleAuthProvider();
 
-export const googleSignIn = async () => signInWithPopup(auth, provider);
+// Popups are silently blocked on iOS Safari, so use redirect on mobile.
+export const googleSignIn = async (isMobile: boolean): Promise<void> => {
+  if (isMobile) {
+    await signInWithRedirect(auth, provider);
+    return;
+  }
+  await signInWithPopup(auth, provider);
+};
+
+export const getGoogleRedirectResult = async () => getRedirectResult(auth);
 
 export const googleSignOut = async () => signOut(auth);
 

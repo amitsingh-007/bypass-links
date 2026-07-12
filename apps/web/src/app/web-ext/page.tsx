@@ -9,6 +9,7 @@ import {
   UserGroupIcon,
 } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
+import { useOs } from '@mantine/hooks';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -17,6 +18,7 @@ import {
   googleSignIn,
   googleSignOut,
   emailAndPasswordSignIn,
+  getGoogleRedirectResult,
 } from '@app/helpers/firebase/auth';
 import { useUser } from '@app/provider/AuthProvider';
 
@@ -24,10 +26,26 @@ import useWebPreload from './hooks/useWebPreload';
 
 export default function Web() {
   const router = useRouter();
+  const os = useOs();
   const { isLoggedIn } = useUser();
   const { isLoading, preloadData, clearData } = useWebPreload();
   const [shouldPreloadData, setShouldPreloadData] = useState(false);
   const [isSigningOut, setIsSigningOut] = useState(false);
+
+  const isMobile = os === 'ios' || os === 'android';
+
+  // Complete the mobile redirect sign-in and re-trigger preload after reload.
+  useEffect(() => {
+    getGoogleRedirectResult()
+      .then((result) => {
+        if (result?.user) {
+          setShouldPreloadData(true);
+        }
+      })
+      .catch((error: unknown) => {
+        console.error('Redirect sign-in failed', error);
+      });
+  }, []);
 
   /**
    * Preload data only when:
@@ -49,17 +67,21 @@ export default function Web() {
   }, [isLoading, preloadData, shouldPreloadData, isLoggedIn]);
 
   const handleSignIn = async () => {
-    const testCredentialsJson = localStorage.getItem(TEST_CREDENTIALS_KEY);
-    if (testCredentialsJson) {
-      const testCredentials = JSON.parse(testCredentialsJson);
-      await emailAndPasswordSignIn(
-        testCredentials.email,
-        testCredentials.password
-      );
-    } else {
-      await googleSignIn();
+    try {
+      const testCredentialsJson = localStorage.getItem(TEST_CREDENTIALS_KEY);
+      if (testCredentialsJson) {
+        const testCredentials = JSON.parse(testCredentialsJson);
+        await emailAndPasswordSignIn(
+          testCredentials.email,
+          testCredentials.password
+        );
+      } else {
+        await googleSignIn(isMobile);
+      }
+      setShouldPreloadData(true);
+    } catch (error) {
+      console.error('Sign-in failed', error);
     }
-    setShouldPreloadData(true);
   };
 
   const handleSignOut = async () => {
