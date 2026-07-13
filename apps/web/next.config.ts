@@ -38,6 +38,23 @@ const nextConfig: NextConfig = {
     // for type info + tsconfig paths instead. Requires Next >= 16.3.
     useTypeScriptCli: true,
   },
+  // Serve Firebase's auth handler from our own domain so signInWithRedirect is
+  // same-origin — Safari's ITP blocks the default cross-origin firebaseapp.com
+  // flow. Must be a transparent proxy (rewrite), not a 302.
+  // https://firebase.google.com/docs/auth/web/redirect-best-practices
+  async rewrites() {
+    const authHelper = 'https://bypass-links.firebaseapp.com';
+    return [
+      {
+        source: '/__/auth/:path*',
+        destination: `${authHelper}/__/auth/:path*`,
+      },
+      {
+        source: '/__/firebase/:path*',
+        destination: `${authHelper}/__/firebase/:path*`,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
