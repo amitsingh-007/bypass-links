@@ -2,7 +2,8 @@ export const getFirebasePublicConfig = (isProd: boolean) => {
   if (isProd) {
     return {
       apiKey: 'AIzaSyDiMRlBhW36sLjEADoQj9T5L1H-hIDUAso',
-      authDomain: 'bypass-links.firebaseapp.com',
+      // Same-origin as the app (vs Safari ITP); /__/auth/* proxied in next.config.
+      authDomain: 'bypass-links.vercel.app',
       databaseURL: 'https://bypass-links.firebaseio.com/',
       projectId: 'bypass-links',
       storageBucket: 'bypass-links.appspot.com',
