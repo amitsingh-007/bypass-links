@@ -4,10 +4,9 @@ import { initializeApp } from 'firebase/app';
 const isProd = process.env.NODE_ENV === 'production';
 const config = getFirebasePublicConfig(isProd);
 
-// In HTTPS local dev (`pnpm dev:https`), point authDomain at our own origin so
-// signInWithRedirect stays same-origin via the /__/auth proxy in next.config —
-// Firebase always builds the handler URL as `https://<authDomain>/__/auth/...`,
-// so this only works over https, not the default http `pnpm dev`.
+// HTTPS local dev (`pnpm dev:https`): use our own origin as authDomain to keep
+// signInWithRedirect same-origin. Firebase forces https on the handler URL, so
+// this can't work over the default http `pnpm dev`.
 if (
   !isProd &&
   typeof window !== 'undefined' &&

@@ -2,8 +2,7 @@ export const getFirebasePublicConfig = (isProd: boolean) => {
   if (isProd) {
     return {
       apiKey: 'AIzaSyDiMRlBhW36sLjEADoQj9T5L1H-hIDUAso',
-      // Same-origin as the app so signInWithRedirect works on Safari (ITP);
-      // /__/auth/* is reverse-proxied to firebaseapp.com via next.config rewrites.
+      // Same-origin as the app (vs Safari ITP); /__/auth/* proxied in next.config.
       authDomain: 'bypass-links.vercel.app',
       databaseURL: 'https://bypass-links.firebaseio.com/',
       projectId: 'bypass-links',
