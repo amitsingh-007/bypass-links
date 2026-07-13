@@ -42,9 +42,7 @@ const nextConfig: NextConfig = {
   // blocked by Safari ITP. Must be a rewrite (transparent), not a 302.
   // https://firebase.google.com/docs/auth/web/redirect-best-practices
   async rewrites() {
-    const authHelper = isDev
-      ? 'https://bypass-links-dev.firebaseapp.com'
-      : 'https://bypass-links.firebaseapp.com';
+    const authHelper = 'https://bypass-links.firebaseapp.com';
     return [
       {
         source: '/__/auth/:path*',
