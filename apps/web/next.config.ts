@@ -43,7 +43,10 @@ const nextConfig: NextConfig = {
   // flow. Must be a transparent proxy (rewrite), not a 302.
   // https://firebase.google.com/docs/auth/web/redirect-best-practices
   async rewrites() {
-    const authHelper = 'https://bypass-links.firebaseapp.com';
+    // Match the Firebase project that getFirebasePublicConfig selects by env.
+    const authHelper = isDev
+      ? 'https://bypass-links-dev.firebaseapp.com'
+      : 'https://bypass-links.firebaseapp.com';
     return [
       {
         source: '/__/auth/:path*',
