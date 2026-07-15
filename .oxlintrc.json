@@ -72,7 +72,7 @@
         "packages/shared/**/*.{ts,tsx}"
       ],
       "rules": {
-        "react/react-compiler": "warn"
+        "react/react-compiler": "error"
       }
     },
     {
