@@ -74,6 +74,12 @@
       "rules": {
         "react/react-compiler": "warn"
       }
+    },
+    {
+      "files": ["apps/*/tests/**/*.ts"],
+      "rules": {
+        "no-empty-pattern": "off"
+      }
     }
   ],
   "ignorePatterns": [

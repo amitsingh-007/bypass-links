@@ -11,43 +11,30 @@ import {
   Appointment01Icon,
 } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { trpcApi } from '@/apis/trpcApi';
 import { lastVisitedItem } from '@/storage/items';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import useCurrentTab from '@popup/hooks/useCurrentTab';
-import { getlastVisitedText } from '@popup/utils/lastVisited';
+import useLastVisited from '@popup/hooks/useLastVisited';
 
 function LastVisitedButton() {
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const currentTab = useCurrentTab();
   const [isFetching, setIsFetching] = useState(false);
-  const [lastVisited, setLastVisited] = useState('');
 
-  const initLastVisited = useCallback(async () => {
-    if (!currentTab?.url) {
-      return;
-    }
-    setIsFetching(true);
-    const lastVisitedText = await getlastVisitedText(currentTab.url);
-    setLastVisited(lastVisitedText);
-    setIsFetching(false);
-  }, [currentTab?.url]);
-
-  useEffect(() => {
-    if (!isSignedIn) {
-      return;
-    }
-    initLastVisited();
-  }, [initLastVisited, isSignedIn]);
+  const url = currentTab?.url;
+  const { data: lastVisited = '', mutate: mutateLastVisited } = useLastVisited(
+    isSignedIn ? url : undefined
+  );
 
   const handleUpdateLastVisited = async () => {
-    if (!currentTab?.url) {
+    if (!url) {
       return;
     }
     setIsFetching(true);
-    const { hostname } = new URL(currentTab.url);
+    const { hostname } = new URL(url);
     const hash = await sha256Hash(hostname);
     const result = await trpcApi.firebaseData.upsertLastVisited.mutate({
       hash,
@@ -56,8 +43,7 @@ function LastVisitedButton() {
     const lastVisitedObj = await lastVisitedItem.getValue();
     lastVisitedObj[result.hash] = result.timestamp;
     await lastVisitedItem.setValue(lastVisitedObj);
-    // Update local state
-    await initLastVisited();
+    await mutateLastVisited();
     setIsFetching(false);
   };
 

@@ -6,14 +6,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@bypass/ui';
-import { useCallback, useEffect, useState } from 'react';
 
 import usePlatform from '../../../hooks/usePlatform';
-import usePerson from '../../Persons/hooks/usePerson';
-import {
-  type IPerson,
-  type IPersonWithImage,
-} from '../../Persons/interfaces/persons';
+import useTaggedPersons from '../../Persons/hooks/useTaggedPersons';
 import Favicon from './Favicon';
 import PersonAvatars from './PersonAvatars';
 
@@ -29,13 +24,6 @@ export interface BookmarkProps {
   getFaviconUrl: (url: string) => string;
 }
 
-const getPersonsFromUids = (uids: string[], persons: IPerson[]) => {
-  if (!uids || !persons) {
-    return [];
-  }
-  return persons.filter((person) => uids.includes(person.uid ?? ''));
-};
-
 function Bookmark({
   id,
   url,
@@ -47,22 +35,8 @@ function Bookmark({
   onOpenLink,
   getFaviconUrl,
 }: BookmarkProps) {
-  const [personsWithImageUrls, setPersonsWithImageUrls] = useState<
-    IPersonWithImage[]
-  >([]);
-  const { getAllDecodedPersons, getPersonsWithImageUrl } = usePerson();
+  const { data: personsWithImageUrls = [] } = useTaggedPersons(taggedPersons);
   const isMobile = usePlatform();
-
-  const initImageUrl = useCallback(async () => {
-    const allPersons = await getAllDecodedPersons();
-    const persons = getPersonsFromUids(taggedPersons, allPersons);
-    const newPersonsWithImageUrls = await getPersonsWithImageUrl(persons);
-    setPersonsWithImageUrls(newPersonsWithImageUrls);
-  }, [getAllDecodedPersons, getPersonsWithImageUrl, taggedPersons]);
-
-  useEffect(() => {
-    initImageUrl();
-  }, [initImageUrl]);
 
   const handleOpenLink: React.MouseEventHandler<HTMLDivElement> = (event) => {
     if (event.ctrlKey || event.metaKey) {

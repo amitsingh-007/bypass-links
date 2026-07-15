@@ -1,5 +1,5 @@
 import { Switch } from '@bypass/ui';
-import { useEffect, useEffectEvent, useState } from 'react';
+import { useEffect, useEffectEvent } from 'react';
 
 import { historyStartTimeItem } from '@/storage/items';
 import { startHistoryWatch } from '@/utils/history';
@@ -28,8 +28,11 @@ function ToggleHistory() {
     (state) => state.resetHistoryMonitor
   );
   const monitorHistory = useHistoryStore((state) => state.monitorHistory);
+  const isHistoryActive = useHistoryStore((state) => state.isHistoryActive);
+  const setIsHistoryActive = useHistoryStore(
+    (state) => state.setIsHistoryActive
+  );
   const isExtensionActive = useExtStore((state) => state.isExtensionActive);
-  const [isHistoryActive, setIsHistoryActive] = useState(false);
 
   const turnOffHistory = () => {
     if (isHistoryActive) {
@@ -53,7 +56,7 @@ function ToggleHistory() {
     historyStartTimeItem.getValue().then((historyStartTime) => {
       setIsHistoryActive(Boolean(historyStartTime));
     });
-  }, []);
+  }, [setIsHistoryActive]);
 
   // Turn off history when extension is off
   useEffect(() => {

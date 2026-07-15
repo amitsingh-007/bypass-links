@@ -10,22 +10,17 @@ import {
 } from '@bypass/ui';
 import { BookEditIcon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { use, useCallback, useEffect, useState } from 'react';
+import { use, useState } from 'react';
 
 import DynamicContext from '../../../provider/DynamicContext';
 import Bookmark from '../../Bookmarks/components/Bookmark';
 import { EBookmarkOperation } from '../../Bookmarks/constants';
-import useBookmark from '../../Bookmarks/hooks/useBookmark';
-import { getDecryptedBookmark } from '../../Bookmarks/utils';
 import { getBookmarksPanelUrl } from '../../Bookmarks/utils/url';
 import Header from '../../Header';
-import usePerson from '../hooks/usePerson';
+import useTaggedBookmarks from '../hooks/useTaggedBookmarks';
 import { type IBookmarkWithFolder } from '../interfaces/bookmark';
 import { type IPerson } from '../interfaces/persons';
-import {
-  getFilteredModifiedBookmarks,
-  getOrderedBookmarksList,
-} from '../utils/bookmark';
+import { getFilteredModifiedBookmarks } from '../utils/bookmark';
 
 interface Props {
   personToOpen: IPerson | undefined;
@@ -45,48 +40,10 @@ function BookmarksList({
   getFaviconUrl,
 }: Props) {
   const { location } = use(DynamicContext);
-  const { getBookmarkFromHash, getFolderFromHash, getDefaultOrRootFolderUrls } =
-    useBookmark();
-  const { getPersonTaggedUrls } = usePerson();
-  const [bookmarks, setBookmarks] = useState<IBookmarkWithFolder[]>([]);
+  const { data: bookmarks = [], isLoading } = useTaggedBookmarks(
+    personToOpen?.uid
+  );
   const [searchText, setSearchText] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-
-  const initBookmarks = useCallback(async () => {
-    setIsLoading(true);
-    const taggedUrls = await getPersonTaggedUrls(personToOpen?.uid ?? '');
-    if (!taggedUrls?.length) {
-      setIsLoading(false);
-      return;
-    }
-    const fetchedBookmarks = await Promise.all(
-      taggedUrls.map(async (urlHash) => {
-        const bookmark = await getBookmarkFromHash(urlHash);
-        const parent = await getFolderFromHash(bookmark.parentHash);
-        const decodedBookmark = getDecryptedBookmark(bookmark);
-        return {
-          ...decodedBookmark,
-          parentName: parent.name,
-          parentId: parent.id,
-        } satisfies IBookmarkWithFolder;
-      })
-    );
-
-    const defaultUrls = await getDefaultOrRootFolderUrls();
-    const orderedBookmarks = getOrderedBookmarksList(
-      fetchedBookmarks,
-      defaultUrls
-    );
-
-    setBookmarks(orderedBookmarks);
-    setIsLoading(false);
-  }, [
-    getBookmarkFromHash,
-    getDefaultOrRootFolderUrls,
-    getFolderFromHash,
-    getPersonTaggedUrls,
-    personToOpen?.uid,
-  ]);
 
   const handleBookmarkEdit = ({ url, parentId }: IBookmarkWithFolder) => {
     location.push(
@@ -101,14 +58,6 @@ function BookmarksList({
   const handleClose = () => {
     location.goBack();
   };
-
-  useEffect(() => {
-    initBookmarks();
-    return () => {
-      setBookmarks([]);
-      setIsLoading(false);
-    };
-  }, [initBookmarks]);
 
   const filteredBookmarks = getFilteredModifiedBookmarks(bookmarks, searchText);
 

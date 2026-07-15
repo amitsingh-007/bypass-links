@@ -1,7 +1,7 @@
 import { Button, Spinner } from '@bypass/ui';
 import { Login02Icon, Logout02Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import { toast } from 'sonner';
 
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
@@ -15,32 +15,23 @@ function Authenticate() {
   const setIsSignedIn = useFirebaseStore((state) => state.setIsSignedIn);
   const isExtensionActive = useExtStore((state) => state.isExtensionActive);
   const { isLoading, startLoading, stopLoading } = useProgressStore();
-  const [isFetching, setIsFetching] = useState(false);
 
   const handleSignIn = async () => {
-    setIsFetching(true);
     startLoading();
-
     const isSignInSuccess = await signIn();
     setIsSignedIn(isSignInSuccess);
-
     stopLoading();
-    setIsFetching(false);
   };
 
   const handleSignOut = useCallback(async () => {
-    setIsFetching(true);
     startLoading();
-
     const isSignedOutSuccess = await signOut();
     if (isSignedOutSuccess) {
       setIsSignedIn(!isSignedOutSuccess);
     } else {
       toast.error('Error while logging out');
     }
-
     stopLoading();
-    setIsFetching(false);
   }, [setIsSignedIn, startLoading, stopLoading]);
 
   useEffect(() => {
@@ -58,11 +49,11 @@ function Authenticate() {
     <Button
       className="w-full font-medium"
       variant={isSignedIn ? 'destructive' : 'outline'}
-      disabled={!isExtensionActive || isFetching || isLoading}
+      disabled={!isExtensionActive || isLoading}
       data-testid={isSignedIn ? 'logout-button' : 'login-button'}
       onClick={isSignedIn ? handleSignOut : handleSignIn}
     >
-      {(isFetching || isLoading) && <Spinner className="mr-2 size-4" />}
+      {isLoading && <Spinner className="mr-2 size-4" />}
       {isSignedIn ? 'Logout' : 'Login'}
       <HugeiconsIcon
         icon={isSignedIn ? Logout02Icon : Login02Icon}

@@ -1,13 +1,13 @@
 import { ScrollArea } from '@bypass/ui';
 import { useElementSize } from '@mantine/hooks';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { type ReactNode, use, useCallback, useEffect, useState } from 'react';
+import { type ReactNode, use, useCallback, useState } from 'react';
 
 import usePlatform from '../../../hooks/usePlatform';
 import DynamicContext from '../../../provider/DynamicContext';
 import { deserializeQueryStringToObject } from '../../../utils/url';
 import { ScrollButton } from '../../ScrollButton';
-import usePerson from '../hooks/usePerson';
+import usePersonImage from '../hooks/usePersonImage';
 import { type IPerson } from '../interfaces/persons';
 import { getColumnCount, getReactKey } from '../utils';
 import BookmarksList from './BookmarksList';
@@ -109,8 +109,6 @@ function PersonsInner({
 
 function Persons(props: Props) {
   const { persons } = props;
-  const [personToOpen, setPersonToOpen] = useState<IPerson>();
-  const [personToOpenImage, setPersonToOpenImage] = useState('');
   const { ref: containerRef, width: bodyWidth } =
     useElementSize<HTMLDivElement>();
   const [scrollElement, setScrollElement] = useState<HTMLDivElement | null>(
@@ -121,18 +119,12 @@ function Persons(props: Props) {
   }, []);
   const { location } = use(DynamicContext);
   const queryString = location.query();
-  const { resolvePersonImageFromUid } = usePerson();
 
-  useEffect(() => {
-    const { openBookmarksList } = deserializeQueryStringToObject(queryString);
-    const person = persons.find((_person) => _person.uid === openBookmarksList);
-    setPersonToOpen(person);
-    if (person) {
-      resolvePersonImageFromUid(person.uid).then((url) => {
-        setPersonToOpenImage(url);
-      });
-    }
-  }, [queryString, persons, resolvePersonImageFromUid]);
+  const { openBookmarksList } = deserializeQueryStringToObject(queryString);
+  const personToOpen = persons.find(
+    (person) => person.uid === openBookmarksList
+  );
+  const { data: personToOpenImage = '' } = usePersonImage(personToOpen?.uid);
 
   return (
     <ScrollArea

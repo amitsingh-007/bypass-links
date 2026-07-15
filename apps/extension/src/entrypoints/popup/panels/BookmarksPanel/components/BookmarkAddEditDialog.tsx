@@ -139,12 +139,12 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
   });
 
   const resolveBookmark = useCallback(
-    async (_operation: EBookmarkOperation, _bmUrl: string) => {
-      if (_operation === EBookmarkOperation.ADD) {
+    async (currentOperation: EBookmarkOperation, currentBmUrl: string) => {
+      if (currentOperation === EBookmarkOperation.ADD) {
         const { title = '' } = await getCurrentTab();
         form.setFieldValue('id', crypto.randomUUID());
         form.setFieldValue('pos', contextBookmarks.length);
-        form.setFieldValue('url', _bmUrl);
+        form.setFieldValue('url', currentBmUrl);
         form.setFieldValue('title', title);
         form.setFieldValue('folderId', defaultFolderId ?? ROOT_FOLDER_ID);
         form.setFieldValue('taggedPersons', []);
@@ -152,15 +152,11 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
         return;
       }
 
-      let bookmark: Required<ITransformedBookmark> | undefined;
-      let pos = -1;
-      contextBookmarks.forEach((x, index) => {
-        if (!x.isDir && x.url === _bmUrl) {
-          bookmark = x;
-          pos = index;
-        }
-      });
-      if (bookmark) {
+      const pos = contextBookmarks.findIndex(
+        (x) => !x.isDir && x.url === currentBmUrl
+      );
+      if (pos !== -1) {
+        const bookmark = contextBookmarks[pos] as ITransformedBookmark;
         form.setFieldValue('id', bookmark.id);
         form.setFieldValue('pos', pos);
         form.setFieldValue('url', bookmark.url);

@@ -1,10 +1,4 @@
 import {
-  sortByRecency,
-  sortAlphabetically,
-  useBookmark,
-  usePerson,
-} from '@bypass/shared';
-import {
   Avatar,
   AvatarFallback,
   AvatarImage,
@@ -23,11 +17,12 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-  useComboboxAnchor,
 } from '@bypass/ui';
 import { UserWarning03Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
+
+import usePersonsWithImages from '@popup/hooks/usePersonsWithImages';
 
 interface IOptionData {
   label: string;
@@ -79,36 +74,16 @@ function AvatarWithPreview({ person }: AvatarWithPreviewProps) {
 }
 
 function PersonSelect({ value, onChange }: PersonSelectProps) {
-  const { getDefaultOrRootFolderUrls } = useBookmark();
-  const { getAllDecodedPersons, getPersonsWithImageUrl } = usePerson();
-  const [personList, setPersonList] = useState<IOptionData[]>([]);
   const [orderByRecency, setOrderByRecency] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
-  const anchorRef = useComboboxAnchor();
+  const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
+  const { data: persons = [] } = usePersonsWithImages(orderByRecency);
 
-  const initPersonList = useCallback(async () => {
-    const decodedPersons = await getAllDecodedPersons();
-    const urls = await getDefaultOrRootFolderUrls();
-    const personsWithImageUrl = await getPersonsWithImageUrl(decodedPersons);
-    const personList = orderByRecency
-      ? sortByRecency(personsWithImageUrl, urls)
-      : sortAlphabetically(personsWithImageUrl);
-    const list = personList.map<IOptionData>(({ imageUrl, name, uid }) => ({
-      label: name,
-      value: uid,
-      image: imageUrl,
-    }));
-    setPersonList(list);
-  }, [
-    orderByRecency,
-    getDefaultOrRootFolderUrls,
-    getAllDecodedPersons,
-    getPersonsWithImageUrl,
-  ]);
-
-  useEffect(() => {
-    initPersonList();
-  }, [initPersonList]);
+  const personList = persons.map<IOptionData>(({ imageUrl, name, uid }) => ({
+    label: name,
+    value: uid,
+    image: imageUrl,
+  }));
 
   const toggleOrderByRecency = () => setOrderByRecency((prev) => !prev);
 
@@ -139,7 +114,7 @@ function PersonSelect({ value, onChange }: PersonSelectProps) {
             />
           </div>
         </div>
-        <div ref={anchorRef} className="w-full">
+        <div ref={setAnchorEl} className="w-full">
           <Combobox
             multiple
             value={value}
@@ -176,7 +151,7 @@ function PersonSelect({ value, onChange }: PersonSelectProps) {
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </ComboboxChips>
-            <ComboboxContent anchor={anchorRef.current} className="p-0">
+            <ComboboxContent anchor={anchorEl} className="p-0">
               <ComboboxList className="max-h-60 p-1 py-2">
                 {filteredPersonList.map((person) => (
                   <ComboboxItem key={person.value} value={person.value}>

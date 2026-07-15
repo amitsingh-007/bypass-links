@@ -20,6 +20,7 @@ export * from './components/Persons/utils';
 export * from './components/Persons/utils/bookmark';
 export * from './components/Persons/utils/urls';
 export { default as usePerson } from './components/Persons/hooks/usePerson';
+export { default as usePersonImage } from './components/Persons/hooks/usePersonImage';
 
 // Global components
 export { default as Header } from './components/Header';

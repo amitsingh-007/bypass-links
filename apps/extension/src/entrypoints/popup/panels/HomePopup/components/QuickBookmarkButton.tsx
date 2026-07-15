@@ -3,8 +3,6 @@ import {
   ROOT_FOLDER_ID,
   EBookmarkOperation,
   getBookmarksPanelUrl,
-  getDecryptedBookmark,
-  type IEncodedBookmark,
   useBookmark,
 } from '@bypass/shared';
 import {
@@ -19,43 +17,18 @@ import {
   BookmarkAdd01Icon,
 } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
 
-import { bookmarksItem } from '@/storage/items';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
+import useQuickBookmark from '@popup/hooks/useQuickBookmark';
 import { getCurrentTab } from '@popup/utils/tabs';
-
-import { findBookmarkByUrl } from '../../BookmarksPanel/utils/bookmark';
 
 function QuickBookmarkButton() {
   const [, navigate] = useLocation();
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const { getFolderFromHash } = useBookmark();
-  const [bookmark, setBookmark] = useState<IEncodedBookmark>();
-  const [isFetching, setIsFetching] = useState(false);
-
-  const initBookmark = async () => {
-    setIsFetching(true);
-    const currentTab = await getCurrentTab();
-    const url = currentTab?.url ?? '';
-    const bookmarks = await bookmarksItem.getValue();
-    if (bookmarks) {
-      const encodedBookmark = findBookmarkByUrl(bookmarks.urlList, url);
-      if (encodedBookmark) {
-        const decodedBookmark = getDecryptedBookmark(encodedBookmark);
-        setBookmark(decodedBookmark);
-      }
-    }
-    setIsFetching(false);
-  };
-
-  useEffect(() => {
-    setIsFetching(isSignedIn);
-    if (isSignedIn) {
-      initBookmark();
-    }
-  }, [isSignedIn]);
+  const { data: bookmark, isLoading: isFetching } =
+    useQuickBookmark(isSignedIn);
 
   const handleClick = async () => {
     const urlParams: Partial<BMPanelQueryParams> = {};

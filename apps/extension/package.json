@@ -32,6 +32,7 @@
     "react-avatar-editor": "catalog:",
     "react-dom": "catalog:",
     "sonner": "catalog:",
+    "swr": "catalog:",
     "tailwind-merge": "catalog:",
     "tailwindcss": "catalog:",
     "tw-animate-css": "catalog:",

@@ -48,7 +48,6 @@ const signInWithEmailAndPassword = async (): Promise<IAuthResponse> => {
     }));
 };
 
-// eslint-disable-next-line no-empty-pattern
 setup('authenticate and cache extension storage', async ({}, testInfo) => {
   const authData = await signInWithEmailAndPassword();
 
