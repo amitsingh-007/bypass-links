@@ -22,10 +22,7 @@
 
     "typescript/no-unsafe-assignment": "off",
     "typescript/no-unsafe-return": "off",
-    "typescript/no-unsafe-argument": "off",
-
     "typescript/no-floating-promises": "off",
-
     "typescript/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     "typescript/consistent-type-definitions": ["error", "interface"],
     "typescript/no-confusing-void-expression": [

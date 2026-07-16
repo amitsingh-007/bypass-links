@@ -162,7 +162,7 @@ function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
                   disabled={disableControls}
                   thumbAlignment="center"
                   onValueChange={(value) => {
-                    const val = Array.isArray(value) ? value[0] : value;
+                    const val = typeof value === 'number' ? value : value[0];
                     setZoom(val ?? 1);
                   }}
                 />
@@ -176,7 +176,7 @@ function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
                   disabled={disableControls}
                   thumbAlignment="center"
                   onValueChange={(value) => {
-                    const val = Array.isArray(value) ? value[0] : value;
+                    const val = typeof value === 'number' ? value : value[0];
                     setRotation(val ?? 0);
                   }}
                 />

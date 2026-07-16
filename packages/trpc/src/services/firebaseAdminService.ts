@@ -5,6 +5,7 @@ import { cert, getApp, getApps, initializeApp } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
 import { getDatabase } from 'firebase-admin/database';
 import { getDownloadURL, getStorage } from 'firebase-admin/storage';
+import { z } from 'zod/mini';
 
 import { env } from '../constants/env';
 import {
@@ -23,11 +24,29 @@ const firebasePublicConfig = getFirebasePublicConfig(
   process.env.NODE_ENV === 'production'
 );
 
+const serviceAccountSchema = z.object({
+  project_id: z.string(),
+  private_key: z.string(),
+  client_email: z.string(),
+});
+
+const getServiceAccountCredential = () => {
+  const account = serviceAccountSchema.parse(
+    JSON.parse(atob(env.FIREBASE_SERVICE_ACCOUNT))
+  );
+
+  return cert({
+    projectId: account.project_id,
+    privateKey: account.private_key,
+    clientEmail: account.client_email,
+  });
+};
+
 const firebaseApp =
   getApps().length > 0
     ? getApp()
     : initializeApp({
-        credential: cert({ ...JSON.parse(atob(env.FIREBASE_SERVICE_ACCOUNT)) }),
+        credential: getServiceAccountCredential(),
         databaseURL: firebasePublicConfig.databaseURL,
         storageBucket: firebasePublicConfig.storageBucket,
       });
@@ -71,7 +90,7 @@ export const saveToFirebase = async ({ ref, uid, data }: Firebase) => {
  */
 export const upsertToFirebase = async ({ ref, uid, data }: Firebase) => {
   try {
-    await database.ref(getFullDbPath(ref, uid)).update(data);
+    await database.ref(getFullDbPath(ref, uid)).update(data as object);
     return true;
   } catch (error) {
     console.error(`Error while upserting data to Firebase DB: ${ref}`, error);
