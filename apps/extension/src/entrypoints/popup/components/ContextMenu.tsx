@@ -32,7 +32,7 @@ function ContextMenuWrapper({ options, children }: Props) {
       title: text,
       icon,
       variant,
-      onClick() {
+      onClick: () => {
         onClick(idRef.current);
         idRef.current = '';
       },

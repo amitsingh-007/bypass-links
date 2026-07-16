@@ -15,7 +15,7 @@ const mapExtension = (extension: TGitHubAsset) => ({
 
 export const getLatestExtension = async () => {
   const { data: latestRelease } = await getLatestRelease();
-  const { data: assets = [] } = await getAssetsByReleaseId(latestRelease.id);
+  const { data: assets } = await getAssetsByReleaseId(latestRelease.id);
 
   const chromeAsset = assets.find(
     (asset) => asset.content_type === 'application/zip'

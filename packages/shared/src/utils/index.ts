@@ -11,3 +11,15 @@ export const sleep = async (ms: number) =>
   new Promise((resolve) => {
     setTimeout(resolve, ms);
   });
+
+// Rebuild a keyed record, keeping only entries for which `shouldKeep` returns true
+export const filterRecord = <T>(
+  record: Record<string, T>,
+  shouldKeep: (id: string, value: T) => boolean
+) =>
+  Object.entries(record).reduce<Record<string, T>>((acc, [id, value]) => {
+    if (shouldKeep(id, value)) {
+      acc[id] = value;
+    }
+    return acc;
+  }, {});

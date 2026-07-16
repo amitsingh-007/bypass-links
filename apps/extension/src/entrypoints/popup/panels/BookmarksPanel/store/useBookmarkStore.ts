@@ -6,6 +6,7 @@ import {
   type ISelectedBookmarks,
   addToCache,
   bookmarksMapper,
+  filterRecord,
   getEncryptedBookmark,
   getGoogleFaviconUrl,
   getEncryptedFolder,
@@ -49,8 +50,6 @@ interface State {
   handleSave: (currentFolderId: string) => Promise<void>;
   handlePasteSelectedBookmarks: () => void;
 }
-
-// Helper to check if URL already exists for a different bookmark
 
 const useBookmarkStore = create<State>()((set, get) => ({
   contextBookmarks: [],
@@ -224,8 +223,7 @@ const useBookmarkStore = create<State>()((set, get) => ({
     );
 
     // Remove from urlList using bookmark ID directly as key
-    const newUrlList = { ...urlList };
-    delete newUrlList[bookmarkId];
+    const newUrlList = filterRecord(urlList, (id) => id !== bookmarkId);
 
     set({
       contextBookmarks: newContextBookmarks,
@@ -237,7 +235,6 @@ const useBookmarkStore = create<State>()((set, get) => ({
 
   handleBulkUrlRemove() {
     const { urlList, contextBookmarks, selectedBookmarks } = get();
-    const newUrlList = { ...urlList };
 
     // Get IDs of selected bookmarks to remove
     const idsToRemove = new Set(
@@ -250,9 +247,7 @@ const useBookmarkStore = create<State>()((set, get) => ({
     );
 
     // Remove from urlList using bookmark IDs directly as keys
-    idsToRemove.forEach((id) => {
-      delete newUrlList[id];
-    });
+    const newUrlList = filterRecord(urlList, (id) => !idsToRemove.has(id));
 
     // Filter contextBookmarks by ID
     const filteredBookmarks = contextBookmarks.filter(
@@ -327,23 +322,16 @@ const useBookmarkStore = create<State>()((set, get) => ({
     );
 
     // Remove from all folders list
-    const newFolderList = { ...folderList };
-    delete newFolderList[folderId];
+    const newFolderList = filterRecord(folderList, (id) => id !== folderId);
 
     // Remove all urls inside the folder and update all urls in tagged persons
-    const newUrlList = Object.entries(urlList).reduce<IBookmarksObj['urlList']>(
-      (obj, [hash, data]) => {
-        if (data.parentHash !== folderId) {
-          obj[hash] = data;
-        }
-        return obj;
-      },
-      {}
+    const newUrlList = filterRecord(
+      urlList,
+      (_id, data) => data.parentHash !== folderId
     );
 
     // Remove its data from folders
-    const newFolders = { ...folders };
-    delete newFolders[folderId];
+    const newFolders = filterRecord(folders, (id) => id !== folderId);
 
     set({
       contextBookmarks: newContextBookmarks,

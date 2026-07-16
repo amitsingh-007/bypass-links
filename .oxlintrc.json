@@ -23,13 +23,8 @@
     "typescript/no-unsafe-assignment": "off",
     "typescript/no-unsafe-return": "off",
     "typescript/no-unsafe-argument": "off",
-    "typescript/no-unsafe-call": "off",
-    "typescript/no-dynamic-delete": "off",
-    "typescript/triple-slash-reference": "off",
 
     "typescript/no-floating-promises": "off",
-    "typescript/no-useless-default-assignment": "off",
-    "typescript/unbound-method": "off",
 
     "typescript/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     "typescript/consistent-type-definitions": ["error", "interface"],
