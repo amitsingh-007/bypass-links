@@ -5,7 +5,7 @@ import usePerson from './usePerson';
 const usePersonImage = (uid = '', config?: SWRConfiguration<string>) => {
   const { resolvePersonImageFromUid } = usePerson();
   return useSWR(
-    ['person-image', uid],
+    uid ? ['person-image', uid] : null,
     () => resolvePersonImageFromUid(uid),
     config
   );

@@ -11,27 +11,30 @@ const useTaggedBookmarks = (personUid = '') => {
     useBookmark();
   const { getPersonTaggedUrls } = usePerson();
 
-  return useSWR(['tagged-bookmarks', personUid], async () => {
-    const taggedUrls = await getPersonTaggedUrls(personUid);
-    if (!taggedUrls?.length) {
-      return [];
-    }
+  return useSWR(
+    personUid ? ['tagged-bookmarks', personUid] : null,
+    async () => {
+      const taggedUrls = await getPersonTaggedUrls(personUid);
+      if (!taggedUrls?.length) {
+        return [];
+      }
 
-    const fetchedBookmarks = await Promise.all(
-      taggedUrls.map(async (urlHash) => {
-        const bookmark = await getBookmarkFromHash(urlHash);
-        const parent = await getFolderFromHash(bookmark.parentHash);
-        const decodedBookmark = getDecryptedBookmark(bookmark);
-        return {
-          ...decodedBookmark,
-          parentName: parent.name,
-          parentId: parent.id,
-        } satisfies IBookmarkWithFolder;
-      })
-    );
-    const defaultUrls = await getDefaultOrRootFolderUrls();
-    return getOrderedBookmarksList(fetchedBookmarks, defaultUrls);
-  });
+      const fetchedBookmarks = await Promise.all(
+        taggedUrls.map(async (urlHash) => {
+          const bookmark = await getBookmarkFromHash(urlHash);
+          const parent = await getFolderFromHash(bookmark.parentHash);
+          const decodedBookmark = getDecryptedBookmark(bookmark);
+          return {
+            ...decodedBookmark,
+            parentName: parent.name,
+            parentId: parent.id,
+          } satisfies IBookmarkWithFolder;
+        })
+      );
+      const defaultUrls = await getDefaultOrRootFolderUrls();
+      return getOrderedBookmarksList(fetchedBookmarks, defaultUrls);
+    }
+  );
 };
 
 export default useTaggedBookmarks;
