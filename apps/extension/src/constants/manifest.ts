@@ -10,12 +10,14 @@ export const devManifest: UserManifest = {
   name: 'Bypass Links',
   key: 'fdnekjijeofacghkammknogmiapepano',
   action: {
-    default_icon: 'assets/bypass_link_on_32.png',
+    default_icon: {
+      32: 'assets/bypass_link_on_32.png',
+    },
     default_title: 'Bypass Links',
   },
+  // 128 only; toolbar sizes live in action.default_icon.
   icons: {
-    32: 'assets/bypass_link_on_32.png',
-    48: 'assets/bypass_link_on_48.png',
+    128: 'assets/bypass_link_on_128.png',
   },
   oauth2: {
     client_id:

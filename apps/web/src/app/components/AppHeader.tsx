@@ -33,6 +33,7 @@ function AppHeader() {
               alt="Bypass Links"
               height={24}
               width={24}
+              className="rounded-md"
             />
           </div>
           <div className="flex flex-col items-start leading-tight">

@@ -19,7 +19,7 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 export const viewport: Viewport = {
-  themeColor: '#6468f0',
+  themeColor: '#6d33d2',
 };
 
 export const metadata: Metadata = {
