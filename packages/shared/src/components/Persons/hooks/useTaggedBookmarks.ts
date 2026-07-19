@@ -24,11 +24,10 @@ const useTaggedBookmarks = (personUid = '') => {
           const bookmark = await getBookmarkFromHash(urlHash);
           const parent = await getFolderFromHash(bookmark.parentHash);
           const decodedBookmark = getDecryptedBookmark(bookmark);
-          return {
-            ...decodedBookmark,
+          return Object.assign(decodedBookmark, {
             parentName: parent.name,
             parentId: parent.id,
-          } satisfies IBookmarkWithFolder;
+          }) satisfies IBookmarkWithFolder;
         })
       );
       const defaultUrls = await getDefaultOrRootFolderUrls();

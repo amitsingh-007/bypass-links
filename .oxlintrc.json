@@ -4,7 +4,8 @@
   "jsPlugins": ["oxlint-tailwindcss"],
   "categories": {
     "correctness": "error",
-    "suspicious": "error"
+    "suspicious": "error",
+    "perf": "error"
   },
   "settings": {
     "next": {
@@ -52,7 +53,10 @@
     },
     {
       "files": ["apps/*/tests/**/*.ts"],
-      "rules": { "no-empty-pattern": "off" }
+      "rules": {
+        "no-empty-pattern": "off",
+        "no-await-in-loop": "off"
+      }
     }
   ],
   "ignorePatterns": [

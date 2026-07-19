@@ -12,6 +12,15 @@ export const sleep = async (ms: number) =>
     setTimeout(resolve, ms);
   });
 
+// Transform every value of a record, preserving its keys
+export const mapValues = <K extends string, V>(
+  record: Record<K, V>,
+  transform: (value: V) => V
+): Record<K, V> =>
+  Object.fromEntries(
+    Object.entries(record).map(([key, value]) => [key, transform(value as V)])
+  ) as Record<K, V>;
+
 // Rebuild a keyed record, keeping only entries for which `shouldKeep` returns true
 export const filterRecord = <T>(
   record: Record<string, T>,

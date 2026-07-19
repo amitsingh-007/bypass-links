@@ -41,10 +41,12 @@ function OpenForumLinks() {
       url: currentTab.url,
     });
 
+    /* oxlint-disable no-await-in-loop */
     for (const url of forumPageLinks) {
       await browser.tabs.create({ url, active: false });
       await sleep(1000); // 1sec
     }
+    /* oxlint-enable no-await-in-loop */
   };
 
   return (

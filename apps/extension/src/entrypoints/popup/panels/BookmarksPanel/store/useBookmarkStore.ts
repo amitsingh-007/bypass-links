@@ -193,7 +193,7 @@ const useBookmarkStore = create<State>()((set, get) => ({
     } else {
       // Update existing bookmark in place (find by ID)
       const newContextBookmarks = contextBookmarks.map((bm) =>
-        !bm.isDir && bm.id === updatedBookmark.id ? { ...updatedBookmark } : bm
+        !bm.isDir && bm.id === updatedBookmark.id ? updatedBookmark : bm
       );
       set({ contextBookmarks: newContextBookmarks });
     }
@@ -274,7 +274,7 @@ const useBookmarkStore = create<State>()((set, get) => ({
     // Update current folder context if needed
     const newContextBookmarks = contextBookmarks.map((folder) =>
       folder.isDir && folder.id === folderId
-        ? { ...folder, name: newName }
+        ? Object.assign({}, folder, { name: newName })
         : folder
     );
 
@@ -298,7 +298,9 @@ const useBookmarkStore = create<State>()((set, get) => ({
     // Update current bookmark list - remove default from all folders, then set new default
     const newContextBookmarks = contextBookmarks.map((folder) =>
       folder.isDir
-        ? { ...folder, isDefault: newIsDefault && folder.id === folderId }
+        ? Object.assign({}, folder, {
+            isDefault: newIsDefault && folder.id === folderId,
+          })
         : folder
     );
 
