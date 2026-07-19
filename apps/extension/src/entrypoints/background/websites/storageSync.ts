@@ -1,16 +1,10 @@
-import { type IWebsites } from '@bypass/shared';
+import { mapValues, type IWebsites } from '@bypass/shared';
 
 import { trpcApi } from '@/apis/trpcApi';
 import { websitesItem } from '@/storage/items';
 
-const getDecodedWebsites = (encodedWebsites: IWebsites): IWebsites => {
-  return Object.entries(encodedWebsites).reduce((acc, [key, value]) => {
-    return {
-      ...acc,
-      [key]: decodeURIComponent(atob(value)),
-    };
-  }, {} as IWebsites);
-};
+const getDecodedWebsites = (encodedWebsites: IWebsites): IWebsites =>
+  mapValues(encodedWebsites, (value) => decodeURIComponent(atob(value)));
 
 export const syncWebsitesToStorage = async () => {
   const response = await trpcApi.firebaseData.websitesGet.query();

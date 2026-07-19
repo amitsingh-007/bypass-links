@@ -20,12 +20,12 @@ function OpenForumLinks() {
   );
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const currentTab = useCurrentTab();
-  const [isForumPage, setIsForumPage] = useState(false);
+  const [isOnForumPage, setIsOnForumPage] = useState(false);
 
   useEffect(() => {
     const initIsActive = async () => {
       const isForum = isSignedIn && (await isCurrentPageForum(currentTab?.url));
-      setIsForumPage(isForum);
+      setIsOnForumPage(isForum);
     };
     initIsActive();
   }, [currentTab?.url, isSignedIn]);
@@ -41,16 +41,18 @@ function OpenForumLinks() {
       url: currentTab.url,
     });
 
+    /* oxlint-disable no-await-in-loop */
     for (const url of forumPageLinks) {
       await browser.tabs.create({ url, active: false });
       await sleep(1000); // 1sec
     }
+    /* oxlint-enable no-await-in-loop */
   };
 
   return (
     <ButtonWithFeedback
       openAllLinks={openForumlinks}
-      isForumPage={isForumPage}
+      isForumPage={isOnForumPage}
     />
   );
 }

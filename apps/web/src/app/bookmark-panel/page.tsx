@@ -21,6 +21,7 @@ import { getFromLocalStorage, setToLocalStorage } from '@app/utils/storage';
 
 import VirtualRow from './components/VirtualRow';
 
+// oxlint-disable-next-line react/react-compiler
 export default function BookmarksPage() {
   const searchParams = useSearchParams();
   const scrollAreaRef = useRef<HTMLDivElement>(null);

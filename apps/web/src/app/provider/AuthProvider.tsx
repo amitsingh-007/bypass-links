@@ -38,7 +38,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   useEffect(() => {
     if (isRestrictedPath) {
-      return;
+      return undefined;
     }
 
     const unsubscribe = onAuthStateChange((_user) => {

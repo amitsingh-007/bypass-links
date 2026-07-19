@@ -28,7 +28,6 @@ export const test = base.extend<
   }
 >({
   extensionPath: [
-    // eslint-disable-next-line no-empty-pattern
     async ({}, use) => {
       const pathToExtension = getExtensionPath();
       await use(pathToExtension);
@@ -37,7 +36,6 @@ export const test = base.extend<
   ],
 
   sharedContext: [
-    // eslint-disable-next-line no-empty-pattern
     async ({}, use, testInfo) => {
       const { browserContext, userDataDir } = await createSharedContext({
         headless: testInfo.project.use?.headless ?? true,

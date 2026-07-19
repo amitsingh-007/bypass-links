@@ -12,6 +12,7 @@ import { HugeiconsIcon } from '@hugeicons/react';
 import { useOs } from '@mantine/hooks';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { z } from 'zod/mini';
 
 import { TEST_CREDENTIALS_KEY } from '@app/constants';
 import {
@@ -23,6 +24,11 @@ import {
 import { useUser } from '@app/provider/AuthProvider';
 
 import useWebPreload from './hooks/useWebPreload';
+
+const testCredentialsSchema = z.object({
+  email: z.string(),
+  password: z.string(),
+});
 
 export default function Web() {
   const router = useRouter();
@@ -70,7 +76,9 @@ export default function Web() {
     try {
       const testCredentialsJson = localStorage.getItem(TEST_CREDENTIALS_KEY);
       if (testCredentialsJson) {
-        const testCredentials = JSON.parse(testCredentialsJson);
+        const testCredentials = testCredentialsSchema.parse(
+          JSON.parse(testCredentialsJson)
+        );
         await emailAndPasswordSignIn(
           testCredentials.email,
           testCredentials.password

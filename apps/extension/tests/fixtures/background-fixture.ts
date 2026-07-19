@@ -121,7 +121,6 @@ export const test = base.extend<{
   isolatedBackground: BaseBackgroundEnv;
   sharedBackground: BaseBackgroundEnv;
 }>({
-  // eslint-disable-next-line no-empty-pattern
   async isolatedBackground({}, use, testInfo) {
     const extensionPath = getExtensionPath();
     const headless = testInfo.project.use?.headless ?? true;
@@ -152,7 +151,6 @@ export const test = base.extend<{
     }
   },
 
-  // eslint-disable-next-line no-empty-pattern
   async sharedBackground({}, use, testInfo) {
     const { browserContext, userDataDir } = await createSharedContext({
       headless: testInfo.project.use?.headless ?? true,

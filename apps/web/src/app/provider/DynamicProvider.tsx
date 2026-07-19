@@ -16,7 +16,7 @@ function DynamicProvider({ children }: PropsWithChildren) {
         goBack: () => router.back(),
       },
       storage: {
-        get: async (key: string) => getFromLocalStorage(key) as any,
+        get: async <T,>(key: string) => getFromLocalStorage<T>(key),
         set: async (key: string, value: any) => setToLocalStorage(key, value),
       },
     }),

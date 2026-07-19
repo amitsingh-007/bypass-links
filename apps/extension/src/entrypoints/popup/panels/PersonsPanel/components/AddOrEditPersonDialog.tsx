@@ -1,4 +1,4 @@
-import { noOp, type IPerson, usePerson } from '@bypass/shared';
+import { noOp, type IPerson, usePersonImage } from '@bypass/shared';
 import {
   Avatar,
   AvatarFallback,
@@ -19,7 +19,7 @@ import { HugeiconsIcon } from '@hugeicons/react';
 import { useDisclosure } from '@mantine/hooks';
 import { useForm } from '@tanstack/react-form';
 import { useSelector } from '@tanstack/react-store';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { z } from 'zod/mini';
 
 import { trpcApi } from '@/apis/trpcApi';
@@ -46,16 +46,14 @@ function AddOrEditPersonDialog({
   onClose,
   handleSaveClick,
 }: Props) {
-  const { resolvePersonImageFromUid } = usePerson();
-  const initialUid = useRef(crypto.randomUUID());
-  const [imageUrl, setImageUrl] = useState('');
+  const [initialUid] = useState(() => crypto.randomUUID());
   const [isAvatarImageLoading, setIsAvatarImageLoading] = useState(false);
   const [showImagePicker, imagePickerHandlers] = useDisclosure(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm({
     defaultValues: {
-      uid: person?.uid ?? initialUid.current,
+      uid: person?.uid ?? initialUid,
       name: person?.name ?? '',
     },
     validators: {
@@ -76,43 +74,30 @@ function AddOrEditPersonDialog({
     },
   });
 
-  const initImageUrl = useCallback(
-    async (uid: string) => {
-      const image = await resolvePersonImageFromUid(uid);
-      setIsAvatarImageLoading(Boolean(image));
-      setImageUrl(image);
-    },
-    [resolvePersonImageFromUid]
-  );
+  const uid = useSelector(form.store, (state) => state.values.uid);
+  // Revalidation off so an optimistic upload isn't refetched back to the pre-save value
+  const { data: imageUrl = '', mutate: mutateImage } = usePersonImage(uid, {
+    revalidateOnFocus: false,
+    revalidateIfStale: false,
+    onSuccess: (image) => setIsAvatarImageLoading(Boolean(image)),
+  });
 
+  // Reset the form when the dialog opens for a different person
   useEffect(() => {
     if (!isOpen) {
       return;
     }
-
-    if (person) {
-      initImageUrl(person.uid);
-      form.reset({
-        uid: person.uid,
-        name: person.name,
-      });
-    } else {
-      setIsAvatarImageLoading(false);
-      setImageUrl('');
-      form.reset({
-        uid: crypto.randomUUID(),
-        name: '',
-      });
-    }
-  }, [form, initImageUrl, isOpen, person]);
+    const defaultValues = person
+      ? { uid: person.uid, name: person.name }
+      : { uid: crypto.randomUUID(), name: '' };
+    form.reset(defaultValues);
+  }, [form, isOpen, person]);
 
   const handleImageCropSave = async (fileName: string) => {
     setIsAvatarImageLoading(true);
     const url = await trpcApi.storage.getDownloadUrl.query(fileName);
-    setImageUrl(url);
+    mutateImage(url, { revalidate: false });
   };
-
-  const uid = useSelector(form.store, (state) => state.values.uid);
 
   return (
     <>

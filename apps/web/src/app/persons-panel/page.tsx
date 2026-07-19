@@ -35,14 +35,15 @@ function PersonsPage() {
   const { getDefaultOrRootFolderUrls } = useBookmark();
 
   useEffect(() => {
-    const _persons = getFromLocalStorage<IPersons>(STORAGE_KEYS.persons);
-    if (!_persons) {
+    const storedPersons = getFromLocalStorage<IPersons>(STORAGE_KEYS.persons);
+    if (!storedPersons) {
       return;
     }
-    const decryptedPersons = Object.values(_persons || {}).map((x) =>
+    const decryptedPersons = Object.values(storedPersons || {}).map((x) =>
       getDecryptedPerson(x)
     );
     const alphabeticallySorted = sortAlphabetically(decryptedPersons);
+    // oxlint-disable-next-line react/react-compiler
     setPersons(alphabeticallySorted);
   }, []);
 

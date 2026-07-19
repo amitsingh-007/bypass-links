@@ -81,7 +81,9 @@ test.describe('Signed In', () => {
 
     // Click and verify navigation to EDIT mode
     await quickBookmarkButtonEdit.click();
-    await homePage.waitForURL((url) => url.href.includes('/bookmark-panel/'));
+    await homePage.waitForURL((navUrl) =>
+      navUrl.href.includes('/bookmark-panel/')
+    );
 
     // Verify URL params for EDIT mode
     const editUrl = homePage.url();

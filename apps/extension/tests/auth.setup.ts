@@ -48,7 +48,6 @@ const signInWithEmailAndPassword = async (): Promise<IAuthResponse> => {
     }));
 };
 
-// eslint-disable-next-line no-empty-pattern
 setup('authenticate and cache extension storage', async ({}, testInfo) => {
   const authData = await signInWithEmailAndPassword();
 
@@ -115,7 +114,7 @@ setup('authenticate and cache extension storage', async ({}, testInfo) => {
     return data;
   });
 
-  delete localStorageData.__outdatedCheck;
+  delete localStorageData.OUTDATED_EXT_CHECK;
 
   await fs.promises.writeFile(
     EXTENSION_STORAGE_PATH,

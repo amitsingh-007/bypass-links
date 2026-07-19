@@ -27,6 +27,14 @@ import { updatePersonCacheAndImageUrls } from '../utils/sync';
 import PersonHeader from './PersonHeader';
 import PersonVirtualCell from './PersonVirtualCell';
 
+const handleSave = async (persons: IPerson[]) => {
+  const encryptedPersons = persons.reduce<IPersons>((obj, person) => {
+    obj[person.uid] = getEncryptedPerson(person);
+    return obj;
+  }, {});
+  await setPersonsInStorage(encryptedPersons);
+};
+
 function PersonsPanel() {
   const startHistoryMonitor = useHistoryStore(
     (state) => state.startHistoryMonitor
@@ -61,14 +69,6 @@ function PersonsPanel() {
     };
     filterAndOrder().then((p) => setFilteredAndOrderedPersons(p));
   }, [getDefaultOrRootFolderUrls, orderByRecency, persons, searchText]);
-
-  const handleSave = async (_persons: IPerson[]) => {
-    const encryptedPersons = _persons.reduce<IPersons>((obj, person) => {
-      obj[person.uid] = getEncryptedPerson(person);
-      return obj;
-    }, {});
-    await setPersonsInStorage(encryptedPersons);
-  };
 
   const handleAddOrEditPerson = async (person: IPerson) => {
     setIsFetching(true);

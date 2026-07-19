@@ -4,7 +4,7 @@ const usePlatform = () => {
   const isDesktop = useMediaQuery('(min-width: 768px)');
   const isMobile = !isDesktop;
 
-  return Boolean(isMobile);
+  return isMobile;
 };
 
 export default usePlatform;

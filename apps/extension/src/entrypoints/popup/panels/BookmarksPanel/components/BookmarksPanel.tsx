@@ -22,6 +22,7 @@ import BookmarkContextMenu from './BookmarkContextMenu';
 import BookmarksHeader from './BookmarksHeader';
 import VirtualRow from './VirtualRow';
 
+// oxlint-disable-next-line react/react-compiler
 function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
   const startHistoryMonitor = useHistoryStore(
     (state) => state.startHistoryMonitor

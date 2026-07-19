@@ -19,7 +19,7 @@ const defaultState = {
 
 const useBookmarkRouteStore = create<State>()((set) => ({
   bookmarkOperation: defaultState,
-  setBookmarkOperation: (operation = EBookmarkOperation.NONE, url = '') =>
+  setBookmarkOperation: (operation, url) =>
     set(() => ({ bookmarkOperation: { operation, url } })),
   resetBookmarkOperation: () =>
     set(() => ({ bookmarkOperation: defaultState })),

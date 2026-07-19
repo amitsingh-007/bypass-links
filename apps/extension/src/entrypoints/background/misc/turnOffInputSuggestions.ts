@@ -1,4 +1,5 @@
 const turnOffAutocomplete = () => {
+  // oxlint-disable-next-line unicorn/consistent-function-scoping
   const apply = () =>
     document
       .querySelectorAll('input')

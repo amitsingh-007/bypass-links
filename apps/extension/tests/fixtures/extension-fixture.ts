@@ -15,7 +15,6 @@ export const test = base.extend<{
   context: BrowserContext;
   backgroundSW: Worker;
 }>({
-  // eslint-disable-next-line no-empty-pattern
   async context({}, use, testInfo) {
     const pathToExtension = getExtensionPath();
     const headless = testInfo.project.use?.headless ?? true;

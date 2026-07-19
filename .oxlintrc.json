@@ -3,7 +3,9 @@
   "plugins": ["typescript", "unicorn", "oxc", "react", "import", "promise"],
   "jsPlugins": ["oxlint-tailwindcss"],
   "categories": {
-    "correctness": "error"
+    "correctness": "error",
+    "suspicious": "error",
+    "perf": "error"
   },
   "settings": {
     "next": {
@@ -15,51 +17,26 @@
   },
   "options": {
     "typeAware": true,
-    "reportUnusedDisableDirectives": "warn"
+    "reportUnusedDisableDirectives": "error"
   },
   "rules": {
     "react/react-in-jsx-scope": "off",
-
-    "typescript/no-unsafe-assignment": "off",
-    "typescript/no-unsafe-return": "off",
-    "typescript/no-unsafe-argument": "off",
-    "typescript/no-unsafe-call": "off",
-    "typescript/no-dynamic-delete": "off",
-    "typescript/triple-slash-reference": "off",
-
     "typescript/no-floating-promises": "off",
-    "typescript/no-useless-default-assignment": "off",
-    "typescript/unbound-method": "off",
-
-    "typescript/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
-    "typescript/consistent-type-definitions": ["error", "interface"],
-    "typescript/no-confusing-void-expression": [
-      "error",
-      { "ignoreArrowShorthand": true }
-    ],
-    "typescript/no-base-to-string": [
-      "error",
-      { "ignoredTypeNames": ["TRPCError", "URL", "URLSearchParams"] }
-    ],
-    "typescript/restrict-template-expressions": [
-      "error",
-      { "allow": ["TRPCError", "Date"] }
-    ],
-    "typescript/switch-exhaustiveness-check": [
+    // TODO: Fix below all rules later
+    "typescript/no-unsafe-type-assertion": "off",
+    "import/no-unassigned-import": [
       "error",
       {
-        "considerDefaultExhaustiveForUnions": true,
-        "requireDefaultForNonUnion": true
+        "allow": [
+          "**/*.css",
+          "server-only",
+          "**/*.d.ts",
+          "@total-typescript/ts-reset/**"
+        ]
       }
     ],
-
-    "tailwindcss/no-unknown-classes": [
-      "error",
-      { "allowlist": ["max-w-panel"] }
-    ],
-    "tailwindcss/no-conflicting-classes": "error",
-    "tailwindcss/no-duplicate-classes": "error",
-    "tailwindcss/no-deprecated-classes": "error"
+    "promise/always-return": ["error", { "ignoreLastCallback": true }],
+    "no-underscore-dangle": ["error", { "allow": ["_default"] }]
   },
   "overrides": [
     {
@@ -69,10 +46,16 @@
     {
       "files": [
         "apps/extension/**/*.{ts,tsx}",
+        "apps/web/**/*.{ts,tsx}",
         "packages/shared/**/*.{ts,tsx}"
       ],
+      "rules": { "react/react-compiler": "error" }
+    },
+    {
+      "files": ["apps/*/tests/**/*.ts"],
       "rules": {
-        "react/react-compiler": "warn"
+        "no-empty-pattern": "off",
+        "no-await-in-loop": "off"
       }
     }
   ],
