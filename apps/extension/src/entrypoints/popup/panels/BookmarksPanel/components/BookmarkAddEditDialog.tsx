@@ -156,7 +156,12 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
         (x) => !x.isDir && x.url === currentBmUrl
       );
       if (pos !== -1) {
-        const bookmark = contextBookmarks[pos] as ITransformedBookmark;
+        const bookmark = contextBookmarks[pos];
+        if (bookmark.isDir) {
+          throw new Error(
+            `Expected a bookmark at index ${pos}, found a folder`
+          );
+        }
         form.setFieldValue('id', bookmark.id);
         form.setFieldValue('pos', pos);
         form.setFieldValue('url', bookmark.url);

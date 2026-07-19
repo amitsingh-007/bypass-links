@@ -8,12 +8,12 @@ import { getForumPageLinks } from '../misc/forumPageLinks';
 
 export const receiveRuntimeMessage = (
   message: RuntimeInput,
-  sendMessage: <T extends RuntimeKeys>(data: RuntimeOutput[T]) => void
+  sendMessage: (data: RuntimeOutput[RuntimeKeys]) => void
 ) => {
   switch (message.key) {
     case 'openWebsiteLinks': {
       getForumPageLinks(message.tabId, message.url).then((forumPageLinks) => {
-        sendMessage<'openWebsiteLinks'>({ forumPageLinks });
+        sendMessage({ forumPageLinks });
       });
       break;
     }

@@ -42,10 +42,8 @@ export const sortByRecency = <T extends IPerson>(
   });
 };
 
-export const sortAlphabetically = <T extends IPerson>(persons: T[]) => {
-  const sortedPersons = persons.sort((a, b) => a.name.localeCompare(b.name));
-  return [...sortedPersons];
-};
+export const sortAlphabetically = <T extends IPerson>(persons: T[]) =>
+  persons.toSorted((a, b) => a.name.localeCompare(b.name));
 
 export const getFilteredPersons = (persons: IPerson[], searchText: string) =>
   persons.filter(({ name }) => !searchText || hasText(searchText, name));

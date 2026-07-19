@@ -8,7 +8,7 @@ import {
   isCachePresent,
   usePerson,
 } from '@bypass/shared';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 
 import { useUser } from '@app/provider/AuthProvider';
 import { api } from '@app/utils/api';
@@ -40,7 +40,7 @@ const usePreloadPerson = () => {
   const { getAllDecodedPersons } = usePerson();
   const [isLoading, setIsLoading] = useState(false);
 
-  const cachePersonAndImages = useCallback(async () => {
+  const cachePersonAndImages = async () => {
     if (!user) {
       return;
     }
@@ -68,9 +68,9 @@ const usePreloadPerson = () => {
     );
     setToLocalStorage(STORAGE_KEYS.personImageUrls, personImageUrls);
     await cachePersonImages(personImageUrls);
-  }, [getAllDecodedPersons, user]);
+  };
 
-  const preloadData = useCallback(async () => {
+  const preloadData = async () => {
     if (!user) {
       return;
     }
@@ -81,7 +81,7 @@ const usePreloadPerson = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [cachePersonAndImages, user]);
+  };
 
   const clearData = async () => {
     setIsLoading(true);

@@ -13,8 +13,8 @@ const endHistoryWatch = async () => {
     return;
   }
   const historyEndTime = Date.now();
-  console.log(`Start DateTime is: ${new Date(historyStartTime)}`);
-  console.log(`End DateTime is: ${new Date(historyEndTime)}`);
+  console.log(`Start DateTime is: ${new Date(historyStartTime).toString()}`);
+  console.log(`End DateTime is: ${new Date(historyEndTime).toString()}`);
   await browser.history.deleteRange({
     startTime: historyStartTime,
     endTime: historyEndTime,

@@ -14,6 +14,37 @@ import { redirect } from './redirections';
 import { isValidTabUrl, isValidUrl, setExtensionIcon } from './utils';
 import { receiveRuntimeMessage } from './utils/receiveRuntimeMessage';
 
+const onPageLoad = async (tabId: number, url: string) => {
+  if (!isValidUrl(url)) {
+    return;
+  }
+  const extState = await extStateItem.getValue();
+  if (!getIsExtensionActive(extState)) {
+    return;
+  }
+
+  // Below if() checks avoid the scenario where url changes after the page is loaded
+  if (await isValidTabUrl(tabId)) {
+    redirect(tabId, new URL(url));
+  }
+  if (await isValidTabUrl(tabId)) {
+    turnOffInputSuggestions(tabId);
+  }
+};
+
+const updateIcon = async () => {
+  const [extState, hasPendingBookmarks, hasPendingPersons] = await Promise.all([
+    extStateItem.getValue(),
+    hasPendingBookmarksItem.getValue(),
+    hasPendingPersonsItem.getValue(),
+  ]);
+  await setExtensionIcon({
+    extState,
+    hasPendingBookmarks,
+    hasPendingPersons,
+  });
+};
+
 export default defineBackground({
   type: 'module',
   main() {
@@ -22,37 +53,7 @@ export default defineBackground({
       extStateItem.setValue(EExtensionState.ACTIVE);
     });
 
-    browser.runtime.onStartup.addListener(async () => {
-      const [extState, hasPendingBookmarks, hasPendingPersons] =
-        await Promise.all([
-          extStateItem.getValue(),
-          hasPendingBookmarksItem.getValue(),
-          hasPendingPersonsItem.getValue(),
-        ]);
-      await setExtensionIcon({
-        extState,
-        hasPendingBookmarks,
-        hasPendingPersons,
-      });
-    });
-
-    const onPageLoad = async (tabId: number, url: string) => {
-      if (!isValidUrl(url)) {
-        return;
-      }
-      const extState = await extStateItem.getValue();
-      if (!getIsExtensionActive(extState)) {
-        return;
-      }
-
-      // Below if() checks avoid the scenario where url changes after the page is loaded
-      if (await isValidTabUrl(tabId)) {
-        redirect(tabId, new URL(url));
-      }
-      if (await isValidTabUrl(tabId)) {
-        turnOffInputSuggestions(tabId);
-      }
-    };
+    browser.runtime.onStartup.addListener(updateIcon);
 
     // Listen tab url change
     browser.tabs.onUpdated.addListener(async (tabId, changeInfo) =>
@@ -79,20 +80,6 @@ export default defineBackground({
       receiveRuntimeMessage(message as RuntimeInput, sendResponse);
       return true;
     });
-
-    const updateIcon = async () => {
-      const [extState, hasPendingBookmarks, hasPendingPersons] =
-        await Promise.all([
-          extStateItem.getValue(),
-          hasPendingBookmarksItem.getValue(),
-          hasPendingPersonsItem.getValue(),
-        ]);
-      await setExtensionIcon({
-        extState,
-        hasPendingBookmarks,
-        hasPendingPersons,
-      });
-    };
 
     browser.storage.onChanged.addListener((changes, areaName) => {
       if (areaName !== 'local') {

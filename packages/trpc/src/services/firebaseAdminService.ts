@@ -17,7 +17,7 @@ import { getFullDbPath, getFilePath, getBucketPath } from '../utils/firebase';
 interface Firebase {
   ref: EFirebaseDBRef | EFirebaseDBRootKeys;
   uid?: string;
-  data: any;
+  data: object;
 }
 
 const firebasePublicConfig = getFirebasePublicConfig(
@@ -90,7 +90,7 @@ export const saveToFirebase = async ({ ref, uid, data }: Firebase) => {
  */
 export const upsertToFirebase = async ({ ref, uid, data }: Firebase) => {
   try {
-    await database.ref(getFullDbPath(ref, uid)).update(data as object);
+    await database.ref(getFullDbPath(ref, uid)).update(data);
     return true;
   } catch (error) {
     console.error(`Error while upserting data to Firebase DB: ${ref}`, error);

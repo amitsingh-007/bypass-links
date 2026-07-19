@@ -72,7 +72,7 @@ const useFirebaseStore = create<State>()(
           return null;
         }
 
-        const expiresAt = Number(idpAuth.expiresAtMs);
+        const expiresAt = idpAuth.expiresAtMs;
         const curTimeMs = Date.now();
         // Return existing id_token if not expired and not expiring in next 5 mins
         if (expiresAt - curTimeMs > FIVE_MINS_MS) {

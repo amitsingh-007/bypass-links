@@ -12,9 +12,7 @@ const useOutdatedExtensionStore = create<State>()(
       lastChecked: undefined,
       setLastChecked: (val: number) => set(() => ({ lastChecked: val })),
     }),
-    {
-      name: '__outdatedCheck',
-    }
+    { name: 'OUTDATED_EXT_CHECK' }
   )
 );
 
