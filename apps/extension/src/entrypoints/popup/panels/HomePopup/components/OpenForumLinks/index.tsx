@@ -23,17 +23,11 @@ function OpenForumLinks() {
   const [isOnForumPage, setIsOnForumPage] = useState(false);
 
   useEffect(() => {
-    let ignore = false;
     const initIsActive = async () => {
       const isForum = isSignedIn && (await isCurrentPageForum(currentTab?.url));
-      if (!ignore) {
-        setIsOnForumPage(isForum);
-      }
+      setIsOnForumPage(isForum);
     };
     initIsActive();
-    return () => {
-      ignore = true;
-    };
   }, [currentTab?.url, isSignedIn]);
 
   const openForumlinks = async () => {

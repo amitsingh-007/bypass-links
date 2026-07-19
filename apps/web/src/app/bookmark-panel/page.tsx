@@ -21,7 +21,6 @@ import { getFromLocalStorage, setToLocalStorage } from '@app/utils/storage';
 
 import VirtualRow from './components/VirtualRow';
 
-// React Compiler bails on useVirtualizer (returns non-memoizable functions).
 // oxlint-disable-next-line react/react-compiler
 export default function BookmarksPage() {
   const searchParams = useSearchParams();
