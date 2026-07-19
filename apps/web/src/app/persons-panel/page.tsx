@@ -43,6 +43,7 @@ function PersonsPage() {
       getDecryptedPerson(x)
     );
     const alphabeticallySorted = sortAlphabetically(decryptedPersons);
+    // Client-only localStorage load; empty first render keeps SSR hydration in sync.
     // oxlint-disable-next-line react/react-compiler
     setPersons(alphabeticallySorted);
   }, []);
