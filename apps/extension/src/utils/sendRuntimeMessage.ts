@@ -12,8 +12,6 @@ export interface RuntimeOutput {
 
 export type RuntimeKeys = RuntimeInput['key'];
 
-export const sendRuntimeMessage = async <T extends RuntimeKeys>(
-  input: { key: T } & RuntimeInput
-) => {
-  return browser.runtime.sendMessage<any, RuntimeOutput[T]>(input);
+export const sendRuntimeMessage = async (input: RuntimeInput) => {
+  return browser.runtime.sendMessage<any, RuntimeOutput[RuntimeKeys]>(input);
 };
