@@ -1,6 +1,6 @@
 {
   "name": "@bypass/extension",
-  "version": "25.0.1",
+  "version": "25.0.2",
   "private": true,
   "description": "Bypass links from various sites to required links, with added functionality of Bookmarks Manager, Tagging Panel.",
   "type": "module",
