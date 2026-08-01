@@ -178,8 +178,8 @@ catalogs:
       specifier: 7.0.2
       version: 7.0.2
     vercel:
-      specifier: 54.20.1
-      version: 54.20.1
+      specifier: 54.21.1
+      version: 54.21.1
     vite:
       specifier: 8.1.3
       version: 8.1.3
@@ -238,7 +238,7 @@ importers:
         version: 7.0.2
       vercel:
         specifier: 'catalog:'
-        version: 54.20.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(rollup@4.60.3)
+        version: 54.21.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(rollup@4.60.3)
 
   apps/extension:
     dependencies:
@@ -2045,12 +2045,6 @@ packages:
     resolution: {integrity: sha512-d0d4Oyxm+v980PEq1ZH2PmS6cvpMIRc17eYpiU47KgW+lzxklMu6+HOEOPmxrpnF/XQZ0+Q78I2mgMhbIIo/dg==}
     engines: {node: '>= 10'}
 
-  '@napi-rs/wasm-runtime@1.1.4':
-    resolution: {integrity: sha512-3NQNNgA1YSlJb/kMH1ildASP9HW7/7kYnRI2szWJaofaS1hWmbGI4H+d3+22aGzXXN9IJ+n+GiFVcGipJP18ow==}
-    peerDependencies:
-      '@emnapi/core': ^1.7.1
-      '@emnapi/runtime': ^1.7.1
-
   '@napi-rs/wasm-runtime@1.1.6':
     resolution: {integrity: sha512-ZLv/JdUfkvOy9eCnnBaGfiO+XimbjebAeO+MRQqD/B+FR1tnRN0tpKSJHRbE8sFfS6aqsXZ67TQjfwfsxULVbg==}
     peerDependencies:
@@ -3691,8 +3685,8 @@ packages:
   '@vercel/nestjs@0.2.102':
     resolution: {integrity: sha512-CMDoq4dFBI1rLmAuya7UPXfcg7h0y1xdNVCeFhzlZOfp7EF1+PFkn3dVF8tIX46yiUFCz94weiLHSAoh+mRD4g==}
 
-  '@vercel/next@4.20.2':
-    resolution: {integrity: sha512-mroXgsjkmI6i5m1dMRmFNHO8wExhhgOzFRHT0pg195uOVyuNU2JxBCtU47FowbcnLbrAmIfStWkPSHLwPRh6FA==}
+  '@vercel/next@4.20.3':
+    resolution: {integrity: sha512-8EaLV6GaVY7DvKlxFeGGy3I39C3CoB11WbH3q7Dr73eX0WBMOu8UqOVYIclVH79EJNp7Wc0qfdbNmK8+LrSgGA==}
 
   '@vercel/nft@1.10.0':
     resolution: {integrity: sha512-iLOW4fcsgkipfOh2Bw3wB38YDfxTlxr7+j4uFeui2OswkNT28jIitS/aMce7tS0mef1YPQ8zLIDYr3a0aahNrA==}
@@ -3712,8 +3706,8 @@ packages:
   '@vercel/python-analysis@0.11.1':
     resolution: {integrity: sha512-EPPLuXJQhIDUx08H9nG76AR2HSgBquwe3OAX5s2w20M923iaWeGGVkhX/4yZ89CJfXEZgE1Aj/mX7lVHOVIcYA==}
 
-  '@vercel/python@6.47.3':
-    resolution: {integrity: sha512-h8j5Fln+GYPkWCIXZdhUq1ibFQofjeiV6LMgeY31NEFn/lolz/UxDwqSZswM9H1aP/5lH54VCe/iFE4dMlSWiQ==}
+  '@vercel/python@6.48.0':
+    resolution: {integrity: sha512-delMxwzNTbzYLM/VcIKYZGr501AEAYD8bPdOtMKJtzBv8pkr5hCeN6NKdHPFaIbmmCunUmouFuFxfRtpDWLl4Q==}
 
   '@vercel/redwood@2.5.0':
     resolution: {integrity: sha512-LO24CbieV57rGAqrq5n5z/B+fMYeUqbE/Ge3qMeKRuS3Q9awgcBgB6WYLCe8crHM7XJd5AZjbuyoS/6k3r0X0w==}
@@ -3727,8 +3721,8 @@ packages:
   '@vercel/rust@1.4.0':
     resolution: {integrity: sha512-/zRJtaf3pvdxZ7+tShmIo8StdbkCSBDcY7Gy7LOwNTIxm6GU9vkS+BlCwJHkOu6qNkbcSRH6ZQIeo4vNmqzKdQ==}
 
-  '@vercel/sandbox@2.1.1':
-    resolution: {integrity: sha512-gKhW+YlvU15Qxya7jQKByB+sqA1dWat5zx/rvxT52E3Ryg9MAIXgqD5wd1d+CoJDbdHL26gIOcksTZY5sFpplA==}
+  '@vercel/sandbox@2.4.0':
+    resolution: {integrity: sha512-pifnr8hex/rgQ3EPyLYHYwHyf0Kwmc4Vbya9kHGk4aERFVGj44P+742S8/SDdt2guMxBriXBOMkMLq1Kaiyyeg==}
 
   '@vercel/speed-insights@2.0.0':
     resolution: {integrity: sha512-jwkNcrTeafWxjmWq4AHBaptSqZiJkYU5adLC9QBSqeim0GcqDMgN5Ievh8OG1rJ6W3A4l1oiP7qr9CWxGuzu3w==}
@@ -6541,8 +6535,8 @@ packages:
   safer-buffer@2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
 
-  sandbox@3.1.2:
-    resolution: {integrity: sha512-g93rma0Z9Aa6EoTktzYnGZmQvMzm7j73BekJIMwmkdWR5uryZ+6hBCADtd3JKGAB27k+ubnG7HHsZqtscAMzIQ==}
+  sandbox@3.4.0:
+    resolution: {integrity: sha512-JPdADikobt6zFuuCRhl6whNrCJlLPxpUmT/hNxLij70mkpeejHKDN+HeVlrdHI8snDTzRIiF3Ye8KyMIyVWA+A==}
     hasBin: true
 
   sax@1.6.0:
@@ -7197,8 +7191,8 @@ packages:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
     engines: {node: '>= 0.8'}
 
-  vercel@54.20.1:
-    resolution: {integrity: sha512-Mssq8tAwjTstAi25XkFMG+nCjwCqvVLmRgcGQwSxwpptrLN6KBPDd+hAcaMXZtlxoocqdr3aa+bRqw0P9H2Y3g==}
+  vercel@54.21.1:
+    resolution: {integrity: sha512-GDs3FqEwZJHOyrzUXMjQBg8Fd1qOKOBuzE1exrhKq6hHBaHHuGnfvfHzRpm7j9CC+SjnRr/CY30tUNyU28gN4A==}
     engines: {node: '>= 18'}
     hasBin: true
 
@@ -7466,9 +7460,6 @@ packages:
 
   zod@3.22.4:
     resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
-
-  zod@3.24.4:
-    resolution: {integrity: sha512-OdqJE9UDRPwWsrHjLN2F8bPxvwJBK22EHLWtanu0LSYr5YqzsaaW3RMgmjwr8Rypg5k+meEJdSPXJZXE/yqOMg==}
 
   zod@3.25.76:
     resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
@@ -8915,13 +8906,6 @@ snapshots:
       '@napi-rs/keyring-win32-ia32-msvc': 1.2.0
       '@napi-rs/keyring-win32-x64-msvc': 1.2.0
 
-  '@napi-rs/wasm-runtime@1.1.4(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)':
-    dependencies:
-      '@emnapi/core': 1.11.1
-      '@emnapi/runtime': 1.11.2
-      '@tybys/wasm-util': 0.10.3
-    optional: true
-
   '@napi-rs/wasm-runtime@1.1.6(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)':
     dependencies:
       '@emnapi/core': 1.10.0
@@ -8933,6 +8917,13 @@ snapshots:
     dependencies:
       '@emnapi/core': 1.11.1
       '@emnapi/runtime': 1.11.1
+      '@tybys/wasm-util': 0.10.3
+    optional: true
+
+  '@napi-rs/wasm-runtime@1.1.6(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)':
+    dependencies:
+      '@emnapi/core': 1.11.1
+      '@emnapi/runtime': 1.11.2
       '@tybys/wasm-util': 0.10.3
     optional: true
 
@@ -9172,7 +9163,7 @@ snapshots:
 
   '@oxc-transform/binding-wasm32-wasi@0.111.0(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)':
     dependencies:
-      '@napi-rs/wasm-runtime': 1.1.4(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)
+      '@napi-rs/wasm-runtime': 1.1.6(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)
     transitivePeerDependencies:
       - '@emnapi/core'
       - '@emnapi/runtime'
@@ -9441,7 +9432,7 @@ snapshots:
 
   '@rolldown/binding-wasm32-wasi@1.0.0-rc.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)':
     dependencies:
-      '@napi-rs/wasm-runtime': 1.1.4(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)
+      '@napi-rs/wasm-runtime': 1.1.6(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)
     transitivePeerDependencies:
       - '@emnapi/core'
       - '@emnapi/runtime'
@@ -10102,7 +10093,7 @@ snapshots:
       - rollup
       - supports-color
 
-  '@vercel/next@4.20.2(rollup@4.60.3)':
+  '@vercel/next@4.20.3(rollup@4.60.3)':
     dependencies:
       '@vercel/nft': 1.10.0(rollup@4.60.3)
     transitivePeerDependencies:
@@ -10172,7 +10163,7 @@ snapshots:
       smol-toml: 1.5.2
       zod: 3.22.4
 
-  '@vercel/python@6.47.3':
+  '@vercel/python@6.48.0':
     dependencies:
       '@vercel/python-analysis': 0.11.1
 
@@ -10208,7 +10199,7 @@ snapshots:
       get-port: 5.1.1
       smol-toml: 1.5.2
 
-  '@vercel/sandbox@2.1.1':
+  '@vercel/sandbox@2.4.0':
     dependencies:
       '@vercel/oidc': 3.2.0
       '@workflow/serde': 4.1.0-beta.2
@@ -10220,7 +10211,7 @@ snapshots:
       tar-stream: 3.1.7
       undici: 7.28.0
       xdg-app-paths: 5.1.0
-      zod: 3.24.4
+      zod: 4.4.3
     transitivePeerDependencies:
       - bare-abort-controller
       - react-native-b4a
@@ -13408,16 +13399,19 @@ snapshots:
 
   safer-buffer@2.1.2: {}
 
-  sandbox@3.1.2:
+  sandbox@3.4.0:
     dependencies:
-      '@vercel/sandbox': 2.1.1
+      '@vercel/sandbox': 2.4.0
       async-retry: 1.3.3
       debug: 4.4.3
+      ws: 8.21.0
       zod: 4.4.3
     transitivePeerDependencies:
       - bare-abort-controller
+      - bufferutil
       - react-native-b4a
       - supports-color
+      - utf-8-validate
 
   sax@1.6.0: {}
 
@@ -14150,7 +14144,7 @@ snapshots:
 
   vary@1.1.2: {}
 
-  vercel@54.20.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(rollup@4.60.3):
+  vercel@54.21.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(rollup@4.60.3):
     dependencies:
       '@vercel/backends': 0.8.21(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(rollup@4.60.3)
       '@vercel/blob': 2.4.0
@@ -14169,10 +14163,10 @@ snapshots:
       '@vercel/hydrogen': 1.4.0
       '@vercel/koa': 0.1.81(rollup@4.60.3)
       '@vercel/nestjs': 0.2.102(rollup@4.60.3)
-      '@vercel/next': 4.20.2(rollup@4.60.3)
+      '@vercel/next': 4.20.3(rollup@4.60.3)
       '@vercel/node': 5.8.22(rollup@4.60.3)
       '@vercel/prepare-flags-definitions': 0.3.0
-      '@vercel/python': 6.47.3
+      '@vercel/python': 6.48.0
       '@vercel/redwood': 2.5.0(rollup@4.60.3)
       '@vercel/remix-builder': 5.9.1(rollup@4.60.3)
       '@vercel/ruby': 2.5.1
@@ -14183,7 +14177,7 @@ snapshots:
       jose: 5.9.6
       luxon: 3.7.2
       proxy-agent: 6.4.0
-      sandbox: 3.1.2
+      sandbox: 3.4.0
       smol-toml: 1.5.2
       undici: 5.29.0
       zod: 4.1.11
@@ -14191,10 +14185,12 @@ snapshots:
       - '@emnapi/core'
       - '@emnapi/runtime'
       - bare-abort-controller
+      - bufferutil
       - encoding
       - react-native-b4a
       - rollup
       - supports-color
+      - utf-8-validate
 
   vite-node@6.0.0(@types/node@24.13.3)(@vitejs/devtools@0.3.4)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0):
     dependencies:
@@ -14363,8 +14359,7 @@ snapshots:
 
   wretch@3.0.9: {}
 
-  ws@8.21.0:
-    optional: true
+  ws@8.21.0: {}
 
   wsl-utils@0.3.1:
     dependencies:
@@ -14514,8 +14509,6 @@ snapshots:
     optional: true
 
   zod@3.22.4: {}
-
-  zod@3.24.4: {}
 
   zod@3.25.76: {}
 
