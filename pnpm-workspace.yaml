@@ -46,7 +46,7 @@ catalog:
   '@vitejs/plugin-react': 6.0.3
   '@vercel/analytics': 2.0.1
   '@vercel/speed-insights': 2.0.0
-  autoprefixer: 10.5.2
+  autoprefixer: 10.5.4
   babel-plugin-react-compiler: 1.0.0
   class-variance-authority: 0.7.1
   clsx: 2.1.1
