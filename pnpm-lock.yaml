@@ -148,8 +148,8 @@ catalogs:
       specifier: 19.2.6
       version: 19.2.6
     shadcn:
-      specifier: 4.13.0
-      version: 4.13.0
+      specifier: 4.16.0
+      version: 4.16.0
     sharp:
       specifier: 0.35.3
       version: 0.35.3
@@ -368,7 +368,7 @@ importers:
         version: 1.0.0
       shadcn:
         specifier: 'catalog:'
-        version: 4.13.0(typescript@7.0.2)
+        version: 4.16.0(typescript@7.0.2)
       typescript:
         specifier: 'catalog:'
         version: 7.0.2
@@ -627,7 +627,7 @@ importers:
         version: 19.2.3(@types/react@19.2.15)
       shadcn:
         specifier: 'catalog:'
-        version: 4.13.0(typescript@7.0.2)
+        version: 4.16.0(typescript@7.0.2)
 
 packages:
 
@@ -6559,8 +6559,8 @@ packages:
   setprototypeof@1.2.0:
     resolution: {integrity: sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==}
 
-  shadcn@4.13.0:
-    resolution: {integrity: sha512-5fuJ4jI/GcPeA/iTL4cJivCZuYQGXz/N3bIzyd+Gd/FM6xUCy2MxGG+LaDQuw2cjNy9zGPSFPTEmI048UwPTZA==}
+  shadcn@4.16.0:
+    resolution: {integrity: sha512-kPr4RrQmbbZeAjwBYeBSpFvAHV8rkTlNPUluIxkRriq5TpevfFelVO5xvcF6oguHPVn0R6wPuVer4HudfcLy/A==}
     engines: {node: '>=20.18.1'}
     hasBin: true
 
@@ -13399,7 +13399,7 @@ snapshots:
 
   setprototypeof@1.2.0: {}
 
-  shadcn@4.13.0(typescript@7.0.2):
+  shadcn@4.16.0(typescript@7.0.2):
     dependencies:
       '@babel/core': 7.29.0
       '@babel/parser': 7.29.7
