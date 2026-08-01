@@ -19,8 +19,8 @@ catalogs:
       specifier: 1.1.9
       version: 1.1.9
     '@mantine/hooks':
-      specifier: 9.4.1
-      version: 9.4.1
+      specifier: 9.5.0
+      version: 9.5.0
     '@octokit/rest':
       specifier: 22.0.1
       version: 22.0.1
@@ -265,7 +265,7 @@ importers:
         version: 1.1.9(react@19.2.6)
       '@mantine/hooks':
         specifier: 'catalog:'
-        version: 9.4.1(react@19.2.6)
+        version: 9.5.0(react@19.2.6)
       '@t3-oss/env-core':
         specifier: 'catalog:'
         version: 0.13.11(typescript@7.0.2)(valibot@1.4.2(typescript@7.0.2))(zod@4.4.3)
@@ -404,7 +404,7 @@ importers:
         version: 1.1.9(react@19.2.6)
       '@mantine/hooks':
         specifier: 'catalog:'
-        version: 9.4.1(react@19.2.6)
+        version: 9.5.0(react@19.2.6)
       '@t3-oss/env-nextjs':
         specifier: 'catalog:'
         version: 0.13.11(typescript@7.0.2)(valibot@1.4.2(typescript@7.0.2))(zod@4.4.3)
@@ -501,7 +501,7 @@ importers:
         version: 1.1.9(react@19.2.6)
       '@mantine/hooks':
         specifier: 'catalog:'
-        version: 9.4.1(react@19.2.6)
+        version: 9.5.0(react@19.2.6)
       '@tanstack/react-virtual':
         specifier: 'catalog:'
         version: 3.14.5(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
@@ -1944,8 +1944,8 @@ packages:
   '@js-sdsl/ordered-map@4.4.2':
     resolution: {integrity: sha512-iUKgm52T8HOE/makSxjqoWhe95ZJA1/G1sYsGev2JDKUSS14KAgg1LHb+Ba+IPow0xflbnSkOsZcO08C7w1gYw==}
 
-  '@mantine/hooks@9.4.1':
-    resolution: {integrity: sha512-eTI8wmzPx3r98zgKIEuvukmoGTHBhmtI6+9E6o2DbTmEU2eM1bCdjE2vFdf0op2AlRO0KEYEcZhNQi4T/SJk0A==}
+  '@mantine/hooks@9.5.0':
+    resolution: {integrity: sha512-d67+7dQW0ZJFiWXqZgwcPrZK0KxKMzAX+Sv663g40xhISseiUoK0f8k/Ss2amOA09IhFayeeaqprVRc4Fp5yEw==}
     peerDependencies:
       react: ^19.2.0
 
@@ -8768,7 +8768,7 @@ snapshots:
   '@js-sdsl/ordered-map@4.4.2':
     optional: true
 
-  '@mantine/hooks@9.4.1(react@19.2.6)':
+  '@mantine/hooks@9.5.0(react@19.2.6)':
     dependencies:
       react: 19.2.6
 
