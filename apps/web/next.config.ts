@@ -13,13 +13,6 @@ if (!process.env.VERCEL) {
 
 const isDev = process.env.NODE_ENV === 'development';
 
-// TODO: The build runs via `next build --webpack` (see package.json) instead of
-// the Turbopack default. Turbopack emits hash-suffixed external-module
-// references that don't resolve under pnpm's symlinked node_modules on Vercel,
-// so sharp's native binary fails to load in /api/upload-file (ERR_DLOPEN_FAILED)
-// and the endpoint 500s. webpack traces the native module correctly.
-// Tracking: https://github.com/vercel/next.js/issues/87737
-// Once fixed upstream, drop `--webpack` to switch the build back to Turbopack.
 const nextConfig: NextConfig = {
   productionBrowserSourceMaps: true,
   cacheComponents: true,
@@ -34,8 +27,10 @@ const nextConfig: NextConfig = {
   agentRules: false,
   experimental: {
     // TODO: TypeScript 7's native package drops the JS compiler API that Next's
-    // default backend uses; this runs the local `tsc` (via tsc --showConfig)
-    // for type info + tsconfig paths instead. Requires Next >= 16.3.
+    // default backend uses; this runs the local `tsc` (via tsc --showConfig) for
+    // type info + tsconfig paths instead. Next never selects the CLI checker on
+    // its own, so this is required, not optional. Remove once it leaves experimental.
+    // Tracking: https://github.com/vercel/next.js/discussions/95633
     useTypeScriptCli: true,
   },
   // Same-origin proxy for Firebase's auth handler so signInWithRedirect isn't
