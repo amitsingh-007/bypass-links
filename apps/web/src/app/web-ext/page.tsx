@@ -9,7 +9,6 @@ import {
   UserGroupIcon,
 } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { useOs } from '@mantine/hooks';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { z } from 'zod/mini';
@@ -32,15 +31,12 @@ const testCredentialsSchema = z.object({
 
 export default function Web() {
   const router = useRouter();
-  const os = useOs();
   const { isLoggedIn } = useUser();
   const { isLoading, preloadData, clearData } = useWebPreload();
   const [shouldPreloadData, setShouldPreloadData] = useState(false);
   const [isSigningOut, setIsSigningOut] = useState(false);
 
-  const isMobile = os === 'ios' || os === 'android';
-
-  // Complete the mobile redirect sign-in and re-trigger preload after reload.
+  // Complete the redirect sign-in and re-trigger preload after reload.
   useEffect(() => {
     getGoogleRedirectResult()
       .then((result) => {
@@ -84,7 +80,7 @@ export default function Web() {
           testCredentials.password
         );
       } else {
-        await googleSignIn(isMobile);
+        await googleSignIn();
       }
       setShouldPreloadData(true);
     } catch (error) {

@@ -16,7 +16,6 @@
     "@bypass/ui": "workspace:*",
     "@hugeicons/core-free-icons": "catalog:",
     "@hugeicons/react": "catalog:",
-    "@mantine/hooks": "catalog:",
     "@t3-oss/env-nextjs": "catalog:",
     "@tanstack/react-virtual": "catalog:",
     "@trpc/client": "catalog:",
