@@ -53,7 +53,7 @@ catalog:
   dayjs: 1.11.21
   file-type: 22.0.1
   filenamify: 7.0.2
-  firebase: 12.15.0
+  firebase: 12.16.0
   firebase-admin: 14.1.0
   lefthook: 2.1.10
   next: 16.3.0-canary.83
