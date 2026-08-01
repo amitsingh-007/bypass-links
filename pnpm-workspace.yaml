@@ -58,7 +58,7 @@ catalog:
   lefthook: 2.1.9
   next: 16.3.0-canary.83
   next-themes: 0.4.6
-  oxfmt: 0.58.0
+  oxfmt: 0.61.0
   oxlint: 1.73.0
   oxlint-tailwindcss: 1.3.5
   oxlint-tsgolint: 0.24.0
