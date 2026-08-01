@@ -1,3 +1,4 @@
+import { FirebaseError } from 'firebase/app';
 import {
   getAuth,
   getRedirectResult,
@@ -15,13 +16,19 @@ import firebaseApp from '.';
 const auth = getAuth(firebaseApp);
 const provider = new GoogleAuthProvider();
 
-// Popups are silently blocked on iOS Safari, so use redirect on mobile.
-export const googleSignIn = async (isMobile: boolean): Promise<void> => {
-  if (isMobile) {
-    await signInWithRedirect(auth, provider);
-    return;
+// Popup first per Firebase best-practices. Blocked popups (iOS Safari default,
+// desktop blockers) fall back to redirect, which needs no popup permission and
+// works via the same-origin /__/auth proxy on prod.
+export const googleSignIn = async (): Promise<void> => {
+  try {
+    await signInWithPopup(auth, provider);
+  } catch (error) {
+    if (error instanceof FirebaseError && error.code === 'auth/popup-blocked') {
+      await signInWithRedirect(auth, provider);
+      return;
+    }
+    throw error;
   }
-  await signInWithPopup(auth, provider);
 };
 
 export const getGoogleRedirectResult = async () => getRedirectResult(auth);
