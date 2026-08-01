@@ -7,7 +7,7 @@ packages:
 # to the dual CJS/ESM 4.15.9 (API-identical for importJWK/exportSPKI).
 # Remove once auth0/node-jwks-rsa#508 ships. See firebase/firebase-admin-node#3181.
 overrides:
-  jwks-rsa>jose: 4.15.9
+  jwks-rsa>jose: 6.2.4
 
 allowBuilds:
   '@firebase/util': false
