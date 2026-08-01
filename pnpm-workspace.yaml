@@ -40,7 +40,7 @@ catalog:
   '@trpc/server': 11.18.0
   '@types/chrome': 0.2.2
   '@types/node': 24.13.3
-  '@types/react': 19.2.15
+  '@types/react': 19.2.17
   '@types/react-avatar-editor': 13.0.4
   '@types/react-dom': 19.2.3
   '@vitejs/plugin-react': 6.0.4
@@ -64,9 +64,9 @@ catalog:
   oxlint-tsgolint: 0.24.0
   p-limit: 7.3.1
   postcss: 8.5.24
-  react: 19.2.6
+  react: 19.2.8
   react-avatar-editor: 15.1.0
-  react-dom: 19.2.6
+  react-dom: 19.2.8
   shadcn: 4.16.0
   sharp: 0.35.3
   sonner: 2.0.7

@@ -67,8 +67,8 @@ catalogs:
       specifier: 24.13.3
       version: 24.13.3
     '@types/react':
-      specifier: 19.2.15
-      version: 19.2.15
+      specifier: 19.2.17
+      version: 19.2.17
     '@types/react-avatar-editor':
       specifier: 13.0.4
       version: 13.0.4
@@ -139,14 +139,14 @@ catalogs:
       specifier: 8.5.24
       version: 8.5.24
     react:
-      specifier: 19.2.6
-      version: 19.2.6
+      specifier: 19.2.8
+      version: 19.2.8
     react-avatar-editor:
       specifier: 15.1.0
       version: 15.1.0
     react-dom:
-      specifier: 19.2.6
-      version: 19.2.6
+      specifier: 19.2.8
+      version: 19.2.8
     shadcn:
       specifier: 4.16.0
       version: 4.16.0
@@ -244,7 +244,7 @@ importers:
     dependencies:
       '@base-ui/react':
         specifier: 'catalog:'
-        version: 1.6.0(@types/react@19.2.15)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+        version: 1.6.0(@types/react@19.2.17)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@bypass/configs':
         specifier: workspace:*
         version: link:../../packages/configs
@@ -262,22 +262,22 @@ importers:
         version: 4.2.3
       '@hugeicons/react':
         specifier: 'catalog:'
-        version: 1.1.9(react@19.2.6)
+        version: 1.1.9(react@19.2.8)
       '@mantine/hooks':
         specifier: 'catalog:'
-        version: 9.5.0(react@19.2.6)
+        version: 9.5.0(react@19.2.8)
       '@t3-oss/env-core':
         specifier: 'catalog:'
         version: 0.13.11(typescript@7.0.2)(valibot@1.4.2(typescript@7.0.2))(zod@4.4.3)
       '@tanstack/react-form':
         specifier: 'catalog:'
-        version: 1.33.2(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+        version: 1.33.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@tanstack/react-store':
         specifier: 'catalog:'
-        version: 0.11.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+        version: 0.11.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@tanstack/react-virtual':
         specifier: 'catalog:'
-        version: 3.14.9(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+        version: 3.14.9(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@trpc/client':
         specifier: 'catalog:'
         version: 11.18.0(@trpc/server@11.18.0(typescript@7.0.2))(typescript@7.0.2)
@@ -292,25 +292,25 @@ importers:
         version: 2.1.1
       next-themes:
         specifier: 'catalog:'
-        version: 0.4.6(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+        version: 0.4.6(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       p-limit:
         specifier: 'catalog:'
         version: 7.3.1
       react:
         specifier: 'catalog:'
-        version: 19.2.6
+        version: 19.2.8
       react-avatar-editor:
         specifier: 'catalog:'
-        version: 15.1.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+        version: 15.1.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       react-dom:
         specifier: 'catalog:'
-        version: 19.2.6(react@19.2.6)
+        version: 19.2.8(react@19.2.8)
       sonner:
         specifier: 'catalog:'
-        version: 2.0.7(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+        version: 2.0.7(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       swr:
         specifier: 'catalog:'
-        version: 2.4.2(react@19.2.6)
+        version: 2.4.2(react@19.2.8)
       tailwind-merge:
         specifier: 'catalog:'
         version: 3.6.0
@@ -322,7 +322,7 @@ importers:
         version: 1.4.0
       wouter:
         specifier: 'catalog:'
-        version: 3.10.0(react@19.2.6)
+        version: 3.10.0(react@19.2.8)
       wretch:
         specifier: 'catalog:'
         version: 3.0.9
@@ -331,7 +331,7 @@ importers:
         version: 4.4.3
       zustand:
         specifier: 'catalog:'
-        version: 5.0.14(@types/react@19.2.15)(react@19.2.6)(use-sync-external-store@1.6.0(react@19.2.6))
+        version: 5.0.14(@types/react@19.2.17)(react@19.2.8)(use-sync-external-store@1.6.0(react@19.2.8))
     devDependencies:
       '@babel/core':
         specifier: 'catalog:'
@@ -353,13 +353,13 @@ importers:
         version: 24.13.3
       '@types/react':
         specifier: 'catalog:'
-        version: 19.2.15
+        version: 19.2.17
       '@types/react-avatar-editor':
         specifier: 'catalog:'
         version: 13.0.4
       '@types/react-dom':
         specifier: 'catalog:'
-        version: 19.2.3(@types/react@19.2.15)
+        version: 19.2.3(@types/react@19.2.17)
       '@vitejs/plugin-react':
         specifier: 'catalog:'
         version: 6.0.4(@rolldown/plugin-babel@0.2.3(@babel/core@8.0.1)(@babel/runtime@7.29.2)(rolldown@1.1.5)(vite@8.1.3))(babel-plugin-react-compiler@1.0.0)(vite@8.1.3)
@@ -383,7 +383,7 @@ importers:
     dependencies:
       '@base-ui/react':
         specifier: 'catalog:'
-        version: 1.6.0(@types/react@19.2.15)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+        version: 1.6.0(@types/react@19.2.17)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@bypass/configs':
         specifier: workspace:*
         version: link:../../packages/configs
@@ -401,16 +401,16 @@ importers:
         version: 4.2.3
       '@hugeicons/react':
         specifier: 'catalog:'
-        version: 1.1.9(react@19.2.6)
+        version: 1.1.9(react@19.2.8)
       '@mantine/hooks':
         specifier: 'catalog:'
-        version: 9.5.0(react@19.2.6)
+        version: 9.5.0(react@19.2.8)
       '@t3-oss/env-nextjs':
         specifier: 'catalog:'
         version: 0.13.11(typescript@7.0.2)(valibot@1.4.2(typescript@7.0.2))(zod@4.4.3)
       '@tanstack/react-virtual':
         specifier: 'catalog:'
-        version: 3.14.9(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+        version: 3.14.9(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@trpc/client':
         specifier: 'catalog:'
         version: 11.18.0(@trpc/server@11.18.0(typescript@7.0.2))(typescript@7.0.2)
@@ -419,10 +419,10 @@ importers:
         version: 11.18.0(typescript@7.0.2)
       '@vercel/analytics':
         specifier: 'catalog:'
-        version: 2.0.1(next@16.3.0-preview.10(@babel/core@8.0.1)(@opentelemetry/api@1.9.1)(@playwright/test@1.62.0)(@types/node@25.6.2)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react@19.2.6)(vue@3.5.39(typescript@7.0.2))
+        version: 2.0.1(next@16.3.0-preview.10(@babel/core@8.0.1)(@opentelemetry/api@1.9.1)(@playwright/test@1.62.0)(@types/node@25.6.2)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(vue@3.5.39(typescript@7.0.2))
       '@vercel/speed-insights':
         specifier: 'catalog:'
-        version: 2.0.0(next@16.3.0-preview.10(@babel/core@8.0.1)(@opentelemetry/api@1.9.1)(@playwright/test@1.62.0)(@types/node@25.6.2)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react@19.2.6)(vue@3.5.39(typescript@7.0.2))
+        version: 2.0.0(next@16.3.0-preview.10(@babel/core@8.0.1)(@opentelemetry/api@1.9.1)(@playwright/test@1.62.0)(@types/node@25.6.2)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(vue@3.5.39(typescript@7.0.2))
       clsx:
         specifier: 'catalog:'
         version: 2.1.1
@@ -440,19 +440,19 @@ importers:
         version: 14.2.0(supports-color@7.2.0)
       next:
         specifier: 'catalog:'
-        version: 16.3.0-preview.10(@babel/core@8.0.1)(@opentelemetry/api@1.9.1)(@playwright/test@1.62.0)(@types/node@25.6.2)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+        version: 16.3.0-preview.10(@babel/core@8.0.1)(@opentelemetry/api@1.9.1)(@playwright/test@1.62.0)(@types/node@25.6.2)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       react:
         specifier: 'catalog:'
-        version: 19.2.6
+        version: 19.2.8
       react-dom:
         specifier: 'catalog:'
-        version: 19.2.6(react@19.2.6)
+        version: 19.2.8(react@19.2.8)
       sharp:
         specifier: 'catalog:'
         version: 0.35.3(@types/node@24.13.3)
       swr:
         specifier: 'catalog:'
-        version: 2.4.2(react@19.2.6)
+        version: 2.4.2(react@19.2.8)
       zod:
         specifier: 'catalog:'
         version: 4.4.3
@@ -465,7 +465,7 @@ importers:
         version: 4.3.2
       '@types/react':
         specifier: 'catalog:'
-        version: 19.2.15
+        version: 19.2.17
       autoprefixer:
         specifier: 'catalog:'
         version: 10.5.4(postcss@8.5.24)
@@ -498,13 +498,13 @@ importers:
         version: 4.2.3
       '@hugeicons/react':
         specifier: 'catalog:'
-        version: 1.1.9(react@19.2.6)
+        version: 1.1.9(react@19.2.8)
       '@mantine/hooks':
         specifier: 'catalog:'
-        version: 9.5.0(react@19.2.6)
+        version: 9.5.0(react@19.2.8)
       '@tanstack/react-virtual':
         specifier: 'catalog:'
-        version: 3.14.9(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+        version: 3.14.9(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       clsx:
         specifier: 'catalog:'
         version: 2.1.1
@@ -513,10 +513,10 @@ importers:
         version: 7.3.1
       react:
         specifier: 'catalog:'
-        version: 19.2.6
+        version: 19.2.8
       swr:
         specifier: 'catalog:'
-        version: 2.4.2(react@19.2.6)
+        version: 2.4.2(react@19.2.8)
       wretch:
         specifier: 'catalog:'
         version: 3.0.9
@@ -535,7 +535,7 @@ importers:
         version: 0.6.1
       '@types/react':
         specifier: 'catalog:'
-        version: 19.2.15
+        version: 19.2.17
       typescript:
         specifier: 'catalog:'
         version: 7.0.2
@@ -581,7 +581,7 @@ importers:
     dependencies:
       '@base-ui/react':
         specifier: 'catalog:'
-        version: 1.6.0(@types/react@19.2.15)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+        version: 1.6.0(@types/react@19.2.17)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@bypass/configs':
         specifier: workspace:*
         version: link:../configs
@@ -590,7 +590,7 @@ importers:
         version: 4.2.3
       '@hugeicons/react':
         specifier: 'catalog:'
-        version: 1.1.9(react@19.2.6)
+        version: 1.1.9(react@19.2.8)
       class-variance-authority:
         specifier: 'catalog:'
         version: 0.7.1
@@ -599,16 +599,16 @@ importers:
         version: 2.1.1
       next-themes:
         specifier: 'catalog:'
-        version: 0.4.6(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+        version: 0.4.6(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       react:
         specifier: 'catalog:'
-        version: 19.2.6
+        version: 19.2.8
       react-dom:
         specifier: 'catalog:'
-        version: 19.2.6(react@19.2.6)
+        version: 19.2.8(react@19.2.8)
       sonner:
         specifier: 'catalog:'
-        version: 2.0.7(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+        version: 2.0.7(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       tailwind-merge:
         specifier: 'catalog:'
         version: 3.6.0
@@ -621,10 +621,10 @@ importers:
     devDependencies:
       '@types/react':
         specifier: 'catalog:'
-        version: 19.2.15
+        version: 19.2.17
       '@types/react-dom':
         specifier: 'catalog:'
-        version: 19.2.3(@types/react@19.2.15)
+        version: 19.2.3(@types/react@19.2.17)
       shadcn:
         specifier: 'catalog:'
         version: 4.16.0(supports-color@7.2.0)(typescript@7.0.2)
@@ -3303,8 +3303,8 @@ packages:
     peerDependencies:
       '@types/react': ^19.2.0
 
-  '@types/react@19.2.15':
-    resolution: {integrity: sha512-eRwcGNHve+E8qtEQSSRl6urh+rFop4v8gm6O8rGv25CodbvFdLjA1vVQ1KkiFE0w0UPOnb8tDiFKL5lp0rtY5Q==}
+  '@types/react@19.2.17':
+    resolution: {integrity: sha512-MXfmqaVPEVgkBT/aY0aGCkRWWtByiYQXo3xdQ8r5RzuFrPiRn8Gar2tQdXSUQ2GKV3bkXckek89V8wQBY2Q/Aw==}
 
   '@types/request@2.48.13':
     resolution: {integrity: sha512-FGJ6udDNUCjd19pp0Q3iTiDkwhYup7J8hpMW9c4k53NrccQFFWKRho6hvtPPEhnXWKvukfwAlB6DbDz4yhH5Gg==}
@@ -6244,13 +6244,13 @@ packages:
       react: ^0.14.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^0.14.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
-  react-dom@19.2.6:
-    resolution: {integrity: sha512-0prMI+hvBbPjsWnxDLxlCGyM8PN6UuWjEUCYmZhO67xIV9Xasa/r/vDnq+Xyq4Lo27g8QSbO5YzARu0D1Sps3g==}
+  react-dom@19.2.8:
+    resolution: {integrity: sha512-rVprimfGBG3DR+Tq0IQG2DT5PxKth1WIGDmj5yPmlzr4YBe7uyE+Du4oVqTDXZSHGGGXRtTJEGSSePyQCMBglQ==}
     peerDependencies:
-      react: ^19.2.6
+      react: ^19.2.8
 
-  react@19.2.6:
-    resolution: {integrity: sha512-sfWGGfavi0xr8Pg0sVsyHMAOziVYKgPLNrS7ig+ivMNb3wbCBw3KxtflsGBAwD3gYQlE/AEZsTLgToRrSCjb0Q==}
+  react@19.2.8:
+    resolution: {integrity: sha512-PWaYA1L/q9u2u7xYQi+Y3L3Yfnie7XyLeaJICV1MGD6LprsBxcAqGjYyr0eY3p+QdsA+x/Irkt4Qif8D63+Sbw==}
     engines: {node: '>=0.10.0'}
 
   readable-stream@2.3.8:
@@ -7625,28 +7625,28 @@ snapshots:
       '@babel/helper-string-parser': 8.0.0
       '@babel/helper-validator-identifier': 8.0.4
 
-  '@base-ui/react@1.6.0(@types/react@19.2.15)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)':
+  '@base-ui/react@1.6.0(@types/react@19.2.17)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
     dependencies:
       '@babel/runtime': 7.29.2
-      '@base-ui/utils': 0.3.1(@types/react@19.2.15)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
-      '@floating-ui/react-dom': 2.1.8(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      '@base-ui/utils': 0.3.1(@types/react@19.2.17)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      '@floating-ui/react-dom': 2.1.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@floating-ui/utils': 0.2.11
-      react: 19.2.6
-      react-dom: 19.2.6(react@19.2.6)
-      use-sync-external-store: 1.6.0(react@19.2.6)
+      react: 19.2.8
+      react-dom: 19.2.8(react@19.2.8)
+      use-sync-external-store: 1.6.0(react@19.2.8)
     optionalDependencies:
-      '@types/react': 19.2.15
+      '@types/react': 19.2.17
 
-  '@base-ui/utils@0.3.1(@types/react@19.2.15)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)':
+  '@base-ui/utils@0.3.1(@types/react@19.2.17)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
     dependencies:
       '@babel/runtime': 7.29.2
       '@floating-ui/utils': 0.2.11
-      react: 19.2.6
-      react-dom: 19.2.6(react@19.2.6)
+      react: 19.2.8
+      react-dom: 19.2.8(react@19.2.8)
       reselect: 5.2.0
-      use-sync-external-store: 1.6.0(react@19.2.6)
+      use-sync-external-store: 1.6.0(react@19.2.8)
     optionalDependencies:
-      '@types/react': 19.2.15
+      '@types/react': 19.2.17
 
   '@borewit/text-codec@0.2.2': {}
 
@@ -8289,11 +8289,11 @@ snapshots:
       '@floating-ui/core': 1.7.5
       '@floating-ui/utils': 0.2.11
 
-  '@floating-ui/react-dom@2.1.8(react-dom@19.2.6(react@19.2.6))(react@19.2.6)':
+  '@floating-ui/react-dom@2.1.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
     dependencies:
       '@floating-ui/dom': 1.7.6
-      react: 19.2.6
-      react-dom: 19.2.6(react@19.2.6)
+      react: 19.2.8
+      react-dom: 19.2.8(react@19.2.8)
 
   '@floating-ui/utils@0.2.11': {}
 
@@ -8374,9 +8374,9 @@ snapshots:
 
   '@hugeicons/core-free-icons@4.2.3': {}
 
-  '@hugeicons/react@1.1.9(react@19.2.6)':
+  '@hugeicons/react@1.1.9(react@19.2.8)':
     dependencies:
-      react: 19.2.6
+      react: 19.2.8
 
   '@humanfs/core@0.19.2':
     dependencies:
@@ -8547,9 +8547,9 @@ snapshots:
   '@js-sdsl/ordered-map@4.4.2':
     optional: true
 
-  '@mantine/hooks@9.5.0(react@19.2.6)':
+  '@mantine/hooks@9.5.0(react@19.2.8)':
     dependencies:
-      react: 19.2.6
+      react: 19.2.8
 
   '@mapbox/node-pre-gyp@2.0.3(supports-color@7.2.0)':
     dependencies:
@@ -9430,26 +9430,26 @@ snapshots:
 
   '@tanstack/pacer-lite@0.1.1': {}
 
-  '@tanstack/react-form@1.33.2(react-dom@19.2.6(react@19.2.6))(react@19.2.6)':
+  '@tanstack/react-form@1.33.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
     dependencies:
       '@tanstack/form-core': 1.33.2
-      '@tanstack/react-store': 0.11.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
-      react: 19.2.6
+      '@tanstack/react-store': 0.11.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      react: 19.2.8
     transitivePeerDependencies:
       - react-dom
 
-  '@tanstack/react-store@0.11.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)':
+  '@tanstack/react-store@0.11.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
     dependencies:
       '@tanstack/store': 0.11.0
-      react: 19.2.6
-      react-dom: 19.2.6(react@19.2.6)
-      use-sync-external-store: 1.6.0(react@19.2.6)
+      react: 19.2.8
+      react-dom: 19.2.8(react@19.2.8)
+      use-sync-external-store: 1.6.0(react@19.2.8)
 
-  '@tanstack/react-virtual@3.14.9(react-dom@19.2.6(react@19.2.6))(react@19.2.6)':
+  '@tanstack/react-virtual@3.14.9(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
     dependencies:
       '@tanstack/virtual-core': 3.17.7
-      react: 19.2.6
-      react-dom: 19.2.6(react@19.2.6)
+      react: 19.2.8
+      react-dom: 19.2.8(react@19.2.8)
 
   '@tanstack/store@0.11.0': {}
 
@@ -9568,13 +9568,13 @@ snapshots:
 
   '@types/react-avatar-editor@13.0.4':
     dependencies:
-      '@types/react': 19.2.15
+      '@types/react': 19.2.17
 
-  '@types/react-dom@19.2.3(@types/react@19.2.15)':
+  '@types/react-dom@19.2.3(@types/react@19.2.17)':
     dependencies:
-      '@types/react': 19.2.15
+      '@types/react': 19.2.17
 
-  '@types/react@19.2.15':
+  '@types/react@19.2.17':
     dependencies:
       csstype: 3.2.3
 
@@ -9656,10 +9656,10 @@ snapshots:
       valibot: 1.4.2(typescript@7.0.2)
     optional: true
 
-  '@vercel/analytics@2.0.1(next@16.3.0-preview.10(@babel/core@8.0.1)(@opentelemetry/api@1.9.1)(@playwright/test@1.62.0)(@types/node@25.6.2)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react@19.2.6)(vue@3.5.39(typescript@7.0.2))':
+  '@vercel/analytics@2.0.1(next@16.3.0-preview.10(@babel/core@8.0.1)(@opentelemetry/api@1.9.1)(@playwright/test@1.62.0)(@types/node@25.6.2)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(vue@3.5.39(typescript@7.0.2))':
     optionalDependencies:
-      next: 16.3.0-preview.10(@babel/core@8.0.1)(@opentelemetry/api@1.9.1)(@playwright/test@1.62.0)(@types/node@25.6.2)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
-      react: 19.2.6
+      next: 16.3.0-preview.10(@babel/core@8.0.1)(@opentelemetry/api@1.9.1)(@playwright/test@1.62.0)(@types/node@25.6.2)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      react: 19.2.8
       vue: 3.5.39(typescript@7.0.2)
 
   '@vercel/backends@0.8.21(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(rollup@4.60.3)(supports-color@7.2.0)':
@@ -9970,10 +9970,10 @@ snapshots:
       - bare-abort-controller
       - react-native-b4a
 
-  '@vercel/speed-insights@2.0.0(next@16.3.0-preview.10(@babel/core@8.0.1)(@opentelemetry/api@1.9.1)(@playwright/test@1.62.0)(@types/node@25.6.2)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react@19.2.6)(vue@3.5.39(typescript@7.0.2))':
+  '@vercel/speed-insights@2.0.0(next@16.3.0-preview.10(@babel/core@8.0.1)(@opentelemetry/api@1.9.1)(@playwright/test@1.62.0)(@types/node@25.6.2)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)(vue@3.5.39(typescript@7.0.2))':
     optionalDependencies:
-      next: 16.3.0-preview.10(@babel/core@8.0.1)(@opentelemetry/api@1.9.1)(@playwright/test@1.62.0)(@types/node@25.6.2)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
-      react: 19.2.6
+      next: 16.3.0-preview.10(@babel/core@8.0.1)(@opentelemetry/api@1.9.1)(@playwright/test@1.62.0)(@types/node@25.6.2)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      react: 19.2.8
       vue: 3.5.39(typescript@7.0.2)
 
   '@vercel/static-build@2.11.4':
@@ -10137,7 +10137,7 @@ snapshots:
       '@vue/shared': 3.5.39
       estree-walker: 2.0.2
       magic-string: 0.30.21
-      postcss: 8.5.16
+      postcss: 8.5.24
       source-map-js: 1.2.1
     optional: true
 
@@ -12306,21 +12306,21 @@ snapshots:
 
   netmask@2.1.1: {}
 
-  next-themes@0.4.6(react-dom@19.2.6(react@19.2.6))(react@19.2.6):
+  next-themes@0.4.6(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
     dependencies:
-      react: 19.2.6
-      react-dom: 19.2.6(react@19.2.6)
+      react: 19.2.8
+      react-dom: 19.2.8(react@19.2.8)
 
-  next@16.3.0-preview.10(@babel/core@8.0.1)(@opentelemetry/api@1.9.1)(@playwright/test@1.62.0)(@types/node@25.6.2)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6):
+  next@16.3.0-preview.10(@babel/core@8.0.1)(@opentelemetry/api@1.9.1)(@playwright/test@1.62.0)(@types/node@25.6.2)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
     dependencies:
       '@next/env': 16.3.0-preview.10
       '@swc/helpers': 0.5.15
       baseline-browser-mapping: 2.11.8
       caniuse-lite: 1.0.30001806
       postcss: 8.5.10
-      react: 19.2.6
-      react-dom: 19.2.6(react@19.2.6)
-      styled-jsx: 5.1.6(@babel/core@8.0.1)(react@19.2.6)
+      react: 19.2.8
+      react-dom: 19.2.8(react@19.2.8)
+      styled-jsx: 5.1.6(@babel/core@8.0.1)(react@19.2.8)
     optionalDependencies:
       '@next/swc-darwin-arm64': 16.3.0-preview.10
       '@next/swc-darwin-x64': 16.3.0-preview.10
@@ -12952,17 +12952,17 @@ snapshots:
 
   re2js@0.4.3: {}
 
-  react-avatar-editor@15.1.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6):
+  react-avatar-editor@15.1.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
     dependencies:
-      react: 19.2.6
-      react-dom: 19.2.6(react@19.2.6)
+      react: 19.2.8
+      react-dom: 19.2.8(react@19.2.8)
 
-  react-dom@19.2.6(react@19.2.6):
+  react-dom@19.2.8(react@19.2.8):
     dependencies:
-      react: 19.2.6
+      react: 19.2.8
       scheduler: 0.27.0
 
-  react@19.2.6: {}
+  react@19.2.8: {}
 
   readable-stream@2.3.8:
     dependencies:
@@ -13408,10 +13408,10 @@ snapshots:
     dependencies:
       atomic-sleep: 1.0.0
 
-  sonner@2.0.7(react-dom@19.2.6(react@19.2.6))(react@19.2.6):
+  sonner@2.0.7(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
     dependencies:
-      react: 19.2.6
-      react-dom: 19.2.6(react@19.2.6)
+      react: 19.2.8
+      react-dom: 19.2.8(react@19.2.8)
 
   source-map-js@1.2.1: {}
 
@@ -13554,10 +13554,10 @@ snapshots:
   stubs@3.0.0:
     optional: true
 
-  styled-jsx@5.1.6(@babel/core@8.0.1)(react@19.2.6):
+  styled-jsx@5.1.6(@babel/core@8.0.1)(react@19.2.8):
     dependencies:
       client-only: 0.0.1
-      react: 19.2.6
+      react: 19.2.8
     optionalDependencies:
       '@babel/core': 8.0.1
 
@@ -13566,11 +13566,11 @@ snapshots:
       has-flag: 4.0.0
     optional: true
 
-  swr@2.4.2(react@19.2.6):
+  swr@2.4.2(react@19.2.8):
     dependencies:
       dequal: 2.0.3
-      react: 19.2.6
-      use-sync-external-store: 1.6.0(react@19.2.6)
+      react: 19.2.8
+      use-sync-external-store: 1.6.0(react@19.2.8)
 
   tagged-tag@1.0.0: {}
 
@@ -13889,9 +13889,9 @@ snapshots:
     dependencies:
       punycode: 2.3.1
 
-  use-sync-external-store@1.6.0(react@19.2.6):
+  use-sync-external-store@1.6.0(react@19.2.8):
     dependencies:
-      react: 19.2.6
+      react: 19.2.8
 
   util-deprecate@1.0.2: {}
 
@@ -14088,12 +14088,12 @@ snapshots:
   word-wrap@1.2.5:
     optional: true
 
-  wouter@3.10.0(react@19.2.6):
+  wouter@3.10.0(react@19.2.8):
     dependencies:
       mitt: 3.0.1
-      react: 19.2.6
+      react: 19.2.8
       regexparam: 3.0.0
-      use-sync-external-store: 1.6.0(react@19.2.6)
+      use-sync-external-store: 1.6.0(react@19.2.8)
 
   wrap-ansi@10.0.0:
     dependencies:
@@ -14281,8 +14281,8 @@ snapshots:
 
   zod@4.4.3: {}
 
-  zustand@5.0.14(@types/react@19.2.15)(react@19.2.6)(use-sync-external-store@1.6.0(react@19.2.6)):
+  zustand@5.0.14(@types/react@19.2.17)(react@19.2.8)(use-sync-external-store@1.6.0(react@19.2.8)):
     optionalDependencies:
-      '@types/react': 19.2.15
-      react: 19.2.6
-      use-sync-external-store: 1.6.0(react@19.2.6)
+      '@types/react': 19.2.17
+      react: 19.2.8
+      use-sync-external-store: 1.6.0(react@19.2.8)
