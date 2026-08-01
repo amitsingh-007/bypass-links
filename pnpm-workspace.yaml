@@ -3,11 +3,12 @@ packages:
   - apps/*
 
 # TODO: firebase-admin@14 -> jwks-rsa@4 require()s ESM-only jose@6, which crashes with
-# ERR_REQUIRE_ESM in the Next/Turbopack serverless runtime. Pin jose under jwks-rsa
+# ERR_REQUIRE_ESM in the Vercel serverless runtime. Pin jose under jwks-rsa
 # to the dual CJS/ESM 4.15.9 (API-identical for importJWK/exportSPKI).
+# Do NOT let Renovate bump this to v6 -- it reintroduces the crash (see renovate.json).
 # Remove once auth0/node-jwks-rsa#508 ships. See firebase/firebase-admin-node#3181.
 overrides:
-  jwks-rsa>jose: 6.2.4
+  jwks-rsa>jose: 4.15.9
 
 allowBuilds:
   '@firebase/util': false

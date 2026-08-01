@@ -31,7 +31,6 @@ type InnerProps = Props & {
   personToOpenImage: string;
 };
 
-// oxlint-disable-next-line react/react-compiler
 function PersonsInner({
   persons,
   onLinkOpen,

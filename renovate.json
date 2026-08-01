@@ -12,5 +12,12 @@
     ":automergeMinor",
     ":maintainLockFilesMonthly"
   ],
-  "baseBranchPatterns": ["renovate-updates"]
+  "baseBranchPatterns": ["renovate-updates"],
+  "packageRules": [
+    {
+      "description": "jose is pinned to the last dual CJS/ESM release because jwks-rsa require()s it and jose@6 is ESM-only, which crashes the Vercel serverless runtime with ERR_REQUIRE_ESM. See the override in pnpm-workspace.yaml.",
+      "matchDepNames": ["jwks-rsa>jose"],
+      "enabled": false
+    }
+  ]
 }
