@@ -6,12 +6,14 @@ import { websitesItem } from '@/storage/items';
 const decodeWebsite = (value?: string) =>
   value ? decodeURIComponent(atob(value)) : value;
 
-const getDecodedWebsites = (encodedWebsites: IWebsites): IWebsites => ({
-  FORUM_1: decodeWebsite(encodedWebsites.FORUM_1),
-  FORUM_2: decodeWebsite(encodedWebsites.FORUM_2),
-  FORUM_3: decodeWebsite(encodedWebsites.FORUM_3),
-  FORUM_4: decodeWebsite(encodedWebsites.FORUM_4),
-});
+// Key-agnostic so adding a forum to the schema cannot silently skip decoding
+const getDecodedWebsites = (encodedWebsites: IWebsites): IWebsites =>
+  Object.fromEntries(
+    Object.entries(encodedWebsites).map(([key, value]) => [
+      key,
+      decodeWebsite(value),
+    ])
+  );
 
 export const syncWebsitesToStorage = async () => {
   const response = await trpcApi.firebaseData.websitesGet.query();

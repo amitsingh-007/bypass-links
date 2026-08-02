@@ -1,7 +1,7 @@
 import { type IUser } from '../@types/trpc';
 
 export type AuthorizationResult =
-  | { ok: true }
+  | { ok: true; user: IUser }
   | { ok: false; status: 401 | 403; message: string };
 
 /**
@@ -24,5 +24,6 @@ export const checkUserAuthorized = (
   if (!user.emailVerified) {
     return { ok: false, status: 403, message: 'User email is unverified' };
   }
-  return { ok: true };
+  // Returning the user lets callers narrow without a non-null assertion
+  return { ok: true, user };
 };

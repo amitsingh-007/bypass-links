@@ -5,9 +5,8 @@ import { checkUserAuthorized } from '../utils/authorization';
 
 const verifyAuthMiddleware = t.middleware(async (opts) => {
   const { ctx } = opts;
-  const { user } = ctx;
 
-  const result = checkUserAuthorized(user);
+  const result = checkUserAuthorized(ctx.user);
   if (!result.ok) {
     throw new TRPCError({
       code: result.status === 401 ? 'UNAUTHORIZED' : 'FORBIDDEN',
@@ -16,7 +15,7 @@ const verifyAuthMiddleware = t.middleware(async (opts) => {
   }
 
   return opts.next({
-    ctx: { ...ctx, user: user! }, // For type safety in protected procedures
+    ctx: { ...ctx, user: result.user }, // For type safety in protected procedures
   });
 });
 
