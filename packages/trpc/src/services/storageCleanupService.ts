@@ -18,13 +18,11 @@ async function getPersonStorageImageId(uid: string): Promise<string[]> {
 
 export const cleanupStorage = async (uid: string): Promise<void> => {
   const imageUids = await getPersonStorageImageId(uid);
-  // getFromFirebase returns null for a user with no persons record; indexing
-  // that below would throw and 500 the cleanup cron
-  const personRecordUids =
-    (await getFromFirebase<IPersons>({
-      ref: EFirebaseDBRef.persons,
-      uid,
-    })) ?? {};
+  const persons = await getFromFirebase<IPersons>({
+    ref: EFirebaseDBRef.persons,
+    uid,
+  });
+  const personRecordUids = persons ?? {};
   const orphanedImages = imageUids.filter(
     (imageUid) => !personRecordUids[imageUid]
   );

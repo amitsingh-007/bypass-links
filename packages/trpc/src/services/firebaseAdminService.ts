@@ -58,12 +58,7 @@ const storage = getStorage(firebaseApp);
 /**
  * REALTIME DATABASE
  */
-/**
- * Returns null when the path has no data. Callers supply their own typed empty
- * value: a blanket `?? {}` here was wrong for refs whose schema is an object
- * with required keys or an array, so a first-ever sign-in failed output
- * validation on bookmarks, websites and redirections.
- */
+/** Returns null when empty; callers supply their own schema-appropriate default. */
 export const getFromFirebase = async <T = any>({
   ref,
   uid,

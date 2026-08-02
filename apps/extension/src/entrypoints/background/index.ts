@@ -32,6 +32,8 @@ const onPageLoad = async (tabId: number, url: string) => {
   }
 };
 
+const isMainFrame = (frameId: number) => frameId === 0;
+
 const updateIcon = async () => {
   const [extState, hasPendingBookmarks, hasPendingPersons] = await Promise.all([
     extStateItem.getValue(),
@@ -64,22 +66,20 @@ export default defineBackground({
      * NOTE: Can remove browser.tabs.onUpdated in favor of this
      * @link https://stackoverflow.com/questions/16949810/how-can-i-run-this-script-when-the-tab-reloads-chrome-extension
      *
-     * Two listeners registered once, rather than nesting an onCompleted
-     * listener per reload. The nested version was neither tab-filtered nor
-     * reliably removed: the first onCompleted from *any* tab consumed it, so a
-     * reload of tab A could fire onPageLoad against tab B, and a tab closed
-     * before completing leaked its listener for the worker's lifetime.
+     * Registered once instead of nesting a listener per reload, which was
+     * neither tab-filtered nor reliably removed. frameId 0 keeps subframes from
+     * consuming the tab's pending reload.
      */
     const reloadingTabIds = new Set<number>();
 
     browser.webNavigation.onCommitted.addListener((details) => {
-      if (details.transitionType === 'reload') {
+      if (details.transitionType === 'reload' && isMainFrame(details.frameId)) {
         reloadingTabIds.add(details.tabId);
       }
     });
 
-    browser.webNavigation.onCompleted.addListener(({ tabId, url }) => {
-      if (reloadingTabIds.delete(tabId)) {
+    browser.webNavigation.onCompleted.addListener(({ tabId, url, frameId }) => {
+      if (isMainFrame(frameId) && reloadingTabIds.delete(tabId)) {
         onPageLoad(tabId, url);
       }
     });

@@ -12,8 +12,7 @@ export const sleep = async (ms: number) =>
     setTimeout(resolve, ms);
   });
 
-// Transform every value of a record, preserving its keys. Generic over the
-// whole object rather than Record<K, V> so records with optional keys work too.
+// Transform every value of a record, preserving its keys
 export const mapValues = <T extends object>(
   record: T,
   transform: (value: T[keyof T]) => T[keyof T]

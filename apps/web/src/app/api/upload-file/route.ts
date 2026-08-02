@@ -10,7 +10,6 @@ export async function POST(request: NextRequest) {
   try {
     user = await authorizeUser(request);
   } catch (error) {
-    // 401/403 instead of the 500 a bare thrown Error produced
     return toAuthErrorResponse(error);
   }
 

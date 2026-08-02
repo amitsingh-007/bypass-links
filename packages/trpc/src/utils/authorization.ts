@@ -5,11 +5,8 @@ export type AuthorizationResult =
   | { ok: false; status: 401 | 403; message: string };
 
 /**
- * The authorization rules, shared so REST routes cannot drift behind the tRPC
- * middleware. Returns a result rather than throwing: tRPC needs a TRPCError and
- * the Next route needs a NextResponse, so each caller maps this to its own
- * error type. Throwing a shared error here would surface as a 500 from tRPC
- * context creation.
+ * Shared so REST routes cannot drift behind the tRPC middleware. Returns a
+ * result rather than throwing, since each caller needs its own error type.
  */
 export const checkUserAuthorized = (
   user: IUser | null

@@ -15,11 +15,7 @@ import {
   upsertToFirebase,
 } from '../firebaseAdminService';
 
-/**
- * Every getter supplies its own empty value, matching what its output schema
- * accepts. zod/mini: z.object rejects {}, z.array rejects {}, and z.record
- * accepts {} but rejects null - so none of these may be omitted.
- */
+// zod/mini: z.object and z.array reject {}, z.record accepts {} but rejects null
 const EMPTY_BOOKMARKS: IBookmarksObj = {
   folderList: {},
   urlList: {},
@@ -27,12 +23,11 @@ const EMPTY_BOOKMARKS: IBookmarksObj = {
 };
 
 export const getBookmarks = async (user: IUser) => {
-  return (
-    (await getFromFirebase<IBookmarksObj>({
-      ref: EFirebaseDBRef.bookmarks,
-      uid: user.uid,
-    })) ?? EMPTY_BOOKMARKS
-  );
+  const bookmarks = await getFromFirebase<IBookmarksObj>({
+    ref: EFirebaseDBRef.bookmarks,
+    uid: user.uid,
+  });
+  return bookmarks ?? EMPTY_BOOKMARKS;
 };
 const saveBookmarks = async (bookmarks: IBookmarksObj, user: IUser) => {
   return saveToFirebase({
@@ -43,12 +38,11 @@ const saveBookmarks = async (bookmarks: IBookmarksObj, user: IUser) => {
 };
 
 export const getPersons = async (user: IUser) => {
-  return (
-    (await getFromFirebase<IPersons>({
-      ref: EFirebaseDBRef.persons,
-      uid: user.uid,
-    })) ?? {}
-  );
+  const persons = await getFromFirebase<IPersons>({
+    ref: EFirebaseDBRef.persons,
+    uid: user.uid,
+  });
+  return persons ?? {};
 };
 const savePersons = async (persons: IPersons, user: IUser) => {
   return saveToFirebase({
@@ -71,21 +65,19 @@ export const saveBookmarksAndPersons = async (
 };
 
 export const getWebsites = async (user: IUser) => {
-  return (
-    (await getFromFirebase<IWebsites>({
-      ref: EFirebaseDBRef.websites,
-      uid: user.uid,
-    })) ?? {}
-  );
+  const websites = await getFromFirebase<IWebsites>({
+    ref: EFirebaseDBRef.websites,
+    uid: user.uid,
+  });
+  return websites ?? {};
 };
 
 export const getLastVisited = async (user: IUser) => {
-  return (
-    (await getFromFirebase<ILastVisited>({
-      ref: EFirebaseDBRef.lastVisited,
-      uid: user.uid,
-    })) ?? {}
-  );
+  const lastVisited = await getFromFirebase<ILastVisited>({
+    ref: EFirebaseDBRef.lastVisited,
+    uid: user.uid,
+  });
+  return lastVisited ?? {};
 };
 
 export const upsertLastVisited = async (hash: string, user: IUser) => {
@@ -102,12 +94,11 @@ export const upsertLastVisited = async (hash: string, user: IUser) => {
 };
 
 export const getRedirections = async (user: IUser) => {
-  return (
-    (await getFromFirebase<IRedirections>({
-      ref: EFirebaseDBRef.redirections,
-      uid: user.uid,
-    })) ?? []
-  );
+  const redirections = await getFromFirebase<IRedirections>({
+    ref: EFirebaseDBRef.redirections,
+    uid: user.uid,
+  });
+  return redirections ?? [];
 };
 export const saveRedirections = async (
   redirections: IRedirections,

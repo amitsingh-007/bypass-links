@@ -54,8 +54,7 @@ export const getForumPageLinks = async (
   url: string
 ): Promise<string[]> => {
   const websites = await websitesItem.getValue();
-  // An unsynced record leaves these undefined; matching on it would coerce to
-  // the literal string "undefined" and match arbitrary urls
+  // Undefined when unsynced; url.includes(undefined) would match arbitrary urls
   const matches = (website?: string) =>
     Boolean(website) && url.includes(website!);
   let executor: () => Array<string | undefined>;

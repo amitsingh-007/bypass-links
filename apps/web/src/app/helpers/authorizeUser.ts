@@ -16,11 +16,7 @@ export class UnauthorizedError extends Error {
   }
 }
 
-/**
- * Applies the same rules as the tRPC middleware. Previously this only verified
- * the token, so a disabled or email-unverified account could still reach the
- * upload route that every tRPC procedure rejects.
- */
+/** Applies the same rules as the tRPC middleware. */
 export const authorizeUser = async (request: NextRequest) => {
   const idToken = getAuthBearer(request);
   if (!idToken) {
@@ -42,7 +38,6 @@ export const authorizeUser = async (request: NextRequest) => {
   return user;
 };
 
-/** Maps an UnauthorizedError to a response; rethrows anything else. */
 export const toAuthErrorResponse = (error: unknown) => {
   if (error instanceof UnauthorizedError) {
     return new NextResponse(error.message, { status: error.status });
