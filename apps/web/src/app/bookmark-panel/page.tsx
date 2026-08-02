@@ -54,8 +54,8 @@ export default function BookmarksPage() {
       urlList: urlListData,
       folderList: folderListData,
     } = bookmarksData;
-    const modifiedBookmarks = Object.entries(foldersData[folderId]).map((kvp) =>
-      bookmarksMapper(kvp, urlListData, folderListData)
+    const modifiedBookmarks = foldersData[folderId].map((meta) =>
+      bookmarksMapper(meta, urlListData, folderListData)
     );
     setContextBookmarks(modifiedBookmarks);
     setFolders(foldersData);

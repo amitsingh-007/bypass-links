@@ -1,4 +1,4 @@
-import type { IPersons } from '@bypass/shared';
+import { getPersonImageName, type IPersons } from '@bypass/shared';
 
 import { EFirebaseDBRef } from '../constants/firebase';
 import {
@@ -31,7 +31,7 @@ export const cleanupStorage = async (uid: string): Promise<void> => {
   }
 
   const deletePromises = orphanedImages.map(async (imageUid) =>
-    deletePersonImageFromFirebase(uid, `${imageUid}.jpeg`)
+    deletePersonImageFromFirebase(uid, getPersonImageName(imageUid))
   );
   await Promise.all(deletePromises);
 };

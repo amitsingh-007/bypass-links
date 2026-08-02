@@ -19,15 +19,13 @@ export const getFilteredContextBookmarks = (
   contextBookmarks: ContextBookmarks,
   searchText: string
 ) =>
-  contextBookmarks?.filter((ctx) => {
-    if (!searchText) {
-      return true;
-    }
-    if (ctx.isDir) {
-      return true;
-    }
-    return hasText(searchText, ctx.url) || hasText(searchText, ctx.title);
-  });
+  contextBookmarks.filter(
+    (ctx) =>
+      !searchText ||
+      ctx.isDir ||
+      hasText(searchText, ctx.url) ||
+      hasText(searchText, ctx.title)
+  );
 
 export const getEncryptedBookmark = (
   bookmark: IEncodedBookmark

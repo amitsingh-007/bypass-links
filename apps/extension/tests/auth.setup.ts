@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import process from 'node:process';
 
 import { TEST_TIMEOUTS } from '@bypass/shared/tests';
-import { chromium, expect, test as setup } from '@playwright/test';
+import { expect, test as setup } from '@playwright/test';
 import wretch from 'wretch';
 import QueryStringAddon from 'wretch/addons/queryString';
 
@@ -16,7 +16,11 @@ import {
   CHROME_PROFILE_DIR,
   EXTENSION_STORAGE_PATH,
 } from './auth-constants';
-import { getExtensionPath } from './utils/extension-path';
+import {
+  getExtensionId,
+  getPopupUrl,
+  launchExtensionContext,
+} from './fixtures/base-fixture';
 
 const isCI = Boolean(process.env.PLAYWRIGHT_TEST_BASE_URL);
 const firebaseConfig = getFirebasePublicConfig(isCI);
@@ -53,28 +57,17 @@ setup('authenticate and cache extension storage', async ({}, testInfo) => {
   await fs.promises.mkdir(AUTH_CACHE_DIR, { recursive: true });
   await fs.promises.rm(CHROME_PROFILE_DIR, { recursive: true, force: true });
 
-  const pathToExtension = getExtensionPath();
+  const browserContext = await launchExtensionContext({
+    userDataDir: CHROME_PROFILE_DIR,
+    headless: testInfo.project.use?.headless ?? true,
+  });
 
-  const headless = testInfo.project.use?.headless ?? true;
-  const browserContext = await chromium.launchPersistentContext(
-    CHROME_PROFILE_DIR,
-    {
-      channel: 'chromium',
-      headless,
-      args: [
-        `--disable-extensions-except=${pathToExtension}`,
-        `--load-extension=${pathToExtension}`,
-        '--disable-dev-shm-usage',
-        '--no-sandbox',
-      ],
-    }
-  );
-
+  // Keeps its own AUTH timeout, so it does not use the shared SW helper
   let [background] = browserContext.serviceWorkers();
   background ||= await browserContext.waitForEvent('serviceworker', {
     timeout: TEST_TIMEOUTS.AUTH,
   });
-  const extensionId = background.url().split('/')[2];
+  const extensionId = await getExtensionId(background);
 
   await browserContext.addInitScript(
     ({ authDataJson, key }) => {
@@ -87,8 +80,7 @@ setup('authenticate and cache extension storage', async ({}, testInfo) => {
   );
 
   const page = await browserContext.newPage();
-  const extUrl = `chrome-extension://${extensionId}/popup.html`;
-  await page.goto(extUrl, { waitUntil: 'domcontentloaded' });
+  await page.goto(getPopupUrl(extensionId), { waitUntil: 'domcontentloaded' });
 
   const loginButton = page.getByRole('button', { name: 'Login' });
   await loginButton.waitFor({ state: 'visible', timeout: TEST_TIMEOUTS.AUTH });

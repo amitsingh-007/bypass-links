@@ -1,8 +1,8 @@
 import { Avatar, AvatarImage, Button } from '@bypass/ui';
-import { use, useEffect, useState } from 'react';
+import { use } from 'react';
 
 import DynamicContext from '../../../provider/DynamicContext';
-import usePerson from '../hooks/usePerson';
+import usePersonImage from '../hooks/usePersonImage';
 import { type IPerson } from '../interfaces/persons';
 import { getPersonsPanelUrl } from '../utils/urls';
 
@@ -13,14 +13,8 @@ interface Props {
 function Person({ person }: Props) {
   const { location } = use(DynamicContext);
   const { uid, name } = person;
-  const { resolvePersonImageFromUid } = usePerson();
-  const [imageUrl, setImageUrl] = useState('');
-
-  useEffect(() => {
-    resolvePersonImageFromUid(uid).then((url) => {
-      setImageUrl(url);
-    });
-  }, [uid, resolvePersonImageFromUid]);
+  // SWR keyed by uid, so grid cells share one resolved blob URL across remounts
+  const { data: imageUrl = '' } = usePersonImage(uid);
 
   const openBookmarksList = () => {
     location.push(getPersonsPanelUrl({ openBookmarksList: uid }));

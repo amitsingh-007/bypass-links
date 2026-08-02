@@ -7,11 +7,8 @@ export const isFolderContainsDir = (
   hash: string
 ) => folders[hash]?.some(({ isDir }) => isDir);
 
-export const getSelectedCount = (selectedBookmarks: ISelectedBookmarks) =>
-  selectedBookmarks.filter(Boolean).length;
-
-export const getCutCount = (cutBookmarks: ISelectedBookmarks) =>
-  cutBookmarks.filter(Boolean).length;
+export const countTruthy = (bookmarks: ISelectedBookmarks) =>
+  bookmarks.filter(Boolean).length;
 
 export const setBookmarksInStorage = async (bookmarksObj: IBookmarksObj) => {
   await bookmarksItem.setValue(bookmarksObj);

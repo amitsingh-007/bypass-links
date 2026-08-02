@@ -31,8 +31,7 @@ type Props = IRedirection & {
   total: number;
   handleRemoveRule: (pos: number) => void;
   handleSaveRule: (redirection: IRedirection, pos: number) => void;
-  handleRuleMoveUp: (pos: number) => void;
-  handleRuleMoveDown: (pos: number) => void;
+  handleRuleMove: (pos: number, offset: number) => void;
 };
 
 function RedirectionRule({
@@ -43,8 +42,7 @@ function RedirectionRule({
   total,
   handleRemoveRule,
   handleSaveRule,
-  handleRuleMoveUp,
-  handleRuleMoveDown,
+  handleRuleMove,
 }: Props) {
   const startHistoryMonitor = useHistoryStore(
     (state) => state.startHistoryMonitor
@@ -94,12 +92,7 @@ function RedirectionRule({
 
   return (
     <div className="flex items-center justify-center">
-      <ReorderButton
-        pos={pos}
-        total={total}
-        handleRuleMoveUp={handleRuleMoveUp}
-        handleRuleMoveDown={handleRuleMoveDown}
-      />
+      <ReorderButton pos={pos} total={total} handleRuleMove={handleRuleMove} />
       <div className="flex flex-1 gap-2">
         <InputGroup className="w-[25%]">
           <InputGroupAddon>
