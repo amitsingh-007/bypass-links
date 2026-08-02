@@ -1,12 +1,12 @@
 import { fileTypeFromBuffer } from 'file-type';
 import sharp from 'sharp';
 
-const getCompressedImage = async (file: File) => {
+const getCompressedImage = async (buffer: Buffer, fileSize: number) => {
   return (
-    sharp(Buffer.from(await file.arrayBuffer()))
+    sharp(buffer)
       // When changing this width, change on client app as well
       .resize({ width: 250, withoutEnlargement: true })
-      .jpeg({ quality: file.size < 50 * 1024 ? 100 : 90 })
+      .jpeg({ quality: fileSize < 50 * 1024 ? 100 : 90 })
       .toBuffer()
   );
 };
@@ -19,21 +19,15 @@ export const validateAndProccessFile = async (file: File) => {
     return null;
   }
 
+  // Buffer once and reuse: sniffing and compressing both need the bytes, and
+  // this can be up to 5 MB
+  const buffer = Buffer.from(await file.arrayBuffer());
+
   // Actual file type validation
-  const fileTypeRes = await fileTypeFromBuffer(
-    Buffer.from(await file.arrayBuffer())
-  );
-  if (!fileTypeRes) {
+  const fileTypeRes = await fileTypeFromBuffer(buffer);
+  if (!fileTypeRes?.mime.startsWith('image/')) {
     return null;
   }
 
-  // Process the file
-  switch (true) {
-    case fileTypeRes.mime.startsWith('image/'): {
-      return getCompressedImage(file);
-    }
-    default: {
-      return null;
-    }
-  }
+  return getCompressedImage(buffer, file.size);
 };

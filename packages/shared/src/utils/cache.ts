@@ -47,6 +47,19 @@ const getFromCache = async (cacheBucketKey: ECacheBucketKeys, url: string) => {
   return cache.match(url);
 };
 
+/**
+ * Takes an already-open Cache so callers resolving many urls can open the
+ * bucket once instead of per url.
+ */
+export const getBlobUrlFromOpenCache = async (cache: Cache, url: string) => {
+  const response = await cache.match(url);
+  const blob = await response?.blob();
+  if (!blob) {
+    return '';
+  }
+  return URL.createObjectURL(blob);
+};
+
 export const getBlobUrlFromCache = async (
   cacheBucketKey: ECacheBucketKeys,
   url: string

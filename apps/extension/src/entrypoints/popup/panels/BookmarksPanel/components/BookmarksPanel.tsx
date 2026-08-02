@@ -8,7 +8,7 @@ import {
 } from '@bypass/shared';
 import { ScrollArea } from '@bypass/ui';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 
 import { MAX_PANEL_SIZE } from '@/constants';
@@ -45,9 +45,12 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
   );
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const [searchText, setSearchText] = useState('');
-  const filteredContextBookmarks = getFilteredContextBookmarks(
-    contextBookmarks,
-    searchText
+  // This component re-renders on every row click (selected/cut state), so
+  // without memoing, the whole list is re-filtered and getItemKey's identity
+  // churns on each one
+  const filteredContextBookmarks = useMemo(
+    () => getFilteredContextBookmarks(contextBookmarks, searchText),
+    [contextBookmarks, searchText]
   );
   const virtualizer = useVirtualizer({
     count: filteredContextBookmarks.length,

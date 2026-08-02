@@ -116,10 +116,10 @@ const createBackgroundEnv = async (
   };
 };
 
-export const test = base.extend<{
-  isolatedBackground: BaseBackgroundEnv;
-  sharedBackground: BaseBackgroundEnv;
-}>({
+export const test = base.extend<
+  { isolatedBackground: BaseBackgroundEnv },
+  { sharedBackground: BaseBackgroundEnv }
+>({
   async isolatedBackground({}, use, testInfo) {
     const userDataDir = await fs.mkdtemp(
       path.join(os.tmpdir(), 'chrome-background-profile-')
@@ -142,22 +142,29 @@ export const test = base.extend<{
     }
   },
 
-  async sharedBackground({}, use, testInfo) {
-    const { browserContext, userDataDir } = await createSharedContext({
-      headless: testInfo.project.use?.headless ?? true,
-    });
+  // Worker-scoped like every other shared fixture: background-navigation.spec
+  // is describe.serial and each test calls ensureActiveState /
+  // clearHistoryStartTime, so it is self-resetting and does not need a fresh
+  // profile copy + Chromium launch per test.
+  sharedBackground: [
+    async ({}, use, testInfo) => {
+      const { browserContext, userDataDir } = await createSharedContext({
+        headless: testInfo.project.use?.headless ?? true,
+      });
 
-    try {
-      const backgroundSW = await createSharedBackgroundSW(browserContext);
-      const extensionId = await getExtensionId(backgroundSW);
-      const env = await createBackgroundEnv(browserContext, extensionId);
+      try {
+        const backgroundSW = await createSharedBackgroundSW(browserContext);
+        const extensionId = await getExtensionId(backgroundSW);
+        const env = await createBackgroundEnv(browserContext, extensionId);
 
-      await use(env);
-    } finally {
-      await browserContext.close();
-      await fs.rm(userDataDir, { recursive: true, force: true });
-    }
-  },
+        await use(env);
+      } finally {
+        await browserContext.close();
+        await fs.rm(userDataDir, { recursive: true, force: true });
+      }
+    },
+    { scope: 'worker' },
+  ],
 });
 
 export const { expect } = test;

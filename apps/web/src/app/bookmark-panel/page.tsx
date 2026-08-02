@@ -14,7 +14,7 @@ import {
 import { ScrollArea } from '@bypass/ui';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { getFromLocalStorage } from '@app/utils/storage';
 
@@ -30,9 +30,9 @@ export default function BookmarksPage() {
   );
   const [folders, setFolders] = useState<IBookmarksObj['folders']>({});
   const [searchText, setSearchText] = useState('');
-  const filteredContextBookmarks = getFilteredContextBookmarks(
-    contextBookmarks,
-    searchText
+  const filteredContextBookmarks = useMemo(
+    () => getFilteredContextBookmarks(contextBookmarks, searchText),
+    [contextBookmarks, searchText]
   );
   const virtualizer = useVirtualizer({
     count: filteredContextBookmarks.length,

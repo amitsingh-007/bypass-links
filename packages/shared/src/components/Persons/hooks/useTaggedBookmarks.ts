@@ -1,36 +1,49 @@
 import useSWR from 'swr';
 
-import useBookmark from '../../Bookmarks/hooks/useBookmark';
-import { getDecryptedBookmark } from '../../Bookmarks/utils';
+import useStorage from '../../../hooks/useStorage';
+import { ROOT_FOLDER_ID } from '../../Bookmarks/constants';
+import {
+  getDecryptedBookmark,
+  getDecryptedFolder,
+  getDefaultFolder,
+} from '../../Bookmarks/utils';
 import { type IBookmarkWithFolder } from '../interfaces/bookmark';
 import { getOrderedBookmarksList } from '../utils/bookmark';
-import usePerson from './usePerson';
 
 const useTaggedBookmarks = (personUid = '') => {
-  const { getBookmarkFromHash, getFolderFromHash, getDefaultOrRootFolderUrls } =
-    useBookmark();
-  const { getPersonTaggedUrls } = usePerson();
+  const { getBookmarks } = useStorage();
 
   return useSWR(
     personUid ? ['tagged-bookmarks', personUid] : null,
     async () => {
-      const taggedUrls = await getPersonTaggedUrls(personUid);
-      if (!taggedUrls?.length) {
+      // One read of the whole bookmarks object for the entire list. Resolving
+      // each tagged url through useBookmark/usePerson would re-read and
+      // re-parse it twice per bookmark.
+      const bookmarks = await getBookmarks();
+      if (!bookmarks?.urlList) {
         return [];
       }
+      const { urlList, folderList, folders } = bookmarks;
 
-      const fetchedBookmarks = await Promise.all(
-        taggedUrls.map(async (urlHash) => {
-          const bookmark = await getBookmarkFromHash(urlHash);
-          const parent = await getFolderFromHash(bookmark.parentHash);
-          const decodedBookmark = getDecryptedBookmark(bookmark);
-          return Object.assign(decodedBookmark, {
+      const fetchedBookmarks = Object.entries(urlList)
+        .filter(([, bookmark]) => bookmark.taggedPersons.includes(personUid))
+        .map(([, bookmark]) => {
+          const parent = getDecryptedFolder(folderList[bookmark.parentHash]);
+          return Object.assign(getDecryptedBookmark(bookmark), {
             parentName: parent.name,
             parentId: parent.id,
           }) satisfies IBookmarkWithFolder;
-        })
-      );
-      const defaultUrls = await getDefaultOrRootFolderUrls();
+        });
+      if (!fetchedBookmarks.length) {
+        return [];
+      }
+
+      const parentHash =
+        getDefaultFolder(Object.values(folderList))?.id ?? ROOT_FOLDER_ID;
+      const defaultUrls = Object.values(folders[parentHash])
+        .filter((bookmark) => !bookmark.isDir)
+        .map((urlData) => urlList[urlData.hash]);
+
       return getOrderedBookmarksList(fetchedBookmarks, defaultUrls);
     }
   );
