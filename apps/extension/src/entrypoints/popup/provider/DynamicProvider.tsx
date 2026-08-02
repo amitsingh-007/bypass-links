@@ -25,9 +25,7 @@ function DynamicProvider({ children }: PropsWithChildren) {
         set: setToChromeStorage,
       },
       tabs: {
-        // Arming the watcher before opening is the invariant this seam exists
-        // to enforce; startHistoryMonitor is idempotent so looping callers can
-        // call this per url
+        // Idempotent, so loop callers can call this per url
         open: (url: string) => {
           startHistoryMonitor();
           browser.tabs.create({ url, active: false });

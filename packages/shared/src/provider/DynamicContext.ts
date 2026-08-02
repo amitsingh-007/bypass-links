@@ -12,11 +12,6 @@ interface IDynamicContext {
     get: <T>(key: string) => Promise<T | null | undefined>;
     set: (key: string, data: any) => Promise<void>;
   };
-  /**
-   * Opening a link differs per platform (browser.tabs.create vs window.open),
-   * and the extension must arm its history watcher first. Routing it through
-   * the seam keeps that invariant in one place instead of at every call site.
-   */
   tabs: {
     open: (url: string) => void;
   };

@@ -150,8 +150,6 @@ function PersonsPanel() {
             persons={filteredAndOrderedPersons}
             bookmarkListProps={{
               fullscreen: true,
-              // The edit route is the extension's concern, so it is supplied
-              // here rather than hardcoded inside the shared component
               onBookmarkEdit: ({ url, parentId }) => {
                 navigate(
                   getBookmarksPanelUrl({

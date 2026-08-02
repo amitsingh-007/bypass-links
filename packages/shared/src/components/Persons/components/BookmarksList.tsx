@@ -24,10 +24,7 @@ interface Props {
   personToOpen: IPerson | undefined;
   imageUrl: string;
   fullscreen: boolean;
-  /**
-   * Rendered only when supplied, so the shared component no longer needs to
-   * know the extension's edit route to decide whether editing is possible.
-   */
+  /** The edit button renders only when this is supplied. */
   onBookmarkEdit?: (bookmark: IBookmarkWithFolder) => void;
 }
 

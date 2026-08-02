@@ -20,8 +20,6 @@ function DynamicProvider({ children }: PropsWithChildren) {
         get: async <T,>(key: string) => getFromLocalStorage<T>(key),
         set: async (key: string, value: any) => setToLocalStorage(key, value),
       },
-      // Delegates to openNewTab so the noopener/noreferrer flags and the
-      // focus() call are not silently dropped
       tabs: { open: openNewTab },
       favicon: { getUrl: getYandexFaviconUrl },
     }),

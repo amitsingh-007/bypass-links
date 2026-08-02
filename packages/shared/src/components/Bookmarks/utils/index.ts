@@ -15,11 +15,7 @@ export const isFolderEmpty = (
   return !folder || folder.length === 0;
 };
 
-/**
- * Takes the favicon provider as an argument rather than reading DynamicContext:
- * the cache/preload path is plain async functions, not components, so it cannot
- * consume a React context.
- */
+// Provider is a param, not from DynamicContext: callers here are not components
 export const getBookmarkFaviconUrls = (
   urlList: IBookmarksObj['urlList'],
   getFaviconUrl: (url: string) => string
