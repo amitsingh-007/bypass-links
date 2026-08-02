@@ -56,7 +56,7 @@ export const getForumPageLinks = async (
   const websites = await websitesItem.getValue();
   // Undefined when unsynced; url.includes(undefined) would match arbitrary urls
   const matches = (website?: string) =>
-    Boolean(website) && url.includes(website!);
+    Boolean(website && url.includes(website));
   let executor: () => Array<string | undefined>;
 
   switch (true) {
