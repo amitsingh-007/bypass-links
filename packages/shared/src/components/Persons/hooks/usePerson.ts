@@ -38,10 +38,9 @@ const usePerson = () => {
       }
       const personImages = await getPersonImageUrls();
       if (!personImages) {
-        // Matches resolvePersonImageFromUid: bail before touching CacheStorage
         return persons.map((person) => ({ ...person, imageUrl: '' }));
       }
-      // Open the bucket once for the whole list rather than once per person
+      // Open the bucket once for the whole list
       const cache = await getCacheObj(ECacheBucketKeys.person);
       return Promise.all(
         persons.map(async (person) => ({

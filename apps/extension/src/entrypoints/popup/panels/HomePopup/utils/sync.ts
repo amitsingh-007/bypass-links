@@ -63,9 +63,7 @@ export const processPostLogin = async () => {
   // Sync remote firebase to storage
   await syncFirebaseToStorage();
   incrementProgress(SIGN_IN_TOTAL_STEPS);
-  // Independent network-bound cache warms: person images come from personsItem,
-  // favicons from bookmarksItem. addAllToCache shares one pLimit(20), so running
-  // them together costs max() instead of sum() without raising peak concurrency.
+  // Independent cache warms; addAllToCache shares one pLimit so concurrency is capped
   await Promise.all([cachePersonImagesInStorage(), cacheBookmarkFavicons()]);
   incrementProgress(SIGN_IN_TOTAL_STEPS);
   incrementProgress(SIGN_IN_TOTAL_STEPS);

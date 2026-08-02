@@ -16,9 +16,7 @@ const useTaggedBookmarks = (personUid = '') => {
   return useSWR(
     personUid ? ['tagged-bookmarks', personUid] : null,
     async () => {
-      // One read of the whole bookmarks object for the entire list. Resolving
-      // each tagged url through useBookmark/usePerson would re-read and
-      // re-parse it twice per bookmark.
+      // One read for the whole list; the per-hash helpers re-read it twice per bookmark
       const bookmarks = await getBookmarks();
       if (!bookmarks?.urlList) {
         return [];

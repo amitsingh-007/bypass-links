@@ -45,9 +45,7 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
   );
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const [searchText, setSearchText] = useState('');
-  // This component re-renders on every row click (selected/cut state), so
-  // without memoing, the whole list is re-filtered and getItemKey's identity
-  // churns on each one
+  // Re-renders on every row click, so memo to keep getItemKey identity stable
   const filteredContextBookmarks = useMemo(
     () => getFilteredContextBookmarks(contextBookmarks, searchText),
     [contextBookmarks, searchText]

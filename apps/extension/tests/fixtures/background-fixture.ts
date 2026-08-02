@@ -142,10 +142,7 @@ export const test = base.extend<
     }
   },
 
-  // Worker-scoped like every other shared fixture: background-navigation.spec
-  // is describe.serial and each test calls ensureActiveState /
-  // clearHistoryStartTime, so it is self-resetting and does not need a fresh
-  // profile copy + Chromium launch per test.
+  // Safe to share: the spec is describe.serial and each test resets its own state
   sharedBackground: [
     async ({}, use, testInfo) => {
       const { browserContext, userDataDir } = await createSharedContext({

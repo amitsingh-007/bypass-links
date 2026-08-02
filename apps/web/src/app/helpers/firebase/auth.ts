@@ -38,9 +38,7 @@ export const googleSignOut = async () => signOut(auth);
 export const onAuthStateChange = (callback: (user: User | null) => void) =>
   onAuthStateChanged(auth, callback);
 
-// No force-refresh: this runs before every tRPC request and the SDK already
-// refreshes within 5 mins of expiry, so forcing it added a securetoken round
-// trip to each call
+// No force-refresh: runs before every tRPC request and the SDK auto-refreshes near expiry
 export const getAuthIdToken = async () => auth.currentUser?.getIdToken();
 
 export const emailAndPasswordSignIn = async (
