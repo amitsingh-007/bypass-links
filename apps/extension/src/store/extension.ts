@@ -6,8 +6,7 @@ interface State {
 }
 
 const useExtStore = create<State>()((set) => ({
-  // Defaults to true: Authenticate reads this on mount and would auto-sign-out
-  // if it started false while storage is still resolving
+  // Must default true: Authenticate would auto-sign-out while storage resolves
   isExtensionActive: true,
   setIsExtensionActive: (isExtensionActive: boolean) =>
     set(() => ({ isExtensionActive })),
