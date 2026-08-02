@@ -9,7 +9,7 @@ import {
   useState,
 } from 'react';
 
-import { ROUTES } from '../constants/routes';
+import { WEB_ROUTES } from '../constants/routes';
 import { onAuthStateChange } from '../helpers/firebase/auth';
 
 interface IAuthContext {
@@ -22,7 +22,7 @@ const AuthContext = createContext<IAuthContext>({
   isLoginIntialized: false,
 });
 
-const RESTRICTED_PATHS = new Set([ROUTES.HOMEPAGE]);
+const RESTRICTED_PATHS = new Set([WEB_ROUTES.HOMEPAGE]);
 
 export function AuthProvider({ children }: PropsWithChildren) {
   const pathname = usePathname();

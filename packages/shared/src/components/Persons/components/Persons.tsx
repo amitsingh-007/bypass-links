@@ -3,7 +3,7 @@ import { useElementSize } from '@mantine/hooks';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { type ReactNode, use, useCallback, useState } from 'react';
 
-import usePlatform from '../../../hooks/usePlatform';
+import useIsMobile from '../../../hooks/useIsMobile';
 import DynamicContext from '../../../provider/DynamicContext';
 import { deserializeQueryStringToObject } from '../../../utils/url';
 import { ScrollButton } from '../../ScrollButton';
@@ -42,7 +42,7 @@ function PersonsInner({
   personToOpenImage,
   renderPerson,
 }: InnerProps) {
-  const isMobile = usePlatform();
+  const isMobile = useIsMobile();
   const columnCount = getColumnCount(isMobile);
   const rowCount = Math.ceil(persons.length / columnCount);
   const columnDimension = (bodyWidth - 12) / columnCount; // Adjust scrollbar width

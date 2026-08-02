@@ -7,7 +7,7 @@ import {
   TooltipTrigger,
 } from '@bypass/ui';
 
-import usePlatform from '../../../hooks/usePlatform';
+import useIsMobile from '../../../hooks/useIsMobile';
 import useTaggedPersons from '../../Persons/hooks/useTaggedPersons';
 import Favicon from './Favicon';
 import PersonAvatars from './PersonAvatars';
@@ -36,7 +36,7 @@ function Bookmark({
   getFaviconUrl,
 }: BookmarkProps) {
   const { data: personsWithImageUrls = [] } = useTaggedPersons(taggedPersons);
-  const isMobile = usePlatform();
+  const isMobile = useIsMobile();
 
   const handleOpenLink: React.MouseEventHandler<HTMLDivElement> = (event) => {
     if (event.ctrlKey || event.metaKey) {

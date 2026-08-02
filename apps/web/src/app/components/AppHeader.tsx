@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-import { ROUTES } from '@app/constants/routes';
+import { WEB_ROUTES } from '@app/constants/routes';
 
 function AppHeader() {
   const router = useRouter();
@@ -14,7 +14,7 @@ function AppHeader() {
 
   useEffect(() => {
     if (clickCount === 5) {
-      router.push(ROUTES.BYPASS_LINKS_WEB);
+      router.push(WEB_ROUTES.BYPASS_LINKS_WEB);
     }
   }, [clickCount, router]);
 

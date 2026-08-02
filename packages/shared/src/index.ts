@@ -49,4 +49,4 @@ export * from './utils/search';
 export * from './utils/url';
 
 // Hooks
-export { default as usePlatform } from './hooks/usePlatform';
+export { default as useIsMobile } from './hooks/useIsMobile';

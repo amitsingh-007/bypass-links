@@ -1,5 +1,5 @@
 import { Switch } from '@bypass/ui';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { EExtensionState } from '@/constants';
 import { extStateItem } from '@/storage/items';
@@ -7,37 +7,24 @@ import { getIsExtensionActive } from '@/utils/common';
 import useExtStore from '@store/extension';
 
 function ToggleExtension() {
-  const turnOnExtension = useExtStore((state) => state.turnOnExtension);
-  const turnOffExtension = useExtStore((state) => state.turnOffExtension);
-  const [extState, setExtState] = useState<EExtensionState>(
-    EExtensionState.INACTIVE
-  );
-
-  const dispatchActionAndSetState = useCallback(
-    (_extState: EExtensionState, isActive: boolean) => {
-      setExtState(_extState);
-      const action = isActive ? turnOnExtension : turnOffExtension;
-      action();
-    },
-    [turnOnExtension, turnOffExtension]
+  const isActive = useExtStore((state) => state.isExtensionActive);
+  const setIsExtensionActive = useExtStore(
+    (state) => state.setIsExtensionActive
   );
 
   useEffect(() => {
-    extStateItem.getValue().then((_extState) => {
-      const isActive = getIsExtensionActive(_extState);
-      dispatchActionAndSetState(_extState, isActive);
+    extStateItem.getValue().then((extState) => {
+      setIsExtensionActive(getIsExtensionActive(extState));
     });
-  }, [dispatchActionAndSetState]);
+  }, [setIsExtensionActive]);
 
   const handleToggle = (checked: boolean) => {
-    const extensionState = checked
-      ? EExtensionState.ACTIVE
-      : EExtensionState.INACTIVE;
-    extStateItem.setValue(extensionState);
-    dispatchActionAndSetState(extensionState, checked);
+    extStateItem.setValue(
+      checked ? EExtensionState.ACTIVE : EExtensionState.INACTIVE
+    );
+    setIsExtensionActive(checked);
   };
 
-  const isActive = getIsExtensionActive(extState);
   return (
     <div className="flex items-center gap-2">
       <Switch checked={isActive} onCheckedChange={handleToggle} />
