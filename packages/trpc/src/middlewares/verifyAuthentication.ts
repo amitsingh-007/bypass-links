@@ -1,31 +1,22 @@
 import { TRPCError } from '@trpc/server';
 
 import { t } from '../trpc';
+import { checkUserAuthorized } from '../utils/authorization';
 
 const verifyAuthMiddleware = t.middleware(async (opts) => {
   const { ctx } = opts;
   const { user } = ctx;
-  if (!user) {
+
+  const result = checkUserAuthorized(user);
+  if (!result.ok) {
     throw new TRPCError({
-      code: 'UNAUTHORIZED',
-      message: 'Authentication token not found',
-    });
-  }
-  if (user.disabled) {
-    throw new TRPCError({
-      code: 'FORBIDDEN',
-      message: 'User is disabled',
-    });
-  }
-  if (!user.emailVerified) {
-    throw new TRPCError({
-      code: 'FORBIDDEN',
-      message: 'User email is unverified',
+      code: result.status === 401 ? 'UNAUTHORIZED' : 'FORBIDDEN',
+      message: result.message,
     });
   }
 
   return opts.next({
-    ctx: { ...ctx, user }, // For type safety in protected procedures
+    ctx: { ...ctx, user: user! }, // For type safety in protected procedures
   });
 });
 

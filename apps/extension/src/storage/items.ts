@@ -17,7 +17,7 @@ export const bookmarksItem = storage.defineItem<IBookmarksObj>(
 );
 
 export const websitesItem = storage.defineItem<IWebsites>('local:websites', {
-  fallback: {} as unknown as IWebsites,
+  fallback: {},
 });
 
 export const lastVisitedItem = storage.defineItem<ILastVisited>(

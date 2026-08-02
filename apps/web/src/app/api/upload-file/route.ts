@@ -1,12 +1,18 @@
 import { uploadImageToFirebase } from '@bypass/trpc/appRouter';
 import { type NextRequest, NextResponse } from 'next/server';
 
-import { authorizeUser } from '@app/helpers/authorizeUser';
+import { authorizeUser, toAuthErrorResponse } from '@app/helpers/authorizeUser';
 
 import { validateAndProccessFile } from './utils';
 
 export async function POST(request: NextRequest) {
-  const user = await authorizeUser(request);
+  let user;
+  try {
+    user = await authorizeUser(request);
+  } catch (error) {
+    // 401/403 instead of the 500 a bare thrown Error produced
+    return toAuthErrorResponse(error);
+  }
 
   const formData = await request.formData();
   const file = formData.get('file');

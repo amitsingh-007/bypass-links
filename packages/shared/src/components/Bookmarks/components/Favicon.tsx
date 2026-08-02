@@ -12,16 +12,34 @@ interface Props {
   ref?: React.Ref<HTMLDivElement>;
 }
 
+/**
+ * Bounded LRU. Object URLs are never garbage collected on their own, so an
+ * uncapped map pinned one decoded blob per favicon ever rendered - unbounded in
+ * the long-lived web bookmark panel. Evicted entries are revoked.
+ */
+const MAX_CACHED_FAVICONS = 200;
 const urlMap = new Map<string, string>();
 
 const getBlobUrl = async (proxyUrl: string) => {
-  const blobStr = urlMap.get(proxyUrl);
-  if (blobStr) {
-    return blobStr;
+  const cached = urlMap.get(proxyUrl);
+  if (cached) {
+    // Refresh recency
+    urlMap.delete(proxyUrl);
+    urlMap.set(proxyUrl, cached);
+    return cached;
   }
 
   const blobUrl = await getBlobUrlFromCache(ECacheBucketKeys.favicon, proxyUrl);
   urlMap.set(proxyUrl, blobUrl);
+
+  if (urlMap.size > MAX_CACHED_FAVICONS) {
+    const [oldestKey, oldestUrl] = urlMap.entries().next().value!;
+    urlMap.delete(oldestKey);
+    if (oldestUrl) {
+      URL.revokeObjectURL(oldestUrl);
+    }
+  }
+
   return blobUrl;
 };
 

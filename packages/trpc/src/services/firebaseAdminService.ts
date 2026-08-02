@@ -58,13 +58,19 @@ const storage = getStorage(firebaseApp);
 /**
  * REALTIME DATABASE
  */
+/**
+ * Returns null when the path has no data. Callers supply their own typed empty
+ * value: a blanket `?? {}` here was wrong for refs whose schema is an object
+ * with required keys or an array, so a first-ever sign-in failed output
+ * validation on bookmarks, websites and redirections.
+ */
 export const getFromFirebase = async <T = any>({
   ref,
   uid,
-}: Omit<Firebase, 'data'>): Promise<T> => {
+}: Omit<Firebase, 'data'>): Promise<T | null> => {
   const dbPath = getFullDbPath(ref, uid);
   const snapshot = await database.ref(dbPath).once('value');
-  return snapshot.val() ?? {};
+  return snapshot.val() ?? null;
 };
 
 /**

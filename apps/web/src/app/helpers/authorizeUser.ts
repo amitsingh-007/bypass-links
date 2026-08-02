@@ -1,16 +1,51 @@
-import { getFirebaseUser, verifyAuthToken } from '@bypass/trpc/appRouter';
-import { type NextRequest } from 'next/server';
+import {
+  checkUserAuthorized,
+  getAuthBearer,
+  getFirebaseUser,
+  verifyAuthToken,
+} from '@bypass/trpc/appRouter';
+import { type NextRequest, NextResponse } from 'next/server';
 
-export const authorizeUser = async (request: NextRequest) => {
-  const bearerToken = request.headers.get('Authorization');
-  const idToken = bearerToken?.split('Bearer ')?.[1];
-  if (!idToken) {
-    throw new Error('Unauthorized user');
+export class UnauthorizedError extends Error {
+  constructor(
+    readonly status: 401 | 403,
+    message: string
+  ) {
+    super(message);
+    this.name = 'UnauthorizedError';
   }
+}
+
+/**
+ * Applies the same rules as the tRPC middleware. Previously this only verified
+ * the token, so a disabled or email-unverified account could still reach the
+ * upload route that every tRPC procedure rejects.
+ */
+export const authorizeUser = async (request: NextRequest) => {
+  const idToken = getAuthBearer(request);
+  if (!idToken) {
+    throw new UnauthorizedError(401, 'Authentication token not found');
+  }
+
+  let user;
   try {
     const { uid } = await verifyAuthToken(idToken, true);
-    return await getFirebaseUser(uid);
+    user = await getFirebaseUser(uid);
   } catch {
-    throw new Error('Unauthorized user');
+    throw new UnauthorizedError(401, 'Unauthorized user');
   }
+
+  const result = checkUserAuthorized(user);
+  if (!result.ok) {
+    throw new UnauthorizedError(result.status, result.message);
+  }
+  return user;
+};
+
+/** Maps an UnauthorizedError to a response; rethrows anything else. */
+export const toAuthErrorResponse = (error: unknown) => {
+  if (error instanceof UnauthorizedError) {
+    return new NextResponse(error.message, { status: error.status });
+  }
+  throw error;
 };

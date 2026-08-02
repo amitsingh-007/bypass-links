@@ -63,16 +63,29 @@ export default defineBackground({
     /**
      * NOTE: Can remove browser.tabs.onUpdated in favor of this
      * @link https://stackoverflow.com/questions/16949810/how-can-i-run-this-script-when-the-tab-reloads-chrome-extension
+     *
+     * Two listeners registered once, rather than nesting an onCompleted
+     * listener per reload. The nested version was neither tab-filtered nor
+     * reliably removed: the first onCompleted from *any* tab consumed it, so a
+     * reload of tab A could fire onPageLoad against tab B, and a tab closed
+     * before completing leaked its listener for the worker's lifetime.
      */
+    const reloadingTabIds = new Set<number>();
+
     browser.webNavigation.onCommitted.addListener((details) => {
       if (details.transitionType === 'reload') {
-        browser.webNavigation.onCompleted.addListener(function onComplete({
-          tabId,
-        }) {
-          onPageLoad(tabId, details.url);
-          browser.webNavigation.onCompleted.removeListener(onComplete);
-        });
+        reloadingTabIds.add(details.tabId);
       }
+    });
+
+    browser.webNavigation.onCompleted.addListener(({ tabId, url }) => {
+      if (reloadingTabIds.delete(tabId)) {
+        onPageLoad(tabId, url);
+      }
+    });
+
+    browser.tabs.onRemoved.addListener((tabId) => {
+      reloadingTabIds.delete(tabId);
     });
 
     // Listen to dispatched messages
