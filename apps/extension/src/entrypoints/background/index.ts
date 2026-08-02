@@ -71,10 +71,27 @@ export default defineBackground({
      * consuming the tab's pending reload.
      */
     const reloadingTabIds = new Set<number>();
+    const clearReloading = ({
+      tabId,
+      frameId,
+    }: {
+      tabId: number;
+      frameId: number;
+    }) => {
+      if (isMainFrame(frameId)) {
+        reloadingTabIds.delete(tabId);
+      }
+    };
 
     browser.webNavigation.onCommitted.addListener((details) => {
-      if (details.transitionType === 'reload' && isMainFrame(details.frameId)) {
+      if (!isMainFrame(details.frameId)) {
+        return;
+      }
+      // A non-reload commit supersedes any pending reload for this tab
+      if (details.transitionType === 'reload') {
         reloadingTabIds.add(details.tabId);
+      } else {
+        reloadingTabIds.delete(details.tabId);
       }
     });
 
@@ -83,6 +100,10 @@ export default defineBackground({
         onPageLoad(tabId, url);
       }
     });
+
+    // Without this a reload that aborts leaves a marker the next unrelated
+    // completion would consume
+    browser.webNavigation.onErrorOccurred.addListener(clearReloading);
 
     browser.tabs.onRemoved.addListener((tabId) => {
       reloadingTabIds.delete(tabId);
