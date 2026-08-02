@@ -95,8 +95,7 @@ export class PersonsPanel {
 
   async verifyModalVisible() {
     await verifyModalVisible(this.page, MODAL_TEST_ID);
-    // Back button only renders while the modal is open, so it is the stronger
-    // signal that the modal actually mounted its content
+    // Back button only renders while the modal is open
     const backButton = this.getModal().getByRole('button', { name: 'Back' });
     await expect(backButton).toBeVisible();
   }

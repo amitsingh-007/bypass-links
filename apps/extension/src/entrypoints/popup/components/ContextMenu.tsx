@@ -39,7 +39,7 @@ function ContextMenuWrapper({ options, children }: Props) {
       <ContextMenuContent className="min-w-40">
         {options.map(({ id, text, icon, variant, onClick }) => (
           <ContextMenuItem
-            key={text}
+            key={id}
             data-testid={`context-menu-item-${id}`}
             className="gap-2"
             variant={variant}

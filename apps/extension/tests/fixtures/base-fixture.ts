@@ -22,10 +22,6 @@ interface CachedStorageData {
 export const getPopupUrl = (extensionId: string) =>
   `chrome-extension://${extensionId}/popup.html`;
 
-/**
- * Launch Chromium with the extension loaded. The CI-sensitive flags live here
- * only, so they cannot drift between the auth setup and the fixtures.
- */
 export const launchExtensionContext = async ({
   userDataDir,
   extensionPath = getExtensionPath(),
@@ -201,11 +197,7 @@ export interface SharedExtensionWorkerFixtures {
   sharedExtensionId: string;
 }
 
-/**
- * Worker-scoped extension environment shared by every panel fixture: one copied
- * Chrome profile, one background service worker, one extension id per worker.
- * Panel fixtures extend this and add only their own page fixture.
- */
+/** Worker-scoped extension env shared by every panel fixture. */
 export const sharedExtensionTest = base.extend<
   { context: BrowserContext },
   SharedExtensionWorkerFixtures

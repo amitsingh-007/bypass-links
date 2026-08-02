@@ -13,7 +13,6 @@ interface Props {
 function Person({ person }: Props) {
   const { location } = use(DynamicContext);
   const { uid, name } = person;
-  // SWR keyed by uid, so grid cells share one resolved blob URL across remounts
   const { data: imageUrl = '' } = usePersonImage(uid);
 
   const openBookmarksList = () => {
