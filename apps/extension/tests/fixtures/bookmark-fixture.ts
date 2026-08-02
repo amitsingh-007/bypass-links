@@ -1,58 +1,11 @@
-import {
-  type BrowserContext,
-  type Page,
-  type Worker,
-  test as base,
-} from '@playwright/test';
+import { type Page } from '@playwright/test';
 
-import {
-  createSharedBackgroundSW,
-  createSharedContext,
-  getExtensionId,
-  openExtensionPanelPage,
-} from './base-fixture';
+import { openExtensionPanelPage, sharedExtensionTest } from './base-fixture';
 
-export const test = base.extend<
-  {
-    bookmarksPage: Page;
-    context: BrowserContext;
-  },
-  {
-    sharedContext: BrowserContext;
-    sharedBackgroundSW: Worker;
-    sharedExtensionId: string;
-    sharedPage: Page;
-  }
+export const test = sharedExtensionTest.extend<
+  { bookmarksPage: Page },
+  { sharedPage: Page }
 >({
-  sharedContext: [
-    async ({}, use, testInfo) => {
-      const { browserContext, userDataDir } = await createSharedContext({
-        headless: testInfo.project.use?.headless ?? true,
-      });
-      await use(browserContext);
-      await browserContext.close();
-      const fsPromises = await import('node:fs/promises');
-      await fsPromises.rm(userDataDir, { recursive: true, force: true });
-    },
-    { scope: 'worker' },
-  ],
-
-  sharedBackgroundSW: [
-    async ({ sharedContext }, use) => {
-      const background = await createSharedBackgroundSW(sharedContext);
-      await use(background);
-    },
-    { scope: 'worker' },
-  ],
-
-  sharedExtensionId: [
-    async ({ sharedBackgroundSW }, use) => {
-      const id = await getExtensionId(sharedBackgroundSW);
-      await use(id);
-    },
-    { scope: 'worker' },
-  ],
-
   sharedPage: [
     async ({ sharedContext, sharedExtensionId }, use) => {
       const page = await openExtensionPanelPage(
@@ -67,10 +20,6 @@ export const test = base.extend<
 
   async bookmarksPage({ sharedPage }, use) {
     await use(sharedPage);
-  },
-
-  async context({ sharedContext }, use) {
-    await use(sharedContext);
   },
 });
 

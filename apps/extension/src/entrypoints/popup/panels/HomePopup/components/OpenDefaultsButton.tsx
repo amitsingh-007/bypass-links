@@ -1,22 +1,19 @@
+import { DynamicContext } from '@bypass/shared';
 import { Button, Spinner } from '@bypass/ui';
 import { LinkSquare02Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { useState } from 'react';
+import { use, useState } from 'react';
 
 import { redirectionsItem } from '@/storage/items';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
-import useHistoryStore from '@store/history';
 
 function OpenDefaultsButton() {
-  const startHistoryMonitor = useHistoryStore(
-    (state) => state.startHistoryMonitor
-  );
+  const { tabs } = use(DynamicContext);
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const [isFetching, setIsFetching] = useState(false);
 
   const handleOpenDefaults = async () => {
     setIsFetching(true);
-    startHistoryMonitor();
     const redirections = await redirectionsItem.getValue();
     const defaults = redirections.filter(
       ({ isDefault }: { isDefault: boolean }) => isDefault
@@ -24,7 +21,7 @@ function OpenDefaultsButton() {
     defaults
       .filter((data) => data?.alias && data.website)
       .forEach(({ website }) => {
-        browser.tabs.create({ url: atob(website), active: false });
+        tabs.open(atob(website));
       });
     setIsFetching(false);
   };

@@ -6,8 +6,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@bypass/ui';
+import { use } from 'react';
 
-import usePlatform from '../../../hooks/usePlatform';
+import useIsMobile from '../../../hooks/useIsMobile';
+import DynamicContext from '../../../provider/DynamicContext';
 import useTaggedPersons from '../../Persons/hooks/useTaggedPersons';
 import Favicon from './Favicon';
 import PersonAvatars from './PersonAvatars';
@@ -20,8 +22,6 @@ export interface BookmarkProps {
   pos?: number;
   isSelected?: boolean;
   handleSelectedChange?: (pos: number, isOnlySelection: boolean) => void;
-  onOpenLink: (url: string) => void;
-  getFaviconUrl: (url: string) => string;
 }
 
 function Bookmark({
@@ -32,17 +32,16 @@ function Bookmark({
   taggedPersons,
   isSelected,
   handleSelectedChange,
-  onOpenLink,
-  getFaviconUrl,
 }: BookmarkProps) {
+  const { tabs } = use(DynamicContext);
   const { data: personsWithImageUrls = [] } = useTaggedPersons(taggedPersons);
-  const isMobile = usePlatform();
+  const isMobile = useIsMobile();
 
   const handleOpenLink: React.MouseEventHandler<HTMLDivElement> = (event) => {
     if (event.ctrlKey || event.metaKey) {
       return;
     }
-    onOpenLink(url);
+    tabs.open(url);
   };
 
   const handleSelectionChange = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -71,7 +70,7 @@ function Bookmark({
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger>
-            <Favicon url={url} getFaviconUrl={getFaviconUrl} />
+            <Favicon url={url} />
           </TooltipTrigger>
           <TooltipContent
             side="right"

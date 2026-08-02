@@ -78,21 +78,13 @@ function ShortcutsPanel() {
     saveRedirectionTemp(newRedirections);
   };
 
-  const handleRuleMoveUp = (pos: number) => {
-    if (pos === 0) {
+  const handleRuleMove = (pos: number, offset: number) => {
+    const target = pos + offset;
+    if (target < 0 || target >= redirections.length) {
       return;
     }
     const newRedirs = [...redirections];
-    [newRedirs[pos], newRedirs[pos - 1]] = [newRedirs[pos - 1], newRedirs[pos]];
-    saveRedirectionTemp(newRedirs);
-  };
-
-  const handleRuleMoveDown = (pos: number) => {
-    if (pos >= redirections.length - 1) {
-      return;
-    }
-    const newRedirs = [...redirections];
-    [newRedirs[pos], newRedirs[pos + 1]] = [newRedirs[pos + 1], newRedirs[pos]];
+    [newRedirs[pos], newRedirs[target]] = [newRedirs[target], newRedirs[pos]];
     saveRedirectionTemp(newRedirs);
   };
 
@@ -137,8 +129,7 @@ function ShortcutsPanel() {
                 total={redirections.length}
                 handleRemoveRule={handleRemoveRule}
                 handleSaveRule={handleSaveRule}
-                handleRuleMoveUp={handleRuleMoveUp}
-                handleRuleMoveDown={handleRuleMoveDown}
+                handleRuleMove={handleRuleMove}
               />
             </div>
           );

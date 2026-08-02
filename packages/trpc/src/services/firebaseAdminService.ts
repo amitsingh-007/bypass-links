@@ -58,13 +58,14 @@ const storage = getStorage(firebaseApp);
 /**
  * REALTIME DATABASE
  */
+/** Returns null when empty; callers supply their own schema-appropriate default. */
 export const getFromFirebase = async <T = any>({
   ref,
   uid,
-}: Omit<Firebase, 'data'>): Promise<T> => {
+}: Omit<Firebase, 'data'>): Promise<T | null> => {
   const dbPath = getFullDbPath(ref, uid);
   const snapshot = await database.ref(dbPath).once('value');
-  return snapshot.val() ?? {};
+  return snapshot.val() ?? null;
 };
 
 /**

@@ -42,22 +42,23 @@ export const addAllToCache = async (
   await Promise.all(cachePromises);
 };
 
-const getFromCache = async (cacheBucketKey: ECacheBucketKeys, url: string) => {
-  const cache = await getCacheObj(cacheBucketKey);
-  return cache.match(url);
-};
-
-export const getBlobUrlFromCache = async (
-  cacheBucketKey: ECacheBucketKeys,
-  url: string
-) => {
-  const response = await getFromCache(cacheBucketKey, url);
+/** Variant taking an already-open Cache, to open the bucket once for many urls. */
+export const getBlobUrlFromOpenCache = async (cache: Cache, url?: string) => {
+  if (!url) {
+    return '';
+  }
+  const response = await cache.match(url);
   const blob = await response?.blob();
   if (!blob) {
     return '';
   }
   return URL.createObjectURL(blob);
 };
+
+export const getBlobUrlFromCache = async (
+  cacheBucketKey: ECacheBucketKeys,
+  url: string
+) => getBlobUrlFromOpenCache(await getCacheObj(cacheBucketKey), url);
 
 export const deleteCache = async (bucketKey: string) => {
   await caches.delete(bucketKey);

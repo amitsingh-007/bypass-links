@@ -23,22 +23,6 @@ interface Props {
 function ContextMenuWrapper({ options, children }: Props) {
   const idRef = useRef('');
 
-  const menuOptions = options.map((option) => {
-    const { id, text, onClick, icon, variant } = option;
-
-    return {
-      id,
-      key: text,
-      title: text,
-      icon,
-      variant,
-      onClick: () => {
-        onClick(idRef.current);
-        idRef.current = '';
-      },
-    };
-  });
-
   const handleContextMenu = (e: React.MouseEvent) => {
     const dataCtxId = (e.target as HTMLElement).dataset.contextId ?? '';
     idRef.current = dataCtxId;
@@ -53,16 +37,19 @@ function ContextMenuWrapper({ options, children }: Props) {
         {children}
       </ContextMenuTrigger>
       <ContextMenuContent className="min-w-40">
-        {menuOptions.map((option) => (
+        {options.map(({ id, text, icon, variant, onClick }) => (
           <ContextMenuItem
-            key={option.key}
-            data-testid={`context-menu-item-${option.id}`}
+            key={id}
+            data-testid={`context-menu-item-${id}`}
             className="gap-2"
-            variant={option.variant}
-            onClick={option.onClick}
+            variant={variant}
+            onClick={() => {
+              onClick(idRef.current);
+              idRef.current = '';
+            }}
           >
-            <HugeiconsIcon icon={option.icon} className="size-4" />
-            <span>{option.title}</span>
+            <HugeiconsIcon icon={icon} className="size-4" />
+            <span>{text}</span>
           </ContextMenuItem>
         ))}
       </ContextMenuContent>

@@ -1,15 +1,15 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@bypass/ui';
 import { Unlink02Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { useEffect, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 
 import { ECacheBucketKeys } from '../../../constants/cache';
+import DynamicContext from '../../../provider/DynamicContext';
 import { getBlobUrlFromCache } from '../../../utils/cache';
 
 interface Props {
   url: string;
   ref?: React.Ref<HTMLDivElement>;
-  getFaviconUrl: (url: string) => string;
 }
 
 const urlMap = new Map<string, string>();
@@ -25,16 +25,16 @@ const getBlobUrl = async (proxyUrl: string) => {
   return blobUrl;
 };
 
-function Favicon({ url, ref, getFaviconUrl }: Props) {
+function Favicon({ url, ref }: Props) {
+  const { favicon } = use(DynamicContext);
   const [faviconUrl, setFaviconUrl] = useState('');
 
   useEffect(() => {
     const initFavicon = async () => {
-      const proxyUrl = getFaviconUrl(url);
-      setFaviconUrl(await getBlobUrl(proxyUrl));
+      setFaviconUrl(await getBlobUrl(favicon.getUrl(url)));
     };
     initFavicon();
-  }, [url, getFaviconUrl]);
+  }, [url, favicon]);
 
   return (
     <Avatar ref={ref} size="sm" data-testid="bookmark-favicon">

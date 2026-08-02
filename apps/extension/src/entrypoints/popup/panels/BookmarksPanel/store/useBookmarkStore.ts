@@ -60,14 +60,13 @@ const useBookmarkStore = create<State>()((set, get) => ({
   cutBookmarks: [],
   isFetching: true,
   isSaveButtonActive: false,
-  updateTaggedPersons: [],
 
   async loadData(folderId: string) {
     set({ isSaveButtonActive: false, isFetching: true });
     const { folders, urlList, folderList } = await bookmarksItem.getValue();
 
-    const modifiedBookmarks = Object.entries(folders[folderId]).map((kvp) =>
-      bookmarksMapper(kvp, urlList, folderList)
+    const modifiedBookmarks = folders[folderId].map((meta) =>
+      bookmarksMapper(meta, urlList, folderList)
     );
 
     set({
@@ -97,8 +96,6 @@ const useBookmarkStore = create<State>()((set, get) => ({
     const { selectedBookmarks } = get();
     set({ cutBookmarks: [...selectedBookmarks] });
   },
-
-  resetCutBookmarks: () => set({ cutBookmarks: [] }),
 
   handleCreateNewFolder(name: string, parentFolderId: string) {
     const { contextBookmarks, folderList } = get();

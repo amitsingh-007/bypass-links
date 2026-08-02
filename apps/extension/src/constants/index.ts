@@ -9,3 +9,5 @@ export const MAX_PANEL_SIZE = {
 };
 
 export const TEST_AUTH_DATA_KEY = '__test_auth_data';
+
+export const POPUP_HOMEPAGE = '/popup.html';

@@ -5,16 +5,10 @@ import { HugeiconsIcon } from '@hugeicons/react';
 interface Props {
   pos: number;
   total: number;
-  handleRuleMoveUp: (pos: number) => void;
-  handleRuleMoveDown: (pos: number) => void;
+  handleRuleMove: (pos: number, offset: number) => void;
 }
 
-export function ReorderButton({
-  pos,
-  total,
-  handleRuleMoveUp,
-  handleRuleMoveDown,
-}: Props) {
+export function ReorderButton({ pos, total, handleRuleMove }: Props) {
   return (
     <ButtonGroup className="mx-2">
       <Button
@@ -22,7 +16,7 @@ export function ReorderButton({
         size="icon-sm"
         disabled={pos === 0}
         data-testid={`rule-${pos}-move-up`}
-        onClick={() => handleRuleMoveUp(pos)}
+        onClick={() => handleRuleMove(pos, -1)}
       >
         <HugeiconsIcon icon={ArrowUp01Icon} />
       </Button>
@@ -31,7 +25,7 @@ export function ReorderButton({
         size="icon-sm"
         disabled={pos === total - 1}
         data-testid={`rule-${pos}-move-down`}
-        onClick={() => handleRuleMoveDown(pos)}
+        onClick={() => handleRuleMove(pos, 1)}
       >
         <HugeiconsIcon icon={ArrowDown01Icon} />
       </Button>

@@ -5,40 +5,32 @@ import path from 'node:path';
 import {
   type Worker,
   test as base,
-  chromium,
   type BrowserContext,
 } from '@playwright/test';
 
-import { getExtensionPath } from '../utils/extension-path';
+import {
+  createSharedBackgroundSW,
+  launchExtensionContext,
+} from './base-fixture';
 
 export const test = base.extend<{
   context: BrowserContext;
   backgroundSW: Worker;
 }>({
   async context({}, use, testInfo) {
-    const pathToExtension = getExtensionPath();
-    const headless = testInfo.project.use?.headless ?? true;
     const userDataDir = await fs.promises.mkdtemp(
       path.join(os.tmpdir(), 'chrome-profile-')
     );
-    const browserContext = await chromium.launchPersistentContext(userDataDir, {
-      channel: 'chromium',
-      headless,
-      args: [
-        `--disable-extensions-except=${pathToExtension}`,
-        `--load-extension=${pathToExtension}`,
-        '--disable-dev-shm-usage',
-        '--no-sandbox',
-      ],
+    const browserContext = await launchExtensionContext({
+      userDataDir,
+      headless: testInfo.project.use?.headless ?? true,
     });
     await use(browserContext);
     await browserContext.close();
     await fs.promises.rm(userDataDir, { recursive: true, force: true });
   },
   async backgroundSW({ context }, use) {
-    let [background] = context.serviceWorkers();
-    background ||= await context.waitForEvent('serviceworker');
-    await use(background);
+    await use(await createSharedBackgroundSW(context));
   },
 });
 

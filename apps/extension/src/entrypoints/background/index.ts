@@ -32,6 +32,8 @@ const onPageLoad = async (tabId: number, url: string) => {
   }
 };
 
+const isMainFrame = (frameId: number) => frameId === 0;
+
 const updateIcon = async () => {
   const [extState, hasPendingBookmarks, hasPendingPersons] = await Promise.all([
     extStateItem.getValue(),
@@ -63,16 +65,48 @@ export default defineBackground({
     /**
      * NOTE: Can remove browser.tabs.onUpdated in favor of this
      * @link https://stackoverflow.com/questions/16949810/how-can-i-run-this-script-when-the-tab-reloads-chrome-extension
+     *
+     * Registered once instead of nesting a listener per reload, which was
+     * neither tab-filtered nor reliably removed. frameId 0 keeps subframes from
+     * consuming the tab's pending reload.
      */
-    browser.webNavigation.onCommitted.addListener((details) => {
-      if (details.transitionType === 'reload') {
-        browser.webNavigation.onCompleted.addListener(function onComplete({
-          tabId,
-        }) {
-          onPageLoad(tabId, details.url);
-          browser.webNavigation.onCompleted.removeListener(onComplete);
-        });
+    const reloadingTabIds = new Set<number>();
+    const clearReloading = ({
+      tabId,
+      frameId,
+    }: {
+      tabId: number;
+      frameId: number;
+    }) => {
+      if (isMainFrame(frameId)) {
+        reloadingTabIds.delete(tabId);
       }
+    };
+
+    browser.webNavigation.onCommitted.addListener((details) => {
+      if (!isMainFrame(details.frameId)) {
+        return;
+      }
+      // A non-reload commit supersedes any pending reload for this tab
+      if (details.transitionType === 'reload') {
+        reloadingTabIds.add(details.tabId);
+      } else {
+        reloadingTabIds.delete(details.tabId);
+      }
+    });
+
+    browser.webNavigation.onCompleted.addListener(({ tabId, url, frameId }) => {
+      if (isMainFrame(frameId) && reloadingTabIds.delete(tabId)) {
+        onPageLoad(tabId, url);
+      }
+    });
+
+    // Without this a reload that aborts leaves a marker the next unrelated
+    // completion would consume
+    browser.webNavigation.onErrorOccurred.addListener(clearReloading);
+
+    browser.tabs.onRemoved.addListener((tabId) => {
+      reloadingTabIds.delete(tabId);
     });
 
     // Listen to dispatched messages

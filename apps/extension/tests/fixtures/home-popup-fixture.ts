@@ -1,65 +1,25 @@
-import {
-  type BrowserContext,
-  type Page,
-  type Worker,
-  test as base,
-} from '@playwright/test';
+import { type Page } from '@playwright/test';
 
 import { getExtensionPath } from '../utils/extension-path';
 import {
   createSharedBackgroundSW,
-  createSharedContext,
   createUnauthContext,
   getExtensionId,
+  getPopupUrl,
   openExtensionPanelPage,
+  sharedExtensionTest,
 } from './base-fixture';
 
-export const test = base.extend<
+export const test = sharedExtensionTest.extend<
   {
     homePage: Page;
     unauthPage: Page;
-    context: BrowserContext;
   },
-  {
-    sharedContext: BrowserContext;
-    sharedBackgroundSW: Worker;
-    sharedExtensionId: string;
-    extensionPath: string;
-  }
+  { extensionPath: string }
 >({
   extensionPath: [
     async ({}, use) => {
-      const pathToExtension = getExtensionPath();
-      await use(pathToExtension);
-    },
-    { scope: 'worker' },
-  ],
-
-  sharedContext: [
-    async ({}, use, testInfo) => {
-      const { browserContext, userDataDir } = await createSharedContext({
-        headless: testInfo.project.use?.headless ?? true,
-      });
-      await use(browserContext);
-      await browserContext.close();
-      const fsPromises = await import('node:fs/promises');
-      await fsPromises.rm(userDataDir, { recursive: true, force: true });
-    },
-    { scope: 'worker' },
-  ],
-
-  sharedBackgroundSW: [
-    async ({ sharedContext }, use) => {
-      const background = await createSharedBackgroundSW(sharedContext);
-      await use(background);
-    },
-    { scope: 'worker' },
-  ],
-
-  sharedExtensionId: [
-    async ({ sharedBackgroundSW }, use) => {
-      const id = await getExtensionId(sharedBackgroundSW);
-      await use(id);
+      await use(getExtensionPath());
     },
     { scope: 'worker' },
   ],
@@ -77,10 +37,6 @@ export const test = base.extend<
     }
   },
 
-  async context({ sharedContext }, use) {
-    await use(sharedContext);
-  },
-
   async unauthPage({ extensionPath }, use, testInfo) {
     // Create a completely separate context without any authentication
     const { browserContext: unauthContext, userDataDir } =
@@ -88,15 +44,15 @@ export const test = base.extend<
         headless: testInfo.project.use?.headless ?? true,
       });
 
-    // Get extension ID from the new context
-    let [background] = unauthContext.serviceWorkers();
-    background ||= await unauthContext.waitForEvent('serviceworker');
-    const extensionId = background.url().split('/')[2];
+    const extensionId = await getExtensionId(
+      await createSharedBackgroundSW(unauthContext)
+    );
 
     // Create a new page without authentication
     const page = await unauthContext.newPage();
-    const extUrl = `chrome-extension://${extensionId}/popup.html`;
-    await page.goto(extUrl, { waitUntil: 'domcontentloaded' });
+    await page.goto(getPopupUrl(extensionId), {
+      waitUntil: 'domcontentloaded',
+    });
 
     await use(page);
 

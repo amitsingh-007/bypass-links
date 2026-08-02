@@ -1,15 +1,19 @@
+import { getBookmarksPanelUrl, ROUTES } from '@bypass/shared';
 import { Progress, Spinner } from '@bypass/ui';
+import {
+  CollectionsBookmarkIcon,
+  CommandIcon,
+  UserAiIcon,
+} from '@hugeicons/core-free-icons';
 
 import useProgressStore from '@/store/progress';
 
 import Authenticate from '../components/Authenticate';
-import BookmarksPanelButton from '../components/BookmarksPanelButton';
 import LastVisitedButton from '../components/LastVisitedButton';
 import OpenDefaultsButton from '../components/OpenDefaultsButton';
 import OpenForumLinks from '../components/OpenForumLinks';
-import PersonsPanelButton from '../components/PersonsPanelButton';
+import PanelNavButton from '../components/PanelNavButton';
 import QuickBookmarkButton from '../components/QuickBookmarkButton';
-import ShortcutsPanelButton from '../components/ShortcutsPanelButton';
 import ToggleExtension from '../components/ToggleExtension';
 import ToggleHistory from '../components/ToggleHistory';
 import UserProfile from '../components/UserProfile';
@@ -52,10 +56,22 @@ function PopupHome() {
       <div className="mt-4 grid w-full grid-cols-2 justify-between gap-3">
         <Authenticate />
         <OpenDefaultsButton />
-        <ShortcutsPanelButton />
+        <PanelNavButton
+          label="Shortcuts"
+          icon={CommandIcon}
+          route={ROUTES.SHORTCUTS_PANEL}
+        />
         <QuickBookmarkButton />
-        <PersonsPanelButton />
-        <BookmarksPanelButton />
+        <PanelNavButton
+          label="Persons"
+          icon={UserAiIcon}
+          route={ROUTES.PERSONS_PANEL}
+        />
+        <PanelNavButton
+          label="Bookmarks"
+          icon={CollectionsBookmarkIcon}
+          route={getBookmarksPanelUrl({})}
+        />
         <OpenForumLinks />
         <LastVisitedButton />
       </div>

@@ -1,16 +1,38 @@
-import { getFirebaseUser, verifyAuthToken } from '@bypass/trpc/appRouter';
+import {
+  checkUserAuthorized,
+  getAuthBearer,
+  getFirebaseUser,
+  verifyAuthToken,
+} from '@bypass/trpc/appRouter';
 import { type NextRequest } from 'next/server';
 
-export const authorizeUser = async (request: NextRequest) => {
-  const bearerToken = request.headers.get('Authorization');
-  const idToken = bearerToken?.split('Bearer ')?.[1];
+type FirebaseUser = Awaited<ReturnType<typeof getFirebaseUser>>;
+
+type AuthorizeUserResult =
+  | { ok: true; user: FirebaseUser }
+  | { ok: false; status: 401 | 403; message: string };
+
+/** Applies the same rules as the tRPC middleware. */
+export const authorizeUser = async (
+  request: NextRequest
+): Promise<AuthorizeUserResult> => {
+  const idToken = getAuthBearer(request);
   if (!idToken) {
-    throw new Error('Unauthorized user');
+    return {
+      ok: false,
+      status: 401,
+      message: 'Authentication token not found',
+    };
   }
+
+  let user: FirebaseUser;
   try {
     const { uid } = await verifyAuthToken(idToken, true);
-    return await getFirebaseUser(uid);
+    user = await getFirebaseUser(uid);
   } catch {
-    throw new Error('Unauthorized user');
+    return { ok: false, status: 401, message: 'Unauthorized user' };
   }
+
+  const result = checkUserAuthorized(user);
+  return result.ok ? { ok: true, user } : result;
 };

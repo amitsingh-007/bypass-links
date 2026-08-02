@@ -9,7 +9,6 @@ import {
   getFolderName,
   Header,
   type IBookmarksObj,
-  shouldRenderBookmarks,
   STORAGE_KEYS,
 } from '@bypass/shared';
 import { ScrollArea } from '@bypass/ui';
@@ -17,7 +16,7 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 import { useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { getFromLocalStorage, setToLocalStorage } from '@app/utils/storage';
+import { getFromLocalStorage } from '@app/utils/storage';
 
 import VirtualRow from './components/VirtualRow';
 
@@ -55,13 +54,12 @@ export default function BookmarksPage() {
       urlList: urlListData,
       folderList: folderListData,
     } = bookmarksData;
-    const modifiedBookmarks = Object.entries(foldersData[folderId]).map((kvp) =>
-      bookmarksMapper(kvp, urlListData, folderListData)
+    const modifiedBookmarks = foldersData[folderId].map((meta) =>
+      bookmarksMapper(meta, urlListData, folderListData)
     );
     setContextBookmarks(modifiedBookmarks);
     setFolders(foldersData);
     setFolderName(getFolderName(folderListData, folderId));
-    setToLocalStorage(STORAGE_KEYS.bookmarks, bookmarksData);
   }, [folderId]);
 
   useEffect(() => {
@@ -77,7 +75,7 @@ export default function BookmarksPage() {
         onSearchChange={handleSearchTextChange}
       />
       <ScrollArea viewportRef={scrollAreaRef} className="flex-1">
-        {shouldRenderBookmarks(folders, filteredContextBookmarks) ? (
+        {filteredContextBookmarks.length > 0 ? (
           <div
             style={{ height: virtualizer.getTotalSize() }}
             className="relative w-full"

@@ -1,5 +1,12 @@
-import { getNumericBadgeValue, parseBadgeCount } from '@bypass/shared/tests';
+import {
+  getNumericBadgeValue,
+  parseBadgeCount,
+  verifyModalClosed,
+  verifyModalVisible,
+} from '@bypass/shared/tests';
 import { expect, type Locator, type Page } from '@playwright/test';
+
+const MODAL_TEST_ID = 'bookmarks-list-modal';
 
 export class PersonsPanel {
   constructor(readonly page: Page) {}
@@ -87,18 +94,14 @@ export class PersonsPanel {
   }
 
   async verifyModalVisible() {
-    // Check that modal content is present by looking for the Back button
-    // which should only be visible when the modal is open
-    const modal = this.getModal();
-    await expect(modal).toBeAttached();
-    const backButton = modal.getByRole('button', { name: 'Back' });
+    await verifyModalVisible(this.page, MODAL_TEST_ID);
+    // Back button only renders while the modal is open
+    const backButton = this.getModal().getByRole('button', { name: 'Back' });
     await expect(backButton).toBeVisible();
   }
 
   async verifyModalClosed() {
-    // With shadcn, modals are removed from DOM when closed (unlike Mantine)
-    const modal = this.getModal();
-    await expect(modal).not.toBeAttached();
+    await verifyModalClosed(this.page, MODAL_TEST_ID);
   }
 
   async verifyPersonNameInBadge(name: string) {

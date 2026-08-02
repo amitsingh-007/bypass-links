@@ -32,7 +32,6 @@ export const signInWithCredential = async (accessToken: string) => {
     .json<IAuthResponse>((res) => ({
       uid: res.localId,
       email: res.email,
-      fullName: res.displayName,
       photoUrl: res.photoUrl,
       displayName: res.displayName,
       idToken: res.idToken,

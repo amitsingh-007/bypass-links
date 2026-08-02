@@ -54,11 +54,14 @@ export const getForumPageLinks = async (
   url: string
 ): Promise<string[]> => {
   const websites = await websitesItem.getValue();
+  // Undefined when unsynced; url.includes(undefined) would match arbitrary urls
+  const matches = (website?: string) =>
+    Boolean(website && url.includes(website));
   let executor: () => Array<string | undefined>;
 
   switch (true) {
-    case url.includes(websites.FORUM_1):
-    case url.includes(websites.FORUM_2): {
+    case matches(websites.FORUM_1):
+    case matches(websites.FORUM_2): {
       const { pathname } = new URL(url);
       const isWatchThreadsPage = pathname === '/watched/threads';
       executor = isWatchThreadsPage
@@ -67,12 +70,12 @@ export const getForumPageLinks = async (
       break;
     }
 
-    case url.includes(websites.FORUM_3): {
+    case matches(websites.FORUM_3): {
       executor = getForum_3_LinksFunc;
       break;
     }
 
-    case url.includes(websites.FORUM_4): {
+    case matches(websites.FORUM_4): {
       executor = getForum_4_LinksFunc;
       break;
     }

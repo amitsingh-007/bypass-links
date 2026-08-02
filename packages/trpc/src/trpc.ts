@@ -5,7 +5,7 @@ import {
   getFirebaseUser,
   verifyAuthToken,
 } from './services/firebaseAdminService';
-import { getAuthBearer, getIpAddress } from './utils/headers';
+import { getAuthBearer } from './utils/headers';
 
 const getLoggedInUser = async (idToken: string | undefined) => {
   if (!idToken) {
@@ -26,19 +26,9 @@ const getLoggedInUser = async (idToken: string | undefined) => {
 export const createTRPCContext = async (
   req: Request
 ): Promise<ITRPCContext> => {
-  const { headers } = req;
-  const ip = getIpAddress(req);
-  const userAgent = headers.get('user-agent');
-  const bearerToken = getAuthBearer(req);
-  const user = await getLoggedInUser(bearerToken);
+  const user = await getLoggedInUser(getAuthBearer(req));
 
-  return {
-    reqMetaData: {
-      ip,
-      userAgent,
-    },
-    user,
-  };
+  return { user };
 };
 
 export const t = initTRPC

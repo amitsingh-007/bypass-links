@@ -1,12 +1,17 @@
-import { DynamicContext } from '@bypass/shared';
+import { DynamicContext, getGoogleFaviconUrl } from '@bypass/shared';
 import { type PropsWithChildren, useMemo } from 'react';
 import { useLocation, useSearch } from 'wouter';
+
+import useHistoryStore from '@store/history';
 
 import { getFromChromeStorage, setToChromeStorage } from './utils';
 
 function DynamicProvider({ children }: PropsWithChildren) {
   const [, navigate] = useLocation();
   const search = useSearch();
+  const startHistoryMonitor = useHistoryStore(
+    (state) => state.startHistoryMonitor
+  );
 
   const ctx = useMemo(
     () => ({
@@ -19,8 +24,16 @@ function DynamicProvider({ children }: PropsWithChildren) {
         get: getFromChromeStorage,
         set: setToChromeStorage,
       },
+      tabs: {
+        // Idempotent, so loop callers can call this per url
+        open: (url: string) => {
+          startHistoryMonitor();
+          browser.tabs.create({ url, active: false });
+        },
+      },
+      favicon: { getUrl: getGoogleFaviconUrl },
     }),
-    [navigate, search]
+    [navigate, search, startHistoryMonitor]
   );
 
   return (

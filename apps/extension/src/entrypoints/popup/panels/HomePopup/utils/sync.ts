@@ -63,10 +63,9 @@ export const processPostLogin = async () => {
   // Sync remote firebase to storage
   await syncFirebaseToStorage();
   incrementProgress(SIGN_IN_TOTAL_STEPS);
-  // Then do other processes
-  await cachePersonImagesInStorage();
+  // Independent cache warms; addAllToCache shares one pLimit so concurrency is capped
+  await Promise.all([cachePersonImagesInStorage(), cacheBookmarkFavicons()]);
   incrementProgress(SIGN_IN_TOTAL_STEPS);
-  await cacheBookmarkFavicons();
   incrementProgress(SIGN_IN_TOTAL_STEPS);
 };
 

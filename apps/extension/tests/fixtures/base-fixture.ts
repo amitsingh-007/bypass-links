@@ -8,6 +8,7 @@ import {
   type Page,
   type Worker,
   chromium,
+  test as base,
 } from '@playwright/test';
 
 import { CHROME_PROFILE_DIR, EXTENSION_STORAGE_PATH } from '../auth-constants';
@@ -17,6 +18,29 @@ interface CachedStorageData {
   chromeStorage: Record<string, unknown>;
   localStorage: Record<string, string>;
 }
+
+export const getPopupUrl = (extensionId: string) =>
+  `chrome-extension://${extensionId}/popup.html`;
+
+export const launchExtensionContext = async ({
+  userDataDir,
+  extensionPath = getExtensionPath(),
+  headless = true,
+}: {
+  userDataDir: string;
+  extensionPath?: string;
+  headless?: boolean;
+}) =>
+  chromium.launchPersistentContext(userDataDir, {
+    channel: 'chromium',
+    headless,
+    args: [
+      `--disable-extensions-except=${extensionPath}`,
+      `--load-extension=${extensionPath}`,
+      '--disable-dev-shm-usage',
+      '--no-sandbox',
+    ],
+  });
 
 /**
  * Load cached storage data from file.
@@ -34,9 +58,6 @@ export const loadCachedStorageData = async (): Promise<CachedStorageData> => {
 export const createSharedContext = async (
   options: { headless?: boolean } = {}
 ) => {
-  const pathToExtension = getExtensionPath();
-  const headless = options.headless ?? true;
-
   // Copy the cached profile to a temp directory (to avoid locking issues)
   const userDataDir = await fs.promises.mkdtemp(
     path.join(os.tmpdir(), 'chrome-profile-')
@@ -45,15 +66,9 @@ export const createSharedContext = async (
   // Copy cached profile contents to temp dir
   await fs.promises.cp(CHROME_PROFILE_DIR, userDataDir, { recursive: true });
 
-  const browserContext = await chromium.launchPersistentContext(userDataDir, {
-    channel: 'chromium',
-    headless,
-    args: [
-      `--disable-extensions-except=${pathToExtension}`,
-      `--load-extension=${pathToExtension}`,
-      '--disable-dev-shm-usage',
-      '--no-sandbox',
-    ],
+  const browserContext = await launchExtensionContext({
+    userDataDir,
+    headless: options.headless,
   });
   return { browserContext, userDataDir };
 };
@@ -66,19 +81,13 @@ export const createUnauthContext = async (
   extensionPath: string,
   options: { headless?: boolean } = {}
 ) => {
-  const headless = options.headless ?? true;
   const userDataDir = await fs.promises.mkdtemp(
     path.join(os.tmpdir(), 'chrome-unauth-profile-')
   );
-  const browserContext = await chromium.launchPersistentContext(userDataDir, {
-    channel: 'chromium',
-    headless,
-    args: [
-      `--disable-extensions-except=${extensionPath}`,
-      `--load-extension=${extensionPath}`,
-      '--disable-dev-shm-usage',
-      '--no-sandbox',
-    ],
+  const browserContext = await launchExtensionContext({
+    userDataDir,
+    extensionPath,
+    headless: options.headless,
   });
   return { browserContext, userDataDir };
 };
@@ -121,8 +130,9 @@ export const authenticateAndNavigate = async (
 
   // Step 2: Create page and navigate to extension
   const page = await sharedContext.newPage();
-  const extUrl = `chrome-extension://${sharedExtensionId}/popup.html`;
-  await page.goto(extUrl, { waitUntil: 'domcontentloaded' });
+  await page.goto(getPopupUrl(sharedExtensionId), {
+    waitUntil: 'domcontentloaded',
+  });
 
   // Step 3: Inject chrome.storage.local via extension page (avoid MV3 worker hangs)
   await page.evaluate(async (chromeStorageData) => {
@@ -160,8 +170,9 @@ export const openExtensionPanelPage = async (
   panelName?: 'bookmarks' | 'persons' | 'shortcuts' | 'home'
 ): Promise<Page> => {
   const page = await sharedContext.newPage();
-  const extUrl = `chrome-extension://${sharedExtensionId}/popup.html`;
-  await page.goto(extUrl, { waitUntil: 'domcontentloaded' });
+  await page.goto(getPopupUrl(sharedExtensionId), {
+    waitUntil: 'domcontentloaded',
+  });
 
   const logoutButton = page.getByRole('button', { name: 'Logout' });
   await logoutButton.waitFor({
@@ -179,3 +190,45 @@ export const openExtensionPanelPage = async (
 
   return page;
 };
+
+export interface SharedExtensionWorkerFixtures {
+  sharedContext: BrowserContext;
+  sharedBackgroundSW: Worker;
+  sharedExtensionId: string;
+}
+
+/** Worker-scoped extension env shared by every panel fixture. */
+export const sharedExtensionTest = base.extend<
+  { context: BrowserContext },
+  SharedExtensionWorkerFixtures
+>({
+  sharedContext: [
+    async ({}, use, testInfo) => {
+      const { browserContext, userDataDir } = await createSharedContext({
+        headless: testInfo.project.use?.headless ?? true,
+      });
+      await use(browserContext);
+      await browserContext.close();
+      await fs.promises.rm(userDataDir, { recursive: true, force: true });
+    },
+    { scope: 'worker' },
+  ],
+
+  sharedBackgroundSW: [
+    async ({ sharedContext }, use) => {
+      await use(await createSharedBackgroundSW(sharedContext));
+    },
+    { scope: 'worker' },
+  ],
+
+  sharedExtensionId: [
+    async ({ sharedBackgroundSW }, use) => {
+      await use(await getExtensionId(sharedBackgroundSW));
+    },
+    { scope: 'worker' },
+  ],
+
+  async context({ sharedContext }, use) {
+    await use(sharedContext);
+  },
+});

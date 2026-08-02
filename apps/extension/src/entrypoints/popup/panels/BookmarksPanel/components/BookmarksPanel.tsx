@@ -1,19 +1,18 @@
 import {
   type BMPanelQueryParams,
   BOOKMARK_ROW_HEIGHT,
+  DynamicContext,
   EBookmarkOperation,
   HEADER_HEIGHT,
   ScrollButton,
   getFilteredContextBookmarks,
-  shouldRenderBookmarks,
 } from '@bypass/shared';
 import { ScrollArea } from '@bypass/ui';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { use, useCallback, useEffect, useRef, useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 
 import { MAX_PANEL_SIZE } from '@/constants';
-import useHistoryStore from '@store/history';
 
 import useBookmarkRouteStore from '../store/useBookmarkRouteStore';
 import useBookmarkStore from '../store/useBookmarkStore';
@@ -23,15 +22,12 @@ import BookmarksHeader from './BookmarksHeader';
 import VirtualRow from './VirtualRow';
 
 function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
-  const startHistoryMonitor = useHistoryStore(
-    (state) => state.startHistoryMonitor
-  );
+  const { tabs } = use(DynamicContext);
   const setBookmarkOperation = useBookmarkRouteStore(
     (state) => state.setBookmarkOperation
   );
   const {
     contextBookmarks,
-    folders,
     selectedBookmarks,
     cutBookmarks,
     isFetching,
@@ -39,7 +35,6 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
   } = useBookmarkStore(
     useShallow((state) => ({
       contextBookmarks: state.contextBookmarks,
-      folders: state.folders,
       selectedBookmarks: state.selectedBookmarks,
       cutBookmarks: state.cutBookmarks,
       isFetching: state.isFetching,
@@ -66,10 +61,9 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
   );
 
   const handleOpenSelectedBookmarks = () => {
-    startHistoryMonitor();
     contextBookmarks.forEach((bookmark, index) => {
       if (selectedBookmarks[index] && !bookmark.isDir) {
-        browser.tabs.create({ url: bookmark.url, active: false });
+        tabs.open(bookmark.url);
       }
     });
   };
@@ -117,7 +111,7 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
             className="w-full"
             style={{ height: MAX_PANEL_SIZE.HEIGHT - HEADER_HEIGHT }}
           >
-            {shouldRenderBookmarks(folders, filteredContextBookmarks) ? (
+            {filteredContextBookmarks.length > 0 ? (
               <div
                 className="relative w-full"
                 style={{ height: virtualizer.getTotalSize() }}

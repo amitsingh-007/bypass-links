@@ -8,9 +8,5 @@ export interface IUser {
 }
 
 export interface ITRPCContext {
-  reqMetaData: {
-    ip: string | null;
-    userAgent: string | null;
-  };
   user: IUser | null;
 }

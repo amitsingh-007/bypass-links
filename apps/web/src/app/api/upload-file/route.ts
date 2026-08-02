@@ -6,7 +6,10 @@ import { authorizeUser } from '@app/helpers/authorizeUser';
 import { validateAndProccessFile } from './utils';
 
 export async function POST(request: NextRequest) {
-  const user = await authorizeUser(request);
+  const auth = await authorizeUser(request);
+  if (!auth.ok) {
+    return new NextResponse(auth.message, { status: auth.status });
+  }
 
   const formData = await request.formData();
   const file = formData.get('file');
@@ -18,7 +21,7 @@ export async function POST(request: NextRequest) {
     return new NextResponse('Invalid file type', { status: 400 });
   }
 
-  await uploadImageToFirebase(user.uid, {
+  await uploadImageToFirebase(auth.user.uid, {
     fileName: file.name,
     fileType: file.type,
     buffer: fileBuffer,

@@ -6,7 +6,7 @@ import {
 import { getDecryptedBookmark, getDecryptedFolder } from '../utils';
 
 export const bookmarksMapper = (
-  [_key, { isDir, hash }]: [string, IFolderMetaData],
+  { isDir, hash }: IFolderMetaData,
   urlList: IBookmarksObj['urlList'],
   folderList: IBookmarksObj['folderList']
 ): ContextBookmark => {

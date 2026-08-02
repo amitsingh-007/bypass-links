@@ -4,7 +4,6 @@ import path from 'node:path';
 
 import { TEST_TIMEOUTS } from '@bypass/shared/tests';
 import {
-  chromium,
   type BrowserContext,
   type Page,
   test as base,
@@ -13,11 +12,11 @@ import {
 
 import { EExtensionState } from '@/constants';
 
-import { getExtensionPath } from '../utils/extension-path';
 import {
   createSharedBackgroundSW,
   createSharedContext,
   getExtensionId,
+  launchExtensionContext,
 } from './base-fixture';
 
 interface BaseBackgroundEnv {
@@ -117,31 +116,23 @@ const createBackgroundEnv = async (
   };
 };
 
-export const test = base.extend<{
-  isolatedBackground: BaseBackgroundEnv;
-  sharedBackground: BaseBackgroundEnv;
-}>({
+export const test = base.extend<
+  { isolatedBackground: BaseBackgroundEnv },
+  { sharedBackground: BaseBackgroundEnv }
+>({
   async isolatedBackground({}, use, testInfo) {
-    const extensionPath = getExtensionPath();
-    const headless = testInfo.project.use?.headless ?? true;
     const userDataDir = await fs.mkdtemp(
       path.join(os.tmpdir(), 'chrome-background-profile-')
     );
 
-    const context = await chromium.launchPersistentContext(userDataDir, {
-      channel: 'chromium',
-      headless,
-      args: [
-        `--disable-extensions-except=${extensionPath}`,
-        `--load-extension=${extensionPath}`,
-        '--disable-dev-shm-usage',
-        '--no-sandbox',
-      ],
+    const context = await launchExtensionContext({
+      userDataDir,
+      headless: testInfo.project.use?.headless ?? true,
     });
 
     try {
       const backgroundSW = await createSharedBackgroundSW(context);
-      const extensionId = backgroundSW.url().split('/')[2];
+      const extensionId = await getExtensionId(backgroundSW);
       const env = await createBackgroundEnv(context, extensionId);
 
       await use(env);
@@ -151,22 +142,26 @@ export const test = base.extend<{
     }
   },
 
-  async sharedBackground({}, use, testInfo) {
-    const { browserContext, userDataDir } = await createSharedContext({
-      headless: testInfo.project.use?.headless ?? true,
-    });
+  // Safe to share: the spec is describe.serial and each test resets its own state
+  sharedBackground: [
+    async ({}, use, testInfo) => {
+      const { browserContext, userDataDir } = await createSharedContext({
+        headless: testInfo.project.use?.headless ?? true,
+      });
 
-    try {
-      const backgroundSW = await createSharedBackgroundSW(browserContext);
-      const extensionId = await getExtensionId(backgroundSW);
-      const env = await createBackgroundEnv(browserContext, extensionId);
+      try {
+        const backgroundSW = await createSharedBackgroundSW(browserContext);
+        const extensionId = await getExtensionId(backgroundSW);
+        const env = await createBackgroundEnv(browserContext, extensionId);
 
-      await use(env);
-    } finally {
-      await browserContext.close();
-      await fs.rm(userDataDir, { recursive: true, force: true });
-    }
-  },
+        await use(env);
+      } finally {
+        await browserContext.close();
+        await fs.rm(userDataDir, { recursive: true, force: true });
+      }
+    },
+    { scope: 'worker' },
+  ],
 });
 
 export const { expect } = test;

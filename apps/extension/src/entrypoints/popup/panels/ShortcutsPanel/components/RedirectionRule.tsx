@@ -1,4 +1,4 @@
-import { type IRedirection } from '@bypass/shared';
+import { DynamicContext, type IRedirection } from '@bypass/shared';
 import {
   Button,
   InputGroup,
@@ -18,10 +18,9 @@ import {
   LinkSquare02Icon,
 } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { useEffect, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 
 import { getlastVisitedText } from '@popup/utils/lastVisited';
-import useHistoryStore from '@store/history';
 
 import { DEFAULT_RULE_ALIAS } from '../constants';
 import { ReorderButton } from './ReorderButton';
@@ -31,8 +30,7 @@ type Props = IRedirection & {
   total: number;
   handleRemoveRule: (pos: number) => void;
   handleSaveRule: (redirection: IRedirection, pos: number) => void;
-  handleRuleMoveUp: (pos: number) => void;
-  handleRuleMoveDown: (pos: number) => void;
+  handleRuleMove: (pos: number, offset: number) => void;
 };
 
 function RedirectionRule({
@@ -43,12 +41,9 @@ function RedirectionRule({
   total,
   handleRemoveRule,
   handleSaveRule,
-  handleRuleMoveUp,
-  handleRuleMoveDown,
+  handleRuleMove,
 }: Props) {
-  const startHistoryMonitor = useHistoryStore(
-    (state) => state.startHistoryMonitor
-  );
+  const { tabs } = use(DynamicContext);
   const [ruleAlias, setRuleAlias] = useState(alias);
   const [ruleWebsite, setRuleWebsite] = useState(website);
   const [isDefaultRule, setIsDefaultRule] = useState(isDefault);
@@ -78,8 +73,7 @@ function RedirectionRule({
   };
 
   const handleLinkOpen = () => {
-    startHistoryMonitor();
-    browser.tabs.create({ url: ruleWebsite, active: false });
+    tabs.open(ruleWebsite);
   };
 
   const isSameRule =
@@ -94,12 +88,7 @@ function RedirectionRule({
 
   return (
     <div className="flex items-center justify-center">
-      <ReorderButton
-        pos={pos}
-        total={total}
-        handleRuleMoveUp={handleRuleMoveUp}
-        handleRuleMoveDown={handleRuleMoveDown}
-      />
+      <ReorderButton pos={pos} total={total} handleRuleMove={handleRuleMove} />
       <div className="flex flex-1 gap-2">
         <InputGroup className="w-[25%]">
           <InputGroupAddon>

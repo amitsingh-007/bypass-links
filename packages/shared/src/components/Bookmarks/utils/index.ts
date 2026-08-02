@@ -15,11 +15,20 @@ export const isFolderEmpty = (
   return !folder || folder.length === 0;
 };
 
+// Provider is a param, not from DynamicContext: callers here are not components
+export const getBookmarkFaviconUrls = (
+  urlList: IBookmarksObj['urlList'],
+  getFaviconUrl: (url: string) => string
+) =>
+  Object.values(urlList).map((item) =>
+    getFaviconUrl(getDecryptedBookmark(item).url)
+  );
+
 export const getFilteredContextBookmarks = (
   contextBookmarks: ContextBookmarks,
   searchText: string
 ) =>
-  contextBookmarks?.filter((ctx) => {
+  contextBookmarks.filter((ctx) => {
     if (!searchText) {
       return true;
     }
@@ -28,11 +37,6 @@ export const getFilteredContextBookmarks = (
     }
     return hasText(searchText, ctx.url) || hasText(searchText, ctx.title);
   });
-
-export const shouldRenderBookmarks = (
-  folders: IBookmarksObj['folders'],
-  contextBookmarks: ContextBookmarks
-) => folders && contextBookmarks && contextBookmarks.length > 0;
 
 export const getEncryptedBookmark = (
   bookmark: IEncodedBookmark
