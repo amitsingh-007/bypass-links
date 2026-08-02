@@ -14,8 +14,6 @@ import { use, useState } from 'react';
 
 import DynamicContext from '../../../provider/DynamicContext';
 import Bookmark from '../../Bookmarks/components/Bookmark';
-import { EBookmarkOperation } from '../../Bookmarks/constants';
-import { getBookmarksPanelUrl } from '../../Bookmarks/utils/url';
 import Header from '../../Header';
 import useTaggedBookmarks from '../hooks/useTaggedBookmarks';
 import { type IBookmarkWithFolder } from '../interfaces/bookmark';
@@ -25,35 +23,25 @@ import { getFilteredModifiedBookmarks } from '../utils/bookmark';
 interface Props {
   personToOpen: IPerson | undefined;
   imageUrl: string;
-  onLinkOpen: (url: string) => void;
   fullscreen: boolean;
-  showEditButton?: boolean;
-  getFaviconUrl: (url: string) => string;
+  /**
+   * Rendered only when supplied, so the shared component no longer needs to
+   * know the extension's edit route to decide whether editing is possible.
+   */
+  onBookmarkEdit?: (bookmark: IBookmarkWithFolder) => void;
 }
 
 function BookmarksList({
   personToOpen,
   imageUrl,
-  onLinkOpen,
   fullscreen,
-  showEditButton,
-  getFaviconUrl,
+  onBookmarkEdit,
 }: Props) {
   const { location } = use(DynamicContext);
   const { data: bookmarks = [], isLoading } = useTaggedBookmarks(
     personToOpen?.uid
   );
   const [searchText, setSearchText] = useState('');
-
-  const handleBookmarkEdit = ({ url, parentId }: IBookmarkWithFolder) => {
-    location.push(
-      getBookmarksPanelUrl({
-        operation: EBookmarkOperation.EDIT,
-        bmUrl: url,
-        folderId: parentId,
-      })
-    );
-  };
 
   const handleClose = () => {
     location.goBack();
@@ -92,13 +80,13 @@ function BookmarksList({
             className="relative box-border flex h-8 w-full cursor-pointer items-center gap-2 rounded-md px-2 select-none hover:bg-muted"
             data-testid="bookmark-container"
           >
-            {showEditButton && (
+            {onBookmarkEdit && (
               <Button
                 variant="secondary"
                 size="icon-sm"
                 title="Edit Bookmark"
                 data-testid="edit-bookmark-button"
-                onClick={() => handleBookmarkEdit(bookmark)}
+                onClick={() => onBookmarkEdit(bookmark)}
               >
                 <HugeiconsIcon icon={BookEditIcon} className="size-3.5" />
               </Button>
@@ -109,8 +97,6 @@ function BookmarksList({
                 url={bookmark.url}
                 title={bookmark.title}
                 taggedPersons={bookmark.taggedPersons}
-                getFaviconUrl={getFaviconUrl}
-                onOpenLink={onLinkOpen}
               />
             </div>
             <Badge

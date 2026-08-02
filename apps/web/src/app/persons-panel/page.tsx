@@ -3,7 +3,6 @@
 import {
   getDecryptedPerson,
   getFilteredPersons,
-  getYandexFaviconUrl,
   Header,
   type IPerson,
   type IPersons,
@@ -16,14 +15,9 @@ import {
 import { Switch } from '@bypass/ui';
 import { useEffect, useState } from 'react';
 
-import { openNewTab } from '@app/utils';
 import { getFromLocalStorage } from '@app/utils/storage';
 
 import PersonVirtualCell from './components/PersonVirtualCell';
-
-const onLinkOpen = (url: string) => {
-  openNewTab(url);
-};
 
 function PersonsPage() {
   const [persons, setPersons] = useState<IPerson[]>([]);
@@ -81,13 +75,8 @@ function PersonsPage() {
         {filteredAndOrderedPersons.length > 0 ? (
           <Persons
             persons={filteredAndOrderedPersons}
-            bookmarkListProps={{
-              fullscreen: false,
-              showEditButton: false,
-              getFaviconUrl: getYandexFaviconUrl,
-            }}
+            bookmarkListProps={{ fullscreen: false }}
             renderPerson={(person) => <PersonVirtualCell person={person} />}
-            onLinkOpen={onLinkOpen}
           />
         ) : null}
       </div>

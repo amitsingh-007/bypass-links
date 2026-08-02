@@ -8,18 +8,17 @@ import DynamicContext from '../../../provider/DynamicContext';
 import { deserializeQueryStringToObject } from '../../../utils/url';
 import { ScrollButton } from '../../ScrollButton';
 import usePersonImage from '../hooks/usePersonImage';
+import { type IBookmarkWithFolder } from '../interfaces/bookmark';
 import { type IPerson } from '../interfaces/persons';
 import { getColumnCount, getReactKey } from '../utils';
 import BookmarksList from './BookmarksList';
 
 interface Props {
   persons: IPerson[];
-  onLinkOpen: (url: string) => void;
   scrollButton?: boolean;
   bookmarkListProps: {
     fullscreen: boolean;
-    showEditButton?: boolean;
-    getFaviconUrl: (url: string) => string;
+    onBookmarkEdit?: (bookmark: IBookmarkWithFolder) => void;
   };
   renderPerson: (person: IPerson) => ReactNode;
 }
@@ -33,7 +32,6 @@ type InnerProps = Props & {
 
 function PersonsInner({
   persons,
-  onLinkOpen,
   scrollButton = false,
   bookmarkListProps,
   bodyWidth,
@@ -100,7 +98,6 @@ function PersonsInner({
       <BookmarksList
         personToOpen={personToOpen}
         imageUrl={personToOpenImage}
-        onLinkOpen={onLinkOpen}
         {...bookmarkListProps}
       />
     </>

@@ -4,7 +4,7 @@ import {
   type IBookmarksObj,
   STORAGE_KEYS,
   deleteCache,
-  getDecryptedBookmark,
+  getBookmarkFaviconUrls,
   getYandexFaviconUrl,
   isCachePresent,
 } from '@bypass/shared';
@@ -36,11 +36,10 @@ const cacheBookmarkFavicons = async () => {
   if (!bookmarks) {
     return;
   }
-  const { urlList } = bookmarks;
-  const faviconUrls = Object.values(urlList).map((item) => {
-    const bookmark = getDecryptedBookmark(item);
-    return getYandexFaviconUrl(bookmark.url);
-  });
+  const faviconUrls = getBookmarkFaviconUrls(
+    bookmarks.urlList,
+    getYandexFaviconUrl
+  );
   await addAllToCache(ECacheBucketKeys.favicon, faviconUrls);
 };
 

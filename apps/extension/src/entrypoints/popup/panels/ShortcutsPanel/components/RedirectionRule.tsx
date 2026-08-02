@@ -1,4 +1,4 @@
-import { type IRedirection } from '@bypass/shared';
+import { DynamicContext, type IRedirection } from '@bypass/shared';
 import {
   Button,
   InputGroup,
@@ -18,10 +18,9 @@ import {
   LinkSquare02Icon,
 } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { useEffect, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 
 import { getlastVisitedText } from '@popup/utils/lastVisited';
-import useHistoryStore from '@store/history';
 
 import { DEFAULT_RULE_ALIAS } from '../constants';
 import { ReorderButton } from './ReorderButton';
@@ -44,9 +43,7 @@ function RedirectionRule({
   handleSaveRule,
   handleRuleMove,
 }: Props) {
-  const startHistoryMonitor = useHistoryStore(
-    (state) => state.startHistoryMonitor
-  );
+  const { tabs } = use(DynamicContext);
   const [ruleAlias, setRuleAlias] = useState(alias);
   const [ruleWebsite, setRuleWebsite] = useState(website);
   const [isDefaultRule, setIsDefaultRule] = useState(isDefault);
@@ -76,8 +73,7 @@ function RedirectionRule({
   };
 
   const handleLinkOpen = () => {
-    startHistoryMonitor();
-    browser.tabs.create({ url: ruleWebsite, active: false });
+    tabs.open(ruleWebsite);
   };
 
   const isSameRule =

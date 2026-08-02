@@ -1,10 +1,11 @@
 import {
+  EBookmarkOperation,
+  getBookmarksPanelUrl,
   getDecryptedPerson,
   getEncryptedPerson,
   getFilteredPersons,
   sortByRecency,
   getPersonImageName,
-  getGoogleFaviconUrl,
   HEADER_HEIGHT,
   type IPerson,
   type IPersons,
@@ -16,11 +17,11 @@ import {
 import { Spinner } from '@bypass/ui';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
+import { useLocation } from 'wouter';
 
 import { trpcApi } from '@/apis/trpcApi';
 import { MAX_PANEL_SIZE } from '@/constants';
 import { personsItem } from '@/storage/items';
-import useHistoryStore from '@store/history';
 
 import { getPersonPos, setPersonsInStorage } from '../utils';
 import { updatePersonCacheAndImageUrls } from '../utils/sync';
@@ -36,9 +37,7 @@ const handleSave = async (persons: IPerson[]) => {
 };
 
 function PersonsPanel() {
-  const startHistoryMonitor = useHistoryStore(
-    (state) => state.startHistoryMonitor
-  );
+  const [, navigate] = useLocation();
   const { getPersonTaggedUrls } = usePerson();
   const { getDefaultOrRootFolderUrls } = useBookmark();
   const [persons, setPersons] = useState<IPerson[]>([]);
@@ -117,11 +116,6 @@ function PersonsPanel() {
 
   const toggleOrderByRecency = () => setOrderByRecency((prev) => !prev);
 
-  const onLinkOpen = (url: string) => {
-    startHistoryMonitor();
-    browser.tabs.create({ url, active: false });
-  };
-
   return (
     <div
       className="flex flex-col"
@@ -156,8 +150,17 @@ function PersonsPanel() {
             persons={filteredAndOrderedPersons}
             bookmarkListProps={{
               fullscreen: true,
-              showEditButton: true,
-              getFaviconUrl: getGoogleFaviconUrl,
+              // The edit route is the extension's concern, so it is supplied
+              // here rather than hardcoded inside the shared component
+              onBookmarkEdit: ({ url, parentId }) => {
+                navigate(
+                  getBookmarksPanelUrl({
+                    operation: EBookmarkOperation.EDIT,
+                    bmUrl: url,
+                    folderId: parentId,
+                  })
+                );
+              },
             }}
             renderPerson={(person) => (
               <PersonVirtualCell
@@ -166,7 +169,6 @@ function PersonsPanel() {
                 handlePersonDelete={handlePersonDelete}
               />
             )}
-            onLinkOpen={onLinkOpen}
           />
         ) : null}
       </div>

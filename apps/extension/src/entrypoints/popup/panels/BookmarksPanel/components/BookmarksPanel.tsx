@@ -1,6 +1,7 @@
 import {
   type BMPanelQueryParams,
   BOOKMARK_ROW_HEIGHT,
+  DynamicContext,
   EBookmarkOperation,
   HEADER_HEIGHT,
   ScrollButton,
@@ -8,11 +9,10 @@ import {
 } from '@bypass/shared';
 import { ScrollArea } from '@bypass/ui';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { use, useCallback, useEffect, useRef, useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 
 import { MAX_PANEL_SIZE } from '@/constants';
-import useHistoryStore from '@store/history';
 
 import useBookmarkRouteStore from '../store/useBookmarkRouteStore';
 import useBookmarkStore from '../store/useBookmarkStore';
@@ -22,9 +22,7 @@ import BookmarksHeader from './BookmarksHeader';
 import VirtualRow from './VirtualRow';
 
 function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
-  const startHistoryMonitor = useHistoryStore(
-    (state) => state.startHistoryMonitor
-  );
+  const { tabs } = use(DynamicContext);
   const setBookmarkOperation = useBookmarkRouteStore(
     (state) => state.setBookmarkOperation
   );
@@ -63,10 +61,9 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
   );
 
   const handleOpenSelectedBookmarks = () => {
-    startHistoryMonitor();
     contextBookmarks.forEach((bookmark, index) => {
       if (selectedBookmarks[index] && !bookmark.isDir) {
-        browser.tabs.create({ url: bookmark.url, active: false });
+        tabs.open(bookmark.url);
       }
     });
   };

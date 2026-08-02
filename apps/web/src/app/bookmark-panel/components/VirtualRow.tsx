@@ -3,22 +3,15 @@ import {
   type ContextBookmarks,
   Folder,
   type IBookmarksObj,
-  getYandexFaviconUrl,
   isFolderEmpty,
 } from '@bypass/shared';
 import { memo } from 'react';
-
-import { openNewTab } from '@app/utils';
 
 interface Props {
   index: number;
   folders: IBookmarksObj['folders'];
   contextBookmarks: ContextBookmarks;
 }
-
-const onOpenLink = (_url: string) => {
-  openNewTab(_url);
-};
 
 const VirtualRow = memo<Props>(({ index, folders, contextBookmarks }) => {
   const ctx = contextBookmarks[index];
@@ -37,8 +30,6 @@ const VirtualRow = memo<Props>(({ index, folders, contextBookmarks }) => {
           url={ctx.url}
           title={ctx.title}
           taggedPersons={ctx.taggedPersons}
-          getFaviconUrl={getYandexFaviconUrl}
-          onOpenLink={onOpenLink}
         />
       )}
     </div>
