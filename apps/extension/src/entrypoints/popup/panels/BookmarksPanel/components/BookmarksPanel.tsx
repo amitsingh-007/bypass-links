@@ -5,7 +5,6 @@ import {
   HEADER_HEIGHT,
   ScrollButton,
   getFilteredContextBookmarks,
-  shouldRenderBookmarks,
 } from '@bypass/shared';
 import { ScrollArea } from '@bypass/ui';
 import { useVirtualizer } from '@tanstack/react-virtual';
@@ -31,7 +30,6 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
   );
   const {
     contextBookmarks,
-    folders,
     selectedBookmarks,
     cutBookmarks,
     isFetching,
@@ -39,7 +37,6 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
   } = useBookmarkStore(
     useShallow((state) => ({
       contextBookmarks: state.contextBookmarks,
-      folders: state.folders,
       selectedBookmarks: state.selectedBookmarks,
       cutBookmarks: state.cutBookmarks,
       isFetching: state.isFetching,
@@ -117,7 +114,7 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
             className="w-full"
             style={{ height: MAX_PANEL_SIZE.HEIGHT - HEADER_HEIGHT }}
           >
-            {shouldRenderBookmarks(folders, filteredContextBookmarks) ? (
+            {filteredContextBookmarks.length > 0 ? (
               <div
                 className="relative w-full"
                 style={{ height: virtualizer.getTotalSize() }}

@@ -1,7 +1,4 @@
-import {
-  fillSearchInput as fillSearchInputShared,
-  parseBadgeCount,
-} from '@bypass/shared/tests';
+import { parseBadgeCount } from '@bypass/shared/tests';
 import { expect, type Page } from '@playwright/test';
 
 // Re-export shared utilities for convenience
@@ -81,38 +78,6 @@ export const openFolder = async (page: Page, folderName: string) => {
   const folder = page.getByTestId(`folder-item-${folderName}`);
   await expect(folder).toBeVisible();
   await folder.click();
-};
-
-interface SearchAndVerifyOptions {
-  visibleTexts: string[];
-  hiddenTexts?: string[];
-  selector?: string;
-}
-
-/**
- * Search and verify elements are visible/not visible.
- */
-export const searchAndVerify = async (
-  page: Page,
-  searchText: string,
-  options: SearchAndVerifyOptions
-) => {
-  const {
-    visibleTexts,
-    hiddenTexts = [],
-    selector = '[data-testid^="person-item-"]',
-  } = options;
-  await fillSearchInputShared(page, searchText);
-
-  for (const text of visibleTexts) {
-    const element = page.locator(selector).filter({ hasText: text });
-    await expect(element).toBeVisible();
-  }
-
-  for (const text of hiddenTexts) {
-    const element = page.locator(selector).filter({ hasText: text });
-    await expect(element).not.toBeVisible();
-  }
 };
 
 /**

@@ -54,11 +54,6 @@ export const TEST_SITES = {
 } as const;
 
 /**
- * Default rule alias that indicates an incomplete rule.
- */
-export const DEFAULT_RULE_ALIAS = 'http://///';
-
-/**
  * Timeout constants used across test files to avoid magic numbers.
  */
 export const TEST_TIMEOUTS = {

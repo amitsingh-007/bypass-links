@@ -29,11 +29,6 @@ export const getFilteredContextBookmarks = (
     return hasText(searchText, ctx.url) || hasText(searchText, ctx.title);
   });
 
-export const shouldRenderBookmarks = (
-  folders: IBookmarksObj['folders'],
-  contextBookmarks: ContextBookmarks
-) => folders && contextBookmarks && contextBookmarks.length > 0;
-
 export const getEncryptedBookmark = (
   bookmark: IEncodedBookmark
 ): IEncodedBookmark => ({

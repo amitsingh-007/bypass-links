@@ -60,7 +60,6 @@ const useBookmarkStore = create<State>()((set, get) => ({
   cutBookmarks: [],
   isFetching: true,
   isSaveButtonActive: false,
-  updateTaggedPersons: [],
 
   async loadData(folderId: string) {
     set({ isSaveButtonActive: false, isFetching: true });
@@ -97,8 +96,6 @@ const useBookmarkStore = create<State>()((set, get) => ({
     const { selectedBookmarks } = get();
     set({ cutBookmarks: [...selectedBookmarks] });
   },
-
-  resetCutBookmarks: () => set({ cutBookmarks: [] }),
 
   handleCreateNewFolder(name: string, parentFolderId: string) {
     const { contextBookmarks, folderList } = get();

@@ -78,22 +78,6 @@ export const clearSearchInput = async (page: Page, placeholder = 'Search') => {
 };
 
 /**
- * Click a button by its visible text/label.
- */
-export const clickButtonByName = async (
-  page: Page,
-  name: string | RegExp,
-  options?: { exact?: boolean; within?: ReturnType<Page['locator']> }
-) => {
-  const scope = options?.within ?? page;
-  const button = scope.getByRole('button', {
-    name,
-    exact: options?.exact ?? false,
-  });
-  await button.click();
-};
-
-/**
  * Get the count from a badge text in format "Name (N)" or just "(N)".
  */
 export const parseBadgeCount = (badgeText: string): number => {

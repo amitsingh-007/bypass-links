@@ -1,7 +1,6 @@
 export interface IAuthResponse {
   readonly uid: string;
   readonly email: string;
-  readonly fullName: string;
   readonly photoUrl?: string;
   readonly displayName?: string;
   readonly expiresIn: number;

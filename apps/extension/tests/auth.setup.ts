@@ -38,7 +38,6 @@ const signInWithEmailAndPassword = async (): Promise<IAuthResponse> => {
     .json<IAuthResponse>((res) => ({
       uid: res.localId,
       email: res.email,
-      fullName: res.displayName,
       photoUrl: '',
       displayName: res.displayName,
       idToken: res.idToken,
