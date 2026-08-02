@@ -12,29 +12,16 @@ interface Props {
   ref?: React.Ref<HTMLDivElement>;
 }
 
-// Bounded LRU: object urls are never collected on their own
-const MAX_CACHED_FAVICONS = 200;
 const urlMap = new Map<string, string>();
 
 const getBlobUrl = async (proxyUrl: string) => {
-  const cached = urlMap.get(proxyUrl);
-  if (cached) {
-    urlMap.delete(proxyUrl);
-    urlMap.set(proxyUrl, cached);
-    return cached;
+  const blobStr = urlMap.get(proxyUrl);
+  if (blobStr) {
+    return blobStr;
   }
 
   const blobUrl = await getBlobUrlFromCache(ECacheBucketKeys.favicon, proxyUrl);
   urlMap.set(proxyUrl, blobUrl);
-
-  if (urlMap.size > MAX_CACHED_FAVICONS) {
-    const [oldestKey, oldestUrl] = urlMap.entries().next().value!;
-    urlMap.delete(oldestKey);
-    if (oldestUrl) {
-      URL.revokeObjectURL(oldestUrl);
-    }
-  }
-
   return blobUrl;
 };
 

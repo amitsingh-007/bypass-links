@@ -4,43 +4,35 @@ import {
   getFirebaseUser,
   verifyAuthToken,
 } from '@bypass/trpc/appRouter';
-import { type NextRequest, NextResponse } from 'next/server';
+import { type NextRequest } from 'next/server';
 
-export class UnauthorizedError extends Error {
-  constructor(
-    readonly status: 401 | 403,
-    message: string
-  ) {
-    super(message);
-    this.name = 'UnauthorizedError';
-  }
-}
+type FirebaseUser = Awaited<ReturnType<typeof getFirebaseUser>>;
+
+type AuthorizeUserResult =
+  | { ok: true; user: FirebaseUser }
+  | { ok: false; status: 401 | 403; message: string };
 
 /** Applies the same rules as the tRPC middleware. */
-export const authorizeUser = async (request: NextRequest) => {
+export const authorizeUser = async (
+  request: NextRequest
+): Promise<AuthorizeUserResult> => {
   const idToken = getAuthBearer(request);
   if (!idToken) {
-    throw new UnauthorizedError(401, 'Authentication token not found');
+    return {
+      ok: false,
+      status: 401,
+      message: 'Authentication token not found',
+    };
   }
 
-  let user;
+  let user: FirebaseUser;
   try {
     const { uid } = await verifyAuthToken(idToken, true);
     user = await getFirebaseUser(uid);
   } catch {
-    throw new UnauthorizedError(401, 'Unauthorized user');
+    return { ok: false, status: 401, message: 'Unauthorized user' };
   }
 
   const result = checkUserAuthorized(user);
-  if (!result.ok) {
-    throw new UnauthorizedError(result.status, result.message);
-  }
-  return user;
-};
-
-export const toAuthErrorResponse = (error: unknown) => {
-  if (error instanceof UnauthorizedError) {
-    return new NextResponse(error.message, { status: error.status });
-  }
-  throw error;
+  return result.ok ? { ok: true, user } : result;
 };
