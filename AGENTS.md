@@ -71,6 +71,7 @@ Playwright tests use setup/teardown projects for both web and extension flows:
 ## Key Technologies
 
 - **Frontend**: React, Next.js (web)
+- **React Compiler**: Enabled in both apps (`reactCompiler: true` in web, `reactCompilerPreset()` in extension); enforced by the `react/react-compiler` oxlint rule — avoid manual `useMemo`/`useCallback` unless needed
 - **UI**: shadcn/ui (Base UI) via `packages/ui` and `@bypass/ui`
 - **Styling**: Tailwind CSS v4
 - **Icons**: Hugeicons (`@hugeicons/core-free-icons`, `@hugeicons/react`)
