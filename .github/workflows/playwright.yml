@@ -60,7 +60,7 @@ jobs:
       - name: Uploading Chrome extension
         uses: actions/upload-artifact@v7
         with:
-          name: chrome-extension-folder
+          name: extension-e2e
           path: ./apps/extension/.output/chrome-mv3
 
   Playwright:
@@ -97,7 +97,7 @@ jobs:
       - name: Download Chrome extension
         uses: actions/download-artifact@v8
         with:
-          name: chrome-extension-folder
+          name: extension-e2e
           path: ./apps/extension/.output/chrome-mv3/
 
       - name: Install dependencies

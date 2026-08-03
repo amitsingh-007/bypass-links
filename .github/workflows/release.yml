@@ -48,7 +48,7 @@ jobs:
       - name: Uploading extensions
         uses: actions/upload-artifact@v7
         with:
-          name: extensions-folder
+          name: extension-release
           path: ./apps/extension/.output
           include-hidden-files: true
 
@@ -61,7 +61,7 @@ jobs:
       - name: Uploading e2e extension
         uses: actions/upload-artifact@v7
         with:
-          name: chrome-extension-folder
+          name: extension-e2e
           path: ./apps/extension/.output/chrome-mv3
 
   Playwright:
@@ -98,7 +98,7 @@ jobs:
       - name: Download extension
         uses: actions/download-artifact@v8
         with:
-          name: chrome-extension-folder
+          name: extension-e2e
           path: ./apps/extension/.output/chrome-mv3/
 
       - name: Install dependencies
@@ -170,19 +170,6 @@ jobs:
           env_url: ${{ steps.vercel-action.outputs.preview-url }}
           env: ${{ steps.deployment.outputs.env }}
 
-      - name: Download extensions
-        uses: actions/download-artifact@v8
-        with:
-          name: extensions-folder
-          path: ./apps/extension/.output
-
-      - name: Uploading extensions
-        uses: actions/upload-artifact@v7
-        with:
-          name: packaged-extensions
-          path: ./apps/extension/.output
-          include-hidden-files: true
-
   Create_Release:
     runs-on: ubuntu-latest
     needs: [Deploy]
@@ -192,10 +179,10 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Download packaged extensions
+      - name: Download extension
         uses: actions/download-artifact@v8
         with:
-          name: packaged-extensions
+          name: extension-release
           path: ./apps/extension/.output
 
       - name: Generate Release Tag
