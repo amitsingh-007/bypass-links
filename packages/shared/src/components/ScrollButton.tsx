@@ -13,7 +13,10 @@ export function ScrollButton({ itemsSize, onScroll }: Props) {
   }
 
   return (
-    <ButtonGroup orientation="vertical" className="fixed right-3 bottom-3 z-10">
+    <ButtonGroup
+      orientation="vertical"
+      className="absolute right-3 bottom-3 z-10"
+    >
       <Button
         variant="secondary"
         size="sm"

@@ -4,6 +4,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
 import './fonts.css';
+import './layout.css';
 import Global from './components/Global';
 import PopupRoutes from './components/PopupRoutes';
 import DynamicProvider from './provider/DynamicProvider';

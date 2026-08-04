@@ -22,6 +22,7 @@ import { useLocation } from 'wouter';
 import { trpcApi } from '@/apis/trpcApi';
 import { MAX_PANEL_SIZE } from '@/constants';
 import { personsItem } from '@/storage/items';
+import Panel from '@popup/components/Panel';
 
 import { getPersonPos, setPersonsInStorage } from '../utils';
 import { updatePersonCacheAndImageUrls } from '../utils/sync';
@@ -117,13 +118,7 @@ function PersonsPanel() {
   const toggleOrderByRecency = () => setOrderByRecency((prev) => !prev);
 
   return (
-    <div
-      className="flex flex-col"
-      style={{
-        width: MAX_PANEL_SIZE.WIDTH,
-        height: MAX_PANEL_SIZE.HEIGHT,
-      }}
-    >
+    <Panel>
       <PersonHeader
         isFetching={isFetching}
         handleAddPerson={handleAddOrEditPerson}
@@ -170,7 +165,7 @@ function PersonsPanel() {
           />
         ) : null}
       </div>
-    </div>
+    </Panel>
   );
 }
 

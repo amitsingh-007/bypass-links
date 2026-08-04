@@ -1,0 +1,5 @@
+/* Centres the panel when popup.html is opened as a tab; a no-op in the content-sized popup. */
+#root {
+  width: fit-content;
+  margin-inline: auto;
+}

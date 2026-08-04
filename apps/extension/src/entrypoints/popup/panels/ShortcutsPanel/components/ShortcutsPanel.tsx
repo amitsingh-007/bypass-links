@@ -6,9 +6,9 @@ import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 import { trpcApi } from '@/apis/trpcApi';
-import { MAX_PANEL_SIZE } from '@/constants';
 import { redirectionsItem } from '@/storage/items';
 import { syncRedirectionsToStorage } from '@background/redirections';
+import Panel from '@popup/components/Panel';
 
 import { DEFAULT_RULE_ALIAS } from '../constants';
 import { getValidRules, isMatchingRule } from '../utils';
@@ -89,13 +89,7 @@ function ShortcutsPanel() {
   };
 
   return (
-    <div
-      className="flex flex-col"
-      style={{
-        width: MAX_PANEL_SIZE.WIDTH,
-        height: MAX_PANEL_SIZE.HEIGHT,
-      }}
-    >
+    <Panel>
       <Header onSearchChange={setSearchText}>
         <Button
           disabled={isFetching}
@@ -143,7 +137,7 @@ function ShortcutsPanel() {
           </div>
         )}
       </div>
-    </div>
+    </Panel>
   );
 }
 

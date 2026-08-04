@@ -13,6 +13,7 @@ import { use, useCallback, useEffect, useRef, useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 
 import { MAX_PANEL_SIZE } from '@/constants';
+import Panel from '@popup/components/Panel';
 
 import useBookmarkRouteStore from '../store/useBookmarkRouteStore';
 import useBookmarkStore from '../store/useBookmarkStore';
@@ -92,53 +93,48 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
   const curBookmarksCount = filteredContextBookmarks.length;
 
   return (
-    <>
+    <Panel>
       <ScrollButton itemsSize={curBookmarksCount} onScroll={handleScroll} />
-      <div
-        className="flex flex-col"
-        style={{ width: MAX_PANEL_SIZE.WIDTH, height: MAX_PANEL_SIZE.HEIGHT }}
+      <BookmarksHeader folderId={folderId} onSearchChange={setSearchText} />
+      <BookmarkAddEditDialog
+        curFolderId={folderId}
+        handleScroll={handleScroll}
+      />
+      <BookmarkContextMenu
+        handleOpenSelectedBookmarks={handleOpenSelectedBookmarks}
       >
-        <BookmarksHeader folderId={folderId} onSearchChange={setSearchText} />
-        <BookmarkAddEditDialog
-          curFolderId={folderId}
-          handleScroll={handleScroll}
-        />
-        <BookmarkContextMenu
-          handleOpenSelectedBookmarks={handleOpenSelectedBookmarks}
+        <ScrollArea
+          viewportRef={scrollAreaRef}
+          className="w-full"
+          style={{ height: MAX_PANEL_SIZE.HEIGHT - HEADER_HEIGHT }}
         >
-          <ScrollArea
-            viewportRef={scrollAreaRef}
-            className="w-full"
-            style={{ height: MAX_PANEL_SIZE.HEIGHT - HEADER_HEIGHT }}
-          >
-            {filteredContextBookmarks.length > 0 ? (
-              <div
-                className="relative w-full"
-                style={{ height: virtualizer.getTotalSize() }}
-              >
-                {virtualizer.getVirtualItems().map((virtualRow) => (
-                  <div
-                    key={virtualRow.key}
-                    className="absolute top-0 left-0 w-full"
-                    style={{
-                      transform: `translateY(${virtualRow.start}px)`,
-                      height: virtualRow.size,
-                    }}
-                  >
-                    <VirtualRow
-                      bookmark={filteredContextBookmarks[virtualRow.index]}
-                      pos={virtualRow.index}
-                      isSelected={selectedBookmarks[virtualRow.index]}
-                      isCut={cutBookmarks[virtualRow.index]}
-                    />
-                  </div>
-                ))}
-              </div>
-            ) : null}
-          </ScrollArea>
-        </BookmarkContextMenu>
-      </div>
-    </>
+          {filteredContextBookmarks.length > 0 ? (
+            <div
+              className="relative w-full"
+              style={{ height: virtualizer.getTotalSize() }}
+            >
+              {virtualizer.getVirtualItems().map((virtualRow) => (
+                <div
+                  key={virtualRow.key}
+                  className="absolute top-0 left-0 w-full"
+                  style={{
+                    transform: `translateY(${virtualRow.start}px)`,
+                    height: virtualRow.size,
+                  }}
+                >
+                  <VirtualRow
+                    bookmark={filteredContextBookmarks[virtualRow.index]}
+                    pos={virtualRow.index}
+                    isSelected={selectedBookmarks[virtualRow.index]}
+                    isCut={cutBookmarks[virtualRow.index]}
+                  />
+                </div>
+              ))}
+            </div>
+          ) : null}
+        </ScrollArea>
+      </BookmarkContextMenu>
+    </Panel>
   );
 }
 
