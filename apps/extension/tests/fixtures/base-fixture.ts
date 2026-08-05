@@ -52,45 +52,74 @@ export const loadCachedStorageData = async (): Promise<CachedStorageData> => {
 };
 
 /**
- * Create a shared browser context that reuses the cached Chrome profile.
- * This preserves Cache Storage data (person-cache, favicon-cache) from auth setup.
+ * Launch an extension context on a throwaway profile directory.
+ *
+ * `seedFromCachedProfile` copies the authenticated profile from auth setup,
+ * which preserves its Cache Storage (person-cache, favicon-cache). Omit it for
+ * unauthenticated tests so no auth state can leak in.
  */
-export const createSharedContext = async (
-  options: { headless?: boolean } = {}
-) => {
-  // Copy the cached profile to a temp directory (to avoid locking issues)
-  const userDataDir = await fs.promises.mkdtemp(
-    path.join(os.tmpdir(), 'chrome-profile-')
-  );
+export const createTempProfileContext = async ({
+  prefix,
+  extensionPath,
+  headless,
+  seedFromCachedProfile = false,
+}: {
+  prefix: string;
+  extensionPath?: string;
+  headless?: boolean;
+  seedFromCachedProfile?: boolean;
+}) => {
+  // Temp dir rather than the cached profile itself, to avoid locking issues
+  const userDataDir = await fs.promises.mkdtemp(path.join(os.tmpdir(), prefix));
 
-  // Copy cached profile contents to temp dir
-  await fs.promises.cp(CHROME_PROFILE_DIR, userDataDir, { recursive: true });
+  if (seedFromCachedProfile) {
+    await fs.promises.cp(CHROME_PROFILE_DIR, userDataDir, { recursive: true });
+  }
 
   const browserContext = await launchExtensionContext({
     userDataDir,
-    headless: options.headless,
+    extensionPath,
+    headless,
   });
   return { browserContext, userDataDir };
 };
 
 /**
- * Create an isolated browser context for unauthenticated tests.
- * This ensures no auth state leaks from the shared context.
+ * Run `fn` against a fresh temp-profile context, always cleaning up the profile
+ * directory afterwards (a launch failure would otherwise leak it).
  */
+export const withTempProfileContext = async <T>(
+  options: Parameters<typeof createTempProfileContext>[0],
+  fn: (context: BrowserContext) => Promise<T>
+): Promise<T> => {
+  const { browserContext, userDataDir } =
+    await createTempProfileContext(options);
+  try {
+    return await fn(browserContext);
+  } finally {
+    await browserContext.close();
+    await fs.promises.rm(userDataDir, { recursive: true, force: true });
+  }
+};
+
+export const createSharedContext = async (
+  options: { headless?: boolean } = {}
+) =>
+  createTempProfileContext({
+    prefix: 'chrome-profile-',
+    headless: options.headless,
+    seedFromCachedProfile: true,
+  });
+
 export const createUnauthContext = async (
   extensionPath: string,
   options: { headless?: boolean } = {}
-) => {
-  const userDataDir = await fs.promises.mkdtemp(
-    path.join(os.tmpdir(), 'chrome-unauth-profile-')
-  );
-  const browserContext = await launchExtensionContext({
-    userDataDir,
+) =>
+  createTempProfileContext({
+    prefix: 'chrome-unauth-profile-',
     extensionPath,
     headless: options.headless,
   });
-  return { browserContext, userDataDir };
-};
 
 export const createSharedBackgroundSW = async (
   sharedContext: BrowserContext

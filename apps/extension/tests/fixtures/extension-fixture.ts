@@ -1,7 +1,3 @@
-import fs from 'node:fs';
-import os from 'node:os';
-import path from 'node:path';
-
 import {
   type Worker,
   test as base,
@@ -10,7 +6,7 @@ import {
 
 import {
   createSharedBackgroundSW,
-  launchExtensionContext,
+  withTempProfileContext,
 } from './base-fixture';
 
 export const test = base.extend<{
@@ -18,16 +14,13 @@ export const test = base.extend<{
   backgroundSW: Worker;
 }>({
   async context({}, use, testInfo) {
-    const userDataDir = await fs.promises.mkdtemp(
-      path.join(os.tmpdir(), 'chrome-profile-')
+    await withTempProfileContext(
+      {
+        prefix: 'chrome-profile-',
+        headless: testInfo.project.use?.headless ?? true,
+      },
+      async (browserContext) => use(browserContext)
     );
-    const browserContext = await launchExtensionContext({
-      userDataDir,
-      headless: testInfo.project.use?.headless ?? true,
-    });
-    await use(browserContext);
-    await browserContext.close();
-    await fs.promises.rm(userDataDir, { recursive: true, force: true });
   },
   async backgroundSW({ context }, use) {
     await use(await createSharedBackgroundSW(context));

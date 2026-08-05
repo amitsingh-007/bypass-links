@@ -1,3 +1,5 @@
+import { POPUP_HOMEPAGE } from '@/constants';
+
 import { test, expect as homeExpect } from '../fixtures/home-popup-fixture';
 
 /**
@@ -65,7 +67,7 @@ test.describe('Signed In', () => {
       .click();
 
     // Navigate back to home to prepare for next test
-    await homePage.goto('/popup.html');
+    await homePage.goto(POPUP_HOMEPAGE);
     await homePage.waitForLoadState('domcontentloaded');
 
     // Wait for button to show Unpin state (bookmark saved)
@@ -118,7 +120,7 @@ test.describe('Signed In', () => {
       .click();
 
     // Navigate back to home and verify it shows Pin again (unpinned)
-    await homePage.goto('/popup.html');
+    await homePage.goto(POPUP_HOMEPAGE);
     await homePage.waitForLoadState('domcontentloaded');
 
     // Wait for button state to stabilize (bookmark deleted)

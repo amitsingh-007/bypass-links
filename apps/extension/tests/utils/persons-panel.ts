@@ -5,8 +5,9 @@ import {
   clickContextMenuItem,
   closeDialog,
   fillDialogInput,
-  getNumericBadgeValue,
   getBadgeCount,
+  getHeaderPersonCount,
+  gotoPanel,
   navigateBack,
   openDialog,
 } from './test-utils';
@@ -152,11 +153,7 @@ export class PersonsPanel {
   }
 
   async ensureAtRoot() {
-    await this.page.goto('/popup.html');
-    const personsButton = this.page.getByRole('button', { name: 'Persons' });
-    await expect(personsButton).toBeVisible();
-    await personsButton.click();
-    await expect(this.page.getByPlaceholder('Search')).toBeVisible();
+    await gotoPanel(this.page, 'Persons');
     // Wait for at least one person to be visible
     await expect(
       this.page.locator('[data-testid^="person-item-"]').first()
@@ -222,9 +219,7 @@ export class PersonsPanel {
   }
 
   async getHeaderPersonCount(): Promise<number> {
-    return getNumericBadgeValue(this.page, 'header-badge', {
-      fallbackToAnyNumber: true,
-    });
+    return getHeaderPersonCount(this.page);
   }
 
   async verifyBadgeVisible(badgeName: string) {

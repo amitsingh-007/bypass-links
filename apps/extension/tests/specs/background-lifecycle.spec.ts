@@ -1,4 +1,4 @@
-import { EExtensionState } from '@/constants';
+import { EExtensionState, EXT_STORAGE_KEYS } from '@/constants';
 
 import { test, expect } from '../fixtures/background-fixture';
 
@@ -7,7 +7,9 @@ test.describe('Background Service Worker Lifecycle', () => {
     isolatedBackground,
   }) => {
     await expect
-      .poll(async () => isolatedBackground.readStorage<string>('extState'))
+      .poll(async () =>
+        isolatedBackground.readStorage<string>(EXT_STORAGE_KEYS.extState)
+      )
       .toBe(EExtensionState.ACTIVE);
   });
 });

@@ -8,6 +8,53 @@ import {
 type TestIdScope = Pick<Page, 'getByTestId'>;
 
 /**
+ * Snapshot every localStorage entry of the current page.
+ */
+export const dumpLocalStorage = async (
+  page: Page,
+  options?: { omitKeys?: string[] }
+): Promise<Record<string, string>> => {
+  const data = await page.evaluate(() => {
+    const entries: Record<string, string> = {};
+    for (let i = 0; i < window.localStorage.length; i++) {
+      const key = window.localStorage.key(i);
+      if (key) {
+        entries[key] = window.localStorage.getItem(key) ?? '';
+      }
+    }
+    return entries;
+  });
+
+  for (const key of options?.omitKeys ?? []) {
+    delete data[key];
+  }
+  return data;
+};
+
+/**
+ * Replay a localStorage snapshot into every page of a context, before any page
+ * script runs. `clearKeys` are removed after seeding.
+ */
+export const injectLocalStorage = async (
+  context: BrowserContext,
+  data: Record<string, string>,
+  options?: { clearKeys?: string[] }
+) => {
+  await context.addInitScript(
+    ({ storageJson, clearKeys }) => {
+      const entries = JSON.parse(storageJson) as Record<string, string>;
+      for (const [key, value] of Object.entries(entries)) {
+        window.localStorage.setItem(key, value);
+      }
+      for (const key of clearKeys) {
+        window.localStorage.removeItem(key);
+      }
+    },
+    { storageJson: JSON.stringify(data), clearKeys: options?.clearKeys ?? [] }
+  );
+};
+
+/**
  * Close a shadcn dialog using the close button or Escape key.
  * This is the unified pattern for closing dialogs after Mantine migration.
  */
@@ -107,6 +154,14 @@ export const getNumericBadgeValue = async (
   const firstNumberMatch = /\b(\d+)\b/.exec(text);
   return firstNumberMatch ? Number.parseInt(firstNumberMatch[1], 10) : 0;
 };
+
+/**
+ * Read the person count from the panel header badge.
+ */
+export const getHeaderPersonCount = async (
+  scope: TestIdScope
+): Promise<number> =>
+  getNumericBadgeValue(scope, 'header-badge', { fallbackToAnyNumber: true });
 
 /**
  * Click the first person avatar in a dropdown and return person name.

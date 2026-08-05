@@ -1,5 +1,7 @@
 import { expect, type Page } from '@playwright/test';
 
+import { EXT_STORAGE_KEYS } from '@/constants';
+
 import { getStorageItem } from './test-utils';
 
 export class PopupHomePanel {
@@ -32,7 +34,7 @@ export class PopupHomePanel {
   async verifyHistoryStartTime() {
     const historyStartTime = await getStorageItem<number>(
       this.page,
-      'historyStartTime'
+      EXT_STORAGE_KEYS.historyStartTime
     );
     expect(historyStartTime).toBeDefined();
     return historyStartTime;
@@ -41,7 +43,7 @@ export class PopupHomePanel {
   async verifyHistoryStartTimeNotExists() {
     const historyStartTime = await getStorageItem<number>(
       this.page,
-      'historyStartTime'
+      EXT_STORAGE_KEYS.historyStartTime
     );
     expect(historyStartTime).toBeUndefined();
   }

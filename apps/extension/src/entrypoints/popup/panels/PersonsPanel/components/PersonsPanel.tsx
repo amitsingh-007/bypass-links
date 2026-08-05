@@ -1,7 +1,6 @@
 import {
   EBookmarkOperation,
   getBookmarksPanelUrl,
-  getDecryptedPerson,
   getEncryptedPerson,
   getFilteredPersons,
   sortByRecency,
@@ -21,10 +20,13 @@ import { useLocation } from 'wouter';
 
 import { trpcApi } from '@/apis/trpcApi';
 import { MAX_PANEL_SIZE } from '@/constants';
-import { personsItem } from '@/storage/items';
 import Panel from '@popup/components/Panel';
 
-import { getPersonPos, setPersonsInStorage } from '../utils';
+import {
+  getAllDecodedPersons,
+  getPersonPos,
+  setPersonsInStorage,
+} from '../utils';
 import { updatePersonCacheAndImageUrls } from '../utils/sync';
 import PersonHeader from './PersonHeader';
 import PersonVirtualCell from './PersonVirtualCell';
@@ -50,11 +52,8 @@ function PersonsPanel() {
   const [orderByRecency, setOrderByRecency] = useState(true);
 
   useEffect(() => {
-    personsItem.getValue().then((_persons) => {
-      const decryptedPersons = Object.values(_persons || {}).map((x) =>
-        getDecryptedPerson(x)
-      );
-      setPersons(sortAlphabetically(decryptedPersons));
+    getAllDecodedPersons().then((decodedPersons) => {
+      setPersons(sortAlphabetically(decodedPersons));
       setIsFetching(false);
     });
   }, []);

@@ -1,7 +1,23 @@
 import { parseBadgeCount } from '@bypass/shared/tests';
 import { expect, type Page } from '@playwright/test';
 
+import { POPUP_HOMEPAGE } from '@/constants';
+
 // Re-export shared utilities for convenience
+
+/**
+ * Go to the popup root and open a panel from it.
+ */
+export const gotoPanel = async (
+  page: Page,
+  panelName: 'Bookmarks' | 'Persons' | 'Shortcuts'
+) => {
+  await page.goto(POPUP_HOMEPAGE);
+  const panelButton = page.getByRole('button', { name: panelName });
+  await expect(panelButton).toBeVisible();
+  await panelButton.click();
+  await expect(page.getByPlaceholder('Search')).toBeVisible();
+};
 
 /**
  * Navigate back from current folder or panel.
@@ -112,6 +128,7 @@ export {
   closeDialog,
   clearSearchInput,
   fillSearchInput,
+  getHeaderPersonCount,
   getNumericBadgeValue,
   parseBadgeCount,
 } from '@bypass/shared/tests';

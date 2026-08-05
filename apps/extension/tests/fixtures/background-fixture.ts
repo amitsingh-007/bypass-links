@@ -1,7 +1,3 @@
-import fs from 'node:fs/promises';
-import os from 'node:os';
-import path from 'node:path';
-
 import { TEST_TIMEOUTS } from '@bypass/shared/tests';
 import {
   type BrowserContext,
@@ -10,13 +6,12 @@ import {
   type Worker,
 } from '@playwright/test';
 
-import { EExtensionState } from '@/constants';
+import { EExtensionState, EXT_STORAGE_KEYS } from '@/constants';
 
 import {
   createSharedBackgroundSW,
-  createSharedContext,
   getExtensionId,
-  launchExtensionContext,
+  withTempProfileContext,
 } from './base-fixture';
 
 interface BaseBackgroundEnv {
@@ -99,7 +94,7 @@ const createBackgroundEnv = async (
       ),
     clearHistoryStartTime: async () =>
       runWithBackground(async (backgroundSW) =>
-        removeStorageFromWorker(backgroundSW, 'historyStartTime')
+        removeStorageFromWorker(backgroundSW, EXT_STORAGE_KEYS.historyStartTime)
       ),
     setHistoryStartTime: async (value: number) =>
       runWithBackground(async (backgroundSW) =>
@@ -121,44 +116,34 @@ export const test = base.extend<
   { sharedBackground: BaseBackgroundEnv }
 >({
   async isolatedBackground({}, use, testInfo) {
-    const userDataDir = await fs.mkdtemp(
-      path.join(os.tmpdir(), 'chrome-background-profile-')
+    await withTempProfileContext(
+      {
+        prefix: 'chrome-background-profile-',
+        headless: testInfo.project.use?.headless ?? true,
+      },
+      async (context) => {
+        const backgroundSW = await createSharedBackgroundSW(context);
+        const extensionId = await getExtensionId(backgroundSW);
+        await use(await createBackgroundEnv(context, extensionId));
+      }
     );
-
-    const context = await launchExtensionContext({
-      userDataDir,
-      headless: testInfo.project.use?.headless ?? true,
-    });
-
-    try {
-      const backgroundSW = await createSharedBackgroundSW(context);
-      const extensionId = await getExtensionId(backgroundSW);
-      const env = await createBackgroundEnv(context, extensionId);
-
-      await use(env);
-    } finally {
-      await context.close();
-      await fs.rm(userDataDir, { recursive: true, force: true });
-    }
   },
 
   // Safe to share: the spec is describe.serial and each test resets its own state
   sharedBackground: [
     async ({}, use, testInfo) => {
-      const { browserContext, userDataDir } = await createSharedContext({
-        headless: testInfo.project.use?.headless ?? true,
-      });
-
-      try {
-        const backgroundSW = await createSharedBackgroundSW(browserContext);
-        const extensionId = await getExtensionId(backgroundSW);
-        const env = await createBackgroundEnv(browserContext, extensionId);
-
-        await use(env);
-      } finally {
-        await browserContext.close();
-        await fs.rm(userDataDir, { recursive: true, force: true });
-      }
+      await withTempProfileContext(
+        {
+          prefix: 'chrome-profile-',
+          headless: testInfo.project.use?.headless ?? true,
+          seedFromCachedProfile: true,
+        },
+        async (context) => {
+          const backgroundSW = await createSharedBackgroundSW(context);
+          const extensionId = await getExtensionId(backgroundSW);
+          await use(await createBackgroundEnv(context, extensionId));
+        }
+      );
     },
     { scope: 'worker' },
   ],
