@@ -9,7 +9,7 @@ import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 
 function OpenDefaultsButton() {
   const { tabs } = use(DynamicContext);
-  const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
+  const isSignedIn = useFirebaseStore((state) => Boolean(state.idpAuth?.uid));
   const [isFetching, setIsFetching] = useState(false);
 
   const handleOpenDefaults = async () => {

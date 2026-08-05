@@ -1,11 +1,17 @@
-import { useCallback } from 'react';
+import { use, useCallback } from 'react';
 
-import useStorage from '../../../hooks/useStorage';
+import { STORAGE_KEYS } from '../../../constants/storage';
+import DynamicContext from '../../../provider/DynamicContext';
 import { ROOT_FOLDER_ID } from '../constants';
+import { type IBookmarksObj } from '../interfaces';
 import { getDecryptedFolder, getDefaultFolder } from '../utils';
 
 const useBookmark = () => {
-  const { getBookmarks } = useStorage();
+  const { storage } = use(DynamicContext);
+  const getBookmarks = useCallback(
+    async () => storage.get<IBookmarksObj>(STORAGE_KEYS.bookmarks),
+    [storage]
+  );
 
   const getFolderFromHash = useCallback(
     async (hash: string) => {

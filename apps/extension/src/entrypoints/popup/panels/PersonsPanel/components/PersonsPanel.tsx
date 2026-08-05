@@ -16,6 +16,7 @@ import {
 import { Spinner } from '@bypass/ui';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
+import useSWR from 'swr';
 import { useLocation } from 'wouter';
 
 import { trpcApi } from '@/apis/trpcApi';
@@ -44,9 +45,6 @@ function PersonsPanel() {
   const { getPersonTaggedUrls } = usePerson();
   const { getDefaultOrRootFolderUrls } = useBookmark();
   const [persons, setPersons] = useState<IPerson[]>([]);
-  const [filteredAndOrderedPersons, setFilteredAndOrderedPersons] = useState<
-    IPerson[]
-  >([]);
   const [isFetching, setIsFetching] = useState(true);
   const [searchText, setSearchText] = useState('');
   const [orderByRecency, setOrderByRecency] = useState(true);
@@ -58,16 +56,20 @@ function PersonsPanel() {
     });
   }, []);
 
-  useEffect(() => {
-    const filterAndOrder = async () => {
-      const urls = await getDefaultOrRootFolderUrls();
-      const orderedPersons = orderByRecency
-        ? sortByRecency(persons, urls)
-        : persons;
-      return getFilteredPersons(orderedPersons, searchText);
-    };
-    filterAndOrder().then((p) => setFilteredAndOrderedPersons(p));
-  }, [getDefaultOrRootFolderUrls, orderByRecency, persons, searchText]);
+  // Read once under a stable key; previously this re-ran (and re-parsed the whole
+  // bookmarks blob) on every keystroke because searchText was an effect dep
+  const { data: urls = [] } = useSWR(
+    'default-folder-urls',
+    getDefaultOrRootFolderUrls
+  );
+
+  const orderedPersons = orderByRecency
+    ? sortByRecency(persons, urls)
+    : persons;
+  const filteredAndOrderedPersons = getFilteredPersons(
+    orderedPersons,
+    searchText
+  );
 
   const handleAddOrEditPerson = async (person: IPerson) => {
     setIsFetching(true);

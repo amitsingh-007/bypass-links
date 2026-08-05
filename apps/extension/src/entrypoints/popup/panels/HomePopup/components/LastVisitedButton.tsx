@@ -20,7 +20,7 @@ import useCurrentTab from '@popup/hooks/useCurrentTab';
 import useLastVisited from '@popup/hooks/useLastVisited';
 
 function LastVisitedButton() {
-  const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
+  const isSignedIn = useFirebaseStore((state) => Boolean(state.idpAuth?.uid));
   const currentTab = useCurrentTab();
   const [isFetching, setIsFetching] = useState(false);
 

@@ -25,7 +25,7 @@ import { getCurrentTab } from '@popup/utils/tabs';
 
 function QuickBookmarkButton() {
   const [, navigate] = useLocation();
-  const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
+  const isSignedIn = useFirebaseStore((state) => Boolean(state.idpAuth?.uid));
   const { getFolderFromHash } = useBookmark();
   const { data: bookmark, isLoading: isFetching } =
     useQuickBookmark(isSignedIn);

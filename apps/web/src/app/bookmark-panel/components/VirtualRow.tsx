@@ -1,39 +1,35 @@
 import {
   Bookmark,
-  type ContextBookmarks,
+  type ContextBookmark,
   Folder,
   type IBookmarksObj,
   isFolderEmpty,
 } from '@bypass/shared';
-import { memo } from 'react';
 
 interface Props {
-  index: number;
+  bookmark: ContextBookmark;
   folders: IBookmarksObj['folders'];
-  contextBookmarks: ContextBookmarks;
 }
 
-const VirtualRow = memo<Props>(({ index, folders, contextBookmarks }) => {
-  const ctx = contextBookmarks[index];
-
+function VirtualRow({ bookmark, folders }: Props) {
   return (
     <div className="h-full cursor-pointer rounded-md select-none hover:bg-muted">
-      {ctx.isDir ? (
+      {bookmark.isDir ? (
         <Folder
-          id={ctx.id}
-          name={ctx.name}
-          isEmpty={isFolderEmpty(folders, ctx.id)}
+          id={bookmark.id}
+          name={bookmark.name}
+          isEmpty={isFolderEmpty(folders, bookmark.id)}
         />
       ) : (
         <Bookmark
-          id={ctx.id}
-          url={ctx.url}
-          title={ctx.title}
-          taggedPersons={ctx.taggedPersons}
+          id={bookmark.id}
+          url={bookmark.url}
+          title={bookmark.title}
+          taggedPersons={bookmark.taggedPersons}
         />
       )}
     </div>
   );
-});
+}
 
 export default VirtualRow;

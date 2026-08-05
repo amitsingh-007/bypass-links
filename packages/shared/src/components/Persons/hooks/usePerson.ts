@@ -1,17 +1,36 @@
-import { useCallback } from 'react';
+import { use, useCallback } from 'react';
 
 import { ECacheBucketKeys } from '../../../constants/cache';
-import useStorage from '../../../hooks/useStorage';
+import { STORAGE_KEYS } from '../../../constants/storage';
+import DynamicContext from '../../../provider/DynamicContext';
 import {
   getBlobUrlFromCache,
   getBlobUrlFromOpenCache,
   getCacheObj,
 } from '../../../utils/cache';
-import { type IPerson, type IPersonWithImage } from '../interfaces/persons';
+import { type IBookmarksObj } from '../../Bookmarks/interfaces';
+import {
+  type IPerson,
+  type IPersonWithImage,
+  type IPersons,
+  type PersonImageUrls,
+} from '../interfaces/persons';
 import { decodePersons } from '../utils';
 
 const usePerson = () => {
-  const { getBookmarks, getPersons, getPersonImageUrls } = useStorage();
+  const { storage } = use(DynamicContext);
+  const getBookmarks = useCallback(
+    async () => storage.get<IBookmarksObj>(STORAGE_KEYS.bookmarks),
+    [storage]
+  );
+  const getPersons = useCallback(
+    async () => storage.get<IPersons>(STORAGE_KEYS.persons),
+    [storage]
+  );
+  const getPersonImageUrls = useCallback(
+    async () => storage.get<PersonImageUrls>(STORAGE_KEYS.personImageUrls),
+    [storage]
+  );
 
   const getAllDecodedPersons = useCallback(async () => {
     const persons = await getPersons();
