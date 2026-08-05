@@ -67,10 +67,13 @@ export const cachePersonImagesInStorage = async () => {
 export const updatePersonCacheAndImageUrls = async (person: IPerson) => {
   // Update person image urls in storage
   const personImageUrls = await personImageUrlsItem.getValue();
+  const previousImageUrl = personImageUrls[person.uid];
   const imageUrl = await resolveDownloadUrl(getPersonImageName(person.uid));
   personImageUrls[person.uid] = imageUrl;
   await personImageUrlsItem.setValue(personImageUrls);
-  // Update person image cache; drop any blob url still pointing at the old bytes
+  // Evict both: the previous url may still be handed out to mounted avatars, and
+  // if the download url did not change its cached bytes are being replaced
+  evictBlobUrl(ECacheBucketKeys.person, previousImageUrl);
   evictBlobUrl(ECacheBucketKeys.person, imageUrl);
   await addToCache(ECacheBucketKeys.person, imageUrl);
   await invalidatePersonCaches();
