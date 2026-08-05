@@ -4,7 +4,6 @@ import {
   clickDropdownPersonAndGetName,
   clickContextMenuItem as clickContextMenuItemUtil,
   closeDialog,
-  countElements,
   fillDialogInput,
   getBadgeCount as getBadgeCountUtil,
   navigateBack as navigateBackUtil,
@@ -90,7 +89,7 @@ export class BookmarksPanel {
   }
 
   async getBookmarkCount() {
-    return countElements(this.page, '[data-testid^="bookmark-item-"]');
+    return this.page.locator('[data-testid^="bookmark-item-"]').count();
   }
 
   async openFolderWithNestedFolders(folderName: string) {

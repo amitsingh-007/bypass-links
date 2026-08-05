@@ -4,7 +4,6 @@ import {
   clickDialogButton,
   clickContextMenuItem,
   closeDialog,
-  countElements,
   fillDialogInput,
   getNumericBadgeValue,
   getBadgeCount,
@@ -68,7 +67,7 @@ export class PersonsPanel {
   }
 
   async getPersonCount() {
-    return countElements(this.page, '[data-testid^="person-item-"]');
+    return this.page.locator('[data-testid^="person-item-"]').count();
   }
 
   async openAddPersonDialog() {
@@ -214,16 +213,12 @@ export class PersonsPanel {
   }
 
   async getPersonNames(): Promise<string[]> {
-    const personCards = this.page.locator('[data-testid^="person-item-"]');
-    const personCount = await personCards.count();
-    const personNames: string[] = [];
-    for (let i = 0; i < personCount; i++) {
-      const text = await personCards.nth(i).textContent();
-      if (text) {
-        personNames.push(text.trim());
-      }
-    }
-    return personNames;
+    const texts = await this.page
+      .locator('[data-testid^="person-item-"]')
+      .allTextContents();
+    // Filter before trimming, matching the previous per-card loop: a
+    // whitespace-only card is kept as '' rather than dropped
+    return texts.filter((text) => text).map((text) => text.trim());
   }
 
   async getHeaderPersonCount(): Promise<number> {

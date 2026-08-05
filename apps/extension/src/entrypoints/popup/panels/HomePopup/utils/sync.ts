@@ -28,10 +28,6 @@ import {
 } from '../constants/progress';
 import { resetLastVisited, syncLastVisitedToStorage } from './lastVisited';
 
-const resetAuthentication = async () => {
-  await browser.identity.clearAllCachedAuthTokens();
-};
-
 const syncFirebaseToStorage = async () => {
   await Promise.all([
     syncRedirectionsToStorage(),
@@ -42,13 +38,9 @@ const syncFirebaseToStorage = async () => {
   ]);
 };
 
-const syncStorageToFirebase = async () => {
-  await syncBookmarksAndPersonsFirebaseWithStorage();
-};
-
 const resetStorage = async () => {
   await Promise.all([
-    resetAuthentication(),
+    browser.identity.clearAllCachedAuthTokens(),
     resetRedirections(),
     resetWebsites(),
     resetBookmarks(),
@@ -72,7 +64,7 @@ export const processPostLogin = async () => {
 export const processPreLogout = async () => {
   const { incrementProgress } = useProgressStore.getState();
   // Sync changes to firebase before logout, cant sync after logout
-  await syncStorageToFirebase();
+  await syncBookmarksAndPersonsFirebaseWithStorage();
   incrementProgress(SIGN_OUT_TOTAL_STEPS);
 };
 

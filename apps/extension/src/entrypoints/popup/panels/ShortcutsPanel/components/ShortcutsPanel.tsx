@@ -42,7 +42,7 @@ function ShortcutsPanel() {
 
   const handleSave = async () => {
     setIsFetching(true);
-    const validRules = redirections.filter((x) => getValidRules(x));
+    const validRules = redirections.filter(getValidRules);
     const isSaveSuccess =
       await trpcApi.firebaseData.redirectionsPost.mutate(validRules);
     if (isSaveSuccess) {

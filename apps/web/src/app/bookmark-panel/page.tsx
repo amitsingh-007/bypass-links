@@ -66,13 +66,11 @@ export default function BookmarksPage() {
     initBookmarksData();
   }, [initBookmarksData]);
 
-  const handleSearchTextChange = (text: string) => setSearchText(text);
-
   return (
     <div className="max-w-panel mx-auto flex h-screen flex-col px-0">
       <Header
         text={`${folderName} (${contextBookmarks?.length || 0})`}
-        onSearchChange={handleSearchTextChange}
+        onSearchChange={setSearchText}
       />
       <ScrollArea viewportRef={scrollAreaRef} className="flex-1">
         {filteredContextBookmarks.length > 0 ? (

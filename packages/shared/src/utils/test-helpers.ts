@@ -97,10 +97,11 @@ export const getNumericBadgeValue = async (
   await expect(badge).toBeVisible();
 
   const text = (await badge.textContent()) ?? '';
-  const parenthesesMatch = /\((\d+)\)/.exec(text);
   const fallbackToAnyNumber = options?.fallbackToAnyNumber ?? false;
-  if (parenthesesMatch !== null || !fallbackToAnyNumber) {
-    return Number.parseInt(parenthesesMatch?.[1] ?? '0', 10);
+  // parseBadgeCount collapses no-match and a matched 0 to the same 0, so the
+  // presence of parentheses has to be tested separately to decide on the fallback
+  if (/\(\d+\)/.test(text) || !fallbackToAnyNumber) {
+    return parseBadgeCount(text);
   }
 
   const firstNumberMatch = /\b(\d+)\b/.exec(text);

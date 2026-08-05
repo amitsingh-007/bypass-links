@@ -111,10 +111,6 @@ function PersonsPanel() {
     toast.success('Person deleted successfully');
   };
 
-  const handleSearchTextChange = (text: string) => {
-    setSearchText(text);
-  };
-
   const toggleOrderByRecency = () => setOrderByRecency((prev) => !prev);
 
   return (
@@ -125,7 +121,7 @@ function PersonsPanel() {
         persons={filteredAndOrderedPersons}
         orderByRecency={orderByRecency}
         toggleOrderByRecency={toggleOrderByRecency}
-        onSearchChange={handleSearchTextChange}
+        onSearchChange={setSearchText}
       />
       <div
         className="relative"
