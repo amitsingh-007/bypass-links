@@ -1,6 +1,7 @@
 import {
   ECacheBucketKeys,
   addAllToCache,
+  encodeBookmarkField,
   getBookmarkFaviconUrls,
   getGoogleFaviconUrl,
   type ContextBookmarks,
@@ -83,9 +84,9 @@ export const findBookmarkByUrl = (
   urlList: IBookmarksObj['urlList'],
   url: string
 ) => {
-  // Encode the needle once rather than decrypting every stored bookmark; this is
-  // the exact inverse of getEncryptedBookmark, which is the only encoder
-  const encodedUrl = btoa(encodeURIComponent(url));
+  // Encode the needle once rather than decrypting every stored bookmark, using
+  // the same encoder getEncryptedBookmark writes with so they cannot diverge
+  const encodedUrl = encodeBookmarkField(url);
   return Object.values(urlList).find(
     (encodedBookmark) => encodedBookmark.url === encodedUrl
   );
