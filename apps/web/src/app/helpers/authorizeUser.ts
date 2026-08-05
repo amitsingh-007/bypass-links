@@ -30,6 +30,7 @@ export const authorizeUser = async (
     return { ok: false, status: 401, message: 'Unauthorized user' };
   }
 
-  const result = checkUserAuthorized(user);
-  return result.ok ? { ok: true, user } : result;
+  // Return the shared result directly: rebuilding it would put the wider
+  // firebase-admin UserRecord in a slot typed as the narrower IUser
+  return checkUserAuthorized(user);
 };
