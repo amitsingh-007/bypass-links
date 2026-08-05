@@ -8,12 +8,12 @@ import {
   bookmarksMapper,
   filterRecord,
   getEncryptedBookmark,
-  getGoogleFaviconUrl,
   getEncryptedFolder,
 } from '@bypass/shared';
 import { toast } from 'sonner';
 import { create } from 'zustand';
 
+import { faviconUrl } from '@/constants/favicon';
 import { bookmarksItem } from '@/storage/items';
 
 import { isFolderContainsDir, setBookmarksInStorage } from '../utils';
@@ -196,10 +196,7 @@ const useBookmarkStore = create<State>()((set, get) => ({
     }
 
     // Cache favicon for new URL
-    addToCache(
-      ECacheBucketKeys.favicon,
-      getGoogleFaviconUrl(updatedBookmark.url)
-    );
+    addToCache(ECacheBucketKeys.favicon, faviconUrl(updatedBookmark.url));
     set({ isSaveButtonActive: true });
     return true;
   },

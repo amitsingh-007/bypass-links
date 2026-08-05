@@ -1,7 +1,8 @@
-import { DynamicContext, getGoogleFaviconUrl } from '@bypass/shared';
+import { DynamicContext } from '@bypass/shared';
 import { type PropsWithChildren, useMemo } from 'react';
 import { useLocation, useSearch } from 'wouter';
 
+import { faviconUrl } from '@/constants/favicon';
 import useHistoryStore from '@store/history';
 
 import { getFromChromeStorage, setToChromeStorage } from './utils';
@@ -31,7 +32,7 @@ function DynamicProvider({ children }: PropsWithChildren) {
           browser.tabs.create({ url, active: false });
         },
       },
-      favicon: { getUrl: getGoogleFaviconUrl },
+      favicon: { getUrl: faviconUrl },
     }),
     [navigate, search, startHistoryMonitor]
   );

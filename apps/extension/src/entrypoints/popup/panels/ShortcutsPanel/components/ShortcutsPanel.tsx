@@ -46,9 +46,18 @@ function ShortcutsPanel() {
     const isSaveSuccess =
       await trpcApi.firebaseData.redirectionsPost.mutate(validRules);
     if (isSaveSuccess) {
-      syncRedirectionsToStorage();
-      setRedirections(validRules);
-      toast.success('Saved successfully');
+      // Must be awaited: this is the only writer of mappedRedirections outside
+      // sign-in, and redirect() reads it on every navigation. Firing it
+      // unawaited meant a failed round-trip (or the popup closing first) left
+      // the pre-edit rule table live while the panel showed the new rules.
+      try {
+        await syncRedirectionsToStorage();
+        setRedirections(validRules);
+        toast.success('Saved successfully');
+      } catch (error) {
+        console.error('Failed to refresh redirections in storage', error);
+        toast.error('Saved, but could not refresh redirect rules');
+      }
     }
     setIsSaveActive(false);
     setIsFetching(false);

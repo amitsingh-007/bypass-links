@@ -1,9 +1,18 @@
 import { websitesItem } from '@/storage/items';
 
-export const isForumPage = async (hostname: string) => {
+/**
+ * Returns the matching websites key, or undefined. One matcher for both the
+ * popup gate and link extraction — they previously tested different things
+ * (hostname vs full url), so a website value carrying a path disabled the
+ * button even though extraction would have worked.
+ */
+export const matchForum = async (url: string): Promise<string | undefined> => {
   const websites = await websitesItem.getValue();
-  // hostname.includes('') is true for every page
-  return Object.values(websites).some((website) =>
-    Boolean(website && hostname.includes(website))
-  );
+  return Object.entries(websites).find(
+    // Undefined when unsynced; url.includes(undefined) would match anything
+    ([, website]) => Boolean(website && url.includes(website))
+  )?.[0];
 };
+
+export const isForumPage = async (url: string) =>
+  Boolean(await matchForum(url));

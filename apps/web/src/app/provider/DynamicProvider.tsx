@@ -1,6 +1,8 @@
-import { DynamicContext, getYandexFaviconUrl } from '@bypass/shared';
+import { DynamicContext } from '@bypass/shared';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { type PropsWithChildren, useMemo } from 'react';
+
+import { faviconUrl } from '@app/constants/favicon';
 
 import { openNewTab } from '../utils';
 import { getFromLocalStorage, setToLocalStorage } from '../utils/storage';
@@ -21,7 +23,7 @@ function DynamicProvider({ children }: PropsWithChildren) {
         set: async (key: string, value: any) => setToLocalStorage(key, value),
       },
       tabs: { open: openNewTab },
-      favicon: { getUrl: getYandexFaviconUrl },
+      favicon: { getUrl: faviconUrl },
     }),
     [router, searchParams]
   );

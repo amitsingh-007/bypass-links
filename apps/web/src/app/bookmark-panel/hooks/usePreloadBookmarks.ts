@@ -5,11 +5,11 @@ import {
   STORAGE_KEYS,
   deleteCache,
   getBookmarkFaviconUrls,
-  getYandexFaviconUrl,
   isCachePresent,
 } from '@bypass/shared';
 import { useState } from 'react';
 
+import { faviconUrl } from '@app/constants/favicon';
 import { useUser } from '@app/provider/AuthProvider';
 import { api } from '@app/utils/api';
 import {
@@ -36,10 +36,7 @@ const cacheBookmarkFavicons = async () => {
   if (!bookmarks) {
     return;
   }
-  const faviconUrls = getBookmarkFaviconUrls(
-    bookmarks.urlList,
-    getYandexFaviconUrl
-  );
+  const faviconUrls = getBookmarkFaviconUrls(bookmarks.urlList, faviconUrl);
   await addAllToCache(ECacheBucketKeys.favicon, faviconUrls);
 };
 

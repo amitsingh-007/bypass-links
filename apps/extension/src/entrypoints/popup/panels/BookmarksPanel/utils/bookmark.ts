@@ -3,13 +3,13 @@ import {
   addAllToCache,
   encodeBookmarkField,
   getBookmarkFaviconUrls,
-  getGoogleFaviconUrl,
   type ContextBookmarks,
   type IBookmarksObj,
   type ITransformedBookmark,
 } from '@bypass/shared';
 
 import { trpcApi } from '@/apis/trpcApi';
+import { faviconUrl } from '@/constants/favicon';
 import {
   bookmarksItem,
   personsItem,
@@ -62,10 +62,7 @@ export const cacheBookmarkFavicons = async () => {
   if (!bookmarks) {
     return;
   }
-  const faviconUrls = getBookmarkFaviconUrls(
-    bookmarks.urlList,
-    getGoogleFaviconUrl
-  );
+  const faviconUrls = getBookmarkFaviconUrls(bookmarks.urlList, faviconUrl);
   await addAllToCache(ECacheBucketKeys.favicon, faviconUrls);
   console.log('Bookmark favicons cached');
   const { incrementProgress } = useProgressStore.getState();

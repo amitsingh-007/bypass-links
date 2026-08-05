@@ -1,34 +1,23 @@
 import { TRPCError, initTRPC } from '@trpc/server';
 
 import { type ITRPCContext } from './@types/trpc';
-import {
-  getFirebaseUser,
-  verifyAuthToken,
-} from './services/firebaseAdminService';
-import { getAuthBearer } from './utils/headers';
+import { resolveRequestUser } from './utils/authorization';
 
-const getLoggedInUser = async (idToken: string | undefined) => {
-  if (!idToken) {
-    return null;
+export const createTRPCContext = async (
+  req: Request
+): Promise<ITRPCContext> => {
+  const resolved = await resolveRequestUser(req);
+  if (resolved.ok) {
+    return { user: resolved.user };
   }
-  try {
-    const { uid } = await verifyAuthToken(idToken, true);
-    return await getFirebaseUser(uid);
-  } catch (error) {
-    console.error(error);
+  if (resolved.reason === 'invalid') {
     throw new TRPCError({
       code: 'UNAUTHORIZED',
       message: 'Firebase authorization failed',
     });
   }
-};
-
-export const createTRPCContext = async (
-  req: Request
-): Promise<ITRPCContext> => {
-  const user = await getLoggedInUser(getAuthBearer(req));
-
-  return { user };
+  // Missing token: let checkUserAuthorized produce the 401
+  return { user: null };
 };
 
 export const t = initTRPC

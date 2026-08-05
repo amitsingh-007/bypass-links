@@ -1,4 +1,4 @@
-import { websitesItem } from '@/storage/items';
+import { matchForum } from '@background/websites';
 
 const getForum_1_2_LinksFunc = () => {
   const unreadRows = document.querySelectorAll(
@@ -49,45 +49,39 @@ const getForum_4_LinksFunc = () => {
   return [...unreadPosts].map((a) => a.href);
 };
 
+/**
+ * Extractor per websites key. The selector takes the url because FORUM_1/FORUM_2
+ * choose between two extractors at runtime based on the pathname, so a plain
+ * `Record<string, extractor>` could not express it.
+ */
+type ExtractorFor = (url: URL) => () => Array<string | undefined>;
+
+const FORUM_EXTRACTORS: Record<string, ExtractorFor> = {
+  FORUM_1: ({ pathname }) =>
+    pathname === '/watched/threads'
+      ? getForum_1_2_WatchedThreadsLinksFunc
+      : getForum_1_2_LinksFunc,
+  FORUM_2: ({ pathname }) =>
+    pathname === '/watched/threads'
+      ? getForum_1_2_WatchedThreadsLinksFunc
+      : getForum_1_2_LinksFunc,
+  FORUM_3: () => getForum_3_LinksFunc,
+  FORUM_4: () => getForum_4_LinksFunc,
+};
+
 export const getForumPageLinks = async (
   tabId: number,
   url: string
 ): Promise<string[]> => {
-  const websites = await websitesItem.getValue();
-  // Undefined when unsynced; url.includes(undefined) would match arbitrary urls
-  const matches = (website?: string) =>
-    Boolean(website && url.includes(website));
-  let executor: () => Array<string | undefined>;
-
-  switch (true) {
-    case matches(websites.FORUM_1):
-    case matches(websites.FORUM_2): {
-      const { pathname } = new URL(url);
-      const isWatchThreadsPage = pathname === '/watched/threads';
-      executor = isWatchThreadsPage
-        ? getForum_1_2_WatchedThreadsLinksFunc
-        : getForum_1_2_LinksFunc;
-      break;
-    }
-
-    case matches(websites.FORUM_3): {
-      executor = getForum_3_LinksFunc;
-      break;
-    }
-
-    case matches(websites.FORUM_4): {
-      executor = getForum_4_LinksFunc;
-      break;
-    }
-
-    default: {
-      throw new Error('Not a forum page');
-    }
+  const forumKey = await matchForum(url);
+  const selectExtractor = forumKey ? FORUM_EXTRACTORS[forumKey] : undefined;
+  if (!selectExtractor) {
+    throw new Error('Not a forum page');
   }
 
   const [{ result }] = await browser.scripting.executeScript({
     target: { tabId },
-    func: executor,
+    func: selectExtractor(new URL(url)),
   });
   return result?.filter(Boolean) ?? [];
 };

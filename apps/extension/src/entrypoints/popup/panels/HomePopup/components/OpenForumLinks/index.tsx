@@ -8,11 +8,6 @@ import useCurrentTab from '@popup/hooks/useCurrentTab';
 
 import ButtonWithFeedback from './ButtonWithFeedback';
 
-const isCurrentPageForum = async (url = '') => {
-  const hostname = url && new URL(url).hostname;
-  return isForumPage(hostname);
-};
-
 function OpenForumLinks() {
   const { tabs } = use(DynamicContext);
   const isSignedIn = useFirebaseStore((state) => Boolean(state.idpAuth?.uid));
@@ -21,7 +16,8 @@ function OpenForumLinks() {
 
   useEffect(() => {
     const initIsActive = async () => {
-      const isForum = isSignedIn && (await isCurrentPageForum(currentTab?.url));
+      const url = currentTab?.url;
+      const isForum = Boolean(isSignedIn && url && (await isForumPage(url)));
       setIsOnForumPage(isForum);
     };
     initIsActive();
