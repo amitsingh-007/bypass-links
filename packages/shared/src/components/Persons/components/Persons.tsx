@@ -46,7 +46,7 @@ function PersonsInner({
   const columnDimension = (bodyWidth - 12) / columnCount; // Adjust scrollbar width
   const rowDimension = columnDimension + (isMobile ? 20 : 2);
   const rowVirtualizer = useVirtualizer({
-    count: Math.ceil(persons.length / columnCount),
+    count: rowCount,
     estimateSize: () => rowDimension,
     overscan: 2,
     getScrollElement: () => scrollElement,
@@ -73,25 +73,23 @@ function PersonsInner({
               transform: `translateY(${virtualRow.start}px)`,
             }}
           >
-            {Array.from({ length: columnCount })
-              .fill(0)
-              .map((_, columnIndex) => {
-                const personIndex = getReactKey(
-                  virtualRow.index,
-                  columnIndex,
-                  getColumnCount(isMobile)
-                );
-                if (personIndex >= persons.length) {
-                  return null;
-                }
-                const person = persons[personIndex];
+            {Array.from({ length: columnCount }, (_, columnIndex) => {
+              const personIndex = getReactKey(
+                virtualRow.index,
+                columnIndex,
+                columnCount
+              );
+              if (personIndex >= persons.length) {
+                return null;
+              }
+              const person = persons[personIndex];
 
-                return (
-                  <div key={person.uid} style={{ width: columnDimension }}>
-                    {renderPerson(person)}
-                  </div>
-                );
-              })}
+              return (
+                <div key={person.uid} style={{ width: columnDimension }}>
+                  {renderPerson(person)}
+                </div>
+              );
+            })}
           </div>
         ))}
       </div>

@@ -1,3 +1,4 @@
+import { hasText } from '@bypass/shared';
 import {
   Avatar,
   AvatarFallback,
@@ -91,9 +92,7 @@ function PersonSelect({ value, onChange }: PersonSelectProps) {
 
   // Filter persons based on search query
   const filteredPersonList = searchQuery.trim()
-    ? personList.filter((person) =>
-        person.label.toLowerCase().includes(searchQuery.toLowerCase())
-      )
+    ? personList.filter((person) => hasText(searchQuery, person.label))
     : personList;
 
   const hasResults = filteredPersonList.length > 0;

@@ -1,5 +1,5 @@
 import { Bookmark, type ContextBookmark, isFolderEmpty } from '@bypass/shared';
-import clsx from 'clsx';
+import { cn } from '@bypass/ui/lib/utils';
 import { useShallow } from 'zustand/react/shallow';
 
 import useBookmarkStore from '../store/useBookmarkStore';
@@ -33,7 +33,7 @@ function VirtualRow({ bookmark, pos, isSelected, isCut }: Props) {
 
   return (
     <div
-      className={clsx(
+      className={cn(
         'box-border h-full cursor-pointer rounded-md select-none',
         'hover:bg-muted',
         `data-[is-selected=true]:bg-primary data-[is-selected=true]:text-primary-foreground`,

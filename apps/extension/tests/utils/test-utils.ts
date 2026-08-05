@@ -65,13 +65,6 @@ export const clickContextMenuItem = async (page: Page, id: string) => {
 };
 
 /**
- * Count elements matching a selector.
- */
-export const countElements = async (page: Page, selector: string) => {
-  return page.locator(selector).count();
-};
-
-/**
  * Open a folder by clicking on it.
  */
 export const openFolder = async (page: Page, folderName: string) => {

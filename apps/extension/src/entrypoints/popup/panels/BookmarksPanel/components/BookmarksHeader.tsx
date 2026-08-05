@@ -73,8 +73,6 @@ function BookmarksHeader({ onSearchChange, folderId }: Props) {
     }
   };
 
-  const handleConfirmationDialogClose = confirmationDialogHandlers.close;
-
   const handleConfirmationDialogOk = () => {
     handleClose();
     confirmationDialogHandlers.close();
@@ -118,7 +116,7 @@ function BookmarksHeader({ onSearchChange, folderId }: Props) {
       />
       <ConfirmationDialog
         isOpen={openConfirmationDialog}
-        onClose={handleConfirmationDialogClose}
+        onClose={confirmationDialogHandlers.close}
         onOk={handleConfirmationDialogOk}
       />
     </>

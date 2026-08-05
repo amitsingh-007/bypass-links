@@ -53,14 +53,11 @@ function PersonsPage() {
     updatePersons();
   }, [getDefaultOrRootFolderUrls, orderByRecency, persons, searchText]);
 
-  const handleSearchTextChange = (text: string) => {
-    setSearchText(text);
-  };
   return (
     <div className="max-w-panel mx-auto flex h-screen flex-col px-0">
       <Header
         text={`Persons Panel (${filteredAndOrderedPersons?.length || 0})`}
-        onSearchChange={handleSearchTextChange}
+        onSearchChange={setSearchText}
       >
         <div className="flex items-center gap-2">
           <Switch
