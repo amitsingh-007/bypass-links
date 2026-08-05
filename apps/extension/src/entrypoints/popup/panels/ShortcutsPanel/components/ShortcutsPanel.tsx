@@ -45,21 +45,28 @@ function ShortcutsPanel() {
     const validRules = redirections.filter(getValidRules);
     const isSaveSuccess =
       await trpcApi.firebaseData.redirectionsPost.mutate(validRules);
-    if (isSaveSuccess) {
-      // Must be awaited: this is the only writer of mappedRedirections outside
-      // sign-in, and redirect() reads it on every navigation. Firing it
-      // unawaited meant a failed round-trip (or the popup closing first) left
-      // the pre-edit rule table live while the panel showed the new rules.
-      try {
-        await syncRedirectionsToStorage();
-        setRedirections(validRules);
-        toast.success('Saved successfully');
-      } catch (error) {
-        console.error('Failed to refresh redirections in storage', error);
-        toast.error('Saved, but could not refresh redirect rules');
-      }
+    if (!isSaveSuccess) {
+      setIsFetching(false);
+      return;
     }
-    setIsSaveActive(false);
+    // The server accepted these rules, so show them regardless of what happens
+    // below — this is now the persisted truth
+    setRedirections(validRules);
+
+    // Must be awaited: this is the only writer of mappedRedirections outside
+    // sign-in, and redirect() reads it on every navigation. Firing it unawaited
+    // meant a failed round-trip (or the popup closing first) left the pre-edit
+    // rule table live while the panel showed the new rules.
+    try {
+      await syncRedirectionsToStorage();
+      setIsSaveActive(false);
+      toast.success('Saved successfully');
+    } catch (error) {
+      console.error('Failed to refresh redirections in storage', error);
+      // Leave Save enabled: redirects are still using the stale rule table, so
+      // the user needs a way to retry the refresh
+      toast.error('Saved, but redirect rules are stale — press Save to retry');
+    }
     setIsFetching(false);
   };
 

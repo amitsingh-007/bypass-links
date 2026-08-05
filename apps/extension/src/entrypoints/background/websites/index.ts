@@ -13,6 +13,3 @@ export const matchForum = async (url: string): Promise<string | undefined> => {
     ([, website]) => Boolean(website && url.includes(website))
   )?.[0];
 };
-
-export const isForumPage = async (url: string) =>
-  Boolean(await matchForum(url));

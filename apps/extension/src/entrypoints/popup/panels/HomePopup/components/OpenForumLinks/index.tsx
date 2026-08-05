@@ -3,7 +3,7 @@ import { use, useEffect, useState } from 'react';
 
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { sendRuntimeMessage } from '@/utils/sendRuntimeMessage';
-import { isForumPage } from '@background/websites';
+import { isForumPage } from '@background/misc/forumPageLinks';
 import useCurrentTab from '@popup/hooks/useCurrentTab';
 
 import ButtonWithFeedback from './ButtonWithFeedback';
