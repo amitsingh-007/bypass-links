@@ -78,7 +78,7 @@ function PersonSelect({ value, onChange }: PersonSelectProps) {
   const [orderByRecency, setOrderByRecency] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
-  const { data: persons = [] } = usePersonsWithImages(orderByRecency);
+  const { data: persons } = usePersonsWithImages(orderByRecency);
 
   const personList = persons.map<IOptionData>(({ imageUrl, name, uid }) => ({
     label: name,

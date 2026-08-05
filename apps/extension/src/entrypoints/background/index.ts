@@ -11,25 +11,27 @@ import { type RuntimeInput } from '@/utils/sendRuntimeMessage';
 
 import turnOffInputSuggestions from './misc/turnOffInputSuggestions';
 import { redirect } from './redirections';
-import { isValidTabUrl, isValidUrl, setExtensionIcon } from './utils';
+import { isValidUrl, setExtensionIcon } from './utils';
 import { receiveRuntimeMessage } from './utils/receiveRuntimeMessage';
 
 const onPageLoad = async (tabId: number, url: string) => {
   if (!isValidUrl(url)) {
     return;
   }
-  const extState = await extStateItem.getValue();
-  if (!getIsExtensionActive(extState)) {
+  // The extState read and the tab read are independent; the previous code also
+  // called isValidTabUrl twice, but nothing is awaited between the two checks
+  // (redirect is fire-and-forget), so the second tabs.get could never observe a
+  // newer url. One live check before acting is what the guard was for.
+  const [extState, tab] = await Promise.all([
+    extStateItem.getValue(),
+    browser.tabs.get(tabId),
+  ]);
+  if (!getIsExtensionActive(extState) || !isValidUrl(tab.url)) {
     return;
   }
 
-  // Below if() checks avoid the scenario where url changes after the page is loaded
-  if (await isValidTabUrl(tabId)) {
-    redirect(tabId, new URL(url));
-  }
-  if (await isValidTabUrl(tabId)) {
-    turnOffInputSuggestions(tabId);
-  }
+  redirect(tabId, new URL(url));
+  turnOffInputSuggestions(tabId);
 };
 
 const isMainFrame = (frameId: number) => frameId === 0;

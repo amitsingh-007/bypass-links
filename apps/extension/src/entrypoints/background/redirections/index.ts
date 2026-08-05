@@ -17,12 +17,15 @@ export const redirect = async (tabId: number, url: URL) => {
 
 export const syncRedirectionsToStorage = async () => {
   const redirections = await trpcApi.firebaseData.redirectionsGet.query();
-  await redirectionsItem.setValue(redirections);
-  const mappedRedirections = mapRedirections(redirections);
-  await mappedRedirectionsItem.setValue(mappedRedirections);
+  await Promise.all([
+    redirectionsItem.setValue(redirections),
+    mappedRedirectionsItem.setValue(mapRedirections(redirections)),
+  ]);
 };
 
 export const resetRedirections = async () => {
-  await redirectionsItem.removeValue();
-  await mappedRedirectionsItem.removeValue();
+  await Promise.all([
+    redirectionsItem.removeValue(),
+    mappedRedirectionsItem.removeValue(),
+  ]);
 };

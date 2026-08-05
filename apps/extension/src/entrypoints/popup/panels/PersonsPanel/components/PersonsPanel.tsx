@@ -28,7 +28,10 @@ import {
   getPersonPos,
   setPersonsInStorage,
 } from '../utils';
-import { updatePersonCacheAndImageUrls } from '../utils/sync';
+import {
+  invalidatePersonCaches,
+  updatePersonCacheAndImageUrls,
+} from '../utils/sync';
 import PersonHeader from './PersonHeader';
 import PersonVirtualCell from './PersonVirtualCell';
 
@@ -108,6 +111,7 @@ function PersonsPanel() {
     setPersons(newPersons);
     await trpcApi.storage.removeFile.mutate(getPersonImageName(person.uid));
     await handleSave(newPersons);
+    await invalidatePersonCaches();
     setIsFetching(false);
     toast.success('Person deleted successfully');
   };

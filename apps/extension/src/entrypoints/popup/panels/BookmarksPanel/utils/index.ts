@@ -11,6 +11,8 @@ export const countTruthy = (bookmarks: ISelectedBookmarks) =>
   bookmarks.filter(Boolean).length;
 
 export const setBookmarksInStorage = async (bookmarksObj: IBookmarksObj) => {
-  await bookmarksItem.setValue(bookmarksObj);
-  await hasPendingBookmarksItem.setValue(true);
+  await Promise.all([
+    bookmarksItem.setValue(bookmarksObj),
+    hasPendingBookmarksItem.setValue(true),
+  ]);
 };
