@@ -48,7 +48,6 @@ const cachePersonImages = async (personImageUrls: PersonImageUrls) => {
 };
 
 export const cachePersonImagesInStorage = async () => {
-  await refreshPersonImageUrlsCache();
   const persons = await getAllDecodedPersons();
   const personImagesList = await Promise.all(
     persons.map(async (person) => resolveImageFromPerson(person.uid))

@@ -2,9 +2,9 @@ import { getPersonImageName, type IPersons } from '@bypass/shared';
 
 import { EFirebaseDBRef } from '../constants/firebase';
 import {
-  deletePersonImageFromFirebase,
   getFromFirebase,
   listFilesFromFirebase,
+  removeFileFromFirebase,
 } from './firebaseAdminService';
 
 async function getPersonStorageImageId(uid: string): Promise<string[]> {
@@ -32,7 +32,7 @@ export const cleanupStorage = async (uid: string): Promise<void> => {
   }
 
   const deletePromises = orphanedImages.map(async (imageUid) =>
-    deletePersonImageFromFirebase(uid, getPersonImageName(imageUid))
+    removeFileFromFirebase(uid, getPersonImageName(imageUid))
   );
   await Promise.all(deletePromises);
 };

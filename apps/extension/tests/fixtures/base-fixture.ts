@@ -108,60 +108,6 @@ export const getExtensionId = async (
 };
 
 /**
- * Navigate to a panel. Since we're using the cached Chrome profile,
- * the extension should already be logged in with all data loaded.
- */
-export const authenticateAndNavigate = async (
-  sharedContext: BrowserContext,
-  sharedExtensionId: string,
-  panelName?: 'bookmarks' | 'persons' | 'shortcuts' | 'home'
-): Promise<Page> => {
-  const cachedData = await loadCachedStorageData();
-
-  // Step 1: Inject localStorage via addInitScript (runs before any page script)
-  await sharedContext.addInitScript(
-    ({ localStorageData }) => {
-      for (const [key, value] of Object.entries(localStorageData)) {
-        window.localStorage.setItem(key, value);
-      }
-    },
-    { localStorageData: cachedData.localStorage }
-  );
-
-  // Step 2: Create page and navigate to extension
-  const page = await sharedContext.newPage();
-  await page.goto(getPopupUrl(sharedExtensionId), {
-    waitUntil: 'domcontentloaded',
-  });
-
-  // Step 3: Inject chrome.storage.local via extension page (avoid MV3 worker hangs)
-  await page.evaluate(async (chromeStorageData) => {
-    await chrome.storage.local.set(chromeStorageData);
-  }, cachedData.chromeStorage);
-
-  // Step 4: Reload to ensure storage is applied before UI checks
-  await page.reload({ waitUntil: 'domcontentloaded' });
-
-  // Step 5: Verify we're logged in (logout button should be visible)
-  const logoutButton = page.getByRole('button', { name: 'Logout' });
-  await logoutButton.waitFor({
-    state: 'visible',
-    timeout: TEST_TIMEOUTS.AUTH,
-  });
-
-  // Step 6: Navigate to requested panel
-  if (panelName && panelName !== 'home') {
-    const panelButton = page.getByRole('button', {
-      name: new RegExp(panelName, 'i'),
-    });
-    await panelButton.click();
-    await page.waitForLoadState('domcontentloaded');
-  }
-
-  return page;
-};
-
-/**
  * Open extension popup (or a panel) using existing authenticated context state.
  */
 export const openExtensionPanelPage = async (

@@ -10,12 +10,14 @@ import { t } from '../trpc';
 const firebaseStorageRouter = t.router({
   getDownloadUrl: protectedProcedure
     .input(z.string())
+    .output(z.string())
     .query(async ({ input, ctx }) => {
       return getFileFromFirebase(ctx.user.uid, input);
     }),
 
   removeFile: protectedProcedure
     .input(z.string())
+    .output(z.void())
     .mutation(async ({ input, ctx }) => {
       await removeFileFromFirebase(ctx.user.uid, input);
     }),
