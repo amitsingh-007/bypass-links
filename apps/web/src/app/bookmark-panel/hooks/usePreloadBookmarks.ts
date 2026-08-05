@@ -8,7 +8,7 @@ import {
   getYandexFaviconUrl,
   isCachePresent,
 } from '@bypass/shared';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 
 import { useUser } from '@app/provider/AuthProvider';
 import { api } from '@app/utils/api';
@@ -47,7 +47,7 @@ const usePreloadBookmarks = () => {
   const { user } = useUser();
   const [isLoading, setIsLoading] = useState(false);
 
-  const preloadData = useCallback(async () => {
+  const preloadData = async () => {
     if (!user) {
       return;
     }
@@ -58,7 +58,7 @@ const usePreloadBookmarks = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [user]);
+  };
 
   const clearData = async () => {
     setIsLoading(true);

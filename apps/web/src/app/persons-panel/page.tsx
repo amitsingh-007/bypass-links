@@ -14,6 +14,7 @@ import {
 } from '@bypass/shared';
 import { Switch } from '@bypass/ui';
 import { useEffect, useState } from 'react';
+import useSWR from 'swr';
 
 import { getFromLocalStorage } from '@app/utils/storage';
 
@@ -21,9 +22,6 @@ import PersonVirtualCell from './components/PersonVirtualCell';
 
 function PersonsPage() {
   const [persons, setPersons] = useState<IPerson[]>([]);
-  const [filteredAndOrderedPersons, setFilteredAndOrderedPersons] = useState<
-    IPerson[]
-  >([]);
   const [searchText, setSearchText] = useState('');
   const [orderByRecency, setOrderByRecency] = useState(true);
   const { getDefaultOrRootFolderUrls } = useBookmark();
@@ -40,17 +38,20 @@ function PersonsPage() {
     setPersons(alphabeticallySorted);
   }, []);
 
-  useEffect(() => {
-    const updatePersons = async () => {
-      const urls = await getDefaultOrRootFolderUrls();
-      const orderedPersons = orderByRecency
-        ? sortByRecency(persons, urls)
-        : persons;
-      const filtered = getFilteredPersons(orderedPersons, searchText);
-      setFilteredAndOrderedPersons(filtered);
-    };
-    updatePersons();
-  }, [getDefaultOrRootFolderUrls, orderByRecency, persons, searchText]);
+  // Read once under a stable key; previously this re-ran (and re-parsed the whole
+  // bookmarks blob synchronously) on every keystroke because searchText was a dep
+  const { data: urls = [] } = useSWR(
+    'default-folder-urls',
+    getDefaultOrRootFolderUrls
+  );
+
+  const orderedPersons = orderByRecency
+    ? sortByRecency(persons, urls)
+    : persons;
+  const filteredAndOrderedPersons = getFilteredPersons(
+    orderedPersons,
+    searchText
+  );
 
   return (
     <div className="max-w-panel mx-auto flex h-screen flex-col px-0">

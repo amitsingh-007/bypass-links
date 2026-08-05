@@ -14,7 +14,7 @@ import {
 import { ScrollArea } from '@bypass/ui';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { getFromLocalStorage } from '@app/utils/storage';
 
@@ -24,12 +24,21 @@ export default function BookmarksPage() {
   const searchParams = useSearchParams();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const folderId = searchParams?.get('folderId') ?? ROOT_FOLDER_ID;
-  const [folderName, setFolderName] = useState('');
-  const [contextBookmarks, setContextBookmarks] = useState<ContextBookmarks>(
-    []
+  // One state for the single read; everything below is derived from it
+  const [bookmarksData, setBookmarksData] = useState<IBookmarksObj | null>(
+    null
   );
-  const [folders, setFolders] = useState<IBookmarksObj['folders']>({});
   const [searchText, setSearchText] = useState('');
+
+  const folders = bookmarksData?.folders ?? {};
+  const contextBookmarks: ContextBookmarks = bookmarksData
+    ? bookmarksData.folders[folderId].map((meta) =>
+        bookmarksMapper(meta, bookmarksData.urlList, bookmarksData.folderList)
+      )
+    : [];
+  const folderName = bookmarksData
+    ? getFolderName(bookmarksData.folderList, folderId)
+    : '';
   const filteredContextBookmarks = getFilteredContextBookmarks(
     contextBookmarks,
     searchText
@@ -42,29 +51,12 @@ export default function BookmarksPage() {
     getItemKey: (idx) => filteredContextBookmarks[idx].id,
   });
 
-  const initBookmarksData = useCallback(() => {
-    const bookmarksData = getFromLocalStorage<IBookmarksObj>(
-      STORAGE_KEYS.bookmarks
-    );
-    if (!bookmarksData) {
-      return;
-    }
-    const {
-      folders: foldersData,
-      urlList: urlListData,
-      folderList: folderListData,
-    } = bookmarksData;
-    const modifiedBookmarks = foldersData[folderId].map((meta) =>
-      bookmarksMapper(meta, urlListData, folderListData)
-    );
-    setContextBookmarks(modifiedBookmarks);
-    setFolders(foldersData);
-    setFolderName(getFolderName(folderListData, folderId));
-  }, [folderId]);
-
+  // Kept in an effect for hydration safety — localStorage is client-only
   useEffect(() => {
-    initBookmarksData();
-  }, [initBookmarksData]);
+    setBookmarksData(
+      getFromLocalStorage<IBookmarksObj>(STORAGE_KEYS.bookmarks)
+    );
+  }, []);
 
   return (
     <div className="max-w-panel mx-auto flex h-screen flex-col px-0">
@@ -88,9 +80,8 @@ export default function BookmarksPage() {
                 className="absolute top-0 left-0 w-full"
               >
                 <VirtualRow
-                  index={virtualRow.index}
+                  bookmark={filteredContextBookmarks[virtualRow.index]}
                   folders={folders}
-                  contextBookmarks={filteredContextBookmarks}
                 />
               </div>
             ))}

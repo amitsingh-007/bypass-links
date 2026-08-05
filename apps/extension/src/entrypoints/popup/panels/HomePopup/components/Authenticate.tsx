@@ -11,33 +11,27 @@ import useExtStore from '@store/extension';
 import { signIn, signOut } from '../utils/authentication';
 
 function Authenticate() {
-  const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
-  const setIsSignedIn = useFirebaseStore((state) => state.setIsSignedIn);
+  // Derived from idpAuth, which is the persisted source of truth
+  const isSignedIn = useFirebaseStore((state) => Boolean(state.idpAuth?.uid));
   const isExtensionActive = useExtStore((state) => state.isExtensionActive);
   const { isLoading, startLoading, stopLoading } = useProgressStore();
 
   const handleSignIn = async () => {
     startLoading();
-    const isSignInSuccess = await signIn();
-    setIsSignedIn(isSignInSuccess);
+    await signIn();
     stopLoading();
   };
 
+  // Kept memoized: it is a dep of the effect below, so an unstable identity
+  // would re-run that effect on every render
   const handleSignOut = useCallback(async () => {
     startLoading();
     const isSignedOutSuccess = await signOut();
-    if (isSignedOutSuccess) {
-      setIsSignedIn(!isSignedOutSuccess);
-    } else {
+    if (!isSignedOutSuccess) {
       toast.error('Error while logging out');
     }
     stopLoading();
-  }, [setIsSignedIn, startLoading, stopLoading]);
-
-  useEffect(() => {
-    const { idpAuth } = useFirebaseStore.getState();
-    setIsSignedIn(Boolean(idpAuth?.uid));
-  }, [setIsSignedIn]);
+  }, [startLoading, stopLoading]);
 
   useEffect(() => {
     if (isSignedIn && !isExtensionActive) {

@@ -25,7 +25,7 @@ import {
 } from '@bypass/ui';
 import { useDisclosure } from '@mantine/hooks';
 import { useForm } from '@tanstack/react-form';
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useLocation } from 'wouter';
 import { z } from 'zod/mini';
 import { useShallow } from 'zustand/react/shallow';
@@ -94,18 +94,12 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
     return false; // focus already handled; don't let base-ui override it
   };
 
-  const { folderOptions, defaultFolderId } = useMemo(() => {
-    const decodedFolderList = getDecodedFolderList(folderList);
-    const options = decodedFolderList.map((x) => ({
-      value: x.id,
-      label: x.name,
-    }));
-    const defaultFolder = getDefaultFolder(decodedFolderList);
-    return {
-      folderOptions: options,
-      defaultFolderId: defaultFolder?.id,
-    };
-  }, [folderList]);
+  const decodedFolderList = getDecodedFolderList(folderList);
+  const folderOptions = decodedFolderList.map((x) => ({
+    value: x.id,
+    label: x.name,
+  }));
+  const defaultFolderId = getDefaultFolder(decodedFolderList)?.id;
 
   const form = useForm({
     defaultValues: {
