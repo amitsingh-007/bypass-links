@@ -1,7 +1,6 @@
 import {
   ECacheBucketKeys,
   addAllToCache,
-  getDecryptedBookmark,
   getBookmarkFaviconUrls,
   getGoogleFaviconUrl,
   type ContextBookmarks,
@@ -26,27 +25,35 @@ export const syncBookmarksToStorage = async () => {
 };
 
 export const syncBookmarksAndPersonsFirebaseWithStorage = async () => {
-  const hasPendingBookmarks = await hasPendingBookmarksItem.getValue();
-  const hasPendingPersons = await hasPendingPersonsItem.getValue();
+  const [hasPendingBookmarks, hasPendingPersons] = await Promise.all([
+    hasPendingBookmarksItem.getValue(),
+    hasPendingPersonsItem.getValue(),
+  ]);
   if (!hasPendingBookmarks && !hasPendingPersons) {
     return;
   }
-  const bookmarks = await bookmarksItem.getValue();
-  const persons = await personsItem.getValue();
+  const [bookmarks, persons] = await Promise.all([
+    bookmarksItem.getValue(),
+    personsItem.getValue(),
+  ]);
   const isSaveSuccess = await trpcApi.firebaseData.bookmarkAndPersonSave.mutate(
     { bookmarks, persons }
   );
   if (isSaveSuccess) {
-    await hasPendingBookmarksItem.removeValue();
-    await hasPendingPersonsItem.removeValue();
+    await Promise.all([
+      hasPendingBookmarksItem.removeValue(),
+      hasPendingPersonsItem.removeValue(),
+    ]);
   } else {
     throw new Error('Error while syncing bookmarks from storage to firebase');
   }
 };
 
 export const resetBookmarks = async () => {
-  await bookmarksItem.removeValue();
-  await hasPendingBookmarksItem.removeValue();
+  await Promise.all([
+    bookmarksItem.removeValue(),
+    hasPendingBookmarksItem.removeValue(),
+  ]);
 };
 
 export const cacheBookmarkFavicons = async () => {
@@ -75,8 +82,11 @@ export const findBookmarkById = (
 export const findBookmarkByUrl = (
   urlList: IBookmarksObj['urlList'],
   url: string
-) =>
-  Object.values(urlList).find((encodedBookmark) => {
-    const bookmark = getDecryptedBookmark(encodedBookmark);
-    return bookmark.url === url;
-  });
+) => {
+  // Encode the needle once rather than decrypting every stored bookmark; this is
+  // the exact inverse of getEncryptedBookmark, which is the only encoder
+  const encodedUrl = btoa(encodeURIComponent(url));
+  return Object.values(urlList).find(
+    (encodedBookmark) => encodedBookmark.url === encodedUrl
+  );
+};

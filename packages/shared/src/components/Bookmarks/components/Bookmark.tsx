@@ -34,7 +34,7 @@ function Bookmark({
   handleSelectedChange,
 }: BookmarkProps) {
   const { tabs } = use(DynamicContext);
-  const { data: personsWithImageUrls = [] } = useTaggedPersons(taggedPersons);
+  const { data: personsWithImageUrls } = useTaggedPersons(taggedPersons);
   const isMobile = useIsMobile();
 
   const handleOpenLink: React.MouseEventHandler<HTMLDivElement> = (event) => {

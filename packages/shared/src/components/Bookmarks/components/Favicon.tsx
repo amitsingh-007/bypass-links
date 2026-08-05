@@ -12,26 +12,15 @@ interface Props {
   ref?: React.Ref<HTMLDivElement>;
 }
 
-const urlMap = new Map<string, string>();
-
-const getBlobUrl = async (proxyUrl: string) => {
-  const blobStr = urlMap.get(proxyUrl);
-  if (blobStr) {
-    return blobStr;
-  }
-
-  const blobUrl = await getBlobUrlFromCache(ECacheBucketKeys.favicon, proxyUrl);
-  urlMap.set(proxyUrl, blobUrl);
-  return blobUrl;
-};
-
 function Favicon({ url, ref }: Props) {
   const { favicon } = use(DynamicContext);
   const [faviconUrl, setFaviconUrl] = useState('');
 
   useEffect(() => {
     const initFavicon = async () => {
-      setFaviconUrl(await getBlobUrl(favicon.getUrl(url)));
+      setFaviconUrl(
+        await getBlobUrlFromCache(ECacheBucketKeys.favicon, favicon.getUrl(url))
+      );
     };
     initFavicon();
   }, [url, favicon]);
