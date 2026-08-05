@@ -1,6 +1,6 @@
 import { defineBackground } from 'wxt/utils/define-background';
 
-import { EExtensionState } from '@/constants';
+import { EExtensionState, ICON_KEYS } from '@/constants';
 import {
   extStateItem,
   hasPendingBookmarksItem,
@@ -119,12 +119,7 @@ export default defineBackground({
       if (areaName !== 'local') {
         return;
       }
-      const changedKeys = Object.keys(changes);
-      if (
-        changedKeys.includes('extState') ||
-        changedKeys.includes('hasPendingBookmarks') ||
-        changedKeys.includes('hasPendingPersons')
-      ) {
+      if (ICON_KEYS.some((key) => key in changes)) {
         void updateIcon();
       }
     });

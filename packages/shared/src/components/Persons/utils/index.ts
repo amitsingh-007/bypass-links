@@ -1,6 +1,12 @@
+import { ECacheBucketKeys } from '../../../constants/cache';
+import { addAllToCache } from '../../../utils/cache';
 import { hasText } from '../../../utils/search';
 import { type IEncodedBookmark } from '../../Bookmarks/interfaces';
-import { type IPerson, type IPersons } from '../interfaces/persons';
+import {
+  type IPerson,
+  type IPersons,
+  type PersonImageUrls,
+} from '../interfaces/persons';
 
 export const getDecryptedPerson = (person: IPerson): IPerson => {
   return {
@@ -51,3 +57,29 @@ export const getFilteredPersons = (persons: IPerson[], searchText: string) =>
 export const getColumnCount = (isMobile: boolean) => (isMobile ? 3 : 5);
 
 export const getPersonImageName = (uid: string) => `${uid}.jpeg`;
+
+/**
+ * Resolve a download url per person uid. Parameterised on the resolver so both
+ * apps can pass their own tRPC client.
+ */
+export const buildPersonImageUrls = async (
+  uids: string[],
+  getDownloadUrl: (fileName: string) => Promise<string>
+): Promise<PersonImageUrls> =>
+  Object.fromEntries(
+    await Promise.all(
+      uids.map(async (uid) => [
+        uid,
+        await getDownloadUrl(getPersonImageName(uid)),
+      ])
+    )
+  );
+
+export const cachePersonImages = async (personImageUrls: PersonImageUrls) => {
+  if (!personImageUrls) {
+    console.log('Unable to cache person images since no person urls');
+    return;
+  }
+  await addAllToCache(ECacheBucketKeys.person, Object.values(personImageUrls));
+  console.log('Initialized cache for all person urls');
+};

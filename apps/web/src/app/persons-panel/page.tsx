@@ -1,7 +1,7 @@
 'use client';
 
 import {
-  getDecryptedPerson,
+  decodePersons,
   getFilteredPersons,
   Header,
   type IPerson,
@@ -33,10 +33,9 @@ function PersonsPage() {
     if (!storedPersons) {
       return;
     }
-    const decryptedPersons = Object.values(storedPersons || {}).map((x) =>
-      getDecryptedPerson(x)
+    const alphabeticallySorted = sortAlphabetically(
+      decodePersons(storedPersons)
     );
-    const alphabeticallySorted = sortAlphabetically(decryptedPersons);
     // oxlint-disable-next-line react/react-compiler
     setPersons(alphabeticallySorted);
   }, []);

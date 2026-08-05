@@ -6,59 +6,62 @@ import type {
   IRedirections,
   IWebsites,
 } from '@bypass/shared';
+import { STORAGE_KEYS } from '@bypass/shared';
 import { storage } from 'wxt/utils/storage';
 
-import { EExtensionState } from '@/constants';
+import { EExtensionState, EXT_STORAGE_KEYS } from '@/constants';
 import type { IMappedRedirections } from '@/entrypoints/background/interfaces/redirections';
 
 export const bookmarksItem = storage.defineItem<IBookmarksObj>(
-  'local:bookmarks',
+  `local:${STORAGE_KEYS.bookmarks}`,
   { fallback: { folderList: {}, urlList: {}, folders: {} } }
 );
 
-export const websitesItem = storage.defineItem<IWebsites>('local:websites', {
-  fallback: {},
-});
-
-export const lastVisitedItem = storage.defineItem<ILastVisited>(
-  'local:lastVisited',
+export const websitesItem = storage.defineItem<IWebsites>(
+  `local:${STORAGE_KEYS.websites}`,
   { fallback: {} }
 );
 
-export const personsItem = storage.defineItem<IPersons>('local:persons', {
-  fallback: {},
-});
+export const lastVisitedItem = storage.defineItem<ILastVisited>(
+  `local:${STORAGE_KEYS.lastVisited}`,
+  { fallback: {} }
+);
+
+export const personsItem = storage.defineItem<IPersons>(
+  `local:${STORAGE_KEYS.persons}`,
+  { fallback: {} }
+);
 
 export const redirectionsItem = storage.defineItem<IRedirections>(
-  'local:redirections',
+  `local:${STORAGE_KEYS.redirections}`,
   { fallback: [] }
 );
 
 export const mappedRedirectionsItem = storage.defineItem<IMappedRedirections>(
-  'local:mappedRedirections',
+  `local:${STORAGE_KEYS.mappedRedirections}`,
   { fallback: {} }
 );
 
 export const personImageUrlsItem = storage.defineItem<PersonImageUrls>(
-  'local:personImageUrls',
+  `local:${STORAGE_KEYS.personImageUrls}`,
   { fallback: {} }
 );
 
 export const extStateItem = storage.defineItem<EExtensionState>(
-  'local:extState',
+  `local:${EXT_STORAGE_KEYS.extState}`,
   { fallback: EExtensionState.ACTIVE }
 );
 
 export const hasPendingBookmarksItem = storage.defineItem<boolean>(
-  'local:hasPendingBookmarks',
+  `local:${EXT_STORAGE_KEYS.hasPendingBookmarks}`,
   { fallback: false }
 );
 
 export const hasPendingPersonsItem = storage.defineItem<boolean>(
-  'local:hasPendingPersons',
+  `local:${EXT_STORAGE_KEYS.hasPendingPersons}`,
   { fallback: false }
 );
 
 export const historyStartTimeItem = storage.defineItem<number>(
-  'local:historyStartTime'
+  `local:${EXT_STORAGE_KEYS.historyStartTime}`
 );

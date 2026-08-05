@@ -1,13 +1,13 @@
 import fs from 'node:fs';
 import process from 'node:process';
 
-import { TEST_TIMEOUTS } from '@bypass/shared/tests';
+import { dumpLocalStorage, TEST_TIMEOUTS } from '@bypass/shared/tests';
 import { expect, test as setup } from '@playwright/test';
 import wretch from 'wretch';
 import QueryStringAddon from 'wretch/addons/queryString';
 
 import type { IAuthResponse } from '@/interfaces/firebase';
-import { getExpiresAtMs } from '@/store/firebase/utils';
+import { mapAuthResponse } from '@/store/firebase/utils';
 
 import { getFirebasePublicConfig } from '../../../packages/configs/firebase.config';
 import { TEST_AUTH_DATA_KEY } from '../src/constants';
@@ -40,13 +40,9 @@ const signInWithEmailAndPassword = async (): Promise<IAuthResponse> => {
       returnSecureToken: true,
     })
     .json<IAuthResponse>((res) => ({
-      uid: res.localId,
-      email: res.email,
+      ...mapAuthResponse(res),
+      // The email/password flow returns no photo; keep it empty rather than undefined
       photoUrl: '',
-      displayName: res.displayName,
-      idToken: res.idToken,
-      expiresAtMs: getExpiresAtMs(Number(res.expiresIn)),
-      refreshToken: res.refreshToken,
     }));
 };
 
@@ -93,18 +89,9 @@ setup('authenticate and cache extension storage', async ({}, testInfo) => {
     chrome.storage.local.get(null)
   );
 
-  const localStorageData = await page.evaluate(() => {
-    const data: Record<string, string> = {};
-    for (let i = 0; i < window.localStorage.length; i++) {
-      const key = window.localStorage.key(i);
-      if (key) {
-        data[key] = window.localStorage.getItem(key) ?? '';
-      }
-    }
-    return data;
+  const localStorageData = await dumpLocalStorage(page, {
+    omitKeys: ['OUTDATED_EXT_CHECK'],
   });
-
-  delete localStorageData.OUTDATED_EXT_CHECK;
 
   await fs.promises.writeFile(
     EXTENSION_STORAGE_PATH,

@@ -1,10 +1,9 @@
 import {
   ECacheBucketKeys,
-  addAllToCache,
-  type PersonImageUrls,
+  buildPersonImageUrls,
+  cachePersonImages,
   STORAGE_KEYS,
   deleteCache,
-  getPersonImageName,
   isCachePresent,
   usePerson,
 } from '@bypass/shared';
@@ -17,15 +16,6 @@ import {
   removeFromLocalStorage,
   setToLocalStorage,
 } from '@app/utils/storage';
-
-const cachePersonImages = async (personImageUrls: PersonImageUrls) => {
-  if (!personImageUrls) {
-    console.log('Unable to cache person images since no person urls');
-    return;
-  }
-  const imageUrls = Object.values(personImageUrls);
-  await addAllToCache(ECacheBucketKeys.person, imageUrls);
-};
 
 const syncPersonsToStorage = async () => {
   if (isExistsInLocalStorage(STORAGE_KEYS.persons)) {
@@ -49,22 +39,9 @@ const usePreloadPerson = () => {
       return;
     }
     const persons = await getAllDecodedPersons();
-    const personImagesList = await Promise.all(
-      persons.map(async (person) => {
-        return {
-          uid: person.uid,
-          imageUrl: await api.storage.getDownloadUrl.query(
-            getPersonImageName(person.uid)
-          ),
-        };
-      })
-    );
-    const personImageUrls = personImagesList.reduce<PersonImageUrls>(
-      (obj, { uid, imageUrl }) => {
-        obj[uid] = imageUrl;
-        return obj;
-      },
-      {}
+    const personImageUrls = await buildPersonImageUrls(
+      persons.map((person) => person.uid),
+      async (fileName) => api.storage.getDownloadUrl.query(fileName)
     );
     setToLocalStorage(STORAGE_KEYS.personImageUrls, personImageUrls);
     await cachePersonImages(personImageUrls);

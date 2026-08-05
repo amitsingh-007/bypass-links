@@ -1,10 +1,10 @@
 import {
-  addAllToCache,
   addToCache,
+  buildPersonImageUrls,
+  cachePersonImages,
   ECacheBucketKeys,
   getPersonImageName,
   type IPerson,
-  type PersonImageUrls,
 } from '@bypass/shared';
 
 import { trpcApi } from '@/apis/trpcApi';
@@ -28,36 +28,18 @@ export const resetPersons = async () => {
   await hasPendingPersonsItem.removeValue();
 };
 
-const resolveImageFromPerson = async (uid: string) => ({
-  uid,
-  imageUrl: await trpcApi.storage.getDownloadUrl.query(getPersonImageName(uid)),
-});
+const resolveDownloadUrl = async (fileName: string) =>
+  trpcApi.storage.getDownloadUrl.query(fileName);
 
 export const refreshPersonImageUrlsCache = async () => {
   await personImageUrlsItem.removeValue();
 };
 
-const cachePersonImages = async (personImageUrls: PersonImageUrls) => {
-  if (!personImageUrls) {
-    console.log('Unable to cache person images since no person urls');
-    return;
-  }
-  const imageUrls = Object.values(personImageUrls);
-  await addAllToCache(ECacheBucketKeys.person, imageUrls);
-  console.log('Initialized cache for all person urls');
-};
-
 export const cachePersonImagesInStorage = async () => {
   const persons = await getAllDecodedPersons();
-  const personImagesList = await Promise.all(
-    persons.map(async (person) => resolveImageFromPerson(person.uid))
-  );
-  const personImageUrls = personImagesList.reduce<PersonImageUrls>(
-    (obj, { uid, imageUrl }) => {
-      obj[uid] = imageUrl;
-      return obj;
-    },
-    {}
+  const personImageUrls = await buildPersonImageUrls(
+    persons.map((person) => person.uid),
+    resolveDownloadUrl
   );
   await personImageUrlsItem.setValue(personImageUrls);
   const { incrementProgress } = useProgressStore.getState();
@@ -69,8 +51,8 @@ export const cachePersonImagesInStorage = async () => {
 export const updatePersonCacheAndImageUrls = async (person: IPerson) => {
   // Update person image urls in storage
   const personImageUrls = await personImageUrlsItem.getValue();
-  const { uid, imageUrl } = await resolveImageFromPerson(person.uid);
-  personImageUrls[uid] = imageUrl;
+  const imageUrl = await resolveDownloadUrl(getPersonImageName(person.uid));
+  personImageUrls[person.uid] = imageUrl;
   await personImageUrlsItem.setValue(personImageUrls);
   // Update person image cache
   await addToCache(ECacheBucketKeys.person, imageUrl);
