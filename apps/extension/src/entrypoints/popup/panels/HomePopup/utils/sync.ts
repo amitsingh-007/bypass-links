@@ -38,6 +38,10 @@ const syncFirebaseToStorage = async () => {
   ]);
 };
 
+const syncStorageToFirebase = async () => {
+  await syncBookmarksAndPersonsFirebaseWithStorage();
+};
+
 const resetStorage = async () => {
   await Promise.all([
     browser.identity.clearAllCachedAuthTokens(),
@@ -64,7 +68,7 @@ export const processPostLogin = async () => {
 export const processPreLogout = async () => {
   const { incrementProgress } = useProgressStore.getState();
   // Sync changes to firebase before logout, cant sync after logout
-  await syncBookmarksAndPersonsFirebaseWithStorage();
+  await syncStorageToFirebase();
   incrementProgress(SIGN_OUT_TOTAL_STEPS);
 };
 

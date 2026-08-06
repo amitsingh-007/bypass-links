@@ -7,6 +7,11 @@ import {
 } from '../constants/progress';
 import { processPostLogin, processPostLogout, processPreLogout } from './sync';
 
+const userSignIn = async () => {
+  const { firebaseSignIn } = useFirebaseStore.getState();
+  await firebaseSignIn();
+};
+
 export const signOut = async (): Promise<boolean> => {
   const { firebaseSignOut } = useFirebaseStore.getState();
   const { incrementProgress } = useProgressStore.getState();
@@ -27,7 +32,7 @@ export const signIn = async (): Promise<boolean> => {
   const { incrementProgress } = useProgressStore.getState();
 
   try {
-    await useFirebaseStore.getState().firebaseSignIn();
+    await userSignIn();
     incrementProgress(SIGN_IN_TOTAL_STEPS);
     await processPostLogin();
     return true;

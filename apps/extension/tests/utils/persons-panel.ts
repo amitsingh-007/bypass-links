@@ -216,7 +216,6 @@ export class PersonsPanel {
     const texts = await this.page
       .locator('[data-testid^="person-item-"]')
       .allTextContents();
-    // Filter before trimming, so a whitespace-only card stays '' as before
     return texts.filter((text) => text).map((text) => text.trim());
   }
 
