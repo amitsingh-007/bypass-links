@@ -85,8 +85,7 @@ const useFirebaseStore = create<State>()(
           );
           return null;
         }
-        // expiresIn is not part of IAuthResponse; spreads bypass excess-property
-        // checks, so drop it explicitly or it gets persisted into __fbOAuth
+        // Spreads bypass excess-property checks, so drop it or it lands in __fbOAuth
         const { expiresIn, ...refreshed } = refreshedTokenData;
         const newIdpAuth: IAuthResponse = {
           ...idpAuth,
