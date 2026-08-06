@@ -61,6 +61,18 @@ export const cachePersonImagesInStorage = async () => {
   incrementProgress(SIGN_IN_TOTAL_STEPS);
 };
 
+/** Delete-path counterpart: without this the url and its blob url both linger. */
+export const removePersonImageUrl = async (uid: string) => {
+  const personImageUrls = await personImageUrlsItem.getValue();
+  const imageUrl = personImageUrls[uid];
+  if (!imageUrl) {
+    return;
+  }
+  evictBlobUrl(imageUrl);
+  delete personImageUrls[uid];
+  await personImageUrlsItem.setValue(personImageUrls);
+};
+
 export const updatePersonCacheAndImageUrls = async (person: IPerson) => {
   // Update person image urls in storage
   const personImageUrls = await personImageUrlsItem.getValue();

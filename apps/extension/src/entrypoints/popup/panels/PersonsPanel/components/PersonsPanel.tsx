@@ -30,6 +30,7 @@ import {
 } from '../utils';
 import {
   invalidatePersonCaches,
+  removePersonImageUrl,
   updatePersonCacheAndImageUrls,
 } from '../utils/sync';
 import PersonHeader from './PersonHeader';
@@ -109,6 +110,7 @@ function PersonsPanel() {
     newPersons.splice(pos, 1);
     setPersons(newPersons);
     await trpcApi.storage.removeFile.mutate(getPersonImageName(person.uid));
+    await removePersonImageUrl(person.uid);
     await handleSave(newPersons);
     await invalidatePersonCaches();
     setIsFetching(false);
