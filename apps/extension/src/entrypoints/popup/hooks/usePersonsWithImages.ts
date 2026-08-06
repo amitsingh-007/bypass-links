@@ -6,7 +6,6 @@ import {
 } from '@bypass/shared';
 import useSWR from 'swr';
 
-/** Sorts here rather than in the fetcher, so the shared cache key stays stable. */
 const usePersonsWithImages = (orderByRecency: boolean) => {
   const { getDefaultOrRootFolderUrls } = useBookmark();
   const { data: personsWithImageUrl = [], ...rest } = useAllPersonsWithImages();
