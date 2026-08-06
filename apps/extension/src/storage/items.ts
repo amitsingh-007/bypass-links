@@ -12,8 +12,12 @@ import { storage } from 'wxt/utils/storage';
 import { EExtensionState, EExtStorageKey } from '@/constants';
 import type { IMappedRedirections } from '@/entrypoints/background/interfaces/redirections';
 
-/** Every item lives in `local:` with a fallback; keeps the eleven call sites flat. */
-const defineLocalItem = <T>(key: string, fallback: T) =>
+/** Constrained to the known key sets so a typo cannot open a new namespace. */
+type LocalStorageKey =
+  | (typeof STORAGE_KEYS)[keyof typeof STORAGE_KEYS]
+  | EExtStorageKey;
+
+const defineLocalItem = <T>(key: LocalStorageKey, fallback: T) =>
   storage.defineItem<T>(`local:${key}`, { fallback });
 
 export const bookmarksItem = defineLocalItem<IBookmarksObj>(

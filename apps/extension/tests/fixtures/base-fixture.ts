@@ -99,8 +99,12 @@ export const withTempProfileContext = async <T>(
   try {
     return await fn(browserContext);
   } finally {
-    await browserContext.close();
-    await fs.promises.rm(userDataDir, { recursive: true, force: true });
+    // Nested so a rejecting close() still cannot skip the removal
+    try {
+      await browserContext.close();
+    } finally {
+      await fs.promises.rm(userDataDir, { recursive: true, force: true });
+    }
   }
 };
 
