@@ -18,10 +18,8 @@ const onPageLoad = async (tabId: number, url: string) => {
   if (!isValidUrl(url)) {
     return;
   }
-  // The extState read and the tab read are independent; the previous code also
-  // called isValidTabUrl twice, but nothing is awaited between the two checks
-  // (redirect is fire-and-forget), so the second tabs.get could never observe a
-  // newer url. One live check before acting is what the guard was for.
+  // Independent reads. One live url check is enough: redirect is fire-and-forget,
+  // so the second tabs.get this replaced could never observe a newer url.
   const [extState, tab] = await Promise.all([
     extStateItem.getValue(),
     browser.tabs.get(tabId),

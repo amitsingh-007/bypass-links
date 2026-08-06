@@ -43,11 +43,8 @@ export const addAllToCache = async (
 };
 
 /**
- * One blob url per cached entry. `URL.createObjectURL` pins its blob for the
- * document lifetime and nothing revokes it, so minting a fresh url per call
- * leaked a copy per render in the long-lived web document. Keyed by bucket as
- * well as url, since the same url could live in more than one bucket and
- * eviction is per bucket.
+ * One blob url per cached entry — `createObjectURL` pins its blob for the
+ * document lifetime. Keyed by bucket too, since eviction is per bucket.
  */
 const blobUrlCache = new Map<string, string>();
 

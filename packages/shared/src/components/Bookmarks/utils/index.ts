@@ -38,10 +38,7 @@ export const getFilteredContextBookmarks = (
     return hasText(searchText, ctx.url) || hasText(searchText, ctx.title);
   });
 
-/**
- * The single bookmark-field encoder. Exported so lookups can encode a needle
- * instead of decoding every stored bookmark, without the two drifting apart.
- */
+/** The one bookmark-field encoder, so lookups can encode without drifting. */
 export const encodeBookmarkField = (value: string) =>
   btoa(encodeURIComponent(value));
 

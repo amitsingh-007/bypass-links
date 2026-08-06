@@ -36,10 +36,7 @@ export const resetPersons = async () => {
 const resolveDownloadUrl = async (fileName: string) =>
   trpcApi.storage.getDownloadUrl.query(fileName);
 
-/**
- * Global mutate (not useSWRConfig) — this module is not a hook. There is no
- * SWRConfig provider, so this addresses the same default cache.
- */
+/** Global mutate, not useSWRConfig: this module is not a hook. */
 export const invalidatePersonCaches = async () => {
   await Promise.all([
     mutate(ALL_PERSONS_WITH_IMAGES_KEY),
@@ -71,8 +68,8 @@ export const updatePersonCacheAndImageUrls = async (person: IPerson) => {
   const imageUrl = await resolveDownloadUrl(getPersonImageName(person.uid));
   personImageUrls[person.uid] = imageUrl;
   await personImageUrlsItem.setValue(personImageUrls);
-  // Evict both: the previous url may still be handed out to mounted avatars, and
-  // if the download url did not change its cached bytes are being replaced
+  // Evict both: mounted avatars may still hold the previous url, and an unchanged
+  // url means these cached bytes are the ones being replaced
   evictBlobUrl(ECacheBucketKeys.person, previousImageUrl);
   evictBlobUrl(ECacheBucketKeys.person, imageUrl);
   await addToCache(ECacheBucketKeys.person, imageUrl);

@@ -84,8 +84,7 @@ export const findBookmarkByUrl = (
   urlList: IBookmarksObj['urlList'],
   url: string
 ) => {
-  // Encode the needle once rather than decrypting every stored bookmark, using
-  // the same encoder getEncryptedBookmark writes with so they cannot diverge
+  // Encode the needle once instead of decrypting every stored bookmark
   const encodedUrl = encodeBookmarkField(url);
   return Object.values(urlList).find(
     (encodedBookmark) => encodedBookmark.url === encodedUrl
