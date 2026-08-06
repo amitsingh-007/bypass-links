@@ -18,8 +18,6 @@ const onPageLoad = async (tabId: number, url: string) => {
   if (!isValidUrl(url)) {
     return;
   }
-  // Independent reads. One live url check is enough: redirect is fire-and-forget,
-  // so the second tabs.get this replaced could never observe a newer url.
   const [extState, tab] = await Promise.all([
     extStateItem.getValue(),
     browser.tabs.get(tabId),

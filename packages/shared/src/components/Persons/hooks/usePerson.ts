@@ -65,7 +65,6 @@ const usePerson = () => {
         persons.map(async (person) => ({
           ...person,
           imageUrl: await getBlobUrlFromOpenCache(
-            ECacheBucketKeys.person,
             cache,
             personImages[person.uid]
           ),

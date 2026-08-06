@@ -10,8 +10,6 @@ import useSWR from 'swr';
 const usePersonsWithImages = (orderByRecency: boolean) => {
   const { getDefaultOrRootFolderUrls } = useBookmark();
   const { data: personsWithImageUrl = [], ...rest } = useAllPersonsWithImages();
-  // `= []` is load-bearing: sortByRecency iterates urls unguarded, and this also
-  // renders in the bookmark edit dialog, where nothing else populates this key
   const { data: urls = [] } = useSWR(
     'default-folder-urls',
     getDefaultOrRootFolderUrls

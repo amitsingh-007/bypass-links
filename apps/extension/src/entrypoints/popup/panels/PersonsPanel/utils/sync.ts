@@ -70,8 +70,8 @@ export const updatePersonCacheAndImageUrls = async (person: IPerson) => {
   await personImageUrlsItem.setValue(personImageUrls);
   // Evict both: mounted avatars may still hold the previous url, and an unchanged
   // url means these cached bytes are the ones being replaced
-  evictBlobUrl(ECacheBucketKeys.person, previousImageUrl);
-  evictBlobUrl(ECacheBucketKeys.person, imageUrl);
+  evictBlobUrl(previousImageUrl);
+  evictBlobUrl(imageUrl);
   await addToCache(ECacheBucketKeys.person, imageUrl);
   await invalidatePersonCaches();
 };

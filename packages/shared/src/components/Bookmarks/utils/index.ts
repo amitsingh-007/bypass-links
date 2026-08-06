@@ -38,7 +38,6 @@ export const getFilteredContextBookmarks = (
     return hasText(searchText, ctx.url) || hasText(searchText, ctx.title);
   });
 
-/** The one bookmark-field encoder, so lookups can encode without drifting. */
 export const encodeBookmarkField = (value: string) =>
   btoa(encodeURIComponent(value));
 
