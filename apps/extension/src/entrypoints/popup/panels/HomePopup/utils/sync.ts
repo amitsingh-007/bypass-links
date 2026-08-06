@@ -28,6 +28,10 @@ import {
 } from '../constants/progress';
 import { resetLastVisited, syncLastVisitedToStorage } from './lastVisited';
 
+const resetAuthentication = async () => {
+  await browser.identity.clearAllCachedAuthTokens();
+};
+
 const syncFirebaseToStorage = async () => {
   await Promise.all([
     syncRedirectionsToStorage(),
@@ -44,7 +48,7 @@ const syncStorageToFirebase = async () => {
 
 const resetStorage = async () => {
   await Promise.all([
-    browser.identity.clearAllCachedAuthTokens(),
+    resetAuthentication(),
     resetRedirections(),
     resetWebsites(),
     resetBookmarks(),
