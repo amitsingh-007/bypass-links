@@ -5,9 +5,6 @@ import { POPUP_HOMEPAGE } from '@/constants';
 
 // Re-export shared utilities for convenience
 
-/**
- * Go to the popup root and open a panel from it.
- */
 export const gotoPanel = async (
   page: Page,
   panelName: 'Bookmarks' | 'Persons' | 'Shortcuts'

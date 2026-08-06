@@ -13,10 +13,9 @@ export const TEST_AUTH_DATA_KEY = '__test_auth_data';
 export const POPUP_HOMEPAGE = '/popup.html';
 
 /**
- * Extension-only storage keys (the shared ones live in `STORAGE_KEYS`).
- * Kept here rather than in `storage/items.ts` because that module runs
- * `storage.defineItem` at import time, which touches `browser.runtime` and so
- * cannot be imported from a Playwright Node worker.
+ * Extension-only storage keys (shared ones live in `STORAGE_KEYS`). Not in
+ * `storage/items.ts`: `defineItem` touches `browser.runtime` at import time, so
+ * that module cannot be imported from a Playwright Node worker.
  */
 export const EXT_STORAGE_KEYS = {
   extState: 'extState',

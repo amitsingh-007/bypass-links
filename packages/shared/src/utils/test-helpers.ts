@@ -7,9 +7,6 @@ import {
 
 type TestIdScope = Pick<Page, 'getByTestId'>;
 
-/**
- * Snapshot every localStorage entry of the current page.
- */
 export const dumpLocalStorage = async (
   page: Page,
   options?: { omitKeys?: string[] }
@@ -31,10 +28,7 @@ export const dumpLocalStorage = async (
   return data;
 };
 
-/**
- * Replay a localStorage snapshot into every page of a context, before any page
- * script runs. `clearKeys` are removed after seeding.
- */
+/** Seeds localStorage before any page script runs; `clearKeys` are dropped after. */
 export const injectLocalStorage = async (
   context: BrowserContext,
   data: Record<string, string>,
@@ -153,9 +147,6 @@ export const getNumericBadgeValue = async (
   return firstNumberMatch ? Number.parseInt(firstNumberMatch[1], 10) : 0;
 };
 
-/**
- * Read the person count from the panel header badge.
- */
 export const getHeaderPersonCount = async (
   scope: TestIdScope
 ): Promise<number> =>

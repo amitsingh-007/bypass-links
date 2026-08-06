@@ -52,11 +52,9 @@ export const loadCachedStorageData = async (): Promise<CachedStorageData> => {
 };
 
 /**
- * Launch an extension context on a throwaway profile directory.
- *
  * `seedFromCachedProfile` copies the authenticated profile from auth setup,
- * which preserves its Cache Storage (person-cache, favicon-cache). Omit it for
- * unauthenticated tests so no auth state can leak in.
+ * preserving its Cache Storage. Omit it so no auth state leaks into
+ * unauthenticated tests.
  */
 export const createTempProfileContext = async ({
   prefix,
@@ -72,22 +70,26 @@ export const createTempProfileContext = async ({
   // Temp dir rather than the cached profile itself, to avoid locking issues
   const userDataDir = await fs.promises.mkdtemp(path.join(os.tmpdir(), prefix));
 
-  if (seedFromCachedProfile) {
-    await fs.promises.cp(CHROME_PROFILE_DIR, userDataDir, { recursive: true });
+  try {
+    if (seedFromCachedProfile) {
+      await fs.promises.cp(CHROME_PROFILE_DIR, userDataDir, {
+        recursive: true,
+      });
+    }
+    const browserContext = await launchExtensionContext({
+      userDataDir,
+      extensionPath,
+      headless,
+    });
+    return { browserContext, userDataDir };
+  } catch (error) {
+    // No caller owns the dir yet, so it would leak if seeding or launch throws
+    await fs.promises.rm(userDataDir, { recursive: true, force: true });
+    throw error;
   }
-
-  const browserContext = await launchExtensionContext({
-    userDataDir,
-    extensionPath,
-    headless,
-  });
-  return { browserContext, userDataDir };
 };
 
-/**
- * Run `fn` against a fresh temp-profile context, always cleaning up the profile
- * directory afterwards (a launch failure would otherwise leak it).
- */
+/** Runs `fn` against a fresh temp-profile context, always cleaning up after. */
 export const withTempProfileContext = async <T>(
   options: Parameters<typeof createTempProfileContext>[0],
   fn: (context: BrowserContext) => Promise<T>
