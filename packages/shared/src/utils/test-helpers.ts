@@ -7,6 +7,47 @@ import {
 
 type TestIdScope = Pick<Page, 'getByTestId'>;
 
+export const dumpLocalStorage = async (
+  page: Page,
+  options?: { omitKeys?: string[] }
+): Promise<Record<string, string>> => {
+  const data = await page.evaluate(() => {
+    const entries: Record<string, string> = {};
+    for (let i = 0; i < window.localStorage.length; i++) {
+      const key = window.localStorage.key(i);
+      if (key) {
+        entries[key] = window.localStorage.getItem(key) ?? '';
+      }
+    }
+    return entries;
+  });
+
+  for (const key of options?.omitKeys ?? []) {
+    delete data[key];
+  }
+  return data;
+};
+
+/** Seeds localStorage before any page script runs; `clearKeys` are dropped after. */
+export const injectLocalStorage = async (
+  context: BrowserContext,
+  data: Record<string, string>,
+  options?: { clearKeys?: string[] }
+) => {
+  await context.addInitScript(
+    ({ storageJson, clearKeys }) => {
+      const entries = JSON.parse(storageJson) as Record<string, string>;
+      for (const [key, value] of Object.entries(entries)) {
+        window.localStorage.setItem(key, value);
+      }
+      for (const key of clearKeys) {
+        window.localStorage.removeItem(key);
+      }
+    },
+    { storageJson: JSON.stringify(data), clearKeys: options?.clearKeys ?? [] }
+  );
+};
+
 /**
  * Close a shadcn dialog using the close button or Escape key.
  * This is the unified pattern for closing dialogs after Mantine migration.
@@ -97,15 +138,19 @@ export const getNumericBadgeValue = async (
   await expect(badge).toBeVisible();
 
   const text = (await badge.textContent()) ?? '';
-  const parenthesesMatch = /\((\d+)\)/.exec(text);
   const fallbackToAnyNumber = options?.fallbackToAnyNumber ?? false;
-  if (parenthesesMatch !== null || !fallbackToAnyNumber) {
-    return Number.parseInt(parenthesesMatch?.[1] ?? '0', 10);
+  if (/\(\d+\)/.test(text) || !fallbackToAnyNumber) {
+    return parseBadgeCount(text);
   }
 
   const firstNumberMatch = /\b(\d+)\b/.exec(text);
   return firstNumberMatch ? Number.parseInt(firstNumberMatch[1], 10) : 0;
 };
+
+export const getHeaderPersonCount = async (
+  scope: TestIdScope
+): Promise<number> =>
+  getNumericBadgeValue(scope, 'header-badge', { fallbackToAnyNumber: true });
 
 /**
  * Click the first person avatar in a dropdown and return person name.

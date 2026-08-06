@@ -1,23 +1,15 @@
-import useSWR from 'swr';
-
-import { type IPerson } from '../interfaces/persons';
-import usePerson from './usePerson';
-
-const getPersonsFromUids = (uids: string[], persons: IPerson[]) => {
-  if (!uids || !persons) {
-    return [];
-  }
-  return persons.filter((person) => uids.includes(person.uid ?? ''));
-};
+import { type IPersonWithImage } from '../interfaces/persons';
+import useAllPersonsWithImages from './useAllPersonsWithImages';
 
 const useTaggedPersons = (taggedPersons: string[]) => {
-  const { getAllDecodedPersons, getPersonsWithImageUrl } = usePerson();
+  const { data: allPersons = [], ...rest } = useAllPersonsWithImages();
 
-  return useSWR(['tagged-persons', taggedPersons], async () => {
-    const allPersons = await getAllDecodedPersons();
-    const persons = getPersonsFromUids(taggedPersons, allPersons);
-    return getPersonsWithImageUrl(persons);
-  });
+  const tagged = new Set(taggedPersons);
+  const data: IPersonWithImage[] = allPersons.filter((person) =>
+    tagged.has(person.uid)
+  );
+
+  return { ...rest, data };
 };
 
 export default useTaggedPersons;

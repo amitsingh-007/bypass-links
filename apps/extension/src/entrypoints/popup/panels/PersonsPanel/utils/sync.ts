@@ -1,11 +1,14 @@
 import {
-  addAllToCache,
   addToCache,
+  ALL_PERSONS_WITH_IMAGES_KEY,
+  buildPersonImageUrls,
+  cachePersonImages,
   ECacheBucketKeys,
+  evictBlobUrl,
   getPersonImageName,
   type IPerson,
-  type PersonImageUrls,
 } from '@bypass/shared';
+import { mutate } from 'swr';
 
 import { trpcApi } from '@/apis/trpcApi';
 import {
@@ -24,41 +27,32 @@ export const syncPersonsToStorage = async () => {
 };
 
 export const resetPersons = async () => {
-  await personsItem.removeValue();
-  await hasPendingPersonsItem.removeValue();
+  await Promise.all([
+    personsItem.removeValue(),
+    hasPendingPersonsItem.removeValue(),
+  ]);
 };
 
-const resolveImageFromPerson = async (uid: string) => ({
-  uid,
-  imageUrl: await trpcApi.storage.getDownloadUrl.query(getPersonImageName(uid)),
-});
+const resolveDownloadUrl = async (fileName: string) =>
+  trpcApi.storage.getDownloadUrl.query(fileName);
+
+/** Global mutate, not useSWRConfig: this module is not a hook. */
+export const invalidatePersonCaches = async () => {
+  await Promise.all([
+    mutate(ALL_PERSONS_WITH_IMAGES_KEY),
+    mutate((key) => Array.isArray(key) && key[0] === 'person-image'),
+  ]);
+};
 
 export const refreshPersonImageUrlsCache = async () => {
   await personImageUrlsItem.removeValue();
 };
 
-const cachePersonImages = async (personImageUrls: PersonImageUrls) => {
-  if (!personImageUrls) {
-    console.log('Unable to cache person images since no person urls');
-    return;
-  }
-  const imageUrls = Object.values(personImageUrls);
-  await addAllToCache(ECacheBucketKeys.person, imageUrls);
-  console.log('Initialized cache for all person urls');
-};
-
 export const cachePersonImagesInStorage = async () => {
-  await refreshPersonImageUrlsCache();
   const persons = await getAllDecodedPersons();
-  const personImagesList = await Promise.all(
-    persons.map(async (person) => resolveImageFromPerson(person.uid))
-  );
-  const personImageUrls = personImagesList.reduce<PersonImageUrls>(
-    (obj, { uid, imageUrl }) => {
-      obj[uid] = imageUrl;
-      return obj;
-    },
-    {}
+  const personImageUrls = await buildPersonImageUrls(
+    persons.map((person) => person.uid),
+    resolveDownloadUrl
   );
   await personImageUrlsItem.setValue(personImageUrls);
   const { incrementProgress } = useProgressStore.getState();
@@ -67,12 +61,29 @@ export const cachePersonImagesInStorage = async () => {
   incrementProgress(SIGN_IN_TOTAL_STEPS);
 };
 
+/** Delete-path counterpart: without this the url and its blob url both linger. */
+export const removePersonImageUrl = async (uid: string) => {
+  const personImageUrls = await personImageUrlsItem.getValue();
+  const imageUrl = personImageUrls[uid];
+  if (!imageUrl) {
+    return;
+  }
+  evictBlobUrl(imageUrl);
+  delete personImageUrls[uid];
+  await personImageUrlsItem.setValue(personImageUrls);
+};
+
 export const updatePersonCacheAndImageUrls = async (person: IPerson) => {
   // Update person image urls in storage
   const personImageUrls = await personImageUrlsItem.getValue();
-  const { uid, imageUrl } = await resolveImageFromPerson(person.uid);
-  personImageUrls[uid] = imageUrl;
+  const previousImageUrl = personImageUrls[person.uid];
+  const imageUrl = await resolveDownloadUrl(getPersonImageName(person.uid));
+  personImageUrls[person.uid] = imageUrl;
   await personImageUrlsItem.setValue(personImageUrls);
-  // Update person image cache
+  // Evict both: mounted avatars may still hold the previous url, and an unchanged
+  // url means these cached bytes are the ones being replaced
+  evictBlobUrl(previousImageUrl);
+  evictBlobUrl(imageUrl);
   await addToCache(ECacheBucketKeys.person, imageUrl);
+  await invalidatePersonCaches();
 };

@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { cn } from '@bypass/ui/lib/utils';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
 
 function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="en" className={clsx('dark', manrope.variable)}>
+    <html lang="en" className={cn('dark', manrope.variable)}>
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>

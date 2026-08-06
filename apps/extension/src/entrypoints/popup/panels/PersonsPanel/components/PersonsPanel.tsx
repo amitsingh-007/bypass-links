@@ -1,7 +1,6 @@
 import {
   EBookmarkOperation,
   getBookmarksPanelUrl,
-  getDecryptedPerson,
   getEncryptedPerson,
   getFilteredPersons,
   sortByRecency,
@@ -17,15 +16,23 @@ import {
 import { Spinner } from '@bypass/ui';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
+import useSWR from 'swr';
 import { useLocation } from 'wouter';
 
 import { trpcApi } from '@/apis/trpcApi';
 import { MAX_PANEL_SIZE } from '@/constants';
-import { personsItem } from '@/storage/items';
 import Panel from '@popup/components/Panel';
 
-import { getPersonPos, setPersonsInStorage } from '../utils';
-import { updatePersonCacheAndImageUrls } from '../utils/sync';
+import {
+  getAllDecodedPersons,
+  getPersonPos,
+  setPersonsInStorage,
+} from '../utils';
+import {
+  invalidatePersonCaches,
+  removePersonImageUrl,
+  updatePersonCacheAndImageUrls,
+} from '../utils/sync';
 import PersonHeader from './PersonHeader';
 import PersonVirtualCell from './PersonVirtualCell';
 
@@ -42,33 +49,30 @@ function PersonsPanel() {
   const { getPersonTaggedUrls } = usePerson();
   const { getDefaultOrRootFolderUrls } = useBookmark();
   const [persons, setPersons] = useState<IPerson[]>([]);
-  const [filteredAndOrderedPersons, setFilteredAndOrderedPersons] = useState<
-    IPerson[]
-  >([]);
   const [isFetching, setIsFetching] = useState(true);
   const [searchText, setSearchText] = useState('');
   const [orderByRecency, setOrderByRecency] = useState(true);
 
   useEffect(() => {
-    personsItem.getValue().then((_persons) => {
-      const decryptedPersons = Object.values(_persons || {}).map((x) =>
-        getDecryptedPerson(x)
-      );
-      setPersons(sortAlphabetically(decryptedPersons));
+    getAllDecodedPersons().then((decodedPersons) => {
+      setPersons(sortAlphabetically(decodedPersons));
       setIsFetching(false);
     });
   }, []);
 
-  useEffect(() => {
-    const filterAndOrder = async () => {
-      const urls = await getDefaultOrRootFolderUrls();
-      const orderedPersons = orderByRecency
-        ? sortByRecency(persons, urls)
-        : persons;
-      return getFilteredPersons(orderedPersons, searchText);
-    };
-    filterAndOrder().then((p) => setFilteredAndOrderedPersons(p));
-  }, [getDefaultOrRootFolderUrls, orderByRecency, persons, searchText]);
+  // Stable key so typing does not re-read bookmarks
+  const { data: urls = [] } = useSWR(
+    'default-folder-urls',
+    getDefaultOrRootFolderUrls
+  );
+
+  const orderedPersons = orderByRecency
+    ? sortByRecency(persons, urls)
+    : persons;
+  const filteredAndOrderedPersons = getFilteredPersons(
+    orderedPersons,
+    searchText
+  );
 
   const handleAddOrEditPerson = async (person: IPerson) => {
     setIsFetching(true);
@@ -106,13 +110,11 @@ function PersonsPanel() {
     newPersons.splice(pos, 1);
     setPersons(newPersons);
     await trpcApi.storage.removeFile.mutate(getPersonImageName(person.uid));
+    await removePersonImageUrl(person.uid);
     await handleSave(newPersons);
+    await invalidatePersonCaches();
     setIsFetching(false);
     toast.success('Person deleted successfully');
-  };
-
-  const handleSearchTextChange = (text: string) => {
-    setSearchText(text);
   };
 
   const toggleOrderByRecency = () => setOrderByRecency((prev) => !prev);
@@ -125,7 +127,7 @@ function PersonsPanel() {
         persons={filteredAndOrderedPersons}
         orderByRecency={orderByRecency}
         toggleOrderByRecency={toggleOrderByRecency}
-        onSearchChange={handleSearchTextChange}
+        onSearchChange={setSearchText}
       />
       <div
         className="relative"

@@ -1,3 +1,5 @@
+import { injectLocalStorage } from '@bypass/shared/tests';
+
 import { getExtensionId, loadCachedStorageData } from './base-fixture';
 import { test as base } from './extension-fixture';
 
@@ -11,15 +13,9 @@ export const test = base.extend<{
   async login({ context }, use) {
     const cachedData = await loadCachedStorageData();
 
-    await context.addInitScript(
-      ({ localStorageData }) => {
-        for (const [key, value] of Object.entries(localStorageData)) {
-          window.localStorage.setItem(key, value);
-        }
-        window.localStorage.removeItem('OUTDATED_EXT_CHECK');
-      },
-      { localStorageData: cachedData.localStorage }
-    );
+    await injectLocalStorage(context, cachedData.localStorage, {
+      clearKeys: ['OUTDATED_EXT_CHECK'],
+    });
 
     await use();
   },

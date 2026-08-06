@@ -8,6 +8,7 @@ import { getExpiresAtMs } from '@/store/firebase/utils';
 
 interface State {
   idpAuth: IAuthResponse | null;
+  // Kept alongside idpAuth: reads better at the call sites than deriving it
   isSignedIn: boolean;
 
   setIsSignedIn: (isSignedIn: boolean) => void;
@@ -85,10 +86,11 @@ const useFirebaseStore = create<State>()(
           );
           return null;
         }
+        const { expiresIn, ...refreshed } = refreshedTokenData;
         const newIdpAuth: IAuthResponse = {
           ...idpAuth,
-          ...refreshedTokenData,
-          expiresAtMs: getExpiresAtMs(refreshedTokenData.expiresIn),
+          ...refreshed,
+          expiresAtMs: getExpiresAtMs(expiresIn),
         };
         setIdpAuth(newIdpAuth);
         return newIdpAuth.idToken;

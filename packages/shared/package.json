@@ -28,7 +28,6 @@
     "@hugeicons/react": "catalog:",
     "@mantine/hooks": "catalog:",
     "@tanstack/react-virtual": "catalog:",
-    "clsx": "catalog:",
     "p-limit": "catalog:",
     "react": "catalog:",
     "swr": "catalog:",

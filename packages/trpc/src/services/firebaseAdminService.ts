@@ -155,10 +155,3 @@ export const listFilesFromFirebase = async (uid: string) => {
 
   return files;
 };
-
-export const deletePersonImageFromFirebase = async (
-  uid: string,
-  imageUid: string
-): Promise<void> => {
-  await storage.bucket().file(getFilePath(uid, imageUid)).delete();
-};

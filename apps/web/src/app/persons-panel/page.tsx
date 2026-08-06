@@ -1,7 +1,7 @@
 'use client';
 
 import {
-  getDecryptedPerson,
+  decodePersons,
   getFilteredPersons,
   Header,
   type IPerson,
@@ -14,6 +14,7 @@ import {
 } from '@bypass/shared';
 import { Switch } from '@bypass/ui';
 import { useEffect, useState } from 'react';
+import useSWR from 'swr';
 
 import { getFromLocalStorage } from '@app/utils/storage';
 
@@ -21,9 +22,6 @@ import PersonVirtualCell from './components/PersonVirtualCell';
 
 function PersonsPage() {
   const [persons, setPersons] = useState<IPerson[]>([]);
-  const [filteredAndOrderedPersons, setFilteredAndOrderedPersons] = useState<
-    IPerson[]
-  >([]);
   const [searchText, setSearchText] = useState('');
   const [orderByRecency, setOrderByRecency] = useState(true);
   const { getDefaultOrRootFolderUrls } = useBookmark();
@@ -33,34 +31,32 @@ function PersonsPage() {
     if (!storedPersons) {
       return;
     }
-    const decryptedPersons = Object.values(storedPersons || {}).map((x) =>
-      getDecryptedPerson(x)
+    const alphabeticallySorted = sortAlphabetically(
+      decodePersons(storedPersons)
     );
-    const alphabeticallySorted = sortAlphabetically(decryptedPersons);
     // oxlint-disable-next-line react/react-compiler
     setPersons(alphabeticallySorted);
   }, []);
 
-  useEffect(() => {
-    const updatePersons = async () => {
-      const urls = await getDefaultOrRootFolderUrls();
-      const orderedPersons = orderByRecency
-        ? sortByRecency(persons, urls)
-        : persons;
-      const filtered = getFilteredPersons(orderedPersons, searchText);
-      setFilteredAndOrderedPersons(filtered);
-    };
-    updatePersons();
-  }, [getDefaultOrRootFolderUrls, orderByRecency, persons, searchText]);
+  // Stable key so typing does not re-read bookmarks
+  const { data: urls = [] } = useSWR(
+    'default-folder-urls',
+    getDefaultOrRootFolderUrls
+  );
 
-  const handleSearchTextChange = (text: string) => {
-    setSearchText(text);
-  };
+  const orderedPersons = orderByRecency
+    ? sortByRecency(persons, urls)
+    : persons;
+  const filteredAndOrderedPersons = getFilteredPersons(
+    orderedPersons,
+    searchText
+  );
+
   return (
     <div className="max-w-panel mx-auto flex h-screen flex-col px-0">
       <Header
         text={`Persons Panel (${filteredAndOrderedPersons?.length || 0})`}
-        onSearchChange={handleSearchTextChange}
+        onSearchChange={setSearchText}
       >
         <div className="flex items-center gap-2">
           <Switch

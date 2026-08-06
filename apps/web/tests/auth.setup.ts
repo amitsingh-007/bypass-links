@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 
-import { TEST_TIMEOUTS } from '@bypass/shared/tests';
+import { dumpLocalStorage, TEST_TIMEOUTS } from '@bypass/shared/tests';
 import { chromium, expect, test as setup } from '@playwright/test';
 
 import { TEST_CREDENTIALS_KEY } from '../src/app/constants';
@@ -67,16 +67,7 @@ setup('authenticate and cache web storage', async ({}, testInfo) => {
     { timeout: TEST_TIMEOUTS.AUTH }
   );
 
-  const localStorageData = await page.evaluate(() => {
-    const data: Record<string, string> = {};
-    for (let i = 0; i < window.localStorage.length; i++) {
-      const key = window.localStorage.key(i);
-      if (key) {
-        data[key] = window.localStorage.getItem(key) ?? '';
-      }
-    }
-    return data;
-  });
+  const localStorageData = await dumpLocalStorage(page);
 
   const cookies = await browserContext.cookies();
 

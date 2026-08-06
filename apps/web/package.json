@@ -22,7 +22,6 @@
     "@trpc/server": "catalog:",
     "@vercel/analytics": "catalog:",
     "@vercel/speed-insights": "catalog:",
-    "clsx": "catalog:",
     "dayjs": "catalog:",
     "file-type": "catalog:",
     "firebase": "catalog:",

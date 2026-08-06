@@ -1,7 +1,20 @@
 import { parseBadgeCount } from '@bypass/shared/tests';
 import { expect, type Page } from '@playwright/test';
 
+import { POPUP_HOMEPAGE } from '@/constants';
+
 // Re-export shared utilities for convenience
+
+export const gotoPanel = async (
+  page: Page,
+  panelName: 'Bookmarks' | 'Persons' | 'Shortcuts'
+) => {
+  await page.goto(POPUP_HOMEPAGE);
+  const panelButton = page.getByRole('button', { name: panelName });
+  await expect(panelButton).toBeVisible();
+  await panelButton.click();
+  await expect(page.getByPlaceholder('Search')).toBeVisible();
+};
 
 /**
  * Navigate back from current folder or panel.
@@ -65,13 +78,6 @@ export const clickContextMenuItem = async (page: Page, id: string) => {
 };
 
 /**
- * Count elements matching a selector.
- */
-export const countElements = async (page: Page, selector: string) => {
-  return page.locator(selector).count();
-};
-
-/**
  * Open a folder by clicking on it.
  */
 export const openFolder = async (page: Page, folderName: string) => {
@@ -119,6 +125,7 @@ export {
   closeDialog,
   clearSearchInput,
   fillSearchInput,
+  getHeaderPersonCount,
   getNumericBadgeValue,
   parseBadgeCount,
 } from '@bypass/shared/tests';

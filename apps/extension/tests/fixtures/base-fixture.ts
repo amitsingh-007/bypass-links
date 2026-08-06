@@ -52,45 +52,80 @@ export const loadCachedStorageData = async (): Promise<CachedStorageData> => {
 };
 
 /**
- * Create a shared browser context that reuses the cached Chrome profile.
- * This preserves Cache Storage data (person-cache, favicon-cache) from auth setup.
+ * `seedFromCachedProfile` copies the authenticated profile from auth setup,
+ * preserving its Cache Storage. Omit it so no auth state leaks into
+ * unauthenticated tests.
  */
-export const createSharedContext = async (
-  options: { headless?: boolean } = {}
-) => {
-  // Copy the cached profile to a temp directory (to avoid locking issues)
-  const userDataDir = await fs.promises.mkdtemp(
-    path.join(os.tmpdir(), 'chrome-profile-')
-  );
+export const createTempProfileContext = async ({
+  prefix,
+  extensionPath,
+  headless,
+  seedFromCachedProfile = false,
+}: {
+  prefix: string;
+  extensionPath?: string;
+  headless?: boolean;
+  seedFromCachedProfile?: boolean;
+}) => {
+  // Temp dir rather than the cached profile itself, to avoid locking issues
+  const userDataDir = await fs.promises.mkdtemp(path.join(os.tmpdir(), prefix));
 
-  // Copy cached profile contents to temp dir
-  await fs.promises.cp(CHROME_PROFILE_DIR, userDataDir, { recursive: true });
-
-  const browserContext = await launchExtensionContext({
-    userDataDir,
-    headless: options.headless,
-  });
-  return { browserContext, userDataDir };
+  try {
+    if (seedFromCachedProfile) {
+      await fs.promises.cp(CHROME_PROFILE_DIR, userDataDir, {
+        recursive: true,
+      });
+    }
+    const browserContext = await launchExtensionContext({
+      userDataDir,
+      extensionPath,
+      headless,
+    });
+    return { browserContext, userDataDir };
+  } catch (error) {
+    // No caller owns the dir yet, so it would leak if seeding or launch throws
+    await fs.promises.rm(userDataDir, { recursive: true, force: true });
+    throw error;
+  }
 };
 
-/**
- * Create an isolated browser context for unauthenticated tests.
- * This ensures no auth state leaks from the shared context.
- */
+/** Runs `fn` against a fresh temp-profile context, always cleaning up after. */
+export const withTempProfileContext = async <T>(
+  options: Parameters<typeof createTempProfileContext>[0],
+  fn: (context: BrowserContext) => Promise<T>
+): Promise<T> => {
+  const { browserContext, userDataDir } =
+    await createTempProfileContext(options);
+  try {
+    return await fn(browserContext);
+  } finally {
+    // Nested so a rejecting close() still cannot skip the removal
+    try {
+      await browserContext.close();
+    } finally {
+      await fs.promises.rm(userDataDir, { recursive: true, force: true });
+    }
+  }
+};
+
+export const createSharedContext = async (
+  options: { headless?: boolean } = {}
+) =>
+  createTempProfileContext({
+    prefix: 'chrome-profile-',
+    headless: options.headless,
+    seedFromCachedProfile: true,
+  });
+
 export const createUnauthContext = async (
   extensionPath: string,
   options: { headless?: boolean } = {}
-) => {
-  const userDataDir = await fs.promises.mkdtemp(
-    path.join(os.tmpdir(), 'chrome-unauth-profile-')
-  );
-  const browserContext = await launchExtensionContext({
-    userDataDir,
+) =>
+  createTempProfileContext({
+    prefix: 'chrome-unauth-profile-',
     extensionPath,
     headless: options.headless,
   });
-  return { browserContext, userDataDir };
-};
 
 export const createSharedBackgroundSW = async (
   sharedContext: BrowserContext
@@ -105,60 +140,6 @@ export const getExtensionId = async (
 ): Promise<string> => {
   const url = sharedBackgroundSW.url();
   return url.split('/')[2];
-};
-
-/**
- * Navigate to a panel. Since we're using the cached Chrome profile,
- * the extension should already be logged in with all data loaded.
- */
-export const authenticateAndNavigate = async (
-  sharedContext: BrowserContext,
-  sharedExtensionId: string,
-  panelName?: 'bookmarks' | 'persons' | 'shortcuts' | 'home'
-): Promise<Page> => {
-  const cachedData = await loadCachedStorageData();
-
-  // Step 1: Inject localStorage via addInitScript (runs before any page script)
-  await sharedContext.addInitScript(
-    ({ localStorageData }) => {
-      for (const [key, value] of Object.entries(localStorageData)) {
-        window.localStorage.setItem(key, value);
-      }
-    },
-    { localStorageData: cachedData.localStorage }
-  );
-
-  // Step 2: Create page and navigate to extension
-  const page = await sharedContext.newPage();
-  await page.goto(getPopupUrl(sharedExtensionId), {
-    waitUntil: 'domcontentloaded',
-  });
-
-  // Step 3: Inject chrome.storage.local via extension page (avoid MV3 worker hangs)
-  await page.evaluate(async (chromeStorageData) => {
-    await chrome.storage.local.set(chromeStorageData);
-  }, cachedData.chromeStorage);
-
-  // Step 4: Reload to ensure storage is applied before UI checks
-  await page.reload({ waitUntil: 'domcontentloaded' });
-
-  // Step 5: Verify we're logged in (logout button should be visible)
-  const logoutButton = page.getByRole('button', { name: 'Logout' });
-  await logoutButton.waitFor({
-    state: 'visible',
-    timeout: TEST_TIMEOUTS.AUTH,
-  });
-
-  // Step 6: Navigate to requested panel
-  if (panelName && panelName !== 'home') {
-    const panelButton = page.getByRole('button', {
-      name: new RegExp(panelName, 'i'),
-    });
-    await panelButton.click();
-    await page.waitForLoadState('domcontentloaded');
-  }
-
-  return page;
 };
 
 /**

@@ -8,7 +8,7 @@ import {
   type IRefreshTokenResponse,
 } from '@/interfaces/firebase';
 
-import { getExpiresAtMs } from './utils';
+import { mapAuthResponse } from './utils';
 
 const firebaseConfig = getFirebasePublicConfig(import.meta.env.PROD);
 
@@ -29,16 +29,7 @@ export const signInWithCredential = async (accessToken: string) => {
       returnSecureToken: true,
     })
     .fetchError((e) => console.error(e))
-    .json<IAuthResponse>((res) => ({
-      uid: res.localId,
-      email: res.email,
-      photoUrl: res.photoUrl,
-      displayName: res.displayName,
-      idToken: res.idToken,
-      expiresIn: Number(res.expiresIn),
-      expiresAtMs: getExpiresAtMs(res.expiresIn),
-      refreshToken: res.refreshToken,
-    }));
+    .json<IAuthResponse>(mapAuthResponse);
 };
 
 export const refreshIdToken = async (refreshToken: string) => {

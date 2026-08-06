@@ -3,8 +3,10 @@ import { decodePersons, type IPerson, type IPersons } from '@bypass/shared';
 import { personsItem, hasPendingPersonsItem } from '@/storage/items';
 
 export const setPersonsInStorage = async (persons: IPersons) => {
-  await personsItem.setValue(persons);
-  await hasPendingPersonsItem.setValue(true);
+  await Promise.all([
+    personsItem.setValue(persons),
+    hasPendingPersonsItem.setValue(true),
+  ]);
 };
 
 export const getAllDecodedPersons = async () => {

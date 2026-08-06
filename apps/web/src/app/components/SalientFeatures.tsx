@@ -1,8 +1,6 @@
 import { HugeiconsIcon } from '@hugeicons/react';
 
-import { firstColumn, secondColumn } from '@app/constants/features';
-
-const allFeatures = [...firstColumn, ...secondColumn];
+import { FEATURES } from '@app/constants/features';
 
 function SalientFeatures() {
   return (
@@ -11,7 +9,7 @@ function SalientFeatures() {
         Core features at a glance
       </h2>
       <div className="grid grid-cols-1 gap-x-12 gap-y-8 md:grid-cols-2 lg:grid-cols-3">
-        {allFeatures.map(({ title, content, icon }) => (
+        {FEATURES.map(({ title, content, icon }) => (
           <div key={title} className="flex gap-4">
             <div className="shrink-0 text-primary">
               <HugeiconsIcon icon={icon} size={28} />

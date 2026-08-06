@@ -1,5 +1,5 @@
 import {
-  getNumericBadgeValue,
+  getHeaderPersonCount,
   parseBadgeCount,
   verifyModalClosed,
   verifyModalVisible,
@@ -16,9 +16,7 @@ export class PersonsPanel {
   }
 
   async getHeaderPersonCount(): Promise<number> {
-    return getNumericBadgeValue(this.page, 'header-badge', {
-      fallbackToAnyNumber: true,
-    });
+    return getHeaderPersonCount(this.page);
   }
 
   async verifyPersonExists(name: string) {

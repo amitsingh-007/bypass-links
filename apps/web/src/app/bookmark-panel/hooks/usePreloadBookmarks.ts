@@ -47,6 +47,7 @@ const usePreloadBookmarks = () => {
   const { user } = useUser();
   const [isLoading, setIsLoading] = useState(false);
 
+  // Memoized: reaches a dep array via useWebPreload -> web-ext/page.tsx
   const preloadData = useCallback(async () => {
     if (!user) {
       return;

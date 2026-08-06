@@ -1,6 +1,8 @@
 import { TEST_SHORTCUTS } from '@bypass/shared/tests';
 import type { Page } from '@playwright/test';
 
+import { EExtStorageKey } from '@/constants';
+
 import { test, expect } from '../fixtures/background-fixture';
 
 const allInputsAutocompleteOff = async (page: Page) => {
@@ -47,7 +49,9 @@ test.describe.serial('Background Service Worker Navigation', () => {
 
       await expect
         .poll(async () =>
-          sharedBackground.readStorage<number>('historyStartTime')
+          sharedBackground.readStorage<number>(
+            EExtStorageKey.HISTORY_START_TIME
+          )
         )
         .toBeDefined();
     } finally {
@@ -127,7 +131,9 @@ test.describe.serial('Background Service Worker Navigation', () => {
     try {
       await expect
         .poll(async () =>
-          sharedBackground.readStorage<number>('historyStartTime')
+          sharedBackground.readStorage<number>(
+            EExtStorageKey.HISTORY_START_TIME
+          )
         )
         .toBe(existingHistoryStartTime);
     } finally {
@@ -145,8 +151,9 @@ test.describe.serial('Background Service Worker Navigation', () => {
     try {
       await expect.poll(() => page.url()).toContain('https://example.com');
 
-      const historyStartTime =
-        await sharedBackground.readStorage<number>('historyStartTime');
+      const historyStartTime = await sharedBackground.readStorage<number>(
+        EExtStorageKey.HISTORY_START_TIME
+      );
       expect(historyStartTime).toBeUndefined();
     } finally {
       await page.close();
@@ -165,8 +172,9 @@ test.describe.serial('Background Service Worker Navigation', () => {
         .poll(() => page.url())
         .not.toContain('https://html5test.com');
 
-      const historyStartTime =
-        await sharedBackground.readStorage<number>('historyStartTime');
+      const historyStartTime = await sharedBackground.readStorage<number>(
+        EExtStorageKey.HISTORY_START_TIME
+      );
       expect(historyStartTime).toBeUndefined();
     } finally {
       await page.close();
@@ -184,8 +192,9 @@ test.describe.serial('Background Service Worker Navigation', () => {
     try {
       await expect.poll(() => page.url()).toContain(extensionUrl);
 
-      const historyStartTime =
-        await sharedBackground.readStorage<number>('historyStartTime');
+      const historyStartTime = await sharedBackground.readStorage<number>(
+        EExtStorageKey.HISTORY_START_TIME
+      );
       expect(historyStartTime).toBeUndefined();
     } finally {
       await page.close();
@@ -207,8 +216,9 @@ test.describe.serial('Background Service Worker Navigation', () => {
 
       await expect.poll(() => page.url()).toContain('https://example.com');
 
-      const historyStartTime =
-        await sharedBackground.readStorage<number>('historyStartTime');
+      const historyStartTime = await sharedBackground.readStorage<number>(
+        EExtStorageKey.HISTORY_START_TIME
+      );
       expect(historyStartTime).toBeUndefined();
     } finally {
       await page.close();
@@ -236,8 +246,9 @@ test.describe.serial('Background Service Worker Navigation', () => {
       }
     }
 
-    const historyStartTime =
-      await sharedBackground.readStorage<number>('historyStartTime');
+    const historyStartTime = await sharedBackground.readStorage<number>(
+      EExtStorageKey.HISTORY_START_TIME
+    );
     expect(historyStartTime).toBeUndefined();
   });
 

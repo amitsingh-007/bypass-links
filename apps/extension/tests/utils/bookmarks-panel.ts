@@ -4,9 +4,9 @@ import {
   clickDropdownPersonAndGetName,
   clickContextMenuItem as clickContextMenuItemUtil,
   closeDialog,
-  countElements,
   fillDialogInput,
   getBadgeCount as getBadgeCountUtil,
+  gotoPanel,
   navigateBack as navigateBackUtil,
   openDialog,
   openFolder,
@@ -24,13 +24,7 @@ export class BookmarksPanel {
   }
 
   async ensureAtRoot() {
-    await this.page.goto('/popup.html');
-    const bookmarksButton = this.page.getByRole('button', {
-      name: 'Bookmarks',
-    });
-    await expect(bookmarksButton).toBeVisible();
-    await bookmarksButton.click();
-    await expect(this.getSearchInput()).toBeVisible();
+    await gotoPanel(this.page, 'Bookmarks');
   }
 
   async openAddFolderDialog() {
@@ -90,7 +84,7 @@ export class BookmarksPanel {
   }
 
   async getBookmarkCount() {
-    return countElements(this.page, '[data-testid^="bookmark-item-"]');
+    return this.page.locator('[data-testid^="bookmark-item-"]').count();
   }
 
   async openFolderWithNestedFolders(folderName: string) {
@@ -168,11 +162,7 @@ export class BookmarksPanel {
   }
 
   async navigateToPersonsPanel() {
-    await this.page.goto('/popup.html');
-    const personsButton = this.page.getByRole('button', { name: 'Persons' });
-    await expect(personsButton).toBeVisible();
-    await personsButton.click();
-    await expect(this.page.getByPlaceholder('Search')).toBeVisible();
+    await gotoPanel(this.page, 'Persons');
   }
 
   // ============ Verification Helpers ============

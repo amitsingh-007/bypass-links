@@ -1,3 +1,4 @@
+import { hasText } from '@bypass/shared';
 import {
   Avatar,
   AvatarFallback,
@@ -77,7 +78,7 @@ function PersonSelect({ value, onChange }: PersonSelectProps) {
   const [orderByRecency, setOrderByRecency] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
-  const { data: persons = [] } = usePersonsWithImages(orderByRecency);
+  const { data: persons } = usePersonsWithImages(orderByRecency);
 
   const personList = persons.map<IOptionData>(({ imageUrl, name, uid }) => ({
     label: name,
@@ -91,9 +92,7 @@ function PersonSelect({ value, onChange }: PersonSelectProps) {
 
   // Filter persons based on search query
   const filteredPersonList = searchQuery.trim()
-    ? personList.filter((person) =>
-        person.label.toLowerCase().includes(searchQuery.toLowerCase())
-      )
+    ? personList.filter((person) => hasText(searchQuery, person.label))
     : personList;
 
   const hasResults = filteredPersonList.length > 0;

@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
+import { injectLocalStorage } from '@bypass/shared/tests';
 import { chromium, type BrowserContext, type Cookie } from '@playwright/test';
 
 import { AUTH_CACHE_DIR, WEB_STORAGE_PATH } from '../auth-constants';
@@ -31,15 +32,7 @@ export const createSharedContext = async (): Promise<{
   });
 
   // Inject cached localStorage data
-  await browserContext.addInitScript(
-    ({ storageJson }) => {
-      const data = JSON.parse(storageJson) as Record<string, string>;
-      for (const [key, value] of Object.entries(data)) {
-        window.localStorage.setItem(key, value);
-      }
-    },
-    { storageJson: JSON.stringify(storageData.localStorage) }
-  );
+  await injectLocalStorage(browserContext, storageData.localStorage);
 
   // Add cached cookies
   await browserContext.addCookies(storageData.cookies);

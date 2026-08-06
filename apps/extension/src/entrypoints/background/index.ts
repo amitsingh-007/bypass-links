@@ -1,6 +1,6 @@
 import { defineBackground } from 'wxt/utils/define-background';
 
-import { EExtensionState } from '@/constants';
+import { EExtensionState, ICON_KEYS } from '@/constants';
 import {
   extStateItem,
   hasPendingBookmarksItem,
@@ -11,25 +11,23 @@ import { type RuntimeInput } from '@/utils/sendRuntimeMessage';
 
 import turnOffInputSuggestions from './misc/turnOffInputSuggestions';
 import { redirect } from './redirections';
-import { isValidTabUrl, isValidUrl, setExtensionIcon } from './utils';
+import { isValidUrl, setExtensionIcon } from './utils';
 import { receiveRuntimeMessage } from './utils/receiveRuntimeMessage';
 
 const onPageLoad = async (tabId: number, url: string) => {
   if (!isValidUrl(url)) {
     return;
   }
-  const extState = await extStateItem.getValue();
-  if (!getIsExtensionActive(extState)) {
+  const [extState, tab] = await Promise.all([
+    extStateItem.getValue(),
+    browser.tabs.get(tabId),
+  ]);
+  if (!getIsExtensionActive(extState) || !isValidUrl(tab.url)) {
     return;
   }
 
-  // Below if() checks avoid the scenario where url changes after the page is loaded
-  if (await isValidTabUrl(tabId)) {
-    redirect(tabId, new URL(url));
-  }
-  if (await isValidTabUrl(tabId)) {
-    turnOffInputSuggestions(tabId);
-  }
+  redirect(tabId, new URL(url));
+  turnOffInputSuggestions(tabId);
 };
 
 const isMainFrame = (frameId: number) => frameId === 0;
@@ -119,12 +117,7 @@ export default defineBackground({
       if (areaName !== 'local') {
         return;
       }
-      const changedKeys = Object.keys(changes);
-      if (
-        changedKeys.includes('extState') ||
-        changedKeys.includes('hasPendingBookmarks') ||
-        changedKeys.includes('hasPendingPersons')
-      ) {
+      if (ICON_KEYS.some((key) => key in changes)) {
         void updateIcon();
       }
     });

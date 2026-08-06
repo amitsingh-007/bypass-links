@@ -29,6 +29,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const [user, setUser] = useState<IAuthContext['user']>(null);
   const [isInitialized, setIsInitialized] = useState(false);
 
+  // Memoized: a fresh Context value every render re-renders every consumer
   const ctx = useMemo(
     () => ({ user, isLoginIntialized: isInitialized }),
     [user, isInitialized]

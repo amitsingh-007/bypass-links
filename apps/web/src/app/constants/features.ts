@@ -9,7 +9,7 @@ import {
 
 import type Feature from '../components/types/feature';
 
-export const firstColumn: Feature[] = [
+export const FEATURES: Feature[] = [
   {
     icon: Touch01Icon,
     title: 'Simple to Use',
@@ -28,9 +28,6 @@ export const firstColumn: Feature[] = [
     content:
       'Browse supported forums and open only links you have not visited yet',
   },
-];
-
-export const secondColumn: Feature[] = [
   {
     icon: Shield01Icon,
     title: 'Privacy-First Sync',
