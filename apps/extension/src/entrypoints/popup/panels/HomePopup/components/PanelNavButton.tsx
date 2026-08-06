@@ -12,7 +12,7 @@ interface Props {
 
 function PanelNavButton({ label, icon, route }: Props) {
   const [, navigate] = useLocation();
-  const isSignedIn = useFirebaseStore((state) => Boolean(state.idpAuth?.uid));
+  const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
 
   return (
     <Button

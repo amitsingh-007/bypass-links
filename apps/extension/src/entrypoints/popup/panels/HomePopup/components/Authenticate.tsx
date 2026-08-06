@@ -11,14 +11,15 @@ import useExtStore from '@store/extension';
 import { signIn, signOut } from '../utils/authentication';
 
 function Authenticate() {
-  // Derived from idpAuth, which is the persisted source of truth
-  const isSignedIn = useFirebaseStore((state) => Boolean(state.idpAuth?.uid));
+  const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
+  const setIsSignedIn = useFirebaseStore((state) => state.setIsSignedIn);
   const isExtensionActive = useExtStore((state) => state.isExtensionActive);
   const { isLoading, startLoading, stopLoading } = useProgressStore();
 
   const handleSignIn = async () => {
     startLoading();
-    await signIn();
+    const isSignInSuccess = await signIn();
+    setIsSignedIn(isSignInSuccess);
     stopLoading();
   };
 
@@ -26,11 +27,18 @@ function Authenticate() {
   const handleSignOut = useCallback(async () => {
     startLoading();
     const isSignedOutSuccess = await signOut();
-    if (!isSignedOutSuccess) {
+    if (isSignedOutSuccess) {
+      setIsSignedIn(!isSignedOutSuccess);
+    } else {
       toast.error('Error while logging out');
     }
     stopLoading();
-  }, [startLoading, stopLoading]);
+  }, [setIsSignedIn, startLoading, stopLoading]);
+
+  useEffect(() => {
+    const { idpAuth } = useFirebaseStore.getState();
+    setIsSignedIn(Boolean(idpAuth?.uid));
+  }, [setIsSignedIn]);
 
   useEffect(() => {
     if (isSignedIn && !isExtensionActive) {

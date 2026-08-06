@@ -38,7 +38,7 @@ function PersonsPage() {
     setPersons(alphabeticallySorted);
   }, []);
 
-  // Stable key: keyed on searchText this re-parsed the whole bookmarks blob per keystroke
+  // Stable key so typing does not re-read bookmarks
   const { data: urls = [] } = useSWR(
     'default-folder-urls',
     getDefaultOrRootFolderUrls

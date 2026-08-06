@@ -15,7 +15,7 @@ const isCurrentPageForum = async (url = '') => {
 
 function OpenForumLinks() {
   const { tabs } = use(DynamicContext);
-  const isSignedIn = useFirebaseStore((state) => Boolean(state.idpAuth?.uid));
+  const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const currentTab = useCurrentTab();
   const [isOnForumPage, setIsOnForumPage] = useState(false);
 

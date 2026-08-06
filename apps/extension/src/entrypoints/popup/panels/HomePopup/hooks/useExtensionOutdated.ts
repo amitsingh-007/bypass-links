@@ -11,8 +11,8 @@ const checkForUpdates = async () => {
 };
 
 const shouldCheckForUpdates = () => {
-  const { idpAuth } = useFirebaseStore.getState();
-  if (!idpAuth?.uid) {
+  const { isSignedIn } = useFirebaseStore.getState();
+  if (!isSignedIn) {
     return false;
   }
   const { lastChecked } = useOutdatedExtensionStore.getState();

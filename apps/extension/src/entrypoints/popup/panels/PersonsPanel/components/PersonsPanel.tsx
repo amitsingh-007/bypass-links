@@ -56,7 +56,7 @@ function PersonsPanel() {
     });
   }, []);
 
-  // Stable key: keyed on searchText this re-read the whole bookmarks blob per keystroke
+  // Stable key so typing does not re-read bookmarks
   const { data: urls = [] } = useSWR(
     'default-folder-urls',
     getDefaultOrRootFolderUrls
