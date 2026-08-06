@@ -30,6 +30,5 @@ export const authorizeUser = async (
     return { ok: false, status: 401, message: 'Unauthorized user' };
   }
 
-  // Rebuilding this would put the wider UserRecord in an IUser-typed slot
   return checkUserAuthorized(user);
 };

@@ -35,7 +35,7 @@ export const signInWithCredential = async (accessToken: string) => {
       photoUrl: res.photoUrl,
       displayName: res.displayName,
       idToken: res.idToken,
-      expiresAtMs: getExpiresAtMs(res.expiresIn),
+      expiresAtMs: getExpiresAtMs(Number(res.expiresIn)),
       refreshToken: res.refreshToken,
     }));
 };

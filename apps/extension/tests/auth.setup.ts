@@ -45,7 +45,7 @@ const signInWithEmailAndPassword = async (): Promise<IAuthResponse> => {
       photoUrl: '',
       displayName: res.displayName,
       idToken: res.idToken,
-      expiresAtMs: getExpiresAtMs(res.expiresIn),
+      expiresAtMs: getExpiresAtMs(Number(res.expiresIn)),
       refreshToken: res.refreshToken,
     }));
 };

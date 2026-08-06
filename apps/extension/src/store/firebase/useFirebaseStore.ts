@@ -85,7 +85,6 @@ const useFirebaseStore = create<State>()(
           );
           return null;
         }
-        // Spreads bypass excess-property checks, so drop it or it lands in __fbOAuth
         const { expiresIn, ...refreshed } = refreshedTokenData;
         const newIdpAuth: IAuthResponse = {
           ...idpAuth,
