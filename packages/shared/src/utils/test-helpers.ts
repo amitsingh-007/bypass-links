@@ -98,8 +98,7 @@ export const getNumericBadgeValue = async (
 
   const text = (await badge.textContent()) ?? '';
   const fallbackToAnyNumber = options?.fallbackToAnyNumber ?? false;
-  // parseBadgeCount collapses no-match and a matched 0 to the same 0, so the
-  // presence of parentheses has to be tested separately to decide on the fallback
+  // parseBadgeCount maps both no-match and a matched 0 to 0, so test separately
   if (/\(\d+\)/.test(text) || !fallbackToAnyNumber) {
     return parseBadgeCount(text);
   }
