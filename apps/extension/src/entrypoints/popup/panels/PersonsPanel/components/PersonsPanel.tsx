@@ -56,8 +56,7 @@ function PersonsPanel() {
     });
   }, []);
 
-  // Read once under a stable key; previously this re-ran (and re-parsed the whole
-  // bookmarks blob) on every keystroke because searchText was an effect dep
+  // Stable key: keyed on searchText this re-read the whole bookmarks blob per keystroke
   const { data: urls = [] } = useSWR(
     'default-folder-urls',
     getDefaultOrRootFolderUrls

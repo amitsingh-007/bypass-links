@@ -24,15 +24,13 @@ export default function BookmarksPage() {
   const searchParams = useSearchParams();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const folderId = searchParams?.get('folderId') ?? ROOT_FOLDER_ID;
-  // One state for the single read; everything below is derived from it
   const [bookmarksData, setBookmarksData] = useState<IBookmarksObj | null>(
     null
   );
   const [searchText, setSearchText] = useState('');
 
   const folders = bookmarksData?.folders ?? {};
-  // `?? []` matters now that this runs in the render body rather than an effect:
-  // a stale or deleted folderId would otherwise throw and take down the tree
+  // `?? []`: this runs in the render body, so a stale folderId would crash the tree
   const contextBookmarks: ContextBookmarks = bookmarksData
     ? (bookmarksData.folders[folderId] ?? []).map((meta) =>
         bookmarksMapper(meta, bookmarksData.urlList, bookmarksData.folderList)

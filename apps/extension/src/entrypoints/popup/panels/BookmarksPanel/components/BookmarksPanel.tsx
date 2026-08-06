@@ -56,8 +56,7 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
     getItemKey: (idx) => filteredContextBookmarks[idx].id,
   });
 
-  // Kept memoized: it is a dep of an effect below, so an unstable identity
-  // would re-run that effect on every render
+  // Memoized: it is a dep of an effect below, which would re-run every render
   const handleScroll = useCallback(
     (itemNumber: number) => virtualizer.scrollToIndex(itemNumber),
     [virtualizer]

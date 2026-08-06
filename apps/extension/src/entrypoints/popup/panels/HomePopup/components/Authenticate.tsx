@@ -22,8 +22,7 @@ function Authenticate() {
     stopLoading();
   };
 
-  // Kept memoized: it is a dep of the effect below, so an unstable identity
-  // would re-run that effect on every render
+  // Memoized: it is a dep of the effect below, which would re-run every render
   const handleSignOut = useCallback(async () => {
     startLoading();
     const isSignedOutSuccess = await signOut();
