@@ -8,7 +8,7 @@ import {
   getYandexFaviconUrl,
   isCachePresent,
 } from '@bypass/shared';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { useUser } from '@app/provider/AuthProvider';
 import { api } from '@app/utils/api';
@@ -47,7 +47,8 @@ const usePreloadBookmarks = () => {
   const { user } = useUser();
   const [isLoading, setIsLoading] = useState(false);
 
-  const preloadData = async () => {
+  // Memoized: reaches a dep array via useWebPreload -> web-ext/page.tsx
+  const preloadData = useCallback(async () => {
     if (!user) {
       return;
     }
@@ -58,7 +59,7 @@ const usePreloadBookmarks = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [user]);
 
   const clearData = async () => {
     setIsLoading(true);
