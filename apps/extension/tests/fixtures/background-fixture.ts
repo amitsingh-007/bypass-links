@@ -6,7 +6,7 @@ import {
   type Worker,
 } from '@playwright/test';
 
-import { EExtensionState, EXT_STORAGE_KEYS } from '@/constants';
+import { EExtensionState, EExtStorageKey } from '@/constants';
 
 import {
   createSharedBackgroundSW,
@@ -94,7 +94,7 @@ const createBackgroundEnv = async (
       ),
     clearHistoryStartTime: async () =>
       runWithBackground(async (backgroundSW) =>
-        removeStorageFromWorker(backgroundSW, EXT_STORAGE_KEYS.historyStartTime)
+        removeStorageFromWorker(backgroundSW, EExtStorageKey.HISTORY_START_TIME)
       ),
     setHistoryStartTime: async (value: number) =>
       runWithBackground(async (backgroundSW) =>

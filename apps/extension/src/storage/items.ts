@@ -9,59 +9,61 @@ import type {
 import { STORAGE_KEYS } from '@bypass/shared';
 import { storage } from 'wxt/utils/storage';
 
-import { EExtensionState, EXT_STORAGE_KEYS } from '@/constants';
+import { EExtensionState, EExtStorageKey } from '@/constants';
 import type { IMappedRedirections } from '@/entrypoints/background/interfaces/redirections';
 
-export const bookmarksItem = storage.defineItem<IBookmarksObj>(
-  `local:${STORAGE_KEYS.bookmarks}`,
-  { fallback: { folderList: {}, urlList: {}, folders: {} } }
+/** Every item lives in `local:` with a fallback; keeps the eleven call sites flat. */
+const defineLocalItem = <T>(key: string, fallback: T) =>
+  storage.defineItem<T>(`local:${key}`, { fallback });
+
+export const bookmarksItem = defineLocalItem<IBookmarksObj>(
+  STORAGE_KEYS.bookmarks,
+  { folderList: {}, urlList: {}, folders: {} }
 );
 
-export const websitesItem = storage.defineItem<IWebsites>(
-  `local:${STORAGE_KEYS.websites}`,
-  { fallback: {} }
+export const websitesItem = defineLocalItem<IWebsites>(
+  STORAGE_KEYS.websites,
+  {}
 );
 
-export const lastVisitedItem = storage.defineItem<ILastVisited>(
-  `local:${STORAGE_KEYS.lastVisited}`,
-  { fallback: {} }
+export const lastVisitedItem = defineLocalItem<ILastVisited>(
+  STORAGE_KEYS.lastVisited,
+  {}
 );
 
-export const personsItem = storage.defineItem<IPersons>(
-  `local:${STORAGE_KEYS.persons}`,
-  { fallback: {} }
+export const personsItem = defineLocalItem<IPersons>(STORAGE_KEYS.persons, {});
+
+export const redirectionsItem = defineLocalItem<IRedirections>(
+  STORAGE_KEYS.redirections,
+  []
 );
 
-export const redirectionsItem = storage.defineItem<IRedirections>(
-  `local:${STORAGE_KEYS.redirections}`,
-  { fallback: [] }
+export const mappedRedirectionsItem = defineLocalItem<IMappedRedirections>(
+  STORAGE_KEYS.mappedRedirections,
+  {}
 );
 
-export const mappedRedirectionsItem = storage.defineItem<IMappedRedirections>(
-  `local:${STORAGE_KEYS.mappedRedirections}`,
-  { fallback: {} }
+export const personImageUrlsItem = defineLocalItem<PersonImageUrls>(
+  STORAGE_KEYS.personImageUrls,
+  {}
 );
 
-export const personImageUrlsItem = storage.defineItem<PersonImageUrls>(
-  `local:${STORAGE_KEYS.personImageUrls}`,
-  { fallback: {} }
+export const extStateItem = defineLocalItem<EExtensionState>(
+  EExtStorageKey.EXT_STATE,
+  EExtensionState.ACTIVE
 );
 
-export const extStateItem = storage.defineItem<EExtensionState>(
-  `local:${EXT_STORAGE_KEYS.extState}`,
-  { fallback: EExtensionState.ACTIVE }
+export const hasPendingBookmarksItem = defineLocalItem<boolean>(
+  EExtStorageKey.HAS_PENDING_BOOKMARKS,
+  false
 );
 
-export const hasPendingBookmarksItem = storage.defineItem<boolean>(
-  `local:${EXT_STORAGE_KEYS.hasPendingBookmarks}`,
-  { fallback: false }
+export const hasPendingPersonsItem = defineLocalItem<boolean>(
+  EExtStorageKey.HAS_PENDING_PERSONS,
+  false
 );
 
-export const hasPendingPersonsItem = storage.defineItem<boolean>(
-  `local:${EXT_STORAGE_KEYS.hasPendingPersons}`,
-  { fallback: false }
-);
-
+// No fallback: absence is meaningful, so this one stays a direct call
 export const historyStartTimeItem = storage.defineItem<number>(
-  `local:${EXT_STORAGE_KEYS.historyStartTime}`
+  `local:${EExtStorageKey.HISTORY_START_TIME}`
 );

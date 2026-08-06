@@ -41,7 +41,6 @@ const signInWithEmailAndPassword = async (): Promise<IAuthResponse> => {
     })
     .json<IAuthResponse>((res) => ({
       ...mapAuthResponse(res),
-      // The email/password flow returns no photo; keep it empty rather than undefined
       photoUrl: '',
     }));
 };

@@ -1,7 +1,7 @@
 import { TEST_SHORTCUTS } from '@bypass/shared/tests';
 import type { Page } from '@playwright/test';
 
-import { EXT_STORAGE_KEYS } from '@/constants';
+import { EExtStorageKey } from '@/constants';
 
 import { test, expect } from '../fixtures/background-fixture';
 
@@ -50,7 +50,7 @@ test.describe.serial('Background Service Worker Navigation', () => {
       await expect
         .poll(async () =>
           sharedBackground.readStorage<number>(
-            EXT_STORAGE_KEYS.historyStartTime
+            EExtStorageKey.HISTORY_START_TIME
           )
         )
         .toBeDefined();
@@ -132,7 +132,7 @@ test.describe.serial('Background Service Worker Navigation', () => {
       await expect
         .poll(async () =>
           sharedBackground.readStorage<number>(
-            EXT_STORAGE_KEYS.historyStartTime
+            EExtStorageKey.HISTORY_START_TIME
           )
         )
         .toBe(existingHistoryStartTime);
@@ -152,7 +152,7 @@ test.describe.serial('Background Service Worker Navigation', () => {
       await expect.poll(() => page.url()).toContain('https://example.com');
 
       const historyStartTime = await sharedBackground.readStorage<number>(
-        EXT_STORAGE_KEYS.historyStartTime
+        EExtStorageKey.HISTORY_START_TIME
       );
       expect(historyStartTime).toBeUndefined();
     } finally {
@@ -173,7 +173,7 @@ test.describe.serial('Background Service Worker Navigation', () => {
         .not.toContain('https://html5test.com');
 
       const historyStartTime = await sharedBackground.readStorage<number>(
-        EXT_STORAGE_KEYS.historyStartTime
+        EExtStorageKey.HISTORY_START_TIME
       );
       expect(historyStartTime).toBeUndefined();
     } finally {
@@ -193,7 +193,7 @@ test.describe.serial('Background Service Worker Navigation', () => {
       await expect.poll(() => page.url()).toContain(extensionUrl);
 
       const historyStartTime = await sharedBackground.readStorage<number>(
-        EXT_STORAGE_KEYS.historyStartTime
+        EExtStorageKey.HISTORY_START_TIME
       );
       expect(historyStartTime).toBeUndefined();
     } finally {
@@ -217,7 +217,7 @@ test.describe.serial('Background Service Worker Navigation', () => {
       await expect.poll(() => page.url()).toContain('https://example.com');
 
       const historyStartTime = await sharedBackground.readStorage<number>(
-        EXT_STORAGE_KEYS.historyStartTime
+        EExtStorageKey.HISTORY_START_TIME
       );
       expect(historyStartTime).toBeUndefined();
     } finally {
@@ -247,7 +247,7 @@ test.describe.serial('Background Service Worker Navigation', () => {
     }
 
     const historyStartTime = await sharedBackground.readStorage<number>(
-      EXT_STORAGE_KEYS.historyStartTime
+      EExtStorageKey.HISTORY_START_TIME
     );
     expect(historyStartTime).toBeUndefined();
   });
