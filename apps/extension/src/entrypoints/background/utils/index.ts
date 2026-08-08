@@ -35,14 +35,15 @@ export const setExtensionIcon = async ({
   hasPendingBookmarks: boolean;
   hasPendingPersons: boolean;
 }) => {
-  const isActive = getIsExtensionActive(extState);
-  const icon =
-    hasPendingBookmarks || hasPendingPersons
-      ? 'assets/bypass_link_pending_32.png'
-      : isActive
-        ? 'assets/bypass_link_on_32.png'
-        : 'assets/bypass_link_off_32.png';
-  await browser.action.setIcon({ path: icon });
+  const getIcon = () => {
+    if (hasPendingBookmarks || hasPendingPersons) {
+      return 'assets/bypass_link_pending_32.png';
+    }
+    return getIsExtensionActive(extState)
+      ? 'assets/bypass_link_on_32.png'
+      : 'assets/bypass_link_off_32.png';
+  };
+  await browser.action.setIcon({ path: getIcon() });
 };
 
 export const isValidUrl = (_url?: string): boolean => {
