@@ -1,4 +1,8 @@
-import { invalidateBookmarkKeys, matchKeyPrefix } from '@bypass/shared';
+import {
+  invalidateBookmarkKeys,
+  joinIds,
+  matchKeyPrefix,
+} from '@bypass/shared';
 import { mutate } from 'swr';
 
 const LAST_VISITED = 'last-visited';
@@ -8,8 +12,9 @@ const QUICK_BOOKMARK = 'quick-bookmark';
 export const extSwrKeys = {
   currentTab: 'current-tab',
   lastVisited: (url?: string) => (url ? [LAST_VISITED, url] : null),
-  // Shares the LAST_VISITED prefix so one matcher invalidates both shapes
-  lastVisitedMap: (urls: string[]) => [LAST_VISITED, 'map', urls.join('|')],
+  // Shares the LAST_VISITED prefix so one matcher invalidates both shapes.
+  // Sorted: reordering rules is the same request, not a new one.
+  lastVisitedMap: (urls: string[]) => [LAST_VISITED, 'map', joinIds(urls)],
   quickBookmark: (url?: string) => (url ? [QUICK_BOOKMARK, url] : null),
 } as const;
 
