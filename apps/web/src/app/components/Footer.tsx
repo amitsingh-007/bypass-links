@@ -1,3 +1,4 @@
+import { GITHUB_REPO_URL } from '@bypass/shared';
 import {
   Calendar03Icon,
   GithubIcon,
@@ -63,7 +64,7 @@ async function Footer({
         </div>
         <a
           target="_blank"
-          href="https://github.com/amitsingh-007/bypass-links"
+          href={GITHUB_REPO_URL}
           title="Bypass Links - Github"
           className="flex size-10 shrink-0 items-center justify-center rounded-full bg-muted transition-colors hover:bg-muted/80"
           aria-label="Github Repository Link"

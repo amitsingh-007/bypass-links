@@ -8,19 +8,20 @@ import {
   type PersonImageUrls,
 } from '../interfaces/persons';
 
-export const getDecryptedPerson = (person: IPerson): IPerson => {
-  return {
-    ...person,
-    name: atob(person.name),
-  };
-};
+/**
+ * Built field by field rather than spread: these sit on the persistence
+ * boundary, and a spread would carry view-model extras (an imageUrl, say)
+ * into local storage and the Firebase payload.
+ */
+export const getDecryptedPerson = ({ uid, name }: IPerson): IPerson => ({
+  uid,
+  name: atob(name),
+});
 
-export const getEncryptedPerson = (person: IPerson): IPerson => {
-  return {
-    ...person,
-    name: btoa(person.name),
-  };
-};
+export const getEncryptedPerson = ({ uid, name }: IPerson): IPerson => ({
+  uid,
+  name: btoa(name),
+});
 
 export const decodePersons = (persons: IPersons): IPerson[] =>
   Object.values(persons)

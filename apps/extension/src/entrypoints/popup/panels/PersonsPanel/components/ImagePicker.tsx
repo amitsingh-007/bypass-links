@@ -1,4 +1,4 @@
-import { Header, getPersonImageName } from '@bypass/shared';
+import { Header, getPersonImageName, PERSON_IMAGE_SIZE } from '@bypass/shared';
 import {
   Button,
   Dialog,
@@ -121,9 +121,8 @@ function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
                 ref={imageCropperRef}
                 image={debouncedInputUrl}
                 crossOrigin="anonymous"
-                // When changing this, change in upload API as well
-                width={250}
-                height={250}
+                width={PERSON_IMAGE_SIZE}
+                height={PERSON_IMAGE_SIZE}
                 border={[270, 70]}
                 borderRadius={4}
                 scale={zoom}

@@ -1,10 +1,7 @@
-import {
-  type IBookmarksObj,
-  type ISelectedBookmarks,
-  invalidateBookmarkKeys,
-} from '@bypass/shared';
+import { type IBookmarksObj, type ISelectedBookmarks } from '@bypass/shared';
 
 import { bookmarksItem, hasPendingBookmarksItem } from '@/storage/items';
+import { invalidateExtBookmarkKeys } from '@/swr/keys';
 
 export const isFolderContainsDir = (
   folders: IBookmarksObj['folders'],
@@ -19,5 +16,5 @@ export const setBookmarksInStorage = async (bookmarksObj: IBookmarksObj) => {
     bookmarksItem.setValue(bookmarksObj),
     hasPendingBookmarksItem.setValue(true),
   ]);
-  await invalidateBookmarkKeys();
+  await invalidateExtBookmarkKeys();
 };

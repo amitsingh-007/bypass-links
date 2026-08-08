@@ -11,10 +11,10 @@ export const invalidatePersonKeys = async () => {
   ]);
 };
 
+/** Web-neutral. The extension wraps this to add its own keys. */
 export const invalidateBookmarkKeys = async () => {
   await Promise.all([
     mutate(swrKeys.bookmarks),
-    mutate(swrKeyMatchers.quickBookmark),
     mutate(swrKeys.defaultFolderUrls),
     mutate(swrKeyMatchers.taggedBookmarks),
   ]);

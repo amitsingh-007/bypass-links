@@ -5,6 +5,7 @@ export { default as Folder } from './components/Bookmarks/components/Folder';
 export * from './components/Bookmarks/components/Folder';
 export * from './components/Bookmarks/constants';
 export { default as useBookmark } from './components/Bookmarks/hooks/useBookmark';
+export { default as useBookmarks } from './components/Bookmarks/hooks/useBookmarks';
 export { default as useDefaultFolderUrls } from './components/Bookmarks/hooks/useDefaultFolderUrls';
 export type * from './components/Bookmarks/interfaces';
 export type * from './components/Bookmarks/interfaces/url';
@@ -23,6 +24,7 @@ export * from './components/Persons/utils/urls';
 export { default as useAllPersonsWithImages } from './components/Persons/hooks/useAllPersonsWithImages';
 export { default as usePerson } from './components/Persons/hooks/usePerson';
 export { default as usePersons } from './components/Persons/hooks/usePersons';
+export { default as useOrderedPersons } from './components/Persons/hooks/useOrderedPersons';
 export { default as usePersonImage } from './components/Persons/hooks/usePersonImage';
 export { default as usePersonImageMap } from './components/Persons/hooks/usePersonImageMap';
 

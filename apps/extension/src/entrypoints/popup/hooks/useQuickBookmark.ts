@@ -1,11 +1,12 @@
-import { getDecryptedBookmark, swrKeys } from '@bypass/shared';
+import { getDecryptedBookmark } from '@bypass/shared';
 import useSWR from 'swr';
 
 import { bookmarksItem } from '@/storage/items';
+import { extSwrKeys } from '@/swr/keys';
 import { findBookmarkByUrl } from '@popup/panels/BookmarksPanel/utils/bookmark';
 
 const useQuickBookmark = (enabled: boolean, url = '') =>
-  useSWR(enabled ? swrKeys.quickBookmark(url) : null, async () => {
+  useSWR(enabled ? extSwrKeys.quickBookmark(url) : null, async () => {
     const bookmarks = await bookmarksItem.getValue();
     if (!bookmarks) {
       return undefined;

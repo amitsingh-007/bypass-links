@@ -1,7 +1,8 @@
-import { sha256Hash, swrKeyMatchers } from '@bypass/shared';
+import { sha256Hash } from '@bypass/shared';
 import { mutate } from 'swr';
 
 import { lastVisitedItem } from '@/storage/items';
+import { extSwrKeyMatchers } from '@/swr/keys';
 
 export const getHostnameHash = async (url: string) => {
   if (!URL.canParse(url)) {
@@ -42,5 +43,5 @@ export const setLastVisitedInStorage = async (
   const lastVisitedObj = await lastVisitedItem.getValue();
   lastVisitedObj[hash] = timestamp;
   await lastVisitedItem.setValue(lastVisitedObj);
-  await mutate(swrKeyMatchers.lastVisited);
+  await mutate(extSwrKeyMatchers.lastVisited);
 };

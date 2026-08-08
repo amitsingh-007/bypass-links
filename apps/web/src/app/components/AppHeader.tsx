@@ -1,5 +1,6 @@
 'use client';
 
+import { GITHUB_REPO_URL } from '@bypass/shared';
 import { GithubIcon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 import Image from 'next/image';
@@ -46,7 +47,7 @@ function AppHeader() {
           </div>
         </button>
         <a
-          href="https://github.com/bypass-links/bypass-links"
+          href={GITHUB_REPO_URL}
           target="_blank"
           rel="noopener noreferrer"
           className="flex size-8 items-center justify-center rounded-lg border border-border bg-background text-muted-foreground transition-all hover:border-primary/30 hover:text-foreground"

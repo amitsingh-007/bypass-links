@@ -2,15 +2,13 @@ import {
   EBookmarkOperation,
   getBookmarksPanelUrl,
   getEncryptedPerson,
-  getFilteredPersons,
-  sortByRecency,
   getPersonImageName,
   HEADER_HEIGHT,
   type IPerson,
   type IPersons,
   Persons,
   sortAlphabetically,
-  useDefaultFolderUrls,
+  useOrderedPersons,
   usePerson,
   usePersons,
 } from '@bypass/shared';
@@ -47,18 +45,13 @@ function PersonsPanel() {
   const [searchText, setSearchText] = useState('');
   const [orderByRecency, setOrderByRecency] = useState(true);
 
-  const { data: persons = [], isLoading } = usePersons();
-  const { data: urls = [] } = useDefaultFolderUrls();
-
-  const isFetching = isLoading || isSaving;
-
-  const orderedPersons = orderByRecency
-    ? sortByRecency(persons, urls)
-    : persons;
-  const filteredAndOrderedPersons = getFilteredPersons(
-    orderedPersons,
+  const { data: persons = [] } = usePersons();
+  const { data: filteredAndOrderedPersons, isLoading } = useOrderedPersons(
+    orderByRecency,
     searchText
   );
+
+  const isFetching = isLoading || isSaving;
 
   const runSave = async (errorMessage: string, save: () => Promise<void>) => {
     setIsSaving(true);

@@ -1,10 +1,10 @@
-import { swrKeys } from '@bypass/shared';
 import useSWR from 'swr';
 
+import { extSwrKeys } from '@/swr/keys';
 import { getCurrentTab } from '@popup/utils/tabs';
 
 const useCurrentTab = () => {
-  const { data } = useSWR(swrKeys.currentTab, getCurrentTab);
+  const { data } = useSWR(extSwrKeys.currentTab, getCurrentTab);
   return data;
 };
 

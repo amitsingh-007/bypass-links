@@ -1,13 +1,6 @@
 'use client';
 
-import {
-  getFilteredPersons,
-  Header,
-  Persons,
-  sortByRecency,
-  useDefaultFolderUrls,
-  usePersons,
-} from '@bypass/shared';
+import { Header, Persons, useOrderedPersons } from '@bypass/shared';
 import { Switch } from '@bypass/ui';
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
@@ -19,14 +12,8 @@ function PersonsPage() {
   const [searchText, setSearchText] = useState('');
   const [orderByRecency, setOrderByRecency] = useState(true);
 
-  const { data: persons = [] } = usePersons();
-  const { data: urls = [] } = useDefaultFolderUrls();
-
-  const orderedPersons = orderByRecency
-    ? sortByRecency(persons, urls)
-    : persons;
-  const filteredAndOrderedPersons = getFilteredPersons(
-    orderedPersons,
+  const { data: filteredAndOrderedPersons } = useOrderedPersons(
+    orderByRecency,
     searchText
   );
 
