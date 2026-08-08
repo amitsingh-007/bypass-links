@@ -5,19 +5,21 @@ import { GithubIcon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useRef } from 'react';
 
 import { WEB_ROUTES } from '@app/constants/routes';
 
 function AppHeader() {
   const router = useRouter();
-  const [clickCount, setClickCount] = useState(0);
+  // A ref, not state: the count drives nothing that renders
+  const clickCount = useRef(0);
 
-  useEffect(() => {
-    if (clickCount === 5) {
+  const handleLogoClick = () => {
+    clickCount.current += 1;
+    if (clickCount.current === 5) {
       router.push(WEB_ROUTES.BYPASS_LINKS_WEB);
     }
-  }, [clickCount, router]);
+  };
 
   return (
     <header className="sticky top-0 z-50 border-b-2 border-primary/20 bg-linear-to-r from-primary/5 via-background to-primary/5">
@@ -25,7 +27,7 @@ function AppHeader() {
         <button
           type="button"
           className="group flex items-center gap-3"
-          onClick={() => setClickCount(clickCount + 1)}
+          onClick={handleLogoClick}
         >
           <div className="rounded-lg bg-primary/10 p-1.5 transition-colors group-hover:bg-primary/20">
             <Image

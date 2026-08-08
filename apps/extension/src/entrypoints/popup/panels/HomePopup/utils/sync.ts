@@ -22,7 +22,7 @@ import {
 } from '../../BookmarksPanel/utils/bookmark';
 import {
   cachePersonImagesInStorage,
-  refreshPersonImageUrlsCache,
+  clearPersonImageUrls,
   resetPersons,
   syncPersonsToStorage,
 } from '../../PersonsPanel/utils/sync';
@@ -59,7 +59,7 @@ const resetStorage = async () => {
     resetBookmarks(),
     resetLastVisited(),
     resetPersons(),
-    refreshPersonImageUrlsCache(),
+    clearPersonImageUrls(),
   ]);
   await invalidateAllKeys();
 };

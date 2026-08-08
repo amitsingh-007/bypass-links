@@ -25,7 +25,8 @@ function Authenticate() {
     stopLoading();
   };
 
-  // Memoized: it is a dep of the effect below, which would re-run every render
+  // Memoized: it is a dep of an effect below. React Compiler does not satisfy
+  // the exhaustive-deps lint rule here, which still wants a stable identity.
   const handleSignOut = useCallback(async () => {
     startLoading();
     const isSignedOutSuccess = await signOut();

@@ -1,5 +1,4 @@
 import { type EExtensionState } from '@/constants';
-import { extStateItem } from '@/storage/items';
 import { getIsExtensionActive } from '@/utils/common';
 
 const restrictedProtocols = new Set([
@@ -32,19 +31,17 @@ export const setExtensionIcon = async ({
   hasPendingBookmarks,
   hasPendingPersons,
 }: {
-  extState?: EExtensionState;
-  hasPendingBookmarks?: boolean;
-  hasPendingPersons?: boolean;
+  extState: EExtensionState;
+  hasPendingBookmarks: boolean;
+  hasPendingPersons: boolean;
 }) => {
-  let icon: string;
-  if (hasPendingBookmarks === true || hasPendingPersons === true) {
-    icon = 'assets/bypass_link_pending_32.png';
-  } else {
-    const newExtState = extState ?? (await extStateItem.getValue());
-    icon = getIsExtensionActive(newExtState)
-      ? 'assets/bypass_link_on_32.png'
-      : 'assets/bypass_link_off_32.png';
-  }
+  const isActive = getIsExtensionActive(extState);
+  const icon =
+    hasPendingBookmarks || hasPendingPersons
+      ? 'assets/bypass_link_pending_32.png'
+      : isActive
+        ? 'assets/bypass_link_on_32.png'
+        : 'assets/bypass_link_off_32.png';
   await browser.action.setIcon({ path: icon });
 };
 
@@ -54,9 +51,4 @@ export const isValidUrl = (_url?: string): boolean => {
   return (
     !restrictedHosts.has(url.hostname) && !restrictedProtocols.has(url.protocol)
   );
-};
-
-export const isValidTabUrl = async (tabId: number) => {
-  const tab = await browser.tabs.get(tabId);
-  return isValidUrl(tab.url);
 };

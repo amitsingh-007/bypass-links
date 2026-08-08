@@ -25,9 +25,9 @@ const useTaggedBookmarks = (personUid = '') => {
     }
     const { urlList, folderList, folders } = bookmarks;
 
-    const fetchedBookmarks = Object.entries(urlList)
-      .filter(([, bookmark]) => bookmark.taggedPersons.includes(personUid))
-      .map(([, bookmark]) => {
+    const fetchedBookmarks = Object.values(urlList)
+      .filter((bookmark) => bookmark.taggedPersons.includes(personUid))
+      .map((bookmark) => {
         const parent = getDecryptedFolder(folderList[bookmark.parentHash]);
         return Object.assign(getDecryptedBookmark(bookmark), {
           parentName: parent.name,

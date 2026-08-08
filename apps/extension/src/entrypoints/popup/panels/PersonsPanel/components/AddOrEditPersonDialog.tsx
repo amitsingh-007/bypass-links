@@ -19,7 +19,7 @@ import { HugeiconsIcon } from '@hugeicons/react';
 import { useDisclosure } from '@mantine/hooks';
 import { useForm } from '@tanstack/react-form';
 import { useSelector } from '@tanstack/react-store';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { z } from 'zod/mini';
 
 import { trpcApi } from '@/apis/trpcApi';
@@ -46,6 +46,9 @@ function AddOrEditPersonDialog({
   onClose,
   handleSaveClick,
 }: Props) {
+  // Lazy state, not a call in defaultValues: the id has to survive re-renders
+  // of the open dialog. Both call sites mount this only while open, so there
+  // is no "reopened for a different person" case to reset for.
   const [initialUid] = useState(() => crypto.randomUUID());
   const [isAvatarImageLoading, setIsAvatarImageLoading] = useState(false);
   const [showImagePicker, imagePickerHandlers] = useDisclosure(false);
@@ -80,17 +83,6 @@ function AddOrEditPersonDialog({
     revalidateIfStale: false,
     onSuccess: (image) => setIsAvatarImageLoading(Boolean(image)),
   });
-
-  // Reset the form when the dialog opens for a different person
-  useEffect(() => {
-    if (!isOpen) {
-      return;
-    }
-    const defaultValues = person
-      ? { uid: person.uid, name: person.name }
-      : { uid: crypto.randomUUID(), name: '' };
-    form.reset(defaultValues);
-  }, [form, isOpen, person]);
 
   const handleImageCropSave = async (fileName: string) => {
     setIsAvatarImageLoading(true);

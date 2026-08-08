@@ -8,7 +8,7 @@ import {
   isCachePresent,
   invalidateBookmarkKeys,
 } from '@bypass/shared';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 
 import { getFaviconUrl } from '@app/constants/favicon';
 import { useUser } from '@app/provider/AuthProvider';
@@ -45,8 +45,7 @@ const usePreloadBookmarks = () => {
   const { user } = useUser();
   const [isLoading, setIsLoading] = useState(false);
 
-  // Memoized: reaches a dep array via useWebPreload -> web-ext/page.tsx
-  const preloadData = useCallback(async () => {
+  const preloadData = async () => {
     if (!user) {
       return;
     }
@@ -58,7 +57,7 @@ const usePreloadBookmarks = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [user]);
+  };
 
   const clearData = async () => {
     setIsLoading(true);

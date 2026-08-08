@@ -1,4 +1,4 @@
-import { use, useCallback } from 'react';
+import { use } from 'react';
 
 import { ECacheBucketKeys } from '../../../constants/cache';
 import { STORAGE_KEYS } from '../../../constants/storage';
@@ -19,99 +19,88 @@ import { decodePersons } from '../utils';
 
 const usePerson = () => {
   const { storage } = use(DynamicContext);
-  const getBookmarks = useCallback(
-    async () => storage.get<IBookmarksObj>(STORAGE_KEYS.bookmarks),
-    [storage]
-  );
-  const getPersons = useCallback(
-    async () => storage.get<IPersons>(STORAGE_KEYS.persons),
-    [storage]
-  );
-  const getPersonImageUrls = useCallback(
-    async () => storage.get<PersonImageUrls>(STORAGE_KEYS.personImageUrls),
-    [storage]
-  );
 
-  const getAllDecodedPersons = useCallback(async () => {
+  const getBookmarks = async () =>
+    storage.get<IBookmarksObj>(STORAGE_KEYS.bookmarks);
+
+  const getPersons = async () => storage.get<IPersons>(STORAGE_KEYS.persons);
+
+  const getPersonImageUrls = async () =>
+    storage.get<PersonImageUrls>(STORAGE_KEYS.personImageUrls);
+
+  const getAllDecodedPersons = async () => {
     const persons = await getPersons();
-    if (!persons) return [];
+    if (!persons) {
+      return [];
+    }
     return decodePersons(persons);
-  }, [getPersons]);
+  };
 
-  const resolvePersonImageFromUid = useCallback(
-    async (uid: string) => {
-      const personImages = await getPersonImageUrls();
-      if (!personImages) {
-        return '';
-      }
-      const imageUrl = personImages[uid];
-      return getBlobUrlFromCache(ECacheBucketKeys.person, imageUrl);
-    },
-    [getPersonImageUrls]
-  );
+  const resolvePersonImageFromUid = async (uid: string) => {
+    const personImages = await getPersonImageUrls();
+    if (!personImages) {
+      return '';
+    }
+    return getBlobUrlFromCache(ECacheBucketKeys.person, personImages[uid]);
+  };
 
   // One storage read and one bucket open for a whole grid
-  const getPersonImageMap = useCallback(
-    async (uids: string[]): Promise<Record<string, string>> => {
-      const personImages = await getPersonImageUrls();
-      if (!personImages) {
-        return {};
-      }
-      const cache = await getCacheObj(ECacheBucketKeys.person);
-      const entries = await Promise.all(
-        uids.map(
-          async (uid) =>
-            [
-              uid,
-              await getBlobUrlFromOpenCache(cache, personImages[uid]),
-            ] as const
-        )
-      );
-      return Object.fromEntries(entries);
-    },
-    [getPersonImageUrls]
-  );
+  const getPersonImageMap = async (
+    uids: string[]
+  ): Promise<Record<string, string>> => {
+    const personImages = await getPersonImageUrls();
+    if (!personImages) {
+      return {};
+    }
+    const cache = await getCacheObj(ECacheBucketKeys.person);
+    const entries = await Promise.all(
+      uids.map(
+        async (uid) =>
+          [
+            uid,
+            await getBlobUrlFromOpenCache(cache, personImages[uid]),
+          ] as const
+      )
+    );
+    return Object.fromEntries(entries);
+  };
 
-  const getPersonsWithImageUrl = useCallback(
-    async (persons: IPerson[]): Promise<IPersonWithImage[]> => {
-      if (!persons?.length) {
-        return [];
-      }
-      const personImages = await getPersonImageUrls();
-      if (!personImages) {
-        return persons.map((person) => ({ ...person, imageUrl: '' }));
-      }
-      // Open the bucket once for the whole list
-      const cache = await getCacheObj(ECacheBucketKeys.person);
-      return Promise.all(
-        persons.map(async (person) => ({
-          ...person,
-          imageUrl: await getBlobUrlFromOpenCache(
-            cache,
-            personImages[person.uid]
-          ),
-        }))
-      );
-    },
-    [getPersonImageUrls]
-  );
+  const getPersonsWithImageUrl = async (
+    persons: IPerson[]
+  ): Promise<IPersonWithImage[]> => {
+    if (!persons?.length) {
+      return [];
+    }
+    const personImages = await getPersonImageUrls();
+    if (!personImages) {
+      return persons.map((person) => ({ ...person, imageUrl: '' }));
+    }
+    // Open the bucket once for the whole list
+    const cache = await getCacheObj(ECacheBucketKeys.person);
+    return Promise.all(
+      persons.map(async (person) => ({
+        ...person,
+        imageUrl: await getBlobUrlFromOpenCache(
+          cache,
+          personImages[person.uid]
+        ),
+      }))
+    );
+  };
 
-  const getPersonTaggedUrls = useCallback(
-    async (personId: string) => {
-      const bookmarks = await getBookmarks();
-      if (!bookmarks?.urlList) {
-        return [];
+  const getPersonTaggedUrls = async (personId: string) => {
+    const bookmarks = await getBookmarks();
+    if (!bookmarks?.urlList) {
+      return [];
+    }
+    const taggedUrls = [];
+    for (const [bmId, bookmark] of Object.entries(bookmarks.urlList)) {
+      if (bookmark.taggedPersons.includes(personId)) {
+        taggedUrls.push(bmId);
       }
-      const taggedUrls = [];
-      for (const [bmId, bookmark] of Object.entries(bookmarks.urlList)) {
-        if (bookmark.taggedPersons.includes(personId)) {
-          taggedUrls.push(bmId);
-        }
-      }
-      return taggedUrls;
-    },
-    [getBookmarks]
-  );
+    }
+    return taggedUrls;
+  };
 
   return {
     getAllDecodedPersons,

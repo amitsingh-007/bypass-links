@@ -1,7 +1,7 @@
 import { ScrollArea } from '@bypass/ui';
 import { useElementSize } from '@mantine/hooks';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { type ReactNode, useCallback, useState } from 'react';
+import { type ReactNode, useState } from 'react';
 
 import useIsMobile from '../../../hooks/useIsMobile';
 import { deserializeQueryStringToObject } from '../../../utils/url';
@@ -111,9 +111,6 @@ function Persons(props: Props) {
   const [scrollElement, setScrollElement] = useState<HTMLDivElement | null>(
     null
   );
-  const handleViewportRef = useCallback((node: HTMLDivElement | null) => {
-    setScrollElement(node);
-  }, []);
   const { openBookmarksList } = deserializeQueryStringToObject(
     props.queryString
   );
@@ -125,7 +122,7 @@ function Persons(props: Props) {
   return (
     <ScrollArea
       ref={containerRef}
-      viewportRef={handleViewportRef}
+      viewportRef={setScrollElement}
       className="size-full"
     >
       {bodyWidth > 0 && (

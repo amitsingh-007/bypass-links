@@ -34,7 +34,7 @@ export const resetPersons = async () => {
 const resolveDownloadUrl = async (fileName: string) =>
   trpcApi.storage.getDownloadUrl.query(fileName);
 
-export const refreshPersonImageUrlsCache = async () => {
+export const clearPersonImageUrls = async () => {
   await personImageUrlsItem.removeValue();
 };
 
