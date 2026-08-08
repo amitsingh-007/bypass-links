@@ -1,7 +1,3 @@
-/**
- * Derived from projectId so the rewrite target cannot name a different
- * Firebase project than the one the app initialises against.
- */
 export const getFirebaseAuthHelperUrl = (isProd: boolean) =>
   `https://${getFirebasePublicConfig(isProd).projectId}.firebaseapp.com`;
 

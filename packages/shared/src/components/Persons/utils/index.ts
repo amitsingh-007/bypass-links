@@ -8,11 +8,7 @@ import {
   type PersonImageUrls,
 } from '../interfaces/persons';
 
-/**
- * Built field by field rather than spread: these sit on the persistence
- * boundary, and a spread would carry view-model extras (an imageUrl, say)
- * into local storage and the Firebase payload.
- */
+/** Field by field, so view-model extras cannot reach storage or Firebase. */
 export const getDecryptedPerson = ({ uid, name }: IPerson): IPerson => ({
   uid,
   name: atob(name),
