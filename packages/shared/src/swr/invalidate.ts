@@ -19,7 +19,7 @@ export const invalidatePersonKeys = async (uid?: string) => {
 export const invalidateBookmarkKeys = async () => {
   await Promise.all([
     mutate(swrKeys.bookmarks),
-    mutate(swrKeys.quickBookmark),
+    mutate(swrKeyMatchers.quickBookmark),
     mutate(swrKeys.defaultFolderUrls),
     mutate(swrKeyMatchers.taggedBookmarks),
   ]);

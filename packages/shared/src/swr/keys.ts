@@ -2,6 +2,7 @@
 const PERSON_IMAGE = 'person-image';
 const TAGGED_BOOKMARKS = 'tagged-bookmarks';
 const LAST_VISITED = 'last-visited';
+const QUICK_BOOKMARK = 'quick-bookmark';
 
 /**
  * Single keys are plain strings, not thunks: SWR's global `mutate` treats a
@@ -12,12 +13,12 @@ export const swrKeys = {
   persons: 'persons',
   bookmarks: 'bookmarks',
   defaultFolderUrls: 'default-folder-urls',
-  quickBookmark: 'quick-bookmark',
   redirections: 'redirections',
   currentTab: 'current-tab',
   personImage: (uid?: string) => (uid ? [PERSON_IMAGE, uid] : null),
   taggedBookmarks: (uid?: string) => (uid ? [TAGGED_BOOKMARKS, uid] : null),
   lastVisited: (url?: string) => (url ? [LAST_VISITED, url] : null),
+  quickBookmark: (url?: string) => (url ? [QUICK_BOOKMARK, url] : null),
 } as const;
 
 const matchKeyPrefix = (prefix: string) => (key: unknown) =>
@@ -27,4 +28,5 @@ export const swrKeyMatchers = {
   personImage: matchKeyPrefix(PERSON_IMAGE),
   taggedBookmarks: matchKeyPrefix(TAGGED_BOOKMARKS),
   lastVisited: matchKeyPrefix(LAST_VISITED),
+  quickBookmark: matchKeyPrefix(QUICK_BOOKMARK),
 } as const;

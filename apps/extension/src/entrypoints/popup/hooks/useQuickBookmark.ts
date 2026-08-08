@@ -5,7 +5,7 @@ import { bookmarksItem } from '@/storage/items';
 import { findBookmarkByUrl } from '@popup/panels/BookmarksPanel/utils/bookmark';
 
 const useQuickBookmark = (enabled: boolean, url = '') =>
-  useSWR(enabled && url ? swrKeys.quickBookmark : null, async () => {
+  useSWR(enabled ? swrKeys.quickBookmark(url) : null, async () => {
     const bookmarks = await bookmarksItem.getValue();
     if (!bookmarks) {
       return undefined;
