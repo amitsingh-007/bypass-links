@@ -7,5 +7,4 @@
 **/.env.local
 
 # Need this for eslint
-
 !.gitignore
