@@ -5,8 +5,25 @@ import { type ECacheBucketKeys } from '../constants/cache';
 
 const limit = pLimit(20);
 
-export const getCacheObj = async (cacheBucketKey: string) =>
-  caches.open(cacheBucketKey);
+/**
+ * Memoized on the promise, not the Cache: every favicon/avatar mount would
+ * otherwise pay its own `caches.open`. Rejections evict themselves so a
+ * transient failure isn't cached for the document lifetime.
+ */
+const cacheObjPromises = new Map<string, Promise<Cache>>();
+
+export const getCacheObj = async (cacheBucketKey: string) => {
+  const pending = cacheObjPromises.get(cacheBucketKey);
+  if (pending) {
+    return pending;
+  }
+  const promise = caches.open(cacheBucketKey).catch((error: unknown) => {
+    cacheObjPromises.delete(cacheBucketKey);
+    throw error;
+  });
+  cacheObjPromises.set(cacheBucketKey, promise);
+  return promise;
+};
 
 export const addToCache = async (
   cacheBucketKey: ECacheBucketKeys,
@@ -82,13 +99,25 @@ export const getBlobUrlFromOpenCache = async (cache: Cache, url?: string) => {
 export const getBlobUrlFromCache = async (
   cacheBucketKey: ECacheBucketKeys,
   url: string
-) => getBlobUrlFromOpenCache(await getCacheObj(cacheBucketKey), url);
+) => {
+  // Checked before opening the bucket, so a memoized blob url costs nothing
+  if (!url) {
+    return '';
+  }
+  const existing = blobUrlCache.get(url);
+  if (existing) {
+    return existing;
+  }
+  return getBlobUrlFromOpenCache(await getCacheObj(cacheBucketKey), url);
+};
 
 export const deleteCache = async (bucketKey: string) => {
   const cache = await getCacheObj(bucketKey);
   const keys = await cache.keys();
   keys.forEach((request) => revokeBlobUrl(request.url));
   await caches.delete(bucketKey);
+  // Otherwise the memo would hand out a handle to the deleted bucket
+  cacheObjPromises.delete(bucketKey);
 };
 
 export const deleteAllCache = async (cacheBucketKeys: ECacheBucketKeys[]) => {

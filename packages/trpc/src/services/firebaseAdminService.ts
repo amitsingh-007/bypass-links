@@ -102,8 +102,6 @@ export const upsertToFirebase = async ({ ref, uid, data }: Firebase) => {
 /**
  * AUTH
  */
-export const getFirebaseUser = async (uid: string) => auth.getUser(uid);
-
 export const verifyAuthToken = async (
   idToken: string,
   checkRevoked?: boolean

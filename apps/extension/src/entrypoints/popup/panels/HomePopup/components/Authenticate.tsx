@@ -14,7 +14,11 @@ function Authenticate() {
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const setIsSignedIn = useFirebaseStore((state) => state.setIsSignedIn);
   const isExtensionActive = useExtStore((state) => state.isExtensionActive);
-  const { isLoading, startLoading, stopLoading } = useProgressStore();
+  // Selectors, not the whole store: incrementProgress ticks throughout sign-in
+  // and would re-render this button on every step
+  const isLoading = useProgressStore((state) => state.isLoading);
+  const startLoading = useProgressStore((state) => state.startLoading);
+  const stopLoading = useProgressStore((state) => state.stopLoading);
 
   const handleSignIn = async () => {
     startLoading();

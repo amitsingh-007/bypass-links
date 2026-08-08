@@ -16,6 +16,7 @@ import { trpcApi } from '@/apis/trpcApi';
 import { redirectionsItem } from '@/storage/items';
 import { syncRedirectionsToStorage } from '@background/redirections';
 import Panel from '@popup/components/Panel';
+import { useLastVisitedMap } from '@popup/hooks/useLastVisited';
 
 import { DEFAULT_RULE_ALIAS } from '../constants';
 import { getValidRules, isMatchingRule } from '../utils';
@@ -46,6 +47,7 @@ function ShortcutsPanel() {
     fetchRedirections
   );
   const redirections = stagedRedirections ?? storedRedirections ?? [];
+  const lastVisitedMap = useLastVisitedMap(redirections.map((r) => r.website));
 
   const { trigger: saveRedirections, isMutating } = useSWRMutation(
     swrKeys.redirections,
@@ -127,6 +129,7 @@ function ShortcutsPanel() {
                 {...redirection}
                 pos={index}
                 total={redirections.length}
+                lastVisited={lastVisitedMap[redirection.website]}
                 handleRemoveRule={handleRemoveRule}
                 handleSaveRule={handleSaveRule}
                 handleRuleMove={handleRuleMove}

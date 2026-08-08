@@ -30,7 +30,7 @@ import {
   SIGN_IN_TOTAL_STEPS,
   SIGN_OUT_TOTAL_STEPS,
 } from '../constants/progress';
-import { resetLastVisited, syncLastVisitedToStorage } from './lastVisited';
+import { resetLastVisited, syncLastVisitedToStorage } from './lastVisitedSync';
 
 const resetAuthentication = async () => {
   await browser.identity.clearAllCachedAuthTokens();

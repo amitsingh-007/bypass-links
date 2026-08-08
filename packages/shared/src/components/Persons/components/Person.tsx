@@ -2,18 +2,18 @@ import { Avatar, AvatarImage, Button } from '@bypass/ui';
 import { use } from 'react';
 
 import DynamicContext from '../../../provider/DynamicContext';
-import usePersonImage from '../hooks/usePersonImage';
 import { type IPerson } from '../interfaces/persons';
 import { getPersonsPanelUrl } from '../utils/urls';
 
 interface Props {
   person: IPerson;
+  /** Resolved by the grid in one batch, not per avatar. */
+  imageUrl?: string;
 }
 
-function Person({ person }: Props) {
+function Person({ person, imageUrl = '' }: Props) {
   const { location } = use(DynamicContext);
   const { uid, name } = person;
-  const { data: imageUrl = '' } = usePersonImage(uid);
 
   const openBookmarksList = () => {
     location.push(getPersonsPanelUrl({ openBookmarksList: uid }));

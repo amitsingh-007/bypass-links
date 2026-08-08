@@ -1,4 +1,8 @@
-import { DynamicContext, getGoogleFaviconUrl } from '@bypass/shared';
+import {
+  DynamicContext,
+  getGoogleFaviconUrl,
+  QueryStringContext,
+} from '@bypass/shared';
 import { type PropsWithChildren, useMemo } from 'react';
 import { useLocation, useSearch } from 'wouter';
 
@@ -13,11 +17,12 @@ function DynamicProvider({ children }: PropsWithChildren) {
     (state) => state.startHistoryMonitor
   );
 
+  // Deliberately free of `search`, so navigating doesn't rebuild the object
+  // every consumer and every storage-bound hook depends on
   const ctx = useMemo(
     () => ({
       location: {
         push: (url: string) => navigate(url),
-        query: () => search,
         goBack: () => window.history.back(),
       },
       storage: {
@@ -33,11 +38,15 @@ function DynamicProvider({ children }: PropsWithChildren) {
       },
       favicon: { getUrl: getGoogleFaviconUrl },
     }),
-    [navigate, search, startHistoryMonitor]
+    [navigate, startHistoryMonitor]
   );
 
   return (
-    <DynamicContext.Provider value={ctx}>{children}</DynamicContext.Provider>
+    <DynamicContext.Provider value={ctx}>
+      <QueryStringContext.Provider value={search}>
+        {children}
+      </QueryStringContext.Provider>
+    </DynamicContext.Provider>
   );
 }
 

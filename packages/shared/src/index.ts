@@ -24,6 +24,7 @@ export { default as useAllPersonsWithImages } from './components/Persons/hooks/u
 export { default as usePerson } from './components/Persons/hooks/usePerson';
 export { default as usePersons } from './components/Persons/hooks/usePersons';
 export { default as usePersonImage } from './components/Persons/hooks/usePersonImage';
+export { default as usePersonImageMap } from './components/Persons/hooks/usePersonImageMap';
 
 // Global components
 export { default as Header } from './components/Header';
@@ -43,6 +44,7 @@ export type * from './interfaces/IRedirection';
 
 // Provider
 export { default as DynamicContext } from './provider/DynamicContext';
+export { default as QueryStringContext } from './provider/QueryStringContext';
 
 // Utils
 export * from './utils';

@@ -1,12 +1,13 @@
-import { uploadImageToFirebase } from '@bypass/trpc/appRouter';
+import {
+  resolveUserFromRequest,
+  uploadImageToFirebase,
+} from '@bypass/trpc/appRouter';
 import { type NextRequest, NextResponse } from 'next/server';
-
-import { authorizeUser } from '@app/helpers/authorizeUser';
 
 import { validateAndProccessFile } from './utils';
 
 export async function POST(request: NextRequest) {
-  const auth = await authorizeUser(request);
+  const auth = await resolveUserFromRequest(request);
   if (!auth.ok) {
     return new NextResponse(auth.message, { status: auth.status });
   }

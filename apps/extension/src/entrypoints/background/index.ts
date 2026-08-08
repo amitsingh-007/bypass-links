@@ -10,7 +10,8 @@ import { getIsExtensionActive } from '@/utils/common';
 import { type RuntimeInput } from '@/utils/sendRuntimeMessage';
 
 import turnOffInputSuggestions from './misc/turnOffInputSuggestions';
-import { redirect } from './redirections';
+import { getExtState, invalidateNavigationCache } from './navigationCache';
+import { redirect } from './redirections/redirect';
 import { isValidUrl, setExtensionIcon } from './utils';
 import { receiveRuntimeMessage } from './utils/receiveRuntimeMessage';
 
@@ -19,10 +20,15 @@ const onPageLoad = async (tabId: number, url: string) => {
     return;
   }
   const [extState, tab] = await Promise.all([
-    extStateItem.getValue(),
+    getExtState(),
     browser.tabs.get(tabId),
   ]);
-  if (!getIsExtensionActive(extState) || !isValidUrl(tab.url)) {
+  if (!getIsExtensionActive(extState)) {
+    return;
+  }
+  // The tab can navigate again while we await; acting on the superseded event
+  // would redirect or inject into whatever page landed since
+  if (tab.url !== url) {
     return;
   }
 
@@ -117,6 +123,7 @@ export default defineBackground({
       if (areaName !== 'local') {
         return;
       }
+      invalidateNavigationCache(changes);
       if (ICON_KEYS.some((key) => key in changes)) {
         void updateIcon();
       }

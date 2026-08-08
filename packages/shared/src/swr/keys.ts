@@ -16,8 +16,12 @@ export const swrKeys = {
   redirections: 'redirections',
   currentTab: 'current-tab',
   personImage: (uid?: string) => (uid ? [PERSON_IMAGE, uid] : null),
+  // Shares the PERSON_IMAGE prefix so one matcher invalidates both shapes
+  personImageMap: (uids: string[]) => [PERSON_IMAGE, 'map', uids.join('|')],
   taggedBookmarks: (uid?: string) => (uid ? [TAGGED_BOOKMARKS, uid] : null),
   lastVisited: (url?: string) => (url ? [LAST_VISITED, url] : null),
+  // Shares the LAST_VISITED prefix so one matcher invalidates both shapes
+  lastVisitedMap: (urls: string[]) => [LAST_VISITED, 'map', urls.join('|')],
   quickBookmark: (url?: string) => (url ? [QUICK_BOOKMARK, url] : null),
 } as const;
 

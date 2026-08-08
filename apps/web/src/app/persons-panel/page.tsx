@@ -48,7 +48,9 @@ function PersonsPage() {
           <Persons
             persons={filteredAndOrderedPersons}
             bookmarkListProps={{ fullscreen: false }}
-            renderPerson={(person) => <PersonVirtualCell person={person} />}
+            renderPerson={(person, imageUrl) => (
+              <PersonVirtualCell person={person} imageUrl={imageUrl} />
+            )}
           />
         ) : null}
       </div>

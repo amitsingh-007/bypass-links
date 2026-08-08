@@ -146,9 +146,10 @@ function PersonsPanel() {
                 );
               },
             }}
-            renderPerson={(person) => (
+            renderPerson={(person, imageUrl) => (
               <PersonVirtualCell
                 person={person}
+                imageUrl={imageUrl}
                 handleEditPerson={handleAddOrEditPerson}
                 handlePersonDelete={handlePersonDelete}
               />
