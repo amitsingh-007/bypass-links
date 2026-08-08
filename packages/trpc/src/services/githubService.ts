@@ -1,7 +1,7 @@
+import { REPO } from '@bypass/shared';
 import { Octokit } from '@octokit/rest';
 
 import { env } from '../constants/env';
-import { REPO } from '../constants/github';
 
 const octokit = new Octokit({
   auth: env.GITHUB_TOKEN,
