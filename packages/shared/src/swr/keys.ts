@@ -5,6 +5,14 @@ const LAST_VISITED = 'last-visited';
 const QUICK_BOOKMARK = 'quick-bookmark';
 
 /**
+ * Order- and duplicate-independent, so a list that was merely re-sorted maps
+ * to the same key. Batched fetchers return a record keyed by id, so the input
+ * order never affects the result.
+ */
+export const joinIds = (ids: string[]) =>
+  [...new Set(ids)].toSorted().join('|');
+
+/**
  * Single keys are plain strings, not thunks: SWR's global `mutate` treats a
  * function as a key *filter*, so a dropped `()` would wipe the whole cache.
  */
@@ -16,12 +24,15 @@ export const swrKeys = {
   redirections: 'redirections',
   currentTab: 'current-tab',
   personImage: (uid?: string) => (uid ? [PERSON_IMAGE, uid] : null),
-  // Shares the PERSON_IMAGE prefix so one matcher invalidates both shapes
-  personImageMap: (uids: string[]) => [PERSON_IMAGE, 'map', uids.join('|')],
+  // Shares the PERSON_IMAGE prefix so one matcher invalidates both shapes.
+  // Sorted: the result is keyed by uid, so a reorder (toggling recency) is the
+  // same request and should hit the same entry rather than refetching.
+  personImageMap: (uids: string[]) => [PERSON_IMAGE, 'map', joinIds(uids)],
   taggedBookmarks: (uid?: string) => (uid ? [TAGGED_BOOKMARKS, uid] : null),
   lastVisited: (url?: string) => (url ? [LAST_VISITED, url] : null),
-  // Shares the LAST_VISITED prefix so one matcher invalidates both shapes
-  lastVisitedMap: (urls: string[]) => [LAST_VISITED, 'map', urls.join('|')],
+  // Shares the LAST_VISITED prefix so one matcher invalidates both shapes.
+  // Sorted: reordering rules is the same request, not a new one.
+  lastVisitedMap: (urls: string[]) => [LAST_VISITED, 'map', joinIds(urls)],
   quickBookmark: (url?: string) => (url ? [QUICK_BOOKMARK, url] : null),
 } as const;
 
