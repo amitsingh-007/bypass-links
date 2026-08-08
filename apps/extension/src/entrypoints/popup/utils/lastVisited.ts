@@ -24,7 +24,6 @@ export const getlastVisitedText = async (url: string) => {
   return formatLastVisited(hash ? lastVisitedData[hash] : undefined);
 };
 
-/** One storage read for a whole list, instead of one per row. */
 export const getLastVisitedTextMap = async (urls: string[]) => {
   const lastVisitedData = await lastVisitedItem.getValue();
   const entries = await Promise.all(

@@ -4,14 +4,10 @@ const TAGGED_BOOKMARKS = 'tagged-bookmarks';
 const LAST_VISITED = 'last-visited';
 const QUICK_BOOKMARK = 'quick-bookmark';
 
-/** Sorted and deduped, so a re-sorted list is the same key. */
 export const joinIds = (ids: string[]) =>
   [...new Set(ids)].toSorted().join('|');
 
-/**
- * Single keys are plain strings, not thunks: SWR's global `mutate` treats a
- * function as a key *filter*, so a dropped `()` would wipe the whole cache.
- */
+/** Plain strings, not thunks: `mutate` treats a function as a key filter. */
 export const swrKeys = {
   personsWithImages: 'persons-with-images',
   persons: 'persons',
@@ -20,7 +16,6 @@ export const swrKeys = {
   redirections: 'redirections',
   currentTab: 'current-tab',
   personImage: (uid?: string) => (uid ? [PERSON_IMAGE, uid] : null),
-  // Shares the prefix above so one matcher invalidates both shapes
   personImageMap: (uids: string[]) => [PERSON_IMAGE, 'map', joinIds(uids)],
   taggedBookmarks: (uid?: string) => (uid ? [TAGGED_BOOKMARKS, uid] : null),
   lastVisited: (url?: string) => (url ? [LAST_VISITED, url] : null),

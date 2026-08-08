@@ -1,7 +1,6 @@
 const turnOffAutocomplete = () => {
   const MARKER = 'bypassLinksAutocompleteOff';
-  // Re-injected on every navigation, including same-document SPA ones, which
-  // would otherwise leave one observer per navigation running on the document
+  // Re-injected per navigation, incl. same-document SPA ones
   if (MARKER in document.documentElement.dataset) {
     return;
   }
@@ -15,8 +14,7 @@ const turnOffAutocomplete = () => {
   document.querySelectorAll('input').forEach(disable);
 
   const observer = new MutationObserver((mutations) => {
-    // Only added nodes: re-querying the whole document per mutation is
-    // unbounded work on pages that mutate continuously
+    // Added nodes only; a full re-query per mutation is unbounded work
     for (const { addedNodes } of mutations) {
       for (const node of addedNodes) {
         if (!(node instanceof HTMLElement)) {

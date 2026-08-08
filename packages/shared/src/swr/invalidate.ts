@@ -2,10 +2,7 @@ import { mutate } from 'swr';
 
 import { swrKeyMatchers, swrKeys } from './keys';
 
-/**
- * Global `mutate`: these run outside React, so call after the write lands.
- * The image matcher stays broad to also reach the grid's aggregate entry.
- */
+/** Call after the write lands. The image matcher also covers the grid's map key. */
 export const invalidatePersonKeys = async () => {
   await Promise.all([
     mutate(swrKeys.persons),

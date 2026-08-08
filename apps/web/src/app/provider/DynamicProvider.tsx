@@ -8,8 +8,7 @@ import { getFromLocalStorage, setToLocalStorage } from '../utils/storage';
 function DynamicProvider({ children }: PropsWithChildren) {
   const router = useRouter();
 
-  // No query string here: it changes on every navigation and would rebuild the
-  // object every consumer and every storage-bound hook depends on
+  // No query string here: it would rebuild ctx on every navigation
   const ctx = useMemo(
     () => ({
       location: {

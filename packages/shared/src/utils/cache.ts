@@ -5,11 +5,7 @@ import { type ECacheBucketKeys } from '../constants/cache';
 
 const limit = pLimit(20);
 
-/**
- * Memoized on the promise, not the Cache: every favicon/avatar mount would
- * otherwise pay its own `caches.open`. Rejections evict themselves so a
- * transient failure isn't cached for the document lifetime.
- */
+/** Memoized on the promise; rejections evict so failures aren't cached. */
 const cacheObjPromises = new Map<string, Promise<Cache>>();
 
 export const getCacheObj = async (cacheBucketKey: string) => {

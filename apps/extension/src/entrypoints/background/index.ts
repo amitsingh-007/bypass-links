@@ -26,8 +26,7 @@ const onPageLoad = async (tabId: number, url: string) => {
   if (!getIsExtensionActive(extState)) {
     return;
   }
-  // The tab can navigate again while we await; acting on the superseded event
-  // would redirect or inject into whatever page landed since
+  // Superseded by a newer navigation while we awaited
   if (tab.url !== url) {
     return;
   }

@@ -9,10 +9,8 @@ export type AuthorizationResult =
   | { ok: false; status: 401 | 403; message: string };
 
 /**
- * `disabled` is safe to hardcode: verifyIdToken(token, checkRevoked) rejects
- * disabled accounts, so a token that verified belongs to an enabled user.
- * `email_verified` is an issuance-time claim, so it lags a live user record
- * until the client refreshes its token.
+ * `disabled` is safe to hardcode: verifyIdToken rejects disabled accounts.
+ * `email_verified` is issuance-time, so it lags until the token refreshes.
  */
 const mapTokenToUser = (token: DecodedIdToken): IUser => ({
   uid: token.uid,
@@ -48,9 +46,8 @@ export const checkUserAuthorized = (
 };
 
 /**
- * The single token -> authorized user path for every transport. Verification
- * already fetches the user record to check revocation, so the user is built
- * from the decoded token rather than paying a second auth round trip.
+ * The single token -> authorized user path. Verification already fetches the
+ * user record, so the user is built from the token, not a second round trip.
  */
 export const resolveUserFromRequest = async (
   req: Request

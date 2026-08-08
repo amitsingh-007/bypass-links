@@ -14,8 +14,6 @@ import BookmarksList from './BookmarksList';
 
 interface Props {
   persons: IPerson[];
-  /** Passed in rather than read from context: only this component needs it,
-   * and putting it in DynamicContext rebuilt that object on every navigation. */
   queryString: string;
   scrollButton?: boolean;
   bookmarkListProps: {

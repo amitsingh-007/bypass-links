@@ -50,10 +50,7 @@ const usePerson = () => {
     [getPersonImageUrls]
   );
 
-  /**
-   * One storage read and one bucket open for a whole grid. Resolving per cell
-   * re-read the entire url map and re-opened the cache for every avatar.
-   */
+  // One storage read and one bucket open for a whole grid
   const getPersonImageMap = useCallback(
     async (uids: string[]): Promise<Record<string, string>> => {
       const personImages = await getPersonImageUrls();
