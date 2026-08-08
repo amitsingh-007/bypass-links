@@ -31,12 +31,12 @@ import {
 import PersonHeader from './PersonHeader';
 import PersonVirtualCell from './PersonVirtualCell';
 
-const handleSave = async (persons: IPerson[], uid: string) => {
+const handleSave = async (persons: IPerson[]) => {
   const encryptedPersons = persons.reduce<IPersons>((obj, person) => {
     obj[person.uid] = getEncryptedPerson(person);
     return obj;
   }, {});
-  await setPersonsInStorage(encryptedPersons, uid);
+  await setPersonsInStorage(encryptedPersons);
 };
 
 function PersonsPanel() {
@@ -79,7 +79,7 @@ function PersonsPanel() {
 
     await runSave(`Could not save ${person.name}`, async () => {
       await updatePersonCacheAndImageUrls(person);
-      await handleSave(sortAlphabetically(newPersons), person.uid);
+      await handleSave(sortAlphabetically(newPersons));
       toast.success(
         `${person.name} ${isNewPerson ? 'added' : 'updated'} successfully`
       );
@@ -101,7 +101,7 @@ function PersonsPanel() {
     await runSave(`Could not delete ${person.name}`, async () => {
       await trpcApi.storage.removeFile.mutate(getPersonImageName(person.uid));
       await removePersonImageUrl(person.uid);
-      await handleSave(persons.toSpliced(pos, 1), person.uid);
+      await handleSave(persons.toSpliced(pos, 1));
       toast.success('Person deleted successfully');
     });
   };
