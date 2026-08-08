@@ -12,8 +12,6 @@ const SUCCESS_TIMEOUT_MS = 3000;
 const useFeedbackButton = (handler: () => Promise<void>) => {
   const [buttonState, setButtonState] = useState(EButtonState.INITIAL);
 
-  // The cleanup covers both cancelling on a re-click, which moves state to
-  // LOADING, and unmounting, so no ref or manual clearTimeout is needed
   useEffect(() => {
     if (buttonState !== EButtonState.SUCCESS) {
       return noOp;

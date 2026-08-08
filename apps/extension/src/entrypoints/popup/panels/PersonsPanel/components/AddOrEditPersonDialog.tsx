@@ -46,9 +46,7 @@ function AddOrEditPersonDialog({
   onClose,
   handleSaveClick,
 }: Props) {
-  // Lazy state, not a call in defaultValues: the id has to survive re-renders
-  // of the open dialog. Both call sites mount this only while open, so there
-  // is no "reopened for a different person" case to reset for.
+  // Lazy state: the id has to survive re-renders of the open dialog
   const [initialUid] = useState(() => crypto.randomUUID());
   const [isAvatarImageLoading, setIsAvatarImageLoading] = useState(false);
   const [showImagePicker, imagePickerHandlers] = useDisclosure(false);

@@ -11,7 +11,6 @@ import { WEB_ROUTES } from '@app/constants/routes';
 
 function AppHeader() {
   const router = useRouter();
-  // A ref, not state: the count drives nothing that renders
   const clickCount = useRef(0);
 
   const handleLogoClick = () => {
