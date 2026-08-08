@@ -9,11 +9,13 @@ import {
   usePersons,
 } from '@bypass/shared';
 import { Switch } from '@bypass/ui';
+import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 
 import PersonVirtualCell from './components/PersonVirtualCell';
 
 function PersonsPage() {
+  const queryString = useSearchParams()?.toString() ?? '';
   const [searchText, setSearchText] = useState('');
   const [orderByRecency, setOrderByRecency] = useState(true);
 
@@ -46,6 +48,7 @@ function PersonsPage() {
       <div className="min-h-0 flex-1">
         {filteredAndOrderedPersons.length > 0 ? (
           <Persons
+            queryString={queryString}
             persons={filteredAndOrderedPersons}
             bookmarkListProps={{ fullscreen: false }}
             renderPerson={(person, imageUrl) => (

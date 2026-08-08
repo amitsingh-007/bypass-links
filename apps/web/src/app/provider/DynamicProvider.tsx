@@ -1,9 +1,5 @@
-import {
-  DynamicContext,
-  getYandexFaviconUrl,
-  QueryStringContext,
-} from '@bypass/shared';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { DynamicContext, getYandexFaviconUrl } from '@bypass/shared';
+import { useRouter } from 'next/navigation';
 import { type PropsWithChildren, useMemo } from 'react';
 
 import { openNewTab } from '../utils';
@@ -11,10 +7,8 @@ import { getFromLocalStorage, setToLocalStorage } from '../utils/storage';
 
 function DynamicProvider({ children }: PropsWithChildren) {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const queryString = searchParams?.toString() ?? '';
 
-  // Deliberately free of `searchParams`, so navigating doesn't rebuild the
+  // No query string here: it changes on every navigation and would rebuild the
   // object every consumer and every storage-bound hook depends on
   const ctx = useMemo(
     () => ({
@@ -33,11 +27,7 @@ function DynamicProvider({ children }: PropsWithChildren) {
   );
 
   return (
-    <DynamicContext.Provider value={ctx}>
-      <QueryStringContext.Provider value={queryString}>
-        {children}
-      </QueryStringContext.Provider>
-    </DynamicContext.Provider>
+    <DynamicContext.Provider value={ctx}>{children}</DynamicContext.Provider>
   );
 }
 

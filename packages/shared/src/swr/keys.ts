@@ -4,11 +4,7 @@ const TAGGED_BOOKMARKS = 'tagged-bookmarks';
 const LAST_VISITED = 'last-visited';
 const QUICK_BOOKMARK = 'quick-bookmark';
 
-/**
- * Order- and duplicate-independent, so a list that was merely re-sorted maps
- * to the same key. Batched fetchers return a record keyed by id, so the input
- * order never affects the result.
- */
+/** Sorted and deduped, so a re-sorted list is the same key. */
 export const joinIds = (ids: string[]) =>
   [...new Set(ids)].toSorted().join('|');
 
@@ -24,14 +20,10 @@ export const swrKeys = {
   redirections: 'redirections',
   currentTab: 'current-tab',
   personImage: (uid?: string) => (uid ? [PERSON_IMAGE, uid] : null),
-  // Shares the PERSON_IMAGE prefix so one matcher invalidates both shapes.
-  // Sorted: the result is keyed by uid, so a reorder (toggling recency) is the
-  // same request and should hit the same entry rather than refetching.
+  // Shares the prefix above so one matcher invalidates both shapes
   personImageMap: (uids: string[]) => [PERSON_IMAGE, 'map', joinIds(uids)],
   taggedBookmarks: (uid?: string) => (uid ? [TAGGED_BOOKMARKS, uid] : null),
   lastVisited: (url?: string) => (url ? [LAST_VISITED, url] : null),
-  // Shares the LAST_VISITED prefix so one matcher invalidates both shapes.
-  // Sorted: reordering rules is the same request, not a new one.
   lastVisitedMap: (urls: string[]) => [LAST_VISITED, 'map', joinIds(urls)],
   quickBookmark: (url?: string) => (url ? [QUICK_BOOKMARK, url] : null),
 } as const;

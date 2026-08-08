@@ -44,7 +44,6 @@ export type * from './interfaces/IRedirection';
 
 // Provider
 export { default as DynamicContext } from './provider/DynamicContext';
-export { default as QueryStringContext } from './provider/QueryStringContext';
 
 // Utils
 export * from './utils';

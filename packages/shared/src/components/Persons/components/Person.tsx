@@ -7,7 +7,6 @@ import { getPersonsPanelUrl } from '../utils/urls';
 
 interface Props {
   person: IPerson;
-  /** Resolved by the grid in one batch, not per avatar. */
   imageUrl?: string;
 }
 

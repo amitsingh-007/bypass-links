@@ -24,22 +24,16 @@ export const getlastVisitedText = async (url: string) => {
   return formatLastVisited(hash ? lastVisitedData[hash] : undefined);
 };
 
-/**
- * One storage read and one hashing pass for a whole list. Resolving per row
- * instead re-read the entire map and re-ran SHA-256 for every rule.
- */
+/** One storage read for a whole list, instead of one per row. */
 export const getLastVisitedTextMap = async (urls: string[]) => {
-  const uniqueUrls = [...new Set(urls.filter(Boolean))];
-  const [lastVisitedData, hashes] = await Promise.all([
-    lastVisitedItem.getValue(),
-    Promise.all(uniqueUrls.map(getHostnameHash)),
-  ]);
-  return Object.fromEntries(
-    uniqueUrls.map((url, index) => [
-      url,
-      formatLastVisited(lastVisitedData[hashes[index]]),
-    ])
+  const lastVisitedData = await lastVisitedItem.getValue();
+  const entries = await Promise.all(
+    [...new Set(urls.filter(Boolean))].map(async (url) => {
+      const hash = await getHostnameHash(url);
+      return [url, formatLastVisited(lastVisitedData[hash])] as const;
+    })
   );
+  return Object.fromEntries(entries);
 };
 
 export const setLastVisitedInStorage = async (

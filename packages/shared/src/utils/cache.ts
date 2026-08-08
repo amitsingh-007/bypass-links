@@ -100,7 +100,6 @@ export const getBlobUrlFromCache = async (
   cacheBucketKey: ECacheBucketKeys,
   url: string
 ) => {
-  // Checked before opening the bucket, so a memoized blob url costs nothing
   if (!url) {
     return '';
   }
@@ -116,7 +115,6 @@ export const deleteCache = async (bucketKey: string) => {
   const keys = await cache.keys();
   keys.forEach((request) => revokeBlobUrl(request.url));
   await caches.delete(bucketKey);
-  // Otherwise the memo would hand out a handle to the deleted bucket
   cacheObjPromises.delete(bucketKey);
 };
 

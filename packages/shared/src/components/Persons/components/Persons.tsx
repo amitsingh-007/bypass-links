@@ -1,10 +1,9 @@
 import { ScrollArea } from '@bypass/ui';
 import { useElementSize } from '@mantine/hooks';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { type ReactNode, use, useCallback, useState } from 'react';
+import { type ReactNode, useCallback, useState } from 'react';
 
 import useIsMobile from '../../../hooks/useIsMobile';
-import QueryStringContext from '../../../provider/QueryStringContext';
 import { deserializeQueryStringToObject } from '../../../utils/url';
 import { ScrollButton } from '../../ScrollButton';
 import usePersonImageMap from '../hooks/usePersonImageMap';
@@ -15,6 +14,9 @@ import BookmarksList from './BookmarksList';
 
 interface Props {
   persons: IPerson[];
+  /** Passed in rather than read from context: only this component needs it,
+   * and putting it in DynamicContext rebuilt that object on every navigation. */
+  queryString: string;
   scrollButton?: boolean;
   bookmarkListProps: {
     fullscreen: boolean;
@@ -114,9 +116,9 @@ function Persons(props: Props) {
   const handleViewportRef = useCallback((node: HTMLDivElement | null) => {
     setScrollElement(node);
   }, []);
-  const queryString = use(QueryStringContext);
-
-  const { openBookmarksList } = deserializeQueryStringToObject(queryString);
+  const { openBookmarksList } = deserializeQueryStringToObject(
+    props.queryString
+  );
   const personToOpen = persons.find(
     (person) => person.uid === openBookmarksList
   );

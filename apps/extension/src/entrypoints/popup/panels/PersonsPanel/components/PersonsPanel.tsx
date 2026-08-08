@@ -17,7 +17,7 @@ import {
 import { Spinner } from '@bypass/ui';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { useLocation } from 'wouter';
+import { useLocation, useSearch } from 'wouter';
 
 import { trpcApi } from '@/apis/trpcApi';
 import { MAX_PANEL_SIZE } from '@/constants';
@@ -41,6 +41,7 @@ const handleSave = async (persons: IPerson[]) => {
 
 function PersonsPanel() {
   const [, navigate] = useLocation();
+  const queryString = useSearch();
   const { getPersonTaggedUrls } = usePerson();
   const [isSaving, setIsSaving] = useState(false);
   const [searchText, setSearchText] = useState('');
@@ -133,6 +134,7 @@ function PersonsPanel() {
         {filteredAndOrderedPersons.length > 0 ? (
           <Persons
             scrollButton
+            queryString={queryString}
             persons={filteredAndOrderedPersons}
             bookmarkListProps={{
               fullscreen: true,
