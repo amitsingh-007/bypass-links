@@ -1,4 +1,8 @@
-import { type IBookmarksObj, type ISelectedBookmarks } from '@bypass/shared';
+import {
+  type IBookmarksObj,
+  type ISelectedBookmarks,
+  invalidateBookmarkKeys,
+} from '@bypass/shared';
 
 import { bookmarksItem, hasPendingBookmarksItem } from '@/storage/items';
 
@@ -15,4 +19,5 @@ export const setBookmarksInStorage = async (bookmarksObj: IBookmarksObj) => {
     bookmarksItem.setValue(bookmarksObj),
     hasPendingBookmarksItem.setValue(true),
   ]);
+  await invalidateBookmarkKeys();
 };

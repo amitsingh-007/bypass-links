@@ -77,7 +77,6 @@ function AddOrEditPersonDialog({
   const uid = useSelector(form.store, (state) => state.values.uid);
   // Revalidation off so an optimistic upload isn't refetched back to the pre-save value
   const { data: imageUrl = '', mutate: mutateImage } = usePersonImage(uid, {
-    revalidateOnFocus: false,
     revalidateIfStale: false,
     onSuccess: (image) => setIsAvatarImageLoading(Boolean(image)),
   });

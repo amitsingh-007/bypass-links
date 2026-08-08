@@ -1,4 +1,4 @@
-import { sha256Hash } from '@bypass/shared';
+import { swrKeys } from '@bypass/shared';
 import {
   Button,
   Spinner,
@@ -11,40 +11,44 @@ import {
   Appointment01Icon,
 } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { useState } from 'react';
+import { toast } from 'sonner';
+import useSWRMutation from 'swr/mutation';
 
 import { trpcApi } from '@/apis/trpcApi';
-import { lastVisitedItem } from '@/storage/items';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import useCurrentTab from '@popup/hooks/useCurrentTab';
 import useLastVisited from '@popup/hooks/useLastVisited';
+import {
+  getHostnameHash,
+  setLastVisitedInStorage,
+} from '@popup/utils/lastVisited';
 
 function LastVisitedButton() {
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const currentTab = useCurrentTab();
-  const [isFetching, setIsFetching] = useState(false);
 
   const url = currentTab?.url;
-  const { data: lastVisited = '', mutate: mutateLastVisited } = useLastVisited(
+  const { data: lastVisited = '' } = useLastVisited(
     isSignedIn ? url : undefined
   );
 
-  const handleUpdateLastVisited = async () => {
+  const { trigger: updateLastVisited, isMutating } = useSWRMutation(
+    swrKeys.lastVisited(url),
+    async ([, pageUrl]) => {
+      const hash = await getHostnameHash(pageUrl);
+      const result = await trpcApi.firebaseData.upsertLastVisited.mutate({
+        hash,
+      });
+      await setLastVisitedInStorage(result.hash, result.timestamp);
+    },
+    { onError: () => toast.error('Could not update last visited') }
+  );
+
+  const handleUpdateLastVisited = () => {
     if (!url) {
       return;
     }
-    setIsFetching(true);
-    const { hostname } = new URL(url);
-    const hash = await sha256Hash(hostname);
-    const result = await trpcApi.firebaseData.upsertLastVisited.mutate({
-      hash,
-    });
-    // Patch local storage with just this entry
-    const lastVisitedObj = await lastVisitedItem.getValue();
-    lastVisitedObj[result.hash] = result.timestamp;
-    await lastVisitedItem.setValue(lastVisitedObj);
-    await mutateLastVisited();
-    setIsFetching(false);
+    updateLastVisited();
   };
 
   return (
@@ -53,11 +57,11 @@ function LastVisitedButton() {
         <Button
           className="w-full font-medium"
           variant={lastVisited ? 'default' : 'outline'}
-          disabled={!isSignedIn || isFetching}
+          disabled={!isSignedIn || isMutating}
           data-testid="last-visited-button"
           onClick={handleUpdateLastVisited}
         >
-          {isFetching && <Spinner className="mr-2 size-4" />}
+          {isMutating && <Spinner className="mr-2 size-4" />}
           Visited
           <HugeiconsIcon
             icon={lastVisited ? Appointment01Icon : CalendarAdd01Icon}

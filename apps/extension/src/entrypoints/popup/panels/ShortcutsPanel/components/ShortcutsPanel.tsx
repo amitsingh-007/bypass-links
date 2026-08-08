@@ -1,9 +1,16 @@
-import { Header, type IRedirection, type IRedirections } from '@bypass/shared';
+import {
+  Header,
+  type IRedirection,
+  type IRedirections,
+  swrKeys,
+} from '@bypass/shared';
 import { Button, Spinner } from '@bypass/ui';
 import { Link01Icon, Download03Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'sonner';
+import useSWR from 'swr';
+import useSWRMutation from 'swr/mutation';
 
 import { trpcApi } from '@/apis/trpcApi';
 import { redirectionsItem } from '@/storage/items';
@@ -14,78 +21,77 @@ import { DEFAULT_RULE_ALIAS } from '../constants';
 import { getValidRules, isMatchingRule } from '../utils';
 import RedirectionRule from './RedirectionRule';
 
+const SAVE_ERROR = 'Could not save shortcuts';
+
+const fetchRedirections = async () => {
+  const stored = await redirectionsItem.getValue();
+  return stored.map(
+    ({ alias, website, isDefault }) =>
+      ({
+        alias: atob(alias),
+        website: atob(website),
+        isDefault,
+      }) satisfies IRedirection
+  );
+};
+
 function ShortcutsPanel() {
-  const [redirections, setRedirections] = useState<IRedirections>([]);
   const [searchText, setSearchText] = useState('');
-  const [isFetching, setIsFetching] = useState(true);
-  const [isSaveActive, setIsSaveActive] = useState(false);
+  // null means "no local edits yet", distinct from "edited to an empty list"
+  const [stagedRedirections, setStagedRedirections] =
+    useState<IRedirections | null>(null);
 
-  useEffect(() => {
-    redirectionsItem.getValue().then((_redirections) => {
-      const modifiedRedirections = _redirections.map(
-        ({ alias, website, isDefault }) =>
-          ({
-            alias: atob(alias),
-            website: atob(website),
-            isDefault,
-          }) satisfies IRedirection
-      );
-      setRedirections(modifiedRedirections);
-      setIsFetching(false);
-    });
-  }, []);
+  const { data: storedRedirections, isLoading } = useSWR(
+    swrKeys.redirections,
+    fetchRedirections
+  );
+  const redirections = stagedRedirections ?? storedRedirections ?? [];
 
-  const saveRedirectionTemp = (newRedirections: IRedirections) => {
-    setRedirections(newRedirections);
-    setIsSaveActive(true);
-  };
-
-  const handleSave = async () => {
-    setIsFetching(true);
-    const validRules = redirections.filter(getValidRules);
-    const isSaveSuccess =
-      await trpcApi.firebaseData.redirectionsPost.mutate(validRules);
-    if (isSaveSuccess) {
-      syncRedirectionsToStorage();
-      setRedirections(validRules);
+  const { trigger: saveRedirections, isMutating } = useSWRMutation(
+    swrKeys.redirections,
+    async (_key, { arg: rules }: { arg: IRedirections }) => {
+      const validRules = rules.filter(getValidRules);
+      const isSaveSuccess =
+        await trpcApi.firebaseData.redirectionsPost.mutate(validRules);
+      // Thrown, not returned early, so a false response and a rejection look the same
+      if (!isSaveSuccess) {
+        throw new Error(SAVE_ERROR);
+      }
+      await syncRedirectionsToStorage();
+      setStagedRedirections(null);
       toast.success('Saved successfully');
-    }
-    setIsSaveActive(false);
-    setIsFetching(false);
-  };
+    },
+    { onError: () => toast.error(SAVE_ERROR) }
+  );
 
-  const handleAddRule = () => {
-    const newRedirections = [
-      {
-        alias: DEFAULT_RULE_ALIAS,
-        website: '',
-        isDefault: false,
-      },
-      ...redirections,
-    ];
-    saveRedirectionTemp(newRedirections);
-  };
+  const isFetching = isLoading || isMutating;
+  const isSaveActive = stagedRedirections !== null;
 
-  const handleRemoveRule = (pos: number) => {
-    const newRedirections = [...redirections];
-    newRedirections.splice(pos, 1);
-    saveRedirectionTemp(newRedirections);
-  };
+  const stageEdit = (edit: (rules: IRedirections) => IRedirections) =>
+    setStagedRedirections(edit(redirections));
 
-  const handleSaveRule = (redirection: IRedirection, pos: number) => {
-    const newRedirections = [...redirections];
-    newRedirections[pos] = redirection;
-    saveRedirectionTemp(newRedirections);
-  };
+  const handleSave = () => saveRedirections(redirections);
+
+  const handleAddRule = () =>
+    stageEdit((rules) => [
+      { alias: DEFAULT_RULE_ALIAS, website: '', isDefault: false },
+      ...rules,
+    ]);
+
+  const handleRemoveRule = (pos: number) =>
+    stageEdit((rules) => rules.toSpliced(pos, 1));
+
+  const handleSaveRule = (redirection: IRedirection, pos: number) =>
+    stageEdit((rules) => rules.with(pos, redirection));
 
   const handleRuleMove = (pos: number, offset: number) => {
     const target = pos + offset;
     if (target < 0 || target >= redirections.length) {
       return;
     }
-    const newRedirs = [...redirections];
-    [newRedirs[pos], newRedirs[target]] = [newRedirs[target], newRedirs[pos]];
-    saveRedirectionTemp(newRedirs);
+    stageEdit((rules) =>
+      rules.with(pos, rules[target]).with(target, rules[pos])
+    );
   };
 
   return (
@@ -106,7 +112,7 @@ function ShortcutsPanel() {
         </Button>
       </Header>
       <div className="relative flex flex-1 flex-col gap-2 overflow-auto px-1 pt-2 pb-1">
-        {redirections?.map((redirection, index) => {
+        {redirections.map((redirection, index) => {
           const isMatch = isMatchingRule(redirection, searchText);
           return (
             <div

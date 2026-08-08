@@ -10,24 +10,28 @@ import {
   Header,
   type IBookmarksObj,
   STORAGE_KEYS,
+  swrKeys,
 } from '@bypass/shared';
 import { ScrollArea } from '@bypass/ui';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
+import useSWR from 'swr';
 
 import { getFromLocalStorage } from '@app/utils/storage';
 
 import VirtualRow from './components/VirtualRow';
 
+const fetchBookmarks = () =>
+  getFromLocalStorage<IBookmarksObj>(STORAGE_KEYS.bookmarks);
+
 export default function BookmarksPage() {
   const searchParams = useSearchParams();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const folderId = searchParams?.get('folderId') ?? ROOT_FOLDER_ID;
-  const [bookmarksData, setBookmarksData] = useState<IBookmarksObj | null>(
-    null
-  );
   const [searchText, setSearchText] = useState('');
+
+  const { data: bookmarksData } = useSWR(swrKeys.bookmarks, fetchBookmarks);
 
   const folders = bookmarksData?.folders ?? {};
   // `?? []`: this runs in the render body, so a stale folderId would crash the tree
@@ -50,13 +54,6 @@ export default function BookmarksPage() {
     getScrollElement: () => scrollAreaRef.current,
     getItemKey: (idx) => filteredContextBookmarks[idx].id,
   });
-
-  // Kept in an effect for hydration safety — localStorage is client-only
-  useEffect(() => {
-    setBookmarksData(
-      getFromLocalStorage<IBookmarksObj>(STORAGE_KEYS.bookmarks)
-    );
-  }, []);
 
   return (
     <div className="max-w-panel mx-auto flex h-screen flex-col px-0">

@@ -1,13 +1,12 @@
 import useSWR from 'swr';
 
+import { swrKeys } from '../../../swr/keys';
 import usePerson from './usePerson';
-
-export const ALL_PERSONS_WITH_IMAGES_KEY = 'persons-with-images';
 
 const useAllPersonsWithImages = () => {
   const { getAllDecodedPersons, getPersonsWithImageUrl } = usePerson();
 
-  return useSWR(ALL_PERSONS_WITH_IMAGES_KEY, async () =>
+  return useSWR(swrKeys.personsWithImages, async () =>
     getPersonsWithImageUrl(await getAllDecodedPersons())
   );
 };

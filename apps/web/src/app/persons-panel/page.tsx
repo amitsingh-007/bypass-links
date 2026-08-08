@@ -1,48 +1,24 @@
 'use client';
 
 import {
-  decodePersons,
   getFilteredPersons,
   Header,
-  type IPerson,
-  type IPersons,
   Persons,
-  sortAlphabetically,
   sortByRecency,
-  STORAGE_KEYS,
-  useBookmark,
+  useDefaultFolderUrls,
+  usePersons,
 } from '@bypass/shared';
 import { Switch } from '@bypass/ui';
-import { useEffect, useState } from 'react';
-import useSWR from 'swr';
-
-import { getFromLocalStorage } from '@app/utils/storage';
+import { useState } from 'react';
 
 import PersonVirtualCell from './components/PersonVirtualCell';
 
 function PersonsPage() {
-  const [persons, setPersons] = useState<IPerson[]>([]);
   const [searchText, setSearchText] = useState('');
   const [orderByRecency, setOrderByRecency] = useState(true);
-  const { getDefaultOrRootFolderUrls } = useBookmark();
 
-  useEffect(() => {
-    const storedPersons = getFromLocalStorage<IPersons>(STORAGE_KEYS.persons);
-    if (!storedPersons) {
-      return;
-    }
-    const alphabeticallySorted = sortAlphabetically(
-      decodePersons(storedPersons)
-    );
-    // oxlint-disable-next-line react/react-compiler
-    setPersons(alphabeticallySorted);
-  }, []);
-
-  // Stable key so typing does not re-read bookmarks
-  const { data: urls = [] } = useSWR(
-    'default-folder-urls',
-    getDefaultOrRootFolderUrls
-  );
+  const { data: persons = [] } = usePersons();
+  const { data: urls = [] } = useDefaultFolderUrls();
 
   const orderedPersons = orderByRecency
     ? sortByRecency(persons, urls)

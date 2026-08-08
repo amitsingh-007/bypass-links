@@ -1,7 +1,9 @@
 import '@bypass/ui/styles/globals.css';
+import { swrConfig } from '@bypass/shared';
 import { TooltipProvider } from '@bypass/ui';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { SWRConfig } from 'swr';
 
 import './fonts.css';
 import './layout.css';
@@ -12,12 +14,14 @@ import DynamicProvider from './provider/DynamicProvider';
 function App() {
   return (
     <StrictMode>
-      <TooltipProvider>
-        <DynamicProvider>
-          <PopupRoutes />
-          <Global />
-        </DynamicProvider>
-      </TooltipProvider>
+      <SWRConfig value={swrConfig}>
+        <TooltipProvider>
+          <DynamicProvider>
+            <PopupRoutes />
+            <Global />
+          </DynamicProvider>
+        </TooltipProvider>
+      </SWRConfig>
     </StrictMode>
   );
 }

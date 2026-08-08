@@ -18,9 +18,9 @@ import {
   LinkSquare02Icon,
 } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { use, useEffect, useState } from 'react';
+import { use, useState } from 'react';
 
-import { getlastVisitedText } from '@popup/utils/lastVisited';
+import useLastVisited from '@popup/hooks/useLastVisited';
 
 import { DEFAULT_RULE_ALIAS } from '../constants';
 import { ReorderButton } from './ReorderButton';
@@ -47,15 +47,7 @@ function RedirectionRule({
   const [ruleAlias, setRuleAlias] = useState(alias);
   const [ruleWebsite, setRuleWebsite] = useState(website);
   const [isDefaultRule, setIsDefaultRule] = useState(isDefault);
-  const [lastVisited, setLastVisited] = useState<string>();
-
-  useEffect(() => {
-    const initLastVisited = async () => {
-      const lastVisitedText = await getlastVisitedText(website);
-      setLastVisited(lastVisitedText);
-    };
-    initLastVisited();
-  }, [website]);
+  const { data: lastVisited } = useLastVisited(website);
 
   const handleRemoveClick = () => {
     handleRemoveRule(pos);

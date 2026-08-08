@@ -1,6 +1,5 @@
 import {
   addToCache,
-  ALL_PERSONS_WITH_IMAGES_KEY,
   buildPersonImageUrls,
   cachePersonImages,
   ECacheBucketKeys,
@@ -8,7 +7,6 @@ import {
   getPersonImageName,
   type IPerson,
 } from '@bypass/shared';
-import { mutate } from 'swr';
 
 import { trpcApi } from '@/apis/trpcApi';
 import {
@@ -35,14 +33,6 @@ export const resetPersons = async () => {
 
 const resolveDownloadUrl = async (fileName: string) =>
   trpcApi.storage.getDownloadUrl.query(fileName);
-
-/** Global mutate, not useSWRConfig: this module is not a hook. */
-export const invalidatePersonCaches = async () => {
-  await Promise.all([
-    mutate(ALL_PERSONS_WITH_IMAGES_KEY),
-    mutate((key) => Array.isArray(key) && key[0] === 'person-image'),
-  ]);
-};
 
 export const refreshPersonImageUrlsCache = async () => {
   await personImageUrlsItem.removeValue();
@@ -85,5 +75,4 @@ export const updatePersonCacheAndImageUrls = async (person: IPerson) => {
   evictBlobUrl(previousImageUrl);
   evictBlobUrl(imageUrl);
   await addToCache(ECacheBucketKeys.person, imageUrl);
-  await invalidatePersonCaches();
 };

@@ -20,15 +20,19 @@ import { HugeiconsIcon } from '@hugeicons/react';
 import { useLocation } from 'wouter';
 
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
+import useCurrentTab from '@popup/hooks/useCurrentTab';
 import useQuickBookmark from '@popup/hooks/useQuickBookmark';
-import { getCurrentTab } from '@popup/utils/tabs';
 
 function QuickBookmarkButton() {
   const [, navigate] = useLocation();
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const { getFolderFromHash } = useBookmark();
-  const { data: bookmark, isLoading: isFetching } =
-    useQuickBookmark(isSignedIn);
+  const currentTab = useCurrentTab();
+  const currentUrl = currentTab?.url ?? '';
+  const { data: bookmark, isLoading: isFetching } = useQuickBookmark(
+    isSignedIn,
+    currentUrl
+  );
 
   const handleClick = async () => {
     const urlParams: Partial<BMPanelQueryParams> = {};
@@ -39,9 +43,8 @@ function QuickBookmarkButton() {
       urlParams.bmUrl = url;
       urlParams.folderId = parent.id;
     } else {
-      const { url } = await getCurrentTab();
       urlParams.operation = EBookmarkOperation.ADD;
-      urlParams.bmUrl = url;
+      urlParams.bmUrl = currentUrl;
       urlParams.folderId = ROOT_FOLDER_ID;
     }
     navigate(getBookmarksPanelUrl(urlParams));
