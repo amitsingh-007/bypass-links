@@ -12,13 +12,13 @@ import {
   usePerson,
   usePersons,
 } from '@bypass/shared';
-import { Spinner } from '@bypass/ui';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { useLocation, useSearch } from 'wouter';
 
 import { trpcApi } from '@/apis/trpcApi';
 import { MAX_PANEL_SIZE } from '@/constants';
+import LoadingOverlay from '@popup/components/LoadingOverlay';
 import Panel from '@popup/components/Panel';
 
 import { getPersonPos, setPersonsInStorage } from '../utils';
@@ -116,14 +116,7 @@ function PersonsPanel() {
         className="relative"
         style={{ height: MAX_PANEL_SIZE.HEIGHT - HEADER_HEIGHT }}
       >
-        {isFetching && (
-          <div
-            data-testid="loading-overlay"
-            className="absolute inset-0 z-50 flex items-center justify-center bg-black/50"
-          >
-            <Spinner className="size-8" />
-          </div>
-        )}
+        {isFetching && <LoadingOverlay />}
         {filteredAndOrderedPersons.length > 0 ? (
           <Persons
             scrollButton

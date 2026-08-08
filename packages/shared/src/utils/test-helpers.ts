@@ -1,3 +1,5 @@
+import fs from 'node:fs';
+
 import {
   expect,
   type BrowserContext,
@@ -96,15 +98,18 @@ export const verifyModalVisible = async (page: Page, modalTestId?: string) => {
   }
 };
 
+/** Locator as well as Page, so callers can scope to a dialog. */
+type SearchScope = Pick<Page, 'getByPlaceholder'>;
+
 /**
  * Fill a search input.
  */
 export const fillSearchInput = async (
-  page: Page,
+  scope: SearchScope,
   query: string,
   placeholder = 'Search'
 ) => {
-  const searchInput = page.getByPlaceholder(placeholder);
+  const searchInput = scope.getByPlaceholder(placeholder);
   await searchInput.fill(query);
   await expect(searchInput).toHaveValue(query);
 };
@@ -112,8 +117,11 @@ export const fillSearchInput = async (
 /**
  * Clear a search input.
  */
-export const clearSearchInput = async (page: Page, placeholder = 'Search') => {
-  const searchInput = page.getByPlaceholder(placeholder);
+export const clearSearchInput = async (
+  scope: SearchScope,
+  placeholder = 'Search'
+) => {
+  const searchInput = scope.getByPlaceholder(placeholder);
   await searchInput.clear();
   await expect(searchInput).toHaveValue('');
 };
@@ -200,4 +208,12 @@ export const openNewPageFromAction = async (
     .not.toBe('about:blank');
 
   return newPage;
+};
+
+/**
+ * The teardown entrypoints stay in each app because Playwright discovers
+ * projects inside their own testDir; only the body is shared.
+ */
+export const removeAuthCacheDir = async (cacheDir: string) => {
+  await fs.promises.rm(cacheDir, { recursive: true, force: true });
 };

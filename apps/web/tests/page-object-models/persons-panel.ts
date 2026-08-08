@@ -1,4 +1,6 @@
 import {
+  clearSearchInput,
+  fillSearchInput,
   getHeaderPersonCount,
   parseBadgeCount,
   verifyModalClosed,
@@ -70,17 +72,11 @@ export class PersonsPanel {
   }
 
   async searchWithinBookmarks(query: string) {
-    const modal = this.getModal();
-    const searchInput = modal.getByPlaceholder('Search');
-    await searchInput.fill(query);
-    await expect(searchInput).toHaveValue(query);
+    await fillSearchInput(this.getModal(), query);
   }
 
   async clearSearchWithinBookmarks() {
-    const modal = this.getModal();
-    const searchInput = modal.getByPlaceholder('Search');
-    await searchInput.clear();
-    await expect(searchInput).toHaveValue('');
+    await clearSearchInput(this.getModal());
   }
 
   async closeModal() {

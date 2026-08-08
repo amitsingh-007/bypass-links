@@ -15,6 +15,7 @@ import useSWRMutation from 'swr/mutation';
 import { trpcApi } from '@/apis/trpcApi';
 import { redirectionsItem } from '@/storage/items';
 import { syncRedirectionsToStorage } from '@background/redirections';
+import LoadingOverlay from '@popup/components/LoadingOverlay';
 import Panel from '@popup/components/Panel';
 import { useLastVisitedMap } from '@popup/hooks/useLastVisited';
 
@@ -137,14 +138,7 @@ function ShortcutsPanel() {
             </div>
           );
         })}
-        {isFetching && (
-          <div
-            data-testid="loading-overlay"
-            className="absolute inset-0 z-50 flex items-center justify-center bg-black/50"
-          >
-            <Spinner className="size-8" />
-          </div>
-        )}
+        {isFetching && <LoadingOverlay />}
       </div>
     </Panel>
   );
