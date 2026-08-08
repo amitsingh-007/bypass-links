@@ -1,18 +1,32 @@
-import { sha256Hash } from '@bypass/shared';
+import { sha256Hash, swrKeyMatchers } from '@bypass/shared';
+import { mutate } from 'swr';
 
 import { lastVisitedItem } from '@/storage/items';
 
-export const getlastVisitedText = async (url: string) => {
-  const lastVisitedData = await lastVisitedItem.getValue();
+export const getHostnameHash = async (url: string) => {
   if (!URL.canParse(url)) {
     return '';
   }
-  const { hostname } = new URL(url);
-  const hash = await sha256Hash(hostname);
-  const lastVisitedDate = lastVisitedData[hash];
+  return sha256Hash(new URL(url).hostname);
+};
+
+export const getlastVisitedText = async (url: string) => {
+  const lastVisitedData = await lastVisitedItem.getValue();
+  const hash = await getHostnameHash(url);
+  const lastVisitedDate = hash && lastVisitedData[hash];
   if (!lastVisitedDate) {
     return '';
   }
   const date = new Date(lastVisitedDate);
   return `${date.toDateString()}, ${date.toLocaleTimeString()}`;
+};
+
+export const setLastVisitedInStorage = async (
+  hash: string,
+  timestamp: number
+) => {
+  const lastVisitedObj = await lastVisitedItem.getValue();
+  lastVisitedObj[hash] = timestamp;
+  await lastVisitedItem.setValue(lastVisitedObj);
+  await mutate(swrKeyMatchers.lastVisited);
 };

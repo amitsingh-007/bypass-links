@@ -1,11 +1,12 @@
 import useSWR, { type SWRConfiguration } from 'swr';
 
+import { swrKeys } from '../../../swr/keys';
 import usePerson from './usePerson';
 
 const usePersonImage = (uid = '', config?: SWRConfiguration<string>) => {
   const { resolvePersonImageFromUid } = usePerson();
   return useSWR(
-    uid ? ['person-image', uid] : null,
+    swrKeys.personImage(uid),
     () => resolvePersonImageFromUid(uid),
     config
   );

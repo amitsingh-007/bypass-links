@@ -2,17 +2,12 @@ import {
   sortAlphabetically,
   sortByRecency,
   useAllPersonsWithImages,
-  useBookmark,
+  useDefaultFolderUrls,
 } from '@bypass/shared';
-import useSWR from 'swr';
 
 const usePersonsWithImages = (orderByRecency: boolean) => {
-  const { getDefaultOrRootFolderUrls } = useBookmark();
   const { data: personsWithImageUrl = [], ...rest } = useAllPersonsWithImages();
-  const { data: urls = [] } = useSWR(
-    'default-folder-urls',
-    getDefaultOrRootFolderUrls
-  );
+  const { data: urls = [] } = useDefaultFolderUrls();
 
   const data = orderByRecency
     ? sortByRecency(personsWithImageUrl, urls)

@@ -5,6 +5,7 @@ import {
   STORAGE_KEYS,
   deleteCache,
   isCachePresent,
+  invalidatePersonKeys,
   usePerson,
 } from '@bypass/shared';
 import { useState } from 'react';
@@ -55,6 +56,7 @@ const usePreloadPerson = () => {
     try {
       await syncPersonsToStorage();
       await cachePersonAndImages();
+      await invalidatePersonKeys();
     } finally {
       setIsLoading(false);
     }
@@ -65,6 +67,7 @@ const usePreloadPerson = () => {
     removeFromLocalStorage(STORAGE_KEYS.persons);
     removeFromLocalStorage(STORAGE_KEYS.personImageUrls);
     await deleteCache(ECacheBucketKeys.person);
+    await invalidatePersonKeys();
     setIsLoading(false);
   };
 

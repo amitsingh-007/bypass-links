@@ -10,61 +10,46 @@ import {
   type IPersons,
   Persons,
   sortAlphabetically,
-  useBookmark,
+  useDefaultFolderUrls,
   usePerson,
+  usePersons,
 } from '@bypass/shared';
 import { Spinner } from '@bypass/ui';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'sonner';
-import useSWR from 'swr';
 import { useLocation } from 'wouter';
 
 import { trpcApi } from '@/apis/trpcApi';
 import { MAX_PANEL_SIZE } from '@/constants';
 import Panel from '@popup/components/Panel';
 
+import { getPersonPos, setPersonsInStorage } from '../utils';
 import {
-  getAllDecodedPersons,
-  getPersonPos,
-  setPersonsInStorage,
-} from '../utils';
-import {
-  invalidatePersonCaches,
   removePersonImageUrl,
   updatePersonCacheAndImageUrls,
 } from '../utils/sync';
 import PersonHeader from './PersonHeader';
 import PersonVirtualCell from './PersonVirtualCell';
 
-const handleSave = async (persons: IPerson[]) => {
+const handleSave = async (persons: IPerson[], uid: string) => {
   const encryptedPersons = persons.reduce<IPersons>((obj, person) => {
     obj[person.uid] = getEncryptedPerson(person);
     return obj;
   }, {});
-  await setPersonsInStorage(encryptedPersons);
+  await setPersonsInStorage(encryptedPersons, uid);
 };
 
 function PersonsPanel() {
   const [, navigate] = useLocation();
   const { getPersonTaggedUrls } = usePerson();
-  const { getDefaultOrRootFolderUrls } = useBookmark();
-  const [persons, setPersons] = useState<IPerson[]>([]);
-  const [isFetching, setIsFetching] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [orderByRecency, setOrderByRecency] = useState(true);
 
-  useEffect(() => {
-    getAllDecodedPersons().then((decodedPersons) => {
-      setPersons(sortAlphabetically(decodedPersons));
-      setIsFetching(false);
-    });
-  }, []);
+  const { data: persons = [], isLoading } = usePersons();
+  const { data: urls = [] } = useDefaultFolderUrls();
 
-  // Stable key so typing does not re-read bookmarks
-  const { data: urls = [] } = useSWR(
-    'default-folder-urls',
-    getDefaultOrRootFolderUrls
-  );
+  const isFetching = isLoading || isSaving;
 
   const orderedPersons = orderByRecency
     ? sortByRecency(persons, urls)
@@ -74,47 +59,51 @@ function PersonsPanel() {
     searchText
   );
 
+  const runSave = async (errorMessage: string, save: () => Promise<void>) => {
+    setIsSaving(true);
+    try {
+      await save();
+    } catch {
+      toast.error(errorMessage);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   const handleAddOrEditPerson = async (person: IPerson) => {
-    setIsFetching(true);
     const pos = getPersonPos(persons, person);
     const isNewPerson = pos === -1;
-    const newPersons = [...persons];
-    if (isNewPerson) {
-      // Add person
-      newPersons.push(person);
-    } else {
-      // Update person
-      newPersons[pos] = person;
-    }
-    // Update person cache
-    await updatePersonCacheAndImageUrls(person);
-    // Update in the list
-    const sortedPersons = sortAlphabetically(newPersons);
-    setPersons(sortedPersons);
-    await handleSave(sortedPersons);
-    setIsFetching(false);
-    toast.success(
-      `${person.name} ${isNewPerson ? 'added' : 'updated'} successfully`
-    );
+    const newPersons = isNewPerson
+      ? [...persons, person]
+      : persons.with(pos, person);
+
+    await runSave(`Could not save ${person.name}`, async () => {
+      await updatePersonCacheAndImageUrls(person);
+      await handleSave(sortAlphabetically(newPersons), person.uid);
+      toast.success(
+        `${person.name} ${isNewPerson ? 'added' : 'updated'} successfully`
+      );
+    });
   };
 
   const handlePersonDelete = async (person: IPerson) => {
     const pos = getPersonPos(persons, person);
+    // Without this, toSpliced(-1, 1) would drop the last person instead
+    if (pos === -1) {
+      return;
+    }
     const taggedUrls = await getPersonTaggedUrls(person.uid);
     if (taggedUrls.length > 0) {
       toast.error('Cannot delete a person with tagged bookmarks');
       return;
     }
-    setIsFetching(true);
-    const newPersons = [...persons];
-    newPersons.splice(pos, 1);
-    setPersons(newPersons);
-    await trpcApi.storage.removeFile.mutate(getPersonImageName(person.uid));
-    await removePersonImageUrl(person.uid);
-    await handleSave(newPersons);
-    await invalidatePersonCaches();
-    setIsFetching(false);
-    toast.success('Person deleted successfully');
+
+    await runSave(`Could not delete ${person.name}`, async () => {
+      await trpcApi.storage.removeFile.mutate(getPersonImageName(person.uid));
+      await removePersonImageUrl(person.uid);
+      await handleSave(persons.toSpliced(pos, 1), person.uid);
+      toast.success('Person deleted successfully');
+    });
   };
 
   const toggleOrderByRecency = () => setOrderByRecency((prev) => !prev);

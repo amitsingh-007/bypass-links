@@ -1,4 +1,8 @@
-import { ECacheBucketKeys, deleteAllCache } from '@bypass/shared';
+import {
+  ECacheBucketKeys,
+  deleteAllCache,
+  invalidateAllKeys,
+} from '@bypass/shared';
 
 import useProgressStore from '@/store/progress';
 import {
@@ -40,6 +44,7 @@ const syncFirebaseToStorage = async () => {
     syncLastVisitedToStorage(),
     syncPersonsToStorage(),
   ]);
+  await invalidateAllKeys();
 };
 
 const syncStorageToFirebase = async () => {
@@ -56,6 +61,7 @@ const resetStorage = async () => {
     resetPersons(),
     refreshPersonImageUrlsCache(),
   ]);
+  await invalidateAllKeys();
 };
 
 export const processPostLogin = async () => {

@@ -1,3 +1,6 @@
+import { swrKeys } from '@bypass/shared';
+import { mutate } from 'swr';
+
 import { trpcApi } from '@/apis/trpcApi';
 import { redirectionsItem, mappedRedirectionsItem } from '@/storage/items';
 import { startHistoryWatch } from '@/utils/history';
@@ -21,6 +24,7 @@ export const syncRedirectionsToStorage = async () => {
     redirectionsItem.setValue(redirections),
     mappedRedirectionsItem.setValue(mapRedirections(redirections)),
   ]);
+  await mutate(swrKeys.redirections);
 };
 
 export const resetRedirections = async () => {

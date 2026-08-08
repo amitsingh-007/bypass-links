@@ -5,6 +5,7 @@ export { default as Folder } from './components/Bookmarks/components/Folder';
 export * from './components/Bookmarks/components/Folder';
 export * from './components/Bookmarks/constants';
 export { default as useBookmark } from './components/Bookmarks/hooks/useBookmark';
+export { default as useDefaultFolderUrls } from './components/Bookmarks/hooks/useDefaultFolderUrls';
 export type * from './components/Bookmarks/interfaces';
 export type * from './components/Bookmarks/interfaces/url';
 export * from './components/Bookmarks/mapper';
@@ -19,11 +20,9 @@ export type * from './components/Persons/interfaces/persons';
 export * from './components/Persons/utils';
 export * from './components/Persons/utils/bookmark';
 export * from './components/Persons/utils/urls';
-export {
-  ALL_PERSONS_WITH_IMAGES_KEY,
-  default as useAllPersonsWithImages,
-} from './components/Persons/hooks/useAllPersonsWithImages';
+export { default as useAllPersonsWithImages } from './components/Persons/hooks/useAllPersonsWithImages';
 export { default as usePerson } from './components/Persons/hooks/usePerson';
+export { default as usePersons } from './components/Persons/hooks/usePersons';
 export { default as usePersonImage } from './components/Persons/hooks/usePersonImage';
 
 // Global components
@@ -54,3 +53,8 @@ export * from './utils/url';
 
 // Hooks
 export { default as useIsMobile } from './hooks/useIsMobile';
+
+// SWR
+export * from './swr/config';
+export * from './swr/invalidate';
+export * from './swr/keys';

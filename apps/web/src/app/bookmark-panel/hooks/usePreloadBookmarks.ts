@@ -7,6 +7,7 @@ import {
   getBookmarkFaviconUrls,
   getYandexFaviconUrl,
   isCachePresent,
+  invalidateBookmarkKeys,
 } from '@bypass/shared';
 import { useCallback, useState } from 'react';
 
@@ -56,6 +57,7 @@ const usePreloadBookmarks = () => {
     try {
       await syncBookmarksToStorage();
       await cacheBookmarkFavicons();
+      await invalidateBookmarkKeys();
     } finally {
       setIsLoading(false);
     }
@@ -65,6 +67,7 @@ const usePreloadBookmarks = () => {
     setIsLoading(true);
     removeFromLocalStorage(STORAGE_KEYS.bookmarks);
     await deleteCache(ECacheBucketKeys.favicon);
+    await invalidateBookmarkKeys();
     setIsLoading(false);
   };
 

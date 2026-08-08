@@ -1,12 +1,18 @@
-import { decodePersons, type IPerson, type IPersons } from '@bypass/shared';
+import {
+  decodePersons,
+  type IPerson,
+  type IPersons,
+  invalidatePersonKeys,
+} from '@bypass/shared';
 
 import { personsItem, hasPendingPersonsItem } from '@/storage/items';
 
-export const setPersonsInStorage = async (persons: IPersons) => {
+export const setPersonsInStorage = async (persons: IPersons, uid?: string) => {
   await Promise.all([
     personsItem.setValue(persons),
     hasPendingPersonsItem.setValue(true),
   ]);
+  await invalidatePersonKeys(uid);
 };
 
 export const getAllDecodedPersons = async () => {
