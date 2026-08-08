@@ -98,7 +98,6 @@ export const verifyModalVisible = async (page: Page, modalTestId?: string) => {
   }
 };
 
-/** Locator as well as Page, so callers can scope to a dialog. */
 type SearchScope = Pick<Page, 'getByPlaceholder'>;
 
 /**
@@ -210,10 +209,7 @@ export const openNewPageFromAction = async (
   return newPage;
 };
 
-/**
- * The teardown entrypoints stay in each app because Playwright discovers
- * projects inside their own testDir; only the body is shared.
- */
+/** Entrypoints stay per-app; Playwright discovers projects in their testDir. */
 export const removeAuthCacheDir = async (cacheDir: string) => {
   await fs.promises.rm(cacheDir, { recursive: true, force: true });
 };

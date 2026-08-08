@@ -30,8 +30,7 @@ function LabeledSlider({
         disabled={disabled}
         thumbAlignment="center"
         onValueChange={(next) => {
-          // Base UI hands back a number for single-thumb sliders and an array
-          // for ranges
+          // Base UI: number for single-thumb sliders, array for ranges
           onValueChange((typeof next === 'number' ? next : next[0]) ?? min);
         }}
       />
