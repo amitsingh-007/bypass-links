@@ -1,4 +1,4 @@
-import { TEST_SHORTCUTS } from '@bypass/shared/tests';
+import { TEST_SHORTCUTS, TEST_SITES } from '@bypass/shared/tests';
 import type { Page } from '@playwright/test';
 
 import { EExtStorageKey } from '@/constants';
@@ -68,6 +68,8 @@ test.describe.serial('Background Service Worker Navigation', () => {
     try {
       await expect.poll(() => page.url()).toContain('https://html5test.com');
 
+      // Reloading mid-navigation detaches the page target
+      await page.waitForLoadState('domcontentloaded');
       await page.reload({ waitUntil: 'domcontentloaded' });
 
       await expect.poll(() => page.url()).toContain('https://html5test.com');
@@ -89,14 +91,14 @@ test.describe.serial('Background Service Worker Navigation', () => {
     }
   });
 
-  test('navigating to WIKIPEDIA applies autocomplete=off to page inputs', async ({
+  test('navigating to TODOMVC applies autocomplete=off to page inputs', async ({
     sharedBackground,
   }) => {
     await sharedBackground.ensureActiveState();
 
-    const page = await sharedBackground.openTab(TEST_SHORTCUTS.WIKIPEDIA);
+    const page = await sharedBackground.openTab(TEST_SHORTCUTS.TODOMVC);
     try {
-      await expect.poll(() => page.url()).toContain('wikipedia.org');
+      await expect.poll(() => page.url()).toContain(TEST_SITES.TODOMVC);
 
       await expect.poll(async () => allInputsAutocompleteOff(page)).toBe(true);
     } finally {
@@ -104,14 +106,17 @@ test.describe.serial('Background Service Worker Navigation', () => {
     }
   });
 
-  test('reloading WIKIPEDIA still applies autocomplete suppression', async ({
+  test('reloading TODOMVC still applies autocomplete suppression', async ({
     sharedBackground,
   }) => {
     await sharedBackground.ensureActiveState();
 
-    const page = await sharedBackground.openTab(TEST_SHORTCUTS.WIKIPEDIA);
+    const page = await sharedBackground.openTab(TEST_SHORTCUTS.TODOMVC);
     try {
-      await expect.poll(() => page.url()).toContain('wikipedia.org');
+      await expect.poll(() => page.url()).toContain(TEST_SITES.TODOMVC);
+
+      // Reloading mid-navigation detaches the page target
+      await page.waitForLoadState('domcontentloaded');
       await page.reload({ waitUntil: 'domcontentloaded' });
 
       await expect.poll(async () => allInputsAutocompleteOff(page)).toBe(true);
@@ -147,9 +152,9 @@ test.describe.serial('Background Service Worker Navigation', () => {
     await sharedBackground.ensureActiveState();
     await sharedBackground.clearHistoryStartTime();
 
-    const page = await sharedBackground.openTab('https://example.com');
+    const page = await sharedBackground.openLoadedTab(TEST_SITES.EXAMPLE_COM);
     try {
-      await expect.poll(() => page.url()).toContain('https://example.com');
+      expect(page.url()).toContain(TEST_SITES.EXAMPLE_COM);
 
       const historyStartTime = await sharedBackground.readStorage<number>(
         EExtStorageKey.HISTORY_START_TIME
@@ -207,14 +212,14 @@ test.describe.serial('Background Service Worker Navigation', () => {
     await sharedBackground.ensureActiveState();
     await sharedBackground.clearHistoryStartTime();
 
-    const page = await sharedBackground.openTab('https://example.com');
+    const page = await sharedBackground.openLoadedTab(TEST_SITES.EXAMPLE_COM);
     try {
       const inputCount = await page.evaluate(() => {
         return document.querySelectorAll('input').length;
       });
       expect(inputCount).toBe(0);
 
-      await expect.poll(() => page.url()).toContain('https://example.com');
+      expect(page.url()).toContain(TEST_SITES.EXAMPLE_COM);
 
       const historyStartTime = await sharedBackground.readStorage<number>(
         EExtStorageKey.HISTORY_START_TIME

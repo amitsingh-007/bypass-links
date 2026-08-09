@@ -40,17 +40,21 @@ export const TEST_SHORTCUTS = {
   TWITCH: 'http://t/',
   YOUTUBE: 'http://y/',
   // Rules for background tests
-  WIKIPEDIA: 'http://hah/',
+  TODOMVC: 'http://hah/',
   BROWSERTEST: 'http://bt/',
 } as const;
 
 /**
- * Test websites for history tracking tests
+ * Real websites navigated to by E2E specs.
+ * TODOMVC is where TEST_SHORTCUTS.TODOMVC redirects. It renders its input via
+ * JS, so it covers the MutationObserver branch of the autocomplete suppression
+ * script.
  */
 export const TEST_SITES = {
   EXAMPLE_COM: 'https://example.com',
   EXAMPLE_ORG: 'https://example.org',
   EXAMPLE_NET: 'https://example.net',
+  TODOMVC: 'https://demo.playwright.dev/todomvc',
 } as const;
 
 /**

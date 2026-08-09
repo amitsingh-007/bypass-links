@@ -63,8 +63,10 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
   );
 
   const handleOpenSelectedBookmarks = () => {
-    contextBookmarks.forEach((bookmark, index) => {
-      if (selectedBookmarks[index] && !bookmark.isDir) {
+    const { contextBookmarks: bookmarks, selectedBookmarks: selected } =
+      useBookmarkStore.getState();
+    bookmarks.forEach((bookmark, index) => {
+      if (selected[index] && !bookmark.isDir) {
         tabs.open(bookmark.url);
       }
     });

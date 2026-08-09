@@ -1,5 +1,6 @@
-/* Centres the panel when popup.html is opened as a tab; a no-op in the content-sized popup. */
-#root {
+/* An auto-width root stretches to the popup's current width, so the popup never
+   shrank back after closing a panel. Centres the tab view too. */
+html {
   width: fit-content;
   margin-inline: auto;
 }
