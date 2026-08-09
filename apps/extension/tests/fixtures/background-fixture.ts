@@ -21,7 +21,10 @@ interface BaseBackgroundEnv {
   ensureInactiveState: () => Promise<void>;
   clearHistoryStartTime: () => Promise<void>;
   setHistoryStartTime: (value: number) => Promise<void>;
+  /** For URLs that may never load: shortcuts awaiting redirect, restricted, invalid. */
   openTab: (url: string) => Promise<Page>;
+  /** For real pages, where returning mid-navigation lets a later reload race the load. */
+  openLoadedTab: (url: string) => Promise<Page>;
 }
 
 const readStorageFromWorker = async <T = unknown>(
@@ -106,6 +109,15 @@ const createBackgroundEnv = async (
       await page
         .goto(url, { waitUntil: 'commit', timeout: TEST_TIMEOUTS.NAVIGATION })
         .catch(() => undefined);
+      return page;
+    },
+    async openLoadedTab(url: string) {
+      const page = await context.newPage();
+      // Failures surface here rather than as a puzzling assertion on about:blank
+      await page.goto(url, {
+        waitUntil: 'domcontentloaded',
+        timeout: TEST_TIMEOUTS.PAGE_OPEN,
+      });
       return page;
     },
   };
