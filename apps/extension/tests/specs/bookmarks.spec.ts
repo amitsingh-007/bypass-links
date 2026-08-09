@@ -187,36 +187,10 @@ test.describe('Bookmarks Panel', () => {
         await openOption.click();
       };
 
-      let contextMenuPage;
-      const pagesBefore = new Set(context.pages());
-      for (let attempt = 0; attempt < 2; attempt++) {
-        try {
-          contextMenuPage = await openNewPageFromAction(
-            context,
-            openFromContextMenu,
-            {
-              timeout: 10_000,
-            }
-          );
-          break;
-        } catch (error) {
-          if (attempt === 1) {
-            throw error;
-          }
-
-          const leakedPages = context
-            .pages()
-            .filter((page) => !pagesBefore.has(page));
-          await Promise.all(
-            leakedPages.map(async (page) => page.close().catch(() => undefined))
-          );
-        }
-      }
-
-      if (!contextMenuPage) {
-        throw new Error('Expected context menu action to open a new page');
-      }
-
+      const contextMenuPage = await openNewPageFromAction(
+        context,
+        openFromContextMenu
+      );
       await contextMenuPage.close();
     });
 
