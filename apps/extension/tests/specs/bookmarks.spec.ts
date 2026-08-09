@@ -447,11 +447,15 @@ test.describe('Bookmarks Panel', () => {
     const onPageError = (error: Error) => pageErrors.push(error.message);
     bookmarksPage.on('pageerror', onPageError);
 
-    await panel.navigateBack();
-    await expect(bookmarksPage.getByTestId('home-popup-heading')).toBeVisible();
-
-    bookmarksPage.off('pageerror', onPageError);
-    expect(pageErrors).toEqual([]);
+    try {
+      await panel.navigateBack();
+      await expect(
+        bookmarksPage.getByTestId('home-popup-heading')
+      ).toBeVisible();
+      expect(pageErrors).toEqual([]);
+    } finally {
+      bookmarksPage.off('pageerror', onPageError);
+    }
 
     await panel.ensureAtRoot();
   });
