@@ -33,24 +33,6 @@ const mockLatestVersion = async (page: Page, version: string) => {
 const getBadgeText = (backgroundSW: Worker) =>
   backgroundSW.evaluate(() => chrome.action.getBadgeText({}));
 
-/**
- * StrictMode double-invokes effects in the dev build, so a late request from
- * the previous open would otherwise be miscounted as the next open's.
- */
-const waitForSettledRequests = async (getRequestCount: () => number) => {
-  let previous = -1;
-  await expect
-    .poll(() => {
-      const current = getRequestCount();
-      const isSettled = current > 0 && current === previous;
-      previous = current;
-      return isSettled;
-    })
-    .toBe(true);
-
-  return previous;
-};
-
 const openPopup = async (page: Page, extensionId: string) => {
   await page.goto(getPopupUrl(extensionId), { waitUntil: 'domcontentloaded' });
   await page
@@ -95,15 +77,21 @@ test.describe('Outdated extension badge', () => {
 
   test('re-checks on every popup open', async ({
     page,
+    context,
     extensionId,
     login: _login,
   }) => {
-    const getRequestCount = await mockLatestVersion(page, '99.0.0');
-
+    const getFirstOpenRequests = await mockLatestVersion(page, '99.0.0');
     await openPopup(page, extensionId);
-    const afterFirstOpen = await waitForSettledRequests(getRequestCount);
+    await expect.poll(getFirstOpenRequests).toBeGreaterThan(0);
 
-    await openPopup(page, extensionId);
-    await expect.poll(getRequestCount).toBeGreaterThan(afterFirstOpen);
+    const secondPopup = await context.newPage();
+    const getSecondOpenRequests = await mockLatestVersion(
+      secondPopup,
+      '99.0.0'
+    );
+    await openPopup(secondPopup, extensionId);
+
+    await expect.poll(getSecondOpenRequests).toBeGreaterThan(0);
   });
 });
