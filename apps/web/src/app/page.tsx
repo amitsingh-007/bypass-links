@@ -1,3 +1,4 @@
+import { getLatestExtension } from '@bypass/trpc/edge';
 import { type Metadata } from 'next';
 import { Suspense } from 'react';
 
@@ -6,7 +7,6 @@ import Footer, { FooterSkeleton } from './components/Footer';
 import PageHeader from './components/PageHeader';
 import SalientFeatures from './components/SalientFeatures';
 import { clientEnv } from './constants/env/client';
-import { fetchExtensionData } from './page.utils';
 
 const title = 'Bypass Links';
 const description =
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const { chrome } = await fetchExtensionData();
+  const { chrome } = await getLatestExtension();
 
   return (
     <div className="flex min-h-screen flex-col">

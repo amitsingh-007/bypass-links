@@ -2,22 +2,14 @@ import { useEffect } from 'react';
 
 import { trpcApi } from '@/apis/trpcApi';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
-import useOutdatedExtensionStore from '@/store/outdatedExtension';
 
-const ONE_HOUR_MS = 1000 * 60 * 60;
+const OUTDATED_TITLE = 'You are using older version of Bypass Links';
 
-const isCheckDue = () => {
-  const { lastChecked } = useOutdatedExtensionStore.getState();
-  return Date.now() - (lastChecked ?? 0) > ONE_HOUR_MS;
-};
-
-const red = '#FF6B6B';
-
-const markOutdated = () => {
-  browser.action.setBadgeText({ text: '!' });
-  browser.action.setBadgeBackgroundColor({ color: red });
+const showOutdated = (isOutdated: boolean) => {
+  browser.action.setBadgeText({ text: isOutdated ? '!' : '' });
+  browser.action.setBadgeBackgroundColor({ color: '#FF6B6B' });
   browser.action.setTitle({
-    title: 'You are using older version of Bypass Links',
+    title: isOutdated ? OUTDATED_TITLE : browser.runtime.getManifest().name,
   });
 };
 
@@ -26,15 +18,20 @@ const useExtensionOutdated = () => {
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
 
   useEffect(() => {
-    if (!isSignedIn || !isCheckDue()) {
+    if (!isSignedIn) {
       return;
     }
-    trpcApi.extension.latest.query().then(({ chrome: chromeData }) => {
-      if (chromeData.version !== browser.runtime.getManifest().version) {
-        markOutdated();
-      }
-      useOutdatedExtensionStore.getState().setLastChecked(Date.now());
-    });
+    // Rechecked on every open since Chrome drops the badge on browser restart
+    trpcApi.extension.latest
+      .query()
+      .then(({ chrome: chromeData }) => {
+        showOutdated(
+          chromeData.version !== browser.runtime.getManifest().version
+        );
+      })
+      .catch((error: unknown) => {
+        console.error('Extension version check failed', error);
+      });
   }, [isSignedIn]);
 };
 

@@ -25,6 +25,7 @@
     "@trpc/server": "catalog:",
     "filenamify": "catalog:",
     "firebase-admin": "catalog:",
+    "next": "catalog:",
     "zod": "catalog:"
   }
 }

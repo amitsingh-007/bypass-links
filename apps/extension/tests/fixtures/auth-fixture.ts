@@ -13,9 +13,7 @@ export const test = base.extend<{
   async login({ context }, use) {
     const cachedData = await loadCachedStorageData();
 
-    await injectLocalStorage(context, cachedData.localStorage, {
-      clearKeys: ['OUTDATED_EXT_CHECK'],
-    });
+    await injectLocalStorage(context, cachedData.localStorage);
 
     await use();
   },
