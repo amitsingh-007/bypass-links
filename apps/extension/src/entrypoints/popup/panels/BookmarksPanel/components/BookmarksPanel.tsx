@@ -80,7 +80,9 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
   }, [isFetching, handleScroll]);
 
   useEffect(() => {
-    loadData(folderId);
+    if (folderId) {
+      loadData(folderId);
+    }
   }, [folderId, loadData]);
 
   useEffect(() => {
