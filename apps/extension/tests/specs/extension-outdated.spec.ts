@@ -33,6 +33,24 @@ const mockLatestVersion = async (page: Page, version: string) => {
 const getBadgeText = (backgroundSW: Worker) =>
   backgroundSW.evaluate(() => chrome.action.getBadgeText({}));
 
+/**
+ * StrictMode double-invokes effects in the dev build, so a late request from
+ * the previous open would otherwise be miscounted as the next open's.
+ */
+const waitForSettledRequests = async (getRequestCount: () => number) => {
+  let previous = -1;
+  await expect
+    .poll(() => {
+      const current = getRequestCount();
+      const isSettled = current > 0 && current === previous;
+      previous = current;
+      return isSettled;
+    })
+    .toBe(true);
+
+  return previous;
+};
+
 const openPopup = async (page: Page, extensionId: string) => {
   await page.goto(getPopupUrl(extensionId), { waitUntil: 'domcontentloaded' });
   await page
@@ -54,6 +72,18 @@ test.describe('Outdated extension badge', () => {
     await expect
       .poll(() => backgroundSW.evaluate(() => chrome.action.getTitle({})))
       .toContain('older version');
+  });
+
+  test('leaves the toolbar unmarked when the running version is ahead of the release', async ({
+    page,
+    extensionId,
+    backgroundSW,
+    login: _login,
+  }) => {
+    await mockLatestVersion(page, '0.1.0');
+    await openPopup(page, extensionId);
+
+    await expect.poll(() => getBadgeText(backgroundSW)).toBe('');
   });
 
   test('clears a stale badge once the running version is the latest', async ({
@@ -83,10 +113,8 @@ test.describe('Outdated extension badge', () => {
     const getRequestCount = await mockLatestVersion(page, '99.0.0');
 
     await openPopup(page, extensionId);
-    await expect.poll(getRequestCount).toBeGreaterThan(0);
+    const afterFirstOpen = await waitForSettledRequests(getRequestCount);
 
-    // Exact counts differ: StrictMode double-invokes effects in the dev build
-    const afterFirstOpen = getRequestCount();
     await openPopup(page, extensionId);
     await expect.poll(getRequestCount).toBeGreaterThan(afterFirstOpen);
   });

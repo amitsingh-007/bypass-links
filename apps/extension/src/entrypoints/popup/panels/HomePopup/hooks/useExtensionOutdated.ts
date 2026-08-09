@@ -6,12 +6,19 @@ import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 const OUTDATED_TITLE = 'You are using older version of Bypass Links';
 
 const showOutdated = (isOutdated: boolean) => {
-  browser.action.setBadgeText({ text: isOutdated ? '!' : '' });
+  if (!isOutdated) {
+    browser.action.setBadgeText({ text: '' });
+    browser.action.setTitle({ title: browser.runtime.getManifest().name });
+    return;
+  }
+  browser.action.setBadgeText({ text: '!' });
   browser.action.setBadgeBackgroundColor({ color: '#FF6B6B' });
-  browser.action.setTitle({
-    title: isOutdated ? OUTDATED_TITLE : browser.runtime.getManifest().name,
-  });
+  browser.action.setTitle({ title: OUTDATED_TITLE });
 };
+
+/** A local build ahead of the published release must not be flagged. */
+const isNewerVersion = (latest: string, current: string) =>
+  latest.localeCompare(current, undefined, { numeric: true }) > 0;
 
 const useExtensionOutdated = () => {
   // A [] dep would miss it: sign-in is set by the auth effect, after mount
@@ -26,7 +33,10 @@ const useExtensionOutdated = () => {
       .query()
       .then(({ chrome: chromeData }) => {
         showOutdated(
-          chromeData.version !== browser.runtime.getManifest().version
+          isNewerVersion(
+            chromeData.version,
+            browser.runtime.getManifest().version
+          )
         );
       })
       .catch((error: unknown) => {
