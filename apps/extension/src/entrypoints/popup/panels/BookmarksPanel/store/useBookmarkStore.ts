@@ -65,7 +65,7 @@ const useBookmarkStore = create<State>()((set, get) => ({
     set({ isSaveButtonActive: false, isFetching: true });
     const { folders, urlList, folderList } = await bookmarksItem.getValue();
 
-    const modifiedBookmarks = folders[folderId].map((meta) =>
+    const modifiedBookmarks = (folders[folderId] ?? []).map((meta) =>
       bookmarksMapper(meta, urlList, folderList)
     );
 

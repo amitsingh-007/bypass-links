@@ -436,4 +436,27 @@ test.describe('Bookmarks Panel', () => {
 
     await expect(bookmarksPage.getByText('Saved temporarily')).toBeVisible();
   });
+
+  test('should not throw when navigating back out of the panel', async ({
+    bookmarksPage,
+  }) => {
+    const panel = new BookmarksPanel(bookmarksPage);
+    await panel.ensureAtRoot();
+
+    const pageErrors: string[] = [];
+    const onPageError = (error: Error) => pageErrors.push(error.message);
+    bookmarksPage.on('pageerror', onPageError);
+
+    try {
+      await panel.navigateBack();
+      await expect(
+        bookmarksPage.getByTestId('home-popup-heading')
+      ).toBeVisible();
+      expect(pageErrors).toEqual([]);
+    } finally {
+      bookmarksPage.off('pageerror', onPageError);
+    }
+
+    await panel.ensureAtRoot();
+  });
 });
