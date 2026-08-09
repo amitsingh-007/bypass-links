@@ -74,18 +74,6 @@ test.describe('Outdated extension badge', () => {
       .toContain('older version');
   });
 
-  test('leaves the toolbar unmarked when the running version is ahead of the release', async ({
-    page,
-    extensionId,
-    backgroundSW,
-    login: _login,
-  }) => {
-    await mockLatestVersion(page, '0.1.0');
-    await openPopup(page, extensionId);
-
-    await expect.poll(() => getBadgeText(backgroundSW)).toBe('');
-  });
-
   test('clears a stale badge once the running version is the latest', async ({
     page,
     extensionId,

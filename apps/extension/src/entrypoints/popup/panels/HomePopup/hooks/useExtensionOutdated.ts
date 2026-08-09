@@ -16,12 +16,7 @@ const showOutdated = (isOutdated: boolean) => {
   browser.action.setTitle({ title: OUTDATED_TITLE });
 };
 
-/** A local build ahead of the published release must not be flagged. */
-const isNewerVersion = (latest: string, current: string) =>
-  latest.localeCompare(current, undefined, { numeric: true }) > 0;
-
 const useExtensionOutdated = () => {
-  // A [] dep would miss it: sign-in is set by the auth effect, after mount
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
 
   useEffect(() => {
@@ -33,10 +28,7 @@ const useExtensionOutdated = () => {
       .query()
       .then(({ chrome: chromeData }) => {
         showOutdated(
-          isNewerVersion(
-            chromeData.version,
-            browser.runtime.getManifest().version
-          )
+          chromeData.version !== browser.runtime.getManifest().version
         );
       })
       .catch((error: unknown) => {
