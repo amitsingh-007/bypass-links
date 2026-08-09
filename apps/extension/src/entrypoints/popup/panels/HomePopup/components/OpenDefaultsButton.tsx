@@ -15,11 +15,8 @@ function OpenDefaultsButton() {
   const handleOpenDefaults = async () => {
     setIsFetching(true);
     const redirections = await redirectionsItem.getValue();
-    const defaults = redirections.filter(
-      ({ isDefault }: { isDefault: boolean }) => isDefault
-    );
-    defaults
-      .filter((data) => data?.alias && data.website)
+    redirections
+      .filter(({ isDefault, alias, website }) => isDefault && alias && website)
       .forEach(({ website }) => {
         tabs.open(atob(website));
       });

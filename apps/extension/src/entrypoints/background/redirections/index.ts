@@ -2,21 +2,9 @@ import { swrKeys } from '@bypass/shared';
 import { mutate } from 'swr';
 
 import { trpcApi } from '@/apis/trpcApi';
-import { redirectionsItem, mappedRedirectionsItem } from '@/storage/items';
-import { startHistoryWatch } from '@/utils/history';
+import { mappedRedirectionsItem, redirectionsItem } from '@/storage/items';
 
 import { mapRedirections } from './mapper';
-
-export const redirect = async (tabId: number, url: URL) => {
-  url.protocol = 'http:';
-
-  const redirections = await mappedRedirectionsItem.getValue();
-  const redirectUrl = redirections[btoa(url.href)];
-  if (redirectUrl) {
-    await browser.tabs.update(tabId, { url: atob(redirectUrl) });
-    await startHistoryWatch();
-  }
-};
 
 export const syncRedirectionsToStorage = async () => {
   const redirections = await trpcApi.firebaseData.redirectionsGet.query();

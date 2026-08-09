@@ -58,7 +58,7 @@ export const BookmarksAndPersonsValidationSchema = z
         for (const [bmId, bmData] of Object.entries(allData)) {
           // Ignore root folder
           if (!bmData.parentHash) {
-            return true;
+            continue;
           }
           const parentFolder = bookmarks.folders[bmData.parentHash];
           // Check if the parent folder exists

@@ -1,3 +1,6 @@
+export const getFirebaseAuthHelperUrl = (isProd: boolean) =>
+  `https://${getFirebasePublicConfig(isProd).projectId}.firebaseapp.com`;
+
 export const getFirebasePublicConfig = (isProd: boolean) => {
   if (isProd) {
     return {

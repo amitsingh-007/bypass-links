@@ -8,12 +8,14 @@ import AddOrEditPersonDialog from './AddOrEditPersonDialog';
 
 interface Props {
   person: IPerson;
+  imageUrl?: string;
   handleEditPerson: (person: IPerson) => Promise<void>;
   handlePersonDelete: (person: IPerson) => void;
 }
 
 function PersonVirtualCell({
   person,
+  imageUrl,
   handleEditPerson,
   handlePersonDelete,
 }: Props) {
@@ -47,7 +49,7 @@ function PersonVirtualCell({
   return (
     <div className="h-full p-1.5">
       <ContextMenu options={menuOptions}>
-        <Person person={person} />
+        <Person person={person} imageUrl={imageUrl} />
       </ContextMenu>
       {showEditPersonDialog && (
         <AddOrEditPersonDialog

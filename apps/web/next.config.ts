@@ -1,6 +1,7 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { getFirebaseAuthHelperUrl } from '@bypass/configs/firebase.config';
 import { type NextConfig } from 'next';
 
 if (!process.env.VERCEL) {
@@ -37,7 +38,10 @@ const nextConfig: NextConfig = {
   // blocked by Safari ITP. Must be a rewrite (transparent), not a 302.
   // https://firebase.google.com/docs/auth/web/redirect-best-practices
   async rewrites() {
-    const authHelper = 'https://bypass-links.firebaseapp.com';
+    // Same discriminator the runtime config uses, so dev doesn't proxy to prod
+    const authHelper = getFirebaseAuthHelperUrl(
+      process.env.NODE_ENV === 'production'
+    );
     return [
       {
         source: '/__/auth/:path*',

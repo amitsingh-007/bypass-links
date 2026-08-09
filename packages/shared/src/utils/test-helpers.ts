@@ -1,3 +1,5 @@
+import fs from 'node:fs';
+
 import {
   expect,
   type BrowserContext,
@@ -96,15 +98,17 @@ export const verifyModalVisible = async (page: Page, modalTestId?: string) => {
   }
 };
 
+type SearchScope = Pick<Page, 'getByPlaceholder'>;
+
 /**
  * Fill a search input.
  */
 export const fillSearchInput = async (
-  page: Page,
+  scope: SearchScope,
   query: string,
   placeholder = 'Search'
 ) => {
-  const searchInput = page.getByPlaceholder(placeholder);
+  const searchInput = scope.getByPlaceholder(placeholder);
   await searchInput.fill(query);
   await expect(searchInput).toHaveValue(query);
 };
@@ -112,8 +116,11 @@ export const fillSearchInput = async (
 /**
  * Clear a search input.
  */
-export const clearSearchInput = async (page: Page, placeholder = 'Search') => {
-  const searchInput = page.getByPlaceholder(placeholder);
+export const clearSearchInput = async (
+  scope: SearchScope,
+  placeholder = 'Search'
+) => {
+  const searchInput = scope.getByPlaceholder(placeholder);
   await searchInput.clear();
   await expect(searchInput).toHaveValue('');
 };
@@ -200,4 +207,9 @@ export const openNewPageFromAction = async (
     .not.toBe('about:blank');
 
   return newPage;
+};
+
+/** Entrypoints stay per-app; Playwright discovers projects in their testDir. */
+export const removeAuthCacheDir = async (cacheDir: string) => {
+  await fs.promises.rm(cacheDir, { recursive: true, force: true });
 };

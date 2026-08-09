@@ -1,3 +1,5 @@
+import { type AuthorizationResult } from '../utils/authorization';
+
 export interface IUser {
   readonly uid: string;
   readonly email?: string;
@@ -8,5 +10,5 @@ export interface IUser {
 }
 
 export interface ITRPCContext {
-  user: IUser | null;
+  auth: AuthorizationResult;
 }

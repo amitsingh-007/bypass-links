@@ -1,23 +1,23 @@
-import { DynamicContext, getGoogleFaviconUrl } from '@bypass/shared';
+import { DynamicContext } from '@bypass/shared';
 import { type PropsWithChildren, useMemo } from 'react';
-import { useLocation, useSearch } from 'wouter';
+import { useLocation } from 'wouter';
 
+import { getFaviconUrl } from '@/constants/favicon';
 import useHistoryStore from '@store/history';
 
 import { getFromChromeStorage, setToChromeStorage } from './utils';
 
 function DynamicProvider({ children }: PropsWithChildren) {
   const [, navigate] = useLocation();
-  const search = useSearch();
   const startHistoryMonitor = useHistoryStore(
     (state) => state.startHistoryMonitor
   );
 
+  // No query string here: it would rebuild ctx on every navigation
   const ctx = useMemo(
     () => ({
       location: {
         push: (url: string) => navigate(url),
-        query: () => search,
         goBack: () => window.history.back(),
       },
       storage: {
@@ -31,9 +31,9 @@ function DynamicProvider({ children }: PropsWithChildren) {
           browser.tabs.create({ url, active: false });
         },
       },
-      favicon: { getUrl: getGoogleFaviconUrl },
+      favicon: { getUrl: getFaviconUrl },
     }),
-    [navigate, search, startHistoryMonitor]
+    [navigate, startHistoryMonitor]
   );
 
   return (

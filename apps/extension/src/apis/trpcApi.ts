@@ -7,7 +7,12 @@ import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 export const trpcApi = createTRPCClient<AppRouter>({
   links: [
     loggerLink({
-      enabled: () => true,
+      enabled(opts) {
+        if (import.meta.env.DEV) {
+          return true;
+        }
+        return opts.direction === 'down' && opts.result instanceof Error;
+      },
     }),
     httpBatchLink({
       url: `${env.NEXT_PUBLIC_HOST_NAME}/api/trpc`,

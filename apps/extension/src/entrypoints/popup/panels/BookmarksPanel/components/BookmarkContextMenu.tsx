@@ -18,7 +18,6 @@ import { countTruthy } from '../utils';
 import { findBookmarkById } from '../utils/bookmark';
 
 type Props = PropsWithChildren<{
-  children: React.ReactNode;
   handleOpenSelectedBookmarks: VoidFunction;
 }>;
 
@@ -73,10 +72,6 @@ function BookmarkContextMenu({ children, handleOpenSelectedBookmarks }: Props) {
     return bookmark;
   };
 
-  const handleDeleteOptionClick = (id: string) => {
-    handleUrlRemove(id);
-  };
-
   const handleBookmarkEdit = (id: string) => {
     const bookmark = getBookmark(id);
     setBookmarkOperation(EBookmarkOperation.EDIT, bookmark.url);
@@ -124,7 +119,7 @@ function BookmarkContextMenu({ children, handleOpenSelectedBookmarks }: Props) {
           icon: BookEditIcon,
         },
         {
-          onClick: handleDeleteOptionClick,
+          onClick: handleUrlRemove,
           text: 'Delete',
           id: 'delete',
           icon: BookmarkRemove01Icon,

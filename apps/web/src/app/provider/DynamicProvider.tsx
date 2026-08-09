@@ -1,19 +1,19 @@
-import { DynamicContext, getYandexFaviconUrl } from '@bypass/shared';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { DynamicContext } from '@bypass/shared';
+import { useRouter } from 'next/navigation';
 import { type PropsWithChildren, useMemo } from 'react';
 
+import { getFaviconUrl } from '../constants/favicon';
 import { openNewTab } from '../utils';
 import { getFromLocalStorage, setToLocalStorage } from '../utils/storage';
 
 function DynamicProvider({ children }: PropsWithChildren) {
   const router = useRouter();
-  const searchParams = useSearchParams();
 
+  // No query string here: it would rebuild ctx on every navigation
   const ctx = useMemo(
     () => ({
       location: {
         push: (url: string) => router.push(url),
-        query: () => searchParams?.toString() ?? '',
         goBack: () => router.back(),
       },
       storage: {
@@ -21,9 +21,9 @@ function DynamicProvider({ children }: PropsWithChildren) {
         set: async (key: string, value: any) => setToLocalStorage(key, value),
       },
       tabs: { open: openNewTab },
-      favicon: { getUrl: getYandexFaviconUrl },
+      favicon: { getUrl: getFaviconUrl },
     }),
-    [router, searchParams]
+    [router]
   );
 
   return (

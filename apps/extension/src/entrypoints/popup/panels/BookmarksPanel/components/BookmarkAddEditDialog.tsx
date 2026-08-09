@@ -136,12 +136,14 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
     async (currentOperation: EBookmarkOperation, currentBmUrl: string) => {
       if (currentOperation === EBookmarkOperation.ADD) {
         const { title = '' } = await getCurrentTab();
-        form.setFieldValue('id', crypto.randomUUID());
-        form.setFieldValue('pos', contextBookmarks.length);
-        form.setFieldValue('url', currentBmUrl);
-        form.setFieldValue('title', title);
-        form.setFieldValue('folderId', defaultFolderId ?? ROOT_FOLDER_ID);
-        form.setFieldValue('taggedPersons', []);
+        form.reset({
+          id: crypto.randomUUID(),
+          pos: contextBookmarks.length,
+          url: currentBmUrl,
+          title,
+          folderId: defaultFolderId ?? ROOT_FOLDER_ID,
+          taggedPersons: [],
+        });
         dialogHandlers.open();
         return;
       }
@@ -156,12 +158,14 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
             `Expected a bookmark at index ${pos}, found a folder`
           );
         }
-        form.setFieldValue('id', bookmark.id);
-        form.setFieldValue('pos', pos);
-        form.setFieldValue('url', bookmark.url);
-        form.setFieldValue('title', bookmark.title);
-        form.setFieldValue('folderId', curFolderId);
-        form.setFieldValue('taggedPersons', bookmark.taggedPersons);
+        form.reset({
+          id: bookmark.id,
+          pos,
+          url: bookmark.url,
+          title: bookmark.title,
+          folderId: curFolderId,
+          taggedPersons: bookmark.taggedPersons,
+        });
         dialogHandlers.open();
       }
     },

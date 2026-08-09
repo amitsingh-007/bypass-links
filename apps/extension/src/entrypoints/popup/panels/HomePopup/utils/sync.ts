@@ -22,7 +22,7 @@ import {
 } from '../../BookmarksPanel/utils/bookmark';
 import {
   cachePersonImagesInStorage,
-  refreshPersonImageUrlsCache,
+  clearPersonImageUrls,
   resetPersons,
   syncPersonsToStorage,
 } from '../../PersonsPanel/utils/sync';
@@ -30,7 +30,7 @@ import {
   SIGN_IN_TOTAL_STEPS,
   SIGN_OUT_TOTAL_STEPS,
 } from '../constants/progress';
-import { resetLastVisited, syncLastVisitedToStorage } from './lastVisited';
+import { resetLastVisited, syncLastVisitedToStorage } from './lastVisitedSync';
 
 const resetAuthentication = async () => {
   await browser.identity.clearAllCachedAuthTokens();
@@ -59,7 +59,7 @@ const resetStorage = async () => {
     resetBookmarks(),
     resetLastVisited(),
     resetPersons(),
-    refreshPersonImageUrlsCache(),
+    clearPersonImageUrls(),
   ]);
   await invalidateAllKeys();
 };

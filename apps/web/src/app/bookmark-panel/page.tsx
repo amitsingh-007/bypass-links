@@ -8,22 +8,14 @@ import {
   getFilteredContextBookmarks,
   getFolderName,
   Header,
-  type IBookmarksObj,
-  STORAGE_KEYS,
-  swrKeys,
+  useBookmarks,
 } from '@bypass/shared';
 import { ScrollArea } from '@bypass/ui';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useSearchParams } from 'next/navigation';
 import { useRef, useState } from 'react';
-import useSWR from 'swr';
-
-import { getFromLocalStorage } from '@app/utils/storage';
 
 import VirtualRow from './components/VirtualRow';
-
-const fetchBookmarks = () =>
-  getFromLocalStorage<IBookmarksObj>(STORAGE_KEYS.bookmarks);
 
 export default function BookmarksPage() {
   const searchParams = useSearchParams();
@@ -31,7 +23,7 @@ export default function BookmarksPage() {
   const folderId = searchParams?.get('folderId') ?? ROOT_FOLDER_ID;
   const [searchText, setSearchText] = useState('');
 
-  const { data: bookmarksData } = useSWR(swrKeys.bookmarks, fetchBookmarks);
+  const { data: bookmarksData } = useBookmarks();
 
   const folders = bookmarksData?.folders ?? {};
   // `?? []`: this runs in the render body, so a stale folderId would crash the tree

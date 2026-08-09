@@ -1,14 +1,12 @@
+import { PERSON_IMAGE_SIZE } from '@bypass/shared';
 import { fileTypeFromBuffer } from 'file-type';
 import sharp from 'sharp';
 
 const getCompressedImage = async (buffer: Buffer, fileSize: number) => {
-  return (
-    sharp(buffer)
-      // When changing this width, change on client app as well
-      .resize({ width: 250, withoutEnlargement: true })
-      .jpeg({ quality: fileSize < 50 * 1024 ? 100 : 90 })
-      .toBuffer()
-  );
+  return sharp(buffer)
+    .resize({ width: PERSON_IMAGE_SIZE, withoutEnlargement: true })
+    .jpeg({ quality: fileSize < 50 * 1024 ? 100 : 90 })
+    .toBuffer();
 };
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB

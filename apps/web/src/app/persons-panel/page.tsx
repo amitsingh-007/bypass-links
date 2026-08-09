@@ -1,30 +1,19 @@
 'use client';
 
-import {
-  getFilteredPersons,
-  Header,
-  Persons,
-  sortByRecency,
-  useDefaultFolderUrls,
-  usePersons,
-} from '@bypass/shared';
+import { Header, Persons, useOrderedPersons } from '@bypass/shared';
 import { Switch } from '@bypass/ui';
+import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 
 import PersonVirtualCell from './components/PersonVirtualCell';
 
 function PersonsPage() {
+  const queryString = useSearchParams()?.toString() ?? '';
   const [searchText, setSearchText] = useState('');
   const [orderByRecency, setOrderByRecency] = useState(true);
 
-  const { data: persons = [] } = usePersons();
-  const { data: urls = [] } = useDefaultFolderUrls();
-
-  const orderedPersons = orderByRecency
-    ? sortByRecency(persons, urls)
-    : persons;
-  const filteredAndOrderedPersons = getFilteredPersons(
-    orderedPersons,
+  const { data: filteredAndOrderedPersons } = useOrderedPersons(
+    orderByRecency,
     searchText
   );
 
@@ -46,9 +35,12 @@ function PersonsPage() {
       <div className="min-h-0 flex-1">
         {filteredAndOrderedPersons.length > 0 ? (
           <Persons
+            queryString={queryString}
             persons={filteredAndOrderedPersons}
             bookmarkListProps={{ fullscreen: false }}
-            renderPerson={(person) => <PersonVirtualCell person={person} />}
+            renderPerson={(person, imageUrl) => (
+              <PersonVirtualCell person={person} imageUrl={imageUrl} />
+            )}
           />
         ) : null}
       </div>

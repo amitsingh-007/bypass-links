@@ -20,14 +20,13 @@ import {
 import { HugeiconsIcon } from '@hugeicons/react';
 import { use, useState } from 'react';
 
-import useLastVisited from '@popup/hooks/useLastVisited';
-
 import { DEFAULT_RULE_ALIAS } from '../constants';
 import { ReorderButton } from './ReorderButton';
 
 type Props = IRedirection & {
   pos: number;
   total: number;
+  lastVisited?: string;
   handleRemoveRule: (pos: number) => void;
   handleSaveRule: (redirection: IRedirection, pos: number) => void;
   handleRuleMove: (pos: number, offset: number) => void;
@@ -39,6 +38,7 @@ function RedirectionRule({
   isDefault,
   pos,
   total,
+  lastVisited,
   handleRemoveRule,
   handleSaveRule,
   handleRuleMove,
@@ -47,7 +47,6 @@ function RedirectionRule({
   const [ruleAlias, setRuleAlias] = useState(alias);
   const [ruleWebsite, setRuleWebsite] = useState(website);
   const [isDefaultRule, setIsDefaultRule] = useState(isDefault);
-  const { data: lastVisited } = useLastVisited(website);
 
   const handleRemoveClick = () => {
     handleRemoveRule(pos);

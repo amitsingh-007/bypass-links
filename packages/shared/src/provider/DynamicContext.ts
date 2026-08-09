@@ -5,7 +5,6 @@ import { asyncNoOp, noOp } from '../utils';
 interface IDynamicContext {
   location: {
     push: (url: string) => void;
-    query: () => string;
     goBack: VoidFunction;
   };
   storage: {
@@ -23,7 +22,6 @@ interface IDynamicContext {
 const DynamicContext = createContext<IDynamicContext>({
   location: {
     push: noOp,
-    query: () => '',
     goBack: noOp,
   },
   storage: {

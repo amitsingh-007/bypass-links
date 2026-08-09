@@ -1,4 +1,3 @@
-import { swrKeys } from '@bypass/shared';
 import {
   Button,
   Spinner,
@@ -16,6 +15,7 @@ import useSWRMutation from 'swr/mutation';
 
 import { trpcApi } from '@/apis/trpcApi';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
+import { extSwrKeys } from '@/swr/keys';
 import useCurrentTab from '@popup/hooks/useCurrentTab';
 import useLastVisited from '@popup/hooks/useLastVisited';
 import {
@@ -33,7 +33,7 @@ function LastVisitedButton() {
   );
 
   const { trigger: updateLastVisited, isMutating } = useSWRMutation(
-    swrKeys.lastVisited(url),
+    extSwrKeys.lastVisited(url),
     async ([, pageUrl]) => {
       const hash = await getHostnameHash(pageUrl);
       const result = await trpcApi.firebaseData.upsertLastVisited.mutate({

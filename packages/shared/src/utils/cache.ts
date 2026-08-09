@@ -5,8 +5,21 @@ import { type ECacheBucketKeys } from '../constants/cache';
 
 const limit = pLimit(20);
 
-export const getCacheObj = async (cacheBucketKey: string) =>
-  caches.open(cacheBucketKey);
+/** Memoized on the promise; rejections evict so failures aren't cached. */
+const cacheObjPromises = new Map<string, Promise<Cache>>();
+
+export const getCacheObj = async (cacheBucketKey: string) => {
+  const pending = cacheObjPromises.get(cacheBucketKey);
+  if (pending) {
+    return pending;
+  }
+  const promise = caches.open(cacheBucketKey).catch((error: unknown) => {
+    cacheObjPromises.delete(cacheBucketKey);
+    throw error;
+  });
+  cacheObjPromises.set(cacheBucketKey, promise);
+  return promise;
+};
 
 export const addToCache = async (
   cacheBucketKey: ECacheBucketKeys,
@@ -82,13 +95,23 @@ export const getBlobUrlFromOpenCache = async (cache: Cache, url?: string) => {
 export const getBlobUrlFromCache = async (
   cacheBucketKey: ECacheBucketKeys,
   url: string
-) => getBlobUrlFromOpenCache(await getCacheObj(cacheBucketKey), url);
+) => {
+  if (!url) {
+    return '';
+  }
+  const existing = blobUrlCache.get(url);
+  if (existing) {
+    return existing;
+  }
+  return getBlobUrlFromOpenCache(await getCacheObj(cacheBucketKey), url);
+};
 
 export const deleteCache = async (bucketKey: string) => {
   const cache = await getCacheObj(bucketKey);
   const keys = await cache.keys();
   keys.forEach((request) => revokeBlobUrl(request.url));
   await caches.delete(bucketKey);
+  cacheObjPromises.delete(bucketKey);
 };
 
 export const deleteAllCache = async (cacheBucketKeys: ECacheBucketKeys[]) => {

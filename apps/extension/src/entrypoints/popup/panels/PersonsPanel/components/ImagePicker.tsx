@@ -1,4 +1,4 @@
-import { Header, getPersonImageName } from '@bypass/shared';
+import { Header, getPersonImageName, PERSON_IMAGE_SIZE } from '@bypass/shared';
 import {
   Button,
   Dialog,
@@ -6,7 +6,6 @@ import {
   DialogHeader,
   DialogTitle,
   Input,
-  Slider,
   Spinner,
 } from '@bypass/ui';
 import { useDebouncedValue } from '@mantine/hooks';
@@ -19,7 +18,10 @@ import {
 import AvatarEditor, { type AvatarEditorRef } from 'react-avatar-editor';
 import wretch from 'wretch';
 
+import LoadingOverlay from '@popup/components/LoadingOverlay';
+
 import { uploadFileToFirebase } from '../utils/uploadImage';
+import LabeledSlider from './LabeledSlider';
 
 interface Props {
   uid: string;
@@ -98,14 +100,7 @@ function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
         showCloseButton={false}
       >
         <div className="size-full bg-background">
-          {isUploadingImage && (
-            <div
-              className="absolute inset-0 z-50 flex items-center justify-center bg-black/50"
-              data-testid="uploading-overlay"
-            >
-              <Spinner className="size-8" />
-            </div>
-          )}
+          {isUploadingImage && <LoadingOverlay testId="uploading-overlay" />}
           <DialogHeader className="px-0">
             <DialogTitle className="sr-only">Upload Image</DialogTitle>
           </DialogHeader>
@@ -121,9 +116,8 @@ function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
                 ref={imageCropperRef}
                 image={debouncedInputUrl}
                 crossOrigin="anonymous"
-                // When changing this, change in upload API as well
-                width={250}
-                height={250}
+                width={PERSON_IMAGE_SIZE}
+                height={PERSON_IMAGE_SIZE}
                 border={[270, 70]}
                 borderRadius={4}
                 scale={zoom}
@@ -152,35 +146,23 @@ function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
               </Button>
             </div>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-6">
-              <div className="w-[40%]">
-                <span className="mb-2 block text-sm">Zoom</span>
-                <Slider
-                  value={[zoom]}
-                  min={1}
-                  max={3}
-                  step={0.001}
-                  disabled={disableControls}
-                  thumbAlignment="center"
-                  onValueChange={(value) => {
-                    const val = typeof value === 'number' ? value : value[0];
-                    setZoom(val ?? 1);
-                  }}
-                />
-              </div>
-              <div className="w-[40%]">
-                <span className="mb-2 block text-sm">Rotate</span>
-                <Slider
-                  value={[rotation]}
-                  min={0}
-                  max={360}
-                  disabled={disableControls}
-                  thumbAlignment="center"
-                  onValueChange={(value) => {
-                    const val = typeof value === 'number' ? value : value[0];
-                    setRotation(val ?? 0);
-                  }}
-                />
-              </div>
+              <LabeledSlider
+                label="Zoom"
+                value={zoom}
+                min={1}
+                max={3}
+                step={0.001}
+                disabled={disableControls}
+                onValueChange={setZoom}
+              />
+              <LabeledSlider
+                label="Rotate"
+                value={rotation}
+                min={0}
+                max={360}
+                disabled={disableControls}
+                onValueChange={setRotation}
+              />
             </div>
           </div>
         </div>

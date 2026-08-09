@@ -1,13 +1,32 @@
 const turnOffAutocomplete = () => {
+  const MARKER = 'bypassLinksAutocompleteOff';
+  // Re-injected per navigation, incl. same-document SPA ones
+  if (MARKER in document.documentElement.dataset) {
+    return;
+  }
+  document.documentElement.dataset[MARKER] = '';
+
   // oxlint-disable-next-line unicorn/consistent-function-scoping
-  const apply = () =>
-    document
-      .querySelectorAll('input')
-      .forEach((ele) => ele.setAttribute('autocomplete', 'off'));
+  const disable = (input: HTMLInputElement) => {
+    input.setAttribute('autocomplete', 'off');
+  };
 
-  apply();
+  document.querySelectorAll('input').forEach(disable);
 
-  const observer = new MutationObserver(apply);
+  const observer = new MutationObserver((mutations) => {
+    // Added nodes only; a full re-query per mutation is unbounded work
+    for (const { addedNodes } of mutations) {
+      for (const node of addedNodes) {
+        if (!(node instanceof HTMLElement)) {
+          continue;
+        }
+        if (node instanceof HTMLInputElement) {
+          disable(node);
+        }
+        node.querySelectorAll('input').forEach(disable);
+      }
+    }
+  });
   observer.observe(document.documentElement, {
     subtree: true,
     childList: true,

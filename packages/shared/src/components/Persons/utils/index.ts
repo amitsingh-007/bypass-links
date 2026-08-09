@@ -8,19 +8,16 @@ import {
   type PersonImageUrls,
 } from '../interfaces/persons';
 
-export const getDecryptedPerson = (person: IPerson): IPerson => {
-  return {
-    ...person,
-    name: atob(person.name),
-  };
-};
+/** Field by field, so view-model extras cannot reach storage or Firebase. */
+export const getDecryptedPerson = ({ uid, name }: IPerson): IPerson => ({
+  uid,
+  name: atob(name),
+});
 
-export const getEncryptedPerson = (person: IPerson): IPerson => {
-  return {
-    ...person,
-    name: btoa(person.name),
-  };
-};
+export const getEncryptedPerson = ({ uid, name }: IPerson): IPerson => ({
+  uid,
+  name: btoa(name),
+});
 
 export const decodePersons = (persons: IPersons): IPerson[] =>
   Object.values(persons)

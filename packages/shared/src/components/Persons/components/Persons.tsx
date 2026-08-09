@@ -1,13 +1,12 @@
 import { ScrollArea } from '@bypass/ui';
 import { useElementSize } from '@mantine/hooks';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { type ReactNode, use, useCallback, useState } from 'react';
+import { type ReactNode, useState } from 'react';
 
 import useIsMobile from '../../../hooks/useIsMobile';
-import DynamicContext from '../../../provider/DynamicContext';
 import { deserializeQueryStringToObject } from '../../../utils/url';
 import { ScrollButton } from '../../ScrollButton';
-import usePersonImage from '../hooks/usePersonImage';
+import usePersonImageMap from '../hooks/usePersonImageMap';
 import { type IBookmarkWithFolder } from '../interfaces/bookmark';
 import { type IPerson } from '../interfaces/persons';
 import { getColumnCount, getReactKey } from '../utils';
@@ -15,12 +14,13 @@ import BookmarksList from './BookmarksList';
 
 interface Props {
   persons: IPerson[];
+  queryString: string;
   scrollButton?: boolean;
   bookmarkListProps: {
     fullscreen: boolean;
     onBookmarkEdit?: (bookmark: IBookmarkWithFolder) => void;
   };
-  renderPerson: (person: IPerson) => ReactNode;
+  renderPerson: (person: IPerson, imageUrl: string) => ReactNode;
 }
 
 type InnerProps = Props & {
@@ -28,6 +28,7 @@ type InnerProps = Props & {
   scrollElement: HTMLDivElement | null;
   personToOpen: IPerson | undefined;
   personToOpenImage: string;
+  imageUrls: Record<string, string>;
 };
 
 function PersonsInner({
@@ -38,6 +39,7 @@ function PersonsInner({
   scrollElement,
   personToOpen,
   personToOpenImage,
+  imageUrls,
   renderPerson,
 }: InnerProps) {
   const isMobile = useIsMobile();
@@ -86,7 +88,7 @@ function PersonsInner({
 
               return (
                 <div key={person.uid} style={{ width: columnDimension }}>
-                  {renderPerson(person)}
+                  {renderPerson(person, imageUrls[person.uid] ?? '')}
                 </div>
               );
             })}
@@ -109,22 +111,18 @@ function Persons(props: Props) {
   const [scrollElement, setScrollElement] = useState<HTMLDivElement | null>(
     null
   );
-  const handleViewportRef = useCallback((node: HTMLDivElement | null) => {
-    setScrollElement(node);
-  }, []);
-  const { location } = use(DynamicContext);
-  const queryString = location.query();
-
-  const { openBookmarksList } = deserializeQueryStringToObject(queryString);
+  const { openBookmarksList } = deserializeQueryStringToObject(
+    props.queryString
+  );
   const personToOpen = persons.find(
     (person) => person.uid === openBookmarksList
   );
-  const { data: personToOpenImage = '' } = usePersonImage(personToOpen?.uid);
+  const imageUrls = usePersonImageMap(persons.map(({ uid }) => uid));
 
   return (
     <ScrollArea
       ref={containerRef}
-      viewportRef={handleViewportRef}
+      viewportRef={setScrollElement}
       className="size-full"
     >
       {bodyWidth > 0 && (
@@ -133,7 +131,10 @@ function Persons(props: Props) {
           bodyWidth={bodyWidth}
           scrollElement={scrollElement}
           personToOpen={personToOpen}
-          personToOpenImage={personToOpenImage}
+          personToOpenImage={
+            personToOpen ? (imageUrls[personToOpen.uid] ?? '') : ''
+          }
+          imageUrls={imageUrls}
         />
       )}
     </ScrollArea>

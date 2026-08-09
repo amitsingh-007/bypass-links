@@ -2,25 +2,23 @@ import {
   EBookmarkOperation,
   getBookmarksPanelUrl,
   getEncryptedPerson,
-  getFilteredPersons,
-  sortByRecency,
   getPersonImageName,
   HEADER_HEIGHT,
   type IPerson,
   type IPersons,
   Persons,
   sortAlphabetically,
-  useDefaultFolderUrls,
+  useOrderedPersons,
   usePerson,
   usePersons,
 } from '@bypass/shared';
-import { Spinner } from '@bypass/ui';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { useLocation } from 'wouter';
+import { useLocation, useSearch } from 'wouter';
 
 import { trpcApi } from '@/apis/trpcApi';
 import { MAX_PANEL_SIZE } from '@/constants';
+import LoadingOverlay from '@popup/components/LoadingOverlay';
 import Panel from '@popup/components/Panel';
 
 import { getPersonPos, setPersonsInStorage } from '../utils';
@@ -31,33 +29,29 @@ import {
 import PersonHeader from './PersonHeader';
 import PersonVirtualCell from './PersonVirtualCell';
 
-const handleSave = async (persons: IPerson[], uid: string) => {
+const handleSave = async (persons: IPerson[]) => {
   const encryptedPersons = persons.reduce<IPersons>((obj, person) => {
     obj[person.uid] = getEncryptedPerson(person);
     return obj;
   }, {});
-  await setPersonsInStorage(encryptedPersons, uid);
+  await setPersonsInStorage(encryptedPersons);
 };
 
 function PersonsPanel() {
   const [, navigate] = useLocation();
+  const queryString = useSearch();
   const { getPersonTaggedUrls } = usePerson();
   const [isSaving, setIsSaving] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [orderByRecency, setOrderByRecency] = useState(true);
 
-  const { data: persons = [], isLoading } = usePersons();
-  const { data: urls = [] } = useDefaultFolderUrls();
-
-  const isFetching = isLoading || isSaving;
-
-  const orderedPersons = orderByRecency
-    ? sortByRecency(persons, urls)
-    : persons;
-  const filteredAndOrderedPersons = getFilteredPersons(
-    orderedPersons,
+  const { data: persons = [] } = usePersons();
+  const { data: filteredAndOrderedPersons, isLoading } = useOrderedPersons(
+    orderByRecency,
     searchText
   );
+
+  const isFetching = isLoading || isSaving;
 
   const runSave = async (errorMessage: string, save: () => Promise<void>) => {
     setIsSaving(true);
@@ -79,7 +73,7 @@ function PersonsPanel() {
 
     await runSave(`Could not save ${person.name}`, async () => {
       await updatePersonCacheAndImageUrls(person);
-      await handleSave(sortAlphabetically(newPersons), person.uid);
+      await handleSave(sortAlphabetically(newPersons));
       toast.success(
         `${person.name} ${isNewPerson ? 'added' : 'updated'} successfully`
       );
@@ -101,7 +95,7 @@ function PersonsPanel() {
     await runSave(`Could not delete ${person.name}`, async () => {
       await trpcApi.storage.removeFile.mutate(getPersonImageName(person.uid));
       await removePersonImageUrl(person.uid);
-      await handleSave(persons.toSpliced(pos, 1), person.uid);
+      await handleSave(persons.toSpliced(pos, 1));
       toast.success('Person deleted successfully');
     });
   };
@@ -122,17 +116,11 @@ function PersonsPanel() {
         className="relative"
         style={{ height: MAX_PANEL_SIZE.HEIGHT - HEADER_HEIGHT }}
       >
-        {isFetching && (
-          <div
-            data-testid="loading-overlay"
-            className="absolute inset-0 z-50 flex items-center justify-center bg-black/50"
-          >
-            <Spinner className="size-8" />
-          </div>
-        )}
+        {isFetching && <LoadingOverlay />}
         {filteredAndOrderedPersons.length > 0 ? (
           <Persons
             scrollButton
+            queryString={queryString}
             persons={filteredAndOrderedPersons}
             bookmarkListProps={{
               fullscreen: true,
@@ -146,9 +134,10 @@ function PersonsPanel() {
                 );
               },
             }}
-            renderPerson={(person) => (
+            renderPerson={(person, imageUrl) => (
               <PersonVirtualCell
                 person={person}
+                imageUrl={imageUrl}
                 handleEditPerson={handleAddOrEditPerson}
                 handlePersonDelete={handlePersonDelete}
               />

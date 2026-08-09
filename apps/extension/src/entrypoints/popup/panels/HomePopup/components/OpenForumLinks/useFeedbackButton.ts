@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
+import { noOp } from '@bypass/shared';
+import { useEffect, useState } from 'react';
 
 export enum EButtonState {
   INITIAL,
@@ -10,25 +11,19 @@ const SUCCESS_TIMEOUT_MS = 3000;
 
 const useFeedbackButton = (handler: () => Promise<void>) => {
   const [buttonState, setButtonState] = useState(EButtonState.INITIAL);
-  const timeoutRef = useRef<NodeJS.Timeout>(undefined);
 
   useEffect(() => {
-    if (buttonState === EButtonState.SUCCESS) {
-      timeoutRef.current = setTimeout(
-        () => setButtonState(EButtonState.INITIAL),
-        SUCCESS_TIMEOUT_MS
-      );
+    if (buttonState !== EButtonState.SUCCESS) {
+      return noOp;
     }
+    const timeout = setTimeout(
+      () => setButtonState(EButtonState.INITIAL),
+      SUCCESS_TIMEOUT_MS
+    );
+    return () => clearTimeout(timeout);
   }, [buttonState]);
 
-  useEffect(() => {
-    return () => {
-      clearTimeout(timeoutRef.current);
-    };
-  }, []);
-
   const onClick = async () => {
-    clearTimeout(timeoutRef.current);
     setButtonState(EButtonState.LOADING);
 
     await handler();

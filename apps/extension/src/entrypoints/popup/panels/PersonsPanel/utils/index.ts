@@ -7,12 +7,12 @@ import {
 
 import { personsItem, hasPendingPersonsItem } from '@/storage/items';
 
-export const setPersonsInStorage = async (persons: IPersons, uid?: string) => {
+export const setPersonsInStorage = async (persons: IPersons) => {
   await Promise.all([
     personsItem.setValue(persons),
     hasPendingPersonsItem.setValue(true),
   ]);
-  await invalidatePersonKeys(uid);
+  await invalidatePersonKeys();
 };
 
 export const getAllDecodedPersons = async () => {
