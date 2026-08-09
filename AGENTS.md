@@ -89,7 +89,7 @@ Playwright tests use setup/teardown projects for both web and extension flows:
 - Use workspace protocol (`workspace:*`) for internal dependencies
 - Shared types and utilities go in `packages/shared`
 - tRPC procedures are defined in `packages/trpc`
-- Add comments only when needed, and keep them short. Explain the reasoning (the "why"), not what the code does. Only elaborate for edge cases or logic that is tricky or hard to follow.
+- **CRITICAL — Minimize comments. This is non-negotiable.** Do NOT add comments by default. Add a comment ONLY when it is absolutely necessary AND conveys meaningful information that the code itself cannot express. When a comment is truly justified, keep it concise and short — explain the reasoning (the "why"), never what the code does. Elaborate ONLY for edge cases or genuinely tricky, hard-to-follow logic. If in doubt, leave the comment out.
 
 ## shadcn/ui Components
 
@@ -127,5 +127,10 @@ Always after making changes, run the following commands:
 pnpm lint
 pnpm format:check
 pnpm typecheck:all
+```
+
+Optionally, run E2E tests only when the user explicitly asks, or when the changes affect behavior covered by E2E tests:
+
+```bash
 pnpm e2e <relative-filepath>
 ```
