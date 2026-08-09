@@ -39,7 +39,10 @@ export default defineConfig({
         }),
         tailwindcss(),
       ],
-      build: { target: 'esnext' },
+      build: {
+        target: 'esnext',
+        modulePreload: false,
+      },
       resolve: {
         tsconfigPaths: true,
       },
