@@ -5,6 +5,7 @@ import {
 } from '@/utils/sendRuntimeMessage';
 
 import { getForumPageLinks } from '../misc/forumPageLinks';
+import { openLinksInTabs } from '../misc/openLinksInTabs';
 
 export const receiveRuntimeMessage = (
   message: RuntimeInput,
@@ -15,6 +16,12 @@ export const receiveRuntimeMessage = (
       getForumPageLinks(message.tabId, message.url).then((forumPageLinks) => {
         sendMessage({ forumPageLinks });
       });
+      break;
+    }
+
+    case 'openLinksInTabs': {
+      sendMessage(undefined);
+      void openLinksInTabs(message.urls);
       break;
     }
   }

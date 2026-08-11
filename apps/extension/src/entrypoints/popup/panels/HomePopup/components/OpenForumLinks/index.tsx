@@ -1,5 +1,4 @@
-import { DynamicContext, sleep } from '@bypass/shared';
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { sendRuntimeMessage } from '@/utils/sendRuntimeMessage';
@@ -14,7 +13,6 @@ const isCurrentPageForum = async (url = '') => {
 };
 
 function OpenForumLinks() {
-  const { tabs } = use(DynamicContext);
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const currentTab = useCurrentTab();
   const [isOnForumPage, setIsOnForumPage] = useState(false);
@@ -37,13 +35,8 @@ function OpenForumLinks() {
       url: currentTab.url,
     });
 
-    // Paced deliberately: forums rate-limit rapid opens
-    /* oxlint-disable no-await-in-loop */
-    for (const url of forumPageLinks) {
-      tabs.open(url);
-      await sleep(1000); // 1sec
-    }
-    /* oxlint-enable no-await-in-loop */
+    // Opened by the background so the links keep coming after the popup closes
+    await sendRuntimeMessage({ key: 'openLinksInTabs', urls: forumPageLinks });
   };
 
   return (

@@ -1,17 +1,19 @@
-export interface RuntimeInput {
-  key: 'openWebsiteLinks';
-  tabId: number;
-  url: string;
+interface RuntimeInputMap {
+  openWebsiteLinks: { tabId: number; url: string };
+  openLinksInTabs: { urls: string[] };
 }
 
 export interface RuntimeOutput {
-  openWebsiteLinks: {
-    forumPageLinks: string[];
-  };
+  openWebsiteLinks: { forumPageLinks: string[] };
+  openLinksInTabs: undefined;
 }
 
-export type RuntimeKeys = RuntimeInput['key'];
+export type RuntimeKeys = keyof RuntimeInputMap;
 
-export const sendRuntimeMessage = async (input: RuntimeInput) => {
-  return browser.runtime.sendMessage<any, RuntimeOutput[RuntimeKeys]>(input);
+export type RuntimeInput = {
+  [K in RuntimeKeys]: { key: K } & RuntimeInputMap[K];
+}[RuntimeKeys];
+
+export const sendRuntimeMessage = async <T extends RuntimeInput>(input: T) => {
+  return browser.runtime.sendMessage<any, RuntimeOutput[T['key']]>(input);
 };
