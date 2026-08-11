@@ -10,12 +10,16 @@ export interface RuntimeOutput {
 
 export type RuntimeKeys = keyof RuntimeInputMap;
 
+type RuntimeMessage<K extends RuntimeKeys> = { key: K } & RuntimeInputMap[K];
+
 export type RuntimeInput = {
-  [K in RuntimeKeys]: { key: K } & RuntimeInputMap[K];
+  [K in RuntimeKeys]: RuntimeMessage<K>;
 }[RuntimeKeys];
 
-export const sendRuntimeMessage = async <T extends RuntimeInput>(
-  input: T
-): Promise<RuntimeOutput[T['key']]> => {
-  return browser.runtime.sendMessage<any, RuntimeOutput[T['key']]>(input);
+export const sendRuntimeMessage = async <K extends RuntimeKeys>(
+  input: RuntimeMessage<K>
+): Promise<RuntimeOutput[K]> => {
+  return browser.runtime.sendMessage<RuntimeMessage<K>, RuntimeOutput[K]>(
+    input
+  );
 };

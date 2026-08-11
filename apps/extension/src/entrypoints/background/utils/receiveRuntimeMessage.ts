@@ -21,7 +21,7 @@ export const receiveRuntimeMessage = (
 
     case 'openLinksInTabs': {
       sendMessage(undefined);
-      void openLinksInTabs(message.urls);
+      openLinksInTabs(message.urls);
       break;
     }
   }
