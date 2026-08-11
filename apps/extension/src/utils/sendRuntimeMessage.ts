@@ -10,7 +10,9 @@ export interface RuntimeOutput {
 
 export type RuntimeKeys = keyof RuntimeInputMap;
 
-type RuntimeMessage<K extends RuntimeKeys> = { key: K } & RuntimeInputMap[K];
+type RuntimeMessage<K extends RuntimeKeys> = K extends RuntimeKeys
+  ? { key: K } & RuntimeInputMap[K]
+  : never;
 
 export type RuntimeInput = {
   [K in RuntimeKeys]: RuntimeMessage<K>;
