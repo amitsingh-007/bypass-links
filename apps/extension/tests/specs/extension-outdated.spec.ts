@@ -75,6 +75,8 @@ test.describe('Outdated extension badge', () => {
     await expect.poll(() => getBadgeText(backgroundSW)).toBe('');
   });
 
+  // A second page rather than a reopen: routes are per-page, so its request
+  // count cannot be inflated by a late request from the first open
   test('re-checks on every popup open', async ({
     page,
     context,
