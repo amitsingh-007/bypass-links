@@ -10,10 +10,9 @@ import {
 type TestIdScope = Pick<Page, 'getByTestId'>;
 
 export const dumpLocalStorage = async (
-  page: Page,
-  options?: { omitKeys?: string[] }
-): Promise<Record<string, string>> => {
-  const data = await page.evaluate(() => {
+  page: Page
+): Promise<Record<string, string>> =>
+  page.evaluate(() => {
     const entries: Record<string, string> = {};
     for (let i = 0; i < window.localStorage.length; i++) {
       const key = window.localStorage.key(i);
@@ -24,30 +23,17 @@ export const dumpLocalStorage = async (
     return entries;
   });
 
-  for (const key of options?.omitKeys ?? []) {
-    delete data[key];
-  }
-  return data;
-};
-
-/** Seeds localStorage before any page script runs; `clearKeys` are dropped after. */
+/** Seeds localStorage before any page script runs. */
 export const injectLocalStorage = async (
   context: BrowserContext,
-  data: Record<string, string>,
-  options?: { clearKeys?: string[] }
+  data: Record<string, string>
 ) => {
-  await context.addInitScript(
-    ({ storageJson, clearKeys }) => {
-      const entries = JSON.parse(storageJson) as Record<string, string>;
-      for (const [key, value] of Object.entries(entries)) {
-        window.localStorage.setItem(key, value);
-      }
-      for (const key of clearKeys) {
-        window.localStorage.removeItem(key);
-      }
-    },
-    { storageJson: JSON.stringify(data), clearKeys: options?.clearKeys ?? [] }
-  );
+  await context.addInitScript((storageJson) => {
+    const entries = JSON.parse(storageJson) as Record<string, string>;
+    for (const [key, value] of Object.entries(entries)) {
+      window.localStorage.setItem(key, value);
+    }
+  }, JSON.stringify(data));
 };
 
 /**

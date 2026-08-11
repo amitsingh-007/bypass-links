@@ -88,9 +88,7 @@ setup('authenticate and cache extension storage', async ({}, testInfo) => {
     chrome.storage.local.get(null)
   );
 
-  const localStorageData = await dumpLocalStorage(page, {
-    omitKeys: ['OUTDATED_EXT_CHECK'],
-  });
+  const localStorageData = await dumpLocalStorage(page);
 
   await fs.promises.writeFile(
     EXTENSION_STORAGE_PATH,
