@@ -175,6 +175,10 @@ jobs:
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
           env_url: ${{ steps.vercel-action.outputs.preview-url }}
           env: ${{ steps.deployment.outputs.env }}
+          # Defaults to true on finish, which walks every existing deployment of
+          # the environment and writes a status to each. That hit GitHub's
+          # secondary rate limit and failed the job, skipping Create_Release.
+          override: false
 
   Create_Release:
     runs-on: ubuntu-latest
