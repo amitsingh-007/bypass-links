@@ -57,12 +57,14 @@ jobs:
 
       - name: Building extension for e2e
         run: pnpm build --filter=@bypass/extension
+        env:
+          COVERAGE: '1'
 
       - name: Uploading e2e extension
         uses: actions/upload-artifact@v7
         with:
           name: extension-e2e
-          path: ./apps/extension/.output/chrome-mv3
+          path: ./apps/extension/.output-coverage/chrome-mv3
 
   Playwright:
     needs: [Build]
@@ -115,13 +117,17 @@ jobs:
         run: pnpm e2e
         env:
           PLAYWRIGHT_TEST_BASE_URL: ${{ needs.Build.outputs.preview_url }}
+          COVERAGE: '1'
 
       - name: Upload Playwright test report
         uses: actions/upload-artifact@v7
         if: always()
         with:
           name: playwright-report
-          path: .playwright/playwright-report/
+          path: |
+            .playwright/playwright-report/
+            .playwright/coverage/
+          include-hidden-files: true
 
   Deploy:
     runs-on: ubuntu-latest

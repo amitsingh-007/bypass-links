@@ -19,6 +19,7 @@
     "@playwright/test": "catalog:",
     "@total-typescript/ts-reset": "catalog:",
     "@types/react": "catalog:",
+    "monocart-coverage-reports": "catalog:",
     "typescript": "catalog:"
   },
   "peerDependencies": {

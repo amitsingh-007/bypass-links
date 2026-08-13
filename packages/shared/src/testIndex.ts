@@ -3,4 +3,5 @@
  * Re-exports all test-related constants and helpers for easy importing.
  */
 export * from './constants/e2e-tests';
+export * from './utils/coverage';
 export * from './utils/test-helpers';

@@ -2,7 +2,13 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
-import { TEST_TIMEOUTS } from '@bypass/shared/tests';
+import {
+  attachBackgroundCoverage,
+  coverageBrowserArgs,
+  instrumentContext,
+  setExtensionBuildDir,
+  TEST_TIMEOUTS,
+} from '@bypass/shared/tests';
 import {
   type BrowserContext,
   type Page,
@@ -39,6 +45,7 @@ export const launchExtensionContext = async ({
       `--load-extension=${extensionPath}`,
       '--disable-dev-shm-usage',
       '--no-sandbox',
+      ...coverageBrowserArgs,
     ],
   });
 
@@ -76,11 +83,15 @@ export const createTempProfileContext = async ({
         recursive: true,
       });
     }
+    const resolvedExtensionPath = extensionPath ?? getExtensionPath();
+    setExtensionBuildDir(resolvedExtensionPath);
     const browserContext = await launchExtensionContext({
       userDataDir,
-      extensionPath,
+      extensionPath: resolvedExtensionPath,
       headless,
     });
+    instrumentContext(browserContext);
+    await attachBackgroundCoverage(browserContext, userDataDir);
     return { browserContext, userDataDir };
   } catch (error) {
     // No caller owns the dir yet, so it would leak if seeding or launch throws

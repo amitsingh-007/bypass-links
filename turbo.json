@@ -12,13 +12,20 @@
     "NEXT_PUBLIC_*",
     "FIREBASE_*",
     "GITHUB_TOKEN",
-    "PLAYWRIGHT_TEST_BASE_URL"
+    "PLAYWRIGHT_TEST_BASE_URL",
+    "COVERAGE"
   ],
   "globalPassThroughEnv": ["COREPACK_HOME", "ENABLE_EXPERIMENTAL_COREPACK"],
   "tasks": {
     "build": {
       "dependsOn": ["//#lint:ci", "//#typecheck"],
-      "outputs": [".output/**", ".next/**", "!.next/cache/**", "!.next/dev/**"]
+      "outputs": [
+        ".output/**",
+        ".output-coverage/**",
+        ".next/**",
+        "!.next/cache/**",
+        "!.next/dev/**"
+      ]
     },
     "dev": {
       "cache": false,
