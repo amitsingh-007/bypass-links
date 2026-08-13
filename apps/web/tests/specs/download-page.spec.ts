@@ -1,5 +1,4 @@
-import { expect, test } from '@playwright/test';
-
+import { expect, test } from '../fixtures/coverage-fixture';
 import { DownloadPage } from '../page-object-models/download-page';
 
 test.beforeEach(async ({ page }) => {
