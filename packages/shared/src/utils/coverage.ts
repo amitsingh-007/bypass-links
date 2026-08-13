@@ -1,5 +1,4 @@
 import fs from 'node:fs';
-import net from 'node:net';
 import path from 'node:path';
 import process from 'node:process';
 
@@ -180,22 +179,12 @@ export const instrumentContext = (context: BrowserContext) => {
 };
 
 /**
- * A free port for `--remote-debugging-port`, since parallel workers each run
- * their own browser and a fixed port would collide.
+ * Chrome picks the port and reports it back through the profile, so parallel
+ * workers cannot collide and nothing races between probing a port and binding it.
  */
-export const getCoverageDebugPort = async (): Promise<number | null> => {
-  if (!isCoverageEnabled) {
-    return null;
-  }
-  return await new Promise<number>((resolve, reject) => {
-    const server = net.createServer();
-    server.once('error', reject);
-    server.listen(0, '127.0.0.1', () => {
-      const { port } = server.address() as net.AddressInfo;
-      server.close(() => resolve(port));
-    });
-  });
-};
+export const coverageBrowserArgs = isCoverageEnabled
+  ? ['--remote-debugging-port=0']
+  : [];
 
 /**
  * Playwright has no coverage API for a `Worker` and `newCDPSession` rejects
@@ -207,12 +196,22 @@ const backgroundClients = new Map<BrowserContext, CoverageClient>();
 
 export const attachBackgroundCoverage = async (
   context: BrowserContext,
-  port: number | null
+  userDataDir: string
 ) => {
-  if (port === null) {
+  if (!isCoverageEnabled) {
     return;
   }
   await safely(async () => {
+    // Chrome lists no service_worker target for a moment after launch, and a
+    // missed attach is never retried, so wait for the worker to register first
+    if (context.serviceWorkers().length === 0) {
+      await context.waitForEvent('serviceworker', { timeout: 30_000 });
+    }
+    const port = Number(
+      fs
+        .readFileSync(path.join(userDataDir, 'DevToolsActivePort'), 'utf8')
+        .split('\n')[0]
+    );
     const { CDPClient } = await import('monocart-coverage-reports');
     const client = await CDPClient({
       port,

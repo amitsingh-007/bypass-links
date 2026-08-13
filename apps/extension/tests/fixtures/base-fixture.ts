@@ -5,7 +5,7 @@ import path from 'node:path';
 import {
   attachBackgroundCoverage,
   collectContextCoverage,
-  getCoverageDebugPort,
+  coverageBrowserArgs,
   instrumentContext,
   setExtensionBuildDir,
   TEST_TIMEOUTS,
@@ -33,12 +33,10 @@ export const launchExtensionContext = async ({
   userDataDir,
   extensionPath = getExtensionPath(),
   headless = true,
-  debugPort = null,
 }: {
   userDataDir: string;
   extensionPath?: string;
   headless?: boolean;
-  debugPort?: number | null;
 }) =>
   chromium.launchPersistentContext(userDataDir, {
     channel: 'chromium',
@@ -48,7 +46,7 @@ export const launchExtensionContext = async ({
       `--load-extension=${extensionPath}`,
       '--disable-dev-shm-usage',
       '--no-sandbox',
-      ...(debugPort === null ? [] : [`--remote-debugging-port=${debugPort}`]),
+      ...coverageBrowserArgs,
     ],
   });
 
@@ -88,15 +86,13 @@ export const createTempProfileContext = async ({
     }
     const resolvedExtensionPath = extensionPath ?? getExtensionPath();
     setExtensionBuildDir(resolvedExtensionPath);
-    const debugPort = await getCoverageDebugPort();
     const browserContext = await launchExtensionContext({
       userDataDir,
       extensionPath: resolvedExtensionPath,
       headless,
-      debugPort,
     });
     instrumentContext(browserContext);
-    await attachBackgroundCoverage(browserContext, debugPort);
+    await attachBackgroundCoverage(browserContext, userDataDir);
     return { browserContext, userDataDir };
   } catch (error) {
     // No caller owns the dir yet, so it would leak if seeding or launch throws
