@@ -127,6 +127,7 @@ jobs:
           path: |
             .playwright/playwright-report/
             .playwright/coverage/
+          include-hidden-files: true
 
   Deploy:
     runs-on: ubuntu-latest

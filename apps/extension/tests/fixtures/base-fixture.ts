@@ -4,7 +4,6 @@ import path from 'node:path';
 
 import {
   attachBackgroundCoverage,
-  collectContextCoverage,
   coverageBrowserArgs,
   instrumentContext,
   setExtensionBuildDir,
@@ -113,7 +112,6 @@ export const withTempProfileContext = async <T>(
   } finally {
     // Nested so a rejecting close() still cannot skip the removal
     try {
-      await collectContextCoverage(browserContext);
       await browserContext.close();
     } finally {
       await fs.promises.rm(userDataDir, { recursive: true, force: true });
@@ -202,7 +200,6 @@ export const sharedExtensionTest = base.extend<
         headless: testInfo.project.use?.headless ?? true,
       });
       await use(browserContext);
-      await collectContextCoverage(browserContext);
       await browserContext.close();
       await fs.promises.rm(userDataDir, { recursive: true, force: true });
     },

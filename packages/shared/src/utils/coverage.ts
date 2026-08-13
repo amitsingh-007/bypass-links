@@ -154,9 +154,10 @@ const collectPageCoverage = async (page: Page) => {
 };
 
 /**
- * Makes every page of `context` self-instrumenting, rather than relying on each
- * call site to remember: coverage starts before the caller can navigate, and a
- * page is drained before it closes, since closing drops its V8 data.
+ * Makes a context self-instrumenting, rather than relying on each call site to
+ * remember: coverage starts before the caller can navigate, and both pages and
+ * the background worker are drained before anything closes, since closing drops
+ * the V8 data.
  */
 export const instrumentContext = (context: BrowserContext) => {
   if (!isCoverageEnabled) {
@@ -175,6 +176,12 @@ export const instrumentContext = (context: BrowserContext) => {
       await closePage(options);
     };
     return page;
+  };
+
+  const closeContext = context.close.bind(context);
+  context.close = async (options) => {
+    await collectContextCoverage(context);
+    await closeContext(options);
   };
 };
 
@@ -225,7 +232,7 @@ export const attachBackgroundCoverage = async (
   });
 };
 
-export const collectContextCoverage = async (context: BrowserContext) => {
+const collectContextCoverage = async (context: BrowserContext) => {
   const client = backgroundClients.get(context);
   backgroundClients.delete(context);
   await Promise.all([
