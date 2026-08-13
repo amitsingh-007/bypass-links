@@ -211,9 +211,11 @@ export const attachBackgroundCoverage = async (
   await safely(async () => {
     // Chrome lists no service_worker target for a moment after launch, and a
     // missed attach is never retried, so wait for the worker to register first
-    if (context.serviceWorkers().length === 0) {
-      await context.waitForEvent('serviceworker', { timeout: 30_000 });
-    }
+    const [worker] =
+      context.serviceWorkers().length > 0
+        ? context.serviceWorkers()
+        : [await context.waitForEvent('serviceworker', { timeout: 30_000 })];
+    const workerUrl = worker.url();
     const port = Number(
       fs
         .readFileSync(path.join(userDataDir, 'DevToolsActivePort'), 'utf8')
@@ -222,8 +224,12 @@ export const attachBackgroundCoverage = async (
     const { CDPClient } = await import('monocart-coverage-reports');
     const client = await CDPClient({
       port,
-      target: (targets: { type: string }[]) =>
-        targets.find((target) => target.type === 'service_worker'),
+      // Pages under test can register their own workers, so match this one's url
+      target: (targets: { type: string; url: string }[]) =>
+        targets.find(
+          (target) =>
+            target.type === 'service_worker' && target.url === workerUrl
+        ),
     });
     if (client) {
       await client.startJSCoverage();
