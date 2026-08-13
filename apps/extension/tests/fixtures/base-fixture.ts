@@ -2,7 +2,14 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
-import { TEST_TIMEOUTS } from '@bypass/shared/tests';
+import {
+  attachBackgroundCoverage,
+  collectContextCoverage,
+  getCoverageDebugPort,
+  instrumentContext,
+  setExtensionBuildDir,
+  TEST_TIMEOUTS,
+} from '@bypass/shared/tests';
 import {
   type BrowserContext,
   type Page,
@@ -26,10 +33,12 @@ export const launchExtensionContext = async ({
   userDataDir,
   extensionPath = getExtensionPath(),
   headless = true,
+  debugPort = null,
 }: {
   userDataDir: string;
   extensionPath?: string;
   headless?: boolean;
+  debugPort?: number | null;
 }) =>
   chromium.launchPersistentContext(userDataDir, {
     channel: 'chromium',
@@ -39,6 +48,7 @@ export const launchExtensionContext = async ({
       `--load-extension=${extensionPath}`,
       '--disable-dev-shm-usage',
       '--no-sandbox',
+      ...(debugPort === null ? [] : [`--remote-debugging-port=${debugPort}`]),
     ],
   });
 
@@ -76,11 +86,17 @@ export const createTempProfileContext = async ({
         recursive: true,
       });
     }
+    const resolvedExtensionPath = extensionPath ?? getExtensionPath();
+    setExtensionBuildDir(resolvedExtensionPath);
+    const debugPort = await getCoverageDebugPort();
     const browserContext = await launchExtensionContext({
       userDataDir,
-      extensionPath,
+      extensionPath: resolvedExtensionPath,
       headless,
+      debugPort,
     });
+    instrumentContext(browserContext);
+    await attachBackgroundCoverage(browserContext, debugPort);
     return { browserContext, userDataDir };
   } catch (error) {
     // No caller owns the dir yet, so it would leak if seeding or launch throws
@@ -101,6 +117,7 @@ export const withTempProfileContext = async <T>(
   } finally {
     // Nested so a rejecting close() still cannot skip the removal
     try {
+      await collectContextCoverage(browserContext);
       await browserContext.close();
     } finally {
       await fs.promises.rm(userDataDir, { recursive: true, force: true });
@@ -189,6 +206,7 @@ export const sharedExtensionTest = base.extend<
         headless: testInfo.project.use?.headless ?? true,
       });
       await use(browserContext);
+      await collectContextCoverage(browserContext);
       await browserContext.close();
       await fs.promises.rm(userDataDir, { recursive: true, force: true });
     },

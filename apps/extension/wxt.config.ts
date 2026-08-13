@@ -13,10 +13,15 @@ const envDir = path.resolve(
   '../..'
 );
 
+const isCoverageBuild = process.env.COVERAGE === '1';
+
 export default defineConfig({
   srcDir: 'src',
   browser: 'chrome',
   manifestVersion: 3,
+  // Its own dir so a coverage build can never overwrite the released one,
+  // regardless of the order the CI job runs the two builds in
+  ...(isCoverageBuild && { outDir: '.output-coverage' }),
   dev: {
     server: { port: 3001 },
   },
@@ -42,6 +47,7 @@ export default defineConfig({
       build: {
         target: 'esnext',
         modulePreload: false,
+        ...(isCoverageBuild && { sourcemap: true, minify: false }),
       },
       resolve: {
         tsconfigPaths: true,

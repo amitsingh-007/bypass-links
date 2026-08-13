@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { injectLocalStorage } from '@bypass/shared/tests';
+import { injectLocalStorage, instrumentContext } from '@bypass/shared/tests';
 import { chromium, type BrowserContext, type Cookie } from '@playwright/test';
 
 import { AUTH_CACHE_DIR, WEB_STORAGE_PATH } from '../auth-constants';
@@ -30,6 +30,8 @@ export const createSharedContext = async (): Promise<{
     headless: true,
     args: ['--disable-dev-shm-usage', '--no-sandbox'],
   });
+
+  instrumentContext(browserContext);
 
   // Inject cached localStorage data
   await injectLocalStorage(browserContext, storageData.localStorage);
