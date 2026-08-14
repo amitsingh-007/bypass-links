@@ -220,6 +220,14 @@ test.describe('Persons Panel', () => {
       return new Set(offsets).size;
     };
 
+    // Wrapping is only observable with more persons than the narrow column
+    // count, so say so here rather than failing later on a puzzling row compare
+    const panel = new PersonsPanel(authenticatedPage);
+    expect(
+      await panel.getPersonCount(),
+      'the grid needs more than three persons to wrap on a narrow viewport'
+    ).toBeGreaterThan(3);
+
     // Polled, not read once: the grid only lays out after its width is measured
     await expect.poll(countRenderedRows).toBeGreaterThan(0);
     const wideRows = await countRenderedRows();
