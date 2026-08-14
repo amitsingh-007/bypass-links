@@ -32,8 +32,7 @@ setup('authenticate and cache web storage', async ({}, testInfo) => {
     }
   );
 
-  // The login and preload pipeline only ever runs here, so an un-instrumented
-  // context would leave every one of those paths uncounted
+  // The real login and preload pipeline only ever runs here
   instrumentContext(browserContext);
 
   await browserContext.addInitScript(

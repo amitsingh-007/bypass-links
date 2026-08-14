@@ -28,27 +28,25 @@ const COVERED_SOURCE_DIRS = [
   'packages/shared/src',
 ];
 
-/** Test-only sources that ship in no bundle; `all` would pad them in at 0%. */
-const TEST_ONLY_SOURCES = [
-  'packages/shared/src/testIndex.ts',
-  'packages/shared/src/constants/e2e-tests.ts',
-  'packages/shared/src/utils/test-helpers.ts',
-  'packages/shared/src/utils/coverage.ts',
-];
-
 /** Not JavaScript, so no V8 entry can ever be attributed back to them. */
 const UNCOVERABLE_EXTENSIONS = ['.svg', '.css', '.md', '.html', '.d.ts'];
 
 /**
- * Real code that browser V8 coverage still cannot see, so `all` would pin it at
- * 0% forever: server-only handlers, React Server Components, build-time config,
- * and type-only files that emit no JavaScript at all.
+ * Sources `all` would otherwise pin at 0% forever: test-only files, server-only
+ * handlers, React Server Components, build-time config, and type-only modules.
  *
- * Deliberately narrow: only the top-level `packages/shared/src/schema/` is
- * server-side tRPC validation. The per-component schema dirs are reachable from
- * client code and must keep counting.
+ * Enumerated rather than derived because deriving it means reading the client
+ * bundles' sourcemaps, and the web app under test is a Vercel preview that never
+ * exists on the runner. `packages/shared/src/schema/` is server-side tRPC
+ * validation; the per-component schema dirs are client-reachable and stay in.
  */
-const UNCOVERABLE_SOURCES = [
+const EXCLUDED_SOURCES = [
+  'packages/shared/src/testIndex.ts',
+  'packages/shared/src/constants/e2e-tests.ts',
+  'packages/shared/src/utils/test-helpers.ts',
+  'packages/shared/src/utils/coverage.ts',
+  'packages/shared/src/schema/',
+  'packages/shared/src/schemaIndex.ts',
   'apps/web/src/app/api/',
   'apps/web/src/app/constants/env/server.ts',
   'apps/web/src/app/constants/features.ts',
@@ -58,20 +56,38 @@ const UNCOVERABLE_SOURCES = [
   'apps/web/src/app/components/Footer.tsx',
   'apps/web/src/app/components/PageHeader.tsx',
   'apps/web/src/app/components/SalientFeatures.tsx',
-  'apps/web/src/app/components/types/',
   'apps/extension/src/constants/manifest.ts',
   '/layout.tsx',
   '/interfaces/',
-  '/@types/',
-  'packages/shared/src/schema/',
-  'packages/shared/src/schemaIndex.ts',
+  '/types/',
 ];
 
 const isCoverableSource = (filePath: string) =>
   COVERED_SOURCE_DIRS.some((dir) => filePath.includes(dir)) &&
-  !TEST_ONLY_SOURCES.some((source) => filePath.endsWith(source)) &&
   !UNCOVERABLE_EXTENSIONS.some((extension) => filePath.endsWith(extension)) &&
-  !UNCOVERABLE_SOURCES.some((source) => filePath.includes(source));
+  !EXCLUDED_SOURCES.some((source) => filePath.includes(source));
+
+/**
+ * A server component turning into a client one would silently hand back free
+ * coverage, and the excluded file is invisible from the report that hides it.
+ */
+const warnOnClientComponentExclusions = async () => {
+  const excludedComponents = EXCLUDED_SOURCES.filter((source) =>
+    source.endsWith('.tsx')
+  );
+  await Promise.all(
+    excludedComponents.map(async (source) => {
+      const contents = await fs.promises
+        .readFile(path.resolve(process.cwd(), source), 'utf8')
+        .catch(() => '');
+      if (contents.includes("'use client'")) {
+        console.error(
+          `::error::[coverage] ${source} is excluded as a server component but now declares 'use client'`
+        );
+      }
+    })
+  );
+};
 
 const APP_ROOTS = ['apps/extension', 'apps/web'];
 
@@ -131,9 +147,8 @@ const coverageOptions: CoverageReportOptions = {
   sourcePath,
   // Scoped to our own code: a broader filter makes the report generation fetch
   // sourcemaps from third-party hosts before discarding them. Narrowed to
-  // `_next` because Vercel serves its analytics and protection scripts from the
-  // same origin, and those alone padded the denominator with ~170 functions and
-  // ~475 branches that no test can ever reach.
+  // `_next` because Vercel serves its own analytics and protection scripts from
+  // the same origin, and they dominated the function and branch denominators.
   entryFilter: (entry: { url: string }) =>
     entry.url.startsWith('chrome-extension://') ||
     (WEB_BASE_URL !== undefined &&
@@ -296,6 +311,7 @@ export const generateCoverageReport = async () => {
   if (!isCoverageEnabled) {
     return;
   }
+  await warnOnClientComponentExclusions();
   const coverageReport = await getReport();
   if (!coverageReport.hasCache()) {
     // Loud, because the whole mechanism silently rotting to zero looks identical

@@ -28,6 +28,11 @@ interface CachedStorageData {
 export const getPopupUrl = (extensionId: string) =>
   `chrome-extension://${extensionId}/popup.html`;
 
+/**
+ * Coverage is wired up here rather than by callers: it has to be in place
+ * before the first page opens, and the callers that had to remember it had
+ * already forgotten, silently dropping everything the auth setup covers.
+ */
 export const launchExtensionContext = async ({
   userDataDir,
   extensionPath = getExtensionPath(),
@@ -36,8 +41,9 @@ export const launchExtensionContext = async ({
   userDataDir: string;
   extensionPath?: string;
   headless?: boolean;
-}) =>
-  chromium.launchPersistentContext(userDataDir, {
+}) => {
+  setExtensionBuildDir(extensionPath);
+  const browserContext = await chromium.launchPersistentContext(userDataDir, {
     channel: 'chromium',
     headless,
     args: [
@@ -48,6 +54,10 @@ export const launchExtensionContext = async ({
       ...coverageBrowserArgs,
     ],
   });
+  instrumentContext(browserContext);
+  await attachBackgroundCoverage(browserContext, userDataDir);
+  return browserContext;
+};
 
 /**
  * Load cached storage data from file.
@@ -83,15 +93,11 @@ export const createTempProfileContext = async ({
         recursive: true,
       });
     }
-    const resolvedExtensionPath = extensionPath ?? getExtensionPath();
-    setExtensionBuildDir(resolvedExtensionPath);
     const browserContext = await launchExtensionContext({
       userDataDir,
-      extensionPath: resolvedExtensionPath,
+      extensionPath,
       headless,
     });
-    instrumentContext(browserContext);
-    await attachBackgroundCoverage(browserContext, userDataDir);
     return { browserContext, userDataDir };
   } catch (error) {
     // No caller owns the dir yet, so it would leak if seeding or launch throws
