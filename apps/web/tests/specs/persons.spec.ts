@@ -220,10 +220,13 @@ test.describe('Persons Panel', () => {
       return new Set(offsets).size;
     };
 
-    expect(await countRenderedRows()).toBe(1);
+    // Polled, not read once: the grid only lays out after its width is measured
+    await expect.poll(countRenderedRows).toBeGreaterThan(0);
+    const wideRows = await countRenderedRows();
 
     await authenticatedPage.setViewportSize({ width: 700, height: 900 });
 
-    await expect.poll(countRenderedRows).toBe(2);
+    // Relative, so the assertion survives the account gaining or losing a person
+    await expect.poll(countRenderedRows).toBeGreaterThan(wideRows);
   });
 });
