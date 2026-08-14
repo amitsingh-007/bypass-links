@@ -141,12 +141,15 @@ export class BookmarksPanel {
     return this.page.getByTitle('Edit Bookmark');
   }
 
-  async addPersonToBookmark(bookmarkTitle: string, personName: string) {
+  async openPersonSelect(bookmarkTitle: string) {
     const dialog = await this.openEditBookmarkDialog(bookmarkTitle);
     await expect(dialog).toBeVisible();
+    await dialog.getByTestId('person-select').click();
+    return dialog;
+  }
 
-    const personSelect = dialog.getByTestId('person-select');
-    await personSelect.click();
+  async addPersonToBookmark(bookmarkTitle: string, personName: string) {
+    const dialog = await this.openPersonSelect(bookmarkTitle);
 
     const option = this.page.getByRole('option', { name: personName });
     await option.click();
@@ -164,11 +167,7 @@ export class BookmarksPanel {
   }
 
   async removePersonFromBookmark(bookmarkTitle: string, personName: string) {
-    const dialog = await this.openEditBookmarkDialog(bookmarkTitle);
-    await expect(dialog).toBeVisible();
-
-    const personSelect = dialog.getByTestId('person-select');
-    await personSelect.click();
+    const dialog = await this.openPersonSelect(bookmarkTitle);
 
     const option = this.page.getByRole('option', { name: personName });
     await expect(option).toBeVisible();

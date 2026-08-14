@@ -44,7 +44,11 @@ function AvatarWithPreview({ person }: AvatarWithPreviewProps) {
   return (
     <HoverCard>
       <HoverCardTrigger delay={0} closeDelay={0}>
-        <Avatar size="sm" className="size-6!">
+        <Avatar
+          size="sm"
+          className="size-6!"
+          data-testid={`person-avatar-${person.label}`}
+        >
           <AvatarImage src={person.image} alt={person.label} />
           <AvatarFallback>
             <HugeiconsIcon icon={UserWarning03Icon} className="size-3" />
@@ -109,6 +113,8 @@ function PersonSelect({ value, onChange }: PersonSelectProps) {
             <Switch
               checked={orderByRecency}
               size="sm"
+              aria-label="Sort by recency"
+              data-testid="recency-switch"
               onCheckedChange={toggleOrderByRecency}
             />
           </div>
