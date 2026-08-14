@@ -27,6 +27,9 @@ test.describe('Search hotkey', () => {
   }) => {
     const panel = new PersonsPanel(personsPage);
     await panel.openPersonCard(TEST_PERSONS.JOHN_NATHAN);
+    // Waited for first: a negative assertion on an unattached locator passes
+    // instantly, which would let the key press land before the modal exists
+    await expect(panel.getModalSearchInput()).toBeVisible();
     // The dialog moves focus into itself on open, so prove it did not land here
     await expect(panel.getModalSearchInput()).not.toBeFocused();
 
