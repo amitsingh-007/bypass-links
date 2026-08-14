@@ -63,16 +63,20 @@ const withSignedInProfile = async (
         EExtStorageKey.HAS_PENDING_PERSONS,
       ]);
 
-      await run({
-        context,
-        extensionId,
-        sawAccountWrite: () => sawAccountWrite,
-      });
-
-      expect(
-        sawAccountWrite,
-        'logout tried to write the shared test account'
-      ).toBe(false);
+      try {
+        await run({
+          context,
+          extensionId,
+          sawAccountWrite: () => sawAccountWrite,
+        });
+      } finally {
+        // In a finally so a failing assertion above still surfaces the write by
+        // name, rather than leaving only the symptom it caused
+        expect(
+          sawAccountWrite,
+          'logout tried to write the shared test account'
+        ).toBe(false);
+      }
     }
   );
 
