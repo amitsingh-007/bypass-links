@@ -55,7 +55,7 @@ const writeStorageFromWorker = async (
   }, values);
 };
 
-const removeStorageFromWorker = async (
+export const removeStorageFromWorker = async (
   backgroundSW: Worker,
   keys: string | string[]
 ) => {

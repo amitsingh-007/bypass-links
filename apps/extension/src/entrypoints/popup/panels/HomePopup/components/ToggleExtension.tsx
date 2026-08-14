@@ -27,7 +27,12 @@ function ToggleExtension() {
 
   return (
     <div className="flex items-center gap-2">
-      <Switch checked={isActive} onCheckedChange={handleToggle} />
+      <Switch
+        checked={isActive}
+        aria-label="Enable"
+        data-testid="toggle-extension-switch"
+        onCheckedChange={handleToggle}
+      />
       <span className="text-sm">Enable</span>
     </div>
   );
