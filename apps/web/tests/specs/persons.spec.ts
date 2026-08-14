@@ -202,4 +202,28 @@ test.describe('Persons Panel', () => {
     await panel.verifyEditButtonsHidden();
     await panel.closeModal();
   });
+  /**
+   * `test.use({ viewport })` cannot drive this: the auth fixture supplies its
+   * own persistent context, so Playwright's viewport option is ignored and the
+   * page would stay wide. Resizing the page itself is what crosses the
+   * breakpoint, dropping the grid from five columns to three.
+   */
+  test('should wrap the grid onto a second row on a narrow viewport', async ({
+    authenticatedPage,
+  }) => {
+    const countRenderedRows = async () => {
+      const offsets = await authenticatedPage
+        .locator('[data-testid^="person-item-"]')
+        .evaluateAll((cards) =>
+          cards.map((card) => Math.round(card.getBoundingClientRect().y))
+        );
+      return new Set(offsets).size;
+    };
+
+    expect(await countRenderedRows()).toBe(1);
+
+    await authenticatedPage.setViewportSize({ width: 700, height: 900 });
+
+    await expect.poll(countRenderedRows).toBe(2);
+  });
 });

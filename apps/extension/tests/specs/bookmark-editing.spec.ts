@@ -113,4 +113,17 @@ test.describe('Bookmark form validation', () => {
     await expect(dialog.getByText('Invalid URL format')).toBeVisible();
     await expect(dialog).toBeVisible();
   });
+
+  test('refuses to create a folder without a name', async ({
+    bookmarksPage,
+  }) => {
+    const panel = new BookmarksPanel(bookmarksPage);
+    await panel.ensureAtRoot();
+
+    const dialog = await panel.openAddFolderDialog();
+    await dialog.getByTestId('dialog-save-button').click();
+
+    await expect(dialog.getByText('Required')).toBeVisible();
+    await expect(dialog).toBeVisible();
+  });
 });
