@@ -142,7 +142,7 @@ test('answers with no links when the scrape cannot run', async ({
   await isolatedBackground.writeStorage({ websites: {} });
   const popup = await isolatedBackground.openPopup();
   const url = `https://${FORUM_HOST}/`;
-  await isolatedBackground.openFixturePage(url, UNREAD_ROWS_HTML);
+  const tab = await isolatedBackground.openFixturePage(url, UNREAD_ROWS_HTML);
 
   const { forumPageLinks } = await sendMessage(popup, {
     key: 'openWebsiteLinks',
@@ -151,6 +151,7 @@ test('answers with no links when the scrape cannot run', async ({
   });
 
   expect(forumPageLinks).toEqual([]);
+  await tab.close();
 });
 
 test.describe('Forum button', () => {
