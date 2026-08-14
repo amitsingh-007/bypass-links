@@ -13,9 +13,15 @@ export const receiveRuntimeMessage = (
 ) => {
   switch (message.key) {
     case 'openWebsiteLinks': {
-      getForumPageLinks(message.tabId, message.url).then((forumPageLinks) => {
-        sendMessage({ forumPageLinks });
-      });
+      getForumPageLinks(message.tabId, message.url)
+        .then((forumPageLinks) => {
+          sendMessage({ forumPageLinks });
+        })
+        .catch((error) => {
+          // The popup awaits this reply, so staying silent leaves it hanging
+          console.error('Failed to collect forum links', error);
+          sendMessage({ forumPageLinks: [] });
+        });
       break;
     }
 
