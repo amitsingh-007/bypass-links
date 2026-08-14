@@ -93,7 +93,9 @@ const warnOnClientComponentExclusions = async () => {
 
 const APP_ROOTS = ['apps/extension', 'apps/web'];
 
-const WEB_BASE_URL = process.env.PLAYWRIGHT_TEST_BASE_URL;
+// Trailing slash trimmed: the preview url is passed through from CI, and one
+// would make every `${origin}/_next/` comparison miss and silently zero the web
+const WEB_BASE_URL = process.env.PLAYWRIGHT_TEST_BASE_URL?.replace(/\/+$/, '');
 
 /** Set from the fixture that loads the extension, so the path is not re-derived. */
 let extensionBuildDir: string | undefined;
