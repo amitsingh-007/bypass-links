@@ -1,7 +1,13 @@
 import fs from 'node:fs';
 import process from 'node:process';
 
-import { dumpLocalStorage, TEST_TIMEOUTS } from '@bypass/shared/tests';
+import {
+  attachBackgroundCoverage,
+  dumpLocalStorage,
+  instrumentContext,
+  setExtensionBuildDir,
+  TEST_TIMEOUTS,
+} from '@bypass/shared/tests';
 import { expect, test as setup } from '@playwright/test';
 import wretch from 'wretch';
 import QueryStringAddon from 'wretch/addons/queryString';
@@ -21,6 +27,7 @@ import {
   getPopupUrl,
   launchExtensionContext,
 } from './fixtures/base-fixture';
+import { getExtensionPath } from './utils/extension-path';
 
 const isCI = Boolean(process.env.PLAYWRIGHT_TEST_BASE_URL);
 const firebaseConfig = getFirebasePublicConfig(isCI);
@@ -51,10 +58,15 @@ setup('authenticate and cache extension storage', async ({}, testInfo) => {
   await fs.promises.mkdir(AUTH_CACHE_DIR, { recursive: true });
   await fs.promises.rm(CHROME_PROFILE_DIR, { recursive: true, force: true });
 
+  // Instrumented like any other context: this is the only run of the real
+  // sign-in and Firebase sync, so leaving it out drops that coverage entirely
+  setExtensionBuildDir(getExtensionPath());
+
   const browserContext = await launchExtensionContext({
     userDataDir: CHROME_PROFILE_DIR,
     headless: testInfo.project.use?.headless ?? true,
   });
+  instrumentContext(browserContext);
 
   // Keeps its own AUTH timeout, so it does not use the shared SW helper
   let [background] = browserContext.serviceWorkers();
@@ -62,6 +74,8 @@ setup('authenticate and cache extension storage', async ({}, testInfo) => {
     timeout: TEST_TIMEOUTS.AUTH,
   });
   const extensionId = await getExtensionId(background);
+
+  await attachBackgroundCoverage(browserContext, CHROME_PROFILE_DIR);
 
   await browserContext.addInitScript(
     ({ authDataJson, key }) => {

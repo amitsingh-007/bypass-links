@@ -18,12 +18,14 @@ const isCoverageEnabled = process.env.COVERAGE === '1';
 
 const COVERAGE_OUTPUT_DIR = path.join('.playwright', 'coverage');
 
-/** Source dirs counted toward coverage; packages/ui is vendored shadcn. */
+/**
+ * Source dirs counted toward coverage; packages/ui is vendored shadcn, and
+ * packages/trpc only ever runs on the server, out of reach of browser V8.
+ */
 const COVERED_SOURCE_DIRS = [
   'apps/extension/src',
   'apps/web/src',
   'packages/shared/src',
-  'packages/trpc/src',
 ];
 
 /** Test-only sources that ship in no bundle; `all` would pad them in at 0%. */
@@ -33,6 +35,43 @@ const TEST_ONLY_SOURCES = [
   'packages/shared/src/utils/test-helpers.ts',
   'packages/shared/src/utils/coverage.ts',
 ];
+
+/** Not JavaScript, so no V8 entry can ever be attributed back to them. */
+const UNCOVERABLE_EXTENSIONS = ['.svg', '.css', '.md', '.html', '.d.ts'];
+
+/**
+ * Real code that browser V8 coverage still cannot see, so `all` would pin it at
+ * 0% forever: server-only handlers, React Server Components, build-time config,
+ * and type-only files that emit no JavaScript at all.
+ *
+ * Deliberately narrow: only the top-level `packages/shared/src/schema/` is
+ * server-side tRPC validation. The per-component schema dirs are reachable from
+ * client code and must keep counting.
+ */
+const UNCOVERABLE_SOURCES = [
+  'apps/web/src/app/api/',
+  'apps/web/src/app/constants/env/server.ts',
+  'apps/web/src/app/constants/features.ts',
+  'apps/web/src/app/constants/metadata.ts',
+  'apps/web/src/app/helpers/verifyInternalToken.ts',
+  'apps/web/src/app/page.tsx',
+  'apps/web/src/app/components/Footer.tsx',
+  'apps/web/src/app/components/PageHeader.tsx',
+  'apps/web/src/app/components/SalientFeatures.tsx',
+  'apps/web/src/app/components/types/',
+  'apps/extension/src/constants/manifest.ts',
+  '/layout.tsx',
+  '/interfaces/',
+  '/@types/',
+  'packages/shared/src/schema/',
+  'packages/shared/src/schemaIndex.ts',
+];
+
+const isCoverableSource = (filePath: string) =>
+  COVERED_SOURCE_DIRS.some((dir) => filePath.includes(dir)) &&
+  !TEST_ONLY_SOURCES.some((source) => filePath.endsWith(source)) &&
+  !UNCOVERABLE_EXTENSIONS.some((extension) => filePath.endsWith(extension)) &&
+  !UNCOVERABLE_SOURCES.some((source) => filePath.includes(source));
 
 const APP_ROOTS = ['apps/extension', 'apps/web'];
 
@@ -91,14 +130,17 @@ const coverageOptions: CoverageReportOptions = {
   sourceMapResolver,
   sourcePath,
   // Scoped to our own code: a broader filter makes the report generation fetch
-  // sourcemaps from third-party hosts before discarding them
+  // sourcemaps from third-party hosts before discarding them. Narrowed to
+  // `_next` because Vercel serves its analytics and protection scripts from the
+  // same origin, and those alone padded the denominator with ~170 functions and
+  // ~475 branches that no test can ever reach.
   entryFilter: (entry: { url: string }) =>
     entry.url.startsWith('chrome-extension://') ||
-    (WEB_BASE_URL !== undefined && entry.url.startsWith(WEB_BASE_URL)),
-  sourceFilter: (filePath: string) =>
-    COVERED_SOURCE_DIRS.some((dir) => filePath.includes(dir)) &&
-    !TEST_ONLY_SOURCES.some((source) => filePath.endsWith(source)),
-  // Pads in never-executed files so the denominator is the whole codebase
+    (WEB_BASE_URL !== undefined &&
+      entry.url.startsWith(`${WEB_BASE_URL}/_next/`)),
+  sourceFilter: isCoverableSource,
+  // Pads in never-executed files so the denominator is the whole codebase.
+  // monocart runs sourceFilter over these too, so one filter covers both.
   all: {
     dir: COVERED_SOURCE_DIRS.map((dir) => path.resolve(process.cwd(), dir)),
   },
