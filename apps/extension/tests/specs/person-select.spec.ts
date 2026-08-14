@@ -1,8 +1,4 @@
-import {
-  TEST_BOOKMARKS,
-  TEST_FOLDERS,
-  TEST_PERSONS,
-} from '@bypass/shared/tests';
+import { TEST_BOOKMARKS, TEST_PERSONS } from '@bypass/shared/tests';
 
 import { expect, test } from '../fixtures/bookmark-fixture';
 import { BookmarksPanel } from '../utils/bookmarks-panel';
@@ -10,9 +6,12 @@ import { fillSearchInput } from '../utils/test-utils';
 
 const PERSON_SEARCH_PLACEHOLDER = 'Search persons...';
 
+/**
+ * Stays on the root listing, where the fixture bookmark lives: `openFolder`
+ * single-clicks, and the folder component navigates only on double-click.
+ */
 const openPersonSelect = async (panel: BookmarksPanel) => {
   await panel.ensureAtRoot();
-  await panel.openFolder(TEST_FOLDERS.MAIN);
   return panel.openPersonSelect(TEST_BOOKMARKS.REACT_DOCS);
 };
 
