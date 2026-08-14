@@ -63,8 +63,9 @@ test.describe('Tagging a bookmark with a person', () => {
 
     await recencySwitch.click();
 
-    // Asserting the expected order, not merely a changed one: recency order can
-    // coincide with alphabetical depending on what the account has tagged
+    // The order assertion alone can hold vacuously when recency already matches
+    // alphabetical, so pin that the toggle itself actually flipped
+    await expect(recencySwitch).not.toBeChecked();
     await expect(options).toHaveText(
       byRecency.toSorted((left, right) => left.localeCompare(right))
     );
