@@ -72,8 +72,10 @@ const isCoverableSource = (filePath: string) =>
  * coverage, and the excluded file is invisible from the report that hides it.
  */
 const warnOnClientComponentExclusions = async () => {
-  const excludedComponents = EXCLUDED_SOURCES.filter((source) =>
-    source.endsWith('.tsx')
+  // Repo-relative entries only: a leading slash is a path fragment matching many
+  // files, and `path.resolve` would take it as absolute and read outside the repo
+  const excludedComponents = EXCLUDED_SOURCES.filter(
+    (source) => source.endsWith('.tsx') && !source.startsWith('/')
   );
   await Promise.all(
     excludedComponents.map(async (source) => {
