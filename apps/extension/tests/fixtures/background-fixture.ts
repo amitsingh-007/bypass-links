@@ -16,6 +16,7 @@ import {
 } from './base-fixture';
 
 interface BaseBackgroundEnv {
+  context: BrowserContext;
   extensionId: string;
   readStorage: <T = unknown>(key: string) => Promise<T | undefined>;
   writeStorage: (values: Record<string, unknown>) => Promise<void>;
@@ -97,6 +98,7 @@ const createBackgroundEnv = async (
   };
 
   return {
+    context,
     extensionId,
     readStorage: async <T = unknown>(key: string) =>
       runWithBackground(async (backgroundSW) =>

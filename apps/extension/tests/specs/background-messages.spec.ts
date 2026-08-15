@@ -159,6 +159,11 @@ test.describe('Forum button', () => {
     sharedBackground,
   }) => {
     const synced = await sharedBackground.readStorage('websites');
+    const { context } = sharedBackground;
+    const forumRoute = `https://${FORUM_HOST}/**`;
+    // Snapshotted, because the click opens a tab we never get a handle on and
+    // this profile is worker scoped -- everything new here is ours to clean up
+    const pagesBefore = new Set(context.pages());
     try {
       await sharedBackground.writeStorage({
         websites: { FORUM_1: FORUM_HOST },
@@ -170,6 +175,11 @@ test.describe('Forum button', () => {
        * the popup itself in front.
        */
       const popup = await sharedBackground.openPopup();
+      // Keep the tab the click opens off the network
+      await context.route(forumRoute, async (route) => {
+        await route.fulfill({ contentType: 'text/html', body: '' });
+      });
+
       await sharedBackground.openFixturePage(
         `https://${FORUM_HOST}/`,
         UNREAD_ROWS_HTML
@@ -185,6 +195,13 @@ test.describe('Forum button', () => {
       ).toBeVisible();
     } finally {
       await sharedBackground.writeStorage({ websites: synced ?? {} });
+      await context.unroute(forumRoute);
+      await Promise.all(
+        context
+          .pages()
+          .filter((page) => !pagesBefore.has(page))
+          .map((page) => page.close())
+      );
     }
   });
 });

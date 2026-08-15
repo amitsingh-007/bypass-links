@@ -272,6 +272,11 @@ export class PersonsPanel {
     return this.page.getByPlaceholder('Search');
   }
 
+  /** The dialog autofocuses itself asynchronously; wait for that to land. */
+  getFocusedBookmarksDialog() {
+    return this.getBookmarksDialog().and(this.page.locator(':focus-within'));
+  }
+
   /** Scoped, because the panel's own search matches the same placeholder. */
   getModalSearchInput() {
     return this.getBookmarksDialog().getByPlaceholder('Search');

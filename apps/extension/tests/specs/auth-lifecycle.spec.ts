@@ -40,15 +40,19 @@ const withSignedInProfile = async (
     { prefix: 'chrome-auth-lifecycle-', headless, seedFromCachedProfile: true },
     async (context) => {
       let sawAccountWrite = false;
-      // A predicate, not a glob: tRPC batches procedures into one path, and a
-      // glob anchored on the last slash misses the write when it is not first
-      await context.route(
-        (url) => url.pathname.includes('bookmarkAndPersonSave'),
-        async (route) => {
+      // tRPC batches procedures into one request, so the url names only the first
+      await context.route('**/api/trpc**', async (route) => {
+        const request = route.request();
+        if (
+          request.url().includes('bookmarkAndPersonSave') ||
+          (request.postData() ?? '').includes('bookmarkAndPersonSave')
+        ) {
           sawAccountWrite = true;
           await route.abort();
+          return;
         }
-      );
+        await route.fallback();
+      });
       for (const url of GOOGLE_LOGOUT_TABS) {
         await context.route(`${url}**`, async (route) => {
           await route.fulfill({ contentType: 'text/html', body: '' });
@@ -70,12 +74,14 @@ const withSignedInProfile = async (
           sawAccountWrite: () => sawAccountWrite,
         });
       } finally {
-        // In a finally so a failing assertion above still surfaces the write by
-        // name, rather than leaving only the symptom it caused
-        expect(
-          sawAccountWrite,
-          'logout tried to write the shared test account'
-        ).toBe(false);
+        // Soft, because throwing from a finally replaces whatever failure the
+        // body was already reporting
+        expect
+          .soft(
+            sawAccountWrite,
+            'logout tried to write the shared test account'
+          )
+          .toBe(false);
       }
     }
   );
