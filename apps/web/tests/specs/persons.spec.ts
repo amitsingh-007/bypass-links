@@ -208,33 +208,32 @@ test.describe('Persons Panel', () => {
    * page would stay wide. Resizing the page itself is what crosses the
    * breakpoint, dropping the grid from five columns to three.
    */
-  test('should wrap the grid onto a second row on a narrow viewport', async ({
+  test('should drop grid columns on a narrow viewport', async ({
     authenticatedPage,
   }) => {
-    const countRenderedRows = async () => {
-      const offsets = await authenticatedPage
-        .locator('[data-testid^="person-item-"]')
+    const panel = new PersonsPanel(authenticatedPage);
+    // Columns, not rows: min(persons, 5) against min(persons, 3) always drops,
+    // where row counts tie at exactly six persons
+    const countRenderedColumns = async () => {
+      const offsets = await panel
+        .getPersonItems()
         .evaluateAll((cards) =>
-          cards.map((card) => Math.round(card.getBoundingClientRect().y))
+          cards.map((card) => Math.round(card.getBoundingClientRect().x))
         );
       return new Set(offsets).size;
     };
 
-    // Wrapping is only observable with more persons than the narrow column
-    // count, so say so here rather than failing later on a puzzling row compare
-    const panel = new PersonsPanel(authenticatedPage);
     expect(
       await panel.getPersonCount(),
-      'the grid needs more than three persons to wrap on a narrow viewport'
+      'the grid needs more than three persons to drop a column when narrowed'
     ).toBeGreaterThan(3);
 
-    // Polled, not read once: the grid only lays out after its width is measured
-    await expect.poll(countRenderedRows).toBeGreaterThan(0);
-    const wideRows = await countRenderedRows();
+    // Settles on a full row, not the first card to land
+    await expect.poll(countRenderedColumns).toBeGreaterThan(3);
+    const wideColumns = await countRenderedColumns();
 
     await authenticatedPage.setViewportSize({ width: 700, height: 900 });
 
-    // Relative, so the assertion survives the account gaining or losing a person
-    await expect.poll(countRenderedRows).toBeGreaterThan(wideRows);
+    await expect.poll(countRenderedColumns).toBeLessThan(wideColumns);
   });
 });

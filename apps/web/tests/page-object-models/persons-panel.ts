@@ -13,8 +13,12 @@ const MODAL_TEST_ID = 'bookmarks-list-modal';
 export class PersonsPanel {
   constructor(readonly page: Page) {}
 
+  getPersonItems(): Locator {
+    return this.page.locator('[data-testid^="person-item-"]');
+  }
+
   async getPersonCount(): Promise<number> {
-    return this.page.locator('[data-testid^="person-item-"]').count();
+    return this.getPersonItems().count();
   }
 
   async getHeaderPersonCount(): Promise<number> {

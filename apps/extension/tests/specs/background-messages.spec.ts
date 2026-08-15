@@ -1,7 +1,7 @@
 import { TEST_SITES, TEST_TIMEOUTS } from '@bypass/shared/tests';
 import { type Page } from '@playwright/test';
 
-import { EExtStorageKey } from '@/constants';
+import { EExtStorageKey, POPUP_HOMEPAGE } from '@/constants';
 import {
   type RuntimeInput,
   type RuntimeKeys,
@@ -159,6 +159,7 @@ test.describe('Forum button', () => {
     sharedBackground,
   }) => {
     const synced = await sharedBackground.readStorage('websites');
+    const { context } = sharedBackground;
     try {
       await sharedBackground.writeStorage({
         websites: { FORUM_1: FORUM_HOST },
@@ -170,6 +171,11 @@ test.describe('Forum button', () => {
        * the popup itself in front.
        */
       const popup = await sharedBackground.openPopup();
+      // Keep the tab the click opens off the network
+      await context.route(`https://${FORUM_HOST}/**`, async (route) => {
+        await route.fulfill({ contentType: 'text/html', body: '' });
+      });
+
       await sharedBackground.openFixturePage(
         `https://${FORUM_HOST}/`,
         UNREAD_ROWS_HTML
@@ -185,6 +191,18 @@ test.describe('Forum button', () => {
       ).toBeVisible();
     } finally {
       await sharedBackground.writeStorage({ websites: synced ?? {} });
+      // Swept by host because the click opens a tab we never get a handle on,
+      // and this profile is worker scoped and outlives the test
+      await Promise.all(
+        context
+          .pages()
+          .filter(
+            (page) =>
+              page.url().includes(FORUM_HOST) ||
+              page.url().includes(POPUP_HOMEPAGE)
+          )
+          .map((page) => page.close())
+      );
     }
   });
 });

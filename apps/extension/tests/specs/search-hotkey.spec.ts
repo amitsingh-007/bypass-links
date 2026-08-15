@@ -16,6 +16,9 @@ test.afterEach(async ({ personsPage }) => {
 test.describe('Search hotkey', () => {
   test('focuses the panel search', async ({ personsPage }) => {
     const panel = new PersonsPanel(personsPage);
+    // The hotkey proves nothing if the search is already focused
+    await expect(panel.getSearchInput()).toBeVisible();
+    await expect(panel.getSearchInput()).not.toBeFocused();
 
     await personsPage.keyboard.press('ControlOrMeta+f');
 
@@ -30,7 +33,8 @@ test.describe('Search hotkey', () => {
     // Waited for first: a negative assertion on an unattached locator passes
     // instantly, which would let the key press land before the modal exists
     await expect(panel.getModalSearchInput()).toBeVisible();
-    // The dialog moves focus into itself on open, so prove it did not land here
+
+    await expect(panel.getFocusedBookmarksDialog()).toBeAttached();
     await expect(panel.getModalSearchInput()).not.toBeFocused();
 
     await personsPage.keyboard.press('ControlOrMeta+f');

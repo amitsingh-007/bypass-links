@@ -60,15 +60,19 @@ test.describe('Tagging a bookmark with a person', () => {
 
     await expect(options).not.toHaveCount(0);
     const byRecency = await options.allTextContents();
+    const alphabetical = byRecency.toSorted((left, right) =>
+      left.localeCompare(right)
+    );
+
+    expect(
+      byRecency,
+      'the account lists persons alphabetically already, so toggling the sort proves nothing'
+    ).not.toEqual(alphabetical);
 
     await recencySwitch.click();
 
-    // The order assertion alone can hold vacuously when recency already matches
-    // alphabetical, so pin that the toggle itself actually flipped
     await expect(recencySwitch).not.toBeChecked();
-    await expect(options).toHaveText(
-      byRecency.toSorted((left, right) => left.localeCompare(right))
-    );
+    await expect(options).toHaveText(alphabetical);
   });
 
   test('previews a person behind their avatar', async ({ bookmarksPage }) => {
