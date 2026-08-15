@@ -18,25 +18,84 @@ const isCoverageEnabled = process.env.COVERAGE === '1';
 
 const COVERAGE_OUTPUT_DIR = path.join('.playwright', 'coverage');
 
-/** Source dirs counted toward coverage; packages/ui is vendored shadcn. */
+/**
+ * Source dirs counted toward coverage; packages/ui is vendored shadcn, and
+ * packages/trpc only ever runs on the server, out of reach of browser V8.
+ */
 const COVERED_SOURCE_DIRS = [
   'apps/extension/src',
   'apps/web/src',
   'packages/shared/src',
-  'packages/trpc/src',
 ];
 
-/** Test-only sources that ship in no bundle; `all` would pad them in at 0%. */
-const TEST_ONLY_SOURCES = [
+/** Not JavaScript, so no V8 entry can ever be attributed back to them. */
+const UNCOVERABLE_EXTENSIONS = ['.svg', '.css', '.md', '.html', '.d.ts'];
+
+/**
+ * Sources `all` would otherwise pin at 0% forever: test-only files, server-only
+ * handlers, React Server Components, build-time config, and type-only modules.
+ *
+ * Enumerated rather than derived because deriving it means reading the client
+ * bundles' sourcemaps, and the web app under test is a Vercel preview that never
+ * exists on the runner. `packages/shared/src/schema/` is server-side tRPC
+ * validation; the per-component schema dirs are client-reachable and stay in.
+ */
+const EXCLUDED_SOURCES = [
   'packages/shared/src/testIndex.ts',
   'packages/shared/src/constants/e2e-tests.ts',
   'packages/shared/src/utils/test-helpers.ts',
   'packages/shared/src/utils/coverage.ts',
+  'packages/shared/src/schema/',
+  'packages/shared/src/schemaIndex.ts',
+  'apps/web/src/app/api/',
+  'apps/web/src/app/constants/env/server.ts',
+  'apps/web/src/app/constants/features.ts',
+  'apps/web/src/app/constants/metadata.ts',
+  'apps/web/src/app/helpers/verifyInternalToken.ts',
+  'apps/web/src/app/page.tsx',
+  'apps/web/src/app/components/Footer.tsx',
+  'apps/web/src/app/components/PageHeader.tsx',
+  'apps/web/src/app/components/SalientFeatures.tsx',
+  'apps/extension/src/constants/manifest.ts',
+  '/layout.tsx',
+  '/interfaces/',
+  '/types/',
 ];
+
+const isCoverableSource = (filePath: string) =>
+  COVERED_SOURCE_DIRS.some((dir) => filePath.includes(dir)) &&
+  !UNCOVERABLE_EXTENSIONS.some((extension) => filePath.endsWith(extension)) &&
+  !EXCLUDED_SOURCES.some((source) => filePath.includes(source));
+
+/**
+ * A server component turning into a client one would silently hand back free
+ * coverage, and the excluded file is invisible from the report that hides it.
+ */
+const warnOnClientComponentExclusions = async () => {
+  // Repo-relative entries only: a leading slash is a path fragment matching many
+  // files, and `path.resolve` would take it as absolute and read outside the repo
+  const excludedComponents = EXCLUDED_SOURCES.filter(
+    (source) => source.endsWith('.tsx') && !source.startsWith('/')
+  );
+  await Promise.all(
+    excludedComponents.map(async (source) => {
+      const contents = await fs.promises
+        .readFile(path.resolve(process.cwd(), source), 'utf8')
+        .catch(() => '');
+      if (contents.includes("'use client'")) {
+        console.error(
+          `::error::[coverage] ${source} is excluded as a server component but now declares 'use client'`
+        );
+      }
+    })
+  );
+};
 
 const APP_ROOTS = ['apps/extension', 'apps/web'];
 
-const WEB_BASE_URL = process.env.PLAYWRIGHT_TEST_BASE_URL;
+// Trailing slash trimmed: the preview url is passed through from CI, and one
+// would make every `${origin}/_next/` comparison miss and silently zero the web
+const WEB_BASE_URL = process.env.PLAYWRIGHT_TEST_BASE_URL?.replace(/\/+$/, '');
 
 /** Set from the fixture that loads the extension, so the path is not re-derived. */
 let extensionBuildDir: string | undefined;
@@ -91,14 +150,16 @@ const coverageOptions: CoverageReportOptions = {
   sourceMapResolver,
   sourcePath,
   // Scoped to our own code: a broader filter makes the report generation fetch
-  // sourcemaps from third-party hosts before discarding them
+  // sourcemaps from third-party hosts before discarding them. Narrowed to
+  // `_next` because Vercel serves its own analytics and protection scripts from
+  // the same origin, and they dominated the function and branch denominators.
   entryFilter: (entry: { url: string }) =>
     entry.url.startsWith('chrome-extension://') ||
-    (WEB_BASE_URL !== undefined && entry.url.startsWith(WEB_BASE_URL)),
-  sourceFilter: (filePath: string) =>
-    COVERED_SOURCE_DIRS.some((dir) => filePath.includes(dir)) &&
-    !TEST_ONLY_SOURCES.some((source) => filePath.endsWith(source)),
-  // Pads in never-executed files so the denominator is the whole codebase
+    (WEB_BASE_URL !== undefined &&
+      entry.url.startsWith(`${WEB_BASE_URL}/_next/`)),
+  sourceFilter: isCoverableSource,
+  // Pads in never-executed files so the denominator is the whole codebase.
+  // monocart runs sourceFilter over these too, so one filter covers both.
   all: {
     dir: COVERED_SOURCE_DIRS.map((dir) => path.resolve(process.cwd(), dir)),
   },
@@ -254,6 +315,7 @@ export const generateCoverageReport = async () => {
   if (!isCoverageEnabled) {
     return;
   }
+  await warnOnClientComponentExclusions();
   const coverageReport = await getReport();
   if (!coverageReport.hasCache()) {
     // Loud, because the whole mechanism silently rotting to zero looks identical

@@ -46,10 +46,14 @@ export class BookmarksPanel {
     return this.page.getByRole('dialog');
   }
 
-  async openBookmarkContextMenuItem(bookmarkTitle: string, menuItemId: string) {
-    const element = this.page.getByTestId(`bookmark-item-${bookmarkTitle}`);
+  async openBookmarkContextMenu(bookmarkTitle: string) {
+    const element = this.getBookmarkElement(bookmarkTitle);
     await expect(element).toBeVisible();
     await element.click({ button: 'right' });
+  }
+
+  async openBookmarkContextMenuItem(bookmarkTitle: string, menuItemId: string) {
+    await this.openBookmarkContextMenu(bookmarkTitle);
     await this.clickContextMenuItem(menuItemId);
   }
 
@@ -61,10 +65,30 @@ export class BookmarksPanel {
     await this.clickContextMenuItem('paste');
   }
 
-  async selectBookmark(bookmarkTitle: string) {
-    const bookmark = this.page.getByTestId(`bookmark-item-${bookmarkTitle}`);
+  async selectBookmark(bookmarkTitle: string, { extend = false } = {}) {
+    const bookmark = this.getBookmarkElement(bookmarkTitle);
     await expect(bookmark).toBeVisible();
-    await bookmark.click();
+    await bookmark.click({ modifiers: extend ? ['ControlOrMeta'] : [] });
+  }
+
+  /**
+   * Cut and paste read the store's selection rather than the right-clicked row,
+   * so both bookmarks have to be left-clicked on the way through.
+   */
+  async moveBookmarkOnto(cutTitle: string, targetTitle: string) {
+    await this.selectBookmark(cutTitle);
+    await this.openBookmarkContextMenuItem(cutTitle, 'cut');
+    await this.selectBookmark(targetTitle);
+    await this.openBookmarkContextMenu(targetTitle);
+    await this.pasteBookmark();
+  }
+
+  async getBookmarkTitles() {
+    return this.getBookmarkItems().evaluateAll((rows) =>
+      rows.map((row) =>
+        (row.getAttribute('data-testid') ?? '').replace('bookmark-item-', '')
+      )
+    );
   }
 
   async openBookmarkByDoubleClick(bookmarkTitle: string) {
@@ -117,12 +141,15 @@ export class BookmarksPanel {
     return this.page.getByTitle('Edit Bookmark');
   }
 
-  async addPersonToBookmark(bookmarkTitle: string, personName: string) {
+  async openPersonSelect(bookmarkTitle: string) {
     const dialog = await this.openEditBookmarkDialog(bookmarkTitle);
     await expect(dialog).toBeVisible();
+    await dialog.getByTestId('person-select').click();
+    return dialog;
+  }
 
-    const personSelect = dialog.getByTestId('person-select');
-    await personSelect.click();
+  async addPersonToBookmark(bookmarkTitle: string, personName: string) {
+    const dialog = await this.openPersonSelect(bookmarkTitle);
 
     const option = this.page.getByRole('option', { name: personName });
     await option.click();
@@ -140,11 +167,7 @@ export class BookmarksPanel {
   }
 
   async removePersonFromBookmark(bookmarkTitle: string, personName: string) {
-    const dialog = await this.openEditBookmarkDialog(bookmarkTitle);
-    await expect(dialog).toBeVisible();
-
-    const personSelect = dialog.getByTestId('person-select');
-    await personSelect.click();
+    const dialog = await this.openPersonSelect(bookmarkTitle);
 
     const option = this.page.getByRole('option', { name: personName });
     await expect(option).toBeVisible();
@@ -202,6 +225,10 @@ export class BookmarksPanel {
 
   getBookmarkItems() {
     return this.page.locator('[data-testid^="bookmark-item-"]');
+  }
+
+  getContextMenuItem(itemId: string) {
+    return this.page.getByTestId(`context-menu-item-${itemId}`);
   }
 
   // ============ Composite Operations ============

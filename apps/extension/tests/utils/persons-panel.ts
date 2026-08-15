@@ -187,7 +187,7 @@ export class PersonsPanel {
     await openPersonCard(this.page, personName);
 
     const dialog = this.getBookmarksDialog();
-    const searchInput = dialog.getByPlaceholder('Search');
+    const searchInput = this.getModalSearchInput();
     await expect(searchInput).toBeVisible();
 
     const bookmarks = dialog.getByTitle('Edit Bookmark');
@@ -270,6 +270,11 @@ export class PersonsPanel {
 
   getSearchInput() {
     return this.page.getByPlaceholder('Search');
+  }
+
+  /** Scoped, because the panel's own search matches the same placeholder. */
+  getModalSearchInput() {
+    return this.getBookmarksDialog().getByPlaceholder('Search');
   }
 
   // ============ Composite Operations ============

@@ -202,4 +202,39 @@ test.describe('Persons Panel', () => {
     await panel.verifyEditButtonsHidden();
     await panel.closeModal();
   });
+  /**
+   * `test.use({ viewport })` cannot drive this: the auth fixture supplies its
+   * own persistent context, so Playwright's viewport option is ignored and the
+   * page would stay wide. Resizing the page itself is what crosses the
+   * breakpoint, dropping the grid from five columns to three.
+   */
+  test('should wrap the grid onto a second row on a narrow viewport', async ({
+    authenticatedPage,
+  }) => {
+    const countRenderedRows = async () => {
+      const offsets = await authenticatedPage
+        .locator('[data-testid^="person-item-"]')
+        .evaluateAll((cards) =>
+          cards.map((card) => Math.round(card.getBoundingClientRect().y))
+        );
+      return new Set(offsets).size;
+    };
+
+    // Wrapping is only observable with more persons than the narrow column
+    // count, so say so here rather than failing later on a puzzling row compare
+    const panel = new PersonsPanel(authenticatedPage);
+    expect(
+      await panel.getPersonCount(),
+      'the grid needs more than three persons to wrap on a narrow viewport'
+    ).toBeGreaterThan(3);
+
+    // Polled, not read once: the grid only lays out after its width is measured
+    await expect.poll(countRenderedRows).toBeGreaterThan(0);
+    const wideRows = await countRenderedRows();
+
+    await authenticatedPage.setViewportSize({ width: 700, height: 900 });
+
+    // Relative, so the assertion survives the account gaining or losing a person
+    await expect.poll(countRenderedRows).toBeGreaterThan(wideRows);
+  });
 });

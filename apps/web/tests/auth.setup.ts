@@ -2,7 +2,11 @@ import fs from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 
-import { dumpLocalStorage, TEST_TIMEOUTS } from '@bypass/shared/tests';
+import {
+  dumpLocalStorage,
+  instrumentContext,
+  TEST_TIMEOUTS,
+} from '@bypass/shared/tests';
 import { chromium, expect, test as setup } from '@playwright/test';
 
 import { TEST_CREDENTIALS_KEY } from '../src/app/constants';
@@ -27,6 +31,9 @@ setup('authenticate and cache web storage', async ({}, testInfo) => {
       args: ['--disable-dev-shm-usage', '--no-sandbox'],
     }
   );
+
+  // The real login and preload pipeline only ever runs here
+  instrumentContext(browserContext);
 
   await browserContext.addInitScript(
     ({ credentialsJson, key }) => {
