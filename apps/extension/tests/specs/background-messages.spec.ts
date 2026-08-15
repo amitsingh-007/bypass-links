@@ -1,7 +1,7 @@
 import { TEST_SITES, TEST_TIMEOUTS } from '@bypass/shared/tests';
 import { type Page } from '@playwright/test';
 
-import { EExtStorageKey, POPUP_HOMEPAGE } from '@/constants';
+import { EExtStorageKey } from '@/constants';
 import {
   type RuntimeInput,
   type RuntimeKeys,
@@ -160,6 +160,10 @@ test.describe('Forum button', () => {
   }) => {
     const synced = await sharedBackground.readStorage('websites');
     const { context } = sharedBackground;
+    const forumRoute = `https://${FORUM_HOST}/**`;
+    // Snapshotted, because the click opens a tab we never get a handle on and
+    // this profile is worker scoped -- everything new here is ours to clean up
+    const pagesBefore = new Set(context.pages());
     try {
       await sharedBackground.writeStorage({
         websites: { FORUM_1: FORUM_HOST },
@@ -172,7 +176,7 @@ test.describe('Forum button', () => {
        */
       const popup = await sharedBackground.openPopup();
       // Keep the tab the click opens off the network
-      await context.route(`https://${FORUM_HOST}/**`, async (route) => {
+      await context.route(forumRoute, async (route) => {
         await route.fulfill({ contentType: 'text/html', body: '' });
       });
 
@@ -191,16 +195,11 @@ test.describe('Forum button', () => {
       ).toBeVisible();
     } finally {
       await sharedBackground.writeStorage({ websites: synced ?? {} });
-      // Swept by host because the click opens a tab we never get a handle on,
-      // and this profile is worker scoped and outlives the test
+      await context.unroute(forumRoute);
       await Promise.all(
         context
           .pages()
-          .filter(
-            (page) =>
-              page.url().includes(FORUM_HOST) ||
-              page.url().includes(POPUP_HOMEPAGE)
-          )
+          .filter((page) => !pagesBefore.has(page))
           .map((page) => page.close())
       );
     }

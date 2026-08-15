@@ -130,8 +130,7 @@ export class PersonsPanel {
   }
 
   async getPersonNames(): Promise<string[]> {
-    const personCards = this.page.locator('[data-testid^="person-item-"]');
-    const names = await personCards.allTextContents();
+    const names = await this.getPersonItems().allTextContents();
     return names.map((name) => name.trim());
   }
 
