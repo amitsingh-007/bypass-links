@@ -193,6 +193,7 @@ export const openNewPageFromAction = async (
   const openedPages: Page[] = [];
   const collectPage = (page: Page) => openedPages.push(page);
   context.on('page', collectPage);
+  let handedOver: Page | undefined;
 
   try {
     await expect(async () => {
@@ -205,14 +206,24 @@ export const openNewPageFromAction = async (
         .toBeGreaterThan(0);
     }).toPass({ timeout, intervals: [100] });
 
-    const [newPage, ...extraPages] = openedPages;
-    await Promise.all(extraPages.map((page) => page.close()));
-
+    const [newPage] = openedPages;
     await expect.poll(() => newPage.url(), { timeout }).not.toBe('about:blank');
+    handedOver = newPage;
 
     return newPage;
   } finally {
     context.off('page', collectPage);
+    /**
+     * Everything the action opened is closed unless it is being handed to the
+     * caller: a retry duplicates the tab, and a failing attempt would otherwise
+     * strand one in the context every later test in the worker shares. Close
+     * errors stay swallowed so they cannot mask the failure that got us here.
+     */
+    await Promise.all(
+      openedPages
+        .filter((page) => page !== handedOver)
+        .map((page) => page.close().catch(() => undefined))
+    );
   }
 };
 
