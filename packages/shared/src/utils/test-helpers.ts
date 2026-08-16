@@ -7,6 +7,8 @@ import {
   type Page,
 } from '@playwright/test';
 
+import { TEST_TIMEOUTS } from '../constants/e2e-tests';
+
 type TestIdScope = Pick<Page, 'getByTestId'>;
 
 export const dumpLocalStorage = async (
@@ -167,35 +169,62 @@ export const clickDropdownPersonAndGetName = async (
 };
 
 /**
- * Run an action that should open a new page and return it.
+ * Opens a bookmark from the shared `Bookmark` row. The title is double-clicked
+ * rather than the row: it fills the row's remaining width, so it cannot shift
+ * under a person hover card while avatars are still loading.
+ */
+export const dblclickBookmark = async (scope: TestIdScope, title: string) =>
+  scope
+    .getByTestId(`bookmark-item-${title}`)
+    .getByTestId(`bookmark-title-${title}`)
+    .dblclick();
+
+/**
+ * Run an action that should open a new page and return it. The action is retried
+ * because a gesture swallowed by a re-render leaves no trace beyond the tab never
+ * arriving, so every caller's action has to be idempotent.
  */
 export const openNewPageFromAction = async (
   context: BrowserContext,
   action: () => Promise<void>,
   options?: { timeout?: number }
 ): Promise<Page> => {
-  const existingPages = context.pages();
-  const existingPageSet = new Set(existingPages);
+  const timeout = options?.timeout ?? TEST_TIMEOUTS.LONG_WAIT;
+  const openedPages: Page[] = [];
+  const collectPage = (page: Page) => openedPages.push(page);
+  context.on('page', collectPage);
 
-  await action();
+  try {
+    await expect(async () => {
+      await action();
+      await expect
+        .poll(() => openedPages.length, {
+          timeout: TEST_TIMEOUTS.PAGE_OPEN_ATTEMPT,
+          message: 'Expected action to open a new page',
+        })
+        .toBeGreaterThan(0);
+    }).toPass({ timeout, intervals: [100] });
 
-  await expect
-    .poll(() => context.pages().length, { timeout: options?.timeout ?? 10_000 })
-    .toBeGreaterThan(existingPages.length);
+    const [newPage, ...extraPages] = openedPages;
+    await Promise.all(extraPages.map((page) => page.close()));
 
-  const newPage = context.pages().find((page) => !existingPageSet.has(page));
-  if (!newPage) {
-    throw new Error('Expected action to open a new page');
+    await expect.poll(() => newPage.url(), { timeout }).not.toBe('about:blank');
+
+    return newPage;
+  } finally {
+    context.off('page', collectPage);
   }
-
-  await expect
-    .poll(() => newPage.url(), { timeout: options?.timeout ?? 10_000 })
-    .not.toBe('about:blank');
-
-  return newPage;
 };
 
-/** Entrypoints stay per-app; Playwright discovers projects in their testDir. */
-export const removeAuthCacheDir = async (cacheDir: string) => {
-  await fs.promises.rm(cacheDir, { recursive: true, force: true });
+/**
+ * Chromium keeps flushing its profile cache for a moment after the context
+ * closes, so a plain `rm` loses the race with ENOTEMPTY.
+ */
+export const removeTestDir = async (dir: string) => {
+  await fs.promises.rm(dir, {
+    recursive: true,
+    force: true,
+    maxRetries: 5,
+    retryDelay: 100,
+  });
 };

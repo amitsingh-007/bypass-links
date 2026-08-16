@@ -124,6 +124,7 @@ export {
   clickDropdownPersonAndGetName,
   closeDialog,
   clearSearchInput,
+  dblclickBookmark,
   fillSearchInput,
   getHeaderPersonCount,
   getNumericBadgeValue,

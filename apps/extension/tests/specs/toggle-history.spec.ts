@@ -102,12 +102,8 @@ test.describe('History Tracking Workflow', () => {
 
     const panel = new BookmarksPanel(homePage);
 
-    // Double-click to open bookmark and wait for new tab
-    const bookmarkRow = panel.getBookmarkElement(TEST_BOOKMARKS.REACT_DOCS);
-    await expect(bookmarkRow).toBeVisible();
-
     const newPage = await openNewPageFromAction(context, async () => {
-      await bookmarkRow.dblclick();
+      await panel.openBookmarkByDoubleClick(TEST_BOOKMARKS.REACT_DOCS);
     });
     await newPage.close();
 

@@ -4,6 +4,7 @@ import {
   clickDropdownPersonAndGetName,
   clickContextMenuItem as clickContextMenuItemUtil,
   closeDialog,
+  dblclickBookmark,
   fillDialogInput,
   getBadgeCount as getBadgeCountUtil,
   gotoPanel,
@@ -23,8 +24,12 @@ export class BookmarksPanel {
     await navigateBackUtil(this.page);
   }
 
+  /** Add is the only control disabled while bookmarks are still loading. */
   async ensureAtRoot() {
     await gotoPanel(this.page, 'Bookmarks');
+    await expect(
+      this.page.getByRole('button', { name: 'Add', exact: true })
+    ).toBeEnabled();
   }
 
   async openAddFolderDialog() {
@@ -65,10 +70,18 @@ export class BookmarksPanel {
     await this.clickContextMenuItem('paste');
   }
 
+  /**
+   * The assertion is load-bearing: selection lives in the store and a bookmark
+   * reload wipes it, so callers acting on the selection need it to have landed.
+   */
   async selectBookmark(bookmarkTitle: string, { extend = false } = {}) {
     const bookmark = this.getBookmarkElement(bookmarkTitle);
     await expect(bookmark).toBeVisible();
     await bookmark.click({ modifiers: extend ? ['ControlOrMeta'] : [] });
+    await expect(this.getBookmarkRow(bookmarkTitle)).toHaveAttribute(
+      'data-is-selected',
+      'true'
+    );
   }
 
   /**
@@ -92,9 +105,7 @@ export class BookmarksPanel {
   }
 
   async openBookmarkByDoubleClick(bookmarkTitle: string) {
-    const bookmarkRow = this.page.getByTestId(`bookmark-item-${bookmarkTitle}`);
-    await expect(bookmarkRow).toBeVisible();
-    await bookmarkRow.dblclick();
+    await dblclickBookmark(this.page, bookmarkTitle);
   }
 
   async clickSaveButton() {
@@ -209,6 +220,11 @@ export class BookmarksPanel {
 
   getBookmarkElement(bookmarkTitle: string) {
     return this.page.getByTestId(`bookmark-item-${bookmarkTitle}`);
+  }
+
+  /** The virtual row wrapping the bookmark, which carries `data-is-selected`. */
+  getBookmarkRow(bookmarkTitle: string) {
+    return this.getBookmarkElement(bookmarkTitle).locator('xpath=..');
   }
 
   getFolderElement(folderName: string) {

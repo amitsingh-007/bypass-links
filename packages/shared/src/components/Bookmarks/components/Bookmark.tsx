@@ -81,7 +81,11 @@ function Bookmark({
         </Tooltip>
       </TooltipProvider>
       <PersonAvatars persons={personsWithImageUrls} />
-      <div className="flex-1 truncate text-sm" data-context-id={id}>
+      <div
+        className="flex-1 truncate text-sm"
+        data-context-id={id}
+        data-testid={`bookmark-title-${title}`}
+      >
         {isMobile ? (
           <a href={url} title={title} className="text-inherit no-underline">
             {title}

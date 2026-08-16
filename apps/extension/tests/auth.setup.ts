@@ -1,7 +1,11 @@
 import fs from 'node:fs';
 import process from 'node:process';
 
-import { dumpLocalStorage, TEST_TIMEOUTS } from '@bypass/shared/tests';
+import {
+  dumpLocalStorage,
+  removeTestDir,
+  TEST_TIMEOUTS,
+} from '@bypass/shared/tests';
 import { expect, test as setup } from '@playwright/test';
 import wretch from 'wretch';
 import QueryStringAddon from 'wretch/addons/queryString';
@@ -49,7 +53,7 @@ setup('authenticate and cache extension storage', async ({}, testInfo) => {
   const authData = await signInWithEmailAndPassword();
 
   await fs.promises.mkdir(AUTH_CACHE_DIR, { recursive: true });
-  await fs.promises.rm(CHROME_PROFILE_DIR, { recursive: true, force: true });
+  await removeTestDir(CHROME_PROFILE_DIR);
 
   const browserContext = await launchExtensionContext({
     userDataDir: CHROME_PROFILE_DIR,

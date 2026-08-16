@@ -1,5 +1,6 @@
 import {
   clickDropdownPersonAndGetName,
+  dblclickBookmark,
   getNumericBadgeValue,
 } from '@bypass/shared/tests';
 import { expect, type Page, type Locator } from '@playwright/test';
@@ -26,9 +27,7 @@ export class BookmarksPanel {
   }
 
   async openBookmarkByDoubleClick(title: string) {
-    const bookmark = this.getBookmarkElement(title);
-    await expect(bookmark).toBeVisible();
-    await bookmark.dblclick();
+    await dblclickBookmark(this.page, title);
   }
 
   async getBookmarkCount(): Promise<number> {
