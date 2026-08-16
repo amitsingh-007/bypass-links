@@ -1,5 +1,5 @@
 import { websitesItem } from '@/storage/items';
-import { findForumSite } from '@background/websites/registry';
+import { findForumExtractor } from '@background/websites/registry';
 
 export const getForumPageLinks = async (
   tabId: number,
@@ -7,15 +7,15 @@ export const getForumPageLinks = async (
 ): Promise<string[]> => {
   const websites = await websitesItem.getValue();
   const parsedUrl = new URL(url);
-  const site = findForumSite(websites, parsedUrl.hostname);
+  const pickExtractor = findForumExtractor(websites, parsedUrl.hostname);
 
-  if (!site) {
+  if (!pickExtractor) {
     throw new Error('Not a forum page');
   }
 
   const [{ result }] = await browser.scripting.executeScript({
     target: { tabId },
-    func: site.pickExtractor(parsedUrl),
+    func: pickExtractor(parsedUrl),
   });
   return result?.filter(Boolean) ?? [];
 };

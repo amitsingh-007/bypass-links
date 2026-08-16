@@ -1,8 +1,8 @@
 import { websitesItem } from '@/storage/items';
 
-import { findForumSite } from './registry';
+import { findForumExtractor } from './registry';
 
 export const isForumPage = async (hostname: string) => {
   const websites = await websitesItem.getValue();
-  return Boolean(findForumSite(websites, hostname));
+  return Boolean(findForumExtractor(websites, hostname));
 };

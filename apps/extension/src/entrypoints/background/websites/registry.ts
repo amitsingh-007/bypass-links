@@ -54,35 +54,30 @@ const getForum_4_Links: LinkExtractor = () => {
   return [...unreadPosts].map((a) => a.href);
 };
 
+const pickForum_1_2_Extractor = ({ pathname }: URL) =>
+  pathname === '/watched/threads'
+    ? getForum_1_2_WatchedThreadsLinks
+    : getForum_1_2_Links;
+
 /**
  * The single source for "is this a forum page" and "how do I read its links",
- * so the button cannot enable on a page the extractor then rejects.
+ * so the button cannot enable on a page the extractor then rejects. Keyed by
+ * website, so a schema key with no entry is a compile error.
  */
-const FORUM_SITES = [
-  {
-    keys: ['FORUM_1', 'FORUM_2'],
-    pickExtractor: ({ pathname }: URL) =>
-      pathname === '/watched/threads'
-        ? getForum_1_2_WatchedThreadsLinks
-        : getForum_1_2_Links,
-  },
-  { keys: ['FORUM_4'], pickExtractor: () => getForum_4_Links },
-  { keys: ['FORUM_3'], pickExtractor: () => getForum_3_Links },
-] as const satisfies readonly {
-  keys: readonly WebsiteKey[];
-  pickExtractor: (url: URL) => LinkExtractor;
-}[];
-
-// Compile error if a schema key has no registry entry
-type CoveredKey = (typeof FORUM_SITES)[number]['keys'][number];
-type AssertCovers<T extends Record<WebsiteKey, unknown>> = T;
-export type _AllWebsiteKeysCovered = AssertCovers<Record<CoveredKey, true>>;
+const EXTRACTOR_BY_KEY = {
+  FORUM_1: pickForum_1_2_Extractor,
+  FORUM_2: pickForum_1_2_Extractor,
+  FORUM_3: () => getForum_3_Links,
+  FORUM_4: () => getForum_4_Links,
+} satisfies Record<WebsiteKey, (url: URL) => LinkExtractor>;
 
 /** Undefined when unsynced; hostname.includes('') would match every page. */
 const matchesHostname = (hostname: string, website?: string) =>
   Boolean(website && hostname.includes(website));
 
-export const findForumSite = (websites: IWebsites, hostname: string) =>
-  FORUM_SITES.find((site) =>
-    site.keys.some((key) => matchesHostname(hostname, websites[key]))
+export const findForumExtractor = (websites: IWebsites, hostname: string) => {
+  const key = (Object.keys(EXTRACTOR_BY_KEY) as WebsiteKey[]).find((website) =>
+    matchesHostname(hostname, websites[website])
   );
+  return key && EXTRACTOR_BY_KEY[key];
+};

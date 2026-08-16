@@ -5,9 +5,15 @@ import { expect, type Locator, type Page } from '@playwright/test';
  * test-id rename in packages/shared is one edit rather than one per app.
  * App-specific navigation stays in the subclasses.
  */
-export class BaseBookmarksPanel {
+class BasePanel {
   constructor(readonly page: Page) {}
 
+  getSearchInput(): Locator {
+    return this.page.getByPlaceholder('Search');
+  }
+}
+
+export class BaseBookmarksPanel extends BasePanel {
   getBookmarkElement(title: string): Locator {
     return this.page.getByTestId(`bookmark-item-${title}`);
   }
@@ -18,10 +24,6 @@ export class BaseBookmarksPanel {
 
   getBookmarkItems(): Locator {
     return this.page.locator('[data-testid^="bookmark-item-"]');
-  }
-
-  getSearchInput(): Locator {
-    return this.page.getByPlaceholder('Search');
   }
 
   getAvatarGroup(): Locator {
@@ -43,9 +45,7 @@ export class BaseBookmarksPanel {
 
 export const BOOKMARKS_MODAL_TEST_ID = 'bookmarks-list-modal';
 
-export class BasePersonsPanel {
-  constructor(readonly page: Page) {}
-
+export class BasePersonsPanel extends BasePanel {
   getPersonElement(name: string): Locator {
     return this.page.getByTestId(`person-item-${name}`);
   }
@@ -56,10 +56,6 @@ export class BasePersonsPanel {
 
   getBookmarksDialog(): Locator {
     return this.page.getByTestId(BOOKMARKS_MODAL_TEST_ID);
-  }
-
-  getSearchInput(): Locator {
-    return this.page.getByPlaceholder('Search');
   }
 
   async getPersonCount(): Promise<number> {
