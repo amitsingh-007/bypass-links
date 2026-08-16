@@ -1,10 +1,9 @@
 import filenamify from 'filenamify';
 
-import { EFirebaseDBRootKeys } from '../constants/firebase';
+const DB_ROOT = 'data';
 
-export const getFullDbPath = (ref: string, uid?: string) => {
-  return `/${EFirebaseDBRootKeys.data}/${uid}/${ref}`;
-};
+export const getFullDbPath = (ref: string, uid: string) =>
+  `/${DB_ROOT}/${uid}/${ref}`;
 
 export const getBucketPath = (uid: string) => `${uid}/persons`;
 

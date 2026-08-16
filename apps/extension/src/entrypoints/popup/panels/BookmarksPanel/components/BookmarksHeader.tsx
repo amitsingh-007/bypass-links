@@ -85,7 +85,7 @@ function BookmarksHeader({ onSearchChange, folderId }: Props) {
   return (
     <>
       <Header
-        text={contextBookmarks?.length || 0}
+        text={contextBookmarks.length}
         onBackClick={onBackClick}
         onSearchChange={onSearchChange}
       >

@@ -46,73 +46,6 @@ function BookmarksList({
 
   const filteredBookmarks = getFilteredModifiedBookmarks(bookmarks, searchText);
 
-  const renderContent = () => (
-    <>
-      <Header
-        rightContent={
-          <div className="contents max-sm:hidden">
-            <Avatar>
-              <AvatarImage src={imageUrl} alt={personToOpen?.name} />
-            </Avatar>
-            <Badge
-              data-testid="person-bookmark-count-badge"
-              className="h-8 max-w-[50%]"
-              variant="secondary"
-            >{`${personToOpen?.name} (${filteredBookmarks?.length || 0})`}</Badge>
-          </div>
-        }
-        onSearchChange={setSearchText}
-      />
-      {isLoading ? (
-        <div
-          className="flex h-50 items-center justify-center"
-          data-testid="bookmarks-loading"
-        >
-          <div>Loading bookmarks...</div>
-        </div>
-      ) : filteredBookmarks.length > 0 ? (
-        filteredBookmarks.map((bookmark) => (
-          <div
-            key={bookmark.url}
-            className="relative box-border flex h-8 w-full cursor-pointer items-center gap-2 rounded-md px-2 select-none hover:bg-muted"
-            data-testid="bookmark-container"
-          >
-            {onBookmarkEdit && (
-              <Button
-                variant="secondary"
-                size="icon-sm"
-                title="Edit Bookmark"
-                data-testid="edit-bookmark-button"
-                onClick={() => onBookmarkEdit(bookmark)}
-              >
-                <HugeiconsIcon icon={BookEditIcon} className="size-3.5" />
-              </Button>
-            )}
-            <div className="min-w-0 flex-1">
-              <Bookmark
-                id={bookmark.id}
-                url={bookmark.url}
-                title={bookmark.title}
-                taggedPersons={bookmark.taggedPersons}
-              />
-            </div>
-            <Badge
-              data-testid="folder-name-badge"
-              variant="secondary"
-              className="shrink-0"
-            >
-              {bookmark.parentName}
-            </Badge>
-          </div>
-        ))
-      ) : (
-        <div className="mt-7.5 text-center" data-testid="no-bookmarks-message">
-          No tagged bookmarks found
-        </div>
-      )}
-    </>
-  );
-
   return (
     <Dialog
       open={Boolean(personToOpen)}
@@ -126,11 +59,73 @@ function BookmarksList({
         <DialogHeader className="px-0">
           <DialogTitle className="sr-only">Bookmarks</DialogTitle>
         </DialogHeader>
-        {fullscreen ? (
-          renderContent()
-        ) : (
-          <div className="max-w-panel mx-auto px-0">{renderContent()}</div>
-        )}
+        <div className={fullscreen ? undefined : 'max-w-panel mx-auto px-0'}>
+          <Header
+            rightContent={
+              <div className="contents max-sm:hidden">
+                <Avatar>
+                  <AvatarImage src={imageUrl} alt={personToOpen?.name} />
+                </Avatar>
+                <Badge
+                  data-testid="person-bookmark-count-badge"
+                  className="h-8 max-w-[50%]"
+                  variant="secondary"
+                >{`${personToOpen?.name} (${filteredBookmarks.length})`}</Badge>
+              </div>
+            }
+            onSearchChange={setSearchText}
+          />
+          {isLoading ? (
+            <div
+              className="flex h-50 items-center justify-center"
+              data-testid="bookmarks-loading"
+            >
+              <div>Loading bookmarks...</div>
+            </div>
+          ) : filteredBookmarks.length > 0 ? (
+            filteredBookmarks.map((bookmark) => (
+              <div
+                key={bookmark.url}
+                className="relative box-border flex h-8 w-full cursor-pointer items-center gap-2 rounded-md px-2 select-none hover:bg-muted"
+                data-testid="bookmark-container"
+              >
+                {onBookmarkEdit && (
+                  <Button
+                    variant="secondary"
+                    size="icon-sm"
+                    title="Edit Bookmark"
+                    data-testid="edit-bookmark-button"
+                    onClick={() => onBookmarkEdit(bookmark)}
+                  >
+                    <HugeiconsIcon icon={BookEditIcon} className="size-3.5" />
+                  </Button>
+                )}
+                <div className="min-w-0 flex-1">
+                  <Bookmark
+                    id={bookmark.id}
+                    url={bookmark.url}
+                    title={bookmark.title}
+                    taggedPersons={bookmark.taggedPersons}
+                  />
+                </div>
+                <Badge
+                  data-testid="folder-name-badge"
+                  variant="secondary"
+                  className="shrink-0"
+                >
+                  {bookmark.parentName}
+                </Badge>
+              </div>
+            ))
+          ) : (
+            <div
+              className="mt-7.5 text-center"
+              data-testid="no-bookmarks-message"
+            >
+              No tagged bookmarks found
+            </div>
+          )}
+        </div>
       </DialogContent>
     </Dialog>
   );

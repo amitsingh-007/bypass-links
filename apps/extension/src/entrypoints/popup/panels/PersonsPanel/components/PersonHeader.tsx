@@ -32,7 +32,7 @@ function PersonHeader({
 
   return (
     <>
-      <Header text={persons?.length || 0} onSearchChange={onSearchChange}>
+      <Header text={persons.length} onSearchChange={onSearchChange}>
         <Button
           disabled={isFetching}
           variant="secondary"

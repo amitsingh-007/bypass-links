@@ -5,7 +5,3 @@ export enum EFirebaseDBRef {
   persons = 'persons',
   redirections = 'redirections',
 }
-
-export enum EFirebaseDBRootKeys {
-  data = 'data',
-}

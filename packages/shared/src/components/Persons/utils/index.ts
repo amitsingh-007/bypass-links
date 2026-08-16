@@ -9,7 +9,7 @@ import {
 } from '../interfaces/persons';
 
 /** Field by field, so view-model extras cannot reach storage or Firebase. */
-export const getDecryptedPerson = ({ uid, name }: IPerson): IPerson => ({
+const getDecryptedPerson = ({ uid, name }: IPerson): IPerson => ({
   uid,
   name: atob(name),
 });
@@ -49,7 +49,7 @@ export const sortAlphabetically = <T extends IPerson>(persons: T[]) =>
   persons.toSorted((a, b) => a.name.localeCompare(b.name));
 
 export const getFilteredPersons = (persons: IPerson[], searchText: string) =>
-  persons.filter(({ name }) => !searchText || hasText(searchText, name));
+  persons.filter(({ name }) => hasText(searchText, name));
 
 export const getColumnCount = (isMobile: boolean) => (isMobile ? 3 : 5);
 

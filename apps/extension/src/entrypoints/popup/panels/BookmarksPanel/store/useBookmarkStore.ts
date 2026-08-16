@@ -166,7 +166,11 @@ const useBookmarkStore = create<State>()((set, get) => ({
       taggedPersons: [...updatedBookmark.taggedPersons],
       parentHash: newFolderId,
     });
-    set({ urlList: newUrlList });
+
+    const patch: Partial<State> = {
+      urlList: newUrlList,
+      isSaveButtonActive: true,
+    };
 
     // Update folders and current context folder content based on folder change
     if (isFolderChange) {
@@ -177,27 +181,24 @@ const useBookmarkStore = create<State>()((set, get) => ({
         hash: updatedBookmark.id,
       });
 
+      patch.folders = newFolders;
       // Remove from current context (filter by ID)
-      const newContextBookmarks = contextBookmarks.filter(
+      patch.contextBookmarks = contextBookmarks.filter(
         (bm) => bm.isDir || bm.id !== updatedBookmark.id
       );
-
-      set({ folders: newFolders, contextBookmarks: newContextBookmarks });
     } else if (isNewBookmark) {
       // New bookmark - append to current context
-      const newContextBookmarks = [...contextBookmarks, updatedBookmark];
-      set({ contextBookmarks: newContextBookmarks });
+      patch.contextBookmarks = [...contextBookmarks, updatedBookmark];
     } else {
       // Update existing bookmark in place (find by ID)
-      const newContextBookmarks = contextBookmarks.map((bm) =>
+      patch.contextBookmarks = contextBookmarks.map((bm) =>
         !bm.isDir && bm.id === updatedBookmark.id ? updatedBookmark : bm
       );
-      set({ contextBookmarks: newContextBookmarks });
     }
 
     // Cache favicon for new URL
     addToCache(ECacheBucketKeys.favicon, getFaviconUrl(updatedBookmark.url));
-    set({ isSaveButtonActive: true });
+    set(patch);
     return true;
   },
 

@@ -15,36 +15,27 @@ interface Props {
 function ButtonWithFeedback({ openAllLinks, isForumPage }: Props) {
   const { buttonState, onClick } = useFeedbackButton(openAllLinks);
 
-  if (isForumPage && buttonState === EButtonState.SUCCESS) {
-    return (
-      <Button
-        className="w-full border-teal-600 bg-teal-600 font-medium hover:border-teal-700 hover:bg-teal-700"
-        variant="default"
-        onClick={onClick}
-      >
-        Success
-        <HugeiconsIcon
-          icon={CheckmarkBadge02Icon}
-          strokeWidth={2}
-          className="ml-2 size-4"
-        />
-      </Button>
-    );
-  }
+  const isSuccess = isForumPage && buttonState === EButtonState.SUCCESS;
 
   return (
     <Button
-      className="w-full font-medium"
-      variant="secondary"
-      disabled={!isForumPage || buttonState === EButtonState.LOADING}
+      className={
+        isSuccess
+          ? 'w-full border-teal-600 bg-teal-600 font-medium hover:border-teal-700 hover:bg-teal-700'
+          : 'w-full font-medium'
+      }
+      variant={isSuccess ? 'default' : 'secondary'}
+      disabled={
+        !isSuccess && (!isForumPage || buttonState === EButtonState.LOADING)
+      }
       onClick={onClick}
     >
       {buttonState === EButtonState.LOADING && (
         <Spinner className="mr-2 size-4" />
       )}
-      Forum
+      {isSuccess ? 'Success' : 'Forum'}
       <HugeiconsIcon
-        icon={WebDesign01Icon}
+        icon={isSuccess ? CheckmarkBadge02Icon : WebDesign01Icon}
         strokeWidth={2}
         className="ml-2 size-4"
       />

@@ -8,7 +8,9 @@ export const redirect = async (tabId: number, url: URL) => {
   const redirections = await getMappedRedirections();
   const redirectUrl = redirections[btoa(url.href)];
   if (redirectUrl) {
-    await browser.tabs.update(tabId, { url: atob(redirectUrl) });
-    await startHistoryWatch();
+    await Promise.all([
+      browser.tabs.update(tabId, { url: atob(redirectUrl) }),
+      startHistoryWatch(),
+    ]);
   }
 };

@@ -28,15 +28,12 @@ export const getFilteredContextBookmarks = (
   contextBookmarks: ContextBookmarks,
   searchText: string
 ) =>
-  contextBookmarks.filter((ctx) => {
-    if (!searchText) {
-      return true;
-    }
-    if (ctx.isDir) {
-      return true;
-    }
-    return hasText(searchText, ctx.url) || hasText(searchText, ctx.title);
-  });
+  contextBookmarks.filter(
+    (ctx) =>
+      ctx.isDir ||
+      hasText(searchText, ctx.url) ||
+      hasText(searchText, ctx.title)
+  );
 
 export const encodeBookmarkField = (value: string) =>
   btoa(encodeURIComponent(value));
@@ -68,7 +65,7 @@ export const getDecryptedFolder = (folder: IEncodedFolder): IEncodedFolder => ({
 });
 
 export const getDecodedFolderList = (folderList: IBookmarksObj['folderList']) =>
-  Object.entries(folderList).map(([_key, value]) => getDecryptedFolder(value));
+  Object.values(folderList).map(getDecryptedFolder);
 
 export const getDefaultFolder = (folders: IEncodedFolder[]) =>
   folders.find((x) => x.isDefault);

@@ -6,9 +6,8 @@ export const getFilteredModifiedBookmarks = (
   bookmarks: IBookmarkWithFolder[],
   searchText: string
 ) =>
-  bookmarks?.filter(
-    ({ url, title }) =>
-      !searchText || hasText(searchText, url) || hasText(searchText, title)
+  bookmarks.filter(
+    ({ url, title }) => hasText(searchText, url) || hasText(searchText, title)
   );
 
 export const getOrderedBookmarksList = (

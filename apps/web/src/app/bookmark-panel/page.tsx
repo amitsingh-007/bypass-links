@@ -50,7 +50,7 @@ export default function BookmarksPage() {
   return (
     <div className="max-w-panel mx-auto flex h-screen flex-col px-0">
       <Header
-        text={`${folderName} (${contextBookmarks?.length || 0})`}
+        text={`${folderName} (${contextBookmarks.length})`}
         onSearchChange={setSearchText}
       />
       <ScrollArea viewportRef={scrollAreaRef} className="flex-1">

@@ -50,7 +50,6 @@ interface Props {
 
 const formSchema = z.object({
   id: z.string(),
-  pos: z.number(),
   url: z.url('Invalid URL format'),
   title: z.string().check(z.minLength(1, 'Required')),
   folderId: z.string().check(z.minLength(1, 'Required')),
@@ -104,7 +103,6 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
   const form = useForm({
     defaultValues: {
       id: '',
-      pos: -1,
       url: '',
       title: '',
       folderId: ROOT_FOLDER_ID,
@@ -138,7 +136,6 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
         const { title = '' } = await getCurrentTab();
         form.reset({
           id: crypto.randomUUID(),
-          pos: contextBookmarks.length,
           url: currentBmUrl,
           title,
           folderId: defaultFolderId ?? ROOT_FOLDER_ID,
@@ -160,7 +157,6 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
         }
         form.reset({
           id: bookmark.id,
-          pos,
           url: bookmark.url,
           title: bookmark.title,
           folderId: curFolderId,
@@ -184,8 +180,9 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
         replace: true,
       });
     }
-    const pos = form.getFieldValue('pos');
     if (operation === EBookmarkOperation.EDIT) {
+      const id = form.getFieldValue('id');
+      const pos = contextBookmarks.findIndex((x) => !x.isDir && x.id === id);
       handleScroll(pos);
       handleSelectedChange(pos, true);
     }

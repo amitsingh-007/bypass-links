@@ -8,15 +8,12 @@ import { getDownloadURL, getStorage } from 'firebase-admin/storage';
 import { z } from 'zod/mini';
 
 import { env } from '../constants/env';
-import {
-  type EFirebaseDBRef,
-  type EFirebaseDBRootKeys,
-} from '../constants/firebase';
+import { type EFirebaseDBRef } from '../constants/firebase';
 import { getFullDbPath, getFilePath, getBucketPath } from '../utils/firebase';
 
 interface Firebase {
-  ref: EFirebaseDBRef | EFirebaseDBRootKeys;
-  uid?: string;
+  ref: EFirebaseDBRef;
+  uid: string;
   data: object;
 }
 

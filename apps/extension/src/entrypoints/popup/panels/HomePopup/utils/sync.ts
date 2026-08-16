@@ -91,13 +91,11 @@ export const processPostLogout = async () => {
   await deleteAllCache([ECacheBucketKeys.favicon, ECacheBucketKeys.person]);
   incrementProgress(SIGN_OUT_TOTAL_STEPS);
   // Open Google Search, Google Image & Google Data tabs
-  await browser.tabs.create({ url: 'https://www.google.com/', active: false });
-  await browser.tabs.create({
-    url: 'https://www.google.com/imghp',
-    active: false,
-  });
-  await browser.tabs.create({
-    url: 'https://myactivity.google.com/activitycontrols/webandapp',
-    active: false,
-  });
+  await Promise.all(
+    [
+      'https://www.google.com/',
+      'https://www.google.com/imghp',
+      'https://myactivity.google.com/activitycontrols/webandapp',
+    ].map(async (url) => browser.tabs.create({ url, active: false }))
+  );
 };
