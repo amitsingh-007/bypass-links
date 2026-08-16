@@ -182,6 +182,11 @@ test.describe('Bookmarks Panel', () => {
         await panel.selectBookmark(TEST_BOOKMARKS.REACT_DOCS);
         await panel.openBookmarkContextMenu(TEST_BOOKMARKS.REACT_DOCS);
         await expect(panel.getContextMenuItem('open')).toBeEnabled();
+        // Re-checked with the menu up: a reload landing here empties the
+        // selection, which turns Open into a no-op with nothing to observe
+        await expect(
+          panel.getBookmarkRow(TEST_BOOKMARKS.REACT_DOCS)
+        ).toHaveAttribute('data-is-selected', 'true');
         await panel.clickContextMenuItem('open');
       };
 
