@@ -77,12 +77,12 @@ export class PersonsPanel extends BasePersonsPanel {
     await clickDialogButton(dialog, 'Save');
     await expect(dialog).toBeHidden({ timeout: DIALOG_CLOSE_TIMEOUT });
 
-    const newPersonCard = this.page.getByTestId(`person-item-${name}`);
+    const newPersonCard = this.getPersonElement(name);
     await expect(newPersonCard).toBeVisible();
   }
 
   async openEditPersonDialog(personName: string) {
-    const personCard = this.page.getByTestId(`person-item-${personName}`);
+    const personCard = this.getPersonElement(personName);
     await expect(personCard).toBeVisible();
     await personCard.click({ button: 'right' });
     await clickContextMenuItem(this.page, 'edit');
@@ -97,7 +97,7 @@ export class PersonsPanel extends BasePersonsPanel {
     await clickDialogButton(dialog, 'Save');
     await expect(dialog).toBeHidden({ timeout: DIALOG_CLOSE_TIMEOUT });
 
-    const editedPersonCard = this.page.getByTestId(`person-item-${newName}`);
+    const editedPersonCard = this.getPersonElement(newName);
     await expect(editedPersonCard).toBeVisible();
   }
 
@@ -110,12 +110,12 @@ export class PersonsPanel extends BasePersonsPanel {
     await clickDialogButton(dialog, 'Save');
     await expect(dialog).toBeHidden({ timeout: DIALOG_CLOSE_TIMEOUT });
 
-    const personCardAfter = this.page.getByTestId(`person-item-${personName}`);
+    const personCardAfter = this.getPersonElement(personName);
     await expect(personCardAfter).toBeVisible();
   }
 
   async deletePerson(personName: string) {
-    const personCard = this.page.getByTestId(`person-item-${personName}`);
+    const personCard = this.getPersonElement(personName);
     await expect(personCard).toBeVisible();
 
     await personCard.click({ button: 'right' });
@@ -146,9 +146,7 @@ export class PersonsPanel extends BasePersonsPanel {
   async ensureAtRoot() {
     await gotoPanel(this.page, 'Persons');
     // Wait for at least one person to be visible
-    await expect(
-      this.page.locator('[data-testid^="person-item-"]').first()
-    ).toBeVisible();
+    await expect(this.getPersonItems().first()).toBeVisible();
   }
 
   async navigateBack() {
@@ -201,9 +199,7 @@ export class PersonsPanel extends BasePersonsPanel {
   }
 
   async getPersonNames(): Promise<string[]> {
-    const texts = await this.page
-      .locator('[data-testid^="person-item-"]')
-      .allTextContents();
+    const texts = await this.getPersonItems().allTextContents();
     return texts.filter((text) => text).map((text) => text.trim());
   }
 
@@ -221,11 +217,6 @@ export class PersonsPanel extends BasePersonsPanel {
 
   async getEditButtons() {
     return this.getBookmarksDialog().getByTitle('Edit Bookmark');
-  }
-
-  async verifyPersonExists(personName: string) {
-    const personCard = this.page.getByTestId(`person-item-${personName}`);
-    await expect(personCard).toBeVisible();
   }
 
   // ============ Verification Helpers ============
@@ -255,14 +246,6 @@ export class PersonsPanel extends BasePersonsPanel {
 
   // ============ Selector Encapsulation ============
 
-  getPersonCardElement(personName: string) {
-    return this.page.getByTestId(`person-item-${personName}`);
-  }
-
-  getSearchInput() {
-    return this.page.getByPlaceholder('Search');
-  }
-
   /** The dialog autofocuses itself asynchronously; wait for that to land. */
   getFocusedBookmarksDialog() {
     return this.getBookmarksDialog().and(this.page.locator(':focus-within'));
@@ -276,7 +259,7 @@ export class PersonsPanel extends BasePersonsPanel {
   // ============ Composite Operations ============
 
   async clickPersonContextMenu(personName: string, menuItemId: string) {
-    const personCard = this.getPersonCardElement(personName);
+    const personCard = this.getPersonElement(personName);
     await expect(personCard).toBeVisible();
     await personCard.click({ button: 'right' });
     await clickContextMenuItem(this.page, menuItemId);

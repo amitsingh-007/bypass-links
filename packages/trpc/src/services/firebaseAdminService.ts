@@ -7,6 +7,7 @@ import { cert, getApp, getApps, initializeApp } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
 import { getDatabase } from 'firebase-admin/database';
 import { getDownloadURL, getStorage } from 'firebase-admin/storage';
+import pLimit from 'p-limit';
 import { z } from 'zod/mini';
 
 import { env } from '../constants/env';
@@ -153,21 +154,31 @@ export const listFilesFromFirebase = async (uid: string) => {
 };
 
 /**
- * One bucket listing instead of a getDownloadURL round trip per person, which
- * otherwise scales with the size of the user's person list.
+ * Resolves many names in one request. `getDownloadURL` is still a metadata call
+ * per file, so this collapses the client round trips, not the GCS ones — hence
+ * the concurrency cap. A file with no url is omitted rather than failing the
+ * batch, since a person may legitimately have no avatar yet.
  */
-export const listDownloadUrlsFromFirebase = async (uid: string) => {
-  const files = await listFilesFromFirebase(uid);
+export const getFilesFromFirebase = async (
+  uid: string,
+  fileNames: string[]
+) => {
+  const limit = pLimit(20);
   const entries = await Promise.all(
-    files.map(async (file) => {
-      const fileName = file.name.split('/').pop() ?? '';
-      try {
-        return [fileName, await getDownloadURL(file)] as const;
-      } catch (error) {
-        console.error(`Could not resolve download url for ${fileName}`, error);
-        return null;
-      }
-    })
+    fileNames.map(async (fileName) =>
+      limit(async () => {
+        try {
+          const fileRef = storage.bucket().file(getFilePath(uid, fileName));
+          return [fileName, await getDownloadURL(fileRef)] as const;
+        } catch (error) {
+          console.error(
+            `Could not resolve download url for ${fileName}`,
+            error
+          );
+          return null;
+        }
+      })
+    )
   );
   return Object.fromEntries(entries.filter((entry) => entry !== null));
 };

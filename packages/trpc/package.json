@@ -26,6 +26,7 @@
     "filenamify": "catalog:",
     "firebase-admin": "catalog:",
     "next": "catalog:",
+    "p-limit": "catalog:",
     "zod": "catalog:"
   }
 }

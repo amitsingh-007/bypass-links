@@ -52,25 +52,19 @@ export const getColumnCount = (isMobile: boolean) => (isMobile ? 3 : 5);
 
 export const getPersonImageName = (uid: string) => `${uid}.jpeg`;
 
-/**
- * Parameterised on the resolver so each app can pass its own tRPC client. The
- * resolver is batched: one bucket listing rather than a call per person.
- */
-export const buildPersonImageUrls = async (
-  uids: string[],
-  getDownloadUrls: () => Promise<Record<string, string>>
-): Promise<PersonImageUrls> => {
-  if (!uids.length) {
-    return {};
-  }
-  const urlsByFileName = await getDownloadUrls();
+export const getPersonImageNames = (uids: string[]) =>
+  uids.map(getPersonImageName);
 
-  return Object.fromEntries(
+/** Re-keys the batch response by uid; a person with no avatar is omitted. */
+export const mapPersonImageUrls = (
+  uids: string[],
+  urlsByFileName: Record<string, string>
+): PersonImageUrls =>
+  Object.fromEntries(
     uids
       .map((uid) => [uid, urlsByFileName[getPersonImageName(uid)]] as const)
       .filter(([, url]) => Boolean(url))
   );
-};
 
 export const cachePersonImages = async (personImageUrls: PersonImageUrls) => {
   if (!personImageUrls) {

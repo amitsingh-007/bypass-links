@@ -28,12 +28,6 @@ export class BaseBookmarksPanel {
     return this.page.getByTestId('avatar-group');
   }
 
-  getFaviconElement(title: string): Locator {
-    return this.getBookmarkElement(title)
-      .locator('[data-testid="bookmark-favicon"]')
-      .first();
-  }
-
   async getBookmarkCount(): Promise<number> {
     return this.getBookmarkItems().count();
   }
@@ -47,6 +41,8 @@ export class BaseBookmarksPanel {
   }
 }
 
+export const BOOKMARKS_MODAL_TEST_ID = 'bookmarks-list-modal';
+
 export class BasePersonsPanel {
   constructor(readonly page: Page) {}
 
@@ -59,11 +55,7 @@ export class BasePersonsPanel {
   }
 
   getBookmarksDialog(): Locator {
-    return this.page.getByTestId('bookmarks-list-modal');
-  }
-
-  getRecencySwitch(): Locator {
-    return this.page.getByTestId('recency-switch');
+    return this.page.getByTestId(BOOKMARKS_MODAL_TEST_ID);
   }
 
   getSearchInput(): Locator {

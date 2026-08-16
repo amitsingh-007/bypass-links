@@ -1,5 +1,6 @@
 import {
   BasePersonsPanel,
+  BOOKMARKS_MODAL_TEST_ID,
   clearSearchInput,
   fillSearchInput,
   getHeaderPersonCount,
@@ -8,8 +9,6 @@ import {
   verifyModalVisible,
 } from '@bypass/shared/tests';
 import { expect, type Locator } from '@playwright/test';
-
-const MODAL_TEST_ID = 'bookmarks-list-modal';
 
 export class PersonsPanel extends BasePersonsPanel {
   async getHeaderPersonCount(): Promise<number> {
@@ -27,7 +26,7 @@ export class PersonsPanel extends BasePersonsPanel {
   }
 
   async waitForBookmarksToLoad() {
-    const modal = this.getModal();
+    const modal = this.getBookmarksDialog();
     // First wait for loading to complete
     await modal
       .locator('[data-testid="bookmarks-loading"]')
@@ -44,7 +43,7 @@ export class PersonsPanel extends BasePersonsPanel {
   }
 
   async getBookmarkCountInModal(): Promise<number> {
-    const modal = this.getModal();
+    const modal = this.getBookmarksDialog();
     const badge = modal.getByTestId('person-bookmark-count-badge');
     await expect(badge).toBeVisible();
     const badgeText = await badge.textContent();
@@ -52,20 +51,20 @@ export class PersonsPanel extends BasePersonsPanel {
   }
 
   async getBookmarkCountInModalFromList(): Promise<number> {
-    const modal = this.getModal();
+    const modal = this.getBookmarksDialog();
     return modal.locator('[data-testid^="bookmark-item-"]').count();
   }
 
   async searchWithinBookmarks(query: string) {
-    await fillSearchInput(this.getModal(), query);
+    await fillSearchInput(this.getBookmarksDialog(), query);
   }
 
   async clearSearchWithinBookmarks() {
-    await clearSearchInput(this.getModal());
+    await clearSearchInput(this.getBookmarksDialog());
   }
 
   async closeModal() {
-    const modal = this.getModal();
+    const modal = this.getBookmarksDialog();
     const closeButton = modal.getByRole('button', { name: 'Back' });
     await expect(closeButton).toBeVisible();
     await closeButton.click();
@@ -73,18 +72,20 @@ export class PersonsPanel extends BasePersonsPanel {
   }
 
   async verifyModalVisible() {
-    await verifyModalVisible(this.page, MODAL_TEST_ID);
+    await verifyModalVisible(this.page, BOOKMARKS_MODAL_TEST_ID);
     // Back button only renders while the modal is open
-    const backButton = this.getModal().getByRole('button', { name: 'Back' });
+    const backButton = this.getBookmarksDialog().getByRole('button', {
+      name: 'Back',
+    });
     await expect(backButton).toBeVisible();
   }
 
   async verifyModalClosed() {
-    await verifyModalClosed(this.page, MODAL_TEST_ID);
+    await verifyModalClosed(this.page, BOOKMARKS_MODAL_TEST_ID);
   }
 
   async verifyPersonNameInBadge(name: string) {
-    const modal = this.getModal();
+    const modal = this.getBookmarksDialog();
     const badge = modal.getByTestId('person-bookmark-count-badge');
     await expect(badge).toBeVisible();
     await expect(badge).toContainText(name);
@@ -93,13 +94,17 @@ export class PersonsPanel extends BasePersonsPanel {
   getFolderBadges(): Locator {
     // Returns badges showing folder names (violet badges in bookmark rows)
     // These are distinct from the person bookmark count badge
-    const modal = this.getModal();
+    const modal = this.getBookmarksDialog();
     return modal.getByTestId('folder-name-badge');
   }
 
   getNoBookmarksMessage(): Locator {
-    const modal = this.getModal();
+    const modal = this.getBookmarksDialog();
     return modal.getByTestId('no-bookmarks-message');
+  }
+
+  private getRecencySwitch(): Locator {
+    return this.page.getByTestId('recency-switch');
   }
 
   async verifyRecencySwitchExists() {
@@ -116,15 +121,11 @@ export class PersonsPanel extends BasePersonsPanel {
   }
 
   getEditButtons(): Locator {
-    return this.getModal().getByTestId('edit-bookmark-button');
+    return this.getBookmarksDialog().getByTestId('edit-bookmark-button');
   }
 
   async verifyEditButtonsHidden() {
     const editButtons = this.getEditButtons();
     await expect(editButtons).not.toBeVisible();
-  }
-
-  private getModal(): Locator {
-    return this.getBookmarksDialog();
   }
 }

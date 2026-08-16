@@ -1,6 +1,7 @@
 import {
   ECacheBucketKeys,
-  buildPersonImageUrls,
+  getPersonImageNames,
+  mapPersonImageUrls,
   cachePersonImages,
   STORAGE_KEYS,
   deleteCache,
@@ -40,10 +41,11 @@ const usePreloadPerson = () => {
       return;
     }
     const persons = await getAllDecodedPersons();
-    const personImageUrls = await buildPersonImageUrls(
-      persons.map((person) => person.uid),
-      async () => api.storage.getDownloadUrls.query()
+    const uids = persons.map((person) => person.uid);
+    const urlsByFileName = await api.storage.getDownloadUrls.query(
+      getPersonImageNames(uids)
     );
+    const personImageUrls = mapPersonImageUrls(uids, urlsByFileName);
     setToLocalStorage(STORAGE_KEYS.personImageUrls, personImageUrls);
     await cachePersonImages(personImageUrls);
   };

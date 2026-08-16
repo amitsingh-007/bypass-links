@@ -1,6 +1,7 @@
 import {
   addToCache,
-  buildPersonImageUrls,
+  getPersonImageNames,
+  mapPersonImageUrls,
   cachePersonImages,
   ECacheBucketKeys,
   evictBlobUrl,
@@ -34,10 +35,11 @@ export const clearPersonImageUrls = async () => {
 
 export const cachePersonImagesInStorage = async () => {
   const persons = await getAllDecodedPersons();
-  const personImageUrls = await buildPersonImageUrls(
-    persons.map((person) => person.uid),
-    async () => trpcApi.storage.getDownloadUrls.query()
+  const uids = persons.map((person) => person.uid);
+  const urlsByFileName = await trpcApi.storage.getDownloadUrls.query(
+    getPersonImageNames(uids)
   );
+  const personImageUrls = mapPersonImageUrls(uids, urlsByFileName);
   await personImageUrlsItem.setValue(personImageUrls);
   await cachePersonImages(personImageUrls);
 };

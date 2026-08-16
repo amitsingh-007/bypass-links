@@ -70,6 +70,12 @@ export class BookmarksPanel extends BaseBookmarksPanel {
     return clickDropdownPersonAndGetName(dropdown);
   }
 
+  getFaviconElement(title: string): Locator {
+    return this.getBookmarkElement(title)
+      .locator('[data-testid="bookmark-favicon"]')
+      .first();
+  }
+
   async hoverBookmarkForTooltip(bookmarkTitle: string): Promise<Locator> {
     // Hover over the favicon area to trigger the tooltip
     const favicon = this.getFaviconElement(bookmarkTitle);
