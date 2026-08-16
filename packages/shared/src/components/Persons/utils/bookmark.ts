@@ -1,14 +1,12 @@
-import { hasText } from '../../../utils/search';
+import { matchesText } from '../../../utils/search';
+import { sortByPriority } from '../../../utils/sort';
 import { type IEncodedBookmark } from '../../Bookmarks/interfaces';
 import { type IBookmarkWithFolder } from '../interfaces/bookmark';
 
 export const getFilteredModifiedBookmarks = (
   bookmarks: IBookmarkWithFolder[],
   searchText: string
-) =>
-  bookmarks.filter(
-    ({ url, title }) => hasText(searchText, url) || hasText(searchText, title)
-  );
+) => bookmarks.filter(({ url, title }) => matchesText(searchText, url, title));
 
 export const getOrderedBookmarksList = (
   bookmarks: IBookmarkWithFolder[],
@@ -22,9 +20,9 @@ export const getOrderedBookmarksList = (
     {}
   );
 
-  return [...bookmarks].toSorted((bm1, bm2) => {
-    const priority1 = bookmarkPriorityMap[bm1.id] ?? -1;
-    const priority2 = bookmarkPriorityMap[bm2.id] ?? -1;
-    return priority2 - priority1;
-  });
+  return sortByPriority(
+    bookmarks,
+    (bookmark) => bookmark.id,
+    bookmarkPriorityMap
+  );
 };

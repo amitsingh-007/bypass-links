@@ -68,24 +68,11 @@ const usePerson = () => {
   const getPersonsWithImageUrl = async (
     persons: IPerson[]
   ): Promise<IPersonWithImage[]> => {
-    if (!persons?.length) {
-      return [];
-    }
-    const personImages = await getPersonImageUrls();
-    if (!personImages) {
-      return persons.map((person) => ({ ...person, imageUrl: '' }));
-    }
-    // Open the bucket once for the whole list
-    const cache = await getCacheObj(ECacheBucketKeys.person);
-    return Promise.all(
-      persons.map(async (person) => ({
-        ...person,
-        imageUrl: await getBlobUrlFromOpenCache(
-          cache,
-          personImages[person.uid]
-        ),
-      }))
-    );
+    const imageMap = await getPersonImageMap(persons.map(({ uid }) => uid));
+    return persons.map((person) => ({
+      ...person,
+      imageUrl: imageMap[person.uid] ?? '',
+    }));
   };
 
   const getPersonTaggedUrls = async (personId: string) => {

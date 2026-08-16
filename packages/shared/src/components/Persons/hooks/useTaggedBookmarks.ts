@@ -4,12 +4,11 @@ import useSWR from 'swr';
 import { STORAGE_KEYS } from '../../../constants/storage';
 import DynamicContext from '../../../provider/DynamicContext';
 import { swrKeys } from '../../../swr/keys';
-import { ROOT_FOLDER_ID } from '../../Bookmarks/constants';
 import { type IBookmarksObj } from '../../Bookmarks/interfaces';
 import {
   getDecryptedBookmark,
   getDecryptedFolder,
-  getDefaultFolder,
+  getDefaultFolderUrls,
 } from '../../Bookmarks/utils';
 import { type IBookmarkWithFolder } from '../interfaces/bookmark';
 import { getOrderedBookmarksList } from '../utils/bookmark';
@@ -23,7 +22,7 @@ const useTaggedBookmarks = (personUid = '') => {
     if (!bookmarks?.urlList) {
       return [];
     }
-    const { urlList, folderList, folders } = bookmarks;
+    const { urlList, folderList } = bookmarks;
 
     const fetchedBookmarks = Object.values(urlList)
       .filter((bookmark) => bookmark.taggedPersons.includes(personUid))
@@ -38,13 +37,10 @@ const useTaggedBookmarks = (personUid = '') => {
       return [];
     }
 
-    const parentHash =
-      getDefaultFolder(Object.values(folderList))?.id ?? ROOT_FOLDER_ID;
-    const defaultUrls = Object.values(folders[parentHash])
-      .filter((bookmark) => !bookmark.isDir)
-      .map((urlData) => urlList[urlData.hash]);
-
-    return getOrderedBookmarksList(fetchedBookmarks, defaultUrls);
+    return getOrderedBookmarksList(
+      fetchedBookmarks,
+      getDefaultFolderUrls(bookmarks)
+    );
   });
 };
 

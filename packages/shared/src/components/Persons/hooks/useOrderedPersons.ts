@@ -1,5 +1,9 @@
 import useDefaultFolderUrls from '../../Bookmarks/hooks/useDefaultFolderUrls';
-import { getFilteredPersons, sortByRecency } from '../utils';
+import {
+  getFilteredPersons,
+  sortAlphabetically,
+  sortByRecency,
+} from '../utils';
 import usePersons from './usePersons';
 
 /**
@@ -10,7 +14,9 @@ const useOrderedPersons = (orderByRecency: boolean, searchText = '') => {
   const { data: persons = [], ...rest } = usePersons();
   const { data: urls = [] } = useDefaultFolderUrls();
 
-  const ordered = orderByRecency ? sortByRecency(persons, urls) : persons;
+  const ordered = orderByRecency
+    ? sortByRecency(persons, urls)
+    : sortAlphabetically(persons);
 
   return { ...rest, data: getFilteredPersons(ordered, searchText) };
 };

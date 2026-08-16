@@ -51,7 +51,9 @@ export { default as DynamicContext } from './provider/DynamicContext';
 export * from './utils';
 export * from './utils/cache';
 export * from './utils/hash';
+export * from './utils/redirection';
 export * from './utils/search';
+export * from './utils/sort';
 export * from './utils/url';
 
 // Hooks

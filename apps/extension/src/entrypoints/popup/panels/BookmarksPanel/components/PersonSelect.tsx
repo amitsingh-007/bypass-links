@@ -1,4 +1,8 @@
-import { hasText } from '@bypass/shared';
+import {
+  matchesText,
+  useOrderedPersons,
+  usePersonImageMap,
+} from '@bypass/shared';
 import {
   Avatar,
   AvatarFallback,
@@ -22,8 +26,6 @@ import {
 import { UserWarning03Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { useState } from 'react';
-
-import usePersonsWithImages from '@popup/hooks/usePersonsWithImages';
 
 interface IOptionData {
   label: string;
@@ -82,22 +84,23 @@ function PersonSelect({ value, onChange }: PersonSelectProps) {
   const [orderByRecency, setOrderByRecency] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
-  const { data: persons } = usePersonsWithImages(orderByRecency);
+  const { data: persons } = useOrderedPersons(orderByRecency);
+  const imageUrls = usePersonImageMap(persons.map(({ uid }) => uid));
 
-  const personList = persons.map<IOptionData>(({ imageUrl, name, uid }) => ({
+  const personList = persons.map<IOptionData>(({ name, uid }) => ({
     label: name,
     value: uid,
-    image: imageUrl,
+    image: imageUrls[uid] ?? '',
   }));
 
   const toggleOrderByRecency = () => setOrderByRecency((prev) => !prev);
 
   const selectedPersons = personList.filter((p) => value.includes(p.value));
 
-  // Filter persons based on search query
-  const filteredPersonList = searchQuery.trim()
-    ? personList.filter((person) => hasText(searchQuery, person.label))
-    : personList;
+  // Filtered only for the dropdown: the chips must keep showing selections
+  const filteredPersonList = personList.filter((person) =>
+    matchesText(searchQuery, person.label)
+  );
 
   const hasResults = filteredPersonList.length > 0;
 

@@ -1,4 +1,5 @@
 import {
+  getDecryptedRedirection,
   Header,
   type IRedirection,
   type IRedirections,
@@ -27,14 +28,7 @@ const SAVE_ERROR = 'Could not save shortcuts';
 
 const fetchRedirections = async () => {
   const stored = await redirectionsItem.getValue();
-  return stored.map(
-    ({ alias, website, isDefault }) =>
-      ({
-        alias: atob(alias),
-        website: atob(website),
-        isDefault,
-      }) satisfies IRedirection
-  );
+  return stored.map(getDecryptedRedirection);
 };
 
 function ShortcutsPanel() {

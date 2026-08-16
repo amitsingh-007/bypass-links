@@ -2,7 +2,7 @@ import { getFirebasePublicConfig } from '@bypass/configs/firebase.config';
 import wretch from 'wretch';
 import QueryStringAddon from 'wretch/addons/queryString';
 
-import { env } from '@/constants/env';
+import { env, IS_PROD } from '@/constants/env';
 import {
   type IAuthResponse,
   type IRefreshTokenResponse,
@@ -10,7 +10,7 @@ import {
 
 import { mapAuthResponse } from './utils';
 
-const firebaseConfig = getFirebasePublicConfig(import.meta.env.PROD);
+const firebaseConfig = getFirebasePublicConfig(IS_PROD);
 
 const identityApi = wretch('https://identitytoolkit.googleapis.com/v1')
   .addon(QueryStringAddon)

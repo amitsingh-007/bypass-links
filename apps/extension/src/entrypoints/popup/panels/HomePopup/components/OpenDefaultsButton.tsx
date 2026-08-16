@@ -1,4 +1,4 @@
-import { DynamicContext } from '@bypass/shared';
+import { DynamicContext, getDecryptedRedirection } from '@bypass/shared';
 import { LinkSquare02Icon } from '@hugeicons/core-free-icons';
 import { use, useState } from 'react';
 
@@ -15,8 +15,8 @@ function OpenDefaultsButton() {
     const redirections = await redirectionsItem.getValue();
     redirections
       .filter(({ isDefault, alias, website }) => isDefault && alias && website)
-      .forEach(({ website }) => {
-        tabs.open(atob(website));
+      .forEach((redirection) => {
+        tabs.open(getDecryptedRedirection(redirection).website);
       });
     setIsFetching(false);
   };

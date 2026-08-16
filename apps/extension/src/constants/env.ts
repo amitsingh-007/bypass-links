@@ -10,3 +10,6 @@ export const env = createEnv({
   runtimeEnv: import.meta.env,
   extends: [wxt()],
 });
+
+/** One dialect for prod detection, so the checks cannot drift apart. */
+export const IS_PROD = import.meta.env.PROD;

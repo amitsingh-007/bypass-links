@@ -1,4 +1,4 @@
-import { hasText } from '../../../utils/search';
+import { matchesText } from '../../../utils/search';
 import { ROOT_FOLDER_ID, ROOT_FOLDER_NAME } from '../constants';
 import {
   type ContextBookmarks,
@@ -29,10 +29,7 @@ export const getFilteredContextBookmarks = (
   searchText: string
 ) =>
   contextBookmarks.filter(
-    (ctx) =>
-      ctx.isDir ||
-      hasText(searchText, ctx.url) ||
-      hasText(searchText, ctx.title)
+    (ctx) => ctx.isDir || matchesText(searchText, ctx.url, ctx.title)
   );
 
 export const encodeBookmarkField = (value: string) =>
@@ -69,6 +66,19 @@ export const getDecodedFolderList = (folderList: IBookmarksObj['folderList']) =>
 
 export const getDefaultFolder = (folders: IEncodedFolder[]) =>
   folders.find((x) => x.isDefault);
+
+export const getDefaultFolderUrls = ({
+  folderList,
+  folders,
+  urlList,
+}: IBookmarksObj) => {
+  const parentHash =
+    getDefaultFolder(Object.values(folderList))?.id ?? ROOT_FOLDER_ID;
+
+  return Object.values(folders[parentHash] ?? [])
+    .filter((bookmark) => !bookmark.isDir)
+    .map((urlData) => urlList[urlData.hash]);
+};
 
 export const getFolderName = (
   folderList: IBookmarksObj['folderList'],

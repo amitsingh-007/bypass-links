@@ -1,4 +1,5 @@
 import {
+  getEncryptedRedirection,
   type IBookmarksObj,
   type ILastVisited,
   type IPersons,
@@ -105,12 +106,8 @@ export const saveRedirections = async (
   user: IUser
 ) => {
   const shortcutsObj = redirections.reduce<Record<number, IRedirection>>(
-    (obj, { alias, website, isDefault }, index) => {
-      obj[index] = {
-        alias: btoa(alias),
-        website: btoa(website),
-        isDefault,
-      };
+    (obj, redirection, index) => {
+      obj[index] = getEncryptedRedirection(redirection);
       return obj;
     },
     {}
