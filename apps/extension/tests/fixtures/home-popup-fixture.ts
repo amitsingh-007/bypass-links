@@ -1,3 +1,4 @@
+import { removeTestDir } from '@bypass/shared/tests';
 import { type Page } from '@playwright/test';
 
 import { getExtensionPath } from '../utils/extension-path';
@@ -58,8 +59,7 @@ export const test = sharedExtensionTest.extend<
 
     await page.close();
     await unauthContext.close();
-    const fsPromises = await import('node:fs/promises');
-    await fsPromises.rm(userDataDir, { recursive: true, force: true });
+    await removeTestDir(userDataDir);
   },
 });
 

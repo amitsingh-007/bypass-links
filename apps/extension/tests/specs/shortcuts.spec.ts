@@ -250,13 +250,6 @@ test.describe('Shortcuts Panel', () => {
       await externalLinkButton.click();
     });
 
-    // Wait for navigation to complete
-    await expect
-      .poll(() => newPage.url(), {
-        message: 'Page should navigate from about:blank to actual URL',
-      })
-      .not.toBe('about:blank');
-
     // Verify the URL matches expected website (ignoring www. prefix)
     const newPageUrl = newPage.url();
     expect(newPageUrl).toMatch(/^https?:\/\/.+/);

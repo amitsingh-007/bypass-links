@@ -6,6 +6,7 @@ import {
   attachBackgroundCoverage,
   coverageBrowserArgs,
   instrumentContext,
+  removeTestDir,
   setExtensionBuildDir,
   TEST_TIMEOUTS,
 } from '@bypass/shared/tests';
@@ -101,7 +102,7 @@ export const createTempProfileContext = async ({
     return { browserContext, userDataDir };
   } catch (error) {
     // No caller owns the dir yet, so it would leak if seeding or launch throws
-    await fs.promises.rm(userDataDir, { recursive: true, force: true });
+    await removeTestDir(userDataDir);
     throw error;
   }
 };
@@ -120,7 +121,7 @@ export const withTempProfileContext = async <T>(
     try {
       await browserContext.close();
     } finally {
-      await fs.promises.rm(userDataDir, { recursive: true, force: true });
+      await removeTestDir(userDataDir);
     }
   }
 };
@@ -207,7 +208,7 @@ export const sharedExtensionTest = base.extend<
       });
       await use(browserContext);
       await browserContext.close();
-      await fs.promises.rm(userDataDir, { recursive: true, force: true });
+      await removeTestDir(userDataDir);
     },
     { scope: 'worker' },
   ],

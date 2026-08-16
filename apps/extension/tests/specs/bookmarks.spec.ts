@@ -160,11 +160,8 @@ test.describe('Bookmarks Panel', () => {
     }) => {
       const panel = new BookmarksPanel(bookmarksPage);
 
-      const bookmarkRow = panel.getBookmarkElement(TEST_BOOKMARKS.REACT_DOCS);
-      await expect(bookmarkRow).toBeVisible();
-
       const newPage = await openNewPageFromAction(context, async () => {
-        await bookmarkRow.dblclick();
+        await panel.openBookmarkByDoubleClick(TEST_BOOKMARKS.REACT_DOCS);
       });
       await newPage.close();
     });
@@ -175,16 +172,22 @@ test.describe('Bookmarks Panel', () => {
     }) => {
       const panel = new BookmarksPanel(bookmarksPage);
       await panel.ensureAtRoot();
-      const firstBookmark = panel.getBookmarkElement(TEST_BOOKMARKS.REACT_DOCS);
-      await expect(firstBookmark).toBeVisible();
-      await firstBookmark.click();
 
+      /**
+       * Selecting stays inside the action: Open reads the store selection, and a
+       * bookmark reload wipes it, so a retry has to re-select before reopening.
+       */
       const openFromContextMenu = async () => {
-        await firstBookmark.click({ button: 'right' });
-        const openOption = bookmarksPage.getByTestId('context-menu-item-open');
-        await expect(openOption).toBeVisible();
-        await expect(openOption).toBeEnabled();
-        await openOption.click();
+        await bookmarksPage.keyboard.press('Escape');
+        await panel.selectBookmark(TEST_BOOKMARKS.REACT_DOCS);
+        await panel.openBookmarkContextMenu(TEST_BOOKMARKS.REACT_DOCS);
+        await expect(panel.getContextMenuItem('open')).toBeEnabled();
+        // Re-checked with the menu up: a reload landing here empties the
+        // selection, which turns Open into a no-op with nothing to observe
+        await expect(
+          panel.getBookmarkRow(TEST_BOOKMARKS.REACT_DOCS)
+        ).toHaveAttribute('data-is-selected', 'true');
+        await panel.clickContextMenuItem('open');
       };
 
       const contextMenuPage = await openNewPageFromAction(

@@ -1,3 +1,4 @@
+import { removeTestDir } from '@bypass/shared/tests';
 import { test as base, type BrowserContext, type Page } from '@playwright/test';
 
 import { createSharedContext } from './base-fixture';
@@ -16,8 +17,7 @@ export const test = base.extend<
       const { browserContext, userDataDir } = await createSharedContext();
       await use(browserContext);
       await browserContext.close();
-      const fsPromises = await import('node:fs/promises');
-      await fsPromises.rm(userDataDir, { recursive: true, force: true });
+      await removeTestDir(userDataDir);
     },
     { scope: 'worker' },
   ],

@@ -17,18 +17,16 @@ const config = defineConfig({
   retries: isCI ? 2 : 1,
   fullyParallel: true,
   outputDir: path.join(ARTIFACTS_DIR, 'test-results'),
-  reporter: isCI
-    ? [['github']]
-    : [
-        ['list'],
-        [
-          'html',
-          {
-            open: 'never',
-            outputFolder: path.join(ARTIFACTS_DIR, 'playwright-report'),
-          },
-        ],
-      ],
+  reporter: [
+    isCI ? ['github'] : ['list'],
+    [
+      'html',
+      {
+        open: 'never',
+        outputFolder: path.join(ARTIFACTS_DIR, 'playwright-report'),
+      },
+    ],
+  ],
   use: {
     navigationTimeout: 30 * 1000,
     actionTimeout: 10 * 1000,
