@@ -4,7 +4,6 @@ import {
   invalidateAllKeys,
 } from '@bypass/shared';
 
-import useProgressStore from '@/store/progress';
 import {
   resetRedirections,
   syncRedirectionsToStorage,
@@ -26,17 +25,13 @@ import {
   resetPersons,
   syncPersonsToStorage,
 } from '../../PersonsPanel/utils/sync';
-import {
-  SIGN_IN_TOTAL_STEPS,
-  SIGN_OUT_TOTAL_STEPS,
-} from '../constants/progress';
 import { resetLastVisited, syncLastVisitedToStorage } from './lastVisitedSync';
 
 const resetAuthentication = async () => {
   await browser.identity.clearAllCachedAuthTokens();
 };
 
-const syncFirebaseToStorage = async () => {
+export const syncFirebaseToStorage = async () => {
   await Promise.all([
     syncRedirectionsToStorage(),
     syncWebsitesToStorage(),
@@ -47,11 +42,11 @@ const syncFirebaseToStorage = async () => {
   await invalidateAllKeys();
 };
 
-const syncStorageToFirebase = async () => {
+export const syncStorageToFirebase = async () => {
   await syncBookmarksAndPersonsFirebaseWithStorage();
 };
 
-const resetStorage = async () => {
+export const resetStorage = async () => {
   await Promise.all([
     resetAuthentication(),
     resetRedirections(),
@@ -64,33 +59,16 @@ const resetStorage = async () => {
   await invalidateAllKeys();
 };
 
-export const processPostLogin = async () => {
-  const { incrementProgress } = useProgressStore.getState();
-  // Sync remote firebase to storage
-  await syncFirebaseToStorage();
-  incrementProgress(SIGN_IN_TOTAL_STEPS);
-  // Independent cache warms; addAllToCache shares one pLimit so concurrency is capped
+/** Independent cache warms; addAllToCache shares one pLimit so concurrency is capped */
+export const warmCaches = async () => {
   await Promise.all([cachePersonImagesInStorage(), cacheBookmarkFavicons()]);
-  incrementProgress(SIGN_IN_TOTAL_STEPS);
-  incrementProgress(SIGN_IN_TOTAL_STEPS);
 };
 
-export const processPreLogout = async () => {
-  const { incrementProgress } = useProgressStore.getState();
-  // Sync changes to firebase before logout, cant sync after logout
-  await syncStorageToFirebase();
-  incrementProgress(SIGN_OUT_TOTAL_STEPS);
-};
-
-export const processPostLogout = async () => {
-  const { incrementProgress } = useProgressStore.getState();
-  // Reset storage
-  await resetStorage();
-  incrementProgress(SIGN_OUT_TOTAL_STEPS);
-  // Refresh browser cache
+export const clearCaches = async () => {
   await deleteAllCache([ECacheBucketKeys.favicon, ECacheBucketKeys.person]);
-  incrementProgress(SIGN_OUT_TOTAL_STEPS);
-  // Open Google Search, Google Image & Google Data tabs
+};
+
+export const openGoogleActivityTabs = async () => {
   await Promise.all(
     [
       'https://www.google.com/',

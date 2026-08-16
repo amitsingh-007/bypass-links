@@ -11,7 +11,7 @@ interface Props {
   imageUrl?: string;
   handleEditPerson: (
     person: IPerson,
-    hasImageChanged: boolean
+    uploadedImageUrl?: string
   ) => Promise<void>;
   handlePersonDelete: (person: IPerson) => void;
 }
@@ -46,9 +46,9 @@ function PersonVirtualCell({
 
   const handlePersonSave = async (
     updatedPerson: IPerson,
-    hasImageChanged: boolean
+    uploadedImageUrl?: string
   ) => {
-    await handleEditPerson(updatedPerson, hasImageChanged);
+    await handleEditPerson(updatedPerson, uploadedImageUrl);
     editPersonDialogHandlers.close();
   };
 

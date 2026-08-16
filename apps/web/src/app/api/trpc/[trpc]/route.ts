@@ -1,8 +1,7 @@
+import { IS_PROD } from '@bypass/configs/env';
 import { appRouter, createTRPCContext } from '@bypass/trpc';
 import { fetchRequestHandler } from '@trpc/server/adapters/fetch';
 import { type NextRequest } from 'next/server';
-
-import { IS_PROD } from '@app/constants/env';
 
 const handler = async (req: NextRequest) => {
   return fetchRequestHandler({

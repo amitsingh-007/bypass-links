@@ -1,7 +1,6 @@
+import { IS_PROD } from '@bypass/configs/env';
 import { getFirebasePublicConfig } from '@bypass/configs/firebase.config';
 import { initializeApp } from 'firebase/app';
-
-import { IS_PROD } from '@app/constants/env';
 
 // The Safari redirect fix (same-origin authDomain + /__/auth proxy) is applied
 // to prod only. Local dev keeps the cross-domain authDomain — replicating it

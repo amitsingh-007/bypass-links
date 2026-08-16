@@ -5,10 +5,10 @@ interface ProgressState {
   progress: number;
   startLoading: () => void;
   stopLoading: () => void;
-  incrementProgress: (totalSteps: number) => void;
+  setProgress: (progress: number) => void;
 }
 
-const useProgressStore = create<ProgressState>()((set, get) => ({
+const useProgressStore = create<ProgressState>()((set) => ({
   isLoading: false,
   progress: 0,
   startLoading() {
@@ -19,12 +19,23 @@ const useProgressStore = create<ProgressState>()((set, get) => ({
       set(() => ({ isLoading: false, progress: 0 }));
     }, 300); // 300ms delay allows users to see progress at 100% before overlay disappears
   },
-  incrementProgress(totalSteps: number) {
-    const { progress } = get();
-    const stepSize = 100 / totalSteps;
-    const newProgress = Math.min(progress + stepSize, 100);
-    set(() => ({ progress: newProgress }));
+  setProgress(progress: number) {
+    set(() => ({ progress: Math.min(progress, 100) }));
   },
 }));
+
+/**
+ * The denominator comes from the step list itself, so adding or removing a step
+ * cannot leave the bar stuck short of 100%.
+ */
+export const runSteps = async (steps: (() => Promise<void>)[]) => {
+  const { setProgress } = useProgressStore.getState();
+  // Chained rather than Promise.all: each step depends on the previous one
+  await steps.reduce(async (previous, step, index) => {
+    await previous;
+    await step();
+    setProgress(((index + 1) / steps.length) * 100);
+  }, Promise.resolve());
+};
 
 export default useProgressStore;

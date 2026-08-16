@@ -1,7 +1,7 @@
+import { IS_PROD } from '@bypass/configs/env';
 import { type AppRouter } from '@bypass/trpc';
 import { createTRPCClient, httpBatchLink, loggerLink } from '@trpc/client';
 
-import { IS_PROD } from '@app/constants/env';
 import { serverEnv } from '@app/constants/env/server';
 import { getAuthIdToken } from '@app/helpers/firebase/auth';
 

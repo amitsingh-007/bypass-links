@@ -1,6 +1,7 @@
 import { type IPersonWithImage } from '../interfaces/persons';
-import { sortAlphabetically } from '../utils';
 import useAllPersonsWithImages from './useAllPersonsWithImages';
+
+const EMPTY_PERSONS: IPersonWithImage[] = [];
 
 // Keyed on the SWR array, which is stable until the data changes, so the map is
 // built once per dataset instead of once per bookmark row
@@ -22,14 +23,13 @@ const getPersonsByUid = (allPersons: IPersonWithImage[]) => {
 };
 
 const useTaggedPersons = (taggedPersons: string[]) => {
-  const { data: allPersons = [], ...rest } = useAllPersonsWithImages();
+  const { data: allPersons = EMPTY_PERSONS, ...rest } =
+    useAllPersonsWithImages();
 
   const personsByUid = getPersonsByUid(allPersons);
-  const data = sortAlphabetically(
-    taggedPersons
-      .map((uid) => personsByUid.get(uid))
-      .filter((person): person is IPersonWithImage => Boolean(person))
-  );
+  const data = taggedPersons
+    .map((uid) => personsByUid.get(uid))
+    .filter((person): person is IPersonWithImage => Boolean(person));
 
   return { ...rest, data };
 };

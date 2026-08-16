@@ -4,10 +4,10 @@ import {
   BOOKMARK_ROW_HEIGHT,
   bookmarksMapper,
   type ContextBookmarks,
-  ROOT_FOLDER_ID,
   getFilteredContextBookmarks,
   getFolderName,
   Header,
+  parseBookmarksPanelUrl,
   useBookmarks,
 } from '@bypass/shared';
 import { ScrollArea } from '@bypass/ui';
@@ -20,7 +20,7 @@ import VirtualRow from './components/VirtualRow';
 export default function BookmarksPage() {
   const searchParams = useSearchParams();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
-  const folderId = searchParams?.get('folderId') ?? ROOT_FOLDER_ID;
+  const { folderId } = parseBookmarksPanelUrl(searchParams?.toString() ?? '');
   const [searchText, setSearchText] = useState('');
 
   const { data: bookmarksData } = useBookmarks();

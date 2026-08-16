@@ -1,5 +1,6 @@
-import { Bookmark, type ContextBookmark } from '@bypass/shared';
+import { Bookmark, type ContextBookmark, isFolderEmpty } from '@bypass/shared';
 import { cn } from '@bypass/ui/lib/utils';
+import { useShallow } from 'zustand/react/shallow';
 
 import useBookmarkStore from '../store/useBookmarkStore';
 import FolderRow from './FolderRow';
@@ -12,20 +13,24 @@ interface Props {
 }
 
 function VirtualRow({ bookmark, pos, isSelected, isCut }: Props) {
-  // Selected individually rather than as one object: the actions are stable and
-  // `folders` is narrowed to this row, so a folder change no longer re-renders
-  // every mounted bookmark row
-  const handleFolderRemove = useBookmarkStore((s) => s.handleFolderRemove);
-  const handleFolderRename = useBookmarkStore((s) => s.handleFolderRename);
-  const handleToggleDefaultFolder = useBookmarkStore(
-    (s) => s.handleToggleDefaultFolder
+  const {
+    handleFolderRemove,
+    handleFolderRename,
+    handleToggleDefaultFolder,
+    resetSelectedBookmarks,
+    handleSelectedChange,
+  } = useBookmarkStore(
+    useShallow((state) => ({
+      handleFolderRemove: state.handleFolderRemove,
+      handleFolderRename: state.handleFolderRename,
+      handleToggleDefaultFolder: state.handleToggleDefaultFolder,
+      resetSelectedBookmarks: state.resetSelectedBookmarks,
+      handleSelectedChange: state.handleSelectedChange,
+    }))
   );
-  const resetSelectedBookmarks = useBookmarkStore(
-    (s) => s.resetSelectedBookmarks
-  );
-  const handleSelectedChange = useBookmarkStore((s) => s.handleSelectedChange);
+  // Narrowed to this row, so a folder change no longer re-renders every row
   const isEmptyFolder = useBookmarkStore(
-    (s) => bookmark.isDir && !s.folders[bookmark.id]?.length
+    (state) => bookmark.isDir && isFolderEmpty(state.folders, bookmark.id)
   );
 
   return (

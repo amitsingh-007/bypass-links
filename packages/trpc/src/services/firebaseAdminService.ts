@@ -2,6 +2,7 @@ import type { Buffer } from 'node:buffer';
 
 import { IS_PROD } from '@bypass/configs/env';
 import { getFirebasePublicConfig } from '@bypass/configs/firebase.config';
+import { TRPCError } from '@trpc/server';
 import { cert, getApp, getApps, initializeApp } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
 import { getDatabase } from 'firebase-admin/database';
@@ -65,35 +66,36 @@ export const getFromFirebase = async <T = any>({
 };
 
 /**
- * Saves data to Firebase Realtime Database using `.set()` which replaces the entire object at the path.
- * Use this when you want to completely replace the existing data.
+ * Rejects rather than returning a flag, so the real cause reaches the tRPC
+ * error channel instead of every caller re-inventing a throw from `false`.
  */
-export const saveToFirebase = async ({ ref, uid, data }: Firebase) => {
+const writeToFirebase = async (
+  operation: 'set' | 'update',
+  { ref, uid, data }: Firebase
+) => {
   try {
-    await database.ref(getFullDbPath(ref, uid)).set(data);
-    return true;
+    await database.ref(getFullDbPath(ref, uid))[operation](data);
   } catch (error) {
-    console.error(`Error while saving data to Firebase DB: ${ref}`, error);
-    return false;
+    throw new TRPCError({
+      code: 'INTERNAL_SERVER_ERROR',
+      message: `Error while writing data to Firebase DB: ${ref}`,
+      cause: error,
+    });
   }
 };
 
+/** Replaces the entire object at the path. */
+export const saveToFirebase = async (params: Firebase) =>
+  writeToFirebase('set', params);
+
 /**
- * Updates data in Firebase Realtime Database using `.update()` which merges/partially updates the object.
+ * Merges into the object at the path:
  * - Provided keys are updated with new values
  * - New keys that don't exist are inserted (upsert)
  * - Existing keys not provided remain unchanged
- * Use this for efficient single-entry updates.
  */
-export const upsertToFirebase = async ({ ref, uid, data }: Firebase) => {
-  try {
-    await database.ref(getFullDbPath(ref, uid)).update(data);
-    return true;
-  } catch (error) {
-    console.error(`Error while upserting data to Firebase DB: ${ref}`, error);
-    return false;
-  }
-};
+export const upsertToFirebase = async (params: Firebase) =>
+  writeToFirebase('update', params);
 
 /**
  * AUTH
@@ -148,4 +150,24 @@ export const listFilesFromFirebase = async (uid: string) => {
     .getFiles({ prefix: getBucketPath(uid) });
 
   return files;
+};
+
+/**
+ * One bucket listing instead of a getDownloadURL round trip per person, which
+ * otherwise scales with the size of the user's person list.
+ */
+export const listDownloadUrlsFromFirebase = async (uid: string) => {
+  const files = await listFilesFromFirebase(uid);
+  const entries = await Promise.all(
+    files.map(async (file) => {
+      const fileName = file.name.split('/').pop() ?? '';
+      try {
+        return [fileName, await getDownloadURL(file)] as const;
+      } catch (error) {
+        console.error(`Could not resolve download url for ${fileName}`, error);
+        return null;
+      }
+    })
+  );
+  return Object.fromEntries(entries.filter((entry) => entry !== null));
 };

@@ -67,7 +67,12 @@ export const hasPendingPersonsItem = defineLocalItem<boolean>(
   false
 );
 
-// No fallback: absence is meaningful, so this one stays a direct call
+// No fallback: absence is meaningful, so these stay direct calls
 export const historyStartTimeItem = storage.defineItem<number>(
   `local:${EExtStorageKey.HISTORY_START_TIME}`
+);
+
+// Session, not local: it should expire exactly when Chrome drops the badge
+export const latestExtVersionItem = storage.defineItem<string>(
+  `session:${EExtStorageKey.LATEST_EXT_VERSION}`
 );

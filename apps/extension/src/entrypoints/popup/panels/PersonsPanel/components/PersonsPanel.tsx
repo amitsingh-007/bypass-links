@@ -66,7 +66,7 @@ function PersonsPanel() {
 
   const handleAddOrEditPerson = async (
     person: IPerson,
-    hasImageChanged: boolean
+    uploadedImageUrl?: string
   ) => {
     const pos = getPersonPos(persons, person);
     const isNewPerson = pos === -1;
@@ -75,9 +75,9 @@ function PersonsPanel() {
       : persons.with(pos, person);
 
     await runSave(`Could not save ${person.name}`, async () => {
-      // A name-only edit would otherwise re-resolve and re-download the avatar
-      if (hasImageChanged) {
-        await updatePersonCacheAndImageUrls(person);
+      // A name-only edit would otherwise re-download an unchanged avatar
+      if (uploadedImageUrl) {
+        await updatePersonCacheAndImageUrls(person, uploadedImageUrl);
       }
       await handleSave(sortAlphabetically(newPersons));
       toast.success(

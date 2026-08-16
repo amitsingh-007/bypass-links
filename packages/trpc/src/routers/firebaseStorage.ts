@@ -3,6 +3,7 @@ import { z } from 'zod/mini';
 import { protectedProcedure } from '../procedures';
 import {
   getFileFromFirebase,
+  listDownloadUrlsFromFirebase,
   removeFileFromFirebase,
 } from '../services/firebaseAdminService';
 import { t } from '../trpc';
@@ -13,6 +14,13 @@ const firebaseStorageRouter = t.router({
     .output(z.string())
     .query(async ({ input, ctx }) => {
       return getFileFromFirebase(ctx.user.uid, input);
+    }),
+
+  /** Batched counterpart, keyed by file name. */
+  getDownloadUrls: protectedProcedure
+    .output(z.record(z.string(), z.string()))
+    .query(async ({ ctx }) => {
+      return listDownloadUrlsFromFirebase(ctx.user.uid);
     }),
 
   removeFile: protectedProcedure

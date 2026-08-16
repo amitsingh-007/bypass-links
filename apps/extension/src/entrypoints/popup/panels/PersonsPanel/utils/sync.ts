@@ -4,7 +4,6 @@ import {
   cachePersonImages,
   ECacheBucketKeys,
   evictBlobUrl,
-  getPersonImageName,
   type IPerson,
 } from '@bypass/shared';
 
@@ -14,10 +13,8 @@ import {
   personImageUrlsItem,
   hasPendingPersonsItem,
 } from '@/storage/items';
-import useProgressStore from '@/store/progress';
 
 import { getAllDecodedPersons } from '.';
-import { SIGN_IN_TOTAL_STEPS } from '../../HomePopup/constants/progress';
 
 export const syncPersonsToStorage = async () => {
   const persons = await trpcApi.firebaseData.personsGet.query();
@@ -31,9 +28,6 @@ export const resetPersons = async () => {
   ]);
 };
 
-const resolveDownloadUrl = async (fileName: string) =>
-  trpcApi.storage.getDownloadUrl.query(fileName);
-
 export const clearPersonImageUrls = async () => {
   await personImageUrlsItem.removeValue();
 };
@@ -42,13 +36,10 @@ export const cachePersonImagesInStorage = async () => {
   const persons = await getAllDecodedPersons();
   const personImageUrls = await buildPersonImageUrls(
     persons.map((person) => person.uid),
-    resolveDownloadUrl
+    async () => trpcApi.storage.getDownloadUrls.query()
   );
   await personImageUrlsItem.setValue(personImageUrls);
-  const { incrementProgress } = useProgressStore.getState();
-  incrementProgress(SIGN_IN_TOTAL_STEPS);
   await cachePersonImages(personImageUrls);
-  incrementProgress(SIGN_IN_TOTAL_STEPS);
 };
 
 /** Delete-path counterpart: without this the url and its blob url both linger. */
@@ -63,11 +54,14 @@ export const removePersonImageUrl = async (uid: string) => {
   await personImageUrlsItem.setValue(personImageUrls);
 };
 
-export const updatePersonCacheAndImageUrls = async (person: IPerson) => {
+/** The url comes from the upload that just happened, so it is not re-resolved. */
+export const updatePersonCacheAndImageUrls = async (
+  person: IPerson,
+  imageUrl: string
+) => {
   // Update person image urls in storage
   const personImageUrls = await personImageUrlsItem.getValue();
   const previousImageUrl = personImageUrls[person.uid];
-  const imageUrl = await resolveDownloadUrl(getPersonImageName(person.uid));
   personImageUrls[person.uid] = imageUrl;
   await personImageUrlsItem.setValue(personImageUrls);
   // Evict both: mounted avatars may still hold the previous url, and an unchanged

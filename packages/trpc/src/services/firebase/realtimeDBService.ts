@@ -45,11 +45,10 @@ export const saveBookmarksAndPersons = async (
   persons: IPersons,
   user: IUser
 ) => {
-  const [isBookmarksSaved, isPersonsSaved] = await Promise.all([
+  await Promise.all([
     saveBookmarks(bookmarks, user),
     savePersons(persons, user),
   ]);
-  return isBookmarksSaved && isPersonsSaved;
 };
 
 export const getWebsites = readRef<IWebsites>(EFirebaseDBRef.websites, {});
@@ -61,14 +60,11 @@ export const getLastVisited = readRef<ILastVisited>(
 
 export const upsertLastVisited = async (hash: string, user: IUser) => {
   const timestamp = Date.now();
-  const success = await upsertToFirebase({
+  await upsertToFirebase({
     ref: EFirebaseDBRef.lastVisited,
     uid: user.uid,
     data: { [hash]: timestamp },
   });
-  if (!success) {
-    throw new Error('Failed to upsert lastVisited entry to Firebase');
-  }
   return { hash, timestamp };
 };
 

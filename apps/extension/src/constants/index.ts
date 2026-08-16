@@ -18,6 +18,7 @@ export enum EExtStorageKey {
   HAS_PENDING_BOOKMARKS = 'hasPendingBookmarks',
   HAS_PENDING_PERSONS = 'hasPendingPersons',
   HISTORY_START_TIME = 'historyStartTime',
+  LATEST_EXT_VERSION = 'latestExtensionVersion',
 }
 
 /** Keys whose change should refresh the toolbar icon. */

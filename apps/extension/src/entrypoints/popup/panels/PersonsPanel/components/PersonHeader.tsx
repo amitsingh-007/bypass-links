@@ -8,7 +8,10 @@ import AddOrEditPersonDialog from './AddOrEditPersonDialog';
 
 interface Props {
   isFetching: boolean;
-  handleAddPerson: (person: IPerson, hasImageChanged: boolean) => Promise<void>;
+  handleAddPerson: (
+    person: IPerson,
+    uploadedImageUrl?: string
+  ) => Promise<void>;
   persons: IPerson[];
   onSearchChange: (text: string) => void;
   orderByRecency: boolean;
@@ -27,9 +30,9 @@ function PersonHeader({
 
   const handlePersonSave = async (
     person: IPerson,
-    hasImageChanged: boolean
+    uploadedImageUrl?: string
   ) => {
-    await handleAddPerson(person, hasImageChanged);
+    await handleAddPerson(person, uploadedImageUrl);
     addPersonDialogHandlers.close();
   };
 

@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 
 import { trpcApi } from '@/apis/trpcApi';
+import { latestExtVersionItem } from '@/storage/items';
 import { useIsSignedIn } from '@/store/firebase/useFirebaseStore';
 
 const OUTDATED_TITLE = 'You are using older version of Bypass Links';
-const LATEST_VERSION_KEY = 'latestExtensionVersion';
 
 const showOutdated = (isOutdated: boolean) => {
   if (!isOutdated) {
@@ -27,15 +27,12 @@ const useExtensionOutdated = () => {
     // Session storage clears on browser restart, which is exactly when Chrome
     // drops the badge, so one network check per browser session is enough
     const resolveLatestVersion = async () => {
-      const stored = await browser.storage.session.get(LATEST_VERSION_KEY);
-      const cachedVersion = stored[LATEST_VERSION_KEY];
-      if (typeof cachedVersion === 'string') {
+      const cachedVersion = await latestExtVersionItem.getValue();
+      if (cachedVersion) {
         return cachedVersion;
       }
       const { chrome: chromeData } = await trpcApi.extension.latest.query();
-      await browser.storage.session.set({
-        [LATEST_VERSION_KEY]: chromeData.version,
-      });
+      await latestExtVersionItem.setValue(chromeData.version);
       return chromeData.version;
     };
 

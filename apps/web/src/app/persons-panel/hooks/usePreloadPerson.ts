@@ -42,7 +42,7 @@ const usePreloadPerson = () => {
     const persons = await getAllDecodedPersons();
     const personImageUrls = await buildPersonImageUrls(
       persons.map((person) => person.uid),
-      async (fileName) => api.storage.getDownloadUrl.query(fileName)
+      async () => api.storage.getDownloadUrls.query()
     );
     setToLocalStorage(STORAGE_KEYS.personImageUrls, personImageUrls);
     await cachePersonImages(personImageUrls);

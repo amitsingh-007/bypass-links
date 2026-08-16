@@ -1,8 +1,5 @@
-import {
-  createNoindexMetadata,
-  PassthroughLayout,
-} from '@app/constants/metadata';
+import { createNoindexMetadata } from '@app/constants/metadata';
 
 export const metadata = createNoindexMetadata('Bookmarks Panel');
 
-export default PassthroughLayout;
+export { default } from '@app/components/PassthroughLayout';

@@ -1,29 +1,37 @@
 import { toast } from 'sonner';
 
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
-import useProgressStore from '@/store/progress';
+import { runSteps } from '@/store/progress';
 
 import {
-  SIGN_IN_TOTAL_STEPS,
-  SIGN_OUT_TOTAL_STEPS,
-} from '../constants/progress';
-import { processPostLogin, processPostLogout, processPreLogout } from './sync';
+  clearCaches,
+  openGoogleActivityTabs,
+  resetStorage,
+  syncFirebaseToStorage,
+  syncStorageToFirebase,
+  warmCaches,
+} from './sync';
 
 const userSignIn = async () => {
   const { firebaseSignIn } = useFirebaseStore.getState();
   await firebaseSignIn();
 };
 
-/** Untoasted, so a failed sign-in reverting through here shows one error. */
-const performSignOut = async () => {
+const userSignOut = async () => {
   const { firebaseSignOut } = useFirebaseStore.getState();
-  const { incrementProgress } = useProgressStore.getState();
-
-  await processPreLogout();
   await firebaseSignOut();
-  incrementProgress(SIGN_OUT_TOTAL_STEPS);
-  await processPostLogout();
 };
+
+/** Untoasted, so a failed sign-in reverting through here shows one error. */
+const performSignOut = async () =>
+  runSteps([
+    // Sync to firebase before logout, since it cannot be done after
+    syncStorageToFirebase,
+    userSignOut,
+    resetStorage,
+    clearCaches,
+    openGoogleActivityTabs,
+  ]);
 
 export const signOut = async () => {
   try {
@@ -35,12 +43,8 @@ export const signOut = async () => {
 };
 
 export const signIn = async () => {
-  const { incrementProgress } = useProgressStore.getState();
-
   try {
-    await userSignIn();
-    incrementProgress(SIGN_IN_TOTAL_STEPS);
-    await processPostLogin();
+    await runSteps([userSignIn, syncFirebaseToStorage, warmCaches]);
   } catch (error) {
     console.error('Error occurred while signing in.', error);
     console.log('Reverting due to login error...');

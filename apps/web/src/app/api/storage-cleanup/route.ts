@@ -5,7 +5,10 @@ import { serverEnv } from '@app/constants/env/server';
 import { verifyInternalToken } from '@app/helpers/verifyInternalToken';
 
 export async function POST(req: NextRequest) {
-  verifyInternalToken(req);
+  const auth = verifyInternalToken(req);
+  if (!auth.ok) {
+    return new NextResponse(auth.message, { status: auth.status });
+  }
 
   const testUserId = serverEnv.FIREBASE_TEST_USER_ID;
   if (!testUserId) {

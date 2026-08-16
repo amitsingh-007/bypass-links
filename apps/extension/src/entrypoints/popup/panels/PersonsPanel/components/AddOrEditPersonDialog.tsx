@@ -32,7 +32,11 @@ interface Props {
   person?: IPerson;
   isOpen: boolean;
   onClose: VoidFunction;
-  handleSaveClick: (person: IPerson, hasImageChanged: boolean) => Promise<void>;
+  /** `uploadedImageUrl` is set only when the avatar was replaced this session. */
+  handleSaveClick: (
+    person: IPerson,
+    uploadedImageUrl?: string
+  ) => Promise<void>;
 }
 
 const formSchema = z.object({
@@ -49,7 +53,7 @@ function AddOrEditPersonDialog({
   // Lazy state: the id has to survive re-renders of the open dialog
   const [initialUid] = useState(() => crypto.randomUUID());
   const [isAvatarImageLoading, setIsAvatarImageLoading] = useState(false);
-  const [hasImageChanged, setHasImageChanged] = useState(false);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState<string>();
   const [showImagePicker, imagePickerHandlers] = useDisclosure(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -68,7 +72,7 @@ function AddOrEditPersonDialog({
       }
 
       setIsLoading(true);
-      await handleSaveClick({ uid, name }, hasImageChanged);
+      await handleSaveClick({ uid, name }, uploadedImageUrl);
       setIsLoading(false);
     },
   });
@@ -83,7 +87,7 @@ function AddOrEditPersonDialog({
   const handleImageCropSave = async (fileName: string) => {
     setIsAvatarImageLoading(true);
     const url = await trpcApi.storage.getDownloadUrl.query(fileName);
-    setHasImageChanged(true);
+    setUploadedImageUrl(url);
     mutateImage(url, { revalidate: false });
   };
 
