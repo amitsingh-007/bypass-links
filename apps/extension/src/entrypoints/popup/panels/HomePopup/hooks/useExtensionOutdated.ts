@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 import { trpcApi } from '@/apis/trpcApi';
-import useFirebaseStore from '@/store/firebase/useFirebaseStore';
+import { useIsSignedIn } from '@/store/firebase/useFirebaseStore';
 
 const OUTDATED_TITLE = 'You are using older version of Bypass Links';
 
@@ -17,7 +17,7 @@ const showOutdated = (isOutdated: boolean) => {
 };
 
 const useExtensionOutdated = () => {
-  const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
+  const isSignedIn = useIsSignedIn();
 
   useEffect(() => {
     if (!isSignedIn) {

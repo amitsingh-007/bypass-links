@@ -1,3 +1,5 @@
+export const DB_ROOT = 'data';
+
 export enum EFirebaseDBRef {
   bookmarks = 'bookmarks',
   websites = 'websites',

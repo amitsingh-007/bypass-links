@@ -1,20 +1,14 @@
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@bypass/ui';
 import { Search02Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { useDebouncedState, useHotkeys } from '@mantine/hooks';
-import { useEffect, useEffectEvent } from 'react';
+import { useDebouncedCallback, useHotkeys } from '@mantine/hooks';
 
 interface SearchProps {
   onChange: (searchText: string) => void;
 }
 
 function Search({ onChange }: SearchProps) {
-  const [debouncedValue, setDebouncedValue] = useDebouncedState('', 200);
-
-  const onSearchChange = useEffectEvent(onChange);
-  useEffect(() => {
-    onSearchChange(debouncedValue);
-  }, [debouncedValue]);
+  const emitSearchChange = useDebouncedCallback(onChange, 200);
 
   useHotkeys([
     [
@@ -52,7 +46,7 @@ function Search({ onChange }: SearchProps) {
       <InputGroupInput
         data-search-input="true"
         placeholder="Search"
-        onChange={(event) => setDebouncedValue(event.currentTarget.value)}
+        onChange={(event) => emitSearchChange(event.currentTarget.value)}
       />
     </InputGroup>
   );

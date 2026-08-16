@@ -1,4 +1,5 @@
 import { Button, Spinner } from '@bypass/ui';
+import { cn } from '@bypass/ui/lib/utils';
 import {
   CheckmarkBadge02Icon,
   WebDesign01Icon,
@@ -19,15 +20,13 @@ function ButtonWithFeedback({ openAllLinks, isForumPage }: Props) {
 
   return (
     <Button
-      className={
-        isSuccess
-          ? 'w-full border-teal-600 bg-teal-600 font-medium hover:border-teal-700 hover:bg-teal-700'
-          : 'w-full font-medium'
-      }
+      className={cn(
+        'w-full font-medium',
+        isSuccess &&
+          'border-teal-600 bg-teal-600 hover:border-teal-700 hover:bg-teal-700'
+      )}
       variant={isSuccess ? 'default' : 'secondary'}
-      disabled={
-        !isSuccess && (!isForumPage || buttonState === EButtonState.LOADING)
-      }
+      disabled={!isForumPage || buttonState === EButtonState.LOADING}
       onClick={onClick}
     >
       {buttonState === EButtonState.LOADING && (

@@ -1,6 +1,7 @@
 // Consts, so the key factories and the matchers below cannot drift apart
 const PERSON_IMAGE = 'person-image';
 const TAGGED_BOOKMARKS = 'tagged-bookmarks';
+const FAVICON = 'favicon';
 
 export const joinIds = (ids: string[]) =>
   [...new Set(ids)].toSorted().join('|');
@@ -15,6 +16,7 @@ export const swrKeys = {
   personImage: (uid?: string) => (uid ? [PERSON_IMAGE, uid] : null),
   personImageMap: (uids: string[]) => [PERSON_IMAGE, 'map', joinIds(uids)],
   taggedBookmarks: (uid?: string) => (uid ? [TAGGED_BOOKMARKS, uid] : null),
+  favicon: (url: string) => [FAVICON, url],
 } as const;
 
 export const matchKeyPrefix = (prefix: string) => (key: unknown) =>

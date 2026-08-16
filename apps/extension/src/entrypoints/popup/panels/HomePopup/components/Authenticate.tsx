@@ -1,18 +1,16 @@
-import { Button, Spinner } from '@bypass/ui';
 import { Login02Icon, Logout02Icon } from '@hugeicons/core-free-icons';
-import { HugeiconsIcon } from '@hugeicons/react';
 import { useCallback, useEffect } from 'react';
 import { toast } from 'sonner';
 
-import useFirebaseStore from '@/store/firebase/useFirebaseStore';
+import { useIsSignedIn } from '@/store/firebase/useFirebaseStore';
 import useProgressStore from '@/store/progress';
 import useExtStore from '@store/extension';
 
 import { signIn, signOut } from '../utils/authentication';
+import HomeActionButton from './HomeActionButton';
 
 function Authenticate() {
-  const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
-  const setIsSignedIn = useFirebaseStore((state) => state.setIsSignedIn);
+  const isSignedIn = useIsSignedIn();
   const isExtensionActive = useExtStore((state) => state.isExtensionActive);
   const isLoading = useProgressStore((state) => state.isLoading);
   const startLoading = useProgressStore((state) => state.startLoading);
@@ -20,8 +18,7 @@ function Authenticate() {
 
   const handleSignIn = async () => {
     startLoading();
-    const isSignInSuccess = await signIn();
-    setIsSignedIn(isSignInSuccess);
+    await signIn();
     stopLoading();
   };
 
@@ -29,18 +26,11 @@ function Authenticate() {
   const handleSignOut = useCallback(async () => {
     startLoading();
     const isSignedOutSuccess = await signOut();
-    if (isSignedOutSuccess) {
-      setIsSignedIn(!isSignedOutSuccess);
-    } else {
+    if (!isSignedOutSuccess) {
       toast.error('Error while logging out');
     }
     stopLoading();
-  }, [setIsSignedIn, startLoading, stopLoading]);
-
-  useEffect(() => {
-    const { idpAuth } = useFirebaseStore.getState();
-    setIsSignedIn(Boolean(idpAuth?.uid));
-  }, [setIsSignedIn]);
+  }, [startLoading, stopLoading]);
 
   useEffect(() => {
     if (isSignedIn && !isExtensionActive) {
@@ -49,21 +39,16 @@ function Authenticate() {
   }, [handleSignOut, isExtensionActive, isSignedIn]);
 
   return (
-    <Button
-      className="w-full font-medium"
+    <HomeActionButton
+      label={isSignedIn ? 'Logout' : 'Login'}
+      icon={isSignedIn ? Logout02Icon : Login02Icon}
       variant={isSignedIn ? 'destructive' : 'outline'}
-      disabled={!isExtensionActive || isLoading}
-      data-testid={isSignedIn ? 'logout-button' : 'login-button'}
+      disabled={!isExtensionActive}
+      isBusy={isLoading}
+      testId={isSignedIn ? 'logout-button' : 'login-button'}
+      requiresSignIn={false}
       onClick={isSignedIn ? handleSignOut : handleSignIn}
-    >
-      {isLoading && <Spinner className="mr-2 size-4" />}
-      {isSignedIn ? 'Logout' : 'Login'}
-      <HugeiconsIcon
-        icon={isSignedIn ? Logout02Icon : Login02Icon}
-        strokeWidth={2}
-        className="ml-2 size-4"
-      />
-    </Button>
+    />
   );
 }
 

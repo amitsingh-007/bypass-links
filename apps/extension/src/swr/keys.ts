@@ -11,6 +11,7 @@ const QUICK_BOOKMARK = 'quick-bookmark';
 /** Popup-only concepts, so they stay out of the shared key surface. */
 export const extSwrKeys = {
   currentTab: 'current-tab',
+  historyActive: 'history-active',
   lastVisited: (url?: string) => (url ? [LAST_VISITED, url] : null),
   lastVisitedMap: (urls: string[]) => [LAST_VISITED, 'map', joinIds(urls)],
   quickBookmark: (url?: string) => (url ? [QUICK_BOOKMARK, url] : null),

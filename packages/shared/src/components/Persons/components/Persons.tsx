@@ -87,7 +87,11 @@ function PersonsInner({
               const person = persons[personIndex];
 
               return (
-                <div key={person.uid} style={{ width: columnDimension }}>
+                <div
+                  key={person.uid}
+                  className="h-full p-1.5"
+                  style={{ width: columnDimension }}
+                >
                   {renderPerson(person, imageUrls[person.uid] ?? '')}
                 </div>
               );

@@ -37,9 +37,7 @@ function PersonsPage() {
             persons={filteredAndOrderedPersons}
             bookmarkListProps={{ fullscreen: false }}
             renderPerson={(person, imageUrl) => (
-              <div className="h-full p-1.5">
-                <Person person={person} imageUrl={imageUrl} />
-              </div>
+              <Person person={person} imageUrl={imageUrl} />
             )}
           />
         ) : null}

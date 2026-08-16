@@ -1,20 +1,13 @@
-import {
-  Button,
-  Spinner,
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@bypass/ui';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@bypass/ui';
 import {
   CalendarAdd01Icon,
   Appointment01Icon,
 } from '@hugeicons/core-free-icons';
-import { HugeiconsIcon } from '@hugeicons/react';
 import { toast } from 'sonner';
 import useSWRMutation from 'swr/mutation';
 
 import { trpcApi } from '@/apis/trpcApi';
-import useFirebaseStore from '@/store/firebase/useFirebaseStore';
+import { useIsSignedIn } from '@/store/firebase/useFirebaseStore';
 import { extSwrKeys } from '@/swr/keys';
 import useCurrentTab from '@popup/hooks/useCurrentTab';
 import useLastVisited from '@popup/hooks/useLastVisited';
@@ -23,8 +16,10 @@ import {
   setLastVisitedInStorage,
 } from '@popup/utils/lastVisited';
 
+import HomeActionButton from './HomeActionButton';
+
 function LastVisitedButton() {
-  const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
+  const isSignedIn = useIsSignedIn();
   const currentTab = useCurrentTab();
 
   const url = currentTab?.url;
@@ -54,21 +49,14 @@ function LastVisitedButton() {
   return (
     <Tooltip>
       <TooltipTrigger>
-        <Button
-          className="w-full font-medium"
+        <HomeActionButton
+          label="Visited"
+          icon={lastVisited ? Appointment01Icon : CalendarAdd01Icon}
           variant={lastVisited ? 'default' : 'outline'}
-          disabled={!isSignedIn || isMutating}
-          data-testid="last-visited-button"
+          isBusy={isMutating}
+          testId="last-visited-button"
           onClick={handleUpdateLastVisited}
-        >
-          {isMutating && <Spinner className="mr-2 size-4" />}
-          Visited
-          <HugeiconsIcon
-            icon={lastVisited ? Appointment01Icon : CalendarAdd01Icon}
-            strokeWidth={2}
-            className="ml-2 size-4"
-          />
-        </Button>
+        />
       </TooltipTrigger>
       {lastVisited && (
         <TooltipContent>

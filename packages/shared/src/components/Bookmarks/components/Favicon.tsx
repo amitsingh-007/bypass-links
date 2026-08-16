@@ -1,10 +1,12 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@bypass/ui';
 import { Unlink02Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { use, useEffect, useState } from 'react';
+import { use } from 'react';
+import useSWR from 'swr';
 
 import { ECacheBucketKeys } from '../../../constants/cache';
 import DynamicContext from '../../../provider/DynamicContext';
+import { swrKeys } from '../../../swr/keys';
 import { getBlobUrlFromCache } from '../../../utils/cache';
 
 interface Props {
@@ -14,16 +16,9 @@ interface Props {
 
 function Favicon({ url, ref }: Props) {
   const { favicon } = use(DynamicContext);
-  const [faviconUrl, setFaviconUrl] = useState('');
-
-  useEffect(() => {
-    const initFavicon = async () => {
-      setFaviconUrl(
-        await getBlobUrlFromCache(ECacheBucketKeys.favicon, favicon.getUrl(url))
-      );
-    };
-    initFavicon();
-  }, [url, favicon]);
+  const { data: faviconUrl = '' } = useSWR(swrKeys.favicon(url), async () =>
+    getBlobUrlFromCache(ECacheBucketKeys.favicon, favicon.getUrl(url))
+  );
 
   return (
     <Avatar ref={ref} size="sm" data-testid="bookmark-favicon">

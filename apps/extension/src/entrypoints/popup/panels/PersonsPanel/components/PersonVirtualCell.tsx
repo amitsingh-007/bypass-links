@@ -47,7 +47,7 @@ function PersonVirtualCell({
   };
 
   return (
-    <div className="h-full p-1.5">
+    <>
       <ContextMenu options={menuOptions}>
         <Person person={person} imageUrl={imageUrl} />
       </ContextMenu>
@@ -59,7 +59,7 @@ function PersonVirtualCell({
           onClose={editPersonDialogHandlers.close}
         />
       )}
-    </div>
+    </>
   );
 }
 

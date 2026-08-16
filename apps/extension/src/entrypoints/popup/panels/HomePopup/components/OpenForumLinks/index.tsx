@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import useSWR from 'swr';
 
-import useFirebaseStore from '@/store/firebase/useFirebaseStore';
+import { useIsSignedIn } from '@/store/firebase/useFirebaseStore';
 import { sendRuntimeMessage } from '@/utils/sendRuntimeMessage';
 import { isForumPage } from '@background/websites';
 import useCurrentTab from '@popup/hooks/useCurrentTab';
@@ -13,17 +13,12 @@ const isCurrentPageForum = async (url = '') => {
 };
 
 function OpenForumLinks() {
-  const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
+  const isSignedIn = useIsSignedIn();
   const currentTab = useCurrentTab();
-  const [isOnForumPage, setIsOnForumPage] = useState(false);
-
-  useEffect(() => {
-    const initIsActive = async () => {
-      const isForum = isSignedIn && (await isCurrentPageForum(currentTab?.url));
-      setIsOnForumPage(isForum);
-    };
-    initIsActive();
-  }, [currentTab?.url, isSignedIn]);
+  const { data: isOnForumPage = false } = useSWR(
+    isSignedIn && currentTab?.url ? ['forum-page', currentTab.url] : null,
+    async ([, url]) => isCurrentPageForum(url)
+  );
 
   const openForumlinks = async () => {
     if (!currentTab?.id || !currentTab?.url) {

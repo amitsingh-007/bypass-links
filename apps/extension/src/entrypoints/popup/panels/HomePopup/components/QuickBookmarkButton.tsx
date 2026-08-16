@@ -5,27 +5,22 @@ import {
   getBookmarksPanelUrl,
   useBookmark,
 } from '@bypass/shared';
-import {
-  Button,
-  Spinner,
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@bypass/ui';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@bypass/ui';
 import {
   BookmarkRemove01Icon,
   BookmarkAdd01Icon,
 } from '@hugeicons/core-free-icons';
-import { HugeiconsIcon } from '@hugeicons/react';
 import { useLocation } from 'wouter';
 
-import useFirebaseStore from '@/store/firebase/useFirebaseStore';
+import { useIsSignedIn } from '@/store/firebase/useFirebaseStore';
 import useCurrentTab from '@popup/hooks/useCurrentTab';
 import useQuickBookmark from '@popup/hooks/useQuickBookmark';
 
+import HomeActionButton from './HomeActionButton';
+
 function QuickBookmarkButton() {
   const [, navigate] = useLocation();
-  const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
+  const isSignedIn = useIsSignedIn();
   const { getFolderFromHash } = useBookmark();
   const currentTab = useCurrentTab();
   const currentUrl = currentTab?.url ?? '';
@@ -53,21 +48,14 @@ function QuickBookmarkButton() {
   return (
     <Tooltip>
       <TooltipTrigger>
-        <Button
-          className="w-full font-medium"
+        <HomeActionButton
+          label={bookmark ? 'Unpin' : 'Pin'}
+          icon={bookmark ? BookmarkRemove01Icon : BookmarkAdd01Icon}
           variant={bookmark ? 'default' : 'outline'}
-          disabled={!isSignedIn || isFetching}
-          data-testid="quick-bookmark-button"
+          isBusy={isFetching}
+          testId="quick-bookmark-button"
           onClick={handleClick}
-        >
-          {isFetching && <Spinner className="mr-2 size-4" />}
-          {bookmark ? 'Unpin' : 'Pin'}
-          <HugeiconsIcon
-            icon={bookmark ? BookmarkRemove01Icon : BookmarkAdd01Icon}
-            strokeWidth={2}
-            className="ml-2 size-4"
-          />
-        </Button>
+        />
       </TooltipTrigger>
       {bookmark && (
         <TooltipContent>

@@ -1,7 +1,9 @@
 import { Switch } from '@bypass/ui';
 import { useEffect, useEffectEvent } from 'react';
+import useSWR from 'swr';
 
 import { historyStartTimeItem } from '@/storage/items';
+import { extSwrKeys } from '@/swr/keys';
 import { startHistoryWatch } from '@/utils/history';
 import useExtStore from '@store/extension';
 import useHistoryStore from '@store/history';
@@ -28,16 +30,16 @@ function ToggleHistory() {
     (state) => state.resetHistoryMonitor
   );
   const monitorHistory = useHistoryStore((state) => state.monitorHistory);
-  const isHistoryActive = useHistoryStore((state) => state.isHistoryActive);
-  const setIsHistoryActive = useHistoryStore(
-    (state) => state.setIsHistoryActive
-  );
   const isExtensionActive = useExtStore((state) => state.isExtensionActive);
+  const { data: isHistoryActive = false, mutate } = useSWR(
+    extSwrKeys.historyActive,
+    async () => Boolean(await historyStartTimeItem.getValue())
+  );
 
-  const turnOffHistory = () => {
+  const turnOffHistory = async () => {
     if (isHistoryActive) {
-      endHistoryWatch();
-      setIsHistoryActive(false);
+      await endHistoryWatch();
+      await mutate();
     }
   };
   const onExtensionInactive = useEffectEvent(turnOffHistory);
@@ -46,17 +48,10 @@ function ToggleHistory() {
     if (!isHistoryActive) {
       resetHistoryMonitor();
       await startHistoryWatch();
-      setIsHistoryActive(true);
+      await mutate();
     }
   };
   const onMonitorHistory = useEffectEvent(turnOnHistory);
-
-  // Init toggle on mount
-  useEffect(() => {
-    historyStartTimeItem.getValue().then((historyStartTime) => {
-      setIsHistoryActive(Boolean(historyStartTime));
-    });
-  }, [setIsHistoryActive]);
 
   // Turn off history when extension is off
   useEffect(() => {
