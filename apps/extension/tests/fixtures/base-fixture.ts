@@ -4,6 +4,7 @@ import path from 'node:path';
 
 import {
   attachBackgroundCoverage,
+  BASE_BROWSER_ARGS,
   coverageBrowserArgs,
   instrumentContext,
   removeTestDir,
@@ -50,8 +51,7 @@ export const launchExtensionContext = async ({
     args: [
       `--disable-extensions-except=${extensionPath}`,
       `--load-extension=${extensionPath}`,
-      '--disable-dev-shm-usage',
-      '--no-sandbox',
+      ...BASE_BROWSER_ARGS,
       ...coverageBrowserArgs,
     ],
   });

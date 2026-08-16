@@ -1,3 +1,4 @@
+import { BaseBookmarksPanel } from '@bypass/shared/tests';
 import { expect, type Page } from '@playwright/test';
 
 import {
@@ -13,9 +14,7 @@ import {
   openFolder,
 } from './test-utils';
 
-export class BookmarksPanel {
-  constructor(readonly page: Page) {}
-
+export class BookmarksPanel extends BaseBookmarksPanel {
   async openFolder(folderName: string) {
     await openFolder(this.page, folderName);
   }
@@ -44,7 +43,7 @@ export class BookmarksPanel {
   }
 
   async openEditBookmarkDialog(bookmarkTitle: string) {
-    const element = this.page.getByTestId(`bookmark-item-${bookmarkTitle}`);
+    const element = this.getBookmarkElement(bookmarkTitle);
     await expect(element).toBeVisible();
     await element.click({ button: 'right' });
     await this.clickContextMenuItem('edit');
@@ -118,18 +117,14 @@ export class BookmarksPanel {
     await clickContextMenuItemUtil(this.page, itemId);
   }
 
-  async getBookmarkCount() {
-    return this.page.locator('[data-testid^="bookmark-item-"]').count();
-  }
-
   async openFolderWithNestedFolders(folderName: string) {
-    const folderWithNested = this.page.getByTestId(`folder-item-${folderName}`);
+    const folderWithNested = this.getFolderElement(folderName);
     await expect(folderWithNested).toBeVisible();
     await folderWithNested.click({ button: 'right' });
   }
 
   async hoverAvatar() {
-    const avatarGroup = this.page.getByTestId('avatar-group');
+    const avatarGroup = this.getAvatarGroup();
     const avatar = avatarGroup.locator('[data-testid^="avatar-"]').first();
     await expect(avatar).toBeVisible();
     await avatar.hover();
@@ -201,46 +196,19 @@ export class BookmarksPanel {
 
   // ============ Verification Helpers ============
 
-  async verifyBookmarkExists(bookmarkTitle: string) {
-    const bookmark = this.page.getByTestId(`bookmark-item-${bookmarkTitle}`);
-    await expect(bookmark).toBeVisible();
-  }
-
-  async verifyFolderExists(folderName: string) {
-    const folder = this.page.getByTestId(`folder-item-${folderName}`);
-    await expect(folder).toBeVisible();
-  }
-
   async verifyFolderNotExists(folderName: string) {
-    const folder = this.page.getByTestId(`folder-item-${folderName}`);
-    await expect(folder).not.toBeVisible();
+    await expect(this.getFolderElement(folderName)).not.toBeVisible();
   }
 
   // ============ Selector Encapsulation ============
-
-  getBookmarkElement(bookmarkTitle: string) {
-    return this.page.getByTestId(`bookmark-item-${bookmarkTitle}`);
-  }
 
   /** The virtual row wrapping the bookmark, which carries `data-is-selected`. */
   getBookmarkRow(bookmarkTitle: string) {
     return this.getBookmarkElement(bookmarkTitle).locator('xpath=..');
   }
 
-  getFolderElement(folderName: string) {
-    return this.page.getByTestId(`folder-item-${folderName}`);
-  }
-
-  getSearchInput() {
-    return this.page.getByPlaceholder('Search');
-  }
-
   getSaveButton() {
     return this.page.getByRole('button', { name: /save/i }).last();
-  }
-
-  getBookmarkItems() {
-    return this.page.locator('[data-testid^="bookmark-item-"]');
   }
 
   getContextMenuItem(itemId: string) {

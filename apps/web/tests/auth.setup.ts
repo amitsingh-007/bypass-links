@@ -3,6 +3,7 @@ import path from 'node:path';
 import process from 'node:process';
 
 import {
+  BASE_BROWSER_ARGS,
   dumpLocalStorage,
   instrumentContext,
   TEST_TIMEOUTS,
@@ -28,7 +29,7 @@ setup('authenticate and cache web storage', async ({}, testInfo) => {
     {
       channel: 'chromium',
       headless,
-      args: ['--disable-dev-shm-usage', '--no-sandbox'],
+      args: BASE_BROWSER_ARGS,
     }
   );
 

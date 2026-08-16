@@ -1,13 +1,12 @@
 import {
+  BaseBookmarksPanel,
   clickDropdownPersonAndGetName,
   dblclickBookmark,
   getNumericBadgeValue,
 } from '@bypass/shared/tests';
-import { expect, type Page, type Locator } from '@playwright/test';
+import { expect, type Locator } from '@playwright/test';
 
-export class BookmarksPanel {
-  constructor(readonly page: Page) {}
-
+export class BookmarksPanel extends BaseBookmarksPanel {
   async openFolder(folderName: string) {
     const folder = this.getFolderElement(folderName);
     await expect(folder).toBeVisible();
@@ -28,10 +27,6 @@ export class BookmarksPanel {
 
   async openBookmarkByDoubleClick(title: string) {
     await dblclickBookmark(this.page, title);
-  }
-
-  async getBookmarkCount(): Promise<number> {
-    return this.page.locator('[data-testid^="bookmark-item-"]').count();
   }
 
   async hoverAvatar(): Promise<Locator> {
@@ -75,11 +70,6 @@ export class BookmarksPanel {
     return clickDropdownPersonAndGetName(dropdown);
   }
 
-  getFaviconElement(bookmarkTitle: string): Locator {
-    const bookmark = this.getBookmarkElement(bookmarkTitle);
-    return bookmark.locator('[data-testid="bookmark-favicon"]').first();
-  }
-
   async hoverBookmarkForTooltip(bookmarkTitle: string): Promise<Locator> {
     // Hover over the favicon area to trigger the tooltip
     const favicon = this.getFaviconElement(bookmarkTitle);
@@ -90,20 +80,6 @@ export class BookmarksPanel {
     return tooltip;
   }
 
-  async verifyBookmarkExists(title: string) {
-    const bookmark = this.getBookmarkElement(title);
-    await expect(bookmark).toBeVisible();
-  }
-
-  async verifyFolderExists(name: string) {
-    const folder = this.getFolderElement(name);
-    await expect(folder).toBeVisible();
-  }
-
-  getSearchInput(): Locator {
-    return this.page.getByPlaceholder('Search');
-  }
-
   getBookmarkCountBadge(): Locator {
     return this.page.getByTestId('header-badge');
   }
@@ -112,17 +88,5 @@ export class BookmarksPanel {
     return getNumericBadgeValue(this.page, 'header-badge', {
       fallbackToAnyNumber: true,
     });
-  }
-
-  getAvatarGroup(): Locator {
-    return this.page.getByTestId('avatar-group');
-  }
-
-  private getBookmarkElement(title: string): Locator {
-    return this.page.getByTestId(`bookmark-item-${title}`);
-  }
-
-  private getFolderElement(name: string): Locator {
-    return this.page.getByTestId(`folder-item-${name}`);
   }
 }

@@ -239,3 +239,6 @@ export const removeTestDir = async (dir: string) => {
     retryDelay: 100,
   });
 };
+
+/** Shared by every launch site, so CI sandbox flags cannot drift per app. */
+export const BASE_BROWSER_ARGS = ['--disable-dev-shm-usage', '--no-sandbox'];

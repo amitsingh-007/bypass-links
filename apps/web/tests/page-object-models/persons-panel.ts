@@ -1,4 +1,5 @@
 import {
+  BasePersonsPanel,
   clearSearchInput,
   fillSearchInput,
   getHeaderPersonCount,
@@ -6,37 +7,17 @@ import {
   verifyModalClosed,
   verifyModalVisible,
 } from '@bypass/shared/tests';
-import { expect, type Locator, type Page } from '@playwright/test';
+import { expect, type Locator } from '@playwright/test';
 
 const MODAL_TEST_ID = 'bookmarks-list-modal';
 
-export class PersonsPanel {
-  constructor(readonly page: Page) {}
-
-  getPersonItems(): Locator {
-    return this.page.locator('[data-testid^="person-item-"]');
-  }
-
-  async getPersonCount(): Promise<number> {
-    return this.getPersonItems().count();
-  }
-
+export class PersonsPanel extends BasePersonsPanel {
   async getHeaderPersonCount(): Promise<number> {
     return getHeaderPersonCount(this.page);
   }
 
-  async verifyPersonExists(name: string) {
-    const personCard = this.page.getByTestId(`person-item-${name}`);
-    await expect(personCard).toBeVisible();
-  }
-
-  async verifyPersonNotVisible(name: string) {
-    const personCard = this.page.getByTestId(`person-item-${name}`);
-    await expect(personCard).not.toBeVisible();
-  }
-
   async openPersonCard(name: string) {
-    const personCard = this.page.getByTestId(`person-item-${name}`);
+    const personCard = this.getPersonElement(name);
     await expect(personCard).toBeVisible();
     await personCard.click();
     // Wait for modal to be visible and bookmarks to load
@@ -134,10 +115,6 @@ export class PersonsPanel {
     return names.map((name) => name.trim());
   }
 
-  getSearchInput(): Locator {
-    return this.page.getByPlaceholder('Search');
-  }
-
   getEditButtons(): Locator {
     return this.getModal().getByTestId('edit-bookmark-button');
   }
@@ -148,10 +125,6 @@ export class PersonsPanel {
   }
 
   private getModal(): Locator {
-    return this.page.getByTestId('bookmarks-list-modal');
-  }
-
-  private getRecencySwitch(): Locator {
-    return this.page.locator('[data-testid="recency-switch"]');
+    return this.getBookmarksDialog();
   }
 }

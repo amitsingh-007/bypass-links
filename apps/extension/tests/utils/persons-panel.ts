@@ -1,3 +1,4 @@
+import { BasePersonsPanel } from '@bypass/shared/tests';
 import { expect, type Page } from '@playwright/test';
 
 import {
@@ -60,17 +61,7 @@ const changeImageInDialog = async (
   await uploadImage(page, imagePickerDialog, imageUrl);
 };
 
-export class PersonsPanel {
-  constructor(readonly page: Page) {}
-
-  getBookmarksDialog() {
-    return this.page.getByTestId('bookmarks-list-modal');
-  }
-
-  async getPersonCount() {
-    return this.page.locator('[data-testid^="person-item-"]').count();
-  }
-
+export class PersonsPanel extends BasePersonsPanel {
   async openAddPersonDialog() {
     return openDialog(this.page, 'Add', 'Add Person');
   }

@@ -1,7 +1,11 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { injectLocalStorage, instrumentContext } from '@bypass/shared/tests';
+import {
+  BASE_BROWSER_ARGS,
+  injectLocalStorage,
+  instrumentContext,
+} from '@bypass/shared/tests';
 import { chromium, type BrowserContext, type Cookie } from '@playwright/test';
 
 import { AUTH_CACHE_DIR, WEB_STORAGE_PATH } from '../auth-constants';
@@ -28,7 +32,7 @@ export const createSharedContext = async (): Promise<{
 
   const browserContext = await chromium.launchPersistentContext(userDataDir, {
     headless: true,
-    args: ['--disable-dev-shm-usage', '--no-sandbox'],
+    args: BASE_BROWSER_ARGS,
   });
 
   instrumentContext(browserContext);
