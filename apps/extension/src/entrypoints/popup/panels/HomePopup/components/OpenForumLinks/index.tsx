@@ -1,6 +1,7 @@
 import useSWR from 'swr';
 
 import { useIsSignedIn } from '@/store/firebase/useFirebaseStore';
+import { extSwrKeys } from '@/swr/keys';
 import { sendRuntimeMessage } from '@/utils/sendRuntimeMessage';
 import { isForumPage } from '@background/websites';
 import useCurrentTab from '@popup/hooks/useCurrentTab';
@@ -16,7 +17,7 @@ function OpenForumLinks() {
   const isSignedIn = useIsSignedIn();
   const currentTab = useCurrentTab();
   const { data: isOnForumPage = false } = useSWR(
-    isSignedIn && currentTab?.url ? ['forum-page', currentTab.url] : null,
+    isSignedIn ? extSwrKeys.forumPage(currentTab?.url) : null,
     async ([, url]) => isCurrentPageForum(url)
   );
 

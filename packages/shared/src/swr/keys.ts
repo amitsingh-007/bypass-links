@@ -16,7 +16,7 @@ export const swrKeys = {
   personImage: (uid?: string) => (uid ? [PERSON_IMAGE, uid] : null),
   personImageMap: (uids: string[]) => [PERSON_IMAGE, 'map', joinIds(uids)],
   taggedBookmarks: (uid?: string) => (uid ? [TAGGED_BOOKMARKS, uid] : null),
-  favicon: (url: string) => [FAVICON, url],
+  favicon: (url?: string) => (url ? [FAVICON, url] : null),
 } as const;
 
 export const matchKeyPrefix = (prefix: string) => (key: unknown) =>

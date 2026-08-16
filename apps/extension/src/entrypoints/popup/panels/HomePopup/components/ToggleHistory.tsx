@@ -39,7 +39,7 @@ function ToggleHistory() {
   const turnOffHistory = async () => {
     if (isHistoryActive) {
       await endHistoryWatch();
-      await mutate();
+      await mutate(false, { revalidate: false });
     }
   };
   const onExtensionInactive = useEffectEvent(turnOffHistory);
@@ -48,7 +48,7 @@ function ToggleHistory() {
     if (!isHistoryActive) {
       resetHistoryMonitor();
       await startHistoryWatch();
-      await mutate();
+      await mutate(true, { revalidate: false });
     }
   };
   const onMonitorHistory = useEffectEvent(turnOnHistory);
@@ -71,7 +71,7 @@ function ToggleHistory() {
     if (checked) {
       await turnOnHistory();
     } else {
-      turnOffHistory();
+      await turnOffHistory();
     }
   };
 

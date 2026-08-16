@@ -1,3 +1,5 @@
+import { toast } from 'sonner';
+
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import useProgressStore from '@/store/progress';
 
@@ -28,18 +30,17 @@ export const signOut = async (): Promise<boolean> => {
   }
 };
 
-export const signIn = async (): Promise<boolean> => {
+export const signIn = async () => {
   const { incrementProgress } = useProgressStore.getState();
 
   try {
     await userSignIn();
     incrementProgress(SIGN_IN_TOTAL_STEPS);
     await processPostLogin();
-    return true;
   } catch (error) {
     console.error('Error occurred while signing in.', error);
     console.log('Reverting due to login error...');
     await signOut();
-    return false;
+    toast.error('Error while logging in');
   }
 };

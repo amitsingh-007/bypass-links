@@ -1,11 +1,9 @@
-import { Button, Spinner } from '@bypass/ui';
-import { cn } from '@bypass/ui/lib/utils';
 import {
   CheckmarkBadge02Icon,
   WebDesign01Icon,
 } from '@hugeicons/core-free-icons';
-import { HugeiconsIcon } from '@hugeicons/react';
 
+import HomeActionButton from '../HomeActionButton';
 import useFeedbackButton, { EButtonState } from './useFeedbackButton';
 
 interface Props {
@@ -19,26 +17,20 @@ function ButtonWithFeedback({ openAllLinks, isForumPage }: Props) {
   const isSuccess = isForumPage && buttonState === EButtonState.SUCCESS;
 
   return (
-    <Button
-      className={cn(
-        'w-full font-medium',
-        isSuccess &&
-          'border-teal-600 bg-teal-600 hover:border-teal-700 hover:bg-teal-700'
-      )}
+    <HomeActionButton
+      label={isSuccess ? 'Success' : 'Forum'}
+      icon={isSuccess ? CheckmarkBadge02Icon : WebDesign01Icon}
       variant={isSuccess ? 'default' : 'secondary'}
-      disabled={!isForumPage || buttonState === EButtonState.LOADING}
+      className={
+        isSuccess
+          ? 'border-teal-600 bg-teal-600 hover:border-teal-700 hover:bg-teal-700'
+          : undefined
+      }
+      isBusy={buttonState === EButtonState.LOADING}
+      disabled={!isForumPage}
+      requiresSignIn={false}
       onClick={onClick}
-    >
-      {buttonState === EButtonState.LOADING && (
-        <Spinner className="mr-2 size-4" />
-      )}
-      {isSuccess ? 'Success' : 'Forum'}
-      <HugeiconsIcon
-        icon={isSuccess ? CheckmarkBadge02Icon : WebDesign01Icon}
-        strokeWidth={2}
-        className="ml-2 size-4"
-      />
-    </Button>
+    />
   );
 }
 

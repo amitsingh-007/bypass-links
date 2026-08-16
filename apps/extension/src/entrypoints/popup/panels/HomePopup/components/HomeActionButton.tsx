@@ -1,4 +1,5 @@
 import { Button, Spinner } from '@bypass/ui';
+import { cn } from '@bypass/ui/lib/utils';
 import { HugeiconsIcon, type IconSvgElement } from '@hugeicons/react';
 import { type ComponentProps } from 'react';
 
@@ -32,7 +33,7 @@ function HomeActionButton({
 
   return (
     <Button
-      className={className ?? 'w-full font-medium'}
+      className={cn('w-full font-medium', className)}
       variant={variant}
       disabled={disabled || isBusy || (requiresSignIn && !isSignedIn)}
       data-testid={testId}
