@@ -14,19 +14,23 @@ const userSignIn = async () => {
   await firebaseSignIn();
 };
 
-export const signOut = async (): Promise<boolean> => {
+/** Untoasted, so a failed sign-in reverting through here shows one error. */
+const performSignOut = async () => {
   const { firebaseSignOut } = useFirebaseStore.getState();
   const { incrementProgress } = useProgressStore.getState();
 
+  await processPreLogout();
+  await firebaseSignOut();
+  incrementProgress(SIGN_OUT_TOTAL_STEPS);
+  await processPostLogout();
+};
+
+export const signOut = async () => {
   try {
-    await processPreLogout();
-    await firebaseSignOut();
-    incrementProgress(SIGN_OUT_TOTAL_STEPS);
-    await processPostLogout();
-    return true;
+    await performSignOut();
   } catch (error) {
     console.error('Error occurred while signing out.', error);
-    return false;
+    toast.error('Error while logging out');
   }
 };
 
@@ -40,7 +44,11 @@ export const signIn = async () => {
   } catch (error) {
     console.error('Error occurred while signing in.', error);
     console.log('Reverting due to login error...');
-    await signOut();
+    try {
+      await performSignOut();
+    } catch (revertError) {
+      console.error('Error occurred while reverting login.', revertError);
+    }
     toast.error('Error while logging in');
   }
 };

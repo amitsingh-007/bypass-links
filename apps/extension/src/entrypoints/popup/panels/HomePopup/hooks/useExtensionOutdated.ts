@@ -4,6 +4,7 @@ import { trpcApi } from '@/apis/trpcApi';
 import { useIsSignedIn } from '@/store/firebase/useFirebaseStore';
 
 const OUTDATED_TITLE = 'You are using older version of Bypass Links';
+const LATEST_VERSION_KEY = 'latestExtensionVersion';
 
 const showOutdated = (isOutdated: boolean) => {
   if (!isOutdated) {
@@ -23,13 +24,24 @@ const useExtensionOutdated = () => {
     if (!isSignedIn) {
       return;
     }
-    // Rechecked on every open since Chrome drops the badge on browser restart
-    trpcApi.extension.latest
-      .query()
-      .then(({ chrome: chromeData }) => {
-        showOutdated(
-          chromeData.version !== browser.runtime.getManifest().version
-        );
+    // Session storage clears on browser restart, which is exactly when Chrome
+    // drops the badge, so one network check per browser session is enough
+    const resolveLatestVersion = async () => {
+      const stored = await browser.storage.session.get(LATEST_VERSION_KEY);
+      const cachedVersion = stored[LATEST_VERSION_KEY];
+      if (typeof cachedVersion === 'string') {
+        return cachedVersion;
+      }
+      const { chrome: chromeData } = await trpcApi.extension.latest.query();
+      await browser.storage.session.set({
+        [LATEST_VERSION_KEY]: chromeData.version,
+      });
+      return chromeData.version;
+    };
+
+    resolveLatestVersion()
+      .then((latestVersion) => {
+        showOutdated(latestVersion !== browser.runtime.getManifest().version);
       })
       .catch((error: unknown) => {
         console.error('Extension version check failed', error);

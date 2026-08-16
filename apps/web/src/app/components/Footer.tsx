@@ -1,4 +1,5 @@
 import { GITHUB_REPO_URL } from '@bypass/shared';
+import { getLatestExtension } from '@bypass/trpc/edge';
 import {
   Calendar03Icon,
   GithubIcon,
@@ -37,15 +38,13 @@ function Info({
   );
 }
 
-async function Footer({
-  releaseDate,
-  extVersion,
-}: {
-  releaseDate: string;
-  extVersion: string;
-}) {
-  const headersList = await headers();
+async function Footer() {
+  const [headersList, { chrome }] = await Promise.all([
+    headers(),
+    getLatestExtension(),
+  ]);
   const tz = headersList.get('x-vercel-ip-timezone') ?? undefined;
+  const { date: releaseDate, version: extVersion } = chrome;
 
   return (
     <footer className="border-t bg-muted/30">

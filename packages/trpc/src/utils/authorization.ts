@@ -17,6 +17,36 @@ const mapTokenToUser = (token: DecodedIdToken): IUser => ({
   photoURL: token.picture,
 });
 
+const VERIFY_TTL_MS = 5 * 60 * 1000;
+
+/**
+ * `checkRevoked` forces a call to the Auth backend that the local key cache
+ * cannot serve, so a burst of batched requests would each pay for it. Cached
+ * per token for a window short enough that a revoked token stops working
+ * promptly.
+ */
+const verifiedTokens = new Map<string, { user: IUser; expiresAt: number }>();
+
+const pruneExpired = (now: number) => {
+  for (const [token, entry] of verifiedTokens) {
+    if (entry.expiresAt <= now) {
+      verifiedTokens.delete(token);
+    }
+  }
+};
+
+const verifyToken = async (idToken: string) => {
+  const now = Date.now();
+  const cached = verifiedTokens.get(idToken);
+  if (cached && cached.expiresAt > now) {
+    return cached.user;
+  }
+  const user = mapTokenToUser(await verifyAuthToken(idToken, true));
+  pruneExpired(now);
+  verifiedTokens.set(idToken, { user, expiresAt: now + VERIFY_TTL_MS });
+  return user;
+};
+
 /**
  * The single token -> authorized user path, shared so REST routes cannot drift
  * behind the tRPC middleware. Returns a result rather than throwing, since each
@@ -37,7 +67,7 @@ export const resolveUserFromRequest = async (
 
   let user: IUser;
   try {
-    user = mapTokenToUser(await verifyAuthToken(idToken, true));
+    user = await verifyToken(idToken);
   } catch (error) {
     console.error(error);
     return { ok: false, status: 401, message: 'Firebase authorization failed' };

@@ -23,35 +23,22 @@ const EMPTY_BOOKMARKS: IBookmarksObj = {
   folders: {},
 };
 
-export const getBookmarks = async (user: IUser) => {
-  const bookmarks = await getFromFirebase<IBookmarksObj>({
-    ref: EFirebaseDBRef.bookmarks,
-    uid: user.uid,
-  });
-  return bookmarks ?? EMPTY_BOOKMARKS;
-};
-const saveBookmarks = async (bookmarks: IBookmarksObj, user: IUser) => {
-  return saveToFirebase({
-    ref: EFirebaseDBRef.bookmarks,
-    uid: user.uid,
-    data: bookmarks,
-  });
-};
+/** The fallback is what keeps each router's zod output schema satisfied. */
+const readRef =
+  <T>(ref: EFirebaseDBRef, fallback: T) =>
+  async (user: IUser) =>
+    (await getFromFirebase<T>({ ref, uid: user.uid })) ?? fallback;
 
-export const getPersons = async (user: IUser) => {
-  const persons = await getFromFirebase<IPersons>({
-    ref: EFirebaseDBRef.persons,
-    uid: user.uid,
-  });
-  return persons ?? {};
-};
-const savePersons = async (persons: IPersons, user: IUser) => {
-  return saveToFirebase({
-    ref: EFirebaseDBRef.persons,
-    uid: user.uid,
-    data: persons,
-  });
-};
+export const getBookmarks = readRef<IBookmarksObj>(
+  EFirebaseDBRef.bookmarks,
+  EMPTY_BOOKMARKS
+);
+const saveBookmarks = async (data: IBookmarksObj, user: IUser) =>
+  saveToFirebase({ ref: EFirebaseDBRef.bookmarks, uid: user.uid, data });
+
+export const getPersons = readRef<IPersons>(EFirebaseDBRef.persons, {});
+const savePersons = async (data: IPersons, user: IUser) =>
+  saveToFirebase({ ref: EFirebaseDBRef.persons, uid: user.uid, data });
 
 export const saveBookmarksAndPersons = async (
   bookmarks: IBookmarksObj,
@@ -65,21 +52,12 @@ export const saveBookmarksAndPersons = async (
   return isBookmarksSaved && isPersonsSaved;
 };
 
-export const getWebsites = async (user: IUser) => {
-  const websites = await getFromFirebase<IWebsites>({
-    ref: EFirebaseDBRef.websites,
-    uid: user.uid,
-  });
-  return websites ?? {};
-};
+export const getWebsites = readRef<IWebsites>(EFirebaseDBRef.websites, {});
 
-export const getLastVisited = async (user: IUser) => {
-  const lastVisited = await getFromFirebase<ILastVisited>({
-    ref: EFirebaseDBRef.lastVisited,
-    uid: user.uid,
-  });
-  return lastVisited ?? {};
-};
+export const getLastVisited = readRef<ILastVisited>(
+  EFirebaseDBRef.lastVisited,
+  {}
+);
 
 export const upsertLastVisited = async (hash: string, user: IUser) => {
   const timestamp = Date.now();
@@ -94,13 +72,10 @@ export const upsertLastVisited = async (hash: string, user: IUser) => {
   return { hash, timestamp };
 };
 
-export const getRedirections = async (user: IUser) => {
-  const redirections = await getFromFirebase<IRedirections>({
-    ref: EFirebaseDBRef.redirections,
-    uid: user.uid,
-  });
-  return redirections ?? [];
-};
+export const getRedirections = readRef<IRedirections>(
+  EFirebaseDBRef.redirections,
+  []
+);
 export const saveRedirections = async (
   redirections: IRedirections,
   user: IUser

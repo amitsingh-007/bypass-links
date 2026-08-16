@@ -5,7 +5,8 @@
   "files": [
     "manifest/*",
     "tsconfig.base.json",
-    "firebase.config.ts"
+    "firebase.config.ts",
+    "env.ts"
   ],
   "type": "module",
   "scripts": {

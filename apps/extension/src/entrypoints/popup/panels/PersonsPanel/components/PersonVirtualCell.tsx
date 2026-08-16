@@ -9,7 +9,10 @@ import AddOrEditPersonDialog from './AddOrEditPersonDialog';
 interface Props {
   person: IPerson;
   imageUrl?: string;
-  handleEditPerson: (person: IPerson) => Promise<void>;
+  handleEditPerson: (
+    person: IPerson,
+    hasImageChanged: boolean
+  ) => Promise<void>;
   handlePersonDelete: (person: IPerson) => void;
 }
 
@@ -41,8 +44,11 @@ function PersonVirtualCell({
     },
   ];
 
-  const handlePersonSave = async (updatedPerson: IPerson) => {
-    await handleEditPerson(updatedPerson);
+  const handlePersonSave = async (
+    updatedPerson: IPerson,
+    hasImageChanged: boolean
+  ) => {
+    await handleEditPerson(updatedPerson, hasImageChanged);
     editPersonDialogHandlers.close();
   };
 

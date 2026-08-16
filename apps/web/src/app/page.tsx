@@ -1,10 +1,9 @@
-import { getLatestExtension } from '@bypass/trpc/edge';
 import { type Metadata } from 'next';
 import { Suspense } from 'react';
 
 import AppHeader from './components/AppHeader';
 import Footer, { FooterSkeleton } from './components/Footer';
-import PageHeader from './components/PageHeader';
+import PageHeader, { PageHeaderSkeleton } from './components/PageHeader';
 import SalientFeatures from './components/SalientFeatures';
 import { clientEnv } from './constants/env/client';
 
@@ -28,18 +27,18 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function Home() {
-  const { chrome } = await getLatestExtension();
-
+export default function Home() {
   return (
     <div className="flex min-h-screen flex-col">
       <AppHeader />
       <main className="mx-auto w-full max-w-7xl flex-1 px-4">
-        <PageHeader chrome={chrome} />
+        <Suspense fallback={<PageHeaderSkeleton />}>
+          <PageHeader />
+        </Suspense>
         <SalientFeatures />
       </main>
       <Suspense fallback={<FooterSkeleton />}>
-        <Footer releaseDate={chrome.date} extVersion={chrome.version} />
+        <Footer />
       </Suspense>
     </div>
   );

@@ -1,5 +1,6 @@
 import type { Buffer } from 'node:buffer';
 
+import { IS_PROD } from '@bypass/configs/env';
 import { getFirebasePublicConfig } from '@bypass/configs/firebase.config';
 import { cert, getApp, getApps, initializeApp } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
@@ -17,9 +18,7 @@ interface Firebase {
   data: object;
 }
 
-const firebasePublicConfig = getFirebasePublicConfig(
-  process.env.NODE_ENV === 'production'
-);
+const firebasePublicConfig = getFirebasePublicConfig(IS_PROD);
 
 const serviceAccountSchema = z.object({
   project_id: z.string(),

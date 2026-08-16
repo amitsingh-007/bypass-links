@@ -3,12 +3,13 @@ import { TRPCError } from '@trpc/server';
 import { cacheLife, cacheTag } from 'next/cache';
 import { type AsyncReturnType } from 'type-fest';
 
-import { getAssetsByReleaseId, getLatestRelease } from './githubService';
+import { getLatestRelease } from './githubService';
 
 const ONE_MONTH_IN_SEC = 30 * 24 * 60 * 60;
 
-type TGitHubResponse = AsyncReturnType<typeof getAssetsByReleaseId>['data'];
-type TGitHubAsset = TGitHubResponse[number];
+type TGitHubAsset = AsyncReturnType<
+  typeof getLatestRelease
+>['data']['assets'][number];
 
 const mapExtension = (extension: TGitHubAsset) => ({
   downloadLink: extension.browser_download_url,
@@ -23,9 +24,8 @@ export const getLatestExtension = async () => {
   cacheLife({ revalidate: ONE_MONTH_IN_SEC, expire: ONE_MONTH_IN_SEC });
 
   const { data: latestRelease } = await getLatestRelease();
-  const { data: assets } = await getAssetsByReleaseId(latestRelease.id);
 
-  const chromeAsset = assets.find(
+  const chromeAsset = latestRelease.assets.find(
     (asset) => asset.content_type === 'application/zip'
   );
 

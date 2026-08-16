@@ -1,6 +1,7 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { IS_PROD } from '@bypass/configs/env';
 import { getFirebaseAuthHelperUrl } from '@bypass/configs/firebase.config';
 import { type NextConfig } from 'next';
 
@@ -39,9 +40,7 @@ const nextConfig: NextConfig = {
   // https://firebase.google.com/docs/auth/web/redirect-best-practices
   async rewrites() {
     // Same discriminator the runtime config uses, so dev doesn't proxy to prod
-    const authHelper = getFirebaseAuthHelperUrl(
-      process.env.NODE_ENV === 'production'
-    );
+    const authHelper = getFirebaseAuthHelperUrl(IS_PROD);
     return [
       {
         source: '/__/auth/:path*',

@@ -4,11 +4,21 @@ import { mutate } from 'swr';
 import { lastVisitedItem } from '@/storage/items';
 import { extSwrKeyMatchers } from '@/swr/keys';
 
+// Hostnames are stable and the hash is pure, so a list re-render costs nothing
+const hostnameHashes = new Map<string, Promise<string>>();
+
 export const getHostnameHash = async (url: string) => {
   if (!URL.canParse(url)) {
     return '';
   }
-  return sha256Hash(new URL(url).hostname);
+  const { hostname } = new URL(url);
+  const cached = hostnameHashes.get(hostname);
+  if (cached) {
+    return cached;
+  }
+  const hash = sha256Hash(hostname);
+  hostnameHashes.set(hostname, hash);
+  return hash;
 };
 
 const formatLastVisited = (timestamp?: number) => {

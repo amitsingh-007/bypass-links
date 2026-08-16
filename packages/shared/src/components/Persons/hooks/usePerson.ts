@@ -48,6 +48,9 @@ const usePerson = () => {
   const getPersonImageMap = async (
     uids: string[]
   ): Promise<Record<string, string>> => {
+    if (!uids.length) {
+      return {};
+    }
     const personImages = await getPersonImageUrls();
     if (!personImages) {
       return {};

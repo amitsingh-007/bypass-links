@@ -8,7 +8,7 @@ import AddOrEditPersonDialog from './AddOrEditPersonDialog';
 
 interface Props {
   isFetching: boolean;
-  handleAddPerson: (person: IPerson) => Promise<void>;
+  handleAddPerson: (person: IPerson, hasImageChanged: boolean) => Promise<void>;
   persons: IPerson[];
   onSearchChange: (text: string) => void;
   orderByRecency: boolean;
@@ -25,8 +25,11 @@ function PersonHeader({
 }: Props) {
   const [showAddPersonDialog, addPersonDialogHandlers] = useDisclosure(false);
 
-  const handlePersonSave = async (person: IPerson) => {
-    await handleAddPerson(person);
+  const handlePersonSave = async (
+    person: IPerson,
+    hasImageChanged: boolean
+  ) => {
+    await handleAddPerson(person, hasImageChanged);
     addPersonDialogHandlers.close();
   };
 

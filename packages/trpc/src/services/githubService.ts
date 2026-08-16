@@ -7,15 +7,9 @@ const octokit = new Octokit({
   auth: env.GITHUB_TOKEN,
 });
 
+/** The response already embeds `assets`, so no second call is needed. */
 export const getLatestRelease = async () =>
   octokit.rest.repos.getLatestRelease({
     owner: REPO.OWNER,
     repo: REPO.NAME,
-  });
-
-export const getAssetsByReleaseId = async (releaseId: number) =>
-  octokit.rest.repos.listReleaseAssets({
-    owner: REPO.OWNER,
-    repo: REPO.NAME,
-    release_id: releaseId,
   });

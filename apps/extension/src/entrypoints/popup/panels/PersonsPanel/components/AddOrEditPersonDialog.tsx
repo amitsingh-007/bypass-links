@@ -32,7 +32,7 @@ interface Props {
   person?: IPerson;
   isOpen: boolean;
   onClose: VoidFunction;
-  handleSaveClick: (person: IPerson) => Promise<void>;
+  handleSaveClick: (person: IPerson, hasImageChanged: boolean) => Promise<void>;
 }
 
 const formSchema = z.object({
@@ -49,6 +49,7 @@ function AddOrEditPersonDialog({
   // Lazy state: the id has to survive re-renders of the open dialog
   const [initialUid] = useState(() => crypto.randomUUID());
   const [isAvatarImageLoading, setIsAvatarImageLoading] = useState(false);
+  const [hasImageChanged, setHasImageChanged] = useState(false);
   const [showImagePicker, imagePickerHandlers] = useDisclosure(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -67,10 +68,7 @@ function AddOrEditPersonDialog({
       }
 
       setIsLoading(true);
-      await handleSaveClick({
-        uid,
-        name,
-      });
+      await handleSaveClick({ uid, name }, hasImageChanged);
       setIsLoading(false);
     },
   });
@@ -85,6 +83,7 @@ function AddOrEditPersonDialog({
   const handleImageCropSave = async (fileName: string) => {
     setIsAvatarImageLoading(true);
     const url = await trpcApi.storage.getDownloadUrl.query(fileName);
+    setHasImageChanged(true);
     mutateImage(url, { revalidate: false });
   };
 

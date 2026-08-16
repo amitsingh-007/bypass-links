@@ -1,6 +1,5 @@
-import { Bookmark, type ContextBookmark, isFolderEmpty } from '@bypass/shared';
+import { Bookmark, type ContextBookmark } from '@bypass/shared';
 import { cn } from '@bypass/ui/lib/utils';
-import { useShallow } from 'zustand/react/shallow';
 
 import useBookmarkStore from '../store/useBookmarkStore';
 import FolderRow from './FolderRow';
@@ -13,22 +12,20 @@ interface Props {
 }
 
 function VirtualRow({ bookmark, pos, isSelected, isCut }: Props) {
-  const {
-    folders,
-    handleFolderRemove,
-    handleFolderRename,
-    handleToggleDefaultFolder,
-    resetSelectedBookmarks,
-    handleSelectedChange,
-  } = useBookmarkStore(
-    useShallow((state) => ({
-      folders: state.folders,
-      handleFolderRemove: state.handleFolderRemove,
-      handleFolderRename: state.handleFolderRename,
-      handleToggleDefaultFolder: state.handleToggleDefaultFolder,
-      resetSelectedBookmarks: state.resetSelectedBookmarks,
-      handleSelectedChange: state.handleSelectedChange,
-    }))
+  // Selected individually rather than as one object: the actions are stable and
+  // `folders` is narrowed to this row, so a folder change no longer re-renders
+  // every mounted bookmark row
+  const handleFolderRemove = useBookmarkStore((s) => s.handleFolderRemove);
+  const handleFolderRename = useBookmarkStore((s) => s.handleFolderRename);
+  const handleToggleDefaultFolder = useBookmarkStore(
+    (s) => s.handleToggleDefaultFolder
+  );
+  const resetSelectedBookmarks = useBookmarkStore(
+    (s) => s.resetSelectedBookmarks
+  );
+  const handleSelectedChange = useBookmarkStore((s) => s.handleSelectedChange);
+  const isEmptyFolder = useBookmarkStore(
+    (s) => bookmark.isDir && !s.folders[bookmark.id]?.length
   );
 
   return (
@@ -53,7 +50,7 @@ function VirtualRow({ bookmark, pos, isSelected, isCut }: Props) {
           handleRemove={handleFolderRemove}
           handleEdit={handleFolderRename}
           toggleDefaultFolder={handleToggleDefaultFolder}
-          isEmpty={isFolderEmpty(folders, bookmark.id)}
+          isEmpty={isEmptyFolder}
           resetSelectedBookmarks={resetSelectedBookmarks}
         />
       ) : (

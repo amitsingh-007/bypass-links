@@ -1,6 +1,5 @@
 import { Login02Icon, Logout02Icon } from '@hugeicons/core-free-icons';
 import { useCallback, useEffect } from 'react';
-import { toast } from 'sonner';
 
 import { useIsSignedIn } from '@/store/firebase/useFirebaseStore';
 import useProgressStore from '@/store/progress';
@@ -25,10 +24,7 @@ function Authenticate() {
   // Memoized: exhaustive-deps wants a stable identity for the effect below
   const handleSignOut = useCallback(async () => {
     startLoading();
-    const isSignedOutSuccess = await signOut();
-    if (!isSignedOutSuccess) {
-      toast.error('Error while logging out');
-    }
+    await signOut();
     stopLoading();
   }, [startLoading, stopLoading]);
 

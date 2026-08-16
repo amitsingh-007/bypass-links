@@ -64,7 +64,10 @@ function PersonsPanel() {
     }
   };
 
-  const handleAddOrEditPerson = async (person: IPerson) => {
+  const handleAddOrEditPerson = async (
+    person: IPerson,
+    hasImageChanged: boolean
+  ) => {
     const pos = getPersonPos(persons, person);
     const isNewPerson = pos === -1;
     const newPersons = isNewPerson
@@ -72,7 +75,10 @@ function PersonsPanel() {
       : persons.with(pos, person);
 
     await runSave(`Could not save ${person.name}`, async () => {
-      await updatePersonCacheAndImageUrls(person);
+      // A name-only edit would otherwise re-resolve and re-download the avatar
+      if (hasImageChanged) {
+        await updatePersonCacheAndImageUrls(person);
+      }
       await handleSave(sortAlphabetically(newPersons));
       toast.success(
         `${person.name} ${isNewPerson ? 'added' : 'updated'} successfully`

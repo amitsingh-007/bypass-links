@@ -1,5 +1,5 @@
 import { getBookmarksPanelUrl, ROUTES } from '@bypass/shared';
-import { Progress, Spinner } from '@bypass/ui';
+import { Progress } from '@bypass/ui';
 import {
   CollectionsBookmarkIcon,
   CommandIcon,
@@ -7,6 +7,7 @@ import {
 } from '@hugeicons/core-free-icons';
 
 import useProgressStore from '@/store/progress';
+import LoadingOverlay from '@popup/components/LoadingOverlay';
 
 import Authenticate from '../components/Authenticate';
 import LastVisitedButton from '../components/LastVisitedButton';
@@ -23,22 +24,27 @@ const handleOpenAsPage = () => {
   browser.tabs.create({ url: window.location.href });
 };
 
+// Split out so progress ticks re-render the overlay, not the whole button grid
+function ProgressOverlay() {
+  const progress = useProgressStore((state) => state.progress);
+
+  return (
+    <>
+      <div className="absolute inset-x-0 top-0 z-50">
+        <Progress value={progress} />
+      </div>
+      <LoadingOverlay className="z-40 bg-background/80" />
+    </>
+  );
+}
+
 function PopupHome() {
   useExtensionOutdated();
-  const { isLoading, progress } = useProgressStore();
+  const isLoading = useProgressStore((state) => state.isLoading);
 
   return (
     <div className="relative flex w-77.5 flex-col items-center px-4 pt-2 pb-4">
-      {isLoading && (
-        <>
-          <div className="absolute inset-x-0 top-0 z-50">
-            <Progress value={progress} />
-          </div>
-          <div className="absolute inset-0 z-40 flex items-center justify-center bg-background/80">
-            <Spinner className="size-8" />
-          </div>
-        </>
-      )}
+      {isLoading && <ProgressOverlay />}
       <div
         className="mb-4 cursor-pointer text-xl font-medium select-none"
         data-testid="home-popup-heading"
