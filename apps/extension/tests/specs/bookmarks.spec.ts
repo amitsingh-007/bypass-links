@@ -250,19 +250,13 @@ test.describe('Bookmarks Panel', () => {
       await panel.ensureAtRoot();
       await panel.openFolder(TEST_FOLDERS.MAIN);
 
-      // Get original URL and existing URL from another bookmark
-      const { originalUrl, existingUrl } =
-        await test.step('read the current urls', async () => {
-          await panel.openEditBookmarkDialog(TEST_BOOKMARKS.REACT_DOCS);
-          const original = await panel.getUrlInput().inputValue();
-          await panel.closeDialog();
+      await panel.openEditBookmarkDialog(TEST_BOOKMARKS.REACT_DOCS);
+      const originalUrl = await panel.getUrlInput().inputValue();
+      await panel.closeDialog();
 
-          await panel.openEditBookmarkDialog(TEST_BOOKMARKS.GITHUB);
-          const existing = await panel.getUrlInput().inputValue();
-          await panel.closeDialog();
-
-          return { originalUrl: original, existingUrl: existing };
-        });
+      await panel.openEditBookmarkDialog(TEST_BOOKMARKS.GITHUB);
+      const existingUrl = await panel.getUrlInput().inputValue();
+      await panel.closeDialog();
 
       await test.step('duplicate url is rejected', async () => {
         const duplicateDialog = await panel.editBookmarkUrl(
@@ -290,12 +284,10 @@ test.describe('Bookmarks Panel', () => {
       });
 
       await test.step('original url is restored', async () => {
-        const restoreDialog = await panel.openEditBookmarkDialog(
-          TEST_BOOKMARKS.REACT_DOCS
+        const restoreDialog = await panel.editBookmarkUrl(
+          TEST_BOOKMARKS.REACT_DOCS,
+          originalUrl
         );
-        await panel.getUrlInput().clear();
-        await panel.getUrlInput().fill(originalUrl);
-        await restoreDialog.getByTestId('dialog-save-button').click();
         await expect(restoreDialog).toBeHidden();
 
         await panel.verifyBookmarkExists(TEST_BOOKMARKS.REACT_DOCS);

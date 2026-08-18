@@ -53,15 +53,14 @@ test.describe('History Tracking Workflow', () => {
       await expect(homePanel.historyToggle).toBeChecked();
     });
 
-    await test.step('visit the test sites', async () => {
+    await test.step('visits land in history', async () => {
       for (const site of sites) {
         const newPage = await context.newPage();
         await newPage.goto(site, { waitUntil: 'domcontentloaded' });
         await newPage.close();
       }
 
-      const historyBefore = await getHistoryItems(homePage, sites);
-      expect(historyBefore.length).toBeGreaterThan(0);
+      expect(await getHistoryItems(homePage, sites)).not.toHaveLength(0);
     });
 
     await test.step('disable tracking', async () => {

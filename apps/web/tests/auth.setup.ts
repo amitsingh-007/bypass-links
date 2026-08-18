@@ -67,7 +67,7 @@ setup('authenticate and cache web storage', async ({}, testInfo) => {
   });
 
   await expect
-    .poll(async () => page.localStorage.getItem('bookmarks'), {
+    .poll(() => page.localStorage.getItem('bookmarks'), {
       timeout: TEST_TIMEOUTS.AUTH,
     })
     .not.toBeNull();

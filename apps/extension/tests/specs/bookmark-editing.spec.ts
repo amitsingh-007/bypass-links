@@ -31,7 +31,7 @@ test.describe('Bookmark multi-select', () => {
     await panel.selectBookmark(SECOND, { extend: true });
     await panel.openBookmarkContextMenu(SECOND);
 
-    await expect(bookmarksPage.getByRole('menu')).toMatchAriaSnapshot(`
+    await expect(panel.getContextMenu()).toMatchAriaSnapshot(`
       - menu:
         - /children: equal
         - menuitem "Open all (2) in new tab"

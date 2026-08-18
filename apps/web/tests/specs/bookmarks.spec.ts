@@ -79,10 +79,10 @@ test.describe('Bookmarks Panel', () => {
     await test.step('search by title', async () => {
       await fillSearchInput(authenticatedPage, 'ButtonGroup');
       await panel.verifyBookmarkExists(TEST_BOOKMARKS.GITHUB);
+      await clearSearchInput(authenticatedPage);
     });
 
     await test.step('search by url', async () => {
-      await clearSearchInput(authenticatedPage);
       await fillSearchInput(authenticatedPage, 'material');
       await panel.verifyBookmarkExists(TEST_BOOKMARKS.REACT_DOCS);
     });

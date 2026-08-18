@@ -9,6 +9,7 @@
     "dev": "turbo run dev",
     "env": "vercel env pull .env",
     "e2e": "playwright test",
+    "e2e:report": "playwright show-report .playwright/playwright-report",
     "lint": "oxlint --fix",
     "lint:ci": "oxlint",
     "format": "oxfmt",

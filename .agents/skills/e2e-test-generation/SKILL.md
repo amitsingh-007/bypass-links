@@ -74,7 +74,9 @@ I will ask clarifying questions if:
 
 - **Test constants**: Reuse `@bypass/shared/tests` constants first; keep local constants scoped to a spec when needed
 - **Group tests**: Only use `test.describe` for 2+ tests
-- **Steps**: Use `test.step` when a test has 3+ distinct phases or loops over cases; do not wrap single POM calls, and let the step title replace the phase comment
+- **Steps**: Use `test.step` when a test has 3+ distinct phases or loops over cases; let the step title replace the phase comment
+  - Never wrap POM methods as steps, and never use `box: true` — both hide which inner action failed, which is all a CI log line gives you
+  - A step must not be the thing that produces values for later steps; read them flat beforehand
 - **Test names**: Use clear names that describe behavior under test
 - **Determinism**: Prefer explicit waits on visible UI state over brittle timing assumptions
 - **Clear comments**: Explain "why", not "what"
