@@ -68,6 +68,13 @@ Playwright tests use setup/teardown projects for both web and extension flows:
 5. **@bypass/extension** (`apps/extension/tests/specs/`) - Parallel extension tests using cached authenticated profile
 6. **extension-teardown** (`apps/extension/tests/global-teardown.ts`) - Cleans up `.playwright/.cache` after extension tests complete
 
+Every run writes an HTML report. Open it to inspect failures, attachments and
+the **Speedboard** tab, which ranks every test by duration:
+
+```bash
+pnpm exec playwright show-report .playwright/playwright-report
+```
+
 ## Key Technologies
 
 - **Frontend**: React, Next.js (web)
