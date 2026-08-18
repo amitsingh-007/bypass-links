@@ -31,12 +31,13 @@ test.describe('Bookmark multi-select', () => {
     await panel.selectBookmark(SECOND, { extend: true });
     await panel.openBookmarkContextMenu(SECOND);
 
-    await expect(panel.getContextMenuItem('open')).toHaveText(
-      'Open all (2) in new tab'
-    );
-    await expect(panel.getContextMenuItem('delete-all')).toBeVisible();
-    await expect(panel.getContextMenuItem('edit')).toBeHidden();
-    await expect(panel.getContextMenuItem('delete')).toBeHidden();
+    await expect(bookmarksPage.getByRole('menu')).toMatchAriaSnapshot(`
+      - menu:
+        - /children: equal
+        - menuitem "Open all (2) in new tab"
+        - menuitem "Cut"
+        - menuitem "Delete All"
+    `);
 
     await bookmarksPage.keyboard.press('Escape');
   });
