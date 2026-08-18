@@ -243,12 +243,14 @@ test.describe.serial('Background Service Worker Navigation', () => {
     ];
 
     for (const invalidUrl of invalidUrls) {
-      const page = await sharedBackground.openTab(invalidUrl);
-      try {
-        await expect.poll(() => page.url()).not.toContain('html5test.com');
-      } finally {
-        await page.close();
-      }
+      await test.step(invalidUrl, async () => {
+        const page = await sharedBackground.openTab(invalidUrl);
+        try {
+          await expect.poll(() => page.url()).not.toContain('html5test.com');
+        } finally {
+          await page.close();
+        }
+      });
     }
 
     const historyStartTime = await sharedBackground.readStorage<number>(
@@ -263,12 +265,16 @@ test.describe.serial('Background Service Worker Navigation', () => {
     await sharedBackground.ensureActiveState();
 
     for (let attempt = 0; attempt < 3; attempt++) {
-      const page = await sharedBackground.openTab(TEST_SHORTCUTS.BROWSERTEST);
-      try {
-        await expect.poll(() => page.url()).toContain('https://html5test.com');
-      } finally {
-        await page.close();
-      }
+      await test.step(`attempt ${attempt + 1}`, async () => {
+        const page = await sharedBackground.openTab(TEST_SHORTCUTS.BROWSERTEST);
+        try {
+          await expect
+            .poll(() => page.url())
+            .toContain('https://html5test.com');
+        } finally {
+          await page.close();
+        }
+      });
     }
   });
 });

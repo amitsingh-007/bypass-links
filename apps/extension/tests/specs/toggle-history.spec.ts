@@ -48,43 +48,42 @@ test.describe('History Tracking Workflow', () => {
       TEST_SITES.EXAMPLE_NET,
     ];
 
-    // Ensure tracking is enabled for this test run.
-    await homePanel.setHistoryEnabled(true);
-    await expect(homePanel.historyToggle).toBeChecked();
+    await test.step('enable tracking', async () => {
+      await homePanel.setHistoryEnabled(true);
+      await expect(homePanel.historyToggle).toBeChecked();
+    });
 
-    // Visit each site in a new tab
-    for (const site of sites) {
-      const newPage = await context.newPage();
-      await newPage.goto(site, { waitUntil: 'domcontentloaded' });
-      await newPage.close();
-    }
+    await test.step('visit the test sites', async () => {
+      for (const site of sites) {
+        const newPage = await context.newPage();
+        await newPage.goto(site, { waitUntil: 'domcontentloaded' });
+        await newPage.close();
+      }
 
-    // Verify the sites are in browser history
-    const historyBefore = await getHistoryItems(homePage, sites);
-    expect(historyBefore.length).toBeGreaterThan(0);
+      const historyBefore = await getHistoryItems(homePage, sites);
+      expect(historyBefore.length).toBeGreaterThan(0);
+    });
 
-    // Turn off history tracking
-    await homePanel.setHistoryEnabled(false);
+    await test.step('disable tracking', async () => {
+      await homePanel.setHistoryEnabled(false);
+      await expect(homePanel.historyToggle).not.toBeChecked();
+      await homePanel.verifyHistoryStartTimeNotExists();
+    });
 
-    // Verify switch is now unchecked
-    await expect(homePanel.historyToggle).not.toBeChecked();
-
-    // Verify historyStartTime is removed from storage
-    await homePanel.verifyHistoryStartTimeNotExists();
-
-    // Verify the test sites are deleted from browser history (with retry)
-    await expect
-      .poll(
-        async () => {
-          const historyAfter = await getHistoryItems(homePage, sites);
-          return historyAfter.length;
-        },
-        {
-          message: 'History items should be deleted',
-          timeout: 15_000,
-        }
-      )
-      .toBe(0);
+    await test.step('tracked history is deleted', async () => {
+      await expect
+        .poll(
+          async () => {
+            const historyAfter = await getHistoryItems(homePage, sites);
+            return historyAfter.length;
+          },
+          {
+            message: 'History items should be deleted',
+            timeout: 15_000,
+          }
+        )
+        .toBe(0);
+    });
   });
 
   test('should turn on history tracking when a bookmark is opened', async ({

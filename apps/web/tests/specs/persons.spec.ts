@@ -103,36 +103,37 @@ test.describe('Persons Panel', () => {
   }) => {
     const panel = new PersonsPanel(authenticatedPage);
 
-    // Open Donald's card and search for non-existent bookmark
-    await panel.openPersonCard(TEST_PERSONS.DONALD);
-    const countBefore = await panel.getBookmarkCountInModalFromList();
-    expect(countBefore).toBeGreaterThan(0);
+    await test.step(`${TEST_PERSONS.DONALD}: unknown query yields no results`, async () => {
+      await panel.openPersonCard(TEST_PERSONS.DONALD);
+      const countBefore = await panel.getBookmarkCountInModalFromList();
+      expect(countBefore).toBeGreaterThan(0);
 
-    await panel.searchWithinBookmarks('nonexistentbookmark123');
-    const noResultsMessage = panel.getNoBookmarksMessage();
-    await expect(noResultsMessage).toBeVisible();
+      await panel.searchWithinBookmarks('nonexistentbookmark123');
+      await expect(panel.getNoBookmarksMessage()).toBeVisible();
 
-    await panel.clearSearchWithinBookmarks();
-    await expect(async () => {
-      const countAfter = await panel.getBookmarkCountInModalFromList();
-      expect(countAfter).toBe(countBefore);
-    }).toPass();
+      await panel.clearSearchWithinBookmarks();
+      await expect(async () => {
+        const countAfter = await panel.getBookmarkCountInModalFromList();
+        expect(countAfter).toBe(countBefore);
+      }).toPass();
 
-    await panel.closeModal();
+      await panel.closeModal();
+    });
 
-    // Open John's card and filter by search
-    await panel.openPersonCard(TEST_PERSONS.JOHN_NATHAN);
-    const countBeforeJohn = await panel.getBookmarkCountInModalFromList();
-    expect(countBeforeJohn).toBeGreaterThan(0);
+    await test.step(`${TEST_PERSONS.JOHN_NATHAN}: query narrows the list`, async () => {
+      await panel.openPersonCard(TEST_PERSONS.JOHN_NATHAN);
+      const countBefore = await panel.getBookmarkCountInModalFromList();
+      expect(countBefore).toBeGreaterThan(0);
 
-    await panel.searchWithinBookmarks('React');
-    await expect(async () => {
-      const countAfter = await panel.getBookmarkCountInModalFromList();
-      expect(countAfter).toBeLessThanOrEqual(countBeforeJohn);
-    }).toPass();
+      await panel.searchWithinBookmarks('React');
+      await expect(async () => {
+        const countAfter = await panel.getBookmarkCountInModalFromList();
+        expect(countAfter).toBeLessThanOrEqual(countBefore);
+      }).toPass();
 
-    await panel.clearSearchWithinBookmarks();
-    await panel.closeModal();
+      await panel.clearSearchWithinBookmarks();
+      await panel.closeModal();
+    });
   });
 
   test('should navigate between multiple persons and back to list', async ({
@@ -140,30 +141,34 @@ test.describe('Persons Panel', () => {
   }) => {
     const panel = new PersonsPanel(authenticatedPage);
 
-    // Open John Nathan, verify, and close
-    await panel.openPersonCard(TEST_PERSONS.JOHN_NATHAN);
-    await panel.verifyModalVisible();
-    await panel.closeModal();
-    await panel.verifyModalClosed();
+    await test.step('open and close a person card', async () => {
+      await panel.openPersonCard(TEST_PERSONS.JOHN_NATHAN);
+      await panel.verifyModalVisible();
+      await panel.closeModal();
+      await panel.verifyModalClosed();
+    });
 
-    // Verify back on persons list
-    await expect(panel.getSearchInput()).toBeVisible();
-    await panel.verifyPersonExists(TEST_PERSONS.JOHN_NATHAN);
+    await test.step('lands back on the persons list', async () => {
+      await expect(panel.getSearchInput()).toBeVisible();
+      await panel.verifyPersonExists(TEST_PERSONS.JOHN_NATHAN);
+    });
 
-    // Open multiple persons sequentially
-    await panel.openPersonCard(TEST_PERSONS.JOHN_NATHAN);
-    await panel.verifyPersonNameInBadge(TEST_PERSONS.JOHN_NATHAN);
-    await panel.closeModal();
-    await panel.verifyModalClosed();
+    await test.step('open each person in turn', async () => {
+      for (const person of [
+        TEST_PERSONS.JOHN_NATHAN,
+        TEST_PERSONS.AKASH_KUMAR_SINGH,
+      ]) {
+        await panel.openPersonCard(person);
+        await panel.verifyPersonNameInBadge(person);
+        await panel.closeModal();
+        await panel.verifyModalClosed();
+      }
+    });
 
-    await panel.openPersonCard(TEST_PERSONS.AKASH_KUMAR_SINGH);
-    await panel.verifyPersonNameInBadge(TEST_PERSONS.AKASH_KUMAR_SINGH);
-    await panel.closeModal();
-    await panel.verifyModalClosed();
-
-    // Verify both persons still exist on list
-    await panel.verifyPersonExists(TEST_PERSONS.JOHN_NATHAN);
-    await panel.verifyPersonExists(TEST_PERSONS.AKASH_KUMAR_SINGH);
+    await test.step('both persons remain listed', async () => {
+      await panel.verifyPersonExists(TEST_PERSONS.JOHN_NATHAN);
+      await panel.verifyPersonExists(TEST_PERSONS.AKASH_KUMAR_SINGH);
+    });
   });
 
   test('should toggle recency switch and verify person order changes', async ({

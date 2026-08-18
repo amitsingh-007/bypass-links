@@ -119,37 +119,41 @@ test.describe('Bookmarks Panel', () => {
       bookmarksPage,
     }) => {
       const panel = new BookmarksPanel(bookmarksPage);
-      await panel.ensureAtRoot();
-      await panel.openFolder(TEST_FOLDERS.MAIN);
-
-      // Add person tag
-      await panel.addPersonToBookmark(
-        TEST_BOOKMARKS.REACT_DOCS,
-        TEST_PERSONS.JOHN_NATHAN
-      );
-
-      // Verify in persons panel
-      await panel.navigateToPersonsPanel();
       const personsPanel = new PersonsPanel(bookmarksPage);
-      await personsPanel.verifyBookmarkInPersonList(
-        TEST_PERSONS.JOHN_NATHAN,
-        TEST_BOOKMARKS.REACT_DOCS
-      );
 
-      // Remove person tag
-      await panel.ensureAtRoot();
-      await panel.openFolder(TEST_FOLDERS.MAIN);
-      await panel.removePersonFromBookmark(
-        TEST_BOOKMARKS.REACT_DOCS,
-        TEST_PERSONS.JOHN_NATHAN
-      );
+      await test.step('tag the bookmark', async () => {
+        await panel.ensureAtRoot();
+        await panel.openFolder(TEST_FOLDERS.MAIN);
+        await panel.addPersonToBookmark(
+          TEST_BOOKMARKS.REACT_DOCS,
+          TEST_PERSONS.JOHN_NATHAN
+        );
+      });
 
-      // Verify removal in persons panel
-      await panel.navigateToPersonsPanel();
-      await personsPanel.verifyBookmarkNotInPersonList(
-        TEST_PERSONS.JOHN_NATHAN,
-        TEST_BOOKMARKS.REACT_DOCS
-      );
+      await test.step('tag shows in persons panel', async () => {
+        await panel.navigateToPersonsPanel();
+        await personsPanel.verifyBookmarkInPersonList(
+          TEST_PERSONS.JOHN_NATHAN,
+          TEST_BOOKMARKS.REACT_DOCS
+        );
+      });
+
+      await test.step('untag the bookmark', async () => {
+        await panel.ensureAtRoot();
+        await panel.openFolder(TEST_FOLDERS.MAIN);
+        await panel.removePersonFromBookmark(
+          TEST_BOOKMARKS.REACT_DOCS,
+          TEST_PERSONS.JOHN_NATHAN
+        );
+      });
+
+      await test.step('tag is gone from persons panel', async () => {
+        await panel.navigateToPersonsPanel();
+        await personsPanel.verifyBookmarkNotInPersonList(
+          TEST_PERSONS.JOHN_NATHAN,
+          TEST_BOOKMARKS.REACT_DOCS
+        );
+      });
 
       await panel.ensureAtRoot();
     });
@@ -247,46 +251,55 @@ test.describe('Bookmarks Panel', () => {
       await panel.openFolder(TEST_FOLDERS.MAIN);
 
       // Get original URL and existing URL from another bookmark
-      await panel.openEditBookmarkDialog(TEST_BOOKMARKS.REACT_DOCS);
-      const originalUrl = await panel.getUrlInput().inputValue();
-      await panel.closeDialog();
+      const { originalUrl, existingUrl } =
+        await test.step('read the current urls', async () => {
+          await panel.openEditBookmarkDialog(TEST_BOOKMARKS.REACT_DOCS);
+          const original = await panel.getUrlInput().inputValue();
+          await panel.closeDialog();
 
-      await panel.openEditBookmarkDialog(TEST_BOOKMARKS.GITHUB);
-      const existingUrl = await panel.getUrlInput().inputValue();
-      await panel.closeDialog();
+          await panel.openEditBookmarkDialog(TEST_BOOKMARKS.GITHUB);
+          const existing = await panel.getUrlInput().inputValue();
+          await panel.closeDialog();
 
-      // Test 1: Prevent duplicate URL
-      const duplicateDialog = await panel.editBookmarkUrl(
-        TEST_BOOKMARKS.REACT_DOCS,
-        existingUrl
-      );
-      await panel.verifyErrorNotification(
-        'A bookmark with this URL already exists'
-      );
-      await expect(duplicateDialog).toBeVisible();
-      await panel.closeDialog();
+          return { originalUrl: original, existingUrl: existing };
+        });
 
-      // Test 2: Edit URL successfully and verify by opening
-      const newUrl = 'https://www.google.com/';
-      await panel.editBookmarkUrl(TEST_BOOKMARKS.REACT_DOCS, newUrl);
-
-      const newPage = await openNewPageFromAction(context, async () => {
-        await panel.openBookmarkByDoubleClick(TEST_BOOKMARKS.REACT_DOCS);
+      await test.step('duplicate url is rejected', async () => {
+        const duplicateDialog = await panel.editBookmarkUrl(
+          TEST_BOOKMARKS.REACT_DOCS,
+          existingUrl
+        );
+        await panel.verifyErrorNotification(
+          'A bookmark with this URL already exists'
+        );
+        await expect(duplicateDialog).toBeVisible();
+        await panel.closeDialog();
       });
-      expect(newPage.url()).toContain('google.com');
-      await newPage.close();
 
-      // Test 3: Restore original URL
-      const restoreDialog = await panel.openEditBookmarkDialog(
-        TEST_BOOKMARKS.REACT_DOCS
-      );
-      await panel.getUrlInput().clear();
-      await panel.getUrlInput().fill(originalUrl);
-      await restoreDialog.getByTestId('dialog-save-button').click();
-      await expect(restoreDialog).toBeHidden();
+      await test.step('edited url opens the new site', async () => {
+        await panel.editBookmarkUrl(
+          TEST_BOOKMARKS.REACT_DOCS,
+          'https://www.google.com/'
+        );
 
-      // Verify bookmark exists after restoration
-      await panel.verifyBookmarkExists(TEST_BOOKMARKS.REACT_DOCS);
+        const newPage = await openNewPageFromAction(context, async () => {
+          await panel.openBookmarkByDoubleClick(TEST_BOOKMARKS.REACT_DOCS);
+        });
+        expect(newPage.url()).toContain('google.com');
+        await newPage.close();
+      });
+
+      await test.step('original url is restored', async () => {
+        const restoreDialog = await panel.openEditBookmarkDialog(
+          TEST_BOOKMARKS.REACT_DOCS
+        );
+        await panel.getUrlInput().clear();
+        await panel.getUrlInput().fill(originalUrl);
+        await restoreDialog.getByTestId('dialog-save-button').click();
+        await expect(restoreDialog).toBeHidden();
+
+        await panel.verifyBookmarkExists(TEST_BOOKMARKS.REACT_DOCS);
+      });
     });
   });
 
@@ -336,29 +349,30 @@ test.describe('Bookmarks Panel', () => {
     await panel.ensureAtRoot();
     await panel.openFolder(TEST_FOLDERS.MAIN);
 
-    // Test search by title
-    await fillSearchInput(bookmarksPage, 'ButtonGroup');
-    const titleFilteredBookmark = panel.getBookmarkElement(
-      TEST_BOOKMARKS.GITHUB
-    );
-    await expect(titleFilteredBookmark).toBeVisible();
-    await clearSearchInput(bookmarksPage);
+    await test.step('search by title', async () => {
+      await fillSearchInput(bookmarksPage, 'ButtonGroup');
+      await expect(
+        panel.getBookmarkElement(TEST_BOOKMARKS.GITHUB)
+      ).toBeVisible();
+      await clearSearchInput(bookmarksPage);
+    });
 
-    // Test search by URL
-    await fillSearchInput(bookmarksPage, 'material');
-    const urlFilteredBookmark = panel.getBookmarkElement(
-      TEST_BOOKMARKS.REACT_DOCS
-    );
-    await expect(urlFilteredBookmark).toBeVisible();
-    await clearSearchInput(bookmarksPage);
+    await test.step('search by url', async () => {
+      await fillSearchInput(bookmarksPage, 'material');
+      await expect(
+        panel.getBookmarkElement(TEST_BOOKMARKS.REACT_DOCS)
+      ).toBeVisible();
+      await clearSearchInput(bookmarksPage);
+    });
 
-    // Test folders remain visible during search
-    await panel.ensureAtRoot();
-    const folder = panel.getFolderElement(TEST_FOLDERS.MAIN);
-    await expect(folder).toBeVisible();
-    await fillSearchInput(bookmarksPage, 'nonexistentterm');
-    await expect(folder).toBeVisible();
-    await clearSearchInput(bookmarksPage);
+    await test.step('folders survive a non-matching search', async () => {
+      await panel.ensureAtRoot();
+      const folder = panel.getFolderElement(TEST_FOLDERS.MAIN);
+      await expect(folder).toBeVisible();
+      await fillSearchInput(bookmarksPage, 'nonexistentterm');
+      await expect(folder).toBeVisible();
+      await clearSearchInput(bookmarksPage);
+    });
   });
 
   test('should move bookmark using cut from context menu and paste', async ({

@@ -143,42 +143,37 @@ test.describe('Shortcuts Panel', () => {
 
     await panel.waitForLoading();
 
-    // Get the first alias input
     const firstAliasInput = panel.getAliasInputs().first();
-    const originalValue = await firstAliasInput.inputValue();
-
-    // Edit the alias
-    await firstAliasInput.clear();
-    await firstAliasInput.fill('edited-alias');
-
-    // Click the row save button
-    const firstRuleSaveButton = shortcutsPage.getByTestId('rule-0-save');
-    await firstRuleSaveButton.click();
-
-    // Verify the new value is persisted
-    await expect(firstAliasInput).toHaveValue('edited-alias');
-
-    // Reset for other tests
-    await firstAliasInput.clear();
-    await firstAliasInput.fill(originalValue);
-    await firstRuleSaveButton.click();
-
-    // Verify reset value persisted
-    await expect(firstAliasInput).toHaveValue(originalValue);
-
-    // Edit the website
     const firstWebsiteInput = panel.getWebsiteInputs().first();
+    const firstRuleSaveButton = shortcutsPage.getByTestId('rule-0-save');
+    const originalValue = await firstAliasInput.inputValue();
     const originalWebsite = await firstWebsiteInput.inputValue();
-    await firstWebsiteInput.fill('https://example.com');
-    await firstRuleSaveButton.click();
 
-    // Verify the new value is persisted
-    await expect(firstWebsiteInput).toHaveValue('https://example.com');
+    await test.step('edit alias', async () => {
+      await firstAliasInput.clear();
+      await firstAliasInput.fill('edited-alias');
+      await firstRuleSaveButton.click();
+      await expect(firstAliasInput).toHaveValue('edited-alias');
+    });
 
-    // Reset website for other tests
-    await firstWebsiteInput.fill(originalWebsite);
-    await firstRuleSaveButton.click();
-    await expect(firstWebsiteInput).toHaveValue(originalWebsite);
+    await test.step('restore alias', async () => {
+      await firstAliasInput.clear();
+      await firstAliasInput.fill(originalValue);
+      await firstRuleSaveButton.click();
+      await expect(firstAliasInput).toHaveValue(originalValue);
+    });
+
+    await test.step('edit website', async () => {
+      await firstWebsiteInput.fill('https://example.com');
+      await firstRuleSaveButton.click();
+      await expect(firstWebsiteInput).toHaveValue('https://example.com');
+    });
+
+    await test.step('restore website', async () => {
+      await firstWebsiteInput.fill(originalWebsite);
+      await firstRuleSaveButton.click();
+      await expect(firstWebsiteInput).toHaveValue(originalWebsite);
+    });
   });
 
   test('should reorder rules up and down', async ({ shortcutsPage }) => {
