@@ -14,16 +14,9 @@ type TestIdScope = Pick<Page, 'getByTestId'>;
 export const dumpLocalStorage = async (
   page: Page
 ): Promise<Record<string, string>> =>
-  page.evaluate(() => {
-    const entries: Record<string, string> = {};
-    for (let i = 0; i < window.localStorage.length; i++) {
-      const key = window.localStorage.key(i);
-      if (key) {
-        entries[key] = window.localStorage.getItem(key) ?? '';
-      }
-    }
-    return entries;
-  });
+  Object.fromEntries(
+    (await page.localStorage.items()).map(({ name, value }) => [name, value])
+  );
 
 /** Seeds localStorage before any page script runs. */
 export const injectLocalStorage = async (
