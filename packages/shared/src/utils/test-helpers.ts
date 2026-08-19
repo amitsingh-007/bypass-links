@@ -205,15 +205,29 @@ export const openNewPageFromAction = async (
   let handedOver: Page | undefined;
 
   try {
-    await expect(async () => {
-      await action();
-      await expect
-        .poll(() => openedPages.length, {
-          timeout: TEST_TIMEOUTS.PAGE_OPEN_ATTEMPT,
-          message: `Expected action to open a new page${pageLogs.length ? `\n${pageLogs.join('\n')}` : ''}`,
-        })
-        .toBeGreaterThan(0);
-    }).toPass({ timeout, intervals: [100] });
+    try {
+      await expect(async () => {
+        await action();
+        await expect
+          .poll(() => openedPages.length, {
+            timeout: TEST_TIMEOUTS.PAGE_OPEN_ATTEMPT,
+            message: 'Expected action to open a new page',
+          })
+          .toBeGreaterThan(0);
+      }).toPass({ timeout, intervals: [100] });
+    } catch (error) {
+      /**
+       * Appended here rather than in the poll's message, which is templated
+       * before the poll runs and so misses everything logged while it waited.
+       */
+      if (pageLogs.length) {
+        throw new Error(
+          `${(error as Error).message}\n\nPage logs:\n${pageLogs.join('\n')}`,
+          { cause: error }
+        );
+      }
+      throw error;
+    }
 
     const [newPage] = openedPages;
     await expect.poll(() => newPage.url(), { timeout }).not.toBe('about:blank');
