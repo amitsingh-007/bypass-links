@@ -4,7 +4,6 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 import { type ReactNode, useState } from 'react';
 
 import useIsMobile from '../../../hooks/useIsMobile';
-import { deserializeQueryStringToObject } from '../../../utils/url';
 import { ScrollButton } from '../../ScrollButton';
 import usePersonImageMap from '../hooks/usePersonImageMap';
 import { type IBookmarkWithFolder } from '../interfaces/bookmark';
@@ -111,8 +110,8 @@ function Persons(props: Props) {
   const [scrollElement, setScrollElement] = useState<HTMLDivElement | null>(
     null
   );
-  const { openBookmarksList } = deserializeQueryStringToObject(
-    props.queryString
+  const { openBookmarksList } = Object.fromEntries(
+    new URLSearchParams(props.queryString)
   );
   const personToOpen = persons.find(
     (person) => person.uid === openBookmarksList

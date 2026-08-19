@@ -6,8 +6,6 @@ import { useLocation } from 'wouter';
 import { getFaviconUrl } from '@/constants/favicon';
 import useHistoryStore from '@store/history';
 
-import { getFromChromeStorage, setToChromeStorage } from './utils';
-
 function DynamicProvider({ children }: PropsWithChildren) {
   const [, navigate] = useLocation();
   const startHistoryMonitor = useHistoryStore(
@@ -22,8 +20,10 @@ function DynamicProvider({ children }: PropsWithChildren) {
         goBack: () => window.history.back(),
       },
       storage: {
-        get: getFromChromeStorage,
-        set: setToChromeStorage,
+        get: async (key: string): Promise<any> =>
+          (await browser.storage.local.get(key))[key],
+        set: async (key: string, value: any) =>
+          browser.storage.local.set({ [key]: value }),
       },
       tabs: {
         // Idempotent, so loop callers can call this per url

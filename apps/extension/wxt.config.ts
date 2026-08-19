@@ -25,6 +25,7 @@ export default defineConfig({
   dev: {
     server: { port: 3001 },
   },
+  webExt: { disabled: true },
   zip: {
     artifactTemplate: 'chrome-bypass-links-{{version}}.zip',
   },

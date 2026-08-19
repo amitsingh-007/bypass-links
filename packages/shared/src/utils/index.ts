@@ -17,9 +17,6 @@ export const filterRecord = <T>(
   record: Record<string, T>,
   shouldKeep: (id: string, value: T) => boolean
 ) =>
-  Object.entries(record).reduce<Record<string, T>>((acc, [id, value]) => {
-    if (shouldKeep(id, value)) {
-      acc[id] = value;
-    }
-    return acc;
-  }, {});
+  Object.fromEntries(
+    Object.entries(record).filter(([id, value]) => shouldKeep(id, value))
+  );

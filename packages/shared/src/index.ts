@@ -52,7 +52,6 @@ export * from './utils';
 export * from './utils/cache';
 export * from './utils/hash';
 export * from './utils/search';
-export * from './utils/url';
 
 // Hooks
 export { default as useIsMobile } from './hooks/useIsMobile';

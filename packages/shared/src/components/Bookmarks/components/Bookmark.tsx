@@ -14,7 +14,7 @@ import useTaggedPersons from '../../Persons/hooks/useTaggedPersons';
 import Favicon from './Favicon';
 import PersonAvatars from './PersonAvatars';
 
-export interface BookmarkProps {
+interface BookmarkProps {
   id: string;
   url: string;
   title: string;

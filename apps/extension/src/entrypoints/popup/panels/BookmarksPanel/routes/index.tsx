@@ -1,6 +1,5 @@
 import {
   type BMPanelQueryParams,
-  deserializeQueryStringToObject,
   type EBookmarkOperation,
   ROUTES,
 } from '@bypass/shared';
@@ -9,7 +8,9 @@ import { Route, useSearch } from 'wouter';
 import BookmarksPanel from '../components/BookmarksPanel';
 
 const getQueryParams = (qs: string): BMPanelQueryParams => {
-  const { folderId, bmUrl, operation } = deserializeQueryStringToObject(qs);
+  const { folderId, bmUrl, operation } = Object.fromEntries(
+    new URLSearchParams(qs)
+  );
   return {
     folderId,
     operation: operation as EBookmarkOperation,

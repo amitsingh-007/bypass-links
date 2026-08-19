@@ -9,7 +9,7 @@ import {
 } from '../interfaces/persons';
 
 /** Field by field, so view-model extras cannot reach storage or Firebase. */
-export const getDecryptedPerson = ({ uid, name }: IPerson): IPerson => ({
+const getDecryptedPerson = ({ uid, name }: IPerson): IPerson => ({
   uid,
   name: atob(name),
 });
