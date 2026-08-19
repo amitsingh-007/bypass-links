@@ -60,10 +60,21 @@ test.describe('History Tracking Workflow', () => {
         await newPage.close();
       }
 
-      const visited = await getHistoryItems(homePage, sites);
-      expect(
-        sites.filter((site) => visited.some((item) => item.url?.includes(site)))
-      ).toEqual(sites);
+      // Chrome commits visits asynchronously, so the same poll the deletion step needs
+      await expect
+        .poll(
+          async () => {
+            const visited = await getHistoryItems(homePage, sites);
+            return sites.filter((site) =>
+              visited.some((item) => item.url?.includes(site))
+            );
+          },
+          {
+            message: 'Every visited site should be tracked',
+            timeout: 15_000,
+          }
+        )
+        .toEqual(sites);
     });
 
     await test.step('disable tracking', async () => {
