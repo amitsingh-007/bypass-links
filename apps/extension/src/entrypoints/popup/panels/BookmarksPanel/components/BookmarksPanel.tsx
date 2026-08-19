@@ -17,6 +17,7 @@ import Panel from '@popup/components/Panel';
 
 import useBookmarkRouteStore from '../store/useBookmarkRouteStore';
 import useBookmarkStore from '../store/useBookmarkStore';
+import { findBookmarkById } from '../utils/bookmark';
 import BookmarkAddEditDialog from './BookmarkAddEditDialog';
 import BookmarkContextMenu from './BookmarkContextMenu';
 import BookmarksHeader from './BookmarksHeader';
@@ -62,11 +63,24 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
     [virtualizer]
   );
 
-  const handleOpenSelectedBookmarks = () => {
+  /**
+   * The right-clicked bookmark wins unless several are selected: reading the
+   * store selection for a single open made the click a silent no-op whenever
+   * anything cleared the selection first.
+   */
+  const handleOpenBookmarks = (id: string) => {
     const { contextBookmarks: bookmarks, selectedBookmarks: selected } =
       useBookmarkStore.getState();
-    bookmarks.forEach((bookmark, index) => {
-      if (selected[index] && !bookmark.isDir) {
+    const selectedBookmarksToOpen = bookmarks.filter(
+      (bookmark, index) => selected[index] && !bookmark.isDir
+    );
+    const bookmarksToOpen =
+      selectedBookmarksToOpen.length > 1
+        ? selectedBookmarksToOpen
+        : [findBookmarkById(bookmarks, id)];
+
+    bookmarksToOpen.forEach((bookmark) => {
+      if (bookmark && !bookmark.isDir) {
         tabs.open(bookmark.url);
       }
     });
@@ -105,9 +119,7 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
         curFolderId={folderId}
         handleScroll={handleScroll}
       />
-      <BookmarkContextMenu
-        handleOpenSelectedBookmarks={handleOpenSelectedBookmarks}
-      >
+      <BookmarkContextMenu handleOpenBookmarks={handleOpenBookmarks}>
         <ScrollArea
           viewportRef={scrollAreaRef}
           className="w-full"

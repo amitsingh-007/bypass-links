@@ -1,5 +1,6 @@
 import { DynamicContext } from '@bypass/shared';
 import { type PropsWithChildren, useMemo } from 'react';
+import { toast } from 'sonner';
 import { useLocation } from 'wouter';
 
 import { getFaviconUrl } from '@/constants/favicon';
@@ -28,7 +29,10 @@ function DynamicProvider({ children }: PropsWithChildren) {
         // Idempotent, so loop callers can call this per url
         open: (url: string) => {
           startHistoryMonitor();
-          browser.tabs.create({ url, active: false });
+          browser.tabs.create({ url, active: false }).catch((error) => {
+            console.error(error);
+            toast.error('Could not open the link in a new tab');
+          });
         },
       },
       favicon: { getUrl: getFaviconUrl },

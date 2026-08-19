@@ -18,10 +18,10 @@ import { countTruthy } from '../utils';
 import { findBookmarkById } from '../utils/bookmark';
 
 type Props = PropsWithChildren<{
-  handleOpenSelectedBookmarks: VoidFunction;
+  handleOpenBookmarks: (id: string) => void;
 }>;
 
-function BookmarkContextMenu({ children, handleOpenSelectedBookmarks }: Props) {
+function BookmarkContextMenu({ children, handleOpenBookmarks }: Props) {
   const setBookmarkOperation = useBookmarkRouteStore(
     (state) => state.setBookmarkOperation
   );
@@ -80,7 +80,7 @@ function BookmarkContextMenu({ children, handleOpenSelectedBookmarks }: Props) {
   const getMenuOptions = (): IMenuOption[] => {
     const menuOptionsList: IMenuOption[] = [
       {
-        onClick: handleOpenSelectedBookmarks,
+        onClick: handleOpenBookmarks,
         text: `Open ${
           selectedCount > 1 ? `all (${selectedCount}) ` : ''
         }in new tab`,
