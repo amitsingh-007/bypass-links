@@ -64,29 +64,25 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
     [virtualizer]
   );
 
-  /**
-   * The right-clicked bookmark wins over the selection: reading the store
-   * selection for a single open made the click a silent no-op whenever anything
-   * cleared it first. The multi-open branch is gated on the same count the
-   * `Open all (N)` label uses, so the menu can never promise more than it opens,
-   * and it indexes the filtered list the selection positions actually came from.
-   */
+  // Right-clicked row wins over the selection, which anything can clear mid-gesture
   const handleOpenBookmarks = (id: string) => {
     const { contextBookmarks: bookmarks, selectedBookmarks: selected } =
       useBookmarkStore.getState();
     const rightClicked = findBookmarkById(bookmarks, id);
-    const bookmarksToOpen =
-      countTruthy(selected) > 1 || !rightClicked
-        ? getFilteredContextBookmarks(bookmarks, searchText).filter(
-            (_bookmark, index) => selected[index]
-          )
-        : [rightClicked];
 
-    bookmarksToOpen.forEach((bookmark) => {
-      if (!bookmark.isDir) {
-        tabs.open(bookmark.url);
+    if (rightClicked && countTruthy(selected) < 2) {
+      tabs.open(rightClicked.url);
+      return;
+    }
+
+    // Selection positions index the filtered rows, not the whole folder
+    getFilteredContextBookmarks(bookmarks, searchText).forEach(
+      (bookmark, index) => {
+        if (selected[index] && !bookmark.isDir) {
+          tabs.open(bookmark.url);
+        }
       }
-    });
+    );
   };
 
   // Reset scroll on folder change
