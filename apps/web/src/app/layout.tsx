@@ -1,7 +1,4 @@
 import { cn } from '@bypass/ui/lib/utils';
-import dayjs from 'dayjs';
-import timezone from 'dayjs/plugin/timezone';
-import utc from 'dayjs/plugin/utc';
 import { type Metadata, type Viewport } from 'next';
 import { Manrope } from 'next/font/google';
 import { type ReactNode } from 'react';
@@ -13,10 +10,6 @@ const manrope = Manrope({
   subsets: ['latin'],
   variable: '--font-manrope',
 });
-
-// Initialize dayjs with timezone plugin; timzone plugin requires utc plugin
-dayjs.extend(utc);
-dayjs.extend(timezone);
 
 export const viewport: Viewport = {
   themeColor: '#6d33d2',

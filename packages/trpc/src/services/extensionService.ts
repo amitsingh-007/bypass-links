@@ -1,13 +1,12 @@
 import { getVersionFromFileName } from '@bypass/configs/manifest/extensionFile';
 import { TRPCError } from '@trpc/server';
 import { cacheLife, cacheTag } from 'next/cache';
-import { type AsyncReturnType } from 'type-fest';
 
 import { getAssetsByReleaseId, getLatestRelease } from './githubService';
 
 const ONE_MONTH_IN_SEC = 30 * 24 * 60 * 60;
 
-type TGitHubResponse = AsyncReturnType<typeof getAssetsByReleaseId>['data'];
+type TGitHubResponse = Awaited<ReturnType<typeof getAssetsByReleaseId>>['data'];
 type TGitHubAsset = TGitHubResponse[number];
 
 const mapExtension = (extension: TGitHubAsset) => ({

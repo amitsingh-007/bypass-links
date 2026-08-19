@@ -5,7 +5,6 @@ import {
   PuzzleIcon,
 } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
-import dayjs from 'dayjs';
 import { headers } from 'next/headers';
 
 // Footer reads per-request headers (timezone), so it streams inside a
@@ -58,7 +57,15 @@ async function Footer({
           />
           <Info
             icon={Calendar03Icon}
-            text={dayjs(releaseDate).tz(tz).format('DD MMMM YYYY hh:mm A')}
+            text={new Intl.DateTimeFormat('en-GB', {
+              timeZone: tz,
+              day: '2-digit',
+              month: 'long',
+              year: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: true,
+            }).format(new Date(releaseDate))}
             testId="ext-release-date"
           />
         </div>
