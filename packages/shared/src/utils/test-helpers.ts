@@ -3,8 +3,10 @@ import fs from 'node:fs';
 import {
   expect,
   type BrowserContext,
+  type ConsoleMessage,
   type Locator,
   type Page,
+  type WebError,
 } from '@playwright/test';
 
 import { TEST_TIMEOUTS } from '../constants/e2e-tests';
@@ -186,18 +188,46 @@ export const openNewPageFromAction = async (
   const openedPages: Page[] = [];
   const collectPage = (page: Page) => openedPages.push(page);
   context.on('page', collectPage);
+  /**
+   * A refused open leaves no trace but what the page logged, and without it a
+   * flake here is indistinguishable from a gesture that never landed.
+   */
+  const pageLogs: string[] = [];
+  const collectConsole = (message: ConsoleMessage) => {
+    if (message.type() === 'error') {
+      pageLogs.push(`console.error: ${message.text()}`);
+    }
+  };
+  const collectError = (error: WebError) =>
+    pageLogs.push(`pageerror: ${error.error().message}`);
+  context.on('console', collectConsole);
+  context.on('weberror', collectError);
   let handedOver: Page | undefined;
 
   try {
-    await expect(async () => {
-      await action();
-      await expect
-        .poll(() => openedPages.length, {
-          timeout: TEST_TIMEOUTS.PAGE_OPEN_ATTEMPT,
-          message: 'Expected action to open a new page',
-        })
-        .toBeGreaterThan(0);
-    }).toPass({ timeout, intervals: [100] });
+    try {
+      await expect(async () => {
+        await action();
+        await expect
+          .poll(() => openedPages.length, {
+            timeout: TEST_TIMEOUTS.PAGE_OPEN_ATTEMPT,
+            message: 'Expected action to open a new page',
+          })
+          .toBeGreaterThan(0);
+      }).toPass({ timeout, intervals: [100] });
+    } catch (error) {
+      /**
+       * Appended here rather than in the poll's message, which is templated
+       * before the poll runs and so misses everything logged while it waited.
+       */
+      if (pageLogs.length) {
+        throw new Error(
+          `${(error as Error).message}\n\nPage logs:\n${pageLogs.join('\n')}`,
+          { cause: error }
+        );
+      }
+      throw error;
+    }
 
     const [newPage] = openedPages;
     await expect.poll(() => newPage.url(), { timeout }).not.toBe('about:blank');
@@ -206,6 +236,8 @@ export const openNewPageFromAction = async (
     return newPage;
   } finally {
     context.off('page', collectPage);
+    context.off('console', collectConsole);
+    context.off('weberror', collectError);
     /**
      * Everything the action opened is closed unless it is being handed to the
      * caller: a retry duplicates the tab, and a failing attempt would otherwise

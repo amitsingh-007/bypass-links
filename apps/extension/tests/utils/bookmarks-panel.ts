@@ -247,10 +247,6 @@ export class BookmarksPanel {
     return this.page.getByRole('menu');
   }
 
-  getContextMenuItem(itemId: string) {
-    return this.page.getByTestId(`context-menu-item-${itemId}`);
-  }
-
   // ============ Composite Operations ============
 
   async closeDialog() {

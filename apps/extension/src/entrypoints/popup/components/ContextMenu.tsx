@@ -24,8 +24,12 @@ function ContextMenuWrapper({ options, children }: Props) {
   const idRef = useRef('');
 
   const handleContextMenu = (e: React.MouseEvent) => {
-    const dataCtxId = (e.target as HTMLElement).dataset.contextId ?? '';
-    idRef.current = dataCtxId;
+    // Nearest ancestor, not the target: a right-click landing on a row's favicon
+    // or avatars would otherwise resolve to no id at all
+    const target = (e.target as HTMLElement).closest<HTMLElement>(
+      '[data-context-id]'
+    );
+    idRef.current = target?.dataset.contextId ?? '';
   };
 
   return (

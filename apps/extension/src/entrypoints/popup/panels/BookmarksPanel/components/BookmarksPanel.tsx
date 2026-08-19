@@ -17,6 +17,8 @@ import Panel from '@popup/components/Panel';
 
 import useBookmarkRouteStore from '../store/useBookmarkRouteStore';
 import useBookmarkStore from '../store/useBookmarkStore';
+import { countTruthy } from '../utils';
+import { findBookmarkById } from '../utils/bookmark';
 import BookmarkAddEditDialog from './BookmarkAddEditDialog';
 import BookmarkContextMenu from './BookmarkContextMenu';
 import BookmarksHeader from './BookmarksHeader';
@@ -62,14 +64,25 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
     [virtualizer]
   );
 
-  const handleOpenSelectedBookmarks = () => {
+  // Right-clicked row wins over the selection, which anything can clear mid-gesture
+  const handleOpenBookmarks = (id: string) => {
     const { contextBookmarks: bookmarks, selectedBookmarks: selected } =
       useBookmarkStore.getState();
-    bookmarks.forEach((bookmark, index) => {
-      if (selected[index] && !bookmark.isDir) {
-        tabs.open(bookmark.url);
+    const rightClicked = findBookmarkById(bookmarks, id);
+
+    if (rightClicked && countTruthy(selected) < 2) {
+      tabs.open(rightClicked.url);
+      return;
+    }
+
+    // Selection positions index the filtered rows, not the whole folder
+    getFilteredContextBookmarks(bookmarks, searchText).forEach(
+      (bookmark, index) => {
+        if (selected[index] && !bookmark.isDir) {
+          tabs.open(bookmark.url);
+        }
       }
-    });
+    );
   };
 
   // Reset scroll on folder change
@@ -105,9 +118,7 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
         curFolderId={folderId}
         handleScroll={handleScroll}
       />
-      <BookmarkContextMenu
-        handleOpenSelectedBookmarks={handleOpenSelectedBookmarks}
-      >
+      <BookmarkContextMenu handleOpenBookmarks={handleOpenBookmarks}>
         <ScrollArea
           viewportRef={scrollAreaRef}
           className="w-full"
