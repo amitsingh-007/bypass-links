@@ -60,7 +60,10 @@ test.describe('History Tracking Workflow', () => {
         await newPage.close();
       }
 
-      expect(await getHistoryItems(homePage, sites)).not.toHaveLength(0);
+      const visited = await getHistoryItems(homePage, sites);
+      expect(
+        sites.filter((site) => visited.some((item) => item.url?.includes(site)))
+      ).toEqual(sites);
     });
 
     await test.step('disable tracking', async () => {
