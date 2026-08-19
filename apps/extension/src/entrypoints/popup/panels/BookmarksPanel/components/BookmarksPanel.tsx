@@ -17,6 +17,7 @@ import Panel from '@popup/components/Panel';
 
 import useBookmarkRouteStore from '../store/useBookmarkRouteStore';
 import useBookmarkStore from '../store/useBookmarkStore';
+import { countTruthy } from '../utils';
 import { findBookmarkById } from '../utils/bookmark';
 import BookmarkAddEditDialog from './BookmarkAddEditDialog';
 import BookmarkContextMenu from './BookmarkContextMenu';
@@ -64,23 +65,25 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
   );
 
   /**
-   * The right-clicked bookmark wins unless several are selected: reading the
-   * store selection for a single open made the click a silent no-op whenever
-   * anything cleared the selection first.
+   * The right-clicked bookmark wins over the selection: reading the store
+   * selection for a single open made the click a silent no-op whenever anything
+   * cleared it first. The multi-open branch is gated on the same count the
+   * `Open all (N)` label uses, so the menu can never promise more than it opens,
+   * and it indexes the filtered list the selection positions actually came from.
    */
   const handleOpenBookmarks = (id: string) => {
     const { contextBookmarks: bookmarks, selectedBookmarks: selected } =
       useBookmarkStore.getState();
-    const selectedBookmarksToOpen = bookmarks.filter(
-      (bookmark, index) => selected[index] && !bookmark.isDir
-    );
+    const rightClicked = findBookmarkById(bookmarks, id);
     const bookmarksToOpen =
-      selectedBookmarksToOpen.length > 1
-        ? selectedBookmarksToOpen
-        : [findBookmarkById(bookmarks, id)];
+      countTruthy(selected) > 1 || !rightClicked
+        ? getFilteredContextBookmarks(bookmarks, searchText).filter(
+            (_bookmark, index) => selected[index]
+          )
+        : [rightClicked];
 
     bookmarksToOpen.forEach((bookmark) => {
-      if (bookmark && !bookmark.isDir) {
+      if (!bookmark.isDir) {
         tabs.open(bookmark.url);
       }
     });
