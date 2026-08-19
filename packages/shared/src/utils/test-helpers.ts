@@ -53,34 +53,6 @@ export const closeDialog = async (
   await expect(targetDialog).toBeHidden();
 };
 
-/**
- * Verify a shadcn modal/dialog is closed.
- * Unlike Mantine (which kept modals in DOM), shadcn removes them from DOM when closed.
- */
-export const verifyModalClosed = async (page: Page, modalTestId?: string) => {
-  if (modalTestId) {
-    const modal = page.getByTestId(modalTestId);
-    await expect(modal).not.toBeAttached();
-  } else {
-    // Check that no dialog is visible
-    const dialogs = page.getByRole('dialog');
-    await expect(dialogs).toHaveCount(0);
-  }
-};
-
-/**
- * Verify a shadcn modal/dialog is open and visible.
- */
-export const verifyModalVisible = async (page: Page, modalTestId?: string) => {
-  if (modalTestId) {
-    const modal = page.getByTestId(modalTestId);
-    await expect(modal).toBeVisible();
-  } else {
-    const dialog = page.getByRole('dialog');
-    await expect(dialog).toBeVisible();
-  }
-};
-
 type SearchScope = Pick<Page, 'getByPlaceholder'>;
 
 /**

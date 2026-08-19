@@ -7,7 +7,7 @@ import {
   openNewPageFromAction,
 } from '@bypass/shared/tests';
 
-import { test, expect } from '../fixtures/bookmark-fixture';
+import { bookmarkTest as test, expect } from '../fixtures/panel-fixture';
 import { BookmarksPanel } from '../utils/bookmarks-panel';
 import { PersonsPanel } from '../utils/persons-panel';
 

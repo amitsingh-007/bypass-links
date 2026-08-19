@@ -3,8 +3,6 @@ import { expect, type Page } from '@playwright/test';
 
 import { POPUP_HOMEPAGE } from '@/constants';
 
-// Re-export shared utilities for convenience
-
 export const gotoPanel = async (
   page: Page,
   panelName: 'Bookmarks' | 'Persons' | 'Shortcuts'
@@ -119,14 +117,3 @@ export const getBadgeCount = async (
 
   return parseBadgeCount(badgeText);
 };
-
-export {
-  clickDropdownPersonAndGetName,
-  closeDialog,
-  clearSearchInput,
-  dblclickBookmark,
-  fillSearchInput,
-  getHeaderPersonCount,
-  getNumericBadgeValue,
-  parseBadgeCount,
-} from '@bypass/shared/tests';

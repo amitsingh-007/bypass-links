@@ -74,7 +74,7 @@ export const loadCachedStorageData = async (): Promise<CachedStorageData> => {
  * preserving its Cache Storage. Omit it so no auth state leaks into
  * unauthenticated tests.
  */
-export const createTempProfileContext = async ({
+const createTempProfileContext = async ({
   prefix,
   extensionPath,
   headless,
@@ -190,7 +190,7 @@ export const openExtensionPanelPage = async (
   return page;
 };
 
-export interface SharedExtensionWorkerFixtures {
+interface SharedExtensionWorkerFixtures {
   sharedContext: BrowserContext;
   sharedBackgroundSW: Worker;
   sharedExtensionId: string;

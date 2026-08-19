@@ -5,7 +5,7 @@ import {
   openNewPageFromAction,
 } from '@bypass/shared/tests';
 
-import { test, expect } from '../fixtures/shortcuts-fixture';
+import { shortcutsTest as test, expect } from '../fixtures/panel-fixture';
 import { ShortcutsPanel } from '../utils/shortcuts-panel';
 
 const EXPECTED_RULE_COUNT = Object.keys(TEST_SHORTCUTS).length;

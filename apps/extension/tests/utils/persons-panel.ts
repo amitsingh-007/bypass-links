@@ -1,12 +1,11 @@
+import { closeDialog, getHeaderPersonCount } from '@bypass/shared/tests';
 import { expect, type Page } from '@playwright/test';
 
 import {
   clickDialogButton,
   clickContextMenuItem,
-  closeDialog,
   fillDialogInput,
   getBadgeCount,
-  getHeaderPersonCount,
   gotoPanel,
   navigateBack,
   openDialog,

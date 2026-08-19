@@ -6,7 +6,7 @@ import {
   fillSearchInput,
 } from '@bypass/shared/tests';
 
-import { test, expect } from '../fixtures/persons-fixture';
+import { personsTest as test, expect } from '../fixtures/panel-fixture';
 import { PersonsPanel } from '../utils/persons-panel';
 
 /**

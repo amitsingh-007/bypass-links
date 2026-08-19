@@ -1,10 +1,12 @@
+import {
+  clickDropdownPersonAndGetName,
+  closeDialog,
+  dblclickBookmark,
+} from '@bypass/shared/tests';
 import { expect, type Page } from '@playwright/test';
 
 import {
-  clickDropdownPersonAndGetName,
   clickContextMenuItem as clickContextMenuItemUtil,
-  closeDialog,
-  dblclickBookmark,
   fillDialogInput,
   getBadgeCount as getBadgeCountUtil,
   gotoPanel,

@@ -3,12 +3,8 @@ import {
   fillSearchInput,
   getHeaderPersonCount,
   parseBadgeCount,
-  verifyModalClosed,
-  verifyModalVisible,
 } from '@bypass/shared/tests';
 import { expect, type Locator, type Page } from '@playwright/test';
-
-const MODAL_TEST_ID = 'bookmarks-list-modal';
 
 export class PersonsPanel {
   constructor(readonly page: Page) {}
@@ -92,14 +88,14 @@ export class PersonsPanel {
   }
 
   async verifyModalVisible() {
-    await verifyModalVisible(this.page, MODAL_TEST_ID);
+    await expect(this.getModal()).toBeVisible();
     // Back button only renders while the modal is open
     const backButton = this.getModal().getByRole('button', { name: 'Back' });
     await expect(backButton).toBeVisible();
   }
 
   async verifyModalClosed() {
-    await verifyModalClosed(this.page, MODAL_TEST_ID);
+    await expect(this.getModal()).not.toBeAttached();
   }
 
   async verifyPersonNameInBadge(name: string) {

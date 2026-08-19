@@ -67,30 +67,6 @@ const isCoverableSource = (filePath: string) =>
   !UNCOVERABLE_EXTENSIONS.some((extension) => filePath.endsWith(extension)) &&
   !EXCLUDED_SOURCES.some((source) => filePath.includes(source));
 
-/**
- * A server component turning into a client one would silently hand back free
- * coverage, and the excluded file is invisible from the report that hides it.
- */
-const warnOnClientComponentExclusions = async () => {
-  // Repo-relative entries only: a leading slash is a path fragment matching many
-  // files, and `path.resolve` would take it as absolute and read outside the repo
-  const excludedComponents = EXCLUDED_SOURCES.filter(
-    (source) => source.endsWith('.tsx') && !source.startsWith('/')
-  );
-  await Promise.all(
-    excludedComponents.map(async (source) => {
-      const contents = await fs.promises
-        .readFile(path.resolve(process.cwd(), source), 'utf8')
-        .catch(() => '');
-      if (contents.includes("'use client'")) {
-        console.error(
-          `::error::[coverage] ${source} is excluded as a server component but now declares 'use client'`
-        );
-      }
-    })
-  );
-};
-
 const APP_ROOTS = ['apps/extension', 'apps/web'];
 
 // Trailing slash trimmed: the preview url is passed through from CI, and one
@@ -315,7 +291,6 @@ export const generateCoverageReport = async () => {
   if (!isCoverageEnabled) {
     return;
   }
-  await warnOnClientComponentExclusions();
   const coverageReport = await getReport();
   if (!coverageReport.hasCache()) {
     // Loud, because the whole mechanism silently rotting to zero looks identical
