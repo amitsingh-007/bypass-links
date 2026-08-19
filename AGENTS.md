@@ -38,6 +38,7 @@ pnpm typecheck:all    # Type check all workspaces
 
 # Testing
 pnpm e2e              # Run Playwright E2E tests
+pnpm e2e:report       # Open the HTML report; its Speedboard tab ranks tests by duration
 ```
 
 ## Architecture

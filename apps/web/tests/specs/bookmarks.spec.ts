@@ -76,29 +76,31 @@ test.describe('Bookmarks Panel', () => {
     const countBefore = await panel.getBookmarkCount();
     const rootBadgeCount = await panel.getBadgeCount();
 
-    // Search by title
-    await fillSearchInput(authenticatedPage, 'ButtonGroup');
-    await panel.verifyBookmarkExists(TEST_BOOKMARKS.GITHUB);
+    await test.step('search by title', async () => {
+      await fillSearchInput(authenticatedPage, 'ButtonGroup');
+      await panel.verifyBookmarkExists(TEST_BOOKMARKS.GITHUB);
+      await clearSearchInput(authenticatedPage);
+    });
 
-    // Clear and search by URL
-    await clearSearchInput(authenticatedPage);
-    await fillSearchInput(authenticatedPage, 'material');
-    await panel.verifyBookmarkExists(TEST_BOOKMARKS.REACT_DOCS);
+    await test.step('search by url', async () => {
+      await fillSearchInput(authenticatedPage, 'material');
+      await panel.verifyBookmarkExists(TEST_BOOKMARKS.REACT_DOCS);
+    });
 
-    // Clear and verify count restored
-    await clearSearchInput(authenticatedPage);
-    await expect(async () => {
-      const countAfter = await panel.getBookmarkCount();
-      expect(countAfter).toBe(countBefore);
-    }).toPass();
+    await test.step('clearing restores the full count', async () => {
+      await clearSearchInput(authenticatedPage);
+      await expect(async () => {
+        const countAfter = await panel.getBookmarkCount();
+        expect(countAfter).toBe(countBefore);
+      }).toPass();
+    });
 
-    // Search for React and verify badge count updates
-    await fillSearchInput(authenticatedPage, 'React');
-    const searchBadgeCount = await panel.getBadgeCount();
-    expect(searchBadgeCount).toBeLessThanOrEqual(rootBadgeCount);
-
-    // Clear search
-    await clearSearchInput(authenticatedPage);
+    await test.step('badge count narrows with the search', async () => {
+      await fillSearchInput(authenticatedPage, 'React');
+      const searchBadgeCount = await panel.getBadgeCount();
+      expect(searchBadgeCount).toBeLessThanOrEqual(rootBadgeCount);
+      await clearSearchInput(authenticatedPage);
+    });
   });
 
   test('should keep folders visible when searching and filter results', async ({

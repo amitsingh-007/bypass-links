@@ -66,13 +66,11 @@ setup('authenticate and cache web storage', async ({}, testInfo) => {
     timeout: TEST_TIMEOUTS.AUTH,
   });
 
-  await page.waitForFunction(
-    () => {
-      const bookmarks = localStorage.getItem('bookmarks');
-      return bookmarks !== null;
-    },
-    { timeout: TEST_TIMEOUTS.AUTH }
-  );
+  await expect
+    .poll(() => page.localStorage.getItem('bookmarks'), {
+      timeout: TEST_TIMEOUTS.AUTH,
+    })
+    .not.toBeNull();
 
   const localStorageData = await dumpLocalStorage(page);
 
