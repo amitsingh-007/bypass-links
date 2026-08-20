@@ -35,20 +35,16 @@ export class PersonsPanel {
     const personCard = this.page.getByTestId(`person-item-${name}`);
     await expect(personCard).toBeVisible();
     await personCard.click();
-    // Wait for modal to be visible and bookmarks to load
     await this.verifyModalVisible();
-    // Wait for bookmarks to load (longer timeout for async data loading)
     await this.waitForBookmarksToLoad();
   }
 
   async waitForBookmarksToLoad() {
     const modal = this.getModal();
-    // First wait for loading to complete
     await modal
       .locator('[data-testid="bookmarks-loading"]')
       .waitFor({ state: 'hidden' })
       .catch(() => null); // Loading indicator may not appear if loading is fast
-    // Then wait for either bookmarks to appear OR the "no bookmarks" message
     await Promise.race([
       modal
         .locator('[data-testid^="bookmark-item-"]')
@@ -106,8 +102,7 @@ export class PersonsPanel {
   }
 
   getFolderBadges(): Locator {
-    // Returns badges showing folder names (violet badges in bookmark rows)
-    // These are distinct from the person bookmark count badge
+    // Folder-name badges, not the person bookmark count badge
     const modal = this.getModal();
     return modal.getByTestId('folder-name-badge');
   }

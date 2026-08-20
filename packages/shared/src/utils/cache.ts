@@ -37,7 +37,6 @@ export const addToCache = async (
     const response = await wretch(url).get().res();
     await cache.put(url, response);
   } catch (error) {
-    // Ignore favicons (404) not found
     if (error instanceof Error) {
       console.debug('Failed to cache favicon:', url, error.message);
     }
@@ -58,7 +57,6 @@ export const addAllToCache = async (
 /** One blob url per url; `createObjectURL` pins its blob for the document lifetime. */
 const blobUrlCache = new Map<string, string>();
 
-/** Drop one entry, for when its underlying cached bytes are replaced. */
 export const evictBlobUrl = (url?: string) => {
   if (!url) {
     return;

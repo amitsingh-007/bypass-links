@@ -9,26 +9,18 @@ import type {
   CoverageReportOptions,
 } from 'monocart-coverage-reports';
 
-/**
- * Set only by CI, which builds the extension with sourcemaps in the same run.
- * Local runs use the dev build, whose sourcemaps name their sources by basename
- * only and cannot be attributed back to a file.
- */
+/** CI only: the dev build's sourcemaps name sources by basename, so nothing can be attributed back to a file. */
 const isCoverageEnabled = process.env.COVERAGE === '1';
 
 const COVERAGE_OUTPUT_DIR = path.join('.playwright', 'coverage');
 
-/**
- * Source dirs counted toward coverage; packages/ui is vendored shadcn, and
- * packages/trpc only ever runs on the server, out of reach of browser V8.
- */
+/** packages/ui is vendored shadcn; packages/trpc never runs in browser V8. */
 const COVERED_SOURCE_DIRS = [
   'apps/extension/src',
   'apps/web/src',
   'packages/shared/src',
 ];
 
-/** Not JavaScript, so no V8 entry can ever be attributed back to them. */
 const UNCOVERABLE_EXTENSIONS = ['.svg', '.css', '.md', '.html', '.d.ts'];
 
 const isCoverableSource = (filePath: string) =>
@@ -41,14 +33,12 @@ const APP_ROOTS = ['apps/extension', 'apps/web'];
 // would make every `${origin}/_next/` comparison miss and silently zero the web
 const WEB_BASE_URL = process.env.PLAYWRIGHT_TEST_BASE_URL?.replace(/\/+$/, '');
 
-/** Set from the fixture that loads the extension, so the path is not re-derived. */
 let extensionBuildDir: string | undefined;
 
 export const setExtensionBuildDir = (dir: string) => {
   extensionBuildDir = dir;
 };
 
-/** Maps a chrome-extension:// URL back to its file in the build output. */
 const resolveExtensionFile = (url: string): string | null => {
   if (!extensionBuildDir) {
     return null;
@@ -93,10 +83,8 @@ const coverageOptions: CoverageReportOptions = {
   logging: 'error',
   sourceMapResolver,
   sourcePath,
-  // Scoped to our own code: a broader filter makes the report generation fetch
-  // sourcemaps from third-party hosts before discarding them. Narrowed to
-  // `_next` because Vercel serves its own analytics and protection scripts from
-  // the same origin, and they dominated the function and branch denominators.
+  // Ours only: a wider filter fetches third-party sourcemaps, and Vercel's own
+  // scripts share the origin and dominated the denominators
   entryFilter: (entry: { url: string }) =>
     entry.url.startsWith('chrome-extension://') ||
     (WEB_BASE_URL !== undefined &&
@@ -109,10 +97,8 @@ const coverageOptions: CoverageReportOptions = {
 let report: CoverageReport | undefined;
 
 /**
- * One report per process, imported lazily: every test file pulls in this module
- * via `@bypass/shared/tests`, and monocart costs ~40ms and ~10MB to load.
- * Playwright workers are separate processes, so each appends to the shared cache
- * dir and global teardown merges them.
+ * One per process, lazily: every test file pulls this module in and monocart
+ * costs ~40ms/10MB. Workers append to the shared cache dir; teardown merges.
  */
 const getReport = async () => {
   if (!report) {
@@ -138,10 +124,7 @@ const safely = async (collect: () => Promise<void>) => {
   }
 };
 
-/**
- * Only instrumented pages may be drained: calling `stopJSCoverage` on a page
- * that never started it can hang teardown (`data:`/`file:` tabs especially).
- */
+/** `stopJSCoverage` on a page that never started it can hang teardown (`data:`/`file:` tabs). */
 const coveredPages = new WeakSet<Page>();
 
 const collectPageCoverage = async (page: Page) => {
@@ -156,10 +139,8 @@ const collectPageCoverage = async (page: Page) => {
 };
 
 /**
- * Makes a context self-instrumenting, rather than relying on each call site to
- * remember: coverage starts before the caller can navigate, and both pages and
- * the background worker are drained before anything closes, since closing drops
- * the V8 data.
+ * Self-instrumenting: coverage starts before the caller can navigate, and pages
+ * and the worker drain before close, since closing drops the V8 data.
  */
 export const instrumentContext = (context: BrowserContext) => {
   if (!isCoverageEnabled) {
@@ -187,10 +168,7 @@ export const instrumentContext = (context: BrowserContext) => {
   };
 };
 
-/**
- * Chrome picks the port and reports it back through the profile, so parallel
- * workers cannot collide and nothing races between probing a port and binding it.
- */
+/** Port 0: Chrome picks it and reports it back through the profile, so parallel workers cannot collide. */
 export const coverageBrowserArgs = isCoverageEnabled
   ? ['--remote-debugging-port=0']
   : [];
@@ -258,8 +236,7 @@ export const generateCoverageReport = async () => {
   }
   const coverageReport = await getReport();
   if (!coverageReport.hasCache()) {
-    // Loud, because the whole mechanism silently rotting to zero looks identical
-    // to a clean run in the job log
+    // Loud: silently rotting to zero looks identical to a clean run in the job log
     console.error('::error::[coverage] no coverage data was collected');
     return;
   }

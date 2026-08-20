@@ -64,7 +64,6 @@ export const getColumnCount = (isMobile: boolean) => (isMobile ? 3 : 5);
 
 export const getPersonImageName = (uid: string) => `${uid}.jpeg`;
 
-/** Parameterised on the resolver so each app can pass its own tRPC client. */
 export const buildPersonImageUrls = async (
   uids: string[],
   getDownloadUrl: (fileName: string) => Promise<string>

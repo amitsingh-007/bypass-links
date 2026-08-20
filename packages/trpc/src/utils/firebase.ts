@@ -9,7 +9,6 @@ export const getFilePath = (uid: string, fileName: string) => {
   const trimmed = fileName.trim();
   const sanitized = filenamify(trimmed);
 
-  // Validate that sanitization produced a non-empty result
   if (!sanitized) {
     throw new Error(
       'Invalid filename: filename cannot be empty or contain only invalid characters'

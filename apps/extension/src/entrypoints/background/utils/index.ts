@@ -2,28 +2,28 @@ import { type EExtensionState } from '@/constants';
 import { getIsExtensionActive } from '@/utils/common';
 
 const restrictedProtocols = new Set([
-  'chrome:', // Chrome browser internal URLs
+  'chrome:',
   'chrome-native:',
-  'edge:', // Edge browser internal URLs
-  'about:', // Empty page URLs
-  'data:', // Encoded image URLs
-  'chrome-search:', // Chrome internal URLs
-  'chrome-extension:', // Chrome extension URLs
+  'edge:',
+  'about:',
+  'data:',
+  'chrome-search:',
+  'chrome-extension:',
   'content:', // Tampermonkey related URLs
-  'file:', // File System URLs
-  'devtools:', // Devtools URLs
-  'blob:', // Blob URLs
-  'webtorrent:', // WebTorrent URLs
-  'magnet:', // Magnet URLs
-  'orion:', // Orion browser internal URLs
-  'moz-extension:', // Firefox extension URLs
-  'view-source:', // View page source URLs
+  'file:',
+  'devtools:',
+  'blob:',
+  'webtorrent:',
+  'magnet:',
+  'orion:',
+  'moz-extension:',
+  'view-source:',
 ]);
 const restrictedHosts = new Set([
-  'chrome.google.com', // Legacy chrome web store
-  'chromewebstore.google.com', // New Chrome web store
-  'microsoftedge.microsoft.com', // Microsoft Edge web store
-  'addons.mozilla.org', // Firefox addon store
+  'chrome.google.com',
+  'chromewebstore.google.com',
+  'microsoftedge.microsoft.com',
+  'addons.mozilla.org',
 ]);
 
 export const setExtensionIcon = async ({

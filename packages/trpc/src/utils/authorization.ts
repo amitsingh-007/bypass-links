@@ -22,11 +22,9 @@ const mapTokenToUser = (token: DecodedIdToken): IUser => ({
 });
 
 /**
- * The single token -> authorized user path. Verification already fetches the
- * user record, so the user is built from the token, not a second round trip.
- * Returns a result rather than throwing, since each caller needs its own error
- * type; the `ok: true` branch carries the user so callers narrow without a
- * non-null assertion.
+ * Built from the token, not a second round trip: verification already fetched
+ * the user record. Returns a result rather than throwing, since each caller
+ * needs its own error type.
  */
 export const resolveUserFromRequest = async (
   req: Request

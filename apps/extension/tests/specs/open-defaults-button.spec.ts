@@ -1,12 +1,5 @@
 import { test, expect as homeExpect } from '../fixtures/home-popup-fixture';
 
-/**
- * OpenDefaultsButton E2E Tests
- *
- * Tests the OpenDefaultsButton component which opens all default websites
- * These tests run sequentially with shared browser context.
- */
-
 test('should be disabled when not signed in', async ({ unauthPage }) => {
   const defaultsButton = unauthPage.getByTestId('open-defaults-button');
   await homeExpect(defaultsButton).toBeVisible();
@@ -18,21 +11,16 @@ test.describe('Signed In', () => {
     homePage,
     context,
   }) => {
-    // Verify logged in state
     const logoutButton = homePage.getByTestId('logout-button');
     await homeExpect(logoutButton).toBeVisible();
 
-    // Button should be enabled
     const defaultsButton = homePage.getByTestId('open-defaults-button');
     await homeExpect(defaultsButton).toBeEnabled();
 
-    // Get initial page count before clicking
     const initialPageCount = context.pages().length;
 
-    // Click the Defaults button
     await defaultsButton.click();
 
-    // Poll for the expected number of pages to be opened (initial + 2 new tabs)
     await homeExpect
       .poll(() => context.pages().length, {
         message: 'Should open 2 new tabs',
@@ -42,7 +30,6 @@ test.describe('Signed In', () => {
     const allPages = context.pages();
     const newPages = allPages.filter((p) => p !== homePage);
 
-    // Verify default tabs were opened (Google and Mantine)
     await homeExpect
       .poll(
         () => {
@@ -74,7 +61,6 @@ test.describe('Signed In', () => {
         ])
       );
 
-    // Clean up: close new tabs
     for (const newPage of newPages) {
       await newPage.close();
     }

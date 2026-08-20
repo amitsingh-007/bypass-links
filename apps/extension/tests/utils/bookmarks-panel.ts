@@ -168,7 +168,6 @@ export class BookmarksPanel {
     await option.click();
     await expect(dialog.getByText(personName)).toBeVisible();
 
-    // Close the dropdown by pressing Escape before clicking save
     await this.page.keyboard.press('Escape');
 
     const saveButton = dialog.getByTestId('dialog-save-button');
@@ -186,7 +185,6 @@ export class BookmarksPanel {
     await expect(option).toBeVisible();
     await option.click();
 
-    // Close dropdown before saving
     await this.page.keyboard.press('Escape');
 
     const saveButton = dialog.getByTestId('dialog-save-button');
@@ -200,8 +198,6 @@ export class BookmarksPanel {
   async navigateToPersonsPanel() {
     await gotoPanel(this.page, 'Persons');
   }
-
-  // ============ Verification Helpers ============
 
   async verifyBookmarkExists(bookmarkTitle: string) {
     const bookmark = this.page.getByTestId(`bookmark-item-${bookmarkTitle}`);
@@ -217,8 +213,6 @@ export class BookmarksPanel {
     const folder = this.page.getByTestId(`folder-item-${folderName}`);
     await expect(folder).not.toBeVisible();
   }
-
-  // ============ Selector Encapsulation ============
 
   getBookmarkElement(bookmarkTitle: string) {
     return this.page.getByTestId(`bookmark-item-${bookmarkTitle}`);
@@ -249,13 +243,9 @@ export class BookmarksPanel {
     return this.page.getByRole('menu');
   }
 
-  // ============ Composite Operations ============
-
   async closeDialog() {
     await closeDialog(this.page);
   }
-
-  // ============ URL Editing Helpers ============
 
   getUrlInput() {
     return this.page.getByTestId('bookmark-url-input');

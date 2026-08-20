@@ -11,7 +11,6 @@ const getCompressedImage = async (buffer: Buffer, fileSize: number) => {
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
 
 export const validateAndProccessFile = async (file: File) => {
-  // File size check
   if (file.size > MAX_FILE_SIZE) {
     return null;
   }

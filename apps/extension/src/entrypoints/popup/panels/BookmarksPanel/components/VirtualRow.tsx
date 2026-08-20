@@ -40,7 +40,6 @@ function VirtualRow({ bookmark, pos, isSelected, isCut }: Props) {
         'data-[is-selected=true]:hover:bg-primary/90',
         `data-[is-cut=true]:border data-[is-cut=true]:border-dashed data-[is-cut=true]:border-border data-[is-cut=true]:opacity-50`
       )}
-      // Added to fix context menu
       style={{ zIndex: bookmark.isDir ? 1 : 'auto' }}
       data-is-selected={isSelected}
       data-is-cut={isCut}

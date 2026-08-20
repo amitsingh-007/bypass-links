@@ -52,9 +52,6 @@ const auth = getAuth(firebaseApp);
 const database = getDatabase(firebaseApp);
 const storage = getStorage(firebaseApp);
 
-/**
- * REALTIME DATABASE
- */
 /** Returns null when empty; callers supply their own schema-appropriate default. */
 export const getFromFirebase = async <T = any>({
   ref,
@@ -65,36 +62,20 @@ export const getFromFirebase = async <T = any>({
   return snapshot.val() ?? null;
 };
 
-/**
- * Saves data to Firebase Realtime Database using `.set()` which replaces the entire object at the path.
- * Use this when you want to completely replace the existing data.
- */
 export const saveToFirebase = async ({ ref, uid, data }: Firebase) => {
   await database.ref(getFullDbPath(ref, uid)).set(data);
 };
 
-/**
- * Updates data in Firebase Realtime Database using `.update()` which merges/partially updates the object.
- * - Provided keys are updated with new values
- * - New keys that don't exist are inserted (upsert)
- * - Existing keys not provided remain unchanged
- * Use this for efficient single-entry updates.
- */
+/** `.update()`: merges the given keys, inserts missing ones, leaves the rest. */
 export const upsertToFirebase = async ({ ref, uid, data }: Firebase) => {
   await database.ref(getFullDbPath(ref, uid)).update(data);
 };
 
-/**
- * AUTH
- */
 export const verifyAuthToken = async (
   idToken: string,
   checkRevoked?: boolean
 ) => auth.verifyIdToken(idToken, checkRevoked);
 
-/**
- * STORAGE
- */
 export const uploadImageToFirebase = async (
   uid: string,
   {

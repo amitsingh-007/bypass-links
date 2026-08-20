@@ -47,9 +47,6 @@ const getSelectedBookmarksAfterDrag = (
   return [...selectedBookmarksInNewOrder];
 };
 
-/**
- * This is called for both moving to top/bottom and pasting
- */
 export const processBookmarksMove = (
   destinationIndex: number,
   selectedBookmarks: ISelectedBookmarks,

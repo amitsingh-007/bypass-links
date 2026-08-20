@@ -23,15 +23,12 @@ const nextConfig: NextConfig = {
     removeConsole: isDev ? false : { exclude: ['error'] },
   },
   transpilePackages: ['@bypass/shared', '@bypass/trpc', '@bypass/ui'],
-  // Next 16.3 auto-generates apps/web/AGENTS.md + CLAUDE.md; the repo maintains a
-  // single root AGENTS.md, so disable the per-app generation.
+  // Next auto-generates per-app AGENTS.md/CLAUDE.md; this repo keeps one at root.
   agentRules: false,
   experimental: {
-    // TODO: TypeScript 7's native package drops the JS compiler API that Next's
-    // default backend uses; this runs the local `tsc` (via tsc --showConfig) for
-    // type info + tsconfig paths instead. Next never selects the CLI checker on
-    // its own, so this is required, not optional. Remove once it leaves experimental.
-    // Tracking: https://github.com/vercel/next.js/discussions/95633
+    // TODO: TS 7's native package drops the JS compiler API Next's default backend
+    // uses, and Next never selects the CLI checker itself, so this is required.
+    // Remove when it leaves experimental: https://github.com/vercel/next.js/discussions/95633
     useTypeScriptCli: true,
   },
   // Same-origin proxy for Firebase's auth handler so signInWithRedirect isn't

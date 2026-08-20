@@ -85,7 +85,6 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
     );
   };
 
-  // Reset scroll on folder change
   useEffect(() => {
     if (!isFetching) {
       handleScroll(0);
@@ -100,10 +99,7 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
 
   useEffect(() => {
     if (!isFetching && operation !== EBookmarkOperation.NONE) {
-      /**
-       * Need to call after loadData,
-       * Since EditBookmark internally needs contextBookmarks to be set beforehand
-       */
+      // After loadData: EditBookmark needs contextBookmarks already set
       setBookmarkOperation(operation, bmUrl);
     }
   }, [bmUrl, isFetching, operation, setBookmarkOperation]);

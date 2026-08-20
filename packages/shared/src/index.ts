@@ -1,4 +1,3 @@
-// Bookmark
 export { default as Bookmark } from './components/Bookmarks/components/Bookmark';
 export * from './components/Bookmarks/components/Bookmark';
 export { default as Folder } from './components/Bookmarks/components/Folder';
@@ -12,7 +11,6 @@ export type * from './components/Bookmarks/interfaces/url';
 export * from './components/Bookmarks/utils';
 export * from './components/Bookmarks/utils/url';
 
-// Person
 export { default as Person } from './components/Persons/components/Person';
 export { default as Persons } from './components/Persons/components/Persons';
 export type * from './components/Persons/interfaces/bookmark';
@@ -26,32 +24,26 @@ export { default as usePersons } from './components/Persons/hooks/usePersons';
 export { default as useOrderedPersons } from './components/Persons/hooks/useOrderedPersons';
 export { default as usePersonImage } from './components/Persons/hooks/usePersonImage';
 
-// Global components
 export { default as Header } from './components/Header';
 export * from './components/ScrollButton';
 export { default as Search } from './components/Search';
 
-// Constants
 export * from './constants';
 export * from './constants/cache';
 export * from './constants/routes';
 export * from './constants/storage';
 
-// Schema types
 export type { ILastVisited } from './schema/lastVisitedSchema';
 export type { IRedirection, IRedirections } from './schema/redirectionSchema';
 export type { IWebsites } from './schema/websitesSchema';
 
-// Provider
 export { default as DynamicContext } from './provider/DynamicContext';
 
-// Utils
 export * from './utils';
 export * from './utils/cache';
 export * from './utils/hash';
 export * from './utils/search';
 
-// SWR
 export * from './swr/config';
 export * from './swr/invalidate';
 export * from './swr/keys';

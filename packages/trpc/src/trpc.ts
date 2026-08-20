@@ -23,6 +23,6 @@ export const protectedProcedure = t.procedure.use(async (opts) => {
   }
 
   return opts.next({
-    ctx: { ...ctx, user: ctx.auth.user }, // For type safety in protected procedures
+    ctx: { ...ctx, user: ctx.auth.user },
   });
 });

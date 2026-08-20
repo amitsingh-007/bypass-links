@@ -59,7 +59,6 @@ export const removePersonImageUrl = async (uid: string) => {
 };
 
 export const updatePersonCacheAndImageUrls = async (person: IPerson) => {
-  // Update person image urls in storage
   const personImageUrls = await personImageUrlsItem.getValue();
   const previousImageUrl = personImageUrls[person.uid];
   const imageUrl = await resolveDownloadUrl(getPersonImageName(person.uid));

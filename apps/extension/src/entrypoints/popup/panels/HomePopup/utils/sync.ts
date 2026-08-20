@@ -60,7 +60,6 @@ const resetStorage = async () => {
 };
 
 export const processPostLogin = async () => {
-  // Sync remote firebase to storage
   await syncFirebaseToStorage();
   // Independent cache warms; addAllToCache shares one pLimit so concurrency is capped
   await Promise.all([cachePersonImagesInStorage(), cacheBookmarkFavicons()]);
@@ -72,11 +71,8 @@ export const processPreLogout = async () => {
 };
 
 export const processPostLogout = async () => {
-  // Reset storage
   await resetStorage();
-  // Refresh browser cache
   await deleteAllCache([ECacheBucketKeys.favicon, ECacheBucketKeys.person]);
-  // Open Google Search, Google Image & Google Data tabs
   await browser.tabs.create({ url: 'https://www.google.com/', active: false });
   await browser.tabs.create({
     url: 'https://www.google.com/imghp',

@@ -1,9 +1,5 @@
 import { type Page } from '@playwright/test';
 
-/**
- * ShortcutsPanel utility class for E2E testing of the shortcuts/redirection panel.
- * All methods use data-testid selectors for reliable element access.
- */
 export class ShortcutsPanel {
   constructor(readonly page: Page) {}
 
@@ -24,8 +20,6 @@ export class ShortcutsPanel {
     const addButton = this.page.getByRole('button', { name: 'Add' });
     await addButton.click();
   }
-
-  // ============ Selector Encapsulation ============
 
   getSearchInput() {
     return this.page.getByPlaceholder('Search');
@@ -50,6 +44,4 @@ export class ShortcutsPanel {
   getHeaderElement() {
     return this.page.getByRole('button', { name: 'Back' });
   }
-
-  // ============ Composite Operations ============
 }

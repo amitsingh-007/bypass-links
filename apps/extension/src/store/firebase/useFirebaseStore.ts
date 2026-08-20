@@ -35,7 +35,6 @@ const useFirebaseStore = create<State>()(
       async firebaseSignIn() {
         const { setIdpAuth } = get();
 
-        // Test mode: use pre-injected auth data
         const testAuthData = localStorage.getItem(TEST_AUTH_DATA_KEY);
         if (testAuthData) {
           localStorage.removeItem(TEST_AUTH_DATA_KEY);
@@ -75,7 +74,6 @@ const useFirebaseStore = create<State>()(
 
         const expiresAt = idpAuth.expiresAtMs;
         const curTimeMs = Date.now();
-        // Return existing id_token if not expired and not expiring in next 5 mins
         if (expiresAt - curTimeMs > FIVE_MINS_MS) {
           return idpAuth.idToken;
         }

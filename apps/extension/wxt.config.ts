@@ -19,8 +19,7 @@ export default defineConfig({
   srcDir: 'src',
   browser: 'chrome',
   manifestVersion: 3,
-  // Its own dir so a coverage build can never overwrite the released one,
-  // regardless of the order the CI job runs the two builds in
+  // Own dir so a coverage build never overwrites the released one
   ...(isCoverageBuild && { outDir: '.output-coverage' }),
   dev: {
     server: { port: 3001 },

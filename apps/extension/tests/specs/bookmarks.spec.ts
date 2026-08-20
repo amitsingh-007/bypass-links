@@ -11,14 +11,6 @@ import { bookmarkTest as test, expect } from '../fixtures/panel-fixture';
 import { BookmarksPanel } from '../utils/bookmarks-panel';
 import { PersonsPanel } from '../utils/persons-panel';
 
-/**
- * Bookmarks Panel E2E Tests
- *
- * These tests run sequentially with a single login at the start.
- * The browser context persists across all tests in this describe block.
- *
- * IMPORTANT: Test order matters! Do not reorder tests without understanding dependencies.
- */
 test.describe('Bookmarks Panel', () => {
   test.describe('Folder Operations', () => {
     const TEST_FOLDER_NAME = 'E2E Test Folder';
@@ -40,7 +32,6 @@ test.describe('Bookmarks Panel', () => {
 
       await panel.openFolder(emptyFolderName);
 
-      // Empty folder should not navigate - URL should remain the same
       expect(bookmarksPage.url()).toBe(initialUrl);
     });
 
@@ -78,13 +69,11 @@ test.describe('Bookmarks Panel', () => {
       );
       await expect(dialog).toBeVisible();
 
-      // Verify title input
       const titleInput = dialog.getByTestId('bookmark-title-input');
       await expect(titleInput).toBeVisible();
       const currentTitle = await titleInput.inputValue();
       expect(currentTitle).not.toBe('');
 
-      // Verify person select is present
       const personLabel = dialog.getByText('Tagged Persons');
       await expect(personLabel).toBeVisible();
 
@@ -220,7 +209,6 @@ test.describe('Bookmarks Panel', () => {
 
       await panel.clickContextMenuItem('delete');
 
-      // Wait for the bookmark count to decrease using auto-retrying assertion
       await expect(bookmarkRows).toHaveCount(bookmarksBefore - 1);
     });
 
@@ -312,7 +300,6 @@ test.describe('Bookmarks Panel', () => {
 
     await panel.clickSaveButton();
 
-    // Verify folder still exists after save (persisted to storage)
     await panel.verifyFolderExists(folderName);
   });
 

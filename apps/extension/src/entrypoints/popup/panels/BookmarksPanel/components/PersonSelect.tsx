@@ -93,7 +93,6 @@ function PersonSelect({ value, onChange }: PersonSelectProps) {
 
   const selectedPersons = personList.filter((p) => value.includes(p.value));
 
-  // Filter persons based on search query
   const filteredPersonList = searchQuery.trim()
     ? personList.filter((person) => hasText(searchQuery, person.label))
     : personList;

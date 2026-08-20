@@ -13,7 +13,6 @@ import { BookmarksPanel } from '../page-object-models/bookmarks-panel';
 test.describe('Bookmarks Panel', () => {
   test.beforeEach(async ({ authenticatedPage }) => {
     await authenticatedPage.goto('/bookmark-panel');
-    // Wait for bookmarks to load or empty state to appear
     await Promise.race([
       authenticatedPage
         .locator('[data-testid^="bookmark-item-"]')
@@ -41,10 +40,8 @@ test.describe('Bookmarks Panel', () => {
     authenticatedPage,
   }) => {
     const panel = new BookmarksPanel(authenticatedPage);
-    // Verify expected bookmarks at root level
     await panel.verifyBookmarkExists(TEST_BOOKMARKS.REACT_DOCS);
     await panel.verifyBookmarkExists(TEST_BOOKMARKS.GITHUB);
-    // Verify folders exist
     await panel.verifyFolderExists(TEST_FOLDERS.MAIN);
   });
 
@@ -55,12 +52,10 @@ test.describe('Bookmarks Panel', () => {
     const rootCount = await panel.getBookmarkCount();
 
     await panel.openFolder(TEST_FOLDERS.MAIN);
-    // Wait for folder content to load before getting count
     await expect(
       authenticatedPage.locator('[data-testid^="bookmark-item-"]').first()
     ).toBeVisible();
     const folderCount = await panel.getBookmarkCount();
-    // Folder count should be different from root count
     expect(folderCount).not.toBe(rootCount);
 
     await panel.navigateBack();
@@ -109,11 +104,9 @@ test.describe('Bookmarks Panel', () => {
   }) => {
     const panel = new BookmarksPanel(authenticatedPage);
 
-    // Verify folders stay visible during search
     await fillSearchInput(authenticatedPage, 'nonexistent');
     await panel.verifyFolderExists(TEST_FOLDERS.MAIN);
 
-    // Clear and verify filtering works
     await clearSearchInput(authenticatedPage);
     await fillSearchInput(authenticatedPage, 'React');
     const count = await panel.getBookmarkCount();
@@ -136,17 +129,14 @@ test.describe('Bookmarks Panel', () => {
   test('should display person avatars with dropdown and navigation', async ({
     authenticatedPage,
   }) => {
-    // Verify avatars are displayed
     const avatarGroups = authenticatedPage.getByTestId('avatar-group');
     await expect(avatarGroups.first()).toBeVisible();
 
     const panel = new BookmarksPanel(authenticatedPage);
 
-    // Hover and verify dropdown
     const dropdown = await panel.hoverAvatar();
     await expect(dropdown).toBeVisible();
 
-    // Click and verify navigation
     const clickedPersonName = await clickDropdownPersonAndGetName(dropdown);
     expect(clickedPersonName).not.toBe('');
     await authenticatedPage.waitForURL(/persons-panel/);
@@ -158,13 +148,11 @@ test.describe('Bookmarks Panel', () => {
   }) => {
     const panel = new BookmarksPanel(authenticatedPage);
 
-    // Verify badge at root
     const badge = panel.getBookmarkCountBadge();
     await expect(badge).toBeVisible();
     const rootBadgeCount = await panel.getBadgeCount();
     expect(rootBadgeCount).toBeGreaterThan(0);
 
-    // Navigate to folder and verify badge updates
     await panel.openFolder(TEST_FOLDERS.MAIN);
     const folderBadge = panel.getBookmarkCountBadge();
     await expect(folderBadge).toBeVisible();
@@ -186,11 +174,9 @@ test.describe('Bookmarks Panel', () => {
   }) => {
     const panel = new BookmarksPanel(authenticatedPage);
 
-    // Verify favicon
     const favicon = panel.getFaviconElement(TEST_BOOKMARKS.REACT_DOCS);
     await expect(favicon).toBeVisible();
 
-    // Verify tooltip on hover
     const tooltip = await panel.hoverBookmarkForTooltip(
       TEST_BOOKMARKS.REACT_DOCS
     );

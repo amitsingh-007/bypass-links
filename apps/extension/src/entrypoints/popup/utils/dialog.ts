@@ -1,7 +1,4 @@
-/**
- * Handles keyboard events to prevent Escape key from propagating to parent elements.
- * Useful for modal dialogs to prevent closing the extension popup when closing the modal.
- */
+/** Escape must not reach the popup root, which would close the extension popup. */
 export const handleEscapeKey = (e: React.KeyboardEvent) => {
   if (e.key === 'Escape') {
     e.stopPropagation();

@@ -53,26 +53,18 @@ const updateIcon = async () => {
 export default defineBackground({
   type: 'module',
   main() {
-    // First time extension install
     browser.runtime.onInstalled.addListener(() => {
       extStateItem.setValue(EExtensionState.ACTIVE);
     });
 
     browser.runtime.onStartup.addListener(updateIcon);
 
-    // Listen tab url change
     browser.tabs.onUpdated.addListener(async (tabId, changeInfo) =>
       onPageLoad(tabId, changeInfo?.url ?? '')
     );
 
-    /**
-     * NOTE: Can remove browser.tabs.onUpdated in favor of this
-     * @link https://stackoverflow.com/questions/16949810/how-can-i-run-this-script-when-the-tab-reloads-chrome-extension
-     *
-     * Registered once instead of nesting a listener per reload, which was
-     * neither tab-filtered nor reliably removed. frameId 0 keeps subframes from
-     * consuming the tab's pending reload.
-     */
+    // Registered once, not per reload: the old nested listener was neither
+    // tab-filtered nor reliably removed. frameId 0 keeps subframes from eating it.
     const reloadingTabIds = new Set<number>();
     const clearReloading = ({
       tabId,
@@ -112,7 +104,6 @@ export default defineBackground({
       reloadingTabIds.delete(tabId);
     });
 
-    // Listen to dispatched messages
     browser.runtime.onMessage.addListener((message, _sender, sendResponse) => {
       receiveRuntimeMessage(message as RuntimeInput, sendResponse);
       return true;

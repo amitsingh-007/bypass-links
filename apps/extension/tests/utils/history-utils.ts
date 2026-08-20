@@ -1,8 +1,5 @@
 import type { Page } from '@playwright/test';
 
-/**
- * Search browser history for items matching specific URLs
- */
 export const getHistoryItems = async (page: Page, urls?: string[]) => {
   return page.evaluate(async (urlsToCheck) => {
     const results = await chrome.history.search({

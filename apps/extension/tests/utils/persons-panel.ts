@@ -129,11 +129,9 @@ export class PersonsPanel {
     await personCard.click({ button: 'right' });
     await clickContextMenuItem(this.page, 'delete');
 
-    // Wait for success notification to appear and verify
     const notification = this.page.getByText('Person deleted successfully');
     await expect(notification).toBeVisible();
 
-    // Verify person is no longer visible (auto-retrying assertion)
     await expect(personCard).not.toBeVisible();
   }
 
@@ -153,7 +151,6 @@ export class PersonsPanel {
 
   async ensureAtRoot() {
     await gotoPanel(this.page, 'Persons');
-    // Wait for at least one person to be visible
     await expect(
       this.page.locator('[data-testid^="person-item-"]').first()
     ).toBeVisible();
@@ -236,8 +233,6 @@ export class PersonsPanel {
     await expect(personCard).toBeVisible();
   }
 
-  // ============ Verification Helpers ============
-
   async verifyBookmarkInPersonList(personName: string, bookmarkTitle: string) {
     await openPersonCard(this.page, personName);
 
@@ -261,8 +256,6 @@ export class PersonsPanel {
     await navigateBack(this.page);
   }
 
-  // ============ Selector Encapsulation ============
-
   getPersonCardElement(personName: string) {
     return this.page.getByTestId(`person-item-${personName}`);
   }
@@ -280,8 +273,6 @@ export class PersonsPanel {
   getModalSearchInput() {
     return this.getBookmarksDialog().getByPlaceholder('Search');
   }
-
-  // ============ Composite Operations ============
 
   async clickPersonContextMenu(personName: string, menuItemId: string) {
     const personCard = this.getPersonCardElement(personName);

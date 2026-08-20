@@ -15,7 +15,6 @@ export const devManifest: UserManifest = {
     },
     default_title: 'Bypass Links',
   },
-  // 128 only; toolbar sizes live in action.default_icon.
   icons: {
     128: 'assets/bypass_link_on_128.png',
   },
