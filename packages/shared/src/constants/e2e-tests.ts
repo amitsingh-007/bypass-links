@@ -30,10 +30,16 @@ export const TEST_PERSONS = {
 export const TEST_PERSON_NAME = 'E2E Test Person';
 
 /**
- * Known redirection rule aliases in the test account
+ * Known redirection rule aliases in the test account. One entry per rule that
+ * actually exists there: shortcuts.spec asserts the panel's rule count against
+ * `Object.keys(TEST_SHORTCUTS).length`, so an unreferenced entry is still load
+ * bearing and must not be dropped without removing the rule from the account.
  */
 export const TEST_SHORTCUTS = {
   GOOGLE: 'http://g/',
+  MANTINE: 'http://c/',
+  TWITCH: 'http://t/',
+  YOUTUBE: 'http://y/',
   // Rules for background tests
   TODOMVC: 'http://hah/',
   BROWSERTEST: 'http://bt/',

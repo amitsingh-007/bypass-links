@@ -7,3 +7,7 @@ export const RedirectionSchema = z.object({
 });
 
 export const RedirectionsSchema = z.array(RedirectionSchema);
+
+export type IRedirection = z.infer<typeof RedirectionSchema>;
+
+export type IRedirections = z.infer<typeof RedirectionsSchema>;

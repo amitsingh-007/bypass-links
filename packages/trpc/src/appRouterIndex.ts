@@ -1,7 +1,6 @@
 export * from './services/firebaseAdminService';
 export {
   type AuthorizationResult,
-  checkUserAuthorized,
+  getAuthBearer,
   resolveUserFromRequest,
 } from './utils/authorization';
-export { getAuthBearer } from './utils/headers';

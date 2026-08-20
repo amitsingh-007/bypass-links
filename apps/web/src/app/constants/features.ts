@@ -6,8 +6,13 @@ import {
   Shield01Icon,
   Touch01Icon,
 } from '@hugeicons/core-free-icons';
+import { type IconSvgElement } from '@hugeicons/react';
 
-import type Feature from '../components/types/feature';
+interface Feature {
+  icon: IconSvgElement;
+  title: string;
+  content: string;
+}
 
 export const FEATURES: Feature[] = [
   {

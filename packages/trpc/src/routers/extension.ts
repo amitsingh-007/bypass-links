@@ -1,8 +1,7 @@
 import { z } from 'zod/mini';
 
-import { protectedProcedure } from '../procedures';
 import { getLatestExtension } from '../services/extensionService';
-import { t } from '../trpc';
+import { protectedProcedure, t } from '../trpc';
 
 const ExtensionAssetSchema = z.object({
   downloadLink: z.string(),

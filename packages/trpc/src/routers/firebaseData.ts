@@ -8,7 +8,6 @@ import {
 } from '@bypass/shared/schema';
 import { z } from 'zod/mini';
 
-import { protectedProcedure } from '../procedures';
 import {
   getBookmarks,
   getLastVisited,
@@ -19,7 +18,7 @@ import {
   saveRedirections,
   upsertLastVisited,
 } from '../services/firebase/realtimeDBService';
-import { t } from '../trpc';
+import { protectedProcedure, t } from '../trpc';
 
 const firebaseDataRouter = t.router({
   bookmarksGet: protectedProcedure

@@ -1,10 +1,12 @@
 import { hasText } from '../../../utils/search';
 import { ROOT_FOLDER_ID, ROOT_FOLDER_NAME } from '../constants';
 import {
+  type ContextBookmark,
   type ContextBookmarks,
   type IEncodedBookmark,
   type IBookmarksObj,
   type IEncodedFolder,
+  type IFolderMetaData,
 } from '../interfaces';
 
 export const isFolderEmpty = (
@@ -82,4 +84,29 @@ export const getFolderName = (
   }
   const folder = folderList[folderId];
   return folder ? getDecryptedFolder(folder).name : 'Not Found';
+};
+
+export const bookmarksMapper = (
+  { isDir, hash }: IFolderMetaData,
+  urlList: IBookmarksObj['urlList'],
+  folderList: IBookmarksObj['folderList']
+): ContextBookmark => {
+  if (isDir) {
+    const folder = getDecryptedFolder(folderList[hash]);
+    return {
+      id: folder.id,
+      isDir,
+      name: folder.name,
+      isDefault: Boolean(folder.isDefault),
+    };
+  }
+
+  const bookmark = getDecryptedBookmark(urlList[hash]);
+  return {
+    id: bookmark.id,
+    isDir,
+    url: bookmark.url,
+    title: bookmark.title,
+    taggedPersons: bookmark.taggedPersons,
+  };
 };

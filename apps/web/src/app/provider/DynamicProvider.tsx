@@ -3,8 +3,12 @@ import { useRouter } from 'next/navigation';
 import { type PropsWithChildren, useMemo } from 'react';
 
 import { getFaviconUrl } from '../constants/favicon';
-import { openNewTab } from '../utils';
 import { getFromLocalStorage, setToLocalStorage } from '../utils/storage';
+
+const openNewTab = (url: string) => {
+  // `noopener` makes window.open return null by spec, so there is no handle to focus
+  window.open(url, '_blank', 'noopener,noreferrer');
+};
 
 function DynamicProvider({ children }: PropsWithChildren) {
   const router = useRouter();

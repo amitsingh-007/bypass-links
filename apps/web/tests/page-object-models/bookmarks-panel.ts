@@ -109,9 +109,7 @@ export class BookmarksPanel {
   }
 
   async getBadgeCount(): Promise<number> {
-    return getNumericBadgeValue(this.page, 'header-badge', {
-      fallbackToAnyNumber: true,
-    });
+    return getNumericBadgeValue(this.page, 'header-badge');
   }
 
   getAvatarGroup(): Locator {

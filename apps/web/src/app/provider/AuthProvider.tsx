@@ -22,8 +22,6 @@ const AuthContext = createContext<IAuthContext>({
   isLoginIntialized: false,
 });
 
-const RESTRICTED_PATHS = new Set([WEB_ROUTES.HOMEPAGE]);
-
 export function AuthProvider({ children }: PropsWithChildren) {
   const pathname = usePathname();
   const [user, setUser] = useState<IAuthContext['user']>(null);
@@ -35,7 +33,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
     [user, isInitialized]
   );
 
-  const isRestrictedPath = RESTRICTED_PATHS.has(pathname);
+  const isRestrictedPath = pathname === WEB_ROUTES.HOMEPAGE;
 
   useEffect(() => {
     if (isRestrictedPath) {

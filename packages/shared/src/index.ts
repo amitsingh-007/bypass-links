@@ -9,7 +9,6 @@ export { default as useBookmarks } from './components/Bookmarks/hooks/useBookmar
 export { default as useDefaultFolderUrls } from './components/Bookmarks/hooks/useDefaultFolderUrls';
 export type * from './components/Bookmarks/interfaces';
 export type * from './components/Bookmarks/interfaces/url';
-export * from './components/Bookmarks/mapper';
 export * from './components/Bookmarks/utils';
 export * from './components/Bookmarks/utils/url';
 
@@ -38,10 +37,10 @@ export * from './constants/cache';
 export * from './constants/routes';
 export * from './constants/storage';
 
-// Interfaces
-export type * from './interfaces/IWebsites';
-export type * from './interfaces/ILastVisited';
-export type * from './interfaces/IRedirection';
+// Schema types
+export type { ILastVisited } from './schema/lastVisitedSchema';
+export type { IRedirection, IRedirections } from './schema/redirectionSchema';
+export type { IWebsites } from './schema/websitesSchema';
 
 // Provider
 export { default as DynamicContext } from './provider/DynamicContext';

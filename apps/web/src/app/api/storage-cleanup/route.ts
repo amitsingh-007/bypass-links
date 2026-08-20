@@ -1,11 +1,12 @@
-import { cleanupStorage } from '@bypass/trpc';
+import { cleanupStorage, getAuthBearer } from '@bypass/trpc';
 import { type NextRequest, NextResponse } from 'next/server';
 
 import { serverEnv } from '@app/constants/env/server';
-import { verifyInternalToken } from '@app/helpers/verifyInternalToken';
 
 export async function POST(req: NextRequest) {
-  verifyInternalToken(req);
+  if (getAuthBearer(req) !== serverEnv.FIREBASE_CRON_JOB_API_KEY) {
+    return new NextResponse('Forbidden invocation', { status: 403 });
+  }
 
   await cleanupStorage(serverEnv.FIREBASE_TEST_USER_ID);
 

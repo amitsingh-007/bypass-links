@@ -58,19 +58,16 @@ export const addAllToCache = async (
 /** One blob url per url; `createObjectURL` pins its blob for the document lifetime. */
 const blobUrlCache = new Map<string, string>();
 
-const revokeBlobUrl = (url: string) => {
+/** Drop one entry, for when its underlying cached bytes are replaced. */
+export const evictBlobUrl = (url?: string) => {
+  if (!url) {
+    return;
+  }
   const blobUrl = blobUrlCache.get(url);
   if (blobUrl) {
     URL.revokeObjectURL(blobUrl);
   }
   blobUrlCache.delete(url);
-};
-
-/** Drop one entry, for when its underlying cached bytes are replaced. */
-export const evictBlobUrl = (url?: string) => {
-  if (url) {
-    revokeBlobUrl(url);
-  }
 };
 
 /** Variant taking an already-open Cache, to open the bucket once for many urls. */
@@ -95,21 +92,12 @@ export const getBlobUrlFromOpenCache = async (cache: Cache, url?: string) => {
 export const getBlobUrlFromCache = async (
   cacheBucketKey: ECacheBucketKeys,
   url: string
-) => {
-  if (!url) {
-    return '';
-  }
-  const existing = blobUrlCache.get(url);
-  if (existing) {
-    return existing;
-  }
-  return getBlobUrlFromOpenCache(await getCacheObj(cacheBucketKey), url);
-};
+) => getBlobUrlFromOpenCache(await getCacheObj(cacheBucketKey), url);
 
 export const deleteCache = async (bucketKey: string) => {
   const cache = await getCacheObj(bucketKey);
   const keys = await cache.keys();
-  keys.forEach((request) => revokeBlobUrl(request.url));
+  keys.forEach((request) => evictBlobUrl(request.url));
   await caches.delete(bucketKey);
   cacheObjPromises.delete(bucketKey);
 };

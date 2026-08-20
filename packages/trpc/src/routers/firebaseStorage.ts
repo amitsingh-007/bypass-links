@@ -1,11 +1,10 @@
 import { z } from 'zod/mini';
 
-import { protectedProcedure } from '../procedures';
 import {
   getFileFromFirebase,
   removeFileFromFirebase,
 } from '../services/firebaseAdminService';
-import { t } from '../trpc';
+import { protectedProcedure, t } from '../trpc';
 
 const firebaseStorageRouter = t.router({
   getDownloadUrl: protectedProcedure

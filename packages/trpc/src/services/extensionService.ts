@@ -6,15 +6,6 @@ import { getAssetsByReleaseId, getLatestRelease } from './githubService';
 
 const ONE_MONTH_IN_SEC = 30 * 24 * 60 * 60;
 
-type TGitHubResponse = Awaited<ReturnType<typeof getAssetsByReleaseId>>['data'];
-type TGitHubAsset = TGitHubResponse[number];
-
-const mapExtension = (extension: TGitHubAsset) => ({
-  downloadLink: extension.browser_download_url,
-  version: getVersionFromFileName(extension.name),
-  date: extension.updated_at,
-});
-
 /** Invalidated by the Purge Vercel Cache step in the release workflow. */
 export const getLatestExtension = async () => {
   'use cache';
@@ -36,6 +27,10 @@ export const getLatestExtension = async () => {
   }
 
   return {
-    chrome: mapExtension(chromeAsset),
+    chrome: {
+      downloadLink: chromeAsset.browser_download_url,
+      version: getVersionFromFileName(chromeAsset.name),
+      date: chromeAsset.updated_at,
+    },
   };
 };

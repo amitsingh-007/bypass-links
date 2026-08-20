@@ -89,19 +89,18 @@ export const parseBadgeCount = (badgeText: string): number => {
 };
 
 /**
- * Read a numeric badge value from a test id.
+ * Read a numeric badge value from a test id, falling back to the first number
+ * in the text when the badge is not in "(N)" form.
  */
 export const getNumericBadgeValue = async (
   scope: TestIdScope,
-  testId: string,
-  options?: { fallbackToAnyNumber?: boolean }
+  testId: string
 ): Promise<number> => {
   const badge = scope.getByTestId(testId);
   await expect(badge).toBeVisible();
 
   const text = (await badge.textContent()) ?? '';
-  const fallbackToAnyNumber = options?.fallbackToAnyNumber ?? false;
-  if (/\(\d+\)/.test(text) || !fallbackToAnyNumber) {
+  if (/\(\d+\)/.test(text)) {
     return parseBadgeCount(text);
   }
 
@@ -111,8 +110,7 @@ export const getNumericBadgeValue = async (
 
 export const getHeaderPersonCount = async (
   scope: TestIdScope
-): Promise<number> =>
-  getNumericBadgeValue(scope, 'header-badge', { fallbackToAnyNumber: true });
+): Promise<number> => getNumericBadgeValue(scope, 'header-badge');
 
 /**
  * Click the first person avatar in a dropdown and return person name.
