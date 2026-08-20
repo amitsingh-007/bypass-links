@@ -48,7 +48,6 @@
     "@types/chrome": "catalog:",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
-    "@types/react-avatar-editor": "catalog:",
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "catalog:",
     "babel-plugin-react-compiler": "catalog:",

@@ -1,5 +1,4 @@
 import { PERSON_IMAGE_SIZE } from '@bypass/shared';
-import { fileTypeFromBuffer } from 'file-type';
 import sharp from 'sharp';
 
 const getCompressedImage = async (buffer: Buffer, fileSize: number) => {
@@ -17,14 +16,12 @@ export const validateAndProccessFile = async (file: File) => {
     return null;
   }
 
-  // Buffer once: sniffing and compressing both need the bytes, up to 5 MB
   const buffer = Buffer.from(await file.arrayBuffer());
 
-  // Actual file type validation
-  const fileTypeRes = await fileTypeFromBuffer(buffer);
-  if (!fileTypeRes?.mime.startsWith('image/')) {
+  // sharp cannot decode a non-image, so a failed decode is the type check
+  try {
+    return await getCompressedImage(buffer, file.size);
+  } catch {
     return null;
   }
-
-  return getCompressedImage(buffer, file.size);
 };

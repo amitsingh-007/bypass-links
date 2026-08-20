@@ -22,7 +22,6 @@
     "@trpc/server": "catalog:",
     "@vercel/analytics": "catalog:",
     "@vercel/speed-insights": "catalog:",
-    "file-type": "catalog:",
     "firebase": "catalog:",
     "firebase-admin": "catalog:",
     "next": "catalog:",
