@@ -36,7 +36,6 @@ const firebaseDataRouter = t.router({
 
   bookmarkAndPersonSave: protectedProcedure
     .input(BookmarksAndPersonsValidationSchema)
-    .output(z.boolean())
     .mutation(async ({ input, ctx }) => {
       return saveBookmarksAndPersons(input.bookmarks, input.persons, ctx.user);
     }),
@@ -54,7 +53,6 @@ const firebaseDataRouter = t.router({
     }),
   upsertLastVisited: protectedProcedure
     .input(z.object({ hash: z.string() }))
-    .output(z.object({ hash: z.string(), timestamp: z.number() }))
     .mutation(async ({ input, ctx }) => {
       return upsertLastVisited(input.hash, ctx.user);
     }),
@@ -66,7 +64,6 @@ const firebaseDataRouter = t.router({
     }),
   redirectionsPost: protectedProcedure
     .input(RedirectionsSchema)
-    .output(z.boolean())
     .mutation(async ({ input, ctx }) => {
       return saveRedirections(input, ctx.user);
     }),

@@ -16,7 +16,6 @@ import {
   Switch,
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from '@bypass/ui';
 import { UserWarning03Icon } from '@hugeicons/core-free-icons';
@@ -102,81 +101,77 @@ function PersonSelect({ value, onChange }: PersonSelectProps) {
   const hasResults = filteredPersonList.length > 0;
 
   return (
-    <TooltipProvider>
-      <div className="flex flex-col gap-2">
-        <div className="flex items-center justify-between">
-          <span className="text-sm font-medium">Tagged Persons</span>
-          <div className="flex items-center gap-2">
-            <span className="text-xs text-muted-foreground">
-              Sort by recency
-            </span>
-            <Switch
-              checked={orderByRecency}
-              size="sm"
-              aria-label="Sort by recency"
-              data-testid="recency-switch"
-              onCheckedChange={toggleOrderByRecency}
-            />
-          </div>
-        </div>
-        <div ref={setAnchorEl} className="w-full">
-          <Combobox
-            multiple
-            value={value}
-            onValueChange={(newValue) => {
-              if (Array.isArray(newValue)) {
-                onChange(newValue);
-                setSearchQuery('');
-              }
-            }}
-          >
-            <ComboboxChips className="w-full" data-testid="person-select">
-              {selectedPersons.map((person) => (
-                <ComboboxChip
-                  key={person.value}
-                  data-testid={`person-chip-${person.label}`}
-                >
-                  <div className="flex items-center gap-1">
-                    <Avatar size="sm" className="size-5!">
-                      <AvatarImage src={person.image} alt={person.label} />
-                      <AvatarFallback>
-                        <HugeiconsIcon
-                          icon={UserWarning03Icon}
-                          className="size-3"
-                        />
-                      </AvatarFallback>
-                    </Avatar>
-                    <span className="truncate">{person.label}</span>
-                  </div>
-                </ComboboxChip>
-              ))}
-              <ComboboxChipsInput
-                placeholder="Search persons..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </ComboboxChips>
-            <ComboboxContent anchor={anchorEl} className="p-0">
-              <ComboboxList className="max-h-60 p-1 py-2">
-                {filteredPersonList.map((person) => (
-                  <ComboboxItem key={person.value} value={person.value}>
-                    <div className="flex items-center gap-2">
-                      <AvatarWithPreview person={person} />
-                      <span className="flex-1">{person.label}</span>
-                    </div>
-                  </ComboboxItem>
-                ))}
-              </ComboboxList>
-              {!hasResults && (
-                <div className="py-2 text-center text-sm text-muted-foreground">
-                  No persons found
-                </div>
-              )}
-            </ComboboxContent>
-          </Combobox>
+    <div className="flex flex-col gap-2">
+      <div className="flex items-center justify-between">
+        <span className="text-sm font-medium">Tagged Persons</span>
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-muted-foreground">Sort by recency</span>
+          <Switch
+            checked={orderByRecency}
+            size="sm"
+            aria-label="Sort by recency"
+            data-testid="recency-switch"
+            onCheckedChange={toggleOrderByRecency}
+          />
         </div>
       </div>
-    </TooltipProvider>
+      <div ref={setAnchorEl} className="w-full">
+        <Combobox
+          multiple
+          value={value}
+          onValueChange={(newValue) => {
+            if (Array.isArray(newValue)) {
+              onChange(newValue);
+              setSearchQuery('');
+            }
+          }}
+        >
+          <ComboboxChips className="w-full" data-testid="person-select">
+            {selectedPersons.map((person) => (
+              <ComboboxChip
+                key={person.value}
+                data-testid={`person-chip-${person.label}`}
+              >
+                <div className="flex items-center gap-1">
+                  <Avatar size="sm" className="size-5!">
+                    <AvatarImage src={person.image} alt={person.label} />
+                    <AvatarFallback>
+                      <HugeiconsIcon
+                        icon={UserWarning03Icon}
+                        className="size-3"
+                      />
+                    </AvatarFallback>
+                  </Avatar>
+                  <span className="truncate">{person.label}</span>
+                </div>
+              </ComboboxChip>
+            ))}
+            <ComboboxChipsInput
+              placeholder="Search persons..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </ComboboxChips>
+          <ComboboxContent anchor={anchorEl} className="p-0">
+            <ComboboxList className="max-h-60 p-1 py-2">
+              {filteredPersonList.map((person) => (
+                <ComboboxItem key={person.value} value={person.value}>
+                  <div className="flex items-center gap-2">
+                    <AvatarWithPreview person={person} />
+                    <span className="flex-1">{person.label}</span>
+                  </div>
+                </ComboboxItem>
+              ))}
+            </ComboboxList>
+            {!hasResults && (
+              <div className="py-2 text-center text-sm text-muted-foreground">
+                No persons found
+              </div>
+            )}
+          </ComboboxContent>
+        </Combobox>
+      </div>
+    </div>
   );
 }
 

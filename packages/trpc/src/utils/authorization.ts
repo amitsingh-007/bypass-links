@@ -9,7 +9,6 @@ export type AuthorizationResult =
   | { ok: false; status: 401 | 403; message: string };
 
 /**
- * `disabled` is safe to hardcode: verifyIdToken rejects disabled accounts.
  * `email_verified` is issuance-time, so it lags until the token refreshes.
  */
 const mapTokenToUser = (token: DecodedIdToken): IUser => ({
@@ -18,7 +17,6 @@ const mapTokenToUser = (token: DecodedIdToken): IUser => ({
   emailVerified: token.email_verified ?? false,
   displayName: token.name,
   photoURL: token.picture,
-  disabled: false,
 });
 
 /**
@@ -34,9 +32,6 @@ export const checkUserAuthorized = (
       status: 401,
       message: 'Authentication token not found',
     };
-  }
-  if (user.disabled) {
-    return { ok: false, status: 403, message: 'User is disabled' };
   }
   if (!user.emailVerified) {
     return { ok: false, status: 403, message: 'User email is unverified' };

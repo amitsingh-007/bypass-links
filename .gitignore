@@ -7,7 +7,6 @@
 **/tsconfig*.tsbuildinfo
 apps/web/.next/
 apps/web/next-env.d.ts
-apps/extension/build/
 apps/extension/.output/
 apps/extension/.output-coverage/
 apps/extension/.wxt/

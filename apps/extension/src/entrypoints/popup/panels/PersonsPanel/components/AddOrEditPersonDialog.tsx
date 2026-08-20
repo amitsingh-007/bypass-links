@@ -30,7 +30,6 @@ const IMAGE_SIZE = 200;
 
 interface Props {
   person?: IPerson;
-  isOpen: boolean;
   onClose: VoidFunction;
   handleSaveClick: (person: IPerson) => Promise<void>;
 }
@@ -40,12 +39,7 @@ const formSchema = z.object({
   name: z.string().check(z.minLength(1, 'Required')),
 });
 
-function AddOrEditPersonDialog({
-  person,
-  isOpen,
-  onClose,
-  handleSaveClick,
-}: Props) {
+function AddOrEditPersonDialog({ person, onClose, handleSaveClick }: Props) {
   // Lazy state: the id has to survive re-renders of the open dialog
   const [initialUid] = useState(() => crypto.randomUUID());
   const [isAvatarImageLoading, setIsAvatarImageLoading] = useState(false);
@@ -62,10 +56,6 @@ function AddOrEditPersonDialog({
     },
     async onSubmit({ value }) {
       const { uid, name } = value;
-      if (!uid) {
-        return;
-      }
-
       setIsLoading(true);
       await handleSaveClick({
         uid,
@@ -90,7 +80,7 @@ function AddOrEditPersonDialog({
 
   return (
     <>
-      <Dialog open={isOpen} onOpenChange={isLoading ? noOp : onClose}>
+      <Dialog open onOpenChange={isLoading ? noOp : onClose}>
         <DialogContent showCloseButton={!isLoading}>
           <DialogHeader>
             <DialogTitle>{person ? 'Edit Person' : 'Add Person'}</DialogTitle>

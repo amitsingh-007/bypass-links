@@ -153,10 +153,8 @@ export const dblclickBookmark = async (scope: TestIdScope, title: string) =>
  */
 export const openNewPageFromAction = async (
   context: BrowserContext,
-  action: () => Promise<void>,
-  options?: { timeout?: number }
+  action: () => Promise<void>
 ): Promise<Page> => {
-  const timeout = options?.timeout ?? TEST_TIMEOUTS.LONG_WAIT;
   const openedPages: Page[] = [];
   const collectPage = (page: Page) => openedPages.push(page);
   context.on('page', collectPage);
@@ -186,7 +184,7 @@ export const openNewPageFromAction = async (
             message: 'Expected action to open a new page',
           })
           .toBeGreaterThan(0);
-      }).toPass({ timeout, intervals: [100] });
+      }).toPass({ timeout: TEST_TIMEOUTS.LONG_WAIT, intervals: [100] });
     } catch (error) {
       /**
        * Appended here rather than in the poll's message, which is templated
@@ -202,7 +200,9 @@ export const openNewPageFromAction = async (
     }
 
     const [newPage] = openedPages;
-    await expect.poll(() => newPage.url(), { timeout }).not.toBe('about:blank');
+    await expect
+      .poll(() => newPage.url(), { timeout: TEST_TIMEOUTS.LONG_WAIT })
+      .not.toBe('about:blank');
     handedOver = newPage;
 
     return newPage;

@@ -26,7 +26,6 @@ export { default as usePerson } from './components/Persons/hooks/usePerson';
 export { default as usePersons } from './components/Persons/hooks/usePersons';
 export { default as useOrderedPersons } from './components/Persons/hooks/useOrderedPersons';
 export { default as usePersonImage } from './components/Persons/hooks/usePersonImage';
-export { default as usePersonImageMap } from './components/Persons/hooks/usePersonImageMap';
 
 // Global components
 export { default as Header } from './components/Header';
@@ -52,9 +51,6 @@ export * from './utils';
 export * from './utils/cache';
 export * from './utils/hash';
 export * from './utils/search';
-
-// Hooks
-export { default as useIsMobile } from './hooks/useIsMobile';
 
 // SWR
 export * from './swr/config';

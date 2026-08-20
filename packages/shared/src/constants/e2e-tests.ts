@@ -22,8 +22,6 @@ export const TEST_PERSONS = {
   JOHN_NATHAN: 'John Nathan',
   AKASH_KUMAR_SINGH: 'Akash Kumar Singh',
   DONALD: 'Donald',
-  AURELIAN:
-    'Aurelian Thaddeus Montgomery Everheart-Winchester Delacroix Van Albrecht IV',
 } as const;
 
 /**
@@ -36,9 +34,6 @@ export const TEST_PERSON_NAME = 'E2E Test Person';
  */
 export const TEST_SHORTCUTS = {
   GOOGLE: 'http://g/',
-  MANTINE: 'http://c/',
-  TWITCH: 'http://t/',
-  YOUTUBE: 'http://y/',
   // Rules for background tests
   TODOMVC: 'http://hah/',
   BROWSERTEST: 'http://bt/',
@@ -61,11 +56,8 @@ export const TEST_SITES = {
  * Timeout constants used across test files to avoid magic numbers.
  */
 export const TEST_TIMEOUTS = {
-  DEBOUNCE: 300,
-  PAGE_LOAD: 500,
   NAVIGATION: 1000,
   PAGE_OPEN_ATTEMPT: 2000,
-  IMAGE_LOAD: 5000,
   LONG_WAIT: 10_000,
   PAGE_OPEN: 15_000,
   AUTH: 30_000,

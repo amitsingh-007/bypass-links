@@ -6,7 +6,6 @@ export interface IUser {
   readonly emailVerified: boolean;
   readonly displayName?: string;
   readonly photoURL?: string;
-  readonly disabled: boolean;
 }
 
 export interface ITRPCContext {

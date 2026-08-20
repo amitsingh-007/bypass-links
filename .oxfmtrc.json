@@ -12,16 +12,7 @@
     "functions": ["clsx", "cn", "cva"]
   },
   "sortImports": {
-    "internalPattern": [
-      "@/",
-      "@app/",
-      "@ui/",
-      "@public/",
-      "@background/",
-      "@helpers/",
-      "@popup/",
-      "@store/"
-    ]
+    "internalPattern": ["@/", "@app/", "@background/", "@popup/", "@store/"]
   },
   "ignorePatterns": [
     "packages/ui/src",

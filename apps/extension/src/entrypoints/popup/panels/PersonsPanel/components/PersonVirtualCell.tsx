@@ -54,7 +54,6 @@ function PersonVirtualCell({
       {showEditPersonDialog && (
         <AddOrEditPersonDialog
           person={person}
-          isOpen={showEditPersonDialog}
           handleSaveClick={handlePersonSave}
           onClose={editPersonDialogHandlers.close}
         />

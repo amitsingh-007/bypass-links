@@ -7,14 +7,11 @@
     "paths": {
       "@/*": ["./src/*"],
       "@background/*": ["./src/entrypoints/background/*"],
-      "@helpers/*": ["./src/helpers/*"],
       "@popup/*": ["./src/entrypoints/popup/*"],
       "@store/*": ["./src/store/*"]
     }
   },
   "include": [
-    "@types",
-    "scripts",
     "src",
     "tests",
     "wxt.config.ts",

@@ -7,15 +7,7 @@ import { verifyInternalToken } from '@app/helpers/verifyInternalToken';
 export async function POST(req: NextRequest) {
   verifyInternalToken(req);
 
-  const testUserId = serverEnv.FIREBASE_TEST_USER_ID;
-  if (!testUserId) {
-    return NextResponse.json(
-      { error: 'FIREBASE_TEST_USER_ID not configured' },
-      { status: 500 }
-    );
-  }
-
-  await cleanupStorage(testUserId);
+  await cleanupStorage(serverEnv.FIREBASE_TEST_USER_ID);
 
   return NextResponse.json({
     status: 'Cleanup successful',

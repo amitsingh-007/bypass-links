@@ -12,7 +12,6 @@ const ExtensionAssetSchema = z.object({
 
 const extensionRouter = t.router({
   latest: protectedProcedure
-    .input(z.void())
     .output(z.object({ chrome: ExtensionAssetSchema }))
     .query(async () => {
       return getLatestExtension();
