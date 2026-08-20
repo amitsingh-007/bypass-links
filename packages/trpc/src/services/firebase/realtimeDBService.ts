@@ -7,7 +7,6 @@ import {
   type IWebsites,
 } from '@bypass/shared';
 
-import { type IUser } from '../../@types/trpc';
 import { EFirebaseDBRef } from '../../constants/firebase';
 import {
   getFromFirebase,
@@ -22,102 +21,82 @@ const EMPTY_BOOKMARKS: IBookmarksObj = {
   folders: {},
 };
 
-export const getBookmarks = async (user: IUser) => {
+export const getBookmarks = async (uid: string) => {
   const bookmarks = await getFromFirebase<IBookmarksObj>({
     ref: EFirebaseDBRef.bookmarks,
-    uid: user.uid,
+    uid,
   });
   return bookmarks ?? EMPTY_BOOKMARKS;
 };
-const saveBookmarks = async (bookmarks: IBookmarksObj, user: IUser) => {
-  return saveToFirebase({
-    ref: EFirebaseDBRef.bookmarks,
-    uid: user.uid,
-    data: bookmarks,
-  });
-};
 
-export const getPersons = async (user: IUser) => {
+export const getPersons = async (uid: string) => {
   const persons = await getFromFirebase<IPersons>({
     ref: EFirebaseDBRef.persons,
-    uid: user.uid,
+    uid,
   });
   return persons ?? {};
-};
-const savePersons = async (persons: IPersons, user: IUser) => {
-  return saveToFirebase({
-    ref: EFirebaseDBRef.persons,
-    uid: user.uid,
-    data: persons,
-  });
 };
 
 export const saveBookmarksAndPersons = async (
   bookmarks: IBookmarksObj,
   persons: IPersons,
-  user: IUser
+  uid: string
 ) => {
-  const [isBookmarksSaved, isPersonsSaved] = await Promise.all([
-    saveBookmarks(bookmarks, user),
-    savePersons(persons, user),
+  await Promise.all([
+    saveToFirebase({ ref: EFirebaseDBRef.bookmarks, uid, data: bookmarks }),
+    saveToFirebase({ ref: EFirebaseDBRef.persons, uid, data: persons }),
   ]);
-  return isBookmarksSaved && isPersonsSaved;
 };
 
-export const getWebsites = async (user: IUser) => {
+export const getWebsites = async (uid: string) => {
   const websites = await getFromFirebase<IWebsites>({
     ref: EFirebaseDBRef.websites,
-    uid: user.uid,
+    uid,
   });
   return websites ?? {};
 };
 
-export const getLastVisited = async (user: IUser) => {
+export const getLastVisited = async (uid: string) => {
   const lastVisited = await getFromFirebase<ILastVisited>({
     ref: EFirebaseDBRef.lastVisited,
-    uid: user.uid,
+    uid,
   });
   return lastVisited ?? {};
 };
 
-export const upsertLastVisited = async (hash: string, user: IUser) => {
+export const upsertLastVisited = async (hash: string, uid: string) => {
   const timestamp = Date.now();
-  const success = await upsertToFirebase({
+  await upsertToFirebase({
     ref: EFirebaseDBRef.lastVisited,
-    uid: user.uid,
+    uid,
     data: { [hash]: timestamp },
   });
-  if (!success) {
-    throw new Error('Failed to upsert lastVisited entry to Firebase');
-  }
   return { hash, timestamp };
 };
 
-export const getRedirections = async (user: IUser) => {
+export const getRedirections = async (uid: string) => {
   const redirections = await getFromFirebase<IRedirections>({
     ref: EFirebaseDBRef.redirections,
-    uid: user.uid,
+    uid,
   });
   return redirections ?? [];
 };
+
 export const saveRedirections = async (
   redirections: IRedirections,
-  user: IUser
+  uid: string
 ) => {
-  const shortcutsObj = redirections.reduce<Record<number, IRedirection>>(
-    (obj, { alias, website, isDefault }, index) => {
-      obj[index] = {
-        alias: btoa(alias),
-        website: btoa(website),
-        isDefault,
-      };
-      return obj;
-    },
-    {}
+  const shortcutsObj = Object.fromEntries(
+    redirections.map(
+      ({ alias, website, isDefault }, index): [number, IRedirection] => [
+        index,
+        { alias: btoa(alias), website: btoa(website), isDefault },
+      ]
+    )
   );
-  return saveToFirebase({
+  await saveToFirebase({
     ref: EFirebaseDBRef.redirections,
-    uid: user.uid,
+    uid,
     data: shortcutsObj,
   });
 };

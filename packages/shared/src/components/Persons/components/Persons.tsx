@@ -15,10 +15,8 @@ interface Props {
   persons: IPerson[];
   queryString: string;
   scrollButton?: boolean;
-  bookmarkListProps: {
-    fullscreen: boolean;
-    onBookmarkEdit?: (bookmark: IBookmarkWithFolder) => void;
-  };
+  fullscreen: boolean;
+  onBookmarkEdit?: (bookmark: IBookmarkWithFolder) => void;
   renderPerson: (person: IPerson, imageUrl: string) => ReactNode;
 }
 
@@ -33,7 +31,8 @@ type InnerProps = Props & {
 function PersonsInner({
   persons,
   scrollButton = false,
-  bookmarkListProps,
+  fullscreen,
+  onBookmarkEdit,
   bodyWidth,
   scrollElement,
   personToOpen,
@@ -97,7 +96,8 @@ function PersonsInner({
       <BookmarksList
         personToOpen={personToOpen}
         imageUrl={personToOpenImage}
-        {...bookmarkListProps}
+        fullscreen={fullscreen}
+        onBookmarkEdit={onBookmarkEdit}
       />
     </>
   );

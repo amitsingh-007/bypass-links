@@ -37,7 +37,7 @@ function PersonsPage() {
           <Persons
             queryString={queryString}
             persons={filteredAndOrderedPersons}
-            bookmarkListProps={{ fullscreen: false }}
+            fullscreen={false}
             renderPerson={(person, imageUrl) => (
               <PersonVirtualCell person={person} imageUrl={imageUrl} />
             )}

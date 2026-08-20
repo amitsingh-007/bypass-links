@@ -54,12 +54,7 @@ function ShortcutsPanel() {
     swrKeys.redirections,
     async (_key, { arg: rules }: { arg: IRedirections }) => {
       const validRules = rules.filter(getValidRules);
-      const isSaveSuccess =
-        await trpcApi.firebaseData.redirectionsPost.mutate(validRules);
-      // Thrown, not returned early, so a false response and a rejection look the same
-      if (!isSaveSuccess) {
-        throw new Error(SAVE_ERROR);
-      }
+      await trpcApi.firebaseData.redirectionsPost.mutate(validRules);
       await syncRedirectionsToStorage();
       setStagedRedirections(null);
       toast.success('Saved successfully');

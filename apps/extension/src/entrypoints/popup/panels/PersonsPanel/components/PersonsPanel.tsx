@@ -122,17 +122,15 @@ function PersonsPanel() {
             scrollButton
             queryString={queryString}
             persons={filteredAndOrderedPersons}
-            bookmarkListProps={{
-              fullscreen: true,
-              onBookmarkEdit: ({ url, parentId }) => {
-                navigate(
-                  getBookmarksPanelUrl({
-                    operation: EBookmarkOperation.EDIT,
-                    bmUrl: url,
-                    folderId: parentId,
-                  })
-                );
-              },
+            fullscreen
+            onBookmarkEdit={({ url, parentId }) => {
+              navigate(
+                getBookmarksPanelUrl({
+                  operation: EBookmarkOperation.EDIT,
+                  bmUrl: url,
+                  folderId: parentId,
+                })
+              );
             }}
             renderPerson={(person, imageUrl) => (
               <PersonVirtualCell

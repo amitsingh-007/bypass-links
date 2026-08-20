@@ -1,8 +1,4 @@
-import {
-  clickDropdownPersonAndGetName,
-  dblclickBookmark,
-  getNumericBadgeValue,
-} from '@bypass/shared/tests';
+import { dblclickBookmark, getNumericBadgeValue } from '@bypass/shared/tests';
 import { expect, type Page, type Locator } from '@playwright/test';
 
 export class BookmarksPanel {
@@ -49,10 +45,6 @@ export class BookmarksPanel {
     return dropdown;
   }
 
-  getCurrentUrl(): string {
-    return this.page.url();
-  }
-
   async getEmptyFolder(folderName: string): Promise<Locator> {
     const folder = this.getFolderElement(folderName);
     await expect(folder).toBeVisible();
@@ -69,10 +61,6 @@ export class BookmarksPanel {
     await folder.dblclick();
     // Verify URL hasn't changed (folder doesn't navigate)
     expect(this.page.url()).toBe(initialUrl);
-  }
-
-  async clickPersonInDropdownAndGetName(dropdown: Locator): Promise<string> {
-    return clickDropdownPersonAndGetName(dropdown);
   }
 
   getFaviconElement(bookmarkTitle: string): Locator {

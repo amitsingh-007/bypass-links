@@ -1,5 +1,6 @@
 import { noOp } from '@bypass/shared';
 import { Button, Spinner } from '@bypass/ui';
+import { cn } from '@bypass/ui/lib/utils';
 import {
   CheckmarkBadge02Icon,
   WebDesign01Icon,
@@ -41,6 +42,7 @@ function OpenForumLinks() {
 
   useEffect(() => {
     if (buttonState !== EButtonState.SUCCESS) {
+      // Returned, not bare: the consistent-return rule needs both paths to yield
       return noOp;
     }
     const timeout = setTimeout(
@@ -70,36 +72,24 @@ function OpenForumLinks() {
     setButtonState(EButtonState.SUCCESS);
   };
 
-  if (isOnForumPage && buttonState === EButtonState.SUCCESS) {
-    return (
-      <Button
-        className="w-full border-teal-600 bg-teal-600 font-medium hover:border-teal-700 hover:bg-teal-700"
-        variant="default"
-        onClick={onClick}
-      >
-        Success
-        <HugeiconsIcon
-          icon={CheckmarkBadge02Icon}
-          strokeWidth={2}
-          className="ml-2 size-4"
-        />
-      </Button>
-    );
-  }
+  const isLoading = buttonState === EButtonState.LOADING;
+  const isSuccess = isOnForumPage && buttonState === EButtonState.SUCCESS;
 
   return (
     <Button
-      className="w-full font-medium"
-      variant="secondary"
-      disabled={!isOnForumPage || buttonState === EButtonState.LOADING}
+      className={cn(
+        'w-full font-medium',
+        isSuccess &&
+          'border-teal-600 bg-teal-600 hover:border-teal-700 hover:bg-teal-700'
+      )}
+      variant={isSuccess ? 'default' : 'secondary'}
+      disabled={!isSuccess && (!isOnForumPage || isLoading)}
       onClick={onClick}
     >
-      {buttonState === EButtonState.LOADING && (
-        <Spinner className="mr-2 size-4" />
-      )}
-      Forum
+      {isLoading && <Spinner className="mr-2 size-4" />}
+      {isSuccess ? 'Success' : 'Forum'}
       <HugeiconsIcon
-        icon={WebDesign01Icon}
+        icon={isSuccess ? CheckmarkBadge02Icon : WebDesign01Icon}
         strokeWidth={2}
         className="ml-2 size-4"
       />

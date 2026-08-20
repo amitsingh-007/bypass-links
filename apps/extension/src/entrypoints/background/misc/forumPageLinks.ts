@@ -1,3 +1,5 @@
+import { type IWebsites } from '@bypass/shared';
+
 import { websitesItem } from '@/storage/items';
 
 const getForum_1_2_LinksFunc = () => {
@@ -49,45 +51,33 @@ const getForum_4_LinksFunc = () => {
   return [...unreadPosts].map((a) => a.href);
 };
 
+const resolveLinkExtractor = (websites: IWebsites, url: string) => {
+  // Undefined when unsynced; url.includes(undefined) would match arbitrary urls
+  const matches = (website?: string) =>
+    Boolean(website && url.includes(website));
+
+  if (matches(websites.FORUM_1) || matches(websites.FORUM_2)) {
+    return new URL(url).pathname === '/watched/threads'
+      ? getForum_1_2_WatchedThreadsLinksFunc
+      : getForum_1_2_LinksFunc;
+  }
+  if (matches(websites.FORUM_3)) {
+    return getForum_3_LinksFunc;
+  }
+  if (matches(websites.FORUM_4)) {
+    return getForum_4_LinksFunc;
+  }
+  throw new Error('Not a forum page');
+};
+
 export const getForumPageLinks = async (
   tabId: number,
   url: string
 ): Promise<string[]> => {
   const websites = await websitesItem.getValue();
-  // Undefined when unsynced; url.includes(undefined) would match arbitrary urls
-  const matches = (website?: string) =>
-    Boolean(website && url.includes(website));
-  let executor: () => Array<string | undefined>;
-
-  switch (true) {
-    case matches(websites.FORUM_1):
-    case matches(websites.FORUM_2): {
-      const { pathname } = new URL(url);
-      const isWatchThreadsPage = pathname === '/watched/threads';
-      executor = isWatchThreadsPage
-        ? getForum_1_2_WatchedThreadsLinksFunc
-        : getForum_1_2_LinksFunc;
-      break;
-    }
-
-    case matches(websites.FORUM_3): {
-      executor = getForum_3_LinksFunc;
-      break;
-    }
-
-    case matches(websites.FORUM_4): {
-      executor = getForum_4_LinksFunc;
-      break;
-    }
-
-    default: {
-      throw new Error('Not a forum page');
-    }
-  }
-
   const [{ result }] = await browser.scripting.executeScript({
     target: { tabId },
-    func: executor,
+    func: resolveLinkExtractor(websites, url),
   });
   return result?.filter(Boolean) ?? [];
 };

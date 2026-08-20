@@ -1,6 +1,7 @@
 import {
   TEST_BOOKMARKS,
   TEST_FOLDERS,
+  clickDropdownPersonAndGetName,
   fillSearchInput,
   clearSearchInput,
   openNewPageFromAction,
@@ -146,12 +147,10 @@ test.describe('Bookmarks Panel', () => {
     await expect(dropdown).toBeVisible();
 
     // Click and verify navigation
-    const clickedPersonName =
-      await panel.clickPersonInDropdownAndGetName(dropdown);
+    const clickedPersonName = await clickDropdownPersonAndGetName(dropdown);
     expect(clickedPersonName).not.toBe('');
     await authenticatedPage.waitForURL(/persons-panel/);
-    const currentUrl = panel.getCurrentUrl();
-    expect(currentUrl).toContain('persons-panel');
+    expect(authenticatedPage.url()).toContain('persons-panel');
   });
 
   test('should display bookmark count badge in header and update on folder navigation', async ({

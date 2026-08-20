@@ -70,13 +70,7 @@ export const getFromFirebase = async <T = any>({
  * Use this when you want to completely replace the existing data.
  */
 export const saveToFirebase = async ({ ref, uid, data }: Firebase) => {
-  try {
-    await database.ref(getFullDbPath(ref, uid)).set(data);
-    return true;
-  } catch (error) {
-    console.error(`Error while saving data to Firebase DB: ${ref}`, error);
-    return false;
-  }
+  await database.ref(getFullDbPath(ref, uid)).set(data);
 };
 
 /**
@@ -87,13 +81,7 @@ export const saveToFirebase = async ({ ref, uid, data }: Firebase) => {
  * Use this for efficient single-entry updates.
  */
 export const upsertToFirebase = async ({ ref, uid, data }: Firebase) => {
-  try {
-    await database.ref(getFullDbPath(ref, uid)).update(data);
-    return true;
-  } catch (error) {
-    console.error(`Error while upserting data to Firebase DB: ${ref}`, error);
-    return false;
-  }
+  await database.ref(getFullDbPath(ref, uid)).update(data);
 };
 
 /**

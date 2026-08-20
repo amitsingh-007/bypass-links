@@ -1,4 +1,4 @@
-import { hasText } from '../../../utils/search';
+import { matchesSearch } from '../../../utils/search';
 import { ROOT_FOLDER_ID, ROOT_FOLDER_NAME } from '../constants';
 import {
   type ContextBookmark,
@@ -26,19 +26,14 @@ export const getBookmarkFaviconUrls = (
     getFaviconUrl(getDecryptedBookmark(item).url)
   );
 
+// Folders always survive a search, so their contents stay reachable
 export const getFilteredContextBookmarks = (
   contextBookmarks: ContextBookmarks,
   searchText: string
 ) =>
-  contextBookmarks.filter((ctx) => {
-    if (!searchText) {
-      return true;
-    }
-    if (ctx.isDir) {
-      return true;
-    }
-    return hasText(searchText, ctx.url) || hasText(searchText, ctx.title);
-  });
+  contextBookmarks.filter(
+    (ctx) => ctx.isDir || matchesSearch(searchText, ctx.url, ctx.title)
+  );
 
 export const encodeBookmarkField = (value: string) =>
   btoa(encodeURIComponent(value));

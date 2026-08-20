@@ -2,28 +2,20 @@ import { create } from 'zustand';
 
 interface ProgressState {
   isLoading: boolean;
-  progress: number;
   startLoading: () => void;
   stopLoading: () => void;
-  incrementProgress: (totalSteps: number) => void;
 }
 
-const useProgressStore = create<ProgressState>()((set, get) => ({
+const useProgressStore = create<ProgressState>()((set) => ({
   isLoading: false,
-  progress: 0,
   startLoading() {
-    set(() => ({ isLoading: true, progress: 0 }));
+    set(() => ({ isLoading: true }));
   },
   stopLoading() {
+    // Held briefly so a fast sync does not flash the overlay in and out
     setTimeout(() => {
-      set(() => ({ isLoading: false, progress: 0 }));
-    }, 300); // 300ms delay allows users to see progress at 100% before overlay disappears
-  },
-  incrementProgress(totalSteps: number) {
-    const { progress } = get();
-    const stepSize = 100 / totalSteps;
-    const newProgress = Math.min(progress + stepSize, 100);
-    set(() => ({ progress: newProgress }));
+      set(() => ({ isLoading: false }));
+    }, 300);
   },
 }));
 

@@ -31,41 +31,9 @@ const COVERED_SOURCE_DIRS = [
 /** Not JavaScript, so no V8 entry can ever be attributed back to them. */
 const UNCOVERABLE_EXTENSIONS = ['.svg', '.css', '.md', '.html', '.d.ts'];
 
-/**
- * Sources `all` would otherwise pin at 0% forever: test-only files, server-only
- * handlers, React Server Components, build-time config, and type-only modules.
- *
- * Enumerated rather than derived because deriving it means reading the client
- * bundles' sourcemaps, and the web app under test is a Vercel preview that never
- * exists on the runner. `packages/shared/src/schema/` is server-side tRPC
- * validation; the per-component schema dirs are client-reachable and stay in.
- */
-const EXCLUDED_SOURCES = [
-  'packages/shared/src/testIndex.ts',
-  'packages/shared/src/constants/e2e-tests.ts',
-  'packages/shared/src/utils/test-helpers.ts',
-  'packages/shared/src/utils/coverage.ts',
-  'packages/shared/src/schema/',
-  'packages/shared/src/schemaIndex.ts',
-  'apps/web/src/app/api/',
-  'apps/web/src/app/constants/env/server.ts',
-  'apps/web/src/app/constants/features.ts',
-  'apps/web/src/app/constants/metadata.ts',
-  'apps/web/src/app/helpers/verifyInternalToken.ts',
-  'apps/web/src/app/page.tsx',
-  'apps/web/src/app/components/Footer.tsx',
-  'apps/web/src/app/components/PageHeader.tsx',
-  'apps/web/src/app/components/SalientFeatures.tsx',
-  'apps/extension/src/constants/manifest.ts',
-  '/layout.tsx',
-  '/interfaces/',
-  '/types/',
-];
-
 const isCoverableSource = (filePath: string) =>
   COVERED_SOURCE_DIRS.some((dir) => filePath.includes(dir)) &&
-  !UNCOVERABLE_EXTENSIONS.some((extension) => filePath.endsWith(extension)) &&
-  !EXCLUDED_SOURCES.some((source) => filePath.includes(source));
+  !UNCOVERABLE_EXTENSIONS.some((extension) => filePath.endsWith(extension));
 
 const APP_ROOTS = ['apps/extension', 'apps/web'];
 
@@ -106,7 +74,7 @@ const sourceMapResolver: SourceMapResolver = async (url, defaultResolver) => {
 /**
  * A bundle's `../../src/foo.ts` clamps at the chrome-extension:// origin, losing
  * the `apps/<app>` prefix. Restore it from the file that actually exists, or the
- * entry never merges with its `all` counterpart.
+ * entry never matches COVERED_SOURCE_DIRS and the extension reports as zero.
  */
 const sourcePath = (filePath: string) => {
   if (filePath.startsWith('apps/') || filePath.startsWith('packages/')) {
@@ -133,12 +101,9 @@ const coverageOptions: CoverageReportOptions = {
     entry.url.startsWith('chrome-extension://') ||
     (WEB_BASE_URL !== undefined &&
       entry.url.startsWith(`${WEB_BASE_URL}/_next/`)),
+  // Executed files only: padding the denominator with every never-imported file
+  // meant hand-maintaining an exclusion list to keep it honest.
   sourceFilter: isCoverableSource,
-  // Pads in never-executed files so the denominator is the whole codebase.
-  // monocart runs sourceFilter over these too, so one filter covers both.
-  all: {
-    dir: COVERED_SOURCE_DIRS.map((dir) => path.resolve(process.cwd(), dir)),
-  },
 };
 
 let report: CoverageReport | undefined;

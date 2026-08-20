@@ -14,10 +14,8 @@ import {
   personImageUrlsItem,
   hasPendingPersonsItem,
 } from '@/storage/items';
-import useProgressStore from '@/store/progress';
 
 import { getAllDecodedPersons } from '.';
-import { SIGN_IN_TOTAL_STEPS } from '../../HomePopup/constants/progress';
 
 export const syncPersonsToStorage = async () => {
   const persons = await trpcApi.firebaseData.personsGet.query();
@@ -45,10 +43,7 @@ export const cachePersonImagesInStorage = async () => {
     resolveDownloadUrl
   );
   await personImageUrlsItem.setValue(personImageUrls);
-  const { incrementProgress } = useProgressStore.getState();
-  incrementProgress(SIGN_IN_TOTAL_STEPS);
   await cachePersonImages(personImageUrls);
-  incrementProgress(SIGN_IN_TOTAL_STEPS);
 };
 
 /** Delete-path counterpart: without this the url and its blob url both linger. */

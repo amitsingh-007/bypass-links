@@ -5,7 +5,6 @@ import { type IMappedRedirections } from '../interfaces/redirections';
 export const mapRedirections = (
   redirections: IRedirections
 ): IMappedRedirections =>
-  redirections?.reduce<IMappedRedirections>((obj, { alias, website }) => {
-    obj[alias] = website;
-    return obj;
-  }, {});
+  Object.fromEntries(
+    redirections.map(({ alias, website }) => [alias, website])
+  );
