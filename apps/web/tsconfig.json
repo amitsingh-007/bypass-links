@@ -2,8 +2,6 @@
   "extends": "@bypass/configs/tsconfig.base.json",
   "compilerOptions": {
     "jsx": "react-jsx",
-    "skipLibCheck": true,
-    "strictNullChecks": true,
     "paths": {
       "@app/*": ["./src/app/*"]
     },
