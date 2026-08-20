@@ -12,14 +12,10 @@ import { useState } from 'react';
 
 import { useUser } from '@app/provider/AuthProvider';
 import { api } from '@app/utils/api';
-import {
-  isExistsInLocalStorage,
-  removeFromLocalStorage,
-  setToLocalStorage,
-} from '@app/utils/storage';
+import { setToLocalStorage } from '@app/utils/storage';
 
 const syncPersonsToStorage = async () => {
-  if (isExistsInLocalStorage(STORAGE_KEYS.persons)) {
+  if (STORAGE_KEYS.persons in localStorage) {
     return;
   }
   const data = await api.firebaseData.personsGet.query();
@@ -64,8 +60,8 @@ const usePreloadPerson = () => {
 
   const clearData = async () => {
     setIsLoading(true);
-    removeFromLocalStorage(STORAGE_KEYS.persons);
-    removeFromLocalStorage(STORAGE_KEYS.personImageUrls);
+    localStorage.removeItem(STORAGE_KEYS.persons);
+    localStorage.removeItem(STORAGE_KEYS.personImageUrls);
     await deleteCache(ECacheBucketKeys.person);
     await invalidatePersonKeys();
     setIsLoading(false);

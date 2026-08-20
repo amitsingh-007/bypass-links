@@ -40,7 +40,7 @@ export const resolveUserFromRequest = async (
 
   let user: IUser;
   try {
-    user = mapTokenToUser(await verifyAuthToken(idToken, true));
+    user = mapTokenToUser(await verifyAuthToken(idToken));
   } catch (error) {
     console.error(error);
     return { ok: false, status: 401, message: 'Firebase authorization failed' };

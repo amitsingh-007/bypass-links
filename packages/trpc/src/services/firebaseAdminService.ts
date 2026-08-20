@@ -71,10 +71,8 @@ export const upsertToFirebase = async ({ ref, uid, data }: Firebase) => {
   await database.ref(getFullDbPath(ref, uid)).update(data);
 };
 
-export const verifyAuthToken = async (
-  idToken: string,
-  checkRevoked?: boolean
-) => auth.verifyIdToken(idToken, checkRevoked);
+export const verifyAuthToken = async (idToken: string) =>
+  auth.verifyIdToken(idToken, true);
 
 export const uploadImageToFirebase = async (
   uid: string,
@@ -98,15 +96,8 @@ export const uploadImageToFirebase = async (
   }
 };
 
-export const getFileFromFirebase = async (uid: string, fileName: string) => {
-  const fileRef = storage.bucket().file(getFilePath(uid, fileName));
-  try {
-    return await getDownloadURL(fileRef);
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
+export const getFileFromFirebase = async (uid: string, fileName: string) =>
+  getDownloadURL(storage.bucket().file(getFilePath(uid, fileName)));
 
 export const removeFileFromFirebase = async (uid: string, fileName: string) => {
   await storage.bucket().file(getFilePath(uid, fileName)).delete();

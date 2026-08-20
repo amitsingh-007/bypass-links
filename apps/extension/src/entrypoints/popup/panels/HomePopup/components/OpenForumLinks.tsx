@@ -21,11 +21,6 @@ enum EButtonState {
 
 const SUCCESS_TIMEOUT_MS = 3000;
 
-const isCurrentPageForum = async (url = '') => {
-  const hostname = url && new URL(url).hostname;
-  return isForumPage(hostname);
-};
-
 function OpenForumLinks() {
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const currentTab = useCurrentTab();
@@ -34,7 +29,7 @@ function OpenForumLinks() {
 
   useEffect(() => {
     const initIsActive = async () => {
-      const isForum = isSignedIn && (await isCurrentPageForum(currentTab?.url));
+      const isForum = isSignedIn && (await isForumPage(currentTab?.url));
       setIsOnForumPage(isForum);
     };
     initIsActive();

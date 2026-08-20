@@ -21,21 +21,14 @@ const EMPTY_BOOKMARKS: IBookmarksObj = {
   folders: {},
 };
 
-export const getBookmarks = async (uid: string) => {
-  const bookmarks = await getFromFirebase<IBookmarksObj>({
-    ref: EFirebaseDBRef.bookmarks,
-    uid,
-  });
-  return bookmarks ?? EMPTY_BOOKMARKS;
-};
+const getOrDefault = async <T>(ref: EFirebaseDBRef, uid: string, fallback: T) =>
+  (await getFromFirebase<T>({ ref, uid })) ?? fallback;
 
-export const getPersons = async (uid: string) => {
-  const persons = await getFromFirebase<IPersons>({
-    ref: EFirebaseDBRef.persons,
-    uid,
-  });
-  return persons ?? {};
-};
+export const getBookmarks = async (uid: string) =>
+  getOrDefault(EFirebaseDBRef.bookmarks, uid, EMPTY_BOOKMARKS);
+
+export const getPersons = async (uid: string) =>
+  getOrDefault<IPersons>(EFirebaseDBRef.persons, uid, {});
 
 export const saveBookmarksAndPersons = async (
   bookmarks: IBookmarksObj,
@@ -48,21 +41,11 @@ export const saveBookmarksAndPersons = async (
   ]);
 };
 
-export const getWebsites = async (uid: string) => {
-  const websites = await getFromFirebase<IWebsites>({
-    ref: EFirebaseDBRef.websites,
-    uid,
-  });
-  return websites ?? {};
-};
+export const getWebsites = async (uid: string) =>
+  getOrDefault<IWebsites>(EFirebaseDBRef.websites, uid, {});
 
-export const getLastVisited = async (uid: string) => {
-  const lastVisited = await getFromFirebase<ILastVisited>({
-    ref: EFirebaseDBRef.lastVisited,
-    uid,
-  });
-  return lastVisited ?? {};
-};
+export const getLastVisited = async (uid: string) =>
+  getOrDefault<ILastVisited>(EFirebaseDBRef.lastVisited, uid, {});
 
 export const upsertLastVisited = async (hash: string, uid: string) => {
   const timestamp = Date.now();
@@ -74,13 +57,8 @@ export const upsertLastVisited = async (hash: string, uid: string) => {
   return { hash, timestamp };
 };
 
-export const getRedirections = async (uid: string) => {
-  const redirections = await getFromFirebase<IRedirections>({
-    ref: EFirebaseDBRef.redirections,
-    uid,
-  });
-  return redirections ?? [];
-};
+export const getRedirections = async (uid: string) =>
+  getOrDefault<IRedirections>(EFirebaseDBRef.redirections, uid, []);
 
 export const saveRedirections = async (
   redirections: IRedirections,
