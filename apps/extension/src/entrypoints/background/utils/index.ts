@@ -1,24 +1,7 @@
 import { type EExtensionState } from '@/constants';
 import { getIsExtensionActive } from '@/utils/common';
 
-const restrictedProtocols = new Set([
-  'chrome:',
-  'chrome-native:',
-  'edge:',
-  'about:',
-  'data:',
-  'chrome-search:',
-  'chrome-extension:',
-  'content:', // Tampermonkey related URLs
-  'file:',
-  'devtools:',
-  'blob:',
-  'webtorrent:',
-  'magnet:',
-  'orion:',
-  'moz-extension:',
-  'view-source:',
-]);
+/** Store fronts the browsers refuse to script. */
 const restrictedHosts = new Set([
   'chrome.google.com',
   'chromewebstore.google.com',
@@ -46,10 +29,12 @@ export const setExtensionIcon = async ({
   await browser.action.setIcon({ path: getIcon() });
 };
 
+/** Allowlisted, so an unknown scheme is excluded rather than failing on injection. */
 export const isValidUrl = (_url?: string): boolean => {
   if (!_url) return false;
   const url = new URL(_url);
   return (
-    !restrictedHosts.has(url.hostname) && !restrictedProtocols.has(url.protocol)
+    (url.protocol === 'http:' || url.protocol === 'https:') &&
+    !restrictedHosts.has(url.hostname)
   );
 };

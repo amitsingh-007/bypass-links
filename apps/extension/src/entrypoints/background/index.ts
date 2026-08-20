@@ -19,20 +19,27 @@ const onPageLoad = async (tabId: number, url: string) => {
   if (!isValidUrl(url)) {
     return;
   }
-  const [extState, tab] = await Promise.all([
-    getExtState(),
-    browser.tabs.get(tabId),
-  ]);
-  if (!getIsExtensionActive(extState)) {
-    return;
-  }
-  // Superseded by a newer navigation while we awaited
-  if (tab.url !== url) {
-    return;
-  }
+  try {
+    const [extState, tab] = await Promise.all([
+      getExtState(),
+      browser.tabs.get(tabId),
+    ]);
+    if (!getIsExtensionActive(extState)) {
+      return;
+    }
+    // Superseded by a newer navigation while we awaited
+    if (tab.url !== url) {
+      return;
+    }
 
-  redirect(tabId, new URL(url));
-  turnOffInputSuggestions(tabId);
+    await Promise.all([
+      redirect(tabId, new URL(url)),
+      turnOffInputSuggestions(tabId),
+    ]);
+  } catch (error) {
+    // The tab can close or navigate on mid-flight, so these reject routinely
+    console.debug('Skipped page load handling for', url, error);
+  }
 };
 
 const isMainFrame = (frameId: number) => frameId === 0;
