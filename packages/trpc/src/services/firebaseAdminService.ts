@@ -52,14 +52,15 @@ const auth = getAuth(firebaseApp);
 const database = getDatabase(firebaseApp);
 const storage = getStorage(firebaseApp);
 
-/** Returns null when empty; callers supply their own schema-appropriate default. */
+/** Firebase yields null for empty refs; fallback keeps callers total. */
 export const getFromFirebase = async <T = any>({
   ref,
   uid,
-}: Omit<Firebase, 'data'>): Promise<T | null> => {
+  fallback,
+}: Omit<Firebase, 'data'> & { fallback: T }): Promise<T> => {
   const dbPath = getFullDbPath(ref, uid);
   const snapshot = await database.ref(dbPath).once('value');
-  return snapshot.val() ?? null;
+  return snapshot.val() ?? fallback;
 };
 
 export const saveToFirebase = async ({ ref, uid, data }: Firebase) => {
@@ -71,7 +72,7 @@ export const upsertToFirebase = async ({ ref, uid, data }: Firebase) => {
   await database.ref(getFullDbPath(ref, uid)).update(data);
 };
 
-export const verifyAuthToken = async (idToken: string) =>
+export const verifyAuthToken = (idToken: string) =>
   auth.verifyIdToken(idToken, true);
 
 export const uploadImageToFirebase = async (
@@ -96,7 +97,7 @@ export const uploadImageToFirebase = async (
   }
 };
 
-export const getFileFromFirebase = async (uid: string, fileName: string) =>
+export const getFileFromFirebase = (uid: string, fileName: string) =>
   getDownloadURL(storage.bucket().file(getFilePath(uid, fileName)));
 
 export const removeFileFromFirebase = async (uid: string, fileName: string) => {

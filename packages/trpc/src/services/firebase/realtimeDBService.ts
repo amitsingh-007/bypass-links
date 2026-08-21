@@ -21,14 +21,15 @@ const EMPTY_BOOKMARKS: IBookmarksObj = {
   folders: {},
 };
 
-const getOrDefault = async <T>(ref: EFirebaseDBRef, uid: string, fallback: T) =>
-  (await getFromFirebase<T>({ ref, uid })) ?? fallback;
+export const getBookmarks = (uid: string) =>
+  getFromFirebase({
+    ref: EFirebaseDBRef.bookmarks,
+    uid,
+    fallback: EMPTY_BOOKMARKS,
+  });
 
-export const getBookmarks = async (uid: string) =>
-  getOrDefault(EFirebaseDBRef.bookmarks, uid, EMPTY_BOOKMARKS);
-
-export const getPersons = async (uid: string) =>
-  getOrDefault<IPersons>(EFirebaseDBRef.persons, uid, {});
+export const getPersons = (uid: string) =>
+  getFromFirebase<IPersons>({ ref: EFirebaseDBRef.persons, uid, fallback: {} });
 
 export const saveBookmarksAndPersons = async (
   bookmarks: IBookmarksObj,
@@ -41,11 +42,19 @@ export const saveBookmarksAndPersons = async (
   ]);
 };
 
-export const getWebsites = async (uid: string) =>
-  getOrDefault<IWebsites>(EFirebaseDBRef.websites, uid, {});
+export const getWebsites = (uid: string) =>
+  getFromFirebase<IWebsites>({
+    ref: EFirebaseDBRef.websites,
+    uid,
+    fallback: {},
+  });
 
-export const getLastVisited = async (uid: string) =>
-  getOrDefault<ILastVisited>(EFirebaseDBRef.lastVisited, uid, {});
+export const getLastVisited = (uid: string) =>
+  getFromFirebase<ILastVisited>({
+    ref: EFirebaseDBRef.lastVisited,
+    uid,
+    fallback: {},
+  });
 
 export const upsertLastVisited = async (hash: string, uid: string) => {
   const timestamp = Date.now();
@@ -57,8 +66,12 @@ export const upsertLastVisited = async (hash: string, uid: string) => {
   return { hash, timestamp };
 };
 
-export const getRedirections = async (uid: string) =>
-  getOrDefault<IRedirections>(EFirebaseDBRef.redirections, uid, []);
+export const getRedirections = (uid: string) =>
+  getFromFirebase<IRedirections>({
+    ref: EFirebaseDBRef.redirections,
+    uid,
+    fallback: [],
+  });
 
 export const saveRedirections = async (
   redirections: IRedirections,

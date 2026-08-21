@@ -18,11 +18,11 @@ async function getPersonStorageImageId(uid: string): Promise<string[]> {
 
 export const cleanupStorage = async (uid: string): Promise<void> => {
   const imageUids = await getPersonStorageImageId(uid);
-  const persons = await getFromFirebase<IPersons>({
+  const personRecordUids = await getFromFirebase<IPersons>({
     ref: EFirebaseDBRef.persons,
     uid,
+    fallback: {},
   });
-  const personRecordUids = persons ?? {};
   const orphanedImages = imageUids.filter(
     (imageUid) => !personRecordUids[imageUid]
   );

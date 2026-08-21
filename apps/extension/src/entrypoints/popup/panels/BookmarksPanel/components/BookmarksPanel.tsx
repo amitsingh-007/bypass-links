@@ -58,9 +58,6 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
     getItemKey: (idx) => filteredContextBookmarks[idx].id,
   });
 
-  const handleScroll = (itemNumber: number) =>
-    virtualizer.scrollToIndex(itemNumber);
-
   // Right-clicked row wins over the selection, which anything can clear mid-gesture
   const handleOpenBookmarks = (id: string) => {
     const { contextBookmarks: bookmarks, selectedBookmarks: selected } =
@@ -105,11 +102,14 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
 
   return (
     <Panel>
-      <ScrollButton itemsSize={curBookmarksCount} onScroll={handleScroll} />
+      <ScrollButton
+        itemsSize={curBookmarksCount}
+        onScroll={virtualizer.scrollToIndex}
+      />
       <BookmarksHeader folderId={folderId} onSearchChange={setSearchText} />
       <BookmarkAddEditDialog
         curFolderId={folderId}
-        handleScroll={handleScroll}
+        handleScroll={virtualizer.scrollToIndex}
       />
       <BookmarkContextMenu handleOpenBookmarks={handleOpenBookmarks}>
         <ScrollArea

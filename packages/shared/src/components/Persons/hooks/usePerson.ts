@@ -6,7 +6,6 @@ import DynamicContext from '../../../provider/DynamicContext';
 import {
   getBlobUrlFromCache,
   getBlobUrlFromOpenCache,
-  getCacheObj,
 } from '../../../utils/cache';
 import { type IBookmarksObj } from '../../Bookmarks/interfaces';
 import {
@@ -52,7 +51,7 @@ const usePerson = () => {
     if (!personImages) {
       return {};
     }
-    const cache = await getCacheObj(ECacheBucketKeys.person);
+    const cache = await caches.open(ECacheBucketKeys.person);
     const entries = await Promise.all(
       uids.map(
         async (uid) =>

@@ -5,17 +5,7 @@ import { type ECacheBucketKeys } from '../constants/cache';
 
 const limit = pLimit(20);
 
-export const getCacheObj = (cacheBucketKey: string) =>
-  caches.open(cacheBucketKey);
-
-export const addToCache = async (
-  cacheBucketKey: ECacheBucketKeys,
-  url: string
-) => {
-  if (!url) {
-    return;
-  }
-  const cache = await getCacheObj(cacheBucketKey);
+const addToOpenCache = async (cache: Cache, url: string) => {
   const cachedResponse = await cache.match(url);
   if (cachedResponse) {
     return;
@@ -30,13 +20,24 @@ export const addToCache = async (
   }
 };
 
+export const addToCache = async (
+  cacheBucketKey: ECacheBucketKeys,
+  url: string
+) => {
+  if (!url) {
+    return;
+  }
+  await addToOpenCache(await caches.open(cacheBucketKey), url);
+};
+
 export const addAllToCache = async (
   cacheBucketKey: ECacheBucketKeys,
   urls: string[]
 ) => {
-  const uniqueUrls = [...new Set(urls)];
+  const cache = await caches.open(cacheBucketKey);
+  const uniqueUrls = [...new Set(urls)].filter(Boolean);
   const cachePromises = uniqueUrls.map(async (url) =>
-    limit(async () => addToCache(cacheBucketKey, url))
+    limit(async () => addToOpenCache(cache, url))
   );
   await Promise.all(cachePromises);
 };
@@ -77,10 +78,12 @@ export const getBlobUrlFromOpenCache = async (cache: Cache, url?: string) => {
 export const getBlobUrlFromCache = async (
   cacheBucketKey: ECacheBucketKeys,
   url: string
-) => getBlobUrlFromOpenCache(await getCacheObj(cacheBucketKey), url);
+) =>
+  blobUrlCache.get(url) ??
+  getBlobUrlFromOpenCache(await caches.open(cacheBucketKey), url);
 
 export const deleteCache = async (bucketKey: string) => {
-  const cache = await getCacheObj(bucketKey);
+  const cache = await caches.open(bucketKey);
   const keys = await cache.keys();
   keys.forEach((request) => evictBlobUrl(request.url));
   await caches.delete(bucketKey);

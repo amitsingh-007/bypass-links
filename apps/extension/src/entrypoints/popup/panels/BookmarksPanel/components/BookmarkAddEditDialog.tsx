@@ -133,6 +133,9 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
   });
 
   useEffect(() => {
+    if (operation === EBookmarkOperation.NONE) {
+      return;
+    }
     const resolveBookmark = async () => {
       if (operation === EBookmarkOperation.ADD) {
         const { title = '' } = await getCurrentTab();
@@ -169,10 +172,7 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
         dialogHandlers.open();
       }
     };
-
-    if (operation !== EBookmarkOperation.NONE) {
-      resolveBookmark();
-    }
+    resolveBookmark();
   }, [
     bmUrl,
     contextBookmarks,
