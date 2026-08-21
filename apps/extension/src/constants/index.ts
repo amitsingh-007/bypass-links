@@ -20,7 +20,6 @@ export enum EExtStorageKey {
   HISTORY_START_TIME = 'historyStartTime',
 }
 
-/** Keys whose change should refresh the toolbar icon. */
 export const ICON_KEYS = [
   EExtStorageKey.EXT_STATE,
   EExtStorageKey.HAS_PENDING_BOOKMARKS,

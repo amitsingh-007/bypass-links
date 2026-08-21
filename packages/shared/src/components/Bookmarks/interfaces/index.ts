@@ -23,7 +23,7 @@ export interface ITransformedBookmark {
   taggedPersons: string[];
 }
 
-export interface ITransformedFolder {
+interface ITransformedFolder {
   id: string;
   isDir: true;
   name: string;

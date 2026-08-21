@@ -60,10 +60,7 @@ export const launchExtensionContext = async ({
   return browserContext;
 };
 
-/**
- * Load cached storage data from file.
- * This data is created by auth.setup.ts before tests run.
- */
+/** Storage data cached by auth.setup.ts before tests run. */
 export const loadCachedStorageData = async (): Promise<CachedStorageData> => {
   const data = await fs.promises.readFile(EXTENSION_STORAGE_PATH, 'utf8');
   return JSON.parse(data) as CachedStorageData;
@@ -74,7 +71,7 @@ export const loadCachedStorageData = async (): Promise<CachedStorageData> => {
  * preserving its Cache Storage. Omit it so no auth state leaks into
  * unauthenticated tests.
  */
-export const createTempProfileContext = async ({
+const createTempProfileContext = async ({
   prefix,
   extensionPath,
   headless,
@@ -160,9 +157,6 @@ export const getExtensionId = async (
   return url.split('/')[2];
 };
 
-/**
- * Open extension popup (or a panel) using existing authenticated context state.
- */
 export const openExtensionPanelPage = async (
   sharedContext: BrowserContext,
   sharedExtensionId: string,
@@ -190,7 +184,7 @@ export const openExtensionPanelPage = async (
   return page;
 };
 
-export interface SharedExtensionWorkerFixtures {
+interface SharedExtensionWorkerFixtures {
   sharedContext: BrowserContext;
   sharedBackgroundSW: Worker;
   sharedExtensionId: string;

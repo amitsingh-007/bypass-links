@@ -5,7 +5,6 @@ import {
   createContext,
   use,
   useEffect,
-  useMemo,
   useState,
 } from 'react';
 
@@ -22,20 +21,14 @@ const AuthContext = createContext<IAuthContext>({
   isLoginIntialized: false,
 });
 
-const RESTRICTED_PATHS = new Set([WEB_ROUTES.HOMEPAGE]);
-
 export function AuthProvider({ children }: PropsWithChildren) {
   const pathname = usePathname();
   const [user, setUser] = useState<IAuthContext['user']>(null);
   const [isInitialized, setIsInitialized] = useState(false);
 
-  // Memoized: a fresh Context value every render re-renders every consumer
-  const ctx = useMemo(
-    () => ({ user, isLoginIntialized: isInitialized }),
-    [user, isInitialized]
-  );
+  const ctx = { user, isLoginIntialized: isInitialized };
 
-  const isRestrictedPath = RESTRICTED_PATHS.has(pathname);
+  const isRestrictedPath = pathname === WEB_ROUTES.HOMEPAGE;
 
   useEffect(() => {
     if (isRestrictedPath) {

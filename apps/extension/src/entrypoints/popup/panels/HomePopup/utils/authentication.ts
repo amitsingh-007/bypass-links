@@ -1,10 +1,5 @@
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
-import useProgressStore from '@/store/progress';
 
-import {
-  SIGN_IN_TOTAL_STEPS,
-  SIGN_OUT_TOTAL_STEPS,
-} from '../constants/progress';
 import { processPostLogin, processPostLogout, processPreLogout } from './sync';
 
 const userSignIn = async () => {
@@ -14,12 +9,10 @@ const userSignIn = async () => {
 
 export const signOut = async (): Promise<boolean> => {
   const { firebaseSignOut } = useFirebaseStore.getState();
-  const { incrementProgress } = useProgressStore.getState();
 
   try {
     await processPreLogout();
     await firebaseSignOut();
-    incrementProgress(SIGN_OUT_TOTAL_STEPS);
     await processPostLogout();
     return true;
   } catch (error) {
@@ -29,11 +22,8 @@ export const signOut = async (): Promise<boolean> => {
 };
 
 export const signIn = async (): Promise<boolean> => {
-  const { incrementProgress } = useProgressStore.getState();
-
   try {
     await userSignIn();
-    incrementProgress(SIGN_IN_TOTAL_STEPS);
     await processPostLogin();
     return true;
   } catch (error) {

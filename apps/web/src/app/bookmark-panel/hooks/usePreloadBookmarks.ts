@@ -13,15 +13,10 @@ import { useState } from 'react';
 import { getFaviconUrl } from '@app/constants/favicon';
 import { useUser } from '@app/provider/AuthProvider';
 import { api } from '@app/utils/api';
-import {
-  getFromLocalStorage,
-  isExistsInLocalStorage,
-  removeFromLocalStorage,
-  setToLocalStorage,
-} from '@app/utils/storage';
+import { getFromLocalStorage, setToLocalStorage } from '@app/utils/storage';
 
 const syncBookmarksToStorage = async () => {
-  if (isExistsInLocalStorage(STORAGE_KEYS.bookmarks)) {
+  if (STORAGE_KEYS.bookmarks in localStorage) {
     return;
   }
   const data = await api.firebaseData.bookmarksGet.query();
@@ -61,7 +56,7 @@ const usePreloadBookmarks = () => {
 
   const clearData = async () => {
     setIsLoading(true);
-    removeFromLocalStorage(STORAGE_KEYS.bookmarks);
+    localStorage.removeItem(STORAGE_KEYS.bookmarks);
     await deleteCache(ECacheBucketKeys.favicon);
     await invalidateBookmarkKeys();
     setIsLoading(false);

@@ -9,10 +9,9 @@ import { getBlobUrlFromCache } from '../../../utils/cache';
 
 interface Props {
   url: string;
-  ref?: React.Ref<HTMLDivElement>;
 }
 
-function Favicon({ url, ref }: Props) {
+function Favicon({ url }: Props) {
   const { favicon } = use(DynamicContext);
   const [faviconUrl, setFaviconUrl] = useState('');
 
@@ -26,7 +25,7 @@ function Favicon({ url, ref }: Props) {
   }, [url, favicon]);
 
   return (
-    <Avatar ref={ref} size="sm" data-testid="bookmark-favicon">
+    <Avatar size="sm" data-testid="bookmark-favicon">
       <AvatarImage src={faviconUrl} />
       <AvatarFallback>
         <HugeiconsIcon icon={Unlink02Icon} className="size-3.5" />

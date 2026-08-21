@@ -49,12 +49,6 @@ export default function Web() {
       });
   }, []);
 
-  /**
-   * Preload data only when:
-   * 1. User is logged-in: isLoggedIn
-   * 2. Data has already not preloaded in local storage: shouldPreloadData
-   * 3. Data is already not preloading: !isLoading
-   */
   useEffect(() => {
     const preload = isLoggedIn && shouldPreloadData && !isLoading;
     if (preload) {

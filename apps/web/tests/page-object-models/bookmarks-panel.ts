@@ -1,8 +1,4 @@
-import {
-  clickDropdownPersonAndGetName,
-  dblclickBookmark,
-  getNumericBadgeValue,
-} from '@bypass/shared/tests';
+import { dblclickBookmark, getNumericBadgeValue } from '@bypass/shared/tests';
 import { expect, type Page, type Locator } from '@playwright/test';
 
 export class BookmarksPanel {
@@ -13,7 +9,6 @@ export class BookmarksPanel {
     await expect(folder).toBeVisible();
     const initialUrl = this.page.url();
     await folder.dblclick();
-    // Wait for navigation by checking URL changed
     await expect.poll(() => this.page.url()).not.toBe(initialUrl);
   }
 
@@ -22,7 +17,6 @@ export class BookmarksPanel {
     await expect(backButton).toBeVisible();
     const initialUrl = this.page.url();
     await backButton.click();
-    // Wait for navigation by checking URL changed
     await expect.poll(() => this.page.url()).not.toBe(initialUrl);
   }
 
@@ -40,17 +34,12 @@ export class BookmarksPanel {
     await expect(avatar).toBeVisible();
     await avatar.hover();
 
-    // Return the first visible dropdown
     const dropdown = this.page
       .locator('[data-testid^="person-dropdown-"]')
       .first();
     await expect(dropdown).toBeVisible();
 
     return dropdown;
-  }
-
-  getCurrentUrl(): string {
-    return this.page.url();
   }
 
   async getEmptyFolder(folderName: string): Promise<Locator> {
@@ -67,12 +56,7 @@ export class BookmarksPanel {
     const folder = this.getFolderElement(folderName);
     const initialUrl = this.page.url();
     await folder.dblclick();
-    // Verify URL hasn't changed (folder doesn't navigate)
     expect(this.page.url()).toBe(initialUrl);
-  }
-
-  async clickPersonInDropdownAndGetName(dropdown: Locator): Promise<string> {
-    return clickDropdownPersonAndGetName(dropdown);
   }
 
   getFaviconElement(bookmarkTitle: string): Locator {
@@ -81,10 +65,9 @@ export class BookmarksPanel {
   }
 
   async hoverBookmarkForTooltip(bookmarkTitle: string): Promise<Locator> {
-    // Hover over the favicon area to trigger the tooltip
     const favicon = this.getFaviconElement(bookmarkTitle);
     await favicon.hover();
-    // Wait for tooltip to appear - shadcn renders tooltip with data-slot="tooltip-content"
+    // shadcn portals tooltips to [data-slot="tooltip-content"]
     const tooltip = this.page.locator('[data-slot="tooltip-content"]').first();
     await expect(tooltip).toBeVisible();
     return tooltip;
@@ -109,9 +92,7 @@ export class BookmarksPanel {
   }
 
   async getBadgeCount(): Promise<number> {
-    return getNumericBadgeValue(this.page, 'header-badge', {
-      fallbackToAnyNumber: true,
-    });
+    return getNumericBadgeValue(this.page, 'header-badge');
   }
 
   getAvatarGroup(): Locator {

@@ -9,7 +9,7 @@ import {
 } from '@bypass/shared';
 import { ScrollArea } from '@bypass/ui';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { use, useCallback, useEffect, useRef, useState } from 'react';
+import { use, useEffect, useRef, useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 
 import { MAX_PANEL_SIZE } from '@/constants';
@@ -58,12 +58,6 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
     getItemKey: (idx) => filteredContextBookmarks[idx].id,
   });
 
-  // Memoized: exhaustive-deps wants a stable identity for the effect below
-  const handleScroll = useCallback(
-    (itemNumber: number) => virtualizer.scrollToIndex(itemNumber),
-    [virtualizer]
-  );
-
   // Right-clicked row wins over the selection, which anything can clear mid-gesture
   const handleOpenBookmarks = (id: string) => {
     const { contextBookmarks: bookmarks, selectedBookmarks: selected } =
@@ -85,12 +79,11 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
     );
   };
 
-  // Reset scroll on folder change
   useEffect(() => {
     if (!isFetching) {
-      handleScroll(0);
+      virtualizer.scrollToIndex(0);
     }
-  }, [isFetching, handleScroll]);
+  }, [isFetching, virtualizer]);
 
   useEffect(() => {
     if (folderId) {
@@ -100,10 +93,7 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
 
   useEffect(() => {
     if (!isFetching && operation !== EBookmarkOperation.NONE) {
-      /**
-       * Need to call after loadData,
-       * Since EditBookmark internally needs contextBookmarks to be set beforehand
-       */
+      // After loadData: EditBookmark needs contextBookmarks already set
       setBookmarkOperation(operation, bmUrl);
     }
   }, [bmUrl, isFetching, operation, setBookmarkOperation]);
@@ -112,11 +102,14 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
 
   return (
     <Panel>
-      <ScrollButton itemsSize={curBookmarksCount} onScroll={handleScroll} />
+      <ScrollButton
+        itemsSize={curBookmarksCount}
+        onScroll={virtualizer.scrollToIndex}
+      />
       <BookmarksHeader folderId={folderId} onSearchChange={setSearchText} />
       <BookmarkAddEditDialog
         curFolderId={folderId}
-        handleScroll={handleScroll}
+        handleScroll={virtualizer.scrollToIndex}
       />
       <BookmarkContextMenu handleOpenBookmarks={handleOpenBookmarks}>
         <ScrollArea

@@ -3,12 +3,8 @@ import {
   fillSearchInput,
   getHeaderPersonCount,
   parseBadgeCount,
-  verifyModalClosed,
-  verifyModalVisible,
 } from '@bypass/shared/tests';
 import { expect, type Locator, type Page } from '@playwright/test';
-
-const MODAL_TEST_ID = 'bookmarks-list-modal';
 
 export class PersonsPanel {
   constructor(readonly page: Page) {}
@@ -39,20 +35,16 @@ export class PersonsPanel {
     const personCard = this.page.getByTestId(`person-item-${name}`);
     await expect(personCard).toBeVisible();
     await personCard.click();
-    // Wait for modal to be visible and bookmarks to load
     await this.verifyModalVisible();
-    // Wait for bookmarks to load (longer timeout for async data loading)
     await this.waitForBookmarksToLoad();
   }
 
   async waitForBookmarksToLoad() {
     const modal = this.getModal();
-    // First wait for loading to complete
     await modal
       .locator('[data-testid="bookmarks-loading"]')
       .waitFor({ state: 'hidden' })
       .catch(() => null); // Loading indicator may not appear if loading is fast
-    // Then wait for either bookmarks to appear OR the "no bookmarks" message
     await Promise.race([
       modal
         .locator('[data-testid^="bookmark-item-"]')
@@ -92,14 +84,14 @@ export class PersonsPanel {
   }
 
   async verifyModalVisible() {
-    await verifyModalVisible(this.page, MODAL_TEST_ID);
+    await expect(this.getModal()).toBeVisible();
     // Back button only renders while the modal is open
     const backButton = this.getModal().getByRole('button', { name: 'Back' });
     await expect(backButton).toBeVisible();
   }
 
   async verifyModalClosed() {
-    await verifyModalClosed(this.page, MODAL_TEST_ID);
+    await expect(this.getModal()).not.toBeAttached();
   }
 
   async verifyPersonNameInBadge(name: string) {
@@ -110,8 +102,7 @@ export class PersonsPanel {
   }
 
   getFolderBadges(): Locator {
-    // Returns badges showing folder names (violet badges in bookmark rows)
-    // These are distinct from the person bookmark count badge
+    // Folder-name badges, not the person bookmark count badge
     const modal = this.getModal();
     return modal.getByTestId('folder-name-badge');
   }

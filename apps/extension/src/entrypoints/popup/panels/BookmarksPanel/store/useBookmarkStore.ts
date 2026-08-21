@@ -21,7 +21,6 @@ import { findBookmarkById, findBookmarkByUrl } from '../utils/bookmark';
 import { processBookmarksMove } from '../utils/manipulate';
 
 interface State {
-  // State
   contextBookmarks: ContextBookmarks;
   urlList: IBookmarksObj['urlList'];
   folderList: IBookmarksObj['folderList'];
@@ -31,7 +30,6 @@ interface State {
   isFetching: boolean;
   isSaveButtonActive: boolean;
 
-  // Actions
   loadData: (folderId: string) => Promise<void>;
   handleSelectedChange: (pos: number, isOnlySelection: boolean) => void;
   resetSelectedBookmarks: () => void;
@@ -102,7 +100,6 @@ const useBookmarkStore = create<State>()((set, get) => ({
     const isDir = true;
     const newFolderId = crypto.randomUUID();
 
-    // Update current context folder
     const newContextBookmarks = [...contextBookmarks];
     newContextBookmarks.unshift({
       id: newFolderId,
@@ -110,7 +107,6 @@ const useBookmarkStore = create<State>()((set, get) => ({
       name,
       isDefault: false,
     });
-    // Update data in all folders list
     const newFolderList = { ...folderList };
     newFolderList[newFolderId] = getEncryptedFolder({
       id: newFolderId,
@@ -133,20 +129,17 @@ const useBookmarkStore = create<State>()((set, get) => ({
   ) {
     const { contextBookmarks, urlList, folders } = get();
 
-    // Find old bookmark by ID
     const oldBookmarkData = findBookmarkById(
       contextBookmarks,
       updatedBookmark.id
     );
     const isNewBookmark = !oldBookmarkData;
 
-    // Check for duplicate URL
     const existingBookmarkWithUrl = findBookmarkByUrl(
       urlList,
       updatedBookmark.url
     );
     if (existingBookmarkWithUrl) {
-      // It's a duplicate if it's a new bookmark, OR if it's an existing bookmark with a different ID.
       const isDupe =
         isNewBookmark || existingBookmarkWithUrl.id !== updatedBookmark.id;
       if (isDupe) {
@@ -157,7 +150,6 @@ const useBookmarkStore = create<State>()((set, get) => ({
 
     const isFolderChange = oldFolderId !== newFolderId;
 
-    // Update urlList - key is always bookmark.id
     const newUrlList = { ...urlList };
     newUrlList[updatedBookmark.id] = getEncryptedBookmark({
       id: updatedBookmark.id,
@@ -168,34 +160,29 @@ const useBookmarkStore = create<State>()((set, get) => ({
     });
     set({ urlList: newUrlList });
 
-    // Update folders and current context folder content based on folder change
     if (isFolderChange) {
       const newFolders = { ...folders };
-      newFolders[newFolderId] ||= []; // To handle empty folders
+      newFolders[newFolderId] ||= [];
       newFolders[newFolderId].push({
         isDir: false,
         hash: updatedBookmark.id,
       });
 
-      // Remove from current context (filter by ID)
       const newContextBookmarks = contextBookmarks.filter(
         (bm) => bm.isDir || bm.id !== updatedBookmark.id
       );
 
       set({ folders: newFolders, contextBookmarks: newContextBookmarks });
     } else if (isNewBookmark) {
-      // New bookmark - append to current context
       const newContextBookmarks = [...contextBookmarks, updatedBookmark];
       set({ contextBookmarks: newContextBookmarks });
     } else {
-      // Update existing bookmark in place (find by ID)
       const newContextBookmarks = contextBookmarks.map((bm) =>
         !bm.isDir && bm.id === updatedBookmark.id ? updatedBookmark : bm
       );
       set({ contextBookmarks: newContextBookmarks });
     }
 
-    // Cache favicon for new URL
     addToCache(ECacheBucketKeys.favicon, getFaviconUrl(updatedBookmark.url));
     set({ isSaveButtonActive: true });
     return true;
@@ -204,19 +191,16 @@ const useBookmarkStore = create<State>()((set, get) => ({
   handleUrlRemove(bookmarkId: string) {
     const { contextBookmarks, urlList } = get();
 
-    // Find bookmark by ID
     const bookmark = findBookmarkById(contextBookmarks, bookmarkId);
 
     if (!bookmark) {
       throw new Error(`Bookmark with id: ${bookmarkId} not found`);
     }
 
-    // Remove from current context folder (filter by ID)
     const newContextBookmarks = contextBookmarks.filter(
       (bm) => bm.isDir || bm.id !== bookmarkId
     );
 
-    // Remove from urlList using bookmark ID directly as key
     const newUrlList = filterRecord(urlList, (id) => id !== bookmarkId);
 
     set({
@@ -230,7 +214,6 @@ const useBookmarkStore = create<State>()((set, get) => ({
   handleBulkUrlRemove() {
     const { urlList, contextBookmarks, selectedBookmarks } = get();
 
-    // Get IDs of selected bookmarks to remove
     const idsToRemove = new Set(
       contextBookmarks
         .filter(
@@ -240,10 +223,8 @@ const useBookmarkStore = create<State>()((set, get) => ({
         .map((bm) => bm.id)
     );
 
-    // Remove from urlList using bookmark IDs directly as keys
     const newUrlList = filterRecord(urlList, (id) => !idsToRemove.has(id));
 
-    // Filter contextBookmarks by ID
     const filteredBookmarks = contextBookmarks.filter(
       (bm) => bm.isDir || !idsToRemove.has(bm.id)
     );
@@ -258,14 +239,12 @@ const useBookmarkStore = create<State>()((set, get) => ({
 
   handleFolderRename(folderId: string, newName: string) {
     const { folderList, contextBookmarks } = get();
-    // Update name in folderList
     const newFolderList = { ...folderList };
     newFolderList[folderId] = getEncryptedFolder({
       ...newFolderList[folderId],
       name: newName,
     });
 
-    // Update current folder context if needed
     const newContextBookmarks = contextBookmarks.map((folder) =>
       folder.isDir && folder.id === folderId
         ? Object.assign({}, folder, { name: newName })
@@ -289,7 +268,6 @@ const useBookmarkStore = create<State>()((set, get) => ({
       ])
     );
 
-    // Update current bookmark list - remove default from all folders, then set new default
     const newContextBookmarks = contextBookmarks.map((folder) =>
       folder.isDir
         ? Object.assign({}, folder, {
@@ -312,21 +290,17 @@ const useBookmarkStore = create<State>()((set, get) => ({
       return;
     }
 
-    // Remove from current context folder
     const newContextBookmarks = contextBookmarks.filter(
       (bookmark) => bookmark.id !== folderId
     );
 
-    // Remove from all folders list
     const newFolderList = filterRecord(folderList, (id) => id !== folderId);
 
-    // Remove all urls inside the folder and update all urls in tagged persons
     const newUrlList = filterRecord(
       urlList,
       (_id, data) => data.parentHash !== folderId
     );
 
-    // Remove its data from folders
     const newFolders = filterRecord(folders, (id) => id !== folderId);
 
     set({
@@ -343,7 +317,6 @@ const useBookmarkStore = create<State>()((set, get) => ({
 
     set({ isFetching: true });
 
-    // Form folders obj for current context folder
     const newFolders = { ...folders };
     newFolders[currentFolderId] = contextBookmarks.map((x) => ({
       isDir: x.isDir,

@@ -2,11 +2,6 @@
   "name": "@bypass/configs",
   "version": "1.0.0",
   "private": true,
-  "files": [
-    "manifest/*",
-    "tsconfig.base.json",
-    "firebase.config.ts"
-  ],
   "type": "module",
   "scripts": {
     "typecheck": "tsc --noEmit"

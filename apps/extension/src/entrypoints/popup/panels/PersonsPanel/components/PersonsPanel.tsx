@@ -30,10 +30,9 @@ import PersonHeader from './PersonHeader';
 import PersonVirtualCell from './PersonVirtualCell';
 
 const handleSave = async (persons: IPerson[]) => {
-  const encryptedPersons = persons.reduce<IPersons>((obj, person) => {
-    obj[person.uid] = getEncryptedPerson(person);
-    return obj;
-  }, {});
+  const encryptedPersons: IPersons = Object.fromEntries(
+    persons.map((person) => [person.uid, getEncryptedPerson(person)])
+  );
   await setPersonsInStorage(encryptedPersons);
 };
 
@@ -122,17 +121,15 @@ function PersonsPanel() {
             scrollButton
             queryString={queryString}
             persons={filteredAndOrderedPersons}
-            bookmarkListProps={{
-              fullscreen: true,
-              onBookmarkEdit: ({ url, parentId }) => {
-                navigate(
-                  getBookmarksPanelUrl({
-                    operation: EBookmarkOperation.EDIT,
-                    bmUrl: url,
-                    folderId: parentId,
-                  })
-                );
-              },
+            fullscreen
+            onBookmarkEdit={({ url, parentId }) => {
+              navigate(
+                getBookmarksPanelUrl({
+                  operation: EBookmarkOperation.EDIT,
+                  bmUrl: url,
+                  folderId: parentId,
+                })
+              );
             }}
             renderPerson={(person, imageUrl) => (
               <PersonVirtualCell

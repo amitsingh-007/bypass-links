@@ -10,7 +10,6 @@ const isCI = Boolean(ciBaseUrl);
 const ARTIFACTS_DIR = '.playwright';
 
 const config = defineConfig({
-  globalTimeout: 30 * 60 * 1000,
   expect: { timeout: 5000 },
   globalTeardown: './tests/coverage-report.ts',
   forbidOnly: isCI,
@@ -36,14 +35,6 @@ const config = defineConfig({
     headless: true,
   },
   projects: [
-    {
-      name: '@bypass/web',
-      testDir: './apps/web/tests',
-      testIgnore: ['**/auth.setup.ts', 'specs/**/*'],
-      use: {
-        baseURL: ciBaseUrl ?? 'http://localhost:3000',
-      },
-    },
     /**
      * Web App Setup: Runs once per test run to authenticate and cache storage.
      * This avoids repeating the login flow and data sync for every test.

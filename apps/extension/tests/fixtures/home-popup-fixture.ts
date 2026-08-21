@@ -39,7 +39,6 @@ export const test = sharedExtensionTest.extend<
   },
 
   async unauthPage({ extensionPath }, use, testInfo) {
-    // Create a completely separate context without any authentication
     const { browserContext: unauthContext, userDataDir } =
       await createUnauthContext(extensionPath, {
         headless: testInfo.project.use?.headless ?? true,
@@ -49,7 +48,6 @@ export const test = sharedExtensionTest.extend<
       await createSharedBackgroundSW(unauthContext)
     );
 
-    // Create a new page without authentication
     const page = await unauthContext.newPage();
     await page.goto(getPopupUrl(extensionId), {
       waitUntil: 'domcontentloaded',

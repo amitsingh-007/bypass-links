@@ -1,5 +1,4 @@
 import { expect, test } from '../fixtures/coverage-fixture';
-import { DownloadPage } from '../page-object-models/download-page';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
@@ -7,8 +6,10 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('Download page', () => {
   test('page metadata', async ({ page }) => {
-    const downloadPage = new DownloadPage(page);
-    await downloadPage.testPageMetaData();
+    await expect(page).toHaveTitle('Bypass Links');
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+      'Skip the Wait. Bypass Links Instantly.'
+    );
   });
 
   test('chrome extension download', async ({ page }, testConfig) => {

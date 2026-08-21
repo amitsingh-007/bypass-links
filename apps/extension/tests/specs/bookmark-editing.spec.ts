@@ -1,6 +1,6 @@
 import { TEST_BOOKMARKS } from '@bypass/shared/tests';
 
-import { expect, test } from '../fixtures/bookmark-fixture';
+import { expect, bookmarkTest as test } from '../fixtures/panel-fixture';
 import { BookmarksPanel } from '../utils/bookmarks-panel';
 
 const FIRST = TEST_BOOKMARKS.REACT_DOCS;

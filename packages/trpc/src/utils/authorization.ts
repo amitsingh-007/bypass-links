@@ -2,14 +2,15 @@ import { type DecodedIdToken } from 'firebase-admin/auth';
 
 import { type IUser } from '../@types/trpc';
 import { verifyAuthToken } from '../services/firebaseAdminService';
-import { getAuthBearer } from './headers';
 
-export type AuthorizationResult =
+type AuthorizationResult =
   | { ok: true; user: IUser }
   | { ok: false; status: 401 | 403; message: string };
 
+export const getAuthBearer = (req: Request) =>
+  req.headers.get('authorization')?.split?.('Bearer ')?.[1];
+
 /**
- * `disabled` is safe to hardcode: verifyIdToken rejects disabled accounts.
  * `email_verified` is issuance-time, so it lags until the token refreshes.
  */
 const mapTokenToUser = (token: DecodedIdToken): IUser => ({
@@ -18,52 +19,36 @@ const mapTokenToUser = (token: DecodedIdToken): IUser => ({
   emailVerified: token.email_verified ?? false,
   displayName: token.name,
   photoURL: token.picture,
-  disabled: false,
 });
 
 /**
- * Shared so REST routes cannot drift behind the tRPC middleware. Returns a
- * result rather than throwing, since each caller needs its own error type.
- */
-export const checkUserAuthorized = (
-  user: IUser | null
-): AuthorizationResult => {
-  if (!user) {
-    return {
-      ok: false,
-      status: 401,
-      message: 'Authentication token not found',
-    };
-  }
-  if (user.disabled) {
-    return { ok: false, status: 403, message: 'User is disabled' };
-  }
-  if (!user.emailVerified) {
-    return { ok: false, status: 403, message: 'User email is unverified' };
-  }
-  // Returning the user lets callers narrow without a non-null assertion
-  return { ok: true, user };
-};
-
-/**
- * The single token -> authorized user path. Verification already fetches the
- * user record, so the user is built from the token, not a second round trip.
+ * Built from the token, not a second round trip: verification already fetched
+ * the user record. Returns a result rather than throwing, since each caller
+ * needs its own error type.
  */
 export const resolveUserFromRequest = async (
   req: Request
 ): Promise<AuthorizationResult> => {
   const idToken = getAuthBearer(req);
   if (!idToken) {
-    return checkUserAuthorized(null);
+    return {
+      ok: false,
+      status: 401,
+      message: 'Authentication token not found',
+    };
   }
 
   let user: IUser;
   try {
-    user = mapTokenToUser(await verifyAuthToken(idToken, true));
+    user = mapTokenToUser(await verifyAuthToken(idToken));
   } catch (error) {
     console.error(error);
     return { ok: false, status: 401, message: 'Firebase authorization failed' };
   }
 
-  return checkUserAuthorized(user);
+  if (!user.emailVerified) {
+    return { ok: false, status: 403, message: 'User email is unverified' };
+  }
+
+  return { ok: true, user };
 };

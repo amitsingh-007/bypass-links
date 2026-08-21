@@ -6,17 +6,9 @@ import {
   fillSearchInput,
 } from '@bypass/shared/tests';
 
-import { test, expect } from '../fixtures/persons-fixture';
+import { personsTest as test, expect } from '../fixtures/panel-fixture';
 import { PersonsPanel } from '../utils/persons-panel';
 
-/**
- * Persons Panel E2E Tests
- *
- * These tests run sequentially with a single login at the start.
- * The browser context persists across all tests in this describe block.
- *
- * IMPORTANT: Test order matters! Do not reorder tests without understanding dependencies.
- */
 test.describe('Persons Panel', () => {
   const TEST_IMAGE_DATA_URL =
     'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/w8AAgMBgN0m4ZUAAAAASUVORK5CYII=';
@@ -24,28 +16,22 @@ test.describe('Persons Panel', () => {
   test('should search, filter, and clear persons', async ({ personsPage }) => {
     const panel = new PersonsPanel(personsPage);
 
-    // Ensure we start with cleared search
     await clearSearchInput(personsPage);
 
-    // Get initial count
     const allPersonsBefore = await panel.getPersonCount();
     expect(allPersonsBefore).toBeGreaterThan(0);
 
-    // Search and filter
     await fillSearchInput(personsPage, 'John');
     await panel.verifyPersonExists(TEST_PERSONS.JOHN_NATHAN);
 
-    // Clear search and verify all persons shown
     await clearSearchInput(personsPage);
     await panel.verifyPersonExists(TEST_PERSONS.AKASH_KUMAR_SINGH);
 
-    // Search for non-existent person
     await fillSearchInput(personsPage, 'NonExistentPerson');
     await expect
       .poll(async () => panel.getPersonCount(), { timeout: 10_000 })
       .toBe(0);
 
-    // Clear and verify count restored
     await clearSearchInput(personsPage);
     await expect
       .poll(async () => panel.getPersonCount(), { timeout: 10_000 })
@@ -79,10 +65,8 @@ test.describe('Persons Panel', () => {
 
     await panel.addPerson(personToDelete, TEST_IMAGE_DATA_URL);
 
-    // First verify the person exists
     await panel.verifyPersonExists(personToDelete);
 
-    // Delete the person (this verifies the notification)
     await panel.deletePerson(personToDelete);
   });
 
@@ -90,17 +74,14 @@ test.describe('Persons Panel', () => {
     personsPage,
   }) => {
     const panel = new PersonsPanel(personsPage);
-    // Try to delete a person who has tagged bookmarks
-    // John Nathan has bookmarks tagged (verified in existing tests)
+    // John Nathan has tagged bookmarks in the fixture data
     await panel.clickPersonContextMenu(TEST_PERSONS.JOHN_NATHAN, 'delete');
 
-    // Verify error notification is shown
     const notification = personsPage.getByText(
       'Cannot delete a person with tagged bookmarks'
     );
     await expect(notification).toBeVisible();
 
-    // Verify the person still exists (not deleted)
     await panel.verifyPersonExists(TEST_PERSONS.JOHN_NATHAN);
   });
 

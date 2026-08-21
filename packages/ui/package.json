@@ -6,7 +6,6 @@
   "sideEffects": false,
   "exports": {
     ".": "./src/index.ts",
-    "./lib": "./src/lib/index.ts",
     "./lib/utils": "./src/lib/utils.ts",
     "./styles/globals.css": "./src/styles/globals.css",
     "./components/ui/*": "./src/components/ui/*.tsx"

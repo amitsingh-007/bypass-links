@@ -10,7 +10,6 @@ import { PersonsPanel } from '../page-object-models/persons-panel';
 test.describe('Persons Panel', () => {
   test.beforeEach(async ({ authenticatedPage }) => {
     await authenticatedPage.goto('/persons-panel');
-    // Wait for persons to load by checking header badge shows count > 0
     const panel = new PersonsPanel(authenticatedPage);
     await expect(async () => {
       const count = await panel.getHeaderPersonCount();
@@ -23,15 +22,12 @@ test.describe('Persons Panel', () => {
   }) => {
     const panel = new PersonsPanel(authenticatedPage);
 
-    // Verify search input and header
     await expect(panel.getSearchInput()).toBeVisible();
 
-    // Verify all persons are displayed
     await panel.verifyPersonExists(TEST_PERSONS.JOHN_NATHAN);
     await panel.verifyPersonExists(TEST_PERSONS.AKASH_KUMAR_SINGH);
     await panel.verifyPersonExists(TEST_PERSONS.DONALD);
 
-    // Verify person count matches header count
     const personCount = await panel.getPersonCount();
     expect(personCount).toBeGreaterThan(0);
     const headerCount = await panel.getHeaderPersonCount();
@@ -45,23 +41,19 @@ test.describe('Persons Panel', () => {
     const countBefore = await panel.getPersonCount();
     expect(countBefore).toBeGreaterThan(0);
 
-    // Search for John and verify filtering
     await fillSearchInput(authenticatedPage, 'John');
     await panel.verifyPersonExists(TEST_PERSONS.JOHN_NATHAN);
     await panel.verifyPersonNotVisible(TEST_PERSONS.AKASH_KUMAR_SINGH);
 
-    // Clear search and verify all shown
     await clearSearchInput(authenticatedPage);
     await panel.verifyPersonExists(TEST_PERSONS.AKASH_KUMAR_SINGH);
 
-    // Search for non-existent person
     await fillSearchInput(authenticatedPage, 'NonExistentPerson123');
     await expect(async () => {
       const countAfter = await panel.getPersonCount();
       expect(countAfter).toBe(0);
     }).toPass();
 
-    // Clear search and verify count restored
     await clearSearchInput(authenticatedPage);
     await expect(async () => {
       const countRestored = await panel.getPersonCount();
@@ -74,7 +66,6 @@ test.describe('Persons Panel', () => {
   }) => {
     const panel = new PersonsPanel(authenticatedPage);
 
-    // Open John Nathan's card and verify
     await panel.openPersonCard(TEST_PERSONS.JOHN_NATHAN);
     await panel.verifyModalVisible();
     await panel.verifyPersonNameInBadge(TEST_PERSONS.JOHN_NATHAN);
@@ -82,7 +73,6 @@ test.describe('Persons Panel', () => {
     const bookmarkCount = await panel.getBookmarkCountInModal();
     expect(bookmarkCount).toBeGreaterThan(0);
 
-    // Verify folder badges exist
     const folderBadges = panel.getFolderBadges();
     const folderCount = await folderBadges.count();
     expect(folderCount).toBeGreaterThan(0);
@@ -90,7 +80,6 @@ test.describe('Persons Panel', () => {
     await panel.closeModal();
     await panel.verifyModalClosed();
 
-    // Open Akash's card and verify badge count
     await panel.openPersonCard(TEST_PERSONS.AKASH_KUMAR_SINGH);
     const badgeCount = await panel.getBookmarkCountInModal();
     expect(typeof badgeCount).toBe('number');
@@ -176,23 +165,17 @@ test.describe('Persons Panel', () => {
   }) => {
     const panel = new PersonsPanel(authenticatedPage);
 
-    // Verify recency switch exists
     await panel.verifyRecencySwitchExists();
 
-    // Get initial order of persons
     const personNamesBefore = await panel.getPersonNames();
     expect(personNamesBefore.length).toBeGreaterThan(0);
 
-    // Toggle recency switch
     await panel.toggleRecency();
 
-    // Get new order of persons
     const personNamesAfter = await panel.getPersonNames();
 
-    // Verify order changed
     expect(personNamesBefore).not.toEqual(personNamesAfter);
 
-    // Toggle back to restore original order
     await panel.toggleRecency();
     const personNamesRestored = await panel.getPersonNames();
     expect(personNamesRestored).toEqual(personNamesBefore);

@@ -1,8 +1,11 @@
-import { TEST_BOOKMARKS, TEST_PERSONS } from '@bypass/shared/tests';
+import {
+  fillSearchInput,
+  TEST_BOOKMARKS,
+  TEST_PERSONS,
+} from '@bypass/shared/tests';
 
-import { expect, test } from '../fixtures/bookmark-fixture';
+import { expect, bookmarkTest as test } from '../fixtures/panel-fixture';
 import { BookmarksPanel } from '../utils/bookmarks-panel';
-import { fillSearchInput } from '../utils/test-utils';
 
 const PERSON_SEARCH_PLACEHOLDER = 'Search persons...';
 

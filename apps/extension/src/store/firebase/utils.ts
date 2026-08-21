@@ -17,7 +17,6 @@ export const mapAuthResponse = (res: IIdentityAuthResponse): IAuthResponse => ({
   photoUrl: res.photoUrl,
   displayName: res.displayName,
   idToken: res.idToken,
-  // The wire format is a string; the helper takes a number
   expiresAtMs: getExpiresAtMs(Number(res.expiresIn)),
   refreshToken: res.refreshToken,
 });

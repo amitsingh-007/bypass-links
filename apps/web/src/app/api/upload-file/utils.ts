@@ -1,5 +1,4 @@
 import { PERSON_IMAGE_SIZE } from '@bypass/shared';
-import { fileTypeFromBuffer } from 'file-type';
 import sharp from 'sharp';
 
 const getCompressedImage = async (buffer: Buffer, fileSize: number) => {
@@ -12,19 +11,18 @@ const getCompressedImage = async (buffer: Buffer, fileSize: number) => {
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
 
 export const validateAndProccessFile = async (file: File) => {
-  // File size check
   if (file.size > MAX_FILE_SIZE) {
     return null;
   }
 
-  // Buffer once: sniffing and compressing both need the bytes, up to 5 MB
   const buffer = Buffer.from(await file.arrayBuffer());
 
-  // Actual file type validation
-  const fileTypeRes = await fileTypeFromBuffer(buffer);
-  if (!fileTypeRes?.mime.startsWith('image/')) {
+  // sharp cannot decode a non-image, so a failed decode is the type check.
+  // Logged because a genuine processing failure lands here too, as the same 400.
+  try {
+    return await getCompressedImage(buffer, file.size);
+  } catch (error) {
+    console.error('Rejected upload, sharp could not process it:', error);
     return null;
   }
-
-  return getCompressedImage(buffer, file.size);
 };

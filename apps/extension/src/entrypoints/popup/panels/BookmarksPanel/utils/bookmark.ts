@@ -16,9 +16,6 @@ import {
   hasPendingBookmarksItem,
   hasPendingPersonsItem,
 } from '@/storage/items';
-import useProgressStore from '@/store/progress';
-
-import { SIGN_IN_TOTAL_STEPS } from '../../HomePopup/constants/progress';
 
 export const syncBookmarksToStorage = async () => {
   const bookmarks = await trpcApi.firebaseData.bookmarksGet.query();
@@ -37,17 +34,15 @@ export const syncBookmarksAndPersonsFirebaseWithStorage = async () => {
     bookmarksItem.getValue(),
     personsItem.getValue(),
   ]);
-  const isSaveSuccess = await trpcApi.firebaseData.bookmarkAndPersonSave.mutate(
-    { bookmarks, persons }
-  );
-  if (isSaveSuccess) {
-    await Promise.all([
-      hasPendingBookmarksItem.removeValue(),
-      hasPendingPersonsItem.removeValue(),
-    ]);
-  } else {
-    throw new Error('Error while syncing bookmarks from storage to firebase');
-  }
+  // Throws if the save fails, so the pending flags only clear once it landed
+  await trpcApi.firebaseData.bookmarkAndPersonSave.mutate({
+    bookmarks,
+    persons,
+  });
+  await Promise.all([
+    hasPendingBookmarksItem.removeValue(),
+    hasPendingPersonsItem.removeValue(),
+  ]);
 };
 
 export const resetBookmarks = async () => {
@@ -65,8 +60,6 @@ export const cacheBookmarkFavicons = async () => {
   const faviconUrls = getBookmarkFaviconUrls(bookmarks.urlList, getFaviconUrl);
   await addAllToCache(ECacheBucketKeys.favicon, faviconUrls);
   console.log('Bookmark favicons cached');
-  const { incrementProgress } = useProgressStore.getState();
-  incrementProgress(SIGN_IN_TOTAL_STEPS);
 };
 
 export const findBookmarkById = (

@@ -5,20 +5,19 @@ import { type ECacheBucketKeys } from '../constants/cache';
 
 const limit = pLimit(20);
 
-/** Memoized on the promise; rejections evict so failures aren't cached. */
-const cacheObjPromises = new Map<string, Promise<Cache>>();
-
-export const getCacheObj = async (cacheBucketKey: string) => {
-  const pending = cacheObjPromises.get(cacheBucketKey);
-  if (pending) {
-    return pending;
+const addToOpenCache = async (cache: Cache, url: string) => {
+  const cachedResponse = await cache.match(url);
+  if (cachedResponse) {
+    return;
   }
-  const promise = caches.open(cacheBucketKey).catch((error: unknown) => {
-    cacheObjPromises.delete(cacheBucketKey);
-    throw error;
-  });
-  cacheObjPromises.set(cacheBucketKey, promise);
-  return promise;
+  try {
+    const response = await wretch(url).get().res();
+    await cache.put(url, response);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.debug('Failed to cache favicon:', url, error.message);
+    }
+  }
 };
 
 export const addToCache = async (
@@ -28,29 +27,21 @@ export const addToCache = async (
   if (!url) {
     return;
   }
-  const cache = await getCacheObj(cacheBucketKey);
-  const cachedResponse = await cache.match(url);
-  if (cachedResponse) {
-    return;
-  }
-  try {
-    const response = await wretch(url).get().res();
-    await cache.put(url, response);
-  } catch (error) {
-    // Ignore favicons (404) not found
-    if (error instanceof Error) {
-      console.debug('Failed to cache favicon:', url, error.message);
-    }
-  }
+  await addToOpenCache(await caches.open(cacheBucketKey), url);
 };
 
 export const addAllToCache = async (
   cacheBucketKey: ECacheBucketKeys,
   urls: string[]
 ) => {
-  const uniqueUrls = [...new Set(urls)];
+  const uniqueUrls = [...new Set(urls)].filter(Boolean);
+  // Opening creates the bucket, which isCachePresent would then read as warmed
+  if (uniqueUrls.length === 0) {
+    return;
+  }
+  const cache = await caches.open(cacheBucketKey);
   const cachePromises = uniqueUrls.map(async (url) =>
-    limit(async () => addToCache(cacheBucketKey, url))
+    limit(async () => addToOpenCache(cache, url))
   );
   await Promise.all(cachePromises);
 };
@@ -58,19 +49,15 @@ export const addAllToCache = async (
 /** One blob url per url; `createObjectURL` pins its blob for the document lifetime. */
 const blobUrlCache = new Map<string, string>();
 
-const revokeBlobUrl = (url: string) => {
+export const evictBlobUrl = (url?: string) => {
+  if (!url) {
+    return;
+  }
   const blobUrl = blobUrlCache.get(url);
   if (blobUrl) {
     URL.revokeObjectURL(blobUrl);
   }
   blobUrlCache.delete(url);
-};
-
-/** Drop one entry, for when its underlying cached bytes are replaced. */
-export const evictBlobUrl = (url?: string) => {
-  if (url) {
-    revokeBlobUrl(url);
-  }
 };
 
 /** Variant taking an already-open Cache, to open the bucket once for many urls. */
@@ -95,23 +82,15 @@ export const getBlobUrlFromOpenCache = async (cache: Cache, url?: string) => {
 export const getBlobUrlFromCache = async (
   cacheBucketKey: ECacheBucketKeys,
   url: string
-) => {
-  if (!url) {
-    return '';
-  }
-  const existing = blobUrlCache.get(url);
-  if (existing) {
-    return existing;
-  }
-  return getBlobUrlFromOpenCache(await getCacheObj(cacheBucketKey), url);
-};
+) =>
+  blobUrlCache.get(url) ??
+  getBlobUrlFromOpenCache(await caches.open(cacheBucketKey), url);
 
 export const deleteCache = async (bucketKey: string) => {
-  const cache = await getCacheObj(bucketKey);
+  const cache = await caches.open(bucketKey);
   const keys = await cache.keys();
-  keys.forEach((request) => revokeBlobUrl(request.url));
+  keys.forEach((request) => evictBlobUrl(request.url));
   await caches.delete(bucketKey);
-  cacheObjPromises.delete(bucketKey);
 };
 
 export const deleteAllCache = async (cacheBucketKeys: ECacheBucketKeys[]) => {

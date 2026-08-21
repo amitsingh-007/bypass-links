@@ -40,7 +40,6 @@ export const BookmarksAndPersonsValidationSchema = z
           const isMismatch = bmData.taggedPersons.some(
             (personId) => !persons[personId]
           );
-          // Check if the bookmark is tagged to a missing person
           if (isMismatch) {
             console.error(`Bookmark ${bmId} is mismatch`, bmData);
             return false;
@@ -61,13 +60,11 @@ export const BookmarksAndPersonsValidationSchema = z
             continue;
           }
           const parentFolder = bookmarks.folders[bmData.parentHash];
-          // Check if the parent folder exists
           if (!parentFolder) {
             console.error(`Bookmark ${bmId} parent data not found`, bmData);
             return false;
           }
           const isMissing = !parentFolder.some((item) => item.hash === bmId);
-          // Check if bookmark is referenced in some folder
           if (isMissing) {
             console.error(`Bookmark ${bmId} is missing`, bmData);
             return false;

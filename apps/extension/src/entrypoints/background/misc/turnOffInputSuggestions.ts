@@ -33,8 +33,8 @@ const turnOffAutocomplete = () => {
   });
 };
 
-const turnOffInputSuggestions = (tabId: number) => {
-  browser.scripting.executeScript({
+const turnOffInputSuggestions = async (tabId: number) => {
+  await browser.scripting.executeScript({
     target: { tabId },
     func: turnOffAutocomplete,
   });

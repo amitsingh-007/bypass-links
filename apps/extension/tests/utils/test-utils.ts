@@ -3,8 +3,6 @@ import { expect, type Page } from '@playwright/test';
 
 import { POPUP_HOMEPAGE } from '@/constants';
 
-// Re-export shared utilities for convenience
-
 export const gotoPanel = async (
   page: Page,
   panelName: 'Bookmarks' | 'Persons' | 'Shortcuts'
@@ -16,9 +14,6 @@ export const gotoPanel = async (
   await expect(page.getByPlaceholder('Search')).toBeVisible();
 };
 
-/**
- * Navigate back from current folder or panel.
- */
 export const navigateBack = async (page: Page) => {
   const backButton = page
     .locator('[aria-label="back"]')
@@ -28,9 +23,6 @@ export const navigateBack = async (page: Page) => {
   await backButton.click({ force: true });
 };
 
-/**
- * Open a dialog by clicking a button and waiting for the dialog to appear.
- */
 export const openDialog = async (
   page: Page,
   buttonName: string | RegExp,
@@ -45,9 +37,6 @@ export const openDialog = async (
   return dialog;
 };
 
-/**
- * Fill an input inside a dialog by placeholder text.
- */
 export const fillDialogInput = async (
   dialog: ReturnType<Page['getByRole']>,
   placeholder: string,
@@ -57,9 +46,6 @@ export const fillDialogInput = async (
   await input.fill(value);
 };
 
-/**
- * Click a button inside a dialog by its name.
- */
 export const clickDialogButton = async (
   dialog: ReturnType<Page['getByRole']>,
   name: string
@@ -68,27 +54,18 @@ export const clickDialogButton = async (
   await button.click();
 };
 
-/**
- * Click a specific context menu option by id.
- */
 export const clickContextMenuItem = async (page: Page, id: string) => {
   const menuItem = page.getByTestId(`context-menu-item-${id}`);
   await expect(menuItem).toBeVisible();
   await menuItem.click();
 };
 
-/**
- * Open a folder by clicking on it.
- */
 export const openFolder = async (page: Page, folderName: string) => {
   const folder = page.getByTestId(`folder-item-${folderName}`);
   await expect(folder).toBeVisible();
   await folder.click();
 };
 
-/**
- * Get item from chrome.storage.local
- */
 export const getStorageItem = async <T = unknown>(
   page: Page,
   key: string
@@ -99,9 +76,6 @@ export const getStorageItem = async <T = unknown>(
   }, key);
 };
 
-/**
- * Get badge count from person bookmark count badge.
- */
 export const getBadgeCount = async (
   page: Page,
   name: string
@@ -119,14 +93,3 @@ export const getBadgeCount = async (
 
   return parseBadgeCount(badgeText);
 };
-
-export {
-  clickDropdownPersonAndGetName,
-  closeDialog,
-  clearSearchInput,
-  dblclickBookmark,
-  fillSearchInput,
-  getHeaderPersonCount,
-  getNumericBadgeValue,
-  parseBadgeCount,
-} from '@bypass/shared/tests';

@@ -1,6 +1,6 @@
 import { TEST_PERSONS } from '@bypass/shared/tests';
 
-import { expect, test } from '../fixtures/persons-fixture';
+import { expect, personsTest as test } from '../fixtures/panel-fixture';
 import { BookmarksPanel } from '../utils/bookmarks-panel';
 import { PersonsPanel } from '../utils/persons-panel';
 

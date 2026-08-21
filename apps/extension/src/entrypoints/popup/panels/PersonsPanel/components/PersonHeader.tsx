@@ -53,7 +53,6 @@ function PersonHeader({
       </Header>
       {showAddPersonDialog && (
         <AddOrEditPersonDialog
-          isOpen={showAddPersonDialog}
           handleSaveClick={handlePersonSave}
           onClose={addPersonDialogHandlers.close}
         />

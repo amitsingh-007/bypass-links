@@ -15,9 +15,7 @@
   "aliases": {
     "components": "@bypass/ui/components",
     "utils": "@bypass/ui/lib/utils",
-    "ui": "@bypass/ui/components/ui",
-    "lib": "@bypass/ui/lib",
-    "hooks": "@bypass/ui/hooks"
+    "ui": "@bypass/ui/components/ui"
   },
   "menuColor": "default",
   "menuAccent": "bold",

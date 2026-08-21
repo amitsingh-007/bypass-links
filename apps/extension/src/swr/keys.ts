@@ -21,7 +21,6 @@ export const extSwrKeyMatchers = {
   quickBookmark: matchKeyPrefix(QUICK_BOOKMARK),
 } as const;
 
-/** A wrapper, so a new extension write path cannot forget to pass matchers. */
 export const invalidateExtBookmarkKeys = async () => {
   await Promise.all([
     invalidateBookmarkKeys(),

@@ -51,21 +51,18 @@ function ToggleHistory() {
   };
   const onMonitorHistory = useEffectEvent(turnOnHistory);
 
-  // Init toggle on mount
   useEffect(() => {
     historyStartTimeItem.getValue().then((historyStartTime) => {
       setIsHistoryActive(Boolean(historyStartTime));
     });
   }, [setIsHistoryActive]);
 
-  // Turn off history when extension is off
   useEffect(() => {
     if (!isExtensionActive) {
       onExtensionInactive();
     }
   }, [isExtensionActive]);
 
-  // Turn on history on store change
   useEffect(() => {
     if (monitorHistory) {
       onMonitorHistory();

@@ -9,31 +9,19 @@ import { BookmarksPanel } from '../utils/bookmarks-panel';
 import { getHistoryItems } from '../utils/history-utils';
 import { PopupHomePanel } from '../utils/home-panel';
 
-/**
- * ToggleHistory E2E Tests
- *
- * Tests the ToggleHistory component which enables/disables browser history tracking.
- * When turned off, it deletes the tracked history range from Chrome's history.
- */
-
 test.describe('History Tracking Workflow', () => {
   test.describe.configure({ mode: 'parallel' });
   test('should turn on history tracking', async ({ homePage }) => {
     const homePanel = new PopupHomePanel(homePage);
 
-    // Ensure history tracking starts in OFF state
     await homePanel.setHistoryEnabled(false);
 
-    // Verify initial state is off
     await expect(homePanel.historyToggle).not.toBeChecked();
 
-    // Turn on history tracking
     await homePanel.setHistoryEnabled(true);
 
-    // Verify switch is now checked
     await expect(homePanel.historyToggle).toBeChecked();
 
-    // Verify historyStartTime is set in browser.storage.local
     await homePanel.verifyHistoryStartTime();
   });
 
@@ -105,11 +93,9 @@ test.describe('History Tracking Workflow', () => {
   }) => {
     const homePanel = new PopupHomePanel(homePage);
 
-    // Ensure history tracking starts in OFF state
     await homePanel.setHistoryEnabled(false);
     await expect(homePanel.historyToggle).not.toBeChecked();
 
-    // Navigate to Bookmarks Panel
     await homePanel.navigateToBookmarks();
 
     const panel = new BookmarksPanel(homePage);
@@ -119,13 +105,10 @@ test.describe('History Tracking Workflow', () => {
     });
     await newPage.close();
 
-    // Navigate back to Home page to verify the toggle
     await panel.navigateBack();
 
-    // Verify history tracking is now ON
     await expect(homePanel.historyToggle).toBeChecked();
 
-    // Verify historyStartTime is set in storage
     await homePanel.verifyHistoryStartTime();
   });
 });

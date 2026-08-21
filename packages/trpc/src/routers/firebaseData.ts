@@ -8,7 +8,6 @@ import {
 } from '@bypass/shared/schema';
 import { z } from 'zod/mini';
 
-import { protectedProcedure } from '../procedures';
 import {
   getBookmarks,
   getLastVisited,
@@ -19,56 +18,57 @@ import {
   saveRedirections,
   upsertLastVisited,
 } from '../services/firebase/realtimeDBService';
-import { t } from '../trpc';
+import { protectedProcedure, t } from '../trpc';
 
 const firebaseDataRouter = t.router({
   bookmarksGet: protectedProcedure
     .output(BookmarksObjSchema)
     .query(async ({ ctx }) => {
-      return getBookmarks(ctx.user);
+      return getBookmarks(ctx.user.uid);
     }),
 
   personsGet: protectedProcedure
     .output(PersonsSchema)
     .query(async ({ ctx }) => {
-      return getPersons(ctx.user);
+      return getPersons(ctx.user.uid);
     }),
 
   bookmarkAndPersonSave: protectedProcedure
     .input(BookmarksAndPersonsValidationSchema)
-    .output(z.boolean())
     .mutation(async ({ input, ctx }) => {
-      return saveBookmarksAndPersons(input.bookmarks, input.persons, ctx.user);
+      return saveBookmarksAndPersons(
+        input.bookmarks,
+        input.persons,
+        ctx.user.uid
+      );
     }),
 
   websitesGet: protectedProcedure
     .output(WebsitesSchema)
     .query(async ({ ctx }) => {
-      return getWebsites(ctx.user);
+      return getWebsites(ctx.user.uid);
     }),
 
   lastVisitedGet: protectedProcedure
     .output(LastVisitedSchema)
     .query(async ({ ctx }) => {
-      return getLastVisited(ctx.user);
+      return getLastVisited(ctx.user.uid);
     }),
   upsertLastVisited: protectedProcedure
     .input(z.object({ hash: z.string() }))
-    .output(z.object({ hash: z.string(), timestamp: z.number() }))
     .mutation(async ({ input, ctx }) => {
-      return upsertLastVisited(input.hash, ctx.user);
+      return upsertLastVisited(input.hash, ctx.user.uid);
     }),
 
   redirectionsGet: protectedProcedure
     .output(RedirectionsSchema)
     .query(async ({ ctx }) => {
-      return getRedirections(ctx.user);
+      return getRedirections(ctx.user.uid);
     }),
   redirectionsPost: protectedProcedure
     .input(RedirectionsSchema)
-    .output(z.boolean())
     .mutation(async ({ input, ctx }) => {
-      return saveRedirections(input, ctx.user);
+      return saveRedirections(input, ctx.user.uid);
     }),
 });
 

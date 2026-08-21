@@ -6,7 +6,6 @@ import {
   hasPendingBookmarksItem,
   hasPendingPersonsItem,
 } from '@/storage/items';
-import { getIsExtensionActive } from '@/utils/common';
 import { type RuntimeInput } from '@/utils/sendRuntimeMessage';
 
 import turnOffInputSuggestions from './misc/turnOffInputSuggestions';
@@ -19,20 +18,27 @@ const onPageLoad = async (tabId: number, url: string) => {
   if (!isValidUrl(url)) {
     return;
   }
-  const [extState, tab] = await Promise.all([
-    getExtState(),
-    browser.tabs.get(tabId),
-  ]);
-  if (!getIsExtensionActive(extState)) {
-    return;
-  }
-  // Superseded by a newer navigation while we awaited
-  if (tab.url !== url) {
-    return;
-  }
+  try {
+    const [extState, tab] = await Promise.all([
+      getExtState(),
+      browser.tabs.get(tabId),
+    ]);
+    if (extState !== EExtensionState.ACTIVE) {
+      return;
+    }
+    // Superseded by a newer navigation while we awaited
+    if (tab.url !== url) {
+      return;
+    }
 
-  redirect(tabId, new URL(url));
-  turnOffInputSuggestions(tabId);
+    await Promise.all([
+      redirect(tabId, new URL(url)),
+      turnOffInputSuggestions(tabId),
+    ]);
+  } catch (error) {
+    // The tab can close or navigate on mid-flight, so these reject routinely
+    console.debug('Skipped page load handling for', url, error);
+  }
 };
 
 const isMainFrame = (frameId: number) => frameId === 0;
@@ -53,26 +59,18 @@ const updateIcon = async () => {
 export default defineBackground({
   type: 'module',
   main() {
-    // First time extension install
     browser.runtime.onInstalled.addListener(() => {
       extStateItem.setValue(EExtensionState.ACTIVE);
     });
 
     browser.runtime.onStartup.addListener(updateIcon);
 
-    // Listen tab url change
     browser.tabs.onUpdated.addListener(async (tabId, changeInfo) =>
       onPageLoad(tabId, changeInfo?.url ?? '')
     );
 
-    /**
-     * NOTE: Can remove browser.tabs.onUpdated in favor of this
-     * @link https://stackoverflow.com/questions/16949810/how-can-i-run-this-script-when-the-tab-reloads-chrome-extension
-     *
-     * Registered once instead of nesting a listener per reload, which was
-     * neither tab-filtered nor reliably removed. frameId 0 keeps subframes from
-     * consuming the tab's pending reload.
-     */
+    // Registered once, not per reload: the old nested listener was neither
+    // tab-filtered nor reliably removed. frameId 0 keeps subframes from eating it.
     const reloadingTabIds = new Set<number>();
     const clearReloading = ({
       tabId,
@@ -112,7 +110,6 @@ export default defineBackground({
       reloadingTabIds.delete(tabId);
     });
 
-    // Listen to dispatched messages
     browser.runtime.onMessage.addListener((message, _sender, sendResponse) => {
       receiveRuntimeMessage(message as RuntimeInput, sendResponse);
       return true;

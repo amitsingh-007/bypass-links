@@ -4,7 +4,6 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 import { type ReactNode, useState } from 'react';
 
 import useIsMobile from '../../../hooks/useIsMobile';
-import { deserializeQueryStringToObject } from '../../../utils/url';
 import { ScrollButton } from '../../ScrollButton';
 import usePersonImageMap from '../hooks/usePersonImageMap';
 import { type IBookmarkWithFolder } from '../interfaces/bookmark';
@@ -16,10 +15,8 @@ interface Props {
   persons: IPerson[];
   queryString: string;
   scrollButton?: boolean;
-  bookmarkListProps: {
-    fullscreen: boolean;
-    onBookmarkEdit?: (bookmark: IBookmarkWithFolder) => void;
-  };
+  fullscreen: boolean;
+  onBookmarkEdit?: (bookmark: IBookmarkWithFolder) => void;
   renderPerson: (person: IPerson, imageUrl: string) => ReactNode;
 }
 
@@ -34,7 +31,8 @@ type InnerProps = Props & {
 function PersonsInner({
   persons,
   scrollButton = false,
-  bookmarkListProps,
+  fullscreen,
+  onBookmarkEdit,
   bodyWidth,
   scrollElement,
   personToOpen,
@@ -98,7 +96,8 @@ function PersonsInner({
       <BookmarksList
         personToOpen={personToOpen}
         imageUrl={personToOpenImage}
-        {...bookmarkListProps}
+        fullscreen={fullscreen}
+        onBookmarkEdit={onBookmarkEdit}
       />
     </>
   );
@@ -111,8 +110,8 @@ function Persons(props: Props) {
   const [scrollElement, setScrollElement] = useState<HTMLDivElement | null>(
     null
   );
-  const { openBookmarksList } = deserializeQueryStringToObject(
-    props.queryString
+  const { openBookmarksList } = Object.fromEntries(
+    new URLSearchParams(props.queryString)
   );
   const personToOpen = persons.find(
     (person) => person.uid === openBookmarksList

@@ -13,8 +13,6 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "firebase": "catalog:",
-    "type-fest": "catalog:",
     "typescript": "catalog:"
   },
   "peerDependencies": {

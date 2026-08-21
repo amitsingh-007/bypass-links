@@ -6,7 +6,6 @@
   "sideEffects": false,
   "exports": {
     ".": "./src/index.ts",
-    "./styles/*": "./src/styles/*",
     "./schema": "./src/schemaIndex.ts",
     "./types/*": "./src/@types/*",
     "./tests": "./src/testIndex.ts"
@@ -23,7 +22,6 @@
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "@bypass/configs": "workspace:*",
     "@bypass/ui": "workspace:*",
     "@hugeicons/core-free-icons": "catalog:",
     "@hugeicons/react": "catalog:",

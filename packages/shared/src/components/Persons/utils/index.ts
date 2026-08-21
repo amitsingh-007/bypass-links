@@ -1,6 +1,6 @@
 import { ECacheBucketKeys } from '../../../constants/cache';
 import { addAllToCache } from '../../../utils/cache';
-import { hasText } from '../../../utils/search';
+import { matchesSearch } from '../../../utils/search';
 import { type IEncodedBookmark } from '../../Bookmarks/interfaces';
 import {
   type IPerson,
@@ -9,7 +9,7 @@ import {
 } from '../interfaces/persons';
 
 /** Field by field, so view-model extras cannot reach storage or Firebase. */
-export const getDecryptedPerson = ({ uid, name }: IPerson): IPerson => ({
+const getDecryptedPerson = ({ uid, name }: IPerson): IPerson => ({
   uid,
   name: atob(name),
 });
@@ -27,6 +27,19 @@ export const decodePersons = (persons: IPersons): IPerson[] =>
 export const getReactKey = (row: number, column: number, size: number) =>
   row * size + column;
 
+/**
+ * Highest priority first; anything absent from the map sorts last. Shared so
+ * the `?? -1` descending convention cannot drift between the two orderings.
+ */
+export const sortByPriority = <T>(
+  items: T[],
+  keyOf: (item: T) => string,
+  priority: Record<string, number>
+) =>
+  [...items].toSorted(
+    (a, b) => (priority[keyOf(b)] ?? -1) - (priority[keyOf(a)] ?? -1)
+  );
+
 export const sortByRecency = <T extends IPerson>(
   persons: T[],
   urls: IEncodedBookmark[]
@@ -38,24 +51,19 @@ export const sortByRecency = <T extends IPerson>(
     });
   });
 
-  return [...persons].toSorted((p1, p2) => {
-    const priority1 = personPriorityMap[p1.uid] ?? -1;
-    const priority2 = personPriorityMap[p2.uid] ?? -1;
-    return priority2 - priority1;
-  });
+  return sortByPriority(persons, ({ uid }) => uid, personPriorityMap);
 };
 
 export const sortAlphabetically = <T extends IPerson>(persons: T[]) =>
   persons.toSorted((a, b) => a.name.localeCompare(b.name));
 
 export const getFilteredPersons = (persons: IPerson[], searchText: string) =>
-  persons.filter(({ name }) => !searchText || hasText(searchText, name));
+  persons.filter(({ name }) => matchesSearch(searchText, name));
 
 export const getColumnCount = (isMobile: boolean) => (isMobile ? 3 : 5);
 
 export const getPersonImageName = (uid: string) => `${uid}.jpeg`;
 
-/** Parameterised on the resolver so each app can pass its own tRPC client. */
 export const buildPersonImageUrls = async (
   uids: string[],
   getDownloadUrl: (fileName: string) => Promise<string>

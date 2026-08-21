@@ -1,3 +1,2 @@
-import { getYandexFaviconUrl } from '@bypass/shared';
-
-export const getFaviconUrl = getYandexFaviconUrl;
+export const getFaviconUrl = (url: string) =>
+  `https://favicon.yandex.net/favicon/${new URL(url).hostname}`;

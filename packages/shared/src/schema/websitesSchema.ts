@@ -7,3 +7,5 @@ export const WebsitesSchema = z.object({
   FORUM_3: z.optional(z.string()),
   FORUM_4: z.optional(z.string()),
 });
+
+export type IWebsites = z.infer<typeof WebsitesSchema>;

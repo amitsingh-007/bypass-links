@@ -8,14 +8,11 @@ import { getDownloadURL, getStorage } from 'firebase-admin/storage';
 import { z } from 'zod/mini';
 
 import { env } from '../constants/env';
-import {
-  type EFirebaseDBRef,
-  type EFirebaseDBRootKeys,
-} from '../constants/firebase';
+import { type EFirebaseDBRef } from '../constants/firebase';
 import { getFullDbPath, getFilePath, getBucketPath } from '../utils/firebase';
 
 interface Firebase {
-  ref: EFirebaseDBRef | EFirebaseDBRootKeys;
+  ref: EFirebaseDBRef;
   uid?: string;
   data: object;
 }
@@ -55,61 +52,29 @@ const auth = getAuth(firebaseApp);
 const database = getDatabase(firebaseApp);
 const storage = getStorage(firebaseApp);
 
-/**
- * REALTIME DATABASE
- */
-/** Returns null when empty; callers supply their own schema-appropriate default. */
+/** Firebase yields null for empty refs; fallback keeps callers total. */
 export const getFromFirebase = async <T = any>({
   ref,
   uid,
-}: Omit<Firebase, 'data'>): Promise<T | null> => {
+  fallback,
+}: Omit<Firebase, 'data'> & { fallback: T }): Promise<T> => {
   const dbPath = getFullDbPath(ref, uid);
   const snapshot = await database.ref(dbPath).once('value');
-  return snapshot.val() ?? null;
+  return snapshot.val() ?? fallback;
 };
 
-/**
- * Saves data to Firebase Realtime Database using `.set()` which replaces the entire object at the path.
- * Use this when you want to completely replace the existing data.
- */
 export const saveToFirebase = async ({ ref, uid, data }: Firebase) => {
-  try {
-    await database.ref(getFullDbPath(ref, uid)).set(data);
-    return true;
-  } catch (error) {
-    console.error(`Error while saving data to Firebase DB: ${ref}`, error);
-    return false;
-  }
+  await database.ref(getFullDbPath(ref, uid)).set(data);
 };
 
-/**
- * Updates data in Firebase Realtime Database using `.update()` which merges/partially updates the object.
- * - Provided keys are updated with new values
- * - New keys that don't exist are inserted (upsert)
- * - Existing keys not provided remain unchanged
- * Use this for efficient single-entry updates.
- */
+/** `.update()`: merges the given keys, inserts missing ones, leaves the rest. */
 export const upsertToFirebase = async ({ ref, uid, data }: Firebase) => {
-  try {
-    await database.ref(getFullDbPath(ref, uid)).update(data);
-    return true;
-  } catch (error) {
-    console.error(`Error while upserting data to Firebase DB: ${ref}`, error);
-    return false;
-  }
+  await database.ref(getFullDbPath(ref, uid)).update(data);
 };
 
-/**
- * AUTH
- */
-export const verifyAuthToken = async (
-  idToken: string,
-  checkRevoked?: boolean
-) => auth.verifyIdToken(idToken, checkRevoked);
+export const verifyAuthToken = (idToken: string) =>
+  auth.verifyIdToken(idToken, true);
 
-/**
- * STORAGE
- */
 export const uploadImageToFirebase = async (
   uid: string,
   {
@@ -132,15 +97,8 @@ export const uploadImageToFirebase = async (
   }
 };
 
-export const getFileFromFirebase = async (uid: string, fileName: string) => {
-  const fileRef = storage.bucket().file(getFilePath(uid, fileName));
-  try {
-    return await getDownloadURL(fileRef);
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
+export const getFileFromFirebase = (uid: string, fileName: string) =>
+  getDownloadURL(storage.bucket().file(getFilePath(uid, fileName)));
 
 export const removeFileFromFirebase = async (uid: string, fileName: string) => {
   await storage.bucket().file(getFilePath(uid, fileName)).delete();
