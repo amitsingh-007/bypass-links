@@ -3,7 +3,7 @@ import { type DecodedIdToken } from 'firebase-admin/auth';
 import { type IUser } from '../@types/trpc';
 import { verifyAuthToken } from '../services/firebaseAdminService';
 
-export type AuthorizationResult =
+type AuthorizationResult =
   | { ok: true; user: IUser }
   | { ok: false; status: 401 | 403; message: string };
 

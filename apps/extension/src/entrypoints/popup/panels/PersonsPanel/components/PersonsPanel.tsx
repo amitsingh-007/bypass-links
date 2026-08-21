@@ -30,10 +30,9 @@ import PersonHeader from './PersonHeader';
 import PersonVirtualCell from './PersonVirtualCell';
 
 const handleSave = async (persons: IPerson[]) => {
-  const encryptedPersons = persons.reduce<IPersons>((obj, person) => {
-    obj[person.uid] = getEncryptedPerson(person);
-    return obj;
-  }, {});
+  const encryptedPersons: IPersons = Object.fromEntries(
+    persons.map((person) => [person.uid, getEncryptedPerson(person)])
+  );
   await setPersonsInStorage(encryptedPersons);
 };
 

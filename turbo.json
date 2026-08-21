@@ -3,13 +3,7 @@
   "noUpdateNotifier": true,
   "cacheMaxAge": "7d",
   "globalDependencies": [".env", ".oxlintrc.json", ".oxfmtrc.json"],
-  "globalEnv": [
-    "NEXT_PUBLIC_*",
-    "FIREBASE_*",
-    "GITHUB_TOKEN",
-    "PLAYWRIGHT_TEST_BASE_URL",
-    "COVERAGE"
-  ],
+  "globalEnv": ["NEXT_PUBLIC_*", "FIREBASE_*", "GITHUB_TOKEN", "COVERAGE"],
   "globalPassThroughEnv": ["COREPACK_HOME", "ENABLE_EXPERIMENTAL_COREPACK"],
   "tasks": {
     "build": {

@@ -10,7 +10,6 @@ const isCI = Boolean(ciBaseUrl);
 const ARTIFACTS_DIR = '.playwright';
 
 const config = defineConfig({
-  globalTimeout: 30 * 60 * 1000,
   expect: { timeout: 5000 },
   globalTeardown: './tests/coverage-report.ts',
   forbidOnly: isCI,
