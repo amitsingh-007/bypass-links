@@ -34,8 +34,12 @@ export const addAllToCache = async (
   cacheBucketKey: ECacheBucketKeys,
   urls: string[]
 ) => {
-  const cache = await caches.open(cacheBucketKey);
   const uniqueUrls = [...new Set(urls)].filter(Boolean);
+  // Opening creates the bucket, which isCachePresent would then read as warmed
+  if (uniqueUrls.length === 0) {
+    return;
+  }
+  const cache = await caches.open(cacheBucketKey);
   const cachePromises = uniqueUrls.map(async (url) =>
     limit(async () => addToOpenCache(cache, url))
   );

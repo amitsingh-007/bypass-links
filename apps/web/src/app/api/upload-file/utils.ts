@@ -17,10 +17,12 @@ export const validateAndProccessFile = async (file: File) => {
 
   const buffer = Buffer.from(await file.arrayBuffer());
 
-  // sharp cannot decode a non-image, so a failed decode is the type check
+  // sharp cannot decode a non-image, so a failed decode is the type check.
+  // Logged because a genuine processing failure lands here too, as the same 400.
   try {
     return await getCompressedImage(buffer, file.size);
-  } catch {
+  } catch (error) {
+    console.error('Rejected upload, sharp could not process it:', error);
     return null;
   }
 };
