@@ -25,7 +25,7 @@ import {
 } from '@bypass/ui';
 import { useDisclosure } from '@mantine/hooks';
 import { useForm } from '@tanstack/react-form';
-import { useCallback, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLocation } from 'wouter';
 import { z } from 'zod/mini';
 import { useShallow } from 'zustand/react/shallow';
@@ -132,14 +132,14 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
     },
   });
 
-  const resolveBookmark = useCallback(
-    async (currentOperation: EBookmarkOperation, currentBmUrl: string) => {
-      if (currentOperation === EBookmarkOperation.ADD) {
+  useEffect(() => {
+    const resolveBookmark = async () => {
+      if (operation === EBookmarkOperation.ADD) {
         const { title = '' } = await getCurrentTab();
         form.reset({
           id: crypto.randomUUID(),
           pos: contextBookmarks.length,
-          url: currentBmUrl,
+          url: bmUrl,
           title,
           folderId: defaultFolderId ?? ROOT_FOLDER_ID,
           taggedPersons: [],
@@ -149,7 +149,7 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
       }
 
       const pos = contextBookmarks.findIndex(
-        (x) => !x.isDir && x.url === currentBmUrl
+        (x) => !x.isDir && x.url === bmUrl
       );
       if (pos !== -1) {
         const bookmark = contextBookmarks[pos];
@@ -168,15 +168,20 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
         });
         dialogHandlers.open();
       }
-    },
-    [contextBookmarks, curFolderId, defaultFolderId, form, dialogHandlers]
-  );
+    };
 
-  useEffect(() => {
     if (operation !== EBookmarkOperation.NONE) {
-      resolveBookmark(operation, bmUrl);
+      resolveBookmark();
     }
-  }, [bmUrl, operation, resolveBookmark]);
+  }, [
+    bmUrl,
+    contextBookmarks,
+    curFolderId,
+    defaultFolderId,
+    dialogHandlers,
+    form,
+    operation,
+  ]);
 
   const closeDialog = () => {
     if (openDialog) {

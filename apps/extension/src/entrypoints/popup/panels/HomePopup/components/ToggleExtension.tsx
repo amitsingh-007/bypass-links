@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 
 import { EExtensionState } from '@/constants';
 import { extStateItem } from '@/storage/items';
-import { getIsExtensionActive } from '@/utils/common';
 import useExtStore from '@store/extension';
 
 function ToggleExtension() {
@@ -14,7 +13,7 @@ function ToggleExtension() {
 
   useEffect(() => {
     extStateItem.getValue().then((extState) => {
-      setIsExtensionActive(getIsExtensionActive(extState));
+      setIsExtensionActive(extState === EExtensionState.ACTIVE);
     });
   }, [setIsExtensionActive]);
 

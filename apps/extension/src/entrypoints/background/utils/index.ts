@@ -1,5 +1,4 @@
-import { type EExtensionState } from '@/constants';
-import { getIsExtensionActive } from '@/utils/common';
+import { EExtensionState } from '@/constants';
 
 /** Store fronts the browsers refuse to script. */
 const restrictedHosts = new Set([
@@ -22,7 +21,7 @@ export const setExtensionIcon = async ({
     if (hasPendingBookmarks || hasPendingPersons) {
       return 'assets/bypass_link_pending_32.png';
     }
-    return getIsExtensionActive(extState)
+    return extState === EExtensionState.ACTIVE
       ? 'assets/bypass_link_on_32.png'
       : 'assets/bypass_link_off_32.png';
   };

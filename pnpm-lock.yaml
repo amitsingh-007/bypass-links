@@ -45,9 +45,6 @@ catalogs:
     '@tanstack/react-form':
       specifier: 1.33.2
       version: 1.33.2
-    '@tanstack/react-store':
-      specifier: 0.11.0
-      version: 0.11.0
     '@tanstack/react-virtual':
       specifier: 3.14.9
       version: 3.14.9
@@ -263,9 +260,6 @@ importers:
       '@tanstack/react-form':
         specifier: 'catalog:'
         version: 1.33.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
-      '@tanstack/react-store':
-        specifier: 'catalog:'
-        version: 0.11.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@tanstack/react-virtual':
         specifier: 'catalog:'
         version: 3.14.9(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -278,9 +272,6 @@ importers:
       class-variance-authority:
         specifier: 'catalog:'
         version: 0.7.1
-      next-themes:
-        specifier: 'catalog:'
-        version: 0.4.6(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       p-limit:
         specifier: 'catalog:'
         version: 7.3.1

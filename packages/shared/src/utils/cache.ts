@@ -5,21 +5,8 @@ import { type ECacheBucketKeys } from '../constants/cache';
 
 const limit = pLimit(20);
 
-/** Memoized on the promise; rejections evict so failures aren't cached. */
-const cacheObjPromises = new Map<string, Promise<Cache>>();
-
-export const getCacheObj = async (cacheBucketKey: string) => {
-  const pending = cacheObjPromises.get(cacheBucketKey);
-  if (pending) {
-    return pending;
-  }
-  const promise = caches.open(cacheBucketKey).catch((error: unknown) => {
-    cacheObjPromises.delete(cacheBucketKey);
-    throw error;
-  });
-  cacheObjPromises.set(cacheBucketKey, promise);
-  return promise;
-};
+export const getCacheObj = (cacheBucketKey: string) =>
+  caches.open(cacheBucketKey);
 
 export const addToCache = async (
   cacheBucketKey: ECacheBucketKeys,
@@ -97,7 +84,6 @@ export const deleteCache = async (bucketKey: string) => {
   const keys = await cache.keys();
   keys.forEach((request) => evictBlobUrl(request.url));
   await caches.delete(bucketKey);
-  cacheObjPromises.delete(bucketKey);
 };
 
 export const deleteAllCache = async (cacheBucketKeys: ECacheBucketKeys[]) => {

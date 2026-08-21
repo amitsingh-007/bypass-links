@@ -9,7 +9,7 @@ import {
 } from '@bypass/shared';
 import { ScrollArea } from '@bypass/ui';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { use, useCallback, useEffect, useRef, useState } from 'react';
+import { use, useEffect, useRef, useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 
 import { MAX_PANEL_SIZE } from '@/constants';
@@ -58,11 +58,8 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
     getItemKey: (idx) => filteredContextBookmarks[idx].id,
   });
 
-  // Memoized: exhaustive-deps wants a stable identity for the effect below
-  const handleScroll = useCallback(
-    (itemNumber: number) => virtualizer.scrollToIndex(itemNumber),
-    [virtualizer]
-  );
+  const handleScroll = (itemNumber: number) =>
+    virtualizer.scrollToIndex(itemNumber);
 
   // Right-clicked row wins over the selection, which anything can clear mid-gesture
   const handleOpenBookmarks = (id: string) => {
@@ -87,9 +84,9 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
 
   useEffect(() => {
     if (!isFetching) {
-      handleScroll(0);
+      virtualizer.scrollToIndex(0);
     }
-  }, [isFetching, handleScroll]);
+  }, [isFetching, virtualizer]);
 
   useEffect(() => {
     if (folderId) {

@@ -49,7 +49,11 @@
         "apps/web/**/*.{ts,tsx}",
         "packages/shared/**/*.{ts,tsx}"
       ],
-      "rules": { "react/react-compiler": "error" }
+      "rules": {
+        "react/react-compiler": "error",
+        // React Compiler memoizes context values, making manual useMemo unnecessary.
+        "react/jsx-no-constructed-context-values": "off"
+      }
     },
     {
       "files": ["apps/*/tests/**/*.ts"],

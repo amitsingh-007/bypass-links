@@ -17,8 +17,7 @@ import {
 import { UserWarning03Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { useDisclosure } from '@mantine/hooks';
-import { useForm } from '@tanstack/react-form';
-import { useSelector } from '@tanstack/react-store';
+import { useForm, useSelector } from '@tanstack/react-form';
 import { useState } from 'react';
 import { z } from 'zod/mini';
 

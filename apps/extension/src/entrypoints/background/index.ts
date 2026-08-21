@@ -6,7 +6,6 @@ import {
   hasPendingBookmarksItem,
   hasPendingPersonsItem,
 } from '@/storage/items';
-import { getIsExtensionActive } from '@/utils/common';
 import { type RuntimeInput } from '@/utils/sendRuntimeMessage';
 
 import turnOffInputSuggestions from './misc/turnOffInputSuggestions';
@@ -24,7 +23,7 @@ const onPageLoad = async (tabId: number, url: string) => {
       getExtState(),
       browser.tabs.get(tabId),
     ]);
-    if (!getIsExtensionActive(extState)) {
+    if (extState !== EExtensionState.ACTIVE) {
       return;
     }
     // Superseded by a newer navigation while we awaited
