@@ -1,4 +1,4 @@
-import { TEST_BOOKMARKS } from '@bypass/shared/tests';
+import { TEST_BOOKMARKS, TEST_FOLDERS } from '@bypass/shared/tests';
 
 import { expect, bookmarkTest as test } from '../fixtures/panel-fixture';
 import { BookmarksPanel } from '../utils/bookmarks-panel';
@@ -83,6 +83,47 @@ test.describe('Bookmark reordering', () => {
     await panel.moveBookmarkOnto(FIRST, SECOND);
 
     await expect.poll(() => panel.getBookmarkTitles()).toEqual([SECOND, FIRST]);
+  });
+});
+
+test.describe('Folder select', () => {
+  /**
+   * Base UI's `alignItemWithTrigger` overlays the popup on the trigger so the
+   * selected row lands exactly where the trigger was. The popup shares the
+   * dialog's `bg-popover`, so that reads as "the dropdown never opened" and it
+   * buries the fields above. The popup has to sit clear of the trigger.
+   */
+  test('opens the folder dropdown clear of the trigger', async ({
+    bookmarksPage,
+  }) => {
+    const panel = new BookmarksPanel(bookmarksPage);
+    await openRootListing(panel);
+
+    const dialog = await panel.openFolderSelect(FIRST);
+
+    // Options are portaled out of the dialog, so they are queried page-level
+    await expect(
+      bookmarksPage.getByRole('option', { name: TEST_FOLDERS.MAIN })
+    ).toBeVisible();
+
+    const trigger = await dialog
+      .getByTestId('bookmark-folder-select')
+      .boundingBox();
+    const popup = await bookmarksPage
+      .getByTestId('bookmark-folder-options')
+      .boundingBox();
+    if (!trigger || !popup) {
+      throw new Error('folder select trigger or dropdown is missing');
+    }
+
+    const overlaps =
+      popup.y < trigger.y + trigger.height &&
+      trigger.y < popup.y + popup.height;
+    expect(overlaps, 'the dropdown covers the trigger it opened from').toBe(
+      false
+    );
+
+    await bookmarksPage.keyboard.press('Escape');
   });
 });
 
