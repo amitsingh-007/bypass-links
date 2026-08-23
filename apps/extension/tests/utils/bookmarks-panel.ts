@@ -154,13 +154,6 @@ export class BookmarksPanel {
     return this.page.getByTitle('Edit Bookmark');
   }
 
-  async openFolderSelect(bookmarkTitle: string) {
-    const dialog = await this.openEditBookmarkDialog(bookmarkTitle);
-    await expect(dialog).toBeVisible();
-    await dialog.getByTestId('bookmark-folder-select').click();
-    return dialog;
-  }
-
   async openPersonSelect(bookmarkTitle: string) {
     const dialog = await this.openEditBookmarkDialog(bookmarkTitle);
     await expect(dialog).toBeVisible();

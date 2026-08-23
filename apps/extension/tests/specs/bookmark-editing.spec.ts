@@ -86,45 +86,40 @@ test.describe('Bookmark reordering', () => {
   });
 });
 
-test.describe('Folder select', () => {
-  /**
-   * Base UI's `alignItemWithTrigger` overlays the popup on the trigger so the
-   * selected row lands exactly where the trigger was. The popup shares the
-   * dialog's `bg-popover`, so that reads as "the dropdown never opened" and it
-   * buries the fields above. The popup has to sit clear of the trigger.
-   */
-  test('opens the folder dropdown clear of the trigger', async ({
-    bookmarksPage,
-  }) => {
-    const panel = new BookmarksPanel(bookmarksPage);
-    await openRootListing(panel);
+/** Overlaying the trigger reads as "the dropdown never opened": same bg-popover. */
+test('opens the folder dropdown clear of the trigger', async ({
+  bookmarksPage,
+}) => {
+  const panel = new BookmarksPanel(bookmarksPage);
+  await openRootListing(panel);
 
-    const dialog = await panel.openFolderSelect(FIRST);
+  const dialog = await panel.openEditBookmarkDialog(FIRST);
+  const trigger = dialog.getByTestId('bookmark-folder-select');
+  await trigger.click();
 
-    // Options are portaled out of the dialog, so they are queried page-level
-    await expect(
-      bookmarksPage.getByRole('option', { name: TEST_FOLDERS.MAIN })
-    ).toBeVisible();
+  const dropdown = bookmarksPage.getByRole('listbox');
+  await expect(
+    dropdown.getByRole('option', { name: TEST_FOLDERS.MAIN })
+  ).toBeVisible();
 
-    const trigger = await dialog
-      .getByTestId('bookmark-folder-select')
-      .boundingBox();
-    const popup = await bookmarksPage
-      .getByTestId('bookmark-folder-options')
-      .boundingBox();
-    if (!trigger || !popup) {
-      throw new Error('folder select trigger or dropdown is missing');
-    }
-
-    const overlaps =
-      popup.y < trigger.y + trigger.height &&
-      trigger.y < popup.y + popup.height;
-    expect(overlaps, 'the dropdown covers the trigger it opened from').toBe(
-      false
-    );
-
-    await bookmarksPage.keyboard.press('Escape');
-  });
+  // Polled, not read once: the entry animation slides the popup 8px past its
+  // settled position, which is more than its clearance over the trigger
+  await expect
+    .poll(
+      async () => {
+        const triggerBox = await trigger.boundingBox();
+        const dropdownBox = await dropdown.boundingBox();
+        if (!triggerBox || !dropdownBox) {
+          return null;
+        }
+        return (
+          dropdownBox.y < triggerBox.y + triggerBox.height &&
+          triggerBox.y < dropdownBox.y + dropdownBox.height
+        );
+      },
+      { message: 'the dropdown covers the trigger it opened from' }
+    )
+    .toBe(false);
 });
 
 test.describe('Bookmark form validation', () => {

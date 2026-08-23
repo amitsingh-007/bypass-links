@@ -281,11 +281,7 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
                         {selectedFolder?.label ?? 'Select folder'}
                       </SelectValue>
                     </SelectTrigger>
-                    <SelectContent
-                      alignItemWithTrigger={false}
-                      align="start"
-                      data-testid="bookmark-folder-options"
-                    >
+                    <SelectContent alignItemWithTrigger={false}>
                       {folderOptions.map((option) => (
                         <SelectItem key={option.value} value={option.value}>
                           {option.label}
