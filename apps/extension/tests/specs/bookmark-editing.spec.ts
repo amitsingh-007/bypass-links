@@ -1,4 +1,4 @@
-import { TEST_BOOKMARKS } from '@bypass/shared/tests';
+import { TEST_BOOKMARKS, TEST_FOLDERS } from '@bypass/shared/tests';
 
 import { expect, bookmarkTest as test } from '../fixtures/panel-fixture';
 import { BookmarksPanel } from '../utils/bookmarks-panel';
@@ -84,6 +84,42 @@ test.describe('Bookmark reordering', () => {
 
     await expect.poll(() => panel.getBookmarkTitles()).toEqual([SECOND, FIRST]);
   });
+});
+
+/** Overlaying the trigger reads as "the dropdown never opened": same bg-popover. */
+test('opens the folder dropdown clear of the trigger', async ({
+  bookmarksPage,
+}) => {
+  const panel = new BookmarksPanel(bookmarksPage);
+  await openRootListing(panel);
+
+  const dialog = await panel.openEditBookmarkDialog(FIRST);
+  const trigger = dialog.getByTestId('bookmark-folder-select');
+  await trigger.click();
+
+  const dropdown = bookmarksPage.getByRole('listbox');
+  await expect(
+    dropdown.getByRole('option', { name: TEST_FOLDERS.MAIN })
+  ).toBeVisible();
+
+  // Polled, not read once: the entry animation slides the popup 8px past its
+  // settled position, which is more than its clearance over the trigger
+  await expect
+    .poll(
+      async () => {
+        const triggerBox = await trigger.boundingBox();
+        const dropdownBox = await dropdown.boundingBox();
+        if (!triggerBox || !dropdownBox) {
+          return null;
+        }
+        return (
+          dropdownBox.y < triggerBox.y + triggerBox.height &&
+          triggerBox.y < dropdownBox.y + dropdownBox.height
+        );
+      },
+      { message: 'the dropdown covers the trigger it opened from' }
+    )
+    .toBe(false);
 });
 
 test.describe('Bookmark form validation', () => {
