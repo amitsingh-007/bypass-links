@@ -15,6 +15,7 @@ test.describe('Persons Panel', () => {
       const count = await panel.getHeaderPersonCount();
       expect(count).toBeGreaterThan(0);
     }).toPass();
+    await expect.poll(() => panel.getPersonCount()).toBeGreaterThan(0);
   });
 
   test('should navigate to persons panel, display all persons, and verify header count', async ({
