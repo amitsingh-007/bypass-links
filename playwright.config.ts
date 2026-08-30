@@ -15,7 +15,7 @@ const config = defineConfig({
   forbidOnly: isCI,
   retries: isCI ? 2 : 1,
   fullyParallel: true,
-  workers: isCI ? 4 : undefined,
+  workers: isCI ? 3 : undefined,
   outputDir: path.join(ARTIFACTS_DIR, 'test-results'),
   reporter: [
     isCI ? ['github'] : ['list'],
