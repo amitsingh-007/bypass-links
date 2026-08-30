@@ -151,6 +151,9 @@ test.describe('Bookmarks Panel', () => {
       bookmarksPage,
       context,
     }) => {
+      await context.route('https://mui.com/**', async (route) => {
+        await route.fulfill({ contentType: 'text/html', body: '' });
+      });
       const panel = new BookmarksPanel(bookmarksPage);
 
       const newPage = await openNewPageFromAction(context, async () => {
@@ -163,6 +166,9 @@ test.describe('Bookmarks Panel', () => {
       bookmarksPage,
       context,
     }) => {
+      await context.route('https://mui.com/**', async (route) => {
+        await route.fulfill({ contentType: 'text/html', body: '' });
+      });
       const panel = new BookmarksPanel(bookmarksPage);
       await panel.ensureAtRoot();
 
