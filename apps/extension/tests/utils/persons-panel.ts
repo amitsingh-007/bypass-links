@@ -88,7 +88,7 @@ export class PersonsPanel {
     await expect(dialog).toBeHidden({ timeout: DIALOG_CLOSE_TIMEOUT });
 
     const newPersonCard = this.page.getByTestId(`person-item-${name}`);
-    await expect(newPersonCard).toBeVisible();
+    await expect(newPersonCard).toBeVisible({ timeout: DIALOG_CLOSE_TIMEOUT });
   }
 
   async openEditPersonDialog(personName: string) {
@@ -108,7 +108,9 @@ export class PersonsPanel {
     await expect(dialog).toBeHidden({ timeout: DIALOG_CLOSE_TIMEOUT });
 
     const editedPersonCard = this.page.getByTestId(`person-item-${newName}`);
-    await expect(editedPersonCard).toBeVisible();
+    await expect(editedPersonCard).toBeVisible({
+      timeout: DIALOG_CLOSE_TIMEOUT,
+    });
   }
 
   async changePersonImage(personName: string, newImageUrl: string) {
