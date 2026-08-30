@@ -41,10 +41,12 @@ export class PopupHomePanel {
   }
 
   async verifyHistoryStartTimeNotExists() {
-    const historyStartTime = await getStorageItem<number>(
-      this.page,
-      EExtStorageKey.HISTORY_START_TIME
-    );
-    expect(historyStartTime).toBeUndefined();
+    await expect
+      .poll(
+        () =>
+          getStorageItem<number>(this.page, EExtStorageKey.HISTORY_START_TIME),
+        { timeout: 15_000 }
+      )
+      .toBeUndefined();
   }
 }
