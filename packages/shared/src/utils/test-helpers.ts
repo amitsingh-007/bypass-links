@@ -124,9 +124,9 @@ export const openNewPageFromAction = async (
   context: BrowserContext,
   action: () => Promise<void>
 ): Promise<Page> => {
-  const openedPages: Page[] = [];
-  const collectPage = (page: Page) => openedPages.push(page);
-  context.on('page', collectPage);
+  const existingPages = new Set(context.pages());
+  const openedPages = () =>
+    context.pages().filter((page) => !existingPages.has(page));
   // Without the page's own logs, a flake here is indistinguishable from a gesture that never landed
   const pageLogs: string[] = [];
   const collectConsole = (message: ConsoleMessage) => {
@@ -145,7 +145,7 @@ export const openNewPageFromAction = async (
       await expect(async () => {
         await action();
         await expect
-          .poll(() => openedPages.length, {
+          .poll(() => openedPages().length, {
             timeout: TEST_TIMEOUTS.PAGE_OPEN_ATTEMPT,
             message: 'Expected action to open a new page',
           })
@@ -162,7 +162,7 @@ export const openNewPageFromAction = async (
       throw error;
     }
 
-    const [newPage] = openedPages;
+    const [newPage] = openedPages();
     await expect
       .poll(() => newPage.url(), { timeout: TEST_TIMEOUTS.LONG_WAIT })
       .not.toBe('about:blank');
@@ -170,14 +170,13 @@ export const openNewPageFromAction = async (
 
     return newPage;
   } finally {
-    context.off('page', collectPage);
     context.off('console', collectConsole);
     context.off('weberror', collectError);
     // A retry duplicates the tab, and a failed attempt would strand it in the
     // context every later test in the worker shares. Close errors stay swallowed
     // so they cannot mask the real failure.
     await Promise.all(
-      openedPages
+      openedPages()
         .filter((page) => page !== handedOver)
         .map((page) => page.close().catch(() => undefined))
     );

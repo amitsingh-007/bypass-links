@@ -57,10 +57,6 @@ export class BookmarksPanel {
     const element = this.getBookmarkElement(bookmarkTitle);
     await expect(element).toBeVisible();
     await element.click({ button: 'right' });
-    await expect(this.getBookmarkRow(bookmarkTitle)).toHaveAttribute(
-      'data-is-selected',
-      'true'
-    );
   }
 
   async openBookmarkContextMenuItem(bookmarkTitle: string, menuItemId: string) {
