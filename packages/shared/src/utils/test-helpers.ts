@@ -125,8 +125,18 @@ export const openNewPageFromAction = async (
   action: () => Promise<void>
 ): Promise<Page> => {
   const existingPages = new Set(context.pages());
+  const openedPageSet = new Set<Page>();
+  const collectPage = (page: Page) => {
+    if (!existingPages.has(page)) {
+      openedPageSet.add(page);
+    }
+  };
+  context.on('page', collectPage);
   const openedPages = () =>
-    context.pages().filter((page) => !existingPages.has(page));
+    [...openedPageSet, ...context.pages()].filter(
+      (page, index, pages) =>
+        !existingPages.has(page) && pages.indexOf(page) === index
+    );
   // Without the page's own logs, a flake here is indistinguishable from a gesture that never landed
   const pageLogs: string[] = [];
   const collectConsole = (message: ConsoleMessage) => {
@@ -170,6 +180,7 @@ export const openNewPageFromAction = async (
 
     return newPage;
   } finally {
+    context.off('page', collectPage);
     context.off('console', collectConsole);
     context.off('weberror', collectError);
     // A retry duplicates the tab, and a failed attempt would strand it in the
