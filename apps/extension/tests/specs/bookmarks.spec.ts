@@ -172,8 +172,18 @@ test.describe('Bookmarks Panel', () => {
       const panel = new BookmarksPanel(bookmarksPage);
       await panel.ensureAtRoot();
 
-      const contextMenuPage = await openNewPageFromAction(context, () =>
-        panel.openBookmarkContextMenuItem(TEST_BOOKMARKS.REACT_DOCS, 'open')
+      const openFromContextMenu = async () => {
+        await bookmarksPage.keyboard.press('Escape');
+        await panel.selectBookmark(TEST_BOOKMARKS.REACT_DOCS);
+        await panel.openBookmarkContextMenu(TEST_BOOKMARKS.REACT_DOCS);
+        await expect(
+          bookmarksPage.getByTestId('context-menu-item-open')
+        ).toBeEnabled();
+        await panel.clickContextMenuItem('open');
+      };
+      const contextMenuPage = await openNewPageFromAction(
+        context,
+        openFromContextMenu
       );
       await contextMenuPage.close();
     });
