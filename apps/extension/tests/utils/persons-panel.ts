@@ -47,7 +47,9 @@ const uploadImage = async (
   const uploadOverlay = page.getByTestId('uploading-overlay');
   await expect(uploadOverlay).toBeVisible();
 
-  await expect(imagePickerDialog).toBeHidden();
+  await expect(imagePickerDialog).toBeHidden({
+    timeout: DIALOG_CLOSE_TIMEOUT,
+  });
 };
 
 const changeImageInDialog = async (
@@ -130,7 +132,7 @@ export class PersonsPanel {
     await clickContextMenuItem(this.page, 'delete');
 
     const notification = this.page.getByText('Person deleted successfully');
-    await expect(notification).toBeVisible();
+    await expect(notification).toBeVisible({ timeout: DIALOG_CLOSE_TIMEOUT });
 
     await expect(personCard).not.toBeVisible();
   }

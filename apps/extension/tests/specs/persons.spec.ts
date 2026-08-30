@@ -38,36 +38,40 @@ test.describe('Persons Panel', () => {
       .toBe(allPersonsBefore);
   });
 
-  test('should open add person dialog', async ({ personsPage }) => {
-    const panel = new PersonsPanel(personsPage);
-    const dialog = await panel.openAddPersonDialog();
-
-    const nameInput = dialog.getByPlaceholder('Enter name');
-    await expect(nameInput).toBeVisible();
-
-    await closeDialog(personsPage, dialog);
-
-    await expect(dialog).toBeHidden();
-  });
-
-  test('should add person with name and image', async ({ personsPage }) => {
-    const panel = new PersonsPanel(personsPage);
-    const TEST_IMAGE_URL = TEST_IMAGE_DATA_URL;
-
-    await panel.addPerson(TEST_PERSON_NAME, TEST_IMAGE_URL);
-  });
-
-  test('should delete the test person created earlier', async ({
+  test('should create, rename, update, and delete a person', async ({
     personsPage,
   }) => {
     const panel = new PersonsPanel(personsPage);
-    const personToDelete = `${TEST_PERSON_NAME}-delete-${Date.now()}`;
+    const personName = `${TEST_PERSON_NAME}-${Date.now()}`;
+    const editedName = `(Edited) ${personName}`;
 
-    await panel.addPerson(personToDelete, TEST_IMAGE_DATA_URL);
+    await test.step('should open add person dialog', async () => {
+      const dialog = await panel.openAddPersonDialog();
+      await expect(dialog.getByPlaceholder('Enter name')).toBeVisible();
+      await closeDialog(personsPage, dialog);
+      await expect(dialog).toBeHidden();
+    });
 
-    await panel.verifyPersonExists(personToDelete);
+    await test.step('should add person with name and image', async () => {
+      await panel.addPerson(personName, TEST_IMAGE_DATA_URL);
+      await panel.verifyPersonExists(personName);
+    });
 
-    await panel.deletePerson(personToDelete);
+    await test.step('should edit person name', async () => {
+      await panel.editPersonName(personName, editedName);
+    });
+
+    await test.step('should verify avatar image is visible in edit dialog', async () => {
+      await panel.verifyAvatarVisibleInEditDialog(editedName);
+    });
+
+    await test.step('should change person image', async () => {
+      await panel.changePersonImage(editedName, TEST_IMAGE_DATA_URL);
+    });
+
+    await test.step('should delete the test person created earlier', async () => {
+      await panel.deletePerson(editedName);
+    });
   });
 
   test('should show error when deleting person with tagged bookmarks', async ({
@@ -83,35 +87,6 @@ test.describe('Persons Panel', () => {
     await expect(notification).toBeVisible();
 
     await panel.verifyPersonExists(TEST_PERSONS.JOHN_NATHAN);
-  });
-
-  test('should edit person name', async ({ personsPage }) => {
-    const panel = new PersonsPanel(personsPage);
-    const EDITED_PREFIX = '(Edited) ';
-
-    await panel.editPersonName(
-      TEST_PERSONS.JOHN_NATHAN,
-      EDITED_PREFIX + TEST_PERSONS.JOHN_NATHAN
-    );
-
-    await panel.editPersonName(
-      EDITED_PREFIX + TEST_PERSONS.JOHN_NATHAN,
-      TEST_PERSONS.JOHN_NATHAN
-    );
-  });
-
-  test('should verify avatar image is visible in edit dialog', async ({
-    personsPage,
-  }) => {
-    const panel = new PersonsPanel(personsPage);
-    await panel.verifyAvatarVisibleInEditDialog(TEST_PERSONS.AKASH_KUMAR_SINGH);
-  });
-
-  test('should change person image', async ({ personsPage }) => {
-    const panel = new PersonsPanel(personsPage);
-    const NEW_IMAGE_URL = TEST_IMAGE_DATA_URL;
-
-    await panel.changePersonImage(TEST_PERSONS.DONALD, NEW_IMAGE_URL);
   });
 
   test('should open tagged bookmarks for a person', async ({ personsPage }) => {

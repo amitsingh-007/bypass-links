@@ -241,16 +241,22 @@ test.describe('Bookmarks Panel', () => {
       });
 
       await test.step('edited url opens the new site', async () => {
-        await panel.editBookmarkUrl(
-          TEST_BOOKMARKS.REACT_DOCS,
-          'https://www.google.com/'
-        );
-
-        const newPage = await openNewPageFromAction(context, async () => {
-          await panel.openBookmarkByDoubleClick(TEST_BOOKMARKS.REACT_DOCS);
+        const google = 'https://www.google.com/';
+        await context.route(`${google}**`, async (route) => {
+          await route.fulfill({ contentType: 'text/html', body: '' });
         });
-        expect(newPage.url()).toContain('google.com');
-        await newPage.close();
+
+        try {
+          await panel.editBookmarkUrl(TEST_BOOKMARKS.REACT_DOCS, google);
+
+          const newPage = await openNewPageFromAction(context, async () => {
+            await panel.openBookmarkByDoubleClick(TEST_BOOKMARKS.REACT_DOCS);
+          });
+          expect(newPage.url()).toBe(google);
+          await newPage.close();
+        } finally {
+          await context.unroute(`${google}**`);
+        }
       });
 
       await test.step('original url is restored', async () => {

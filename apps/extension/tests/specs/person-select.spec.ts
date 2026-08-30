@@ -1,4 +1,5 @@
 import {
+  clearSearchInput,
   fillSearchInput,
   TEST_BOOKMARKS,
   TEST_PERSONS,
@@ -24,79 +25,61 @@ test.afterEach(async ({ bookmarksPage }) => {
 });
 
 test.describe('Tagging a bookmark with a person', () => {
-  test('narrows the list to the typed name', async ({ bookmarksPage }) => {
-    const panel = new BookmarksPanel(bookmarksPage);
-    const dialog = await openPersonSelect(panel);
-
-    await fillSearchInput(dialog, 'Donald', PERSON_SEARCH_PLACEHOLDER);
-
-    await expect(bookmarksPage.getByRole('option')).toHaveText([
-      TEST_PERSONS.DONALD,
-    ]);
-  });
-
-  test('shows an empty state when no person matches', async ({
-    bookmarksPage,
-  }) => {
-    const panel = new BookmarksPanel(bookmarksPage);
-    const dialog = await openPersonSelect(panel);
-
-    await fillSearchInput(
-      dialog,
-      'nobody-by-this-name',
-      PERSON_SEARCH_PLACEHOLDER
-    );
-
-    await expect(bookmarksPage.getByText('No persons found')).toBeVisible();
-    await expect(bookmarksPage.getByRole('option')).toHaveCount(0);
-  });
-
-  test('sorts alphabetically once recency sorting is turned off', async ({
+  test('filters, sorts, and previews person options', async ({
     bookmarksPage,
   }) => {
     const panel = new BookmarksPanel(bookmarksPage);
     const dialog = await openPersonSelect(panel);
     const options = bookmarksPage.getByRole('option');
-    // Selected by test id, not role: the open combobox takes the rest of the
-    // dialog out of the accessibility tree, so getByRole('switch') finds nothing
-    const recencySwitch = dialog.getByTestId('recency-switch');
 
-    await expect(options).not.toHaveCount(0);
-    const byRecency = await options.allTextContents();
-    const alphabetical = byRecency.toSorted((left, right) =>
-      left.localeCompare(right)
-    );
+    await test.step('narrows the list to the typed name', async () => {
+      await fillSearchInput(dialog, 'Donald', PERSON_SEARCH_PLACEHOLDER);
+      await expect(options).toHaveText([TEST_PERSONS.DONALD]);
+      await clearSearchInput(dialog, PERSON_SEARCH_PLACEHOLDER);
+    });
 
-    expect(
-      byRecency,
-      'the account lists persons alphabetically already, so toggling the sort proves nothing'
-    ).not.toEqual(alphabetical);
+    await test.step('shows an empty state when no person matches', async () => {
+      await fillSearchInput(
+        dialog,
+        'nobody-by-this-name',
+        PERSON_SEARCH_PLACEHOLDER
+      );
+      await expect(bookmarksPage.getByText('No persons found')).toBeVisible();
+      await expect(options).toHaveCount(0);
+      await clearSearchInput(dialog, PERSON_SEARCH_PLACEHOLDER);
+    });
 
-    await recencySwitch.click();
+    await test.step('previews a person behind their avatar', async () => {
+      await bookmarksPage
+        .getByTestId(`person-avatar-${TEST_PERSONS.DONALD}`)
+        .hover();
 
-    await expect(recencySwitch).not.toBeChecked();
-    await expect(options).toHaveText(alphabetical);
-  });
+      const preview = bookmarksPage.locator(
+        '[data-testid^="person-avatar-preview-"]'
+      );
+      await expect(preview).toBeVisible();
+      await preview.locator('[data-slot="avatar"]').hover();
+      await expect(
+        bookmarksPage.locator('[data-slot="tooltip-content"]')
+      ).toContainText(TEST_PERSONS.DONALD);
+    });
 
-  test('previews a person behind their avatar', async ({ bookmarksPage }) => {
-    const panel = new BookmarksPanel(bookmarksPage);
-    await openPersonSelect(panel);
+    await test.step('sorts alphabetically once recency sorting is turned off', async () => {
+      const recencySwitch = dialog.getByTestId('recency-switch');
+      await expect(options).not.toHaveCount(0);
+      const byRecency = await options.allTextContents();
+      const alphabetical = byRecency.toSorted((left, right) =>
+        left.localeCompare(right)
+      );
 
-    // Options are portaled out of the dialog
-    await bookmarksPage
-      .getByTestId(`person-avatar-${TEST_PERSONS.DONALD}`)
-      .hover();
+      expect(
+        byRecency,
+        'the account lists persons alphabetically already, so toggling the sort proves nothing'
+      ).not.toEqual(alphabetical);
 
-    const preview = bookmarksPage.locator(
-      '[data-testid^="person-avatar-preview-"]'
-    );
-    await expect(preview).toBeVisible();
-
-    // The tooltip lives inside the portaled hover card, wired to a provider
-    // outside it, which is the composition worth guarding
-    await preview.locator('[data-slot="avatar"]').hover();
-    await expect(
-      bookmarksPage.locator('[data-slot="tooltip-content"]')
-    ).toContainText(TEST_PERSONS.DONALD);
+      await recencySwitch.click();
+      await expect(recencySwitch).not.toBeChecked();
+      await expect(options).toHaveText(alphabetical);
+    });
   });
 });

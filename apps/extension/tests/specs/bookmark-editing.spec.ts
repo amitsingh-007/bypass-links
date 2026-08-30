@@ -21,68 +21,56 @@ test.afterEach(async ({ bookmarksPage }) => {
 });
 
 test.describe('Bookmark multi-select', () => {
-  test('offers bulk actions once a second bookmark is selected', async ({
+  test('offers bulk actions and deletes every selected bookmark', async ({
     bookmarksPage,
   }) => {
-    const panel = new BookmarksPanel(bookmarksPage);
-    await openRootListing(panel);
-
-    await panel.selectBookmark(FIRST);
-    await panel.selectBookmark(SECOND, { extend: true });
-    await panel.openBookmarkContextMenu(SECOND);
-
-    await expect(panel.getContextMenu()).toMatchAriaSnapshot(`
-      - menu:
-        - /children: equal
-        - menuitem "Open all (2) in new tab"
-        - menuitem "Cut"
-        - menuitem "Delete All"
-    `);
-
-    await bookmarksPage.keyboard.press('Escape');
-  });
-
-  test('deletes every selected bookmark at once', async ({ bookmarksPage }) => {
     const panel = new BookmarksPanel(bookmarksPage);
     await openRootListing(panel);
     const countBefore = await panel.getBookmarkCount();
 
     await panel.selectBookmark(FIRST);
     await panel.selectBookmark(SECOND, { extend: true });
-    await panel.openBookmarkContextMenuItem(SECOND, 'delete-all');
+    await panel.openBookmarkContextMenu(SECOND);
 
-    await expect(panel.getBookmarkElement(FIRST)).toBeHidden();
-    await expect(panel.getBookmarkElement(SECOND)).toBeHidden();
-    // Deliberately not saved: the deletion stays local to this page
-    await expect(panel.getBookmarkItems()).toHaveCount(countBefore - 2);
+    await test.step('offers bulk actions once a second bookmark is selected', async () => {
+      await expect(panel.getContextMenu()).toMatchAriaSnapshot(`
+          - menu:
+            - /children: equal
+            - menuitem "Open all (2) in new tab"
+            - menuitem "Cut"
+            - menuitem "Delete All"
+        `);
+    });
+
+    await test.step('deletes every selected bookmark at once', async () => {
+      await panel.clickContextMenuItem('delete-all');
+      await expect(panel.getBookmarkElement(FIRST)).toBeHidden();
+      await expect(panel.getBookmarkElement(SECOND)).toBeHidden();
+      await expect(panel.getBookmarkItems()).toHaveCount(countBefore - 2);
+    });
   });
 });
 
 test.describe('Bookmark reordering', () => {
-  test('lands a cut bookmark above an earlier paste target', async ({
-    bookmarksPage,
-  }) => {
+  test('moves a cut bookmark in both directions', async ({ bookmarksPage }) => {
     const panel = new BookmarksPanel(bookmarksPage);
     await openRootListing(panel);
 
     await expect.poll(() => panel.getBookmarkTitles()).toEqual([FIRST, SECOND]);
 
-    await panel.moveBookmarkOnto(SECOND, FIRST);
+    await test.step('lands a cut bookmark above an earlier paste target', async () => {
+      await panel.moveBookmarkOnto(SECOND, FIRST);
+      await expect
+        .poll(() => panel.getBookmarkTitles())
+        .toEqual([SECOND, FIRST]);
+    });
 
-    await expect.poll(() => panel.getBookmarkTitles()).toEqual([SECOND, FIRST]);
-  });
-
-  test('lands a cut bookmark below a later paste target', async ({
-    bookmarksPage,
-  }) => {
-    const panel = new BookmarksPanel(bookmarksPage);
-    await openRootListing(panel);
-
-    await expect.poll(() => panel.getBookmarkTitles()).toEqual([FIRST, SECOND]);
-
-    await panel.moveBookmarkOnto(FIRST, SECOND);
-
-    await expect.poll(() => panel.getBookmarkTitles()).toEqual([SECOND, FIRST]);
+    await test.step('lands a cut bookmark below a later paste target', async () => {
+      await panel.moveBookmarkOnto(SECOND, FIRST);
+      await expect
+        .poll(() => panel.getBookmarkTitles())
+        .toEqual([FIRST, SECOND]);
+    });
   });
 });
 
@@ -123,44 +111,35 @@ test('opens the folder dropdown clear of the trigger', async ({
 });
 
 test.describe('Bookmark form validation', () => {
-  test('refuses to save a bookmark without a title', async ({
+  test('rejects invalid bookmark and folder fields', async ({
     bookmarksPage,
   }) => {
     const panel = new BookmarksPanel(bookmarksPage);
     await openRootListing(panel);
 
-    const dialog = await panel.openEditBookmarkDialog(FIRST);
-    await bookmarksPage.getByTestId('bookmark-title-input').clear();
-    await dialog.getByTestId('dialog-save-button').click();
+    await test.step('refuses to save a bookmark without a title', async () => {
+      const dialog = await panel.openEditBookmarkDialog(FIRST);
+      await bookmarksPage.getByTestId('bookmark-title-input').clear();
+      await dialog.getByTestId('dialog-save-button').click();
+      await expect(dialog.getByText('Required')).toBeVisible();
+      await expect(dialog).toBeVisible();
+      await panel.closeDialog();
+    });
 
-    await expect(dialog.getByText('Required')).toBeVisible();
-    await expect(dialog).toBeVisible();
-  });
+    await test.step('refuses to save a bookmark with a malformed url', async () => {
+      const dialog = await panel.openEditBookmarkDialog(FIRST);
+      await panel.getUrlInput().fill('not-a-valid-url');
+      await dialog.getByTestId('dialog-save-button').click();
+      await expect(dialog.getByText('Invalid URL format')).toBeVisible();
+      await expect(dialog).toBeVisible();
+      await panel.closeDialog();
+    });
 
-  test('refuses to save a bookmark with a malformed url', async ({
-    bookmarksPage,
-  }) => {
-    const panel = new BookmarksPanel(bookmarksPage);
-    await openRootListing(panel);
-
-    const dialog = await panel.openEditBookmarkDialog(FIRST);
-    await panel.getUrlInput().fill('not-a-valid-url');
-    await dialog.getByTestId('dialog-save-button').click();
-
-    await expect(dialog.getByText('Invalid URL format')).toBeVisible();
-    await expect(dialog).toBeVisible();
-  });
-
-  test('refuses to create a folder without a name', async ({
-    bookmarksPage,
-  }) => {
-    const panel = new BookmarksPanel(bookmarksPage);
-    await panel.ensureAtRoot();
-
-    const dialog = await panel.openAddFolderDialog();
-    await dialog.getByTestId('dialog-save-button').click();
-
-    await expect(dialog.getByText('Required')).toBeVisible();
-    await expect(dialog).toBeVisible();
+    await test.step('refuses to create a folder without a name', async () => {
+      const dialog = await panel.openAddFolderDialog();
+      await dialog.getByTestId('dialog-save-button').click();
+      await expect(dialog.getByText('Required')).toBeVisible();
+      await expect(dialog).toBeVisible();
+    });
   });
 });

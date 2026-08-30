@@ -17,52 +17,55 @@ test.describe('Signed In', () => {
     const defaultsButton = homePage.getByTestId('open-defaults-button');
     await homeExpect(defaultsButton).toBeEnabled();
 
-    const initialPageCount = context.pages().length;
+    const initialPages = new Set(context.pages());
+    const externalPages = /^https:\/\/(?:www\.google\.com|mantine\.dev)\//;
+    await context.route(externalPages, async (route) => {
+      await route.fulfill({ contentType: 'text/html', body: '' });
+    });
 
-    await defaultsButton.click();
+    try {
+      await defaultsButton.click();
 
-    await homeExpect
-      .poll(() => context.pages().length, {
-        message: 'Should open 2 new tabs',
-      })
-      .toBe(initialPageCount + 2);
+      await homeExpect
+        .poll(() => context.pages().length, {
+          message: 'Should open 2 new tabs',
+        })
+        .toBe(initialPages.size + 2);
 
-    const allPages = context.pages();
-    const newPages = allPages.filter((p) => p !== homePage);
+      await homeExpect
+        .poll(
+          () => {
+            const currentPages = context
+              .pages()
+              .filter((page) => !initialPages.has(page));
 
-    await homeExpect
-      .poll(
-        () => {
-          const currentPages = context
+            return currentPages
+              .map((page) => page.url())
+              .filter((url) => url.startsWith('http'))
+              .map((url) => {
+                const parsed = new URL(url);
+                return `${parsed.protocol}//${parsed.host}${parsed.pathname}`;
+              });
+          },
+          { timeout: 15_000 }
+        )
+        .toEqual(
+          homeExpect.arrayContaining([
+            'https://www.google.com/',
+            'https://mantine.dev/',
+          ])
+        );
+    } finally {
+      try {
+        await Promise.all(
+          context
             .pages()
-            .filter((page) => page !== homePage);
-
-          return currentPages
-            .map((page) => page.url())
-            .filter(
-              (url) =>
-                url.startsWith('http') || url.startsWith('chrome-error://')
-            )
-            .map((url) => {
-              if (url.startsWith('chrome-error://')) {
-                return url;
-              }
-
-              const parsed = new URL(url);
-              return `${parsed.protocol}//${parsed.host}${parsed.pathname}`;
-            });
-        },
-        { timeout: 15_000 }
-      )
-      .toEqual(
-        homeExpect.arrayContaining([
-          'https://www.google.com/',
-          homeExpect.stringMatching(/mantine\.dev|^chrome-error:\/\//),
-        ])
-      );
-
-    for (const newPage of newPages) {
-      await newPage.close();
+            .filter((page) => !initialPages.has(page))
+            .map((page) => page.close())
+        );
+      } finally {
+        await context.unroute(externalPages);
+      }
     }
   });
 });
