@@ -22,7 +22,7 @@ allowBuilds:
 
 catalog:
   '@babel/core': 8.0.1
-  '@base-ui/react': 1.6.0
+  '@base-ui/react': 1.7.0
   '@hugeicons/core-free-icons': 4.2.3
   '@hugeicons/react': 1.1.10
   '@mantine/hooks': 9.5.0
