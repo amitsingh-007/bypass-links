@@ -100,8 +100,8 @@ catalogs:
       specifier: 2.1.12
       version: 2.1.12
     monocart-coverage-reports:
-      specifier: 2.12.12
-      version: 2.12.12
+      specifier: 2.13.0
+      version: 2.13.0
     next:
       specifier: 16.3.0-preview.10
       version: 16.3.0-preview.10
@@ -496,7 +496,7 @@ importers:
         version: 19.2.18
       monocart-coverage-reports:
         specifier: 'catalog:'
-        version: 2.12.12
+        version: 2.13.0
       typescript:
         specifier: 'catalog:'
         version: 7.0.2
@@ -4779,8 +4779,8 @@ packages:
   mlly@1.8.2:
     resolution: {integrity: sha512-d+ObxMQFmbt10sretNDytwt85VrbkhhUA/JBGm1MPaWJ65Cl4wOgLaB1NYvJSZ0Ef03MMEU/0xpPMXUIQ29UfA==}
 
-  monocart-coverage-reports@2.12.12:
-    resolution: {integrity: sha512-d9FdUr2dn58Crweon0IE0zVi8r/i4vLvfvb2G7eL5vL5LfrxCB2X6F6qzuiwV6RioA4zbAI//7CYi6LjCvN3zA==}
+  monocart-coverage-reports@2.13.0:
+    resolution: {integrity: sha512-RJfwzbn+EvR0OhCSU3bX2mKd0tSv4RLvood0weoCZV1L99+kBYH0Yq5SnnBFRik7nRoEoGB4mLuZAvO1Fr3DpQ==}
     hasBin: true
 
   monocart-locator@1.0.3:
@@ -10052,7 +10052,7 @@ snapshots:
       pkg-types: 1.3.1
       ufo: 1.6.4
 
-  monocart-coverage-reports@2.12.12:
+  monocart-coverage-reports@2.13.0:
     dependencies:
       acorn: 8.18.0
       acorn-loose: 8.5.2
