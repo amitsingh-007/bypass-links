@@ -39,6 +39,7 @@ export default function BookmarksPage() {
     contextBookmarks,
     searchText
   );
+  // oxlint-disable-next-line react/incompatible-library
   const virtualizer = useVirtualizer({
     count: filteredContextBookmarks.length,
     estimateSize: () => BOOKMARK_ROW_HEIGHT,

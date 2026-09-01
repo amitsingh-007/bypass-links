@@ -50,6 +50,7 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
     contextBookmarks,
     searchText
   );
+  // oxlint-disable-next-line react/incompatible-library
   const virtualizer = useVirtualizer({
     count: filteredContextBookmarks.length,
     estimateSize: () => BOOKMARK_ROW_HEIGHT,
