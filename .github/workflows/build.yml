@@ -17,17 +17,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v6
-
-      - name: Setting up Node.js
-        uses: actions/setup-node@v7
+      - name: Setup pnpm and Node.js
+        uses: pnpm/setup@v2
         with:
-          node-version: '24'
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install
+          cache: true
 
       - name: Pull environment variables
         run: pnpm vercel env pull .env --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}

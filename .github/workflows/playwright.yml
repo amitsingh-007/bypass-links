@@ -19,17 +19,10 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v7
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v6
-
-      - name: Setting up Node.js
-        uses: actions/setup-node@v7
+      - name: Setup pnpm and Node.js
+        uses: pnpm/setup@v2
         with:
-          node-version: '24'
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install
+          cache: true
 
       - name: Pull environment variables
         run: pnpm vercel env pull .env --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
@@ -76,14 +69,10 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v7
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v6
-
-      - name: Setting up Node.js
-        uses: actions/setup-node@v7
+      - name: Setup pnpm and Node.js
+        uses: pnpm/setup@v2
         with:
-          node-version: '24'
-          cache: 'pnpm'
+          cache: true
 
       - name: Cache playwright binaries
         uses: actions/cache@v6
@@ -101,9 +90,6 @@ jobs:
         with:
           name: extension-e2e
           path: ./apps/extension/.output/chrome-mv3/
-
-      - name: Install dependencies
-        run: pnpm install
 
       - name: Pull environment variables
         run: pnpm vercel env pull .env --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}

@@ -83,8 +83,6 @@ catalog:
 
 catalogMode: strict
 
-cleanupUnusedCatalogs: true
-
-failIfNoMatch: true
+catalogPrune: true
 
 saveExact: true
