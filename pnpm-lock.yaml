@@ -16,8 +16,8 @@ catalogs:
       specifier: 4.2.3
       version: 4.2.3
     '@hugeicons/react':
-      specifier: 1.1.9
-      version: 1.1.9
+      specifier: 1.1.10
+      version: 1.1.10
     '@mantine/hooks':
       specifier: 9.5.0
       version: 9.5.0
@@ -250,7 +250,7 @@ importers:
         version: 4.2.3
       '@hugeicons/react':
         specifier: 'catalog:'
-        version: 1.1.9(react@19.2.8)
+        version: 1.1.10(react@19.2.8)
       '@mantine/hooks':
         specifier: 'catalog:'
         version: 9.5.0(react@19.2.8)
@@ -377,7 +377,7 @@ importers:
         version: 4.2.3
       '@hugeicons/react':
         specifier: 'catalog:'
-        version: 1.1.9(react@19.2.8)
+        version: 1.1.10(react@19.2.8)
       '@t3-oss/env-nextjs':
         specifier: 'catalog:'
         version: 0.13.11(typescript@7.0.2)(zod@4.4.3)
@@ -459,7 +459,7 @@ importers:
         version: 4.2.3
       '@hugeicons/react':
         specifier: 'catalog:'
-        version: 1.1.9(react@19.2.8)
+        version: 1.1.10(react@19.2.8)
       '@mantine/hooks':
         specifier: 'catalog:'
         version: 9.5.0(react@19.2.8)
@@ -548,7 +548,7 @@ importers:
         version: 4.2.3
       '@hugeicons/react':
         specifier: 'catalog:'
-        version: 1.1.9(react@19.2.8)
+        version: 1.1.10(react@19.2.8)
       class-variance-authority:
         specifier: 'catalog:'
         version: 0.7.1
@@ -1327,8 +1327,8 @@ packages:
   '@hugeicons/core-free-icons@4.2.3':
     resolution: {integrity: sha512-fpiU0qFZkv4ABi23xJ2m4qNr0BBfuIaYjPboN8WDA6aj9D+OzXa7eykxKOpACZRuGbDz1U9S5DsNx1d5KNnsgA==}
 
-  '@hugeicons/react@1.1.9':
-    resolution: {integrity: sha512-O+lWSWjbijoAvMCxn4K2bQWCGN5+mP1y5j+X99j23mXMj+s0X25fs71T6t9YJLaBodwmZdaewD27dzS/PiboQw==}
+  '@hugeicons/react@1.1.10':
+    resolution: {integrity: sha512-9tAsd92yMVVGP+E+d8cM+wc0VnXuYZHNbWQi7TOe8k2neawmhiaFmVFbzyruejhOMa197/LbgvSED32ayUo3ZA==}
     peerDependencies:
       react: '>=16.0.0'
 
@@ -6955,7 +6955,7 @@ snapshots:
 
   '@hugeicons/core-free-icons@4.2.3': {}
 
-  '@hugeicons/react@1.1.9(react@19.2.8)':
+  '@hugeicons/react@1.1.10(react@19.2.8)':
     dependencies:
       react: 19.2.8
 
