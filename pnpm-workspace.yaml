@@ -78,7 +78,7 @@ catalog:
   wouter: 3.10.0
   wretch: 3.0.9
   wxt: 0.21.4
-  zod: 4.4.3
+  zod: 4.5.2
   zustand: 5.0.15
 
 catalogMode: strict
