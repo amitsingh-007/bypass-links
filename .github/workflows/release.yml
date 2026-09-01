@@ -30,6 +30,7 @@ jobs:
         uses: amondnet/vercel-action@v42
         id: vercel-action
         with:
+          vercel-cli-version: '^59'
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
@@ -138,6 +139,7 @@ jobs:
       - name: Deploy (Vercel)
         uses: amondnet/vercel-action@v42
         with:
+          vercel-cli-version: '^59'
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
