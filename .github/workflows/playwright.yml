@@ -29,14 +29,14 @@ jobs:
 
       - name: Deploy Preview (Vercel)
         if: ${{ !inputs.vercel_url }}
-        uses: amondnet/vercel-action@v42
         id: vercel-action
-        with:
-          vercel-version: '^59'
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
-          github-comment: false
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          deploy_output=$(pnpm vercel deploy --yes --token="$VERCEL_TOKEN" 2>&1) || { printf '%s\n' "$deploy_output"; exit 1; }
+          printf '%s\n' "$deploy_output"
+          url=$(printf '%s\n' "$deploy_output" | grep -Eo 'https://[a-zA-Z0-9.-]+\.vercel\.app' | tail -1)
+          echo "preview-url=$url" >> "$GITHUB_OUTPUT"
 
       - name: Set preview URL
         id: preview-url

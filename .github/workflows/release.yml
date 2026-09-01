@@ -27,14 +27,14 @@ jobs:
         run: pnpm vercel env pull .env --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy Preview (Vercel)
-        uses: amondnet/vercel-action@v42
         id: vercel-action
-        with:
-          vercel-version: '^59'
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
-          github-comment: false
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          deploy_output=$(pnpm vercel deploy --yes --token="$VERCEL_TOKEN" 2>&1) || { printf '%s\n' "$deploy_output"; exit 1; }
+          printf '%s\n' "$deploy_output"
+          url=$(printf '%s\n' "$deploy_output" | grep -Eo 'https://[a-zA-Z0-9.-]+\.vercel\.app' | tail -1)
+          echo "preview-url=$url" >> "$GITHUB_OUTPUT"
 
       - name: Building Extension
         run: pnpm build --filter=@bypass/extension
@@ -137,14 +137,10 @@ jobs:
           env: Production
 
       - name: Deploy (Vercel)
-        uses: amondnet/vercel-action@v42
-        with:
-          vercel-version: '^59'
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
-          vercel-args: '--prod'
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: pnpm vercel deploy --prod --yes --token="$VERCEL_TOKEN"
 
       - name: Finish deployment
         uses: bobheadxi/deployments@v1.5.0
