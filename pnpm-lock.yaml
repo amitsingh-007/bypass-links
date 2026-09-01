@@ -145,8 +145,8 @@ catalogs:
       specifier: 2.0.7
       version: 2.0.7
     swr:
-      specifier: 2.4.2
-      version: 2.4.2
+      specifier: 2.5.1
+      version: 2.5.1
     tailwind-merge:
       specifier: 3.6.0
       version: 3.6.0
@@ -289,7 +289,7 @@ importers:
         version: 2.0.7(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       swr:
         specifier: 'catalog:'
-        version: 2.4.2(react@19.2.8)
+        version: 2.5.1(react@19.2.8)
       tailwind-merge:
         specifier: 'catalog:'
         version: 3.6.0
@@ -416,7 +416,7 @@ importers:
         version: 0.35.4(@types/node@26.1.2)
       swr:
         specifier: 'catalog:'
-        version: 2.4.2(react@19.2.8)
+        version: 2.5.1(react@19.2.8)
       zod:
         specifier: 'catalog:'
         version: 4.4.3
@@ -474,7 +474,7 @@ importers:
         version: 19.2.8
       swr:
         specifier: 'catalog:'
-        version: 2.4.2(react@19.2.8)
+        version: 2.5.1(react@19.2.8)
       wretch:
         specifier: 'catalog:'
         version: 3.0.9
@@ -5567,8 +5567,8 @@ packages:
     resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==}
     engines: {node: '>=8'}
 
-  swr@2.4.2:
-    resolution: {integrity: sha512-ej644Y2bvkIajfR32KGeSSdBXQW+ScjGjkybZgSE7kFpk9eGnV44XY9FJylXi+W75pavSX1PVNB57W5EbhGIYw==}
+  swr@2.5.1:
+    resolution: {integrity: sha512-BRw55e8r0B7SpDN20CAzoQAHl7y1yP7/Zt7oqUjMv0vSt2u2Xnkm88Ws+VypbV9BXHQVuSuyVq7zMjO16wSExw==}
     peerDependencies:
       react: ^16.11.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
@@ -11011,7 +11011,7 @@ snapshots:
     dependencies:
       has-flag: 4.0.0
 
-  swr@2.4.2(react@19.2.8):
+  swr@2.5.1(react@19.2.8):
     dependencies:
       dequal: 2.0.3
       react: 19.2.8
