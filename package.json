@@ -44,5 +44,6 @@
       "version": "^24",
       "onFail": "error"
     }
-  }
+  },
+  "packageManager": "pnpm@12.1.0"
 }
