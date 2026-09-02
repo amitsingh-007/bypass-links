@@ -33,6 +33,8 @@ jobs:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
+          experimental-api: true
+          root-directory: apps/web
           github-comment: false
 
       - name: Building Extension
@@ -142,7 +144,9 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
-          vercel-args: '--prod'
+          experimental-api: true
+          target: production
+          root-directory: apps/web
 
       - name: Finish deployment
         uses: bobheadxi/deployments@v1.5.0
