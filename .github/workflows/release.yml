@@ -29,6 +29,8 @@ jobs:
       - name: Deploy Preview (Vercel)
         uses: amondnet/vercel-action@v42
         id: vercel-action
+        env:
+          NPM_CONFIG_FORCE: 'true'
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
@@ -137,6 +139,8 @@ jobs:
 
       - name: Deploy (Vercel)
         uses: amondnet/vercel-action@v42
+        env:
+          NPM_CONFIG_FORCE: 'true'
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
