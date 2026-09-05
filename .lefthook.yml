@@ -3,10 +3,12 @@ pre-commit:
   commands:
     # lint --fix first, then oxfmt last (avoids write races); stage_fixed re-stages edits
     oxlint:
+      priority: 1
       glob: '*.{js,mjs,ts,tsx}'
       run: pnpm oxlint --fix {staged_files}
       stage_fixed: true
     oxfmt:
+      priority: 2
       glob: '*.{js,mjs,ts,tsx}'
       run: pnpm oxfmt {staged_files}
       stage_fixed: true
