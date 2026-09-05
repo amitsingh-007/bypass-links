@@ -123,25 +123,6 @@ export const withTempProfileContext = async <T>(
   }
 };
 
-export const createSharedContext = async (
-  options: { headless?: boolean } = {}
-) =>
-  createTempProfileContext({
-    prefix: 'chrome-profile-',
-    headless: options.headless,
-    seedFromCachedProfile: true,
-  });
-
-export const createUnauthContext = async (
-  extensionPath: string,
-  options: { headless?: boolean } = {}
-) =>
-  createTempProfileContext({
-    prefix: 'chrome-unauth-profile-',
-    extensionPath,
-    headless: options.headless,
-  });
-
 export const createSharedBackgroundSW = async (
   sharedContext: BrowserContext
 ): Promise<Worker> => {
@@ -197,12 +178,14 @@ export const sharedExtensionTest = base.extend<
 >({
   sharedContext: [
     async ({}, use, testInfo) => {
-      const { browserContext, userDataDir } = await createSharedContext({
-        headless: testInfo.project.use?.headless ?? true,
-      });
-      await use(browserContext);
-      await browserContext.close();
-      await removeTestDir(userDataDir);
+      await withTempProfileContext(
+        {
+          prefix: 'chrome-profile-',
+          headless: testInfo.project.use?.headless ?? true,
+          seedFromCachedProfile: true,
+        },
+        use
+      );
     },
     { scope: 'worker' },
   ],

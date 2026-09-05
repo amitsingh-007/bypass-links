@@ -1,10 +1,9 @@
-import { removeTestDir } from '@bypass/shared/tests';
 import { type Page } from '@playwright/test';
 
 import { getExtensionPath } from '../utils/extension-path';
 import {
   createSharedBackgroundSW,
-  createUnauthContext,
+  withTempProfileContext,
   getExtensionId,
   getPopupUrl,
   openExtensionPanelPage,
@@ -39,25 +38,23 @@ export const test = sharedExtensionTest.extend<
   },
 
   async unauthPage({ extensionPath }, use, testInfo) {
-    const { browserContext: unauthContext, userDataDir } =
-      await createUnauthContext(extensionPath, {
+    await withTempProfileContext(
+      {
+        prefix: 'chrome-unauth-profile-',
+        extensionPath,
         headless: testInfo.project.use?.headless ?? true,
-      });
-
-    const extensionId = await getExtensionId(
-      await createSharedBackgroundSW(unauthContext)
+      },
+      async (context) => {
+        const extensionId = await getExtensionId(
+          await createSharedBackgroundSW(context)
+        );
+        const page = await context.newPage();
+        await page.goto(getPopupUrl(extensionId), {
+          waitUntil: 'domcontentloaded',
+        });
+        await use(page);
+      }
     );
-
-    const page = await unauthContext.newPage();
-    await page.goto(getPopupUrl(extensionId), {
-      waitUntil: 'domcontentloaded',
-    });
-
-    await use(page);
-
-    await page.close();
-    await unauthContext.close();
-    await removeTestDir(userDataDir);
   },
 });
 
