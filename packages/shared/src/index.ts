@@ -1,5 +1,4 @@
 export { default as Bookmark } from './components/Bookmarks/components/Bookmark';
-export * from './components/Bookmarks/components/Bookmark';
 export { default as Folder } from './components/Bookmarks/components/Folder';
 export * from './components/Bookmarks/components/Folder';
 export * from './components/Bookmarks/constants';
@@ -13,10 +12,8 @@ export * from './components/Bookmarks/utils/url';
 
 export { default as Person } from './components/Persons/components/Person';
 export { default as Persons } from './components/Persons/components/Persons';
-export type * from './components/Persons/interfaces/bookmark';
 export type * from './components/Persons/interfaces/persons';
 export * from './components/Persons/utils';
-export * from './components/Persons/utils/bookmark';
 export * from './components/Persons/utils/urls';
 export { default as useAllPersonsWithImages } from './components/Persons/hooks/useAllPersonsWithImages';
 export { default as usePerson } from './components/Persons/hooks/usePerson';
@@ -26,7 +23,6 @@ export { default as usePersonImage } from './components/Persons/hooks/usePersonI
 
 export { default as Header } from './components/Header';
 export * from './components/ScrollButton';
-export { default as Search } from './components/Search';
 
 export * from './constants';
 export * from './constants/cache';

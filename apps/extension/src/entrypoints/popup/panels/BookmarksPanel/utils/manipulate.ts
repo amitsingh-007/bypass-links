@@ -1,5 +1,7 @@
 import type { ContextBookmarks, ISelectedBookmarks } from '@bypass/shared';
 
+import { countTruthy } from '.';
+
 const getDestinationIndex = (
   destIndex: number,
   selectedBookmarks: ISelectedBookmarks
@@ -31,7 +33,7 @@ const getSelectedBookmarksAfterDrag = (
   selectedBookmarks: ISelectedBookmarks,
   destIndex: number
 ) => {
-  const selectedBookmarksCount = selectedBookmarks.filter(Boolean).length;
+  const selectedBookmarksCount = countTruthy(selectedBookmarks);
   const selectedBookmarksInNewOrder = selectedBookmarks.fill(false);
   for (let i = destIndex; i < destIndex + selectedBookmarksCount; i++) {
     selectedBookmarksInNewOrder[i] = true;

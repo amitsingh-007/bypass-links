@@ -1,9 +1,11 @@
 import { type UserManifest } from 'wxt';
 
+const OAUTH_SCOPES = ['https://www.googleapis.com/auth/userinfo.email'];
+
 export const prodOAuth2: UserManifest['oauth2'] = {
   client_id:
     '603462573180-fevjvmbth5i8edtbgmsk2h9vo90dnv35.apps.googleusercontent.com',
-  scopes: ['https://www.googleapis.com/auth/userinfo.email'],
+  scopes: OAUTH_SCOPES,
 };
 
 export const devManifest: UserManifest = {
@@ -21,7 +23,7 @@ export const devManifest: UserManifest = {
   oauth2: {
     client_id:
       '824508694893-7dnmhd6c6ge8l7v1a625h15pfr0us2pc.apps.googleusercontent.com',
-    scopes: ['https://www.googleapis.com/auth/userinfo.email'],
+    scopes: OAUTH_SCOPES,
   },
   permissions: [
     'storage',

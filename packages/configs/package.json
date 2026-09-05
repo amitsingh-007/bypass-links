@@ -5,8 +5,5 @@
   "type": "module",
   "scripts": {
     "typecheck": "tsc --noEmit"
-  },
-  "peerDependencies": {
-    "typescript": "catalog:"
   }
 }

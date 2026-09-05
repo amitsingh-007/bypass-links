@@ -10,7 +10,6 @@ const isCI = Boolean(ciBaseUrl);
 const ARTIFACTS_DIR = '.playwright';
 
 const config = defineConfig({
-  expect: { timeout: 5000 },
   globalTeardown: './tests/coverage-report.ts',
   forbidOnly: isCI,
   retries: isCI ? 2 : 1,
@@ -32,7 +31,6 @@ const config = defineConfig({
     screenshot: 'only-on-failure',
     video: 'on-first-retry',
     trace: 'retain-on-failure',
-    headless: true,
   },
   projects: [
     /**

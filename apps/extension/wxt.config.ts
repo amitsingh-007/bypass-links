@@ -17,8 +17,6 @@ const isCoverageBuild = process.env.COVERAGE === '1';
 
 export default defineConfig({
   srcDir: 'src',
-  browser: 'chrome',
-  manifestVersion: 3,
   // Own dir so a coverage build never overwrites the released one
   ...(isCoverageBuild && { outDir: '.output-coverage' }),
   dev: {

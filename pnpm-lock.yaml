@@ -544,11 +544,7 @@ importers:
         specifier: 'catalog:'
         version: 7.0.2
 
-  packages/configs:
-    dependencies:
-      typescript:
-        specifier: 'catalog:'
-        version: 7.0.2
+  packages/configs: {}
 
   packages/shared:
     dependencies:

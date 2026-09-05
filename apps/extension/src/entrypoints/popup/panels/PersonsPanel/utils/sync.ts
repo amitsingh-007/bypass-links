@@ -29,9 +29,6 @@ export const resetPersons = async () => {
   ]);
 };
 
-const resolveDownloadUrl = async (fileName: string) =>
-  trpcApi.storage.getDownloadUrl.query(fileName);
-
 export const clearPersonImageUrls = async () => {
   await personImageUrlsItem.removeValue();
 };
@@ -40,7 +37,7 @@ export const cachePersonImagesInStorage = async () => {
   const persons = await getAllDecodedPersons();
   const personImageUrls = await buildPersonImageUrls(
     persons.map((person) => person.uid),
-    resolveDownloadUrl
+    trpcApi.storage.getDownloadUrl.query
   );
   await personImageUrlsItem.setValue(personImageUrls);
   await cachePersonImages(personImageUrls);
@@ -61,7 +58,9 @@ export const removePersonImageUrl = async (uid: string) => {
 export const updatePersonCacheAndImageUrls = async (person: IPerson) => {
   const personImageUrls = await personImageUrlsItem.getValue();
   const previousImageUrl = personImageUrls[person.uid];
-  const imageUrl = await resolveDownloadUrl(getPersonImageName(person.uid));
+  const imageUrl = await trpcApi.storage.getDownloadUrl.query(
+    getPersonImageName(person.uid)
+  );
   personImageUrls[person.uid] = imageUrl;
   await personImageUrlsItem.setValue(personImageUrls);
   // Evict both: mounted avatars may still hold the previous url, and an unchanged
