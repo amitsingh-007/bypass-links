@@ -13,7 +13,6 @@
     "allowImportingTsExtensions": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "importHelpers": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "isolatedModules": true,

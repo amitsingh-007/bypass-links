@@ -1,11 +1,9 @@
 'use client';
 
-import { Header, Persons, useOrderedPersons } from '@bypass/shared';
+import { Header, Person, Persons, useOrderedPersons } from '@bypass/shared';
 import { Switch } from '@bypass/ui';
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
-
-import PersonVirtualCell from './components/PersonVirtualCell';
 
 function PersonsPage() {
   const queryString = useSearchParams()?.toString() ?? '';
@@ -39,7 +37,9 @@ function PersonsPage() {
             persons={filteredAndOrderedPersons}
             fullscreen={false}
             renderPerson={(person, imageUrl) => (
-              <PersonVirtualCell person={person} imageUrl={imageUrl} />
+              <div className="h-full p-1.5">
+                <Person person={person} imageUrl={imageUrl} />
+              </div>
             )}
           />
         ) : null}

@@ -24,9 +24,6 @@ export const decodePersons = (persons: IPersons): IPerson[] =>
     .filter(Boolean)
     .map((person) => getDecryptedPerson(person));
 
-export const getReactKey = (row: number, column: number, size: number) =>
-  row * size + column;
-
 /**
  * Highest priority first; anything absent from the map sorts last. Shared so
  * the `?? -1` descending convention cannot drift between the two orderings.
@@ -77,11 +74,5 @@ export const buildPersonImageUrls = async (
     )
   );
 
-export const cachePersonImages = async (personImageUrls: PersonImageUrls) => {
-  if (!personImageUrls) {
-    console.log('Unable to cache person images since no person urls');
-    return;
-  }
-  await addAllToCache(ECacheBucketKeys.person, Object.values(personImageUrls));
-  console.log('Initialized cache for all person urls');
-};
+export const cachePersonImages = async (personImageUrls: PersonImageUrls) =>
+  addAllToCache(ECacheBucketKeys.person, Object.values(personImageUrls));

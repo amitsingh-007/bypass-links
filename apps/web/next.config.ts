@@ -17,7 +17,6 @@ const isDev = process.env.NODE_ENV === 'development';
 const nextConfig: NextConfig = {
   productionBrowserSourceMaps: true,
   cacheComponents: true,
-  reactStrictMode: true,
   reactCompiler: true,
   compiler: {
     removeConsole: isDev ? false : { exclude: ['error'] },

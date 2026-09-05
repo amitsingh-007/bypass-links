@@ -54,9 +54,6 @@ export const resetBookmarks = async () => {
 
 export const cacheBookmarkFavicons = async () => {
   const bookmarks = await bookmarksItem.getValue();
-  if (!bookmarks) {
-    return;
-  }
   const faviconUrls = getBookmarkFaviconUrls(bookmarks.urlList, getFaviconUrl);
   await addAllToCache(ECacheBucketKeys.favicon, faviconUrls);
   console.log('Bookmark favicons cached');

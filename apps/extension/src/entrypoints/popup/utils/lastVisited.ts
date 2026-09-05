@@ -11,13 +11,13 @@ export const getHostnameHash = async (url: string) => {
   return sha256Hash(new URL(url).hostname);
 };
 
-const formatLastVisited = (timestamp?: number) => {
-  if (!timestamp) {
-    return '';
-  }
-  const date = new Date(timestamp);
-  return `${date.toDateString()}, ${date.toLocaleTimeString()}`;
-};
+const lastVisitedFormat = new Intl.DateTimeFormat(undefined, {
+  dateStyle: 'medium',
+  timeStyle: 'medium',
+});
+
+const formatLastVisited = (timestamp?: number) =>
+  timestamp ? lastVisitedFormat.format(timestamp) : '';
 
 export const getlastVisitedText = async (url: string) => {
   const lastVisitedData = await lastVisitedItem.getValue();

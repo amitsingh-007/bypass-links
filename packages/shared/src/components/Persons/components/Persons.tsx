@@ -8,7 +8,7 @@ import { ScrollButton } from '../../ScrollButton';
 import usePersonImageMap from '../hooks/usePersonImageMap';
 import { type IBookmarkWithFolder } from '../interfaces/bookmark';
 import { type IPerson } from '../interfaces/persons';
-import { getColumnCount, getReactKey } from '../utils';
+import { getColumnCount } from '../utils';
 import BookmarksList from './BookmarksList';
 
 interface Props {
@@ -75,11 +75,7 @@ function PersonsInner({
             }}
           >
             {Array.from({ length: columnCount }, (_, columnIndex) => {
-              const personIndex = getReactKey(
-                virtualRow.index,
-                columnIndex,
-                columnCount
-              );
+              const personIndex = virtualRow.index * columnCount + columnIndex;
               if (personIndex >= persons.length) {
                 return null;
               }
