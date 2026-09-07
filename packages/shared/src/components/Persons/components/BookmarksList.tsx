@@ -10,9 +10,8 @@ import {
 } from '@bypass/ui';
 import { BookEditIcon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { use, useState } from 'react';
+import { useState } from 'react';
 
-import DynamicContext from '../../../provider/DynamicContext';
 import Bookmark from '../../Bookmarks/components/Bookmark';
 import Header from '../../Header';
 import useTaggedBookmarks from '../hooks/useTaggedBookmarks';
@@ -34,15 +33,10 @@ function BookmarksList({
   fullscreen,
   onBookmarkEdit,
 }: Props) {
-  const { location } = use(DynamicContext);
   const { data: bookmarks = [], isLoading } = useTaggedBookmarks(
     personToOpen?.uid
   );
   const [searchText, setSearchText] = useState('');
-
-  const handleClose = () => {
-    location.goBack();
-  };
 
   const filteredBookmarks = getFilteredModifiedBookmarks(bookmarks, searchText);
 
@@ -116,7 +110,7 @@ function BookmarksList({
   return (
     <Dialog
       open={Boolean(personToOpen)}
-      onOpenChange={(open) => !open && handleClose()}
+      onOpenChange={(open) => !open && window.history.back()}
     >
       <DialogContent
         data-testid="bookmarks-list-modal"

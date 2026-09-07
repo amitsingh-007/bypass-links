@@ -1,21 +1,16 @@
-import pLimit from 'p-limit';
-import wretch from 'wretch';
-
 import { type ECacheBucketKeys } from '../constants/cache';
 
-const limit = pLimit(20);
+const CACHE_CONCURRENCY = 20;
 
 const addToOpenCache = async (cache: Cache, url: string) => {
-  const cachedResponse = await cache.match(url);
-  if (cachedResponse) {
+  if (await cache.match(url)) {
     return;
   }
   try {
-    const response = await wretch(url).get().res();
-    await cache.put(url, response);
+    await cache.add(url);
   } catch (error) {
     if (error instanceof Error) {
-      console.debug('Failed to cache favicon:', url, error.message);
+      console.debug('Failed to cache:', url, error.message);
     }
   }
 };
@@ -40,10 +35,17 @@ export const addAllToCache = async (
     return;
   }
   const cache = await caches.open(cacheBucketKey);
-  const cachePromises = uniqueUrls.map(async (url) =>
-    limit(async () => addToOpenCache(cache, url))
-  );
-  await Promise.all(cachePromises);
+  // Bounded so a large bookmark set does not fire hundreds of fetches at once
+  const queue = uniqueUrls.values();
+  const drain = async (): Promise<void> => {
+    const { value: url, done } = queue.next();
+    if (done) {
+      return;
+    }
+    await addToOpenCache(cache, url);
+    await drain();
+  };
+  await Promise.all(Array.from({ length: CACHE_CONCURRENCY }, drain));
 };
 
 /** One blob url per url; `createObjectURL` pins its blob for the document lifetime. */

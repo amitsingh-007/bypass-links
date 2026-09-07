@@ -1,6 +1,6 @@
 import filenamify from 'filenamify';
 
-export const getFullDbPath = (ref: string, uid?: string) =>
+export const getFullDbPath = (ref: string, uid: string) =>
   `/data/${uid}/${ref}`;
 
 export const getBucketPath = (uid: string) => `${uid}/persons`;

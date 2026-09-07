@@ -4,7 +4,9 @@ import path from 'node:path';
 
 import {
   attachBackgroundCoverage,
+  CHROME_PROFILE_DIR,
   coverageBrowserArgs,
+  EXTENSION_STORAGE_PATH,
   instrumentContext,
   removeTestDir,
   setExtensionBuildDir,
@@ -18,7 +20,6 @@ import {
   test as base,
 } from '@playwright/test';
 
-import { CHROME_PROFILE_DIR, EXTENSION_STORAGE_PATH } from '../auth-constants';
 import { getExtensionPath } from '../utils/extension-path';
 
 interface CachedStorageData {
@@ -34,19 +35,11 @@ export const getPopupUrl = (extensionId: string) =>
  * before the first page opens, and the callers that had to remember it had
  * already forgotten, silently dropping everything the auth setup covers.
  */
-export const launchExtensionContext = async ({
-  userDataDir,
-  extensionPath = getExtensionPath(),
-  headless = true,
-}: {
-  userDataDir: string;
-  extensionPath?: string;
-  headless?: boolean;
-}) => {
+export const launchExtensionContext = async (userDataDir: string) => {
+  const extensionPath = getExtensionPath();
   setExtensionBuildDir(extensionPath);
   const browserContext = await chromium.launchPersistentContext(userDataDir, {
     channel: 'chromium',
-    headless,
     args: [
       `--disable-extensions-except=${extensionPath}`,
       `--load-extension=${extensionPath}`,
@@ -71,19 +64,17 @@ export const loadCachedStorageData = async (): Promise<CachedStorageData> => {
  * preserving its Cache Storage. Omit it so no auth state leaks into
  * unauthenticated tests.
  */
-const createTempProfileContext = async ({
-  prefix,
-  extensionPath,
-  headless,
-  seedFromCachedProfile = false,
-}: {
-  prefix: string;
-  extensionPath?: string;
-  headless?: boolean;
+interface TempProfileOptions {
   seedFromCachedProfile?: boolean;
-}) => {
+}
+
+const createTempProfileContext = async ({
+  seedFromCachedProfile = false,
+}: TempProfileOptions) => {
   // Temp dir rather than the cached profile itself, to avoid locking issues
-  const userDataDir = await fs.promises.mkdtemp(path.join(os.tmpdir(), prefix));
+  const userDataDir = await fs.promises.mkdtemp(
+    path.join(os.tmpdir(), 'chrome-profile-')
+  );
 
   try {
     if (seedFromCachedProfile) {
@@ -91,11 +82,7 @@ const createTempProfileContext = async ({
         recursive: true,
       });
     }
-    const browserContext = await launchExtensionContext({
-      userDataDir,
-      extensionPath,
-      headless,
-    });
+    const browserContext = await launchExtensionContext(userDataDir);
     return { browserContext, userDataDir };
   } catch (error) {
     // No caller owns the dir yet, so it would leak if seeding or launch throws
@@ -106,7 +93,7 @@ const createTempProfileContext = async ({
 
 /** Runs `fn` against a fresh temp-profile context, always cleaning up after. */
 export const withTempProfileContext = async <T>(
-  options: Parameters<typeof createTempProfileContext>[0],
+  options: TempProfileOptions,
   fn: (context: BrowserContext) => Promise<T>
 ): Promise<T> => {
   const { browserContext, userDataDir } =
@@ -141,7 +128,7 @@ export const getExtensionId = async (
 export const openExtensionPanelPage = async (
   sharedContext: BrowserContext,
   sharedExtensionId: string,
-  panelName?: 'bookmarks' | 'persons' | 'shortcuts' | 'home'
+  panelName?: 'bookmarks' | 'persons' | 'shortcuts'
 ): Promise<Page> => {
   const page = await sharedContext.newPage();
   await page.goto(getPopupUrl(sharedExtensionId), {
@@ -154,7 +141,7 @@ export const openExtensionPanelPage = async (
     timeout: TEST_TIMEOUTS.AUTH,
   });
 
-  if (panelName && panelName !== 'home') {
+  if (panelName) {
     const panelButton = page.getByRole('button', {
       name: new RegExp(panelName, 'i'),
     });
@@ -177,15 +164,8 @@ export const sharedExtensionTest = base.extend<
   SharedExtensionWorkerFixtures
 >({
   sharedContext: [
-    async ({}, use, testInfo) => {
-      await withTempProfileContext(
-        {
-          prefix: 'chrome-profile-',
-          headless: testInfo.project.use?.headless ?? true,
-          seedFromCachedProfile: true,
-        },
-        use
-      );
+    async ({}, use) => {
+      await withTempProfileContext({ seedFromCachedProfile: true }, use);
     },
     { scope: 'worker' },
   ],

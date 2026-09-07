@@ -1,8 +1,12 @@
 import fs from 'node:fs';
 import process from 'node:process';
 
+import { getFirebasePublicConfig } from '@bypass/configs/firebase.config';
 import {
+  AUTH_CACHE_DIR,
+  CHROME_PROFILE_DIR,
   dumpLocalStorage,
+  EXTENSION_STORAGE_PATH,
   removeTestDir,
   TEST_TIMEOUTS,
 } from '@bypass/shared/tests';
@@ -13,13 +17,7 @@ import QueryStringAddon from 'wretch/addons/queryString';
 import type { IAuthResponse } from '@/interfaces/firebase';
 import { mapAuthResponse } from '@/store/firebase/utils';
 
-import { getFirebasePublicConfig } from '../../../packages/configs/firebase.config';
 import { TEST_AUTH_DATA_KEY } from '../src/constants';
-import {
-  AUTH_CACHE_DIR,
-  CHROME_PROFILE_DIR,
-  EXTENSION_STORAGE_PATH,
-} from './auth-constants';
 import {
   getExtensionId,
   getPopupUrl,
@@ -49,16 +47,13 @@ const signInWithEmailAndPassword = async (): Promise<IAuthResponse> => {
     }));
 };
 
-setup('authenticate and cache extension storage', async ({}, testInfo) => {
+setup('authenticate and cache extension storage', async () => {
   const authData = await signInWithEmailAndPassword();
 
   await fs.promises.mkdir(AUTH_CACHE_DIR, { recursive: true });
   await removeTestDir(CHROME_PROFILE_DIR);
 
-  const browserContext = await launchExtensionContext({
-    userDataDir: CHROME_PROFILE_DIR,
-    headless: testInfo.project.use?.headless ?? true,
-  });
+  const browserContext = await launchExtensionContext(CHROME_PROFILE_DIR);
 
   // Keeps its own AUTH timeout, so it does not use the shared SW helper
   let [background] = browserContext.serviceWorkers();

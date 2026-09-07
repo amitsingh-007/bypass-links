@@ -5,7 +5,7 @@ import { type ReactNode, useState } from 'react';
 
 import useIsMobile from '../../../hooks/useIsMobile';
 import { ScrollButton } from '../../ScrollButton';
-import usePersonImageMap from '../hooks/usePersonImageMap';
+import { usePersonImageMap } from '../hooks/usePersonQueries';
 import { type IBookmarkWithFolder } from '../interfaces/bookmark';
 import { type IPerson } from '../interfaces/persons';
 import { getColumnCount } from '../utils';

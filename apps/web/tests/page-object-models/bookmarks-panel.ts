@@ -1,9 +1,7 @@
-import { dblclickBookmark, getNumericBadgeValue } from '@bypass/shared/tests';
-import { expect, type Page, type Locator } from '@playwright/test';
+import { BookmarksPanelBase, getNumericBadgeValue } from '@bypass/shared/tests';
+import { expect, type Locator } from '@playwright/test';
 
-export class BookmarksPanel {
-  constructor(readonly page: Page) {}
-
+export class BookmarksPanel extends BookmarksPanelBase {
   async openFolder(folderName: string) {
     const folder = this.getFolderElement(folderName);
     await expect(folder).toBeVisible();
@@ -18,28 +16,6 @@ export class BookmarksPanel {
     const initialUrl = this.page.url();
     await backButton.click();
     await expect.poll(() => this.page.url()).not.toBe(initialUrl);
-  }
-
-  async openBookmarkByDoubleClick(title: string) {
-    await dblclickBookmark(this.page, title);
-  }
-
-  async getBookmarkCount(): Promise<number> {
-    return this.page.locator('[data-testid^="bookmark-item-"]').count();
-  }
-
-  async hoverAvatar(): Promise<Locator> {
-    const avatarGroup = this.getAvatarGroup();
-    const avatar = avatarGroup.locator('[data-testid^="avatar-"]').first();
-    await expect(avatar).toBeVisible();
-    await avatar.hover();
-
-    const dropdown = this.page
-      .locator('[data-testid^="person-dropdown-"]')
-      .first();
-    await expect(dropdown).toBeVisible();
-
-    return dropdown;
   }
 
   async getEmptyFolder(folderName: string): Promise<Locator> {
@@ -73,37 +49,11 @@ export class BookmarksPanel {
     return tooltip;
   }
 
-  async verifyBookmarkExists(title: string) {
-    const bookmark = this.getBookmarkElement(title);
-    await expect(bookmark).toBeVisible();
-  }
-
-  async verifyFolderExists(name: string) {
-    const folder = this.getFolderElement(name);
-    await expect(folder).toBeVisible();
-  }
-
-  getSearchInput(): Locator {
-    return this.page.getByPlaceholder('Search');
-  }
-
   getBookmarkCountBadge(): Locator {
     return this.page.getByTestId('header-badge');
   }
 
   async getBadgeCount(): Promise<number> {
     return getNumericBadgeValue(this.page, 'header-badge');
-  }
-
-  getAvatarGroup(): Locator {
-    return this.page.getByTestId('avatar-group');
-  }
-
-  private getBookmarkElement(title: string): Locator {
-    return this.page.getByTestId(`bookmark-item-${title}`);
-  }
-
-  private getFolderElement(name: string): Locator {
-    return this.page.getByTestId(`folder-item-${name}`);
   }
 }

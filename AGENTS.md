@@ -60,14 +60,13 @@ Turbo manages task dependencies defined in `turbo.json`:
 
 ## E2E Testing
 
-Playwright tests use setup/teardown projects for both web and extension flows:
+Playwright projects:
 
-1. **web-auth-setup** (`apps/web/tests/auth.setup.ts`) - Runs once per test run to authenticate and cache storage
-2. **@bypass/web-with-auth** (`apps/web/tests/specs/`) - Runs web specs with cached authenticated storage
-3. **web-teardown** (`apps/web/tests/global-teardown.ts`) - Cleans up `.playwright/.cache` after web tests complete
-4. **extension-setup** (`apps/extension/tests/auth.setup.ts`) - Runs once per test run to authenticate and cache the Chrome profile
-5. **@bypass/extension** (`apps/extension/tests/specs/`) - Parallel extension tests using cached authenticated profile
-6. **extension-teardown** (`apps/extension/tests/global-teardown.ts`) - Cleans up `.playwright/.cache` after extension tests complete
+1. **auth-setup** (`apps/*/tests/auth.setup.ts`) - Runs once per test run; caches web `storageState` and the authenticated extension Chrome profile under `.playwright/.cache`
+2. **@bypass/web-with-auth** (`apps/web/tests/specs/`) - Web specs, authenticated via the project's `storageState`
+3. **@bypass/extension** (`apps/extension/tests/specs/`) - Parallel extension tests, each worker on a copy of the cached Chrome profile
+
+`tests/coverage-report.ts` is the global teardown: it writes the coverage report (CI only) and removes `.playwright/.cache`. Shared page-object bases live in `packages/shared/src/utils/test-poms.ts`.
 
 ## Key Technologies
 

@@ -1,12 +1,9 @@
 import { instrumentContext } from '@bypass/shared/tests';
 import { test as base } from '@playwright/test';
 
-/**
- * For specs that use Playwright's own context instead of the authenticated one,
- * so their pages are still counted in the coverage report.
- */
+/** Auth comes from the project's `storageState`; this only adds coverage instrumentation. */
 export const test = base.extend({
-  context: async ({ context }, use) => {
+  async context({ context }, use) {
     instrumentContext(context);
     await use(context);
   },

@@ -60,19 +60,15 @@ export const fillSearchInput = async (
   await expect(searchInput).toHaveValue(query);
 };
 
-export const clearSearchInput = async (
-  scope: SearchScope,
-  placeholder = 'Search'
-) => {
-  const searchInput = scope.getByPlaceholder(placeholder);
+export const clearSearchInput = async (scope: SearchScope) => {
+  const searchInput = scope.getByPlaceholder('Search');
   await searchInput.clear();
   await expect(searchInput).toHaveValue('');
 };
 
-export const parseBadgeCount = (badgeText: string): number => {
-  const match = /\((\d+)\)/.exec(badgeText);
-  return match ? Number.parseInt(match[1], 10) : 0;
-};
+/** Prefers a parenthesised count, since names in the badge may contain digits. */
+export const parseBadgeCount = (badgeText: string): number =>
+  Number(/\((\d+)\)/.exec(badgeText)?.[1] ?? /\d+/.exec(badgeText)?.[0] ?? 0);
 
 export const getNumericBadgeValue = async (
   scope: TestIdScope,
@@ -80,19 +76,8 @@ export const getNumericBadgeValue = async (
 ): Promise<number> => {
   const badge = scope.getByTestId(testId);
   await expect(badge).toBeVisible();
-
-  const text = (await badge.textContent()) ?? '';
-  if (/\(\d+\)/.test(text)) {
-    return parseBadgeCount(text);
-  }
-
-  const firstNumberMatch = /\b(\d+)\b/.exec(text);
-  return firstNumberMatch ? Number.parseInt(firstNumberMatch[1], 10) : 0;
+  return parseBadgeCount((await badge.textContent()) ?? '');
 };
-
-export const getHeaderPersonCount = async (
-  scope: TestIdScope
-): Promise<number> => getNumericBadgeValue(scope, 'header-badge');
 
 export const clickDropdownPersonAndGetName = async (
   dropdown: Locator
@@ -111,13 +96,6 @@ export const clickDropdownPersonAndGetName = async (
   await dropdownAvatar.click();
   return personName;
 };
-
-/** Double-clicks the title, not the row: it fills the row width, so it cannot shift under a person hover card while avatars load. */
-export const dblclickBookmark = async (scope: TestIdScope, title: string) =>
-  scope
-    .getByTestId(`bookmark-item-${title}`)
-    .getByTestId(`bookmark-title-${title}`)
-    .dblclick();
 
 /** Retries the action, so every caller's action must be idempotent: a swallowed gesture leaves no trace but the tab never arriving. */
 export const openNewPageFromAction = async (

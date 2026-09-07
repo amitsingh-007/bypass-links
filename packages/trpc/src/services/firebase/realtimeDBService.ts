@@ -5,9 +5,9 @@ import {
   type IRedirection,
   type IRedirections,
   type IWebsites,
+  EStorageKey,
 } from '@bypass/shared';
 
-import { EFirebaseDBRef } from '../../constants/firebase';
 import {
   getFromFirebase,
   saveToFirebase,
@@ -23,13 +23,13 @@ const EMPTY_BOOKMARKS: IBookmarksObj = {
 
 export const getBookmarks = (uid: string) =>
   getFromFirebase({
-    ref: EFirebaseDBRef.bookmarks,
+    ref: EStorageKey.bookmarks,
     uid,
     fallback: EMPTY_BOOKMARKS,
   });
 
 export const getPersons = (uid: string) =>
-  getFromFirebase<IPersons>({ ref: EFirebaseDBRef.persons, uid, fallback: {} });
+  getFromFirebase<IPersons>({ ref: EStorageKey.persons, uid, fallback: {} });
 
 export const saveBookmarksAndPersons = async (
   bookmarks: IBookmarksObj,
@@ -37,21 +37,21 @@ export const saveBookmarksAndPersons = async (
   uid: string
 ) => {
   await Promise.all([
-    saveToFirebase({ ref: EFirebaseDBRef.bookmarks, uid, data: bookmarks }),
-    saveToFirebase({ ref: EFirebaseDBRef.persons, uid, data: persons }),
+    saveToFirebase({ ref: EStorageKey.bookmarks, uid, data: bookmarks }),
+    saveToFirebase({ ref: EStorageKey.persons, uid, data: persons }),
   ]);
 };
 
 export const getWebsites = (uid: string) =>
   getFromFirebase<IWebsites>({
-    ref: EFirebaseDBRef.websites,
+    ref: EStorageKey.websites,
     uid,
     fallback: {},
   });
 
 export const getLastVisited = (uid: string) =>
   getFromFirebase<ILastVisited>({
-    ref: EFirebaseDBRef.lastVisited,
+    ref: EStorageKey.lastVisited,
     uid,
     fallback: {},
   });
@@ -59,7 +59,7 @@ export const getLastVisited = (uid: string) =>
 export const upsertLastVisited = async (hash: string, uid: string) => {
   const timestamp = Date.now();
   await upsertToFirebase({
-    ref: EFirebaseDBRef.lastVisited,
+    ref: EStorageKey.lastVisited,
     uid,
     data: { [hash]: timestamp },
   });
@@ -68,7 +68,7 @@ export const upsertLastVisited = async (hash: string, uid: string) => {
 
 export const getRedirections = (uid: string) =>
   getFromFirebase<IRedirections>({
-    ref: EFirebaseDBRef.redirections,
+    ref: EStorageKey.redirections,
     uid,
     fallback: [],
   });
@@ -86,7 +86,7 @@ export const saveRedirections = async (
     )
   );
   await saveToFirebase({
-    ref: EFirebaseDBRef.redirections,
+    ref: EStorageKey.redirections,
     uid,
     data: shortcutsObj,
   });

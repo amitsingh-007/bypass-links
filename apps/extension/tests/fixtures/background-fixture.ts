@@ -159,29 +159,19 @@ export const test = base.extend<
   { isolatedBackground: BaseBackgroundEnv },
   { sharedBackground: BaseBackgroundEnv }
 >({
-  async isolatedBackground({}, use, testInfo) {
-    await withTempProfileContext(
-      {
-        prefix: 'chrome-background-profile-',
-        headless: testInfo.project.use?.headless ?? true,
-      },
-      async (context) => {
-        const backgroundSW = await createSharedBackgroundSW(context);
-        const extensionId = await getExtensionId(backgroundSW);
-        await use(await createBackgroundEnv(context, extensionId));
-      }
-    );
+  async isolatedBackground({}, use) {
+    await withTempProfileContext({}, async (context) => {
+      const backgroundSW = await createSharedBackgroundSW(context);
+      const extensionId = await getExtensionId(backgroundSW);
+      await use(await createBackgroundEnv(context, extensionId));
+    });
   },
 
   // Shared across specs and workers, so anything written here must be restored
   sharedBackground: [
-    async ({}, use, testInfo) => {
+    async ({}, use) => {
       await withTempProfileContext(
-        {
-          prefix: 'chrome-profile-',
-          headless: testInfo.project.use?.headless ?? true,
-          seedFromCachedProfile: true,
-        },
+        { seedFromCachedProfile: true },
         async (context) => {
           const backgroundSW = await createSharedBackgroundSW(context);
           const extensionId = await getExtensionId(backgroundSW);

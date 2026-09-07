@@ -1,6 +1,7 @@
 import type { Buffer } from 'node:buffer';
 
 import { getFirebasePublicConfig } from '@bypass/configs/firebase.config';
+import { EStorageKey } from '@bypass/shared';
 import { cert, getApp, getApps, initializeApp } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
 import { getDatabase } from 'firebase-admin/database';
@@ -8,12 +9,11 @@ import { getDownloadURL, getStorage } from 'firebase-admin/storage';
 import { z } from 'zod/mini';
 
 import { env } from '../constants/env';
-import { type EFirebaseDBRef } from '../constants/firebase';
 import { getFullDbPath, getFilePath, getBucketPath } from '../utils/firebase';
 
 interface Firebase {
-  ref: EFirebaseDBRef;
-  uid?: string;
+  ref: EStorageKey;
+  uid: string;
   data: object;
 }
 

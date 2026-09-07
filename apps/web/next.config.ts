@@ -1,16 +1,8 @@
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-
+import { loadRootEnv } from '@bypass/configs/env';
 import { getFirebaseAuthHelperUrl } from '@bypass/configs/firebase.config';
 import { type NextConfig } from 'next';
 
-if (!process.env.VERCEL) {
-  const monorepoRoot = path.resolve(
-    path.dirname(fileURLToPath(import.meta.url)),
-    '../..'
-  );
-  process.loadEnvFile(path.join(monorepoRoot, '.env'));
-}
+loadRootEnv();
 
 const isDev = process.env.NODE_ENV === 'development';
 

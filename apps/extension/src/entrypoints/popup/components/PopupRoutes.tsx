@@ -1,19 +1,22 @@
+import { ROUTES } from '@bypass/shared';
 import { Suspense } from 'react';
-import { Switch } from 'wouter';
+import { Route, Switch } from 'wouter';
 
-import { BookmarksPanelRoute } from '../panels/BookmarksPanel/routes';
-import { HomePageRoute } from '../panels/HomePopup/routes';
-import { PersonsPanelRoute } from '../panels/PersonsPanel/routes';
-import { ShortcutsPanelRoute } from '../panels/ShortcutsPanel/routes';
+import { POPUP_HOMEPAGE } from '@/constants';
+
+import BookmarksPanel from '../panels/BookmarksPanel/components/BookmarksPanel';
+import PopupHome from '../panels/HomePopup/containers/PopupHome';
+import PersonsPanel from '../panels/PersonsPanel/components/PersonsPanel';
+import ShortcutsPanel from '../panels/ShortcutsPanel/components/ShortcutsPanel';
 
 function PopupRoutes() {
   return (
     <Suspense fallback={null}>
       <Switch>
-        {HomePageRoute}
-        {ShortcutsPanelRoute}
-        {BookmarksPanelRoute}
-        {PersonsPanelRoute}
+        <Route path={POPUP_HOMEPAGE} component={PopupHome} />
+        <Route path={ROUTES.SHORTCUTS_PANEL} component={ShortcutsPanel} />
+        <Route path={ROUTES.BOOKMARK_PANEL} component={BookmarksPanel} />
+        <Route path={ROUTES.PERSONS_PANEL} component={PersonsPanel} />
       </Switch>
     </Suspense>
   );

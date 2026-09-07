@@ -1,7 +1,7 @@
 import { use } from 'react';
 
 import { ECacheBucketKeys } from '../../../constants/cache';
-import { STORAGE_KEYS } from '../../../constants/storage';
+import { EStorageKey } from '../../../constants/storage';
 import DynamicContext from '../../../provider/DynamicContext';
 import {
   getBlobUrlFromCache,
@@ -20,12 +20,12 @@ const usePerson = () => {
   const { storage } = use(DynamicContext);
 
   const getBookmarks = async () =>
-    storage.get<IBookmarksObj>(STORAGE_KEYS.bookmarks);
+    storage.get<IBookmarksObj>(EStorageKey.bookmarks);
 
-  const getPersons = async () => storage.get<IPersons>(STORAGE_KEYS.persons);
+  const getPersons = async () => storage.get<IPersons>(EStorageKey.persons);
 
   const getPersonImageUrls = async () =>
-    storage.get<PersonImageUrls>(STORAGE_KEYS.personImageUrls);
+    storage.get<PersonImageUrls>(EStorageKey.personImageUrls);
 
   const getAllDecodedPersons = async () => {
     const persons = await getPersons();

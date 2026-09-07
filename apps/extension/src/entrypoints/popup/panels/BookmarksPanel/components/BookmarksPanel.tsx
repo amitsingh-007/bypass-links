@@ -1,8 +1,6 @@
 import {
-  type BMPanelQueryParams,
   BOOKMARK_ROW_HEIGHT,
   DynamicContext,
-  EBookmarkOperation,
   HEADER_HEIGHT,
   ScrollButton,
   getFilteredContextBookmarks,
@@ -15,7 +13,7 @@ import { useShallow } from 'zustand/react/shallow';
 import { MAX_PANEL_SIZE } from '@/constants';
 import Panel from '@popup/components/Panel';
 
-import useBookmarkRouteStore from '../store/useBookmarkRouteStore';
+import useBookmarkPanelParams from '../hooks/useBookmarkPanelParams';
 import useBookmarkStore from '../store/useBookmarkStore';
 import { countTruthy } from '../utils';
 import { findBookmarkById } from '../utils/bookmark';
@@ -24,11 +22,9 @@ import BookmarkContextMenu from './BookmarkContextMenu';
 import BookmarksHeader from './BookmarksHeader';
 import VirtualRow from './VirtualRow';
 
-function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
+function BookmarksPanel() {
+  const { folderId } = useBookmarkPanelParams();
   const { tabs } = use(DynamicContext);
-  const setBookmarkOperation = useBookmarkRouteStore(
-    (state) => state.setBookmarkOperation
-  );
   const {
     contextBookmarks,
     selectedBookmarks,
@@ -91,13 +87,6 @@ function BookmarksPanel({ folderId, operation, bmUrl }: BMPanelQueryParams) {
       loadData(folderId);
     }
   }, [folderId, loadData]);
-
-  useEffect(() => {
-    if (!isFetching && operation !== EBookmarkOperation.NONE) {
-      // After loadData: EditBookmark needs contextBookmarks already set
-      setBookmarkOperation(operation, bmUrl);
-    }
-  }, [bmUrl, isFetching, operation, setBookmarkOperation]);
 
   const curBookmarksCount = filteredContextBookmarks.length;
 

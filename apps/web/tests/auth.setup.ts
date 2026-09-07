@@ -1,16 +1,15 @@
 import fs from 'node:fs';
-import path from 'node:path';
 import process from 'node:process';
 
 import {
-  dumpLocalStorage,
+  AUTH_CACHE_DIR,
   instrumentContext,
   TEST_TIMEOUTS,
+  WEB_STORAGE_PATH,
 } from '@bypass/shared/tests';
-import { chromium, expect, test as setup } from '@playwright/test';
+import { expect, test as setup } from '@playwright/test';
 
 import { TEST_CREDENTIALS_KEY } from '../src/app/constants';
-import { AUTH_CACHE_DIR, WEB_STORAGE_PATH } from './auth-constants';
 
 const testCredentials = JSON.stringify({
   email: process.env.FIREBASE_TEST_USER_EMAIL,
@@ -19,33 +18,21 @@ const testCredentials = JSON.stringify({
 
 setup.setTimeout(60_000);
 
-setup('authenticate and cache web storage', async ({}, testInfo) => {
+setup('authenticate and cache web storage', async ({ browser }) => {
   await fs.promises.mkdir(AUTH_CACHE_DIR, { recursive: true });
-  const headless = testInfo.project.use?.headless ?? true;
-
-  const browserContext = await chromium.launchPersistentContext(
-    path.join(AUTH_CACHE_DIR, 'web-profile'),
-    {
-      channel: 'chromium',
-      headless,
-      args: ['--disable-dev-shm-usage', '--no-sandbox'],
-    }
-  );
+  const context = await browser.newContext();
 
   // The real login and preload pipeline only ever runs here
-  instrumentContext(browserContext);
+  instrumentContext(context);
 
-  await browserContext.addInitScript(
+  await context.addInitScript(
     ({ credentialsJson, key }) => {
       window.localStorage.setItem(key, credentialsJson);
     },
-    {
-      credentialsJson: testCredentials,
-      key: TEST_CREDENTIALS_KEY,
-    }
+    { credentialsJson: testCredentials, key: TEST_CREDENTIALS_KEY }
   );
 
-  const page = await browserContext.newPage();
+  const page = await context.newPage();
   const webUrl =
     process.env.PLAYWRIGHT_TEST_BASE_URL ?? 'http://localhost:3000';
 
@@ -72,14 +59,6 @@ setup('authenticate and cache web storage', async ({}, testInfo) => {
     })
     .not.toBeNull();
 
-  const localStorageData = await dumpLocalStorage(page);
-
-  const cookies = await browserContext.cookies();
-
-  await fs.promises.writeFile(
-    WEB_STORAGE_PATH,
-    JSON.stringify({ localStorage: localStorageData, cookies }, null, 2)
-  );
-
-  await browserContext.close();
+  await context.storageState({ path: WEB_STORAGE_PATH });
+  await context.close();
 });

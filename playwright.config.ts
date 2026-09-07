@@ -1,9 +1,11 @@
 import path from 'node:path';
 import process from 'node:process';
 
+import { loadRootEnv } from '@bypass/configs/env';
+import { WEB_STORAGE_PATH } from '@bypass/shared/tests';
 import { defineConfig } from '@playwright/test';
 
-process.loadEnvFile(path.join(process.cwd(), '.env'));
+loadRootEnv();
 
 const ciBaseUrl = process.env.PLAYWRIGHT_TEST_BASE_URL;
 const isCI = Boolean(ciBaseUrl);
@@ -33,65 +35,29 @@ const config = defineConfig({
     trace: 'retain-on-failure',
   },
   projects: [
-    /**
-     * Web App Setup: Runs once per test run to authenticate and cache storage.
-     * This avoids repeating the login flow and data sync for every test.
-     */
+    /** Authenticates once per run and caches web storage state and the extension Chrome profile. */
     {
-      name: 'web-auth-setup',
-      testMatch: 'auth.setup.ts',
-      testDir: './apps/web/tests',
+      name: 'auth-setup',
+      testDir: './apps',
+      testMatch: '**/tests/auth.setup.ts',
     },
-    /**
-     * Web App Tests with Auth: Run with authenticated session.
-     * Each spec file gets an isolated copy of the authenticated browser context.
-     */
     {
       name: '@bypass/web-with-auth',
       testDir: './apps/web/tests/specs',
-      dependencies: ['web-auth-setup'],
-      teardown: 'web-teardown',
+      dependencies: ['auth-setup'],
       use: {
         baseURL: ciBaseUrl ?? 'http://localhost:3000',
+        storageState: WEB_STORAGE_PATH,
       },
     },
-    /**
-     * Web App Teardown: Cleans up the auth cache directory after all tests in the project complete.
-     */
-    {
-      name: 'web-teardown',
-      testMatch: 'global-teardown.ts',
-      testDir: './apps/web/tests',
-    },
-    /**
-     * Extension Setup: Runs once per test run to authenticate and cache storage/profile.
-     * This avoids repeating the login flow and data sync for every specimen.
-     */
-    {
-      name: 'extension-setup',
-      testMatch: 'auth.setup.ts',
-      testDir: './apps/extension/tests',
-    },
-    /**
-     * Extension Tests: Run in parallel across spec files.
-     * Each spec file gets an isolated copy of the authenticated Chrome profile.
-     */
+    /** Each spec file gets an isolated copy of the authenticated Chrome profile. */
     {
       name: '@bypass/extension',
       testDir: './apps/extension/tests/specs',
-      dependencies: ['extension-setup'],
-      teardown: 'extension-teardown',
+      dependencies: ['auth-setup'],
       use: {
         baseURL: 'chrome-extension://chadipececickdfjckjkjpehlhnkclmb',
       },
-    },
-    /**
-     * Extension Teardown: Cleans up the auth cache directory after all tests in the project complete.
-     */
-    {
-      name: 'extension-teardown',
-      testMatch: 'global-teardown.ts',
-      testDir: './apps/extension/tests',
     },
   ],
 });

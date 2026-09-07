@@ -1,11 +1,8 @@
 import { createContext } from 'react';
 
-import { noOp } from '../utils';
-
 interface IDynamicContext {
   location: {
     push: (url: string) => void;
-    goBack: VoidFunction;
   };
   storage: {
     get: <T>(key: string) => Promise<T | null | undefined>;
@@ -19,21 +16,7 @@ interface IDynamicContext {
   };
 }
 
-const DynamicContext = createContext<IDynamicContext>({
-  location: {
-    push: noOp,
-    goBack: noOp,
-  },
-  storage: {
-    get: async () => undefined,
-    set: async () => {},
-  },
-  tabs: {
-    open: noOp,
-  },
-  favicon: {
-    getUrl: (url: string) => url,
-  },
-});
+// Both apps always mount a provider, so no meaningful default exists
+const DynamicContext = createContext<IDynamicContext>({} as IDynamicContext);
 
 export default DynamicContext;

@@ -29,8 +29,6 @@ catalog:
   '@octokit/rest': 22.0.1
   '@playwright/test': 1.62.1
   '@rolldown/plugin-babel': 0.2.3
-  '@t3-oss/env-core': 0.13.11
-  '@t3-oss/env-nextjs': 0.13.11
   '@tailwindcss/postcss': 4.3.3
   '@tailwindcss/vite': 4.3.3
   '@tanstack/react-form': 1.33.5
@@ -59,7 +57,6 @@ catalog:
   oxlint: 1.80.0
   oxlint-tailwindcss: 1.10.1
   oxlint-tsgolint: 7.0.2001
-  p-limit: 7.3.1
   postcss: 8.5.26
   react: 19.2.8
   react-avatar-editor: 15.1.0

@@ -1,6 +1,6 @@
 import useDefaultFolderUrls from '../../Bookmarks/hooks/useDefaultFolderUrls';
 import { getFilteredPersons, sortByRecency } from '../utils';
-import usePersons from './usePersons';
+import { usePersons } from './usePersonQueries';
 
 /** No image urls: they stay out of the array the extension panel persists (see usePersonImageMap). */
 const useOrderedPersons = (orderByRecency: boolean, searchText = '') => {

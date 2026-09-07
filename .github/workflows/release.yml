@@ -13,53 +13,16 @@ jobs:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
     outputs:
-      preview_url: ${{ steps.vercel-action.outputs.preview-url }}
+      preview_url: ${{ steps.build.outputs.preview-url }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
 
-      - name: Setup pnpm and Node.js
-        uses: pnpm/setup@v2
-        with:
-          cache: true
-
-      - name: Pull environment variables
-        run: pnpm vercel env pull .env --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Deploy Preview (Vercel)
-        uses: amondnet/vercel-action@v42
-        id: vercel-action
-        env:
-          NPM_CONFIG_FORCE: 'true'
+      - id: build
+        uses: ./.github/actions/build-preview
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
-          github-comment: false
-
-      - name: Building Extension
-        run: pnpm build --filter=@bypass/extension
-
-      - name: Uploading extensions
-        uses: actions/upload-artifact@v7
-        with:
-          name: extension-release
-          path: ./apps/extension/.output
-          include-hidden-files: true
-
-      - name: Point extension at the preview deployment
-        run: sed -i "s#^NEXT_PUBLIC_HOST_NAME=.*#NEXT_PUBLIC_HOST_NAME=${{ steps.vercel-action.outputs.preview-url }}#" .env
-
-      - name: Building extension for e2e
-        run: pnpm build --filter=@bypass/extension
-        env:
-          COVERAGE: '1'
-
-      - name: Uploading e2e extension
-        uses: actions/upload-artifact@v7
-        with:
-          name: extension-e2e
-          path: ./apps/extension/.output-coverage/chrome-mv3
+          upload-release: 'true'
 
   Playwright:
     needs: [Build]
@@ -72,50 +35,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7
 
-      - name: Setup pnpm and Node.js
-        uses: pnpm/setup@v2
+      - uses: ./.github/actions/e2e
         with:
-          cache: true
-
-      - name: Cache Playwright binaries
-        uses: actions/cache@v6
-        id: playwright-cache
-        with:
-          path: |
-            ~/Library/Caches/ms-playwright
-            ~/.cache/ms-playwright
-            ${{ github.workspace }}/node_modules/playwright
-          key: cache-playwright-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: cache-playwright-
-
-      - name: Download extension
-        uses: actions/download-artifact@v8
-        with:
-          name: extension-e2e
-          path: ./apps/extension/.output/chrome-mv3/
-
-      - name: Pull environment variables
-        run: pnpm vercel env pull .env --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Install Playwright browsers
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: pnpm playwright install --with-deps
-
-      - name: Run Playwright tests
-        run: pnpm e2e
-        env:
-          PLAYWRIGHT_TEST_BASE_URL: ${{ needs.Build.outputs.preview_url }}
-          COVERAGE: '1'
-
-      - name: Upload Playwright test report
-        uses: actions/upload-artifact@v7
-        if: always()
-        with:
-          name: playwright-report
-          path: |
-            .playwright/playwright-report/
-            .playwright/coverage/
-          include-hidden-files: true
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          preview-url: ${{ needs.Build.outputs.preview_url }}
 
   Deploy:
     runs-on: ubuntu-latest
@@ -124,10 +47,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7
 
-      - name: Setup pnpm and Node.js
-        uses: pnpm/setup@v2
-        with:
-          cache: true
+      - uses: ./.github/actions/setup
 
       - name: Start deployment
         uses: bobheadxi/deployments@v1.5.0
@@ -175,10 +95,7 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Setup pnpm and Node.js
-        uses: pnpm/setup@v2
-        with:
-          cache: true
+      - uses: ./.github/actions/setup
 
       - name: Download extension
         uses: actions/download-artifact@v8

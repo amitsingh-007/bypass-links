@@ -2,7 +2,6 @@ import { Switch } from '@bypass/ui';
 import { useEffect, useEffectEvent } from 'react';
 
 import { historyStartTimeItem } from '@/storage/items';
-import { startHistoryWatch } from '@/utils/history';
 import useExtStore from '@store/extension';
 import useHistoryStore from '@store/history';
 
@@ -24,10 +23,9 @@ const endHistoryWatch = async () => {
 };
 
 function ToggleHistory() {
-  const resetHistoryMonitor = useHistoryStore(
-    (state) => state.resetHistoryMonitor
+  const startHistoryMonitor = useHistoryStore(
+    (state) => state.startHistoryMonitor
   );
-  const monitorHistory = useHistoryStore((state) => state.monitorHistory);
   const isHistoryActive = useHistoryStore((state) => state.isHistoryActive);
   const setIsHistoryActive = useHistoryStore(
     (state) => state.setIsHistoryActive
@@ -44,12 +42,9 @@ function ToggleHistory() {
 
   const turnOnHistory = async () => {
     if (!isHistoryActive) {
-      resetHistoryMonitor();
-      await startHistoryWatch();
-      setIsHistoryActive(true);
+      await startHistoryMonitor();
     }
   };
-  const onMonitorHistory = useEffectEvent(turnOnHistory);
 
   useEffect(() => {
     historyStartTimeItem.getValue().then((historyStartTime) => {
@@ -62,12 +57,6 @@ function ToggleHistory() {
       onExtensionInactive();
     }
   }, [isExtensionActive]);
-
-  useEffect(() => {
-    if (monitorHistory) {
-      onMonitorHistory();
-    }
-  }, [monitorHistory]);
 
   const handleToggle = async (checked: boolean) => {
     if (checked) {

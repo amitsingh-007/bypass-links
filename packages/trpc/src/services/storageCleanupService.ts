@@ -1,8 +1,7 @@
 import path from 'node:path';
 
-import { getPersonImageName, type IPersons } from '@bypass/shared';
+import { getPersonImageName, type IPersons, EStorageKey } from '@bypass/shared';
 
-import { EFirebaseDBRef } from '../constants/firebase';
 import {
   getFromFirebase,
   listFilesFromFirebase,
@@ -18,7 +17,7 @@ async function getPersonStorageImageId(uid: string): Promise<string[]> {
 export const cleanupStorage = async (uid: string): Promise<void> => {
   const imageUids = await getPersonStorageImageId(uid);
   const personRecordUids = await getFromFirebase<IPersons>({
-    ref: EFirebaseDBRef.persons,
+    ref: EStorageKey.persons,
     uid,
     fallback: {},
   });

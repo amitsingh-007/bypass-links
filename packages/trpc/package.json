@@ -12,18 +12,19 @@
   "scripts": {
     "typecheck": "tsc --noEmit"
   },
+  "dependencies": {
+    "@bypass/configs": "workspace:*",
+    "@bypass/shared": "workspace:*",
+    "@octokit/rest": "catalog:",
+    "@trpc/server": "catalog:",
+    "filenamify": "catalog:",
+    "firebase-admin": "catalog:",
+    "zod": "catalog:"
+  },
   "devDependencies": {
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "@bypass/configs": "workspace:*",
-    "@bypass/shared": "workspace:*",
-    "@octokit/rest": "catalog:",
-    "@t3-oss/env-core": "catalog:",
-    "@trpc/server": "catalog:",
-    "filenamify": "catalog:",
-    "firebase-admin": "catalog:",
-    "next": "catalog:",
-    "zod": "catalog:"
+    "next": "catalog:"
   }
 }

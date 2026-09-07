@@ -1,5 +1,5 @@
 import { type IPersonWithImage } from '../interfaces/persons';
-import useAllPersonsWithImages from './useAllPersonsWithImages';
+import { useAllPersonsWithImages } from './usePersonQueries';
 
 const useTaggedPersons = (taggedPersons: string[]) => {
   const { data: allPersons = [], ...rest } = useAllPersonsWithImages();

@@ -1,7 +1,7 @@
 import { Button, Spinner } from '@bypass/ui';
 import { Login02Icon, Logout02Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { useCallback, useEffect } from 'react';
+import { useEffect, useEffectEvent } from 'react';
 import { toast } from 'sonner';
 
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
@@ -12,7 +12,6 @@ import { signIn, signOut } from '../utils/authentication';
 
 function Authenticate() {
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
-  const setIsSignedIn = useFirebaseStore((state) => state.setIsSignedIn);
   const isExtensionActive = useExtStore((state) => state.isExtensionActive);
   const isLoading = useProgressStore((state) => state.isLoading);
   const startLoading = useProgressStore((state) => state.startLoading);
@@ -20,33 +19,25 @@ function Authenticate() {
 
   const handleSignIn = async () => {
     startLoading();
-    const isSignInSuccess = await signIn();
-    setIsSignedIn(isSignInSuccess);
+    await signIn();
     stopLoading();
   };
 
-  // Memoized: exhaustive-deps wants a stable identity for the effect below
-  const handleSignOut = useCallback(async () => {
+  const handleSignOut = async () => {
     startLoading();
     const isSignedOutSuccess = await signOut();
-    if (isSignedOutSuccess) {
-      setIsSignedIn(!isSignedOutSuccess);
-    } else {
+    if (!isSignedOutSuccess) {
       toast.error('Error while logging out');
     }
     stopLoading();
-  }, [setIsSignedIn, startLoading, stopLoading]);
-
-  useEffect(() => {
-    const { idpAuth } = useFirebaseStore.getState();
-    setIsSignedIn(Boolean(idpAuth?.uid));
-  }, [setIsSignedIn]);
+  };
+  const onExtensionInactive = useEffectEvent(handleSignOut);
 
   useEffect(() => {
     if (isSignedIn && !isExtensionActive) {
-      handleSignOut();
+      onExtensionInactive();
     }
-  }, [handleSignOut, isExtensionActive, isSignedIn]);
+  }, [isExtensionActive, isSignedIn]);
 
   return (
     <Button

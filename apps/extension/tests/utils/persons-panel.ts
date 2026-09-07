@@ -1,23 +1,20 @@
-import { closeDialog, getHeaderPersonCount } from '@bypass/shared/tests';
+import {
+  closeDialog,
+  parseBadgeCount,
+  PersonsPanelBase,
+} from '@bypass/shared/tests';
 import { expect, type Page } from '@playwright/test';
 
 import {
   clickDialogButton,
   clickContextMenuItem,
   fillDialogInput,
-  getBadgeCount,
   gotoPanel,
   navigateBack,
-  openDialog,
+  openAddDialog,
 } from './test-utils';
 
 const DIALOG_CLOSE_TIMEOUT = 15_000;
-
-const openPersonCard = async (page: Page, personName: string) => {
-  const personCard = page.getByTestId(`person-item-${personName}`);
-  await expect(personCard).toBeVisible();
-  await personCard.click();
-};
 
 const openImagePicker = async (
   page: Page,
@@ -59,19 +56,9 @@ const changeImageInDialog = async (
   await uploadImage(page, imagePickerDialog, imageUrl);
 };
 
-export class PersonsPanel {
-  constructor(readonly page: Page) {}
-
-  getBookmarksDialog() {
-    return this.page.getByTestId('bookmarks-list-modal');
-  }
-
-  async getPersonCount() {
-    return this.page.locator('[data-testid^="person-item-"]').count();
-  }
-
+export class PersonsPanel extends PersonsPanelBase {
   async openAddPersonDialog() {
-    return openDialog(this.page, 'Add', 'Add Person');
+    return openAddDialog(this.page, 'Add Person');
   }
 
   async addPerson(name: string, imageUrl?: string) {
@@ -146,7 +133,9 @@ export class PersonsPanel {
   }
 
   async openPersonCard(personName: string) {
-    await openPersonCard(this.page, personName);
+    const personCard = this.getPersonCardElement(personName);
+    await expect(personCard).toBeVisible();
+    await personCard.click();
   }
 
   async ensureAtRoot() {
@@ -161,9 +150,11 @@ export class PersonsPanel {
   }
 
   async verifyBadgeCount(personName: string, expectedCount?: number) {
-    await openPersonCard(this.page, personName);
+    await this.openPersonCard(personName);
 
-    const badgeCount = await getBadgeCount(this.page, personName);
+    const badge = this.getBookmarkCountBadge();
+    await expect(badge).toContainText(personName);
+    const badgeCount = parseBadgeCount((await badge.textContent()) ?? '');
 
     if (expectedCount === undefined) {
       expect(badgeCount).toBeGreaterThanOrEqual(0);
@@ -180,7 +171,7 @@ export class PersonsPanel {
   }
 
   async searchWithinBookmarks(searchTerm: string, personName: string) {
-    await openPersonCard(this.page, personName);
+    await this.openPersonCard(personName);
 
     const dialog = this.getBookmarksDialog();
     const searchInput = this.getModalSearchInput();
@@ -205,36 +196,12 @@ export class PersonsPanel {
     };
   }
 
-  async getPersonNames(): Promise<string[]> {
-    const texts = await this.page
-      .locator('[data-testid^="person-item-"]')
-      .allTextContents();
-    return texts.filter((text) => text).map((text) => text.trim());
-  }
-
-  async getHeaderPersonCount(): Promise<number> {
-    return getHeaderPersonCount(this.page);
-  }
-
-  async verifyBadgeVisible(badgeName: string) {
-    const badge = this.getBookmarksDialog().getByTestId(
-      'person-bookmark-count-badge'
-    );
-    await expect(badge).toBeVisible();
-    await expect(badge).toContainText(badgeName);
-  }
-
   async getEditButtons() {
     return this.getBookmarksDialog().getByTitle('Edit Bookmark');
   }
 
-  async verifyPersonExists(personName: string) {
-    const personCard = this.page.getByTestId(`person-item-${personName}`);
-    await expect(personCard).toBeVisible();
-  }
-
   async verifyBookmarkInPersonList(personName: string, bookmarkTitle: string) {
-    await openPersonCard(this.page, personName);
+    await this.openPersonCard(personName);
 
     const dialog = this.getBookmarksDialog();
     const bookmarkItem = dialog.getByTestId(`bookmark-item-${bookmarkTitle}`);
@@ -247,21 +214,13 @@ export class PersonsPanel {
     personName: string,
     bookmarkTitle: string
   ) {
-    await openPersonCard(this.page, personName);
+    await this.openPersonCard(personName);
 
     const dialog = this.getBookmarksDialog();
     const bookmarkItem = dialog.getByTestId(`bookmark-item-${bookmarkTitle}`);
     await expect(bookmarkItem).not.toBeVisible();
 
     await navigateBack(this.page);
-  }
-
-  getPersonCardElement(personName: string) {
-    return this.page.getByTestId(`person-item-${personName}`);
-  }
-
-  getSearchInput() {
-    return this.page.getByPlaceholder('Search');
   }
 
   /** The dialog autofocuses itself asynchronously; wait for that to land. */
