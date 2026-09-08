@@ -6,8 +6,11 @@ import {
 
 /** Coverage is a no-op unless CI set COVERAGE. */
 const globalTeardown = async () => {
-  await generateCoverageReport();
-  await removeTestDir(AUTH_CACHE_DIR);
+  try {
+    await generateCoverageReport();
+  } finally {
+    await removeTestDir(AUTH_CACHE_DIR);
+  }
 };
 
 export default globalTeardown;

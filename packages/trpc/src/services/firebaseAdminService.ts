@@ -11,8 +11,14 @@ import { z } from 'zod/mini';
 import { env } from '../constants/env';
 import { getFullDbPath, getFilePath, getBucketPath } from '../utils/firebase';
 
+// Storage keys that are also realtime-db paths; the rest are local-only
+type DbRef = Exclude<
+  EStorageKey,
+  EStorageKey.mappedRedirections | EStorageKey.personImageUrls
+>;
+
 interface Firebase {
-  ref: EStorageKey;
+  ref: DbRef;
   uid: string;
   data: object;
 }

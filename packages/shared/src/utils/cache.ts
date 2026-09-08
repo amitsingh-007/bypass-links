@@ -1,6 +1,8 @@
+import pLimit from 'p-limit';
+
 import { type ECacheBucketKeys } from '../constants/cache';
 
-const CACHE_CONCURRENCY = 20;
+const limit = pLimit(20);
 
 const addToOpenCache = async (cache: Cache, url: string) => {
   if (await cache.match(url)) {
@@ -35,17 +37,9 @@ export const addAllToCache = async (
     return;
   }
   const cache = await caches.open(cacheBucketKey);
-  // Bounded so a large bookmark set does not fire hundreds of fetches at once
-  const queue = uniqueUrls.values();
-  const drain = async (): Promise<void> => {
-    const { value: url, done } = queue.next();
-    if (done) {
-      return;
-    }
-    await addToOpenCache(cache, url);
-    await drain();
-  };
-  await Promise.all(Array.from({ length: CACHE_CONCURRENCY }, drain));
+  await Promise.all(
+    uniqueUrls.map(async (url) => limit(async () => addToOpenCache(cache, url)))
+  );
 };
 
 /** One blob url per url; `createObjectURL` pins its blob for the document lifetime. */

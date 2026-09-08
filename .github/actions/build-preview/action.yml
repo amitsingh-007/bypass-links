@@ -56,7 +56,9 @@ runs:
 
     - name: Point extension at the preview deployment
       shell: bash
-      run: sed -i "s#^NEXT_PUBLIC_HOST_NAME=.*#NEXT_PUBLIC_HOST_NAME=${{ steps.preview-url.outputs.url }}#" .env
+      env:
+        PREVIEW_URL: ${{ steps.preview-url.outputs.url }}
+      run: sed -i "s#^NEXT_PUBLIC_HOST_NAME=.*#NEXT_PUBLIC_HOST_NAME=$PREVIEW_URL#" .env
 
     - name: Building extension for e2e
       shell: bash

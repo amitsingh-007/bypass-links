@@ -8,9 +8,9 @@ const envPath = path.resolve(
   '../../.env'
 );
 
-/** Root .env for local runs; hosted builds inject env and ship no file. */
+/** Root .env for local runs; Vercel injects env itself, so its builds never read the file. */
 export const loadRootEnv = () => {
-  if (fs.existsSync(envPath)) {
+  if (!process.env.VERCEL && fs.existsSync(envPath)) {
     process.loadEnvFile(envPath);
   }
 };

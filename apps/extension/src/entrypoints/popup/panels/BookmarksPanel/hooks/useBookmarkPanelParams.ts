@@ -2,6 +2,7 @@ import {
   type BMPanelQueryParams,
   EBookmarkOperation,
   getBookmarksPanelUrl,
+  ROOT_FOLDER_ID,
 } from '@bypass/shared';
 import { useLocation, useSearch } from 'wouter';
 
@@ -27,7 +28,7 @@ const useBookmarkPanelParams = () => {
   };
 
   return {
-    folderId: folderId ?? '',
+    folderId: folderId ?? ROOT_FOLDER_ID,
     operation: operation ?? EBookmarkOperation.NONE,
     bmUrl: bmUrl ?? '',
     setOperation,

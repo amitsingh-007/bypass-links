@@ -79,15 +79,18 @@ const useWebPreload = () => {
 
   const clearData = async () => {
     setIsSyncing(true);
-    localStorage.removeItem(EStorageKey.bookmarks);
-    localStorage.removeItem(EStorageKey.persons);
-    localStorage.removeItem(EStorageKey.personImageUrls);
-    await Promise.all([
-      deleteCache(ECacheBucketKeys.favicon),
-      deleteCache(ECacheBucketKeys.person),
-    ]);
-    await invalidateAll();
-    setIsSyncing(false);
+    try {
+      localStorage.removeItem(EStorageKey.bookmarks);
+      localStorage.removeItem(EStorageKey.persons);
+      localStorage.removeItem(EStorageKey.personImageUrls);
+      await Promise.all([
+        deleteCache(ECacheBucketKeys.favicon),
+        deleteCache(ECacheBucketKeys.person),
+      ]);
+      await invalidateAll();
+    } finally {
+      setIsSyncing(false);
+    }
   };
 
   return { isLoading: !isLoginIntialized || isSyncing, preloadData, clearData };

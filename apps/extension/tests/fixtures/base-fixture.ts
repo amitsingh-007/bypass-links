@@ -40,6 +40,8 @@ export const launchExtensionContext = async (userDataDir: string) => {
   setExtensionBuildDir(extensionPath);
   const browserContext = await chromium.launchPersistentContext(userDataDir, {
     channel: 'chromium',
+    // Manual launch, so `--headed` has to be read from the project explicitly
+    headless: base.info().project.use.headless,
     args: [
       `--disable-extensions-except=${extensionPath}`,
       `--load-extension=${extensionPath}`,

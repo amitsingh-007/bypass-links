@@ -191,9 +191,8 @@ test.describe('Persons Panel', () => {
     await panel.closeModal();
   });
   /**
-   * `test.use({ viewport })` cannot drive this: the auth fixture supplies its
-   * own persistent context, so Playwright's viewport option is ignored and the
-   * page would stay wide. Resizing the page itself is what crosses the
+   * `test.use({ viewport })` cannot drive this: the viewport has to go from wide
+   * to narrow within one test. Resizing the page itself is what crosses the
    * breakpoint, dropping the grid from five columns to three.
    */
   test('should drop grid columns on a narrow viewport', async ({ page }) => {
