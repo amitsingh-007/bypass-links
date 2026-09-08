@@ -3,6 +3,7 @@ import {
   TEST_FOLDERS,
   TEST_PERSONS,
   clearSearchInput,
+  clickDropdownPersonAndGetName,
   fillSearchInput,
   openNewPageFromAction,
 } from '@bypass/shared/tests';
@@ -269,9 +270,9 @@ test.describe('Bookmarks Panel', () => {
     bookmarksPage,
   }) => {
     const panel = new BookmarksPanel(bookmarksPage);
-    const { dropdown } = await panel.hoverAvatar();
+    const dropdown = await panel.hoverAvatar();
 
-    const personName = await panel.clickPersonInDropdown(dropdown);
+    const personName = await clickDropdownPersonAndGetName(dropdown);
 
     await bookmarksPage.waitForURL(/persons-panel/);
     const url = bookmarksPage.url();

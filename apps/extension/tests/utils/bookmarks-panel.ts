@@ -1,29 +1,27 @@
 import {
-  clickDropdownPersonAndGetName,
+  BookmarksPanelBase,
   closeDialog,
-  dblclickBookmark,
+  parseBadgeCount,
 } from '@bypass/shared/tests';
-import { expect, type Page } from '@playwright/test';
+import { expect } from '@playwright/test';
 
 import {
-  clickContextMenuItem as clickContextMenuItemUtil,
+  clickContextMenuItem,
   fillDialogInput,
-  getBadgeCount as getBadgeCountUtil,
   gotoPanel,
-  navigateBack as navigateBackUtil,
-  openDialog,
-  openFolder,
+  navigateBack,
+  openAddDialog,
 } from './test-utils';
 
-export class BookmarksPanel {
-  constructor(readonly page: Page) {}
-
+export class BookmarksPanel extends BookmarksPanelBase {
   async openFolder(folderName: string) {
-    await openFolder(this.page, folderName);
+    const folder = this.getFolderElement(folderName);
+    await expect(folder).toBeVisible();
+    await folder.click();
   }
 
   async navigateBack() {
-    await navigateBackUtil(this.page);
+    await navigateBack(this.page);
   }
 
   /** Add is the only control disabled while bookmarks are still loading. */
@@ -35,7 +33,7 @@ export class BookmarksPanel {
   }
 
   async openAddFolderDialog() {
-    return openDialog(this.page, 'Add', 'Add folder');
+    return openAddDialog(this.page, 'Add folder');
   }
 
   async createFolder(folderName: string) {
@@ -106,10 +104,6 @@ export class BookmarksPanel {
     );
   }
 
-  async openBookmarkByDoubleClick(bookmarkTitle: string) {
-    await dblclickBookmark(this.page, bookmarkTitle);
-  }
-
   async clickSaveButton() {
     const saveButton = this.getSaveButton();
     await saveButton.click();
@@ -117,11 +111,7 @@ export class BookmarksPanel {
   }
 
   async clickContextMenuItem(itemId: string) {
-    await clickContextMenuItemUtil(this.page, itemId);
-  }
-
-  async getBookmarkCount() {
-    return this.page.locator('[data-testid^="bookmark-item-"]').count();
+    await clickContextMenuItem(this.page, itemId);
   }
 
   async openFolderWithNestedFolders(folderName: string) {
@@ -130,24 +120,11 @@ export class BookmarksPanel {
     await folderWithNested.click({ button: 'right' });
   }
 
-  async hoverAvatar() {
-    const avatarGroup = this.page.getByTestId('avatar-group');
-    const avatar = avatarGroup.locator('[data-testid^="avatar-"]').first();
-    await expect(avatar).toBeVisible();
-    await avatar.hover();
-
-    const dropdown = this.page.locator('[data-testid^="person-dropdown-"]');
-    await expect(dropdown).toBeVisible();
-
-    return { dropdown, avatar };
-  }
-
-  async clickPersonInDropdown(dropdown: ReturnType<Page['locator']>) {
-    return clickDropdownPersonAndGetName(dropdown);
-  }
-
+  /** Reads the bookmarks-list badge, checking it belongs to `name` first. */
   async getBadgeCount(name: string): Promise<number> {
-    return getBadgeCountUtil(this.page, name);
+    const badge = this.page.getByTestId('person-bookmark-count-badge');
+    await expect(badge).toContainText(name);
+    return parseBadgeCount((await badge.textContent()) ?? '');
   }
 
   async getEditButtons() {
@@ -199,23 +176,8 @@ export class BookmarksPanel {
     await gotoPanel(this.page, 'Persons');
   }
 
-  async verifyBookmarkExists(bookmarkTitle: string) {
-    const bookmark = this.page.getByTestId(`bookmark-item-${bookmarkTitle}`);
-    await expect(bookmark).toBeVisible();
-  }
-
-  async verifyFolderExists(folderName: string) {
-    const folder = this.page.getByTestId(`folder-item-${folderName}`);
-    await expect(folder).toBeVisible();
-  }
-
   async verifyFolderNotExists(folderName: string) {
-    const folder = this.page.getByTestId(`folder-item-${folderName}`);
-    await expect(folder).not.toBeVisible();
-  }
-
-  getBookmarkElement(bookmarkTitle: string) {
-    return this.page.getByTestId(`bookmark-item-${bookmarkTitle}`);
+    await expect(this.getFolderElement(folderName)).not.toBeVisible();
   }
 
   /** The virtual row wrapping the bookmark, which carries `data-is-selected`. */
@@ -223,20 +185,8 @@ export class BookmarksPanel {
     return this.getBookmarkElement(bookmarkTitle).locator('xpath=..');
   }
 
-  getFolderElement(folderName: string) {
-    return this.page.getByTestId(`folder-item-${folderName}`);
-  }
-
-  getSearchInput() {
-    return this.page.getByPlaceholder('Search');
-  }
-
   getSaveButton() {
     return this.page.getByRole('button', { name: /save/i }).last();
-  }
-
-  getBookmarkItems() {
-    return this.page.locator('[data-testid^="bookmark-item-"]');
   }
 
   getContextMenu() {

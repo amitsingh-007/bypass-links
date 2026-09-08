@@ -1,0 +1,73 @@
+name: Build preview
+description: Deploy a Vercel preview and build the extension pointed at it. Expects VERCEL_ORG_ID and VERCEL_PROJECT_ID in the job env.
+inputs:
+  vercel-token:
+    description: Vercel token
+    required: true
+  vercel-url:
+    description: Existing preview URL; skips the preview deployment when set
+    default: ''
+  upload-release:
+    description: Also build and upload the release extension zip
+    default: 'false'
+outputs:
+  preview-url:
+    description: Preview URL the extension was built against
+    value: ${{ steps.preview-url.outputs.url }}
+runs:
+  using: composite
+  steps:
+    - uses: ./.github/actions/setup
+      with:
+        vercel-token: ${{ inputs.vercel-token }}
+
+    - name: Deploy Preview (Vercel)
+      if: inputs.vercel-url == ''
+      uses: amondnet/vercel-action@v42
+      id: vercel-action
+      env:
+        NPM_CONFIG_FORCE: 'true'
+      with:
+        vercel-token: ${{ inputs.vercel-token }}
+        vercel-org-id: ${{ env.VERCEL_ORG_ID }}
+        vercel-project-id: ${{ env.VERCEL_PROJECT_ID }}
+        github-comment: false
+
+    - name: Set preview URL
+      id: preview-url
+      shell: bash
+      env:
+        VERCEL_INPUT: ${{ inputs.vercel-url }}
+        VERCEL_OUTPUT: ${{ steps.vercel-action.outputs.preview-url }}
+      run: echo "url=${VERCEL_INPUT:-$VERCEL_OUTPUT}" >> "$GITHUB_OUTPUT"
+
+    - name: Building release extension
+      if: inputs.upload-release == 'true'
+      shell: bash
+      run: pnpm build --filter=@bypass/extension
+
+    - name: Uploading release extension
+      if: inputs.upload-release == 'true'
+      uses: actions/upload-artifact@v7
+      with:
+        name: extension-release
+        path: ./apps/extension/.output
+        include-hidden-files: true
+
+    - name: Point extension at the preview deployment
+      shell: bash
+      env:
+        PREVIEW_URL: ${{ steps.preview-url.outputs.url }}
+      run: sed -i "s#^NEXT_PUBLIC_HOST_NAME=.*#NEXT_PUBLIC_HOST_NAME=$PREVIEW_URL#" .env
+
+    - name: Building extension for e2e
+      shell: bash
+      run: pnpm build --filter=@bypass/extension
+      env:
+        COVERAGE: '1'
+
+    - name: Uploading e2e extension
+      uses: actions/upload-artifact@v7
+      with:
+        name: extension-e2e
+        path: ./apps/extension/.output-coverage/chrome-mv3

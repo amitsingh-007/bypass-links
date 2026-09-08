@@ -16,7 +16,6 @@ function DynamicProvider({ children }: PropsWithChildren) {
   const ctx = {
     location: {
       push: (url: string) => router.push(url),
-      goBack: () => router.back(),
     },
     storage: {
       get: async <T,>(key: string) => getFromLocalStorage<T>(key),

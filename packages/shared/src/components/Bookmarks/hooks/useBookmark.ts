@@ -1,6 +1,6 @@
 import { use } from 'react';
 
-import { STORAGE_KEYS } from '../../../constants/storage';
+import { EStorageKey } from '../../../constants/storage';
 import DynamicContext from '../../../provider/DynamicContext';
 import { ROOT_FOLDER_ID } from '../constants';
 import { type IBookmarksObj } from '../interfaces';
@@ -10,7 +10,7 @@ const useBookmark = () => {
   const { storage } = use(DynamicContext);
 
   const getBookmarks = async () =>
-    storage.get<IBookmarksObj>(STORAGE_KEYS.bookmarks);
+    storage.get<IBookmarksObj>(EStorageKey.bookmarks);
 
   const getFolderFromHash = async (hash: string) => {
     const bookmarks = await getBookmarks();

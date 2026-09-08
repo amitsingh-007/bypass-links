@@ -1,10 +1,8 @@
 import { Badge, Button } from '@bypass/ui';
 import { ArrowLeft01Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { use } from 'react';
 
 import { HEADER_HEIGHT } from '../constants';
-import DynamicContext from '../provider/DynamicContext';
 import Search from './Search';
 
 interface Props {
@@ -22,8 +20,6 @@ function Header({
   rightContent: RightContent = null,
   onBackClick,
 }: Props) {
-  const { location } = use(DynamicContext);
-
   return (
     <header
       className="flex shrink-0 items-center justify-between border-b border-border px-2.5"
@@ -33,7 +29,7 @@ function Header({
         <Button
           variant="outline"
           className="font-medium"
-          onClick={onBackClick ?? location.goBack}
+          onClick={onBackClick ?? (() => window.history.back())}
         >
           <HugeiconsIcon icon={ArrowLeft01Icon} className="size-4" />
           Back

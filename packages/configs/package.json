@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "exports": {
+    "./env": "./env.ts",
+    "./firebase.config": "./firebase.config.ts",
+    "./tsconfig.base.json": "./tsconfig.base.json"
+  },
   "scripts": {
     "typecheck": "tsc --noEmit"
   }

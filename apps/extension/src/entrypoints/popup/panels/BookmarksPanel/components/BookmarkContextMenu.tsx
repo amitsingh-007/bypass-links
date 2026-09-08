@@ -12,7 +12,7 @@ import { useShallow } from 'zustand/react/shallow';
 
 import ContextMenu, { type IMenuOption } from '@popup/components/ContextMenu';
 
-import useBookmarkRouteStore from '../store/useBookmarkRouteStore';
+import useBookmarkPanelParams from '../hooks/useBookmarkPanelParams';
 import useBookmarkStore from '../store/useBookmarkStore';
 import { countTruthy } from '../utils';
 import { findBookmarkById } from '../utils/bookmark';
@@ -22,9 +22,7 @@ type Props = PropsWithChildren<{
 }>;
 
 function BookmarkContextMenu({ children, handleOpenBookmarks }: Props) {
-  const setBookmarkOperation = useBookmarkRouteStore(
-    (state) => state.setBookmarkOperation
-  );
+  const { setOperation } = useBookmarkPanelParams();
   const {
     contextBookmarks,
     selectedBookmarks,
@@ -74,7 +72,7 @@ function BookmarkContextMenu({ children, handleOpenBookmarks }: Props) {
 
   const handleBookmarkEdit = (id: string) => {
     const bookmark = getBookmark(id);
-    setBookmarkOperation(EBookmarkOperation.EDIT, bookmark.url);
+    setOperation(EBookmarkOperation.EDIT, bookmark.url);
   };
 
   const getMenuOptions = (): IMenuOption[] => {

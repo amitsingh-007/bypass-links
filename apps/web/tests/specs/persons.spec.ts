@@ -4,13 +4,13 @@ import {
   clearSearchInput,
 } from '@bypass/shared/tests';
 
-import { test, expect } from '../fixtures/auth-fixture';
+import { test, expect } from '../fixtures/base-fixture';
 import { PersonsPanel } from '../page-object-models/persons-panel';
 
 test.describe('Persons Panel', () => {
-  test.beforeEach(async ({ authenticatedPage }) => {
-    await authenticatedPage.goto('/persons-panel');
-    const panel = new PersonsPanel(authenticatedPage);
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/persons-panel');
+    const panel = new PersonsPanel(page);
     await expect(async () => {
       const count = await panel.getHeaderPersonCount();
       expect(count).toBeGreaterThan(0);
@@ -18,9 +18,9 @@ test.describe('Persons Panel', () => {
   });
 
   test('should navigate to persons panel, display all persons, and verify header count', async ({
-    authenticatedPage,
+    page,
   }) => {
-    const panel = new PersonsPanel(authenticatedPage);
+    const panel = new PersonsPanel(page);
 
     await expect(panel.getSearchInput()).toBeVisible();
 
@@ -35,26 +35,26 @@ test.describe('Persons Panel', () => {
   });
 
   test('should search and filter persons by name, including no results', async ({
-    authenticatedPage,
+    page,
   }) => {
-    const panel = new PersonsPanel(authenticatedPage);
+    const panel = new PersonsPanel(page);
     const countBefore = await panel.getPersonCount();
     expect(countBefore).toBeGreaterThan(0);
 
-    await fillSearchInput(authenticatedPage, 'John');
+    await fillSearchInput(page, 'John');
     await panel.verifyPersonExists(TEST_PERSONS.JOHN_NATHAN);
     await panel.verifyPersonNotVisible(TEST_PERSONS.AKASH_KUMAR_SINGH);
 
-    await clearSearchInput(authenticatedPage);
+    await clearSearchInput(page);
     await panel.verifyPersonExists(TEST_PERSONS.AKASH_KUMAR_SINGH);
 
-    await fillSearchInput(authenticatedPage, 'NonExistentPerson123');
+    await fillSearchInput(page, 'NonExistentPerson123');
     await expect(async () => {
       const countAfter = await panel.getPersonCount();
       expect(countAfter).toBe(0);
     }).toPass();
 
-    await clearSearchInput(authenticatedPage);
+    await clearSearchInput(page);
     await expect(async () => {
       const countRestored = await panel.getPersonCount();
       expect(countRestored).toBe(countBefore);
@@ -62,9 +62,9 @@ test.describe('Persons Panel', () => {
   });
 
   test('should open person cards, display bookmark counts and folder badges', async ({
-    authenticatedPage,
+    page,
   }) => {
-    const panel = new PersonsPanel(authenticatedPage);
+    const panel = new PersonsPanel(page);
 
     await panel.openPersonCard(TEST_PERSONS.JOHN_NATHAN);
     await panel.verifyModalVisible();
@@ -88,9 +88,9 @@ test.describe('Persons Panel', () => {
   });
 
   test('should search within person bookmarks and filter results', async ({
-    authenticatedPage,
+    page,
   }) => {
-    const panel = new PersonsPanel(authenticatedPage);
+    const panel = new PersonsPanel(page);
 
     await test.step(`${TEST_PERSONS.DONALD}: unknown query yields no results`, async () => {
       await panel.openPersonCard(TEST_PERSONS.DONALD);
@@ -126,9 +126,9 @@ test.describe('Persons Panel', () => {
   });
 
   test('should navigate between multiple persons and back to list', async ({
-    authenticatedPage,
+    page,
   }) => {
-    const panel = new PersonsPanel(authenticatedPage);
+    const panel = new PersonsPanel(page);
 
     await test.step('open and close a person card', async () => {
       await panel.openPersonCard(TEST_PERSONS.JOHN_NATHAN);
@@ -161,9 +161,9 @@ test.describe('Persons Panel', () => {
   });
 
   test('should toggle recency switch and verify person order changes', async ({
-    authenticatedPage,
+    page,
   }) => {
-    const panel = new PersonsPanel(authenticatedPage);
+    const panel = new PersonsPanel(page);
 
     await panel.verifyRecencySwitchExists();
 
@@ -182,24 +182,21 @@ test.describe('Persons Panel', () => {
   });
 
   test('should hide edit bookmark buttons in readonly web app', async ({
-    authenticatedPage,
+    page,
   }) => {
-    const panel = new PersonsPanel(authenticatedPage);
+    const panel = new PersonsPanel(page);
 
     await panel.openPersonCard(TEST_PERSONS.JOHN_NATHAN);
     await panel.verifyEditButtonsHidden();
     await panel.closeModal();
   });
   /**
-   * `test.use({ viewport })` cannot drive this: the auth fixture supplies its
-   * own persistent context, so Playwright's viewport option is ignored and the
-   * page would stay wide. Resizing the page itself is what crosses the
+   * `test.use({ viewport })` cannot drive this: the viewport has to go from wide
+   * to narrow within one test. Resizing the page itself is what crosses the
    * breakpoint, dropping the grid from five columns to three.
    */
-  test('should drop grid columns on a narrow viewport', async ({
-    authenticatedPage,
-  }) => {
-    const panel = new PersonsPanel(authenticatedPage);
+  test('should drop grid columns on a narrow viewport', async ({ page }) => {
+    const panel = new PersonsPanel(page);
     // Columns, not rows: min(persons, 5) against min(persons, 3) always drops,
     // where row counts tie at exactly six persons
     const countRenderedColumns = async () => {
@@ -220,7 +217,7 @@ test.describe('Persons Panel', () => {
     await expect.poll(countRenderedColumns).toBeGreaterThan(3);
     const wideColumns = await countRenderedColumns();
 
-    await authenticatedPage.setViewportSize({ width: 700, height: 900 });
+    await page.setViewportSize({ width: 700, height: 900 });
 
     await expect.poll(countRenderedColumns).toBeLessThan(wideColumns);
   });

@@ -120,7 +120,7 @@ test.describe('Persons Panel', () => {
     await panel.openPersonCard(TEST_PERSONS.JOHN_NATHAN);
     await personsPage.waitForURL(/persons-panel/);
 
-    await panel.verifyBadgeVisible(TEST_PERSONS.JOHN_NATHAN);
+    await panel.verifyPersonNameInBadge(TEST_PERSONS.JOHN_NATHAN);
 
     const editButtons = await panel.getEditButtons();
     const rowCount = await editButtons.count();
@@ -213,13 +213,13 @@ test.describe('Persons Panel', () => {
     const panel = new PersonsPanel(personsPage);
     await panel.openPersonCard(TEST_PERSONS.JOHN_NATHAN);
 
-    await panel.verifyBadgeVisible(TEST_PERSONS.JOHN_NATHAN);
+    await panel.verifyPersonNameInBadge(TEST_PERSONS.JOHN_NATHAN);
 
     await panel.navigateBack();
 
     await panel.openPersonCard(TEST_PERSONS.AKASH_KUMAR_SINGH);
 
-    await panel.verifyBadgeVisible(TEST_PERSONS.AKASH_KUMAR_SINGH);
+    await panel.verifyPersonNameInBadge(TEST_PERSONS.AKASH_KUMAR_SINGH);
 
     await panel.navigateBack();
 

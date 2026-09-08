@@ -1,6 +1,5 @@
 import {
   EBookmarkOperation,
-  getBookmarksPanelUrl,
   getDecodedFolderList,
   getDefaultFolder,
   ROOT_FOLDER_ID,
@@ -26,14 +25,13 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { useForm } from '@tanstack/react-form';
 import { useEffect, useRef } from 'react';
-import { useLocation } from 'wouter';
 import { z } from 'zod/mini';
 import { useShallow } from 'zustand/react/shallow';
 
 import { handleEscapeKey } from '@popup/utils/dialog';
 import { getCurrentTab } from '@popup/utils/tabs';
 
-import useBookmarkRouteStore from '../store/useBookmarkRouteStore';
+import useBookmarkPanelParams from '../hooks/useBookmarkPanelParams';
 import useBookmarkStore from '../store/useBookmarkStore';
 import PersonSelect from './PersonSelect';
 
@@ -58,16 +56,11 @@ const formSchema = z.object({
 });
 
 function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
-  const [, navigate] = useLocation();
-  const { bookmarkOperation, resetBookmarkOperation } = useBookmarkRouteStore(
-    useShallow((state) => ({
-      bookmarkOperation: state.bookmarkOperation,
-      resetBookmarkOperation: state.resetBookmarkOperation,
-    }))
-  );
+  const { operation, bmUrl, setOperation } = useBookmarkPanelParams();
   const {
     folderList,
     contextBookmarks,
+    isFetching,
     handleBookmarkSave,
     handleUrlRemove,
     handleSelectedChange,
@@ -75,12 +68,12 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
     useShallow((state) => ({
       contextBookmarks: state.contextBookmarks,
       folderList: state.folderList,
+      isFetching: state.isFetching,
       handleBookmarkSave: state.handleBookmarkSave,
       handleUrlRemove: state.handleUrlRemove,
       handleSelectedChange: state.handleSelectedChange,
     }))
   );
-  const { operation, url: bmUrl } = bookmarkOperation;
   const [openDialog, dialogHandlers] = useDisclosure(false);
   const titleInputRef = useRef<HTMLInputElement>(null);
 
@@ -133,7 +126,8 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
   });
 
   useEffect(() => {
-    if (operation === EBookmarkOperation.NONE) {
+    // After loadData: editing needs contextBookmarks already set
+    if (isFetching || !operation || operation === EBookmarkOperation.NONE) {
       return;
     }
     const resolveBookmark = async () => {
@@ -180,14 +174,13 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
     defaultFolderId,
     dialogHandlers,
     form,
+    isFetching,
     operation,
   ]);
 
   const closeDialog = () => {
     if (openDialog) {
-      navigate(getBookmarksPanelUrl({ folderId: curFolderId }), {
-        replace: true,
-      });
+      setOperation(EBookmarkOperation.NONE);
     }
     const pos = form.getFieldValue('pos');
     if (operation === EBookmarkOperation.EDIT) {
@@ -195,7 +188,6 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
       handleSelectedChange(pos, true);
     }
     form.reset();
-    resetBookmarkOperation();
     dialogHandlers.close();
   };
 

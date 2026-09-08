@@ -13,6 +13,16 @@
   "scripts": {
     "typecheck": "tsc --noEmit"
   },
+  "dependencies": {
+    "@bypass/ui": "workspace:*",
+    "@hugeicons/core-free-icons": "catalog:",
+    "@hugeicons/react": "catalog:",
+    "@mantine/hooks": "catalog:",
+    "@tanstack/react-virtual": "catalog:",
+    "p-limit": "catalog:",
+    "swr": "catalog:",
+    "zod": "catalog:"
+  },
   "devDependencies": {
     "@bypass/configs": "workspace:*",
     "@playwright/test": "catalog:",
@@ -22,15 +32,6 @@
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "@bypass/ui": "workspace:*",
-    "@hugeicons/core-free-icons": "catalog:",
-    "@hugeicons/react": "catalog:",
-    "@mantine/hooks": "catalog:",
-    "@tanstack/react-virtual": "catalog:",
-    "p-limit": "catalog:",
-    "react": "catalog:",
-    "swr": "catalog:",
-    "wretch": "catalog:",
-    "zod": "catalog:"
+    "react": "catalog:"
   }
 }

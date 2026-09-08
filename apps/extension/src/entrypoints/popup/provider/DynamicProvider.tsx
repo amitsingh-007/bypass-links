@@ -15,7 +15,6 @@ function DynamicProvider({ children }: PropsWithChildren) {
   const ctx = {
     location: {
       push: (url: string) => navigate(url),
-      goBack: () => window.history.back(),
     },
     storage: {
       get: async (key: string): Promise<any> =>

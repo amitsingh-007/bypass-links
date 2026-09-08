@@ -1,6 +1,4 @@
-import { POPUP_HOMEPAGE } from '@/constants';
-
-import { expect, test } from '../fixtures/extension-fixture';
+import { expect, test } from '../fixtures/home-popup-fixture';
 
 test.describe('Home Popup', () => {
   /**
@@ -8,10 +6,8 @@ test.describe('Home Popup', () => {
    * on the auth state independently, so this is what catches one of them going
    * enabled while signed out.
    */
-  test('load extension', async ({ page }) => {
-    await page.goto(POPUP_HOMEPAGE);
-
-    await expect(page.locator('body')).toMatchAriaSnapshot(`
+  test('load extension', async ({ unauthPage }) => {
+    await expect(unauthPage.locator('body')).toMatchAriaSnapshot(`
       - text: Bypass Links
       - switch "Enable" [checked]
       - text: Enable

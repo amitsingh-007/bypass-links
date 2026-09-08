@@ -6,49 +6,47 @@ import type {
   IRedirections,
   IWebsites,
 } from '@bypass/shared';
-import { STORAGE_KEYS } from '@bypass/shared';
+import { EStorageKey } from '@bypass/shared';
 import { storage } from 'wxt/utils/storage';
 
 import { EExtensionState, EExtStorageKey } from '@/constants';
 import type { IMappedRedirections } from '@/entrypoints/background/interfaces/redirections';
 
 /** Constrained to the known key sets so a typo cannot open a new namespace. */
-type LocalStorageKey =
-  | (typeof STORAGE_KEYS)[keyof typeof STORAGE_KEYS]
-  | EExtStorageKey;
+type LocalStorageKey = EStorageKey | EExtStorageKey;
 
 const defineLocalItem = <T>(key: LocalStorageKey, fallback: T) =>
   storage.defineItem<T>(`local:${key}`, { fallback });
 
 export const bookmarksItem = defineLocalItem<IBookmarksObj>(
-  STORAGE_KEYS.bookmarks,
+  EStorageKey.bookmarks,
   { folderList: {}, urlList: {}, folders: {} }
 );
 
 export const websitesItem = defineLocalItem<IWebsites>(
-  STORAGE_KEYS.websites,
+  EStorageKey.websites,
   {}
 );
 
 export const lastVisitedItem = defineLocalItem<ILastVisited>(
-  STORAGE_KEYS.lastVisited,
+  EStorageKey.lastVisited,
   {}
 );
 
-export const personsItem = defineLocalItem<IPersons>(STORAGE_KEYS.persons, {});
+export const personsItem = defineLocalItem<IPersons>(EStorageKey.persons, {});
 
 export const redirectionsItem = defineLocalItem<IRedirections>(
-  STORAGE_KEYS.redirections,
+  EStorageKey.redirections,
   []
 );
 
 export const mappedRedirectionsItem = defineLocalItem<IMappedRedirections>(
-  STORAGE_KEYS.mappedRedirections,
+  EStorageKey.mappedRedirections,
   {}
 );
 
 export const personImageUrlsItem = defineLocalItem<PersonImageUrls>(
-  STORAGE_KEYS.personImageUrls,
+  EStorageKey.personImageUrls,
   {}
 );
 

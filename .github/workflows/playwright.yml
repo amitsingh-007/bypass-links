@@ -14,51 +14,16 @@ jobs:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
     outputs:
-      preview_url: ${{ steps.preview-url.outputs.url }}
+      preview_url: ${{ steps.build.outputs.preview-url }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v7
 
-      - name: Setup pnpm and Node.js
-        uses: pnpm/setup@v2
-        with:
-          cache: true
-
-      - name: Pull environment variables
-        run: pnpm vercel env pull .env --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Deploy Preview (Vercel)
-        if: ${{ !inputs.vercel_url }}
-        uses: amondnet/vercel-action@v42
-        id: vercel-action
-        env:
-          NPM_CONFIG_FORCE: 'true'
+      - id: build
+        uses: ./.github/actions/build-preview
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
-          github-comment: false
-
-      - name: Set preview URL
-        id: preview-url
-        env:
-          VERCEL_INPUT: ${{ inputs.vercel_url }}
-          VERCEL_OUTPUT: ${{ steps.vercel-action.outputs.preview-url }}
-        run: echo "url=${VERCEL_INPUT:-$VERCEL_OUTPUT}" >> "$GITHUB_OUTPUT"
-
-      - name: Point extension at the preview deployment
-        run: sed -i "s#^NEXT_PUBLIC_HOST_NAME=.*#NEXT_PUBLIC_HOST_NAME=${{ steps.preview-url.outputs.url }}#" .env
-
-      - name: Building extension
-        run: pnpm build --filter=@bypass/extension
-        env:
-          COVERAGE: '1'
-
-      - name: Uploading Chrome extension
-        uses: actions/upload-artifact@v7
-        with:
-          name: extension-e2e
-          path: ./apps/extension/.output-coverage/chrome-mv3
+          vercel-url: ${{ inputs.vercel_url }}
 
   Playwright:
     needs: [Build]
@@ -71,48 +36,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v7
 
-      - name: Setup pnpm and Node.js
-        uses: pnpm/setup@v2
+      - uses: ./.github/actions/e2e
         with:
-          cache: true
-
-      - name: Cache playwright binaries
-        uses: actions/cache@v6
-        id: playwright-cache
-        with:
-          path: |
-            ~/Library/Caches/ms-playwright
-            ~/.cache/ms-playwright
-            ${{ github.workspace }}/node_modules/playwright
-          key: cache-playwright-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: cache-playwright-
-
-      - name: Download Chrome extension
-        uses: actions/download-artifact@v8
-        with:
-          name: extension-e2e
-          path: ./apps/extension/.output/chrome-mv3/
-
-      - name: Pull environment variables
-        run: pnpm vercel env pull .env --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Install Playwright Browsers
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: pnpm playwright install --with-deps
-
-      - name: Run Playwright tests
-        run: pnpm e2e
-        env:
-          PLAYWRIGHT_TEST_BASE_URL: ${{ needs.Build.outputs.preview_url }}
-          COVERAGE: '1'
-
-      - uses: actions/upload-artifact@v7
-        if: always()
-        with:
-          name: playwright-report
-          path: |
-            .playwright/playwright-report/
-            .playwright/test-results/
-            .playwright/coverage/
-          include-hidden-files: true
-          if-no-files-found: ignore
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          preview-url: ${{ needs.Build.outputs.preview_url }}

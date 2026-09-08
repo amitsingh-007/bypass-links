@@ -1,4 +1,4 @@
-import { hasText } from '@bypass/shared';
+import { hasText, useOrderedPersons, usePersonImageMap } from '@bypass/shared';
 import {
   Avatar,
   AvatarFallback,
@@ -21,8 +21,6 @@ import {
 import { UserWarning03Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { useState } from 'react';
-
-import usePersonsWithImages from '@popup/hooks/usePersonsWithImages';
 
 interface IOptionData {
   label: string;
@@ -81,12 +79,13 @@ function PersonSelect({ value, onChange }: PersonSelectProps) {
   const [orderByRecency, setOrderByRecency] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
-  const { data: persons } = usePersonsWithImages(orderByRecency);
+  const { data: persons } = useOrderedPersons(orderByRecency);
+  const imageUrls = usePersonImageMap(persons.map(({ uid }) => uid));
 
-  const personList = persons.map<IOptionData>(({ imageUrl, name, uid }) => ({
+  const personList = persons.map<IOptionData>(({ name, uid }) => ({
     label: name,
     value: uid,
-    image: imageUrl,
+    image: imageUrls[uid] ?? '',
   }));
 
   const toggleOrderByRecency = () => setOrderByRecency((prev) => !prev);

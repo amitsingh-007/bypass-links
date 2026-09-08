@@ -1,0 +1,53 @@
+name: E2E
+description: Run the Playwright suite against a preview deployment with the e2e extension artifact
+inputs:
+  vercel-token:
+    description: Vercel token, used to pull .env
+    required: true
+  preview-url:
+    description: Preview URL that the web specs and the extension run against
+    required: true
+runs:
+  using: composite
+  steps:
+    - uses: ./.github/actions/setup
+      with:
+        vercel-token: ${{ inputs.vercel-token }}
+
+    - name: Cache Playwright binaries
+      uses: actions/cache@v6
+      id: playwright-cache
+      with:
+        path: ~/.cache/ms-playwright
+        key: cache-playwright-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: cache-playwright-
+
+    - name: Download extension
+      uses: actions/download-artifact@v8
+      with:
+        name: extension-e2e
+        path: ./apps/extension/.output/chrome-mv3/
+
+    - name: Install Playwright browsers
+      if: steps.playwright-cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: pnpm playwright install --with-deps
+
+    - name: Run Playwright tests
+      shell: bash
+      run: pnpm e2e
+      env:
+        PLAYWRIGHT_TEST_BASE_URL: ${{ inputs.preview-url }}
+        COVERAGE: '1'
+
+    - name: Upload Playwright test report
+      uses: actions/upload-artifact@v7
+      if: always()
+      with:
+        name: playwright-report
+        path: |
+          .playwright/playwright-report/
+          .playwright/test-results/
+          .playwright/coverage/
+        include-hidden-files: true
+        if-no-files-found: ignore

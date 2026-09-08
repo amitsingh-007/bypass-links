@@ -1,4 +1,4 @@
-import { expect, test } from '../fixtures/coverage-fixture';
+import { expect, test } from '../fixtures/base-fixture';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');

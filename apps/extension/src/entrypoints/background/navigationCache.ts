@@ -1,4 +1,4 @@
-import { STORAGE_KEYS } from '@bypass/shared';
+import { EStorageKey } from '@bypass/shared';
 
 import { type EExtensionState, EExtStorageKey } from '@/constants';
 import { extStateItem, mappedRedirectionsItem } from '@/storage/items';
@@ -27,7 +27,7 @@ export const invalidateNavigationCache = (changes: Record<string, unknown>) => {
   if (EExtStorageKey.EXT_STATE in changes) {
     extState = undefined;
   }
-  if (STORAGE_KEYS.mappedRedirections in changes) {
+  if (EStorageKey.mappedRedirections in changes) {
     mappedRedirections = undefined;
   }
 };

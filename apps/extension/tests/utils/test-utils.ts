@@ -1,4 +1,3 @@
-import { parseBadgeCount } from '@bypass/shared/tests';
 import { expect, type Page } from '@playwright/test';
 
 import { POPUP_HOMEPAGE } from '@/constants';
@@ -23,12 +22,8 @@ export const navigateBack = async (page: Page) => {
   await backButton.click({ force: true });
 };
 
-export const openDialog = async (
-  page: Page,
-  buttonName: string | RegExp,
-  dialogName: string
-) => {
-  const addButton = page.getByRole('button', { name: buttonName, exact: true });
+export const openAddDialog = async (page: Page, dialogName: string) => {
+  const addButton = page.getByRole('button', { name: 'Add', exact: true });
   await addButton.click();
 
   const dialog = page.getByRole('dialog', { name: dialogName });
@@ -60,12 +55,6 @@ export const clickContextMenuItem = async (page: Page, id: string) => {
   await menuItem.click();
 };
 
-export const openFolder = async (page: Page, folderName: string) => {
-  const folder = page.getByTestId(`folder-item-${folderName}`);
-  await expect(folder).toBeVisible();
-  await folder.click();
-};
-
 export const getStorageItem = async <T = unknown>(
   page: Page,
   key: string
@@ -74,22 +63,4 @@ export const getStorageItem = async <T = unknown>(
     const result = await chrome.storage.local.get([storageKey]);
     return result[storageKey] as T;
   }, key);
-};
-
-export const getBadgeCount = async (
-  page: Page,
-  name: string
-): Promise<number> => {
-  const badge = page.getByTestId('person-bookmark-count-badge');
-  await expect(badge).toBeVisible();
-
-  const badgeText = (await badge.textContent()) ?? '';
-
-  if (!badgeText.includes(name)) {
-    throw new Error(
-      `Expected badge to contain "${name}" but got "${badgeText}"`
-    );
-  }
-
-  return parseBadgeCount(badgeText);
 };

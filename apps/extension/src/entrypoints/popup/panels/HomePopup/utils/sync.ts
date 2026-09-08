@@ -61,7 +61,6 @@ const resetStorage = async () => {
 
 export const processPostLogin = async () => {
   await syncFirebaseToStorage();
-  // Independent cache warms; addAllToCache shares one pLimit so concurrency is capped
   await Promise.all([cachePersonImagesInStorage(), cacheBookmarkFavicons()]);
 };
 

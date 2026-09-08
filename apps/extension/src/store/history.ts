@@ -1,19 +1,22 @@
 import { create } from 'zustand';
 
+import { startHistoryWatch } from '@/utils/history';
+
 interface State {
-  monitorHistory: boolean;
   isHistoryActive: boolean;
-  startHistoryMonitor: VoidFunction;
-  resetHistoryMonitor: VoidFunction;
   setIsHistoryActive: (isHistoryActive: boolean) => void;
+  startHistoryMonitor: () => Promise<void>;
 }
 
 const useHistoryStore = create<State>()((set) => ({
-  monitorHistory: false,
   isHistoryActive: false,
-  startHistoryMonitor: () => set(() => ({ monitorHistory: true })),
-  resetHistoryMonitor: () => set(() => ({ monitorHistory: false })),
+
   setIsHistoryActive: (isHistoryActive) => set(() => ({ isHistoryActive })),
+
+  async startHistoryMonitor() {
+    await startHistoryWatch();
+    set(() => ({ isHistoryActive: true }));
+  },
 }));
 
 export default useHistoryStore;
