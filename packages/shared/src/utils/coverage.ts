@@ -139,8 +139,33 @@ const collectPageCoverage = async (page: Page) => {
 };
 
 /**
+ * Leaving the document retires its scripts, so V8 has nothing left to report for
+ * them at close time. Drain and restart instead, before the navigation happens.
+ */
+const harvestPageCoverage = async (page: Page) => {
+  if (!coveredPages.has(page) || page.isClosed()) {
+    return;
+  }
+  await safely(async () => {
+    await addCoverage(await page.coverage.stopJSCoverage());
+    await page.coverage.startJSCoverage({ resetOnNavigation: false });
+  });
+};
+
+const harvestBefore =
+  <A extends unknown[], R>(page: Page, navigate: (...args: A) => Promise<R>) =>
+  async (...args: A) => {
+    await harvestPageCoverage(page);
+    return await navigate(...args);
+  };
+
+/**
  * Self-instrumenting: coverage starts before the caller can navigate, and pages
  * and the worker drain before close, since closing drops the V8 data.
+ *
+ * Only explicit navigations are hooked. Coverage of a document left by a
+ * script-initiated navigation, and of scripts injected into pages the context
+ * never handed out, stays unattributed.
  */
 export const instrumentContext = (context: BrowserContext) => {
   if (!isCoverageEnabled) {
@@ -152,6 +177,11 @@ export const instrumentContext = (context: BrowserContext) => {
     const page = await openPage();
     await page.coverage.startJSCoverage({ resetOnNavigation: false });
     coveredPages.add(page);
+
+    page.goto = harvestBefore(page, page.goto.bind(page));
+    page.reload = harvestBefore(page, page.reload.bind(page));
+    page.goBack = harvestBefore(page, page.goBack.bind(page));
+    page.goForward = harvestBefore(page, page.goForward.bind(page));
 
     const closePage = page.close.bind(page);
     page.close = async (options) => {
