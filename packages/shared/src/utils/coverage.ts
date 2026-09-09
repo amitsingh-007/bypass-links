@@ -127,35 +127,25 @@ const safely = async (collect: () => Promise<void>) => {
 /** `stopJSCoverage` on a page that never started it can hang teardown (`data:`/`file:` tabs). */
 const coveredPages = new WeakSet<Page>();
 
-const collectPageCoverage = async (page: Page) => {
+/** Restart only for a page that lives on: leaving a document retires its scripts, so a later stop reports nothing for them. */
+const drainPageCoverage = async (page: Page, restart = false) => {
   if (!coveredPages.has(page) || page.isClosed()) {
     return;
   }
   coveredPages.delete(page);
   await safely(async () => {
-    const entries = await page.coverage.stopJSCoverage();
-    await addCoverage(entries);
-  });
-};
-
-/**
- * Leaving the document retires its scripts, so V8 has nothing left to report for
- * them at close time. Drain and restart instead, before the navigation happens.
- */
-const harvestPageCoverage = async (page: Page) => {
-  if (!coveredPages.has(page) || page.isClosed()) {
-    return;
-  }
-  await safely(async () => {
     await addCoverage(await page.coverage.stopJSCoverage());
-    await page.coverage.startJSCoverage({ resetOnNavigation: false });
+    if (restart) {
+      await page.coverage.startJSCoverage({ resetOnNavigation: false });
+      coveredPages.add(page);
+    }
   });
 };
 
 const harvestBefore =
   <A extends unknown[], R>(page: Page, navigate: (...args: A) => Promise<R>) =>
   async (...args: A) => {
-    await harvestPageCoverage(page);
+    await drainPageCoverage(page, true);
     return await navigate(...args);
   };
 
@@ -163,9 +153,9 @@ const harvestBefore =
  * Self-instrumenting: coverage starts before the caller can navigate, and pages
  * and the worker drain before close, since closing drops the V8 data.
  *
- * Only explicit navigations are hooked. Coverage of a document left by a
- * script-initiated navigation, and of scripts injected into pages the context
- * never handed out, stays unattributed.
+ * Covers pages from `newPage` and their explicit navigations only. Tabs the app
+ * opens itself arrive on the `page` event and are never started; navigation a
+ * page script initiates, and injected scripts, stay unattributed too.
  */
 export const instrumentContext = (context: BrowserContext) => {
   if (!isCoverageEnabled) {
@@ -185,7 +175,7 @@ export const instrumentContext = (context: BrowserContext) => {
 
     const closePage = page.close.bind(page);
     page.close = async (options) => {
-      await collectPageCoverage(page);
+      await drainPageCoverage(page);
       await closePage(options);
     };
     return page;
@@ -252,7 +242,7 @@ const collectContextCoverage = async (context: BrowserContext) => {
   const client = backgroundClients.get(context);
   backgroundClients.delete(context);
   await Promise.all([
-    ...context.pages().map((page) => collectPageCoverage(page)),
+    ...context.pages().map((page) => drainPageCoverage(page)),
     client &&
       safely(async () => {
         await addCoverage((await client.stopJSCoverage()) ?? []);
