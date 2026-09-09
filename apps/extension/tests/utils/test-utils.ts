@@ -55,6 +55,45 @@ export const clickContextMenuItem = async (page: Page, id: string) => {
   await menuItem.click();
 };
 
+interface CreatedTab {
+  url: string;
+  active: boolean;
+}
+
+declare global {
+  interface Window {
+    e2eCreatedTabs?: CreatedTab[];
+    e2eCreatedTabsAttached?: boolean;
+  }
+}
+
+/**
+ * Arms a `tabs.onCreated` recorder on `page`, resetting anything a previous
+ * call collected. Tabs the extension opens through `chrome.tabs.create` are not
+ * routable by Playwright and both fixture bookmarks 301, so the requested url
+ * is only observable here, before the redirect rewrites it. Headless Chromium
+ * also reports background tabs as `document.visibilityState === 'visible'`, so
+ * the recorded `active` flag is the only proof `active: false` reached Chrome.
+ */
+export const recordCreatedTabs = async (page: Page) => {
+  await page.evaluate(() => {
+    window.e2eCreatedTabs = [];
+    if (window.e2eCreatedTabsAttached) {
+      return;
+    }
+    window.e2eCreatedTabsAttached = true;
+    chrome.tabs.onCreated.addListener((tab) => {
+      window.e2eCreatedTabs?.push({
+        url: tab.pendingUrl ?? tab.url ?? '',
+        active: tab.active,
+      });
+    });
+  });
+};
+
+export const getRecordedTabs = async (page: Page) =>
+  page.evaluate(() => window.e2eCreatedTabs ?? []);
+
 export const getStorageItem = async <T = unknown>(
   page: Page,
   key: string

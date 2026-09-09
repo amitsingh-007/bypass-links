@@ -1,4 +1,10 @@
+import {
+  TEST_DEFAULT_REDIRECTION_URLS,
+  TEST_TIMEOUTS,
+} from '@bypass/shared/tests';
+
 import { test, expect as homeExpect } from '../fixtures/home-popup-fixture';
+import { getRecordedTabs, recordCreatedTabs } from '../utils/test-utils';
 
 test('should be disabled when not signed in', async ({ unauthPage }) => {
   const defaultsButton = unauthPage.getByTestId('open-defaults-button');
@@ -17,52 +23,28 @@ test.describe('Signed In', () => {
     const defaultsButton = homePage.getByTestId('open-defaults-button');
     await homeExpect(defaultsButton).toBeEnabled();
 
-    const initialPageCount = context.pages().length;
+    const pagesBefore = new Set(context.pages());
 
-    await defaultsButton.click();
+    try {
+      await recordCreatedTabs(homePage);
+      await defaultsButton.click();
 
-    await homeExpect
-      .poll(() => context.pages().length, {
-        message: 'Should open 2 new tabs',
-      })
-      .toBe(initialPageCount + 2);
-
-    const allPages = context.pages();
-    const newPages = allPages.filter((p) => p !== homePage);
-
-    await homeExpect
-      .poll(
-        () => {
-          const currentPages = context
-            .pages()
-            .filter((page) => page !== homePage);
-
-          return currentPages
-            .map((page) => page.url())
-            .filter(
-              (url) =>
-                url.startsWith('http') || url.startsWith('chrome-error://')
-            )
-            .map((url) => {
-              if (url.startsWith('chrome-error://')) {
-                return url;
-              }
-
-              const parsed = new URL(url);
-              return `${parsed.protocol}//${parsed.host}${parsed.pathname}`;
-            });
-        },
-        { timeout: 15_000 }
-      )
-      .toEqual(
-        homeExpect.arrayContaining([
-          'https://www.google.com/',
-          homeExpect.stringMatching(/mantine\.dev|^chrome-error:\/\//),
-        ])
+      // Recorded at tabs.onCreated because both destinations redirect
+      await homeExpect
+        .poll(() => getRecordedTabs(homePage), {
+          timeout: TEST_TIMEOUTS.PAGE_OPEN,
+          message: 'Both default rules should open, in rule order',
+        })
+        .toEqual(
+          TEST_DEFAULT_REDIRECTION_URLS.map((url) => ({ url, active: false }))
+        );
+    } finally {
+      await Promise.all(
+        context
+          .pages()
+          .filter((page) => !pagesBefore.has(page))
+          .map((page) => page.close())
       );
-
-    for (const newPage of newPages) {
-      await newPage.close();
     }
   });
 });

@@ -13,10 +13,21 @@ export const TEST_BOOKMARKS = {
   GITHUB: 'React ButtonGroup component 2',
 } as const;
 
+export const TEST_BOOKMARK_URLS = {
+  REACT_DOCS: 'https://material-ui.com/components/bottom-navigation/',
+} as const;
+
 export const TEST_FOLDERS = {
   MAIN: 'Main',
   EMPTY: 'Empty folder',
   OTHER_BOOKMARKS: 'Other bookmarks',
+} as const;
+
+/** Bookmark titles the test account holds in each folder, in listing order. */
+export const TEST_FOLDER_BOOKMARKS = {
+  ROOT: [TEST_BOOKMARKS.REACT_DOCS, TEST_BOOKMARKS.GITHUB],
+  MAIN: ['CRED - pay your credit card bills & earn rewards'],
+  OTHER_BOOKMARKS: ['Twitch', 'React Button component'],
 } as const;
 
 export const TEST_PERSONS = {
@@ -41,6 +52,12 @@ export const TEST_SHORTCUTS = {
   TODOMVC: 'http://hah/',
   BROWSERTEST: 'http://bt/',
 } as const;
+
+/** Websites of the account's `isDefault` redirection rules, in rule order. */
+export const TEST_DEFAULT_REDIRECTION_URLS = [
+  'https://www.google.com/',
+  'https://www.mantine.dev/',
+] as const;
 
 /**
  * TODOMVC is where TEST_SHORTCUTS.TODOMVC redirects; it renders its input via JS,

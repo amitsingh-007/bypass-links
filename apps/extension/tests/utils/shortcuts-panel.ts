@@ -37,6 +37,12 @@ export class ShortcutsPanel {
     return this.page.getByPlaceholder('Enter Alias');
   }
 
+  async getAliasValues() {
+    return this.getAliasInputs().evaluateAll((inputs) =>
+      inputs.map((input) => (input as HTMLInputElement).value)
+    );
+  }
+
   getWebsiteInputs() {
     return this.page.getByPlaceholder('Enter Website');
   }

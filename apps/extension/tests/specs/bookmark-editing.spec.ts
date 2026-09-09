@@ -6,15 +6,6 @@ import { BookmarksPanel } from '../utils/bookmarks-panel';
 const FIRST = TEST_BOOKMARKS.REACT_DOCS;
 const SECOND = TEST_BOOKMARKS.GITHUB;
 
-/**
- * The root listing, which is where both fixture bookmarks live. Opening a folder
- * is deliberately not part of this: `openFolder` single-clicks, and the folder
- * component reserves navigation for double-click, so it would not move anywhere.
- */
-const openRootListing = async (panel: BookmarksPanel) => {
-  await panel.ensureAtRoot();
-};
-
 // Worker-scoped page: reset so unsaved state never leaks into the next test
 test.afterEach(async ({ bookmarksPage }) => {
   await new BookmarksPanel(bookmarksPage).ensureAtRoot();
@@ -25,7 +16,7 @@ test.describe('Bookmark multi-select', () => {
     bookmarksPage,
   }) => {
     const panel = new BookmarksPanel(bookmarksPage);
-    await openRootListing(panel);
+    await panel.ensureAtRoot();
 
     await panel.selectBookmark(FIRST);
     await panel.selectBookmark(SECOND, { extend: true });
@@ -44,7 +35,7 @@ test.describe('Bookmark multi-select', () => {
 
   test('deletes every selected bookmark at once', async ({ bookmarksPage }) => {
     const panel = new BookmarksPanel(bookmarksPage);
-    await openRootListing(panel);
+    await panel.ensureAtRoot();
     const countBefore = await panel.getBookmarkCount();
 
     await panel.selectBookmark(FIRST);
@@ -63,7 +54,7 @@ test.describe('Bookmark reordering', () => {
     bookmarksPage,
   }) => {
     const panel = new BookmarksPanel(bookmarksPage);
-    await openRootListing(panel);
+    await panel.ensureAtRoot();
 
     await expect.poll(() => panel.getBookmarkTitles()).toEqual([FIRST, SECOND]);
 
@@ -76,7 +67,7 @@ test.describe('Bookmark reordering', () => {
     bookmarksPage,
   }) => {
     const panel = new BookmarksPanel(bookmarksPage);
-    await openRootListing(panel);
+    await panel.ensureAtRoot();
 
     await expect.poll(() => panel.getBookmarkTitles()).toEqual([FIRST, SECOND]);
 
@@ -91,7 +82,7 @@ test('opens the folder dropdown clear of the trigger', async ({
   bookmarksPage,
 }) => {
   const panel = new BookmarksPanel(bookmarksPage);
-  await openRootListing(panel);
+  await panel.ensureAtRoot();
 
   const dialog = await panel.openEditBookmarkDialog(FIRST);
   const trigger = dialog.getByTestId('bookmark-folder-select');
@@ -127,7 +118,7 @@ test.describe('Bookmark form validation', () => {
     bookmarksPage,
   }) => {
     const panel = new BookmarksPanel(bookmarksPage);
-    await openRootListing(panel);
+    await panel.ensureAtRoot();
 
     const dialog = await panel.openEditBookmarkDialog(FIRST);
     await bookmarksPage.getByTestId('bookmark-title-input').clear();
@@ -141,7 +132,7 @@ test.describe('Bookmark form validation', () => {
     bookmarksPage,
   }) => {
     const panel = new BookmarksPanel(bookmarksPage);
-    await openRootListing(panel);
+    await panel.ensureAtRoot();
 
     const dialog = await panel.openEditBookmarkDialog(FIRST);
     await panel.getUrlInput().fill('not-a-valid-url');

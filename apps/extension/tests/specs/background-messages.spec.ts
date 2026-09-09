@@ -9,6 +9,7 @@ import {
 } from '@/utils/sendRuntimeMessage';
 
 import { expect, test } from '../fixtures/background-fixture';
+import { getRecordedTabs, recordCreatedTabs } from '../utils/test-utils';
 
 /**
  * The scraper runs inside the page, so the fixture needs a real https origin,
@@ -207,23 +208,21 @@ test.describe('Forum button', () => {
 });
 
 test.describe('Opening collected links', () => {
-  test('opens one background tab per url', async ({ isolatedBackground }) => {
+  test('opens one background tab per url, in order', async ({
+    isolatedBackground,
+  }) => {
     await isolatedBackground.clearHistoryStartTime();
     const popup = await isolatedBackground.openPopup();
-    const context = popup.context();
-    const before = context.pages().length;
+    const urls = [TEST_SITES.EXAMPLE_COM, TEST_SITES.EXAMPLE_ORG];
 
-    await sendMessage(popup, {
-      key: 'openLinksInTabs',
-      urls: [TEST_SITES.EXAMPLE_COM, TEST_SITES.EXAMPLE_ORG],
-    });
+    await recordCreatedTabs(popup);
+    await sendMessage(popup, { key: 'openLinksInTabs', urls });
 
     // Opens are paced a second apart, so both tabs land well after the reply
     await expect
-      .poll(() => context.pages().length, {
-        timeout: TEST_TIMEOUTS.PAGE_OPEN,
-      })
-      .toBe(before + 2);
+      .poll(() => getRecordedTabs(popup), { timeout: TEST_TIMEOUTS.PAGE_OPEN })
+      // `new URL` because Chrome hands the recorder its own normalised form
+      .toEqual(urls.map((url) => ({ url: new URL(url).href, active: false })));
     await expect
       .poll(() =>
         isolatedBackground.readStorage(EExtStorageKey.HISTORY_START_TIME)
@@ -251,18 +250,15 @@ test.describe('Opening collected links', () => {
     isolatedBackground,
   }) => {
     const popup = await isolatedBackground.openPopup();
-    const context = popup.context();
-    const before = context.pages().length;
 
+    await recordCreatedTabs(popup);
     await sendMessage(popup, {
       key: 'openLinksInTabs',
       urls: ['javascript:void(0)', TEST_SITES.EXAMPLE_NET],
     });
 
     await expect
-      .poll(() => context.pages().length, {
-        timeout: TEST_TIMEOUTS.PAGE_OPEN,
-      })
-      .toBe(before + 1);
+      .poll(() => getRecordedTabs(popup), { timeout: TEST_TIMEOUTS.PAGE_OPEN })
+      .toEqual([{ url: new URL(TEST_SITES.EXAMPLE_NET).href, active: false }]);
   });
 });

@@ -14,12 +14,6 @@ import {
 } from './test-utils';
 
 export class BookmarksPanel extends BookmarksPanelBase {
-  async openFolder(folderName: string) {
-    const folder = this.getFolderElement(folderName);
-    await expect(folder).toBeVisible();
-    await folder.click();
-  }
-
   async navigateBack() {
     await navigateBack(this.page);
   }
@@ -96,14 +90,6 @@ export class BookmarksPanel extends BookmarksPanelBase {
     await this.pasteBookmark();
   }
 
-  async getBookmarkTitles() {
-    return this.getBookmarkItems().evaluateAll((rows) =>
-      rows.map((row) =>
-        (row.getAttribute('data-testid') ?? '').replace('bookmark-item-', '')
-      )
-    );
-  }
-
   async clickSaveButton() {
     const saveButton = this.getSaveButton();
     await saveButton.click();
@@ -114,10 +100,22 @@ export class BookmarksPanel extends BookmarksPanelBase {
     await clickContextMenuItem(this.page, itemId);
   }
 
-  async openFolderWithNestedFolders(folderName: string) {
-    const folderWithNested = this.page.getByTestId(`folder-item-${folderName}`);
-    await expect(folderWithNested).toBeVisible();
-    await folderWithNested.click({ button: 'right' });
+  async openFolderContextMenu(folderName: string) {
+    const folder = this.getFolderElement(folderName);
+    await expect(folder).toBeVisible();
+    await folder.click({ button: 'right' });
+  }
+
+  /** Right-click, Edit, retype, Save. Leaves the rename unsaved to storage. */
+  async renameFolder(folderName: string, newName: string) {
+    await this.openFolderContextMenu(folderName);
+    await this.clickContextMenuItem('edit');
+
+    const dialog = this.page.getByRole('dialog', { name: 'Edit folder' });
+    await expect(dialog).toBeVisible();
+    await dialog.getByTestId('folder-name-input').fill(newName);
+    await dialog.getByTestId('dialog-save-button').click();
+    await expect(dialog).toBeHidden();
   }
 
   /** Reads the bookmarks-list badge, checking it belongs to `name` first. */
