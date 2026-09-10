@@ -33,6 +33,11 @@ export class ShortcutsPanel {
     return this.page.getByRole('button', { name: 'Save' }).last();
   }
 
+  /** The header Save, which is the only one that leaves the extension. */
+  async saveAll() {
+    await this.getMainSaveButton().click();
+  }
+
   getAliasInputs() {
     return this.page.getByPlaceholder('Enter Alias');
   }

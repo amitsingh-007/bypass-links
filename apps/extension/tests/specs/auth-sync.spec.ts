@@ -38,7 +38,6 @@ interface AccountSave {
   persons: unknown;
 }
 
-/** Counts entries per cache bucket, which logout is expected to empty. */
 const getCachedEntryCount = async (page: Page) =>
   page.evaluate(async () => {
     const buckets = await caches.keys();
@@ -58,7 +57,6 @@ test.describe('Pending changes on logout', () => {
   for (const pendingCase of PENDING_CASES) {
     test(`sends the local data when ${pendingCase.name} changes are pending`, async () => {
       await withSignedInProfile(
-        { keepPendingFlags: true, guardAccountWrites: false },
         async ({ context, extensionId, backgroundSW }) => {
           const saves = await routeTrpcProcedure(
             context,
@@ -85,14 +83,14 @@ test.describe('Pending changes on logout', () => {
           expect(saves()).toEqual([
             { bookmarks, persons } satisfies AccountSave,
           ]);
-        }
+        },
+        { keepPendingFlags: true }
       );
     });
   }
 
   test('clears the pending flags, owned storage and caches once the save lands', async () => {
     await withSignedInProfile(
-      { keepPendingFlags: true, guardAccountWrites: false },
       async ({ context, extensionId, backgroundSW }) => {
         await routeTrpcProcedure(context, ACCOUNT_SAVE, async (call) => {
           await succeedProcedure(call, null);
@@ -120,13 +118,13 @@ test.describe('Pending changes on logout', () => {
           await getStorageItem(page, EExtStorageKey.HAS_PENDING_PERSONS)
         ).toBeUndefined();
         await expect.poll(() => getCachedEntryCount(page)).toBe(0);
-      }
+      },
+      { keepPendingFlags: true }
     );
   });
 
   test('keeps the session, the local data and the flags when the save fails', async () => {
     await withSignedInProfile(
-      { keepPendingFlags: true, guardAccountWrites: false },
       async ({ context, extensionId, backgroundSW }) => {
         let isFailing = true;
         await routeTrpcProcedure(context, ACCOUNT_SAVE, async (call) => {
@@ -174,7 +172,8 @@ test.describe('Pending changes on logout', () => {
             await getStorageItem(page, EExtStorageKey.HAS_PENDING_BOOKMARKS)
           ).toBeUndefined();
         });
-      }
+      },
+      { keepPendingFlags: true }
     );
   });
 });

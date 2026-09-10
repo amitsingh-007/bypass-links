@@ -4,7 +4,7 @@ import type { Page } from '@playwright/test';
 import { EExtensionState, EExtStorageKey } from '@/constants';
 
 import { test, expect } from '../fixtures/background-fixture';
-import { seedRedirections } from '../utils/test-utils';
+import { getRedirectionStorage } from '../utils/test-utils';
 
 const allInputsAutocompleteOff = async (page: Page) => {
   return page.evaluate(() => {
@@ -288,9 +288,11 @@ test.describe.serial('Background Service Worker Navigation', () => {
     isolatedBackground,
   }) => {
     const alias = 'http://e2e-toggle/';
-    await seedRedirections(isolatedBackground.writeStorage, [
-      { alias, website: TEST_SITES.EXAMPLE_COM, isDefault: false },
-    ]);
+    await isolatedBackground.writeStorage(
+      getRedirectionStorage([
+        { alias, website: TEST_SITES.EXAMPLE_COM, isDefault: false },
+      ])
+    );
     await isolatedBackground.ensureActiveState();
     const popup = await isolatedBackground.openPopup();
     const extensionSwitch = popup.getByTestId('toggle-extension-switch');

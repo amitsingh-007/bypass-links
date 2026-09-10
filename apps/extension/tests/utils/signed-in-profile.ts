@@ -23,26 +23,24 @@ interface SignedInProfile {
   backgroundSW: Worker;
 }
 
-interface Options {
+interface ProfileOptions {
   /** Kept when true, so pre-logout attempts the save the test controls itself. */
   keepPendingFlags?: boolean;
-  /** Off only for tests that route the account write themselves. */
-  guardAccountWrites?: boolean;
 }
 
 /**
  * Runs `run` against a disposable copy of the authenticated profile, so
  * destructive flows cannot overwrite the shared account or the cached profile
- * every other spec reads.
+ * every other spec reads. The account-write guard stays on even for tests that
+ * route that write themselves: their own route answers first, and the guard is
+ * then the backstop for any other path that tries to reach the account.
  */
 export const withSignedInProfile = async (
-  { keepPendingFlags = false, guardAccountWrites = true }: Options,
-  run: (profile: SignedInProfile) => Promise<void>
+  run: (profile: SignedInProfile) => Promise<void>,
+  { keepPendingFlags = false }: ProfileOptions = {}
 ) =>
   withTempProfileContext({ seedFromCachedProfile: true }, async (context) => {
-    const sawAccountWrite = guardAccountWrites
-      ? await abortAccountWrites(context)
-      : undefined;
+    const sawAccountWrite = await abortAccountWrites(context);
     for (const url of GOOGLE_LOGOUT_TABS) {
       await context.route(`${url}**`, async (route) => {
         await route.fulfill({ contentType: 'text/html', body: '' });
@@ -66,7 +64,7 @@ export const withSignedInProfile = async (
       // body was already reporting
       expect
         .soft(
-          sawAccountWrite?.() ?? false,
+          sawAccountWrite(),
           'logout tried to write the shared test account'
         )
         .toBe(false);

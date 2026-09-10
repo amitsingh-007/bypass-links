@@ -16,7 +16,7 @@ import { getStorageItem } from '../utils/test-utils';
  */
 test.describe('Auth lifecycle', () => {
   test('clears synced storage and opens the account tabs on logout', async () => {
-    await withSignedInProfile({}, async ({ context, extensionId }) => {
+    await withSignedInProfile(async ({ context, extensionId }) => {
       const page = await openExtensionPanelPage(context, extensionId);
       const tabsBefore = context.pages().length;
 
@@ -39,7 +39,7 @@ test.describe('Auth lifecycle', () => {
   });
 
   test('signs out on its own when the extension is switched off', async () => {
-    await withSignedInProfile({}, async ({ context, extensionId }) => {
+    await withSignedInProfile(async ({ context, extensionId }) => {
       const page = await openExtensionPanelPage(context, extensionId);
 
       await page.getByTestId('toggle-extension-switch').click();

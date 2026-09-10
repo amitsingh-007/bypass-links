@@ -5,7 +5,11 @@ import { expect, test, type BrowserContext, type Page } from '@playwright/test';
 import { openExtensionPanelPage } from '../fixtures/base-fixture';
 import { ShortcutsPanel } from '../utils/shortcuts-panel';
 import { withSignedInProfile } from '../utils/signed-in-profile';
-import { getStorageItem, gotoPanel } from '../utils/test-utils';
+import {
+  encodeRedirections,
+  getStorageItem,
+  gotoPanel,
+} from '../utils/test-utils';
 import {
   failProcedure,
   routeTrpcProcedure,
@@ -14,15 +18,9 @@ import {
 
 const NEW_ALIAS = 'http://e2e-shortcut/';
 const NEW_WEBSITE = 'https://example.com/';
+const EDITED_WEBSITE = 'https://example.org/';
 const REDIRECT_TARGET = 'https://html5test.com';
 const INCOMPLETE_ALIAS = 'http:///';
-
-const encode = (rules: IRedirections) =>
-  rules.map(({ alias, website, isDefault }) => ({
-    alias: btoa(alias),
-    website: btoa(website),
-    isDefault,
-  }));
 
 const decode = (rules: IRedirections) =>
   rules.map(({ alias, website, isDefault }) => ({
@@ -35,6 +33,9 @@ const getStoredRules = async (page: Page) =>
   decode(
     (await getStorageItem<IRedirections>(page, EStorageKey.redirections)) ?? []
   );
+
+const getSavedTargets = async (page: Page) =>
+  (await getStoredRules(page)).map(({ website }) => website);
 
 /**
  * Stands in for the account: the save is echoed back by the following fetch, so
@@ -64,7 +65,7 @@ const controlRedirections = async (context: BrowserContext) => {
     context,
     'firebaseData.redirectionsGet',
     async (call) => {
-      await succeedProcedure(call, encode(current));
+      await succeedProcedure(call, encodeRedirections(current));
     }
   );
 
@@ -95,20 +96,17 @@ const openShortcutsPanel = async (
   return { page, panel };
 };
 
-const addRule = async (page: Page, panel: ShortcutsPanel) => {
+/** A complete row, staged at the top of the list where Add puts it. */
+const stageNewRule = async (page: Page, panel: ShortcutsPanel) => {
   await panel.addRule();
   await page.getByTestId('rule-0-alias').fill(NEW_ALIAS);
   await page.getByTestId('rule-0-website').fill(NEW_WEBSITE);
   await page.getByTestId('rule-0-save').click();
 };
 
-const save = async (panel: ShortcutsPanel) => {
-  await panel.getMainSaveButton().click();
-};
-
 test.describe('Shortcuts sync', () => {
   test('stages an edit locally, then saves it durably', async () => {
-    await withSignedInProfile({}, async ({ context, extensionId }) => {
+    await withSignedInProfile(async ({ context, extensionId }) => {
       const server = await controlRedirections(context);
       const { page, panel } = await openShortcutsPanel(context, extensionId);
       const storedBefore = await getStoredRules(page);
@@ -122,8 +120,20 @@ test.describe('Shortcuts sync', () => {
         expect(await getStoredRules(page)).toEqual(storedBefore);
       });
 
+      await test.step('reopening drops the staged edit, storage untouched', async () => {
+        await gotoPanel(page, 'Shortcuts');
+        await panel.waitForLoading();
+
+        await expect(page.getByTestId('rule-0-website')).toHaveValue(
+          storedBefore[0].website
+        );
+        expect(await getStoredRules(page)).toEqual(storedBefore);
+      });
+
       await test.step('Save sends the edited rule and clears the edit', async () => {
-        await save(panel);
+        await page.getByTestId('rule-0-website').fill(NEW_WEBSITE);
+        await page.getByTestId('rule-0-save').click();
+        await panel.saveAll();
 
         await expect(page.getByText('Saved successfully')).toBeVisible();
         await expect(panel.getMainSaveButton()).toBeDisabled();
@@ -144,7 +154,7 @@ test.describe('Shortcuts sync', () => {
   });
 
   test('keeps reordering inside the list bounds', async () => {
-    await withSignedInProfile({}, async ({ context, extensionId }) => {
+    await withSignedInProfile(async ({ context, extensionId }) => {
       const { page, panel } = await openShortcutsPanel(context, extensionId);
       const aliases = await panel.getAliasValues();
       const lastPos = aliases.length - 1;
@@ -166,14 +176,14 @@ test.describe('Shortcuts sync', () => {
   });
 
   test('saves a rule switched to default', async () => {
-    await withSignedInProfile({}, async ({ context, extensionId }) => {
+    await withSignedInProfile(async ({ context, extensionId }) => {
       const server = await controlRedirections(context);
       const { page, panel } = await openShortcutsPanel(context, extensionId);
       const wasDefault = await page.getByTestId('rule-0-default').isChecked();
 
       await page.getByTestId('rule-0-default').click();
       await page.getByTestId('rule-0-save').click();
-      await save(panel);
+      await panel.saveAll();
 
       await expect(page.getByText('Saved successfully')).toBeVisible();
       expect(server.posted()[0][0].isDefault).toBe(!wasDefault);
@@ -182,7 +192,7 @@ test.describe('Shortcuts sync', () => {
   });
 
   test('leaves an unfinished row out of the save', async () => {
-    await withSignedInProfile({}, async ({ context, extensionId }) => {
+    await withSignedInProfile(async ({ context, extensionId }) => {
       const server = await controlRedirections(context);
       const { page, panel } = await openShortcutsPanel(context, extensionId);
       const storedBefore = await getStoredRules(page);
@@ -192,7 +202,7 @@ test.describe('Shortcuts sync', () => {
         INCOMPLETE_ALIAS
       );
 
-      await save(panel);
+      await panel.saveAll();
 
       await expect(page.getByText('Saved successfully')).toBeVisible();
       expect(server.posted()[0]).toEqual(storedBefore);
@@ -201,7 +211,7 @@ test.describe('Shortcuts sync', () => {
   });
 
   test('saves an emptied rule list', async () => {
-    await withSignedInProfile({}, async ({ context, extensionId }) => {
+    await withSignedInProfile(async ({ context, extensionId }) => {
       const server = await controlRedirections(context);
       const { page, panel } = await openShortcutsPanel(context, extensionId);
       const ruleCount = await panel.getRuleCount();
@@ -211,7 +221,7 @@ test.describe('Shortcuts sync', () => {
       }
       await expect(panel.getRuleElements()).toHaveCount(0);
 
-      await save(panel);
+      await panel.saveAll();
 
       await expect(page.getByText('Saved successfully')).toBeVisible();
       expect(server.posted()[0]).toEqual([]);
@@ -224,7 +234,7 @@ test.describe('Shortcuts sync', () => {
   });
 
   test('keeps staged edits when the save fails, and saves them on retry', async () => {
-    await withSignedInProfile({}, async ({ context, extensionId }) => {
+    await withSignedInProfile(async ({ context, extensionId }) => {
       const server = await controlRedirections(context);
       server.setFailing(true);
       const { page, panel } = await openShortcutsPanel(context, extensionId);
@@ -232,7 +242,7 @@ test.describe('Shortcuts sync', () => {
 
       await page.getByTestId('rule-0-website').fill(NEW_WEBSITE);
       await page.getByTestId('rule-0-save').click();
-      await save(panel);
+      await panel.saveAll();
 
       await test.step('the failure keeps the edit and the Save button', async () => {
         await expect(page.getByText('Could not save shortcuts')).toBeVisible();
@@ -245,7 +255,7 @@ test.describe('Shortcuts sync', () => {
 
       await test.step('retrying saves the same edit', async () => {
         server.setFailing(false);
-        await save(panel);
+        await panel.saveAll();
 
         await expect(page.getByText('Saved successfully')).toBeVisible();
         expect((await getStoredRules(page))[0].website).toBe(NEW_WEBSITE);
@@ -253,14 +263,16 @@ test.describe('Shortcuts sync', () => {
     });
   });
 
-  test('redirects on a newly saved alias and stops once it is deleted', async () => {
-    await withSignedInProfile({}, async ({ context, extensionId }) => {
+  test('redirects on a saved alias, follows an edit, and stops on delete', async () => {
+    await withSignedInProfile(async ({ context, extensionId }) => {
       const server = await controlRedirections(context);
       const { page, panel } = await openShortcutsPanel(context, extensionId);
 
-      await addRule(page, panel);
-      await save(panel);
-      await expect(page.getByText('Saved successfully')).toBeVisible();
+      // Several saves in a row, so each one waits on the resynced storage:
+      // success toasts stack and stop identifying which save landed
+      await stageNewRule(page, panel);
+      await panel.saveAll();
+      await expect.poll(() => getSavedTargets(page)).toContain(NEW_WEBSITE);
       expect(server.posted()[0][0].alias).toBe(NEW_ALIAS);
 
       await test.step('the alias redirects without restarting the worker', async () => {
@@ -269,9 +281,24 @@ test.describe('Shortcuts sync', () => {
         await tab.close();
       });
 
+      await test.step('editing the target repoints the same alias', async () => {
+        await page.getByTestId('rule-0-website').fill(EDITED_WEBSITE);
+        await page.getByTestId('rule-0-save').click();
+        await panel.saveAll();
+        await expect
+          .poll(() => getSavedTargets(page))
+          .toContain(EDITED_WEBSITE);
+
+        const tab = await openAliasTab(context, NEW_ALIAS);
+        await expect.poll(() => tab.url()).toContain(EDITED_WEBSITE);
+        await tab.close();
+      });
+
       await page.getByTestId('rule-0-delete').click();
-      await save(panel);
-      await expect(page.getByText('Saved successfully')).toBeVisible();
+      await panel.saveAll();
+      await expect
+        .poll(() => getSavedTargets(page))
+        .not.toContain(EDITED_WEBSITE);
 
       await test.step('the deleted alias is left alone', async () => {
         const deletedTab = await openAliasTab(context, NEW_ALIAS);
@@ -280,7 +307,7 @@ test.describe('Shortcuts sync', () => {
         const liveTab = await openAliasTab(context, TEST_SHORTCUTS.BROWSERTEST);
         await expect.poll(() => liveTab.url()).toContain(REDIRECT_TARGET);
 
-        expect(deletedTab.url()).not.toContain(NEW_WEBSITE);
+        expect(deletedTab.url()).not.toContain(EDITED_WEBSITE);
         await Promise.all([deletedTab.close(), liveTab.close()]);
       });
     });

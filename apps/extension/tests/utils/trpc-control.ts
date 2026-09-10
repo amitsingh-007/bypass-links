@@ -6,12 +6,15 @@ import {
 
 const TRPC_PATH = '/api/trpc/';
 
-/** Procedure names carried by one batched request, in response-index order. */
+/** Ordered, since a response entry is matched to its call by index. */
 const getBatchedProcedures = (url: string) => {
   const { pathname } = new URL(url);
   const names = pathname.slice(pathname.indexOf(TRPC_PATH) + TRPC_PATH.length);
   return names ? decodeURIComponent(names).split(',') : [];
 };
+
+const isBatched = (route: Route) =>
+  getBatchedProcedures(route.request().url()).length > 1;
 
 /** Inputs are keyed by batch index in both the query string and the post body. */
 const getInput = (request: Request, index: number) => {
@@ -64,10 +67,14 @@ const answerProcedure = async (
   { route, index }: ProcedureCall,
   entry: unknown
 ) => {
-  const isBatched = getBatchedProcedures(route.request().url()).length > 1;
-  const body = isBatched
-    ? ((await (await route.fetch()).json()) as unknown[])
-    : [];
+  const body: unknown[] = [];
+  if (isBatched(route)) {
+    // Replaying would send the batch's writes to the real account for real
+    if (route.request().method() !== 'GET') {
+      throw new Error('Refusing to replay a batched mutation upstream');
+    }
+    body.push(...((await (await route.fetch()).json()) as unknown[]));
+  }
   body[index] = entry;
   await route.fulfill({
     contentType: 'application/json',
@@ -80,7 +87,7 @@ export const succeedProcedure = async (call: ProcedureCall, data: unknown) =>
 
 /** A lone procedure fails at the request boundary; a batched one per index. */
 export const failProcedure = async (call: ProcedureCall) => {
-  if (getBatchedProcedures(call.route.request().url()).length === 1) {
+  if (!isBatched(call.route)) {
     await call.route.abort();
     return;
   }

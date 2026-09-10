@@ -198,23 +198,21 @@ export const seedFolderWithBookmarks = async (
   return { folderId: folder.id, bookmarkIds: urls.map(({ id }) => id) };
 };
 
-/**
- * Seeds rules the way both the panel and the worker read them: base64 in
- * storage, plus the alias-to-website map the redirect path looks up.
- */
-export const seedRedirections = async (
-  writeStorage: (values: Record<string, unknown>) => Promise<void>,
-  rules: IRedirections
-) => {
-  const encoded = rules.map(({ alias, website, isDefault }) => ({
+/** Rules are held base64 encoded, both in storage and over the wire. */
+export const encodeRedirections = (rules: IRedirections) =>
+  rules.map(({ alias, website, isDefault }) => ({
     alias: btoa(alias),
     website: btoa(website),
     isDefault,
   }));
-  await writeStorage({
+
+/** Rules as storage holds them, plus the map the redirect path looks up. */
+export const getRedirectionStorage = (rules: IRedirections) => {
+  const encoded = encodeRedirections(rules);
+  return {
     [EStorageKey.redirections]: encoded,
     [EStorageKey.mappedRedirections]: Object.fromEntries(
       encoded.map(({ alias, website }) => [alias, website])
     ),
-  });
+  };
 };
