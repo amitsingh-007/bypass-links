@@ -1,3 +1,10 @@
+import {
+  EStorageKey,
+  getEncryptedBookmark,
+  getEncryptedFolder,
+  type IBookmarksObj,
+  ROOT_FOLDER_ID,
+} from '@bypass/shared';
 import { expect, type Page } from '@playwright/test';
 
 import { POPUP_HOMEPAGE } from '@/constants';
@@ -102,4 +109,90 @@ export const getStorageItem = async <T = unknown>(
     const result = await chrome.storage.local.get([storageKey]);
     return result[storageKey] as T;
   }, key);
+};
+
+interface SeedBookmark {
+  title: string;
+  url: string;
+}
+
+/**
+ * Seeds a root folder and the bookmarks it holds straight into storage: the
+ * panel can only create a bookmark through the quick-bookmark deep link, which
+ * is limited to the active tab's url. Reseeding the same name replaces the
+ * previous folder, so a repeated run cannot leave two rows to pick between.
+ */
+export const seedFolderWithBookmarks = async (
+  page: Page,
+  folderName: string,
+  bookmarks: readonly SeedBookmark[]
+) => {
+  const folder = getEncryptedFolder({
+    id: crypto.randomUUID(),
+    name: folderName,
+    parentHash: ROOT_FOLDER_ID,
+    isDefault: false,
+  });
+  const urls = bookmarks.map(({ title, url }) =>
+    getEncryptedBookmark({
+      id: crypto.randomUUID(),
+      url,
+      title,
+      taggedPersons: [],
+      parentHash: folder.id,
+    })
+  );
+
+  await page.evaluate(
+    async ({ storageKey, rootId, seededFolder, seededUrls }) => {
+      const stored = (await chrome.storage.local.get(storageKey))[
+        storageKey
+      ] as IBookmarksObj;
+      const staleIds = new Set(
+        Object.entries(stored.folderList)
+          .filter(([, stale]) => stale.name === seededFolder.name)
+          .map(([id]) => id)
+      );
+      const isStale = (id: string) =>
+        staleIds.has(id) || staleIds.has(stored.urlList[id]?.parentHash);
+      const keep = <T>(record: Record<string, T>) =>
+        Object.fromEntries(
+          Object.entries(record).filter(([id]) => !isStale(id))
+        );
+
+      await chrome.storage.local.set({
+        [storageKey]: {
+          folderList: {
+            ...keep(stored.folderList),
+            [seededFolder.id]: seededFolder,
+          },
+          urlList: {
+            ...keep(stored.urlList),
+            ...Object.fromEntries(seededUrls.map((url) => [url.id, url])),
+          },
+          folders: {
+            ...keep(stored.folders),
+            [rootId]: [
+              { isDir: true, hash: seededFolder.id },
+              ...(stored.folders[rootId] ?? []).filter(
+                ({ hash }) => !staleIds.has(hash)
+              ),
+            ],
+            [seededFolder.id]: seededUrls.map(({ id }) => ({
+              isDir: false,
+              hash: id,
+            })),
+          },
+        } satisfies IBookmarksObj,
+      });
+    },
+    {
+      storageKey: EStorageKey.bookmarks,
+      rootId: ROOT_FOLDER_ID,
+      seededFolder: folder,
+      seededUrls: urls,
+    }
+  );
+
+  return { folderId: folder.id, bookmarkIds: urls.map(({ id }) => id) };
 };

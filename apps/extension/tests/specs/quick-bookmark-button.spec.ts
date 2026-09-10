@@ -1,6 +1,11 @@
+import { ROOT_FOLDER_NAME } from '@bypass/shared';
+import { TEST_FOLDERS, TEST_SITES } from '@bypass/shared/tests';
+
 import { POPUP_HOMEPAGE } from '@/constants';
 
 import { test, expect as homeExpect } from '../fixtures/home-popup-fixture';
+import { BookmarksPanel } from '../utils/bookmarks-panel';
+import { seedFolderWithBookmarks } from '../utils/test-utils';
 
 const TEST_BOOKMARK_TITLE = 'E2E Test Quick Bookmark';
 
@@ -102,5 +107,100 @@ test.describe('Signed In', () => {
 
     const unpinButton = homePage.getByTestId('quick-bookmark-button');
     await homeExpect(unpinButton).toContainText('Pin');
+  });
+
+  /**
+   * The popup reads the active tab, so it has to stay a background tab here:
+   * bringing it forward would make it the active tab and hide what is tested.
+   */
+  test('pins the active tab into the default folder', async ({
+    homePage,
+    context,
+  }) => {
+    const panel = new BookmarksPanel(homePage);
+    await panel.ensureAtRoot();
+    await panel.setFolderDefault(TEST_FOLDERS.MAIN, true);
+    await panel.clickSaveButton();
+    await homePage.goto(POPUP_HOMEPAGE);
+
+    const activeTab = await context.newPage();
+    await activeTab.goto(`${TEST_SITES.EXAMPLE_COM}/`);
+    const activeTitle = await activeTab.title();
+
+    try {
+      await homePage.reload();
+      const quickBookmarkButton = homePage.getByTestId('quick-bookmark-button');
+      await homeExpect(quickBookmarkButton).toContainText('Pin');
+      await quickBookmarkButton.click();
+      await homePage.waitForURL((url) => url.href.includes('/bookmark-panel/'));
+
+      const dialog = homePage.getByRole('dialog');
+      await homeExpect(dialog.getByTestId('bookmark-title-input')).toHaveValue(
+        activeTitle
+      );
+      await homeExpect(panel.getUrlInput()).toHaveValue(
+        `${TEST_SITES.EXAMPLE_COM}/`
+      );
+      await homeExpect(
+        dialog.getByTestId('bookmark-folder-select')
+      ).toContainText(TEST_FOLDERS.MAIN);
+      await panel.closeDialog();
+    } finally {
+      await activeTab.close();
+    }
+
+    // Root takes the add dialog over once the default folder is gone
+    await panel.ensureAtRoot();
+    await panel.setFolderDefault(TEST_FOLDERS.MAIN, false);
+    await panel.clickSaveButton();
+    await homePage.goto(POPUP_HOMEPAGE);
+
+    const nextTab = await context.newPage();
+    await nextTab.goto(`${TEST_SITES.EXAMPLE_NET}/`);
+    try {
+      await homePage.reload();
+      await homePage.getByTestId('quick-bookmark-button').click();
+      await homePage.waitForURL((url) => url.href.includes('/bookmark-panel/'));
+
+      await homeExpect(
+        homePage.getByRole('dialog').getByTestId('bookmark-folder-select')
+      ).toContainText(ROOT_FOLDER_NAME);
+      await panel.closeDialog();
+    } finally {
+      await nextTab.close();
+    }
+  });
+
+  test('opens an existing bookmark in the folder that holds it', async ({
+    homePage,
+    context,
+  }) => {
+    const folderName = 'Quick Bookmark Folder';
+    const bookmarkTitle = 'Quick Bookmark Target';
+    const { folderId } = await seedFolderWithBookmarks(homePage, folderName, [
+      { title: bookmarkTitle, url: `${TEST_SITES.EXAMPLE_ORG}/` },
+    ]);
+    await homePage.goto(POPUP_HOMEPAGE);
+
+    const activeTab = await context.newPage();
+    await activeTab.goto(`${TEST_SITES.EXAMPLE_ORG}/`);
+
+    try {
+      await homePage.reload();
+      const quickBookmarkButton = homePage.getByTestId('quick-bookmark-button');
+      await homeExpect(quickBookmarkButton).toContainText('Unpin');
+      await quickBookmarkButton.click();
+      await homePage.waitForURL((url) => url.href.includes('/bookmark-panel/'));
+
+      const url = homePage.url();
+      homeExpect(url).toContain('operation=edit');
+      homeExpect(url).toContain(`folderId=${folderId}`);
+      await homeExpect(
+        homePage.getByRole('dialog').getByTestId('bookmark-title-input')
+      ).toHaveValue(bookmarkTitle);
+      await new BookmarksPanel(homePage).closeDialog();
+    } finally {
+      await activeTab.close();
+    }
   });
 });

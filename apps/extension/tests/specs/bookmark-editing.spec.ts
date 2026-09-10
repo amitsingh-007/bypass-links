@@ -1,10 +1,34 @@
-import { TEST_BOOKMARKS, TEST_FOLDERS } from '@bypass/shared/tests';
+import {
+  TEST_BOOKMARKS,
+  TEST_FOLDERS,
+  TEST_SITES,
+  clearSearchInput,
+  fillSearchInput,
+} from '@bypass/shared/tests';
 
 import { expect, bookmarkTest as test } from '../fixtures/panel-fixture';
 import { BookmarksPanel } from '../utils/bookmarks-panel';
+import {
+  getRecordedTabs,
+  recordCreatedTabs,
+  seedFolderWithBookmarks,
+} from '../utils/test-utils';
 
 const FIRST = TEST_BOOKMARKS.REACT_DOCS;
 const SECOND = TEST_BOOKMARKS.GITHUB;
+
+/**
+ * Four rows in a folder of their own: root holds two bookmarks, too few for a
+ * search filter to hide anything a bulk action could then hit by mistake.
+ */
+const SELECTION_FOLDER = 'Selection Test Folder';
+const SELECTION_BOOKMARKS = [
+  { title: 'Alpha One', url: `${TEST_SITES.EXAMPLE_COM}/alpha-one` },
+  { title: 'Beta One', url: `${TEST_SITES.EXAMPLE_COM}/beta-one` },
+  { title: 'Alpha Two', url: `${TEST_SITES.EXAMPLE_COM}/alpha-two` },
+  { title: 'Beta Two', url: `${TEST_SITES.EXAMPLE_COM}/beta-two` },
+] as const;
+const SELECTION_TITLES = SELECTION_BOOKMARKS.map(({ title }) => title);
 
 // Worker-scoped page: reset so unsaved state never leaks into the next test
 test.afterEach(async ({ bookmarksPage }) => {
@@ -153,5 +177,147 @@ test.describe('Bookmark form validation', () => {
 
     await expect(dialog.getByText('Required')).toBeVisible();
     await expect(dialog).toBeVisible();
+  });
+});
+
+test.describe('Bookmark selection', () => {
+  /** One folder per test: they share a worker profile, so names must not collide. */
+  const openSelectionFolder = async (panel: BookmarksPanel) => {
+    const folderName = `${SELECTION_FOLDER}: ${test.info().title}`;
+    await seedFolderWithBookmarks(panel.page, folderName, SELECTION_BOOKMARKS);
+    await panel.ensureAtRoot();
+    await panel.openFolder(folderName, SELECTION_TITLES);
+    return folderName;
+  };
+
+  test('deletes only the selected rows a filter left visible', async ({
+    bookmarksPage,
+  }) => {
+    const panel = new BookmarksPanel(bookmarksPage);
+    await openSelectionFolder(panel);
+
+    await fillSearchInput(bookmarksPage, 'Alpha');
+    await expect
+      .poll(() => panel.getBookmarkTitles())
+      .toEqual(['Alpha One', 'Alpha Two']);
+
+    await panel.selectBookmark('Alpha One');
+    await panel.selectBookmark('Alpha Two', { extend: true });
+    await panel.openBookmarkContextMenuItem('Alpha Two', 'delete-all');
+
+    await expect.poll(() => panel.getBookmarkTitles()).toEqual([]);
+    await clearSearchInput(bookmarksPage);
+    // Deliberately not saved: the deletion stays local to this page
+    await expect
+      .poll(() => panel.getBookmarkTitles())
+      .toEqual(['Beta One', 'Beta Two']);
+  });
+
+  test('opens only the selected rows a filter left visible', async ({
+    bookmarksPage,
+    context,
+  }) => {
+    const panel = new BookmarksPanel(bookmarksPage);
+    await openSelectionFolder(panel);
+
+    await fillSearchInput(bookmarksPage, 'Beta');
+    await panel.selectBookmark('Beta One');
+    await panel.selectBookmark('Beta Two', { extend: true });
+
+    const pagesBefore = new Set(context.pages());
+    try {
+      await recordCreatedTabs(bookmarksPage);
+      await panel.openBookmarkContextMenuItem('Beta Two', 'open');
+
+      await expect
+        .poll(() => getRecordedTabs(bookmarksPage))
+        .toEqual([
+          { url: `${TEST_SITES.EXAMPLE_COM}/beta-one`, active: false },
+          { url: `${TEST_SITES.EXAMPLE_COM}/beta-two`, active: false },
+        ]);
+    } finally {
+      await Promise.all(
+        context
+          .pages()
+          .filter((page) => !pagesBefore.has(page))
+          .map((page) => page.close())
+      );
+    }
+  });
+
+  test('holds a noncontiguous selection and drops rows on a second click', async ({
+    bookmarksPage,
+  }) => {
+    const panel = new BookmarksPanel(bookmarksPage);
+    await openSelectionFolder(panel);
+
+    await panel.selectBookmark('Alpha One');
+    await panel.selectBookmark('Alpha Two', { extend: true });
+    await expect(panel.getBookmarkRow('Beta One')).toHaveAttribute(
+      'data-is-selected',
+      'false'
+    );
+
+    await panel.openBookmarkContextMenu('Alpha Two');
+    await expect(panel.getContextMenu()).toMatchAriaSnapshot(`
+      - menu:
+        - /children: equal
+        - menuitem "Open all (2) in new tab"
+        - menuitem "Cut"
+        - menuitem "Delete All"
+    `);
+    await bookmarksPage.keyboard.press('Escape');
+
+    await panel.deselectBookmark('Alpha Two');
+
+    await panel.openBookmarkContextMenu('Alpha One');
+    await expect(panel.getContextMenu()).toMatchAriaSnapshot(`
+      - menu:
+        - /children: equal
+        - menuitem "Open in new tab"
+        - menuitem "Cut"
+        - menuitem "Edit"
+        - menuitem "Delete"
+    `);
+    await bookmarksPage.keyboard.press('Escape');
+  });
+
+  test('drops the selection when the folder changes', async ({
+    bookmarksPage,
+  }) => {
+    const panel = new BookmarksPanel(bookmarksPage);
+    const folderName = await openSelectionFolder(panel);
+
+    await panel.selectBookmark('Alpha One');
+    await panel.selectBookmark('Alpha Two', { extend: true });
+
+    await panel.navigateBack();
+    await panel.openFolder(folderName, SELECTION_TITLES);
+
+    for (const title of SELECTION_TITLES) {
+      await expect(panel.getBookmarkRow(title)).toHaveAttribute(
+        'data-is-selected',
+        'false'
+      );
+    }
+  });
+
+  test('pastes the cut row above a filtered target and leaves the rest in order', async ({
+    bookmarksPage,
+  }) => {
+    const panel = new BookmarksPanel(bookmarksPage);
+    await openSelectionFolder(panel);
+
+    await fillSearchInput(bookmarksPage, 'Beta');
+    await panel.moveBookmarkOnto('Beta Two', 'Beta One');
+
+    await expect
+      .poll(() => panel.getBookmarkTitles())
+      .toEqual(['Beta Two', 'Beta One']);
+
+    await clearSearchInput(bookmarksPage);
+    await expect
+      .poll(() => panel.getBookmarkTitles())
+      .toEqual(['Alpha One', 'Beta Two', 'Beta One', 'Alpha Two']);
   });
 });

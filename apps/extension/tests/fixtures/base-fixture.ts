@@ -17,6 +17,7 @@ import {
   type Page,
   type Worker,
   chromium,
+  expect,
   test as base,
 } from '@playwright/test';
 
@@ -154,6 +155,29 @@ export const openExtensionPanelPage = async (
   return page;
 };
 
+/**
+ * Panel saves are local; only logout pushes them to the shared account. Aborting
+ * that one procedure keeps a regression from rewriting the test account, and
+ * fails the worker rather than letting it pass unnoticed.
+ */
+const abortAccountWrites = async (context: BrowserContext) => {
+  let sawAccountWrite = false;
+  await context.route('**/api/trpc**', async (route) => {
+    const request = route.request();
+    const isAccountWrite =
+      `${request.url()}${request.postData() ?? ''}`.includes(
+        'bookmarkAndPersonSave'
+      );
+    if (isAccountWrite) {
+      sawAccountWrite = true;
+      await route.abort();
+      return;
+    }
+    await route.fallback();
+  });
+  return () => sawAccountWrite;
+};
+
 interface SharedExtensionWorkerFixtures {
   sharedContext: BrowserContext;
   sharedBackgroundSW: Worker;
@@ -167,7 +191,17 @@ export const sharedExtensionTest = base.extend<
 >({
   sharedContext: [
     async ({}, use) => {
-      await withTempProfileContext({ seedFromCachedProfile: true }, use);
+      await withTempProfileContext(
+        { seedFromCachedProfile: true },
+        async (context) => {
+          const sawAccountWrite = await abortAccountWrites(context);
+          await use(context);
+          expect(
+            sawAccountWrite(),
+            'a panel save reached the shared test account'
+          ).toBe(false);
+        }
+      );
     },
     { scope: 'worker' },
   ],

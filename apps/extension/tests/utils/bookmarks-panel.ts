@@ -78,6 +78,16 @@ export class BookmarksPanel extends BookmarksPanelBase {
     );
   }
 
+  async deselectBookmark(bookmarkTitle: string) {
+    await this.getBookmarkElement(bookmarkTitle).click({
+      modifiers: ['ControlOrMeta'],
+    });
+    await expect(this.getBookmarkRow(bookmarkTitle)).toHaveAttribute(
+      'data-is-selected',
+      'false'
+    );
+  }
+
   /**
    * Cut and paste read the store's selection rather than the right-clicked row,
    * so both bookmarks have to be left-clicked on the way through.
@@ -90,10 +100,14 @@ export class BookmarksPanel extends BookmarksPanelBase {
     await this.pasteBookmark();
   }
 
+  /** The toast is matched loosely: saves in quick succession stack several up. */
   async clickSaveButton() {
     const saveButton = this.getSaveButton();
     await saveButton.click();
-    await expect(this.page.getByText('Saved temporarily')).toBeVisible();
+    await expect(
+      this.page.getByText('Saved temporarily').first()
+    ).toBeVisible();
+    await expect(saveButton).toBeDisabled();
   }
 
   async clickContextMenuItem(itemId: string) {
@@ -114,6 +128,22 @@ export class BookmarksPanel extends BookmarksPanelBase {
     const dialog = this.page.getByRole('dialog', { name: 'Edit folder' });
     await expect(dialog).toBeVisible();
     await dialog.getByTestId('folder-name-input').fill(newName);
+    await dialog.getByTestId('dialog-save-button').click();
+    await expect(dialog).toBeHidden();
+  }
+
+  async setFolderDefault(folderName: string, isDefault: boolean) {
+    await this.openFolderContextMenu(folderName);
+    await this.clickContextMenuItem(
+      isDefault ? 'make-default' : 'remove-default'
+    );
+  }
+
+  /** Repoints the bookmark's folder in the edit dialog, leaving it unsaved. */
+  async moveBookmarkToFolder(bookmarkTitle: string, folderName: string) {
+    const dialog = await this.openEditBookmarkDialog(bookmarkTitle);
+    await dialog.getByTestId('bookmark-folder-select').click();
+    await this.page.getByRole('option', { name: folderName }).click();
     await dialog.getByTestId('dialog-save-button').click();
     await expect(dialog).toBeHidden();
   }
@@ -150,7 +180,6 @@ export class BookmarksPanel extends BookmarksPanelBase {
     await expect(dialog).toBeHidden();
 
     await this.clickSaveButton();
-    await expect(this.getSaveButton()).toBeDisabled();
   }
 
   async removePersonFromBookmark(bookmarkTitle: string, personName: string) {
@@ -167,7 +196,6 @@ export class BookmarksPanel extends BookmarksPanelBase {
     await expect(dialog).toBeHidden();
 
     await this.clickSaveButton();
-    await expect(this.getSaveButton()).toBeDisabled();
   }
 
   async navigateToPersonsPanel() {

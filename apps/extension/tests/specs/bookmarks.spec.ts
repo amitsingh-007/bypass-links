@@ -10,6 +10,7 @@ import {
   TEST_FOLDERS,
   TEST_FOLDER_BOOKMARKS,
   TEST_PERSONS,
+  TEST_SITES,
   clearSearchInput,
   clickDropdownPersonAndGetName,
   fillSearchInput,
@@ -23,9 +24,11 @@ import {
   getRecordedTabs,
   getStorageItem,
   recordCreatedTabs,
+  seedFolderWithBookmarks,
 } from '../utils/test-utils';
 
 const ROOT_TITLES = TEST_FOLDER_BOOKMARKS.ROOT;
+const NESTED_FOLDER = 'Nested folder';
 
 const readStoredBookmarks = (panel: BookmarksPanel) =>
   getStorageItem<IBookmarksObj>(panel.page, EStorageKey.bookmarks);
@@ -34,6 +37,11 @@ const readStoredFolders = async (panel: BookmarksPanel) => {
   const stored = await readStoredBookmarks(panel);
   return getDecodedFolderList(stored?.folderList ?? {});
 };
+
+const readDefaultFolderNames = async (panel: BookmarksPanel) =>
+  (await readStoredFolders(panel))
+    .filter(({ isDefault }) => isDefault)
+    .map(({ name }) => name);
 
 test.describe('Bookmarks Panel', () => {
   test.describe('Folder Operations', () => {
@@ -435,7 +443,7 @@ test.describe('Bookmarks Panel', () => {
       TEST_FOLDERS.OTHER_BOOKMARKS,
       TEST_FOLDER_BOOKMARKS.OTHER_BOOKMARKS
     );
-    await panel.verifyFolderExists('Nested folder');
+    await panel.verifyFolderExists(NESTED_FOLDER);
   });
 
   test('should delete a folder', async ({ bookmarksPage }) => {
@@ -474,6 +482,190 @@ test.describe('Bookmarks Panel', () => {
 
     await panel.ensureAtRoot();
     await panel.verifyFolderExists(folderName);
+  });
+
+  test('keeps a single default folder, including one set in another folder', async ({
+    bookmarksPage,
+  }) => {
+    const panel = new BookmarksPanel(bookmarksPage);
+    await panel.ensureAtRoot();
+
+    await test.step('marking a root folder default', async () => {
+      await panel.setFolderDefault(TEST_FOLDERS.MAIN, true);
+      await panel.clickSaveButton();
+
+      await expect
+        .poll(() => readDefaultFolderNames(panel))
+        .toEqual([TEST_FOLDERS.MAIN]);
+    });
+
+    await test.step('a folder in another folder takes the flag over', async () => {
+      await panel.openFolder(
+        TEST_FOLDERS.OTHER_BOOKMARKS,
+        TEST_FOLDER_BOOKMARKS.OTHER_BOOKMARKS
+      );
+      await panel.setFolderDefault(NESTED_FOLDER, true);
+      await panel.clickSaveButton();
+
+      await expect
+        .poll(() => readDefaultFolderNames(panel))
+        .toEqual([NESTED_FOLDER]);
+    });
+
+    await test.step('removing the default leaves none behind', async () => {
+      await panel.setFolderDefault(NESTED_FOLDER, false);
+      await panel.clickSaveButton();
+
+      await expect.poll(() => readDefaultFolderNames(panel)).toEqual([]);
+    });
+  });
+
+  test('deletes the bookmarks a folder holds along with it', async ({
+    bookmarksPage,
+  }) => {
+    const panel = new BookmarksPanel(bookmarksPage);
+    await panel.ensureAtRoot();
+
+    const folderName = 'Folder With Bookmarks';
+    const bookmarkTitle = 'Bookmark Inside Deleted Folder';
+    const { folderId, bookmarkIds } = await seedFolderWithBookmarks(
+      bookmarksPage,
+      folderName,
+      [
+        {
+          title: bookmarkTitle,
+          url: `${TEST_SITES.EXAMPLE_COM}/deleted-folder`,
+        },
+      ]
+    );
+    await panel.ensureAtRoot();
+    await panel.openFolder(folderName, [bookmarkTitle]);
+    await panel.navigateBack();
+
+    await panel.openFolderContextMenu(folderName);
+    await panel.clickContextMenuItem('delete');
+    await panel.verifyFolderNotExists(folderName);
+    await panel.clickSaveButton();
+
+    const stored = await readStoredBookmarks(panel);
+    expect(stored?.urlList[bookmarkIds[0]]).toBeUndefined();
+    expect(stored?.folderList[folderId]).toBeUndefined();
+    expect(stored?.folders[folderId]).toBeUndefined();
+    expect(
+      stored?.folders[ROOT_FOLDER_ID]?.some(({ hash }) => hash === folderId)
+    ).toBe(false);
+  });
+
+  test('moves a bookmark to the folder picked in the edit dialog', async ({
+    bookmarksPage,
+  }) => {
+    const panel = new BookmarksPanel(bookmarksPage);
+    await panel.ensureAtRoot();
+
+    const sourceFolder = 'Move Source Folder';
+    const destinationFolder = 'Move Destination Folder';
+    const bookmarkTitle = 'Bookmark On The Move';
+    const { folderId: sourceId, bookmarkIds } = await seedFolderWithBookmarks(
+      bookmarksPage,
+      sourceFolder,
+      [{ title: bookmarkTitle, url: `${TEST_SITES.EXAMPLE_COM}/moved` }]
+    );
+    const { folderId: destinationId } = await seedFolderWithBookmarks(
+      bookmarksPage,
+      destinationFolder,
+      [
+        {
+          title: 'Bookmark Already There',
+          url: `${TEST_SITES.EXAMPLE_COM}/kept`,
+        },
+      ]
+    );
+
+    await panel.ensureAtRoot();
+    await panel.openFolder(sourceFolder, [bookmarkTitle]);
+    await panel.moveBookmarkToFolder(bookmarkTitle, destinationFolder);
+    await expect.poll(() => panel.getBookmarkTitles()).toEqual([]);
+    await panel.clickSaveButton();
+
+    const stored = await readStoredBookmarks(panel);
+    const [bookmarkId] = bookmarkIds;
+    expect(stored?.urlList[bookmarkId]?.parentHash).toBe(destinationId);
+    expect(stored?.folders[sourceId]?.map(({ hash }) => hash)).toEqual([]);
+    expect(stored?.folders[destinationId]?.map(({ hash }) => hash)).toContain(
+      bookmarkId
+    );
+
+    await panel.ensureAtRoot();
+    await panel.openFolder(destinationFolder, [
+      'Bookmark Already There',
+      bookmarkTitle,
+    ]);
+  });
+
+  test('prompts before leaving an unsaved bookmark edit', async ({
+    bookmarksPage,
+  }) => {
+    const panel = new BookmarksPanel(bookmarksPage);
+    await panel.ensureAtRoot();
+
+    const editedTitle = 'Unsaved Title Edit';
+    const dialog = await panel.openEditBookmarkDialog(TEST_BOOKMARKS.GITHUB);
+    await dialog.getByTestId('bookmark-title-input').fill(editedTitle);
+    await dialog.getByTestId('dialog-save-button').click();
+    await expect(dialog).toBeHidden();
+    await panel.verifyBookmarkExists(editedTitle);
+
+    const confirmation = bookmarksPage.getByRole('dialog', {
+      name: 'There are some unsaved changes',
+    });
+
+    await panel.navigateBack();
+    await expect(confirmation).toBeVisible();
+    await confirmation.getByRole('button', { name: 'Cancel' }).click();
+
+    await expect(confirmation).toBeHidden();
+    await panel.verifyBookmarkExists(editedTitle);
+    await expect(panel.getSaveButton()).toBeEnabled();
+
+    await panel.navigateBack();
+    await confirmation.getByRole('button', { name: 'Discard' }).click();
+
+    await expect(bookmarksPage.getByTestId('home-popup-heading')).toBeVisible();
+    await panel.ensureAtRoot();
+    await expect.poll(() => panel.getBookmarkTitles()).toEqual(ROOT_TITLES);
+  });
+
+  test('the save shortcut skips an unfinished dialog', async ({
+    bookmarksPage,
+  }) => {
+    const panel = new BookmarksPanel(bookmarksPage);
+    await panel.ensureAtRoot();
+
+    const folderName = 'Shortcut Save Folder';
+    const unfinishedName = 'Never Saved Folder';
+    await panel.createFolder(folderName);
+
+    const dialog = await panel.openAddFolderDialog();
+    await dialog.getByTestId('folder-name-input').fill(unfinishedName);
+    await bookmarksPage.keyboard.press('ControlOrMeta+s');
+
+    await expect(dialog).toBeVisible();
+    await expect(bookmarksPage.getByText('Saved temporarily')).toBeHidden();
+    await panel.closeDialog();
+
+    await bookmarksPage.keyboard.press('ControlOrMeta+s');
+    await expect(bookmarksPage.getByText('Saved temporarily')).toBeVisible();
+
+    const storedNames = (await readStoredFolders(panel)).map(
+      ({ name }) => name
+    );
+    expect(storedNames).toContain(folderName);
+    expect(storedNames).not.toContain(unfinishedName);
+
+    // Reopening the popup: the save has to outlive this page
+    await panel.ensureAtRoot();
+    await panel.verifyFolderExists(folderName);
+    await panel.verifyFolderNotExists(unfinishedName);
   });
 
   test('should not throw when navigating back out of the panel', async ({
