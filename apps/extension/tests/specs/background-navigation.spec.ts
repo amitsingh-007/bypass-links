@@ -1,10 +1,17 @@
-import { TEST_SHORTCUTS, TEST_SITES } from '@bypass/shared/tests';
+import {
+  TEST_SHORTCUTS,
+  TEST_SITES,
+  TEST_TIMEOUTS,
+} from '@bypass/shared/tests';
 import type { Page } from '@playwright/test';
 
 import { EExtensionState, EExtStorageKey } from '@/constants';
 
 import { test, expect } from '../fixtures/background-fixture';
 import { getRedirectionStorage } from '../utils/test-utils';
+
+/** Any https origin will do; `scripting.executeScript` just refuses the fake schemes. */
+const FIXTURE_ORIGIN = 'https://navigation.test';
 
 const allInputsAutocompleteOff = async (page: Page) => {
   return page.evaluate(() => {
@@ -276,6 +283,149 @@ test.describe.serial('Background Service Worker Navigation', () => {
           await page.close();
         }
       });
+    }
+  });
+
+  test('suppresses autocomplete on inputs added after the page loaded', async ({
+    sharedBackground,
+  }) => {
+    await sharedBackground.ensureActiveState();
+
+    const page = await sharedBackground.openFixturePage(
+      `${FIXTURE_ORIGIN}/dynamic-inputs`,
+      '<input name="present-at-load">'
+    );
+    try {
+      // The observer only exists once the injected script has run
+      await expect.poll(async () => allInputsAutocompleteOff(page)).toBe(true);
+
+      await test.step('a bare input', async () => {
+        await page.evaluate(() => {
+          document.body.append(document.createElement('input'));
+        });
+
+        await expect
+          .poll(async () => allInputsAutocompleteOff(page))
+          .toBe(true);
+      });
+
+      await test.step('an input nested inside an added container', async () => {
+        await page.evaluate(() => {
+          const container = document.createElement('div');
+          container.innerHTML = '<section><input name="nested"></section>';
+          document.body.append(container);
+        });
+
+        await expect
+          .poll(async () => allInputsAutocompleteOff(page))
+          .toBe(true);
+      });
+    } finally {
+      await page.close();
+    }
+  });
+
+  /**
+   * The re-injection a same-document navigation triggers finds its own marker
+   * and returns early, so it is the observer from the first run that has to
+   * still be catching inputs afterwards.
+   */
+  test('keeps suppressing across a same-document navigation', async ({
+    sharedBackground,
+  }) => {
+    await sharedBackground.ensureActiveState();
+
+    const page = await sharedBackground.openFixturePage(
+      `${FIXTURE_ORIGIN}/spa`,
+      '<input name="present-at-load">'
+    );
+    try {
+      await expect.poll(async () => allInputsAutocompleteOff(page)).toBe(true);
+
+      await page.evaluate(() => {
+        history.pushState({}, '', '/spa/next');
+        document.body.append(document.createElement('input'));
+      });
+
+      await expect.poll(() => page.url()).toContain('/spa/next');
+      await expect.poll(async () => allInputsAutocompleteOff(page)).toBe(true);
+    } finally {
+      await page.close();
+    }
+  });
+
+  /**
+   * A reload is handled off `webNavigation.onCompleted`, and the parent's own
+   * completion always trails its iframe's. An iframe completion that consumed
+   * the pending-reload marker would leave the main frame unhandled.
+   */
+  test('an iframe completing does not swallow the main frame reload', async ({
+    sharedBackground,
+  }) => {
+    await sharedBackground.ensureActiveState();
+
+    const framePath = `${FIXTURE_ORIGIN}/iframe-child`;
+    const page = await sharedBackground.openFixturePage(
+      `${FIXTURE_ORIGIN}/with-iframe`,
+      `<input name="outer"><iframe src="${framePath}"></iframe>`,
+      { [framePath]: '<p>child frame</p>' }
+    );
+    try {
+      await page.reload({ waitUntil: 'load' });
+
+      await expect.poll(async () => allInputsAutocompleteOff(page)).toBe(true);
+    } finally {
+      await page.close();
+    }
+  });
+
+  test('an aborted reload leaves the same tab handled afterwards', async ({
+    sharedBackground,
+  }) => {
+    await sharedBackground.ensureActiveState();
+
+    const url = `${FIXTURE_ORIGIN}/aborted-reload`;
+    const page = await sharedBackground.openFixturePage(
+      url,
+      '<input name="present-at-load">'
+    );
+    try {
+      await expect.poll(async () => allInputsAutocompleteOff(page)).toBe(true);
+
+      // Registered after the fixture's own route, so this one answers first
+      await page.route(url, async (route) => route.abort());
+      await page.reload({ waitUntil: 'commit' }).catch(() => undefined);
+
+      await page
+        .goto(TEST_SHORTCUTS.BROWSERTEST, {
+          waitUntil: 'commit',
+          timeout: TEST_TIMEOUTS.NAVIGATION,
+        })
+        .catch(() => undefined);
+
+      await expect.poll(() => page.url()).toContain('https://html5test.com');
+    } finally {
+      await page.close();
+    }
+  });
+
+  test('a tab closed mid-navigation does not stop the next one redirecting', async ({
+    sharedBackground,
+  }) => {
+    await sharedBackground.ensureActiveState();
+
+    const closing = await sharedBackground.context.newPage();
+    // Deliberately not awaited: the tab has to go while the redirect is in flight
+    void closing
+      .goto(TEST_SHORTCUTS.BROWSERTEST, { waitUntil: 'commit' })
+      .catch(() => undefined);
+    await closing.close();
+
+    const page = await sharedBackground.openTab(TEST_SHORTCUTS.BROWSERTEST);
+    try {
+      await expect.poll(() => page.url()).toContain('https://html5test.com');
+    } finally {
+      await page.close();
     }
   });
 

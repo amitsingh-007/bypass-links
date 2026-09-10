@@ -20,7 +20,7 @@ function LabeledSlider({
   onValueChange,
 }: Props) {
   return (
-    <div className="w-[40%]">
+    <div className="w-[40%]" data-testid={`${label.toLowerCase()}-slider`}>
       <span className="mb-2 block text-sm">{label}</span>
       <Slider
         value={[value]}

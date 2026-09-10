@@ -31,8 +31,13 @@ interface BaseBackgroundEnv {
   /**
    * Serves markup from a genuine https origin, which `scripting.executeScript`
    * requires: it refuses `about:blank` and `data:` targets outright.
+   * `extraPages` serves the urls the markup pulls in, iframes above all.
    */
-  openFixturePage: (url: string, html: string) => Promise<Page>;
+  openFixturePage: (
+    url: string,
+    html: string,
+    extraPages?: Record<string, string>
+  ) => Promise<Page>;
   /** An extension page, which is the only place `chrome.runtime` is reachable. */
   openPopup: () => Promise<Page>;
 }
@@ -141,11 +146,20 @@ const createBackgroundEnv = async (
     async openPopup() {
       return openLoadedTab(getPopupUrl(extensionId));
     },
-    async openFixturePage(url: string, html: string) {
+    async openFixturePage(
+      url: string,
+      html: string,
+      extraPages: Record<string, string> = {}
+    ) {
       const page = await context.newPage();
-      await page.route(url, async (route) => {
-        await route.fulfill({ contentType: 'text/html', body: html });
-      });
+      for (const [pageUrl, pageHtml] of Object.entries({
+        ...extraPages,
+        [url]: html,
+      })) {
+        await page.route(pageUrl, async (route) => {
+          await route.fulfill({ contentType: 'text/html', body: pageHtml });
+        });
+      }
       await page.goto(url, {
         waitUntil: 'domcontentloaded',
         timeout: TEST_TIMEOUTS.PAGE_OPEN,

@@ -100,6 +100,41 @@ test.describe('Persons Panel', () => {
     );
   });
 
+  test('should refuse to save a person with no name', async ({
+    personsPage,
+  }) => {
+    const panel = new PersonsPanel(personsPage);
+    await panel.ensureAtRoot();
+    const namesBefore = await panel.getPersonNames();
+    const dialog = await panel.openAddPersonDialog();
+
+    await dialog.getByRole('button', { name: 'Save' }).click();
+
+    await expect(dialog.getByText('Required')).toBeVisible();
+    await expect(dialog).toBeVisible();
+
+    await closeDialog(personsPage, dialog);
+    expect(await panel.getPersonNames()).toEqual(namesBefore);
+  });
+
+  test('should discard a person whose dialog is closed instead of saved', async ({
+    personsPage,
+  }) => {
+    const panel = new PersonsPanel(personsPage);
+    await panel.ensureAtRoot();
+    const cancelledName = `${TEST_PERSON_NAME}-cancelled`;
+    const dialog = await panel.openAddPersonDialog();
+    await dialog.getByPlaceholder('Enter name').fill(cancelledName);
+
+    await closeDialog(personsPage, dialog);
+
+    const cancelledCard = panel.getPersonCardElement(cancelledName);
+    await expect(cancelledCard).toHaveCount(0);
+    // Reopened, so the absence is storage's and not just this render's
+    await panel.ensureAtRoot();
+    await expect(cancelledCard).toHaveCount(0);
+  });
+
   test('should verify avatar image is visible in edit dialog', async ({
     personsPage,
   }) => {

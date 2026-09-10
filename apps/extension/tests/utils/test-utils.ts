@@ -2,7 +2,9 @@ import {
   EStorageKey,
   getEncryptedBookmark,
   getEncryptedFolder,
+  getEncryptedPerson,
   type IBookmarksObj,
+  type IPersons,
   type IRedirections,
   ROOT_FOLDER_ID,
 } from '@bypass/shared';
@@ -115,6 +117,12 @@ export const getStorageItem = async <T = unknown>(
 interface SeedBookmark {
   title: string;
   url: string;
+  taggedPersons?: string[];
+}
+
+interface SeedFolderOptions {
+  /** Clears the flag from every other folder, so exactly one default remains. */
+  isDefault?: boolean;
 }
 
 /**
@@ -126,26 +134,27 @@ interface SeedBookmark {
 export const seedFolderWithBookmarks = async (
   page: Page,
   folderName: string,
-  bookmarks: readonly SeedBookmark[]
+  bookmarks: readonly SeedBookmark[],
+  { isDefault = false }: SeedFolderOptions = {}
 ) => {
   const folder = getEncryptedFolder({
     id: crypto.randomUUID(),
     name: folderName,
     parentHash: ROOT_FOLDER_ID,
-    isDefault: false,
+    isDefault,
   });
-  const urls = bookmarks.map(({ title, url }) =>
+  const urls = bookmarks.map(({ title, url, taggedPersons = [] }) =>
     getEncryptedBookmark({
       id: crypto.randomUUID(),
       url,
       title,
-      taggedPersons: [],
+      taggedPersons,
       parentHash: folder.id,
     })
   );
 
   await page.evaluate(
-    async ({ storageKey, rootId, seededFolder, seededUrls }) => {
+    async ({ storageKey, rootId, seededFolder, seededUrls, isSoleDefault }) => {
       const stored = (await chrome.storage.local.get(storageKey))[
         storageKey
       ] as IBookmarksObj;
@@ -160,11 +169,17 @@ export const seedFolderWithBookmarks = async (
         Object.fromEntries(
           Object.entries(record).filter(([id]) => !isStale(id))
         );
+      const keptFolders = keep(stored.folderList);
+      if (isSoleDefault) {
+        Object.values(keptFolders).forEach((keptFolder) => {
+          keptFolder.isDefault = false;
+        });
+      }
 
       await chrome.storage.local.set({
         [storageKey]: {
           folderList: {
-            ...keep(stored.folderList),
+            ...keptFolders,
             [seededFolder.id]: seededFolder,
           },
           urlList: {
@@ -192,6 +207,7 @@ export const seedFolderWithBookmarks = async (
       rootId: ROOT_FOLDER_ID,
       seededFolder: folder,
       seededUrls: urls,
+      isSoleDefault: isDefault,
     }
   );
 
@@ -215,4 +231,38 @@ export const getRedirectionStorage = (rules: IRedirections) => {
       encoded.map(({ alias, website }) => [alias, website])
     ),
   };
+};
+
+/**
+ * Replaces the account's persons with `names`, for the cases that need a list
+ * of a known size and order rather than the fixture's handful.
+ */
+export const seedPersons = async (page: Page, names: readonly string[]) => {
+  const persons = names.map((name) =>
+    getEncryptedPerson({ uid: crypto.randomUUID(), name })
+  );
+
+  await page.evaluate(
+    async ({ storageKey, seeded }) => {
+      await chrome.storage.local.set({
+        [storageKey]: Object.fromEntries(
+          seeded.map((person) => [person.uid, person])
+        ),
+      });
+    },
+    { storageKey: EStorageKey.persons, seeded: persons }
+  );
+
+  return persons.map(({ uid }) => uid);
+};
+
+/** Account persons as a decoded-name to uid map, for seeding tags by name. */
+export const getPersonUids = async (
+  page: Page
+): Promise<Record<string, string>> => {
+  const persons =
+    (await getStorageItem<IPersons>(page, EStorageKey.persons)) ?? {};
+  return Object.fromEntries(
+    Object.values(persons).map(({ uid, name }) => [atob(name), uid])
+  );
 };
