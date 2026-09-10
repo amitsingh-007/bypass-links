@@ -54,12 +54,19 @@ test.describe('Download page', () => {
       await expect(link).toHaveAttribute('rel', /noreferrer/);
     }
 
-    const newPage = await openNewPageFromAction(context, async () => {
-      await page.getByTitle('Bypass Links - Github').click();
-    });
+    // Both links, since only the header one carries an explicit `noopener`
+    for (const link of [
+      page.locator(`header a[href="${GITHUB_REPO_URL}"]`),
+      page.getByTitle('Bypass Links - Github'),
+    ]) {
+      const newPage = await openNewPageFromAction(context, async () => {
+        await link.click();
+      });
 
-    await expect.poll(() => newPage.url()).toBe(GITHUB_REPO_URL);
-    expect(await newPage.evaluate(() => window.opener)).toBeNull();
-    await newPage.close();
+      await expect.poll(() => newPage.url()).toBe(GITHUB_REPO_URL);
+      // The property, not the window: a live `Window` does not serialise back
+      expect(await newPage.evaluate(() => window.opener === null)).toBe(true);
+      await newPage.close();
+    }
   });
 });

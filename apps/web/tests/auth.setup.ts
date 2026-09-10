@@ -9,12 +9,7 @@ import {
 } from '@bypass/shared/tests';
 import { expect, test as setup } from '@playwright/test';
 
-import { TEST_CREDENTIALS_KEY } from '../src/app/constants';
-
-const testCredentials = JSON.stringify({
-  email: process.env.FIREBASE_TEST_USER_EMAIL,
-  password: process.env.FIREBASE_TEST_USER_PASSWORD,
-});
+import { useTestCredentials } from './utils/test-credentials';
 
 setup.setTimeout(60_000);
 
@@ -22,15 +17,9 @@ setup('authenticate and cache web storage', async ({ browser }) => {
   await fs.promises.mkdir(AUTH_CACHE_DIR, { recursive: true });
   const context = await browser.newContext();
 
-  // The real login and preload pipeline only ever runs here
   instrumentContext(context);
 
-  await context.addInitScript(
-    ({ credentialsJson, key }) => {
-      window.localStorage.setItem(key, credentialsJson);
-    },
-    { credentialsJson: testCredentials, key: TEST_CREDENTIALS_KEY }
-  );
+  await useTestCredentials(context);
 
   const page = await context.newPage();
   const webUrl =

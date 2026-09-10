@@ -70,10 +70,27 @@ export const TEST_SITES = {
   TODOMVC: 'https://demo.playwright.dev/todomvc',
 } as const;
 
+const padIndex = (index: number) => String(index).padStart(3, '0');
+
+/**
+ * Vocabulary for the seeded lists both apps' large-list specs build. The size is
+ * well past what any panel viewport can hold, so a rendered subset is proof.
+ */
+export const TEST_LARGE_LIST = {
+  SIZE: 150,
+  SEARCHED_INDEX: 75,
+  bookmarkTitle: (index: number) => `Large Bookmark ${padIndex(index)}`,
+  bookmarkUrl: (index: number) =>
+    `${TEST_SITES.EXAMPLE_COM}/large/${padIndex(index)}`,
+  personName: (index: number) => `Large Person ${padIndex(index)}`,
+} as const;
+
 export const TEST_TIMEOUTS = {
   NAVIGATION: 1000,
   PAGE_OPEN_ATTEMPT: 2000,
   LONG_WAIT: 10_000,
   PAGE_OPEN: 15_000,
   AUTH: 30_000,
+  /** A whole sign-in and preload cycle, twice over. */
+  AUTH_LIFECYCLE: 90_000,
 } as const;

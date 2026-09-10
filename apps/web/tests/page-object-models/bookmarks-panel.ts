@@ -1,5 +1,9 @@
 import { EStorageKey, type IBookmarksObj } from '@bypass/shared';
-import { BookmarksPanelBase, getNumericBadgeValue } from '@bypass/shared/tests';
+import {
+  BookmarksPanelBase,
+  findByEncodedName,
+  getNumericBadgeValue,
+} from '@bypass/shared/tests';
 import { expect, type Locator } from '@playwright/test';
 
 export class BookmarksPanel extends BookmarksPanelBase {
@@ -37,9 +41,7 @@ export class BookmarksPanel extends BookmarksPanelBase {
   async getFolderId(folderName: string): Promise<string> {
     const stored = await this.page.localStorage.getItem(EStorageKey.bookmarks);
     const { folderList } = JSON.parse(stored ?? '{}') as IBookmarksObj;
-    const folder = Object.values(folderList).find(
-      ({ name }) => atob(name) === folderName
-    );
+    const folder = findByEncodedName(folderList, folderName);
     if (!folder) {
       throw new Error(`No folder named ${folderName} in stored bookmarks`);
     }

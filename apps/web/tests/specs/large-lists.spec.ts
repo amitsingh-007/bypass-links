@@ -8,30 +8,27 @@ import {
 } from '@bypass/shared';
 import {
   clearSearchInput,
+  expectVirtualizedList,
   fillSearchInput,
   injectLocalStorage,
-  TEST_SITES,
+  TEST_LARGE_LIST,
 } from '@bypass/shared/tests';
-import { type Locator, type Page } from '@playwright/test';
+import { type Page } from '@playwright/test';
 
 import { test, expect } from '../fixtures/base-fixture';
 import { BookmarksPanel } from '../page-object-models/bookmarks-panel';
 import { PersonsPanel } from '../page-object-models/persons-panel';
 
-/** Well past what either panel viewport can hold, so a rendered subset is proof. */
-const LIST_SIZE = 150;
-const SEARCHED_INDEX = 75;
+const { SIZE, SEARCHED_INDEX, bookmarkTitle, bookmarkUrl, personName } =
+  TEST_LARGE_LIST;
+
 /** Below the `sm` badge breakpoint and the `md` grid one, so both narrow. */
 const NARROW_VIEWPORT = { width: 500, height: 800 };
 
-const padded = (index: number) => String(index).padStart(3, '0');
-const bookmarkTitle = (index: number) => `Large Bookmark ${padded(index)}`;
-const personName = (index: number) => `Large Person ${padded(index)}`;
-
-const seededUrls = Array.from({ length: LIST_SIZE }, (_, index) =>
+const seededUrls = Array.from({ length: SIZE }, (_, index) =>
   getEncryptedBookmark({
-    id: `e2e-large-bookmark-${padded(index)}`,
-    url: `${TEST_SITES.EXAMPLE_COM}/large/${padded(index)}`,
+    id: `e2e-large-bookmark-${index}`,
+    url: bookmarkUrl(index),
     title: bookmarkTitle(index),
     taggedPersons: [],
     parentHash: ROOT_FOLDER_ID,
@@ -48,15 +45,16 @@ const seededBookmarks: IBookmarksObj = {
 };
 
 const seededPersons: IPersons = Object.fromEntries(
-  Array.from({ length: LIST_SIZE }, (_, index) => {
+  Array.from({ length: SIZE }, (_, index) => {
     const person = getEncryptedPerson({
-      uid: `e2e-large-person-${padded(index)}`,
+      uid: `e2e-large-person-${index}`,
       name: personName(index),
     });
     return [person.uid, person];
   })
 );
 
+/** Neither web panel has the extension's scroll buttons. */
 const scrollToEnd = async (page: Page) => {
   await page
     .locator('[data-slot="scroll-area-viewport"]')
@@ -64,50 +62,6 @@ const scrollToEnd = async (page: Page) => {
     .evaluate((viewport) => {
       viewport.scrollTop = viewport.scrollHeight;
     });
-};
-
-interface ListUnderTest {
-  page: Page;
-  /** Every row the panel currently has in the DOM. */
-  rows: Locator;
-  first: Locator;
-  last: Locator;
-  searchFor: string;
-  /** What the panel reports it is listing, so the filtered result is exact. */
-  listedNames: () => Promise<string[]>;
-}
-
-/**
- * Both panels virtualize through different components but make the same two
- * promises: only a slice is rendered, and a search still finds a row that was
- * never rendered. Neither web panel has the extension's scroll buttons, so the
- * scroll container is driven directly.
- */
-const expectVirtualizedList = async ({
-  page,
-  rows,
-  first,
-  last,
-  searchFor,
-  listedNames,
-}: ListUnderTest) => {
-  await expect(first).toBeVisible();
-  // Both halves matter: a slice rendered, and the far end genuinely absent
-  expect(await rows.count()).toBeLessThan(LIST_SIZE);
-  await expect(last).toHaveCount(0);
-
-  await test.step('scrolling to the end renders the last row', async () => {
-    await scrollToEnd(page);
-
-    await expect(last).toBeVisible();
-    await expect(first).toHaveCount(0);
-  });
-
-  await test.step('searching after scrolling finds a row that was never rendered', async () => {
-    await fillSearchInput(page, searchFor);
-
-    await expect.poll(listedNames).toEqual([searchFor]);
-  });
 };
 
 /**
@@ -127,30 +81,32 @@ test.describe('Large web lists', () => {
   test('scrolls and searches a large bookmark listing', async ({ page }) => {
     await page.goto('/bookmark-panel');
     const panel = new BookmarksPanel(page);
-    await expect.poll(() => panel.getBadgeCount()).toBe(LIST_SIZE);
+    await expect.poll(() => panel.getBadgeCount()).toBe(SIZE);
 
     await expectVirtualizedList({
       page,
       rows: panel.getBookmarkItems(),
       first: panel.getBookmarkElement(bookmarkTitle(0)),
-      last: panel.getBookmarkElement(bookmarkTitle(LIST_SIZE - 1)),
+      last: panel.getBookmarkElement(bookmarkTitle(SIZE - 1)),
       searchFor: bookmarkTitle(SEARCHED_INDEX),
       listedNames: async () => panel.getBookmarkTitles(),
+      scrollToEnd: async () => scrollToEnd(page),
     });
   });
 
   test('scrolls and searches a large persons grid', async ({ page }) => {
     await page.goto('/persons-panel');
     const panel = new PersonsPanel(page);
-    await expect.poll(() => panel.getHeaderPersonCount()).toBe(LIST_SIZE);
+    await expect.poll(() => panel.getHeaderPersonCount()).toBe(SIZE);
 
     await expectVirtualizedList({
       page,
       rows: panel.getPersonItems(),
       first: panel.getPersonCardElement(personName(0)),
-      last: panel.getPersonCardElement(personName(LIST_SIZE - 1)),
+      last: panel.getPersonCardElement(personName(SIZE - 1)),
       searchFor: personName(SEARCHED_INDEX),
       listedNames: async () => panel.getPersonNames(),
+      scrollToEnd: async () => scrollToEnd(page),
     });
   });
 
@@ -195,7 +151,7 @@ test.describe('Large web lists', () => {
         panel.getBookmarkElement(firstTitle).getByRole('link', {
           name: firstTitle,
         })
-      ).toHaveAttribute('href', `${TEST_SITES.EXAMPLE_COM}/large/${padded(0)}`);
+      ).toHaveAttribute('href', bookmarkUrl(0));
 
       await test.step('the narrow header still searches', async () => {
         await fillSearchInput(page, bookmarkTitle(SEARCHED_INDEX));

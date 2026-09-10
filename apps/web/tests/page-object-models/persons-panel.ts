@@ -2,6 +2,7 @@ import { EStorageKey, type IPersons } from '@bypass/shared';
 import {
   clearSearchInput,
   fillSearchInput,
+  findByEncodedName,
   parseBadgeCount,
   PersonsPanelBase,
 } from '@bypass/shared/tests';
@@ -17,9 +18,7 @@ export class PersonsPanel extends PersonsPanelBase {
   async getPersonUid(name: string): Promise<string> {
     const stored = await this.page.localStorage.getItem(EStorageKey.persons);
     const persons = JSON.parse(stored ?? '{}') as IPersons;
-    const person = Object.values(persons).find(
-      ({ name: encoded }) => atob(encoded) === name
-    );
+    const person = findByEncodedName(persons, name);
     if (!person) {
       throw new Error(`No person named ${name} in stored persons`);
     }
