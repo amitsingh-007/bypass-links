@@ -1,3 +1,4 @@
+import { EStorageKey, type IBookmarksObj } from '@bypass/shared';
 import { BookmarksPanelBase, getNumericBadgeValue } from '@bypass/shared/tests';
 import { expect, type Locator } from '@playwright/test';
 
@@ -30,5 +31,18 @@ export class BookmarksPanel extends BookmarksPanelBase {
 
   async getBadgeCount(): Promise<number> {
     return getNumericBadgeValue(this.page, 'header-badge');
+  }
+
+  /** Folder ids are only ever in storage; the panel shows the decoded name. */
+  async getFolderId(folderName: string): Promise<string> {
+    const stored = await this.page.localStorage.getItem(EStorageKey.bookmarks);
+    const { folderList } = JSON.parse(stored ?? '{}') as IBookmarksObj;
+    const folder = Object.values(folderList).find(
+      ({ name }) => atob(name) === folderName
+    );
+    if (!folder) {
+      throw new Error(`No folder named ${folderName} in stored bookmarks`);
+    }
+    return folder.id;
   }
 }

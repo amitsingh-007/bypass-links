@@ -1,4 +1,9 @@
 import { EStorageKey, type ILastVisited, sha256Hash } from '@bypass/shared';
+import {
+  failProcedure,
+  routeTrpcProcedure,
+  succeedProcedure,
+} from '@bypass/shared/tests';
 import { expect, test, type Page } from '@playwright/test';
 
 import { writeStorageFromWorker } from '../fixtures/background-fixture';
@@ -10,11 +15,6 @@ import {
   getStorageItem,
   gotoPanel,
 } from '../utils/test-utils';
-import {
-  failProcedure,
-  routeTrpcProcedure,
-  succeedProcedure,
-} from '../utils/trpc-control';
 
 const PREVIOUS_VISIT = Date.UTC(2020, 0, 2, 3, 4, 5);
 const NEW_VISIT = Date.UTC(2024, 5, 6, 7, 8, 9);

@@ -1,3 +1,6 @@
+import { GITHUB_REPO_URL } from '@bypass/shared';
+import { openNewPageFromAction } from '@bypass/shared/tests';
+
 import { expect, test } from '../fixtures/base-fixture';
 
 test.beforeEach(async ({ page }) => {
@@ -32,5 +35,31 @@ test.describe('Download page', () => {
       'href',
       'https://github.com/amitsingh-007/bypass-links'
     );
+  });
+
+  test('repository links open a new tab that cannot reach back', async ({
+    page,
+    context,
+  }) => {
+    // Stubbed so the assertions read the opened tab, not github's redirects
+    await context.route(`${GITHUB_REPO_URL}**`, (route) =>
+      route.fulfill({ contentType: 'text/html', body: '' })
+    );
+    const repoLinks = page.locator(`a[href="${GITHUB_REPO_URL}"]`);
+
+    await expect(repoLinks).toHaveCount(2);
+    for (const link of await repoLinks.all()) {
+      await expect(link).toHaveAttribute('target', '_blank');
+      // `noreferrer` alone already severs `window.opener` in Chrome
+      await expect(link).toHaveAttribute('rel', /noreferrer/);
+    }
+
+    const newPage = await openNewPageFromAction(context, async () => {
+      await page.getByTitle('Bypass Links - Github').click();
+    });
+
+    await expect.poll(() => newPage.url()).toBe(GITHUB_REPO_URL);
+    expect(await newPage.evaluate(() => window.opener)).toBeNull();
+    await newPage.close();
   });
 });

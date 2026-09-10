@@ -170,6 +170,55 @@ test.describe('Bookmarks Panel', () => {
     );
   });
 
+  test('should open a folder deep link directly and keep it across a reload', async ({
+    page,
+  }) => {
+    const panel = new BookmarksPanel(page);
+    const folderId = await panel.getFolderId(TEST_FOLDERS.MAIN);
+
+    await page.goto(`/bookmark-panel?folderId=${folderId}`);
+
+    const expectMainFolder = async () => {
+      await expect(panel.getBookmarkCountBadge()).toContainText(
+        TEST_FOLDERS.MAIN
+      );
+      await expect
+        .poll(() => panel.getBookmarkTitles())
+        .toEqual(TEST_FOLDER_BOOKMARKS.MAIN);
+    };
+    await expectMainFolder();
+
+    await page.reload();
+
+    await expectMainFolder();
+  });
+
+  test('should show a usable empty panel for an unknown folder id', async ({
+    page,
+  }) => {
+    const panel = new BookmarksPanel(page);
+
+    await page.goto('/bookmark-panel?folderId=e2e-unknown-folder');
+
+    await expect(panel.getBookmarkCountBadge()).toHaveText('Not Found (0)');
+    await expect(panel.getBookmarkItems()).toHaveCount(0);
+    await expect(panel.getFolderElement(TEST_FOLDERS.MAIN)).toHaveCount(0);
+
+    await test.step('the search box still accepts input', async () => {
+      await fillSearchInput(page, 'ButtonGroup');
+      await expect(panel.getBookmarkItems()).toHaveCount(0);
+      await clearSearchInput(page);
+    });
+
+    await test.step('Back leaves for a folder that does exist', async () => {
+      await panel.navigateBack();
+
+      await expect
+        .poll(() => panel.getBookmarkTitles())
+        .toEqual(TEST_FOLDER_BOOKMARKS.ROOT);
+    });
+  });
+
   test('should display favicon and URL tooltip on bookmark hover', async ({
     page,
   }) => {

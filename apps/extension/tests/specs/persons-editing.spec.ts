@@ -4,10 +4,13 @@ import {
   type PersonImageUrls,
 } from '@bypass/shared';
 import {
+  closeDialog,
+  failProcedure,
+  routeTrpcProcedure,
+  succeedProcedure,
   TEST_PERSON_NAME,
   TEST_PERSONS,
   TEST_SITES,
-  closeDialog,
 } from '@bypass/shared/tests';
 import {
   expect,
@@ -25,11 +28,6 @@ import {
   getStorageItem,
   seedFolderWithBookmarks,
 } from '../utils/test-utils';
-import {
-  failProcedure,
-  routeTrpcProcedure,
-  succeedProcedure,
-} from '../utils/trpc-control';
 
 /** A 1x1 png, small enough to paste, type and serve as itself. */
 const IMAGE_DATA_URL =

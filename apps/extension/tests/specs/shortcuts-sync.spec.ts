@@ -1,5 +1,11 @@
 import { EStorageKey, type IRedirections } from '@bypass/shared';
-import { TEST_SHORTCUTS, TEST_TIMEOUTS } from '@bypass/shared/tests';
+import {
+  failProcedure,
+  routeTrpcProcedure,
+  succeedProcedure,
+  TEST_SHORTCUTS,
+  TEST_TIMEOUTS,
+} from '@bypass/shared/tests';
 import { expect, test, type BrowserContext, type Page } from '@playwright/test';
 
 import { openExtensionPanelPage } from '../fixtures/base-fixture';
@@ -10,11 +16,6 @@ import {
   getStorageItem,
   gotoPanel,
 } from '../utils/test-utils';
-import {
-  failProcedure,
-  routeTrpcProcedure,
-  succeedProcedure,
-} from '../utils/trpc-control';
 
 const NEW_ALIAS = 'http://e2e-shortcut/';
 const NEW_WEBSITE = 'https://example.com/';

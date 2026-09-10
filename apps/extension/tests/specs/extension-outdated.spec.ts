@@ -1,9 +1,12 @@
-import { TEST_TIMEOUTS } from '@bypass/shared/tests';
+import {
+  failProcedure,
+  routeTrpcProcedure,
+  TEST_TIMEOUTS,
+} from '@bypass/shared/tests';
 import { type Page, type Worker } from '@playwright/test';
 
 import { test, expect } from '../fixtures/auth-fixture';
 import { getPopupUrl } from '../fixtures/base-fixture';
-import { failProcedure, routeTrpcProcedure } from '../utils/trpc-control';
 
 /** Returns a reader for how many times the version check has been made. */
 const mockLatestVersion = async (page: Page, version: string) => {
