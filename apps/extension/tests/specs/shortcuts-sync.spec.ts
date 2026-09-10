@@ -309,6 +309,7 @@ test.describe('Shortcuts sync', () => {
         await expect.poll(() => liveTab.url()).toContain(REDIRECT_TARGET);
 
         expect(deletedTab.url()).not.toContain(EDITED_WEBSITE);
+        expect(deletedTab.url()).not.toContain(NEW_WEBSITE);
         await Promise.all([deletedTab.close(), liveTab.close()]);
       });
     });

@@ -134,11 +134,13 @@ const drainPageCoverage = async (page: Page, restart = false) => {
   }
   coveredPages.delete(page);
   await safely(async () => {
-    await addCoverage(await page.coverage.stopJSCoverage());
+    const entries = await page.coverage.stopJSCoverage();
+    // Re-armed before the report add, so a failed add cannot disarm the page
     if (restart) {
       await page.coverage.startJSCoverage({ resetOnNavigation: false });
       coveredPages.add(page);
     }
+    await addCoverage(entries);
   });
 };
 

@@ -85,9 +85,9 @@ const answerProcedure = async (
 export const succeedProcedure = async (call: ProcedureCall, data: unknown) =>
   answerProcedure(call, { result: { data } });
 
-/** A lone procedure fails at the request boundary; a batched one per index. */
+/** A batched query fails per index; anything else fails at the request boundary. */
 export const failProcedure = async (call: ProcedureCall) => {
-  if (!isBatched(call.route)) {
+  if (!isBatched(call.route) || call.route.request().method() !== 'GET') {
     await call.route.abort();
     return;
   }

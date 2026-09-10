@@ -160,14 +160,15 @@ export const openExtensionPanelPage = async (
  * that one procedure keeps a regression from rewriting the test account, and
  * fails the worker rather than letting it pass unnoticed.
  */
-export const abortAccountWrites = async (context: BrowserContext) => {
+export const abortAccountWrites = async (
+  context: BrowserContext,
+  procedures: readonly string[] = ['bookmarkAndPersonSave']
+) => {
   let sawAccountWrite = false;
   await context.route('**/api/trpc**', async (route) => {
     const request = route.request();
-    const isAccountWrite =
-      `${request.url()}${request.postData() ?? ''}`.includes(
-        'bookmarkAndPersonSave'
-      );
+    const call = `${request.url()}${request.postData() ?? ''}`;
+    const isAccountWrite = procedures.some((name) => call.includes(name));
     if (isAccountWrite) {
       sawAccountWrite = true;
       await route.abort();
@@ -196,10 +197,12 @@ export const sharedExtensionTest = base.extend<
         async (context) => {
           const sawAccountWrite = await abortAccountWrites(context);
           await use(context);
-          expect(
-            sawAccountWrite(),
-            'a panel save reached the shared test account'
-          ).toBe(false);
+          expect
+            .soft(
+              sawAccountWrite(),
+              'a panel save reached the shared test account'
+            )
+            .toBe(false);
         }
       );
     },

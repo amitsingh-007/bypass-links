@@ -96,10 +96,9 @@ test.describe('Outdated extension badge', () => {
     await openPopup(page, extensionId);
 
     // Without this the badge below would just be reporting an up-to-date check
-    expect(
-      failedChecks(),
-      'the version check was not intercepted'
-    ).not.toHaveLength(0);
+    await expect
+      .poll(failedChecks, { message: 'the version check was not intercepted' })
+      .not.toHaveLength(0);
     await expect(page.getByRole('button', { name: 'Bookmarks' })).toBeEnabled();
     await expect(page.getByTestId('toggle-extension-switch')).toBeChecked();
     expect(await getBadgeText(backgroundSW)).toBe('');

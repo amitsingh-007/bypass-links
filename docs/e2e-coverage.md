@@ -30,7 +30,7 @@ collector was discarding everything a test executed before a `goto`, `reload`,
 | functions  | 68.97%                   | 89.66% |
 | lines      | 76.03%                   | 91.13% |
 
-Roughly three quarters of the headline improvement across this issue is this:
+Roughly four fifths of the headline improvement across this issue is this:
 measurement error, not coverage that did not exist.
 
 **New-test gains** — Phases 2 through 6, 115 → 186 tests, both refs measured
@@ -80,9 +80,10 @@ The Playwright job grew 3m53s → 6m52s, leaving 3m08s of the ten-minute
 
 On the marginal rate between the two CI runs — 71 more tests for 3.0m more
 execution, 2.5s per test — the 3m08s of slack is worth roughly **70 further
-tests**. That is the number to plan against, not the 120 that dividing 6m52s
-into ten minutes suggests: the fit is not linear through the origin (the two
-points imply a negative intercept), so per-test cost is rising, not flat.
+tests**. That is the number to plan against, not the ~85 that dividing 6m52s
+by 186 tests and filling ten minutes suggests: the fit is not linear through
+the origin (the two points imply a negative intercept), so per-test cost is
+rising, not flat.
 
 Instrumentation is a large part of the per-test cost, but this record cannot
 say how much: locally the same 186 tests finish in 2m35s without coverage,
@@ -100,7 +101,7 @@ Both app projects, normal parallel settings, retry configuration untouched:
 That earlier run is the one thing worth knowing about the suite's shape.
 `context.newPage()` failed with `Target.createTarget: Failed to open a new tab`
 under ~600% CPU, in `invalid URLs do not trigger redirect logic`. Because
-`background-navigation.spec.ts` is a 21-test `describe.serial`, that single
+`background-navigation.spec.ts` is a 20-test `describe.serial`, that single
 transient failure also skipped the 8 tests behind it, and the retry landed in
 the same state. The spec passes alone and the following full run was clean, so
 this is Chrome refusing a tab under load rather than a product or test defect —

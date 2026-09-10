@@ -121,53 +121,71 @@ test.describe('Signed In', () => {
     await panel.ensureAtRoot();
     await panel.setFolderDefault(TEST_FOLDERS.MAIN, true);
     await panel.clickSaveButton();
-    await homePage.goto(POPUP_HOMEPAGE);
-
-    const activeTab = await context.newPage();
-    await activeTab.goto(`${TEST_SITES.EXAMPLE_COM}/`);
-    const activeTitle = await activeTab.title();
+    let isMainDefault = true;
+    const unsetMainDefault = async () => {
+      await panel.ensureAtRoot();
+      await panel.setFolderDefault(TEST_FOLDERS.MAIN, false);
+      await panel.clickSaveButton();
+      isMainDefault = false;
+    };
 
     try {
-      await homePage.reload();
-      const quickBookmarkButton = homePage.getByTestId('quick-bookmark-button');
-      await homeExpect(quickBookmarkButton).toContainText('Pin');
-      await quickBookmarkButton.click();
-      await homePage.waitForURL((url) => url.href.includes('/bookmark-panel/'));
+      await homePage.goto(POPUP_HOMEPAGE);
+      const activeTab = await context.newPage();
+      await activeTab.goto(`${TEST_SITES.EXAMPLE_COM}/`);
+      const activeTitle = await activeTab.title();
 
-      const dialog = homePage.getByRole('dialog');
-      await homeExpect(dialog.getByTestId('bookmark-title-input')).toHaveValue(
-        activeTitle
-      );
-      await homeExpect(panel.getUrlInput()).toHaveValue(
-        `${TEST_SITES.EXAMPLE_COM}/`
-      );
-      await homeExpect(
-        dialog.getByTestId('bookmark-folder-select')
-      ).toContainText(TEST_FOLDERS.MAIN);
-      await panel.closeDialog();
+      try {
+        await homePage.reload();
+        const quickBookmarkButton = homePage.getByTestId(
+          'quick-bookmark-button'
+        );
+        await homeExpect(quickBookmarkButton).toContainText('Pin');
+        await quickBookmarkButton.click();
+        await homePage.waitForURL((url) =>
+          url.href.includes('/bookmark-panel/')
+        );
+
+        const dialog = homePage.getByRole('dialog');
+        await homeExpect(
+          dialog.getByTestId('bookmark-title-input')
+        ).toHaveValue(activeTitle);
+        await homeExpect(panel.getUrlInput()).toHaveValue(
+          `${TEST_SITES.EXAMPLE_COM}/`
+        );
+        await homeExpect(
+          dialog.getByTestId('bookmark-folder-select')
+        ).toContainText(TEST_FOLDERS.MAIN);
+        await panel.closeDialog();
+      } finally {
+        await activeTab.close();
+      }
+
+      // Root takes the add dialog over once the default folder is gone
+      await unsetMainDefault();
+      await homePage.goto(POPUP_HOMEPAGE);
+
+      const nextTab = await context.newPage();
+      await nextTab.goto(`${TEST_SITES.EXAMPLE_NET}/`);
+      try {
+        await homePage.reload();
+        await homePage.getByTestId('quick-bookmark-button').click();
+        await homePage.waitForURL((url) =>
+          url.href.includes('/bookmark-panel/')
+        );
+
+        await homeExpect(
+          homePage.getByRole('dialog').getByTestId('bookmark-folder-select')
+        ).toContainText(ROOT_FOLDER_NAME);
+        await panel.closeDialog();
+      } finally {
+        await nextTab.close();
+      }
     } finally {
-      await activeTab.close();
-    }
-
-    // Root takes the add dialog over once the default folder is gone
-    await panel.ensureAtRoot();
-    await panel.setFolderDefault(TEST_FOLDERS.MAIN, false);
-    await panel.clickSaveButton();
-    await homePage.goto(POPUP_HOMEPAGE);
-
-    const nextTab = await context.newPage();
-    await nextTab.goto(`${TEST_SITES.EXAMPLE_NET}/`);
-    try {
-      await homePage.reload();
-      await homePage.getByTestId('quick-bookmark-button').click();
-      await homePage.waitForURL((url) => url.href.includes('/bookmark-panel/'));
-
-      await homeExpect(
-        homePage.getByRole('dialog').getByTestId('bookmark-folder-select')
-      ).toContainText(ROOT_FOLDER_NAME);
-      await panel.closeDialog();
-    } finally {
-      await nextTab.close();
+      // The worker's profile outlives this test, so the default cannot be left behind
+      if (isMainDefault) {
+        await unsetMainDefault();
+      }
     }
   });
 

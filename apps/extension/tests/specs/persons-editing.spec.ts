@@ -303,6 +303,7 @@ test.describe('Persons editing and ordering', () => {
       const saveButton = panel.getPickerSaveButton();
       const urlInput = panel.getPickerUrlInput();
 
+      const brokenResponse = page.waitForResponse(BROKEN_IMAGE_URL);
       await urlInput.fill(BROKEN_IMAGE_URL);
 
       // The spinner is what proves the url was taken: Save is also disabled on
@@ -311,6 +312,7 @@ test.describe('Persons editing and ordering', () => {
         imagePicker.getByRole('status', { name: 'Loading' })
       ).toBeVisible();
       await expect(saveButton).toBeDisabled();
+      expect((await brokenResponse).status()).toBe(404);
       expect(await getStoredImageUrl(page, uid)).toBe(imageUrlBefore);
 
       await urlInput.fill(IMAGE_DATA_URL);

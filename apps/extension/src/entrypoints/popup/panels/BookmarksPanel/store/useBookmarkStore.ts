@@ -79,9 +79,10 @@ const useBookmarkStore = create<State>()((set, get) => ({
   },
 
   handleSelectedChange(id: string, isOnlySelection: boolean) {
-    const { selectedBookmarks } = get();
+    const { selectedBookmarks, contextBookmarks } = get();
     if (isOnlySelection) {
-      set({ selectedBookmarks: new Set([id]) });
+      const isPresent = contextBookmarks.some((bookmark) => bookmark.id === id);
+      set({ selectedBookmarks: new Set(isPresent ? [id] : []) });
       return;
     }
     const newSelection = new Set(selectedBookmarks);

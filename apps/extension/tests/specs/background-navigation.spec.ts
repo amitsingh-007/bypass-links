@@ -14,6 +14,8 @@ import { getRedirectionStorage } from '../utils/test-utils';
 const FIXTURE_ORIGIN = 'https://navigation.test';
 
 const abortRoute = async (route: Route) => route.abort();
+const emptyPageRoute = async (route: Route) =>
+  route.fulfill({ contentType: 'text/html', body: '' });
 
 const allInputsAutocompleteOff = async (page: Page) => {
   return page.evaluate(() => {
@@ -246,12 +248,18 @@ test.describe.serial('Background Service Worker Navigation', () => {
     await sharedBackground.ensureActiveState();
     await sharedBackground.clearHistoryStartTime();
 
+    // A restricted host the worker refuses, but not Chrome's own store: headless
+    // Chrome quits outright when a tab it served for that origin is closed
+    const storeUrl = 'https://addons.mozilla.org';
     const invalidUrls = [
-      'https://chromewebstore.google.com',
+      storeUrl,
       'data:text/plain,test-data-url',
       'file:///tmp/bypass-links-test.html',
     ];
 
+    // The worker only looks at the url, so the real store need not be fetched:
+    // closing a tab mid-way through that fetch is what used to hang this test
+    await sharedBackground.context.route(`${storeUrl}/**`, emptyPageRoute);
     for (const invalidUrl of invalidUrls) {
       await test.step(invalidUrl, async () => {
         const page = await sharedBackground.openTab(invalidUrl);
@@ -465,10 +473,14 @@ test.describe.serial('Background Service Worker Navigation', () => {
     await sharedBackground.ensureActiveState();
 
     const closing = await sharedBackground.context.newPage();
+    const navigationStarted = closing.waitForRequest(
+      TEST_SHORTCUTS.BROWSERTEST
+    );
     // Deliberately not awaited: the tab has to go while the redirect is in flight
     void closing
       .goto(TEST_SHORTCUTS.BROWSERTEST, { waitUntil: 'commit' })
       .catch(() => undefined);
+    await navigationStarted;
     await closing.close();
 
     const page = await sharedBackground.openTab(TEST_SHORTCUTS.BROWSERTEST);
@@ -509,8 +521,16 @@ test.describe.serial('Background Service Worker Navigation', () => {
       )
       .toBe(EExtensionState.INACTIVE);
     const whileInactive = await isolatedBackground.openTab(alias);
+    // Settled before resuming, or a late redirect of this tab would read as ACTIVE
+    await whileInactive.waitForLoadState('load').catch(() => undefined);
+    expect(whileInactive.url()).not.toContain(TEST_SITES.EXAMPLE_COM);
 
     await extensionSwitch.click();
+    await expect
+      .poll(async () =>
+        isolatedBackground.readStorage<string>(EExtStorageKey.EXT_STATE)
+      )
+      .toBe(EExtensionState.ACTIVE);
     const whileResumed = await isolatedBackground.openTab(alias);
     await expect
       .poll(() => whileResumed.url())

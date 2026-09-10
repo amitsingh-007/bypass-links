@@ -60,9 +60,7 @@ test.describe('Bookmarks Panel', () => {
       .toEqual(TEST_FOLDER_BOOKMARKS.ROOT);
   });
 
-  test('should search bookmarks by title, URL, and update badge count', async ({
-    page,
-  }) => {
+  test('should search bookmarks by title and URL', async ({ page }) => {
     const panel = new BookmarksPanel(page);
 
     await test.step('search by title', async () => {

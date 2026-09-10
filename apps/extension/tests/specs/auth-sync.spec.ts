@@ -172,6 +172,9 @@ test.describe('Pending changes on logout', () => {
           expect(
             await getStorageItem(page, EExtStorageKey.HAS_PENDING_BOOKMARKS)
           ).toBeUndefined();
+          expect(
+            await getStorageItem(page, EExtStorageKey.HAS_PENDING_PERSONS)
+          ).toBeUndefined();
         });
       },
       { keepPendingFlags: true }

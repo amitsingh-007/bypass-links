@@ -35,12 +35,19 @@ interface ProfileOptions {
  * route that write themselves: their own route answers first, and the guard is
  * then the backstop for any other path that tries to reach the account.
  */
+/** Every remote write a signed-in profile can make; the specs that exercise one route it first. */
+const ACCOUNT_WRITES = [
+  'bookmarkAndPersonSave',
+  'redirectionsPost',
+  'upsertLastVisited',
+];
+
 export const withSignedInProfile = async (
   run: (profile: SignedInProfile) => Promise<void>,
   { keepPendingFlags = false }: ProfileOptions = {}
 ) =>
   withTempProfileContext({ seedFromCachedProfile: true }, async (context) => {
-    const sawAccountWrite = await abortAccountWrites(context);
+    const sawAccountWrite = await abortAccountWrites(context, ACCOUNT_WRITES);
     for (const url of GOOGLE_LOGOUT_TABS) {
       await context.route(`${url}**`, async (route) => {
         await route.fulfill({ contentType: 'text/html', body: '' });
