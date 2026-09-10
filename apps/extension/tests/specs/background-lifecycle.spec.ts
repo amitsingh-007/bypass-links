@@ -14,11 +14,7 @@ test.describe('Background Service Worker Lifecycle', () => {
       .toBe(EExtensionState.ACTIVE);
   });
 
-  /**
-   * Every failure-path spec routes requests the extension makes, so whether
-   * routing reaches the worker realm has to be proven rather than assumed: the
-   * host never resolves, so an unintercepted fetch rejects instead of passing.
-   */
+  /** The host never resolves, so an unintercepted fetch rejects instead of passing. */
   test('context routing reaches requests made by the worker itself', async ({
     isolatedBackground,
   }) => {

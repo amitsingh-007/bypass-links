@@ -64,10 +64,7 @@ const scrollToEnd = async (page: Page) => {
     });
 };
 
-/**
- * Seeded straight into local storage on an empty state: the panels read nothing
- * else, so this needs neither the account's data nor a session.
- */
+/** Seeded into local storage: needs neither account data nor a session. */
 test.describe('Large web lists', () => {
   test.use({ storageState: { cookies: [], origins: [] } });
 

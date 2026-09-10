@@ -109,10 +109,7 @@ test.describe('Signed In', () => {
     await homeExpect(unpinButton).toContainText('Pin');
   });
 
-  /**
-   * The popup reads the active tab, so it has to stay a background tab here:
-   * bringing it forward would make it the active tab and hide what is tested.
-   */
+  /** Must stay a background tab: bringing it forward would make it the active tab. */
   test('pins the active tab into the default folder', async ({
     homePage,
     context,

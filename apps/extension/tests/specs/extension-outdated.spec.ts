@@ -103,8 +103,7 @@ test.describe('Outdated extension badge', () => {
     await expect(page.getByTestId('toggle-extension-switch')).toBeChecked();
     expect(await getBadgeText(backgroundSW)).toBe('');
 
-    // The failing route is on the context, so a second page inherits it until
-    // it is dropped
+    // The failing route is on the context, so a second page inherits it until dropped
     const secondPopup = await context.newPage();
     await context.unrouteAll();
     await mockLatestVersion(secondPopup, '99.0.0');

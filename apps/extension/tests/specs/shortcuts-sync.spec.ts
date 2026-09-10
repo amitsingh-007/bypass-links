@@ -23,27 +23,19 @@ const EDITED_WEBSITE = 'https://example.org/';
 const REDIRECT_TARGET = 'https://html5test.com';
 const INCOMPLETE_ALIAS = 'http:///';
 
-const decode = (rules: IRedirections) =>
-  rules.map(({ alias, website, isDefault }) => ({
+const getStoredRules = async (page: Page) =>
+  (
+    (await getStorageItem<IRedirections>(page, EStorageKey.redirections)) ?? []
+  ).map(({ alias, website, isDefault }) => ({
     alias: atob(alias),
     website: atob(website),
     isDefault,
   }));
 
-const getStoredRules = async (page: Page) =>
-  decode(
-    (await getStorageItem<IRedirections>(page, EStorageKey.redirections)) ?? []
-  );
-
 const getSavedTargets = async (page: Page) =>
   (await getStoredRules(page)).map(({ website }) => website);
 
-/**
- * Stands in for the account: the save is echoed back by the following fetch, so
- * every expectation follows from the edits the test itself made. Shortcut saves
- * are the one panel action that writes remotely, so they can never reach the
- * shared account.
- */
+/** Shortcut saves are the one panel write that leaves the extension, so they never reach the shared account. */
 const controlRedirections = async (context: BrowserContext) => {
   const posted: IRedirections[] = [];
   let isFailing = false;
@@ -95,14 +87,6 @@ const openShortcutsPanel = async (
   const panel = new ShortcutsPanel(page);
   await panel.waitForLoading();
   return { page, panel };
-};
-
-/** A complete row, staged at the top of the list where Add puts it. */
-const stageNewRule = async (page: Page, panel: ShortcutsPanel) => {
-  await panel.addRule();
-  await page.getByTestId('rule-0-alias').fill(NEW_ALIAS);
-  await page.getByTestId('rule-0-website').fill(NEW_WEBSITE);
-  await page.getByTestId('rule-0-save').click();
 };
 
 test.describe('Shortcuts sync', () => {
@@ -269,9 +253,11 @@ test.describe('Shortcuts sync', () => {
       const server = await controlRedirections(context);
       const { page, panel } = await openShortcutsPanel(context, extensionId);
 
-      // Several saves in a row, so each one waits on the resynced storage:
-      // success toasts stack and stop identifying which save landed
-      await stageNewRule(page, panel);
+      // Success toasts stack, so each save waits on resynced storage instead
+      await panel.addRule();
+      await page.getByTestId('rule-0-alias').fill(NEW_ALIAS);
+      await page.getByTestId('rule-0-website').fill(NEW_WEBSITE);
+      await page.getByTestId('rule-0-save').click();
       await panel.saveAll();
       await expect.poll(() => getSavedTargets(page)).toContain(NEW_WEBSITE);
       expect(server.posted()[0][0].alias).toBe(NEW_ALIAS);
@@ -303,8 +289,7 @@ test.describe('Shortcuts sync', () => {
 
       await test.step('the deleted alias is left alone', async () => {
         const deletedTab = await openAliasTab(context, NEW_ALIAS);
-        // A later navigation the worker does redirect, so the deleted alias had
-        // its chance: without it, the assertion below passes on first look
+        // Without a later redirected navigation the assertion below passes on first look
         const liveTab = await openAliasTab(context, TEST_SHORTCUTS.BROWSERTEST);
         await expect.poll(() => liveTab.url()).toContain(REDIRECT_TARGET);
 

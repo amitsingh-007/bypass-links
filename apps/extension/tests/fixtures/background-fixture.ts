@@ -28,11 +28,6 @@ interface BaseBackgroundEnv {
   openTab: (url: string) => Promise<Page>;
   /** For real pages, where returning mid-navigation lets a later reload race the load. */
   openLoadedTab: (url: string) => Promise<Page>;
-  /**
-   * Serves markup from a genuine https origin, which `scripting.executeScript`
-   * requires: it refuses `about:blank` and `data:` targets outright.
-   * `extraPages` serves the urls the markup pulls in, iframes above all.
-   */
   openFixturePage: (
     url: string,
     html: string,

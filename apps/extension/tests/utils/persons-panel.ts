@@ -40,8 +40,7 @@ const uploadImage = async (
   await expect(saveCroppedButton).toBeEnabled();
   await saveCroppedButton.click();
 
-  // The picker closes only once the upload has landed, which a real one is slow
-  // enough to outlast the default timeout
+  // A real upload outlasts the default timeout.
   await expect(imagePickerDialog).toBeHidden({ timeout: DIALOG_CLOSE_TIMEOUT });
 };
 

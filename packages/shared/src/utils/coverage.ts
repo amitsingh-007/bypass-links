@@ -151,14 +151,6 @@ const harvestBefore =
     return await navigate(...args);
   };
 
-/**
- * Self-instrumenting: coverage starts before the caller can navigate, and pages
- * and the worker drain before close, since closing drops the V8 data.
- *
- * Covers pages from `newPage` and their explicit navigations only. Tabs the app
- * opens itself arrive on the `page` event and are never started; navigation a
- * page script initiates, and injected scripts, stay unattributed too.
- */
 export const instrumentContext = (context: BrowserContext) => {
   if (!isCoverageEnabled) {
     return;

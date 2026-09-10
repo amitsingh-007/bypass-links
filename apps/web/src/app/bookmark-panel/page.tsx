@@ -54,8 +54,7 @@ export default function BookmarksPage() {
         text={`${folderName} (${contextBookmarks?.length || 0})`}
         onSearchChange={setSearchText}
       />
-      {/* `min-h-0`: a flex child defaults to `min-height: auto`, so without it the
-          scroller grows to the full list and nothing virtualizes or scrolls */}
+      {/* min-h-0: a flex child's min-height:auto would grow the scroller instead of scrolling */}
       <ScrollArea viewportRef={scrollAreaRef} className="min-h-0 flex-1">
         {filteredContextBookmarks.length > 0 ? (
           <div

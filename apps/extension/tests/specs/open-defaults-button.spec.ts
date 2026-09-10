@@ -6,30 +6,20 @@ import {
 } from '@bypass/shared/tests';
 import { type Page } from '@playwright/test';
 
-import {
-  createSharedBackgroundSW,
-  getExtensionId,
-  openExtensionPanelPage,
-  withTempProfileContext,
-} from '../fixtures/base-fixture';
+import { writeStorageFromWorker } from '../fixtures/background-fixture';
+import { openExtensionPanelPage } from '../fixtures/base-fixture';
 import { test, expect as homeExpect } from '../fixtures/home-popup-fixture';
+import { withSignedInProfile } from '../utils/signed-in-profile';
 import { getRecordedTabs, recordCreatedTabs } from '../utils/test-utils';
 
-/** Rewriting the rule list is destructive, so it happens on a throwaway copy. */
 const withRedirections = async (
   redirections: IRedirections,
   run: (page: Page) => Promise<void>
 ) =>
-  withTempProfileContext({ seedFromCachedProfile: true }, async (context) => {
-    const backgroundSW = await createSharedBackgroundSW(context);
-    const extensionId = await getExtensionId(backgroundSW);
-    await backgroundSW.evaluate(
-      async ({ key, rules }) => {
-        await chrome.storage.local.set({ [key]: rules });
-      },
-      { key: EStorageKey.redirections, rules: redirections }
-    );
-
+  withSignedInProfile(async ({ context, extensionId, backgroundSW }) => {
+    await writeStorageFromWorker(backgroundSW, {
+      [EStorageKey.redirections]: redirections,
+    });
     await run(await openExtensionPanelPage(context, extensionId));
   });
 
@@ -111,8 +101,7 @@ test.describe('Signed In', () => {
 
       // Enabled again means the handler ran to completion, opening nothing
       await homeExpect(defaultsButton).toBeEnabled();
-      // Read back from Chrome rather than the tab event log, which could still
-      // be carrying an event for a tab already created
+      // Read from Chrome, not the event log, which may still carry an already-created tab
       const openedUrls = await page.evaluate(async () =>
         (await chrome.tabs.query({})).map((tab) => tab.pendingUrl ?? tab.url)
       );

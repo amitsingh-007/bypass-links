@@ -78,16 +78,6 @@ export class BookmarksPanel extends BookmarksPanelBase {
     );
   }
 
-  async deselectBookmark(bookmarkTitle: string) {
-    await this.getBookmarkElement(bookmarkTitle).click({
-      modifiers: ['ControlOrMeta'],
-    });
-    await expect(this.getBookmarkRow(bookmarkTitle)).toHaveAttribute(
-      'data-is-selected',
-      'false'
-    );
-  }
-
   /**
    * Cut and paste read the store's selection rather than the right-clicked row,
    * so both bookmarks have to be left-clicked on the way through.
@@ -120,7 +110,7 @@ export class BookmarksPanel extends BookmarksPanelBase {
     await folder.click({ button: 'right' });
   }
 
-  /** Right-click, Edit, retype, Save. Leaves the rename unsaved to storage. */
+  /** Leaves the rename unsaved to storage. */
   async renameFolder(folderName: string, newName: string) {
     await this.openFolderContextMenu(folderName);
     await this.clickContextMenuItem('edit');
@@ -137,15 +127,6 @@ export class BookmarksPanel extends BookmarksPanelBase {
     await this.clickContextMenuItem(
       isDefault ? 'make-default' : 'remove-default'
     );
-  }
-
-  /** Repoints the bookmark's folder in the edit dialog, leaving it unsaved. */
-  async moveBookmarkToFolder(bookmarkTitle: string, folderName: string) {
-    const dialog = await this.openEditBookmarkDialog(bookmarkTitle);
-    await dialog.getByTestId('bookmark-folder-select').click();
-    await this.page.getByRole('option', { name: folderName }).click();
-    await dialog.getByTestId('dialog-save-button').click();
-    await expect(dialog).toBeHidden();
   }
 
   /** Reads the bookmarks-list badge, checking it belongs to `name` first. */

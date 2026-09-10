@@ -233,8 +233,6 @@ test.describe('Bookmarks Panel', () => {
       await panel.ensureAtRoot();
       await expect.poll(() => panel.getBookmarkTitles()).toEqual(ROOT_TITLES);
 
-      // One direction only: bookmark-editing.spec owns the reorder matrix via
-      // the context menu, and this test exists for the hotkey path
       await panel.selectBookmark(TEST_BOOKMARKS.GITHUB);
       await bookmarksPage.keyboard.press('ControlOrMeta+x');
       await panel.selectBookmark(TEST_BOOKMARKS.REACT_DOCS);
@@ -583,7 +581,13 @@ test.describe('Bookmarks Panel', () => {
 
     await panel.ensureAtRoot();
     await panel.openFolder(sourceFolder, [bookmarkTitle]);
-    await panel.moveBookmarkToFolder(bookmarkTitle, destinationFolder);
+    const dialog = await panel.openEditBookmarkDialog(bookmarkTitle);
+    await dialog.getByTestId('bookmark-folder-select').click();
+    await bookmarksPage
+      .getByRole('option', { name: destinationFolder })
+      .click();
+    await dialog.getByTestId('dialog-save-button').click();
+    await expect(dialog).toBeHidden();
     await expect.poll(() => panel.getBookmarkTitles()).toEqual([]);
     await panel.clickSaveButton();
 

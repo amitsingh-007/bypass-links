@@ -107,8 +107,7 @@ test.describe('Bookmarks Panel', () => {
 
   test('should open bookmark by double-clicking', async ({ page, context }) => {
     const panel = new BookmarksPanel(page);
-    // Stubbed because material-ui.com 301s to mui.com, so an unstubbed tab
-    // races its own redirect before the destination can be read
+    // material-ui.com 301s to mui.com, so an unstubbed tab races its own redirect
     await context.route(`${TEST_BOOKMARK_URLS.REACT_DOCS}**`, (route) =>
       route.fulfill({ contentType: 'text/html', body: '' })
     );

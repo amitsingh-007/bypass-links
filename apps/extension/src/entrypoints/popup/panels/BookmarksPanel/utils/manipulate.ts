@@ -9,8 +9,7 @@ export const processBookmarksMove = (
     (bookmark, index) =>
       index < destinationIndex && cutBookmarks.has(bookmark.id)
   ).length;
-  // Cut rows above the target are gone from the list the moved block lands in,
-  // so the target's index shifts down by all but one of them
+  // Cut rows above the target shift its index down by all but one of them
   const destIndex =
     movedBeforeDestination === 0
       ? destinationIndex

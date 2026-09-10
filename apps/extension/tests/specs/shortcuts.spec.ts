@@ -144,8 +144,7 @@ test.describe('Shortcuts Panel', () => {
 
     await panel.waitForLoading();
 
-    // The whole list, not just the moved row: a swap that also scrambles the
-    // untouched rules still satisfies "row 0 is now row 1"
+    // The whole list: a swap that scrambles untouched rules still satisfies "row 0 is now row 1"
     const before = await panel.getAliasValues();
     expect(before).toHaveLength(EXPECTED_RULE_COUNT);
     const [first, second, ...rest] = before;

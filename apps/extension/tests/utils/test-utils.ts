@@ -77,14 +77,7 @@ declare global {
   }
 }
 
-/**
- * Arms a `tabs.onCreated` recorder on `page`, resetting anything a previous
- * call collected. Tabs the extension opens through `chrome.tabs.create` are not
- * routable by Playwright and both fixture bookmarks 301, so the requested url
- * is only observable here, before the redirect rewrites it. Headless Chromium
- * also reports background tabs as `document.visibilityState === 'visible'`, so
- * the recorded `active` flag is the only proof `active: false` reached Chrome.
- */
+/** Only place the pre-redirect url and the active flag are observable; headless reports background tabs as visible. */
 export const recordCreatedTabs = async (page: Page) => {
   await page.evaluate(() => {
     window.e2eCreatedTabs = [];
@@ -120,22 +113,12 @@ interface SeedBookmark {
   taggedPersons?: string[];
 }
 
-interface SeedFolderOptions {
-  /** Clears the flag from every other folder, so exactly one default remains. */
-  isDefault?: boolean;
-}
-
-/**
- * Seeds a root folder and the bookmarks it holds straight into storage: the
- * panel can only create a bookmark through the quick-bookmark deep link, which
- * is limited to the active tab's url. Reseeding the same name replaces the
- * previous folder, so a repeated run cannot leave two rows to pick between.
- */
+/** The panel can only add via the quick-bookmark deep link; reseeding a name replaces the folder. */
 export const seedFolderWithBookmarks = async (
   page: Page,
   folderName: string,
   bookmarks: readonly SeedBookmark[],
-  { isDefault = false }: SeedFolderOptions = {}
+  isDefault = false
 ) => {
   const folder = getEncryptedFolder({
     id: crypto.randomUUID(),
@@ -222,7 +205,6 @@ export const encodeRedirections = (rules: IRedirections) =>
     isDefault,
   }));
 
-/** Rules as storage holds them, plus the map the redirect path looks up. */
 export const getRedirectionStorage = (rules: IRedirections) => {
   const encoded = encodeRedirections(rules);
   return {
@@ -233,10 +215,6 @@ export const getRedirectionStorage = (rules: IRedirections) => {
   };
 };
 
-/**
- * Replaces the account's persons with `names`, for the cases that need a list
- * of a known size and order rather than the fixture's handful.
- */
 export const seedPersons = async (page: Page, names: readonly string[]) => {
   const persons = names.map((name) =>
     getEncryptedPerson({ uid: crypto.randomUUID(), name })
@@ -256,7 +234,6 @@ export const seedPersons = async (page: Page, names: readonly string[]) => {
   return persons.map(({ uid }) => uid);
 };
 
-/** Account persons as a decoded-name to uid map, for seeding tags by name. */
 export const getPersonUids = async (
   page: Page
 ): Promise<Record<string, string>> => {

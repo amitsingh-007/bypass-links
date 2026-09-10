@@ -50,11 +50,7 @@ export class BookmarksPanelBase {
     return this.getBookmarkItems().count();
   }
 
-  /**
-   * Folders navigate on double-click only. The destination is identified by its
-   * contents: every folder in the test account holds a distinct list, so
-   * landing anywhere else fails here rather than passing quietly.
-   */
+  /** Identified by contents: every test folder holds a distinct list, so a wrong landing fails here. */
   async openFolder(
     folderName: string,
     expectedBookmarkTitles: readonly string[]

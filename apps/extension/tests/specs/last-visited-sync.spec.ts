@@ -22,10 +22,7 @@ const NEW_VISIT = Date.UTC(2024, 5, 6, 7, 8, 9);
 const getStoredVisit = async (page: Page, hash: string) =>
   (await getStorageItem<ILastVisited>(page, EStorageKey.lastVisited))?.[hash];
 
-/**
- * Hovering fresh, since a tooltip left open reports the previous row's text.
- * `data-open` skips the one still animating out, which shares the same slot.
- */
+/** A stale tooltip reports the previous row; `data-open` skips the one animating out. */
 const readTooltip = async (page: Page, testId: string) => {
   const tooltip = page.locator('[data-slot="tooltip-content"][data-open]');
   await page.mouse.move(0, 0);
@@ -85,11 +82,7 @@ test.describe('Last visited sync', () => {
     );
   });
 
-  /**
-   * The popup reads its own tab, so the update lands on the extension's host and
-   * is read back through two shortcut rules pointing at different paths of it.
-   * A real site cannot stand in: no other tab can be active in the popup's window.
-   */
+  /** No other tab can be active in the popup's window, so its own host stands in. */
   test('shares the timestamp across paths on the same host', async () => {
     await withSignedInProfile(
       async ({ context, extensionId, backgroundSW }) => {

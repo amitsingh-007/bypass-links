@@ -33,11 +33,7 @@ export interface ProcedureCall {
   index: number;
 }
 
-/**
- * Hands every batch carrying `procedure` to `handle`, which must answer or
- * `route.fallback()`. Returns a reader for the inputs seen so far, so a test can
- * assert on the payload the extension actually sent.
- */
+/** `handle` must answer or `route.fallback()`; the returned reader exposes the inputs seen. */
 export const routeTrpcProcedure = async (
   context: BrowserContext,
   procedure: string,
@@ -59,10 +55,7 @@ export const routeTrpcProcedure = async (
   return () => inputs;
 };
 
-/**
- * tRPC pairs responses to calls by index, so the other procedures in the batch
- * have to keep their real answers: they are fetched and only `index` replaced.
- */
+/** tRPC pairs responses by index, so the batch's other procedures keep their real answers. */
 const answerProcedure = async (
   { route, index }: ProcedureCall,
   entry: unknown

@@ -72,10 +72,7 @@ export const TEST_SITES = {
 
 const padIndex = (index: number) => String(index).padStart(3, '0');
 
-/**
- * Vocabulary for the seeded lists both apps' large-list specs build. The size is
- * well past what any panel viewport can hold, so a rendered subset is proof.
- */
+/** Size is well past any panel viewport, so a rendered subset is proof. */
 export const TEST_LARGE_LIST = {
   SIZE: 150,
   SEARCHED_INDEX: 75,

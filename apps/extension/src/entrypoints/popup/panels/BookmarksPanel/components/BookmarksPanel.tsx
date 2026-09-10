@@ -56,16 +56,16 @@ function BookmarksPanel() {
 
   // Right-clicked row wins over the selection, which anything can clear mid-gesture
   const handleOpenBookmarks = (id: string) => {
-    const { selectedBookmarks: selected } = useBookmarkStore.getState();
-    const rightClicked = findBookmarkById(filteredContextBookmarks, id);
+    const { contextBookmarks: bookmarks, selectedBookmarks: selected } =
+      useBookmarkStore.getState();
+    const rightClicked = findBookmarkById(bookmarks, id);
 
     if (rightClicked && selected.size < 2) {
       tabs.open(rightClicked.url);
       return;
     }
 
-    // Visible rows only: a selection can outlive the filter that hid it
-    filteredContextBookmarks.forEach((bookmark) => {
+    bookmarks.forEach((bookmark) => {
       if (!bookmark.isDir && selected.has(bookmark.id)) {
         tabs.open(bookmark.url);
       }

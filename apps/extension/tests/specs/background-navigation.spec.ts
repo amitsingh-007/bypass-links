@@ -248,8 +248,7 @@ test.describe.serial('Background Service Worker Navigation', () => {
     await sharedBackground.ensureActiveState();
     await sharedBackground.clearHistoryStartTime();
 
-    // A restricted host the worker refuses, but not Chrome's own store: headless
-    // Chrome quits outright when a tab it served for that origin is closed
+    // Not Chrome's own store: headless Chrome quits when a tab it served for that origin closes
     const storeUrl = 'https://addons.mozilla.org';
     const invalidUrls = [
       storeUrl,
@@ -257,8 +256,7 @@ test.describe.serial('Background Service Worker Navigation', () => {
       'file:///tmp/bypass-links-test.html',
     ];
 
-    // The worker only looks at the url, so the real store need not be fetched:
-    // closing a tab mid-way through that fetch is what used to hang this test
+    // Closing a tab mid-fetch used to hang this test; the worker only needs the url
     await sharedBackground.context.route(`${storeUrl}/**`, emptyPageRoute);
     for (const invalidUrl of invalidUrls) {
       await test.step(invalidUrl, async () => {
@@ -335,11 +333,7 @@ test.describe.serial('Background Service Worker Navigation', () => {
     }
   });
 
-  /**
-   * The re-injection a same-document navigation triggers finds its own marker
-   * and returns early, so it is the observer from the first run that has to
-   * still be catching inputs afterwards.
-   */
+  /** Re-injection returns early on its own marker, so the first run's observer must still work. */
   test('keeps suppressing across a same-document navigation', async ({
     sharedBackground,
   }) => {
@@ -364,11 +358,7 @@ test.describe.serial('Background Service Worker Navigation', () => {
     }
   });
 
-  /**
-   * A reload is handled off `webNavigation.onCompleted`, and the parent's own
-   * completion always trails its iframe's. An iframe completion that consumed
-   * the pending-reload marker would leave the main frame unhandled.
-   */
+  /** Parent completion trails its iframe's, so an iframe must not consume the pending-reload marker. */
   test('an iframe completing does not swallow the main frame reload', async ({
     sharedBackground,
   }) => {
@@ -389,11 +379,7 @@ test.describe.serial('Background Service Worker Navigation', () => {
     }
   });
 
-  /**
-   * A reload that never commits leaves the worker holding a pending-reload
-   * marker for the tab. The reload after it is the one that has to still be
-   * handled, since it is the only path that consumes that marker.
-   */
+  /** An aborted reload leaves the pending-reload marker set for the tab. */
   test('a reload that aborts leaves the next reload handled', async ({
     sharedBackground,
   }) => {
@@ -421,11 +407,7 @@ test.describe.serial('Background Service Worker Navigation', () => {
     }
   });
 
-  /**
-   * Redirecting is one `tabs.update` per handled navigation, so a listener
-   * registered twice -- which is what the worker used to do on every reload --
-   * shows up here as a second navigation to the same website.
-   */
+  /** One `tabs.update` per handled navigation, so a doubly-registered listener shows as a second navigation. */
   test('redirects once per alias navigation, not twice', async ({
     isolatedBackground,
   }) => {
@@ -491,11 +473,7 @@ test.describe.serial('Background Service Worker Navigation', () => {
     }
   });
 
-  /**
-   * The switch is written from the popup realm, so the worker only learns about
-   * it through a storage event. Resuming afterwards is what proves the tab
-   * opened while off was skipped rather than merely slow.
-   */
+  /** The worker learns of the switch only via a storage event; resuming proves the skip was real. */
   test('the popup switch stops and resumes redirecting', async ({
     isolatedBackground,
   }) => {

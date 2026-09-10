@@ -28,12 +28,7 @@ const presentSyncedKeys = async (page: Page) =>
 const cacheNames = async (page: Page) =>
   page.evaluate(() => caches.keys().then((keys) => keys.toSorted()));
 
-/**
- * The spinner renders exactly while the hook reports loading, and the sign-out
- * path that also suppresses it is not in play here, so its absence is the
- * honest end-of-preload signal. The button alone is not: it is briefly
- * "Logout" and enabled between the sign-in resolving and the preload starting.
- */
+/** The button is briefly "Logout" and enabled before the preload starts, so use the spinner. */
 const expectLoadingEnded = async (page: Page) => {
   await expect(page.getByRole('button', { name: 'Logout' })).toBeEnabled();
   await expect(page.getByRole('status', { name: 'Loading' })).toHaveCount(0);
@@ -52,16 +47,10 @@ const signOut = async (page: Page) => {
   await expect(page.getByRole('button', { name: 'Login' })).toBeEnabled();
 };
 
-/**
- * The cached web storage state carries the account's data but not the Firebase
- * session, which lives in IndexedDB. Every case here therefore starts empty and
- * runs the real login, and logout only ever clears local data: the web app has
- * no mutating procedure, so the shared account is never written to.
- */
+/** The cached storage state lacks the Firebase session (IndexedDB), so every case runs a real login. */
 test.describe('Web auth lifecycle', () => {
   test.use({ storageState: { cookies: [], origins: [] } });
-  // Real logins and real favicon and person image fetches, twice over in the
-  // recovery cases; the default budget is for tests that only read storage
+  // Real logins plus image fetches, twice over in the recovery cases.
   test.describe.configure({ timeout: TEST_TIMEOUTS.AUTH_LIFECYCLE });
 
   test('offers login only, and no data, while signed out', async ({ page }) => {

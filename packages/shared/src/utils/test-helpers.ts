@@ -182,7 +182,6 @@ export const findByEncodedName = <T extends { name: string }>(
 
 export interface VirtualizedList {
   page: Page;
-  /** Every row the panel currently has in the DOM. */
   rows: Locator;
   first: Locator;
   last: Locator;
@@ -190,16 +189,10 @@ export interface VirtualizedList {
   /** What the panel reports it is listing, so the filtered result is exact. */
   listedNames: () => Promise<string[]>;
   scrollToEnd: () => Promise<void>;
-  /** Only for panels that offer a control back to the top. */
   scrollToStart?: () => Promise<void>;
 }
 
-/**
- * Every panel virtualizes through a different component but makes the same
- * promises: only a slice is rendered, the far end is reachable, and a search
- * still finds a row that was never rendered. How the scroll is driven differs
- * (the extension has buttons, the web panels do not), so callers supply it.
- */
+/** Panels virtualize through different components and drive scroll differently, so callers supply it. */
 export const expectVirtualizedList = async ({
   page,
   rows,
@@ -211,7 +204,6 @@ export const expectVirtualizedList = async ({
   scrollToStart,
 }: VirtualizedList) => {
   await expect(first).toBeVisible();
-  // Both halves matter: a slice rendered, and the far end genuinely absent
   expect(await rows.count()).toBeLessThan(TEST_LARGE_LIST.SIZE);
   await expect(last).toHaveCount(0);
 

@@ -40,11 +40,7 @@ const BROKEN_IMAGE_URL = 'https://person-image.test/missing.png';
 
 type FailureKey = 'upload' | 'downloadUrl' | 'remove';
 
-/**
- * Uploads, download urls and file deletions are all answered here, so an image
- * test can never add to or delete from the shared account's storage bucket. The
- * counters are what prove the interception happened rather than being assumed.
- */
+/** Answered here so an image test can never touch the shared account's bucket; the counters prove interception. */
 const controlPersonImages = async (context: BrowserContext) => {
   const uploads: string[] = [];
   const removals: unknown[] = [];
@@ -111,10 +107,7 @@ const controlPersonImages = async (context: BrowserContext) => {
 /** `file` is a data url, turned into a real `File` inside the page. */
 type PasteContent = { text: string } | { file: string };
 
-/**
- * Dispatched from inside the page: the picker reads the event's own
- * clipboardData, and `dispatchEvent` cannot carry a ClipboardEvent's.
- */
+/** Dispatched in-page: `dispatchEvent` cannot carry a ClipboardEvent's clipboardData */
 const pasteIntoInput = async (input: Locator, content: PasteContent) => {
   await input.evaluate(async (element, pasted: PasteContent) => {
     const transfer = new DataTransfer();
@@ -153,10 +146,7 @@ const uniqueName = (suffix: string) =>
   `${TEST_PERSON_NAME}-${suffix}-${Date.now()}`;
 
 test.describe('Persons editing and ordering', () => {
-  /**
-   * Recency is the default-folder order, newest last, so the person tagged on
-   * the folder's last bookmark leads the panel. Alphabetically Akash would.
-   */
+  /** Newest-last recency puts the last bookmark's person first; alphabetically Akash would. */
   test('orders persons by the default folder, and alphabetically without it', async () => {
     await withSignedInProfile(async ({ context, extensionId }) => {
       const { page, panel } = await openPersonsPanel(context, extensionId);
@@ -177,7 +167,7 @@ test.describe('Persons editing and ordering', () => {
             taggedPersons: [uids[TEST_PERSONS.JOHN_NATHAN]],
           },
         ],
-        { isDefault: true }
+        true
       );
       await panel.ensureAtRoot();
 
@@ -306,8 +296,7 @@ test.describe('Persons editing and ordering', () => {
       const brokenResponse = page.waitForResponse(BROKEN_IMAGE_URL);
       await urlInput.fill(BROKEN_IMAGE_URL);
 
-      // The spinner is what proves the url was taken: Save is also disabled on
-      // an untouched picker, so on its own it would prove nothing
+      // Save is also disabled on an untouched picker, so only the spinner proves the url was taken
       await expect(
         imagePicker.getByRole('status', { name: 'Loading' })
       ).toBeVisible();

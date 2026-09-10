@@ -28,20 +28,14 @@ interface ProfileOptions {
   keepPendingFlags?: boolean;
 }
 
-/**
- * Runs `run` against a disposable copy of the authenticated profile, so
- * destructive flows cannot overwrite the shared account or the cached profile
- * every other spec reads. The account-write guard stays on even for tests that
- * route that write themselves: their own route answers first, and the guard is
- * then the backstop for any other path that tries to reach the account.
- */
-/** Every remote write a signed-in profile can make; the specs that exercise one route it first. */
+/** Every remote write a signed-in profile can make. */
 const ACCOUNT_WRITES = [
   'bookmarkAndPersonSave',
   'redirectionsPost',
   'upsertLastVisited',
 ];
 
+/** Disposable copy of the authenticated profile, so destructive flows cannot touch the shared account. */
 export const withSignedInProfile = async (
   run: (profile: SignedInProfile) => Promise<void>,
   { keepPendingFlags = false }: ProfileOptions = {}
@@ -67,13 +61,9 @@ export const withSignedInProfile = async (
     try {
       await run({ context, extensionId, backgroundSW });
     } finally {
-      // Soft, because throwing from a finally replaces whatever failure the
-      // body was already reporting
+      // Soft: throwing from a finally would mask the body's own failure
       expect
-        .soft(
-          sawAccountWrite(),
-          'logout tried to write the shared test account'
-        )
+        .soft(sawAccountWrite(), 'a write reached the shared test account')
         .toBe(false);
     }
   });

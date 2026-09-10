@@ -9,7 +9,6 @@ import { BookmarksPanel } from '../utils/bookmarks-panel';
 
 const PERSON_SEARCH_PLACEHOLDER = 'Search persons...';
 
-/** Stays on the root listing, where the fixture bookmark lives. */
 const openPersonSelect = async (panel: BookmarksPanel) => {
   await panel.ensureAtRoot();
   return panel.openPersonSelect(TEST_BOOKMARKS.REACT_DOCS);

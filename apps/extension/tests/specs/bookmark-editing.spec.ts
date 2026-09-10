@@ -17,10 +17,7 @@ import {
 const FIRST = TEST_BOOKMARKS.REACT_DOCS;
 const SECOND = TEST_BOOKMARKS.GITHUB;
 
-/**
- * Four rows in a folder of their own: root holds two bookmarks, too few for a
- * search filter to hide anything a bulk action could then hit by mistake.
- */
+/** Root has too few rows for a filter to hide one a bulk action could then hit. */
 const SELECTION_FOLDER = 'Selection Test Folder';
 const SELECTION_BOOKMARKS = [
   { title: 'Alpha One', url: `${TEST_SITES.EXAMPLE_COM}/alpha-one` },
@@ -268,7 +265,13 @@ test.describe('Bookmark selection', () => {
     `);
     await bookmarksPage.keyboard.press('Escape');
 
-    await panel.deselectBookmark('Alpha Two');
+    await panel
+      .getBookmarkElement('Alpha Two')
+      .click({ modifiers: ['ControlOrMeta'] });
+    await expect(panel.getBookmarkRow('Alpha Two')).toHaveAttribute(
+      'data-is-selected',
+      'false'
+    );
 
     await panel.openBookmarkContextMenu('Alpha One');
     await expect(panel.getContextMenu()).toMatchAriaSnapshot(`

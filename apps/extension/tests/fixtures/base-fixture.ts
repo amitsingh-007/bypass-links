@@ -155,11 +155,7 @@ export const openExtensionPanelPage = async (
   return page;
 };
 
-/**
- * Panel saves are local; only logout pushes them to the shared account. Aborting
- * that one procedure keeps a regression from rewriting the test account, and
- * fails the worker rather than letting it pass unnoticed.
- */
+/** Only logout pushes panel saves to the shared account; abort it so a regression cannot rewrite the test account. */
 export const abortAccountWrites = async (
   context: BrowserContext,
   procedures: readonly string[] = ['bookmarkAndPersonSave']

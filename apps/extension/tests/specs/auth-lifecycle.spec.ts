@@ -9,11 +9,6 @@ import {
 } from '../utils/signed-in-profile';
 import { getStorageItem } from '../utils/test-utils';
 
-/**
- * Logout is destructive, so each test gets its own copy of the authenticated
- * profile. With nothing pending the one remote write on the path must not
- * happen at all; the profile helper aborts it and fails the test if it does.
- */
 test.describe('Auth lifecycle', () => {
   test('clears synced storage and opens the account tabs on logout', async () => {
     await withSignedInProfile(async ({ context, extensionId }) => {

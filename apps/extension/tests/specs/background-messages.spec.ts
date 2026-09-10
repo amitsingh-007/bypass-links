@@ -174,10 +174,7 @@ test('answers with no links when the scrape cannot run', async ({
   await tab.close();
 });
 
-/**
- * The popup awaits the reply, so a scrape that cannot run at all still has to
- * answer: a closed tab makes `executeScript` reject outright.
- */
+/** A closed tab makes `executeScript` reject outright, and the popup still awaits a reply. */
 test('answers with no links when the tab is already gone', async ({
   isolatedBackground,
 }) => {
@@ -199,8 +196,7 @@ test('answers with no links when the tab is already gone', async ({
 
 test.describe('Forum button', () => {
   let syncedWebsites: unknown;
-  // Snapshotted, because the click opens a tab we never get a handle on and
-  // this profile is worker scoped -- everything new here is ours to clean up
+  // The click opens a tab we get no handle on, and this worker-scoped profile must be left clean.
   let pagesBefore = new Set<Page>();
 
   test.beforeEach(async ({ sharedBackground }) => {
@@ -257,11 +253,7 @@ test.describe('Forum button', () => {
     }
   });
 
-  /**
-   * Enabled first, on the same markup: `disabled` is also the button's state
-   * before the popup has looked at the active tab, so on its own it would pass
-   * against a popup that never got that far.
-   */
+  /** Enabled first: `disabled` is also the pre-lookup state, so it alone would false-pass. */
   test('follows the active tab, and stays disabled off a synced forum', async ({
     sharedBackground,
   }) => {
@@ -324,7 +316,6 @@ test.describe('Opening collected links', () => {
     ).toBeUndefined();
   });
 
-  /** Opened by the background worker, so the popup closing cannot cut it short. */
   test('keeps opening the batch after the popup has closed', async ({
     isolatedBackground,
   }) => {

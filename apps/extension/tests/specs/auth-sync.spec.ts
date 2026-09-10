@@ -24,7 +24,6 @@ import { withSignedInProfile } from '../utils/signed-in-profile';
 import { getStorageItem } from '../utils/test-utils';
 
 const ACCOUNT_SAVE = 'firebaseData.bookmarkAndPersonSave';
-/** Where the popup's zustand store persists the signed-in credentials. */
 const AUTH_STORE_KEY = '__fbOAuth';
 const SYNCED_KEYS = [
   EStorageKey.bookmarks,
@@ -33,11 +32,6 @@ const SYNCED_KEYS = [
   EStorageKey.lastVisited,
   EStorageKey.websites,
 ] as const;
-
-interface AccountSave {
-  bookmarks: unknown;
-  persons: unknown;
-}
 
 const getCachedEntryCount = async (page: Page) =>
   page.evaluate(async () => {
@@ -81,9 +75,7 @@ test.describe('Pending changes on logout', () => {
             timeout: TEST_TIMEOUTS.AUTH,
           });
 
-          expect(saves()).toEqual([
-            { bookmarks, persons } satisfies AccountSave,
-          ]);
+          expect(saves()).toEqual([{ bookmarks, persons }]);
         },
         { keepPendingFlags: true }
       );
@@ -182,11 +174,6 @@ test.describe('Pending changes on logout', () => {
   });
 });
 
-/**
- * The login sync fans out to one batched request, so one procedure is failed by
- * its index while the rest answer for real: that is the partial failure the
- * revert path has to survive.
- */
 test('a partly failed login sync leaves a clean signed-out popup', async () => {
   await withTempProfileContext({}, async (context) => {
     const sawAccountWrite = await abortAccountWrites(context);

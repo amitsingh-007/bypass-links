@@ -32,8 +32,7 @@ test.describe('Large virtualized lists', () => {
       await seedFolderWithBookmarks(page, LARGE_FOLDER, seededBookmarks);
       await panel.ensureAtRoot();
 
-      // Not `openFolder`: it asserts the folder's whole listing, which is the
-      // one thing a virtualized folder never renders
+      // Not `openFolder`: it asserts the whole listing, which a virtualized folder never renders
       await panel.getFolderElement(LARGE_FOLDER).dblclick();
 
       await expectVirtualizedList({
