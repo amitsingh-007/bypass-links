@@ -1,0 +1,94 @@
+import {
+  type BrowserContext,
+  type Request,
+  type Route,
+} from '@playwright/test';
+
+const TRPC_PATH = '/api/trpc/';
+
+/** Procedure names carried by one batched request, in response-index order. */
+const getBatchedProcedures = (url: string) => {
+  const { pathname } = new URL(url);
+  const names = pathname.slice(pathname.indexOf(TRPC_PATH) + TRPC_PATH.length);
+  return names ? decodeURIComponent(names).split(',') : [];
+};
+
+/** Inputs are keyed by batch index in both the query string and the post body. */
+const getInput = (request: Request, index: number) => {
+  const raw =
+    request.postData() ?? new URL(request.url()).searchParams.get('input');
+  if (!raw) {
+    return undefined;
+  }
+  return (JSON.parse(raw) as Record<string, unknown>)[String(index)];
+};
+
+export interface ProcedureCall {
+  route: Route;
+  input: unknown;
+  /** Position in the batch, so one procedure can be answered on its own. */
+  index: number;
+}
+
+/**
+ * Hands every batch carrying `procedure` to `handle`, which must answer or
+ * `route.fallback()`. Returns a reader for the inputs seen so far, so a test can
+ * assert on the payload the extension actually sent.
+ */
+export const routeTrpcProcedure = async (
+  context: BrowserContext,
+  procedure: string,
+  handle: (call: ProcedureCall) => Promise<void>
+) => {
+  const inputs: unknown[] = [];
+  await context.route('**/api/trpc/**', async (route) => {
+    const index = getBatchedProcedures(route.request().url()).indexOf(
+      procedure
+    );
+    if (index < 0) {
+      await route.fallback();
+      return;
+    }
+    const input = getInput(route.request(), index);
+    inputs.push(input);
+    await handle({ route, input, index });
+  });
+  return () => inputs;
+};
+
+/**
+ * tRPC pairs responses to calls by index, so the other procedures in the batch
+ * have to keep their real answers: they are fetched and only `index` replaced.
+ */
+const answerProcedure = async (
+  { route, index }: ProcedureCall,
+  entry: unknown
+) => {
+  const isBatched = getBatchedProcedures(route.request().url()).length > 1;
+  const body = isBatched
+    ? ((await (await route.fetch()).json()) as unknown[])
+    : [];
+  body[index] = entry;
+  await route.fulfill({
+    contentType: 'application/json',
+    body: JSON.stringify(body),
+  });
+};
+
+export const succeedProcedure = async (call: ProcedureCall, data: unknown) =>
+  answerProcedure(call, { result: { data } });
+
+/** A lone procedure fails at the request boundary; a batched one per index. */
+export const failProcedure = async (call: ProcedureCall) => {
+  if (getBatchedProcedures(call.route.request().url()).length === 1) {
+    await call.route.abort();
+    return;
+  }
+  await answerProcedure(call, {
+    error: {
+      message: 'Injected failure',
+      code: -32603,
+      data: { code: 'INTERNAL_SERVER_ERROR', httpStatus: 500 },
+    },
+  });
+};

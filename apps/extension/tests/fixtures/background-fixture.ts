@@ -47,7 +47,7 @@ const readStorageFromWorker = async <T = unknown>(
   }, key);
 };
 
-const writeStorageFromWorker = async (
+export const writeStorageFromWorker = async (
   backgroundSW: Worker,
   values: Record<string, unknown>
 ) => {

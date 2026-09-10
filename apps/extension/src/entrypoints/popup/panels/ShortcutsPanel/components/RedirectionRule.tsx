@@ -111,6 +111,7 @@ function RedirectionRule({
                   <HugeiconsIcon
                     icon={CalendarCheckOut02Icon}
                     className="size-4.5 text-primary"
+                    data-testid={`rule-${pos}-last-visited`}
                   />
                 </TooltipTrigger>
                 <TooltipContent>

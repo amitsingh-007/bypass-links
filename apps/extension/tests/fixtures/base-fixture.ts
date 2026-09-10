@@ -160,7 +160,7 @@ export const openExtensionPanelPage = async (
  * that one procedure keeps a regression from rewriting the test account, and
  * fails the worker rather than letting it pass unnoticed.
  */
-const abortAccountWrites = async (context: BrowserContext) => {
+export const abortAccountWrites = async (context: BrowserContext) => {
   let sawAccountWrite = false;
   await context.route('**/api/trpc**', async (route) => {
     const request = route.request();

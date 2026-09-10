@@ -1,9 +1,10 @@
 import { TEST_SHORTCUTS, TEST_SITES } from '@bypass/shared/tests';
 import type { Page } from '@playwright/test';
 
-import { EExtStorageKey } from '@/constants';
+import { EExtensionState, EExtStorageKey } from '@/constants';
 
 import { test, expect } from '../fixtures/background-fixture';
+import { seedRedirections } from '../utils/test-utils';
 
 const allInputsAutocompleteOff = async (page: Page) => {
   return page.evaluate(() => {
@@ -276,5 +277,48 @@ test.describe.serial('Background Service Worker Navigation', () => {
         }
       });
     }
+  });
+
+  /**
+   * The switch is written from the popup realm, so the worker only learns about
+   * it through a storage event. Resuming afterwards is what proves the tab
+   * opened while off was skipped rather than merely slow.
+   */
+  test('the popup switch stops and resumes redirecting', async ({
+    isolatedBackground,
+  }) => {
+    const alias = 'http://e2e-toggle/';
+    await seedRedirections(isolatedBackground.writeStorage, [
+      { alias, website: TEST_SITES.EXAMPLE_COM, isDefault: false },
+    ]);
+    await isolatedBackground.ensureActiveState();
+    const popup = await isolatedBackground.openPopup();
+    const extensionSwitch = popup.getByTestId('toggle-extension-switch');
+
+    const whileActive = await isolatedBackground.openTab(alias);
+    await expect
+      .poll(() => whileActive.url())
+      .toContain(TEST_SITES.EXAMPLE_COM);
+
+    await extensionSwitch.click();
+    await expect
+      .poll(async () =>
+        isolatedBackground.readStorage<string>(EExtStorageKey.EXT_STATE)
+      )
+      .toBe(EExtensionState.INACTIVE);
+    const whileInactive = await isolatedBackground.openTab(alias);
+
+    await extensionSwitch.click();
+    const whileResumed = await isolatedBackground.openTab(alias);
+    await expect
+      .poll(() => whileResumed.url())
+      .toContain(TEST_SITES.EXAMPLE_COM);
+
+    expect(whileInactive.url()).not.toContain(TEST_SITES.EXAMPLE_COM);
+    await Promise.all(
+      [whileActive, whileInactive, whileResumed].map(async (page) =>
+        page.close()
+      )
+    );
   });
 });

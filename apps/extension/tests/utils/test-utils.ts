@@ -3,6 +3,7 @@ import {
   getEncryptedBookmark,
   getEncryptedFolder,
   type IBookmarksObj,
+  type IRedirections,
   ROOT_FOLDER_ID,
 } from '@bypass/shared';
 import { expect, type Page } from '@playwright/test';
@@ -195,4 +196,25 @@ export const seedFolderWithBookmarks = async (
   );
 
   return { folderId: folder.id, bookmarkIds: urls.map(({ id }) => id) };
+};
+
+/**
+ * Seeds rules the way both the panel and the worker read them: base64 in
+ * storage, plus the alias-to-website map the redirect path looks up.
+ */
+export const seedRedirections = async (
+  writeStorage: (values: Record<string, unknown>) => Promise<void>,
+  rules: IRedirections
+) => {
+  const encoded = rules.map(({ alias, website, isDefault }) => ({
+    alias: btoa(alias),
+    website: btoa(website),
+    isDefault,
+  }));
+  await writeStorage({
+    [EStorageKey.redirections]: encoded,
+    [EStorageKey.mappedRedirections]: Object.fromEntries(
+      encoded.map(({ alias, website }) => [alias, website])
+    ),
+  });
 };

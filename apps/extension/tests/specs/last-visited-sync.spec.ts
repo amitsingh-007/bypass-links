@@ -1,0 +1,124 @@
+import { EStorageKey, type ILastVisited, sha256Hash } from '@bypass/shared';
+import { expect, test, type Page } from '@playwright/test';
+
+import { writeStorageFromWorker } from '../fixtures/background-fixture';
+import { openExtensionPanelPage } from '../fixtures/base-fixture';
+import { ShortcutsPanel } from '../utils/shortcuts-panel';
+import { withSignedInProfile } from '../utils/signed-in-profile';
+import { getStorageItem, seedRedirections } from '../utils/test-utils';
+import {
+  failProcedure,
+  routeTrpcProcedure,
+  succeedProcedure,
+} from '../utils/trpc-control';
+
+const PREVIOUS_VISIT = Date.UTC(2020, 0, 2, 3, 4, 5);
+const NEW_VISIT = Date.UTC(2024, 5, 6, 7, 8, 9);
+const SAME_HOST_RULES = [
+  {
+    alias: 'http://e2e-one/',
+    website: 'https://example.com/one',
+    isDefault: false,
+  },
+  {
+    alias: 'http://e2e-two/',
+    website: 'https://example.com/two',
+    isDefault: false,
+  },
+];
+
+const getStoredVisit = async (page: Page, hash: string) =>
+  (await getStorageItem<ILastVisited>(page, EStorageKey.lastVisited))?.[hash];
+
+/**
+ * Hovering fresh, since a tooltip left open reports the previous row's text.
+ * `data-open` skips the one still animating out, which shares the same slot.
+ */
+const readTooltip = async (page: Page, testId: string) => {
+  const tooltip = page.locator('[data-slot="tooltip-content"][data-open]');
+  await page.mouse.move(0, 0);
+  await expect(tooltip).toHaveCount(0);
+  await page.getByTestId(testId).hover();
+  await expect(tooltip).toBeVisible();
+  return tooltip.textContent();
+};
+
+test('keeps the previous last visited timestamp when the update fails', async () => {
+  await withSignedInProfile(
+    {},
+    async ({ context, extensionId, backgroundSW }) => {
+      // The popup's own tab is the current one, so the extension host is hashed
+      const hash = await sha256Hash(extensionId);
+      let isFailing = true;
+      await routeTrpcProcedure(
+        context,
+        'firebaseData.upsertLastVisited',
+        async (call) => {
+          if (isFailing) {
+            await failProcedure(call);
+            return;
+          }
+          await succeedProcedure(call, { hash, timestamp: NEW_VISIT });
+        }
+      );
+      await writeStorageFromWorker(backgroundSW, {
+        [EStorageKey.lastVisited]: { [hash]: PREVIOUS_VISIT },
+      });
+
+      const page = await openExtensionPanelPage(context, extensionId);
+      const previousText = await readTooltip(page, 'last-visited-button');
+
+      await test.step('the failed update changes nothing', async () => {
+        await page.getByTestId('last-visited-button').click();
+
+        await expect(
+          page.getByText('Could not update last visited')
+        ).toBeVisible();
+        expect(await getStoredVisit(page, hash)).toBe(PREVIOUS_VISIT);
+        expect(await readTooltip(page, 'last-visited-button')).toBe(
+          previousText
+        );
+      });
+
+      await test.step('retrying stores the new timestamp', async () => {
+        isFailing = false;
+        await page.getByTestId('last-visited-button').click();
+
+        await expect.poll(() => getStoredVisit(page, hash)).toBe(NEW_VISIT);
+        expect(await readTooltip(page, 'last-visited-button')).not.toBe(
+          previousText
+        );
+      });
+    }
+  );
+});
+
+test('shares one last visited timestamp across paths on the same host', async () => {
+  await withSignedInProfile(
+    {},
+    async ({ context, extensionId, backgroundSW }) => {
+      await writeStorageFromWorker(backgroundSW, {
+        [EStorageKey.lastVisited]: {
+          [await sha256Hash('example.com')]: PREVIOUS_VISIT,
+        },
+      });
+      await seedRedirections(
+        async (values) => writeStorageFromWorker(backgroundSW, values),
+        SAME_HOST_RULES
+      );
+
+      const page = await openExtensionPanelPage(
+        context,
+        extensionId,
+        'shortcuts'
+      );
+      await new ShortcutsPanel(page).waitForLoading();
+
+      const firstPath = await readTooltip(page, 'rule-0-last-visited');
+      const secondPath = await readTooltip(page, 'rule-1-last-visited');
+
+      expect(firstPath?.trim()).not.toBe('');
+      expect(secondPath).toBe(firstPath);
+    }
+  );
+});
