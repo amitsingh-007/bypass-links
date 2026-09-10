@@ -1,64 +1,27 @@
-import type { ContextBookmarks, ISelectedBookmarks } from '@bypass/shared';
-
-import { countTruthy } from '.';
-
-const getDestinationIndex = (
-  destIndex: number,
-  selectedBookmarks: ISelectedBookmarks
-) => {
-  const draggedBookmarksBeforeDestIndex = selectedBookmarks.filter(
-    (isSelected, index) => isSelected && index < destIndex
-  ).length;
-  return draggedBookmarksBeforeDestIndex === 0
-    ? destIndex
-    : destIndex - draggedBookmarksBeforeDestIndex + 1;
-};
-
-const getBookmarksAfterDrag = (
-  bookmarks: ContextBookmarks,
-  selectedBookmarks: ISelectedBookmarks,
-  destIndex: number
-) => {
-  const draggedBookmarks = bookmarks.filter(
-    (_, index) => selectedBookmarks[index]
-  );
-  const notDraggedBookmarks = bookmarks.filter(
-    (_, index) => !selectedBookmarks[index]
-  );
-  notDraggedBookmarks.splice(destIndex, 0, ...draggedBookmarks);
-  return notDraggedBookmarks;
-};
-
-const getSelectedBookmarksAfterDrag = (
-  selectedBookmarks: ISelectedBookmarks,
-  destIndex: number
-) => {
-  const selectedBookmarksCount = countTruthy(selectedBookmarks);
-  const selectedBookmarksInNewOrder = selectedBookmarks.fill(false);
-  for (let i = destIndex; i < destIndex + selectedBookmarksCount; i++) {
-    selectedBookmarksInNewOrder[i] = true;
-  }
-  return [...selectedBookmarksInNewOrder];
-};
+import type { ContextBookmarks } from '@bypass/shared';
 
 export const processBookmarksMove = (
   destinationIndex: number,
-  selectedBookmarks: ISelectedBookmarks,
+  cutBookmarks: Set<string>,
   contextBookmarks: ContextBookmarks
 ) => {
-  const destIndex = getDestinationIndex(destinationIndex, selectedBookmarks);
-  const newContextBookmarks = getBookmarksAfterDrag(
-    contextBookmarks,
-    selectedBookmarks,
-    destIndex
-  );
-  const newSelectedBookmarks = getSelectedBookmarksAfterDrag(
-    [...selectedBookmarks],
-    destIndex
-  );
+  const movedBeforeDestination = contextBookmarks.filter(
+    (bookmark, index) =>
+      index < destinationIndex && cutBookmarks.has(bookmark.id)
+  ).length;
+  // Cut rows above the target are gone from the list the moved block lands in,
+  // so the target's index shifts down by all but one of them
+  const destIndex =
+    movedBeforeDestination === 0
+      ? destinationIndex
+      : destinationIndex - movedBeforeDestination + 1;
+
+  const moved = contextBookmarks.filter(({ id }) => cutBookmarks.has(id));
+  const rest = contextBookmarks.filter(({ id }) => !cutBookmarks.has(id));
+  rest.splice(destIndex, 0, ...moved);
 
   return {
-    newContextBookmarks,
-    newSelectedBookmarks,
+    newContextBookmarks: rest,
+    newSelectedBookmarks: new Set(moved.map(({ id }) => id)),
   };
 };

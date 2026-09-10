@@ -185,7 +185,7 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
     const pos = form.getFieldValue('pos');
     if (operation === EBookmarkOperation.EDIT) {
       handleScroll(pos);
-      handleSelectedChange(pos, true);
+      handleSelectedChange(form.getFieldValue('id'), true);
     }
     form.reset();
     dialogHandlers.close();

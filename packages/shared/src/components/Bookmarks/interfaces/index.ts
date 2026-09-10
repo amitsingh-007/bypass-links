@@ -33,5 +33,3 @@ interface ITransformedFolder {
 export type ContextBookmark = ITransformedBookmark | ITransformedFolder;
 
 export type ContextBookmarks = ContextBookmark[];
-
-export type ISelectedBookmarks = boolean[];

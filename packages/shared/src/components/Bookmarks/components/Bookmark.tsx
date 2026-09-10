@@ -19,16 +19,14 @@ interface BookmarkProps {
   url: string;
   title: string;
   taggedPersons: string[];
-  pos?: number;
   isSelected?: boolean;
-  handleSelectedChange?: (pos: number, isOnlySelection: boolean) => void;
+  handleSelectedChange?: (id: string, isOnlySelection: boolean) => void;
 }
 
 function Bookmark({
   id,
   url,
   title,
-  pos = 0,
   taggedPersons,
   isSelected,
   handleSelectedChange,
@@ -49,12 +47,12 @@ function Bookmark({
       return;
     }
     const isCtrlOrCommandKey = event.ctrlKey || event.metaKey;
-    handleSelectedChange(pos, !isCtrlOrCommandKey);
+    handleSelectedChange(id, !isCtrlOrCommandKey);
   };
 
   const onRightClick = () => {
     if (!isSelected && handleSelectedChange) {
-      handleSelectedChange(pos, true);
+      handleSelectedChange(id, true);
     }
   };
 
