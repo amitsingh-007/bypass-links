@@ -66,7 +66,12 @@ const answerProcedure = async (
     if (route.request().method() !== 'GET') {
       throw new Error('Refusing to replay a batched mutation upstream');
     }
-    body.push(...((await (await route.fetch()).json()) as unknown[]));
+    const upstream = await route.fetch();
+    if (!upstream.ok()) {
+      await route.fulfill({ response: upstream });
+      return;
+    }
+    body.push(...((await upstream.json()) as unknown[]));
   }
   body[index] = entry;
   await route.fulfill({
