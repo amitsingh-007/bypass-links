@@ -6,6 +6,7 @@ import {
 import {
   TEST_PERSON_NAME,
   TEST_PERSONS,
+  TEST_SITES,
   closeDialog,
 } from '@bypass/shared/tests';
 import {
@@ -55,8 +56,11 @@ const controlPersonImages = async (context: BrowserContext) => {
     remove: false,
   };
 
+  let heldUpload: Promise<void> | undefined;
+
   await context.route('**/api/upload-file', async (route) => {
     uploads.push(route.request().url());
+    await heldUpload;
     if (failing.upload) {
       await route.abort();
       return;
@@ -92,14 +96,22 @@ const controlPersonImages = async (context: BrowserContext) => {
     setFailing: (key: FailureKey, isFailing: boolean) => {
       failing[key] = isFailing;
     },
+    /** Holds the next upload open, so its in-flight state can be asserted. */
+    holdUploads: () => {
+      let release: (() => void) | undefined;
+      heldUpload = new Promise<void>((resolve) => {
+        release = resolve;
+      });
+      return () => {
+        heldUpload = undefined;
+        release?.();
+      };
+    },
   };
 };
 
-interface PasteContent {
-  text?: string;
-  /** A data url, turned into a real `File` inside the page. */
-  file?: string;
-}
+/** `file` is a data url, turned into a real `File` inside the page. */
+type PasteContent = { text: string } | { file: string };
 
 /**
  * Dispatched from inside the page: the picker reads the event's own
@@ -108,11 +120,10 @@ interface PasteContent {
 const pasteIntoInput = async (input: Locator, content: PasteContent) => {
   await input.evaluate(async (element, pasted: PasteContent) => {
     const transfer = new DataTransfer();
-    if (pasted.file) {
+    if ('file' in pasted) {
       const blob = await (await fetch(pasted.file)).blob();
       transfer.items.add(new File([blob], 'person.png', { type: blob.type }));
-    }
-    if (pasted.text) {
+    } else {
       transfer.setData('text', pasted.text);
     }
     element.dispatchEvent(
@@ -143,7 +154,7 @@ const openPersonsPanel = async (
 const uniqueName = (suffix: string) =>
   `${TEST_PERSON_NAME}-${suffix}-${Date.now()}`;
 
-test.describe('Persons editing', () => {
+test.describe('Persons editing and ordering', () => {
   /**
    * Recency is the default-folder order, newest last, so the person tagged on
    * the folder's last bookmark leads the panel. Alphabetically Akash would.
@@ -159,12 +170,12 @@ test.describe('Persons editing', () => {
         [
           {
             title: 'tagged first',
-            url: 'https://example.com/oldest',
+            url: `${TEST_SITES.EXAMPLE_COM}/oldest`,
             taggedPersons: [uids[TEST_PERSONS.DONALD]],
           },
           {
             title: 'tagged last',
-            url: 'https://example.com/newest',
+            url: `${TEST_SITES.EXAMPLE_COM}/newest`,
             taggedPersons: [uids[TEST_PERSONS.JOHN_NATHAN]],
           },
         ],
@@ -187,13 +198,13 @@ test.describe('Persons editing', () => {
 
   test('replaces a person image and keeps it after reopening', async () => {
     await withSignedInProfile(async ({ context, extensionId }) => {
-      const server = await controlPersonImages(context);
+      const imageRoutes = await controlPersonImages(context);
       const { page, panel } = await openPersonsPanel(context, extensionId);
       const uid = (await getPersonUids(page))[TEST_PERSONS.DONALD];
 
       await panel.changePersonImage(TEST_PERSONS.DONALD, IMAGE_DATA_URL);
 
-      expect(server.uploads()).toHaveLength(1);
+      expect(imageRoutes.uploads()).toHaveLength(1);
       await expect
         .poll(async () => getStoredImageUrl(page, uid))
         .toBe(STORED_IMAGE_URL);
@@ -206,7 +217,7 @@ test.describe('Persons editing', () => {
 
   test('drops the image mapping when the person is deleted', async () => {
     await withSignedInProfile(async ({ context, extensionId }) => {
-      const server = await controlPersonImages(context);
+      const imageRoutes = await controlPersonImages(context);
       const { page, panel } = await openPersonsPanel(context, extensionId);
       const name = uniqueName('image-delete');
 
@@ -216,7 +227,7 @@ test.describe('Persons editing', () => {
 
       await panel.deletePerson(name);
 
-      expect(server.removals()).toEqual([getPersonImageName(uid)]);
+      expect(imageRoutes.removals()).toEqual([getPersonImageName(uid)]);
       await expect
         .poll(async () => getStoredImageUrl(page, uid))
         .toBeUndefined();
@@ -239,6 +250,9 @@ test.describe('Persons editing', () => {
 
       await test.step('a pasted image file is taken instead of the field', async () => {
         await urlInput.fill('');
+        // Debounced, so without this the Save below could still be the last one
+        await expect(panel.getPickerSaveButton()).toBeDisabled();
+
         await pasteIntoInput(urlInput, { file: IMAGE_DATA_URL });
 
         // The file never becomes text, so an enabled Save is the only signal
@@ -285,43 +299,66 @@ test.describe('Persons editing', () => {
     await withSignedInProfile(async ({ context, extensionId }) => {
       await controlPersonImages(context);
       const { page, panel } = await openPersonsPanel(context, extensionId);
+      const uid = (await getPersonUids(page))[TEST_PERSONS.DONALD];
+      const imageUrlBefore = await getStoredImageUrl(page, uid);
       const { imagePicker } = await panel.openImagePicker(TEST_PERSONS.DONALD);
       const saveButton = panel.getPickerSaveButton();
+      const urlInput = panel.getPickerUrlInput();
 
-      await panel.getPickerUrlInput().fill(BROKEN_IMAGE_URL);
-      // Nothing to crop, so the controls stay out of reach
+      await urlInput.fill(BROKEN_IMAGE_URL);
+
+      // The spinner is what proves the url was taken: Save is also disabled on
+      // an untouched picker, so on its own it would prove nothing
+      await expect(
+        imagePicker.getByRole('status', { name: 'Loading' })
+      ).toBeVisible();
       await expect(saveButton).toBeDisabled();
+      expect(await getStoredImageUrl(page, uid)).toBe(imageUrlBefore);
 
-      await panel.getPickerUrlInput().fill(IMAGE_DATA_URL);
+      await urlInput.fill(IMAGE_DATA_URL);
 
       await expect(saveButton).toBeEnabled();
+      await expect(
+        imagePicker.getByRole('status', { name: 'Loading' })
+      ).toBeHidden();
       await closeDialog(page, imagePicker);
+      await panel.verifyPersonExists(TEST_PERSONS.DONALD);
     });
   });
 
   test('keeps the image recoverable when the upload fails', async () => {
     await withSignedInProfile(async ({ context, extensionId }) => {
-      const server = await controlPersonImages(context);
-      server.setFailing('upload', true);
+      const imageRoutes = await controlPersonImages(context);
+      imageRoutes.setFailing('upload', true);
       const { page, panel } = await openPersonsPanel(context, extensionId);
       const uid = (await getPersonUids(page))[TEST_PERSONS.DONALD];
       const imageUrlBefore = await getStoredImageUrl(page, uid);
+      expect(
+        imageUrlBefore,
+        'the fixture person has no stored image for this to preserve'
+      ).toBeDefined();
       const { dialog, imagePicker } = await panel.openImagePicker(
         TEST_PERSONS.DONALD
       );
+      const releaseUpload = imageRoutes.holdUploads();
 
       await panel.getPickerUrlInput().fill(IMAGE_DATA_URL);
       await panel.getPickerSaveButton().click();
 
+      await test.step('the upload is reported while it is in flight', async () => {
+        await expect(page.getByTestId('uploading-overlay')).toBeVisible();
+        releaseUpload();
+      });
+
       await test.step('the picker stays open and the image is unchanged', async () => {
         await expect(page.getByTestId('uploading-overlay')).toBeHidden();
         await expect(imagePicker).toBeVisible();
-        expect(server.uploads()).toHaveLength(1);
+        expect(imageRoutes.uploads()).toHaveLength(1);
         expect(await getStoredImageUrl(page, uid)).toBe(imageUrlBefore);
       });
 
       await test.step('retrying uploads the image and saves it with the person', async () => {
-        server.setFailing('upload', false);
+        imageRoutes.setFailing('upload', false);
         await panel.getPickerSaveButton().click();
         await expect(imagePicker).toBeHidden();
 
@@ -337,8 +374,8 @@ test.describe('Persons editing', () => {
 
   test('keeps the list intact when saving a person fails, and saves on retry', async () => {
     await withSignedInProfile(async ({ context, extensionId }) => {
-      const server = await controlPersonImages(context);
-      server.setFailing('downloadUrl', true);
+      const imageRoutes = await controlPersonImages(context);
+      imageRoutes.setFailing('downloadUrl', true);
       const { page, panel } = await openPersonsPanel(context, extensionId);
       const namesBefore = await panel.getPersonNames();
       const name = uniqueName('failed-save');
@@ -354,7 +391,7 @@ test.describe('Persons editing', () => {
       });
 
       await test.step('retrying adds the person', async () => {
-        server.setFailing('downloadUrl', false);
+        imageRoutes.setFailing('downloadUrl', false);
         await panel.addPerson(name);
 
         await panel.ensureAtRoot();
@@ -365,13 +402,13 @@ test.describe('Persons editing', () => {
 
   test('keeps the person when the deletion fails, and deletes on retry', async () => {
     await withSignedInProfile(async ({ context, extensionId }) => {
-      const server = await controlPersonImages(context);
+      const imageRoutes = await controlPersonImages(context);
       const { page, panel } = await openPersonsPanel(context, extensionId);
       const name = uniqueName('failed-delete');
 
       await panel.addPerson(name, IMAGE_DATA_URL);
       const uid = (await getPersonUids(page))[name];
-      server.setFailing('remove', true);
+      imageRoutes.setFailing('remove', true);
 
       await panel.clickPersonContextMenu(name, 'delete');
 
@@ -382,7 +419,7 @@ test.describe('Persons editing', () => {
       });
 
       await test.step('retrying deletes both', async () => {
-        server.setFailing('remove', false);
+        imageRoutes.setFailing('remove', false);
         await panel.deletePerson(name);
 
         await expect

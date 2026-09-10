@@ -3,7 +3,7 @@ import {
   TEST_SITES,
   TEST_TIMEOUTS,
 } from '@bypass/shared/tests';
-import type { Page } from '@playwright/test';
+import type { Page, Route } from '@playwright/test';
 
 import { EExtensionState, EExtStorageKey } from '@/constants';
 
@@ -12,6 +12,8 @@ import { getRedirectionStorage } from '../utils/test-utils';
 
 /** Any https origin will do; `scripting.executeScript` just refuses the fake schemes. */
 const FIXTURE_ORIGIN = 'https://navigation.test';
+
+const abortRoute = async (route: Route) => route.abort();
 
 const allInputsAutocompleteOff = async (page: Page) => {
   return page.evaluate(() => {
@@ -379,7 +381,12 @@ test.describe.serial('Background Service Worker Navigation', () => {
     }
   });
 
-  test('an aborted reload leaves the same tab handled afterwards', async ({
+  /**
+   * A reload that never commits leaves the worker holding a pending-reload
+   * marker for the tab. The reload after it is the one that has to still be
+   * handled, since it is the only path that consumes that marker.
+   */
+  test('a reload that aborts leaves the next reload handled', async ({
     sharedBackground,
   }) => {
     await sharedBackground.ensureActiveState();
@@ -393,17 +400,60 @@ test.describe.serial('Background Service Worker Navigation', () => {
       await expect.poll(async () => allInputsAutocompleteOff(page)).toBe(true);
 
       // Registered after the fixture's own route, so this one answers first
-      await page.route(url, async (route) => route.abort());
+      await page.route(url, abortRoute);
       await page.reload({ waitUntil: 'commit' }).catch(() => undefined);
+      expect(await allInputsAutocompleteOff(page)).toBe(false);
 
-      await page
-        .goto(TEST_SHORTCUTS.BROWSERTEST, {
-          waitUntil: 'commit',
-          timeout: TEST_TIMEOUTS.NAVIGATION,
-        })
-        .catch(() => undefined);
+      await page.unroute(url, abortRoute);
+      await page.reload({ waitUntil: 'load' });
 
-      await expect.poll(() => page.url()).toContain('https://html5test.com');
+      await expect.poll(async () => allInputsAutocompleteOff(page)).toBe(true);
+    } finally {
+      await page.close();
+    }
+  });
+
+  /**
+   * Redirecting is one `tabs.update` per handled navigation, so a listener
+   * registered twice -- which is what the worker used to do on every reload --
+   * shows up here as a second navigation to the same website.
+   */
+  test('redirects once per alias navigation, not twice', async ({
+    isolatedBackground,
+  }) => {
+    const alias = 'http://e2e-once/';
+    await isolatedBackground.writeStorage(
+      getRedirectionStorage([
+        { alias, website: TEST_SITES.EXAMPLE_COM, isDefault: false },
+      ])
+    );
+    await isolatedBackground.ensureActiveState();
+
+    const page = await isolatedBackground.context.newPage();
+    const redirects: string[] = [];
+    page.on('framenavigated', (frame) => {
+      if (frame === page.mainFrame() && frame.url().includes('example.com')) {
+        redirects.push(frame.url());
+      }
+    });
+
+    try {
+      for (const attempt of [1, 2]) {
+        await page
+          .goto(alias, {
+            waitUntil: 'commit',
+            timeout: TEST_TIMEOUTS.NAVIGATION,
+          })
+          .catch(() => undefined);
+
+        await expect
+          .poll(() => redirects.length, { timeout: TEST_TIMEOUTS.PAGE_OPEN })
+          .toBe(attempt);
+      }
+
+      // A duplicate handler would have added its navigation by now
+      await expect.poll(() => page.url()).toContain(TEST_SITES.EXAMPLE_COM);
+      expect(redirects).toHaveLength(2);
     } finally {
       await page.close();
     }

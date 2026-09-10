@@ -257,18 +257,31 @@ test.describe('Forum button', () => {
     }
   });
 
-  // Same markup on another host, so only the synced website decides this
-  test('stays disabled on a page that is not a synced forum', async ({
+  /**
+   * Enabled first, on the same markup: `disabled` is also the button's state
+   * before the popup has looked at the active tab, so on its own it would pass
+   * against a popup that never got that far.
+   */
+  test('follows the active tab, and stays disabled off a synced forum', async ({
     sharedBackground,
   }) => {
     const popup = await sharedBackground.openPopup();
+    const forumButton = popup.getByRole('button', { name: 'Forum' });
+
+    await sharedBackground.openFixturePage(
+      `https://${FORUM_HOST}/`,
+      UNREAD_ROWS_HTML
+    );
+    await popup.reload({ waitUntil: 'domcontentloaded' });
+    await expect(forumButton).toBeEnabled();
+
     await sharedBackground.openFixturePage(
       `https://${UNRELATED_HOST}/`,
       UNREAD_ROWS_HTML
     );
     await popup.reload({ waitUntil: 'domcontentloaded' });
 
-    await expect(popup.getByRole('button', { name: 'Forum' })).toBeDisabled();
+    await expect(forumButton).toBeDisabled();
   });
 });
 
