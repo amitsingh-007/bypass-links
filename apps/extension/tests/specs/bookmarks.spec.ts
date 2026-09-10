@@ -522,8 +522,6 @@ test.describe('Bookmarks Panel', () => {
     bookmarksPage,
   }) => {
     const panel = new BookmarksPanel(bookmarksPage);
-    await panel.ensureAtRoot();
-
     const folderName = 'Folder With Bookmarks';
     const bookmarkTitle = 'Bookmark Inside Deleted Folder';
     const { folderId, bookmarkIds } = await seedFolderWithBookmarks(
@@ -558,8 +556,6 @@ test.describe('Bookmarks Panel', () => {
     bookmarksPage,
   }) => {
     const panel = new BookmarksPanel(bookmarksPage);
-    await panel.ensureAtRoot();
-
     const sourceFolder = 'Move Source Folder';
     const destinationFolder = 'Move Destination Folder';
     const bookmarkTitle = 'Bookmark On The Move';

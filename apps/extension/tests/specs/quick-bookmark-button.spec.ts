@@ -127,13 +127,12 @@ test.describe('Signed In', () => {
     };
 
     try {
-      await homePage.goto(POPUP_HOMEPAGE);
       const activeTab = await context.newPage();
       await activeTab.goto(`${TEST_SITES.EXAMPLE_COM}/`);
       const activeTitle = await activeTab.title();
 
       try {
-        await homePage.reload();
+        await homePage.goto(POPUP_HOMEPAGE);
         const quickBookmarkButton = homePage.getByTestId(
           'quick-bookmark-button'
         );
@@ -160,12 +159,10 @@ test.describe('Signed In', () => {
 
       // Root takes the add dialog over once the default folder is gone
       await unsetMainDefault();
-      await homePage.goto(POPUP_HOMEPAGE);
-
       const nextTab = await context.newPage();
       await nextTab.goto(`${TEST_SITES.EXAMPLE_NET}/`);
       try {
-        await homePage.reload();
+        await homePage.goto(POPUP_HOMEPAGE);
         await homePage.getByTestId('quick-bookmark-button').click();
         await homePage.waitForURL((url) =>
           url.href.includes('/bookmark-panel/')
@@ -195,13 +192,11 @@ test.describe('Signed In', () => {
     const { folderId } = await seedFolderWithBookmarks(homePage, folderName, [
       { title: bookmarkTitle, url: `${TEST_SITES.EXAMPLE_ORG}/` },
     ]);
-    await homePage.goto(POPUP_HOMEPAGE);
-
     const activeTab = await context.newPage();
     await activeTab.goto(`${TEST_SITES.EXAMPLE_ORG}/`);
 
     try {
-      await homePage.reload();
+      await homePage.goto(POPUP_HOMEPAGE);
       const quickBookmarkButton = homePage.getByTestId('quick-bookmark-button');
       await homeExpect(quickBookmarkButton).toContainText('Unpin');
       await quickBookmarkButton.click();

@@ -81,8 +81,11 @@ const createTempProfileContext = async ({
 
   try {
     if (seedFromCachedProfile) {
+      // Chrome's own caches are most of the profile and nothing the tests read
       await fs.promises.cp(CHROME_PROFILE_DIR, userDataDir, {
         recursive: true,
+        filter: (source) =>
+          !/\/(Cache|Code Cache|GPUCache|Dawn\w+Cache)$/.test(source),
       });
     }
     const browserContext = await launchExtensionContext(userDataDir);
