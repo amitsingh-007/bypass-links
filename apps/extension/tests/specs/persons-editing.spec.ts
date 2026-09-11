@@ -177,10 +177,14 @@ test.describe('Persons editing and ordering', () => {
 
       await page.getByTestId('recency-switch').click();
 
-      const names = await panel.getPersonNames();
-      expect(names).toEqual(
-        names.toSorted((left, right) => left.localeCompare(right))
-      );
+      const isAlphabetical = async () => {
+        const names = await panel.getPersonNames();
+        const sorted = names.toSorted((left, right) =>
+          left.localeCompare(right)
+        );
+        return names.every((name, index) => name === sorted[index]);
+      };
+      await expect.poll(isAlphabetical).toBe(true);
     });
   });
 

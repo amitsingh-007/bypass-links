@@ -115,10 +115,7 @@ test.describe('Signed In', () => {
     context,
   }) => {
     const panel = new BookmarksPanel(homePage);
-    await panel.ensureAtRoot();
-    await panel.setFolderDefault(TEST_FOLDERS.MAIN, true);
-    await panel.clickSaveButton();
-    let isMainDefault = true;
+    let isMainDefault = false;
     const unsetMainDefault = async () => {
       await panel.ensureAtRoot();
       await panel.setFolderDefault(TEST_FOLDERS.MAIN, false);
@@ -127,6 +124,11 @@ test.describe('Signed In', () => {
     };
 
     try {
+      await panel.ensureAtRoot();
+      await panel.setFolderDefault(TEST_FOLDERS.MAIN, true);
+      isMainDefault = true;
+      await panel.clickSaveButton();
+
       const activeTab = await context.newPage();
       await activeTab.goto(`${TEST_SITES.EXAMPLE_COM}/`);
       const activeTitle = await activeTab.title();

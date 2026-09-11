@@ -112,18 +112,20 @@ const getReport = async () => {
 const pendingEntries = new Map<BrowserContext, unknown[]>();
 
 const bufferCoverage = (context: BrowserContext, entries: unknown[]) => {
-  pendingEntries.set(context, [
-    ...(pendingEntries.get(context) ?? []),
-    ...entries,
-  ]);
+  const pending = pendingEntries.get(context);
+  if (pending) {
+    pending.push(...entries);
+  } else {
+    pendingEntries.set(context, entries);
+  }
 };
 
 const flushCoverage = async (context: BrowserContext) => {
   const entries = pendingEntries.get(context) ?? [];
-  pendingEntries.delete(context);
   if (entries.length > 0) {
     await (await getReport()).add(entries);
   }
+  pendingEntries.delete(context);
 };
 
 /** Collection runs inside teardown chains, so it must never throw into them. */

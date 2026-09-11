@@ -58,7 +58,7 @@ test.describe('Large virtualized lists', () => {
       const panel = new PersonsPanel(page);
       await seedPersons(page, seededPersonNames);
       await panel.ensureAtRoot();
-      expect(await panel.getHeaderPersonCount()).toBe(SIZE);
+      await expect.poll(() => panel.getHeaderPersonCount()).toBe(SIZE);
 
       await expectVirtualizedList({
         page,

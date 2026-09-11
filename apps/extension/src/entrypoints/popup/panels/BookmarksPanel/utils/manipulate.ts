@@ -5,22 +5,24 @@ export const processBookmarksMove = (
   cutBookmarks: Set<string>,
   contextBookmarks: ContextBookmarks
 ) => {
-  const movedBeforeDestination = contextBookmarks.filter(
-    (bookmark, index) =>
-      index < destinationIndex && cutBookmarks.has(bookmark.id)
-  ).length;
+  const movedBookmarks = contextBookmarks.filter(({ id }) =>
+    cutBookmarks.has(id)
+  );
+  const remainingBookmarks = contextBookmarks.filter(
+    ({ id }) => !cutBookmarks.has(id)
+  );
+  const movedAboveDestination = contextBookmarks
+    .slice(0, destinationIndex)
+    .filter(({ id }) => cutBookmarks.has(id)).length;
   // Cut rows above the target shift its index down by all but one of them
-  const destIndex =
-    movedBeforeDestination === 0
+  const insertionIndex =
+    movedAboveDestination === 0
       ? destinationIndex
-      : destinationIndex - movedBeforeDestination + 1;
+      : destinationIndex - movedAboveDestination + 1;
 
-  const moved = contextBookmarks.filter(({ id }) => cutBookmarks.has(id));
-  const rest = contextBookmarks.filter(({ id }) => !cutBookmarks.has(id));
-  rest.splice(destIndex, 0, ...moved);
+  remainingBookmarks.splice(insertionIndex, 0, ...movedBookmarks);
+  const newContextBookmarks = remainingBookmarks;
+  const newSelectedBookmarks = new Set(movedBookmarks.map(({ id }) => id));
 
-  return {
-    newContextBookmarks: rest,
-    newSelectedBookmarks: new Set(moved.map(({ id }) => id)),
-  };
+  return { newContextBookmarks, newSelectedBookmarks };
 };

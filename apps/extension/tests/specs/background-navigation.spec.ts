@@ -258,15 +258,19 @@ test.describe.serial('Background Service Worker Navigation', () => {
 
     // Closing a tab mid-fetch used to hang this test; the worker only needs the url
     await sharedBackground.context.route(`${storeUrl}/**`, emptyPageRoute);
-    for (const invalidUrl of invalidUrls) {
-      await test.step(invalidUrl, async () => {
-        const page = await sharedBackground.openTab(invalidUrl);
-        try {
-          await expect.poll(() => page.url()).not.toContain('html5test.com');
-        } finally {
-          await page.close();
-        }
-      });
+    try {
+      for (const invalidUrl of invalidUrls) {
+        await test.step(invalidUrl, async () => {
+          const page = await sharedBackground.openTab(invalidUrl);
+          try {
+            await expect.poll(() => page.url()).not.toContain('html5test.com');
+          } finally {
+            await page.close();
+          }
+        });
+      }
+    } finally {
+      await sharedBackground.context.unroute(`${storeUrl}/**`, emptyPageRoute);
     }
 
     const historyStartTime = await sharedBackground.readStorage<number>(

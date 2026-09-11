@@ -54,7 +54,6 @@ export default function BookmarksPage() {
         text={`${folderName} (${contextBookmarks?.length || 0})`}
         onSearchChange={setSearchText}
       />
-      {/* min-h-0: a flex child's min-height:auto would grow the scroller instead of scrolling */}
       <ScrollArea viewportRef={scrollAreaRef} className="min-h-0 flex-1">
         {filteredContextBookmarks.length > 0 ? (
           <div
