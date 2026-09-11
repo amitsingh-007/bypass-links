@@ -18,6 +18,7 @@ export function ScrollButton({ itemsSize, onScroll }: Props) {
       className="absolute right-3 bottom-3 z-10"
     >
       <Button
+        data-testid="scroll-to-top"
         variant="secondary"
         size="sm"
         className="justify-start bg-secondary/20 backdrop-blur-sm"
@@ -26,6 +27,7 @@ export function ScrollButton({ itemsSize, onScroll }: Props) {
         <HugeiconsIcon icon={ArrowUp01Icon} />
       </Button>
       <Button
+        data-testid="scroll-to-bottom"
         variant="secondary"
         size="sm"
         className="justify-start bg-secondary/20 backdrop-blur-sm"

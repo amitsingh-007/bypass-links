@@ -14,7 +14,6 @@ import ContextMenu, { type IMenuOption } from '@popup/components/ContextMenu';
 
 import useBookmarkPanelParams from '../hooks/useBookmarkPanelParams';
 import useBookmarkStore from '../store/useBookmarkStore';
-import { countTruthy } from '../utils';
 import { findBookmarkById } from '../utils/bookmark';
 
 type Props = PropsWithChildren<{
@@ -42,8 +41,8 @@ function BookmarkContextMenu({ children, handleOpenBookmarks }: Props) {
       handlePasteSelectedBookmarks: state.handlePasteSelectedBookmarks,
     }))
   );
-  const selectedCount = countTruthy(selectedBookmarks);
-  const cutCount = countTruthy(cutBookmarks);
+  const selectedCount = selectedBookmarks.size;
+  const cutCount = cutBookmarks.size;
 
   useHotkeys([
     [

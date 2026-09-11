@@ -15,7 +15,6 @@ import Panel from '@popup/components/Panel';
 
 import useBookmarkPanelParams from '../hooks/useBookmarkPanelParams';
 import useBookmarkStore from '../store/useBookmarkStore';
-import { countTruthy } from '../utils';
 import { findBookmarkById } from '../utils/bookmark';
 import BookmarkAddEditDialog from './BookmarkAddEditDialog';
 import BookmarkContextMenu from './BookmarkContextMenu';
@@ -61,19 +60,16 @@ function BookmarksPanel() {
       useBookmarkStore.getState();
     const rightClicked = findBookmarkById(bookmarks, id);
 
-    if (rightClicked && countTruthy(selected) < 2) {
+    if (rightClicked && selected.size < 2) {
       tabs.open(rightClicked.url);
       return;
     }
 
-    // Selection positions index the filtered rows, not the whole folder
-    getFilteredContextBookmarks(bookmarks, searchText).forEach(
-      (bookmark, index) => {
-        if (selected[index] && !bookmark.isDir) {
-          tabs.open(bookmark.url);
-        }
+    bookmarks.forEach((bookmark) => {
+      if (!bookmark.isDir && selected.has(bookmark.id)) {
+        tabs.open(bookmark.url);
       }
-    );
+    });
   };
 
   useEffect(() => {
@@ -112,23 +108,25 @@ function BookmarksPanel() {
               className="relative w-full"
               style={{ height: virtualizer.getTotalSize() }}
             >
-              {virtualizer.getVirtualItems().map((virtualRow) => (
-                <div
-                  key={virtualRow.key}
-                  className="absolute top-0 left-0 w-full"
-                  style={{
-                    transform: `translateY(${virtualRow.start}px)`,
-                    height: virtualRow.size,
-                  }}
-                >
-                  <VirtualRow
-                    bookmark={filteredContextBookmarks[virtualRow.index]}
-                    pos={virtualRow.index}
-                    isSelected={selectedBookmarks[virtualRow.index]}
-                    isCut={cutBookmarks[virtualRow.index]}
-                  />
-                </div>
-              ))}
+              {virtualizer.getVirtualItems().map((virtualRow) => {
+                const bookmark = filteredContextBookmarks[virtualRow.index];
+                return (
+                  <div
+                    key={virtualRow.key}
+                    className="absolute top-0 left-0 w-full"
+                    style={{
+                      transform: `translateY(${virtualRow.start}px)`,
+                      height: virtualRow.size,
+                    }}
+                  >
+                    <VirtualRow
+                      bookmark={bookmark}
+                      isSelected={selectedBookmarks.has(bookmark.id)}
+                      isCut={cutBookmarks.has(bookmark.id)}
+                    />
+                  </div>
+                );
+              })}
             </div>
           ) : null}
         </ScrollArea>

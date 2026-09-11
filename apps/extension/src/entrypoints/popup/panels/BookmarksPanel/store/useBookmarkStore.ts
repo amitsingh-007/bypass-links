@@ -3,7 +3,6 @@ import {
   ECacheBucketKeys,
   type IBookmarksObj,
   type ITransformedBookmark,
-  type ISelectedBookmarks,
   addToCache,
   bookmarksMapper,
   filterRecord,
@@ -25,13 +24,14 @@ interface State {
   urlList: IBookmarksObj['urlList'];
   folderList: IBookmarksObj['folderList'];
   folders: IBookmarksObj['folders'];
-  selectedBookmarks: ISelectedBookmarks;
-  cutBookmarks: ISelectedBookmarks;
+  /** Bookmark ids, so a search filter cannot shift what a bulk action hits. */
+  selectedBookmarks: Set<string>;
+  cutBookmarks: Set<string>;
   isFetching: boolean;
   isSaveButtonActive: boolean;
 
   loadData: (folderId: string) => Promise<void>;
-  handleSelectedChange: (pos: number, isOnlySelection: boolean) => void;
+  handleSelectedChange: (id: string, isOnlySelection: boolean) => void;
   resetSelectedBookmarks: () => void;
   handleCutBookmarks: () => void;
   handleCreateNewFolder: (name: string, parentFolderId: string) => void;
@@ -54,8 +54,8 @@ const useBookmarkStore = create<State>()((set, get) => ({
   urlList: {},
   folderList: {},
   folders: {},
-  selectedBookmarks: [],
-  cutBookmarks: [],
+  selectedBookmarks: new Set(),
+  cutBookmarks: new Set(),
   isFetching: true,
   isSaveButtonActive: false,
 
@@ -72,27 +72,31 @@ const useBookmarkStore = create<State>()((set, get) => ({
       urlList,
       folderList,
       folders,
-      cutBookmarks: [],
-      selectedBookmarks: [],
+      cutBookmarks: new Set(),
+      selectedBookmarks: new Set(),
       isFetching: false,
     });
   },
 
-  handleSelectedChange(pos: number, isOnlySelection: boolean) {
-    const { selectedBookmarks } = get();
-    const newData = [...selectedBookmarks];
+  handleSelectedChange(id: string, isOnlySelection: boolean) {
+    const { selectedBookmarks, contextBookmarks } = get();
     if (isOnlySelection) {
-      newData.fill(false);
+      const isPresent = contextBookmarks.some((bookmark) => bookmark.id === id);
+      set({ selectedBookmarks: new Set(isPresent ? [id] : []) });
+      return;
     }
-    newData[pos] = !newData[pos];
-    set({ selectedBookmarks: newData });
+    const newSelection = new Set(selectedBookmarks);
+    if (!newSelection.delete(id)) {
+      newSelection.add(id);
+    }
+    set({ selectedBookmarks: newSelection });
   },
 
-  resetSelectedBookmarks: () => set({ selectedBookmarks: [] }),
+  resetSelectedBookmarks: () => set({ selectedBookmarks: new Set() }),
 
   handleCutBookmarks() {
     const { selectedBookmarks } = get();
-    set({ cutBookmarks: [...selectedBookmarks] });
+    set({ cutBookmarks: new Set(selectedBookmarks) });
   },
 
   handleCreateNewFolder(name: string, parentFolderId: string) {
@@ -207,33 +211,20 @@ const useBookmarkStore = create<State>()((set, get) => ({
       contextBookmarks: newContextBookmarks,
       urlList: newUrlList,
       isSaveButtonActive: true,
-      selectedBookmarks: [],
+      selectedBookmarks: new Set(),
     });
   },
 
   handleBulkUrlRemove() {
     const { urlList, contextBookmarks, selectedBookmarks } = get();
 
-    const idsToRemove = new Set(
-      contextBookmarks
-        .filter(
-          (bm, index): bm is ITransformedBookmark =>
-            selectedBookmarks[index] && !bm.isDir
-        )
-        .map((bm) => bm.id)
-    );
-
-    const newUrlList = filterRecord(urlList, (id) => !idsToRemove.has(id));
-
-    const filteredBookmarks = contextBookmarks.filter(
-      (bm) => bm.isDir || !idsToRemove.has(bm.id)
-    );
-
     set({
-      contextBookmarks: filteredBookmarks,
-      urlList: newUrlList,
+      contextBookmarks: contextBookmarks.filter(
+        (bm) => bm.isDir || !selectedBookmarks.has(bm.id)
+      ),
+      urlList: filterRecord(urlList, (id) => !selectedBookmarks.has(id)),
       isSaveButtonActive: true,
-      selectedBookmarks: [],
+      selectedBookmarks: new Set(),
     });
   },
 
@@ -336,12 +327,14 @@ const useBookmarkStore = create<State>()((set, get) => ({
 
   handlePasteSelectedBookmarks() {
     const { cutBookmarks, contextBookmarks, selectedBookmarks } = get();
-    const selectedIdx = selectedBookmarks.findIndex(Boolean);
-    if (selectedIdx === -1) {
+    const destinationIndex = contextBookmarks.findIndex(({ id }) =>
+      selectedBookmarks.has(id)
+    );
+    if (destinationIndex === -1) {
       return;
     }
     const { newContextBookmarks, newSelectedBookmarks } = processBookmarksMove(
-      selectedIdx,
+      destinationIndex,
       cutBookmarks,
       contextBookmarks
     );
@@ -349,7 +342,7 @@ const useBookmarkStore = create<State>()((set, get) => ({
     set({
       contextBookmarks: newContextBookmarks,
       selectedBookmarks: newSelectedBookmarks,
-      cutBookmarks: [],
+      cutBookmarks: new Set(),
       isSaveButtonActive: true,
     });
   },

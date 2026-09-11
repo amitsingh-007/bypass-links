@@ -62,14 +62,7 @@ test.describe('Shortcuts Panel', () => {
     const searchResultCount = await panel.getRuleCount();
     expect(searchResultCount).toBe(allRulesCount);
 
-    const allAliasInputs = panel.getAliasInputs();
-    const count = await allAliasInputs.count();
-    const aliasValues = await Promise.all(
-      Array.from({ length: count }, async (_, index) =>
-        allAliasInputs.nth(index).inputValue()
-      )
-    );
-    expect(aliasValues).toContain(TEST_SHORTCUTS.GOOGLE);
+    expect(await panel.getAliasValues()).toContain(TEST_SHORTCUTS.GOOGLE);
 
     await clearSearchInput(shortcutsPage);
 
@@ -151,21 +144,20 @@ test.describe('Shortcuts Panel', () => {
 
     await panel.waitForLoading();
 
-    const firstAliasInputBefore = shortcutsPage.getByTestId('rule-0-alias');
-    const firstAliasBefore = await firstAliasInputBefore.inputValue();
+    // The whole list: a swap that scrambles untouched rules still satisfies "row 0 is now row 1"
+    const before = await panel.getAliasValues();
+    expect(before).toHaveLength(EXPECTED_RULE_COUNT);
+    const [first, second, ...rest] = before;
 
-    const moveDownButton = shortcutsPage.getByTestId('rule-0-move-down');
-    await moveDownButton.click();
+    await shortcutsPage.getByTestId('rule-0-move-down').click();
 
-    const secondAliasInputAfter = shortcutsPage.getByTestId('rule-1-alias');
+    await expect
+      .poll(() => panel.getAliasValues())
+      .toEqual([second, first, ...rest]);
 
-    await expect(secondAliasInputAfter).toHaveValue(firstAliasBefore);
+    await shortcutsPage.getByTestId('rule-1-move-up').click();
 
-    const moveUpButton = shortcutsPage.getByTestId('rule-1-move-up');
-    await moveUpButton.click();
-
-    const firstAliasInputFinal = shortcutsPage.getByTestId('rule-0-alias');
-    await expect(firstAliasInputFinal).toHaveValue(firstAliasBefore);
+    await expect.poll(() => panel.getAliasValues()).toEqual(before);
   });
 
   test('should delete a rule', async ({ shortcutsPage }) => {

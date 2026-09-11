@@ -7,12 +7,11 @@ import FolderRow from './FolderRow';
 
 interface Props {
   bookmark: ContextBookmark;
-  pos: number;
   isSelected: boolean;
   isCut: boolean;
 }
 
-function VirtualRow({ bookmark, pos, isSelected, isCut }: Props) {
+function VirtualRow({ bookmark, isSelected, isCut }: Props) {
   const {
     folders,
     handleFolderRemove,
@@ -58,7 +57,6 @@ function VirtualRow({ bookmark, pos, isSelected, isCut }: Props) {
       ) : (
         <Bookmark
           id={bookmark.id}
-          pos={pos}
           url={bookmark.url}
           title={bookmark.title}
           taggedPersons={bookmark.taggedPersons}

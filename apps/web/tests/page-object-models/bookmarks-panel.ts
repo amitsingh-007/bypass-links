@@ -1,38 +1,18 @@
-import { BookmarksPanelBase, getNumericBadgeValue } from '@bypass/shared/tests';
+import { EStorageKey, type IBookmarksObj } from '@bypass/shared';
+import {
+  BookmarksPanelBase,
+  findByEncodedName,
+  getNumericBadgeValue,
+} from '@bypass/shared/tests';
 import { expect, type Locator } from '@playwright/test';
 
 export class BookmarksPanel extends BookmarksPanelBase {
-  async openFolder(folderName: string) {
-    const folder = this.getFolderElement(folderName);
-    await expect(folder).toBeVisible();
-    const initialUrl = this.page.url();
-    await folder.dblclick();
-    await expect.poll(() => this.page.url()).not.toBe(initialUrl);
-  }
-
   async navigateBack() {
     const backButton = this.page.getByRole('button', { name: 'Back' });
     await expect(backButton).toBeVisible();
     const initialUrl = this.page.url();
     await backButton.click();
     await expect.poll(() => this.page.url()).not.toBe(initialUrl);
-  }
-
-  async getEmptyFolder(folderName: string): Promise<Locator> {
-    const folder = this.getFolderElement(folderName);
-    await expect(folder).toBeVisible();
-    const cursor = await folder.evaluate(
-      (el) => window.getComputedStyle(el).cursor
-    );
-    expect(cursor).toBe('not-allowed');
-    return folder;
-  }
-
-  async verifyEmptyFolderCannotOpen(folderName: string): Promise<void> {
-    const folder = this.getFolderElement(folderName);
-    const initialUrl = this.page.url();
-    await folder.dblclick();
-    expect(this.page.url()).toBe(initialUrl);
   }
 
   getFaviconElement(bookmarkTitle: string): Locator {
@@ -55,5 +35,18 @@ export class BookmarksPanel extends BookmarksPanelBase {
 
   async getBadgeCount(): Promise<number> {
     return getNumericBadgeValue(this.page, 'header-badge');
+  }
+
+  /** Folder ids are only ever in storage; the panel shows the decoded name. */
+  async getFolderId(folderName: string): Promise<string> {
+    const stored = await this.page.localStorage.getItem(EStorageKey.bookmarks);
+    const { folderList = {} } = JSON.parse(
+      stored ?? '{}'
+    ) as Partial<IBookmarksObj>;
+    const folder = findByEncodedName(folderList, folderName);
+    if (!folder) {
+      throw new Error(`No folder named ${folderName} in stored bookmarks`);
+    }
+    return folder.id;
   }
 }

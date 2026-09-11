@@ -2,6 +2,7 @@ import fs from 'node:fs';
 
 import {
   expect,
+  test,
   type BrowserContext,
   type ConsoleMessage,
   type Locator,
@@ -9,7 +10,7 @@ import {
   type WebError,
 } from '@playwright/test';
 
-import { TEST_TIMEOUTS } from '../constants/e2e-tests';
+import { TEST_LARGE_LIST, TEST_TIMEOUTS } from '../constants/e2e-tests';
 
 type TestIdScope = Pick<Page, 'getByTestId'>;
 
@@ -169,5 +170,62 @@ export const removeTestDir = async (dir: string) => {
     force: true,
     maxRetries: 5,
     retryDelay: 100,
+  });
+};
+
+/** Persisted folders and persons alike are keyed by id with a base64 name. */
+export const findByEncodedName = <T extends { name: string }>(
+  entries: Record<string, T>,
+  name: string
+): T | undefined =>
+  Object.values(entries).find((entry) => atob(entry.name) === name);
+
+export interface VirtualizedList {
+  page: Page;
+  rows: Locator;
+  first: Locator;
+  last: Locator;
+  searchFor: string;
+  /** What the panel reports it is listing, so the filtered result is exact. */
+  listedNames: () => Promise<string[]>;
+  scrollToEnd: () => Promise<void>;
+  scrollToStart?: () => Promise<void>;
+}
+
+/** Panels virtualize through different components and drive scroll differently, so callers supply it. */
+export const expectVirtualizedList = async ({
+  page,
+  rows,
+  first,
+  last,
+  searchFor,
+  listedNames,
+  scrollToEnd,
+  scrollToStart,
+}: VirtualizedList) => {
+  await expect(first).toBeVisible();
+  expect(await rows.count()).toBeLessThan(TEST_LARGE_LIST.SIZE);
+  await expect(last).toHaveCount(0);
+
+  await test.step('scrolling to the end renders the last row', async () => {
+    await scrollToEnd();
+
+    await expect(last).toBeVisible();
+    await expect(first).toHaveCount(0);
+  });
+
+  if (scrollToStart) {
+    await test.step('the top control comes back to the first row', async () => {
+      await scrollToStart();
+
+      await expect(first).toBeVisible();
+    });
+    await scrollToEnd();
+  }
+
+  await test.step('searching after scrolling finds a row that was never rendered', async () => {
+    await fillSearchInput(page, searchFor);
+
+    await expect.poll(listedNames).toEqual([searchFor]);
   });
 };

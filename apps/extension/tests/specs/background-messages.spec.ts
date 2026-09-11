@@ -9,6 +9,7 @@ import {
 } from '@/utils/sendRuntimeMessage';
 
 import { expect, test } from '../fixtures/background-fixture';
+import { getRecordedTabs, recordCreatedTabs } from '../utils/test-utils';
 
 /**
  * The scraper runs inside the page, so the fixture needs a real https origin,
@@ -16,6 +17,8 @@ import { expect, test } from '../fixtures/background-fixture';
  * the url in the message rather than the tab, so one host serves every forum.
  */
 const FORUM_HOST = 'forum.test';
+/** Deliberately not a substring of `FORUM_HOST`, which is how hosts are matched. */
+const UNRELATED_HOST = 'somewhere-else.test';
 
 const UNREAD_ROWS_HTML = `
   <div class="block-row block-row--separated is-unread">
@@ -53,6 +56,11 @@ const RECENT_POSTS_HTML = `
 const GALLERY_HTML = `
   <div class="tthumb_gal_item"><a class="tthumb_grid_unread" href="/gal/unread"></a></div>
   <div class="tthumb_gal_item"><a class="tthumb_grid_read" href="/gal/read-skipped"></a></div>
+`;
+
+const LINKLESS_ROWS_HTML = `
+  <div class="block-row block-row--separated is-unread"></div>
+  <div class="block-row block-row--separated is-unread"><span>no anchor</span></div>
 `;
 
 interface ForumCase {
@@ -94,6 +102,18 @@ const FORUM_CASES: ForumCase[] = [
     key: 'FORUM_4',
     html: GALLERY_HTML,
     expected: ['/gal/unread'],
+  },
+  {
+    name: 'unread rows carrying no anchor are dropped',
+    key: 'FORUM_1',
+    html: LINKLESS_ROWS_HTML,
+    expected: [],
+  },
+  {
+    name: 'a matched forum with nothing to read yields no links',
+    key: 'FORUM_1',
+    html: '<p>nothing to read</p>',
+    expected: [],
   },
 ];
 
@@ -154,21 +174,56 @@ test('answers with no links when the scrape cannot run', async ({
   await tab.close();
 });
 
+/** A closed tab makes `executeScript` reject outright, and the popup still awaits a reply. */
+test('answers with no links when the tab is already gone', async ({
+  isolatedBackground,
+}) => {
+  await isolatedBackground.writeStorage({ websites: { FORUM_1: FORUM_HOST } });
+  const popup = await isolatedBackground.openPopup();
+  const url = `https://${FORUM_HOST}/`;
+  const tab = await isolatedBackground.openFixturePage(url, UNREAD_ROWS_HTML);
+  const tabId = await findTabId(popup, url);
+  await tab.close();
+
+  const { forumPageLinks } = await sendMessage(popup, {
+    key: 'openWebsiteLinks',
+    tabId,
+    url,
+  });
+
+  expect(forumPageLinks).toEqual([]);
+});
+
 test.describe('Forum button', () => {
+  let syncedWebsites: unknown;
+  // The click opens a tab we get no handle on, and this worker-scoped profile must be left clean.
+  let pagesBefore = new Set<Page>();
+
+  test.beforeEach(async ({ sharedBackground }) => {
+    syncedWebsites = await sharedBackground.readStorage('websites');
+    pagesBefore = new Set(sharedBackground.context.pages());
+    await sharedBackground.writeStorage({
+      websites: { FORUM_1: FORUM_HOST },
+    });
+  });
+
+  test.afterEach(async ({ sharedBackground }) => {
+    const { context } = sharedBackground;
+    await sharedBackground.writeStorage({ websites: syncedWebsites ?? {} });
+    await Promise.all(
+      context
+        .pages()
+        .filter((page) => !pagesBefore.has(page))
+        .map((page) => page.close())
+    );
+  });
+
   test('reports success once it has opened the collected links', async ({
     sharedBackground,
   }) => {
-    const synced = await sharedBackground.readStorage('websites');
     const { context } = sharedBackground;
     const forumRoute = `https://${FORUM_HOST}/**`;
-    // Snapshotted, because the click opens a tab we never get a handle on and
-    // this profile is worker scoped -- everything new here is ours to clean up
-    const pagesBefore = new Set(context.pages());
     try {
-      await sharedBackground.writeStorage({
-        websites: { FORUM_1: FORUM_HOST },
-      });
-
       /**
        * The popup enables the button from the active tab, so the forum tab has
        * to take focus before this reload -- opening the popup last would leave
@@ -194,36 +249,50 @@ test.describe('Forum button', () => {
         popup.getByRole('button', { name: 'Success' })
       ).toBeVisible();
     } finally {
-      await sharedBackground.writeStorage({ websites: synced ?? {} });
       await context.unroute(forumRoute);
-      await Promise.all(
-        context
-          .pages()
-          .filter((page) => !pagesBefore.has(page))
-          .map((page) => page.close())
-      );
     }
+  });
+
+  /** Enabled first: `disabled` is also the pre-lookup state, so it alone would false-pass. */
+  test('follows the active tab, and stays disabled off a synced forum', async ({
+    sharedBackground,
+  }) => {
+    const popup = await sharedBackground.openPopup();
+    const forumButton = popup.getByRole('button', { name: 'Forum' });
+
+    await sharedBackground.openFixturePage(
+      `https://${FORUM_HOST}/`,
+      UNREAD_ROWS_HTML
+    );
+    await popup.reload({ waitUntil: 'domcontentloaded' });
+    await expect(forumButton).toBeEnabled();
+
+    await sharedBackground.openFixturePage(
+      `https://${UNRELATED_HOST}/`,
+      UNREAD_ROWS_HTML
+    );
+    await popup.reload({ waitUntil: 'domcontentloaded' });
+
+    await expect(forumButton).toBeDisabled();
   });
 });
 
 test.describe('Opening collected links', () => {
-  test('opens one background tab per url', async ({ isolatedBackground }) => {
+  test('opens one background tab per url, in order', async ({
+    isolatedBackground,
+  }) => {
     await isolatedBackground.clearHistoryStartTime();
     const popup = await isolatedBackground.openPopup();
-    const context = popup.context();
-    const before = context.pages().length;
+    const urls = [TEST_SITES.EXAMPLE_COM, TEST_SITES.EXAMPLE_ORG];
 
-    await sendMessage(popup, {
-      key: 'openLinksInTabs',
-      urls: [TEST_SITES.EXAMPLE_COM, TEST_SITES.EXAMPLE_ORG],
-    });
+    await recordCreatedTabs(popup);
+    await sendMessage(popup, { key: 'openLinksInTabs', urls });
 
     // Opens are paced a second apart, so both tabs land well after the reply
     await expect
-      .poll(() => context.pages().length, {
-        timeout: TEST_TIMEOUTS.PAGE_OPEN,
-      })
-      .toBe(before + 2);
+      .poll(() => getRecordedTabs(popup), { timeout: TEST_TIMEOUTS.PAGE_OPEN })
+      // `new URL` because Chrome hands the recorder its own normalised form
+      .toEqual(urls.map((url) => ({ url: new URL(url).href, active: false })));
     await expect
       .poll(() =>
         isolatedBackground.readStorage(EExtStorageKey.HISTORY_START_TIME)
@@ -247,22 +316,43 @@ test.describe('Opening collected links', () => {
     ).toBeUndefined();
   });
 
+  test('keeps opening the batch after the popup has closed', async ({
+    isolatedBackground,
+  }) => {
+    const { context } = isolatedBackground;
+    const popup = await isolatedBackground.openPopup();
+    const urls = [TEST_SITES.EXAMPLE_COM, TEST_SITES.EXAMPLE_ORG];
+    const opened: Page[] = [];
+    context.on('page', (page) => opened.push(page));
+
+    await sendMessage(popup, { key: 'openLinksInTabs', urls });
+    await popup.close();
+
+    try {
+      // Opens are paced a second apart, so the second one lands after the close
+      await expect
+        .poll(() => opened.map((page) => page.url()), {
+          timeout: TEST_TIMEOUTS.PAGE_OPEN,
+        })
+        .toEqual(urls.map((url) => new URL(url).href));
+    } finally {
+      await Promise.all(opened.map(async (page) => page.close()));
+    }
+  });
+
   test('survives a url the browser refuses to open', async ({
     isolatedBackground,
   }) => {
     const popup = await isolatedBackground.openPopup();
-    const context = popup.context();
-    const before = context.pages().length;
 
+    await recordCreatedTabs(popup);
     await sendMessage(popup, {
       key: 'openLinksInTabs',
       urls: ['javascript:void(0)', TEST_SITES.EXAMPLE_NET],
     });
 
     await expect
-      .poll(() => context.pages().length, {
-        timeout: TEST_TIMEOUTS.PAGE_OPEN,
-      })
-      .toBe(before + 1);
+      .poll(() => getRecordedTabs(popup), { timeout: TEST_TIMEOUTS.PAGE_OPEN })
+      .toEqual([{ url: new URL(TEST_SITES.EXAMPLE_NET).href, active: false }]);
   });
 });

@@ -1,6 +1,8 @@
+import { EStorageKey, type IPersons } from '@bypass/shared';
 import {
   clearSearchInput,
   fillSearchInput,
+  findByEncodedName,
   parseBadgeCount,
   PersonsPanelBase,
 } from '@bypass/shared/tests';
@@ -10,6 +12,17 @@ export class PersonsPanel extends PersonsPanelBase {
   async verifyPersonNotVisible(name: string) {
     const personCard = this.page.getByTestId(`person-item-${name}`);
     await expect(personCard).not.toBeVisible();
+  }
+
+  /** Person uids are only ever in storage; the grid shows the decoded name. */
+  async getPersonUid(name: string): Promise<string> {
+    const stored = await this.page.localStorage.getItem(EStorageKey.persons);
+    const persons = JSON.parse(stored ?? '{}') as IPersons;
+    const person = findByEncodedName(persons, name);
+    if (!person) {
+      throw new Error(`No person named ${name} in stored persons`);
+    }
+    return person.uid;
   }
 
   async openPersonCard(name: string) {

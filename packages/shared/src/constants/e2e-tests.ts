@@ -13,10 +13,21 @@ export const TEST_BOOKMARKS = {
   GITHUB: 'React ButtonGroup component 2',
 } as const;
 
+export const TEST_BOOKMARK_URLS = {
+  REACT_DOCS: 'https://material-ui.com/components/bottom-navigation/',
+} as const;
+
 export const TEST_FOLDERS = {
   MAIN: 'Main',
   EMPTY: 'Empty folder',
   OTHER_BOOKMARKS: 'Other bookmarks',
+} as const;
+
+/** Bookmark titles the test account holds in each folder, in listing order. */
+export const TEST_FOLDER_BOOKMARKS = {
+  ROOT: [TEST_BOOKMARKS.REACT_DOCS, TEST_BOOKMARKS.GITHUB],
+  MAIN: ['CRED - pay your credit card bills & earn rewards'],
+  OTHER_BOOKMARKS: ['Twitch', 'React Button component'],
 } as const;
 
 export const TEST_PERSONS = {
@@ -42,6 +53,12 @@ export const TEST_SHORTCUTS = {
   BROWSERTEST: 'http://bt/',
 } as const;
 
+/** Websites of the account's `isDefault` redirection rules, in rule order. */
+export const TEST_DEFAULT_REDIRECTION_URLS = [
+  'https://www.google.com/',
+  'https://www.mantine.dev/',
+] as const;
+
 /**
  * TODOMVC is where TEST_SHORTCUTS.TODOMVC redirects; it renders its input via JS,
  * so it covers the MutationObserver branch of the autocomplete suppression script.
@@ -53,10 +70,24 @@ export const TEST_SITES = {
   TODOMVC: 'https://demo.playwright.dev/todomvc',
 } as const;
 
+const padIndex = (index: number) => String(index).padStart(3, '0');
+
+/** Size is well past any panel viewport, so a rendered subset is proof. */
+export const TEST_LARGE_LIST = {
+  SIZE: 150,
+  SEARCHED_INDEX: 75,
+  bookmarkTitle: (index: number) => `Large Bookmark ${padIndex(index)}`,
+  bookmarkUrl: (index: number) =>
+    `${TEST_SITES.EXAMPLE_COM}/large/${padIndex(index)}`,
+  personName: (index: number) => `Large Person ${padIndex(index)}`,
+} as const;
+
 export const TEST_TIMEOUTS = {
   NAVIGATION: 1000,
   PAGE_OPEN_ATTEMPT: 2000,
   LONG_WAIT: 10_000,
   PAGE_OPEN: 15_000,
   AUTH: 30_000,
+  /** A whole sign-in and preload cycle, twice over. */
+  AUTH_LIFECYCLE: 90_000,
 } as const;

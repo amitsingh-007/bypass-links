@@ -127,21 +127,30 @@ const safely = async (collect: () => Promise<void>) => {
 /** `stopJSCoverage` on a page that never started it can hang teardown (`data:`/`file:` tabs). */
 const coveredPages = new WeakSet<Page>();
 
-const collectPageCoverage = async (page: Page) => {
+/** Restart only for a page that lives on: leaving a document retires its scripts, so a later stop reports nothing for them. */
+const drainPageCoverage = async (page: Page, restart = false) => {
   if (!coveredPages.has(page) || page.isClosed()) {
     return;
   }
   coveredPages.delete(page);
   await safely(async () => {
     const entries = await page.coverage.stopJSCoverage();
+    // Re-armed before the report add, so a failed add cannot disarm the page
+    if (restart) {
+      await page.coverage.startJSCoverage({ resetOnNavigation: false });
+      coveredPages.add(page);
+    }
     await addCoverage(entries);
   });
 };
 
-/**
- * Self-instrumenting: coverage starts before the caller can navigate, and pages
- * and the worker drain before close, since closing drops the V8 data.
- */
+const harvestBefore =
+  <A extends unknown[], R>(page: Page, navigate: (...args: A) => Promise<R>) =>
+  async (...args: A) => {
+    await drainPageCoverage(page, true);
+    return await navigate(...args);
+  };
+
 export const instrumentContext = (context: BrowserContext) => {
   if (!isCoverageEnabled) {
     return;
@@ -153,9 +162,14 @@ export const instrumentContext = (context: BrowserContext) => {
     await page.coverage.startJSCoverage({ resetOnNavigation: false });
     coveredPages.add(page);
 
+    page.goto = harvestBefore(page, page.goto.bind(page));
+    page.reload = harvestBefore(page, page.reload.bind(page));
+    page.goBack = harvestBefore(page, page.goBack.bind(page));
+    page.goForward = harvestBefore(page, page.goForward.bind(page));
+
     const closePage = page.close.bind(page);
     page.close = async (options) => {
-      await collectPageCoverage(page);
+      await drainPageCoverage(page);
       await closePage(options);
     };
     return page;
@@ -222,7 +236,7 @@ const collectContextCoverage = async (context: BrowserContext) => {
   const client = backgroundClients.get(context);
   backgroundClients.delete(context);
   await Promise.all([
-    ...context.pages().map((page) => collectPageCoverage(page)),
+    ...context.pages().map((page) => drainPageCoverage(page)),
     client &&
       safely(async () => {
         await addCoverage((await client.stopJSCoverage()) ?? []);

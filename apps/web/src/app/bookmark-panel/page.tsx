@@ -54,7 +54,7 @@ export default function BookmarksPage() {
         text={`${folderName} (${contextBookmarks?.length || 0})`}
         onSearchChange={setSearchText}
       />
-      <ScrollArea viewportRef={scrollAreaRef} className="flex-1">
+      <ScrollArea viewportRef={scrollAreaRef} className="min-h-0 flex-1">
         {filteredContextBookmarks.length > 0 ? (
           <div
             style={{ height: virtualizer.getTotalSize() }}

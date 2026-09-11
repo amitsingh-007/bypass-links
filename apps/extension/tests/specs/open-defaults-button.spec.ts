@@ -1,4 +1,27 @@
+import { EStorageKey, type IRedirections } from '@bypass/shared';
+import {
+  TEST_DEFAULT_REDIRECTION_URLS,
+  TEST_SITES,
+  TEST_TIMEOUTS,
+} from '@bypass/shared/tests';
+import { type Page } from '@playwright/test';
+
+import { writeStorageFromWorker } from '../fixtures/background-fixture';
+import { openExtensionPanelPage } from '../fixtures/base-fixture';
 import { test, expect as homeExpect } from '../fixtures/home-popup-fixture';
+import { withSignedInProfile } from '../utils/signed-in-profile';
+import { getRecordedTabs, recordCreatedTabs } from '../utils/test-utils';
+
+const withRedirections = async (
+  redirections: IRedirections,
+  run: (page: Page) => Promise<void>
+) =>
+  withSignedInProfile(async ({ context, extensionId, backgroundSW }) => {
+    await writeStorageFromWorker(backgroundSW, {
+      [EStorageKey.redirections]: redirections,
+    });
+    await run(await openExtensionPanelPage(context, extensionId));
+  });
 
 test('should be disabled when not signed in', async ({ unauthPage }) => {
   const defaultsButton = unauthPage.getByTestId('open-defaults-button');
@@ -17,52 +40,74 @@ test.describe('Signed In', () => {
     const defaultsButton = homePage.getByTestId('open-defaults-button');
     await homeExpect(defaultsButton).toBeEnabled();
 
-    const initialPageCount = context.pages().length;
+    const pagesBefore = new Set(context.pages());
 
-    await defaultsButton.click();
+    try {
+      await recordCreatedTabs(homePage);
+      await defaultsButton.click();
 
-    await homeExpect
-      .poll(() => context.pages().length, {
-        message: 'Should open 2 new tabs',
-      })
-      .toBe(initialPageCount + 2);
-
-    const allPages = context.pages();
-    const newPages = allPages.filter((p) => p !== homePage);
-
-    await homeExpect
-      .poll(
-        () => {
-          const currentPages = context
-            .pages()
-            .filter((page) => page !== homePage);
-
-          return currentPages
-            .map((page) => page.url())
-            .filter(
-              (url) =>
-                url.startsWith('http') || url.startsWith('chrome-error://')
-            )
-            .map((url) => {
-              if (url.startsWith('chrome-error://')) {
-                return url;
-              }
-
-              const parsed = new URL(url);
-              return `${parsed.protocol}//${parsed.host}${parsed.pathname}`;
-            });
-        },
-        { timeout: 15_000 }
-      )
-      .toEqual(
-        homeExpect.arrayContaining([
-          'https://www.google.com/',
-          homeExpect.stringMatching(/mantine\.dev|^chrome-error:\/\//),
-        ])
+      // Recorded at tabs.onCreated because both destinations redirect
+      await homeExpect
+        .poll(() => getRecordedTabs(homePage), {
+          timeout: TEST_TIMEOUTS.PAGE_OPEN,
+          message: 'Both default rules should open, in rule order',
+        })
+        .toEqual(
+          TEST_DEFAULT_REDIRECTION_URLS.map((url) => ({ url, active: false }))
+        );
+    } finally {
+      await Promise.all(
+        context
+          .pages()
+          .filter((page) => !pagesBefore.has(page))
+          .map((page) => page.close())
       );
-
-    for (const newPage of newPages) {
-      await newPage.close();
     }
+  });
+
+  test('skips rules that are incomplete or not default', async () => {
+    const eligibleUrl = `${TEST_SITES.EXAMPLE_COM}/eligible`;
+    await withRedirections(
+      [
+        { alias: 'e2e-eligible', website: btoa(eligibleUrl), isDefault: true },
+        {
+          alias: '',
+          website: btoa(`${TEST_SITES.EXAMPLE_COM}/no-alias`),
+          isDefault: true,
+        },
+        {
+          alias: 'e2e-not-default',
+          website: btoa(`${TEST_SITES.EXAMPLE_COM}/not-default`),
+          isDefault: false,
+        },
+      ],
+      async (page) => {
+        await recordCreatedTabs(page);
+        await page.getByTestId('open-defaults-button').click();
+
+        await homeExpect
+          .poll(() => getRecordedTabs(page), {
+            timeout: TEST_TIMEOUTS.PAGE_OPEN,
+          })
+          .toEqual([{ url: eligibleUrl, active: false }]);
+      }
+    );
+  });
+
+  test('opens nothing when no rule qualifies', async () => {
+    await withRedirections([], async (page) => {
+      const defaultsButton = page.getByTestId('open-defaults-button');
+      await defaultsButton.click();
+
+      // Enabled again means the handler ran to completion, opening nothing
+      await homeExpect(defaultsButton).toBeEnabled();
+      // Read from Chrome, not the event log, which may still carry an already-created tab
+      const openedUrls = await page.evaluate(async () =>
+        (await chrome.tabs.query({})).map((tab) => tab.pendingUrl ?? tab.url)
+      );
+      homeExpect(openedUrls.filter((url) => url?.startsWith('http'))).toEqual(
+        []
+      );
+    });
   });
 });

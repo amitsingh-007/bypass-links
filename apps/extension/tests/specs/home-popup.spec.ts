@@ -1,3 +1,5 @@
+import { openNewPageFromAction } from '@bypass/shared/tests';
+
 import { expect, test } from '../fixtures/home-popup-fixture';
 
 test.describe('Home Popup', () => {
@@ -26,5 +28,21 @@ test.describe('Home Popup', () => {
       - button "Visited":
         - button "Visited" [disabled]
     `);
+  });
+
+  test('opens the popup in a full tab from the heading', async ({
+    homePage,
+    context,
+  }) => {
+    const fullTab = await openNewPageFromAction(context, () =>
+      homePage.getByTestId('home-popup-heading').click()
+    );
+
+    try {
+      expect(fullTab.url()).toBe(homePage.url());
+      await expect(fullTab.getByTestId('home-popup-heading')).toBeVisible();
+    } finally {
+      await fullTab.close();
+    }
   });
 });

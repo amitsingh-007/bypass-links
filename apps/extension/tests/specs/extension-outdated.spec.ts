@@ -1,4 +1,8 @@
-import { TEST_TIMEOUTS } from '@bypass/shared/tests';
+import {
+  failProcedure,
+  routeTrpcProcedure,
+  TEST_TIMEOUTS,
+} from '@bypass/shared/tests';
 import { type Page, type Worker } from '@playwright/test';
 
 import { test, expect } from '../fixtures/auth-fixture';
@@ -73,6 +77,39 @@ test.describe('Outdated extension badge', () => {
     await openPopup(page, extensionId);
 
     await expect.poll(() => getBadgeText(backgroundSW)).toBe('');
+  });
+
+  test('leaves the popup usable when the check fails, then badges on a later success', async ({
+    page,
+    context,
+    extensionId,
+    backgroundSW,
+    login: _login,
+  }) => {
+    const failedChecks = await routeTrpcProcedure(
+      context,
+      'extension.latest',
+      failProcedure
+    );
+    await backgroundSW.evaluate(() => chrome.action.setBadgeText({ text: '' }));
+
+    await openPopup(page, extensionId);
+
+    // Without this the badge below would just be reporting an up-to-date check
+    await expect
+      .poll(failedChecks, { message: 'the version check was not intercepted' })
+      .not.toHaveLength(0);
+    await expect(page.getByRole('button', { name: 'Bookmarks' })).toBeEnabled();
+    await expect(page.getByTestId('toggle-extension-switch')).toBeChecked();
+    expect(await getBadgeText(backgroundSW)).toBe('');
+
+    // The failing route is on the context, so a second page inherits it until dropped
+    const secondPopup = await context.newPage();
+    await context.unrouteAll();
+    await mockLatestVersion(secondPopup, '99.0.0');
+    await openPopup(secondPopup, extensionId);
+
+    await expect.poll(() => getBadgeText(backgroundSW)).toBe('!');
   });
 
   // A second page rather than a reopen: routes are per-page, so its request

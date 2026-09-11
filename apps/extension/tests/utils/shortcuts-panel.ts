@@ -33,8 +33,19 @@ export class ShortcutsPanel {
     return this.page.getByRole('button', { name: 'Save' }).last();
   }
 
+  /** The header Save, which is the only one that leaves the extension. */
+  async saveAll() {
+    await this.getMainSaveButton().click();
+  }
+
   getAliasInputs() {
     return this.page.getByPlaceholder('Enter Alias');
+  }
+
+  async getAliasValues() {
+    return this.getAliasInputs().evaluateAll((inputs) =>
+      inputs.map((input) => (input as HTMLInputElement).value)
+    );
   }
 
   getWebsiteInputs() {

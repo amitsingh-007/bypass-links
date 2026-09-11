@@ -14,12 +14,6 @@ import {
 } from './test-utils';
 
 export class BookmarksPanel extends BookmarksPanelBase {
-  async openFolder(folderName: string) {
-    const folder = this.getFolderElement(folderName);
-    await expect(folder).toBeVisible();
-    await folder.click();
-  }
-
   async navigateBack() {
     await navigateBack(this.page);
   }
@@ -96,28 +90,43 @@ export class BookmarksPanel extends BookmarksPanelBase {
     await this.pasteBookmark();
   }
 
-  async getBookmarkTitles() {
-    return this.getBookmarkItems().evaluateAll((rows) =>
-      rows.map((row) =>
-        (row.getAttribute('data-testid') ?? '').replace('bookmark-item-', '')
-      )
-    );
-  }
-
+  /** The toast is matched loosely: saves in quick succession stack several up. */
   async clickSaveButton() {
     const saveButton = this.getSaveButton();
     await saveButton.click();
-    await expect(this.page.getByText('Saved temporarily')).toBeVisible();
+    await expect(
+      this.page.getByText('Saved temporarily').first()
+    ).toBeVisible();
+    await expect(saveButton).toBeDisabled();
   }
 
   async clickContextMenuItem(itemId: string) {
     await clickContextMenuItem(this.page, itemId);
   }
 
-  async openFolderWithNestedFolders(folderName: string) {
-    const folderWithNested = this.page.getByTestId(`folder-item-${folderName}`);
-    await expect(folderWithNested).toBeVisible();
-    await folderWithNested.click({ button: 'right' });
+  async openFolderContextMenu(folderName: string) {
+    const folder = this.getFolderElement(folderName);
+    await expect(folder).toBeVisible();
+    await folder.click({ button: 'right' });
+  }
+
+  /** Leaves the rename unsaved to storage. */
+  async renameFolder(folderName: string, newName: string) {
+    await this.openFolderContextMenu(folderName);
+    await this.clickContextMenuItem('edit');
+
+    const dialog = this.page.getByRole('dialog', { name: 'Edit folder' });
+    await expect(dialog).toBeVisible();
+    await dialog.getByTestId('folder-name-input').fill(newName);
+    await dialog.getByTestId('dialog-save-button').click();
+    await expect(dialog).toBeHidden();
+  }
+
+  async setFolderDefault(folderName: string, isDefault: boolean) {
+    await this.openFolderContextMenu(folderName);
+    await this.clickContextMenuItem(
+      isDefault ? 'make-default' : 'remove-default'
+    );
   }
 
   /** Reads the bookmarks-list badge, checking it belongs to `name` first. */
@@ -152,7 +161,6 @@ export class BookmarksPanel extends BookmarksPanelBase {
     await expect(dialog).toBeHidden();
 
     await this.clickSaveButton();
-    await expect(this.getSaveButton()).toBeDisabled();
   }
 
   async removePersonFromBookmark(bookmarkTitle: string, personName: string) {
@@ -169,7 +177,6 @@ export class BookmarksPanel extends BookmarksPanelBase {
     await expect(dialog).toBeHidden();
 
     await this.clickSaveButton();
-    await expect(this.getSaveButton()).toBeDisabled();
   }
 
   async navigateToPersonsPanel() {

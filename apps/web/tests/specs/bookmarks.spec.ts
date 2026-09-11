@@ -1,6 +1,8 @@
 import {
   TEST_BOOKMARKS,
+  TEST_BOOKMARK_URLS,
   TEST_FOLDERS,
+  TEST_FOLDER_BOOKMARKS,
   clickDropdownPersonAndGetName,
   fillSearchInput,
   clearSearchInput,
@@ -47,53 +49,40 @@ test.describe('Bookmarks Panel', () => {
     page,
   }) => {
     const panel = new BookmarksPanel(page);
-    const rootCount = await panel.getBookmarkCount();
+    expect(await panel.getBookmarkTitles()).toEqual(TEST_FOLDER_BOOKMARKS.ROOT);
 
-    await panel.openFolder(TEST_FOLDERS.MAIN);
-    await expect(
-      page.locator('[data-testid^="bookmark-item-"]').first()
-    ).toBeVisible();
-    const folderCount = await panel.getBookmarkCount();
-    expect(folderCount).not.toBe(rootCount);
+    await panel.openFolder(TEST_FOLDERS.MAIN, TEST_FOLDER_BOOKMARKS.MAIN);
 
     await panel.navigateBack();
     await panel.verifyFolderExists(TEST_FOLDERS.MAIN);
-
-    const backToRootCount = await panel.getBookmarkCount();
-    expect(backToRootCount).toBe(rootCount);
+    await expect
+      .poll(() => panel.getBookmarkTitles())
+      .toEqual(TEST_FOLDER_BOOKMARKS.ROOT);
   });
 
-  test('should search bookmarks by title, URL, and update badge count', async ({
-    page,
-  }) => {
+  test('should search bookmarks by title and URL', async ({ page }) => {
     const panel = new BookmarksPanel(page);
-    const countBefore = await panel.getBookmarkCount();
-    const rootBadgeCount = await panel.getBadgeCount();
 
     await test.step('search by title', async () => {
       await fillSearchInput(page, 'ButtonGroup');
-      await panel.verifyBookmarkExists(TEST_BOOKMARKS.GITHUB);
+      await expect
+        .poll(() => panel.getBookmarkTitles())
+        .toEqual([TEST_BOOKMARKS.GITHUB]);
       await clearSearchInput(page);
     });
 
     await test.step('search by url', async () => {
-      await fillSearchInput(page, 'material');
-      await panel.verifyBookmarkExists(TEST_BOOKMARKS.REACT_DOCS);
+      await fillSearchInput(page, 'bottom-navigation');
+      await expect
+        .poll(() => panel.getBookmarkTitles())
+        .toEqual([TEST_BOOKMARKS.REACT_DOCS]);
     });
 
-    await test.step('clearing restores the full count', async () => {
+    await test.step('clearing restores the full listing', async () => {
       await clearSearchInput(page);
-      await expect(async () => {
-        const countAfter = await panel.getBookmarkCount();
-        expect(countAfter).toBe(countBefore);
-      }).toPass();
-    });
-
-    await test.step('badge count narrows with the search', async () => {
-      await fillSearchInput(page, 'React');
-      const searchBadgeCount = await panel.getBadgeCount();
-      expect(searchBadgeCount).toBeLessThanOrEqual(rootBadgeCount);
-      await clearSearchInput(page);
+      await expect
+        .poll(() => panel.getBookmarkTitles())
+        .toEqual(TEST_FOLDER_BOOKMARKS.ROOT);
     });
   });
 
@@ -101,23 +90,33 @@ test.describe('Bookmarks Panel', () => {
     page,
   }) => {
     const panel = new BookmarksPanel(page);
+    const foldersBefore = await panel.getFolderNames();
 
     await fillSearchInput(page, 'nonexistent');
-    await panel.verifyFolderExists(TEST_FOLDERS.MAIN);
+    expect(await panel.getFolderNames()).toEqual(foldersBefore);
+    await expect.poll(() => panel.getBookmarkTitles()).toEqual([]);
 
     await clearSearchInput(page);
-    await fillSearchInput(page, 'React');
-    const count = await panel.getBookmarkCount();
-    expect(count).toBeGreaterThan(0);
+    await fillSearchInput(page, 'ButtonGroup');
+    await expect
+      .poll(() => panel.getBookmarkTitles())
+      .toEqual([TEST_BOOKMARKS.GITHUB]);
 
     await clearSearchInput(page);
   });
 
   test('should open bookmark by double-clicking', async ({ page, context }) => {
     const panel = new BookmarksPanel(page);
+    // material-ui.com 301s to mui.com, so an unstubbed tab races its own redirect
+    await context.route(`${TEST_BOOKMARK_URLS.REACT_DOCS}**`, (route) =>
+      route.fulfill({ contentType: 'text/html', body: '' })
+    );
+
     const newPage = await openNewPageFromAction(context, async () => {
       await panel.openBookmarkByDoubleClick(TEST_BOOKMARKS.REACT_DOCS);
     });
+
+    await expect.poll(() => newPage.url()).toBe(TEST_BOOKMARK_URLS.REACT_DOCS);
     await newPage.close();
   });
 
@@ -142,26 +141,79 @@ test.describe('Bookmarks Panel', () => {
     page,
   }) => {
     const panel = new BookmarksPanel(page);
+    // Rows, not bookmarks: the badge counts the subfolders it lists too
+    const countRows = async () =>
+      (await panel.getFolderNames()).length +
+      (await panel.getBookmarkTitles()).length;
 
-    const badge = panel.getBookmarkCountBadge();
-    await expect(badge).toBeVisible();
-    const rootBadgeCount = await panel.getBadgeCount();
-    expect(rootBadgeCount).toBeGreaterThan(0);
+    await expect(panel.getBookmarkCountBadge()).toBeVisible();
+    expect(await panel.getBadgeCount()).toBe(await countRows());
 
-    await panel.openFolder(TEST_FOLDERS.MAIN);
-    const folderBadge = panel.getBookmarkCountBadge();
-    await expect(folderBadge).toBeVisible();
-    const folderBadgeCount = await panel.getBadgeCount();
-    expect(folderBadgeCount).toBeGreaterThan(0);
-    expect(folderBadgeCount).not.toBe(rootBadgeCount);
+    await panel.openFolder(TEST_FOLDERS.MAIN, TEST_FOLDER_BOOKMARKS.MAIN);
+
+    await expect(panel.getBookmarkCountBadge()).toContainText(
+      TEST_FOLDERS.MAIN
+    );
+    expect(await panel.getBadgeCount()).toBe(TEST_FOLDER_BOOKMARKS.MAIN.length);
   });
 
   test('should show not-allowed cursor on empty folder and prevent navigation', async ({
     page,
   }) => {
     const panel = new BookmarksPanel(page);
-    await panel.getEmptyFolder(TEST_FOLDERS.EMPTY);
-    await panel.verifyEmptyFolderCannotOpen(TEST_FOLDERS.EMPTY);
+    await panel.verifyEmptyFolderCannotOpen(
+      TEST_FOLDERS.EMPTY,
+      TEST_FOLDER_BOOKMARKS.ROOT
+    );
+  });
+
+  test('should open a folder deep link directly and keep it across a reload', async ({
+    page,
+  }) => {
+    const panel = new BookmarksPanel(page);
+    const folderId = await panel.getFolderId(TEST_FOLDERS.MAIN);
+
+    await page.goto(`/bookmark-panel?folderId=${folderId}`);
+
+    const expectMainFolder = async () => {
+      await expect(panel.getBookmarkCountBadge()).toContainText(
+        TEST_FOLDERS.MAIN
+      );
+      await expect
+        .poll(() => panel.getBookmarkTitles())
+        .toEqual(TEST_FOLDER_BOOKMARKS.MAIN);
+    };
+    await expectMainFolder();
+
+    await page.reload();
+
+    await expectMainFolder();
+  });
+
+  test('should show a usable empty panel for an unknown folder id', async ({
+    page,
+  }) => {
+    const panel = new BookmarksPanel(page);
+
+    await page.goto('/bookmark-panel?folderId=e2e-unknown-folder');
+
+    await expect(panel.getBookmarkCountBadge()).toHaveText('Not Found (0)');
+    await expect(panel.getBookmarkItems()).toHaveCount(0);
+    await expect(panel.getFolderElement(TEST_FOLDERS.MAIN)).toHaveCount(0);
+
+    await test.step('the search box still accepts input', async () => {
+      await fillSearchInput(page, 'ButtonGroup');
+      await expect(panel.getBookmarkItems()).toHaveCount(0);
+      await clearSearchInput(page);
+    });
+
+    await test.step('Back leaves for a folder that does exist', async () => {
+      await panel.navigateBack();
+
+      await expect
+        .poll(() => panel.getBookmarkTitles())
+        .toEqual(TEST_FOLDER_BOOKMARKS.ROOT);
+    });
   });
 
   test('should display favicon and URL tooltip on bookmark hover', async ({

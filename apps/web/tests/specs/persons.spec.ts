@@ -160,6 +160,32 @@ test.describe('Persons Panel', () => {
     });
   });
 
+  test('should open a person deep link directly and keep it across a reload', async ({
+    page,
+  }) => {
+    const panel = new PersonsPanel(page);
+    const uid = await panel.getPersonUid(TEST_PERSONS.JOHN_NATHAN);
+
+    await page.goto(`/persons-panel?openBookmarksList=${uid}`);
+
+    await panel.verifyModalVisible();
+    await panel.verifyPersonNameInBadge(TEST_PERSONS.JOHN_NATHAN);
+
+    await page.reload();
+
+    await panel.verifyModalVisible();
+    await panel.verifyPersonNameInBadge(TEST_PERSONS.JOHN_NATHAN);
+  });
+
+  test('should open nobody for an unknown person id', async ({ page }) => {
+    const panel = new PersonsPanel(page);
+
+    await page.goto('/persons-panel?openBookmarksList=e2e-unknown-person');
+
+    await expect(panel.getPersonItems().first()).toBeVisible();
+    await panel.verifyModalClosed();
+  });
+
   test('should toggle recency switch and verify person order changes', async ({
     page,
   }) => {

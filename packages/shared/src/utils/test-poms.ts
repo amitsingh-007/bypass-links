@@ -18,6 +18,26 @@ export class BookmarksPanelBase {
     return this.page.locator('[data-testid^="bookmark-item-"]');
   }
 
+  private async getRowNames(prefix: 'bookmark-item-' | 'folder-item-') {
+    return this.page
+      .locator(`[data-testid^="${prefix}"]`)
+      .evaluateAll(
+        (rows, testIdPrefix) =>
+          rows.map((row) =>
+            (row.getAttribute('data-testid') ?? '').replace(testIdPrefix, '')
+          ),
+        prefix
+      );
+  }
+
+  async getBookmarkTitles() {
+    return this.getRowNames('bookmark-item-');
+  }
+
+  async getFolderNames() {
+    return this.getRowNames('folder-item-');
+  }
+
   getSearchInput() {
     return this.page.getByPlaceholder('Search');
   }
@@ -28,6 +48,38 @@ export class BookmarksPanelBase {
 
   async getBookmarkCount() {
     return this.getBookmarkItems().count();
+  }
+
+  /** Identified by contents: every test folder holds a distinct list, so a wrong landing fails here. */
+  async openFolder(
+    folderName: string,
+    expectedBookmarkTitles: readonly string[]
+  ) {
+    const folder = this.getFolderElement(folderName);
+    await expect(folder).toBeVisible();
+    const initialUrl = this.page.url();
+
+    await folder.dblclick();
+
+    await expect.poll(() => this.page.url()).not.toBe(initialUrl);
+    await expect
+      .poll(() => this.getBookmarkTitles())
+      .toEqual(expectedBookmarkTitles);
+  }
+
+  async verifyEmptyFolderCannotOpen(
+    folderName: string,
+    expectedBookmarkTitles: readonly string[]
+  ) {
+    const folder = this.getFolderElement(folderName);
+    await expect(folder).toBeVisible();
+    await expect(folder).toHaveCSS('cursor', 'not-allowed');
+    const initialUrl = this.page.url();
+
+    await folder.dblclick();
+
+    expect(this.page.url()).toBe(initialUrl);
+    expect(await this.getBookmarkTitles()).toEqual(expectedBookmarkTitles);
   }
 
   /** Double-clicks the title, not the row: it fills the row width, so it cannot shift under a person hover card while avatars load. */

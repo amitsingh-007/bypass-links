@@ -17,6 +17,7 @@ import {
   type Page,
   type Worker,
   chromium,
+  expect,
   test as base,
 } from '@playwright/test';
 
@@ -80,8 +81,11 @@ const createTempProfileContext = async ({
 
   try {
     if (seedFromCachedProfile) {
+      // Chrome's own caches are most of the profile and nothing the tests read
       await fs.promises.cp(CHROME_PROFILE_DIR, userDataDir, {
         recursive: true,
+        filter: (source) =>
+          !/\/(Cache|Code Cache|GPUCache|Dawn\w+Cache)$/.test(source),
       });
     }
     const browserContext = await launchExtensionContext(userDataDir);
@@ -154,6 +158,26 @@ export const openExtensionPanelPage = async (
   return page;
 };
 
+/** Only logout pushes panel saves to the shared account; abort it so a regression cannot rewrite the test account. */
+export const abortAccountWrites = async (
+  context: BrowserContext,
+  procedures: readonly string[] = ['bookmarkAndPersonSave']
+) => {
+  let sawAccountWrite = false;
+  await context.route('**/api/trpc**', async (route) => {
+    const request = route.request();
+    const call = `${request.url()}${request.postData() ?? ''}`;
+    const isAccountWrite = procedures.some((name) => call.includes(name));
+    if (isAccountWrite) {
+      sawAccountWrite = true;
+      await route.abort();
+      return;
+    }
+    await route.fallback();
+  });
+  return () => sawAccountWrite;
+};
+
 interface SharedExtensionWorkerFixtures {
   sharedContext: BrowserContext;
   sharedBackgroundSW: Worker;
@@ -167,7 +191,19 @@ export const sharedExtensionTest = base.extend<
 >({
   sharedContext: [
     async ({}, use) => {
-      await withTempProfileContext({ seedFromCachedProfile: true }, use);
+      await withTempProfileContext(
+        { seedFromCachedProfile: true },
+        async (context) => {
+          const sawAccountWrite = await abortAccountWrites(context);
+          await use(context);
+          expect
+            .soft(
+              sawAccountWrite(),
+              'a panel save reached the shared test account'
+            )
+            .toBe(false);
+        }
+      );
     },
     { scope: 'worker' },
   ],

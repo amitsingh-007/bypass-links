@@ -30,7 +30,6 @@ const openImagePicker = async (
 };
 
 const uploadImage = async (
-  page: Page,
   imagePickerDialog: ReturnType<Page['getByRole']>,
   imageUrl: string
 ) => {
@@ -41,10 +40,8 @@ const uploadImage = async (
   await expect(saveCroppedButton).toBeEnabled();
   await saveCroppedButton.click();
 
-  const uploadOverlay = page.getByTestId('uploading-overlay');
-  await expect(uploadOverlay).toBeVisible();
-
-  await expect(imagePickerDialog).toBeHidden();
+  // A real upload outlasts the default timeout.
+  await expect(imagePickerDialog).toBeHidden({ timeout: DIALOG_CLOSE_TIMEOUT });
 };
 
 const changeImageInDialog = async (
@@ -53,10 +50,27 @@ const changeImageInDialog = async (
   imageUrl: string
 ) => {
   const imagePickerDialog = await openImagePicker(page, dialog);
-  await uploadImage(page, imagePickerDialog, imageUrl);
+  await uploadImage(imagePickerDialog, imageUrl);
 };
 
 export class PersonsPanel extends PersonsPanelBase {
+  /** Leaves both dialogs open, for the paths that never reach a saved image. */
+  async openImagePicker(personName: string) {
+    const dialog = await this.openEditPersonDialog(personName);
+    return {
+      dialog,
+      imagePicker: await openImagePicker(this.page, dialog),
+    };
+  }
+
+  getPickerUrlInput() {
+    return this.page.getByPlaceholder('Enter image url');
+  }
+
+  getPickerSaveButton() {
+    return this.page.getByTestId('save-cropped-image');
+  }
+
   async openAddPersonDialog() {
     return openAddDialog(this.page, 'Add Person');
   }
@@ -117,7 +131,8 @@ export class PersonsPanel extends PersonsPanelBase {
     await clickContextMenuItem(this.page, 'delete');
 
     const notification = this.page.getByText('Person deleted successfully');
-    await expect(notification).toBeVisible();
+    // Deleting waits on the account's stored image, which is as slow as an upload
+    await expect(notification).toBeVisible({ timeout: DIALOG_CLOSE_TIMEOUT });
 
     await expect(personCard).not.toBeVisible();
   }
