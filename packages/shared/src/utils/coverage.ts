@@ -108,24 +108,11 @@ const getReport = async () => {
   return report;
 };
 
-/** Buffered per context: every `add` writes a cache file, and a popup navigates several times a test. */
-const pendingEntries = new Map<BrowserContext, unknown[]>();
-
-const bufferCoverage = (context: BrowserContext, entries: unknown[]) => {
-  const pending = pendingEntries.get(context);
-  if (pending) {
-    pending.push(...entries);
-  } else {
-    pendingEntries.set(context, entries);
+const addCoverage = async (entries: unknown[]) => {
+  if (entries.length === 0) {
+    return;
   }
-};
-
-const flushCoverage = async (context: BrowserContext) => {
-  const entries = pendingEntries.get(context) ?? [];
-  if (entries.length > 0) {
-    await (await getReport()).add(entries);
-  }
-  pendingEntries.delete(context);
+  await (await getReport()).add(entries);
 };
 
 /** Collection runs inside teardown chains, so it must never throw into them. */
@@ -148,11 +135,12 @@ const drainPageCoverage = async (page: Page, restart = false) => {
   coveredPages.delete(page);
   await safely(async () => {
     const entries = await page.coverage.stopJSCoverage();
+    // Re-armed before the report add, so a failed add cannot disarm the page
     if (restart) {
       await page.coverage.startJSCoverage({ resetOnNavigation: false });
       coveredPages.add(page);
     }
-    bufferCoverage(page.context(), entries);
+    await addCoverage(entries);
   });
 };
 
@@ -251,10 +239,9 @@ const collectContextCoverage = async (context: BrowserContext) => {
     ...context.pages().map((page) => drainPageCoverage(page)),
     client &&
       safely(async () => {
-        bufferCoverage(context, (await client.stopJSCoverage()) ?? []);
+        await addCoverage((await client.stopJSCoverage()) ?? []);
       }),
   ]);
-  await safely(() => flushCoverage(context));
 };
 
 export const generateCoverageReport = async () => {
