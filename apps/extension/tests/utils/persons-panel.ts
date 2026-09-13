@@ -223,6 +223,7 @@ export class PersonsPanel extends PersonsPanelBase {
     await expect(bookmarkItem).toBeVisible();
 
     await navigateBack(this.page);
+    await expect(dialog).toBeHidden();
   }
 
   async verifyBookmarkNotInPersonList(
@@ -236,6 +237,7 @@ export class PersonsPanel extends PersonsPanelBase {
     await expect(bookmarkItem).not.toBeVisible();
 
     await navigateBack(this.page);
+    await expect(dialog).toBeHidden();
   }
 
   /** The dialog autofocuses itself asynchronously; wait for that to land. */

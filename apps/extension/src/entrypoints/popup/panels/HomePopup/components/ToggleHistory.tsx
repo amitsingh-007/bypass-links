@@ -32,9 +32,9 @@ function ToggleHistory() {
   );
   const isExtensionActive = useExtStore((state) => state.isExtensionActive);
 
-  const turnOffHistory = () => {
+  const turnOffHistory = async () => {
     if (isHistoryActive) {
-      endHistoryWatch();
+      await endHistoryWatch();
       setIsHistoryActive(false);
     }
   };
@@ -62,7 +62,7 @@ function ToggleHistory() {
     if (checked) {
       await turnOnHistory();
     } else {
-      turnOffHistory();
+      await turnOffHistory();
     }
   };
 

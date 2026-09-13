@@ -12,15 +12,22 @@ import { expect, type Page } from '@playwright/test';
 
 import { POPUP_HOMEPAGE } from '@/constants';
 
-export const gotoPanel = async (
+export const openPanel = async (
   page: Page,
   panelName: 'Bookmarks' | 'Persons' | 'Shortcuts'
 ) => {
-  await page.goto(POPUP_HOMEPAGE);
   const panelButton = page.getByRole('button', { name: panelName });
   await expect(panelButton).toBeVisible();
   await panelButton.click();
   await expect(page.getByPlaceholder('Search')).toBeVisible();
+};
+
+export const gotoPanel = async (
+  page: Page,
+  panelName: 'Bookmarks' | 'Persons' | 'Shortcuts'
+) => {
+  await page.goto(POPUP_HOMEPAGE, { waitUntil: 'domcontentloaded' });
+  await openPanel(page, panelName);
 };
 
 export const navigateBack = async (page: Page) => {
