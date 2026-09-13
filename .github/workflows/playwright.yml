@@ -6,11 +6,6 @@ on:
         description: 'Optional Vercel preview URL (skip Vercel deployment if provided)'
         required: false
         type: string
-      coverage:
-        description: 'Collect V8 coverage during the test run'
-        required: false
-        default: false
-        type: boolean
 
 jobs:
   Build:
@@ -45,4 +40,3 @@ jobs:
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           preview-url: ${{ needs.Build.outputs.preview_url }}
-          coverage: ${{ inputs.coverage }}

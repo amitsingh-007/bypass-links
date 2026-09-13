@@ -39,7 +39,6 @@ jobs:
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           preview-url: ${{ needs.Build.outputs.preview_url }}
-          coverage: 'true'
 
   Deploy:
     runs-on: ubuntu-latest
