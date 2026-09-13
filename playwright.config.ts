@@ -15,7 +15,7 @@ const config = defineConfig({
   globalTeardown: './tests/coverage-report.ts',
   forbidOnly: isCI,
   retries: 1,
-  workers: isCI ? 3 : undefined,
+  workers: isCI ? '75%' : undefined,
   fullyParallel: true,
   outputDir: path.join(ARTIFACTS_DIR, 'test-results'),
   reporter: [
