@@ -11,6 +11,7 @@ import {
   gotoPanel,
   navigateBack,
   openAddDialog,
+  openPanel,
 } from './test-utils';
 
 export class BookmarksPanel extends BookmarksPanelBase {
@@ -24,6 +25,12 @@ export class BookmarksPanel extends BookmarksPanelBase {
     await expect(
       this.page.getByRole('button', { name: 'Add', exact: true })
     ).toBeEnabled();
+  }
+
+  /** Only `ensureAtRoot` reloads, and that is to drop unsaved edits, not to navigate. */
+  async switchToPanel(panelName: 'Bookmarks' | 'Persons') {
+    await this.navigateBack();
+    await openPanel(this.page, panelName);
   }
 
   async openAddFolderDialog() {
@@ -177,10 +184,6 @@ export class BookmarksPanel extends BookmarksPanelBase {
     await expect(dialog).toBeHidden();
 
     await this.clickSaveButton();
-  }
-
-  async navigateToPersonsPanel() {
-    await gotoPanel(this.page, 'Persons');
   }
 
   async verifyFolderNotExists(folderName: string) {

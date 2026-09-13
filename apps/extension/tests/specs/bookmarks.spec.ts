@@ -162,7 +162,7 @@ test.describe('Bookmarks Panel', () => {
       });
 
       await test.step('tag shows in persons panel', async () => {
-        await panel.navigateToPersonsPanel();
+        await panel.switchToPanel('Persons');
         await personsPanel.verifyBookmarkInPersonList(
           TEST_PERSONS.JOHN_NATHAN,
           TEST_BOOKMARKS.REACT_DOCS
@@ -170,7 +170,7 @@ test.describe('Bookmarks Panel', () => {
       });
 
       await test.step('untag the bookmark', async () => {
-        await panel.ensureAtRoot();
+        await panel.switchToPanel('Bookmarks');
         await panel.removePersonFromBookmark(
           TEST_BOOKMARKS.REACT_DOCS,
           TEST_PERSONS.JOHN_NATHAN
@@ -178,14 +178,12 @@ test.describe('Bookmarks Panel', () => {
       });
 
       await test.step('tag is gone from persons panel', async () => {
-        await panel.navigateToPersonsPanel();
+        await panel.switchToPanel('Persons');
         await personsPanel.verifyBookmarkNotInPersonList(
           TEST_PERSONS.JOHN_NATHAN,
           TEST_BOOKMARKS.REACT_DOCS
         );
       });
-
-      await panel.ensureAtRoot();
     });
 
     test('should open bookmark in a background tab by double-click', async ({
@@ -687,7 +685,5 @@ test.describe('Bookmarks Panel', () => {
     } finally {
       bookmarksPage.off('pageerror', onPageError);
     }
-
-    await panel.ensureAtRoot();
   });
 });
