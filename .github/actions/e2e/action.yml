@@ -7,6 +7,9 @@ inputs:
   preview-url:
     description: Preview URL that the web specs and the extension run against
     required: true
+  coverage:
+    description: Collect V8 coverage during the test run
+    default: 'false'
 runs:
   using: composite
   steps:
@@ -38,7 +41,7 @@ runs:
       run: pnpm e2e
       env:
         PLAYWRIGHT_TEST_BASE_URL: ${{ inputs.preview-url }}
-        COVERAGE: '1'
+        COVERAGE: ${{ inputs.coverage == 'true' && '1' || '' }}
 
     - name: Upload Playwright test report
       uses: actions/upload-artifact@v7
