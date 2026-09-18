@@ -236,9 +236,6 @@ catalogs:
     class-variance-authority:
       specifier: 0.7.1
       version: 0.7.1
-    clsx:
-      specifier: 2.1.1
-      version: 2.1.1
     cn:
       specifier: 0.3.0
       version: 0.3.0
@@ -302,9 +299,6 @@ catalogs:
     swr:
       specifier: 2.5.1
       version: 2.5.1
-    tailwind-merge:
-      specifier: 3.6.0
-      version: 3.6.0
     tailwindcss:
       specifier: 4.3.3
       version: 4.3.3
@@ -667,9 +661,6 @@ importers:
       class-variance-authority:
         specifier: 'catalog:'
         version: 0.7.1
-      clsx:
-        specifier: 'catalog:'
-        version: 2.1.1
       cn:
         specifier: 'catalog:'
         version: 0.3.0
@@ -685,9 +676,6 @@ importers:
       sonner:
         specifier: 'catalog:'
         version: 2.0.8(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
-      tailwind-merge:
-        specifier: 'catalog:'
-        version: 3.6.0
       tailwindcss:
         specifier: 'catalog:'
         version: 4.3.3
