@@ -37,9 +37,9 @@ function VirtualRow({ bookmark, isSelected, isCut }: Props) {
         'hover:bg-muted',
         `data-[is-selected=true]:bg-primary data-[is-selected=true]:text-primary-foreground`,
         'data-[is-selected=true]:hover:bg-primary/90',
-        `data-[is-cut=true]:border data-[is-cut=true]:border-dashed data-[is-cut=true]:border-border data-[is-cut=true]:opacity-50`
+        `data-[is-cut=true]:border data-[is-cut=true]:border-dashed data-[is-cut=true]:border-border data-[is-cut=true]:opacity-50`,
+        bookmark.isDir && 'z-1'
       )}
-      style={{ zIndex: bookmark.isDir ? 1 : 'auto' }}
       data-is-selected={isSelected}
       data-is-cut={isCut}
     >

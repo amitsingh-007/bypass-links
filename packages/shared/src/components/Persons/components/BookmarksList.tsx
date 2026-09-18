@@ -123,7 +123,7 @@ function BookmarksList({
         {fullscreen ? (
           renderContent()
         ) : (
-          <div className="max-w-panel mx-auto px-0">{renderContent()}</div>
+          <div className="mx-auto max-w-[800px] px-0">{renderContent()}</div>
         )}
       </DialogContent>
     </Dialog>

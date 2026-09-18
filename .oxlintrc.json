@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
   "plugins": ["typescript", "unicorn", "oxc", "react", "import", "promise"],
-  "jsPlugins": ["oxlint-tailwindcss"],
+  "jsPlugins": ["oxlint-tailwindcss", "@shadcn/lint"],
   "categories": {
     "correctness": "error",
     "suspicious": "error",
@@ -13,6 +13,9 @@
     },
     "tailwindcss": {
       "entryPoint": "packages/ui/src/styles/globals.css"
+    },
+    "shadcn": {
+      "ui": "@bypass/ui/components/ui"
     }
   },
   "options": {
@@ -21,6 +24,11 @@
   },
   "rules": {
     "react/react-in-jsx-scope": "off",
+    "shadcn/no-raw-colors": "error",
+    "shadcn/no-arbitrary-values": ["error", { "allow": ["layout"] }],
+    "shadcn/no-inline-styles": "error",
+    "shadcn/require-static-classes": "error",
+    "shadcn/no-unknown-classes": "error",
     "typescript/no-floating-promises": "off",
     // TODO: Fix below all rules later
     "typescript/no-unsafe-type-assertion": "off",

@@ -57,17 +57,23 @@ export default function BookmarksPage() {
       <ScrollArea viewportRef={scrollAreaRef} className="min-h-0 flex-1">
         {filteredContextBookmarks.length > 0 ? (
           <div
-            style={{ height: virtualizer.getTotalSize() }}
-            className="relative w-full"
+            className="relative h-(--virtual-height) w-full"
+            style={
+              {
+                '--virtual-height': `${virtualizer.getTotalSize()}px`,
+              } as React.CSSProperties
+            }
           >
             {virtualizer.getVirtualItems().map((virtualRow) => (
               <div
                 key={virtualRow.key}
-                style={{
-                  transform: `translateY(${virtualRow.start}px)`,
-                  height: virtualRow.size,
-                }}
-                className="absolute top-0 left-0 w-full"
+                className="absolute top-0 left-0 h-(--virtual-row-height) w-full translate-y-(--virtual-row-start)"
+                style={
+                  {
+                    '--virtual-row-height': `${virtualRow.size}px`,
+                    '--virtual-row-start': `${virtualRow.start}px`,
+                  } as React.CSSProperties
+                }
               >
                 <VirtualRow
                   bookmark={filteredContextBookmarks[virtualRow.index]}

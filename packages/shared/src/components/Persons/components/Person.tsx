@@ -30,7 +30,7 @@ function Person({ person, imageUrl = '' }: Props) {
       </Avatar>
       <div className="flex flex-1 items-center justify-center px-1">
         <span
-          className="line-clamp-2 w-full text-center text-sm/tight font-semibold wrap-break-word text-gray-400"
+          className="line-clamp-2 w-full text-center text-sm/tight font-semibold wrap-break-word text-person-name"
           title={name}
         >
           {name}

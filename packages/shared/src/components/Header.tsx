@@ -22,8 +22,12 @@ function Header({
 }: Props) {
   return (
     <header
-      className="flex shrink-0 items-center justify-between border-b border-border px-2.5"
-      style={{ height: HEADER_HEIGHT }}
+      className="flex h-(--header-height) shrink-0 items-center justify-between border-b border-border px-2.5"
+      style={
+        {
+          '--header-height': `${HEADER_HEIGHT}px`,
+        } as React.CSSProperties
+      }
     >
       <div className="flex items-center gap-2">
         <Button

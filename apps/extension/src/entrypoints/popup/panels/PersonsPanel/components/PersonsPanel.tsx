@@ -112,8 +112,12 @@ function PersonsPanel() {
         onSearchChange={setSearchText}
       />
       <div
-        className="relative"
-        style={{ height: MAX_PANEL_SIZE.HEIGHT - HEADER_HEIGHT }}
+        className="relative h-(--panel-content-height)"
+        style={
+          {
+            '--panel-content-height': `${MAX_PANEL_SIZE.HEIGHT - HEADER_HEIGHT}px`,
+          } as React.CSSProperties
+        }
       >
         {isFetching && <LoadingOverlay />}
         {filteredAndOrderedPersons.length > 0 ? (

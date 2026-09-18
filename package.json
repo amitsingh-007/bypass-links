@@ -23,6 +23,7 @@
     "@bypass/configs": "workspace:*",
     "@bypass/shared": "workspace:*",
     "@playwright/test": "catalog:",
+    "@shadcn/lint": "catalog:",
     "@types/node": "catalog:",
     "lefthook": "catalog:",
     "oxfmt": "catalog:",

@@ -25,8 +25,6 @@ import { trpcApi } from '@/apis/trpcApi';
 
 import ImagePicker from './ImagePicker';
 
-const IMAGE_SIZE = 200;
-
 interface Props {
   person?: IPerson;
   onClose: VoidFunction;
@@ -94,10 +92,7 @@ function AddOrEditPersonDialog({ person, onClose, handleSaveClick }: Props) {
           >
             <div className="flex justify-center">
               <div className="relative">
-                <Avatar
-                  className="overflow-hidden rounded-xl after:rounded-none after:border-0"
-                  style={{ width: IMAGE_SIZE, height: IMAGE_SIZE }}
-                >
+                <Avatar className="size-[200px] overflow-hidden rounded-xl after:rounded-none after:border-0">
                   <AvatarImage
                     src={imageUrl}
                     alt={imageUrl ?? 'No Image'}
@@ -117,8 +112,7 @@ function AddOrEditPersonDialog({ person, onClose, handleSaveClick }: Props) {
                   type="button"
                   variant="ghost"
                   data-testid="change-avatar-button"
-                  className="absolute inset-0 rounded-xl border-0"
-                  style={{ width: IMAGE_SIZE, height: IMAGE_SIZE }}
+                  className="absolute inset-0 size-[200px] rounded-xl border-0"
                   onClick={imagePickerHandlers.open}
                 />
               </div>

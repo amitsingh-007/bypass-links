@@ -71,7 +71,7 @@ function FolderRow({
         <div className="relative size-full">
           <Folder id={id} name={origName} {...restProps} />
           {isDefault && (
-            <div className="absolute top-1/2 right-1.5 flex -translate-y-1/2 items-center text-yellow-500">
+            <div className="absolute top-1/2 right-1.5 flex -translate-y-1/2 items-center text-folder-emphasis">
               <HugeiconsIcon icon={StarIcon} className="size-4" />
             </div>
           )}

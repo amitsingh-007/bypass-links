@@ -62,17 +62,23 @@ function PersonsInner({
         <ScrollButton itemsSize={rowCount} onScroll={handleScroll} />
       )}
       <div
-        className="relative w-full"
-        style={{ height: rowVirtualizer.getTotalSize() }}
+        className="relative h-(--virtual-height) w-full"
+        style={
+          {
+            '--virtual-height': `${rowVirtualizer.getTotalSize()}px`,
+          } as React.CSSProperties
+        }
       >
         {rowVirtualizer.getVirtualItems().map((virtualRow) => (
           <div
             key={virtualRow.key}
-            className="absolute top-0 left-0 flex w-full pl-1.5"
-            style={{
-              height: virtualRow.size,
-              transform: `translateY(${virtualRow.start}px)`,
-            }}
+            className="absolute top-0 left-0 flex h-(--virtual-row-height) w-full translate-y-(--virtual-row-start) pl-1.5"
+            style={
+              {
+                '--virtual-row-height': `${virtualRow.size}px`,
+                '--virtual-row-start': `${virtualRow.start}px`,
+              } as React.CSSProperties
+            }
           >
             {Array.from({ length: columnCount }, (_, columnIndex) => {
               const personIndex = virtualRow.index * columnCount + columnIndex;
@@ -82,7 +88,15 @@ function PersonsInner({
               const person = persons[personIndex];
 
               return (
-                <div key={person.uid} style={{ width: columnDimension }}>
+                <div
+                  key={person.uid}
+                  className="w-(--column-width)"
+                  style={
+                    {
+                      '--column-width': `${columnDimension}px`,
+                    } as React.CSSProperties
+                  }
+                >
                   {renderPerson(person, imageUrls[person.uid] ?? '')}
                 </div>
               );

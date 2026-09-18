@@ -5,8 +5,13 @@ import { MAX_PANEL_SIZE } from '@/constants';
 function Panel({ children }: PropsWithChildren) {
   return (
     <div
-      className="relative flex flex-col"
-      style={{ width: MAX_PANEL_SIZE.WIDTH, height: MAX_PANEL_SIZE.HEIGHT }}
+      className="relative flex h-(--panel-height) w-(--panel-width) flex-col"
+      style={
+        {
+          '--panel-height': `${MAX_PANEL_SIZE.HEIGHT}px`,
+          '--panel-width': `${MAX_PANEL_SIZE.WIDTH}px`,
+        } as React.CSSProperties
+      }
     >
       {children}
     </div>

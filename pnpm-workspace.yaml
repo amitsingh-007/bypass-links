@@ -29,6 +29,7 @@ catalog:
   '@octokit/rest': 22.0.1
   '@playwright/test': 1.62.1
   '@rolldown/plugin-babel': 0.2.3
+  '@shadcn/lint': 0.1.1
   '@tailwindcss/postcss': 4.3.3
   '@tailwindcss/vite': 4.3.3
   '@tanstack/react-form': 1.33.5
@@ -83,3 +84,6 @@ catalogMode: strict
 catalogPrune: true
 
 saveExact: true
+
+minimumReleaseAgeExclude:
+  - '@shadcn/lint@0.1.1'
