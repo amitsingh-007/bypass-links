@@ -16,7 +16,7 @@ function PanelNavButton({ label, icon, route }: Props) {
 
   return (
     <Button
-      className="w-full font-medium"
+      className="w-full"
       variant="secondary"
       disabled={!isSignedIn}
       onClick={() => navigate(route)}

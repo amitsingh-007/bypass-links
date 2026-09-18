@@ -32,7 +32,6 @@ function Header({
       <div className="flex items-center gap-2">
         <Button
           variant="outline"
-          className="font-medium"
           onClick={onBackClick ?? (() => window.history.back())}
         >
           <HugeiconsIcon icon={ArrowLeft01Icon} className="size-4" />

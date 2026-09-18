@@ -91,7 +91,6 @@ function BookmarksHeader({ onSearchChange, folderId }: Props) {
       >
         <Button
           variant="secondary"
-          className="font-medium"
           disabled={isFetching}
           onClick={folderDialogHandlers.open}
         >
@@ -100,7 +99,6 @@ function BookmarksHeader({ onSearchChange, folderId }: Props) {
         </Button>
         <Button
           variant="default"
-          className="font-medium"
           disabled={disableSave}
           onClick={handleSaveClick}
         >

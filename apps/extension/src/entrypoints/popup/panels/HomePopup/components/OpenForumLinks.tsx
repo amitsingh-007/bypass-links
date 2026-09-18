@@ -73,7 +73,7 @@ function OpenForumLinks() {
   return (
     <Button
       className={cn(
-        'w-full font-medium',
+        'w-full',
         isSuccess &&
           'border-success bg-success hover:border-success-hover hover:bg-success-hover'
       )}

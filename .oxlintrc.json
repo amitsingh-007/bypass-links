@@ -15,7 +15,7 @@
       "entryPoint": "packages/ui/src/styles/globals.css"
     },
     "shadcn": {
-      "ui": "@bypass/ui/components/ui"
+      "ui": "@bypass/ui"
     }
   },
   "options": {
@@ -24,6 +24,87 @@
   },
   "rules": {
     "react/react-in-jsx-scope": "off",
+    "shadcn/no-restyle": [
+      "error",
+      {
+        "allow": ["layout"],
+        "contracts": [
+          {
+            "pattern": "^Avatar$",
+            "allow": [
+              "layout",
+              "rounded-xl",
+              "after:rounded-none",
+              "after:border-0",
+              "after:border-none",
+              "ring-1",
+              "ring-background"
+            ]
+          },
+          {
+            "pattern": "^AvatarImage$",
+            "allow": [
+              "layout",
+              "rounded-none",
+              "rounded-xl",
+              "opacity-0",
+              "opacity-100"
+            ]
+          },
+          {
+            "pattern": "^AvatarFallback$",
+            "allow": ["layout", "rounded-xl"]
+          },
+          {
+            "pattern": "^Button$",
+            "allow": [
+              "layout",
+              "border-0",
+              "border-success",
+              "bg-success",
+              "hover:border-success-hover",
+              "hover:bg-success-hover",
+              "bg-secondary/20",
+              "backdrop-blur-sm",
+              "gap-0",
+              "rounded-xl",
+              "p-0",
+              "py-5",
+              "transition-opacity",
+              "hover:opacity-80"
+            ]
+          },
+          {
+            "pattern": "^ComboboxList$",
+            "allow": ["layout", "py-2"]
+          },
+          {
+            "pattern": "^ContextMenuItem$",
+            "allow": ["layout", "gap-2"]
+          },
+          {
+            "pattern": "^DialogContent$",
+            "allow": ["layout", "rounded-none", "p-0"]
+          },
+          {
+            "pattern": "^DialogFooter$",
+            "allow": ["layout", "p-2"]
+          },
+          {
+            "pattern": "^DialogHeader$",
+            "allow": ["layout", "py-2"]
+          },
+          {
+            "pattern": "^HoverCardContent$",
+            "allow": ["layout", "rounded-full", "p-0.5"]
+          },
+          {
+            "pattern": "^TooltipContent$",
+            "allow": ["layout", "text-xs/relaxed"]
+          }
+        ]
+      }
+    ],
     "shadcn/no-raw-colors": "error",
     "shadcn/no-arbitrary-values": ["error", { "allow": ["layout"] }],
     "shadcn/no-inline-styles": "error",
