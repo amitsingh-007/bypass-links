@@ -36,7 +36,6 @@ function PersonHeader({
         <Button
           disabled={isFetching}
           variant="secondary"
-          className="font-medium"
           onClick={addPersonDialogHandlers.open}
         >
           <HugeiconsIcon icon={UserAdd01Icon} />

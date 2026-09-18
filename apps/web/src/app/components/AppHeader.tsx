@@ -42,7 +42,7 @@ function AppHeader() {
             <span className="text-base font-bold tracking-tight">
               Bypass Links
             </span>
-            <span className="text-[10px] font-medium tracking-widest text-muted-foreground uppercase">
+            <span className="text-2xs font-medium tracking-widest text-muted-foreground uppercase">
               Skip the wait
             </span>
           </div>

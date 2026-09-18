@@ -27,7 +27,7 @@ function ConfirmationDialog({ onClose, onOk, isOpen }: Props) {
         <DialogHeader className="py-2">
           <DialogTitle>There are some unsaved changes</DialogTitle>
         </DialogHeader>
-        <DialogFooter className="flex flex-row justify-end gap-2 p-2">
+        <DialogFooter className="flex flex-row justify-end p-2">
           <Button variant="destructive" onClick={onOk}>
             Discard
           </Button>

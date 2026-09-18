@@ -73,9 +73,9 @@ function OpenForumLinks() {
   return (
     <Button
       className={cn(
-        'w-full font-medium',
+        'w-full',
         isSuccess &&
-          'border-teal-600 bg-teal-600 hover:border-teal-700 hover:bg-teal-700'
+          'border-success bg-success hover:border-success-hover hover:bg-success-hover'
       )}
       variant={isSuccess ? 'default' : 'secondary'}
       disabled={!isSuccess && (!isOnForumPage || isLoading)}

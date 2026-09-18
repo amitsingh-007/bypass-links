@@ -150,8 +150,8 @@ function PersonSelect({ value, onChange }: PersonSelectProps) {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </ComboboxChips>
-          <ComboboxContent anchor={anchorEl} className="p-0">
-            <ComboboxList className="max-h-60 p-1 py-2">
+          <ComboboxContent anchor={anchorEl}>
+            <ComboboxList className="max-h-60 py-2">
               {filteredPersonList.map((person) => (
                 <ComboboxItem key={person.value} value={person.value}>
                   <div className="flex items-center gap-2">

@@ -39,8 +39,8 @@ function Folder({
       onClick={resetSelectedBookmarks}
       onDoubleClick={handleFolderOpen}
     >
-      <HugeiconsIcon icon={Folder01Icon} className="size-5 text-yellow-400" />
-      <span className="flex-1 truncate text-[0.9375rem] font-bold">
+      <HugeiconsIcon icon={Folder01Icon} className="size-5 text-folder" />
+      <span className="flex-1 truncate text-folder-name font-bold">
         {origName}
       </span>
     </div>

@@ -78,6 +78,13 @@
 
 @theme inline {
   --font-sans: 'Manrope', sans-serif;
+  --text-2xs: 0.625rem;
+  --text-folder-name: 0.9375rem;
+  --color-folder: var(--color-yellow-400);
+  --color-folder-emphasis: var(--color-yellow-500);
+  --color-person-name: var(--color-gray-400);
+  --color-success: var(--color-teal-600);
+  --color-success-hover: var(--color-teal-700);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);

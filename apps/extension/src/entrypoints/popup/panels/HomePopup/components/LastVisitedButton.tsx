@@ -55,7 +55,7 @@ function LastVisitedButton() {
     <Tooltip>
       <TooltipTrigger>
         <Button
-          className="w-full font-medium"
+          className="w-full"
           variant={lastVisited ? 'default' : 'outline'}
           disabled={!isSignedIn || isMutating}
           data-testid="last-visited-button"

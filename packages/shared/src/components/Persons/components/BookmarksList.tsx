@@ -117,13 +117,13 @@ function BookmarksList({
         className="inset-0! block max-w-none! translate-0! overflow-hidden rounded-none p-0"
         showCloseButton={false}
       >
-        <DialogHeader className="px-0">
+        <DialogHeader>
           <DialogTitle className="sr-only">Bookmarks</DialogTitle>
         </DialogHeader>
         {fullscreen ? (
           renderContent()
         ) : (
-          <div className="max-w-panel mx-auto px-0">{renderContent()}</div>
+          <div className="mx-auto max-w-[800px] px-0">{renderContent()}</div>
         )}
       </DialogContent>
     </Dialog>

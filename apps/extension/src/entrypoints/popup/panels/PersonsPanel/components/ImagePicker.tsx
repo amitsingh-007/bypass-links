@@ -101,7 +101,7 @@ function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
       >
         <div className="size-full bg-background">
           {isUploadingImage && <LoadingOverlay testId="uploading-overlay" />}
-          <DialogHeader className="px-0">
+          <DialogHeader>
             <DialogTitle className="sr-only">Upload Image</DialogTitle>
           </DialogHeader>
           <Header text="Upload Image" onBackClick={onDialogClose} />
