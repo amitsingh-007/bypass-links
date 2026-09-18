@@ -58,22 +58,16 @@ export default function BookmarksPage() {
         {filteredContextBookmarks.length > 0 ? (
           <div
             className="relative h-(--virtual-height) w-full"
-            style={
-              {
-                '--virtual-height': `${virtualizer.getTotalSize()}px`,
-              } as React.CSSProperties
-            }
+            style={{ '--virtual-height': `${virtualizer.getTotalSize()}px` }}
           >
             {virtualizer.getVirtualItems().map((virtualRow) => (
               <div
                 key={virtualRow.key}
                 className="absolute top-0 left-0 h-(--virtual-row-height) w-full translate-y-(--virtual-row-start)"
-                style={
-                  {
-                    '--virtual-row-height': `${virtualRow.size}px`,
-                    '--virtual-row-start': `${virtualRow.start}px`,
-                  } as React.CSSProperties
-                }
+                style={{
+                  '--virtual-row-height': `${virtualRow.size}px`,
+                  '--virtual-row-start': `${virtualRow.start}px`,
+                }}
               >
                 <VirtualRow
                   bookmark={filteredContextBookmarks[virtualRow.index]}

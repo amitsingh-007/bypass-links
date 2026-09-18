@@ -113,11 +113,9 @@ function PersonsPanel() {
       />
       <div
         className="relative h-(--panel-content-height)"
-        style={
-          {
-            '--panel-content-height': `${MAX_PANEL_SIZE.HEIGHT - HEADER_HEIGHT}px`,
-          } as React.CSSProperties
-        }
+        style={{
+          '--panel-content-height': `${MAX_PANEL_SIZE.HEIGHT - HEADER_HEIGHT}px`,
+        }}
       >
         {isFetching && <LoadingOverlay />}
         {filteredAndOrderedPersons.length > 0 ? (

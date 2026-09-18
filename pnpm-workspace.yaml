@@ -29,7 +29,7 @@ catalog:
   '@octokit/rest': 22.0.1
   '@playwright/test': 1.62.1
   '@rolldown/plugin-babel': 0.2.3
-  '@shadcn/lint': 0.1.1
+  '@shadcn/lint': 0.1.0
   '@tailwindcss/postcss': 4.3.3
   '@tailwindcss/vite': 4.3.3
   '@tanstack/react-form': 1.33.5
@@ -47,6 +47,7 @@ catalog:
   babel-plugin-react-compiler: 1.0.0
   class-variance-authority: 0.7.1
   cn: 0.3.0
+  csstype: 3.2.3
   filenamify: 7.0.3
   firebase: 12.18.0
   firebase-admin: 14.3.0
@@ -84,6 +85,3 @@ catalogMode: strict
 catalogPrune: true
 
 saveExact: true
-
-minimumReleaseAgeExclude:
-  - '@shadcn/lint@0.1.1'

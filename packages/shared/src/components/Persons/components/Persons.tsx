@@ -63,22 +63,16 @@ function PersonsInner({
       )}
       <div
         className="relative h-(--virtual-height) w-full"
-        style={
-          {
-            '--virtual-height': `${rowVirtualizer.getTotalSize()}px`,
-          } as React.CSSProperties
-        }
+        style={{ '--virtual-height': `${rowVirtualizer.getTotalSize()}px` }}
       >
         {rowVirtualizer.getVirtualItems().map((virtualRow) => (
           <div
             key={virtualRow.key}
             className="absolute top-0 left-0 flex h-(--virtual-row-height) w-full translate-y-(--virtual-row-start) pl-1.5"
-            style={
-              {
-                '--virtual-row-height': `${virtualRow.size}px`,
-                '--virtual-row-start': `${virtualRow.start}px`,
-              } as React.CSSProperties
-            }
+            style={{
+              '--virtual-row-height': `${virtualRow.size}px`,
+              '--virtual-row-start': `${virtualRow.start}px`,
+            }}
           >
             {Array.from({ length: columnCount }, (_, columnIndex) => {
               const personIndex = virtualRow.index * columnCount + columnIndex;
@@ -91,11 +85,7 @@ function PersonsInner({
                 <div
                   key={person.uid}
                   className="w-(--column-width)"
-                  style={
-                    {
-                      '--column-width': `${columnDimension}px`,
-                    } as React.CSSProperties
-                  }
+                  style={{ '--column-width': `${columnDimension}px` }}
                 >
                   {renderPerson(person, imageUrls[person.uid] ?? '')}
                 </div>

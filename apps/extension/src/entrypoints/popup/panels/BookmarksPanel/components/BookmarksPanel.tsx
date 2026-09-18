@@ -101,20 +101,16 @@ function BookmarksPanel() {
         <ScrollArea
           viewportRef={scrollAreaRef}
           className="h-(--panel-content-height) w-full"
-          style={
-            {
-              '--panel-content-height': `${MAX_PANEL_SIZE.HEIGHT - HEADER_HEIGHT}px`,
-            } as React.CSSProperties
-          }
+          style={{
+            '--panel-content-height': `${MAX_PANEL_SIZE.HEIGHT - HEADER_HEIGHT}px`,
+          }}
         >
           {filteredContextBookmarks.length > 0 ? (
             <div
               className="relative h-(--virtual-height) w-full"
-              style={
-                {
-                  '--virtual-height': `${virtualizer.getTotalSize()}px`,
-                } as React.CSSProperties
-              }
+              style={{
+                '--virtual-height': `${virtualizer.getTotalSize()}px`,
+              }}
             >
               {virtualizer.getVirtualItems().map((virtualRow) => {
                 const bookmark = filteredContextBookmarks[virtualRow.index];
@@ -122,12 +118,10 @@ function BookmarksPanel() {
                   <div
                     key={virtualRow.key}
                     className="absolute top-0 left-0 h-(--virtual-row-height) w-full translate-y-(--virtual-row-start)"
-                    style={
-                      {
-                        '--virtual-row-height': `${virtualRow.size}px`,
-                        '--virtual-row-start': `${virtualRow.start}px`,
-                      } as React.CSSProperties
-                    }
+                    style={{
+                      '--virtual-row-height': `${virtualRow.size}px`,
+                      '--virtual-row-start': `${virtualRow.start}px`,
+                    }}
                   >
                     <VirtualRow
                       bookmark={bookmark}
