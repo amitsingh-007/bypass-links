@@ -10,6 +10,9 @@
     "./styles/globals.css": "./src/styles/globals.css",
     "./components/ui/*": "./src/components/ui/*.tsx"
   },
+  "dependencies": {
+    "cn": "catalog:"
+  },
   "devDependencies": {
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",

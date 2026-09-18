@@ -239,6 +239,9 @@ catalogs:
     clsx:
       specifier: 2.1.1
       version: 2.1.1
+    cn:
+      specifier: 0.3.0
+      version: 0.3.0
     filenamify:
       specifier: 7.0.3
       version: 7.0.3
@@ -667,6 +670,9 @@ importers:
       clsx:
         specifier: 'catalog:'
         version: 2.1.1
+      cn:
+        specifier: 'catalog:'
+        version: 0.3.0
       next-themes:
         specifier: 'catalog:'
         version: 0.4.6(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -3602,6 +3608,11 @@ packages:
   clsx@2.1.1:
     resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
     engines: {node: '>=6'}
+
+  cn@0.3.0:
+    resolution: {integrity: sha512-qRoU0ARrZD3Bbj1wKFftEKxPjSnzTEdFkf22NVhW+zU9D/wajhoP+qUZ5DChhhSOBCH1onV12hrmGqfu1+5Z2Q==}
+    engines: {node: '>=20'}
+    hasBin: true
 
   code-block-writer@10.1.1:
     resolution: {integrity: sha512-67ueh2IRGst/51p0n6FvPrnRjAGHY5F8xdjkgrYE7DDzpJe6qA07RYQ9VcoUeo5ATOjSOiWpSL3SWBRRbempMw==}
@@ -8905,6 +8916,8 @@ snapshots:
       wrap-ansi: 7.0.0
 
   clsx@2.1.1: {}
+
+  cn@0.3.0: {}
 
   code-block-writer@10.1.1: {}
 

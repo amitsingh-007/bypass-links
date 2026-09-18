@@ -1,7 +1,6 @@
 import * as React from "react"
 import { ContextMenu as ContextMenuPrimitive } from "@base-ui/react/context-menu"
-
-import { cn } from "@bypass/ui/lib/utils"
+import { cn } from "cn"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { ArrowRight01Icon, Tick02Icon } from "@hugeicons/core-free-icons"
 

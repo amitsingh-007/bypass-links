@@ -1,13 +1,11 @@
 import * as React from "react"
 import { ScrollArea as ScrollAreaPrimitive } from "@base-ui/react/scroll-area"
-
-import { cn } from "@bypass/ui/lib/utils"
+import { cn } from "cn"
 
 type ScrollAreaProps = ScrollAreaPrimitive.Root.Props & {
   viewportRef?: React.Ref<HTMLDivElement>
 }
 
-// IMPORTANT: Manually added viewportRef and ref after shadcn installation. Keep this after updating the components
 const ScrollArea = React.forwardRef<HTMLDivElement, ScrollAreaProps>(
   ({ className, children, viewportRef, ...props }, ref) => {
     return (
