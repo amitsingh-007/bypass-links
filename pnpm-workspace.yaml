@@ -39,8 +39,8 @@ catalog:
   '@trpc/server': 11.18.0
   '@types/chrome': 0.2.7
   '@types/node': 24.13.3
-  '@types/react': 19.2.18
-  '@types/react-dom': 19.2.5
+  '@types/react': 19.3.0
+  '@types/react-dom': 19.3.0
   '@vitejs/plugin-react': 6.1.1
   '@vercel/analytics': 2.0.1
   '@vercel/speed-insights': 2.0.0
@@ -61,9 +61,9 @@ catalog:
   oxlint-tailwindcss: 1.10.1
   oxlint-tsgolint: 7.0.2001
   postcss: 8.5.26
-  react: 19.2.8
+  react: 19.3.0
   react-avatar-editor: 15.1.0
-  react-dom: 19.2.8
+  react-dom: 19.3.0
   shadcn: 4.19.0
   sharp: 0.35.4
   sonner: 2.0.8

@@ -1,9 +1,8 @@
 import { getLatestExtension } from '@bypass/trpc/edge';
 import { type Metadata } from 'next';
-import { Suspense } from 'react';
 
 import AppHeader from './components/AppHeader';
-import Footer, { FooterSkeleton } from './components/Footer';
+import Footer from './components/Footer';
 import PageHeader from './components/PageHeader';
 import SalientFeatures from './components/SalientFeatures';
 import { clientEnv } from './constants/env/client';
@@ -38,9 +37,7 @@ export default async function Home() {
         <PageHeader chrome={chrome} />
         <SalientFeatures />
       </main>
-      <Suspense fallback={<FooterSkeleton />}>
-        <Footer releaseDate={chrome.date} extVersion={chrome.version} />
-      </Suspense>
+      <Footer releaseDate={chrome.date} extVersion={chrome.version} />
     </div>
   );
 }

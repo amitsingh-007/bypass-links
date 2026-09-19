@@ -5,19 +5,9 @@ import {
   PuzzleIcon,
 } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { headers } from 'next/headers';
+import { type ReactNode, Suspense } from 'react';
 
-// Footer reads per-request headers (timezone), so it streams inside a
-// <Suspense> boundary; this placeholder reserves its height meanwhile.
-export function FooterSkeleton() {
-  return (
-    <footer className="border-t bg-muted/30">
-      <div className="mx-auto max-w-7xl px-4 py-6">
-        <div className="h-12" />
-      </div>
-    </footer>
-  );
-}
+import ReleaseDate from './ReleaseDate';
 
 function Info({
   icon,
@@ -25,7 +15,7 @@ function Info({
   testId,
 }: {
   icon: typeof GithubIcon;
-  text: string;
+  text: ReactNode;
   testId: string;
 }) {
   return (
@@ -36,16 +26,13 @@ function Info({
   );
 }
 
-async function Footer({
+function Footer({
   releaseDate,
   extVersion,
 }: {
   releaseDate: string;
   extVersion: string;
 }) {
-  const headersList = await headers();
-  const tz = headersList.get('x-vercel-ip-timezone') ?? undefined;
-
   return (
     <footer className="border-t bg-muted/30">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-6">
@@ -57,15 +44,11 @@ async function Footer({
           />
           <Info
             icon={Calendar03Icon}
-            text={new Intl.DateTimeFormat('en-GB', {
-              timeZone: tz,
-              day: '2-digit',
-              month: 'long',
-              year: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit',
-              hour12: true,
-            }).format(new Date(releaseDate))}
+            text={
+              <Suspense fallback="Loading...">
+                <ReleaseDate releaseDate={releaseDate} />
+              </Suspense>
+            }
             testId="ext-release-date"
           />
         </div>

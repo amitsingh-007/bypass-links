@@ -30,7 +30,10 @@ test.describe('Download page', () => {
 
   test('footer elements should exist', async ({ page }) => {
     await expect(page.getByTestId('ext-version')).toBeVisible();
-    await expect(page.getByTestId('ext-release-date')).toBeVisible();
+    // Date renders only in the browser, so this also asserts the use(browser()) swap
+    await expect(page.getByTestId('ext-release-date')).toHaveText(
+      /\d{2} \w+ \d{4} at \d{2}:\d{2} [ap]m/
+    );
     await expect(page.getByTitle('Bypass Links - Github')).toHaveAttribute(
       'href',
       'https://github.com/amitsingh-007/bypass-links'
