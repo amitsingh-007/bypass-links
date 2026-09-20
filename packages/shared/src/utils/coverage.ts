@@ -58,7 +58,7 @@ const sourceMapResolver: SourceMapResolver = async (url, defaultResolver) => {
     const file = resolveExtensionFile(url);
     return file ? await fs.promises.readFile(file, 'utf8') : null;
   }
-  return await (defaultResolver as (mapUrl: string) => Promise<unknown>)(url);
+  return await defaultResolver(url);
 };
 
 /**

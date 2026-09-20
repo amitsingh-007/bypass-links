@@ -1,4 +1,4 @@
-import { DynamicContext, type IRedirection } from '@bypass/shared';
+import { useDynamicContext, type IRedirection } from '@bypass/shared';
 import {
   Button,
   InputGroup,
@@ -18,7 +18,7 @@ import {
   LinkSquare02Icon,
 } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { use, useState } from 'react';
+import { useState } from 'react';
 
 import { DEFAULT_RULE_ALIAS } from '../constants';
 import { ReorderButton } from './ReorderButton';
@@ -43,7 +43,7 @@ function RedirectionRule({
   handleSaveRule,
   handleRuleMove,
 }: Props) {
-  const { tabs } = use(DynamicContext);
+  const { tabs } = useDynamicContext();
   const [ruleAlias, setRuleAlias] = useState(alias);
   const [ruleWebsite, setRuleWebsite] = useState(website);
   const [isDefaultRule, setIsDefaultRule] = useState(isDefault);

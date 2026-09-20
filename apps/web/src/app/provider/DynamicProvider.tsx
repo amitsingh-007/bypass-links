@@ -1,6 +1,6 @@
 import { DynamicContext } from '@bypass/shared';
 import { useRouter } from 'next/navigation';
-import { type PropsWithChildren } from 'react';
+import { type ContextType, type PropsWithChildren } from 'react';
 
 import { getFaviconUrl } from '../constants/favicon';
 import { getFromLocalStorage, setToLocalStorage } from '../utils/storage';
@@ -13,12 +13,12 @@ const openNewTab = (url: string) => {
 function DynamicProvider({ children }: PropsWithChildren) {
   const router = useRouter();
 
-  const ctx = {
+  const ctx: NonNullable<ContextType<typeof DynamicContext>> = {
     location: {
       push: (url: string) => router.push(url),
     },
     storage: {
-      get: async <T,>(key: string) => getFromLocalStorage<T>(key),
+      get: async (key, schema) => getFromLocalStorage(key, schema),
       set: async (key: string, value: any) => setToLocalStorage(key, value),
     },
     tabs: { open: openNewTab },

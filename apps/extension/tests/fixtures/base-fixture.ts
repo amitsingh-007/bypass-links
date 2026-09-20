@@ -20,13 +20,14 @@ import {
   expect,
   test as base,
 } from '@playwright/test';
+import { z } from 'zod/mini';
 
 import { getExtensionPath } from '../utils/extension-path';
 
-interface CachedStorageData {
-  chromeStorage: Record<string, unknown>;
-  localStorage: Record<string, string>;
-}
+const CachedStorageDataSchema = z.object({
+  chromeStorage: z.record(z.string(), z.unknown()),
+  localStorage: z.record(z.string(), z.string()),
+});
 
 export const getPopupUrl = (extensionId: string) =>
   `chrome-extension://${extensionId}/popup.html`;
@@ -57,9 +58,9 @@ export const launchExtensionContext = async (userDataDir: string) => {
 };
 
 /** Storage data cached by auth.setup.ts before tests run. */
-export const loadCachedStorageData = async (): Promise<CachedStorageData> => {
+export const loadCachedStorageData = async () => {
   const data = await fs.promises.readFile(EXTENSION_STORAGE_PATH, 'utf8');
-  return JSON.parse(data) as CachedStorageData;
+  return CachedStorageDataSchema.parse(JSON.parse(data));
 };
 
 /**

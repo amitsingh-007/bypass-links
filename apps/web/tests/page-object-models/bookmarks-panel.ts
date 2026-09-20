@@ -1,4 +1,5 @@
-import { EStorageKey, type IBookmarksObj } from '@bypass/shared';
+import { EStorageKey } from '@bypass/shared';
+import { BookmarksObjSchema } from '@bypass/shared/schema';
 import {
   BookmarksPanelBase,
   findByEncodedName,
@@ -40,9 +41,9 @@ export class BookmarksPanel extends BookmarksPanelBase {
   /** Folder ids are only ever in storage; the panel shows the decoded name. */
   async getFolderId(folderName: string): Promise<string> {
     const stored = await this.page.localStorage.getItem(EStorageKey.bookmarks);
-    const { folderList = {} } = JSON.parse(
-      stored ?? '{}'
-    ) as Partial<IBookmarksObj>;
+    const { folderList } = BookmarksObjSchema.parse(
+      JSON.parse(stored ?? '{"folderList":{},"urlList":{},"folders":{}}')
+    );
     const folder = findByEncodedName(folderList, folderName);
     if (!folder) {
       throw new Error(`No folder named ${folderName} in stored bookmarks`);

@@ -4,10 +4,10 @@ import {
   getEncryptedFolder,
   getEncryptedPerson,
   type IBookmarksObj,
-  type IPersons,
   type IRedirections,
   ROOT_FOLDER_ID,
 } from '@bypass/shared';
+import { BookmarksObjSchema, PersonsSchema } from '@bypass/shared/schema';
 import { expect, type Page } from '@playwright/test';
 
 import { POPUP_HOMEPAGE } from '@/constants';
@@ -104,13 +104,13 @@ export const recordCreatedTabs = async (page: Page) => {
 export const getRecordedTabs = async (page: Page) =>
   page.evaluate(() => window.e2eCreatedTabs ?? []);
 
-export const getStorageItem = async <T = unknown>(
+export const getStorageItem = async (
   page: Page,
   key: string
-): Promise<T | undefined> => {
+): Promise<unknown> => {
   return page.evaluate(async (storageKey) => {
     const result = await chrome.storage.local.get([storageKey]);
-    return result[storageKey] as T;
+    return result[storageKey];
   }, key);
 };
 
@@ -143,11 +143,18 @@ export const seedFolderWithBookmarks = async (
     })
   );
 
+  const storedBookmarks = BookmarksObjSchema.parse(
+    await getStorageItem(page, EStorageKey.bookmarks)
+  );
   await page.evaluate(
-    async ({ storageKey, rootId, seededFolder, seededUrls, isSoleDefault }) => {
-      const stored = (await chrome.storage.local.get(storageKey))[
-        storageKey
-      ] as IBookmarksObj;
+    async ({
+      storageKey,
+      rootId,
+      seededFolder,
+      seededUrls,
+      isSoleDefault,
+      stored,
+    }) => {
       const staleIds = new Set(
         Object.entries(stored.folderList)
           .filter(([, stale]) => stale.name === seededFolder.name)
@@ -198,6 +205,7 @@ export const seedFolderWithBookmarks = async (
       seededFolder: folder,
       seededUrls: urls,
       isSoleDefault: isDefault,
+      stored: storedBookmarks,
     }
   );
 
@@ -244,8 +252,9 @@ export const seedPersons = async (page: Page, names: readonly string[]) => {
 export const getPersonUids = async (
   page: Page
 ): Promise<Record<string, string>> => {
-  const persons =
-    (await getStorageItem<IPersons>(page, EStorageKey.persons)) ?? {};
+  const persons = PersonsSchema.parse(
+    (await getStorageItem(page, EStorageKey.persons)) ?? {}
+  );
   return Object.fromEntries(
     Object.values(persons).map(({ uid, name }) => [atob(name), uid])
   );

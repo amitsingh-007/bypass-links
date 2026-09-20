@@ -1,8 +1,5 @@
-import {
-  EStorageKey,
-  getPersonImageName,
-  type PersonImageUrls,
-} from '@bypass/shared';
+import { EStorageKey, getPersonImageName } from '@bypass/shared';
+import { PersonImageUrlsSchema } from '@bypass/shared/schema';
 import {
   closeDialog,
   failProcedure,
@@ -19,6 +16,7 @@ import {
   type Locator,
   type Page,
 } from '@playwright/test';
+import { z } from 'zod/mini';
 
 import { openExtensionPanelPage } from '../fixtures/base-fixture';
 import { PersonsPanel } from '../utils/persons-panel';
@@ -128,9 +126,9 @@ const pasteIntoInput = async (input: Locator, content: PasteContent) => {
 };
 
 const getStoredImageUrl = async (page: Page, uid: string) =>
-  (await getStorageItem<PersonImageUrls>(page, EStorageKey.personImageUrls))?.[
-    uid
-  ];
+  z
+    .optional(PersonImageUrlsSchema)
+    .parse(await getStorageItem(page, EStorageKey.personImageUrls))?.[uid];
 
 const openPersonsPanel = async (
   context: BrowserContext,
