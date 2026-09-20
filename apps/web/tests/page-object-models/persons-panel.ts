@@ -1,4 +1,5 @@
-import { EStorageKey, type IPersons } from '@bypass/shared';
+import { EStorageKey } from '@bypass/shared';
+import { PersonsSchema } from '@bypass/shared/schema';
 import {
   clearSearchInput,
   fillSearchInput,
@@ -17,7 +18,7 @@ export class PersonsPanel extends PersonsPanelBase {
   /** Person uids are only ever in storage; the grid shows the decoded name. */
   async getPersonUid(name: string): Promise<string> {
     const stored = await this.page.localStorage.getItem(EStorageKey.persons);
-    const persons = JSON.parse(stored ?? '{}') as IPersons;
+    const persons = PersonsSchema.parse(JSON.parse(stored ?? '{}'));
     const person = findByEncodedName(persons, name);
     if (!person) {
       throw new Error(`No person named ${name} in stored persons`);

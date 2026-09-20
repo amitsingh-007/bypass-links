@@ -1,15 +1,14 @@
-import { use } from 'react';
 import useSWR from 'swr';
 
 import { EStorageKey } from '../../../constants/storage';
-import DynamicContext from '../../../provider/DynamicContext';
+import { useDynamicContext } from '../../../provider/DynamicContext';
 import { swrKeys } from '../../../swr/keys';
-import { type IBookmarksObj } from '../interfaces';
+import { BookmarksObjSchema } from '../schema';
 
 const useBookmarks = () => {
-  const { storage } = use(DynamicContext);
+  const { storage } = useDynamicContext();
   return useSWR(swrKeys.bookmarks, async () =>
-    storage.get<IBookmarksObj>(EStorageKey.bookmarks)
+    storage.get(EStorageKey.bookmarks, BookmarksObjSchema)
   );
 };
 

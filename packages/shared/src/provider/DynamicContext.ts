@@ -1,11 +1,15 @@
-import { createContext } from 'react';
+import { createContext, use } from 'react';
+import { type z } from 'zod/mini';
 
 interface IDynamicContext {
   location: {
     push: (url: string) => void;
   };
   storage: {
-    get: <T>(key: string) => Promise<T | null | undefined>;
+    get: <T>(
+      key: string,
+      schema: z.ZodMiniType<T>
+    ) => Promise<T | null | undefined>;
     set: (key: string, data: any) => Promise<void>;
   };
   tabs: {
@@ -16,7 +20,14 @@ interface IDynamicContext {
   };
 }
 
-// Both apps always mount a provider, so no meaningful default exists
-const DynamicContext = createContext<IDynamicContext>({} as IDynamicContext);
+const DynamicContext = createContext<IDynamicContext | null>(null);
+
+export const useDynamicContext = () => {
+  const context = use(DynamicContext);
+  if (!context) {
+    throw new Error('useDynamicContext requires a DynamicProvider');
+  }
+  return context;
+};
 
 export default DynamicContext;

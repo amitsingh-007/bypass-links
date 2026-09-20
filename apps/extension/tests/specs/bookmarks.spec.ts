@@ -1,9 +1,9 @@
 import {
   EStorageKey,
   getDecodedFolderList,
-  type IBookmarksObj,
   ROOT_FOLDER_ID,
 } from '@bypass/shared';
+import { BookmarksObjSchema } from '@bypass/shared/schema';
 import {
   TEST_BOOKMARKS,
   TEST_BOOKMARK_URLS,
@@ -16,6 +16,7 @@ import {
   fillSearchInput,
   openNewPageFromAction,
 } from '@bypass/shared/tests';
+import { z } from 'zod/mini';
 
 import { bookmarkTest as test, expect } from '../fixtures/panel-fixture';
 import { BookmarksPanel } from '../utils/bookmarks-panel';
@@ -30,8 +31,10 @@ import {
 const ROOT_TITLES = TEST_FOLDER_BOOKMARKS.ROOT;
 const NESTED_FOLDER = 'Nested folder';
 
-const readStoredBookmarks = (panel: BookmarksPanel) =>
-  getStorageItem<IBookmarksObj>(panel.page, EStorageKey.bookmarks);
+const readStoredBookmarks = async (panel: BookmarksPanel) =>
+  z
+    .optional(BookmarksObjSchema)
+    .parse(await getStorageItem(panel.page, EStorageKey.bookmarks));
 
 const readStoredFolders = async (panel: BookmarksPanel) => {
   const stored = await readStoredBookmarks(panel);
@@ -137,10 +140,12 @@ test.describe('Bookmarks Panel', () => {
       await expect(titleInput).toHaveValue(TEST_BOOKMARKS.REACT_DOCS);
       await expect(titleInput).toBeFocused();
 
-      const selection = await titleInput.evaluate((el) => ({
-        start: (el as HTMLInputElement).selectionStart,
-        end: (el as HTMLInputElement).selectionEnd,
-      }));
+      const selection = await titleInput.evaluate((el) => {
+        if (!(el instanceof HTMLInputElement)) {
+          throw new Error('Expected the bookmark title input');
+        }
+        return { start: el.selectionStart, end: el.selectionEnd };
+      });
       expect(selection.start).toBe(0);
       expect(selection.end).toBe(0);
 
@@ -213,9 +218,13 @@ test.describe('Bookmarks Panel', () => {
       await panel.ensureAtRoot();
 
       await recordCreatedTabs(bookmarksPage);
-      const contextMenuPage = await openNewPageFromAction(context, () =>
-        panel.openBookmarkContextMenuItem(TEST_BOOKMARKS.REACT_DOCS, 'open')
-      );
+      const contextMenuPage = await openNewPageFromAction(context, async () => {
+        await panel
+          .getBookmarkElement(TEST_BOOKMARKS.REACT_DOCS)
+          .getByTestId('bookmark-favicon')
+          .click({ button: 'right' });
+        await bookmarksPage.getByTestId('context-menu-item-open').click();
+      });
 
       await expect
         .poll(() => getRecordedTabs(bookmarksPage))

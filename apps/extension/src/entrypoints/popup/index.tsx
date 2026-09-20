@@ -27,6 +27,10 @@ function App() {
   );
 }
 
+if (browser.extension.getViews({ type: 'popup' }).includes(window)) {
+  document.documentElement.classList.add('popup');
+}
+
 const container = document.getElementById('root');
 if (container) {
   const root = createRoot(container);

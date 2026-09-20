@@ -32,6 +32,7 @@ export type { IRedirection, IRedirections } from './schema/redirectionSchema';
 export type { IWebsites } from './schema/websitesSchema';
 
 export { default as DynamicContext } from './provider/DynamicContext';
+export { useDynamicContext } from './provider/DynamicContext';
 
 export * from './utils';
 export * from './utils/cache';

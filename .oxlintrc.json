@@ -30,17 +30,10 @@
     "shadcn/require-static-classes": "error",
     "shadcn/no-unknown-classes": "error",
     "typescript/no-floating-promises": "off",
-    // TODO: Fix below all rules later
-    "typescript/no-unsafe-type-assertion": "off",
     "import/no-unassigned-import": [
       "error",
       {
-        "allow": [
-          "**/*.css",
-          "server-only",
-          "**/*.d.ts",
-          "@total-typescript/ts-reset/**"
-        ]
+        "allow": ["**/*.css", "**/*.d.ts", "@total-typescript/ts-reset/**"]
       }
     ],
     "promise/always-return": ["error", { "ignoreLastCallback": true }],

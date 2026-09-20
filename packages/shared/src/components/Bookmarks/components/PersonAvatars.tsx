@@ -12,14 +12,13 @@ import {
 } from '@bypass/ui';
 import { UserWarning03Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { use } from 'react';
 
-import DynamicContext from '../../../provider/DynamicContext';
+import { useDynamicContext } from '../../../provider/DynamicContext';
 import { type IPersonWithImage } from '../../Persons/interfaces/persons';
 import { getPersonsPanelUrl } from '../../Persons/utils/urls';
 
 function PersonAvatars({ persons }: { persons: IPersonWithImage[] }) {
-  const { location } = use(DynamicContext);
+  const { location } = useDynamicContext();
 
   if (persons.length === 0) {
     return (

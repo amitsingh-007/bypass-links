@@ -1,10 +1,10 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@bypass/ui';
 import { Unlink02Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { ECacheBucketKeys } from '../../../constants/cache';
-import DynamicContext from '../../../provider/DynamicContext';
+import { useDynamicContext } from '../../../provider/DynamicContext';
 import { getBlobUrlFromCache } from '../../../utils/cache';
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 }
 
 function Favicon({ url }: Props) {
-  const { favicon } = use(DynamicContext);
+  const { favicon } = useDynamicContext();
   const [faviconUrl, setFaviconUrl] = useState('');
 
   useEffect(() => {

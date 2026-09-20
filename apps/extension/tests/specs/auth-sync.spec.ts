@@ -1,4 +1,4 @@
-import { EStorageKey, type IBookmarksObj } from '@bypass/shared';
+import { EStorageKey } from '@bypass/shared';
 import {
   failProcedure,
   injectLocalStorage,
@@ -7,8 +7,10 @@ import {
   TEST_TIMEOUTS,
 } from '@bypass/shared/tests';
 import { expect, test, type Page } from '@playwright/test';
+import { z } from 'zod/mini';
 
 import { EExtStorageKey, TEST_AUTH_DATA_KEY } from '@/constants';
+import { AuthResponseSchema } from '@/interfaces/firebase';
 
 import { writeStorageFromWorker } from '../fixtures/background-fixture';
 import {
@@ -25,6 +27,35 @@ import { getStorageItem } from '../utils/test-utils';
 
 const ACCOUNT_SAVE = 'firebaseData.bookmarkAndPersonSave';
 const AUTH_STORE_KEY = '__fbOAuth';
+
+test('rejects malformed injected auth data without signing in or consuming it', async () => {
+  await withTempProfileContext({}, async (context) => {
+    const extensionId = await getExtensionId(
+      await createSharedBackgroundSW(context)
+    );
+    const page = await context.newPage();
+    await page.goto(getPopupUrl(extensionId));
+    const loginButton = page.getByTestId('login-button');
+    await expect(loginButton).toBeEnabled();
+    for (const raw of ['{', '{"uid":"invalid"}']) {
+      await test.step(`rejects ${raw}`, async () => {
+        await page.localStorage.setItem(TEST_AUTH_DATA_KEY, raw);
+        await loginButton.click();
+        await expect(loginButton).toBeEnabled();
+        await expect(page.getByTestId('logout-button')).toHaveCount(0);
+        expect(await page.localStorage.getItem(TEST_AUTH_DATA_KEY)).toBe(raw);
+        const stored = await page.localStorage.getItem(AUTH_STORE_KEY);
+        expect(
+          z
+            .object({
+              state: z.object({ isSignedIn: z.boolean(), idpAuth: z.null() }),
+            })
+            .parse(JSON.parse(stored ?? '{}')).state.isSignedIn
+        ).toBe(false);
+      });
+    }
+  });
+});
 const SYNCED_KEYS = [
   EStorageKey.bookmarks,
   EStorageKey.persons,
@@ -133,7 +164,7 @@ test.describe('Pending changes on logout', () => {
         });
 
         const page = await openExtensionPanelPage(context, extensionId);
-        const bookmarksBefore = await getStorageItem<IBookmarksObj>(
+        const bookmarksBefore = await getStorageItem(
           page,
           EStorageKey.bookmarks
         );
@@ -178,9 +209,9 @@ test('a partly failed login sync leaves a clean signed-out popup', async () => {
   await withTempProfileContext({}, async (context) => {
     const sawAccountWrite = await abortAccountWrites(context);
     const cached = await loadCachedStorageData();
-    const { state } = JSON.parse(cached.localStorage[AUTH_STORE_KEY]) as {
-      state: { idpAuth: unknown };
-    };
+    const { state } = z
+      .object({ state: z.object({ idpAuth: AuthResponseSchema }) })
+      .parse(JSON.parse(cached.localStorage[AUTH_STORE_KEY]));
     // Only the credentials, so the popup starts signed out and login is real
     await injectLocalStorage(context, {
       [TEST_AUTH_DATA_KEY]: JSON.stringify(state.idpAuth),

@@ -6,3 +6,5 @@ export const PersonSchema = z.object({
 });
 
 export const PersonsSchema = z.record(z.string(), PersonSchema);
+
+export const PersonImageUrlsSchema = z.record(z.string(), z.string());

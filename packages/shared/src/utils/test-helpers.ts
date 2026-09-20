@@ -25,12 +25,11 @@ export const injectLocalStorage = async (
   context: BrowserContext,
   data: Record<string, string>
 ) => {
-  await context.addInitScript((storageJson) => {
-    const entries = JSON.parse(storageJson) as Record<string, string>;
+  await context.addInitScript((entries) => {
     for (const [key, value] of Object.entries(entries)) {
       window.localStorage.setItem(key, value);
     }
-  }, JSON.stringify(data));
+  }, data);
 };
 
 export const closeDialog = async (
@@ -134,7 +133,7 @@ export const openNewPageFromAction = async (
       // Appended here, not in the poll message, which is templated before the poll runs
       if (pageLogs.length) {
         throw new Error(
-          `${(error as Error).message}\n\nPage logs:\n${pageLogs.join('\n')}`,
+          `${error instanceof Error ? error.message : String(error)}\n\nPage logs:\n${pageLogs.join('\n')}`,
           { cause: error }
         );
       }

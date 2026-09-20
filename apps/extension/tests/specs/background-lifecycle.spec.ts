@@ -9,7 +9,7 @@ test.describe('Background Service Worker Lifecycle', () => {
   }) => {
     await expect
       .poll(async () =>
-        isolatedBackground.readStorage<string>(EExtStorageKey.EXT_STATE)
+        isolatedBackground.readStorage(EExtStorageKey.EXT_STATE)
       )
       .toBe(EExtensionState.ACTIVE);
   });

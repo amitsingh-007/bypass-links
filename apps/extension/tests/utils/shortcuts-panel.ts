@@ -44,7 +44,12 @@ export class ShortcutsPanel {
 
   async getAliasValues() {
     return this.getAliasInputs().evaluateAll((inputs) =>
-      inputs.map((input) => (input as HTMLInputElement).value)
+      inputs.map((input) => {
+        if (!(input instanceof HTMLInputElement)) {
+          throw new Error('Expected a shortcut alias input');
+        }
+        return input.value;
+      })
     );
   }
 
