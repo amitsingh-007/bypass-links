@@ -8,6 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@bypass/ui';
+import { cn } from '@bypass/ui/lib/utils';
 import { BookEditIcon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { useState } from 'react';
@@ -114,7 +115,10 @@ function BookmarksList({
     >
       <DialogContent
         data-testid="bookmarks-list-modal"
-        className="inset-0! block max-w-none! translate-0! overflow-hidden rounded-none p-0"
+        className={cn(
+          'inset-0! block translate-0! overflow-hidden rounded-none p-0',
+          fullscreen ? 'mx-auto max-w-[800px]!' : 'max-w-none!'
+        )}
         showCloseButton={false}
       >
         <DialogHeader>

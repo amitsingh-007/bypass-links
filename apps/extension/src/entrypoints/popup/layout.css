@@ -1,6 +1,10 @@
 /* An auto-width root stretches to the popup's current width, so the popup never
-   shrank back after closing a panel. Centres the tab view too. */
-html {
+   shrank back after closing a panel. */
+html.popup {
+  width: fit-content;
+}
+
+body {
   width: fit-content;
   margin-inline: auto;
 }
