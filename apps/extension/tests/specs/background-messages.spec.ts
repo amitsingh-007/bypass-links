@@ -129,6 +129,38 @@ const findTabId = async (popup: Page, url: string) =>
     return tab?.id ?? -1;
   }, url);
 
+test('ignores malformed runtime messages without holding the response channel open', async ({
+  isolatedBackground,
+}) => {
+  const popup = await isolatedBackground.openPopup();
+  const pageCount = isolatedBackground.context.pages().length;
+  const messages = [
+    null,
+    {},
+    { key: 'unsupported' },
+    { key: 'openWebsiteLinks', tabId: '1', url: 'https://example.com' },
+    { key: 'openWebsiteLinks', tabId: 1 },
+    { key: 'openLinksInTabs', urls: 'https://example.com' },
+    { key: 'openLinksInTabs', urls: [1] },
+  ];
+  for (const message of messages) {
+    await test.step(`rejects ${JSON.stringify(message)}`, async () => {
+      const response = await popup.evaluate(async (input: unknown) => {
+        try {
+          return await chrome.runtime.sendMessage(input);
+        } catch (error) {
+          return error instanceof Error ? error.message : String(error);
+        }
+      }, message);
+      expect(response).toBeUndefined();
+    });
+  }
+  expect(
+    await isolatedBackground.readStorage(EExtStorageKey.HISTORY_START_TIME)
+  ).toBeUndefined();
+  expect(isolatedBackground.context.pages()).toHaveLength(pageCount);
+});
+
 test('picks a scraper per forum and returns absolute links', async ({
   isolatedBackground,
 }) => {

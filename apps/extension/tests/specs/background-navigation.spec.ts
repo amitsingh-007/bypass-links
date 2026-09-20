@@ -61,9 +61,7 @@ test.describe.serial('Background Service Worker Navigation', () => {
 
       await expect
         .poll(async () =>
-          sharedBackground.readStorage<number>(
-            EExtStorageKey.HISTORY_START_TIME
-          )
+          sharedBackground.readStorage(EExtStorageKey.HISTORY_START_TIME)
         )
         .toBeDefined();
     } finally {
@@ -148,9 +146,7 @@ test.describe.serial('Background Service Worker Navigation', () => {
     try {
       await expect
         .poll(async () =>
-          sharedBackground.readStorage<number>(
-            EExtStorageKey.HISTORY_START_TIME
-          )
+          sharedBackground.readStorage(EExtStorageKey.HISTORY_START_TIME)
         )
         .toBe(existingHistoryStartTime);
     } finally {
@@ -168,7 +164,7 @@ test.describe.serial('Background Service Worker Navigation', () => {
     try {
       expect(page.url()).toContain(TEST_SITES.EXAMPLE_COM);
 
-      const historyStartTime = await sharedBackground.readStorage<number>(
+      const historyStartTime = await sharedBackground.readStorage(
         EExtStorageKey.HISTORY_START_TIME
       );
       expect(historyStartTime).toBeUndefined();
@@ -189,7 +185,7 @@ test.describe.serial('Background Service Worker Navigation', () => {
         .poll(() => page.url())
         .not.toContain('https://html5test.com');
 
-      const historyStartTime = await sharedBackground.readStorage<number>(
+      const historyStartTime = await sharedBackground.readStorage(
         EExtStorageKey.HISTORY_START_TIME
       );
       expect(historyStartTime).toBeUndefined();
@@ -209,7 +205,7 @@ test.describe.serial('Background Service Worker Navigation', () => {
     try {
       await expect.poll(() => page.url()).toContain(extensionUrl);
 
-      const historyStartTime = await sharedBackground.readStorage<number>(
+      const historyStartTime = await sharedBackground.readStorage(
         EExtStorageKey.HISTORY_START_TIME
       );
       expect(historyStartTime).toBeUndefined();
@@ -233,7 +229,7 @@ test.describe.serial('Background Service Worker Navigation', () => {
 
       expect(page.url()).toContain(TEST_SITES.EXAMPLE_COM);
 
-      const historyStartTime = await sharedBackground.readStorage<number>(
+      const historyStartTime = await sharedBackground.readStorage(
         EExtStorageKey.HISTORY_START_TIME
       );
       expect(historyStartTime).toBeUndefined();
@@ -273,7 +269,7 @@ test.describe.serial('Background Service Worker Navigation', () => {
       await sharedBackground.context.unroute(`${storeUrl}/**`, emptyPageRoute);
     }
 
-    const historyStartTime = await sharedBackground.readStorage<number>(
+    const historyStartTime = await sharedBackground.readStorage(
       EExtStorageKey.HISTORY_START_TIME
     );
     expect(historyStartTime).toBeUndefined();
@@ -499,7 +495,7 @@ test.describe.serial('Background Service Worker Navigation', () => {
     await extensionSwitch.click();
     await expect
       .poll(async () =>
-        isolatedBackground.readStorage<string>(EExtStorageKey.EXT_STATE)
+        isolatedBackground.readStorage(EExtStorageKey.EXT_STATE)
       )
       .toBe(EExtensionState.INACTIVE);
     const whileInactive = await isolatedBackground.openTab(alias);
@@ -510,7 +506,7 @@ test.describe.serial('Background Service Worker Navigation', () => {
     await extensionSwitch.click();
     await expect
       .poll(async () =>
-        isolatedBackground.readStorage<string>(EExtStorageKey.EXT_STATE)
+        isolatedBackground.readStorage(EExtStorageKey.EXT_STATE)
       )
       .toBe(EExtensionState.ACTIVE);
     const whileResumed = await isolatedBackground.openTab(alias);

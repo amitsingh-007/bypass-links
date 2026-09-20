@@ -1,31 +1,26 @@
-import { use } from 'react';
-
 import { ECacheBucketKeys } from '../../../constants/cache';
 import { EStorageKey } from '../../../constants/storage';
-import DynamicContext from '../../../provider/DynamicContext';
+import { useDynamicContext } from '../../../provider/DynamicContext';
 import {
   getBlobUrlFromCache,
   getBlobUrlFromOpenCache,
 } from '../../../utils/cache';
-import { type IBookmarksObj } from '../../Bookmarks/interfaces';
-import {
-  type IPerson,
-  type IPersonWithImage,
-  type IPersons,
-  type PersonImageUrls,
-} from '../interfaces/persons';
+import { BookmarksObjSchema } from '../../Bookmarks/schema';
+import { type IPerson, type IPersonWithImage } from '../interfaces/persons';
+import { PersonsSchema, PersonImageUrlsSchema } from '../schema';
 import { decodePersons } from '../utils';
 
 const usePerson = () => {
-  const { storage } = use(DynamicContext);
+  const { storage } = useDynamicContext();
 
   const getBookmarks = async () =>
-    storage.get<IBookmarksObj>(EStorageKey.bookmarks);
+    storage.get(EStorageKey.bookmarks, BookmarksObjSchema);
 
-  const getPersons = async () => storage.get<IPersons>(EStorageKey.persons);
+  const getPersons = async () =>
+    storage.get(EStorageKey.persons, PersonsSchema);
 
   const getPersonImageUrls = async () =>
-    storage.get<PersonImageUrls>(EStorageKey.personImageUrls);
+    storage.get(EStorageKey.personImageUrls, PersonImageUrlsSchema);
 
   const getAllDecodedPersons = async () => {
     const persons = await getPersons();

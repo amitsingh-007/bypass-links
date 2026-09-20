@@ -1,20 +1,24 @@
-interface RuntimeInputMap {
-  openWebsiteLinks: { tabId: number; url: string };
-  openLinksInTabs: { urls: string[] };
-}
+import { z } from 'zod/mini';
+
+export const RuntimeInputSchema = z.discriminatedUnion('key', [
+  z.object({
+    key: z.literal('openWebsiteLinks'),
+    tabId: z.number(),
+    url: z.string(),
+  }),
+  z.object({ key: z.literal('openLinksInTabs'), urls: z.array(z.string()) }),
+]);
 
 export interface RuntimeOutput {
   openWebsiteLinks: { forumPageLinks: string[] };
   openLinksInTabs: undefined;
 }
 
-export type RuntimeKeys = keyof RuntimeInputMap;
+export type RuntimeInput = z.infer<typeof RuntimeInputSchema>;
 
-type RuntimeMessage<K extends RuntimeKeys> = { key: K } & RuntimeInputMap[K];
+export type RuntimeKeys = RuntimeInput['key'];
 
-export type RuntimeInput = {
-  [K in RuntimeKeys]: RuntimeMessage<K>;
-}[RuntimeKeys];
+type RuntimeMessage<K extends RuntimeKeys> = Extract<RuntimeInput, { key: K }>;
 
 export const sendRuntimeMessage = async <K extends RuntimeKeys>(
   input: RuntimeMessage<K>

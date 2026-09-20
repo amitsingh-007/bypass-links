@@ -1,4 +1,5 @@
 import { EStorageKey, type IRedirections } from '@bypass/shared';
+import { RedirectionsSchema } from '@bypass/shared/schema';
 import {
   failProcedure,
   routeTrpcProcedure,
@@ -24,8 +25,8 @@ const REDIRECT_TARGET = 'https://html5test.com';
 const INCOMPLETE_ALIAS = 'http:///';
 
 const getStoredRules = async (page: Page) =>
-  (
-    (await getStorageItem<IRedirections>(page, EStorageKey.redirections)) ?? []
+  RedirectionsSchema.parse(
+    (await getStorageItem(page, EStorageKey.redirections)) ?? []
   ).map(({ alias, website, isDefault }) => ({
     alias: atob(alias),
     website: atob(website),
@@ -45,12 +46,13 @@ const controlRedirections = async (context: BrowserContext) => {
     context,
     'firebaseData.redirectionsPost',
     async (call) => {
-      posted.push(call.input as IRedirections);
+      const rules = RedirectionsSchema.parse(call.input);
+      posted.push(rules);
       if (isFailing) {
         await failProcedure(call);
         return;
       }
-      current = call.input as IRedirections;
+      current = rules;
       await succeedProcedure(call, null);
     }
   );

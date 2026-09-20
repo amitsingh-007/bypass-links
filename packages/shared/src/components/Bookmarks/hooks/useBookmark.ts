@@ -1,16 +1,14 @@
-import { use } from 'react';
-
 import { EStorageKey } from '../../../constants/storage';
-import DynamicContext from '../../../provider/DynamicContext';
+import { useDynamicContext } from '../../../provider/DynamicContext';
 import { ROOT_FOLDER_ID } from '../constants';
-import { type IBookmarksObj } from '../interfaces';
+import { BookmarksObjSchema } from '../schema';
 import { getDecryptedFolder, getDefaultFolder } from '../utils';
 
 const useBookmark = () => {
-  const { storage } = use(DynamicContext);
+  const { storage } = useDynamicContext();
 
   const getBookmarks = async () =>
-    storage.get<IBookmarksObj>(EStorageKey.bookmarks);
+    storage.get(EStorageKey.bookmarks, BookmarksObjSchema);
 
   const getFolderFromHash = async (hash: string) => {
     const bookmarks = await getBookmarks();

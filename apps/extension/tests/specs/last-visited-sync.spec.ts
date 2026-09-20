@@ -1,10 +1,12 @@
-import { EStorageKey, type ILastVisited, sha256Hash } from '@bypass/shared';
+import { EStorageKey, sha256Hash } from '@bypass/shared';
+import { LastVisitedSchema } from '@bypass/shared/schema';
 import {
   failProcedure,
   routeTrpcProcedure,
   succeedProcedure,
 } from '@bypass/shared/tests';
 import { expect, test, type Page } from '@playwright/test';
+import { z } from 'zod/mini';
 
 import { writeStorageFromWorker } from '../fixtures/background-fixture';
 import { getPopupUrl, openExtensionPanelPage } from '../fixtures/base-fixture';
@@ -20,7 +22,9 @@ const PREVIOUS_VISIT = Date.UTC(2020, 0, 2, 3, 4, 5);
 const NEW_VISIT = Date.UTC(2024, 5, 6, 7, 8, 9);
 
 const getStoredVisit = async (page: Page, hash: string) =>
-  (await getStorageItem<ILastVisited>(page, EStorageKey.lastVisited))?.[hash];
+  z
+    .optional(LastVisitedSchema)
+    .parse(await getStorageItem(page, EStorageKey.lastVisited))?.[hash];
 
 /** A stale tooltip reports the previous row; `data-open` skips the one animating out. */
 const readTooltip = async (page: Page, testId: string) => {
@@ -90,7 +94,7 @@ test.describe('Last visited sync', () => {
           context,
           'firebaseData.upsertLastVisited',
           async (call) => {
-            const { hash } = call.input as { hash: string };
+            const { hash } = z.object({ hash: z.string() }).parse(call.input);
             await succeedProcedure(call, { hash, timestamp: NEW_VISIT });
           }
         );

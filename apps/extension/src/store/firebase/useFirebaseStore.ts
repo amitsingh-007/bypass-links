@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 import { TEST_AUTH_DATA_KEY } from '@/constants';
-import { type IAuthResponse } from '@/interfaces/firebase';
+import { AuthResponseSchema, type IAuthResponse } from '@/interfaces/firebase';
 import { refreshIdToken, signInWithCredential } from '@/store/firebase/api';
 import { getExpiresAtMs } from '@/store/firebase/utils';
 
@@ -30,8 +30,9 @@ const useFirebaseStore = create<State>()(
         async firebaseSignIn() {
           const testAuthData = localStorage.getItem(TEST_AUTH_DATA_KEY);
           if (testAuthData) {
+            const idpAuth = AuthResponseSchema.parse(JSON.parse(testAuthData));
             localStorage.removeItem(TEST_AUTH_DATA_KEY);
-            setIdpAuth(JSON.parse(testAuthData) as IAuthResponse);
+            setIdpAuth(idpAuth);
             return;
           }
 

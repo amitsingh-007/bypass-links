@@ -6,13 +6,12 @@ import {
   decodePersons,
   deleteCache,
   getBookmarkFaviconUrls,
-  type IBookmarksObj,
-  type IPersons,
   invalidateBookmarkKeys,
   invalidatePersonKeys,
   isCachePresent,
   EStorageKey,
 } from '@bypass/shared';
+import { BookmarksObjSchema, PersonsSchema } from '@bypass/shared/schema';
 import { useState } from 'react';
 
 import { getFaviconUrl } from '@app/constants/favicon';
@@ -28,7 +27,10 @@ const syncBookmarks = async () => {
   if (await isCachePresent(ECacheBucketKeys.favicon)) {
     return;
   }
-  const bookmarks = getFromLocalStorage<IBookmarksObj>(EStorageKey.bookmarks);
+  const bookmarks = getFromLocalStorage(
+    EStorageKey.bookmarks,
+    BookmarksObjSchema
+  );
   if (!bookmarks) {
     return;
   }
@@ -44,7 +46,7 @@ const syncPersons = async () => {
   if (await isCachePresent(ECacheBucketKeys.person)) {
     return;
   }
-  const persons = getFromLocalStorage<IPersons>(EStorageKey.persons);
+  const persons = getFromLocalStorage(EStorageKey.persons, PersonsSchema);
   if (!persons) {
     return;
   }

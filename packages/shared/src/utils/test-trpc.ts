@@ -3,6 +3,7 @@ import {
   type Request,
   type Route,
 } from '@playwright/test';
+import { z } from 'zod/mini';
 
 const TRPC_PATH = '/api/trpc/';
 
@@ -23,7 +24,9 @@ const getInput = (request: Request, index: number) => {
   if (!raw) {
     return undefined;
   }
-  return (JSON.parse(raw) as Record<string, unknown>)[String(index)];
+  return z.record(z.string(), z.unknown()).parse(JSON.parse(raw))[
+    String(index)
+  ];
 };
 
 export interface ProcedureCall {
@@ -71,7 +74,7 @@ const answerProcedure = async (
       await route.fulfill({ response: upstream });
       return;
     }
-    body.push(...((await upstream.json()) as unknown[]));
+    body.push(...z.array(z.unknown()).parse(await upstream.json()));
   }
   body[index] = entry;
   await route.fulfill({

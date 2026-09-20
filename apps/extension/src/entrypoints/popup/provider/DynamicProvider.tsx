@@ -1,5 +1,5 @@
 import { DynamicContext } from '@bypass/shared';
-import { type PropsWithChildren } from 'react';
+import { type ContextType, type PropsWithChildren } from 'react';
 import { toast } from 'sonner';
 import { useLocation } from 'wouter';
 
@@ -12,13 +12,15 @@ function DynamicProvider({ children }: PropsWithChildren) {
     (state) => state.startHistoryMonitor
   );
 
-  const ctx = {
+  const ctx: NonNullable<ContextType<typeof DynamicContext>> = {
     location: {
       push: (url: string) => navigate(url),
     },
     storage: {
-      get: async (key: string): Promise<any> =>
-        (await browser.storage.local.get(key))[key],
+      get: async (key, schema) => {
+        const value: unknown = (await browser.storage.local.get(key))[key];
+        return value == null ? value : schema.parse(value);
+      },
       set: async (key: string, value: any) =>
         browser.storage.local.set({ [key]: value }),
     },
