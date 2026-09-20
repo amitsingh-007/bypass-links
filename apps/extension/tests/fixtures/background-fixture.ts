@@ -18,7 +18,7 @@ import {
 interface BaseBackgroundEnv {
   context: BrowserContext;
   extensionId: string;
-  readStorage: <T = unknown>(key: string) => Promise<T | undefined>;
+  readStorage: (key: string) => Promise<unknown>;
   writeStorage: (values: Record<string, unknown>) => Promise<void>;
   ensureActiveState: () => Promise<void>;
   ensureInactiveState: () => Promise<void>;
@@ -37,13 +37,13 @@ interface BaseBackgroundEnv {
   openPopup: () => Promise<Page>;
 }
 
-const readStorageFromWorker = async <T = unknown>(
+const readStorageFromWorker = async (
   backgroundSW: Worker,
   key: string
-): Promise<T | undefined> => {
+): Promise<unknown> => {
   return backgroundSW.evaluate(async (storageKey) => {
     const storage = await chrome.storage.local.get([storageKey]);
-    return storage[storageKey] as T | undefined;
+    return storage[storageKey];
   }, key);
 };
 
@@ -100,9 +100,9 @@ const createBackgroundEnv = async (
   return {
     context,
     extensionId,
-    readStorage: async <T = unknown>(key: string) =>
+    readStorage: async (key: string) =>
       runWithBackground(async (backgroundSW) =>
-        readStorageFromWorker<T>(backgroundSW, key)
+        readStorageFromWorker(backgroundSW, key)
       ),
     writeStorage: async (values: Record<string, unknown>) =>
       runWithBackground(async (backgroundSW) =>

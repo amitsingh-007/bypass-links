@@ -1,11 +1,10 @@
-import { use } from 'react';
 import useSWR from 'swr';
 
 import { EStorageKey } from '../../../constants/storage';
-import DynamicContext from '../../../provider/DynamicContext';
+import { useDynamicContext } from '../../../provider/DynamicContext';
 import { swrKeys } from '../../../swr/keys';
 import { ROOT_FOLDER_ID } from '../../Bookmarks/constants';
-import { type IBookmarksObj } from '../../Bookmarks/interfaces';
+import { BookmarksObjSchema } from '../../Bookmarks/schema';
 import {
   getDecryptedBookmark,
   getDecryptedFolder,
@@ -15,11 +14,14 @@ import { type IBookmarkWithFolder } from '../interfaces/bookmark';
 import { getOrderedBookmarksList } from '../utils/bookmark';
 
 const useTaggedBookmarks = (personUid = '') => {
-  const { storage } = use(DynamicContext);
+  const { storage } = useDynamicContext();
 
   return useSWR(swrKeys.taggedBookmarks(personUid), async () => {
     // One read for the whole list; the per-hash helpers re-read it twice per bookmark
-    const bookmarks = await storage.get<IBookmarksObj>(EStorageKey.bookmarks);
+    const bookmarks = await storage.get(
+      EStorageKey.bookmarks,
+      BookmarksObjSchema
+    );
     if (!bookmarks?.urlList) {
       return [];
     }

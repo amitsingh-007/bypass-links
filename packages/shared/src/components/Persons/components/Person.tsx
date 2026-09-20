@@ -1,7 +1,6 @@
 import { Avatar, AvatarImage, Button } from '@bypass/ui';
-import { use } from 'react';
 
-import DynamicContext from '../../../provider/DynamicContext';
+import { useDynamicContext } from '../../../provider/DynamicContext';
 import { type IPerson } from '../interfaces/persons';
 import { getPersonsPanelUrl } from '../utils/urls';
 
@@ -11,7 +10,7 @@ interface Props {
 }
 
 function Person({ person, imageUrl = '' }: Props) {
-  const { location } = use(DynamicContext);
+  const { location } = useDynamicContext();
   const { uid, name } = person;
 
   const openBookmarksList = () => {

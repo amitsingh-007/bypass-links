@@ -32,7 +32,7 @@ export class PopupHomePanel {
   }
 
   async verifyHistoryStartTime() {
-    const historyStartTime = await getStorageItem<number>(
+    const historyStartTime = await getStorageItem(
       this.page,
       EExtStorageKey.HISTORY_START_TIME
     );
@@ -41,7 +41,7 @@ export class PopupHomePanel {
   }
 
   async verifyHistoryStartTimeNotExists() {
-    const historyStartTime = await getStorageItem<number>(
+    const historyStartTime = await getStorageItem(
       this.page,
       EExtStorageKey.HISTORY_START_TIME
     );

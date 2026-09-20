@@ -3,9 +3,8 @@
 import { cn } from '@bypass/ui/lib/utils';
 import { Folder01Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { use } from 'react';
 
-import DynamicContext from '../../../provider/DynamicContext';
+import { useDynamicContext } from '../../../provider/DynamicContext';
 import { getBookmarksPanelUrl } from '../utils/url';
 
 export interface FolderProps {
@@ -21,7 +20,7 @@ function Folder({
   isEmpty,
   resetSelectedBookmarks,
 }: FolderProps) {
-  const { location } = use(DynamicContext);
+  const { location } = useDynamicContext();
 
   const handleFolderOpen = () => {
     if (!isEmpty) {

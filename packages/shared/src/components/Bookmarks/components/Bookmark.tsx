@@ -6,10 +6,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@bypass/ui';
-import { use } from 'react';
 
 import useIsMobile from '../../../hooks/useIsMobile';
-import DynamicContext from '../../../provider/DynamicContext';
+import { useDynamicContext } from '../../../provider/DynamicContext';
 import useTaggedPersons from '../../Persons/hooks/useTaggedPersons';
 import Favicon from './Favicon';
 import PersonAvatars from './PersonAvatars';
@@ -31,7 +30,7 @@ function Bookmark({
   isSelected,
   handleSelectedChange,
 }: BookmarkProps) {
-  const { tabs } = use(DynamicContext);
+  const { tabs } = useDynamicContext();
   const { data: personsWithImageUrls } = useTaggedPersons(taggedPersons);
   const isMobile = useIsMobile();
 

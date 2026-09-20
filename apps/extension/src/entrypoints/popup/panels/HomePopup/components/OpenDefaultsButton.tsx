@@ -1,14 +1,14 @@
-import { DynamicContext } from '@bypass/shared';
+import { useDynamicContext } from '@bypass/shared';
 import { Button, Spinner } from '@bypass/ui';
 import { LinkSquare02Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { use, useState } from 'react';
+import { useState } from 'react';
 
 import { redirectionsItem } from '@/storage/items';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 
 function OpenDefaultsButton() {
-  const { tabs } = use(DynamicContext);
+  const { tabs } = useDynamicContext();
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const [isFetching, setIsFetching] = useState(false);
 

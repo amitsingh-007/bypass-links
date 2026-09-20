@@ -1,13 +1,13 @@
 import {
   BOOKMARK_ROW_HEIGHT,
-  DynamicContext,
+  useDynamicContext,
   HEADER_HEIGHT,
   ScrollButton,
   getFilteredContextBookmarks,
 } from '@bypass/shared';
 import { ScrollArea } from '@bypass/ui';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { use, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 
 import { MAX_PANEL_SIZE } from '@/constants';
@@ -23,7 +23,7 @@ import VirtualRow from './VirtualRow';
 
 function BookmarksPanel() {
   const { folderId } = useBookmarkPanelParams();
-  const { tabs } = use(DynamicContext);
+  const { tabs } = useDynamicContext();
   const {
     contextBookmarks,
     selectedBookmarks,

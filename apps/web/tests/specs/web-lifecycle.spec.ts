@@ -13,7 +13,7 @@ import { BookmarksPanel } from '../page-object-models/bookmarks-panel';
 import { PersonsPanel } from '../page-object-models/persons-panel';
 import { useTestCredentials } from '../utils/test-credentials';
 
-const SYNCED_KEYS = [
+const SYNCED_KEYS: string[] = [
   EStorageKey.bookmarks,
   EStorageKey.persons,
   EStorageKey.personImageUrls,
@@ -23,7 +23,7 @@ const SYNCED_CACHES = [ECacheBucketKeys.favicon, ECacheBucketKeys.person];
 const presentSyncedKeys = async (page: Page) =>
   (await page.localStorage.items())
     .map(({ name }) => name)
-    .filter((name) => SYNCED_KEYS.includes(name as EStorageKey));
+    .filter((name) => SYNCED_KEYS.includes(name));
 
 const cacheNames = async (page: Page) =>
   page.evaluate(() => caches.keys().then((keys) => keys.toSorted()));

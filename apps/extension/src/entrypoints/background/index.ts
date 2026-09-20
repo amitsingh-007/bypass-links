@@ -6,7 +6,7 @@ import {
   hasPendingBookmarksItem,
   hasPendingPersonsItem,
 } from '@/storage/items';
-import { type RuntimeInput } from '@/utils/sendRuntimeMessage';
+import { RuntimeInputSchema } from '@/utils/sendRuntimeMessage';
 
 import turnOffInputSuggestions from './misc/turnOffInputSuggestions';
 import { getExtState, invalidateNavigationCache } from './navigationCache';
@@ -111,7 +111,11 @@ export default defineBackground({
     });
 
     browser.runtime.onMessage.addListener((message, _sender, sendResponse) => {
-      receiveRuntimeMessage(message as RuntimeInput, sendResponse);
+      const result = RuntimeInputSchema.safeParse(message);
+      if (!result.success) {
+        return false;
+      }
+      receiveRuntimeMessage(result.data, sendResponse);
       return true;
     });
 
