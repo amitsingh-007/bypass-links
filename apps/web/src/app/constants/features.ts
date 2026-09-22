@@ -1,10 +1,7 @@
 import {
   CollectionsBookmarkIcon,
-  CommandIcon,
-  ComputerIcon,
   Link01Icon,
   Shield01Icon,
-  Touch01Icon,
 } from '@hugeicons/core-free-icons';
 import { type IconSvgElement } from '@hugeicons/react';
 
@@ -12,43 +9,31 @@ interface Feature {
   icon: IconSvgElement;
   title: string;
   content: string;
+  tint: string;
+  shot?: { src: string; alt: string };
 }
 
 export const FEATURES: Feature[] = [
   {
-    icon: Touch01Icon,
-    title: 'Simple to Use',
-    content:
-      'Clean, straightforward interface that is easy to set up and navigate',
-  },
-  {
-    icon: ComputerIcon,
-    title: 'Browser Utility Controls',
-    content:
-      'Automate history tracking and turn off autofill on specific websites to reduce clutter',
-  },
-  {
     icon: Link01Icon,
-    title: 'Forum Link Tracking',
+    title: 'skip the gate',
     content:
-      'Browse supported forums and open only links you have not visited yet',
-  },
-  {
-    icon: Shield01Icon,
-    title: 'Privacy-First Sync',
-    content:
-      'Your data is encoded on your device before it is sent to the server',
+      'supported sites hand over the real destination, past the timers, captchas and ad walls. on forums you see which links you have already opened, and your own shortcut rules jump straight to the sites you live on.',
+    tint: 'landing-tint-violet',
   },
   {
     icon: CollectionsBookmarkIcon,
-    title: 'Bookmarks & Person Tagging',
+    title: 'bookmarks with people on them',
     content:
-      'Full-featured bookmarks panel with person tagging to organize and filter by people',
+      'a proper bookmarks panel, not a folder tree you dread. tag a link with a person and filter by them later. one click bookmarks the current tab, and last visited brings you back to where you left off.',
+    tint: 'landing-tint-coral',
+    shot: { src: '/shots/bookmarks.png', alt: 'The Bookmarks Panel' },
   },
   {
-    icon: CommandIcon,
-    title: 'Custom Shortcut Rules',
+    icon: Shield01Icon,
+    title: 'yours, and open',
     content:
-      'Create personalized shortcut rules for frequently visited websites and launch them quickly',
+      'everything is encoded on your device before it syncs, so the server never sees your links in the clear. history monitoring and autofill controls stay in your browser. mit licensed, all of it readable on github.',
+    tint: 'landing-tint-sand',
   },
 ];

@@ -48,6 +48,18 @@
     --landing-tint-sand: oklch(0.3 0.03 85);
   }
 
+  .landing-tint-violet {
+    background-color: var(--landing-tint-violet);
+  }
+
+  .landing-tint-coral {
+    background-color: var(--landing-tint-coral);
+  }
+
+  .landing-tint-sand {
+    background-color: var(--landing-tint-sand);
+  }
+
   .landing-shadow {
     box-shadow:
       0 12px 40px rgb(0 0 0 / 0.2),
