@@ -12,7 +12,7 @@ import {
   TEST_PERSONS,
   TEST_TIMEOUTS,
 } from '@bypass/shared/tests';
-import { type BrowserContext, expect, type Page, test } from '@playwright/test';
+import { expect, type Page, test } from '@playwright/test';
 
 import {
   abortAccountWrites,
@@ -245,20 +245,6 @@ const capture = async (page: Page, name: string, rootSelector?: string) => {
   });
 };
 
-const capturePanel = async (
-  context: BrowserContext,
-  extensionId: string,
-  panel: 'bookmarks' | 'persons'
-) => {
-  const page = await openExtensionPanelPage(context, extensionId, panel);
-  const rowPrefix = panel === 'bookmarks' ? 'bookmark-item' : 'person-item';
-  await page
-    .locator(`[data-testid^="${rowPrefix}-"]`)
-    .first()
-    .waitFor({ timeout: TEST_TIMEOUTS.PAGE_OPEN });
-  await capture(page, panel);
-};
-
 test('capture landing Product shots', async () => {
   test.setTimeout(TEST_TIMEOUTS.AUTH_LIFECYCLE * 2);
 
@@ -277,8 +263,16 @@ test('capture landing Product shots', async () => {
       const popup = await openExtensionPanelPage(context, extensionId);
       await capture(popup, 'popup', '#root');
 
-      await capturePanel(context, extensionId, 'bookmarks');
-      await capturePanel(context, extensionId, 'persons');
+      const bookmarks = await openExtensionPanelPage(
+        context,
+        extensionId,
+        'bookmarks'
+      );
+      await bookmarks
+        .locator('[data-testid^="bookmark-item-"]')
+        .first()
+        .waitFor({ timeout: TEST_TIMEOUTS.PAGE_OPEN });
+      await capture(bookmarks, 'bookmarks');
 
       expect(
         sawAccountWrite(),

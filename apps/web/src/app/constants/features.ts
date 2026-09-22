@@ -18,7 +18,7 @@ export const FEATURES: Feature[] = [
     icon: Link01Icon,
     title: 'skip the gate',
     content:
-      'supported sites hand over the real destination, past the timers, captchas and ad walls. on forums you see which links you have already opened, and your own shortcut rules jump straight to the sites you live on.',
+      'supported sites hand over the real destination, past the timers, interstitials and ad walls. on forums you see which links you have already opened, and your own shortcut rules jump straight to the sites you live on.',
     tint: 'landing-tint-violet',
   },
   {
@@ -33,7 +33,7 @@ export const FEATURES: Feature[] = [
     icon: Shield01Icon,
     title: 'yours, and open',
     content:
-      'everything is encoded on your device before it syncs, so the server never sees your links in the clear. history monitoring and autofill controls stay in your browser. mit licensed, all of it readable on github.',
+      'your bookmarks are encoded on your device before they sync, and the backend stores them that way. history monitoring and autofill controls stay in your browser. mit licensed, all of it readable on github.',
     tint: 'landing-tint-sand',
   },
 ];

@@ -47,8 +47,8 @@ function PageHeader({ chrome }: { chrome: { downloadLink: string } }) {
           <span className="block text-secondary">you actually wanted</span>
         </h1>
         <p className="max-w-xl text-base text-muted-foreground sm:text-lg">
-          bypass links walks past the timers, captchas and ad gates on supported
-          sites, then gets out of your way.
+          bypass links walks past the timers, interstitials and ad gates on
+          supported sites, then gets out of your way.
         </p>
         <DownloadCta
           downloadLink={chrome.downloadLink}

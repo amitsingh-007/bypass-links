@@ -50,7 +50,7 @@ function AppHeader({ downloadLink }: { downloadLink: string }) {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-sm">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-6">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4">
         <button
           type="button"
           className="group flex items-center gap-3"
@@ -66,7 +66,7 @@ function AppHeader({ downloadLink }: { downloadLink: string }) {
               className="rounded-md"
             />
           </div>
-          <span className="font-display text-base font-bold tracking-tight">
+          <span className="font-display text-base font-bold tracking-tight whitespace-nowrap">
             Bypass Links
           </span>
         </button>
@@ -94,10 +94,11 @@ function AppHeader({ downloadLink }: { downloadLink: string }) {
           <ThemeToggle />
           <a
             href={downloadLink}
-            className="inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary px-4 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/85"
+            aria-label="Download for Chrome"
+            className="inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary px-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/85 sm:px-4"
           >
             <HugeiconsIcon icon={ChromeIcon} size={16} />
-            Download for Chrome
+            <span className="hidden sm:inline">Download for Chrome</span>
           </a>
         </div>
       </div>
