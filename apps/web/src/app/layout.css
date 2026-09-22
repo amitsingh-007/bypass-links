@@ -66,6 +66,23 @@
       0 2px 8px rgb(0 0 0 / 0.13);
   }
 
+  .landing-press {
+    box-shadow: 3px 3px 0 0 rgb(from var(--primary) r g b / 0.3);
+    transition:
+      box-shadow 120ms ease,
+      translate 120ms ease;
+  }
+
+  .landing-press:hover {
+    box-shadow: 3px 3px 0 0 rgb(from var(--primary) r g b / 0.6);
+  }
+
+  .landing-press:active,
+  .landing-press[open] {
+    box-shadow: 1px 1px 0 0 rgb(from var(--primary) r g b / 0.6);
+    translate: 2px 2px;
+  }
+
   .landing :is(h1, h2, h3) {
     font-family: var(--font-display);
   }

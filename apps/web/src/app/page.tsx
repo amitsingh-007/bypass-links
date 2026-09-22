@@ -3,6 +3,7 @@ import { type Metadata } from 'next';
 
 import AppHeader from './components/AppHeader';
 import DownloadCta from './components/DownloadCta';
+import Faqs from './components/Faqs';
 import Footer from './components/Footer';
 import LandingShell from './components/LandingShell';
 import PageHeader from './components/PageHeader';
@@ -38,6 +39,7 @@ export default async function Home() {
       <main className="mx-auto w-full max-w-7xl flex-1 px-4">
         <PageHeader chrome={chrome} />
         <SalientFeatures />
+        <Faqs />
         <section className="landing-shadow my-16 flex flex-col items-center gap-6 rounded-xl bg-primary/10 px-6 py-14 text-center">
           <h2 className="max-w-xl text-3xl/tight font-bold lowercase md:text-4xl/tight">
             stop waiting on links
