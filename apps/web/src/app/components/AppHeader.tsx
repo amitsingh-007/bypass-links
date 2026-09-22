@@ -1,15 +1,43 @@
 'use client';
 
 import { GITHUB_REPO_URL } from '@bypass/shared';
-import { GithubIcon } from '@hugeicons/core-free-icons';
+import {
+  ChromeIcon,
+  GithubIcon,
+  Moon02Icon,
+  Sun03Icon,
+} from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
+import { useTheme } from 'next-themes';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
 
 import { WEB_ROUTES } from '@app/constants/routes';
 
-function AppHeader() {
+const iconButtonClass =
+  'flex size-9 items-center justify-center rounded-full border border-border bg-card text-muted-foreground transition-colors hover:border-primary/30 hover:text-foreground';
+
+function ThemeToggle() {
+  const { resolvedTheme, setTheme } = useTheme();
+
+  return (
+    <button
+      type="button"
+      aria-label="Toggle theme"
+      title="Toggle theme"
+      className={iconButtonClass}
+      onClick={() => {
+        setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
+      }}
+    >
+      <HugeiconsIcon icon={Sun03Icon} size={16} className="hidden dark:block" />
+      <HugeiconsIcon icon={Moon02Icon} size={16} className="dark:hidden" />
+    </button>
+  );
+}
+
+function AppHeader({ downloadLink }: { downloadLink: string }) {
   const router = useRouter();
   const clickCount = useRef(0);
 
@@ -21,8 +49,8 @@ function AppHeader() {
   };
 
   return (
-    <header className="sticky top-0 z-50 border-b-2 border-primary/20 bg-linear-to-r from-primary/5 via-background to-primary/5">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
+    <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-sm">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-6">
         <button
           type="button"
           className="group flex items-center gap-3"
@@ -38,23 +66,40 @@ function AppHeader() {
               className="rounded-md"
             />
           </div>
-          <div className="flex flex-col items-start leading-tight">
-            <span className="text-base font-bold tracking-tight">
-              Bypass Links
-            </span>
-            <span className="text-2xs font-medium tracking-widest text-muted-foreground uppercase">
-              Skip the wait
-            </span>
-          </div>
+          <span className="font-display text-base font-bold tracking-tight">
+            Bypass Links
+          </span>
         </button>
-        <a
-          href={GITHUB_REPO_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex size-8 items-center justify-center rounded-lg border border-border bg-background text-muted-foreground transition-all hover:border-primary/30 hover:text-foreground"
-        >
-          <HugeiconsIcon icon={GithubIcon} size={16} />
-        </a>
+        <nav className="hidden items-center gap-6 text-sm font-medium text-muted-foreground sm:flex">
+          <a
+            href="#features"
+            className="transition-colors hover:text-foreground"
+          >
+            Features
+          </a>
+          <a href="#faq" className="transition-colors hover:text-foreground">
+            FAQ
+          </a>
+        </nav>
+        <div className="flex items-center gap-2">
+          <a
+            href={GITHUB_REPO_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Github Repository Link"
+            className={iconButtonClass}
+          >
+            <HugeiconsIcon icon={GithubIcon} size={16} />
+          </a>
+          <ThemeToggle />
+          <a
+            href={downloadLink}
+            className="inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary px-4 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/85"
+          >
+            <HugeiconsIcon icon={ChromeIcon} size={16} />
+            Download for Chrome
+          </a>
+        </div>
       </div>
     </header>
   );

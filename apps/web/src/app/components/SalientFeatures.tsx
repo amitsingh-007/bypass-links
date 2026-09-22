@@ -4,7 +4,7 @@ import { FEATURES } from '@app/constants/features';
 
 function SalientFeatures() {
   return (
-    <section className="border-t py-16">
+    <section id="features" className="border-t py-16">
       <h2 className="mb-10 text-center text-2xl font-semibold">
         Core features at a glance
       </h2>

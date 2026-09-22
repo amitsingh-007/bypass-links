@@ -3,6 +3,7 @@ import { type Metadata } from 'next';
 
 import AppHeader from './components/AppHeader';
 import Footer from './components/Footer';
+import LandingShell from './components/LandingShell';
 import PageHeader from './components/PageHeader';
 import SalientFeatures from './components/SalientFeatures';
 import { clientEnv } from './constants/env/client';
@@ -31,13 +32,13 @@ export default async function Home() {
   const { chrome } = await getLatestExtension();
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <AppHeader />
+    <LandingShell>
+      <AppHeader downloadLink={chrome.downloadLink} />
       <main className="mx-auto w-full max-w-7xl flex-1 px-4">
         <PageHeader chrome={chrome} />
         <SalientFeatures />
       </main>
       <Footer releaseDate={chrome.date} extVersion={chrome.version} />
-    </div>
+    </LandingShell>
   );
 }

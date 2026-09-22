@@ -4,6 +4,51 @@
 
 @theme inline {
   --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-display:
+    'Arial Rounded MT Bold', ui-rounded, 'SF Pro Rounded', var(--font-manrope),
+    sans-serif;
   /* Same as MAX_PANEL_SIZE in extension app */
   --max-width-panel: 800px;
+}
+
+@layer base {
+  .landing {
+    --background: oklch(0.993 0.006 95);
+    --foreground: oklch(0.26 0.004 106);
+    --card: oklch(0.985 0.012 92);
+    --card-foreground: oklch(0.26 0.004 106);
+    --popover: oklch(0.993 0.006 95);
+    --popover-foreground: oklch(0.26 0.004 106);
+    --muted: oklch(0.96 0.012 92);
+    --muted-foreground: oklch(0.5 0.01 106);
+    --border: oklch(0.9 0.012 92);
+    --input: oklch(0.9 0.012 92);
+    --secondary: oklch(0.72 0.17 32);
+    --secondary-foreground: oklch(0.25 0.06 32);
+    --landing-tint-violet: oklch(0.94 0.045 293);
+    --landing-tint-coral: oklch(0.94 0.045 32);
+    --landing-tint-sand: oklch(0.95 0.035 85);
+  }
+
+  .dark .landing {
+    --background: oklch(0.141 0.005 285.823);
+    --foreground: oklch(0.985 0 0);
+    --card: oklch(0.21 0.006 285.885);
+    --card-foreground: oklch(0.985 0 0);
+    --popover: oklch(0.21 0.006 285.885);
+    --popover-foreground: oklch(0.985 0 0);
+    --muted: oklch(0.274 0.006 286.033);
+    --muted-foreground: oklch(0.705 0.015 286.067);
+    --border: oklch(1 0 0 / 10%);
+    --input: oklch(1 0 0 / 15%);
+    --secondary: oklch(0.65 0.16 32);
+    --secondary-foreground: oklch(0.985 0 0);
+    --landing-tint-violet: oklch(0.3 0.05 293);
+    --landing-tint-coral: oklch(0.3 0.05 32);
+    --landing-tint-sand: oklch(0.3 0.03 85);
+  }
+
+  .landing :is(h1, h2, h3) {
+    font-family: var(--font-display);
+  }
 }

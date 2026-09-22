@@ -43,7 +43,11 @@ export const metadata: Metadata = {
 
 function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="en" className={cn('dark', manrope.variable)}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={cn('dark', manrope.variable)}
+    >
       <body className="font-sans">
         <AppProviders>{children}</AppProviders>
       </body>
