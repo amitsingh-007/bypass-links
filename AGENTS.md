@@ -39,6 +39,11 @@ pnpm typecheck:all    # Type check all workspaces
 # Testing
 pnpm e2e              # Run Playwright E2E tests
 pnpm e2e:report       # Open the HTML report; its Speedboard tab ranks tests by duration
+
+# Product shots for the Landing page (own Playwright config, never run by pnpm e2e)
+pnpm shots:landing    # Recapture apps/web/public/shots/*.png; starts (or reuses) the
+                      # web and extension dev servers, since the extension dev build
+                      # serves its popup from the WXT dev server on port 3001
 ```
 
 ## Architecture

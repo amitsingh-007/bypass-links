@@ -31,7 +31,7 @@ function PopupShot() {
       priority
       src={POPUP_SHOT}
       alt="The Bypass Links popup"
-      height={330}
+      height={312}
       width={310}
       className="rounded-lg"
     />

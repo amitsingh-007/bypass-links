@@ -18,9 +18,9 @@ function FeatureSlot({
       <Image
         src={shot.src}
         alt={shot.alt}
-        height={600}
-        width={800}
-        className="landing-shadow h-full w-full rounded-lg object-cover object-top"
+        height={270}
+        width={820}
+        className="landing-shadow h-full w-full rounded-lg object-cover object-left-top"
       />
     );
   }

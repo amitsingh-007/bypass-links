@@ -15,6 +15,7 @@ import {
 import {
   type BrowserContext,
   type Page,
+  type ViewportSize,
   type Worker,
   chromium,
   expect,
@@ -29,6 +30,12 @@ const CachedStorageDataSchema = z.object({
   localStorage: z.record(z.string(), z.string()),
 });
 
+/** Product shots need a fixed canvas; tests keep the browser defaults. */
+interface ContextSizeOptions {
+  deviceScaleFactor?: number;
+  viewport?: ViewportSize;
+}
+
 export const getPopupUrl = (extensionId: string) =>
   `chrome-extension://${extensionId}/popup.html`;
 
@@ -37,13 +44,18 @@ export const getPopupUrl = (extensionId: string) =>
  * before the first page opens, and the callers that had to remember it had
  * already forgotten, silently dropping everything the auth setup covers.
  */
-export const launchExtensionContext = async (userDataDir: string) => {
+export const launchExtensionContext = async (
+  userDataDir: string,
+  { deviceScaleFactor, viewport }: ContextSizeOptions = {}
+) => {
   const extensionPath = getExtensionPath();
   setExtensionBuildDir(extensionPath);
   const browserContext = await chromium.launchPersistentContext(userDataDir, {
     channel: 'chromium',
     // Manual launch, so `--headed` has to be read from the project explicitly
     headless: base.info().project.use.headless,
+    deviceScaleFactor,
+    ...(viewport && { viewport }),
     args: [
       `--disable-extensions-except=${extensionPath}`,
       `--load-extension=${extensionPath}`,
@@ -68,12 +80,13 @@ export const loadCachedStorageData = async () => {
  * preserving its Cache Storage. Omit it so no auth state leaks into
  * unauthenticated tests.
  */
-interface TempProfileOptions {
+interface TempProfileOptions extends ContextSizeOptions {
   seedFromCachedProfile?: boolean;
 }
 
 const createTempProfileContext = async ({
   seedFromCachedProfile = false,
+  ...sizeOptions
 }: TempProfileOptions) => {
   // Temp dir rather than the cached profile itself, to avoid locking issues
   const userDataDir = await fs.promises.mkdtemp(
@@ -89,7 +102,10 @@ const createTempProfileContext = async ({
           !/\/(Cache|Code Cache|GPUCache|Dawn\w+Cache)$/.test(source),
       });
     }
-    const browserContext = await launchExtensionContext(userDataDir);
+    const browserContext = await launchExtensionContext(
+      userDataDir,
+      sizeOptions
+    );
     return { browserContext, userDataDir };
   } catch (error) {
     // No caller owns the dir yet, so it would leak if seeding or launch throws
