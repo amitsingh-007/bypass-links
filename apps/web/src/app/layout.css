@@ -48,6 +48,12 @@
     --landing-tint-sand: oklch(0.3 0.03 85);
   }
 
+  .landing-shadow {
+    box-shadow:
+      0 12px 40px rgb(0 0 0 / 0.2),
+      0 2px 8px rgb(0 0 0 / 0.13);
+  }
+
   .landing :is(h1, h2, h3) {
     font-family: var(--font-display);
   }

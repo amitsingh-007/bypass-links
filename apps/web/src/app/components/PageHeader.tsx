@@ -1,24 +1,62 @@
-import { ChromeIcon } from '@hugeicons/core-free-icons';
-import { HugeiconsIcon } from '@hugeicons/react';
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+
+import Image from 'next/image';
+
+import DownloadCta from './DownloadCta';
+
+const POPUP_SHOT = '/shots/popup.png';
+
+function PopupShot() {
+  if (!existsSync(join(process.cwd(), 'public', POPUP_SHOT))) {
+    return (
+      <div
+        role="img"
+        aria-label="Preview of the Bypass Links popup"
+        className="flex h-[330px] w-[310px] items-center justify-center rounded-lg bg-primary/10"
+      >
+        <Image
+          src="/bypass_link_192.png"
+          alt=""
+          height={72}
+          width={72}
+          className="rounded-xl opacity-70"
+        />
+      </div>
+    );
+  }
+
+  return (
+    <Image
+      priority
+      src={POPUP_SHOT}
+      alt="The Bypass Links popup"
+      height={330}
+      width={310}
+      className="rounded-lg"
+    />
+  );
+}
 
 function PageHeader({ chrome }: { chrome: { downloadLink: string } }) {
   return (
-    <section className="flex flex-col items-center justify-center py-24 text-center">
-      <h1 className="max-w-3xl text-5xl/tight font-bold md:text-6xl">
-        Skip the Wait. Bypass Links Instantly.
-      </h1>
-      <p className="mt-6 max-w-xl text-lg text-muted-foreground">
-        Automate link bypassing, skip ads and captchas, and manage bookmarks
-        with person tagging. All in one extension.
-      </p>
-      <div className="mt-10">
-        <a
-          href={chrome.downloadLink}
-          className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-lg border border-transparent bg-primary bg-clip-padding px-5 text-base font-semibold text-primary-foreground transition-all outline-none hover:bg-primary/80 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 [&_svg]:pointer-events-none [&_svg]:shrink-0"
-        >
-          <HugeiconsIcon icon={ChromeIcon} size={20} />
-          Download for Chrome
-        </a>
+    <section className="flex flex-col items-center gap-12 py-16 text-center md:py-24">
+      <div className="flex flex-col items-center gap-6">
+        <h1 className="max-w-3xl text-4xl/tight font-bold lowercase sm:text-5xl/tight md:text-6xl/tight">
+          <span className="block text-primary">straight to the link</span>
+          <span className="block text-secondary">you actually wanted</span>
+        </h1>
+        <p className="max-w-xl text-base text-muted-foreground sm:text-lg">
+          bypass links walks past the timers, captchas and ad gates on supported
+          sites, then gets out of your way.
+        </p>
+        <DownloadCta
+          downloadLink={chrome.downloadLink}
+          note="free and open source, for chrome"
+        />
+      </div>
+      <div className="landing-shadow rounded-xl border border-border bg-card p-3">
+        <PopupShot />
       </div>
     </section>
   );

@@ -1,30 +1,9 @@
 import { GITHUB_REPO_URL } from '@bypass/shared';
-import {
-  Calendar03Icon,
-  GithubIcon,
-  PuzzleIcon,
-} from '@hugeicons/core-free-icons';
+import { GithubIcon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { type ReactNode, Suspense } from 'react';
+import { Suspense } from 'react';
 
 import ReleaseDate from './ReleaseDate';
-
-function Info({
-  icon,
-  text,
-  testId,
-}: {
-  icon: typeof GithubIcon;
-  text: ReactNode;
-  testId: string;
-}) {
-  return (
-    <div className="flex items-center gap-2" data-testid={testId}>
-      <HugeiconsIcon icon={icon} size={20} />
-      <span className="text-sm font-medium">{text}</span>
-    </div>
-  );
-}
 
 function Footer({
   releaseDate,
@@ -34,33 +13,34 @@ function Footer({
   extVersion: string;
 }) {
   return (
-    <footer className="border-t bg-muted/30">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-6">
-        <div className="flex flex-col gap-2">
-          <Info
-            icon={PuzzleIcon}
-            text={`v${extVersion}`}
-            testId="ext-version"
-          />
-          <Info
-            icon={Calendar03Icon}
-            text={
-              <Suspense fallback="Loading...">
-                <ReleaseDate releaseDate={releaseDate} />
-              </Suspense>
-            }
-            testId="ext-release-date"
-          />
+    <footer className="border-t border-border">
+      <div className="mx-auto flex max-w-7xl flex-col items-center gap-4 px-4 py-8 sm:flex-row sm:justify-between">
+        <div className="flex flex-wrap items-center justify-center gap-3 text-sm">
+          <span
+            data-testid="ext-version"
+            className="rounded-full border border-border bg-card px-3 py-1 font-medium"
+          >
+            {`v${extVersion}`}
+          </span>
+          <span
+            data-testid="ext-release-date"
+            className="text-muted-foreground"
+          >
+            <Suspense fallback="Loading...">
+              <ReleaseDate releaseDate={releaseDate} />
+            </Suspense>
+          </span>
         </div>
         <a
           target="_blank"
           href={GITHUB_REPO_URL}
           title="Bypass Links - Github"
-          className="flex size-10 shrink-0 items-center justify-center rounded-full bg-muted transition-colors hover:bg-muted/80"
+          className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-medium transition-colors hover:border-primary/30"
           aria-label="Github Repository Link"
           rel="noreferrer"
         >
-          <HugeiconsIcon icon={GithubIcon} size={24} />
+          <HugeiconsIcon icon={GithubIcon} size={18} />
+          Source on GitHub
         </a>
       </div>
     </footer>
