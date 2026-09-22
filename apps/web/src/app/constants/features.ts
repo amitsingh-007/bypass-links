@@ -10,6 +10,8 @@ interface Feature {
   title: string;
   content: string;
   tint: string;
+  chips?: [string, string];
+  chipFlow?: boolean;
   shot?: { src: string; alt: string };
 }
 
@@ -20,6 +22,8 @@ export const FEATURES: Feature[] = [
     content:
       'supported sites hand over the real destination, past the timers, interstitials and ad walls. on forums you see which links you have already opened, and your own shortcut rules jump straight to the sites you live on.',
     tint: 'landing-tint-violet',
+    chips: ['shortened link', 'real destination'],
+    chipFlow: true,
   },
   {
     icon: CollectionsBookmarkIcon,
@@ -35,5 +39,6 @@ export const FEATURES: Feature[] = [
     content:
       'your bookmarks are encoded on your device before they sync, and the backend stores them that way. history monitoring and autofill controls stay in your browser. mit licensed, all of it readable on github.',
     tint: 'landing-tint-sand',
+    chips: ['encoded on device', 'mit licensed'],
   },
 ];

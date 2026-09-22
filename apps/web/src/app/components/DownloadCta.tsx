@@ -1,23 +1,44 @@
-import { ChromeIcon } from '@hugeicons/core-free-icons';
-import { HugeiconsIcon } from '@hugeicons/react';
+import { GITHUB_REPO_URL } from '@bypass/shared';
+import { cn } from '@bypass/ui/lib/utils';
 
 function DownloadCta({
   downloadLink,
-  note,
+  invert,
 }: {
   downloadLink: string;
-  note?: string;
+  invert?: boolean;
 }) {
   return (
-    <div className="flex flex-col items-center gap-3">
-      <a
-        href={downloadLink}
-        className="landing-shadow inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-full bg-primary px-7 text-base font-semibold text-primary-foreground transition-colors outline-none hover:bg-primary/85 focus-visible:ring-3 focus-visible:ring-ring/50"
-      >
-        <HugeiconsIcon icon={ChromeIcon} size={20} />
-        Download for Chrome
-      </a>
-      {note ? <p className="text-sm text-muted-foreground">{note}</p> : null}
+    <div className="landing-cta-pair">
+      <div>
+        <a
+          href={downloadLink}
+          className={cn('landing-btn', invert && 'landing-btn-invert')}
+        >
+          Download for Chrome
+          <span aria-hidden="true" className="landing-btn-glyph">
+            ↓
+          </span>
+        </a>
+        <p className="landing-note">free and open source, for chrome</p>
+      </div>
+      <div>
+        <a
+          href={GITHUB_REPO_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={cn(
+            'landing-btn',
+            invert ? 'landing-btn-ghost' : 'landing-btn-secondary'
+          )}
+        >
+          View on GitHub
+          <span aria-hidden="true" className="landing-btn-glyph">
+            ↗
+          </span>
+        </a>
+        <p className="landing-note">mit licensed, source on github</p>
+      </div>
     </div>
   );
 }

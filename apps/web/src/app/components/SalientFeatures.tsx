@@ -6,58 +6,77 @@ import Image from 'next/image';
 
 import { FEATURES } from '@app/constants/features';
 
-function FeatureSlot({
+function FeatureArt({
   icon,
+  chips,
+  chipFlow,
   shot,
 }: {
   icon: IconSvgElement;
+  chips?: [string, string];
+  chipFlow?: boolean;
   shot?: { src: string; alt: string };
 }) {
   if (shot && existsSync(join(process.cwd(), 'public', shot.src))) {
     return (
-      <Image
-        src={shot.src}
-        alt={shot.alt}
-        height={270}
-        width={820}
-        className="landing-shadow h-full w-full rounded-lg object-cover object-left-top"
-      />
+      <div className="landing-card-shot">
+        <Image src={shot.src} alt={shot.alt} height={540} width={1640} />
+      </div>
     );
   }
 
   return (
-    <HugeiconsIcon
-      icon={icon}
-      size={72}
-      className="text-primary/70"
-      strokeWidth={1.5}
-    />
+    <div className="landing-art">
+      <span className="landing-art-icon">
+        <HugeiconsIcon icon={icon} size={30} strokeWidth={1.8} />
+      </span>
+      {chips ? (
+        <span className="landing-art-row">
+          <span className="landing-chip">{chips[0]}</span>
+          {chipFlow ? (
+            <span aria-hidden="true" className="landing-art-arrow">
+              →
+            </span>
+          ) : null}
+          <span className="landing-chip">{chips[1]}</span>
+        </span>
+      ) : null}
+    </div>
   );
 }
 
 function SalientFeatures() {
   return (
-    <section id="features" className="scroll-mt-20 py-16">
-      <h2 className="mb-10 text-center text-3xl/tight font-bold lowercase md:text-4xl/tight">
-        what it actually does
-      </h2>
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-        {FEATURES.map(({ title, content, icon, tint, shot }) => (
-          <div
-            key={title}
-            className="flex flex-col gap-5 rounded-xl border border-border bg-card p-5"
-          >
-            <div
-              className={`flex h-44 items-center justify-center overflow-hidden rounded-lg p-4 ${tint}`}
-            >
-              <FeatureSlot icon={icon} shot={shot} />
+    <section id="features" className="landing-container landing-section">
+      <div className="landing-section-head">
+        <h2 className="landing-h2">
+          <span className="block">what it</span>
+          <span className="landing-accent block">actually does</span>
+        </h2>
+        <p className="landing-lede">
+          three things, built for the way a browser is actually used: get to the
+          link, keep what matters, hand nothing over.
+        </p>
+      </div>
+      <div className="landing-grid">
+        {FEATURES.map(
+          ({ title, content, icon, tint, chips, chipFlow, shot }) => (
+            <div key={title} className="landing-card">
+              <div className={`landing-card-art ${tint}`}>
+                <FeatureArt
+                  icon={icon}
+                  chips={chips}
+                  chipFlow={chipFlow}
+                  shot={shot}
+                />
+              </div>
+              <div className="landing-card-body">
+                <h3>{title}</h3>
+                <p>{content}</p>
+              </div>
             </div>
-            <div className="flex flex-col gap-2">
-              <h3 className="text-xl font-bold lowercase">{title}</h3>
-              <p className="text-sm/relaxed text-muted-foreground">{content}</p>
-            </div>
-          </div>
-        ))}
+          )
+        )}
       </div>
     </section>
   );
