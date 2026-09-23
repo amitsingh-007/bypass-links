@@ -16,9 +16,9 @@ function DownloadBand({ downloadLink }: { downloadLink: string }) {
           className="mb-6"
         />
         <h2 className="font-display text-5xl leading-none font-extrabold tracking-tighter md:text-6xl xl:text-7xl">
-          <span className="block">stop waiting</span>
-          <span className="block">on the gate.</span>
-          <span className="text-sand block">install it now.</span>
+          <span className="block">save the link.</span>
+          <span className="block">tag the people.</span>
+          <span className="text-sand block">find it later.</span>
         </h2>
         <DownloadCta invert downloadLink={downloadLink} className="mt-10" />
       </div>

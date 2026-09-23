@@ -26,7 +26,7 @@ function Footer({
           />
           Bypass Links
         </p>
-        <p className="mt-2">links that behave like links again.</p>
+        <p className="mt-2">Bookmarks and browser tools for Chrome.</p>
       </div>
       <div className="flex flex-col items-start gap-3 sm:items-end">
         <div className="flex items-center gap-2.5">
@@ -46,7 +46,7 @@ function Footer({
           target="_blank"
           href={GITHUB_REPO_URL}
           title="Bypass Links - Github"
-          className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-primary transition-colors hover:border-primary"
+          className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-primary transition-colors hover:border-primary dark:text-chart-1"
           rel="noreferrer"
         >
           <HugeiconsIcon icon={GithubIcon} size={16} />

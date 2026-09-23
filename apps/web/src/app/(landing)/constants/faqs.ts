@@ -1,47 +1,63 @@
+import { GITHUB_REPO_URL } from '@bypass/shared';
+
 interface Faq {
   question: string;
   answer: string;
+  link?: { href: string; label: string };
 }
 
 export const FAQS: Faq[] = [
   {
-    question: 'what does bypass links actually do?',
+    question: 'What does Bypass Links do?',
     answer:
-      'it takes you straight to the real destination when a site puts a gate in front of it. countdown timers, interstitials and ad walls stop standing between you and the link, so a link behaves like a link again.',
+      'It is a Chrome extension for keeping and finding links. Save bookmarks in folders, tag them with people, set up URL shortcuts, and open links from supported forum pages in their own tabs.',
   },
   {
-    question: 'which sites are supported?',
+    question: 'Can I sign up?',
     answer:
-      'a curated list, covering the shorteners and forum gates people hit most. the extension keeps it up to date in the background, so new sites arrive without you updating anything. on anything not on the list it stays out of the way and the page loads normally. missing one? open an issue on github and it can be added.',
+      'Not right now. Bypass Links is not open to new sign-ups. Bookmarks, people, shortcuts and forum tools need an existing account, which signs in with Google.',
   },
   {
-    question: 'is it free?',
+    question: 'Is it free?',
     answer:
-      'yes, and it always will be. mit licensed, no accounts to pay for, no tiers, no ads. the entire source is on github if you want to read it.',
+      'Yes. There are no tiers and no ads, and the source is on GitHub under the MIT license.',
   },
   {
-    question: 'how do bookmarks and person tagging work?',
+    question: 'How do bookmarks and person tagging work?',
     answer:
-      'one click saves the current tab into the bookmarks panel. you can attach one or more people to a bookmark, then filter your whole collection down to a single person later. people live in the persons panel with a name and a photo.',
+      'Choose Pin in the popup to open the current tab in the bookmark form. Pick a folder, tag the people it relates to, and save. You can then filter your whole collection by any person. People live in the Persons Panel with a name and a photo.',
   },
   {
-    question: 'is my data private?',
+    question: 'What data does it collect?',
     answer:
-      'your bookmarks are encoded on your device before they sync, and the backend stores them in that form rather than as plain text. sync runs on a firebase backend the maintainer operates, and the account is plain google sign-in. nothing is sold, shared or analysed.',
+      'The extension has no analytics or tracking. Your bookmarks and people sync to the Bypass Links backend under your Google account, and bookmark titles and URLs are encoded on your device before they upload.',
   },
   {
-    question: 'a site stopped working, what do i do?',
+    question: 'Which forums are supported?',
     answer:
-      'sites change their gates without warning, so this happens. open an issue on github with the link you tried and it gets looked at.',
+      'The forum tools work on a set of configured forums, loaded when you sign in. What they can open depends on the forum and the type of page.',
   },
   {
-    question: 'does it work outside chrome?',
+    question: 'What does the History switch do?',
     answer:
-      'chrome only today. other browsers are not ruled out, they are just not built yet.',
+      'While History monitoring is on, turning the switch off clears your browser history for that period, starting 30 seconds before monitoring began. Opening forum links or following a shortcut turns monitoring on.',
   },
   {
-    question: 'will it slow my browsing down?',
+    question: 'How do I install it?',
     answer:
-      'no. the extension sits idle until you land on a site it supports, so every other page loads exactly as it did before.',
+      'The download is a ZIP file. Unzip it, open chrome://extensions, turn on Developer mode, choose Load unpacked, and select the unzipped folder.',
+  },
+  {
+    question: 'Does it work outside Chrome?',
+    answer: 'No. The download is an extension for desktop Chrome.',
+  },
+  {
+    question: 'Something is not working. What should I do?',
+    answer:
+      'Open an issue with the steps to reproduce it. Please leave out any private links.',
+    link: {
+      href: `${GITHUB_REPO_URL}/issues`,
+      label: 'Report a problem on GitHub',
+    },
   },
 ];

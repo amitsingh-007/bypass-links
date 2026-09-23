@@ -7,20 +7,10 @@ interface Feature {
 
 export const FEATURES: Feature[] = [
   {
-    title: ['the gate', 'opens itself'],
+    title: ['find links', 'by person'],
     content:
-      'on supported sites the timers, interstitials and ad walls are skipped for you. you land on the real destination, with nothing to click and nothing to wait out.',
+      'Save bookmarks in folders and tag them with the people they relate to. Filter your whole collection by anyone you have tagged. Pin opens the current tab ready to save.',
     tint: 'bg-tint-violet',
-    rows: [
-      ['↗', 'shrt.lk/x7q2'],
-      ['F', 'field-notes.dev/guide', 'opened directly'],
-    ],
-  },
-  {
-    title: ['bookmarks that', 'know people'],
-    content:
-      'a proper bookmarks panel, not a folder tree you dread. tag a link with the people it belongs to and filter by any of them later. one click saves the current tab.',
-    tint: 'bg-tint-coral',
     rows: [
       ['M', 'Mapping the night sky by hand', 'MC'],
       ['A', 'A field guide to CSS grid', 'MC, LA'],
@@ -28,15 +18,24 @@ export const FEATURES: Feature[] = [
     ],
   },
   {
-    title: ['tuned to how', 'you browse'],
+    title: ['shortcuts', 'you define'],
     content:
-      'write your own shortcut rules, so a short alias opens the site you live on. on supported forums, one click opens every new thread in its own tab. history gets a switch in the popup, and autofill suggestions stay off.',
-    tint: 'bg-tint-sand',
+      'Map a short alias to a full address. When you open the alias, the extension redirects you to the site you set up.',
+    tint: 'bg-tint-coral',
     rows: [
       ['g', 'github.com'],
       ['y', 'youtube.com'],
-      ['H', 'history', 'on'],
-      ['A', 'autofill suggestions', 'off'],
+      ['m', 'mail.google.com'],
+    ],
+  },
+  {
+    title: ['forum tools', 'and history'],
+    content:
+      'On supported forums, the Forum button opens the links from the current page in their own tabs. The History switch clears browser history for the time it was monitoring.',
+    tint: 'bg-tint-sand',
+    rows: [
+      ['F', 'Forum', 'open links'],
+      ['H', 'History', 'on'],
     ],
   },
 ];

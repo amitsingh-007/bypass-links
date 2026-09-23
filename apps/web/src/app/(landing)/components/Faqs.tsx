@@ -9,7 +9,7 @@ function Faqs() {
           <span className="block text-primary">answered</span>
         </h2>
         <div className="lg:col-span-3">
-          {FAQS.map(({ question, answer }) => (
+          {FAQS.map(({ question, answer, link }) => (
             <details key={question} className="group border-b py-5 first:pt-0">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-5 font-semibold [&::-webkit-details-marker]:hidden">
                 {question}
@@ -22,6 +22,19 @@ function Faqs() {
               </summary>
               <p className="mt-4 mr-8 text-sm leading-relaxed text-muted-foreground">
                 {answer}
+                {link && (
+                  <>
+                    {' '}
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="font-semibold text-primary underline-offset-4 hover:underline dark:text-chart-1"
+                    >
+                      {link.label}
+                    </a>
+                  </>
+                )}
               </p>
             </details>
           ))}

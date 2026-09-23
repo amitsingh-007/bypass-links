@@ -30,7 +30,7 @@ function DownloadCta({
           </span>
           Download for Chrome
         </a>
-        <p className={note}>free and open source, for chrome</p>
+        <p className={note}>Desktop Chrome · ZIP download</p>
       </div>
       <div>
         <a
@@ -44,7 +44,7 @@ function DownloadCta({
             ↗
           </span>
         </a>
-        <p className={note}>mit licensed, source on github</p>
+        <p className={note}>MIT licensed</p>
       </div>
     </div>
   );

@@ -34,7 +34,7 @@ test.describe('Download page', () => {
     await expect(
       page.getByRole('heading', {
         level: 1,
-        name: 'straight to the link you actually wanted',
+        name: 'your bookmarks, tagged with people',
       })
     ).toBeVisible();
   });
@@ -126,10 +126,10 @@ test.describe('Download page', () => {
   });
 
   test('faq rows open by click and by keyboard', async ({ page }) => {
-    const answer = page.getByText('yes, and it always will be');
+    const answer = page.getByText('There are no tiers and no ads');
     await expect(answer).toBeHidden();
 
-    const question = page.getByText('is it free?');
+    const question = page.getByText('Is it free?');
     await question.click();
     await expect(answer).toBeVisible();
 

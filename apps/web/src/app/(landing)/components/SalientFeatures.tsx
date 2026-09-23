@@ -13,8 +13,8 @@ function SalientFeatures() {
             <span className="block text-primary">out of the box</span>
           </h2>
           <p className="max-w-78 pb-1 text-muted-foreground">
-            three things, built for the way a browser is actually used: get to
-            the link, keep what matters, bend it to your habits.
+            Three tools in one popup: bookmarks you can find by person,
+            shortcuts you define, and helpers for supported forums.
           </p>
         </div>
         <div className="grid gap-4 lg:grid-cols-3 lg:gap-5">

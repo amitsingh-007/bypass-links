@@ -13,7 +13,7 @@ import SalientFeatures from './components/SalientFeatures';
 
 const title = 'Bypass Links';
 const description =
-  'Web extension to Bypass links to skip ads, links, timers, captchas and private Bookmarks Panel';
+  'A Chrome extension for bookmarks tagged with people, custom URL shortcuts and tools for supported forums.';
 
 export const metadata: Metadata = {
   title,
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
   metadataBase: new URL(clientEnv.NEXT_PUBLIC_HOST_NAME),
   openGraph: {
-    title: `Bypass Links - ${title}`,
+    title,
     description,
     siteName: 'Bypass Links',
     url: '/',

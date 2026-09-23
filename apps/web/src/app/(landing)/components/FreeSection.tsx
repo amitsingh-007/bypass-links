@@ -1,8 +1,8 @@
 import {
   Bookmark02Icon,
+  BubbleChatIcon,
   GithubIcon,
   Link01Icon,
-  LaptopIcon,
 } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 
@@ -10,24 +10,24 @@ import BrandChevrons from './BrandChevrons';
 
 const INCLUDED = [
   {
-    icon: Link01Icon,
-    tint: 'bg-tint-violet dark:text-violet-300',
-    label: 'skips gates on supported sites',
-  },
-  {
     icon: Bookmark02Icon,
-    tint: 'bg-tint-coral dark:text-secondary',
-    label: 'bookmarks and persons, synced',
+    tint: 'bg-tint-violet dark:text-chart-1',
+    label: 'Bookmarks tagged with people',
   },
   {
-    icon: LaptopIcon,
+    icon: Link01Icon,
+    tint: 'bg-tint-coral dark:text-secondary',
+    label: 'Custom URL shortcuts',
+  },
+  {
+    icon: BubbleChatIcon,
     tint: 'bg-tint-sand dark:text-sand',
-    label: 'encoded on your device before sync',
+    label: 'Forum tools and history controls',
   },
   {
     icon: GithubIcon,
-    tint: 'bg-tint-violet dark:text-violet-300',
-    label: 'mit licensed, source on github',
+    tint: 'bg-tint-violet dark:text-chart-1',
+    label: 'MIT licensed, source on GitHub',
   },
 ];
 
@@ -47,7 +47,7 @@ function FreeSection({ downloadLink }: { downloadLink: string }) {
               for keeps.
             </p>
             <p className="mt-5 text-lg dark:text-white/80">
-              no tiers, no trial, no ads. install it and it is yours.
+              No tiers, no trial, no ads.
             </p>
             <a
               href={downloadLink}
@@ -61,7 +61,7 @@ function FreeSection({ downloadLink }: { downloadLink: string }) {
           </div>
           <div className="px-6 py-8 sm:p-12 lg:col-span-3">
             <h3 className="font-display flex items-center gap-4 text-2xl leading-tight font-extrabold tracking-tighter sm:text-3xl">
-              all of it, for everyone
+              all in one popup
               <span
                 aria-hidden="true"
                 className="bg-sand text-sand-ink grid size-12 flex-none place-items-center rounded-full"

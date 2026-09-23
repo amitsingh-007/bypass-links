@@ -69,12 +69,12 @@ function PageHeader({ downloadLink }: { downloadLink: string }) {
     <section className="mx-auto max-w-7xl px-5 pt-5 pb-3 sm:px-8 sm:pt-8 lg:px-12">
       <div className="mb-9 grid items-center gap-x-10 xl:grid-cols-[1fr_32rem]">
         <h1 className="font-display text-4xl leading-none font-extrabold tracking-tighter md:text-5xl xl:text-6xl">
-          <span className="block">straight to the link</span>
-          <span className="block text-primary">you actually wanted</span>
+          <span className="block">your bookmarks,</span>
+          <span className="block text-primary">tagged with people</span>
         </h1>
         <p className="col-span-full mt-4 max-w-160 text-pretty text-muted-foreground sm:text-lg">
-          bypass links walks past the timers, interstitials and ad gates on
-          supported sites, then gets out of your way.
+          A Chrome extension for bookmarks you can find by person, URL shortcuts
+          you define, and tools for supported forums.
         </p>
         <DownloadCta
           downloadLink={downloadLink}
@@ -83,7 +83,7 @@ function PageHeader({ downloadLink }: { downloadLink: string }) {
       </div>
       <BrowserWindow />
       <p className="mt-3 text-right text-sm text-muted-foreground">
-        the popup, one click from the toolbar
+        The popup and Bookmarks Panel, shown with sample data.
       </p>
     </section>
   );

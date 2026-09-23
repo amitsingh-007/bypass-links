@@ -9,7 +9,7 @@ export const ROOT_METADATA: Metadata = {
     template: 'Bypass Links - %s',
     default: 'Bypass Links',
   },
-  keywords: ['Bypass Links', 'Link bypasser', 'Bookmarks panel'],
+  keywords: ['Bypass Links', 'Bookmarks panel', 'URL shortcuts'],
   applicationName: 'Bypass Links',
   manifest: '/manifest.webmanifest.json',
   icons: {
