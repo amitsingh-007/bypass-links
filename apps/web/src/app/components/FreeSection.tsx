@@ -78,10 +78,6 @@ function FreeSection({ downloadLink }: { downloadLink: string }) {
             </ul>
           </div>
         </div>
-        <div className="landing-fineprint">
-          <p>chrome only for now.</p>
-          <p>signing in with google loads the site list and syncs your data.</p>
-        </div>
       </div>
     </section>
   );

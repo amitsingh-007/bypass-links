@@ -705,7 +705,7 @@
   }
 
   .landing-free {
-    padding-block: 76px 58px;
+    padding-block: 76px;
     background-color: var(--landing-free-bg);
   }
 
@@ -840,14 +840,6 @@
     color: rgb(255 253 249 / 0.78);
   }
 
-  .landing-fineprint {
-    margin-top: 32px;
-    font-size: 13px;
-    line-height: 1.8;
-    text-align: center;
-    color: var(--muted-foreground);
-  }
-
   .landing-faq {
     padding-block: 110px;
     background-color: var(--background);
@@ -944,13 +936,12 @@
 
   .landing-band-glyph {
     position: absolute;
-    right: -50px;
-    bottom: -190px;
-    font-family: var(--font-display);
-    font-size: 600px;
-    line-height: 1;
-    color: rgb(255 255 255 / 0.07);
-    transform: rotate(-17deg);
+    top: 50%;
+    right: 3%;
+    width: 520px;
+    height: 520px;
+    color: rgb(255 255 255 / 0.12);
+    transform: translateY(-50%) rotate(-12deg);
     pointer-events: none;
   }
 
@@ -1170,7 +1161,7 @@
     }
 
     .landing-free {
-      padding-block: 60px 48px;
+      padding-block: 60px;
     }
 
     .landing-free-title {
@@ -1200,9 +1191,11 @@
     }
 
     .landing-band-glyph {
-      right: -70px;
-      bottom: -90px;
-      font-size: 310px;
+      top: 20px;
+      right: -36px;
+      width: 190px;
+      height: 190px;
+      transform: rotate(-12deg);
     }
 
     .landing-footer {
