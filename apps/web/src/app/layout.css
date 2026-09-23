@@ -777,6 +777,10 @@
     color: #5c3408;
   }
 
+  .landing-ticket-seal-mark {
+    width: 26px;
+  }
+
   .landing-ticket-list ul {
     display: grid;
     gap: 18px;
@@ -936,12 +940,11 @@
 
   .landing-band-glyph {
     position: absolute;
-    top: 50%;
-    right: 3%;
-    width: 520px;
-    height: 520px;
-    color: rgb(255 255 255 / 0.12);
-    transform: translateY(-50%) rotate(-12deg);
+    right: -36px;
+    bottom: -18px;
+    width: min(440px, 34vw);
+    color: rgb(255 255 255 / 0.2);
+    transform: rotate(-14deg);
     pointer-events: none;
   }
 
@@ -1191,11 +1194,10 @@
     }
 
     .landing-band-glyph {
-      top: 20px;
-      right: -36px;
-      width: 190px;
-      height: 190px;
-      transform: rotate(-12deg);
+      top: 18px;
+      right: -46px;
+      bottom: auto;
+      width: 210px;
     }
 
     .landing-footer {

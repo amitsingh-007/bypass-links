@@ -1,19 +1,12 @@
-import { ArrowRightDoubleIcon } from '@hugeicons/core-free-icons';
-import { HugeiconsIcon } from '@hugeicons/react';
 import Image from 'next/image';
 
+import BrandChevrons from './BrandChevrons';
 import DownloadCta from './DownloadCta';
 
 function DownloadBand({ downloadLink }: { downloadLink: string }) {
   return (
     <section className="landing-band">
-      <HugeiconsIcon
-        aria-hidden="true"
-        icon={ArrowRightDoubleIcon}
-        size={520}
-        strokeWidth={2}
-        className="landing-band-glyph"
-      />
+      <BrandChevrons className="landing-band-glyph" />
       <div className="landing-container-wide landing-band-inner">
         <Image
           src="/bypass_link_192.png"

@@ -1,11 +1,12 @@
 import {
-  ArrowRightDoubleIcon,
   Bookmark02Icon,
   GithubIcon,
   Link01Icon,
   LaptopIcon,
 } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
+
+import BrandChevrons from './BrandChevrons';
 
 const INCLUDED = [
   {
@@ -59,11 +60,7 @@ function FreeSection({ downloadLink }: { downloadLink: string }) {
             <h3>
               all of it, for everyone
               <span aria-hidden="true" className="landing-ticket-seal">
-                <HugeiconsIcon
-                  icon={ArrowRightDoubleIcon}
-                  size={24}
-                  strokeWidth={2.2}
-                />
+                <BrandChevrons className="landing-ticket-seal-mark" />
               </span>
             </h3>
             <ul>
