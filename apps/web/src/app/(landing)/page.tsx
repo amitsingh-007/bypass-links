@@ -1,15 +1,19 @@
 import { getLatestExtension } from '@bypass/trpc/edge';
 import { type Metadata } from 'next';
 
+import { clientEnv } from '@app/constants/env/client';
+
 import AppHeader from './components/AppHeader';
+import DownloadBand from './components/DownloadBand';
+import Faqs from './components/Faqs';
 import Footer from './components/Footer';
+import FreeSection from './components/FreeSection';
 import PageHeader from './components/PageHeader';
 import SalientFeatures from './components/SalientFeatures';
-import { clientEnv } from './constants/env/client';
 
 const title = 'Bypass Links';
 const description =
-  'Web extension to Bypass links to skip ads, links, timers, captchas and private Bookmarks Panel';
+  'A Chrome extension for bookmarks tagged with people, custom URL shortcuts and tools for supported forums.';
 
 export const metadata: Metadata = {
   title,
@@ -19,7 +23,7 @@ export const metadata: Metadata = {
   },
   metadataBase: new URL(clientEnv.NEXT_PUBLIC_HOST_NAME),
   openGraph: {
-    title: `Bypass Links - ${title}`,
+    title,
     description,
     siteName: 'Bypass Links',
     url: '/',
@@ -31,13 +35,16 @@ export default async function Home() {
   const { chrome } = await getLatestExtension();
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <>
       <AppHeader />
-      <main className="mx-auto w-full max-w-7xl flex-1 px-4">
-        <PageHeader chrome={chrome} />
+      <main>
+        <PageHeader downloadLink={chrome.downloadLink} />
         <SalientFeatures />
+        <FreeSection downloadLink={chrome.downloadLink} />
+        <Faqs />
+        <DownloadBand downloadLink={chrome.downloadLink} />
       </main>
       <Footer releaseDate={chrome.date} extVersion={chrome.version} />
-    </div>
+    </>
   );
 }

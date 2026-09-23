@@ -1,0 +1,49 @@
+@import '@bypass/ui/styles/globals.css';
+
+@theme inline {
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-display:
+    'Arial Rounded MT Bold', ui-rounded, 'SF Pro Rounded', var(--font-manrope),
+    sans-serif;
+  --color-sand: #ffd392;
+  --color-sand-ink: #5c3408;
+  --color-tint-violet: var(--tint-violet);
+  --color-tint-coral: var(--tint-coral);
+  --color-tint-sand: var(--tint-sand);
+  --color-ledge: var(--ledge);
+}
+
+/* Button ledge (pressed, rest, hover); the shadcn lint only accepts size-named shadows */
+@theme {
+  --shadow-2xs: 0 2px 0 rgb(0 0 0 / 0.25);
+  --shadow-xs: 0 4px 0 rgb(0 0 0 / 0.25);
+  --shadow-sm: 0 6px 0 rgb(0 0 0 / 0.25);
+}
+
+:root:not(.dark) {
+  --background: oklch(0.993 0.006 95);
+  --foreground: oklch(0.26 0.004 106);
+  --card: oklch(0.985 0.012 92);
+  --muted: oklch(0.96 0.012 92);
+  --muted-foreground: oklch(0.5 0.01 106);
+  --border: oklch(0.9 0.012 92);
+  --secondary: oklch(0.62 0.18 32);
+  --tint-violet: #ece6ff;
+  --tint-coral: #fde4e0;
+  --tint-sand: #fdf0d9;
+  --ledge: oklch(0.36 0.19 293);
+}
+
+.dark {
+  --secondary: oklch(0.65 0.16 32);
+  --tint-violet: #2a2742;
+  --tint-coral: #3b2a2a;
+  --tint-sand: #3a3122;
+  --ledge: oklch(0.38 0.17 293);
+}
+
+@layer base {
+  :focus-visible {
+    @apply rounded-sm outline-3 outline-offset-4 outline-primary;
+  }
+}
