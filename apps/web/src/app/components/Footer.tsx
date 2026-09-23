@@ -8,7 +8,7 @@ import {
   BRAND,
   BRAND_MARK,
   CONTAINER,
-  FOCUS_RING,
+  FOCUS_RING_ROUNDED,
 } from '@app/constants/landing';
 
 import ReleaseDate from './ReleaseDate';
@@ -57,7 +57,7 @@ function Footer({
           target="_blank"
           href={GITHUB_REPO_URL}
           title="Bypass Links - Github"
-          className={`ease-landing inline-flex items-center gap-1.5 rounded-full border px-3 py-1.25 text-primary transition-colors hover:border-primary focus-visible:rounded-sm motion-reduce:transition-none ${FOCUS_RING}`}
+          className={`ease-landing inline-flex items-center gap-1.5 rounded-full border px-3 py-1.25 text-primary transition-colors hover:border-primary motion-reduce:transition-none ${FOCUS_RING_ROUNDED}`}
           aria-label="Github Repository Link"
           rel="noreferrer"
         >

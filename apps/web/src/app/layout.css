@@ -10,10 +10,11 @@
   /* Same as MAX_PANEL_SIZE in extension app */
   --max-width-panel: 800px;
 
-  --breakpoint-landing-xs: 27.5rem;
-  --breakpoint-landing-sm: 32.5rem;
-  --breakpoint-landing-md: 62.5rem;
-  --breakpoint-landing-lg: 71.25rem;
+  /* 1px past 440/520/1000/1140px so max-* keeps max-width's inclusive edge */
+  --breakpoint-landing-xs: 27.5625rem;
+  --breakpoint-landing-sm: 32.5625rem;
+  --breakpoint-landing-md: 62.5625rem;
+  --breakpoint-landing-lg: 71.3125rem;
 
   --color-landing-tint-violet: var(--landing-tint-violet);
   --color-landing-tint-coral: var(--landing-tint-coral);

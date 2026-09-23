@@ -10,6 +10,8 @@ const FOCUS_OUTLINE = 'focus-visible:outline-3 focus-visible:outline-offset-5';
 
 export const FOCUS_RING = `${FOCUS_OUTLINE} focus-visible:outline-primary`;
 
+export const FOCUS_RING_ROUNDED = `${FOCUS_RING} focus-visible:rounded-sm`;
+
 export const HEADING =
   'font-display text-(length:--text-landing-display) leading-landing-display font-extrabold tracking-landing-display';
 

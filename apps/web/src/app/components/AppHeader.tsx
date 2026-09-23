@@ -11,11 +11,11 @@ import {
   BRAND,
   BRAND_MARK,
   CONTAINER,
-  FOCUS_RING,
+  FOCUS_RING_ROUNDED,
 } from '@app/constants/landing';
 import { WEB_ROUTES } from '@app/constants/routes';
 
-const NAV_LINK = `py-3 text-foreground transition-colors ease-landing hover:text-primary focus-visible:rounded-sm motion-reduce:transition-none ${FOCUS_RING}`;
+const NAV_LINK = `py-3 text-foreground transition-colors ease-landing hover:text-primary motion-reduce:transition-none ${FOCUS_RING_ROUNDED}`;
 
 const subscribe = () => () => {};
 
@@ -61,7 +61,7 @@ function AppHeader() {
     >
       <button
         type="button"
-        className={`${BRAND} ${FOCUS_RING} tracking-landing-brand text-(length:--text-landing-43) focus-visible:rounded-sm`}
+        className={`${BRAND} ${FOCUS_RING_ROUNDED} tracking-landing-brand text-(length:--text-landing-43)`}
         onClick={handleLogoClick}
       >
         <Image
