@@ -1,0 +1,8 @@
+{
+  "tailwind": {
+    "css": "layout.css"
+  },
+  "aliases": {
+    "ui": "@bypass/ui/components/ui"
+  }
+}

@@ -22,6 +22,7 @@
     "@vercel/speed-insights": "catalog:",
     "firebase": "catalog:",
     "next": "catalog:",
+    "next-themes": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
     "sharp": "catalog:",

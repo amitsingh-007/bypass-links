@@ -1,6 +1,7 @@
 @import '@bypass/ui/styles/globals.css';
 
-@source '../**/*.{ts,tsx}';
+@source '../../**/*.{ts,tsx}';
+@source not '../(landing)';
 
 @theme inline {
   --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
