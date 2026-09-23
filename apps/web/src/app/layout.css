@@ -394,14 +394,17 @@
 
   .landing-window-body {
     position: relative;
-    aspect-ratio: 800 / 390;
-    background-color: var(--landing-panel);
+    height: 520px;
+    overflow: hidden;
+    background: linear-gradient(#222223, #222223) 0 55px / 100% 1px no-repeat
+      var(--landing-panel);
   }
 
   .landing-window-page {
     display: block;
-    width: 100%;
-    height: 100%;
+    width: 800px;
+    max-width: none;
+    height: 520px;
     object-fit: cover;
     object-position: left top;
   }
@@ -410,7 +413,7 @@
     position: absolute;
     top: 11px;
     right: 12px;
-    width: clamp(160px, 29%, 340px);
+    width: 310px;
     border-radius: 12px;
     background-color: var(--landing-panel);
     box-shadow:
@@ -1010,6 +1013,82 @@
     }
   }
 
+  @media (max-width: 639px) {
+    .landing-window {
+      border-radius: 12px;
+    }
+
+    .landing-window-tabs {
+      gap: 12px;
+      height: 34px;
+      padding-inline: 12px;
+    }
+
+    .landing-window-dots {
+      gap: 5px;
+    }
+
+    .landing-window-dots i {
+      width: 8px;
+      height: 8px;
+    }
+
+    .landing-window-tab {
+      gap: 6px;
+      width: 132px;
+      height: 26px;
+      padding-inline: 10px;
+      border-radius: 8px 8px 0 0;
+      font-size: 11px;
+    }
+
+    .landing-window-tab img {
+      width: 12px;
+      height: 12px;
+    }
+
+    .landing-window-toolbar {
+      gap: 8px;
+      padding: 6px 8px;
+    }
+
+    .landing-window-address {
+      padding: 6px 12px;
+      font-size: 11.5px;
+      line-height: 16px;
+    }
+
+    .landing-window-ext {
+      width: 26px;
+      height: 26px;
+      border-radius: 7px;
+    }
+
+    .landing-window-ext img {
+      width: 14px;
+      height: 14px;
+    }
+
+    .landing-window-body {
+      display: flex;
+      justify-content: center;
+      height: auto;
+      padding: 11px 8px 16px;
+      background-image: none;
+    }
+
+    .landing-window-page {
+      display: none;
+    }
+
+    .landing-window-popup {
+      position: relative;
+      top: auto;
+      right: auto;
+      max-width: 100%;
+    }
+  }
+
   @media (max-width: 520px) {
     .landing-container,
     .landing-container-wide {
@@ -1054,33 +1133,6 @@
 
     .landing-note {
       margin-top: 12px;
-    }
-
-    .landing-window {
-      border-radius: 12px;
-    }
-
-    .landing-window-tab {
-      width: 150px;
-    }
-
-    .landing-window-body {
-      aspect-ratio: 800 / 560;
-    }
-
-    .landing-window-popup {
-      top: 9px;
-      right: 8px;
-      width: 50%;
-      border-radius: 8px;
-    }
-
-    .landing-window-popup::before {
-      right: 13px;
-    }
-
-    .landing-window-popup-shot {
-      border-radius: 8px;
     }
 
     .landing-free {
