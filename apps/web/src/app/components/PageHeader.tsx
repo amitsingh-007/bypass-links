@@ -98,7 +98,7 @@ function PageHeader({ chrome }: { chrome: { downloadLink: string } }) {
       </div>
       <BrowserWindow />
       <p className="landing-window-caption">
-        the popup, open over the bookmarks panel
+        the popup, one click from the toolbar
       </p>
     </section>
   );

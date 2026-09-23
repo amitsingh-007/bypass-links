@@ -394,7 +394,7 @@
 
   .landing-window-body {
     position: relative;
-    height: 520px;
+    height: 380px;
     overflow: hidden;
     background: linear-gradient(#222223, #222223) 0 55px / 100% 1px no-repeat
       var(--landing-panel);
@@ -404,7 +404,7 @@
     display: block;
     width: 800px;
     max-width: none;
-    height: 520px;
+    height: 380px;
     object-fit: cover;
     object-position: left top;
   }
