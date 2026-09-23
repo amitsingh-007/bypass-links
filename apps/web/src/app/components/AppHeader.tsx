@@ -16,6 +16,7 @@ function ThemeToggle() {
     <button
       type="button"
       aria-label="Toggle theme"
+      aria-pressed={resolvedTheme === 'dark'}
       title="Toggle theme"
       className="landing-theme-toggle"
       onClick={() => {
@@ -45,7 +46,7 @@ function AppHeader() {
         <Image
           priority
           src="/bypass_link_192.png"
-          alt="Bypass Links"
+          alt=""
           height={64}
           width={64}
         />

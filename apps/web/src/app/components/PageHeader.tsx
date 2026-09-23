@@ -1,44 +1,6 @@
-import { existsSync } from 'node:fs';
-import { join } from 'node:path';
-
 import Image from 'next/image';
 
 import DownloadCta from './DownloadCta';
-
-function Shot({
-  src,
-  alt,
-  width,
-  height,
-  className,
-}: {
-  src: string;
-  alt: string;
-  width: number;
-  height: number;
-  className: string;
-}) {
-  if (!existsSync(join(process.cwd(), 'public', src))) {
-    return (
-      <div
-        role="img"
-        aria-label={alt}
-        className={`${className} landing-tint-violet`}
-      />
-    );
-  }
-
-  return (
-    <Image
-      priority
-      src={src}
-      alt={alt}
-      width={width}
-      height={height}
-      className={className}
-    />
-  );
-}
 
 const THEMES = [
   { suffix: '', className: 'landing-shot-dark' },
@@ -67,7 +29,8 @@ function BrowserWindow() {
       </div>
       <div className="landing-window-body">
         {THEMES.map(({ suffix, className }) => (
-          <Shot
+          <Image
+            priority
             key={suffix}
             src={`/shots/bookmarks${suffix}.png`}
             alt="The Bookmarks Panel"
@@ -78,7 +41,8 @@ function BrowserWindow() {
         ))}
         <div className="landing-window-popup">
           {THEMES.map(({ suffix, className }) => (
-            <Shot
+            <Image
+              priority
               key={suffix}
               src={`/shots/popup${suffix}.png`}
               alt="The Bypass Links popup"

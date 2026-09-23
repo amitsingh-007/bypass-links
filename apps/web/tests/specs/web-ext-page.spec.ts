@@ -6,7 +6,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('Web Ext page', () => {
   test('opens web-ext page by clicking header', async ({ page }) => {
-    const appIcon = page.getByAltText('Bypass Links', { exact: true });
+    const appIcon = page.getByRole('button', { name: 'Bypass Links' });
     await appIcon.click({ clickCount: 5 });
     await page.waitForURL('/web-ext');
     await expect(page.getByTestId('header-badge')).toHaveText(

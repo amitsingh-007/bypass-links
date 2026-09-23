@@ -158,4 +158,22 @@ test.describe('Download page', () => {
       await expect.poll(() => isImageLoaded(page, alt)).toBe(true);
     }
   });
+
+  test('mobile popup fits in both landing themes', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+
+    for (const dark of [false, true]) {
+      await setTheme(page, dark);
+      await expect(
+        page.getByRole('button', { name: 'Bypass Links' })
+      ).toBeVisible();
+      await expect(
+        page.getByAltText('The Bypass Links popup').filter({ visible: true })
+      ).toBeVisible();
+      await expect(page.getByText('Bookmarks', { exact: true })).toBeHidden();
+      expect(
+        await page.evaluate(() => document.documentElement.scrollWidth)
+      ).toBe(390);
+    }
+  });
 });

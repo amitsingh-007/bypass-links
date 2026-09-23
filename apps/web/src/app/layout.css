@@ -145,6 +145,13 @@
     outline-offset: 5px;
   }
 
+  .landing
+    :is(.landing-brand, .landing-nav a, .landing-footer-link):focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 5px;
+    border-radius: 6px;
+  }
+
   @media (hover: none) {
     .landing-btn:hover,
     .landing-btn:active {
@@ -1052,63 +1059,17 @@
       border-radius: 12px;
     }
 
-    .landing-window-tabs {
-      gap: 12px;
-      height: 34px;
-      padding-inline: 12px;
-    }
-
-    .landing-window-dots {
-      gap: 5px;
-    }
-
-    .landing-window-dots i {
-      width: 8px;
-      height: 8px;
-    }
-
-    .landing-window-tab {
-      gap: 6px;
-      width: 132px;
-      height: 26px;
-      padding-inline: 10px;
-      border-radius: 8px 8px 0 0;
-      font-size: 11px;
-    }
-
-    .landing-window-tab img {
-      width: 12px;
-      height: 12px;
-    }
-
+    .landing-window-tabs,
     .landing-window-toolbar {
-      gap: 8px;
-      padding: 6px 8px;
-    }
-
-    .landing-window-address {
-      padding: 6px 12px;
-      font-size: 11.5px;
-      line-height: 16px;
-    }
-
-    .landing-window-ext {
-      width: 26px;
-      height: 26px;
-      border-radius: 7px;
-    }
-
-    .landing-window-ext img {
-      width: 14px;
-      height: 14px;
+      display: none;
     }
 
     .landing-window-body {
       display: flex;
       justify-content: center;
       height: auto;
-      padding: 11px 8px 16px;
-      background-image: none;
+      padding: 24px 8px;
+      background: var(--landing-tint-violet);
     }
 
     .landing-window-page {
@@ -1120,6 +1081,10 @@
       top: auto;
       right: auto;
       max-width: 100%;
+    }
+
+    .landing-window-popup::before {
+      display: none;
     }
   }
 
@@ -1138,8 +1103,9 @@
       gap: 8px;
     }
 
-    .landing-brand span {
-      display: none;
+    .landing-brand {
+      font-size: 25px;
+      letter-spacing: -1.5px;
     }
 
     .landing-theme-toggle {
@@ -1214,6 +1180,20 @@
     .landing-cta-pair {
       grid-template-columns: minmax(0, 1fr);
       gap: 14px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .landing
+      :is(
+        .landing-btn,
+        .landing-brand img,
+        .landing-nav a,
+        .landing-theme-toggle,
+        .landing-faq-plus,
+        .landing-footer-link
+      ) {
+      transition: none;
     }
   }
 }
