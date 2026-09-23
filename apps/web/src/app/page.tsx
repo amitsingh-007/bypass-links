@@ -36,7 +36,7 @@ export default async function Home() {
 
   return (
     <LandingShell>
-      <AppHeader downloadLink={chrome.downloadLink} />
+      <AppHeader />
       <main className="flex-1">
         <PageHeader chrome={chrome} />
         <SalientFeatures />

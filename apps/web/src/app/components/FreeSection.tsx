@@ -1,4 +1,5 @@
 import {
+  ArrowRightDoubleIcon,
   Bookmark02Icon,
   GithubIcon,
   Link01Icon,
@@ -9,22 +10,22 @@ import { HugeiconsIcon } from '@hugeicons/react';
 const INCLUDED = [
   {
     icon: Link01Icon,
-    tint: 'landing-tint-violet',
+    tint: 'landing-perk-violet',
     label: 'skips gates on supported sites',
   },
   {
     icon: Bookmark02Icon,
-    tint: 'landing-tint-coral',
+    tint: 'landing-perk-coral',
     label: 'bookmarks and persons, synced',
   },
   {
     icon: LaptopIcon,
-    tint: 'landing-tint-sand',
+    tint: 'landing-perk-sand',
     label: 'encoded on your device before sync',
   },
   {
     icon: GithubIcon,
-    tint: 'landing-tint-violet',
+    tint: 'landing-perk-violet',
     label: 'mit licensed, source on github',
   },
 ];
@@ -58,7 +59,11 @@ function FreeSection({ downloadLink }: { downloadLink: string }) {
             <h3>
               all of it, for everyone
               <span aria-hidden="true" className="landing-ticket-seal">
-                »
+                <HugeiconsIcon
+                  icon={ArrowRightDoubleIcon}
+                  size={24}
+                  strokeWidth={2.2}
+                />
               </span>
             </h3>
             <ul>

@@ -62,7 +62,7 @@
     --landing-tint-sand: #3a3122;
     --landing-surface: #1f2024;
     --landing-free-bg: #1c1d21;
-    --landing-stub: #4a3a1f;
+    --landing-stub: #2a2148;
     --landing-stub-ink: #ffd392;
     --landing-soft: #303136;
     --landing-line: #393b40;
@@ -771,8 +771,6 @@
     height: 48px;
     border-radius: 999px;
     background-color: var(--landing-sand);
-    font-size: 28px;
-    line-height: 1;
     color: #5c3408;
   }
 
@@ -798,6 +796,45 @@
     height: 38px;
     border-radius: 10px;
     color: var(--primary);
+  }
+
+  .landing-perk-violet {
+    background-color: var(--landing-tint-violet);
+  }
+
+  .landing-perk-coral {
+    background-color: var(--landing-tint-coral);
+  }
+
+  .landing-perk-sand {
+    background-color: var(--landing-tint-sand);
+  }
+
+  .dark .landing-perk-violet {
+    background-color: rgb(139 92 246 / 0.18);
+    color: #b9a3ff;
+  }
+
+  .dark .landing-perk-coral {
+    background-color: rgb(255 122 100 / 0.16);
+    color: #ff9c87;
+  }
+
+  .dark .landing-perk-sand {
+    background-color: rgb(255 211 146 / 0.14);
+    color: #ffd392;
+  }
+
+  .dark .landing-ticket-stub {
+    background-image: radial-gradient(
+      120% 90% at 0% 0%,
+      rgb(139 92 246 / 0.32),
+      transparent 60%
+    );
+  }
+
+  .dark .landing-ticket-line {
+    color: rgb(255 253 249 / 0.78);
   }
 
   .landing-fineprint {

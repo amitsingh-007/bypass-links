@@ -9,8 +9,6 @@ import { useRef } from 'react';
 
 import { WEB_ROUTES } from '@app/constants/routes';
 
-import HeaderButtons from './HeaderButtons';
-
 function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
 
@@ -30,7 +28,7 @@ function ThemeToggle() {
   );
 }
 
-function AppHeader({ downloadLink }: { downloadLink: string }) {
+function AppHeader() {
   const router = useRouter();
   const clickCount = useRef(0);
 
@@ -58,7 +56,6 @@ function AppHeader({ downloadLink }: { downloadLink: string }) {
           <a href="#features">Features</a>
           <a href="#faq">FAQ</a>
         </nav>
-        <HeaderButtons downloadLink={downloadLink} />
         <ThemeToggle />
       </div>
     </header>
