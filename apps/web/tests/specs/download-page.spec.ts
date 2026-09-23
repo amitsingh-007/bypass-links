@@ -112,6 +112,19 @@ test.describe('Download page', () => {
     expect(await isDark(page)).toBe(true);
   });
 
+  test('panels stay dark after a client-side hop from the light landing', async ({
+    page,
+  }) => {
+    await setTheme(page, false);
+
+    await page
+      .getByRole('button', { name: 'Bypass Links' })
+      .click({ clickCount: 5 });
+    await page.waitForURL('/web-ext');
+    await expect(page.getByTestId('header-badge')).toBeVisible();
+    expect(await isDark(page)).toBe(true);
+  });
+
   test('faq rows open by click and by keyboard', async ({ page }) => {
     const answer = page.getByText('yes, and it always will be');
     await expect(answer).toBeHidden();

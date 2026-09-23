@@ -1,25 +1,31 @@
 import { GITHUB_REPO_URL } from '@bypass/shared';
-import { cn } from '@bypass/ui/lib/utils';
+
+import { BUTTON, BUTTON_GLYPH, BUTTON_INVERT } from '@app/constants/landing';
 
 function DownloadCta({
   downloadLink,
   invert,
+  className = '',
 }: {
   downloadLink: string;
   invert?: boolean;
+  className?: string;
 }) {
-  const buttonClass = cn('landing-btn', invert && 'landing-btn-invert');
+  const buttonClass = `${invert ? BUTTON_INVERT : BUTTON} w-full`;
+  const noteClass = `mt-4 text-center text-(length:--text-landing-13) leading-normal max-landing-sm:mt-3 ${invert ? 'text-landing-band-fg/75' : 'text-muted-foreground'}`;
 
   return (
-    <div className="landing-cta-pair">
+    <div
+      className={`max-landing-xs:grid-cols-1 max-landing-xs:gap-3.5 grid w-[min(100%,520px)] grid-cols-2 gap-4.5 ${className}`}
+    >
       <div>
         <a href={downloadLink} className={buttonClass}>
-          <span aria-hidden="true" className="landing-btn-glyph">
+          <span aria-hidden="true" className={BUTTON_GLYPH}>
             ↓
           </span>
           Download for Chrome
         </a>
-        <p className="landing-note">free and open source, for chrome</p>
+        <p className={noteClass}>free and open source, for chrome</p>
       </div>
       <div>
         <a
@@ -29,11 +35,11 @@ function DownloadCta({
           className={buttonClass}
         >
           View on GitHub
-          <span aria-hidden="true" className="landing-btn-glyph">
+          <span aria-hidden="true" className={BUTTON_GLYPH}>
             ↗
           </span>
         </a>
-        <p className="landing-note">mit licensed, source on github</p>
+        <p className={noteClass}>mit licensed, source on github</p>
       </div>
     </div>
   );

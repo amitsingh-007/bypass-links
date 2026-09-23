@@ -12,7 +12,10 @@
       "rootDir": "apps/web/"
     },
     "tailwindcss": {
-      "entryPoint": "packages/ui/src/styles/globals.css"
+      "entryPoint": [
+        { "files": "apps/web/**", "use": "apps/web/src/app/layout.css" },
+        { "files": "**", "use": "packages/ui/src/styles/globals.css" }
+      ]
     },
     "shadcn": {
       "ui": "@bypass/ui"
