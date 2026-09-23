@@ -4,13 +4,6 @@ import { HugeiconsIcon } from '@hugeicons/react';
 import Image from 'next/image';
 import { Suspense } from 'react';
 
-import {
-  BRAND,
-  BRAND_MARK,
-  CONTAINER,
-  FOCUS_RING_ROUNDED,
-} from '@app/constants/landing';
-
 import ReleaseDate from './ReleaseDate';
 
 function Footer({
@@ -21,29 +14,25 @@ function Footer({
   extVersion: string;
 }) {
   return (
-    <footer
-      className={`${CONTAINER} max-landing-sm:flex-col max-landing-sm:items-start flex items-center justify-between gap-6.25 pt-7 pb-9 text-(length:--text-landing-13) text-muted-foreground`}
-    >
+    <footer className="mx-auto flex max-w-7xl flex-col gap-6 px-5 pt-7 pb-9 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-12">
       <div>
-        <p
-          className={`${BRAND} tracking-landing-brand-sm text-(length:--text-landing-38) text-foreground`}
-        >
+        <p className="font-display flex items-center gap-1.5 text-2xl leading-none font-extrabold tracking-tighter text-foreground sm:text-4xl">
           <Image
             src="/bypass_link_192.png"
             alt=""
             height={56}
             width={56}
-            className={BRAND_MARK}
+            className="size-7 sm:size-10"
           />
           Bypass Links
         </p>
         <p className="mt-2">links that behave like links again.</p>
       </div>
-      <div className="max-landing-sm:items-start flex flex-col items-end gap-3">
+      <div className="flex flex-col items-start gap-3 sm:items-end">
         <div className="flex items-center gap-2.5">
           <span
             data-testid="ext-version"
-            className="rounded-full border px-3 py-1.25 font-semibold text-foreground"
+            className="rounded-full border px-3 py-1 font-semibold text-foreground"
           >
             {`v${extVersion}`}
           </span>
@@ -57,8 +46,7 @@ function Footer({
           target="_blank"
           href={GITHUB_REPO_URL}
           title="Bypass Links - Github"
-          className={`ease-landing inline-flex items-center gap-1.5 rounded-full border px-3 py-1.25 text-primary transition-colors hover:border-primary motion-reduce:transition-none ${FOCUS_RING_ROUNDED}`}
-          aria-label="Github Repository Link"
+          className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-primary transition-colors hover:border-primary"
           rel="noreferrer"
         >
           <HugeiconsIcon icon={GithubIcon} size={16} />

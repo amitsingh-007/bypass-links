@@ -5,35 +5,19 @@ import { HugeiconsIcon } from '@hugeicons/react';
 import { useTheme } from 'next-themes';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useRef, useSyncExternalStore } from 'react';
+import { useRef } from 'react';
 
-import {
-  BRAND,
-  BRAND_MARK,
-  CONTAINER,
-  FOCUS_RING_ROUNDED,
-} from '@app/constants/landing';
 import { WEB_ROUTES } from '@app/constants/routes';
-
-const NAV_LINK = `py-3 text-foreground transition-colors ease-landing hover:text-primary motion-reduce:transition-none ${FOCUS_RING_ROUNDED}`;
-
-const subscribe = () => () => {};
 
 function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
-  const isHydrated = useSyncExternalStore(
-    subscribe,
-    () => true,
-    () => false
-  );
 
   return (
     <button
       type="button"
       aria-label="Toggle theme"
-      aria-pressed={isHydrated ? resolvedTheme === 'dark' : undefined}
       title="Toggle theme"
-      className="ease-landing hover:bg-landing-soft max-landing-sm:ml-0 ml-3 inline-flex size-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-primary motion-reduce:transition-none"
+      className="grid size-9 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
       onClick={() => {
         setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
       }}
@@ -56,12 +40,10 @@ function AppHeader() {
   };
 
   return (
-    <header
-      className={`${CONTAINER} max-landing-sm:min-h-22.5 max-landing-sm:gap-3 flex min-h-29 items-center justify-between gap-6`}
-    >
+    <header className="mx-auto flex h-24 max-w-7xl items-center justify-between px-5 sm:h-28 sm:px-8 lg:px-12">
       <button
         type="button"
-        className={`${BRAND} ${FOCUS_RING_ROUNDED} tracking-landing-brand text-(length:--text-landing-43)`}
+        className="group font-display flex items-center gap-1.5 text-2xl leading-none font-extrabold tracking-tighter sm:text-4xl"
         onClick={handleLogoClick}
       >
         <Image
@@ -70,19 +52,22 @@ function AppHeader() {
           alt=""
           height={64}
           width={64}
-          className={BRAND_MARK}
+          className="size-7 group-hover:-translate-y-0.5 group-hover:-rotate-6 motion-safe:transition-transform sm:size-10"
         />
-        <span>Bypass Links</span>
+        Bypass Links
       </button>
-      <div className="max-landing-sm:gap-2 flex items-center gap-2.5">
+      <div className="flex items-center gap-10">
         <nav
-          className="max-landing-md:hidden mr-5.5 flex items-center gap-7.5 text-(length:--text-landing-15) font-semibold"
+          className="hidden gap-8 text-sm font-semibold lg:flex"
           aria-label="Sections"
         >
-          <a href="#features" className={NAV_LINK}>
+          <a
+            href="#features"
+            className="py-3 transition-colors hover:text-primary"
+          >
             Features
           </a>
-          <a href="#faq" className={NAV_LINK}>
+          <a href="#faq" className="py-3 transition-colors hover:text-primary">
             FAQ
           </a>
         </nav>

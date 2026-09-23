@@ -42,7 +42,7 @@ test.describe('Download page', () => {
   test('chrome extension download', async ({ page }, testConfig) => {
     testConfig.setTimeout(30 * 1000);
     const downloadPromise = page.waitForEvent('download');
-    // Scoped to the hero: the header and closing band repeat the same link
+    // Scoped to the hero: the free section and closing band repeat the same link
     const heroSection = page
       .locator('section')
       .filter({ has: page.getByRole('heading', { level: 1 }) });

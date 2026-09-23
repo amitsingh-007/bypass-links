@@ -13,7 +13,11 @@
     },
     "tailwindcss": {
       "entryPoint": [
-        { "files": "apps/web/**", "use": "apps/web/src/app/layout.css" },
+        {
+          "files": "apps/web/src/app/(landing)/**",
+          "use": "apps/web/src/app/(landing)/layout.css"
+        },
+        { "files": "apps/web/**", "use": "apps/web/src/app/(app)/layout.css" },
         { "files": "**", "use": "packages/ui/src/styles/globals.css" }
       ]
     },

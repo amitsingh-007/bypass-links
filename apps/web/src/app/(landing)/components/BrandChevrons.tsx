@@ -1,17 +1,17 @@
 const CHEVRONS = [
-  { points: '138,185 200,255 138,325', opacity: 0.4 },
-  { points: '222,172 294,255 222,338', opacity: 0.7 },
-  { points: '304,160 386,255 304,350', opacity: 1 },
+  { points: '139,184 201,256 139,327', opacity: 0.4 },
+  { points: '220,175 291,256 220,336', opacity: 0.7 },
+  { points: '301,166 381,256 301,345', opacity: 1 },
 ];
 
 function BrandChevrons({ className }: { className?: string }) {
   return (
     <svg
       aria-hidden="true"
-      viewBox="112 136 300 238"
+      viewBox="120 147 281 218"
       fill="none"
       stroke="currentColor"
-      strokeWidth={34}
+      strokeWidth={36}
       strokeLinecap="round"
       strokeLinejoin="round"
       className={className}
