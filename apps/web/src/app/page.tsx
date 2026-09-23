@@ -5,6 +5,7 @@ import AppHeader from './components/AppHeader';
 import DownloadBand from './components/DownloadBand';
 import Faqs from './components/Faqs';
 import Footer from './components/Footer';
+import FreeSection from './components/FreeSection';
 import LandingShell from './components/LandingShell';
 import PageHeader from './components/PageHeader';
 import SalientFeatures from './components/SalientFeatures';
@@ -39,10 +40,15 @@ export default async function Home() {
       <main className="flex-1">
         <PageHeader chrome={chrome} />
         <SalientFeatures />
+        <FreeSection downloadLink={chrome.downloadLink} />
         <Faqs />
         <DownloadBand downloadLink={chrome.downloadLink} />
       </main>
-      <Footer releaseDate={chrome.date} extVersion={chrome.version} />
+      <Footer
+        releaseDate={chrome.date}
+        extVersion={chrome.version}
+        downloadLink={chrome.downloadLink}
+      />
     </LandingShell>
   );
 }

@@ -1,6 +1,5 @@
 'use client';
 
-import { GITHUB_REPO_URL } from '@bypass/shared';
 import { Moon02Icon, Sun03Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { useTheme } from 'next-themes';
@@ -9,6 +8,8 @@ import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
 
 import { WEB_ROUTES } from '@app/constants/routes';
+
+import HeaderButtons from './HeaderButtons';
 
 function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
@@ -52,30 +53,12 @@ function AppHeader({ downloadLink }: { downloadLink: string }) {
         />
         <span>Bypass Links</span>
       </button>
-      <nav className="landing-nav" aria-label="Sections">
-        <a href="#features">Features</a>
-        <a href="#faq">FAQ</a>
-      </nav>
-      <div className="flex items-center gap-3">
-        <div className="landing-pill">
-          <a
-            href={downloadLink}
-            aria-label="Download for Chrome"
-            className="landing-pill-primary"
-          >
-            Download
-            <span aria-hidden="true">↓</span>
-          </a>
-          <a
-            href={GITHUB_REPO_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Github Repository Link"
-          >
-            GitHub
-            <span aria-hidden="true">↗</span>
-          </a>
-        </div>
+      <div className="landing-header-actions">
+        <nav className="landing-nav" aria-label="Sections">
+          <a href="#features">Features</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+        <HeaderButtons downloadLink={downloadLink} />
         <ThemeToggle />
       </div>
     </header>

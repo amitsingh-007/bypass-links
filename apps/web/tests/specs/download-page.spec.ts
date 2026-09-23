@@ -128,7 +128,7 @@ test.describe('Download page', () => {
 
   test('header anchors bring their section into view', async ({ page }) => {
     const features = page.getByRole('heading', {
-      name: 'what it actually does',
+      name: 'what you get out of the box',
     });
     const faq = page.getByRole('heading', { name: 'questions, answered' });
     await expect(features).not.toBeInViewport();
@@ -138,6 +138,15 @@ test.describe('Download page', () => {
 
     await page.getByRole('link', { name: 'FAQ' }).click();
     await expect(faq).toBeInViewport();
+  });
+
+  test('free section renders its heading', async ({ page }) => {
+    await expect(
+      page.getByRole('heading', {
+        level: 2,
+        name: 'every feature included, nothing to pay for.',
+      })
+    ).toBeVisible();
   });
 
   test('product shots are rendered', async ({ page }) => {

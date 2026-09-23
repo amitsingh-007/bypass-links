@@ -14,6 +14,7 @@ import {
 } from '@bypass/shared/tests';
 import { expect, type Page, test } from '@playwright/test';
 
+import { MAX_PANEL_SIZE } from '../apps/extension/src/constants';
 import {
   abortAccountWrites,
   createSharedBackgroundSW,
@@ -21,13 +22,20 @@ import {
   openExtensionPanelPage,
   withTempProfileContext,
 } from '../apps/extension/tests/fixtures/base-fixture';
+import { seedFolderWithBookmarks } from '../apps/extension/tests/utils/test-utils';
 
 const SHOTS_DIR = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
   '../apps/web/public/shots'
 );
 
-const PANEL_VIEWPORT = { width: 820, height: 270 };
+const PANEL_VIEWPORT = {
+  width: MAX_PANEL_SIZE.WIDTH,
+  height: MAX_PANEL_SIZE.HEIGHT,
+};
+
+// Added to the account's five root rows, fills the root view to ten
+const SEEDED_FOLDER_COUNT = 5;
 
 const PLACEHOLDERS = {
   folders: [
@@ -36,6 +44,13 @@ const PLACEHOLDERS = {
     'Recipes to try',
     'Weekend projects',
     'Work notes',
+    'Travel plans',
+    'Gift ideas',
+    'Music to explore',
+    'Home office',
+    'Learning Rust',
+    'Garden notes',
+    'Photo edits',
   ],
   titles: [
     'How to brew better coffee at home',
@@ -46,6 +61,10 @@ const PLACEHOLDERS = {
     'Twelve hikes worth the early start',
     'A short history of the keyboard',
     'Notes on reading more slowly',
+    'The case for boring software',
+    'A beginner guide to sourdough',
+    'Mapping the night sky by hand',
+    'Small habits for a tidy desk',
   ],
   people: [
     'Maya Chen',
@@ -263,6 +282,15 @@ test('capture landing Product shots', async () => {
       const popup = await openExtensionPanelPage(context, extensionId);
       await capture(popup, 'popup', '#root');
 
+      for (let index = 0; index < SEEDED_FOLDER_COUNT; index += 1) {
+        await seedFolderWithBookmarks(popup, `Shot folder ${index}`, [
+          {
+            title: `Shot bookmark ${index}`,
+            url: `https://example.com/${index}`,
+          },
+        ]);
+      }
+
       const bookmarks = await openExtensionPanelPage(
         context,
         extensionId,
@@ -272,6 +300,11 @@ test('capture landing Product shots', async () => {
         .locator('[data-testid^="bookmark-item-"]')
         .first()
         .waitFor({ timeout: TEST_TIMEOUTS.PAGE_OPEN });
+      // The panel button click leaves the pointer hovering a row
+      await bookmarks.mouse.move(
+        PANEL_VIEWPORT.width / 2,
+        PANEL_VIEWPORT.height - 1
+      );
       await capture(bookmarks, 'bookmarks');
 
       expect(

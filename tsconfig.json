@@ -1,5 +1,15 @@
 {
   "extends": "@bypass/configs/tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["node", "chrome"],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./apps/extension/node_modules/@types"
+    ],
+    "paths": {
+      "@/*": ["./apps/extension/src/*"]
+    }
+  },
   "include": ["*.ts", "tests/*.ts"],
   "exclude": ["node_modules", ".playwright", ".turbo", "apps", "packages"]
 }

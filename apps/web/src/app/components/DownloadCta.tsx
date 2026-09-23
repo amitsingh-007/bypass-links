@@ -8,17 +8,16 @@ function DownloadCta({
   downloadLink: string;
   invert?: boolean;
 }) {
+  const buttonClass = cn('landing-btn', invert && 'landing-btn-invert');
+
   return (
     <div className="landing-cta-pair">
       <div>
-        <a
-          href={downloadLink}
-          className={cn('landing-btn', invert && 'landing-btn-invert')}
-        >
-          Download for Chrome
+        <a href={downloadLink} className={buttonClass}>
           <span aria-hidden="true" className="landing-btn-glyph">
             ↓
           </span>
+          Download for Chrome
         </a>
         <p className="landing-note">free and open source, for chrome</p>
       </div>
@@ -27,10 +26,7 @@ function DownloadCta({
           href={GITHUB_REPO_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className={cn(
-            'landing-btn',
-            invert ? 'landing-btn-ghost' : 'landing-btn-secondary'
-          )}
+          className={buttonClass}
         >
           View on GitHub
           <span aria-hidden="true" className="landing-btn-glyph">

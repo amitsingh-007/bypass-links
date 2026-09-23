@@ -4,14 +4,17 @@ import { HugeiconsIcon } from '@hugeicons/react';
 import Image from 'next/image';
 import { Suspense } from 'react';
 
+import HeaderButtons from './HeaderButtons';
 import ReleaseDate from './ReleaseDate';
 
 function Footer({
   releaseDate,
   extVersion,
+  downloadLink,
 }: {
   releaseDate: string;
   extVersion: string;
+  downloadLink: string;
 }) {
   return (
     <footer className="landing-container landing-footer">
@@ -23,6 +26,7 @@ function Footer({
         <p className="mt-2">links that behave like links again.</p>
       </div>
       <div className="landing-footer-right">
+        <HeaderButtons downloadLink={downloadLink} />
         <div className="landing-footer-meta">
           <span data-testid="ext-version" className="landing-version">
             {`v${extVersion}`}
