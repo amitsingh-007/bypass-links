@@ -51,7 +51,7 @@ function FreeSection({ downloadLink }: { downloadLink: string }) {
             </p>
             <a
               href={downloadLink}
-              className="mt-8 flex h-14 items-center gap-2.5 rounded-xl border-b-4 border-black/25 bg-primary px-5 font-semibold text-white hover:-translate-y-0.5 active:translate-y-0.5 motion-safe:transition-transform"
+              className="shadow-ledge mt-8 flex h-14 items-center gap-2.5 rounded-xl bg-primary px-5 font-semibold text-white shadow-xs hover:-translate-y-0.5 hover:shadow-sm active:translate-y-0.5 active:shadow-2xs motion-safe:transition"
             >
               <span aria-hidden="true" className="text-lg leading-none">
                 ↓

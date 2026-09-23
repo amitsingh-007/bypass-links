@@ -11,10 +11,10 @@ function DownloadCta({
   className?: string;
 }) {
   const button = cn(
-    'flex h-14 items-center justify-center gap-2.5 rounded-xl border-b-4 px-5 font-semibold whitespace-nowrap hover:-translate-y-0.5 active:translate-y-0.5 motion-safe:transition-transform',
+    'flex h-14 items-center justify-center gap-2.5 rounded-xl px-5 font-semibold whitespace-nowrap shadow-xs hover:-translate-y-0.5 hover:shadow-sm active:translate-y-0.5 active:shadow-2xs motion-safe:transition',
     invert
-      ? 'border-primary/30 bg-white text-primary focus-visible:outline-white'
-      : 'border-black/25 bg-primary text-white'
+      ? 'bg-white text-primary shadow-white/40 focus-visible:outline-white'
+      : 'shadow-ledge bg-primary text-white'
   );
   const note = cn(
     'mt-3 text-center text-xs sm:mt-4',
