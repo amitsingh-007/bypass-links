@@ -31,7 +31,7 @@ export const FEATURES: Feature[] = [
   {
     title: ['forum tools', 'and history'],
     content:
-      'On supported forums, the Forum button opens the links from the current page in their own tabs. The History switch clears browser history for the time it was monitoring.',
+      'On supported forums, the Forum button opens selected links from the current page, such as unread threads, in their own tabs. The History switch clears browser history for the time it was monitoring.',
     tint: 'bg-tint-sand',
     rows: [
       ['F', 'Forum', 'open links'],

@@ -83,7 +83,7 @@ function PageHeader({ downloadLink }: { downloadLink: string }) {
       </div>
       <BrowserWindow />
       <p className="mt-3 text-right text-sm text-muted-foreground">
-        The popup and Bookmarks Panel, shown with sample data.
+        Product screens, shown with sample data.
       </p>
     </section>
   );
