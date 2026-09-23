@@ -44,11 +44,7 @@ export default async function Home() {
         <Faqs />
         <DownloadBand downloadLink={chrome.downloadLink} />
       </main>
-      <Footer
-        releaseDate={chrome.date}
-        extVersion={chrome.version}
-        downloadLink={chrome.downloadLink}
-      />
+      <Footer releaseDate={chrome.date} extVersion={chrome.version} />
     </LandingShell>
   );
 }

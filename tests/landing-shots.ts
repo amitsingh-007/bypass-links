@@ -233,12 +233,19 @@ const sanitizePage = (page: Page) =>
 const capture = async (page: Page, name: string, rootSelector?: string) => {
   await page.waitForTimeout(TEST_TIMEOUTS.PAGE_OPEN_ATTEMPT);
   await sanitizePage(page);
-  const file = path.join(SHOTS_DIR, `${name}.png`);
-  await (rootSelector
-    ? page
-        .locator(rootSelector)
-        .screenshot({ path: file, omitBackground: true })
-    : page.screenshot({ path: file }));
+  const shoot = (file: string) =>
+    rootSelector
+      ? page
+          .locator(rootSelector)
+          .screenshot({ path: file, omitBackground: true })
+      : page.screenshot({ path: file });
+  await shoot(path.join(SHOTS_DIR, `${name}.png`));
+  // The extension ships dark-only; its UI tokens still carry a light theme
+  await page.evaluate(() => document.documentElement.classList.remove('dark'));
+  // Components animate their colours, so let the theme swap finish
+  await page.waitForTimeout(TEST_TIMEOUTS.NAVIGATION);
+  await shoot(path.join(SHOTS_DIR, `${name}-light.png`));
+  await page.evaluate(() => document.documentElement.classList.add('dark'));
 
   const leaks = await page.evaluate(
     (realValues) => ({

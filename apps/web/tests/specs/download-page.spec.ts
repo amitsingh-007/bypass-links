@@ -21,6 +21,7 @@ const setTheme = async (page: Page, dark: boolean) => {
 const isImageLoaded = (page: Page, alt: string) =>
   page
     .getByAltText(alt)
+    .filter({ visible: true })
     .evaluate((image: HTMLImageElement) => image.naturalWidth > 0);
 
 test.beforeEach(async ({ page }) => {
@@ -151,7 +152,9 @@ test.describe('Download page', () => {
 
   test('product shots are rendered', async ({ page }) => {
     for (const alt of ['The Bypass Links popup', 'The Bookmarks Panel']) {
-      await expect(page.getByAltText(alt)).toBeVisible();
+      await expect(
+        page.getByAltText(alt).filter({ visible: true })
+      ).toBeVisible();
       await expect.poll(() => isImageLoaded(page, alt)).toBe(true);
     }
   });

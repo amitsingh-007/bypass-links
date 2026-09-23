@@ -40,8 +40,9 @@
     --landing-press: oklch(0.36 0.19 293);
     --landing-band-fg: #fffdf9;
     --landing-sand: #ffd392;
-    --landing-panel: #09090b;
-    --landing-panel-line: rgb(255 255 255 / 0.1);
+    --landing-panel: #ffffff;
+    --landing-panel-line: oklch(0.92 0.004 286.32);
+    --landing-panel-shadow: rgb(36 37 35 / 0.16);
   }
 
   .dark .landing {
@@ -70,6 +71,9 @@
     --landing-faq-line: #3d3e43;
     --landing-window-shadow: rgb(0 0 0 / 0.2);
     --landing-press: oklch(0.38 0.17 293);
+    --landing-panel: #09090b;
+    --landing-panel-line: rgb(255 255 255 / 0.1);
+    --landing-panel-shadow: rgb(0 0 0 / 0.45);
   }
 
   .landing {
@@ -148,14 +152,6 @@
     }
   }
 
-  .landing-btn-sm {
-    gap: 8px;
-    min-height: 44px;
-    padding: 11px 16px;
-    border-radius: 14px;
-    font-size: 15px;
-  }
-
   .landing-btn-invert {
     --landing-btn-shadow: rgb(255 255 255 / 0.4);
 
@@ -199,8 +195,7 @@
     min-height: 116px;
   }
 
-  .landing-header-actions,
-  .landing-header-buttons {
+  .landing-header-actions {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -396,8 +391,11 @@
     position: relative;
     height: 380px;
     overflow: hidden;
-    background: linear-gradient(#222223, #222223) 0 55px / 100% 1px no-repeat
-      var(--landing-panel);
+    background: linear-gradient(
+        var(--landing-panel-line),
+        var(--landing-panel-line)
+      )
+      0 55px / 100% 1px no-repeat var(--landing-panel);
   }
 
   .landing-window-page {
@@ -418,7 +416,7 @@
     background-color: var(--landing-panel);
     box-shadow:
       0 0 0 1px var(--landing-panel-line),
-      0 24px 60px rgb(0 0 0 / 0.45);
+      0 24px 60px var(--landing-panel-shadow);
   }
 
   .landing-window-popup::before {
@@ -440,6 +438,11 @@
     width: 100%;
     height: auto;
     border-radius: 12px;
+  }
+
+  .dark .landing-shot-light,
+  :root:not(.dark) .landing-shot-dark {
+    display: none;
   }
 
   div.landing-window-popup-shot {
@@ -1137,14 +1140,8 @@
       gap: 12px;
     }
 
-    .landing-header-actions,
-    .landing-header-buttons {
+    .landing-header-actions {
       gap: 8px;
-    }
-
-    .landing-header .landing-btn-sm {
-      padding-inline: 13px;
-      font-size: 14px;
     }
 
     .landing-brand span {

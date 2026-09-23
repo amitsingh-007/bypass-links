@@ -40,6 +40,11 @@ function Shot({
   );
 }
 
+const THEMES = [
+  { suffix: '', className: 'landing-shot-dark' },
+  { suffix: '-light', className: 'landing-shot-light' },
+];
+
 function BrowserWindow() {
   return (
     <div className="landing-window">
@@ -61,21 +66,27 @@ function BrowserWindow() {
         </span>
       </div>
       <div className="landing-window-body">
-        <Shot
-          src="/shots/bookmarks.png"
-          alt="The Bookmarks Panel"
-          width={1600}
-          height={1200}
-          className="landing-window-page"
-        />
-        <div className="landing-window-popup">
+        {THEMES.map(({ suffix, className }) => (
           <Shot
-            src="/shots/popup.png"
-            alt="The Bypass Links popup"
-            width={620}
-            height={624}
-            className="landing-window-popup-shot"
+            key={suffix}
+            src={`/shots/bookmarks${suffix}.png`}
+            alt="The Bookmarks Panel"
+            width={1600}
+            height={1200}
+            className={`landing-window-page ${className}`}
           />
+        ))}
+        <div className="landing-window-popup">
+          {THEMES.map(({ suffix, className }) => (
+            <Shot
+              key={suffix}
+              src={`/shots/popup${suffix}.png`}
+              alt="The Bypass Links popup"
+              width={620}
+              height={624}
+              className={`landing-window-popup-shot ${className}`}
+            />
+          ))}
         </div>
       </div>
     </div>
