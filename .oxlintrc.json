@@ -56,7 +56,7 @@
       }
     },
     {
-      "files": ["apps/*/tests/**/*.ts", "tests/*.ts"],
+      "files": ["apps/*/tests/**/*.ts"],
       "rules": {
         "no-empty-pattern": "off",
         "no-await-in-loop": "off"
