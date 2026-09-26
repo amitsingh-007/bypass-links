@@ -8,7 +8,7 @@ import { defineConfig } from '@playwright/test';
 loadRootEnv();
 
 const ciBaseUrl = process.env.PLAYWRIGHT_TEST_BASE_URL;
-const isCI = Boolean(ciBaseUrl);
+const isCI = Boolean(process.env.CI || ciBaseUrl);
 const ARTIFACTS_DIR = '.playwright';
 
 const config = defineConfig({
