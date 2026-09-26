@@ -46,5 +46,5 @@
       "onFail": "error"
     }
   },
-  "packageManager": "pnpm@12.1.0"
+  "packageManager": "pnpm@12.6.0"
 }
