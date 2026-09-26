@@ -1,23 +1,22 @@
 # Contributing
 
-## Connecting to the deployment platform
+## Local setup
 
-- Run `vercel link` in the root folder and give credentials to login. This will be used to fetch env variables.
+Use Node.js 24 and pnpm 12. Fork and clone the repository, then run `pnpm install` at the root. The install script sets up Git hooks automatically; if they are missing, run `pnpm lefthook install`.
 
-## Setup on local
+Running the full app and E2E suite requires access to this project's Vercel environment and its test credentials. If you have access, link the project with `pnpm vercel link`, then run `pnpm run env` to pull variables into the root `.env` file.
 
-- Fork this repository.
-- Run `pnpm install` in the root folder.
-- Verify git hooks are installed by running `pnpm lefthook check-install` in the root folder.
-- If hooks are missing, run `pnpm lefthook install` to reinstall them.
-- Useful commands:
-  - Run `pnpm run env` to pull env variables.
-  - Run `pnpm dev` to start dev server for local development.
-  - Run `pnpm build` for production build.
-  - Run `pnpm lint` to lint all files.
-  - Run `pnpm e2e` to run e2e of all workspaces.
+## Commands
 
-## Guidelines for development
+| Command              | Purpose                                                  |
+| -------------------- | -------------------------------------------------------- |
+| `pnpm dev`           | Start the workspace development servers.                 |
+| `pnpm build`         | Build the workspaces.                                    |
+| `pnpm lint`          | Run oxlint with autofix.                                 |
+| `pnpm lint:ci`       | Check lint without autofix.                              |
+| `pnpm format`        | Format files with oxfmt.                                 |
+| `pnpm format:check`  | Check formatting without rewriting files.                |
+| `pnpm typecheck:all` | Type-check all workspaces.                               |
+| `pnpm e2e`           | Run the Playwright suite; requires the test environment. |
 
-- Install the [Oxc](https://marketplace.visualstudio.com/items?itemName=oxc.oxc-vscode) extension (oxlint + oxfmt); VS Code will recommend it automatically.
-- Follow the linting rules defined in the project.
+The [Oxc VS Code extension](https://marketplace.visualstudio.com/items?itemName=oxc.oxc-vscode) supports the repository's lint and format tools.
