@@ -396,7 +396,7 @@ test.describe.serial('Background Service Worker Navigation', () => {
       // Registered after the fixture's own route, so this one answers first
       await page.route(url, abortRoute);
       await page.reload({ waitUntil: 'commit' }).catch(() => undefined);
-      expect(await allInputsAutocompleteOff(page)).toBe(false);
+      await expect(page.locator('input')).toHaveCount(0);
 
       await page.unroute(url, abortRoute);
       await page.reload({ waitUntil: 'load' });
