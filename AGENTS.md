@@ -1,14 +1,14 @@
 # AGENTS.md
 
-This file provides guidance for coding agents working with this repository.
+Repo-wide guidance for coding agents. Use [contributing.md](contributing.md) for local setup and `.agents/skills/` for task-specific workflows.
 
 ## Project Overview
 
-Bypass Links is an open-source browser extension (Chrome) that bypasses intermediary links on various websites, avoiding reCaptchas, timers, ads, and pop-ups. It also includes utility features like history monitoring and bookmarks with person tagging.
+Bypass Links is a desktop Chrome extension for bookmarks tagged with people, URL shortcuts, forum tools, history monitoring, and bypassing intermediary links on supported sites. The monorepo also contains its Next.js web app and shared backend code.
 
 ## Package Manager
 
-**pnpm** - This project uses pnpm for package management and workspace orchestration.
+Use Node.js 24 and pnpm 12. Workspaces use pnpm; Turbo runs cross-workspace tasks.
 
 ## Common Commands
 
@@ -17,8 +17,8 @@ Bypass Links is an open-source browser extension (Chrome) that bypasses intermed
 pnpm install
 
 # Development
-pnpm dev              # Start all dev servers
-pnpm run env          # Pull Vercel environment variables to .env
+pnpm dev              # Start development servers
+pnpm run env          # Pull Vercel variables to .env after linking the project
 
 # Building (turbo orchestrates with dependency graph)
 pnpm build            # Build all workspaces
@@ -28,17 +28,17 @@ cd apps/extension
 pnpm build            # Build Chrome extension to .output/chrome-mv3
 pnpm dev              # Chrome dev server with hot reload
 
-# Code Quality
+# Code quality
 pnpm lint             # Lint all files (oxlint, type-aware) with autofix
 pnpm lint:ci          # Lint without autofix (CI)
 pnpm format           # Format all files (oxfmt)
-pnpm format:check     # Check formatting without writing (oxfmt --check)
+pnpm format:check     # Check formatting without writing
 pnpm typecheck        # Type check root only
 pnpm typecheck:all    # Type check all workspaces
 
 # Testing
 pnpm e2e              # Run Playwright E2E tests
-pnpm e2e:report       # Open the HTML report; its Speedboard tab ranks tests by duration
+pnpm e2e:report       # Open the HTML report
 ```
 
 ## Architecture
@@ -46,7 +46,7 @@ pnpm e2e:report       # Open the HTML report; its Speedboard tab ranks tests by 
 This is a **Turbo + pnpm monorepo** with the following structure:
 
 - **apps/extension** - Browser extension (WXT, React, Wouter for routing)
-- **apps/web** - Next.js web interface for downloads and admin
+- **apps/web** - Next.js download site and signed-in web interface
 - **packages/shared** - Shared React components, types, utilities, and stores (Zustand)
 - **packages/ui** - Shared UI components using shadcn/ui Base UI + Tailwind CSS
 - **packages/configs** - Shared TypeScript and build configs
@@ -54,23 +54,20 @@ This is a **Turbo + pnpm monorepo** with the following structure:
 
 ## Build System
 
-Turbo manages task dependencies defined in `turbo.json`:
-
-- `build` tasks depend on `//#lint:ci` and `//#typecheck` completing first
+Turbo's `build` task depends on `//#lint:ci` and `//#typecheck` in `turbo.json`.
 
 ## E2E Testing
 
 Playwright projects:
 
-1. **auth-setup** (`apps/*/tests/auth.setup.ts`) - Runs once per test run; caches web `storageState` and the authenticated extension Chrome profile under `.playwright/.cache`
+1. **auth-setup** (`apps/*/tests/auth.setup.ts`) - Prepares web `storageState` and an authenticated extension Chrome profile under `.playwright/.cache`
 2. **@bypass/web-with-auth** (`apps/web/tests/specs/`) - Web specs, authenticated via the project's `storageState`
 3. **@bypass/extension** (`apps/extension/tests/specs/`) - Parallel extension tests, each worker on a copy of the cached Chrome profile
 
-`tests/coverage-report.ts` is the global teardown: it writes the coverage report (CI only) and removes `.playwright/.cache`. Shared page-object bases live in `packages/shared/src/utils/test-poms.ts`.
+`tests/coverage-report.ts` is the global teardown: it writes the coverage report in CI and removes `.playwright/.cache`. Shared page-object bases live in `packages/shared/src/utils/test-poms.ts`. For extension test conventions, use the [E2E test generation skill](.agents/skills/e2e-test-generation/SKILL.md).
 
 ## Key Technologies
 
-- **Frontend**: React, Next.js (web)
 - **React Compiler**: Enabled in both apps (`reactCompiler: true` in web, `reactCompilerPreset()` in extension); enforced by the `react/react-compiler` oxlint rule — avoid manual `useMemo`/`useCallback` unless needed
 - **UI**: shadcn/ui (Base UI) via `packages/ui` and `@bypass/ui`
 - **Styling**: Tailwind CSS v4
@@ -79,7 +76,6 @@ Playwright projects:
 - **State**: Zustand
 - **API**: tRPC for type-safe client-server communication
 - **Backend**: Firebase with Admin SDK
-- **Testing**: Playwright
 - **Linting**: oxlint (type-aware via oxlint-tsgolint), config in `.oxlintrc.json`
 - **Formatting**: oxfmt, config in `.oxfmtrc.json`
 - **Tailwind linting**: `oxlint-tailwindcss` (native oxlint plugin)
@@ -89,7 +85,7 @@ Playwright projects:
 - Use workspace protocol (`workspace:*`) for internal dependencies
 - Shared types and utilities go in `packages/shared`
 - tRPC procedures are defined in `packages/trpc`
-- **CRITICAL — Minimize comments. This is non-negotiable.** Do NOT add comments by default. Add a comment ONLY when it is absolutely necessary AND conveys meaningful information that the code itself cannot express. When a comment is truly justified, keep it concise and short — explain the reasoning (the "why"), never what the code does. Elaborate ONLY for edge cases or genuinely tricky, hard-to-follow logic. If in doubt, leave the comment out.
+- Minimize comments. Add one only when the code cannot express a necessary reason. Keep it short and explain why, not what the code does.
 
 ## shadcn/ui Components
 
@@ -106,18 +102,16 @@ pnpm dlx shadcn@latest add [component-name]
 pnpm dlx shadcn@latest add button
 ```
 
-All new UI components should be added to `packages/ui` and exported from `packages/ui/src/index.ts` for use across apps.
+Do not modify existing files in `packages/ui` unless explicitly asked. Add requested new shared UI components there and export them from `packages/ui/src/index.ts`.
 
-**IMPORTANT**: Never modify files inside `packages/ui` unless explicitly asked. The UI package contains shadcn/ui components that should remain unchanged unless adding new components or making approved modifications.
-
-## IMPORTANT: Development Guidelines
+## Development Guidelines
 
 - Ask any questions instead of assuming things when in plan mode
 - Never automatically commit or push changes unless explicitly asked
 
 ## Specialized Skills
 
-- Domain-specific agent skills live in `.agents/skills/`
+- Domain-specific agent skills live in `.agents/skills/`. Read a relevant skill when the task calls for it.
 
 ## Post-Change Verification
 

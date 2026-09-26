@@ -1,143 +1,36 @@
 ---
 name: e2e-test-generation
-description: Create E2E tests for Chrome extension using Playwright
+description: Create or update Playwright E2E tests for the Bypass Links Chrome extension.
 ---
 
-# E2E Test Generation
+# E2E test generation
 
-- Create Playwright E2E tests for the Chrome extension
-- Use `data-testid` and `getByTestId()` as the primary test selector pattern
-- Add semantic selectors (role-based, data-testid) instead of class selectors
-- Add `data-testid` attributes to components when needed for robust test selectors
-- Reuse shared test constants from `@bypass/shared/tests` and add local constants only when test-specific
-- Follow project conventions: test.describe for 2+ tests, exact text matches, no evaluate() for clicks
-- Use project fixtures: `import { test, expect } from '../fixtures/bookmark-fixture'`
-- Run the generated test file after making changes
+Use this skill for extension E2E tests in `apps/extension/tests/specs/`. Read a nearby spec and its fixture before writing a test.
 
-## When to Use This Skill
+## Fixtures
 
-Use this when you need to create new E2E tests or update existing tests for the Chrome extension.
+Choose the fixture for the behavior under test:
 
-I will ask clarifying questions if:
+- `panel-fixture.ts` exports `bookmarkTest`, `personsTest`, and `shortcutsTest` for signed-in panels.
+- `home-popup-fixture.ts` exports `test` for popup behavior.
+- `background-fixture.ts` exports `test` for service worker and page behavior.
+- `auth-fixture.ts` exports `test` for authentication behavior.
 
-- The feature to test is not clearly defined
-- You need to test across multiple projects (extension vs web app)
-- Test data requirements are unclear
+Reuse the selected fixture's browser setup, including profile isolation and authentication where applicable.
 
-## Selector Priority (use in this order)
+## Test conventions
 
-1. **data-testid with getByTestId()** (project standard, including dynamic patterns)
+- Prefer `getByTestId()` for stable UI controls, then accessible roles, labels or placeholders, and exact text. Use title or alt text only when a better selector is unavailable. Add a `data-testid` when a control lacks a stable selector.
+- Avoid class selectors, generic element selectors, custom data attributes, and positional selectors when a stable semantic selector exists. Use exact labels instead of regex when the label is stable.
+- Use Playwright actions for UI interactions. `evaluate()` is appropriate for inspecting or setting browser, DOM, or extension state when Playwright has no direct API; do not use it to click UI controls.
+- Reuse constants from `@bypass/shared/tests`. Keep test-specific values local to the spec.
+- Use `test.describe` for two or more related tests. Use `test.step` when it clarifies a test with several distinct phases; keep value-producing setup outside steps. Do not wrap page-object methods in steps or set `box: true`, which hides the failing inner action in CI logs.
+- Assert observable state and wait for conditions instead of using fixed sleeps. Keep comments only for reasons the test cannot express.
 
-   ```typescript
-   bookmarksPage.getByTestId('folder-item-Main');
-   bookmarksPage.locator('[data-testid^="bookmark-item-"]');
-   ```
+## Verify
 
-2. **Accessible Role Selectors** (when data-testid not available)
-
-   ```typescript
-   bookmarksPage.getByRole('button', { name: 'Add' });
-   bookmarksPage.getByRole('dialog', { name: 'Add folder' });
-   ```
-
-3. **Placeholder/Label Selectors**
-
-   ```typescript
-   dialog.getByPlaceholder('Enter folder name');
-   bookmarksPage.getByLabel('History');
-   ```
-
-4. **Text Content** (transient UI only: toasts, notifications, short labels)
-
-   ```typescript
-   bookmarksPage.getByText('Remove inner folders first');
-   ```
-
-5. **Title/Alt Selectors** (fallback when better selectors are unavailable)
-
-   ```typescript
-   bookmarksPage.getByTitle('Edit Bookmark');
-   bookmarksPage.getByAltText('User avatar');
-   ```
-
-## Selector Anti-Patterns (NEVER use)
-
-- Class selectors: `[class*="Folder-module__container"]`, `.some-generated-class`
-- Custom data attributes (other than `data-testid`): `data-folder-name`, `data-context-id`, etc.
-- Unnecessary regex for stable labels: `{ name: /add/i }` when `{ name: 'Add' }` is sufficient
-- Positional selectors when a stable semantic selector is available: `.first()`, `.nth()`
-- Generic CSS selectors without semantic meaning
-- Generic element selectors: `img`, `div`, `span` (use `data-testid` instead)
-- `.evaluate()` for clicks (use direct `.click()` instead)
-
-## Coding Style Guidelines
-
-- **Test constants**: Reuse `@bypass/shared/tests` constants first; keep local constants scoped to a spec when needed
-- **Group tests**: Only use `test.describe` for 2+ tests
-- **Steps**: Use `test.step` when a test has 3+ distinct phases or loops over cases; let the step title replace the phase comment
-  - Never wrap POM methods as steps, and never use `box: true` — both hide which inner action failed, which is all a CI log line gives you
-  - A step must not be the thing that produces values for later steps; read them flat beforehand
-- **Test names**: Use clear names that describe behavior under test
-- **Determinism**: Prefer explicit waits on visible UI state over brittle timing assumptions
-- **Clear comments**: Explain "why", not "what"
-
-## Common Patterns
-
-**Opening a dialog:**
-
-```typescript
-const addButton = bookmarksPage.getByRole('button', { name: 'Add' });
-await addButton.click();
-const dialog = bookmarksPage.getByRole('dialog', { name: 'Add folder' });
-await expect(dialog).toBeVisible();
-```
-
-**Filling a form:**
-
-```typescript
-await dialog.getByPlaceholder('Enter folder name').fill('Test Folder');
-await dialog.getByRole('button', { name: 'Save' }).click();
-await expect(dialog).toBeHidden();
-```
-
-**Context menu:**
-
-```typescript
-await element.click({ button: 'right' });
-const editOption = bookmarksPage.getByTestId('context-menu-item-edit');
-await expect(editOption).toBeVisible();
-await editOption.click();
-```
-
-**Multi-select with keyboard:**
-
-```typescript
-await firstItem.click();
-await secondItem.click({ modifiers: ['Meta'] }); // Cmd/Ctrl+click
-```
-
-**Waiting for navigation:**
-
-```typescript
-const [newPage] = await Promise.all([
-  context.waitForEvent('page', { timeout: 15_000 }),
-  element.dblclick(),
-]);
-expect(newPage).toBeTruthy();
-```
-
-## After Test Creation
-
-Run the test file to verify it works:
+Run the changed spec after writing it:
 
 ```bash
-pnpm e2e apps/extension/tests/specs/<your-test-file>.spec.ts
+pnpm e2e apps/extension/tests/specs/<file>.spec.ts
 ```
-
-## Rules Before Committing
-
-- Follow selector priority and anti-pattern guidance above
-- Reuse shared constants from `@bypass/shared/tests` where possible
-- Use `test.describe` only for 2+ related tests
-- Keep test names clear and behavior-focused
-- Ensure tests pass locally and are deterministic
