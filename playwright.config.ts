@@ -32,8 +32,8 @@ const config = defineConfig({
     navigationTimeout: 30 * 1000,
     actionTimeout: 10 * 1000,
     screenshot: 'only-on-failure',
-    video: 'on-first-retry',
-    trace: 'retain-on-failure',
+    video: isCI ? 'off' : 'on-first-retry',
+    trace: isCI ? 'off' : 'retain-on-failure',
   },
   projects: [
     /** Authenticates once per run and caches web storage state and the extension Chrome profile. */
