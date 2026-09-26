@@ -24,7 +24,7 @@ import {
   launchExtensionContext,
 } from './fixtures/base-fixture';
 
-const isCI = Boolean(process.env.CI || process.env.PLAYWRIGHT_TEST_BASE_URL);
+const isCI = Boolean(process.env.PLAYWRIGHT_TEST_BASE_URL);
 const firebaseConfig = getFirebasePublicConfig(isCI);
 
 const identityApi = wretch('https://identitytoolkit.googleapis.com/v1')

@@ -8,7 +8,8 @@ import { defineConfig } from '@playwright/test';
 loadRootEnv();
 
 const ciBaseUrl = process.env.PLAYWRIGHT_TEST_BASE_URL;
-const isCI = Boolean(process.env.CI || ciBaseUrl);
+const isCI = Boolean(ciBaseUrl);
+const disableTraceAndVideo = Boolean(process.env.CI || ciBaseUrl);
 const ARTIFACTS_DIR = '.playwright';
 
 const config = defineConfig({
@@ -32,8 +33,8 @@ const config = defineConfig({
     navigationTimeout: 30 * 1000,
     actionTimeout: 10 * 1000,
     screenshot: 'only-on-failure',
-    video: isCI ? 'off' : 'on-first-retry',
-    trace: isCI ? 'off' : 'retain-on-failure',
+    video: disableTraceAndVideo ? 'off' : 'on-first-retry',
+    trace: disableTraceAndVideo ? 'off' : 'retain-on-failure',
   },
   projects: [
     /** Authenticates once per run and caches web storage state and the extension Chrome profile. */
