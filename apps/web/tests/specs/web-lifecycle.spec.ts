@@ -1,4 +1,4 @@
-import { ECacheBucketKeys, EStorageKey } from '@bypass/shared';
+import { ECacheBucketKeys, EStorageKey, isCachePresent } from '@bypass/shared';
 import {
   failProcedure,
   routeTrpcProcedure,
@@ -65,6 +65,46 @@ test.describe('Web auth lifecycle', () => {
     ).toBeDisabled();
     expect(await presentSyncedKeys(page)).toEqual([]);
     expect(await cacheNames(page)).toEqual([]);
+  });
+
+  test('checks absent caches without creating them and retains warmed buckets during preload', async ({
+    page,
+    context,
+  }) => {
+    await useTestCredentials(context);
+    await page.goto('/web-ext');
+    await expect(page.getByRole('button', { name: 'Login' })).toBeEnabled();
+
+    for (const key of SYNCED_CACHES) {
+      expect(await page.evaluate(isCachePresent, key)).toBe(false);
+    }
+    expect(await cacheNames(page)).toEqual([]);
+
+    await page.evaluate(
+      async ({ keys, imageUrlsKey }) => {
+        for (const key of keys) {
+          const cache = await caches.open(key);
+          await cache.put('/preloaded-image', new Response('warmed image'));
+        }
+        localStorage.setItem(imageUrlsKey, '{}');
+      },
+      { keys: SYNCED_CACHES, imageUrlsKey: EStorageKey.personImageUrls }
+    );
+    for (const key of SYNCED_CACHES) {
+      expect(await page.evaluate(isCachePresent, key)).toBe(true);
+    }
+
+    await signIn(page);
+
+    expect(await cacheNames(page)).toEqual(SYNCED_CACHES);
+    for (const key of SYNCED_CACHES) {
+      expect(
+        await page.evaluate(async (bucketKey) => {
+          const cache = await caches.open(bucketKey);
+          return (await cache.keys()).map(({ url }) => new URL(url).pathname);
+        }, key)
+      ).toEqual(['/preloaded-image']);
+    }
   });
 
   test('clears synced data and caches on logout, and neither reload nor Back brings them back', async ({
