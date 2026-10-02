@@ -46,7 +46,7 @@ catalog:
   '@vercel/speed-insights': 2.0.0
   babel-plugin-react-compiler: 1.0.0
   class-variance-authority: 0.7.1
-  cn: 0.3.0
+  cn: 0.4.0
   csstype: 3.2.3
   filenamify: 7.0.3
   firebase: 12.19.0
