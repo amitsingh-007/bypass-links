@@ -101,12 +101,20 @@ const createTempProfileContext = async ({
 /** Runs `fn` against a fresh temp-profile context, always cleaning up after. */
 export const withTempProfileContext = async <T>(
   options: TempProfileOptions,
-  fn: (context: BrowserContext) => Promise<T>
+  fn: (
+    context: BrowserContext,
+    restart: () => Promise<BrowserContext>
+  ) => Promise<T>
 ): Promise<T> => {
-  const { browserContext, userDataDir } =
+  const { browserContext: initialContext, userDataDir } =
     await createTempProfileContext(options);
+  let browserContext = initialContext;
   try {
-    return await fn(browserContext);
+    return await fn(browserContext, async () => {
+      await browserContext.close();
+      browserContext = await launchExtensionContext(userDataDir);
+      return browserContext;
+    });
   } finally {
     // Nested so a rejecting close() still cannot skip the removal
     try {

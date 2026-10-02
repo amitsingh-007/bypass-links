@@ -6,6 +6,7 @@ import {
 import type { Page, Route } from '@playwright/test';
 
 import { EExtensionState, EExtStorageKey } from '@/constants';
+import { isValidUrl } from '@/entrypoints/background/utils';
 
 import { test, expect } from '../fixtures/background-fixture';
 import { getRedirectionStorage } from '../utils/test-utils';
@@ -33,6 +34,31 @@ const allInputsAutocompleteOff = async (page: Page) => {
     return true;
   });
 };
+
+test('URL validation ignores malformed input and retains navigation exclusions', () => {
+  for (const url of [
+    undefined,
+    '',
+    'not a URL',
+    '/relative',
+    'http://',
+    'https://[broken',
+    'https://example.com:bad-port/',
+    'ftp://example.com/',
+    'data:text/plain,test',
+    'file:///tmp/test.html',
+    'chrome-extension://test/popup.html',
+    'https://chrome.google.com/',
+    'https://chromewebstore.google.com/',
+    'https://microsoftedge.microsoft.com/',
+    'https://addons.mozilla.org/',
+  ]) {
+    expect(isValidUrl(url), String(url)).toBe(false);
+  }
+  for (const url of ['http://example.com/', 'https://example.com/']) {
+    expect(isValidUrl(url), url).toBe(true);
+  }
+});
 
 test.describe.serial('Background Service Worker Navigation', () => {
   test('navigating to BROWSERTEST while active redirects to html5test.com', async ({

@@ -1,3 +1,4 @@
+import { sleep } from '@bypass/shared';
 import { TEST_TIMEOUTS } from '@bypass/shared/tests';
 import {
   type BrowserContext,
@@ -14,6 +15,151 @@ import {
   getPopupUrl,
   withTempProfileContext,
 } from './base-fixture';
+
+interface NavigationProbe {
+  pending: number;
+  tabId: number | undefined;
+  settled: boolean;
+}
+
+declare global {
+  var e2eIconPaths: string[] | undefined;
+  var e2eStorageReadHeld: boolean | undefined;
+  var e2eReleaseStorageRead: (() => void) | undefined;
+  var e2eNavigation: NavigationProbe | undefined;
+}
+
+/** A browser round trip after the reads lets their promise continuations finish. */
+export const observeBackgroundNavigation = async (backgroundSW: Worker) => {
+  await backgroundSW.evaluate(() => {
+    const navigation: NavigationProbe = {
+      pending: 0,
+      tabId: undefined,
+      settled: false,
+    };
+    globalThis.e2eNavigation = navigation;
+    const finish = () => {
+      navigation.pending--;
+      void chrome.runtime.getPlatformInfo().then(() => {
+        navigation.settled = navigation.pending === 0;
+      });
+    };
+    const getTab = chrome.tabs.get.bind(chrome.tabs);
+    chrome.tabs.get = async (tabId) => {
+      navigation.pending++;
+      navigation.tabId = tabId;
+      navigation.settled = false;
+      try {
+        return await getTab(tabId);
+      } finally {
+        finish();
+      }
+    };
+    const getStorage = chrome.storage.local.get.bind(chrome.storage.local);
+    Object.defineProperty(chrome.storage.local, 'get', {
+      value: async (
+        keys: string | string[] | Record<string, unknown> | null = null
+      ) => {
+        navigation.pending++;
+        navigation.settled = false;
+        try {
+          return await getStorage<Record<string, unknown>>(keys);
+        } finally {
+          finish();
+        }
+      },
+    });
+  });
+  return {
+    reset: async () =>
+      backgroundSW.evaluate(() => {
+        if (globalThis.e2eNavigation) {
+          globalThis.e2eNavigation.tabId = undefined;
+          globalThis.e2eNavigation.settled = false;
+        }
+      }),
+    url: async () => {
+      await expect
+        .poll(() =>
+          backgroundSW.evaluate(
+            () =>
+              globalThis.e2eNavigation?.tabId !== undefined &&
+              globalThis.e2eNavigation.settled
+          )
+        )
+        .toBe(true);
+      return backgroundSW.evaluate(async () => {
+        const tabId = globalThis.e2eNavigation?.tabId;
+        if (tabId === undefined) {
+          throw new Error('No background navigation observed');
+        }
+        const tab = await chrome.tabs.get(tabId);
+        return tab.pendingUrl ?? tab.url;
+      });
+    },
+  };
+};
+
+export const recordIconUpdates = async (backgroundSW: Worker) => {
+  await backgroundSW.evaluate(() => {
+    const paths: string[] = [];
+    globalThis.e2eIconPaths = paths;
+    const setIcon = chrome.action.setIcon.bind(chrome.action);
+    chrome.action.setIcon = async (details) => {
+      if (typeof details.path === 'string') {
+        paths.push(details.path);
+      }
+      await setIcon(details);
+    };
+  });
+  return async () =>
+    backgroundSW.evaluate(() => globalThis.e2eIconPaths?.at(-1));
+};
+
+/** Hold the captured result, so the storage event can arrive before the read returns. */
+export const holdStorageRead = async (backgroundSW: Worker, key: string) => {
+  await backgroundSW.evaluate((storageKey) => {
+    globalThis.e2eStorageReadHeld = false;
+    const get = chrome.storage.local.get.bind(chrome.storage.local);
+    let captured = false;
+    Object.defineProperty(chrome.storage.local, 'get', {
+      value: async (
+        keys: string | string[] | Record<string, unknown> | null = null
+      ) => {
+        const values = await get<Record<string, unknown>>(keys);
+        if (keys === storageKey && !captured) {
+          captured = true;
+          await new Promise<void>((resolve) => {
+            globalThis.e2eReleaseStorageRead = resolve;
+            globalThis.e2eStorageReadHeld = true;
+          });
+        }
+        return values;
+      },
+    });
+  }, key);
+  return {
+    waitUntilHeld: async () => {
+      await expect
+        .poll(() => backgroundSW.evaluate(() => globalThis.e2eStorageReadHeld))
+        .toBe(true);
+    },
+    release: async () =>
+      backgroundSW.evaluate(() => globalThis.e2eReleaseStorageRead?.()),
+  };
+};
+
+export const restartBackgroundWorker = async (context: BrowserContext) => {
+  const previous = await createSharedBackgroundSW(context);
+  const restarted = context.waitForEvent('serviceworker', {
+    predicate: (worker) => worker.url() === previous.url(),
+  });
+  // Reload destroys the evaluating execution context along with its module caches.
+  void previous.evaluate(() => chrome.runtime.reload()).catch(() => undefined);
+  const backgroundSW = await restarted;
+  await backgroundSW.evaluate(async () => chrome.runtime.getPlatformInfo());
+  return backgroundSW;
+};
 
 interface BaseBackgroundEnv {
   context: BrowserContext;
@@ -89,9 +235,7 @@ const createBackgroundEnv = async (
         return await operation(backgroundSW);
       } catch (error) {
         lastError = error;
-        await new Promise((resolve) => {
-          setTimeout(resolve, 100);
-        });
+        await sleep(100);
       }
     }
     throw lastError;

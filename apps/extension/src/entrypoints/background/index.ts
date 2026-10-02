@@ -1,15 +1,20 @@
 import { defineBackground } from 'wxt/utils/define-background';
 
-import { EExtensionState, ICON_KEYS } from '@/constants';
+import { EExtensionState } from '@/constants';
 import {
   extStateItem,
   hasPendingBookmarksItem,
   hasPendingPersonsItem,
+  mappedRedirectionsItem,
 } from '@/storage/items';
 import { RuntimeInputSchema } from '@/utils/sendRuntimeMessage';
 
 import turnOffInputSuggestions from './misc/turnOffInputSuggestions';
-import { getExtState, invalidateNavigationCache } from './navigationCache';
+import {
+  getExtState,
+  setExtState,
+  setMappedRedirections,
+} from './navigationCache';
 import { redirect } from './redirections/redirect';
 import { isValidUrl, setExtensionIcon } from './utils';
 import { receiveRuntimeMessage } from './utils/receiveRuntimeMessage';
@@ -43,12 +48,17 @@ const onPageLoad = async (tabId: number, url: string) => {
 
 const isMainFrame = (frameId: number) => frameId === 0;
 
+let iconUpdate = 0;
 const updateIcon = async () => {
+  const update = ++iconUpdate;
   const [extState, hasPendingBookmarks, hasPendingPersons] = await Promise.all([
-    extStateItem.getValue(),
+    getExtState(),
     hasPendingBookmarksItem.getValue(),
     hasPendingPersonsItem.getValue(),
   ]);
+  if (update !== iconUpdate) {
+    return;
+  }
   await setExtensionIcon({
     extState,
     hasPendingBookmarks,
@@ -59,6 +69,14 @@ const updateIcon = async () => {
 export default defineBackground({
   type: 'module',
   main() {
+    extStateItem.watch((value) => {
+      setExtState(value);
+      void updateIcon();
+    });
+    mappedRedirectionsItem.watch(setMappedRedirections);
+    hasPendingBookmarksItem.watch(updateIcon);
+    hasPendingPersonsItem.watch(updateIcon);
+
     browser.runtime.onInstalled.addListener(() => {
       extStateItem.setValue(EExtensionState.ACTIVE);
     });
@@ -117,16 +135,6 @@ export default defineBackground({
       }
       receiveRuntimeMessage(result.data, sendResponse);
       return true;
-    });
-
-    browser.storage.onChanged.addListener((changes, areaName) => {
-      if (areaName !== 'local') {
-        return;
-      }
-      invalidateNavigationCache(changes);
-      if (ICON_KEYS.some((key) => key in changes)) {
-        void updateIcon();
-      }
     });
   },
 });
