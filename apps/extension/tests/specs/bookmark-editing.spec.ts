@@ -1,6 +1,9 @@
+import { EBookmarkOperation, ROOT_FOLDER_ID } from '@bypass/shared';
 import {
   TEST_BOOKMARKS,
+  TEST_BOOKMARK_URLS,
   TEST_FOLDERS,
+  TEST_FOLDER_BOOKMARKS,
   TEST_SITES,
   clearSearchInput,
   fillSearchInput,
@@ -39,6 +42,67 @@ const openSelectionFolder = async (panel: BookmarksPanel) => {
 // Worker-scoped page: reset so unsaved state never leaks into the next test
 test.afterEach(async ({ bookmarksPage }) => {
   await new BookmarksPanel(bookmarksPage).ensureAtRoot();
+});
+
+test.describe('Bookmark panel query navigation', () => {
+  test('uses the first duplicate values and replaces operation navigation', async ({
+    bookmarksPage,
+  }) => {
+    const panel = new BookmarksPanel(bookmarksPage);
+    await panel.ensureAtRoot();
+    const query = new URLSearchParams([
+      ['folderId', ROOT_FOLDER_ID],
+      ['folderId', 'e2e-unknown-folder'],
+      ['operation', EBookmarkOperation.EDIT],
+      ['operation', EBookmarkOperation.NONE],
+      ['bmUrl', TEST_BOOKMARK_URLS.REACT_DOCS],
+      ['bmUrl', 'https://unknown-bookmark.test/'],
+    ]).toString();
+    await bookmarksPage.evaluate(
+      (search) => window.history.pushState(null, '', `?${search}`),
+      query
+    );
+    const historyLength = await bookmarksPage.evaluate(() => history.length);
+
+    await expect(panel.getUrlInput()).toHaveValue(
+      TEST_BOOKMARK_URLS.REACT_DOCS
+    );
+    await panel.closeDialog();
+
+    expect(new URL(bookmarksPage.url()).searchParams.get('folderId')).toBe(
+      ROOT_FOLDER_ID
+    );
+    await expect(bookmarksPage).toHaveURL(/operation=none/);
+    expect(await bookmarksPage.evaluate(() => history.length)).toBe(
+      historyLength
+    );
+    await expect
+      .poll(() => panel.getBookmarkTitles())
+      .toEqual(TEST_FOLDER_BOOKMARKS.ROOT);
+  });
+
+  test('defaults missing parameters to the root panel and an empty add URL', async ({
+    bookmarksPage,
+  }) => {
+    const panel = new BookmarksPanel(bookmarksPage);
+    await panel.ensureAtRoot();
+    await bookmarksPage.evaluate(() =>
+      window.history.replaceState(null, '', window.location.pathname)
+    );
+
+    await expect(bookmarksPage.getByRole('dialog')).toBeHidden();
+    await expect
+      .poll(() => panel.getBookmarkTitles())
+      .toEqual(TEST_FOLDER_BOOKMARKS.ROOT);
+
+    await bookmarksPage.evaluate(
+      (operation) =>
+        window.history.pushState(null, '', `?operation=${operation}`),
+      EBookmarkOperation.ADD
+    );
+    await expect(panel.getUrlInput()).toHaveValue('');
+    await panel.closeDialog();
+  });
 });
 
 test.describe('Bookmark multi-select', () => {

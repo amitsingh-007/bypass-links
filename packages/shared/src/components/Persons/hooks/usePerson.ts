@@ -72,18 +72,14 @@ const usePerson = () => {
     }));
   };
 
-  const getPersonTaggedUrls = async (personId: string) => {
+  const hasPersonTaggedBookmarks = async (personId: string) => {
     const bookmarks = await getBookmarks();
     if (!bookmarks?.urlList) {
-      return [];
+      return false;
     }
-    const taggedUrls = [];
-    for (const [bmId, bookmark] of Object.entries(bookmarks.urlList)) {
-      if (bookmark.taggedPersons.includes(personId)) {
-        taggedUrls.push(bmId);
-      }
-    }
-    return taggedUrls;
+    return Object.values(bookmarks.urlList).some((bookmark) =>
+      bookmark.taggedPersons.includes(personId)
+    );
   };
 
   return {
@@ -91,7 +87,7 @@ const usePerson = () => {
     resolvePersonImageFromUid,
     getPersonImageMap,
     getPersonsWithImageUrl,
-    getPersonTaggedUrls,
+    hasPersonTaggedBookmarks,
   };
 };
 

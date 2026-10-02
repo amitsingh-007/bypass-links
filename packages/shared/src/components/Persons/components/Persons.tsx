@@ -111,8 +111,8 @@ function Persons(props: Props) {
   const [scrollElement, setScrollElement] = useState<HTMLDivElement | null>(
     null
   );
-  const { openBookmarksList } = Object.fromEntries(
-    new URLSearchParams(props.queryString)
+  const openBookmarksList = new URLSearchParams(props.queryString).get(
+    'openBookmarksList'
   );
   const personToOpen = persons.find(
     (person) => person.uid === openBookmarksList

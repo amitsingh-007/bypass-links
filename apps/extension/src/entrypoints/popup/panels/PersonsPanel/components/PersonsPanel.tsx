@@ -39,7 +39,7 @@ const handleSave = async (persons: IPerson[]) => {
 function PersonsPanel() {
   const [, navigate] = useLocation();
   const queryString = useSearch();
-  const { getPersonTaggedUrls } = usePerson();
+  const { hasPersonTaggedBookmarks } = usePerson();
   const [isSaving, setIsSaving] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [orderByRecency, setOrderByRecency] = useState(true);
@@ -85,8 +85,7 @@ function PersonsPanel() {
     if (pos === -1) {
       return;
     }
-    const taggedUrls = await getPersonTaggedUrls(person.uid);
-    if (taggedUrls.length > 0) {
+    if (await hasPersonTaggedBookmarks(person.uid)) {
       toast.error('Cannot delete a person with tagged bookmarks');
       return;
     }
