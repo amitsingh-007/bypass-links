@@ -60,7 +60,7 @@ catalog:
   p-limit: 7.3.3
   oxlint-tailwindcss: 1.10.1
   oxlint-tsgolint: 7.0.2003
-  postcss: 8.5.26
+  postcss: 8.5.28
   react: 19.3.0
   react-avatar-editor: 15.1.0
   react-dom: 19.3.0
