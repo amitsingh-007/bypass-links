@@ -16,7 +16,6 @@ import {
   useState,
 } from 'react';
 import AvatarEditor, { type AvatarEditorRef } from 'react-avatar-editor';
-import wretch from 'wretch';
 
 import LoadingOverlay from '@popup/components/LoadingOverlay';
 
@@ -77,8 +76,16 @@ function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
     }
     try {
       setIsUploadingImage(true);
-      const canvas = imageCropperRef.current.getImage().toDataURL();
-      const croppedImage = await wretch().get(canvas).blob();
+      const canvas = imageCropperRef.current.getImage();
+      const croppedImage = await new Promise<Blob>((resolve, reject) => {
+        canvas.toBlob((blob) => {
+          if (blob) {
+            resolve(blob);
+          } else {
+            reject(new Error('Could not convert cropped image to PNG'));
+          }
+        }, 'image/png');
+      });
       const fileName = getPersonImageName(uid);
       await uploadFileToFirebase(croppedImage, fileName);
       onDialogClose();

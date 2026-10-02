@@ -186,13 +186,47 @@ test.describe('Persons editing and ordering', () => {
     });
   });
 
-  test('replaces a person image and keeps it after reopening', async () => {
+  test('uploads a cropped PNG and keeps it after reopening', async () => {
     await withSignedInProfile(async ({ context, extensionId }) => {
       const imageRoutes = await controlPersonImages(context);
       const { page, panel } = await openPersonsPanel(context, extensionId);
       const uid = (await getPersonUids(page))[TEST_PERSONS.DONALD];
 
-      await panel.changePersonImage(TEST_PERSONS.DONALD, IMAGE_DATA_URL);
+      const imageDataUrl = await page.evaluate(() => {
+        const canvas = document.createElement('canvas');
+        canvas.width = 120;
+        canvas.height = 80;
+        canvas.getContext('2d')?.fillRect(0, 0, 120, 80);
+        return canvas.toDataURL('image/png');
+      });
+      const { dialog, imagePicker } = await panel.openImagePicker(
+        TEST_PERSONS.DONALD
+      );
+      await panel.getPickerUrlInput().fill(imageDataUrl);
+      await expect(panel.getPickerSaveButton()).toBeEnabled();
+      const zoom = imagePicker.getByTestId('zoom-slider').getByRole('slider');
+      await zoom.press('End');
+      await expect(zoom).toHaveAttribute('aria-valuenow', '3');
+
+      const uploadRequest = page.waitForRequest('**/api/upload-file');
+      await panel.getPickerSaveButton().click();
+      await expect(imagePicker).toBeHidden();
+      const request = await uploadRequest;
+      const formData = await new Response(
+        new Uint8Array(request.postDataBuffer() ?? []),
+        { headers: { 'content-type': request.headers()['content-type'] } }
+      ).formData();
+      const file = z.instanceof(File).parse(formData.get('file'));
+      expect(file.name).toBe(getPersonImageName(uid));
+      expect(file.type).toBe('image/png');
+      const png = Buffer.from(await file.arrayBuffer());
+      expect(png.subarray(0, 8)).toEqual(
+        Buffer.from([137, 80, 78, 71, 13, 10, 26, 10])
+      );
+      expect([png.readUInt32BE(16), png.readUInt32BE(20)]).toEqual([27, 27]);
+
+      await dialog.getByRole('button', { name: 'Save', exact: true }).click();
+      await expect(dialog).toBeHidden();
 
       expect(imageRoutes.uploads()).toHaveLength(1);
       await expect
@@ -360,6 +394,56 @@ test.describe('Persons editing and ordering', () => {
           .poll(async () => getStoredImageUrl(page, uid))
           .toBe(STORED_IMAGE_URL);
       });
+    });
+  });
+
+  test('rejects a null crop before uploading and allows retry', async () => {
+    await withSignedInProfile(async ({ context, extensionId }) => {
+      const imageRoutes = await controlPersonImages(context);
+      const { page, panel } = await openPersonsPanel(context, extensionId);
+      const uid = (await getPersonUids(page))[TEST_PERSONS.DONALD];
+      const imageUrlBefore = await getStoredImageUrl(page, uid);
+      const { dialog, imagePicker } = await panel.openImagePicker(
+        TEST_PERSONS.DONALD
+      );
+      await panel.getPickerUrlInput().fill(IMAGE_DATA_URL);
+      await expect(panel.getPickerSaveButton()).toBeEnabled();
+      await page.evaluate(() => {
+        // oxlint-disable-next-line typescript/unbound-method -- Restored as a method, never called unbound.
+        const toBlob = HTMLCanvasElement.prototype.toBlob;
+        HTMLCanvasElement.prototype.toBlob = (callback) => {
+          HTMLCanvasElement.prototype.toBlob = toBlob;
+          window.addEventListener(
+            'fail-image-conversion',
+            () => callback(null),
+            {
+              once: true,
+            }
+          );
+        };
+      });
+
+      await panel.getPickerSaveButton().click();
+      await expect(page.getByTestId('uploading-overlay')).toBeVisible();
+      const conversionError = page.waitForEvent('console', {
+        predicate: (message) =>
+          message.type() === 'error' &&
+          message.text().includes('Error while cropping the image'),
+      });
+      await page.evaluate(() =>
+        window.dispatchEvent(new Event('fail-image-conversion'))
+      );
+      await conversionError;
+
+      await expect(page.getByTestId('uploading-overlay')).toBeHidden();
+      await expect(imagePicker).toBeVisible();
+      expect(imageRoutes.uploads()).toHaveLength(0);
+      expect(await getStoredImageUrl(page, uid)).toBe(imageUrlBefore);
+
+      await panel.getPickerSaveButton().click();
+      await expect(imagePicker).toBeHidden();
+      expect(imageRoutes.uploads()).toHaveLength(1);
+      await closeDialog(page, dialog);
     });
   });
 
