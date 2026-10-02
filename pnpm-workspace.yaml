@@ -58,7 +58,7 @@ catalog:
   oxfmt: 0.71.0
   oxlint: 1.86.0
   p-limit: 7.3.3
-  oxlint-tailwindcss: 1.10.1
+  oxlint-tailwindcss: 1.14.0
   oxlint-tsgolint: 7.0.2003
   postcss: 8.5.28
   react: 19.3.0
