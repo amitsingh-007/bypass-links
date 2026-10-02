@@ -213,8 +213,8 @@ catalogs:
       specifier: 11.18.0
       version: 11.18.0
     '@types/chrome':
-      specifier: 0.2.7
-      version: 0.2.7
+      specifier: 0.3.4
+      version: 0.3.4
     '@types/node':
       specifier: 24.13.3
       version: 24.13.3
@@ -466,7 +466,7 @@ importers:
         version: 4.3.3(vite@8.2.2(@types/node@24.13.3)(esbuild@0.27.0)(jiti@2.7.0)(tsx@4.21.0))
       '@types/chrome':
         specifier: 'catalog:'
-        version: 0.2.7
+        version: 0.3.4
       '@types/node':
         specifier: 'catalog:'
         version: 24.13.3
@@ -3148,8 +3148,8 @@ packages:
   '@types/caseless@0.12.5':
     resolution: {integrity: sha512-hWtVTC2q7hc7xZ/RLbxapMvDMgUnDvKvMOpKal4DrMyfGBUfB1oKaZlIRr6mJL+If3bAP6sV/QneGzF6tJjZDg==}
 
-  '@types/chrome@0.2.7':
-    resolution: {integrity: sha512-9kjBozQ+jyDVt1eai3VZqjHDTN95JCuRmbRHOryOltBJmzrTmUw/9r/DznmjRaQ8WlyIfeCA4WNzoj0IvormJA==}
+  '@types/chrome@0.3.4':
+    resolution: {integrity: sha512-dcySM5R3WAUVYFjylu6tvI4D03hPKjgAqk+tKZ/tm/vxL4mLgbnSsOEQ3J7V99qP/U3Oo9IORstJLmX2hPaDlA==}
 
   '@types/esrecurse@4.3.1':
     resolution: {integrity: sha512-xJBAbDifo5hpffDBuHl0Y8ywswbiAp/Wi7Y/GtAgSlZyIABppyurxVueOPE8LUQOxdlgi6Zqce7uoEpqNTeiUw==}
@@ -8771,7 +8771,7 @@ snapshots:
   '@types/caseless@0.12.5':
     optional: true
 
-  '@types/chrome@0.2.7':
+  '@types/chrome@0.3.4':
     dependencies:
       '@types/filesystem': 0.0.36
       '@types/har-format': 1.2.16
