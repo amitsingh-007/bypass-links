@@ -1,28 +1,23 @@
 import { Switch } from '@bypass/ui';
-import { useEffect } from 'react';
+import { toast } from 'sonner';
 
 import { EExtensionState } from '@/constants';
+import { useExtensionState } from '@/storage/hooks';
 import { extStateItem } from '@/storage/items';
-import useExtStore from '@store/extension';
 
-function ToggleExtension() {
-  const isActive = useExtStore((state) => state.isExtensionActive);
-  const setIsExtensionActive = useExtStore(
-    (state) => state.setIsExtensionActive
-  );
-
-  useEffect(() => {
-    extStateItem.getValue().then((extState) => {
-      setIsExtensionActive(extState === EExtensionState.ACTIVE);
-    });
-  }, [setIsExtensionActive]);
-
-  const handleToggle = (checked: boolean) => {
-    extStateItem.setValue(
+const handleToggle = async (checked: boolean) => {
+  try {
+    await extStateItem.setValue(
       checked ? EExtensionState.ACTIVE : EExtensionState.INACTIVE
     );
-    setIsExtensionActive(checked);
-  };
+  } catch (error) {
+    console.error('Could not update the extension state', error);
+    toast.error('Could not update the extension state');
+  }
+};
+
+function ToggleExtension() {
+  const isActive = useExtensionState() === EExtensionState.ACTIVE;
 
   return (
     <div className="flex items-center gap-2">

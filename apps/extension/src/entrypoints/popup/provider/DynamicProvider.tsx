@@ -4,13 +4,10 @@ import { toast } from 'sonner';
 import { useLocation } from 'wouter';
 
 import { getFaviconUrl } from '@/constants/favicon';
-import useHistoryStore from '@store/history';
+import { startHistoryWatch } from '@/utils/history';
 
 function DynamicProvider({ children }: PropsWithChildren) {
   const [, navigate] = useLocation();
-  const startHistoryMonitor = useHistoryStore(
-    (state) => state.startHistoryMonitor
-  );
 
   const ctx: NonNullable<ContextType<typeof DynamicContext>> = {
     location: {
@@ -27,7 +24,10 @@ function DynamicProvider({ children }: PropsWithChildren) {
     tabs: {
       // Idempotent, so loop callers can call this per url
       open: (url: string) => {
-        startHistoryMonitor();
+        startHistoryWatch().catch((error) => {
+          console.error('Could not start history tracking', error);
+          toast.error('Could not start history tracking');
+        });
         browser.tabs.create({ url, active: false }).catch((error) => {
           console.error(error);
           toast.error('Could not open the link in a new tab');

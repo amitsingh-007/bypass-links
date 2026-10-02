@@ -4,15 +4,16 @@ import { HugeiconsIcon } from '@hugeicons/react';
 import { useEffect, useEffectEvent } from 'react';
 import { toast } from 'sonner';
 
+import { EExtensionState } from '@/constants';
+import { useExtensionState } from '@/storage/hooks';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import useProgressStore from '@/store/progress';
-import useExtStore from '@store/extension';
 
 import { signIn, signOut } from '../utils/authentication';
 
 function Authenticate() {
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
-  const isExtensionActive = useExtStore((state) => state.isExtensionActive);
+  const isExtensionActive = useExtensionState() === EExtensionState.ACTIVE;
   const isLoading = useProgressStore((state) => state.isLoading);
   const startLoading = useProgressStore((state) => state.startLoading);
   const stopLoading = useProgressStore((state) => state.stopLoading);
