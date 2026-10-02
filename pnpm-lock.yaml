@@ -333,8 +333,8 @@ catalogs:
       specifier: 0.21.4
       version: 0.21.4
     zod:
-      specifier: 4.5.2
-      version: 4.5.2
+      specifier: 4.6.5
+      version: 4.6.5
     zustand:
       specifier: 5.0.15
       version: 5.0.15
@@ -447,7 +447,7 @@ importers:
         version: 3.0.9
       zod:
         specifier: 'catalog:'
-        version: 4.5.2
+        version: 4.6.5
       zustand:
         specifier: 'catalog:'
         version: 5.0.15(@types/react@19.3.0)(react@19.3.0)(use-sync-external-store@1.6.0(react@19.3.0))
@@ -550,7 +550,7 @@ importers:
         version: 2.5.1(react@19.3.0)
       zod:
         specifier: 'catalog:'
-        version: 4.5.2
+        version: 4.6.5
     devDependencies:
       '@playwright/test':
         specifier: 'catalog:'
@@ -611,7 +611,7 @@ importers:
         version: 2.5.1(react@19.3.0)
       zod:
         specifier: 'catalog:'
-        version: 4.5.2
+        version: 4.6.5
     devDependencies:
       '@bypass/configs':
         specifier: workspace:*
@@ -657,7 +657,7 @@ importers:
         version: 16.3.7(@babel/core@8.0.1)(@opentelemetry/api@1.9.1)(@playwright/test@1.62.1)(@types/node@24.13.3)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       zod:
         specifier: 'catalog:'
-        version: 4.5.2
+        version: 4.6.5
     devDependencies:
       typescript:
         specifier: 'catalog:'
@@ -6739,6 +6739,9 @@ packages:
   zod@4.5.2:
     resolution: {integrity: sha512-XkYXCol10+ba/6F/cueWV+TezUeOqXW0hdeJt5CdXjTYeAgAQg5N03RQdJ80mhfFE72+pblvYMW4wy2Qp4Qbrg==}
 
+  zod@4.6.5:
+    resolution: {integrity: sha512-v5l/aFXZQeai4awLbOpSoHecE9UiMrnfx75tEXLjNonXVARxQ5mOeipTjROUchszUNCqnE+hqAMujRsRHsut2Q==}
+
   zustand@5.0.15:
     resolution: {integrity: sha512-MpSEjRiBkA9crSYeOUH32rJC7SVqAbm0Fqcqge/bUi2PPoLcBWKOsG+C8mevmpr8TwXHBVkChbbJiyvkE+i/3A==}
     engines: {node: '>=12.20.0'}
@@ -12809,6 +12812,8 @@ snapshots:
   zod@4.1.11: {}
 
   zod@4.5.2: {}
+
+  zod@4.6.5: {}
 
   zustand@5.0.15(@types/react@19.3.0)(react@19.3.0)(use-sync-external-store@1.6.0(react@19.3.0)):
     optionalDependencies:
