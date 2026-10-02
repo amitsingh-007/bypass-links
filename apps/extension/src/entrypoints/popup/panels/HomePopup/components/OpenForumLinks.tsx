@@ -1,4 +1,3 @@
-import { noOp } from '@bypass/shared';
 import { Button, Spinner } from '@bypass/ui';
 import { cn } from '@bypass/ui/lib/utils';
 import {
@@ -6,9 +5,13 @@ import {
   WebDesign01Icon,
 } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
+import { useTimeout } from '@mantine/hooks';
 import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
+import useSWR from 'swr';
 
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
+import { extSwrKeys } from '@/swr/keys';
 import { sendRuntimeMessage } from '@/utils/sendRuntimeMessage';
 import { isForumPage } from '@background/websites';
 import useCurrentTab from '@popup/hooks/useCurrentTab';
@@ -24,33 +27,33 @@ const SUCCESS_TIMEOUT_MS = 3000;
 function OpenForumLinks() {
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
   const currentTab = useCurrentTab();
-  const [isOnForumPage, setIsOnForumPage] = useState(false);
+  const { data: isOnForumPage = false } = useSWR(
+    isSignedIn ? extSwrKeys.forumPage(currentTab?.url) : null,
+    ([, url]) => isForumPage(url)
+  );
   const [buttonState, setButtonState] = useState(EButtonState.INITIAL);
+  const { start, clear } = useTimeout(
+    () => setButtonState(EButtonState.INITIAL),
+    SUCCESS_TIMEOUT_MS
+  );
 
   useEffect(() => {
-    const initIsActive = async () => {
-      const isForum = isSignedIn && (await isForumPage(currentTab?.url));
-      setIsOnForumPage(isForum);
-    };
-    initIsActive();
-  }, [currentTab?.url, isSignedIn]);
-
-  useEffect(() => {
-    if (buttonState !== EButtonState.SUCCESS) {
-      // Returned, not bare: the consistent-return rule needs both paths to yield
-      return noOp;
+    if (buttonState === EButtonState.SUCCESS) {
+      start();
     }
-    const timeout = setTimeout(
-      () => setButtonState(EButtonState.INITIAL),
-      SUCCESS_TIMEOUT_MS
-    );
-    return () => clearTimeout(timeout);
-  }, [buttonState]);
+    return clear;
+  }, [buttonState, clear, start]);
 
   const onClick = async () => {
+    clear();
     setButtonState(EButtonState.LOADING);
 
-    if (currentTab?.id && currentTab?.url) {
+    if (currentTab?.id == null || !currentTab.url) {
+      setButtonState(EButtonState.INITIAL);
+      return;
+    }
+
+    try {
       const { forumPageLinks } = await sendRuntimeMessage({
         key: 'openWebsiteLinks',
         tabId: currentTab.id,
@@ -62,9 +65,12 @@ function OpenForumLinks() {
         key: 'openLinksInTabs',
         urls: forumPageLinks,
       });
+      setButtonState(EButtonState.SUCCESS);
+    } catch (error) {
+      console.error('Could not open forum links', error);
+      toast.error('Could not open forum links');
+      setButtonState(EButtonState.INITIAL);
     }
-
-    setButtonState(EButtonState.SUCCESS);
   };
 
   const isLoading = buttonState === EButtonState.LOADING;
@@ -72,6 +78,7 @@ function OpenForumLinks() {
 
   return (
     <Button
+      data-testid="forum-button"
       className={cn(
         'w-full',
         isSuccess &&

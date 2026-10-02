@@ -14,6 +14,7 @@ export const extSwrKeys = {
   lastVisited: (url?: string) => (url ? [LAST_VISITED, url] : null),
   lastVisitedMap: (urls: string[]) => [LAST_VISITED, 'map', joinIds(urls)],
   quickBookmark: (url?: string) => (url ? [QUICK_BOOKMARK, url] : null),
+  forumPage: (url?: string) => (url ? ['forum-page', url] : null),
 } as const;
 
 export const extSwrKeyMatchers = {
