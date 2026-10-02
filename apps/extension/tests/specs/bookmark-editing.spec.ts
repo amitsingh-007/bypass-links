@@ -27,6 +27,15 @@ const SELECTION_BOOKMARKS = [
 ] as const;
 const SELECTION_TITLES = SELECTION_BOOKMARKS.map(({ title }) => title);
 
+/** One folder per test: they share a worker profile, so names must not collide. */
+const openSelectionFolder = async (panel: BookmarksPanel) => {
+  const folderName = `${SELECTION_FOLDER}: ${test.info().title}`;
+  await seedFolderWithBookmarks(panel.page, folderName, SELECTION_BOOKMARKS);
+  await panel.ensureAtRoot();
+  await panel.openFolder(folderName, SELECTION_TITLES);
+  return folderName;
+};
+
 // Worker-scoped page: reset so unsaved state never leaks into the next test
 test.afterEach(async ({ bookmarksPage }) => {
   await new BookmarksPanel(bookmarksPage).ensureAtRoot();
@@ -178,15 +187,6 @@ test.describe('Bookmark form validation', () => {
 });
 
 test.describe('Bookmark selection', () => {
-  /** One folder per test: they share a worker profile, so names must not collide. */
-  const openSelectionFolder = async (panel: BookmarksPanel) => {
-    const folderName = `${SELECTION_FOLDER}: ${test.info().title}`;
-    await seedFolderWithBookmarks(panel.page, folderName, SELECTION_BOOKMARKS);
-    await panel.ensureAtRoot();
-    await panel.openFolder(folderName, SELECTION_TITLES);
-    return folderName;
-  };
-
   test('deletes only the selected rows a filter left visible', async ({
     bookmarksPage,
   }) => {
