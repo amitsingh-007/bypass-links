@@ -16,7 +16,7 @@
     "format:check": "oxfmt --check",
     "typecheck": "tsc --noEmit",
     "typecheck:all": "turbo run typecheck",
-    "prepare": "pnpx is-ci || lefthook install --reset-hooks-path",
+    "prepare": "if [ -z \"$CI\" ] || [ \"$CI\" = false ]; then lefthook install --reset-hooks-path; fi",
     "update:shadcn": "cd packages/ui && for file in src/components/ui/*.tsx; do pnpx shadcn@latest add -y -o $(basename \"$file\" .tsx); done"
   },
   "devDependencies": {
