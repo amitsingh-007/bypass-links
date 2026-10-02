@@ -28,7 +28,7 @@ catalog:
   '@mantine/hooks': 9.6.3
   '@octokit/rest': 22.0.1
   '@playwright/test': 1.62.1
-  '@rolldown/plugin-babel': 0.2.3
+  '@rolldown/plugin-babel': 0.2.4
   '@shadcn/lint': 0.2.0
   '@tailwindcss/postcss': 4.3.3
   '@tailwindcss/vite': 4.3.3
