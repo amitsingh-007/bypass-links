@@ -8,7 +8,7 @@ import { openExtensionPanelPage, sharedExtensionTest } from './base-fixture';
  * list and cannot see each other's edits.
  */
 export const bookmarkTest = sharedExtensionTest.extend<
-  NonNullable<unknown>,
+  object,
   { bookmarksPage: Page }
 >({
   bookmarksPage: [
@@ -26,7 +26,7 @@ export const bookmarkTest = sharedExtensionTest.extend<
 });
 
 export const personsTest = sharedExtensionTest.extend<
-  NonNullable<unknown>,
+  object,
   { personsPage: Page }
 >({
   personsPage: [

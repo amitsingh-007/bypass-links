@@ -2,7 +2,7 @@
 
 import { swrConfig } from '@bypass/shared';
 import { TooltipProvider } from '@bypass/ui';
-import { Analytics } from '@vercel/analytics/react';
+import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Suspense } from 'react';
 import { SWRConfig } from 'swr';
