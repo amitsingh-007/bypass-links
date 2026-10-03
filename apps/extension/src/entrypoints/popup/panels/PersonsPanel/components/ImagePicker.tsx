@@ -77,15 +77,12 @@ function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
     try {
       setIsUploadingImage(true);
       const canvas = imageCropperRef.current.getImage();
-      const croppedImage = await new Promise<Blob>((resolve, reject) => {
-        canvas.toBlob((blob) => {
-          if (blob) {
-            resolve(blob);
-          } else {
-            reject(new Error('Could not convert cropped image to PNG'));
-          }
-        }, 'image/png');
+      const croppedImage = await new Promise<Blob | null>((resolve) => {
+        canvas.toBlob(resolve, 'image/png');
       });
+      if (!croppedImage) {
+        throw new Error('Could not convert cropped image to PNG');
+      }
       const fileName = getPersonImageName(uid);
       await uploadFileToFirebase(croppedImage, fileName);
       onDialogClose();

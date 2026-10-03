@@ -18,7 +18,6 @@ const useProgressStore = create<ProgressState>()((set) => ({
     clearTimeout(resetTimeout);
     // Held briefly so a fast sync does not flash the overlay in and out
     resetTimeout = setTimeout(() => {
-      resetTimeout = undefined;
       set(() => ({ isLoading: false }));
     }, 300);
   },

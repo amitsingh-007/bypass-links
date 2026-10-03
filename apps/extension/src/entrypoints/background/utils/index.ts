@@ -1,3 +1,5 @@
+import { z } from 'zod/mini';
+
 import { EExtensionState } from '@/constants';
 
 /** Store fronts the browsers refuse to script. */
@@ -7,6 +9,7 @@ const restrictedHosts = new Set([
   'microsoftedge.microsoft.com',
   'addons.mozilla.org',
 ]);
+const urlSchema = z.url();
 
 export const setExtensionIcon = async ({
   extState,
@@ -30,14 +33,11 @@ export const setExtensionIcon = async ({
 
 /** Allowlisted, so an unknown scheme is excluded rather than failing on injection. */
 export const isValidUrl = (_url?: string): boolean => {
-  if (!_url) return false;
-  try {
-    const url = new URL(_url);
-    return (
-      (url.protocol === 'http:' || url.protocol === 'https:') &&
-      !restrictedHosts.has(url.hostname)
-    );
-  } catch {
-    return false;
-  }
+  const result = urlSchema.safeParse(_url);
+  if (!result.success) return false;
+  const url = new URL(result.data);
+  return (
+    (url.protocol === 'http:' || url.protocol === 'https:') &&
+    !restrictedHosts.has(url.hostname)
+  );
 };

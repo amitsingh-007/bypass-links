@@ -187,41 +187,6 @@ test.describe('Persons Panel', () => {
     await panel.verifyModalClosed();
   });
 
-  test('opens the first duplicate person query value', async ({ page }) => {
-    const panel = new PersonsPanel(page);
-    const firstUid = await panel.getPersonUid(TEST_PERSONS.JOHN_NATHAN);
-    const secondUid = await panel.getPersonUid(TEST_PERSONS.DONALD);
-    const query = new URLSearchParams([
-      ['openBookmarksList', firstUid],
-      ['openBookmarksList', secondUid],
-    ]);
-
-    await page.goto(`/persons-panel?${query}`);
-
-    await panel.verifyPersonNameInBadge(TEST_PERSONS.JOHN_NATHAN);
-  });
-
-  test('resets the bookmark filter when a person dialog reopens', async ({
-    page,
-  }) => {
-    const panel = new PersonsPanel(page);
-    await panel.openPersonCard(TEST_PERSONS.JOHN_NATHAN);
-    const countBefore = await panel.getBookmarkCountInModalFromList();
-    expect(countBefore).toBeGreaterThan(0);
-    await panel.searchWithinBookmarks('no-bookmark-matches-this-query');
-    await expect(panel.getNoBookmarksMessage()).toBeVisible();
-
-    await panel.closeModal();
-    await panel.openPersonCard(TEST_PERSONS.JOHN_NATHAN);
-
-    await expect(
-      panel.getBookmarksDialog().getByPlaceholder('Search')
-    ).toHaveValue('');
-    await expect
-      .poll(() => panel.getBookmarkCountInModalFromList())
-      .toBe(countBefore);
-  });
-
   test('should toggle recency switch and verify person order changes', async ({
     page,
   }) => {

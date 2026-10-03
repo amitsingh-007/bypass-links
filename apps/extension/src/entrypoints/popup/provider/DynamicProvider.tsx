@@ -24,10 +24,7 @@ function DynamicProvider({ children }: PropsWithChildren) {
     tabs: {
       // Idempotent, so loop callers can call this per url
       open: (url: string) => {
-        startHistoryWatch().catch((error) => {
-          console.error('Could not start history tracking', error);
-          toast.error('Could not start history tracking');
-        });
+        void startHistoryWatch();
         browser.tabs.create({ url, active: false }).catch((error) => {
           console.error(error);
           toast.error('Could not open the link in a new tab');

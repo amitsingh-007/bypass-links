@@ -48,17 +48,12 @@ const onPageLoad = async (tabId: number, url: string) => {
 
 const isMainFrame = (frameId: number) => frameId === 0;
 
-let iconUpdate = 0;
 const updateIcon = async () => {
-  const update = ++iconUpdate;
   const [extState, hasPendingBookmarks, hasPendingPersons] = await Promise.all([
     getExtState(),
     hasPendingBookmarksItem.getValue(),
     hasPendingPersonsItem.getValue(),
   ]);
-  if (update !== iconUpdate) {
-    return;
-  }
   await setExtensionIcon({
     extState,
     hasPendingBookmarks,

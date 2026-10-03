@@ -13,7 +13,7 @@ overrides:
 allowBuilds:
   '@firebase/util': false
   esbuild: false
-  lefthook: false
+  lefthook: true
   msw: false
   protobufjs: false
   sharp: false

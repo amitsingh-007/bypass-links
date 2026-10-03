@@ -24,8 +24,6 @@ interface NavigationProbe {
 
 declare global {
   var e2eIconPaths: string[] | undefined;
-  var e2eStorageReadHeld: boolean | undefined;
-  var e2eReleaseStorageRead: (() => void) | undefined;
   var e2eNavigation: NavigationProbe | undefined;
 }
 
@@ -40,9 +38,12 @@ export const observeBackgroundNavigation = async (backgroundSW: Worker) => {
     globalThis.e2eNavigation = navigation;
     const finish = () => {
       navigation.pending--;
-      void chrome.runtime.getPlatformInfo().then(() => {
-        navigation.settled = navigation.pending === 0;
-      });
+      void chrome.runtime
+        .getPlatformInfo()
+        .then(() => {
+          navigation.settled = navigation.pending === 0;
+        })
+        .catch(console.error);
     };
     const getTab = chrome.tabs.get.bind(chrome.tabs);
     chrome.tabs.get = async (tabId) => {
@@ -106,47 +107,14 @@ export const recordIconUpdates = async (backgroundSW: Worker) => {
     globalThis.e2eIconPaths = paths;
     const setIcon = chrome.action.setIcon.bind(chrome.action);
     chrome.action.setIcon = async (details) => {
+      await setIcon(details);
       if (typeof details.path === 'string') {
         paths.push(details.path);
       }
-      await setIcon(details);
     };
   });
   return async () =>
     backgroundSW.evaluate(() => globalThis.e2eIconPaths?.at(-1));
-};
-
-/** Hold the captured result, so the storage event can arrive before the read returns. */
-export const holdStorageRead = async (backgroundSW: Worker, key: string) => {
-  await backgroundSW.evaluate((storageKey) => {
-    globalThis.e2eStorageReadHeld = false;
-    const get = chrome.storage.local.get.bind(chrome.storage.local);
-    let captured = false;
-    Object.defineProperty(chrome.storage.local, 'get', {
-      value: async (
-        keys: string | string[] | Record<string, unknown> | null = null
-      ) => {
-        const values = await get<Record<string, unknown>>(keys);
-        if (keys === storageKey && !captured) {
-          captured = true;
-          await new Promise<void>((resolve) => {
-            globalThis.e2eReleaseStorageRead = resolve;
-            globalThis.e2eStorageReadHeld = true;
-          });
-        }
-        return values;
-      },
-    });
-  }, key);
-  return {
-    waitUntilHeld: async () => {
-      await expect
-        .poll(() => backgroundSW.evaluate(() => globalThis.e2eStorageReadHeld))
-        .toBe(true);
-    },
-    release: async () =>
-      backgroundSW.evaluate(() => globalThis.e2eReleaseStorageRead?.()),
-  };
 };
 
 export const restartBackgroundWorker = async (context: BrowserContext) => {

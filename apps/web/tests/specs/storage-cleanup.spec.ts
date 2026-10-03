@@ -73,7 +73,8 @@ test('authenticates storage cleanup requests before calling cleanup', async ({
           Object.fromEntries(response.headers)
         );
         outgoing.end(await response.text());
-      } catch {
+      } catch (error) {
+        console.error(error);
         outgoing.writeHead(500);
         outgoing.end();
       }

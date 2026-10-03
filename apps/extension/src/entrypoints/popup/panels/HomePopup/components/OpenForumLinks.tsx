@@ -32,26 +32,24 @@ function OpenForumLinks() {
     ([, url]) => isForumPage(url)
   );
   const [buttonState, setButtonState] = useState(EButtonState.INITIAL);
-  const { start, clear } = useTimeout(
+  const { start: startSuccessReset, clear: cancelSuccessReset } = useTimeout(
     () => setButtonState(EButtonState.INITIAL),
     SUCCESS_TIMEOUT_MS
   );
 
   useEffect(() => {
     if (buttonState === EButtonState.SUCCESS) {
-      start();
+      startSuccessReset();
     }
-    return clear;
-  }, [buttonState, clear, start]);
+    return cancelSuccessReset;
+  }, [buttonState, cancelSuccessReset, startSuccessReset]);
 
   const onClick = async () => {
-    clear();
-    setButtonState(EButtonState.LOADING);
-
     if (currentTab?.id == null || !currentTab.url) {
-      setButtonState(EButtonState.INITIAL);
       return;
     }
+    cancelSuccessReset();
+    setButtonState(EButtonState.LOADING);
 
     try {
       const { forumPageLinks } = await sendRuntimeMessage({

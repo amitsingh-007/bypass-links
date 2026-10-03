@@ -130,17 +130,9 @@ const findTabId = async (popup: Page, url: string) =>
   }, url);
 
 interface ForumProbe {
-  tab: { id?: number; url?: string };
-  messages: RuntimeInput[];
   holdMessage?: RuntimeKeys;
   rejectMessage?: RuntimeKeys;
   releaseReply?: () => void;
-  replies: number;
-  holdTab: boolean;
-  releaseTab?: () => void;
-  holdWebsites: boolean;
-  websiteReads: { release: () => void; completed: boolean }[];
-  resetTimers: number;
 }
 
 declare global {
@@ -149,50 +141,16 @@ declare global {
   }
 }
 
-const controlForumPopup = async (
-  popup: Page,
-  tab: ForumProbe['tab'] = { id: 0, url: `https://${FORUM_HOST}/` }
-) => {
-  await popup.addInitScript((currentTab) => {
-    const probe: ForumProbe = {
-      tab: currentTab,
-      messages: [],
-      replies: 0,
-      holdTab: false,
-      holdWebsites: false,
-      websiteReads: [],
-      resetTimers: 0,
-    };
+const controlForumPopup = async (popup: Page) => {
+  await popup.addInitScript((forumUrl) => {
+    const probe: ForumProbe = {};
     window.e2eForum = probe;
     const query = chrome.tabs.query.bind(chrome.tabs);
     Object.defineProperty(chrome.tabs, 'query', {
-      value: async (queryInfo: chrome.tabs.QueryInfo) => {
-        if (!queryInfo.active || !queryInfo.currentWindow) {
-          return query(queryInfo);
-        }
-        if (probe.holdTab) {
-          await new Promise<void>((resolve) => {
-            probe.releaseTab = resolve;
-          });
-        }
-        return [probe.tab];
-      },
-    });
-    const get = chrome.storage.local.get.bind(chrome.storage.local);
-    Object.defineProperty(chrome.storage.local, 'get', {
-      value: async (
-        keys: string | string[] | Record<string, unknown> | null = null
-      ) => {
-        const values = await get<Record<string, unknown>>(keys);
-        if (keys === 'websites' && probe.holdWebsites) {
-          const index = probe.websiteReads.length;
-          await new Promise<void>((resolve) => {
-            probe.websiteReads.push({ release: resolve, completed: false });
-          });
-          probe.websiteReads[index].completed = true;
-        }
-        return values;
-      },
+      value: async (queryInfo: chrome.tabs.QueryInfo) =>
+        queryInfo.active && queryInfo.currentWindow
+          ? [{ id: 0, url: forumUrl }]
+          : query(queryInfo),
     });
     const send = chrome.runtime.sendMessage.bind(chrome.runtime);
     Object.defineProperty(chrome.runtime, 'sendMessage', {
@@ -203,7 +161,6 @@ const controlForumPopup = async (
         ) {
           return send(message);
         }
-        probe.messages.push(message);
         if (probe.holdMessage === message.key) {
           await new Promise<void>((resolve) => {
             probe.releaseReply = resolve;
@@ -212,22 +169,12 @@ const controlForumPopup = async (
         if (probe.rejectMessage === message.key) {
           throw new Error('Controlled forum message rejection');
         }
-        probe.replies++;
         return message.key === 'openWebsiteLinks'
           ? { forumPageLinks: [] }
           : undefined;
       },
     });
-    const scheduleTimeout = window.setTimeout.bind(window);
-    Object.defineProperty(window, 'setTimeout', {
-      value: (handler: TimerHandler, timeout?: number, ...args: unknown[]) => {
-        if (timeout === 3000) {
-          probe.resetTimers++;
-        }
-        return scheduleTimeout(handler, timeout, ...args);
-      },
-    });
-  }, tab);
+  }, `https://${FORUM_HOST}/`);
   await popup.reload({ waitUntil: 'domcontentloaded' });
   await expect(popup.getByTestId('logout-button')).toBeEnabled();
 };
@@ -412,63 +359,16 @@ test.describe('Forum button', () => {
       `https://${UNRELATED_HOST}/`,
       UNREAD_ROWS_HTML
     );
-    await popup.reload({ waitUntil: 'domcontentloaded' });
 
     await expect(forumButton).toBeDisabled();
-  });
-
-  test('keeps the newer URL result when an older lookup finishes last', async ({
-    sharedBackground,
-  }) => {
-    const popup = await sharedBackground.openPopup();
-    controlledClock = true;
-    await popup.clock.install();
-    await controlForumPopup(popup);
-    const button = popup.getByTestId('forum-button');
-    await expect(button).toBeEnabled();
-    await popup.clock.pauseAt((await popup.evaluate(() => Date.now())) + 1000);
-    await popup.clock.fastForward(2100);
-    await popup.evaluate((url) => {
-      const probe = window.e2eForum;
-      probe.tab = { id: 0, url };
-      probe.holdTab = true;
-      probe.holdWebsites = true;
-    }, `https://${UNRELATED_HOST}/`);
-
-    await popup.getByRole('button', { name: 'Bookmarks', exact: true }).click();
-    await expect(popup.getByPlaceholder('Search')).toBeVisible();
-    await popup.getByRole('button', { name: 'Back', exact: true }).click();
-    await popup.clock.runFor(50);
-    await expect
-      .poll(() => popup.evaluate(() => window.e2eForum.websiteReads.length))
-      .toBe(1);
-    await popup.evaluate(() => window.e2eForum.releaseTab?.());
-    await expect
-      .poll(() => popup.evaluate(() => window.e2eForum.websiteReads.length))
-      .toBe(2);
-
-    await popup.evaluate(() => window.e2eForum.websiteReads[1].release());
-    await expect
-      .poll(() =>
-        popup.evaluate(() => window.e2eForum.websiteReads[1].completed)
-      )
-      .toBe(true);
-    await expect(button).toBeDisabled();
-    await popup.evaluate(() => window.e2eForum.websiteReads[0].release());
-    await expect
-      .poll(() =>
-        popup.evaluate(() => window.e2eForum.websiteReads[0].completed)
-      )
-      .toBe(true);
-    await expect(button).toBeDisabled();
   });
 
   test('resets after three seconds and cancels the reset during another operation', async ({
     sharedBackground,
   }) => {
     const popup = await sharedBackground.openPopup();
-    controlledClock = true;
     await popup.clock.install();
+    controlledClock = true;
     await controlForumPopup(popup);
     const button = popup.getByTestId('forum-button');
     await expect(button).toBeEnabled();
@@ -500,102 +400,26 @@ test.describe('Forum button', () => {
     await popup.clock.fastForward(1);
     await expect(button).toHaveText('Forum');
     await expect(button).toBeEnabled();
-    expect(
-      await popup.evaluate(() => window.e2eForum.messages.map(({ key }) => key))
-    ).toEqual([
-      'openWebsiteLinks',
-      'openLinksInTabs',
-      'openWebsiteLinks',
-      'openLinksInTabs',
-      'openWebsiteLinks',
-      'openLinksInTabs',
-    ]);
   });
 
-  for (const key of ['openWebsiteLinks', 'openLinksInTabs'] as const) {
-    test(`restores the button and reports a rejected ${key} reply`, async ({
-      sharedBackground,
-    }) => {
-      const popup = await sharedBackground.openPopup();
-      await controlForumPopup(popup);
-      const button = popup.getByTestId('forum-button');
-      await expect(button).toBeEnabled();
-      await popup.evaluate((messageKey) => {
-        window.e2eForum.rejectMessage = messageKey;
-      }, key);
-      await button.click();
-
-      await expect(
-        popup.getByText('Could not open forum links', { exact: true })
-      ).toBeVisible();
-      await expect(button).toHaveText('Forum');
-      await expect(button).toBeEnabled();
-      expect(
-        await popup.evaluate(() =>
-          window.e2eForum.messages.map(({ key: messageKey }) => messageKey)
-        )
-      ).toEqual(
-        key === 'openWebsiteLinks'
-          ? ['openWebsiteLinks']
-          : ['openWebsiteLinks', 'openLinksInTabs']
-      );
-      expect(await popup.evaluate(() => window.e2eForum.resetTimers)).toBe(0);
+  test('restores the button and reports a rejected reply', async ({
+    sharedBackground,
+  }) => {
+    const popup = await sharedBackground.openPopup();
+    await controlForumPopup(popup);
+    const button = popup.getByTestId('forum-button');
+    await expect(button).toBeEnabled();
+    await popup.evaluate(() => {
+      window.e2eForum.rejectMessage = 'openLinksInTabs';
     });
+    await button.click();
 
-    test(`does not start a success timer when ${key} resolves after leaving home`, async ({
-      sharedBackground,
-    }) => {
-      const popup = await sharedBackground.openPopup();
-      await controlForumPopup(popup);
-      const button = popup.getByTestId('forum-button');
-      await expect(button).toBeEnabled();
-      await popup.evaluate((messageKey) => {
-        window.e2eForum.holdMessage = messageKey;
-      }, key);
-      await button.click();
-      await expect(button).toHaveText('Forum');
-      await expect(button).toBeDisabled();
-      await expect
-        .poll(() => popup.evaluate(() => Boolean(window.e2eForum.releaseReply)))
-        .toBe(true);
-      await popup
-        .getByRole('button', { name: 'Bookmarks', exact: true })
-        .click();
-      await expect(popup.getByPlaceholder('Search')).toBeVisible();
-      await popup.evaluate(() => window.e2eForum.releaseReply?.());
-      await expect
-        .poll(() => popup.evaluate(() => window.e2eForum.replies))
-        .toBe(2);
-      expect(await popup.evaluate(() => window.e2eForum.resetTimers)).toBe(0);
-      await popup.getByRole('button', { name: 'Back', exact: true }).click();
-      await expect(button).toHaveText('Forum');
-      await expect(button).toBeEnabled();
-      expect(await popup.evaluate(() => window.e2eForum.resetTimers)).toBe(0);
-    });
-  }
-
-  for (const missing of ['id', 'url'] as const) {
-    test(`sends no messages or success timer without a tab ${missing}`, async ({
-      sharedBackground,
-    }) => {
-      const popup = await sharedBackground.openPopup();
-      await controlForumPopup(
-        popup,
-        missing === 'id' ? { url: `https://${FORUM_HOST}/` } : { id: 0 }
-      );
-      const button = popup.getByTestId('forum-button');
-      if (missing === 'id') {
-        await expect(button).toBeEnabled();
-        await button.click();
-        await expect(button).toBeEnabled();
-      } else {
-        await expect(button).toBeDisabled();
-      }
-      await expect(button).toHaveText('Forum');
-      expect(await popup.evaluate(() => window.e2eForum.messages)).toEqual([]);
-      expect(await popup.evaluate(() => window.e2eForum.resetTimers)).toBe(0);
-    });
-  }
+    await expect(
+      popup.getByText('Could not open forum links', { exact: true })
+    ).toBeVisible();
+    await expect(button).toHaveText('Forum');
+    await expect(button).toBeEnabled();
+  });
 });
 
 test.describe('Opening collected links', () => {

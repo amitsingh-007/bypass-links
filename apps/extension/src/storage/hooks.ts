@@ -1,66 +1,31 @@
-import { useSyncExternalStore } from 'react';
+import { useEffect, useState } from 'react';
 import type { WxtStorageItem } from 'wxt/utils/storage';
 
 import { extStateItem, historyStartTimeItem } from './items';
 
-const createStorageHook = <T extends string | number | boolean | null>(
+const useStorageItem = <T extends string | number | boolean | null>(
   item: WxtStorageItem<T, {}>
 ) => {
-  let snapshot = item.fallback;
-  let revision = 0;
-  let unwatch: (() => void) | undefined;
-  const listeners = new Set<() => void>();
-  const getSnapshot = () => snapshot;
-  const update = (value: T) => {
-    if (Object.is(snapshot, value)) {
-      return;
-    }
-    snapshot = value;
-    listeners.forEach((listener) => listener());
-  };
-  const reportError = (error: unknown) => {
-    console.error(`Could not read ${item.key}`, error);
-  };
-  const subscribe = (listener: () => void) => {
-    listeners.add(listener);
-    if (listeners.size === 1) {
-      let active = true;
-      const readRevision = revision;
-      try {
-        const stopWatch = item.watch((value) => {
-          if (active) {
-            revision++;
-            update(value);
-          }
-        });
-        unwatch = () => {
-          active = false;
-          stopWatch();
-          snapshot = item.fallback;
-        };
-        void item
-          .getValue()
-          .then((value) => {
-            if (active && revision === readRevision) {
-              update(value);
-            }
-          })
-          .catch(reportError);
-      } catch (error) {
-        reportError(error);
-      }
-    }
+  const [value, setValue] = useState(item.fallback);
+  useEffect(() => {
+    let changed = false;
+    const unwatch = item.watch((nextValue) => {
+      changed = true;
+      setValue(nextValue);
+    });
+    void item
+      .getValue()
+      .then((initialValue) => {
+        if (!changed) setValue(initialValue);
+      })
+      .catch(console.error);
     return () => {
-      listeners.delete(listener);
-      if (listeners.size === 0) {
-        unwatch?.();
-        unwatch = undefined;
-      }
+      changed = true;
+      unwatch();
     };
-  };
-
-  return () => useSyncExternalStore(subscribe, getSnapshot);
+  }, [item]);
+  return value;
 };
 
-export const useExtensionState = createStorageHook(extStateItem);
-export const useHistoryStartTime = createStorageHook(historyStartTimeItem);
+export const useExtensionState = () => useStorageItem(extStateItem);
+export const useHistoryStartTime = () => useStorageItem(historyStartTimeItem);

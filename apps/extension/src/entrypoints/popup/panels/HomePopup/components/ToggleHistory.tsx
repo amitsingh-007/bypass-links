@@ -1,37 +1,12 @@
 import { Switch } from '@bypass/ui';
 import { useEffect } from 'react';
-import { toast } from 'sonner';
 
 import { EExtensionState } from '@/constants';
 import { useExtensionState, useHistoryStartTime } from '@/storage/hooks';
-import { historyStartTimeItem } from '@/storage/items';
-import { startHistoryWatch } from '@/utils/history';
+import { startHistoryWatch, stopHistoryWatch } from '@/utils/history';
 
-const endHistoryWatch = async () => {
-  const historyStartTime = await historyStartTimeItem.getValue();
-  if (!historyStartTime) {
-    return;
-  }
-  const historyEndTime = Date.now();
-  await browser.history.deleteRange({
-    startTime: historyStartTime,
-    endTime: historyEndTime,
-  });
-  await historyStartTimeItem.removeValue();
-};
-
-const handleToggle = async (checked: boolean) => {
-  try {
-    if (checked) {
-      await startHistoryWatch();
-    } else {
-      await endHistoryWatch();
-    }
-  } catch (error) {
-    console.error('Could not update history tracking', error);
-    toast.error('Could not update history tracking');
-  }
-};
+const handleToggle = (checked: boolean) =>
+  checked ? startHistoryWatch() : stopHistoryWatch();
 
 function ToggleHistory() {
   const historyStartTime = useHistoryStartTime();

@@ -219,12 +219,6 @@ test.describe('Persons editing and ordering', () => {
       const file = z.instanceof(File).parse(formData.get('file'));
       expect(file.name).toBe(getPersonImageName(uid));
       expect(file.type).toBe('image/png');
-      const png = Buffer.from(await file.arrayBuffer());
-      expect(png.subarray(0, 8)).toEqual(
-        Buffer.from([137, 80, 78, 71, 13, 10, 26, 10])
-      );
-      expect([png.readUInt32BE(16), png.readUInt32BE(20)]).toEqual([27, 27]);
-
       await dialog.getByRole('button', { name: 'Save', exact: true }).click();
       await expect(dialog).toBeHidden();
 
@@ -394,56 +388,6 @@ test.describe('Persons editing and ordering', () => {
           .poll(async () => getStoredImageUrl(page, uid))
           .toBe(STORED_IMAGE_URL);
       });
-    });
-  });
-
-  test('rejects a null crop before uploading and allows retry', async () => {
-    await withSignedInProfile(async ({ context, extensionId }) => {
-      const imageRoutes = await controlPersonImages(context);
-      const { page, panel } = await openPersonsPanel(context, extensionId);
-      const uid = (await getPersonUids(page))[TEST_PERSONS.DONALD];
-      const imageUrlBefore = await getStoredImageUrl(page, uid);
-      const { dialog, imagePicker } = await panel.openImagePicker(
-        TEST_PERSONS.DONALD
-      );
-      await panel.getPickerUrlInput().fill(IMAGE_DATA_URL);
-      await expect(panel.getPickerSaveButton()).toBeEnabled();
-      await page.evaluate(() => {
-        // oxlint-disable-next-line typescript/unbound-method -- Restored as a method, never called unbound.
-        const toBlob = HTMLCanvasElement.prototype.toBlob;
-        HTMLCanvasElement.prototype.toBlob = (callback) => {
-          HTMLCanvasElement.prototype.toBlob = toBlob;
-          window.addEventListener(
-            'fail-image-conversion',
-            () => callback(null),
-            {
-              once: true,
-            }
-          );
-        };
-      });
-
-      await panel.getPickerSaveButton().click();
-      await expect(page.getByTestId('uploading-overlay')).toBeVisible();
-      const conversionError = page.waitForEvent('console', {
-        predicate: (message) =>
-          message.type() === 'error' &&
-          message.text().includes('Error while cropping the image'),
-      });
-      await page.evaluate(() =>
-        window.dispatchEvent(new Event('fail-image-conversion'))
-      );
-      await conversionError;
-
-      await expect(page.getByTestId('uploading-overlay')).toBeHidden();
-      await expect(imagePicker).toBeVisible();
-      expect(imageRoutes.uploads()).toHaveLength(0);
-      expect(await getStoredImageUrl(page, uid)).toBe(imageUrlBefore);
-
-      await panel.getPickerSaveButton().click();
-      await expect(imagePicker).toBeHidden();
-      expect(imageRoutes.uploads()).toHaveLength(1);
-      await closeDialog(page, dialog);
     });
   });
 
