@@ -56,7 +56,6 @@ export const cacheBookmarkFavicons = async () => {
   const bookmarks = await bookmarksItem.getValue();
   const faviconUrls = getBookmarkFaviconUrls(bookmarks.urlList, getFaviconUrl);
   await addAllToCache(ECacheBucketKeys.favicon, faviconUrls);
-  console.log('Bookmark favicons cached');
 };
 
 export const findBookmarkById = (

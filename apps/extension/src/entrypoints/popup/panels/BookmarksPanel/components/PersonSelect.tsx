@@ -20,6 +20,7 @@ import {
 } from '@bypass/ui';
 import { UserWarning03Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
+import { useInputState } from '@mantine/hooks';
 import { useState } from 'react';
 
 interface IOptionData {
@@ -77,7 +78,7 @@ function AvatarWithPreview({ person }: AvatarWithPreviewProps) {
 
 function PersonSelect({ value, onChange }: PersonSelectProps) {
   const [orderByRecency, setOrderByRecency] = useState(true);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useInputState('');
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
   const { data: persons } = useOrderedPersons(orderByRecency);
   const imageUrls = usePersonImageMap(persons.map(({ uid }) => uid));
@@ -147,7 +148,7 @@ function PersonSelect({ value, onChange }: PersonSelectProps) {
             <ComboboxChipsInput
               placeholder="Search persons..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={setSearchQuery}
             />
           </ComboboxChips>
           <ComboboxContent anchor={anchorEl}>

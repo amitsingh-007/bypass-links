@@ -28,7 +28,6 @@ export const signIn = async (): Promise<boolean> => {
     return true;
   } catch (error) {
     console.error('Error occurred while signing in.', error);
-    console.log('Reverting due to login error...');
     await signOut();
     return false;
   }

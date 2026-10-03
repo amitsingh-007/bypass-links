@@ -11,6 +11,7 @@ import { BookmarksObjSchema, PersonsSchema } from '@bypass/shared/schema';
 import { expect, type Page } from '@playwright/test';
 
 import { POPUP_HOMEPAGE } from '@/constants';
+import { mapRedirections } from '@/entrypoints/background/redirections/mapper';
 
 export const openPanel = async (
   page: Page,
@@ -224,9 +225,7 @@ export const getRedirectionStorage = (rules: IRedirections) => {
   const encoded = encodeRedirections(rules);
   return {
     [EStorageKey.redirections]: encoded,
-    [EStorageKey.mappedRedirections]: Object.fromEntries(
-      encoded.map(({ alias, website }) => [alias, website])
-    ),
+    [EStorageKey.mappedRedirections]: mapRedirections(encoded),
   };
 };
 

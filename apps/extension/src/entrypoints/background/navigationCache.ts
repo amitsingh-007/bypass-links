@@ -1,6 +1,4 @@
-import { EStorageKey } from '@bypass/shared';
-
-import { type EExtensionState, EExtStorageKey } from '@/constants';
+import { type EExtensionState } from '@/constants';
 import { extStateItem, mappedRedirectionsItem } from '@/storage/items';
 
 import { type IMappedRedirections } from './interfaces/redirections';
@@ -13,21 +11,25 @@ let extState: EExtensionState | undefined;
 let mappedRedirections: IMappedRedirections | undefined;
 
 export const getExtState = async () => {
-  extState ??= await extStateItem.getValue();
+  if (extState === undefined) {
+    const value = await extStateItem.getValue();
+    extState ??= value;
+  }
   return extState;
 };
 
 export const getMappedRedirections = async () => {
-  mappedRedirections ??= await mappedRedirectionsItem.getValue();
+  if (mappedRedirections === undefined) {
+    const value = await mappedRedirectionsItem.getValue();
+    mappedRedirections ??= value;
+  }
   return mappedRedirections;
 };
 
-/** Written from the popup realm, so storage events are the only signal. */
-export const invalidateNavigationCache = (changes: Record<string, unknown>) => {
-  if (EExtStorageKey.EXT_STATE in changes) {
-    extState = undefined;
-  }
-  if (EStorageKey.mappedRedirections in changes) {
-    mappedRedirections = undefined;
-  }
+export const setExtState = (value: EExtensionState) => {
+  extState = value;
+};
+
+export const setMappedRedirections = (value: IMappedRedirections) => {
+  mappedRedirections = value;
 };

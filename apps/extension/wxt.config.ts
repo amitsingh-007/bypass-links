@@ -1,5 +1,4 @@
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 
 import babel from '@rolldown/plugin-babel';
 import tailwindcss from '@tailwindcss/vite';
@@ -8,10 +7,7 @@ import { defineConfig } from 'wxt';
 
 import { devManifest, prodOAuth2 } from './src/constants/manifest';
 
-const envDir = path.resolve(
-  path.dirname(fileURLToPath(import.meta.url)),
-  '../..'
-);
+const envDir = path.resolve(import.meta.dirname, '../..');
 
 const isCoverageBuild = process.env.COVERAGE === '1';
 

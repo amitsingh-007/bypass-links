@@ -33,7 +33,7 @@ export const sortByPriority = <T>(
   keyOf: (item: T) => string,
   priority: Record<string, number>
 ) =>
-  [...items].toSorted(
+  items.toSorted(
     (a, b) => (priority[keyOf(b)] ?? -1) - (priority[keyOf(a)] ?? -1)
   );
 

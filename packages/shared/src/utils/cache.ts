@@ -93,10 +93,6 @@ export const deleteAllCache = async (cacheBucketKeys: ECacheBucketKeys[]) => {
   await Promise.all(
     cacheBucketKeys.map(async (cacheBucketKey) => deleteCache(cacheBucketKey))
   );
-  console.log('Cleared all cache inside the buckets', cacheBucketKeys);
 };
 
-export const isCachePresent = async (key: string) => {
-  const cacheKeys = await caches.keys();
-  return cacheKeys.includes(key);
-};
+export const isCachePresent = async (key: string) => caches.has(key);

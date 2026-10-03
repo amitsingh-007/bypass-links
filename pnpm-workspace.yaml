@@ -13,7 +13,7 @@ overrides:
 allowBuilds:
   '@firebase/util': false
   esbuild: false
-  lefthook: false
+  lefthook: true
   msw: false
   protobufjs: false
   sharp: false
@@ -60,7 +60,6 @@ catalog:
   p-limit: 7.3.3
   oxlint-tailwindcss: 1.14.0
   oxlint-tsgolint: 7.0.2003
-  postcss: 8.5.28
   react: 19.3.0
   react-avatar-editor: 15.1.0
   react-dom: 19.3.0
