@@ -120,10 +120,17 @@ export const recordIconUpdates = async (backgroundSW: Worker) => {
 export const restartBackgroundWorker = async (context: BrowserContext) => {
   const backgroundSW = await createSharedBackgroundSW(context);
   const timeOrigin = await backgroundSW.evaluate(() => performance.timeOrigin);
-  // Playwright preserves the Worker handle across execution-context restarts.
-  void backgroundSW
-    .evaluate(() => chrome.runtime.reload())
-    .catch(() => undefined);
+  const session = await context.newCDPSession(context.pages()[0]);
+  try {
+    // Restart the worker without unloading the extension or its coverage target.
+    await session.send('ServiceWorker.enable');
+    await session.send('ServiceWorker.stopAllWorkers');
+    await session.send('ServiceWorker.startWorker', {
+      scopeURL: new URL('./', backgroundSW.url()).href,
+    });
+  } finally {
+    await session.detach();
+  }
   await expect
     .poll(
       () =>
