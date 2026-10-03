@@ -129,6 +129,56 @@ const findTabId = async (popup: Page, url: string) =>
     return tab?.id ?? -1;
   }, url);
 
+interface ForumProbe {
+  holdMessage?: RuntimeKeys;
+  rejectMessage?: RuntimeKeys;
+  releaseReply?: () => void;
+}
+
+declare global {
+  interface Window {
+    e2eForum: ForumProbe;
+  }
+}
+
+const controlForumPopup = async (popup: Page) => {
+  await popup.addInitScript((forumUrl) => {
+    const probe: ForumProbe = {};
+    window.e2eForum = probe;
+    const query = chrome.tabs.query.bind(chrome.tabs);
+    Object.defineProperty(chrome.tabs, 'query', {
+      value: async (queryInfo: chrome.tabs.QueryInfo) =>
+        queryInfo.active && queryInfo.currentWindow
+          ? [{ id: 0, url: forumUrl }]
+          : query(queryInfo),
+    });
+    const send = chrome.runtime.sendMessage.bind(chrome.runtime);
+    Object.defineProperty(chrome.runtime, 'sendMessage', {
+      value: async (message: RuntimeInput) => {
+        if (
+          message.key !== 'openWebsiteLinks' &&
+          message.key !== 'openLinksInTabs'
+        ) {
+          return send(message);
+        }
+        if (probe.holdMessage === message.key) {
+          await new Promise<void>((resolve) => {
+            probe.releaseReply = resolve;
+          });
+        }
+        if (probe.rejectMessage === message.key) {
+          throw new Error('Controlled forum message rejection');
+        }
+        return message.key === 'openWebsiteLinks'
+          ? { forumPageLinks: [] }
+          : undefined;
+      },
+    });
+  }, `https://${FORUM_HOST}/`);
+  await popup.reload({ waitUntil: 'domcontentloaded' });
+  await expect(popup.getByTestId('logout-button')).toBeEnabled();
+};
+
 test('ignores malformed runtime messages without holding the response channel open', async ({
   isolatedBackground,
 }) => {
@@ -228,10 +278,12 @@ test('answers with no links when the tab is already gone', async ({
 
 test.describe('Forum button', () => {
   let syncedWebsites: unknown;
+  let controlledClock = false;
   // The click opens a tab we get no handle on, and this worker-scoped profile must be left clean.
   let pagesBefore = new Set<Page>();
 
   test.beforeEach(async ({ sharedBackground }) => {
+    controlledClock = false;
     syncedWebsites = await sharedBackground.readStorage('websites');
     pagesBefore = new Set(sharedBackground.context.pages());
     await sharedBackground.writeStorage({
@@ -241,6 +293,10 @@ test.describe('Forum button', () => {
 
   test.afterEach(async ({ sharedBackground }) => {
     const { context } = sharedBackground;
+    if (controlledClock) {
+      await context.clock.resume();
+      await context.clock.setSystemTime(Date.now());
+    }
     await sharedBackground.writeStorage({ websites: syncedWebsites ?? {} });
     await Promise.all(
       context
@@ -250,7 +306,7 @@ test.describe('Forum button', () => {
     );
   });
 
-  test('reports success once it has opened the collected links', async ({
+  test('reports success once the collected links are acknowledged', async ({
     sharedBackground,
   }) => {
     const { context } = sharedBackground;
@@ -286,7 +342,7 @@ test.describe('Forum button', () => {
   });
 
   /** Enabled first: `disabled` is also the pre-lookup state, so it alone would false-pass. */
-  test('follows the active tab, and stays disabled off a synced forum', async ({
+  test('uses the active tab when opened, and stays disabled off a synced forum', async ({
     sharedBackground,
   }) => {
     const popup = await sharedBackground.openPopup();
@@ -306,6 +362,56 @@ test.describe('Forum button', () => {
     await popup.reload({ waitUntil: 'domcontentloaded' });
 
     await expect(forumButton).toBeDisabled();
+  });
+
+  test('resets after three seconds and cancels the reset during another operation', async ({
+    sharedBackground,
+  }) => {
+    const popup = await sharedBackground.openPopup();
+    await popup.clock.install();
+    controlledClock = true;
+    await controlForumPopup(popup);
+    const button = popup.getByTestId('forum-button');
+    await expect(button).toBeEnabled();
+    await popup.clock.pauseAt((await popup.evaluate(() => Date.now())) + 1000);
+
+    await button.click();
+    await expect(button).toHaveText('Success');
+    await popup.clock.fastForward(1000);
+    await popup.evaluate(() => {
+      window.e2eForum.holdMessage = 'openWebsiteLinks';
+    });
+    await button.click();
+    await expect(button).toBeDisabled();
+    await popup.clock.fastForward(2000);
+    await expect(button).toHaveText('Forum');
+    await expect(button).toBeDisabled();
+    await popup.evaluate(() => window.e2eForum.releaseReply?.());
+    await expect(button).toHaveText('Success');
+    await popup.clock.fastForward(2999);
+    await expect(button).toHaveText('Success');
+    await popup.clock.fastForward(1);
+    await expect(button).toHaveText('Forum');
+    await expect(button).toBeEnabled();
+  });
+
+  test('restores the button and reports a rejected reply', async ({
+    sharedBackground,
+  }) => {
+    const popup = await sharedBackground.openPopup();
+    await controlForumPopup(popup);
+    const button = popup.getByTestId('forum-button');
+    await expect(button).toBeEnabled();
+    await popup.evaluate(() => {
+      window.e2eForum.rejectMessage = 'openLinksInTabs';
+    });
+    await button.click();
+
+    await expect(
+      popup.getByText('Could not open forum links', { exact: true })
+    ).toBeVisible();
+    await expect(button).toHaveText('Forum');
+    await expect(button).toBeEnabled();
   });
 });
 

@@ -30,7 +30,7 @@ export const setExtensionIcon = async ({
 
 /** Allowlisted, so an unknown scheme is excluded rather than failing on injection. */
 export const isValidUrl = (_url?: string): boolean => {
-  if (!_url) return false;
+  if (!_url || !URL.canParse(_url)) return false;
   const url = new URL(_url);
   return (
     (url.protocol === 'http:' || url.protocol === 'https:') &&

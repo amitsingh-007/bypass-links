@@ -19,9 +19,3 @@ export enum EExtStorageKey {
   HAS_PENDING_PERSONS = 'hasPendingPersons',
   HISTORY_START_TIME = 'historyStartTime',
 }
-
-export const ICON_KEYS = [
-  EExtStorageKey.EXT_STATE,
-  EExtStorageKey.HAS_PENDING_BOOKMARKS,
-  EExtStorageKey.HAS_PENDING_PERSONS,
-] as const;

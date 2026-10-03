@@ -4,20 +4,23 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+
+concurrency:
+  group: downmerge-renovate-updates
+  cancel-in-progress: false
+
 jobs:
   Sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Downmerge main -> renovate-updates
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email 'github-actions[bot]@users.noreply.github.com'
-          git checkout renovate-updates
-          git merge -m 'Merge branch 'main' into renovate-updates' main
-          git push origin renovate-updates
+        uses: actions/github-script@v9
+        with:
+          script: |
+            await github.rest.repos.merge({
+              ...context.repo,
+              base: 'renovate-updates',
+              head: 'main',
+            });
