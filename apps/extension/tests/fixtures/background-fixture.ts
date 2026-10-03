@@ -118,13 +118,28 @@ export const recordIconUpdates = async (backgroundSW: Worker) => {
 };
 
 export const restartBackgroundWorker = async (context: BrowserContext) => {
-  const previous = await createSharedBackgroundSW(context);
-  const restarted = context.waitForEvent('serviceworker', {
-    predicate: (worker) => worker.url() === previous.url(),
-  });
-  // Reload destroys the evaluating execution context along with its module caches.
-  void previous.evaluate(() => chrome.runtime.reload()).catch(() => undefined);
-  const backgroundSW = await restarted;
+  const backgroundSW = await createSharedBackgroundSW(context);
+  const timeOrigin = await backgroundSW.evaluate(() => performance.timeOrigin);
+  const session = await context.newCDPSession(context.pages()[0]);
+  try {
+    // Restart the worker without unloading the extension or its coverage target.
+    await session.send('ServiceWorker.enable');
+    await session.send('ServiceWorker.stopAllWorkers');
+    await session.send('ServiceWorker.startWorker', {
+      scopeURL: new URL('./', backgroundSW.url()).href,
+    });
+  } finally {
+    await session.detach();
+  }
+  await expect
+    .poll(
+      () =>
+        backgroundSW
+          .evaluate(() => performance.timeOrigin)
+          .catch(() => timeOrigin),
+      { timeout: TEST_TIMEOUTS.LONG_WAIT }
+    )
+    .not.toBe(timeOrigin);
   await backgroundSW.evaluate(async () => chrome.runtime.getPlatformInfo());
   return backgroundSW;
 };
