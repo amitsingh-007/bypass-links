@@ -125,10 +125,12 @@ export const restartBackgroundWorker = async (context: BrowserContext) => {
     .evaluate(() => chrome.runtime.reload())
     .catch(() => undefined);
   await expect
-    .poll(() =>
-      backgroundSW
-        .evaluate(() => performance.timeOrigin)
-        .catch(() => timeOrigin)
+    .poll(
+      () =>
+        backgroundSW
+          .evaluate(() => performance.timeOrigin)
+          .catch(() => timeOrigin),
+      { timeout: TEST_TIMEOUTS.LONG_WAIT }
     )
     .not.toBe(timeOrigin);
   await backgroundSW.evaluate(async () => chrome.runtime.getPlatformInfo());
