@@ -1,4 +1,3 @@
-import { createServer } from 'node:http';
 import { createRequire, registerHooks } from 'node:module';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -8,9 +7,7 @@ import { NextRequest } from 'next/server.js';
 
 test.use({ storageState: { cookies: [], origins: [] } });
 
-test('authenticates storage cleanup requests before calling cleanup', async ({
-  request,
-}) => {
+test('authenticates storage cleanup requests before calling cleanup', async () => {
   const secret = 'storage-cleanup-test-key';
   const userId = 'disposable-cleanup-test-user';
   const authorizationUrl = `${
@@ -55,70 +52,33 @@ test('authenticates storage cleanup requests before calling cleanup', async ({
     routeUrl.search = 'storage-cleanup-test';
     const { POST }: typeof import('../../src/app/api/storage-cleanup/route') =
       await import(routeUrl.href);
-    const server = createServer(async (incoming, outgoing) => {
-      try {
-        const headers = new Headers();
-        const authorization = incoming.headers.authorization;
-        if (authorization !== undefined) {
-          headers.set('authorization', authorization);
-        }
-        const response = await POST(
-          new NextRequest('http://localhost/api/storage-cleanup', {
-            method: incoming.method,
-            headers,
-          })
-        );
-        outgoing.writeHead(
-          response.status,
-          Object.fromEntries(response.headers)
-        );
-        outgoing.end(await response.text());
-      } catch (error) {
-        console.error(error);
-        outgoing.writeHead(500);
-        outgoing.end();
-      }
-    });
-    await new Promise<void>((resolve, reject) => {
-      server.once('error', reject);
-      server.listen(0, '127.0.0.1', resolve);
-    });
-
-    try {
-      const address = server.address();
-      if (!address || typeof address === 'string') {
-        throw new Error('HTTP test server did not bind a TCP port');
-      }
-      const url = `http://127.0.0.1:${address.port}/api/storage-cleanup`;
-      for (const authorization of [
-        undefined,
-        'Bearer ',
-        'Basic credentials',
-        'Bearer wrong',
-        `Bearer ${'x'.repeat(secret.length)}`,
-        `Bearer ${secret}extra`,
-        `Bearer é${'x'.repeat(secret.length - 1)}`,
-        `Bearer é${'x'.repeat(secret.length - 2)}`,
-      ]) {
-        const response = await request.post(url, {
+    const invoke = (authorization?: string) =>
+      POST(
+        new NextRequest('http://localhost/api/storage-cleanup', {
+          method: 'POST',
           headers: authorization ? { authorization } : {},
-        });
-        expect(response.status()).toBe(403);
-        expect(await response.text()).toBe('Forbidden invocation');
-        expect(cleanupCalls).toEqual([]);
-      }
-
-      const response = await request.post(url, {
-        headers: { authorization: `Bearer ${secret}` },
-      });
-      expect(response.status()).toBe(200);
-      expect(await response.json()).toEqual({ status: 'Cleanup successful' });
-      expect(cleanupCalls).toEqual([userId]);
-    } finally {
-      await new Promise<void>((resolve, reject) => {
-        server.close((error) => (error ? reject(error) : resolve()));
-      });
+        })
+      );
+    for (const authorization of [
+      undefined,
+      'Bearer ',
+      'Basic credentials',
+      'Bearer wrong',
+      `Bearer ${'x'.repeat(secret.length)}`,
+      `Bearer ${secret}extra`,
+      `Bearer é${'x'.repeat(secret.length - 1)}`,
+      `Bearer é${'x'.repeat(secret.length - 2)}`,
+    ]) {
+      const response = await invoke(authorization);
+      expect(response.status).toBe(403);
+      expect(await response.text()).toBe('Forbidden invocation');
+      expect(cleanupCalls).toEqual([]);
     }
+
+    const response = await invoke(`Bearer ${secret}`);
+    expect(response.status).toBe(200);
+    expect(await response.json()).toEqual({ status: 'Cleanup successful' });
+    expect(cleanupCalls).toEqual([userId]);
   } finally {
     hooks.deregister();
   }

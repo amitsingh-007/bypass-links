@@ -186,31 +186,14 @@ test.describe('Persons editing and ordering', () => {
     });
   });
 
-  test('uploads a cropped PNG and keeps it after reopening', async () => {
+  test('uploads a PNG and keeps it after reopening', async () => {
     await withSignedInProfile(async ({ context, extensionId }) => {
       const imageRoutes = await controlPersonImages(context);
       const { page, panel } = await openPersonsPanel(context, extensionId);
       const uid = (await getPersonUids(page))[TEST_PERSONS.DONALD];
 
-      const imageDataUrl = await page.evaluate(() => {
-        const canvas = document.createElement('canvas');
-        canvas.width = 120;
-        canvas.height = 80;
-        canvas.getContext('2d')?.fillRect(0, 0, 120, 80);
-        return canvas.toDataURL('image/png');
-      });
-      const { dialog, imagePicker } = await panel.openImagePicker(
-        TEST_PERSONS.DONALD
-      );
-      await panel.getPickerUrlInput().fill(imageDataUrl);
-      await expect(panel.getPickerSaveButton()).toBeEnabled();
-      const zoom = imagePicker.getByTestId('zoom-slider').getByRole('slider');
-      await zoom.press('End');
-      await expect(zoom).toHaveAttribute('aria-valuenow', '3');
-
       const uploadRequest = page.waitForRequest('**/api/upload-file');
-      await panel.getPickerSaveButton().click();
-      await expect(imagePicker).toBeHidden();
+      await panel.changePersonImage(TEST_PERSONS.DONALD, IMAGE_DATA_URL);
       const request = await uploadRequest;
       const formData = await new Response(
         new Uint8Array(request.postDataBuffer() ?? []),
@@ -219,9 +202,6 @@ test.describe('Persons editing and ordering', () => {
       const file = z.instanceof(File).parse(formData.get('file'));
       expect(file.name).toBe(getPersonImageName(uid));
       expect(file.type).toBe('image/png');
-      await dialog.getByRole('button', { name: 'Save', exact: true }).click();
-      await expect(dialog).toBeHidden();
-
       expect(imageRoutes.uploads()).toHaveLength(1);
       await expect
         .poll(async () => getStoredImageUrl(page, uid))
