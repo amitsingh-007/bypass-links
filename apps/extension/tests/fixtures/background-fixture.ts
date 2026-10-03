@@ -118,13 +118,19 @@ export const recordIconUpdates = async (backgroundSW: Worker) => {
 };
 
 export const restartBackgroundWorker = async (context: BrowserContext) => {
-  const previous = await createSharedBackgroundSW(context);
-  const restarted = context.waitForEvent('serviceworker', {
-    predicate: (worker) => worker.url() === previous.url(),
-  });
-  // Reload destroys the evaluating execution context along with its module caches.
-  void previous.evaluate(() => chrome.runtime.reload()).catch(() => undefined);
-  const backgroundSW = await restarted;
+  const backgroundSW = await createSharedBackgroundSW(context);
+  const timeOrigin = await backgroundSW.evaluate(() => performance.timeOrigin);
+  // Playwright preserves the Worker handle across execution-context restarts.
+  void backgroundSW
+    .evaluate(() => chrome.runtime.reload())
+    .catch(() => undefined);
+  await expect
+    .poll(() =>
+      backgroundSW
+        .evaluate(() => performance.timeOrigin)
+        .catch(() => timeOrigin)
+    )
+    .not.toBe(timeOrigin);
   await backgroundSW.evaluate(async () => chrome.runtime.getPlatformInfo());
   return backgroundSW;
 };
