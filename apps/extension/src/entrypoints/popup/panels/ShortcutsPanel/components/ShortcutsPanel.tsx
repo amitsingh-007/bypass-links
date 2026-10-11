@@ -109,30 +109,32 @@ function ShortcutsPanel() {
           Save
         </Button>
       </Header>
-      <div className="relative flex flex-1 flex-col gap-2 overflow-auto px-1 pt-2 pb-1">
-        {redirections.map((redirection, index) => {
-          const isMatch = isMatchingRule(redirection, searchText);
-          return (
-            <div
-              key={`${redirection.alias}_${redirection.website}`}
-              tabIndex={0}
-              data-testid={`rule-${index}`}
-              data-search-active={searchText.length > 0}
-              data-match={isMatch}
-              className="data-[search-active=true]:data-[match=false]:hidden"
-            >
-              <RedirectionRule
-                {...redirection}
-                pos={index}
-                total={redirections.length}
-                lastVisited={lastVisitedMap[redirection.website]}
-                handleRemoveRule={handleRemoveRule}
-                handleSaveRule={handleSaveRule}
-                handleRuleMove={handleRuleMove}
-              />
-            </div>
-          );
-        })}
+      <div className="relative flex min-h-0 flex-1">
+        <div className="flex flex-1 flex-col gap-2 overflow-auto px-1 pt-2 pb-1">
+          {redirections.map((redirection, index) => {
+            const isMatch = isMatchingRule(redirection, searchText);
+            return (
+              <div
+                key={`${redirection.alias}_${redirection.website}`}
+                tabIndex={0}
+                data-testid={`rule-${index}`}
+                data-search-active={searchText.length > 0}
+                data-match={isMatch}
+                className="data-[search-active=true]:data-[match=false]:hidden"
+              >
+                <RedirectionRule
+                  {...redirection}
+                  pos={index}
+                  total={redirections.length}
+                  lastVisited={lastVisitedMap[redirection.website]}
+                  handleRemoveRule={handleRemoveRule}
+                  handleSaveRule={handleSaveRule}
+                  handleRuleMove={handleRuleMove}
+                />
+              </div>
+            );
+          })}
+        </div>
         {isFetching && <LoadingOverlay />}
       </div>
     </Panel>
