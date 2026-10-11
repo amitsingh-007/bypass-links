@@ -74,10 +74,13 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
       handleSelectedChange: state.handleSelectedChange,
     }))
   );
-  const [openDialog, dialogHandlers] = useDisclosure(false);
+  const [openDialog, { open: openBookmarkDialog, close: closeBookmarkDialog }] =
+    useDisclosure(false);
   const titleInputRef = useRef<HTMLInputElement>(null);
+  const resetCaretOnOpenComplete = useRef(false);
 
   const focusCaretAtTitleStart = () => {
+    resetCaretOnOpenComplete.current = true;
     const input = titleInputRef.current;
     if (!input) {
       return true; // fallback to default focus behavior
@@ -141,7 +144,7 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
           folderId: defaultFolderId ?? ROOT_FOLDER_ID,
           taggedPersons: [],
         });
-        dialogHandlers.open();
+        openBookmarkDialog();
         return;
       }
 
@@ -163,7 +166,7 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
           folderId: curFolderId,
           taggedPersons: bookmark.taggedPersons,
         });
-        dialogHandlers.open();
+        openBookmarkDialog();
       }
     };
     resolveBookmark();
@@ -172,9 +175,9 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
     contextBookmarks,
     curFolderId,
     defaultFolderId,
-    dialogHandlers,
     form,
     isFetching,
+    openBookmarkDialog,
     operation,
   ]);
 
@@ -188,7 +191,7 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
       handleSelectedChange(form.getFieldValue('id'), true);
     }
     form.reset();
-    dialogHandlers.close();
+    closeBookmarkDialog();
   };
 
   const handleDelete = () => {
@@ -197,7 +200,17 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
   };
 
   return (
-    <Dialog open={openDialog} onOpenChange={closeDialog}>
+    <Dialog
+      open={openDialog}
+      onOpenChange={closeDialog}
+      onOpenChangeComplete={(open) => {
+        if (open && resetCaretOnOpenComplete.current) {
+          // Opening can move the caret after initialFocus runs.
+          titleInputRef.current?.setSelectionRange(0, 0);
+        }
+        resetCaretOnOpenComplete.current = false;
+      }}
+    >
       <DialogContent
         className="sm:max-w-lg"
         initialFocus={focusCaretAtTitleStart}
@@ -226,7 +239,10 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
                   placeholder="Enter bookmark title"
                   value={field.state.value}
                   onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
+                  onChange={(e) => {
+                    resetCaretOnOpenComplete.current = false;
+                    field.handleChange(e.target.value);
+                  }}
                 />
                 <FieldError errors={field.state.meta.errors} />
               </Field>
