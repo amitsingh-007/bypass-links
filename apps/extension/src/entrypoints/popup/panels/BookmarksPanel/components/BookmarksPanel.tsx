@@ -6,6 +6,7 @@ import {
   getFilteredContextBookmarks,
 } from '@bypass/shared';
 import { ScrollArea } from '@bypass/ui';
+import { useHotkeys } from '@mantine/hooks';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useEffect, useRef, useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
@@ -55,10 +56,10 @@ function BookmarksPanel() {
   });
 
   // Right-clicked row wins over the selection, which anything can clear mid-gesture
-  const handleOpenBookmarks = (id: string) => {
+  const handleOpenBookmarks = (id?: string) => {
     const { contextBookmarks: bookmarks, selectedBookmarks: selected } =
       useBookmarkStore.getState();
-    const rightClicked = findBookmarkById(bookmarks, id);
+    const rightClicked = id ? findBookmarkById(bookmarks, id) : undefined;
 
     if (rightClicked && selected.size < 2) {
       tabs.open(rightClicked.url);
@@ -71,6 +72,18 @@ function BookmarksPanel() {
       }
     });
   };
+
+  useHotkeys([
+    [
+      'mod+O',
+      (event) => {
+        if (selectedBookmarks.size) {
+          event.stopPropagation();
+          handleOpenBookmarks();
+        }
+      },
+    ],
+  ]);
 
   useEffect(() => {
     if (!isFetching) {

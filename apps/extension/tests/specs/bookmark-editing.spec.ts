@@ -1,5 +1,6 @@
 import {
   TEST_BOOKMARKS,
+  TEST_BOOKMARK_URLS,
   TEST_FOLDERS,
   TEST_SITES,
   clearSearchInput,
@@ -187,6 +188,94 @@ test.describe('Bookmark form validation', () => {
 });
 
 test.describe('Bookmark selection', () => {
+  test('prevents Chrome Command+O without a selection', async ({
+    bookmarksPage,
+  }) => {
+    const panel = new BookmarksPanel(bookmarksPage);
+    await panel.ensureAtRoot();
+
+    await bookmarksPage.evaluate(() => {
+      const controller = new AbortController();
+      document.addEventListener(
+        'keydown',
+        (event) => {
+          if (event.key.toLowerCase() !== 'o') {
+            return;
+          }
+          document.documentElement.dataset.openHotkeyPrevented = String(
+            event.defaultPrevented
+          );
+          controller.abort();
+        },
+        { signal: controller.signal }
+      );
+    });
+    await bookmarksPage.keyboard.press('ControlOrMeta+o');
+
+    expect(
+      await bookmarksPage.evaluate(
+        () => document.documentElement.dataset.openHotkeyPrevented
+      )
+    ).toBe('true');
+  });
+
+  test('opens one selected bookmark with Command+O', async ({
+    bookmarksPage,
+    context,
+  }) => {
+    const panel = new BookmarksPanel(bookmarksPage);
+    await panel.ensureAtRoot();
+    await panel.selectBookmark(FIRST);
+
+    const pagesBefore = new Set(context.pages());
+    try {
+      await recordCreatedTabs(bookmarksPage);
+      await bookmarksPage.keyboard.press('ControlOrMeta+o');
+
+      await expect
+        .poll(() => getRecordedTabs(bookmarksPage))
+        .toEqual([{ url: TEST_BOOKMARK_URLS.REACT_DOCS, active: false }]);
+    } finally {
+      await Promise.all(
+        context
+          .pages()
+          .filter((page) => !pagesBefore.has(page))
+          .map((page) => page.close())
+      );
+    }
+  });
+
+  test('opens all selected bookmarks with Command+O', async ({
+    bookmarksPage,
+    context,
+  }) => {
+    const panel = new BookmarksPanel(bookmarksPage);
+    await openSelectionFolder(panel);
+    await fillSearchInput(bookmarksPage, 'Beta');
+    await panel.selectBookmark('Beta One');
+    await panel.selectBookmark('Beta Two', { extend: true });
+
+    const pagesBefore = new Set(context.pages());
+    try {
+      await recordCreatedTabs(bookmarksPage);
+      await bookmarksPage.keyboard.press('ControlOrMeta+o');
+
+      await expect
+        .poll(() => getRecordedTabs(bookmarksPage))
+        .toEqual([
+          { url: `${TEST_SITES.EXAMPLE_COM}/beta-one`, active: false },
+          { url: `${TEST_SITES.EXAMPLE_COM}/beta-two`, active: false },
+        ]);
+    } finally {
+      await Promise.all(
+        context
+          .pages()
+          .filter((page) => !pagesBefore.has(page))
+          .map((page) => page.close())
+      );
+    }
+  });
+
   test('deletes only the selected rows a filter left visible', async ({
     bookmarksPage,
   }) => {

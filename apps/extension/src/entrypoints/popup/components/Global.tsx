@@ -5,7 +5,7 @@ function Global() {
   // Prevent extension popup close on Escape click
   useHotkeys([['Escape', (e) => e.preventDefault()]]);
 
-  return <Toaster />;
+  return <Toaster position="bottom-left" />;
 }
 
 export default Global;

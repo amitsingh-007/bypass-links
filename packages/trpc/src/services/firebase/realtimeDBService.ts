@@ -79,9 +79,9 @@ export const saveRedirections = async (
 ) => {
   const shortcutsObj = Object.fromEntries(
     redirections.map(
-      ({ alias, website, isDefault }, index): [number, IRedirection] => [
+      ({ id, alias, website, isDefault }, index): [number, IRedirection] => [
         index,
-        { alias: btoa(alias), website: btoa(website), isDefault },
+        { id, alias: btoa(alias), website: btoa(website), isDefault },
       ]
     )
   );

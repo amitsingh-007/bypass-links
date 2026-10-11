@@ -11,3 +11,4 @@ apps/extension/.output/
 apps/extension/.output-coverage/
 apps/extension/.wxt/
 .claude/settings.json
+/.codex/credentials/

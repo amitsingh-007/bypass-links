@@ -3,6 +3,7 @@ import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 
+// Turbopack does not support import.meta.dirname
 const envPath = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
   '../../.env'

@@ -138,16 +138,15 @@ test.describe('Bookmarks Panel', () => {
       );
       const titleInput = dialog.getByTestId('bookmark-title-input');
       await expect(titleInput).toHaveValue(TEST_BOOKMARKS.REACT_DOCS);
-      await expect(titleInput).toBeFocused();
+      await dialog.evaluate((element) =>
+        Promise.all(
+          element.getAnimations().map((animation) => animation.finished)
+        )
+      );
 
-      const selection = await titleInput.evaluate((el) => {
-        if (!(el instanceof HTMLInputElement)) {
-          throw new Error('Expected the bookmark title input');
-        }
-        return { start: el.selectionStart, end: el.selectionEnd };
-      });
-      expect(selection.start).toBe(0);
-      expect(selection.end).toBe(0);
+      await expect(titleInput).toBeFocused();
+      await titleInput.press('X');
+      await expect(titleInput).toHaveValue(`X${TEST_BOOKMARKS.REACT_DOCS}`);
 
       await panel.closeDialog();
     });

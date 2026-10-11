@@ -215,7 +215,8 @@ export const seedFolderWithBookmarks = async (
 
 /** Rules are held base64 encoded, both in storage and over the wire. */
 export const encodeRedirections = (rules: IRedirections) =>
-  rules.map(({ alias, website, isDefault }) => ({
+  rules.map(({ id, alias, website, isDefault }) => ({
+    id,
     alias: btoa(alias),
     website: btoa(website),
     isDefault,

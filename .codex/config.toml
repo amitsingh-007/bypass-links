@@ -1,0 +1,18 @@
+[mcp_servers.firebase_rtdb]
+command = "pnpx"
+args = [
+  "firebase-tools@latest",
+  "mcp",
+  "--dir",
+  ".codex",
+  "--only",
+  "realtimedatabase",
+]
+enabled_tools = ["realtimedatabase_get_data"]
+startup_timeout_sec = 60
+
+[mcp_servers.firebase_rtdb.env]
+GOOGLE_APPLICATION_CREDENTIALS = ".codex/credentials/firebase-dev-readonly.json"
+XDG_CONFIG_HOME = "node_modules/.firebase-mcp-config"
+FIREBASE_TOKEN = ""
+FIREBASE_DEBUG_PATH = "node_modules/.firebase-mcp-debug.log"

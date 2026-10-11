@@ -27,12 +27,13 @@ type Props = IRedirection & {
   pos: number;
   total: number;
   lastVisited?: string;
-  handleRemoveRule: (pos: number) => void;
-  handleSaveRule: (redirection: IRedirection, pos: number) => void;
-  handleRuleMove: (pos: number, offset: number) => void;
+  handleRemoveRule: (id: string) => void;
+  handleSaveRule: (redirection: IRedirection) => void;
+  handleRuleMove: (id: string, offset: number) => void;
 };
 
 function RedirectionRule({
+  id,
   alias,
   website,
   isDefault,
@@ -49,18 +50,16 @@ function RedirectionRule({
   const [isDefaultRule, setIsDefaultRule] = useState(isDefault);
 
   const handleRemoveClick = () => {
-    handleRemoveRule(pos);
+    handleRemoveRule(id);
   };
 
   const handleSaveClick = () => {
-    handleSaveRule(
-      {
-        alias: ruleAlias,
-        website: ruleWebsite,
-        isDefault: isDefaultRule,
-      },
-      pos
-    );
+    handleSaveRule({
+      id,
+      alias: ruleAlias,
+      website: ruleWebsite,
+      isDefault: isDefaultRule,
+    });
   };
 
   const handleLinkOpen = () => {
@@ -79,7 +78,12 @@ function RedirectionRule({
 
   return (
     <div className="flex items-center justify-center">
-      <ReorderButton pos={pos} total={total} handleRuleMove={handleRuleMove} />
+      <ReorderButton
+        id={id}
+        pos={pos}
+        total={total}
+        handleRuleMove={handleRuleMove}
+      />
       <div className="flex flex-1 gap-2">
         <InputGroup className="w-[25%]">
           <InputGroupAddon>

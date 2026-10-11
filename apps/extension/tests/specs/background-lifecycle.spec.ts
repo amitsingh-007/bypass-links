@@ -19,7 +19,9 @@ const FIRST_TARGET = 'https://background.test/first';
 const SECOND_TARGET = 'https://background.test/second';
 
 const rulesFor = (website: string) =>
-  getRedirectionStorage([{ alias: ALIAS, website, isDefault: false }]);
+  getRedirectionStorage([
+    { id: crypto.randomUUID(), alias: ALIAS, website, isDefault: false },
+  ]);
 
 const routePages = async (context: BrowserContext) => {
   await context.route('https://background.test/**', async (route) => {
