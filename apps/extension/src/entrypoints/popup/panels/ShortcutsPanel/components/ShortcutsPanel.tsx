@@ -26,10 +26,15 @@ import RedirectionRule from './RedirectionRule';
 const SAVE_ERROR = 'Could not save shortcuts';
 
 const fetchRedirections = async () => {
-  const stored = await redirectionsItem.getValue();
+  let stored = await redirectionsItem.getValue();
+  if (stored.some(({ id }) => !id)) {
+    await syncRedirectionsToStorage();
+    stored = await redirectionsItem.getValue();
+  }
   return stored.map(
-    ({ alias, website, isDefault }) =>
+    ({ id, alias, website, isDefault }) =>
       ({
+        id,
         alias: atob(alias),
         website: atob(website),
         isDefault,
@@ -66,31 +71,40 @@ function ShortcutsPanel() {
   const isSaveActive = stagedRedirections !== null;
 
   const stageEdit = (edit: (rules: IRedirections) => IRedirections) =>
-    setStagedRedirections(edit(redirections));
+    setStagedRedirections((current) => edit(current ?? redirections));
 
   const handleSave = () => saveRedirections(redirections);
 
-  const handleAddRule = () =>
+  const handleAddRule = () => {
+    const id = crypto.randomUUID();
     stageEdit((rules) => [
-      { alias: DEFAULT_RULE_ALIAS, website: '', isDefault: false },
+      {
+        alias: DEFAULT_RULE_ALIAS,
+        website: '',
+        isDefault: false,
+        id,
+      },
       ...rules,
     ]);
-
-  const handleRemoveRule = (pos: number) =>
-    stageEdit((rules) => rules.toSpliced(pos, 1));
-
-  const handleSaveRule = (redirection: IRedirection, pos: number) =>
-    stageEdit((rules) => rules.with(pos, redirection));
-
-  const handleRuleMove = (pos: number, offset: number) => {
-    const target = pos + offset;
-    if (target < 0 || target >= redirections.length) {
-      return;
-    }
-    stageEdit((rules) =>
-      rules.with(pos, rules[target]).with(target, rules[pos])
-    );
   };
+
+  const handleRemoveRule = (id: string) =>
+    stageEdit((rules) => rules.filter((rule) => rule.id !== id));
+
+  const handleSaveRule = (redirection: IRedirection) =>
+    stageEdit((rules) =>
+      rules.map((rule) => (rule.id === redirection.id ? redirection : rule))
+    );
+
+  const handleRuleMove = (id: string, offset: number) =>
+    stageEdit((rules) => {
+      const pos = rules.findIndex((rule) => rule.id === id);
+      const target = pos + offset;
+      if (pos < 0 || target < 0 || target >= rules.length) {
+        return rules;
+      }
+      return rules.with(pos, rules[target]).with(target, rules[pos]);
+    });
 
   return (
     <Panel>
@@ -115,7 +129,7 @@ function ShortcutsPanel() {
             const isMatch = isMatchingRule(redirection, searchText);
             return (
               <div
-                key={`${redirection.alias}_${redirection.website}`}
+                key={redirection.id}
                 tabIndex={0}
                 data-testid={`rule-${index}`}
                 data-search-active={searchText.length > 0}

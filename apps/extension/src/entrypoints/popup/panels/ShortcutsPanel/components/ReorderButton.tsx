@@ -3,12 +3,13 @@ import { ArrowDown01Icon, ArrowUp01Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 
 interface Props {
+  id: string;
   pos: number;
   total: number;
-  handleRuleMove: (pos: number, offset: number) => void;
+  handleRuleMove: (id: string, offset: number) => void;
 }
 
-export function ReorderButton({ pos, total, handleRuleMove }: Props) {
+export function ReorderButton({ id, pos, total, handleRuleMove }: Props) {
   return (
     <ButtonGroup className="mx-2">
       <Button
@@ -16,7 +17,7 @@ export function ReorderButton({ pos, total, handleRuleMove }: Props) {
         size="icon-sm"
         disabled={pos === 0}
         data-testid={`rule-${pos}-move-up`}
-        onClick={() => handleRuleMove(pos, -1)}
+        onClick={() => handleRuleMove(id, -1)}
       >
         <HugeiconsIcon icon={ArrowUp01Icon} />
       </Button>
@@ -25,7 +26,7 @@ export function ReorderButton({ pos, total, handleRuleMove }: Props) {
         size="icon-sm"
         disabled={pos === total - 1}
         data-testid={`rule-${pos}-move-down`}
-        onClick={() => handleRuleMove(pos, 1)}
+        onClick={() => handleRuleMove(id, 1)}
       >
         <HugeiconsIcon icon={ArrowDown01Icon} />
       </Button>

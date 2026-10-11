@@ -69,13 +69,20 @@ test.describe('Signed In', () => {
     const eligibleUrl = `${TEST_SITES.EXAMPLE_COM}/eligible`;
     await withRedirections(
       [
-        { alias: 'e2e-eligible', website: btoa(eligibleUrl), isDefault: true },
         {
+          id: crypto.randomUUID(),
+          alias: 'e2e-eligible',
+          website: btoa(eligibleUrl),
+          isDefault: true,
+        },
+        {
+          id: crypto.randomUUID(),
           alias: '',
           website: btoa(`${TEST_SITES.EXAMPLE_COM}/no-alias`),
           isDefault: true,
         },
         {
+          id: crypto.randomUUID(),
           alias: 'e2e-not-default',
           website: btoa(`${TEST_SITES.EXAMPLE_COM}/not-default`),
           isDefault: false,
