@@ -14,13 +14,17 @@ runs:
       with:
         vercel-token: ${{ inputs.vercel-token }}
 
+    - name: Get Playwright version
+      id: playwright-version
+      shell: bash
+      run: echo "version=$(pnpm playwright --version | awk '{print $2}')" >> "$GITHUB_OUTPUT"
+
     - name: Cache Playwright binaries
       uses: actions/cache@v6
       id: playwright-cache
       with:
         path: ~/.cache/ms-playwright
-        key: cache-playwright-${{ hashFiles('**/pnpm-lock.yaml') }}
-        restore-keys: cache-playwright-
+        key: cache-playwright-chromium-${{ steps.playwright-version.outputs.version }}
 
     - name: Download extension
       uses: actions/download-artifact@v8
@@ -31,7 +35,7 @@ runs:
     - name: Install Playwright browsers
       if: steps.playwright-cache.outputs.cache-hit != 'true'
       shell: bash
-      run: pnpm playwright install --with-deps
+      run: pnpm playwright install --with-deps chromium
 
     - name: Run Playwright tests
       shell: bash
