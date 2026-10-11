@@ -27,10 +27,21 @@ Reuse the selected fixture's browser setup, including profile isolation and auth
 - Use `test.describe` for two or more related tests. Use `test.step` when it clarifies a test with several distinct phases; keep value-producing setup outside steps. Do not wrap page-object methods in steps or set `box: true`, which hides the failing inner action in CI logs.
 - Assert observable state and wait for conditions instead of using fixed sleeps. Keep comments only for reasons the test cannot express.
 
+## Local run prerequisites
+
+- Install the browser once: `pnpm exec playwright install chromium`.
+- The root `.env` (from `pnpm run env`) must contain `FIREBASE_TEST_USER_EMAIL` and `FIREBASE_TEST_USER_PASSWORD`.
+- Locally, specs load the dev build from `apps/extension/.output/chrome-mv3-dev`. Run `pnpm dev` first. It also serves the web app on `localhost:3000`, which `auth-setup` needs.
+- `auth-setup` signs in both apps on every run, because the teardown deletes `.playwright/.cache`. `--no-deps` skips auth, so use it only for specs that don't need the signed-in profile.
+- `PLAYWRIGHT_TEST_BASE_URL` also switches to CI mode: it selects the `chrome-mv3` build, the prod Firebase config, and disables traces. Don't set it locally unless your `.env` was pulled for the preview environment.
+- CI builds the extension with `COVERAGE=1` and loads that artifact as `chrome-mv3`. Local specs load the dev build and do not collect coverage.
+
 ## Verify
 
 Run the changed spec after writing it:
 
 ```bash
-pnpm e2e apps/extension/tests/specs/<file>.spec.ts
+pnpm e2e apps/extension/tests/specs/<file>.spec.ts --project @bypass/extension
 ```
+
+PR CI does not run E2E. Before merging, trigger the suite with `gh workflow run playwright.yml --ref <branch>`.

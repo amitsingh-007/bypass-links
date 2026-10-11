@@ -145,9 +145,16 @@ test.describe('Signed In', () => {
         );
 
         const dialog = homePage.getByRole('dialog');
-        await homeExpect(
-          dialog.getByTestId('bookmark-title-input')
-        ).toHaveValue(activeTitle);
+        const titleInput = dialog.getByTestId('bookmark-title-input');
+        await homeExpect(titleInput).toHaveValue(activeTitle);
+        await dialog.evaluate((element) =>
+          Promise.all(
+            element.getAnimations().map((animation) => animation.finished)
+          )
+        );
+        await homeExpect(titleInput).toBeFocused();
+        await titleInput.press('X');
+        await homeExpect(titleInput).toHaveValue(`X${activeTitle}`);
         await homeExpect(panel.getUrlInput()).toHaveValue(
           `${TEST_SITES.EXAMPLE_COM}/`
         );

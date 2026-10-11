@@ -102,11 +102,13 @@ test.describe('Last visited sync', () => {
           backgroundSW,
           getRedirectionStorage([
             {
+              id: crypto.randomUUID(),
               alias: 'http://e2e-one/',
               website: getPopupUrl(extensionId),
               isDefault: false,
             },
             {
+              id: crypto.randomUUID(),
               alias: 'http://e2e-two/',
               website: `chrome-extension://${extensionId}/other-path`,
               isDefault: false,

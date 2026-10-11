@@ -27,7 +27,8 @@ const INCOMPLETE_ALIAS = 'http:///';
 const getStoredRules = async (page: Page) =>
   RedirectionsSchema.parse(
     (await getStorageItem(page, EStorageKey.redirections)) ?? []
-  ).map(({ alias, website, isDefault }) => ({
+  ).map(({ id, alias, website, isDefault }) => ({
+    id,
     alias: atob(alias),
     website: atob(website),
     isDefault,
@@ -66,6 +67,9 @@ const controlRedirections = async (context: BrowserContext) => {
 
   return {
     posted: () => posted,
+    setCurrent: (rules: IRedirections) => {
+      current = rules;
+    },
     setFailing: (failing: boolean) => {
       isFailing = failing;
     },
@@ -125,6 +129,7 @@ test.describe('Shortcuts sync', () => {
         await expect(page.getByText('Saved successfully')).toBeVisible();
         await expect(panel.getMainSaveButton()).toBeDisabled();
         expect(server.posted()).toHaveLength(1);
+        expect(server.posted()[0][0].id).toBe(storedBefore[0].id);
         expect(server.posted()[0][0].website).toBe(NEW_WEBSITE);
       });
 
@@ -136,7 +141,103 @@ test.describe('Shortcuts sync', () => {
           NEW_WEBSITE
         );
         expect((await getStoredRules(page))[0].website).toBe(NEW_WEBSITE);
+        expect((await getStoredRules(page))[0].id).toBe(storedBefore[0].id);
       });
+    });
+  });
+
+  test('keeps two new IDs after separate row saves and reopening', async () => {
+    await withSignedInProfile(async ({ context, extensionId }) => {
+      const server = await controlRedirections(context);
+      const { page, panel } = await openShortcutsPanel(context, extensionId);
+
+      await panel.addRule();
+      await panel.addRule();
+      await page.getByTestId('rule-0-alias').fill('http://e2e-first/');
+      await page.getByTestId('rule-0-website').fill('https://first.example/');
+      await page.getByTestId('rule-1-alias').fill('http://e2e-second/');
+      await page.getByTestId('rule-1-website').fill('https://second.example/');
+      await page.getByTestId('rule-0-save').click();
+      await page.getByTestId('rule-1-save').click();
+      await panel.saveAll();
+
+      await expect(page.getByText('Saved successfully')).toBeVisible();
+      const saved = server.posted()[0].slice(0, 2);
+      expect(saved.map(({ id }) => id)).toHaveLength(2);
+      expect(new Set(saved.map(({ id }) => id)).size).toBe(2);
+
+      await gotoPanel(page, 'Shortcuts');
+      await panel.waitForLoading();
+      expect((await getStoredRules(page)).slice(0, 2)).toEqual(saved);
+      await expect(page.getByTestId('rule-0-website')).toHaveValue(
+        'https://first.example/'
+      );
+      await expect(page.getByTestId('rule-1-website')).toHaveValue(
+        'https://second.example/'
+      );
+    });
+  });
+
+  test('keeps row IDs through reorder, edit, delete, and reload', async () => {
+    await withSignedInProfile(async ({ context, extensionId }) => {
+      const server = await controlRedirections(context);
+      const { page, panel } = await openShortcutsPanel(context, extensionId);
+      const before = await getStoredRules(page);
+      const [first, second] = before;
+
+      await page.getByTestId('rule-0-move-down').click();
+      await page.getByTestId('rule-1-website').fill(EDITED_WEBSITE);
+      await page.getByTestId('rule-1-save').click();
+      await panel.saveAll();
+
+      await expect
+        .poll(() => getStoredRules(page))
+        .toEqual([
+          second,
+          { ...first, website: EDITED_WEBSITE },
+          ...before.slice(2),
+        ]);
+      expect(server.posted()[0].map(({ id }) => id)).toEqual([
+        second.id,
+        first.id,
+        ...before.slice(2).map(({ id }) => id),
+      ]);
+
+      await page.getByTestId('rule-0-delete').click();
+      await panel.saveAll();
+
+      const remaining = [
+        { ...first, website: EDITED_WEBSITE },
+        ...before.slice(2),
+      ];
+      await expect.poll(() => getStoredRules(page)).toEqual(remaining);
+      expect(server.posted()[1].map(({ id }) => id)).toEqual(
+        remaining.map(({ id }) => id)
+      );
+
+      await gotoPanel(page, 'Shortcuts');
+      await panel.waitForLoading();
+      expect(await getStoredRules(page)).toEqual(remaining);
+    });
+  });
+
+  test('refreshes an old cache without IDs when the panel opens', async () => {
+    await withSignedInProfile(async ({ context, extensionId }) => {
+      const server = await controlRedirections(context);
+      const { page } = await openShortcutsPanel(context, extensionId);
+      const stored = await getStoredRules(page);
+      server.setCurrent(stored);
+      const legacy = encodeRedirections(stored).map(
+        ({ id: _id, ...row }) => row
+      );
+      await page.evaluate(
+        async ({ key, rules }) => chrome.storage.local.set({ [key]: rules }),
+        { key: EStorageKey.redirections, rules: legacy }
+      );
+
+      await page.close();
+      const reopened = await openShortcutsPanel(context, extensionId);
+      await expect.poll(() => getStoredRules(reopened.page)).toEqual(stored);
     });
   });
 

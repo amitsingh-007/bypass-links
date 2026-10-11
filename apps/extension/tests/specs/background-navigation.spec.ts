@@ -440,7 +440,12 @@ test.describe.serial('Background Service Worker Navigation', () => {
     const alias = 'http://e2e-once/';
     await isolatedBackground.writeStorage(
       getRedirectionStorage([
-        { alias, website: TEST_SITES.EXAMPLE_COM, isDefault: false },
+        {
+          id: crypto.randomUUID(),
+          alias,
+          website: TEST_SITES.EXAMPLE_COM,
+          isDefault: false,
+        },
       ])
     );
     await isolatedBackground.ensureActiveState();
@@ -506,7 +511,12 @@ test.describe.serial('Background Service Worker Navigation', () => {
     const alias = 'http://e2e-toggle/';
     await isolatedBackground.writeStorage(
       getRedirectionStorage([
-        { alias, website: TEST_SITES.EXAMPLE_COM, isDefault: false },
+        {
+          id: crypto.randomUUID(),
+          alias,
+          website: TEST_SITES.EXAMPLE_COM,
+          isDefault: false,
+        },
       ])
     );
     await isolatedBackground.ensureActiveState();
