@@ -136,17 +136,18 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
     const resolveBookmark = async () => {
       if (operation === EBookmarkOperation.ADD) {
         const { title = '' } = await getCurrentTab();
-        form.reset({
-          id: crypto.randomUUID(),
-          pos: contextBookmarks.length,
-          url: bmUrl,
-          title,
-          folderId: defaultFolderId ?? ROOT_FOLDER_ID,
-          taggedPersons: [],
-        });
-        if (!openDialog) {
-          openBookmarkDialog();
-        }
+        form.reset(
+          {
+            id: crypto.randomUUID(),
+            pos: contextBookmarks.length,
+            url: bmUrl,
+            title,
+            folderId: defaultFolderId ?? ROOT_FOLDER_ID,
+            taggedPersons: [],
+          },
+          { keepDefaultValues: true }
+        );
+        openBookmarkDialog();
         return;
       }
 
@@ -160,17 +161,18 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
             `Expected a bookmark at index ${pos}, found a folder`
           );
         }
-        form.reset({
-          id: bookmark.id,
-          pos,
-          url: bookmark.url,
-          title: bookmark.title,
-          folderId: curFolderId,
-          taggedPersons: bookmark.taggedPersons,
-        });
-        if (!openDialog) {
-          openBookmarkDialog();
-        }
+        form.reset(
+          {
+            id: bookmark.id,
+            pos,
+            url: bookmark.url,
+            title: bookmark.title,
+            folderId: curFolderId,
+            taggedPersons: bookmark.taggedPersons,
+          },
+          { keepDefaultValues: true }
+        );
+        openBookmarkDialog();
       }
     };
     resolveBookmark();
@@ -182,7 +184,6 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
     form,
     isFetching,
     openBookmarkDialog,
-    openDialog,
     operation,
   ]);
 
