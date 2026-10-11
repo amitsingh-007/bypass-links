@@ -70,6 +70,13 @@ Playwright projects:
 
 `tests/coverage-report.ts` is the global teardown: it writes the coverage report in CI and removes `.playwright/.cache`. Shared page-object bases live in `packages/shared/src/utils/test-poms.ts`. For local run prerequisites and extension test conventions, use the [E2E test generation skill](.agents/skills/e2e-test-generation/SKILL.md).
 
+## Development Realtime Database
+
+If the Firebase Realtime Database MCP server is available, use it to read data from `bypass-links-dev`. The server is read-only and may not be configured in every agent environment.
+
+- Test User UID: `AEKnp40pKBfCaAZTW9WXlv8UP1v2`
+- Development User UID: `pZyBOYAMTzgyNw0286WjQTOuKb52`
+
 ## Key Technologies
 
 - **React Compiler**: Enabled in both apps (`reactCompiler: true` in web, `reactCompilerPreset()` in extension); enforced by the `react/react-compiler` oxlint rule — avoid manual `useMemo`/`useCallback` unless needed
