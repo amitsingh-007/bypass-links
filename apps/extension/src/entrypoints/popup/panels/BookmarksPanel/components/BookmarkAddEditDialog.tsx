@@ -144,7 +144,9 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
           folderId: defaultFolderId ?? ROOT_FOLDER_ID,
           taggedPersons: [],
         });
-        openBookmarkDialog();
+        if (!openDialog) {
+          openBookmarkDialog();
+        }
         return;
       }
 
@@ -166,7 +168,9 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
           folderId: curFolderId,
           taggedPersons: bookmark.taggedPersons,
         });
-        openBookmarkDialog();
+        if (!openDialog) {
+          openBookmarkDialog();
+        }
       }
     };
     resolveBookmark();
@@ -178,6 +182,7 @@ function BookmarkAddEditDialog({ curFolderId, handleScroll }: Props) {
     form,
     isFetching,
     openBookmarkDialog,
+    openDialog,
     operation,
   ]);
 

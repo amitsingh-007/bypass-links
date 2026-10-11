@@ -1,6 +1,13 @@
 [mcp_servers.firebase_rtdb]
 command = "pnpx"
-args = ["firebase-tools@latest", "mcp", "--dir", ".codex", "--only", "database"]
+args = [
+  "firebase-tools@latest",
+  "mcp",
+  "--dir",
+  ".codex",
+  "--only",
+  "realtimedatabase",
+]
 enabled_tools = ["realtimedatabase_get_data"]
 startup_timeout_sec = 60
 

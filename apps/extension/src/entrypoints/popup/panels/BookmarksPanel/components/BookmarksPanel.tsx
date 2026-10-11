@@ -73,20 +73,17 @@ function BookmarksPanel() {
     });
   };
 
-  useHotkeys(
+  useHotkeys([
     [
-      [
-        'mod+O',
-        (event) => {
-          if (selectedBookmarks.size) {
-            event.stopPropagation();
-            handleOpenBookmarks();
-          }
-        },
-      ],
+      'mod+O',
+      (event) => {
+        if (selectedBookmarks.size) {
+          event.stopPropagation();
+          handleOpenBookmarks();
+        }
+      },
     ],
-    []
-  );
+  ]);
 
   useEffect(() => {
     if (!isFetching) {

@@ -34,7 +34,7 @@ Reuse the selected fixture's browser setup, including profile isolation and auth
 - Locally, specs load the dev build from `apps/extension/.output/chrome-mv3-dev`. Run `pnpm dev` first. It also serves the web app on `localhost:3000`, which `auth-setup` needs.
 - `auth-setup` signs in both apps on every run, because the teardown deletes `.playwright/.cache`. `--no-deps` skips auth, so use it only for specs that don't need the signed-in profile.
 - `PLAYWRIGHT_TEST_BASE_URL` also switches to CI mode: it selects the `chrome-mv3` build, the prod Firebase config, and disables traces. Don't set it locally unless your `.env` was pulled for the preview environment.
-- Set `COVERAGE=1` to reproduce CI's coverage build.
+- CI builds the extension with `COVERAGE=1` and loads that artifact as `chrome-mv3`. Local specs load the dev build and do not collect coverage.
 
 ## Verify
 
