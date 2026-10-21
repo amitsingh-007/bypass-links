@@ -44,6 +44,7 @@ test.describe('Persons Panel', () => {
 
     const nameInput = dialog.getByPlaceholder('Enter name');
     await expect(nameInput).toBeVisible();
+    await expect(nameInput).toBeFocused();
 
     await closeDialog(personsPage, dialog);
 
@@ -88,6 +89,10 @@ test.describe('Persons Panel', () => {
   test('should edit person name', async ({ personsPage }) => {
     const panel = new PersonsPanel(personsPage);
     const EDITED_PREFIX = '(Edited) ';
+
+    const dialog = await panel.openEditPersonDialog(TEST_PERSONS.JOHN_NATHAN);
+    await expect(dialog.getByPlaceholder('Enter name')).toBeFocused();
+    await closeDialog(personsPage, dialog);
 
     await panel.editPersonName(
       TEST_PERSONS.JOHN_NATHAN,
