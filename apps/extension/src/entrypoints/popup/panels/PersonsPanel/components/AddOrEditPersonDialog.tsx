@@ -18,7 +18,7 @@ import { UserWarning03Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { useDisclosure } from '@mantine/hooks';
 import { useForm, useSelector } from '@tanstack/react-form';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { z } from 'zod/mini';
 
 import { trpcApi } from '@/apis/trpcApi';
@@ -37,6 +37,7 @@ const formSchema = z.object({
 });
 
 function AddOrEditPersonDialog({ person, onClose, handleSaveClick }: Props) {
+  const nameInputRef = useRef<HTMLInputElement>(null);
   // Lazy state: the id has to survive re-renders of the open dialog
   const [initialUid] = useState(() => crypto.randomUUID());
   const [isAvatarImageLoading, setIsAvatarImageLoading] = useState(false);
@@ -78,7 +79,7 @@ function AddOrEditPersonDialog({ person, onClose, handleSaveClick }: Props) {
   return (
     <>
       <Dialog open onOpenChange={isLoading ? noOp : onClose}>
-        <DialogContent showCloseButton={!isLoading}>
+        <DialogContent showCloseButton={!isLoading} initialFocus={nameInputRef}>
           <DialogHeader>
             <DialogTitle>{person ? 'Edit Person' : 'Add Person'}</DialogTitle>
           </DialogHeader>
@@ -125,7 +126,7 @@ function AddOrEditPersonDialog({ person, onClose, handleSaveClick }: Props) {
                     Name <span className="text-destructive">*</span>
                   </FieldLabel>
                   <Input
-                    data-autofocus
+                    ref={nameInputRef}
                     placeholder="Enter name"
                     value={field.state.value}
                     onBlur={field.handleBlur}
