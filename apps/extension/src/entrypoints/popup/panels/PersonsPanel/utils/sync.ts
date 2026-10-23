@@ -18,7 +18,9 @@ import {
 import { getAllDecodedPersons } from '.';
 
 export const syncPersonsToStorage = async () => {
-  const persons = await trpcApi.firebaseData.personsGet.query();
+  const persons = await trpcApi.firebaseData.personsGet.query({
+    nameCodecVersion: 2,
+  });
   await personsItem.setValue(persons);
 };
 

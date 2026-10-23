@@ -20,17 +20,23 @@ import {
 } from '../services/firebase/realtimeDBService';
 import { protectedProcedure, t } from '../trpc';
 
+const NameCodecInputSchema = z.optional(
+  z.object({ nameCodecVersion: z.literal(2) })
+);
+
 const firebaseDataRouter = t.router({
   bookmarksGet: protectedProcedure
+    .input(NameCodecInputSchema)
     .output(BookmarksObjSchema)
-    .query(async ({ ctx }) => {
-      return getBookmarks(ctx.user.uid);
+    .query(async ({ ctx, input }) => {
+      return getBookmarks(ctx.user.uid, input?.nameCodecVersion);
     }),
 
   personsGet: protectedProcedure
+    .input(NameCodecInputSchema)
     .output(PersonsSchema)
-    .query(async ({ ctx }) => {
-      return getPersons(ctx.user.uid);
+    .query(async ({ ctx, input }) => {
+      return getPersons(ctx.user.uid, input?.nameCodecVersion);
     }),
 
   bookmarkAndPersonSave: protectedProcedure

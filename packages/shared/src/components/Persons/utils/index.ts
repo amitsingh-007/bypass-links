@@ -1,6 +1,6 @@
 import { ECacheBucketKeys } from '../../../constants/cache';
 import { addAllToCache } from '../../../utils/cache';
-import { encodeText, decodeText } from '../../../utils/codec';
+import { encodeName, decodeName } from '../../../utils/codec';
 import { getPersonImageName } from '../../../utils/personImage';
 import { matchesSearch } from '../../../utils/search';
 import { type IEncodedBookmark } from '../../Bookmarks/interfaces';
@@ -11,15 +11,13 @@ import {
 } from '../interfaces/persons';
 
 /** Field by field, so view-model extras cannot reach storage or Firebase. */
-const decodePerson = ({ uid, name }: IPerson): IPerson => ({
-  uid,
-  name: decodeText(name),
+const decodePerson = (person: IPerson): IPerson => ({
+  uid: person.uid,
+  name: decodeName(person),
 });
 
-export const encodePerson = ({ uid, name }: IPerson): IPerson => ({
-  uid,
-  name: encodeText(name),
-});
+export const encodePerson = ({ uid, name }: IPerson): IPerson =>
+  encodeName({ uid, name });
 
 export const decodePersons = (persons: IPersons): IPerson[] =>
   Object.values(persons)
