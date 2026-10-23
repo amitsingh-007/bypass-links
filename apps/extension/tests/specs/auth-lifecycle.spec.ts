@@ -1,4 +1,5 @@
-import { EStorageKey } from '@bypass/shared';
+import { EStorageKey, decodePersons } from '@bypass/shared';
+import { PersonsSchema } from '@bypass/shared/schema';
 import { TEST_TIMEOUTS } from '@bypass/shared/tests';
 import { expect, test, type BrowserContext } from '@playwright/test';
 
@@ -154,156 +155,173 @@ const openMockPopup = async (context: BrowserContext) => {
   return page;
 };
 
-test('keeps the SDK session and profile on reopen without a signed-out flash', async () => {
-  await withTempProfileContext({}, async (context) => {
-    const sdk = await controlSdkAuth(context);
-    const page = await openMockPopup(context);
-    await page.localStorage.setItem(
-      TEST_AUTH_DATA_KEY,
-      JSON.stringify(sdk.credentials)
-    );
-    await page.getByTestId('login-button').click();
-    await expect(page.getByTestId('logout-button')).toBeEnabled();
-    expect(await page.localStorage.getItem('__fbOAuth')).toBeNull();
-    expect(await page.localStorage.getItem(TEST_AUTH_DATA_KEY)).toBeNull();
-    await page.addInitScript(() => {
-      window.e2eSawSignedOut = false;
-      new MutationObserver(() => {
-        if (document.querySelector('[data-testid="login-button"]'))
-          window.e2eSawSignedOut = true;
-      }).observe(document, { childList: true, subtree: true });
-    });
-    await page.reload();
-    await expect(page.getByTestId('logout-button')).toBeEnabled();
-    await expect(
-      page.getByRole('img', { name: 'SDK test user', exact: true })
-    ).toBeVisible();
-    expect(await page.evaluate(() => window.e2eSawSignedOut)).toBe(false);
-  });
-});
-
 declare global {
   interface Window {
     e2eSawSignedOut?: boolean;
   }
 }
 
-test('shares one SDK token refresh between concurrent API requests', async () => {
-  await withTempProfileContext({}, async (context) => {
-    const sdk = await controlSdkAuth(context);
-    const page = await openMockPopup(context);
-    await page.clock.install();
-    await page.localStorage.setItem(
-      TEST_AUTH_DATA_KEY,
-      JSON.stringify(sdk.credentials)
-    );
-    await page.getByTestId('login-button').click();
-    await expect(page.getByTestId('logout-button')).toBeEnabled();
-    await expect.poll(sdk.latestCalls).toBeGreaterThan(0);
-    let refreshCalls = 0;
-    let release: (() => void) | undefined;
-    const pendingRefresh = new Promise<void>((resolve) => {
-      release = resolve;
+test.describe('SDK authentication', () => {
+  test('keeps the SDK session and profile on reopen without a signed-out flash', async () => {
+    await withTempProfileContext({}, async (context) => {
+      const sdk = await controlSdkAuth(context);
+      const page = await openMockPopup(context);
+      await page.localStorage.setItem(
+        TEST_AUTH_DATA_KEY,
+        JSON.stringify(sdk.credentials)
+      );
+      await page.getByTestId('login-button').click();
+      await expect(page.getByTestId('logout-button')).toBeEnabled();
+      expect(await page.localStorage.getItem('__fbOAuth')).toBeNull();
+      expect(await page.localStorage.getItem(TEST_AUTH_DATA_KEY)).toBeNull();
+      await page.addInitScript(() => {
+        window.e2eSawSignedOut = false;
+        new MutationObserver(() => {
+          if (document.querySelector('[data-testid="login-button"]'))
+            window.e2eSawSignedOut = true;
+        }).observe(document, { childList: true, subtree: true });
+      });
+      await page.reload();
+      await expect(page.getByTestId('logout-button')).toBeEnabled();
+      await expect(
+        page.getByRole('img', { name: 'SDK test user', exact: true })
+      ).toBeVisible();
+      expect(await page.evaluate(() => window.e2eSawSignedOut)).toBe(false);
     });
-    await context.route(
-      'https://securetoken.googleapis.com/**',
-      async (route) => {
-        refreshCalls++;
-        await pendingRefresh;
-        await route.fulfill({
-          json: {
-            access_token: sdk.idToken,
-            refresh_token: 'sdk-refreshed-token',
-            expires_in: '3600',
-            token_type: 'Bearer',
-            user_id: 'sdk-test-user',
-          },
-        });
+  });
+
+  test('shares one SDK token refresh between concurrent API requests', async () => {
+    await withTempProfileContext({}, async (context) => {
+      const sdk = await controlSdkAuth(context);
+      const page = await openMockPopup(context);
+      await page.clock.install();
+      await page.localStorage.setItem(
+        TEST_AUTH_DATA_KEY,
+        JSON.stringify(sdk.credentials)
+      );
+      await page.getByTestId('login-button').click();
+      await expect(page.getByTestId('logout-button')).toBeEnabled();
+      await expect.poll(sdk.latestCalls).toBeGreaterThan(0);
+      let refreshCalls = 0;
+      let release: (() => void) | undefined;
+      const pendingRefresh = new Promise<void>((resolve) => {
+        release = resolve;
+      });
+      await context.route(
+        'https://securetoken.googleapis.com/**',
+        async (route) => {
+          refreshCalls++;
+          await pendingRefresh;
+          await route.fulfill({
+            json: {
+              access_token: sdk.idToken,
+              refresh_token: 'sdk-refreshed-token',
+              expires_in: '3600',
+              token_type: 'Bearer',
+              user_id: 'sdk-test-user',
+            },
+          });
+        }
+      );
+      const callsBefore = sdk.latestCalls();
+      await page.clock.setFixedTime(Date.now() + 3600 * 1000);
+      try {
+        for (let open = 0; open < 2; open++) {
+          await page
+            .getByRole('button', { name: 'Shortcuts', exact: true })
+            .click();
+          await page.getByRole('button', { name: 'Back', exact: true }).click();
+          await expect(page.getByTestId('logout-button')).toBeVisible();
+          if (open === 0) await expect.poll(() => refreshCalls).toBe(1);
+        }
+      } finally {
+        release?.();
       }
-    );
-    const callsBefore = sdk.latestCalls();
-    await page.clock.setFixedTime(Date.now() + 3600 * 1000);
-    try {
-      for (let open = 0; open < 2; open++) {
-        await page
-          .getByRole('button', { name: 'Shortcuts', exact: true })
-          .click();
-        await page.getByRole('button', { name: 'Back', exact: true }).click();
-        await expect(page.getByTestId('logout-button')).toBeVisible();
-        if (open === 0) await expect.poll(() => refreshCalls).toBe(1);
-      }
-    } finally {
-      release?.();
-    }
-    await expect.poll(sdk.latestCalls).toBeGreaterThanOrEqual(callsBefore + 2);
-    expect(refreshCalls).toBe(1);
+      await expect
+        .poll(sdk.latestCalls)
+        .toBeGreaterThanOrEqual(callsBefore + 2);
+      expect(refreshCalls).toBe(1);
+    });
   });
 });
 
-for (const outcome of [
-  'success',
-  'identity failure',
-  'different account',
-] as const) {
-  test(`preserves unsynced local edits during legacy session migration: ${outcome}`, async () => {
-    await withTempProfileContext({}, async (context) => {
-      const sdk = await controlSdkAuth(
-        context,
-        outcome === 'different account' ? 'another-user' : 'legacy-user'
-      );
-      const legacy = JSON.stringify({
-        state: {
-          isSignedIn: true,
-          idpAuth: {
-            uid: 'legacy-user',
-            email: sdk.credentials.email,
-            idToken: sdk.idToken,
-            refreshToken: 'old-refresh-token',
-            expiresAtMs: Date.now() + 3600 * 1000,
-          },
-        },
-        version: 0,
-      });
-      const localData = {
-        [EStorageKey.persons]: {
-          unsynced: { uid: 'unsynced', name: btoa('Unsynced local person') },
-        },
-        [EStorageKey.bookmarks]: { folderList: {}, urlList: {}, folders: {} },
-        [EExtStorageKey.HAS_PENDING_BOOKMARKS]: true,
-        [EExtStorageKey.HAS_PENDING_PERSONS]: true,
-      };
-      const background = await createSharedBackgroundSW(context);
-      await writeStorageFromWorker(background, localData);
-      await context.addInitScript(
-        ({ data, fails }) => {
-          if (!sessionStorage.getItem('legacy-seeded')) {
-            localStorage.setItem('__fbOAuth', data);
-            sessionStorage.setItem('legacy-seeded', 'yes');
-          }
-          chrome.identity.getAuthToken = async () => {
-            if (fails) throw new Error('Identity unavailable');
-            return { token: 'google-test-token', grantedScopes: [] };
-          };
-        },
-        { data: legacy, fails: outcome === 'identity failure' }
-      );
-      const page = await openMockPopup(context);
-      if (outcome === 'success') {
-        await expect(page.getByTestId('logout-button')).toBeVisible();
-        expect(await page.localStorage.getItem('__fbOAuth')).toBeNull();
-      } else {
-        await expect(page.getByRole('alert')).toHaveText(
-          'Could not restore your session. Reopen the popup to retry.'
+test.describe('Legacy session migration', () => {
+  for (const outcome of [
+    'success',
+    'identity failure',
+    'different account',
+  ] as const) {
+    test(`preserves unsynced local edits during legacy session migration: ${outcome}`, async () => {
+      await withTempProfileContext({}, async (context) => {
+        const sdk = await controlSdkAuth(
+          context,
+          outcome === 'different account' ? 'another-user' : 'legacy-user'
         );
-        expect(await page.localStorage.getItem('__fbOAuth')).toBe(legacy);
-        await page.localStorage.removeItem('__fbOAuth');
-        await page.reload();
-        await expect(page.getByTestId('login-button')).toBeVisible();
-      }
-      expect(sdk.syncReads()).toBe(0);
-      for (const [key, value] of Object.entries(localData)) {
-        expect(await getStorageItem(page, key)).toEqual(value);
-      }
+        const legacy = JSON.stringify({
+          state: {
+            isSignedIn: true,
+            idpAuth: {
+              uid: 'legacy-user',
+              email: sdk.credentials.email,
+              idToken: sdk.idToken,
+              refreshToken: 'old-refresh-token',
+              expiresAtMs: Date.now() + 3600 * 1000,
+            },
+          },
+          version: 0,
+        });
+        const localData = {
+          [EStorageKey.persons]: {
+            unsynced: { uid: 'unsynced', name: btoa('Unsynced local person') },
+          },
+          [EStorageKey.bookmarks]: { folderList: {}, urlList: {}, folders: {} },
+          [EExtStorageKey.HAS_PENDING_BOOKMARKS]: true,
+          [EExtStorageKey.HAS_PENDING_PERSONS]: true,
+        };
+        const background = await createSharedBackgroundSW(context);
+        await writeStorageFromWorker(background, localData);
+        await context.addInitScript(
+          ({ data, fails }) => {
+            if (!sessionStorage.getItem('legacy-seeded')) {
+              localStorage.setItem('__fbOAuth', data);
+              sessionStorage.setItem('legacy-seeded', 'yes');
+            }
+            chrome.identity.getAuthToken = async () => {
+              if (fails) throw new Error('Identity unavailable');
+              return { token: 'google-test-token', grantedScopes: [] };
+            };
+          },
+          { data: legacy, fails: outcome === 'identity failure' }
+        );
+        const page = await openMockPopup(context);
+        if (outcome === 'success') {
+          await expect(page.getByTestId('logout-button')).toBeVisible();
+          expect(await page.localStorage.getItem('__fbOAuth')).toBeNull();
+        } else {
+          await expect(page.getByRole('alert')).toHaveText(
+            'Could not restore your session. Reopen the popup to retry.'
+          );
+          expect(await page.localStorage.getItem('__fbOAuth')).toBe(legacy);
+          await page.localStorage.removeItem('__fbOAuth');
+          await page.reload();
+          await expect(page.getByTestId('login-button')).toBeVisible();
+        }
+        expect(sdk.syncReads()).toBe(0);
+        expect(
+          decodePersons(
+            PersonsSchema.parse(await getStorageItem(page, EStorageKey.persons))
+          )
+        ).toEqual([{ uid: 'unsynced', name: 'Unsynced local person' }]);
+        expect(await getStorageItem(page, EStorageKey.bookmarks)).toEqual(
+          localData[EStorageKey.bookmarks]
+        );
+        for (const key of [
+          EExtStorageKey.HAS_PENDING_BOOKMARKS,
+          EExtStorageKey.HAS_PENDING_PERSONS,
+        ]) {
+          expect(await getStorageItem(page, key)).toBe(true);
+        }
+      });
     });
-  });
-}
+  }
+});
