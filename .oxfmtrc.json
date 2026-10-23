@@ -14,7 +14,6 @@
     "packages/ui/src",
     "**/.output/**",
     "**/.next/**",
-    "**/.wxt/**",
-    "firebase/database.rules.json"
+    "**/.wxt/**"
   ]
 }
