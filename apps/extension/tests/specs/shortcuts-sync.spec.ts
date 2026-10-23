@@ -17,8 +17,14 @@ import {
 
 import { EExtStorageKey } from '@/constants';
 
-import { restartBackgroundWorker } from '../fixtures/background-fixture';
-import { openExtensionPanelPage } from '../fixtures/base-fixture';
+import {
+  restartBackgroundWorker,
+  readDynamicRules,
+} from '../fixtures/background-fixture';
+import {
+  openExtensionPanelPage,
+  createSharedBackgroundSW,
+} from '../fixtures/base-fixture';
 import { ShortcutsPanel } from '../utils/shortcuts-panel';
 import { withSignedInProfile } from '../utils/signed-in-profile';
 import { getStorageItem, gotoPanel } from '../utils/test-utils';
@@ -77,8 +83,30 @@ const controlRedirections = async (context: BrowserContext) => {
   };
 };
 
-/** DNS never resolves these, but `tabs.onUpdated` still carries the alias. */
+/** Wait for native rules after each sync before navigating an alias. */
 const openAliasTab = async (context: BrowserContext, alias: string) => {
+  const worker = await createSharedBackgroundSW(context);
+  const target = await worker.evaluate(
+    async ({ key, alias: shortcutAlias }) => {
+      const stored =
+        await chrome.storage.local.get<Record<string, Record<string, string>>>(
+          key
+        );
+      return stored[key]?.[shortcutAlias];
+    },
+    { key: EStorageKey.mappedRedirections, alias }
+  );
+  await expect
+    .poll(async () =>
+      (await readDynamicRules(context))
+        .filter(
+          ({ condition }) =>
+            condition.regexFilter &&
+            new RegExp(condition.regexFilter).test(new URL(alias).href)
+        )
+        .map((rule) => rule.action.redirect?.url)
+    )
+    .toEqual(target ? [new URL(target).href] : []);
   const page = await context.newPage();
   await page
     .goto(alias, { waitUntil: 'commit', timeout: TEST_TIMEOUTS.NAVIGATION })
