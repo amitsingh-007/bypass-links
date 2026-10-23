@@ -29,12 +29,12 @@ test('authenticates storage cleanup requests before calling cleanup', async () =
     ],
     [
       '@app/constants/env/server',
-      `data:text/javascript,export const serverEnv = ${encodeURIComponent(
+      `data:text/javascript,export const getStorageCleanupEnv = () => (${encodeURIComponent(
         JSON.stringify({
           FIREBASE_CRON_JOB_API_KEY: secret,
           FIREBASE_TEST_USER_ID: userId,
         })
-      )};`,
+      )});`,
     ],
     ['next/server', require.resolve('next/server')],
   ]);

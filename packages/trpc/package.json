@@ -6,8 +6,8 @@
   "sideEffects": false,
   "exports": {
     ".": "./src/index.ts",
-    "./edge": "./src/edgeIndex.ts",
-    "./appRouter": "./src/appRouterIndex.ts"
+    "./extension-release": "./src/extensionReleaseIndex.ts",
+    "./admin": "./src/adminIndex.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit"
