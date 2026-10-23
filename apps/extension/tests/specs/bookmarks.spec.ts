@@ -14,7 +14,6 @@ import {
   clearSearchInput,
   clickDropdownPersonAndGetName,
   fillSearchInput,
-  injectLocalStorage,
   openNewPageFromAction,
   routeTrpcProcedure,
   succeedProcedure,
@@ -81,19 +80,20 @@ test.describe('Bookmarks Panel', () => {
       await bookmarks.ensureAtRoot();
       await bookmarks.verifyFolderExists(folderName);
 
-      // Use exactly the extension's saved bytes without writing to the shared account.
-      await injectLocalStorage(context, {
-        [EStorageKey.persons]: JSON.stringify(
-          await getStorageItem(page, EStorageKey.persons)
-        ),
-        [EStorageKey.bookmarks]: JSON.stringify(
-          await getStorageItem(page, EStorageKey.bookmarks)
-        ),
-      });
       const webPage = await context.newPage();
       const webUrl =
         process.env.PLAYWRIGHT_TEST_BASE_URL ?? 'http://localhost:3000';
       await webPage.goto(`${webUrl}/persons-panel`);
+      // Seed once so reloads must retain the extension's exact saved bytes.
+      await webPage.localStorage.setItem(
+        EStorageKey.persons,
+        JSON.stringify(await getStorageItem(page, EStorageKey.persons))
+      );
+      await webPage.localStorage.setItem(
+        EStorageKey.bookmarks,
+        JSON.stringify(await getStorageItem(page, EStorageKey.bookmarks))
+      );
+      await webPage.reload();
       await expect(
         webPage.getByTestId(`person-item-${personName}`)
       ).toBeVisible();
