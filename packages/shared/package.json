@@ -9,8 +9,7 @@
     "./schema": "./src/schemaIndex.ts",
     "./server": "./src/serverIndex.ts",
     "./types/*": "./src/@types/*",
-    "./tests": "./src/testIndex.ts",
-    "./person-image": "./src/utils/personImage.ts"
+    "./tests": "./src/testIndex.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit"

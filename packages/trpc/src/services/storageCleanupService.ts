@@ -1,7 +1,10 @@
 import path from 'node:path';
 
-import { getPersonImageName } from '@bypass/shared/person-image';
-import { type IPersons, EStorageKey } from '@bypass/shared/server';
+import {
+  type IPersons,
+  EStorageKey,
+  getPersonImageName,
+} from '@bypass/shared/server';
 
 import {
   getFromFirebase,
