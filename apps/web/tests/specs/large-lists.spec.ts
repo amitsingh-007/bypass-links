@@ -1,7 +1,7 @@
 import {
   EStorageKey,
-  getEncryptedBookmark,
-  getEncryptedPerson,
+  encodeBookmark,
+  encodePerson,
   type IBookmarksObj,
   type IPersons,
   ROOT_FOLDER_ID,
@@ -26,7 +26,7 @@ const { SIZE, SEARCHED_INDEX, bookmarkTitle, bookmarkUrl, personName } =
 const NARROW_VIEWPORT = { width: 500, height: 800 };
 
 const seededUrls = Array.from({ length: SIZE }, (_, index) =>
-  getEncryptedBookmark({
+  encodeBookmark({
     id: `e2e-large-bookmark-${index}`,
     url: bookmarkUrl(index),
     title: bookmarkTitle(index),
@@ -46,7 +46,7 @@ const seededBookmarks: IBookmarksObj = {
 
 const seededPersons: IPersons = Object.fromEntries(
   Array.from({ length: SIZE }, (_, index) => {
-    const person = getEncryptedPerson({
+    const person = encodePerson({
       uid: `e2e-large-person-${index}`,
       name: personName(index),
     });
