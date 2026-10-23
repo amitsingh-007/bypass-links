@@ -1,3 +1,4 @@
+import { EStorageKey, ROOT_FOLDER_ID } from '@bypass/shared';
 import {
   TEST_PERSONS,
   fillSearchInput,
@@ -5,9 +6,48 @@ import {
 } from '@bypass/shared/tests';
 
 import { test, expect } from '../fixtures/base-fixture';
+import { BookmarksPanel } from '../page-object-models/bookmarks-panel';
 import { PersonsPanel } from '../page-object-models/persons-panel';
 
 test.describe('Persons Panel', () => {
+  test('preserves legacy percent escapes in cached person and folder names after reload', async ({
+    page,
+  }) => {
+    const personName = 'Café %20 %41 50%';
+    const folderName = 'Crème %20 %41 50%';
+    const person = { uid: 'legacy-person', name: btoa(personName) };
+    const folder = {
+      id: 'legacy-folder',
+      name: btoa(folderName),
+      parentHash: ROOT_FOLDER_ID,
+    };
+    await page.localStorage.setItem(
+      EStorageKey.persons,
+      JSON.stringify({ [person.uid]: person })
+    );
+    await page.localStorage.removeItem(`${EStorageKey.persons}:codecVersion`);
+    await page.localStorage.setItem(
+      EStorageKey.bookmarks,
+      JSON.stringify({
+        folderList: { [folder.id]: folder },
+        urlList: {},
+        folders: { [ROOT_FOLDER_ID]: [{ isDir: true, hash: folder.id }] },
+      })
+    );
+    await page.localStorage.removeItem(`${EStorageKey.bookmarks}:codecVersion`);
+
+    const persons = new PersonsPanel(page);
+    await page.reload();
+    await persons.verifyPersonExists(personName);
+    await page.reload();
+    await persons.verifyPersonExists(personName);
+    await page.goto('/bookmark-panel');
+    const bookmarks = new BookmarksPanel(page);
+    await bookmarks.verifyFolderExists(folderName);
+    await page.reload();
+    await bookmarks.verifyFolderExists(folderName);
+  });
+
   test.beforeEach(async ({ page }) => {
     await page.goto('/persons-panel');
     const panel = new PersonsPanel(page);

@@ -2,9 +2,10 @@ import process from 'node:process';
 
 import {
   EStorageKey,
-  getEncryptedBookmark,
-  getEncryptedFolder,
-  getEncryptedPerson,
+  decodeText,
+  encodeBookmark,
+  encodeFolder,
+  encodePerson,
   type IBookmarksObj,
   type IRedirections,
   ROOT_FOLDER_ID,
@@ -131,14 +132,14 @@ export const seedFolderWithBookmarks = async (
   bookmarks: readonly SeedBookmark[],
   isDefault = false
 ) => {
-  const folder = getEncryptedFolder({
+  const folder = encodeFolder({
     id: crypto.randomUUID(),
     name: folderName,
     parentHash: ROOT_FOLDER_ID,
     isDefault,
   });
   const urls = bookmarks.map(({ title, url, taggedPersons = [] }) =>
-    getEncryptedBookmark({
+    encodeBookmark({
       id: crypto.randomUUID(),
       url,
       title,
@@ -235,7 +236,7 @@ export const getRedirectionStorage = (rules: IRedirections) => {
 
 export const seedPersons = async (page: Page, names: readonly string[]) => {
   const persons = names.map((name) =>
-    getEncryptedPerson({ uid: crypto.randomUUID(), name })
+    encodePerson({ uid: crypto.randomUUID(), name })
   );
 
   await page.evaluate(
@@ -259,7 +260,7 @@ export const getPersonUids = async (
     (await getStorageItem(page, EStorageKey.persons)) ?? {}
   );
   return Object.fromEntries(
-    Object.values(persons).map(({ uid, name }) => [atob(name), uid])
+    Object.values(persons).map(({ uid, name }) => [decodeText(name), uid])
   );
 };
 

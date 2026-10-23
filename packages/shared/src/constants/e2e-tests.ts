@@ -72,10 +72,11 @@ const padIndex = (index: number) => String(index).padStart(3, '0');
 export const TEST_LARGE_LIST = {
   SIZE: 150,
   SEARCHED_INDEX: 75,
-  bookmarkTitle: (index: number) => `Large Bookmark ${padIndex(index)}`,
+  bookmarkTitle: (index: number) =>
+    `Large Bookmark ${padIndex(index)} 资料 📚 100%`,
   bookmarkUrl: (index: number) =>
     `${TEST_SITES.EXAMPLE_COM}/large/${padIndex(index)}`,
-  personName: (index: number) => `Large Person ${padIndex(index)}`,
+  personName: (index: number) => `Large Person ${padIndex(index)} 李 🦊 100%`,
 } as const;
 
 export const TEST_TIMEOUTS = {

@@ -1,10 +1,16 @@
-import { DynamicContext } from '@bypass/shared';
+import { DynamicContext, EStorageKey } from '@bypass/shared';
 import { type ContextType, type PropsWithChildren } from 'react';
 import { toast } from 'sonner';
 import { useLocation } from 'wouter';
 
 import { getFaviconUrl } from '@/constants/favicon';
+import { bookmarksItem, personsItem } from '@/storage/items';
 import { startHistoryWatch } from '@/utils/history';
+
+const nameItems = new Map<string, { getValue: () => Promise<unknown> }>([
+  [EStorageKey.bookmarks, bookmarksItem],
+  [EStorageKey.persons, personsItem],
+]);
 
 function DynamicProvider({ children }: PropsWithChildren) {
   const [, navigate] = useLocation();
@@ -15,7 +21,10 @@ function DynamicProvider({ children }: PropsWithChildren) {
     },
     storage: {
       get: async (key, schema) => {
-        const value: unknown = (await browser.storage.local.get(key))[key];
+        const item = nameItems.get(key);
+        const value: unknown = item
+          ? await item.getValue()
+          : (await browser.storage.local.get(key))[key];
         return value == null ? value : schema.parse(value);
       },
       set: async (key: string, value: any) =>

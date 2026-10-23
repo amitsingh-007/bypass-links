@@ -1,3 +1,4 @@
+import { encodeText, decodeText } from '../../../utils/codec';
 import { matchesSearch } from '../../../utils/search';
 import { ROOT_FOLDER_ID, ROOT_FOLDER_NAME } from '../constants';
 import {
@@ -22,9 +23,7 @@ export const getBookmarkFaviconUrls = (
   urlList: IBookmarksObj['urlList'],
   getFaviconUrl: (url: string) => string
 ) =>
-  Object.values(urlList).map((item) =>
-    getFaviconUrl(getDecryptedBookmark(item).url)
-  );
+  Object.values(urlList).map((item) => getFaviconUrl(decodeBookmark(item).url));
 
 // Folders always survive a search, so their contents stay reachable
 export const getFilteredContextBookmarks = (
@@ -35,37 +34,34 @@ export const getFilteredContextBookmarks = (
     (ctx) => ctx.isDir || matchesSearch(searchText, ctx.url, ctx.title)
   );
 
-export const encodeBookmarkField = (value: string) =>
-  btoa(encodeURIComponent(value));
-
-export const getEncryptedBookmark = (
+export const encodeBookmark = (
   bookmark: IEncodedBookmark
 ): IEncodedBookmark => ({
   ...bookmark,
-  url: encodeBookmarkField(bookmark.url),
-  title: encodeBookmarkField(bookmark.title),
+  url: encodeText(bookmark.url),
+  title: encodeText(bookmark.title),
 });
 
-export const getDecryptedBookmark = (
+export const decodeBookmark = (
   bookmark: IEncodedBookmark
 ): IEncodedBookmark => ({
   ...bookmark,
-  url: decodeURIComponent(atob(bookmark.url)),
-  title: decodeURIComponent(atob(bookmark.title)),
+  url: decodeText(bookmark.url),
+  title: decodeText(bookmark.title),
 });
 
-export const getEncryptedFolder = (folder: IEncodedFolder): IEncodedFolder => ({
+export const encodeFolder = (folder: IEncodedFolder): IEncodedFolder => ({
   ...folder,
-  name: btoa(folder.name),
+  name: encodeText(folder.name),
 });
 
-export const getDecryptedFolder = (folder: IEncodedFolder): IEncodedFolder => ({
+export const decodeFolder = (folder: IEncodedFolder): IEncodedFolder => ({
   ...folder,
-  name: atob(folder.name),
+  name: decodeText(folder.name),
 });
 
 export const getDecodedFolderList = (folderList: IBookmarksObj['folderList']) =>
-  Object.entries(folderList).map(([_key, value]) => getDecryptedFolder(value));
+  Object.entries(folderList).map(([_key, value]) => decodeFolder(value));
 
 export const getDefaultFolder = (folders: IEncodedFolder[]) =>
   folders.find((x) => x.isDefault);
@@ -78,7 +74,7 @@ export const getFolderName = (
     return ROOT_FOLDER_NAME;
   }
   const folder = folderList[folderId];
-  return folder ? getDecryptedFolder(folder).name : 'Not Found';
+  return folder ? decodeFolder(folder).name : 'Not Found';
 };
 
 export const bookmarksMapper = (
@@ -87,7 +83,7 @@ export const bookmarksMapper = (
   folderList: IBookmarksObj['folderList']
 ): ContextBookmark => {
   if (isDir) {
-    const folder = getDecryptedFolder(folderList[hash]);
+    const folder = decodeFolder(folderList[hash]);
     return {
       id: folder.id,
       isDir,
@@ -96,7 +92,7 @@ export const bookmarksMapper = (
     };
   }
 
-  const bookmark = getDecryptedBookmark(urlList[hash]);
+  const bookmark = decodeBookmark(urlList[hash]);
   return {
     id: bookmark.id,
     isDir,
