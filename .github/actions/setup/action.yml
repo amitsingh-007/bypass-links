@@ -8,7 +8,7 @@ runs:
   using: composite
   steps:
     - name: Setup pnpm and Node.js
-      uses: pnpm/setup@v3
+      uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3
       with:
         cache: true
 
