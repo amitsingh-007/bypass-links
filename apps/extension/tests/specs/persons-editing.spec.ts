@@ -415,6 +415,9 @@ test.describe('Persons editing and ordering', () => {
         imageRoutes.setDownloadUrl(retryImageUrl);
         await panel.getPickerSaveButton().click();
         await expect(retryPicker).toBeHidden();
+        const previewImage = retryDialog.getByRole('img');
+        await expect(previewImage).toBeVisible();
+        await expect(previewImage).toHaveAttribute('src', retryImageUrl);
         await retryDialog
           .getByRole('button', { name: 'Save', exact: true })
           .click();
