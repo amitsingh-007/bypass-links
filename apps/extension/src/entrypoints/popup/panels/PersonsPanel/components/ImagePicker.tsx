@@ -17,6 +17,7 @@ import {
   useState,
 } from 'react';
 import AvatarEditor, { type AvatarEditorRef } from 'react-avatar-editor';
+import { toast } from 'sonner';
 
 import LoadingOverlay from '@popup/components/LoadingOverlay';
 
@@ -86,11 +87,11 @@ function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
       }
       const fileName = getPersonImageName(uid);
       await uploadFileToFirebase(croppedImage, fileName);
-      onDialogClose();
       await handleImageSave(fileName);
+      onDialogClose();
     } catch (error) {
-      console.error('Error while cropping the image', error);
-      throw error;
+      console.error('Could not upload image', error);
+      toast.error('Could not upload image');
     } finally {
       setIsUploadingImage(false);
     }
