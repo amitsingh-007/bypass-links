@@ -89,8 +89,8 @@ function ImagePicker({ uid, isOpen, onDialogClose, handleImageSave }: Props) {
       await handleImageSave(fileName);
       onDialogClose();
     } catch (error) {
-      console.error('Could not upload image', error);
-      toast.error('Could not upload image');
+      console.error('Could not save image', error);
+      toast.error('Could not save image');
     } finally {
       setIsUploadingImage(false);
     }
