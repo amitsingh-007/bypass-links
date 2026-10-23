@@ -6,7 +6,7 @@ import {
   type IRedirections,
   type IWebsites,
   EStorageKey,
-} from '@bypass/shared';
+} from '@bypass/shared/server';
 
 import {
   getFromFirebase,

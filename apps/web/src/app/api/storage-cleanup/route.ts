@@ -4,9 +4,10 @@ import { timingSafeEqual } from 'node:crypto';
 import { cleanupStorage, getAuthBearer } from '@bypass/trpc';
 import { type NextRequest, NextResponse } from 'next/server';
 
-import { serverEnv } from '@app/constants/env/server';
+import { getStorageCleanupEnv } from '@app/constants/env/server';
 
 export async function POST(req: NextRequest) {
+  const serverEnv = getStorageCleanupEnv();
   const credential = Buffer.from(getAuthBearer(req) ?? '');
   const secret = Buffer.from(serverEnv.FIREBASE_CRON_JOB_API_KEY);
 

@@ -1,7 +1,7 @@
 import {
   resolveUserFromRequest,
   uploadImageToFirebase,
-} from '@bypass/trpc/appRouter';
+} from '@bypass/trpc/admin';
 import { type NextRequest, NextResponse } from 'next/server';
 
 import { validateAndProccessFile } from './utils';
@@ -24,7 +24,6 @@ export async function POST(request: NextRequest) {
 
   await uploadImageToFirebase(auth.user.uid, {
     fileName: file.name,
-    fileType: file.type,
     buffer: fileBuffer,
   });
 

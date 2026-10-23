@@ -1,4 +1,4 @@
-import { getLatestExtension } from '@bypass/trpc/edge';
+import { getLatestExtension } from '@bypass/trpc/extension-release';
 import { type Metadata } from 'next';
 
 import { clientEnv } from '@app/constants/env/client';

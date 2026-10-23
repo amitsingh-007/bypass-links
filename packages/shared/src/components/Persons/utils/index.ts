@@ -1,5 +1,6 @@
 import { ECacheBucketKeys } from '../../../constants/cache';
 import { addAllToCache } from '../../../utils/cache';
+import { getPersonImageName } from '../../../utils/personImage';
 import { matchesSearch } from '../../../utils/search';
 import { type IEncodedBookmark } from '../../Bookmarks/interfaces';
 import {
@@ -59,7 +60,7 @@ export const getFilteredPersons = (persons: IPerson[], searchText: string) =>
 
 export const getColumnCount = (isMobile: boolean) => (isMobile ? 3 : 5);
 
-export const getPersonImageName = (uid: string) => `${uid}.jpeg`;
+export { getPersonImageName };
 
 export const buildPersonImageUrls = async (
   uids: string[],
