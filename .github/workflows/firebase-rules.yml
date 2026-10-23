@@ -1,0 +1,56 @@
+name: Deploy Firebase rules
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .firebaserc
+      - firebase.json
+      - firebase/database.rules.json
+      - firebase/storage.rules
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: firebase-rules
+  cancel-in-progress: false
+
+jobs:
+  Deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - uses: ./.github/actions/setup
+
+      - name: Download Firebase CLI
+        run: pnpm dlx firebase-tools@15.34.1 --version
+
+      - name: Authenticate for development
+        uses: google-github-actions/auth@v3
+        with:
+          project_id: bypass-links-dev
+          workload_identity_provider: ${{ vars.FIREBASE_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.FIREBASE_RULES_SERVICE_ACCOUNT }}
+
+      - name: Deploy development rules
+        run: pnpm dlx firebase-tools@15.34.1 deploy --project dev --only database,storage --non-interactive
+
+      - name: Authenticate for production
+        uses: google-github-actions/auth@v3
+        with:
+          project_id: bypass-links
+          workload_identity_provider: ${{ vars.FIREBASE_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.FIREBASE_RULES_SERVICE_ACCOUNT }}
+
+      - name: Deploy production rules
+        run: pnpm dlx firebase-tools@15.34.1 deploy --project prod --only database,storage --non-interactive
