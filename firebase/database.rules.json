@@ -1,11 +1,11 @@
 {
   "rules": {
     "data": {
-    	"$uid": {
-    		".read": "auth != null && $uid == auth.uid",
-    		".write": "auth != null && $uid == auth.uid",
+      "$uid": {
+        ".read": "auth != null && $uid == auth.uid",
+        ".write": "auth != null && $uid == auth.uid",
         "live": {
-        	"redirections": { ".indexOn": "isDefault" },
+          "redirections": { ".indexOn": "isDefault" },
           "bookmarks": { ".indexOn": "isDefault" },
           "persons": { ".indexOn": "isDefault" }
         }
