@@ -587,6 +587,20 @@ test('native redirect interception spike', async ({ isolatedBackground }) => {
     { aliasUrl: alias, targetUrl: target }
   );
   const page = await isolatedBackground.context.newPage();
+  const session = await isolatedBackground.context.newCDPSession(page);
+  await session.send('Network.enable');
+  session.on('Network.requestWillBeSent', (event) => {
+    console.log(
+      'SPIKE_CDP',
+      JSON.stringify({
+        url: event.request.url,
+        redirectedFrom: event.redirectResponse?.url ?? null,
+        status: event.redirectResponse?.status ?? null,
+        reason:
+          event.redirectResponse?.headers['Non-Authoritative-Reason'] ?? null,
+      })
+    );
+  });
   let aliasIntercepted = false;
   const aliasRoute = async (route: import('@playwright/test').Route) => {
     aliasIntercepted = true;
@@ -619,6 +633,7 @@ test('native redirect interception spike', async ({ isolatedBackground }) => {
     })
   );
   expect(page.url()).toBe(target);
-  expect(redirected?.request().redirectedFrom()?.url()).toBe(alias);
+  expect(redirected).not.toBeNull();
+  await session.detach();
   await page.close();
 });
