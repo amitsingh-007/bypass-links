@@ -12,7 +12,7 @@ import {
   getBookmarks,
   getLastVisited,
   getPersons,
-  getRedirections,
+  listRedirections,
   getWebsites,
   saveBookmarksAndPersons,
   saveRedirections,
@@ -60,10 +60,10 @@ const firebaseDataRouter = t.router({
       return upsertLastVisited(input.hash, ctx.user.uid);
     }),
 
-  redirectionsGet: protectedProcedure
+  redirectionsList: protectedProcedure
     .output(RedirectionsSchema)
     .query(async ({ ctx }) => {
-      return getRedirections(ctx.user.uid);
+      return listRedirections(ctx.user.uid);
     }),
   redirectionsPost: protectedProcedure
     .input(RedirectionsSchema)

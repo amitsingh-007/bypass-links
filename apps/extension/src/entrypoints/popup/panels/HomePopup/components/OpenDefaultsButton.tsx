@@ -18,7 +18,7 @@ function OpenDefaultsButton() {
     redirections
       .filter(({ isDefault, alias, website }) => isDefault && alias && website)
       .forEach(({ website }) => {
-        tabs.open(atob(website));
+        tabs.open(website);
       });
     setIsFetching(false);
   };
