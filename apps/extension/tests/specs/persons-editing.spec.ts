@@ -403,7 +403,7 @@ test.describe('Persons editing and ordering', () => {
         await expect(
           page
             .getByRole('dialog', { name: 'Edit Person', includeHidden: true })
-            .getByRole('img', { includeHidden: true })
+            .locator('img[data-slot="avatar-image"]')
         ).toHaveCSS('opacity', '1');
         expect(await getStoredImageUrl(page, uid)).toBe(imageUrlAfterRename);
       });
@@ -415,7 +415,9 @@ test.describe('Persons editing and ordering', () => {
         imageRoutes.setDownloadUrl(retryImageUrl);
         await panel.getPickerSaveButton().click();
         await expect(retryPicker).toBeHidden();
-        const previewImage = retryDialog.getByRole('img');
+        const previewImage = retryDialog.locator(
+          'img[data-slot="avatar-image"]'
+        );
         await expect(previewImage).toBeVisible();
         await expect(previewImage).toHaveAttribute('src', retryImageUrl);
         await retryDialog
