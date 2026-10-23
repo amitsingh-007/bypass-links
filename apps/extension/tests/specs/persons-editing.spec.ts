@@ -54,7 +54,11 @@ const controlPersonImages = async (context: BrowserContext) => {
     uploads.push(route.request().url());
     await heldUpload;
     if (failing.upload) {
-      await route.abort();
+      await route.fulfill({
+        status: 500,
+        contentType: 'text/plain',
+        body: 'Could not upload image',
+      });
       return;
     }
     await route.fulfill({ status: 200, contentType: 'text/plain', body: 'ok' });
@@ -330,6 +334,8 @@ test.describe('Persons editing and ordering', () => {
       const imageRoutes = await controlPersonImages(context);
       imageRoutes.setFailing('upload', true);
       const { page, panel } = await openPersonsPanel(context, extensionId);
+      const pageErrors: Error[] = [];
+      page.on('pageerror', (error) => pageErrors.push(error));
       const uid = (await getPersonUids(page))[TEST_PERSONS.DONALD];
       const imageUrlBefore = await getStoredImageUrl(page, uid);
       expect(
@@ -341,6 +347,7 @@ test.describe('Persons editing and ordering', () => {
       );
       const releaseUpload = imageRoutes.holdUploads();
 
+      const failedResponse = page.waitForResponse('**/api/upload-file');
       await panel.getPickerUrlInput().fill(IMAGE_DATA_URL);
       await panel.getPickerSaveButton().click();
 
@@ -349,24 +356,34 @@ test.describe('Persons editing and ordering', () => {
         releaseUpload();
       });
 
-      await test.step('the picker stays open and the image is unchanged', async () => {
+      await test.step('the failure is reported and the image is unchanged', async () => {
+        expect((await failedResponse).status()).toBe(500);
+        await expect(
+          page.getByText('Could not upload image', { exact: true })
+        ).toBeVisible();
         await expect(page.getByTestId('uploading-overlay')).toBeHidden();
         await expect(imagePicker).toBeVisible();
         expect(imageRoutes.uploads()).toHaveLength(1);
         expect(await getStoredImageUrl(page, uid)).toBe(imageUrlBefore);
       });
 
-      await test.step('retrying uploads the image and saves it with the person', async () => {
-        imageRoutes.setFailing('upload', false);
-        await panel.getPickerSaveButton().click();
-        await expect(imagePicker).toBeHidden();
-
-        // The picker only updates the open dialog; the mapping is written on save
+      const editedName = uniqueName('failed-upload');
+      await test.step('the person can still be saved without the upload', async () => {
+        await closeDialog(page, imagePicker);
+        await dialog.getByPlaceholder('Enter name').fill(editedName);
         await dialog.getByRole('button', { name: 'Save' }).click();
         await expect(dialog).toBeHidden();
+        await panel.verifyPersonExists(editedName);
+      });
+
+      await test.step('the saved person can be edited and given an image later', async () => {
+        imageRoutes.setFailing('upload', false);
+        await panel.changePersonImage(editedName, IMAGE_DATA_URL);
+        expect(imageRoutes.uploads()).toHaveLength(2);
         await expect
           .poll(async () => getStoredImageUrl(page, uid))
           .toBe(STORED_IMAGE_URL);
+        expect(pageErrors).toEqual([]);
       });
     });
   });
