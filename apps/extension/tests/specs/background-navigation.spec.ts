@@ -558,3 +558,67 @@ test.describe.serial('Background Service Worker Navigation', () => {
     );
   });
 });
+
+test('native redirect interception spike', async ({ isolatedBackground }) => {
+  const alias = 'http://native-spike/';
+  const target = 'https://native-spike.example/target';
+  const worker = isolatedBackground.context.serviceWorkers()[0];
+  await worker.evaluate(
+    async ({ aliasUrl, targetUrl }) => {
+      await chrome.declarativeNetRequest.updateDynamicRules({
+        removeRuleIds: [990001],
+        addRules: [
+          {
+            id: 990001,
+            action: {
+              type: chrome.declarativeNetRequest.RuleActionType.REDIRECT,
+              redirect: { url: targetUrl },
+            },
+            condition: {
+              urlFilter: `|${aliasUrl}|`,
+              resourceTypes: [
+                chrome.declarativeNetRequest.ResourceType.MAIN_FRAME,
+              ],
+            },
+          },
+        ],
+      });
+    },
+    { aliasUrl: alias, targetUrl: target }
+  );
+  const page = await isolatedBackground.context.newPage();
+  let aliasIntercepted = false;
+  const aliasRoute = async (route: import('@playwright/test').Route) => {
+    aliasIntercepted = true;
+    await route.fulfill({
+      contentType: 'text/html',
+      body: 'alias intercepted',
+    });
+  };
+  await page.route(alias, aliasRoute);
+  await page.route(target, async (route) => {
+    await route.fulfill({ contentType: 'text/html', body: 'native target' });
+  });
+  const intercepted = await page.goto(alias);
+  console.log(
+    'SPIKE_WITH_ALIAS_INTERCEPTION',
+    JSON.stringify({
+      url: page.url(),
+      aliasIntercepted,
+      redirectedFrom: intercepted?.request().redirectedFrom()?.url() ?? null,
+    })
+  );
+  expect([alias, target]).toContain(page.url());
+  await page.unroute(alias, aliasRoute);
+  const redirected = await page.goto(alias);
+  console.log(
+    'SPIKE_WITHOUT_ALIAS_INTERCEPTION',
+    JSON.stringify({
+      url: page.url(),
+      redirectedFrom: redirected?.request().redirectedFrom()?.url() ?? null,
+    })
+  );
+  expect(page.url()).toBe(target);
+  expect(redirected?.request().redirectedFrom()?.url()).toBe(alias);
+  await page.close();
+});

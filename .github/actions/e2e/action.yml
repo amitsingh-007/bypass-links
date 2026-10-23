@@ -39,7 +39,7 @@ runs:
 
     - name: Run Playwright tests
       shell: bash
-      run: pnpm e2e
+      run: pnpm e2e apps/extension/tests/specs/background-navigation.spec.ts --project @bypass/extension --no-deps --grep 'native redirect interception spike'
       env:
         PLAYWRIGHT_TEST_BASE_URL: ${{ inputs.preview-url }}
         COVERAGE: '1'

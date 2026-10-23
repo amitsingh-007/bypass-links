@@ -26,6 +26,7 @@ export const devManifest: UserManifest = {
     scopes: OAUTH_SCOPES,
   },
   permissions: [
+    'declarativeNetRequestWithHostAccess',
     'storage',
     'tabs',
     'history',
