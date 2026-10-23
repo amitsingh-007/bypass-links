@@ -28,12 +28,16 @@ const useFirebaseStore = create<State>()(
         isSignedIn: false,
 
         async firebaseSignIn() {
-          const testAuthData = localStorage.getItem(TEST_AUTH_DATA_KEY);
-          if (testAuthData) {
-            const idpAuth = AuthResponseSchema.parse(JSON.parse(testAuthData));
-            localStorage.removeItem(TEST_AUTH_DATA_KEY);
-            setIdpAuth(idpAuth);
-            return;
+          if (import.meta.env.TEST_AUTH_ENABLED) {
+            const testAuthData = localStorage.getItem(TEST_AUTH_DATA_KEY);
+            if (testAuthData) {
+              const idpAuth = AuthResponseSchema.parse(
+                JSON.parse(testAuthData)
+              );
+              localStorage.removeItem(TEST_AUTH_DATA_KEY);
+              setIdpAuth(idpAuth);
+              return;
+            }
           }
 
           const { token: accessToken } = await browser.identity.getAuthToken({
