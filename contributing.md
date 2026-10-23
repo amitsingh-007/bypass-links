@@ -23,7 +23,9 @@ The [Oxc VS Code extension](https://marketplace.visualstudio.com/items?itemName=
 
 ## Migrate legacy names before the Unicode release
 
-Person and folder names previously used plain base64. The shared codec now applies URI encoding before base64, as bookmarks already do. Legacy names containing `%` need a server rewrite before releasing the new clients. Extension and web caches migrate their name fields once in place, preserving unsynced edits and pending flags. Bookmark titles and URLs keep their existing bytes.
+Person and folder names previously used plain base64. The shared codec now applies URI encoding before base64, as bookmarks already do. New records include `nameEncoding: { version: 2, value: name }`, bound to their exact encoded name. The marker distinguishes current data from legacy names even when an old client cached a server response. Extension and web caches normalize legacy fields in place, preserving unsynced edits, pending flags, and bookmark title and URL bytes.
+
+The existing name read procedures accept optional `{ nameCodecVersion: 2 }` input for current clients. Calls without input retain the old Latin-1 wire format. Newly introduced Unicode appears URI-escaped on old clients, while current clients display the original text. Old full saves keep unchanged Unicode records intact; stale markers on renamed legacy rows are ignored.
 
 With the matching project's `FIREBASE_SERVICE_ACCOUNT` in the root `.env`, prepare a plan on dev first:
 
@@ -37,9 +39,9 @@ The dry run reads records, prints every proposed path and its old and new values
 node packages/trpc/src/scripts/migrate-text-codec.ts --project dev --apply --plan /tmp/codec-dev.json
 ```
 
-Repeat on prod with prod credentials and a separate plan before releasing either client. Keep the plans private because they contain names and account IDs. Applying a plan compares each current value with its recorded old value, skips already-applied values, and stops on any other change. A partially applied plan can be rerun safely. Resolve a conflicting record manually instead of regenerating the plan.
+Deploy the compatible API before applying any plan. Repeat on prod with prod credentials and a separate plan. Marker-aware clients can ship before or after this name migration because they read both formats. Keep the plans private because they contain names and account IDs. Applying a plan compares each complete current record with its recorded old record, writes the name and its marker atomically, skips already-applied records, and stops on any other change. A partially applied plan can be rerun safely. Resolve a conflicting record manually instead of regenerating the plan.
 
-Generate plans only while all server names still use the legacy format. After the migration or any new client writes, the two encodings cannot be distinguished reliably from their contents. Generating a new plan then can double-encode names. Keep and reuse the original plan. Use the separate shortcuts scope below for its later server rollout.
+Name plans use format version 2 and contain whole records. Older plans containing only `/name` strings are rejected; prepare and review a fresh dry-run plan before applying. Dry runs rewrite only unmarked legacy names whose originals contain `%`, and skip valid current markers. Keep the original reviewed plan to resume an interrupted apply. Use the separate shortcuts scope below for its later server rollout.
 
 ## Roll out the plain-text shortcuts API
 

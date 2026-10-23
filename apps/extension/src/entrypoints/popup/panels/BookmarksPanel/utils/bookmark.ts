@@ -18,7 +18,9 @@ import {
 } from '@/storage/items';
 
 export const syncBookmarksToStorage = async () => {
-  const bookmarks = await trpcApi.firebaseData.bookmarksGet.query();
+  const bookmarks = await trpcApi.firebaseData.bookmarksGet.query({
+    nameCodecVersion: 2,
+  });
   await bookmarksItem.setValue(bookmarks);
 };
 

@@ -1,5 +1,6 @@
 import { z } from 'zod/mini';
 
+import { NameEncodingSchema } from '../../../schema/nameEncodingSchema';
 import { PersonsSchema } from '../../Persons/schema';
 
 export const EncodedBookmarkSchema = z.object({
@@ -13,6 +14,7 @@ export const EncodedBookmarkSchema = z.object({
 export const EncodedFolderSchema = z.object({
   id: z.string(),
   name: z.string(),
+  nameEncoding: z.optional(NameEncodingSchema),
   parentHash: z.string(),
   isDefault: z.optional(z.boolean()),
 });
