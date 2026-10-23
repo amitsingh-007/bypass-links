@@ -116,31 +116,6 @@ export const listRedirections = async (uid: string) =>
     })
   );
 
-const encodeLegacyUrl = (value: string) => {
-  try {
-    return btoa(value);
-  } catch {
-    try {
-      return btoa(new URL(value).href);
-    } catch {
-      return btoa(
-        value.replace(/[\u0100-\u{10ffff}]/gu, (character) =>
-          encodeURIComponent(character)
-        )
-      );
-    }
-  }
-};
-
-// shortcut: old clients cannot display Unicode URLs, remove with #4356.
-export const getRedirections = async (uid: string) =>
-  (await listRedirections(uid)).map(({ id, alias, website, isDefault }) => ({
-    id,
-    alias: encodeLegacyUrl(alias),
-    website: encodeLegacyUrl(website),
-    isDefault,
-  }));
-
 export const saveRedirections = async (
   redirections: IRedirections,
   uid: string

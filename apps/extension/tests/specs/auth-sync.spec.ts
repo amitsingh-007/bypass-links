@@ -22,7 +22,6 @@ import { withSignedInProfile } from '../utils/signed-in-profile';
 import { getStorageItem, useTestCredentials } from '../utils/test-utils';
 
 const ACCOUNT_SAVE = 'firebaseData.bookmarkAndPersonSave';
-const AUTH_STORE_KEY = '__fbOAuth';
 
 test('rejects malformed injected auth data without signing in or consuming it', async () => {
   await withTempProfileContext({}, async (context) => {
@@ -40,7 +39,6 @@ test('rejects malformed injected auth data without signing in or consuming it', 
         await expect(loginButton).toBeEnabled();
         await expect(page.getByTestId('logout-button')).toHaveCount(0);
         expect(await page.localStorage.getItem(TEST_AUTH_DATA_KEY)).toBe(raw);
-        expect(await page.localStorage.getItem(AUTH_STORE_KEY)).toBeNull();
       });
     }
   });

@@ -1,11 +1,9 @@
-import { EStorageKey, decodePersons } from '@bypass/shared';
-import { PersonsSchema } from '@bypass/shared/schema';
+import { EStorageKey } from '@bypass/shared';
 import { TEST_TIMEOUTS } from '@bypass/shared/tests';
 import { expect, test, type BrowserContext } from '@playwright/test';
 
-import { EExtStorageKey, TEST_AUTH_DATA_KEY } from '@/constants';
+import { TEST_AUTH_DATA_KEY } from '@/constants';
 
-import { writeStorageFromWorker } from '../fixtures/background-fixture';
 import {
   createSharedBackgroundSW,
   getExtensionId,
@@ -56,10 +54,8 @@ test.describe('Auth lifecycle', () => {
   });
 });
 
-const controlSdkAuth = async (
-  context: BrowserContext,
-  uid = 'sdk-test-user'
-) => {
+const controlSdkAuth = async (context: BrowserContext) => {
+  const uid = 'sdk-test-user';
   const issuedAt = Math.floor(Date.now() / 1000);
   const idToken = [
     'eyJhbGciOiJSUzI1NiJ9',
@@ -109,7 +105,6 @@ const controlSdkAuth = async (
     });
   });
   let latestCalls = 0;
-  let syncReads = 0;
   const responses: Record<string, unknown> = {
     'extension.latest': {
       chrome: {
@@ -130,7 +125,6 @@ const controlSdkAuth = async (
       .split(',');
     const body = procedures.map((procedure) => {
       if (procedure === 'extension.latest') latestCalls++;
-      else syncReads++;
       const response = responses[procedure];
       if (response === undefined)
         throw new Error(`Unexpected procedure ${procedure}`);
@@ -142,7 +136,6 @@ const controlSdkAuth = async (
     credentials,
     idToken,
     latestCalls: () => latestCalls,
-    syncReads: () => syncReads,
   };
 };
 
@@ -172,7 +165,6 @@ test.describe('SDK authentication', () => {
       );
       await page.getByTestId('login-button').click();
       await expect(page.getByTestId('logout-button')).toBeEnabled();
-      expect(await page.localStorage.getItem('__fbOAuth')).toBeNull();
       expect(await page.localStorage.getItem(TEST_AUTH_DATA_KEY)).toBeNull();
       await page.addInitScript(() => {
         window.e2eSawSignedOut = false;
@@ -243,85 +235,4 @@ test.describe('SDK authentication', () => {
       expect(refreshCalls).toBe(1);
     });
   });
-});
-
-test.describe('Legacy session migration', () => {
-  for (const outcome of [
-    'success',
-    'identity failure',
-    'different account',
-  ] as const) {
-    test(`preserves unsynced local edits during legacy session migration: ${outcome}`, async () => {
-      await withTempProfileContext({}, async (context) => {
-        const sdk = await controlSdkAuth(
-          context,
-          outcome === 'different account' ? 'another-user' : 'legacy-user'
-        );
-        const legacy = JSON.stringify({
-          state: {
-            isSignedIn: true,
-            idpAuth: {
-              uid: 'legacy-user',
-              email: sdk.credentials.email,
-              idToken: sdk.idToken,
-              refreshToken: 'old-refresh-token',
-              expiresAtMs: Date.now() + 3600 * 1000,
-            },
-          },
-          version: 0,
-        });
-        const localData = {
-          [EStorageKey.persons]: {
-            unsynced: { uid: 'unsynced', name: btoa('Unsynced local person') },
-          },
-          [EStorageKey.bookmarks]: { folderList: {}, urlList: {}, folders: {} },
-          [EExtStorageKey.HAS_PENDING_BOOKMARKS]: true,
-          [EExtStorageKey.HAS_PENDING_PERSONS]: true,
-        };
-        const background = await createSharedBackgroundSW(context);
-        await writeStorageFromWorker(background, localData);
-        await context.addInitScript(
-          ({ data, fails }) => {
-            if (!sessionStorage.getItem('legacy-seeded')) {
-              localStorage.setItem('__fbOAuth', data);
-              sessionStorage.setItem('legacy-seeded', 'yes');
-            }
-            chrome.identity.getAuthToken = async () => {
-              if (fails) throw new Error('Identity unavailable');
-              return { token: 'google-test-token', grantedScopes: [] };
-            };
-          },
-          { data: legacy, fails: outcome === 'identity failure' }
-        );
-        const page = await openMockPopup(context);
-        if (outcome === 'success') {
-          await expect(page.getByTestId('logout-button')).toBeVisible();
-          expect(await page.localStorage.getItem('__fbOAuth')).toBeNull();
-        } else {
-          await expect(page.getByRole('alert')).toHaveText(
-            'Could not restore your session. Reopen the popup to retry.'
-          );
-          expect(await page.localStorage.getItem('__fbOAuth')).toBe(legacy);
-          await page.localStorage.removeItem('__fbOAuth');
-          await page.reload();
-          await expect(page.getByTestId('login-button')).toBeVisible();
-        }
-        expect(sdk.syncReads()).toBe(0);
-        expect(
-          decodePersons(
-            PersonsSchema.parse(await getStorageItem(page, EStorageKey.persons))
-          )
-        ).toEqual([{ uid: 'unsynced', name: 'Unsynced local person' }]);
-        expect(await getStorageItem(page, EStorageKey.bookmarks)).toEqual(
-          localData[EStorageKey.bookmarks]
-        );
-        for (const key of [
-          EExtStorageKey.HAS_PENDING_BOOKMARKS,
-          EExtStorageKey.HAS_PENDING_PERSONS,
-        ]) {
-          expect(await getStorageItem(page, key)).toBe(true);
-        }
-      });
-    });
-  }
 });

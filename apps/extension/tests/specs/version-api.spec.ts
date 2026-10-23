@@ -33,7 +33,7 @@ test('should call extension.latest API and return expected response structure', 
   expect(chromeData.date).toMatch(/^\d{4}-\d{2}-\d{2}/);
 });
 
-test('returns plain shortcuts and preserves the legacy read wire format', async ({
+test('returns plain shortcuts and rejects the removed legacy read procedure', async ({
   page,
   extensionId,
 }) => {
@@ -45,24 +45,28 @@ test('returns plain shortcuts and preserves the legacy read wire format', async 
   const authorization = request.headers().authorization;
   expect(authorization).toMatch(/^Bearer /);
   const url = new URL(
-    '/api/trpc/firebaseData.redirectionsList,firebaseData.redirectionsGet?batch=1&input=%7B%7D',
+    '/api/trpc/firebaseData.redirectionsList?batch=1&input=%7B%7D',
     request.url()
   );
   const response = await page.request.get(url.href, {
     headers: { authorization },
   });
   expect(response.ok()).toBe(true);
-  const [plain, legacy] = z
+  const [plain] = z
     .array(z.object({ result: z.object({ data: RedirectionsSchema }) }))
     .parse(await response.json())
     .map(({ result }) => result.data);
-  expect(plain.map(({ id }) => id)).toEqual(legacy.map(({ id }) => id));
   const google = RedirectionSchema.parse(
     plain.find(({ alias }) => alias === TEST_SHORTCUTS.GOOGLE)
   );
-  expect(legacy.find(({ id }) => id === google.id)).toEqual({
-    ...google,
-    alias: btoa(google.alias),
-    website: btoa(google.website),
+  expect(google.website).toMatch(/^https?:\/\//);
+
+  const removed = await page.request.get(
+    new URL('/api/trpc/firebaseData.redirectionsGet', request.url()).href,
+    { headers: { authorization } }
+  );
+  expect(removed.status()).toBe(404);
+  expect(await removed.json()).toMatchObject({
+    error: { data: { code: 'NOT_FOUND' } },
   });
 });
