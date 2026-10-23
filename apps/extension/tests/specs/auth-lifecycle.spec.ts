@@ -5,6 +5,11 @@ import { expect, test, type BrowserContext } from '@playwright/test';
 import { TEST_AUTH_DATA_KEY } from '@/constants';
 
 import {
+  observeNativeRedirects,
+  readDynamicRules,
+  writeStorageFromWorker,
+} from '../fixtures/background-fixture';
+import {
   createSharedBackgroundSW,
   getExtensionId,
   getPopupUrl,
@@ -15,7 +20,7 @@ import {
   GOOGLE_LOGOUT_TABS,
   withSignedInProfile,
 } from '../utils/signed-in-profile';
-import { getStorageItem } from '../utils/test-utils';
+import { getRedirectionStorage, getStorageItem } from '../utils/test-utils';
 
 test.describe('Auth lifecycle', () => {
   test('clears synced storage and opens the account tabs on logout', async () => {
@@ -41,16 +46,69 @@ test.describe('Auth lifecycle', () => {
     });
   });
 
-  test('signs out on its own when the extension is switched off', async () => {
-    await withSignedInProfile(async ({ context, extensionId }) => {
-      const page = await openExtensionPanelPage(context, extensionId);
+  test('pauses signed-in redirects and restores them on enable without a reload', async () => {
+    await withSignedInProfile(
+      async ({ context, extensionId, backgroundSW }) => {
+        const page = await openExtensionPanelPage(context, extensionId);
+        const alias = 'http://e2e-signed-in-toggle/';
+        const target = 'https://pause-target.test/';
+        const shortcuts = getRedirectionStorage([
+          { id: crypto.randomUUID(), alias, website: target, isDefault: false },
+        ]);
+        await context.route(`${target}**`, async (route) => {
+          await route.fulfill({
+            contentType: 'text/html',
+            body: 'Redirect target',
+          });
+        });
+        await writeStorageFromWorker(backgroundSW, shortcuts);
+        await expect.poll(() => readDynamicRules(context)).toHaveLength(1);
+        await expect(page.getByTestId('logout-button')).toBeEnabled();
+        const extensionSwitch = page.getByTestId('toggle-extension-switch');
 
-      await page.getByTestId('toggle-extension-switch').click();
+        await extensionSwitch.click();
+        await expect(extensionSwitch).not.toBeChecked();
+        await expect.poll(() => readDynamicRules(context)).toEqual([]);
 
-      await expect(page.getByTestId('login-button')).toBeVisible({
-        timeout: TEST_TIMEOUTS.AUTH,
-      });
-    });
+        await extensionSwitch.click();
+        await expect(extensionSwitch).toBeChecked();
+        await expect.poll(() => readDynamicRules(context)).toHaveLength(1);
+        await expect(page.getByTestId('logout-button')).toBeEnabled();
+        for (const key of [
+          EStorageKey.redirections,
+          EStorageKey.mappedRedirections,
+        ] as const) {
+          expect(await getStorageItem(page, key)).toEqual(shortcuts[key]);
+        }
+
+        const tab = await context.newPage();
+        const native = await observeNativeRedirects(tab);
+        try {
+          await tab.goto(alias);
+          await expect(tab).toHaveURL(target);
+          expect(native.redirects).toContainEqual({
+            from: alias,
+            to: target,
+            status: 307,
+          });
+        } finally {
+          await native.close();
+          await tab.close();
+        }
+
+        await page.getByTestId('logout-button').click();
+        await expect(page.getByTestId('login-button')).toBeVisible({
+          timeout: TEST_TIMEOUTS.AUTH,
+        });
+        for (const key of [
+          EStorageKey.redirections,
+          EStorageKey.mappedRedirections,
+        ] as const) {
+          expect(await getStorageItem(page, key)).toBeUndefined();
+        }
+        await expect.poll(() => readDynamicRules(context)).toEqual([]);
+      }
+    );
   });
 });
 
