@@ -7,8 +7,10 @@
   "exports": {
     ".": "./src/index.ts",
     "./schema": "./src/schemaIndex.ts",
+    "./server": "./src/serverIndex.ts",
     "./types/*": "./src/@types/*",
-    "./tests": "./src/testIndex.ts"
+    "./tests": "./src/testIndex.ts",
+    "./person-image": "./src/utils/personImage.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit"

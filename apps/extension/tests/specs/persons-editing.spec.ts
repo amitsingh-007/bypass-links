@@ -1,4 +1,5 @@
-import { EStorageKey, getPersonImageName } from '@bypass/shared';
+import { EStorageKey } from '@bypass/shared';
+import { getPersonImageName } from '@bypass/shared/person-image';
 import { PersonImageUrlsSchema } from '@bypass/shared/schema';
 import {
   closeDialog,

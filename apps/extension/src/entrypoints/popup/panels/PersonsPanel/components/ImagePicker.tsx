@@ -1,4 +1,5 @@
-import { Header, getPersonImageName, PERSON_IMAGE_SIZE } from '@bypass/shared';
+import { Header, PERSON_IMAGE_SIZE } from '@bypass/shared';
+import { getPersonImageName } from '@bypass/shared/person-image';
 import {
   Button,
   Dialog,
