@@ -217,10 +217,10 @@ test('a partly failed login sync leaves a clean signed-out popup', async () => {
     });
     await page.getByTestId('login-button').click();
 
+    await expect.poll(failedCalls).not.toHaveLength(0);
     await expect(page.getByTestId('login-button')).toBeVisible({
       timeout: TEST_TIMEOUTS.AUTH,
     });
-    expect(failedCalls()).not.toHaveLength(0);
     expect(
       batchedUrls.join('\n'),
       'the failure has to be partial, so its batch must carry other procedures'
