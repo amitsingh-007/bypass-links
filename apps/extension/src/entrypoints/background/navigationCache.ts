@@ -1,7 +1,6 @@
 import { type EExtensionState } from '@/constants';
+import { type IMappedRedirections } from '@/interfaces/redirections';
 import { extStateItem, mappedRedirectionsItem } from '@/storage/items';
-
-import { type IMappedRedirections } from './interfaces/redirections';
 
 /**
  * Background-only: the popup bundle gets its own copy the worker never writes
