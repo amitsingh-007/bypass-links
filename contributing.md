@@ -20,3 +20,19 @@ Running the full app and E2E suite requires access to this project's Vercel envi
 | `pnpm e2e`           | Run the Playwright suite; requires the test environment. |
 
 The [Oxc VS Code extension](https://marketplace.visualstudio.com/items?itemName=oxc.oxc-vscode) supports the repository's lint and format tools.
+
+## Firebase security rules
+
+Edit `firebase/database.rules.json` and `firebase/storage.rules` in the repo. Review and deploy those changes instead of editing the Firebase console. `.firebaserc` maps `dev` to `bypass-links-dev` and `prod` to `bypass-links`.
+
+The initial files are verbatim exports from both projects. The dev and prod exports matched exactly. The database rules are excluded from formatting to preserve that export.
+
+Use the pinned CLI on demand, without adding a dependency:
+
+```bash
+pnpm dlx firebase-tools@15.34.1 login
+pnpm dlx firebase-tools@15.34.1 deploy --project dev --only database,storage --dry-run
+pnpm dlx firebase-tools@15.34.1 deploy --project prod --only database,storage --dry-run
+```
+
+After reviewing the dry runs, deploy to dev first, then prod by running the same commands without `--dry-run`. The first deployment must preserve the existing rules. Tightening access requires a separate change.
