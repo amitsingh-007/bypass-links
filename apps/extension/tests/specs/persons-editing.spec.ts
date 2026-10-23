@@ -393,8 +393,8 @@ test.describe('Persons editing and ordering', () => {
 
         imageRoutes.setFailing('upload', false);
         imageRoutes.setFailing('downloadUrl', true);
-        const failedLookup = page.waitForResponse((response) =>
-          response.url().includes('storage.getDownloadUrl')
+        const failedLookup = page.waitForEvent('requestfailed', (request) =>
+          request.url().includes('storage.getDownloadUrl')
         );
         await panel.getPickerSaveButton().click();
         await failedLookup;
