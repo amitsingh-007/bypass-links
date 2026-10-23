@@ -6,7 +6,7 @@ import type {
   IRedirections,
   IWebsites,
 } from '@bypass/shared';
-import { EStorageKey } from '@bypass/shared';
+import { EStorageKey, encodeLegacyNames } from '@bypass/shared';
 import { storage } from 'wxt/utils/storage';
 
 import { EExtensionState, EExtStorageKey } from '@/constants';
@@ -18,9 +18,18 @@ type LocalStorageKey = EStorageKey | EExtStorageKey;
 const defineLocalItem = <T>(key: LocalStorageKey, fallback: T) =>
   storage.defineItem<T>(`local:${key}`, { fallback });
 
-export const bookmarksItem = defineLocalItem<IBookmarksObj>(
-  EStorageKey.bookmarks,
-  { folderList: {}, urlList: {}, folders: {} }
+export const bookmarksItem = storage.defineItem<IBookmarksObj>(
+  `local:${EStorageKey.bookmarks}`,
+  {
+    fallback: { folderList: {}, urlList: {}, folders: {} },
+    version: 2,
+    migrations: {
+      2: (bookmarks: IBookmarksObj) => ({
+        ...bookmarks,
+        folderList: encodeLegacyNames(bookmarks.folderList),
+      }),
+    },
+  }
 );
 
 export const websitesItem = defineLocalItem<IWebsites>(
@@ -33,7 +42,14 @@ export const lastVisitedItem = defineLocalItem<ILastVisited>(
   {}
 );
 
-export const personsItem = defineLocalItem<IPersons>(EStorageKey.persons, {});
+export const personsItem = storage.defineItem<IPersons>(
+  `local:${EStorageKey.persons}`,
+  {
+    fallback: {},
+    version: 2,
+    migrations: { 2: (persons: IPersons) => encodeLegacyNames(persons) },
+  }
+);
 
 export const redirectionsItem = defineLocalItem<IRedirections>(
   EStorageKey.redirections,

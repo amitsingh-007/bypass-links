@@ -14,13 +14,20 @@ import {
   clearSearchInput,
   clickDropdownPersonAndGetName,
   fillSearchInput,
+  injectLocalStorage,
   openNewPageFromAction,
+  routeTrpcProcedure,
+  succeedProcedure,
 } from '@bypass/shared/tests';
 import { z } from 'zod/mini';
 
+import { EExtStorageKey } from '@/constants';
+
+import { openExtensionPanelPage } from '../fixtures/base-fixture';
 import { bookmarkTest as test, expect } from '../fixtures/panel-fixture';
 import { BookmarksPanel } from '../utils/bookmarks-panel';
 import { PersonsPanel } from '../utils/persons-panel';
+import { withSignedInProfile } from '../utils/signed-in-profile';
 import {
   getRecordedTabs,
   getStorageItem,
@@ -47,6 +54,147 @@ const readDefaultFolderNames = async (panel: BookmarksPanel) =>
     .map(({ name }) => name);
 
 test.describe('Bookmarks Panel', () => {
+  test('preserves unsynced legacy names with percent escapes across the cache upgrade', async () => {
+    await withSignedInProfile(async ({ context, extensionId }) => {
+      const page = await openExtensionPanelPage(
+        context,
+        extensionId,
+        'bookmarks'
+      );
+      const original = BookmarksObjSchema.parse(
+        await getStorageItem(page, EStorageKey.bookmarks)
+      );
+      const personName = 'Café %20 %41 50%';
+      const folderName = 'Crème %20 %41 50%';
+      const person = { uid: 'legacy-percent-person', name: btoa(personName) };
+      const folder = {
+        id: 'legacy-percent-folder',
+        name: btoa(folderName),
+        parentHash: ROOT_FOLDER_ID,
+      };
+      const legacyBookmarks = {
+        ...original,
+        folderList: { ...original.folderList, [folder.id]: folder },
+        folders: {
+          ...original.folders,
+          [ROOT_FOLDER_ID]: [
+            { isDir: true, hash: folder.id },
+            ...(original.folders[ROOT_FOLDER_ID] ?? []),
+          ],
+        },
+      };
+      await page.evaluate(
+        async ({ bookmarks, person: legacyPerson, keys, pending }) => {
+          await chrome.storage.local.set({
+            [keys.bookmarks]: bookmarks,
+            [`${keys.bookmarks}$`]: { v: 1 },
+            [keys.persons]: { [legacyPerson.uid]: legacyPerson },
+            [`${keys.persons}$`]: { v: 1 },
+            [pending.bookmarks]: true,
+            [pending.persons]: true,
+          });
+        },
+        {
+          bookmarks: legacyBookmarks,
+          person,
+          keys: {
+            bookmarks: EStorageKey.bookmarks,
+            persons: EStorageKey.persons,
+          },
+          pending: {
+            bookmarks: EExtStorageKey.HAS_PENDING_BOOKMARKS,
+            persons: EExtStorageKey.HAS_PENDING_PERSONS,
+          },
+        }
+      );
+
+      const bookmarks = new BookmarksPanel(page);
+      await bookmarks.ensureAtRoot();
+      await bookmarks.verifyFolderExists(folderName);
+      await bookmarks.ensureAtRoot();
+      await bookmarks.verifyFolderExists(folderName);
+      expect(
+        BookmarksObjSchema.parse(
+          await getStorageItem(page, EStorageKey.bookmarks)
+        ).urlList
+      ).toEqual(original.urlList);
+      expect(
+        await getStorageItem(page, EExtStorageKey.HAS_PENDING_BOOKMARKS)
+      ).toBe(true);
+      expect(
+        await getStorageItem(page, EExtStorageKey.HAS_PENDING_PERSONS)
+      ).toBe(true);
+
+      const persons = new PersonsPanel(page);
+      await bookmarks.switchToPanel('Persons');
+      await persons.verifyPersonExists(personName);
+      await persons.ensureAtRoot();
+      await persons.verifyPersonExists(personName);
+    });
+  });
+
+  test('saves Unicode person and folder names across reloads and displays them on the web', async () => {
+    await withSignedInProfile(async ({ context, extensionId }) => {
+      await routeTrpcProcedure(
+        context,
+        'storage.getDownloadUrl',
+        async (call) => {
+          await succeedProcedure(call, '');
+        }
+      );
+      const page = await openExtensionPanelPage(
+        context,
+        extensionId,
+        'persons'
+      );
+      const persons = new PersonsPanel(page);
+      const personName = 'Zoë 李 🦊 100% %41';
+      const folderName = '资料 📚 100% %41';
+
+      await persons.addPerson(personName);
+      await persons.ensureAtRoot();
+      await persons.verifyPersonExists(personName);
+
+      const bookmarks = new BookmarksPanel(page);
+      await bookmarks.ensureAtRoot();
+      await bookmarks.createFolder(folderName);
+      await bookmarks.clickSaveButton();
+      await bookmarks.ensureAtRoot();
+      await bookmarks.verifyFolderExists(folderName);
+
+      // Use exactly the extension's saved bytes without writing to the shared account.
+      await injectLocalStorage(context, {
+        [EStorageKey.persons]: JSON.stringify(
+          await getStorageItem(page, EStorageKey.persons)
+        ),
+        [`${EStorageKey.persons}:codecVersion`]: '2',
+        [EStorageKey.bookmarks]: JSON.stringify(
+          await getStorageItem(page, EStorageKey.bookmarks)
+        ),
+        [`${EStorageKey.bookmarks}:codecVersion`]: '2',
+      });
+      const webPage = await context.newPage();
+      const webUrl =
+        process.env.PLAYWRIGHT_TEST_BASE_URL ?? 'http://localhost:3000';
+      await webPage.goto(`${webUrl}/persons-panel`);
+      await expect(
+        webPage.getByTestId(`person-item-${personName}`)
+      ).toBeVisible();
+      await webPage.reload();
+      await expect(
+        webPage.getByTestId(`person-item-${personName}`)
+      ).toBeVisible();
+      await webPage.goto(`${webUrl}/bookmark-panel`);
+      await expect(
+        webPage.getByTestId(`folder-item-${folderName}`)
+      ).toBeVisible();
+      await webPage.reload();
+      await expect(
+        webPage.getByTestId(`folder-item-${folderName}`)
+      ).toBeVisible();
+    });
+  });
+
   test.describe('Folder Operations', () => {
     const TEST_FOLDER_NAME = 'E2E Test Folder';
     const TEMP_RENAME_FOLDER = 'Temp Rename Folder';

@@ -6,8 +6,8 @@ import {
   addToCache,
   bookmarksMapper,
   filterRecord,
-  getEncryptedBookmark,
-  getEncryptedFolder,
+  encodeBookmark,
+  encodeFolder,
 } from '@bypass/shared';
 import { toast } from 'sonner';
 import { create } from 'zustand';
@@ -112,7 +112,7 @@ const useBookmarkStore = create<State>()((set, get) => ({
       isDefault: false,
     });
     const newFolderList = { ...folderList };
-    newFolderList[newFolderId] = getEncryptedFolder({
+    newFolderList[newFolderId] = encodeFolder({
       id: newFolderId,
       name,
       parentHash: parentFolderId,
@@ -155,7 +155,7 @@ const useBookmarkStore = create<State>()((set, get) => ({
     const isFolderChange = oldFolderId !== newFolderId;
 
     const newUrlList = { ...urlList };
-    newUrlList[updatedBookmark.id] = getEncryptedBookmark({
+    newUrlList[updatedBookmark.id] = encodeBookmark({
       id: updatedBookmark.id,
       url: updatedBookmark.url,
       title: updatedBookmark.title,
@@ -231,7 +231,7 @@ const useBookmarkStore = create<State>()((set, get) => ({
   handleFolderRename(folderId: string, newName: string) {
     const { folderList, contextBookmarks } = get();
     const newFolderList = { ...folderList };
-    newFolderList[folderId] = getEncryptedFolder({
+    newFolderList[folderId] = encodeFolder({
       ...newFolderList[folderId],
       name: newName,
     });

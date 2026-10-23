@@ -1,7 +1,7 @@
 import {
   EBookmarkOperation,
   getBookmarksPanelUrl,
-  getEncryptedPerson,
+  encodePerson,
   getPersonImageName,
   HEADER_HEIGHT,
   type IPerson,
@@ -30,10 +30,10 @@ import PersonHeader from './PersonHeader';
 import PersonVirtualCell from './PersonVirtualCell';
 
 const handleSave = async (persons: IPerson[]) => {
-  const encryptedPersons: IPersons = Object.fromEntries(
-    persons.map((person) => [person.uid, getEncryptedPerson(person)])
+  const encodedPersons: IPersons = Object.fromEntries(
+    persons.map((person) => [person.uid, encodePerson(person)])
   );
-  await setPersonsInStorage(encryptedPersons);
+  await setPersonsInStorage(encodedPersons);
 };
 
 function PersonsPanel() {

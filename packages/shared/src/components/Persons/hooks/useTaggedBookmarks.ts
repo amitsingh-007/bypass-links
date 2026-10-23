@@ -6,8 +6,8 @@ import { swrKeys } from '../../../swr/keys';
 import { ROOT_FOLDER_ID } from '../../Bookmarks/constants';
 import { BookmarksObjSchema } from '../../Bookmarks/schema';
 import {
-  getDecryptedBookmark,
-  getDecryptedFolder,
+  decodeBookmark,
+  decodeFolder,
   getDefaultFolder,
 } from '../../Bookmarks/utils';
 import { type IBookmarkWithFolder } from '../interfaces/bookmark';
@@ -30,8 +30,8 @@ const useTaggedBookmarks = (personUid = '') => {
     const fetchedBookmarks = Object.values(urlList)
       .filter((bookmark) => bookmark.taggedPersons.includes(personUid))
       .map((bookmark) => {
-        const parent = getDecryptedFolder(folderList[bookmark.parentHash]);
-        return Object.assign(getDecryptedBookmark(bookmark), {
+        const parent = decodeFolder(folderList[bookmark.parentHash]);
+        return Object.assign(decodeBookmark(bookmark), {
           parentName: parent.name,
           parentId: parent.id,
         }) satisfies IBookmarkWithFolder;
