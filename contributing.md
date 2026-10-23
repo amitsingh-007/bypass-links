@@ -40,3 +40,21 @@ node packages/trpc/src/scripts/migrate-text-codec.ts --project dev --apply --pla
 Repeat on prod with prod credentials and a separate plan before releasing either client. Keep the plans private because they contain names and account IDs. Applying a plan compares each current value with its recorded old value, skips already-applied values, and stops on any other change. A partially applied plan can be rerun safely. Resolve a conflicting record manually instead of regenerating the plan.
 
 Generate plans only while all server names still use the legacy format. After the migration or any new client writes, the two encodings cannot be distinguished reliably from their contents. Generating a new plan then can double-encode names. Keep and reuse the original plan. The shortcuts API ticket extends this script with its separate rollout stage.
+
+## Firebase security rules
+
+Edit `firebase/database.rules.json` and `firebase/storage.rules` in the repo. Review and deploy those changes instead of editing the Firebase console. `.firebaserc` maps `dev` to `bypass-links-dev` and `prod` to `bypass-links`.
+
+The initial files are verbatim exports from both projects. The dev and prod exports matched exactly. The database rules are excluded from formatting to preserve that export.
+
+Use the pinned CLI on demand, without adding a dependency:
+
+```bash
+pnpm dlx firebase-tools@15.34.1 login
+pnpm dlx firebase-tools@15.34.1 deploy --project dev --only database,storage --dry-run
+pnpm dlx firebase-tools@15.34.1 deploy --project prod --only database,storage --dry-run
+```
+
+After reviewing the dry runs, deploy to dev first, then prod by running the same commands without `--dry-run`. The first deployment must preserve the existing rules. Tightening access requires a separate change.
+
+The [CI rules setup guide](docs/firebase-rules-ci.md) describes the maintainer's one-time keyless cloud setup and first deployment checks.

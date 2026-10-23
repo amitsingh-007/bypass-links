@@ -10,7 +10,7 @@ import { EStorageKey, encodeLegacyNames } from '@bypass/shared';
 import { storage } from 'wxt/utils/storage';
 
 import { EExtensionState, EExtStorageKey } from '@/constants';
-import type { IMappedRedirections } from '@/entrypoints/background/interfaces/redirections';
+import type { IMappedRedirections } from '@/interfaces/redirections';
 
 /** Constrained to the known key sets so a typo cannot open a new namespace. */
 type LocalStorageKey = EStorageKey | EExtStorageKey;
