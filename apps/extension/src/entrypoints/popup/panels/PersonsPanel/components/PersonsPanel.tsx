@@ -2,6 +2,7 @@ import {
   EBookmarkOperation,
   getBookmarksPanelUrl,
   encodePerson,
+  getPersonImageName,
   HEADER_HEIGHT,
   type IPerson,
   type IPersons,
@@ -11,7 +12,6 @@ import {
   usePerson,
   usePersons,
 } from '@bypass/shared';
-import { getPersonImageName } from '@bypass/shared/person-image';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { useLocation, useSearch } from 'wouter';
