@@ -41,10 +41,16 @@ runs:
         VERCEL_OUTPUT: ${{ steps.vercel-action.outputs.preview-url }}
       run: echo "url=${VERCEL_INPUT:-$VERCEL_OUTPUT}" >> "$GITHUB_OUTPUT"
 
-    - name: Building release extension
-      if: inputs.upload-release == 'true'
+    - name: Building and checking release extension
       shell: bash
-      run: pnpm build --filter=@bypass/extension
+      run: |
+        pnpm build --filter=@bypass/extension
+        if grep --recursive --fixed-strings --quiet '__test_auth_data' apps/extension/.output/chrome-mv3; then
+          echo 'Test-only sign-in is present in the release build'
+          exit 1
+        else
+          test "$?" -eq 1
+        fi
 
     - name: Uploading release extension
       if: inputs.upload-release == 'true'
@@ -62,7 +68,9 @@ runs:
 
     - name: Building extension for e2e
       shell: bash
-      run: pnpm build --filter=@bypass/extension
+      run: |
+        pnpm build --filter=@bypass/extension
+        grep --recursive --include='*.js' --fixed-strings --quiet '__test_auth_data' apps/extension/.output-coverage/chrome-mv3
       env:
         COVERAGE: '1'
 

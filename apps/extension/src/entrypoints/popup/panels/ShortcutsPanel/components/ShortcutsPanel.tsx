@@ -14,13 +14,13 @@ import useSWRMutation from 'swr/mutation';
 
 import { trpcApi } from '@/apis/trpcApi';
 import { redirectionsItem } from '@/storage/items';
-import { syncRedirectionsToStorage } from '@background/redirections';
 import LoadingOverlay from '@popup/components/LoadingOverlay';
 import Panel from '@popup/components/Panel';
 import { useLastVisitedMap } from '@popup/hooks/useLastVisited';
 
 import { DEFAULT_RULE_ALIAS } from '../constants';
 import { getValidRules, isMatchingRule } from '../utils';
+import { syncRedirectionsToStorage } from '../utils/sync';
 import RedirectionRule from './RedirectionRule';
 
 const SAVE_ERROR = 'Could not save shortcuts';

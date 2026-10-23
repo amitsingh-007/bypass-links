@@ -26,10 +26,15 @@ export default defineConfig({
     ...devManifest,
     ...(mode === 'production' && { oauth2: prodOAuth2 }),
   }),
-  vite() {
+  vite({ mode }) {
     return {
       envDir,
       envPrefix: 'NEXT_PUBLIC_',
+      define: {
+        'import.meta.env.TEST_AUTH_ENABLED': JSON.stringify(
+          isCoverageBuild || mode === 'development'
+        ),
+      },
 
       plugins: [
         react(),

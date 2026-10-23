@@ -3,8 +3,7 @@ import { mutate } from 'swr';
 
 import { trpcApi } from '@/apis/trpcApi';
 import { mappedRedirectionsItem, redirectionsItem } from '@/storage/items';
-
-import { mapRedirections } from './mapper';
+import { mapRedirections } from '@/utils/redirections';
 
 export const syncRedirectionsToStorage = async () => {
   const redirections = await trpcApi.firebaseData.redirectionsGet.query();
