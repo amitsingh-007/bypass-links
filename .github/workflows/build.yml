@@ -5,6 +5,9 @@ on:
       - 'main'
       - 'renovate/**'
 
+permissions:
+  contents: read
+
 jobs:
   Build:
     runs-on: ubuntu-latest
