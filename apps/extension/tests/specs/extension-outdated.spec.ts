@@ -49,7 +49,6 @@ test.describe('Outdated extension badge', () => {
     page,
     extensionId,
     backgroundSW,
-    login: _login,
   }) => {
     await mockLatestVersion(page, '99.0.0');
     await openPopup(page, extensionId);
@@ -64,7 +63,6 @@ test.describe('Outdated extension badge', () => {
     page,
     extensionId,
     backgroundSW,
-    login: _login,
   }) => {
     const currentVersion = await backgroundSW.evaluate(
       () => chrome.runtime.getManifest().version
@@ -84,7 +82,6 @@ test.describe('Outdated extension badge', () => {
     context,
     extensionId,
     backgroundSW,
-    login: _login,
   }) => {
     const failedChecks = await routeTrpcProcedure(
       context,
@@ -118,7 +115,6 @@ test.describe('Outdated extension badge', () => {
     page,
     context,
     extensionId,
-    login: _login,
   }) => {
     const getFirstOpenRequests = await mockLatestVersion(page, '99.0.0');
     await openPopup(page, extensionId);

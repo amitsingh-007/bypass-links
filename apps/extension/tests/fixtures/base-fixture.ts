@@ -6,7 +6,6 @@ import {
   attachBackgroundCoverage,
   CHROME_PROFILE_DIR,
   coverageBrowserArgs,
-  EXTENSION_STORAGE_PATH,
   instrumentContext,
   removeTestDir,
   setExtensionBuildDir,
@@ -20,14 +19,8 @@ import {
   expect,
   test as base,
 } from '@playwright/test';
-import { z } from 'zod/mini';
 
 import { getExtensionPath } from '../utils/extension-path';
-
-const CachedStorageDataSchema = z.object({
-  chromeStorage: z.record(z.string(), z.unknown()),
-  localStorage: z.record(z.string(), z.string()),
-});
 
 export const getPopupUrl = (extensionId: string) =>
   `chrome-extension://${extensionId}/popup.html`;
@@ -55,12 +48,6 @@ export const launchExtensionContext = async (userDataDir: string) => {
   instrumentContext(browserContext);
   await attachBackgroundCoverage(browserContext, userDataDir);
   return browserContext;
-};
-
-/** Storage data cached by auth.setup.ts before tests run. */
-export const loadCachedStorageData = async () => {
-  const data = await fs.promises.readFile(EXTENSION_STORAGE_PATH, 'utf8');
-  return CachedStorageDataSchema.parse(JSON.parse(data));
 };
 
 /**
