@@ -5,15 +5,6 @@ import {
 } from '@bypass/shared';
 
 import {
-  resetRedirections,
-  syncRedirectionsToStorage,
-} from '@background/redirections';
-import {
-  resetWebsites,
-  syncWebsitesToStorage,
-} from '@background/websites/storageSync';
-
-import {
   cacheBookmarkFavicons,
   resetBookmarks,
   syncBookmarksAndPersonsFirebaseWithStorage,
@@ -25,7 +16,12 @@ import {
   resetPersons,
   syncPersonsToStorage,
 } from '../../PersonsPanel/utils/sync';
+import {
+  resetRedirections,
+  syncRedirectionsToStorage,
+} from '../../ShortcutsPanel/utils/sync';
 import { resetLastVisited, syncLastVisitedToStorage } from './lastVisitedSync';
+import { resetWebsites, syncWebsitesToStorage } from './websitesSync';
 
 const resetAuthentication = async () => {
   await browser.identity.clearAllCachedAuthTokens();

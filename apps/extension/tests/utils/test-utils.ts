@@ -11,7 +11,7 @@ import { BookmarksObjSchema, PersonsSchema } from '@bypass/shared/schema';
 import { expect, type Page } from '@playwright/test';
 
 import { POPUP_HOMEPAGE } from '@/constants';
-import { mapRedirections } from '@/entrypoints/background/redirections/mapper';
+import { mapRedirections } from '@/utils/redirections';
 
 export const openPanel = async (
   page: Page,
