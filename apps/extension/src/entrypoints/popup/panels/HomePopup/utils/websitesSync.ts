@@ -1,4 +1,4 @@
-import { type IWebsites } from '@bypass/shared';
+import { decodeText, type IWebsites } from '@bypass/shared';
 
 import { trpcApi } from '@/apis/trpcApi';
 import { websitesItem } from '@/storage/items';
@@ -8,7 +8,7 @@ const getDecodedWebsites = (encodedWebsites: IWebsites): IWebsites =>
   Object.fromEntries(
     Object.entries(encodedWebsites).map(([key, value]) => [
       key,
-      value ? decodeURIComponent(atob(value)) : value,
+      value ? decodeText(value) : value,
     ])
   );
 
