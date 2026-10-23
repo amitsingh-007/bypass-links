@@ -36,3 +36,5 @@ pnpm dlx firebase-tools@15.34.1 deploy --project prod --only database,storage --
 ```
 
 After reviewing the dry runs, deploy to dev first, then prod by running the same commands without `--dry-run`. The first deployment must preserve the existing rules. Tightening access requires a separate change.
+
+The [CI rules setup guide](docs/firebase-rules-ci.md) describes the maintainer's one-time keyless cloud setup and first deployment checks.
