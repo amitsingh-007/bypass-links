@@ -14,7 +14,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: firebase-rules
+  group: firebase-rules-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
