@@ -24,7 +24,6 @@ export async function POST(request: NextRequest) {
 
   await uploadImageToFirebase(auth.user.uid, {
     fileName: file.name,
-    fileType: file.type,
     buffer: fileBuffer,
   });
 

@@ -86,21 +86,15 @@ export const uploadImageToFirebase = async (
   {
     buffer,
     fileName,
-    fileType,
   }: {
     fileName: string;
     buffer: Buffer;
-    fileType: string;
   }
 ) => {
-  try {
-    await storage
-      .bucket()
-      .file(getFilePath(uid, fileName))
-      .save(buffer, { contentType: fileType });
-  } catch (error) {
-    console.error(error);
-  }
+  await storage
+    .bucket()
+    .file(getFilePath(uid, fileName))
+    .save(buffer, { contentType: 'image/jpeg' });
 };
 
 export const getFileFromFirebase = (uid: string, fileName: string) =>
