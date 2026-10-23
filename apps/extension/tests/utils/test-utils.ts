@@ -217,22 +217,12 @@ export const seedFolderWithBookmarks = async (
   return { folderId: folder.id, bookmarkIds: urls.map(({ id }) => id) };
 };
 
-/** Rules are held base64 encoded, both in storage and over the wire. */
-export const encodeRedirections = (rules: IRedirections) =>
-  rules.map(({ id, alias, website, isDefault }) => ({
-    id,
-    alias: btoa(alias),
-    website: btoa(website),
-    isDefault,
-  }));
-
-export const getRedirectionStorage = (rules: IRedirections) => {
-  const encoded = encodeRedirections(rules);
-  return {
-    [EStorageKey.redirections]: encoded,
-    [EStorageKey.mappedRedirections]: mapRedirections(encoded),
-  };
-};
+export const getRedirectionStorage = (rules: IRedirections) => ({
+  [EStorageKey.redirections]: rules,
+  [`${EStorageKey.redirections}$`]: { v: 2 },
+  [EStorageKey.mappedRedirections]: mapRedirections(rules),
+  [`${EStorageKey.mappedRedirections}$`]: { v: 2 },
+});
 
 export const seedPersons = async (page: Page, names: readonly string[]) => {
   const persons = names.map((name) =>

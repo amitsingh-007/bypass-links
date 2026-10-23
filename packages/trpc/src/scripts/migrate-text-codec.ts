@@ -1,6 +1,6 @@
 /* eslint-disable no-await-in-loop -- A conflicting record must stop later writes. */
 import { readFileSync, writeFileSync } from 'node:fs';
-import { parseArgs } from 'node:util';
+import { isDeepStrictEqual, parseArgs } from 'node:util';
 
 import { loadRootEnv } from '@bypass/configs/env';
 import { getFirebasePublicConfig } from '@bypass/configs/firebase.config';
@@ -17,6 +17,7 @@ const { values } = parseArgs({
   options: {
     project: { type: 'string' },
     plan: { type: 'string' },
+    scope: { type: 'string', default: 'names' },
     'dry-run': { type: 'boolean' },
     apply: { type: 'boolean', default: false },
   },
@@ -24,26 +25,54 @@ const { values } = parseArgs({
 if (
   !['dev', 'prod'].includes(values.project ?? '') ||
   !values.plan ||
+  !['names', 'shortcuts'].includes(values.scope) ||
   (values.apply && values['dry-run'])
 ) {
   throw new Error(
-    'Usage: node packages/trpc/src/scripts/migrate-text-codec.ts --project dev|prod --plan /absolute/path.json [--dry-run|--apply]'
+    'Usage: node packages/trpc/src/scripts/migrate-text-codec.ts --project dev|prod --plan /absolute/path.json [--scope names|shortcuts] [--dry-run|--apply]'
   );
 }
 
-const changeSchema = z.object({
+const nameRecordSchema = z.looseObject({
+  name: z.string(),
+  nameEncoding: z.optional(
+    z.object({ version: z.literal(2), value: z.string() })
+  ),
+});
+const nameChangeSchema = z.object({
   path: z
     .string()
     .check(
       z.regex(
-        /^data\/[^/.#$[\]]+\/(?:persons\/[^/.#$[\]]+|bookmarks\/folderList\/[^/.#$[\]]+)\/name$/
+        /^data\/[^/.#$[\]]+\/(?:persons\/[^/.#$[\]]+|bookmarks\/folderList\/[^/.#$[\]]+)$/
       )
     ),
-  before: z.string(),
-  after: z.string(),
+  before: nameRecordSchema,
+  after: nameRecordSchema,
 });
+const legacyShortcutSchema = z.strictObject({
+  id: z.optional(z.uuid()),
+  alias: z.string(),
+  website: z.string(),
+  isDefault: z.boolean(),
+});
+const shortcutSchema = z.strictObject({
+  id: z.uuid(),
+  alias: z.string(),
+  website: z.string(),
+  isDefault: z.boolean(),
+});
+const shortcutChangeSchema = z.object({
+  path: z
+    .string()
+    .check(z.regex(/^data\/[^/.#$[\]]+\/redirections\/(?:0|[1-9]\d*)$/)),
+  before: legacyShortcutSchema,
+  after: shortcutSchema,
+});
+const changeSchema = z.union([nameChangeSchema, shortcutChangeSchema]);
 const planSchema = z.object({
   projectId: z.string(),
+  scope: z.optional(z.enum(['names', 'shortcuts'])),
   changes: z.array(changeSchema),
 });
 const config = getFirebasePublicConfig(values.project === 'prod');
@@ -82,11 +111,40 @@ try {
         `Plan belongs to ${plan.projectId}, expected ${config.projectId}`
       );
     }
-    for (const change of plan.changes) {
-      const original = atob(change.before);
-      if (!original.includes('%') || change.after !== encodeText(original)) {
-        throw new Error(`Invalid legacy-name rewrite at ${change.path}`);
+    if ((plan.scope ?? 'names') !== values.scope) {
+      throw new Error('Plan scope does not match --scope');
+    }
+    for (const entry of plan.changes) {
+      if (values.scope === 'names') {
+        const change = nameChangeSchema.parse(entry);
+        const original = atob(change.before.name);
+        const name = encodeText(original);
+        const expected = {
+          ...change.before,
+          name,
+          nameEncoding: { version: 2, value: name },
+        };
+        if (
+          change.before.nameEncoding?.value === change.before.name ||
+          !original.includes('%') ||
+          !isDeepStrictEqual(change.after, expected)
+        ) {
+          throw new Error(`Invalid legacy-name rewrite at ${change.path}`);
+        }
+      } else {
+        const change = shortcutChangeSchema.parse(entry);
+        const expected = {
+          ...change.before,
+          id: change.before.id ?? change.after.id,
+          alias: encodeText(atob(change.before.alias)),
+          website: encodeText(atob(change.before.website)),
+        };
+        if (!isDeepStrictEqual(change.after, expected)) {
+          throw new Error(`Invalid legacy-shortcut rewrite at ${change.path}`);
+        }
       }
+    }
+    for (const change of plan.changes) {
       const ref = database.ref(change.path);
       // Keep the read cached so the transaction does not start with an unknown null.
       ref.on('value', keepCached);
@@ -94,14 +152,21 @@ try {
       try {
         await ref.once('value');
         result = await ref.transaction(
-          (current) => (current === change.before ? change.after : undefined),
+          (current) =>
+            !isDeepStrictEqual(current, change.after) &&
+            isDeepStrictEqual(current, change.before)
+              ? change.after
+              : undefined,
           undefined,
           false
         );
       } finally {
         ref.off('value', keepCached);
       }
-      if (!result.committed && result.snapshot.val() !== change.after) {
+      if (
+        !result.committed &&
+        !isDeepStrictEqual(result.snapshot.val(), change.after)
+      ) {
         throw new Error(
           `Value changed since the dry run at ${change.path}; stopped without overwriting it`
         );
@@ -114,35 +179,65 @@ try {
       );
     }
     console.log(
-      `Applied plan for ${config.projectId}: ${plan.changes.length} names`
+      `Applied plan for ${config.projectId}: ${plan.changes.length} ${values.scope} records`
     );
   } else {
     const changes: z.infer<typeof changeSchema>[] = [];
     const data = await database.ref('data').once('value');
     data.forEach((user) => {
-      for (const collection of ['persons', 'bookmarks/folderList']) {
-        user.child(collection).forEach((record) => {
-          const before = z.string().parse(record.child('name').val());
-          const original = atob(before);
-          if (original.includes('%')) {
-            const change = changeSchema.parse({
-              path: `data/${user.key}/${collection}/${record.key}/name`,
-              before,
-              after: encodeText(original),
-            });
-            changes.push(change);
-            console.log(JSON.stringify(change));
-          }
+      if (values.scope === 'shortcuts') {
+        user.child('redirections').forEach((record) => {
+          const before = legacyShortcutSchema.parse(record.val());
+          const change = shortcutChangeSchema.parse({
+            path: `data/${user.key}/redirections/${record.key}`,
+            before,
+            after: {
+              ...before,
+              id: before.id ?? crypto.randomUUID(),
+              alias: encodeText(atob(before.alias)),
+              website: encodeText(atob(before.website)),
+            },
+          });
+          changes.push(change);
+          console.log(JSON.stringify(change));
         });
+      } else {
+        for (const collection of ['persons', 'bookmarks/folderList']) {
+          user.child(collection).forEach((record) => {
+            const before = nameRecordSchema.parse(record.val());
+            if (before.nameEncoding?.value === before.name) {
+              return;
+            }
+            const original = atob(before.name);
+            if (original.includes('%')) {
+              const name = encodeText(original);
+              const change = nameChangeSchema.parse({
+                path: `data/${user.key}/${collection}/${record.key}`,
+                before,
+                after: {
+                  ...before,
+                  name,
+                  nameEncoding: { version: 2, value: name },
+                },
+              });
+              changes.push(change);
+              console.log(JSON.stringify(change));
+            }
+          });
+        }
       }
     });
     writeFileSync(
       values.plan,
-      JSON.stringify({ projectId: config.projectId, changes }, null, 2) + '\n',
+      JSON.stringify(
+        { projectId: config.projectId, scope: values.scope, changes },
+        null,
+        2
+      ) + '\n',
       { flag: 'wx', mode: 0o600 }
     );
     console.log(
-      `Dry run for ${config.projectId}: ${changes.length} names; plan saved to ${values.plan}; no database writes`
+      `Dry run for ${config.projectId}: ${changes.length} ${values.scope} records; plan saved to ${values.plan}; no database writes`
     );
   }
 } finally {

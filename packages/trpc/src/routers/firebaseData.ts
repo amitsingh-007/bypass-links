@@ -13,6 +13,7 @@ import {
   getLastVisited,
   getPersons,
   getRedirections,
+  listRedirections,
   getWebsites,
   saveBookmarksAndPersons,
   saveRedirections,
@@ -60,6 +61,11 @@ const firebaseDataRouter = t.router({
       return upsertLastVisited(input.hash, ctx.user.uid);
     }),
 
+  redirectionsList: protectedProcedure
+    .output(RedirectionsSchema)
+    .query(async ({ ctx }) => listRedirections(ctx.user.uid)),
+
+  // Legacy encoded response for older extensions; remove with #4356.
   redirectionsGet: protectedProcedure
     .output(RedirectionsSchema)
     .query(async ({ ctx }) => {

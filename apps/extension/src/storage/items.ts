@@ -51,14 +51,38 @@ export const personsItem = storage.defineItem<IPersons>(
   }
 );
 
-export const redirectionsItem = defineLocalItem<IRedirections>(
-  EStorageKey.redirections,
-  []
+export const redirectionsItem = storage.defineItem<IRedirections>(
+  `local:${EStorageKey.redirections}`,
+  {
+    fallback: [],
+    version: 2,
+    migrations: {
+      2: (rules: IRedirections) =>
+        rules.map((rule) => ({
+          ...rule,
+          id: rule.id || crypto.randomUUID(),
+          alias: atob(rule.alias),
+          website: atob(rule.website),
+        })),
+    },
+  }
 );
 
-export const mappedRedirectionsItem = defineLocalItem<IMappedRedirections>(
-  EStorageKey.mappedRedirections,
-  {}
+export const mappedRedirectionsItem = storage.defineItem<IMappedRedirections>(
+  `local:${EStorageKey.mappedRedirections}`,
+  {
+    fallback: {},
+    version: 2,
+    migrations: {
+      2: (rules: IMappedRedirections) =>
+        Object.fromEntries(
+          Object.entries(rules).map(([alias, website]) => [
+            atob(alias),
+            atob(website),
+          ])
+        ),
+    },
+  }
 );
 
 export const personImageUrlsItem = defineLocalItem<PersonImageUrls>(

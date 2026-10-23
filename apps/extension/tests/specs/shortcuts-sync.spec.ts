@@ -7,32 +7,33 @@ import {
   TEST_SHORTCUTS,
   TEST_TIMEOUTS,
 } from '@bypass/shared/tests';
-import { expect, test, type BrowserContext, type Page } from '@playwright/test';
+import {
+  expect,
+  test,
+  type BrowserContext,
+  type Page,
+  type Route,
+} from '@playwright/test';
 
+import { EExtStorageKey } from '@/constants';
+
+import { restartBackgroundWorker } from '../fixtures/background-fixture';
 import { openExtensionPanelPage } from '../fixtures/base-fixture';
 import { ShortcutsPanel } from '../utils/shortcuts-panel';
 import { withSignedInProfile } from '../utils/signed-in-profile';
-import {
-  encodeRedirections,
-  getStorageItem,
-  gotoPanel,
-} from '../utils/test-utils';
+import { getStorageItem, gotoPanel } from '../utils/test-utils';
 
 const NEW_ALIAS = 'http://e2e-shortcut/';
 const NEW_WEBSITE = 'https://example.com/';
 const EDITED_WEBSITE = 'https://example.org/';
 const REDIRECT_TARGET = 'https://html5test.com';
 const INCOMPLETE_ALIAS = 'http:///';
+const offline = async (route: Route) => route.abort();
 
 const getStoredRules = async (page: Page) =>
   RedirectionsSchema.parse(
     (await getStorageItem(page, EStorageKey.redirections)) ?? []
-  ).map(({ id, alias, website, isDefault }) => ({
-    id,
-    alias: atob(alias),
-    website: atob(website),
-    isDefault,
-  }));
+  );
 
 const getSavedTargets = async (page: Page) =>
   (await getStoredRules(page)).map(({ website }) => website);
@@ -59,9 +60,9 @@ const controlRedirections = async (context: BrowserContext) => {
   );
   await routeTrpcProcedure(
     context,
-    'firebaseData.redirectionsGet',
+    'firebaseData.redirectionsList',
     async (call) => {
-      await succeedProcedure(call, encodeRedirections(current));
+      await succeedProcedure(call, current);
     }
   );
 
@@ -221,23 +222,110 @@ test.describe('Shortcuts sync', () => {
     });
   });
 
-  test('refreshes an old cache without IDs when the panel opens', async () => {
+  test('migrates an old encoded cache offline and keeps its IDs after reopening', async () => {
+    await withSignedInProfile(async ({ context, extensionId }) => {
+      const { page } = await openShortcutsPanel(context, extensionId);
+      const oldRules = [
+        {
+          id: crypto.randomUUID(),
+          alias: 'http://legacy-one/',
+          website: 'https://example.com/Café/%20/%41',
+          isDefault: true,
+        },
+        {
+          alias: 'http://legacy-two/',
+          website: 'https://example.org/50%25',
+          isDefault: false,
+        },
+      ];
+      const legacy = oldRules.map((rule) => ({
+        ...rule,
+        alias: btoa(rule.alias),
+        website: btoa(rule.website),
+      }));
+      await page.evaluate(
+        async ({ rules, keys, pending }) => {
+          await chrome.storage.local.set({
+            [keys.redirections]: rules,
+            [`${keys.redirections}$`]: { v: 1 },
+            [keys.mappedRedirections]: Object.fromEntries(
+              rules.map(({ alias, website }) => [alias, website])
+            ),
+            [`${keys.mappedRedirections}$`]: { v: 1 },
+            [pending.bookmarks]: true,
+            [pending.persons]: true,
+          });
+        },
+        {
+          rules: legacy,
+          keys: EStorageKey,
+          pending: {
+            bookmarks: EExtStorageKey.HAS_PENDING_BOOKMARKS,
+            persons: EExtStorageKey.HAS_PENDING_PERSONS,
+          },
+        }
+      );
+      await restartBackgroundWorker(context);
+      await page.close();
+      // The dev popup loads Vite modules over HTTP; only the server API is offline.
+      await context.route('**/api/trpc/**', offline);
+      try {
+        const reopened = await openShortcutsPanel(context, extensionId);
+        const migrated = await getStoredRules(reopened.page);
+        expect(migrated[0]).toEqual(oldRules[0]);
+        expect(migrated[1]).toEqual({ ...oldRules[1], id: expect.any(String) });
+        expect(migrated[1].id).not.toBe(migrated[0].id);
+        await expect(reopened.page.getByTestId('rule-0-website')).toHaveValue(
+          oldRules[0].website
+        );
+        for (const key of [
+          EStorageKey.redirections,
+          EStorageKey.mappedRedirections,
+        ]) {
+          expect(await getStorageItem(reopened.page, `${key}$`)).toEqual({
+            v: 2,
+          });
+        }
+        expect(
+          await getStorageItem(reopened.page, EStorageKey.mappedRedirections)
+        ).toEqual(
+          Object.fromEntries(
+            oldRules.map(({ alias, website }) => [alias, website])
+          )
+        );
+        for (const key of [
+          EExtStorageKey.HAS_PENDING_BOOKMARKS,
+          EExtStorageKey.HAS_PENDING_PERSONS,
+        ]) {
+          expect(await getStorageItem(reopened.page, key)).toBe(true);
+        }
+        await reopened.page.close();
+        const again = await openShortcutsPanel(context, extensionId);
+        expect(await getStoredRules(again.page)).toEqual(migrated);
+      } finally {
+        await context.unroute('**/api/trpc/**', offline);
+      }
+    });
+  });
+
+  test('saves and reopens Unicode shortcut values as plain text', async () => {
     await withSignedInProfile(async ({ context, extensionId }) => {
       const server = await controlRedirections(context);
-      const { page } = await openShortcutsPanel(context, extensionId);
-      const stored = await getStoredRules(page);
-      server.setCurrent(stored);
-      const legacy = encodeRedirections(stored).map(
-        ({ id: _id, ...row }) => row
-      );
-      await page.evaluate(
-        async ({ key, rules }) => chrome.storage.local.set({ [key]: rules }),
-        { key: EStorageKey.redirections, rules: legacy }
-      );
-
-      await page.close();
-      const reopened = await openShortcutsPanel(context, extensionId);
-      await expect.poll(() => getStoredRules(reopened.page)).toEqual(stored);
+      const { page, panel } = await openShortcutsPanel(context, extensionId);
+      const alias = 'http://例子/😀';
+      const website = 'https://example.com/日本語/😀?query=%41';
+      await panel.addRule();
+      await page.getByTestId('rule-0-alias').fill(alias);
+      await page.getByTestId('rule-0-website').fill(website);
+      await page.getByTestId('rule-0-save').click();
+      await panel.saveAll();
+      await expect(page.getByText('Saved successfully')).toBeVisible();
+      expect(server.posted()[0][0]).toMatchObject({ alias, website });
+      await gotoPanel(page, 'Shortcuts');
+      await panel.waitForLoading();
+      await expect(page.getByTestId('rule-0-alias')).toHaveValue(alias);
+      await expect(page.getByTestId('rule-0-website')).toHaveValue(website);
+      expect((await getStoredRules(page))[0]).toMatchObject({ alias, website });
     });
   });
 
