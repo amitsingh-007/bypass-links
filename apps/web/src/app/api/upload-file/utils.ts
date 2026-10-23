@@ -1,4 +1,4 @@
-import { PERSON_IMAGE_SIZE } from '@bypass/shared';
+import { PERSON_IMAGE_SIZE } from '@bypass/shared/server';
 import sharp from 'sharp';
 
 const getCompressedImage = async (buffer: Buffer, fileSize: number) => {
