@@ -19,5 +19,15 @@
       "matchDepNames": ["jwks-rsa>jose"],
       "enabled": false
     }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^\\.github/workflows/.*\\.ya?ml$/"],
+      "matchStrings": [
+        "pnpm dlx (?<depName>firebase-tools)@(?<currentValue>\\S+)"
+      ],
+      "datasourceTemplate": "npm"
+    }
   ]
 }
