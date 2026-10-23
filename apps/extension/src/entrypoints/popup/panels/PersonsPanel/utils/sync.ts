@@ -4,9 +4,9 @@ import {
   cachePersonImages,
   ECacheBucketKeys,
   evictBlobUrl,
+  getPersonImageName,
   type IPerson,
 } from '@bypass/shared';
-import { getPersonImageName } from '@bypass/shared/person-image';
 
 import { trpcApi } from '@/apis/trpcApi';
 import {
