@@ -2,10 +2,6 @@ import path from 'node:path';
 
 export const AUTH_CACHE_DIR = path.join('.playwright', '.cache');
 export const WEB_STORAGE_PATH = path.join(AUTH_CACHE_DIR, 'web-storage.json');
-export const EXTENSION_STORAGE_PATH = path.join(
-  AUTH_CACHE_DIR,
-  'extension-storage.json'
-);
 export const CHROME_PROFILE_DIR = path.join(AUTH_CACHE_DIR, 'chrome-profile');
 
 export const TEST_BOOKMARKS = {

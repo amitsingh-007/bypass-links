@@ -418,6 +418,9 @@ importers:
       '@trpc/server':
         specifier: 'catalog:'
         version: 11.19.0(typescript@7.0.2)
+      firebase:
+        specifier: 'catalog:'
+        version: 12.19.0
       react:
         specifier: 'catalog:'
         version: 19.3.0

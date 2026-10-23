@@ -1,55 +1,23 @@
 import fs from 'node:fs';
-import process from 'node:process';
 
-import { getFirebasePublicConfig } from '@bypass/configs/firebase.config';
 import {
   AUTH_CACHE_DIR,
   CHROME_PROFILE_DIR,
-  dumpLocalStorage,
-  EXTENSION_STORAGE_PATH,
   removeTestDir,
   TEST_TIMEOUTS,
 } from '@bypass/shared/tests';
 import { expect, test as setup } from '@playwright/test';
-import wretch from 'wretch';
-import QueryStringAddon from 'wretch/addons/queryString';
 
-import type { IAuthResponse } from '@/interfaces/firebase';
-import { mapAuthResponse } from '@/store/firebase/utils';
-
-import { TEST_AUTH_DATA_KEY } from '../src/constants';
 import {
   getExtensionId,
   getPopupUrl,
   launchExtensionContext,
 } from './fixtures/base-fixture';
-
-const isCI = Boolean(process.env.PLAYWRIGHT_TEST_BASE_URL);
-const firebaseConfig = getFirebasePublicConfig(isCI);
-
-const identityApi = wretch('https://identitytoolkit.googleapis.com/v1')
-  .addon(QueryStringAddon)
-  .query({ key: firebaseConfig.apiKey });
+import { useTestCredentials } from './utils/test-utils';
 
 setup.setTimeout(60_000);
 
-const signInWithEmailAndPassword = async (): Promise<IAuthResponse> => {
-  return identityApi
-    .url('/accounts:signInWithPassword')
-    .post({
-      email: process.env.FIREBASE_TEST_USER_EMAIL,
-      password: process.env.FIREBASE_TEST_USER_PASSWORD,
-      returnSecureToken: true,
-    })
-    .json<IAuthResponse>((res) => ({
-      ...mapAuthResponse(res),
-      photoUrl: '',
-    }));
-};
-
 setup('authenticate and cache extension storage', async () => {
-  const authData = await signInWithEmailAndPassword();
-
   await fs.promises.mkdir(AUTH_CACHE_DIR, { recursive: true });
   await removeTestDir(CHROME_PROFILE_DIR);
 
@@ -62,15 +30,7 @@ setup('authenticate and cache extension storage', async () => {
   });
   const extensionId = await getExtensionId(background);
 
-  await browserContext.addInitScript(
-    ({ authDataJson, key }) => {
-      window.localStorage.setItem(key, authDataJson);
-    },
-    {
-      authDataJson: JSON.stringify(authData),
-      key: TEST_AUTH_DATA_KEY,
-    }
-  );
+  await useTestCredentials(browserContext);
 
   const page = await browserContext.newPage();
   await page.goto(getPopupUrl(extensionId), { waitUntil: 'domcontentloaded' });
@@ -82,25 +42,6 @@ setup('authenticate and cache extension storage', async () => {
   const logoutButton = page.getByRole('button', { name: 'Logout' });
   await expect(logoutButton).toBeVisible({ timeout: TEST_TIMEOUTS.AUTH });
   await expect(logoutButton).toBeEnabled({ timeout: TEST_TIMEOUTS.AUTH });
-
-  const chromeStorageData = await page.evaluate(async () =>
-    chrome.storage.local.get(null)
-  );
-
-  const localStorageData = await dumpLocalStorage(page);
-
-  await fs.promises.writeFile(
-    EXTENSION_STORAGE_PATH,
-    JSON.stringify(
-      {
-        chromeStorage: chromeStorageData,
-        localStorage: localStorageData,
-        extensionId,
-      },
-      null,
-      2
-    )
-  );
 
   await browserContext.close();
 });

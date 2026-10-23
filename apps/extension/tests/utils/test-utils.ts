@@ -1,3 +1,5 @@
+import process from 'node:process';
+
 import {
   EStorageKey,
   getEncryptedBookmark,
@@ -8,9 +10,10 @@ import {
   ROOT_FOLDER_ID,
 } from '@bypass/shared';
 import { BookmarksObjSchema, PersonsSchema } from '@bypass/shared/schema';
-import { expect, type Page } from '@playwright/test';
+import { expect, type Page, type BrowserContext } from '@playwright/test';
 
-import { POPUP_HOMEPAGE } from '@/constants';
+import { POPUP_HOMEPAGE, TEST_AUTH_DATA_KEY } from '@/constants';
+import { TestAuthCredentialsSchema } from '@/interfaces/firebase';
 import { mapRedirections } from '@/utils/redirections';
 
 export const openPanel = async (
@@ -257,5 +260,18 @@ export const getPersonUids = async (
   );
   return Object.fromEntries(
     Object.values(persons).map(({ uid, name }) => [atob(name), uid])
+  );
+};
+
+export const useTestCredentials = async (context: BrowserContext) => {
+  const credentials = TestAuthCredentialsSchema.parse({
+    email: process.env.FIREBASE_TEST_USER_EMAIL,
+    password: process.env.FIREBASE_TEST_USER_PASSWORD,
+  });
+  await context.addInitScript(
+    ({ key, data }) => {
+      localStorage.setItem(key, JSON.stringify(data));
+    },
+    { key: TEST_AUTH_DATA_KEY, data: credentials }
   );
 };
