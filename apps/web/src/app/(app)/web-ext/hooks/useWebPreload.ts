@@ -21,7 +21,9 @@ import { getFromLocalStorage, setToLocalStorage } from '@app/utils/storage';
 
 const syncBookmarks = async () => {
   if (!(EStorageKey.bookmarks in localStorage)) {
-    const data = await api.firebaseData.bookmarksGet.query();
+    const data = await api.firebaseData.bookmarksGet.query({
+      nameCodecVersion: 2,
+    });
     setToLocalStorage(EStorageKey.bookmarks, data);
   }
   if (await isCachePresent(ECacheBucketKeys.favicon)) {
@@ -40,7 +42,9 @@ const syncBookmarks = async () => {
 
 const syncPersons = async () => {
   if (!(EStorageKey.persons in localStorage)) {
-    const data = await api.firebaseData.personsGet.query();
+    const data = await api.firebaseData.personsGet.query({
+      nameCodecVersion: 2,
+    });
     setToLocalStorage(EStorageKey.persons, data);
   }
   if (await isCachePresent(ECacheBucketKeys.person)) {

@@ -8,8 +8,13 @@ import { cert, deleteApp, initializeApp } from 'firebase-admin/app';
 import { getDatabase } from 'firebase-admin/database';
 import { z } from 'zod/mini';
 
+import { NameEncodingSchema } from '../../../shared/src/schema/nameEncodingSchema.ts';
 // Direct Node execution needs the pure module's explicit file extension.
-import { encodeText } from '../../../shared/src/utils/codec.ts';
+import {
+  encodeName,
+  encodeText,
+  isEncodedName,
+} from '../../../shared/src/utils/codec.ts';
 
 const keepCached = () => {};
 
@@ -35,9 +40,7 @@ if (
 
 const nameRecordSchema = z.looseObject({
   name: z.string(),
-  nameEncoding: z.optional(
-    z.object({ version: z.literal(2), value: z.string() })
-  ),
+  nameEncoding: z.optional(NameEncodingSchema),
 });
 const nameChangeSchema = z.object({
   path: z
@@ -71,6 +74,7 @@ const shortcutChangeSchema = z.object({
 });
 const changeSchema = z.union([nameChangeSchema, shortcutChangeSchema]);
 const planSchema = z.object({
+  formatVersion: z.literal(2),
   projectId: z.string(),
   scope: z.optional(z.enum(['names', 'shortcuts'])),
   changes: z.array(changeSchema),
@@ -103,9 +107,15 @@ const app = initializeApp({
 try {
   const database = getDatabase(app);
   if (values.apply) {
-    const plan = planSchema.parse(
+    const parsed = planSchema.safeParse(
       JSON.parse(readFileSync(values.plan, 'utf8'))
     );
+    if (!parsed.success) {
+      throw new Error(
+        'Invalid or outdated migration plan; regenerate a dry-run plan with this script'
+      );
+    }
+    const plan = parsed.data;
     if (plan.projectId !== config.projectId) {
       throw new Error(
         `Plan belongs to ${plan.projectId}, expected ${config.projectId}`
@@ -118,14 +128,9 @@ try {
       if (values.scope === 'names') {
         const change = nameChangeSchema.parse(entry);
         const original = atob(change.before.name);
-        const name = encodeText(original);
-        const expected = {
-          ...change.before,
-          name,
-          nameEncoding: { version: 2, value: name },
-        };
+        const expected = encodeName({ ...change.before, name: original });
         if (
-          change.before.nameEncoding?.value === change.before.name ||
+          isEncodedName(change.before) ||
           !original.includes('%') ||
           !isDeepStrictEqual(change.after, expected)
         ) {
@@ -205,20 +210,15 @@ try {
         for (const collection of ['persons', 'bookmarks/folderList']) {
           user.child(collection).forEach((record) => {
             const before = nameRecordSchema.parse(record.val());
-            if (before.nameEncoding?.value === before.name) {
+            if (isEncodedName(before)) {
               return;
             }
             const original = atob(before.name);
             if (original.includes('%')) {
-              const name = encodeText(original);
               const change = nameChangeSchema.parse({
                 path: `data/${user.key}/${collection}/${record.key}`,
                 before,
-                after: {
-                  ...before,
-                  name,
-                  nameEncoding: { version: 2, value: name },
-                },
+                after: encodeName({ ...before, name: original }),
               });
               changes.push(change);
               console.log(JSON.stringify(change));
@@ -230,7 +230,12 @@ try {
     writeFileSync(
       values.plan,
       JSON.stringify(
-        { projectId: config.projectId, scope: values.scope, changes },
+        {
+          formatVersion: 2,
+          projectId: config.projectId,
+          scope: values.scope,
+          changes,
+        },
         null,
         2
       ) + '\n',

@@ -1,9 +1,12 @@
 import {
   EStorageKey,
+  encodePerson,
+  encodeFolder,
+  decodePersons,
   getDecodedFolderList,
   ROOT_FOLDER_ID,
 } from '@bypass/shared';
-import { BookmarksObjSchema } from '@bypass/shared/schema';
+import { BookmarksObjSchema, PersonsSchema } from '@bypass/shared/schema';
 import {
   TEST_BOOKMARKS,
   TEST_BOOKMARK_URLS,
@@ -54,82 +57,154 @@ const readDefaultFolderNames = async (panel: BookmarksPanel) =>
     .map(({ name }) => name);
 
 test.describe('Bookmarks Panel', () => {
-  test('preserves unsynced legacy names with percent escapes across the cache upgrade', async () => {
-    await withSignedInProfile(async ({ context, extensionId }) => {
-      const page = await openExtensionPanelPage(
-        context,
-        extensionId,
-        'bookmarks'
-      );
-      const original = BookmarksObjSchema.parse(
-        await getStorageItem(page, EStorageKey.bookmarks)
-      );
-      const personName = 'Café %20 %41 50%';
-      const folderName = 'Crème %20 %41 50%';
-      const person = { uid: 'legacy-percent-person', name: btoa(personName) };
-      const folder = {
-        id: 'legacy-percent-folder',
-        name: btoa(folderName),
-        parentHash: ROOT_FOLDER_ID,
-      };
-      const legacyBookmarks = {
-        ...original,
-        folderList: { ...original.folderList, [folder.id]: folder },
-        folders: {
-          ...original.folders,
-          [ROOT_FOLDER_ID]: [
-            { isDir: true, hash: folder.id },
-            ...(original.folders[ROOT_FOLDER_ID] ?? []),
-          ],
-        },
-      };
-      await page.evaluate(
-        async ({ bookmarks, person: legacyPerson, keys, pending }) => {
-          await chrome.storage.local.set({
-            [keys.bookmarks]: bookmarks,
-            [`${keys.bookmarks}$`]: { v: 1 },
-            [keys.persons]: { [legacyPerson.uid]: legacyPerson },
-            [`${keys.persons}$`]: { v: 1 },
-            [pending.bookmarks]: true,
-            [pending.persons]: true,
-          });
-        },
-        {
-          bookmarks: legacyBookmarks,
-          person,
-          keys: {
-            bookmarks: EStorageKey.bookmarks,
-            persons: EStorageKey.persons,
-          },
-          pending: {
-            bookmarks: EExtStorageKey.HAS_PENDING_BOOKMARKS,
-            persons: EExtStorageKey.HAS_PENDING_PERSONS,
-          },
-        }
-      );
-
-      const bookmarks = new BookmarksPanel(page);
-      await bookmarks.ensureAtRoot();
-      await bookmarks.verifyFolderExists(folderName);
-      await bookmarks.ensureAtRoot();
-      await bookmarks.verifyFolderExists(folderName);
-      expect(
-        BookmarksObjSchema.parse(
+  for (const encoding of ['legacy', 'current', 'stale marker'] as const) {
+    test(`preserves unsynced names across the cache upgrade: ${encoding}`, async () => {
+      await withSignedInProfile(async ({ context, extensionId }) => {
+        const page = await openExtensionPanelPage(
+          context,
+          extensionId,
+          'bookmarks'
+        );
+        const original = BookmarksObjSchema.parse(
           await getStorageItem(page, EStorageKey.bookmarks)
-        ).urlList
-      ).toEqual(original.urlList);
-      expect(
-        await getStorageItem(page, EExtStorageKey.HAS_PENDING_BOOKMARKS)
-      ).toBe(true);
-      expect(
-        await getStorageItem(page, EExtStorageKey.HAS_PENDING_PERSONS)
-      ).toBe(true);
+        );
+        const personName = 'Café %20 %41 50%';
+        const folderName = 'Crème %20 %41 50%';
+        const person =
+          encoding === 'legacy'
+            ? { uid: 'legacy-percent-person', name: btoa(personName) }
+            : encodePerson({ uid: 'legacy-percent-person', name: personName });
+        if (encoding === 'stale marker') person.name = btoa(personName);
+        const plainFolder = {
+          id: 'legacy-percent-folder',
+          name: folderName,
+          parentHash: ROOT_FOLDER_ID,
+        };
+        const folder =
+          encoding === 'legacy'
+            ? { ...plainFolder, name: btoa(folderName) }
+            : encodeFolder(plainFolder);
+        if (encoding === 'stale marker') folder.name = btoa(folderName);
+        const legacyBookmarks = {
+          ...original,
+          folderList: { ...original.folderList, [folder.id]: folder },
+          folders: {
+            ...original.folders,
+            [ROOT_FOLDER_ID]: [
+              { isDir: true, hash: folder.id },
+              ...(original.folders[ROOT_FOLDER_ID] ?? []),
+            ],
+          },
+        };
+        await page.evaluate(
+          async ({ bookmarks, person: legacyPerson, keys, pending }) => {
+            await chrome.storage.local.set({
+              [keys.bookmarks]: bookmarks,
+              [`${keys.bookmarks}$`]: { v: 1 },
+              [keys.persons]: { [legacyPerson.uid]: legacyPerson },
+              [`${keys.persons}$`]: { v: 1 },
+              [pending.bookmarks]: true,
+              [pending.persons]: true,
+            });
+          },
+          {
+            bookmarks: legacyBookmarks,
+            person,
+            keys: {
+              bookmarks: EStorageKey.bookmarks,
+              persons: EStorageKey.persons,
+            },
+            pending: {
+              bookmarks: EExtStorageKey.HAS_PENDING_BOOKMARKS,
+              persons: EExtStorageKey.HAS_PENDING_PERSONS,
+            },
+          }
+        );
 
-      const persons = new PersonsPanel(page);
-      await bookmarks.switchToPanel('Persons');
-      await persons.verifyPersonExists(personName);
-      await persons.ensureAtRoot();
-      await persons.verifyPersonExists(personName);
+        const bookmarks = new BookmarksPanel(page);
+        await bookmarks.ensureAtRoot();
+        await bookmarks.verifyFolderExists(folderName);
+        await bookmarks.ensureAtRoot();
+        await bookmarks.verifyFolderExists(folderName);
+        expect(
+          BookmarksObjSchema.parse(
+            await getStorageItem(page, EStorageKey.bookmarks)
+          ).urlList
+        ).toEqual(original.urlList);
+        expect(
+          await getStorageItem(page, EExtStorageKey.HAS_PENDING_BOOKMARKS)
+        ).toBe(true);
+        expect(
+          await getStorageItem(page, EExtStorageKey.HAS_PENDING_PERSONS)
+        ).toBe(true);
+
+        const persons = new PersonsPanel(page);
+        await bookmarks.switchToPanel('Persons');
+        await persons.verifyPersonExists(personName);
+        await persons.ensureAtRoot();
+        await persons.verifyPersonExists(personName);
+      });
+    });
+  }
+
+  test('serves legacy and current name read formats over HTTP', async () => {
+    await withSignedInProfile(async ({ context, extensionId }) => {
+      const requestPromise = context.waitForEvent('request', (request) =>
+        request.url().includes('/api/trpc/extension.latest')
+      );
+      await openExtensionPanelPage(context, extensionId);
+      const request = await requestPromise;
+      const authorization = request.headers()['authorization'];
+      expect(authorization).toBeTruthy();
+      const origin = new URL(request.url()).origin;
+      const read = async (procedure: string, current: boolean) => {
+        const input = current
+          ? `&input=${encodeURIComponent(JSON.stringify({ 0: { nameCodecVersion: 2 } }))}`
+          : '';
+        const response = await context.request.get(
+          `${origin}/api/trpc/firebaseData.${procedure}?batch=1${input}`,
+          { headers: { authorization } }
+        );
+        expect(response.ok()).toBe(true);
+        return z
+          .array(z.object({ result: z.object({ data: z.unknown() }) }))
+          .parse(await response.json())[0].result.data;
+      };
+      const [oldBookmarks, newBookmarks, oldPersons, newPersons] =
+        await Promise.all([
+          read('bookmarksGet', false),
+          read('bookmarksGet', true),
+          read('personsGet', false),
+          read('personsGet', true),
+        ]);
+      const legacyFolders = BookmarksObjSchema.parse(oldBookmarks).folderList;
+      const currentFolders = BookmarksObjSchema.parse(newBookmarks).folderList;
+      const legacyPersons = PersonsSchema.parse(oldPersons);
+      const currentPersons = PersonsSchema.parse(newPersons);
+      expect(Object.keys(legacyFolders).toSorted()).toEqual(
+        Object.keys(currentFolders).toSorted()
+      );
+      expect(Object.keys(legacyPersons).toSorted()).toEqual(
+        Object.keys(currentPersons).toSorted()
+      );
+      expect(
+        decodePersons(currentPersons).map((person) => person.name)
+      ).toContain(TEST_PERSONS.JOHN_NATHAN);
+      expect(
+        Object.values(legacyPersons).map((person) => atob(person.name))
+      ).toContain(TEST_PERSONS.JOHN_NATHAN);
+      for (const records of [currentFolders, currentPersons]) {
+        for (const record of Object.values(records)) {
+          expect(record.nameEncoding).toEqual({
+            version: 2,
+            value: record.name,
+          });
+        }
+      }
+      for (const records of [legacyFolders, legacyPersons]) {
+        for (const record of Object.values(records))
+          expect(record.nameEncoding).toBeUndefined();
+      }
     });
   });
 

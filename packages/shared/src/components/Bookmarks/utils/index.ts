@@ -1,4 +1,9 @@
-import { encodeText, decodeText } from '../../../utils/codec';
+import {
+  encodeText,
+  decodeText,
+  encodeName,
+  decodeName,
+} from '../../../utils/codec';
 import { matchesSearch } from '../../../utils/search';
 import { ROOT_FOLDER_ID, ROOT_FOLDER_NAME } from '../constants';
 import {
@@ -50,14 +55,12 @@ export const decodeBookmark = (
   title: decodeText(bookmark.title),
 });
 
-export const encodeFolder = (folder: IEncodedFolder): IEncodedFolder => ({
-  ...folder,
-  name: encodeText(folder.name),
-});
+export const encodeFolder = (folder: IEncodedFolder): IEncodedFolder =>
+  encodeName(folder);
 
 export const decodeFolder = (folder: IEncodedFolder): IEncodedFolder => ({
   ...folder,
-  name: decodeText(folder.name),
+  name: decodeName(folder),
 });
 
 export const getDecodedFolderList = (folderList: IBookmarksObj['folderList']) =>
