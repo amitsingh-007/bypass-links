@@ -101,7 +101,6 @@ export const startShortcutHistoryWatch = async (url: string) => {
     activePatterns ??= getRulePatterns(rules);
   }
   const navigationUrl = new URL(url);
-  navigationUrl.hash = '';
   if (activePatterns.some((pattern) => pattern.test(navigationUrl.href))) {
     await startHistoryWatch();
   }
