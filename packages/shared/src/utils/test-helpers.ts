@@ -15,13 +15,6 @@ import { decodeText } from './codec';
 
 type TestIdScope = Pick<Page, 'getByTestId'>;
 
-export const dumpLocalStorage = async (
-  page: Page
-): Promise<Record<string, string>> =>
-  Object.fromEntries(
-    (await page.localStorage.items()).map(({ name, value }) => [name, value])
-  );
-
 export const injectLocalStorage = async (
   context: BrowserContext,
   data: Record<string, string>
