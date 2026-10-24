@@ -43,4 +43,5 @@ export * from './swr/config';
 export * from './swr/invalidate';
 export * from './swr/keys';
 
+export * from './utils/codec';
 export { getPersonImageName } from './utils/personImage';

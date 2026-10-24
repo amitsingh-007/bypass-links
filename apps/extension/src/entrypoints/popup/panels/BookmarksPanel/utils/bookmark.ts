@@ -1,7 +1,7 @@
 import {
   ECacheBucketKeys,
   addAllToCache,
-  encodeBookmarkField,
+  encodeText,
   getBookmarkFaviconUrls,
   type ContextBookmarks,
   type IBookmarksObj,
@@ -70,7 +70,7 @@ export const findBookmarkByUrl = (
   urlList: IBookmarksObj['urlList'],
   url: string
 ) => {
-  const encodedUrl = encodeBookmarkField(url);
+  const encodedUrl = encodeText(url);
   return Object.values(urlList).find(
     (encodedBookmark) => encodedBookmark.url === encodedUrl
   );
