@@ -13,8 +13,9 @@ import useSWR from 'swr';
 import useFirebaseStore from '@/store/firebase/useFirebaseStore';
 import { extSwrKeys } from '@/swr/keys';
 import { sendRuntimeMessage } from '@/utils/sendRuntimeMessage';
-import { isForumPage } from '@background/websites';
 import useCurrentTab from '@popup/hooks/useCurrentTab';
+
+import { isForumPage } from '../utils/isForumPage';
 
 enum EButtonState {
   INITIAL,
