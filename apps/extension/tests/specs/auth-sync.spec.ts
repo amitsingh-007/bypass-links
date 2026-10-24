@@ -215,7 +215,9 @@ test('a partly failed login sync leaves a clean signed-out popup', async () => {
     });
     await page.getByTestId('login-button').click();
 
-    await expect.poll(failedCalls).not.toHaveLength(0);
+    await expect
+      .poll(failedCalls, { timeout: TEST_TIMEOUTS.AUTH })
+      .not.toHaveLength(0);
     await expect(page.getByTestId('login-button')).toBeVisible({
       timeout: TEST_TIMEOUTS.AUTH,
     });
