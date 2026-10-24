@@ -237,7 +237,39 @@ test.describe('SDK authentication', () => {
             window.e2eSawSignedOut = true;
         }).observe(document, { childList: true, subtree: true });
       });
-      await page.reload();
+      let releaseRestore: (() => void) | undefined;
+      const pendingRestore = new Promise<void>((resolve) => {
+        releaseRestore = resolve;
+      });
+      await context.route(
+        'https://identitytoolkit.googleapis.com/**',
+        async (route) => {
+          await pendingRestore;
+          await route.fallback();
+        }
+      );
+      try {
+        await page.reload();
+        // The fixture opens a tab, so apply Chrome's popup content sizing.
+        await page.evaluate(() => {
+          document.documentElement.classList.add('popup');
+        });
+        const loader = page.getByTestId('loading-overlay');
+        await expect(loader).toBeVisible();
+        const body = await page.evaluate(() => ({
+          width: document.body.clientWidth,
+          height: document.body.clientHeight,
+        }));
+        expect(body.width).toBeGreaterThan(0);
+        expect(body.height).toBeGreaterThan(0);
+        const loaderBounds = await loader.boundingBox();
+        expect(loaderBounds?.width).toBeGreaterThan(0);
+        expect(loaderBounds?.height).toBeGreaterThan(0);
+        await expect(page.getByTestId('login-button')).toHaveCount(0);
+        await expect(page.getByTestId('logout-button')).toHaveCount(0);
+      } finally {
+        releaseRestore?.();
+      }
       await expect(page.getByTestId('logout-button')).toBeEnabled();
       await expect(
         page.getByRole('img', { name: 'SDK test user', exact: true })
