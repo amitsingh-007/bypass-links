@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "dev": "bypass-links-dev",
+    "prod": "bypass-links"
+  }
+}
