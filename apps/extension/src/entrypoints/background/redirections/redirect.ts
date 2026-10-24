@@ -23,7 +23,7 @@ const buildRedirectRule = async (
       return undefined;
     }
     const suffix = aliasUrl.href.slice(aliasUrl.protocol.length + 2);
-    const regexFilter = `^https?://${suffix.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`;
+    const regexFilter = `^https?://${RegExp.escape(suffix)}$`;
     const supported = await browser.declarativeNetRequest.isRegexSupported({
       regex: regexFilter,
       isCaseSensitive: true,
