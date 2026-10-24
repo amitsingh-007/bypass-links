@@ -10,6 +10,7 @@ import { extSwrConfig } from '@/swr/config';
 import './fonts.css';
 import './layout.css';
 import Global from './components/Global';
+import LoadingOverlay from './components/LoadingOverlay';
 import PopupRoutes from './components/PopupRoutes';
 import DynamicProvider from './provider/DynamicProvider';
 
@@ -35,6 +36,7 @@ if (browser.extension.getViews({ type: 'popup' }).includes(window)) {
 const container = document.getElementById('root');
 if (container) {
   const root = createRoot(container);
+  root.render(<LoadingOverlay />);
   void firebaseAuthReady.then(
     () => root.render(<App />),
     (error: unknown) => {

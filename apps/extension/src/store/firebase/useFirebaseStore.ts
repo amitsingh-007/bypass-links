@@ -44,8 +44,8 @@ const useFirebaseStore = create<State>(() => ({
       const { email, password } = TestAuthCredentialsSchema.parse(
         JSON.parse(testAuthData)
       );
-      await signInWithEmailAndPassword(auth, email, password);
       localStorage.removeItem(TEST_AUTH_DATA_KEY);
+      await signInWithEmailAndPassword(auth, email, password);
       return;
     }
     const { token } = await browser.identity.getAuthToken({
