@@ -115,7 +115,7 @@ const controlSdkAuth = async (context: BrowserContext) => {
     },
     'firebaseData.bookmarksGet': { folderList: {}, urlList: {}, folders: {} },
     'firebaseData.personsGet': {},
-    'firebaseData.redirectionsGet': [],
+    'firebaseData.redirectionsList': [],
     'firebaseData.websitesGet': {},
     'firebaseData.lastVisitedGet': {},
   };

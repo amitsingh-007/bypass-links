@@ -25,23 +25,6 @@ import RedirectionRule from './RedirectionRule';
 
 const SAVE_ERROR = 'Could not save shortcuts';
 
-const fetchRedirections = async () => {
-  let stored = await redirectionsItem.getValue();
-  if (stored.some(({ id }) => !id)) {
-    await syncRedirectionsToStorage();
-    stored = await redirectionsItem.getValue();
-  }
-  return stored.map(
-    ({ id, alias, website, isDefault }) =>
-      ({
-        id,
-        alias: atob(alias),
-        website: atob(website),
-        isDefault,
-      }) satisfies IRedirection
-  );
-};
-
 function ShortcutsPanel() {
   const [searchText, setSearchText] = useState('');
   // null means "no local edits yet", distinct from "edited to an empty list"
@@ -50,7 +33,7 @@ function ShortcutsPanel() {
 
   const { data: storedRedirections, isLoading } = useSWR(
     swrKeys.redirections,
-    fetchRedirections
+    () => redirectionsItem.getValue()
   );
   const redirections = stagedRedirections ?? storedRedirections ?? [];
   const lastVisitedMap = useLastVisitedMap(redirections.map((r) => r.website));

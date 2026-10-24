@@ -6,6 +6,8 @@ import {
   type IRedirections,
   type IWebsites,
   EStorageKey,
+  encodeText,
+  decodeText,
 } from '@bypass/shared/server';
 
 import {
@@ -66,12 +68,19 @@ export const upsertLastVisited = async (hash: string, uid: string) => {
   return { hash, timestamp };
 };
 
-export const getRedirections = (uid: string) =>
-  getFromFirebase<IRedirections>({
-    ref: EStorageKey.redirections,
-    uid,
-    fallback: [],
-  });
+export const listRedirections = async (uid: string) =>
+  (
+    await getFromFirebase<IRedirections>({
+      ref: EStorageKey.redirections,
+      uid,
+      fallback: [],
+    })
+  ).map(({ id, alias, website, isDefault }) => ({
+    id,
+    alias: decodeText(alias),
+    website: decodeText(website),
+    isDefault,
+  }));
 
 export const saveRedirections = async (
   redirections: IRedirections,
@@ -81,7 +90,12 @@ export const saveRedirections = async (
     redirections.map(
       ({ id, alias, website, isDefault }, index): [number, IRedirection] => [
         index,
-        { id, alias: btoa(alias), website: btoa(website), isDefault },
+        {
+          id,
+          alias: encodeText(alias),
+          website: encodeText(website),
+          isDefault,
+        },
       ]
     )
   );

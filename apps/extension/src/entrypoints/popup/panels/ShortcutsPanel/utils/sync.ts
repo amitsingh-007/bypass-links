@@ -6,7 +6,7 @@ import { mappedRedirectionsItem, redirectionsItem } from '@/storage/items';
 import { mapRedirections } from '@/utils/redirections';
 
 export const syncRedirectionsToStorage = async () => {
-  const redirections = await trpcApi.firebaseData.redirectionsGet.query();
+  const redirections = await trpcApi.firebaseData.redirectionsList.query();
   await Promise.all([
     redirectionsItem.setValue(redirections),
     mappedRedirectionsItem.setValue(mapRedirections(redirections)),
