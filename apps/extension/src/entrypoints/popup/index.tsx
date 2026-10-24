@@ -36,7 +36,11 @@ if (browser.extension.getViews({ type: 'popup' }).includes(window)) {
 const container = document.getElementById('root');
 if (container) {
   const root = createRoot(container);
-  root.render(<LoadingOverlay />);
+  root.render(
+    <div className="relative h-32 w-77.5">
+      <LoadingOverlay />
+    </div>
+  );
   void firebaseAuthReady.then(
     () => root.render(<App />),
     (error: unknown) => {
