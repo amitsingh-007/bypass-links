@@ -1,8 +1,8 @@
 import {
   EBookmarkOperation,
   getBookmarksPanelUrl,
-  getEncryptedPerson,
   getPersonImageName,
+  getEncryptedPerson,
   HEADER_HEIGHT,
   type IPerson,
   type IPersons,

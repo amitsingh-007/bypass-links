@@ -1,20 +1,20 @@
-import { REPO } from '@bypass/shared';
+import { REPO } from '@bypass/shared/server';
 import { Octokit } from '@octokit/rest';
 
-import { env } from '../constants/env';
+import { getGithubToken } from '../constants/env';
 
-const octokit = new Octokit({
-  auth: env.GITHUB_TOKEN,
-});
+let octokit: Octokit | undefined;
+
+const getOctokit = () => (octokit ??= new Octokit({ auth: getGithubToken() }));
 
 export const getLatestRelease = async () =>
-  octokit.rest.repos.getLatestRelease({
+  getOctokit().rest.repos.getLatestRelease({
     owner: REPO.OWNER,
     repo: REPO.NAME,
   });
 
 export const getAssetsByReleaseId = async (releaseId: number) =>
-  octokit.rest.repos.listReleaseAssets({
+  getOctokit().rest.repos.listReleaseAssets({
     owner: REPO.OWNER,
     repo: REPO.NAME,
     release_id: releaseId,

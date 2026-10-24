@@ -5,7 +5,7 @@ import {
   PersonsSchema,
   RedirectionsSchema,
   WebsitesSchema,
-} from '@bypass/shared/schema';
+} from '@bypass/shared/server';
 import { z } from 'zod/mini';
 
 import {
