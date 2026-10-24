@@ -16,7 +16,7 @@ const buildRedirectRule = async (
     const targetUrl = new URL(target);
     if (
       !isValidUrl(alias) ||
-      aliasUrl.hash ||
+      aliasUrl.href.includes('#') ||
       !['http:', 'https:'].includes(targetUrl.protocol)
     ) {
       console.warn('Skipping unsupported shortcut', alias, target);

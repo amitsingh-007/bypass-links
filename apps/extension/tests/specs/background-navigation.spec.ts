@@ -145,6 +145,12 @@ test.describe.serial('Background Service Worker Navigation', () => {
           website: target,
           isDefault: false,
         },
+        {
+          id: 'empty-fragment',
+          alias: 'http://empty-fragment-alias.test/#',
+          website: target,
+          isDefault: false,
+        },
         { id: 'valid', alias, website: target, isDefault: false },
       ])
     );

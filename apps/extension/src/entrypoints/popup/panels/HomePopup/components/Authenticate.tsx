@@ -36,7 +36,7 @@ function Authenticate() {
     <Button
       className="w-full"
       variant={isSignedIn ? 'destructive' : 'outline'}
-      disabled={!isExtensionActive || isLoading}
+      disabled={(!isSignedIn && !isExtensionActive) || isLoading}
       data-testid={isSignedIn ? 'logout-button' : 'login-button'}
       onClick={isSignedIn ? handleSignOut : handleSignIn}
     >

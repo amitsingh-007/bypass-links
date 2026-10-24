@@ -86,16 +86,22 @@ test.describe('Auth lifecycle', () => {
         try {
           await tab.goto(alias);
           await expect(tab).toHaveURL(target);
-          expect(native.redirects).toContainEqual({
-            from: alias,
-            to: target,
-            status: 307,
-          });
+          await expect
+            .poll(() => native.redirects)
+            .toContainEqual({
+              from: alias,
+              to: target,
+              status: 307,
+            });
         } finally {
           await native.close();
           await tab.close();
         }
 
+        await extensionSwitch.click();
+        await expect(extensionSwitch).not.toBeChecked();
+        await expect.poll(() => readDynamicRules(context)).toEqual([]);
+        await expect(page.getByTestId('logout-button')).toBeEnabled();
         await page.getByTestId('logout-button').click();
         await expect(page.getByTestId('login-button')).toBeVisible({
           timeout: TEST_TIMEOUTS.AUTH,

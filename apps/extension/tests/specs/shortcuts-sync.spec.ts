@@ -74,12 +74,12 @@ const openAliasTab = async (context: BrowserContext, alias: string) => {
   const target = await worker.evaluate(
     async ({ key, alias: shortcutAlias }) => {
       const stored =
-        await chrome.storage.local.get<Record<string, Record<string, string>>>(
-          key
-        );
-      return stored[key]?.[shortcutAlias];
+        await chrome.storage.local.get<Record<string, IRedirections>>(key);
+      return stored[key]?.find(
+        ({ alias: storedAlias }) => storedAlias === shortcutAlias
+      )?.website;
     },
-    { key: EStorageKey.mappedRedirections, alias }
+    { key: EStorageKey.redirections, alias }
   );
   await expect
     .poll(async () =>
