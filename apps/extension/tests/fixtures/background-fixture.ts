@@ -16,90 +16,9 @@ import {
   withTempProfileContext,
 } from './base-fixture';
 
-interface NavigationProbe {
-  pending: number;
-  tabId: number | undefined;
-  settled: boolean;
-}
-
 declare global {
   var e2eIconPaths: string[] | undefined;
-  var e2eNavigation: NavigationProbe | undefined;
 }
-
-/** A browser round trip after the reads lets their promise continuations finish. */
-export const observeBackgroundNavigation = async (backgroundSW: Worker) => {
-  await backgroundSW.evaluate(() => {
-    const navigation: NavigationProbe = {
-      pending: 0,
-      tabId: undefined,
-      settled: false,
-    };
-    globalThis.e2eNavigation = navigation;
-    const finish = () => {
-      navigation.pending--;
-      void chrome.runtime
-        .getPlatformInfo()
-        .then(() => {
-          navigation.settled = navigation.pending === 0;
-        })
-        .catch(console.error);
-    };
-    const getTab = chrome.tabs.get.bind(chrome.tabs);
-    chrome.tabs.get = async (tabId) => {
-      navigation.pending++;
-      navigation.tabId = tabId;
-      navigation.settled = false;
-      try {
-        return await getTab(tabId);
-      } finally {
-        finish();
-      }
-    };
-    const getStorage = chrome.storage.local.get.bind(chrome.storage.local);
-    Object.defineProperty(chrome.storage.local, 'get', {
-      value: async (
-        keys: string | string[] | Record<string, unknown> | null = null
-      ) => {
-        navigation.pending++;
-        navigation.settled = false;
-        try {
-          return await getStorage<Record<string, unknown>>(keys);
-        } finally {
-          finish();
-        }
-      },
-    });
-  });
-  return {
-    reset: async () =>
-      backgroundSW.evaluate(() => {
-        if (globalThis.e2eNavigation) {
-          globalThis.e2eNavigation.tabId = undefined;
-          globalThis.e2eNavigation.settled = false;
-        }
-      }),
-    url: async () => {
-      await expect
-        .poll(() =>
-          backgroundSW.evaluate(
-            () =>
-              globalThis.e2eNavigation?.tabId !== undefined &&
-              globalThis.e2eNavigation.settled
-          )
-        )
-        .toBe(true);
-      return backgroundSW.evaluate(async () => {
-        const tabId = globalThis.e2eNavigation?.tabId;
-        if (tabId === undefined) {
-          throw new Error('No background navigation observed');
-        }
-        const tab = await chrome.tabs.get(tabId);
-        return tab.pendingUrl ?? tab.url;
-      });
-    },
-  };
-};
 
 export const recordIconUpdates = async (backgroundSW: Worker) => {
   await backgroundSW.evaluate(() => {
@@ -144,11 +63,33 @@ export const restartBackgroundWorker = async (context: BrowserContext) => {
   return backgroundSW;
 };
 
+export const readDynamicRules = async (context: BrowserContext) => {
+  const worker = await createSharedBackgroundSW(context);
+  return worker.evaluate(() => chrome.declarativeNetRequest.getDynamicRules());
+};
+
+export const observeNativeRedirects = async (page: Page) => {
+  const session = await page.context().newCDPSession(page);
+  const redirects: { from: string; to: string; status: number }[] = [];
+  await session.send('Network.enable');
+  session.on('Network.requestWillBeSent', (event) => {
+    if (event.redirectResponse) {
+      redirects.push({
+        from: event.redirectResponse.url,
+        to: event.request.url,
+        status: event.redirectResponse.status,
+      });
+    }
+  });
+  return { redirects, close: () => session.detach() };
+};
+
 interface BaseBackgroundEnv {
   context: BrowserContext;
   extensionId: string;
   readStorage: (key: string) => Promise<unknown>;
   writeStorage: (values: Record<string, unknown>) => Promise<void>;
+  readDynamicRules: () => Promise<chrome.declarativeNetRequest.Rule[]>;
   ensureActiveState: () => Promise<void>;
   ensureInactiveState: () => Promise<void>;
   clearHistoryStartTime: () => Promise<void>;
@@ -235,6 +176,7 @@ const createBackgroundEnv = async (
       runWithBackground(async (backgroundSW) =>
         writeStorageFromWorker(backgroundSW, values)
       ),
+    readDynamicRules: () => readDynamicRules(context),
     ensureActiveState: async () =>
       runWithBackground(async (backgroundSW) =>
         writeStorageFromWorker(backgroundSW, {

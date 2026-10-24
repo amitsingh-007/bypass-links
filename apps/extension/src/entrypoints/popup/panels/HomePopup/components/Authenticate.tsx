@@ -1,7 +1,6 @@
 import { Button, Spinner } from '@bypass/ui';
 import { Login02Icon, Logout02Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { useEffect, useEffectEvent } from 'react';
 import { toast } from 'sonner';
 
 import { EExtensionState } from '@/constants';
@@ -32,19 +31,12 @@ function Authenticate() {
     }
     stopLoading();
   };
-  const onExtensionInactive = useEffectEvent(handleSignOut);
-
-  useEffect(() => {
-    if (isSignedIn && !isExtensionActive) {
-      onExtensionInactive();
-    }
-  }, [isExtensionActive, isSignedIn]);
 
   return (
     <Button
       className="w-full"
       variant={isSignedIn ? 'destructive' : 'outline'}
-      disabled={!isExtensionActive || isLoading}
+      disabled={(!isSignedIn && !isExtensionActive) || isLoading}
       data-testid={isSignedIn ? 'logout-button' : 'login-button'}
       onClick={isSignedIn ? handleSignOut : handleSignIn}
     >
