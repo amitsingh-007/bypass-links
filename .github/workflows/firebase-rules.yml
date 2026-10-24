@@ -4,10 +4,7 @@ on:
     branches:
       - main
     paths:
-      - .firebaserc
-      - firebase.json
-      - firebase/database.rules.json
-      - firebase/storage.rules
+      - firebase/**
   workflow_dispatch:
 
 permissions:
@@ -44,7 +41,7 @@ jobs:
           service_account: ${{ vars.FIREBASE_RULES_SERVICE_ACCOUNT }}
 
       - name: Deploy development rules
-        run: pnpm dlx firebase-tools@latest deploy --project dev --only database,storage --non-interactive
+        run: pnpm dlx firebase-tools@latest deploy --config firebase/firebase.json --project dev --only database,storage --non-interactive
 
       - name: Authenticate for production
         uses: google-github-actions/auth@v3
@@ -54,4 +51,4 @@ jobs:
           service_account: ${{ vars.FIREBASE_RULES_SERVICE_ACCOUNT }}
 
       - name: Deploy production rules
-        run: pnpm dlx firebase-tools@latest deploy --project prod --only database,storage --non-interactive
+        run: pnpm dlx firebase-tools@latest deploy --config firebase/firebase.json --project prod --only database,storage --non-interactive
