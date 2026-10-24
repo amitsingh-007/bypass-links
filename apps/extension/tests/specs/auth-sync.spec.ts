@@ -1,16 +1,13 @@
 import { EStorageKey } from '@bypass/shared';
 import {
   failProcedure,
-  injectLocalStorage,
   routeTrpcProcedure,
   succeedProcedure,
   TEST_TIMEOUTS,
 } from '@bypass/shared/tests';
 import { expect, test, type Page } from '@playwright/test';
-import { z } from 'zod/mini';
 
 import { EExtStorageKey, TEST_AUTH_DATA_KEY } from '@/constants';
-import { AuthResponseSchema } from '@/interfaces/firebase';
 
 import { writeStorageFromWorker } from '../fixtures/background-fixture';
 import {
@@ -18,15 +15,13 @@ import {
   createSharedBackgroundSW,
   getExtensionId,
   getPopupUrl,
-  loadCachedStorageData,
   openExtensionPanelPage,
   withTempProfileContext,
 } from '../fixtures/base-fixture';
 import { withSignedInProfile } from '../utils/signed-in-profile';
-import { getStorageItem } from '../utils/test-utils';
+import { getStorageItem, useTestCredentials } from '../utils/test-utils';
 
 const ACCOUNT_SAVE = 'firebaseData.bookmarkAndPersonSave';
-const AUTH_STORE_KEY = '__fbOAuth';
 
 test('rejects malformed injected auth data without signing in or consuming it', async () => {
   await withTempProfileContext({}, async (context) => {
@@ -44,14 +39,6 @@ test('rejects malformed injected auth data without signing in or consuming it', 
         await expect(loginButton).toBeEnabled();
         await expect(page.getByTestId('logout-button')).toHaveCount(0);
         expect(await page.localStorage.getItem(TEST_AUTH_DATA_KEY)).toBe(raw);
-        const stored = await page.localStorage.getItem(AUTH_STORE_KEY);
-        expect(
-          z
-            .object({
-              state: z.object({ isSignedIn: z.boolean(), idpAuth: z.null() }),
-            })
-            .parse(JSON.parse(stored ?? '{}')).state.isSignedIn
-        ).toBe(false);
       });
     }
   });
@@ -208,14 +195,7 @@ test.describe('Pending changes on logout', () => {
 test('a partly failed login sync leaves a clean signed-out popup', async () => {
   await withTempProfileContext({}, async (context) => {
     const sawAccountWrite = await abortAccountWrites(context);
-    const cached = await loadCachedStorageData();
-    const { state } = z
-      .object({ state: z.object({ idpAuth: AuthResponseSchema }) })
-      .parse(JSON.parse(cached.localStorage[AUTH_STORE_KEY]));
-    // Only the credentials, so the popup starts signed out and login is real
-    await injectLocalStorage(context, {
-      [TEST_AUTH_DATA_KEY]: JSON.stringify(state.idpAuth),
-    });
+    await useTestCredentials(context);
     const batchedUrls: string[] = [];
     const failedCalls = await routeTrpcProcedure(
       context,
@@ -235,10 +215,12 @@ test('a partly failed login sync leaves a clean signed-out popup', async () => {
     });
     await page.getByTestId('login-button').click();
 
+    await expect
+      .poll(failedCalls, { timeout: TEST_TIMEOUTS.AUTH })
+      .not.toHaveLength(0);
     await expect(page.getByTestId('login-button')).toBeVisible({
       timeout: TEST_TIMEOUTS.AUTH,
     });
-    expect(failedCalls()).not.toHaveLength(0);
     expect(
       batchedUrls.join('\n'),
       'the failure has to be partial, so its batch must carry other procedures'

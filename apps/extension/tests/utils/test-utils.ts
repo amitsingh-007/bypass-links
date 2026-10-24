@@ -1,17 +1,21 @@
+import process from 'node:process';
+
 import {
   EStorageKey,
-  getEncryptedBookmark,
-  getEncryptedFolder,
-  getEncryptedPerson,
+  decodeText,
+  encodeBookmark,
+  encodeFolder,
+  encodePerson,
   type IBookmarksObj,
   type IRedirections,
   ROOT_FOLDER_ID,
 } from '@bypass/shared';
 import { BookmarksObjSchema, PersonsSchema } from '@bypass/shared/schema';
-import { expect, type Page } from '@playwright/test';
+import { expect, type Page, type BrowserContext } from '@playwright/test';
 
-import { POPUP_HOMEPAGE } from '@/constants';
-import { mapRedirections } from '@/entrypoints/background/redirections/mapper';
+import { POPUP_HOMEPAGE, TEST_AUTH_DATA_KEY } from '@/constants';
+import { TestAuthCredentialsSchema } from '@/interfaces/firebase';
+import { mapRedirections } from '@/utils/redirections';
 
 export const openPanel = async (
   page: Page,
@@ -128,14 +132,14 @@ export const seedFolderWithBookmarks = async (
   bookmarks: readonly SeedBookmark[],
   isDefault = false
 ) => {
-  const folder = getEncryptedFolder({
+  const folder = encodeFolder({
     id: crypto.randomUUID(),
     name: folderName,
     parentHash: ROOT_FOLDER_ID,
     isDefault,
   });
   const urls = bookmarks.map(({ title, url, taggedPersons = [] }) =>
-    getEncryptedBookmark({
+    encodeBookmark({
       id: crypto.randomUUID(),
       url,
       title,
@@ -213,26 +217,14 @@ export const seedFolderWithBookmarks = async (
   return { folderId: folder.id, bookmarkIds: urls.map(({ id }) => id) };
 };
 
-/** Rules are held base64 encoded, both in storage and over the wire. */
-export const encodeRedirections = (rules: IRedirections) =>
-  rules.map(({ id, alias, website, isDefault }) => ({
-    id,
-    alias: btoa(alias),
-    website: btoa(website),
-    isDefault,
-  }));
-
-export const getRedirectionStorage = (rules: IRedirections) => {
-  const encoded = encodeRedirections(rules);
-  return {
-    [EStorageKey.redirections]: encoded,
-    [EStorageKey.mappedRedirections]: mapRedirections(encoded),
-  };
-};
+export const getRedirectionStorage = (rules: IRedirections) => ({
+  [EStorageKey.redirections]: rules,
+  [EStorageKey.mappedRedirections]: mapRedirections(rules),
+});
 
 export const seedPersons = async (page: Page, names: readonly string[]) => {
   const persons = names.map((name) =>
-    getEncryptedPerson({ uid: crypto.randomUUID(), name })
+    encodePerson({ uid: crypto.randomUUID(), name })
   );
 
   await page.evaluate(
@@ -256,6 +248,19 @@ export const getPersonUids = async (
     (await getStorageItem(page, EStorageKey.persons)) ?? {}
   );
   return Object.fromEntries(
-    Object.values(persons).map(({ uid, name }) => [atob(name), uid])
+    Object.values(persons).map(({ uid, name }) => [decodeText(name), uid])
+  );
+};
+
+export const useTestCredentials = async (context: BrowserContext) => {
+  const credentials = TestAuthCredentialsSchema.parse({
+    email: process.env.FIREBASE_TEST_USER_EMAIL,
+    password: process.env.FIREBASE_TEST_USER_PASSWORD,
+  });
+  await context.addInitScript(
+    ({ key, data }) => {
+      localStorage.setItem(key, JSON.stringify(data));
+    },
+    { key: TEST_AUTH_DATA_KEY, data: credentials }
   );
 };

@@ -2,7 +2,7 @@ import { EStorageKey } from '../../../constants/storage';
 import { useDynamicContext } from '../../../provider/DynamicContext';
 import { ROOT_FOLDER_ID } from '../constants';
 import { BookmarksObjSchema } from '../schema';
-import { getDecryptedFolder, getDefaultFolder } from '../utils';
+import { decodeFolder, getDefaultFolder } from '../utils';
 
 const useBookmark = () => {
   const { storage } = useDynamicContext();
@@ -15,7 +15,7 @@ const useBookmark = () => {
     if (!bookmarks) {
       throw new Error('No bookmarks found for getFolderFromHash');
     }
-    return getDecryptedFolder(bookmarks.folderList[hash]);
+    return decodeFolder(bookmarks.folderList[hash]);
   };
 
   const getDefaultOrRootFolderUrls = async () => {

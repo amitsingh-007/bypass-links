@@ -14,33 +14,16 @@ import useSWRMutation from 'swr/mutation';
 
 import { trpcApi } from '@/apis/trpcApi';
 import { redirectionsItem } from '@/storage/items';
-import { syncRedirectionsToStorage } from '@background/redirections';
 import LoadingOverlay from '@popup/components/LoadingOverlay';
 import Panel from '@popup/components/Panel';
 import { useLastVisitedMap } from '@popup/hooks/useLastVisited';
 
 import { DEFAULT_RULE_ALIAS } from '../constants';
 import { getValidRules, isMatchingRule } from '../utils';
+import { syncRedirectionsToStorage } from '../utils/sync';
 import RedirectionRule from './RedirectionRule';
 
 const SAVE_ERROR = 'Could not save shortcuts';
-
-const fetchRedirections = async () => {
-  let stored = await redirectionsItem.getValue();
-  if (stored.some(({ id }) => !id)) {
-    await syncRedirectionsToStorage();
-    stored = await redirectionsItem.getValue();
-  }
-  return stored.map(
-    ({ id, alias, website, isDefault }) =>
-      ({
-        id,
-        alias: atob(alias),
-        website: atob(website),
-        isDefault,
-      }) satisfies IRedirection
-  );
-};
 
 function ShortcutsPanel() {
   const [searchText, setSearchText] = useState('');
@@ -50,7 +33,7 @@ function ShortcutsPanel() {
 
   const { data: storedRedirections, isLoading } = useSWR(
     swrKeys.redirections,
-    fetchRedirections
+    () => redirectionsItem.getValue()
   );
   const redirections = stagedRedirections ?? storedRedirections ?? [];
   const lastVisitedMap = useLastVisitedMap(redirections.map((r) => r.website));

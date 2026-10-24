@@ -15,12 +15,16 @@ import {
   clickDropdownPersonAndGetName,
   fillSearchInput,
   openNewPageFromAction,
+  routeTrpcProcedure,
+  succeedProcedure,
 } from '@bypass/shared/tests';
 import { z } from 'zod/mini';
 
+import { openExtensionPanelPage } from '../fixtures/base-fixture';
 import { bookmarkTest as test, expect } from '../fixtures/panel-fixture';
 import { BookmarksPanel } from '../utils/bookmarks-panel';
 import { PersonsPanel } from '../utils/persons-panel';
+import { withSignedInProfile } from '../utils/signed-in-profile';
 import {
   getRecordedTabs,
   getStorageItem,
@@ -47,6 +51,67 @@ const readDefaultFolderNames = async (panel: BookmarksPanel) =>
     .map(({ name }) => name);
 
 test.describe('Bookmarks Panel', () => {
+  test('saves Unicode person and folder names across reloads and displays them on the web', async () => {
+    await withSignedInProfile(async ({ context, extensionId }) => {
+      await routeTrpcProcedure(
+        context,
+        'storage.getDownloadUrl',
+        async (call) => {
+          await succeedProcedure(call, '');
+        }
+      );
+      const page = await openExtensionPanelPage(
+        context,
+        extensionId,
+        'persons'
+      );
+      const persons = new PersonsPanel(page);
+      const personName = 'Zoë 李 🦊 100% %41';
+      const folderName = '资料 📚 100% %41';
+
+      await persons.addPerson(personName);
+      await persons.ensureAtRoot();
+      await persons.verifyPersonExists(personName);
+
+      const bookmarks = new BookmarksPanel(page);
+      await bookmarks.ensureAtRoot();
+      await bookmarks.createFolder(folderName);
+      await bookmarks.clickSaveButton();
+      await bookmarks.ensureAtRoot();
+      await bookmarks.verifyFolderExists(folderName);
+
+      const webPage = await context.newPage();
+      const webUrl =
+        process.env.PLAYWRIGHT_TEST_BASE_URL ?? 'http://localhost:3000';
+      await webPage.goto(`${webUrl}/persons-panel`);
+      // Seed once so reloads must retain the extension's exact saved bytes.
+      await webPage.localStorage.setItem(
+        EStorageKey.persons,
+        JSON.stringify(await getStorageItem(page, EStorageKey.persons))
+      );
+      await webPage.localStorage.setItem(
+        EStorageKey.bookmarks,
+        JSON.stringify(await getStorageItem(page, EStorageKey.bookmarks))
+      );
+      await webPage.reload();
+      await expect(
+        webPage.getByTestId(`person-item-${personName}`)
+      ).toBeVisible();
+      await webPage.reload();
+      await expect(
+        webPage.getByTestId(`person-item-${personName}`)
+      ).toBeVisible();
+      await webPage.goto(`${webUrl}/bookmark-panel`);
+      await expect(
+        webPage.getByTestId(`folder-item-${folderName}`)
+      ).toBeVisible();
+      await webPage.reload();
+      await expect(
+        webPage.getByTestId(`folder-item-${folderName}`)
+      ).toBeVisible();
+    });
+  });
+
   test.describe('Folder Operations', () => {
     const TEST_FOLDER_NAME = 'E2E Test Folder';
     const TEMP_RENAME_FOLDER = 'Temp Rename Folder';

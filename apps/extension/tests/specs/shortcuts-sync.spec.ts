@@ -9,14 +9,14 @@ import {
 } from '@bypass/shared/tests';
 import { expect, test, type BrowserContext, type Page } from '@playwright/test';
 
-import { openExtensionPanelPage } from '../fixtures/base-fixture';
+import { readDynamicRules } from '../fixtures/background-fixture';
+import {
+  openExtensionPanelPage,
+  createSharedBackgroundSW,
+} from '../fixtures/base-fixture';
 import { ShortcutsPanel } from '../utils/shortcuts-panel';
 import { withSignedInProfile } from '../utils/signed-in-profile';
-import {
-  encodeRedirections,
-  getStorageItem,
-  gotoPanel,
-} from '../utils/test-utils';
+import { getStorageItem, gotoPanel } from '../utils/test-utils';
 
 const NEW_ALIAS = 'http://e2e-shortcut/';
 const NEW_WEBSITE = 'https://example.com/';
@@ -27,12 +27,7 @@ const INCOMPLETE_ALIAS = 'http:///';
 const getStoredRules = async (page: Page) =>
   RedirectionsSchema.parse(
     (await getStorageItem(page, EStorageKey.redirections)) ?? []
-  ).map(({ id, alias, website, isDefault }) => ({
-    id,
-    alias: atob(alias),
-    website: atob(website),
-    isDefault,
-  }));
+  );
 
 const getSavedTargets = async (page: Page) =>
   (await getStoredRules(page)).map(({ website }) => website);
@@ -59,25 +54,44 @@ const controlRedirections = async (context: BrowserContext) => {
   );
   await routeTrpcProcedure(
     context,
-    'firebaseData.redirectionsGet',
+    'firebaseData.redirectionsList',
     async (call) => {
-      await succeedProcedure(call, encodeRedirections(current));
+      await succeedProcedure(call, current);
     }
   );
 
   return {
     posted: () => posted,
-    setCurrent: (rules: IRedirections) => {
-      current = rules;
-    },
     setFailing: (failing: boolean) => {
       isFailing = failing;
     },
   };
 };
 
-/** DNS never resolves these, but `tabs.onUpdated` still carries the alias. */
+/** Wait for native rules after each sync before navigating an alias. */
 const openAliasTab = async (context: BrowserContext, alias: string) => {
+  const worker = await createSharedBackgroundSW(context);
+  const target = await worker.evaluate(
+    async ({ key, alias: shortcutAlias }) => {
+      const stored =
+        await chrome.storage.local.get<Record<string, IRedirections>>(key);
+      return stored[key]?.find(
+        ({ alias: storedAlias }) => storedAlias === shortcutAlias
+      )?.website;
+    },
+    { key: EStorageKey.redirections, alias }
+  );
+  await expect
+    .poll(async () =>
+      (await readDynamicRules(context))
+        .filter(
+          ({ condition }) =>
+            condition.regexFilter &&
+            new RegExp(condition.regexFilter).test(new URL(alias).href)
+        )
+        .map((rule) => rule.action.redirect?.url)
+    )
+    .toEqual(target ? [new URL(target).href] : []);
   const page = await context.newPage();
   await page
     .goto(alias, { waitUntil: 'commit', timeout: TEST_TIMEOUTS.NAVIGATION })
@@ -221,23 +235,24 @@ test.describe('Shortcuts sync', () => {
     });
   });
 
-  test('refreshes an old cache without IDs when the panel opens', async () => {
+  test('saves and reopens Unicode shortcut values as plain text', async () => {
     await withSignedInProfile(async ({ context, extensionId }) => {
       const server = await controlRedirections(context);
-      const { page } = await openShortcutsPanel(context, extensionId);
-      const stored = await getStoredRules(page);
-      server.setCurrent(stored);
-      const legacy = encodeRedirections(stored).map(
-        ({ id: _id, ...row }) => row
-      );
-      await page.evaluate(
-        async ({ key, rules }) => chrome.storage.local.set({ [key]: rules }),
-        { key: EStorageKey.redirections, rules: legacy }
-      );
-
-      await page.close();
-      const reopened = await openShortcutsPanel(context, extensionId);
-      await expect.poll(() => getStoredRules(reopened.page)).toEqual(stored);
+      const { page, panel } = await openShortcutsPanel(context, extensionId);
+      const alias = 'http://例子/😀';
+      const website = 'https://example.com/日本語/😀?query=%41';
+      await panel.addRule();
+      await page.getByTestId('rule-0-alias').fill(alias);
+      await page.getByTestId('rule-0-website').fill(website);
+      await page.getByTestId('rule-0-save').click();
+      await panel.saveAll();
+      await expect(page.getByText('Saved successfully')).toBeVisible();
+      expect(server.posted()[0][0]).toMatchObject({ alias, website });
+      await gotoPanel(page, 'Shortcuts');
+      await panel.waitForLoading();
+      await expect(page.getByTestId('rule-0-alias')).toHaveValue(alias);
+      await expect(page.getByTestId('rule-0-website')).toHaveValue(website);
+      expect((await getStoredRules(page))[0]).toMatchObject({ alias, website });
     });
   });
 

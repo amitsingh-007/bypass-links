@@ -21,6 +21,7 @@
     "@tanstack/react-virtual": "catalog:",
     "@trpc/client": "catalog:",
     "@trpc/server": "catalog:",
+    "firebase": "catalog:",
     "react": "catalog:",
     "react-avatar-editor": "catalog:",
     "react-dom": "catalog:",

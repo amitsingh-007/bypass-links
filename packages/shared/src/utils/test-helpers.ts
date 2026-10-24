@@ -11,15 +11,9 @@ import {
 } from '@playwright/test';
 
 import { TEST_LARGE_LIST, TEST_TIMEOUTS } from '../constants/e2e-tests';
+import { decodeText } from './codec';
 
 type TestIdScope = Pick<Page, 'getByTestId'>;
-
-export const dumpLocalStorage = async (
-  page: Page
-): Promise<Record<string, string>> =>
-  Object.fromEntries(
-    (await page.localStorage.items()).map(({ name, value }) => [name, value])
-  );
 
 export const injectLocalStorage = async (
   context: BrowserContext,
@@ -177,7 +171,7 @@ export const findByEncodedName = <T extends { name: string }>(
   entries: Record<string, T>,
   name: string
 ): T | undefined =>
-  Object.values(entries).find((entry) => atob(entry.name) === name);
+  Object.values(entries).find((entry) => decodeText(entry.name) === name);
 
 export interface VirtualizedList {
   page: Page;
