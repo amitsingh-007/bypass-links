@@ -15,12 +15,7 @@ import { TEST_AUTH_DATA_KEY } from '@/constants';
 import { TestAuthCredentialsSchema } from '@/interfaces/firebase';
 
 interface State {
-  idpAuth: {
-    uid: string;
-    email: string | null;
-    photoUrl?: string;
-    displayName?: string;
-  } | null;
+  idpAuth: User | null;
   isSignedIn: boolean;
   firebaseSignIn: () => Promise<void>;
   firebaseSignOut: () => Promise<void>;
@@ -86,14 +81,7 @@ const useFirebaseStore = create<State>(() => ({
 const updateUser = (user: User | null) => {
   useFirebaseStore.setState({
     isSignedIn: Boolean(user),
-    idpAuth: user
-      ? {
-          uid: user.uid,
-          email: user.email,
-          photoUrl: user.photoURL ?? undefined,
-          displayName: user.displayName ?? undefined,
-        }
-      : null,
+    idpAuth: user,
   });
 };
 
