@@ -172,7 +172,7 @@ const controlSdkAuth = async (context: BrowserContext) => {
   const responses: Record<string, unknown> = {
     'extension.latest': {
       chrome: {
-        version: '25.19.0',
+        version: '25.20.0',
         downloadLink: 'https://example.test/extension.zip',
         date: '2026-01-01',
       },
