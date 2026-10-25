@@ -1,14 +1,14 @@
 import type { Buffer } from 'node:buffer';
 
 import { getFirebasePublicConfig } from '@bypass/configs/firebase.config';
-import { EStorageKey } from '@bypass/shared';
+import { EStorageKey } from '@bypass/shared/server';
 import { cert, getApp, getApps, initializeApp } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
 import { getDatabase } from 'firebase-admin/database';
 import { getDownloadURL, getStorage } from 'firebase-admin/storage';
 import { z } from 'zod/mini';
 
-import { env } from '../constants/env';
+import { getFirebaseServiceAccount } from '../constants/env';
 import { getFullDbPath, getFilePath, getBucketPath } from '../utils/firebase';
 
 // Storage keys that are also realtime-db paths; the rest are local-only
@@ -35,7 +35,7 @@ const serviceAccountSchema = z.object({
 
 const getServiceAccountCredential = () => {
   const account = serviceAccountSchema.parse(
-    JSON.parse(atob(env.FIREBASE_SERVICE_ACCOUNT))
+    JSON.parse(atob(getFirebaseServiceAccount()))
   );
 
   return cert({
@@ -45,7 +45,7 @@ const getServiceAccountCredential = () => {
   });
 };
 
-const firebaseApp =
+const getFirebaseApp = () =>
   getApps().length > 0
     ? getApp()
     : initializeApp({
@@ -54,10 +54,6 @@ const firebaseApp =
         storageBucket: firebasePublicConfig.storageBucket,
       });
 
-const auth = getAuth(firebaseApp);
-const database = getDatabase(firebaseApp);
-const storage = getStorage(firebaseApp);
-
 /** Firebase yields null for empty refs; fallback keeps callers total. */
 export const getFromFirebase = async <T = any>({
   ref,
@@ -65,53 +61,54 @@ export const getFromFirebase = async <T = any>({
   fallback,
 }: Omit<Firebase, 'data'> & { fallback: T }): Promise<T> => {
   const dbPath = getFullDbPath(ref, uid);
-  const snapshot = await database.ref(dbPath).once('value');
+  const snapshot = await getDatabase(getFirebaseApp())
+    .ref(dbPath)
+    .once('value');
   return snapshot.val() ?? fallback;
 };
 
 export const saveToFirebase = async ({ ref, uid, data }: Firebase) => {
-  await database.ref(getFullDbPath(ref, uid)).set(data);
+  await getDatabase(getFirebaseApp()).ref(getFullDbPath(ref, uid)).set(data);
 };
 
 /** `.update()`: merges the given keys, inserts missing ones, leaves the rest. */
 export const upsertToFirebase = async ({ ref, uid, data }: Firebase) => {
-  await database.ref(getFullDbPath(ref, uid)).update(data);
+  await getDatabase(getFirebaseApp()).ref(getFullDbPath(ref, uid)).update(data);
 };
 
 export const verifyAuthToken = (idToken: string) =>
-  auth.verifyIdToken(idToken, true);
+  getAuth(getFirebaseApp()).verifyIdToken(idToken, true);
 
 export const uploadImageToFirebase = async (
   uid: string,
   {
     buffer,
     fileName,
-    fileType,
   }: {
     fileName: string;
     buffer: Buffer;
-    fileType: string;
   }
 ) => {
-  try {
-    await storage
-      .bucket()
-      .file(getFilePath(uid, fileName))
-      .save(buffer, { contentType: fileType });
-  } catch (error) {
-    console.error(error);
-  }
+  await getStorage(getFirebaseApp())
+    .bucket()
+    .file(getFilePath(uid, fileName))
+    .save(buffer, { contentType: 'image/jpeg' });
 };
 
 export const getFileFromFirebase = (uid: string, fileName: string) =>
-  getDownloadURL(storage.bucket().file(getFilePath(uid, fileName)));
+  getDownloadURL(
+    getStorage(getFirebaseApp()).bucket().file(getFilePath(uid, fileName))
+  );
 
 export const removeFileFromFirebase = async (uid: string, fileName: string) => {
-  await storage.bucket().file(getFilePath(uid, fileName)).delete();
+  await getStorage(getFirebaseApp())
+    .bucket()
+    .file(getFilePath(uid, fileName))
+    .delete();
 };
 
 export const listFilesFromFirebase = async (uid: string) => {
-  const [files] = await storage
+  const [files] = await getStorage(getFirebaseApp())
     .bucket()
     .getFiles({ prefix: getBucketPath(uid) });
 

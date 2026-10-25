@@ -71,8 +71,8 @@ function AddOrEditPersonDialog({ person, onClose, handleSaveClick }: Props) {
   });
 
   const handleImageCropSave = async (fileName: string) => {
-    setIsAvatarImageLoading(true);
     const url = await trpcApi.storage.getDownloadUrl.query(fileName);
+    setIsAvatarImageLoading(true);
     mutateImage(url, { revalidate: false });
   };
 

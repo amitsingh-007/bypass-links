@@ -8,7 +8,11 @@ import type { Page, Route } from '@playwright/test';
 import { EExtensionState, EExtStorageKey } from '@/constants';
 import { isValidUrl } from '@/entrypoints/background/utils';
 
-import { test, expect } from '../fixtures/background-fixture';
+import {
+  test,
+  expect,
+  observeNativeRedirects,
+} from '../fixtures/background-fixture';
 import { getRedirectionStorage } from '../utils/test-utils';
 
 /** Any https origin will do; `scripting.executeScript` just refuses the fake schemes. */
@@ -61,10 +65,195 @@ test('URL validation ignores malformed input and retains navigation exclusions',
 });
 
 test.describe.serial('Background Service Worker Navigation', () => {
+  test('redirects http and https aliases natively and Back returns to the previous page', async ({
+    isolatedBackground,
+  }) => {
+    const alias = 'http://e2e-native/';
+    const target = 'https://native-target.test/';
+    const previous = 'https://native-target.test/previous';
+    await isolatedBackground.context.route(
+      'https://native-target.test/**',
+      emptyPageRoute
+    );
+    await isolatedBackground.context.route(
+      'http://e2e-native/**',
+      emptyPageRoute
+    );
+    await isolatedBackground.context.route(
+      'https://e2e-native/**',
+      emptyPageRoute
+    );
+    await isolatedBackground.writeStorage(
+      getRedirectionStorage([
+        { id: 'native-rule', alias, website: target, isDefault: false },
+      ])
+    );
+    await expect
+      .poll(() => isolatedBackground.readDynamicRules())
+      .toHaveLength(1);
+    const page = await isolatedBackground.openLoadedTab(previous);
+    const native = await observeNativeRedirects(page);
+    try {
+      for (const url of [alias, 'https://e2e-native/']) {
+        await page.goto(url);
+        expect(page.url()).toBe(target);
+        await expect
+          .poll(() => native.redirects)
+          .toContainEqual({ from: url, to: target, status: 307 });
+        await page.goBack();
+        expect(page.url()).toBe(previous);
+      }
+    } finally {
+      await native.close();
+      await page.close();
+    }
+  });
+
+  test('skips invalid targets and fragment aliases while valid Unicode shortcuts stay exact and main-frame only', async ({
+    isolatedBackground,
+  }) => {
+    const alias = 'http://例子.test/资料?Value=李';
+    const canonicalAlias = new URL(alias).href;
+    const target = new URL('https://native-target.test/李?q=📚').href;
+    const fragmentAlias = 'http://fragment-alias.test/#section';
+    await isolatedBackground.context.route(
+      'https://native-target.test/**',
+      emptyPageRoute
+    );
+    await isolatedBackground.context.route('**/*', async (route) => {
+      if (route.request().url().includes('native-target.test'))
+        await route.fallback();
+      else await emptyPageRoute(route);
+    });
+    await isolatedBackground.writeStorage(
+      getRedirectionStorage([
+        {
+          id: 'invalid',
+          alias: 'http://invalid-target.test/',
+          website: 'not a URL',
+          isDefault: false,
+        },
+        {
+          id: 'invalid-protocol',
+          alias: 'http://invalid-protocol.test/',
+          website: 'javascript:alert(1)',
+          isDefault: false,
+        },
+        {
+          id: 'fragment',
+          alias: fragmentAlias,
+          website: target,
+          isDefault: false,
+        },
+        {
+          id: 'empty-fragment',
+          alias: 'http://empty-fragment-alias.test/#',
+          website: target,
+          isDefault: false,
+        },
+        { id: 'valid', alias, website: target, isDefault: false },
+      ])
+    );
+    await expect
+      .poll(() => isolatedBackground.readDynamicRules())
+      .toHaveLength(1);
+    const page = await isolatedBackground.openLoadedTab(canonicalAlias);
+    expect(page.url()).toBe(target);
+    await page.goto(canonicalAlias.replace('Value=', 'value='));
+    expect(page.url()).not.toBe(target);
+    await page.goto(fragmentAlias);
+    expect(page.url()).toBe(fragmentAlias);
+    await page.close();
+
+    await isolatedBackground.clearHistoryStartTime();
+    const frameAlias = canonicalAlias.replace('http:', 'https:');
+    const parent = await isolatedBackground.openFixturePage(
+      'https://frame-parent.test/',
+      `<iframe src="${frameAlias}"></iframe>`
+    );
+    await expect
+      .poll(() => parent.frames().map((frame) => frame.url()))
+      .toContain(frameAlias);
+    expect(
+      await isolatedBackground.readStorage(EExtStorageKey.HISTORY_START_TIME)
+    ).toBeUndefined();
+    await parent.close();
+  });
+
+  test('caps supported native regex rules and ignores an unsupported oversized alias', async ({
+    isolatedBackground,
+  }) => {
+    const warnings: string[] = [];
+    isolatedBackground.context.on('console', (message) => {
+      if (message.type() === 'warning') warnings.push(message.text());
+    });
+    const rules = Array.from({ length: 1001 }, (_, index) => ({
+      id: `cap-${index}`,
+      alias: `http://cap-${index}.test/`,
+      website: 'https://native-target.test/',
+      isDefault: false,
+    }));
+    rules.unshift({
+      id: 'oversized',
+      alias: `http://oversized.test/${'a'.repeat(4000)}`,
+      website: 'https://native-target.test/',
+      isDefault: false,
+    });
+    await isolatedBackground.writeStorage(getRedirectionStorage(rules));
+    await expect
+      .poll(() => isolatedBackground.readDynamicRules())
+      .toHaveLength(1000);
+    const installed = await isolatedBackground.readDynamicRules();
+    expect(new Set(installed.map(({ id }) => id)).size).toBe(1000);
+    expect(
+      installed.some(({ condition }) =>
+        condition.regexFilter?.includes('oversized')
+      )
+    ).toBe(false);
+    expect(warnings).toContain(
+      'Shortcut rule limit reached; only the first 1000 supported shortcuts are active'
+    );
+  });
+
+  test('native redirects survive while the background worker is stopped', async ({
+    isolatedBackground,
+  }) => {
+    const alias = 'http://sleeping-shortcut.test/';
+    const target = 'https://native-target.test/';
+    await isolatedBackground.context.route(target, emptyPageRoute);
+    await isolatedBackground.writeStorage(
+      getRedirectionStorage([
+        { id: 'sleeping', alias, website: target, isDefault: false },
+      ])
+    );
+    await expect
+      .poll(() => isolatedBackground.readDynamicRules())
+      .toHaveLength(1);
+    const page = await isolatedBackground.context.newPage();
+    const native = await observeNativeRedirects(page);
+    const session = await isolatedBackground.context.newCDPSession(page);
+    try {
+      await session.send('ServiceWorker.enable');
+      await session.send('ServiceWorker.stopAllWorkers');
+      await page.goto(alias);
+      expect(page.url()).toBe(target);
+      await expect
+        .poll(() => native.redirects)
+        .toContainEqual({ from: alias, to: target, status: 307 });
+    } finally {
+      await session.detach();
+      await native.close();
+      await page.close();
+    }
+  });
+
   test('navigating to BROWSERTEST while active redirects to html5test.com', async ({
     sharedBackground,
   }) => {
     await sharedBackground.ensureActiveState();
+    await expect
+      .poll(() => sharedBackground.readDynamicRules())
+      .not.toEqual([]);
     await sharedBackground.clearHistoryStartTime();
 
     const page = await sharedBackground.openTab(TEST_SHORTCUTS.BROWSERTEST);
@@ -79,6 +268,9 @@ test.describe.serial('Background Service Worker Navigation', () => {
     sharedBackground,
   }) => {
     await sharedBackground.ensureActiveState();
+    await expect
+      .poll(() => sharedBackground.readDynamicRules())
+      .not.toEqual([]);
     await sharedBackground.clearHistoryStartTime();
 
     const page = await sharedBackground.openTab(TEST_SHORTCUTS.BROWSERTEST);
@@ -99,6 +291,9 @@ test.describe.serial('Background Service Worker Navigation', () => {
     sharedBackground,
   }) => {
     await sharedBackground.ensureActiveState();
+    await expect
+      .poll(() => sharedBackground.readDynamicRules())
+      .not.toEqual([]);
 
     const page = await sharedBackground.openTab(TEST_SHORTCUTS.BROWSERTEST);
     try {
@@ -118,6 +313,9 @@ test.describe.serial('Background Service Worker Navigation', () => {
     sharedBackground,
   }) => {
     await sharedBackground.ensureActiveState();
+    await expect
+      .poll(() => sharedBackground.readDynamicRules())
+      .not.toEqual([]);
 
     const page = await sharedBackground.openTab('https://bt/');
     try {
@@ -131,6 +329,9 @@ test.describe.serial('Background Service Worker Navigation', () => {
     sharedBackground,
   }) => {
     await sharedBackground.ensureActiveState();
+    await expect
+      .poll(() => sharedBackground.readDynamicRules())
+      .not.toEqual([]);
 
     const page = await sharedBackground.openTab(TEST_SHORTCUTS.TODOMVC);
     try {
@@ -146,6 +347,9 @@ test.describe.serial('Background Service Worker Navigation', () => {
     sharedBackground,
   }) => {
     await sharedBackground.ensureActiveState();
+    await expect
+      .poll(() => sharedBackground.readDynamicRules())
+      .not.toEqual([]);
 
     const page = await sharedBackground.openTab(TEST_SHORTCUTS.TODOMVC);
     try {
@@ -166,6 +370,9 @@ test.describe.serial('Background Service Worker Navigation', () => {
   }) => {
     const existingHistoryStartTime = 1_700_000_000_000;
     await sharedBackground.ensureActiveState();
+    await expect
+      .poll(() => sharedBackground.readDynamicRules())
+      .not.toEqual([]);
     await sharedBackground.setHistoryStartTime(existingHistoryStartTime);
 
     const page = await sharedBackground.openTab(TEST_SHORTCUTS.BROWSERTEST);
@@ -184,6 +391,9 @@ test.describe.serial('Background Service Worker Navigation', () => {
     sharedBackground,
   }) => {
     await sharedBackground.ensureActiveState();
+    await expect
+      .poll(() => sharedBackground.readDynamicRules())
+      .not.toEqual([]);
     await sharedBackground.clearHistoryStartTime();
 
     const page = await sharedBackground.openLoadedTab(TEST_SITES.EXAMPLE_COM);
@@ -203,6 +413,7 @@ test.describe.serial('Background Service Worker Navigation', () => {
     sharedBackground,
   }) => {
     await sharedBackground.ensureInactiveState();
+    await expect.poll(() => sharedBackground.readDynamicRules()).toEqual([]);
     await sharedBackground.clearHistoryStartTime();
 
     const page = await sharedBackground.openTab(TEST_SHORTCUTS.BROWSERTEST);
@@ -224,6 +435,9 @@ test.describe.serial('Background Service Worker Navigation', () => {
     sharedBackground,
   }) => {
     await sharedBackground.ensureActiveState();
+    await expect
+      .poll(() => sharedBackground.readDynamicRules())
+      .not.toEqual([]);
     await sharedBackground.clearHistoryStartTime();
 
     const extensionUrl = `chrome-extension://${sharedBackground.extensionId}/popup.html`;
@@ -244,6 +458,9 @@ test.describe.serial('Background Service Worker Navigation', () => {
     sharedBackground,
   }) => {
     await sharedBackground.ensureActiveState();
+    await expect
+      .poll(() => sharedBackground.readDynamicRules())
+      .not.toEqual([]);
     await sharedBackground.clearHistoryStartTime();
 
     const page = await sharedBackground.openLoadedTab(TEST_SITES.EXAMPLE_COM);
@@ -268,6 +485,9 @@ test.describe.serial('Background Service Worker Navigation', () => {
     sharedBackground,
   }) => {
     await sharedBackground.ensureActiveState();
+    await expect
+      .poll(() => sharedBackground.readDynamicRules())
+      .not.toEqual([]);
     await sharedBackground.clearHistoryStartTime();
 
     // Not Chrome's own store: headless Chrome quits when a tab it served for that origin closes
@@ -305,6 +525,9 @@ test.describe.serial('Background Service Worker Navigation', () => {
     sharedBackground,
   }) => {
     await sharedBackground.ensureActiveState();
+    await expect
+      .poll(() => sharedBackground.readDynamicRules())
+      .not.toEqual([]);
 
     for (let attempt = 0; attempt < 3; attempt++) {
       await test.step(`attempt ${attempt + 1}`, async () => {
@@ -324,6 +547,9 @@ test.describe.serial('Background Service Worker Navigation', () => {
     sharedBackground,
   }) => {
     await sharedBackground.ensureActiveState();
+    await expect
+      .poll(() => sharedBackground.readDynamicRules())
+      .not.toEqual([]);
 
     const page = await sharedBackground.openFixturePage(
       `${FIXTURE_ORIGIN}/dynamic-inputs`,
@@ -364,6 +590,9 @@ test.describe.serial('Background Service Worker Navigation', () => {
     sharedBackground,
   }) => {
     await sharedBackground.ensureActiveState();
+    await expect
+      .poll(() => sharedBackground.readDynamicRules())
+      .not.toEqual([]);
 
     const page = await sharedBackground.openFixturePage(
       `${FIXTURE_ORIGIN}/spa`,
@@ -389,6 +618,9 @@ test.describe.serial('Background Service Worker Navigation', () => {
     sharedBackground,
   }) => {
     await sharedBackground.ensureActiveState();
+    await expect
+      .poll(() => sharedBackground.readDynamicRules())
+      .not.toEqual([]);
 
     const framePath = `${FIXTURE_ORIGIN}/iframe-child`;
     const page = await sharedBackground.openFixturePage(
@@ -410,6 +642,9 @@ test.describe.serial('Background Service Worker Navigation', () => {
     sharedBackground,
   }) => {
     await sharedBackground.ensureActiveState();
+    await expect
+      .poll(() => sharedBackground.readDynamicRules())
+      .not.toEqual([]);
 
     const url = `${FIXTURE_ORIGIN}/aborted-reload`;
     const page = await sharedBackground.openFixturePage(
@@ -433,7 +668,7 @@ test.describe.serial('Background Service Worker Navigation', () => {
     }
   });
 
-  /** One `tabs.update` per handled navigation, so a doubly-registered listener shows as a second navigation. */
+  /** Each alias navigation must commit the target only once. */
   test('redirects once per alias navigation, not twice', async ({
     isolatedBackground,
   }) => {
@@ -449,6 +684,9 @@ test.describe.serial('Background Service Worker Navigation', () => {
       ])
     );
     await isolatedBackground.ensureActiveState();
+    await expect
+      .poll(() => isolatedBackground.readDynamicRules())
+      .toHaveLength(1);
 
     const page = await isolatedBackground.context.newPage();
     const redirects: string[] = [];
@@ -484,10 +722,13 @@ test.describe.serial('Background Service Worker Navigation', () => {
     sharedBackground,
   }) => {
     await sharedBackground.ensureActiveState();
+    await expect
+      .poll(() => sharedBackground.readDynamicRules())
+      .not.toEqual([]);
 
     const closing = await sharedBackground.context.newPage();
-    const navigationStarted = closing.waitForRequest(
-      TEST_SHORTCUTS.BROWSERTEST
+    const navigationStarted = closing.waitForRequest((request) =>
+      request.url().startsWith('https://html5test.com')
     );
     // Deliberately not awaited: the tab has to go while the redirect is in flight
     void closing
@@ -520,6 +761,9 @@ test.describe.serial('Background Service Worker Navigation', () => {
       ])
     );
     await isolatedBackground.ensureActiveState();
+    await expect
+      .poll(() => isolatedBackground.readDynamicRules())
+      .toHaveLength(1);
     const popup = await isolatedBackground.openPopup();
     const extensionSwitch = popup.getByTestId('toggle-extension-switch');
 
@@ -534,6 +778,7 @@ test.describe.serial('Background Service Worker Navigation', () => {
         isolatedBackground.readStorage(EExtStorageKey.EXT_STATE)
       )
       .toBe(EExtensionState.INACTIVE);
+    await expect.poll(() => isolatedBackground.readDynamicRules()).toEqual([]);
     const whileInactive = await isolatedBackground.openTab(alias);
     // Settled before resuming, or a late redirect of this tab would read as ACTIVE
     await whileInactive.waitForLoadState('load').catch(() => undefined);
@@ -545,6 +790,9 @@ test.describe.serial('Background Service Worker Navigation', () => {
         isolatedBackground.readStorage(EExtStorageKey.EXT_STATE)
       )
       .toBe(EExtensionState.ACTIVE);
+    await expect
+      .poll(() => isolatedBackground.readDynamicRules())
+      .toHaveLength(1);
     const whileResumed = await isolatedBackground.openTab(alias);
     await expect
       .poll(() => whileResumed.url())

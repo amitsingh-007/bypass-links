@@ -1,5 +1,7 @@
 import { ECacheBucketKeys } from '../../../constants/cache';
 import { addAllToCache } from '../../../utils/cache';
+import { encodeText, decodeText } from '../../../utils/codec';
+import { getPersonImageName } from '../../../utils/personImage';
 import { matchesSearch } from '../../../utils/search';
 import { type IEncodedBookmark } from '../../Bookmarks/interfaces';
 import {
@@ -9,20 +11,20 @@ import {
 } from '../interfaces/persons';
 
 /** Field by field, so view-model extras cannot reach storage or Firebase. */
-const getDecryptedPerson = ({ uid, name }: IPerson): IPerson => ({
-  uid,
-  name: atob(name),
+const decodePerson = (person: IPerson): IPerson => ({
+  uid: person.uid,
+  name: decodeText(person.name),
 });
 
-export const getEncryptedPerson = ({ uid, name }: IPerson): IPerson => ({
+export const encodePerson = ({ uid, name }: IPerson): IPerson => ({
   uid,
-  name: btoa(name),
+  name: encodeText(name),
 });
 
 export const decodePersons = (persons: IPersons): IPerson[] =>
   Object.values(persons)
     .filter(Boolean)
-    .map((person) => getDecryptedPerson(person));
+    .map((person) => decodePerson(person));
 
 /**
  * Highest priority first; anything absent from the map sorts last. Shared so
@@ -58,8 +60,6 @@ export const getFilteredPersons = (persons: IPerson[], searchText: string) =>
   persons.filter(({ name }) => matchesSearch(searchText, name));
 
 export const getColumnCount = (isMobile: boolean) => (isMobile ? 3 : 5);
-
-export const getPersonImageName = (uid: string) => `${uid}.jpeg`;
 
 export const buildPersonImageUrls = async (
   uids: string[],

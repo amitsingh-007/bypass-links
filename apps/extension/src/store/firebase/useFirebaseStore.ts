@@ -1,97 +1,95 @@
+import { getFirebasePublicConfig } from '@bypass/configs/firebase.config';
+import { initializeApp } from 'firebase/app';
+import {
+  getAuth,
+  GoogleAuthProvider,
+  onIdTokenChanged,
+  signInWithCredential,
+  signInWithEmailAndPassword,
+  signOut,
+  type User,
+} from 'firebase/auth/web-extension';
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
 
 import { TEST_AUTH_DATA_KEY } from '@/constants';
-import { AuthResponseSchema, type IAuthResponse } from '@/interfaces/firebase';
-import { refreshIdToken, signInWithCredential } from '@/store/firebase/api';
-import { getExpiresAtMs } from '@/store/firebase/utils';
+import { TestAuthCredentialsSchema } from '@/interfaces/firebase';
 
 interface State {
-  idpAuth: IAuthResponse | null;
+  idpAuth: User | null;
   isSignedIn: boolean;
-
   firebaseSignIn: () => Promise<void>;
   firebaseSignOut: () => Promise<void>;
   getIdToken: () => Promise<string | null>;
 }
 
-const FIVE_MINS_MS = 5 * 60 * 1000;
-
-const useFirebaseStore = create<State>()(
-  persist(
-    (set, get) => {
-      const setIdpAuth = (idpAuth: IAuthResponse | null) =>
-        set({ idpAuth, isSignedIn: Boolean(idpAuth) });
-
-      return {
-        idpAuth: null,
-        isSignedIn: false,
-
-        async firebaseSignIn() {
-          const testAuthData = localStorage.getItem(TEST_AUTH_DATA_KEY);
-          if (testAuthData) {
-            const idpAuth = AuthResponseSchema.parse(JSON.parse(testAuthData));
-            localStorage.removeItem(TEST_AUTH_DATA_KEY);
-            setIdpAuth(idpAuth);
-            return;
-          }
-
-          const { token: accessToken } = await browser.identity.getAuthToken({
-            interactive: true,
-          });
-
-          if (!accessToken) {
-            return;
-          }
-          const idpAuthRes = await signInWithCredential(accessToken);
-          if (!idpAuthRes) {
-            console.error(
-              'Firebase sign-in failed: signInWithCredential returned no response'
-            );
-            return;
-          }
-          setIdpAuth(idpAuthRes);
-        },
-
-        async firebaseSignOut() {
-          setIdpAuth(null);
-          await browser.identity.clearAllCachedAuthTokens();
-        },
-
-        async getIdToken() {
-          const { idpAuth } = get();
-          if (!idpAuth) {
-            return null;
-          }
-
-          const expiresAt = idpAuth.expiresAtMs;
-          const curTimeMs = Date.now();
-          if (expiresAt - curTimeMs > FIVE_MINS_MS) {
-            return idpAuth.idToken;
-          }
-          const refreshedTokenData = await refreshIdToken(idpAuth.refreshToken);
-          if (!refreshedTokenData) {
-            console.error(
-              'Firebase token refresh failed: refreshIdToken returned no response'
-            );
-            return null;
-          }
-          const { expiresIn, ...refreshed } = refreshedTokenData;
-          const newIdpAuth: IAuthResponse = {
-            ...idpAuth,
-            ...refreshed,
-            expiresAtMs: getExpiresAtMs(expiresIn),
-          };
-          setIdpAuth(newIdpAuth);
-          return newIdpAuth.idToken;
-        },
-      };
-    },
-    {
-      name: '__fbOAuth',
-      partialize: ({ idpAuth, isSignedIn }) => ({ idpAuth, isSignedIn }),
-    }
-  )
+const auth = getAuth(
+  initializeApp(getFirebasePublicConfig(import.meta.env.PROD))
 );
+
+// The SDK can refresh concurrent reads separately; share the pending read per user.
+let tokenRequest: { user: User; promise: Promise<string> } | undefined;
+
+const useFirebaseStore = create<State>(() => ({
+  idpAuth: null,
+  isSignedIn: false,
+
+  async firebaseSignIn() {
+    const testAuthData = localStorage.getItem(TEST_AUTH_DATA_KEY);
+    if (testAuthData) {
+      const { email, password } = TestAuthCredentialsSchema.parse(
+        JSON.parse(testAuthData)
+      );
+      localStorage.removeItem(TEST_AUTH_DATA_KEY);
+      await signInWithEmailAndPassword(auth, email, password);
+      return;
+    }
+    const { token } = await browser.identity.getAuthToken({
+      interactive: true,
+    });
+    if (!token) {
+      throw new Error('Google did not return an access token');
+    }
+    await signInWithCredential(
+      auth,
+      GoogleAuthProvider.credential(null, token)
+    );
+  },
+
+  async firebaseSignOut() {
+    tokenRequest = undefined;
+    await signOut(auth);
+    await browser.identity.clearAllCachedAuthTokens();
+  },
+
+  async getIdToken() {
+    const user = auth.currentUser;
+    if (!user) {
+      return null;
+    }
+    if (tokenRequest?.user !== user) {
+      const promise = user.getIdToken().finally(() => {
+        if (tokenRequest?.promise === promise) {
+          tokenRequest = undefined;
+        }
+      });
+      tokenRequest = { user, promise };
+    }
+    return tokenRequest.promise;
+  },
+}));
+
+const updateUser = (user: User | null) => {
+  useFirebaseStore.setState({
+    isSignedIn: Boolean(user),
+    idpAuth: user,
+  });
+};
+
+onIdTokenChanged(auth, updateUser);
+
+export const firebaseAuthReady = (async () => {
+  await auth.authStateReady();
+  updateUser(auth.currentUser);
+})();
 
 export default useFirebaseStore;

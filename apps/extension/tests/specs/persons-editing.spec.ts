@@ -49,18 +49,23 @@ const controlPersonImages = async (context: BrowserContext) => {
   };
 
   let heldUpload: Promise<void> | undefined;
+  let downloadUrl = STORED_IMAGE_URL;
 
   await context.route('**/api/upload-file', async (route) => {
     uploads.push(route.request().url());
     await heldUpload;
     if (failing.upload) {
-      await route.abort();
+      await route.fulfill({
+        status: 500,
+        contentType: 'text/plain',
+        body: 'Could not upload image',
+      });
       return;
     }
     await route.fulfill({ status: 200, contentType: 'text/plain', body: 'ok' });
   });
   // Fetched by the cache warm-up that follows every saved image
-  await context.route(STORED_IMAGE_URL, async (route) => {
+  await context.route(`${STORED_IMAGE_URL}*`, async (route) => {
     await route.fulfill({ contentType: 'image/png', body: IMAGE_BYTES });
   });
   await context.route(BROKEN_IMAGE_URL, async (route) => {
@@ -71,7 +76,7 @@ const controlPersonImages = async (context: BrowserContext) => {
       await failProcedure(call);
       return;
     }
-    await succeedProcedure(call, STORED_IMAGE_URL);
+    await succeedProcedure(call, downloadUrl);
   });
   await routeTrpcProcedure(context, 'storage.removeFile', async (call) => {
     removals.push(call.input);
@@ -85,6 +90,9 @@ const controlPersonImages = async (context: BrowserContext) => {
   return {
     uploads: () => uploads,
     removals: () => removals,
+    setDownloadUrl: (url: string) => {
+      downloadUrl = url;
+    },
     setFailing: (key: FailureKey, isFailing: boolean) => {
       failing[key] = isFailing;
     },
@@ -330,6 +338,8 @@ test.describe('Persons editing and ordering', () => {
       const imageRoutes = await controlPersonImages(context);
       imageRoutes.setFailing('upload', true);
       const { page, panel } = await openPersonsPanel(context, extensionId);
+      const pageErrors: Error[] = [];
+      page.on('pageerror', (error) => pageErrors.push(error));
       const uid = (await getPersonUids(page))[TEST_PERSONS.DONALD];
       const imageUrlBefore = await getStoredImageUrl(page, uid);
       expect(
@@ -341,6 +351,7 @@ test.describe('Persons editing and ordering', () => {
       );
       const releaseUpload = imageRoutes.holdUploads();
 
+      const failedResponse = page.waitForResponse('**/api/upload-file');
       await panel.getPickerUrlInput().fill(IMAGE_DATA_URL);
       await panel.getPickerSaveButton().click();
 
@@ -349,24 +360,75 @@ test.describe('Persons editing and ordering', () => {
         releaseUpload();
       });
 
-      await test.step('the picker stays open and the image is unchanged', async () => {
+      await test.step('the failure is reported and the image is unchanged', async () => {
+        expect((await failedResponse).status()).toBe(500);
+        await expect(
+          page.getByText('Could not save image', { exact: true })
+        ).toBeVisible();
         await expect(page.getByTestId('uploading-overlay')).toBeHidden();
         await expect(imagePicker).toBeVisible();
         expect(imageRoutes.uploads()).toHaveLength(1);
         expect(await getStoredImageUrl(page, uid)).toBe(imageUrlBefore);
       });
 
-      await test.step('retrying uploads the image and saves it with the person', async () => {
-        imageRoutes.setFailing('upload', false);
-        await panel.getPickerSaveButton().click();
-        await expect(imagePicker).toBeHidden();
-
-        // The picker only updates the open dialog; the mapping is written on save
+      const editedName = uniqueName('failed-upload');
+      await test.step('the person can still be saved without the upload', async () => {
+        await closeDialog(page, imagePicker);
+        await dialog.getByPlaceholder('Enter name').fill(editedName);
         await dialog.getByRole('button', { name: 'Save' }).click();
         await expect(dialog).toBeHidden();
+        await panel.verifyPersonExists(editedName);
+      });
+
+      const { dialog: retryDialog, imagePicker: retryPicker } =
+        await panel.openImagePicker(editedName);
+      await test.step('direct retry remains available after upload and URL lookup failures', async () => {
+        const imageUrlAfterRename = await getStoredImageUrl(page, uid);
+        const failedRetry = page.waitForResponse('**/api/upload-file');
+        await panel.getPickerUrlInput().fill(IMAGE_DATA_URL);
+        await panel.getPickerSaveButton().click();
+        expect((await failedRetry).status()).toBe(500);
+        await expect(page.getByTestId('uploading-overlay')).toBeHidden();
+        await expect(retryPicker).toBeVisible();
+
+        imageRoutes.setFailing('upload', false);
+        imageRoutes.setFailing('downloadUrl', true);
+        const failedLookup = page.waitForEvent('requestfailed', (request) =>
+          request.url().includes('storage.getDownloadUrl')
+        );
+        await panel.getPickerSaveButton().click();
+        await failedLookup;
+        await expect(page.getByTestId('uploading-overlay')).toBeHidden();
+        await expect(retryPicker).toBeVisible();
+        await expect(
+          page
+            .getByRole('dialog', { name: 'Edit Person', includeHidden: true })
+            .locator('img[data-slot="avatar-image"]')
+        ).toHaveCSS('opacity', '1');
+        expect(await getStoredImageUrl(page, uid)).toBe(imageUrlAfterRename);
+      });
+
+      await test.step('direct retry attaches the image and saves the person', async () => {
+        const retryImageUrl = `${STORED_IMAGE_URL}?retry=1`;
+        expect(await getStoredImageUrl(page, uid)).not.toBe(retryImageUrl);
+        imageRoutes.setFailing('downloadUrl', false);
+        imageRoutes.setDownloadUrl(retryImageUrl);
+        await panel.getPickerSaveButton().click();
+        await expect(retryPicker).toBeHidden();
+        const previewImage = retryDialog.locator(
+          'img[data-slot="avatar-image"]'
+        );
+        await expect(previewImage).toBeVisible();
+        await expect(previewImage).toHaveAttribute('src', retryImageUrl);
+        await retryDialog
+          .getByRole('button', { name: 'Save', exact: true })
+          .click();
+        await expect(retryDialog).toBeHidden();
+        expect(imageRoutes.uploads()).toHaveLength(4);
         await expect
           .poll(async () => getStoredImageUrl(page, uid))
-          .toBe(STORED_IMAGE_URL);
+          .toBe(retryImageUrl);
+        expect(pageErrors).toEqual([]);
       });
     });
   });

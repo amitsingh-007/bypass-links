@@ -10,12 +10,11 @@ import {
 import { RuntimeInputSchema } from '@/utils/sendRuntimeMessage';
 
 import turnOffInputSuggestions from './misc/turnOffInputSuggestions';
+import { getExtState, setExtState } from './navigationCache';
 import {
-  getExtState,
-  setExtState,
-  setMappedRedirections,
-} from './navigationCache';
-import { redirect } from './redirections/redirect';
+  rebuildRedirectRules,
+  startShortcutHistoryWatch,
+} from './redirections/redirect';
 import { isValidUrl, setExtensionIcon } from './utils';
 import { receiveRuntimeMessage } from './utils/receiveRuntimeMessage';
 
@@ -36,10 +35,7 @@ const onPageLoad = async (tabId: number, url: string) => {
       return;
     }
 
-    await Promise.all([
-      redirect(tabId, new URL(url)),
-      turnOffInputSuggestions(tabId),
-    ]);
+    await turnOffInputSuggestions(tabId);
   } catch (error) {
     // The tab can close or navigate on mid-flight, so these reject routinely
     console.debug('Skipped page load handling for', url, error);
@@ -67,16 +63,28 @@ export default defineBackground({
     extStateItem.watch((value) => {
       setExtState(value);
       void updateIcon();
+      void rebuildRedirectRules();
     });
-    mappedRedirectionsItem.watch(setMappedRedirections);
+    mappedRedirectionsItem.watch(rebuildRedirectRules);
     hasPendingBookmarksItem.watch(updateIcon);
     hasPendingPersonsItem.watch(updateIcon);
 
     browser.runtime.onInstalled.addListener(() => {
-      extStateItem.setValue(EExtensionState.ACTIVE);
+      void extStateItem
+        .setValue(EExtensionState.ACTIVE)
+        .then(rebuildRedirectRules)
+        .catch(console.error);
     });
 
     browser.runtime.onStartup.addListener(updateIcon);
+
+    browser.webNavigation.onBeforeNavigate.addListener(({ frameId, url }) => {
+      if (isMainFrame(frameId)) {
+        void startShortcutHistoryWatch(url).catch((error) =>
+          console.error('Could not start shortcut history watch', error)
+        );
+      }
+    });
 
     browser.tabs.onUpdated.addListener(async (tabId, changeInfo) =>
       onPageLoad(tabId, changeInfo?.url ?? '')
