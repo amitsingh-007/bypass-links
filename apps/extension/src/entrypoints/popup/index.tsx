@@ -4,13 +4,11 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { SWRConfig } from 'swr';
 
-import { firebaseAuthReady } from '@/store/firebase/useFirebaseStore';
 import { extSwrConfig } from '@/swr/config';
 
 import './fonts.css';
 import './layout.css';
 import Global from './components/Global';
-import LoadingOverlay from './components/LoadingOverlay';
 import PopupRoutes from './components/PopupRoutes';
 import DynamicProvider from './provider/DynamicProvider';
 
@@ -36,20 +34,5 @@ if (browser.extension.getViews({ type: 'popup' }).includes(window)) {
 const container = document.getElementById('root');
 if (container) {
   const root = createRoot(container);
-  root.render(
-    <div className="relative h-32 w-77.5">
-      <LoadingOverlay />
-    </div>
-  );
-  void firebaseAuthReady.then(
-    () => root.render(<App />),
-    (error: unknown) => {
-      console.error('Could not restore Firebase session', error);
-      root.render(
-        <p role="alert">
-          Could not restore your session. Reopen the popup to retry.
-        </p>
-      );
-    }
-  );
+  root.render(<App />);
 }

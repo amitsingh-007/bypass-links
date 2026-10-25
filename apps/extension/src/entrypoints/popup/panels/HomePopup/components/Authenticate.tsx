@@ -12,6 +12,7 @@ import { signIn, signOut } from '../utils/authentication';
 
 function Authenticate() {
   const isSignedIn = useFirebaseStore((state) => state.isSignedIn);
+  const isAuthReady = useFirebaseStore((state) => state.isAuthReady);
   const isExtensionActive = useExtensionState() === EExtensionState.ACTIVE;
   const isLoading = useProgressStore((state) => state.isLoading);
   const startLoading = useProgressStore((state) => state.startLoading);
@@ -36,7 +37,9 @@ function Authenticate() {
     <Button
       className="w-full"
       variant={isSignedIn ? 'destructive' : 'outline'}
-      disabled={(!isSignedIn && !isExtensionActive) || isLoading}
+      disabled={
+        (!isSignedIn && (!isExtensionActive || !isAuthReady)) || isLoading
+      }
       data-testid={isSignedIn ? 'logout-button' : 'login-button'}
       onClick={isSignedIn ? handleSignOut : handleSignIn}
     >
