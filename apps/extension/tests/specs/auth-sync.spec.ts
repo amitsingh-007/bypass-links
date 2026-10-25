@@ -7,7 +7,11 @@ import {
 } from '@bypass/shared/tests';
 import { expect, test, type Page } from '@playwright/test';
 
-import { EExtStorageKey, TEST_AUTH_DATA_KEY } from '@/constants';
+import {
+  EExtensionState,
+  EExtStorageKey,
+  TEST_AUTH_DATA_KEY,
+} from '@/constants';
 
 import { writeStorageFromWorker } from '../fixtures/background-fixture';
 import {
@@ -186,6 +190,95 @@ test.describe('Pending changes on logout', () => {
             await getStorageItem(page, EExtStorageKey.HAS_PENDING_PERSONS)
           ).toBeUndefined();
         });
+      },
+      { keepPendingFlags: true }
+    );
+  });
+
+  test('switch-off waits for saving and preserves the session and edits until a retry succeeds', async () => {
+    await withSignedInProfile(
+      async ({ context, extensionId, backgroundSW }) => {
+        let releaseSave: (() => void) | undefined;
+        const pendingSave = new Promise<void>((resolve) => {
+          releaseSave = resolve;
+        });
+        let isFailing = true;
+        const saves = await routeTrpcProcedure(
+          context,
+          ACCOUNT_SAVE,
+          async (call) => {
+            await pendingSave;
+            if (isFailing) {
+              await failProcedure(call);
+              return;
+            }
+            await succeedProcedure(call, null);
+          }
+        );
+        await writeStorageFromWorker(backgroundSW, {
+          [EExtStorageKey.HAS_PENDING_BOOKMARKS]: true,
+          [EExtStorageKey.HAS_PENDING_PERSONS]: true,
+        });
+        const page = await openExtensionPanelPage(context, extensionId);
+        const bookmarks = await getStorageItem(page, EStorageKey.bookmarks);
+        const persons = await getStorageItem(page, EStorageKey.persons);
+        const cachedEntries = await getCachedEntryCount(page);
+        const tabsBefore = context.pages().length;
+        const extensionSwitch = page.getByTestId('toggle-extension-switch');
+
+        try {
+          await extensionSwitch.click();
+          await expect.poll(saves).toEqual([{ bookmarks, persons }]);
+          await expect(extensionSwitch).toBeChecked();
+          await expect(extensionSwitch).toBeDisabled();
+          await expect(page.getByTestId('logout-button')).toBeDisabled();
+          await expect(page.getByTestId('loading-overlay')).toBeVisible();
+        } finally {
+          releaseSave?.();
+        }
+
+        await expect(page.getByText('Error while logging out')).toBeVisible();
+        await expect(extensionSwitch).toBeEnabled();
+        await expect(extensionSwitch).toBeChecked();
+        await expect(page.getByTestId('logout-button')).toBeEnabled();
+        expect(await getStorageItem(page, EExtStorageKey.EXT_STATE)).toBe(
+          EExtensionState.ACTIVE
+        );
+        expect(await getStorageItem(page, EStorageKey.bookmarks)).toEqual(
+          bookmarks
+        );
+        expect(await getStorageItem(page, EStorageKey.persons)).toEqual(
+          persons
+        );
+        for (const key of [
+          EExtStorageKey.HAS_PENDING_BOOKMARKS,
+          EExtStorageKey.HAS_PENDING_PERSONS,
+        ]) {
+          expect(await getStorageItem(page, key)).toBe(true);
+        }
+        expect(await getCachedEntryCount(page)).toBe(cachedEntries);
+        expect(context.pages()).toHaveLength(tabsBefore);
+
+        isFailing = false;
+        await extensionSwitch.click();
+        await expect(extensionSwitch).not.toBeChecked();
+        await expect(page.getByTestId('login-button')).toBeDisabled();
+        expect(saves()).toEqual([
+          { bookmarks, persons },
+          { bookmarks, persons },
+        ]);
+        expect(await getStorageItem(page, EExtStorageKey.EXT_STATE)).toBe(
+          EExtensionState.INACTIVE
+        );
+        for (const key of [
+          ...SYNCED_KEYS,
+          EExtStorageKey.HAS_PENDING_BOOKMARKS,
+          EExtStorageKey.HAS_PENDING_PERSONS,
+        ]) {
+          expect(await getStorageItem(page, key), key).toBeUndefined();
+        }
+        await expect.poll(() => getCachedEntryCount(page)).toBe(0);
+        await expect(page.getByTestId('loading-overlay')).toHaveCount(0);
       },
       { keepPendingFlags: true }
     );

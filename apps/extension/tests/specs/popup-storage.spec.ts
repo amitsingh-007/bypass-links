@@ -20,6 +20,7 @@ const HISTORY_KEY = EExtStorageKey.HISTORY_START_TIME;
 test.describe('Popup storage subscriptions', () => {
   test('updates both popup pages from writes and removal fallbacks', async () => {
     await withTempProfileContext({}, async (context) => {
+      const tabsBefore = context.pages().length;
       const backgroundSW = await createSharedBackgroundSW(context);
       const popupUrl = getPopupUrl(await getExtensionId(backgroundSW));
       await removeStorageFromWorker(backgroundSW, HISTORY_KEY);
@@ -59,6 +60,7 @@ test.describe('Popup storage subscriptions', () => {
         await expect(page.getByTestId('login-button')).toBeEnabled();
         await expect(page.getByTestId('toggle-history-switch')).toBeEnabled();
       }
+      expect(context.pages()).toHaveLength(tabsBefore + 2);
     });
   });
 
