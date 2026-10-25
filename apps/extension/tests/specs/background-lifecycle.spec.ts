@@ -6,7 +6,6 @@ import { EExtensionState, EExtStorageKey } from '@/constants';
 import {
   test,
   expect,
-  observeBackgroundNavigation,
   recordIconUpdates,
   removeStorageFromWorker,
   restartBackgroundWorker,
@@ -63,6 +62,55 @@ test.describe('Background Service Worker Lifecycle', () => {
     expect(body).toBe('intercepted');
   });
 
+  test('the native redirect permission adds no permission warnings', async ({
+    isolatedBackground,
+  }) => {
+    const worker = await createSharedBackgroundSW(isolatedBackground.context);
+    const warnings = await worker.evaluate(async () => {
+      const manifest = chrome.runtime.getManifest();
+      const previous = {
+        ...manifest,
+        permissions: manifest.permissions?.filter(
+          (permission) => permission !== 'declarativeNetRequestWithHostAccess'
+        ),
+      };
+      return Promise.all([
+        chrome.management.getPermissionWarningsByManifest(
+          JSON.stringify(previous)
+        ),
+        chrome.management.getPermissionWarningsByManifest(
+          JSON.stringify(manifest)
+        ),
+      ]);
+    });
+    expect(warnings[1].toSorted()).toEqual(warnings[0].toSorted());
+  });
+
+  test('rapid shortcut edits settle on the last rule without duplicate IDs', async ({
+    isolatedBackground,
+  }) => {
+    for (let revision = 0; revision < 8; revision++) {
+      await isolatedBackground.writeStorage(
+        rulesFor(`${FIRST_TARGET}?revision=${revision}`)
+      );
+    }
+    await isolatedBackground.writeStorage(rulesFor(SECOND_TARGET));
+    await expect
+      .poll(async () =>
+        (await isolatedBackground.readDynamicRules()).map(
+          (rule) => rule.action.redirect?.url
+        )
+      )
+      .toEqual([SECOND_TARGET]);
+    const first = await isolatedBackground.readDynamicRules();
+    await isolatedBackground.ensureInactiveState();
+    await expect.poll(() => isolatedBackground.readDynamicRules()).toEqual([]);
+    await isolatedBackground.ensureActiveState();
+    await expect
+      .poll(() => isolatedBackground.readDynamicRules())
+      .toEqual(first);
+  });
+
   test('state and either pending flag update the icon, including removal fallbacks', async ({
     isolatedBackground,
   }) => {
@@ -98,6 +146,9 @@ test.describe('Background Service Worker Lifecycle', () => {
   }) => {
     await routePages(isolatedBackground.context);
     await isolatedBackground.writeStorage(rulesFor(FIRST_TARGET));
+    await expect
+      .poll(() => isolatedBackground.readDynamicRules())
+      .toHaveLength(1);
     const page = await isolatedBackground.openTab(ALIAS);
     try {
       await expect.poll(() => page.url()).toBe(FIRST_TARGET);
@@ -105,8 +156,14 @@ test.describe('Background Service Worker Lifecycle', () => {
       const backgroundSW = await createSharedBackgroundSW(
         isolatedBackground.context
       );
-      const navigation = await observeBackgroundNavigation(backgroundSW);
       await isolatedBackground.writeStorage(rulesFor(SECOND_TARGET));
+      await expect
+        .poll(
+          async () =>
+            (await isolatedBackground.readDynamicRules())[0]?.action.redirect
+              ?.url
+        )
+        .toBe(SECOND_TARGET);
       await page.goto(ALIAS, { waitUntil: 'commit' }).catch(() => undefined);
       await expect.poll(() => page.url()).toBe(SECOND_TARGET);
 
@@ -114,9 +171,10 @@ test.describe('Background Service Worker Lifecycle', () => {
         backgroundSW,
         EStorageKey.mappedRedirections
       );
-      await navigation.reset();
+      await expect
+        .poll(() => isolatedBackground.readDynamicRules())
+        .toEqual([]);
       await page.goto(ALIAS, { waitUntil: 'load' }).catch(() => undefined);
-      expect(await navigation.url()).toBe(ALIAS);
       expect(page.url()).toBe(ALIAS);
       expect(await createSharedBackgroundSW(isolatedBackground.context)).toBe(
         backgroundSW
@@ -126,25 +184,34 @@ test.describe('Background Service Worker Lifecycle', () => {
     }
   });
 
-  test('worker restart refills navigation caches from persisted storage', async ({
+  test('worker restart keeps native redirect rules and restores history matching', async ({
     isolatedBackground,
   }) => {
     await routePages(isolatedBackground.context);
     await isolatedBackground.writeStorage(rulesFor(FIRST_TARGET));
+    await expect
+      .poll(() => isolatedBackground.readDynamicRules())
+      .toHaveLength(1);
     const page = await isolatedBackground.openTab(ALIAS);
     try {
       await expect.poll(() => page.url()).toBe(FIRST_TARGET);
-      const backgroundSW = await restartBackgroundWorker(
-        isolatedBackground.context
-      );
-      const navigation = await observeBackgroundNavigation(backgroundSW);
+      const before = await isolatedBackground.readDynamicRules();
+      await restartBackgroundWorker(isolatedBackground.context);
+      expect(await isolatedBackground.readDynamicRules()).toEqual(before);
+      await isolatedBackground.clearHistoryStartTime();
       await page.goto(ALIAS, { waitUntil: 'commit' }).catch(() => undefined);
       await expect.poll(() => page.url()).toBe(FIRST_TARGET);
 
+      await expect
+        .poll(() =>
+          isolatedBackground.readStorage(EExtStorageKey.HISTORY_START_TIME)
+        )
+        .toBeDefined();
       await isolatedBackground.ensureInactiveState();
-      await navigation.reset();
+      await expect
+        .poll(() => isolatedBackground.readDynamicRules())
+        .toEqual([]);
       await page.goto(ALIAS, { waitUntil: 'load' }).catch(() => undefined);
-      expect(await navigation.url()).toBe(ALIAS);
       expect(page.url()).toBe(ALIAS);
     } finally {
       await page.close();

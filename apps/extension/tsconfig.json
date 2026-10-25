@@ -6,7 +6,6 @@
     "types": ["node", "chrome"],
     "paths": {
       "@/*": ["./src/*"],
-      "@background/*": ["./src/entrypoints/background/*"],
       "@popup/*": ["./src/entrypoints/popup/*"],
       "@store/*": ["./src/store/*"]
     }

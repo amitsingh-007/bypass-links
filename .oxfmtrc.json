@@ -8,13 +8,12 @@
     "functions": ["clsx", "cn", "cva"]
   },
   "sortImports": {
-    "internalPattern": ["@/", "@app/", "@background/", "@popup/", "@store/"]
+    "internalPattern": ["@/", "@app/", "@popup/", "@store/"]
   },
   "ignorePatterns": [
     "packages/ui/src",
     "**/.output/**",
     "**/.next/**",
-    "**/.wxt/**",
-    "firebase/database.rules.json"
+    "**/.wxt/**"
   ]
 }

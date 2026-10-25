@@ -1,4 +1,4 @@
-import { EStorageKey, type IRedirections } from '@bypass/shared';
+import { type IRedirections } from '@bypass/shared';
 import {
   TEST_DEFAULT_REDIRECTION_URLS,
   TEST_SITES,
@@ -10,16 +10,21 @@ import { writeStorageFromWorker } from '../fixtures/background-fixture';
 import { openExtensionPanelPage } from '../fixtures/base-fixture';
 import { test, expect as homeExpect } from '../fixtures/home-popup-fixture';
 import { withSignedInProfile } from '../utils/signed-in-profile';
-import { getRecordedTabs, recordCreatedTabs } from '../utils/test-utils';
+import {
+  getRecordedTabs,
+  getRedirectionStorage,
+  recordCreatedTabs,
+} from '../utils/test-utils';
 
 const withRedirections = async (
   redirections: IRedirections,
   run: (page: Page) => Promise<void>
 ) =>
   withSignedInProfile(async ({ context, extensionId, backgroundSW }) => {
-    await writeStorageFromWorker(backgroundSW, {
-      [EStorageKey.redirections]: redirections,
-    });
+    await writeStorageFromWorker(
+      backgroundSW,
+      getRedirectionStorage(redirections)
+    );
     await run(await openExtensionPanelPage(context, extensionId));
   });
 
@@ -72,19 +77,19 @@ test.describe('Signed In', () => {
         {
           id: crypto.randomUUID(),
           alias: 'e2e-eligible',
-          website: btoa(eligibleUrl),
+          website: eligibleUrl,
           isDefault: true,
         },
         {
           id: crypto.randomUUID(),
           alias: '',
-          website: btoa(`${TEST_SITES.EXAMPLE_COM}/no-alias`),
+          website: `${TEST_SITES.EXAMPLE_COM}/no-alias`,
           isDefault: true,
         },
         {
           id: crypto.randomUUID(),
           alias: 'e2e-not-default',
-          website: btoa(`${TEST_SITES.EXAMPLE_COM}/not-default`),
+          website: `${TEST_SITES.EXAMPLE_COM}/not-default`,
           isDefault: false,
         },
       ],

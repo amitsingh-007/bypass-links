@@ -32,6 +32,7 @@ export const devManifest: UserManifest = {
     'identity',
     'scripting',
     'webNavigation',
+    'declarativeNetRequestWithHostAccess',
   ],
   host_permissions: ['<all_urls>'],
   content_security_policy: {

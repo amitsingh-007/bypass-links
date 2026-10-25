@@ -1,6 +1,6 @@
 {
   "name": "@bypass/extension",
-  "version": "25.19.0",
+  "version": "25.20.0",
   "private": true,
   "description": "Bypass links from various sites to required links, with added functionality of Bookmarks Manager, Tagging Panel.",
   "type": "module",
@@ -21,6 +21,7 @@
     "@tanstack/react-virtual": "catalog:",
     "@trpc/client": "catalog:",
     "@trpc/server": "catalog:",
+    "firebase": "catalog:",
     "react": "catalog:",
     "react-avatar-editor": "catalog:",
     "react-dom": "catalog:",

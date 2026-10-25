@@ -1,4 +1,4 @@
-import { getDecryptedBookmark } from '@bypass/shared';
+import { decodeBookmark } from '@bypass/shared';
 import useSWR from 'swr';
 
 import { bookmarksItem } from '@/storage/items';
@@ -10,7 +10,7 @@ const useQuickBookmark = (enabled: boolean, url = '') =>
     const bookmarks = await bookmarksItem.getValue();
     const encodedBookmark = findBookmarkByUrl(bookmarks.urlList, url);
 
-    return encodedBookmark ? getDecryptedBookmark(encodedBookmark) : undefined;
+    return encodedBookmark ? decodeBookmark(encodedBookmark) : undefined;
   });
 
 export default useQuickBookmark;
