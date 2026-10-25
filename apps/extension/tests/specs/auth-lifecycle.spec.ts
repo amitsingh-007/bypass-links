@@ -1,8 +1,13 @@
-import { EStorageKey } from '@bypass/shared';
+import {
+  ECacheBucketKeys,
+  EStorageKey,
+  encodeBookmark,
+  type IBookmarksObj,
+} from '@bypass/shared';
 import { TEST_TIMEOUTS } from '@bypass/shared/tests';
 import { expect, test, type BrowserContext } from '@playwright/test';
 
-import { TEST_AUTH_DATA_KEY } from '@/constants';
+import { EExtStorageKey, TEST_AUTH_DATA_KEY } from '@/constants';
 
 import {
   observeNativeRedirects,
@@ -118,7 +123,10 @@ test.describe('Auth lifecycle', () => {
   });
 });
 
-const controlSdkAuth = async (context: BrowserContext) => {
+const controlSdkAuth = async (
+  context: BrowserContext,
+  bookmarks: IBookmarksObj = { folderList: {}, urlList: {}, folders: {} }
+) => {
   const uid = 'sdk-test-user';
   const issuedAt = Math.floor(Date.now() / 1000);
   const idToken = [
@@ -169,21 +177,23 @@ const controlSdkAuth = async (context: BrowserContext) => {
     });
   });
   let latestCalls = 0;
+  const authorizationHeaders: (string | undefined)[] = [];
   const responses: Record<string, unknown> = {
     'extension.latest': {
       chrome: {
-        version: '25.20.0',
+        version: '25.21.0',
         downloadLink: 'https://example.test/extension.zip',
         date: '2026-01-01',
       },
     },
-    'firebaseData.bookmarksGet': { folderList: {}, urlList: {}, folders: {} },
+    'firebaseData.bookmarksGet': bookmarks,
     'firebaseData.personsGet': {},
     'firebaseData.redirectionsList': [],
     'firebaseData.websitesGet': {},
     'firebaseData.lastVisitedGet': {},
   };
   await context.route('**/api/trpc/**', async (route) => {
+    authorizationHeaders.push(route.request().headers().authorization);
     const procedures = new URL(route.request().url()).pathname
       .split('/api/trpc/')[1]
       .split(',');
@@ -200,6 +210,7 @@ const controlSdkAuth = async (context: BrowserContext) => {
     credentials,
     idToken,
     latestCalls: () => latestCalls,
+    authorizationHeaders,
   };
 };
 
@@ -219,6 +230,57 @@ declare global {
 }
 
 test.describe('SDK authentication', () => {
+  test('completes login when a favicon is missing without cache logs', async () => {
+    await withTempProfileContext({}, async (context) => {
+      const bookmark = encodeBookmark({
+        id: 'missing-favicon',
+        url: 'https://mixdrop.co/',
+        title: 'Missing favicon',
+        parentHash: '',
+        taggedPersons: [],
+      });
+      const sdk = await controlSdkAuth(context, {
+        folderList: {},
+        folders: {},
+        urlList: { [bookmark.id]: bookmark },
+      });
+      const faviconUrl =
+        'https://www.google.com/s2/favicons?domain=mixdrop.co&sz=32';
+      let imageRequests = 0;
+      await context.route(faviconUrl, async (route) => {
+        imageRequests++;
+        await route.fulfill({ status: 404, body: '' });
+      });
+      const page = await openMockPopup(context);
+      const messages: string[] = [];
+      const errors: string[] = [];
+      page.on('console', (message) => messages.push(message.text()));
+      page.on('pageerror', (error) => errors.push(error.message));
+      await page.localStorage.setItem(
+        TEST_AUTH_DATA_KEY,
+        JSON.stringify(sdk.credentials)
+      );
+      await page.getByTestId('login-button').click();
+      await expect(page.getByTestId('logout-button')).toBeEnabled();
+      expect(imageRequests).toBe(1);
+      expect(
+        await page.evaluate(
+          async ({ bucket, url }) =>
+            Boolean(await (await caches.open(bucket)).match(url)),
+          { bucket: ECacheBucketKeys.favicon, url: faviconUrl }
+        )
+      ).toBe(false);
+      expect(
+        messages.filter(
+          (message) =>
+            message.includes('Cache.add()') ||
+            message.includes('Failed to cache:')
+        )
+      ).toEqual([]);
+      expect(errors).toEqual([]);
+    });
+  });
+
   test('keeps the SDK session and profile on reopen without a signed-out flash', async () => {
     await withTempProfileContext({}, async (context) => {
       const sdk = await controlSdkAuth(context);
@@ -230,6 +292,22 @@ test.describe('SDK authentication', () => {
       await page.getByTestId('login-button').click();
       await expect(page.getByTestId('logout-button')).toBeEnabled();
       expect(await page.localStorage.getItem(TEST_AUTH_DATA_KEY)).toBeNull();
+      expect(
+        JSON.parse(
+          (await page.localStorage.getItem('firebase-profile')) ?? '{}'
+        )
+      ).toEqual({
+        state: {
+          idpAuth: {
+            uid: 'sdk-test-user',
+            displayName: 'SDK test user',
+            photoURL: 'https://avatar.test/user.svg',
+          },
+        },
+        version: 0,
+      });
+      await expect.poll(sdk.latestCalls).toBeGreaterThan(0);
+      const callsBeforeRestore = sdk.latestCalls();
       await page.addInitScript(() => {
         window.e2eSawSignedOut = false;
         new MutationObserver(() => {
@@ -241,9 +319,11 @@ test.describe('SDK authentication', () => {
       const pendingRestore = new Promise<void>((resolve) => {
         releaseRestore = resolve;
       });
+      let restoreCalls = 0;
       await context.route(
         'https://identitytoolkit.googleapis.com/**',
         async (route) => {
+          restoreCalls++;
           await pendingRestore;
           await route.fallback();
         }
@@ -255,18 +335,26 @@ test.describe('SDK authentication', () => {
           document.documentElement.classList.add('popup');
         });
         const loader = page.getByTestId('loading-overlay');
-        await expect(loader).toBeVisible();
+        await expect(page.getByTestId('home-popup-heading')).toBeVisible();
+        await expect(page.getByTestId('logout-button')).toBeEnabled();
+        await expect(
+          page.getByRole('img', { name: 'SDK test user', exact: true })
+        ).toBeVisible();
+        await expect(loader).toHaveCount(0);
+        await expect.poll(() => restoreCalls).toBeGreaterThan(0);
+        expect(sdk.latestCalls()).toBe(callsBeforeRestore);
         const body = await page.evaluate(() => ({
           width: document.body.clientWidth,
           height: document.body.clientHeight,
         }));
         expect(body.width).toBeGreaterThan(0);
         expect(body.height).toBeGreaterThan(0);
-        const loaderBounds = await loader.boundingBox();
-        expect(loaderBounds?.width).toBeGreaterThan(0);
-        expect(loaderBounds?.height).toBeGreaterThan(0);
         await expect(page.getByTestId('login-button')).toHaveCount(0);
-        await expect(page.getByTestId('logout-button')).toHaveCount(0);
+        await page
+          .getByRole('button', { name: 'Shortcuts', exact: true })
+          .click();
+        await page.getByRole('button', { name: 'Back', exact: true }).click();
+        expect(sdk.latestCalls()).toBe(callsBeforeRestore);
       } finally {
         releaseRestore?.();
       }
@@ -275,6 +363,129 @@ test.describe('SDK authentication', () => {
         page.getByRole('img', { name: 'SDK test user', exact: true })
       ).toBeVisible();
       expect(await page.evaluate(() => window.e2eSawSignedOut)).toBe(false);
+      await expect.poll(sdk.latestCalls).toBeGreaterThan(callsBeforeRestore);
+      expect(
+        sdk.authorizationHeaders.every(
+          (header) => header === `Bearer ${sdk.idToken}`
+        )
+      ).toBe(true);
+    });
+  });
+
+  for (const failure of ['missing session', 'different account'] as const) {
+    test(`blocks the popup and keeps local data after restoring a ${failure}`, async () => {
+      await withTempProfileContext({}, async (context) => {
+        const sdk = await controlSdkAuth(context);
+        const page = await openMockPopup(context);
+        await page.localStorage.setItem(
+          TEST_AUTH_DATA_KEY,
+          JSON.stringify(sdk.credentials)
+        );
+        await page.getByTestId('login-button').click();
+        await expect(page.getByTestId('logout-button')).toBeEnabled();
+        const data = {
+          [EStorageKey.bookmarks]: { folderList: {}, urlList: {}, folders: {} },
+          [EExtStorageKey.HAS_PENDING_BOOKMARKS]: true,
+        };
+        await writeStorageFromWorker(
+          await createSharedBackgroundSW(context),
+          data
+        );
+        const savedProfile =
+          await page.localStorage.getItem('firebase-profile');
+        if (failure === 'missing session') {
+          await context.route(
+            'https://identitytoolkit.googleapis.com/**',
+            async (route) => {
+              await route.fulfill({
+                status: 400,
+                json: { error: { message: 'USER_DISABLED' } },
+              });
+            }
+          );
+        } else {
+          await page.localStorage.setItem(
+            'firebase-profile',
+            JSON.stringify({
+              state: {
+                idpAuth: {
+                  uid: 'another-user',
+                  displayName: 'Saved user',
+                  photoURL: null,
+                },
+              },
+              version: 0,
+            })
+          );
+        }
+        await page.reload();
+        const dialog = page.getByRole('dialog', {
+          name: "We couldn't verify your session.",
+        });
+        await expect(dialog).toBeVisible();
+        await expect(dialog.getByRole('button')).toHaveCount(0);
+        await expect(page.getByTestId('home-popup-heading')).toBeVisible();
+        const toggle = page.getByTestId('toggle-extension-switch');
+        await expect(toggle).toBeChecked();
+        await expect(
+          toggle.click({ trial: true, timeout: 500 })
+        ).rejects.toThrow();
+        await page.keyboard.press('Escape');
+        await page.keyboard.press('Tab');
+        await page.keyboard.press('Space');
+        await page.keyboard.press('Enter');
+        await expect(dialog).toBeVisible();
+        await expect(toggle).toBeChecked();
+        await expect
+          .poll(() =>
+            dialog.evaluate((element) =>
+              element.contains(document.activeElement)
+            )
+          )
+          .toBe(true);
+        expect(await getStorageItem(page, EStorageKey.bookmarks)).toEqual(
+          data[EStorageKey.bookmarks]
+        );
+        expect(
+          await getStorageItem(page, EExtStorageKey.HAS_PENDING_BOOKMARKS)
+        ).toBe(true);
+        if (failure === 'missing session')
+          expect(await page.localStorage.getItem('firebase-profile')).toBe(
+            savedProfile
+          );
+      });
+    });
+  }
+
+  test('ignores malformed saved profiles and clears the profile on logout', async () => {
+    await withTempProfileContext({}, async (context) => {
+      const sdk = await controlSdkAuth(context);
+      const page = await openMockPopup(context);
+      for (const raw of [
+        '{',
+        JSON.stringify({ state: { idpAuth: { uid: 5 } }, version: 0 }),
+      ]) {
+        await page.localStorage.setItem('firebase-profile', raw);
+        await page.reload();
+        await expect(page.getByTestId('login-button')).toBeEnabled();
+        await expect(page.getByRole('dialog')).toHaveCount(0);
+      }
+      await page.localStorage.setItem(
+        TEST_AUTH_DATA_KEY,
+        JSON.stringify(sdk.credentials)
+      );
+      await page.getByTestId('login-button').click();
+      await expect(page.getByTestId('logout-button')).toBeEnabled();
+      await page.getByTestId('logout-button').click();
+      await expect(page.getByTestId('login-button')).toBeEnabled();
+      expect(
+        JSON.parse(
+          (await page.localStorage.getItem('firebase-profile')) ?? '{}'
+        )
+      ).toEqual({ state: { idpAuth: null }, version: 0 });
+      await page.reload();
+      await expect(page.getByTestId('login-button')).toBeEnabled();
+      await expect(page.getByRole('dialog')).toHaveCount(0);
     });
   });
 

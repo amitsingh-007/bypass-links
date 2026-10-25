@@ -5,15 +5,16 @@ import { type ECacheBucketKeys } from '../constants/cache';
 const limit = pLimit(20);
 
 const addToOpenCache = async (cache: Cache, url: string) => {
-  if (await cache.match(url)) {
-    return;
-  }
   try {
-    await cache.add(url);
-  } catch (error) {
-    if (error instanceof Error) {
-      console.debug('Failed to cache:', url, error.message);
+    if (await cache.match(url)) {
+      return;
     }
+    const response = await fetch(url);
+    if (response.ok) {
+      await cache.put(url, response);
+    }
+  } catch {
+    // Optional images use their existing fallback when fetching or caching fails.
   }
 };
 
