@@ -80,7 +80,9 @@ test.describe('Auth lifecycle', () => {
           expect(await getStorageItem(page, key), key).toBeUndefined();
         }
         await expect
-          .poll(() => context.pages().length)
+          .poll(() => context.pages().length, {
+            timeout: TEST_TIMEOUTS.PAGE_OPEN,
+          })
           .toBe(tabsBefore + GOOGLE_LOGOUT_TABS.length);
 
         await page.reload();
