@@ -1,4 +1,6 @@
-import useFirebaseStore from '@/store/firebase/useFirebaseStore';
+import useFirebaseStore, {
+  firebaseAuthReady,
+} from '@/store/firebase/useFirebaseStore';
 
 import { processPostLogin, processPostLogout, processPreLogout } from './sync';
 
@@ -23,6 +25,10 @@ export const signOut = async (): Promise<boolean> => {
 
 export const signIn = async (): Promise<boolean> => {
   try {
+    await firebaseAuthReady;
+    if (useFirebaseStore.getState().isSignedIn) {
+      return true;
+    }
     await userSignIn();
     await processPostLogin();
     return true;

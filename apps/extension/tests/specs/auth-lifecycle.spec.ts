@@ -191,6 +191,7 @@ const controlSdkAuth = async (
     'firebaseData.redirectionsList': [],
     'firebaseData.websitesGet': {},
     'firebaseData.lastVisitedGet': {},
+    'firebaseData.bookmarkAndPersonSave': null,
   };
   await context.route('**/api/trpc/**', async (route) => {
     authorizationHeaders.push(route.request().headers().authorization);
@@ -476,6 +477,52 @@ test.describe('SDK authentication', () => {
       );
       await page.getByTestId('login-button').click();
       await expect(page.getByTestId('logout-button')).toBeEnabled();
+      const pendingBookmark = encodeBookmark({
+        id: 'pending-upgrade-bookmark',
+        url: 'https://pending.test/',
+        title: 'Pending local edit',
+        parentHash: '',
+        taggedPersons: [],
+      });
+      const pendingBookmarks = {
+        folderList: {},
+        folders: {},
+        urlList: { [pendingBookmark.id]: pendingBookmark },
+      };
+      await writeStorageFromWorker(await createSharedBackgroundSW(context), {
+        [EStorageKey.bookmarks]: pendingBookmarks,
+        [EExtStorageKey.HAS_PENDING_BOOKMARKS]: true,
+      });
+      await page.localStorage.removeItem('firebase-profile');
+      let releaseRestore: (() => void) | undefined;
+      const pendingRestore = new Promise<void>((resolve) => {
+        releaseRestore = resolve;
+      });
+      let restoreCalls = 0;
+      await context.route(
+        'https://identitytoolkit.googleapis.com/**',
+        async (route) => {
+          restoreCalls++;
+          await pendingRestore;
+          await route.fallback();
+        }
+      );
+      try {
+        await page.reload();
+        await expect.poll(() => restoreCalls).toBeGreaterThan(0);
+        await expect(page.getByTestId('home-popup-heading')).toBeVisible();
+        await expect(page.getByTestId('login-button')).toBeDisabled();
+        await expect(page.getByTestId('loading-overlay')).toHaveCount(0);
+      } finally {
+        releaseRestore?.();
+      }
+      await expect(page.getByTestId('logout-button')).toBeEnabled();
+      expect(await getStorageItem(page, EStorageKey.bookmarks)).toEqual(
+        pendingBookmarks
+      );
+      expect(
+        await getStorageItem(page, EExtStorageKey.HAS_PENDING_BOOKMARKS)
+      ).toBe(true);
       await page.getByTestId('logout-button').click();
       await expect(page.getByTestId('login-button')).toBeEnabled();
       expect(

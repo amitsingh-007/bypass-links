@@ -1,6 +1,6 @@
 import { mock } from 'node:test';
 
-import { addAllToCache, ECacheBucketKeys } from '@bypass/shared';
+import { addAllToCache, addToCache, ECacheBucketKeys } from '@bypass/shared';
 import { expect, test } from '@playwright/test';
 
 test.describe('Optional image caching', () => {
@@ -26,9 +26,10 @@ test.describe('Optional image caching', () => {
             throw new Error('Cache unavailable');
         }),
       };
+      const openCache = mock.fn(async () => cache);
       Object.defineProperty(globalThis, 'caches', {
         configurable: true,
-        value: { open: async () => cache },
+        value: { open: openCache },
       });
       const fetchImage = mock.method(globalThis, 'fetch', async () => {
         if (scenario === 'network failure') throw new Error('Offline');
@@ -49,6 +50,19 @@ test.describe('Optional image caching', () => {
         );
         if (scenario === 'success')
           expect(cache.put.mock.calls[0].arguments).toEqual([url, image]);
+        if (scenario === 'write failure') {
+          openCache.mock.mockImplementation(async () => {
+            throw new Error('Cannot open cache');
+          });
+          const requestsBefore = fetchImage.mock.callCount();
+          await expect(
+            addToCache(ECacheBucketKeys.favicon, url)
+          ).resolves.toBeUndefined();
+          await expect(
+            addAllToCache(ECacheBucketKeys.favicon, [url])
+          ).resolves.toBeUndefined();
+          expect(fetchImage.mock.callCount()).toBe(requestsBefore);
+        }
         for (const log of logs) expect(log.mock.callCount()).toBe(0);
       } finally {
         mock.restoreAll();

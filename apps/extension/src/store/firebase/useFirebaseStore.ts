@@ -22,6 +22,7 @@ interface State {
   idpAuth: Pick<User, 'uid' | 'displayName' | 'photoURL'> | null;
   isSignedIn: boolean;
   authError: boolean;
+  isAuthReady: boolean;
   firebaseSignIn: () => Promise<void>;
   firebaseSignOut: () => Promise<void>;
   getIdToken: () => Promise<string | null>;
@@ -40,6 +41,7 @@ const useFirebaseStore = create<State>()(
       idpAuth: null,
       isSignedIn: false,
       authError: false,
+      isAuthReady: false,
 
       async firebaseSignIn() {
         await firebaseAuthReady;
@@ -121,10 +123,11 @@ export const firebaseAuthReady = (async () => {
   }
   updateUser(auth.currentUser);
   onIdTokenChanged(auth, updateUser);
+  useFirebaseStore.setState({ isAuthReady: true });
 })();
 
 void firebaseAuthReady.catch(() => {
-  useFirebaseStore.setState({ authError: true });
+  useFirebaseStore.setState({ authError: true, isAuthReady: true });
 });
 
 export default useFirebaseStore;
