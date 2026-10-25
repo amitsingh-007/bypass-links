@@ -5,15 +5,16 @@ import { type ECacheBucketKeys } from '../constants/cache';
 const limit = pLimit(20);
 
 const addToOpenCache = async (cache: Cache, url: string) => {
-  if (await cache.match(url)) {
-    return;
-  }
   try {
-    await cache.add(url);
-  } catch (error) {
-    if (error instanceof Error) {
-      console.debug('Failed to cache:', url, error.message);
+    if (await cache.match(url)) {
+      return;
     }
+    const response = await fetch(url);
+    if (response.ok) {
+      await cache.put(url, response);
+    }
+  } catch {
+    // Optional images use their existing fallback when fetching or caching fails.
   }
 };
 
@@ -24,7 +25,10 @@ export const addToCache = async (
   if (!url) {
     return;
   }
-  await addToOpenCache(await caches.open(cacheBucketKey), url);
+  const cache = await caches.open(cacheBucketKey).catch(() => null);
+  if (cache) {
+    await addToOpenCache(cache, url);
+  }
 };
 
 export const addAllToCache = async (
@@ -36,7 +40,10 @@ export const addAllToCache = async (
   if (uniqueUrls.length === 0) {
     return;
   }
-  const cache = await caches.open(cacheBucketKey);
+  const cache = await caches.open(cacheBucketKey).catch(() => null);
+  if (!cache) {
+    return;
+  }
   await Promise.all(
     uniqueUrls.map(async (url) => limit(async () => addToOpenCache(cache, url)))
   );
