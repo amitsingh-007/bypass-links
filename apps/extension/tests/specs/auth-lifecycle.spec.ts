@@ -10,7 +10,6 @@ import { expect, test, type BrowserContext } from '@playwright/test';
 import { EExtStorageKey, TEST_AUTH_DATA_KEY } from '@/constants';
 
 import {
-  observeNativeRedirects,
   readDynamicRules,
   writeStorageFromWorker,
 } from '../fixtures/background-fixture';
@@ -51,73 +50,60 @@ test.describe('Auth lifecycle', () => {
     });
   });
 
-  test('pauses signed-in redirects and restores them on enable without a reload', async () => {
+  test('switching off logs out and enabling again does not restore the session or redirects', async () => {
     await withSignedInProfile(
       async ({ context, extensionId, backgroundSW }) => {
         const page = await openExtensionPanelPage(context, extensionId);
         const alias = 'http://e2e-signed-in-toggle/';
-        const target = 'https://pause-target.test/';
+        const target = 'https://logout-target.test/';
         const shortcuts = getRedirectionStorage([
           { id: crypto.randomUUID(), alias, website: target, isDefault: false },
         ]);
-        await context.route(`${target}**`, async (route) => {
-          await route.fulfill({
-            contentType: 'text/html',
-            body: 'Redirect target',
-          });
-        });
         await writeStorageFromWorker(backgroundSW, shortcuts);
         await expect.poll(() => readDynamicRules(context)).toHaveLength(1);
         await expect(page.getByTestId('logout-button')).toBeEnabled();
         const extensionSwitch = page.getByTestId('toggle-extension-switch');
+        const tabsBefore = context.pages().length;
 
         await extensionSwitch.click();
         await expect(extensionSwitch).not.toBeChecked();
+        await expect(page.getByTestId('login-button')).toBeDisabled();
         await expect.poll(() => readDynamicRules(context)).toEqual([]);
+        for (const key of [
+          EStorageKey.bookmarks,
+          EStorageKey.persons,
+          EStorageKey.redirections,
+          EStorageKey.mappedRedirections,
+          EStorageKey.lastVisited,
+          EStorageKey.websites,
+        ] as const) {
+          expect(await getStorageItem(page, key), key).toBeUndefined();
+        }
+        await expect
+          .poll(() => context.pages().length)
+          .toBe(tabsBefore + GOOGLE_LOGOUT_TABS.length);
 
+        await page.reload();
+        await expect(extensionSwitch).not.toBeChecked();
+        await expect(page.getByTestId('login-button')).toBeDisabled();
         await extensionSwitch.click();
         await expect(extensionSwitch).toBeChecked();
-        await expect.poll(() => readDynamicRules(context)).toHaveLength(1);
-        await expect(page.getByTestId('logout-button')).toBeEnabled();
+        await expect(page.getByTestId('login-button')).toBeEnabled();
+        await expect.poll(() => readDynamicRules(context)).toEqual([]);
+        await page.close();
+        const reopened = await context.newPage();
+        await reopened.goto(getPopupUrl(extensionId));
+        await expect(reopened.getByTestId('login-button')).toBeEnabled();
         for (const key of [
           EStorageKey.redirections,
           EStorageKey.mappedRedirections,
         ] as const) {
-          expect(await getStorageItem(page, key)).toEqual(shortcuts[key]);
-        }
-
-        const tab = await context.newPage();
-        const native = await observeNativeRedirects(tab);
-        try {
-          await tab.goto(alias);
-          await expect(tab).toHaveURL(target);
-          await expect
-            .poll(() => native.redirects)
-            .toContainEqual({
-              from: alias,
-              to: target,
-              status: 307,
-            });
-        } finally {
-          await native.close();
-          await tab.close();
-        }
-
-        await extensionSwitch.click();
-        await expect(extensionSwitch).not.toBeChecked();
-        await expect.poll(() => readDynamicRules(context)).toEqual([]);
-        await expect(page.getByTestId('logout-button')).toBeEnabled();
-        await page.getByTestId('logout-button').click();
-        await expect(page.getByTestId('login-button')).toBeVisible({
-          timeout: TEST_TIMEOUTS.AUTH,
-        });
-        for (const key of [
-          EStorageKey.redirections,
-          EStorageKey.mappedRedirections,
-        ] as const) {
-          expect(await getStorageItem(page, key)).toBeUndefined();
+          expect(await getStorageItem(reopened, key)).toBeUndefined();
         }
         await expect.poll(() => readDynamicRules(context)).toEqual([]);
+        expect(context.pages()).toHaveLength(
+          tabsBefore + GOOGLE_LOGOUT_TABS.length
+        );
       }
     );
   });
@@ -231,6 +217,63 @@ declare global {
 }
 
 test.describe('SDK authentication', () => {
+  test('switch-off waits for SDK restoration before logging out a session without a saved profile', async () => {
+    await withTempProfileContext({}, async (context) => {
+      const sdk = await controlSdkAuth(context);
+      for (const url of GOOGLE_LOGOUT_TABS) {
+        await context.route(`${url}**`, async (route) => {
+          await route.fulfill({ contentType: 'text/html', body: '' });
+        });
+      }
+      const page = await openMockPopup(context);
+      await page.localStorage.setItem(
+        TEST_AUTH_DATA_KEY,
+        JSON.stringify(sdk.credentials)
+      );
+      await page.getByTestId('login-button').click();
+      await expect(page.getByTestId('logout-button')).toBeEnabled();
+      await page.localStorage.removeItem('firebase-profile');
+
+      let releaseRestore: (() => void) | undefined;
+      const pendingRestore = new Promise<void>((resolve) => {
+        releaseRestore = resolve;
+      });
+      let restoreCalls = 0;
+      await context.route(
+        'https://identitytoolkit.googleapis.com/**',
+        async (route) => {
+          restoreCalls++;
+          await pendingRestore;
+          await route.fallback();
+        }
+      );
+      const extensionSwitch = page.getByTestId('toggle-extension-switch');
+      try {
+        await page.reload();
+        await expect.poll(() => restoreCalls).toBeGreaterThan(0);
+        await expect(page.getByTestId('login-button')).toBeDisabled();
+        await extensionSwitch.click();
+        await expect(extensionSwitch).toBeChecked();
+        await expect(extensionSwitch).toBeDisabled();
+        await expect(page.getByTestId('loading-overlay')).toBeVisible();
+      } finally {
+        releaseRestore?.();
+      }
+
+      await expect(extensionSwitch).not.toBeChecked();
+      await expect(page.getByTestId('login-button')).toBeDisabled();
+      expect(
+        JSON.parse(
+          (await page.localStorage.getItem('firebase-profile')) ?? '{}'
+        )
+      ).toEqual({
+        state: { idpAuth: null },
+        version: 0,
+      });
+      await expect(page.getByTestId('loading-overlay')).toHaveCount(0);
+    });
+  });
+
   test('completes login when a favicon is missing without cache logs', async () => {
     await withTempProfileContext({}, async (context) => {
       const bookmark = encodeBookmark({
