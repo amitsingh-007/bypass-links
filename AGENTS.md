@@ -8,7 +8,7 @@ Bypass Links is a desktop Chrome extension for bookmarks tagged with people, URL
 
 ## Package Manager
 
-Use Node.js 24 and pnpm 12. Workspaces use pnpm; Turbo runs cross-workspace tasks.
+Use Node.js 26 and pnpm 12. Workspaces use pnpm; Turbo runs cross-workspace tasks.
 
 ## Common Commands
 
