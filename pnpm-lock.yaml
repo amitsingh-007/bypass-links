@@ -285,8 +285,8 @@ catalogs:
       specifier: 19.3.0
       version: 19.3.0
     react-avatar-editor:
-      specifier: 15.1.0
-      version: 15.1.0
+      specifier: 15.2.0
+      version: 15.2.0
     react-dom:
       specifier: 19.3.0
       version: 19.3.0
@@ -426,7 +426,7 @@ importers:
         version: 19.3.0
       react-avatar-editor:
         specifier: 'catalog:'
-        version: 15.1.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+        version: 15.2.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       react-dom:
         specifier: 'catalog:'
         version: 19.3.0(react@19.3.0)
@@ -3508,9 +3508,19 @@ packages:
 
   ajv-formats@2.1.1:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependencies:
+      ajv: ^8.0.0
+    peerDependenciesMeta:
+      ajv:
+        optional: true
 
   ajv-formats@3.0.1:
     resolution: {integrity: sha512-8iUql50EUR+uUcdRQ3HDqa6EVyo3docL8g5WJ3FNcWmu62IbkGUue/pEyLBW8VGKKucTPgqeks4fIU1DA4yowQ==}
+    peerDependencies:
+      ajv: ^8.0.0
+    peerDependenciesMeta:
+      ajv:
+        optional: true
 
   ajv@8.20.0:
     resolution: {integrity: sha512-Thbli+OlOj+iMPYFBVBfJ3OmCAnaSyNn4M1vz9T6Gka5Jt9ba/HIR56joy65tY6kx/FCF5VXNB819Y7/GUrBGA==}
@@ -5566,8 +5576,8 @@ packages:
     resolution: {integrity: sha512-xLgQil4kIUCrAzVk9fRSkxkFNwmygLFjVxXrLc65aE1F0+Zsb8rxumFBy4XKyvgMCTL6kilDq3EZ0piE2dP/Dg==}
     engines: {node: '>=18.0.0'}
 
-  react-avatar-editor@15.1.0:
-    resolution: {integrity: sha512-Zto7u9l6Wd5LPPtjeFJ+7uwoT4bs01OSgkN2kxD18lWl8IiZ0GY3nWCbKPx4qIU7Au1vENsMJm19rfVWHHayaQ==}
+  react-avatar-editor@15.2.0:
+    resolution: {integrity: sha512-yoh495J6JareHOY56Hyw8XmfuWW4YN8cSGN8lrX67/sCJsp4jiOdlDgPiWHykAfeocMVl7ZQ62DdNa2it2ae7g==}
     peerDependencies:
       react: ^0.14.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^0.14.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
@@ -6648,8 +6658,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@babel/runtime@7.29.7':
-    optional: true
+  '@babel/runtime@7.29.7': {}
 
   '@babel/template@7.29.7':
     dependencies:
@@ -11004,7 +11013,7 @@ snapshots:
 
   re2js@2.8.6: {}
 
-  react-avatar-editor@15.1.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0):
+  react-avatar-editor@15.2.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0):
     dependencies:
       react: 19.3.0
       react-dom: 19.3.0(react@19.3.0)
