@@ -60,9 +60,9 @@ catalog:
   p-limit: 7.3.3
   oxlint-tailwindcss: 1.17.0
   oxlint-tsgolint: 7.0.2005
-  react: 19.3.0
+  react: 19.3.1
   react-avatar-editor: 15.2.0
-  react-dom: 19.3.0
+  react-dom: 19.3.1
   shadcn: 4.23.0
   sharp: 0.35.5
   sonner: 2.0.8
