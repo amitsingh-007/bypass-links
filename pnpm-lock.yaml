@@ -240,8 +240,8 @@ catalogs:
       specifier: 0.7.1
       version: 0.7.1
     cn:
-      specifier: 0.4.0
-      version: 0.4.0
+      specifier: 0.5.0
+      version: 0.5.0
     csstype:
       specifier: 3.2.3
       version: 3.2.3
@@ -679,7 +679,7 @@ importers:
         version: 0.7.1
       cn:
         specifier: 'catalog:'
-        version: 0.4.0
+        version: 0.5.0
       next-themes:
         specifier: 'catalog:'
         version: 0.4.6(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -3758,6 +3758,11 @@ packages:
   cn@0.4.0:
     resolution: {integrity: sha512-qOAeUhPwPzBxx6jaeQdo646XIKliKHc2j1ZF7Ngb1o0pJZKH5gq8FkA0aVdUdPFUDXNXyUCXpCtoJISo6dhizg==}
     engines: {node: '>=20'}
+    hasBin: true
+
+  cn@0.5.0:
+    resolution: {integrity: sha512-JGEixZEpfFXm1P5uXwvEobOFLlHwIWi5v4tjd1ZwfiYmcEilkuD2l+054rvJcYCR1B+uVThHeUbgmNz1FwuxuA==}
+    engines: {node: '>=22'}
     hasBin: true
 
   code-block-writer@10.1.1:
@@ -9094,6 +9099,8 @@ snapshots:
   cn@0.2.6: {}
 
   cn@0.4.0: {}
+
+  cn@0.5.0: {}
 
   code-block-writer@10.1.1: {}
 
