@@ -58,7 +58,7 @@ catalog:
   oxfmt: 0.75.0
   oxlint: 1.86.0
   p-limit: 7.3.3
-  oxlint-tailwindcss: 1.14.0
+  oxlint-tailwindcss: 1.17.0
   oxlint-tsgolint: 7.0.2005
   react: 19.3.0
   react-avatar-editor: 15.2.0
