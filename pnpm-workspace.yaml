@@ -56,7 +56,7 @@ catalog:
   next: 16.3.7
   next-themes: 0.4.6
   oxfmt: 0.75.0
-  oxlint: 1.86.0
+  oxlint: 1.90.0
   p-limit: 7.3.3
   oxlint-tailwindcss: 1.14.0
   oxlint-tsgolint: 7.0.2005
