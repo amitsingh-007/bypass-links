@@ -41,9 +41,9 @@
     },
     "runtime": {
       "name": "node",
-      "version": "^24",
+      "version": "^26",
       "onFail": "error"
     }
   },
-  "packageManager": "pnpm@12.8.1"
+  "packageManager": "pnpm@12.16.1"
 }
