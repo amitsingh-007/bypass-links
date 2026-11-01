@@ -75,7 +75,7 @@ catalog:
   vite: 8.3.1
   wouter: 3.11.1
   wretch: 3.0.9
-  wxt: 0.21.4
+  wxt: 0.21.5
   zod: 4.6.5
   zustand: 5.0.15
 
