@@ -213,8 +213,8 @@ catalogs:
       specifier: 11.19.0
       version: 11.19.0
     '@types/chrome':
-      specifier: 0.3.4
-      version: 0.3.4
+      specifier: 0.3.7
+      version: 0.3.7
     '@types/node':
       specifier: 24.19.0
       version: 24.19.0
@@ -466,7 +466,7 @@ importers:
         version: 4.3.3(vite@8.3.1(@types/node@24.19.0)(esbuild@0.27.0)(jiti@2.7.0)(tsx@4.21.0))
       '@types/chrome':
         specifier: 'catalog:'
-        version: 0.3.4
+        version: 0.3.7
       '@types/node':
         specifier: 'catalog:'
         version: 24.19.0
@@ -3028,8 +3028,8 @@ packages:
   '@tybys/wasm-util@0.10.4':
     resolution: {integrity: sha512-W3c4gRigFS0T/Ma4qIYF3GDAc5AQdHb1yL5znJT1Zv1YaD9Kitx656wBjvr19qbiosmZT8lWDM5BEMynUqX65A==}
 
-  '@types/chrome@0.3.4':
-    resolution: {integrity: sha512-dcySM5R3WAUVYFjylu6tvI4D03hPKjgAqk+tKZ/tm/vxL4mLgbnSsOEQ3J7V99qP/U3Oo9IORstJLmX2hPaDlA==}
+  '@types/chrome@0.3.7':
+    resolution: {integrity: sha512-jWZgbHqWbTL1a5+PoyN0OJutNyejWgyZ5MdcvKo6iJE1TNRtXR3FxsC4WzNl52yZWPidfWC8NV/VUNZf+OFKcA==}
 
   '@types/estree@1.0.9':
     resolution: {integrity: sha512-GhdPgy1el4/ImP05X05Uw4cw2/M93BCUmnEvWZNStlCzEKME4Fkk+YpoA5OiHNQmoS7Cafb8Xa3Pya8m1Qrzeg==}
@@ -6648,8 +6648,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@babel/runtime@7.29.7':
-    optional: true
+  '@babel/runtime@7.29.7': {}
 
   '@babel/template@7.29.7':
     dependencies:
@@ -8284,9 +8283,8 @@ snapshots:
       tslib: 2.8.1
     optional: true
 
-  '@types/chrome@0.3.4':
+  '@types/chrome@0.3.7':
     dependencies:
-      '@types/filesystem': 0.0.36
       '@types/har-format': 1.2.16
 
   '@types/estree@1.0.9': {}
