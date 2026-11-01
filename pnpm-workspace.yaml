@@ -73,7 +73,7 @@ catalog:
   typescript: 7.0.2
   vercel: 61.0.0
   vite: 8.3.1
-  wouter: 3.11.1
+  wouter: 3.13.0
   wretch: 3.0.9
   wxt: 0.21.4
   zod: 4.6.5

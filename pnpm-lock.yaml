@@ -321,8 +321,8 @@ catalogs:
       specifier: 8.3.1
       version: 8.3.1
     wouter:
-      specifier: 3.11.1
-      version: 3.11.1
+      specifier: 3.13.0
+      version: 3.13.0
     wretch:
       specifier: 3.0.9
       version: 3.0.9
@@ -441,7 +441,7 @@ importers:
         version: 4.3.3
       wouter:
         specifier: 'catalog:'
-        version: 3.11.1(react@19.3.0)
+        version: 3.13.0(react@19.3.0)
       wretch:
         specifier: 'catalog:'
         version: 3.0.9
@@ -3508,9 +3508,19 @@ packages:
 
   ajv-formats@2.1.1:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependencies:
+      ajv: ^8.0.0
+    peerDependenciesMeta:
+      ajv:
+        optional: true
 
   ajv-formats@3.0.1:
     resolution: {integrity: sha512-8iUql50EUR+uUcdRQ3HDqa6EVyo3docL8g5WJ3FNcWmu62IbkGUue/pEyLBW8VGKKucTPgqeks4fIU1DA4yowQ==}
+    peerDependencies:
+      ajv: ^8.0.0
+    peerDependenciesMeta:
+      ajv:
+        optional: true
 
   ajv@8.20.0:
     resolution: {integrity: sha512-Thbli+OlOj+iMPYFBVBfJ3OmCAnaSyNn4M1vz9T6Gka5Jt9ba/HIR56joy65tY6kx/FCF5VXNB819Y7/GUrBGA==}
@@ -6254,8 +6264,8 @@ packages:
     engines: {node: ^16.13.0 || >=18.0.0}
     hasBin: true
 
-  wouter@3.11.1:
-    resolution: {integrity: sha512-HodhSFaJTnASOFifOKl+eFXmwDMsEkxb9lO0r1GGUptm1nsWxJfpf/PThCUI4GMHw5ANFMzZAycZgmW7T2Nf+g==}
+  wouter@3.13.0:
+    resolution: {integrity: sha512-p1RoCuVyxwb3X5jLjDdkwDzlXj+/UGZqZb+806uaJOVEHvNfGkjET0KiQ/CGiDKC90rLsALMgMj4onNVKxgNdQ==}
     peerDependencies:
       react: '>=16.8.0'
 
@@ -6648,8 +6658,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@babel/runtime@7.29.7':
-    optional: true
+  '@babel/runtime@7.29.7': {}
 
   '@babel/template@7.29.7':
     dependencies:
@@ -11804,7 +11813,7 @@ snapshots:
     dependencies:
       isexe: 3.1.5
 
-  wouter@3.11.1(react@19.3.0):
+  wouter@3.13.0(react@19.3.0):
     dependencies:
       react: 19.3.0
       regexparam: 3.0.0
