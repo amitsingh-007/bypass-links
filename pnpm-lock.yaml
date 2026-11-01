@@ -177,8 +177,8 @@ catalogs:
       specifier: 1.1.10
       version: 1.1.10
     '@mantine/hooks':
-      specifier: 9.6.3
-      version: 9.6.3
+      specifier: 9.7.4
+      version: 9.7.4
     '@octokit/rest':
       specifier: 22.0.1
       version: 22.0.1
@@ -405,7 +405,7 @@ importers:
         version: 1.1.10(react@19.3.0)
       '@mantine/hooks':
         specifier: 'catalog:'
-        version: 9.6.3(react@19.3.0)
+        version: 9.7.4(react@19.3.0)
       '@tanstack/react-form':
         specifier: 'catalog:'
         version: 1.33.5(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -593,7 +593,7 @@ importers:
         version: 1.1.10(react@19.3.0)
       '@mantine/hooks':
         specifier: 'catalog:'
-        version: 9.6.3(react@19.3.0)
+        version: 9.7.4(react@19.3.0)
       '@tanstack/react-virtual':
         specifier: 'catalog:'
         version: 3.14.23(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -1657,8 +1657,8 @@ packages:
   '@js-sdsl/ordered-map@4.4.2':
     resolution: {integrity: sha512-iUKgm52T8HOE/makSxjqoWhe95ZJA1/G1sYsGev2JDKUSS14KAgg1LHb+Ba+IPow0xflbnSkOsZcO08C7w1gYw==}
 
-  '@mantine/hooks@9.6.3':
-    resolution: {integrity: sha512-b3uJx1p5vlXOmLEgp4OqzC3FUxSIc5bmqPPxPLHsgR6S0aBiqn9psaihJP7u/v//mr3qeCmyMeIwSw9ROu4pXg==}
+  '@mantine/hooks@9.7.4':
+    resolution: {integrity: sha512-j6Xf9Sc1fhhGEKXg6BZA2geyP/Czqvo6Rsi0IduOCWgwl/MAAJbKRjRc7xe2+9vePLdfqLZqRIAOY5rta88uNA==}
     peerDependencies:
       react: ^19.2.0
 
@@ -7452,7 +7452,7 @@ snapshots:
   '@js-sdsl/ordered-map@4.4.2':
     optional: true
 
-  '@mantine/hooks@9.6.3(react@19.3.0)':
+  '@mantine/hooks@9.7.4(react@19.3.0)':
     dependencies:
       react: 19.3.0
 
