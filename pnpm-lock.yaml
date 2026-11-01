@@ -258,8 +258,8 @@ catalogs:
       specifier: 2.1.14
       version: 2.1.14
     monocart-coverage-reports:
-      specifier: 2.13.0
-      version: 2.13.0
+      specifier: 2.13.2
+      version: 2.13.2
     next:
       specifier: 16.3.7
       version: 16.3.7
@@ -624,7 +624,7 @@ importers:
         version: 19.3.0
       monocart-coverage-reports:
         specifier: 'catalog:'
-        version: 2.13.0
+        version: 2.13.2
       typescript:
         specifier: 'catalog:'
         version: 7.0.2
@@ -3502,15 +3502,30 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
+  acorn@8.19.0:
+    resolution: {integrity: sha512-oJlA3XiRm7Cyk6qFD2Jn8ak9B7jSy0qy00ADO3+8dpT0LSjFihQYv4C02LFCSYJV3Q37xYwwRy5m+IpIiUzqWw==}
+    engines: {node: '>=0.4.0'}
+    hasBin: true
+
   agent-base@7.1.4:
     resolution: {integrity: sha512-MnA+YT8fwfJPgBx3m60MNqakm30XOkyIoH1y6huTQvC0PwZG7ki8NacLBcrPbNoo8vEZy7Jpuk7+jMO+CUovTQ==}
     engines: {node: '>= 14'}
 
   ajv-formats@2.1.1:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependencies:
+      ajv: ^8.0.0
+    peerDependenciesMeta:
+      ajv:
+        optional: true
 
   ajv-formats@3.0.1:
     resolution: {integrity: sha512-8iUql50EUR+uUcdRQ3HDqa6EVyo3docL8g5WJ3FNcWmu62IbkGUue/pEyLBW8VGKKucTPgqeks4fIU1DA4yowQ==}
+    peerDependencies:
+      ajv: ^8.0.0
+    peerDependenciesMeta:
+      ajv:
+        optional: true
 
   ajv@8.20.0:
     resolution: {integrity: sha512-Thbli+OlOj+iMPYFBVBfJ3OmCAnaSyNn4M1vz9T6Gka5Jt9ba/HIR56joy65tY6kx/FCF5VXNB819Y7/GUrBGA==}
@@ -3766,6 +3781,10 @@ packages:
   commander@14.0.3:
     resolution: {integrity: sha512-H+y0Jo/T1RZ9qPP4Eh1pkcQcLRglraJaSLoyOtHxu6AapkjWVCy2Sit1QQ4x3Dng8qDlSsZEet7g5Pq06MvTgw==}
     engines: {node: '>=20'}
+
+  commander@15.0.0:
+    resolution: {integrity: sha512-z67u4ZhzCL/Tydu1lJARtEZYWbWaN7oYLHbsuzocr6y4N6WZAagG3RQ4FW61V1/0+jImpj293XfrcYnd1qxtPg==}
+    engines: {node: '>=22.12.0'}
 
   concat-map@0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
@@ -5122,12 +5141,12 @@ packages:
   mlly@1.8.2:
     resolution: {integrity: sha512-d+ObxMQFmbt10sretNDytwt85VrbkhhUA/JBGm1MPaWJ65Cl4wOgLaB1NYvJSZ0Ef03MMEU/0xpPMXUIQ29UfA==}
 
-  monocart-coverage-reports@2.13.0:
-    resolution: {integrity: sha512-RJfwzbn+EvR0OhCSU3bX2mKd0tSv4RLvood0weoCZV1L99+kBYH0Yq5SnnBFRik7nRoEoGB4mLuZAvO1Fr3DpQ==}
+  monocart-coverage-reports@2.13.2:
+    resolution: {integrity: sha512-G6m6BO3wzidg9UrK2JRMW+err7OxB+iFn0kWkprQyHTUtvbv9vM8u0SrgHW1rWpOQXC4eB+nvat/xa7mLDE/9w==}
     hasBin: true
 
-  monocart-locator@1.0.3:
-    resolution: {integrity: sha512-pe29W2XAoA1WQmZZqxXoP7s06ZEXUhcb81086v68cqjk1HnVL7Q/iU/WJnnetxjPcLqwb4qG8vaSGUOMQU602g==}
+  monocart-locator@1.0.6:
+    resolution: {integrity: sha512-P4DCDxeOhy59KexF3yx/kD7y64HVxHO0lskxjxAML9kTOvQnD2jTpZWFQFEFyyABx32at3t77mWLKftFfk1wHQ==}
 
   mri@1.2.0:
     resolution: {integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA==}
@@ -6648,8 +6667,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@babel/runtime@7.29.7':
-    optional: true
+  '@babel/runtime@7.29.7': {}
 
   '@babel/template@7.29.7':
     dependencies:
@@ -8848,13 +8866,15 @@ snapshots:
 
   acorn-loose@8.5.2:
     dependencies:
-      acorn: 8.18.0
+      acorn: 8.19.0
 
   acorn-walk@8.3.5:
     dependencies:
-      acorn: 8.18.0
+      acorn: 8.19.0
 
   acorn@8.18.0: {}
+
+  acorn@8.19.0: {}
 
   agent-base@7.1.4: {}
 
@@ -9084,6 +9104,8 @@ snapshots:
   commander@11.1.0: {}
 
   commander@14.0.3: {}
+
+  commander@15.0.0: {}
 
   concat-map@0.0.1: {}
 
@@ -10474,12 +10496,12 @@ snapshots:
       pkg-types: 1.3.1
       ufo: 1.6.4
 
-  monocart-coverage-reports@2.13.0:
+  monocart-coverage-reports@2.13.2:
     dependencies:
-      acorn: 8.18.0
+      acorn: 8.19.0
       acorn-loose: 8.5.2
       acorn-walk: 8.3.5
-      commander: 14.0.3
+      commander: 15.0.0
       console-grid: 2.2.4
       eight-colors: 1.3.3
       foreground-child: 4.0.3
@@ -10487,9 +10509,9 @@ snapshots:
       istanbul-lib-report: 3.0.1
       istanbul-reports: 3.2.0
       lz-utils: 2.1.1
-      monocart-locator: 1.0.3
+      monocart-locator: 1.0.6
 
-  monocart-locator@1.0.3: {}
+  monocart-locator@1.0.6: {}
 
   mri@1.2.0: {}
 
