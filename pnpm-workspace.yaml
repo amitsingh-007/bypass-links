@@ -27,7 +27,7 @@ catalog:
   '@hugeicons/react': 1.1.10
   '@mantine/hooks': 9.7.4
   '@octokit/rest': 22.0.1
-  '@playwright/test': 1.63.0
+  '@playwright/test': 1.64.1
   '@rolldown/plugin-babel': 0.2.4
   '@shadcn/lint': 0.2.3
   '@tailwindcss/postcss': 4.3.3
