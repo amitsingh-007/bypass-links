@@ -1,6 +1,7 @@
 import {
   EStorageKey,
   encodeBookmark,
+  encodeFolder,
   encodePerson,
   type IBookmarksObj,
   type IPersons,
@@ -105,6 +106,45 @@ test.describe('Large web lists', () => {
       listedNames: async () => panel.getPersonNames(),
       scrollToEnd: async () => scrollToEnd(page),
     });
+  });
+
+  test("scrolls a person's tagged bookmarks to the last row", async ({
+    page,
+    context,
+  }) => {
+    const personUid = 'e2e-large-person-0';
+    const folder = encodeFolder({
+      id: ROOT_FOLDER_ID,
+      name: 'Tagged bookmarks',
+      parentHash: ROOT_FOLDER_ID,
+      isDefault: true,
+    });
+    await injectLocalStorage(context, {
+      [EStorageKey.bookmarks]: JSON.stringify({
+        ...seededBookmarks,
+        folderList: { [folder.id]: folder },
+        urlList: Object.fromEntries(
+          seededUrls.map((bookmark) => [
+            bookmark.id,
+            { ...bookmark, taggedPersons: [personUid] },
+          ])
+        ),
+      } satisfies IBookmarksObj),
+    });
+    await page.goto('/persons-panel');
+    await new PersonsPanel(page).openPersonCard(personName(0));
+
+    const dialog = page.getByTestId('bookmarks-list-modal');
+    await expect(dialog.getByTestId('bookmark-container')).toHaveCount(SIZE);
+    const first = dialog.getByTestId(
+      `bookmark-item-${bookmarkTitle(SIZE - 1)}`
+    );
+    const last = dialog.getByTestId(`bookmark-item-${bookmarkTitle(0)}`);
+    await expect(first).toBeInViewport();
+    await expect(last).not.toBeInViewport();
+    await first.hover();
+    await page.mouse.wheel(0, SIZE * 32);
+    await expect(last).toBeInViewport();
   });
 
   test.describe('on a narrow viewport', () => {

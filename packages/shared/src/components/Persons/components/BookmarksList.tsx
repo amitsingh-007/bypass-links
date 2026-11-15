@@ -116,7 +116,7 @@ function BookmarksList({
       <DialogContent
         data-testid="bookmarks-list-modal"
         className={cn(
-          'inset-0! block translate-0! overflow-hidden rounded-none p-0',
+          'inset-0! block translate-0! overflow-y-auto rounded-none p-0',
           fullscreen ? 'mx-auto max-w-[800px]!' : 'max-w-none!'
         )}
         showCloseButton={false}
