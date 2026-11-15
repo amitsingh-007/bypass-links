@@ -43,21 +43,23 @@ function BookmarksList({
 
   const renderContent = () => (
     <>
-      <Header
-        rightContent={
-          <div className="contents max-sm:hidden">
-            <Avatar>
-              <AvatarImage src={imageUrl} alt={personToOpen?.name} />
-            </Avatar>
-            <Badge
-              data-testid="person-bookmark-count-badge"
-              className="h-8 max-w-[50%]"
-              variant="secondary"
-            >{`${personToOpen?.name} (${filteredBookmarks?.length || 0})`}</Badge>
-          </div>
-        }
-        onSearchChange={setSearchText}
-      />
+      <div className="sticky top-0 z-10 bg-popover">
+        <Header
+          rightContent={
+            <div className="contents max-sm:hidden">
+              <Avatar>
+                <AvatarImage src={imageUrl} alt={personToOpen?.name} />
+              </Avatar>
+              <Badge
+                data-testid="person-bookmark-count-badge"
+                className="h-8 max-w-[50%]"
+                variant="secondary"
+              >{`${personToOpen?.name} (${filteredBookmarks?.length || 0})`}</Badge>
+            </div>
+          }
+          onSearchChange={setSearchText}
+        />
+      </div>
       {isLoading ? (
         <div
           className="flex h-50 items-center justify-center"
